@@ -2,53 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949FB30B558
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 03:41:04 +0100 (CET)
-Received: from localhost ([::1]:43228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD0530B586
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 03:58:56 +0100 (CET)
+Received: from localhost ([::1]:45774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6lcl-0002LW-3X
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 21:41:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60910)
+	id 1l6lu2-0004dD-4V
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 21:58:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l6lag-0001lG-9z; Mon, 01 Feb 2021 21:38:55 -0500
-Received: from ozlabs.org ([203.11.71.1]:43589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l6lab-0001Uz-Lv; Mon, 01 Feb 2021 21:38:52 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DV8Bp20vvz9tk1; Tue,  2 Feb 2021 13:38:42 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612233522;
- bh=VXgvdWMjRdzFgeGR7K2WnC88ggaAzrgpmO2vsSLO/VY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bNK7emVyG+ZfmX+8e7APUMwZc8pY34AolqiThi3zak88l53jlqwlShnW+ykJc2inZ
- WBVuLklVO+rO4l6MTssY39e5tofsWUA/9pZkiv/qugN7vNgNngKqPvQoBDt3bZ7mjO
- ZirAOzqUHVWBMC9dK1yS16x+JT25uGZ1XpifCJ4o=
-Date: Tue, 2 Feb 2021 12:41:16 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v7 07/13] confidential guest support: Introduce cgs
- "ready" flag
-Message-ID: <20210202014116.GC2251@yekko.fritz.box>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-8-david@gibson.dropbear.id.au>
- <20210118194730.GH9899@work-vm>
- <20210119091608.34fff5dc.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6ls7-00047R-LB
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 21:56:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59166)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6ls3-0007jx-Tj
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 21:56:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612234609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jVxPtTepzlzusweWIdVeq/O0Xy0XGl1Y6s9km7uBv/8=;
+ b=UsbgTP22ApuPHi6LAKyxWLYQ+qeyIWh2HhMzpuryyF40/HI7wyyE3h6H1HLXzE4KR0Ic0A
+ Hqhip1fo16RKf2/zati1ToghV6l2HWYKZprgNFu5MB04HqDUYKR7Ppdqmyxqxfrfnddsd7
+ UbDi3Eec2sdrib80X4465XcqQ+Swa8c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-psG4agsTND2NVvqV3VPF5w-1; Mon, 01 Feb 2021 21:56:46 -0500
+X-MC-Unique: psG4agsTND2NVvqV3VPF5w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 420121823DCC;
+ Tue,  2 Feb 2021 02:56:45 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 520795E1A8;
+ Tue,  2 Feb 2021 02:56:41 +0000 (UTC)
+Subject: Re: [PATCH v4 00/16] 64bit block-layer: part I
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <81abe7dc-6053-72d2-ddf7-352dc21e75b6@redhat.com>
+Date: Mon, 1 Feb 2021 20:56:40 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FsscpQKzF/jJk6ya"
-Content-Disposition: inline
-In-Reply-To: <20210119091608.34fff5dc.cohuck@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201211183934.169161-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,93 +82,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, pragyansri.pathi@intel.com, mst@redhat.com,
- mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, jun.nakajima@intel.com, berrange@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/11/20 12:39 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+> 
+> We want 64bit write-zeroes, and for this, convert all io functions to
+> 64bit.
+> 
+> We chose signed type, to be consistent with off_t (which is signed) and
+> with possibility for signed return type (where negative value means
+> error).
+> 
+> Please refer to initial cover-letter 
+>  https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg08723.html
+> for more info.
+> 
+> v4: I found, that some more work is needed for block/block-backend, so
+> decided to make partI, converting block/io
+> 
+> v4 is based on Kevin's block branch ([PULL 00/34] Block layer patches)
+>    for BDRV_MAX_LENGTH
+> 
+> changes:
+> 01-05: new
+> 06: add Alberto's r-b
+> 07: new
+> 08-16: rebase, add new-style request check, improve commit-msg, drop r-bs
 
---FsscpQKzF/jJk6ya
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I had planned to send a pull request for this series today, but ran into
+a snag.  Without this series applied, './check -qcow2' fails 030, 185,
+and 297.  With it applied, I now also get a failure in 206.  I'm trying
+to bisect which patch caused the problem, but here's the failure:
 
-On Tue, Jan 19, 2021 at 09:16:08AM +0100, Cornelia Huck wrote:
-> On Mon, 18 Jan 2021 19:47:30 +0000
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
->=20
-> > * David Gibson (david@gibson.dropbear.id.au) wrote:
-> > > The platform specific details of mechanisms for implementing
-> > > confidential guest support may require setup at various points during
-> > > initialization.  Thus, it's not really feasible to have a single cgs
-> > > initialization hook, but instead each mechanism needs its own
-> > > initialization calls in arch or machine specific code.
-> > >=20
-> > > However, to make it harder to have a bug where a mechanism isn't
-> > > properly initialized under some circumstances, we want to have a
-> > > common place, relatively late in boot, where we verify that cgs has
-> > > been initialized if it was requested.
-> > >=20
-> > > This patch introduces a ready flag to the ConfidentialGuestSupport
-> > > base type to accomplish this, which we verify just before the machine
-> > > specific initialization function. =20
-> >=20
-> > You may find you need to define 'ready' and the answer might be a bit
-> > variable; for example, on SEV there's a setup bit and then you may end
-> > up doing an attestation and receiving some data before you actaully let
-> > the guest execute code.   Is it ready before it's received the
-> > attestation response or only when it can run code?
-> > Is a Power or 390 machine 'ready' before it's executed the magic
-> > instruction to enter the confidential mode?
->=20
-> I would consider those machines where the guest makes the transition
-> itself "ready" as soon as everything is set up so that the guest can
-> actually initiate the transition. Otherwise, those machines would never
-> be "ready" if the guest does not transition.
->=20
-> Maybe we can define "ready" as "the guest can start to execute in
-> secure mode", where "guest" includes the bootloader and everything that
-> runs in a guest context, and "start to execute" implies that some setup
-> may be done only after the guest has kicked it off?
+206   fail       [20:54:54] [20:55:01]   6.9s   (last: 6.7s)  output
+mismatch (see 206.out.bad)
+--- /home/eblake/qemu/tests/qemu-iotests/206.out
++++ 206.out.bad
+@@ -180,7 +180,7 @@
 
-That was pretty much my intention.  I've put a big comment on the
-field definition and tweaked things around a bit in the hopes of
-making that clearer for the next spin.
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0",
+"options": {"driver": "qcow2", "file": "node0", "size":
+9223372036854775296}}}
+ {"return": {}}
+-Job failed: Could not resize image: Required too big image size, it
+must be not greater than 9223372035781033984
++Job failed: Could not resize image: offset(9223372036854775296) exceeds
+maximum(9223372035781033984)
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
 
+Looks like it is just a changed error message, so I can touch up the
+correct patch and then repackage the pull request tomorrow (it's too
+late for me today).  Oh, and the 0 exit status of ./check when a test
+fails is something I see you already plan on fixing...
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
---FsscpQKzF/jJk6ya
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAYrboACgkQbDjKyiDZ
-s5JsQQ/+KC1HdiParXeiUT8dURc/dB2Vtfg+xLj6xIJTdGjHycSyEDCKZFqZk/6X
-eL8lzPkdrQRgwVSQ/ZlfiNUuxElO8v2G3exgcZVB0reEQjoViLpIGlosA4J31uLK
-IV/3Jqjrcqpria693CW68Qrw/gSvLuVwRgnsFUk4bQJGX9JmugvK28jm8rAoS/NS
-Z1nMOvdxEuTIOsfZiCKY/YNAhy1oPdLcMn2kLgBM3RRPsONfJ58D3FPEUfqla7so
-9PPBvhkIDhM3gn1z6fl1r54EhqvBkFUWqE9fuCvBJBlBeWJJkVggGxNgTsIrw/Ow
-Q1evkmZb8mx20GS0AcGArDc6XgUQioHnCwet91jTmrPmLqo6NdDhrONAbN/o6Yss
-9R6jsgo6KD9e/VyPf15b+MR+TySHxYvlU8yF5YaGxtw/PkA67iaJJKciiGh5MWrg
-P4Rp3K1bIjK0dYxow5QHa7h72WZsL/GLVbdP47if5nwaak+FxEWrVXaKU6gNh70H
-/pIOxwUTZKxfYAnajz3iIoe3UWZt0YwiEj3uZ485ff04CmJvkwnRgObEsrxpoGeC
-qhBr72RHM8Is0LH/307qOxbrhYozQx0TkSItX+QiU9RnoMFcOxMm4DWwh56edkjo
-UakZwUywBwb04+eEU5rG2aBP55mh0TZQB7Muw3pVGpnEcoxXTrM=
-=2yc6
------END PGP SIGNATURE-----
-
---FsscpQKzF/jJk6ya--
 
