@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE9830C3B3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:28:40 +0100 (CET)
-Received: from localhost ([::1]:37936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02BFD30C3CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:31:33 +0100 (CET)
+Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6xbb-0000eQ-SE
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:28:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60914)
+	id 1l6xeO-0004E9-0u
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:31:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xY0-0006BN-G3
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:24:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43438)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1l6xYQ-0006l2-SU
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:25:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xXx-00041M-Ez
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:24:56 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1l6xYC-00047o-07
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:25:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612279492;
+ s=mimecast20190719; t=1612279507;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tYgKeCDzCf348FNf7xkAhfu8SNW2By+My/UYI2N5YTA=;
- b=aJ9PHlkkYOZvstinSGg4HYohDqXJA3VfeTRwjTREm/ee0JsGnuKBqhvlOgq6dc7RG3YfuD
- LtYJ44r5o8JGv12jDt4eE21dWiRyaWPeZE8WKX/SYnQNc60E9JKIpcHYL4Iw/iXlcqJKeu
- S0qbRX55bQBQz2DQUs4mcieDBElIm44=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-ypFQ3l66O2CAkc3TwJN5NQ-1; Tue, 02 Feb 2021 10:24:51 -0500
-X-MC-Unique: ypFQ3l66O2CAkc3TwJN5NQ-1
-Received: by mail-wr1-f69.google.com with SMTP id j8so12714040wrx.17
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 07:24:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=tYgKeCDzCf348FNf7xkAhfu8SNW2By+My/UYI2N5YTA=;
- b=FjRGNsdqjkxQvgT/sjlZ23zVfetnNyRuccawbBOCYbHC5t4nBuKTRBEDcSaTI+fV31
- MbRZCPOOhEJX11kDhlXNjLtd5kYLNz3nZiqnUH8mgHp9+a0XltnxMbIzCz1arbOVhlCZ
- rQ/Jn+21YMn2AOEtSDHQfQlA98UhrnPXNo3opwFY5Ha2EyFp50QyCpGekEFFmWpCYy4T
- HgbQ/geBHnkhEvbO+OKxlOwWDZQ4IIgmJ7AwKTnFTOoPOA6xlmuDNOlnWbqixX28kcg0
- zosGxTy7Y072aJKdKqWVU2P8mdQUMkVXSHP7T0JO4H6CbsM9K0uo+GYyEax8uDmLfGcW
- 7koQ==
-X-Gm-Message-State: AOAM530fgVdFZzPWq7QftjnBDlHEHXFlb2KoQdejFIi4qYWOau10YW0w
- 90+K9yKR/WFK0D9e90YjOoMSVfkjG/ORKMpvMpFE6zN3Ml5BhgGKGG5hsczpu+wl2oBymRLi+sh
- gO0WlXatPvIL1EEY=
-X-Received: by 2002:adf:fc47:: with SMTP id e7mr24850972wrs.348.1612279487379; 
- Tue, 02 Feb 2021 07:24:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyYiSFysdxcDvlgjbvQ2inStdMHvfPGtfcArSfH+hZb4TjSguYUo/0wVcNwlKtUZx6F+BFZ8w==
-X-Received: by 2002:adf:fc47:: with SMTP id e7mr24850932wrs.348.1612279487099; 
- Tue, 02 Feb 2021 07:24:47 -0800 (PST)
-Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
- by smtp.gmail.com with ESMTPSA id x125sm3006363wmx.6.2021.02.02.07.24.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 07:24:46 -0800 (PST)
-Date: Tue, 2 Feb 2021 10:24:43 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [RFC PATCH v3 16/31] hw/pci: Plumb _UID through host bridges
-Message-ID: <20210202101504-mutt-send-email-mst@kernel.org>
-References: <20210202005948.241655-1-ben.widawsky@intel.com>
- <20210202005948.241655-17-ben.widawsky@intel.com>
- <20210202150056.00003bec@Huawei.com>
+ bh=lINru4o6l1RaD+QQYl1MdUTU61D0GGPdFYw9LlwHLqU=;
+ b=Y24RbawFUygmW+KQ5g3Pi/lo7BI5hC35Rr48FW8I/kRh+aDe3Ue3NTlU9ZYYDEDARidKTd
+ 6DkQSLh4izQQQmI7CKP3jRVdEN5Zip/4Q5zUWJb8lvFPK59Kh+/9y9Fb8ZJoB/cUFQH5lE
+ 5Q6LYuqnagrsDXgu+oNGFH3ga32hDSo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-4VlkFGsRP4G84UGjM3jFEQ-1; Tue, 02 Feb 2021 10:25:05 -0500
+X-MC-Unique: 4VlkFGsRP4G84UGjM3jFEQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A03CB801AC5;
+ Tue,  2 Feb 2021 15:25:04 +0000 (UTC)
+Received: from localhost (ovpn-3-197.rdu2.redhat.com [10.22.3.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 351085C1CF;
+ Tue,  2 Feb 2021 15:25:04 +0000 (UTC)
+Date: Tue, 2 Feb 2021 10:25:02 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/3] i386: Add missing "vmx-ept-wb" feature name
+Message-ID: <20210202152502.GN3872207@habkost.net>
+References: <20210201225404.3941395-1-ehabkost@redhat.com>
+ <20210201225404.3941395-2-ehabkost@redhat.com>
+ <CABgObfaWW+ON4AA6cqygOkCMrruMbUqCR32R=uVhxnm4yUa6eQ@mail.gmail.com>
+ <20210201230544.GJ3872207@habkost.net>
+ <CABgObfYrOG1QBHskP4=Rwcp2uwOZKDCE9_RF1mmJWngD90zSjA@mail.gmail.com>
+ <20210202001814.GK3872207@habkost.net>
+ <a240f44f-b39a-7255-6329-cba1d89b3271@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210202150056.00003bec@Huawei.com>
+In-Reply-To: <a240f44f-b39a-7255-6329-cba1d89b3271@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -92,217 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ben Widawsky <ben.widawsky@intel.com>, David Hildenbrand <david@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- "John Groves \(jgroves\)" <jgroves@micron.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- Ira Weiny <ira.weiny@intel.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Babu Moger <babu.moger@amd.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 02, 2021 at 03:00:56PM +0000, Jonathan Cameron wrote:
-> On Mon, 1 Feb 2021 16:59:33 -0800
-> Ben Widawsky <ben.widawsky@intel.com> wrote:
+On Tue, Feb 02, 2021 at 08:54:30AM +0100, Paolo Bonzini wrote:
+> On 02/02/21 01:18, Eduardo Habkost wrote:
+> > On Tue, Feb 02, 2021 at 12:28:38AM +0100, Paolo Bonzini wrote:
+> > > Il mar 2 feb 2021, 00:05 Eduardo Habkost <ehabkost@redhat.com> ha scritto:
+> > > 
+> > > > On Mon, Feb 01, 2021 at 11:59:48PM +0100, Paolo Bonzini wrote:
+> > > > > Il lun 1 feb 2021, 23:54 Eduardo Habkost <ehabkost@redhat.com> ha
+> > > > scritto:
+> > > > > 
+> > > > > > Not having a feature name in feature_word_info breaks error
+> > > > > > reporting and query-cpu-model-expansion.  Add the missing feature
+> > > > > > name to feature_word_info[FEAT_VMX_EPT_VPID_CAPS].feat_names[14].
+> > > > > > 
+> > > > > This is intentional, because there's no way that any hypervisor can run
+> > > > if
+> > > > > this feature is disabled.
+> > > > 
+> > > > If leaving the feature without name enables some desirable
+> > > > behavior, that's by accident and not by design.  Which part of
+> > > > the existing behavior is intentional?
+> > > > 
+> > > 
+> > > Not being able to disable it.
+> > 
+> > We can make it a hard dependency of vmx, then.  We shouldn't
+> > leave it without a name, though.
 > 
-> > Currently, QEMU makes _UID equivalent to the bus number (_BBN). While
-> > there is nothing wrong with doing it this way, CXL spec has a heavy
-> > reliance on _UID to identify host bridges and there is no link to the
-> > bus number. Having a distinct UID solves two problems. The first is it
-> > gets us around the limitation of 256 (current max bus number).
+> The feature is already added to the MSRs unconditionally in
+> kvm_msr_entry_add_vmx.  I think we can just remove it from the models
+> instead.
 
-Not sure I understand. You want more than 256 host bridges?
+Sounds even simpler, and better.  I'll do it in v2.
 
-> The
-> > second is it allows us to replicate hardware configurations where bus
-> > number and uid aren't equivalent.
-
-A bit more data on when this needs to be the case?
-
-> The latter has benefits for our
-> > development and debugging using QEMU.
-> > 
-> > The other way to do this would be to implement the expanded bus
-> > numbering, but having an explicit uid makes more sense when trying to
-> > replicate real hardware configurations.
-> > 
-> > The QEMU commandline to utilize this would be:
-> >   -device pxb-cxl,id=cxl.0,bus="pcie.0",bus_nr=1,uid=x
-> > 
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-
-However, if doing this how do we ensure UID is still unique?
-What do we do for cases where UID was not specified?
-One idea is to generate a string UID and just stick the bus #
-in there.
-
-
-> > --
-> > 
-> > I'm guessing this patch will be somewhat controversial. For early CXL
-> > work, this can be dropped without too much heartache.
-> 
-> Whilst I'm not personally against, this maybe best to drop for now as you
-> say.
-> 
-> > ---
-> >  hw/i386/acpi-build.c                |  3 ++-
-> >  hw/pci-bridge/pci_expander_bridge.c | 19 +++++++++++++++++++
-> >  hw/pci/pci.c                        | 11 +++++++++++
-> >  include/hw/pci/pci.h                |  1 +
-> >  include/hw/pci/pci_bus.h            |  1 +
-> >  5 files changed, 34 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index cf6eb54c22..145a503e92 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -1343,6 +1343,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >          QLIST_FOREACH(bus, &bus->child, sibling) {
-> >              uint8_t bus_num = pci_bus_num(bus);
-> >              uint8_t numa_node = pci_bus_numa_node(bus);
-> > +            int32_t uid = pci_bus_uid(bus);
-> >  
-> >              /* look only for expander root buses */
-> >              if (!pci_bus_is_root(bus)) {
-> > @@ -1356,7 +1357,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >              scope = aml_scope("\\_SB");
-> >              dev = aml_device("PC%.02X", bus_num);
-> >              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-> > -            init_pci_acpi(dev, bus_num, pci_bus_is_express(bus) ? PCIE : PCI);
-> > +            init_pci_acpi(dev, uid, pci_bus_is_express(bus) ? PCIE : PCI);
-> >  
-> >              if (numa_node != NUMA_NODE_UNASSIGNED) {
-> >                  aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
-> > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-> > index b42592e1ff..5021b60435 100644
-> > --- a/hw/pci-bridge/pci_expander_bridge.c
-> > +++ b/hw/pci-bridge/pci_expander_bridge.c
-> > @@ -67,6 +67,7 @@ struct PXBDev {
-> >  
-> >      uint8_t bus_nr;
-> >      uint16_t numa_node;
-> > +    int32_t uid;
-> >  };
-> >  
-> >  static PXBDev *convert_to_pxb(PCIDevice *dev)
-
-As long as we are doing this, do we want to support a string uid too?
-How about a 64 bit uid? Why not?
-
-
-> > @@ -98,12 +99,20 @@ static uint16_t pxb_bus_numa_node(PCIBus *bus)
-> >      return pxb->numa_node;
-> >  }
-> >  
-> > +static int32_t pxb_bus_uid(PCIBus *bus)
-> > +{
-> > +    PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-> > +
-> > +    return pxb->uid;
-> > +}
-> > +
-> >  static void pxb_bus_class_init(ObjectClass *class, void *data)
-> >  {
-> >      PCIBusClass *pbc = PCI_BUS_CLASS(class);
-> >  
-> >      pbc->bus_num = pxb_bus_num;
-> >      pbc->numa_node = pxb_bus_numa_node;
-> > +    pbc->uid = pxb_bus_uid;
-> >  }
-> >  
-> >  static const TypeInfo pxb_bus_info = {
-> > @@ -329,6 +338,7 @@ static Property pxb_dev_properties[] = {
-> >      /* Note: 0 is not a legal PXB bus number. */
-> >      DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
-> >      DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
-> > +    DEFINE_PROP_INT32("uid", PXBDev, uid, -1),
-> >      DEFINE_PROP_END_OF_LIST(),
-> >  };
-> >  
-> > @@ -400,12 +410,21 @@ static const TypeInfo pxb_pcie_dev_info = {
-> >  
-> >  static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
-> >  {
-> > +    PXBDev *pxb = convert_to_pxb(dev);
-> > +
-> >      /* A CXL PXB's parent bus is still PCIe */
-> >      if (!pci_bus_is_express(pci_get_bus(dev))) {
-> >          error_setg(errp, "pxb-cxl devices cannot reside on a PCI bus");
-> >          return;
-> >      }
-> >  
-> > +    if (pxb->uid < 0) {
-> > +        error_setg(errp, "pxb-cxl devices must have a valid uid (0-2147483647)");
-> > +        return;
-> > +    }
-> > +
-> > +    /* FIXME: Check that uid doesn't collide with UIDs of other host bridges */
-> > +
-> >      pxb_dev_realize_common(dev, CXL, errp);
-> >  }
-> >  
-> > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> > index adbe8aa260..bf019d91a0 100644
-> > --- a/hw/pci/pci.c
-> > +++ b/hw/pci/pci.c
-> > @@ -170,6 +170,11 @@ static uint16_t pcibus_numa_node(PCIBus *bus)
-> >      return NUMA_NODE_UNASSIGNED;
-> >  }
-> >  
-> > +static int32_t pcibus_uid(PCIBus *bus)
-> > +{
-> > +    return -1;
-> > +}
-> > +
-> >  static void pci_bus_class_init(ObjectClass *klass, void *data)
-> >  {
-> >      BusClass *k = BUS_CLASS(klass);
-> > @@ -184,6 +189,7 @@ static void pci_bus_class_init(ObjectClass *klass, void *data)
-> >  
-> >      pbc->bus_num = pcibus_num;
-> >      pbc->numa_node = pcibus_numa_node;
-> > +    pbc->uid = pcibus_uid;
-> >  }
-> >  
-> >  static const TypeInfo pci_bus_info = {
-> > @@ -530,6 +536,11 @@ int pci_bus_numa_node(PCIBus *bus)
-> >      return PCI_BUS_GET_CLASS(bus)->numa_node(bus);
-> >  }
-> >  
-> > +int pci_bus_uid(PCIBus *bus)
-> > +{
-> > +    return PCI_BUS_GET_CLASS(bus)->uid(bus);
-> > +}
-> > +
-> >  static int get_pci_config_device(QEMUFile *f, void *pv, size_t size,
-> >                                   const VMStateField *field)
-> >  {
-> > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> > index bde3697bee..a46de48ccd 100644
-> > --- a/include/hw/pci/pci.h
-> > +++ b/include/hw/pci/pci.h
-> > @@ -463,6 +463,7 @@ static inline int pci_dev_bus_num(const PCIDevice *dev)
-> >  }
-> >  
-> >  int pci_bus_numa_node(PCIBus *bus);
-> > +int pci_bus_uid(PCIBus *bus);
-> >  void pci_for_each_device(PCIBus *bus, int bus_num,
-> >                           void (*fn)(PCIBus *bus, PCIDevice *d, void *opaque),
-> >                           void *opaque);
-> > diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
-> > index eb94e7e85c..3c9fbc55bb 100644
-> > --- a/include/hw/pci/pci_bus.h
-> > +++ b/include/hw/pci/pci_bus.h
-> > @@ -17,6 +17,7 @@ struct PCIBusClass {
-> >  
-> >      int (*bus_num)(PCIBus *bus);
-> >      uint16_t (*numa_node)(PCIBus *bus);
-> > +    int32_t (*uid)(PCIBus *bus);
-> >  };
-> >  
-> >  enum PCIBusFlags {
+-- 
+Eduardo
 
 
