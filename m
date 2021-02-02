@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50EDA30B707
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 06:32:12 +0100 (CET)
-Received: from localhost ([::1]:40340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C303630B757
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 06:47:21 +0100 (CET)
+Received: from localhost ([::1]:48660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6oIM-0000Np-UY
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 00:32:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57074)
+	id 1l6oX2-0004uJ-Ct
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 00:47:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6oH3-0008Jj-Tj
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:30:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44360)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1l6oW9-0004PQ-Gl
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:46:25 -0500
+Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236]:40032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6oH1-00082K-Pt
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:30:49 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l6oGz-0001VE-HN
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:30:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 81DBC2E8139
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 05:30:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1l6oW6-0007g6-W7
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:46:25 -0500
+Received: by mail-lj1-x236.google.com with SMTP id s18so22554438ljg.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 21:46:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=q5XmDhy7kaOETvFuLk3+U6luxno6+Mnd9UnyfCbZPIY=;
+ b=RkngDPQ63v4PRb/tZPDD+wwk+3cMGW/QXt22IPTa6zzeoYezdOPbFjVXxfgfqcAeFx
+ Tm6ezO/Eqv++/jFmrcKnFWCopbaw5IIvV9x9jtug7E4IMna8usP9UtebX/n3uWNL4Iyi
+ Shwt5CUMO1TrmJPZu3KgZ4KlRKWgC6Tj47LxfWAURgrP86mhg562ttZ2hLRtSCDS9WC2
+ 8+2zObZBQlYo/3++cRRZWvemBnaRcA33SC16NogAAbWOGtT4/gWOccu0QOEcLJKVrvoy
+ z4BfjHo3mWqYwsJ7DV0dHClLzM46K0B1MeN0aW4kMRm9A6MRgKOuX925G0CpX/wauFQy
+ NmTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=q5XmDhy7kaOETvFuLk3+U6luxno6+Mnd9UnyfCbZPIY=;
+ b=mbp/B/LL7EJx+/+m0ON/EJfirIP3yFg4/OhO/NHA72kTfuSw8sHpFaywDnlNPbN4UK
+ nDRdq046TodtWLRWE13z5jGoMx3+8Te6fyvk08CbxaYsOQN4HWt67Y+KJZDqsVXdZi9F
+ IGuufOoTaISuf07uhRAvylPagCUnmtkAbrLaleSRdm7YMxYPH8KT1MY1uzdyYdCd26a1
+ 5lEymP7pe+aSIURVsQIf0jE05KTbPo0Nb/VB8xbutbigYfbDuOIc2DECAjTKKzpdV91m
+ WJx1gnJTjlKtkHH0TyCvMT40xmyzHMIlEnircGJDMJM7NUNjbIaoU3GuVh0jjDAtT1/V
+ eYaQ==
+X-Gm-Message-State: AOAM5324G6nV2KCyly+60zdZNR5yOKJQj8mR6XRVQAOAA9MsIft47nms
+ 92An3W5iJkm3vDlvlVU6q37yMmjhXa8HPMblZis=
+X-Google-Smtp-Source: ABdhPJwIuWvCDcwacoA+cOJp4wir/H9ZqdtvJxugihA3ncg78kvQsc6d9kFKOHWmSY8w747XMpQPw2l+MeeC4re1igQ=
+X-Received: by 2002:a2e:7e03:: with SMTP id z3mr12138574ljc.204.1612244780523; 
+ Mon, 01 Feb 2021 21:46:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Feb 2021 05:24:24 -0000
-From: Thomas Huth <1914117@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrispinnock th-huth
-X-Launchpad-Bug-Reporter: Chris Pinnock (chrispinnock)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161221293549.4659.2173832767419505412.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161224346461.12729.1918028041427875480.malone@soybean.canonical.com>
-Subject: [Bug 1914117] Re: Short files returned via FTP on Qemu with various
- architectures and OSes
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: 6ddf501d801f516e2cc5a57ceb6d1730cfb64d14
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <CAFEAcA-bafTaHajkvYQw1rfGP1MgKmeY-wmO6LY=fj2oY87HFQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-bafTaHajkvYQw1rfGP1MgKmeY-wmO6LY=fj2oY87HFQ@mail.gmail.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Tue, 2 Feb 2021 13:46:08 +0800
+Message-ID: <CAE2XoE9rrHMB6YtqjZjBf3h=3mQ8BVOixNLhx1rh1MOEPJc+6w@mail.gmail.com>
+Subject: Re: macOS (Big Sur,
+ Apple Silicon) 'make check' fails in test-crypto-tlscredsx509
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000006f341c05ba53fd44"
+Received-SPF: pass client-ip=2a00:1450:4864:20::236;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x236.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,59 +78,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914117 <1914117@bugs.launchpad.net>
+Reply-To: luoyonggang@gmail.com
+Cc: Alexander Graf <agraf@csgraf.de>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please provide more information: How did you compile QEMU? Which version
-did you exactly use? And most important: How do you *run* QEMU? System
-emulation? User mode? What kind of FTP are you doing??
+--0000000000006f341c05ba53fd44
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+SHA-1: 94c13c1048378cbffe552b6fe5c960dc04eaefb2
 
--- =
+* gcrypt: test_tls_psk_init should write binary file instead text file.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914117
+On windows, if open file with "w", it's will automatically convert
+"\n" to "\r\n" when writing to file.
 
-Title:
-  Short files returned via FTP on Qemu with various architectures and
-  OSes
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Is this related?
 
-Status in QEMU:
-  Incomplete
+On Wed, Jan 27, 2021 at 12:37 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-Bug description:
-  =
+> My Big Sur/Apple Silicon system fails "make check" in
+> test-crypto-tlscredsx509:
+>
+> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> G_TEST_SRCDIR=3D/Users/pm215/qemu/tests
+> G_TEST_BUILDDIR=3D/Users/pm215/qemu/build/all/tests
+> tests/test-crypto-tlscredsx509 --tap -k
+>
+> ** (tests/test-crypto-tlscredsx509:35180): CRITICAL **: 16:23:34.590:
+> Failed to sign certificate ASN1 parser: Value is not valid.
+> ERROR test-crypto-tlscredsx509 - Bail out! FATAL-CRITICAL: Failed to
+> sign certificate ASN1 parser: Value is not valid.
+> make: *** [run-test-70] Error 1
+>
+>
+> Does this failure ring any bells for anybody?
+>
+> Here's the crypto part of the meson-log:
+>
+>   Crypto
+>                      TLS priority: "NORMAL"
+>                    GNUTLS support: YES
+>                         libgcrypt: NO
+>                            nettle: YES
+>                               XTS: YES
+>                      crypto afalg: NO
+>                          rng-none: NO
+>                     Linux keyring: NO
+>
+>
+> thanks
+> -- PMM
+>
+>
 
-  Qemu 5.2 on Mac OS X Big Sur.
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-  I originally thought that it might be caused by the home-brew version of =
-Qemu, but this evening I have removed the brew edition and compiled from sc=
-ratch (using Ninja & Xcode compiler). =
+--0000000000006f341c05ba53fd44
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  Still getting the same problem,.
+<div dir=3D"ltr">SHA-1: 94c13c1048378cbffe552b6fe5c960dc04eaefb2<br><br>* g=
+crypt: test_tls_psk_init should write binary file instead text file.<br><br=
+>On windows, if open file with &quot;w&quot;, it&#39;s will automatically c=
+onvert<br>&quot;\n&quot; to &quot;\r\n&quot; when writing to file.<br><br>S=
+igned-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luo=
+yonggang@gmail.com</a>&gt;<br><div>Is this related?</div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 27, 20=
+21 at 12:37 AM Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org=
+">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">My Big Sur/Apple Silicon system fails &quot;make =
+check&quot; in<br>
+test-crypto-tlscredsx509:<br>
+<br>
+MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}<br>
+G_TEST_SRCDIR=3D/Users/pm215/qemu/tests<br>
+G_TEST_BUILDDIR=3D/Users/pm215/qemu/build/all/tests<br>
+tests/test-crypto-tlscredsx509 --tap -k<br>
+<br>
+** (tests/test-crypto-tlscredsx509:35180): CRITICAL **: 16:23:34.590:<br>
+Failed to sign certificate ASN1 parser: Value is not valid.<br>
+ERROR test-crypto-tlscredsx509 - Bail out! FATAL-CRITICAL: Failed to<br>
+sign certificate ASN1 parser: Value is not valid.<br>
+make: *** [run-test-70] Error 1<br>
+<br>
+<br>
+Does this failure ring any bells for anybody?<br>
+<br>
+Here&#39;s the crypto part of the meson-log:<br>
+<br>
+=C2=A0 Crypto<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0TLS priority: &quot;NORMAL&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GNUTLS=
+ support: YES<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 libgcrypt: NO<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0nettle: YES<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 XTS: YES<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0crypto afalg: NO<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0rng-none: NO<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Linux=
+ keyring: NO<br>
+<br>
+<br>
+thanks<br>
+-- PMM<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
+=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
+=A0 sincerely,<br>Yonggang Luo<br></div>
 
-  On the following architectures: =
-
-  arm64, amd64 and sometimes i386 running NetBSD host OS; =
-
-  i386 running OpenBSD host OS:
-
-  I have seen a consistent problem with FTP returning short files. The
-  file will be a couple of bytes too short. I do not believe this is a
-  problem with the OS. Downloading the perl source code from CPAN does
-  not work properly, nor does downloading bind from isc. I've tried this
-  on different architectures as above.
-
-  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
-  gut feel is there is something not right on the Mac OS version of Qemu
-  or a bug in 5.2 - obviously in the network layer somewhere. If you
-  have anything you want me to try, please let me know - happy to help
-  get a resolution.)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
+--0000000000006f341c05ba53fd44--
 
