@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9A730CF75
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 23:58:41 +0100 (CET)
-Received: from localhost ([::1]:52302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF36C30CF9D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 00:06:46 +0100 (CET)
+Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l74d6-0006xL-5S
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 17:58:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42126)
+	id 1l74kv-0006F6-Rk
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 18:06:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l74aW-0004qJ-Tm
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:56:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43433)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l74bJ-0005a5-K4
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:56:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l74aU-0001ue-QR
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:56:00 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l74bF-0002K6-JR
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:56:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612306557;
+ s=mimecast20190719; t=1612306604;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
  bh=T83RMy2Gwje7YdzkCqa1OFUNA3HJsUqBur/2mRKIQ9Y=;
- b=BYRlw4TztqHdAW+jSF8ej/8ENCRBS65/HvAwMXLK2ixHlYolsJGDXcK0JH9psvqgLa17YB
- DstSkM2t+Z5ivWECg3jOEz1N7tH7cMTdIYeDShtVWQTD5W8GfBolEgWBePnnvIkyIg/aJQ
- BvGDbunPDnwIxOknpYHvn0dK9seZdRo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-u70gNYaFOje7ydqaiLEUZw-1; Tue, 02 Feb 2021 17:55:55 -0500
-X-MC-Unique: u70gNYaFOje7ydqaiLEUZw-1
-Received: by mail-wr1-f71.google.com with SMTP id e15so13257786wrm.13
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 14:55:55 -0800 (PST)
+ b=dq6qi/mkVYMlOqkF/FnVX4kxP67m9vjZczkNVAhbofCqYkqIzVxNjUbE9VLqZ+SI+HhBFR
+ +N7xU0Pv5wg2u6vnYeqAPiGwbe5s1PxYhtJHJE6zWLhg64sxrSsCcONCXRZskP5kL6EqbR
+ dZW1WdraiuC9U9p//3wsbUOkIA2rqyA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-UxPtIBIUMMud2k_e5U79og-1; Tue, 02 Feb 2021 17:56:42 -0500
+X-MC-Unique: UxPtIBIUMMud2k_e5U79og-1
+Received: by mail-wm1-f69.google.com with SMTP id z188so2028185wme.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 14:56:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
  :content-disposition:content-transfer-encoding;
  bh=T83RMy2Gwje7YdzkCqa1OFUNA3HJsUqBur/2mRKIQ9Y=;
- b=ki81VLBx01ACCaGFUPz5jOg/wtp/jtZns6+Mk3wKvXLdMv2FAsuBfIhp90O72wKIuK
- qwzKbYb5BfS7xv0m/axaVdxFHMvPmMTOMZQzZO9mYZLXr57PYjsWKwz6JwY8FwHUb+zf
- aJqPbMOUOP91VhlEW17EZ9TfqUaoq+TA/NxEgUyOHo19Dae/JJzJCparVswLlt9MiN9k
- mcLgtVLo7SaWVI+Onef+TiO9lzW+IgpzwbgJn1MmaF2m+Yn1xwOKNJ5lSA/gOK1hCRqr
- dSlcxUXqGPlldAIAZ29WYUMB6V8Q0jjerLj8rx6W2vNZl2acOBvB/iANAKe3Hjc4vuYy
- QeJw==
-X-Gm-Message-State: AOAM531vkn4/qj/XDSyniV8IpLttH5Quf8xgw+52KA2EfFlg/Ix/RFKq
- 1+WVvXvENCUT7Y7a4xc9bnFU8nn9lG+3l4bN/voefrLVejwPNDbPj74REch9A4pjZCmBh/hFlOE
- atKJm/jCgv9cD/OGRd+KOKHvRaB0aUMQNEzAXhbhNsgYeWJq8yKMCnGLWa7SE
-X-Received: by 2002:a5d:6685:: with SMTP id l5mr321608wru.176.1612306554047;
- Tue, 02 Feb 2021 14:55:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyCYN65uGpUZsCaedMZ8yFbKldAj+4cY+v8lj8u2PJedzRbsejET82q6hsdZXZ2BRve6nqDDw==
-X-Received: by 2002:a5d:6685:: with SMTP id l5mr321592wru.176.1612306553847;
- Tue, 02 Feb 2021 14:55:53 -0800 (PST)
+ b=r7ElEhsh6ZgWA0w4yQwwPnXCbuqhqAeu0FmanrU6QFpf/1MZ5rNiO/TiMmsQhLThj4
+ choWnvr5zl6OXzuCEpO4mk0L348PfzUQulLGa+DTWVxlkENAFmsHI63n3XRSAm/shHiv
+ 9n70/BXj0sYYkQtIHJiZfKkpuyU1jcWsKaUWyWuyxQ4ymCyc/IyJtOrKgCcv45zbkCEj
+ Sn5Sh9cQ/rVqnB6Mm85WXlhJJeVnX0JJ+1opdsHQ2qweURWxbTXG/LsWw2mc4wIIpnvE
+ W7257EQhBsLVGP1a6GTp2clTz2fOaKKn/vZ/NHg+Q/M45NYS78v13ScMzEy1TkpxARQG
+ n1vw==
+X-Gm-Message-State: AOAM5307Oh45zmqmfxEACkTShmCkh+oLld29D7Hf4vxGfkCLfmEqAffF
+ zrGDEdpqjbNd8MTNRIJQbSm20RkDBd+muV/F9W6+I47jIRv61ACV3o43Ke1v1nP5kjxJJbSW0n7
+ Qy8SuJjejWshqm5G15y+tamkao5TSFJB0jGKB+pws0FyuCwlvSe+gYDTPA235
+X-Received: by 2002:a05:600c:4f50:: with SMTP id
+ m16mr183907wmq.175.1612306601352; 
+ Tue, 02 Feb 2021 14:56:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzgrV+Np+Em18IkpBcUF1mwz8EoIOEPtv/owu1J680rbAW0uGcwA+fBzjfdOUh4eVKhFcd19w==
+X-Received: by 2002:a05:600c:4f50:: with SMTP id
+ m16mr183887wmq.175.1612306600967; 
+ Tue, 02 Feb 2021 14:56:40 -0800 (PST)
 Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
- by smtp.gmail.com with ESMTPSA id i7sm111002wru.49.2021.02.02.14.55.52
+ by smtp.gmail.com with ESMTPSA id h18sm98819wru.65.2021.02.02.14.56.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 14:55:53 -0800 (PST)
-Date: Tue, 2 Feb 2021 17:55:51 -0500
+ Tue, 02 Feb 2021 14:56:40 -0800 (PST)
+Date: Tue, 2 Feb 2021 17:56:38 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH] acpi: use constants as strncpy limit
-Message-ID: <20210202225548.1607168-1-mst@redhat.com>
+Message-ID: <20210202225636.1607306-1-mst@redhat.com>
 MIME-Version: 1.0
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -70,15 +72,15 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
