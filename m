@@ -2,52 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8313C30CD19
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 21:32:08 +0100 (CET)
-Received: from localhost ([::1]:40432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4892330CD3E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 21:45:35 +0100 (CET)
+Received: from localhost ([::1]:45580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l72LG-000102-W2
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 15:32:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48460)
+	id 1l72YH-0003g8-Qq
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 15:45:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l72KP-0000Va-DR
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:31:13 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:46516
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l72KM-0002ZA-B8
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:31:12 -0500
-Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
- [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l72W0-0003Bt-UG
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:43:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l72Vx-00089a-LV
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:43:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612298587;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=N2GFGCuFGtYdUL1q6kmM93gDhZe9H63LzrnLut8KNO8=;
+ b=jNIAYg/ofVVbpbdXmCDXhZXrgeUj+5rwJlQucVfGkWfl3ENA5cN97k4KqbvaT3+HLF6rYI
+ yX3+CHXe/kzGbyRGeBWzXOSf61ZsIRWamlMxRg0+cfSIWaF0Ems/Fy9bJW50G9Pfk3kC/H
+ 0fqdO9iU84Le9g9AQmrqgEfObcCcABw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342--Pj0OqplMOa3fhD78ncyHA-1; Tue, 02 Feb 2021 15:43:05 -0500
+X-MC-Unique: -Pj0OqplMOa3fhD78ncyHA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 6A581DA02C1;
- Tue,  2 Feb 2021 21:31:06 +0100 (CET)
-Subject: Re: macOS (Big Sur, Apple Silicon) 'make check' fails in
- test-crypto-tlscredsx509
-To: Eric Blake <eblake@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-References: <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
- <YBjg7ubtbw3OeQCd@SPB-NB-133.local>
- <6d360ded-f8b6-d08b-b4fc-af8c52554a58@redhat.com> <4581723.kQ5iP5sz2Z@silver>
- <2aa107b3-b986-0788-4d2d-fcd90ad891a4@redhat.com>
-From: Stefan Weil <sw@weilnetz.de>
-Message-ID: <ca868458-d695-a8f8-69f7-98fb8a8554af@weilnetz.de>
-Date: Tue, 2 Feb 2021 21:31:05 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6DC1107ACF6;
+ Tue,  2 Feb 2021 20:43:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B31C510016F4;
+ Tue,  2 Feb 2021 20:43:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 48096113865F; Tue,  2 Feb 2021 21:43:00 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 07/16] qapi: use explicitly internal module names
+References: <20210201193747.2169670-1-jsnow@redhat.com>
+ <20210201193747.2169670-8-jsnow@redhat.com>
+ <87pn1ig77h.fsf@dusky.pond.sub.org>
+ <68cecf73-d60b-0868-973b-c456e891c4b4@redhat.com>
+Date: Tue, 02 Feb 2021 21:43:00 +0100
+In-Reply-To: <68cecf73-d60b-0868-973b-c456e891c4b4@redhat.com> (John Snow's
+ message of "Tue, 2 Feb 2021 11:06:30 -0500")
+Message-ID: <87lfc62obv.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <2aa107b3-b986-0788-4d2d-fcd90ad891a4@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.155,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,43 +82,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.02.21 um 18:14 schrieb Eric Blake:
+John Snow <jsnow@redhat.com> writes:
 
-> Yes, you do have a valid argument: any compiler that is going to
-> optimize on our undefined behavior, but fails to give us a -Wxyz option
-> to ferret out those spots in our code in order to avoid them in the
-> first place, has a poor QoI, and it is worth filing a bug against that
-> compiler to have it not be so silent.  Or put another way, there is a
-> subtle difference between arguing that "the compiler is miscompiling my
-> program" (which is demonstrably false per the standard's permission for
-> the compiler to do whatever it wants on undefined code, but if true
-> would represent a regression) and "the compiler is not helping me
-> eradicate undefined behavior from my dusty-deck code" (which is
-> demonstrably true), and the latter is definitely worthy of being
-> designated a clang bug (but not regression, rather, you just got lucky
-> that your code previously did what you wanted in spite of its
-> undefinedness).  And that applies whether or not we also pursue the
-> parallel course of action of fixing the actual undefined-code bug in
-> libtasn1 that triggered this discussion.
+> On 2/2/21 4:16 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> Use ./emit and ./init explicitly instead of "emit" and "init" and adding
+>>> the prefix based on the specific method called, which later allows us to
+>>> coalesce the two different methods into one.
+>> "Bandwurmsatz" (literally "tapeworm sentence").  Perhaps something
+>> like:
+>>      QAPISchemaModularCVisitor._add_system_module() prefixes './' to
+>> its name
+>>      argument to make it a module name.  Pass the module name instead.  This
+>>      will allow us to coalesce the methods to add modules later on.
+>> Happy to tweak the commit message in my tree.
+>> 
+>
+> Yep, with my blessing.
 
-
-I agree that the compiler should have given a warning. It did not even 
-with -Weverything.
-
-The code uses NULL + offset constructs, so requires a fix.
-
-https://gitlab.com/gnutls/libtasn1/-/merge_requests/71 fixes the unit 
-tests of libtasn1 for me, maybe also the test for QEMU which I still 
-have to check.
-
-Regards,
-
-Stefan
+Done!
 
 
