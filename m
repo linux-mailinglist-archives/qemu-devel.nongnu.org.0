@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2503930BEE7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:59:11 +0100 (CET)
-Received: from localhost ([::1]:43094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB27130BF19
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:14:17 +0100 (CET)
+Received: from localhost ([::1]:35924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6vGw-00065A-6Y
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:59:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47780)
+	id 1l6vVY-0007bW-MJ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:14:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6vCx-0008V5-S2
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:55:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26263)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6vCv-0003nF-LE
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:55:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612270500;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YIIIyHLhhOqF/+Brigw8kXlsahHd7ImF4UKHNCqyoJ8=;
- b=BkgoU6powiP+sfmbcplHjty8vgTGT9gvNfJMo1+TNCjR4pASg5LVjMVG05n14GReitE88Z
- FyUgAjljSDhRgVzExV5bZWu2idRFK80yi4W8k1OlBcu2nl0xNEyF33NCkFp0X91SsUTn0V
- TSNzDucdebzSA6i3MrWlm9CVQsBRZ1I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-JDvteG0mOParLj27kKp6Bw-1; Tue, 02 Feb 2021 07:54:55 -0500
-X-MC-Unique: JDvteG0mOParLj27kKp6Bw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E38D81005501;
- Tue,  2 Feb 2021 12:54:53 +0000 (UTC)
-Received: from redhat.com (ovpn-112-202.ams2.redhat.com [10.36.112.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AF49722CF;
- Tue,  2 Feb 2021 12:54:46 +0000 (UTC)
-Date: Tue, 2 Feb 2021 12:54:43 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Edmondson <dme@dme.org>
-Subject: Re: [PATCH RFC 2/4] target/i386: define CPU models to model x86-64
- ABI levels
-Message-ID: <20210202125443.GG4168502@redhat.com>
-References: <20210201153606.4158076-1-berrange@redhat.com>
- <20210201153606.4158076-3-berrange@redhat.com>
- <cunsg6els34.fsf@dme.org> <20210202123239.GE4168502@redhat.com>
- <cun35yeljki.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6vSy-0006Ck-EI
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:11:36 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37338)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6vSv-0002QM-Bp
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:11:36 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l6vSs-0006mm-A5
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 13:11:30 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DCE9D2E8158
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 13:11:29 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <cun35yeljki.fsf@dme.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 02 Feb 2021 12:57:46 -0000
+From: ANIMESH KUMAR SINHA <1912777@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: animeshk th-huth
+X-Launchpad-Bug-Reporter: ANIMESH KUMAR SINHA (animeshk)
+X-Launchpad-Bug-Modifier: ANIMESH KUMAR SINHA (animeshk)
+References: <161131847021.10154.14606822070729811950.malonedeb@gac.canonical.com>
+Message-Id: <161227066611.13414.4785611394840662627.malone@soybean.canonical.com>
+Subject: [Bug 1912777] Re: KVM_EXIT_MMIO has increased in Qemu4.0.0 when
+ compared to Qemu 2.11.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: 5463884ad19c6538dc3ee49dfde03dbbb5c2981a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,113 +72,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Florian Weimer <fweimer@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1912777 <1912777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 02, 2021 at 12:50:53PM +0000, David Edmondson wrote:
-> On Tuesday, 2021-02-02 at 12:32:39 GMT, Daniel P. Berrangé wrote:
-> 
-> > On Tue, Feb 02, 2021 at 09:46:55AM +0000, David Edmondson wrote:
-> >> On Monday, 2021-02-01 at 15:36:04 GMT, Daniel P. Berrangé wrote:
-> >> 
-> >> > To paraphrase:
-> >> >
-> >> >   https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterprise-linux-9-for-the-x86-64-v2-microarchitecture-level/
-> >> >
-> >> > In 2020, AMD, Intel, Red Hat, and SUSE worked together to define
-> >> > three microarchitecture levels on top of the historical x86-64
-> >> > baseline:
-> >> >
-> >> >   * x86-64:    original x86_64 baseline instruction set
-> >> >   * x86-64-v2: vector instructions up to Streaming SIMD
-> >> >                Extensions 4.2 (SSE4.2)  and Supplemental
-> >> > 	       Streaming SIMD Extensions 3 (SSSE3), the
-> >> > 	       POPCNT instruction, and CMPXCHG16B
-> >> >   * x86-64-v3: vector instructions up to AVX2, MOVBE,
-> >> >                and additional bit-manipulation instructions.
-> >> >   * x86-64-v4: vector instructions from some of the
-> >> >                AVX-512 variants.
-> >> >
-> >> > This list of features is defined in the doc at:
-> >> >
-> >> >   https://gitlab.com/x86-psABIs/x86-64-ABI/
-> >> >
-> >> > QEMU has historically defaulted to the "qemu64" CPU model on
-> >> > x86_64 targets, which is approximately the x86-64 baseline
-> >> > ABI, with 'SVM' added.
-> >> >
-> >> > It is thought it might be desirable if QEMU could provide CPU models
-> >> > that closely correspond to the ABI levels, while offering portability
-> >> > across the maximum number of physical CPUs.
-> >> >
-> >> > Historically we've found that defining CPU models with an arbitrary
-> >> > combination of CPU features can be problematic, as some guest OS
-> >> > will not check all features they use, and instead assume that if
-> >> > they see feature "XX", then "YY" will always exist. This is reasonable
-> >> > in bare metal, but subject to breakage in virtualization.
-> >> >
-> >> > Thus in defining the CPI models for the ABI levels, this patch attempted
-> >> 
-> >> s/CPI/CPU/
-> >> 
-> >> > to base them off an existing CPU model.
-> >> >
-> >> > While each x86-64-abiNNN has a designated vendor, they are designed
-> >> > to be vendor agnostic models. ie they are capable of running on any
-> >> > AMD or Intel physical CPU model that satisfies the ABI level. eg
-> >> 
-> >> Only AMD or Intel? (You mention the Hugon chips elsewhere.)
-> >
-> > In theory any x86 CPU that meets the ABI level, regardless of vendor
-> > but if any vendor's set of CPUID features diverges too far from other
-> > CPUs of similar level we might have problems.
-> 
-> Understood - so why say "AMD or Intel"?
+One observation i made was that adding qemu arguments "-nic none"
+improved the testcase performance.
 
-This text is just giving an example - it doesn't need to be an
-exhaustive list of vendors.  Running AMD CPUs models on Intel
-host and vica-verca are the two most common scenaroos.
+Does "-nic none" reduce KVM_EXIT_MMIO ?
 
-> 
-> > For example, I had to specially avoid including "aes" in the
-> > x86-64-abi3 because of the Hugon chips lacking it. There might
-> > be other cases like this, since I've only compared CPUID sets
-> > for named CPUs that QEMU includes.
-> >
-> >> > None of the CPU models declare any VMX/SVM features. This would
-> >> > make them unable to support nested virtualization with live
-> >> > migration.
-> >> 
-> >> How about "Unable to support hardware accelerated nested
-> >> virtualization." ?
-> >> 
-> >> Is live migration relevant?
-> >
-> > Choice of CPU models is a critical decision in your future ability
-> > to live migrate, so I wanted to call that out specifically.
-> 
-> But the restriction, I believe, is not that you won't be able to live
-> migrate with nested VMs, it's that you don't get support for nested VMs
-> (well, hardware accelerated - you could still run a fully emulated
-> nested VM). Live migration with nested VMs is irrelevant if I don't
-> *get* nested VMs.
+Are there any other qemu arguments that can be used to improve qemu
+overall performance ?
 
-What I mean is that if you use  "-cpu x86-64-abi2,+vmx" and KVM will
-enable nested virt, but I believe live migration will fail because
-we've not declared any VMX capabilities in the CPU model. I'll have
-to defer to Paolo on the actual failure scenario details.
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912777
+
+Title:
+  KVM_EXIT_MMIO has increased in Qemu4.0.0 when compared to Qemu 2.11.0
+
+Status in QEMU:
+  New
+Status in Ubuntu:
+  New
+
+Bug description:
+  I was able to generate trace dump in Qemu for kvm_run_exit event in both =
+QEMU 2.11.0 and QEMU 4.0.0
+  From the trace i noticed that the number of KVM_KXIT_MMIO calls has incre=
+ased alot and is causing delay in testcase execution.
+
+  I executed same testcase from Qemu 2.11 and Qemu4.
+  Inside Virtual machine when using qemu 2.11 testcase got completed in 11 =
+seconds
+  but the same testcase when executed on Qemu 4.0.0 got executed in 26 seco=
+nds.
+
+  =
+
+  I did a bit of digging and extracted the kvm_run_exit to figure out whats=
+ going on.
+
+  Please find =
+
+  Stats from Qemu2.11:
+
+  KVM_EXIT_UNKNOWN          : 0
+  KVM_EXIT_EXCEPTION        : 0
+  KVM_EXIT_IO               : 182513
+  KVM_EXIT_HYPERCALL        : 0
+  KVM_EXIT_DEBUG            : 0
+  KVM_EXIT_HLT              : 0
+  KVM_EXIT_MMIO             : 216701
+  KVM_EXIT_IRQ_WINDOW_OPEN  : 0
+  KVM_EXIT_SHUTDOWN         : 0
+  KVM_EXIT_FAIL_ENTRY       : 0
+  KVM_EXIT_INTR             : 0
+  KVM_EXIT_SET_TPR          : 0
+  KVM_EXIT_TPR_ACCESS       : 0
+  KVM_EXIT_S390_SIEIC       : 0
+  KVM_EXIT_S390_RESET       : 0
+  KVM_EXIT_DCR              : 0
+  KVM_EXIT_NMI              : 0
+  KVM_EXIT_INTERNAL_ERROR   : 0
+  KVM_EXIT_OSI              : 0
+  KVM_EXIT_PAPR_HCALL       : 0
+  KVM_EXIT_S390_UCONTROL    : 0
+  KVM_EXIT_WATCHDOG         : 0
+  KVM_EXIT_S390_TSCH        : 0
+  KVM_EXIT_EPR              : 0
+  KVM_EXIT_SYSTEM_EVENT     : 0
+  KVM_EXIT_S390_STSI        : 0
+  KVM_EXIT_IOAPIC_EOI       : 0
+  KVM_EXIT_HYPERV           : 0
+
+  KVM_RUN_EXIT              : 399214  (Total in Qemu 2.11 for a
+  testcase)
+
+  =
+
+  Stats For Qemu 4.0.0:
+
+  VM_EXIT_UNKNOWN           : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_EXCEPTION        : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_IO               : 163729                                       =
+                                                                           =
+         =
+
+  KVM_EXIT_HYPERCALL        : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_DEBUG            : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_HLT              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_MMIO             : 1094231                                      =
+                                                                           =
+         =
+
+  KVM_EXIT_IRQ_WINDOW_OPEN  : 46                                           =
+                                                                           =
+         =
+
+  KVM_EXIT_SHUTDOWN         : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_FAIL_ENTRY       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_INTR             : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_SET_TPR          : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_TPR_ACCESS       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_SIEIC       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_RESET       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_DCR              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_NMI              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_INTERNAL_ERROR   : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_OSI              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_PAPR_HCALL       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_UCONTROL    : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_WATCHDOG         : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_TSCH        : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_EPR              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_SYSTEM_EVENT     : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_STSI        : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_IOAPIC_EOI       : 464                                          =
+                                                                           =
+         =
+
+  KVM_EXIT_HYPERV           : 0 =
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  KVM_RUN_EXIT              : 1258470 (Total in qemu 4.0.0 for same
+  testcase)
 
+
+  From above analysis i found that the number of KVM_EXIT_MMIO has
+  increased by 4.x.
+
+  Could someone from qemu community help me understand as to why the
+  MMIO exits have increased in qemu4 ?
+
+  The results i obtained are after running same testcase.
+  On Qemu2.11 testcase gets completed in : 11seconds
+  on Qemu4.11 testcase gets completed in : 26 seconds
+
+  VM Qcow2 used in Ubuntu 16.04
+  VM kernel OS is : 4.4 generic
+
+  =
+
+  Let me know incase more information is required .
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912777/+subscriptions
 
