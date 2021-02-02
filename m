@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C831830C1F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:38:37 +0100 (CET)
-Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921F330C1DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:35:51 +0100 (CET)
+Received: from localhost ([::1]:51812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6wpA-0004PW-Qm
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:38:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44288)
+	id 1l6wmU-0001GB-Jo
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:35:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6wfE-00011c-Bc
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:28:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33257)
+ id 1l6wfR-0001FM-Lo
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:28:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6wfC-0003Pq-DE
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:28:20 -0500
+ id 1l6wfN-0003Vl-If
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:28:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612276097;
+ s=mimecast20190719; t=1612276109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eb2CGzD3TyOgBuW3soHR73dC4rDlZH0FmrocXLTMxhI=;
- b=YRBYjHVfyWRo7Egz7Es6/4DCbvFxZ9ticlvfH+8Vdtl2tseZKfcY0vwI3odAdlLfzW9jf8
- 1BRGh/XYOcxvWNBxAXdjcWtE/GDOvEWtc8qT0Q8fQzaC01cviFr2bS0LoggsPBnVr162cr
- EB7LQ8y4I2PToYeuDqNChq78Qr2+jKY=
+ bh=dIyy5vmNRolTVyHmnt4JivqphRRjGpYRnUmqFs8/g84=;
+ b=XPu+o+D0mxLvogyC1E5RyKHvwP8Scc0+Oy2/ZtLiIfH6kfs4tGBL8F5exIUSytEq/72CvX
+ w7B3HO/40ZC3+U9OTrOS4Lx2pUvQrjhO1RFgrfrJenTqAQ5gMaljzm8F1KeZbDbL7O74l3
+ 1Mf/HnFIBkNTpESMtblFIxxRN1A+pWs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-W9bEqNQvNa6Uh9lHvjwokg-1; Tue, 02 Feb 2021 09:28:16 -0500
-X-MC-Unique: W9bEqNQvNa6Uh9lHvjwokg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-83-1OMC9aR8PSGzd_dbOMpmcA-1; Tue, 02 Feb 2021 09:28:27 -0500
+X-MC-Unique: 1OMC9aR8PSGzd_dbOMpmcA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D8E6874981
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:28:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AD5B100A649
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:28:26 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82F1E60C5F;
- Tue,  2 Feb 2021 14:28:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA6B410016F4;
+ Tue,  2 Feb 2021 14:28:19 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/20] ui: remove console_has_gl_dmabuf()
-Date: Tue,  2 Feb 2021 18:26:14 +0400
-Message-Id: <20210202142625.609070-10-marcandre.lureau@redhat.com>
+Subject: [PATCH 10/20] vhost-user-gpu: add a configuration flag for dmabuf
+ usage
+Date: Tue,  2 Feb 2021 18:26:15 +0400
+Message-Id: <20210202142625.609070-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20210202142625.609070-1-marcandre.lureau@redhat.com>
 References: <20210202142625.609070-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,64 +87,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This check is currently limited. It only is used by vhost-user-gpu (not
-by vfio-display), and will print an error repeatedly during run-time.
-
-We are going to dissociate the GL context from the
-DisplayChangeListener, and listeners may come and go. The following
-patches will address this differently.
+Let's inform VirtioGPUBase that vhost-user-gpu require DMABUF messages.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/ui/console.h        | 1 -
- hw/display/vhost-user-gpu.c | 5 -----
- ui/console.c                | 5 -----
- 3 files changed, 11 deletions(-)
+ include/hw/virtio/virtio-gpu.h | 3 +++
+ hw/display/vhost-user-gpu.c    | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index bea2b6329a..ac989fdf70 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -323,7 +323,6 @@ void dpy_gl_ctx_destroy(QemuConsole *con, QEMUGLContext ctx);
- int dpy_gl_ctx_make_current(QemuConsole *con, QEMUGLContext ctx);
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 1aed7275c8..4f3dbf79f9 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -71,6 +71,7 @@ enum virtio_gpu_base_conf_flags {
+     VIRTIO_GPU_FLAG_VIRGL_ENABLED = 1,
+     VIRTIO_GPU_FLAG_STATS_ENABLED,
+     VIRTIO_GPU_FLAG_EDID_ENABLED,
++    VIRTIO_GPU_FLAG_DMABUF_ENABLED,
+ };
  
- bool console_has_gl(QemuConsole *con);
--bool console_has_gl_dmabuf(QemuConsole *con);
+ #define virtio_gpu_virgl_enabled(_cfg) \
+@@ -79,6 +80,8 @@ enum virtio_gpu_base_conf_flags {
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_STATS_ENABLED))
+ #define virtio_gpu_edid_enabled(_cfg) \
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_EDID_ENABLED))
++#define virtio_gpu_dmabuf_enabled(_cfg) \
++    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
  
- static inline int surface_stride(DisplaySurface *s)
- {
+ struct virtio_gpu_base_conf {
+     uint32_t max_outputs;
 diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-index 55b0ed15f2..dd587436ff 100644
+index dd587436ff..b7bde9feb6 100644
 --- a/hw/display/vhost-user-gpu.c
 +++ b/hw/display/vhost-user-gpu.c
-@@ -224,11 +224,6 @@ vhost_user_gpu_handle_display(VhostUserGPU *g, VhostUserGpuMsg *msg)
-             close(dmabuf->fd);
-             dmabuf->fd = -1;
-         }
--        if (!console_has_gl_dmabuf(con)) {
--            /* it would be nice to report that error earlier */
--            error_report("console doesn't support dmabuf!");
--            break;
--        }
-         dpy_gl_release_dmabuf(con, dmabuf);
-         if (fd == -1) {
-             dpy_gl_scanout_disable(con);
-diff --git a/ui/console.c b/ui/console.c
-index ab9224429e..b5bc3f7699 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1463,11 +1463,6 @@ bool console_has_gl(QemuConsole *con)
-     return con->gl != NULL;
- }
+@@ -547,6 +547,8 @@ vhost_user_gpu_device_realize(DeviceState *qdev, Error **errp)
+         return;
+     }
  
--bool console_has_gl_dmabuf(QemuConsole *con)
--{
--    return con->gl != NULL && con->gl->ops->dpy_gl_scanout_dmabuf != NULL;
--}
--
- void register_displaychangelistener(DisplayChangeListener *dcl)
- {
-     static const char nodev[] =
++    /* existing backend may send DMABUF, so let's add that requirement */
++    g->parent_obj.conf.flags |= 1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED;
+     if (virtio_has_feature(g->vhost->dev.features, VIRTIO_GPU_F_VIRGL)) {
+         g->parent_obj.conf.flags |= 1 << VIRTIO_GPU_FLAG_VIRGL_ENABLED;
+     }
 -- 
 2.29.0
 
