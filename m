@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C48930C326
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:12:23 +0100 (CET)
-Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 940F830C38A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:22:23 +0100 (CET)
+Received: from localhost ([::1]:50128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6xLq-00068x-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:12:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50606)
+	id 1l6xVW-00028X-Bh
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:22:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6x1z-0003wu-H3
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:51:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45117)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6x4M-0007uk-Mu
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:54:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6x1v-0005IK-KU
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:51:50 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6x4I-0006Jp-Fv
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:54:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612277507;
+ s=mimecast20190719; t=1612277653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fPo8gQQJk9NpXNgEPIOEyTyeAJncah9zzVWIVZ2b5pw=;
- b=Ao1jgCwuq9kCf7gHmdS+En9xq1tyHnWWsJgn/bff6wx/KV0z/+F7ZrnKhV+IZlcktbdN5T
- QC5zk+wMdIIOgadeyuuDGnEnBmKNV9MrejD2rrT+4mAMpwBR3RQS0pq1DzYX+dQO2IZnON
- 0CN5+K1iYKxp0iyT1KQdpVvC1AMZF3Y=
+ bh=d5M6dVaFi9PFtleVQA7LMl+e8Bv2Y1lHefIKdYoyHEs=;
+ b=f5pYamOvd+WWTc3efPexOjAb6Pc6ZcYWVeg5Q6LId5e3o5FS5fZLqxijoceHuyHlzDCTG8
+ KV1Mr4Ajg/hHnK1T4woryJdRY1GtYdeKtZPLnyWaIDmJo9nNQ2rqPGB2EPPXxCDPmYbwyO
+ zwe4JESPkjJexR9DmDQD6B54pn7SUZM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-fCDG2J-JPNiUj1M_uuT3mQ-1; Tue, 02 Feb 2021 09:51:45 -0500
-X-MC-Unique: fCDG2J-JPNiUj1M_uuT3mQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-517-kwSc1SVxMgyLR3pXtJh1Nw-1; Tue, 02 Feb 2021 09:54:08 -0500
+X-MC-Unique: kwSc1SVxMgyLR3pXtJh1Nw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 927B51800D41;
- Tue,  2 Feb 2021 14:51:43 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-19.ams2.redhat.com [10.36.112.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4525C5C234;
- Tue,  2 Feb 2021 14:51:42 +0000 (UTC)
-Date: Tue, 2 Feb 2021 15:51:40 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24D979CC05;
+ Tue,  2 Feb 2021 14:54:07 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A1A7F5D9C6;
+ Tue,  2 Feb 2021 14:54:06 +0000 (UTC)
 Subject: Re: [PATCH] iotests: Revert emulator selection to old behaviour
-Message-ID: <20210202145140.GD5184@merkur.fritz.box>
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20210202142802.119999-1-kwolf@redhat.com>
- <20210202144121.GL4168502@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b5af56ce-bbee-6afe-9a74-90f886ee2b08@redhat.com>
+Date: Tue, 2 Feb 2021 08:54:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210202144121.GL4168502@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210202142802.119999-1-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,34 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.02.2021 um 15:41 hat Daniel P. Berrangé geschrieben:
-> On Tue, Feb 02, 2021 at 03:28:02PM +0100, Kevin Wolf wrote:
-> > If the qemu-system-{arch} binary for the host architecture can't be
-> > found, the old 'check' implementation selected the alphabetically first
-> > system emulator binary that it could find. The new Python implementation
-> > just uses the first result of glob.iglob(), which has an undefined
-> > order.
-> > 
-> > This is a problem that breaks CI because the iotests aren't actually
-> > prepared to run on any emulator. They should be, so this is really a bug
-> > in the failing test cases that should be fixed there, but as a quick
-> > fix, let's revert to the old behaviour to let CI runs succeed again.
+On 2/2/21 8:28 AM, Kevin Wolf wrote:
+> If the qemu-system-{arch} binary for the host architecture can't be
+> found, the old 'check' implementation selected the alphabetically first
+> system emulator binary that it could find. The new Python implementation
+> just uses the first result of glob.iglob(), which has an undefined
+> order.
 > 
-> Deterministic CI is critically important.
+> This is a problem that breaks CI because the iotests aren't actually
+> prepared to run on any emulator. They should be, so this is really a bug
+> in the failing test cases that should be fixed there, but as a quick
+> fix, let's revert to the old behaviour to let CI runs succeed again.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  tests/qemu-iotests/testenv.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-True. I didn't mean to imply that we don't want deterministic behaviour,
-but just that this hides some bugs in the test cases that we'll want to
-have fixed eventually, too.
+As fixing the tests is indeed more work than sorting the glob results,
+this one-liner is worth checking.
 
-Maybe we should rely on automatic picking less and specify different
-emulators explicitly in different CI jobs so that we don't only test the
-same binary over and over again and others not at all.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Kevin
+> 
+> diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+> index b31275f518..1fbec854c1 100644
+> --- a/tests/qemu-iotests/testenv.py
+> +++ b/tests/qemu-iotests/testenv.py
+> @@ -135,7 +135,7 @@ class TestEnv(ContextManager['TestEnv']):
+>          if not os.path.exists(self.qemu_prog):
+>              pattern = root('qemu-system-*')
+>              try:
+> -                progs = glob.iglob(pattern)
+> +                progs = sorted(glob.iglob(pattern))
+>                  self.qemu_prog = next(p for p in progs if isxfile(p))
+>              except StopIteration:
+>                  sys.exit("Not found any Qemu executable binary by pattern "
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
