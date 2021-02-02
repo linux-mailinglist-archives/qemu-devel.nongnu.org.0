@@ -2,90 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394A230B60B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 04:50:57 +0100 (CET)
-Received: from localhost ([::1]:36348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 289D830B647
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 05:15:31 +0100 (CET)
+Received: from localhost ([::1]:46210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6miO-0001q2-AW
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 22:50:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42454)
+	id 1l6n69-0007eX-GV
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 23:15:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l6mh7-0001Og-St
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 22:49:39 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:59269)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l6n4M-0005pa-G0; Mon, 01 Feb 2021 23:13:38 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41527 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l6mh6-0001zp-Eo
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 22:49:37 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id D3FAB5803E7;
- Mon,  1 Feb 2021 22:49:35 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 01 Feb 2021 22:49:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=k
- vOAecdNULk9yw1e//8fp1iYNQ6tWD6bzhktiQG2XqU=; b=stkaruIWIgt8O2pT8
- kjDONj4v7xBbUNYmOxUZdvdV9pXQDsJKWpgcI+y4GGYpCHd2M7Tjffykn4o9T//H
- D4pgceNXhcs1WolD5HUq5J+/7jhHoMt+CK1LEYgFnvpRL0oQx7mU9zlOwpoDTrTc
- sSJeB2vw/j9818LfmJ0DYdsxDvU3pUa39RvP5DtXW5/C7wLjYrTVhOV8R9320IIo
- ZBs0L0RH8anG5Bv+5Gsgnzn4fGHpP/6zg21gqvnbNw+q88efuJkf4SWJfpUMfUFp
- FakL2YMdJGI5ykZD9Hmvqm1zjCa/77cJp+SwHn2TkiXyJ7yj4VA0LPSktoygyUL4
- tXRdQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=kvOAecdNULk9yw1e//8fp1iYNQ6tWD6bzhktiQG2X
- qU=; b=MGUQsq47giWXIW7A7Pm9bwIpFtv6OGn6nSUIVM+WSLgA+CaOwH3X/ydXK
- ZAfe3xL7uegxmmYCZKJus170JSJToGEQ1ET7tjuOaHUbfuxsJ7q53Ta9tPr4n/Z2
- pMSll4Hsgx6Fp9WzJgRkxpdGwaHQT2xJFSSuU/S9iuelCpOpBemS3aJLtGt9xfUH
- 2J98dRApNoe01k6yCsGUr4DWj+cOj1D6Y1Ie3q4mEo+vjnq1n7CH1G0q0tnlRmjL
- 0USFO0jeBTTIeneJt7OU/wgIKM1mBvLFdRTcBcbuj0xno5at8zt1tDQzLk25SJpe
- KdZHyBzgKNn3KMpI/O2wcu0gb2XaA==
-X-ME-Sender: <xms:zssYYHV9bPp2-bdX8_TMd8XhnqY84bCXrI9y_DnM7VWG8kW7J2UomA>
- <xme:zssYYPgJOp_AD08Q-8xP5vm85EYG4nMN9X9N_g5TsdfY7QQrhQ4GkNZXh5JGJNxTP
- MsaD6bq1XWF6X-Axm8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeelgdehiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
- nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
- ftrfgrthhtvghrnhepiefhgffhieekudegjeevgfffveegveegheffhfduieeiffffveff
- ueegveefgfefnecukfhppeduheegrddujedruddvrdelkeenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhih
- ghhorghtrdgtohhm
-X-ME-Proxy: <xmx:zssYYAQEcNKXb6Wo0ro4mG_eBWCTi_ySUIZH0cu_wN_uDksBC7_hyg>
- <xmx:zssYYKE6qCplBpAiPe6-kiPUpOpxKmbxuPeivFzhOUwhYSEzGMkH2g>
- <xmx:zssYYAmmuAfEmLK0LFa2N_mneaz1Az24WrV4UU4ylmVLObGCR871yg>
- <xmx:z8sYYKwchpscpyIzp16Y7H7wFhDgv0HgIOAcks7TWnz7zwltnDcUPg>
-Received: from [0.0.0.0] (unknown [154.17.12.98])
- by mail.messagingengine.com (Postfix) with ESMTPA id 26CA024005E;
- Mon,  1 Feb 2021 22:49:32 -0500 (EST)
-Subject: Re: [PATCH v3 0/4] MIPS Bootloader helper
-To: qemu-devel@nongnu.org
-References: <20210127065424.114125-1-jiaxun.yang@flygoat.com>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <7d31e507-2baa-de1f-9cba-e376642e88a5@flygoat.com>
-Date: Tue, 2 Feb 2021 11:49:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l6n4J-0004oM-Ha; Mon, 01 Feb 2021 23:13:38 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DVBHx5DVZz9tkS; Tue,  2 Feb 2021 15:13:17 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1612239197;
+ bh=C/CvveZV8v771qNCTCPNypMV4EecUIQrKmjTMt5Ss1Q=;
+ h=From:To:Cc:Subject:Date:From;
+ b=iMNCFAV8ljlf/pbAHHb047ThAznHrYrhFTvKrtL5L0KsjKYYNbcCk21iEfOGgPNOZ
+ VDYZksrxZdQKqsuOQJH86C7IUVYT3Fq28N4VFxW4/qb+DbxTSliABghh8EQrv+F8hR
+ yCfcd7gBhXMw5L/x5qCRpiw9pj7s/ojJ3X4nzTZA=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: dgilbert@redhat.com, pair@us.ibm.com, qemu-devel@nongnu.org,
+ brijesh.singh@amd.com, pasic@linux.ibm.com
+Subject: [PATCH v8 00/13] Generalize memory encryption models
+Date: Tue,  2 Feb 2021 15:13:02 +1100
+Message-Id: <20210202041315.196530-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210127065424.114125-1-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=66.111.4.224;
- envelope-from=jiaxun.yang@flygoat.com; helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,39 +56,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paul Burton <paulburton@kernel.org>
+Cc: thuth@redhat.com, Cornelia Huck <cohuck@redhat.com>, berrange@redhat.com,
+ mst@redhat.com, kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ jun.nakajima@intel.com, mtosatti@redhat.com, richard.henderson@linaro.org,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Greg Kurz <groug@kaod.org>, pragyansri.pathi@intel.com, qemu-s390x@nongnu.org,
+ frankja@linux.ibm.com, qemu-ppc@nongnu.org, andi.kleen@intel.com,
+ pbonzini@redhat.com, borntraeger@de.ibm.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2021/1/27 下午2:54, Jiaxun Yang 写道:
-> v2:
-> A big reconstruction. rewrite helpers with CPU feature and sepreate
-> changesets.
-> v3:
-> respin
-
-ping?
-
->
-> Jiaxun Yang (4):
->    hw/mips: Add a bootloader helper
->    hw/mips: Use bl_gen_kernel_jump to generate bootloaders
->    hw/mips/malta: Use bootloader helper to set BAR resgiters
->    hw/mips/boston: Use bootloader helper to set GCRs
->
->   include/hw/mips/bootloader.h |  49 +++++++++++
->   hw/mips/bootloader.c         | 164 +++++++++++++++++++++++++++++++++++
->   hw/mips/boston.c             |  64 +++-----------
->   hw/mips/fuloong2e.c          |  28 +-----
->   hw/mips/malta.c              | 109 +++++++----------------
->   hw/mips/meson.build          |   2 +-
->   6 files changed, 260 insertions(+), 156 deletions(-)
->   create mode 100644 include/hw/mips/bootloader.h
->   create mode 100644 hw/mips/bootloader.c
->
-
+A number of hardware platforms are implementing mechanisms whereby the=0D
+hypervisor does not have unfettered access to guest memory, in order=0D
+to mitigate the security impact of a compromised hypervisor.=0D
+=0D
+AMD's SEV implements this with in-cpu memory encryption, and Intel has=0D
+its own memory encryption mechanism.  POWER has an upcoming mechanism=0D
+to accomplish this in a different way, using a new memory protection=0D
+level plus a small trusted ultravisor.  s390 also has a protected=0D
+execution environment.=0D
+=0D
+The current code (committed or draft) for these features has each=0D
+platform's version configured entirely differently.  That doesn't seem=0D
+ideal for users, or particularly for management layers.=0D
+=0D
+AMD SEV introduces a notionally generic machine option=0D
+"machine-encryption", but it doesn't actually cover any cases other=0D
+than SEV.=0D
+=0D
+This series is a proposal to at least partially unify configuration=0D
+for these mechanisms, by renaming and generalizing AMD's=0D
+"memory-encryption" property.  It is replaced by a=0D
+"confidential-guest-support" property pointing to a platform specific=0D
+object which configures and manages the specific details.=0D
+=0D
+Note to Ram Pai: the documentation I've included for PEF is very=0D
+minimal.  If you could send a patch expanding on that, it would be=0D
+very helpful.=0D
+=0D
+Changes since v7:=0D
+ * Tweaked and clarified meaning of the 'ready' flag=0D
+ * Polished the interface to the PEF internals=0D
+ * Shifted initialization for s390 PV later (I hope I've finally got=0D
+   this after apply_cpu_model() where it needs to be)=0D
+Changes since v6:=0D
+ * Moved to using OBJECT_DECLARE_TYPE and OBJECT_DEFINE_TYPE macros=0D
+ * Assorted minor fixes=0D
+Changes since v5:=0D
+ * Renamed from "securable guest memory" to "confidential guest=0D
+   support"=0D
+ * Simpler reworking of x86 boot time flash encryption=0D
+ * Added a bunch of documentation=0D
+ * Fixed some compile errors on POWER=0D
+Changes since v4:=0D
+ * Renamed from "host trust limitation" to "securable guest memory",=0D
+   which I think is marginally more descriptive=0D
+ * Re-organized initialization, because the previous model called at=0D
+   kvm_init didn't work for s390=0D
+ * Assorted fixes to the s390 implementation; rudimentary testing=0D
+   (gitlab CI) only=0D
+Changes since v3:=0D
+ * Rebased=0D
+ * Added first cut at handling of s390 protected virtualization=0D
+Changes since RFCv2:=0D
+ * Rebased=0D
+ * Removed preliminary SEV cleanups (they've been merged)=0D
+ * Changed name to "host trust limitation"=0D
+ * Added migration blocker to the PEF code (based on SEV's version)=0D
+Changes since RFCv1:=0D
+ * Rebased=0D
+ * Fixed some errors pointed out by Dave Gilbert=0D
+=0D
+David Gibson (12):=0D
+  confidential guest support: Introduce new confidential guest support=0D
+    class=0D
+  sev: Remove false abstraction of flash encryption=0D
+  confidential guest support: Move side effect out of=0D
+    machine_set_memory_encryption()=0D
+  confidential guest support: Rework the "memory-encryption" property=0D
+  sev: Add Error ** to sev_kvm_init()=0D
+  confidential guest support: Introduce cgs "ready" flag=0D
+  confidential guest support: Move SEV initialization into arch specific=0D
+    code=0D
+  confidential guest support: Update documentation=0D
+  spapr: Add PEF based confidential guest support=0D
+  spapr: PEF: prevent migration=0D
+  confidential guest support: Alter virtio default properties for=0D
+    protected guests=0D
+  s390: Recognize confidential-guest-support option=0D
+=0D
+Greg Kurz (1):=0D
+  qom: Allow optional sugar props=0D
+=0D
+ accel/kvm/kvm-all.c                       |  38 ------=0D
+ accel/kvm/sev-stub.c                      |  10 +-=0D
+ accel/stubs/kvm-stub.c                    |  10 --=0D
+ backends/confidential-guest-support.c     |  33 +++++=0D
+ backends/meson.build                      |   1 +=0D
+ docs/amd-memory-encryption.txt            |   2 +-=0D
+ docs/confidential-guest-support.txt       |  49 ++++++++=0D
+ docs/papr-pef.txt                         |  30 +++++=0D
+ docs/system/s390x/protvirt.rst            |  19 ++-=0D
+ hw/core/machine.c                         |  63 ++++++++--=0D
+ hw/i386/pc_sysfw.c                        |  17 +--=0D
+ hw/ppc/meson.build                        |   1 +=0D
+ hw/ppc/pef.c                              | 140 ++++++++++++++++++++++=0D
+ hw/ppc/spapr.c                            |   8 +-=0D
+ hw/s390x/pv.c                             |  62 ++++++++++=0D
+ hw/s390x/s390-virtio-ccw.c                |   3 +=0D
+ include/exec/confidential-guest-support.h |  62 ++++++++++=0D
+ include/hw/boards.h                       |   2 +-=0D
+ include/hw/ppc/pef.h                      |  17 +++=0D
+ include/hw/s390x/pv.h                     |  17 +++=0D
+ include/qemu/typedefs.h                   |   1 +=0D
+ include/qom/object.h                      |   3 +-=0D
+ include/sysemu/kvm.h                      |  16 ---=0D
+ include/sysemu/sev.h                      |   4 +-=0D
+ qom/object.c                              |   4 +-=0D
+ softmmu/rtc.c                             |   3 +-=0D
+ softmmu/vl.c                              |  27 ++++-=0D
+ target/i386/kvm/kvm.c                     |  20 ++++=0D
+ target/i386/sev-stub.c                    |   5 +=0D
+ target/i386/sev.c                         |  95 ++++++---------=0D
+ target/ppc/kvm.c                          |  18 ---=0D
+ target/ppc/kvm_ppc.h                      |   6 -=0D
+ 32 files changed, 595 insertions(+), 191 deletions(-)=0D
+ create mode 100644 backends/confidential-guest-support.c=0D
+ create mode 100644 docs/confidential-guest-support.txt=0D
+ create mode 100644 docs/papr-pef.txt=0D
+ create mode 100644 hw/ppc/pef.c=0D
+ create mode 100644 include/exec/confidential-guest-support.h=0D
+ create mode 100644 include/hw/ppc/pef.h=0D
+=0D
+-- =0D
+2.29.2=0D
+=0D
 
