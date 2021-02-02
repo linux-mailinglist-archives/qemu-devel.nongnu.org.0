@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2D930C2C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:00:04 +0100 (CET)
-Received: from localhost ([::1]:36278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A76330C2B6
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:59:32 +0100 (CET)
+Received: from localhost ([::1]:34708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6x9v-00067l-8G
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:00:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47034)
+	id 1l6x9P-0005TO-GA
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:59:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6wrd-0000K3-LQ
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:41:09 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51947)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6wrS-0008RP-Ls
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:40:58 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6wrb-0000dp-TL
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:41:09 -0500
-Received: by mail-wm1-x333.google.com with SMTP id m2so2708878wmm.1
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 06:41:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6wrN-0000Xr-8J
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:40:58 -0500
+Received: by mail-ej1-x634.google.com with SMTP id a9so11950560ejr.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 06:40:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=D/I/jrcEQvE7eRaudp5cZPIuddBo7bIvAFQswxBQJxg=;
- b=UuNca/3lJug7PP90hIMVHy7+TiyBkqxL7StZe9Ilhd9aOsPbLQ3FSuygAs6UloGzQk
- ghKU9prXMkPF4eoM6Cj9WHKXMjNjWWYCq4sSbOT1XfsgALKQ0ZFuFOwlaa8FL4Cwm9Y6
- Fue7awCiKgVNPHsWnD1j5BOUR2viKJuGV2iwfeBX0PC9f2yCdbYbatCYlWi7pAhXP3aC
- VXsT84YwAd+VVPU9OXKpcA3uXI3maefJjPM+wDrUB5j15xtrM7PGYIavLWU3Jum1g6Jq
- P3in5D46ZT6TR6hmVW7kIspibh9KIRByHKj9ZhFyzlGAtW/Dq19mo0vrpcjwDFcORcU6
- x0WA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=h/SpySeyFodIB7F00VfYI8PGZe4jEagsQRXiN768hS8=;
+ b=OAV9s9bHddnPkLcnHV/TbrJrcHWjA3EOI5hQoy5jNrIK8n82Q6kQ8HXcSLu+ngS+qN
+ OOGGJworasx0lV036AIDQIoSzUqUSI9t1quuWmAyqnQYzkYAPpLDpuTmhSD2n0JQszSV
+ pRPP/iwx3k1ER/d8rugkawpCedrrQdlnop+BHzlToEkg7MKuBB3Byy7dBSjHE7IiWwnj
+ fo+g9VpjB4UE5vOKTQEXI+sgwcy0x11l59orVOt3l+obzIyLBiq7WcgOddNGMtIj4nNC
+ m2sjJCM1P5zHg7NGclBwe1QnYFo64AoVj4ztZ2N12VeLBhRNdr1UCfl+ia1QwxNxq0T6
+ 01Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=D/I/jrcEQvE7eRaudp5cZPIuddBo7bIvAFQswxBQJxg=;
- b=SqgTM62NtHBIAx8az8x8MUAvvvUf0VPdw3DBtMYDbD3ceLfCP2XVR8Vz3vMJNxd6fn
- aonpqw2dc6Alw+ESl5yYb93xJKTrSP92xdwTDUkCV9iV/lOBMkRQcBRUvjhzxlw1oVUQ
- wUW6K/LtQSEhFLrTKR+2MIcihbkYdu9C/GklGohUNUPqVTkXKvSyZhkP2PWcxiQpNo0s
- vwVsaZBpLDHq5ZrNy0XFuzaDu81Sb2kBIPyQ+msKbiRqKXL+h7CHvDWUQ9Mm/LC6gRfs
- WzUtdfbxzKMGnq4SLPBaN+tlfutBNm2NHImSejO7xyMhQSgV9KVlrlB//lajvNbrKTUz
- An5A==
-X-Gm-Message-State: AOAM530GIn+kQZRc7UhieaHRLoolvquxABlRqC0Uf904MKoPsbXWACXM
- XPyb2FHP45unMfphIk9qd/op/A==
-X-Google-Smtp-Source: ABdhPJzBYKi5TJ3C4kI6jIyptnx/weCCmDbdXumtIMXwl4aRk+g6Kz6TNfop5eHggCbSKojeLeYm5Q==
-X-Received: by 2002:a1c:8157:: with SMTP id c84mr4058382wmd.24.1612276864833; 
- Tue, 02 Feb 2021 06:41:04 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p18sm3341833wmc.31.2021.02.02.06.41.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 06:41:03 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 201821FF7E;
- Tue,  2 Feb 2021 14:41:03 +0000 (GMT)
-References: <20210118031004.1662363-1-zhouyang789@huawei.com>
- <eac694c8-b9f6-55fa-d32c-3f7213b24e8e@huawei.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "zhouyang (T)" <zhouyang789@huawei.com>
-Subject: Re: [PATCH v3 0/5] Fix some style problems in contrib
-Date: Tue, 02 Feb 2021 14:40:29 +0000
-In-reply-to: <eac694c8-b9f6-55fa-d32c-3f7213b24e8e@huawei.com>
-Message-ID: <87bld2ttvl.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=h/SpySeyFodIB7F00VfYI8PGZe4jEagsQRXiN768hS8=;
+ b=S7Vw/E1DNywF0RY9hNvUPedNrM+1poD2i8UsKVa6NZzKIj2TuaK54wePfGURh7Q1wM
+ asD160UB063f9ZmNLTXPJxWGzKouysFlntdxpdvaN0Fm3/wL23Dyzbk5OjD4QjngsReW
+ fAIKCAvT0NK9rzzWKuO4WMldROoZgLU99akM5yoqO+QjgCY2kPf+mqa3LLvXdcf4KLQE
+ e0JjfvGZ24bvs2MRZN09+ISpOjpsc4Ecs94AQkhi5XE/0SX/Di55a6bbnMfJox2fhAeo
+ PzEonV/H164Cr4lDXyu0bBdcxaIo8z7m5R2R+oqMueORFO89iW+lZMEp6dZnxHMkldOH
+ D7uw==
+X-Gm-Message-State: AOAM532sUyqnzNXp0KLOtbBbT7JnCJSvpbtPhbJZTgcdB2vK4qPzhYaF
+ oy43J1neawfsjP36tB60nt+p9+p6cut3iYXAnPtaw8HZSYg=
+X-Google-Smtp-Source: ABdhPJyUAUhoE+VNvs5kLCXhLj3sa7P3muip0H0X6tomDDGn6Gh16tTB4nqJlojCKuWPYMOTMPKEYHN9g7ChRvCz37s=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr23521700ejd.250.1612276851857; 
+ Tue, 02 Feb 2021 06:40:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+References: <20210128224141.638790-1-richard.henderson@linaro.org>
+ <20210128224141.638790-14-richard.henderson@linaro.org>
+In-Reply-To: <20210128224141.638790-14-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 14:40:40 +0000
+Message-ID: <CAFEAcA86a3YhEUOc35iZ90sq-LVDjj+Bknb2=0UhxiCZPerZVw@mail.gmail.com>
+Subject: Re: [PATCH v4 13/23] target/arm: Improve gen_top_byte_ignore
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,46 +78,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-zhouyang (T) <zhouyang789@huawei.com> writes:
-
-> kindly ping,
-> the link of this patch set
-> is:http://patchwork.ozlabs.org/project/qemu-devel/cover/20210118031004.16=
-62363-1-zhouyang789@huawei.com/
-
-Queued to plugins/next, thanks.
-
-(I might as well pick-up the ivshmem-server change while I'm at it as
-it's trivial).
-
+On Thu, 28 Jan 2021 at 22:42, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
+> Use simple arithmetic instead of a conditional
+> move when tbi0 != tbi1.
 >
-> On 2021/1/18 11:09, zhouyang wrote:
->> v3 -> v2
->> add Cc=20
->>=20
->> zhouyang (5):
->>   contrib: Don't use '#' flag of printf format
->>   contrib: Fix some code style problems, ERROR: "foo * bar" should be
->>     "foo *bar"
->>   contrib: Add spaces around operator
->>   contrib: space required after that ','
->>   contrib: Open brace '{' following struct go on the same line
->>=20
->>  contrib/ivshmem-server/main.c |  2 +-
->>  contrib/plugins/hotblocks.c   |  2 +-
->>  contrib/plugins/hotpages.c    |  2 +-
->>  contrib/plugins/howvec.c      | 19 +++++++++----------
->>  contrib/plugins/lockstep.c    |  6 +++---
->>  5 files changed, 15 insertions(+), 16 deletions(-)
->>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate-a64.c | 25 ++++++++++++++-----------
+>  1 file changed, 14 insertions(+), 11 deletions(-)
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
