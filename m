@@ -2,72 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9968F30CBB0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 20:33:10 +0100 (CET)
-Received: from localhost ([::1]:48454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1954030CC28
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 20:47:12 +0100 (CET)
+Received: from localhost ([::1]:34064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l71QD-0001ON-Lx
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 14:33:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36900)
+	id 1l71dm-0007q5-MU
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 14:47:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l71OG-0008Sy-SA
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:31:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l71OE-0001Iu-Vb
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:31:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612294266;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ji6KeukqbRf7zODdJI6lHJJTAz5NSV5XkIwI85m3pt4=;
- b=Ma1E28rzJvydaieiEmH34czMD1KTX5VJxe7P0W21X95MqMTn37pXGnqMS0ibbn99aDPjT2
- FYIZNth13migQhJpVEoMZdseKXupp62rhBL/1yzYJ0QeUunzpqFSqr1JKsMsewVAP6728I
- QbjdM820iJnAmUtJCnxcEeqOYViUS5A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-nxIsz9zMP6GTyFYNLWm2Dw-1; Tue, 02 Feb 2021 14:30:55 -0500
-X-MC-Unique: nxIsz9zMP6GTyFYNLWm2Dw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 083DA1084D61;
- Tue,  2 Feb 2021 19:30:26 +0000 (UTC)
-Received: from localhost (ovpn-3-197.rdu2.redhat.com [10.22.3.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3B1350B44;
- Tue,  2 Feb 2021 19:30:25 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 3/3] nvdimm: check -object memory-backend-file,
- readonly=on option
-Date: Tue,  2 Feb 2021 14:30:20 -0500
-Message-Id: <20210202193020.4107711-4-ehabkost@redhat.com>
-In-Reply-To: <20210202193020.4107711-1-ehabkost@redhat.com>
-References: <20210202193020.4107711-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l71c5-0007Fq-01
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:45:27 -0500
+Received: from zangief.bwidawsk.net ([107.170.211.233]:48946
+ helo=mail.bwidawsk.net)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l71by-0007Of-RQ
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:45:20 -0500
+Received: by mail.bwidawsk.net (Postfix, from userid 5001)
+ id 84F911234A5; Tue,  2 Feb 2021 11:45:16 -0800 (PST)
+Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
+ [73.37.61.164])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ by mail.bwidawsk.net (Postfix) with ESMTPSA id 18660122C69;
+ Tue,  2 Feb 2021 11:45:07 -0800 (PST)
+Date: Tue, 2 Feb 2021 11:45:05 -0800
+From: Ben Widawsky <ben@bwidawsk.net>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [RFC PATCH v3 17/31] hw/cxl/component: Implement host bridge
+ MMIO (8.2.5, table 142)
+Message-ID: <20210202194505.227fhhalahyhpmjy@mail.bwidawsk.net>
+References: <20210202005948.241655-1-ben.widawsky@intel.com>
+ <20210202005948.241655-18-ben.widawsky@intel.com>
+ <20210202192135.000035e9@Huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210202192135.000035e9@Huawei.com>
+Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
+ helo=mail.bwidawsk.net
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,100 +59,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ "John Groves \(jgroves\)" <jgroves@micron.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+On 21-02-02 19:21:35, Jonathan Cameron wrote:
+> On Mon, 1 Feb 2021 16:59:34 -0800
+> Ben Widawsky <ben.widawsky@intel.com> wrote:
+> 
+> > CXL host bridges themselves may have MMIO. Since host bridges don't have
+> > a BAR they are treated as special for MMIO.
+> > 
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > 
+> > --
+> > 
+> > It's arbitrarily chosen here to pick 0xD0000000 as the base for the host
+> > bridge MMIO. I'm not sure what the right way to find free space for
+> > platform hardcoded things like this is.
+> 
+> Seems like this needs to come from the machine definition.
+> This is fairly easy for arm/virt, where there is a clearly laid out memory map.
+> For hw/i386 I'm less sure on how to do it.
 
-Check that -device nvdimm,unarmed=on is used when -object
-memory-backend-file,readonly=on and document that -device
-nvdimm,unarmed=on|off controls whether the NVDIMM appears read-only to
-the guest.
+I think this is how to do it :D
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20210104171320.575838-4-stefanha@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- docs/nvdimm.txt | 24 +++++++++++++++++-------
- hw/mem/nvdimm.c |  9 +++++++++
- 2 files changed, 26 insertions(+), 7 deletions(-)
+> 
+> Having said that, for this particular magic device, we do have a PCI EP
+> associated with it.  How about putting all the host bridge MMIO into a
+> BAR of that rather than having it separate.   
+> That has the added advantage of making it discoverable from firmware.
+> 
+> Any normal system is going to have this is impdef for discovery anyway.
+> 
 
-diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-index c2c6e441b34..0aae682be3e 100644
---- a/docs/nvdimm.txt
-+++ b/docs/nvdimm.txt
-@@ -17,8 +17,8 @@ following command line options:
- 
-  -machine pc,nvdimm
-  -m $RAM_SIZE,slots=$N,maxmem=$MAX_SIZE
-- -object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE
-- -device nvdimm,id=nvdimm1,memdev=mem1
-+ -object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE,readonly=off
-+ -device nvdimm,id=nvdimm1,memdev=mem1,unarmed=off
- 
- Where,
- 
-@@ -31,9 +31,10 @@ Where,
-    of normal RAM devices and vNVDIMM devices, e.g. $MAX_SIZE should be
-    >= $RAM_SIZE + $NVDIMM_SIZE here.
- 
-- - "object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE"
--   creates a backend storage of size $NVDIMM_SIZE on a file $PATH. All
--   accesses to the virtual NVDIMM device go to the file $PATH.
-+ - "object memory-backend-file,id=mem1,share=on,mem-path=$PATH,
-+   size=$NVDIMM_SIZE,readonly=off" creates a backend storage of size
-+   $NVDIMM_SIZE on a file $PATH. All accesses to the virtual NVDIMM device go
-+   to the file $PATH.
- 
-    "share=on/off" controls the visibility of guest writes. If
-    "share=on", then guest writes will be applied to the backend
-@@ -42,8 +43,17 @@ Where,
-    "share=off", then guest writes won't be applied to the backend
-    file and thus will be invisible to other guests.
- 
-- - "device nvdimm,id=nvdimm1,memdev=mem1" creates a virtual NVDIMM
--   device whose storage is provided by above memory backend device.
-+   "readonly=on/off" controls whether the file $PATH is opened read-only or
-+   read/write (default).
-+
-+ - "device nvdimm,id=nvdimm1,memdev=mem1,unarmed=off" creates a read/write
-+   virtual NVDIMM device whose storage is provided by above memory backend
-+   device.
-+
-+   "unarmed" controls the ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM
-+   State Flags" Bit 3 indicating that the device is "unarmed" and cannot accept
-+   persistent writes. Linux guest drivers set the device to read-only when this
-+   bit is present. Set unarmed to on when the memdev has readonly=on.
- 
- Multiple vNVDIMM devices can be created if multiple pairs of "-object"
- and "-device" are provided.
-diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-index 03c2201b564..e0a9d606e1b 100644
---- a/hw/mem/nvdimm.c
-+++ b/hw/mem/nvdimm.c
-@@ -146,6 +146,15 @@ static void nvdimm_prepare_memory_region(NVDIMMDevice *nvdimm, Error **errp)
-         return;
-     }
- 
-+    if (!nvdimm->unarmed && memory_region_is_rom(mr)) {
-+        HostMemoryBackend *hostmem = dimm->hostmem;
-+
-+        error_setg(errp, "'unarmed' property must be off since memdev %s "
-+                   "is read-only",
-+                   object_get_canonical_path_component(OBJECT(hostmem)));
-+        return;
-+    }
-+
-     nvdimm->nvdimm_mr = g_new(MemoryRegion, 1);
-     memory_region_init_alias(nvdimm->nvdimm_mr, OBJECT(dimm),
-                              "nvdimm-memory", mr, 0, pmem_size);
--- 
-2.28.0
+This is not how it's expected to work for Intel at least. If the device was
+discoverable you wouldn't need CEDT/CHBS. The magic host bridges are only
+advertised via the CEDT.
 
+When I build and run QEMU for x86_64, I do not see the host bridge in the pci
+topology, do you (it's meant to not be there)?
+
+00:00.0 Host bridge: Intel Corporation 82G33/G31/P35/P31 Express DRAM Controller
+...
+34:00.0 PCI bridge: Intel Corporation Device 7075
+35:00.0 Memory controller [0502]: Intel Corporation Device 0d93 (rev 01)
+
+That's Q35, Root Port, and Type 3 device respectively.
+
+> That would then let you drop the separate definition of CXLHost structure
+> though it needs a bit of figuring out what to do with the memory window
+> setup etc.
+> 
+> I tried hacking it together, but not gotten it working yet.
+> 
+> > ---
+> >  hw/pci-bridge/pci_expander_bridge.c | 53 ++++++++++++++++++++++++++++-
+> >  include/hw/cxl/cxl.h                |  2 ++
+> >  2 files changed, 54 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+> > index 5021b60435..226a8a5fff 100644
+> > --- a/hw/pci-bridge/pci_expander_bridge.c
+> > +++ b/hw/pci-bridge/pci_expander_bridge.c
+> > @@ -17,6 +17,7 @@
+> >  #include "hw/pci/pci_host.h"
+> >  #include "hw/qdev-properties.h"
+> >  #include "hw/pci/pci_bridge.h"
+> > +#include "hw/cxl/cxl.h"
+> >  #include "qemu/range.h"
+> >  #include "qemu/error-report.h"
+> >  #include "qemu/module.h"
+> > @@ -70,6 +71,12 @@ struct PXBDev {
+> >      int32_t uid;
+> >  };
+> >  
+> > +typedef struct CXLHost {
+> > +    PCIHostState parent_obj;
+> > +
+> > +    CXLComponentState cxl_cstate;
+> > +} CXLHost;
+> > +
+> >  static PXBDev *convert_to_pxb(PCIDevice *dev)
+> >  {
+> >      /* A CXL PXB's parent bus is PCIe, so the normal check won't work */
+> > @@ -85,6 +92,9 @@ static GList *pxb_dev_list;
+> >  
+> >  #define TYPE_PXB_HOST "pxb-host"
+> >  
+> > +#define TYPE_PXB_CXL_HOST "pxb-cxl-host"
+> > +#define PXB_CXL_HOST(obj) OBJECT_CHECK(CXLHost, (obj), TYPE_PXB_CXL_HOST)
+> > +
+> >  static int pxb_bus_num(PCIBus *bus)
+> >  {
+> >      PXBDev *pxb = convert_to_pxb(bus->parent_dev);
+> > @@ -198,6 +208,46 @@ static const TypeInfo pxb_host_info = {
+> >      .class_init    = pxb_host_class_init,
+> >  };
+> >  
+> > +static void pxb_cxl_realize(DeviceState *dev, Error **errp)
+> > +{
+> > +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> > +    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+> > +    CXLHost *cxl = PXB_CXL_HOST(dev);
+> > +    CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
+> > +    struct MemoryRegion *mr = &cxl_cstate->crb.component_registers;
+> > +
+> > +    cxl_component_register_block_init(OBJECT(dev), cxl_cstate,
+> > +                                      TYPE_PXB_CXL_HOST);
+> > +    sysbus_init_mmio(sbd, mr);
+> > +
+> > +    /* FIXME: support multiple host bridges. */
+> > +    sysbus_mmio_map(sbd, 0, CXL_HOST_BASE +
+> > +                            memory_region_size(mr) * pci_bus_uid(phb->bus));
+> > +}
+> > +
+> > +static void pxb_cxl_host_class_init(ObjectClass *class, void *data)
+> > +{
+> > +    DeviceClass *dc = DEVICE_CLASS(class);
+> > +    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(class);
+> > +
+> > +    hc->root_bus_path = pxb_host_root_bus_path;
+> > +    dc->fw_name = "cxl";
+> > +    dc->realize = pxb_cxl_realize;
+> > +    /* Reason: Internal part of the pxb/pxb-pcie device, not usable by itself */
+> > +    dc->user_creatable = false;
+> > +}
+> > +
+> > +/*
+> > + * This is a device to handle the MMIO for a CXL host bridge. It does nothing
+> > + * else.
+> > + */
+> > +static const TypeInfo cxl_host_info = {
+> > +    .name          = TYPE_PXB_CXL_HOST,
+> > +    .parent        = TYPE_PCI_HOST_BRIDGE,
+> > +    .instance_size = sizeof(CXLHost),
+> > +    .class_init    = pxb_cxl_host_class_init,
+> > +};
+> > +
+> >  /*
+> >   * Registers the PXB bus as a child of pci host root bus.
+> >   */
+> > @@ -272,7 +322,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
+> >          dev_name = dev->qdev.id;
+> >      }
+> >  
+> > -    ds = qdev_new(TYPE_PXB_HOST);
+> > +    ds = qdev_new(type == CXL ? TYPE_PXB_CXL_HOST : TYPE_PXB_HOST);
+> >      if (type == PCIE) {
+> >          bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
+> >      } else if (type == CXL) {
+> > @@ -466,6 +516,7 @@ static void pxb_register_types(void)
+> >      type_register_static(&pxb_pcie_bus_info);
+> >      type_register_static(&pxb_cxl_bus_info);
+> >      type_register_static(&pxb_host_info);
+> > +    type_register_static(&cxl_host_info);
+> >      type_register_static(&pxb_dev_info);
+> >      type_register_static(&pxb_pcie_dev_info);
+> >      type_register_static(&pxb_cxl_dev_info);
+> > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+> > index 362cda40de..6bc344f205 100644
+> > --- a/include/hw/cxl/cxl.h
+> > +++ b/include/hw/cxl/cxl.h
+> > @@ -17,5 +17,7 @@
+> >  #define COMPONENT_REG_BAR_IDX 0
+> >  #define DEVICE_REG_BAR_IDX 2
+> >  
+> > +#define CXL_HOST_BASE 0xD0000000
+> > +
+> >  #endif
+> >  
+> 
+> 
 
