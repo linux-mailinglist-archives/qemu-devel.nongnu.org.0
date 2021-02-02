@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09AE630BF9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:37:12 +0100 (CET)
-Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8D230BFBC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:42:13 +0100 (CET)
+Received: from localhost ([::1]:37852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6vrj-0002Uo-4p
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:37:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56204)
+	id 1l6vwa-0004zx-GT
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:42:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l6vqJ-00024E-B3
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:35:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l6vqG-00057V-GW
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:35:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612272939;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Xrpl9SpgZGFx/q1luDHFyUEw8VNOHUnwfqAhHeq/dGc=;
- b=Yx22a19ITkUKBlOn+dvnUCHpPSwupWOXf9kYOfnGPQ9xTmjLvkNCOmr409m0DRVMT4/nYy
- kjbvY1fnfV7EM/sV4qDv0toud228cRLkzRTBnl6OPjCayPLqIlYs+Eqg/7FFhGvHNqI6g7
- U3jWN1aVMdB7q7mqq4fW+VMv9aCQvbk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-3KvtvwgiMfCRr2RQ3IS6xQ-1; Tue, 02 Feb 2021 08:35:37 -0500
-X-MC-Unique: 3KvtvwgiMfCRr2RQ3IS6xQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79F6B835E26;
- Tue,  2 Feb 2021 13:35:36 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
- [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 326F25C230;
- Tue,  2 Feb 2021 13:35:36 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7075718000A7; Tue,  2 Feb 2021 14:35:34 +0100 (CET)
-Date: Tue, 2 Feb 2021 14:35:34 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: vnc clipboard support
-Message-ID: <20210202133534.u364ubxxvr5xyieb@sirius.home.kraxel.org>
-References: <05C58667-D9BA-49E2-897D-2286B243E802@redhat.com>
- <20210201155116.GL4131462@redhat.com>
- <0C14700F-CF47-4CD1-AB41-AA69BC0DA469@redhat.com>
- <20210201165634.GM4131462@redhat.com>
- <D704948F-96C7-441F-BCA3-F848ABFD8087@redhat.com>
- <20210201174018.GP4131462@redhat.com>
- <8456ae54-b737-fa7d-cac8-75cd701f9ef5@eik.bme.hu>
- <20210202113144.jrmqtgllpgd2nw2h@sirius.home.kraxel.org>
- <e3598537-86af-6cf7-bdfe-eac43bce0f2@eik.bme.hu>
- <20210202123829.GF4168502@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l6vuZ-0003L2-Uz
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:07 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38251)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l6vuW-0007B3-Ur
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:07 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id b3so2371438wrj.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QX6KvENyks8CIv4e3WKgDl493/mLtSW5w23cgLQLTQ0=;
+ b=ANonQCTVJK+It0A9aY2pNVu2mD/xltgvNy+KPqd4Xc33oqHw+66USFtAMkdZAiDJSx
+ bY+ScBRJvORJZsSTEc9FVel2DB5O0l3uZx9V2Y9VgutpEkAL4fXumBeuzZTzywLHXk5G
+ DWe6ce6UbMTqr0N4qTtFSoZfIRSagdZMlBvsQZWiVJ2f/fuHKkHeIOvXehml4qvj8fMP
+ ixybMzrksXZi/ZI5WpCACEYm1XdOrL4kqDIthN3xCqIHd47Win3vGPUy4nttuvhjoIPk
+ s3o18d2Xz38BnJ3KWIrpyUCYeMK9bWlNq6a0iKkIvfwaA/rfxqKG7QRyS1ZlvCmWM1WI
+ 84rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QX6KvENyks8CIv4e3WKgDl493/mLtSW5w23cgLQLTQ0=;
+ b=EiaWsk0jpHe4Cl1cI0rDuZNfjG/0GobogxcaSkuNSxwATR5GSYwv21LVmln58nLT+C
+ jgvT9i1OdJI62AdG5XSwKHqAEckfhXF0kQ8hkEgG8NrkgDYArejvRi2Vs9Vt2E5Jec4L
+ 5qrFXjJZLC5VsLBHXJgJRsEOEyLBZWJVzKFywSr7J+MbtGGLntaQRniiM30f2Otim5K1
+ tkBvm3/4MSMpYvFjIO2gApJ3M7OakrpRksluwXe4ue1BdP1RCzG8D0AJ2W0LdcTwM9Jj
+ 6QJ2RnIeA/ZSSIi8p7XsJYKObgIXBBc2Mcql1vDOP5guRqamxqIvpmrt1dbm2S8anJ5o
+ DPaA==
+X-Gm-Message-State: AOAM531Pgn7BwZjja7HwDWVc3ylHXOOtoRtEXL8xZC0BufD2KvXh7mTm
+ 2w9fsyz3yz4o8t1/vb7sXPz9nw==
+X-Google-Smtp-Source: ABdhPJxZ3MaqEZF4midxGWgc+uJ3dRSptvIj+66TjzmsyGcTpuFfa+kcLvxAbFjDkdgJDGf8mYYgMA==
+X-Received: by 2002:adf:f90d:: with SMTP id b13mr17310246wrr.198.1612273202768; 
+ Tue, 02 Feb 2021 05:40:02 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r1sm31816727wrl.95.2021.02.02.05.40.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Feb 2021 05:40:01 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 11B0B1FF7E;
+ Tue,  2 Feb 2021 13:40:01 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 00/15] testing/gdbstub/docs pre-PR
+Date: Tue,  2 Feb 2021 13:39:45 +0000
+Message-Id: <20210202134001.25738-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210202123829.GF4168502@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,30 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Christophe de Dinechin <cdupontd@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Hi,
 
-> The VNC protocol is way too crude. It is limited to transferring
-> plain text, and provides no way to specify or negotiate a character
-> set. The RFB spec says apps should use latin-1. In reality few, if any,
-> impls do charset conversion so most Linux impls will be sending UTF8
-> while Windows impls will be sending Windows Codepage 1252. It clearly
-> shows its heritage of being designed in the 1990s.
+Here is the pre-PR roll-up of my testing tree (and other misc bits).
+We have updates to docker's binfmt handling, gdbstub testing as well
+as some documentation tweaks. Last chance to review/object to any
+patches before I roll the PR, the following are still unreviewed:
 
-Well, there is an extension which supports more than just text.  But it
-is a small number of formats which clearly has window-ish background,
-for example rich text format (windows wordpad) for formated text and dib
-(aka windows device independant bitmap) for images.
+ - docs/system: document an example booting the versatilepb machine
+ - docs/system: document an example vexpress-a15 invocation
+ - tests/tcg: don't silently skip the gdb tests
+ - configure: bump the minimum gdb version for check-tcg to 9.1
+ - tests/docker: add a docker-exec-copy-test
+ - tests/docker: preserve original name when copying libs
 
-Dunno how this looks on windows these days, but linux uses a combination
-of legacy x11 naming and mime types for metadata.  When creating
-something new I'd tend to also use mime types as they are an
-established, os-independent standard.
+Alex Bennée (11):
+  tests/docker: make _copy_with_mkdir accept missing files
+  tests/docker: preserve original name when copying libs
+  tests/docker: alias docker-help target for consistency
+  tests/docker: add a docker-exec-copy-test
+  configure: make version_ge more tolerant of shady version input
+  configure: bump the minimum gdb version for check-tcg to 9.1
+  tests/tcg: don't silently skip the gdb tests
+  scripts/mtest2make.py: export all-%s-targets variable and use it
+  tests/Makefile.include: don't use TARGET_DIRS for check-tcg
+  docs/system: document an example vexpress-a15 invocation
+  docs/system: document an example booting the versatilepb machine
 
-take care,
-  Gerd
+Philippe Mathieu-Daudé (2):
+  tests/docker: Fix _get_so_libs() for docker-binfmt-image
+  tests/docker: Fix typo in help message
+
+Richard Henderson (1):
+  gdbstub: Fix handle_query_xfer_auxv
+
+Stefan Weil (1):
+  tests/tcg: Replace /bin/true by true (required on macOS)
+
+ docs/system/arm/versatile.rst         | 34 +++++++++++++++++++++++++++
+ docs/system/arm/vexpress.rst          | 28 ++++++++++++++++++++++
+ configure                             |  6 ++---
+ Makefile                              |  2 +-
+ gdbstub.c                             | 17 ++++++++++----
+ scripts/mtest2make.py                 |  1 +
+ tests/Makefile.include                | 12 ++++++----
+ tests/docker/Makefile.include         | 26 +++++++++++++++++---
+ tests/docker/docker.py                | 23 +++++++++++++-----
+ tests/docker/dockerfiles/empty.docker |  8 +++++++
+ tests/tcg/Makefile.qemu               |  4 ++--
+ tests/tcg/multiarch/Makefile.target   |  5 +++-
+ 12 files changed, 140 insertions(+), 26 deletions(-)
+ create mode 100644 tests/docker/dockerfiles/empty.docker
+
+-- 
+2.20.1
 
 
