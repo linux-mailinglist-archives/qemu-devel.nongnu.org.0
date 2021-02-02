@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1750930BA65
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 09:56:16 +0100 (CET)
-Received: from localhost ([::1]:51988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBE630BA7F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 10:02:05 +0100 (CET)
+Received: from localhost ([::1]:55366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6rTr-0008Pu-6A
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 03:56:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59838)
+	id 1l6rZU-0001cV-R7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 04:02:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l6rST-0007pa-UY
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 03:54:51 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:42080 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1l6rXF-00015b-IC
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 03:59:45 -0500
+Received: from mga07.intel.com ([134.134.136.100]:32943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l6rSR-0002qx-8U
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 03:54:49 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 6E0A641251;
- Tue,  2 Feb 2021 08:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1612256084;
- x=1614070485; bh=3+kSjxtAtPlS/9qfgK2Mr4MtW6voZCYGo4TNjgnoktU=; b=
- PU0dPZe8diCwum+m/LLvxZmkwLDcgf+yOAM9bULsXELOxZH1Me6CmfRNVbcbeWaf
- KpUdypkSXuPMPVoYPyUuoD7iFhnKTsE9f6SLJ8gvnTJxJYPr6ikUO+175zcex6pu
- d8+V8bV3elqOd65zGGxk69JVOe00SqKZAwt7CYvpdxc=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id q06WOkABbXKx; Tue,  2 Feb 2021 11:54:44 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 37C7C4120D;
- Tue,  2 Feb 2021 11:54:44 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 2 Feb
- 2021 11:54:44 +0300
-Date: Tue, 2 Feb 2021 11:54:43 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3] tcg: Fix execution on Apple Silicon
-Message-ID: <YBkTU8mkG3QbgTAy@SPB-NB-133.local>
-References: <20210113032806.18220-1-r.bolshakov@yadro.com>
- <e0b70beb-2905-9520-e825-219278fe4ed7@linaro.org>
- <330c4b1a-6a8a-3625-8c39-7f9c88b20847@linaro.org>
- <YBR1GgEg+WLIo9/M@SPB-NB-133.local>
- <616e9fff-f4eb-8540-9628-2bce9c455c6b@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <616e9fff-f4eb-8540-9628-2bce9c455c6b@linaro.org>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1l6rXC-00057O-R6
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 03:59:45 -0500
+IronPort-SDR: Dp+aUk9n5cnnQoUykQppjRN4h5T8YvoeDyawT/UXk4Y2h0mUjGEJFc7q7sGlf19egEYaZEBLLi
+ 6DtESXPu6bEg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="244903955"
+X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="244903955"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2021 00:59:35 -0800
+IronPort-SDR: k3PxExP0FG2pg7g0NQhBnxjLml6VauxDV9/z6HjAjcDTNzoOUT0otD3lOTT9PLvTTJzhgOrdRw
+ sINqk9Iuk7aQ==
+X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; d="scan'208";a="371877776"
+Received: from chenyi-pc.sh.intel.com ([10.239.159.24])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2021 00:59:27 -0800
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: [PATCH] target/i386: Add bus lock debug exception support
+Date: Tue,  2 Feb 2021 17:02:24 +0800
+Message-Id: <20210202090224.13274-1-chenyi.qiang@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=chenyi.qiang@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,46 +59,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Alexander Graf <agraf@csgraf.de>, Joelle van Dyne <j@getutm.app>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 29, 2021 at 07:27:57PM -1000, Richard Henderson wrote:
-> On 1/29/21 10:50 AM, Roman Bolshakov wrote:
-> > 
-> > I thought you already added MAP_JIT in 6f70ddee19e. It's getting enabled
-> > on my M1 laptop. Was it intended or not?
-> > 
-> >     /* Applicable to both iOS and macOS (Apple Silicon). */
-> >     if (!splitwx) {
-> >         flags |= MAP_JIT;
-> >     }
-> > 
-> > TCG from master branch of QEMU works fine on M1. I'm not sure why do we
-> > need to duplicate it.
-> 
-> I thought there was something about abi/api build issues.  If there's nothing
-> that needs doing, great!
-> 
+Bus lock debug exception is a feature that can notify the kernel by
+generate an #DB trap after the instruction acquires a bus lock when
+CPL>0. This allows the kernel to enforce user application throttling or
+mitigations.
 
-Hi Richard,
+This feature is enumerated via CPUID.(EAX=7,ECX=0).ECX[bit 24].
 
-You're correct that older versions of OS X/macOS might not have MAP_JIT
-definition, so a simple wrapping of the hunk with ifdef MAP_JIT might be
-sufficient (or guard it for Big Sur and above):
+Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+---
+ target/i386/cpu.c | 2 +-
+ target/i386/cpu.h | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-  #if defined(MAC_OS_VERSION_11_0) && \
-      MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
-      if (!splitwx && __builtin_available(macOS 11.0, *)) {
-          flags |= MAP_JIT;
-      }
-  #endif
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ae89024d36..55f3b5829f 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -963,7 +963,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "avx512bitalg", NULL, "avx512-vpopcntdq", NULL,
+             "la57", NULL, NULL, NULL,
+             NULL, NULL, "rdpid", NULL,
+-            NULL, "cldemote", NULL, "movdiri",
++            "bus-lock-detect", "cldemote", NULL, "movdiri",
+             "movdir64b", NULL, NULL, NULL,
+         },
+         .cpuid = {
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index d23a5b340a..417f49b721 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -762,6 +762,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_0_ECX_LA57              (1U << 16)
+ /* Read Processor ID */
+ #define CPUID_7_0_ECX_RDPID             (1U << 22)
++/* Bus Lock Debug Exception */
++#define CPUID_7_0_ECX_BUS_LOCK_DETECT   (1U << 24)
+ /* Cache Line Demote Instruction */
+ #define CPUID_7_0_ECX_CLDEMOTE          (1U << 25)
+ /* Move Doubleword as Direct Store Instruction */
+-- 
+2.17.1
 
-But I'm not sure if we want to support hosts older than 10.14.
-
-Regards,
-Roman
 
