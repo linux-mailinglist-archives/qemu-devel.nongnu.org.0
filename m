@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C0330B48B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 02:19:15 +0100 (CET)
-Received: from localhost ([::1]:49782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01C830B486
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 02:17:34 +0100 (CET)
+Received: from localhost ([::1]:46536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6kLa-0000em-Gi
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 20:19:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47222)
+	id 1l6kJx-0007fu-Pe
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 20:17:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1l6k3V-0008U3-4I
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:00:36 -0500
-Received: from mga18.intel.com ([134.134.136.126]:33366)
+ id 1l6k3f-000050-0S
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:00:43 -0500
+Received: from mga18.intel.com ([134.134.136.126]:33363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1l6k3Q-0001pl-7M
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:00:32 -0500
-IronPort-SDR: Wl0nn/cTd3/ii5JG78fOBzUPKy0FKKJif4sEU1SO7oM3G9Bd8e4kqTO+oBUjpsXvzYGCXg6StY
- vHCOst7HGgNw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="168457101"
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="168457101"
+ id 1l6k3c-0001oo-9e
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:00:42 -0500
+IronPort-SDR: clkptAjWh/dotHQGGS07WVcCbttpst25HP9paxfz1IN936YMIdwOdpZngXE3+LCjCzeoKQQkco
+ t2aS7c1swUaw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="168457103"
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="168457103"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 17:00:06 -0800
-IronPort-SDR: l9L5TIpmJ8N/dTns9tmOOJI4gFPP88XDOt1C5OGpSnSD5qz9SnCNBmzS9cYuw9Cx/UwRnlzi7q
- 8OynpU/y6VeA==
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="581764159"
+ 01 Feb 2021 17:00:07 -0800
+IronPort-SDR: 55TZ0ovYLRe5Qef1wyRQSM8qlunqtTzUIbMUttc0SZJ0amwZRlJdbHAJCl36WcG2WDZ4Dqs+TK
+ Up1ujQQ1yXfw==
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="581764166"
 Received: from jambrizm-mobl1.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
  ([10.252.133.15])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 17:00:05 -0800
+ 01 Feb 2021 17:00:06 -0800
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 13/31] qtest: allow DSDT acpi table changes
-Date: Mon,  1 Feb 2021 16:59:30 -0800
-Message-Id: <20210202005948.241655-14-ben.widawsky@intel.com>
+Subject: [RFC PATCH v3 14/31] acpi/pci: Consolidate host bridge setup
+Date: Mon,  1 Feb 2021 16:59:31 -0800
+Message-Id: <20210202005948.241655-15-ben.widawsky@intel.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210202005948.241655-1-ben.widawsky@intel.com>
 References: <20210202005948.241655-1-ben.widawsky@intel.com>
@@ -75,38 +75,79 @@ Cc: Ben Widawsky <ben.widawsky@intel.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This cleanup will make it easier to add support for CXL to the mix.
+
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ hw/i386/acpi-build.c | 31 +++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..5c695cdf37 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,22 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.tis",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index f56d699c7f..cf6eb54c22 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1194,6 +1194,20 @@ static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
+     aml_append(table, scope);
+ }
+ 
++enum { PCI, PCIE };
++static void init_pci_acpi(Aml *dev, int uid, int type)
++{
++    if (type == PCI) {
++        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
++        aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
++    } else {
++        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
++        aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
++        aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
++        aml_append(dev, build_q35_osc_method());
++    }
++}
++
+ static void
+ build_dsdt(GArray *table_data, BIOSLinker *linker,
+            AcpiPmInfo *pm, AcpiMiscInfo *misc,
+@@ -1222,9 +1236,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     if (misc->is_piix4) {
+         sb_scope = aml_scope("_SB");
+         dev = aml_device("PCI0");
+-        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
++        init_pci_acpi(dev, 0, PCI);
+         aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+-        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+         aml_append(sb_scope, dev);
+         aml_append(dsdt, sb_scope);
+ 
+@@ -1238,11 +1251,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     } else {
+         sb_scope = aml_scope("_SB");
+         dev = aml_device("PCI0");
+-        aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+-        aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
++        init_pci_acpi(dev, 0, PCIE);
+         aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+-        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+-        aml_append(dev, build_q35_osc_method());
+         aml_append(sb_scope, dev);
+ 
+         if (pm->smi_on_cpuhp) {
+@@ -1345,15 +1355,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+ 
+             scope = aml_scope("\\_SB");
+             dev = aml_device("PC%.02X", bus_num);
+-            aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+             aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
+-            if (pci_bus_is_express(bus)) {
+-                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+-                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+-                aml_append(dev, build_q35_osc_method());
+-            } else {
+-                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+-            }
++            init_pci_acpi(dev, bus_num, pci_bus_is_express(bus) ? PCIE : PCI);
+ 
+             if (numa_node != NUMA_NODE_UNASSIGNED) {
+                 aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
 -- 
 2.30.0
 
