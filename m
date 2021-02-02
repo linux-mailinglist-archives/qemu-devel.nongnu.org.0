@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E7830CB24
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 20:16:15 +0100 (CET)
-Received: from localhost ([::1]:60666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E597330CB55
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 20:21:26 +0100 (CET)
+Received: from localhost ([::1]:39158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l719q-000256-8C
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 14:16:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33222)
+	id 1l71Er-0005Eu-P4
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 14:21:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l716C-0001GR-Q2
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:12:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l7169-0003Ty-KI
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:12:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612293144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BK/ICNeoZrpNbeqdcfS6CcF+k2lKiPJLcbhlihNzZmY=;
- b=edvR0kRqFPVoooGBwSUnCVRxtsaf8WCn45Djdnxv/0QknJs1X+tvAOII6GR5SQ2DGpNTc9
- 8rQDkjfHWwKC5F53OTZHmqTY0iGSqEzydTtavaI7PdMjraNoPyIPtlEsAJ0V8SPYBXz3dA
- NNlaHikb9JYRfgl3qvuEeompD2ykCQs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-YcIculLAMqS454qiV7kaeQ-1; Tue, 02 Feb 2021 14:12:20 -0500
-X-MC-Unique: YcIculLAMqS454qiV7kaeQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1976C1084457
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 19:12:09 +0000 (UTC)
-Received: from localhost (ovpn-3-197.rdu2.redhat.com [10.22.3.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD1D85DA7B;
- Tue,  2 Feb 2021 19:12:08 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] device-crash-test: Remove problematic language
-Date: Tue,  2 Feb 2021 14:12:07 -0500
-Message-Id: <20210202191207.4103973-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1l71Ch-0004ZW-Sz
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:19:11 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2099)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1l71Cc-0005ao-8v
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:19:11 -0500
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DVZFp3ZZhz67ZnB;
+ Wed,  3 Feb 2021 03:12:46 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 2 Feb 2021 20:18:57 +0100
+Received: from localhost (10.47.79.68) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 2 Feb 2021
+ 19:18:56 +0000
+Date: Tue, 2 Feb 2021 19:18:11 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ben Widawsky <ben@bwidawsk.net>
+Subject: Re: [Linuxarm]  Re: [RFC PATCH 3/4] hw/cxl/cxl-cdat: Initial CDAT
+ implementation for use by CXL devices
+Message-ID: <20210202191811.000021a4@Huawei.com>
+In-Reply-To: <20210202184923.oggv6hasjyjkmb5p@mail.bwidawsk.net>
+References: <20210201151629.29656-1-Jonathan.Cameron@huawei.com>
+ <20210201151629.29656-4-Jonathan.Cameron@huawei.com>
+ <20210202184923.oggv6hasjyjkmb5p@mail.bwidawsk.net>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.79.68]
+X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,194 +68,454 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, linuxarm@openeuler.org, "Michael S .
+ Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ f.fangjian@huawei.com, Chris Browy <cbrowy@avery-design.com>,
+ qemu-devel@nongnu.org, f4bug@amsat.org, jcm@redhat.com, Prashant V
+ Agarwal <agpr123@gmail.com>, Igor Mammedov <imammedo@redhat.com>, Dan
+ Williams <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace "whitelist" in the device-crash-test script with
-"rule list".
+On Tue, 2 Feb 2021 10:49:23 -0800
+Ben Widawsky <ben@bwidawsk.net> wrote:
 
-I'm using "rule list" instead of "allow list" or "pass list"
-because the list is not used only for expected/allowed errors.
-It also contain rules specifying which errors shouldn't be
-ignored and/or should be fatal.
+> On 21-02-01 23:16:28, Jonathan Cameron wrote:
+> > CDAT is an ACPI like format defined by the CXL consortium. It is
+> > available from
+> > 
+> > https://www.uefi.org/node/4093
+> > 
+> > Here support for managing all the entires is introduced, along with
+> > an implementation of a callback for a DOE mailbox which may be
+> > used to read these values from CXL hardware by either firmware or
+> > an OS.
+> > 
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>  
+> 
+> I seem to be missing one critical thing, where is the CDAT header (Table 1 from
+> the spec) actually populated, length, revision, checksum, etc?
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- scripts/device-crash-test | 96 +++++++++++++++++++--------------------
- 1 file changed, 48 insertions(+), 48 deletions(-)
+An excellent question.  As far as I can see there is no actual means defined
+to read that from a device.   The DOE stuff in the CXL spec just accesses 'entries'
+not the header (thus as far as I can tell making a good chunk of the CDAT spec
+entirely pointless).
 
-diff --git a/scripts/device-crash-test b/scripts/device-crash-test
-index 04118669ba7..ef1412ca590 100755
---- a/scripts/device-crash-test
-+++ b/scripts/device-crash-test
-@@ -41,18 +41,18 @@ logger = logging.getLogger('device-crash-test')
- dbg = logger.debug
- 
- 
--# Purposes of the following whitelist:
-+# Purposes of the following rule list:
- # * Avoiding verbose log messages when we find known non-fatal
- #   (exitcode=1) errors
- # * Avoiding fatal errors when we find known crashes
- # * Skipping machines/devices that are known not to work out of
- #   the box, when running in --quick mode
- #
--# Keeping the whitelist updated is desirable, but not required,
-+# Keeping the rule list updated is desirable, but not required,
- # because unexpected cases where QEMU exits with exitcode=1 will
- # just trigger a INFO message.
- 
--# Valid whitelist entry keys:
-+# Valid error rule keys:
- # * accel: regexp, full match only
- # * machine: regexp, full match only
- # * device: regexp, full match only
-@@ -62,7 +62,7 @@ dbg = logger.debug
- # * expected: if True, QEMU is expected to always fail every time
- #   when testing the corresponding test case
- # * loglevel: log level of log output when there's a match.
--ERROR_WHITELIST = [
-+ERROR_RULE_LIST = [
-     # Machines that won't work out of the box:
-     #             MACHINE                         | ERROR MESSAGE
-     {'machine':'niagara', 'expected':True},       # Unable to load a firmware for -M niagara
-@@ -186,65 +186,65 @@ ERROR_WHITELIST = [
- ]
- 
- 
--def whitelistTestCaseMatch(wl, t):
--    """Check if a test case specification can match a whitelist entry
-+def errorRuleTestCaseMatch(rule, t):
-+    """Check if a test case specification can match a error rule
- 
--    This only checks if a whitelist entry is a candidate match
-+    This only checks if a error rule is a candidate match
-     for a given test case, it won't check if the test case
--    results/output match the entry.  See whitelistResultMatch().
-+    results/output match the rule.  See ruleListResultMatch().
-     """
--    return (('machine' not in wl or
-+    return (('machine' not in rule or
-              'machine' not in t or
--             re.match(wl['machine'] + '$', t['machine'])) and
--            ('accel' not in wl or
-+             re.match(rule['machine'] + '$', t['machine'])) and
-+            ('accel' not in rule or
-              'accel' not in t or
--             re.match(wl['accel'] + '$', t['accel'])) and
--            ('device' not in wl or
-+             re.match(rule['accel'] + '$', t['accel'])) and
-+            ('device' not in rule or
-              'device' not in t or
--             re.match(wl['device'] + '$', t['device'])))
-+             re.match(rule['device'] + '$', t['device'])))
- 
- 
--def whitelistCandidates(t):
-+def ruleListCandidates(t):
-     """Generate the list of candidates that can match a test case"""
--    for i, wl in enumerate(ERROR_WHITELIST):
--        if whitelistTestCaseMatch(wl, t):
--            yield (i, wl)
-+    for i, rule in enumerate(ERROR_RULE_LIST):
-+        if errorRuleTestCaseMatch(rule, t):
-+            yield (i, rule)
- 
- 
- def findExpectedResult(t):
--    """Check if there's an expected=True whitelist entry for a test case
-+    """Check if there's an expected=True error rule for a test case
- 
--    Returns (i, wl) tuple, where i is the index in
--    ERROR_WHITELIST and wl is the whitelist entry itself.
-+    Returns (i, rule) tuple, where i is the index in
-+    ERROR_RULE_LIST and rule is the error rule itself.
-     """
--    for i, wl in whitelistCandidates(t):
--        if wl.get('expected'):
--            return (i, wl)
-+    for i, rule in ruleListCandidates(t):
-+        if rule.get('expected'):
-+            return (i, rule)
- 
- 
--def whitelistResultMatch(wl, r):
--    """Check if test case results/output match a whitelist entry
-+def ruleListResultMatch(rule, r):
-+    """Check if test case results/output match a error rule
- 
-     It is valid to call this function only if
--    whitelistTestCaseMatch() is True for the entry (e.g. on
--    entries returned by whitelistCandidates())
-+    errorRuleTestCaseMatch() is True for the rule (e.g. on
-+    rules returned by ruleListCandidates())
-     """
--    assert whitelistTestCaseMatch(wl, r['testcase'])
--    return ((wl.get('exitcode', 1) is None or
--             r['exitcode'] == wl.get('exitcode', 1)) and
--            ('log' not in wl or
--             re.search(wl['log'], r['log'], re.MULTILINE)))
-+    assert errorRuleTestCaseMatch(rule, r['testcase'])
-+    return ((rule.get('exitcode', 1) is None or
-+             r['exitcode'] == rule.get('exitcode', 1)) and
-+            ('log' not in rule or
-+             re.search(rule['log'], r['log'], re.MULTILINE)))
- 
- 
--def checkResultWhitelist(r):
--    """Look up whitelist entry for a given test case result
-+def checkResultRuleList(r):
-+    """Look up error rule for a given test case result
- 
--    Returns (i, wl) tuple, where i is the index in
--    ERROR_WHITELIST and wl is the whitelist entry itself.
-+    Returns (i, rule) tuple, where i is the index in
-+    ERROR_RULE_LIST and rule is the error rule itself.
-     """
--    for i, wl in whitelistCandidates(r['testcase']):
--        if whitelistResultMatch(wl, r):
--            return i, wl
-+    for i, rule in ruleListCandidates(r['testcase']):
-+        if ruleListResultMatch(rule, r):
-+            return i, rule
- 
-     raise Exception("this should never happen")
- 
-@@ -543,12 +543,12 @@ def main():
-             break
- 
-         if f:
--            i, wl = checkResultWhitelist(f)
--            dbg("testcase: %r, whitelist match: %r", t, wl)
-+            i, rule = checkResultRuleList(f)
-+            dbg("testcase: %r, rule list match: %r", t, rule)
-             wl_stats.setdefault(i, []).append(f)
--            level = wl.get('loglevel', logging.DEBUG)
-+            level = rule.get('loglevel', logging.DEBUG)
-             logFailure(f, level)
--            if wl.get('fatal') or (args.strict and level >= logging.WARN):
-+            if rule.get('fatal') or (args.strict and level >= logging.WARN):
-                 fatal_failures.append(f)
-         else:
-             dbg("success: %s", formatTestCase(t))
-@@ -560,10 +560,10 @@ def main():
-         logger.info("Skipped %d test cases", skipped)
- 
-     if args.debug:
--        stats = sorted([(len(wl_stats.get(i, [])), wl) for i, wl in
--                         enumerate(ERROR_WHITELIST)], key=lambda x: x[0])
--        for count, wl in stats:
--            dbg("whitelist entry stats: %d: %r", count, wl)
-+        stats = sorted([(len(wl_stats.get(i, [])), rule) for i, rule in
-+                         enumerate(ERROR_RULE_LIST)], key=lambda x: x[0])
-+        for count, rule in stats:
-+            dbg("error rule stats: %d: %r", count, rule)
- 
-     if fatal_failures:
-         for f in fatal_failures:
--- 
-2.28.0
+It's on my list to raise on the SSWG list / call.  Perhaps I'm missing something...
+
+> 
+> General, probably underthought-out, comment:
+> 
+> With the CXLType3Class I added since you probably wrote these patches, I wonder
+> if that'd be a better fit for populating some of these tables, having them
+> populate dynamically when the DOE/CDAT request actually comes in.
+> 
+> I have no strong opinion. The one advantage I see to using the class is
+> operations like managing handles, length calculations, etc can be managed by the
+> helper library rather than the device implementation having to do it. OTTOH if
+> you have devices that want to do weird things, they might lose some flexibility.
+> 
+> I think with just a few methods added to the CXLType3Class you could pretty
+> trivially build up a nice sane default CDAT for any CXL device.
+
+I'm not convinced there is such a thing as a sane default, but can certainly
+look at this if we take this particular implementation forwards.
+I suspect we'll also want to make a lot of this configurable from the command
+line or similar on a per device basis.
+
+Thanks,
+
+Jonathan
+
+
+> 
+> > ---
+> >  hw/cxl/cxl-cdat.c         | 252 ++++++++++++++++++++++++++++++++++++++
+> >  hw/cxl/meson.build        |   1 +
+> >  include/hw/cxl/cxl_cdat.h | 101 +++++++++++++++
+> >  3 files changed, 354 insertions(+)
+> > 
+> > diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
+> > new file mode 100644
+> > index 0000000000..6ed4c15cc0
+> > --- /dev/null
+> > +++ b/hw/cxl/cxl-cdat.c
+> > @@ -0,0 +1,252 @@
+> > +/*
+> > + * Support for CDAT entires as defined in
+> > + * Coherent Device Attribute Table (CDAT) Specification rev 1.02
+> > + * Available from uefi.org.
+> > + *
+> > + * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/units.h"
+> > +#include "qemu/error-report.h"
+> > +#include "hw/mem/memory-device.h"
+> > +#include "hw/mem/pc-dimm.h"
+> > +#include "hw/pci/pci.h"
+> > +#include "hw/pci/doe.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "qapi/error.h"
+> > +#include "qemu/log.h"
+> > +#include "qemu/module.h"
+> > +#include "qemu/range.h"
+> > +#include "qemu/rcu.h"
+> > +#include "sysemu/hostmem.h"
+> > +#include "sysemu/numa.h"
+> > +#include "hw/cxl/cxl.h"
+> > +
+> > +void cdat_add_dsmas(CXLCDAT *cdat, uint8_t dsmad_handle, uint8_t flags,
+> > +                    uint64_t dpa_base, uint64_t dpa_length)
+> > +{
+> > +    struct cxl_cdat_dsmas *dsmas = g_malloc0(sizeof(*dsmas));
+> > +    dsmas->dsmad_handle = dsmad_handle;
+> > +    dsmas->flags = flags;
+> > +    dsmas->dpa_base = dpa_base;
+> > +    dsmas->dpa_length = dpa_length;
+> > +    cdat->dsmas_list = g_list_append(cdat->dsmas_list, dsmas);
+> > +}
+> > +
+> > +void cdat_add_dslbis(CXLCDAT *cdat, uint8_t handle, uint8_t flags,
+> > +                     uint8_t data_type, uint64_t base_unit,
+> > +                     uint16_t entry0, uint16_t entry1, uint16_t entry2)
+> > +{
+> > +    struct cxl_cdat_dslbis *dslbis = g_malloc0(sizeof(*dslbis));
+> > +    dslbis->handle = handle;
+> > +    dslbis->flags = flags;
+> > +    dslbis->data_type = data_type;
+> > +    dslbis->entry_base_unit = base_unit;
+> > +    dslbis->entries[0] = entry0;
+> > +    dslbis->entries[1] = entry1;
+> > +    dslbis->entries[2] = entry2;
+> > +    cdat->dslbis_list = g_list_append(cdat->dslbis_list, dslbis);
+> > +}
+> > +
+> > +void cdat_add_dsmscis(CXLCDAT *cdat, uint8_t dsmas_handle,
+> > +                      uint64_t memory_sc_size, uint64_t cache_attrs)
+> > +{
+> > +    struct cxl_cdat_dsmscis *dsmscis = g_malloc(sizeof(*dsmscis));
+> > +    dsmscis->dsmas_handle = dsmas_handle;
+> > +    dsmscis->memory_side_cache_size = memory_sc_size;
+> > +    dsmscis->cache_attributes = cache_attrs;
+> > +    cdat->dsmscis_list = g_list_append(cdat->dsmscis_list, dsmscis);
+> > +}
+> > +
+> > +void cdat_add_dsis(CXLCDAT *cdat, uint8_t flags, uint8_t handle)
+> > +{
+> > +    struct cxl_cdat_dsis *dsis = g_malloc(sizeof(*dsis));
+> > +    dsis->flags = flags;
+> > +    dsis->handle = handle;
+> > +    cdat->dsis_list = g_list_append(cdat->dsis_list, dsis);
+> > +}
+> > +
+> > +void cdat_add_dsemts(CXLCDAT *cdat, uint8_t dsmas_handle,
+> > +                     uint8_t efi_mem_type_attr, uint64_t dpa_offset,
+> > +                     uint64_t dpa_length)
+> > +{
+> > +    struct cxl_cdat_dsemts *dsemts = g_malloc(sizeof(*dsemts));
+> > +    dsemts->dsmas_handle = dsmas_handle;
+> > +    dsemts->efi_mem_type_attr = efi_mem_type_attr;
+> > +    dsemts->dpa_offset = dpa_offset;
+> > +    dsemts->dpa_length = dpa_length;
+> > +    cdat->dsemts_list = g_list_append(cdat->dsemts_list, dsemts);
+> > +}
+> > +
+> > +struct cxl_cdat_sslbis *cdat_add_sslbis(CXLCDAT *cdat, uint8_t num_entries,
+> > +                                        uint8_t data_type, uint64_t base_unit)
+> > +{
+> > +    struct cxl_cdat_sslbis *sslbis =
+> > +        g_malloc(sizeof(*sslbis) + num_entries * sizeof(sslbis->entries[0]));
+> > +    sslbis->num_entries = num_entries;
+> > +    sslbis->data_type = data_type;
+> > +    sslbis->base_unit = base_unit;
+> > +    cdat->sslbis_list = g_list_append(cdat->sslbis_list, sslbis);
+> > +    return sslbis;
+> > +}
+> > +
+> > +int cdata_sslbis_set_entry(struct cxl_cdat_sslbis *sslbis, uint8_t index,
+> > +                           uint16_t portx, uint16_t porty, uint16_t val)
+> > +{
+> > +    struct cxl_cdat_sslbis_entry *entry;
+> > +    if (index >= sslbis->num_entries) {
+> > +        return -1;
+> > +    }
+> > +    entry = &sslbis->entries[index];
+> > +    entry->port_x_id = portx;
+> > +    entry->port_y_id = porty;
+> > +    entry->val = val;
+> > +    return 0;
+> > +}
+> > +
+> > +int cxl_table_access(PCIEDOE *doe, uint16_t vendor_id, uint8_t object_type,
+> > +                     void *priv)
+> > +{
+> > +    uint8_t table_type;
+> > +    int total_entries;
+> > +    uint16_t entry_handle;
+> > +    CXLCDAT *cdat = priv;
+> > +    uint16_t next_entry;
+> > +
+> > +    if (doe->req_length != 3) {
+> > +        /* optional error for unexpected command length */
+> > +        return -1;
+> > +    }
+> > +
+> > +    if ((doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_RCODE) != 0) {
+> > +        /*
+> > +         * Only table access code currently supported.
+> > +         * Error indication is lack of Data Object Ready
+> > +         */
+> > +        return -1;
+> > +    }
+> > +
+> > +    table_type = (doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_TYPE) >>
+> > +        ctz32(CXL_DOE_TABLE_ACCESS_DW2_TYPE);
+> > +    if (table_type != 0) {
+> > +        /* Unsuported table ID so just don't set Data Object Ready */
+> > +        return -1;
+> > +    }
+> > +    entry_handle = (doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE) >>
+> > +        ctz32(CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE);
+> > +
+> > +    /* Assume entry handle == CDAT structure index */
+> > +    total_entries = g_list_length(cdat->dsmas_list) +
+> > +        g_list_length(cdat->dslbis_list) +
+> > +        g_list_length(cdat->dsmscis_list) +
+> > +        g_list_length(cdat->dsis_list) +
+> > +        g_list_length(cdat->dsemts_list) +
+> > +        g_list_length(cdat->sslbis_list);
+> > +    if (entry_handle + 1 == total_entries) {
+> > +        next_entry = 0xFFFF;
+> > +    } else {
+> > +        next_entry = entry_handle + 1;
+> > +    }
+> > +
+> > +    if (entry_handle < g_list_length(cdat->dsmas_list)) {
+> > +        const int dsmas_len = 24;
+> > +        struct cxl_cdat_dsmas *dsmas =
+> > +            g_list_nth_data(cdat->dsmas_list, entry_handle);
+> > +
+> > +        doe->store[1] = 3 + dsmas_len / sizeof(uint32_t);
+> > +        doe->store[2] = next_entry << 16;
+> > +        doe->store[3] = (dsmas_len << 16) | CXL_CDAT_DSMAS_TYPE;
+> > +
+> > +        /* cxl version of proximity domain */
+> > +        doe->store[4] = dsmas->dsmad_handle;
+> > +        /* flags in 2nd byte of [4] (bit 2 is non volatile) */
+> > +        doe->store[4] |= (dsmas->flags << 8);
+> > +        doe->store[5] = dsmas->dpa_base & 0xFFFFFFFF;
+> > +        doe->store[6] = (dsmas->dpa_base >> 32) & 0xFFFFFFFF;
+> > +        doe->store[7] = dsmas->dpa_length & 0xFFFFFFFF;
+> > +        doe->store[8] = (dsmas->dpa_length >> 32) & 0xFFFFFFFF;
+> > +        return 0;
+> > +    }
+> > +    entry_handle -= g_list_length(cdat->dsmas_list);
+> > +    if (entry_handle < g_list_length(cdat->dslbis_list)) {
+> > +        const int dslbis_len = 24;
+> > +        struct cxl_cdat_dslbis *dslbis =
+> > +            g_list_nth_data(cdat->dslbis_list, entry_handle);
+> > +
+> > +        doe->store[1] = 3 + dslbis_len / sizeof(uint32_t);
+> > +        doe->store[2] = next_entry << 16;
+> > +        doe->store[3] = (dslbis_len << 16) | CXL_CDAT_DSLBIS_TYPE;
+> > +
+> > +        doe->store[4] = (dslbis->data_type << 24) | (dslbis->flags << 8) |
+> > +            dslbis->handle;
+> > +        doe->store[5] = dslbis->entry_base_unit & 0xFFFFFFFF;
+> > +        doe->store[6] = (dslbis->entry_base_unit >> 32) & 0xFFFFFFFF;
+> > +        doe->store[7] = (dslbis->entries[1] << 16) | dslbis->entries[0];
+> > +        doe->store[8] = dslbis->entries[2];
+> > +        return 0;
+> > +    }
+> > +    entry_handle -= g_list_length(cdat->dslbis_list);
+> > +    if (entry_handle < g_list_length(cdat->dsmscis_list)) {
+> > +        const int dsmscis_len = 20;
+> > +        struct cxl_cdat_dsmscis *dsmscis =
+> > +            g_list_nth_data(cdat->dsmscis_list, entry_handle);
+> > +
+> > +        doe->store[1] = 3 + dsmscis_len / sizeof(uint32_t);
+> > +        doe->store[2] = next_entry << 16;
+> > +        doe->store[3] = (dsmscis_len << 16) | CXL_CDAT_DSMSCIS_TYPE;
+> > +        doe->store[4] = dsmscis->dsmas_handle;
+> > +        doe->store[5] = dsmscis->memory_side_cache_size & 0xffffffff;
+> > +        doe->store[6] = (dsmscis->memory_side_cache_size >> 32) & 0xffffffff;
+> > +        doe->store[7] = dsmscis->cache_attributes;
+> > +    }
+> > +    entry_handle -= g_list_length(cdat->dsmscis_list);
+> > +    if (entry_handle < g_list_length(cdat->dsis_list)) {
+> > +        const int dsis_len = 8;
+> > +        struct cxl_cdat_dsis *dsis =
+> > +            g_list_nth_data(cdat->dsis_list, entry_handle);
+> > +
+> > +        doe->store[1] = 3 + dsis_len / sizeof(uint32_t);
+> > +        doe->store[2] = next_entry << 16;
+> > +        doe->store[3] = (dsis_len << 16) | CXL_CDAT_DSMSCIS_TYPE;
+> > +        doe->store[4] = (dsis->handle << 8) | dsis->flags;
+> > +    }
+> > +    entry_handle -= g_list_length(cdat->dsis_list);
+> > +    if (entry_handle < g_list_length(cdat->dsemts_list)) {
+> > +        const int dsemts_len = 24;
+> > +        struct cxl_cdat_dsemts *dsemts =
+> > +            g_list_nth_data(cdat->dsemts_list, entry_handle);
+> > +
+> > +        doe->store[1] = 3 + dsemts_len / sizeof(uint32_t);
+> > +        doe->store[2] = next_entry << 16;
+> > +        doe->store[3] = (dsemts_len << 16) | CXL_CDAT_DSEMTS_TYPE;
+> > +        doe->store[4] = (dsemts->efi_mem_type_attr << 8) | dsemts->dsmas_handle;
+> > +        doe->store[5] = dsemts->dpa_offset & 0xffffffff;
+> > +        doe->store[6] = (dsemts->dpa_offset >> 32) & 0xffffffff;
+> > +        doe->store[7] = dsemts->dpa_length & 0xffffffff;
+> > +        doe->store[8] = (dsemts->dpa_length >> 32) & 0xffffffff;
+> > +    }
+> > +    entry_handle -= g_list_length(cdat->dsemts_list);
+> > +    if (entry_handle < g_list_length(cdat->sslbis_list)) {
+> > +        struct cxl_cdat_sslbis *sslbis =
+> > +            g_list_nth_data(cdat->sslbis_list, entry_handle);
+> > +        int sslbis_len = 16 + 8 * sslbis->num_entries;
+> > +        int i;
+> > +
+> > +        doe->store[1] = 3 + sslbis_len / sizeof(uint32_t);
+> > +        doe->store[2] = next_entry << 16;
+> > +        doe->store[3] = (sslbis_len << 16) | CXL_CDAT_SSLBIS_TYPE;
+> > +        doe->store[4] = sslbis->data_type;
+> > +        doe->store[5] = sslbis->base_unit & 0xffffffff;
+> > +        doe->store[6] = (sslbis->base_unit >> 32) & 0xffffffff;
+> > +        for (i = 0; i < sslbis->num_entries; i++) {
+> > +            doe->store[7 + i * 2] = (sslbis->entries[i].port_y_id << 8) |
+> > +                sslbis->entries[i].port_x_id;
+> > +            doe->store[7 + i * 2 + 1] = sslbis->entries[i].val;
+> > +        }
+> > +    }
+> > +
+> > +    return -1;
+> > +}
+> > diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+> > index 0eca715d10..9e2e5f4094 100644
+> > --- a/hw/cxl/meson.build
+> > +++ b/hw/cxl/meson.build
+> > @@ -2,4 +2,5 @@ softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
+> >    'cxl-component-utils.c',
+> >    'cxl-device-utils.c',
+> >    'cxl-mailbox-utils.c',
+> > +  'cxl-cdat.c',
+> >  ))
+> > diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
+> > new file mode 100644
+> > index 0000000000..d0226c463c
+> > --- /dev/null
+> > +++ b/include/hw/cxl/cxl_cdat.h
+> > @@ -0,0 +1,101 @@
+> > +/*
+> > + * Support for CDAT entires as defined in
+> > + * Coherent Device Attribute Table (CDAT) Specification rev 1.02
+> > + * Available from uefi.org.
+> > + *
+> > + * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +#ifndef QEMU_CXL_CDAT_H
+> > +#define QEMU_CXL_CDAT_H
+> > +#include "hw/pci/doe.h"
+> > +/* DW2 is common to the request and response */
+> > +#define CXL_DOE_TABLE_ACCESS_DW2_RCODE          0x000000ff
+> > +#define CXL_DOE_TABLE_ACCESS_DW2_TYPE           0x0000ff00
+> > +#define CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE    0xffff0000
+> > +
+> > +#define CXL_CDAT_DSMAS_TYPE     0
+> > +#define CXL_CDAT_DSLBIS_TYPE    1
+> > +#define CXL_CDAT_DSMSCIS_TYPE   2
+> > +#define CXL_CDAT_DSIS_TYPE      3
+> > +#define CXL_CDAT_DSEMTS_TYPE    4
+> > +#define CXL_CDAT_SSLBIS_TYPE    5
+> > +
+> > +struct cxl_cdat_dsmas {
+> > +    uint8_t dsmad_handle;
+> > +    uint8_t flags;
+> > +#define CDAT_DSMAS_FLAG_NV (1 << 2)
+> > +    uint64_t dpa_base;
+> > +    uint64_t dpa_length;
+> > +};
+> > +
+> > +struct cxl_cdat_dslbis {
+> > +    uint8_t handle;
+> > +    uint8_t flags;
+> > +    uint8_t data_type;
+> > +    uint64_t entry_base_unit;
+> > +    uint16_t entries[3]; /* 6 bytes */
+> > +};
+> > +
+> > +struct cxl_cdat_dsmscis {
+> > +    uint8_t dsmas_handle;
+> > +    uint64_t memory_side_cache_size;
+> > +    uint32_t cache_attributes;
+> > +};
+> > +
+> > +struct cxl_cdat_dsis {
+> > +    uint8_t flags;
+> > +#define CDAT_DSIS_MEMORY_ATTACHED 0x01
+> > +    uint8_t handle;
+> > +};
+> > +
+> > +struct cxl_cdat_dsemts {
+> > +    uint8_t dsmas_handle;
+> > +    uint8_t efi_mem_type_attr;
+> > +    uint64_t dpa_offset;
+> > +    uint64_t dpa_length;
+> > +};
+> > +
+> > +struct cxl_cdat_sslbis_entry {
+> > +    uint16_t port_x_id;
+> > +    uint16_t port_y_id;
+> > +    uint16_t val;
+> > +};
+> > +
+> > +struct cxl_cdat_sslbis {
+> > +    uint8_t num_entries; /* needed to compute length */
+> > +    uint8_t data_type;
+> > +    uint64_t base_unit;
+> > +    struct cxl_cdat_sslbis_entry entries[];
+> > +};
+> > +
+> > +typedef struct cxl_cdat {
+> > +    GList *dsmas_list;
+> > +    GList *dslbis_list;
+> > +    GList *dsmscis_list;
+> > +    GList *dsis_list;
+> > +    GList *dsemts_list;
+> > +    GList *sslbis_list;
+> > +} CXLCDAT;
+> > +
+> > +void cdat_add_dsmas(CXLCDAT *cdat, uint8_t dsmad_handle, uint8_t flags,
+> > +                    uint64_t dpa_base, uint64_t dpa_length);
+> > +void cdat_add_dslbis(CXLCDAT *cdat, uint8_t handle, uint8_t flags,
+> > +                     uint8_t data_type, uint64_t base_unit,
+> > +                     uint16_t entry0, uint16_t entry1, uint16_t entry2);
+> > +void cdat_add_dsmscis(CXLCDAT *cdat, uint8_t dsmas_handle,
+> > +                      uint64_t memory_sc_size, uint64_t cache_attrs);
+> > +void cdat_add_dsis(CXLCDAT *cdat, uint8_t flags, uint8_t handle);
+> > +void cdat_add_dsemts(CXLCDAT *cdat, uint8_t dsmas_handle,
+> > +                     uint8_t efi_mem_type_attr, uint64_t dpa_offset,
+> > +                     uint64_t dpa_length);
+> > +struct cxl_cdat_sslbis *cdat_add_sslbis(CXLCDAT *cdat, uint8_t num_entries,
+> > +                                        uint8_t data_type, uint64_t base_unit);
+> > +int cdata_sslbis_set_entry(struct cxl_cdat_sslbis *sslbis, uint8_t index,
+> > +                           uint16_t portx, uint16_t pory, uint16_t val);
+> > +
+> > +int cxl_table_access(PCIEDOE *doe, uint16_t vendor_id, uint8_t object_type,
+> > +                     void *priv);
+> > +#endif
+> > -- 
+> > 2.19.1
+> > 
+> >   
+> _______________________________________________
+> Linuxarm mailing list -- linuxarm@openeuler.org
+> To unsubscribe send an email to linuxarm-leave@openeuler.org
 
 
