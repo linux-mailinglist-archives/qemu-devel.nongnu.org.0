@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3096630C30A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:08:41 +0100 (CET)
-Received: from localhost ([::1]:35360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DAB30C2EC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:06:06 +0100 (CET)
+Received: from localhost ([::1]:53644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6xIG-0000mM-6t
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:08:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48244)
+	id 1l6xFl-00053Q-2N
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:06:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6wvQ-0006mA-CN
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:45:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47365)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6wvN-0002ZV-LO
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:45:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612277100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=671hgVjc/2xbbK3KMc3lyZ4KuUFfaYDO9EBWFllEnjw=;
- b=SAzi8JYQkw97kzwYkDDKNJrQEWtoaolvVjQW/C/JEezhLrI//i86qamq4l6ae5snfjOoy7
- PacMgmQMQ6bBu548kZffOophSooNXgobiNEzL4WGZuGb+KMXA42hdl099s+wI95hhCtFfP
- qmR8JS0MXT82lFvtCbVpeoVIYRl6SPM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-Iu8xLYbMPe2zA0pDqyM_fw-1; Tue, 02 Feb 2021 09:44:58 -0500
-X-MC-Unique: Iu8xLYbMPe2zA0pDqyM_fw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D911A80362C;
- Tue,  2 Feb 2021 14:44:56 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-19.ams2.redhat.com [10.36.112.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6863D19C71;
- Tue,  2 Feb 2021 14:44:52 +0000 (UTC)
-Date: Tue, 2 Feb 2021 15:44:50 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 0/2] block/nvme: Minor tracing improvements
-Message-ID: <20210202144450.GC5184@merkur.fritz.box>
-References: <20210127212137.3482291-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6wvb-0006sb-CI
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:45:17 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:32778)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6wvX-0002el-9w
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:45:15 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id sa23so14058703ejb.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 06:45:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ux7fESW5o68aCePXDhmrK924f9rMeSiBCfKhjuTUdoU=;
+ b=S5ldwGPOzvEiqHpEJOLvVFZdwMrNSVYUI3MFP/kS4BChNdP6KewAc7CI0Gjv2itJhd
+ +w0uECZs5E0A+DUIk5cniISlMue9EO3xOZ6go9obAHOiicm48AJTzOQoj50TeIa7/RLb
+ EMfWkqErWZ0wrMVeWOCPcRSBGzr+4x01kCtSuZ+xwI3JLF39X92fDPlTM14RcxjFKs6G
+ UIbk4v7k9WFmR3rr31aO4mcWLF/C0iOxenCnb8etNOc6/X026fQPPa2eXWDsEMJu2bJG
+ 5EXYWNQTxlp8/5O7bFpr6p3AQarEQBH/GbtXCNp1Al/gISrscTNh96PRNPRgHyEnxYs6
+ ZadA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ux7fESW5o68aCePXDhmrK924f9rMeSiBCfKhjuTUdoU=;
+ b=gHLDAtcOOk73EvsaFcg4So6IoleF5ul53iw/pCgm8JGcbbyYk3boMZ/2YkW+6Uf09Y
+ J6C4Qd3fXEn0Yk3kLzKt67CoWSPWw1e2y4132yoz30KclEA78SGqXwk386VszbSIy3+D
+ O8TiRBKpM3cE0kmJnVtgao9pZqvMLldgtl5pcffdV9FehEOYKxE6H0smx3hgGJaZ83ns
+ kVbR5agfT98CD+6GhBYf+bWVGtSiMt2ulNnH2/wMIY72c/+xMpptpKqJB+NetefZTALy
+ WmEBie8xN3wv+IoTB5GnjIlV4tgo9cOaZKdK5sq+wkDaN+4ko0I2VpKpPOtVlp0Eei6D
+ bBNw==
+X-Gm-Message-State: AOAM530sUdF2bSFBUV3H92+xOEaepjUodIElXAZQ/fivwqyHkhE7wuvV
+ 5S03CZaOsNYr5ky/6frCNlQANP7STyrAZhna7yHL+Q==
+X-Google-Smtp-Source: ABdhPJwN+abj7wRD6rSecRkxXnTI6E4SdF4/KDptH/rJzTXgjCoLU6cKrpiJXVEN/UjSA3qgPDfBHoRBswDyrMBvu+E=
+X-Received: by 2002:a17:907:1b10:: with SMTP id
+ mp16mr22779869ejc.482.1612277109856; 
+ Tue, 02 Feb 2021 06:45:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210127212137.3482291-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210128224141.638790-1-richard.henderson@linaro.org>
+ <20210128224141.638790-19-richard.henderson@linaro.org>
+In-Reply-To: <20210128224141.638790-19-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 14:44:58 +0000
+Message-ID: <CAFEAcA8KiJYKKApBT77r2XhnBJ9vqenJ-KTtwqfz+5E9bK-OyA@mail.gmail.com>
+Subject: Re: [PATCH v4 18/23] linux-user/aarch64: Pass syndrome to EXC_*_ABORT
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,19 +78,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.01.2021 um 22:21 hat Philippe Mathieu-Daudé geschrieben:
-> Fix an incorrect trace event (sometimes it is better to
-> have no information rather than having incorrect info...)
-> and add another event to display the spec implemented by
-> the controller.
+On Thu, 28 Jan 2021 at 22:42, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> A proper syndrome is required to fill in the proper si_code.
+> Use page_get_flags to determine permission vs translation for user-only.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-Thanks, applied to the block branch.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Kevin
-
+thanks
+-- PMM
 
