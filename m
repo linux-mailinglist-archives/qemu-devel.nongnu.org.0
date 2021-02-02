@@ -2,102 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5A530CFEA
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 00:37:42 +0100 (CET)
-Received: from localhost ([::1]:47656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE1C30CFE6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 00:34:20 +0100 (CET)
+Received: from localhost ([::1]:43760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l75Er-0005lz-Vz
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 18:37:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47956)
+	id 1l75Bb-00044P-Nk
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 18:34:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1l75D8-0004xZ-1Y
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 18:35:54 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53130)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1l75D5-0003Fw-Cc
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 18:35:53 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 112NXlvx076296; Tue, 2 Feb 2021 18:35:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=dzc8cCOCbcc0RK+wMYJdM4g/NYYbEtqFfE06tGY5Nd0=;
- b=E5hSyK77NSuAfYgFBErN5gEi6ItA8bpMWe/A8Y4GDWFZXBkSCGT5ejLTadAlhlU7QDob
- 3yovAbrHVZlMRLGHEZ4Ip8iw6IR1Ah6cQ1LPl07bvHT8Wjovuw2/WFeTLg6h272SqD9c
- CbocgWQ+aC8uY+nOCO0Wp9B0pWL8Cv5h46Zlsnr1mwx/Pe44DIrHbYF7zb2WbH5ggHSZ
- YkjEZsPHwGKr1VJqEJ7X1dTKWFMH3LoGRuxxmkcdZeUGbC3LlIPjTFlS03cHf+gVMc5y
- cAw8blU4aSwGF2RLTttuGUUKS8WS4PDfqFGtsljRYP+wz9Fej0cWPFiJZLUXjGa7ffs2 dw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36fga0ra1p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Feb 2021 18:35:46 -0500
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 112NXuMh076578;
- Tue, 2 Feb 2021 18:35:46 -0500
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36fga0ra1a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Feb 2021 18:35:45 -0500
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 112NMCnu018783;
- Tue, 2 Feb 2021 23:30:45 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01dal.us.ibm.com with ESMTP id 36eu8qhnvr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Feb 2021 23:30:45 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 112NUgsj25297262
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 Feb 2021 23:30:42 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0C6D07805E;
- Tue,  2 Feb 2021 23:30:42 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9DCBC78060;
- Tue,  2 Feb 2021 23:30:39 +0000 (GMT)
-Received: from jarvis.int.hansenpartnership.com (unknown [9.85.153.205])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  2 Feb 2021 23:30:39 +0000 (GMT)
-Message-ID: <5bb73ef97b40eda029c54c9443274d5227372f8d.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 1/2] pc: add parser for OVMF reset block
-From: James Bottomley <jejb@linux.ibm.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Date: Tue, 02 Feb 2021 15:30:38 -0800
-In-Reply-To: <20210126122207.GA4221@work-vm>
-References: <20201214154429.11023-1-jejb@linux.ibm.com>
- <20201214154429.11023-2-jejb@linux.ibm.com> <20210126122207.GA4221@work-vm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l75AK-0003Er-2I
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 18:33:00 -0500
+Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30]:33281)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l75AI-000203-7T
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 18:32:59 -0500
+Received: by mail-vs1-xe30.google.com with SMTP id x201so4449969vsc.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 15:32:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=izo0vhy8TU19fStDNwnDbndFfgRuGLcimiC+4WsLJa4=;
+ b=e+k6AMaXsUwtxyusAge8gV1dF4P9DwCj5jbqVTmUEMMmyrcnDJ2P4glWhVKhPqX9DP
+ BRWU/spNWnTlPPp8Adb2gDKTr3QLoAl7n2ZvLDfcMjT/i9Pz3LIeqU7LxtLB7bcwbCIy
+ 0QbBaukAdEtmlT8o4puviK8MJqX90UEqbw9eli+ChK/L3N7hHxdm2aZWEw5RlFVkyF5b
+ SJEuSaX1GZIlx0QC4re+WDeTGl0v2B0gIqYz+0CeBO/K7ANPnS3aJ1A674VpCaX+EoHw
+ edzb+6hfV927+iw7Nlbd3j002MUFUBp+87OOBElPdTZMYKWmBUGWMfPR2j+M7SQzLS0D
+ /26g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=izo0vhy8TU19fStDNwnDbndFfgRuGLcimiC+4WsLJa4=;
+ b=sJs4K7DmVYPGBuu0k0Ai0REgbnk+drY1MWXi3JY+cN7dDC5sV+Bpjg/UsIn+fbWIDd
+ n6Yd5rcHszN6vi8606Y1TGpvwd7r1DFvYR4f34NKzP4JO+iJRQ+p7+I8A+IbWyKosoig
+ EsxYbsqLm9I+q721x8ORFBwJEhCgKN4QVT9CpUkgB2RbSLT/V2huVsGiDxtkyTuwxD4q
+ BdKuYa2q0oznsTeFmr8E8WgqI//mN3bLgSWDL2dFaJcDktGnzvv44r0yoG/bEOZLVNnr
+ d9wGnaWT2hpouNunWanEBlnwBtSylGAl7DQc6i7nbD8kOAXdUgq7AMmeBWxo/VaYYAbL
+ cCBQ==
+X-Gm-Message-State: AOAM532B77Rr9nhNdAsiMFIOzCJeW04JNanAGJMyDYlLzEIPwloNHcUP
+ wrwHKiIqAZISWtEpirJDamvW5Q7B0/lTX4ZMnj1cGg==
+X-Google-Smtp-Source: ABdhPJyXdsn1URPYYp7/UERiqZ7v58Ntdyzn+ewjQwVC5c6axLaSDZHcdS/BOCh/1tRFnwsoOX793M8nNM5y926/Qng=
+X-Received: by 2002:a67:ea05:: with SMTP id g5mr122233vso.47.1612308775489;
+ Tue, 02 Feb 2021 15:32:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
- definitions=2021-02-02_13:2021-02-02,
- 2021-02-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- malwarescore=0 spamscore=0 priorityscore=1501 suspectscore=0
- impostorscore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0
- phishscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102020150
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210122003226.824488-1-dje@google.com>
+ <CAFEAcA-YHn=SUM5X1ziB03iOw_YMi8BidF9kCU5crYf14zq1Aw@mail.gmail.com>
+In-Reply-To: <CAFEAcA-YHn=SUM5X1ziB03iOw_YMi8BidF9kCU5crYf14zq1Aw@mail.gmail.com>
+Date: Tue, 2 Feb 2021 15:32:18 -0800
+Message-ID: <CADPb22TRcZv3f1rG3hvvXpvaEGYp9YsCSc+hBoB=T68iHYkLCA@mail.gmail.com>
+Subject: Re: [PATCH] hw/net: Add npcm7xx emc model
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000d5aa7f05ba62e34c"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
+ envelope-from=dje@google.com; helo=mail-vs1-xe30.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,177 +75,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
-Cc: thomas.lendacky@amd.com, ashish.kalra@amd.com, brijesh.singh@amd.com,
- david.kaplan@amd.com, berrange@redhat.com, jon.grimm@amd.com, tobin@ibm.com,
- qemu-devel@nongnu.org, frankeh@us.ibm.com, Dov.Murik1@il.ibm.com,
- pbonzini@redhat.com, dovmurik@linux.vnet.ibm.com
+Cc: Hao Wu <wuhaotsh@google.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Avi Fishman <avi.fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Doug Evans <dje@google.com>
+From: dje--- via <qemu-devel@nongnu.org>
 
-On Tue, 2021-01-26 at 12:22 +0000, Dr. David Alan Gilbert wrote:
-> * James Bottomley (jejb@linux.ibm.com) wrote:
-> > OVMF is developing a mechanism for depositing a GUIDed table just
-> > below the known location of the reset vector.  The table goes
-> > backwards in memory so all entries are of the form
-> > 
-> > <data>|len|<GUID>
-> > 
-> > Where <data> is arbtrary size and type, <len> is a uint16_t and
-> > describes the entire length of the entry from the beginning of the
-> > data to the end of the guid.
-> > 
-> > The foot of the table is of this form and <len> for this case
-> > describes the entire size of the table.  The table foot GUID is
-> > defined by OVMF as 96b582de-1fb2-45f7-baea-a366c55a082d and if the
-> > table is present this GUID is just below the reset vector, 48 bytes
-> > before the end of the firmware file.
-> > 
-> > Add a parser for the ovmf reset block which takes a copy of the
-> > block,
-> > if the table foot guid is found, minus the footer and a function
-> > for
-> > later traversal to return the data area of any specified GUIDs.
-> > 
-> > Signed-off-by: James Bottomley <jejb@linux.ibm.com>
-> > 
+--000000000000d5aa7f05ba62e34c
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, Feb 1, 2021 at 9:11 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Fri, 22 Jan 2021 at 00:34, dje--- via <qemu-devel@nongnu.org> wrote:
+> >
+> > This is a 10/100 ethernet device that has several features.
+> > Only the ones needed by the Linux driver have been implemented.
+> > See npcm7xx_emc.c for a list of unimplemented features.
+> >
+> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> > Reviewed-by: Avi Fishman <avi.fishman@nuvoton.com>
+> > Signed-off-by: Doug Evans <dje@google.com>
 > > ---
-> > 
-> > v2: fix brace warnings and return values
-> > ---
-> >  hw/i386/pc_sysfw.c   | 106
-> > +++++++++++++++++++++++++++++++++++++++++++
-> >  include/hw/i386/pc.h |   4 ++
-> >  2 files changed, 110 insertions(+)
-> > 
-> > diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-> > index 92e90ff013..436b78c587 100644
-> > --- a/hw/i386/pc_sysfw.c
-> > +++ b/hw/i386/pc_sysfw.c
-> > @@ -124,6 +124,107 @@ void
-> > pc_system_flash_cleanup_unused(PCMachineState *pcms)
-> >      }
-> >  }
-> >  
-> > +#define OVMF_TABLE_FOOTER_GUID "96b582de-1fb2-45f7-baea-
-> > a366c55a082d"
-> > +
-> > +static uint8_t *ovmf_table;
-> > +static int ovmf_table_len;
-> > +
-> > +static void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, int
-> > flash_size)
-> 
-> Maybe size_t for flash_size?
-
-Heh, sure, who knows how big OVMF will get ...  but I get the point
-about an int overflow attack.
-
-> > +{
-> > +    uint8_t *ptr;
-> > +    QemuUUID guid;
-> > +    int tot_len;
-> > +
-> > +    /* should only be called once */
-> > +    if (ovmf_table) {
-> > +        return;
-> > +    }
-> > +
-> > +    /*
-> > +     * if this is OVMF there will be a table footer
-> > +     * guid 48 bytes before the end of the flash file.  If it's
-> > +     * not found, silently abort the flash parsing.
-> > +     */
-> > +    qemu_uuid_parse(OVMF_TABLE_FOOTER_GUID, &guid);
-> > +    guid = qemu_uuid_bswap(guid); /* guids are LE */
-> > +    ptr = flash_ptr + flash_size - 48;
-> 
-> I think since flash_size is coming from memory_region_size it's
-> probably rounded to a page size by now, but perhaps we should always
-> check we have enough space before we start moving pointers around
-
-I think OVMF must be at least a page, so I can add that check.
-
-> (Given that the OVMF binary might be provided by the guest owner, we
-> have to consider it might be a vector to attack the hypervisor).
-> 
-> > +    if (!qemu_uuid_is_equal((QemuUUID *)ptr, &guid)) {
-> > +        return;
-> > +    }
-> > +
-> > +    /* if found, just before is two byte table length */
-> > +    ptr -= sizeof(uint16_t);
-> > +    tot_len = le16_to_cpu(*(uint16_t *)ptr) - sizeof(guid) -
-> > sizeof(uint16_t);
-> > +
-> > +    if (tot_len <= 0) {
-> > +        return;
-> > +    }
-> > +
-> > +    ovmf_table = g_malloc(tot_len);
-> > +    ovmf_table_len = tot_len;
-> > +
-> > +    /*
-> > +     * ptr is the foot of the table, so copy it all to the newly
-> > +     * allocated ovmf_table and then set the ovmf_table pointer
-> > +     * to the table foot
-> > +     */
-> > +    memcpy(ovmf_table, ptr - tot_len, tot_len);
-> > +    ovmf_table += tot_len;
-> > +}
-> > +
-> > +bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
-> > +                               int *data_len)
-> > +{
-> > +    uint8_t *ptr = ovmf_table;
-> > +    int tot_len = ovmf_table_len;
-> > +    QemuUUID entry_guid;
-> > +
-> > +    if (qemu_uuid_parse(entry, &entry_guid) < 0) {
-> > +        return false;
-> > +    }
-> > +
-> > +    if (!ptr) {
-> > +        return false;
-> > +    }
-> > +
-> > +    entry_guid = qemu_uuid_bswap(entry_guid); /* guids are LE */
-> > +    while (tot_len > 0) {
-> > +        int len;
-> > +        QemuUUID *guid;
-> > +
-> > +        /*
-> > +         * The data structure is
-> > +         *   arbitrary length data
-> > +         *   2 byte length of entire entry
-> > +         *   16 byte guid
-> > +         */
-> > +        guid = (QemuUUID *)(ptr - sizeof(QemuUUID));
-> > +        len = le16_to_cpu(*(uint16_t *)(ptr - sizeof(QemuUUID) -
-> > +                                        sizeof(uint16_t)));
-> 
-> Again I think we need to be checking tot_len > (sizeof(QemuUUID) +
-> sizeof(uint16_t)) before doing this dereference.
-
-I can make the loop start
-
-  while (tot_len > sizeof(QemuUUID) + sizeof(uint16_t))
-
-> > +        /*
-> > +         * just in case the table is corrupt, wouldn't want to
-> > spin in
-> > +         * the zero case
-> > +         */
-> > +        if (len < sizeof(QemuUUID) + sizeof(uint16_t)) {
-> > +                return false;
-> > +        }
-> > +
-> > +        ptr -= len;
-> > +        tot_len -= len;
-> 
-> and that len is smaller or equal to tot_len here.
-
-OK.
+> >  docs/system/arm/nuvoton.rst    |   3 +-
+> >  hw/arm/npcm7xx.c               |  50 +-
+> >  hw/net/meson.build             |   1 +
+> >  hw/net/npcm7xx_emc.c           | 852 +++++++++++++++++++++++++++++++++
+> >  hw/net/trace-events            |  17 +
+> >  include/hw/arm/npcm7xx.h       |   2 +
+> >  include/hw/net/npcm7xx_emc.h   | 286 +++++++++++
+> >  tests/qtest/meson.build        |   1 +
+> >  tests/qtest/npcm7xx_emc-test.c | 793 ++++++++++++++++++++++++++++++
+> >  9 files changed, 2002 insertions(+), 3 deletions(-)
+> >  create mode 100644 hw/net/npcm7xx_emc.c
+> >  create mode 100644 include/hw/net/npcm7xx_emc.h
+> >  create mode 100644 tests/qtest/npcm7xx_emc-test.c
+>
+> Hi; could you split this into a multi-patch series so it's
+> a bit more digestible to review, please ?
+>  patch 1: new device
+>  patch 2: add new device to the npcm7xx board
+>  patch 3: device test case
+>
+> thanks
+> -- PMM
+>
 
 
+Done, thx.
+https://lists.nongnu.org/archive/html/qemu-devel/2021-02/msg00804.html
+
+--000000000000d5aa7f05ba62e34c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Mon, Feb 1, 2021 at 9:11 AM Peter Maydell &lt;<a href=3D"m=
+ailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br>=
+</div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">On Fri, 22 Jan 2021 at 00:34, dje--- via &lt;<a href=3D"mailt=
+o:qemu-devel@nongnu.org" target=3D"_blank">qemu-devel@nongnu.org</a>&gt; wr=
+ote:<br>
+&gt;<br>
+&gt; This is a 10/100 ethernet device that has several features.<br>
+&gt; Only the ones needed by the Linux driver have been implemented.<br>
+&gt; See npcm7xx_emc.c for a list of unimplemented features.<br>
+&gt;<br>
+&gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=
+=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
+&gt; Reviewed-by: Avi Fishman &lt;<a href=3D"mailto:avi.fishman@nuvoton.com=
+" target=3D"_blank">avi.fishman@nuvoton.com</a>&gt;<br>
+&gt; Signed-off-by: Doug Evans &lt;<a href=3D"mailto:dje@google.com" target=
+=3D"_blank">dje@google.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 docs/system/arm/nuvoton.rst=C2=A0 =C2=A0 |=C2=A0 =C2=A03 +-<br>
+&gt;=C2=A0 hw/arm/npcm7xx.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 50 +-<br>
+&gt;=C2=A0 hw/net/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A01 +<br>
+&gt;=C2=A0 hw/net/npcm7xx_emc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 8=
+52 +++++++++++++++++++++++++++++++++<br>
+&gt;=C2=A0 hw/net/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 17 +<br>
+&gt;=C2=A0 include/hw/arm/npcm7xx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A02 +<br>
+&gt;=C2=A0 include/hw/net/npcm7xx_emc.h=C2=A0 =C2=A0| 286 +++++++++++<br>
+&gt;=C2=A0 tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A01 +<br>
+&gt;=C2=A0 tests/qtest/npcm7xx_emc-test.c | 793 +++++++++++++++++++++++++++=
++++<br>
+&gt;=C2=A0 9 files changed, 2002 insertions(+), 3 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 hw/net/npcm7xx_emc.c<br>
+&gt;=C2=A0 create mode 100644 include/hw/net/npcm7xx_emc.h<br>
+&gt;=C2=A0 create mode 100644 tests/qtest/npcm7xx_emc-test.c<br>
+<br>
+Hi; could you split this into a multi-patch series so it&#39;s<br>
+a bit more digestible to review, please ?<br>
+=C2=A0patch 1: new device<br>
+=C2=A0patch 2: add new device to the npcm7xx board<br>
+=C2=A0patch 3: device test case<br>
+<br>
+thanks<br>
+-- PMM<br></blockquote><div><br></div><div><br></div><div class=3D"gmail_de=
+fault" style=3D"font-size:small">Done, thx.</div><div class=3D"gmail_defaul=
+t" style=3D"font-size:small"><a href=3D"https://lists.nongnu.org/archive/ht=
+ml/qemu-devel/2021-02/msg00804.html">https://lists.nongnu.org/archive/html/=
+qemu-devel/2021-02/msg00804.html</a></div></div></div>
+
+--000000000000d5aa7f05ba62e34c--
 
