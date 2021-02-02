@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2ED930B669
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 05:24:31 +0100 (CET)
-Received: from localhost ([::1]:47174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EFD30B676
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 05:27:23 +0100 (CET)
+Received: from localhost ([::1]:50420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6nEs-0003Kq-Rj
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 23:24:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
+	id 1l6nHe-00055h-Cl
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 23:27:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l6n4W-0006F6-En; Mon, 01 Feb 2021 23:13:48 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:53551 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l6n4U-00051T-8t; Mon, 01 Feb 2021 23:13:48 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DVBJ06hThz9tlJ; Tue,  2 Feb 2021 15:13:20 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612239200;
- bh=1tcpSl1vEkuzahpE4DsJZZYgjtMyMGtv6TKAz9btZq0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CsMINId06ilbx2Ogwd719nsMOYMb1Du3DEWpa6tLssfSMtN52BcL0jfGAguJfZN2r
- bdB6vJIp9pYyTC+2YOGGy8xg2bQbPN4rr8wLoplV8O4rd844EG8smPKfv80EM7Eh8X
- kIjIdkswc9BGDMK1dK84wfIPaZhBlpwktI74w2B4=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: dgilbert@redhat.com, pair@us.ibm.com, qemu-devel@nongnu.org,
- brijesh.singh@amd.com, pasic@linux.ibm.com
-Subject: [PATCH v8 13/13] s390: Recognize confidential-guest-support option
-Date: Tue,  2 Feb 2021 15:13:15 +1100
-Message-Id: <20210202041315.196530-14-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210202041315.196530-1-david@gibson.dropbear.id.au>
-References: <20210202041315.196530-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6nGB-0004FP-Fh
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 23:25:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6nG8-0002Bx-Iq
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 23:25:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l6nG5-0005uG-Tw
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 04:25:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C37C72E8147
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 04:25:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 02 Feb 2021 04:17:18 -0000
+From: Launchpad Bug Tracker <1903752@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: avr
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: grimmfrank janitor philmd
+X-Launchpad-Bug-Reporter: Frank Grimm (grimmfrank)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <160502888185.27687.6551858213088684132.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161223943902.24252.3481794926867090310.malone@loganberry.canonical.com>
+Subject: [Bug 1903752] Re: qemu-system-avr error: qemu-system-avr: execution
+ left flash memory
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: e111c9ddd54c27875f531a8f75030da0073b02b3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,226 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Cornelia Huck <cohuck@redhat.com>, berrange@redhat.com,
- mst@redhat.com, kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- jun.nakajima@intel.com, mtosatti@redhat.com, richard.henderson@linaro.org,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>,
- Greg Kurz <groug@kaod.org>, pragyansri.pathi@intel.com, qemu-s390x@nongnu.org,
- frankja@linux.ibm.com, qemu-ppc@nongnu.org, andi.kleen@intel.com,
- pbonzini@redhat.com, borntraeger@de.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1903752 <1903752@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least some s390 cpu models support "Protected Virtualization" (PV),
-a mechanism to protect guests from eavesdropping by a compromised
-hypervisor.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-This is similar in function to other mechanisms like AMD's SEV and
-POWER's PEF, which are controlled by the "confidential-guest-support"
-machine option.  s390 is a slightly special case, because we already
-supported PV, simply by using a CPU model with the required feature
-(S390_FEAT_UNPACK).
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-To integrate this with the option used by other platforms, we
-implement the following compromise:
+-- =
 
- - When the confidential-guest-support option is set, s390 will
-   recognize it, verify that the CPU can support PV (failing if not)
-   and set virtio default options necessary for encrypted or protected
-   guests, as on other platforms.  i.e. if confidential-guest-support
-   is set, we will either create a guest capable of entering PV mode,
-   or fail outright.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1903752
 
- - If confidential-guest-support is not set, guests might still be
-   able to enter PV mode, if the CPU has the right model.  This may be
-   a little surprising, but shouldn't actually be harmful.
+Title:
+  qemu-system-avr error: qemu-system-avr: execution left flash memory
 
-To start a guest supporting Protected Virtualization using the new
-option use the command line arguments:
-    -object s390-pv-guest,id=pv0 -machine confidential-guest-support=pv0
+Status in QEMU:
+  Expired
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- docs/confidential-guest-support.txt |  3 ++
- docs/system/s390x/protvirt.rst      | 19 ++++++---
- hw/s390x/pv.c                       | 62 +++++++++++++++++++++++++++++
- hw/s390x/s390-virtio-ccw.c          |  3 ++
- include/hw/s390x/pv.h               | 17 ++++++++
- 5 files changed, 98 insertions(+), 6 deletions(-)
+Bug description:
+  I compiled QEMU 5.1 from source with target avr-softmmu. Running
+  demo.elf from https://github.com/seharris/qemu-avr-tests/blob/master
+  /free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf (linked from
+  https://www.qemu.org/docs/master/system/target-avr.html) yields the
+  following error:
 
-diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-index 4da4c91bd3..71d07ba57a 100644
---- a/docs/confidential-guest-support.txt
-+++ b/docs/confidential-guest-support.txt
-@@ -43,4 +43,7 @@ AMD Secure Encrypted Virtualization (SEV)
- POWER Protected Execution Facility (PEF)
-     docs/papr-pef.txt
- 
-+s390x Protected Virtualization (PV)
-+    docs/system/s390x/protvirt.rst
-+
- Other mechanisms may be supported in future.
-diff --git a/docs/system/s390x/protvirt.rst b/docs/system/s390x/protvirt.rst
-index 712974ad87..0f481043d9 100644
---- a/docs/system/s390x/protvirt.rst
-+++ b/docs/system/s390x/protvirt.rst
-@@ -22,15 +22,22 @@ If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
- will indicate that KVM can support PVMs on that LPAR.
- 
- 
--QEMU Settings
---------------
-+Running a Protected Virtual Machine
-+-----------------------------------
- 
--To indicate to the VM that it can transition into protected mode, the
-+To run a PVM you will need to select a CPU model which includes the
- `Unpack facility` (stfle bit 161 represented by the feature
--`unpack`/`S390_FEAT_UNPACK`) needs to be part of the cpu model of
--the VM.
-+`unpack`/`S390_FEAT_UNPACK`), and add these options to the command line::
-+
-+    -object s390-pv-guest,id=pv0 \
-+    -machine confidential-guest-support=pv0
-+
-+Adding these options will:
-+
-+* Ensure the `unpack` facility is available
-+* Enable the IOMMU by default for all I/O devices
-+* Initialize the PV mechanism
- 
--All I/O devices need to use the IOMMU.
- Passthrough (vfio) devices are currently not supported.
- 
- Host huge page backings are not supported. However guests can use huge
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index ab3a2482aa..93eccfc05d 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -14,8 +14,11 @@
- #include <linux/kvm.h>
- 
- #include "cpu.h"
-+#include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-+#include "qom/object_interfaces.h"
-+#include "exec/confidential-guest-support.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
- 
-@@ -111,3 +114,62 @@ void s390_pv_inject_reset_error(CPUState *cs)
-     /* Report that we are unable to enter protected mode */
-     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
- }
-+
-+#define TYPE_S390_PV_GUEST "s390-pv-guest"
-+OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
-+
-+/**
-+ * S390PVGuest:
-+ *
-+ * The S390PVGuest object is basically a dummy used to tell the
-+ * confidential guest support system to use s390's PV mechanism.
-+ *
-+ * # $QEMU \
-+ *         -object s390-pv-guest,id=pv0 \
-+ *         -machine ...,confidential-guest-support=pv0
-+ */
-+struct S390PVGuest {
-+    ConfidentialGuestSupport parent_obj;
-+};
-+
-+typedef struct S390PVGuestClass S390PVGuestClass;
-+
-+struct S390PVGuestClass {
-+    ConfidentialGuestSupportClass parent_class;
-+};
-+
-+int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
-+        return 0;
-+    }
-+
-+    if (!s390_has_feat(S390_FEAT_UNPACK)) {
-+        error_setg(errp,
-+                   "CPU model does not support Protected Virtualization");
-+        return -1;
-+    }
-+
-+    cgs->ready = true;
-+
-+    return 0;
-+}
-+
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(S390PVGuest,
-+                                   s390_pv_guest,
-+                                   S390_PV_GUEST,
-+                                   CONFIDENTIAL_GUEST_SUPPORT,
-+                                   { TYPE_USER_CREATABLE },
-+                                   { NULL })
-+
-+static void s390_pv_guest_class_init(ObjectClass *oc, void *data)
-+{
-+}
-+
-+static void s390_pv_guest_init(Object *obj)
-+{
-+}
-+
-+static void s390_pv_guest_finalize(Object *obj)
-+{
-+}
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index a2d9a79c84..2972b607f3 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -250,6 +250,9 @@ static void ccw_init(MachineState *machine)
-     /* init CPUs (incl. CPU model) early so s390_has_feature() works */
-     s390_init_cpus(machine);
- 
-+    /* Need CPU model to be determined before we can set up PV */
-+    s390_pv_init(machine->cgs, &error_fatal);
-+
-     s390_flic_init();
- 
-     /* init the SIGP facility */
-diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-index aee758bc2d..1f1f545bfc 100644
---- a/include/hw/s390x/pv.h
-+++ b/include/hw/s390x/pv.h
-@@ -12,6 +12,9 @@
- #ifndef HW_S390_PV_H
- #define HW_S390_PV_H
- 
-+#include "qapi/error.h"
-+#include "sysemu/kvm.h"
-+
- #ifdef CONFIG_KVM
- #include "cpu.h"
- #include "hw/s390x/s390-virtio-ccw.h"
-@@ -55,4 +58,18 @@ static inline void s390_pv_unshare(void) {}
- static inline void s390_pv_inject_reset_error(CPUState *cs) {};
- #endif /* CONFIG_KVM */
- 
-+int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-+static inline int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!cgs) {
-+        return 0;
-+    }
-+    if (kvm_enabled()) {
-+        return s390_pv_kvm_init(cgs, errp);
-+    }
-+
-+    error_setg(errp, "Protected Virtualization requires KVM");
-+    return -1;
-+}
-+
- #endif /* HW_S390_PV_H */
--- 
-2.29.2
+  $ ./qemu-5.1.0/avr-softmmu/qemu-system-avr -machine mega2560 -bios demo.e=
+lf
+  VNC server running on 127.0.0.1:5900
+  qemu-system-avr: execution left flash memory
+  Aborted (core dumped)
 
+  I compiled QEMU on Ubuntu Server 20.10 with gcc (Ubuntu
+  10.2.0-13ubuntu1) 10.2.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1903752/+subscriptions
 
