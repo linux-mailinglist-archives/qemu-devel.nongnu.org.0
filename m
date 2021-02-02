@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A50B30C6AB
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 17:57:57 +0100 (CET)
-Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27C430C712
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 18:11:40 +0100 (CET)
+Received: from localhost ([::1]:58282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6z00-0003Jh-B7
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 11:57:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52502)
+	id 1l6zDH-000775-Je
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 12:11:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6yYJ-0005KZ-8I
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:29:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31976)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6yYQ-0005cX-5D
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:29:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6yYH-0000HV-Hu
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:29:18 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6yYO-0000LR-BX
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:29:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612283356;
+ s=mimecast20190719; t=1612283363;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E2W1HGEgCNWOCZS4CT3q/hTS9q/xlepHrVHCPnJh7Cs=;
- b=UAPV3U5HylB0BsKYL3qd10CCfT4/TmngKGaSm5vLrpLIYVswm//dtLnE25G4a6jZ/Hrsww
- sG3RjDGUi74J4phBTzhYDQiHOame7TtBykUKpr9jfbR3iTLiiO1ICcpKGtjuLciHyFnaw6
- ODsnXNfXcOa/Ts29bO1xt4JCfZp6+kQ=
+ bh=M/bBH8B3CNQFmyPeGz7p1yGlkAwZeNlSvc8DtMTEvA4=;
+ b=W5JO+dxoKQqEk56p+iYSPg7vA7efGUgFz9syMDo/9ZqHy/O6GoBZ2jLdoUVgpkhzV4Qfve
+ 82PYu/iyGfHVRixHfVaJnuqhMstHnT/gBi2vFISSei5Cn3SoESUHHMYJNebnpX0Gk+sarc
+ 13vMe5sDvqugLiSwbkV5td+y93b9G9w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-1gLX7cI5PEeJYWN_BGqKdg-1; Tue, 02 Feb 2021 11:29:11 -0500
-X-MC-Unique: 1gLX7cI5PEeJYWN_BGqKdg-1
+ us-mta-243-QFydhp6TOqSn2NArN5XyxQ-1; Tue, 02 Feb 2021 11:29:14 -0500
+X-MC-Unique: QFydhp6TOqSn2NArN5XyxQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7F881005501;
- Tue,  2 Feb 2021 16:29:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB53D1083E9C;
+ Tue,  2 Feb 2021 16:29:13 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-112-19.ams2.redhat.com [10.36.112.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 35C8F5D749;
- Tue,  2 Feb 2021 16:29:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F4065D749;
+ Tue,  2 Feb 2021 16:29:10 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL v2 07/10] iotests: Fix -makecheck output
-Date: Tue,  2 Feb 2021 17:28:31 +0100
-Message-Id: <20210202162834.269789-8-kwolf@redhat.com>
+Subject: [PULL v2 08/10] block/nvme: Properly display doorbell stride length
+ in trace event
+Date: Tue,  2 Feb 2021 17:28:32 +0100
+Message-Id: <20210202162834.269789-9-kwolf@redhat.com>
 In-Reply-To: <20210202162834.269789-1-kwolf@redhat.com>
 References: <20210202162834.269789-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -80,44 +81,34 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For -makecheck, the old 'check' implementation skipped the output when
-starting a test. It only had the condensed output at the end of a test.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-testrunner.py prints the normal output when starting a test even for
--makecheck. This output contains '\r' at the end so that it can be
-overwritten with the result at the end of the test. However, for
--makecheck this is shorter output in a different format, so effectively
-we end up with garbled output that mixes both output forms.
+Commit 15b2260bef3 ("block/nvme: Trace controller capabilities")
+misunderstood the doorbell stride value from the datasheet, use
+the correct one. The 'doorbell_scale' variable used few lines
+later is correct.
 
-Revert to the old behaviour of only printing a message after the test
-had completed in -makecheck mode.
-
-Fixes: d74c754c924ca34e90b7c96ce2f5609d82c0e628
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210201161024.127921-1-kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210127212137.3482291-2-philmd@redhat.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/testrunner.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 25754e9a09..1fc61fcaa3 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -301,8 +301,10 @@ class TestRunner(ContextManager['TestRunner']):
-         last_el = self.last_elapsed.get(test)
-         start = datetime.datetime.now().strftime('%H:%M:%S')
- 
--        self.test_print_one_line(test=test, starttime=start, lasttime=last_el,
--                                 end='\r', test_field_width=test_field_width)
-+        if not self.makecheck:
-+            self.test_print_one_line(test=test, starttime=start,
-+                                     lasttime=last_el, end='\r',
-+                                     test_field_width=test_field_width)
- 
-         res = self.do_run_test(test)
- 
+diff --git a/block/nvme.c b/block/nvme.c
+index 5a6fbacf4a..80c4318d8f 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -745,7 +745,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+     trace_nvme_controller_capability("Contiguous Queues Required",
+                                      NVME_CAP_CQR(cap));
+     trace_nvme_controller_capability("Doorbell Stride",
+-                                     2 << (2 + NVME_CAP_DSTRD(cap)));
++                                     1 << (2 + NVME_CAP_DSTRD(cap)));
+     trace_nvme_controller_capability("Subsystem Reset Supported",
+                                      NVME_CAP_NSSRS(cap));
+     trace_nvme_controller_capability("Memory Page Size Minimum",
 -- 
 2.29.2
 
