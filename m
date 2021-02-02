@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A5D30BA91
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 10:09:47 +0100 (CET)
-Received: from localhost ([::1]:34520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1A530BAC7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 10:18:21 +0100 (CET)
+Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6rgw-0005A5-BU
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 04:09:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34180)
+	id 1l6rpE-0000tT-PE
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 04:18:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1l6reV-0004Aj-1X
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:07:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28331)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6rnu-00004q-U8
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:16:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1l6reR-0000Hv-SV
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:07:14 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6rns-0004hd-0l
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:16:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612256830;
+ s=mimecast20190719; t=1612257414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QflWUSgUerLPNc45qh+ebbfVUtyC3tq6L53RulXx0yc=;
- b=Vq0wvrLD6MpHMIKtzQP5D2V25qaquUj1cGSjFyHVyVi8DUjpnjxs7U7K6B6SlYuok/PkqO
- MWjx60EW/9DjStktkb6DjVxSduxhixM7b9FX++Wt/3sdv4N2OPdeK+FgsBgFvLILidNzln
- BqGpaN65DmNkox3WGeDAUreFOd1HF/M=
+ bh=6pNsKswh0CGGicTC5V86LMRb8zIXPHLfo1ZlflmoWcI=;
+ b=IGVYxwMMYu6blHP/AkySXdLrN8QHZDvYlnYGy5hnzxJBtnCfjWzeDirgfS8iE4gY6WfmnL
+ oQZUWH2XSUOPnt9JkgZ/qQrjlVe/qbtRmX6i+a0sRLjtqlwRGtIx+H1XBSvulu8xjsn5/6
+ cYAY0uhBTb9jxYxTtmw5nJ+FtxIDZ6M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-ehDerYC9M0m0O810gVrDYA-1; Tue, 02 Feb 2021 04:07:04 -0500
-X-MC-Unique: ehDerYC9M0m0O810gVrDYA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-401-n8o6DyDjMN-VXgOniRuBgQ-1; Tue, 02 Feb 2021 04:16:41 -0500
+X-MC-Unique: n8o6DyDjMN-VXgOniRuBgQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FE68184214D;
- Tue,  2 Feb 2021 09:07:03 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-112-116.ams2.redhat.com
- [10.36.112.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C64419717;
- Tue,  2 Feb 2021 09:06:58 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH RFC 1/4] docs: add a table showing x86-64 ABI
- compatibility levels
-References: <20210201153606.4158076-1-berrange@redhat.com>
- <20210201153606.4158076-2-berrange@redhat.com>
- <CAFEAcA-yzX1ZSPayvy9u8GUbXpgLgQNA7=52qSnDMjakSU0B-Q@mail.gmail.com>
-Date: Tue, 02 Feb 2021 10:06:59 +0100
-In-Reply-To: <CAFEAcA-yzX1ZSPayvy9u8GUbXpgLgQNA7=52qSnDMjakSU0B-Q@mail.gmail.com>
- (Peter Maydell's message of "Mon, 1 Feb 2021 16:53:03 +0000")
-Message-ID: <87lfc6zvm4.fsf@oldenburg.str.redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7F1A10766C2;
+ Tue,  2 Feb 2021 09:16:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BC2660BE5;
+ Tue,  2 Feb 2021 09:16:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id F389B113865F; Tue,  2 Feb 2021 10:16:35 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 05/16] qapi: centralize
+ is_[user|system|builtin]_module methods
+References: <20210201193747.2169670-1-jsnow@redhat.com>
+ <20210201193747.2169670-6-jsnow@redhat.com>
+Date: Tue, 02 Feb 2021 10:16:35 +0100
+In-Reply-To: <20210201193747.2169670-6-jsnow@redhat.com> (John Snow's message
+ of "Mon, 1 Feb 2021 14:37:36 -0500")
+Message-ID: <87r1lyg77w.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=fweimer@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=fweimer@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,41 +81,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell:
+John Snow <jsnow@redhat.com> writes:
 
-> Apart from the QEMU/KVM specific CPU models, why is this something
-> we should be documenting rather than, say, the people specifying
-> what the ABI compatiblity levels are ?
+> Define what a module is and define what kind of a module it is once and
+> for all, in one place.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/gen.py    | 25 +++++++++++--------------
+>  scripts/qapi/schema.py | 31 +++++++++++++++++++++++++++++--
+>  2 files changed, 40 insertions(+), 16 deletions(-)
+>
+> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> index 3d81b90ab71..2aec6d34365 100644
+> --- a/scripts/qapi/gen.py
+> +++ b/scripts/qapi/gen.py
+> @@ -31,7 +31,11 @@
+>      guardstart,
+>      mcgen,
+>  )
+> -from .schema import QAPISchemaObjectType, QAPISchemaVisitor
+> +from .schema import (
+> +    QAPISchemaModule,
+> +    QAPISchemaObjectType,
+> +    QAPISchemaVisitor,
+> +)
+>  from .source import QAPISourceInfo
+>  
+>  
+> @@ -246,21 +250,14 @@ def __init__(self,
+>          self._main_module: Optional[str] = None
+>  
+>      @staticmethod
+> -    def _is_user_module(name: Optional[str]) -> bool:
+> -        return bool(name and not name.startswith('./'))
+> -
+> -    @staticmethod
+> -    def _is_builtin_module(name: Optional[str]) -> bool:
+> -        return not name
+> -
+> -    def _module_dirname(self, name: Optional[str]) -> str:
+> -        if self._is_user_module(name):
+> +    def _module_dirname(name: Optional[str]) -> str:
+> +        if QAPISchemaModule.is_user_module(name):
+>              return os.path.dirname(name)
+>          return ''
+>  
+>      def _module_basename(self, what: str, name: Optional[str]) -> str:
+> -        ret = '' if self._is_builtin_module(name) else self._prefix
+> -        if self._is_user_module(name):
+> +        ret = '' if QAPISchemaModule.is_builtin_module(name) else self._prefix
+> +        if QAPISchemaModule.is_user_module(name):
+>              basename = os.path.basename(name)
+>              ret += what
+>              if name != self._main_module:
+> @@ -282,7 +279,7 @@ def _add_module(self, name: Optional[str], blurb: str) -> None:
+>          self._genc, self._genh = self._module[name]
+>  
+>      def _add_user_module(self, name: str, blurb: str) -> None:
+> -        assert self._is_user_module(name)
+> +        assert QAPISchemaModule.is_user_module(name)
+>          if self._main_module is None:
+>              self._main_module = name
+>          self._add_module(name, blurb)
+> @@ -292,7 +289,7 @@ def _add_system_module(self, name: Optional[str], blurb: str) -> None:
+>  
+>      def write(self, output_dir: str, opt_builtins: bool = False) -> None:
+>          for name in self._module:
+> -            if self._is_builtin_module(name) and not opt_builtins:
+> +            if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
+>                  continue
+>              (genc, genh) = self._module[name]
+>              genc.write(output_dir)
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 720449feee4..e80d9320eda 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -141,6 +141,33 @@ def __init__(self, name):
+>          self.name = name
+>          self._entity_list = []
+>  
+> +    @staticmethod
+> +    def is_system_module(name: Optional[str]) -> bool:
+> +        """
+> +        System modules are internally defined modules.
+> +
+> +        Their names start with the "./" prefix.
+> +        """
+> +        return name is None or name.startswith('./')
+> +
+> +    @classmethod
+> +    def is_user_module(cls, name: Optional[str]) -> bool:
+> +        """
+> +        User modules are those defined by the user in qapi JSON files.
+> +
+> +        They do not start with the "./" prefix.
+> +        """
+> +        return not cls.is_system_module(name)
+> +
+> +    @staticmethod
+> +    def is_builtin_module(name: Optional[str]) -> bool:
+> +        """
+> +        The built-in module is a single System module for the built-in types.
+> +
+> +        It is presently always the value 'None'.
+> +        """
+> +        return name is None
+> +
+>      def add_entity(self, ent):
+>          self._entity_list.append(ent)
+>  
 
-The psABI only cares about userspace, and the specification there
-deliberately excludes CPU features used in cryptography blocks, and
-features that seem unstable and likely to be disabled in firmware or
-future microcode updates.  This seemed a good trade-off for the psABI
-because in userspace, run-time detection is still available, to access
-additional CPU features not available as part of the target x86-64 level
-at build time.
+Putting these functions into a class feels awkward.  But it does the
+job.
 
-This doesn't really work for virtualization, which also has to decide
-what to do with CPU features not relevant to userspace.  And a decision
-to exclude features is final in the sense that guests cannot use the
-feature at all because run-time detection shows it is as unavailable.
-
-This is why a 1:1 copy of the userspace levels to virtualized machine
-models is not possible, I think.
-
-Thanks,
-Florian
--- 
-Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
-Commercial register: Amtsgericht Muenchen, HRB 153243,
-Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'Neill
+> @@ -871,8 +898,8 @@ def resolve_type(self, name, info, what):
+>          return typ
+>  
+>      def _module_name(self, fname):
+> -        if fname is None:
+> -            return None
+> +        if QAPISchemaModule.is_system_module(fname):
+> +            return fname
+>          return os.path.relpath(fname, self._schema_dir)
+>  
+>      def _make_module(self, fname):
 
 
