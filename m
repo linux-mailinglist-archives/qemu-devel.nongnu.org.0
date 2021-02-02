@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8ED30C56D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 17:23:42 +0100 (CET)
-Received: from localhost ([::1]:49992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4141430C604
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 17:37:21 +0100 (CET)
+Received: from localhost ([::1]:53824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6ySm-0006Q7-Dp
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 11:23:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47854)
+	id 1l6yg4-0003dU-AC
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 11:37:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6yIu-0000uo-R5
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:13:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56523)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6yIr-0001um-A9
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:13:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612282399;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/0UFc6mAow30NK+sWC0UDbAcFYr7kPYJVqYzhkSxA2Q=;
- b=IxcRsZrhjEOOmAGg4at3DOZnLUdUHeiDEcgtPy7LCcfQvvRGFX3aRphyagkv7VHtX99urX
- jAllvbpZrpYsYvNvmZpTHM5clB1w7EO0DRLBcxyYl847iaPa2Qb4I1azdppzkbmIUMLN63
- SF+kix38PcnRVOcD4C6r5YBJ+5ZFBUU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402--E3xKUWiMWmQA_RvpfqTsg-1; Tue, 02 Feb 2021 11:13:15 -0500
-X-MC-Unique: -E3xKUWiMWmQA_RvpfqTsg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FB8F193578E;
- Tue,  2 Feb 2021 16:13:14 +0000 (UTC)
-Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 786C419813;
- Tue,  2 Feb 2021 16:13:10 +0000 (UTC)
-Subject: iotest failures in head [was: [PATCH v4 00/16] 64bit block-layer:
- part I]
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
- <81abe7dc-6053-72d2-ddf7-352dc21e75b6@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <9e71568c-ce4a-f844-fbd3-a4a59f850d74@redhat.com>
-Date: Tue, 2 Feb 2021 10:13:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6yJm-0001go-VP
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:14:18 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:43167)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6yJj-0002MT-9D
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:14:18 -0500
+Received: by mail-ej1-x632.google.com with SMTP id y9so9219579ejp.10
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 08:14:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+w43zbTSLJBu7VWWaaLBzSOwZdWeRWvOnn+bi1MmeVk=;
+ b=c/iUXsKFuYi6AQZEDZsSpBt0Jblyc8p3Ts7gED83JodKFbqatk9vRbNI5pL71iKpcX
+ gtQ2giehUihl5luiN/nG197Iv7Dk9ol7gK2CtAISZoYl3PVZ4pkgc0qQbnIIIxHskvmv
+ DE4MQsg1GZ3+4QMQ0wziOEn+Kykgqe3A23A625DNxzgy4HIbROm3mSONtwWrSYg9dLA2
+ vE9UYHIj3h0MoMUbLcnFQrC5q246DjmLPa8C+O1Dh9mD7E0zcHFBJNWp0NE4ZjaH3afE
+ d8bHYxT2PqtwatXqaWQUh8TABLS3KueP1xvkg6fGNgQ56+nnoY7rWwuMKgtF2+dJWhUe
+ I5eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+w43zbTSLJBu7VWWaaLBzSOwZdWeRWvOnn+bi1MmeVk=;
+ b=Jj9lo1p8Y61qwclRnQxHmE3yFHtvpetXuFm52QxQrA4XCjjxB/iWDhDNiQJmSNXyng
+ PRYJMzo1y3cRas/lQJYhsPNrUKpwBZoly3/NyeHW9ZwKpSk6dLQCMbIpJoG0w7fkwEYH
+ 2W+gXZWvuiRFuK0xeZIBVcrtool34rnSkcPiw/S38xfJa4/mXFg/Vdu+qgLKy3Ionik9
+ T0SBmtOp5oRENOqxBQb53VF8FroRA170NNeXh7GfHGbHESz3C1+yxVtjITWwIugqYYPG
+ RO7kJFhyBuy2j18q1qmVbXrrpa4hOACFt6l1dNPh6nHLC2ZYYrkAg27NaL4fimNT3NRy
+ ALrQ==
+X-Gm-Message-State: AOAM5333cDUv8htS82dBaQFQ1PhMlQByx5HRmsFwbHKc2Id0c8Ic5/OJ
+ av6BXb+2gYob6DcS0l2Ka6AZZrxTkcuiLoAxfmhZHA==
+X-Google-Smtp-Source: ABdhPJxA42KbebMiyA/AOMiih0lYNRoZa/NiydykWU7ksBwUNHW1uwX/O+P2cU3RU82pHwwDg71Fg9ONaKyoh/TnQCU=
+X-Received: by 2002:a17:907:1b10:: with SMTP id
+ mp16mr23157728ejc.482.1612282453767; 
+ Tue, 02 Feb 2021 08:14:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <81abe7dc-6053-72d2-ddf7-352dc21e75b6@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210131164406.349825-1-f4bug@amsat.org>
+ <20210131164406.349825-4-f4bug@amsat.org>
+In-Reply-To: <20210131164406.349825-4-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 16:14:02 +0000
+Message-ID: <CAFEAcA9bSzUfrYWjHPoG-jh2yS16U2DYP+gWRqfV+86XLuw3og@mail.gmail.com>
+Subject: Re: [PATCH 3/5] target/arm: Restrict v8M IDAU to TCG
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,111 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org
+Cc: Thomas Huth <thuth@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/1/21 8:56 PM, Eric Blake wrote:
+On Sun, 31 Jan 2021 at 16:44, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> IDAU is specific to M-profile. KVM only supports A-profile.
+> Restrict this interface to TCG, as it is pointless (and
+> confusing) on a KVM-only build.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-> I had planned to send a pull request for this series today, but ran into
-> a snag.  Without this series applied, './check -qcow2' fails 030, 185,
-> and 297.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-297 appears to be fixed once Kevin's pull request lands (well, that may
-be needing a v2).  185 appears to be just a whitespace difference that
-missed fixing in 362ef77f9 and similar:
-
---- /home/eblake/qemu/tests/qemu-iotests/185.out
-+++ 185.out.bad
-@@ -89,7 +89,7 @@
-                       'format': 'IMGFMT',
-                       'sync': 'full',
-                       'speed': 65536,
--                      'x-perf': { 'max-chunk': 65536 } } }
-+                      'x-perf': {'max-chunk': 65536} } }
-
-030 is a bit tougher to figure out.
-
-030   fail       [09:40:32] [09:40:48]   16.9s  (last: 15.4s) failed,
-exit status 1
---- /home/eblake/qemu/tests/qemu-iotests/030.out
-+++ 030.out.bad
-@@ -1,5 +1,45 @@
--...........................
-+WARNING:qemu.machine:qemu received signal 11; command:
-"/home/eblake/qemu/build/tests/qemu-iotests/../../qemu-system-x86_64
--display none -vga none -chardev
-socket,id=mon,path=/tmp/tmpedy9c_uf/qemu-421866-monitor.sock -mon
-chardev=mon,mode=control -qtest
-unix:path=/tmp/tmpedy9c_uf/qemu-421866-qtest.sock -accel qtest
--nodefaults -display none -accel qtest -drive
-if=virtio,id=drive0,file=/home/eblake/qemu/build/tests/qemu-iotests/scratch/img-8.img,format=qcow2,cache=writeback,aio=threads,backing.backing.backing.backing.backing.backing.backing.backing.node-name=node0,backing.backing.backing.backing.backing.backing.backing.node-name=node1,backing.backing.backing.backing.backing.backing.node-name=node2,backing.backing.backing.backing.backing.node-name=node3,backing.backing.backing.backing.node-name=node4,backing.backing.backing.node-name=node5,backing.backing.node-name=node6,backing.node-name=node7,node-name=node8"
-+.............EE.............
-+======================================================================
-+ERROR: test_stream_parallel (__main__.TestParallelOps)
-+----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File "/home/eblake/qemu/tests/qemu-iotests/030", line 260, in
-test_stream_parallel
-+    for event in self.vm.get_qmp_events(wait=True):
-+  File
-"/home/eblake/qemu/tests/qemu-iotests/../../python/qemu/machine.py",
-line 585, in get_qmp_events
-+    events = self._qmp.get_events(wait=wait)
-+  File "/home/eblake/qemu/tests/qemu-iotests/../../python/qemu/qmp.py",
-line 328, in get_events
-+    self.__get_events(wait)
-+  File "/home/eblake/qemu/tests/qemu-iotests/../../python/qemu/qmp.py",
-line 197, in __get_events
-+    raise QMPConnectError("Error while reading from socket")
-+qemu.qmp.QMPConnectError: Error while reading from socket
-+
-+======================================================================
-+ERROR: test_stream_parallel (__main__.TestParallelOps)
-+----------------------------------------------------------------------
-+Traceback (most recent call last):
-+  File
-"/home/eblake/qemu/tests/qemu-iotests/../../python/qemu/machine.py",
-line 477, in _do_shutdown
-+    self._soft_shutdown(timeout, has_quit)
-+  File
-"/home/eblake/qemu/tests/qemu-iotests/../../python/qemu/machine.py",
-line 457, in _soft_shutdown
-+    self._qmp.cmd('quit')
-+  File "/home/eblake/qemu/tests/qemu-iotests/../../python/qemu/qmp.py",
-line 278, in cmd
-+    return self.cmd_obj(qmp_cmd)
-+  File "/home/eblake/qemu/tests/qemu-iotests/../../python/qemu/qmp.py",
-line 256, in cmd_obj
-+    self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
-+BrokenPipeError: [Errno 32] Broken pipe
-+
-+The above exception was the direct cause of the following exception:
-+
-+Traceback (most recent call last):
-+  File "/home/eblake/qemu/tests/qemu-iotests/030", line 227, in tearDown
-+    self.vm.shutdown()
-+  File
-"/home/eblake/qemu/tests/qemu-iotests/../../python/qemu/machine.py",
-line 507, in shutdown
-+    self._do_shutdown(timeout, has_quit)
-+  File
-"/home/eblake/qemu/tests/qemu-iotests/../../python/qemu/machine.py",
-line 480, in _do_shutdown
-+    raise AbnormalShutdown("Could not perform graceful shutdown") \
-+qemu.machine.AbnormalShutdown: Could not perform graceful shutdown
-+
- ----------------------------------------------------------------------
- Ran 27 tests
-
--OK
-+FAILED (errors=2)
-
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+thanks
+-- PMM
 
