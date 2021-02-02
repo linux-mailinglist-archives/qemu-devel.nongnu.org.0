@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD6A30CD9C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 22:07:19 +0100 (CET)
-Received: from localhost ([::1]:52106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D1230CDA2
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 22:09:43 +0100 (CET)
+Received: from localhost ([::1]:59926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l72tJ-00034g-OX
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 16:07:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52450)
+	id 1l72ve-0006Hq-Pz
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 16:09:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l72m9-0002sD-1I
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:59:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51759)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l72mN-0002zO-80
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 16:00:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l72m6-0007Om-Ti
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:59:52 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l72mD-0007RY-AN
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 16:00:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612299588;
+ s=mimecast20190719; t=1612299593;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GCsDS0t3ZTS4NBHckBplUJ0frNx7d00ggon3r8WYiLc=;
- b=bWj4/Q4/lNBwS0tmHnhgiw069y/5rocslXBvbAilltecq8KTjQ1uRRM3ehcgd7xk2mhezR
- qeAEe487NxOEDglzY4FkJaF5ri4XapRfVd4ozCV5mb1CFDaNWHovSwNBfOicMCDwMLb0+u
- 1TiAljyHt1sdXD0GYzymJw/h06uioOI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-TfSiKqDUPAG0ABTGL8LceA-1; Tue, 02 Feb 2021 15:59:45 -0500
-X-MC-Unique: TfSiKqDUPAG0ABTGL8LceA-1
-Received: by mail-ed1-f70.google.com with SMTP id u19so10213679edr.1
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 12:59:44 -0800 (PST)
+ bh=RCwL7X+YG8I7zuVW+8dXIaUVElWXRJ89Y3C+f17wiig=;
+ b=TV4OUp+x0phCHczao5smJjNCcc3mxI9KH7F1h3a1bf4HQEJITvIpvvNI8/1l2jhZHF+N/6
+ v9/uOiiVsg3xVklci5V3wn5Qzz2ivHXM6kF04dMEZTBtdM/e4qo/V/y/TAC6BMKwGPyDfM
+ 1sShxsQtIGkraIYATYmFr0UityJgnGY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-GfkTg_eDOFaKKpgJNZCGog-1; Tue, 02 Feb 2021 15:59:52 -0500
+X-MC-Unique: GfkTg_eDOFaKKpgJNZCGog-1
+Received: by mail-ed1-f71.google.com with SMTP id ck25so10159923edb.16
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 12:59:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GCsDS0t3ZTS4NBHckBplUJ0frNx7d00ggon3r8WYiLc=;
- b=mWwjhO1hxm4a6W0g5PC3NN78l43rYw3CHTTkA4I7Xx4GiuvFPDhx4o7CX7P8YXf4zd
- 23trM9vl8oLHmCZbjWKMu0XRrJ5Fm6jxY/nOpeLFF5skJuuCeccHHZJJcGT8swNVeVA/
- BthWSBKjMSidWCsEdmWiYFIBAtmbvebb4ZCWKzGpWgmmmd7CfjCY34KdswN5VkAkOMH/
- TPpE2sBp+cwLwoCExmxh0rz8NahtcX0VXm75Tyg9tFTzIGGGwJqkCAmtmhgoMr7cJzjn
- WkxBLaU/8yM9hOcMWbXen4rgSaF4SwUr0b1EZVps1LJN1VSHAiXYFvVlCtKy0Gmw51BJ
- wufw==
-X-Gm-Message-State: AOAM530rly2BfZC4DuHEkKQ0aY6jOap3U1KnKj0tuI+uzKOANPuMDXY7
- SKKdC0IdXeFCotOBrurU/OwYCgVApNl7jU4JrO51BEJKpLihywKzxq0xsqf9YvvkWwhHMxoPIuL
- 86QhiYTvbSiBby7mBhb6r+az/91zFQq57eD6LrxbJb5sbPTpyRGbqx/ei6ygRI5yD
-X-Received: by 2002:a17:906:5e5a:: with SMTP id
- b26mr12697575eju.327.1612299583650; 
- Tue, 02 Feb 2021 12:59:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxOQeuoj112ym+ONA8FZIjcqwUF9f63qKeGMpddE4Wk1sSoT+WivNEbYh/Xf6y/79FDpYFrXA==
-X-Received: by 2002:a17:906:5e5a:: with SMTP id
- b26mr12697549eju.327.1612299583451; 
- Tue, 02 Feb 2021 12:59:43 -0800 (PST)
+ bh=RCwL7X+YG8I7zuVW+8dXIaUVElWXRJ89Y3C+f17wiig=;
+ b=iILJK/gRVwUZQRZrkYm9vvHwIqVdI70oj8o/Vui1F9HluehDhgjeKLQfOpKkDZFslw
+ rt1sR2y2KHkJVkyaB+JNQCX0QqoQ79QUgvhWeMpdVU/j2/wC3u91jevpnZ5TaFDdtTkR
+ 1a+3u7V/xJbigQSBcWgnmP4BvtPz2J2FvxYJ9NMvjesiAPZaHqmahe3WYsi5JS71M+Uw
+ 2QV9YCuM9CY2oEdCXoJP2nz6rlwJ7+Xh99UPcsYw4KCkfjGEPEHow9b8la2UpPQ5M5Ij
+ 8oyoOfVcnifRn/YCW8kInFPuIM3oe+ATplwwNdy60AiHMuLhc6rcXVcsGWs3y/ghYb4A
+ PcaQ==
+X-Gm-Message-State: AOAM533eUs+FMJXlTXKYeFrotJgkkkj+OWJ9t2PmgBa8Ot/dhSLO9lJ9
+ PY1E46eF52ACxJo0wA4zCASIkFvedL2fPN4OC1Xa+MMdDZQ4RUdNtKsKAVur+0D1vUYaD845h+F
+ UMtjBTADj9oEKlW0T0FrPRHZ1kCoh4a02LJUQrNl9AzceSyEEninCUfOQvpk4Vbm5
+X-Received: by 2002:a17:906:25db:: with SMTP id
+ n27mr24055307ejb.552.1612299589433; 
+ Tue, 02 Feb 2021 12:59:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwwtBhkk7ZwSbIIG00pnkr4d8G9mx4OqL+199FXTzPG8YMKWoUzXyXTvbwMUAaceZWjiciitA==
+X-Received: by 2002:a17:906:25db:: with SMTP id
+ n27mr24055283ejb.552.1612299589261; 
+ Tue, 02 Feb 2021 12:59:49 -0800 (PST)
 Received: from x1w.redhat.com (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id r7sm11639ejo.20.2021.02.02.12.59.41
+ by smtp.gmail.com with ESMTPSA id e7sm11918ejb.19.2021.02.02.12.59.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 12:59:42 -0800 (PST)
+ Tue, 02 Feb 2021 12:59:48 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/12] tests/fp/fp-test: Replace the word 'blacklist'
-Date: Tue,  2 Feb 2021 21:58:23 +0100
-Message-Id: <20210202205824.1085853-12-philmd@redhat.com>
+Subject: [PATCH 12/12] hw/vfio/pci-quirks: Replace the word 'blacklist'
+Date: Tue,  2 Feb 2021 21:58:24 +0100
+Message-Id: <20210202205824.1085853-13-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210202205824.1085853-1-philmd@redhat.com>
 References: <20210202205824.1085853-1-philmd@redhat.com>
@@ -115,44 +115,91 @@ appropriately.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/fp/fp-test.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/vfio/pci.h        |  2 +-
+ hw/vfio/pci-quirks.c | 14 +++++++-------
+ hw/vfio/pci.c        |  4 ++--
+ hw/vfio/trace-events |  2 +-
+ 4 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/tests/fp/fp-test.c b/tests/fp/fp-test.c
-index 06ffebd6db1..5a4cad8c8b2 100644
---- a/tests/fp/fp-test.c
-+++ b/tests/fp/fp-test.c
-@@ -123,7 +123,7 @@ static void not_implemented(void)
-     fprintf(stderr, "Not implemented.\n");
- }
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index 1574ef983f8..64777516d16 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -197,7 +197,7 @@ void vfio_pci_write_config(PCIDevice *pdev,
+ uint64_t vfio_vga_read(void *opaque, hwaddr addr, unsigned size);
+ void vfio_vga_write(void *opaque, hwaddr addr, uint64_t data, unsigned size);
  
--static bool blacklisted(unsigned op, int rmode)
-+static bool is_allowed(unsigned op, int rmode)
+-bool vfio_blacklist_opt_rom(VFIOPCIDevice *vdev);
++bool vfio_opt_rom_in_denylist(VFIOPCIDevice *vdev);
+ void vfio_vga_quirk_setup(VFIOPCIDevice *vdev);
+ void vfio_vga_quirk_exit(VFIOPCIDevice *vdev);
+ void vfio_vga_quirk_finalize(VFIOPCIDevice *vdev);
+diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+index fc8d63c8504..81c3e30df77 100644
+--- a/hw/vfio/pci-quirks.c
++++ b/hw/vfio/pci-quirks.c
+@@ -43,19 +43,19 @@
+ static const struct {
+     uint32_t vendor;
+     uint32_t device;
+-} romblacklist[] = {
++} rom_denylist[] = {
+     { 0x14e4, 0x168e }, /* Broadcom BCM 57810 */
+ };
+ 
+-bool vfio_blacklist_opt_rom(VFIOPCIDevice *vdev)
++bool vfio_opt_rom_in_denylist(VFIOPCIDevice *vdev)
  {
-     /* odd has not been implemented for any 80-bit ops */
-     if (rmode == softfloat_round_odd) {
-@@ -161,10 +161,10 @@ static bool blacklisted(unsigned op, int rmode)
-         case F32_TO_EXTF80:
-         case F64_TO_EXTF80:
-         case F128_TO_EXTF80:
--            return true;
-+            return false;
+     int i;
+ 
+-    for (i = 0 ; i < ARRAY_SIZE(romblacklist); i++) {
+-        if (vfio_pci_is(vdev, romblacklist[i].vendor, romblacklist[i].device)) {
+-            trace_vfio_quirk_rom_blacklisted(vdev->vbasedev.name,
+-                                             romblacklist[i].vendor,
+-                                             romblacklist[i].device);
++    for (i = 0 ; i < ARRAY_SIZE(rom_denylist); i++) {
++        if (vfio_pci_is(vdev, rom_denylist[i].vendor, rom_denylist[i].device)) {
++            trace_vfio_quirk_rom_in_denylist(vdev->vbasedev.name,
++                                             rom_denylist[i].vendor,
++                                             rom_denylist[i].device);
+             return true;
          }
      }
--    return false;
-+    return true;
- }
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index f74be782091..759a3b1abf4 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -900,7 +900,7 @@ static void vfio_pci_size_rom(VFIOPCIDevice *vdev)
  
- static void do_testfloat(int op, int rmode, bool exact)
-@@ -194,7 +194,7 @@ static void do_testfloat(int op, int rmode, bool exact)
-     verCases_writeFunctionName(stderr);
-     fputs("\n", stderr);
- 
--    if (blacklisted(op, rmode)) {
-+    if (!is_allowed(op, rmode)) {
-         not_implemented();
+     if (vdev->pdev.romfile || !vdev->pdev.rom_bar) {
+         /* Since pci handles romfile, just print a message and return */
+-        if (vfio_blacklist_opt_rom(vdev) && vdev->pdev.romfile) {
++        if (vfio_opt_rom_in_denylist(vdev) && vdev->pdev.romfile) {
+             warn_report("Device at %s is known to cause system instability"
+                         " issues during option rom execution",
+                         vdev->vbasedev.name);
+@@ -927,7 +927,7 @@ static void vfio_pci_size_rom(VFIOPCIDevice *vdev)
          return;
      }
+ 
+-    if (vfio_blacklist_opt_rom(vdev)) {
++    if (vfio_opt_rom_in_denylist(vdev)) {
+         if (dev->opts && qemu_opt_get(dev->opts, "rombar")) {
+             warn_report("Device at %s is known to cause system instability"
+                         " issues during option rom execution",
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index c0e75f24b76..079f53acf28 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -49,7 +49,7 @@ vfio_pci_emulated_sub_vendor_id(const char *name, uint16_t val) "%s 0x%04x"
+ vfio_pci_emulated_sub_device_id(const char *name, uint16_t val) "%s 0x%04x"
+ 
+ # pci-quirks.c
+-vfio_quirk_rom_blacklisted(const char *name, uint16_t vid, uint16_t did) "%s %04x:%04x"
++vfio_quirk_rom_in_denylist(const char *name, uint16_t vid, uint16_t did) "%s %04x:%04x"
+ vfio_quirk_generic_window_address_write(const char *name, const char * region_name, uint64_t data) "%s %s 0x%"PRIx64
+ vfio_quirk_generic_window_data_read(const char *name, const char * region_name, uint64_t data) "%s %s 0x%"PRIx64
+ vfio_quirk_generic_window_data_write(const char *name, const char * region_name, uint64_t data) "%s %s 0x%"PRIx64
 -- 
 2.26.2
 
