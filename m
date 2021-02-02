@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA7D30BCA2
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 12:09:39 +0100 (CET)
-Received: from localhost ([::1]:41930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AFA30BCAB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 12:09:54 +0100 (CET)
+Received: from localhost ([::1]:42966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6tYw-0000Ao-RO
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 06:09:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57074)
+	id 1l6tZB-0000cB-FE
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 06:09:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6tXE-0007hq-N2
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 06:07:52 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:46254)
+ id 1l6tXV-0007v9-Pt
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 06:08:10 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:46373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6tXC-00050K-2t
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 06:07:52 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id y18so5083186edw.13
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 03:07:49 -0800 (PST)
+ id 1l6tXT-00058T-4u
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 06:08:09 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id rv9so29253723ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 03:08:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o8nk1CZIw+R0dDTkXmAHT/zo6Kec0z4UH980yk2OXsg=;
- b=kD8sQqhZSEAsN/QhJdPZtwGkt6QQ4GVgszNCHGLB7X+l85s8cWaQ50u8REbaqV8qPJ
- gpk/lX8bFjrRNZiVfguhvNz9YgjKKMGF48Z2v87LT/4lMWX1W9eGJlRj6FIfN2tqDN2M
- +n9AR4G4dbAWHxNUOo+FPsxrZeY5xBn8zkxc/HgdEmViyOc+Qj8iehFN5uN197G3pICS
- 576F7ukBO2dSW55EZ44btjf1geFpLKPRreYsaYCmWJySbdWKyQVvsf82hbxG5UWLEPal
- BFmaCfe+RIgeHN3dnoB+tLg61YolpP0bpk10zDCyb4SGvUa6AOp1M97KfsmnQxs+nyGX
- vATg==
+ :cc; bh=a7hqaW6hEJtiOm4/CE4cMAH+PRLbyPDVjjwBBVgIOJE=;
+ b=GAh+5urbEiNQGe3AyZwZCXjyESdDJqj5GXRrNPgV/V9V+s7xDkG0i2cnkhf6Pji4Xe
+ PJbpXrthh3QJt2OgBGZZdmUaDHXpy01SO+2f9F31JtW6kbg3U708cGHVRjWbSk4eeW2C
+ LtKXMvnY6vmft9kAj6euDdWFYjU9MkmdqDCj0AdRr/bH0BDZN6L+xbYvTHz7gX1XX8cK
+ EptlrVYWfQFEPOZV4uUgHi4nAfv6tunzRgSQLqd2xf/4EVb8OOZ6aciPeV9rHLfgTEEf
+ Z+CclTdwmcyjEC2g6JBb7ckSiGaJQLhUgtoubx4V5VpRkQBG+MHvXAoZBxKaG243jiQQ
+ 5w4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=o8nk1CZIw+R0dDTkXmAHT/zo6Kec0z4UH980yk2OXsg=;
- b=liFaPYG1m0mBEpan/LElfKKwL5azW8OGB+j/p0WVr9MOYG51UuE7y3BBQlwbODyv8H
- Q5Rue3M80FH3o+2Uh0HhKCBGWSrgyXSmY9XhmeiPgYPfHV0oFT4iNrVF8va+nFZ+lt2l
- U7O7r4g2Ndnui6E17AfeZUuEAHUDJv4JQwMh0AMxytX1FXUylcu7zmc1SOS862lrxTKr
- RJwNzTvjz8PEUTQ1c0PWLeU6u280NecB1ZL1A1IW/XyXzRajwuqXbhC+FoEh8d6x7gs9
- uNQltVWWXC5nNTFs25XIYdSteZQluXqsBE8al3j/gyMQW+eB/TrhJM+8Hl8/yg7Mbcs4
- +gQg==
-X-Gm-Message-State: AOAM532qD2QHpVlv2fe+Pr8k8Vu7c0iy7uGf8+RvwieXYUVVaOEu74s+
- 1gwbNpniY2UkVLgRE7a1JtzvHD0FoTkuj1D1z6b82A==
-X-Google-Smtp-Source: ABdhPJxm5KxEL+up12M/oHgmxL1U01a7XpM7pwETEBSCzerF+ypD5hpWcgtRce08hT8P77fTcCLpD9FZFSQ1bySAUlk=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr22900909edd.52.1612264068313; 
- Tue, 02 Feb 2021 03:07:48 -0800 (PST)
+ bh=a7hqaW6hEJtiOm4/CE4cMAH+PRLbyPDVjjwBBVgIOJE=;
+ b=DbG5aPNajUU9JgxApE0WkTCVgt6+y2YJY9IPKM2X7fy4TBXF4Z4IAuz01Qdzfe8W7U
+ 4lsnb4gex9TmQiMS8IZwH85mb1pt2mJmECdmwLA0ZvREI0QmNQeC1WTeQEM3Rjeg5fIH
+ JVtV8wiMlhedh4jg494zfYs3xywQktE3YTCPrfNcxVT3NyoaWcws8af6FJa7ZKMRKl+I
+ JF1Rte0aN6CGkrRXkyprx6yfRIru2u3tLJiy4hLJisYqKuobYXHWdV1VitpuAYlUG+XZ
+ KC+rYSVQvX3NPibl6k/cKdfHHwWd3AlzNTh06ReB6qPP9hvXA7Eiikq7aVrvZo558iZc
+ bUnA==
+X-Gm-Message-State: AOAM532hVscaWCZRRb3HN2eekX5H3EZZyqTYKo7rzQ1xjZu26WG9jDRQ
+ 4sr+siQWTgm48PrLUpY20DpRWZUyP1mP9rQvFUDOCQ==
+X-Google-Smtp-Source: ABdhPJwPsJaRJG5mINxoE8At/p4WNZUctf6xmoKRKgC4jF/KJd+8MHWfs1+/qTrzEh7FwNLv55H0xw9SIKhxCZVGsDw=
+X-Received: by 2002:a17:906:4bc2:: with SMTP id
+ x2mr21712605ejv.4.1612264085619; 
+ Tue, 02 Feb 2021 03:08:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20210130184016.1787097-1-iris@modwiz.com>
-In-Reply-To: <20210130184016.1787097-1-iris@modwiz.com>
+References: <20210128033655.1029577-1-iris@modwiz.com>
+In-Reply-To: <20210128033655.1029577-1-iris@modwiz.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Feb 2021 11:07:36 +0000
-Message-ID: <CAFEAcA_oouEJ0-=FA0iu2EsuQxwbw2buZXvjuUfYWAdvEVKurw@mail.gmail.com>
-Subject: Re: [PATCH] hw/char/exynos4210_uart: Fix missing call to report ready
- for input
+Date: Tue, 2 Feb 2021 11:07:54 +0000
+Message-ID: <CAFEAcA8806xXHXjVA5bSSwcAowiqKKdu0L-VQNttULmTtTnq=Q@mail.gmail.com>
+Subject: Re: [PATCH] hw/char/exynos4210_uart: Fix buffer size reporting with
+ FIFO disabled
 To: Iris Johnson <iris@modwiz.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,18 +86,21 @@ Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 30 Jan 2021 at 18:42, Iris Johnson <iris@modwiz.com> wrote:
+On Thu, 28 Jan 2021 at 03:36, Iris Johnson <iris@modwiz.com> wrote:
 >
-> When the frontend device has no space for a read the fd is removed
-> from polling to allow time for the guest to read and clear the buffer.
-> Without the call to qemu_chr_fe_accept_input(), the poll will not be
-> broken out of when the guest has cleared the buffer causing significant
-> IO delays that get worse with smaller buffers.
+> Currently the Exynos 4210 UART code always reports available FIFO space
+> when the backend checks for buffer space. When the FIFO is disabled this
+> is behavior causes the backend chardev code to replace the data before the
+> guest can read it.
 >
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1913341
+> This patch changes adds the logic to report the capacity properly when the
+> FIFO is not being used.
+>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1913344
 > Signed-off-by: Iris Johnson <iris@modwiz.com>
 > ---
->  hw/char/exynos4210_uart.c | 1 +
+>  hw/char/exynos4210_uart.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
 
 
