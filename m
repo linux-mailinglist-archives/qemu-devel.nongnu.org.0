@@ -2,75 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B847630C165
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:24:24 +0100 (CET)
-Received: from localhost ([::1]:44914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBE730C17E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:27:17 +0100 (CET)
+Received: from localhost ([::1]:53252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6wbP-0002oj-LP
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:24:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41124)
+	id 1l6weC-0006KE-Tk
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:27:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6wVJ-0004o3-EF
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:18:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24997)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6wVH-0006yG-MZ
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:18:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612275483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FOljvJweHfPWH/GskH2ZJwasncGi+SaH0FM719BOBIY=;
- b=Ary0CM7ZqEwMeXruaiv8+lenXztyfOeHoLuPGqNM/3SJKUiSHhQu4ABOdSEmW2lQfDBDAK
- kN2EAEsAX7cLOn6vKYlTKfIjkulGyTDFLf3AjflDllwgGuy2UvyHHAbQuw6dfqJx6il/xc
- +k68fJbJs7cbG89i7cFEBNocgG9OQQ8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-7p3u_QcjP_6fT_5K2rm5Uw-1; Tue, 02 Feb 2021 09:17:59 -0500
-X-MC-Unique: 7p3u_QcjP_6fT_5K2rm5Uw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71209801817;
- Tue,  2 Feb 2021 14:17:58 +0000 (UTC)
-Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17FD760CE7;
- Tue,  2 Feb 2021 14:17:58 +0000 (UTC)
-Subject: Re: [PATCH v1 07/15] configure: make version_ge more tolerant of
- shady version input
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210202134001.25738-1-alex.bennee@linaro.org>
- <20210202134001.25738-8-alex.bennee@linaro.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <6424129b-1ac2-e5fd-0322-020dd5acf044@redhat.com>
-Date: Tue, 2 Feb 2021 08:17:57 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l6wWR-00066x-Ua
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:19:16 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:45359)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l6wWP-0007WL-68
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:19:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=kKxW8e7Ul0844JUhI4uAX8RC6HY3NyRWX44Cm261fWY=; b=nWNPQvyfD/jqoLCTtxPsnnTIk4
+ R0luEM2AGFtBEnFqv0r9fn/JbJABYuV/dXzLsw40rSDsk7PneJRLuZDGiC6JCjq+9TyQrZyGkkIKP
+ vFJWNZyoNymgqtJzHHhHgwCttke2NaZpT3/JdksTlBfPyFBXzh+7tva8Zj3WfpvwVANZHhKUa9PSn
+ jBdGMHzPlKxhETodPr1yTt7k9ET0JVqw5kqolxhmtwIE/R97/e0z4usphY3boMkauR0We25ABzYao
+ C610S4J6nMl94jsOzJrJlGeTY2Uq75r0pl95vrAYoIG0r9LIc2EPLLh5NpiRI6x1CLoRuih0TpkdW
+ 2XW9y8i/OeaQfOLCcz3zPKJdYP2tjXz6mLMBpqHDm8cKlGRC83QSkuujNxQs3lWV9Dz378nTdIjP2
+ q4SOvP4SsSI1ePRVl2YRpExn8ZFB87XxvSKVnyfuzE1JC1F0JH/0Gvf3aEATnWnIKsFhspoQQr8I2
+ 9NeQK+8zS4AoqS5VXXeJR6eCJAh/tA9HO4cVvlq1bAK0ApueDBK+A0ADnLdME4LSd0dF0qmVR0Tbd
+ /BJ0C1q4o52JMUY3DorMQhbuE9WRju7na5UHXHYNw60VHnYrY+KtWbp+xshySh7vbqnrTy7iPmu+z
+ pyOvAJ5Ovgxgb2/e81a0ifSd/3lKYof75OzZp34/8=;
+To: qemu-devel@nongnu.org
+Subject: Re: macOS (Big Sur,
+ Apple Silicon) 'make check' fails in test-crypto-tlscredsx509
+Date: Tue, 02 Feb 2021 15:19:07 +0100
+Message-ID: <4977531.9KTcbTlzxt@silver>
+In-Reply-To: <YBjg7ubtbw3OeQCd@SPB-NB-133.local>
+References: <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
+ <20210129095327.GC4001740@redhat.com> <YBjg7ubtbw3OeQCd@SPB-NB-133.local>
 MIME-Version: 1.0
-In-Reply-To: <20210202134001.25738-8-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,47 +64,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Christian Schoenebeck <qemu_oss@crudebyte.com>
+From: qemu_oss--- via <qemu-devel@nongnu.org>
 
-On 2/2/21 7:39 AM, Alex Bennée wrote:
-> When checking GDB versions we have to tolerate all sorts of random
-> distro extensions to the version string. While we already attempt to
-> do some of that before we call version_ge is makes sense to try and
-> regularise the first input by stripping extraneous -'s. While we at it
-> convert the old-style shell quoting into a cleaner form t shut up my
-> editors linter lest it confuse me by underlining the whole line.
+On Dienstag, 2. Februar 2021 06:19:42 CET Roman Bolshakov wrote:
+> 'make check' of libtasn1 doesn't succeed on x86_64 either.
 > 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Tested-by: Thomas Huth <thuth@redhat.com>
-> ---
->  configure | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> After a session of debugging I believe there's an issue with Clang 12.
+> Here's a test program (it reproduces unexpected ASN1_VALUE_NOT_VALID
+> from _asn1_time_der() in libtasn1):
 > 
-> diff --git a/configure b/configure
-> index e85d6baf8f..432b83fadf 100755
-> --- a/configure
-> +++ b/configure
-> @@ -198,8 +198,8 @@ has() {
->  }
->  
->  version_ge () {
-> -    local_ver1=`echo $1 | tr . ' '`
-> -    local_ver2=`echo $2 | tr . ' '`
-> +    local_ver1=$(expr "$1" : '\([0-9.]*\)' | tr . ' ')
-> +    local_ver2=$(echo "$2" | tr . ' ')
->      while true; do
->          set x $local_ver1
->          local_first=${2-0}
+> #include <stdio.h>
 > 
+> static int func2(char *foo) {
+>         fprintf(stderr, "%s:%d foo: %p\n", __func__, __LINE__, foo);
+>         if (foo == NULL) {
+>                 fprintf(stderr, "%s:%d foo: %p\n", __func__, __LINE__, foo);
+> return 1;
+>         }
+>         return 0;
+> }
+> 
+> int func1(char *foo) {
+>         int counter = 0;
+>         if (fprintf(stderr, "IO\n") > 0)
+>                 counter += 10;
+>         fprintf(stderr, "%s:%d foo: %p counter %d\n", __func__, __LINE__,
+> foo, counter); if(!func2(foo + counter)) {
+>                 fprintf(stderr, "good\n");
+>                 return 0;
+>         } else {
+>                 fprintf(stderr, "broken\n");
+>                 return 1;
+>         }
+> }
+> 
+> int main() {
+>         char *foo = NULL;
+>         return func1(foo);
+> }
+> 
+> 
+> What return value would you expect from the program?
+> 
+> If the program is compiled with -O0/O1 it returns zero exit code.
+> Here's the output:
+> IO
+> func1:16 foo: 0x0 counter 10
+> func2:4 foo: 0xa
+> good
+> 
+> If it is compiled with -O2 it returns 1:
+> IO
+> func1:16 foo: 0x0 counter 10
+> func2:4 foo: 0xa
+> func2:6 foo: 0x0
+> broken
+> 
+> That happens because clang uses register behind foo from func1 (it has zero
+> pointer) inside inlined func2 (it should have non zero pointer).
+> 
+> So, immediate workaround would be to downgrade optimization level of
+> libtasn1 to -O1 in homebrew.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Hu, confirmed.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+clang 12.0.0 on x86_64 Mac fails on that demo with -O2,-O3,-Os, but works with
+-O0,-O1.
+
+clang 11.0.3 in contrast works with any optimization level.
+
+It only fails BTW if that test uses exactly a NULL pointer, any other memory 
+address (e.g. just (void*)1) works:
+
+#include <stdio.h>
+
+#define FLOOR_VALUE ((void*)1)
+
+static int func2(char *foo) {
+        fprintf(stderr, "%s:%d foo: %p\n", __func__, __LINE__, foo);
+        if (foo == FLOOR_VALUE) {
+                fprintf(stderr, "%s:%d foo: %p\n", __func__, __LINE__, foo);
+                return 1;
+        }
+        return 0;
+}
+
+int func1(char *foo) {
+        int counter = 0;
+        if (fprintf(stderr, "IO\n") > 0)
+                counter += 1;
+        fprintf(stderr, "%s:%d foo: %p counter %d\n", __func__, __LINE__, foo, 
+counter);
+        if(!func2(foo + counter)) {
+                fprintf(stderr, "good\n");
+                return 0;
+        } else {
+                fprintf(stderr, "broken\n");
+                return 1;
+        }
+}
+
+int main() {
+        char *foo = FLOOR_VALUE;
+        return func1(foo);
+}
+
+Maybe that's some sort of new security feature in clang 12, in the sense of 
+something like this:
+
+	VeryLargeStruct *p = NULL;
+	p->farMember = value;
+
+to segfault always reliably and exactly with address zero, instead of pure 
+luck as of NULL + veryLargeSize.
+
+> I've submitted the issue to Apple bugtracker:
+> FB8986815
+> 
+> Best regards,
+> Roman
+
+They could argue that operating on a NULL pointer is undefined behaviour.
+
+Best regards,
+Christian Schoenebeck
+
 
 
