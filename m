@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBA030C269
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:51:18 +0100 (CET)
-Received: from localhost ([::1]:33774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2EEE30C225
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:45:01 +0100 (CET)
+Received: from localhost ([::1]:51990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6x1R-0001Zi-JS
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:51:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
+	id 1l6wvM-0005RU-RM
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:45:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6wgV-0003DR-Ao
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23891)
+ id 1l6wgd-0003OO-Eb
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6wgP-0003zc-NJ
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:37 -0500
+ id 1l6wgb-000444-Hy
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612276172;
+ s=mimecast20190719; t=1612276184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iAjgD2HxI5CRJrYmtMdOMhwLEqD+c2PlXBfujPZTe+8=;
- b=NUUKQ0mi4xJgjRBKhbnhQJfcdou+h7ZoV5FRB3ZzZr0dwrFTsyCQeP4EN6U3Z7xZqySZWp
- 382vQt+w1NYqCovHLKJwvsjnpkCrNW401vqSfbqgeXiLcfd5dICSGZ+mMZWDXMOfKzosIZ
- xjYFYZ2Hks4szTcjwxZ0VGWErhzx56Y=
+ bh=tHU9eQ8/lwEMfkMk5/jGnEOGPo9ByyH5DGiXx/j9cZ0=;
+ b=DQn62ZAeFNuVB4ONYl7K6B++jTFelJoZPgBpGU8bVb2e29YmyM7lhGXDIgUfgBQDE6ZwB+
+ vXYsMG6qYhpMVGDHVy74qt7kQjYyCTGDrYhbpF0x3u+2gmVcr2MJg449K9s2+IYpfnSRjV
+ z/UQNPVeHnU3E8Wwick9ui30MsIqdw0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-GzVyfvfaPB6mmMRfzLwWXA-1; Tue, 02 Feb 2021 09:29:30 -0500
-X-MC-Unique: GzVyfvfaPB6mmMRfzLwWXA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-371-rmJCq2g2Opa-N7wYcqMglw-1; Tue, 02 Feb 2021 09:29:43 -0500
+X-MC-Unique: rmJCq2g2Opa-N7wYcqMglw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8645BBBEF0
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:29:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69D34BBEE0
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:29:42 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 044265D9C6;
- Tue,  2 Feb 2021 14:29:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E618950EDE;
+ Tue,  2 Feb 2021 14:29:33 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/20] ui: check gtk-egl dmabuf support
-Date: Tue,  2 Feb 2021 18:26:20 +0400
-Message-Id: <20210202142625.609070-16-marcandre.lureau@redhat.com>
+Subject: [PATCH 16/20] ui: add egl dmabuf import to gtkglarea
+Date: Tue,  2 Feb 2021 18:26:21 +0400
+Message-Id: <20210202142625.609070-17-marcandre.lureau@redhat.com>
 In-Reply-To: <20210202142625.609070-1-marcandre.lureau@redhat.com>
 References: <20210202142625.609070-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -65,7 +65,7 @@ X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,58 +86,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+GtkGLArea is used on wayland, where EGL is usually available.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/ui/gtk.h | 1 +
- ui/gtk.c         | 9 +++++++++
- 2 files changed, 10 insertions(+)
+ include/ui/gtk.h |  2 ++
+ ui/gtk-gl-area.c | 18 ++++++++++++++++++
+ ui/gtk.c         | 22 ++++++++++++++++++++++
+ 3 files changed, 42 insertions(+)
 
 diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 7569d090fa..aaef884b95 100644
+index aaef884b95..3c1cd98db8 100644
 --- a/include/ui/gtk.h
 +++ b/include/ui/gtk.h
-@@ -48,6 +48,7 @@ typedef struct VirtualGfxConsole {
-     int cursor_y;
-     bool y0_top;
-     bool scanout_mode;
-+    bool has_dmabuf;
- #endif
- } VirtualGfxConsole;
+@@ -134,6 +134,8 @@ QEMUGLContext gd_gl_area_create_context(DisplayChangeListener *dcl,
+                                         QEMUGLParams *params);
+ void gd_gl_area_destroy_context(DisplayChangeListener *dcl,
+                                 QEMUGLContext ctx);
++void gd_gl_area_scanout_dmabuf(DisplayChangeListener *dcl,
++                               QemuDmaBuf *dmabuf);
+ void gd_gl_area_scanout_texture(DisplayChangeListener *dcl,
+                                 uint32_t backing_id,
+                                 bool backing_y_0_top,
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index 96fbe75387..72bcd94918 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -213,6 +213,24 @@ void gd_gl_area_scanout_flush(DisplayChangeListener *dcl,
+     gtk_gl_area_queue_render(GTK_GL_AREA(vc->gfx.drawing_area));
+ }
  
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 00045881b1..f41c396cb9 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -623,6 +623,13 @@ static const DisplayChangeListenerOps dcl_ops = {
- 
- #if defined(CONFIG_OPENGL)
- 
-+static bool gd_has_dmabuf(DisplayChangeListener *dcl)
++void gd_gl_area_scanout_dmabuf(DisplayChangeListener *dcl,
++                               QemuDmaBuf *dmabuf)
 +{
++#ifdef CONFIG_OPENGL_DMABUF
 +    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
 +
-+    return vc->gfx.has_dmabuf;
++    gtk_gl_area_make_current(GTK_GL_AREA(vc->gfx.drawing_area));
++    egl_dmabuf_import_texture(dmabuf);
++    if (!dmabuf->texture) {
++        return;
++    }
++
++    gd_gl_area_scanout_texture(dcl, dmabuf->texture,
++                               false, dmabuf->width, dmabuf->height,
++                               0, 0, dmabuf->width, dmabuf->height);
++#endif
 +}
 +
- /** DisplayState Callbacks (opengl version) **/
+ void gtk_gl_area_init(void)
+ {
+     display_opengl = 1;
+diff --git a/ui/gtk.c b/ui/gtk.c
+index f41c396cb9..79dc240120 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -627,6 +627,12 @@ static bool gd_has_dmabuf(DisplayChangeListener *dcl)
+ {
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
  
- static const DisplayChangeListenerOps dcl_gl_area_ops = {
-@@ -661,6 +668,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
-     .dpy_gl_cursor_position  = gd_egl_cursor_position,
-     .dpy_gl_release_dmabuf   = gd_egl_release_dmabuf,
-     .dpy_gl_update           = gd_egl_scanout_flush,
++    if (gtk_use_gl_area && !gtk_widget_get_realized(vc->gfx.drawing_area)) {
++        /* FIXME: Assume it will work, actual check done after realize */
++        /* fixing this would require delaying listener registration */
++        return true;
++    }
++
+     return vc->gfx.has_dmabuf;
+ }
+ 
+@@ -647,6 +653,8 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_gl_scanout_texture  = gd_gl_area_scanout_texture,
+     .dpy_gl_scanout_disable  = gd_gl_area_scanout_disable,
+     .dpy_gl_update           = gd_gl_area_scanout_flush,
++    .dpy_gl_scanout_dmabuf   = gd_gl_area_scanout_dmabuf,
 +    .dpy_has_dmabuf          = gd_has_dmabuf,
  };
  
- #endif /* CONFIG_OPENGL */
-@@ -2004,6 +2012,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-             gtk_widget_set_double_buffered(vc->gfx.drawing_area, FALSE);
- #pragma GCC diagnostic pop
-             vc->gfx.dcl.ops = &dcl_egl_ops;
-+            vc->gfx.has_dmabuf = qemu_egl_has_dmabuf();
-         }
-     } else
- #endif
+ static const DisplayChangeListenerOps dcl_egl_ops = {
+@@ -1983,6 +1991,18 @@ static GtkWidget *gd_create_menu_machine(GtkDisplayState *s)
+     return machine_menu;
+ }
+ 
++#if defined(CONFIG_OPENGL)
++static void gl_area_realize(GtkGLArea *area, VirtualConsole *vc)
++{
++    gtk_gl_area_make_current(area);
++    qemu_egl_display = eglGetCurrentDisplay();
++    vc->gfx.has_dmabuf = qemu_egl_has_dmabuf();
++    if (!vc->gfx.has_dmabuf) {
++        error_report("GtkGLArea console lacks DMABUF support.");
++    }
++}
++#endif
++
+ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+                               QemuConsole *con, int idx,
+                               GSList *group, GtkWidget *view_menu)
+@@ -1998,6 +2018,8 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+     if (display_opengl) {
+         if (gtk_use_gl_area) {
+             vc->gfx.drawing_area = gtk_gl_area_new();
++            g_signal_connect(vc->gfx.drawing_area, "realize",
++                             G_CALLBACK(gl_area_realize), vc);
+             vc->gfx.dcl.ops = &dcl_gl_area_ops;
+         } else {
+             vc->gfx.drawing_area = gtk_drawing_area_new();
 -- 
 2.29.0
 
