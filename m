@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFBC30C91E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:13:04 +0100 (CET)
-Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497CA30C939
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:14:36 +0100 (CET)
+Received: from localhost ([::1]:54028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l70Ah-00069j-94
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:13:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45524)
+	id 1l70CB-0000fG-7b
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:14:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6ztz-0005WR-QT
+ id 1l6ztz-0005UD-4s
  for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:47 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34869)
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6ztp-0002Gi-0s
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:47 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id l12so21439790wry.2
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 09:55:32 -0800 (PST)
+ id 1l6zto-0002Gm-Vy
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:46 -0500
+Received: by mail-wm1-x333.google.com with SMTP id o10so2415562wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 09:55:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0IbeLEv+nBGqgdfGoMlEhJ+BrvMFVB6OHrLiFHgUDlA=;
- b=MBMTAd99AdxyL+9wT5RJTfh0bNUfLluVw8v8Y+AULOmERVkqhTIytEi0ycBtSPrMxZ
- /kRPON5Zxctr08465n7scXL0NfkyaBDn/zOh7S2Z/9gI3BmqSQ1e9tmWEGuOkJw+Y/jq
- sz6rx6znpMdxQ3mJJQmERs1gV5d3JZVbilUXVGXVI8BzQpkpCxyXLuAqi+YTkAOdZWrO
- N23yrzX/r0ZfT4smrnAXI86r0RAjyevFJ7rCXMnpRb2a6bPfGc+pphVOD8dJY0ozVlqI
- RukrlOMbtIOnP+VU/86BLUU33RQiE3pJ1LZ7t+QtjyHrEYO1uiMNX4mY1JXvTlAJaq/N
- cbCw==
+ bh=3psuB1ujp7JFYSza2o7U3rCXIKQg0wNOJZ1+v6YLYU8=;
+ b=PK78JQ2WxQdUHVuGycKPPxv1RwV1K077sakOFKGWXp5NcZDlvCnaMpjMDYxuCjLW0U
+ C6n51/y3ut81kJ3+tLQOUgtrWm3V+9agfa3FEJoXB4itMPH+c7/i/guvWEeacI7/5lev
+ o6+70fwTI5P3m15hCR0C6WG1yaNh1Nm/Dv18XMb4cM4ik6kuC3UgrMHD1ndQdo1eaM9/
+ DxIPQx4MmRi9klaGthNf8bRjIsSk/9/BXU4xpDy2WmNNSpV8iKS1r3UaQ3LaD002MPQY
+ gBs0eoJYF2jRM6mw99roPjUdESoNrtmk44aHrNZoqZyhZWz3acPNQDEaX/W2ao87gmsn
+ 1ITg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0IbeLEv+nBGqgdfGoMlEhJ+BrvMFVB6OHrLiFHgUDlA=;
- b=HlT/gfMMH4JnNAc1n2bcWZBhJy/11Z5DoKzAT25U0bPP3a0YttsZlOIyS8iFsf6OsZ
- 4fU1vSrC1Tuq6bOIPJwjbB1V1Fn81+OVn8a+AGU7JfoowO4Mss/617YcEi/btZeu2sHh
- ZKEtlDfLbFyF55d9tvSxhm7WwAIJQm5Vi1iWk/2382Ca+xCRhAZKPU0NYmcR4x3eu1NE
- H/2kLUgmYJr0UUzEpCtK2FSVE+kEAH3e34qOEbmXuSJ7TQxrTpap7lmerCPXmLC8SIKE
- rdI70j3Zu8B9xuw579hs/vkpa1r/wM+wMoJcKgVE7Q2DAT8sv64Ht0GWG8sGamInzSDJ
- PSyw==
-X-Gm-Message-State: AOAM530bV4tpzixkomLiqK8D2I3kYkY8kEa5IyqXA9mkjCLv8easkpRp
- L6S1izmHdd/8nou31yoV9nG9ClzBtX1kvQ==
-X-Google-Smtp-Source: ABdhPJyDPZJjNuL0LajBgqb+ufw0JcqwcP7W5oYbfcWfl1/DYvGKxbA7hwpvqKBDTXB1sOSUhxicAg==
-X-Received: by 2002:a5d:4d86:: with SMTP id b6mr24800539wru.152.1612288531738; 
- Tue, 02 Feb 2021 09:55:31 -0800 (PST)
+ bh=3psuB1ujp7JFYSza2o7U3rCXIKQg0wNOJZ1+v6YLYU8=;
+ b=jBOTvHGGL3IASMnAWGavrozabpOUgXGJvwTnr6/Ia/pdMarBkCtsOvlfskft9C8FOw
+ g3uTC+KIl+lp7ycH9HpzS4wARzBL77LHYKV3anThlEGJlW35XYPHUQ5q5Ig4QdOx0oZM
+ jnlTdgUbFvOxuaIfW2HATCSumv/R3L0nGZFWq+3EPuWZUHX5o6u9+0Dll1lr6hjeGnxw
+ QMFehNlNtQ+itc1ARMZZ3dtCpDvZ5qGEAJVZvdCploD24UYh9m+VKfaK0/oMOFGaXU48
+ 4rUM+rP29MA7bepAvXPCqM82vnG+v+LeDwPSnI41o4hEzHXKVLgVj9T7LkvcS3LmEYXN
+ m/eg==
+X-Gm-Message-State: AOAM533auyeDOhBQhYWWL6dqMBwpcevLnBjs1wHMeUWlxtoCEJwUvtl1
+ 4u/MnzmKsu7XKtlQ5gljFqtReyy8gKdg4w==
+X-Google-Smtp-Source: ABdhPJzWVSuhZpWpH2Nc03tnKSuDghoC+XdQ9QPkv2c+kuVCBos/DsaQSFzutda4QZ/saueBrMwckw==
+X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr4711019wmk.72.1612288532487;
+ Tue, 02 Feb 2021 09:55:32 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm4142283wmj.32.2021.02.02.09.55.30
+ by smtp.gmail.com with ESMTPSA id q6sm4142283wmj.32.2021.02.02.09.55.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 09:55:31 -0800 (PST)
+ Tue, 02 Feb 2021 09:55:32 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/21] hw/ssi: imx_spi: Round up the burst length to be
- multiple of 8
-Date: Tue,  2 Feb 2021 17:55:08 +0000
-Message-Id: <20210202175517.28729-13-peter.maydell@linaro.org>
+Subject: [PULL 13/21] hw/ssi: imx_spi: Correct the burst length > 32 bit
+ transfer logic
+Date: Tue,  2 Feb 2021 17:55:09 +0000
+Message-Id: <20210202175517.28729-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210202175517.28729-1-peter.maydell@linaro.org>
 References: <20210202175517.28729-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,62 +90,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Current implementation of the imx spi controller expects the burst
-length to be multiple of 8, which is the most common use case.
+For the ECSPIx_CONREG register BURST_LENGTH field, the manual says:
 
-In case the burst length is not what we expect, log it to give user
-a chance to notice it, and round it up to be multiple of 8.
+0x020 A SPI burst contains the 1 LSB in first word and all 32 bits in second word.
+0x021 A SPI burst contains the 2 LSB in first word and all 32 bits in second word.
 
+Current logic uses either s->burst_length or 32, whichever smaller,
+to determine how many bits it should read from the tx fifo each time.
+For example, for a 48 bit burst length, current logic transfers the
+first 32 bit from the first word in the tx fifo, followed by a 16
+bit from the second word in the tx fifo, which is wrong. The correct
+logic should be: transfer the first 16 bit from the first word in
+the tx fifo, followed by a 32 bit from the second word in the tx fifo.
+
+With this change, SPI flash can be successfully probed by U-Boot on
+imx6 sabrelite board.
+
+  => sf probe
+  SF: Detected sst25vf016b with page size 256 Bytes, erase size 4 KiB, total 2 MiB
+
+Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Message-id: 20210129132323.30946-9-bmeng.cn@gmail.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20210129132323.30946-10-bmeng.cn@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/ssi/imx_spi.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ hw/ssi/imx_spi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index 2fb65498c3b..41fe199c9f1 100644
+index 41fe199c9f1..a34194c1b06 100644
 --- a/hw/ssi/imx_spi.c
 +++ b/hw/ssi/imx_spi.c
-@@ -128,7 +128,14 @@ static uint8_t imx_spi_selected_channel(IMXSPIState *s)
+@@ -185,7 +185,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
  
- static uint32_t imx_spi_burst_length(IMXSPIState *s)
- {
--    return EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
-+    uint32_t burst;
-+
-+    burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
-+    if (burst % 8) {
-+        burst = ROUND_UP(burst, 8);
-+    }
-+
-+    return burst;
- }
+         DPRINTF("data tx:0x%08x\n", tx);
  
- static bool imx_spi_is_enabled(IMXSPIState *s)
-@@ -328,6 +335,7 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
-     IMXSPIState *s = opaque;
-     uint32_t index = offset >> 2;
-     uint32_t change_mask;
-+    uint32_t burst;
+-        tx_burst = MIN(s->burst_length, 32);
++        tx_burst = (s->burst_length % 32) ? : 32;
  
-     if (index >=  ECSPI_MAX) {
-         qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Bad register at offset 0x%"
-@@ -380,6 +388,13 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
-     case ECSPI_CONREG:
-         s->regs[ECSPI_CONREG] = value;
+         rx = 0;
  
-+        burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
-+        if (burst % 8) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "[%s]%s: burst length %d not supported: rounding up to next multiple of 8\n",
-+                          TYPE_IMX_SPI, __func__, burst);
-+        }
-+
-         if (!imx_spi_is_enabled(s)) {
-             /* device is disabled, so this is a soft reset */
-             imx_spi_soft_reset(s);
 -- 
 2.20.1
 
