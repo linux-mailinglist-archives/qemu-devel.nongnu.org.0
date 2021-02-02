@@ -2,48 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570DD30B8A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 08:34:47 +0100 (CET)
-Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93CF30B8C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 08:40:37 +0100 (CET)
+Received: from localhost ([::1]:52052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6qD0-0006Tx-EW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 02:34:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46496)
+	id 1l6qIe-0007yX-T8
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 02:40:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1l6qBp-00063I-Q0
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 02:33:33 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:56836)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1l6qBn-0007A4-9Z
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 02:33:33 -0500
-Received: from [192.168.0.92] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 574AE40D4004;
- Tue,  2 Feb 2021 07:33:22 +0000 (UTC)
-Subject: Re: [PATCH] char: don't fail when client is not connected
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <161224971122.79781.8594358970645859667.stgit@pasha-ThinkPad-X280>
- <CAMxuvax4eUGGfLH4sQpS4ocD43bsMVFjiFsv2xcywwbXZ0-JJA@mail.gmail.com>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <1a5d134b-c826-9620-094e-48fc6bb931b0@ispras.ru>
-Date: Tue, 2 Feb 2021 10:33:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6qH1-0007GY-Ky
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 02:38:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6qGz-0001K1-MJ
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 02:38:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612251532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VdFcgARov3tIYbQNZhQ7sBH7VA69mJy8x1sLSRyAZHA=;
+ b=bUxSYIjS+JiWunZq5QJIflvRtasGOB1L6iD4xDccxDwmcMXdzC+6QOq6aBxgvPz98ZpfFL
+ Tne3/e6q6DCJ1S94cJ8J+2/i3LlJ/zumvzOnQ9o/fcA4K6mEhQOkoL3wXoqqjAWLxc/phY
+ PZBpBL0f34YIua1CSL4zXMyxkbnWKFM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-146-fS7XP8abNS-2voBEJejC2g-1; Tue, 02 Feb 2021 02:38:51 -0500
+X-MC-Unique: fS7XP8abNS-2voBEJejC2g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D0681005513
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 07:38:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B65E5F7D8;
+ Tue,  2 Feb 2021 07:38:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2F5C6113865F; Tue,  2 Feb 2021 08:38:45 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 3/3] qmp: Resume OOB-enabled monitor before processing
+ the request
+References: <20210201161504.1976989-1-armbru@redhat.com>
+ <20210201161504.1976989-4-armbru@redhat.com>
+ <20210201180229.GK13157@merkur.fritz.box>
+Date: Tue, 02 Feb 2021 08:38:45 +0100
+In-Reply-To: <20210201180229.GK13157@merkur.fritz.box> (Kevin Wolf's message
+ of "Mon, 1 Feb 2021 19:02:29 +0100")
+Message-ID: <87eehyhqbe.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvax4eUGGfLH4sQpS4ocD43bsMVFjiFsv2xcywwbXZ0-JJA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,105 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.02.2021 10:27, Marc-André Lureau wrote:
-> Hi
-> 
-> On Tue, Feb 2, 2021 at 11:18 AM Pavel Dovgalyuk 
-> <pavel.dovgalyuk@ispras.ru <mailto:pavel.dovgalyuk@ispras.ru>> wrote:
-> 
->     This patch checks that ioc is not null before
->     using it in tcp socket tcp_chr_add_watch function.
-> 
->     Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru
->     <mailto:Pavel.Dovgalyuk@ispras.ru>>
-> 
-> 
-> Do you have a backtrace or a reproducer when this happens?
-> thanks
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Here is the backtrace:
+> Am 01.02.2021 um 17:15 hat Markus Armbruster geschrieben:
+>> monitor_qmp_dispatcher_co() needs to resume the monitor if
+>> handle_qmp_command() suspended it.  Two cases:
+>> 
+>> 1. OOB enabled: suspended if mon->qmp_requests has no more space
+>> 
+>> 2. OOB disabled: suspended always
+>> 
+>> We resume only after we processed the request.  Which can take a long
+>> time.
+>> 
+>> Resume the monitor right when the queue has space to keep the monitor
+>> available for out-of-band commands even in this corner case.
+>> 
+>> Leave the "OOB disabled" case alone.
+>> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>
+>> +        /*
+>> +         * We need to resume the monitor if handle_qmp_command()
+>> +         * suspended it.  Two cases:
+>> +         * 1. OOB enabled: mon->qmp_requests has no more space
+>> +         *    Resume right away, so that OOB commands can get executed while
+>> +         *    this request is being processed.
+>> +         * 2. OOB disabled: always
+>> +         *    Resume only after we're done processing the request, 
+>
+> This line has trailing whitespace.
 
-Thread 4 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-[Switching to Thread 0x7ffff2506700 (LWP 64988)]
-object_get_class (obj=obj@entry=0x0) at ../qom/object.c:999
-999	    return obj->class;
-(gdb) bt
-#0  object_get_class (obj=obj@entry=0x0) at ../qom/object.c:999
-#1  0x0000555555b70e26 in QIO_CHANNEL_GET_CLASS (obj=0x0) at 
-/home/pasha/ispras/qemu-test/include/io/channel.h:29
-#2  qio_channel_create_watch (ioc=0x0, condition=(G_IO_OUT | G_IO_HUP)) 
-at ../io/channel.c:281
-#3  0x0000555555c1bf9b in qemu_chr_fe_add_watch
-     (be=be@entry=0x555556981648, cond=cond@entry=(G_IO_OUT | G_IO_HUP), 
-func=func@entry=0x55555597f170 <serial_watch_cb>, 
-user_data=user_data@entry=0x5555569815a0)
-     at /home/pasha/ispras/qemu-test/include/chardev/char.h:229
-#4  0x000055555597f042 in serial_xmit (s=s@entry=0x5555569815a0) at 
-../hw/char/serial.c:265
-#5  0x000055555597f437 in serial_ioport_write (opaque=0x5555569815a0, 
-addr=<optimized out>, val=91, size=<optimized out>) at 
-../hw/char/serial.c:359
-#6  0x0000555555ab95e0 in memory_region_write_accessor 
-(mr=mr@entry=0x555556981700, addr=0, value=value@entry=0x7ffff2504fc8, 
-size=size@entry=1, shift=<optimized out>, mask=mask@entry=255, attrs=...)
-     at ../softmmu/memory.c:491
-#7  0x0000555555ab807e in access_with_adjusted_size
-     (addr=addr@entry=0, value=value@entry=0x7ffff2504fc8, 
-size=size@entry=1, access_size_min=<optimized out>, 
-access_size_max=<optimized out>, access_fn=access_fn@entry=
-     0x555555ab9550 <memory_region_write_accessor>, mr=0x555556981700, 
-attrs=...) at ../softmmu/memory.c:552
-#8  0x0000555555abb947 in memory_region_dispatch_write 
-(mr=mr@entry=0x555556981700, addr=0, data=<optimized out>, 
-data@entry=91, op=op@entry=MO_8, attrs=attrs@entry=...) at 
-../softmmu/memory.c:1501
-#9  0x0000555555a721d8 in address_space_stb (as=<optimized out>, 
-addr=<optimized out>, val=91, attrs=..., result=0x0) at 
-/home/pasha/ispras/qemu-test/memory_ldst.c.inc:382
-#10 0x00007fffa8b63022 in code_gen_buffer ()
-#11 0x0000555555b10ab0 in cpu_tb_exec (tb_exit=<synthetic pointer>, 
-itb=<optimized out>, cpu=0x7fffa8635b00 <code_gen_buffer+73620179>) at 
-../accel/tcg/cpu-exec.c:188
-#12 cpu_loop_exec_tb (tb_exit=<synthetic pointer>, last_tb=<synthetic 
-pointer>, tb=<optimized out>, cpu=0x7fffa8635b00 
-<code_gen_buffer+73620179>) at ../accel/tcg/cpu-exec.c:700
-#13 cpu_exec (cpu=cpu@entry=0x5555566b4350) at ../accel/tcg/cpu-exec.c:811
-#14 0x0000555555b0ce97 in tcg_cpus_exec (cpu=cpu@entry=0x5555566b4350) 
-at ../accel/tcg/tcg-cpus.c:57
-#15 0x0000555555abfa73 in rr_cpu_thread_fn 
-(arg=arg@entry=0x5555566b4350) at ../accel/tcg/tcg-cpus-rr.c:217
-#16 0x0000555555c80573 in qemu_thread_start (args=<optimized out>) at 
-../util/qemu-thread-posix.c:521
-#17 0x00007ffff6302609 in start_thread (arg=<optimized out>) at 
-pthread_create.c:477
-#18 0x00007ffff6229293 in clone () at 
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+Trimming...
 
+> With this fixed, the whole series is:
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
-> 
->     ---
->       chardev/char-socket.c |    3 +++
->       1 file changed, 3 insertions(+)
-> 
->     diff --git a/chardev/char-socket.c b/chardev/char-socket.c
->     index 213a4c8dd0..cef1d9438f 100644
->     --- a/chardev/char-socket.c
->     +++ b/chardev/char-socket.c
->     @@ -385,6 +385,9 @@ static ssize_t tcp_chr_recv(Chardev *chr, char
->     *buf, size_t len)
->       static GSource *tcp_chr_add_watch(Chardev *chr, GIOCondition cond)
->       {
->           SocketChardev *s = SOCKET_CHARDEV(chr);
->     +    if (!s->ioc) {
->     +        return NULL;
->     +    }
->           return qio_channel_create_watch(s->ioc, cond);
->       }
-> 
-> 
+Thanks!
 
 
