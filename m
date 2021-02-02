@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8B930C9BB
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:27:36 +0100 (CET)
-Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA7E30C9D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:31:02 +0100 (CET)
+Received: from localhost ([::1]:38452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l70Ol-0007kp-II
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:27:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
+	id 1l70S4-00024f-Tt
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:31:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6zw1-00083v-PK
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:57:53 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35057)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6zvx-0003Bw-FH
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:57:53 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id a9so12969624ejr.2
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 09:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QH8MelJmbJex1cSJPOldYXUQwa89eGaqJciyUaFWMWM=;
- b=dP0M6aVHYY/sEj4ujAFyW8+ajwFWNbePhrnm4uxNc9GnRHRdmkrFcwrK1uJFFJDY6S
- SVGsADl0OUKUF5rL8vRaBWPBHKQFD9NNxk/VI2KiU9qz2guJPRC0LmF5rKVQ8onNTuus
- fyQN4DqXU8QipqSk7kHOc61PM4L7nFg5dF60mfem1hcPS8dTfu1Pu6RnjmUXI3rW9Ltf
- WpHCVFXjRRAI8Qw+Pvop9bXlthvmBklAvH/YGGH21LNJMli8Kn93TAvxJeC+ctnSSPsD
- 75L8xX+qs0jW8O7uBug3Bd0xib74+a9xPtg0UI5LemNG58ZnnXKHnBJ8GTWQ0byt+YSM
- SVuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QH8MelJmbJex1cSJPOldYXUQwa89eGaqJciyUaFWMWM=;
- b=JVt5Aeki/ABP0v4D8Nh/H6N7rWHkGwP20fCXD+ZCuiDsaCRCqeIKiIB63uHeBVwSvx
- m/33ps73zJeLIfDR1kgsOyNuEcGVSYIPBF+M7HDLIrnMDb4ToSjoy/HO1XsbNoRq1CYk
- 5y1xyDv3dSLs6ugY1HG2Nv4LJ0VUM0ba/8s80DYj4DKa2/o0mUZnKub+pzIRIsl5bCGQ
- TwdhMkc+VotCB692SZyJwObW+HQPRB++Ix2nnh3BPuDKab1g71TvKhi2zy+UEy8jpi88
- 5CABNEVxJvGPUwY0K8a+iHbr8QyqHUYVNXADyxbBHBlP8G0wHZfNUpXFos3l0sMyp48i
- kL/w==
-X-Gm-Message-State: AOAM533gaPYO+zhgQhh/k4iWpptFuwNDXFa0bZAmzoMP09F2UnCqOA+H
- QUq+rtu0hm4/n+jXFu+/nT+H4pB9LihgURqG2SLiWQ==
-X-Google-Smtp-Source: ABdhPJzAQZDjROms7Lnmot6rUd1V15BHmBOCHRrcM+CS67QwWK1jpyzk9j/vIZtyymEzO9ltdK3NHXjJ6GB3iM4T7Hw=
-X-Received: by 2002:a17:906:1d51:: with SMTP id
- o17mr2926983ejh.85.1612288667439; 
- Tue, 02 Feb 2021 09:57:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l70CB-0001zV-Mz
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 13:14:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l70C7-00006k-Dd
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 13:14:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612289670;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I1igSmcgArR5tFj7s1L+gOYKq+dX7NwjoT27cwn3tPU=;
+ b=hl/jddZ1l8c07sZsR3RzQ5Cgiuxfrh9EP8tj/RjkRKG/rnCC7gjxGeXT84OzqTgNn9l5XX
+ 9U5dM/xzXcgnK9Cn2AxkURstj8+F9xgsIny6ZCyv28IaaTq5xFXK6H0YWQxtjWmRA3Aul0
+ cLcylcWf5FB7SP806Zm2+6SP/rJLBhQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-BIoqvlbTPTiWOB7ms7rgRg-1; Tue, 02 Feb 2021 13:14:26 -0500
+X-MC-Unique: BIoqvlbTPTiWOB7ms7rgRg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 756C9B8103;
+ Tue,  2 Feb 2021 18:14:25 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C80A19C71;
+ Tue,  2 Feb 2021 18:14:24 +0000 (UTC)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210202154138.246464-1-berrange@redhat.com>
+ <20210202154138.246464-13-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH v10 12/12] migration: introduce
+ snapshot-{save,load,delete} QMP commands
+Message-ID: <02126b54-f7eb-5ad7-b7f0-b66e60b26b50@redhat.com>
+Date: Tue, 2 Feb 2021 12:14:23 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210202162834.269789-1-kwolf@redhat.com>
-In-Reply-To: <20210202162834.269789-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Feb 2021 17:57:36 +0000
-Message-ID: <CAFEAcA8uFez0XQGCkhHZEVE1NuH--NBG-uYM6=sqmhiXYWJZCQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/10] Block layer patches
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210202154138.246464-13-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,39 +83,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Feb 2021 at 16:28, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit cf7ca7d5b9faca13f1f8e3ea92cfb2f741eb0c0e:
->
->   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/tracing-pull-request' into staging (2021-02-01 16:28:00 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to 26513a01741f51650f5dd716681995359794ba6f:
->
->   block: Fix VM size column width in bdrv_snapshot_dump() (2021-02-02 17:23:55 +0100)
->
-> ----------------------------------------------------------------
-> Block layer patches:
->
-> - Fix double processing of nodes in bdrv_set_aio_context()
-> - Fix potential hang in block export shutdown
-> - block/nvme: Minor tracing improvements
-> - iotests: Some more fixups for the 'check' rewrite
-> - MAINTAINERS: Add Vladimir as co-maintainer for Block Jobs
+On 2/2/21 9:41 AM, Daniel P. Berrangé wrote:
+> savevm, loadvm and delvm are some of the few HMP commands that have never
+> been converted to use QMP. The reasons for the lack of conversion are
+> that they blocked execution of the event thread, and the semantics
+> around choice of disks were ill-defined.
+> 
 
-Yep, this has fixed the issues with the NetBSD VM setup.
+> Note that the existing "query-named-block-nodes" can be used to query
+> what snapshots currently exist for block nodes.
+> 
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  migration/savevm.c                            | 184 +++++++
+>  qapi/job.json                                 |   9 +-
+>  qapi/migration.json                           | 157 ++++++
+>  .../tests/internal-snapshots-qapi             | 386 +++++++++++++
+>  .../tests/internal-snapshots-qapi.out         | 520 ++++++++++++++++++
 
-Applied, thanks.
+Not this patch's fault: I find the name tests/qemu-iotests/tests/name to
+be rather long and a bit repetitive; maybe we want to rename the
+directory structure to something simpler, like:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+tests/iotests/name
 
--- PMM
+(that is, move the named tests into a sibling directory of
+qemu-iotests/check, rather than a subdirectory).  And maybe rename
+qemu-iotests/check to something that requires less typing.  Oh, and
+while I'm asking for rainbows and ponies, being able to run check from
+the same directory where I run make, instead of having to change
+directories, would be nice.  But as I said, that's a wish list for a
+separate series.
+
+For _this_ patch,
+
+> +++ b/migration/savevm.c
+
+> +++ b/qapi/migration.json
+
+> +# Example:
+> +#
+> +# -> { "execute": "snapshot-save",
+> +#      "data": {
+> +#         "job-id": "snapsave0",
+> +#         "tag": "my-snap",
+> +#         "vmstate": "disk0",
+> +#         "devices": ["disk0", "disk1"]
+> +#      }
+> +#    }
+> +# <- { "return": { } }
+> +# <- {"event": "JOB_STATUS_CHANGE",
+> +#     "data": {"status": "created", "id": "snapsave0"}}
+
+Nice example here with events...
+
+> +##
+> +# @snapshot-delete:
+> +#
+> +# Delete a VM snapshot
+> +#
+> +# @job-id: identifier for the newly created job
+> +# @tag: name of the snapshot to delete.
+> +# @devices: list of block device node names to delete a snapshot from
+> +#
+> +# Applications should not assume that the snapshot save is complete
+> +# when this command returns. The job commands / events must be used
+> +# to determine completion and to fetch details of any errors that arise.
+
+...which makes this paragraph feel out of place: there is no snapshot
+save going on during snapshot-delete, and...
+
+> +#
+> +# Returns: nothing
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "snapshot-delete",
+> +#      "data": {
+> +#         "job-id": "snapdelete0",
+> +#         "tag": "my-snap",
+> +#         "devices": ["disk0", "disk1"]
+> +#      }
+> +#    }
+> +# <- { "return": { } }
+
+...the example shows no events.  On the other hand...
+
+> +++ b/tests/qemu-iotests/tests/internal-snapshots-qapi
+> @@ -0,0 +1,386 @@
+> +#!/usr/bin/env bash
+> +# group: rw auto quick snapshot
+> +#
+
+> +_cleanup()
+> +{
+> +    _cleanup_qemu
+> +    _cleanup_test_img
+> +    TEST_IMG="$TEST_IMG.alt1" _cleanup_test_img
+> +    TEST_IMG="$TEST_IMG.alt2" _cleanup_test_img
+> +    rm -f "$SOCK_DIR/nbd"
+
+$SOCK_DIR/nbd seems like a rather generic name, liable to collide with
+other tests.  Oh right, we still haven't improved './check' to be able
+to run tests in parallel each in their own subdirectory, so we aren't
+pulling the rug out from any other parallel test because there are no
+other parallel tests.
+
+
+> +run_delete()
+> +{
+> +    local job=$1
+> +    local devices=$2
+> +    local fail=$3
+> +
+> +    _send_qemu_cmd $QEMU_HANDLE "{\"execute\": \"snapshot-delete\",
+> +                                  \"arguments\": {
+> +                                     \"job-id\": \"$job\",
+> +                                     \"tag\": \"snap0\",
+> +                                     \"devices\": $devices}}" "return"
+> +    if [ $fail = 0 ]; then
+> +        # job status: waiting, pending
+> +        wait_job $job "JOB_STATUS_CHANGE" "JOB_STATUS_CHANGE"
+> +    else
+> +        # job status: aborting
+> +        wait_job $job "JOB_STATUS_CHANGE"
+
+...you ARE testing that it uses events.  Looks like you have a tweak to
+make to the QAPI docs still.
+
+
+> +echo
+> +echo "=====  Snapshot bad error reporting to stderr ====="
+> +echo
+> +
+> +# This demonstrates that we're not capturing vmstate loading failures
+> +# into QMP errors, they're ending up in stderr instead. vmstate needs
+> +# to report errors via Error object but that is a major piece of work
+> +# for the future. This test case's expected output log will need
+> +# adjusting when that is done.
+
+At least you documented what to expect down the road ;)
+
+Overall, we're really close.  If you post the necessary tweaks to squash
+in to the migration.json file, I could give R-b.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
