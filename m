@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFB330C26B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:52:52 +0100 (CET)
-Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE2E30C195
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:29:26 +0100 (CET)
+Received: from localhost ([::1]:33898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6x2x-0004gp-9A
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:52:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
+	id 1l6wgG-0001ih-SM
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:29:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6wi5-0005JW-Sj
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:31:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60507)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6why-0004is-Q8
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:31:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612276269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AvYt1tkIsXw7bEzgj+0tJAL++QzJYfzXrHvM8N6Pku4=;
- b=IMrviiU2IvvTSA4SWiNNZcoOx30DBHnYwOSTVYsNFPvehgiIxa7FMB15S/zFXOVQnTw+0Y
- 8BnD05BzEmsKHyCjdxauHp71xMuBoj6G424VYywmvhpF/vWG1lyoPAm38fy9Z3BWBUR2KV
- ghgAew9Qodt2N8nF8pHpDekdKxL/xJY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158--9WeaYqRPQ6bQVG7p6UVNw-1; Tue, 02 Feb 2021 09:31:06 -0500
-X-MC-Unique: -9WeaYqRPQ6bQVG7p6UVNw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CFC5835E42
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:30:37 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00EA23828;
- Tue,  2 Feb 2021 14:30:35 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 20/20] RFC: tests: add some virtio-gpu & vhost-user-gpu
- acceptance test
-Date: Tue,  2 Feb 2021 18:26:25 +0400
-Message-Id: <20210202142625.609070-21-marcandre.lureau@redhat.com>
-In-Reply-To: <20210202142625.609070-1-marcandre.lureau@redhat.com>
-References: <20210202142625.609070-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6wdo-000752-OG; Tue, 02 Feb 2021 09:26:52 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6wdn-0002mS-9Z; Tue, 02 Feb 2021 09:26:52 -0500
+Received: by mail-wr1-x429.google.com with SMTP id c12so20673528wrc.7;
+ Tue, 02 Feb 2021 06:26:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=r/qNb8iqW13I6zvP3bh0qRMsD1/YemJJvDsDIJV88ns=;
+ b=pZZVdASDw/2bWyWJip0qWSIXHuNdssugvHraTOa4yZLTdFzV4K+q7GmHsLlhwKnXvx
+ N5aVRUb0AUi3QcSYGrlDANTQaqAYZgf9xhgKZOTOEcRVHHaL5iPzOVHgZQeWoUW8EWNM
+ +gG1Udi9iH11EW2ydLTEC/YMiiF1TquuQZmsc4y8IggKP0abj9htW7tyDV0ZiFUvvZxo
+ Fyj8RYRqtjc6uTojUllF/eNfxqvrwgG/9ubncf1Aquu4mzakJlN02LePDgPm+54oYg81
+ MjonO/fYr2jBQYg04SpFs+cyMbl/JiB33YXoSlXQZIisMVnQzjYiHSIMHaVpiFZqzDPT
+ Xjtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=r/qNb8iqW13I6zvP3bh0qRMsD1/YemJJvDsDIJV88ns=;
+ b=L/VM7hg/h38kYMX19ES11zbXCHtZHQW93kq0SeDrjkaH5Qw8J4/49voFaecOzlbuwI
+ Vtzv+WHkHyuYcyFVxe7Be09fUshpTlKl4K03CzH3q0RuoB3ddyXOqNRHyCbh8e3BRUQp
+ ilX5zPM9vnmjRhSAwHPllKwL1xZFOT7qLPs7HqbQHA+ogrX89KxY3Nl1vUBoE3iXBkWq
+ reb8yWleZeCgUGeC//SjcIwg7NWiAibdYC0qQUUw9hq42Zo/bpIfII1kWobUyYMzG2Dx
+ An4nZ2QuWaMkETwO/k64zRakhMyAEZ4yzKd7HyX8T2gK5CYLoj54qmZd+epQUtTCb0Ax
+ Y47w==
+X-Gm-Message-State: AOAM532s2f2CK+EejZ7Id+HbqxjTI67I4o3Pwpoqx0BYhvDgI/xLEv6H
+ BAEHMqrehha1fexmdiBtCeTf2gMICls=
+X-Google-Smtp-Source: ABdhPJzUhiNMgFY+vGaqiDn48585jXkxqSyqYp2Y69/V/25vUo1ez4avkNWi1HOyABbZNmSqi4XAMA==
+X-Received: by 2002:adf:a2ca:: with SMTP id t10mr23759333wra.370.1612276008248; 
+ Tue, 02 Feb 2021 06:26:48 -0800 (PST)
+Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
+ [83.57.171.7])
+ by smtp.gmail.com with ESMTPSA id h23sm3503780wmi.26.2021.02.02.06.26.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Feb 2021 06:26:47 -0800 (PST)
+Subject: Re: [RFC PATCH 2/2] hw/arm/raspi: Restrict BCM2835 / BCM2836 SoC to
+ TCG
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210131151410.318649-1-f4bug@amsat.org>
+ <20210131151410.318649-3-f4bug@amsat.org>
+ <20210201081826.yx34xjzbgsiwzcpd@sekoia-pc.home.lmichel.fr>
+ <CAFEAcA8eDgsGY_Vq5SRuv9HxHY8Qz2j86A0PmKuHfj=H2wm7kQ@mail.gmail.com>
+ <313440b0-95b8-a690-a7ed-65c8428d7c42@amsat.org>
+ <CAFEAcA-9asbQXq8E1Jcqq=AcZw6kO8M9UKGbq=FSnB5iC+dAUg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8560a139-08b8-be47-f6f6-e3d3833687e4@amsat.org>
+Date: Tue, 2 Feb 2021 15:26:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAFEAcA-9asbQXq8E1Jcqq=AcZw6kO8M9UKGbq=FSnB5iC+dAUg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.155,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,183 +92,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Luc Michel <luc@lmichel.fr>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 2/2/21 2:47 PM, Peter Maydell wrote:
+> On Tue, 2 Feb 2021 at 13:29, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 2/2/21 1:28 PM, Peter Maydell wrote:
+>>> At the moment we can reasonably
+>>> say "only the 'virt' board and one of the Xilinx boards are
+>>> security-critical".
+>>
+>> What about the SBSA-ref?
+> 
+> It doesn't work with KVM, and enforces it:
+> 
+>     if (kvm_enabled()) {
+>         error_report("sbsa-ref: KVM is not supported for this machine");
+>         exit(1);
+>     }
 
-This will check virtio/vhost-user-vga & virgl are correctly initialized
-by the Linux kernel on an egl-headless display.
-
-There are many other things that could be checked, but that's a start. I
-also don't know yet how to nicely skip on incompatible host &
-configurations.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- tests/acceptance/virtio-gpu.py | 150 +++++++++++++++++++++++++++++++++
- 1 file changed, 150 insertions(+)
- create mode 100644 tests/acceptance/virtio-gpu.py
-
-diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
-new file mode 100644
-index 0000000000..8da20dcc4a
---- /dev/null
-+++ b/tests/acceptance/virtio-gpu.py
-@@ -0,0 +1,150 @@
-+# virtio-gpu tests
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+
-+from avocado_qemu import Test
-+from avocado_qemu import BUILD_DIR
-+from avocado_qemu import wait_for_console_pattern
-+from avocado_qemu import exec_command_and_wait_for_pattern
-+from avocado_qemu import is_readable_executable_file
-+
-+from qemu.accel import kvm_available
-+
-+import os
-+import socket
-+import subprocess
-+
-+
-+ACCEL_NOT_AVAILABLE_FMT = "%s accelerator does not seem to be available"
-+KVM_NOT_AVAILABLE = ACCEL_NOT_AVAILABLE_FMT % "KVM"
-+
-+
-+def pick_default_vug_bin():
-+    relative_path = "./contrib/vhost-user-gpu/vhost-user-gpu"
-+    if is_readable_executable_file(relative_path):
-+        return relative_path
-+
-+    bld_dir_path = os.path.join(BUILD_DIR, relative_path)
-+    if is_readable_executable_file(bld_dir_path):
-+        return bld_dir_path
-+
-+
-+class VirtioGPUx86(Test):
-+    """
-+    :avocado: tags=virtio-gpu
-+    """
-+
-+    KERNEL_COMMON_COMMAND_LINE = "printk.time=0 "
-+    KERNEL_URL = (
-+        "https://archives.fedoraproject.org/pub/fedora"
-+        "/linux/releases/33/Everything/x86_64/os/images"
-+        "/pxeboot/vmlinuz"
-+    )
-+    INITRD_URL = (
-+        "https://archives.fedoraproject.org/pub/fedora"
-+        "/linux/releases/33/Everything/x86_64/os/images"
-+        "/pxeboot/initrd.img"
-+    )
-+
-+    def wait_for_console_pattern(self, success_message, vm=None):
-+        wait_for_console_pattern(
-+            self, success_message, failure_message="Kernel panic - not syncing", vm=vm
-+        )
-+
-+    def test_virtio_vga_virgl(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        :avocado: tags=device:virtio-vga
-+        """
-+        kernel_command_line = (
-+            self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
-+        )
-+        # FIXME: should check presence of virtio, virgl etc
-+        if not kvm_available(self.arch, self.qemu_bin):
-+            self.cancel(KVM_NOT_AVAILABLE)
-+
-+        kernel_path = self.fetch_asset(self.KERNEL_URL)
-+        initrd_path = self.fetch_asset(self.INITRD_URL)
-+
-+        self.vm.set_console()
-+        self.vm.add_args("-cpu", "host")
-+        self.vm.add_args("-m", "2G")
-+        self.vm.add_args("-machine", "pc,accel=kvm")
-+        self.vm.add_args("-device", "virtio-vga,virgl=on")
-+        self.vm.add_args("-display", "egl-headless")
-+        self.vm.add_args(
-+            "-kernel",
-+            kernel_path,
-+            "-initrd",
-+            initrd_path,
-+            "-append",
-+            kernel_command_line,
-+        )
-+        self.vm.launch()
-+        self.wait_for_console_pattern("as init process")
-+        exec_command_and_wait_for_pattern(self, "/usr/sbin/modprobe virtio_gpu", "")
-+        self.wait_for_console_pattern("features: +virgl +edid")
-+
-+    def test_vhost_user_vga_virgl(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        :avocado: tags=device:vhost-user-vga
-+        """
-+        kernel_command_line = (
-+            self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
-+        )
-+        # FIXME: should check presence of vhost-user-gpu, virgl, memfd etc
-+        if not kvm_available(self.arch, self.qemu_bin):
-+            self.cancel(KVM_NOT_AVAILABLE)
-+
-+        vug = pick_default_vug_bin()
-+        if not vug:
-+            self.cancel("Could not find vhost-user-gpu")
-+
-+        kernel_path = self.fetch_asset(self.KERNEL_URL)
-+        initrd_path = self.fetch_asset(self.INITRD_URL)
-+
-+        # Create socketpair to connect proxy and remote processes
-+        qemu_sock, vug_sock = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
-+        os.set_inheritable(qemu_sock.fileno(), True)
-+        os.set_inheritable(vug_sock.fileno(), True)
-+
-+        self._vug_log_path = os.path.join(self.vm._test_dir, "vhost-user-gpu.log")
-+        self._vug_log_file = open(self._vug_log_path, "wb")
-+        print(self._vug_log_path)
-+
-+        vugp = subprocess.Popen(
-+            [vug, "--virgl", "--fd=%d" % vug_sock.fileno()],
-+            stdin=subprocess.DEVNULL,
-+            stdout=self._vug_log_file,
-+            stderr=subprocess.STDOUT,
-+            shell=False,
-+            close_fds=False,
-+        )
-+
-+        self.vm.set_console()
-+        self.vm.add_args("-cpu", "host")
-+        self.vm.add_args("-m", "2G")
-+        self.vm.add_args("-object", "memory-backend-memfd,id=mem,size=2G")
-+        self.vm.add_args("-machine", "pc,memory-backend=mem,accel=kvm")
-+        self.vm.add_args("-chardev", "socket,id=vug,fd=%d" % qemu_sock.fileno())
-+        self.vm.add_args("-device", "vhost-user-vga,chardev=vug")
-+        self.vm.add_args("-display", "egl-headless")
-+        self.vm.add_args(
-+            "-kernel",
-+            kernel_path,
-+            "-initrd",
-+            initrd_path,
-+            "-append",
-+            kernel_command_line,
-+        )
-+        self.vm.launch()
-+        self.wait_for_console_pattern("as init process")
-+        exec_command_and_wait_for_pattern(self, "/usr/sbin/modprobe virtio_gpu", "")
-+        self.wait_for_console_pattern("features: +virgl -edid")
-+        self.vm.shutdown()
-+        qemu_sock.close()
-+        vugp.terminate()
-+        vugp.wait()
--- 
-2.29.0
-
+Uh I didn't know... That simplifies even further the KVM-only
+build, thanks :)
 
