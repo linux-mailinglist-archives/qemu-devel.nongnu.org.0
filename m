@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E2C30CBB1
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 20:34:19 +0100 (CET)
-Received: from localhost ([::1]:52692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9968F30CBB0
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 20:33:10 +0100 (CET)
+Received: from localhost ([::1]:48454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l71RK-00037G-UI
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 14:34:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
+	id 1l71QD-0001ON-Lx
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 14:33:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l71O9-0008J9-Nx
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:31:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55321)
+ id 1l71OG-0008Sy-SA
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:31:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l71O7-0001Fs-8y
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:31:01 -0500
+ id 1l71OE-0001Iu-Vb
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:31:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612294257;
+ s=mimecast20190719; t=1612294266;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aGiRvX/miiDra234/3N3CmVjK/lJzDKYceY/6z9WJE8=;
- b=CVdKox/ZS7qRepxacCRNnykoHd9RouUKOUDHL8jrc/CBpy3Tj0QF6sXkb8oHLEK/D05rUd
- PW8bydgUK0nK/jD7XiDdbQ9iRkVBcOeizDerDB/HdbOGg+6jwOsrnhV2brYzzaI+REBE8Q
- 4MtQNSzABFyXnyLm623luvm3aZg9g5A=
+ bh=ji6KeukqbRf7zODdJI6lHJJTAz5NSV5XkIwI85m3pt4=;
+ b=Ma1E28rzJvydaieiEmH34czMD1KTX5VJxe7P0W21X95MqMTn37pXGnqMS0ibbn99aDPjT2
+ FYIZNth13migQhJpVEoMZdseKXupp62rhBL/1yzYJ0QeUunzpqFSqr1JKsMsewVAP6728I
+ QbjdM820iJnAmUtJCnxcEeqOYViUS5A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-wdoEUUNeNSGxKnGM6sCnUA-1; Tue, 02 Feb 2021 14:30:54 -0500
-X-MC-Unique: wdoEUUNeNSGxKnGM6sCnUA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-310-nxIsz9zMP6GTyFYNLWm2Dw-1; Tue, 02 Feb 2021 14:30:55 -0500
+X-MC-Unique: nxIsz9zMP6GTyFYNLWm2Dw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AF07C7432;
- Tue,  2 Feb 2021 19:30:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 083DA1084D61;
+ Tue,  2 Feb 2021 19:30:26 +0000 (UTC)
 Received: from localhost (ovpn-3-197.rdu2.redhat.com [10.22.3.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 014106EF57;
- Tue,  2 Feb 2021 19:30:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3B1350B44;
+ Tue,  2 Feb 2021 19:30:25 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 2/3] hostmem-file: add readonly=on|off option
-Date: Tue,  2 Feb 2021 14:30:19 -0500
-Message-Id: <20210202193020.4107711-3-ehabkost@redhat.com>
+Subject: [PULL 3/3] nvdimm: check -object memory-backend-file,
+ readonly=on option
+Date: Tue,  2 Feb 2021 14:30:20 -0500
+Message-Id: <20210202193020.4107711-4-ehabkost@redhat.com>
 In-Reply-To: <20210202193020.4107711-1-ehabkost@redhat.com>
 References: <20210202193020.4107711-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,105 +88,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Let -object memory-backend-file work on read-only files when the
-readonly=on option is given. This can be used to share the contents of a
-file between multiple guests while preventing them from consuming
-Copy-on-Write memory if guests dirty the pages, for example.
+Check that -device nvdimm,unarmed=on is used when -object
+memory-backend-file,readonly=on and document that -device
+nvdimm,unarmed=on|off controls whether the NVDIMM appears read-only to
+the guest.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20210104171320.575838-3-stefanha@redhat.com>
+Message-Id: <20210104171320.575838-4-stefanha@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- backends/hostmem-file.c | 28 +++++++++++++++++++++++++++-
- qemu-options.hx         |  5 ++++-
- 2 files changed, 31 insertions(+), 2 deletions(-)
+ docs/nvdimm.txt | 24 +++++++++++++++++-------
+ hw/mem/nvdimm.c |  9 +++++++++
+ 2 files changed, 26 insertions(+), 7 deletions(-)
 
-diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-index e8276921244..733408e076f 100644
---- a/backends/hostmem-file.c
-+++ b/backends/hostmem-file.c
-@@ -29,6 +29,7 @@ struct HostMemoryBackendFile {
-     uint64_t align;
-     bool discard_data;
-     bool is_pmem;
-+    bool readonly;
- };
+diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
+index c2c6e441b34..0aae682be3e 100644
+--- a/docs/nvdimm.txt
++++ b/docs/nvdimm.txt
+@@ -17,8 +17,8 @@ following command line options:
  
- static void
-@@ -56,7 +57,7 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-                                      backend->size, fb->align,
-                                      (backend->share ? RAM_SHARED : 0) |
-                                      (fb->is_pmem ? RAM_PMEM : 0),
--                                     fb->mem_path, false, errp);
-+                                     fb->mem_path, fb->readonly, errp);
-     g_free(name);
- #endif
- }
-@@ -151,6 +152,28 @@ static void file_memory_backend_set_pmem(Object *o, bool value, Error **errp)
-     fb->is_pmem = value;
- }
+  -machine pc,nvdimm
+  -m $RAM_SIZE,slots=$N,maxmem=$MAX_SIZE
+- -object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE
+- -device nvdimm,id=nvdimm1,memdev=mem1
++ -object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE,readonly=off
++ -device nvdimm,id=nvdimm1,memdev=mem1,unarmed=off
  
-+static bool file_memory_backend_get_readonly(Object *obj, Error **errp)
-+{
-+    HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(obj);
+ Where,
+ 
+@@ -31,9 +31,10 @@ Where,
+    of normal RAM devices and vNVDIMM devices, e.g. $MAX_SIZE should be
+    >= $RAM_SIZE + $NVDIMM_SIZE here.
+ 
+- - "object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE"
+-   creates a backend storage of size $NVDIMM_SIZE on a file $PATH. All
+-   accesses to the virtual NVDIMM device go to the file $PATH.
++ - "object memory-backend-file,id=mem1,share=on,mem-path=$PATH,
++   size=$NVDIMM_SIZE,readonly=off" creates a backend storage of size
++   $NVDIMM_SIZE on a file $PATH. All accesses to the virtual NVDIMM device go
++   to the file $PATH.
+ 
+    "share=on/off" controls the visibility of guest writes. If
+    "share=on", then guest writes will be applied to the backend
+@@ -42,8 +43,17 @@ Where,
+    "share=off", then guest writes won't be applied to the backend
+    file and thus will be invisible to other guests.
+ 
+- - "device nvdimm,id=nvdimm1,memdev=mem1" creates a virtual NVDIMM
+-   device whose storage is provided by above memory backend device.
++   "readonly=on/off" controls whether the file $PATH is opened read-only or
++   read/write (default).
 +
-+    return fb->readonly;
-+}
++ - "device nvdimm,id=nvdimm1,memdev=mem1,unarmed=off" creates a read/write
++   virtual NVDIMM device whose storage is provided by above memory backend
++   device.
 +
-+static void file_memory_backend_set_readonly(Object *obj, bool value,
-+                                             Error **errp)
-+{
-+    HostMemoryBackend *backend = MEMORY_BACKEND(obj);
-+    HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(obj);
++   "unarmed" controls the ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM
++   State Flags" Bit 3 indicating that the device is "unarmed" and cannot accept
++   persistent writes. Linux guest drivers set the device to read-only when this
++   bit is present. Set unarmed to on when the memdev has readonly=on.
+ 
+ Multiple vNVDIMM devices can be created if multiple pairs of "-object"
+ and "-device" are provided.
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index 03c2201b564..e0a9d606e1b 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -146,6 +146,15 @@ static void nvdimm_prepare_memory_region(NVDIMMDevice *nvdimm, Error **errp)
+         return;
+     }
+ 
++    if (!nvdimm->unarmed && memory_region_is_rom(mr)) {
++        HostMemoryBackend *hostmem = dimm->hostmem;
 +
-+    if (host_memory_backend_mr_inited(backend)) {
-+        error_setg(errp, "cannot change property 'readonly' of %s.",
-+                   object_get_typename(obj));
++        error_setg(errp, "'unarmed' property must be off since memdev %s "
++                   "is read-only",
++                   object_get_canonical_path_component(OBJECT(hostmem)));
 +        return;
 +    }
 +
-+    fb->readonly = value;
-+}
-+
- static void file_backend_unparent(Object *obj)
- {
-     HostMemoryBackend *backend = MEMORY_BACKEND(obj);
-@@ -182,6 +205,9 @@ file_backend_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_add_bool(oc, "pmem",
-         file_memory_backend_get_pmem, file_memory_backend_set_pmem);
-+    object_class_property_add_bool(oc, "readonly",
-+        file_memory_backend_get_readonly,
-+        file_memory_backend_set_readonly);
- }
- 
- static void file_backend_instance_finalize(Object *o)
-diff --git a/qemu-options.hx b/qemu-options.hx
-index d0410f05125..c09c4646e28 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4426,7 +4426,7 @@ SRST
-     they are specified. Note that the 'id' property must be set. These
-     objects are placed in the '/objects' path.
- 
--    ``-object memory-backend-file,id=id,size=size,mem-path=dir,share=on|off,discard-data=on|off,merge=on|off,dump=on|off,prealloc=on|off,host-nodes=host-nodes,policy=default|preferred|bind|interleave,align=align``
-+    ``-object memory-backend-file,id=id,size=size,mem-path=dir,share=on|off,discard-data=on|off,merge=on|off,dump=on|off,prealloc=on|off,host-nodes=host-nodes,policy=default|preferred|bind|interleave,align=align,readonly=on|off``
-         Creates a memory file backend object, which can be used to back
-         the guest RAM with huge pages.
- 
-@@ -4509,6 +4509,9 @@ SRST
-         4.15) and the filesystem of ``mem-path`` mounted with DAX
-         option.
- 
-+        The ``readonly`` option specifies whether the backing file is opened
-+        read-only or read-write (default).
-+
-     ``-object memory-backend-ram,id=id,merge=on|off,dump=on|off,share=on|off,prealloc=on|off,size=size,host-nodes=host-nodes,policy=default|preferred|bind|interleave``
-         Creates a memory backend object, which can be used to back the
-         guest RAM. Memory backend objects offer more control than the
+     nvdimm->nvdimm_mr = g_new(MemoryRegion, 1);
+     memory_region_init_alias(nvdimm->nvdimm_mr, OBJECT(dimm),
+                              "nvdimm-memory", mr, 0, pmem_size);
 -- 
 2.28.0
 
