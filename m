@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45DB30BDE7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:15:37 +0100 (CET)
-Received: from localhost ([::1]:45384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BB130BE1A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:22:50 +0100 (CET)
+Received: from localhost ([::1]:49352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6uam-0003hX-0w
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:15:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40968)
+	id 1l6uhm-0005uj-0h
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:22:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6uZC-0002y7-1C
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:13:58 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46579)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6ufv-0004xY-NE
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:20:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39324)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6uZA-0002Oz-8c
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:13:57 -0500
-Received: by mail-wr1-x431.google.com with SMTP id q7so20170125wre.13
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 04:13:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=iZILxQ+vsSrVqPCFV1Yoq//r1xFbadJ5C5V0UkGOX+M=;
- b=fpC2l5IxXaCT5QKdDUUPrKENwwct1JfWCZx02o+NUYGiUGTYPRpL2YKbCsr9tn56Y0
- 3oUczShFJAXo3Gw7L2HVsSrlKouwqw7UnY/db3lCngUA2R1GU+Mw149B2IQFSvtcc6jF
- yDaY2MwtxAX/Vu1l/aUSA1tBVHF5m5tMFjKknqJXUE4n9NVpz+1QLTHoLeQa2dBNxRe3
- 5y427K/hl+UqtLd2Y3C3pFqFd5PzW9KzbJTC44nczX8sQTDlRYywCbA8gzX5uzRC8J2R
- UOCECyxJrBogMWDB8jtUpORwEpxpGp9xSt/6/fVhwVBskoyjcR3z9/AzcTjAQmylOQBi
- RlaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=iZILxQ+vsSrVqPCFV1Yoq//r1xFbadJ5C5V0UkGOX+M=;
- b=j/bJ8FQAEkL1ai13w6tgCW3v/yMx6gaFd2y9wchtt6BOI2ozE2rajmNcSei73vE/EG
- 8bgUzIQD6yg5FsxD8mMSObC92pjNdMuoKrhjudRLgU4IMI9886SyBc0Y9zooefRpVkEp
- 2u6ECZav4n3YLUaIuOAUi0ezttv2w9SGVC5mphr1f8xxhDa4Lm5J9xTVR5v2JmyhAl31
- gH25CLGdNjEH4jbhYBOxrc9pCzfuqW/9mJXvUy4D4dKjyRm1fJ+QxUB0pJNU+Ps3q2ox
- uqQWxX5QxLzMlv1wu9GcvXPbQjYibEygYpnJ5JJY4jQF2HbLDo67mD/IinPGPY5nSbaY
- TkfA==
-X-Gm-Message-State: AOAM531sTD1mjHZbpnPWiNiNfNJiO+r+1mURqYziZarkISA2XHw2vHYN
- Rorz4pSiTwaC7q0jsLhn1RZ9sQ==
-X-Google-Smtp-Source: ABdhPJwnBNTFC84DUw56QU3JEhTKgcrG1KTS+kjxoFeisuJ7GFi1yZdfNKAAdcKpIdQrm8YplXXMhg==
-X-Received: by 2002:adf:f04b:: with SMTP id t11mr22933785wro.347.1612268033694; 
- Tue, 02 Feb 2021 04:13:53 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f6sm2582543wmq.33.2021.02.02.04.13.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 04:13:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5FF831FF7E;
- Tue,  2 Feb 2021 12:13:51 +0000 (GMT)
-References: <20210129181319.2992-1-alex.bennee@linaro.org>
- <CAFEAcA9M+J3X1hS6dPrTM-QxGVfLSrP2=VE7cpdJZPovCuzuJg@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] docs/system: document an example booting the
- versatilepb machine
-Date: Tue, 02 Feb 2021 12:11:09 +0000
-In-reply-to: <CAFEAcA9M+J3X1hS6dPrTM-QxGVfLSrP2=VE7cpdJZPovCuzuJg@mail.gmail.com>
-Message-ID: <87pn1iu0ow.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6ufs-0005b7-B5
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:20:55 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l6ufq-0002CL-C8
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 12:20:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 26F112E813B
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 12:20:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Tue, 02 Feb 2021 12:11:23 -0000
+From: Peter Maydell <1913916@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd pmaydell
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Duplicate: 1913917
+References: <161205956490.4641.15990976871490483736.malonedeb@soybean.canonical.com>
+Message-Id: <161226788317.13121.16272282181171694749.malone@soybean.canonical.com>
+Subject: [Bug 1913916] Re: aarch64-virt: heap-buffer-overflow in
+ address_space_lookup_region
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: 20c581bb6974de07bd698e0d866c8e39fcee44fa
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,105 +73,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Anders Roxell <anders.roxell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1913916 <1913916@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+*** This bug is a duplicate of bug 1913917 ***
+    https://bugs.launchpad.net/bugs/1913917
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+This is a duplicate of the rather simpler bug 1913917. The overrun occurs o=
+n the first =
 
-> On Fri, 29 Jan 2021 at 18:13, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> There is a bit more out there including Aurelien's excellent write up
->> and older Debian images here:
->>
->>   https://www.aurel32.net/info/debian_arm_qemu.php
->>   https://people.debian.org/~aurel32/qemu/armel/
->>
->> However the web is transitory and git is forever so lets add something
->> to the fine manual.
->>
->> Cc: Anders Roxell <anders.roxell@linaro.org>
->> Cc: Aurelien Jarno <aurelien@aurel32.net>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  docs/system/arm/versatile.rst | 32 ++++++++++++++++++++++++++++++++
->>  1 file changed, 32 insertions(+)
->>
->> diff --git a/docs/system/arm/versatile.rst b/docs/system/arm/versatile.r=
-st
->> index 51221c30a4..d16f20ccae 100644
->> --- a/docs/system/arm/versatile.rst
->> +++ b/docs/system/arm/versatile.rst
->> @@ -27,3 +27,35 @@ The Arm Versatile baseboard is emulated with the foll=
-owing devices:
->>     devices.
->>
->>  -  PL181 MultiMedia Card Interface with SD card.
->> +
->> +Booting a Linux kernel
->> +----------------------
->> +
->> +Building a current Linux kernel with ``versatile_defconfig`` should be
->> +enough to get something running.
->> +
->> +.. code-block:: bash
->> +
->> +  $ export ARCH=3Darm
->> +  $ export CROSS_COMPILE=3Darm-linux-gnueabihf-
->> +  $ make versatile_defconfig
->> +  $ make
->
-> same remarks as for other patch.
->
-> Does the 'make' make the right dtb automatically, by the way?
-> (I have some notes where I had to tell the kernel to build the
-> dtb explicitly, but maybe they are out of date.)
-
-I didn't do anything special and it was there in the build directory. Do
-your notes pre-date 2013:
-
-commit cc8e9ad88487004372cae87718ff593d0a2fdc3a
-Author: Rob Herring <rob.herring@calxeda.com>
-Date:   Wed Mar 13 21:31:42 2013 -0500
-
-    ARM: versatile: add versatile dtbs to dtbs target
-
-    Add the versatile platform dtbs to the dtbs make rule.
-
-    Signed-off-by: Rob Herring <rob.herring@calxeda.com>
-
->
->> +
->> +You may want to enable some additional modules if you want to boot
->> +something from the SCSI interface::
->> +
->> +  CONFIG_PCI=3Dy
->> +  CONFIG_PCI_VERSATILE=3Dy
->
-> It's a bit daft that these aren't in the defconfig, but hey.
->
->> +  CONFIG_SCSI=3Dy
->> +  CONFIG_SCSI_SYM53C8XX_2=3Dy
->> +
->> +You can then boot with a command line like:
->> +
->> +.. code-block:: bash
->> +
->> +  $ qemu-system-arm -machine type=3Dversatilepb \
->> +      -serial mon:stdio \
->> +      -drive if=3Dscsi,driver=3Dfile,filename=3Ddebian-buster-armel-roo=
-tfs.ext4 \
->> +      -kernel zImage \
->> +      -dtb versatile-pb.dtb  \
->> +      -append "console=3DttyAMA0 ro root=3D/dev/sda"
->
-> thanks
-> -- PMM
+writel 0x8000f00 0xff4affb0, which corrupts memory and eventually results i=
+n the crash described in the backtrace. I'm not sure why the fuzzer isn't j=
+ust reporting the original overrun.
 
 
---=20
-Alex Benn=C3=A9e
+** This bug has been marked a duplicate of bug 1913917
+   aarch64-virt: heap-use-after-free in gic_dist_writeb
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913916
+
+Title:
+  aarch64-virt: heap-buffer-overflow in address_space_lookup_region
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Reproducer:
+  cat << EOF | ./qemu-system-aarch64 \
+  -machine virt,accel=3Dqtest -qtest stdio
+  writel 0x8000f00 0xff4affb0
+  writel 0x8000f00 0xf2f8017f
+  writeq 0x801000e 0x5a5a5a6c8ff7004b
+  writeq 0x8010010 0x5a5a5a5a73ba2f00
+  writel 0x8000000 0x3bf5a03
+  writel 0x8000000 0x3bf5a03
+  writeq 0x8010000 0x10ffff03fbffffff
+  writel 0x8000f1f 0x5a55fc00
+  readl 0x8011f00
+  readl 0x80000d3
+  readl 0x80000d3
+  clock_step
+  writeq 0x4010008004 0x4604fffdffc54c01
+  writeq 0x4010008002 0xf7478b3f5aff5a55
+  writel 0x8000f00 0x2d6954
+  writel 0x800005a 0x2706fcf
+  readq 0x800002c
+  readw 0x9000004
+  readq 0x800002c
+  writeq 0x801000e 0x5555017f00017f00
+  writew 0x8010000 0x55
+  writew 0x8010000 0x465a
+  writew 0x8010000 0x55
+  writew 0x8010000 0xaf00
+  writeq 0x8010015 0x3b5a5a5555460000
+  writeq 0x8010015 0xd546002b2b000000
+  writeq 0x8010015 0xc44ea5aaaab9ffff
+  readq 0x8000a5a
+  EOF
+
+  Stacktrace:
+  =3D=3D638893=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
+s 0x629000022b84 at pc 0x55915c484d92 bp 0x7ffcde114a00 sp 0x7ffcde1149f8
+  READ of size 2 at 0x629000022b84 thread T0
+      #0 0x55915c484d91 in address_space_lookup_region /home/alxndr/Develop=
+ment/qemu/build/../softmmu/physmem.c:345:36
+      #1 0x55915c484d91 in address_space_translate_internal /home/alxndr/De=
+velopment/qemu/build/../softmmu/physmem.c:359:15
+      #2 0x55915c481d90 in flatview_do_translate /home/alxndr/Development/q=
+emu/build/../softmmu/physmem.c:497:15
+      #3 0x55915c48214e in flatview_translate /home/alxndr/Development/qemu=
+/build/../softmmu/physmem.c:563:15
+      #4 0x55915c107ff9 in address_space_read /home/alxndr/Development/qemu=
+/include/exec/memory.h:2477:18
+      #5 0x55915c107ff9 in qtest_process_command /home/alxndr/Development/q=
+emu/build/../softmmu/qtest.c:572:13
+      #6 0x55915c102b97 in qtest_process_inbuf /home/alxndr/Development/qem=
+u/build/../softmmu/qtest.c:797:9
+      #7 0x55915c953286 in fd_chr_read /home/alxndr/Development/qemu/build/=
+../chardev/char-fd.c:68:9
+      #8 0x7f02be25daae in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
+nu/libglib-2.0.so.0+0x51aae)
+      #9 0x55915cfae363 in glib_pollfds_poll /home/alxndr/Development/qemu/=
+build/../util/main-loop.c:232:9
+      #10 0x55915cfae363 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/build/../util/main-loop.c:255:5
+      #11 0x55915cfae363 in main_loop_wait /home/alxndr/Development/qemu/bu=
+ild/../util/main-loop.c:531:11
+      #12 0x55915c069599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
+ild/../softmmu/runstate.c:721:9
+      #13 0x55915a2f61fd in main /home/alxndr/Development/qemu/build/../sof=
+tmmu/main.c:50:5
+      #14 0x7f02bdd02cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #15 0x55915a249bc9 in _start (/home/alxndr/Development/qemu/build/qem=
+u-system-aarch64+0x3350bc9)
+
+  0x629000022b84 is located 660 bytes to the right of 18160-byte region [0x=
+62900001e200,0x6290000228f0)
+  allocated by thread T0 here:
+      #0 0x55915a2c3c3d in malloc (/home/alxndr/Development/qemu/build/qemu=
+-system-aarch64+0x33cac3d)
+      #1 0x7f02be263a88 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
+so.0+0x57a88)
+      #2 0x55915c932cbd in qdev_new /home/alxndr/Development/qemu/build/../=
+hw/core/qdev.c:153:19
+      #3 0x55915b559360 in create_gic /home/alxndr/Development/qemu/build/.=
+./hw/arm/virt.c:631:16
+      #4 0x55915b5449d2 in machvirt_init /home/alxndr/Development/qemu/buil=
+d/../hw/arm/virt.c:1966:5
+      #5 0x55915a62bac0 in machine_run_board_init /home/alxndr/Development/=
+qemu/build/../hw/core/machine.c:1169:5
+      #6 0x55915c02b8d8 in qemu_init_board /home/alxndr/Development/qemu/bu=
+ild/../softmmu/vl.c:2455:5
+      #7 0x55915c02b8d8 in qmp_x_exit_preconfig /home/alxndr/Development/qe=
+mu/build/../softmmu/vl.c:2526:5
+      #8 0x55915c035d91 in qemu_init /home/alxndr/Development/qemu/build/..=
+/softmmu/vl.c:3533:9
+      #9 0x55915a2f61f8 in main /home/alxndr/Development/qemu/build/../soft=
+mmu/main.c:49:5
+      #10 0x7f02bdd02cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913916/+subscriptions
 
