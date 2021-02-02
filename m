@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2356B30C198
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:30:04 +0100 (CET)
-Received: from localhost ([::1]:34932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED9B30C1B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:33:19 +0100 (CET)
+Received: from localhost ([::1]:45578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6wgt-0002C0-1k
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:30:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43966)
+	id 1l6wk2-00073Y-Hz
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:33:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6weK-0007wm-V8
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:27:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20310)
+ id 1l6weV-0008Fh-Ta
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:27:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6weJ-00030O-3q
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:27:24 -0500
+ id 1l6weU-00035X-7o
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:27:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612276042;
+ s=mimecast20190719; t=1612276052;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hZxn5/y1LDkwsOmG5P9eoyp02iUGT6dW8d6reQHc3bg=;
- b=b9Khj8oNzwRMqvySlqiaOZuPMfjekilUyPukUcSCKStrUAQo4lh/FmsOWOqHX3wKVGtcxK
- 2Cu5Lobt3dhAVxpdi5ftgA1Cj0YoybAfG0NCZTTuUqz//hb9LWvpM+H+DH5R6RqWj1IyKz
- /RTquMRHNlWTPz6snMWU1Ai7bJ3PCbo=
+ bh=zunxw6yF88ILKrQTkQaQG+MuxNlRhuf4zon9WKmeQZ4=;
+ b=ihUeuQB7988+rNofs72MzfC2jFvqCiw0X7Ey2Z/GTTM3SwMn4AToxCr5XaE7NgcrB8Iudp
+ A5qRjmS8O80Esgc2Az30EH3zBioZ0YKn4ugLMMrFXML1iwdxA1tLI8h3Qc5bWQa7PXdJfq
+ peIuxHUYW+cD6lzuVjxn9Z3Wa7D7lW0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-gHR6MU5zP6ycklNvhwSHfg-1; Tue, 02 Feb 2021 09:27:18 -0500
-X-MC-Unique: gHR6MU5zP6ycklNvhwSHfg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-215-K6S0UC5VPRqkbE3IA_MUUQ-1; Tue, 02 Feb 2021 09:27:30 -0500
+X-MC-Unique: K6S0UC5VPRqkbE3IA_MUUQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9405985B677
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:27:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2C988710FE
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:27:29 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9EA2E60C72;
- Tue,  2 Feb 2021 14:27:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E0795B4A6;
+ Tue,  2 Feb 2021 14:27:21 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/20] vhost-user-gpu: handle display-info in a callback
-Date: Tue,  2 Feb 2021 18:26:09 +0400
-Message-Id: <20210202142625.609070-5-marcandre.lureau@redhat.com>
+Subject: [PATCH 05/20] ui: remove extra #ifdef CONFIG_OPENGL
+Date: Tue,  2 Feb 2021 18:26:10 +0400
+Message-Id: <20210202142625.609070-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20210202142625.609070-1-marcandre.lureau@redhat.com>
 References: <20210202142625.609070-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,67 +86,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Fixes a deadlock where the backend calls QEMU, while QEMU also calls the
-backend simultaneously, both ends waiting for each other.
+Since commit 5cb69566daa8081abb82a13403dcc0fffed02007 ("gtk: remove
+CONFIG_GTK_GL"), some #ifdef are redundants.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- contrib/vhost-user-gpu/vhost-user-gpu.c | 32 ++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 6 deletions(-)
+ ui/gtk.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c b/contrib/vhost-user-gpu/vhost-user-gpu.c
-index 7dcc02966c..810e227382 100644
---- a/contrib/vhost-user-gpu/vhost-user-gpu.c
-+++ b/contrib/vhost-user-gpu/vhost-user-gpu.c
-@@ -261,10 +261,32 @@ vg_ctrl_response_nodata(VuGpu *g,
-     vg_ctrl_response(g, cmd, &resp, sizeof(resp));
- }
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 26665cd2e6..e1ee0840b3 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -625,8 +625,6 @@ static const DisplayChangeListenerOps dcl_ops = {
  
-+
-+static gboolean
-+get_display_info_cb(gint fd, GIOCondition condition, gpointer user_data)
-+{
-+    struct virtio_gpu_resp_display_info dpy_info = { {} };
-+    VuGpu *vg = user_data;
-+    struct virtio_gpu_ctrl_command *cmd = QTAILQ_LAST(&vg->fenceq);
-+
-+    g_debug("disp info cb");
-+    assert(cmd->cmd_hdr.type == VIRTIO_GPU_CMD_GET_DISPLAY_INFO);
-+    if (!vg_recv_msg(vg, VHOST_USER_GPU_GET_DISPLAY_INFO, sizeof(dpy_info), &dpy_info)) {
-+        return G_SOURCE_CONTINUE;
-+    }
-+
-+    QTAILQ_REMOVE(&vg->fenceq, cmd, next);
-+    vg_ctrl_response(vg, cmd, &dpy_info.hdr, sizeof(dpy_info));
-+
-+    vg->wait_in = 0;
-+    vg_handle_ctrl(&vg->dev.parent, 0);
-+
-+    return G_SOURCE_REMOVE;
-+}
-+
- void
- vg_get_display_info(VuGpu *vg, struct virtio_gpu_ctrl_command *cmd)
- {
--    struct virtio_gpu_resp_display_info dpy_info = { {} };
-     VhostUserGpuMsg msg = {
-         .request = VHOST_USER_GPU_GET_DISPLAY_INFO,
-         .size = 0,
-@@ -273,11 +295,9 @@ vg_get_display_info(VuGpu *vg, struct virtio_gpu_ctrl_command *cmd)
-     assert(vg->wait_in == 0);
+ /** DisplayState Callbacks (opengl version) **/
  
-     vg_send_msg(vg, &msg, -1);
--    if (!vg_recv_msg(vg, msg.request, sizeof(dpy_info), &dpy_info)) {
--        return;
--    }
+-#if defined(CONFIG_OPENGL)
 -
--    vg_ctrl_response(vg, cmd, &dpy_info.hdr, sizeof(dpy_info));
-+    vg->wait_in = g_unix_fd_add(vg->sock_fd, G_IO_IN | G_IO_HUP,
-+                               get_display_info_cb, vg);
-+    cmd->state = VG_CMD_STATE_PENDING;
- }
+ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_name             = "gtk-egl",
+     .dpy_gfx_update       = gd_gl_area_update,
+@@ -644,8 +642,6 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_gl_update           = gd_gl_area_scanout_flush,
+ };
  
- static void
+-#endif /* CONFIG_OPENGL */
+-
+ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_name             = "gtk-egl",
+     .dpy_gfx_update       = gd_egl_update,
+@@ -1993,13 +1989,10 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+ 
+ #if defined(CONFIG_OPENGL)
+     if (display_opengl) {
+-#if defined(CONFIG_OPENGL)
+         if (gtk_use_gl_area) {
+             vc->gfx.drawing_area = gtk_gl_area_new();
+             vc->gfx.dcl.ops = &dcl_gl_area_ops;
+-        } else
+-#endif /* CONFIG_OPENGL */
+-        {
++        } else {
+             vc->gfx.drawing_area = gtk_drawing_area_new();
+             /*
+              * gtk_widget_set_double_buffered() was deprecated in 3.14.
 -- 
 2.29.0
 
