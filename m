@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F260C30BE62
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:41:38 +0100 (CET)
-Received: from localhost ([::1]:53040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00AD30BE73
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:42:58 +0100 (CET)
+Received: from localhost ([::1]:55406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6uzy-0003MA-22
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:41:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
+	id 1l6v1F-0004Ph-Tf
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:42:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6uxI-0002gf-Po
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:38:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44624)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6v02-0003pq-KA
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:41:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6ux9-00052u-OJ
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:38:51 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6v00-0006Jb-Pv
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:41:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612269521;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=cWRpikc6AOB8AnZxIX6wCkwg+5moeuAxfPRxXAJOLE8=;
- b=jWK7wEHyjaTqRQMraGLcWsytGXg8HiMf/WTM0nU3Ap98cUvRCWt4dfYE3WZZUlJF3XSK1B
- r035o82sCH98i8pXD8Y6CKrnBQvFIv8vjHdfgOv8jAo9hcJsC6RVn6fatJfS70/XklGYEY
- U/J4h45U0e5+FpqPpbLiO2rMA883p88=
+ s=mimecast20190719; t=1612269699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aC+NELjbKGwC/gy3uDliuX9w4Jq8pjoKGcUVjQWOUks=;
+ b=UlcymGiswrPDHKBVVgEzj10X3ikUw3COty2El7jnrrujWlM+YSAyWMHLIUiLp2Ji/L7InW
+ k9woXoerQP6zOgoMSHrUzkpmevjCCcZxkxSmJQ/mk3986pUkmt4TFiK9tms2o48IwFzSgc
+ 3GWxQoAY68EKn3EQHZV5QMijNt72NGE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-DBttNQvJNmCKv8EUzVuKvg-1; Tue, 02 Feb 2021 07:38:38 -0500
-X-MC-Unique: DBttNQvJNmCKv8EUzVuKvg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-504-r4yx483BMkqz0L8XyscVgQ-1; Tue, 02 Feb 2021 07:41:37 -0500
+X-MC-Unique: r4yx483BMkqz0L8XyscVgQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F26C31020C28;
- Tue,  2 Feb 2021 12:38:36 +0000 (UTC)
-Received: from redhat.com (ovpn-112-202.ams2.redhat.com [10.36.112.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C789C5C232;
- Tue,  2 Feb 2021 12:38:31 +0000 (UTC)
-Date: Tue, 2 Feb 2021 12:38:29 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74F76804002;
+ Tue,  2 Feb 2021 12:41:36 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DFA0C5D9C6;
+ Tue,  2 Feb 2021 12:41:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7130E113865F; Tue,  2 Feb 2021 13:41:28 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
 To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: vnc clipboard support
-Message-ID: <20210202123829.GF4168502@redhat.com>
-References: <20210129143252.GE4008275@redhat.com>
- <05C58667-D9BA-49E2-897D-2286B243E802@redhat.com>
- <20210201155116.GL4131462@redhat.com>
- <0C14700F-CF47-4CD1-AB41-AA69BC0DA469@redhat.com>
- <20210201165634.GM4131462@redhat.com>
- <D704948F-96C7-441F-BCA3-F848ABFD8087@redhat.com>
- <20210201174018.GP4131462@redhat.com>
- <8456ae54-b737-fa7d-cac8-75cd701f9ef5@eik.bme.hu>
- <20210202113144.jrmqtgllpgd2nw2h@sirius.home.kraxel.org>
- <e3598537-86af-6cf7-bdfe-eac43bce0f2@eik.bme.hu>
+Subject: Re: [PULL 10/11] trace: document how to specify multiple --trace
+ patterns
+References: <20210201154703.180022-1-stefanha@redhat.com>
+ <20210201154703.180022-11-stefanha@redhat.com>
+ <d5e9b59a-f7df-5a7b-55bb-cc6066b18a70@eik.bme.hu>
+ <20210201161352.GH13157@merkur.fritz.box>
+ <cbab5846-b5d-d256-89d7-b2bf9f7c69f@eik.bme.hu>
+ <20210201165445.GI13157@merkur.fritz.box>
+ <32b015e1-f182-8557-72d1-6827e4f0a09b@redhat.com>
+ <81fbad73-b911-cfb6-dc9f-142ccaee678f@eik.bme.hu>
+Date: Tue, 02 Feb 2021 13:41:28 +0100
+In-Reply-To: <81fbad73-b911-cfb6-dc9f-142ccaee678f@eik.bme.hu> (BALATON
+ Zoltan's message of "Mon, 1 Feb 2021 18:39:49 +0100 (CET)")
+Message-ID: <87v9babq13.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <e3598537-86af-6cf7-bdfe-eac43bce0f2@eik.bme.hu>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -87,64 +87,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Christophe de Dinechin <cdupontd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 02, 2021 at 01:31:23PM +0100, BALATON Zoltan wrote:
-> On Tue, 2 Feb 2021, Gerd Hoffmann wrote:
-> > > > My preferred solution is to have QEMU leverage the existing SPICE
-> > > > guest agent if at all possible, because that's already widely
-> > > > available in existing guest OS.
-> > > 
-> > > I think spice is not as widely available as VNC (or even Synergy) so the
-> > > idea to strip one of those down to just a guest clipboard agent would help
-> > > to get support to the most guests.
-> > 
-> > Well, we can use the spice agent as-is, then just let it talk to qemu
-> > instead of spice client.  No need to code anything on the guest side,
-> > and the (guest) code packaged up in distros will just work.
-> > 
-> > > QEMU already knows about VNC so might be the simplest way and you
-> > > could reuse all kinds of VNC client and server code for the guest
-> > > agent and also make it easy for others to add support for their
-> > > guests.
-> > 
-> > Something vnc-ish doesn't look like a good plan to me.  When coding up
-> > something new I'd go model the protocol after something more modern like
-> > wayland.  When reusing something existing the spice-agent protocol looks
-> > best as most existing linux guests already support it.
-> 
-> Is there anything the vnc protocol lacks over more modern ones that would be
-> needed? I don't know what wayland does. Just because vnc is old it could be
-> sufficient but I have no strong preference for any of these, just wanted to
-> say that reusing something that's available on the most guests would make it
-> work for most people with the least effort and vnc is quite widely
-> available.
+BALATON Zoltan <balaton@eik.bme.hu> writes:
 
-The VNC protocol is way too crude. It is limited to transferring
-plain text, and provides no way to specify or negotiate a character
-set. The RFB spec says apps should use latin-1. In reality few, if any,
-impls do charset conversion so most Linux impls will be sending UTF8
-while Windows impls will be sending Windows Codepage 1252. It clearly
-shows its heritage of being designed in the 1990s.
+> On Mon, 1 Feb 2021, Paolo Bonzini wrote:
+>> On 01/02/21 17:54, Kevin Wolf wrote:
+>>>> How does this option parsing work? Would then multiple patterns
+>>>> separated by
+>>>> comma as in -trace pattern1,pattern2 also work?
+>>> This would be interpreted as an implied "enable" option with a value of
+>>> "pattern1,pattern2". I don't think anything splits that string at the
+>>> comma, so it would look for a trace event matching that string.
+>>
+>> Even worse, it would be interpreted as "-trace
+>> enable=pattern1,pattern2=on" (and raise a warning since recently).
+>
+> Not very intuitive... What would -trace
+> enable=pattern1,enable=pattern2 do then?
 
-Essentially any other protocol relating to clipboard that postdates
-RFB will be better.
+Welcome to the QemuOpts swamp.  Bring your own mosquito net.
 
-I expect that once we figure out what we want todo with clipboard
-for the QEMU <-> guest communication, then we'll end up wanting to
-write a RFB protocol extension to define a better VNC clipboard
-protocol that has the modern features people expect.
+The argument of -trace is parsed with QemuOpts.
 
+The option argument is specified in trace/control.c:
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+    QemuOptsList qemu_trace_opts = {
+        .name = "trace",
+        .implied_opt_name = "enable",
+        .head = QTAILQ_HEAD_INITIALIZER(qemu_trace_opts.head),
+        .desc = {
+            {
+                .name = "enable",
+                .type = QEMU_OPT_STRING,
+            },
+            {
+                .name = "events",
+                .type = QEMU_OPT_STRING,
+            },{
+                .name = "file",
+                .type = QEMU_OPT_STRING,
+            },
+            { /* end of list */ }
+        },
+    };
+
+We generally refer to QemuOptsList by name.  This one's name is "trace".
+
+The non-empty .desc[] enumerates the recognized parameters.
+Additionally, special parameter "id" is recognized.
+
+.implied_opt_name enables "omitted first key defaults to implied key"
+sugar.  This is what makes "-trace PATTERN" shorthand for -trace
+enable=PATTERN", where PATTERN contains neither '=' nor unescaped ','.
+
+The QemuOpts parser parses an option argument string into a QemuOpts,
+stores it for later use, and also returns it for immediate use.
+
+Code can do whatever it wants with the stored parameters.  This is a
+wellspring of inconsistency and confusion.
+
+Let's look at the code for -trace.  In qemu_init(), we have:
+
+                case QEMU_OPTION_trace:
+                    trace_opt_parse(optarg);
+                    break;
+
+This calls trace_opt_parse() for every -trace, in order.  @optarg is the
+argument string.
+
+    void trace_opt_parse(const char *optarg)
+    {
+        QemuOpts *opts = qemu_opts_parse_noisily(qemu_find_opts("trace"),
+                                                 optarg, true);
+
+qemu_opts_parse_noisily() parses @optarg into a QemuOpts, stores it for
+later use, and also returns it for immediate use.
+
+        if (!opts) {
+            exit(1);
+        }
+
+        if (qemu_opt_get(opts, "enable")) {
+            trace_enable_events(qemu_opt_get(opts, "enable"));
+        }
+
+Pass the last enable=PATTERN in @optarg to trace_enable_events().
+
+        trace_init_events(qemu_opt_get(opts, "events"));
+
+Pass the the last events=FILENAME to trace_init_events(), which parses
+patterns from file FILENAME and passes them to trace_enable_events().
+
+Non-last enable=... ane events=... are silently ignored.
+
+        init_trace_on_startup = true;
+
+Set a flag for trace_init_file().
+
+        qemu_opts_del(opts);
+
+Delete the stored QemuOpts.  We'll get back to this in jiffie.
+
+    }
+
+Later in qemu_init(), we call trace_init_file().  Here it is:
+
+    void trace_init_file(void)
+    {
+        QemuOpts *opts = qemu_find_opts_singleton("trace");
+
+This gets the first QemuOpts stored in the QemuOptsList named "trace"
+without "id".  If there is none, it creates an empty one for us.
+
+Since trace_opt_parse() deletes, this always creates an empty one.
+
+        const char *file = qemu_opt_get(opts, "file");
+
+This is always null.
+
+    #ifdef CONFIG_TRACE_SIMPLE
+        st_set_trace_file(file);
+        if (init_trace_on_startup) {
+            st_set_trace_file_enabled(true);
+        }
+    #elif defined CONFIG_TRACE_LOG
+        /*
+         * If both the simple and the log backends are enabled, "--trace file"
+         * only applies to the simple backend; use "-D" for the log
+         * backend. However we should only override -D if we actually have
+         * something to override it with.
+         */
+        if (file) {
+            qemu_set_log_filename(file, &error_fatal);
+        }
+    #else
+        if (file) {
+            fprintf(stderr, "error: --trace file=...: "
+                    "option not supported by the selected tracing backends\n");
+            exit(1);
+        }
+    #endif
+    }
+
+Bug: option parameter "file" has no effect.  I suspect this was broken
+in commit 92eecfff32 "trace: remove argument from trace_init_file",
+2020-11-11.
+
+And now I'm ready to answer your question:
+
+    -trace enable=pattern1,enable=pattern2
+
+is a confusing way to say
+
+    -trace enable=pattern2
+
+To specify both patterns, use
+
+    -trace enable=pattern1 -trace enable=pattern2
+
+Lovely, isn't it?
 
 
