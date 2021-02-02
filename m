@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA7E30C9D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:31:02 +0100 (CET)
-Received: from localhost ([::1]:38452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B7430CA1C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:43:06 +0100 (CET)
+Received: from localhost ([::1]:50636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l70S4-00024f-Tt
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:31:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48742)
+	id 1l70dl-0000Qg-3h
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:43:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l70CB-0001zV-Mz
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 13:14:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l70C7-00006k-Dd
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 13:14:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612289670;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I1igSmcgArR5tFj7s1L+gOYKq+dX7NwjoT27cwn3tPU=;
- b=hl/jddZ1l8c07sZsR3RzQ5Cgiuxfrh9EP8tj/RjkRKG/rnCC7gjxGeXT84OzqTgNn9l5XX
- 9U5dM/xzXcgnK9Cn2AxkURstj8+F9xgsIny6ZCyv28IaaTq5xFXK6H0YWQxtjWmRA3Aul0
- cLcylcWf5FB7SP806Zm2+6SP/rJLBhQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-BIoqvlbTPTiWOB7ms7rgRg-1; Tue, 02 Feb 2021 13:14:26 -0500
-X-MC-Unique: BIoqvlbTPTiWOB7ms7rgRg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 756C9B8103;
- Tue,  2 Feb 2021 18:14:25 +0000 (UTC)
-Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C80A19C71;
- Tue,  2 Feb 2021 18:14:24 +0000 (UTC)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210202154138.246464-1-berrange@redhat.com>
- <20210202154138.246464-13-berrange@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH v10 12/12] migration: introduce
- snapshot-{save,load,delete} QMP commands
-Message-ID: <02126b54-f7eb-5ad7-b7f0-b66e60b26b50@redhat.com>
-Date: Tue, 2 Feb 2021 12:14:23 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l70bj-00089C-8X
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 13:40:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l70bf-00016I-Tz
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 13:40:59 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l70be-0005Yw-07
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 18:40:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F0E552E8048
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 18:40:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210202154138.246464-13-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 02 Feb 2021 18:23:15 -0000
+From: melanie witt <1914282@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: melwitt
+X-Launchpad-Bug-Reporter: melanie witt (melwitt)
+X-Launchpad-Bug-Modifier: melanie witt (melwitt)
+Message-Id: <161229019609.3949.15746215383583949568.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1914282] [NEW] block copy job sometimes hangs on the last block
+ for minutes
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: a15e33d9e10f646b4058a7125f68067690f5a85e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, URIBL_SBL_A=0.1,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,163 +70,567 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Reply-To: Bug 1914282 <1914282@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/21 9:41 AM, Daniel P. Berrangé wrote:
-> savevm, loadvm and delvm are some of the few HMP commands that have never
-> been converted to use QMP. The reasons for the lack of conversion are
-> that they blocked execution of the event thread, and the semantics
-> around choice of disks were ill-defined.
-> 
+Public bug reported:
 
-> Note that the existing "query-named-block-nodes" can be used to query
-> what snapshots currently exist for block nodes.
-> 
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  migration/savevm.c                            | 184 +++++++
->  qapi/job.json                                 |   9 +-
->  qapi/migration.json                           | 157 ++++++
->  .../tests/internal-snapshots-qapi             | 386 +++++++++++++
->  .../tests/internal-snapshots-qapi.out         | 520 ++++++++++++++++++
+In openstack nova we use the block copy API to copy disks for volume
+swap requests. In our CI gate we observed that sometimes the block copy
+job progress will reach the last or next to last block and hang there
+for  minutes at a time, causing CI jobs to fail as jobs timeout.
 
-Not this patch's fault: I find the name tests/qemu-iotests/tests/name to
-be rather long and a bit repetitive; maybe we want to rename the
-directory structure to something simpler, like:
+On the client (nova-compute) side, using the python bindings we see the
+following in the openstack nova logs:
 
-tests/iotests/name
+---------------
 
-(that is, move the named tests into a sibling directory of
-qemu-iotests/check, rather than a subdirectory).  And maybe rename
-qemu-iotests/check to something that requires less typing.  Oh, and
-while I'm asking for rainbows and ponies, being able to run check from
-the same directory where I run make, instead of having to change
-directories, would be nice.  But as I said, that's a wish list for a
-separate series.
+Jan 21 05:31:02.207785 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+-4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+TestVolumeSwap-1117975117] COPY block job progress, current cursor: 0
+final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+/opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-For _this_ patch,
+Jan 21 05:31:55.688227 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+-4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+/opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-> +++ b/migration/savevm.c
+[...]
 
-> +++ b/qapi/migration.json
+Jan 21 05:31:55.706698 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+-4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+/opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-> +# Example:
-> +#
-> +# -> { "execute": "snapshot-save",
-> +#      "data": {
-> +#         "job-id": "snapsave0",
-> +#         "tag": "my-snap",
-> +#         "vmstate": "disk0",
-> +#         "devices": ["disk0", "disk1"]
-> +#      }
-> +#    }
-> +# <- { "return": { } }
-> +# <- {"event": "JOB_STATUS_CHANGE",
-> +#     "data": {"status": "created", "id": "snapsave0"}}
+Jan 21 05:31:56.175248 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+-4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+/opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-Nice example here with events...
+[...]
 
-> +##
-> +# @snapshot-delete:
-> +#
-> +# Delete a VM snapshot
-> +#
-> +# @job-id: identifier for the newly created job
-> +# @tag: name of the snapshot to delete.
-> +# @devices: list of block device node names to delete a snapshot from
-> +#
-> +# Applications should not assume that the snapshot save is complete
-> +# when this command returns. The job commands / events must be used
-> +# to determine completion and to fetch details of any errors that arise.
+~2.5 minutes later, it's still going at current cursor: 1073741823 final
+cursor: 1073741824
 
-...which makes this paragraph feel out of place: there is no snapshot
-save going on during snapshot-delete, and...
+Jan 21 05:34:30.952371 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+-4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+/opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-> +#
-> +# Returns: nothing
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "snapshot-delete",
-> +#      "data": {
-> +#         "job-id": "snapdelete0",
-> +#         "tag": "my-snap",
-> +#         "devices": ["disk0", "disk1"]
-> +#      }
-> +#    }
-> +# <- { "return": { } }
+then current cursor =3D=3D final cursor at 05:34:31.460595
 
-...the example shows no events.  On the other hand...
+Jan 21 05:34:31.460595 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+-4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+1073741824 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+/opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-> +++ b/tests/qemu-iotests/tests/internal-snapshots-qapi
-> @@ -0,0 +1,386 @@
-> +#!/usr/bin/env bash
-> +# group: rw auto quick snapshot
-> +#
+---------------
 
-> +_cleanup()
-> +{
-> +    _cleanup_qemu
-> +    _cleanup_test_img
-> +    TEST_IMG="$TEST_IMG.alt1" _cleanup_test_img
-> +    TEST_IMG="$TEST_IMG.alt2" _cleanup_test_img
-> +    rm -f "$SOCK_DIR/nbd"
+In this excerpt the cursor reaches the next to last block at Jan 21
+05:31:56.175248 and hangs there repeating status at the next to last
+block until Jan 21 05:34:30.952371 (~2.5 minutes) and then the job shows
+current cursor =3D=3D final cursor at Jan 21 05:34:31.460595.
 
-$SOCK_DIR/nbd seems like a rather generic name, liable to collide with
-other tests.  Oh right, we still haven't improved './check' to be able
-to run tests in parallel each in their own subdirectory, so we aren't
-pulling the rug out from any other parallel test because there are no
-other parallel tests.
+In the corresponding qemu log, we see the block copy job report being on
+the last block for minutes:
 
+---------------
 
-> +run_delete()
-> +{
-> +    local job=$1
-> +    local devices=$2
-> +    local fail=$3
-> +
-> +    _send_qemu_cmd $QEMU_HANDLE "{\"execute\": \"snapshot-delete\",
-> +                                  \"arguments\": {
-> +                                     \"job-id\": \"$job\",
-> +                                     \"tag\": \"snap0\",
-> +                                     \"devices\": $devices}}" "return"
-> +    if [ $fail = 0 ]; then
-> +        # job status: waiting, pending
-> +        wait_job $job "JOB_STATUS_CHANGE" "JOB_STATUS_CHANGE"
-> +    else
-> +        # job status: aborting
-> +        wait_job $job "JOB_STATUS_CHANGE"
+021-01-21 05:31:02.206+0000: 60630: debug : qemuMonitorJSONIOProcessLine:22=
+0 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device": =
+"copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len": 10=
+73741824, "offset": 0, "status": "running", "paused": false, "speed": 0, "r=
+eady": false, "type": "mirror"}], "id": "libvirt-501"}]
+2021-01-21 05:31:02.206+0000: 60630: info : qemuMonitorJSONIOProcessLine:23=
+9 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"aut=
+o-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-format"=
+, "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 0, "sta=
+tus": "running", "paused": false, "speed": 0, "ready": false, "type": "mirr=
+or"}], "id": "libvirt-501"}
 
-...you ARE testing that it uses events.  Looks like you have a tweak to
-make to the QAPI docs still.
+[...]
 
+len =3D=3D offset at 05:31:56.174
 
-> +echo
-> +echo "=====  Snapshot bad error reporting to stderr ====="
-> +echo
-> +
-> +# This demonstrates that we're not capturing vmstate loading failures
-> +# into QMP errors, they're ending up in stderr instead. vmstate needs
-> +# to report errors via Error object but that is a major piece of work
-> +# for the future. This test case's expected output log will need
-> +# adjusting when that is done.
+2021-01-21 05:31:56.174+0000: 60630: debug : qemuMonitorJSONIOProcessLine:2=
+20 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device":=
+ "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len": 1=
+073741824, "offset": 1073741824, "status": "running", "paused": false, "spe=
+ed": 0, "ready": false, "type": "mirror"}], "id": "libvirt-581"}]
+2021-01-21 05:31:56.174+0000: 60630: info : qemuMonitorJSONIOProcessLine:23=
+9 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"aut=
+o-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-format"=
+, "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 1073741=
+824, "status": "running", "paused": false, "speed": 0, "ready": false, "typ=
+e": "mirror"}], "id": "libvirt-581"}
 
-At least you documented what to expect down the road ;)
+[...]
 
-Overall, we're really close.  If you post the necessary tweaks to squash
-in to the migration.json file, I could give R-b.
+~2.5 minutes later, still len =3D=3D offset but it's still going
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2021-01-21 05:34:31.459+0000: 60630: debug : qemuMonitorJSONIOProcessLine:2=
+20 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device":=
+ "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": false, "len": =
+1073741824, "offset": 1073741824, "status": "ready", "paused": false, "spee=
+d": 0, "ready": true, "type": "mirror"}], "id": "libvirt-855"}]
+2021-01-21 05:34:31.459+0000: 60630: info : qemuMonitorJSONIOProcessLine:23=
+9 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"aut=
+o-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-format"=
+, "auto-dismiss": false, "busy": false, "len": 1073741824, "offset": 107374=
+1824, "status": "ready", "paused": false, "speed": 0, "ready": true, "type"=
+: "mirror"}], "id": "libvirt-855"}
 
+and then the job finishes soon after
+
+2021-01-21 05:34:31.467+0000: 60630: debug :
+qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+changed to 'waiting'(6)
+
+2021-01-21 05:34:31.467+0000: 60630: debug :
+qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+changed to 'pending'(7)
+
+2021-01-21 05:34:31.467+0000: 60630: debug :
+qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+changed to 'concluded'(9)
+
+2021-01-21 05:34:31.468+0000: 60630: debug :
+qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+changed to 'null'(11)
+
+2021-01-21 05:34:31.468+0000: 60634: debug :
+qemuBlockJobProcessEventConcludedCopyPivot:1221 : copy job 'copy-vdb-
+libvirt-5-format' on VM 'instance-00000013' pivoted
+
+2021-01-21 05:34:32.292+0000: 60634: debug : qemuDomainObjEndJob:9746 :
+Stopping job: modify (async=3Dnone vm=3D0x7fd070075720
+name=3Dinstance-00000013)
+
+---------------
+
+Is this normal for a block copy job to hang on the last block like this
+for minutes at a time? Why doesn't the job close out once offset =3D=3D len?
+
+Thanks for any help you can offer.
+
+Additional log messages have been pasted here:
+
+https://pastebin.com/FQRu76Sn
+
+and for completeness, these logs were taken from the following openstack
+nova gate job:
+
+https://zuul.opendev.org/t/openstack/build/a078a17aa9924517b329cafc3f54fed4
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Summary changed:
+
+- block copy job sometimes hangs on the last block for several minutes
++ block copy job sometimes hangs on the last block for minutes
+
+** Description changed:
+
+  In openstack nova we use the block copy API to copy disks for volume
+  swap requests. In our CI gate we observed that sometimes the block copy
+  job progress will reach the last or next to last block and hang there
+- for several minutes at a time, causing CI jobs to fail as jobs timeout.
++ for  minutes at a time, causing CI jobs to fail as jobs timeout.
+  =
+
+  On the client (nova-compute) side, using the python bindings we see the
+  following in the openstack nova logs:
+  =
+
+  ---------------
+  =
+
+  Jan 21 05:31:02.207785 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor: 0
+  final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+  =
+
+  Jan 21 05:31:55.688227 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+  =
+
+  [...]
+  =
+
+  Jan 21 05:31:55.706698 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+  =
+
+  Jan 21 05:31:56.175248 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+  =
+
+  [...]
+  =
+
+  ~2.5 minutes later, it's still going at current cursor: 1073741823 final
+  cursor: 1073741824
+  =
+
+  Jan 21 05:34:30.952371 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+  =
+
+  then current cursor =3D=3D final cursor at 05:34:31.460595
+  =
+
+  Jan 21 05:34:31.460595 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1073741824 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+  =
+
+  ---------------
+  =
+
+  In this excerpt the cursor reaches the next to last block at Jan 21
+  05:31:56.175248 and hangs there repeating status at the next to last
+  block until Jan 21 05:34:30.952371 (~2.5 minutes) and then the job shows
+  current cursor =3D=3D final cursor at Jan 21 05:34:31.460595.
+  =
+
+  In the corresponding qemu log, we see the block copy job report being on
+  the last block for minutes:
+  =
+
+  ---------------
+  =
+
+  021-01-21 05:31:02.206+0000: 60630: debug : qemuMonitorJSONIOProcessLine:=
+220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device"=
+: "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len": =
+1073741824, "offset": 0, "status": "running", "paused": false, "speed": 0, =
+"ready": false, "type": "mirror"}], "id": "libvirt-501"}]
+  2021-01-21 05:31:02.206+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
+239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
+uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
+t", "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 0, "s=
+tatus": "running", "paused": false, "speed": 0, "ready": false, "type": "mi=
+rror"}], "id": "libvirt-501"}
+  =
+
+  [...]
+  =
+
+  len =3D=3D offset at 05:31:56.174
+  =
+
+  2021-01-21 05:31:56.174+0000: 60630: debug : qemuMonitorJSONIOProcessLine=
+:220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device=
+": "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len":=
+ 1073741824, "offset": 1073741824, "status": "running", "paused": false, "s=
+peed": 0, "ready": false, "type": "mirror"}], "id": "libvirt-581"}]
+  2021-01-21 05:31:56.174+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
+239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
+uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
+t", "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 10737=
+41824, "status": "running", "paused": false, "speed": 0, "ready": false, "t=
+ype": "mirror"}], "id": "libvirt-581"}
+  =
+
+  [...]
+  =
+
+  ~2.5 minutes later, still len =3D=3D offset but it's still going
+  =
+
+  2021-01-21 05:34:31.459+0000: 60630: debug : qemuMonitorJSONIOProcessLine=
+:220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device=
+": "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": false, "len"=
+: 1073741824, "offset": 1073741824, "status": "ready", "paused": false, "sp=
+eed": 0, "ready": true, "type": "mirror"}], "id": "libvirt-855"}]
+  2021-01-21 05:34:31.459+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
+239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
+uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
+t", "auto-dismiss": false, "busy": false, "len": 1073741824, "offset": 1073=
+741824, "status": "ready", "paused": false, "speed": 0, "ready": true, "typ=
+e": "mirror"}], "id": "libvirt-855"}
+  =
+
+  and then the job finishes soon after
+  =
+
+  2021-01-21 05:34:31.467+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'waiting'(6)
+  =
+
+  2021-01-21 05:34:31.467+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'pending'(7)
+  =
+
+  2021-01-21 05:34:31.467+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'concluded'(9)
+  =
+
+  2021-01-21 05:34:31.468+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'null'(11)
+  =
+
+  2021-01-21 05:34:31.468+0000: 60634: debug :
+  qemuBlockJobProcessEventConcludedCopyPivot:1221 : copy job 'copy-vdb-
+  libvirt-5-format' on VM 'instance-00000013' pivoted
+  =
+
+  2021-01-21 05:34:32.292+0000: 60634: debug : qemuDomainObjEndJob:9746 :
+  Stopping job: modify (async=3Dnone vm=3D0x7fd070075720
+  name=3Dinstance-00000013)
+  =
+
+  ---------------
+  =
+
+  Is this normal for a block copy job to hang on the last block like this
+  for minutes at a time? Why doesn't the job close out once offset =3D=3D l=
+en?
+  =
+
+  Thanks for any help you can offer.
++ =
+
++ Additional log messages have been pasted here:
++ =
+
++ https://pastebin.com/FQRu76Sn
++ =
+
++ and for completeness, these logs were taken from the following openstack
++ nova gate job:
++ =
+
++ https://zuul.opendev.org/t/openstack/build/a078a17aa9924517b329cafc3f54fe=
+d4
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914282
+
+Title:
+  block copy job sometimes hangs on the last block for minutes
+
+Status in QEMU:
+  New
+
+Bug description:
+  In openstack nova we use the block copy API to copy disks for volume
+  swap requests. In our CI gate we observed that sometimes the block
+  copy job progress will reach the last or next to last block and hang
+  there for  minutes at a time, causing CI jobs to fail as jobs timeout.
+
+  On the client (nova-compute) side, using the python bindings we see
+  the following in the openstack nova logs:
+
+  ---------------
+
+  Jan 21 05:31:02.207785 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor: 0
+  final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+
+  Jan 21 05:31:55.688227 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+
+  [...]
+
+  Jan 21 05:31:55.706698 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+
+  Jan 21 05:31:56.175248 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+
+  [...]
+
+  ~2.5 minutes later, it's still going at current cursor: 1073741823
+  final cursor: 1073741824
+
+  Jan 21 05:34:30.952371 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+
+  then current cursor =3D=3D final cursor at 05:34:31.460595
+
+  Jan 21 05:34:31.460595 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1073741824 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
+
+  ---------------
+
+  In this excerpt the cursor reaches the next to last block at Jan 21
+  05:31:56.175248 and hangs there repeating status at the next to last
+  block until Jan 21 05:34:30.952371 (~2.5 minutes) and then the job
+  shows current cursor =3D=3D final cursor at Jan 21 05:34:31.460595.
+
+  In the corresponding qemu log, we see the block copy job report being
+  on the last block for minutes:
+
+  ---------------
+
+  021-01-21 05:31:02.206+0000: 60630: debug : qemuMonitorJSONIOProcessLine:=
+220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device"=
+: "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len": =
+1073741824, "offset": 0, "status": "running", "paused": false, "speed": 0, =
+"ready": false, "type": "mirror"}], "id": "libvirt-501"}]
+  2021-01-21 05:31:02.206+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
+239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
+uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
+t", "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 0, "s=
+tatus": "running", "paused": false, "speed": 0, "ready": false, "type": "mi=
+rror"}], "id": "libvirt-501"}
+
+  [...]
+
+  len =3D=3D offset at 05:31:56.174
+
+  2021-01-21 05:31:56.174+0000: 60630: debug : qemuMonitorJSONIOProcessLine=
+:220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device=
+": "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len":=
+ 1073741824, "offset": 1073741824, "status": "running", "paused": false, "s=
+peed": 0, "ready": false, "type": "mirror"}], "id": "libvirt-581"}]
+  2021-01-21 05:31:56.174+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
+239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
+uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
+t", "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 10737=
+41824, "status": "running", "paused": false, "speed": 0, "ready": false, "t=
+ype": "mirror"}], "id": "libvirt-581"}
+
+  [...]
+
+  ~2.5 minutes later, still len =3D=3D offset but it's still going
+
+  2021-01-21 05:34:31.459+0000: 60630: debug : qemuMonitorJSONIOProcessLine=
+:220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device=
+": "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": false, "len"=
+: 1073741824, "offset": 1073741824, "status": "ready", "paused": false, "sp=
+eed": 0, "ready": true, "type": "mirror"}], "id": "libvirt-855"}]
+  2021-01-21 05:34:31.459+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
+239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
+uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
+t", "auto-dismiss": false, "busy": false, "len": 1073741824, "offset": 1073=
+741824, "status": "ready", "paused": false, "speed": 0, "ready": true, "typ=
+e": "mirror"}], "id": "libvirt-855"}
+
+  and then the job finishes soon after
+
+  2021-01-21 05:34:31.467+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'waiting'(6)
+
+  2021-01-21 05:34:31.467+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'pending'(7)
+
+  2021-01-21 05:34:31.467+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'concluded'(9)
+
+  2021-01-21 05:34:31.468+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'null'(11)
+
+  2021-01-21 05:34:31.468+0000: 60634: debug :
+  qemuBlockJobProcessEventConcludedCopyPivot:1221 : copy job 'copy-vdb-
+  libvirt-5-format' on VM 'instance-00000013' pivoted
+
+  2021-01-21 05:34:32.292+0000: 60634: debug : qemuDomainObjEndJob:9746
+  : Stopping job: modify (async=3Dnone vm=3D0x7fd070075720
+  name=3Dinstance-00000013)
+
+  ---------------
+
+  Is this normal for a block copy job to hang on the last block like
+  this for minutes at a time? Why doesn't the job close out once offset
+  =3D=3D len?
+
+  Thanks for any help you can offer.
+
+  Additional log messages have been pasted here:
+
+  https://pastebin.com/FQRu76Sn
+
+  and for completeness, these logs were taken from the following
+  openstack nova gate job:
+
+  https://zuul.opendev.org/t/openstack/build/a078a17aa9924517b329cafc3f54fe=
+d4
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914282/+subscriptions
 
