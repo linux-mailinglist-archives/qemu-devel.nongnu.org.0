@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A19C30CF7F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 23:59:55 +0100 (CET)
-Received: from localhost ([::1]:56318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBE630CF91
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 00:03:43 +0100 (CET)
+Received: from localhost ([::1]:33914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l74eI-0000Iz-7p
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 17:59:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40564)
+	id 1l74hy-0002xT-Pn
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 18:03:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74Qy-0007jD-Oj
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:46:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54700)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74R3-0007ms-Sa
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:46:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74Qj-0005z9-4R
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:46:08 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74Qm-00062Q-3s
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:46:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612305951;
+ s=mimecast20190719; t=1612305954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aTxZWc8baHZKOGq/Rh7O1LTMPxE181aZwWtqhMtNLdM=;
- b=V1hqC9td8KW7gJvqpj7ABt3A26qi5AB3ZTa9h3VA98IXer7mu2Pozn9liDjUbuF96jpFd1
- 65SXz+TH1nkzxWo9pcd4UAEJFqeQHrFQaW8LCbgdaGKn5dEQLORuERTghBXkhrYC7BV/3o
- Gn3gDpIYi1jmWMvZETqDSwR8XAKPjj4=
+ bh=kI5bH/v9q3OSSx5hjgtAXIHcGal4hbpIUT9ypK6URVA=;
+ b=WCsdWCr+qBoEmq9qhW4z/Q2uvCe1w4Dl4qdry7vjP+IYUxQG3weSOBmEVS6LT2nbFNbeeR
+ AQTOOQW5/LkKM8LKuhHtsnXRKpwxro0WkBxzIp69BD+++MsZGxWpbfAI8kV25oBxU/JdRK
+ mUzpVsAnzW41WltkMx4uYekA2URtulQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-P-vmgoNjO3eiQMoY9n1AFw-1; Tue, 02 Feb 2021 17:45:49 -0500
-X-MC-Unique: P-vmgoNjO3eiQMoY9n1AFw-1
+ us-mta-415-MnOMHd7KP3edDKoPlwBMbw-1; Tue, 02 Feb 2021 17:45:50 -0500
+X-MC-Unique: MnOMHd7KP3edDKoPlwBMbw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C2355191;
- Tue,  2 Feb 2021 22:45:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 328F5100C613;
+ Tue,  2 Feb 2021 22:45:49 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1AB710016F5;
- Tue,  2 Feb 2021 22:45:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A862A10016F5;
+ Tue,  2 Feb 2021 22:45:48 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/20] block/io: use int64_t bytes in copy_range
-Date: Tue,  2 Feb 2021 16:45:26 -0600
-Message-Id: <20210202224529.642055-18-eblake@redhat.com>
+Subject: [PULL 18/20] block/nbd: only detach existing iochannel from
+ aio_context
+Date: Tue,  2 Feb 2021 16:45:27 -0600
+Message-Id: <20210202224529.642055-19-eblake@redhat.com>
 In-Reply-To: <20210202224529.642055-1-eblake@redhat.com>
 References: <20210202224529.642055-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,154 +77,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+Cc: Roman Kagan <rvkagan@yandex-team.ru>, Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block I/O path" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Roman Kagan <rvkagan@yandex-team.ru>
 
-We are generally moving to int64_t for both offset and bytes parameters
-on all io paths.
+When the reconnect in NBD client is in progress, the iochannel used for
+NBD connection doesn't exist.  Therefore an attempt to detach it from
+the aio_context of the parent BlockDriverState results in a NULL pointer
+dereference.
 
-Main motivation is realization of 64-bit write_zeroes operation for
-fast zeroing large disk chunks, up to the whole disk.
+The problem is triggerable, in particular, when an outgoing migration is
+about to finish, and stopping the dataplane tries to move the
+BlockDriverState from the iothread aio_context to the main loop.  If the
+NBD connection is lost before this point, and the NBD client has entered
+the reconnect procedure, QEMU crashes:
 
-We chose signed type, to be consistent with off_t (which is signed) and
-with possibility for signed return type (where negative value means
-error).
+  #0  qemu_aio_coroutine_enter (ctx=0x5618056c7580, co=0x0)
+      at /build/qemu-6MF7tq/qemu-5.0.1/util/qemu-coroutine.c:109
+  #1  0x00005618034b1b68 in nbd_client_attach_aio_context_bh (
+      opaque=0x561805ed4c00) at /build/qemu-6MF7tq/qemu-5.0.1/block/nbd.c:164
+  #2  0x000056180353116b in aio_wait_bh (opaque=0x7f60e1e63700)
+      at /build/qemu-6MF7tq/qemu-5.0.1/util/aio-wait.c:55
+  #3  0x0000561803530633 in aio_bh_call (bh=0x7f60d40a7e80)
+      at /build/qemu-6MF7tq/qemu-5.0.1/util/async.c:136
+  #4  aio_bh_poll (ctx=ctx@entry=0x5618056c7580)
+      at /build/qemu-6MF7tq/qemu-5.0.1/util/async.c:164
+  #5  0x0000561803533e5a in aio_poll (ctx=ctx@entry=0x5618056c7580,
+      blocking=blocking@entry=true)
+      at /build/qemu-6MF7tq/qemu-5.0.1/util/aio-posix.c:650
+  #6  0x000056180353128d in aio_wait_bh_oneshot (ctx=0x5618056c7580,
+      cb=<optimized out>, opaque=<optimized out>)
+      at /build/qemu-6MF7tq/qemu-5.0.1/util/aio-wait.c:71
+  #7  0x000056180345c50a in bdrv_attach_aio_context (new_context=0x5618056c7580,
+      bs=0x561805ed4c00) at /build/qemu-6MF7tq/qemu-5.0.1/block.c:6172
+  #8  bdrv_set_aio_context_ignore (bs=bs@entry=0x561805ed4c00,
+      new_context=new_context@entry=0x5618056c7580,
+      ignore=ignore@entry=0x7f60e1e63780)
+      at /build/qemu-6MF7tq/qemu-5.0.1/block.c:6237
+  #9  0x000056180345c969 in bdrv_child_try_set_aio_context (
+      bs=bs@entry=0x561805ed4c00, ctx=0x5618056c7580,
+      ignore_child=<optimized out>, errp=<optimized out>)
+      at /build/qemu-6MF7tq/qemu-5.0.1/block.c:6332
+  #10 0x00005618034957db in blk_do_set_aio_context (blk=0x56180695b3f0,
+      new_context=0x5618056c7580, update_root_node=update_root_node@entry=true,
+      errp=errp@entry=0x0)
+      at /build/qemu-6MF7tq/qemu-5.0.1/block/block-backend.c:1989
+  #11 0x00005618034980bd in blk_set_aio_context (blk=<optimized out>,
+      new_context=<optimized out>, errp=errp@entry=0x0)
+      at /build/qemu-6MF7tq/qemu-5.0.1/block/block-backend.c:2010
+  #12 0x0000561803197953 in virtio_blk_data_plane_stop (vdev=<optimized out>)
+      at /build/qemu-6MF7tq/qemu-5.0.1/hw/block/dataplane/virtio-blk.c:292
+  #13 0x00005618033d67bf in virtio_bus_stop_ioeventfd (bus=0x5618056d9f08)
+      at /build/qemu-6MF7tq/qemu-5.0.1/hw/virtio/virtio-bus.c:245
+  #14 0x00005618031c9b2e in virtio_vmstate_change (opaque=0x5618056d9f90,
+      running=0, state=<optimized out>)
+      at /build/qemu-6MF7tq/qemu-5.0.1/hw/virtio/virtio.c:3220
+  #15 0x0000561803208bfd in vm_state_notify (running=running@entry=0,
+      state=state@entry=RUN_STATE_FINISH_MIGRATE)
+      at /build/qemu-6MF7tq/qemu-5.0.1/softmmu/vl.c:1275
+  #16 0x0000561803155c02 in do_vm_stop (state=RUN_STATE_FINISH_MIGRATE,
+      send_stop=<optimized out>) at /build/qemu-6MF7tq/qemu-5.0.1/cpus.c:1032
+  #17 0x00005618033e3765 in migration_completion (s=0x5618056e6960)
+      at /build/qemu-6MF7tq/qemu-5.0.1/migration/migration.c:2914
+  #18 migration_iteration_run (s=0x5618056e6960)
+      at /build/qemu-6MF7tq/qemu-5.0.1/migration/migration.c:3275
+  #19 migration_thread (opaque=opaque@entry=0x5618056e6960)
+      at /build/qemu-6MF7tq/qemu-5.0.1/migration/migration.c:3439
+  #20 0x0000561803536ad6 in qemu_thread_start (args=<optimized out>)
+      at /build/qemu-6MF7tq/qemu-5.0.1/util/qemu-thread-posix.c:519
+  #21 0x00007f61085d06ba in start_thread ()
+     from /lib/x86_64-linux-gnu/libpthread.so.0
+  #22 0x00007f610830641d in sysctl () from /lib/x86_64-linux-gnu/libc.so.6
+  #23 0x0000000000000000 in ?? ()
 
-So, convert now copy_range parameters which are already 64bit to signed
-type.
+Fix it by checking that the iochannel is non-null before trying to
+detach it from the aio_context.  If it is null, no detaching is needed,
+and it will get reattached in the proper aio_context once the connection
+is reestablished.
 
-It's safe as we don't work with requests overflowing BDRV_MAX_LENGTH
-(which is less than INT64_MAX), and do check the requests in
-bdrv_co_copy_range_internal() (by bdrv_check_request32(), which calls
-bdrv_check_request()).
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20201211183934.169161-17-vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210129073859.683063-2-rvkagan@yandex-team.ru>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- include/block/block.h     |  6 +++---
- include/block/block_int.h | 12 ++++++------
- block/io.c                | 22 +++++++++++-----------
- block/trace-events        |  4 ++--
- 4 files changed, 22 insertions(+), 22 deletions(-)
+ block/nbd.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 5f28d0d33f5c..0a9f2c187cdb 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -845,8 +845,8 @@ void bdrv_unregister_buf(BlockDriverState *bs, void *host);
-  *
-  * Returns: 0 if succeeded; negative error code if failed.
-  **/
--int coroutine_fn bdrv_co_copy_range(BdrvChild *src, uint64_t src_offset,
--                                    BdrvChild *dst, uint64_t dst_offset,
--                                    uint64_t bytes, BdrvRequestFlags read_flags,
-+int coroutine_fn bdrv_co_copy_range(BdrvChild *src, int64_t src_offset,
-+                                    BdrvChild *dst, int64_t dst_offset,
-+                                    int64_t bytes, BdrvRequestFlags read_flags,
-                                     BdrvRequestFlags write_flags);
- #endif
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 749d1fb9d049..22a2789d3516 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1357,14 +1357,14 @@ void bdrv_dec_in_flight(BlockDriverState *bs);
+diff --git a/block/nbd.c b/block/nbd.c
+index 42e10c7c93f5..bcd6641e90f5 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -235,7 +235,14 @@ static void nbd_client_detach_aio_context(BlockDriverState *bs)
 
- void blockdev_close_all_bdrv_states(void);
-
--int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, uint64_t src_offset,
--                                         BdrvChild *dst, uint64_t dst_offset,
--                                         uint64_t bytes,
-+int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, int64_t src_offset,
-+                                         BdrvChild *dst, int64_t dst_offset,
-+                                         int64_t bytes,
-                                          BdrvRequestFlags read_flags,
-                                          BdrvRequestFlags write_flags);
--int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, uint64_t src_offset,
--                                       BdrvChild *dst, uint64_t dst_offset,
--                                       uint64_t bytes,
-+int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, int64_t src_offset,
-+                                       BdrvChild *dst, int64_t dst_offset,
-+                                       int64_t bytes,
-                                        BdrvRequestFlags read_flags,
-                                        BdrvRequestFlags write_flags);
-
-diff --git a/block/io.c b/block/io.c
-index 8817c8496663..b0435ed6707c 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3201,8 +3201,8 @@ void bdrv_unregister_buf(BlockDriverState *bs, void *host)
+     /* Timer is deleted in nbd_client_co_drain_begin() */
+     assert(!s->reconnect_delay_timer);
+-    qio_channel_detach_aio_context(QIO_CHANNEL(s->ioc));
++    /*
++     * If reconnect is in progress we may have no ->ioc.  It will be
++     * re-instantiated in the proper aio context once the connection is
++     * reestablished.
++     */
++    if (s->ioc) {
++        qio_channel_detach_aio_context(QIO_CHANNEL(s->ioc));
++    }
  }
 
- static int coroutine_fn bdrv_co_copy_range_internal(
--        BdrvChild *src, uint64_t src_offset, BdrvChild *dst,
--        uint64_t dst_offset, uint64_t bytes,
-+        BdrvChild *src, int64_t src_offset, BdrvChild *dst,
-+        int64_t dst_offset, int64_t bytes,
-         BdrvRequestFlags read_flags, BdrvRequestFlags write_flags,
-         bool recurse_src)
- {
-@@ -3280,9 +3280,9 @@ static int coroutine_fn bdrv_co_copy_range_internal(
-  *
-  * See the comment of bdrv_co_copy_range for the parameter and return value
-  * semantics. */
--int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, uint64_t src_offset,
--                                         BdrvChild *dst, uint64_t dst_offset,
--                                         uint64_t bytes,
-+int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, int64_t src_offset,
-+                                         BdrvChild *dst, int64_t dst_offset,
-+                                         int64_t bytes,
-                                          BdrvRequestFlags read_flags,
-                                          BdrvRequestFlags write_flags)
- {
-@@ -3296,9 +3296,9 @@ int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, uint64_t src_offset,
-  *
-  * See the comment of bdrv_co_copy_range for the parameter and return value
-  * semantics. */
--int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, uint64_t src_offset,
--                                       BdrvChild *dst, uint64_t dst_offset,
--                                       uint64_t bytes,
-+int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, int64_t src_offset,
-+                                       BdrvChild *dst, int64_t dst_offset,
-+                                       int64_t bytes,
-                                        BdrvRequestFlags read_flags,
-                                        BdrvRequestFlags write_flags)
- {
-@@ -3308,9 +3308,9 @@ int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, uint64_t src_offset,
-                                        bytes, read_flags, write_flags, false);
- }
-
--int coroutine_fn bdrv_co_copy_range(BdrvChild *src, uint64_t src_offset,
--                                    BdrvChild *dst, uint64_t dst_offset,
--                                    uint64_t bytes, BdrvRequestFlags read_flags,
-+int coroutine_fn bdrv_co_copy_range(BdrvChild *src, int64_t src_offset,
-+                                    BdrvChild *dst, int64_t dst_offset,
-+                                    int64_t bytes, BdrvRequestFlags read_flags,
-                                     BdrvRequestFlags write_flags)
- {
-     return bdrv_co_copy_range_from(src, src_offset,
-diff --git a/block/trace-events b/block/trace-events
-index a8d3fe94e66d..1a12d634e2e3 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -15,8 +15,8 @@ bdrv_co_preadv_part(void *bs, int64_t offset, int64_t bytes, unsigned int flags)
- bdrv_co_pwritev_part(void *bs, int64_t offset, int64_t bytes, unsigned int flags) "bs %p offset %" PRId64 " bytes %" PRId64 " flags 0x%x"
- bdrv_co_pwrite_zeroes(void *bs, int64_t offset, int64_t bytes, int flags) "bs %p offset %" PRId64 " bytes %" PRId64 " flags 0x%x"
- bdrv_co_do_copy_on_readv(void *bs, int64_t offset, int64_t bytes, int64_t cluster_offset, int64_t cluster_bytes) "bs %p offset %" PRId64 " bytes %" PRId64 " cluster_offset %" PRId64 " cluster_bytes %" PRId64
--bdrv_co_copy_range_from(void *src, uint64_t src_offset, void *dst, uint64_t dst_offset, uint64_t bytes, int read_flags, int write_flags) "src %p offset %"PRIu64" dst %p offset %"PRIu64" bytes %"PRIu64" rw flags 0x%x 0x%x"
--bdrv_co_copy_range_to(void *src, uint64_t src_offset, void *dst, uint64_t dst_offset, uint64_t bytes, int read_flags, int write_flags) "src %p offset %"PRIu64" dst %p offset %"PRIu64" bytes %"PRIu64" rw flags 0x%x 0x%x"
-+bdrv_co_copy_range_from(void *src, int64_t src_offset, void *dst, int64_t dst_offset, int64_t bytes, int read_flags, int write_flags) "src %p offset %" PRId64 " dst %p offset %" PRId64 " bytes %" PRId64 " rw flags 0x%x 0x%x"
-+bdrv_co_copy_range_to(void *src, int64_t src_offset, void *dst, int64_t dst_offset, int64_t bytes, int read_flags, int write_flags) "src %p offset %" PRId64 " dst %p offset %" PRId64 " bytes %" PRId64 " rw flags 0x%x 0x%x"
-
- # stream.c
- stream_one_iteration(void *s, int64_t offset, uint64_t bytes, int is_allocated) "s %p offset %" PRId64 " bytes %" PRIu64 " is_allocated %d"
+ static void nbd_client_attach_aio_context_bh(void *opaque)
 -- 
 2.30.0
 
