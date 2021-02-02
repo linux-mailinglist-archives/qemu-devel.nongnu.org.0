@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED4030C0BD
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:08:19 +0100 (CET)
-Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E68E30C0A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:04:23 +0100 (CET)
+Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6wLq-000853-NP
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:08:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33294)
+	id 1l6wI2-0003gf-Je
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:04:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l6w9n-0005ae-KD
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:55:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l6w9j-0005Yv-Sx
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:55:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612274145;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w5V1cOG4naTOB/COZ6/JrnO6hdM6BVewsFWA2JDFqRU=;
- b=C7FRwQsDjKhYa+qXpHjkx0cSLKX8UXEFJ5vmAimSwCyJhdzl7eVPLihvda/zxDdVp120aX
- LayQutDSgEdA23KO6Pp6ROZuHQoaoxKhCgh0DFprt3scq0o5kg7kFoJZSeRX45Mmb04nNv
- L+M7Fe+mqaWaSnynf8QbeV8XtZACVtc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-C0nueydYPgqiSg4aVULOzw-1; Tue, 02 Feb 2021 08:55:43 -0500
-X-MC-Unique: C0nueydYPgqiSg4aVULOzw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16BD89CC0B
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 13:55:43 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-113-83.ams2.redhat.com
- [10.36.113.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE8676EF41;
- Tue,  2 Feb 2021 13:55:41 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, peterx@redhat.com, eblake@redhat.com,
- alex.williamson@redhat.com, laine@redhat.com
-Subject: [PATCH 2/2] migration: Display the migration blockers
-Date: Tue,  2 Feb 2021 13:55:22 +0000
-Message-Id: <20210202135522.127380-3-dgilbert@redhat.com>
-In-Reply-To: <20210202135522.127380-1-dgilbert@redhat.com>
-References: <20210202135522.127380-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6wAY-0005y6-1V
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:56:38 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6wAV-0005jb-Q7
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:56:37 -0500
+Received: by mail-ej1-x630.google.com with SMTP id y9so8488844ejp.10
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:56:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jiFQaXFttxJSENurejXZ8WXq/HbpjklHF69X13wr1p4=;
+ b=EYvNtR7MY8tR4NqH1hiV1brV0nuQUd0ZfAKilTLIFBz8ILw/AjOMUKFZ7tqXWjnzXf
+ 8EJ9IsQ7AHMjVRN8zJWBX/PdqN6RRkXHsodyO10tztrFzEWOMswv0waaXgfH9oeAnV/Z
+ hsA/meOytyihuWa4rro3+j0lxDtIAE+NIGNGMt1TWMu+7rr0w8R69w9uTWzuGh/hBiyy
+ kkSIeXaR+Kzn9Ok68o+PGAhRpRzvvwJNkro/F6QifgH1VphYYBEliOMGmDb5v8Ke/7xn
+ 3AbsSrhXk7tJ3ln5r4aSyO46G84eQS4jr1mPiLWz7jRRonXOwwx6w/TxGSrnXDPrXrnx
+ hwEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jiFQaXFttxJSENurejXZ8WXq/HbpjklHF69X13wr1p4=;
+ b=WeTVv+pN824JdsOkFi2Fk3gceFtMVQSz1Ut9sDQ9eBj3o5IIGc7eH7kNizYFH+C09a
+ ykLj1oSw+pp7CfH/TaX2lNiErjMzOl1aELnuAumOLPhzhHhD8DI0/YlT7PprckFZSPhL
+ K4WiEJZDZn5pSMV5uLDXWdtj+A6p6j/dXi3esEHLwblR4mkPJjS22gg1ayOqc6GiKAfp
+ 1ndpBCMJHYgDK6ZzRrBxUXJBDVz7QgvV2F0Qz8kW6SCAqp4mSOpQsH/q3MHKiqXfKTGD
+ syx0spD+xEjuVqZ77PuOBo/aE/B2YmDbK084mP50wtdT895YFReIL7VsJMZ9z4fNy0Xg
+ u7PA==
+X-Gm-Message-State: AOAM530QMfGZdbz73u5W60GtWVS6pgn7XylcQKXQ/g6xIGR4u0MAVeHY
+ Kx2gc/ujmHYl3ld+8G+b+Me6HPfQDbzqDHzDx8X5Ug==
+X-Google-Smtp-Source: ABdhPJxiPLZUk4cwTeYbok60eY3DyrEdxazpJaxqefJeKLl+/dcf4DGYf96mrZS/g8vUITmC5ulD0k4F0qH23zIcbjY=
+X-Received: by 2002:a17:906:2e4f:: with SMTP id
+ r15mr283098eji.407.1612274189986; 
+ Tue, 02 Feb 2021 05:56:29 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210202074644.89637-1-pbonzini@redhat.com>
+In-Reply-To: <20210202074644.89637-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 13:56:18 +0000
+Message-ID: <CAFEAcA87JXmZL6yBawnO9y6XT+kwFz1_D9EqC3t7XVZu8+z8Ow@mail.gmail.com>
+Subject: Re: [PULL v3 00/38] Misc patches (buildsys, i386,
+ fuzzing) for 2021-01-29
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,59 +80,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Tue, 2 Feb 2021 at 07:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 74208cd252c5da9d867270a178799abd802b93=
+38:
+>
+>   Merge remote-tracking branch 'remotes/berrange-gitlab/tags/misc-fixes-p=
+ull-request' into staging (2021-01-29 19:51:25 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to a365bda83444f142bb1b9c1b5fdcdefade87981d:
+>
+>   pc-bios/descriptors: fix paths in json files (2021-02-01 17:30:52 +0100=
+)
+>
+> ----------------------------------------------------------------
+> * Fuzzing improvements (Qiuhao, Alexander)
+> * i386: Fix BMI decoding for instructions with the 0x66 prefix (David)
+> * slirp update (Marc-Andr=C3=A9)
+> * initial attempt at fixing event_notifier emulation (Maxim)
+> * i386: PKS emulation, fix for "qemu-system-i386 -cpu host" (myself)
+> * meson: RBD test fixes (myself)
+> * meson: TCI warnings (Philippe)
+> * Leaner build for --disable-guest-agent, --disable-system and
+>   --disable-tools (Philippe, Stefan)
+> * --enable-tcg-interpreter fix (Richard)
+> * i386: SVM feature bits (Wei)
+> * HVF bugfix (Alex)
+> * KVM bugfix (Thomas)
 
-Update 'info migrate' to display migration blocking information.
-If the outbound migration is not blocked, there is no change, however
-if it is blocked a message is displayed with a list of reasons why,
-e.g.
+Fails to build, x86-64 Linux clang.
+(configure rune:
+ '../../configure' '--cc=3Dclang' '--cxx=3Dclang++' '--enable-gtk'
+'--extra-cflags=3D-fsanitize=3Dundefined  -fno-sanitize=3Dshift-base
+-Werror')
 
-qemu-system-x86_64 -nographic  -smp 4 -m 4G -M pc,usb=on \
- -chardev null,id=n -device usb-serial,chardev=n \
- -virtfs local,path=/home,mount_tag=fs,security_model=none \
- -drive if=virtio,file=myimage.qcow2
+clang  -o subprojects/libslirp/libslirp.so.0.2.3
+subprojects/libslirp/libslirp.so.0.2.3.p/src_arp_table.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_bootp.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_cksum.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_dhcpv6.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_dnssearch.c.o
+subprojects/libslirp/libslirp.so.0.2
+.3.p/src_if.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_ip6_icmp.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_ip6_input.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_ip6_output.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_ip_icmp.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_ip_input.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_ip_output.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_mbuf.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_misc.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_ncsi.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_ndp_table.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_sbuf.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_slirp.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/
+src_socket.c.o subprojects/libslirp/libslirp.so.0.2.3.p/src_state.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_stream.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_tcp_input.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_tcp_output.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_tcp_subr.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_tcp_timer.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_tftp.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_udp.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_udp6.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_util.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_version.c.o
+subprojects/libslirp/libslirp.so.0.2.3.p/src_vmstate.c.o
+-Wl,--as-needed -Wl,--no-undefined -shared -fPIC -Wl,--start-group
+-Wl,-soname,libslirp.so.0 -Wl,--warn-common -Wl,-z,relro -Wl,-z,now
+-m64 -fsanitize=3Dundefined -fno-sanitize=3Dshift-base -Werror
+-fstack-protector-strong
+-Wl,--version-script,/home/petmay01/linaro/qemu-for-merges/subprojects/libs=
+lirp/src/libslirp.map
+-pthread -lgthread-2.0 -lglib-2.0 -Wl,--end-group
+subprojects/libslirp/libslirp.so.0.2.3.p/src_arp_table.c.o: In
+function `arp_table_add':
+/home/petmay01/linaro/qemu-for-merges/build/clang/../../subprojects/libslir=
+p/src/arp_table.c:50:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+/home/petmay01/linaro/qemu-for-merges/build/clang/../../subprojects/libslir=
+p/src/arp_table.c:50:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+[etc etc etc]
+/home/petmay01/linaro/qemu-for-merges/build/clang/../../subprojects/libslir=
+p/src/arp_table.c:52:
+undefined reference to `__ubsan_handle_nonnull_arg'
+/home/petmay01/linaro/qemu-for-merges/build/clang/../../subprojects/libslir=
+p/src/arp_table.c:58:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+[etc etc etc]
 
-(qemu) info migrate
-globals:
-store-global-state: on
-only-migratable: off
-send-configuration: on
-send-section-footer: on
-decompress-error-check: on
-clear-bitmap-shift: 18
-Outgoing migration blocked:
-  Migration is disabled when VirtFS export path '/home' is mounted in the guest using mount_tag 'fs'
-  non-migratable device: 0000:00:01.2/1/usb-serial
+and so on for lots of other libslirp files and ubsan symbols.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- monitor/hmp-cmds.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index a48bc1e904..1f744f6041 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -224,6 +224,15 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
- 
-     migration_global_dump(mon);
- 
-+    if (info->blocked) {
-+        strList *reasons = info->blocked_reasons;
-+        monitor_printf(mon, "Outgoing migration blocked:\n");
-+        while (reasons) {
-+            monitor_printf(mon, "  %s\n", reasons->value);
-+            reasons = reasons->next;
-+        }
-+    }
-+
-     if (info->has_status) {
-         monitor_printf(mon, "Migration status: %s",
-                        MigrationStatus_str(info->status));
--- 
-2.29.2
-
+thanks
+-- PMM
 
