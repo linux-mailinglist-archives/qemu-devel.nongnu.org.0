@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2963F30B49C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 02:25:00 +0100 (CET)
-Received: from localhost ([::1]:36580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2DD30B49A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 02:23:47 +0100 (CET)
+Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6kR9-0007Rb-84
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 20:24:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47364)
+	id 1l6kPy-0006Nz-Sk
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 20:23:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1l6k3w-0000MS-20
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:01:00 -0500
-Received: from mga18.intel.com ([134.134.136.126]:33366)
+ id 1l6k4A-0000dx-Ow
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:01:15 -0500
+Received: from mga18.intel.com ([134.134.136.126]:33363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1l6k3s-0001pl-Sy
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:00:59 -0500
-IronPort-SDR: futqNCTXA48wLxzhpSKcJIloHQ4wqTfPb16FwxcUR0X/YyEzRkSR2fwbJDvwvKJSguxD5rk/sE
- eGm5eMpy3c9A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="168457120"
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="168457120"
+ id 1l6k43-0001oo-Sa
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:01:14 -0500
+IronPort-SDR: P0isRkn4xcJkAuJ/8k3UL02PvAaAWOpGr9xkNOi6R+OuVZKCxZf+huIPKQXM324VddY/1IClm3
+ JByZ2VkTyrSw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="168457122"
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="168457122"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 17:00:13 -0800
-IronPort-SDR: FYatNKh1bKlHg5LO8aWoXMiMyAxZBiKK6Ye2x1T0yzfL3E/KwA0WsvPbqbDuaEyaolUPdSMoNp
- rLsZ1fZfoheQ==
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="581764212"
+ 01 Feb 2021 17:00:14 -0800
+IronPort-SDR: CZBVFaKseC7DWOUrzq30v1KzUXWZgvts35DNpi0dlKTIIDhB33zKPGERse2OZ3C3iL50MfU6fk
+ Ejz5j8ttGKZQ==
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="581764219"
 Received: from jambrizm-mobl1.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
  ([10.252.133.15])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 17:00:12 -0800
+ 01 Feb 2021 17:00:13 -0800
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 19/31] hw/pxb/cxl: Add "windows" for host bridges
-Date: Mon,  1 Feb 2021 16:59:36 -0800
-Message-Id: <20210202005948.241655-20-ben.widawsky@intel.com>
+Subject: [RFC PATCH v3 20/31] hw/cxl/rp: Add a root port
+Date: Mon,  1 Feb 2021 16:59:37 -0800
+Message-Id: <20210202005948.241655-21-ben.widawsky@intel.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210202005948.241655-1-ben.widawsky@intel.com>
 References: <20210202005948.241655-1-ben.widawsky@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.126;
  envelope-from=ben.widawsky@intel.com; helo=mga18.intel.com
@@ -75,172 +76,320 @@ Cc: Ben Widawsky <ben.widawsky@intel.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In a bare metal CXL capable system, system firmware will program
-physical address ranges on the host. This is done by programming
-internal registers that aren't typically known to OS. These address
-ranges might be contiguous or interleaved across host bridges.
+This adds just enough of a root port implementation to be able to
+enumerate root ports (creating the required DVSEC entries). What's not
+here yet is the MMIO nor the ability to write some of the DVSEC entries.
 
-For a QEMU guest a new construct is introduced allowing passing a memory
-backend to the host bridge for this same purpose. Each memory backend
-needs to be passed to the host bridge as well as any device that will be
-emulating that memory (not implemented here).
+This can be added with the qemu commandline by adding a rootport to a
+specific CXL host bridge. For example:
+  -device cxl-rp,id=rp0,bus="cxl.0",addr=0.0,chassis=4
 
-I'm hopeful the interleaving work in the link can be re-purposed here
-(see Link).
+Like the host bridge patch, the ACPI tables aren't generated at this
+point and so system software cannot use it.
 
-An example to create a host bridges with a 512M window at 0x4c0000000
- -object memory-backend-file,id=cxl-mem1,share,mem-path=cxl-type3,size=512M
- -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52,uid=0,len-memory-base=1,memory-base\[0\]=0x4c0000000,memory\[0\]=cxl-mem1
-
-Link: https://lists.nongnu.org/archive/html/qemu-devel/2020-08/msg03680.html
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 ---
- hw/pci-bridge/pci_expander_bridge.c | 65 +++++++++++++++++++++++++++--
- include/hw/cxl/cxl.h                |  1 +
- 2 files changed, 62 insertions(+), 4 deletions(-)
+ hw/pci-bridge/Kconfig          |   5 +
+ hw/pci-bridge/cxl_root_port.c  | 231 +++++++++++++++++++++++++++++++++
+ hw/pci-bridge/meson.build      |   1 +
+ hw/pci-bridge/pcie_root_port.c |   6 +-
+ hw/pci/pci.c                   |   4 +-
+ 5 files changed, 245 insertions(+), 2 deletions(-)
+ create mode 100644 hw/pci-bridge/cxl_root_port.c
 
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index 226a8a5fff..af1450c69d 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -69,12 +69,19 @@ struct PXBDev {
-     uint8_t bus_nr;
-     uint16_t numa_node;
-     int32_t uid;
-+    struct cxl_dev {
-+        HostMemoryBackend *memory_window[CXL_WINDOW_MAX];
+diff --git a/hw/pci-bridge/Kconfig b/hw/pci-bridge/Kconfig
+index f8df4315ba..02614f49aa 100644
+--- a/hw/pci-bridge/Kconfig
++++ b/hw/pci-bridge/Kconfig
+@@ -27,3 +27,8 @@ config DEC_PCI
+ 
+ config SIMBA
+     bool
 +
-+        uint32_t num_windows;
-+        hwaddr *window_base[CXL_WINDOW_MAX];
-+    } cxl;
- };
- 
- typedef struct CXLHost {
-     PCIHostState parent_obj;
- 
-     CXLComponentState cxl_cstate;
-+    PXBDev *dev;
- } CXLHost;
- 
- static PXBDev *convert_to_pxb(PCIDevice *dev)
-@@ -213,16 +220,31 @@ static void pxb_cxl_realize(DeviceState *dev, Error **errp)
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
-     CXLHost *cxl = PXB_CXL_HOST(dev);
-+    struct cxl_dev *cxl_dev = &cxl->dev->cxl;
-     CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-     struct MemoryRegion *mr = &cxl_cstate->crb.component_registers;
-+    int uid = pci_bus_uid(phb->bus);
- 
-     cxl_component_register_block_init(OBJECT(dev), cxl_cstate,
-                                       TYPE_PXB_CXL_HOST);
-     sysbus_init_mmio(sbd, mr);
- 
--    /* FIXME: support multiple host bridges. */
--    sysbus_mmio_map(sbd, 0, CXL_HOST_BASE +
--                            memory_region_size(mr) * pci_bus_uid(phb->bus));
-+    sysbus_mmio_map(sbd, 0, CXL_HOST_BASE + memory_region_size(mr) * uid);
++config CXL
++    bool
++    default y if PCI_EXPRESS && PXB
++    depends on PCI_EXPRESS && MSI_NONBROKEN && PXB
+diff --git a/hw/pci-bridge/cxl_root_port.c b/hw/pci-bridge/cxl_root_port.c
+new file mode 100644
+index 0000000000..6c3b215bb3
+--- /dev/null
++++ b/hw/pci-bridge/cxl_root_port.c
+@@ -0,0 +1,231 @@
++/*
++ * CXL 2.0 Root Port Implementation
++ *
++ * Copyright(C) 2020 Intel Corporation.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>
++ */
 +
-+    /*
-+     * A CXL host bridge can exist without a fixed memory window, but it would
-+     * only operate in legacy PCIe mode.
-+     */
-+    if (!cxl_dev->memory_window[uid]) {
-+        warn_report(
-+            "CXL expander bridge created without window. Consider using %s",
-+            "memdev[0]=<memory_backend>");
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qemu/range.h"
++#include "hw/pci/pci_bridge.h"
++#include "hw/pci/pcie_port.h"
++#include "hw/qdev-properties.h"
++#include "hw/sysbus.h"
++#include "qapi/error.h"
++#include "hw/cxl/cxl.h"
++
++#define CXL_ROOT_PORT_DID 0x7075
++
++/* Copied from the gen root port which we derive */
++#define GEN_PCIE_ROOT_PORT_AER_OFFSET 0x100
++#define GEN_PCIE_ROOT_PORT_ACS_OFFSET \
++    (GEN_PCIE_ROOT_PORT_AER_OFFSET + PCI_ERR_SIZEOF)
++#define CXL_ROOT_PORT_DVSEC_OFFSET \
++    (GEN_PCIE_ROOT_PORT_ACS_OFFSET + PCI_ACS_SIZEOF)
++
++typedef struct CXLRootPort {
++    /*< private >*/
++    PCIESlot parent_obj;
++
++    CXLComponentState cxl_cstate;
++    PCIResReserve res_reserve;
++} CXLRootPort;
++
++#define TYPE_CXL_ROOT_PORT "cxl-rp"
++DECLARE_INSTANCE_CHECKER(CXLRootPort, CXL_ROOT_PORT, TYPE_CXL_ROOT_PORT)
++
++static void latch_registers(CXLRootPort *crp)
++{
++    uint32_t *reg_state = crp->cxl_cstate.crb.cache_mem_registers;
++
++    cxl_component_register_init_common(reg_state, CXL2_ROOT_PORT);
++}
++
++static void build_dvsecs(CXLComponentState *cxl)
++{
++    uint8_t *dvsec;
++
++    dvsec = (uint8_t *)&(struct extensions_dvsec_port){ 0 };
++    cxl_component_create_dvsec(cxl, EXTENSIONS_PORT_DVSEC_LENGTH,
++                               EXTENSIONS_PORT_DVSEC,
++                               EXTENSIONS_PORT_DVSEC_REVID, dvsec);
++
++    dvsec = (uint8_t *)&(struct dvsec_port_gpf){
++        .rsvd        = 0,
++        .phase1_ctrl = 1, /* 1μs timeout */
++        .phase2_ctrl = 1, /* 1μs timeout */
++    };
++    cxl_component_create_dvsec(cxl, GPF_PORT_DVSEC_LENGTH, GPF_PORT_DVSEC,
++                               GPF_PORT_DVSEC_REVID, dvsec);
++
++    dvsec = (uint8_t *)&(struct dvsec_port_flexbus){
++        .cap              = 0x26, /* IO, Mem, non-MLD */
++        .ctrl             = 0,
++        .status           = 0x26, /* same */
++        .rcvd_mod_ts_data = 0xef, /* WTF? */
++    };
++    cxl_component_create_dvsec(cxl, PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
++                               PCIE_FLEXBUS_PORT_DVSEC,
++                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvsec);
++
++    dvsec = (uint8_t *)&(struct dvsec_register_locator){
++        .rsvd         = 0,
++        .reg0_base_lo = RBI_COMPONENT_REG | COMPONENT_REG_BAR_IDX,
++        .reg0_base_hi = 0,
++    };
++    cxl_component_create_dvsec(cxl, REG_LOC_DVSEC_LENGTH, REG_LOC_DVSEC,
++                               REG_LOC_DVSEC_REVID, dvsec);
++}
++
++static void cxl_rp_realize(DeviceState *dev, Error **errp)
++{
++    PCIDevice *pci_dev     = PCI_DEVICE(dev);
++    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
++    CXLRootPort *crp       = CXL_ROOT_PORT(dev);
++    CXLComponentState *cxl_cstate = &crp->cxl_cstate;
++    ComponentRegisters *cregs = &cxl_cstate->crb;
++    MemoryRegion *component_bar = &cregs->component_registers;
++    Error *local_err = NULL;
++
++    rpc->parent_realize(dev, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
 +        return;
 +    }
 +
-+    mr = host_memory_backend_get_memory(cxl_dev->memory_window[uid]);
-+    sysbus_init_mmio(sbd, mr);
-+    sysbus_mmio_map(sbd, 1 + uid, *cxl_dev->window_base[uid]);
- }
- 
- static void pxb_cxl_host_class_init(ObjectClass *class, void *data)
-@@ -328,6 +350,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-     } else if (type == CXL) {
-         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_CXL_BUS);
-         bus->flags |= PCI_BUS_CXL;
-+        PXB_CXL_HOST(ds)->dev = PXB_CXL_DEV(dev);
-     } else {
-         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
-         bds = qdev_new("pci-bridge");
-@@ -389,6 +412,8 @@ static Property pxb_dev_properties[] = {
-     DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
-     DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
-     DEFINE_PROP_INT32("uid", PXBDev, uid, -1),
-+    DEFINE_PROP_ARRAY("window-base", PXBDev, cxl.num_windows, cxl.window_base,
-+                      qdev_prop_uint64, hwaddr),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -460,7 +485,9 @@ static const TypeInfo pxb_pcie_dev_info = {
- 
- static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
- {
--    PXBDev *pxb = convert_to_pxb(dev);
-+    PXBDev *pxb = PXB_CXL_DEV(dev);
-+    struct cxl_dev *cxl = &pxb->cxl;
-+    int count = 0;
- 
-     /* A CXL PXB's parent bus is still PCIe */
-     if (!pci_bus_is_express(pci_get_bus(dev))) {
-@@ -476,6 +503,23 @@ static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
-     /* FIXME: Check that uid doesn't collide with UIDs of other host bridges */
- 
-     pxb_dev_realize_common(dev, CXL, errp);
++    int rc =
++        pci_bridge_qemu_reserve_cap_init(pci_dev, 0, crp->res_reserve, errp);
++    if (rc < 0) {
++        rpc->parent_class.exit(pci_dev);
++        return;
++    }
 +
-+    for (unsigned i = 0; i < CXL_WINDOW_MAX; i++) {
-+        if (!cxl->memory_window[i]) {
-+            continue;
++    if (!crp->res_reserve.io || crp->res_reserve.io == -1) {
++        pci_word_test_and_clear_mask(pci_dev->wmask + PCI_COMMAND,
++                                     PCI_COMMAND_IO);
++        pci_dev->wmask[PCI_IO_BASE]  = 0;
++        pci_dev->wmask[PCI_IO_LIMIT] = 0;
++    }
++
++    cxl_cstate->dvsec_offset = CXL_ROOT_PORT_DVSEC_OFFSET;
++    cxl_cstate->pdev = pci_dev;
++    build_dvsecs(&crp->cxl_cstate);
++
++    cxl_component_register_block_init(OBJECT(pci_dev), cxl_cstate,
++                                      TYPE_CXL_ROOT_PORT);
++
++    pci_register_bar(pci_dev, COMPONENT_REG_BAR_IDX,
++                     PCI_BASE_ADDRESS_SPACE_MEMORY |
++                         PCI_BASE_ADDRESS_MEM_TYPE_64,
++                     component_bar);
++}
++
++static void cxl_rp_reset(DeviceState *dev)
++{
++    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
++    CXLRootPort *crp = CXL_ROOT_PORT(dev);
++
++    rpc->parent_reset(dev);
++
++    latch_registers(crp);
++}
++
++static Property gen_rp_props[] = {
++    DEFINE_PROP_UINT32("bus-reserve", CXLRootPort, res_reserve.bus, -1),
++    DEFINE_PROP_SIZE("io-reserve", CXLRootPort, res_reserve.io, -1),
++    DEFINE_PROP_SIZE("mem-reserve", CXLRootPort, res_reserve.mem_non_pref, -1),
++    DEFINE_PROP_SIZE("pref32-reserve", CXLRootPort, res_reserve.mem_pref_32,
++                     -1),
++    DEFINE_PROP_SIZE("pref64-reserve", CXLRootPort, res_reserve.mem_pref_64,
++                     -1),
++    DEFINE_PROP_END_OF_LIST()
++};
++
++static void cxl_rp_dvsec_write_config(PCIDevice *dev, uint32_t addr,
++                                      uint32_t val, int len)
++{
++    CXLRootPort *crp = CXL_ROOT_PORT(dev);
++
++    if (range_contains(&crp->cxl_cstate.dvsecs[EXTENSIONS_PORT_DVSEC], addr)) {
++        uint8_t *reg = &dev->config[addr];
++        addr -= crp->cxl_cstate.dvsecs[EXTENSIONS_PORT_DVSEC].lob;
++        if (addr == PORT_CONTROL_OVERRIDE_OFFSET) {
++            if (pci_get_word(reg) & PORT_CONTROL_UNMASK_SBR) {
++                /* unmask SBR */
++            }
++            if (pci_get_word(reg) & PORT_CONTROL_ALT_MEMID_EN) {
++                /* Alt Memory & ID Space Enable */
++            }
 +        }
-+
-+        count++;
 +    }
++}
 +
-+    if (!count) {
-+        warn_report("memory-windows should be set when creating CXL host bridges");
-+    }
++static void cxl_rp_write_config(PCIDevice *d, uint32_t address, uint32_t val,
++                                int len)
++{
++    uint16_t slt_ctl, slt_sta;
 +
-+    if (count != cxl->num_windows) {
-+        error_setg(errp, "window bases count (%d) must match window count (%d)",
-+                   cxl->num_windows, count);
-+    }
- }
- 
- static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
-@@ -496,6 +540,19 @@ static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
- 
-     /* Host bridges aren't hotpluggable. FIXME: spec reference */
-     dc->hotpluggable = false;
++    pcie_cap_slot_get(d, &slt_ctl, &slt_sta);
++    pci_bridge_write_config(d, address, val, len);
++    pcie_cap_flr_write_config(d, address, val, len);
++    pcie_cap_slot_write_config(d, slt_ctl, slt_sta, address, val, len);
++    pcie_aer_write_config(d, address, val, len);
++
++    cxl_rp_dvsec_write_config(d, address, val, len);
++}
++
++static void cxl_root_port_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc        = DEVICE_CLASS(oc);
++    PCIDeviceClass *k      = PCI_DEVICE_CLASS(oc);
++    PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(oc);
++
++    k->vendor_id = PCI_VENDOR_ID_INTEL;
++    k->device_id = CXL_ROOT_PORT_DID;
++    dc->desc     = "CXL Root Port";
++    k->revision  = 0;
++    device_class_set_props(dc, gen_rp_props);
++    k->config_write = cxl_rp_write_config;
++
++    device_class_set_parent_realize(dc, cxl_rp_realize, &rpc->parent_realize);
++    device_class_set_parent_reset(dc, cxl_rp_reset, &rpc->parent_reset);
++
++    rpc->aer_offset = GEN_PCIE_ROOT_PORT_AER_OFFSET;
++    rpc->acs_offset = GEN_PCIE_ROOT_PORT_ACS_OFFSET;
 +
 +    /*
-+     * Below is moral equivalent of:
-+     *   DEFINE_PROP_ARRAY("memdev", PXBDev, window_count, windows,
-+     *                     qdev_prop_memory_device, HostMemoryBackend)
++     * Explain
 +     */
-+    for (unsigned i = 0; i < CXL_WINDOW_MAX; i++) {
-+        g_autofree char *name = g_strdup_printf("memdev[%u]", i);
-+        object_class_property_add_link(klass, name, TYPE_MEMORY_BACKEND,
-+                offsetof(PXBDev, cxl.memory_window[i]),
-+                qdev_prop_allow_set_link_before_realize,
-+                OBJ_PROP_LINK_STRONG);
++    dc->hotpluggable = false;
++}
++
++static const TypeInfo cxl_root_port_info = {
++    .name = TYPE_CXL_ROOT_PORT,
++    .parent = TYPE_PCIE_ROOT_PORT,
++    .instance_size = sizeof(CXLRootPort),
++    .class_init = cxl_root_port_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CXL_DEVICE },
++        { }
++    },
++};
++
++static void cxl_register(void)
++{
++    type_register_static(&cxl_root_port_info);
++}
++
++type_init(cxl_register);
+diff --git a/hw/pci-bridge/meson.build b/hw/pci-bridge/meson.build
+index daab8acf2a..b6d26a03d5 100644
+--- a/hw/pci-bridge/meson.build
++++ b/hw/pci-bridge/meson.build
+@@ -5,6 +5,7 @@ pci_ss.add(when: 'CONFIG_IOH3420', if_true: files('ioh3420.c'))
+ pci_ss.add(when: 'CONFIG_PCIE_PORT', if_true: files('pcie_root_port.c', 'gen_pcie_root_port.c', 'pcie_pci_bridge.c'))
+ pci_ss.add(when: 'CONFIG_PXB', if_true: files('pci_expander_bridge.c'))
+ pci_ss.add(when: 'CONFIG_XIO3130', if_true: files('xio3130_upstream.c', 'xio3130_downstream.c'))
++pci_ss.add(when: 'CONFIG_CXL', if_true: files('cxl_root_port.c'))
+ 
+ # NewWorld PowerMac
+ pci_ss.add(when: 'CONFIG_DEC_PCI', if_true: files('dec.c'))
+diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
+index f1cfe9d14a..460e48269d 100644
+--- a/hw/pci-bridge/pcie_root_port.c
++++ b/hw/pci-bridge/pcie_root_port.c
+@@ -67,7 +67,11 @@ static void rp_realize(PCIDevice *d, Error **errp)
+     int rc;
+ 
+     pci_config_set_interrupt_pin(d->config, 1);
+-    pci_bridge_initfn(d, TYPE_PCIE_BUS);
++    if (d->cap_present & QEMU_PCIE_CAP_CXL) {
++        pci_bridge_initfn(d, TYPE_CXL_BUS);
++    } else {
++        pci_bridge_initfn(d, TYPE_PCIE_BUS);
 +    }
+     pcie_port_init_reg(d);
+ 
+     rc = pci_bridge_ssvid_init(d, rpc->ssvid_offset, dc->vendor_id,
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index bf019d91a0..eb325704e7 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2668,7 +2668,9 @@ static void pci_device_class_base_init(ObjectClass *klass, void *data)
+             object_class_dynamic_cast(klass, INTERFACE_CONVENTIONAL_PCI_DEVICE);
+         ObjectClass *pcie =
+             object_class_dynamic_cast(klass, INTERFACE_PCIE_DEVICE);
+-        assert(conventional || pcie);
++        ObjectClass *cxl =
++            object_class_dynamic_cast(klass, INTERFACE_CXL_DEVICE);
++        assert(conventional || pcie || cxl);
+     }
  }
- 
- static const TypeInfo pxb_cxl_dev_info = {
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index 6bc344f205..b1e5f4a8fa 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -18,6 +18,7 @@
- #define DEVICE_REG_BAR_IDX 2
- 
- #define CXL_HOST_BASE 0xD0000000
-+#define CXL_WINDOW_MAX 10
- 
- #endif
  
 -- 
 2.30.0
