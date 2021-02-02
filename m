@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB33730B662
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 05:21:30 +0100 (CET)
-Received: from localhost ([::1]:37438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2343B30B661
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 05:21:25 +0100 (CET)
+Received: from localhost ([::1]:36668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6nBy-0007dO-0Q
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 23:21:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45992)
+	id 1l6nBs-0007KD-6i
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 23:21:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l6n4T-00065U-Bx; Mon, 01 Feb 2021 23:13:45 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37321 helo=ozlabs.org)
+ id 1l6n4U-00069E-Fk; Mon, 01 Feb 2021 23:13:46 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38949 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l6n4R-0004zE-7H; Mon, 01 Feb 2021 23:13:45 -0500
+ id 1l6n4R-0004zI-Sr; Mon, 01 Feb 2021 23:13:46 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DVBJ01fbkz9tlC; Tue,  2 Feb 2021 15:13:20 +1100 (AEDT)
+ id 4DVBJ042nvz9tlG; Tue,  2 Feb 2021 15:13:20 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1612239200;
- bh=N7aZkZMAZjZ1mtft7AjfybYlaQ339ZQW3otqxHe66KU=;
+ bh=kIonU8SS9uqw0f6IgA4IJrI2gSOoAYwIy/ciHXZai4o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JP3/qk1qZq03RFyAcML9rtZhy+z27tS9QEFTNI17Ydw6LDcPZpHHBfteFsDdz1r+4
- 4rz+/7cpDIjLJfGtVhe2WFrH025s4c/K81nCx9mA8an+fNVqeTASv49IBRCiQEit4C
- tZeTlTdBMzWTk+NfBi4DD9VtQHyhNePSZ8L07KvQ=
+ b=o/wUqoA4yNdX1eHOsJ/9p/nVHiCS5VE1aqXkXDnrCqnQ/v9q014bmFf/703OQhfbv
+ +EU/D2AM5SeuKf2ZEz9a3T9ZSk5wmbjZZwT8fXXbPvAdtoo3pvR/WVtHlzbMM/mNUr
+ ZUkVIFy+EExV/McXFTxdfFGyXfdmKcP30Cd79/W8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: dgilbert@redhat.com, pair@us.ibm.com, qemu-devel@nongnu.org,
  brijesh.singh@amd.com, pasic@linux.ibm.com
-Subject: [PATCH v8 11/13] spapr: PEF: prevent migration
-Date: Tue,  2 Feb 2021 15:13:13 +1100
-Message-Id: <20210202041315.196530-12-david@gibson.dropbear.id.au>
+Subject: [PATCH v8 12/13] confidential guest support: Alter virtio default
+ properties for protected guests
+Date: Tue,  2 Feb 2021 15:13:14 +1100
+Message-Id: <20210202041315.196530-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210202041315.196530-1-david@gibson.dropbear.id.au>
 References: <20210202041315.196530-1-david@gibson.dropbear.id.au>
@@ -68,43 +69,55 @@ Cc: thuth@redhat.com, Cornelia Huck <cohuck@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We haven't yet implemented the fairly involved handshaking that will be
-needed to migrate PEF protected guests.  For now, just use a migration
-blocker so we get a meaningful error if someone attempts this (this is the
-same approach used by AMD SEV).
+The default behaviour for virtio devices is not to use the platforms normal
+DMA paths, but instead to use the fact that it's running in a hypervisor
+to directly access guest memory.  That doesn't work if the guest's memory
+is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
+
+So, if a confidential guest mechanism is enabled, then apply the
+iommu_platform=on option so it will go through normal DMA mechanisms.
+Those will presumably have some way of marking memory as shared with
+the hypervisor or hardware so that DMA will work.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/pef.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/core/machine.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-index f9fd1f2a71..573be3ed79 100644
---- a/hw/ppc/pef.c
-+++ b/hw/ppc/pef.c
-@@ -44,6 +44,8 @@ struct PefGuest {
- static int kvmppc_svm_init(Error **errp)
- {
- #ifdef CONFIG_KVM
-+    static Error *pef_mig_blocker;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 94194ab82d..497949899b 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -33,6 +33,8 @@
+ #include "migration/global_state.h"
+ #include "migration/vmstate.h"
+ #include "exec/confidential-guest-support.h"
++#include "hw/virtio/virtio.h"
++#include "hw/virtio/virtio-pci.h"
+ 
+ GlobalProperty hw_compat_5_2[] = {};
+ const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+@@ -1196,6 +1198,17 @@ void machine_run_board_init(MachineState *machine)
+          * areas.
+          */
+         machine_set_mem_merge(OBJECT(machine), false, &error_abort);
 +
-     if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
-         error_setg(errp,
-                    "KVM implementation does not support Secure VMs (is an ultravisor running?)");
-@@ -58,6 +60,11 @@ static int kvmppc_svm_init(Error **errp)
-         }
++        /*
++         * Virtio devices can't count on directly accessing guest
++         * memory, so they need iommu_platform=on to use normal DMA
++         * mechanisms.  That requires also disabling legacy virtio
++         * support for those virtio pci devices which allow it.
++         */
++        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy",
++                                   "on", true);
++        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform",
++                                   "on", false);
      }
  
-+    /* add migration blocker */
-+    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
-+    /* NB: This can fail if --only-migratable is used */
-+    migrate_add_blocker(pef_mig_blocker, &error_fatal);
-+
-     return 0;
- #else
-     g_assert_not_reached();
+     machine_class->init(machine);
 -- 
 2.29.2
 
