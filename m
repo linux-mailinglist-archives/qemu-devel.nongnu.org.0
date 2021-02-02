@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A269230BAC8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 10:18:24 +0100 (CET)
-Received: from localhost ([::1]:43902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3235D30BAC9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 10:20:08 +0100 (CET)
+Received: from localhost ([::1]:47266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6rpH-0000yB-Nr
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 04:18:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35956)
+	id 1l6rqx-0002Mv-8l
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 04:20:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6rnx-00006U-K4
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:17:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30432)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6roB-0000H3-QK
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:17:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6rnv-0004it-RF
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:17:01 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6ro9-0004oc-Or
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:17:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612257417;
+ s=mimecast20190719; t=1612257431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=04/Rcc1YhgUx0ubtPolguUXv04plY4aCya7PreAEYIo=;
- b=UyAqhv7Eak+KRSalLFopfu/4dpgPFhyV16L5ItCIoALASw8vNzG4Q4Gpe8hW29IbdjbmGb
- g42f+sDcDuROal7IqNtMAYmW2hUXVxSluHUk7txf5NM4qcPk8Zh2f8goF71BdSxSQGl3YQ
- dM89EWU4hIbp0Y2L7f097SVzAlhSIZc=
+ bh=e8utbZlWVl+wcJV9ndUGvbGc1X7OxwnsxQgTN3gTf9M=;
+ b=cuKzwoND04aEuauCdTvAgJ0HO1IBVGd7zLiLmGwJZ7V/03I4NpxYHSo4h9MPEcv8ZjCo2/
+ TxH9KzY6BF6QKlFXAG+LXYfSC3ix6flk8OILRNxaeSVXaG6nFISWF9u5gVgQ2xt6HRb4cY
+ 9rT+bLJpaW5VXN49eFY+Kf0MeYQASmc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-0LcXmtRiN2msGwqGFmDxcw-1; Tue, 02 Feb 2021 04:16:56 -0500
-X-MC-Unique: 0LcXmtRiN2msGwqGFmDxcw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-287-d-0gf46pOdGNF9AZuuftkw-1; Tue, 02 Feb 2021 04:17:08 -0500
+X-MC-Unique: d-0gf46pOdGNF9AZuuftkw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 712D1802B44;
- Tue,  2 Feb 2021 09:16:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A944801AC0;
+ Tue,  2 Feb 2021 09:17:07 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
  [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A86D10013BD;
- Tue,  2 Feb 2021 09:16:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C3C6614FC;
+ Tue,  2 Feb 2021 09:17:04 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E7F56113865F; Tue,  2 Feb 2021 10:16:50 +0100 (CET)
+ id F322A113865F; Tue,  2 Feb 2021 10:17:02 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 07/16] qapi: use explicitly internal module names
+Subject: Re: [PATCH v4 00/16] qapi: static typing conversion, pt1.5
 References: <20210201193747.2169670-1-jsnow@redhat.com>
- <20210201193747.2169670-8-jsnow@redhat.com>
-Date: Tue, 02 Feb 2021 10:16:50 +0100
-In-Reply-To: <20210201193747.2169670-8-jsnow@redhat.com> (John Snow's message
- of "Mon, 1 Feb 2021 14:37:38 -0500")
-Message-ID: <87pn1ig77h.fsf@dusky.pond.sub.org>
+Date: Tue, 02 Feb 2021 10:17:02 +0100
+In-Reply-To: <20210201193747.2169670-1-jsnow@redhat.com> (John Snow's message
+ of "Mon, 1 Feb 2021 14:37:31 -0500")
+Message-ID: <87o8h2g775.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,64 +88,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
-> Use ./emit and ./init explicitly instead of "emit" and "init" and adding
-> the prefix based on the specific method called, which later allows us to
-> coalesce the two different methods into one.
-
-"Bandwurmsatz" (literally "tapeworm sentence").  Perhaps something like:
-
-    QAPISchemaModularCVisitor._add_system_module() prefixes './' to its name
-    argument to make it a module name.  Pass the module name instead.  This
-    will allow us to coalesce the methods to add modules later on.
-
-Happy to tweak the commit message in my tree.
-
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/commands.py | 2 +-
->  scripts/qapi/events.py   | 2 +-
->  scripts/qapi/gen.py      | 3 ++-
->  3 files changed, 4 insertions(+), 3 deletions(-)
+> Hi, this patchset enables strict optional checking in mypy for
+> everything we have typed so far.
 >
-> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> index 71744f48a35..fc5fe27c472 100644
-> --- a/scripts/qapi/commands.py
-> +++ b/scripts/qapi/commands.py
-> @@ -286,7 +286,7 @@ def _begin_user_module(self, name: str) -> None:
->                               types=types))
->  
->      def visit_end(self) -> None:
-> -        self._add_system_module('init', ' * QAPI Commands initialization')
-> +        self._add_system_module('./init', ' * QAPI Commands initialization')
->          self._genh.add(mcgen('''
->  #include "qapi/qmp/dispatch.h"
->  
-> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-> index 9851653b9d1..26faa829898 100644
-> --- a/scripts/qapi/events.py
-> +++ b/scripts/qapi/events.py
-> @@ -191,7 +191,7 @@ def _begin_user_module(self, name: str) -> None:
->                               types=types))
->  
->      def visit_end(self) -> None:
-> -        self._add_system_module('emit', ' * QAPI Events emission')
-> +        self._add_system_module('./emit', ' * QAPI Events emission')
->          self._genc.preamble_add(mcgen('''
->  #include "qemu/osdep.h"
->  #include "%(prefix)sqapi-emit-events.h"
-> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-> index aaed78eed5e..da9d4d2d373 100644
-> --- a/scripts/qapi/gen.py
-> +++ b/scripts/qapi/gen.py
-> @@ -285,7 +285,8 @@ def _add_user_module(self, name: str, blurb: str) -> None:
->          self._add_module(name, blurb)
->  
->      def _add_system_module(self, name: Optional[str], blurb: str) -> None:
-> -        self._add_module(name and './' + name, blurb)
-> +        assert QAPISchemaModule.is_system_module(name)
-> +        self._add_module(name, blurb)
->  
->      def write(self, output_dir: str, opt_builtins: bool = False) -> None:
->          for name in self._module:
+> In general, this patchset seeks to clarify Optional[T] vs T and lift the
+> no-strict-optional restriction in mypy.
+>
+> Ironing out these issues allows us to be even stricter with our type
+> checking, which improves consistency in subclass interface types and
+> should make review a little nicer.
+>
+> This series is based on (but does not require) the 'qapi: sphinx-autodoc
+> for qapi module' series.
+
+Series
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
