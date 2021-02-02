@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3B730C04C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:54:54 +0100 (CET)
-Received: from localhost ([::1]:46528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7C030C009
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:50:07 +0100 (CET)
+Received: from localhost ([::1]:59054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6w8r-0003wy-Kb
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:54:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58928)
+	id 1l6w4E-0005d5-K6
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:50:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6w1E-0002nw-Vp
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:47:02 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51491)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6w2K-0003rt-8O
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:48:08 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:39814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6w16-0001jO-Tg
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:46:59 -0500
-Received: by mail-wm1-x332.google.com with SMTP id m2so2531437wmm.1
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:46:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6w2H-0002CY-HE
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:48:08 -0500
+Received: by mail-ed1-x531.google.com with SMTP id y8so7829904ede.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:48:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=6XvyNr+MDJL/R2sLBeBRGcdQ3npEFo2X3tL6IULfIyw=;
- b=L0Mx5b0fCNgLufrQDv74aC1SQHUtJyMuX8lO7RlQT3grp/YWKKtaDsS6Fv3YrLC+Ah
- /1ldUlzCWFNqu2KkwXCtxRnq+TbbX0f9GbkIm6DvMSA8SWYcvhcsMiC+TQXzRkhxY5lj
- RfGNcKNadRLj3OJLEvq4vhgI2jXrZ6ti9RDJ4vzpIAC6oBnDpILvuczyPXtQIVp27JVl
- +et9Tv1iRSoVdTYj2+BXZbC7Nn3qTT9VrN2ODFE3U8L0ZYI3Awn3OzGNiwgEQ6Yr6OGZ
- hSVhQkK52uuqpoH7izyGiEF4CD05S9/0wLWdwP/KrGVMvhp+vJdzeauwC27pw8KIEYRX
- TEfg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=u6tYLc3QvI7oOyextRmlipyLgaS2zGToHBWZQm8Z1nA=;
+ b=kzyD4CswHzRQpLhuZgq3STXVgLvuAQF6aBucPPmviECIhpgJKNZFKKnQgda5v5HW10
+ CJW0gDluBszqd/TIV0eHJWrWIQbbknJL2mgBOwFAxEQumb6lOo4YwXe+sycbvXNFqGYH
+ TfpfE/Y6p6L8KB+ciCFrpAy2ePDm23wGi7M0PwQE4ee2wU00erH3BEwboDyJ9p907MZm
+ KxMgdGrXZB5623GU6u71MaIDqmeOu4YHml8V9GDRWaO2U0pXYsQMuvA8fuX1h6JvhjIx
+ faEHn3P8t7Bw+92JbBuukwlIXkBq58tBLNme6AFctvdQkhnT6YaBLSQpDz7ldzHtmFC0
+ n/AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=6XvyNr+MDJL/R2sLBeBRGcdQ3npEFo2X3tL6IULfIyw=;
- b=m3xuQs6Bo7Rs8UGgp2Texw1h+sQSPFfp/B7sbzk7BxqYL9xX5/Lr5nQDoyi01nnsHM
- LublNtkHMj2m4dxOBELF76quvcvfziX65mpOcsxmXcs5jZJuVJp2D7UcmuJI0vow2Drt
- JSzsuQaTM+NiVzOzKjCPY82Kq/Sqw+Smoh/gYrhfgzqZKtsHi5dKvF6KXBJosYBbS2n4
- e7iye0JJV70fJ5wdEMPPhCT/mpS37rl/Q9CrIK5ElBHuNd23sGIh3uDEXAJg57rRJDzj
- OWrs1tird10AhA/OVHPfWK3dugY09hUznOdcwyMw8OsFi9h5AbjS8Bt6IAmj+jcGBScu
- +Iqw==
-X-Gm-Message-State: AOAM532K+qJfwxG+tvjvQYzcvsZk++mVVRp/GYII2FnLqvVeh4wKqsbb
- xqeAQVnWTOhXOIczBtGuFpdUcg==
-X-Google-Smtp-Source: ABdhPJw4Il4o72zusSXmvCaDhfqqyP2lpSR0fA4pks/qUG+/umrRMQ8SlKjTVtPFZEzJdlojJ7quKQ==
-X-Received: by 2002:a1c:e255:: with SMTP id z82mr3639680wmg.93.1612273611169; 
- Tue, 02 Feb 2021 05:46:51 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y83sm2975370wmc.12.2021.02.02.05.46.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 05:46:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7E04E1FF87;
- Tue,  2 Feb 2021 13:46:49 +0000 (GMT)
-References: <20210201100903.17309-1-cfontana@suse.de>
- <20210201100903.17309-2-cfontana@suse.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v15 01/23] cpu: Introduce TCGCpuOperations struct
-Date: Tue, 02 Feb 2021 13:46:43 +0000
-In-reply-to: <20210201100903.17309-2-cfontana@suse.de>
-Message-ID: <87h7mutwdy.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=u6tYLc3QvI7oOyextRmlipyLgaS2zGToHBWZQm8Z1nA=;
+ b=CuUGOia3/UaFaEco833l0Ql0pdUPBOnO8qDNiTdX42y8YJbvU+ibd9zwDTFGOQa3TZ
+ GFxAj7xmX4tzwwlf6Ds2oghfv6iFRHBGFF0b4kwA9Uote2MMWPYec7viNHajd+RsLiy1
+ d7SBshnTzkkmPSDrsQJ9s4Xsk87YmBs+b8wxfzn5MHSLhpVVlAeJIRpHsYKPjkHFvMEC
+ lszBo1d5Lhks5EITR4VRJiNJs17Nw0DoheW6Txpupi14362ymUJ+Ei2QGUBYou7YDRgV
+ MvIQzc47sLk/zFf0oaklLtAY+dRGCU75VbefL0+r33C+wvr9ql3zPLK4dmEHgdDDHUmO
+ pAOQ==
+X-Gm-Message-State: AOAM532lBFROToJktf5ohhigP9jnTSqUqBnSeAVWug0pKQbyEK/D4Cxd
+ OGYjnhKdl2z21WRklqfsnnQNKrQJ1HKk8w44bljliBoWE7LvMg==
+X-Google-Smtp-Source: ABdhPJzAImkBMEuC8PQ6hAYFeucsr7/mj4sPBGbc5ENhKr0SlxGhFdbkGozohToEJbyH+wi7BD28EIROYl+FjlQBgSA=
+X-Received: by 2002:aa7:c88a:: with SMTP id p10mr23660437eds.204.1612273683889; 
+ Tue, 02 Feb 2021 05:48:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210131151410.318649-1-f4bug@amsat.org>
+ <20210131151410.318649-3-f4bug@amsat.org>
+ <20210201081826.yx34xjzbgsiwzcpd@sekoia-pc.home.lmichel.fr>
+ <CAFEAcA8eDgsGY_Vq5SRuv9HxHY8Qz2j86A0PmKuHfj=H2wm7kQ@mail.gmail.com>
+ <313440b0-95b8-a690-a7ed-65c8428d7c42@amsat.org>
+In-Reply-To: <313440b0-95b8-a690-a7ed-65c8428d7c42@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 13:47:52 +0000
+Message-ID: <CAFEAcA-9asbQXq8E1Jcqq=AcZw6kO8M9UKGbq=FSnB5iC+dAUg@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/2] hw/arm/raspi: Restrict BCM2835 / BCM2836 SoC to
+ TCG
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,36 +83,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Luc Michel <luc@lmichel.fr>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Claudio Fontana <cfontana@suse.de> writes:
-
-> From: Eduardo Habkost <ehabkost@redhat.com>
+On Tue, 2 Feb 2021 at 13:29, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
 >
-> The TCG-specific CPU methods will be moved to a separate struct,
-> to make it easier to move accel-specific code outside generic CPU
-> code in the future.  Start by moving tcg_initialize().
+> On 2/2/21 1:28 PM, Peter Maydell wrote:
+> > At the moment we can reasonably
+> > say "only the 'virt' board and one of the Xilinx boards are
+> > security-critical".
 >
-> The new CPUClass.tcg_opts field may eventually become a pointer,
-> but keep it an embedded struct for now, to make code conversion
-> easier.
->
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->
-> [claudio: move TCGCpuOperations inside include/hw/core/cpu.h]
+> What about the SBSA-ref?
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+It doesn't work with KVM, and enforces it:
 
---=20
-Alex Benn=C3=A9e
+    if (kvm_enabled()) {
+        error_report("sbsa-ref: KVM is not supported for this machine");
+        exit(1);
+    }
+
+thanks
+-- PMM
 
