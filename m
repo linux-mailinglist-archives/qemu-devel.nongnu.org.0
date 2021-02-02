@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124B330BFDF
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:45:16 +0100 (CET)
-Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1061330BFDE
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:45:15 +0100 (CET)
+Received: from localhost ([::1]:46510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6vzX-00007O-4o
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:45:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57032)
+	id 1l6vzW-00005M-4G
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:45:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6vuc-0003LV-BV
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:10 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39541)
+ id 1l6vud-0003N3-Ro
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:11 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6vuZ-0007CW-9y
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:10 -0500
-Received: by mail-wr1-x432.google.com with SMTP id a1so20508926wrq.6
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:40:06 -0800 (PST)
+ id 1l6vua-0007Cw-DW
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:11 -0500
+Received: by mail-wr1-x431.google.com with SMTP id l12so20510934wry.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:40:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sE2rw1O4u9cYqn0FvywReTtt3n/OCFCQyRnzm4hokb8=;
- b=uAafp6Y7638pA3v8xP3GJROc835hBiks+hL0+AAGj1PikuOwlfGrsG3I8bwklAXL73
- fXYXMUhhGBC0498L3g5a4H9qwzdZTweOKkOSmSNtPugJixpUSMf2EuiNfIBhiOyegvs1
- Oduzp1ZSe+wTI8ALij0bauneFiNR5vASIYbGe3JD43sicBYZ8GJx3ezy0ocxartDlBey
- 4PrYtEU71ilW26xpDYfd1+I41LsR3TlXSMzrdVSXzRPdsXzTVQ4+r1E8j66kLX9yjAB0
- pOQnxsN/Or/etoRa5Rgz1Z/fCKHS67vAK5G7XCV5Y5WROEz5TrmB39KtUh6xu/TkJI0D
- NH+w==
+ bh=hf7ynIumjxT8747QQLhELSkjFJ2pAeJjBigreGwj8dE=;
+ b=YABLiXeMGr3BBdL50nwfRSsnkNKABzChn1IbOnojpGsGDCWh5EaxL01BArDGV6OIBE
+ 3ro+sEHrzQfpTDPruAYNlrYfSN8cuc/y6L1vkcoiGZHlW9wJkxyLCMq5duCyVHnebdjH
+ H6dZkPDYe1dUATv3EpqL53vZzL41ddf476rFrjgIFxanmFytfoC75BuZSHyp92uMEU/M
+ nWgFYIhADt2OFhKwh3Nibg+m2kNBX9j11fRysUwv+2z+JDJMgCdOOuRPVmaNKwUr0Ea/
+ p1kOrDsU9rKjGP3kzxPkZGP1iJN1Mw+9DSlPgDmH5BzWY9T35vGFx8WJNmiU+IIpCKSx
+ lXIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sE2rw1O4u9cYqn0FvywReTtt3n/OCFCQyRnzm4hokb8=;
- b=TkxwnDYJFHfJ7j87KLXZRthPrzkxnQ6FTfnt+Gu3YD5/XmDLmkrhnvUfHLZQ97eCec
- ddQt3yUEEthoEZ9GDC1CS6lxU8z6n+xKbef7BdDPqhnTf69yzcBGnMdjSfITbTSELDQp
- /TX5dhbOk2q9kBZjnY3Q06e+xxr0nb63LAQ5lGroe2gr1KexmNrVwMT8tr3z+ReXKNYX
- NCRVImv5nYhY7awBsDavrFYPD9wtj2YIlHdpsZ3oUPQ6ph68rzBnociL8qpneuI+zAsi
- 9pHz7f+qn+kVinS1UfX3nUp4L6+j9ptBmeESXhFdO8HPIS2T3MRn+uvZU0dP5DO5eeiN
- nILw==
-X-Gm-Message-State: AOAM530bhWlD9jVFmauZWtzjMnN2coi4b0olhmtuIvUCt++lxeavGcBo
- IMcmIYHalGUKDZRktVEXP2g1O+ZXTTOQXXJM
-X-Google-Smtp-Source: ABdhPJxLbYnHNWlbghEN5jt0+e90xkI3FhkjV8yln3CRNIWKjgLMVBceX3zxl9AjMKVlVTRBgJJCqQ==
-X-Received: by 2002:adf:c6c1:: with SMTP id c1mr23812396wrh.326.1612273205867; 
- Tue, 02 Feb 2021 05:40:05 -0800 (PST)
+ bh=hf7ynIumjxT8747QQLhELSkjFJ2pAeJjBigreGwj8dE=;
+ b=D4Ad2YeAsiErfKA95MH8WDm6o8/0wPU8fFiUNCVD1fht4bLknvIw/89Hyv1HSEc1uV
+ CiWkmoq6uwNQqPT8xoIlPQnuEbEIVYCKmfCioSr8PzBsLZ5kV1DmTqJIfIxL3csGQKRy
+ cnAA5ml8VphtcFdx9WX+V1TBDJfwQme6H6kYjnb0IGvTYBdH/CNXNdSMgGd/TmnwDFID
+ tXbUJNFZ9VnSWpRqcqnmSzvKcT8anQC3cPSglGJ9WDTth2msQX7TO8XRRlPeBgcSBHcH
+ Yv4GBhXbmmnLLP+r53JlX6+Cj+0T7fhGe1ccenJWP6IA6rPZUUagAJCKUSwqD2JTpDaa
+ TVYg==
+X-Gm-Message-State: AOAM5330ycPG2IysGdC7F+nMb8qgVuYohmoZfaKemrd0E7KY46t3YbZE
+ cem/8EB0bnX7VIF+y9v4kHe7RtTdbZ3H4UaB
+X-Google-Smtp-Source: ABdhPJxOzagu+nNcursGQTHP7HrU1VbbiR1bJ6ShOy9jJ0sD7BGJBEwXyPIB8yIgIA9+tCuO9DRT0w==
+X-Received: by 2002:a05:6000:1043:: with SMTP id
+ c3mr24042762wrx.140.1612273207118; 
+ Tue, 02 Feb 2021 05:40:07 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q9sm3585131wme.18.2021.02.02.05.40.01
+ by smtp.gmail.com with ESMTPSA id y83sm2943850wmc.12.2021.02.02.05.40.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 05:40:01 -0800 (PST)
+ Tue, 02 Feb 2021 05:40:04 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3E56E1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 54C561FF8F;
  Tue,  2 Feb 2021 13:40:01 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 02/15] tests/docker: Fix typo in help message
-Date: Tue,  2 Feb 2021 13:39:47 +0000
-Message-Id: <20210202134001.25738-3-alex.bennee@linaro.org>
+Subject: [PATCH v1 03/15] tests/docker: make _copy_with_mkdir accept missing
+ files
+Date: Tue,  2 Feb 2021 13:39:48 +0000
+Message-Id: <20210202134001.25738-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210202134001.25738-1-alex.bennee@linaro.org>
 References: <20210202134001.25738-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,31 +95,36 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Depending on the linker/ldd setup we might get a file with no path.
+Typically this is the psuedo library linux-vdso.so which doesn't
+actually exist on the disk. Rather than try and catch these distro
+specific edge cases just shout about it and try and continue.
 
-To have the variable properly passed, we need to set it,
-ie. NOUSER=1. Fix the message displayed by 'make docker'.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210119052120.522069-1-f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/docker/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/docker/docker.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 0779dab5b9..bdc53ddfcf 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -209,7 +209,7 @@ endif
- 	@echo '                         before running the command.'
- 	@echo '    NETWORK=1            Enable virtual network interface with default backend.'
- 	@echo '    NETWORK=$$BACKEND     Enable virtual network interface with $$BACKEND.'
--	@echo '    NOUSER               Define to disable adding current user to containers passwd.'
-+	@echo '    NOUSER=1             Define to disable adding current user to containers passwd.'
- 	@echo '    NOCACHE=1            Ignore cache when build images.'
- 	@echo '    EXECUTABLE=<path>    Include executable in image.'
- 	@echo '    EXTRA_FILES="<path> [... <path>]"'
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 0b4f6167b3..fb3de41c0b 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -103,7 +103,12 @@ def _copy_with_mkdir(src, root_dir, sub_path='.'):
+         pass
+ 
+     dest_file = "%s/%s" % (dest_dir, os.path.basename(src))
+-    copy(src, dest_file)
++
++    try:
++        copy(src, dest_file)
++    except FileNotFoundError:
++        print("Couldn't copy %s to %s" % (src, dest_file))
++        pass
+ 
+ 
+ def _get_so_libs(executable):
 -- 
 2.20.1
 
