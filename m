@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD87230BE1D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:26:17 +0100 (CET)
-Received: from localhost ([::1]:53668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752B830BE27
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:28:20 +0100 (CET)
+Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6ul6-0007p9-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:26:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42060)
+	id 1l6un5-0001J4-Hq
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:28:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6ugk-0005iK-W9
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:21:47 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6ugi-0005xv-Jr
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:21:46 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id y8so7514241ede.6
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 04:21:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=belE4FoTQ5IDz2AkXxRNs1TgkX/xK+2CldIU2o/On7Y=;
- b=UlxbO+amTvKVNHtmZGHPGxefFQeXcZ89PubzDQQTJ1QP7sM0H6gADz+0mVDwsjOtvk
- pfmTNnNpfRdfw4QIL4TsoXs+awFOf9fe9lDndVTsBU553apPMlGkEoxf+ksrdsMWTVkY
- JY1tchrlF+e+0EKeQjgVDAzdh29ck5f3Z+ZZ7P4n/pWPZy/pfHPhX8APSkbVkND9UP66
- +n8LtLEV3dcI3IWZNB73Hu4C16u6rnjMaZT6nFsNlU+UcAf7dJA93utQKCsxWN8LVSyp
- 5iotuvKJePatRk4G2pXBDyYDw//bYxeTMSSC2ksNz9DLtuV7+/5kEn3A/eltOur4hD39
- VB8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=belE4FoTQ5IDz2AkXxRNs1TgkX/xK+2CldIU2o/On7Y=;
- b=Jz7J11dw3LG7qklb3ar9IrfVAtWdnrJW5M7wzMwC0DMp39XE4HDnzOZ3nWjUaTOQx0
- YY+7tWNMgI7ysv74pSei0g99cBYhcUae2nZXEnVXAL7Vg0RnK561O6ljZ0NsZgqR9Gyl
- Bg6Wc4GTx7n+j05tlSLfPYkJZzVnUUYUguuRVxQEJiD/nJKcq8V8PntRZ8qduxceS05o
- j1f/XMnv1sSCkuwe5J2k/vBbWEe0rfp4v4AB8LeRK5lg+dakfUPg3PUYXoJTevr3qXjQ
- 5VOs8F7GivzHSii5Uj7HrGdICEwkHVlw15gps9OWLCx57PmzwYa18n97FlcAk8ZH/5cA
- xODQ==
-X-Gm-Message-State: AOAM532TPWS7z5mRv7wSSPCWkGOdksYy+H/a+2z7cfOLua7bsdTO9fi3
- u+l8hBOA5zkoYfBXUKdJ8lD+ZqLcvx5VUslfOnZ2LA==
-X-Google-Smtp-Source: ABdhPJxK9DqMutGnwvxhpSFo+gkvg022ZVD24QmlfwPUrZmYjiJ661F2qF4IU4TRLGEmHSDT/3OhzdZwu1ObosyWGxw=
-X-Received: by 2002:a05:6402:3514:: with SMTP id
- b20mr22821315edd.100.1612268502667; 
- Tue, 02 Feb 2021 04:21:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l6uiy-0007Gt-2A
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:24:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52139)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l6uis-0006si-Jm
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:24:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612268636;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6M7JWjNBJyJ0PYnbR1UF12LuEtXcDjZmDnKN85uT3xo=;
+ b=NE5wxehUgqNm8lI31lMgvRnIm37VvjIZcoUUwNyFXJOICMkl6E/s9A7Q6s7b15bzVp5SsH
+ jAa8gskiv5ebsMixhlt9koU5fQUD8kbcCvMNWhNFNXxISbyz0qlHszDSaaHxNgMISOeS+Y
+ wyzBE24te6TZDyqAo/5kRLsiwA+kANQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-N2JL6awnP0uq6-Kv8gQLuw-1; Tue, 02 Feb 2021 07:23:51 -0500
+X-MC-Unique: N2JL6awnP0uq6-Kv8gQLuw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A5D780ED8E;
+ Tue,  2 Feb 2021 12:23:50 +0000 (UTC)
+Received: from redhat.com (ovpn-112-202.ams2.redhat.com [10.36.112.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 726641002393;
+ Tue,  2 Feb 2021 12:23:45 +0000 (UTC)
+Date: Tue, 2 Feb 2021 12:23:42 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: David Edmondson <dme@dme.org>
+Subject: Re: [PATCH RFC 1/4] docs: add a table showing x86-64 ABI
+ compatibility levels
+Message-ID: <20210202122342.GC4168502@redhat.com>
+References: <20210201153606.4158076-1-berrange@redhat.com>
+ <20210201153606.4158076-2-berrange@redhat.com>
+ <cunv9balsck.fsf@dme.org>
 MIME-Version: 1.0
-References: <20210131103401.217160-1-f4bug@amsat.org>
- <3a94e327-0454-bf43-552a-1c84407e1d7d@amsat.org>
- <20p82p5p-ns25-n434-37os-n55013s6313@erqung.pbz>
- <6d29aa57-2e6e-e81d-831f-803d9aae798f@amsat.org>
- <787280826.1146023.1612246917145@mail.yahoo.com>
- <3bd70da2-39ec-6e6b-d46d-6052f1b8f0b0@amsat.org>
-In-Reply-To: <3bd70da2-39ec-6e6b-d46d-6052f1b8f0b0@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Feb 2021 12:21:31 +0000
-Message-ID: <CAFEAcA-Q8swS84GVd20wo4Pp41UUPdDknxbCMn=pchgi96UgRQ@mail.gmail.com>
-Subject: Re: [QEMU-SECURITY] [PATCH] hw/intc/arm_gic: Fix interrupt ID in
- GICD_SGIR register
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <cunv9balsck.fsf@dme.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,79 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Li Qiang <liq3ea@gmail.com>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- QEMU Security <qemu-security@nongnu.org>, P J P <ppandit@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- P J P <pj.pandit@yahoo.co.in>, Luc Michel <luc.michel@greensocs.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Florian Weimer <fweimer@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Feb 2021 at 09:32, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> On 2/2/21 7:21 AM, P J P wrote:
-> > On Sunday, 31 January, 2021, 08:48:26 pm IST, Philippe Mathieu-Daud=C3=
-=A9 <f4bug@amsat.org> wrote:
-> >> Forwarding to qemu-security@ to see if this issue is worth a CVE.
-> >>
-> >> | On 1/31/21 11:34 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> >> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
-> >> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
+On Tue, Feb 02, 2021 at 09:41:15AM +0000, David Edmondson wrote:
+> On Monday, 2021-02-01 at 15:36:03 GMT, Daniel P. Berrangé wrote:
+> 
+> > It is useful to know which CPUs satisfy each x86-64 ABI
+> > compatibility level, when dealing with guest OS that require
+> > something newer than the baseline ABI.
 > >
-> > * Does above patch address both these bugs? For BZ#1913917 'irq' is der=
-ived from 'offset' it seems.
+> > These ABI levels are defined in:
 > >
-> >         /* Interrupt Configuration.  */
-> >         irq =3D (offset - 0xc00) * 4;
->
-> I haven't done a thorough analysis, simply tried to fixed this
-> bug ASAP as it is public so many users are exposed.
->
-> I had the impression the first call (writel 0x8000f00 0x5affaf)
-> break the heap, so the memory is inconsistent when the second
-> call (write 0x8000eff 0x1 0x0) is done, but better have developers
-> familiar with GIC and security auditing this again.
-
-Philippe is correct here. In both cases the overrun is on the
-first writel to 0x8000f00, but the fuzzer has for some reason not
-reported that but instead blundered on until it happens to trigger
-some other issue that resulted from the memory corruption it induced
-with the first write.
-
-> >> | > Correct the irq mask to fix an undefined behavior (which eventuall=
-y
-> >> | > lead to a heap-buffer-overflow, see [Buglink]):
-> >> | >
-> >> | >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M v=
-irt,accel=3Dqtest -qtest stdio
-> >> | >    [I 1612088147.116987] OPENED
-> >> | >  [R +0.278293] writel 0x8000f00 0xff4affb0
-> >> | >  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bou=
-nds for type 'uint8_t [16][8]'
-> >> | >  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/int=
-c/arm_gic.c:1498:13
-> >> | >
-> >> | > Cc: qemu-stable@nongnu.org
-> >> | > Fixes: 9ee6e8bb853 ("ARMv7 support.")
-> >> |
-> >> | > ---
-> >> | > Isnt it worth a CVE to help distributions track backports?
-> >> | > ---
+> >   https://gitlab.com/x86-psABIs/x86-64-ABI/
 > >
-> > Thank you for reporting this issue. Will process further.
+> > and supported by GCC, CLang, GLibC and more.
+> >
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  MAINTAINERS                        |   2 +-
+> >  docs/system/cpu-models-x86-abi.csv | 121 +++++++++++++++++++++++++++++
+> >  docs/system/cpu-models-x86.rst.inc |  18 +++++
+> >  3 files changed, 140 insertions(+), 1 deletion(-)
+> >  create mode 100644 docs/system/cpu-models-x86-abi.csv
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index fbb228ef2b..bb8d60c458 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -344,7 +344,7 @@ F: tests/tcg/i386/
+> >  F: tests/tcg/x86_64/
+> >  F: hw/i386/
+> >  F: disas/i386.c
+> > -F: docs/system/cpu-models-x86.rst.inc
+> > +F: docs/system/cpu-models-x86*
+> >  T: git https://gitlab.com/ehabkost/qemu.git x86-next
+> >  
+> >  Xtensa TCG CPUs
+> > diff --git a/docs/system/cpu-models-x86-abi.csv b/docs/system/cpu-models-x86-abi.csv
+> > new file mode 100644
+> > index 0000000000..4565e6a535
+> > --- /dev/null
+> > +++ b/docs/system/cpu-models-x86-abi.csv
+> > @@ -0,0 +1,121 @@
+> > +Model,baseline,v2,v3,v4
+> > +486,,,,
+> > +486-v1,,,,
+> > +Broadwell,✅,✅,✅,
+> > +Broadwell-IBRS,✅,✅,✅,
+> > +Broadwell-noTSX,✅,✅,✅,
+> > +Broadwell-noTSX-IBRS,✅,✅,✅,
+> 
+> Would it be useful to add an explicit negative mark (✘) in the slots
+> where the CPU does not satisfy the requirement? It makes reading the
+> table a little easier (my opinion, of course).
 
-On the CVE:
+I felt it was clearer to only show the positive case. Since the
+ABI levels are additive, you can count the ticks at a glance to see
+the ABI level achieved. Also this CSV file isn't really meant to
+be seen by users directly. It is just data input that gets rendered
+into an HTML table that looks like this:
 
-Since this can affect systems using KVM, this is a security bug for
-us. However, it only affects an uncommon configuration:
-you are only vulnerable if you are using "kernel-irqchip=3Doff"
-(the default is 'on', and turning it off is an odd thing to do).
+  https://berrange.gitlab.io/-/qemu/-/jobs/1001700036/artifacts/public/system/target-i386.html#recommendations-for-kvm-cpu-model-configuration-on-x86-hosts
 
-I've applied this patch to target-arm.next.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-thanks
--- PMM
 
