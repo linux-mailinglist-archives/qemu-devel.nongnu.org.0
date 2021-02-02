@@ -2,69 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C303630B757
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 06:47:21 +0100 (CET)
-Received: from localhost ([::1]:48660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB84A30B783
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 06:57:44 +0100 (CET)
+Received: from localhost ([::1]:51412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6oX2-0004uJ-Ct
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 00:47:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59972)
+	id 1l6oh5-0006kj-Kt
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 00:57:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1l6oW9-0004PQ-Gl
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:46:25 -0500
-Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236]:40032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1l6oW6-0007g6-W7
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:46:25 -0500
-Received: by mail-lj1-x236.google.com with SMTP id s18so22554438ljg.7
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 21:46:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=q5XmDhy7kaOETvFuLk3+U6luxno6+Mnd9UnyfCbZPIY=;
- b=RkngDPQ63v4PRb/tZPDD+wwk+3cMGW/QXt22IPTa6zzeoYezdOPbFjVXxfgfqcAeFx
- Tm6ezO/Eqv++/jFmrcKnFWCopbaw5IIvV9x9jtug7E4IMna8usP9UtebX/n3uWNL4Iyi
- Shwt5CUMO1TrmJPZu3KgZ4KlRKWgC6Tj47LxfWAURgrP86mhg562ttZ2hLRtSCDS9WC2
- 8+2zObZBQlYo/3++cRRZWvemBnaRcA33SC16NogAAbWOGtT4/gWOccu0QOEcLJKVrvoy
- z4BfjHo3mWqYwsJ7DV0dHClLzM46K0B1MeN0aW4kMRm9A6MRgKOuX925G0CpX/wauFQy
- NmTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=q5XmDhy7kaOETvFuLk3+U6luxno6+Mnd9UnyfCbZPIY=;
- b=mbp/B/LL7EJx+/+m0ON/EJfirIP3yFg4/OhO/NHA72kTfuSw8sHpFaywDnlNPbN4UK
- nDRdq046TodtWLRWE13z5jGoMx3+8Te6fyvk08CbxaYsOQN4HWt67Y+KJZDqsVXdZi9F
- IGuufOoTaISuf07uhRAvylPagCUnmtkAbrLaleSRdm7YMxYPH8KT1MY1uzdyYdCd26a1
- 5lEymP7pe+aSIURVsQIf0jE05KTbPo0Nb/VB8xbutbigYfbDuOIc2DECAjTKKzpdV91m
- WJx1gnJTjlKtkHH0TyCvMT40xmyzHMIlEnircGJDMJM7NUNjbIaoU3GuVh0jjDAtT1/V
- eYaQ==
-X-Gm-Message-State: AOAM5324G6nV2KCyly+60zdZNR5yOKJQj8mR6XRVQAOAA9MsIft47nms
- 92An3W5iJkm3vDlvlVU6q37yMmjhXa8HPMblZis=
-X-Google-Smtp-Source: ABdhPJwIuWvCDcwacoA+cOJp4wir/H9ZqdtvJxugihA3ncg78kvQsc6d9kFKOHWmSY8w747XMpQPw2l+MeeC4re1igQ=
-X-Received: by 2002:a2e:7e03:: with SMTP id z3mr12138574ljc.204.1612244780523; 
- Mon, 01 Feb 2021 21:46:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <misono.tomohiro@fujitsu.com>)
+ id 1l6ofl-0006KN-R4
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:56:21 -0500
+Received: from esa2.fujitsucc.c3s2.iphmx.com ([68.232.152.246]:37546)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <misono.tomohiro@fujitsu.com>)
+ id 1l6ofj-00041x-F7
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:56:21 -0500
+IronPort-SDR: CK2JlBG4Bu9vZLakRQxF1uK2eKGKeNEaPuSYgItMrmooMhYSn4Xl4J6VMCXIT/oNmoXs6NsB6o
+ xnTi18HNqJLmTlAqiO9SM6qdrsfCpw7i8dZ6e4zdfIMRgYYiNH4gJG9IqKWvmZF7w1561GBkW/
+ yHcjg4AaZIiNxxCmpDbI252XfvKhVb/OL/zb1wCz8NUH2h7qZG9A+5+MynAA9OUNwv8IetYWY0
+ NIN7P+0mk7yntKlx7kwBZrBZwTmb2h/OnVzSEhXrPgWzEqpcQogjgrj0kdqqfXOW9p0NOod/x+
+ ORY=
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="33612584"
+X-IronPort-AV: E=Sophos;i="5.79,394,1602514800"; d="scan'208";a="33612584"
+Received: from mail-ty1jpn01lp2053.outbound.protection.outlook.com (HELO
+ JPN01-TY1-obe.outbound.protection.outlook.com) ([104.47.93.53])
+ by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2021 14:56:14 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LZVeFI6axaKp7aO4ztL/sEoFXPvCapk91294XCa76lp06nttxKrB4iBLagjILA/4ID8p2YIkqsUzjubwJ+bzZTwiB3zznWGgE/8ZaT6DbU670JpGkcMHM04WRT9JHf7TuokHlMYgL7o6HJxvDgyGKMH1ch17acdoeyu2117vQBtA4tsMtWL7TY6+KnH+gWTH5p5s5Cs81LuJ4tmj9zZDOBByxEFl04BozIEjLNHM6nTF/W2aNa6CoLdHt4+cusNZxE1WGXdKToSDmvHtfqD4CDu8ZCirIsHUqvZe6FrADHCy+7Xhh7+LYIcZeXUUoxMO/kfmxR5A94cHnDC97zRBjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BZkfdAWoRp59+h+z0g+37ESzYV4+kpo9bFyiTZ5hk0c=;
+ b=E8SQ7k+qgpAJEs+weRVOTUHv350JyMsoqnoXj3BdR+aMmwEWx4iQvi2siTCUHDYf0TOP6Cid6QKKI5/SvjkHO8b/6mAONVIUp9CPoaQRpBFtUZKO0w39+mdGx9WMo4mEB5zqOrMTmADxDkMRW4TLjATyPTzvjOrwmuAWVp+vEa10GWXTnVI2gLGNQc4XGmEVouL306bBg+HoZbBgL/vN/QmeNkJIC4zK60KjKoEDkY2u9xAvpxYQVbYGGRDcGap7BrnL4bDEdJe07EinPy69qmm4cguJWS5RCLNp+uKN/ssYIGzWUKMr5CJlCsY/Flwr/hnLrrJe3/22kbc/bZiZnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BZkfdAWoRp59+h+z0g+37ESzYV4+kpo9bFyiTZ5hk0c=;
+ b=B2YrwMyu5/z5ElA6DA0s4onpnFBOpXguRb4pJPsl9mvaaYv/ajeXqYQHyRlcKtKlvRqxxGoL7sQHspNdYF3CHcudeSsa5x+KonTVZWCu6T//wylxSeAgtxovw89cKOoj95ZaUjM7PsiJTZ7F/iMPMiNpVo/RbynV8sszzPNh71w=
+Received: from OSBPR01MB4582.jpnprd01.prod.outlook.com (2603:1096:604:74::21)
+ by OS0PR01MB5490.jpnprd01.prod.outlook.com (2603:1096:604:a4::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.22; Tue, 2 Feb
+ 2021 05:56:11 +0000
+Received: from OSBPR01MB4582.jpnprd01.prod.outlook.com
+ ([fe80::3d2f:3902:f15b:b01f]) by OSBPR01MB4582.jpnprd01.prod.outlook.com
+ ([fe80::3d2f:3902:f15b:b01f%5]) with mapi id 15.20.3805.026; Tue, 2 Feb 2021
+ 05:56:11 +0000
+From: "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>
+To: 'Wainer dos Santos Moschetta' <wainersm@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 1/1] virtiofsd: Allow to build it without the tools
+Thread-Topic: [PATCH 1/1] virtiofsd: Allow to build it without the tools
+Thread-Index: AQHW+N9bsku7d17WrEGv89D+jY4M46pEXMdw
+Date: Tue, 2 Feb 2021 05:55:02 +0000
+Deferred-Delivery: Tue, 2 Feb 2021 05:56:01 +0000
+Message-ID: <OSBPR01MB45828271AC8D2F8F5FAA52D7E5B59@OSBPR01MB4582.jpnprd01.prod.outlook.com>
+References: <20210201211456.1133364-1-wainersm@redhat.com>
+ <20210201211456.1133364-2-wainersm@redhat.com>
+In-Reply-To: <20210201211456.1133364-2-wainersm@redhat.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-shieldmailcheckermailid: 818ab6ef50f743c89a186a9e8c27c251
+x-securitypolicycheck: OK by SHieldMailChecker v2.6.3
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=fujitsu.com;
+x-originating-ip: [218.44.52.177]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 52353681-bd0c-49fe-eaf3-08d8c73f3e30
+x-ms-traffictypediagnostic: OS0PR01MB5490:
+x-microsoft-antispam-prvs: <OS0PR01MB5490F2840C7D569B096C1235E5B59@OS0PR01MB5490.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Bt2pYiPNqWS3/lY5CFGaiIu51zLoT2L4kTO7iWC2U3Bendzn2YIl8Wq/qUHrLADk448PJw39wSAVbmOTri8DW6QKXaT3cAF9YhqDk03y1YOk+4RK3VDc289UpA0EP45QqmrqZEsVQ4Eex6oyFbTO2XOJq673DgXm7X6bicf8I/bS9eUskDRv39tpqjLJ0uvjzcl+FKqq6koMJz+gqK6jdBFcdTEzcy9p89jwMW0hxfkMj7Y1Jxq+E1lZ4nQlz06YSy1/B+zcrzArdP95esfcvBCOXuR5m/heTES99GnuCt1TwjW9VuF9pMiCsFQ3OgP4Ld2bFnf9dwMBELmONX4Ku6kthUb5Ay2BVUcpnsTD/aC3UdJjXzJCPjuiEIQ9WV9eBBgIcxE/YTpGw+ChALIqVqz5wYukeTDbdVULtuawElws0OM1h5shCwHYArem/1TBdBsQtXQVIPBmwTGfmoztEJA0X2k+TViraL9ac2ihZuM6xDPELmhS72+V2YwlYnEWbn0cyuIwA+D9+Gk0p2jtKEqUzXEH6MCpm0g2POByyV/hKfMFLsvtRw+1Y7ZexpzJ
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OSBPR01MB4582.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(346002)(39860400002)(136003)(366004)(52536014)(26005)(6506007)(83380400001)(478600001)(66556008)(5660300002)(64756008)(66476007)(7696005)(66446008)(186003)(4744005)(8676002)(85182001)(4326008)(8936002)(71200400001)(316002)(6666004)(66946007)(54906003)(2906002)(110136005)(55016002)(33656002)(76116006)(86362001)(9686003)(777600001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?iso-2022-jp?B?OHFZcmpXWGIxZ0IzS0lkT1g0aDZXTUY1b2Z5cnVYaVBIMjVVeSt4c091?=
+ =?iso-2022-jp?B?RGNkNS9mRUpNOGdsWnh6eGFxOWRCbWI2cERPU2F0c2gzUkpsc0x1eThZ?=
+ =?iso-2022-jp?B?eWtZUUY4TGxVNEtGZVVHQ3ZRLzd0aGw0MU5xYmxYeFZJVit0Uk0vajI1?=
+ =?iso-2022-jp?B?K09zWG1UdkNwcFpSZDM5T0tPRkpIMEhMOUZydTNUaGpiZGh5MmhoNERS?=
+ =?iso-2022-jp?B?cmkxa1NYVjk1WDdqdGI4SjFXRkJIdE00ZUh0cEtPS0dGc284TzhMT2Vj?=
+ =?iso-2022-jp?B?SGxqT0VpcU1UTEEzZ3drVWNUNjlHUmxiSnV6L0NIWFVwbVBDSnJxNys2?=
+ =?iso-2022-jp?B?REJ3WTBVRm1McUFDUHJlZ2hQdGRPeXNRNGF1YkFiMWRYM29MLzdKZUtJ?=
+ =?iso-2022-jp?B?ZXRZcWs5TW9LYkc0UFZCWVJxeGx2SmJNK0taY0NhRmFialZoVXViMEhx?=
+ =?iso-2022-jp?B?cW02dVlJNW1jYW5MYndGTXJza3RlcjhJU2REVGlGNEZ3U3FIZ0FaV3RX?=
+ =?iso-2022-jp?B?ME90YnJOT2E3NEV5Z2h0ekJ4KzBJQ1IzMEJvYzRpelVhdmhNcUVJajVK?=
+ =?iso-2022-jp?B?a0NiUGMwcXpwSUpSVTBaS1hNWEwxczVWSkFzZ1AxNUxtQ0lkTFpVbGQy?=
+ =?iso-2022-jp?B?TkJZbmFUblJwU3ZiVlJCeUZoZU9oVWVNZXhDUXlLeE1LNWx6a3FtelIv?=
+ =?iso-2022-jp?B?V0kxRVh0OVN3ZWEzV0J0WmRYRWJiQkVwRTIwcnR1UWduSXhJdEZmNVNo?=
+ =?iso-2022-jp?B?bFloMHFpbHZNUXFER0N2QXMzUUY4TXNDSlVvVkxGTHYvMmhGNkRPTVBz?=
+ =?iso-2022-jp?B?bnU1aXQrNW5kMEp6WmY1ckZHZjYrUURhSDBPR2l2RlRRVS9XY0dxbEhM?=
+ =?iso-2022-jp?B?UEs5cUN5KytYcWhpcVU2Ykw5NHJuaUp5cXMzUzVZVFIyeU9RaXViRHhY?=
+ =?iso-2022-jp?B?RndSK0pHZW1SL1ZhVDM1Tm9Ic1V0eUhkdTJSS2lIamFXcmR4L0FZeTBR?=
+ =?iso-2022-jp?B?MDFCeTQxWmxzd3dZUWJkYk9IcStROEUzeHpvWjh6bkdGNEprSndBYW9I?=
+ =?iso-2022-jp?B?bUF6ZkZ4UncweEdPdC9KdHZWM3BOT2RuSEI0ZUVLcTBxck8xQXlWZXpq?=
+ =?iso-2022-jp?B?OTNEcDVQc0JnVENsVHBKWGdUTFVLN2o1QUdnVXBvNWxmTkNjQ1pWcElX?=
+ =?iso-2022-jp?B?M1VpbFBqTjduU1lkamJ3bFV5U1h1SzZ5dnMxNmxibnFBWks5N0JSelIy?=
+ =?iso-2022-jp?B?RnpNQlZlR21GajExdEwvUVdEOEpaeUJjSHp4aERORHZXT2FHd0MrUXUx?=
+ =?iso-2022-jp?B?blZhc3h4TE1RYmZBaE80OUdmZGY1RGZPRm0yS1ZpWTNPalhVTFVYdmt1?=
+ =?iso-2022-jp?B?UEN4cldSVGtxNy9ZYTN4Y1N6QlNyVmhJOXpMUTcxVWo5SUw0QVBBQUJB?=
+ =?iso-2022-jp?B?RGE0V2F0Ymc2SCt6dmFlcDZEWnZtWUpBRHBTKzhCUDNYSWJKZGVNOUVa?=
+ =?iso-2022-jp?B?bll0OXVpZXBmUVlYcjBUaUdrekVwMFlUeldYUnlYMUd6N0I1cmQ=?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <CAFEAcA-bafTaHajkvYQw1rfGP1MgKmeY-wmO6LY=fj2oY87HFQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-bafTaHajkvYQw1rfGP1MgKmeY-wmO6LY=fj2oY87HFQ@mail.gmail.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Tue, 2 Feb 2021 13:46:08 +0800
-Message-ID: <CAE2XoE9rrHMB6YtqjZjBf3h=3mQ8BVOixNLhx1rh1MOEPJc+6w@mail.gmail.com>
-Subject: Re: macOS (Big Sur,
- Apple Silicon) 'make check' fails in test-crypto-tlscredsx509
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000006f341c05ba53fd44"
-Received-SPF: pass client-ip=2a00:1450:4864:20::236;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x236.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSBPR01MB4582.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52353681-bd0c-49fe-eaf3-08d8c73f3e30
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Feb 2021 05:56:11.2755 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7o2k0ZJt4JGT9TDxAi2zrW7M7vR/dt++4uMUIeL+b04pQvoe0vqcMAtiiKRImZYE7LxRl+Ps4DQLvuSKOagbbRokY4sI8hehqL2MoKyD2zU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5490
+Received-SPF: pass client-ip=68.232.152.246;
+ envelope-from=misono.tomohiro@fujitsu.com; helo=esa2.fujitsucc.c3s2.iphmx.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,133 +148,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Alexander Graf <agraf@csgraf.de>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006f341c05ba53fd44
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Subject: [PATCH 1/1] virtiofsd: Allow to build it without the tools
+>=20
+> This changed the Meson build script to allow virtiofsd be built even
+> though the tools build is disabled, thus honoring the --enable-virtiofsd
+> option.
+>=20
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-SHA-1: 94c13c1048378cbffe552b6fe5c960dc04eaefb2
+I misunderstood that virtiofsd builds somehow depends on tools build at tha=
+t time.
+Thanks for fixing. I did quick build test.
 
-* gcrypt: test_tls_psk_init should write binary file instead text file.
-
-On windows, if open file with "w", it's will automatically convert
-"\n" to "\r\n" when writing to file.
-
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Is this related?
-
-On Wed, Jan 27, 2021 at 12:37 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> My Big Sur/Apple Silicon system fails "make check" in
-> test-crypto-tlscredsx509:
->
-> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> G_TEST_SRCDIR=3D/Users/pm215/qemu/tests
-> G_TEST_BUILDDIR=3D/Users/pm215/qemu/build/all/tests
-> tests/test-crypto-tlscredsx509 --tap -k
->
-> ** (tests/test-crypto-tlscredsx509:35180): CRITICAL **: 16:23:34.590:
-> Failed to sign certificate ASN1 parser: Value is not valid.
-> ERROR test-crypto-tlscredsx509 - Bail out! FATAL-CRITICAL: Failed to
-> sign certificate ASN1 parser: Value is not valid.
-> make: *** [run-test-70] Error 1
->
->
-> Does this failure ring any bells for anybody?
->
-> Here's the crypto part of the meson-log:
->
->   Crypto
->                      TLS priority: "NORMAL"
->                    GNUTLS support: YES
->                         libgcrypt: NO
->                            nettle: YES
->                               XTS: YES
->                      crypto afalg: NO
->                          rng-none: NO
->                     Linux keyring: NO
->
->
-> thanks
-> -- PMM
->
->
-
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---0000000000006f341c05ba53fd44
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">SHA-1: 94c13c1048378cbffe552b6fe5c960dc04eaefb2<br><br>* g=
-crypt: test_tls_psk_init should write binary file instead text file.<br><br=
->On windows, if open file with &quot;w&quot;, it&#39;s will automatically c=
-onvert<br>&quot;\n&quot; to &quot;\r\n&quot; when writing to file.<br><br>S=
-igned-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luo=
-yonggang@gmail.com</a>&gt;<br><div>Is this related?</div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 27, 20=
-21 at 12:37 AM Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org=
-">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">My Big Sur/Apple Silicon system fails &quot;make =
-check&quot; in<br>
-test-crypto-tlscredsx509:<br>
-<br>
-MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}<br>
-G_TEST_SRCDIR=3D/Users/pm215/qemu/tests<br>
-G_TEST_BUILDDIR=3D/Users/pm215/qemu/build/all/tests<br>
-tests/test-crypto-tlscredsx509 --tap -k<br>
-<br>
-** (tests/test-crypto-tlscredsx509:35180): CRITICAL **: 16:23:34.590:<br>
-Failed to sign certificate ASN1 parser: Value is not valid.<br>
-ERROR test-crypto-tlscredsx509 - Bail out! FATAL-CRITICAL: Failed to<br>
-sign certificate ASN1 parser: Value is not valid.<br>
-make: *** [run-test-70] Error 1<br>
-<br>
-<br>
-Does this failure ring any bells for anybody?<br>
-<br>
-Here&#39;s the crypto part of the meson-log:<br>
-<br>
-=C2=A0 Crypto<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0TLS priority: &quot;NORMAL&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GNUTLS=
- support: YES<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 libgcrypt: NO<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0nettle: YES<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 XTS: YES<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0crypto afalg: NO<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0rng-none: NO<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Linux=
- keyring: NO<br>
-<br>
-<br>
-thanks<br>
--- PMM<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div>
-
---0000000000006f341c05ba53fd44--
+Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 
