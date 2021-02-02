@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB3530C6A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 17:54:53 +0100 (CET)
-Received: from localhost ([::1]:54390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A295A30C62D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 17:42:52 +0100 (CET)
+Received: from localhost ([::1]:34860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6yx2-0000ZI-Qp
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 11:54:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50656)
+	id 1l6ylP-00086J-Ox
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 11:42:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6ySi-0007fI-Rk
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:23:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23050)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6yU3-0008Vb-CU
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:25:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6ySg-00069e-Qt
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:23:32 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6yU0-0006gy-2W
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:24:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612283010;
+ s=mimecast20190719; t=1612283091;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BlDnZWvrK0Zd+X3ytD/nlHlHN1cR0LzvC2x7au4OCQE=;
- b=QtgZXvm4AN7CbCxUv4akLEBDYSD3D7ABxfTE4FBDlrLWO9UWuTVZxpya66M4E1pcqvgiEz
- d2CuBOtKN20hyuLngiscDOMT7apoCJVqS/8B3XlsseTPSFmIUK6A5lgJ4wT9SPOsR6ohkN
- gHuUVM/4qJ1skXHZAfNqCAhgtJFe3pc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-k8D1oXmvPSeRJDbR1UIusQ-1; Tue, 02 Feb 2021 11:23:27 -0500
-X-MC-Unique: k8D1oXmvPSeRJDbR1UIusQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F46585C87F;
- Tue,  2 Feb 2021 16:23:25 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-19.ams2.redhat.com [10.36.112.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A49C65C5FC;
- Tue,  2 Feb 2021 16:23:20 +0000 (UTC)
-Date: Tue, 2 Feb 2021 17:23:19 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: iotest failures in head [was: [PATCH v4 00/16] 64bit
- block-layer: part I]
-Message-ID: <20210202162319.GG5184@merkur.fritz.box>
-References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
- <81abe7dc-6053-72d2-ddf7-352dc21e75b6@redhat.com>
- <9e71568c-ce4a-f844-fbd3-a4a59f850d74@redhat.com>
+ bh=ZbmfK8U/PftvakzOWxOgB00W2LjubQ1Y7JqHLtDC+gE=;
+ b=dyuCdJUCGS1VNnyGUMMS+yZMS7Ev6+NaEDnhJY/RWFisqY4GaHPgaLTf7wj4CLG62Nvl3g
+ SqylXv1nLKmCOJKEMf0MWrhJUgfC8mZFAEnWDB+OZw3qRZUQebM456XijOwniTh40J1SLC
+ TFK2O3UHqPy2ULu2xuHQX7fAbd4qZ+0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-x1MYYqeRMrS-nOkKQikItA-1; Tue, 02 Feb 2021 11:24:47 -0500
+X-MC-Unique: x1MYYqeRMrS-nOkKQikItA-1
+Received: by mail-wr1-f72.google.com with SMTP id l13so12794106wrq.7
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 08:24:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZbmfK8U/PftvakzOWxOgB00W2LjubQ1Y7JqHLtDC+gE=;
+ b=C52hiDceM1/qM8i8cNrTyGFhB/rIPVnS15LL7gojrmzdyddw/xU57wKQ0N+pNtA4XE
+ LfdmEvwzZP1GXTKFXP8azjt0dUVT3aqaOpg23fc7cZy0PbYu2JVPmR5AtC9g26YbqMXg
+ TuWRh29+sJla3kmAc7JSxXHIgUWXDAdnUx9WKYXQEsyOLYgCEQpYq48T7Ph6zkZsTq7p
+ CmwAgP2/lrR8adgOlnlPU+29lVEcnUifDh3IinoRIjn5GtbtMJI6P7mwSB0a342nAVMj
+ r/7NAj7QEqOISTb4G7CIAEL2iz15hJYj8tsxyR44v/YY7457MqceCmaXCJ67E0MZP5FK
+ w39w==
+X-Gm-Message-State: AOAM530X4KMPLuQb2QywhKLOTPCv0QocqVhUE3LDev9AGlAF9hJ2wWif
+ o9DCtfwXwX+dpN9+aZLMX1QJIEGoG/2lseWE+DV32ARmm3/DZWb3YnIfmXzyJexIftu7KQr7tPo
+ F/46WcrSKMsQ4qEA=
+X-Received: by 2002:a5d:5910:: with SMTP id v16mr25430041wrd.29.1612283086191; 
+ Tue, 02 Feb 2021 08:24:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy1BANfVKO3sT9j9JGDxsJ15Dy1ykimF1VFnvtRUNnbvI3vMO8YeC21lsdD04g1ghOOV8STZg==
+X-Received: by 2002:a5d:5910:: with SMTP id v16mr25430015wrd.29.1612283086018; 
+ Tue, 02 Feb 2021 08:24:46 -0800 (PST)
+Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
+ [83.57.171.7])
+ by smtp.gmail.com with ESMTPSA id u10sm3769792wmj.40.2021.02.02.08.24.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Feb 2021 08:24:45 -0800 (PST)
+Subject: Re: [PATCH v10 11/12] iotests: fix loading of common.config from
+ tests/ subdir
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210202154138.246464-1-berrange@redhat.com>
+ <20210202154138.246464-12-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <5dd20bcc-2eee-45bb-6fb7-f9e22262fc23@redhat.com>
+Date: Tue, 2 Feb 2021 17:24:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <9e71568c-ce4a-f844-fbd3-a4a59f850d74@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210202154138.246464-12-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,45 +100,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.02.2021 um 17:13 hat Eric Blake geschrieben:
-> On 2/1/21 8:56 PM, Eric Blake wrote:
+On 2/2/21 4:41 PM, Daniel P. Berrangé wrote:
+> common.rc assumes it is being sourced from the same directory and
+> so also tries to source common.config from the current working
+> directory. With the ability to now have named tests in the tests/
+> subdir we need to check two locations for common.config.
 > 
-> > I had planned to send a pull request for this series today, but ran into
-> > a snag.  Without this series applied, './check -qcow2' fails 030, 185,
-> > and 297.
-> 
-> 297 appears to be fixed once Kevin's pull request lands (well, that may
-> be needing a v2).  185 appears to be just a whitespace difference that
-> missed fixing in 362ef77f9 and similar:
-> 
-> --- /home/eblake/qemu/tests/qemu-iotests/185.out
-> +++ 185.out.bad
-> @@ -89,7 +89,7 @@
->                        'format': 'IMGFMT',
->                        'sync': 'full',
->                        'speed': 65536,
-> -                      'x-perf': { 'max-chunk': 65536 } } }
-> +                      'x-perf': {'max-chunk': 65536} } }
-> 
-> 030 is a bit tougher to figure out.
-> 
-> 030   fail       [09:40:32] [09:40:48]   16.9s  (last: 15.4s) failed,
-> exit status 1
-> --- /home/eblake/qemu/tests/qemu-iotests/030.out
-> +++ 030.out.bad
-> @@ -1,5 +1,45 @@
-> -...........................
-> +WARNING:qemu.machine:qemu received signal 11; command:
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  tests/qemu-iotests/common.rc | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 
-So some qemu process segfaulted. Did you have a look at the resulting
-coredump?
-
-Kevin
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
