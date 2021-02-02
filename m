@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940F830C38A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:22:23 +0100 (CET)
-Received: from localhost ([::1]:50128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFA430C356
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:17:28 +0100 (CET)
+Received: from localhost ([::1]:33228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6xVW-00028X-Bh
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:22:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51338)
+	id 1l6xQl-0003MG-PZ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:17:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6x4M-0007uk-Mu
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:54:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6x4I-0006Jp-Fv
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:54:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612277653;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d5M6dVaFi9PFtleVQA7LMl+e8Bv2Y1lHefIKdYoyHEs=;
- b=f5pYamOvd+WWTc3efPexOjAb6Pc6ZcYWVeg5Q6LId5e3o5FS5fZLqxijoceHuyHlzDCTG8
- KV1Mr4Ajg/hHnK1T4woryJdRY1GtYdeKtZPLnyWaIDmJo9nNQ2rqPGB2EPPXxCDPmYbwyO
- zwe4JESPkjJexR9DmDQD6B54pn7SUZM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-kwSc1SVxMgyLR3pXtJh1Nw-1; Tue, 02 Feb 2021 09:54:08 -0500
-X-MC-Unique: kwSc1SVxMgyLR3pXtJh1Nw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24D979CC05;
- Tue,  2 Feb 2021 14:54:07 +0000 (UTC)
-Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A1A7F5D9C6;
- Tue,  2 Feb 2021 14:54:06 +0000 (UTC)
-Subject: Re: [PATCH] iotests: Revert emulator selection to old behaviour
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20210202142802.119999-1-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b5af56ce-bbee-6afe-9a74-90f886ee2b08@redhat.com>
-Date: Tue, 2 Feb 2021 08:54:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1l6x5A-00019i-Hw
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:55:08 -0500
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:36095)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1l6x58-0006jY-KN
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:55:08 -0500
+Received: by mail-io1-xd2e.google.com with SMTP id n14so7725475iog.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 06:55:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5LuiyzmmFfKnvBQSigaRwssg2Zlo09pcSH4huzo7XvY=;
+ b=hycGiYC771jiBIanjkVG0aAWO+tRwufG1Kf37t5AJsUO7qXdNeS4wgTp7yqdJ8kzqF
+ kPcYHG0e3mu+y8mrOcLVilrS40AUArwTr/bnV3P/qnpIilm9tuSTweg2fIrc3q59Lbda
+ OhKV7Q5C6miBot/SmOC+HO3B4ma1jqieNTOGIEFDPCcUGtYfurHWWVpfXYXvNXKMHWF/
+ r7AgzLUPHPehTOnwuDeYEXxFnUyITLAwP/J4jrOvbA0m2QEpkGObQ9TRiJZL8bYXYC6g
+ eO180G1Mnacq3gtNuFz3q6wFkJJObaGYlXpr1Bs/F7KAUQH0HkRA8olB2xcv9a9Od9SK
+ o6dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5LuiyzmmFfKnvBQSigaRwssg2Zlo09pcSH4huzo7XvY=;
+ b=GKKLjXWzqSKLGZ/LeKX92ELoGY2NgDKWWlsL69f5ortalp5fPsoboW+r9JtuV4tpvk
+ v8x3U7kI5XxFgn3vrql0pQ3AuwcRcAmHo2DvJLMFRZlYafjjIX5fl1xJYuJS79aHM5MZ
+ DixcIH3adbsToEfDN/HUJXJB3curqoPy1seiiTnj3ivimLd3M6zDnRe4FO1uqQ3zdCOw
+ y+f/Bysl/WqfOdlL+QlcyiLymdlgrSUpjCzWJTT3QbAVnwZanI/w8fIRx/6WEQjhzuyB
+ AVuyP0Iq+d5x++f+G7BsE1fS4TS/oJ/GAQq4zrxUNxrRrYNLykk3/XZkv8S6YWcS63r4
+ wntA==
+X-Gm-Message-State: AOAM532QoPQygLg6gyPnAD0zG8+pspMZiKyYXIawqwY6hSQ154CJObUZ
+ CyEhiEqBfJVU/wVtgxf0ukgnAVOtfOxvy+as8T8=
+X-Google-Smtp-Source: ABdhPJzJAMhEV3GRv69SsqfvJrUioWRAH/7CfGT7pPs7lS6Gsqk5IahaOl0ZTHg/K0t2zxo0i0EvKz8Ty6xGMjvQDLA=
+X-Received: by 2002:a05:6638:22c5:: with SMTP id
+ j5mr20759082jat.89.1612277704861; 
+ Tue, 02 Feb 2021 06:55:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210202142802.119999-1-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20201117115705.32195-1-pankaj.gupta.linux@gmail.com>
+ <37d62ca6-2f2b-d8c5-5700-9324c41ee812@redhat.com>
+In-Reply-To: <37d62ca6-2f2b-d8c5-5700-9324c41ee812@redhat.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Tue, 2 Feb 2021 15:54:53 +0100
+Message-ID: <CAM9Jb+iVygWHanWDVacH4CswjsqTuHLWU+X30V_kUNGTv6+Pag@mail.gmail.com>
+Subject: Re: [PATCH] virtio-pmem: add trace events
+To: "Michael S . Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,52 +78,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- qemu-devel@nongnu.org
+Cc: Qemu Developers <qemu-devel@nongnu.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/21 8:28 AM, Kevin Wolf wrote:
-> If the qemu-system-{arch} binary for the host architecture can't be
-> found, the old 'check' implementation selected the alphabetically first
-> system emulator binary that it could find. The new Python implementation
-> just uses the first result of glob.iglob(), which has an undefined
-> order.
-> 
-> This is a problem that breaks CI because the iotests aren't actually
-> prepared to run on any emulator. They should be, so this is really a bug
-> in the failing test cases that should be fixed there, but as a quick
-> fix, let's revert to the old behaviour to let CI runs succeed again.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  tests/qemu-iotests/testenv.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Ping
 
-As fixing the tests is indeed more work than sorting the glob results,
-this one-liner is worth checking.
+@M
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> 
-> diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-> index b31275f518..1fbec854c1 100644
-> --- a/tests/qemu-iotests/testenv.py
-> +++ b/tests/qemu-iotests/testenv.py
-> @@ -135,7 +135,7 @@ class TestEnv(ContextManager['TestEnv']):
->          if not os.path.exists(self.qemu_prog):
->              pattern = root('qemu-system-*')
->              try:
-> -                progs = glob.iglob(pattern)
-> +                progs = sorted(glob.iglob(pattern))
->                  self.qemu_prog = next(p for p in progs if isxfile(p))
->              except StopIteration:
->                  sys.exit("Not found any Qemu executable binary by pattern "
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+On Wed, 9 Dec 2020 at 20:15, David Hildenbrand <david@redhat.com> wrote:
+>
+> On 17.11.20 12:57, Pankaj Gupta wrote:
+> > This patch adds trace events for virtio-pmem functionality.
+> > Adding trace events for virtio pmem request, reponse and host
+> > side fsync functionality.
+> >
+> > Signed-off-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> > ---
+> >  hw/virtio/trace-events  | 5 +++++
+> >  hw/virtio/virtio-pmem.c | 4 ++++
+> >  2 files changed, 9 insertions(+)
+> >
+> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > index 2060a144a2..c62727f879 100644
+> > --- a/hw/virtio/trace-events
+> > +++ b/hw/virtio/trace-events
+> > @@ -122,3 +122,8 @@ virtio_mem_unplug_all_request(void) ""
+> >  virtio_mem_resized_usable_region(uint64_t old_size, uint64_t new_size) "old_size=0x%" PRIx64 "new_size=0x%" PRIx64
+> >  virtio_mem_state_request(uint64_t addr, uint16_t nb_blocks) "addr=0x%" PRIx64 " nb_blocks=%" PRIu16
+> >  virtio_mem_state_response(uint16_t state) "state=%" PRIu16
+> > +
+> > +# virtio-pmem.c
+> > +virtio_pmem_flush_request(void) "flush request"
+> > +virtio_pmem_response(void) "flush response"
+> > +virtio_pmem_flush_done(int type) "fsync return=%d"
+> > diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+> > index ddb0125901..d83e973bf2 100644
+> > --- a/hw/virtio/virtio-pmem.c
+> > +++ b/hw/virtio/virtio-pmem.c
+> > @@ -24,6 +24,7 @@
+> >  #include "sysemu/hostmem.h"
+> >  #include "block/aio.h"
+> >  #include "block/thread-pool.h"
+> > +#include "trace.h"
+> >
+> >  typedef struct VirtIODeviceRequest {
+> >      VirtQueueElement elem;
+> > @@ -41,6 +42,7 @@ static int worker_cb(void *opaque)
+> >
+> >      /* flush raw backing image */
+> >      err = fsync(req_data->fd);
+> > +    trace_virtio_pmem_flush_done(err);
+> >      if (err != 0) {
+> >          err = 1;
+> >      }
+> > @@ -59,6 +61,7 @@ static void done_cb(void *opaque, int ret)
+> >      /* Callbacks are serialized, so no need to use atomic ops. */
+> >      virtqueue_push(req_data->pmem->rq_vq, &req_data->elem, len);
+> >      virtio_notify((VirtIODevice *)req_data->pmem, req_data->pmem->rq_vq);
+> > +    trace_virtio_pmem_response();
+> >      g_free(req_data);
+> >  }
+> >
+> > @@ -69,6 +72,7 @@ static void virtio_pmem_flush(VirtIODevice *vdev, VirtQueue *vq)
+> >      HostMemoryBackend *backend = MEMORY_BACKEND(pmem->memdev);
+> >      ThreadPool *pool = aio_get_thread_pool(qemu_get_aio_context());
+> >
+> > +    trace_virtio_pmem_flush_request();
+> >      req_data = virtqueue_pop(vq, sizeof(VirtIODeviceRequest));
+> >      if (!req_data) {
+> >          virtio_error(vdev, "virtio-pmem missing request data");
+> >
+>
+> LGTM
+>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
 
