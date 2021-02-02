@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D4030CD88
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 22:02:48 +0100 (CET)
-Received: from localhost ([::1]:34836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5CE30CD98
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 22:05:53 +0100 (CET)
+Received: from localhost ([::1]:44450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l72ox-0004Lc-VO
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 16:02:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52232)
+	id 1l72rw-0008JC-FR
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 16:05:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l72lX-0002El-D2
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:59:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50921)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l72lc-0002HY-7z
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:59:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l72lV-00072c-LX
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:59:15 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l72la-00075z-HZ
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:59:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612299553;
+ s=mimecast20190719; t=1612299557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zr5wlPqSBAErI1zYjHx4DGcwT+gbzmViuOOQn3eQ5nU=;
- b=bQNHIAY5g+SVomfceUj+60FKf2dUdL+P2HngmyTRjCadbQ01mJqBpeNPAQEqxVuLGSdYnO
- IfnBnt74+/76aOhtxf86AqDNDFCxau0L37nFBk7sUJMI+sdnJJy4Z8udBNTuOrFSeoBK5A
- 9AhXoag6jYbs6ZuSf8fiq0JAb0hfi/E=
+ bh=eRNuuWWnGzS751tz77gVwZLSy3CEk47CqPxoZeCkviw=;
+ b=VMUNFS/KoVL3GaOoou1jZJYwou5uuul2Uz0YshA8QDeq68nIiBE9GIAnspKlRQ//tcvo6X
+ 9K67i3JrKBVINKfw/TrNae4Tw5+QwlDlx3LSdh4ezq0JaABmlfYS7k+PtdK+kqdfsxYdJa
+ XzVG/eBTPmM40ze85xWHVZjjT3WDkJA=
 Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
  [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-V3DfMWakPxixoopxD_yTpg-1; Tue, 02 Feb 2021 15:59:09 -0500
-X-MC-Unique: V3DfMWakPxixoopxD_yTpg-1
-Received: by mail-ej1-f71.google.com with SMTP id bx12so3321447ejc.15
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 12:59:09 -0800 (PST)
+ us-mta-17-jHIiiasYOlu-TGE9Yrsk4A-1; Tue, 02 Feb 2021 15:59:15 -0500
+X-MC-Unique: jHIiiasYOlu-TGE9Yrsk4A-1
+Received: by mail-ej1-f71.google.com with SMTP id bx12so3321614ejc.15
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 12:59:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Zr5wlPqSBAErI1zYjHx4DGcwT+gbzmViuOOQn3eQ5nU=;
- b=FLZvOz8JIQ0EasXr+hT1vrSvQknUQ0Y5Wsyaqy2gWFz6TlyeJZ5y20J7FBtjjx8NkQ
- ctXwsGQ1KLHvzi5vGxgEGtS/mqDjuU+pJWptoWRcdwhVh4s8pR9StnynEKpeyYwlI9+v
- PfqYrOtfuFt3FUgzIkNg/xnikU1MhDqcha0H5HlPDbUSDeeai4Nf212HmHdMNPO8Q76h
- 03AP6Es0nsWB4SAnFsH52U7ThDhFIx5bwPUSKM+kX8PBZwHtgFnoqEKa68eMkR1tC5YA
- bs+TiPRxceIBHlD5qvsaLqGpnZgY9O8wAHm56zV/XI8GSeZqm/HO1UNPjUmms8ccg4nN
- 5q1Q==
-X-Gm-Message-State: AOAM532Ss940sDGckJxp3xnBdouGvJILBvzAvTHhvHPVI0kKBQVlrvG3
- IuBlUD8I+sWIlnxBuZaPpGinkEDWDNUC3NHbTuDgK06GiRVKsoStwCAefb1Ge3nxKm3D4Cy8ic1
- gJLiS4cJD/t+GRG4b/8Rm8B1kYk3j8+e7VFAjBo9FoKNFon+zVWGj8pb2qCRAkOds
-X-Received: by 2002:a05:6402:26d3:: with SMTP id x19mr3435edd.0.1612299547762; 
- Tue, 02 Feb 2021 12:59:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzL+z53Vv/o3ibh8w3bBxjCI6htGchO9ok3XyqBAXpPxadZKvFGzM1UiGQcX6+0BX7J2BHqkg==
-X-Received: by 2002:a05:6402:26d3:: with SMTP id x19mr3408edd.0.1612299547532; 
- Tue, 02 Feb 2021 12:59:07 -0800 (PST)
+ bh=eRNuuWWnGzS751tz77gVwZLSy3CEk47CqPxoZeCkviw=;
+ b=OyczZOyaY4fGBhp8moRfgDId1NHxEmrZn/JF8j4MiujdEMMyDR5ZC3Z6rDl4MqJnOO
+ dT7zxUW34knjQ6BcU2GDSM1jeFHTHVF9zp0emBkITJDwH9RW9aO1cpjGylkmVAQVLJGb
+ 2+9qVhpY2W9lvBV9vJQ874JK4EjuvsA4LIuP4hl4HN464X9n9xMM4/Gfdy+DNvQJhgTb
+ P7+cjANvfzFR6XCs8MCTDL+nDWfQHxKrM5nEWTaYq3qmYVlfzKCm1tEQvUZFIx7nR1g/
+ t46URCWhjWTiO/GBQwThHJD08m0BYvipTcO7HX9uw6E2B7BtC7sFCl98EI7DACBm4w+U
+ p+CQ==
+X-Gm-Message-State: AOAM531yeXg4stUYQNUNLDEXU3XqfjOKppcFTfaFIexbJvBvf1RqxQko
+ U/CLevj12g9DDw45iVn0jEOVa/7WiDDDQdFnf+oJs1HLVEuAkpEHjIbfbWCi4b5EpZ+XZ8Tvqa8
+ MC13lrgCWZgC1H8gHCOcCp66HrjeVqKZ0kJazdBdt4Omc10CSxg0r+fcJZXTD2sRP
+X-Received: by 2002:a17:906:2a8b:: with SMTP id
+ l11mr23958953eje.1.1612299554315; 
+ Tue, 02 Feb 2021 12:59:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxE/WXY7pnoMkxWO2IgrEqk3qYmnF/l7DPVszzBT8rQjJvRYIhfJ0lW//xnXZ8l83sldEueWQ==
+X-Received: by 2002:a17:906:2a8b:: with SMTP id
+ l11mr23958931eje.1.1612299554148; 
+ Tue, 02 Feb 2021 12:59:14 -0800 (PST)
 Received: from x1w.redhat.com (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id b1sm12197eju.15.2021.02.02.12.59.05
+ by smtp.gmail.com with ESMTPSA id g4sm1215549edv.59.2021.02.02.12.59.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 12:59:06 -0800 (PST)
+ Tue, 02 Feb 2021 12:59:13 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/12] tools/virtiofsd: Replace the word 'whitelist'
-Date: Tue,  2 Feb 2021 21:58:17 +0100
-Message-Id: <20210202205824.1085853-6-philmd@redhat.com>
+Subject: [PATCH 06/12] scripts/tracetool: Replace the word 'whitelist'
+Date: Tue,  2 Feb 2021 21:58:18 +0100
+Message-Id: <20210202205824.1085853-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210202205824.1085853-1-philmd@redhat.com>
 References: <20210202205824.1085853-1-philmd@redhat.com>
@@ -72,15 +74,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,76 +115,22 @@ appropriately.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c      |  6 +++---
- tools/virtiofsd/passthrough_seccomp.c | 12 ++++++------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ scripts/tracetool/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 5fb36d94074..4bf86d44211 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -3132,7 +3132,7 @@ static void setup_mounts(const char *source)
- }
- 
- /*
-- * Only keep whitelisted capabilities that are needed for file system operation
-+ * Only keep capabilities in allowlist that are needed for file system operation
-  * The (possibly NULL) modcaps_in string passed in is free'd before exit.
-  */
- static void setup_capabilities(char *modcaps_in)
-@@ -3142,8 +3142,8 @@ static void setup_capabilities(char *modcaps_in)
-     capng_restore_state(&cap.saved);
- 
-     /*
--     * Whitelist file system-related capabilities that are needed for a file
--     * server to act like root.  Drop everything else like networking and
-+     * Add to allowlist file system-related capabilities that are needed for a
-+     * file server to act like root.  Drop everything else like networking and
-      * sysadmin capabilities.
-      *
-      * Exclusions:
-diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-index a60d7da4b4e..c8b1ebbe830 100644
---- a/tools/virtiofsd/passthrough_seccomp.c
-+++ b/tools/virtiofsd/passthrough_seccomp.c
-@@ -21,7 +21,7 @@
- #endif
- #endif
- 
--static const int syscall_whitelist[] = {
-+static const int syscall_allowlist[] = {
-     /* TODO ireg sem*() syscalls */
-     SCMP_SYS(brk),
-     SCMP_SYS(capget), /* For CAP_FSETID */
-@@ -115,12 +115,12 @@ static const int syscall_whitelist[] = {
- };
- 
- /* Syscalls used when --syslog is enabled */
--static const int syscall_whitelist_syslog[] = {
-+static const int syscall_allowlist_syslog[] = {
-     SCMP_SYS(send),
-     SCMP_SYS(sendto),
- };
- 
--static void add_whitelist(scmp_filter_ctx ctx, const int syscalls[], size_t len)
-+static void add_allowlist(scmp_filter_ctx ctx, const int syscalls[], size_t len)
- {
-     size_t i;
- 
-@@ -151,10 +151,10 @@ void setup_seccomp(bool enable_syslog)
-         exit(1);
-     }
- 
--    add_whitelist(ctx, syscall_whitelist, G_N_ELEMENTS(syscall_whitelist));
-+    add_allowlist(ctx, syscall_allowlist, G_N_ELEMENTS(syscall_allowlist));
-     if (enable_syslog) {
--        add_whitelist(ctx, syscall_whitelist_syslog,
--                      G_N_ELEMENTS(syscall_whitelist_syslog));
-+        add_allowlist(ctx, syscall_allowlist_syslog,
-+                      G_N_ELEMENTS(syscall_allowlist_syslog));
-     }
- 
-     /* libvhost-user calls this for post-copy migration, we don't need it */
+diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.py
+index 96b1cd69a52..5bc94d95cfc 100644
+--- a/scripts/tracetool/__init__.py
++++ b/scripts/tracetool/__init__.py
+@@ -100,7 +100,7 @@ def validate_type(name):
+         if bit == "const":
+             continue
+         if bit not in ALLOWED_TYPES:
+-            raise ValueError("Argument type '%s' is not in whitelist. "
++            raise ValueError("Argument type '%s' is not allowed. "
+                              "Only standard C types and fixed size integer "
+                              "types should be used. struct, union, and "
+                              "other complex pointer types should be "
 -- 
 2.26.2
 
