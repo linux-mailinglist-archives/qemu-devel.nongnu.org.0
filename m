@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22ADA30BC5F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 11:52:08 +0100 (CET)
-Received: from localhost ([::1]:59690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283A130BC5C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 11:50:42 +0100 (CET)
+Received: from localhost ([::1]:57464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6tHz-000376-6I
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 05:52:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54128)
+	id 1l6tGb-00024W-7d
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 05:50:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6tH0-0002ey-Iq
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:51:06 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38844)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6tGy-0005gk-9K
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:51:06 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l6tGp-0006Bk-Fu
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 10:50:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A5C7B2E8139
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 10:50:53 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Feb 2021 10:42:22 -0000
-From: ANIMESH KUMAR SINHA <1912777@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6tFJ-0001XE-O3
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:49:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6tFG-0004nG-RX
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:49:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612262957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=810wxp/9K6X+ioRQSFDs4FbQGo2HFJmLTPYdgC9Myro=;
+ b=A5h1HXRNSBp+mfxVjV+xMwZjINj+Mnpl5p1y5QBW+ewnivWjkBTBPBscN3ymY9pe/fABJ5
+ L2LdAKHvjWyFVDd/x5YqTNoiTa7y9Hk7wloV1HChKrxHQxC9BZMnUyo4vwJhVkHhyaXUda
+ IX79ZEtgqWLw4NkDPcnxsGf8tNla1L8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-UDfVP7_lM4GcQyHO8Aki9Q-1; Tue, 02 Feb 2021 05:49:15 -0500
+X-MC-Unique: UDfVP7_lM4GcQyHO8Aki9Q-1
+Received: by mail-wm1-f69.google.com with SMTP id y9so1243111wmi.8
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 02:49:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=810wxp/9K6X+ioRQSFDs4FbQGo2HFJmLTPYdgC9Myro=;
+ b=puIfAc0J+Cxked931l/pAGi3YIfca1qkORLr1r2WoqKB/Db5kMF5o6uvEQWUhtRkKZ
+ vz6GzK115mNRPN17FEVarKb7ksikehbJyblDwD1X00eftheXJub1a40tVeMyVKigy4Ny
+ g5SOaT8quwpBCCXI87h/lUDGfY4ahrQTd2oHpzCmuU8UuurRTP+RyLI12g9XezJS6Yiq
+ epxh4gwuv88QadFX5EX9BnHi0t6/92SaBHCRkgIGyQikXVcd22y5xGDK6sZys69Lz3lD
+ /Jv9iPGqv7C1/odZKzj3doQTDmS34cFtTNPbKJA6Aa3tcwZP7cDPAx9U7upOtZFPboj/
+ KNYA==
+X-Gm-Message-State: AOAM5326U03xn7FJXvx6B6CrZKXEpKZ6WnfybfpQhqwI2fyuxX1zpTzm
+ NHEbP+WEUUwpG6x6LEKodYaPW/AYLpjMoV2/l5ckFamNwc65judJBcTVhTL3aDuTPg7akb2qZI4
+ 5Ao9Bmf7aE8whV/l+73jW2Ktl5ld6k6vgqje3HKtgUz3NfzjcyrizuclBUWQ95Cxc
+X-Received: by 2002:adf:e404:: with SMTP id g4mr22753045wrm.416.1612262954135; 
+ Tue, 02 Feb 2021 02:49:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxQxPqTSDYwGVplBMIqLnkYUj8GUcId3gYNhdRUrynVDOH+BZvSLM6qal70AIANGssvgKvbvQ==
+X-Received: by 2002:adf:e404:: with SMTP id g4mr22753011wrm.416.1612262953816; 
+ Tue, 02 Feb 2021 02:49:13 -0800 (PST)
+Received: from x1w.redhat.com (7.red-83-57-171.dynamicip.rima-tde.net.
+ [83.57.171.7])
+ by smtp.gmail.com with ESMTPSA id l11sm29712075wrt.23.2021.02.02.02.49.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Feb 2021 02:49:13 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: animeshk th-huth
-X-Launchpad-Bug-Reporter: ANIMESH KUMAR SINHA (animeshk)
-X-Launchpad-Bug-Modifier: ANIMESH KUMAR SINHA (animeshk)
-References: <161131847021.10154.14606822070729811950.malonedeb@gac.canonical.com>
-Message-Id: <161226254293.24527.6684999666846790846.malone@wampee.canonical.com>
-Subject: [Bug 1912777] Re: KVM_EXIT_MMIO has increased in Qemu4.0.0 when
- compared to Qemu 2.11.0
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: 22caa384095c767505f29df5cc3638816290620f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] configure: Escape non-numbers in version_ge()
+Date: Tue,  2 Feb 2021 11:49:11 +0100
+Message-Id: <20210202104911.879393-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,218 +90,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912777 <1912777@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Could someone update on this?
+On Red Hat based distributions, the configure script emits various
+warnings:
 
-** Changed in: qemu
-       Status: Incomplete =3D> New
+  # ./configure
+  Using './build' as the directory for build output
+  ./configure: line 212: test: 2-15: integer expression expected
+  ./configure: line 213: test: 2-15: integer expression expected
+  ./configure: line 212: test: el8: integer expression expected
+  ./configure: line 213: test: el8: integer expression expected
 
--- =
+This is produced by the gdb version check introduced in commit
+b1863ccc957 ("configure: gate our use of GDB to 8.3.1 or above"):
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912777
+    gdb_version=$($gdb_bin --version | head -n 1)
+    if version_ge ${gdb_version##* } 8.3.1; then
+        echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
+    fi
 
-Title:
-  KVM_EXIT_MMIO has increased in Qemu4.0.0 when compared to Qemu 2.11.0
+Because on RHEL/Fedora the minor version is not a plain number:
 
-Status in QEMU:
-  New
-Status in Ubuntu:
-  New
+  $ gdb --version | head -n 1
+  GNU gdb (GDB) Fedora 9.1-7.fc32
 
-Bug description:
-  I was able to generate trace dump in Qemu for kvm_run_exit event in both =
-QEMU 2.11.0 and QEMU 4.0.0
-  From the trace i noticed that the number of KVM_KXIT_MMIO calls has incre=
-ased alot and is causing delay in testcase execution.
+  $ gdb --version | head -n 1
+  GNU gdb (GDB) Red Hat Enterprise Linux 8.2-15.el8
 
-  I executed same testcase from Qemu 2.11 and Qemu4.
-  Inside Virtual machine when using qemu 2.11 testcase got completed in 11 =
-seconds
-  but the same testcase when executed on Qemu 4.0.0 got executed in 26 seco=
-nds.
+Fix by only using the leading numbers, stripping the rest.
 
-  =
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  I did a bit of digging and extracted the kvm_run_exit to figure out whats=
- going on.
+diff --git a/configure b/configure
+index e85d6baf8f8..21f6530a812 100755
+--- a/configure
++++ b/configure
+@@ -205,7 +205,7 @@ version_ge () {
+         local_first=${2-0}
+         # 'shift 2' if $2 is set, or 'shift' if $2 is not set
+         shift ${2:+2}
+-        local_ver1=$*
++        local_ver1=$(echo $* | sed -E 's/(^[0-9]+).*/\1/')
+         set x $local_ver2
+         # the second argument finished, the first must be greater or equal
+         test $# = 1 && return 0
+-- 
+2.26.2
 
-  Please find =
-
-  Stats from Qemu2.11:
-
-  KVM_EXIT_UNKNOWN          : 0
-  KVM_EXIT_EXCEPTION        : 0
-  KVM_EXIT_IO               : 182513
-  KVM_EXIT_HYPERCALL        : 0
-  KVM_EXIT_DEBUG            : 0
-  KVM_EXIT_HLT              : 0
-  KVM_EXIT_MMIO             : 216701
-  KVM_EXIT_IRQ_WINDOW_OPEN  : 0
-  KVM_EXIT_SHUTDOWN         : 0
-  KVM_EXIT_FAIL_ENTRY       : 0
-  KVM_EXIT_INTR             : 0
-  KVM_EXIT_SET_TPR          : 0
-  KVM_EXIT_TPR_ACCESS       : 0
-  KVM_EXIT_S390_SIEIC       : 0
-  KVM_EXIT_S390_RESET       : 0
-  KVM_EXIT_DCR              : 0
-  KVM_EXIT_NMI              : 0
-  KVM_EXIT_INTERNAL_ERROR   : 0
-  KVM_EXIT_OSI              : 0
-  KVM_EXIT_PAPR_HCALL       : 0
-  KVM_EXIT_S390_UCONTROL    : 0
-  KVM_EXIT_WATCHDOG         : 0
-  KVM_EXIT_S390_TSCH        : 0
-  KVM_EXIT_EPR              : 0
-  KVM_EXIT_SYSTEM_EVENT     : 0
-  KVM_EXIT_S390_STSI        : 0
-  KVM_EXIT_IOAPIC_EOI       : 0
-  KVM_EXIT_HYPERV           : 0
-
-  KVM_RUN_EXIT              : 399214  (Total in Qemu 2.11 for a
-  testcase)
-
-  =
-
-  Stats For Qemu 4.0.0:
-
-  VM_EXIT_UNKNOWN           : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_EXCEPTION        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_IO               : 163729                                       =
-                                                                           =
-         =
-
-  KVM_EXIT_HYPERCALL        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_DEBUG            : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_HLT              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_MMIO             : 1094231                                      =
-                                                                           =
-         =
-
-  KVM_EXIT_IRQ_WINDOW_OPEN  : 46                                           =
-                                                                           =
-         =
-
-  KVM_EXIT_SHUTDOWN         : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_FAIL_ENTRY       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_INTR             : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_SET_TPR          : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_TPR_ACCESS       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_SIEIC       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_RESET       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_DCR              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_NMI              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_INTERNAL_ERROR   : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_OSI              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_PAPR_HCALL       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_UCONTROL    : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_WATCHDOG         : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_TSCH        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_EPR              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_SYSTEM_EVENT     : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_STSI        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_IOAPIC_EOI       : 464                                          =
-                                                                           =
-         =
-
-  KVM_EXIT_HYPERV           : 0 =
-
-
-  KVM_RUN_EXIT              : 1258470 (Total in qemu 4.0.0 for same
-  testcase)
-
-
-  From above analysis i found that the number of KVM_EXIT_MMIO has
-  increased by 4.x.
-
-  Could someone from qemu community help me understand as to why the
-  MMIO exits have increased in qemu4 ?
-
-  The results i obtained are after running same testcase.
-  On Qemu2.11 testcase gets completed in : 11seconds
-  on Qemu4.11 testcase gets completed in : 26 seconds
-
-  VM Qcow2 used in Ubuntu 16.04
-  VM kernel OS is : 4.4 generic
-
-  =
-
-  Let me know incase more information is required .
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912777/+subscriptions
 
