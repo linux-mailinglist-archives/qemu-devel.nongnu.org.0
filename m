@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A8B830C6C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 18:02:53 +0100 (CET)
-Received: from localhost ([::1]:38072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A50B30C6AB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 17:57:57 +0100 (CET)
+Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6z4h-0006El-1t
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 12:02:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52622)
+	id 1l6z00-0003Jh-B7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 11:57:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6yYR-0005fQ-34
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:29:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56951)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6yYJ-0005KZ-8I
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:29:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6yYO-0000Lb-L2
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:29:26 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6yYH-0000HV-Hu
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:29:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612283364;
+ s=mimecast20190719; t=1612283356;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cSrh8DpqUPbw6Eh5CY3/TMs7gvPWCQ4tRhHELYHGwMc=;
- b=PgaX5gOrAxj5B/5IuS6j1v+yoIPdqFB42XLxlVHUPk+QttPlPq4qZCtNeKVe+B6XD60Bo1
- C0KuL8DEsXaMVOCYENzonM9SXf/I/U2L9orQZY8NBBZT2dd0oxtFWwsh73hoavq/byk+qA
- 1Q2UZ7wKhQTihKiw+RA5QT1HEoQ1IKQ=
+ bh=E2W1HGEgCNWOCZS4CT3q/hTS9q/xlepHrVHCPnJh7Cs=;
+ b=UAPV3U5HylB0BsKYL3qd10CCfT4/TmngKGaSm5vLrpLIYVswm//dtLnE25G4a6jZ/Hrsww
+ sG3RjDGUi74J4phBTzhYDQiHOame7TtBykUKpr9jfbR3iTLiiO1ICcpKGtjuLciHyFnaw6
+ ODsnXNfXcOa/Ts29bO1xt4JCfZp6+kQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-T4NlXKHcMVePJ0trkKR_kA-1; Tue, 02 Feb 2021 11:29:09 -0500
-X-MC-Unique: T4NlXKHcMVePJ0trkKR_kA-1
+ us-mta-137-1gLX7cI5PEeJYWN_BGqKdg-1; Tue, 02 Feb 2021 11:29:11 -0500
+X-MC-Unique: 1gLX7cI5PEeJYWN_BGqKdg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF7BE107ACE4;
- Tue,  2 Feb 2021 16:29:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7F881005501;
+ Tue,  2 Feb 2021 16:29:10 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-112-19.ams2.redhat.com [10.36.112.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 520865D749;
- Tue,  2 Feb 2021 16:29:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 35C8F5D749;
+ Tue,  2 Feb 2021 16:29:08 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL v2 06/10] iotests: check: return 1 on failure
-Date: Tue,  2 Feb 2021 17:28:30 +0100
-Message-Id: <20210202162834.269789-7-kwolf@redhat.com>
+Subject: [PULL v2 07/10] iotests: Fix -makecheck output
+Date: Tue,  2 Feb 2021 17:28:31 +0100
+Message-Id: <20210202162834.269789-8-kwolf@redhat.com>
 In-Reply-To: <20210202162834.269789-1-kwolf@redhat.com>
 References: <20210202162834.269789-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,54 +80,44 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+For -makecheck, the old 'check' implementation skipped the output when
+starting a test. It only had the condensed output at the end of a test.
 
-We should indicate failure by exit code, not only output.
+testrunner.py prints the normal output when starting a test even for
+-makecheck. This output contains '\r' at the end so that it can be
+overwritten with the result at the end of the test. However, for
+-makecheck this is shorter output in a different format, so effectively
+we end up with garbled output that mixes both output forms.
 
-Reported-by: Peter Maydell
-Fixes: f203080bbd9f9e5b31041b1f2afcd6040c5aaec5
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210201085041.3079-1-vsementsov@virtuozzo.com>
+Revert to the old behaviour of only printing a message after the test
+had completed in -makecheck mode.
+
+Fixes: d74c754c924ca34e90b7c96ce2f5609d82c0e628
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20210201161024.127921-1-kwolf@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/testrunner.py | 4 +++-
- tests/qemu-iotests/check         | 5 ++++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/testrunner.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 24b3fba115..25754e9a09 100644
+index 25754e9a09..1fc61fcaa3 100644
 --- a/tests/qemu-iotests/testrunner.py
 +++ b/tests/qemu-iotests/testrunner.py
-@@ -318,7 +318,7 @@ class TestRunner(ContextManager['TestRunner']):
+@@ -301,8 +301,10 @@ class TestRunner(ContextManager['TestRunner']):
+         last_el = self.last_elapsed.get(test)
+         start = datetime.datetime.now().strftime('%H:%M:%S')
  
-         return res
+-        self.test_print_one_line(test=test, starttime=start, lasttime=last_el,
+-                                 end='\r', test_field_width=test_field_width)
++        if not self.makecheck:
++            self.test_print_one_line(test=test, starttime=start,
++                                     lasttime=last_el, end='\r',
++                                     test_field_width=test_field_width)
  
--    def run_tests(self, tests: List[str]) -> None:
-+    def run_tests(self, tests: List[str]) -> bool:
-         n_run = 0
-         failed = []
-         notrun = []
-@@ -363,5 +363,7 @@ class TestRunner(ContextManager['TestRunner']):
-         if failed:
-             print('Failures:', ' '.join(failed))
-             print(f'Failed {len(failed)} of {n_run} iotests')
-+            return False
-         else:
-             print(f'Passed all {n_run} iotests')
-+            return True
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 5190dee82e..d1c87ceaf1 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -140,4 +140,7 @@ if __name__ == '__main__':
-     else:
-         with TestRunner(env, makecheck=args.makecheck,
-                         color=args.color) as tr:
--            tr.run_tests([os.path.join(env.source_iotests, t) for t in tests])
-+            paths = [os.path.join(env.source_iotests, t) for t in tests]
-+            ok = tr.run_tests(paths)
-+            if not ok:
-+                sys.exit(1)
+         res = self.do_run_test(test)
+ 
 -- 
 2.29.2
 
