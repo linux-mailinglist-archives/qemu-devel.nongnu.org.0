@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B8030CFB1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 00:10:02 +0100 (CET)
-Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0FF30CFC4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 00:14:45 +0100 (CET)
+Received: from localhost ([::1]:59026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l74o5-0001Yi-6e
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 18:10:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44078)
+	id 1l74se-0005VW-DX
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 18:14:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74my-00008J-1g
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 18:08:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74mw-0007Z4-Au
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 18:08:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612307329;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=le5xj02gi2GMAfz30BU+vIKCBHSdauhZgrgjeNQ/9d4=;
- b=P4eInjhSRe6pJb4IEAYoBA+/RCuERzUWz6ntp6sm7GKlccKVbhstMaCsFqffgL8JoQJP90
- RdOsqRn9O3eZu/R7CijnvAhrvqrFkKkKgz3fkMOqqr41SVyDus7cnj19N1qKNfnaaO76DE
- 70guRhdu/LNIFJUUz/4Il4GYXttTxz0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-T4ZXgJpCOlCTpI3RRQg8WA-1; Tue, 02 Feb 2021 18:08:47 -0500
-X-MC-Unique: T4ZXgJpCOlCTpI3RRQg8WA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E171259;
- Tue,  2 Feb 2021 23:08:45 +0000 (UTC)
-Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FE931F469;
- Tue,  2 Feb 2021 23:08:42 +0000 (UTC)
-Subject: Re: [PATCH 1/1] docs: fix mistake in dirty bitmap feature description
-To: "Denis V. Lunev" <den@openvz.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20210128171313.2210947-1-den@openvz.org>
- <a88ad335-05b1-b720-5689-1c477bd55d1f@virtuozzo.com>
- <ccc0020d-ae27-6e8a-d76e-55615c74befb@redhat.com>
- <80bb1b27-4bb3-de85-713b-a88c8019a14f@openvz.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <cbfdf78b-57ff-3482-3adc-f2eb3e65237e@redhat.com>
-Date: Tue, 2 Feb 2021 17:08:41 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l74r2-0004hQ-OH
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 18:13:05 -0500
+Resent-Date: Tue, 02 Feb 2021 18:13:04 -0500
+Resent-Message-Id: <E1l74r2-0004hQ-OH@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l74qz-00010P-B8
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 18:13:03 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1612307573; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=A1p5uEugPGFij7BkJIRMAwspqsCcuApCpVKe1KOWqwBIgu/Sc0GbkN9MozhZW98u4pq86Qu9Px0EM0KLykXQLhAbFMqLEBbhfLj4tWnlvNxSDriqg8sZeQgp+ba4IuOGMi02r1g2MjCT7jxDT7aYOVsvF8daNTk1xte0NitwQ6E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1612307572;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Hc+s1gzKcp/THBZCNMPa/57eMG1sExmv69+EyPw9kF0=; 
+ b=ZOHDwGqYczPiViAEOie0pT8IrW5Lexkcy6gmZjCqxXAugmguJP4fBAkJ6vzZIuoGxw5KmxxyAgvU6jeJzFlOkSGFwdewPW/YUnJoxqmj64fkAbamsbsTOhr5459rr+kS5i3tYn2p4weJflQ+1iIFsJUkNM1EwVlpemJXpH5BMHs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1612307570769729.3541741081152;
+ Tue, 2 Feb 2021 15:12:50 -0800 (PST)
+In-Reply-To: <20210202224529.642055-1-eblake@redhat.com>
+Subject: Re: [PULL 00/20] NBD patches for 2021-02-02
+Message-ID: <161230756982.28419.16212519598286401273@c667a6b167f6>
 MIME-Version: 1.0
-In-Reply-To: <80bb1b27-4bb3-de85-713b-a88c8019a14f@openvz.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: eblake@redhat.com
+Date: Tue, 2 Feb 2021 15:12:50 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,46 +67,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/21 4:50 PM, Denis V. Lunev wrote:
-> On 2/3/21 1:15 AM, Eric Blake wrote:
->> On 1/28/21 11:21 AM, Vladimir Sementsov-Ogievskiy wrote:
->>> 28.01.2021 20:13, Denis V. Lunev wrote:
->>>> Original specification says that l1 table size if 64 * l1_size, which
->>>> is obviously wrong. The size of the l1 entry is 64 _bits_, not bytes.
->>>> Thus 64 is to be replaces with 8 as specification says about bytes.
->>>>
->>>> There is also minor tweak, field name is renamed from l1 to l1_table,
->>>> which matches with the later text.
->>>>
->>>> Signed-off-by: Denis V. Lunev <den@openvz.org>
->>>> CC: Stefan Hajnoczi <stefanha@redhat.com>
->>>> CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>
->> I saw the subject "dirty bitmap", and assumed it would go through my
->> dirty bitmap tree.  In reality, it's unrelated to the dirty bitmap code.
->>  Would an improved subject line help?
-> hmm. Actually this is about "how the dirty bitmaps are stored in the
-> Parallels Image format". The section is called "dirty bitmap feature".
-> 
-> What I can propose? :)
-> 
-> "docs: fix mistake in Parallels Image "dirty bitmap" feature description"
-> 
-> Will this work for you?
-
-That feels a bit long; maybe just:
-
-docs: fix Parallels Image "dirty bitmap" section
-
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIwMjIyNDUyOS42NDIw
+NTUtMS1lYmxha2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
+IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
+Zm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMjAyMjI0NTI5LjY0MjA1
+NS0xLWVibGFrZUByZWRoYXQuY29tClN1YmplY3Q6IFtQVUxMIDAwLzIwXSBOQkQgcGF0Y2hlcyBm
+b3IgMjAyMS0wMi0wMgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQg
+cmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNr
+cGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0
+aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczov
+L2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0
+Y2hldy8yMDIxMDIwMjE5MTIwNy40MTAzOTczLTEtZWhhYmtvc3RAcmVkaGF0LmNvbSAtPiBwYXRj
+aGV3LzIwMjEwMjAyMTkxMjA3LjQxMDM5NzMtMS1laGFia29zdEByZWRoYXQuY29tCiAtIFt0YWcg
+dXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTAyMDIyMDU4MjQuMTA4NTg1My0xLXBoaWxtZEByZWRo
+YXQuY29tIC0+IHBhdGNoZXcvMjAyMTAyMDIyMDU4MjQuMTA4NTg1My0xLXBoaWxtZEByZWRoYXQu
+Y29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAyMDIyMjQ1MjkuNjQyMDU1LTEt
+ZWJsYWtlQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDIwMjIyNDUyOS42NDIwNTUtMS1lYmxh
+a2VAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmI0ZmM3NDQgbmJk
+OiBtYWtlIG5iZF9yZWFkKiByZXR1cm4gLUVJTyBvbiBlcnJvcgo1MDliZTQ2IGJsb2NrL25iZDog
+b25seSBlbnRlciBjb25uZWN0aW9uIGNvcm91dGluZSBpZiBpdCdzIHByZXNlbnQKNjA2ZDZiMyBi
+bG9jay9uYmQ6IG9ubHkgZGV0YWNoIGV4aXN0aW5nIGlvY2hhbm5lbCBmcm9tIGFpb19jb250ZXh0
+CmI5ZWJhYjUgYmxvY2svaW86IHVzZSBpbnQ2NF90IGJ5dGVzIGluIGNvcHlfcmFuZ2UKNGQyYzY4
+NiBibG9jay9pbzogc3VwcG9ydCBpbnQ2NF90IGJ5dGVzIGluIHJlYWQvd3JpdGUgd3JhcHBlcnMK
+MGY4MzExNCBibG9jay9pbzogc3VwcG9ydCBpbnQ2NF90IGJ5dGVzIGluIGJkcnZfY29fcHtyZWFk
+LCB3cml0ZX12X3BhcnQoKQo1MWJmYWRmIGJsb2NrL2lvOiBzdXBwb3J0IGludDY0X3QgYnl0ZXMg
+aW4gYmRydl9hbGlnbmVkX3ByZWFkdigpCjVkZGY5ZWEgYmxvY2svaW86IHN1cHBvcnQgaW50NjRf
+dCBieXRlcyBpbiBiZHJ2X2NvX2RvX2NvcHlfb25fcmVhZHYoKQpjZjM1ODU0IGJsb2NrL2lvOiBz
+dXBwb3J0IGludDY0X3QgYnl0ZXMgaW4gYmRydl9hbGlnbmVkX3B3cml0ZXYoKQo1M2ZkNjIwIGJs
+b2NrL2lvOiBzdXBwb3J0IGludDY0X3QgYnl0ZXMgaW4gYmRydl9jb19kb19wd3JpdGVfemVyb2Vz
+KCkKZGY3MDM5OCBibG9jay9pbzogdXNlIGludDY0X3QgYnl0ZXMgaW4gZHJpdmVyIHdyYXBwZXJz
+CmY5YjMwZWYgYmxvY2s6IHVzZSBpbnQ2NF90IGFzIGJ5dGVzIHR5cGUgaW4gdHJhY2tlZCByZXF1
+ZXN0cwoxODRjOGI4IGJsb2NrL2lvOiBpbXByb3ZlIGJkcnZfY2hlY2tfcmVxdWVzdDogY2hlY2sg
+cWlvdiB0b28KODQ4ZDdiZSBibG9jay90aHJvdHRsZS1ncm91cHM6IHRocm90dGxlX2dyb3VwX2Nv
+X2lvX2xpbWl0c19pbnRlcmNlcHQoKTogNjRiaXQgYnl0ZXMKMjk1OGQ5ZSBibG9jay9pbzogYmRy
+dl9wYWRfcmVxdWVzdCgpOiBzdXBwb3J0IHFlbXVfaW92ZWNfaW5pdF9leHRlbmRlZCBmYWlsdXJl
+CjEyNzAwYzEgYmxvY2svaW86IHJlZmFjdG9yIGJkcnZfcGFkX3JlcXVlc3QoKTogbW92ZSBiZHJ2
+X3BhZF9yZXF1ZXN0KCkgdXAKZmY4MDhiMCBibG9jazogZml4IHRoZW9yZXRpY2FsIG92ZXJmbG93
+IGluIGJkcnZfaW5pdF9wYWRkaW5nKCkKZTBhNGU0MiB1dGlsL2lvdjogbWFrZSBxZW11X2lvdmVj
+X2luaXRfZXh0ZW5kZWQoKSBob25lc3QKZmUyMjE1OSBibG9jazogcmVmYWN0b3IgYmRydl9jaGVj
+a19yZXF1ZXN0OiBhZGQgZXJycApjYWU5ZTkxIGlvdGVzdHM6IEZpeCBleHBlY3RlZCB3aGl0ZXNw
+YWNlIGZvciAxODUKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjAgQ2hlY2tpbmcgY29tbWl0IGNh
+ZTllOTEyNjgwZSAoaW90ZXN0czogRml4IGV4cGVjdGVkIHdoaXRlc3BhY2UgZm9yIDE4NSkKMi8y
+MCBDaGVja2luZyBjb21taXQgZmUyMjE1OTA3YTc4IChibG9jazogcmVmYWN0b3IgYmRydl9jaGVj
+a19yZXF1ZXN0OiBhZGQgZXJycCkKMy8yMCBDaGVja2luZyBjb21taXQgZTBhNGU0MmIwOTQ3ICh1
+dGlsL2lvdjogbWFrZSBxZW11X2lvdmVjX2luaXRfZXh0ZW5kZWQoKSBob25lc3QpCjQvMjAgQ2hl
+Y2tpbmcgY29tbWl0IGZmODA4YjAwYzA5NSAoYmxvY2s6IGZpeCB0aGVvcmV0aWNhbCBvdmVyZmxv
+dyBpbiBiZHJ2X2luaXRfcGFkZGluZygpKQo1LzIwIENoZWNraW5nIGNvbW1pdCAxMjcwMGMxOGEy
+OGQgKGJsb2NrL2lvOiByZWZhY3RvciBiZHJ2X3BhZF9yZXF1ZXN0KCk6IG1vdmUgYmRydl9wYWRf
+cmVxdWVzdCgpIHVwKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
+b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM3MzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
+CgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojODI6IEZJTEU6IGJsb2NrL2lvLmMucmVqOjU6
+CisgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzEwMDogRklMRTogYmxvY2svaW8uYy5y
+ZWo6MjM6CisgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzEwNjogRklMRTogYmxvY2sv
+aW8uYy5yZWo6Mjk6CisgJAoKdG90YWw6IDMgZXJyb3JzLCAxIHdhcm5pbmdzLCA4NSBsaW5lcyBj
+aGVja2VkCgpQYXRjaCA1LzIwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo2LzIwIENoZWNr
+aW5nIGNvbW1pdCAyOTU4ZDllZGIzNGUgKGJsb2NrL2lvOiBiZHJ2X3BhZF9yZXF1ZXN0KCk6IHN1
+cHBvcnQgcWVtdV9pb3ZlY19pbml0X2V4dGVuZGVkIGZhaWx1cmUpCjcvMjAgQ2hlY2tpbmcgY29t
+bWl0IDg0OGQ3YmUyZWRhMyAoYmxvY2svdGhyb3R0bGUtZ3JvdXBzOiB0aHJvdHRsZV9ncm91cF9j
+b19pb19saW1pdHNfaW50ZXJjZXB0KCk6IDY0Yml0IGJ5dGVzKQo4LzIwIENoZWNraW5nIGNvbW1p
+dCAxODRjOGI4YzczZDYgKGJsb2NrL2lvOiBpbXByb3ZlIGJkcnZfY2hlY2tfcmVxdWVzdDogY2hl
+Y2sgcWlvdiB0b28pCjkvMjAgQ2hlY2tpbmcgY29tbWl0IGY5YjMwZWYyNGU2MyAoYmxvY2s6IHVz
+ZSBpbnQ2NF90IGFzIGJ5dGVzIHR5cGUgaW4gdHJhY2tlZCByZXF1ZXN0cykKMTAvMjAgQ2hlY2tp
+bmcgY29tbWl0IGRmNzAzOThmODdlNSAoYmxvY2svaW86IHVzZSBpbnQ2NF90IGJ5dGVzIGluIGRy
+aXZlciB3cmFwcGVycykKMTEvMjAgQ2hlY2tpbmcgY29tbWl0IDUzZmQ2MjBmYTMwZiAoYmxvY2sv
+aW86IHN1cHBvcnQgaW50NjRfdCBieXRlcyBpbiBiZHJ2X2NvX2RvX3B3cml0ZV96ZXJvZXMoKSkK
+MTIvMjAgQ2hlY2tpbmcgY29tbWl0IGNmMzU4NTQzZWM4MSAoYmxvY2svaW86IHN1cHBvcnQgaW50
+NjRfdCBieXRlcyBpbiBiZHJ2X2FsaWduZWRfcHdyaXRldigpKQpXQVJOSU5HOiBhZGRlZCwgbW92
+ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMx
+MzQ6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5n
+cywgNzMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTIvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KMTMvMjAgQ2hlY2tpbmcgY29tbWl0IDVkZGY5ZWFhOThmMCAoYmxvY2svaW86IHN1cHBvcnQg
+aW50NjRfdCBieXRlcyBpbiBiZHJ2X2NvX2RvX2NvcHlfb25fcmVhZHYoKSkKMTQvMjAgQ2hlY2tp
+bmcgY29tbWl0IDUxYmZhZGY5MzFlZCAoYmxvY2svaW86IHN1cHBvcnQgaW50NjRfdCBieXRlcyBp
+biBiZHJ2X2FsaWduZWRfcHJlYWR2KCkpCjE1LzIwIENoZWNraW5nIGNvbW1pdCAwZjgzMTE0OTU3
+NzQgKGJsb2NrL2lvOiBzdXBwb3J0IGludDY0X3QgYnl0ZXMgaW4gYmRydl9jb19we3JlYWQsIHdy
+aXRlfXZfcGFydCgpKQoxNi8yMCBDaGVja2luZyBjb21taXQgNGQyYzY4NmYwOWY1IChibG9jay9p
+bzogc3VwcG9ydCBpbnQ2NF90IGJ5dGVzIGluIHJlYWQvd3JpdGUgd3JhcHBlcnMpCjE3LzIwIENo
+ZWNraW5nIGNvbW1pdCBiOWViYWI1M2YyOTIgKGJsb2NrL2lvOiB1c2UgaW50NjRfdCBieXRlcyBp
+biBjb3B5X3JhbmdlKQoxOC8yMCBDaGVja2luZyBjb21taXQgNjA2ZDZiMzk5NzA4IChibG9jay9u
+YmQ6IG9ubHkgZGV0YWNoIGV4aXN0aW5nIGlvY2hhbm5lbCBmcm9tIGFpb19jb250ZXh0KQoxOS8y
+MCBDaGVja2luZyBjb21taXQgNTA5YmU0NjNiNTRmIChibG9jay9uYmQ6IG9ubHkgZW50ZXIgY29u
+bmVjdGlvbiBjb3JvdXRpbmUgaWYgaXQncyBwcmVzZW50KQoyMC8yMCBDaGVja2luZyBjb21taXQg
+YjRmYzc0NGY5YjA3IChuYmQ6IG1ha2UgbmJkX3JlYWQqIHJldHVybiAtRUlPIG9uIGVycm9yKQo9
+PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhl
+IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDIw
+MjIyNDUyOS42NDIwNTUtMS1lYmxha2VAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
