@@ -2,74 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283A130BC5C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 11:50:42 +0100 (CET)
-Received: from localhost ([::1]:57464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0F530BC75
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 12:01:52 +0100 (CET)
+Received: from localhost ([::1]:34180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6tGb-00024W-7d
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 05:50:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
+	id 1l6tRP-0004w1-LP
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 06:01:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6tFJ-0001XE-O3
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:49:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55862)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l6tPa-0004KT-7x
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:59:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6tFG-0004nG-RX
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:49:21 -0500
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l6tPX-0001Oz-Vz
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:59:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612262957;
+ s=mimecast20190719; t=1612263594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=810wxp/9K6X+ioRQSFDs4FbQGo2HFJmLTPYdgC9Myro=;
- b=A5h1HXRNSBp+mfxVjV+xMwZjINj+Mnpl5p1y5QBW+ewnivWjkBTBPBscN3ymY9pe/fABJ5
- L2LdAKHvjWyFVDd/x5YqTNoiTa7y9Hk7wloV1HChKrxHQxC9BZMnUyo4vwJhVkHhyaXUda
- IX79ZEtgqWLw4NkDPcnxsGf8tNla1L8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-UDfVP7_lM4GcQyHO8Aki9Q-1; Tue, 02 Feb 2021 05:49:15 -0500
-X-MC-Unique: UDfVP7_lM4GcQyHO8Aki9Q-1
-Received: by mail-wm1-f69.google.com with SMTP id y9so1243111wmi.8
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 02:49:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=810wxp/9K6X+ioRQSFDs4FbQGo2HFJmLTPYdgC9Myro=;
- b=puIfAc0J+Cxked931l/pAGi3YIfca1qkORLr1r2WoqKB/Db5kMF5o6uvEQWUhtRkKZ
- vz6GzK115mNRPN17FEVarKb7ksikehbJyblDwD1X00eftheXJub1a40tVeMyVKigy4Ny
- g5SOaT8quwpBCCXI87h/lUDGfY4ahrQTd2oHpzCmuU8UuurRTP+RyLI12g9XezJS6Yiq
- epxh4gwuv88QadFX5EX9BnHi0t6/92SaBHCRkgIGyQikXVcd22y5xGDK6sZys69Lz3lD
- /Jv9iPGqv7C1/odZKzj3doQTDmS34cFtTNPbKJA6Aa3tcwZP7cDPAx9U7upOtZFPboj/
- KNYA==
-X-Gm-Message-State: AOAM5326U03xn7FJXvx6B6CrZKXEpKZ6WnfybfpQhqwI2fyuxX1zpTzm
- NHEbP+WEUUwpG6x6LEKodYaPW/AYLpjMoV2/l5ckFamNwc65judJBcTVhTL3aDuTPg7akb2qZI4
- 5Ao9Bmf7aE8whV/l+73jW2Ktl5ld6k6vgqje3HKtgUz3NfzjcyrizuclBUWQ95Cxc
-X-Received: by 2002:adf:e404:: with SMTP id g4mr22753045wrm.416.1612262954135; 
- Tue, 02 Feb 2021 02:49:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxQxPqTSDYwGVplBMIqLnkYUj8GUcId3gYNhdRUrynVDOH+BZvSLM6qal70AIANGssvgKvbvQ==
-X-Received: by 2002:adf:e404:: with SMTP id g4mr22753011wrm.416.1612262953816; 
- Tue, 02 Feb 2021 02:49:13 -0800 (PST)
-Received: from x1w.redhat.com (7.red-83-57-171.dynamicip.rima-tde.net.
- [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id l11sm29712075wrt.23.2021.02.02.02.49.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 02:49:13 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: Escape non-numbers in version_ge()
-Date: Tue,  2 Feb 2021 11:49:11 +0100
-Message-Id: <20210202104911.879393-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QgISFIPFA/+Os4LFh3G35//efuyrkSyBmG24pXTGgzg=;
+ b=Ath1Ii+Vx+ZqynTCe6gElN9XX+8M2AlSFWgeA+WELpuj6YnvWxEo08V3l6GavOWAdc/5iG
+ dRrS7II/6U+TVJq4XxLiHAyXq7nWaas3VtlY7icBEnBCSCycQKdjx2ZkXtZ6R7rP+u0DpE
+ yy9zKQ5iNrTQG1h3Eep8KJ+RwFmbxkY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-Ih-foR5hM7eMu30GXsWsQw-1; Tue, 02 Feb 2021 05:59:53 -0500
+X-MC-Unique: Ih-foR5hM7eMu30GXsWsQw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D401107ACE6
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 10:59:52 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-241.ams2.redhat.com
+ [10.36.115.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F260A7EA92;
+ Tue,  2 Feb 2021 10:59:42 +0000 (UTC)
+Subject: Re: [PATCH v2 1/2] pci: reject too large ROMs
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210129192838.582771-1-pbonzini@redhat.com>
+ <20210129192838.582771-2-pbonzini@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <8ff2f58f-cf14-ed79-cbec-953da00ec460@redhat.com>
+Date: Tue, 2 Feb 2021 11:59:41 +0100
 MIME-Version: 1.0
+In-Reply-To: <20210129192838.582771-2-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -77,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,59 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: dgilbert@redhat.com, peterx@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Red Hat based distributions, the configure script emits various
-warnings:
+On 01/29/21 20:28, Paolo Bonzini wrote:
+> get_image_size() returns an int64_t, which pci_add_option_rom() assigns
+> to an "int" without any range checking.  A 32-bit BAR could be up to
+> 2 GiB in size, so reject anything above it.  In order to accomodate
+> a rounded-up size of 2 GiB, change pci_patch_ids's size argument
+> to unsigned.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/pci/pci.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index a6b0c5602e..bbce10050b 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -25,6 +25,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu-common.h"
+>  #include "qemu/datadir.h"
+> +#include "qemu/units.h"
+>  #include "hw/irq.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_bridge.h"
+> @@ -2258,7 +2258,7 @@ static uint8_t pci_find_capability_at_offset(PCIDevice *pdev, uint8_t offset)
+>  
+>  /* Patch the PCI vendor and device ids in a PCI rom image if necessary.
+>     This is needed for an option rom which is used for more than one device. */
+> -static void pci_patch_ids(PCIDevice *pdev, uint8_t *ptr, int size)
+> +static void pci_patch_ids(PCIDevice *pdev, uint8_t *ptr, uint32_t size)
+>  {
+>      uint16_t vendor_id;
+>      uint16_t device_id;
+> @@ -2316,7 +2316,7 @@ static void pci_patch_ids(PCIDevice *pdev, uint8_t *ptr, int size)
+>  static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>                                 Error **errp)
+>  {
+> -    int size;
+> +    int64_t size;
+>      char *path;
+>      void *ptr;
+>      char name[32];
+> @@ -2366,6 +2366,11 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>          error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
+>          g_free(path);
+>          return;
+> +    } else if (size > 2 * GiB) {
+> +        error_setg(errp, "romfile \"%s\" too large (size cannot exceed 2 GiB)",
+> +                   pdev->romfile);
+> +        g_free(path);
+> +        return;
+>      }
+>      size = pow2ceil(size);
+>  
+> 
 
-  # ./configure
-  Using './build' as the directory for build output
-  ./configure: line 212: test: 2-15: integer expression expected
-  ./configure: line 213: test: 2-15: integer expression expected
-  ./configure: line 212: test: el8: integer expression expected
-  ./configure: line 213: test: el8: integer expression expected
-
-This is produced by the gdb version check introduced in commit
-b1863ccc957 ("configure: gate our use of GDB to 8.3.1 or above"):
-
-    gdb_version=$($gdb_bin --version | head -n 1)
-    if version_ge ${gdb_version##* } 8.3.1; then
-        echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
-    fi
-
-Because on RHEL/Fedora the minor version is not a plain number:
-
-  $ gdb --version | head -n 1
-  GNU gdb (GDB) Fedora 9.1-7.fc32
-
-  $ gdb --version | head -n 1
-  GNU gdb (GDB) Red Hat Enterprise Linux 8.2-15.el8
-
-Fix by only using the leading numbers, stripping the rest.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/configure b/configure
-index e85d6baf8f8..21f6530a812 100755
---- a/configure
-+++ b/configure
-@@ -205,7 +205,7 @@ version_ge () {
-         local_first=${2-0}
-         # 'shift 2' if $2 is set, or 'shift' if $2 is not set
-         shift ${2:+2}
--        local_ver1=$*
-+        local_ver1=$(echo $* | sed -E 's/(^[0-9]+).*/\1/')
-         set x $local_ver2
-         # the second argument finished, the first must be greater or equal
-         test $# = 1 && return 0
--- 
-2.26.2
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 
 
