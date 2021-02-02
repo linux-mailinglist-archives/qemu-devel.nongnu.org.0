@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E4F30BAFC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 10:33:47 +0100 (CET)
-Received: from localhost ([::1]:35282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2767530BB3C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 10:43:11 +0100 (CET)
+Received: from localhost ([::1]:39450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6s4A-0001ho-7H
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 04:33:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39052)
+	id 1l6sDF-00047t-Uy
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 04:43:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6s2n-0000nV-SC; Tue, 02 Feb 2021 04:32:21 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:50364)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1l6sBZ-0003Z5-4v
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:41:25 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6s2l-000304-38; Tue, 02 Feb 2021 04:32:21 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id 190so1725668wmz.0;
- Tue, 02 Feb 2021 01:32:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OLkjZ9nxozjiKK+4NvlXfG6Ydbp1C3frT1S82SDbm/k=;
- b=CGPl04R42nD9VRH44EIMOaKmwZooboFOlReKsjiroXG6EPqTnEzTg5MSnkj/St6FII
- 7iPAMoeSJvWob9BHx1gg7e1PfnhY7P8s7zfHcITHKZUkgsbuTXS2bBpg9TQsXT+JN2u2
- dkxFvLEB39E5zgo1i1fQVgQEaNup2J+tt8kTKA4I3ryL+VIZODnxsgs6v2YBbRGvoTPP
- rkFa+pS2cdka6XUtIj7UGWRayW+sSzOSt6SpX/EnqqoJ3UPW/X0uO+HBMWS+pDh/lhPm
- NWIeMwmWPQTL1yPEsBrmLOTASVDUawwVeurnqv8mpl3pckpbIJ7uUMtUR8OVnMtESUAX
- mOyA==
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1l6sBU-0006rz-Ii
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:41:22 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id c12so19676408wrc.7
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 01:41:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=iG/P6JtustSWsc0UiVsU3lE0+Ynql7LbAYk3oXru8TY=;
+ b=w4UTV1cmVIt3Ro3y1vkD0gAivKMqof3yFC1C3/f8JxIHnjdH3Sywumxe8nyNq3iQvl
+ tZv17YNact1e1MoYNZr/0DJb08zq7xe71Ch850XNQuUbzDWq4TOaffA1u7qeJch+pm8y
+ 5PFlp9pkzGxDM272dghI3oi3JyO7tP3FcrrLhYKAi1mj2UFnOIuaHzbg9nVJy2JQeApX
+ gyScejl9jDhlEtc2ZGkZvBqasYrq2NxkOVFrhrVyACtHWARLFkkBwVKk/M0x4PJNq3Dx
+ Mjv2HJ//waav4TvuZ929bcf97E/D7s1VxzAytHUNv4YUY/FOfK+h+GCU84q9QJAsO9nd
+ UEcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OLkjZ9nxozjiKK+4NvlXfG6Ydbp1C3frT1S82SDbm/k=;
- b=pYJXWeHa4nCuStd435GAXPIqBC+XSCG5+58kg8/sePdAiMQA5PZgPFqqW12bxecwUu
- +z4JKpS5jS55kugqYfLFyU1gfwaTHHgu8kINbOyKVg1PIepTssdYN97rCU2HPbbh7AWu
- 2nfWnM9ffWb/zePgTigzabXvq/XRQ7NTfuC5MD2HsxY1/K3Xc49fQHS4zUR6AmYX229i
- pS+Jf6VD0eaBt9+I0iZSpnFBcJ7uxxpE6QLt7dhz5bpIGnyy4T94vhRlG/9tHkXbdcYM
- k30vf1AmK7xEGPfWutwNUUXTtmPG2Y8iP33dfAylAAlQDxqimMMQXdwycXmoRBwNSr6o
- owBw==
-X-Gm-Message-State: AOAM533fFgiY3YwtwQFTFoMK7u7JxnoWx++2s487njs973bN9o/SJuQG
- yo+ffCceR+8com7wK623YSo=
-X-Google-Smtp-Source: ABdhPJxdgDAxrerovllzWRxN92AdVvB0g32kXk0EF+JNODrFhegJ9LM+arnsq5baeRX8NZHykhYrDQ==
-X-Received: by 2002:a1c:1b12:: with SMTP id b18mr2585504wmb.157.1612258336312; 
- Tue, 02 Feb 2021 01:32:16 -0800 (PST)
-Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
- [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id d30sm33164122wrc.92.2021.02.02.01.32.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Feb 2021 01:32:15 -0800 (PST)
-Subject: Re: [QEMU-SECURITY] [PATCH] hw/intc/arm_gic: Fix interrupt ID in
- GICD_SGIR register
-To: P J P <pj.pandit@yahoo.co.in>, P J P <ppandit@redhat.com>,
- QEMU Security <qemu-security@nongnu.org>
-References: <20210131103401.217160-1-f4bug@amsat.org>
- <3a94e327-0454-bf43-552a-1c84407e1d7d@amsat.org>
- <20p82p5p-ns25-n434-37os-n55013s6313@erqung.pbz>
- <6d29aa57-2e6e-e81d-831f-803d9aae798f@amsat.org>
- <787280826.1146023.1612246917145@mail.yahoo.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3bd70da2-39ec-6e6b-d46d-6052f1b8f0b0@amsat.org>
-Date: Tue, 2 Feb 2021 10:32:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=iG/P6JtustSWsc0UiVsU3lE0+Ynql7LbAYk3oXru8TY=;
+ b=fJGmNyzWVf9F8/aqI2AEcyNF0e9lktQulaJSDXK/M9gLVTHNJJVe47u6aLCwJiG3yv
+ fJoXodvr7KoiAmEz+OWHWMK7uFgpPtpjGMuiGUw5rSm2bbgKO7onNoHAchrKWb1jVgiL
+ KIwIThnVzdKwNGzcwmz6bNM3HZMVOSP/Zchf9++I/fT3RQWVnqeJ69dwf8ALztDa7Hck
+ vcw/w3FX+JCYaYSA/YlB/0r9r+9VbqnPj7AWgc5PIi19ru7KjdhIMi1s6sjLeVkGgCLz
+ 6uP67pmKPSif3x1A8fv0iARPvAQ0QJfXlK72eLH0lQCtTbbbzlV64qmxSRb3hoMvQXmH
+ cGXQ==
+X-Gm-Message-State: AOAM531qPRwo172iIEqeeGcOrpyI55VPvEcnm2F+ngqbSr23L0QNRlYi
+ ne4J4RghG2+1g0Rqc+kPVE3jsg==
+X-Google-Smtp-Source: ABdhPJx1p2nThNuyG0qtELpTfZCaVKypm98IstYn/zTPtFWeyu/cAeR36Ip0xV1z/Z9W9JZTX1M25w==
+X-Received: by 2002:adf:8295:: with SMTP id 21mr22389096wrc.32.1612258876892; 
+ Tue, 02 Feb 2021 01:41:16 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id v13sm1676132wrd.51.2021.02.02.01.41.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Feb 2021 01:41:16 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 93ba75a0;
+ Tue, 2 Feb 2021 09:41:15 +0000 (UTC)
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH RFC 1/4] docs: add a table showing x86-64 ABI
+ compatibility levels
+In-Reply-To: <20210201153606.4158076-2-berrange@redhat.com>
+References: <20210201153606.4158076-1-berrange@redhat.com>
+ <20210201153606.4158076-2-berrange@redhat.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+X-Now-Playing: Peter Gabriel - Up: Sky Blue
+Date: Tue, 02 Feb 2021 09:41:15 +0000
+Message-ID: <cunv9balsck.fsf@dme.org>
 MIME-Version: 1.0
-In-Reply-To: <787280826.1146023.1612246917145@mail.yahoo.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=2a00:1450:4864:20::42c;
+ envelope-from=dme@dme.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,83 +89,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Li Qiang <liq3ea@gmail.com>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Florian Weimer <fweimer@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang?= =?utf-8?Q?=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/21 7:21 AM, P J P wrote:
-> On Sunday, 31 January, 2021, 08:48:26 pm IST, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote: 
->> Forwarding to qemu-security@ to see if this issue is worth a CVE.
->>
->> | On 1/31/21 11:34 AM, Philippe Mathieu-Daudé wrote:
->> | > Per the ARM Generic Interrupt Controller Architecture specification
->> | > (document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
->> | > not 10:
->> | > 
->> | >    - Table 4-21 GICD_SGIR bit assignments
->> | > 
->> | >    The Interrupt ID of the SGI to forward to the specified CPU
->> | >    interfaces. The value of this field is the Interrupt ID, in
->> | >    the range 0-15, for example a value of 0b0011 specifies
->> | >    Interrupt ID 3.
->> | > 
->> | > diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
->> | > index af41e2fb448..75316329516 100644
->> | > --- a/hw/intc/arm_gic.c
->> | > +++ b/hw/intc/arm_gic.c
->> | > @@ -1476,7 +1476,7 @@ static void gic_dist_writel(void *opaque, hwaddr offset,
->> | >          int target_cpu;
->> | >  
->> | >          cpu = gic_get_current_cpu(s);
->> | > -        irq = value & 0x3ff;
->> | > +        irq = value & 0xf;
->> | >          switch ((value >> 24) & 3) {
->> | >          case 0:
->> | >              mask = (value >> 16) & ALL_CPU_MASK;
->> | > 
->> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
->> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
-> 
-> * Does above patch address both these bugs? For BZ#1913917 'irq' is derived from 'offset' it seems.
-> 
->         /* Interrupt Configuration.  */                                         
->         irq = (offset - 0xc00) * 4;
+On Monday, 2021-02-01 at 15:36:03 GMT, Daniel P. Berrang=C3=A9 wrote:
 
-I haven't done a thorough analysis, simply tried to fixed this
-bug ASAP as it is public so many users are exposed.
+> It is useful to know which CPUs satisfy each x86-64 ABI
+> compatibility level, when dealing with guest OS that require
+> something newer than the baseline ABI.
+>
+> These ABI levels are defined in:
+>
+>   https://gitlab.com/x86-psABIs/x86-64-ABI/
+>
+> and supported by GCC, CLang, GLibC and more.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  MAINTAINERS                        |   2 +-
+>  docs/system/cpu-models-x86-abi.csv | 121 +++++++++++++++++++++++++++++
+>  docs/system/cpu-models-x86.rst.inc |  18 +++++
+>  3 files changed, 140 insertions(+), 1 deletion(-)
+>  create mode 100644 docs/system/cpu-models-x86-abi.csv
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fbb228ef2b..bb8d60c458 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -344,7 +344,7 @@ F: tests/tcg/i386/
+>  F: tests/tcg/x86_64/
+>  F: hw/i386/
+>  F: disas/i386.c
+> -F: docs/system/cpu-models-x86.rst.inc
+> +F: docs/system/cpu-models-x86*
+>  T: git https://gitlab.com/ehabkost/qemu.git x86-next
+>=20=20
+>  Xtensa TCG CPUs
+> diff --git a/docs/system/cpu-models-x86-abi.csv b/docs/system/cpu-models-=
+x86-abi.csv
+> new file mode 100644
+> index 0000000000..4565e6a535
+> --- /dev/null
+> +++ b/docs/system/cpu-models-x86-abi.csv
+> @@ -0,0 +1,121 @@
+> +Model,baseline,v2,v3,v4
+> +486,,,,
+> +486-v1,,,,
+> +Broadwell,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Broadwell-IBRS,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Broadwell-noTSX,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Broadwell-noTSX-IBRS,=E2=9C=85,=E2=9C=85,=E2=9C=85,
 
-I had the impression the first call (writel 0x8000f00 0x5affaf)
-break the heap, so the memory is inconsistent when the second
-call (write 0x8000eff 0x1 0x0) is done, but better have developers
-familiar with GIC and security auditing this again.
+Would it be useful to add an explicit negative mark (=E2=9C=98) in the slots
+where the CPU does not satisfy the requirement? It makes reading the
+table a little easier (my opinion, of course).
 
->> | > Correct the irq mask to fix an undefined behavior (which eventually
->> | > lead to a heap-buffer-overflow, see [Buglink]):
->> | > 
->> | >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt,accel=qtest -qtest stdio
->> | >    [I 1612088147.116987] OPENED
->> | >  [R +0.278293] writel 0x8000f00 0xff4affb0
->> | >  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds for type 'uint8_t [16][8]'
->> | >  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gic.c:1498:13
->> | > 
->> | > Cc: qemu-stable@nongnu.org
->> | > Fixes: 9ee6e8bb853 ("ARMv7 support.")
->> |
->> | > ---
->> | > Isnt it worth a CVE to help distributions track backports?
->> | > ---
-> 
-> Thank you for reporting this issue. Will process further.
+> +Broadwell-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Broadwell-v2,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Broadwell-v3,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Broadwell-v4,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Cascadelake-Server,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Cascadelake-Server-noTSX,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Cascadelake-Server-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Cascadelake-Server-v2,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Cascadelake-Server-v3,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Cascadelake-Server-v4,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Conroe,=E2=9C=85,,,
+> +Conroe-v1,=E2=9C=85,,,
+> +Cooperlake,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Cooperlake-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Denverton,=E2=9C=85,=E2=9C=85,,
+> +Denverton-v1,=E2=9C=85,=E2=9C=85,,
+> +Denverton-v2,=E2=9C=85,=E2=9C=85,,
+> +Dhyana,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Dhyana-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +EPYC,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +EPYC-IBPB,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +EPYC-Rome,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +EPYC-Rome-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +EPYC-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +EPYC-v2,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +EPYC-v3,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Haswell,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Haswell-IBRS,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Haswell-noTSX,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Haswell-noTSX-IBRS,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Haswell-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Haswell-v2,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Haswell-v3,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Haswell-v4,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Icelake-Client,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Icelake-Client-noTSX,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Icelake-Client-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Icelake-Client-v2,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Icelake-Server,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Icelake-Server-noTSX,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Icelake-Server-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Icelake-Server-v2,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Icelake-Server-v3,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Icelake-Server-v4,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +IvyBridge,=E2=9C=85,=E2=9C=85,,
+> +IvyBridge-IBRS,=E2=9C=85,=E2=9C=85,,
+> +IvyBridge-v1,=E2=9C=85,=E2=9C=85,,
+> +IvyBridge-v2,=E2=9C=85,=E2=9C=85,,
+> +KnightsMill,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +KnightsMill-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Nehalem,=E2=9C=85,=E2=9C=85,,
+> +Nehalem-IBRS,=E2=9C=85,=E2=9C=85,,
+> +Nehalem-v1,=E2=9C=85,=E2=9C=85,,
+> +Nehalem-v2,=E2=9C=85,=E2=9C=85,,
+> +Opteron_G1,=E2=9C=85,,,
+> +Opteron_G1-v1,=E2=9C=85,,,
+> +Opteron_G2,=E2=9C=85,,,
+> +Opteron_G2-v1,=E2=9C=85,,,
+> +Opteron_G3,=E2=9C=85,,,
+> +Opteron_G3-v1,=E2=9C=85,,,
+> +Opteron_G4,=E2=9C=85,=E2=9C=85,,
+> +Opteron_G4-v1,=E2=9C=85,=E2=9C=85,,
+> +Opteron_G5,=E2=9C=85,=E2=9C=85,,
+> +Opteron_G5-v1,=E2=9C=85,=E2=9C=85,,
+> +Penryn,=E2=9C=85,,,
+> +Penryn-v1,=E2=9C=85,,,
+> +SandyBridge,=E2=9C=85,=E2=9C=85,,
+> +SandyBridge-IBRS,=E2=9C=85,=E2=9C=85,,
+> +SandyBridge-v1,=E2=9C=85,=E2=9C=85,,
+> +SandyBridge-v2,=E2=9C=85,=E2=9C=85,,
+> +Skylake-Client,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Skylake-Client-IBRS,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Skylake-Client-noTSX-IBRS,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Skylake-Client-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Skylake-Client-v2,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Skylake-Client-v3,=E2=9C=85,=E2=9C=85,=E2=9C=85,
+> +Skylake-Server,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Skylake-Server-IBRS,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Skylake-Server-noTSX-IBRS,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Skylake-Server-v1,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Skylake-Server-v2,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Skylake-Server-v3,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Skylake-Server-v4,=E2=9C=85,=E2=9C=85,=E2=9C=85,=E2=9C=85
+> +Snowridge,=E2=9C=85,=E2=9C=85,,
+> +Snowridge-v1,=E2=9C=85,=E2=9C=85,,
+> +Snowridge-v2,=E2=9C=85,=E2=9C=85,,
+> +Westmere,=E2=9C=85,=E2=9C=85,,
+> +Westmere-IBRS,=E2=9C=85,=E2=9C=85,,
+> +Westmere-v1,=E2=9C=85,=E2=9C=85,,
+> +Westmere-v2,=E2=9C=85,=E2=9C=85,,
+> +athlon,,,,
+> +athlon-v1,,,,
+> +core2duo,=E2=9C=85,,,
+> +core2duo-v1,=E2=9C=85,,,
+> +coreduo,,,,
+> +coreduo-v1,,,,
+> +kvm32,,,,
+> +kvm32-v1,,,,
+> +kvm64,=E2=9C=85,,,
+> +kvm64-v1,=E2=9C=85,,,
+> +n270,,,,
+> +n270-v1,,,,
+> +pentium,,,,
+> +pentium-v1,,,,
+> +pentium2,,,,
+> +pentium2-v1,,,,
+> +pentium3,,,,
+> +pentium3-v1,,,,
+> +phenom,=E2=9C=85,,,
+> +phenom-v1,=E2=9C=85,,,
+> +qemu32,,,,
+> +qemu32-v1,,,,
+> +qemu64,=E2=9C=85,,,
+> +qemu64-v1,=E2=9C=85,,,
+> diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-=
+x86.rst.inc
+> index 9a2327828e..b964b29c78 100644
+> --- a/docs/system/cpu-models-x86.rst.inc
+> +++ b/docs/system/cpu-models-x86.rst.inc
+> @@ -39,6 +39,24 @@ CPU, as they would with "Host passthrough", but gives =
+much of the
+>  benefit of passthrough, while making live migration safe.
+>=20=20
+>=20=20
+> +ABI compatibility levels for CPU models
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +The x86_64 architecture has a number of `ABI compatibility levels`_
+> +defined. Traditionally most operating systems and toolchains would
+> +only target the original baseline ABI. It is expected that in
+> +future OS and toolchains are likely to target newer ABIs. The
+> +following table illustrates which ABI compatibility levels can be
+> +satisfied by the QEMU CPU models
 
-Thank for the quick processing.
+Missing full stop (or colon?).
 
-Regards,
+> +
+> +.. _ABI compatibility levels: https://gitlab.com/x86-psABIs/x86-64-ABI/
+> +
+> +.. csv-table:: x86-64 ABI compatibility levels
+> +   :file: cpu-models-x86-abi.csv
+> +   :widths: 40,15,15,15,15
+> +   :header-rows: 1
+> +
+> +
+>  Preferred CPU models for Intel x86 hosts
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>=20=20
+> --=20
+> 2.29.2
 
-Phil.
+dme.
+--=20
+All of us, we're going out tonight. We're gonna walk all over your cars.
 
