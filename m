@@ -2,57 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DC430C72C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 18:16:36 +0100 (CET)
-Received: from localhost ([::1]:44752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA4730C755
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 18:19:16 +0100 (CET)
+Received: from localhost ([::1]:51014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6zI3-0005Fz-Fx
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 12:16:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54350)
+	id 1l6zKd-00084A-LO
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 12:19:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l6yel-0003by-KD
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:36:00 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:43307)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l6yeg-0003Qf-8P
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:35:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=wIKT8QxgT+VRbdxQM8Od6wT1CvurFk4RGe9Rf07Jr5Y=; b=jnNaxaUcX5ASFpC0xzYzHh9CKg
- iZnWH/1mS6Hly2+5JjpQWaJo6Pkxu06LsYzsn5u89E6CY180cboqUlVocIxV8E6AR++YENgK//2dC
- JY/RTB6iPKIz8UA2KCrMuH/XgN708VZUpcuo+pu/xPv0rQ8qzwtjVbiYc0fgNAHTVL6fUVuXJWuzG
- L2ZoyYH4wtsztCyZxS2KuYnok1zDlcHTdQ1M0VC4OLIP2U4IXYZi7MO6CPepIy/LraOCL0EBwMcqA
- UrWesLGXXuxBpSzOJzt+V+jhzHtjwfD8ULAS0hlIQCfETp9KpXfurx2P50isFQFLHolOzkzTgmy0o
- y+zGtgpqUlRFpTZLdbPn6uire6oQ2TLJvwm6b721YUU5t1JLKRNgSdmPrZIY5TNtGjSP2R7xQg5H5
- C+A6PBh4MSpLqb8wiM/OGJ0qsMtFaizOpBOsS8rjBZQI9St6tGBqJJncYYftiPLSc2izLPAfywHHM
- ETgeGIUg23bFZc4Dv8cvdoiDgoiWE2DfUJEKvWG8GYSUNQIO8YGuEqdDcPYFzat1BMGOenXbkHkS4
- TJjw0CJP0057Sh4IJUN1pHLJf0ffIfoBO/0/hdDEjcQcDvZaxIUHwLf7iDQ7mGFCu8uvXG7IfSAKf
- yu9AVyXwbKE9S0lj9h0UccoFcbGrxXMshvQCAD3UM=;
-To: qemu-devel@nongnu.org
-Subject: Re: macOS (Big Sur,
- Apple Silicon) 'make check' fails in test-crypto-tlscredsx509
-Date: Tue, 02 Feb 2021 17:35:49 +0100
-Message-ID: <4581723.kQ5iP5sz2Z@silver>
-In-Reply-To: <6d360ded-f8b6-d08b-b4fc-af8c52554a58@redhat.com>
-References: <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
- <YBjg7ubtbw3OeQCd@SPB-NB-133.local>
- <6d360ded-f8b6-d08b-b4fc-af8c52554a58@redhat.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l6yfr-0004Jh-7q
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:37:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l6yfn-0003zo-U2
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:37:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612283821;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X9Hz0A42d1caUJRLPoFA/GXpYzcZ3QUPuQwyOkEwUHE=;
+ b=RuaGfeo0RnOCJBpA8QXrOG/uvpUzkNa27UFIlG2a9bRSdmBYGr5SmmR1fEMoDpvfGiMWn1
+ q865Rbc8XeNIumXUzaHLg9fsbgQLB3dWcXSEVSnRT0oaFifBSaslRxlAnRUrzbxgJ/gc/2
+ IblGvHD91HGt8KcqF6Mqwd284TvAzVw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-eQ_9Lh_3PnWrJTJskKSasA-1; Tue, 02 Feb 2021 11:37:00 -0500
+X-MC-Unique: eQ_9Lh_3PnWrJTJskKSasA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E0C88049C0;
+ Tue,  2 Feb 2021 16:36:58 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
+ [10.36.113.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 25A3B1980D;
+ Tue,  2 Feb 2021 16:36:57 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 3ED651800386; Tue,  2 Feb 2021 17:36:56 +0100 (CET)
+Date: Tue, 2 Feb 2021 17:36:56 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: vnc clipboard support
+Message-ID: <20210202163656.hpg4nbfvqbqnjsdm@sirius.home.kraxel.org>
+References: <20210201155116.GL4131462@redhat.com>
+ <0C14700F-CF47-4CD1-AB41-AA69BC0DA469@redhat.com>
+ <20210201165634.GM4131462@redhat.com>
+ <D704948F-96C7-441F-BCA3-F848ABFD8087@redhat.com>
+ <20210201174018.GP4131462@redhat.com>
+ <8456ae54-b737-fa7d-cac8-75cd701f9ef5@eik.bme.hu>
+ <20210202113144.jrmqtgllpgd2nw2h@sirius.home.kraxel.org>
+ <e3598537-86af-6cf7-bdfe-eac43bce0f2@eik.bme.hu>
+ <20210202123829.GF4168502@redhat.com>
+ <20210202133534.u364ubxxvr5xyieb@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210202133534.u364ubxxvr5xyieb@sirius.home.kraxel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,59 +87,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>
+Cc: qemu-devel@nongnu.org, Christophe de Dinechin <cdupontd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Christian Schoenebeck <qemu_oss@crudebyte.com>
-From: qemu_oss--- via <qemu-devel@nongnu.org>
 
-On Dienstag, 2. Februar 2021 15:50:24 CET Eric Blake wrote:
-> > If the program is compiled with -O0/O1 it returns zero exit code.
-> > Here's the output:
-> > IO
-> > func1:16 foo: 0x0 counter 10
-> > func2:4 foo: 0xa
-> > good
-> > 
-> > If it is compiled with -O2 it returns 1:
-> > IO
-> > func1:16 foo: 0x0 counter 10
-> > func2:4 foo: 0xa
-> > func2:6 foo: 0x0
+On Tue, Feb 02, 2021 at 02:35:34PM +0100, Gerd Hoffmann wrote:
+>   Hi,
 > 
-> And this proves the point that the compiler was able to exploit the
-> undefined behavior in your program.
+> > The VNC protocol is way too crude. It is limited to transferring
+> > plain text, and provides no way to specify or negotiate a character
+> > set. The RFB spec says apps should use latin-1. In reality few, if any,
+> > impls do charset conversion so most Linux impls will be sending UTF8
+> > while Windows impls will be sending Windows Codepage 1252. It clearly
+> > shows its heritage of being designed in the 1990s.
 > 
-> > broken
-> > 
-> > That happens because clang uses register behind foo from func1 (it has
-> > zero
-> > pointer) inside inlined func2 (it should have non zero pointer).
-> > 
-> > So, immediate workaround would be to downgrade optimization level of
-> > libtasn1 to -O1 in homebrew.
-> > 
-> > I've submitted the issue to Apple bugtracker:
-> > FB8986815
-> 
-> Yes, it's annoying that as compilers get smarter, it exposes the
-> presence of unspecified code in weird ways.  But I don't see this as a
-> bug in clang, but as a bug in libtasn1 for assuming undefined behavior
-> produces a sane result.
+> Well, there is an extension which supports more than just text.  But it
+> is a small number of formats which clearly has window-ish background,
+> for example rich text format (windows wordpad) for formated text and dib
+> (aka windows device independant bitmap) for images.
 
-You are right Eric, but nevertheless it's a very aggressive behaviour change 
-being introduced way too silent, especially regarding backward compatibility 
-like this case proofs.
+Well, spice isn't that much better.  Has a short, fixed list too:
 
-Personally I find the new semantic NULL + n == NULL makes sense, as it adds 
-safety, but I do consider it a bug that clang did not even throw a warning. 
-Even when I add -Wnull-pointer-arithmetic it does not complain to me at all.
+VD_AGENT_CLIPBOARD_UTF8_TEXT
+VD_AGENT_CLIPBOARD_IMAGE_PNG (mandatory if images supported)
+VD_AGENT_CLIPBOARD_IMAGE_{BMP,TIFF,JPEG} (optional)
 
-Best regards,
-Christian Schoenebeck
+There also is ...
 
+VD_AGENT_CLIPBOARD_FILE_LIST
+
+... but that works hand-in-hand with the spice webdav server.
+
+take care,
+  Gerd
 
 
