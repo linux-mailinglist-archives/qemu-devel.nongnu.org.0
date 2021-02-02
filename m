@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328E430C992
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:24:18 +0100 (CET)
-Received: from localhost ([::1]:51118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B6030C906
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:09:17 +0100 (CET)
+Received: from localhost ([::1]:38812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l70LZ-0003p3-9G
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:24:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
+	id 1l7072-0002CQ-2w
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:09:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6zu1-0005Zm-A2
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:49 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39105)
+ id 1l6zty-0005T2-KT
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:46 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:32998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6zto-0002GB-Ok
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:48 -0500
-Received: by mail-wm1-x334.google.com with SMTP id u14so3063224wmq.4
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 09:55:26 -0800 (PST)
+ id 1l6ztn-0002GK-1r
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:46 -0500
+Received: by mail-wr1-x434.google.com with SMTP id 7so21454316wrz.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 09:55:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9T4oatLmGN70Mw8GfGi8sZ3ncLhfpm7moP99hzX+qUc=;
- b=ImRt2TFba5sp7eOZ3yqaUupLKEdl2DHNn+88BrnExCP9A7UfYcdfVRbXaXN+AXc0Oa
- PCZC/D/OQgDASHeogMBq5TkX2ImMiz5Y9Y2oKssYKUrN+XuiJe3fZAp/Hvhzef32whYy
- cw3CprXrpLEuQg0mhnL/+s8oT3GdNZk5Q+unYYxqtvfJbvplkT/Dde5eRGboWpq9qJWl
- sX6OFMaQ/ygtdWZFoevxOr9gza19ChttHe6wn62CkGCjK3ahRXqAZrzB0F7ZRC0eKR7r
- bGnoG6UiZyjMgfxgf93aTOEZGhlYnNJY3RjEjgEuJLVYMboF+hhFI2Y8CzN9Zp2N4VCc
- 9NsQ==
+ bh=ZXS77U8T3S18yOyZJYkPwlC+sECSds1fbjAom9Al5KI=;
+ b=pQ/knD9bG7Im/j0VmGXXmDf3cjDJCDDAyhPY+da91Y/OA5XXDMaIliS7GQ2sGxWObe
+ /CLz0s8IWtQ5SBu4ZZFBJPjsU9pFue7jjA9kj8rFTvFoel7ePqlrPyINL7LCWL6rWziW
+ e25oeGNtQsArqrF11k5PgVm6pp7Sm3veg8DE1Mt4PzUNCJnmgmNSiwQM1y+Y0ilOluZi
+ 50Orta+ABB01Aa/SjjaghgXbNY1/iCObP/WStBdG9Y/e3BHl14K7v/WPNGPmOt9KF+ls
+ iUZjBG8PGkTPYaU+ufCHl9GYR9t0xRlroob1YDmOevJYrVZTiRUivrNbOWEjmTUMC0d9
+ EywA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9T4oatLmGN70Mw8GfGi8sZ3ncLhfpm7moP99hzX+qUc=;
- b=eE9FIGc+YELAtLv3i0EFczw4bMgif5cUMBfWGG3S5sH/KaZ6rtqrRtI+flVrP0Ow+K
- iv7lcLkykaL0Cwfu8FGmaVl+5cD3a2glGi9hA72e+yiM6wJmC+k7VXt8XkOk7jaEx6zF
- 7PwH3XiyfvHkv6qEbMR8Y2jZeH28Uf/X8m5xtIon/BW90sR//pLDJC5GqKRc5sJVXeqi
- 4b3ADuIdMSWp2lDfS4a/58rYvHKmpNos6qRl9ni1FNBYKunP/X5AXejVBxf9CmLQScjb
- nwURdNSUvDylmWE7OsICjJ7f3rNryYMXPKyPVA8Sxp0/rYjYT0TPpXjJLFgL6FOhLJLZ
- qFEA==
-X-Gm-Message-State: AOAM532anEUvimAW/Yo5Jh3huebwXuKoW3bpsrR6AOO1mrxd3GmdQDzu
- wkWXw90eYa0LJhhCOIURzo+q53dirJVcdw==
-X-Google-Smtp-Source: ABdhPJzO7nmhYkRK2uf8a8qKu0Shi30k/MuQVsssP2SVEgWAN6h7Qxe+34OV2Ezq9xoLzsi170aJEQ==
-X-Received: by 2002:a05:600c:2204:: with SMTP id
- z4mr4665734wml.138.1612288525769; 
- Tue, 02 Feb 2021 09:55:25 -0800 (PST)
+ bh=ZXS77U8T3S18yOyZJYkPwlC+sECSds1fbjAom9Al5KI=;
+ b=U76t0pJZ1XUBmNflt6lbfb2uSFY5ZOPxSYmy6Hw9i4GFRUcle5R2x//hNAQLl+WfVn
+ 828iMG6UwwblMSNBIIDDBBIGDRKCtIzTFS08K1sc5soL+W6xbRf2e+5ZQr0TxLN49fQh
+ VuIKPqBQRGyEG+jkDG5qIuKOIdVkbVy+zSL5EDf07NfSXoa1YTnNKj1OWTpeke6dkqys
+ NMMYq7HHRI22Wexqnjg16trCKNk9o3VxmFX8EFNh+uIjGA5pqqdtAxZ0xk5ICPhKtYXn
+ CwBUp51jd1TagDs0eTjOYEJAkGkLA5NzCB4JWMBe5Qd3VvH6+NCFH+gSTKSeESNmFSft
+ 1q8g==
+X-Gm-Message-State: AOAM532lBelCjP6Ba8hEc2/lGiD/ElCVIJpNRq12KpW6qQTW4LEToz31
+ gGZ1bq5KGWWvoe+lUne8pCfaAO3Qtl40sA==
+X-Google-Smtp-Source: ABdhPJwNpQSzcxs8vcGjaN524LqPQpBaVDkDo+aa3rwop9ZI8sc+1/Q/Va6JpKdI0xAnGaZKK61P4g==
+X-Received: by 2002:adf:e511:: with SMTP id j17mr24972977wrm.17.1612288526857; 
+ Tue, 02 Feb 2021 09:55:26 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm4142283wmj.32.2021.02.02.09.55.24
+ by smtp.gmail.com with ESMTPSA id q6sm4142283wmj.32.2021.02.02.09.55.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 09:55:25 -0800 (PST)
+ Tue, 02 Feb 2021 09:55:26 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/21] hw/ssi: imx_spi: Remove imx_spi_update_irq() in
- imx_spi_reset()
-Date: Tue,  2 Feb 2021 17:55:02 +0000
-Message-Id: <20210202175517.28729-7-peter.maydell@linaro.org>
+Subject: [PULL 07/21] hw/ssi: imx_spi: Remove pointless variable initialization
+Date: Tue,  2 Feb 2021 17:55:03 +0000
+Message-Id: <20210202175517.28729-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210202175517.28729-1-peter.maydell@linaro.org>
 References: <20210202175517.28729-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,58 +87,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Usually the approach is that the device on the other end of the line
-is going to reset its state anyway, so there's no need to actively
-signal an irq line change during the reset hook.
+'burst_length' is cleared in imx_spi_reset(), which is called
+after imx_spi_realize(). Remove the initialization to simplify.
 
-Move imx_spi_update_irq() out of imx_spi_reset(), to a new function
-imx_spi_soft_reset() that is called when the controller is disabled.
-
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20210129132323.30946-3-bmeng.cn@gmail.com
+Message-id: 20210129132323.30946-4-bmeng.cn@gmail.com
+Message-Id: <20210115153049.3353008-3-f4bug@amsat.org>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/ssi/imx_spi.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ hw/ssi/imx_spi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index e605049a213..4d488b159af 100644
+index 4d488b159af..8fb3c9b6d1b 100644
 --- a/hw/ssi/imx_spi.c
 +++ b/hw/ssi/imx_spi.c
-@@ -241,11 +241,16 @@ static void imx_spi_reset(DeviceState *dev)
-     imx_spi_rxfifo_reset(s);
-     imx_spi_txfifo_reset(s);
+@@ -434,8 +434,6 @@ static void imx_spi_realize(DeviceState *dev, Error **errp)
+         sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cs_lines[i]);
+     }
  
--    imx_spi_update_irq(s);
+-    s->burst_length = 0;
 -
-     s->burst_length = 0;
+     fifo32_create(&s->tx_fifo, ECSPI_FIFO_SIZE);
+     fifo32_create(&s->rx_fifo, ECSPI_FIFO_SIZE);
  }
- 
-+static void imx_spi_soft_reset(IMXSPIState *s)
-+{
-+    imx_spi_reset(DEVICE(s));
-+
-+    imx_spi_update_irq(s);
-+}
-+
- static uint64_t imx_spi_read(void *opaque, hwaddr offset, unsigned size)
- {
-     uint32_t value = 0;
-@@ -351,8 +356,9 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
-         s->regs[ECSPI_CONREG] = value;
- 
-         if (!imx_spi_is_enabled(s)) {
--            /* device is disabled, so this is a reset */
--            imx_spi_reset(DEVICE(s));
-+            /* device is disabled, so this is a soft reset */
-+            imx_spi_soft_reset(s);
-+
-             return;
-         }
- 
 -- 
 2.20.1
 
