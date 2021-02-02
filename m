@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1296530B6CB
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 06:07:07 +0100 (CET)
-Received: from localhost ([::1]:60576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BB630B6D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 06:21:26 +0100 (CET)
+Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6nu5-0003fC-JW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 00:07:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53012)
+	id 1l6o7w-0006qc-M9
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 00:21:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6nsi-0002wi-LQ
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:05:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43668)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6nsf-0004TP-2a
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:05:40 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l6nsc-0000In-PA
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:05:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 953C42E813C
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 05:05:34 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l6o6R-0006Jo-K6
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:19:51 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:55798 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l6o6P-0002ad-MB
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 00:19:51 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 574B141278;
+ Tue,  2 Feb 2021 05:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1612243185; x=1614057586; bh=q9xqNVvvhFc9Gynr/i5qgg
+ VhSYrOFj4pCmy547XmJ9I=; b=an0Ep1eGRPKkxbvwtqUyLH4KN/Ozo+etCB5QU/
+ SpniDisT5GBlc8canLda0+4x1gm8XWbX260agj+2vPG15xz09nm5o0WG9CVGpwL6
+ 5Rm8XDZbpfy9uOV5hJ5rxjZYrzjQF0GZr/30CUQKeyJlUHOK3nCTjB0tLbtXxwph
+ GltA0=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id m-cXQjfHVgiJ; Tue,  2 Feb 2021 08:19:45 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id CEA324120D;
+ Tue,  2 Feb 2021 08:19:43 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 2 Feb
+ 2021 08:19:43 +0300
+Date: Tue, 2 Feb 2021 08:19:42 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: macOS (Big Sur, Apple Silicon) 'make check' fails in
+ test-crypto-tlscredsx509
+Message-ID: <YBjg7ubtbw3OeQCd@SPB-NB-133.local>
+References: <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
+ <20210127121723.GI3653144@redhat.com>
+ <0de4a2a8-577d-a46e-3a66-1f9a9e589a4d@weilnetz.de>
+ <20210127165330.GT3653144@redhat.com>
+ <72e44724-94ca-43f0-aea1-2554c43cc4c3@weilnetz.de>
+ <20210127181731.GX3653144@redhat.com>
+ <27c01eba-ebc1-9b8e-d7ea-38ad9b4350d9@weilnetz.de>
+ <20210127185917.GB3653144@redhat.com>
+ <YBPKtL3reYFm7bgy@SPB-NB-133.local>
+ <20210129095327.GC4001740@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Feb 2021 04:58:59 -0000
-From: Venkatesh Srinivas <1911351@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: i386 tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: charco pmaydell venkatesh-srinivas
-X-Launchpad-Bug-Reporter: Marco (charco)
-X-Launchpad-Bug-Modifier: Venkatesh Srinivas (venkatesh-srinivas)
-References: <161049230444.13717.10732991676985431455.malonedeb@gac.canonical.com>
-Message-Id: <161224193914.13121.15293709183751600564.malone@soybean.canonical.com>
-Subject: [Bug 1911351] Re: x86-64 MTTCG Does not update page table entries
- atomically
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: e19578927c7c11bfcd007a112b876df4c5ccaa93
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210129095327.GC4001740@redhat.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,87 +89,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911351 <1911351@bugs.launchpad.net>
+Cc: Stefan Weil <sw@weilnetz.de>, Alexander Graf <agraf@csgraf.de>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BTW, the RISC-V MMU code _does_ get this right and the model could be
-followed by the x86 version - - something like
-https://github.com/vsrinivas/qemu/commit/1efa7dc689c4572d8fe0880ddbe44ec22f=
-8f4348,
-(but with more compiling + working) might solve this problem and more
-closely model h/w.
+On Fri, Jan 29, 2021 at 09:53:27AM +0000, Daniel P. Berrangé wrote:
+> On Fri, Jan 29, 2021 at 11:43:32AM +0300, Roman Bolshakov wrote:
+> > On Wed, Jan 27, 2021 at 06:59:17PM +0000, Daniel P. Berrangé wrote:
+> > > On Wed, Jan 27, 2021 at 07:56:16PM +0100, Stefan Weil wrote:
+> > > > Am 27.01.21 um 19:17 schrieb Daniel P. Berrangé:
+> > > > 
+> > > > > On Wed, Jan 27, 2021 at 06:05:08PM +0100, Stefan Weil wrote:
+> > > > > > Am 27.01.21 um 17:53 schrieb Daniel P. Berrangé:
+> > > > > > 
+> > > > > > > In $QEMU.git/crypto/init.c can you uncomment the "#define DEBUG_GNUTLS"
+> > > > > > > line and then re-build and re-run the test case.
+> > > > > > > 
+> > > > > > > There's a bunch of debug logs in code paths from gnutls_x509_crt_privkey_sign
+> > > > > > > that might give us useful info.
+> > > > > > > 
+> > > > > > > Regards,
+> > > > > > > Daniel
+> > > > > > 
+> > > > > > % LANG=C.UTF-8 tests/test-crypto-tlscredsx509
+> > > > > > # random seed: R02S9b95072a368ad370cdd4c780b8074596
+> > > > > > 3: ASSERT: mpi.c[wrap_nettle_mpi_print]:60
+> > > > > > 3: ASSERT: mpi.c[wrap_nettle_mpi_print]:60
+> > > > > > 2: signing structure using RSA-SHA256
+> > > > > > 3: ASSERT: common.c[_gnutls_x509_der_encode]:855
+> > > > > > 3: ASSERT: sign.c[_gnutls_x509_pkix_sign]:174
+> > > > > > 3: ASSERT: x509_write.c[gnutls_x509_crt_privkey_sign]:1834
+> > > > > > 3: ASSERT: x509_write.c[gnutls_x509_crt_sign2]:1152
+> > > > > > Bail out! FATAL-CRITICAL: Failed to sign certificate ASN1 parser: Value is
+> > > > > > not valid.
+> > > > > So it shows its failing inside a asn1_der_coding call, but I can't see
+> > > > > why it would fail, especially if the same test suite passes fine on
+> > > > > macOS x86_64 hosts.
+> > > > 
+> > > > 
+> > > > It returns ASN1_MEM_ERROR, so the input vector is too small.
+> > > 
+> > > Hmm, that's odd - "Value is not valid" corresponds to
+> > > ASN1_VALUE_NOT_VALID error code.
+> > > 
+> > 
+> > Hi Daniel, Stefan,
+> > 
+> > It's interesting that "make check" of libtasn1 fails with three tests
+> > and two of them produce VALUE_NOT_VALID error.
+> > 
+> > The failing tests are:
+> >   FAIL: Test_parser
+> >   FAIL: Test_tree
+> >   FAIL: copynode
+> 
+> That's interesting. Assuming 'make check' for libtasn1 succeeeds on
+> x86_64 macOS, then I'm inclined to blame this whole problem on
+> libtasn1 not QEMU.
+> 
 
--- =
+'make check' of libtasn1 doesn't succeed on x86_64 either.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911351
+After a session of debugging I believe there's an issue with Clang 12.
+Here's a test program (it reproduces unexpected ASN1_VALUE_NOT_VALID
+from _asn1_time_der() in libtasn1):
 
-Title:
-  x86-64 MTTCG Does not update page table entries atomically
+#include <stdio.h>
 
-Status in QEMU:
-  Confirmed
+static int func2(char *foo) {
+        fprintf(stderr, "%s:%d foo: %p\n", __func__, __LINE__, foo);
+        if (foo == NULL) {
+                fprintf(stderr, "%s:%d foo: %p\n", __func__, __LINE__, foo);
+                return 1;
+        }
+        return 0;
+}
 
-Bug description:
-  It seems like the qemu tcg code for x86-64 doesn't write the access
-  and dirty bits of the page table entries atomically. Instead, they
-  first read the entry, see if they need to set the page table entry,
-  and then write back the updated page table entry. So if you have two
-  threads running at the same time, one accessing the virtual address
-  over and over again, and the other modifying the page table entry, it
-  is possible that after the second thread modifies the page table
-  entry, qemu overwrites the value with the old page table entry value,
-  with the access/dirty flags set.
+int func1(char *foo) {
+        int counter = 0;
+        if (fprintf(stderr, "IO\n") > 0)
+                counter += 10;
+        fprintf(stderr, "%s:%d foo: %p counter %d\n", __func__, __LINE__, foo, counter);
+        if(!func2(foo + counter)) {
+                fprintf(stderr, "good\n");
+                return 0;
+        } else {
+                fprintf(stderr, "broken\n");
+                return 1;
+        }
+}
 
-  Here's a unit test that reproduces this behavior:
+int main() {
+        char *foo = NULL;
+        return func1(foo);
+}
 
-  https://github.com/mvanotti/kvm-unit-
-  tests/commit/09f9722807271226a714b04f25174776454b19cd
 
-  You can run it with:
+What return value would you expect from the program?
 
-  ```
-  /usr/bin/qemu-system-x86_64 --no-reboot -nodefaults \
-  -device pc-testdev -device isa-debug-exit,iobase=3D0xf4,iosize=3D0x4 \
-  -vnc none -serial stdio -device pci-testdev \
-  -smp 4 -machine q35 --accel tcg,thread=3Dmulti \
-  -kernel x86/mmu-race.flat # -initrd /tmp/tmp.avvPpezMFf
-  ```
+If the program is compiled with -O0/O1 it returns zero exit code.
+Here's the output:
+IO
+func1:16 foo: 0x0 counter 10
+func2:4 foo: 0xa
+good
 
-  Expected output (failure):
+If it is compiled with -O2 it returns 1:
+IO
+func1:16 foo: 0x0 counter 10
+func2:4 foo: 0xa
+func2:6 foo: 0x0
+broken
 
-  ```
-  kvm-unit-tests$ make && /usr/bin/qemu-system-x86_64 --no-reboot -nodefaul=
-ts -device pc-testdev -device isa-debug-exit,iobase=3D0xf4,iosize=3D0x4 -vn=
-c none -serial stdio -device pci-testdev -smp 4 -machine q35 --accel tcg,th=
-read=3Dmulti  -kernel x86/mmu-race.flat # -initrd /tmp/tmp.avvPpezMFf
-  enabling apic
-  enabling apic
-  enabling apic
-  enabling apic
-  paging enabled
-  cr0 =3D 80010011
-  cr3 =3D 627000
-  cr4 =3D 20
-  found 4 cpus
-  PASS: Need more than 1 CPU
-  Detected overwritten PTE:
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0want: 0x000000000062e007
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0got:  0x000000000062d027
-  FAIL: PTE not overwritten
-  PASS: All Reads were zero
-  SUMMARY: 3 tests, 1 unexpected failures
-  ```
+That happens because clang uses register behind foo from func1 (it has zero
+pointer) inside inlined func2 (it should have non zero pointer).
 
-  This bug allows user-to-root privilege escalation inside the guest VM:
-  if the user is able overwrite an entry that belongs to a second-to-
-  last level page table, and is able to allocate the referenced page,
-  then the user would be in control of a last-level page table, being
-  able to map any memory they want. This is not uncommon in situations
-  where memory is being decomitted.
+So, immediate workaround would be to downgrade optimization level of libtasn1
+to -O1 in homebrew.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911351/+subscriptions
+I've submitted the issue to Apple bugtracker:
+FB8986815
+
+Best regards,
+Roman
 
