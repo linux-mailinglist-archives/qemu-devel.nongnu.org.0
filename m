@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC82E30C461
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:50:12 +0100 (CET)
-Received: from localhost ([::1]:59146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9538930C3C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:30:56 +0100 (CET)
+Received: from localhost ([::1]:45382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6xwR-0005bo-J2
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:50:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58460)
+	id 1l6xdl-0003uG-G7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:30:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xOO-0001tU-Fo
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:15:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45443)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xMR-0008Oz-W0
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:13:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xOI-0007on-90
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:15:00 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xMJ-0006ro-4p
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:12:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612278893;
+ s=mimecast20190719; t=1612278770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7kUFX9AmsgkZPsv6dHdddK3V3nr3r0gT8vGMVZWZW88=;
- b=cGpvX7j+hFWOckkUC/8h0ZGzCSNaE+WLlZyYG5kxRq4cirFNCtb+AN19RBV9SN8h50UjFn
- M/KIUB4BPeF1VNVXPDdC/Pfz1xMks7hDEFMtzJeCtm8r7d00ewz02xcXig7F5lUNvjswGM
- JKdNJh51T2x3ZxPcRNrdTC1ogRLfe+I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-OpNf2dmONj-a1rIJIJv15w-1; Tue, 02 Feb 2021 10:12:48 -0500
-X-MC-Unique: OpNf2dmONj-a1rIJIJv15w-1
-Received: by mail-wm1-f69.google.com with SMTP id z25so1616052wml.0
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 07:12:47 -0800 (PST)
+ bh=qB+vY2n1Jsacjv2d9REmyBdUtAmDy1Mx14TEPXAHQaA=;
+ b=YqNd2J1H+IoPVIRVR2TEBiyBjL/xtr96NRnOGiA49D4JW+YPRi2QMn0TX3A6TXaX+k4rqd
+ /AcnJpPSWjn0nCeYSroC8dUtECpnDQ8JmfjI+V/1xRqMH0noyMUaCoWhqUF/btZpZjtJeo
+ IkBNEFMl1SXejGg08uTVnjU0+/m29+A=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-562-irJykOiANDmYcRNDebivbQ-1; Tue, 02 Feb 2021 10:12:48 -0500
+X-MC-Unique: irJykOiANDmYcRNDebivbQ-1
+Received: by mail-wm1-f72.google.com with SMTP id j204so1588637wmj.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 07:12:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=7kUFX9AmsgkZPsv6dHdddK3V3nr3r0gT8vGMVZWZW88=;
- b=hXRmL21LxQTD2MzBCJHLVFrG9W8cUSiz/0axCOwXdUyLy/8Rvspva8po5sP9SrqmFp
- /ZwUJ13594AvoU9qP1CYqRyVhyX4oWWM1TYhw4njWe6xmj9f8L64Uv2jeLxs+wjsG9cD
- tjMy/f+j5TJ8m1NSpHb3OiZZDPOaCccwXgpbmgM13uykEHq/uRgr3tO5gFgI4cz9G46R
- lPFTOU2EFwGtkh7cR50nazvSytH82G4dW3HPBShITHK868ViCKhk8qIJs5mWsMwWeQRg
- DLdo9Y/djVDVe13y93jRHjKXN0jd710rsYwB+bzTpv+Ji5ikfTU9Fq6BScOfilkCGYiK
- 8edA==
-X-Gm-Message-State: AOAM533THNWAzuBLp9oMPSlbg7Qz3VMd9BSKqBLVNGEP4c8J6AK1vXuU
- gyd/1C8BpQo449JxuZYJtuTX/vyvQM+RZzf1R4YlWx1sul4oWWSxY3YVO4rtVmzm7ORUNaxSvh+
- GBFXZYsRtOIZ4nPXSPHE0/RrKyMzhn4WTRsYwhlqwDppyQNy+sZ7wSmIgpnO7
-X-Received: by 2002:a5d:4d86:: with SMTP id b6mr24095229wru.152.1612278764446; 
- Tue, 02 Feb 2021 07:12:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyt3mvpjXEG9lC9zDxDRLN0oxmozWhUAP+I0Bsurer8duCGDLHsln3Wzv1cjMzHIwvLp4AQ1Q==
-X-Received: by 2002:a5d:4d86:: with SMTP id b6mr24095119wru.152.1612278763003; 
- Tue, 02 Feb 2021 07:12:43 -0800 (PST)
+ bh=qB+vY2n1Jsacjv2d9REmyBdUtAmDy1Mx14TEPXAHQaA=;
+ b=R2gUVl88Q5zopxM+MbZhK7YPdAHFLUftsEuHdJX15mblCa1vOSf7lgnwEweKmkfR+X
+ XZGuY3GfoQdtFPYxuSgXTtWH4HCcAWv1oxf96yQf+6Esg1Bfey8nK4g1UsYOTee+3wEk
+ D3Xmy7wRrs8WAGnXASyIIZQF/6mc/OMPxhSXJt5vBSPaSjf5ocztE1WKbPplTujypTeN
+ S0JoNkD/pFyYF8cMpOCn38AfIqfbJjbhD1DitPL+H+DoQp1vTG7cTDR3pxFLc37cpuXk
+ 0CDuH7ML4etru3ti/lDqhjxKseXpEIeQccVR0Mg1GKmeJNAbP7xf3Mxgpc6Vuv14oVQz
+ +8dQ==
+X-Gm-Message-State: AOAM533tWNDFzNesSxK+B1J9IArpyvZak1oBVQ+nYz/6Ey99B40Xz4Ii
+ wLq9JpExYa/gohLAXhXr3XJ4/y8ZsZyn5GkAThNO2jn45opo7XHMvX2Vi4w39xjcWMfuuB5/f4T
+ CUbEg4zahdVMzvm0ZJ6F46+AdwmW17aEvNqY/Sp3cRsrVZJA/wbJgPhdubWVT
+X-Received: by 2002:a1c:149:: with SMTP id 70mr4076091wmb.165.1612278765936;
+ Tue, 02 Feb 2021 07:12:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzRR1RK4aHxNCHrYVMLZMbemuZfawfFyK5NCcHtFWAb5THbOIbToZRbrVjDNnysIjI/qcRJcQ==
+X-Received: by 2002:a1c:149:: with SMTP id 70mr4076053wmb.165.1612278765584;
+ Tue, 02 Feb 2021 07:12:45 -0800 (PST)
 Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
- by smtp.gmail.com with ESMTPSA id m2sm3452746wml.34.2021.02.02.07.12.41
+ by smtp.gmail.com with ESMTPSA id l18sm3486837wme.37.2021.02.02.07.12.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 07:12:42 -0800 (PST)
-Date: Tue, 2 Feb 2021 10:12:40 -0500
+ Tue, 02 Feb 2021 07:12:44 -0800 (PST)
+Date: Tue, 2 Feb 2021 10:12:43 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] tests/acpi: add OEM ID and OEM TABLE ID test
-Message-ID: <20210202151116.1573669-7-mst@redhat.com>
+Subject: [PULL 7/9] tests/acpi: update expected data files
+Message-ID: <20210202151116.1573669-8-mst@redhat.com>
 References: <20210202151116.1573669-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210202151116.1573669-1-mst@redhat.com>
@@ -71,14 +71,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,3057 +93,929 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marian Postevca <posteuca@mutex.one>, Igor Mammedov <imammedo@redhat.com>
+ Marian Postevca <posteuca@mutex.one>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marian Postevca <posteuca@mutex.one>
 
-Add support for testing the fields OEM ID and
-OEM TABLE ID in all ACPI tables for PC,Q35,MICROVM,AARCH64
-
-Full diff of changed files disassembly:
-Table tests/data/acpi/virt/FACP diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/FACP, Mon Jan 18 23:55:00 2021
-+ * Disassembly of /tmp/aml-VQIIX0, Mon Jan 18 23:55:00 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 0000010C
- [008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : BB
-+[009h 0009   1]                     Checksum : 55
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/APIC diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/APIC, Mon Jan 18 23:55:00 2021
-+ * Disassembly of /tmp/aml-BQIIX0, Mon Jan 18 23:55:00 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 000000A8
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : B3
-+[009h 0009   1]                     Checksum : 50
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/GTDT diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/GTDT, Mon Jan 18 23:55:00 2021
-+ * Disassembly of /tmp/aml-QQIIX0, Mon Jan 18 23:55:00 2021
-  *
-  * ACPI Data Table [GTDT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "GTDT"    [Generic Timer Description Table]
- [004h 0004   4]                 Table Length : 00000060
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : D9
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCGTDT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/MCFG diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/MCFG, Mon Jan 18 23:55:00 2021
-+ * Disassembly of /tmp/aml-OQIIX0, Mon Jan 18 23:55:00 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 4F
-+[009h 0009   1]                     Checksum : EC
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/SPCR diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/SPCR, Mon Jan 18 23:55:00 2021
-+ * Disassembly of /tmp/aml-EMIIX0, Mon Jan 18 23:55:00 2021
-  *
-  * ACPI Data Table [SPCR]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SPCR"    [Serial Port Console Redirection table]
- [004h 0004   4]                 Table Length : 00000050
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : 13
-+[009h 0009   1]                     Checksum : CB
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSPCR"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/DSDT diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/virt/DSDT, Mon Jan 18 23:55:00 2021
-+ * Disassembly of /tmp/aml-RMIIX0, Mon Jan 18 23:55:00 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00001454 (5204)
-  *     Revision         0x02
-- *     Checksum         0x60
-+ *     Checksum         0x0F
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\_SB)
-     {
-
-Table tests/data/acpi/virt/FACP.numamem diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/FACP.numamem, Mon Jan 18 23:55:27 2021
-+ * Disassembly of /tmp/aml-JROMX0, Mon Jan 18 23:55:27 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 0000010C
- [008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : BB
-+[009h 0009   1]                     Checksum : 55
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/APIC.numamem diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/APIC.numamem, Mon Jan 18 23:55:27 2021
-+ * Disassembly of /tmp/aml-2ROMX0, Mon Jan 18 23:55:27 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 000000A8
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : B3
-+[009h 0009   1]                     Checksum : 50
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/GTDT.numamem diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/GTDT.numamem, Mon Jan 18 23:55:27 2021
-+ * Disassembly of /tmp/aml-WROMX0, Mon Jan 18 23:55:27 2021
-  *
-  * ACPI Data Table [GTDT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "GTDT"    [Generic Timer Description Table]
- [004h 0004   4]                 Table Length : 00000060
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : D9
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCGTDT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/MCFG.numamem diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/MCFG.numamem, Mon Jan 18 23:55:27 2021
-+ * Disassembly of /tmp/aml-YOOMX0, Mon Jan 18 23:55:27 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 4F
-+[009h 0009   1]                     Checksum : EC
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/SPCR.numamem diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/SPCR.numamem, Mon Jan 18 23:55:27 2021
-+ * Disassembly of /tmp/aml-TOOMX0, Mon Jan 18 23:55:27 2021
-  *
-  * ACPI Data Table [SPCR]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SPCR"    [Serial Port Console Redirection table]
- [004h 0004   4]                 Table Length : 00000050
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : 13
-+[009h 0009   1]                     Checksum : CB
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSPCR"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/SRAT.numamem diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/SRAT.numamem, Mon Jan 18 23:55:27 2021
-+ * Disassembly of /tmp/aml-LPOMX0, Mon Jan 18 23:55:27 2021
-  *
-  * ACPI Data Table [SRAT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
- [004h 0004   4]                 Table Length : 0000006A
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : AB
-+[009h 0009   1]                     Checksum : 65
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSRAT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/DSDT.numamem diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/virt/DSDT.numamem, Mon Jan 18 23:55:27 2021
-+ * Disassembly of /tmp/aml-HPOMX0, Mon Jan 18 23:55:27 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00001454 (5204)
-  *     Revision         0x02
-- *     Checksum         0x60
-+ *     Checksum         0x0F
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\_SB)
-     {
-
-Table tests/data/acpi/virt/FACP.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/FACP.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-OERTX0, Mon Jan 18 23:55:41 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 0000010C
- [008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : BB
-+[009h 0009   1]                     Checksum : 55
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/APIC.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/APIC.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-FERTX0, Mon Jan 18 23:55:41 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 000000A8
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : B3
-+[009h 0009   1]                     Checksum : 50
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/GTDT.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/GTDT.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-BERTX0, Mon Jan 18 23:55:41 2021
-  *
-  * ACPI Data Table [GTDT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "GTDT"    [Generic Timer Description Table]
- [004h 0004   4]                 Table Length : 00000060
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : D9
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCGTDT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/MCFG.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/MCFG.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-8DRTX0, Mon Jan 18 23:55:41 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 4F
-+[009h 0009   1]                     Checksum : EC
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/SPCR.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/SPCR.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-IN6NX0, Mon Jan 18 23:55:41 2021
-  *
-  * ACPI Data Table [SPCR]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SPCR"    [Serial Port Console Redirection table]
- [004h 0004   4]                 Table Length : 00000050
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : 13
-+[009h 0009   1]                     Checksum : CB
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSPCR"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/SRAT.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/SRAT.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-FN6NX0, Mon Jan 18 23:55:41 2021
-  *
-  * ACPI Data Table [SRAT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
- [004h 0004   4]                 Table Length : 000000E2
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 5C
-+[009h 0009   1]                     Checksum : 16
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSRAT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/SLIT.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/SLIT.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-CN6NX0, Mon Jan 18 23:55:41 2021
-  *
-  * ACPI Data Table [SLIT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SLIT"    [System Locality Information Table]
- [004h 0004   4]                 Table Length : 00000030
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 2C
-+[009h 0009   1]                     Checksum : E8
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSLIT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/SSDT.memhp diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/virt/SSDT.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-9M6NX0, Mon Jan 18 23:55:41 2021
-  *
-  * Original Table Header:
-  *     Signature        "SSDT"
-  *     Length           0x000002E0 (736)
-  *     Revision         0x01
-- *     Checksum         0x3F
-+ *     Checksum         0xFF
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "NVDIMM"
-+ *     OEM Table ID     "NVDIMM  "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "SSDT", 1, "BOCHS ", "NVDIMM", 0x00000001)
-+DefinitionBlock ("", "SSDT", 1, "BOCHS ", "NVDIMM  ", 0x00000001)
- {
-     Scope (\_SB)
-     {
-
-Table tests/data/acpi/virt/NFIT.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/NFIT.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-6M6NX0, Mon Jan 18 23:55:41 2021
-  *
-  * ACPI Data Table [NFIT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "NFIT"    [NVDIMM Firmware Interface Table]
- [004h 0004   4]                 Table Length : 000000E0
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : D1
-+[009h 0009   1]                     Checksum : 82
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCNFIT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/DSDT.memhp diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/virt/DSDT.memhp, Mon Jan 18 23:55:41 2021
-+ * Disassembly of /tmp/aml-3M6NX0, Mon Jan 18 23:55:41 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x000019A5 (6565)
-  *     Revision         0x02
-- *     Checksum         0x90
-+ *     Checksum         0x3F
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     External (_SB_.NVDR, UnknownObj)
-
-Table tests/data/acpi/virt/FACP.pxb diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/FACP, Mon Jan 18 23:55:52 2021
-+ * Disassembly of /tmp/aml-206LX0, Mon Jan 18 23:55:52 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 0000010C
- [008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : BB
-+[009h 0009   1]                     Checksum : 55
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/APIC.pxb diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/APIC, Mon Jan 18 23:55:52 2021
-+ * Disassembly of /tmp/aml-E16LX0, Mon Jan 18 23:55:52 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 000000A8
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : B3
-+[009h 0009   1]                     Checksum : 50
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/GTDT.pxb diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/GTDT, Mon Jan 18 23:55:52 2021
-+ * Disassembly of /tmp/aml-J16LX0, Mon Jan 18 23:55:52 2021
-  *
-  * ACPI Data Table [GTDT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "GTDT"    [Generic Timer Description Table]
- [004h 0004   4]                 Table Length : 00000060
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : D9
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCGTDT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/MCFG.pxb diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/MCFG, Mon Jan 18 23:55:52 2021
-+ * Disassembly of /tmp/aml-N16LX0, Mon Jan 18 23:55:52 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 4F
-+[009h 0009   1]                     Checksum : EC
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/SPCR.pxb diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/SPCR, Mon Jan 18 23:55:52 2021
-+ * Disassembly of /tmp/aml-B16LX0, Mon Jan 18 23:55:52 2021
-  *
-  * ACPI Data Table [SPCR]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SPCR"    [Serial Port Console Redirection table]
- [004h 0004   4]                 Table Length : 00000050
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : 13
-+[009h 0009   1]                     Checksum : CB
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSPCR"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/virt/DSDT.pxb diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/virt/DSDT.pxb, Mon Jan 18 23:55:52 2021
-+ * Disassembly of /tmp/aml-G16LX0, Mon Jan 18 23:55:52 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00001E09 (7689)
-  *     Revision         0x02
-- *     Checksum         0x30
-+ *     Checksum         0xDF
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\_SB)
-     {
-
-Table tests/data/acpi/pc/HPET diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/HPET, Mon Jan 18 23:58:53 2021
-+ * Disassembly of /tmp/aml-QNVAX0, Mon Jan 18 23:58:53 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/WAET diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/WAET, Mon Jan 18 23:58:53 2021
-+ * Disassembly of /tmp/aml-NNVAX0, Mon Jan 18 23:58:53 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/FACP.tis diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/FACP, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-MB7EX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 000000F4
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 1F
-+[009h 0009   1]                     Checksum : B9
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/APIC.tis diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/APIC, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-3C7EX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000078
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : ED
-+[009h 0009   1]                     Checksum : 8A
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/HPET.tis diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HPET, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-0C7EX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/TPM2.tis diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/TPM2.tis, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-ZC7EX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [TPM2]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "TPM2"    [Trusted Platform Module hardware interface table]
- [004h 0004   4]                 Table Length : 0000004C
- [008h 0008   1]                     Revision : 04
--[009h 0009   1]                     Checksum : 72
-+[009h 0009   1]                     Checksum : 15
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCTPM2"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/MCFG.tis diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/MCFG, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-XC7EX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : EF
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/WAET.tis diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/WAET, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-VC7EX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/DSDT.tis diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT.tis, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-RC7EX0, Mon Jan 18 23:58:55 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x000020D7 (8407)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0xC8
-+ *     Checksum         0x77
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/q35/FACP.bridge diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/FACP, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-3N7NX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 000000F4
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 1F
-+[009h 0009   1]                     Checksum : B9
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/APIC.bridge diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/APIC, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-WN7NX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000078
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : ED
-+[009h 0009   1]                     Checksum : 8A
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/HPET.bridge diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HPET, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-DI7NX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/MCFG.bridge diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/MCFG, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-BI7NX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : EF
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/WAET.bridge diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/WAET, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-9H7NX0, Mon Jan 18 23:58:55 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/DSDT.bridge diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT.bridge, Mon Jan 18 23:58:55 2021
-+ * Disassembly of /tmp/aml-6H7NX0, Mon Jan 18 23:58:55 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00001E8B (7819)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0x8F
-+ *     Checksum         0x3E
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/q35/FACP.mmio64 diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/FACP, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-KW0GX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 000000F4
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 1F
-+[009h 0009   1]                     Checksum : B9
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/APIC.mmio64 diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/APIC, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-HR0GX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000078
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : ED
-+[009h 0009   1]                     Checksum : 8A
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/HPET.mmio64 diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HPET, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-LR0GX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/SRAT.mmio64 diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/SRAT.mmio64, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-OR0GX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [SRAT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
- [004h 0004   4]                 Table Length : 000000E0
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 3B
-+[009h 0009   1]                     Checksum : F5
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSRAT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/MCFG.mmio64 diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/MCFG, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-TR0GX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : EF
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/WAET.mmio64 diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/WAET, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-ZR0GX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/DSDT.mmio64 diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT.mmio64, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-7R0GX0, Mon Jan 18 23:58:56 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x000022E4 (8932)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0x9D
-+ *     Checksum         0x4C
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/q35/FACP.ipmibt diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/FACP, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-VVX8W0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 000000F4
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 1F
-+[009h 0009   1]                     Checksum : B9
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/APIC.ipmibt diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/APIC, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-GUX8W0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000078
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : ED
-+[009h 0009   1]                     Checksum : 8A
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/HPET.ipmibt diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HPET, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-LUX8W0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/MCFG.ipmibt diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/MCFG, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-QUX8W0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : EF
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/WAET.ipmibt diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/WAET, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-VUX8W0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/DSDT.ipmibt diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT.ipmibt, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-3UX8W0, Mon Jan 18 23:58:56 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00001EC4 (7876)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0x2A
-+ *     Checksum         0xD9
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/q35/FACP.cphp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/FACP, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-2HJNX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 000000F4
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 1F
-+[009h 0009   1]                     Checksum : B9
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/APIC.cphp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/APIC.cphp, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-ARJNX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 000000A0
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 7B
-+[009h 0009   1]                     Checksum : 18
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/HPET.cphp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HPET, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-ERJNX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/SRAT.cphp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/SRAT.cphp, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-IRJNX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [SRAT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
- [004h 0004   4]                 Table Length : 00000130
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 36
-+[009h 0009   1]                     Checksum : F0
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSRAT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/SLIT.cphp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/SLIT.cphp, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-MRJNX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [SLIT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SLIT"    [System Locality Information Table]
- [004h 0004   4]                 Table Length : 00000030
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 2C
-+[009h 0009   1]                     Checksum : E8
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSLIT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/MCFG.cphp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/MCFG, Mon Jan 18 23:58:56 2021
-+ * Disassembly of /tmp/aml-PRJNX0, Mon Jan 18 23:58:56 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : EF
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/WAET.cphp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/WAET, Mon Jan 18 23:58:57 2021
-+ * Disassembly of /tmp/aml-TRJNX0, Mon Jan 18 23:58:57 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/DSDT.cphp diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT.cphp, Mon Jan 18 23:58:57 2021
-+ * Disassembly of /tmp/aml-2RJNX0, Mon Jan 18 23:58:57 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00002049 (8265)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0x5A
-+ *     Checksum         0x09
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/q35/HPET.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HPET, Mon Jan 18 23:58:57 2021
-+ * Disassembly of /tmp/aml-V1NBX0, Mon Jan 18 23:58:57 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/WAET.memhp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/WAET, Mon Jan 18 23:58:57 2021
-+ * Disassembly of /tmp/aml-B2NBX0, Mon Jan 18 23:58:57 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/HPET.numamem diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HPET, Mon Jan 18 23:58:57 2021
-+ * Disassembly of /tmp/aml-BJ6PX0, Mon Jan 18 23:58:57 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/WAET.numamem diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/WAET, Mon Jan 18 23:58:57 2021
-+ * Disassembly of /tmp/aml-UH6PX0, Mon Jan 18 23:58:57 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/FACP.dimmpxm diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/FACP, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-ITDEX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 000000F4
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 1F
-+[009h 0009   1]                     Checksum : B9
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/APIC.dimmpxm diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/APIC.dimmpxm, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-STDEX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000090
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : AE
-+[009h 0009   1]                     Checksum : 4B
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/HPET.dimmpxm diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HPET, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-WTDEX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/SRAT.dimmpxm diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/SRAT.dimmpxm, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-XTJEX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [SRAT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
- [004h 0004   4]                 Table Length : 00000188
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 68
-+[009h 0009   1]                     Checksum : 22
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSRAT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/MCFG.dimmpxm diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/MCFG, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-0TDEX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : EF
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/SSDT.dimmpxm diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/SSDT.dimmpxm, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-8TDEX0, Mon Jan 18 23:58:58 2021
-  *
-  * Original Table Header:
-  *     Signature        "SSDT"
-  *     Length           0x000002DE (734)
-  *     Revision         0x01
-- *     Checksum         0x46
-+ *     Checksum         0x06
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "NVDIMM"
-+ *     OEM Table ID     "NVDIMM  "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "SSDT", 1, "BOCHS ", "NVDIMM", 0x00000001)
-+DefinitionBlock ("", "SSDT", 1, "BOCHS ", "NVDIMM  ", 0x00000001)
- {
-     Scope (\_SB)
-     {
-
-Table tests/data/acpi/q35/NFIT.dimmpxm diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/NFIT.dimmpxm, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-9VDEX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [NFIT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "NFIT"    [NVDIMM Firmware Interface Table]
- [004h 0004   4]                 Table Length : 000000F0
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 24
-+[009h 0009   1]                     Checksum : D5
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCNFIT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/WAET.dimmpxm diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/WAET, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-DWDEX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/DSDT.dimmpxm diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT.dimmpxm, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-IWDEX0, Mon Jan 18 23:58:58 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x000024EF (9455)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0x26
-+ *     Checksum         0xD5
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     External (_SB_.NVDR, UnknownObj)
-
-Table tests/data/acpi/q35/FACP.acpihmat diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/FACP, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-OKSOX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 000000F4
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 1F
-+[009h 0009   1]                     Checksum : B9
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/APIC.acpihmat diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/APIC.acpihmat, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-0KSOX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000080
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : DA
-+[009h 0009   1]                     Checksum : 77
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/HPET.acpihmat diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HPET, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-5KSOX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/SRAT.acpihmat diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/SRAT.acpihmat, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-9KSOX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [SRAT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "SRAT"    [System Resource Affinity Table]
- [004h 0004   4]                 Table Length : 00000118
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : C0
-+[009h 0009   1]                     Checksum : 7A
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCSRAT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/HMAT.acpihmat diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/HMAT.acpihmat, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-ALYOX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [HMAT]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HMAT"    [Heterogeneous Memory Attributes Table]
- [004h 0004   4]                 Table Length : 00000118
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : 98
-+[009h 0009   1]                     Checksum : 42
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHMAT"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/MCFG.acpihmat diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/MCFG, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-ELSOX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [MCFG]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "MCFG"    [Memory Mapped Configuration table]
- [004h 0004   4]                 Table Length : 0000003C
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : EF
-+[009h 0009   1]                     Checksum : 8C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCMCFG"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/WAET.acpihmat diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/WAET, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-ILSOX0, Mon Jan 18 23:58:58 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/q35/DSDT.acpihmat diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT.acpihmat, Mon Jan 18 23:58:58 2021
-+ * Disassembly of /tmp/aml-2JSOX0, Mon Jan 18 23:58:58 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x000023A6 (9126)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0xB3
-+ *     Checksum         0x62
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/pc/FACP.ipmikcs diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/FACP, Mon Jan 18 23:58:59 2021
-+ * Disassembly of /tmp/aml-1HH9W0, Mon Jan 18 23:58:59 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 00000074
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : A1
-+[009h 0009   1]                     Checksum : 3B
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/APIC.ipmikcs diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/APIC, Mon Jan 18 23:58:59 2021
-+ * Disassembly of /tmp/aml-GIH9W0, Mon Jan 18 23:58:59 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000078
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : ED
-+[009h 0009   1]                     Checksum : 8A
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/HPET.ipmikcs diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/HPET, Mon Jan 18 23:58:59 2021
-+ * Disassembly of /tmp/aml-PIH9W0, Mon Jan 18 23:58:59 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/WAET.ipmikcs diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/WAET, Mon Jan 18 23:58:59 2021
-+ * Disassembly of /tmp/aml-OIH9W0, Mon Jan 18 23:58:59 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/DSDT.ipmikcs diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/pc/DSDT.ipmikcs, Mon Jan 18 23:58:59 2021
-+ * Disassembly of /tmp/aml-9GH9W0, Mon Jan 18 23:58:59 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00001411 (5137)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0x33
-+ *     Checksum         0xE2
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/pc/FACP.roothp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/FACP, Mon Jan 18 23:59:01 2021
-+ * Disassembly of /tmp/aml-84PIX0, Mon Jan 18 23:59:01 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 00000074
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : A1
-+[009h 0009   1]                     Checksum : 3B
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/APIC.roothp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/APIC, Mon Jan 18 23:59:01 2021
-+ * Disassembly of /tmp/aml-D5PIX0, Mon Jan 18 23:59:01 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000078
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : ED
-+[009h 0009   1]                     Checksum : 8A
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/HPET.roothp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/HPET, Mon Jan 18 23:59:01 2021
-+ * Disassembly of /tmp/aml-P5PIX0, Mon Jan 18 23:59:01 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/WAET.roothp diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/WAET, Mon Jan 18 23:59:01 2021
-+ * Disassembly of /tmp/aml-N5PIX0, Mon Jan 18 23:59:01 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/DSDT.roothp diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/pc/DSDT.roothp, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-83PIX0, Mon Jan 18 23:59:02 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x0000148D (5261)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0xC6
-+ *     Checksum         0x75
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/pc/FACP.hpbridge diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/FACP, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-2ZSAX0, Mon Jan 18 23:59:02 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 00000074
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : A1
-+[009h 0009   1]                     Checksum : 3B
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/APIC.hpbridge diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/APIC, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-B0SAX0, Mon Jan 18 23:59:02 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000078
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : ED
-+[009h 0009   1]                     Checksum : 8A
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/HPET.hpbridge diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/HPET, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-G2SAX0, Mon Jan 18 23:59:02 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/WAET.hpbridge diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/WAET, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-F2SAX0, Mon Jan 18 23:59:02 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/DSDT.hpbridge diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/pc/DSDT.hpbridge, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-R2SAX0, Mon Jan 18 23:59:02 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x000013A2 (5026)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0xD9
-+ *     Checksum         0x88
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/pc/FACP.hpbrroot diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/FACP, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-D9COX0, Mon Jan 18 23:59:02 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 00000074
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : A1
-+[009h 0009   1]                     Checksum : 3B
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/APIC.hpbrroot diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/APIC, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-K9COX0, Mon Jan 18 23:59:02 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000078
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : ED
-+[009h 0009   1]                     Checksum : 8A
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/HPET.hpbrroot diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/HPET, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-L4COX0, Mon Jan 18 23:59:02 2021
-  *
-  * ACPI Data Table [HPET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "HPET"    [High Precision Event Timer table]
- [004h 0004   4]                 Table Length : 00000038
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 03
-+[009h 0009   1]                     Checksum : B4
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCHPET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/WAET.hpbrroot diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/pc/WAET, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-W4COX0, Mon Jan 18 23:59:02 2021
-  *
-  * ACPI Data Table [WAET]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emulated Devices Table]
- [004h 0004   4]                 Table Length : 00000028
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : 88
-+[009h 0009   1]                     Checksum : 39
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/pc/DSDT.hpbrroot diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/pc/DSDT.hpbrroot, Mon Jan 18 23:59:02 2021
-+ * Disassembly of /tmp/aml-S4COX0, Mon Jan 18 23:59:02 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00000C0C (3084)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0x81
-+ *     Checksum         0x30
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-
-Table tests/data/acpi/microvm/FACP.usb diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/microvm/FACP, Mon Jan 18 23:59:03 2021
-+ * Disassembly of /tmp/aml-PZ3FX0, Mon Jan 18 23:59:03 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 0000010C
- [008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : 7E
-+[009h 0009   1]                     Checksum : 18
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/microvm/APIC.usb diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/microvm/APIC, Mon Jan 18 23:59:03 2021
-+ * Disassembly of /tmp/aml-ZZ3FX0, Mon Jan 18 23:59:03 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000046
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : D7
-+[009h 0009   1]                     Checksum : 74
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/microvm/DSDT.usb diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/microvm/DSDT.usb, Mon Jan 18 23:59:03 2021
-+ * Disassembly of /tmp/aml-XZ3FX0, Mon Jan 18 23:59:03 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x0000019E (414)
-  *     Revision         0x02
-- *     Checksum         0x72
-+ *     Checksum         0x21
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (_SB)
-     {
-
-Table tests/data/acpi/microvm/FACP.rtc diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/microvm/FACP, Mon Jan 18 23:59:03 2021
-+ * Disassembly of /tmp/aml-TX8BX0, Mon Jan 18 23:59:03 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 0000010C
- [008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : 7E
-+[009h 0009   1]                     Checksum : 18
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/microvm/APIC.rtc diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/microvm/APIC, Mon Jan 18 23:59:03 2021
-+ * Disassembly of /tmp/aml-QS8BX0, Mon Jan 18 23:59:03 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000046
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : D7
-+[009h 0009   1]                     Checksum : 74
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/microvm/DSDT.rtc diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/microvm/DSDT.rtc, Mon Jan 18 23:59:03 2021
-+ * Disassembly of /tmp/aml-4S8BX0, Mon Jan 18 23:59:03 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00000194 (404)
-  *     Revision         0x02
-- *     Checksum         0x30
-+ *     Checksum         0xDF
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (_SB)
-     {
-
-Table tests/data/acpi/microvm/FACP.ioapic2 diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/microvm/FACP, Mon Jan 18 23:59:03 2021
-+ * Disassembly of /tmp/aml-ZRMOX0, Mon Jan 18 23:59:03 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 0000010C
- [008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : 7E
-+[009h 0009   1]                     Checksum : 18
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/microvm/APIC.ioapic2 diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/microvm/APIC.ioapic2, Mon Jan 18 23:59:03 2021
-+ * Disassembly of /tmp/aml-VMMOX0, Mon Jan 18 23:59:03 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 00000052
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : E6
-+[009h 0009   1]                     Checksum : 83
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/microvm/DSDT.ioapic2 diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/microvm/DSDT.ioapic2, Mon Jan 18 23:59:03 2021
-+ * Disassembly of /tmp/aml-TMMOX0, Mon Jan 18 23:59:03 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x0000016D (365)
-  *     Revision         0x02
-- *     Checksum         0x1C
-+ *     Checksum         0xCB
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (_SB)
-     {
-
-Table tests/data/acpi/microvm/FACP.pcie diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/microvm/FACP, Tue Jan 19 00:03:13 2021
-+ * Disassembly of /tmp/aml-M6CGX0, Tue Jan 19 00:03:13 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 0000010C
- [008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : 7E
-+[009h 0009   1]                     Checksum : 18
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCFACP"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/microvm/APIC.pcie diff:
-@@ -3,7 +3,7 @@
-  * AML/ASL+ Disassembler version 20200326 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/microvm/APIC.pcie, Tue Jan 19 00:03:13 2021
-+ * Disassembly of /tmp/aml-V6CGX0, Tue Jan 19 00:03:13 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-@@ -13,9 +13,9 @@
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
- [004h 0004   4]                 Table Length : 0000006E
- [008h 0008   1]                     Revision : 01
--[009h 0009   1]                     Checksum : DF
-+[009h 0009   1]                     Checksum : 7C
- [00Ah 0010   6]                       Oem ID : "BOCHS "
--[010h 0016   8]                 Oem Table ID : "BXPCAPIC"
-+[010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
-
-Table tests/data/acpi/microvm/DSDT.pcie diff:
-@@ -5,20 +5,20 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/microvm/DSDT.pcie, Tue Jan 19 00:03:13 2021
-+ * Disassembly of /tmp/aml-16CGX0, Tue Jan 19 00:03:13 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00000BD7 (3031)
-  *     Revision         0x02
-- *     Checksum         0x99
-+ *     Checksum         0x48
-  *     OEM ID           "BOCHS "
-- *     OEM Table ID     "BXPCDSDT"
-+ *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
--DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPCDSDT", 0x00000001)
-+DefinitionBlock ("", "DSDT", 2, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (_SB)
-     {
-
 Signed-off-by: Marian Postevca <posteuca@mutex.one>
-Message-Id: <20210119003216.17637-4-posteuca@mutex.one>
+Message-Id: <20210119003216.17637-5-posteuca@mutex.one>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 170 ++++++++++++++++++++++++++++-----
- 1 file changed, 146 insertions(+), 24 deletions(-)
+ tests/data/acpi/microvm/APIC         | Bin 70 -> 70 bytes
+ tests/data/acpi/microvm/APIC.ioapic2 | Bin 82 -> 82 bytes
+ tests/data/acpi/microvm/APIC.pcie    | Bin 110 -> 110 bytes
+ tests/data/acpi/microvm/DSDT         | Bin 365 -> 365 bytes
+ tests/data/acpi/microvm/DSDT.ioapic2 | Bin 365 -> 365 bytes
+ tests/data/acpi/microvm/DSDT.pcie    | Bin 3031 -> 3031 bytes
+ tests/data/acpi/microvm/DSDT.rtc     | Bin 404 -> 404 bytes
+ tests/data/acpi/microvm/DSDT.usb     | Bin 414 -> 414 bytes
+ tests/data/acpi/microvm/FACP         | Bin 268 -> 268 bytes
+ tests/data/acpi/pc/APIC              | Bin 120 -> 120 bytes
+ tests/data/acpi/pc/APIC.acpihmat     | Bin 128 -> 128 bytes
+ tests/data/acpi/pc/APIC.cphp         | Bin 160 -> 160 bytes
+ tests/data/acpi/pc/APIC.dimmpxm      | Bin 144 -> 144 bytes
+ tests/data/acpi/pc/DSDT              | Bin 5065 -> 5065 bytes
+ tests/data/acpi/pc/DSDT.acpihmat     | Bin 6390 -> 6390 bytes
+ tests/data/acpi/pc/DSDT.bridge       | Bin 6924 -> 6924 bytes
+ tests/data/acpi/pc/DSDT.cphp         | Bin 5529 -> 5529 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm      | Bin 6719 -> 6719 bytes
+ tests/data/acpi/pc/DSDT.hpbridge     | Bin 5026 -> 5026 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot     | Bin 3084 -> 3084 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs      | Bin 5137 -> 5137 bytes
+ tests/data/acpi/pc/DSDT.memhp        | Bin 6424 -> 6424 bytes
+ tests/data/acpi/pc/DSDT.numamem      | Bin 5071 -> 5071 bytes
+ tests/data/acpi/pc/DSDT.roothp       | Bin 5261 -> 5261 bytes
+ tests/data/acpi/pc/FACP              | Bin 116 -> 116 bytes
+ tests/data/acpi/pc/HMAT.acpihmat     | Bin 280 -> 280 bytes
+ tests/data/acpi/pc/HPET              | Bin 56 -> 56 bytes
+ tests/data/acpi/pc/NFIT.dimmpxm      | Bin 240 -> 240 bytes
+ tests/data/acpi/pc/SLIT.cphp         | Bin 48 -> 48 bytes
+ tests/data/acpi/pc/SLIT.memhp        | Bin 48 -> 48 bytes
+ tests/data/acpi/pc/SRAT.acpihmat     | Bin 280 -> 280 bytes
+ tests/data/acpi/pc/SRAT.cphp         | Bin 304 -> 304 bytes
+ tests/data/acpi/pc/SRAT.dimmpxm      | Bin 392 -> 392 bytes
+ tests/data/acpi/pc/SRAT.memhp        | Bin 264 -> 264 bytes
+ tests/data/acpi/pc/SRAT.numamem      | Bin 224 -> 224 bytes
+ tests/data/acpi/pc/SSDT.dimmpxm      | Bin 734 -> 734 bytes
+ tests/data/acpi/pc/WAET              | Bin 40 -> 40 bytes
+ tests/data/acpi/q35/APIC             | Bin 120 -> 120 bytes
+ tests/data/acpi/q35/APIC.acpihmat    | Bin 128 -> 128 bytes
+ tests/data/acpi/q35/APIC.cphp        | Bin 160 -> 160 bytes
+ tests/data/acpi/q35/APIC.dimmpxm     | Bin 144 -> 144 bytes
+ tests/data/acpi/q35/DSDT             | Bin 7801 -> 7801 bytes
+ tests/data/acpi/q35/DSDT.acpihmat    | Bin 9126 -> 9126 bytes
+ tests/data/acpi/q35/DSDT.bridge      | Bin 7819 -> 7819 bytes
+ tests/data/acpi/q35/DSDT.cphp        | Bin 8265 -> 8265 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm     | Bin 9455 -> 9455 bytes
+ tests/data/acpi/q35/DSDT.ipmibt      | Bin 7876 -> 7876 bytes
+ tests/data/acpi/q35/DSDT.memhp       | Bin 9160 -> 9160 bytes
+ tests/data/acpi/q35/DSDT.mmio64      | Bin 8932 -> 8932 bytes
+ tests/data/acpi/q35/DSDT.numamem     | Bin 7807 -> 7807 bytes
+ tests/data/acpi/q35/DSDT.tis         | Bin 8407 -> 8407 bytes
+ tests/data/acpi/q35/FACP             | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/HMAT.acpihmat    | Bin 280 -> 280 bytes
+ tests/data/acpi/q35/HPET             | Bin 56 -> 56 bytes
+ tests/data/acpi/q35/MCFG             | Bin 60 -> 60 bytes
+ tests/data/acpi/q35/NFIT.dimmpxm     | Bin 240 -> 240 bytes
+ tests/data/acpi/q35/SLIT.cphp        | Bin 48 -> 48 bytes
+ tests/data/acpi/q35/SLIT.memhp       | Bin 48 -> 48 bytes
+ tests/data/acpi/q35/SRAT.acpihmat    | Bin 280 -> 280 bytes
+ tests/data/acpi/q35/SRAT.cphp        | Bin 304 -> 304 bytes
+ tests/data/acpi/q35/SRAT.dimmpxm     | Bin 392 -> 392 bytes
+ tests/data/acpi/q35/SRAT.memhp       | Bin 264 -> 264 bytes
+ tests/data/acpi/q35/SRAT.mmio64      | Bin 224 -> 224 bytes
+ tests/data/acpi/q35/SRAT.numamem     | Bin 224 -> 224 bytes
+ tests/data/acpi/q35/SSDT.dimmpxm     | Bin 734 -> 734 bytes
+ tests/data/acpi/q35/TPM2.tis         | Bin 76 -> 76 bytes
+ tests/data/acpi/q35/WAET             | Bin 40 -> 40 bytes
+ tests/data/acpi/virt/APIC            | Bin 168 -> 168 bytes
+ tests/data/acpi/virt/APIC.memhp      | Bin 168 -> 168 bytes
+ tests/data/acpi/virt/APIC.numamem    | Bin 168 -> 168 bytes
+ tests/data/acpi/virt/DSDT            | Bin 5204 -> 5204 bytes
+ tests/data/acpi/virt/DSDT.memhp      | Bin 6565 -> 6565 bytes
+ tests/data/acpi/virt/DSDT.numamem    | Bin 5204 -> 5204 bytes
+ tests/data/acpi/virt/DSDT.pxb        | Bin 7689 -> 7689 bytes
+ tests/data/acpi/virt/FACP            | Bin 268 -> 268 bytes
+ tests/data/acpi/virt/FACP.memhp      | Bin 268 -> 268 bytes
+ tests/data/acpi/virt/FACP.numamem    | Bin 268 -> 268 bytes
+ tests/data/acpi/virt/GTDT            | Bin 96 -> 96 bytes
+ tests/data/acpi/virt/GTDT.memhp      | Bin 96 -> 96 bytes
+ tests/data/acpi/virt/GTDT.numamem    | Bin 96 -> 96 bytes
+ tests/data/acpi/virt/MCFG            | Bin 60 -> 60 bytes
+ tests/data/acpi/virt/MCFG.memhp      | Bin 60 -> 60 bytes
+ tests/data/acpi/virt/MCFG.numamem    | Bin 60 -> 60 bytes
+ tests/data/acpi/virt/NFIT.memhp      | Bin 224 -> 224 bytes
+ tests/data/acpi/virt/SLIT.memhp      | Bin 48 -> 48 bytes
+ tests/data/acpi/virt/SPCR            | Bin 80 -> 80 bytes
+ tests/data/acpi/virt/SPCR.memhp      | Bin 80 -> 80 bytes
+ tests/data/acpi/virt/SPCR.numamem    | Bin 80 -> 80 bytes
+ tests/data/acpi/virt/SRAT.memhp      | Bin 226 -> 226 bytes
+ tests/data/acpi/virt/SRAT.numamem    | Bin 106 -> 106 bytes
+ tests/data/acpi/virt/SSDT.memhp      | Bin 736 -> 736 bytes
+ 91 files changed, 0 insertions(+), 0 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 669202fc95..77053975aa 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -64,13 +64,17 @@
- #include "boot-sector.h"
- #include "tpm-emu.h"
- #include "hw/acpi/tpm.h"
--
-+#include "qemu/cutils.h"
- 
- #define MACHINE_PC "pc"
- #define MACHINE_Q35 "q35"
- 
- #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
- 
-+#define OEM_ID             "TEST"
-+#define OEM_TABLE_ID       "OEM"
-+#define OEM_TEST_ARGS      "-machine oem-id="OEM_ID",oem-table-id="OEM_TABLE_ID
-+
- typedef struct {
-     bool tcg_only;
-     const char *machine;
-@@ -654,17 +658,28 @@ static void test_smbios_structs(test_data *data)
-     }
- }
- 
--static void test_acpi_one(const char *params, test_data *data)
-+static void test_acpi_load_tables(test_data *data, bool use_uefi)
-+{
-+    if (use_uefi) {
-+        g_assert(data->scan_len);
-+        data->rsdp_addr = acpi_find_rsdp_address_uefi(data->qts,
-+            data->ram_start, data->scan_len);
-+    } else {
-+        boot_sector_test(data->qts);
-+        data->rsdp_addr = acpi_find_rsdp_address(data->qts);
-+        g_assert_cmphex(data->rsdp_addr, <, 0x100000);
-+    }
-+
-+    data->tables = g_array_new(false, true, sizeof(AcpiSdtTable));
-+    test_acpi_rsdp_table(data);
-+    test_acpi_rxsdt_table(data);
-+    test_acpi_fadt_table(data);
-+}
-+
-+static char *test_acpi_create_args(test_data *data, const char *params,
-+                                   bool use_uefi)
- {
-     char *args;
--    bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
--
--#ifndef CONFIG_TCG
--    if (data->tcg_only) {
--        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
--        return;
--    }
--#endif /* CONFIG_TCG */
- 
-     if (use_uefi) {
-         /*
-@@ -695,23 +710,24 @@ static void test_acpi_one(const char *params, test_data *data)
-              params ? params : "", disk,
-              data->blkdev ?: "ide-hd");
-     }
-+    return args;
-+}
- 
--    data->qts = qtest_init(args);
-+static void test_acpi_one(const char *params, test_data *data)
-+{
-+    char *args;
-+    bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
- 
--    if (use_uefi) {
--        g_assert(data->scan_len);
--        data->rsdp_addr = acpi_find_rsdp_address_uefi(data->qts,
--            data->ram_start, data->scan_len);
--    } else {
--        boot_sector_test(data->qts);
--        data->rsdp_addr = acpi_find_rsdp_address(data->qts);
--        g_assert_cmphex(data->rsdp_addr, <, 0x100000);
-+#ifndef CONFIG_TCG
-+    if (data->tcg_only) {
-+        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
-+        return;
-     }
-+#endif /* CONFIG_TCG */
- 
--    data->tables = g_array_new(false, true, sizeof(AcpiSdtTable));
--    test_acpi_rsdp_table(data);
--    test_acpi_rxsdt_table(data);
--    test_acpi_fadt_table(data);
-+    args = test_acpi_create_args(data, params, use_uefi);
-+    data->qts = qtest_init(args);
-+    test_acpi_load_tables(data, use_uefi);
- 
-     if (getenv(ACPI_REBUILD_EXPECTED_AML)) {
-         dump_aml_files(data, true);
-@@ -1292,6 +1308,109 @@ static void test_acpi_virt_tcg(void)
-     free_test_data(&data);
- }
- 
-+static void test_oem_fields(test_data *data)
-+{
-+    int i;
-+    char oem_id[6];
-+    char oem_table_id[8];
-+
-+    strpadcpy(oem_id, sizeof oem_id, OEM_ID, ' ');
-+    strpadcpy(oem_table_id, sizeof oem_table_id, OEM_TABLE_ID, ' ');
-+    for (i = 0; i < data->tables->len; ++i) {
-+        AcpiSdtTable *sdt;
-+
-+        sdt = &g_array_index(data->tables, AcpiSdtTable, i);
-+        /* FACS doesn't have OEMID and OEMTABLEID fields */
-+        if (compare_signature(sdt, "FACS")) {
-+            continue;
-+        }
-+
-+        g_assert(memcmp(sdt->aml + 10, oem_id, 6) == 0);
-+        g_assert(memcmp(sdt->aml + 16, oem_table_id, 8) == 0);
-+    }
-+}
-+
-+static void test_acpi_oem_fields_pc(void)
-+{
-+    test_data data;
-+    char *args;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = MACHINE_PC;
-+    data.required_struct_types = base_required_struct_types;
-+    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-+
-+    args = test_acpi_create_args(&data,
-+                                 OEM_TEST_ARGS, false);
-+    data.qts = qtest_init(args);
-+    test_acpi_load_tables(&data, false);
-+    test_oem_fields(&data);
-+    qtest_quit(data.qts);
-+    free_test_data(&data);
-+    g_free(args);
-+}
-+
-+static void test_acpi_oem_fields_q35(void)
-+{
-+    test_data data;
-+    char *args;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = MACHINE_Q35;
-+    data.required_struct_types = base_required_struct_types;
-+    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
-+
-+    args = test_acpi_create_args(&data,
-+                                 OEM_TEST_ARGS, false);
-+    data.qts = qtest_init(args);
-+    test_acpi_load_tables(&data, false);
-+    test_oem_fields(&data);
-+    qtest_quit(data.qts);
-+    free_test_data(&data);
-+    g_free(args);
-+}
-+
-+static void test_acpi_oem_fields_microvm(void)
-+{
-+    test_data data;
-+    char *args;
-+
-+    test_acpi_microvm_prepare(&data);
-+
-+    args = test_acpi_create_args(&data,
-+                                 OEM_TEST_ARGS",acpi=on", false);
-+    data.qts = qtest_init(args);
-+    test_acpi_load_tables(&data, false);
-+    test_oem_fields(&data);
-+    qtest_quit(data.qts);
-+    free_test_data(&data);
-+    g_free(args);
-+}
-+
-+static void test_acpi_oem_fields_virt(void)
-+{
-+    test_data data = {
-+        .machine = "virt",
-+        .tcg_only = true,
-+        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-+        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-+        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-+        .ram_start = 0x40000000ULL,
-+        .scan_len = 128ULL * 1024 * 1024,
-+    };
-+    char *args;
-+
-+    args = test_acpi_create_args(&data,
-+                                 "-cpu cortex-a57 "OEM_TEST_ARGS, true);
-+    data.qts = qtest_init(args);
-+    test_acpi_load_tables(&data, true);
-+    test_oem_fields(&data);
-+    qtest_quit(data.qts);
-+    free_test_data(&data);
-+    g_free(args);
-+}
-+
-+
- int main(int argc, char *argv[])
- {
-     const char *arch = qtest_get_arch();
-@@ -1304,9 +1423,10 @@ int main(int argc, char *argv[])
-         if (ret) {
-             return ret;
-         }
--
-+        qtest_add_func("acpi/q35/oem-fields", test_acpi_oem_fields_q35);
-         qtest_add_func("acpi/q35/tpm-tis", test_acpi_q35_tcg_tpm_tis);
-         qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
-+        qtest_add_func("acpi/oem-fields", test_acpi_oem_fields_pc);
-         qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
-         qtest_add_func("acpi/piix4/pci-hotplug/no_root_hotplug",
-                        test_acpi_piix4_no_root_hotplug);
-@@ -1333,6 +1453,7 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
-         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
-         qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
-+        qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
-         if (strcmp(arch, "x86_64") == 0) {
-             qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-         }
-@@ -1341,6 +1462,7 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-         qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
-         qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
-+        qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-     }
-     ret = g_test_run();
-     boot_sector_cleanup(disk);
+diff --git a/tests/data/acpi/microvm/APIC b/tests/data/acpi/microvm/APIC
+index 7472c7e830b6c7139720e93dd544d4441556661d..68dbd44a7e35a356083f086df60f70e424c4249f 100644
+GIT binary patch
+delta 30
+jcmZ>BlW+|1barE4U|=k9@^|(KR&a_4a8>|<i4uAMWUdB~
+
+delta 30
+jcmZ>BlW+|1barE4U|_uN<nQbetl$(8;0zL*D4_=cZv+RB
+
+diff --git a/tests/data/acpi/microvm/APIC.ioapic2 b/tests/data/acpi/microvm/APIC.ioapic2
+index a305f89d99eca881109ba54090da0f90262a402c..3063c52cd3e9bbed29c06031b375900f4a49b9e0 100644
+GIT binary patch
+delta 30
+jcmWFvl5h<0bPi%*U|?)^@^|(KR&a_4a8>|<i4s--X`lwr
+
+delta 30
+jcmWFvl5h<0bPi%*U|@Xa<nQbetl$(8;0zL*C}9NvbM^<%
+
+diff --git a/tests/data/acpi/microvm/APIC.pcie b/tests/data/acpi/microvm/APIC.pcie
+index 6c51081b50beb061c5f4e5baa134585d82db4c39..4e8f6ed8d6a866429fc17aecdeafc3fb5ef65fa3 100644
+GIT binary patch
+delta 30
+jcmd1HlW+|1bk1X7U|_6q@^|(KR&a_4a8>|<i4tJ|ayADz
+
+delta 30
+jcmd1HlW+|1bk1X7U|_uO<nQbetl$(8;0zL*C=mt#e2fS<
+
+diff --git a/tests/data/acpi/microvm/DSDT b/tests/data/acpi/microvm/DSDT
+index b43f427a222a933d3f34aceab6224a2c6115c365..f477668f2ee80241e47b340ad4a30f5480df2049 100644
+GIT binary patch
+delta 33
+ncmaFM^p;7&CD<h-myv;iNzlpP*&|rNDI&mG0SGoqgfapEm1773
+
+delta 33
+mcmaFM^p;7&CD<h-myv;iDapy-*&|rNDI&lbB(_l^lo0@*#|Z)e
+
+diff --git a/tests/data/acpi/microvm/DSDT.ioapic2 b/tests/data/acpi/microvm/DSDT.ioapic2
+index aee44dd3de1bb16585bf571ff0ca8e44d467d009..e5924a49962e0cff4228bcfc77ebcf48cb4a2219 100644
+GIT binary patch
+delta 33
+ncmaFM^p;7&CD<h-myv;i>9mu-vq!LkQ$&EX0uXGJ2xSBSqcI4)
+
+delta 33
+mcmaFM^p;7&CD<h-myv;iNyf?F*&|rNDI&lbB(_l^lo0@$l?c25
+
+diff --git a/tests/data/acpi/microvm/DSDT.pcie b/tests/data/acpi/microvm/DSDT.pcie
+index e590b98f9960025f75dd0544492d3088781406dc..3fb373fd970f0a33f30f57b1917720754396f0e9 100644
+GIT binary patch
+delta 33
+ncmcaEeqCI`CD<k8IyVCYlZTVPvq!LkQ$&EX0uXGJ*v}0Bq{0aw
+
+delta 33
+mcmcaEeqCI`CD<k8IyVCY(@ZCSXOCb7r-%S&kl03v{oDYrCJG+_
+
+diff --git a/tests/data/acpi/microvm/DSDT.rtc b/tests/data/acpi/microvm/DSDT.rtc
+index 5960d6929a2f88d76aaa324b88b80908ff0698dc..e375473b5f033d374dd2a64a9f814fd16c3e262f 100644
+GIT binary patch
+delta 33
+ncmbQjJcU`pCD<io3L^sp(|sp@XOCb7r-%S&1t8ccQNsuTlA#E0
+
+delta 33
+mcmbQjJcU`pCD<io3L^splYx`Jvq!LkQ$&C>NNl4-4I==G1qf~c
+
+diff --git a/tests/data/acpi/microvm/DSDT.usb b/tests/data/acpi/microvm/DSDT.usb
+index 14423381ea235ed42f6f0f7d98e793c271a4e7c1..d63fd84620a2689120b32262f964e6a098d71632 100644
+GIT binary patch
+delta 33
+ncmbQoJdatzCD<io9wP$-lcJNqvq!LkQ$&EX0uXGJXk!EbhzkeU
+
+delta 33
+mcmbQoJdatzCD<io9wP$-Q<0Ouvq!LkQ$&C>NNl4-8zTUcZwS}`
+
+diff --git a/tests/data/acpi/microvm/FACP b/tests/data/acpi/microvm/FACP
+index 0ba5795d622349e1521138e4123544637b4ab9af..f12cef5cb6461118d4f6c847bad5c173613443c6 100644
+GIT binary patch
+delta 32
+lcmeBS>S2;_b94^iVPs%nm2mQR_6SyRiU@F40D_4UUjS?i2T}k4
+
+delta 32
+lcmeBS>S2;_b94^iVPs%nt#k5s_6SyRiU@E9iA|LF0swY)2vPt5
+
+diff --git a/tests/data/acpi/pc/APIC b/tests/data/acpi/pc/APIC
+index 84509e0ae4cabeb5ead3e42a4edfa50abddbc17d..208331db53b7dd5c6205cce0e95427636b86dd64 100644
+GIT binary patch
+delta 30
+jcmb=ZkZ=s}bgp1vU|{TW@^|(KR&a_4a8>|<i4q9_c5nx7
+
+delta 30
+jcmb=ZkZ=s}bgp1vU|@Xf<nQbetl$(8;0zL*D3JgFfW`=J
+
+diff --git a/tests/data/acpi/pc/APIC.acpihmat b/tests/data/acpi/pc/APIC.acpihmat
+index a21f164699bfccd8992ea1bdb5717f2dc3025496..812c4603f2701494f6bb761570323158a20d4043 100644
+GIT binary patch
+delta 32
+lcmZo*Y+#gd4DfVrU|?WiEO+vE_6SyRiU@F40D_4U831{32Ymnl
+
+delta 32
+lcmZo*Y+#gd4DfVrU|?WiyyfKY>=CTs6cOMI5}PQI0RV%>2z>wm
+
+diff --git a/tests/data/acpi/pc/APIC.cphp b/tests/data/acpi/pc/APIC.cphp
+index 1bf8a0a63bc1c9b716d937b96eb34b05016b9366..65cc4f4a9aa2676140a6525cdac1e838274b1e07 100644
+GIT binary patch
+delta 32
+mcmZ3$xPVc@F~HM#0RsaAqlA;cvq!LkQ$&EX0uW4;=l}qHf(M=e
+
+delta 32
+lcmZ3$xPVc@F~HM#0RsaAW3`jNvq!LkQ$&C>NNl1+2LOlI2%Z1{
+
+diff --git a/tests/data/acpi/pc/APIC.dimmpxm b/tests/data/acpi/pc/APIC.dimmpxm
+index 427bb08248e6a029c1c988f74f5e48f93ee4ebe0..d904d4a70ddecbb79a83a267af8e26f925e9f4c6 100644
+GIT binary patch
+delta 32
+mcmbQhIDt{ZF~HM#0s{jBqqmd4vq!LkQ$&EX0uW4;r~m+axCfB{
+
+delta 32
+lcmbQhIDt{ZF~HM#0s{jB<2omQXOCb7r-%S&kk~|t3IK)<2$28)
+
+diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
+index f6173df1d598767a79aa34ad7585ad7d45c5d4f3..11ef89bd322271ee30f3971b880dadfda565d413 100644
+GIT binary patch
+delta 33
+ncmX@9eo|e+CD<k8q%Z>mqra2Cvq!LkQ$&EX0uXGJ*eDDDq~{48
+
+delta 33
+mcmX@9eo|e+CD<k8q%Z>m;{qptXOCb7r-%S&kl03vjlux0O9~wT
+
+diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
+index 67f3f7249eaaa9404ebf0f2d0a324b8c8e3bd445..c561e91be79f80dbea1cf4eb0f8658541a3aab2f 100644
+GIT binary patch
+delta 33
+ncmexn_{~tlCD<k8n*;*`Baf56vq!LkQ$&EX0uXGJxF-PsvZM*D
+
+delta 33
+mcmexn_{~tlCD<k8n*;*`W2}?Evq!LkQ$&C>NNl6TJqZB42nwtK
+
+diff --git a/tests/data/acpi/pc/DSDT.bridge b/tests/data/acpi/pc/DSDT.bridge
+index 643390f4c4138b37fc481656d3f555d0eeedcb02..a234075518fa8e187349d64c313779cc25db8299 100644
+GIT binary patch
+delta 33
+ncmeA%>oJpX33dtLk!E0EobKfB>=CTs6cOO800bK)zDNN8jxGqE
+
+delta 33
+mcmeA%>oJpX33dtLk!E0EeBtEp>=CTs6cOMI65A;8MG63zk_nyw
+
+diff --git a/tests/data/acpi/pc/DSDT.cphp b/tests/data/acpi/pc/DSDT.cphp
+index 1ddcf7d8812f5d8d4d38fe7e7b35fd5885806046..6ac47a7d1001c711b957f8e28cab1a143d2cf65f 100644
+GIT binary patch
+delta 33
+ncmbQKJyTo4CD<iorYHjg<7Ov+XOCb7r-%S&1t8cc(I^T4oSO*E
+
+delta 33
+mcmbQKJyTo4CD<iorYHjgBa4&2vq!LkQ$&C>NNl4-qbLBA{|L<h
+
+diff --git a/tests/data/acpi/pc/DSDT.dimmpxm b/tests/data/acpi/pc/DSDT.dimmpxm
+index c44385cc01879324738ffb7f997b8cdd762cbf97..d24377279c307adeaba2b98aba20677872dfbbda 100644
+GIT binary patch
+delta 33
+ncmdmQvfo6)CD<jzUW$Q%agLL}vq!LkQ$&EX0uXGJP?rJ#o#+T^
+
+delta 33
+mcmdmQvfo6)CD<jzUW$Q%@vW1;vq!LkQ$&C>NNl5ox)cDYObKcL
+
+diff --git a/tests/data/acpi/pc/DSDT.hpbridge b/tests/data/acpi/pc/DSDT.hpbridge
+index 4ecf1eb13bf49499f729b53a6d0114672a76e28d..9dfac45eab12b680bc963d0528553a7149a378cc 100644
+GIT binary patch
+delta 33
+ncmZ3azDQldCD<iokuU=TV~3N!vq!LkQ$&EX0uXGJ=n@71n`{WW
+
+delta 33
+mcmZ3azDQldCD<iokuU=T<4q@jXOCb7r-%S&kl03vE@1$r&<VN#
+
+diff --git a/tests/data/acpi/pc/DSDT.hpbrroot b/tests/data/acpi/pc/DSDT.hpbrroot
+index a3046226ec1dcb234b726029b3790dfedb3b9221..6ff6f198c7caf445d25c01117a6357b398358cbf 100644
+GIT binary patch
+delta 33
+mcmeB?=#h|c33dtL;bCB4G;s2F_6SyRiU@F40D_GYU$_B%-3Q$O
+
+delta 33
+mcmeB?=#h|c33dtL;bCB4Y;^K>_6SyRiU@E9iEWhl!VLh3K?vOd
+
+diff --git a/tests/data/acpi/pc/DSDT.ipmikcs b/tests/data/acpi/pc/DSDT.ipmikcs
+index f1638c5d079a9442c09390426a913010df6efd8d..1814f291b704d737d3578b83fbcc6e090384943a 100644
+GIT binary patch
+delta 33
+ncmbQJF;PRpCD<iIP=tYj@sX3ivq!LkQ$&EX0uXGJ_$dqkk#z{u
+
+delta 33
+mcmbQJF;PRpCD<iIP=tYj(b&n~*&|rNDI&lbB(_oFr!WAB*$C4B
+
+diff --git a/tests/data/acpi/pc/DSDT.memhp b/tests/data/acpi/pc/DSDT.memhp
+index 4c19e45e66918c61674785c99e4474e58866f125..3c81339d397969e954c94eb03f2654c57e024a6e 100644
+GIT binary patch
+delta 32
+mcmbPXG{Z>3CD<iILXv@j(ZR{z*&|rNDI&mG0SFdKNCE(XM+aO0
+
+delta 32
+lcmbPXG{Z>3CD<iILXv@jaiWvIvq!LkQ$&C>NNk~mBmj!52wVUF
+
+diff --git a/tests/data/acpi/pc/DSDT.numamem b/tests/data/acpi/pc/DSDT.numamem
+index 40cfd933259af05ac2aee07fca32f22122255211..195f8da900c5fc56c504adfef756af8f74f5823d 100644
+GIT binary patch
+delta 33
+ncmX@FeqLR|CD<k8yf6a;<4-4lXOCb7r-%S&1t8ccv0WGdv!My!
+
+delta 33
+mcmX@FeqLR|CD<k8yf6a;qnDGvvq!LkQ$&C>NNl6Tc3}Xk1qt5(
+
+diff --git a/tests/data/acpi/pc/DSDT.roothp b/tests/data/acpi/pc/DSDT.roothp
+index 078fc8031b479cc77b6527a2b7b4bd576b6e6028..1d0a2c2f3cc4bfac75948d2ed6a69403cd18379b 100644
+GIT binary patch
+delta 33
+mcmeCx?A4TT33dtT6=7gtEOqjC_6SyRiU@F40D_GYr6K^6H3(S%
+
+delta 33
+mcmeCx?A4TT33dtT6=7gtJm%!@>=CTs6cOMI65A+IDgpqVnF(0{
+
+diff --git a/tests/data/acpi/pc/FACP b/tests/data/acpi/pc/FACP
+index 261ebdc5d1c3bdf18fb7935314a04fd7f6f92a7a..5fe21a5967aaaa2e72bf213d91f57a573cd4d38f 100644
+GIT binary patch
+delta 30
+jcmXRZk#KW#4k%$@U|_U%@^|(KR&a_4a8>|<i4rjYZ#f4H
+
+delta 30
+jcmXRZk#KW#4k%$@U|?M6<nQbetl$(8;0zL*C=mkyd87yo
+
+diff --git a/tests/data/acpi/pc/HMAT.acpihmat b/tests/data/acpi/pc/HMAT.acpihmat
+index c00f7ba6cd0acecbc4b158f430d29b2f32988522..a9d8e5cd47d7c0eb8c88c26f26fe52a493188ea9 100644
+GIT binary patch
+delta 32
+mcmbQiG=oXP!`CrHf{}rN$;rvz*&|rNDI&mG0SFdKFaiK`n+D1N
+
+delta 32
+lcmbQiG=oXP!`CrHf{}rNX@--(vq!LkQ$&C>NNk}5BLICu2g(2d
+
+diff --git a/tests/data/acpi/pc/HPET b/tests/data/acpi/pc/HPET
+index df689b8f99c1c43cfd7d63bdede3bcdfd23b7de1..19f704abdd3909a0983232ee7b93318811f71b19 100644
+GIT binary patch
+literal 56
+xcmeYWa1F6wU|?X};^gn_5v<@85#X!<1dKp25F11@E^2E4Qb2IwAB1LL002JR3IPBB
+
+literal 56
+xcmeYWa1F6wU|?WmcJg=j2v%^42ypfQiZKGkKx`1rxTviGNCClxe-N610RT2D3IPBB
+
+diff --git a/tests/data/acpi/pc/NFIT.dimmpxm b/tests/data/acpi/pc/NFIT.dimmpxm
+index 598d331b751cd3cb2137d431c1f34bb8957a0d31..02d23385bcb767c5c060061caafea7fdb4dc31fb 100644
+GIT binary patch
+delta 32
+mcmeys_<>Qv&&@OB0|NsC<5eerXOCb7r-%S&1t6FxaRUISp9!x3
+
+delta 32
+lcmeys_<>Qv&&@OB0|NsCql%Nivq!LkQ$&C>NNl3S4FI0-39kSE
+
+diff --git a/tests/data/acpi/pc/SLIT.cphp b/tests/data/acpi/pc/SLIT.cphp
+index 74ec3b4b461ffecca36d8537975c202a5f011185..67f00813af7b2356fe74eed943ab8dcf2291578b 100644
+GIT binary patch
+literal 48
+scmWIc@eDCwU|?W;;pFe^5v<@85#X!<1dKp25F11@0Wk=0iHdRo0OYg>0RR91
+
+literal 48
+scmWIc@eDCwU|?X>aq@Te2v%^42yhMtiZKGkKx`1r1jHb~B`V4V0NaKK0RR91
+
+diff --git a/tests/data/acpi/pc/SLIT.memhp b/tests/data/acpi/pc/SLIT.memhp
+index 74ec3b4b461ffecca36d8537975c202a5f011185..67f00813af7b2356fe74eed943ab8dcf2291578b 100644
+GIT binary patch
+literal 48
+scmWIc@eDCwU|?W;;pFe^5v<@85#X!<1dKp25F11@0Wk=0iHdRo0OYg>0RR91
+
+literal 48
+scmWIc@eDCwU|?X>aq@Te2v%^42yhMtiZKGkKx`1r1jHb~B`V4V0NaKK0RR91
+
+diff --git a/tests/data/acpi/pc/SRAT.acpihmat b/tests/data/acpi/pc/SRAT.acpihmat
+index 1dcae90aec688e88f9d212e632faaaaf2e0dc7bc..e0b36e97f69f9726ae03182bdbbcf06d654f43a8 100644
+GIT binary patch
+delta 32
+mcmbQiG=oVZILI+Xf{}rNvC7Hc*&|rNDI&mG0SFdKFaiL1BL@)x
+
+delta 32
+lcmbQiG=oVZILI+Xf{}rN@qm-Rvq!LkQ$&C>NNk}5BLIRG2oV4P
+
+diff --git a/tests/data/acpi/pc/SRAT.cphp b/tests/data/acpi/pc/SRAT.cphp
+index ff2137642f488ec70b85207ed6c20e7351d61e98..d8ce4f5a9c3ea4cb8e74abc6ea9b8078e6291c2e 100644
+GIT binary patch
+delta 33
+ncmdnMw1G(?ILI-?fRTZL@q?4Uvq!LkQ$&EX0uXGJkYEG=k);Rs
+
+delta 33
+mcmdnMw1G(?ILI-?fRTZL(ag!;*&|rNDI&lbB(_mPf)N0Smk0L%
+
+diff --git a/tests/data/acpi/pc/SRAT.dimmpxm b/tests/data/acpi/pc/SRAT.dimmpxm
+index 5a13c61b9041c6045c29643bf93a111fb1c0c76a..7eed48cf2dd1f562e163e1982cead651ee208dfb 100644
+GIT binary patch
+delta 33
+mcmeBR?qHS(4ss0XU}RumRC4ln_6SyRiU@F40D_GY1&jcJi3f`S
+
+delta 33
+mcmeBR?qHS(4ss0XU}Rum%y9B|_6SyRiU@E9iEWf9U<3e*dkBjF
+
+diff --git a/tests/data/acpi/pc/SRAT.memhp b/tests/data/acpi/pc/SRAT.memhp
+index e508b4ae3cd9e3000209a4f9597913faa4206ec1..a5b5f9adef5bfb4c461ef69d47a14f77bba12fe7 100644
+GIT binary patch
+delta 32
+lcmeBR>R^%x4ss0PU}RumjB)aJ_6SyRiU@F40D_4U9{_T82ciG~
+
+delta 32
+lcmeBR>R^%x4ss0PU}RumT;$~M>=CTs6cOMI5}PRT0RVew2%-Q0
+
+diff --git a/tests/data/acpi/pc/SRAT.numamem b/tests/data/acpi/pc/SRAT.numamem
+index 119922f4973f621602047d1dc160519f810922a3..56da58e2699cb13fcd41b5e1667ceeddbdd443b5 100644
+GIT binary patch
+delta 32
+mcmaFB_<&I&ILI;N0RsaA<9a85XOCb7r-%S&1t6FxaRLCKiV0Ex
+
+delta 32
+lcmaFB_<&I&ILI;N0RsaA<5wqtXOCb7r-%S&kk~|t69B1v3Q_<7
+
+diff --git a/tests/data/acpi/pc/SSDT.dimmpxm b/tests/data/acpi/pc/SSDT.dimmpxm
+index ac55387d57e48adb99eb738a102308688a262fb8..a50a961fa1d9b0dd8ea4096d652c83bcf04db20b 100644
+GIT binary patch
+delta 33
+ocmcb|dXH5iIM^lR9uortqnMMwvq!LkUzm%hudjl_Mu}rg0HV1GKL7v#
+
+delta 33
+ocmcb|dXH5iIM^lR9uortW0;e_vq!LkUzm%huP+0`Mu}rg0HzrUKL7v#
+
+diff --git a/tests/data/acpi/pc/WAET b/tests/data/acpi/pc/WAET
+index c2240f58dff6b2f765386b5a2e506fda4800be3e..ac0db59183096ea1d93832a421015385ba93aba0 100644
+GIT binary patch
+literal 40
+mcmWG{bPds9U|?Xhbn<uh2v%^42yj*a0!E-1hz+8dfEWOl3kCrI
+
+literal 40
+mcmWG{bPds9U|?YEaPoKd2v%^42yhMuiZKGkKx`1r1jGQWX$JuS
+
+diff --git a/tests/data/acpi/q35/APIC b/tests/data/acpi/q35/APIC
+index 84509e0ae4cabeb5ead3e42a4edfa50abddbc17d..208331db53b7dd5c6205cce0e95427636b86dd64 100644
+GIT binary patch
+delta 30
+jcmb=ZkZ=s}bgp1vU|{TW@^|(KR&a_4a8>|<i4q9_c5nx7
+
+delta 30
+jcmb=ZkZ=s}bgp1vU|@Xf<nQbetl$(8;0zL*D3JgFfW`=J
+
+diff --git a/tests/data/acpi/q35/APIC.acpihmat b/tests/data/acpi/q35/APIC.acpihmat
+index a21f164699bfccd8992ea1bdb5717f2dc3025496..812c4603f2701494f6bb761570323158a20d4043 100644
+GIT binary patch
+delta 32
+lcmZo*Y+#gd4DfVrU|?WiEO+vE_6SyRiU@F40D_4U831{32Ymnl
+
+delta 32
+lcmZo*Y+#gd4DfVrU|?WiyyfKY>=CTs6cOMI5}PQI0RV%>2z>wm
+
+diff --git a/tests/data/acpi/q35/APIC.cphp b/tests/data/acpi/q35/APIC.cphp
+index 1bf8a0a63bc1c9b716d937b96eb34b05016b9366..65cc4f4a9aa2676140a6525cdac1e838274b1e07 100644
+GIT binary patch
+delta 32
+mcmZ3$xPVc@F~HM#0RsaAqlA;cvq!LkQ$&EX0uW4;=l}qHf(M=e
+
+delta 32
+lcmZ3$xPVc@F~HM#0RsaAW3`jNvq!LkQ$&C>NNl1+2LOlI2%Z1{
+
+diff --git a/tests/data/acpi/q35/APIC.dimmpxm b/tests/data/acpi/q35/APIC.dimmpxm
+index 427bb08248e6a029c1c988f74f5e48f93ee4ebe0..d904d4a70ddecbb79a83a267af8e26f925e9f4c6 100644
+GIT binary patch
+delta 32
+mcmbQhIDt{ZF~HM#0s{jBqqmd4vq!LkQ$&EX0uW4;r~m+axCfB{
+
+delta 32
+lcmbQhIDt{ZF~HM#0s{jB<2omQXOCb7r-%S&kk~|t3IK)<2$28)
+
+diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
+index d25cd7072932886d6967f4023faac1e1fa6e836c..008a3d7d0fd64224b0880412c0077e28e930fa5a 100644
+GIT binary patch
+delta 33
+ncmexq^V3GcCD<jTQjURvajBEPvq!LkQ$&EX0uXGJNR$HrwMPka
+
+delta 33
+mcmexq^V3GcCD<jTQjURv@tc#svq!LkQ$&C>NNl4-q8tFfs|s@f
+
+diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
+index 722e06af83abcde203a2b96a8ec81fd3bab9fc98..2723b690089c9e75869708cb92d3081b6bb5ec65 100644
+GIT binary patch
+delta 33
+ncmZ4HzRX?1CD<ionKA<dW0I4<vq!LkQ$&EX0uXGJ=u-v&qe2M;
+
+delta 33
+mcmZ4HzRX?1CD<ionKA<d<7Ov+XOCb7r-%S&kl03vK4k!{rV0cA
+
+diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
+index 06bac139d668ddfc7914e258b471a303c9dbd192..86711455576518f9ddd1f524d82a447946be32ba 100644
+GIT binary patch
+delta 33
+mcmeCS?Y5P033dtTmSbRGv~%)z_6SyRiU@F40D_GY#c}|YGzeAz
+
+delta 33
+mcmeCS?Y5P033dtTmSbRG?052a_6SyRiU@E9iEWf9mIDBum<d(@
+
+diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
+index 2b933ac482e6883efccbd7d6c96089602f2c0b4d..42b7819ea8c9337e943c34e826af19723f99a358 100644
+GIT binary patch
+delta 33
+ncmX@<aMD4-CD<jzQ-Ohjk<-cF*&|rNDI&mG0SGoq7%Bh&nfnMM
+
+delta 33
+mcmX@<aMD4-CD<jzQ-OhjG0Mr`*&|rNDI&lbB(_n)Pyqm>UkM`s
+
+diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
+index bd8f8305b028ef20f9b6d1a0c69ac428d027e3d1..7c3526d9670305e41020e5d95a3d0e9897b1e6d3 100644
+GIT binary patch
+delta 33
+ncmaFw`QB5)CD<k8y$S;Z<5eerXOCb7r-%S&1t8ccaa{!f#t90c
+
+delta 33
+mcmaFw`QB5)CD<k8y$S;ZqneYyvq!LkQ$&C>NNl6Tbrk@;Z3>|P
+
+diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
+index a8f868e23c25688ab1c0371016c071f23e9d732f..8d3ccc3e75164c2884fbe21659100e12fc70ae38 100644
+GIT binary patch
+delta 33
+ncmX?Nd&E}4CD<k8h#Uh0<4q@jXOCb7r-%S&1t8ccu|^I6v%d+|
+
+delta 33
+mcmX?Nd&E}4CD<k8h#Uh0qn4Auvq!LkQ$&C>NNl6T8aV)~BMH?2
+
+diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
+index 9a802e4c67022386442976d5cb997ea3fc57b58f..f1c545d94b856fa8d19b8433233d80397cb05714 100644
+GIT binary patch
+delta 33
+ncmX@%e!^YCCD<k8gfasI<8&u~XOCb7r-%S&1t8ccu|XLCvn2_^
+
+delta 33
+mcmX@%e!^YCCD<k8gfasI;|nK$XOCb7r-%S&kl03v4axw$i3-60
+
+diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
+index 948c2dc7264c31932b490ca00691a7c4d9aefdb0..4fb285f2efea00964ea0f5c4172c213f0817b563 100644
+GIT binary patch
+delta 33
+ncmaFj`ovYjCD<k8i4p??qmPrnvq!LkQ$&EX0uXGJIHLprw%7^a
+
+delta 33
+mcmaFj`ovYjCD<k8i4p??<6I|yXOCb7r-%S&kl03vGfDu#JPP0d
+
+diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
+index 44ec1b0af400da6d298284aa959aa38add7e6dd5..dd9dc9d02501afb50da7b9e77daabeee8968c340 100644
+GIT binary patch
+delta 33
+ncmexw^WR3oCD<jTUXFo*(cj76*&|rNDI&mG0SGoqq{{&Su>lD+
+
+delta 33
+mcmexw^WR3oCD<jTUXFo*ae<S+vq!LkQ$&C>NNl4-x*PzzWePO_
+
+diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
+index 30da3ec27958881801dacc954a343321ba26a2ae..b8e380340209a38163ef6ca2f6f9dfaf458ab08d 100644
+GIT binary patch
+delta 33
+ncmccac->LLCD<k8x&i|OW4V*Rvq!LkQ$&EX0uXGJ*slNpv`-1k
+
+delta 33
+mcmccac->LLCD<k8x&i|O;|V8!XOCb7r-%S&kl03v{R#lSvkJ=q
+
+diff --git a/tests/data/acpi/q35/FACP b/tests/data/acpi/q35/FACP
+index 72c9d97902a4bbf14896023d9ba78e0899d6517b..f6a864cc863c7763f6c09d3814ad184a658fa0a0 100644
+GIT binary patch
+delta 32
+mcmeyu_=Qoz&CxmF3j+fK^G+v!XOCb7r-%S&1t6FxaR&gT)d`LO
+
+delta 32
+lcmeyu_=Qoz&CxmF3j+fKv%HhPvq!LkQ$&C>NNl3S9RQs`361~&
+
+diff --git a/tests/data/acpi/q35/HMAT.acpihmat b/tests/data/acpi/q35/HMAT.acpihmat
+index c00f7ba6cd0acecbc4b158f430d29b2f32988522..a9d8e5cd47d7c0eb8c88c26f26fe52a493188ea9 100644
+GIT binary patch
+delta 32
+mcmbQiG=oXP!`CrHf{}rN$;rvz*&|rNDI&mG0SFdKFaiK`n+D1N
+
+delta 32
+lcmbQiG=oXP!`CrHf{}rNX@--(vq!LkQ$&C>NNk}5BLICu2g(2d
+
+diff --git a/tests/data/acpi/q35/HPET b/tests/data/acpi/q35/HPET
+index df689b8f99c1c43cfd7d63bdede3bcdfd23b7de1..19f704abdd3909a0983232ee7b93318811f71b19 100644
+GIT binary patch
+literal 56
+xcmeYWa1F6wU|?X};^gn_5v<@85#X!<1dKp25F11@E^2E4Qb2IwAB1LL002JR3IPBB
+
+literal 56
+xcmeYWa1F6wU|?WmcJg=j2v%^42ypfQiZKGkKx`1rxTviGNCClxe-N610RT2D3IPBB
+
+diff --git a/tests/data/acpi/q35/MCFG b/tests/data/acpi/q35/MCFG
+index 79ceb27a038c6e29d098b98dda2e229495f96b7c..696bc969f2cd51f2e243090c9aff8619651b2dc1 100644
+GIT binary patch
+literal 60
+rcmeZuc5}C3U|?YEaq@Te2v%^42yj*a0!E-1hz+8Vzy>J$KZphZEJX+b
+
+literal 60
+rcmeZuc5}C3U|?W;@8s|75v<@85#a0#6k`O6f!H7#32cC}|AS}%SE304
+
+diff --git a/tests/data/acpi/q35/NFIT.dimmpxm b/tests/data/acpi/q35/NFIT.dimmpxm
+index 598d331b751cd3cb2137d431c1f34bb8957a0d31..02d23385bcb767c5c060061caafea7fdb4dc31fb 100644
+GIT binary patch
+delta 32
+mcmeys_<>Qv&&@OB0|NsC<5eerXOCb7r-%S&1t6FxaRUISp9!x3
+
+delta 32
+lcmeys_<>Qv&&@OB0|NsCql%Nivq!LkQ$&C>NNl3S4FI0-39kSE
+
+diff --git a/tests/data/acpi/q35/SLIT.cphp b/tests/data/acpi/q35/SLIT.cphp
+index 74ec3b4b461ffecca36d8537975c202a5f011185..67f00813af7b2356fe74eed943ab8dcf2291578b 100644
+GIT binary patch
+literal 48
+scmWIc@eDCwU|?W;;pFe^5v<@85#X!<1dKp25F11@0Wk=0iHdRo0OYg>0RR91
+
+literal 48
+scmWIc@eDCwU|?X>aq@Te2v%^42yhMtiZKGkKx`1r1jHb~B`V4V0NaKK0RR91
+
+diff --git a/tests/data/acpi/q35/SLIT.memhp b/tests/data/acpi/q35/SLIT.memhp
+index 74ec3b4b461ffecca36d8537975c202a5f011185..67f00813af7b2356fe74eed943ab8dcf2291578b 100644
+GIT binary patch
+literal 48
+scmWIc@eDCwU|?W;;pFe^5v<@85#X!<1dKp25F11@0Wk=0iHdRo0OYg>0RR91
+
+literal 48
+scmWIc@eDCwU|?X>aq@Te2v%^42yhMtiZKGkKx`1r1jHb~B`V4V0NaKK0RR91
+
+diff --git a/tests/data/acpi/q35/SRAT.acpihmat b/tests/data/acpi/q35/SRAT.acpihmat
+index 1dcae90aec688e88f9d212e632faaaaf2e0dc7bc..e0b36e97f69f9726ae03182bdbbcf06d654f43a8 100644
+GIT binary patch
+delta 32
+mcmbQiG=oVZILI+Xf{}rNvC7Hc*&|rNDI&mG0SFdKFaiL1BL@)x
+
+delta 32
+lcmbQiG=oVZILI+Xf{}rN@qm-Rvq!LkQ$&C>NNk}5BLIRG2oV4P
+
+diff --git a/tests/data/acpi/q35/SRAT.cphp b/tests/data/acpi/q35/SRAT.cphp
+index ff2137642f488ec70b85207ed6c20e7351d61e98..d8ce4f5a9c3ea4cb8e74abc6ea9b8078e6291c2e 100644
+GIT binary patch
+delta 33
+ncmdnMw1G(?ILI-?fRTZL@q?4Uvq!LkQ$&EX0uXGJkYEG=k);Rs
+
+delta 33
+mcmdnMw1G(?ILI-?fRTZL(ag!;*&|rNDI&lbB(_mPf)N0Smk0L%
+
+diff --git a/tests/data/acpi/q35/SRAT.dimmpxm b/tests/data/acpi/q35/SRAT.dimmpxm
+index 5a13c61b9041c6045c29643bf93a111fb1c0c76a..7eed48cf2dd1f562e163e1982cead651ee208dfb 100644
+GIT binary patch
+delta 33
+mcmeBR?qHS(4ss0XU}RumRC4ln_6SyRiU@F40D_GY1&jcJi3f`S
+
+delta 33
+mcmeBR?qHS(4ss0XU}Rum%y9B|_6SyRiU@E9iEWf9U<3e*dkBjF
+
+diff --git a/tests/data/acpi/q35/SRAT.memhp b/tests/data/acpi/q35/SRAT.memhp
+index e508b4ae3cd9e3000209a4f9597913faa4206ec1..a5b5f9adef5bfb4c461ef69d47a14f77bba12fe7 100644
+GIT binary patch
+delta 32
+lcmeBR>R^%x4ss0PU}RumjB)aJ_6SyRiU@F40D_4U9{_T82ciG~
+
+delta 32
+lcmeBR>R^%x4ss0PU}RumT;$~M>=CTs6cOMI5}PRT0RVew2%-Q0
+
+diff --git a/tests/data/acpi/q35/SRAT.mmio64 b/tests/data/acpi/q35/SRAT.mmio64
+index ac35f3dac4f47b86e41c7f35ee40bac14174b37e..f5e1e3932a8e2e61c6cd691e7d07ed72046e7ce8 100644
+GIT binary patch
+delta 32
+mcmaFB_<&I&ILI;N0RsaA<5wqtXOCb7r-%S&1t6FxaRLCPb_tjO
+
+delta 32
+lcmaFB_<&I&ILI;N0RsaAqqUR2vq!LkQ$&C>NNl3S2>_gE377x?
+
+diff --git a/tests/data/acpi/q35/SRAT.numamem b/tests/data/acpi/q35/SRAT.numamem
+index 119922f4973f621602047d1dc160519f810922a3..56da58e2699cb13fcd41b5e1667ceeddbdd443b5 100644
+GIT binary patch
+delta 32
+mcmaFB_<&I&ILI;N0RsaA<9a85XOCb7r-%S&1t6FxaRLCKiV0Ex
+
+delta 32
+lcmaFB_<&I&ILI;N0RsaA<5wqtXOCb7r-%S&kk~|t69B1v3Q_<7
+
+diff --git a/tests/data/acpi/q35/SSDT.dimmpxm b/tests/data/acpi/q35/SSDT.dimmpxm
+index 98e6f0e3f3bb02dd419e36bdd1db9b94c728c406..617a1c911c7d6753bcedc8ecc52e3027a5259ad6 100644
+GIT binary patch
+delta 33
+ocmcb|dXH5iIM^lR9uortBb$@Ivq!LkUzm%hudjl_Mu}rg0HKKqF8}}l
+
+delta 33
+ocmcb|dXH5iIM^lR9uortqnnezvq!LkUzm%huP+0`Mu}rg0Ho;&F8}}l
+
+diff --git a/tests/data/acpi/q35/TPM2.tis b/tests/data/acpi/q35/TPM2.tis
+index 7878a6e79a6a406d99ca1f5e9a528eb392b8d793..fe0f05987be40f1c1742ae189df7821adc522fc0 100644
+GIT binary patch
+literal 76
+wcmWFu@HO&bU|?Vob@F%i2v%^42yj*a0!E-1hz+8V0UI(0%m%6W&kkY&0CHRh0RR91
+
+literal 76
+wcmWFu@HO&bU|?V=a`Jcf2v%^42yhMoiZKGkKx`0=4A_u4U^Ym_e|8WP0Iiz{0RR91
+
+diff --git a/tests/data/acpi/q35/WAET b/tests/data/acpi/q35/WAET
+index c2240f58dff6b2f765386b5a2e506fda4800be3e..ac0db59183096ea1d93832a421015385ba93aba0 100644
+GIT binary patch
+literal 40
+mcmWG{bPds9U|?Xhbn<uh2v%^42yj*a0!E-1hz+8dfEWOl3kCrI
+
+literal 40
+mcmWG{bPds9U|?YEaPoKd2v%^42yhMuiZKGkKx`1r1jGQWX$JuS
+
+diff --git a/tests/data/acpi/virt/APIC b/tests/data/acpi/virt/APIC
+index 797dfde2841c51b7e72065602e99ce1714347f0d..023f15f12e74fb9a3a6d3d9dc994541016947d6a 100644
+GIT binary patch
+delta 32
+mcmZ3%xPno_F~HM#1p@;EbAXe-vq!LkQ$&EX0uW4;m;eBTNC)@;
+
+delta 32
+lcmZ3%xPno_F~HM#1p@;E^JXW1XOCb7r-%S&kk~|t2>_0s2>1X1
+
+diff --git a/tests/data/acpi/virt/APIC.memhp b/tests/data/acpi/virt/APIC.memhp
+index 797dfde2841c51b7e72065602e99ce1714347f0d..023f15f12e74fb9a3a6d3d9dc994541016947d6a 100644
+GIT binary patch
+delta 32
+mcmZ3%xPno_F~HM#1p@;EbAXe-vq!LkQ$&EX0uW4;m;eBTNC)@;
+
+delta 32
+lcmZ3%xPno_F~HM#1p@;E^JXW1XOCb7r-%S&kk~|t2>_0s2>1X1
+
+diff --git a/tests/data/acpi/virt/APIC.numamem b/tests/data/acpi/virt/APIC.numamem
+index 797dfde2841c51b7e72065602e99ce1714347f0d..023f15f12e74fb9a3a6d3d9dc994541016947d6a 100644
+GIT binary patch
+delta 32
+mcmZ3%xPno_F~HM#1p@;EbAXe-vq!LkQ$&EX0uW4;m;eBTNC)@;
+
+delta 32
+lcmZ3%xPno_F~HM#1p@;E^JXW1XOCb7r-%S&kk~|t2>_0s2>1X1
+
+diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
+index ea8a0869af1637ab75fe335e100256a2acf85e16..134d8ae5b602e0aaade6756b99c9abca45279284 100644
+GIT binary patch
+delta 33
+ncmcbjaYaMICD<h-M1+BXiQmcJ*&|rNDI&mG0SGoq*oXiCmv0CT
+
+delta 33
+mcmcbjaYaMICD<h-M1+BXDZ$C#*&|rNDI&lbB(_n)Mg#z%(+Lg$
+
+diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.memhp
+index 897648637cc6c8af47c67a9a349477c0240f833b..140976b23ebea792bec12435a2a547ac5f5cd8f9 100644
+GIT binary patch
+delta 33
+ncmZ2#ywq62CD<iosU!mflf9F_vq!LkQ$&EX0uXGJ=#>Njnwtos
+
+delta 33
+mcmZ2#ywq62CD<iosU!mf(*!4fXOCb7r-%S&kl03vUP%C?{|TZ1
+
+diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/DSDT.numamem
+index ea8a0869af1637ab75fe335e100256a2acf85e16..134d8ae5b602e0aaade6756b99c9abca45279284 100644
+GIT binary patch
+delta 33
+ncmcbjaYaMICD<h-M1+BXiQmcJ*&|rNDI&mG0SGoq*oXiCmv0CT
+
+delta 33
+mcmcbjaYaMICD<h-M1+BXDZ$C#*&|rNDI&lbB(_n)Mg#z%(+Lg$
+
+diff --git a/tests/data/acpi/virt/DSDT.pxb b/tests/data/acpi/virt/DSDT.pxb
+index ce3b67dff277e23f43925b1adcbb55c9d0b4eee3..eaa507b4bba45186d58c03695e46c5bba6a2695a 100644
+GIT binary patch
+delta 33
+ncmeCQ>9mn>33dtLlw)9Ey6@!g>=CTs6cOO800bK)KFR_Blt>8e
+
+delta 33
+mcmeCQ>9mn>33dtLlw)9EGH~*D_6SyRiU@E9iEWhlC<_3KtO)G@
+
+diff --git a/tests/data/acpi/virt/FACP b/tests/data/acpi/virt/FACP
+index 27de99f51bfe846b1f8796ace49d83f5b33a1aed..1f764220f8533c427168e80ccf298604826a00b4 100644
+GIT binary patch
+literal 268
+ycmZ>BbPnKQWME(ob@F%i2v%^42yj*a0-z8Bhz+8t3j|P&V`iYf6{t24%>w}Cy9NOO
+
+literal 268
+ycmZ>BbPnKQWME+3?d0$55v<@85#a0w6axw|fY>0Kx<CNcIA#XwTY+i=(L4a*H3tCz
+
+diff --git a/tests/data/acpi/virt/FACP.memhp b/tests/data/acpi/virt/FACP.memhp
+index 27de99f51bfe846b1f8796ace49d83f5b33a1aed..1f764220f8533c427168e80ccf298604826a00b4 100644
+GIT binary patch
+literal 268
+ycmZ>BbPnKQWME(ob@F%i2v%^42yj*a0-z8Bhz+8t3j|P&V`iYf6{t24%>w}Cy9NOO
+
+literal 268
+ycmZ>BbPnKQWME+3?d0$55v<@85#a0w6axw|fY>0Kx<CNcIA#XwTY+i=(L4a*H3tCz
+
+diff --git a/tests/data/acpi/virt/FACP.numamem b/tests/data/acpi/virt/FACP.numamem
+index 27de99f51bfe846b1f8796ace49d83f5b33a1aed..1f764220f8533c427168e80ccf298604826a00b4 100644
+GIT binary patch
+literal 268
+ycmZ>BbPnKQWME(ob@F%i2v%^42yj*a0-z8Bhz+8t3j|P&V`iYf6{t24%>w}Cy9NOO
+
+literal 268
+ycmZ>BbPnKQWME+3?d0$55v<@85#a0w6axw|fY>0Kx<CNcIA#XwTY+i=(L4a*H3tCz
+
+diff --git a/tests/data/acpi/virt/GTDT b/tests/data/acpi/virt/GTDT
+index 10107a65e958ff6495bb8c17d63d0539690f59f6..9408b71b59c0e0f2991c0053562280155b47bc0b 100644
+GIT binary patch
+delta 30
+jcmYdDkZ=!i2}xjJU|{NT@^|(KR&a_4a8>|<i4q<FaRdh^
+
+delta 30
+jcmYdDkZ=!i2}xjJU|_oG<nQbetl$(8;0zL*DB%GBdOHXw
+
+diff --git a/tests/data/acpi/virt/GTDT.memhp b/tests/data/acpi/virt/GTDT.memhp
+index 10107a65e958ff6495bb8c17d63d0539690f59f6..9408b71b59c0e0f2991c0053562280155b47bc0b 100644
+GIT binary patch
+delta 30
+jcmYdDkZ=!i2}xjJU|{NT@^|(KR&a_4a8>|<i4q<FaRdh^
+
+delta 30
+jcmYdDkZ=!i2}xjJU|_oG<nQbetl$(8;0zL*DB%GBdOHXw
+
+diff --git a/tests/data/acpi/virt/GTDT.numamem b/tests/data/acpi/virt/GTDT.numamem
+index 10107a65e958ff6495bb8c17d63d0539690f59f6..9408b71b59c0e0f2991c0053562280155b47bc0b 100644
+GIT binary patch
+delta 30
+jcmYdDkZ=!i2}xjJU|{NT@^|(KR&a_4a8>|<i4q<FaRdh^
+
+delta 30
+jcmYdDkZ=!i2}xjJU|_oG<nQbetl$(8;0zL*DB%GBdOHXw
+
+diff --git a/tests/data/acpi/virt/MCFG b/tests/data/acpi/virt/MCFG
+index e8987e1af0ec3829770bf4fe11fab02b06160dd2..f4ae3203a4e9258a397c9912332178640209637b 100644
+GIT binary patch
+literal 60
+scmeZuc5}C3U|?W;<K*w`5v<@85#X!<1dKp25F11z0RaaH=Rb%706Iko0RR91
+
+literal 60
+scmeZuc5}C3U|?YMck*}k2v%^42ypfViZKGkKx`0=1Oyx)oc|yS05YNo0RR91
+
+diff --git a/tests/data/acpi/virt/MCFG.memhp b/tests/data/acpi/virt/MCFG.memhp
+index e8987e1af0ec3829770bf4fe11fab02b06160dd2..f4ae3203a4e9258a397c9912332178640209637b 100644
+GIT binary patch
+literal 60
+scmeZuc5}C3U|?W;<K*w`5v<@85#X!<1dKp25F11z0RaaH=Rb%706Iko0RR91
+
+literal 60
+scmeZuc5}C3U|?YMck*}k2v%^42ypfViZKGkKx`0=1Oyx)oc|yS05YNo0RR91
+
+diff --git a/tests/data/acpi/virt/MCFG.numamem b/tests/data/acpi/virt/MCFG.numamem
+index e8987e1af0ec3829770bf4fe11fab02b06160dd2..f4ae3203a4e9258a397c9912332178640209637b 100644
+GIT binary patch
+literal 60
+scmeZuc5}C3U|?W;<K*w`5v<@85#X!<1dKp25F11z0RaaH=Rb%706Iko0RR91
+
+literal 60
+scmeZuc5}C3U|?YMck*}k2v%^42ypfViZKGkKx`0=1Oyx)oc|yS05YNo0RR91
+
+diff --git a/tests/data/acpi/virt/NFIT.memhp b/tests/data/acpi/virt/NFIT.memhp
+index 738c6f74c0ce7dc329cc72cc7b930460ceb9b6a0..203db8c7be82551eb6744b8a47625a96a6be449d 100644
+GIT binary patch
+delta 32
+mcmaFB_<&Ku&&@OB0RsaAW0RA=vq!LkQ$&EX0uW4;H~|2hX$c$v
+
+delta 32
+lcmaFB_<&Ku&&@OB0RsaA<3%TbXOCb7r-%S&kk~|t69A>U3LF3c
+
+diff --git a/tests/data/acpi/virt/SLIT.memhp b/tests/data/acpi/virt/SLIT.memhp
+index 74ec3b4b461ffecca36d8537975c202a5f011185..67f00813af7b2356fe74eed943ab8dcf2291578b 100644
+GIT binary patch
+literal 48
+scmWIc@eDCwU|?W;;pFe^5v<@85#X!<1dKp25F11@0Wk=0iHdRo0OYg>0RR91
+
+literal 48
+scmWIc@eDCwU|?X>aq@Te2v%^42yhMtiZKGkKx`1r1jHb~B`V4V0NaKK0RR91
+
+diff --git a/tests/data/acpi/virt/SPCR b/tests/data/acpi/virt/SPCR
+index 377271a0e7817cc21a28c02123a89facad63604f..24e0a579e7d73f432a614380e29aa95113344186 100644
+GIT binary patch
+delta 30
+jcmWFtkO&TN4hmpkU|>4!<nQbetl$(8;H&@y6D2GFaMcGZ
+
+delta 30
+jcmWFtkO&TN4hmpkU|<q<@^|(KR&a_4a0ZD@l&}B*XW<7c
+
+diff --git a/tests/data/acpi/virt/SPCR.memhp b/tests/data/acpi/virt/SPCR.memhp
+index 377271a0e7817cc21a28c02123a89facad63604f..24e0a579e7d73f432a614380e29aa95113344186 100644
+GIT binary patch
+delta 30
+jcmWFtkO&TN4hmpkU|>4!<nQbetl$(8;H&@y6D2GFaMcGZ
+
+delta 30
+jcmWFtkO&TN4hmpkU|<q<@^|(KR&a_4a0ZD@l&}B*XW<7c
+
+diff --git a/tests/data/acpi/virt/SPCR.numamem b/tests/data/acpi/virt/SPCR.numamem
+index 377271a0e7817cc21a28c02123a89facad63604f..24e0a579e7d73f432a614380e29aa95113344186 100644
+GIT binary patch
+delta 30
+jcmWFtkO&TN4hmpkU|>4!<nQbetl$(8;H&@y6D2GFaMcGZ
+
+delta 30
+jcmWFtkO&TN4hmpkU|<q<@^|(KR&a_4a0ZD@l&}B*XW<7c
+
+diff --git a/tests/data/acpi/virt/SRAT.memhp b/tests/data/acpi/virt/SRAT.memhp
+index 9a35adb40c6f7cd822e5af37abba8aad033617cb..01294cc892148dcd3e2bf9feff3fa936e2eb9e45 100644
+GIT binary patch
+delta 32
+mcmaFF_=r&=ILI;N5d#AQvzU{=vq!LkQ$&EX0uW4;I0XQfnh3)H
+
+delta 32
+lcmaFF_=r&=ILI;N5d#AQbBvR}vq!LkQ$&C>NNl3SDFC003Bv#Y
+
+diff --git a/tests/data/acpi/virt/SRAT.numamem b/tests/data/acpi/virt/SRAT.numamem
+index 9526e5a28eb2a315d3bc9d9b11852319d5a8898e..d45f40338ce4c06ba68163214f149b2414c5f18b 100644
+GIT binary patch
+delta 30
+jcmd1Gk_ZlR49Q|(U|>#l@^|(KR&a_4a8>|<i4s8oa$E;6
+
+delta 30
+jcmd1Gk_ZlR49Q|(U|?SD<nQbetl$(8;0zL*C=mnzdrk;2
+
+diff --git a/tests/data/acpi/virt/SSDT.memhp b/tests/data/acpi/virt/SSDT.memhp
+index 375d7b6fc85a484f492a26ccd355c205f2c34473..e8b850ae2239d8f496b12de672c2a1268e2f269d 100644
+GIT binary patch
+delta 33
+ocmaFB`hZm;IM^lR0TTlQ<9{cAXOCb7zc3e1Uta}<jS?rA0JOLYFaQ7m
+
+delta 33
+ocmaFB`hZm;IM^lR0TTlQqrH>Avq!LkUzm%huP+0`Mu`(l0HqiSFaQ7m
+
 -- 
 MST
 
