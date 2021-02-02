@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25BA30C222
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:43:38 +0100 (CET)
-Received: from localhost ([::1]:44714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C4C30C1F9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:38:50 +0100 (CET)
+Received: from localhost ([::1]:60230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6wu1-0002Tv-Q0
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:43:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
+	id 1l6wpN-0004uG-1o
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:38:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6wgC-0002y1-8P
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6wgA-0003tI-S8
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612276158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dVNsNEcw8TGjgHwfI+qgun3dMWws0fEf5O1ZWqWd+rI=;
- b=Jjaea6qsmME079bCHCfL+qcQYtb0RvUhts067JRRQSxExU/8KFv0e5p75x1dwHR3drivig
- tfPTBkAFEjXQEeRsFa5Rnsb4BKDO5vHavd2Y5LJjf7/J7A8GiGPAIJlYa5cseOZ8ez3omp
- gN9B/WrAWspYLXnP8zlhc9h97LYEGqE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-5Klpe6JYNH2ktgmaoGtgMQ-1; Tue, 02 Feb 2021 09:29:16 -0500
-X-MC-Unique: 5Klpe6JYNH2ktgmaoGtgMQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC6A2184F1E8
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:29:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
- [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 93DA41F46B;
- Tue,  2 Feb 2021 14:29:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 230AD113865F; Tue,  2 Feb 2021 15:29:07 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] docs/interop/qmp-spec: Document the request queue limit
-References: <20210127144734.2367693-1-armbru@redhat.com>
-Date: Tue, 02 Feb 2021 15:29:07 +0100
-In-Reply-To: <20210127144734.2367693-1-armbru@redhat.com> (Markus Armbruster's
- message of "Wed, 27 Jan 2021 15:47:34 +0100")
-Message-ID: <87ft2e7dcc.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6wgT-0003D8-Ls
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:38 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35019)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6wgM-0003y4-0G
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:33 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id a9so11890102ejr.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 06:29:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3sM1b9rglurvdDr6uApRFjz6YG7nhxkqX/wQy8bfVoA=;
+ b=g5BNMHsEet4fWRMQyiPIelAaQclF0iFaqOEvYl8A5n73Es7XA1jlSCmGQuNGlPxZTk
+ jLKIbnyTbJj37vWMlPyrlka9T5uXUDW7Tj705l+y/j7Im/oM5Ow7ObkmgEJ42oRRLelF
+ Z3TIvMnUb6+J8MGqTb1r0sB7UXv/F5drH9tbiSGv8NkCXgYWcmUMboXo4qp5gVff25HP
+ WhK4FHWd8XFOVFqIdQQiWQMNTlMWCAwOa3faNqLXfro7Rkd/kR7+md19kAtLyhIsSHSA
+ ZmLN89tu0m/fQjrRZvq2YGYbm1yuoNT8idZeSMDiC35PcK85RPVWNjlEBu8LDIU4tlDi
+ /2Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3sM1b9rglurvdDr6uApRFjz6YG7nhxkqX/wQy8bfVoA=;
+ b=GashR3AJUkmCZrCIJgNI/JZfpwRDJRYCWtTRkSN9RV3RrvhB1SbYLFAUO0aCt2NKM5
+ w84rVoZjkt9hzd93t0x7nywsWwvM7XroGqWj34LenK+9+MXkmYrPUPN7AR1H8841o/Vh
+ ETMR5xNs+bqgws/Umo7S3TuDWmsqeAka9XU9ULv91Pd4t3fywTPLBm5cdSt9q3t5sUkk
+ wuSmnwK9UvZDyUdLFcWYrWYlZex46zlW5w0iQlGwkIhFRXDrFSxqKhNgjD9PhKbgBXmH
+ +wKSm7z5j1IwrLODAsJB56jcZG9RJNz4CRrzLIfhNW42gwy75zoNb2/oi9EmHsvN/tnI
+ SJuA==
+X-Gm-Message-State: AOAM530Qs0AUa+0THfEg4Pb9Lt9vIKNWnAzKfcvacJlfRg2Q16TMxR3w
+ ftiC3llYM6Gn9a1axl4VJVAkWkxG6kT5pHIdO76OlA==
+X-Google-Smtp-Source: ABdhPJzTtFRovIKLE7cUceDv6PJncQ8pNo/7qHssnujL3Vd0Eq1QM++6UE8ZOB3sBs/m8ju4QxVgOi2qFrHxFxzMnDg=
+X-Received: by 2002:a17:906:494c:: with SMTP id
+ f12mr22915345ejt.56.1612276167342; 
+ Tue, 02 Feb 2021 06:29:27 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PYZOR_CHECK=1.392, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210128224141.638790-1-richard.henderson@linaro.org>
+ <20210128224141.638790-2-richard.henderson@linaro.org>
+In-Reply-To: <20210128224141.638790-2-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 14:29:16 +0000
+Message-ID: <CAFEAcA8r5+ciCFb0kPC1bAi-kU53iJBiLf7Jiso-gr2cOBtxeQ@mail.gmail.com>
+Subject: Re: [PATCH v4 01/23] tcg: Introduce target-specific page data for
+ user-only
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,10 +79,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, jsnow@redhat.com, peterx@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued.
+On Thu, 28 Jan 2021 at 22:41, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This data can be allocated by page_alloc_target_data() and
+> released by page_set_flags(start, end, prot | PAGE_RESET).
+>
+> This data will be used to hold tag memory for AArch64 MTE.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v3: Add doc comments; tweak alloc so that the !PAGE_VALID case is clear.
+> ---
+>  include/exec/cpu-all.h    | 42 +++++++++++++++++++++++++++++++++------
+>  accel/tcg/translate-all.c | 28 ++++++++++++++++++++++++++
+>  linux-user/mmap.c         |  4 +++-
+>  linux-user/syscall.c      |  4 ++--
+>  4 files changed, 69 insertions(+), 9 deletions(-)
 
+I reviewed this (and some of the other patches) in v3, but
+you didn't pick up the tags :-(
+
+Here it is again:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
