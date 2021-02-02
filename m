@@ -2,61 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C5CD30CD45
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 21:47:22 +0100 (CET)
-Received: from localhost ([::1]:47884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5214530CD52
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 21:52:25 +0100 (CET)
+Received: from localhost ([::1]:50390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l72a1-0004nY-NU
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 15:47:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50394)
+	id 1l72eu-0006e0-Cj
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 15:52:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l72XN-0003xw-VY
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:44:38 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2101)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l72dP-00060s-AN
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:50:51 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:46648
+ helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l72XE-0000M5-LP
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:44:37 -0500
-Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DVc8N2nnTz67gk5;
- Wed,  3 Feb 2021 04:38:12 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 2 Feb 2021 21:44:23 +0100
-Received: from localhost (10.47.79.68) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 2 Feb 2021
- 20:44:22 +0000
-Date: Tue, 2 Feb 2021 20:43:38 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ben Widawsky <ben@bwidawsk.net>
-Subject: Re: [RFC PATCH v3 17/31] hw/cxl/component: Implement host bridge
- MMIO (8.2.5, table 142)
-Message-ID: <20210202204338.000033b0@Huawei.com>
-In-Reply-To: <20210202194505.227fhhalahyhpmjy@mail.bwidawsk.net>
-References: <20210202005948.241655-1-ben.widawsky@intel.com>
- <20210202005948.241655-18-ben.widawsky@intel.com>
- <20210202192135.000035e9@Huawei.com>
- <20210202194505.227fhhalahyhpmjy@mail.bwidawsk.net>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l72dI-0003I9-BD
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 15:50:50 -0500
+Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
+ [91.21.17.191])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 6D089DA1401;
+ Tue,  2 Feb 2021 21:50:40 +0100 (CET)
+Subject: Re: macOS (Big Sur, Apple Silicon) 'make check' fails in
+ test-crypto-tlscredsx509
+From: Stefan Weil <sw@weilnetz.de>
+To: Eric Blake <eblake@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
+ <YBjg7ubtbw3OeQCd@SPB-NB-133.local>
+ <6d360ded-f8b6-d08b-b4fc-af8c52554a58@redhat.com> <4581723.kQ5iP5sz2Z@silver>
+ <2aa107b3-b986-0788-4d2d-fcd90ad891a4@redhat.com>
+ <ca868458-d695-a8f8-69f7-98fb8a8554af@weilnetz.de>
+Message-ID: <55ade56a-2c1d-c89f-a71e-fa63db272ccf@weilnetz.de>
+Date: Tue, 2 Feb 2021 21:50:39 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <ca868458-d695-a8f8-69f7-98fb8a8554af@weilnetz.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.79.68]
-X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.155,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,216 +62,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- "John Groves \(jgroves\)" <jgroves@micron.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>, "Michael
- S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Dan
- Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Feb 2021 11:45:05 -0800
-Ben Widawsky <ben@bwidawsk.net> wrote:
+Am 02.02.21 um 21:31 schrieb Stefan Weil:
 
-> On 21-02-02 19:21:35, Jonathan Cameron wrote:
-> > On Mon, 1 Feb 2021 16:59:34 -0800
-> > Ben Widawsky <ben.widawsky@intel.com> wrote:
-> >   
-> > > CXL host bridges themselves may have MMIO. Since host bridges don't have
-> > > a BAR they are treated as special for MMIO.
-> > > 
-> > > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > > 
-> > > --
-> > > 
-> > > It's arbitrarily chosen here to pick 0xD0000000 as the base for the host
-> > > bridge MMIO. I'm not sure what the right way to find free space for
-> > > platform hardcoded things like this is.  
-> > 
-> > Seems like this needs to come from the machine definition.
-> > This is fairly easy for arm/virt, where there is a clearly laid out memory map.
-> > For hw/i386 I'm less sure on how to do it.  
-> 
-> I think this is how to do it :D
+> The code uses NULL + offset constructs, so requires a fix.
+>
+> https://gitlab.com/gnutls/libtasn1/-/merge_requests/71 fixes the unit 
+> tests of libtasn1 for me, maybe also the test for QEMU which I still 
+> have to check.
+>
 
-It may well be, but they you'll need to find a suitable region and document
-it and ensure no one else ever tramples on it.  Easy to do on a physical system,
-bit trickier in emulation.
+The QEMU test passes with the patch for libtasn1:
 
-> 
-> > 
-> > Having said that, for this particular magic device, we do have a PCI EP
-> > associated with it.  How about putting all the host bridge MMIO into a
-> > BAR of that rather than having it separate.   
-> > That has the added advantage of making it discoverable from firmware.
-> > 
-> > Any normal system is going to have this is impdef for discovery anyway.
-> >   
-> 
-> This is not how it's expected to work for Intel at least. If the device was
-> discoverable you wouldn't need CEDT/CHBS. The magic host bridges are only
-> advertised via the CEDT.
-
-I agree on a normal system (i.e. a real one) this doesn't work,
-but then a normal system doesn't involve a magic PCI RCiEP that also happens
-to instantiate an extra host bridge. This is what pxb_pcie is doing and
-what your pxb_cxl is almost doing.
-
-> 
-> When I build and run QEMU for x86_64, I do not see the host bridge in the pci
-> topology, do you (it's meant to not be there)?
-> 
-> 00:00.0 Host bridge: Intel Corporation 82G33/G31/P35/P31 Express DRAM Controller
-> ...
-> 34:00.0 PCI bridge: Intel Corporation Device 7075
-> 35:00.0 Memory controller [0502]: Intel Corporation Device 0d93 (rev 01)
-> 
-> That's Q35, Root Port, and Type 3 device respectively.
-
-You don't see the host bridge, for pxb_cxl, but for pxb_pcie you do.
-00:06.0 Host bridge: Red Hat, Inc QEMU PCIe Expander bridge.
-If you have another device after your pxb-cxl you'll also notice that there
-is a hole punched in the list where you'd expect pxb-cxl to be (device number
-skipped).  (that had me confused earlier).
-
-This seems to be because no VID etc (unlike pxb-pcie).
-
-I gave vendor and device IDs (and a bar to test that could be done) and it
-then appears just like pxb_pcie does.  Hence handy place to hang our
-magic memory off so that EDK2 or similar can work with it and indeed
-construct he CHBS as needed so we can get to this via the same paths as
-a normal system.  It's a bit convoluted but in some ways more elegant. 
-
-Jonathan
-
-> 
-> > That would then let you drop the separate definition of CXLHost structure
-> > though it needs a bit of figuring out what to do with the memory window
-> > setup etc.
-> > 
-> > I tried hacking it together, but not gotten it working yet.
-> >   
-> > > ---
-> > >  hw/pci-bridge/pci_expander_bridge.c | 53 ++++++++++++++++++++++++++++-
-> > >  include/hw/cxl/cxl.h                |  2 ++
-> > >  2 files changed, 54 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-> > > index 5021b60435..226a8a5fff 100644
-> > > --- a/hw/pci-bridge/pci_expander_bridge.c
-> > > +++ b/hw/pci-bridge/pci_expander_bridge.c
-> > > @@ -17,6 +17,7 @@
-> > >  #include "hw/pci/pci_host.h"
-> > >  #include "hw/qdev-properties.h"
-> > >  #include "hw/pci/pci_bridge.h"
-> > > +#include "hw/cxl/cxl.h"
-> > >  #include "qemu/range.h"
-> > >  #include "qemu/error-report.h"
-> > >  #include "qemu/module.h"
-> > > @@ -70,6 +71,12 @@ struct PXBDev {
-> > >      int32_t uid;
-> > >  };
-> > >  
-> > > +typedef struct CXLHost {
-> > > +    PCIHostState parent_obj;
-> > > +
-> > > +    CXLComponentState cxl_cstate;
-> > > +} CXLHost;
-> > > +
-> > >  static PXBDev *convert_to_pxb(PCIDevice *dev)
-> > >  {
-> > >      /* A CXL PXB's parent bus is PCIe, so the normal check won't work */
-> > > @@ -85,6 +92,9 @@ static GList *pxb_dev_list;
-> > >  
-> > >  #define TYPE_PXB_HOST "pxb-host"
-> > >  
-> > > +#define TYPE_PXB_CXL_HOST "pxb-cxl-host"
-> > > +#define PXB_CXL_HOST(obj) OBJECT_CHECK(CXLHost, (obj), TYPE_PXB_CXL_HOST)
-> > > +
-> > >  static int pxb_bus_num(PCIBus *bus)
-> > >  {
-> > >      PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-> > > @@ -198,6 +208,46 @@ static const TypeInfo pxb_host_info = {
-> > >      .class_init    = pxb_host_class_init,
-> > >  };
-> > >  
-> > > +static void pxb_cxl_realize(DeviceState *dev, Error **errp)
-> > > +{
-> > > +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-> > > +    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
-> > > +    CXLHost *cxl = PXB_CXL_HOST(dev);
-> > > +    CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-> > > +    struct MemoryRegion *mr = &cxl_cstate->crb.component_registers;
-> > > +
-> > > +    cxl_component_register_block_init(OBJECT(dev), cxl_cstate,
-> > > +                                      TYPE_PXB_CXL_HOST);
-> > > +    sysbus_init_mmio(sbd, mr);
-> > > +
-> > > +    /* FIXME: support multiple host bridges. */
-> > > +    sysbus_mmio_map(sbd, 0, CXL_HOST_BASE +
-> > > +                            memory_region_size(mr) * pci_bus_uid(phb->bus));
-> > > +}
-> > > +
-> > > +static void pxb_cxl_host_class_init(ObjectClass *class, void *data)
-> > > +{
-> > > +    DeviceClass *dc = DEVICE_CLASS(class);
-> > > +    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(class);
-> > > +
-> > > +    hc->root_bus_path = pxb_host_root_bus_path;
-> > > +    dc->fw_name = "cxl";
-> > > +    dc->realize = pxb_cxl_realize;
-> > > +    /* Reason: Internal part of the pxb/pxb-pcie device, not usable by itself */
-> > > +    dc->user_creatable = false;
-> > > +}
-> > > +
-> > > +/*
-> > > + * This is a device to handle the MMIO for a CXL host bridge. It does nothing
-> > > + * else.
-> > > + */
-> > > +static const TypeInfo cxl_host_info = {
-> > > +    .name          = TYPE_PXB_CXL_HOST,
-> > > +    .parent        = TYPE_PCI_HOST_BRIDGE,
-> > > +    .instance_size = sizeof(CXLHost),
-> > > +    .class_init    = pxb_cxl_host_class_init,
-> > > +};
-> > > +
-> > >  /*
-> > >   * Registers the PXB bus as a child of pci host root bus.
-> > >   */
-> > > @@ -272,7 +322,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-> > >          dev_name = dev->qdev.id;
-> > >      }
-> > >  
-> > > -    ds = qdev_new(TYPE_PXB_HOST);
-> > > +    ds = qdev_new(type == CXL ? TYPE_PXB_CXL_HOST : TYPE_PXB_HOST);
-> > >      if (type == PCIE) {
-> > >          bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
-> > >      } else if (type == CXL) {
-> > > @@ -466,6 +516,7 @@ static void pxb_register_types(void)
-> > >      type_register_static(&pxb_pcie_bus_info);
-> > >      type_register_static(&pxb_cxl_bus_info);
-> > >      type_register_static(&pxb_host_info);
-> > > +    type_register_static(&cxl_host_info);
-> > >      type_register_static(&pxb_dev_info);
-> > >      type_register_static(&pxb_pcie_dev_info);
-> > >      type_register_static(&pxb_cxl_dev_info);
-> > > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> > > index 362cda40de..6bc344f205 100644
-> > > --- a/include/hw/cxl/cxl.h
-> > > +++ b/include/hw/cxl/cxl.h
-> > > @@ -17,5 +17,7 @@
-> > >  #define COMPONENT_REG_BAR_IDX 0
-> > >  #define DEVICE_REG_BAR_IDX 2
-> > >  
-> > > +#define CXL_HOST_BASE 0xD0000000
-> > > +
-> > >  #endif
-> > >    
-> > 
-> >   
-> 
+stefan@mini clang % tests/test-crypto-tlscredsx509
+# random seed: R02S0b9c3f2459ee914a95bb1f9e28441dd9
+1..39
+# Start of qcrypto tests
+# Start of tlscredsx509 tests
+ok 1 /qcrypto/tlscredsx509/perfectserver
+ok 2 /qcrypto/tlscredsx509/perfectclient
+ok 3 /qcrypto/tlscredsx509/goodca1
+ok 4 /qcrypto/tlscredsx509/goodca2
+ok 5 /qcrypto/tlscredsx509/goodca3
+ok 6 /qcrypto/tlscredsx509/badca1
+ok 7 /qcrypto/tlscredsx509/badca2
+ok 8 /qcrypto/tlscredsx509/badca3
+ok 9 /qcrypto/tlscredsx509/goodserver1
+ok 10 /qcrypto/tlscredsx509/goodserver2
+ok 11 /qcrypto/tlscredsx509/goodserver3
+ok 12 /qcrypto/tlscredsx509/goodserver4
+ok 13 /qcrypto/tlscredsx509/goodserver5
+ok 14 /qcrypto/tlscredsx509/goodserver6
+ok 15 /qcrypto/tlscredsx509/goodserver7
+ok 16 /qcrypto/tlscredsx509/badserver1
+ok 17 /qcrypto/tlscredsx509/badserver2
+ok 18 /qcrypto/tlscredsx509/badserver3
+ok 19 /qcrypto/tlscredsx509/goodclient1
+ok 20 /qcrypto/tlscredsx509/goodclient2
+ok 21 /qcrypto/tlscredsx509/goodclient3
+ok 22 /qcrypto/tlscredsx509/goodclient4
+ok 23 /qcrypto/tlscredsx509/goodclient5
+ok 24 /qcrypto/tlscredsx509/goodclient6
+ok 25 /qcrypto/tlscredsx509/goodclient7
+ok 26 /qcrypto/tlscredsx509/badclient1
+ok 27 /qcrypto/tlscredsx509/badclient2
+ok 28 /qcrypto/tlscredsx509/badclient3
+ok 29 /qcrypto/tlscredsx509/expired1
+ok 30 /qcrypto/tlscredsx509/expired2
+ok 31 /qcrypto/tlscredsx509/expired3
+ok 32 /qcrypto/tlscredsx509/inactive1
+ok 33 /qcrypto/tlscredsx509/inactive2
+ok 34 /qcrypto/tlscredsx509/inactive3
+ok 35 /qcrypto/tlscredsx509/chain1
+ok 36 /qcrypto/tlscredsx509/chain2
+ok 37 /qcrypto/tlscredsx509/missingca
+ok 38 /qcrypto/tlscredsx509/missingserver
+ok 39 /qcrypto/tlscredsx509/missingclient
+# End of tlscredsx509 tests
+# End of qcrypto tests
 
 
