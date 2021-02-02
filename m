@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EEE30C225
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:45:01 +0100 (CET)
-Received: from localhost ([::1]:51990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A483D30C204
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:42:14 +0100 (CET)
+Received: from localhost ([::1]:40402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6wvM-0005RU-RM
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:45:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44718)
+	id 1l6wsf-0000fa-NG
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:42:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6wgd-0003OO-Eb
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31168)
+ id 1l6whF-0004QB-OV
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:30:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l6wgb-000444-Hy
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:29:47 -0500
+ id 1l6whD-0004MH-UE
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:30:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612276184;
+ s=mimecast20190719; t=1612276223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tHU9eQ8/lwEMfkMk5/jGnEOGPo9ByyH5DGiXx/j9cZ0=;
- b=DQn62ZAeFNuVB4ONYl7K6B++jTFelJoZPgBpGU8bVb2e29YmyM7lhGXDIgUfgBQDE6ZwB+
- vXYsMG6qYhpMVGDHVy74qt7kQjYyCTGDrYhbpF0x3u+2gmVcr2MJg449K9s2+IYpfnSRjV
- z/UQNPVeHnU3E8Wwick9ui30MsIqdw0=
+ bh=2hjXGn6r0/yrb9LYWphq3SI0hUk92h1ayDItWCET1Jg=;
+ b=MYDSJOoFF2CGouw5YaaGRtNppeRu5tNuTCg8qLvwKDJZBN9k7D7ZWzcyiYb8AzXUViN2Ji
+ q16H5AytwuM1ZxlSf8nJcs+ICsvCU7rRYsnqPdKadqtRmihdu3iDNa4H8lCzBQiNHdvPnI
+ 7TzYIMVQflKLPLZXBu86qP7R4/yiulQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-rmJCq2g2Opa-N7wYcqMglw-1; Tue, 02 Feb 2021 09:29:43 -0500
-X-MC-Unique: rmJCq2g2Opa-N7wYcqMglw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-157-jP71c5WkMQ2KWY8I2ieMcA-1; Tue, 02 Feb 2021 09:30:21 -0500
+X-MC-Unique: jP71c5WkMQ2KWY8I2ieMcA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69D34BBEE0
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:29:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D93B8393BE
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 14:30:20 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E618950EDE;
- Tue,  2 Feb 2021 14:29:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC5EB5D9E8;
+ Tue,  2 Feb 2021 14:29:46 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/20] ui: add egl dmabuf import to gtkglarea
-Date: Tue,  2 Feb 2021 18:26:21 +0400
-Message-Id: <20210202142625.609070-17-marcandre.lureau@redhat.com>
+Subject: [PATCH 17/20] virtio-gpu: avoid re-entering cmdq processing
+Date: Tue,  2 Feb 2021 18:26:22 +0400
+Message-Id: <20210202142625.609070-18-marcandre.lureau@redhat.com>
 In-Reply-To: <20210202142625.609070-1-marcandre.lureau@redhat.com>
 References: <20210202142625.609070-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,111 +86,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-GtkGLArea is used on wayland, where EGL is usually available.
+The next patch will notify the GL context got flush, which will resume
+the queue processing. However, if this happens within the caller
+context, it will end up with a stack overflow flush/update loop.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/ui/gtk.h |  2 ++
- ui/gtk-gl-area.c | 18 ++++++++++++++++++
- ui/gtk.c         | 22 ++++++++++++++++++++++
- 3 files changed, 42 insertions(+)
+ include/hw/virtio/virtio-gpu.h | 1 +
+ hw/display/virtio-gpu.c        | 5 +++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index aaef884b95..3c1cd98db8 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -134,6 +134,8 @@ QEMUGLContext gd_gl_area_create_context(DisplayChangeListener *dcl,
-                                         QEMUGLParams *params);
- void gd_gl_area_destroy_context(DisplayChangeListener *dcl,
-                                 QEMUGLContext ctx);
-+void gd_gl_area_scanout_dmabuf(DisplayChangeListener *dcl,
-+                               QemuDmaBuf *dmabuf);
- void gd_gl_area_scanout_texture(DisplayChangeListener *dcl,
-                                 uint32_t backing_id,
-                                 bool backing_y_0_top,
-diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
-index 96fbe75387..72bcd94918 100644
---- a/ui/gtk-gl-area.c
-+++ b/ui/gtk-gl-area.c
-@@ -213,6 +213,24 @@ void gd_gl_area_scanout_flush(DisplayChangeListener *dcl,
-     gtk_gl_area_queue_render(GTK_GL_AREA(vc->gfx.drawing_area));
- }
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 4f3dbf79f9..0043268e90 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -148,6 +148,7 @@ struct VirtIOGPU {
  
-+void gd_gl_area_scanout_dmabuf(DisplayChangeListener *dcl,
-+                               QemuDmaBuf *dmabuf)
-+{
-+#ifdef CONFIG_OPENGL_DMABUF
-+    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
-+
-+    gtk_gl_area_make_current(GTK_GL_AREA(vc->gfx.drawing_area));
-+    egl_dmabuf_import_texture(dmabuf);
-+    if (!dmabuf->texture) {
+     uint64_t hostmem;
+ 
++    bool processing_cmdq;
+     bool renderer_inited;
+     bool renderer_reset;
+     QEMUTimer *fence_poll;
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 0e833a462b..7eb4265a6d 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -814,6 +814,10 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
+ {
+     struct virtio_gpu_ctrl_command *cmd;
+ 
++    if (g->processing_cmdq) {
 +        return;
 +    }
-+
-+    gd_gl_area_scanout_texture(dcl, dmabuf->texture,
-+                               false, dmabuf->width, dmabuf->height,
-+                               0, 0, dmabuf->width, dmabuf->height);
-+#endif
-+}
-+
- void gtk_gl_area_init(void)
- {
-     display_opengl = 1;
-diff --git a/ui/gtk.c b/ui/gtk.c
-index f41c396cb9..79dc240120 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -627,6 +627,12 @@ static bool gd_has_dmabuf(DisplayChangeListener *dcl)
- {
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
++    g->processing_cmdq = true;
+     while (!QTAILQ_EMPTY(&g->cmdq)) {
+         cmd = QTAILQ_FIRST(&g->cmdq);
  
-+    if (gtk_use_gl_area && !gtk_widget_get_realized(vc->gfx.drawing_area)) {
-+        /* FIXME: Assume it will work, actual check done after realize */
-+        /* fixing this would require delaying listener registration */
-+        return true;
-+    }
-+
-     return vc->gfx.has_dmabuf;
+@@ -843,6 +847,7 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
+             g_free(cmd);
+         }
+     }
++    g->processing_cmdq = false;
  }
  
-@@ -647,6 +653,8 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
-     .dpy_gl_scanout_texture  = gd_gl_area_scanout_texture,
-     .dpy_gl_scanout_disable  = gd_gl_area_scanout_disable,
-     .dpy_gl_update           = gd_gl_area_scanout_flush,
-+    .dpy_gl_scanout_dmabuf   = gd_gl_area_scanout_dmabuf,
-+    .dpy_has_dmabuf          = gd_has_dmabuf,
- };
- 
- static const DisplayChangeListenerOps dcl_egl_ops = {
-@@ -1983,6 +1991,18 @@ static GtkWidget *gd_create_menu_machine(GtkDisplayState *s)
-     return machine_menu;
- }
- 
-+#if defined(CONFIG_OPENGL)
-+static void gl_area_realize(GtkGLArea *area, VirtualConsole *vc)
-+{
-+    gtk_gl_area_make_current(area);
-+    qemu_egl_display = eglGetCurrentDisplay();
-+    vc->gfx.has_dmabuf = qemu_egl_has_dmabuf();
-+    if (!vc->gfx.has_dmabuf) {
-+        error_report("GtkGLArea console lacks DMABUF support.");
-+    }
-+}
-+#endif
-+
- static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-                               QemuConsole *con, int idx,
-                               GSList *group, GtkWidget *view_menu)
-@@ -1998,6 +2018,8 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-     if (display_opengl) {
-         if (gtk_use_gl_area) {
-             vc->gfx.drawing_area = gtk_gl_area_new();
-+            g_signal_connect(vc->gfx.drawing_area, "realize",
-+                             G_CALLBACK(gl_area_realize), vc);
-             vc->gfx.dcl.ops = &dcl_gl_area_ops;
-         } else {
-             vc->gfx.drawing_area = gtk_drawing_area_new();
+ static void virtio_gpu_gl_unblock(VirtIOGPUBase *b)
 -- 
 2.29.0
 
