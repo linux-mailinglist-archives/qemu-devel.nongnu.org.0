@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A3530C8E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:04:33 +0100 (CET)
-Received: from localhost ([::1]:56330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5E330C937
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:13:59 +0100 (CET)
+Received: from localhost ([::1]:50432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l702S-0005Hr-6b
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:04:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45370)
+	id 1l70Ba-0007XS-MZ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:13:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6ztq-0005Mj-6c
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:38 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34865)
+ id 1l6ztx-0005PJ-6p
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:45 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6ztc-0002Ev-DM
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:36 -0500
-Received: by mail-wr1-x429.google.com with SMTP id l12so21439273wry.2
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 09:55:23 -0800 (PST)
+ id 1l6ztk-0002GU-PY
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:44 -0500
+Received: by mail-wr1-x433.google.com with SMTP id l12so21439576wry.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 09:55:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=PYXcmESVfoHGpmKd9uk67sd4tJIXB63SS0T0aA9+ufE=;
- b=af05IcL22bqjW1FlDCb5i6J2yVgnhiFzSCwFx97Ij9ottmSyTa7e0nyx/q14HW5MfU
- WJqyadfdlCvfGiudmv2FNYurC5AjnrXM380hgFgylOr41kfJdylC8RrJtzehbezCkfQX
- RIQu2/2OzmhdcLIIY2NBMn6V/+1eqN061E1JQQ/YcT0ToQ89bLvS8dBZQgelpbhyvCxX
- /PVpdrI0wAvby4EZzBXLaSPEtyus8gRtKcyjjIPidaT/viAplqqrrcosnV/Hd6uAzTTF
- 6PnjqaNldrWuR61dMSL/3muPSHX4W/wDOcmod5+nMW/XZJqwC2VEsuui8ne8VfP1lbon
- r5fA==
+ bh=HOai2hjmb+bjOdqLwZmme/jaMMIUJwVTY3N//HvBLNo=;
+ b=ACE9PI16XvuR4oj7cJdy7TmAft0AqDDOjm/s0IqpVTj+2DGGS3NMMHaFmI1qiIGYB9
+ Dtubvl/YPTxVO0rlmLtIc16Y26dLQYbpVBHPp69dEhbkqc7GQX/UTOQv62aLgt9xN6qp
+ sIaObxF2Nu0SvhyKxzC1uiU8vwza1QpuCiEIwgrYLVRuWecDINrRbK6EcGH04qoSLjh1
+ dn/VQSDZHR4FdJkkN1ahUQCV/ypTXH5f8M6OFlip03PyidIRltXvU3qh8jQAeKdTpQbl
+ R5cbAkedinpKLCdvM3RJ7gjmNuo8ao9K+Z776Cq8K9LcUgusIhJmZFSL4vZNPDZouEcF
+ WNug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PYXcmESVfoHGpmKd9uk67sd4tJIXB63SS0T0aA9+ufE=;
- b=Q65/XOpOXIurMFimp5+xiFXaPi13LcCecu82NqTxmgJ14DPk1VmTF6LOJCzunEvvTo
- 0bxSiyllmhqFUhb48JbeJAd0w6VhKbPmwNb5nibrB3QcnEn66D496U/Zj1LOAB/Tk2wJ
- icOKrMG9cDMtwA4rsV9Og7pMbAZYXcrIuwuI+5BiLFI4xxRB66PHJF5uMu15tG+RgtuN
- FzkR9cITkpwVHoWuyWQ5RzEZH+jayoY4CgEYuVj4xiVMwm1Ny5aBXZcOCywc4AyCetAX
- waAlf5sCd9xpXZGMp9I878iiGcO9UTT9opQNoMS8Ph0nXEfnvKw875zJDgi6HkRCmpfx
- KLhg==
-X-Gm-Message-State: AOAM532JQR4AS+QLoJnLKaYRVomyWPUR4c0/+aAY4caSvg08r9p5B7Dc
- zYYJYbJHCBa2k0ah3zaFlb4OU/a+6gjNTQ==
-X-Google-Smtp-Source: ABdhPJybarTjnxPh+95jtdr1PwrouEXY3UjgfNJTADooBQxdvLj0lfycM5aqlGHSv3sKzdn0Jj243Q==
-X-Received: by 2002:a05:6000:1245:: with SMTP id
- j5mr12916554wrx.333.1612288522840; 
- Tue, 02 Feb 2021 09:55:22 -0800 (PST)
+ bh=HOai2hjmb+bjOdqLwZmme/jaMMIUJwVTY3N//HvBLNo=;
+ b=s/IcKkJxKy0hZFu13jNWjX3FMmjc/yCjv9m4qHjL7oABs9koxILOf5mwBUuARIvWed
+ wD83mbpiQzCy05iJiOPUxIa7yuG4hHFODT76vJB21rphnhR6tQNaVXd6xAZSAcyFMo6m
+ hAh3kdAS+13GMTDDYzMpauM5VHCDQ2njEK3HSny+RkZynLgEyq7fElFkU1Cop9iin9fn
+ jBpeMQNZcZO4Ist+6aBgKxDNidcH2Y+bhgKidyt4CCrtMgjHsJKe9x01R47+gkEvDAlB
+ MXWmeVC6tTOiHrheXUudS4efj3blZ8Rcwa23RLt2XgsaSjAtdOW5pt1eaQ24cHWZGf9F
+ klsA==
+X-Gm-Message-State: AOAM532g0lM1WdhuQwdkIB/u7nuNZPV+4m6L3DKUM5UpyLHQ4XOdpF6j
+ 1tB+GhKtC4xru7njkUr6dQRKrNva0uV16Q==
+X-Google-Smtp-Source: ABdhPJwSdzObFCB01MZ/6cedfHFSHDVrJ4G4jkIBtvlAIvwYev3ynbx0EzCwcu4lTH+QJmIOn+/WJQ==
+X-Received: by 2002:adf:e7c1:: with SMTP id e1mr25031265wrn.23.1612288523828; 
+ Tue, 02 Feb 2021 09:55:23 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm4142283wmj.32.2021.02.02.09.55.21
+ by smtp.gmail.com with ESMTPSA id q6sm4142283wmj.32.2021.02.02.09.55.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 09:55:22 -0800 (PST)
+ Tue, 02 Feb 2021 09:55:23 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/21] hw/char/exynos4210_uart: Fix missing call to report
- ready for input
-Date: Tue,  2 Feb 2021 17:54:59 +0000
-Message-Id: <20210202175517.28729-4-peter.maydell@linaro.org>
+Subject: [PULL 04/21] hw/arm/smmuv3: Fix addr_mask for range-based invalidation
+Date: Tue,  2 Feb 2021 17:55:00 +0000
+Message-Id: <20210202175517.28729-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210202175517.28729-1-peter.maydell@linaro.org>
 References: <20210202175517.28729-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,35 +86,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Iris Johnson <iris@modwiz.com>
+From: Zenghui Yu <yuzenghui@huawei.com>
 
-When the frontend device has no space for a read the fd is removed
-from polling to allow time for the guest to read and clear the buffer.
-Without the call to qemu_chr_fe_accept_input(), the poll will not be
-broken out of when the guest has cleared the buffer causing significant
-IO delays that get worse with smaller buffers.
+When handling guest range-based IOTLB invalidation, we should decode the TG
+field into the corresponding translation granule size so that we can pass
+the correct invalidation range to backend. Set @granule to (tg * 2 + 10) to
+properly emulate the architecture.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1913341
-Signed-off-by: Iris Johnson <iris@modwiz.com>
-Message-id: 20210130184016.1787097-1-iris@modwiz.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: d52915616c05 ("hw/arm/smmuv3: Get prepared for range invalidation")
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+Acked-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 20210130043220.1345-1-yuzenghui@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/char/exynos4210_uart.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/smmuv3.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
-index 9b21d201b34..80d401a3795 100644
---- a/hw/char/exynos4210_uart.c
-+++ b/hw/char/exynos4210_uart.c
-@@ -519,6 +519,7 @@ static uint64_t exynos4210_uart_read(void *opaque, hwaddr offset,
-             s->reg[I_(UTRSTAT)] &= ~UTRSTAT_Rx_BUFFER_DATA_READY;
-             res = s->reg[I_(URXH)];
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index bbca0e9f209..98b99d4fe8e 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -801,7 +801,7 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
+ {
+     SMMUDevice *sdev = container_of(mr, SMMUDevice, iommu);
+     IOMMUTLBEvent event;
+-    uint8_t granule = tg;
++    uint8_t granule;
+ 
+     if (!tg) {
+         SMMUEventInfo event = {.inval_ste_allowed = true};
+@@ -821,6 +821,8 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
+             return;
          }
-+        qemu_chr_fe_accept_input(&s->chr);
-         exynos4210_uart_update_dmabusy(s);
-         trace_exynos_uart_read(s->channel, offset,
-                                exynos4210_uart_regname(offset), res);
+         granule = tt->granule_sz;
++    } else {
++        granule = tg * 2 + 10;
+     }
+ 
+     event.type = IOMMU_NOTIFIER_UNMAP;
 -- 
 2.20.1
 
