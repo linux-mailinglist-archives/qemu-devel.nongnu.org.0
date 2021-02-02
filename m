@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752B830BE27
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:28:20 +0100 (CET)
-Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF33D30BE31
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:29:43 +0100 (CET)
+Received: from localhost ([::1]:34592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6un5-0001J4-Hq
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:28:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42334)
+	id 1l6uoQ-0003VK-Pu
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:29:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6uiy-0007Gt-2A
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:24:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6uis-0006si-Jm
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:24:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612268636;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6M7JWjNBJyJ0PYnbR1UF12LuEtXcDjZmDnKN85uT3xo=;
- b=NE5wxehUgqNm8lI31lMgvRnIm37VvjIZcoUUwNyFXJOICMkl6E/s9A7Q6s7b15bzVp5SsH
- jAa8gskiv5ebsMixhlt9koU5fQUD8kbcCvMNWhNFNXxISbyz0qlHszDSaaHxNgMISOeS+Y
- wyzBE24te6TZDyqAo/5kRLsiwA+kANQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-N2JL6awnP0uq6-Kv8gQLuw-1; Tue, 02 Feb 2021 07:23:51 -0500
-X-MC-Unique: N2JL6awnP0uq6-Kv8gQLuw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A5D780ED8E;
- Tue,  2 Feb 2021 12:23:50 +0000 (UTC)
-Received: from redhat.com (ovpn-112-202.ams2.redhat.com [10.36.112.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 726641002393;
- Tue,  2 Feb 2021 12:23:45 +0000 (UTC)
-Date: Tue, 2 Feb 2021 12:23:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Edmondson <dme@dme.org>
-Subject: Re: [PATCH RFC 1/4] docs: add a table showing x86-64 ABI
- compatibility levels
-Message-ID: <20210202122342.GC4168502@redhat.com>
-References: <20210201153606.4158076-1-berrange@redhat.com>
- <20210201153606.4158076-2-berrange@redhat.com>
- <cunv9balsck.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1l6ujd-0007dZ-1Q
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:24:45 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2093)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1l6ujZ-00079e-W4
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:24:44 -0500
+Received: from fraeml706-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DVP3k1LV8z67jvS;
+ Tue,  2 Feb 2021 20:18:26 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml706-chm.china.huawei.com (10.206.15.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Tue, 2 Feb 2021 13:24:36 +0100
+Received: from localhost (10.47.79.68) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 2 Feb 2021
+ 12:24:35 +0000
+Date: Tue, 2 Feb 2021 12:23:50 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: [RFC PATCH v3 04/31] hw/cxl/device: Implement the CAP array
+ (8.2.8.1-2)
+Message-ID: <20210202122350.000047f3@Huawei.com>
+In-Reply-To: <20210202005948.241655-5-ben.widawsky@intel.com>
+References: <20210202005948.241655-1-ben.widawsky@intel.com>
+ <20210202005948.241655-5-ben.widawsky@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <cunv9balsck.fsf@dme.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.47.79.68]
+X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,79 +67,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Florian Weimer <fweimer@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: David
+ Hildenbrand <david@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ "John Groves \(jgroves\)" <jgroves@micron.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Da?= =?ISO-8859-1?Q?ud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 02, 2021 at 09:41:15AM +0000, David Edmondson wrote:
-> On Monday, 2021-02-01 at 15:36:03 GMT, Daniel P. Berrangé wrote:
-> 
-> > It is useful to know which CPUs satisfy each x86-64 ABI
-> > compatibility level, when dealing with guest OS that require
-> > something newer than the baseline ABI.
-> >
-> > These ABI levels are defined in:
-> >
-> >   https://gitlab.com/x86-psABIs/x86-64-ABI/
-> >
-> > and supported by GCC, CLang, GLibC and more.
-> >
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  MAINTAINERS                        |   2 +-
-> >  docs/system/cpu-models-x86-abi.csv | 121 +++++++++++++++++++++++++++++
-> >  docs/system/cpu-models-x86.rst.inc |  18 +++++
-> >  3 files changed, 140 insertions(+), 1 deletion(-)
-> >  create mode 100644 docs/system/cpu-models-x86-abi.csv
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index fbb228ef2b..bb8d60c458 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -344,7 +344,7 @@ F: tests/tcg/i386/
-> >  F: tests/tcg/x86_64/
-> >  F: hw/i386/
-> >  F: disas/i386.c
-> > -F: docs/system/cpu-models-x86.rst.inc
-> > +F: docs/system/cpu-models-x86*
-> >  T: git https://gitlab.com/ehabkost/qemu.git x86-next
-> >  
-> >  Xtensa TCG CPUs
-> > diff --git a/docs/system/cpu-models-x86-abi.csv b/docs/system/cpu-models-x86-abi.csv
-> > new file mode 100644
-> > index 0000000000..4565e6a535
-> > --- /dev/null
-> > +++ b/docs/system/cpu-models-x86-abi.csv
-> > @@ -0,0 +1,121 @@
-> > +Model,baseline,v2,v3,v4
-> > +486,,,,
-> > +486-v1,,,,
-> > +Broadwell,✅,✅,✅,
-> > +Broadwell-IBRS,✅,✅,✅,
-> > +Broadwell-noTSX,✅,✅,✅,
-> > +Broadwell-noTSX-IBRS,✅,✅,✅,
-> 
-> Would it be useful to add an explicit negative mark (✘) in the slots
-> where the CPU does not satisfy the requirement? It makes reading the
-> table a little easier (my opinion, of course).
+On Mon, 1 Feb 2021 16:59:21 -0800
+Ben Widawsky <ben.widawsky@intel.com> wrote:
 
-I felt it was clearer to only show the positive case. Since the
-ABI levels are additive, you can count the ticks at a glance to see
-the ABI level achieved. Also this CSV file isn't really meant to
-be seen by users directly. It is just data input that gets rendered
-into an HTML table that looks like this:
+> This implements all device MMIO up to the first capability. That
+> includes the CXL Device Capabilities Array Register, as well as all of
+> the CXL Device Capability Header Registers. The latter are filled in as
+> they are implemented in the following patches.
+>=20
+> Endianness and alignment are managed by softmmu memory core.
+>=20
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+A few trivials
+> ---
+>  hw/cxl/cxl-device-utils.c   | 105 ++++++++++++++++++++++++++++++++++++
+>  hw/cxl/meson.build          |   1 +
+>  include/hw/cxl/cxl_device.h |  27 +++++++++-
+>  3 files changed, 132 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/cxl/cxl-device-utils.c
+>=20
+> diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+> new file mode 100644
+> index 0000000000..bb15ad9a0f
+> --- /dev/null
+> +++ b/hw/cxl/cxl-device-utils.c
+> @@ -0,0 +1,105 @@
+> +/*
+> + * CXL Utility library for devices
+> + *
+> + * Copyright(C) 2020 Intel Corporation.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2. See =
+the
+> + * COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "hw/cxl/cxl.h"
+> +
+> +/*
+> + * Device registers have no restrictions per the spec, and so fall back =
+to the
+> + * default memory mapped register rules in 8.2:
+> + *   Software shall use CXL.io Memory Read and Write to access memory ma=
+pped
+> + *   register defined in this section. Unless otherwise specified, softw=
+are
+> + *   shall restrict the accesses width based on the following:
+> + *   =E2=80=A2 A 32 bit register shall   be accessed as a 1 Byte, 2 Byte=
+s or 4 Bytes
 
-  https://berrange.gitlab.io/-/qemu/-/jobs/1001700036/artifacts/public/system/target-i386.html#recommendations-for-kvm-cpu-model-configuration-on-x86-hosts
+odd spacing
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> + *     quantity.
+> + *   =E2=80=A2 A 64 bit register shall be accessed as a 1 Byte, 2 Bytes,=
+ 4 Bytes or 8
+> + *     Bytes
+> + *   =E2=80=A2 The address shall be a multiple of the access width, e.g.=
+ when
+> + *     accessing a register as a 4 Byte quantity, the address shall be
+> + *     multiple of 4.
+> + *   =E2=80=A2 The accesses shall map to contiguous bytes.If these rules=
+ are not
+> + *     followed, the behavior is undefined
+> + */
+> +
+> +static uint64_t caps_reg_read(void *opaque, hwaddr offset, unsigned size)
+> +{
+> +    CXLDeviceState *cxl_dstate =3D opaque;
+> +
+> +    return cxl_dstate->caps_reg_state32[offset / 4];
+> +}
+> +
+> +static uint64_t dev_reg_read(void *opaque, hwaddr offset, unsigned size)
+> +{
+> +    return 0;
+> +}
+> +
+> +static const MemoryRegionOps dev_ops =3D {
+> +    .read =3D dev_reg_read,
+> +    .write =3D NULL, /* status register is read only */
+> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> +    .valid =3D {
+> +        .min_access_size =3D 1,
+> +        .max_access_size =3D 8,
+> +        .unaligned =3D false,
+> +    },
+> +    .impl =3D {
+> +        .min_access_size =3D 1,
+> +        .max_access_size =3D 8,
+> +    },
+> +};
+> +
+> +static const MemoryRegionOps caps_ops =3D {
+> +    .read =3D caps_reg_read,
+> +    .write =3D NULL, /* caps registers are read only */
+> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> +    .valid =3D {
+> +        .min_access_size =3D 1,
+> +        .max_access_size =3D 8,
+> +        .unaligned =3D false,
+> +    },
+> +    .impl =3D {
+> +        .min_access_size =3D 4,
+> +        .max_access_size =3D 4,
+> +    },
+> +};
+> +
+> +void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dst=
+ate)
+> +{
+> +    /* This will be a BAR, so needs to be rounded up to pow2 for PCI spe=
+c */
+> +    memory_region_init(&cxl_dstate->device_registers, obj, "device-regis=
+ters",
+> +                       pow2ceil(CXL_MMIO_SIZE));
+> +
+> +    memory_region_init_io(&cxl_dstate->caps, obj, &caps_ops, cxl_dstate,
+> +                          "cap-array", CXL_DEVICE_REGISTERS_OFFSET - 0);
+
+Specifying a size in terms of the offset of another region isn't exactly=20
+intuitive so perhaps a comment on why or better yet actually use a size
+parameter covering what is there rather than simply the region below
+the CXL_DEVICE_REGISTERS_OFFSET.
+
+
+> +    memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dstate,
+> +                          "device-status", CXL_DEVICE_REGISTERS_LENGTH);
+> +
+> +    memory_region_add_subregion(&cxl_dstate->device_registers, 0,
+> +                                &cxl_dstate->caps);
+> +    memory_region_add_subregion(&cxl_dstate->device_registers,
+> +                                CXL_DEVICE_REGISTERS_OFFSET,
+> +                                &cxl_dstate->device);
+> +}
+> +
+> +static void device_reg_init_common(CXLDeviceState *cxl_dstate) { }
+> +
+> +void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
+> +{
+> +    uint32_t *cap_hdrs =3D cxl_dstate->caps_reg_state32;
+> +    const int cap_count =3D 1;
+> +
+> +    /* CXL Device Capabilities Array Register */
+> +    ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
+> +    ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_VERSION, 1);
+> +    ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY2, CAP_COUNT, cap_count);
+> +
+> +    cxl_device_cap_init(cxl_dstate, DEVICE, 1);
+> +    device_reg_init_common(cxl_dstate);
+> +}
+> diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+> index 00c3876a0f..47154d6850 100644
+> --- a/hw/cxl/meson.build
+> +++ b/hw/cxl/meson.build
+> @@ -1,3 +1,4 @@
+>  softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
+>    'cxl-component-utils.c',
+> +  'cxl-device-utils.c',
+>  ))
+> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> index a85f250503..f3bcf19410 100644
+> --- a/include/hw/cxl/cxl_device.h
+> +++ b/include/hw/cxl/cxl_device.h
+> @@ -58,6 +58,8 @@
+>  #define CXL_DEVICE_CAP_HDR1_OFFSET 0x10 /* Figure 138 */
+>  #define CXL_DEVICE_CAP_REG_SIZE 0x10 /* 8.2.8.2 */
+>  #define CXL_DEVICE_CAPS_MAX 4 /* 8.2.8.2.1 + 8.2.8.5 */
+> +#define CXL_CAPS_SIZE \
+> +    (CXL_DEVICE_CAP_REG_SIZE * CXL_DEVICE_CAPS_MAX + 1) /* +1 for header=
+ */
+> =20
+>  #define CXL_DEVICE_REGISTERS_OFFSET 0x80 /* Read comment above */
+>  #define CXL_DEVICE_REGISTERS_LENGTH 0x8 /* 8.2.8.3.1 */
+> @@ -70,11 +72,18 @@
+>  #define CXL_MAILBOX_REGISTERS_LENGTH \
+>      (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
+> =20
+> +#define CXL_MMIO_SIZE                                       \
+> +    CXL_DEVICE_CAP_REG_SIZE + CXL_DEVICE_REGISTERS_LENGTH + \
+> +        CXL_MAILBOX_REGISTERS_LENGTH
+> +
+>  typedef struct cxl_device_state {
+>      MemoryRegion device_registers;
+> =20
+>      /* mmio for device capabilities array - 8.2.8.2 */
+> -    MemoryRegion caps;
+> +    struct {
+> +        MemoryRegion caps;
+> +        uint32_t caps_reg_state32[CXL_CAPS_SIZE / 4];
+> +    };
+
+With this unnamed,w hat is the benefit of having these two in a
+struct?  The naming makes it clear they are related anyway.
+
+> =20
+>      /* mmio for the device status registers 8.2.8.3 */
+>      MemoryRegion device;
+> @@ -126,6 +135,22 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DE=
+VICE_CAP_HDR1_OFFSET)
+>  CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSE=
+T + \
+>                                                 CXL_DEVICE_CAP_REG_SIZE)
+> =20
+> +#define cxl_device_cap_init(dstate, reg, cap_id)                        =
+           \
+> +    do {                                                                =
+           \
+> +        uint32_t *cap_hdrs =3D dstate->caps_reg_state32;                =
+             \
+> +        int which =3D R_CXL_DEV_##reg##_CAP_HDR0;                       =
+             \
+> +        cap_hdrs[which] =3D                                             =
+             \
+> +            FIELD_DP32(cap_hdrs[which], CXL_DEV_##reg##_CAP_HDR0, CAP_ID=
+, cap_id); \
+> +        cap_hdrs[which] =3D FIELD_DP32(                                 =
+             \
+> +            cap_hdrs[which], CXL_DEV_##reg##_CAP_HDR0, CAP_VERSION, 1); =
+           \
+> +        cap_hdrs[which + 1] =3D                                         =
+             \
+> +            FIELD_DP32(cap_hdrs[which + 1], CXL_DEV_##reg##_CAP_HDR1,   =
+           \
+> +                       CAP_OFFSET, CXL_##reg##_REGISTERS_OFFSET);       =
+           \
+> +        cap_hdrs[which + 2] =3D                                         =
+             \
+> +            FIELD_DP32(cap_hdrs[which + 2], CXL_DEV_##reg##_CAP_HDR2,   =
+           \
+> +                       CAP_LENGTH, CXL_##reg##_REGISTERS_LENGTH);       =
+           \
+> +    } while (0)
+> +
+>  REG32(CXL_DEV_MAILBOX_CAP, 0)
+>      FIELD(CXL_DEV_MAILBOX_CAP, PAYLOAD_SIZE, 0, 5)
+>      FIELD(CXL_DEV_MAILBOX_CAP, INT_CAP, 5, 1)
 
 
