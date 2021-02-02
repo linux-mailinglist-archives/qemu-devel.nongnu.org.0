@@ -2,86 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3BF30CFA9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 00:09:10 +0100 (CET)
-Received: from localhost ([::1]:45928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC49530CF9F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 00:07:25 +0100 (CET)
+Received: from localhost ([::1]:36808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l74nF-0008GV-T0
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 18:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42506)
+	id 1l74lY-0004Fg-Qj
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 18:07:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l74cL-0007G2-MG
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:57:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40867)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l74cH-0002nN-U9
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:57:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612306669;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hNk5tozw0vbTGbyrIdrroXUO5AzudPZMYaC/YhzvlmQ=;
- b=iYAKEtrTWZQMMpZFZlJACk89S03ABsLJnc+un2SxAsg5+IXDWZHqay287FJ+kCSZoDUTgz
- TCNl+hd2NYAGeCQzM2n+yNul3sIKkKP6y8KKx4wzHqjeTr4GqQrhxlX5cs/niqbt9KRPwD
- 7KuMwgNV7TTO5j2Q9iKp1DTZQKxecLo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-y58p9SSeNFiTPQk_K5WyEg-1; Tue, 02 Feb 2021 17:57:46 -0500
-X-MC-Unique: y58p9SSeNFiTPQk_K5WyEg-1
-Received: by mail-wr1-f69.google.com with SMTP id c1so13352625wrx.2
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 14:57:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hNk5tozw0vbTGbyrIdrroXUO5AzudPZMYaC/YhzvlmQ=;
- b=nrlkxPJkzIM/dTT0OWgnliLNhvzghWYFlIfSnqYs4YhaMBYLdqdCvfmyjxQZeWEoQl
- LdqFtl0dNwplw7y+lD2pc5hfsrSelcTSjxDrv/YYKpvXOEch4IvXGRd7CTs6uDWLEspy
- +KEoydeY44FiF1Qcx8bUOBZ0ieDjq4D0rSXwBt3Cj2CvmuxlUsyd/D77MR1awBxHxm9v
- mjeRbBopiCOK7sume3TV+FcQuWlfvOE7E0uVcfjCoJaGNHoVEqykFvkATYsgWMzym0oF
- l5p50h+BSr48cZkLE/ORVJwjhAwtpd2n3Mzhw3TNzvy7wv5CXjyzG2HoNnJpUUvA8rYr
- lLyw==
-X-Gm-Message-State: AOAM532H1Hr/NIukaeL87qbaz0AxDaKLC/qzAsFRKFuJH1KB5jI9gK/j
- ZwaRkhYOHK4su+fn+y23hmtsu4if3q96guq2Ad6jeDw/8kanDAtlQO9a+Btij4h4mDfUAV60gnm
- Tf/j9zHWvTAl4mjw=
-X-Received: by 2002:a1c:9c01:: with SMTP id f1mr184092wme.159.1612306664795;
- Tue, 02 Feb 2021 14:57:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwB502qpiRiQaAHRRzMtNrWkTM/7pdh7InHUds9D2h72siXZXszNvKiUwelqTV2z6cA+RSd1g==
-X-Received: by 2002:a1c:9c01:: with SMTP id f1mr184081wme.159.1612306664570;
- Tue, 02 Feb 2021 14:57:44 -0800 (PST)
-Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
- by smtp.gmail.com with ESMTPSA id v1sm1276wmj.31.2021.02.02.14.57.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 14:57:43 -0800 (PST)
-Date: Tue, 2 Feb 2021 17:57:41 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/9] pc,virtio: fixes, features
-Message-ID: <20210202175645-mutt-send-email-mst@kernel.org>
-References: <20210202151116.1573669-1-mst@redhat.com>
- <CAFEAcA8aZ6qTLjp00FyqYUwtqk0tAFYUpjW0FeepPMMVfOUbPg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <rdunlap@infradead.org>)
+ id 1l74d8-00083u-Fx
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:58:42 -0500
+Received: from merlin.infradead.org ([2001:8b0:10b:1231::1]:51992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rdunlap@infradead.org>)
+ id 1l74d4-00033g-0X; Tue, 02 Feb 2021 17:58:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=ENue7s30/AVYjJ+FLuK3utBLdl7fX7Wgo1RZFpgH4vM=; b=iCpPPCirUc9RhjKzpwe3y4FP9W
+ Er4hHDaCbraQPxNrWmL2Yao94VNYmaPyexKnej4DgMa6blaJPt+pVpsgTWVPOEstB1gcQYPe73aAF
+ v9VazIjrtXW9X/ChFtnTI+IpgqygQ3asQ16cZidy4PTIwoXo5z32Kxd87vp9zAXjdKA3kpFJuLBJE
+ geVlY2+N3EIhy5WY1aMvzjCXYGfmzbKT5mCqHMujL6Fv8rV2q4Zib9vzCFy9tEuqFUS1QvISsZGHe
+ WLRuK+q8+3pouAGoC2JuWkD8JsJGjQyF2NKqJlTbJhN+2kMaeBEtjP/6600EQAYF8StNRlB7VhEEF
+ rYfAw2Fg==;
+Received: from [2601:1c0:6280:3f0::2a53]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1l74cg-0001Wj-VY; Tue, 02 Feb 2021 22:58:15 +0000
+Subject: Re: [PATCH v5 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+To: Adrian Catangiu <acatan@amazon.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ linux-s390@vger.kernel.org
+References: <1612200294-17561-1-git-send-email-acatan@amazon.com>
+ <1612200294-17561-2-git-send-email-acatan@amazon.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5290f6f5-396f-aa47-3b74-8d50c2434a04@infradead.org>
+Date: Tue, 2 Feb 2021 14:58:02 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8aZ6qTLjp00FyqYUwtqk0tAFYUpjW0FeepPMMVfOUbPg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1612200294-17561-2-git-send-email-acatan@amazon.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2001:8b0:10b:1231::1;
+ envelope-from=rdunlap@infradead.org; helo=merlin.infradead.org
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.155,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,142 +68,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Jason@zx2c4.com, dgunigun@redhat.com, mst@redhat.com, ghammer@redhat.com,
+ vijaysun@ca.ibm.com, 0x7f454c46@gmail.com, mhocko@kernel.org,
+ oridgar@gmail.com, avagin@gmail.com, pavel@ucw.cz, ptikhomirov@virtuozzo.com,
+ corbet@lwn.net, mpe@ellerman.id.au, rafael@kernel.org, ebiggers@kernel.org,
+ borntraeger@de.ibm.com, sblbir@amazon.com, bonzini@gnu.org, arnd@arndb.de,
+ jannh@google.com, raduweis@amazon.com, asmehra@redhat.com, graf@amazon.com,
+ rppt@kernel.org, luto@kernel.org, gil@azul.com, colmmacc@amazon.com,
+ tytso@mit.edu, gregkh@linuxfoundation.org, areber@redhat.com,
+ ebiederm@xmission.com, ovzxemul@gmail.com, w@1wt.eu, dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 02, 2021 at 10:44:28PM +0000, Peter Maydell wrote:
-> On Tue, 2 Feb 2021 at 15:12, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > The following changes since commit 9cd69f1a270235b652766f00b94114f48a2d603f:
-> >
-> >   Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-01-25-1' into staging (2021-01-26 09:51:02 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to 737242ed5be0a7119aad55894148b3f5dec41200:
-> >
-> >   virtio-pmem: add trace events (2021-01-27 08:02:39 -0500)
-> >
-> > ----------------------------------------------------------------
-> > pc,virtio: fixes, features
-> >
-> > Fixes all over the place.
-> > Ability to control ACPI OEM ID's.
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
-> > ----------------------------------------------------------------
-> > Eugenio Pérez (1):
-> >       virtio: Add corresponding memory_listener_unregister to unrealize
-> >
-> > Laurent Vivier (1):
-> >       virtio-mmio: fix guest kernel crash with SHM regions
-> >
-> > Marian Postevca (5):
-> >       tests/acpi: allow updates for expected data files
-> >       acpi: Permit OEM ID and OEM table ID fields to be changed
-> >       tests/acpi: add OEM ID and OEM TABLE ID test
-> >       tests/acpi: update expected data files
-> >       tests/acpi: disallow updates for expected data files
-> >
-> > Pankaj Gupta (1):
-> >       virtio-pmem: add trace events
-> >
-> > Stefano Garzarella (1):
-> >       virtio: move 'use-disabled-flag' property to hw_compat_4_2
-> 
-> Fails to build, aarch64:
-> 
-> In file included from /usr/include/string.h:495,
->                  from /home/pm/qemu/include/qemu/osdep.h:87,
->                  from ../../hw/arm/virt.c:31:
-> In function ‘strncpy’,
->     inlined from ‘virt_set_oem_table_id’ at ../../hw/arm/virt.c:2197:5:
-> /usr/include/aarch64-linux-gnu/bits/string_fortified.h:106:10: error:
-> ‘__builtin_strncpy’ specified bound depends on the length of the
-> source argument [-Werror=stringop-overflow=]
->   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
->       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../../hw/arm/virt.c: In function ‘virt_set_oem_table_id’:
-> ../../hw/arm/virt.c:2190:18: note: length computed here
->  2190 |     size_t len = strlen(value);
->       |                  ^~~~~~~~~~~~~
-> In file included from /usr/include/string.h:495,
->                  from /home/pm/qemu/include/qemu/osdep.h:87,
->                  from ../../hw/arm/virt.c:31:
-> In function ‘strncpy’,
->     inlined from ‘virt_set_oem_id’ at ../../hw/arm/virt.c:2176:5:
-> /usr/include/aarch64-linux-gnu/bits/string_fortified.h:106:10: error:
-> ‘__builtin_strncpy’ specified bound depends on the length of the
-> source argument [-Werror=stringop-overflow=]
->   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
->       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../../hw/arm/virt.c: In function ‘virt_set_oem_id’:
-> ../../hw/arm/virt.c:2168:18: note: length computed here
->  2168 |     size_t len = strlen(value);
->       |                  ^~~~~~~~~~~~~
-> 
+Hi--
 
-I added a fixup on top, and pushed.
+On 2/1/21 9:24 AM, Adrian Catangiu wrote:
+> - Background and problem
+> 
+> The System Generation ID feature is required in virtualized or
+> containerized environments by applications that work with local copies
+> or caches of world-unique data such as random values, uuids,
+> monotonically increasing counters, etc.
+
+  ... if those applications want to comply with <some MS spec>.
+
+> Such applications can be negatively affected by VM or container
+> snapshotting when the VM or container is either cloned or returned to
+> an earlier point in time.
 
 
-> Also iotest 030 failed on openbsd, which might be an intermittent rather
-> than anything to do with this patchset:
+> Signed-off-by: Adrian Catangiu <acatan@amazon.com>
+> ---
+>  Documentation/misc-devices/sysgenid.rst            | 236 ++++++++++++++++
+>  Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
+>  MAINTAINERS                                        |   8 +
+>  drivers/misc/Kconfig                               |  16 ++
+>  drivers/misc/Makefile                              |   1 +
+>  drivers/misc/sysgenid.c                            | 307 +++++++++++++++++++++
+>  include/uapi/linux/sysgenid.h                      |  17 ++
+>  7 files changed, 586 insertions(+)
+>  create mode 100644 Documentation/misc-devices/sysgenid.rst
+>  create mode 100644 drivers/misc/sysgenid.c
+>  create mode 100644 include/uapi/linux/sysgenid.h
 > 
->   TEST   iotest-qcow2: 030 [fail]
-> QEMU          --
-> "/home/qemu/qemu-test.vl8fUt/build/tests/qemu-iotests/../../qemu-system-aarch64"
-> -nodefaults -di
-> splay none -accel qtest -machine virt
-> QEMU_IMG      --
-> "/home/qemu/qemu-test.vl8fUt/build/tests/qemu-iotests/../../qemu-img"
-> QEMU_IO       --
-> "/home/qemu/qemu-test.vl8fUt/build/tests/qemu-iotests/../../qemu-io"
-> --cache writeback --aio thr
-> eads -f qcow2
-> QEMU_NBD      --
-> "/home/qemu/qemu-test.vl8fUt/build/tests/qemu-iotests/../../qemu-nbd"
-> IMGFMT        -- qcow2
-> IMGPROTO      -- file
-> PLATFORM      -- OpenBSD/amd64 openbsd.localnet 6.8
-> TEST_DIR      -- /home/qemu/qemu-test.vl8fUt/build/tests/qemu-iotests/scratch
-> SOCK_DIR      -- /tmp/tmpu4236zgh
-> SOCKET_SCM_HELPER --
-> --- /home/qemu/qemu-test.vl8fUt/src/tests/qemu-iotests/030.out
-> +++ 030.out.bad
-> @@ -1,5 +1,17 @@
-> -...........................
-> +.........F.................
-> +======================================================================
-> fcntl(): Invalid argument
-> +FAIL: test_overlapping_5 (__main__.TestParallelOps)
-> +----------------------------------------------------------------------
-> +Traceback (most recent call last):
-> +  File "/home/qemu/qemu-test.vl8fUt/src/tests/qemu-iotests/030", line
-> 424, in test_overlapping_5
-> +    self.assert_qmp(result, 'return', {})
-> +  File "/home/qemu/qemu-test.vl8fUt/src/tests/qemu-iotests/iotests.py",
-> line 925, in assert_qmp
-> +    result = self.dictpath(d, path)
-> +  File "/home/qemu/qemu-test.vl8fUt/src/tests/qemu-iotests/iotests.py",
-> line 899, in dictpath
-> +    self.fail(f'failed path traversal for "{path}" in "{d}"')
-> +AssertionError: failed path traversal for "return" in "{'error':
-> {'class': 'DeviceNotActive', 'desc': "Block job
->  'drive0' not found"}}"
+> diff --git a/Documentation/misc-devices/sysgenid.rst b/Documentation/misc-devices/sysgenid.rst
+> new file mode 100644
+> index 0000000..4337ca0
+> --- /dev/null
+> +++ b/Documentation/misc-devices/sysgenid.rst
+> @@ -0,0 +1,236 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
->  ----------------------------------------------------------------------
->  Ran 27 tests
+> +========
+> +SYSGENID
+> +========
+> +
+> +The System Generation ID feature is required in virtualized or
+> +containerized environments by applications that work with local copies
+> +or caches of world-unique data such as random values, UUIDs,
+> +monotonically increasing counters, etc.
+> +Such applications can be negatively affected by VM or container
+> +snapshotting when the VM or container is either cloned or returned to
+> +an earlier point in time.
+> +
+> +The System Generation ID is a simple concept meant to alleviate the
+> +issue by providing a monotonically increasing counter that changes
+> +each time the VM or container is restored from a snapshot.
+> +The driver for it lives at ``drivers/misc/sysgenid.c``.
+> +
+> +The ``sysgenid`` driver exposes a monotonic incremental System
+> +Generation u32 counter via a char-dev FS interface accessible through
+
+s/FS/filesystem/
+
+> +``/dev/sysgenid`` that provides sync and async SysGen counter update
+> +notifications. It also provides SysGen counter retrieval and
+> +confirmation mechanisms.
+> +
+> +The counter starts from zero when the driver is initialized and
+> +monotonically increments every time the system generation changes.
+> +
+> +The ``sysgenid`` driver exports the ``void sysgenid_bump_generation()``
+> +symbol which can be used by backend drivers to drive system generation
+> +changes based on hardware events.
+> +System generation changes can also be driven by userspace software
+> +through a dedicated driver ioctl.
+> +
+> +Userspace applications or libraries can (a)synchronously consume the
+> +system generation counter through the provided FS interface, to make
+
+s/FS/filesystem/
+
+> +any necessary internal adjustments following a system generation update.
+> +
+> +Driver FS interface:
+> +
+> +``open()``:
+> +  When the device is opened, a copy of the current Sys-Gen-Id (counter)
+> +  is associated with the open file descriptor. The driver now tracks
+> +  this file as an independent *watcher*. The driver tracks how many
+> +  watchers are aware of the latest Sys-Gen-Id counter and how many of
+> +  them are *outdated*; outdated being those that have lived through
+> +  a Sys-Gen-Id change but not yet confirmed the new generation counter.
+> +
+> +``read()``:
+> +  Read is meant to provide the *new* system generation counter when a
+> +  generation change takes place. The read operation blocks until the
+> +  associated counter is no longer up to date, at which point the new
+> +  counter is provided/returned.
+> +  Nonblocking ``read()`` uses ``EAGAIN`` to signal that there is no
+> +  *new* counter value available. The generation counter is considered
+> +  *new* for each open file descriptor that hasn't confirmed the new
+> +  value following a generation change. Therefore, once a generation
+> +  change takes place, all ``read()`` calls will immediately return the
+> +  new generation counter and will continue to do so until the
+> +  new value is confirmed back to the driver through ``write()``.
+> +  Partial reads are not allowed - read buffer needs to be at least
+> +  32 bits in size.
+> +
+> +``write()``:
+> +  Write is used to confirm the up-to-date Sys Gen counter back to the
+> +  driver.
+> +  Following a VM generation change, all existing watchers are marked
+> +  as *outdated*. Each file descriptor will maintain the *outdated*
+> +  status until a ``write()`` confirms the up-to-date counter back to
+> +  the driver.
+> +  Partial writes are not allowed - write buffer should be exactly
+> +  32 bits in size.
+> +
+> +``poll()``:
+> +  Poll is implemented to allow polling for generation counter updates.
+> +  Such updates result in ``EPOLLIN`` polling status until the new
+> +  up-to-date counter is confirmed back to the driver through a
+> +  ``write()``.
+> +
+> +``ioctl()``:
+> +  The driver also adds support for waiting on open file descriptors
+> +  that haven't acknowledged a generation counter update, as well as a
+> +  mechanism for userspace to *force* a generation update:
+> +
+> +  - SYSGENID_WAIT_WATCHERS: blocks until there are no more *outdated*
+> +    watchers, or if a ``timeout`` argument is provided, until the
+> +    timeout expires.
+> +    If the current caller is *outdated* or a generation change happens
+> +    while waiting (thus making current caller *outdated*), the ioctl
+> +    returns ``-EINTR`` to signal the user to handle event and retry.
+> +  - SYSGENID_FORCE_GEN_UPDATE: forces a generation counter increment.
+> +    It takes a ``minimum-generation`` argument which represents the
+> +    minimum value the generation counter will be incremented to. For
+
+                                            will be set to. For
+It's not so much an increment as it is a "set to this value or higher".
+
+> +    example if current generation is ``5`` and ``SYSGENID_FORCE_GEN_UPDATE(8)``
+> +    is called, the generation counter will increment to ``8``.
+> +    This IOCTL can only be used by processes with CAP_CHECKPOINT_RESTORE
+> +    or CAP_SYS_ADMIN capabilities.
+> +
+> +``mmap()``:
+> +  The driver supports ``PROT_READ, MAP_SHARED`` mmaps of a single page
+> +  in size. The first 4 bytes of the mapped page will contain an
+> +  up-to-date u32 copy of the system generation counter.
+> +  The mapped memory can be used as a low-latency generation counter
+> +  probe mechanism in critical sections - see examples.
+> +
+> +``close()``:
+> +  Removes the file descriptor as a system generation counter *watcher*.
+> +
+> +Example application workflows
+> +-----------------------------
+> +
+[snip]
 
 
-Can not see how it can be related ATM.
-
-> -OK
-> +FAILED (failures=1, skipped=1)
-> 
-> -- PMM
+-- 
+~Randy
 
 
