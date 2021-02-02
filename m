@@ -2,132 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE92130CA45
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:45:08 +0100 (CET)
-Received: from localhost ([::1]:53468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CB930CA7B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:51:48 +0100 (CET)
+Received: from localhost ([::1]:60728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l70fj-0001df-Ro
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:45:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55280)
+	id 1l70mB-0004zk-Gz
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:51:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l70e4-0000z8-Lx; Tue, 02 Feb 2021 13:43:25 -0500
-Received: from mail-vi1eur05on2132.outbound.protection.outlook.com
- ([40.107.21.132]:17408 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l70kC-0003ti-MY
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 13:49:45 -0500
+Received: from zangief.bwidawsk.net ([107.170.211.233]:48500
+ helo=mail.bwidawsk.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l70e1-0001sA-A7; Tue, 02 Feb 2021 13:43:24 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MwItYpYjtXkveKfN05n4wRVAKqahTeuP5VLXihukUlt44SCH6/B+Jd8tw3Cw8k1icoj4LRlIlq/tTu7lR51l6Bkk/LBcCOMgFIf5lMW3Rb0ooG/XsBzGmr1716dcbwJYjSp0U8nTNiKyzi1MwQLA2TbyJnWi7xkwYu0UCzXGfoUQJvxCQFdmRuGQT7hVBhIib97zaFNC6qER3tLk2rIu+S493fVAUqpzg7azDCVwOoZSdlii2BiuWeMjF2zz4h1EzvX5e3annfS81UFWmDpZXpbj6dM5dprWTTbHFmJeoxkLl3iT8rvSQ/dFVEV7nFdeI7YTyuNMGp08F24V+BupDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pH8yXMNxicx6zvk11xQKRkfRt1ATRC7xsaSQcVFPKxk=;
- b=Sb5xnvbOnfWWJQcD55iJ9n09XH1+/tMr3MnaynIu+Pjoj/01TDaNfvPDPuVRreoFxBVzEs0j3H2DPANOECEXLpVtnxI+msdey+UJDMFixefObAKEu/u9o6d4JscNEAxRCXTJK/8YhUYZgrgO3h6b/97JPwmq5KZZooSsX9QLYTyfKwidkKkzXBga7DDqAn6omoBwCPrXM+oiUWhhhJrZvPJpiUJIBpqMxz+XfUJoK7wTEson6zMtnxe4cbzuyK7TXwSt5N1DAXIrIM42P5h+JRdpZgjC7R8gCAkb4MJfboKmVCq+jDkPMwtV67RIWVkcDtpKemyuL5CzOHhPbkfq3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pH8yXMNxicx6zvk11xQKRkfRt1ATRC7xsaSQcVFPKxk=;
- b=KgxNXwCAqtua2wIzENBkl6c6Qy21+HvurimEFw+H5hZgckIIwTNATIArjmt1f2PZthBEhBmZjugtCzz2agrwu+All8snirVc933plLPzxJWcKxfI4VfXM95zPJ8LrNTXyaPbAEQP4jZB9R93tLvQOC2xO9knKcKKmt8aIRoHd5c=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1971.eurprd08.prod.outlook.com (2603:10a6:203:45::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.22; Tue, 2 Feb
- 2021 18:43:17 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Tue, 2 Feb 2021
- 18:43:17 +0000
-Subject: Re: [PATCH v10 12/12] migration: introduce
- snapshot-{save,load,delete} QMP commands
-To: Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, qemu-devel@nongnu.org
-References: <20210202154138.246464-1-berrange@redhat.com>
- <20210202154138.246464-13-berrange@redhat.com>
- <02126b54-f7eb-5ad7-b7f0-b66e60b26b50@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <13b1d60e-ac6a-20c1-47e4-94c8292812b3@virtuozzo.com>
-Date: Tue, 2 Feb 2021 21:43:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-In-Reply-To: <02126b54-f7eb-5ad7-b7f0-b66e60b26b50@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.137]
-X-ClientProxiedBy: AM0PR04CA0082.eurprd04.prod.outlook.com
- (2603:10a6:208:be::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l70k7-00040x-Im
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 13:49:41 -0500
+Received: by mail.bwidawsk.net (Postfix, from userid 5001)
+ id A64951234A5; Tue,  2 Feb 2021 10:49:37 -0800 (PST)
+Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
+ [73.37.61.164])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ by mail.bwidawsk.net (Postfix) with ESMTPSA id 56302122C69;
+ Tue,  2 Feb 2021 10:49:25 -0800 (PST)
+Date: Tue, 2 Feb 2021 10:49:23 -0800
+From: Ben Widawsky <ben@bwidawsk.net>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [RFC PATCH 3/4] hw/cxl/cxl-cdat: Initial CDAT implementation for
+ use by CXL devices
+Message-ID: <20210202184923.oggv6hasjyjkmb5p@mail.bwidawsk.net>
+References: <20210201151629.29656-1-Jonathan.Cameron@huawei.com>
+ <20210201151629.29656-4-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.137) by
- AM0PR04CA0082.eurprd04.prod.outlook.com (2603:10a6:208:be::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.17 via Frontend Transport; Tue, 2 Feb 2021 18:43:15 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 95d2dbbc-0edf-4313-4fcc-08d8c7aa6763
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1971:
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB197172CEEADECF3D7C5601E8C1B59@AM5PR0801MB1971.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1qLIhW5ZPoFMYn/pv2Y+WXVwEJfZ7Hm9S6uhCdpkBBxHoI3sK42DYRYET6aqeuNPUTq6nFcFT5Wp7zCvM/eJPPTy5SA9JGqUzRgGWEqoBRXhxs9Kp8Pv7skqgJJsHr1re+9OgpBIGLPl2Ur1FtfWPo7Uf0u+GHeBMmZqJ4lUq8DZNmyeuQ7njwd9b2flEGCEVqqqOvuzOjoP41aMsMWgAfk6xw+9SCy7ySjjSy6OaBum77PUSlKSWv3UpvkrabRyiOUkmjHH5IYChGnU6v3ptJ9bKEDr3AkhsDbGb9H1rViUuSLTlwrdd+E7OpnJsjSWmgOwwtCeSADB/KrGK4PF7Ta+WP0E6UXpRFn/UuIhn8DkJ6o3rShdmrDhsOn5O3ShJVX8zSYTV10WUtyIaGQuemlJCKtto8+U73Fvs4kaE5hUAUdA41qRCyRQqBgx8wIUJ9FpxICsCLwzQv/hw/nkFXYo1Qu01Y1sztwjVPAzlH1hfCCUG5yJTCL6Tyxyn8ByolCaSck5ds23q9BuBFi0vtqRm4Vm3R7cjjVo95XPNvYC+LAsXFFazlsPNX7w+QivIxfzT5484GCKlmAKRWBLJMmb0XOuXeC9b0Tg3dX9ueU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(376002)(39840400004)(396003)(136003)(186003)(16526019)(8936002)(478600001)(31696002)(26005)(110136005)(2906002)(66476007)(53546011)(6486002)(956004)(16576012)(2616005)(5660300002)(4326008)(316002)(7416002)(54906003)(8676002)(83380400001)(66556008)(36756003)(52116002)(86362001)(66946007)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QjgwZ1UzM2YxRHY0WmpuUVVSUWY5VmZkZGQ3NDc5akJQUm5aYm1INC9FNnBy?=
- =?utf-8?B?bEYvc0hxSXJNendva3FrbTNXVHpscTJNMlhESkoyVU5WQkJCMDBsNmVaeWcv?=
- =?utf-8?B?ZlJOY2d1a2VWaGxOeFVDTWMyRWZneUpwVlBCYzRFRG05NlhwdVF0b2wzUU1p?=
- =?utf-8?B?MWEwYk9EZUtZcFg5NEJGbXcrV01tL20vazhmZFdWYnEzMmRvUFlqZ0hyeEpC?=
- =?utf-8?B?bVF4ZjIrSlFRTThYTFEwaVIycW5qcnNXLzI0VE9TZ2RUZ0twLzlSRmFPZHM0?=
- =?utf-8?B?ZXhuK0lKRnJkRCtZZU82Y0ViTXdPT3Rkcmh6WHgyd0JjZUxkcnpmZUhhbmFw?=
- =?utf-8?B?UWJHd2tYTXBzRmF2QW9ZVmZKOEtxd2QzVGFQaEY1aWpWZ2V0V2lRbUYyckxz?=
- =?utf-8?B?SkgwT3JkYVgvdnJwazFRY2tySDFyL2t0dWE4aHI0dm1vYUpoNEdBOWJkZ3U0?=
- =?utf-8?B?Nm02bDVJMjlGZStWRmhNK0NDZjRZQ2V6U2dSVnB1OWJFUlNqNEJsVVNmSzJo?=
- =?utf-8?B?N1VjdFM2eHg3bDM3TnF6RjFsdHpSL1BlWUNkU1N5dGV6RGdsYTRwN29UdTRu?=
- =?utf-8?B?QVgyUVBraHd1aWpoM0hDRUZSWVFkaG5tbGYycGdJOWYvNWZ6TEFqd0pvc3dm?=
- =?utf-8?B?NFh0U3VYMXl4QW9GUGtaUjhhRk92OXZmL3pUdWUyb3oxcVU0YVV6T3NzcUxW?=
- =?utf-8?B?VytFYzNUNFEwKzRlNnU1OTBWQlhPSGozRURYQUl2dEV1MnR5MU9WRS9Ua2pp?=
- =?utf-8?B?clpFczdNU1BlT0JteE9MdElZaGpZdFVLRXdWa1dFZkhzejhyWW5ZSWR6MmRS?=
- =?utf-8?B?ZlRGWStoOFhpYzBmYnpISzBwOHRacFptanZhL0JXN2FqOEhXcmpYOWt6Tlc3?=
- =?utf-8?B?NUZ1aWx3WVRwZzFuY0d1dVBHaHVXYzFWLzFqYXZodkpiRDhDdS9xS0d4QWZ0?=
- =?utf-8?B?TkpwOEdRMDF0SkxyODJmWDdiRzRHb002T0MxbGNJblByT1VFTUtTWXRrSEF2?=
- =?utf-8?B?TVFBMHZMYVJ0RDRvd1VSRmZabXQxUEFIeFhNeEUxVjV6UzdneXQ5UHVLRytv?=
- =?utf-8?B?QjUvbEc4TmlNRkE0d1B0aEtaV3RsRU5iUVFEVWh2SjFjdU5BTWxnSXB3Mmlj?=
- =?utf-8?B?WERUTVM4blR6VitOMGZUR1lXazJ1aGQ3bTltaUJMYnJESFRpWVFZZVdJay9q?=
- =?utf-8?B?TmdlNGtNREJ2d3NvcHRJSjlvMjg4cmFQbDZkWGJJVHNKVm5BcmVydTVhR0da?=
- =?utf-8?B?Qit4Q2phMTZ2clVNUnNvLy85eU9BMXNITnVXbng1TFhIZDMvM2hHKzNZOG0r?=
- =?utf-8?B?UmZLbmNCTklNK3MrRDhCL3RibXQzakhjYkNRZ0Y3RTN5S3IvOGF6eFhJR0V5?=
- =?utf-8?B?SXlRanZ4MUVCVmVrd1pybXAzc2xWNzRnb2ZNYkxsZzV6cTRRR0RjTjNaYm5V?=
- =?utf-8?B?emwwM0syVEIyWjhXQm9HVjVjeWJvWHlzNk5IU2p3PT0=?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95d2dbbc-0edf-4313-4fcc-08d8c7aa6763
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2021 18:43:16.7547 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f9+ECzfBNzP0WEN0K4tReau7U1Hn/jTIkCzhMC6HsZkycWwJsHj2EIZyQHatoRLMOm/fPBOJqAA4dNmcDJ/R2EgLFkad5n0XFltVZbBF4mk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1971
-Received-SPF: pass client-ip=40.107.21.132;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210201151629.29656-4-Jonathan.Cameron@huawei.com>
+Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
+ helo=mail.bwidawsk.net
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -140,82 +58,428 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, linuxarm@openeuler.org,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, f.fangjian@huawei.com,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org, f4bug@amsat.org,
+ jcm@redhat.com, Prashant V Agarwal <agpr123@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-02.02.2021 21:14, Eric Blake wrote:
-> On 2/2/21 9:41 AM, Daniel P. Berrangé wrote:
->> savevm, loadvm and delvm are some of the few HMP commands that have never
->> been converted to use QMP. The reasons for the lack of conversion are
->> that they blocked execution of the event thread, and the semantics
->> around choice of disks were ill-defined.
->>
+On 21-02-01 23:16:28, Jonathan Cameron wrote:
+> CDAT is an ACPI like format defined by the CXL consortium. It is
+> available from
 > 
->> Note that the existing "query-named-block-nodes" can be used to query
->> what snapshots currently exist for block nodes.
->>
->> Acked-by: Markus Armbruster <armbru@redhat.com>
->> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->> ---
->>   migration/savevm.c                            | 184 +++++++
->>   qapi/job.json                                 |   9 +-
->>   qapi/migration.json                           | 157 ++++++
->>   .../tests/internal-snapshots-qapi             | 386 +++++++++++++
->>   .../tests/internal-snapshots-qapi.out         | 520 ++++++++++++++++++
+> https://www.uefi.org/node/4093
 > 
-> Not this patch's fault: I find the name tests/qemu-iotests/tests/name to
-> be rather long and a bit repetitive; maybe we want to rename the
-> directory structure to something simpler, like:
+> Here support for managing all the entires is introduced, along with
+> an implementation of a callback for a DOE mailbox which may be
+> used to read these values from CXL hardware by either firmware or
+> an OS.
 > 
-> tests/iotests/name
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+I seem to be missing one critical thing, where is the CDAT header (Table 1 from
+the spec) actually populated, length, revision, checksum, etc?
+
+General, probably underthought-out, comment:
+
+With the CXLType3Class I added since you probably wrote these patches, I wonder
+if that'd be a better fit for populating some of these tables, having them
+populate dynamically when the DOE/CDAT request actually comes in.
+
+I have no strong opinion. The one advantage I see to using the class is
+operations like managing handles, length calculations, etc can be managed by the
+helper library rather than the device implementation having to do it. OTTOH if
+you have devices that want to do weird things, they might lose some flexibility.
+
+I think with just a few methods added to the CXLType3Class you could pretty
+trivially build up a nice sane default CDAT for any CXL device.
+
+> ---
+>  hw/cxl/cxl-cdat.c         | 252 ++++++++++++++++++++++++++++++++++++++
+>  hw/cxl/meson.build        |   1 +
+>  include/hw/cxl/cxl_cdat.h | 101 +++++++++++++++
+>  3 files changed, 354 insertions(+)
 > 
-> (that is, move the named tests into a sibling directory of
-> qemu-iotests/check, rather than a subdirectory).
-
-Still, I think splitting test files from library (check, testenv, common.rc, etc) is a good thing.
-
-I remember someone suggested to rename qemu-iotests to just io..
-
-so we can have tests/io/tests/name
-
-or may be, what about
-
-tests/io/name
-
-and
-
-tests/io/lib/{check,testenv,common.rc,etc}
-
-> And maybe rename
-> qemu-iotests/check to something that requires less typing.  Oh, and
-> while I'm asking for rainbows and ponies, being able to run check from
-> the same directory where I run make, instead of having to change
-> directories, would be nice.  But as I said, that's a wish list for a
-> separate series.
-
-
-I run check from any directory with my script:
-
-# cat /work/scripts/check
-#!/bin/bash
-
-root=$(git rev-parse --show-toplevel) || exit
-
-dir="$root/build/tests/qemu-iotests"
-check="$dir/check"
-
-test -f "$check" || { echo "Can't find '$check'. Is it a Qemu git?"; exit 1; }
-
-cd "$dir"
-./check $@
-
-
--- 
-Best regards,
-Vladimir
+> diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
+> new file mode 100644
+> index 0000000000..6ed4c15cc0
+> --- /dev/null
+> +++ b/hw/cxl/cxl-cdat.c
+> @@ -0,0 +1,252 @@
+> +/*
+> + * Support for CDAT entires as defined in
+> + * Coherent Device Attribute Table (CDAT) Specification rev 1.02
+> + * Available from uefi.org.
+> + *
+> + * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +#include "qemu/osdep.h"
+> +#include "qemu/units.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/mem/memory-device.h"
+> +#include "hw/mem/pc-dimm.h"
+> +#include "hw/pci/pci.h"
+> +#include "hw/pci/doe.h"
+> +#include "hw/qdev-properties.h"
+> +#include "qapi/error.h"
+> +#include "qemu/log.h"
+> +#include "qemu/module.h"
+> +#include "qemu/range.h"
+> +#include "qemu/rcu.h"
+> +#include "sysemu/hostmem.h"
+> +#include "sysemu/numa.h"
+> +#include "hw/cxl/cxl.h"
+> +
+> +void cdat_add_dsmas(CXLCDAT *cdat, uint8_t dsmad_handle, uint8_t flags,
+> +                    uint64_t dpa_base, uint64_t dpa_length)
+> +{
+> +    struct cxl_cdat_dsmas *dsmas = g_malloc0(sizeof(*dsmas));
+> +    dsmas->dsmad_handle = dsmad_handle;
+> +    dsmas->flags = flags;
+> +    dsmas->dpa_base = dpa_base;
+> +    dsmas->dpa_length = dpa_length;
+> +    cdat->dsmas_list = g_list_append(cdat->dsmas_list, dsmas);
+> +}
+> +
+> +void cdat_add_dslbis(CXLCDAT *cdat, uint8_t handle, uint8_t flags,
+> +                     uint8_t data_type, uint64_t base_unit,
+> +                     uint16_t entry0, uint16_t entry1, uint16_t entry2)
+> +{
+> +    struct cxl_cdat_dslbis *dslbis = g_malloc0(sizeof(*dslbis));
+> +    dslbis->handle = handle;
+> +    dslbis->flags = flags;
+> +    dslbis->data_type = data_type;
+> +    dslbis->entry_base_unit = base_unit;
+> +    dslbis->entries[0] = entry0;
+> +    dslbis->entries[1] = entry1;
+> +    dslbis->entries[2] = entry2;
+> +    cdat->dslbis_list = g_list_append(cdat->dslbis_list, dslbis);
+> +}
+> +
+> +void cdat_add_dsmscis(CXLCDAT *cdat, uint8_t dsmas_handle,
+> +                      uint64_t memory_sc_size, uint64_t cache_attrs)
+> +{
+> +    struct cxl_cdat_dsmscis *dsmscis = g_malloc(sizeof(*dsmscis));
+> +    dsmscis->dsmas_handle = dsmas_handle;
+> +    dsmscis->memory_side_cache_size = memory_sc_size;
+> +    dsmscis->cache_attributes = cache_attrs;
+> +    cdat->dsmscis_list = g_list_append(cdat->dsmscis_list, dsmscis);
+> +}
+> +
+> +void cdat_add_dsis(CXLCDAT *cdat, uint8_t flags, uint8_t handle)
+> +{
+> +    struct cxl_cdat_dsis *dsis = g_malloc(sizeof(*dsis));
+> +    dsis->flags = flags;
+> +    dsis->handle = handle;
+> +    cdat->dsis_list = g_list_append(cdat->dsis_list, dsis);
+> +}
+> +
+> +void cdat_add_dsemts(CXLCDAT *cdat, uint8_t dsmas_handle,
+> +                     uint8_t efi_mem_type_attr, uint64_t dpa_offset,
+> +                     uint64_t dpa_length)
+> +{
+> +    struct cxl_cdat_dsemts *dsemts = g_malloc(sizeof(*dsemts));
+> +    dsemts->dsmas_handle = dsmas_handle;
+> +    dsemts->efi_mem_type_attr = efi_mem_type_attr;
+> +    dsemts->dpa_offset = dpa_offset;
+> +    dsemts->dpa_length = dpa_length;
+> +    cdat->dsemts_list = g_list_append(cdat->dsemts_list, dsemts);
+> +}
+> +
+> +struct cxl_cdat_sslbis *cdat_add_sslbis(CXLCDAT *cdat, uint8_t num_entries,
+> +                                        uint8_t data_type, uint64_t base_unit)
+> +{
+> +    struct cxl_cdat_sslbis *sslbis =
+> +        g_malloc(sizeof(*sslbis) + num_entries * sizeof(sslbis->entries[0]));
+> +    sslbis->num_entries = num_entries;
+> +    sslbis->data_type = data_type;
+> +    sslbis->base_unit = base_unit;
+> +    cdat->sslbis_list = g_list_append(cdat->sslbis_list, sslbis);
+> +    return sslbis;
+> +}
+> +
+> +int cdata_sslbis_set_entry(struct cxl_cdat_sslbis *sslbis, uint8_t index,
+> +                           uint16_t portx, uint16_t porty, uint16_t val)
+> +{
+> +    struct cxl_cdat_sslbis_entry *entry;
+> +    if (index >= sslbis->num_entries) {
+> +        return -1;
+> +    }
+> +    entry = &sslbis->entries[index];
+> +    entry->port_x_id = portx;
+> +    entry->port_y_id = porty;
+> +    entry->val = val;
+> +    return 0;
+> +}
+> +
+> +int cxl_table_access(PCIEDOE *doe, uint16_t vendor_id, uint8_t object_type,
+> +                     void *priv)
+> +{
+> +    uint8_t table_type;
+> +    int total_entries;
+> +    uint16_t entry_handle;
+> +    CXLCDAT *cdat = priv;
+> +    uint16_t next_entry;
+> +
+> +    if (doe->req_length != 3) {
+> +        /* optional error for unexpected command length */
+> +        return -1;
+> +    }
+> +
+> +    if ((doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_RCODE) != 0) {
+> +        /*
+> +         * Only table access code currently supported.
+> +         * Error indication is lack of Data Object Ready
+> +         */
+> +        return -1;
+> +    }
+> +
+> +    table_type = (doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_TYPE) >>
+> +        ctz32(CXL_DOE_TABLE_ACCESS_DW2_TYPE);
+> +    if (table_type != 0) {
+> +        /* Unsuported table ID so just don't set Data Object Ready */
+> +        return -1;
+> +    }
+> +    entry_handle = (doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE) >>
+> +        ctz32(CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE);
+> +
+> +    /* Assume entry handle == CDAT structure index */
+> +    total_entries = g_list_length(cdat->dsmas_list) +
+> +        g_list_length(cdat->dslbis_list) +
+> +        g_list_length(cdat->dsmscis_list) +
+> +        g_list_length(cdat->dsis_list) +
+> +        g_list_length(cdat->dsemts_list) +
+> +        g_list_length(cdat->sslbis_list);
+> +    if (entry_handle + 1 == total_entries) {
+> +        next_entry = 0xFFFF;
+> +    } else {
+> +        next_entry = entry_handle + 1;
+> +    }
+> +
+> +    if (entry_handle < g_list_length(cdat->dsmas_list)) {
+> +        const int dsmas_len = 24;
+> +        struct cxl_cdat_dsmas *dsmas =
+> +            g_list_nth_data(cdat->dsmas_list, entry_handle);
+> +
+> +        doe->store[1] = 3 + dsmas_len / sizeof(uint32_t);
+> +        doe->store[2] = next_entry << 16;
+> +        doe->store[3] = (dsmas_len << 16) | CXL_CDAT_DSMAS_TYPE;
+> +
+> +        /* cxl version of proximity domain */
+> +        doe->store[4] = dsmas->dsmad_handle;
+> +        /* flags in 2nd byte of [4] (bit 2 is non volatile) */
+> +        doe->store[4] |= (dsmas->flags << 8);
+> +        doe->store[5] = dsmas->dpa_base & 0xFFFFFFFF;
+> +        doe->store[6] = (dsmas->dpa_base >> 32) & 0xFFFFFFFF;
+> +        doe->store[7] = dsmas->dpa_length & 0xFFFFFFFF;
+> +        doe->store[8] = (dsmas->dpa_length >> 32) & 0xFFFFFFFF;
+> +        return 0;
+> +    }
+> +    entry_handle -= g_list_length(cdat->dsmas_list);
+> +    if (entry_handle < g_list_length(cdat->dslbis_list)) {
+> +        const int dslbis_len = 24;
+> +        struct cxl_cdat_dslbis *dslbis =
+> +            g_list_nth_data(cdat->dslbis_list, entry_handle);
+> +
+> +        doe->store[1] = 3 + dslbis_len / sizeof(uint32_t);
+> +        doe->store[2] = next_entry << 16;
+> +        doe->store[3] = (dslbis_len << 16) | CXL_CDAT_DSLBIS_TYPE;
+> +
+> +        doe->store[4] = (dslbis->data_type << 24) | (dslbis->flags << 8) |
+> +            dslbis->handle;
+> +        doe->store[5] = dslbis->entry_base_unit & 0xFFFFFFFF;
+> +        doe->store[6] = (dslbis->entry_base_unit >> 32) & 0xFFFFFFFF;
+> +        doe->store[7] = (dslbis->entries[1] << 16) | dslbis->entries[0];
+> +        doe->store[8] = dslbis->entries[2];
+> +        return 0;
+> +    }
+> +    entry_handle -= g_list_length(cdat->dslbis_list);
+> +    if (entry_handle < g_list_length(cdat->dsmscis_list)) {
+> +        const int dsmscis_len = 20;
+> +        struct cxl_cdat_dsmscis *dsmscis =
+> +            g_list_nth_data(cdat->dsmscis_list, entry_handle);
+> +
+> +        doe->store[1] = 3 + dsmscis_len / sizeof(uint32_t);
+> +        doe->store[2] = next_entry << 16;
+> +        doe->store[3] = (dsmscis_len << 16) | CXL_CDAT_DSMSCIS_TYPE;
+> +        doe->store[4] = dsmscis->dsmas_handle;
+> +        doe->store[5] = dsmscis->memory_side_cache_size & 0xffffffff;
+> +        doe->store[6] = (dsmscis->memory_side_cache_size >> 32) & 0xffffffff;
+> +        doe->store[7] = dsmscis->cache_attributes;
+> +    }
+> +    entry_handle -= g_list_length(cdat->dsmscis_list);
+> +    if (entry_handle < g_list_length(cdat->dsis_list)) {
+> +        const int dsis_len = 8;
+> +        struct cxl_cdat_dsis *dsis =
+> +            g_list_nth_data(cdat->dsis_list, entry_handle);
+> +
+> +        doe->store[1] = 3 + dsis_len / sizeof(uint32_t);
+> +        doe->store[2] = next_entry << 16;
+> +        doe->store[3] = (dsis_len << 16) | CXL_CDAT_DSMSCIS_TYPE;
+> +        doe->store[4] = (dsis->handle << 8) | dsis->flags;
+> +    }
+> +    entry_handle -= g_list_length(cdat->dsis_list);
+> +    if (entry_handle < g_list_length(cdat->dsemts_list)) {
+> +        const int dsemts_len = 24;
+> +        struct cxl_cdat_dsemts *dsemts =
+> +            g_list_nth_data(cdat->dsemts_list, entry_handle);
+> +
+> +        doe->store[1] = 3 + dsemts_len / sizeof(uint32_t);
+> +        doe->store[2] = next_entry << 16;
+> +        doe->store[3] = (dsemts_len << 16) | CXL_CDAT_DSEMTS_TYPE;
+> +        doe->store[4] = (dsemts->efi_mem_type_attr << 8) | dsemts->dsmas_handle;
+> +        doe->store[5] = dsemts->dpa_offset & 0xffffffff;
+> +        doe->store[6] = (dsemts->dpa_offset >> 32) & 0xffffffff;
+> +        doe->store[7] = dsemts->dpa_length & 0xffffffff;
+> +        doe->store[8] = (dsemts->dpa_length >> 32) & 0xffffffff;
+> +    }
+> +    entry_handle -= g_list_length(cdat->dsemts_list);
+> +    if (entry_handle < g_list_length(cdat->sslbis_list)) {
+> +        struct cxl_cdat_sslbis *sslbis =
+> +            g_list_nth_data(cdat->sslbis_list, entry_handle);
+> +        int sslbis_len = 16 + 8 * sslbis->num_entries;
+> +        int i;
+> +
+> +        doe->store[1] = 3 + sslbis_len / sizeof(uint32_t);
+> +        doe->store[2] = next_entry << 16;
+> +        doe->store[3] = (sslbis_len << 16) | CXL_CDAT_SSLBIS_TYPE;
+> +        doe->store[4] = sslbis->data_type;
+> +        doe->store[5] = sslbis->base_unit & 0xffffffff;
+> +        doe->store[6] = (sslbis->base_unit >> 32) & 0xffffffff;
+> +        for (i = 0; i < sslbis->num_entries; i++) {
+> +            doe->store[7 + i * 2] = (sslbis->entries[i].port_y_id << 8) |
+> +                sslbis->entries[i].port_x_id;
+> +            doe->store[7 + i * 2 + 1] = sslbis->entries[i].val;
+> +        }
+> +    }
+> +
+> +    return -1;
+> +}
+> diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+> index 0eca715d10..9e2e5f4094 100644
+> --- a/hw/cxl/meson.build
+> +++ b/hw/cxl/meson.build
+> @@ -2,4 +2,5 @@ softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
+>    'cxl-component-utils.c',
+>    'cxl-device-utils.c',
+>    'cxl-mailbox-utils.c',
+> +  'cxl-cdat.c',
+>  ))
+> diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
+> new file mode 100644
+> index 0000000000..d0226c463c
+> --- /dev/null
+> +++ b/include/hw/cxl/cxl_cdat.h
+> @@ -0,0 +1,101 @@
+> +/*
+> + * Support for CDAT entires as defined in
+> + * Coherent Device Attribute Table (CDAT) Specification rev 1.02
+> + * Available from uefi.org.
+> + *
+> + * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +#ifndef QEMU_CXL_CDAT_H
+> +#define QEMU_CXL_CDAT_H
+> +#include "hw/pci/doe.h"
+> +/* DW2 is common to the request and response */
+> +#define CXL_DOE_TABLE_ACCESS_DW2_RCODE          0x000000ff
+> +#define CXL_DOE_TABLE_ACCESS_DW2_TYPE           0x0000ff00
+> +#define CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE    0xffff0000
+> +
+> +#define CXL_CDAT_DSMAS_TYPE     0
+> +#define CXL_CDAT_DSLBIS_TYPE    1
+> +#define CXL_CDAT_DSMSCIS_TYPE   2
+> +#define CXL_CDAT_DSIS_TYPE      3
+> +#define CXL_CDAT_DSEMTS_TYPE    4
+> +#define CXL_CDAT_SSLBIS_TYPE    5
+> +
+> +struct cxl_cdat_dsmas {
+> +    uint8_t dsmad_handle;
+> +    uint8_t flags;
+> +#define CDAT_DSMAS_FLAG_NV (1 << 2)
+> +    uint64_t dpa_base;
+> +    uint64_t dpa_length;
+> +};
+> +
+> +struct cxl_cdat_dslbis {
+> +    uint8_t handle;
+> +    uint8_t flags;
+> +    uint8_t data_type;
+> +    uint64_t entry_base_unit;
+> +    uint16_t entries[3]; /* 6 bytes */
+> +};
+> +
+> +struct cxl_cdat_dsmscis {
+> +    uint8_t dsmas_handle;
+> +    uint64_t memory_side_cache_size;
+> +    uint32_t cache_attributes;
+> +};
+> +
+> +struct cxl_cdat_dsis {
+> +    uint8_t flags;
+> +#define CDAT_DSIS_MEMORY_ATTACHED 0x01
+> +    uint8_t handle;
+> +};
+> +
+> +struct cxl_cdat_dsemts {
+> +    uint8_t dsmas_handle;
+> +    uint8_t efi_mem_type_attr;
+> +    uint64_t dpa_offset;
+> +    uint64_t dpa_length;
+> +};
+> +
+> +struct cxl_cdat_sslbis_entry {
+> +    uint16_t port_x_id;
+> +    uint16_t port_y_id;
+> +    uint16_t val;
+> +};
+> +
+> +struct cxl_cdat_sslbis {
+> +    uint8_t num_entries; /* needed to compute length */
+> +    uint8_t data_type;
+> +    uint64_t base_unit;
+> +    struct cxl_cdat_sslbis_entry entries[];
+> +};
+> +
+> +typedef struct cxl_cdat {
+> +    GList *dsmas_list;
+> +    GList *dslbis_list;
+> +    GList *dsmscis_list;
+> +    GList *dsis_list;
+> +    GList *dsemts_list;
+> +    GList *sslbis_list;
+> +} CXLCDAT;
+> +
+> +void cdat_add_dsmas(CXLCDAT *cdat, uint8_t dsmad_handle, uint8_t flags,
+> +                    uint64_t dpa_base, uint64_t dpa_length);
+> +void cdat_add_dslbis(CXLCDAT *cdat, uint8_t handle, uint8_t flags,
+> +                     uint8_t data_type, uint64_t base_unit,
+> +                     uint16_t entry0, uint16_t entry1, uint16_t entry2);
+> +void cdat_add_dsmscis(CXLCDAT *cdat, uint8_t dsmas_handle,
+> +                      uint64_t memory_sc_size, uint64_t cache_attrs);
+> +void cdat_add_dsis(CXLCDAT *cdat, uint8_t flags, uint8_t handle);
+> +void cdat_add_dsemts(CXLCDAT *cdat, uint8_t dsmas_handle,
+> +                     uint8_t efi_mem_type_attr, uint64_t dpa_offset,
+> +                     uint64_t dpa_length);
+> +struct cxl_cdat_sslbis *cdat_add_sslbis(CXLCDAT *cdat, uint8_t num_entries,
+> +                                        uint8_t data_type, uint64_t base_unit);
+> +int cdata_sslbis_set_entry(struct cxl_cdat_sslbis *sslbis, uint8_t index,
+> +                           uint16_t portx, uint16_t pory, uint16_t val);
+> +
+> +int cxl_table_access(PCIEDOE *doe, uint16_t vendor_id, uint8_t object_type,
+> +                     void *priv);
+> +#endif
+> -- 
+> 2.19.1
+> 
+> 
 
