@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F4830C373
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:19:52 +0100 (CET)
-Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E1930C3A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:28:16 +0100 (CET)
+Received: from localhost ([::1]:36768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6xT5-0007Si-LH
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:19:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
+	id 1l6xbD-00005N-8I
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:28:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xM4-0007vp-OF
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:12:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24851)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xM6-00080K-1v
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:12:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xM0-0006iK-Tc
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:12:36 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l6xM3-0006jm-0n
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:12:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612278751;
+ s=mimecast20190719; t=1612278753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=M4GaBFS7jVnOFAR7CuFO5xOXMoOMXc9Wjo+s3dt/Y6g=;
- b=XkT3hBYkOln4mqRLsaXqmkOAsCVzofEjthDctnjXzLhUk0IP9ONSOJvBQrsqV65hvRycmb
- QCxcb1afIoHIcGgbpv5JpK85RFGUxkt0SrGz1eYrilrFGkkqiwR3SIUpcsL9JeWDPobbxp
- I1aYgYXh4Jv82rUijkd3wLIFRA0npHY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-74vLhwTaPuaumm_gAfA1_Q-1; Tue, 02 Feb 2021 10:12:29 -0500
-X-MC-Unique: 74vLhwTaPuaumm_gAfA1_Q-1
-Received: by mail-wr1-f69.google.com with SMTP id l7so12768584wrp.1
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 07:12:28 -0800 (PST)
+ in-reply-to:in-reply-to:references:references;
+ bh=b12CtRnbl7Nqs3gJjcv4tUQW0ofPPzvIUK5DBHZsRyc=;
+ b=eDVlOONn72iuJY7YHtitsLmLREOfgOeaIuTMjVOGHaNYyKZedUgi5uV/Stx/9m3jzPfOaB
+ y4IDZwGe/bjQXCNzEErFHW336C1t5K4MXOqjYfqzvUqxDXYfC/ISmY/L1edFMXKV1NLCZR
+ JuAQ4E/FG7RUono/SE0hEbL+4Vb5tzc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-Zz3VB9WnOsWTQVAivQxd-A-1; Tue, 02 Feb 2021 10:12:31 -0500
+X-MC-Unique: Zz3VB9WnOsWTQVAivQxd-A-1
+Received: by mail-wm1-f69.google.com with SMTP id c189so1090844wma.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 07:12:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=M4GaBFS7jVnOFAR7CuFO5xOXMoOMXc9Wjo+s3dt/Y6g=;
- b=ZeXdWiIdjPu9ugOJtgyLeVT3FKCHhIQJ2GCX1PdSMYTMlg2uznde6vRynYjJB4zMwV
- JXSjMqYBLXR7VeIJE2pGQ6bDS4TPZJJWqchQAzyJiiMTfr0BBw8luusm23LjJwfET96/
- d8nkoqUEBr0RlqZu1yOEHbAsf2NSaOTtEYk5FmOteiYeqh2hn0yF8P66ycD3Z+9bNOR2
- Dzkkyvb/NaagxsD0BP8X36wu83xTtE1AfafBd9kquQ7H6uXPz9wERB3FVzWX6UbbCQIJ
- VdrGzuYe4+3axYO5UShRM0Tvq3PBJvBkeBjW7qWixTE+1JHnEMbNQfJe17Ed0nEgXAL5
- aWQw==
-X-Gm-Message-State: AOAM5302TDA9xmuXgQ2J/JyvKTonHV8awshC421hLRPu1SKhqkg8QPQm
- zGqP+je55wD6APtiZOAOZvI5PnO4b2lnn9ziBwINn6xYFLgFf9UE4U8BFUeOoIqzkBgPxJ68puX
- fOTiwiF3Dl+vigFCMQo3dFhP9kgY1JBKBxNzk79pMosOB34Lshfb18wQpZawv
-X-Received: by 2002:adf:e511:: with SMTP id j17mr24259063wrm.17.1612278747485; 
- Tue, 02 Feb 2021 07:12:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJySwPYP/GyTzFOijchiHYrd4ZBEI15MKAT5p6eg797wmRJKGSRKHzQbkicvMPoi4/4SM86vow==
-X-Received: by 2002:adf:e511:: with SMTP id j17mr24259040wrm.17.1612278747208; 
- Tue, 02 Feb 2021 07:12:27 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=b12CtRnbl7Nqs3gJjcv4tUQW0ofPPzvIUK5DBHZsRyc=;
+ b=j+Lt1XMPyS+EeMXUMQrmzJiLYr6HmLemaCQqfEk/wyA7Jdf2hJLWnfvS5bdQO8Uujm
+ GMP9qPOm2Mv4m3bQttTT8/AcGWLwfK6Klz8W8xcP5FGOPt/rFU3iH3+8jHcYsiJ1oyqj
+ 0me28sI3pqC7oTWfxSKdli+0LDHT/iqydX2FYUQq4q1jlSBvYult9aMQvz6CwBCWWG+B
+ a7XDDPzsA2MxWiJmIYK+lLaXft1LPplSr4FtwuRV/wG/CFtMMhWA3dDrn9xpzP8SuM2z
+ 7nSP7dARUI4i+sSUx9zec5fAHDGTJoB0Noyr7/m5zSG030PtT95Bc3uBIGdZpLy1SXAF
+ UeDw==
+X-Gm-Message-State: AOAM533H59kvCAzu2RGHm5RqV3hYv10OmkvkBu6Ibg3JusfQIKZedIHu
+ aVF65urYKWoQBHB9XFtD/yrNrIV4VmHZnP9/5EUvy58E5+Z+CNSZCI0yWFzeVjLbPjz7fKXWnTF
+ 94K2QzfYQ2QXF9m/QPxq4jpH7FpjrujmQs+t9eMQnH+ZTI5XIy2uMjxWdAqvE
+X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr4098534wmk.72.1612278750219;
+ Tue, 02 Feb 2021 07:12:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzo4q8PHo5oqesNHzj9b4SLtgH/RZ/DgL0Ci8iL9eo4BcgZv3KA9ZgyNR/Ro51OXiv8n8Xx3w==
+X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr4098506wmk.72.1612278749878;
+ Tue, 02 Feb 2021 07:12:29 -0800 (PST)
 Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
- by smtp.gmail.com with ESMTPSA id b3sm4051845wme.32.2021.02.02.07.12.25
+ by smtp.gmail.com with ESMTPSA id c9sm31635464wrw.76.2021.02.02.07.12.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 07:12:26 -0800 (PST)
-Date: Tue, 2 Feb 2021 10:12:24 -0500
+ Tue, 02 Feb 2021 07:12:29 -0800 (PST)
+Date: Tue, 2 Feb 2021 10:12:27 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] pc,virtio: fixes, features
-Message-ID: <20210202151116.1573669-1-mst@redhat.com>
+Subject: [PULL 1/9] virtio: move 'use-disabled-flag' property to hw_compat_4_2
+Message-ID: <20210202151116.1573669-2-mst@redhat.com>
+References: <20210202151116.1573669-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210202151116.1573669-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,171 +92,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
+ mdroth@linux.vnet.ibm.com, Jing Zhao <jinzhao@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9cd69f1a270235b652766f00b94114f48a2d603f:
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-  Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-01-25-1' into staging (2021-01-26 09:51:02 +0000)
+Commit 9d7bd0826f introduced a new 'use-disabled-flag' property
+set to true by default.
+To allow the migration, we set this property to false in the hw_compat,
+but in the wrong place (hw_compat_4_1).
 
-are available in the Git repository at:
+Since commit 9d7bd0826f was released with QEMU 5.0, we move
+'use-disabled-flag' property to hw_compat_4_2, so 4.2 machine types
+will have the pre-patch behavior and the migration can work.
 
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+The issue was discovered with vhost-vsock device and 4.2 machine
+type without running any kernel in the VM:
+    $ qemu-4.2 -M pc-q35-4.2,accel=kvm \
+        -device vhost-vsock-pci,guest-cid=4 \
+        -monitor stdio -incoming tcp:0:3333
 
-for you to fetch changes up to 737242ed5be0a7119aad55894148b3f5dec41200:
+    $ qemu-5.2 -M pc-q35-4.2,accel=kvm \
+        -device vhost-vsock-pci,guest-cid=3 \
+        -monitor stdio
+    (qemu) migrate -d tcp:0:3333
 
-  virtio-pmem: add trace events (2021-01-27 08:02:39 -0500)
+    # qemu-4.2 output
+    qemu-system-x86_64: Failed to load virtio-vhost_vsock:virtio
+    qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:03.0/virtio-vhost_vsock'
+    qemu-system-x86_64: load of migration failed: No such file or directory
 
-----------------------------------------------------------------
-pc,virtio: fixes, features
-
-Fixes all over the place.
-Ability to control ACPI OEM ID's.
-
+Reported-by: Jing Zhao <jinzhao@redhat.com>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1907255
+Fixes: 9d7bd0826f ("virtio-pci: disable vring processing when bus-mastering is disabled")
+Cc: mdroth@linux.vnet.ibm.com
+CC: qemu-stable@nongnu.org
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20210108171252.209502-1-sgarzare@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/core/machine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Eugenio Pérez (1):
-      virtio: Add corresponding memory_listener_unregister to unrealize
-
-Laurent Vivier (1):
-      virtio-mmio: fix guest kernel crash with SHM regions
-
-Marian Postevca (5):
-      tests/acpi: allow updates for expected data files
-      acpi: Permit OEM ID and OEM table ID fields to be changed
-      tests/acpi: add OEM ID and OEM TABLE ID test
-      tests/acpi: update expected data files
-      tests/acpi: disallow updates for expected data files
-
-Pankaj Gupta (1):
-      virtio-pmem: add trace events
-
-Stefano Garzarella (1):
-      virtio: move 'use-disabled-flag' property to hw_compat_4_2
-
- hw/acpi/hmat.h                       |   3 +-
- hw/i386/acpi-common.h                |   3 +-
- include/hw/acpi/acpi-defs.h          |   2 +-
- include/hw/acpi/aml-build.h          |   8 +-
- include/hw/acpi/ghes.h               |   3 +-
- include/hw/acpi/pci.h                |   3 +-
- include/hw/acpi/vmgenid.h            |   2 +-
- include/hw/arm/virt.h                |   2 +
- include/hw/i386/microvm.h            |   4 +
- include/hw/i386/pc.h                 |   5 +-
- include/hw/mem/nvdimm.h              |   3 +-
- hw/acpi/aml-build.c                  |  29 +++---
- hw/acpi/ghes.c                       |   5 +-
- hw/acpi/hmat.c                       |   5 +-
- hw/acpi/nvdimm.c                     |  18 ++--
- hw/acpi/pci.c                        |   5 +-
- hw/acpi/vmgenid.c                    |   4 +-
- hw/arm/virt-acpi-build.c             |  40 ++++++---
- hw/arm/virt.c                        |  63 +++++++++++++
- hw/core/machine.c                    |   2 +-
- hw/i386/acpi-build.c                 |  86 ++++++++++++------
- hw/i386/acpi-common.c                |   5 +-
- hw/i386/acpi-microvm.c               |  13 +--
- hw/i386/microvm.c                    |  66 ++++++++++++++
- hw/i386/pc.c                         |  64 +++++++++++++
- hw/virtio/virtio-mmio.c              |   8 ++
- hw/virtio/virtio-pmem.c              |   4 +
- hw/virtio/virtio.c                   |   2 +-
- tests/qtest/bios-tables-test.c       | 170 ++++++++++++++++++++++++++++++-----
- hw/virtio/trace-events               |   5 ++
- tests/data/acpi/microvm/APIC         | Bin 70 -> 70 bytes
- tests/data/acpi/microvm/APIC.ioapic2 | Bin 82 -> 82 bytes
- tests/data/acpi/microvm/APIC.pcie    | Bin 110 -> 110 bytes
- tests/data/acpi/microvm/DSDT         | Bin 365 -> 365 bytes
- tests/data/acpi/microvm/DSDT.ioapic2 | Bin 365 -> 365 bytes
- tests/data/acpi/microvm/DSDT.pcie    | Bin 3031 -> 3031 bytes
- tests/data/acpi/microvm/DSDT.rtc     | Bin 404 -> 404 bytes
- tests/data/acpi/microvm/DSDT.usb     | Bin 414 -> 414 bytes
- tests/data/acpi/microvm/FACP         | Bin 268 -> 268 bytes
- tests/data/acpi/pc/APIC              | Bin 120 -> 120 bytes
- tests/data/acpi/pc/APIC.acpihmat     | Bin 128 -> 128 bytes
- tests/data/acpi/pc/APIC.cphp         | Bin 160 -> 160 bytes
- tests/data/acpi/pc/APIC.dimmpxm      | Bin 144 -> 144 bytes
- tests/data/acpi/pc/DSDT              | Bin 5065 -> 5065 bytes
- tests/data/acpi/pc/DSDT.acpihmat     | Bin 6390 -> 6390 bytes
- tests/data/acpi/pc/DSDT.bridge       | Bin 6924 -> 6924 bytes
- tests/data/acpi/pc/DSDT.cphp         | Bin 5529 -> 5529 bytes
- tests/data/acpi/pc/DSDT.dimmpxm      | Bin 6719 -> 6719 bytes
- tests/data/acpi/pc/DSDT.hpbridge     | Bin 5026 -> 5026 bytes
- tests/data/acpi/pc/DSDT.hpbrroot     | Bin 3084 -> 3084 bytes
- tests/data/acpi/pc/DSDT.ipmikcs      | Bin 5137 -> 5137 bytes
- tests/data/acpi/pc/DSDT.memhp        | Bin 6424 -> 6424 bytes
- tests/data/acpi/pc/DSDT.numamem      | Bin 5071 -> 5071 bytes
- tests/data/acpi/pc/DSDT.roothp       | Bin 5261 -> 5261 bytes
- tests/data/acpi/pc/FACP              | Bin 116 -> 116 bytes
- tests/data/acpi/pc/HMAT.acpihmat     | Bin 280 -> 280 bytes
- tests/data/acpi/pc/HPET              | Bin 56 -> 56 bytes
- tests/data/acpi/pc/NFIT.dimmpxm      | Bin 240 -> 240 bytes
- tests/data/acpi/pc/SLIT.cphp         | Bin 48 -> 48 bytes
- tests/data/acpi/pc/SLIT.memhp        | Bin 48 -> 48 bytes
- tests/data/acpi/pc/SRAT.acpihmat     | Bin 280 -> 280 bytes
- tests/data/acpi/pc/SRAT.cphp         | Bin 304 -> 304 bytes
- tests/data/acpi/pc/SRAT.dimmpxm      | Bin 392 -> 392 bytes
- tests/data/acpi/pc/SRAT.memhp        | Bin 264 -> 264 bytes
- tests/data/acpi/pc/SRAT.numamem      | Bin 224 -> 224 bytes
- tests/data/acpi/pc/SSDT.dimmpxm      | Bin 734 -> 734 bytes
- tests/data/acpi/pc/WAET              | Bin 40 -> 40 bytes
- tests/data/acpi/q35/APIC             | Bin 120 -> 120 bytes
- tests/data/acpi/q35/APIC.acpihmat    | Bin 128 -> 128 bytes
- tests/data/acpi/q35/APIC.cphp        | Bin 160 -> 160 bytes
- tests/data/acpi/q35/APIC.dimmpxm     | Bin 144 -> 144 bytes
- tests/data/acpi/q35/DSDT             | Bin 7801 -> 7801 bytes
- tests/data/acpi/q35/DSDT.acpihmat    | Bin 9126 -> 9126 bytes
- tests/data/acpi/q35/DSDT.bridge      | Bin 7819 -> 7819 bytes
- tests/data/acpi/q35/DSDT.cphp        | Bin 8265 -> 8265 bytes
- tests/data/acpi/q35/DSDT.dimmpxm     | Bin 9455 -> 9455 bytes
- tests/data/acpi/q35/DSDT.ipmibt      | Bin 7876 -> 7876 bytes
- tests/data/acpi/q35/DSDT.memhp       | Bin 9160 -> 9160 bytes
- tests/data/acpi/q35/DSDT.mmio64      | Bin 8932 -> 8932 bytes
- tests/data/acpi/q35/DSDT.numamem     | Bin 7807 -> 7807 bytes
- tests/data/acpi/q35/DSDT.tis         | Bin 8407 -> 8407 bytes
- tests/data/acpi/q35/FACP             | Bin 244 -> 244 bytes
- tests/data/acpi/q35/HMAT.acpihmat    | Bin 280 -> 280 bytes
- tests/data/acpi/q35/HPET             | Bin 56 -> 56 bytes
- tests/data/acpi/q35/MCFG             | Bin 60 -> 60 bytes
- tests/data/acpi/q35/NFIT.dimmpxm     | Bin 240 -> 240 bytes
- tests/data/acpi/q35/SLIT.cphp        | Bin 48 -> 48 bytes
- tests/data/acpi/q35/SLIT.memhp       | Bin 48 -> 48 bytes
- tests/data/acpi/q35/SRAT.acpihmat    | Bin 280 -> 280 bytes
- tests/data/acpi/q35/SRAT.cphp        | Bin 304 -> 304 bytes
- tests/data/acpi/q35/SRAT.dimmpxm     | Bin 392 -> 392 bytes
- tests/data/acpi/q35/SRAT.memhp       | Bin 264 -> 264 bytes
- tests/data/acpi/q35/SRAT.mmio64      | Bin 224 -> 224 bytes
- tests/data/acpi/q35/SRAT.numamem     | Bin 224 -> 224 bytes
- tests/data/acpi/q35/SSDT.dimmpxm     | Bin 734 -> 734 bytes
- tests/data/acpi/q35/TPM2.tis         | Bin 76 -> 76 bytes
- tests/data/acpi/q35/WAET             | Bin 40 -> 40 bytes
- tests/data/acpi/virt/APIC            | Bin 168 -> 168 bytes
- tests/data/acpi/virt/APIC.memhp      | Bin 168 -> 168 bytes
- tests/data/acpi/virt/APIC.numamem    | Bin 168 -> 168 bytes
- tests/data/acpi/virt/DSDT            | Bin 5204 -> 5204 bytes
- tests/data/acpi/virt/DSDT.memhp      | Bin 6565 -> 6565 bytes
- tests/data/acpi/virt/DSDT.numamem    | Bin 5204 -> 5204 bytes
- tests/data/acpi/virt/DSDT.pxb        | Bin 7689 -> 7689 bytes
- tests/data/acpi/virt/FACP            | Bin 268 -> 268 bytes
- tests/data/acpi/virt/FACP.memhp      | Bin 268 -> 268 bytes
- tests/data/acpi/virt/FACP.numamem    | Bin 268 -> 268 bytes
- tests/data/acpi/virt/GTDT            | Bin 96 -> 96 bytes
- tests/data/acpi/virt/GTDT.memhp      | Bin 96 -> 96 bytes
- tests/data/acpi/virt/GTDT.numamem    | Bin 96 -> 96 bytes
- tests/data/acpi/virt/MCFG            | Bin 60 -> 60 bytes
- tests/data/acpi/virt/MCFG.memhp      | Bin 60 -> 60 bytes
- tests/data/acpi/virt/MCFG.numamem    | Bin 60 -> 60 bytes
- tests/data/acpi/virt/NFIT.memhp      | Bin 224 -> 224 bytes
- tests/data/acpi/virt/SLIT.memhp      | Bin 48 -> 48 bytes
- tests/data/acpi/virt/SPCR            | Bin 80 -> 80 bytes
- tests/data/acpi/virt/SPCR.memhp      | Bin 80 -> 80 bytes
- tests/data/acpi/virt/SPCR.numamem    | Bin 80 -> 80 bytes
- tests/data/acpi/virt/SRAT.memhp      | Bin 226 -> 226 bytes
- tests/data/acpi/virt/SRAT.numamem    | Bin 106 -> 106 bytes
- tests/data/acpi/virt/SSDT.memhp      | Bin 736 -> 736 bytes
- 121 files changed, 514 insertions(+), 118 deletions(-)
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index de3b8f1b31..5d6163ab70 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -70,12 +70,12 @@ GlobalProperty hw_compat_4_2[] = {
+     { "qxl", "revision", "4" },
+     { "qxl-vga", "revision", "4" },
+     { "fw_cfg", "acpi-mr-restore", "false" },
++    { "virtio-device", "use-disabled-flag", "false" },
+ };
+ const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
+ 
+ GlobalProperty hw_compat_4_1[] = {
+     { "virtio-pci", "x-pcie-flr-init", "off" },
+-    { "virtio-device", "use-disabled-flag", "false" },
+ };
+ const size_t hw_compat_4_1_len = G_N_ELEMENTS(hw_compat_4_1);
+ 
+-- 
+MST
 
 
