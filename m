@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01BB130BE1A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:22:50 +0100 (CET)
-Received: from localhost ([::1]:49352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD87230BE1D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:26:17 +0100 (CET)
+Received: from localhost ([::1]:53668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6uhm-0005uj-0h
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:22:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41912)
+	id 1l6ul6-0007p9-Pb
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:26:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6ufv-0004xY-NE
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:20:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39324)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6ugk-0005iK-W9
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:21:47 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6ufs-0005b7-B5
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:20:55 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l6ufq-0002CL-C8
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 12:20:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 26F112E813B
- for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 12:20:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6ugi-0005xv-Jr
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:21:46 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id y8so7514241ede.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 04:21:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=belE4FoTQ5IDz2AkXxRNs1TgkX/xK+2CldIU2o/On7Y=;
+ b=UlxbO+amTvKVNHtmZGHPGxefFQeXcZ89PubzDQQTJ1QP7sM0H6gADz+0mVDwsjOtvk
+ pfmTNnNpfRdfw4QIL4TsoXs+awFOf9fe9lDndVTsBU553apPMlGkEoxf+ksrdsMWTVkY
+ JY1tchrlF+e+0EKeQjgVDAzdh29ck5f3Z+ZZ7P4n/pWPZy/pfHPhX8APSkbVkND9UP66
+ +n8LtLEV3dcI3IWZNB73Hu4C16u6rnjMaZT6nFsNlU+UcAf7dJA93utQKCsxWN8LVSyp
+ 5iotuvKJePatRk4G2pXBDyYDw//bYxeTMSSC2ksNz9DLtuV7+/5kEn3A/eltOur4hD39
+ VB8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=belE4FoTQ5IDz2AkXxRNs1TgkX/xK+2CldIU2o/On7Y=;
+ b=Jz7J11dw3LG7qklb3ar9IrfVAtWdnrJW5M7wzMwC0DMp39XE4HDnzOZ3nWjUaTOQx0
+ YY+7tWNMgI7ysv74pSei0g99cBYhcUae2nZXEnVXAL7Vg0RnK561O6ljZ0NsZgqR9Gyl
+ Bg6Wc4GTx7n+j05tlSLfPYkJZzVnUUYUguuRVxQEJiD/nJKcq8V8PntRZ8qduxceS05o
+ j1f/XMnv1sSCkuwe5J2k/vBbWEe0rfp4v4AB8LeRK5lg+dakfUPg3PUYXoJTevr3qXjQ
+ 5VOs8F7GivzHSii5Uj7HrGdICEwkHVlw15gps9OWLCx57PmzwYa18n97FlcAk8ZH/5cA
+ xODQ==
+X-Gm-Message-State: AOAM532TPWS7z5mRv7wSSPCWkGOdksYy+H/a+2z7cfOLua7bsdTO9fi3
+ u+l8hBOA5zkoYfBXUKdJ8lD+ZqLcvx5VUslfOnZ2LA==
+X-Google-Smtp-Source: ABdhPJxK9DqMutGnwvxhpSFo+gkvg022ZVD24QmlfwPUrZmYjiJ661F2qF4IU4TRLGEmHSDT/3OhzdZwu1ObosyWGxw=
+X-Received: by 2002:a05:6402:3514:: with SMTP id
+ b20mr22821315edd.100.1612268502667; 
+ Tue, 02 Feb 2021 04:21:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20210131103401.217160-1-f4bug@amsat.org>
+ <3a94e327-0454-bf43-552a-1c84407e1d7d@amsat.org>
+ <20p82p5p-ns25-n434-37os-n55013s6313@erqung.pbz>
+ <6d29aa57-2e6e-e81d-831f-803d9aae798f@amsat.org>
+ <787280826.1146023.1612246917145@mail.yahoo.com>
+ <3bd70da2-39ec-6e6b-d46d-6052f1b8f0b0@amsat.org>
+In-Reply-To: <3bd70da2-39ec-6e6b-d46d-6052f1b8f0b0@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 12:21:31 +0000
+Message-ID: <CAFEAcA-Q8swS84GVd20wo4Pp41UUPdDknxbCMn=pchgi96UgRQ@mail.gmail.com>
+Subject: Re: [QEMU-SECURITY] [PATCH] hw/intc/arm_gic: Fix interrupt ID in
+ GICD_SGIR register
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Feb 2021 12:11:23 -0000
-From: Peter Maydell <1913916@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd pmaydell
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-X-Launchpad-Bug-Duplicate: 1913917
-References: <161205956490.4641.15990976871490483736.malonedeb@soybean.canonical.com>
-Message-Id: <161226788317.13121.16272282181171694749.malone@soybean.canonical.com>
-Subject: [Bug 1913916] Re: aarch64-virt: heap-buffer-overflow in
- address_space_lookup_region
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: 20c581bb6974de07bd698e0d866c8e39fcee44fa
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,131 +85,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913916 <1913916@bugs.launchpad.net>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Li Qiang <liq3ea@gmail.com>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ QEMU Security <qemu-security@nongnu.org>, P J P <ppandit@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ P J P <pj.pandit@yahoo.co.in>, Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1913917 ***
-    https://bugs.launchpad.net/bugs/1913917
+On Tue, 2 Feb 2021 at 09:32, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> On 2/2/21 7:21 AM, P J P wrote:
+> > On Sunday, 31 January, 2021, 08:48:26 pm IST, Philippe Mathieu-Daud=C3=
+=A9 <f4bug@amsat.org> wrote:
+> >> Forwarding to qemu-security@ to see if this issue is worth a CVE.
+> >>
+> >> | On 1/31/21 11:34 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> >> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
+> >> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
+> >
+> > * Does above patch address both these bugs? For BZ#1913917 'irq' is der=
+ived from 'offset' it seems.
+> >
+> >         /* Interrupt Configuration.  */
+> >         irq =3D (offset - 0xc00) * 4;
+>
+> I haven't done a thorough analysis, simply tried to fixed this
+> bug ASAP as it is public so many users are exposed.
+>
+> I had the impression the first call (writel 0x8000f00 0x5affaf)
+> break the heap, so the memory is inconsistent when the second
+> call (write 0x8000eff 0x1 0x0) is done, but better have developers
+> familiar with GIC and security auditing this again.
 
-This is a duplicate of the rather simpler bug 1913917. The overrun occurs o=
-n the first =
+Philippe is correct here. In both cases the overrun is on the
+first writel to 0x8000f00, but the fuzzer has for some reason not
+reported that but instead blundered on until it happens to trigger
+some other issue that resulted from the memory corruption it induced
+with the first write.
 
-writel 0x8000f00 0xff4affb0, which corrupts memory and eventually results i=
-n the crash described in the backtrace. I'm not sure why the fuzzer isn't j=
-ust reporting the original overrun.
+> >> | > Correct the irq mask to fix an undefined behavior (which eventuall=
+y
+> >> | > lead to a heap-buffer-overflow, see [Buglink]):
+> >> | >
+> >> | >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M v=
+irt,accel=3Dqtest -qtest stdio
+> >> | >    [I 1612088147.116987] OPENED
+> >> | >  [R +0.278293] writel 0x8000f00 0xff4affb0
+> >> | >  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bou=
+nds for type 'uint8_t [16][8]'
+> >> | >  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/int=
+c/arm_gic.c:1498:13
+> >> | >
+> >> | > Cc: qemu-stable@nongnu.org
+> >> | > Fixes: 9ee6e8bb853 ("ARMv7 support.")
+> >> |
+> >> | > ---
+> >> | > Isnt it worth a CVE to help distributions track backports?
+> >> | > ---
+> >
+> > Thank you for reporting this issue. Will process further.
 
+On the CVE:
 
-** This bug has been marked a duplicate of bug 1913917
-   aarch64-virt: heap-use-after-free in gic_dist_writeb
+Since this can affect systems using KVM, this is a security bug for
+us. However, it only affects an uncommon configuration:
+you are only vulnerable if you are using "kernel-irqchip=3Doff"
+(the default is 'on', and turning it off is an odd thing to do).
 
--- =
+I've applied this patch to target-arm.next.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913916
-
-Title:
-  aarch64-virt: heap-buffer-overflow in address_space_lookup_region
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Reproducer:
-  cat << EOF | ./qemu-system-aarch64 \
-  -machine virt,accel=3Dqtest -qtest stdio
-  writel 0x8000f00 0xff4affb0
-  writel 0x8000f00 0xf2f8017f
-  writeq 0x801000e 0x5a5a5a6c8ff7004b
-  writeq 0x8010010 0x5a5a5a5a73ba2f00
-  writel 0x8000000 0x3bf5a03
-  writel 0x8000000 0x3bf5a03
-  writeq 0x8010000 0x10ffff03fbffffff
-  writel 0x8000f1f 0x5a55fc00
-  readl 0x8011f00
-  readl 0x80000d3
-  readl 0x80000d3
-  clock_step
-  writeq 0x4010008004 0x4604fffdffc54c01
-  writeq 0x4010008002 0xf7478b3f5aff5a55
-  writel 0x8000f00 0x2d6954
-  writel 0x800005a 0x2706fcf
-  readq 0x800002c
-  readw 0x9000004
-  readq 0x800002c
-  writeq 0x801000e 0x5555017f00017f00
-  writew 0x8010000 0x55
-  writew 0x8010000 0x465a
-  writew 0x8010000 0x55
-  writew 0x8010000 0xaf00
-  writeq 0x8010015 0x3b5a5a5555460000
-  writeq 0x8010015 0xd546002b2b000000
-  writeq 0x8010015 0xc44ea5aaaab9ffff
-  readq 0x8000a5a
-  EOF
-
-  Stacktrace:
-  =3D=3D638893=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
-s 0x629000022b84 at pc 0x55915c484d92 bp 0x7ffcde114a00 sp 0x7ffcde1149f8
-  READ of size 2 at 0x629000022b84 thread T0
-      #0 0x55915c484d91 in address_space_lookup_region /home/alxndr/Develop=
-ment/qemu/build/../softmmu/physmem.c:345:36
-      #1 0x55915c484d91 in address_space_translate_internal /home/alxndr/De=
-velopment/qemu/build/../softmmu/physmem.c:359:15
-      #2 0x55915c481d90 in flatview_do_translate /home/alxndr/Development/q=
-emu/build/../softmmu/physmem.c:497:15
-      #3 0x55915c48214e in flatview_translate /home/alxndr/Development/qemu=
-/build/../softmmu/physmem.c:563:15
-      #4 0x55915c107ff9 in address_space_read /home/alxndr/Development/qemu=
-/include/exec/memory.h:2477:18
-      #5 0x55915c107ff9 in qtest_process_command /home/alxndr/Development/q=
-emu/build/../softmmu/qtest.c:572:13
-      #6 0x55915c102b97 in qtest_process_inbuf /home/alxndr/Development/qem=
-u/build/../softmmu/qtest.c:797:9
-      #7 0x55915c953286 in fd_chr_read /home/alxndr/Development/qemu/build/=
-../chardev/char-fd.c:68:9
-      #8 0x7f02be25daae in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
-nu/libglib-2.0.so.0+0x51aae)
-      #9 0x55915cfae363 in glib_pollfds_poll /home/alxndr/Development/qemu/=
-build/../util/main-loop.c:232:9
-      #10 0x55915cfae363 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/build/../util/main-loop.c:255:5
-      #11 0x55915cfae363 in main_loop_wait /home/alxndr/Development/qemu/bu=
-ild/../util/main-loop.c:531:11
-      #12 0x55915c069599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
-ild/../softmmu/runstate.c:721:9
-      #13 0x55915a2f61fd in main /home/alxndr/Development/qemu/build/../sof=
-tmmu/main.c:50:5
-      #14 0x7f02bdd02cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
-      #15 0x55915a249bc9 in _start (/home/alxndr/Development/qemu/build/qem=
-u-system-aarch64+0x3350bc9)
-
-  0x629000022b84 is located 660 bytes to the right of 18160-byte region [0x=
-62900001e200,0x6290000228f0)
-  allocated by thread T0 here:
-      #0 0x55915a2c3c3d in malloc (/home/alxndr/Development/qemu/build/qemu=
--system-aarch64+0x33cac3d)
-      #1 0x7f02be263a88 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x57a88)
-      #2 0x55915c932cbd in qdev_new /home/alxndr/Development/qemu/build/../=
-hw/core/qdev.c:153:19
-      #3 0x55915b559360 in create_gic /home/alxndr/Development/qemu/build/.=
-./hw/arm/virt.c:631:16
-      #4 0x55915b5449d2 in machvirt_init /home/alxndr/Development/qemu/buil=
-d/../hw/arm/virt.c:1966:5
-      #5 0x55915a62bac0 in machine_run_board_init /home/alxndr/Development/=
-qemu/build/../hw/core/machine.c:1169:5
-      #6 0x55915c02b8d8 in qemu_init_board /home/alxndr/Development/qemu/bu=
-ild/../softmmu/vl.c:2455:5
-      #7 0x55915c02b8d8 in qmp_x_exit_preconfig /home/alxndr/Development/qe=
-mu/build/../softmmu/vl.c:2526:5
-      #8 0x55915c035d91 in qemu_init /home/alxndr/Development/qemu/build/..=
-/softmmu/vl.c:3533:9
-      #9 0x55915a2f61f8 in main /home/alxndr/Development/qemu/build/../soft=
-mmu/main.c:49:5
-      #10 0x7f02bdd02cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913916/+subscriptions
+thanks
+-- PMM
 
