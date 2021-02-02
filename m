@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BF430B465
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 02:06:04 +0100 (CET)
-Received: from localhost ([::1]:50786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B2B30B495
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 02:20:59 +0100 (CET)
+Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6k8p-0005RY-MW
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 20:06:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47340)
+	id 1l6kNG-0002s8-9O
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 20:20:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1l6k3s-0000Dl-DX
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:00:56 -0500
-Received: from mga18.intel.com ([134.134.136.126]:33363)
+ id 1l6k3u-0000HN-3K
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:00:58 -0500
+Received: from mga18.intel.com ([134.134.136.126]:33362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1l6k3q-0001oo-92
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:00:56 -0500
-IronPort-SDR: fRqIxXsWVOOXPXuE64n+1GgvITuiqlvbDO7MaJIWyUBjkYvn4lNQnjEcFWPOT+K2OWng2Y59RV
- krac8MEtv70A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="168457112"
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="168457112"
+ id 1l6k3r-0001oN-P3
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 20:00:57 -0500
+IronPort-SDR: LLjl9dId0EOxVSz9uC1CUyR2Rq+Vh80Omn+Tc4ajSJlNrhNBEdnrER6+ywco0W6kCCDICNpfkD
+ TH71dX2NokaQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="168457115"
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="168457115"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 17:00:11 -0800
-IronPort-SDR: zH8MN+vhKrbdnqfKx8okUNZWufOFZsQCsvYiW8D8HI1Hxk2xwNSs1SQ3U1a1vtUHAFSz2PA09Y
- gq8hC5n6cMRA==
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="581764196"
+ 01 Feb 2021 17:00:12 -0800
+IronPort-SDR: fF9IOuRHIl0X7iApqGnvAC4ei7SpfPO8/Kg9lnCYwux8Ixg6T8RxdYYooUTRp0rYFWm3fkelpT
+ ec8R3eUHYXrQ==
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="581764204"
 Received: from jambrizm-mobl1.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
  ([10.252.133.15])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 17:00:09 -0800
+ 01 Feb 2021 17:00:11 -0800
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 17/31] hw/cxl/component: Implement host bridge MMIO
- (8.2.5, table 142)
-Date: Mon,  1 Feb 2021 16:59:34 -0800
-Message-Id: <20210202005948.241655-18-ben.widawsky@intel.com>
+Subject: [RFC PATCH v3 18/31] acpi/pxb/cxl: Reserve host bridge MMIO
+Date: Mon,  1 Feb 2021 16:59:35 -0800
+Message-Id: <20210202005948.241655-19-ben.widawsky@intel.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210202005948.241655-1-ben.widawsky@intel.com>
 References: <20210202005948.241655-1-ben.widawsky@intel.com>
@@ -76,131 +75,81 @@ Cc: Ben Widawsky <ben.widawsky@intel.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CXL host bridges themselves may have MMIO. Since host bridges don't have
-a BAR they are treated as special for MMIO.
+For all host bridges, reserve MMIO space with _CRS. The MMIO for the
+host bridge lives in a magically hard coded space in the system's
+physical address space. The standard mechanism to tell the OS about
+regions which can't be used for host bridges is _CRS.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-
---
-
-It's arbitrarily chosen here to pick 0xD0000000 as the base for the host
-bridge MMIO. I'm not sure what the right way to find free space for
-platform hardcoded things like this is.
 ---
- hw/pci-bridge/pci_expander_bridge.c | 53 ++++++++++++++++++++++++++++-
- include/hw/cxl/cxl.h                |  2 ++
- 2 files changed, 54 insertions(+), 1 deletion(-)
+ hw/i386/acpi-build.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index 5021b60435..226a8a5fff 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -17,6 +17,7 @@
- #include "hw/pci/pci_host.h"
- #include "hw/qdev-properties.h"
- #include "hw/pci/pci_bridge.h"
-+#include "hw/cxl/cxl.h"
- #include "qemu/range.h"
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 145a503e92..ecdc10b148 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -28,6 +28,7 @@
+ #include "qemu/bitmap.h"
  #include "qemu/error-report.h"
- #include "qemu/module.h"
-@@ -70,6 +71,12 @@ struct PXBDev {
-     int32_t uid;
- };
+ #include "hw/pci/pci.h"
++#include "hw/cxl/cxl.h"
+ #include "hw/core/cpu.h"
+ #include "target/i386/cpu.h"
+ #include "hw/misc/pvpanic.h"
+@@ -1194,7 +1195,7 @@ static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
+     aml_append(table, scope);
+ }
  
-+typedef struct CXLHost {
-+    PCIHostState parent_obj;
-+
-+    CXLComponentState cxl_cstate;
-+} CXLHost;
-+
- static PXBDev *convert_to_pxb(PCIDevice *dev)
+-enum { PCI, PCIE };
++enum { PCI, PCIE, CXL };
+ static void init_pci_acpi(Aml *dev, int uid, int type)
  {
-     /* A CXL PXB's parent bus is PCIe, so the normal check won't work */
-@@ -85,6 +92,9 @@ static GList *pxb_dev_list;
+     if (type == PCI) {
+@@ -1344,20 +1345,28 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             uint8_t bus_num = pci_bus_num(bus);
+             uint8_t numa_node = pci_bus_numa_node(bus);
+             int32_t uid = pci_bus_uid(bus);
++            int type;
  
- #define TYPE_PXB_HOST "pxb-host"
+             /* look only for expander root buses */
+             if (!pci_bus_is_root(bus)) {
+                 continue;
+             }
  
-+#define TYPE_PXB_CXL_HOST "pxb-cxl-host"
-+#define PXB_CXL_HOST(obj) OBJECT_CHECK(CXLHost, (obj), TYPE_PXB_CXL_HOST)
++            type = pci_bus_is_cxl(bus) ? CXL :
++                                         pci_bus_is_express(bus) ? PCIE : PCI;
 +
- static int pxb_bus_num(PCIBus *bus)
- {
-     PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-@@ -198,6 +208,46 @@ static const TypeInfo pxb_host_info = {
-     .class_init    = pxb_host_class_init,
- };
+             if (bus_num < root_bus_limit) {
+                 root_bus_limit = bus_num - 1;
+             }
  
-+static void pxb_cxl_realize(DeviceState *dev, Error **errp)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
-+    CXLHost *cxl = PXB_CXL_HOST(dev);
-+    CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-+    struct MemoryRegion *mr = &cxl_cstate->crb.component_registers;
+             scope = aml_scope("\\_SB");
+-            dev = aml_device("PC%.02X", bus_num);
++            if (type == CXL) {
++                dev = aml_device("CXL%.01X", pci_bus_uid(bus));
++            } else {
++                dev = aml_device("PC%.02X", bus_num);
++            }
+             aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
+-            init_pci_acpi(dev, uid, pci_bus_is_express(bus) ? PCIE : PCI);
++            init_pci_acpi(dev, uid, type);
+ 
+             if (numa_node != NUMA_NODE_UNASSIGNED) {
+                 aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
+@@ -1369,6 +1378,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             aml_append(dev, aml_name_decl("_CRS", crs));
+             aml_append(scope, dev);
+             aml_append(dsdt, scope);
 +
-+    cxl_component_register_block_init(OBJECT(dev), cxl_cstate,
-+                                      TYPE_PXB_CXL_HOST);
-+    sysbus_init_mmio(sbd, mr);
-+
-+    /* FIXME: support multiple host bridges. */
-+    sysbus_mmio_map(sbd, 0, CXL_HOST_BASE +
-+                            memory_region_size(mr) * pci_bus_uid(phb->bus));
-+}
-+
-+static void pxb_cxl_host_class_init(ObjectClass *class, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(class);
-+    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(class);
-+
-+    hc->root_bus_path = pxb_host_root_bus_path;
-+    dc->fw_name = "cxl";
-+    dc->realize = pxb_cxl_realize;
-+    /* Reason: Internal part of the pxb/pxb-pcie device, not usable by itself */
-+    dc->user_creatable = false;
-+}
-+
-+/*
-+ * This is a device to handle the MMIO for a CXL host bridge. It does nothing
-+ * else.
-+ */
-+static const TypeInfo cxl_host_info = {
-+    .name          = TYPE_PXB_CXL_HOST,
-+    .parent        = TYPE_PCI_HOST_BRIDGE,
-+    .instance_size = sizeof(CXLHost),
-+    .class_init    = pxb_cxl_host_class_init,
-+};
-+
- /*
-  * Registers the PXB bus as a child of pci host root bus.
-  */
-@@ -272,7 +322,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-         dev_name = dev->qdev.id;
++            /* Handle the ranges for the PXB expanders */
++            if (type == CXL) {
++                uint64_t base = CXL_HOST_BASE + uid * 0x10000;
++                crs_range_insert(crs_range_set.mem_ranges, base,
++                                 base + 0x10000 - 1);
++            }
+         }
      }
- 
--    ds = qdev_new(TYPE_PXB_HOST);
-+    ds = qdev_new(type == CXL ? TYPE_PXB_CXL_HOST : TYPE_PXB_HOST);
-     if (type == PCIE) {
-         bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
-     } else if (type == CXL) {
-@@ -466,6 +516,7 @@ static void pxb_register_types(void)
-     type_register_static(&pxb_pcie_bus_info);
-     type_register_static(&pxb_cxl_bus_info);
-     type_register_static(&pxb_host_info);
-+    type_register_static(&cxl_host_info);
-     type_register_static(&pxb_dev_info);
-     type_register_static(&pxb_pcie_dev_info);
-     type_register_static(&pxb_cxl_dev_info);
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index 362cda40de..6bc344f205 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -17,5 +17,7 @@
- #define COMPONENT_REG_BAR_IDX 0
- #define DEVICE_REG_BAR_IDX 2
- 
-+#define CXL_HOST_BASE 0xD0000000
-+
- #endif
  
 -- 
 2.30.0
