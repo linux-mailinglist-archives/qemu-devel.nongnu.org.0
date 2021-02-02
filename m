@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6C930BC20
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 11:36:35 +0100 (CET)
-Received: from localhost ([::1]:51286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D056130BC36
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 11:40:51 +0100 (CET)
+Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6t2w-000734-8s
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 05:36:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50816)
+	id 1l6t74-0000B8-V8
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 05:40:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6t1O-00064Y-QA
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:34:58 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40053)
+ id 1l6t5s-000867-Q6
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:39:36 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:45574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6t1L-0005wY-G9
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:34:58 -0500
-Received: by mail-ej1-x629.google.com with SMTP id i8so12683299ejc.7
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 02:34:54 -0800 (PST)
+ id 1l6t5r-000899-6t
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 05:39:36 -0500
+Received: by mail-ej1-x633.google.com with SMTP id b9so9565725ejy.12
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 02:39:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EHgFUnW1wQrVoTK6VJEdmulKhIcN39KNGoL+iGbz+pY=;
- b=UoyqLA8CMc96TpllXgKucZSL3t2k6x3bXrfaSzKzNQuP5RWhd40WbUTUOibuz7eu5m
- KuSQafyKFUzXmQKeIq0fyrBJELjbk2RT3zbo6DVWXorX512UTK78QLNuXrw0kFMsJCt1
- ETDAW/fl59v6BmSOr4HIBCLIMxcsZujSGqg6RYaecZ29mkQZLhDQfVE31AjC8hagCc2o
- EHU7wgPlv/TBvJDWQZk58WKpH18+JSI2U6wvHaioFGzhU8zJ6sp+rJGx+kEGAg7448lQ
- KjUKFWbpRwrt5sJ6ukQo4bPlJeRjh1tk+CwfBALlrRMkLiAM2NIszLN6ZOdH2luCzUli
- dpOA==
+ :cc; bh=4+RkjWW8jkMS4qVVsrgqauWLA57gigTXQ55afsDtELQ=;
+ b=EkXX7ll4yCQRCfSL59yXwm7EQM+1so8XZL8O6OcmQAthSnQYFQzomlgzHuV/ByyuZM
+ Y1XteH0Ng7rl4MUobRLc4IqTJjgc/4liDExd5CuPEiFZmCtfYZ4MK3MpiOUZwNHEpSpi
+ zTBdKRjYtn0FWV8YJFkymoIeTPzEfSFsCFImcD8ToFQHDwZHVipO+JTfY5wcaYfwCnS+
+ 0ocvwoTFDPWjjvfcxXcagDM0ub0ATiSc2vkLMv2VdtmA4/arF4jRYQdqkJHmrO+kisgn
+ E64W50uiTDtJVz6zCRUqx/tFoh96CEcrMICQhJKmRWWTDy2xkChBVWcTuip844TeU5cZ
+ kpog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EHgFUnW1wQrVoTK6VJEdmulKhIcN39KNGoL+iGbz+pY=;
- b=lUB6EJ8T9orHDhWNQZVJjJN+lvkiD4dvN9B8u88mz2Mjv4r/1UcgxrMvGy6uz8crDq
- NAEWkTGWDslbFOcHJWBw5yoDD3D0MR85L8qhuqkHvw6vE0pgUmwwOXgaUjYChzN1x1uw
- eQPQIGFnORzmSq9cd7FeIu9f+z3NWXLw9Rvzp5/w6o/o/0RLu+AhEzFD5/MKvlr7Ntwm
- BymD+gHBA1m2Ff5XKaTLkz1OPS296xA9hBCxGZbztKpNA35ptdsi1NZkBReQ/3WPfiEK
- FNg91nLrG+Hqr3PZwZf8zuUI187F53XaO3jKbTpqvdz1EiXmZCEOHTamTH/VQ8DxyiSD
- G9+A==
-X-Gm-Message-State: AOAM532tLeXexkYIurmYmRL65w63TffDqpVWZeZIION+CZEanZx2zPeT
- XUJ60ApILFJwkw2iMzELkC8DFLiLvgvmmWjGa1pFTw==
-X-Google-Smtp-Source: ABdhPJxOrJUKHukTq6gnOT+/gPkl7vTOwWcyAPwxF5ZskwsPILaNxYfka78YaotQDcxrAYgy7D3gzh7DLjDWV/vJxYE=
-X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr22595226ejd.250.1612262093898; 
- Tue, 02 Feb 2021 02:34:53 -0800 (PST)
+ bh=4+RkjWW8jkMS4qVVsrgqauWLA57gigTXQ55afsDtELQ=;
+ b=a6Lw5BI4uA4sQ6zvQFWnLrC8CGigvMYrt62sM8cPq2qzgDyid8KKioLJLRtEf193D/
+ zvGnOFUFkWbZEDrEU88uiL0ZVoBe5bzCVRl5KvY8hC7Q1OqRa3UCggoTQBHI5PVKScUA
+ GnYn7J91nN8rHshiEf3WT9DfjlVHCJl3QAj4r7XCaxb22VJPZkH9qodnsPzN2yBqgeDa
+ 9vveKq9h4erRKV2UyQnsaf4+k4ii5h5GGUtzhexxmZ8LuF3nX0Re2aD/ed/U3Rs4Yuma
+ z9z7u1xvql327TutlCsBhFvxQR4PFxqfeJC8N6zCpUy6ksTL5u7LUtd71AQCugdX+BQs
+ D+kw==
+X-Gm-Message-State: AOAM533EAXHJkDGDAPMqcE3DYOx1A5Ok06Snfoeo0J5bQuageSOZ06iA
+ kuOPxoa5fW/T3bCRHwoNV1D7PTc7kuDdWOh0yAFhUQ==
+X-Google-Smtp-Source: ABdhPJzfi6+yD+yXTL7t3+uJGLyhrrMOYLbmTC8s8LsqAPyKUrRWFiFWzSoelnuf+cr7Oy8LDp8CGYIJSKK44meNMSo=
+X-Received: by 2002:a17:906:3603:: with SMTP id
+ q3mr21159350ejb.382.1612262373697; 
+ Tue, 02 Feb 2021 02:39:33 -0800 (PST)
 MIME-Version: 1.0
 References: <20210124025306.3949-1-leif@nuviainc.com>
- <20210124025306.3949-2-leif@nuviainc.com>
-In-Reply-To: <20210124025306.3949-2-leif@nuviainc.com>
+In-Reply-To: <20210124025306.3949-1-leif@nuviainc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Feb 2021 10:34:42 +0000
-Message-ID: <CAFEAcA-n1oXYkQA0XTVNp+rfgFRZSviao2FTSBvOibfbX24a9w@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] hw/intc: don't bail out gicv3 model init for
- revision 4
+Date: Tue, 2 Feb 2021 10:39:22 +0000
+Message-ID: <CAFEAcA8M2TcRoAyXph1CvX5gOiMqWusV35ygkxOxZy_H_P5upg@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] hw/intc: enable GICv4 memory layout for GICv3
+ driver
 To: Leif Lindholm <leif@nuviainc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,31 +85,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sun, 24 Jan 2021 at 02:53, Leif Lindholm <leif@nuviainc.com> wrote:
 >
-> As a first step towards GICv4 compatibility, add support for gic revision 4
-> to GICv3 driver (i.e. don't bail out if revision 4 is encountered).
+> GICv4 sets aside 256K per redistributor configuration block, whereas GICv3
+> only uses 128K. However, some codebases (like TF-A, EDK2) will happily use
+> the GICv3 functionality only.
 >
-> Signed-off-by: Leif Lindholm <leif@nuviainc.com>
-> ---
->  hw/intc/arm_gicv3_common.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This set aims at enabling these codebases to run, without actually enabling
+> full support for GICv4.
 >
-> diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-> index 58ef65f589..7365d24873 100644
-> --- a/hw/intc/arm_gicv3_common.c
-> +++ b/hw/intc/arm_gicv3_common.c
-> @@ -315,7 +315,7 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
->       * conditions. However, in future it could be used, for example, if we
->       * implement GICv4.
->       */
-> -    if (s->revision != 3) {
-> +    if (s->revision != 3 && s->revision != 4) {
->          error_setg(errp, "unsupported GIC revision %d", s->revision);
->          return;
->      }
+> This creates a ... problematic ... system, which will misbehave if you try
+> to use the virtual LPIs. But it does help with letting me use QEMU for
+> modelling a platform containing a GICv4, and share firmware images with
+> other prototyping platforms.
 
-This change is obviously not-for-upstream; we can't allow the GIC
-to be configured to a revision that we don't actually implement
-correctly.
+So, what's your aim for this series? I think we could reasonably
+take patches 2 and 4 upstream (they are changes we'll want for eventual
+v4 emulation support), but I don't really want 1 and 3.
+That would reduce the delta you're carrying locally, at least.
+
+I suppose we should look at what changes QEMU needs for KVM in-kernel GICv4
+support at some point...
 
 thanks
 -- PMM
