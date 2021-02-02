@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E297030C54B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 17:19:19 +0100 (CET)
-Received: from localhost ([::1]:44784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FC830C537
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 17:18:37 +0100 (CET)
+Received: from localhost ([::1]:42620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6yOc-00041L-UV
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 11:19:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44792)
+	id 1l6yNw-00033l-67
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 11:18:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6y8j-0004YB-VW
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:02:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6y8e-0004rI-HX
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:02:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612281767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S282R2v0SwTi2q+IM+4ArMygbMeWTcz46RpxtKWf1tY=;
- b=AMOc5OVrsnZlRqQTiwNnVT2T+A+eOrWTop4PcgAmbygbNB/R9aFUWk76MoXBNwnuaPsKjF
- j1ExIR5MvC3myjfu2Wk1WOvz4AIOctXUJG84LejfWSHfVxx0Aymmt8lEiR/flpr3OW7HiR
- LjYZb1GjduIrcsnOcjQuZED3yKxm+VU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-agOqh1aYPgiUXsRUTjiSvA-1; Tue, 02 Feb 2021 11:02:46 -0500
-X-MC-Unique: agOqh1aYPgiUXsRUTjiSvA-1
-Received: by mail-wm1-f69.google.com with SMTP id b201so1632547wmb.9
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 08:02:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1l6yBR-0008PQ-Ml; Tue, 02 Feb 2021 11:05:44 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1l6yBP-0006G3-6O; Tue, 02 Feb 2021 11:05:41 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id m2so2989734wmm.1;
+ Tue, 02 Feb 2021 08:05:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
+ :mime-version:content-transfer-encoding:thread-index
+ :content-language;
+ bh=J50FcM9Xuz2nuuwVsOHs0CLSxTRB3uDXE4eudLz4aM4=;
+ b=qrkMLA3seqJMHuNgODSKDXHuSLKmDH4p0dzA+rUEshoDC415nUII4P9GE1STh27f4/
+ 72kl//YpdRAIuvKDs1mEk7BbsfL7S5xTun5vZZPk3dmLKpchZs0BSl2XDQovFGb+7UG3
+ uVtrec0d7u2clCaYr35vEp0axF/0YlD542ZFt1ktuWb92AME8HtioZodSbf4yomxsrY3
+ tRUcvaV8p4B5mjRdGk02H7PaE9P+xTvAyCTTwDSOFln81v34tU+Z7iyaLlXBFAkNttg7
+ E6WSCLUJeXLo0R6dYyxd3QAoVzoyQ0cp2Eot03Mzwdrm+UDkUEalcL2/6hYem1S1yqlG
+ 85Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=S282R2v0SwTi2q+IM+4ArMygbMeWTcz46RpxtKWf1tY=;
- b=a2CRrgRLvmdO8bI3KeoTZjCmeGgSxIz47XBiORdlzfVwc0khEnErFn9PdWcXlVnZ/M
- hU5a1jtxw6x+NrGVEK5oGldlZmnsDcvG0TZ7a4doPY3JKxIk3rcNWOJ5LE/EgvOfCV86
- 48yCW+OYC8g9/AYcQVV9ds41MADhatgM8U2+lF5dLuML5ZsM1FLYTob3bfQw3TTM8ARE
- xj4dhvAmPtYzuN7wNH3YNKveGyM/HB/on2pF0yZIUpHNkrrT/bWcgiVpQc687OFDdPdv
- 6m4AmLaGC4UaJCYxpVotjYc4vLgeJEUncf7l62ZKeyK1u3V3Srp0H1XFax0HT57kzWSQ
- XH0Q==
-X-Gm-Message-State: AOAM532oCdE0a93FqpM/gdiwcmxE9TMlo/pzXGG8CO58hEErC9eJF46p
- AMl61Yirl6C7mJal1MrURuYFnU/bb5bZXlHYjKBi/amzwc6Nzw+qOWQ+zgw9T6+OBzv/dPrDjv4
- C0ThKbgn5nuGTEXo=
-X-Received: by 2002:a5d:6d06:: with SMTP id e6mr24722687wrq.425.1612281764392; 
- Tue, 02 Feb 2021 08:02:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwNJdR4MN4IgA0LHYSN9VRQ4FdsFI0z9i6Y0UMH+iyKra7CGkjWxKY75bc/F99gAtv+FMcWkA==
-X-Received: by 2002:a5d:6d06:: with SMTP id e6mr24722647wrq.425.1612281764188; 
- Tue, 02 Feb 2021 08:02:44 -0800 (PST)
-Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
- [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id a6sm3676893wmj.27.2021.02.02.08.02.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Feb 2021 08:02:43 -0800 (PST)
-Subject: Re: [PATCH 2/3] i386: Move asserts to separate x86_cpudef_validate()
- function
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>
-References: <20210201225404.3941395-1-ehabkost@redhat.com>
- <20210201225404.3941395-3-ehabkost@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ad137c5a-971d-36d1-edfe-b35a66cfb09f@redhat.com>
-Date: Tue, 2 Feb 2021 17:02:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
+ :subject:date:message-id:mime-version:content-transfer-encoding
+ :thread-index:content-language;
+ bh=J50FcM9Xuz2nuuwVsOHs0CLSxTRB3uDXE4eudLz4aM4=;
+ b=OcwphN+ArEulQ/3d94dfJKQr8pFSScZ34G+ZA51IOXusXdbyWGP9+bRBitwVBoss4P
+ Cn03ihUXTaBw2gNUwd6cXK4XUNWrRIf5/3ik8fJFkNjrl8dsIbLmoc3R6G5bHct9SUOs
+ 0u5wWml1AF/Zm0pHg2wUqESjpxIqj/NJi0gmzQNJMtlqjgDvIxIk1QXYuwla3BkKqCvs
+ 1ycU9wqJXGrA6YHbT8gpMS9uPq+sPXysnkwBiDpd+pe+rBgU2KjWZuP/BgNCMa0RLUgJ
+ XE0GzfJIlf5HEHvuBNRY7FPygBhftq9lHiiCKYyw1oGjl63312vM+rjH5jkvYQ3COEHw
+ Ht+w==
+X-Gm-Message-State: AOAM530p1kPDXfGiFYzvTtDEv2iGD7p72wqVYqexzibkCSe67D3mOfVv
+ btp8KHSfpIyykm+NGOKCprM=
+X-Google-Smtp-Source: ABdhPJy/49XXN1Evx6YRHjuIWKhFBSVJHREEYrjkPlVJuxjo9IsapchrbzDO3/D4W+gHE9tR0TboIw==
+X-Received: by 2002:a1c:1d8b:: with SMTP id d133mr4412376wmd.172.1612281936831; 
+ Tue, 02 Feb 2021 08:05:36 -0800 (PST)
+Received: from CBGR90WXYV0 (host86-190-149-163.range86-190.btcentralplus.com.
+ [86.190.149.163])
+ by smtp.gmail.com with ESMTPSA id c62sm3845103wmd.43.2021.02.02.08.05.34
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 02 Feb 2021 08:05:35 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: "Paul Durrant" <paul@xen.org>
+To: =?utf-8?Q?'Philippe_Mathieu-Daud=C3=A9'?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20210202155644.998812-1-philmd@redhat.com>
+In-Reply-To: <20210202155644.998812-1-philmd@redhat.com>
+Subject: RE: [PATCH] hw/i386/xen: Remove dead code
+Date: Tue, 2 Feb 2021 16:05:34 -0000
+Message-ID: <036801d6f97d$3d9f0bf0$b8dd23d0$@xen.org>
 MIME-Version: 1.0
-In-Reply-To: <20210201225404.3941395-3-ehabkost@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHU213CX1E5gjnLtJG8R95suaIaVKpJQttA
+Content-Language: en-gb
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,91 +89,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Babu Moger <babu.moger@amd.com>, Igor Mammedov <imammedo@redhat.com>
+Reply-To: paul@xen.org
+Cc: 'Stefano Stabellini' <sstabellini@kernel.org>,
+ 'Eduardo Habkost' <ehabkost@redhat.com>,
+ "'Michael S. Tsirkin'" <mst@redhat.com>, qemu-trivial@nongnu.org,
+ 'Richard Henderson' <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, 'Anthony Perard' <anthony.perard@citrix.com>,
+ 'Paolo Bonzini' <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/1/21 11:54 PM, Eduardo Habkost wrote:
-> Additional sanity checks will be added to the code, so move the
-> existing asserts to a separate function.
-> 
-> Wrap the whole function in `#ifndef NDEBUG` because the checks
-> will become more complex than trivial assert() calls.
+> -----Original Message-----
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Sent: 02 February 2021 15:57
+> To: qemu-devel@nongnu.org
+> Cc: Richard Henderson <richard.henderson@linaro.org>; Paolo Bonzini =
+<pbonzini@redhat.com>; Eduardo
+> Habkost <ehabkost@redhat.com>; qemu-trivial@nongnu.org; Michael S. =
+Tsirkin <mst@redhat.com>; Marcel
+> Apfelbaum <marcel.apfelbaum@gmail.com>; =
+xen-devel@lists.xenproject.org; Paul Durrant <paul@xen.org>;
+> Anthony Perard <anthony.perard@citrix.com>; Stefano Stabellini =
+<sstabellini@kernel.org>; Philippe
+> Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Subject: [PATCH] hw/i386/xen: Remove dead code
+>=20
+> 'drivers_blacklisted' is never accessed, remove it.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-How can you build with NDEBUG? See commit 262a69f4282:
+FTR this is a vestige of an ancient mechanism that's not used any more =
+(see =
+https://xenbits.xen.org/gitweb/?p=3Dxen.git;a=3Dblob;f=3Ddocs/misc/hvm-em=
+ulated-unplug.pandoc step 5).
 
-    osdep.h: Prohibit disabling assert() in supported builds
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-    We already have several files that knowingly require assert()
-    to work, sometimes because refactoring the code for proper
-    error handling has not been tackled yet; there are probably
-    other files that have a similar situation but with no comments
-    documenting the same.  In fact, we have places in migration
-    that handle untrusted input with assertions, where disabling
-    the assertions risks a worse security hole than the current
-    behavior of losing the guest to SIGABRT when migration fails
-    because of the assertion.  Promote our current per-file
-    safety-valve to instead be project-wide, and expand it to also
-    cover glib's g_assert().
-
-and "qemu/osdep.h":
-
- /*
-  * We have a lot of unaudited code that may fail in strange ways, or
-  * even be a security risk during migration, if you disable assertions
-  * at compile-time.  You may comment out these safety checks if you
-  * absolutely want to disable assertion overhead, but it is not
-  * supported upstream so the risk is all yours.  Meanwhile, please
-  * submit patches to remove any side-effects inside an assertion, or
-  * fixing error handling that should use Error instead of assert.
-  */
- #ifdef NDEBUG
- #error building with NDEBUG is not supported
- #endif
-
-IOW no need for the #idef.
-
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  target/i386/cpu.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 2bf3ab78056..6285fb00eb8 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5431,17 +5431,25 @@ static void x86_register_cpu_model_type(const char *name, X86CPUModel *model)
->      type_register(&ti);
->  }
->  
-> -static void x86_register_cpudef_types(X86CPUDefinition *def)
-> +/* Sanity check CPU model definition before registering it */
-> +static void x86_cpudef_validate(X86CPUDefinition *def)
+>  hw/i386/xen/xen_platform.c | 13 ++-----------
+>  1 file changed, 2 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+> index 7c4db35debb..01ae1fb1618 100644
+> --- a/hw/i386/xen/xen_platform.c
+> +++ b/hw/i386/xen/xen_platform.c
+> @@ -60,7 +60,6 @@ struct PCIXenPlatformState {
+>      MemoryRegion bar;
+>      MemoryRegion mmio_bar;
+>      uint8_t flags; /* used only for version_id =3D=3D 2 */
+> -    int drivers_blacklisted;
+>      uint16_t driver_product_version;
+>=20
+>      /* Log from guest drivers */
+> @@ -245,18 +244,10 @@ static void platform_fixed_ioport_writeb(void =
+*opaque, uint32_t addr, uint32_t v
+>=20
+>  static uint32_t platform_fixed_ioport_readw(void *opaque, uint32_t =
+addr)
 >  {
-> -    X86CPUModel *m;
-> -    const X86CPUVersionDefinition *vdef;
+> -    PCIXenPlatformState *s =3D opaque;
 > -
-> +#ifndef NDEBUG
->      /* AMD aliases are handled at runtime based on CPUID vendor, so
->       * they shouldn't be set on the CPU model table.
->       */
->      assert(!(def->features[FEAT_8000_0001_EDX] & CPUID_EXT2_AMD_ALIASES));
->      /* catch mistakes instead of silently truncating model_id when too long */
->      assert(def->model_id && strlen(def->model_id) <= 48);
-> +#endif
-> +}
-> +
-> +static void x86_register_cpudef_types(X86CPUDefinition *def)
-> +{
-> +    X86CPUModel *m;
-> +    const X86CPUVersionDefinition *vdef;
-> +
-> +    x86_cpudef_validate(def);
->  
->      /* Unversioned model: */
->      m = g_new0(X86CPUModel, 1);
-> 
+>      switch (addr) {
+>      case 0:
+> -        if (s->drivers_blacklisted) {
+> -            /* The drivers will recognise this magic number and =
+refuse
+> -             * to do anything. */
+> -            return 0xd249;
+> -        } else {
+> -            /* Magic value so that you can identify the interface. */
+> -            return 0x49d2;
+> -        }
+> +        /* Magic value so that you can identify the interface. */
+> +        return 0x49d2;
+>      default:
+>          return 0xffff;
+>      }
+> --
+> 2.26.2
+
 
 
