@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA4730C755
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 18:19:16 +0100 (CET)
-Received: from localhost ([::1]:51014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B8930C6FD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 18:07:11 +0100 (CET)
+Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6zKd-00084A-LO
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 12:19:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54692)
+	id 1l6z8w-0001rB-B4
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 12:07:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l6yfr-0004Jh-7q
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:37:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49497)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l6yhy-0006O4-W8
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:39:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l6yfn-0003zo-U2
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:37:06 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l6yhx-0004uY-AA
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 11:39:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612283821;
+ s=mimecast20190719; t=1612283956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X9Hz0A42d1caUJRLPoFA/GXpYzcZ3QUPuQwyOkEwUHE=;
- b=RuaGfeo0RnOCJBpA8QXrOG/uvpUzkNa27UFIlG2a9bRSdmBYGr5SmmR1fEMoDpvfGiMWn1
- q865Rbc8XeNIumXUzaHLg9fsbgQLB3dWcXSEVSnRT0oaFifBSaslRxlAnRUrzbxgJ/gc/2
- IblGvHD91HGt8KcqF6Mqwd284TvAzVw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-eQ_9Lh_3PnWrJTJskKSasA-1; Tue, 02 Feb 2021 11:37:00 -0500
-X-MC-Unique: eQ_9Lh_3PnWrJTJskKSasA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E0C88049C0;
- Tue,  2 Feb 2021 16:36:58 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
- [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 25A3B1980D;
- Tue,  2 Feb 2021 16:36:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3ED651800386; Tue,  2 Feb 2021 17:36:56 +0100 (CET)
-Date: Tue, 2 Feb 2021 17:36:56 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: vnc clipboard support
-Message-ID: <20210202163656.hpg4nbfvqbqnjsdm@sirius.home.kraxel.org>
-References: <20210201155116.GL4131462@redhat.com>
- <0C14700F-CF47-4CD1-AB41-AA69BC0DA469@redhat.com>
- <20210201165634.GM4131462@redhat.com>
- <D704948F-96C7-441F-BCA3-F848ABFD8087@redhat.com>
- <20210201174018.GP4131462@redhat.com>
- <8456ae54-b737-fa7d-cac8-75cd701f9ef5@eik.bme.hu>
- <20210202113144.jrmqtgllpgd2nw2h@sirius.home.kraxel.org>
- <e3598537-86af-6cf7-bdfe-eac43bce0f2@eik.bme.hu>
- <20210202123829.GF4168502@redhat.com>
- <20210202133534.u364ubxxvr5xyieb@sirius.home.kraxel.org>
+ bh=upnt39CyCVwBoTycKyW7rsDh22PJi9fn/RtxLu9lyuM=;
+ b=V/WmgRD+IGzymorZ3crsLTT2FfcNLXqtIxIW1KPcEaKfuq9cPc//GD1EKFF76jjN9kyuYl
+ 6GQVlioPZM0NY78+iQ3Ea9XJIgW/zhSAjEeUeeU07/8sHjgoCszLWoiwzoGxcR05P+ONry
+ jM7HY89qM7Eme+4P1u/Gbv0iyz5K3qI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-T63QKNl1Pvm3W01Hf0ODrg-1; Tue, 02 Feb 2021 11:39:13 -0500
+X-MC-Unique: T63QKNl1Pvm3W01Hf0ODrg-1
+Received: by mail-ed1-f71.google.com with SMTP id t9so9863272edd.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 08:39:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=upnt39CyCVwBoTycKyW7rsDh22PJi9fn/RtxLu9lyuM=;
+ b=sc7wOryn1DO+ZEFOodH3eVZ4DP6WEsZlG2bjIyyKJ/UhL37+aWqQi9sEgn0/0E4Yqs
+ hzjm5QDIlOXabBxcJaU7IQKic5LZGxX8P7VWPfKninHZZ4h/TPitSRReINvjJy3BPNms
+ x6dfDCjwfVMc6u4/XnKGL5iugKjVUPo6U7d+eejS3T70xXoH6MWICog+C1wV3mLGR/Ae
+ ZVNyAiOXlgywmKs8QK4DOoQAZpQCDI4yNpOsgCOd1zbAhQt6rmcnjBERx6G70wVP/RW8
+ XPjsFhxT0OrCTPmZoao7uZilNBq/4BPBmA502rl2/Gc+aWbbM39x0hYdO5L34QFelcXf
+ UQRw==
+X-Gm-Message-State: AOAM533pVpt5X9ppfLihUVsC7fzkRB1+90Y8y5Z87eNTlprLorhfjWgO
+ wPMSvJIs0e3WwOXSUx/lDi3tBoSAyFCNH1yvYRjtvR15Eh7bGWqAWpGmoRaI8sjG5/WJvjxOrdg
+ 7v+5/dAjID3eF098=
+X-Received: by 2002:a17:906:c049:: with SMTP id
+ bm9mr22307621ejb.535.1612283951852; 
+ Tue, 02 Feb 2021 08:39:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz2tklvRYuU9l0qDykZvY93YU17wJ9cDOV5rFXjVQAhMAYZL/Panns/oGzBvmoCNoRhjmIqiA==
+X-Received: by 2002:a17:906:c049:: with SMTP id
+ bm9mr22307596ejb.535.1612283951672; 
+ Tue, 02 Feb 2021 08:39:11 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id b1sm3313895eju.15.2021.02.02.08.39.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Feb 2021 08:39:10 -0800 (PST)
+Subject: Re: [PATCH] hw/i386/xen: Remove dead code
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210202155644.998812-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <13e06470-e13d-31ef-f7a7-9370a01d8b1c@redhat.com>
+Date: Tue, 2 Feb 2021 17:39:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210202133534.u364ubxxvr5xyieb@sirius.home.kraxel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210202155644.998812-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,38 +102,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Christophe de Dinechin <cdupontd@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 02, 2021 at 02:35:34PM +0100, Gerd Hoffmann wrote:
->   Hi,
+On 02/02/21 16:56, Philippe Mathieu-Daudé wrote:
+> 'drivers_blacklisted' is never accessed, remove it.
 > 
-> > The VNC protocol is way too crude. It is limited to transferring
-> > plain text, and provides no way to specify or negotiate a character
-> > set. The RFB spec says apps should use latin-1. In reality few, if any,
-> > impls do charset conversion so most Linux impls will be sending UTF8
-> > while Windows impls will be sending Windows Codepage 1252. It clearly
-> > shows its heritage of being designed in the 1990s.
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   hw/i386/xen/xen_platform.c | 13 ++-----------
+>   1 file changed, 2 insertions(+), 11 deletions(-)
 > 
-> Well, there is an extension which supports more than just text.  But it
-> is a small number of formats which clearly has window-ish background,
-> for example rich text format (windows wordpad) for formated text and dib
-> (aka windows device independant bitmap) for images.
+> diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+> index 7c4db35debb..01ae1fb1618 100644
+> --- a/hw/i386/xen/xen_platform.c
+> +++ b/hw/i386/xen/xen_platform.c
+> @@ -60,7 +60,6 @@ struct PCIXenPlatformState {
+>       MemoryRegion bar;
+>       MemoryRegion mmio_bar;
+>       uint8_t flags; /* used only for version_id == 2 */
+> -    int drivers_blacklisted;
+>       uint16_t driver_product_version;
+>   
+>       /* Log from guest drivers */
+> @@ -245,18 +244,10 @@ static void platform_fixed_ioport_writeb(void *opaque, uint32_t addr, uint32_t v
+>   
+>   static uint32_t platform_fixed_ioport_readw(void *opaque, uint32_t addr)
+>   {
+> -    PCIXenPlatformState *s = opaque;
+> -
+>       switch (addr) {
+>       case 0:
+> -        if (s->drivers_blacklisted) {
+> -            /* The drivers will recognise this magic number and refuse
+> -             * to do anything. */
+> -            return 0xd249;
+> -        } else {
+> -            /* Magic value so that you can identify the interface. */
+> -            return 0x49d2;
+> -        }
+> +        /* Magic value so that you can identify the interface. */
+> +        return 0x49d2;
+>       default:
+>           return 0xffff;
+>       }
+> 
 
-Well, spice isn't that much better.  Has a short, fixed list too:
-
-VD_AGENT_CLIPBOARD_UTF8_TEXT
-VD_AGENT_CLIPBOARD_IMAGE_PNG (mandatory if images supported)
-VD_AGENT_CLIPBOARD_IMAGE_{BMP,TIFF,JPEG} (optional)
-
-There also is ...
-
-VD_AGENT_CLIPBOARD_FILE_LIST
-
-... but that works hand-in-hand with the spice webdav server.
-
-take care,
-  Gerd
+Cc: qemu-trivial@nongnu.org
 
 
