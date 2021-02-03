@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C300F30E754
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 00:29:13 +0100 (CET)
-Received: from localhost ([::1]:36642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDD130E77D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 00:38:46 +0100 (CET)
+Received: from localhost ([::1]:45080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7RaC-0003c1-EW
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 18:29:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43644)
+	id 1l7RjR-0007VY-EA
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 18:38:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7RYf-00033Y-JN
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 18:27:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7RYa-0006Ea-I7
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 18:27:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612394850;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=raTQcRPXmw6pGy1SghmnKwnqALduGQKtjcBwHC7cktA=;
- b=IZd9Z5oWDblY/jf8yE7a/6bZtnat8pqkWPf20VKLeFkvhjq3bfcw7pGoVgyHjxCVGyFKXf
- NhF0xYPw7VTAnp5iTdYNFT3heZuHCkOTQn8C8KZ6w0u4SKmq5dX6aQdU6IZaH2b9M5g3IJ
- M0g4JnuO9699pLgAXpRWz3Trj4Tc3iM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-G5Dc13gjPYW6aGlk_81A-g-1; Wed, 03 Feb 2021 18:27:28 -0500
-X-MC-Unique: G5Dc13gjPYW6aGlk_81A-g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C90BE106BB2A;
- Wed,  3 Feb 2021 23:27:27 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CBA235C1B4;
- Wed,  3 Feb 2021 23:27:23 +0000 (UTC)
-Subject: Re: [PATCH v4 11/14] qapi/introspect.py: add type hint annotations
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210202174651.2274166-1-jsnow@redhat.com>
- <20210202174651.2274166-12-jsnow@redhat.com>
- <87r1lxqj2e.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <ee95f545-7c43-0587-642b-e70589b4a0e6@redhat.com>
-Date: Wed, 3 Feb 2021 18:27:22 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <87r1lxqj2e.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ (Exim 4.90_1) (envelope-from
+ <3TjMbYAMKCikIOJLTTLQJ.HTRVJRZ-IJaJQSTSLSZ.TWL@flex--dje.bounces.google.com>)
+ id 1l7Rgb-00069d-AX
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 18:35:49 -0500
+Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a]:48759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3TjMbYAMKCikIOJLTTLQJ.HTRVJRZ-IJaJQSTSLSZ.TWL@flex--dje.bounces.google.com>)
+ id 1l7RgY-00017P-RJ
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 18:35:48 -0500
+Received: by mail-pl1-x64a.google.com with SMTP id t14so840237plr.15
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 15:35:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=m2FTs8RiJopycQLRbJlJSelna5mgzBbInRy10ukAho0=;
+ b=ueWojODc/ebt0rCFBrlGYFH0E6UP9oIV2mrmezdgba6Ovob4RFtCgQbcKBbLoSBPPf
+ nsA9QcDrJ7lkikrwb17vbdo/F43Xcw2ZItsuqJ4H+AAYbzgsqM2QbA8qe610kgXlQVCs
+ KtvuI1oJK63kFjuZXUp5ZNxtgbYZv4LLF3m8EgCF8JstTwCO43Ea/XsqAGh8GFZIUbfa
+ M3WzWGXULsSY2qnKIa7AlmF/mEs1VIG/xmw+fljozAzYPqQekG401Tv34F7uzyR8HqVc
+ 4uaK5RC3OEf1UDg+voeGBm8qVsSG1deUc/MccfyvzTJBpgVxaOI4Zh3NHaJ3UHRwClfQ
+ Z6GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=m2FTs8RiJopycQLRbJlJSelna5mgzBbInRy10ukAho0=;
+ b=k5tTkjFsv1B/Lb06jPHp5kxohYfEfy6CNMlC0VRVVYfZZF724OaS1Ef01C7jELKFJT
+ LkAv482wFE1hDUSw/1mEYGxrZhVatOVCfGTJMeh+DQtYmid6BKByxHMPC7WqzYxoRiK6
+ BgACwnyXmIjYDxlEN5za0KT6XAKcLC+mkChq3h1V64yHejDWTgTC/T4oS8Efxk5IVxRd
+ ZVjy8PHFE9VMWaXSiYJP8PKbmM85PyIiQ7ik9V9uRHb8V24HDZDyJqvU1br2QcfTN/Gw
+ VlZH48Tlv9R/gshVFYrxeklBWiiatwPLUBaF81OguvIWMA3WANmnOJCrfnf/nT9U9Ptj
+ DzNw==
+X-Gm-Message-State: AOAM531uJ7NJBYHKr7WVMAHbiIxU7FvAnFrijQSzzQYlFe41nohBJVCQ
+ Td9gbG7dTHm9NViHhBBrrt3Z1sPvi6ag0pUH1EBNuvdoOtwK4z4d3g5KsK/HvB5EuT19T5B9Ifx
+ rj+vCdIAR29gNbujMJmOhbukZvMptFJ4Kqq8xv95PWD33OOS8YyOb
+X-Google-Smtp-Source: ABdhPJw7595ioMrA6zriQTTwKQOfCYnXy+wgwgYTTO58cZS7D5q+xwohclGF8pZbnALdi4LON8z31h8=
+X-Received: from ruffy.mtv.corp.google.com
+ ([2620:0:1000:1412:25d4:96ad:ca30:7913])
+ (user=dje job=sendgmr) by 2002:a17:90a:178e:: with SMTP id
+ q14mr5443138pja.71.1612395342848; Wed, 03 Feb 2021 15:35:42 -0800 (PST)
+Date: Wed,  3 Feb 2021 15:35:36 -0800
+Message-Id: <20210203233539.1990032-1-dje@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+Subject: [PATCH v3 0/3]
+To: qemu-devel@nongnu.org
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, Doug Evans <dje@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::64a;
+ envelope-from=3TjMbYAMKCikIOJLTTLQJ.HTRVJRZ-IJaJQSTSLSZ.TWL@flex--dje.bounces.google.com;
+ helo=mail-pl1-x64a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,145 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Doug Evans <dje@google.com>
+From: dje--- via <qemu-devel@nongnu.org>
 
-On 2/3/21 10:15 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/introspect.py | 115 ++++++++++++++++++++++++++-----------
->>   scripts/qapi/mypy.ini      |   5 --
->>   scripts/qapi/schema.py     |   2 +-
->>   3 files changed, 82 insertions(+), 40 deletions(-)
->>
->> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
->> index 60ec326d2c7..b7f2a6cf260 100644
->> --- a/scripts/qapi/introspect.py
->> +++ b/scripts/qapi/introspect.py
->> @@ -30,10 +30,19 @@
->>   )
->>   from .gen import QAPISchemaMonolithicCVisitor
->>   from .schema import (
->> +    QAPISchema,
->>       QAPISchemaArrayType,
->>       QAPISchemaBuiltinType,
->> +    QAPISchemaEntity,
->> +    QAPISchemaEnumMember,
->> +    QAPISchemaFeature,
->> +    QAPISchemaObjectType,
->> +    QAPISchemaObjectTypeMember,
->>       QAPISchemaType,
->> +    QAPISchemaVariant,
->> +    QAPISchemaVariants,
->>   )
->> +from .source import QAPISourceInfo
->>   
->>   
->>   # This module constructs a tree data structure that is used to
->> @@ -57,6 +66,8 @@
->     # generate the introspection information for QEMU. It behaves similarly
->     # to a JSON value.
->     #
->     # A complexity over JSON is that our values may or may not be annotated.
->     #
->     # Un-annotated values may be:
->     #     Scalar: str, bool, None.
->     #     Non-scalar: List, Dict
->     # _value = Union[str, bool, None, Dict[str, TreeValue], List[TreeValue]]
->     #
->     # With optional annotations, the type of all values is:
->     # TreeValue = Union[_value, Annotated[_value]]
->     #
->     # Sadly, mypy does not support recursive types, so we must approximate this.
->     _stub = Any
->     _scalar = Union[str, bool, None]
->     _nonscalar = Union[Dict[str, _stub], List[_stub]]
->>   _value = Union[_scalar, _nonscalar]
->>   TreeValue = Union[_value, 'Annotated[_value]']
->>   
->> +# This is a (strict) alias for an arbitrary object non-scalar, as above:
->> +_DObject = Dict[str, object]
-> 
-> Sounds greek :)
-> 
+Add support for ipv6 host forwarding
 
-Admittedly it is still not explained well ... until the next patch. I'm 
-going to leave it alone for now until you have a chance to respond to 
-these walls of text.
+This patchset takes the original patch from Maxim,
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
+and updates it.
 
-> It's almost the Dict part of _nonscalar, but not quite: object vs. Any.
-> 
-> I naively expect something closer to
-> 
->     _scalar = ...
->     _object = Dict[str, _stub]
->     _nonscalar = Union[_object, List[_stub]
-> 
-> and (still naively) expect _object to be good enough to serve as type
-> annotation for dicts representing JSON objects.
+New option: -ipv6-hostfwd
 
-"_object" would be good, except ... I am trying to avoid using that word 
-because what does it mean? Python object? JSON object? Here at the 
-boundary between two worlds, nothing makes sense.
+New commands: ipv6_hostfwd_add, ipv6_hostfwd_remove
 
-(See patch 12/14 for A More Betterer Understanding of what _DObject is 
-used for. It will contribute to A Greater Understanding.)
+These are the ipv6 equivalents of their ipv4 counterparts.
 
-Anyway, to your questions;
+The libslirp part of the patch has been committed upstream,
+and will require adding it to qemu.
+https://gitlab.freedesktop.org/slirp/libslirp/-/commit/0624fbe7d39b5433d7084a5096d1effc1df74e39
+[plus the subsequent merge commit]
 
-(1) _DObject was my shorthand garbage way of saying "This is a Python 
-Dict that represents a JSON object". Hence Dict-Object, "DObject". I 
-have also derisively called this a "dictly-typed" object at times.
+Changes from v2:
+- split out libslirp commit
+- clarify spelling of ipv6 addresses in docs
+- tighten parsing of ipv6 addresses
 
-(2) Dict[str, Any] and Dict[str, object] are similar, but do have a 
-semantic difference. I alluded to it by calling this a "(strict) alias"; 
-which does not help you understand any of the following points:
+Change from v1:
+- libslirp part is now upstream
+- net/slirp.c changes split into two pieces (refactor, add ipv6)
+- added docs
 
-Whenever you use "Any", it basically turns off type-checking at that 
-boundary; it is the gradually typed boundary type. Avoid it whenever 
-reasonably possible.
+Doug Evans (3):
+  slirp: Placeholder for libslirp ipv6 hostfwd support
+  net/slirp.c: Refactor address parsing
+  net: Add -ipv6-hostfwd option, ipv6_hostfwd_add/remove commands
 
-Example time:
+ hmp-commands.hx     |  32 +++++
+ include/net/slirp.h |   2 +
+ net/slirp.c         | 310 +++++++++++++++++++++++++++++++++++---------
+ qapi/net.json       |   4 +
+ slirp               |   2 +-
+ 5 files changed, 285 insertions(+), 65 deletions(-)
 
-
-def foo(thing: Any) -> None:
-     print(thing.value)  # Sure, I guess! We'll believe you.
-
-
-def foo(thing: object) -> None:
-     print(thing.value)  # BZZT, Python object has no value prop.
-
-
-Use "Any" when you really just cannot constrain the type, because you're 
-out of bourbon or you've decided to give in to the darkness inside your 
-heart.
-
-Use "object" when the type of the value actually doesn't matter, because 
-you are only passing it on to something else later that will do its own 
-type analysis or introspection on the object.
-
-For introspect.py, 'object' is actually a really good type when we can 
-use it, because we interrogate the type exhaustively upon receipt in 
-_tree_to_qlit.
-
-
-That leaves one question you would almost assuredly ask as a followup:
-
-"Why didn't you use object for the stub type to begin with?"
-
-Let's say we define _stub as `object` instead, the Python object. When 
-_tree_to_qlit recurses on non-scalar structures, the held value there is 
-only known as "object" and not as str/bool/None, which causes a typing 
-error at that point.
-
-Moving the stub to "Any" tells mypy to ... not worry about what type we 
-actually passed here. I gave in to the darkness in my heart. It's just 
-too annoying without real recursion.
-
---js
+-- 
+2.30.0.365.g02bc693789-goog
 
 
