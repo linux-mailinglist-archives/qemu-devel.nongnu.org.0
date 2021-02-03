@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A6230E498
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 22:03:16 +0100 (CET)
-Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4F630E4A5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 22:07:46 +0100 (CET)
+Received: from localhost ([::1]:47720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7PIx-0007Ct-6G
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 16:03:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
+	id 1l7PNI-00005S-SU
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 16:07:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7PH8-0006MV-5r
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:01:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45933)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7PLv-00083U-4i
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:06:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7PH5-0001xK-Ry
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:01:21 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7PLs-00048P-MF
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:06:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612386078;
+ s=mimecast20190719; t=1612386374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=puubgs+6+ana526Al4FgAJHs5i9YiTWPILZNmta0dvc=;
- b=F/HJrU9s4L239FBAGogEFdoDjU4T8XzBZhfra4V7AKCuDLkxkX9cbKupq+VAPbfd18SeT6
- CzrX1mTdz2utKqeQ+MsNlNqobadkdF3Xj1VYaEVHm0NHhM5mvTQTjfQVumfWvkjYg8WjdV
- NYyIzw0bQ09Ow0bvpeIEsCy6IezjrZo=
+ bh=4fngXSnF8DS9h8yI2kqsaj7pdbR36X5eEzvzGXuRklE=;
+ b=WuOKJnKmPq6xHvQEflD1H7BPoMCtbwVXWYXR8pf/UVz44gtPahDZBII5WVDM98pTsr6fFo
+ LyvYUsd2j9vsb/L12Y2Fv/KtGjn8fJU8kGhSlqbUBKVbqA7HJbAfXc2+5OqygQcmecXRKa
+ 9iVQhNd6IentAg6FmIqwy2MmfNYb6rA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-7UFz_0KEM5GqpD6eAhyOzw-1; Wed, 03 Feb 2021 16:01:15 -0500
-X-MC-Unique: 7UFz_0KEM5GqpD6eAhyOzw-1
+ us-mta-258-GGpHCnr1MjORKd_0ID4ZQg-1; Wed, 03 Feb 2021 16:06:10 -0500
+X-MC-Unique: GGpHCnr1MjORKd_0ID4ZQg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BE1156C5F;
- Wed,  3 Feb 2021 21:01:07 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-32.ams2.redhat.com [10.36.115.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 78F885886C;
- Wed,  3 Feb 2021 21:01:05 +0000 (UTC)
-Date: Wed, 3 Feb 2021 22:01:04 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 20/36] block: add bdrv_attach_child_common()
- transaction action
-Message-ID: <20210203210104.GH5507@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-21-vsementsov@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93A3E106BC6A;
+ Wed,  3 Feb 2021 21:06:09 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-89.rdu2.redhat.com
+ [10.10.116.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 091EF5C233;
+ Wed,  3 Feb 2021 21:06:04 +0000 (UTC)
+Date: Wed, 3 Feb 2021 16:06:03 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v4 0/4] GitLab Custom Runners and Jobs (was: QEMU Gating
+ CI)
+Message-ID: <20210203210603.GB1432466@localhost.localdomain>
+References: <20201019015003.1527746-1-crosa@redhat.com>
+ <e253800c-815c-d561-1fd7-ac9b581c5b2b@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201127144522.29991-21-vsementsov@virtuozzo.com>
+In-Reply-To: <e253800c-815c-d561-1fd7-ac9b581c5b2b@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DKU6Jbt7q3WqK7+M"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,233 +79,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Split out no-perm part of bdrv_root_attach_child() into separate
-> transaction action. bdrv_root_attach_child() now moves to new
-> permission update paradigm: first update graph relations then update
-> permissions.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block.c | 162 ++++++++++++++++++++++++++++++++++++++++----------------
->  1 file changed, 117 insertions(+), 45 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index f0fcd75555..a7ccbb4fb1 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -86,6 +86,13 @@ static void bdrv_parent_set_aio_context_ignore(BdrvChild *c, AioContext *ctx,
->                                                 GSList **ignore);
->  static void bdrv_replace_child_noperm(BdrvChild *child,
->                                        BlockDriverState *new_bs);
-> +static int bdrv_attach_child_common(BlockDriverState *child_bs,
-> +                                    const char *child_name,
-> +                                    const BdrvChildClass *child_class,
-> +                                    BdrvChildRole child_role,
-> +                                    uint64_t perm, uint64_t shared_perm,
-> +                                    void *opaque, BdrvChild **child,
-> +                                    GSList **tran, Error **errp);
+--DKU6Jbt7q3WqK7+M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If you added the new code above bdrv_root_attach_child(), we wouldn't
-need the forward declaration and the patch would probably be simpler to
-read (because it's the first part of bdrv_root_attach_child() that is
-factored out).
+On Thu, Jan 28, 2021 at 12:51:20PM +0100, Thomas Huth wrote:
+> On 19/10/2020 03.49, Cleber Rosa wrote:
+> > TL;DR: this should allow the QEMU maintainer to push to the staging
+> > branch, and have custom jobs running on the project's aarch64 and
+> > s390x machines.  Simple usage looks like:
+> >=20
+> >     git push remote staging
+> >     ./scripts/ci/gitlab-pipeline-status --verbose --wait
+>=20
+>  Hi Cleber,
+>=20
+> since the QEMU project is now using the gitlab repo as main repository, i=
+t
+> should now be possible to finally enable these custom runners, too, I thi=
+nk.
+>
 
->  static int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue
->                                 *queue, Error **errp);
-> @@ -2898,55 +2905,22 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
->                                    uint64_t perm, uint64_t shared_perm,
->                                    void *opaque, Error **errp)
->  {
-> -    BdrvChild *child;
-> -    Error *local_err = NULL;
->      int ret;
-> -    AioContext *ctx;
-> +    BdrvChild *child = NULL;
-> +    GSList *tran = NULL;
->  
-> -    ret = bdrv_check_update_perm(child_bs, NULL, perm, shared_perm, NULL, errp);
-> +    ret = bdrv_attach_child_common(child_bs, child_name, child_class,
-> +                                   child_role, perm, shared_perm, opaque,
-> +                                   &child, &tran, errp);
->      if (ret < 0) {
-> -        bdrv_abort_perm_update(child_bs);
->          bdrv_unref(child_bs);
->          return NULL;
->      }
->  
-> -    child = g_new(BdrvChild, 1);
-> -    *child = (BdrvChild) {
-> -        .bs             = NULL,
-> -        .name           = g_strdup(child_name),
-> -        .klass          = child_class,
-> -        .role           = child_role,
-> -        .perm           = perm,
-> -        .shared_perm    = shared_perm,
-> -        .opaque         = opaque,
-> -    };
-> -
-> -    ctx = bdrv_child_get_parent_aio_context(child);
-> -
-> -    /* If the AioContexts don't match, first try to move the subtree of
-> -     * child_bs into the AioContext of the new parent. If this doesn't work,
-> -     * try moving the parent into the AioContext of child_bs instead. */
-> -    if (bdrv_get_aio_context(child_bs) != ctx) {
-> -        ret = bdrv_try_set_aio_context(child_bs, ctx, &local_err);
-> -        if (ret < 0) {
-> -            if (bdrv_parent_try_set_aio_context(child, ctx, NULL) == 0) {
-> -                ret = 0;
-> -                error_free(local_err);
-> -                local_err = NULL;
-> -            }
-> -        }
-> -        if (ret < 0) {
-> -            error_propagate(errp, local_err);
-> -            g_free(child);
-> -            bdrv_abort_perm_update(child_bs);
-> -            bdrv_unref(child_bs);
-> -            return NULL;
-> -        }
-> -    }
-> -
-> -    /* This performs the matching bdrv_set_perm() for the above check. */
-> -    bdrv_replace_child(child, child_bs);
-> +    ret = bdrv_refresh_perms(child_bs, errp);
-> +    tran_finalize(tran, ret);
->  
-> +    bdrv_unref(child_bs);
->      return child;
->  }
->  
-> @@ -2988,16 +2962,114 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
->      return child;
->  }
->  
-> -static void bdrv_detach_child(BdrvChild *child)
-> +static void bdrv_remove_empty_child(BdrvChild *child)
->  {
-> +    assert(!child->bs);
->      QLIST_SAFE_REMOVE(child, next);
-> -
-> -    bdrv_replace_child(child, NULL);
-> -
->      g_free(child->name);
->      g_free(child);
->  }
->  
-> +typedef struct BdrvAttachChildCommonState {
-> +    BdrvChild **child;
-> +    AioContext *old_parent_ctx;
-> +    AioContext *old_child_ctx;
-> +} BdrvAttachChildCommonState;
-> +
-> +static void bdrv_attach_child_common_abort(void *opaque)
-> +{
-> +    BdrvAttachChildCommonState *s = opaque;
-> +    BdrvChild *child = *s->child;
-> +    BlockDriverState *bs = child->bs;
-> +
-> +    bdrv_replace_child_noperm(child, NULL);
-> +
-> +    if (bdrv_get_aio_context(bs) != s->old_child_ctx) {
-> +        bdrv_try_set_aio_context(bs, s->old_child_ctx, &error_abort);
+I couldn't agree more!
 
-Would failure actually be fatal? I think we can ignore it, the node is
-in an AioContext that works for it.
+> Could you elaborate on what's left to do to get the s390x and aarch64
+> runners enabled, and rebase your patches if necessary?
+>
 
-> +    }
-> +
-> +    if (bdrv_child_get_parent_aio_context(child) != s->old_parent_ctx) {
-> +        bdrv_parent_try_set_aio_context(child, s->old_parent_ctx,
-> +                                        &error_abort);
+Basically what's needed is to enable the jobs, meaning committing the
+relevant snippets to the "gitlab-ci.{yml,d/*}" files.
 
-And the same here.
+Both ansible playbooks have been run on both machines, so the gitlab-runner
+and tooling to build QEMU are in place.  The gitlab-runners have also
+been registered on the "qemu-project/qemu" GitLab repo.
 
-> +    }
-> +
-> +    bdrv_unref(bs);
-> +    bdrv_remove_empty_child(child);
-> +    *s->child = NULL;
-> +}
-> +
-> +static TransactionActionDrv bdrv_attach_child_common_drv = {
-> +    .abort = bdrv_attach_child_common_abort,
-> +};
-> +
-> +/*
-> + * Common part of attoching bdrv child to bs or to blk or to job
-> + */
-> +static int bdrv_attach_child_common(BlockDriverState *child_bs,
-> +                                    const char *child_name,
-> +                                    const BdrvChildClass *child_class,
-> +                                    BdrvChildRole child_role,
-> +                                    uint64_t perm, uint64_t shared_perm,
-> +                                    void *opaque, BdrvChild **child,
-> +                                    GSList **tran, Error **errp)
-> +{
-> +    int ret;
-> +    BdrvChild *new_child;
-> +    AioContext *parent_ctx;
-> +    AioContext *child_ctx = bdrv_get_aio_context(child_bs);
-> +
-> +    assert(child);
-> +    assert(*child == NULL);
-> +
-> +    new_child = g_new(BdrvChild, 1);
-> +    *new_child = (BdrvChild) {
-> +        .bs             = NULL,
-> +        .name           = g_strdup(child_name),
-> +        .klass          = child_class,
-> +        .role           = child_role,
-> +        .perm           = perm,
-> +        .shared_perm    = shared_perm,
-> +        .opaque         = opaque,
-> +    };
-> +
-> +    parent_ctx = bdrv_child_get_parent_aio_context(new_child);
-> +    if (child_ctx != parent_ctx) {
-> +        ret = bdrv_try_set_aio_context(child_bs, parent_ctx, NULL);
-> +        if (ret < 0) {
-> +            /*
-> +             * bdrv_try_set_aio_context_tran don't need rollback after failure,
-> +             * so we don't care.
-> +             */
-> +            ret = bdrv_parent_try_set_aio_context(new_child, child_ctx, errp);
-> +        }
-> +        if (ret < 0) {
-> +            bdrv_remove_empty_child(new_child);
-> +            return ret;
-> +        }
-> +    }
+I'll send a rebased/updated version of the playbooks, gitlab-ci.yml
+configurations, etc.  In it, I'll propose that we enable the jobs, but
+ignore errors for now (allow_failure: true), because it'll ease the
+review.  Once the jobs prove mature, waiving of failures can be
+removed.
 
-Not sure why you decided to rewrite this block while moving it from
-bdrv_root_attach_child().
+How does that sound?
 
-We're losing the comment above it, and a possible error message is now
-related to changing the context of the parent node instead of the newly
-added node, which I imagine is less obvious in the general case.
+Thanks,
+- Cleber.
 
-> +    bdrv_ref(child_bs);
-> +    bdrv_replace_child_noperm(new_child, child_bs);
-> +
-> +    *child = new_child;
-> +
-> +    BdrvAttachChildCommonState *s = g_new(BdrvAttachChildCommonState, 1);
-> +    *s = (BdrvAttachChildCommonState) {
-> +        .child = child,
-> +        .old_parent_ctx = parent_ctx,
-> +        .old_child_ctx = child_ctx,
-> +    };
-> +    tran_prepend(tran, &bdrv_attach_child_common_drv, s);
-> +
-> +    return 0;
-> +}
+>  Thanks,
+>   Thomas
 
-Kevin
+--DKU6Jbt7q3WqK7+M
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAbEDgACgkQZX6NM6Xy
+CfOYQBAApc9YCxQcd3TdpziDjI8klqdvWMBPXuGWChYXy85Co8dnJpRxLPT7wL1q
+MmeYkqzckgTh52BcBzW89ShZ95ktE16qSCKOTHCkzoJTpttU76vNAfjDL8wb+nvy
+poBuaiuqLHlHts0+XFcwdtWVyRCMBBUs+XcKc+oK4a9z5FTXgilfQY0UR7iAuIg8
+3box9i5JO9t9SKsSDNkr9HGmagag8AFxjgGj11YKpxG4iok//nPDi/dFHcOazeTk
+iSZeff3HeCtqmIf2TtU3L1wP4qMLqxCpQDr7nI+1Vz9gaAkumltHywfpNQ48U7HH
+MYGITreCxKiRD7xeMmKkw9dmaqxqmCvXco84TWp3pxm/vGM3hcPEXaU8PhgKuAtv
+ThhreehDXlc2ROZFeF8M/UpIhFGmopJEotk1VasqXn/gdEdFGXq1R355lxQTRqfw
+2dqqeR3O63B9qZTC6hDWPHS3TJGbSk8AekmmPxDv1vpL//OewdLXO1MzF4YpDBFI
+ncK3ssKXdRVrfrNNpLMg17T7JjTpajag55Anw5iXpIA3KeVHD4hQOMcHAW4yHSQM
+wmPpwSY8LIrGchQS9OGtThtHRGK/xq1DhXghOcQfZbpyzXIz3CPmF8H73CaIICB2
+WxFLz7oifPoBOWyhEuFWQKeHBVwwPZAsE1LmIh99VKMMEjExGc0=
+=37ZL
+-----END PGP SIGNATURE-----
+
+--DKU6Jbt7q3WqK7+M--
 
 
