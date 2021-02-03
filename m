@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6EF30E628
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 23:39:25 +0100 (CET)
-Received: from localhost ([::1]:38304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49C830E62C
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 23:41:01 +0100 (CET)
+Received: from localhost ([::1]:40512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Qnw-0005Kk-TU
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 17:39:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58022)
+	id 1l7QpY-0006O1-V7
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 17:41:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1l7QWa-0006mb-BV
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:21:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1l7QWV-0002Cc-9H
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:21:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612390876;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vbPiHZ7FnyNUJkUWBcMALPoTGuC73hIhYZKsj9JLSNo=;
- b=FGCuK6E03ctcYAYUNVSlooDksoH5huTMWC3kPYv+UkI9Z90hGRsZKZnhhbE/1TIH8LUM1m
- W5QiDJdrN5nn31gOsLqDfPklGq4e0/YcJTDHEvnE3BN1GhZS7zEtsCDRpAHudvQ43Avm8T
- FAuzsi1LQMD/wF+Rupqn9y1YLDFjlt0=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-0TSOwYVlOJO4mGwzlyi3Iw-1; Wed, 03 Feb 2021 17:21:14 -0500
-X-MC-Unique: 0TSOwYVlOJO4mGwzlyi3Iw-1
-Received: by mail-il1-f200.google.com with SMTP id y12so1081559ilu.14
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 14:21:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7Qes-0000If-0x
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:29:58 -0500
+Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:42288)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7Qeq-0005h0-Ay
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:29:57 -0500
+Received: by mail-vs1-xe34.google.com with SMTP id v19so727105vsf.9
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 14:29:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2CnDQPA2VutawhiAFJDcmgS62w28j51ePUxMLJ093go=;
+ b=YSmHPhkNtYmIwK3Fcxxcq2YUCLxXXW9edjSjOuoMj4agAur/P+2R4rdcuUnWitxiEh
+ CFqBx7mevLtVB0TeJRi5rur73n9MJ1MEHaKG5nmJaGn0ZMwTgQH+ExQmHJmPioM6JPsr
+ Ok20PXZHLk3XnKIIJ5I7n4Rhc5wxwfTyFHx2T4gt59HCAwys73vJd2xZl+ol+kx9g6W5
+ aSprz0/2zJKnIH7MVOF12Fu7j/SXWbibDPfEUjnvlPG6G38QpDBiVL+1NP+x+VYfJluc
+ bFPptwtRhxDoC0b9z7LwzM+x2qW6DaKLPmMPGS3jFthgdxiF5ulNo1V4BsioM6kakmn8
+ 94kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vbPiHZ7FnyNUJkUWBcMALPoTGuC73hIhYZKsj9JLSNo=;
- b=h9G6NEAB/Ooc+Q2pMOC/rVcHZsoq7bZ1Tauza9B0y3YkkYuIFTiNlhAQE+GWsJ0tvP
- jgU979mFZke1wHI/BMEXeYAwXUG8giEKcF6QhY/JhfjGC6DyjAA3uWYLy0pOMFHfJn5C
- 14EAS3cnR9Qa6QN4QXZgx3mF0rho5NFUh8FFuD9uKEcuKWhNNeLxsxU6E5VIz7qyQTcW
- rLRfawFdDPVDhLzCrBEK/+j/K3Ikve3oY+4yKKSFEKcYB1q3TjloymHXMAEwYLJ9O80R
- efa7Xq4wfQcf7wLS7WXlQia+mef3lY8ghE9V3Wym2P+zjdNSu28/Tm9iTF9YI+pyxDnH
- r6LA==
-X-Gm-Message-State: AOAM530uWH46j/9V340t4RyaaJS77kB2/S2+0MDcPaR46pIEKU8nh+8L
- HDKD0t1fHvFAPyvSNqYa2RWCwcQU/4WxItI0rLeWZF7H0Pg4M8eCSvNkVVuligGJ9LDNkzfJQk1
- 2IT8Olcl5E+VtLsyVxPKuVAE0RydVkpQ=
-X-Received: by 2002:a02:6d09:: with SMTP id m9mr4910200jac.70.1612390873468;
- Wed, 03 Feb 2021 14:21:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyZ5fqvb94kpn9GQu6uEYwBIzmt/ld8WUM3LriPQ57LdQOLdi4ckmzTAWNoPRpRAKYqvTWSbxY08RgBhXX3Ufs=
-X-Received: by 2002:a02:6d09:: with SMTP id m9mr4910188jac.70.1612390873320;
- Wed, 03 Feb 2021 14:21:13 -0800 (PST)
+ bh=2CnDQPA2VutawhiAFJDcmgS62w28j51ePUxMLJ093go=;
+ b=gtWLtPBd4Kae3YfSe5Myb68nMYDoYz58LmBHpBXuSWPAxyiJZkbboZK/MliayAAu0N
+ o6hHvNSvtkw7Dxyp4PWE4a6dqYbhc9S2FpB2FgavRlsMKtp/N2CFVPhh6y1P7Pna/IT3
+ WWayqW/wNheY3tDJWpHGXZDcQHwE+EZaSPMBMTEPcu96Omtc5SCVGPQT8Pn5e3YBOYgd
+ fT3/+jjUrsd2E2gKAofoUA9eOwg7wusH9bbxVX2TgKgi1TcnLhXMcYViFxqBJxjOyMG5
+ pTKz1pRNeH5A2XLyVZdIYH9dTRtPYvDGwJKfsJGZ4XVn9YfAU8QVYV0vq6X8VU6x9RqK
+ uSkg==
+X-Gm-Message-State: AOAM530p6xciX6EwaS7wIZyM0//PQGKkYu/rZ/ZbanLIbXH/kn70oMU8
+ mDOP62cJKbg9rRAA+0I8lzRiQoYDkv3iqlPDWpRZvUrFvKk=
+X-Google-Smtp-Source: ABdhPJxBVzsyxiS2HcVQrtuDexXTiyWmsPoM4bIGPyP1WC1VZHQZgkkhMoGWaq5YtJo+tctmeRKO3U1eOmTZIb5/juw=
+X-Received: by 2002:a05:6102:2e5:: with SMTP id
+ j5mr3134665vsj.29.1612391394991; 
+ Wed, 03 Feb 2021 14:29:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20210202142625.609070-1-marcandre.lureau@redhat.com>
- <20210202142625.609070-12-marcandre.lureau@redhat.com>
- <20210203154820.wolx57xxegwdw7q2@sirius.home.kraxel.org>
-In-Reply-To: <20210203154820.wolx57xxegwdw7q2@sirius.home.kraxel.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 4 Feb 2021 02:21:02 +0400
-Message-ID: <CAMxuvaxDMR2a+mKFPjA29rQrTzbNPt7hpBWVqBvV3iAABTLeoA@mail.gmail.com>
-Subject: Re: [PATCH 11/20] ui: add an optional get_flags callback to
- GraphicHwOps
-To: Gerd Hoffmann <kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000003e697b05ba7601bb"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+References: <20210203213729.1940893-1-dje@google.com>
+ <20210203213729.1940893-3-dje@google.com>
+ <20210203222053.htsym7musxnqpc5n@begin>
+In-Reply-To: <20210203222053.htsym7musxnqpc5n@begin>
+From: Doug Evans <dje@google.com>
+Date: Wed, 3 Feb 2021 14:29:16 -0800
+Message-ID: <CADPb22SNUYx9pBR-c+YSJV_T-LL4scGRV6=sFZfceCPHQfyosA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] net: Add -ipv6-hostfwd option,
+ ipv6_hostfwd_add/remove commands
+To: Samuel Thibault <samuel.thibault@gnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000056c48f05ba762059"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
+ envelope-from=dje@google.com; helo=mail-vs1-xe34.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,82 +80,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003e697b05ba7601bb
+--00000000000056c48f05ba762059
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 3, 2021 at 7:48 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Wed, Feb 3, 2021 at 2:20 PM Samuel Thibault <samuel.thibault@gnu.org>
+wrote:
 
-> > +static int
-> > +virtio_gpu_get_flags(void *opaque)
-> > +{
-> > +    VirtIOGPUBase *g = opaque;
-> > +    int flags = GRAPHIC_FLAGS_NONE;
-> > +
-> > +    if (virtio_gpu_virgl_enabled(g->conf))
-> > +        flags |= GRAPHIC_FLAGS_GL;
-> > +
-> > +    if (virtio_gpu_dmabuf_enabled(g->conf))
-> > +        flags |= GRAPHIC_FLAGS_DMABUF;
+> Doug Evans, le mer. 03 f=C3=A9vr. 2021 13:37:29 -0800, a ecrit:
+> > @@ -1392,6 +1392,34 @@ SRST
+> >    Remove host-to-guest TCP or UDP redirection.
+> >  ERST
+> >
+> > +#ifdef CONFIG_SLIRP
+> > +    {
+> > +        .name       =3D "ipv6_hostfwd_add",
+> > +        .args_type  =3D "arg1:s,arg2:s?",
+> > +        .params     =3D "[netdev_id]
+> [tcp|udp]:[hostaddr6]:hostport-[guestaddr6]:guestport",
 >
-> fbe6ba76ac01 ui: add an optional get_flags callback to GraphicHwOps
-> ERROR: braces {} are necessary for all arms of this statement
-> #50: FILE: hw/display/virtio-gpu-base.c:123:
-> +    if (virtio_gpu_virgl_enabled(g->conf))
-> [...]
->
-> ERROR: braces {} are necessary for all arms of this statement
-> #53: FILE: hw/display/virtio-gpu-base.c:126:
-> +    if (virtio_gpu_dmabuf_enabled(g->conf))
-> [...]
->
-> total: 2 errors, 0 warnings, 68 lines checked
+> Perhaps explicit that the IPv6 address should be enclosed with [] ?
 >
 
-If you queued the series, do you mind squashing a style fix? Otherwise I
-can resend.
 
-Thanks
+Yeah, totally open to suggestions for what to write.
+I wasn't sure how to do that without getting klunky,
 
---0000000000003e697b05ba7601bb
+
+> > +    /* Ignore the part between the ']' and addr_sep. */
+> > +    if (get_str_sep(buf, sizeof(buf), &p, addr_sep) < 0) {
+>
+> Mmm, I would say that we do not want to just ignore it, and rather make
+> sure that it is empty, so that we can possibly make extensions later
+> without breaking existing misuse.
+>
+
+
+Completely agree.
+
+--00000000000056c48f05ba762059
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 3, 2021 at 7:48 PM Gerd H=
-offmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; +sta=
-tic int<br>
-&gt; +virtio_gpu_get_flags(void *opaque)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 VirtIOGPUBase *g =3D opaque;<br>
-&gt; +=C2=A0 =C2=A0 int flags =3D GRAPHIC_FLAGS_NONE;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (virtio_gpu_virgl_enabled(g-&gt;conf))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 flags |=3D GRAPHIC_FLAGS_GL;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (virtio_gpu_dmabuf_enabled(g-&gt;conf))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 flags |=3D GRAPHIC_FLAGS_DMABUF;<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Wed, Feb 3, 2021 at 2:20 PM Samuel Thibault &lt;<a href=3D=
+"mailto:samuel.thibault@gnu.org">samuel.thibault@gnu.org</a>&gt; wrote:<br>=
+</div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">Doug Evans, le mer. 03 f=C3=A9vr. 2021 13:37:29 -0800, a ecri=
+t:<br>
+&gt; @@ -1392,6 +1392,34 @@ SRST<br>
+&gt;=C2=A0 =C2=A0 Remove host-to-guest TCP or UDP redirection.<br>
+&gt;=C2=A0 ERST<br>
+&gt;=C2=A0 <br>
+&gt; +#ifdef CONFIG_SLIRP<br>
+&gt; +=C2=A0 =C2=A0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot=
+;ipv6_hostfwd_add&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 .args_type=C2=A0 =3D &quot;arg1:s,arg2:s?=
+&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 .params=C2=A0 =C2=A0 =C2=A0=3D &quot;[net=
+dev_id] [tcp|udp]:[hostaddr6]:hostport-[guestaddr6]:guestport&quot;,<br>
 <br>
-fbe6ba76ac01 ui: add an optional get_flags callback to GraphicHwOps<br>
-ERROR: braces {} are necessary for all arms of this statement<br>
-#50: FILE: hw/display/virtio-gpu-base.c:123:<br>
-+=C2=A0 =C2=A0 if (virtio_gpu_virgl_enabled(g-&gt;conf))<br>
-[...]<br>
+Perhaps explicit that the IPv6 address should be enclosed with [] ?<br></bl=
+ockquote><div><br></div><div><br></div><div><div class=3D"gmail_default" st=
+yle=3D"font-size:small">Yeah, totally open to suggestions for what to write=
+.</div><div class=3D"gmail_default" style=3D"font-size:small">I wasn&#39;t =
+sure how to do that without getting klunky,</div><br></div><div class=3D"gm=
+ail_default" style=3D"font-size:small"></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
 <br>
-ERROR: braces {} are necessary for all arms of this statement<br>
-#53: FILE: hw/display/virtio-gpu-base.c:126:<br>
-+=C2=A0 =C2=A0 if (virtio_gpu_dmabuf_enabled(g-&gt;conf))<br>
-[...]<br>
+&gt; +=C2=A0 =C2=A0 /* Ignore the part between the &#39;]&#39; and addr_sep=
+. */<br>
+&gt; +=C2=A0 =C2=A0 if (get_str_sep(buf, sizeof(buf), &amp;p, addr_sep) &lt=
+; 0) {<br>
 <br>
-total: 2 errors, 0 warnings, 68 lines checked<br></blockquote><div><br></di=
-v><div>If you queued the series, do you mind squashing a style fix? Otherwi=
-se I can resend.</div><div><br></div><div>Thanks<br></div></div></div>
+Mmm, I would say that we do not want to just ignore it, and rather make<br>
+sure that it is empty, so that we can possibly make extensions later<br>
+without breaking existing misuse.<br></blockquote><div><br></div><div><br><=
+/div><div class=3D"gmail_default" style=3D"font-size:small">Completely=C2=
+=A0agree.</div></div></div>
 
---0000000000003e697b05ba7601bb--
-
+--00000000000056c48f05ba762059--
 
