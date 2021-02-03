@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1F230E623
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 23:36:28 +0100 (CET)
-Received: from localhost ([::1]:59754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E26030E5BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 23:09:31 +0100 (CET)
+Received: from localhost ([::1]:43282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Ql7-0002E2-R0
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 17:36:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50930)
+	id 1l7QL3-00022c-By
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 17:09:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l7Q2p-0004iP-BE
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:50:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l7Q2k-0005DQ-6I
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:50:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612389029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bg0HvWctJPhmXbHQOtBu+fEPsbz5KGhLy2Y4UPHTtKI=;
- b=fV9BhTJPWWl8ryX/kEQ7L9PlPXpheGMkhISvisk+tbt9XHPJ6B/1wNfxjOuTH6SxyDrJBJ
- vMDPIpY/DEEHLAlTeY2D1Dl2u195BaabdRePhY9Au9KdDdmFcwUf43PaCC2z+uGFHt06/d
- k5vN7NPsX9ZZY3Pr2MwLfxU8xAGlbow=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-ffMtswocN_OoY2NW4f7VjA-1; Wed, 03 Feb 2021 16:50:28 -0500
-X-MC-Unique: ffMtswocN_OoY2NW4f7VjA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40D4F15720;
- Wed,  3 Feb 2021 21:50:27 +0000 (UTC)
-Received: from localhost (ovpn-3-197.rdu2.redhat.com [10.22.3.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08BC15886C;
- Wed,  3 Feb 2021 21:50:26 +0000 (UTC)
-Date: Wed, 3 Feb 2021 16:50:26 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 08/14] qapi/introspect.py: create a typed 'Annotated'
- data strutcure
-Message-ID: <20210203215026.GB126021@habkost.net>
-References: <20210202174651.2274166-1-jsnow@redhat.com>
- <20210202174651.2274166-9-jsnow@redhat.com>
- <878s85tdh3.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7QJH-0001UJ-7U
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:07:39 -0500
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:34823)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7QJF-0004Ce-ID
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:07:38 -0500
+Received: by mail-lf1-x136.google.com with SMTP id u25so1501903lfc.2
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 14:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=scWsCyON/GrKRQxBaq7h64LE5KoXgVmiaw23bmvRVME=;
+ b=rh1YlELpaWchtVzuBC++kKYoEJsEj9eZlprsb9kpRYiUfDJc7G9RjwjFaS4JBvAj2U
+ dtGUNF0zg+bwSbBWOxxwugYEJi70Q6zpI6/ml7vGnFLue9x1GA9/16vChQ4JVEKIqjpp
+ uLuBt5Q/fmAM/bQw7DGRnGpWpBUYJE1HHKKb/klWATyjHBtEUMx2IMuauW6SDzwFIlKG
+ 0Q386p8Ru1cf1T4WZPAljKj9gUMu4q3+0ndvPuqoVuu94yFR8S6+uC7FKYmlVNO5tg+S
+ RR+xIbfY5LI1Kpt7FjopPUaUZYY+/UUKLxorQ+dzUOMLGZpgZzM0RSeT22ZCu38h16Pa
+ BrQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=scWsCyON/GrKRQxBaq7h64LE5KoXgVmiaw23bmvRVME=;
+ b=KS+9Lv+oSXTjYMxWPpxm8N9CED/h7TNl57/lsbI6/dXN52ne/m2BzvEJctCouWeSEN
+ 3fY3Hs2RnogffZP2OrFSRM7A8QJk2ZcqpYa0I+EFXthmxsGYpGeBF5pycp0V4h1vBJmL
+ 8iHBWK+tkqQddotFt+78+VlXPW3NaUQ6f7nAZqA4NBko8wP6rNukgyP8UNPHW0P0LsVS
+ Cf3DGMry5SJgX1MEQqJEwU3pWLMVQByxxhYzW+SsCIsi9pSGJA2Jn+l83X+PMwGyT+T2
+ +KWximBVtQ91gEBmerI+02AhGS9W9G14CLwot9ZHaF39lf7WOiyizWuIoTqAh6M46adE
+ xY8A==
+X-Gm-Message-State: AOAM533Wi+BTULjENJJFDJm1VqEGHxghvqr+deG8eftCga46nffPKXoh
+ vaISuSdMP4zJfjd3ck2mqSEdOnWA1QZel7gNlv86YQ==
+X-Google-Smtp-Source: ABdhPJzmqt2RhSzPkadgxb/5tLqkLiOisxshZzBBWL3geBuRbnZT6tPfJXFFH7PqmNi0CPklL9KTbKMip5HtgaA5Ss0=
+X-Received: by 2002:a19:c3cc:: with SMTP id t195mr2896234lff.235.1612390055143; 
+ Wed, 03 Feb 2021 14:07:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <878s85tdh3.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210201100903.17309-1-cfontana@suse.de>
+ <87v9b9qe78.fsf@linaro.org>
+ <76d623a9-90e3-31bc-5998-1e159fe25b04@suse.de>
+In-Reply-To: <76d623a9-90e3-31bc-5998-1e159fe25b04@suse.de>
+From: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Wed, 3 Feb 2021 22:07:22 +0000
+Message-ID: <CAHDbmO1yhjYt9qUU6a6Lo2-v9yXg+E=YJ8N0=mM+mbP99Vsk_Q@mail.gmail.com>
+Subject: Re: [PATCH v15 00/23] i386 cleanup PART 2
+To: Claudio Fontana <cfontana@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=alex.bennee@linaro.org; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,56 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 03, 2021 at 03:47:36PM +0100, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
-> > Presently, we use a tuple to attach a dict containing annotations
-> > (comments and compile-time conditionals) to a tree node. This is
-> > undesirable because dicts are difficult to strongly type; promoting it
-> > to a real class allows us to name the values and types of the
-> > annotations we are expecting.
+For patch 17 on onwards it was just seeing what the actual benefit of
+the derived class was - I think I get it later on but you should
+mention it up front.
+
+I do think we need to address the ordering constraint in 21 - are we
+introducing one or just formalising what has been created? If we are
+introducing one then can we a) do it a better way with the structuring
+of QOM or b) enforce it so new models don't run into unexpected bugs.
+
+On Wed, 3 Feb 2021 at 17:10, Claudio Fontana <cfontana@suse.de> wrote:
+>
+> Hi Alex,
+>
+> thanks for your review,
+>
+> On 2/3/21 5:57 PM, Alex Benn=C3=A9e wrote:
 > >
-> > In terms of typing, the Annotated<T> type serves as a generic container
-> > where the annotated node's type is preserved, allowing for greater
-> > specificity than we'd be able to provide without a generic.
+> > Claudio Fontana <cfontana@suse.de> writes:
 > >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-[...]
-> > +class Annotated(Generic[_NodeT]):
-> > +    """
-> > +    Annotated generally contains a SchemaInfo-like type (as a dict),
-> > +    But it also used to wrap comments/ifconds around scalar leaf values,
-> > +    for the benefit of features and enums.
-> > +    """
-> > +    # Remove after 3.7 adds @dataclass:
-> 
-> Make this
-> 
->        # TODO Remove after Python 3.7 ...
-> 
-> to give us a fighting chance to remember.
-> 
-> > +    # pylint: disable=too-few-public-methods
-> > +    def __init__(self, value: _NodeT, ifcond: Iterable[str],
-> > +                 comment: Optional[str] = None):
-> 
-> Why not simply value: _value?
+> > <snip>
+> >
+> > Final comments. I think overall this series is looking pretty good
+> > although I got a bit lost at the end when we started expanding on the
+> > AccelClass.
+> > The main yuck was the start-up ordering constraint which
+>
+> To be sure, are you referring to tcg_accel_ops_init(), ie your comments t=
+owards the end of PATCH 17?
+>
+> Ciao,
+>
+> Claudio
+>
+> > would be nice to remove or failing that catch with some asserts so weir=
+d
+> > bugs don't get introduced.
+> >
+> > Paolo, is it worth picking up some of the early patches to reduce the
+> > patch delta going forward?
+> >
+>
 
-Example:
-  x = C(1)
-  y: C[int]
-  y = C('x')  # mistake
 
-Declaring value as _NodeT does:
-- Make the inferred type of x be Annotated[int].
-- Catch the mistake above.
-
--- 
-Eduardo
-
+--=20
+Alex Benn=C3=A9e
+KVM/QEMU Hacker for Linaro
 
