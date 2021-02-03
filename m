@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA8C30E1FF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:08:52 +0100 (CET)
-Received: from localhost ([::1]:34264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E7130E158
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:46:08 +0100 (CET)
+Received: from localhost ([::1]:60880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7MaB-0003xC-B6
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:08:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40082)
+	id 1l7MEB-00039E-Qn
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:46:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Luu-0003EK-Qi
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:26:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22854)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Lu1-00026h-1m
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:25:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Lut-0004fI-AQ
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:26:12 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Ltz-0004YX-CP
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:25:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612373170;
+ s=mimecast20190719; t=1612373114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y5G7ztCpaJBGFkwbHALru83qH2lN/IWnoOVBpPh6qa4=;
- b=cyR33XX3s2jNzat6DqQf18rVjSfjBXRDUWWPg1ZDUbLan5Ob1YtZPpxDk3i8wfGpLIQ6uo
- StUsCpRCl6xpFKaCcKX8f2iw6WpDD5KrMHeIdJNSBzgxWOf58pAxeHE6pwN7SMw6FE9BYt
- 6ItXwAp/zP4qGUjwKptQRzHpkITfmfg=
+ bh=mVrO1J5lUM3ZE6ZkQYr5IGoQI8bZ34a1Sln62JjAouU=;
+ b=P5Osspjnpvi+NrTzL5Ykc+M3ZT1Bvx8ZmfR17B5xcsxXe768fLF/pLKRd1fWx0rk3DJ7Xr
+ 6Pqw9hf+TuEDC3k4WWiy1BafMVAHmNW5W3sTxkn3s9K1X9RW/TdAD759qbms4jCR4PnqCE
+ Zb0TcYnpbRt8Kes+jDnnoA1aBxnNp/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-oqv0fDQzOBa2-ZdkZ5XExA-1; Wed, 03 Feb 2021 12:25:02 -0500
-X-MC-Unique: oqv0fDQzOBa2-ZdkZ5XExA-1
+ us-mta-436-mwxvfterMyaQRBT22Pknvw-1; Wed, 03 Feb 2021 12:25:12 -0500
+X-MC-Unique: mwxvfterMyaQRBT22Pknvw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A061801964;
- Wed,  3 Feb 2021 17:25:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC83A804022;
+ Wed,  3 Feb 2021 17:25:10 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-89.rdu2.redhat.com
  [10.10.116.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 366A11F445;
- Wed,  3 Feb 2021 17:24:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E44A1971D;
+ Wed,  3 Feb 2021 17:25:01 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/22] Acceptance Tests: set up existing ssh keys by default
-Date: Wed,  3 Feb 2021 12:23:53 -0500
-Message-Id: <20210203172357.1422425-19-crosa@redhat.com>
+Subject: [PATCH 19/22] Acceptance Tests: add port redirection for ssh by
+ default
+Date: Wed,  3 Feb 2021 12:23:54 -0500
+Message-Id: <20210203172357.1422425-20-crosa@redhat.com>
 In-Reply-To: <20210203172357.1422425-1-crosa@redhat.com>
 References: <20210203172357.1422425-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -92,58 +93,44 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's questionable wether it's necessary to create one brand new pair
-for each test.  It's not questionable that it takes less time and
-resources to just use the keys available at "tests/keys" that exist
-for that exact reason.
-
-If a location for the public key is not given explicitly, the
-LinuxTest will now set up the existing pair of keys as the default.
-This removes the need for a lot of boiler plate code.
-
-To avoid the ssh client from erroring on permission issues, a
-directory with restricive permissions is created for the private key.
-This should still be a lot cheaper than creating a new key.
+For users of the LinuxTest class, let's set up the VM with the port
+redirection for SSH, instead of requiring each test to set the same
+arguments.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ tests/acceptance/avocado_qemu/__init__.py | 2 ++
+ tests/acceptance/virtiofs_submounts.py    | 4 ----
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 8156224625..5f4dd6b9ec 100644
+index 5f4dd6b9ec..89669cc604 100644
 --- a/tests/acceptance/avocado_qemu/__init__.py
 +++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -11,6 +11,7 @@
- import logging
- import os
- import re
-+import shutil
- import sys
- import uuid
- import tempfile
-@@ -301,8 +302,21 @@ class LinuxTest(Test, LinuxSSHMixIn):
+@@ -301,6 +301,8 @@ class LinuxTest(Test, LinuxSSHMixIn):
+         super(LinuxTest, self).setUp()
          self.vm.add_args('-smp', '2')
          self.vm.add_args('-m', '1024')
++        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
++                         '-device', 'virtio-net,netdev=vnet')
          self.set_up_boot()
-+        if ssh_pubkey is None:
-+            ssh_pubkey, self.ssh_key = self.set_up_existing_ssh_keys()
-         self.set_up_cloudinit(ssh_pubkey)
+         if ssh_pubkey is None:
+             ssh_pubkey, self.ssh_key = self.set_up_existing_ssh_keys()
+diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
+index 0298807e5c..94b59edd6d 100644
+--- a/tests/acceptance/virtiofs_submounts.py
++++ b/tests/acceptance/virtiofs_submounts.py
+@@ -195,10 +195,6 @@ class VirtiofsSubmountsTest(LinuxTest):
+             self.vm.add_args('-kernel', vmlinuz,
+                              '-append', 'console=ttyS0 root=/dev/sda1')
  
-+    def set_up_existing_ssh_keys(self):
-+        ssh_public_key = os.path.join(SOURCE_DIR, 'tests', 'keys', 'id_rsa.pub')
-+        source_private_key = os.path.join(SOURCE_DIR, 'tests', 'keys', 'id_rsa')
-+        ssh_dir = os.path.join(self.workdir, '.ssh')
-+        os.mkdir(ssh_dir, mode=0o700)
-+        ssh_private_key = os.path.join(ssh_dir,
-+                                       os.path.basename(source_private_key))
-+        shutil.copyfile(source_private_key, ssh_private_key)
-+        os.chmod(ssh_private_key, 0o600)
-+        return (ssh_public_key, ssh_private_key)
-+
-     def download_boot(self):
-         self.log.debug('Looking for and selecting a qemu-img binary to be '
-                        'used to create the bootable snapshot image')
+-        # Allow us to connect to SSH
+-        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
+-                         '-device', 'virtio-net,netdev=vnet')
+-
+         self.require_accelerator("kvm")
+         self.vm.add_args('-accel', 'kvm')
+ 
 -- 
 2.25.4
 
