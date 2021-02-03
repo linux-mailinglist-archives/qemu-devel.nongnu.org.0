@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F20330D8B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 12:32:28 +0100 (CET)
-Received: from localhost ([::1]:32922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223C330D8BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 12:36:00 +0100 (CET)
+Received: from localhost ([::1]:38800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7GOZ-0001AE-IO
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 06:32:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55380)
+	id 1l7GRz-0003io-4M
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 06:35:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7GMp-0000LH-81
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:30:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41863)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7GP1-0001xR-Pj
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:32:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7GMm-0003mF-Fm
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:30:39 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7GP0-0004sP-3O
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:32:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612351832;
+ s=mimecast20190719; t=1612351973;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+AfIKF9tfsOv5cUXL3t3Ty7Sz8jGMPL+/TRlA25mIQQ=;
- b=idtxtJ9CGImz+RL6GsN0gu0VceXTHbHlvTU9XfUV+dFb8Os3fluZWC3d5I/Ws/Hj85Ygfz
- NENbRX3BSXswDmmRaVCbLr+wUmL+wV44h30h87pl+dKTN2UbkWYDj6H+MhiCS+1HfqxyKw
- J0gTv5sDxqsA6qa6/DZtIehGnkREJ1Q=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IOPuZ2vswSWC9o5uIki9RWonYvQVhOHL4Ive7hkp36E=;
+ b=Jd/ZR8Od7q5uYMXcBYZrHK94CLrIOvc+WIO6h7YQYfp/sFqSYPOgMcUYQb7LF/WrEWO3Tu
+ YRR9lhWe4JKjcEbMy1z0LC5sTD7uyvk91/T9uUelIltwX67zdZrsC+OGifVZGflOKQI+1v
+ AqXkdRraBbUNsroU9lSiBnTFWSJ171s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-Nn5fdm4FMB2Hjnnnwf-8Ug-1; Wed, 03 Feb 2021 06:30:31 -0500
-X-MC-Unique: Nn5fdm4FMB2Hjnnnwf-8Ug-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-564-2Y7RvC9gNPKskI5lgcslVQ-1; Wed, 03 Feb 2021 06:32:51 -0500
+X-MC-Unique: 2Y7RvC9gNPKskI5lgcslVQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AA09809DD6;
- Wed,  3 Feb 2021 11:30:30 +0000 (UTC)
-Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C8A42CE39;
- Wed,  3 Feb 2021 11:30:17 +0000 (UTC)
-Date: Wed, 3 Feb 2021 11:30:14 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH 1/1] virtiofsd: Allow to build it without the tools
-Message-ID: <20210203113014.GG2950@work-vm>
-References: <20210201211456.1133364-1-wainersm@redhat.com>
- <20210201211456.1133364-2-wainersm@redhat.com>
- <OSBPR01MB45828271AC8D2F8F5FAA52D7E5B59@OSBPR01MB4582.jpnprd01.prod.outlook.com>
- <41d8b908-652f-a8c4-0bef-7420c65bd1d2@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34DAA809DC9;
+ Wed,  3 Feb 2021 11:32:50 +0000 (UTC)
+Received: from thuth.com (ovpn-112-165.ams2.redhat.com [10.36.112.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBB3660C66;
+ Wed,  3 Feb 2021 11:32:45 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH 0/6] Move remaining x86 Travis jobs to the gitlab-CI
+Date: Wed,  3 Feb 2021 12:32:37 +0100
+Message-Id: <20210203113243.280883-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <41d8b908-652f-a8c4-0bef-7420c65bd1d2@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,42 +74,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wainer dos Santos Moschetta (wainersm@redhat.com) wrote:
-> 
-> On 2/2/21 2:55 AM, misono.tomohiro@fujitsu.com wrote:
-> > > Subject: [PATCH 1/1] virtiofsd: Allow to build it without the tools
-> > > 
-> > > This changed the Meson build script to allow virtiofsd be built even
-> > > though the tools build is disabled, thus honoring the --enable-virtiofsd
-> > > option.
-> > > 
-> > > Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> > I misunderstood that virtiofsd builds somehow depends on tools build at that time.
-> > Thanks for fixing. I did quick build test.
-> Thanks for the review and test!
-> 
-> If not needed a v2 for this patch, please could the maintainer add to the
-> commit message:
-> 
->   Fixes: cece116c939d219070b250338439c2d16f94e3da (configure: add option for
-> virtiofsd)
+Since Travis changed their policies, travis-ci.org will soon become
+completely useless for the QEMU project. We should now really make sure
+that we move the remaining tests as good as possible to the gitlab-CI
+instead. Since the gitlab-CI has already quite a lot of jobs, I tried
+to squeeze the missing bits as good as possible into the existing jobs
+instead of adding a separate job for each and ever test that we had
+in the Travis-CI - I hope that will help to avoid increasing the stress
+on the CI system too much. 
 
-OK, I cna add that; I'll take it through virtiofs next time I need to do
-a pull.
+Philippe Mathieu-DaudÃ© (1):
+  travis.yml: Move gprof/gcov test across to gitlab
 
-> - Wainer
-> 
-> > 
-> > Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> > 
+Thomas Huth (5):
+  travis.yml: Move the -fsanitize=undefined test to the gitlab-CI
+  travis.yml: Move the --enable-modules test to the gitlab-CI
+  travis.yml: Remove the --enable-debug jobs
+  target/s390x/arch_dump: Fixes for the name field in the PT_NOTE
+    section
+  travis.yml: Move the -fsanitize=thread compile-testing to the
+    gitlab-CI
+
+ .gitlab-ci.yml                             |  27 ++++-
+ .travis.yml                                | 110 ---------------------
+ MAINTAINERS                                |   2 +-
+ scripts/{travis => ci}/coverage-summary.sh |   2 +-
+ target/s390x/arch_dump.c                   |   6 +-
+ tests/docker/dockerfiles/ubuntu2004.docker |   2 +
+ 6 files changed, 33 insertions(+), 116 deletions(-)
+ rename scripts/{travis => ci}/coverage-summary.sh (92%)
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.27.0
 
 
