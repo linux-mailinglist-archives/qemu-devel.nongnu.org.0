@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7A330DD60
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:57:53 +0100 (CET)
-Received: from localhost ([::1]:42554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6B430DD63
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:58:59 +0100 (CET)
+Received: from localhost ([::1]:44628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7JbM-0006MD-Vd
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:57:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59270)
+	id 1l7JcQ-0007F1-H3
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:58:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7JaB-0005tr-7h
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:56:39 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45638)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7Ja0-0006pA-Uy
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:56:38 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9CCCFAC6E;
- Wed,  3 Feb 2021 14:56:26 +0000 (UTC)
-Subject: Re: [PATCH v15 18/23] accel: introduce AccelCPUClass extending
- CPUClass
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210201100903.17309-1-cfontana@suse.de>
- <20210201100903.17309-19-cfontana@suse.de>
- <efc3d892-027d-a480-363d-7aae6a8f8543@redhat.com>
- <1adffa3e-ec17-9c67-7355-0ec5a107c065@suse.de>
- <aaa5f60d-e4c3-282c-3e12-98f8bb87ee76@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <24776aab-56eb-2062-a6d5-db31ff9226a1@suse.de>
-Date: Wed, 3 Feb 2021 15:56:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7Jb2-0006ND-3q
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:57:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43157)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7Jb0-0007Fu-Ka
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:57:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612364249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fxroF4jgsU9z1g8oyhxDdelIkB75a8QTQ8rvL2/L5Cg=;
+ b=RE6+6tOQLDYfY63gdrDT5s/ljHHZcNLQz8A2ojpnZ+1EggKhoWerpVFtT6rOk4Qb+JNWSP
+ C8O5A/SoNGazuXvxaBjaxAHiKR3yo0PCYbM/iiHtEgxFDTMaMVF/gBtHFc9GNFN7bq77pG
+ WS4DKt35uYCMvr/hY660mQ9Fj57GEfc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-Q5CMaSxUOHuXSfji019WsQ-1; Wed, 03 Feb 2021 09:57:25 -0500
+X-MC-Unique: Q5CMaSxUOHuXSfji019WsQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 845D9107ACF5;
+ Wed,  3 Feb 2021 14:57:24 +0000 (UTC)
+Received: from localhost (ovpn-115-141.ams2.redhat.com [10.36.115.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D35F5C241;
+ Wed,  3 Feb 2021 14:57:24 +0000 (UTC)
+Date: Wed, 3 Feb 2021 14:57:23 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] virtiofsd: vu_dispatch locking should never fail
+Message-ID: <20210203145723.GF74271@stefanha-x1.localdomain>
+References: <20210129155312.595980-1-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <aaa5f60d-e4c3-282c-3e12-98f8bb87ee76@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.178,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210129155312.595980-1-groug@kaod.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="w3uUfsyyY1Pqa/ej"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,109 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Vivek Goyal <vgoyal@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/21 3:51 PM, Philippe Mathieu-Daudé wrote:
-> On 2/3/21 3:49 PM, Claudio Fontana wrote:
->> On 2/3/21 3:27 PM, Philippe Mathieu-Daudé wrote:
->>> On 2/1/21 11:08 AM, Claudio Fontana wrote:
->>>> add a new optional interface to CPUClass, which allows accelerators
->>>> to extend the CPUClass with additional accelerator-specific
->>>> initializations.
->>>>
->>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>> ---
->>>>  include/hw/core/accel-cpu.h | 35 +++++++++++++++++++++++++++++
->>>>  include/hw/core/cpu.h       |  1 +
->>>>  accel/accel-common.c        | 44 +++++++++++++++++++++++++++++++++++++
->>>>  MAINTAINERS                 |  1 +
->>>>  4 files changed, 81 insertions(+)
->>>>  create mode 100644 include/hw/core/accel-cpu.h
->>>>
->>>> diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
->>>> new file mode 100644
->>>> index 0000000000..c7c137dc9a
->>>> --- /dev/null
->>>> +++ b/include/hw/core/accel-cpu.h
->>>> @@ -0,0 +1,35 @@
->>>> +/*
->>>> + * Accelerator interface, specializes CPUClass
->>>> + *
->>>> + * Copyright 2021 SUSE LLC
->>>> + *
->>>> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->>>> + * See the COPYING file in the top-level directory.
->>>> + */
->>>> +
->>>> +#ifndef ACCEL_CPU_H
->>>> +#define ACCEL_CPU_H
->>>> +
->>>> +/*
->>>> + * these defines cannot be in cpu.h, because we are using
->>>> + * CPU_RESOLVING_TYPE here.
->>>> + * Use this header to define your accelerator-specific
->>>> + * cpu-specific accelerator interfaces.
->>>> + */
->>>> +
+--w3uUfsyyY1Pqa/ej
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jan 29, 2021 at 04:53:12PM +0100, Greg Kurz wrote:
+> pthread_rwlock_rdlock() and pthread_rwlock_wrlock() can fail if a
+> deadlock condition is detected or the current thread already owns
+> the lock. They can also fail, like pthread_rwlock_unlock(), if the
+> mutex wasn't properly initialized. None of these are ever expected
+> to happen with fv_VuDev::vu_dispatch_rwlock.
+>=20
+> Some users already check the return value and assert, some others
+> don't. Introduce rdlock/wrlock/unlock wrappers that just do the
+> former and use them everywhere.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-This is the comment to read :-)
+What is the purpose of this commit:
+1. Code cleanup/consistency?
+2. Helps debug an issue that doesn't occur in production but you hit
+   during development?
+3. Needed to diagnose a real-world issue? How do you reproduce it?
 
+I wanted to check to make sure I'm not missing an issue you found with
+production workloads.
 
->>>> +#define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
->>>> +#define ACCEL_CPU_NAME(name) (name "-" TYPE_ACCEL_CPU)
->>>> +typedef struct AccelCPUClass AccelCPUClass;
->>>> +DECLARE_CLASS_CHECKERS(AccelCPUClass, ACCEL_CPU, TYPE_ACCEL_CPU)
->>>> +
->>>> +typedef struct AccelCPUClass {
->>>> +    /*< private >*/
->>>> +    ObjectClass parent_class;
->>>> +    /*< public >*/
->>>> +
->>>> +    void (*cpu_class_init)(CPUClass *cc);
->>>> +    void (*cpu_instance_init)(CPUState *cpu);
->>>> +    void (*cpu_realizefn)(CPUState *cpu, Error **errp);
->>>> +} AccelCPUClass;
->>>
->>> This header only makes sense if you forward-declare CPUClass
->>> in "qemu/typedefs.h", so accelerators don't have to include
->>> "hw/core/cpu.h".
->>>
->>
->> Can you clarify what you mean? I don't see how it follows that this header only makes sense if I forward-declare CPUClass.
->>
->> This is necessary for the accel-specific target-specific code that needs to extend cpu classes with Accel CPU interfaces,
->> in this series f.e.:
->>
->> target/i386/kvm/kvm-cpu.c
->> target/i386/hvf/hvf-cpu.c
->> target/i386/tcg/tcg-cpu.c
-> 
-> Why not keep theses declarations in "hw/core/cpu.h", rather than
-> adding a new header? What is the point of the new header?
-> 
+> @@ -645,8 +662,7 @@ static void *fv_queue_thread(void *opaque)
+>              break;
+>          }
+>          /* Mutual exclusion with virtio_loop() */
+> -        ret =3D pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwloc=
+k);
+> -        assert(ret =3D=3D 0); /* there is no possible error case */
+> +        vu_dispatch_wrlock(qi->virtio_dev);
 
-It is not possible (see comment above).
+s/vu_dispatch_wrlock/vu_dispatch_rdlock/ ?
 
-The header needs to be target-specific, and only can be included by target code, or disaster is ensured.
-The part that is in hw/core/cpu.h is the part that can be safely included by both common and target-specific code.
+--w3uUfsyyY1Pqa/ej
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The accel-cpu.h is target-specific.
+-----BEGIN PGP SIGNATURE-----
 
-This is one of the fallouts of our split of code between common, target-specific modules.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAaudMACgkQnKSrs4Gr
+c8iP1Qf/dP+fCj1Zj5o51UWH4KxWXk1ywUrW0nZvmg1CWSbs2WaXADhYwfykoRmG
+SL1g7yphgPHRh1CuJUKU9AC4rjXwZiiRpbmV1NsYu1xS29sOrHVkvvTXkvpql6JJ
+EK086oCHKAKzaFxKdojoifOON/eNRueK1iB9oySTQcz5htuzN7hoOB/9HgUQE/0Z
+aWkNQbsVuGg20vXOKvmxvdgOkKr/OD3kyXkDCAxUeiUkQIOstV9pVPa8LAMBkCUd
+Vn+hVTogWtN7A6T/D5ObA9mBvcdwBur7vxA+3thtfWe8cFh3u7mLx5zot1LHWfI6
+ksN/olBJ49oO0hNPguxvzpo52LiunQ==
+=kS/R
+-----END PGP SIGNATURE-----
 
-It gains us quite a bit in compilation time,
-but with the drawback that thinking about these things is quite convoluted sometimes.
-
-Ciao,
-
-CLaudio
-
-
-
+--w3uUfsyyY1Pqa/ej--
 
 
