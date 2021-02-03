@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30FD30E3F6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 21:19:53 +0100 (CET)
-Received: from localhost ([::1]:38588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF3530E3FA
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 21:21:27 +0100 (CET)
+Received: from localhost ([::1]:40818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Ocx-0006po-DH
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 15:19:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58360)
+	id 1l7OeU-0007qv-KJ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 15:21:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l7OYp-0004u6-TV
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 15:15:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28819)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7Od6-0007Ir-No
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 15:20:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l7OYk-0007BW-SJ
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 15:15:35 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7Od4-0000nA-IX
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 15:19:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612383326;
+ s=mimecast20190719; t=1612383596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=na7DxitTHOp875VQAaxCZ0Cg4+2qqeMXsQ1sKru947Q=;
- b=XpzbAhpdur/kiFtN27IrucXUhbHaBB1RLxTXL+uAMys6XeftGbpGYWXUYQYdvNGA8Sp1k9
- lZM/XAvCu38K6R6WdYBdh6p762L0KooE1S0i1Lku3hBbwz++uCh9L171nkCiqrgs6FLDiT
- uXyjshQjjPraCybJDZwPr8JbeyCtgY4=
+ bh=jKHh6l1JzwxmGapEBJz3KKA6yEXfLU8R3ECvTl6a/3A=;
+ b=EHuZRmTEOeAZxmNcZ5ihmQF265zWeFVA4/HgmSOK8+q0nSjAMew2pyrRok5CWCO46yy9Dp
+ le8+xaQnv1Rt21isgPmu77nE6WU9mHDRDr/3wiH7JWKMN2mh0PaSth4U37ktm5vLdgrUrJ
+ lvnuzerbIRmjKAWUL20BosZXc/HLZb0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-rYnYVv-YPqKRXE6gMY-ffA-1; Wed, 03 Feb 2021 15:15:24 -0500
-X-MC-Unique: rYnYVv-YPqKRXE6gMY-ffA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-580-XIR1tz7qPqSNYOIf_5tdcA-1; Wed, 03 Feb 2021 15:19:53 -0500
+X-MC-Unique: XIR1tz7qPqSNYOIf_5tdcA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36D58100A8F0;
- Wed,  3 Feb 2021 20:15:23 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE386722E2;
- Wed,  3 Feb 2021 20:15:19 +0000 (UTC)
-Subject: Re: [PATCH 6/6] travis.yml: Move the -fsanitize=thread
- compile-testing to the gitlab-CI
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210203113243.280883-1-thuth@redhat.com>
- <20210203113243.280883-7-thuth@redhat.com>
- <efa13112-64c7-b906-f6bd-970039a62151@redhat.com>
-Message-ID: <d5024271-9f57-a096-4d33-a5f5c63506a0@redhat.com>
-Date: Wed, 3 Feb 2021 17:15:16 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD9A38030B1;
+ Wed,  3 Feb 2021 20:19:51 +0000 (UTC)
+Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF3B85D74F;
+ Wed,  3 Feb 2021 20:19:49 +0000 (UTC)
+Date: Wed, 3 Feb 2021 20:19:46 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v4 16/18] migration/rdma: add rdma_channel into
+ Migrationstate field
+Message-ID: <20210203201946.GY2950@work-vm>
+References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
+ <1612339311-114805-17-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <efa13112-64c7-b906-f6bd-970039a62151@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <1612339311-114805-17-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,117 +80,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>
+Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> Multifd RDMA is need to poll when we send data, record it.
 
-On 2/3/21 4:23 PM, Wainer dos Santos Moschetta wrote:
-> Hi,
->
-> On 2/3/21 8:32 AM, Thomas Huth wrote:
->> It's only about compile-testing (there is too much noise when running
->> the tests), so let's simply add the -fsanitize=thread flag to a job that
->> only compiles the sources. The "build-gprof-gcov" seems to be a good
->> candidate.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   .gitlab-ci.yml |  1 +
->>   .travis.yml    | 51 --------------------------------------------------
->>   2 files changed, 1 insertion(+), 51 deletions(-)
->
-> It will be a little weird to see a gprof/gcov failing with a sanitize 
-> error, but it seems indeed the best job.
->
-> Allow me to double-check: doesn't it need -g to show the line numbers?
+This looks like it's trying to be the equivalent of the 'static int
+next_channel' in multifd_send_pages.
 
-Never mind. It compiles with "-O2 -g". So:
+If so, why not mkae this 'multifd_channel' and make the function
+'multifd_next_channel' and replace the code in multifd_send_pages to use
+this as well, rather than make it a special for rdma.
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Dave
 
->
->
-> - Wainer
->
->>
->> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->> index 4654798523..e5c86e38c4 100644
->> --- a/.gitlab-ci.yml
->> +++ b/.gitlab-ci.yml
->> @@ -484,6 +484,7 @@ build-gprof-gcov:
->>     variables:
->>       IMAGE: ubuntu2004
->>       CONFIGURE_ARGS: --enable-gprof --enable-gcov
->> +                    --extra-cflags=-fsanitize=thread
->>       MAKE_CHECK_ARGS: build-tcg
->>       TARGETS: aarch64-softmmu mips64-softmmu ppc64-softmmu
->>                riscv64-softmmu s390x-softmmu x86_64-softmmu
->> diff --git a/.travis.yml b/.travis.yml
->> index b3fc72f561..18e62f282f 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -120,57 +120,6 @@ after_script:
->>   jobs:
->>     include:
->>   -
->> -    # Using newer GCC with sanitizers
->> -    - name: "GCC9 with sanitizers (softmmu)"
->> -      dist: bionic
->> -      addons:
->> -        apt:
->> -          update: true
->> -          sources:
->> -            # PPAs for newer toolchains
->> -            - ubuntu-toolchain-r-test
->> -          packages:
->> -            # Extra toolchains
->> -            - gcc-9
->> -            - g++-9
->> -            # Build dependencies
->> -            - libaio-dev
->> -            - libattr1-dev
->> -            - libbrlapi-dev
->> -            - libcap-ng-dev
->> -            - libgnutls28-dev
->> -            - libgtk-3-dev
->> -            - libiscsi-dev
->> -            - liblttng-ust-dev
->> -            - libnfs-dev
->> -            - libncurses5-dev
->> -            - libnss3-dev
->> -            - libpixman-1-dev
->> -            - libpng-dev
->> -            - librados-dev
->> -            - libsdl2-dev
->> -            - libsdl2-image-dev
->> -            - libseccomp-dev
->> -            - libspice-protocol-dev
->> -            - libspice-server-dev
->> -            - liburcu-dev
->> -            - libusb-1.0-0-dev
->> -            - libvte-2.91-dev
->> -            - ninja-build
->> -            - sparse
->> -            - uuid-dev
->> -      language: generic
->> -      compiler: none
->> -      env:
->> -        - COMPILER_NAME=gcc CXX=g++-9 CC=gcc-9
->> -        - CONFIG="--cc=gcc-9 --cxx=g++-9 --disable-linux-user"
->> -        - TEST_CMD=""
->> -      before_script:
->> -        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
->> -        - ${SRC_DIR}/configure ${CONFIG} --extra-cflags="-g3 -O0 
->> -fsanitize=thread" || { cat config.log meson-logs/meson-log.txt && 
->> exit 1; }
->> -
->> -
->>       - name: "[aarch64] GCC check-tcg"
->>         arch: arm64
->>         dist: focal
->
->
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> ---
+>  migration/migration.c |  1 +
+>  migration/migration.h |  1 +
+>  migration/rdma.c      | 14 ++++++++++++++
+>  3 files changed, 16 insertions(+)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index b8f4844..47bd11d 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1926,6 +1926,7 @@ void migrate_init(MigrationState *s)
+>      s->migration_thread_running = false;
+>      s->enabled_rdma_migration = false;
+>      s->host_port = NULL;
+> +    s->rdma_channel = 0;
+>      error_free(s->error);
+>      s->error = NULL;
+>      s->hostname = NULL;
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 537ee09..5ff46e6 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -288,6 +288,7 @@ struct MigrationState {
+>  
+>      /* Need by Multi-RDMA */
+>      char *host_port;
+> +    int rdma_channel;
+>  };
+>  
+>  void migrate_set_state(int *state, int old_state, int new_state);
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index f5eb563..2097839 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -183,6 +183,20 @@ typedef struct {
+>  } RDMAWorkRequestData;
+>  
+>  /*
+> + * Get the multifd RDMA channel used to send data.
+> + */
+> +static int get_multifd_RDMA_channel(void)
+> +{
+> +    int thread_count = migrate_multifd_channels();
+> +    MigrationState *s = migrate_get_current();
+> +
+> +    s->rdma_channel++;
+> +    s->rdma_channel %= thread_count;
+> +
+> +    return s->rdma_channel;
+> +}
+> +
+> +/*
+>   * Negotiate RDMA capabilities during connection-setup time.
+>   */
+>  typedef struct {
+> -- 
+> 1.8.3.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
