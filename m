@@ -2,87 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCCF30D56A
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 09:39:41 +0100 (CET)
-Received: from localhost ([::1]:36278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9912C30D5D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 10:07:57 +0100 (CET)
+Received: from localhost ([::1]:41152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7DhM-0000Tw-I6
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 03:39:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44482)
+	id 1l7E8i-0004WL-68
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 04:07:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1l7DgO-0008U5-01
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 03:38:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24099)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1l7DgK-0000Nz-DD
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 03:38:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612341514;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4sGQ+0smv+nIrneWH/NyiW7dqycqJR0Z4YdC1e3apGA=;
- b=MJee5RzinlDzGGi/mBPf84ggzvnYop6mIRVfsl4MheOtRyRr9lsrVITXwmpks/VKAejyZW
- 3MxbZ+YHesZZ5VbK5XCI2jNVZ7U3hqhj+4zHUnryAhondxbaVkV3ZBKm6NeWK+3I2nkgtQ
- J57+XB+fVuXuUF9+mhXp53F2sCaW95E=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-zaDua-mBPo2oxcOY-6aVIA-1; Wed, 03 Feb 2021 03:38:31 -0500
-X-MC-Unique: zaDua-mBPo2oxcOY-6aVIA-1
-Received: by mail-io1-f70.google.com with SMTP id r140so11637250iod.6
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 00:38:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4sGQ+0smv+nIrneWH/NyiW7dqycqJR0Z4YdC1e3apGA=;
- b=IVaqCRSlPzK1Q1eGp7IZBqKNC9tglCxruYkH3vyXRWaocQuWoFyIqvld541rT2xa42
- dKyrv5nZATStQ0pp6Y0iFqGGO1bWIN2YTlBnrICQnisWh6FU15UbsqVZjr+6mCLc3z7p
- i6zZkupnK+ME/XXP+Vifl4SaXsKQgc0/CNlVOpKMSqAo6uTC0q5bT09v+IOCtzGepT1G
- EE2nQBJFccbKm2R4sX30nvIkdQFAXMBFYHpkHaYOUZRhTTboZydGLwuGHcKTugDTFONP
- iQiUUSKunHHx6Ps4Zd+DWqXkPfHZRw1lXFIaztP4pNIl9fzc3OGOrPCwRuvfykSW1NIa
- 884A==
-X-Gm-Message-State: AOAM532lpP3UWT3YFmcZ11zxkrH4RyRKWjl4x50McTH79mgPOXSQmj25
- 7W9Dy91gJMP6d0VezTcwRH+xleuqSDXQoUC1Zn8/UMkuIXcAHstwYzXVwaskEYoF7lM43p0Gv9o
- DFpNPa/Im9LOTxiJdO+qWnkEyge8Hvdg=
-X-Received: by 2002:a05:6e02:194a:: with SMTP id
- x10mr1781500ilu.165.1612341510919; 
- Wed, 03 Feb 2021 00:38:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxs6tI+fIuAquR800oNQZt9mIX3UN6RM3hSzC8x2NX8o2epyqPctHbuyxal9Lkb0CjScdrbFrZhs+l2pFJeI0w=
-X-Received: by 2002:a05:6e02:194a:: with SMTP id
- x10mr1781495ilu.165.1612341510785; 
- Wed, 03 Feb 2021 00:38:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1l7E6q-0003uu-4U; Wed, 03 Feb 2021 04:06:00 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2154)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1l7E6j-00048J-Hl; Wed, 03 Feb 2021 04:05:59 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 11392MAC139200; Wed, 3 Feb 2021 04:05:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=klMBnIvBeALFiLu2McF39NY902kwA2/i84RvI1FGzCc=;
+ b=aXu4sFfFXq8C+gKBR5JNYERv8pYwM6I6hhBcOoAqnsT1PjSOv5WFWMe2HC0YE4ucCs3v
+ P78YwBzbSisDF9ylq4iXHLrRnBMgc2Aa7LvyZGicBY3ndOTgXBIi5xHIC+AGDBJE5erz
+ CvOg7opr1lNJi+TcMUZ2RqOndeSsZw2NcG/M/cj2ZHnf0jNLSIgMUy3qZ9Q95tpMwBtz
+ fe7g0frZa5hkutFaSKgZpgCdVmU+qqIzZXcRn0Bng9mjKX6tap6lxMAjZhnNSoBQm6DL
+ XCgNFkEOCB9UYyV3KiiZl18pnzwHo+fAUAlrtqhunkRkgFpEYrEMPZubRcznhZXvWEG3 xg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36frbjs007-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 Feb 2021 04:05:40 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11393THi147410;
+ Wed, 3 Feb 2021 04:05:40 -0500
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36frbjrykm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 Feb 2021 04:05:39 -0500
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11394I29012318;
+ Wed, 3 Feb 2021 09:05:28 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06fra.de.ibm.com with ESMTP id 36cxqh9xj4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 Feb 2021 09:05:27 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11395PNx37290322
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 3 Feb 2021 09:05:25 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ECF4BAE055;
+ Wed,  3 Feb 2021 09:05:24 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 978F2AE059;
+ Wed,  3 Feb 2021 09:05:23 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.7.56])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  3 Feb 2021 09:05:23 +0000 (GMT)
+Subject: Re: [PATCH v8 13/13] s390: Recognize confidential-guest-support option
+To: David Gibson <david@gibson.dropbear.id.au>, dgilbert@redhat.com,
+ pair@us.ibm.com, qemu-devel@nongnu.org, brijesh.singh@amd.com,
+ pasic@linux.ibm.com
+References: <20210202041315.196530-1-david@gibson.dropbear.id.au>
+ <20210202041315.196530-14-david@gibson.dropbear.id.au>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <1c9b65d6-b73f-3fde-7b76-f2d7b6e6d175@de.ibm.com>
+Date: Wed, 3 Feb 2021 10:05:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <161224971122.79781.8594358970645859667.stgit@pasha-ThinkPad-X280>
- <CAMxuvax4eUGGfLH4sQpS4ocD43bsMVFjiFsv2xcywwbXZ0-JJA@mail.gmail.com>
- <1a5d134b-c826-9620-094e-48fc6bb931b0@ispras.ru>
- <CAMxuvay_mLwsLB51Ar4-Usu610QnC7VAzD95BFmvL=VumCcRtA@mail.gmail.com>
- <3f9e991e-da3b-1df5-5124-06dc2e1b7e18@ispras.ru>
-In-Reply-To: <3f9e991e-da3b-1df5-5124-06dc2e1b7e18@ispras.ru>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 3 Feb 2021 12:38:19 +0400
-Message-ID: <CAMxuvazS9PCiZM0XNCyLOg9C40XxDytQhsLb1KVrA9NtvU34Bw@mail.gmail.com>
-Subject: Re: [PATCH] char: don't fail when client is not connected
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, "P. Berrange,
- Daniel" <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000001e7bd05ba6a8329"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, NUMERIC_HTTP_ADDR=1.242, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210202041315.196530-14-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
+ definitions=2021-02-03_03:2021-02-02,
+ 2021-02-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 phishscore=0 malwarescore=0
+ clxscore=1015 suspectscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102030053
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.155,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,142 +112,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: thuth@redhat.com, Cornelia Huck <cohuck@redhat.com>, berrange@redhat.com,
+ mst@redhat.com, kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ jun.nakajima@intel.com, mtosatti@redhat.com, richard.henderson@linaro.org,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Greg Kurz <groug@kaod.org>, pragyansri.pathi@intel.com, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org, andi.kleen@intel.com, pbonzini@redhat.com,
+ frankja@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000001e7bd05ba6a8329
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi
 
-On Wed, Feb 3, 2021 at 12:22 PM Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-wrote:
+On 02.02.21 05:13, David Gibson wrote:
+> At least some s390 cpu models support "Protected Virtualization" (PV),
+> a mechanism to protect guests from eavesdropping by a compromised
+> hypervisor.
+> 
+> This is similar in function to other mechanisms like AMD's SEV and
+> POWER's PEF, which are controlled by the "confidential-guest-support"
+> machine option.  s390 is a slightly special case, because we already
+> supported PV, simply by using a CPU model with the required feature
+> (S390_FEAT_UNPACK).
+> 
+> To integrate this with the option used by other platforms, we
+> implement the following compromise:
+> 
+>  - When the confidential-guest-support option is set, s390 will
+>    recognize it, verify that the CPU can support PV (failing if not)
+>    and set virtio default options necessary for encrypted or protected
+>    guests, as on other platforms.  i.e. if confidential-guest-support
+>    is set, we will either create a guest capable of entering PV mode,
+>    or fail outright.
+> 
+>  - If confidential-guest-support is not set, guests might still be
+>    able to enter PV mode, if the CPU has the right model.  This may be
+>    a little surprising, but shouldn't actually be harmful.
+> 
+> To start a guest supporting Protected Virtualization using the new
+> option use the command line arguments:
+>     -object s390-pv-guest,id=pv0 -machine confidential-guest-support=pv0
+> 
 
-> On 03.02.2021 11:13, Marc-Andr=C3=A9 Lureau wrote:
->
-> > Can you provide a reproducer?
->
->
-> That was a record/replay scenario. I've used Fedora cloudinit images,
-> that are used in acceptance tests:
->
-> qemu-system-x86_64 \
->   -display none -vga none -machine pc -smp 1 -m 1024 \
->   -monitor tcp:127.0.0.1:8081,server,nowait \
->   -serial tcp:127.0.0.1:8082,server,nowait \
->   -object filter-replay,id=3Dreplay,netdev=3Dhub0port0 \
->   -drive
-> file=3DFedora-Cloud-Base-31-1.9.x86_64.qcow2,snapshot,id=3Ddisk0,if=3Dnon=
-e \
->   -drive driver=3Dblkreplay,id=3Ddisk0-rr,if=3Dnone,image=3Ddisk0 \
->   -device virtio-blk-pci,drive=3Ddisk0-rr,ioeventfd=3Dfalse \
->   -icount shift=3D1,rr=3Drecord,rrfile=3Dreplay.bin \
->   -drive file=3Dcloudinit.iso,snapshot,id=3Ddisk1,if=3Dnone \
->   -drive driver=3Dblkreplay,id=3Ddisk1-rr,if=3Dnone,image=3Ddisk1 \
->   -device virtio-blk-pci,drive=3Ddisk1-rr,ioeventfd=3Dfalse
->
->
-> The failure occurred on replay stage:
->
-> qemu-system-x86_64 \
->   -display none -vga none -machine pc -smp 1 -m 1024 \
->   -monitor tcp:127.0.0.1:8081,server,nowait \
->   -serial tcp:127.0.0.1:8082,server,nowait \
->   -object filter-replay,id=3Dreplay,netdev=3Dhub0port0 \
->   -drive
-> file=3DFedora-Cloud-Base-31-1.9.x86_64.qcow2,snapshot,id=3Ddisk0,if=3Dnon=
-e \
->   -drive driver=3Dblkreplay,id=3Ddisk0-rr,if=3Dnone,image=3Ddisk0 \
->   -device virtio-blk-pci,drive=3Ddisk0-rr,ioeventfd=3Dfalse \
->   -icount shift=3D1,rr=3Dreplay,rrfile=3Dreplay.bin \
->   -drive file=3Dcloudinit.iso,snapshot,id=3Ddisk1,if=3Dnone \
->   -drive driver=3Dblkreplay,id=3Ddisk1-rr,if=3Dnone,image=3Ddisk1 \
->   -device virtio-blk-pci,drive=3Ddisk1-rr,ioeventfd=3Dfalse
->
+This version seems to work fine.
 
-Ah, that helps. qemu_chr_write() will return
-replay_char_write_event_load(), bypassing the current state. If the
-connected state during replay doesn't match the state during recording, it
-is possible to reach the bad condition. (there are probably many such
-corner-cases situations with replay..)
+Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 
-Can you update the commit message to explain the relation with replay? with
-that:
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Daniel, could you review it too?
-thanks
-
---00000000000001e7bd05ba6a8329
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 3, 2021 at 12:22 PM Pav=
-el Dovgalyuk &lt;<a href=3D"mailto:pavel.dovgalyuk@ispras.ru">pavel.dovgaly=
-uk@ispras.ru</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">On 03.02.2021 11:13, Marc-Andr=C3=A9 Lureau wrote:<br>
-<br>
-&gt; Can you provide a reproducer?<br>
-<br>
-<br>
-That was a record/replay scenario. I&#39;ve used Fedora cloudinit images, <=
-br>
-that are used in acceptance tests:<br>
-<br>
-qemu-system-x86_64 \<br>
-=C2=A0 -display none -vga none -machine pc -smp 1 -m 1024 \<br>
-=C2=A0 -monitor tcp:<a href=3D"http://127.0.0.1:8081" rel=3D"noreferrer" ta=
-rget=3D"_blank">127.0.0.1:8081</a>,server,nowait \<br>
-=C2=A0 -serial tcp:<a href=3D"http://127.0.0.1:8082" rel=3D"noreferrer" tar=
-get=3D"_blank">127.0.0.1:8082</a>,server,nowait \<br>
-=C2=A0 -object filter-replay,id=3Dreplay,netdev=3Dhub0port0 \<br>
-=C2=A0 -drive <br>
-file=3DFedora-Cloud-Base-31-1.9.x86_64.qcow2,snapshot,id=3Ddisk0,if=3Dnone =
-\<br>
-=C2=A0 -drive driver=3Dblkreplay,id=3Ddisk0-rr,if=3Dnone,image=3Ddisk0 \<br=
->
-=C2=A0 -device virtio-blk-pci,drive=3Ddisk0-rr,ioeventfd=3Dfalse \<br>
-=C2=A0 -icount shift=3D1,rr=3Drecord,rrfile=3Dreplay.bin \<br>
-=C2=A0 -drive file=3Dcloudinit.iso,snapshot,id=3Ddisk1,if=3Dnone \<br>
-=C2=A0 -drive driver=3Dblkreplay,id=3Ddisk1-rr,if=3Dnone,image=3Ddisk1 \<br=
->
-=C2=A0 -device virtio-blk-pci,drive=3Ddisk1-rr,ioeventfd=3Dfalse<br>
-<br>
-<br>
-The failure occurred on replay stage:<br>
-<br>
-qemu-system-x86_64 \<br>
-=C2=A0 -display none -vga none -machine pc -smp 1 -m 1024 \<br>
-=C2=A0 -monitor tcp:<a href=3D"http://127.0.0.1:8081" rel=3D"noreferrer" ta=
-rget=3D"_blank">127.0.0.1:8081</a>,server,nowait \<br>
-=C2=A0 -serial tcp:<a href=3D"http://127.0.0.1:8082" rel=3D"noreferrer" tar=
-get=3D"_blank">127.0.0.1:8082</a>,server,nowait \<br>
-=C2=A0 -object filter-replay,id=3Dreplay,netdev=3Dhub0port0 \<br>
-=C2=A0 -drive <br>
-file=3DFedora-Cloud-Base-31-1.9.x86_64.qcow2,snapshot,id=3Ddisk0,if=3Dnone =
-\<br>
-=C2=A0 -drive driver=3Dblkreplay,id=3Ddisk0-rr,if=3Dnone,image=3Ddisk0 \<br=
->
-=C2=A0 -device virtio-blk-pci,drive=3Ddisk0-rr,ioeventfd=3Dfalse \<br>
-=C2=A0 -icount shift=3D1,rr=3Dreplay,rrfile=3Dreplay.bin \<br>
-=C2=A0 -drive file=3Dcloudinit.iso,snapshot,id=3Ddisk1,if=3Dnone \<br>
-=C2=A0 -drive driver=3Dblkreplay,id=3Ddisk1-rr,if=3Dnone,image=3Ddisk1 \<br=
->
-=C2=A0 -device virtio-blk-pci,drive=3Ddisk1-rr,ioeventfd=3Dfalse<br></block=
-quote><div><br></div><div>Ah, that helps. qemu_chr_write() will return repl=
-ay_char_write_event_load(), bypassing the current state. If the connected s=
-tate during replay doesn&#39;t match the state during recording, it is poss=
-ible to reach the bad condition. (there are probably many such corner-cases=
- situations with replay..)</div><div><br></div><div>Can you update the comm=
-it message to explain the relation with replay? with that:<br></div><div>Re=
-viewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com">marcandre.lureau@redhat.com</a>&gt; </div><div><br></div><div>Dan=
-iel, could you review it too?<br></div><div>thanks<br></div></div></div>
-
---00000000000001e7bd05ba6a8329--
-
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  docs/confidential-guest-support.txt |  3 ++
+>  docs/system/s390x/protvirt.rst      | 19 ++++++---
+>  hw/s390x/pv.c                       | 62 +++++++++++++++++++++++++++++
+>  hw/s390x/s390-virtio-ccw.c          |  3 ++
+>  include/hw/s390x/pv.h               | 17 ++++++++
+>  5 files changed, 98 insertions(+), 6 deletions(-)
+> 
+> diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
+> index 4da4c91bd3..71d07ba57a 100644
+> --- a/docs/confidential-guest-support.txt
+> +++ b/docs/confidential-guest-support.txt
+> @@ -43,4 +43,7 @@ AMD Secure Encrypted Virtualization (SEV)
+>  POWER Protected Execution Facility (PEF)
+>      docs/papr-pef.txt
+>  
+> +s390x Protected Virtualization (PV)
+> +    docs/system/s390x/protvirt.rst
+> +
+>  Other mechanisms may be supported in future.
+> diff --git a/docs/system/s390x/protvirt.rst b/docs/system/s390x/protvirt.rst
+> index 712974ad87..0f481043d9 100644
+> --- a/docs/system/s390x/protvirt.rst
+> +++ b/docs/system/s390x/protvirt.rst
+> @@ -22,15 +22,22 @@ If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
+>  will indicate that KVM can support PVMs on that LPAR.
+>  
+>  
+> -QEMU Settings
+> --------------
+> +Running a Protected Virtual Machine
+> +-----------------------------------
+>  
+> -To indicate to the VM that it can transition into protected mode, the
+> +To run a PVM you will need to select a CPU model which includes the
+>  `Unpack facility` (stfle bit 161 represented by the feature
+> -`unpack`/`S390_FEAT_UNPACK`) needs to be part of the cpu model of
+> -the VM.
+> +`unpack`/`S390_FEAT_UNPACK`), and add these options to the command line::
+> +
+> +    -object s390-pv-guest,id=pv0 \
+> +    -machine confidential-guest-support=pv0
+> +
+> +Adding these options will:
+> +
+> +* Ensure the `unpack` facility is available
+> +* Enable the IOMMU by default for all I/O devices
+> +* Initialize the PV mechanism
+>  
+> -All I/O devices need to use the IOMMU.
+>  Passthrough (vfio) devices are currently not supported.
+>  
+>  Host huge page backings are not supported. However guests can use huge
+> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+> index ab3a2482aa..93eccfc05d 100644
+> --- a/hw/s390x/pv.c
+> +++ b/hw/s390x/pv.c
+> @@ -14,8 +14,11 @@
+>  #include <linux/kvm.h>
+>  
+>  #include "cpu.h"
+> +#include "qapi/error.h"
+>  #include "qemu/error-report.h"
+>  #include "sysemu/kvm.h"
+> +#include "qom/object_interfaces.h"
+> +#include "exec/confidential-guest-support.h"
+>  #include "hw/s390x/ipl.h"
+>  #include "hw/s390x/pv.h"
+>  
+> @@ -111,3 +114,62 @@ void s390_pv_inject_reset_error(CPUState *cs)
+>      /* Report that we are unable to enter protected mode */
+>      env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
+>  }
+> +
+> +#define TYPE_S390_PV_GUEST "s390-pv-guest"
+> +OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
+> +
+> +/**
+> + * S390PVGuest:
+> + *
+> + * The S390PVGuest object is basically a dummy used to tell the
+> + * confidential guest support system to use s390's PV mechanism.
+> + *
+> + * # $QEMU \
+> + *         -object s390-pv-guest,id=pv0 \
+> + *         -machine ...,confidential-guest-support=pv0
+> + */
+> +struct S390PVGuest {
+> +    ConfidentialGuestSupport parent_obj;
+> +};
+> +
+> +typedef struct S390PVGuestClass S390PVGuestClass;
+> +
+> +struct S390PVGuestClass {
+> +    ConfidentialGuestSupportClass parent_class;
+> +};
+> +
+> +int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+> +{
+> +    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
+> +        return 0;
+> +    }
+> +
+> +    if (!s390_has_feat(S390_FEAT_UNPACK)) {
+> +        error_setg(errp,
+> +                   "CPU model does not support Protected Virtualization");
+> +        return -1;
+> +    }
+> +
+> +    cgs->ready = true;
+> +
+> +    return 0;
+> +}
+> +
+> +OBJECT_DEFINE_TYPE_WITH_INTERFACES(S390PVGuest,
+> +                                   s390_pv_guest,
+> +                                   S390_PV_GUEST,
+> +                                   CONFIDENTIAL_GUEST_SUPPORT,
+> +                                   { TYPE_USER_CREATABLE },
+> +                                   { NULL })
+> +
+> +static void s390_pv_guest_class_init(ObjectClass *oc, void *data)
+> +{
+> +}
+> +
+> +static void s390_pv_guest_init(Object *obj)
+> +{
+> +}
+> +
+> +static void s390_pv_guest_finalize(Object *obj)
+> +{
+> +}
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index a2d9a79c84..2972b607f3 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -250,6 +250,9 @@ static void ccw_init(MachineState *machine)
+>      /* init CPUs (incl. CPU model) early so s390_has_feature() works */
+>      s390_init_cpus(machine);
+>  
+> +    /* Need CPU model to be determined before we can set up PV */
+> +    s390_pv_init(machine->cgs, &error_fatal);
+> +
+>      s390_flic_init();
+>  
+>      /* init the SIGP facility */
+> diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+> index aee758bc2d..1f1f545bfc 100644
+> --- a/include/hw/s390x/pv.h
+> +++ b/include/hw/s390x/pv.h
+> @@ -12,6 +12,9 @@
+>  #ifndef HW_S390_PV_H
+>  #define HW_S390_PV_H
+>  
+> +#include "qapi/error.h"
+> +#include "sysemu/kvm.h"
+> +
+>  #ifdef CONFIG_KVM
+>  #include "cpu.h"
+>  #include "hw/s390x/s390-virtio-ccw.h"
+> @@ -55,4 +58,18 @@ static inline void s390_pv_unshare(void) {}
+>  static inline void s390_pv_inject_reset_error(CPUState *cs) {};
+>  #endif /* CONFIG_KVM */
+>  
+> +int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+> +static inline int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
+> +{
+> +    if (!cgs) {
+> +        return 0;
+> +    }
+> +    if (kvm_enabled()) {
+> +        return s390_pv_kvm_init(cgs, errp);
+> +    }
+> +
+> +    error_setg(errp, "Protected Virtualization requires KVM");
+> +    return -1;
+> +}
+> +
+>  #endif /* HW_S390_PV_H */
+> 
 
