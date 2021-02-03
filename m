@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F8730E1CE
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:04:48 +0100 (CET)
-Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69AD30E282
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:29:11 +0100 (CET)
+Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7MWF-0008Ct-EO
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:04:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48782)
+	id 1l7Mtq-0000ER-PN
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:29:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7MQ4-0003aO-1x
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:58:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7MPx-0001A5-DK
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:58:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612375095;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j3Sne9DXwf61unuc+tkaz86MPBfrwyrM01AKKKNhUsQ=;
- b=MQiz1+J8nGvYMKopOSjeSs+GsYpyGY71YZEfvDO5sIAdQCPhsXoSIIJLqGyO4o8cVdKts7
- Hj0hdfn6ixIBfuz/dLTwjMHQDgxPYGVMn4Pyo/vmdWCF0KEyW5RzNP8j0VwKVXe88yJC/3
- fQr7EZ/1gtwbEUx0NFq71Qr2I2TxkUM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-wy1kPnkLMnWY-E-Pn8K9mg-1; Wed, 03 Feb 2021 12:58:11 -0500
-X-MC-Unique: wy1kPnkLMnWY-E-Pn8K9mg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22F76100F343;
- Wed,  3 Feb 2021 17:58:10 +0000 (UTC)
-Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D2441007637;
- Wed,  3 Feb 2021 17:58:07 +0000 (UTC)
-Date: Wed, 3 Feb 2021 17:58:05 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v4 04/18] migration/rdma: add multifd_setup_ops for rdma
-Message-ID: <20210203175805.GN2950@work-vm>
-References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
- <1612339311-114805-5-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1l7MTb-00064t-3y
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:02:03 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2106)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1l7MTW-00021R-Sh
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:02:02 -0500
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DW8VM50f7z67kXP;
+ Thu,  4 Feb 2021 01:55:39 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Wed, 3 Feb 2021 19:01:53 +0100
+Received: from localhost (10.47.71.126) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2106.2; Wed, 3 Feb 2021
+ 18:01:53 +0000
+Date: Wed, 3 Feb 2021 18:01:07 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ben Widawsky <ben@bwidawsk.net>
+Subject: Re: [RFC PATCH 2/4] hw/pci/pcie_doe: Introduce utility functions
+ for PCIe DOE
+Message-ID: <20210203180107.000005f8@Huawei.com>
+In-Reply-To: <20210202175411.ru35ygg2avlygv7o@mail.bwidawsk.net>
+References: <20210201151629.29656-1-Jonathan.Cameron@huawei.com>
+ <20210201151629.29656-3-Jonathan.Cameron@huawei.com>
+ <20210202175411.ru35ygg2avlygv7o@mail.bwidawsk.net>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <1612339311-114805-5-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.71.126]
+X-ClientProxiedBy: lhreml705-chm.china.huawei.com (10.201.108.54) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,150 +68,530 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
- quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com, wanghao232@huawei.com
+Cc: Thomas Huth <thuth@redhat.com>, linuxarm@openeuler.org, "Michael S .
+ Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ f.fangjian@huawei.com, Chris Browy <cbrowy@avery-design.com>,
+ qemu-devel@nongnu.org, f4bug@amsat.org, jcm@redhat.com, Prashant V
+ Agarwal <agpr123@gmail.com>, Igor Mammedov <imammedo@redhat.com>, Dan
+ Williams <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> ---
->  migration/multifd.c |  6 +++++
->  migration/multifd.h |  5 ++++
->  migration/rdma.c    | 71 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 82 insertions(+)
+On Tue, 2 Feb 2021 09:54:11 -0800
+Ben Widawsky <ben@bwidawsk.net> wrote:
 
-I think that's OK, although will need minor changes with my suggested
-change to 'migrate_use' in the previous patch.
+> This was a bit more complicated than I was anticipating :-)
+> 
+> On 21-02-01 23:16:27, Jonathan Cameron wrote:
+> > This implements the ECN to the PCI 5.0 specification available at
+> > https://members.pcisig.com/wg/PCI-SIG/document/14143
+> > 
+> > Does not currently support interrupts.
+> > 
+> > Note that currently no attempt is made to clean up allocated memory.
+> > 
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
+Hi Ben,
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Thanks, for taking a look. 
+
+I've only commented when more info to give or disagree.
+
+> > ---
+> >  hw/pci/meson.build       |   2 +-
+> >  hw/pci/pcie_doe.c        | 257 +++++++++++++++++++++++++++++++++++++++
+> >  include/hw/pci/doe.h     |  40 ++++++
+> >  include/hw/pci/pci_ids.h |   2 +
+> >  4 files changed, 300 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/pci/meson.build b/hw/pci/meson.build
+> > index 5c4bbac817..7336620ee3 100644
+> > --- a/hw/pci/meson.build
+> > +++ b/hw/pci/meson.build
+> > @@ -11,7 +11,7 @@ pci_ss.add(files(
+> >  # The functions in these modules can be used by devices too.  Since we
+> >  # allow plugging PCIe devices into PCI buses, include them even if
+> >  # CONFIG_PCI_EXPRESS=n.
+> > -pci_ss.add(files('pcie.c', 'pcie_aer.c'))
+> > +pci_ss.add(files('pcie.c', 'pcie_aer.c',  'pcie_doe.c'))
+> >  softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
+> >  softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
+> >  
+> > diff --git a/hw/pci/pcie_doe.c b/hw/pci/pcie_doe.c
+> > new file mode 100644
+> > index 0000000000..8739c41280
+> > --- /dev/null
+> > +++ b/hw/pci/pcie_doe.c
+> > @@ -0,0 +1,257 @@
+> > +/*
+> > + * pcie_doe.c
+> > + * utility functions for pci express data object exchange introduced
+> > + * in PCI 5.0 Data Object Exchange (DOE) ECN
+> > + *
+> > + * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/units.h"
+> > +#include "qemu/error-report.h"
+> > +#include "hw/pci/pci.h"
+> > +#include "hw/pci/doe.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "qapi/error.h"
+> > +#include "qemu/log.h"
+> > +#include "qemu/module.h"
+> > +#include "qemu/range.h"
+> > +#include "qemu/rcu.h"
+> > +#include "sysemu/hostmem.h"
+> > +  
+> 
+> I know it's RFC and quickly thrown together, but:
+> 
+> /* VID and Type */
+> #define DOE_DATA_OBJECT_HDR1 0
+> /* Length */
+> #define DOE_DATA_OBJECT_HDR2 1
+> /* Index */
+> #define DOE_DATA_OBJECT_REQUEST_DATA 2
+> #define DOE_DATA_OBJECT_RESPONSE_DATA 3
+> 
+> Then use that throughout below, please?
+> 
+> > +struct doe_handler {
+> > +    uint16_t vendor_id;
+> > +    uint8_t object_type;
+> > +    doe_msg_handler_t handler;
+> > +    void *priv;
+> > +};
+> > +
+> > +static void doe_set_ctl(PCIEDOE *doe, uint32_t val)
+> > +{
+> > +    /* Abort */
+> > +    if (val & PCI_DOE_CTRL_DOE_ABORT) {
+> > +        doe->req_index = 0;
+> > +        doe->rsp_index = 0;
+> > +        doe->req_length = 0;
+> > +        doe->error = false;
+> > +        doe->data_object_ready = false;
+> > +    }
+> > +
+> > +    if (val & PCI_DOE_CTRL_DOE_GO) {
+> > +        GList *l;
+> > +        uint16_t vendor_id = doe->store[0] & PCI_DATA_OBJ_DW0_VID;
+> > +        uint8_t object_type = (doe->store[0] & PCI_DATA_OBJ_DW0_TYPE) >>
+> > +            ctz32(PCI_DATA_OBJ_DW0_TYPE);  
+> 
+> I think it'd be much nicer to read this as REG32/FIELD_EX32.
+
+Probably :)
 
 > 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index cb1fc01..4820702 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -1232,6 +1232,12 @@ MultiFDSetup *multifd_setup_ops_init(void)
->  {
->      MultiFDSetup *ops;
->  
-> +#ifdef CONFIG_RDMA
-> +    if (migrate_use_rdma()) {
-> +        ops = &multifd_rdma_ops;
-> +        return ops;
-> +    }
-> +#endif
->      ops = &multifd_socket_ops;
->      return ops;
->  }
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 1d2dc90..e3ab4b0 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -173,6 +173,11 @@ typedef struct {
->      void (*recv_channel_setup)(QIOChannel *ioc, MultiFDRecvParams *p);
->  } MultiFDSetup;
->  
-> +#ifdef CONFIG_RDMA
-> +extern MultiFDSetup multifd_rdma_ops;
-> +#endif
-> +MultiFDSetup *multifd_setup_ops_init(void);
-> +
->  void multifd_register_ops(int method, MultiFDMethods *ops);
->  
->  #endif
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index 00eac34..e0ea86d 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -19,6 +19,7 @@
->  #include "qemu/cutils.h"
->  #include "rdma.h"
->  #include "migration.h"
-> +#include "multifd.h"
->  #include "qemu-file.h"
->  #include "ram.h"
->  #include "qemu-file-channel.h"
-> @@ -4139,3 +4140,73 @@ err:
->      g_free(rdma);
->      g_free(rdma_return_path);
->  }
-> +
-> +static void *multifd_rdma_send_thread(void *opaque)
-> +{
-> +    MultiFDSendParams *p = opaque;
-> +
-> +    while (true) {
-> +        WITH_QEMU_LOCK_GUARD(&p->mutex) {
-> +            if (p->quit) {
-> +                break;
-> +            }
-> +        }
-> +        qemu_sem_wait(&p->sem);
-> +    }
-> +
-> +    WITH_QEMU_LOCK_GUARD(&p->mutex) {
-> +        p->running = false;
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
-> +static void multifd_rdma_send_channel_setup(MultiFDSendParams *p)
-> +{
-> +    Error *local_err = NULL;
-> +
-> +    if (p->quit) {
-> +        error_setg(&local_err, "multifd: send id %d already quit", p->id);
-> +        return ;
-> +    }
-> +    p->running = true;
-> +
-> +    qemu_thread_create(&p->thread, p->name, multifd_rdma_send_thread, p,
-> +                       QEMU_THREAD_JOINABLE);
-> +}
-> +
-> +static void *multifd_rdma_recv_thread(void *opaque)
-> +{
-> +    MultiFDRecvParams *p = opaque;
-> +
-> +    while (true) {
-> +        WITH_QEMU_LOCK_GUARD(&p->mutex) {
-> +            if (p->quit) {
-> +                break;
-> +            }
-> +        }
-> +        qemu_sem_wait(&p->sem_sync);
-> +    }
-> +
-> +    WITH_QEMU_LOCK_GUARD(&p->mutex) {
-> +        p->running = false;
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
-> +static void multifd_rdma_recv_channel_setup(QIOChannel *ioc,
-> +                                            MultiFDRecvParams *p)
-> +{
-> +    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(ioc);
-> +
-> +    p->file = rioc->file;
-> +    return;
-> +}
-> +
-> +MultiFDSetup multifd_rdma_ops = {
-> +    .send_thread = multifd_rdma_send_thread,
-> +    .recv_thread = multifd_rdma_recv_thread,
-> +    .send_channel_setup = multifd_rdma_send_channel_setup,
-> +    .recv_channel_setup = multifd_rdma_recv_channel_setup
-> +};
-> -- 
-> 1.8.3.1
+> > +        if ((doe->req_index != 3) || (doe->req_length != 3)) {
+> > +            /*
+> > +             * Not entirely clear what should happen if req_length is correct
+> > +             * buf insufficient data has been received.  
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> s/buf/but
+> 
+> Also, maybe for more resiliency and readability, with a comment about why '3':
+> if ((doe->req_index < 3) ...
+> 
+> I think it'd be much more readable if you pulled the index directly out of the
+> register store here instead of when you set.
+> 
+> len = doe->store[DOE_DATA_OBJECT_HDR2] & PCI_DATA_OBJ_DW1_LEN;
+> if (!len)
+> 	len = 1<<18;
+> 
+> > +             */
+> > +            doe->error = true;
+> > +            return;  
+> 
+> I don't think this should be an error:
+> "If the Length is shorter than expected for a specific data object, then the data
+> object must be silently discarded.
+
+Comment was to tell me to come back and check it.  Hinges on the bit below.
+
+> 
+> If the Length is greater than expected for a specific data object, then the
+> portion of the data object up to the expected length must be processed normally
+> and the remainder of the data object must be silently discarded."
+
+There is a gotcha around that one that still has me scratching my head.
+"Any of the following events must result in the DOE error bit being set:"
+...
+"Optionally, if the associated data object protocol does not provide an
+alternative mechanism for reporting such errors, the transfer of a data object that
+does not correspond to the expected length of the data object".
+
+So I think the normally and dropping statement you've quoted may mean
+that you wouldn't expect software to check the error bit before continuing to
+write to the mailbox. Thus it should carry on allowing writes and just dropping
+them.
+
+Of course, an implementation might optionally 'not' set the error in this case.
+
+
+> 
+> > +        }
+> > +        /* Discovery protocol - DOE ECN */
+> > +        if (vendor_id == PCI_VENDOR_ID_PCI_SIG &&
+> > +            object_type == PCI_DOE_DIS_OBJ_TYPE) {
+> > +            uint8_t index = doe->store[2] & PCI_DOE_DIS_REQ_D0_DW0_INDEX;
+> > +            doe->store[1] = 3;
+> > +            if (index == 0) {
+> > +                /* First entry is this one, the discovery protocol itself */
+> > +                uint8_t next;
+> > +
+> > +                if (doe->cb_list) {
+> > +                    next = index + 1;
+> > +                } else {
+> > +                    next = 0;
+> > +                }  
+> 
+> I think a comment here that you're terminating the list if no callbacks are
+> registered would be good.
+> 
+> > +                doe->store[2] =
+> > +                    (next << ctz32(PCI_DOE_DIS_RSP_D0_DW0_NEXT_INDEX)) |
+> > +                    (0 << ctz32(PCI_DOE_DIS_RSP_D0_DW0_PROT)) |
+> > +                    0x0001;  
+> 
+> Same comment about FIELD_DP|EX32. I'd try it and see how it looks.
+> 
+> Would probably be nice to #define some vendor ID, or use fields so it's obvious
+> why you have a 0x1.
+> 
+> > +            } else {
+> > +                /* Other entries based on register callbacks */
+> > +                uint8_t next;
+> > +                struct doe_handler *h;
+> > +
+> > +                h = g_list_nth_data(doe->cb_list, index - 1);  
+> 
+> It wasn't immediately obvious to me why index - 1. Maybe it'd be a little nicer
+> if you had a helper:
+> 
+> static inline struct doe_handler *doe_get_handler(PCIEDOE *doe, int doe_index)
+> {
+> 	struct doe_handler *ret = NULL;
+> 
+> 	// assert(doe->cb_list);
+> 	if (doe->cb_list)
+> 		ret = g_list_nth_data(doe->cb_list, doe_index - 1);
+> 
+> 	return ret;
+> }
+> 
+> > +                /*
+> > +                 * Off end of list, Table 7-x4 in DOE ECN -
+> > +                 * Vendor ID 0xFFFF if no more indices
+> > +                 */
+> > +                if (h == NULL) {
+> > +                    doe->store[2] = 0xFFFF;
+> > +                } else {
+> > +                    if (g_list_nth(doe->cb_list, index)) {
+> > +                        next = index + 1;
+> > +                    } else {
+> > +                        next = 0;
+> > +                    }  
+> 
+> A bit confusing here as well IMO, but I don't know a better way to write it
+> other than adding comments about index effectively being off by 1.
+> 
+> > +                    doe->store[2] =
+> > +                        (next << ctz32(PCI_DOE_DIS_RSP_D0_DW0_NEXT_INDEX)) |
+> > +                        (h->object_type << ctz32(PCI_DOE_DIS_RSP_D0_DW0_PROT)) |
+> > +                        h->vendor_id;
+> > +                }
+> > +            }
+> > +            doe->data_object_ready = true;
+> > +            doe->rsp_index = 0;
+> > +        } else {
+> > +            for (l = doe->cb_list; l != NULL; l = l->next) {
+> > +                struct doe_handler *h = l->data;
+> > +                if (h->vendor_id == vendor_id &&
+> > +                    h->object_type == object_type) {
+> > +                    int ret = h->handler(doe, h->vendor_id, h->object_type,
+> > +                                         h->priv);
+> > +                    if (ret) {
+> > +                        /*
+> > +                         * No response so as per 6.xx.1 in DOE ECN
+> > +                         * "... within 1 second after the DOE Go bit was Set
+> > +                         *  in the DOE Control register, otherwise the DOE
+> > +                         *  instance must Set the DOE Error bit in the DOE
+> > +                         *  Status register.."
+> > +                         */
+> > +                         doe->error = true;  
+> 
+> extra whitespace
+> 
+> > +                        break;
+> > +                    }
+> > +                    doe->data_object_ready = true;
+> > +                    doe->rsp_index = 0;
+> > +                    break;
+> > +                }
+> > +            }
+> > +            /* Comamnd not handled */
+> > +            if (l == NULL) {
+> > +                doe->error = true;
+> > +            }
+> > +        }
+> > +        /* Reset input index to allow for a new message */
+> > +        doe->req_index = 0;
+> > +    }
+> > +}
+> > +
+> > +static void doe_set_write_mailbox(PCIEDOE *doe, uint32_t val)
+> > +{
+> > +    if (doe->req_index == 1) {
+> > +        if (val & 0x3FFFF) {  
+> 
+> val & PCI_DATA_OBJ_DW1_LEN
+> 
+> > +            doe->req_length = val & PCI_DATA_OBJ_DW1_LEN;
+> > +        } else {
+> > +            doe->req_length = 1 << 18;
+> > +        }
+> > +    }
+> > +    if (doe->req_length && doe->req_index == doe->req_length) {
+> > +        /*
+> > +         * 6.xx.1 Data Objects
+> > +         * If the DW transferred does not match the indicated Length
+> > +         * for a data object, then the data object must be
+> > +         * silently discarded
+> > +         */
+> > +        return;
+> > +    }
+> > +    doe->store[doe->req_index] = val;
+> > +    doe->req_index++;
+> > +}
+> > +
+> > +static uint32_t doe_get_read_mailbox(PCIEDOE *doe)
+> > +{
+> > +    uint32_t val;
+> > +
+> > +    if (doe->rsp_index == 0) {
+> > +        doe->rsp_length = doe->store[1] & PCI_DATA_OBJ_DW1_LEN;
+> > +    }
+> > +    if (!doe->data_object_ready) {
+> > +        /* Underflow of the Read Data Mailbox Mechanism */
+> > +        doe->error = true;
+> > +        return 0;
+> > +    }  
+> 
+> I don't think this should be an error condition. Could you please explain?
+More fun with spec...
+"Any of the following events must result in the DOE error bit being set"
+"Underflow of the Read Data Mailbox Mechanism".
+
+A read before data_object_ready is to me a read of an empty mailbox so
+hits that.  Open to interpretation...
+
+I guess I'll have annoying our PCI-SIG people...
+
+> 
+> > +
+> > +    val = doe->store[doe->rsp_index];
+> > +    doe->rsp_index++;
+> > +    if (doe->rsp_index == doe->rsp_length) {
+> > +        doe->rsp_index = -1;
+> > +        doe->data_object_ready = false;
+> > +    }
+> > +
+> > +    return val;
+> > +}
+> > +
+> > +static uint32_t doe_get_status(PCIEDOE *doe)
+> > +{
+> > +    uint32_t val = 0;
+> > +
+> > +    if (doe->busy) {
+> > +        val |= PCI_DOE_STATUS_DOE_BUSY;
+> > +    }  
+> 
+> Do you actually intend to model busy?
+It's an interesting corner.  We probably want to be able to to check
+that OS code is doing the right thing.  + It is possible we'll get writes
+from multiple CPUs so maybe it can race?
+
+Obviously right now it does nothing.
+ 
+> 
+> > +    /* bit 1: interrupt not yet supported */
+> > +    if (doe->error) {
+> > +        val |= PCI_DOE_STATUS_DOE_ERROR;
+> > +    }
+> > +    if (doe->data_object_ready) {
+> > +        val |= PCI_DOE_STATUS_DATA_OBJECT_READY;
+> > +    }
+> > +
+> > +    return val;
+> > +}
+> > +
+> > +void doe_add_message_handler(PCIEDOE *doe, uint16_t vendor_id,
+> > +                             uint8_t object_type,
+> > +                             const doe_msg_handler_t handler, void *priv)
+> > +{
+> > +    struct doe_handler *h = g_malloc0(sizeof(*handler));
+> > +
+> > +    h->vendor_id = vendor_id;
+> > +    h->object_type = object_type;
+> > +    h->handler = handler;
+> > +    h->priv = priv;
+> > +    doe->cb_list = g_list_append(doe->cb_list, h);
+> > +}
+> > +
+> > +uint32_t pcie_doe_ecap(PCIEDOE *doe, PCIDevice *d, uint16_t offset)
+> > +{
+> > +    doe->doe_base = offset;
+> > +    /* Length field is 18 bits and is in dwords */
+> > +    doe->store = g_malloc0((1 << 18) * sizeof(uint32_t));  
+> 
+> I think it's fine if you're instantiating DOE to just have this be statically
+> allocated.
+
+Probably true for now.  Might want to make it flexible given how large it
+needs to be is dependent on what commands are actually supported.
+Nice to be smaller if we never need it to be so big.
+
+> 
+> > +
+> > +    pcie_add_capability(d, PCI_EXT_CAP_ID_DOE, 1, offset, 0x18);
+> > +    offset += 0x18;
+> > +
+> > +    return offset;
+> > +}
+> > +
+> > +void pcie_doe_write(PCIEDOE *doe, uint32_t addr, uint32_t val, int len)
+> > +{
+> > +    if (len != 4) {
+> > +        return;
+> > +    }   
+> 
+> Do you want to check alignment also?
+
+I 'think' config writes are always aligned, but will check.
+
+> 
+> > +
+> > +    switch (addr - doe->doe_base) {
+> > +    case PCI_DOE_CTRL:
+> > +        doe_set_ctl(doe, val);
+> > +        break;
+> > +    case PCI_DOE_WRITE_MAILBOX:
+> > +        doe_set_write_mailbox(doe, val);
+> > +        break;
+> > +    }
+> > +}
+> > +
+> > +uint32_t pcie_doe_read(PCIEDOE *doe, uint32_t addr, int len, int *found)
+> > +{
+> > +    if (len != 4) {
+> > +        *found = 0;
+> > +        return 0;
+> > +    }  
+> 
+> Same comment as _write
+> 
+> > +
+> > +    *found = 1;
+> > +    switch (addr - doe->doe_base) {
+> > +    case PCI_DOE_CAP:
+> > +        return 0; /* No interrupt support */
+> > +    case PCI_DOE_STATUS:
+> > +        return doe_get_status(doe);
+> > +    case PCI_DOE_READ_MAILBOX:
+> > +        return doe_get_read_mailbox(doe);
+> > +    default:
+> > +        *found = 0;
+> > +        return 0;
+> > +    }
+> > +}  
+> 
+> I'm guessing you don't love 'found'. Perhaps you can have this return an int64_t
+> and negative values are errors?
+
+I thought about it but that is also rather uggly.
+
+> 
+> I'm not yet convinced you even need that level of error handling though. I
+> suppose next patch will tell me.
+
+Found isn't about error handling, it's about saving time if we have lots
+of device specific config space callbacks.  Don't want to waste time running
+callbacks as a given config register should only be handled once.
+
+> 
+> > +
+> > diff --git a/include/hw/pci/doe.h b/include/hw/pci/doe.h
+> > new file mode 100644
+> > index 0000000000..364c866c53
+> > --- /dev/null
+> > +++ b/include/hw/pci/doe.h
+> > @@ -0,0 +1,40 @@
+> > +/*
+> > + * PCIE DOE emulation.
+> > + *
+> > + * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +
+> > +#ifndef QEMU_PCIE_DOE_H_
+> > +#define QEMU_PCIE_DOE_H_
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/units.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "qapi/error.h"
+> > +#include "qemu/module.h"
+> > +
+> > +typedef struct pcie_doe {
+> > +    uint32_t doe_base;
+> > +    GList *cb_list;
+> > +    int req_index;
+> > +    int req_length;
+> > +    int rsp_index;
+> > +    int rsp_length;
+> > +    bool data_object_ready;
+> > +    bool error;
+> > +    bool busy;
+> > +    uint32_t *store;
+> > +} PCIEDOE;
+> > +
+> > +typedef int (*doe_msg_handler_t)(PCIEDOE *doe, uint16_t vendor_id,
+> > +                                 uint8_t object_type, void *priv);
+> > +
+> > +uint32_t pcie_doe_ecap(PCIEDOE *doe, PCIDevice *d, uint16_t offset);
+> > +void doe_add_message_handler(PCIEDOE *doe, uint16_t vendor_id,
+> > +                             uint8_t object_type,
+> > +                             const doe_msg_handler_t handler, void *priv);
+> > +uint32_t pcie_doe_read(PCIEDOE *doe, uint32_t addr, int len, int *found);
+> > +void pcie_doe_write(PCIEDOE *doe, uint32_t addr, uint32_t val, int len);
+> > +#endif
+> > diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+> > index 76bf3ed590..636b2e8017 100644
+> > --- a/include/hw/pci/pci_ids.h
+> > +++ b/include/hw/pci/pci_ids.h
+> > @@ -157,6 +157,8 @@
+> >  
+> >  /* Vendors and devices.  Sort key: vendor first, device next. */
+> >  
+> > +#define PCI_VENDOR_ID_PCI_SIG            0x0001
+> > +
+> >  #define PCI_VENDOR_ID_LSI_LOGIC          0x1000
+> >  #define PCI_DEVICE_ID_LSI_53C810         0x0001
+> >  #define PCI_DEVICE_ID_LSI_53C895A        0x0012
+> > -- 
+> > 2.19.1
+> > 
+> >   
 
 
