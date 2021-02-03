@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175D530D9D8
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 13:34:25 +0100 (CET)
-Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C5E30D9BF
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 13:28:00 +0100 (CET)
+Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7HMW-0002wB-78
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 07:34:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41110)
+	id 1l7HGJ-0000Ip-56
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 07:27:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7HLn-0002W4-1w
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 07:33:39 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52230)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1l7HEe-00089Z-Ll
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 07:26:16 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7HLk-0008AK-Mg
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 07:33:38 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l7HLi-0004b2-T1
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 12:33:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D07512E8137
- for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 12:33:34 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1l7HEb-0004hm-I4
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 07:26:16 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id q7so24001640wre.13
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 04:26:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=oxMfT/7YoIew+n+1+EvavO1Ar4lv9KXNVU58zCZ30XU=;
+ b=iUs5imSCY6AOEUVvH1NWhKsJAFhuXZYOInbIOVe2QDYITvvKYMxYtQGCx4DA3ZLoRL
+ s0DVDzUeTSOqQ0TVKtLVy2++nPM2CYweCMuJ4iU1TSwvrNbmg3FRbnJ7OGHfyWPN5FW3
+ xP0PnFjcY6vkKa45mZo6+PlJUYOOEJsgbH+8GjwSg5c4G8CTd3njuplKW08aB9Rx/d1s
+ RokVFM3iCzO4QwmO5fke63icUQIa8Q/rQhSTb3rRKw+akaKVh+TiMNL7MJAnQxgfYArX
+ +CPreK2NRwq76TtIlv21uoGDOMnkuGTHg1lj/ac/iRJpSqvhxNhwNLcdZpj+1K6vwbU4
+ 7fzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=oxMfT/7YoIew+n+1+EvavO1Ar4lv9KXNVU58zCZ30XU=;
+ b=jIWZcalLR+mtscEEgJBEhSiAeY8/wz6P5llpWJf+S3q+Ste/C4GzuKfig2O2jrLK5h
+ TrIaA0DHGg+mHTFnoNRjxGJg6DRB+g7mGDCjxBXWT4/POsi/DVboZADcq/otBQJYLzw4
+ K6GeXR1JSHc+FeYl5FuAGUPOF2AES4VixyQcPiCM8DNBvPOLbZmOuyMX4+iF6alRzDd2
+ 7k8CL9XtP3HwKg0OjNd3PDKUVDe8UcuHJxF/b5dOId2kw/jpA5V1SGIWdf7hujyzKjxm
+ G+EVvpsl00yGPBVqICqe6e21htaoCdyic8/kAt4o+MBYCgZw6tRLqeyje65yQ0ISi6mM
+ SB8g==
+X-Gm-Message-State: AOAM530QrKy92CBufxvI+eW78dsYv5RMFSNMm1hNg0B6+NSA4JVKO35h
+ gAbTCmQyKWQtbMLrPHpUnr3Ytg==
+X-Google-Smtp-Source: ABdhPJyHJclPABRY4GWn452Q/WPD/iMboKf9ljaT4JITl0Wc6Y+e6ubNQZAdH1uhJtohW+OOWxPqXQ==
+X-Received: by 2002:a05:6000:1045:: with SMTP id
+ c5mr3388699wrx.250.1612355172055; 
+ Wed, 03 Feb 2021 04:26:12 -0800 (PST)
+Received: from vanye (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net.
+ [82.27.183.148])
+ by smtp.gmail.com with ESMTPSA id r16sm3434064wrt.68.2021.02.03.04.26.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Feb 2021 04:26:11 -0800 (PST)
+Date: Wed, 3 Feb 2021 12:26:09 +0000
+From: Leif Lindholm <leif@nuviainc.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC PATCH 0/4] hw/intc: enable GICv4 memory layout for GICv3
+ driver
+Message-ID: <20210203122609.GW1664@vanye>
+References: <20210124025306.3949-1-leif@nuviainc.com>
+ <CAFEAcA8M2TcRoAyXph1CvX5gOiMqWusV35ygkxOxZy_H_P5upg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Feb 2021 12:24:37 -0000
-From: Max Reitz <1912224@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aarents xanclic
-X-Launchpad-Bug-Reporter: Alexandre arents (aarents)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <161098039664.6686.1246044899603761821.malonedeb@wampee.canonical.com>
-Message-Id: <161235507794.2325.16872359275423365066.malone@gac.canonical.com>
-Subject: [Bug 1912224] Re: qemu may freeze during drive-mirroring on
- fragmented FS
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: 76c73e85adb11e2aa20f515728bdd16c57256a05
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, LOTS_OF_MONEY=0.001, MONEY_NOHTML=1.142,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8M2TcRoAyXph1CvX5gOiMqWusV35ygkxOxZy_H_P5upg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=leif@nuviainc.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,169 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912224 <1912224@bugs.launchpad.net>
+Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By the way, as a side note: I see you=E2=80=99re using raw, but qcow2 tries=
- to
-avoid deferring the block-status call to file-posix (i.e., it tries to
-avoid SEEK_HOLE/DATA calls), because in most cases it knows from its own
-metadata which block are zero. So I would guess that with qcow2, the
-problem would not occur. Do you have any data on that?
+On Tue, Feb 02, 2021 at 10:39:22 +0000, Peter Maydell wrote:
+> On Sun, 24 Jan 2021 at 02:53, Leif Lindholm <leif@nuviainc.com> wrote:
+> >
+> > GICv4 sets aside 256K per redistributor configuration block, whereas GICv3
+> > only uses 128K. However, some codebases (like TF-A, EDK2) will happily use
+> > the GICv3 functionality only.
+> >
+> > This set aims at enabling these codebases to run, without actually enabling
+> > full support for GICv4.
+> >
+> > This creates a ... problematic ... system, which will misbehave if you try
+> > to use the virtual LPIs. But it does help with letting me use QEMU for
+> > modelling a platform containing a GICv4, and share firmware images with
+> > other prototyping platforms.
+> 
+> So, what's your aim for this series? I think we could reasonably
+> take patches 2 and 4 upstream (they are changes we'll want for eventual
+> v4 emulation support), but I don't really want 1 and 3.
+> That would reduce the delta you're carrying locally, at least.
 
--- =
+That would be much appreciated.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912224
+In a way, I wanted to test the waters a bit with regards to whether
+gicv4 emulation could be introduced gradually, and whether doing so by
+extending the existing gicv3 driver was the way to go.
 
-Title:
-  qemu may freeze during drive-mirroring on fragmented FS
+Anyway, for now, I'll address your comments and send out a 2-part v2,
+containing 2,4/4.
 
-Status in QEMU:
-  New
+Best Regards,
 
-Bug description:
-  =
+Leif
 
-  We have odd behavior in operation where qemu freeze during long
-  seconds, We started an thread about that issue here:
-  https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05623.html
-
-  It happens at least during openstack nova snapshot (qemu blockdev-mirror)
-  or live block migration(which include network copy of disk).
-
-  After further troubleshoots, it seems related to FS fragmentation on
-  host.
-
-  reproducible at least on:
-  Ubuntu 18.04.3/4.18.0-25-generic/qemu-4.0
-  Ubuntu 16.04.6/5.10.6/qemu-5.2.0-rc2
-
-  # Lets create a dedicated file system on a SSD/Nvme 60GB disk in my case:
-  $sudo mkfs.ext4 /dev/sda3
-  $sudo mount /dev/sda3 /mnt
-  $df -h /mnt
-  Filesystem      Size  Used Avail Use% Mounted on
-  /dev/sda3         59G   53M   56G   1% /mnt
-
-  #Create a fragmented disk on it using 2MB Chunks (about 30min):
-  $sudo python3 create_fragged_disk.py /mnt 2
-  Filling up FS by Creating chunks files in:  /mnt/chunks
-  We are probably full as expected!!:  [Errno 28] No space left on device
-  Creating fragged disk file:  /mnt/disk
-
-  $ls -lhs =
-
-  59G -rw-r--r-- 1 root root 59G Jan 15 14:08 /mnt/disk
-
-  $ sudo e4defrag -c /mnt/disk
-   Total/best extents                             41971/30
-   Average size per extent                        1466 KB
-   Fragmentation score                            2
-   [0-30 no problem: 31-55 a little bit fragmented: 56- needs defrag]
-   This file (/mnt/disk) does not need defragmentation.
-   Done.
-
-  # the tool^^^ says it is not enough fragmented to be able to defrag.
-
-  #Inject an image on fragmented disk
-  sudo chown ubuntu /mnt/disk
-  wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudim=
-g-amd64.img
-  qemu-img convert -O raw  bionic-server-cloudimg-amd64.img \
-                           bionic-server-cloudimg-amd64.img.raw
-  dd conv=3Dnotrunc iflag=3Dfullblock if=3Dbionic-server-cloudimg-amd64.img=
-.raw \
-                  of=3D/mnt/disk bs=3D1M
-  virt-customize -a /mnt/disk --root-password password:xxxx
-
-  # logon run console activity ex: ping -i 0.3 127.0.0.1
-  $qemu-system-x86_64 -m 2G -enable-kvm  -nographic \
-      -chardev socket,id=3Dtest,path=3D/tmp/qmp-monitor,server,nowait \
-      -mon chardev=3Dtest,mode=3Dcontrol \
-      -drive file=3D/mnt/disk,format=3Draw,if=3Dnone,id=3Ddrive-virtio-disk=
-0,cache=3Dnone,discard\
-      -device virtio-blk-pci,scsi=3Doff,drive=3Ddrive-virtio-disk0,id=3Dvir=
-tio-disk0,bootindex=3D1,write-cache=3Don
-
-  $sync
-  $echo 3 | sudo tee -a /proc/sys/vm/drop_caches
-
-  #start drive-mirror via qmp on another SSD/nvme partition
-  nc -U /tmp/qmp-monitor
-  {"execute":"qmp_capabilities"}
-  {"execute":"drive-mirror","arguments":{"device":"drive-virtio-disk0","tar=
-get":"/home/ubuntu/mirror","sync":"full","format":"qcow2"}}
-  ^^^ qemu console may start to freeze at this step.
-
-  NOTE:
-   - smaller chunk sz and bigger disk size the worst it is.
-     In operation we also have issue on 400GB disk size with average 13MB/e=
-xtent
-   - Reproducible also on xfs
-
-  =
-
-  Expected behavior:
-  -------------------
-  QEMU should remain steady, eventually only have decrease storage Performa=
-nce
-  or mirroring, because of fragmented fs.
-
-  Observed behavior:
-  -------------------
-  Perf of mirroring is still quite good even on fragmented FS,
-  but it breaks qemu.
-
-  =
-
-  ######################  create_fragged_disk.py ############
-  import sys
-  import os
-  import tempfile
-  import glob
-  import errno
-
-  MNT_DIR =3D sys.argv[1]
-  CHUNK_SZ_MB =3D int(sys.argv[2])
-  CHUNKS_DIR =3D MNT_DIR + '/chunks'
-  DISK_FILE =3D MNT_DIR + '/disk'
-
-  if not os.path.exists(CHUNKS_DIR):
-      os.makedirs(CHUNKS_DIR)
-
-  with open("/dev/urandom", "rb") as f_rand:
-       mb_rand=3Df_rand.read(1024 * 1024)
-
-  print("Filling up FS by Creating chunks files in: ",CHUNKS_DIR)
-  try:
-      while True:
-          tp =3D tempfile.NamedTemporaryFile(dir=3DCHUNKS_DIR,delete=3DFals=
-e)
-          for x in range(CHUNK_SZ_MB):
-              tp.write(mb_rand)
-          os.fsync(tp)
-          tp.close()
-  except Exception as ex:
-      print("We are probably full as expected!!: ",ex)
-
-  chunks =3D glob.glob(CHUNKS_DIR + '/*')
-
-  print("Creating fragged disk file: ",DISK_FILE)
-  with open(DISK_FILE, "w+b") as f_disk:
-      for chunk in chunks:
-          try:
-              os.unlink(chunk)
-              for x in range(CHUNK_SZ_MB):
-                  f_disk.write(mb_rand)
-              os.fsync(f_disk)
-          except IOError as ex:
-              if ex.errno !=3D errno.ENOSPC:
-                  raise
-  ###########################################################3
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912224/+subscriptions
+> I suppose we should look at what changes QEMU needs for KVM in-kernel GICv4
+> support at some point...
+> 
+> thanks
+> -- PMM
 
