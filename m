@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD8D30D9ED
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 13:42:18 +0100 (CET)
-Received: from localhost ([::1]:37644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC1130DA0B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 13:46:29 +0100 (CET)
+Received: from localhost ([::1]:40144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7HU9-0005de-HF
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 07:42:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42936)
+	id 1l7HYC-0006xj-01
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 07:46:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7HTA-0005C8-1A
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 07:41:16 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53046)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7HT7-0003SU-KC
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 07:41:15 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l7HT5-0005cz-PU
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 12:41:11 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B74862E8139
- for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 12:41:11 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1l7HWJ-0006Lk-5R
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 07:44:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44185)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1l7HWG-0004jC-4D
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 07:44:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612356261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AoJskb5KZHOPgYw60QJDxGb0zrejjWtc7p1KFWztZmU=;
+ b=XzzlbUGhFUR5rqttbqk5SZXq9M8lmFe/w/d220ADS8rAriRbkf7mCxw4VLG72clTT0ywqW
+ Cf9LfKz3R1xad9jhJei3JzbIA0FgEUkR1EEGvwIOrHPKoLQHDmtwnRAhmuWj0rXPB5+vo8
+ cWyOpqpBJWPYmIjC/QiMOdMwL7mp5ao=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-343-0IhTu-m9MYSDtjKDOyGoBg-1; Wed, 03 Feb 2021 07:44:20 -0500
+X-MC-Unique: 0IhTu-m9MYSDtjKDOyGoBg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA942107ACE4;
+ Wed,  3 Feb 2021 12:44:18 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C3B935C6B8;
+ Wed,  3 Feb 2021 12:44:14 +0000 (UTC)
+Date: Wed, 3 Feb 2021 13:44:12 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: ARM Snapshots Not Backwards-Compatible
+Message-ID: <20210203124412.xioafvptnovzalle@kamzik.brq.redhat.com>
+References: <YBogDGJRU5pcDKmi@strawberry.localdomain>
+ <153e5c54-f8bf-d088-502d-502309f5d2a6@redhat.com>
+ <20210203102758.GC2950@work-vm>
+ <CAFEAcA9_mcXHd5m+Z2M1jvk58kGVEcYKF+0kVsLJTjwB9MZcfw@mail.gmail.com>
+ <20210203104920.GE2950@work-vm>
+ <CAFEAcA9DdiBA+-5cQ87NR6fHFFFJAtDVbAEc+AJQNMNo4bVB+A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Feb 2021 12:34:52 -0000
-From: ANIMESH KUMAR SINHA <1912777@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Opinion; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: animeshk th-huth
-X-Launchpad-Bug-Reporter: ANIMESH KUMAR SINHA (animeshk)
-X-Launchpad-Bug-Modifier: ANIMESH KUMAR SINHA (animeshk)
-References: <161131847021.10154.14606822070729811950.malonedeb@gac.canonical.com>
-Message-Id: <161235569376.24635.10703879376342334720.launchpad@wampee.canonical.com>
-Subject: [Bug 1912777] Re: KVM_EXIT_MMIO has increased in Qemu4.0.0 when
- compared to Qemu 2.11.0
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: e2f8449ff7c84a8f2e27d2aa197496c3adbe67d6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA9DdiBA+-5cQ87NR6fHFFFJAtDVbAEc+AJQNMNo4bVB+A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,216 +84,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912777 <1912777@bugs.launchpad.net>
+Cc: Juan Quintela <quintela@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Opinion
+On Wed, Feb 03, 2021 at 10:52:59AM +0000, Peter Maydell wrote:
+> On Wed, 3 Feb 2021 at 10:49, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
+> >
+> > * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > > On Wed, 3 Feb 2021 at 10:28, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
+> > > >
+> > > > * Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> > > > > Cc'ing migration team and qemu-arm@ list.
+> > > >
+> > > > I'll have to leave the detail of that to the ARM peole; but from a
+> > > > migration point of view I think we do want the 64 bit ARM migrations to
+> > > > be stable now.  Please tie incompatible changes to machine types.
+> > >
+> > > That is the intention, but because there's no upstream testing
+> > > of migration compat, we never notice if we get it wrong.
+> > > What is x86 doing to keep cross-version migration working ?
+> >
+> > I know there used to be some of our team running Avocado tests for
+> > compatibility regularly, I'm not sure of the current status.
+> > It's something we also do regularly around when we do downstream
+> > releases, so we tend to catch them then, although even on x86 that
+> > often turns out to be a bit late.
+> 
+> So downstream testing only?
 
--- =
+Not even downstream for the Arm architecture, at least not at Red Hat. The
+support we have for Arm Virt is still limited to the use cases for which
+it has been deployed. To this day that hasn't included migration[*].
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912777
+> I think that unless we either (a) start
+> doing migration-compat testing consistently upstream or
 
-Title:
-  KVM_EXIT_MMIO has increased in Qemu4.0.0 when compared to Qemu 2.11.0
+This is the best choice and it can certainly be an additional approach
+regardless of what goes on downstream. I can look into this. A pointer
+to the x86 tests would be a good start. It's pretty simple to do a
+quick migration test between two versions of QEMU, but we need the
+whole build two versions of QEMU stuff first, which I hope already
+exists.
 
-Status in QEMU:
-  Opinion
-Status in Ubuntu:
-  New
+> (b) RedHat or
+> some other downstream start testing and reporting compat issues
+> to us for aarch64 as they do for x86-64,
 
-Bug description:
-  I was able to generate trace dump in Qemu for kvm_run_exit event in both =
-QEMU 2.11.0 and QEMU 4.0.0
-  From the trace i noticed that the number of KVM_KXIT_MMIO calls has incre=
-ased alot and is causing delay in testcase execution.
+Red Hat isn't currently allocating resources to this type of testing
+for AArch64. And, even if it were to start, it would likely focus on
+compat testing of RHEL arm-virt machine types, which aren't exactly the
+same thing as the upstream arm-virt machine types. In fact, currently,
+there are only two (virt-rhel8.2.0 and virt-rhel8.3.0).
 
-  I executed same testcase from Qemu 2.11 and Qemu4.
-  Inside Virtual machine when using qemu 2.11 testcase got completed in 11 =
-seconds
-  but the same testcase when executed on Qemu 4.0.0 got executed in 26 seco=
-nds.
+Thanks,
+drew
 
-  =
+[*] Migration support hasn't been a real high priority for AArch64 KVM,
+    because it currently requires identical host CPU types and identical
+    host kernels to work. It'd be nice if the destination host kernel
+    could at least be a later version, but not even that is guaranteed
+    to work at this time.
 
-  I did a bit of digging and extracted the kvm_run_exit to figure out whats=
- going on.
-
-  Please find =
-
-  Stats from Qemu2.11:
-
-  KVM_EXIT_UNKNOWN          : 0
-  KVM_EXIT_EXCEPTION        : 0
-  KVM_EXIT_IO               : 182513
-  KVM_EXIT_HYPERCALL        : 0
-  KVM_EXIT_DEBUG            : 0
-  KVM_EXIT_HLT              : 0
-  KVM_EXIT_MMIO             : 216701
-  KVM_EXIT_IRQ_WINDOW_OPEN  : 0
-  KVM_EXIT_SHUTDOWN         : 0
-  KVM_EXIT_FAIL_ENTRY       : 0
-  KVM_EXIT_INTR             : 0
-  KVM_EXIT_SET_TPR          : 0
-  KVM_EXIT_TPR_ACCESS       : 0
-  KVM_EXIT_S390_SIEIC       : 0
-  KVM_EXIT_S390_RESET       : 0
-  KVM_EXIT_DCR              : 0
-  KVM_EXIT_NMI              : 0
-  KVM_EXIT_INTERNAL_ERROR   : 0
-  KVM_EXIT_OSI              : 0
-  KVM_EXIT_PAPR_HCALL       : 0
-  KVM_EXIT_S390_UCONTROL    : 0
-  KVM_EXIT_WATCHDOG         : 0
-  KVM_EXIT_S390_TSCH        : 0
-  KVM_EXIT_EPR              : 0
-  KVM_EXIT_SYSTEM_EVENT     : 0
-  KVM_EXIT_S390_STSI        : 0
-  KVM_EXIT_IOAPIC_EOI       : 0
-  KVM_EXIT_HYPERV           : 0
-
-  KVM_RUN_EXIT              : 399214  (Total in Qemu 2.11 for a
-  testcase)
-
-  =
-
-  Stats For Qemu 4.0.0:
-
-  VM_EXIT_UNKNOWN           : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_EXCEPTION        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_IO               : 163729                                       =
-                                                                           =
-         =
-
-  KVM_EXIT_HYPERCALL        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_DEBUG            : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_HLT              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_MMIO             : 1094231                                      =
-                                                                           =
-         =
-
-  KVM_EXIT_IRQ_WINDOW_OPEN  : 46                                           =
-                                                                           =
-         =
-
-  KVM_EXIT_SHUTDOWN         : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_FAIL_ENTRY       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_INTR             : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_SET_TPR          : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_TPR_ACCESS       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_SIEIC       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_RESET       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_DCR              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_NMI              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_INTERNAL_ERROR   : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_OSI              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_PAPR_HCALL       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_UCONTROL    : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_WATCHDOG         : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_TSCH        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_EPR              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_SYSTEM_EVENT     : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_STSI        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_IOAPIC_EOI       : 464                                          =
-                                                                           =
-         =
-
-  KVM_EXIT_HYPERV           : 0 =
-
-
-  KVM_RUN_EXIT              : 1258470 (Total in qemu 4.0.0 for same
-  testcase)
-
-
-  From above analysis i found that the number of KVM_EXIT_MMIO has
-  increased by 4.x.
-
-  Could someone from qemu community help me understand as to why the
-  MMIO exits have increased in qemu4 ?
-
-  The results i obtained are after running same testcase.
-  On Qemu2.11 testcase gets completed in : 11seconds
-  on Qemu4.11 testcase gets completed in : 26 seconds
-
-  VM Qcow2 used in Ubuntu 16.04
-  VM kernel OS is : 4.4 generic
-
-  =
-
-  Let me know incase more information is required .
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912777/+subscriptions
 
