@@ -2,93 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D6630D481
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 09:01:01 +0100 (CET)
-Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D2930D434
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 08:46:54 +0100 (CET)
+Received: from localhost ([::1]:58292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7D5x-0006Rv-0L
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 03:01:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37272)
+	id 1l7CsG-0004fk-GV
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 02:46:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l7D4g-0005ax-54
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:59:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52838)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l7D4e-00074B-HW
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:59:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612339179;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TWGlx5s8K5v5/sVQY015uC94oGDEy91P+2/H8nXSXeE=;
- b=YmG/zRSd4sCXqkLDQ3a2hCrj/Ppkuk50cyDq0Ua4NCe9VIV+Irw7PoysCleq0Vek2fRAFp
- WxdBu9HbqEJZ7dVG3HNQQt5YMG8V818zAJTcAFJzNFXofcFH9GFFWmQTWnwtuIwr7LuC39
- 0emHYv2+DDjRwYUrXEjytMLrnUCvjQI=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-t1HM2Fx7PTafYAH7zbcxOw-1; Wed, 03 Feb 2021 02:59:37 -0500
-X-MC-Unique: t1HM2Fx7PTafYAH7zbcxOw-1
-Received: by mail-ej1-f69.google.com with SMTP id m4so11502575ejc.14
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 23:59:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TWGlx5s8K5v5/sVQY015uC94oGDEy91P+2/H8nXSXeE=;
- b=QDO98Df0SDssY5CkL3pyKuMOEPZnTAztSi7E5XabRtIELTKuFmp12eXseoxd+B/kKa
- qwd8GVuAGh3hZpYqQ/9A2E9fVQ89+ZQBHGY/4piEhEDlCn1Z07ARFx1Mesokruw3+Hk1
- mI6vpqxgwj6FZHJW+pDbUlsqDoxbY013sNIa+KSW+xr0N/QUH3Xpg6Ph+M/5+Z62GcNW
- VC4ZfZMVBvp0gEennw7vu7bWZNazQLbkDCj22OKDgUM+mv6LLjS1QdQTGSm+yZhlY758
- JSlqNbqt5akQ5wsQlGGoa1mj4QlE6MqdJpQtpNt4Ryrd24I83MgzzH3HG/UBLm8M67gM
- HTQw==
-X-Gm-Message-State: AOAM530IIpISUpUKzcIo4D0ftCvzsW0HuK9MPVFGDYKCYlZKeODm41r4
- pc7OvyLRr8Enyqzy+omlviXF7Ur/Iv2oBNGoD8na4yoL8uFrrOv1L1iiWTkVveoWosE0dmNXzZc
- VdVNu5YKW9RVHxNsks0VyCQAVeVC9AX2GXzm17xGlN62genVGggC+tJzEAoZHcbmLPRg=
-X-Received: by 2002:a17:906:a115:: with SMTP id
- t21mr1946629ejy.549.1612339176297; 
- Tue, 02 Feb 2021 23:59:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzWtwZQx/DF8sM/fIUoJcWKw2Y9no9ap8xdDPzKf7Qk7n6IoUaoLNjlyZrk0Z9DgtjwH7v1Ng==
-X-Received: by 2002:a17:906:a115:: with SMTP id
- t21mr1946615ejy.549.1612339176072; 
- Tue, 02 Feb 2021 23:59:36 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id y10sm603878ejj.122.2021.02.02.23.59.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Feb 2021 23:59:35 -0800 (PST)
-Subject: Re: [PATCH] cpu-throttle: Remove timer_mod() from cpu_throttle_set()
-To: Utkarsh Tripathi <utkarsh.tripathi@nutanix.com>, qemu-devel@nongnu.org
-References: <1609420384-119407-1-git-send-email-utkarsh.tripathi@nutanix.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a568eb86-3428-ca1e-c2be-e2aa16b6aebd@redhat.com>
-Date: Wed, 3 Feb 2021 08:59:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1l7Cpd-0002xY-1B
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:09 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3304)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1l7CpO-0008Ch-H3
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:05 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DVttM0Np3zlDsM;
+ Wed,  3 Feb 2021 15:42:03 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Wed, 3 Feb 2021
+ 15:43:36 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>, <berrange@redhat.com>
+Subject: [PATCH v4 00/18] Support Multifd for RDMA migration
+Date: Wed, 3 Feb 2021 16:01:33 +0800
+Message-ID: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <1609420384-119407-1-git-send-email-utkarsh.tripathi@nutanix.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,75 +55,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/12/20 14:13, Utkarsh Tripathi wrote:
-> During migrations, after each iteration, cpu_throttle_set() is called,
-> which irrespective of input, re-arms the timer according to value of
-> new_throttle_pct. This causes cpu_throttle_thread() to be delayed in
-> getting scheduled and consqeuntly lets guest run for more time than what
-> the throttle value should allow. This leads to spikes in guest throughput
-> at high cpu-throttle percentage whenever cpu_throttle_set() is called.
-> 
-> A solution would be not to modify the timer immediately in
-> cpu_throttle_set(), instead, only modify throttle_percentage so that the
-> throttle would automatically adjust to the required percentage when
-> cpu_throttle_timer_tick() is invoked.
-> 
-> Manually tested the patch using following configuration:
-> 
-> Guest:
-> Centos7 (3.10.0-123.el7.x86_64)
-> Total Memory - 64GB , CPUs - 16
-> Tool used - stress (1.0.4)
-> Workload - stress --vm 32 --vm-bytes 1G --vm-keep
-> 
-> Migration Parameters:
-> Network Bandwidth - 500MBPS
-> cpu-throttle-initial - 99
-> 
-> Results:
-> With timer_mod(): fails to converge, continues indefinitely
-> Without timer_mod(): converges in 249 sec
-> 
-> Signed-off-by: Utkarsh Tripathi <utkarsh.tripathi@nutanix.com>
-> ---
->   softmmu/cpu-throttle.c | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/softmmu/cpu-throttle.c b/softmmu/cpu-throttle.c
-> index 2ec4b8e..8c2144a 100644
-> --- a/softmmu/cpu-throttle.c
-> +++ b/softmmu/cpu-throttle.c
-> @@ -90,14 +90,21 @@ static void cpu_throttle_timer_tick(void *opaque)
->   
->   void cpu_throttle_set(int new_throttle_pct)
->   {
-> +    /*
-> +     * boolean to store whether throttle is already active or not,
-> +     * before modifying throttle_percentage
-> +     */
-> +    bool throttle_active = cpu_throttle_active();
-> +
->       /* Ensure throttle percentage is within valid range */
->       new_throttle_pct = MIN(new_throttle_pct, CPU_THROTTLE_PCT_MAX);
->       new_throttle_pct = MAX(new_throttle_pct, CPU_THROTTLE_PCT_MIN);
->   
->       qatomic_set(&throttle_percentage, new_throttle_pct);
->   
-> -    timer_mod(throttle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL_RT) +
-> -                                       CPU_THROTTLE_TIMESLICE_NS);
-> +    if (!throttle_active) {
-> +        cpu_throttle_timer_tick(NULL);
-> +    }
->   }
->   
->   void cpu_throttle_stop(void)
-> 
+The RDMA bandwidth is not fully utilized for over 25Gigabit NIC because
+of single channel for RDMA migration. This patch series is going to support
+multifd for RDMA migration based on multifd framework.
 
-Queued, thanks.
+Comparsion is between origion and multifd RDMA migration is re-tested for v3.
+The VM specifications for migration are as follows:
+- VM use 4k page;
+- the number of VCPU is 4;
+- the total memory is 16Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 8000 500);
+- use 25Gigabit network card to migrate;
 
-Paolo
+For origin RDMA and MultiRDMA migration, the total migration times of
+VM are as follows:
++++++++++++++++++++++++++++++++++++++++++++++++++
+|             | NOT rdma-pin-all | rdma-pin-all |
++++++++++++++++++++++++++++++++++++++++++++++++++
+| origin RDMA |       26 s       |     29 s     |
+-------------------------------------------------
+|  MultiRDMA  |       16 s       |     17 s     |
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Test the multifd RDMA migration like this:
+virsh migrate --live --parallel --migrateuri
+rdma://192.168.1.100 [VM] --listen-address 0.0.0.0  qemu+tcp://192.168.1.100/system --verbose
+
+v3 -> v4:
+    modify some function names
+    export multifd_rdma_ops instead of a function
+    fix minior codestyle issues
+
+v2 -> v3:
+    create multifd ops for both tcp and rdma
+    do not export rdma to avoid multifd code in mess
+    fix build issue for non-rdma
+    fix some codestyle and buggy code
+
+Chuan Zheng (18):
+  migration/rdma: add the 'migrate_rdma_pin_all' function
+  migration/rdma: judge whether or not the RDMA is used for migration
+  migration/rdma: create multifd_setup_ops for Tx/Rx thread
+  migration/rdma: add multifd_setup_ops for rdma
+  migration/rdma: do not need sync main for rdma
+  migration/rdma: export MultiFDSendParams/MultiFDRecvParams
+  migration/rdma: add rdma field into multifd send/recv param
+  migration/rdma: export getQIOChannel to get QIOchannel in rdma
+  migration/rdma: add multifd_rdma_load_setup() to setup multifd rdma
+  migration/rdma: Create the multifd recv channels for RDMA
+  migration/rdma: record host_port for multifd RDMA
+  migration/rdma: Create the multifd send channels for RDMA
+  migration/rdma: Add the function for dynamic page registration
+  migration/rdma: register memory for multifd RDMA channels
+  migration/rdma: only register the memory for multifd channels
+  migration/rdma: add rdma_channel into Migrationstate field
+  migration/rdma: send data for both rdma-pin-all and NOT rdma-pin-all
+    mode
+  migration/rdma: RDMA cleanup for multifd migration
+
+ migration/migration.c |  24 +++
+ migration/migration.h |  11 ++
+ migration/multifd.c   |  97 +++++++++-
+ migration/multifd.h   |  25 +++
+ migration/qemu-file.c |   5 +
+ migration/qemu-file.h |   1 +
+ migration/rdma.c      | 490 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 7 files changed, 641 insertions(+), 12 deletions(-)
+
+-- 
+1.8.3.1
 
 
