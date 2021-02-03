@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85C630E26F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:24:45 +0100 (CET)
-Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1CE30E0DC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:23:58 +0100 (CET)
+Received: from localhost ([::1]:42816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7MpZ-00053F-1i
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:24:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48192)
+	id 1l7Lsj-0007f9-NQ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:23:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7MOY-0001pt-Tw
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:56:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48770)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7Lmd-0001e2-9R
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:17:39 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:46790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7MOR-0000zd-S3
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:56:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l7MOO-0003W0-G4
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:56:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C84632E8147
- for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 17:56:32 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7Lmb-0003E9-Ba
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:17:38 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id u11so204311plg.13
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 09:17:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3dzmFVV6AK0Gvq8ojsIyTC5rI294pCEvIhGJ1CHBz8A=;
+ b=MzoaEPk9Q+UjabKIrky9Xlm5X2MmcY9CFbsCpPsl0KOZ5Zwa0koRhL1N7NjEwBYMrf
+ ojm4uXex30q04gvIJC2FmPsrbVRC57QJqGVLx3nyJLBwYzwZKDi7nPEEApKxcaVpTgHh
+ 15/MXZaGAx5IY8vPXVApLT2KhcDyYbMtOIb4O1B13EL8T87a5bb9BFnKpU53xyEviyxu
+ JotZxT4IZzsSHNu1DLxIdrsThhsXcuq6dEpyv4JMjvCHaP6HL2A0hYtiAB+vxNA8R0fi
+ Q058OibesMRHb/ybXLtp/QZZjH/q8wQ215UqrNPiki0ACilbonuaC2abhBQoFc65YI5y
+ oMAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3dzmFVV6AK0Gvq8ojsIyTC5rI294pCEvIhGJ1CHBz8A=;
+ b=Tw7VZebTD2/J0MUwCi53d35/xexbjtWiB7gnelv3/92Ts7a7k8Yh9pKq0HCqZgZzKv
+ 6GOVG4f0IBk45P7JoQwO3MTTge4Cbjr7a2p6QTzzfsW9r3oAqxfOFkyZHbdO8avnpXSC
+ TQU8QxsercVmXcmU/RrPdqrv/fmdz4i0hao0NmbT/iZi2s5DKVRNApfghnUVQQ/lUz8y
+ O5KF734DMEEMP9266GwkeSkkcwCS4ec6PiofcKPle+BzpgMJN3DDt9Uv0vAxWMsX3uM9
+ 728QCu6Weo9IxVfRR1smHBNlHJgVNuCjrL0ItgdRapoPjogC9d/xEWzMQ20GRN6ZZPWo
+ 3EhA==
+X-Gm-Message-State: AOAM533p0TrmRwp+OKfKsUVpP/Ztxq8dxHQ4IoIQQIG9I4zUOkpFYdpF
+ iNn458JzGSBun05VW7ghdqmwuA==
+X-Google-Smtp-Source: ABdhPJxDtbkWTTNTZ2jzC/nW/mO3yeXUjacYqRUV4ZEkX5aTvr4u9uKDCN29cLp2VF3Slh2N4b0Tgw==
+X-Received: by 2002:a17:902:9f8b:b029:e0:a90:b62 with SMTP id
+ g11-20020a1709029f8bb02900e00a900b62mr4074882plq.70.1612372655481; 
+ Wed, 03 Feb 2021 09:17:35 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id t15sm2577284pjy.37.2021.02.03.09.17.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Feb 2021 09:17:34 -0800 (PST)
+Subject: Re: [PATCH v4 2/4] target/arm: Support AA32 DIT by moving PSTATE_SS
+ from cpsr into env->pstate
+To: Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
+References: <20210203045816.10953-1-rebecca@nuviainc.com>
+ <20210203045816.10953-3-rebecca@nuviainc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <42e9640c-9798-2515-1e7d-131609078833@linaro.org>
+Date: Wed, 3 Feb 2021 07:17:29 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Feb 2021 17:13:38 -0000
-From: Kashyap Chamarthy <1914282@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kashyapc melwitt
-X-Launchpad-Bug-Reporter: melanie witt (melwitt)
-X-Launchpad-Bug-Modifier: Kashyap Chamarthy (kashyapc)
-References: <161229019609.3949.15746215383583949568.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161237241868.2846.13602853553576266149.malone@gac.canonical.com>
-Subject: [Bug 1914282] Re: block copy job sometimes hangs on the last block
- for minutes
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: b3905522075f6d4d54f351920c1ca0d710a0c6ef
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, URIBL_SBL_A=0.1,
- WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210203045816.10953-3-rebecca@nuviainc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.178,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,200 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914282 <1914282@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QMP exchange on the destination, as captured by  `grep -E
-'QEMU_MONITOR_(SEND_MSG|RECV_REPLY)' libvirtd.log`
+On 2/2/21 6:58 PM, Rebecca Cran wrote:
+>          if (!arm_singlestep_active(env)) {
+> -            env->uncached_cpsr &= ~PSTATE_SS;
+> +            env->pstate &= ~PSTATE_SS;
+> +        } else {
+> +            env->pstate |= PSTATE_SS;
+>          }
 
-Attaching it so that libvirt/QEMU devs can look for the QMP
-request/responses.
+Where did this addition come from?
 
-(Extracted file size is ~26MB.)
 
-** Attachment added: "QMP_exchange_libvirtd_22Jan2021_NovaCI_dest.tar.xz"
-   https://bugs.launchpad.net/qemu/+bug/1914282/+attachment/5459439/+files/=
-QMP_exchange_libvirtd_22Jan2021_NovaCI_dest.tar.xz
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914282
-
-Title:
-  block copy job sometimes hangs on the last block for minutes
-
-Status in QEMU:
-  New
-
-Bug description:
-  In openstack nova we use the block copy API to copy disks for volume
-  swap requests. In our CI gate we observed that sometimes the block
-  copy job progress will reach the last or next to last block and hang
-  there for  minutes at a time, causing CI jobs to fail as jobs timeout.
-
-  On the client (nova-compute) side, using the python bindings we see
-  the following in the openstack nova logs:
-
-  ---------------
-
-  Jan 21 05:31:02.207785 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
-  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
-  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
-  TestVolumeSwap-1117975117] COPY block job progress, current cursor: 0
-  final cursor: 1073741824 {{(pid=3D93823) is_job_complete
-  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
-
-  Jan 21 05:31:55.688227 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
-  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
-  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
-  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
-  1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
-  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
-
-  [...]
-
-  Jan 21 05:31:55.706698 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
-  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
-  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
-  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
-  1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
-  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
-
-  Jan 21 05:31:56.175248 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
-  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
-  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
-  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
-  1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
-  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
-
-  [...]
-
-  ~2.5 minutes later, it's still going at current cursor: 1073741823
-  final cursor: 1073741824
-
-  Jan 21 05:34:30.952371 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
-  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
-  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
-  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
-  1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
-  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
-
-  then current cursor =3D=3D final cursor at 05:34:31.460595
-
-  Jan 21 05:34:31.460595 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
-  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
-  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
-  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
-  1073741824 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
-  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
-
-  ---------------
-
-  In this excerpt the cursor reaches the next to last block at Jan 21
-  05:31:56.175248 and hangs there repeating status at the next to last
-  block until Jan 21 05:34:30.952371 (~2.5 minutes) and then the job
-  shows current cursor =3D=3D final cursor at Jan 21 05:34:31.460595.
-
-  In the corresponding qemu log, we see the block copy job report being
-  on the last block for minutes:
-
-  ---------------
-
-  021-01-21 05:31:02.206+0000: 60630: debug : qemuMonitorJSONIOProcessLine:=
-220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device"=
-: "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len": =
-1073741824, "offset": 0, "status": "running", "paused": false, "speed": 0, =
-"ready": false, "type": "mirror"}], "id": "libvirt-501"}]
-  2021-01-21 05:31:02.206+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
-239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
-uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
-t", "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 0, "s=
-tatus": "running", "paused": false, "speed": 0, "ready": false, "type": "mi=
-rror"}], "id": "libvirt-501"}
-
-  [...]
-
-  len =3D=3D offset at 05:31:56.174
-
-  2021-01-21 05:31:56.174+0000: 60630: debug : qemuMonitorJSONIOProcessLine=
-:220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device=
-": "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len":=
- 1073741824, "offset": 1073741824, "status": "running", "paused": false, "s=
-peed": 0, "ready": false, "type": "mirror"}], "id": "libvirt-581"}]
-  2021-01-21 05:31:56.174+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
-239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
-uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
-t", "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 10737=
-41824, "status": "running", "paused": false, "speed": 0, "ready": false, "t=
-ype": "mirror"}], "id": "libvirt-581"}
-
-  [...]
-
-  ~2.5 minutes later, still len =3D=3D offset but it's still going
-
-  2021-01-21 05:34:31.459+0000: 60630: debug : qemuMonitorJSONIOProcessLine=
-:220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device=
-": "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": false, "len"=
-: 1073741824, "offset": 1073741824, "status": "ready", "paused": false, "sp=
-eed": 0, "ready": true, "type": "mirror"}], "id": "libvirt-855"}]
-  2021-01-21 05:34:31.459+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
-239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
-uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
-t", "auto-dismiss": false, "busy": false, "len": 1073741824, "offset": 1073=
-741824, "status": "ready", "paused": false, "speed": 0, "ready": true, "typ=
-e": "mirror"}], "id": "libvirt-855"}
-
-  and then the job finishes soon after
-
-  2021-01-21 05:34:31.467+0000: 60630: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
-  changed to 'waiting'(6)
-
-  2021-01-21 05:34:31.467+0000: 60630: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
-  changed to 'pending'(7)
-
-  2021-01-21 05:34:31.467+0000: 60630: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
-  changed to 'concluded'(9)
-
-  2021-01-21 05:34:31.468+0000: 60630: debug :
-  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
-  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
-  changed to 'null'(11)
-
-  2021-01-21 05:34:31.468+0000: 60634: debug :
-  qemuBlockJobProcessEventConcludedCopyPivot:1221 : copy job 'copy-vdb-
-  libvirt-5-format' on VM 'instance-00000013' pivoted
-
-  2021-01-21 05:34:32.292+0000: 60634: debug : qemuDomainObjEndJob:9746
-  : Stopping job: modify (async=3Dnone vm=3D0x7fd070075720
-  name=3Dinstance-00000013)
-
-  ---------------
-
-  Is this normal for a block copy job to hang on the last block like
-  this for minutes at a time? Why doesn't the job close out once offset
-  =3D=3D len?
-
-  Thanks for any help you can offer.
-
-  Additional log messages have been pasted here:
-
-  https://pastebin.com/FQRu76Sn
-
-  and for completeness, these logs were taken from the following
-  openstack nova gate job:
-
-  https://zuul.opendev.org/t/openstack/build/a078a17aa9924517b329cafc3f54fe=
-d4
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914282/+subscriptions
+r~
 
