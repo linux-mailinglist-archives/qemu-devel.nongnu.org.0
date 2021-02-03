@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B1430DE19
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 16:28:40 +0100 (CET)
-Received: from localhost ([::1]:50130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0132130DE2D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 16:31:46 +0100 (CET)
+Received: from localhost ([::1]:54440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7K58-0006HF-Sq
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 10:28:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
+	id 1l7K89-0008Ki-1o
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 10:31:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7K2z-0005QZ-Oj
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:26:25 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42736)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7K2x-000488-7s
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:26:25 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id r12so36389722ejb.9
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 07:26:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=llwwOIvKhGLRhh4735rAHXtKBgbXi62qgm9FyRRJeOk=;
- b=pRvCDqWWwgYrVhUreCVXjnrUaCwVolXS9SEzQm45NJV7rNAXXxg9zad9mor2ANiKd8
- cMmyJlXeM0Xwq5JcAhBeDqUJuxW23ppOzW6VEbb7FqnGFUy7pqcTXbhkFYNFEqVfOYSN
- uNCuL0I6+6iBPXeK19kJ3dQO8SQWMakFjcldMMvtngUqM+QBOaIfDo6s3fxVNLmyCzPP
- f/nUI9uW1z210eYozVP/N7hKfeH8wezd/OzCG/zEfQhWzKx8II4kuhUs4jGmSYKi6Ys0
- cpVf8W/r2c9GfpexTLn1t+CIYtVPglVzt8SnpzQvrGkYo47Cvm6ajGJvmfanjYdsmllv
- 0TWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=llwwOIvKhGLRhh4735rAHXtKBgbXi62qgm9FyRRJeOk=;
- b=QttiSDRHSWCvTRh/cW2pMQpYdLwhigWAUMBfzSJQsExzS6RUtiYNb8JSXdybl6u6sK
- nl6Bq/BfvXuJudNnc/Yr4jb0VLdDGG4LDA7jX2bBeWeCSKI1BpNvegg0VujlTKkYP9W8
- bV6kst0/q9v+tR3diWld7N9/5lc3AGFgqSuAN2Y2bbW9fog5OPE3vGo5Zz1GhKaDfc0K
- r1tbpMdo+/ArYShDwelk9jYsTyJ6fJPK2xy0QqAQKPCIvaZIvbErTDqVI3/ZyFTigdjU
- 7teiy7jo+OJzh9wIikVNCr12TnzSIjqfFWV8vJUs9us9YstI/hRje26QmSbVkIrQPLVx
- aMEA==
-X-Gm-Message-State: AOAM531fPtNVjMfvMgUjllHS7JbduwroREpsm5aa+6yjIBc94YUQqK+R
- 7dcAe3onmL4UtiP8mh506C2zHRp5HIkW3Z1/AIQxpw==
-X-Google-Smtp-Source: ABdhPJxWqFLm6UN0aIGc2FbdB2VRXY26o7MfU4LoY0Iv0QK6s7k7GkPhVv9J+w7o6D0iHLuVmv4ZDmq036LbPAezqOM=
-X-Received: by 2002:a17:907:1b10:: with SMTP id
- mp16mr3757131ejc.482.1612365981711; 
- Wed, 03 Feb 2021 07:26:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l7K5e-0007TE-6c
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:29:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l7K5b-0005Iw-9P
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:29:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612366143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=edXCLStR7O8t8IGb8ol1L/35sP62jA1D/zG9wnzzgrU=;
+ b=e2nvWY2bG82Dv32EmVQmEpVo6PSXOFRRJ4mGQYL8Df4yWw1JklUPuxbVHzPZqPH9SHhz1M
+ A7X90wURUXsGZptIKhSMI8n1wgoexdQvwVjDUNVg4UCP5TOZ14FDT09Ycpzf5QnU7wyMx8
+ h6SKixLahFoS3iInnJXTlF6KDxXbau8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-YAkZMDg7OLKAiJggSNbpRQ-1; Wed, 03 Feb 2021 10:29:02 -0500
+X-MC-Unique: YAkZMDg7OLKAiJggSNbpRQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20B72107ACC7;
+ Wed,  3 Feb 2021 15:29:01 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-88.rdu2.redhat.com [10.10.116.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 147A060C5F;
+ Wed,  3 Feb 2021 15:28:51 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 589ED22054F; Wed,  3 Feb 2021 10:28:50 -0500 (EST)
+Date: Wed, 3 Feb 2021 10:28:50 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v4 3/3] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+Message-ID: <20210203152850.GA3307@redhat.com>
+References: <20210203113719.83633-1-stefanha@redhat.com>
+ <20210203113719.83633-4-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <YBogDGJRU5pcDKmi@strawberry.localdomain>
- <CAFEAcA-_N2CiNtjPi3hnk285Xdy3RuL8dY8QFhF0TnCydng6yA@mail.gmail.com>
- <YBq6Ct8M6AfMr0Bx@strawberry.localdomain>
- <2572efa4-8aa3-32e4-7559-f93e6522d284@redhat.com>
- <20210203151053.GK2950@work-vm>
-In-Reply-To: <20210203151053.GK2950@work-vm>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 3 Feb 2021 15:26:10 +0000
-Message-ID: <CAFEAcA-qq-Eue+ktR1tNO7FZdtCe428=5vdA5472W-16p=d75A@mail.gmail.com>
-Subject: Re: ARM Snapshots Not Backwards-Compatible
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210203113719.83633-4-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,30 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, virtio-fs@redhat.com,
+ Alex Xu <alex@alxu.ca>, P J P <ppandit@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Feb 2021 at 15:11, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
-> It's interesting that on x86 we've got a longterm request to *add* cpu
-> features to the stream to detect screwups caused by using mismatched
-> CPUs; so it's not necessarily a bad idea to include it once you realise
-> it's there.
+On Wed, Feb 03, 2021 at 11:37:19AM +0000, Stefan Hajnoczi wrote:
 
-I think we would want to do that by checking the ID registers,
-not the legacy ad-hoc feature-flags word. In fact I think for
-KVM at least we already perform the check on the ID registers,
-in that the kernel will return an error if we pass it a value
-for an ID register and it's not the value it should be.
-I forget whether we try to check this for TCG (the mechanism
-for handling sysreg migration there is different).
+[..]
+> @@ -1727,36 +1764,38 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+>  
+>      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+>  
+> -    fd = openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFOLLOW,
+> -                mode);
+> +    /* Try to create a new file but don't open existing files */
+> +    fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
+>      err = fd == -1 ? errno : 0;
+> +
+>      lo_restore_cred(&old);
+>  
+> -    if (!err) {
+> -        ssize_t fh;
+> -
+> -        pthread_mutex_lock(&lo->mutex);
+> -        fh = lo_add_fd_mapping(lo, fd);
+> -        pthread_mutex_unlock(&lo->mutex);
+> -        if (fh == -1) {
+> -            close(fd);
+> -            err = ENOMEM;
+> -            goto out;
+> -        }
+> +    /* Ignore the error if file exists and O_EXCL was not given */
+> +    if (err && !(err == EEXIST && !(fi->flags & O_EXCL))) {
 
-As a side note I suspect that the first two issues Aaron ran
-into are TCG-only and don't affect KVM.
+Can this check be simplified to.
+       if (err && (err == EEXIST && (fi->flags & O_EXCL)) {
+           goto out;
+       }
+> +        goto out;
+> +    }
 
-thanks
--- PMM
+
+Vivek
+
 
