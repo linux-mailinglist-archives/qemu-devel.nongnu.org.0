@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB94430E309
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:06:10 +0100 (CET)
-Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36D730E318
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:11:07 +0100 (CET)
+Received: from localhost ([::1]:41260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7NTc-0007s3-0l
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:06:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36884)
+	id 1l7NYQ-0005IU-SM
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:11:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l7NLs-0005tj-7w; Wed, 03 Feb 2021 13:58:08 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:55985)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l7NLq-0000aj-Hv; Wed, 03 Feb 2021 13:58:07 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id D34DF764;
- Wed,  3 Feb 2021 13:58:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 03 Feb 2021 13:58:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=3XQg9vSVzD0p5tgTiGpD6JD+aJX
- llakLohQsa6TgWmM=; b=jwq0s2IeC3V5TLZk+fm1lOu+RvXzqNeLAKg2w3lMiLw
- 95wQVDGwzwllLk6gxRmQon1zO+ByL9wBEAT3gf7t+N9RcESgnxeH7Zk1VSCGoUw6
- kSfZHi7Z1fviH2EiL2zT6TGX5W9Oyu0BBLDp/QkKPY7UOU6M5T4MfoxgfYUPzekd
- LB4CqoMtAbMMOx1NpK7noDO9tMwntBEN2rJrRkeyfxDTgglHD3LFDwaSjr3e1jf/
- fNEf8N9OlEELjo7guGv0W8EaqYtgXLqiBd8vqlCsRbXAZpIPhKgUmPbkwKBmkkmv
- GjhAUAYDoyezYY1rk/lp4Am8tw/qUeHHkUgf4ZbTMaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3XQg9v
- SVzD0p5tgTiGpD6JD+aJXllakLohQsa6TgWmM=; b=FOx0KE1bp7/6/MSA7fkBKI
- t2INGCXELoDZy1IwwFxdQHxVuKaJsNFKI6riPCxiY8Vwzsgu50/KatXIA22V3xDd
- g+F1AhYkT7RaK4F9i9VzsbSz5rrt3hCrCQz2jjTiNAS1JsS1fml2/9CTmnXOmo2O
- MsmYti96rChd9fvye0Q58fxMNakfcFu51FqF8TuMAwx2UBv9r/bZbUbDHVdBn0iC
- gpwj3574sBZCQ0IX8lC6V3gAF10aeUz0XiQ3GIs/VOHzqFuQJ35sfUKrj2DPpRLh
- XObUTFZnFnAgFX5RlpRjd7K3ywqWkXKsFoxZMTioMlytVLRGgF0GMyS+ktB89mJQ
- ==
-X-ME-Sender: <xms:OvIaYGqW61KdEubjRgc5blfcfdxgqNuCVWZGpBvduyjtJEzgukDfMQ>
- <xme:OvIaYEpjINVRUmKguaCvp21FR6cpfzJMsq3r8XbsQhd3CAqhW8eaqxL1B6WaKwP2K
- SW9tPRAMYpxBtMivjI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrgedvgdduudejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:OvIaYLMal4P9mGKCJzVpY18KBI0LNTHK6AQliCpVAaeClzD1AvLrMg>
- <xmx:OvIaYF6cOuXYjRgGKX-jnCklWd-U3kw4ceuOEiWn5CotZB50uE-umw>
- <xmx:OvIaYF7MXCn-QGuRlFHkZmzSBAwhmIdfZ-trYL8BNaHF18QwI8yvTg>
- <xmx:O_IaYCtqc3g6jQeOgWqj9_C2eM-XSon6Xw4NQnLlIux6rDZAmfe8FA>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id DC7421080057;
- Wed,  3 Feb 2021 13:58:00 -0500 (EST)
-Date: Wed, 3 Feb 2021 19:57:58 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v5 0/5] hw/block/nvme: add simple copy command
-Message-ID: <YBryNmf4USekOR6y@apples.localdomain>
-References: <20210129091541.566330-1-its@irrelevant.dk>
- <20210203172709.GD2182779@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7NN5-0006Xm-5H
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:59:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38253)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7NN0-00016S-JB
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:59:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612378756;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fn42p6PgAaJihNjO4/yC+wbh8TL7Qtb9aSyWqDyA53E=;
+ b=Sxpk3uEVKaudJxyWenfxCly+CdPajTfY87d9YZijwnYjt3gFMpqmX2ytOQwYBQWJm2Zd14
+ RizwtSn8LCLTOXfnIgUTftBOBX/+O4kbZTIzbuGDOTl0DrNN/KoeOFOdbcBAqw5xb6Uk38
+ F93gRNvk82gth1s5Rk3JKS1YXWBoxFU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-Pif7sr1WOP-gRRujP4fzHg-1; Wed, 03 Feb 2021 13:59:12 -0500
+X-MC-Unique: Pif7sr1WOP-gRRujP4fzHg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 254E6189DF4E;
+ Wed,  3 Feb 2021 18:59:11 +0000 (UTC)
+Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 38EBD60BFA;
+ Wed,  3 Feb 2021 18:59:09 +0000 (UTC)
+Date: Wed, 3 Feb 2021 18:59:06 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v4 10/18] migration/rdma: Create the multifd recv
+ channels for RDMA
+Message-ID: <20210203185906.GT2950@work-vm>
+References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
+ <1612339311-114805-11-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/QOoUHb0Yw+myRaZ"
+In-Reply-To: <1612339311-114805-11-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203172709.GD2182779@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,48 +80,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> We still don't transmit anything through them, and we only build
+> the RDMA connections.
+> 
+> Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> ---
+>  migration/rdma.c | 69 ++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 67 insertions(+), 2 deletions(-)
+> 
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index 996afb0..ed8a015 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -3267,6 +3267,40 @@ static void rdma_cm_poll_handler(void *opaque)
+>      }
+>  }
+>  
+> +static bool qemu_rdma_accept_setup(RDMAContext *rdma)
+> +{
+> +    RDMAContext *multifd_rdma = NULL;
+> +    int thread_count;
+> +    int i;
+> +    MultiFDRecvParams *multifd_recv_param;
+> +    thread_count = migrate_multifd_channels();
+> +    /* create the multifd channels for RDMA */
+> +    for (i = 0; i < thread_count; i++) {
+> +        if (get_multifd_recv_param(i, &multifd_recv_param) < 0) {
+> +            error_report("rdma: error getting multifd_recv_param(%d)", i);
+> +            return false;
+> +        }
+> +
+> +        multifd_rdma = (RDMAContext *) multifd_recv_param->rdma;
+> +        if (multifd_rdma->cm_id == NULL) {
+> +            break;
+> +        } else {
+> +            multifd_rdma = NULL;
+> +        }
 
---/QOoUHb0Yw+myRaZ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm confused by what this if is doing - what are the two cases?
 
-On Feb  3 09:27, Keith Busch wrote:
-> Just had the one comment on patch 4, which is really no big deal. I need
-> to integrate tooling and/or kernel support in order to properly test
-> this, but just from code inspection, I think it's good.
->=20
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
->=20
+> +    }
+> +
+> +    if (multifd_rdma) {
+> +        qemu_set_fd_handler(rdma->channel->fd,
+> +                            rdma_accept_incoming_migration,
+> +                            NULL, (void *)(intptr_t)multifd_rdma);
+> +    } else {
+> +        qemu_set_fd_handler(rdma->channel->fd, rdma_cm_poll_handler,
+> +                            NULL, rdma);
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>  static int qemu_rdma_accept(RDMAContext *rdma)
+>  {
+>      RDMACapabilities cap;
+> @@ -3366,6 +3400,10 @@ static int qemu_rdma_accept(RDMAContext *rdma)
+>          qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
+>                              NULL,
+>                              (void *)(intptr_t)rdma->return_path);
+> +    } else if (migrate_use_multifd()) {
+> +        if (!qemu_rdma_accept_setup(rdma)) {
+> +            goto err_rdma_dest_wait;
+> +        }
+>      } else {
+>          qemu_set_fd_handler(rdma->channel->fd, rdma_cm_poll_handler,
+>                              NULL, rdma);
+> @@ -3976,6 +4014,34 @@ static QEMUFile *qemu_fopen_rdma(RDMAContext *rdma, const char *mode)
+>      return rioc->file;
+>  }
+>  
+> +static void migration_rdma_process_incoming(QEMUFile *f,
+> +                                            RDMAContext *rdma, Error **errp)
+> +{
+> +    MigrationIncomingState *mis = migration_incoming_get_current();
+> +    QIOChannel *ioc = NULL;
+> +    bool start_migration = false;
+> +
+> +    if (!migrate_use_multifd()) {
+> +        rdma->migration_started_on_destination = 1;
+> +        migration_fd_process_incoming(f, errp);
+> +        return;
+> +    }
+> +
+> +    if (!mis->from_src_file) {
+> +        mis->from_src_file = f;
+> +        qemu_file_set_blocking(f, false);
+> +    } else {
+> +        ioc = QIO_CHANNEL(getQIOChannel(f));
+> +        /* Multiple connections */
+> +        assert(migrate_use_multifd());
 
-Thanks Keith!
+Are you sure that's never triggerable by something trying to connect
+badly? If it was it would be better to error than abort.
 
-Actually, nvme-cli already has support ;)
+> +        start_migration = multifd_recv_new_channel(ioc, errp);
 
-  # nvme copy /dev/nvme0n2 --sdlba=3D0x2000 --slbs=3D0x0,0x1000 --blocks=3D=
-0,1
+And what does 'start_migration' mean here - is that meaning that we have
+a full set of connections?
 
---/QOoUHb0Yw+myRaZ
-Content-Type: application/pgp-signature; name="signature.asc"
+Dave
 
------BEGIN PGP SIGNATURE-----
+> +    }
+> +
+> +    if (start_migration) {
+> +        migration_incoming_process();
+> +    }
+> +}
+> +
+>  static void rdma_accept_incoming_migration(void *opaque)
+>  {
+>      RDMAContext *rdma = opaque;
+> @@ -4004,8 +4070,7 @@ static void rdma_accept_incoming_migration(void *opaque)
+>          return;
+>      }
+>  
+> -    rdma->migration_started_on_destination = 1;
+> -    migration_fd_process_incoming(f, &local_err);
+> +    migration_rdma_process_incoming(f, rdma, &local_err);
+>      if (local_err) {
+>          error_reportf_err(local_err, "RDMA ERROR:");
+>      }
+> -- 
+> 1.8.3.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAa8jUACgkQTeGvMW1P
-DelMGwf/U/14UIgXWvprYe1v/22LALA4R142EbVA35YH3y+ZXBaC/kqFnp2RExfE
-XJxu3MrboYnh90MxYQkkrrTfRRGeeuV7pQLNG6NjKqtxs+RIk/bcGGiwTr//AN7F
-cS26voS1u+BH9HeLyxAvu9NoCaoEmL+Avn4wbxw0GBnBZLprrraSX+tsoK0iFcTo
-ePcWQs622Uh3RebOLQz9jDUf/TILUEkF6k2NLyUbM2Ncb+01rMxPODxqaMqP9Rgp
-KkVkZTTQ+sGFM/MBR/XKH7ZWnRv7wBhMmJu7BxKOLYGoGPbW6acLwScxl+4vRgiF
-N1dz6mKgTNt+l25lo461RUeT29Xmbg==
-=tspU
------END PGP SIGNATURE-----
-
---/QOoUHb0Yw+myRaZ--
 
