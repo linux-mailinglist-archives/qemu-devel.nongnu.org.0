@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E327D30DCB7
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:28:40 +0100 (CET)
-Received: from localhost ([::1]:55862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C7C30DCC8
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:31:12 +0100 (CET)
+Received: from localhost ([::1]:34396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7J95-0000Tq-Uu
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:28:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46166)
+	id 1l7JBX-0003My-DN
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:31:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7J5W-00057R-Rz
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:24:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47712)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7J5g-0005Tr-0L
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:25:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7J5U-00008h-Vk
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:24:58 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7J5e-0000Eh-7N
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:25:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612362296;
+ s=mimecast20190719; t=1612362305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Vf3zGU2kgJQP0nlTEjVCxqAU7klJOwBWeFb0AlELSIY=;
- b=Ky5p0emcJqsRxBgb+82CAAjrILRAAEP5DNGMi68DU+IZ+RqUIrGP5ktN68r9fMg4oyJLyE
- Rkh4AJQ0o5K9m702PqmHxPL7VAHiXrHwDG1leO/rRzWlXGYs3SCKAPtGpFVaHiRdnWFHRb
- bUf4hnJXnK5gAEo3hHgbPbQgrjUfSUU=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pXB/BfjzR1YQKH5VA9RWBG+vnBSdnOEwWoOO4quYZnA=;
+ b=dUgHpkDhEVjI/jkT0vmSrba9iYOFXqpw67C7lIRAon8OUpHrI/ZTMjpnBqc/ArCwPsez6B
+ 15+sU2bo85oZg0vBfsdEry9OeVgwwmo+f0raJ8miL7APi01God5d97ETpNguWIkAbRdrzv
+ 6cgGgfLDJenD78lS0cXaUznZ5hzOObA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-V5BAJ4JAMIGBRg9FT-uakw-1; Wed, 03 Feb 2021 09:24:52 -0500
-X-MC-Unique: V5BAJ4JAMIGBRg9FT-uakw-1
+ us-mta-195-TgUXKPF8M5qpoLuc4a91kw-1; Wed, 03 Feb 2021 09:25:03 -0500
+X-MC-Unique: TgUXKPF8M5qpoLuc4a91kw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1070EDF8A4
- for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 14:24:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64B6B19611A2;
+ Wed,  3 Feb 2021 14:25:01 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D319D19C59
- for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 14:24:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 81B2719C59;
+ Wed,  3 Feb 2021 14:24:57 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/20] NBD patches for 2021-02-02
-Date: Wed,  3 Feb 2021 08:24:16 -0600
-Message-Id: <20210203142436.703098-1-eblake@redhat.com>
+Subject: [PULL v2 05/20] block/io: refactor bdrv_pad_request(): move
+ bdrv_pad_request() up
+Date: Wed,  3 Feb 2021 08:24:21 -0600
+Message-Id: <20210203142436.703098-6-eblake@redhat.com>
+In-Reply-To: <20210203142436.703098-1-eblake@redhat.com>
+References: <20210203142436.703098-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
@@ -73,75 +77,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block I/O path" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8360ebeb4f4a707984cafd1a22c049ec82ddcb4c:
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-  Merge remote-tracking branch 'remotes/ehabkost-gl/tags/machine-next-pull-request' into staging (2021-02-03 09:54:21 +0000)
+Prepare for the following patch when bdrv_pad_request() will be able to
+fail. Update the comments.
 
-are available in the Git repository at:
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20201211183934.169161-5-vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+[eblake: grammar tweak]
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ block/io.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
-  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-02-02-v2
+diff --git a/block/io.c b/block/io.c
+index c8c9dea55466..3b1aec366ede 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2135,6 +2135,7 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
+     uint64_t align = bs->bl.request_alignment;
+     BdrvRequestPadding pad;
+     int ret;
++    bool padded = false;
 
-for you to fetch changes up to 5082fc82a6bc3fc06a04be47d39777c7cff61e5b:
+     trace_bdrv_co_pwritev(child->bs, offset, bytes, flags);
 
-  nbd: make nbd_read* return -EIO on error (2021-02-03 08:17:12 -0600)
+@@ -2166,20 +2167,32 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
+         return 0;
+     }
 
-v2: fix accidental inclusion of .rej file from merge resolution
-[only affected patches re-sent]
++    if (!(flags & BDRV_REQ_ZERO_WRITE)) {
++        /*
++         * Pad request for following read-modify-write cycle.
++         * bdrv_co_do_zero_pwritev() does aligning by itself, so, we do
++         * alignment only if there is no ZERO flag.
++         */
++        padded = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes,
++                                  &pad);
++    }
++
+     bdrv_inc_in_flight(bs);
+-    /*
+-     * Align write if necessary by performing a read-modify-write cycle.
+-     * Pad qiov with the read parts and be sure to have a tracked request not
+-     * only for bdrv_aligned_pwritev, but also for the reads of the RMW cycle.
+-     */
+     tracked_request_begin(&req, bs, offset, bytes, BDRV_TRACKED_WRITE);
 
-----------------------------------------------------------------
-nbd patches for 2021-02-02
+     if (flags & BDRV_REQ_ZERO_WRITE) {
++        assert(!padded);
+         ret = bdrv_co_do_zero_pwritev(child, offset, bytes, flags, &req);
+         goto out;
+     }
 
-- more cleanup from iotest python conversion
-- progress towards consistent use of signed 64-bit types through block layer
-- fix some crashes related to NBD reconnect
-
-----------------------------------------------------------------
-Eric Blake (2):
-      iotests: Fix expected whitespace for 185
-      block: use int64_t as bytes type in tracked requests
-
-Roman Kagan (3):
-      block/nbd: only detach existing iochannel from aio_context
-      block/nbd: only enter connection coroutine if it's present
-      nbd: make nbd_read* return -EIO on error
-
-Vladimir Sementsov-Ogievskiy (15):
-      block: refactor bdrv_check_request: add errp
-      util/iov: make qemu_iovec_init_extended() honest
-      block: fix theoretical overflow in bdrv_init_padding()
-      block/io: refactor bdrv_pad_request(): move bdrv_pad_request() up
-      block/io: bdrv_pad_request(): support qemu_iovec_init_extended failure
-      block/throttle-groups: throttle_group_co_io_limits_intercept(): 64bit bytes
-      block/io: improve bdrv_check_request: check qiov too
-      block/io: use int64_t bytes in driver wrappers
-      block/io: support int64_t bytes in bdrv_co_do_pwrite_zeroes()
-      block/io: support int64_t bytes in bdrv_aligned_pwritev()
-      block/io: support int64_t bytes in bdrv_co_do_copy_on_readv()
-      block/io: support int64_t bytes in bdrv_aligned_preadv()
-      block/io: support int64_t bytes in bdrv_co_p{read,write}v_part()
-      block/io: support int64_t bytes in read/write wrappers
-      block/io: use int64_t bytes in copy_range
-
- include/block/block.h           |  17 +--
- include/block/block_int.h       |  26 ++--
- include/block/nbd.h             |   7 +-
- include/block/throttle-groups.h |   2 +-
- include/qemu/iov.h              |   2 +-
- block/io.c                      | 274 ++++++++++++++++++++++++++++------------
- block/blkverify.c               |   2 +-
- block/file-posix.c              |   2 +-
- block/nbd.c                     |  25 ++--
- block/throttle-groups.c         |   5 +-
- tests/test-write-threshold.c    |   5 +-
- util/iov.c                      |  25 +++-
- block/trace-events              |  12 +-
- tests/qemu-iotests/185.out      |   2 +-
- tests/qemu-iotests/206.out      |   2 +-
- 15 files changed, 275 insertions(+), 133 deletions(-)
-
+-    if (bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad)) {
++    if (padded) {
++        /*
++         * Request was unaligned to request_alignment and therefore
++         * padded.  We are going to do read-modify-write, and must
++         * serialize the request to prevent interactions of the
++         * widened region with other transactions.
++         */
+         bdrv_make_request_serialising(&req, align);
+         bdrv_padding_rmw_read(child, &req, &pad, false);
+     }
 -- 
 2.30.0
 
