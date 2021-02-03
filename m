@@ -2,47 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E22B30DD19
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:43:02 +0100 (CET)
-Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593AB30DD1A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:43:13 +0100 (CET)
+Received: from localhost ([::1]:38836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7JMz-0000PO-N4
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:43:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
+	id 1l7JNA-0000mx-DO
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:43:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7JLE-0007WA-Sg
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:41:12 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7JLC-0007o7-Bg
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:41:12 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 65729ACB0;
- Wed,  3 Feb 2021 14:41:08 +0000 (UTC)
-Subject: Re: [PATCH v15 15/23] cpu: tcg_ops: move to tcg-cpu-ops.h, keep a
- pointer in CPUClass
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210201100903.17309-1-cfontana@suse.de>
- <20210201100903.17309-16-cfontana@suse.de> <87im79s05m.fsf@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <df44fbe2-476b-f26d-0117-15dfa153e343@suse.de>
-Date: Wed, 3 Feb 2021 15:41:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7JLb-0007uy-W1
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:41:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25137)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7JLX-00084C-5u
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:41:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612363289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ceoPkDRVVz/VUmDgeUFTd/vjyTzt3jDcQ3JnN9/5NIk=;
+ b=fhe15ND8bg4vYIXV+fcCEAjt594wE+DQoOXBD43Lz1PNbgvmGgr4rN8uaUSG4u1SreHo9g
+ 3YtW4vMfdXhflnk9XEbNTuwhPLLdheQweW+/iiV7wJuuzyhSu03aqnsYSbA01sQSsGRoUN
+ ieA+I/5f9hcAOt/gBqPuBqmfXHcxCjk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-wsbZ6UuDOr2NSZpeZsL0IA-1; Wed, 03 Feb 2021 09:41:26 -0500
+X-MC-Unique: wsbZ6UuDOr2NSZpeZsL0IA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1276487A820;
+ Wed,  3 Feb 2021 14:41:25 +0000 (UTC)
+Received: from localhost (ovpn-115-141.ams2.redhat.com [10.36.115.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7DB81001E73;
+ Wed,  3 Feb 2021 14:41:21 +0000 (UTC)
+Date: Wed, 3 Feb 2021 14:41:20 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH 1/1] virtiofsd: Allow to build it without the tools
+Message-ID: <20210203144120.GD74271@stefanha-x1.localdomain>
+References: <20210201211456.1133364-1-wainersm@redhat.com>
+ <20210201211456.1133364-2-wainersm@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87im79s05m.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.178,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210201211456.1133364-2-wainersm@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9UV9rz0O2dU/yYYn"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,247 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: pbonzini@redhat.com, misono.tomohiro@jp.fujitsu.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/21 2:23 PM, Alex Bennée wrote:
-> 
-> Claudio Fontana <cfontana@suse.de> writes:
-> 
->> we cannot in principle make the TCG Operations field definitions
->> conditional on CONFIG_TCG in code that is included by both common_ss
->> and specific_ss modules.
->>
->> Therefore, what we can do safely to restrict the TCG fields to TCG-only
->> builds, is to move all tcg cpu operations into a separate header file,
->> which is only included by TCG, target-specific code.
->>
->> This leaves just a NULL pointer in the cpu.h for the non-TCG builds.
->>
->> This also tidies up the code in all targets a bit, having all TCG cpu
->> operations neatly contained by a dedicated data struct.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
-> <snip>
->>  
->> -/**
->> - * struct TcgCpuOperations: TCG operations specific to a CPU class
->> - */
->> -typedef struct TcgCpuOperations {
->> -    /**
->> -     * @initialize: Initalize TCG state
->> -     *
->> -     * Called when the first CPU is realized.
->> -     */
->> -    void (*initialize)(void);
->> -    /**
->> -     * @synchronize_from_tb: Synchronize state from a TCG #TranslationBlock
->> -     *
->> -     * This is called when we abandon execution of a TB before
->> -     * starting it, and must set all parts of the CPU state which
->> -     * the previous TB in the chain may not have updated. This
->> -     * will need to do more. If this hook is not implemented then
->> -     * the default is to call @set_pc(tb->pc).
->> -     */
->> -    void (*synchronize_from_tb)(CPUState *cpu,
->> -                                const struct TranslationBlock *tb);
->> -    /** @cpu_exec_enter: Callback for cpu_exec preparation */
->> -    void (*cpu_exec_enter)(CPUState *cpu);
->> -    /** @cpu_exec_exit: Callback for cpu_exec cleanup */
->> -    void (*cpu_exec_exit)(CPUState *cpu);
->> -    /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
->> -    bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
->> -    /** @do_interrupt: Callback for interrupt handling. */
->> -    void (*do_interrupt)(CPUState *cpu);
->> -    /**
->> -     * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
->> -     *
->> -     * For system mode, if the access is valid, call tlb_set_page
->> -     * and return true; if the access is invalid, and probe is
->> -     * true, return false; otherwise raise an exception and do
->> -     * not return.  For user-only mode, always raise an exception
->> -     * and do not return.
->> -     */
->> -    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
->> -                     MMUAccessType access_type, int mmu_idx,
->> -                     bool probe, uintptr_t retaddr);
->> -    /** @debug_excp_handler: Callback for handling debug exceptions */
->> -    void (*debug_excp_handler)(CPUState *cpu);
->> +/* see accel-cpu.h */
->> +struct AccelCPUClass;
-> 
-> This seems unrelated - wasn't AccelCPUClass already introduced. Or is
-> this just catch up documentation.
+--9UV9rz0O2dU/yYYn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yep something to check, seems unnecessary.
+On Mon, Feb 01, 2021 at 06:14:56PM -0300, Wainer dos Santos Moschetta wrote=
+:
+> This changed the Meson build script to allow virtiofsd be built even
+> though the tools build is disabled, thus honoring the --enable-virtiofsd
+> option.
+>=20
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> ---
+>  tools/meson.build | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 
-> 
->>  
->> -    /**
->> -     * @do_transaction_failed: Callback for handling failed memory transactions
->> -     * (ie bus faults or external aborts; not MMU faults)
->> -     */
->> -    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
->> -                                  unsigned size, MMUAccessType access_type,
->> -                                  int mmu_idx, MemTxAttrs attrs,
->> -                                  MemTxResult response, uintptr_t retaddr);
->> -    /**
->> -     * @do_unaligned_access: Callback for unaligned access handling
->> -     */
->> -    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
->> -                                MMUAccessType access_type,
->> -                                int mmu_idx, uintptr_t retaddr);
->> -    /**
->> -     * @adjust_watchpoint_address: hack for cpu_check_watchpoint used by ARM
->> -     */
->> -    vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr addr, int len);
->> -
->> -    /**
->> -     * @debug_check_watchpoint: return true if the architectural
->> -     * watchpoint whose address has matched should really fire, used by ARM
->> -     */
->> -    bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
->> -
->> -} TcgCpuOperations;
->> +/* see tcg-cpu-ops.h */
->> +struct TCGCPUOps;
->>  
->>  /**
->>   * CPUClass:
->> @@ -256,7 +191,14 @@ struct CPUClass {
->>      int gdb_num_core_regs;
->>      bool gdb_stop_before_watchpoint;
->>  
->> -    TcgCpuOperations tcg_ops;
->> +    /*
->> +     * NB: this should be wrapped by CONFIG_TCG, but it is unsafe to do it here,
->> +     * as this header is included by both ss_specific and ss_common code,
->> +     * leading to potential differences in the data structure between modules.
->> +     * We could always keep it last, but it seems safer to just leave this
->> +     * pointer NULL for non-TCG.
->> +     */
->> +    struct TCGCPUOps *tcg_ops;
-> 
-> I suspect the editorial comment is better suited to the commit log
-> rather than the comments. Maybe a simpler:
-> 
->   As this header is included by both ss_specific and ss_common code we
->   cannot totally eliminate this field for non CONFIG_TCG builds although
->   the pointer will be NULL.
-> 
-> and move the justification to the commit comment.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Ok, I'd still keep also a comment with the code, as it's read more than commit logs, at the minimum a: "this is NULL when TCG code is not available".
+--9UV9rz0O2dU/yYYn
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> <snip>
->>  
->> +#ifdef CONFIG_TCG
->> +/*
->> + * NB: cannot be const, as some elements are changed for specific
->> + * arm cpu classes.
->> + */
-> 
-> This comment seems wrong. I don't see arm_tcg_ops being changed after
-> the fact. We have a separate arm_v7m_tcg_ops which we use instead.
-> Indeed the following seemed to work:
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAathAACgkQnKSrs4Gr
+c8juQQf9EKhVHsj14kGk2lUj015iA8zdl19LMo9TPvVdA4PAFKnMshF32ModM4c1
+Q7CNQV+7YOGBErAtR9jMH/RlVO5OAD9FBBjOJ7TbHXrkF66PICCy8RMoWZsA4gvr
+DUjhyghlzJpqGoQih9mQWUpN1kk9IWrWoMqB7S0x2aOyl7vNj+FJSPoblJSCGdcZ
+xo13W170KUG57Qi6gigcgpKdLW3ZB/psLPyVAaj9/f/dIZSO90GirDO2S2ctGiT5
+kB63zZE/WLzAYWW7ato5ZOgNNvlVJ+DeXgFQCJM/G2/JYy3L+C6td84Swu0H5WRn
+5gavkAMDi5xG86tZZM+Cz+XrjNpKqQ==
+=FFmI
+-----END PGP SIGNATURE-----
 
-You are right, the comment is obsolete.
+--9UV9rz0O2dU/yYYn--
 
-This is a leftover comment from when I thought that there was no way to remove the last place where the tcg ops where changed in arm,
-which was the part I removed here:
-
-@@ -805,10 +808,6 @@ static void aarch64_cpu_class_init(ObjectClass *oc, void *data)
- {
-     CPUClass *cc = CPU_CLASS(oc);
- 
--#ifdef CONFIG_TCG
--    cc->tcg_ops.cpu_exec_interrupt = arm_cpu_exec_interrupt;
--#endif /* CONFIG_TCG */
--
-
-
-I then figured out that this code was completely unnecessary.
-
-
-> 
-> --8<---------------cut here---------------start------------->8---
-> modified   include/hw/core/cpu.h
-> @@ -199,7 +199,7 @@ struct CPUClass {
->       * We could always keep it last, but it seems safer to just leave this
->       * pointer NULL for non-TCG.
->       */
-> -    struct TCGCPUOps *tcg_ops;
-> +    const struct TCGCPUOps *tcg_ops;
-
-
-Yes, I really wanted to do this.
-Mips is the only blocker left that I can remember.
-
-
->  };
->  
->  /*
-> modified   target/arm/cpu.c
-> @@ -2248,7 +2248,7 @@ static gchar *arm_gdb_arch_name(CPUState *cs)
->   * NB: cannot be const, as some elements are changed for specific
->   * arm cpu classes.
->   */
-> -static struct TCGCPUOps arm_tcg_ops = {
-> +static const struct TCGCPUOps arm_tcg_ops = {
->      .initialize = arm_translate_init,
->      .synchronize_from_tb = arm_cpu_synchronize_from_tb,
->      .cpu_exec_interrupt = arm_cpu_exec_interrupt,
-> --8<---------------cut here---------------end--------------->8---
-> 
-> This does later break MIPS jazz:
-> 
-> p/hw_mips_jazz.c.o -c ../../hw/mips/jazz.c
-> ../../hw/mips/jazz.c: In function ‘mips_jazz_init’:
-> ../../hw/mips/jazz.c:216:40: error: assignment of member ‘do_transaction_failed’ in read-only object
->      cc->tcg_ops->do_transaction_failed = mips_jazz_do_transaction_failed;
-> 
-> which...
-> 
-> <snip>
->>  
->> +#ifdef CONFIG_TCG
->> +#include "hw/core/tcg-cpu-ops.h"
->> +/*
->> + * NB: cannot be const, as some elements are changed for specific
->> + * mips hardware (see hw/mips/jazz.c).
->> + */
-> 
-> does have a valid comment. So guess keep it as static and just don't
-> claim ARM hacks around with it or find a more elegant solution for the
-> Jazz hack (I'm not sure there is one).
-
-Yep, the ARM claim was true when I started looking at this, but now it's not anymore after the changes.
-
-However, I haven't found a way to remove the mips jazz hack.
-
-Maybe Philippe knows?
-
-
-> 
-> <snip>
-> 
-> These minor trivialities aside:
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-
-Thanks Alex,
-
-Claudio
 
