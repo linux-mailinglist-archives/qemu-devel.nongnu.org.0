@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 867FE30DC46
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:10:17 +0100 (CET)
-Received: from localhost ([::1]:42102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD6730DC48
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:10:23 +0100 (CET)
+Received: from localhost ([::1]:42488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7IrI-0007E8-FA
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:10:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
+	id 1l7IrO-0007Oo-VK
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:10:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7IpV-00062y-Fo
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:08:25 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:34514)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7IpP-00015g-Uc
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:08:24 -0500
-Received: by mail-ed1-x533.google.com with SMTP id df22so11057625edb.1
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 06:08:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=f+CPGwyOawuJ95Gwn/9VlgWE2U66ELzRwvlKznmKsEY=;
- b=NQPwI2iYj0gg2Eg66TJGkB+PJEg3j8WZgj1fVMPQIx6Byk12HymHziis2S7yl5k1m3
- L90Lq2/0aEn95vIBBVWJJQYsI8nOJRUA8JvefbGXkUXHPdHBV/5HJap5+Elsqbs8Ne1L
- vkKAA8DJeyiZnwPqpzz6+0GN4sIpgKqkCnESLU6TGilzYGebgU4i5cX3C+b85uc4e85Y
- +s+PICuWWgtQYNvYKbPSZMakWohVVrE/SJu+rn5dCPE/WwrLm/gBBvCsQa9gkb3sVCC5
- EFwOJsGUYLkUrnWD5n8Pt6lKfSrk0+GZGiSiPO1Cy+VynPtaMXykIvjyLZ9TaUEQCr+f
- WFlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=f+CPGwyOawuJ95Gwn/9VlgWE2U66ELzRwvlKznmKsEY=;
- b=oLfPuFTsDNF0DrUS8FEUzKQwSXd/U3gVmazs3k3BqM9RTTBte5AOYrz/eBq5BGyU81
- 6ycuGtuJ+New3JU0+DJh6wOWIQYySH7jxbrCJ1saLdpU/O3PaIP8w6iKR91bO3WPxGJI
- 3iaxS5R2KadNCZOJJIysX45CR//Ich1h2HGz8kogE6T+1b4ZG631FK/3QDuJ+nhHHnbv
- /j6xpE/vOLbEspfBPHeDbNhuAV1Y+nj3seYJ5J5aX0BZZaoLzK2hH+4qnMfTTv3qk9Gx
- Y6TCBy2ddihmofZ7OxNAh1tm1DCg2+1bu1OPs7T2iqj6AWC8WGfjhy0aHelvg8U94STo
- 7Qyg==
-X-Gm-Message-State: AOAM533tqLu90j3aALFCiRP/SVoDLlWxvsO6QbtAo44KtdBRQ95TQule
- 796s925PuVenNM4gJoEfnAQU5NOfFefTNGWaNEJPM1AmaKI=
-X-Google-Smtp-Source: ABdhPJyhr+OmjCh2NmsdUlITcippNam1ks6E2P9ch7TLTug7bUfzItx6P709NP42spSrNKlwMvpz9NRSCY8SRiY9tlM=
-X-Received: by 2002:a50:e80d:: with SMTP id e13mr3045295edn.251.1612361297693; 
- Wed, 03 Feb 2021 06:08:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7IpY-00064G-KO
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:08:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55335)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7IpT-00016e-R2
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:08:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612361301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QY9szcQmEU8srxpaknW1+mRSEe0/FuSSqEM918ZENjU=;
+ b=RKNhtxdlqHm90VJgxWNZvKnjfru/Muf5lm3RBXUyrej6J6TuLVq3UFcK5AHlz32RdhaYq0
+ hOTeoczXwW7ca79wV3i1KckLelkhsob/6+Te8Q5/ECaTSp1qjLeo6+vhEseOCYlJcV6BPV
+ XK/bIbvvqVnU18LrdRSTYW2lOuukfxQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335-84JL0SStPr-ACu0zZD4e_Q-1; Wed, 03 Feb 2021 09:08:18 -0500
+X-MC-Unique: 84JL0SStPr-ACu0zZD4e_Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 615AA801969;
+ Wed,  3 Feb 2021 14:08:17 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EB7E709B3;
+ Wed,  3 Feb 2021 14:08:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BA0DA113865F; Wed,  3 Feb 2021 15:08:15 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 04/14] qapi/introspect.py: guard against
+ ifcond/comment misuse
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-5-jsnow@redhat.com>
+Date: Wed, 03 Feb 2021 15:08:15 +0100
+In-Reply-To: <20210202174651.2274166-5-jsnow@redhat.com> (John Snow's message
+ of "Tue, 2 Feb 2021 12:46:41 -0500")
+Message-ID: <874kitutv4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210203101715.9229-1-peter.maydell@linaro.org>
-In-Reply-To: <20210203101715.9229-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 3 Feb 2021 14:08:06 +0000
-Message-ID: <CAFEAcA-tyMyrO4Xe-bWr8T5SmwZn2Pcq8-OLKTpmM5fh51RNuw@mail.gmail.com>
-Subject: Re: [PULL v2 00/21] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,46 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Feb 2021 at 10:17, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> no changes to v1, except adding the CVE identifier to one of the commit
-> messages.
->
-> -- PMM
->
-> The following changes since commit cf7ca7d5b9faca13f1f8e3ea92cfb2f741eb0c0e:
->
->   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/tracing-pull-request' into staging (2021-02-01 16:28:00 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210203
->
-> for you to fetch changes up to fd8f71b95da86f530aae3d02a14b0ccd9e024772:
->
->   hw/arm: Display CPU type in machine description (2021-02-03 10:15:51 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * hw/intc/arm_gic: Allow to use QTest without crashing
->  * hw/char/exynos4210_uart: Fix buffer size reporting with FIFO disabled
->  * hw/char/exynos4210_uart: Fix missing call to report ready for input
->  * hw/arm/smmuv3: Fix addr_mask for range-based invalidation
->  * hw/ssi/imx_spi: Fix various minor bugs
->  * hw/intc/arm_gic: Fix interrupt ID in GICD_SGIR register
->  * hw/arm: Add missing Kconfig dependencies
->  * hw/arm: Display CPU type in machine description
->
-> ----------------------------------------------------------------
+John Snow <jsnow@redhat.com> writes:
 
+> _tree_to_qlit is called recursively on dict values alone; at such a
+> point in generating output it is too late to apply an ifcond. Similarly,
+> comments do not necessarily have a "tidy" place they can be printed in
+> such a circumstance.
+>
+> Forbid this usage.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/introspect.py | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+> index 4749f65ea3c..ccdf4f1c0d0 100644
+> --- a/scripts/qapi/introspect.py
+> +++ b/scripts/qapi/introspect.py
+> @@ -43,6 +43,12 @@ def indent(level):
+>          ifobj, extra = obj
+>          ifcond = extra.get('if')
+>          comment = extra.get('comment')
+> +
+> +        # NB: _tree_to_qlit is called recursively on the values of a key:value
+> +        # pair; those values can't be decorated with comments or conditionals.
+> +        msg = "dict values cannot have attached comments or if-conditionals."
+> +        assert not suppress_first_indent, msg
+> +
+>          ret = ''
+>          if comment:
+>              ret += indent(level) + '/* %s */\n' % comment
 
-Applied, thanks.
+This uses @suppress_first_indent as a proxy for "@obj is a value in a
+dict".  Works, because we pass suppress_first_indent=True exactly
+there.  Took me a minute to see, though.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+Do you need this assertion to help mypy over the hump?
 
--- PMM
+Perhaps we'd be better off with two functions, one that takes possibly
+annotated @obj, and one that takes only plain @obj.  "Yes, but not now"
+woule be one acceptable answer to that.
+
 
