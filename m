@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A8030DE41
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 16:36:01 +0100 (CET)
-Received: from localhost ([::1]:58106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E00330DE49
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 16:37:24 +0100 (CET)
+Received: from localhost ([::1]:60290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7KCG-0001kO-Ua
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 10:36:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40778)
+	id 1l7KDb-0002jV-9b
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 10:37:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7KBE-00018X-LU
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:34:56 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41248)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7KBC-0007mW-I4
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:34:56 -0500
-Received: by mail-wr1-x432.google.com with SMTP id p15so24799629wrq.8
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 07:34:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=4gvX2rQNdcnXRr9Ip3F3qD1tMIii4cAzmjkHsfU+o/8=;
- b=iaU4+7fHWzhtDuNQUwujGgYgjYDteSt2zKWTKtJioTfaARnoKN1hYrThJikFE6RO2x
- 83hItaJhgivRR/ISN8N2Xf9FzP1WY6fi4zUMNvZTX3Z+Od7QMqPsKIwI1y5a0SJuMZlU
- IoMSkybuBXouSc+qFN9+bUKXE68pZ51sX4Dy8E/1l1XTKLjQ8gcJ54hdQj4NFPA5ne4/
- OuxAZsnR3ZVDW18TYguuX9PoK+9C1HrMp1zcd7AJIYcoX5vu31fVDMF3AujF5vHO+6Qg
- 8bKZPHN2O9XHkZUzt9x2JiwdrDha7KPS/kWlk2zhSYDlCiyOCGSBSzcbx9rXDLEk4kQp
- gizw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=4gvX2rQNdcnXRr9Ip3F3qD1tMIii4cAzmjkHsfU+o/8=;
- b=SB3KAY4f+xUgICGwBnLtURQsj567nb1BW8k1SZCJcw7vZUwnCYpOJT48veopKGK3z2
- V2+f1v6awttKKWUW1vLIxmn4+5TU1ZkVBseQNMoIXklwMNJ+1EDOC6OM17h2R1Wu07gZ
- 4m+7k/iLDnDk8NF05zr9e9oiCZG/sTIZTyfy1G/PsgkLIlOucpfUc5IF/jpDx7Qwfx7f
- BTVbHjpfRyXUPvBSV93NJJclrbfh6oJ1oUQ3p9EXukFQvpNFqTkmNTYjKEq+1niddUtU
- bwkA7v2XTjJegCIwVcXf2rw4XUJ6iUajQ8q0l90d1CBMlZ9PcGJeFJ7J3glN/5f5FUwP
- 6KFg==
-X-Gm-Message-State: AOAM532kMSy1b28VH64rBfzhVqg81ZK2ll6fgfPFxVNMwVaD+i44T7Dy
- Qf1Mk0nhQHr0PAn6qY4rMZ7miQ==
-X-Google-Smtp-Source: ABdhPJw6v+rdogsq76v80DPbKX1efri2ZdA9APlC8zMjGGgX7kbqIQ8GoEmuwNiTFC8jqNQNiNoafQ==
-X-Received: by 2002:adf:b64f:: with SMTP id i15mr4040108wre.279.1612366492805; 
- Wed, 03 Feb 2021 07:34:52 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u6sm4528041wro.75.2021.02.03.07.34.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 07:34:51 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 513EE1FF7E;
- Wed,  3 Feb 2021 15:34:50 +0000 (GMT)
-References: <20210128224141.638790-1-richard.henderson@linaro.org>
- <20210128224141.638790-2-richard.henderson@linaro.org>
- <CAFEAcA8r5+ciCFb0kPC1bAi-kU53iJBiLf7Jiso-gr2cOBtxeQ@mail.gmail.com>
- <ededd9b5-5836-b1c4-9fc8-e732bf1c2204@linaro.org>
- <2aaedf0e-3594-13a7-7576-8e0566464224@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 01/23] tcg: Introduce target-specific page data for
- user-only
-Date: Wed, 03 Feb 2021 15:33:12 +0000
-In-reply-to: <2aaedf0e-3594-13a7-7576-8e0566464224@linaro.org>
-Message-ID: <87bld1rwpx.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7KCB-00024F-2a
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:35:55 -0500
+Received: from 5.mo52.mail-out.ovh.net ([188.165.45.220]:57739)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7KC9-0008IV-3w
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:35:54 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.17])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id A9E2323CF92;
+ Wed,  3 Feb 2021 16:35:49 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 3 Feb 2021
+ 16:35:46 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G00471591eb9-1802-49d1-9f51-1fec12b65bc4,
+ 14764A637080470E006017DF0F40374BD57DCD59) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 3 Feb 2021 16:35:42 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] virtiofsd: vu_dispatch locking should never fail
+Message-ID: <20210203163542.7ee6ed68@bahia.lan>
+In-Reply-To: <20210203145723.GF74271@stefanha-x1.localdomain>
+References: <20210129155312.595980-1-groug@kaod.org>
+ <20210203145723.GF74271@stefanha-x1.localdomain>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/0HusfHrR//NUI7AGm.2esoP";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 9971d9f6-e8e6-42e8-bf1e-67d5fb1d6895
+X-Ovh-Tracer-Id: 14039127415367965152
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrgedvgdejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtghisehgtderreertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelgffgfeeugedugeekveeiveevjeffhfduvdegffetkeeiveeufefgledtgfeiteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepughgihhlsggvrhhtsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=188.165.45.220; envelope-from=groug@kaod.org;
+ helo=5.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,38 +68,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, Vivek Goyal <vgoyal@redhat.com>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--Sig_/0HusfHrR//NUI7AGm.2esoP
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On Wed, 3 Feb 2021 14:57:23 +0000
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-> On 2/2/21 4:40 PM, Richard Henderson wrote:
->> Well, here's the thing: this appears to be v3, reposted.
->>=20
->> All of the work I did for v4 has gone missing.  I went to go fix the sin=
-gle use
->> of current_cpu, and it wasn't where I expected it to be, and that's when=
- I
->> noticed.  I'm grepping blobs now, but I must have made some horrible git=
- error.
->>  :-(
->
-> It's not quite that bad.  About half of the changes are here.
-> But e.g. patch 11 had been split into at least 4, and those are all missi=
-ng.  I
-> presume all of the r-b that I collected before that point got lost at the=
- same
-> time.
+> On Fri, Jan 29, 2021 at 04:53:12PM +0100, Greg Kurz wrote:
+> > pthread_rwlock_rdlock() and pthread_rwlock_wrlock() can fail if a
+> > deadlock condition is detected or the current thread already owns
+> > the lock. They can also fail, like pthread_rwlock_unlock(), if the
+> > mutex wasn't properly initialized. None of these are ever expected
+> > to happen with fv_VuDev::vu_dispatch_rwlock.
+> >=20
+> > Some users already check the return value and assert, some others
+> > don't. Introduce rdlock/wrlock/unlock wrappers that just do the
+> > former and use them everywhere.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+>=20
+> What is the purpose of this commit:
+> 1. Code cleanup/consistency?
+> 2. Helps debug an issue that doesn't occur in production but you hit
+>    during development?
+> 3. Needed to diagnose a real-world issue? How do you reproduce it?
+>=20
+> I wanted to check to make sure I'm not missing an issue you found with
+> production workloads.
+>=20
 
-b4 is a great tool for finding tags from the archive automatically. You
-can either use it to build your next branch iteration or use something
-like the tooling I recently posted for emacs to pull the tags and apply
-to the commit. This only works if you track the message-ids from your
-last post.
+I would have provided more details if that came from an actual issue,
+but you're definitely right to ask : this falls more under 1.
 
---=20
-Alex Benn=C3=A9e
+> > @@ -645,8 +662,7 @@ static void *fv_queue_thread(void *opaque)
+> >              break;
+> >          }
+> >          /* Mutual exclusion with virtio_loop() */
+> > -        ret =3D pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwl=
+ock);
+> > -        assert(ret =3D=3D 0); /* there is no possible error case */
+> > +        vu_dispatch_wrlock(qi->virtio_dev);
+>=20
+> s/vu_dispatch_wrlock/vu_dispatch_rdlock/ ?
+
+Oops... definitely...
+
+--Sig_/0HusfHrR//NUI7AGm.2esoP
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmAaws4ACgkQcdTV5YIv
+c9bmaQ//VLqPJO18eOHPrsuwaO0V4CcrXTAEOj2CIS/JvCGkRlVXJGcsOwW29igs
+tK3QVKxVSrHLgKlLTTcTaVO25vDmW/XLwHbyPf8zbB2e1854ojsEGuR5Dyiyi7R8
+w75pNYaX54Yne0ipl4hUAso4xWX4NuRFo+mpbzvXnH91k/+MJsF+btuOZGNWMO6Q
+HUijCrUfJkhGrf4niQWx+f6GCMqVpjyjsQ9wQiI1Pk2cVRhzxuVzACFXhkkaAU2B
+RLMz0kXgylTJTMx5ZA5u6BZJ+OU/TB8T/icGlHMUqCZoVVSChFVVuNdnvf3oNnUL
+gaIhdtnJ4Wu7qyf8TwohG9/48ZnaVmD7SbghrE+9ci4FKXuV2xRBnM7vPWrGgzfr
+7I7rd2C0hVm76km7tYwCBrPwt39tgU8tQj/TZ0TnAj9le24LUsXUE9S62D2FuKrK
+5riS5k46+ytoGV8/Kytnq0TLOLhs6lnvEjoxcoEDiRRiwomT5IIor1wUZvFPmWuA
+uoz2p4WcWFzkHddX+rIyTuv8QCX9/PSYisJdWxNB7NbUk7+DK4/BgSaPnJEKEKe+
+Mqyrw1kPFzgqZTsYQS3eLXOL21T6RfAjnjmYGYK/3MxIusKcafMlZe3M7HIrMeE1
+GWNY28FTKPdKwPxdU6UadZQb/hJcfxOxJPWKvOhgkl07sS91K4I=
+=OzVG
+-----END PGP SIGNATURE-----
+
+--Sig_/0HusfHrR//NUI7AGm.2esoP--
 
