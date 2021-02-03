@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EAB30D692
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 10:47:18 +0100 (CET)
-Received: from localhost ([::1]:40720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775BF30D71E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 11:13:09 +0100 (CET)
+Received: from localhost ([::1]:33186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Ekn-00026i-F4
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 04:47:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59122)
+	id 1l7F9o-0003ZT-Hv
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 05:13:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7Eil-00013e-4l
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 04:45:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7Eij-0005SF-2f
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 04:45:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612345508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2g8HqMsFZtyXedyKvysVpwugjr2MaVZDc32AQTBwee4=;
- b=FQWGM9kJXcyNy40lzidzqixkgjVfsLjmZzqA4NrVujRHkr5/59VmnFkMgihlLve2GaJCnI
- 6dLOBbd/3PT7qXPOiR3alF4vNHGVq2Mw1XhGYEwD7HjHl91DbZejPhz0MSExgwZmzd9FdB
- 7lX5JzYvXG/azgGqWIvK4KLeUoz7hWs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-h8qDllWRNneWKEXpgQEy6Q-1; Wed, 03 Feb 2021 04:45:02 -0500
-X-MC-Unique: h8qDllWRNneWKEXpgQEy6Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 860911015C83;
- Wed,  3 Feb 2021 09:45:01 +0000 (UTC)
-Received: from thuth.com (ovpn-112-165.ams2.redhat.com [10.36.112.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC63E62461;
- Wed,  3 Feb 2021 09:44:56 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: [PATCH] target/s390x/arch_dump: Fixes for the name field in the
- PT_NOTE section
-Date: Wed,  3 Feb 2021 10:44:54 +0100
-Message-Id: <20210203094454.260583-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7F7v-0002KC-FH
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 05:11:11 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7F7t-0000YB-DS
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 05:11:11 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l7F7r-0006Bf-LD
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 10:11:07 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9A9092E8054
+ for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 10:11:07 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Feb 2021 09:56:00 -0000
+From: P J P <1914353@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: cve security
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: pjps
+X-Launchpad-Bug-Reporter: P J P (pjps)
+X-Launchpad-Bug-Modifier: P J P (pjps)
+References: <161232963154.25287.15149381600371735783.malonedeb@wampee.canonical.com>
+Message-Id: <161234616046.5117.15406835221352286086.malone@chaenomeles.canonical.com>
+Subject: [Bug 1914353] Re: QEMU: aarch64: :GIC: out-of-bounds access via
+ interrupt ID
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: 76899cb4a6010f2dd727ba6ebd9d151f02dc2be3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,68 +71,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
+Reply-To: Bug 1914353 <1914353@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the "ELF-64 Object File Format" specification:
+'CVE-2021-20221' assigned by Red Hat Inc.
 
-"The first word in the entry, namesz, identifies the length, in
- bytes, of a name identifying the entry’s owner or originator. The name field
- contains a null-terminated string, with padding as necessary to ensure 8-
- byte alignment for the descriptor field. The length does not include the
- terminating null or the padding."
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2021-20221
 
-So we should not include the terminating NUL in the length field here.
+-- =
 
-Also there is a compiler warning with GCC 9.3 when compiling with
-the -fsanitize=thread compiler flag:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914353
 
- In function 'strncpy',
-    inlined from 's390x_write_elf64_notes' at ../target/s390x/arch_dump.c:219:9:
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
-  '__builtin_strncpy' specified bound 8 equals destination size
-  [-Werror=stringop-truncation]
+Title:
+  QEMU: aarch64: :GIC: out-of-bounds access via interrupt ID
 
-Since the name should always be NUL-terminated, we can simply decrease
-the size of the strncpy by one here to silence this warning. And while
-we're at it, also add an assert() to make sure that the provided names
-always fit the size field (which is fine for the current callers, the
-function is called once with "CORE" and once with "LINUX" as a name).
+Status in QEMU:
+  New
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- The ELF-64 spec can be found here, for example:
- https://uclibc.org/docs/elf-64-gen.pdf
+Bug description:
+  Via [qemu-security] list
 
- Here's a CI run with the compiler warning:
- https://gitlab.com/huth/qemu/-/jobs/1003508341#L1248
+  +-- On Sun, 31 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote --+
+  | On 1/31/21 11:34 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+  | > Per the ARM Generic Interrupt Controller Architecture specification
+  | > (document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
+  | > not 10:
+  | >
+  | >    - Table 4-21 GICD_SGIR bit assignments
+  | >
+  | >    The Interrupt ID of the SGI to forward to the specified CPU
+  | >    interfaces. The value of this field is the Interrupt ID, in
+  | >    the range 0-15, for example a value of 0b0011 specifies
+  | >    Interrupt ID 3.
+  | >
+  ...
+  | > Correct the irq mask to fix an undefined behavior (which eventually
+  | > lead to a heap-buffer-overflow, see [Buglink]):
+  | >
+  | >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt=
+,accel=3Dqtest -qtest stdio
+  | >    [I 1612088147.116987] OPENED
+  | >  [R +0.278293] writel 0x8000f00 0xff4affb0
+  | >  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds=
+ for type 'uint8_t [16][8]'
+  | >  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/a=
+rm_gic.c:1498:13
+  | >
+  | > Cc: qemu-stable@nongnu.org
+  | > Fixes: 9ee6e8bb853 ("ARMv7 support.")
+  | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
+  | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
+  ...
 
- target/s390x/arch_dump.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+  On 210202 1221, Peter Maydell wrote:
+  > In both cases the overrun is on the first writel to 0x8000f00,
+  > but the fuzzer has for some reason not reported that but instead
+  > blundered on until it happens to trigger some other issue that
+  > resulted from the memory corruption it induced with the first write.
+  >
+  ...
+  > On the CVE:
+  >
+  > Since this can affect systems using KVM, this is a security bug for
+  > us. However, it only affects an uncommon configuration:
+  > you are only vulnerable if you are using "kernel-irqchip=3Doff"
+  > (the default is 'on', and turning it off is an odd thing to do).
+  >
+  > thanks
+  > -- PMM
+  >
 
-diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
-index 50fa0ae4b6..20c3a09707 100644
---- a/target/s390x/arch_dump.c
-+++ b/target/s390x/arch_dump.c
-@@ -212,11 +212,13 @@ static int s390x_write_elf64_notes(const char *note_name,
-     int note_size;
-     int ret = -1;
- 
-+    assert(strlen(note_name) < sizeof(note.name));
-+
-     for (nf = funcs; nf->note_contents_func; nf++) {
-         memset(&note, 0, sizeof(note));
--        note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
-+        note.hdr.n_namesz = cpu_to_be32(strlen(note_name));
-         note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
--        strncpy(note.name, note_name, sizeof(note.name));
-+        strncpy(note.name, note_name, sizeof(note.name) - 1);
-         (*nf->note_contents_func)(&note, cpu, id);
- 
-         note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
--- 
-2.27.0
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914353/+subscriptions
 
