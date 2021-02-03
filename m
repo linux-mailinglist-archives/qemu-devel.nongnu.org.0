@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 867BB30E0B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:15:59 +0100 (CET)
-Received: from localhost ([::1]:50248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2026030E0B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:16:42 +0100 (CET)
+Received: from localhost ([::1]:51806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Ll0-0006Zk-CX
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:15:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33190)
+	id 1l7Llh-0007EP-5i
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:16:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l7LVx-00010l-Gl
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:00:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58730)
+ id 1l7Lb3-0003vw-9X
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:05:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l7LVv-0008Qf-C1
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:00:25 -0500
+ id 1l7Lb0-0000zD-5Z
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:05:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612371619;
+ s=mimecast20190719; t=1612371936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=a8ZRCpaTJ/4iWXbRYv0AX+ZrlzYpj9hNgNBzjQzTqus=;
- b=SpDv9v7nU8+dGg3ypbUlbeIfHNjTu6HIFDmleqpRm6Am3VlNvHrdzwtwn4VQ0y/RLvXM3B
- srE0oyk6Ss+peTz+9s0EHjypW83ZllPPNnhUinKd9eTo05qRq7G728PEaCtsST2u95Mqol
- Fk8lJnl0IZF0jAHQ9Qqxp9KTRc26i4o=
+ bh=iRMTGQefPdMEeA7iSodUerqWQBAn7CQhJSfER/GrT2Q=;
+ b=YHs7fZ41aKeXHlSjL63N65Yv1mN65FRM90s1rSalokI3HczYeMfvo/2K2SHM+CLCkvmxLn
+ NjOE3QPe/jH05SH4wBCZxgKnbbV5XgoxdaadHXVJ6rjgBbRYTsKmJCgJkmmE8WtD392N3Q
+ 1cIv/3zQ2VmjmroLASFq0LvgtE7p50k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-2qbDM76wNLuBnMUAIIjgLw-1; Wed, 03 Feb 2021 12:00:17 -0500
-X-MC-Unique: 2qbDM76wNLuBnMUAIIjgLw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-284-t_W2HPmRNwSTkVe0BUdSTw-1; Wed, 03 Feb 2021 12:05:23 -0500
+X-MC-Unique: t_W2HPmRNwSTkVe0BUdSTw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 437CE107ACFB;
- Wed,  3 Feb 2021 17:00:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E2E5BBEE2;
+ Wed,  3 Feb 2021 17:05:22 +0000 (UTC)
 Received: from localhost (ovpn-115-141.ams2.redhat.com [10.36.115.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0139EF6D7;
- Wed,  3 Feb 2021 17:00:07 +0000 (UTC)
-Date: Wed, 3 Feb 2021 17:00:06 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2745C10013DB;
+ Wed,  3 Feb 2021 17:05:15 +0000 (UTC)
+Date: Wed, 3 Feb 2021 17:05:14 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v4 2/3] virtiofsd: optionally return inode pointer from
- lo_do_lookup()
-Message-ID: <20210203170006.GK74271@stefanha-x1.localdomain>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v4 3/3] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+Message-ID: <20210203170514.GL74271@stefanha-x1.localdomain>
 References: <20210203113719.83633-1-stefanha@redhat.com>
- <20210203113719.83633-3-stefanha@redhat.com>
- <20210203152014.443a8b29@bahia.lan>
+ <20210203113719.83633-4-stefanha@redhat.com>
+ <20210203152850.GA3307@redhat.com>
+ <20210203170237.0c98f95f@bahia.lan>
+ <20210203160858.GC3307@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210203152014.443a8b29@bahia.lan>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210203160858.GC3307@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GmiNL4+5WUWrod5m"
+ protocol="application/pgp-signature"; boundary="zH41lVBEV8cLJnCl"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -82,106 +84,86 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- virtio-fs@redhat.com, P J P <ppandit@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, vgoyal@redhat.com
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Alex Xu <alex@alxu.ca>, P J P <ppandit@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---GmiNL4+5WUWrod5m
+--zH41lVBEV8cLJnCl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 03, 2021 at 03:20:14PM +0100, Greg Kurz wrote:
-> On Wed,  3 Feb 2021 11:37:18 +0000
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
->=20
-> > lo_do_lookup() finds an existing inode or allocates a new one. It
-> > increments nlookup so that the inode stays alive until the client
-> > releases it.
+On Wed, Feb 03, 2021 at 11:08:58AM -0500, Vivek Goyal wrote:
+> On Wed, Feb 03, 2021 at 05:02:37PM +0100, Greg Kurz wrote:
+> > On Wed, 3 Feb 2021 10:28:50 -0500
+> > Vivek Goyal <vgoyal@redhat.com> wrote:
 > >=20
-> > Existing callers don't need the struct lo_inode so the function doesn't
-> > return it. Extend the function to optionally return the inode. The next
-> > commit will need it.
+> > > On Wed, Feb 03, 2021 at 11:37:19AM +0000, Stefan Hajnoczi wrote:
+> > >=20
+> > > [..]
+> > > > @@ -1727,36 +1764,38 @@ static void lo_create(fuse_req_t req, fuse_=
+ino_t parent, const char *name,
+> > > > =20
+> > > >      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+> > > > =20
+> > > > -    fd =3D openat(parent_inode->fd, name, (fi->flags | O_CREAT) & =
+~O_NOFOLLOW,
+> > > > -                mode);
+> > > > +    /* Try to create a new file but don't open existing files */
+> > > > +    fd =3D openat(parent_inode->fd, name, fi->flags | O_CREAT | O_=
+EXCL, mode);
+> > > >      err =3D fd =3D=3D -1 ? errno : 0;
+> > > > +
+> > > >      lo_restore_cred(&old);
+> > > > =20
+> > > > -    if (!err) {
+> > > > -        ssize_t fh;
+> > > > -
+> > > > -        pthread_mutex_lock(&lo->mutex);
+> > > > -        fh =3D lo_add_fd_mapping(lo, fd);
+> > > > -        pthread_mutex_unlock(&lo->mutex);
+> > > > -        if (fh =3D=3D -1) {
+> > > > -            close(fd);
+> > > > -            err =3D ENOMEM;
+> > > > -            goto out;
+> > > > -        }
+> > > > +    /* Ignore the error if file exists and O_EXCL was not given */
+> > > > +    if (err && !(err =3D=3D EEXIST && !(fi->flags & O_EXCL))) {
+> > >=20
+> > > Can this check be simplified to.
+> > >        if (err && (err =3D=3D EEXIST && (fi->flags & O_EXCL)) {
 > >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  tools/virtiofsd/passthrough_ll.c | 29 +++++++++++++++++++++--------
-> >  1 file changed, 21 insertions(+), 8 deletions(-)
+> > I guess you meant :
 > >=20
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
-ough_ll.c
-> > index e63cbd3fb7..c87a1f3d72 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -831,11 +831,13 @@ static int do_statx(struct lo_data *lo, int dirfd=
-, const char *pathname,
-> >  }
-> > =20
-> >  /*
-> > - * Increments nlookup and caller must release refcount using
-> > - * lo_inode_put(&parent).
-> > + * Increments nlookup on the inode on success. unref_inode_lolocked() =
-must be
-> > + * called eventually to decrement nlookup again. If inodep is non-NULL=
-, the
-> > + * inode pointer is stored and the caller must call lo_inode_put().
-> >   */
-> >  static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char =
-*name,
-> > -                        struct fuse_entry_param *e)
-> > +                        struct fuse_entry_param *e,
-> > +                        struct lo_inode **inodep)
-> >  {
-> >      int newfd;
-> >      int res;
-> > @@ -845,6 +847,10 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t=
- parent, const char *name,
-> >      struct lo_inode *inode =3D NULL;
-> >      struct lo_inode *dir =3D lo_inode(req, parent);
-> > =20
-> > +    if (inodep) {
-> > +        *inodep =3D NULL;
-> > +    }
-> > +
+> >         if (err && (err !=3D EEXIST || fi->flags & O_EXCL) {
 >=20
-> Is this side-effect needed ? If lo_do_lookup() returns an error, it
-> rather seems that the caller shouldn't expect anything to be written
-> here, i.e. the content of *inodep still belongs to the caller and
-> whatever value it previously put in there (as patch 3/3 does) should
-> be preserved IMHO.
->=20
-> Apart from that LGTM.
+> This sounds correct. I forgot to take into account that if error is
+> not -EEXIST, we still want to bail out irrespective of O_EXCL.
 
-I like this approach because it prevents accessing uninitialized memory
-in the caller:
+I thought about De Morgan's law too but found the OR expression is not
+easier to read than the AND expression :(. If you prefer it written this
+way I can change it though.
 
-  struct lo_inode *inode;
+Stefan
 
-  if (lo_do_lookup(..., &inodep) !=3D 0) {
-    goto err;
-  }
-  ...
-
-  err:
-  lo_inode_put(&inode); <-- uninitialized in the error case!
-
---GmiNL4+5WUWrod5m
+--zH41lVBEV8cLJnCl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAa1pYACgkQnKSrs4Gr
-c8jP2wf/Tu5nMtwBnFs0/I4vcUvXpTOtYx4f2JQU29z8RnrO9a3PEuD2hzjqSTtV
-VTuBV8LIvnrKMV34HPiDgydHE3C7q1aTiBTrIsNH+/TW8W9RJmHrd8ntp9iQmY3k
-ioNADcxAdnwmF8dBxwoUI5DIc8Wgdv0pI65R0PPhlUOgPr67qBgTDySJ4nyM5u3R
-+1P8dxXiD3TBoKrSWp5WPvHN/lJM7wuh1b00FNB+mGZiG0bRN+nkK8kL4OkOA4Qv
-pFewMug12MW2Akh+8EA/BWKqxqE7rND7UiADoj2a6kFAd4M1sWsz7WhpfbHTd+vd
-imsyYX5K9A6BQqwphB1RtTMcEkGv5g==
-=X3iH
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAa18oACgkQnKSrs4Gr
+c8g1rAf/XJtMnuMThrGmuMVWlc6cAhxTiwwyPYAb+CFiECa2hVjFaoX3paOxWkDG
+8PPXQWvUVz1VaCX23CKsvAdX8QNW4RbjUwphBjHnDNkHGviLapu25ZmiNuGplKDx
+WUUWMwE5BOujGc0rBnvwEP+H9A3Zvdg7SkMcrly97b3pnLCQ97DSmvCbt9dSPegc
+S4CDg9Y04f9RZeL2t8rKW/G7cNM9RRgDjZzm62s58rLk1jVfn8k1qGyjuScwBezt
+m/6UKYYV58uSUkbPb8zjXM5F0S1JdJ6RRpG2RW4hfyCg2vmUzAVbQk1IFUaBl/iq
+2nEic75Xa+vOtvib6oiFfprvv/QyAg==
+=CTe+
 -----END PGP SIGNATURE-----
 
---GmiNL4+5WUWrod5m--
+--zH41lVBEV8cLJnCl--
 
 
