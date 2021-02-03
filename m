@@ -2,81 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D76530E0E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:25:35 +0100 (CET)
-Received: from localhost ([::1]:46344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 417AC30E14B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:42:04 +0100 (CET)
+Received: from localhost ([::1]:50710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7LuI-0000rN-Ed
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:25:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37998)
+	id 1l7MAF-0007Dt-96
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:42:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7LoV-00040p-55
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:19:38 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:33116)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7LoN-0003on-Ir
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:19:31 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id lw17so3687046pjb.0
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 09:19:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8Rjo9F7NYNOjMYVi19kTzo000+0RFd/XghNH/qUQdIE=;
- b=sIrcXGPYuIM0O00SRF/NMMoJwpSaf8j5sqaeWUFkqaBmFKWJaQj1Bh4tUFO+R2/aJW
- HQIsJVh/sdjeYCLwiXCRplyQT7csqgY7cAC/Ad1qlaDY9viylOe2eAdc4keXc0CArSl2
- 1EPJgNUUuxnusr3YWFwP6nxDSvxXraW92vMBvuTpCtzvMTwTYP0QG/c19Jh1q5cchLp6
- 3tyZrOVAe1VkLqbgp0NKZx7iEt5Eg9/V5wWD9xKnMt9T4UUbdTNnrXt0fF0QmwJlIiOF
- eMljYiLBk67xHYks4fg3AK2YrwIOpKq+QKpbfVAP/DZjVYC/mVT/fVELiwByZ/FW4qVY
- NW2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8Rjo9F7NYNOjMYVi19kTzo000+0RFd/XghNH/qUQdIE=;
- b=VnzQ8pFZXyVjMtqTx+aNiw1Uma077St08SlwgYIPlglqy5+erU68TRTX9JsXU6GM7L
- CcmjDDFXfHO7yZfRDGbtBRjQhCaKz6Rl8E3Uwt7KkFEm5PTdyJYs0TI09hcCRUIz6Tzf
- 28+cfCd+gKHpjU5FYUCP5SAfEKjrKpnYyqKyV67uUAlyp6dlpYohyCIZmfaNyg2i0VEM
- SXU8O17y0X/C4mcX/LyAAgtty4OqUOpzZvOC1/fmmuf3wDbJ/2xNR/n16MAxjMiK4sDW
- oP0a0ayGyl8OTGNyD//CI5e5zxKKrm/7hinm0zTqsI96rKibCvhy5piF3U/RawBhHVWu
- +PqQ==
-X-Gm-Message-State: AOAM531BsSai2H5Jbk7iGntviFw6HKuKxvhwbtEJRoGWZr9ZHvnGqKup
- W/DKqMTsD6AjQLcIViu3x2X8Jw==
-X-Google-Smtp-Source: ABdhPJzmQyNPbg9gxMsI1iUMrRX3Cp7TlJiCEtPfFAu2Re7/G2FrX5HH1ZC0CDICE+HDr60+dHl0QQ==
-X-Received: by 2002:a17:902:cecc:b029:e1:268e:2286 with SMTP id
- d12-20020a170902ceccb02900e1268e2286mr3954672plg.62.1612372765059; 
- Wed, 03 Feb 2021 09:19:25 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
- [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id r14sm3609610pgi.27.2021.02.03.09.19.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Feb 2021 09:19:24 -0800 (PST)
-Subject: Re: [PATCH v4 2/4] target/arm: Support AA32 DIT by moving PSTATE_SS
- from cpsr into env->pstate
-To: Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
-References: <20210203045816.10953-1-rebecca@nuviainc.com>
- <20210203045816.10953-3-rebecca@nuviainc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a85fa6f0-d6ee-5811-4c7f-d2830b8eafb9@linaro.org>
-Date: Wed, 3 Feb 2021 07:19:20 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1l7LqV-0005jn-Qm; Wed, 03 Feb 2021 12:21:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57808)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1l7LqQ-0004CI-Qm; Wed, 03 Feb 2021 12:21:39 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 253D664E4A;
+ Wed,  3 Feb 2021 17:21:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612372889;
+ bh=xk1qsTIup7UIA40sdlwBMb/ApWZqkge6CqlAfVcz+Jc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pCSBR8z82ZjbP3tV4O3NhG99m+sbCoHufm7O+JAscUeK9XcxdmVnVS0CBvgyw4aDb
+ x6HDvKQzLN2562C4hrGy4qRK8BTkta3tIhgNt93ewMTyVvYJs24N7NEVedyLSisLuv
+ gFf01I0u9oDUxfYF2s2gt9NYyQjhPwut294tRoMbauIJUUsFwWBjUmnj7tQ/i4W4gL
+ vULrpZ1GNuN9M9AycJfujwP/92B5OzmzVHdTjOagK+jotePJJOeX9C7AFWvPKc0iHX
+ dsH559Vw+dRy6nPi4UQS8k3FGB1z009Ntl+NvzBANyRLmQKqr7GyvU28DqbqKMZd7V
+ 6lhU4Ouk1mSRQ==
+Date: Wed, 3 Feb 2021 09:21:26 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v5 4/5] nvme: updated shared header for copy command
+Message-ID: <20210203172126.GC2182779@dhcp-10-100-145-180.wdc.com>
+References: <20210129091541.566330-1-its@irrelevant.dk>
+ <20210129091541.566330-5-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20210203045816.10953-3-rebecca@nuviainc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.178,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210129091541.566330-5-its@irrelevant.dk>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -75
+X-Spam_score: -7.6
+X-Spam_bar: -------
+X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,24 +61,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/21 6:58 PM, Rebecca Cran wrote:
-> @@ -9433,8 +9448,9 @@ static void take_aarch32_exception(CPUARMState *env, int new_mode,
->       * For exceptions taken to AArch32 we must clear the SS bit in both
->       * PSTATE and in the old-state value we save to SPSR_<mode>, so zero it now.
->       */
-> -    env->uncached_cpsr &= ~PSTATE_SS;
-> -    env->spsr = cpsr_read(env);
-> +    env->pstate &= ~PSTATE_SS;
-> +    env->spsr = cpsr_read_for_spsr_elx(env);
+On Fri, Jan 29, 2021 at 10:15:40AM +0100, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Add new data structures and types for the Simple Copy command.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+> Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  include/block/nvme.h | 45 ++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 43 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/block/nvme.h b/include/block/nvme.h
+> index e4b918064df9..5977bcf0308a 100644
+> --- a/include/block/nvme.h
+> +++ b/include/block/nvme.h
+> @@ -579,6 +579,7 @@ enum NvmeIoCommands {
+>      NVME_CMD_COMPARE            = 0x05,
+>      NVME_CMD_WRITE_ZEROES       = 0x08,
+>      NVME_CMD_DSM                = 0x09,
+> +    NVME_CMD_COPY               = 0x19,
+>      NVME_CMD_ZONE_MGMT_SEND     = 0x79,
+>      NVME_CMD_ZONE_MGMT_RECV     = 0x7a,
+>      NVME_CMD_ZONE_APPEND        = 0x7d,
+> @@ -724,6 +725,35 @@ typedef struct QEMU_PACKED NvmeDsmRange {
+>      uint64_t    slba;
+>  } NvmeDsmRange;
+>  
+> +enum {
+> +    NVME_COPY_FORMAT_0 = 0x0,
+> +};
 > +
+> +typedef struct NvmeCopyCmd {
+> +    uint8_t     opcode;
+> +    uint8_t     flags;
+> +    uint16_t    cid;
+> +    uint32_t    nsid;
+> +    uint32_t    rsvd2[4];
+> +    NvmeCmdDptr dptr;
+> +    uint64_t    sdlba;
+> +    uint32_t    cdw12;
+> +    uint32_t    cdw13;
 
-Again, this is the aarch32 exception path, and should not use
-cpsr_read_for_spsr_elx.
+Can we find better names for the fields within cdw's 12 and 13?
+Something like:
 
-
-r~
+    uint8_t nr;
+    uint8_t control[3];
+    uint16_t rsvd13;
+    uint16_t dspec;
 
