@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BA430D8D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 12:39:04 +0100 (CET)
-Received: from localhost ([::1]:47502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9F430D8D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 12:38:25 +0100 (CET)
+Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7GUx-0007Uh-Gg
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 06:39:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56014)
+	id 1l7GUL-0005pf-24
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 06:38:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7GPG-0002A2-MD
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:33:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37803)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7GPR-0002Df-VM
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:33:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7GPD-0004yb-IN
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:33:10 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7GPI-00050i-I6
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:33:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612351985;
+ s=mimecast20190719; t=1612351991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pLdaRt8mrH9RpzaX7ahiAaTtfEwMY8jf0H4kriCFESU=;
- b=PjdTKHgliyM/cwLH8ED3hfK25+9eKHC6DdiCTPE1YD6QQJKZyGzyFJYwxJeSeT8cte+e5S
- zvK2NzjWbE02ylqkwj1gd0ChqQUbiAipu1B7Jg5JIvt3ZeW1X3zznWNVh8SIzd9VzUCbgy
- s+bgbFlerrwPBbySIKMRqKipdbLxBfk=
+ bh=C4hQUb8LRr5GzXRAxouelpRpskguvPexMwb34kItEM8=;
+ b=ZgydrFin+2j9nITCC6aRkqOGuaxMGFD/tswDt6e2sqfq/l5b0Ik8tGpv9zMR/aowBHdUpo
+ uadC5wnZ+eZcnbc7VDE7V8tvxZoRAEE5YJ9gjsW7NMH7KAYJsASu9jwcjWZmP79n+ZmO2W
+ ybFlKT5KCNg/OErVOq3lzDY6OTLqB+8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-1SyRhlD0OY-QZgXgcDsQuA-1; Wed, 03 Feb 2021 06:33:00 -0500
-X-MC-Unique: 1SyRhlD0OY-QZgXgcDsQuA-1
+ us-mta-458-5G0n5M4uP7O-3wQ3r1u__A-1; Wed, 03 Feb 2021 06:33:03 -0500
+X-MC-Unique: 5G0n5M4uP7O-3wQ3r1u__A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3988100C660;
- Wed,  3 Feb 2021 11:32:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5B7B107ACE4;
+ Wed,  3 Feb 2021 11:33:01 +0000 (UTC)
 Received: from thuth.com (ovpn-112-165.ams2.redhat.com [10.36.112.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72BED60C66;
- Wed,  3 Feb 2021 11:32:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65D2C60C66;
+ Wed,  3 Feb 2021 11:33:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 4/6] travis.yml: Remove the --enable-debug jobs
-Date: Wed,  3 Feb 2021 12:32:41 +0100
-Message-Id: <20210203113243.280883-5-thuth@redhat.com>
+Subject: [PATCH 5/6] target/s390x/arch_dump: Fixes for the name field in the
+ PT_NOTE section
+Date: Wed,  3 Feb 2021 12:32:42 +0100
+Message-Id: <20210203113243.280883-6-thuth@redhat.com>
 In-Reply-To: <20210203113243.280883-1-thuth@redhat.com>
 References: <20210203113243.280883-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +55,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
@@ -83,37 +84,56 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already have such jobs in the gitlab-CI ("build-some-softmmu" and
-"build-user-plugins"), so we can simply drop these from the Travis-CI.
+According to the "ELF-64 Object File Format" specification:
+
+"The first word in the entry, namesz, identifies the length, in
+ bytes, of a name identifying the entry’s owner or originator. The name field
+ contains a null-terminated string, with padding as necessary to ensure 8-
+ byte alignment for the descriptor field. The length does not include the
+ terminating null or the padding."
+
+So we should not include the terminating NUL in the length field here.
+
+Also there is a compiler warning with GCC 9.3 when compiling with
+the -fsanitize=thread compiler flag:
+
+ In function 'strncpy',
+    inlined from 's390x_write_elf64_notes' at ../target/s390x/arch_dump.c:219:9:
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
+  '__builtin_strncpy' specified bound 8 equals destination size
+  [-Werror=stringop-truncation]
+
+Since the name should always be NUL-terminated, we can simply decrease
+the size of the strncpy by one here to silence this warning. And while
+we're at it, also add an assert() to make sure that the provided names
+always fit the size field (which is fine for the current callers, the
+function is called once with "CORE" and once with "LINUX" as a name).
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .travis.yml | 12 ------------
- 1 file changed, 12 deletions(-)
+ target/s390x/arch_dump.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index 45dd017420..b3fc72f561 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -119,18 +119,6 @@ after_script:
+diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
+index 50fa0ae4b6..20c3a09707 100644
+--- a/target/s390x/arch_dump.c
++++ b/target/s390x/arch_dump.c
+@@ -212,11 +212,13 @@ static int s390x_write_elf64_notes(const char *note_name,
+     int note_size;
+     int ret = -1;
  
- jobs:
-   include:
--    # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
--    - name: "GCC debug (main-softmmu)"
--      env:
--        - CONFIG="--enable-debug --target-list=${MAIN_SOFTMMU_TARGETS}"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
--
--
--    # TCG debug can be run just on its own and is mostly agnostic to user/softmmu distinctions
--    - name: "GCC debug (user)"
--      env:
--        - CONFIG="--enable-debug-tcg --disable-system"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
++    assert(strlen(note_name) < sizeof(note.name));
++
+     for (nf = funcs; nf->note_contents_func; nf++) {
+         memset(&note, 0, sizeof(note));
+-        note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
++        note.hdr.n_namesz = cpu_to_be32(strlen(note_name));
+         note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
+-        strncpy(note.name, note_name, sizeof(note.name));
++        strncpy(note.name, note_name, sizeof(note.name) - 1);
+         (*nf->note_contents_func)(&note, cpu, id);
  
- 
-     # Using newer GCC with sanitizers
+         note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
 -- 
 2.27.0
 
