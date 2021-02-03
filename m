@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B99B30E31C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:13:53 +0100 (CET)
-Received: from localhost ([::1]:47164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB01A30E324
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:19:43 +0100 (CET)
+Received: from localhost ([::1]:56102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Nb6-0007pF-5I
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:13:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37944)
+	id 1l7Ngk-0003Cm-Q4
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:19:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7NOY-0007P6-W2
+ id 1l7NOX-0007Ot-Sk
  for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:00:56 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52234)
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:39484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7NOR-0001fe-E1
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:00:54 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id q72so230806pjq.2
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 11:00:47 -0800 (PST)
+ id 1l7NOS-0001gg-IW
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:00:53 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id b17so380334plz.6
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 11:00:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7hjhE0U9saCfWCVjfPxJo9p8Csb2DErMQl9VR45IGeY=;
- b=Hy+TU37qMan3zms2o7LXzt2i0rogQImDQtzvsyZr/kOlwo3WpJLe8uxXQyzlkgfu1t
- KukUISrQSNoFxwoeUGre6i8fZZ4NgDV5yRMQcumZKYwbWCTpmMl2tPN9x7nCLuwIRfj6
- MGEVAijNnGS9Hy6twJ93bdrFali/gL30hcPz+gjPKzwHWDXBQBEUAaw1r9novtlF7mTl
- lWtSdsaHL9BKG4kKLKSL5K0m6kc9Q+olyV3V8mmWfl+uWgvMmUIC5qSzPi9Zxl9nUHj/
- wY18SjrO9xmFgONewqfkEagheyijonqxm0rYjfu9tUv1LoNSIaib18lBIYxQ4Nc/+1hp
- NnPA==
+ bh=L4t/8M8kFq5a42opgp1R5x4ZoXUV03vj2iLC3WBwq9Q=;
+ b=M5MpYmojqIDGwcczEjz63Nzqmq3ySYmSbPrOcsJ1zGi0FHI3as5Q+goqScIGBxB+Hi
+ hQEDO2Zv8S/IGMsuTvnFwi0AF2Cc/SvLS6zsxEsHDbr/og7qQaZDkgEe5WP5cAnl5cCg
+ Bm0OdWdwvubpnE47GdDe3253QoHvLc8btp5uEa60OZ1pAjx+ba6jGfN7KIdGbCh4tqWv
+ FWkTe+03USm7RJhTETiwaUqOokjhkhX3embQhwSPuYxDL4gmAfscmo99UytPgXluXCVV
+ ZGEBIIte9eu2/hm+qchh0aw0KEucoYBW98Cgg28GtMcu/Iv2a8SxvV5cmnVUttFMKjzT
+ hRag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7hjhE0U9saCfWCVjfPxJo9p8Csb2DErMQl9VR45IGeY=;
- b=eVOshW7ryLitlAGEm5mqGFF+2m0mQRs3S+3I1XbiB/Uz8yFtqNPNrV4aTISSspHBzG
- EKFJcehUhLQiXlUhibTNSzlSSrg4172diw2ptsWxrYWmwqkKHpf/vvWAQSnALtK87yLA
- xaBmu2cXu41+4lS/i3x2BKlK9ubUFsabprrbEwzi6WQAJvlBhH8grxL6wroHVelcosZZ
- hSVXHQ0R1BNdMI34fS6jaBmXuF7NbAJ9CWof2EgaL/YfpqhzU+OL/9joWCeJhNxbodf6
- c+KNMgIGlV76ppwhRDV+qbivBvQFUQ2DB4rv3aXaknHD4ibWom9z0CcAO1/f877zLP4m
- 7w0g==
-X-Gm-Message-State: AOAM531+A0K29SIlzFN7o3Liimix2HU9/yOJb6dnIPA2mDgzrLzrxz1t
- 3u4wL3Khzg2VFiKKw31B27ri4jZa/DnN30+N
-X-Google-Smtp-Source: ABdhPJyxMb0womCNT+XOvuP0bGYactzEuIy9CjrLcQ6AYsKOjtl3aC7bKhCZqMWWl9RERC26j6KDYA==
-X-Received: by 2002:a17:90b:124c:: with SMTP id
- gx12mr4298852pjb.21.1612378845094; 
- Wed, 03 Feb 2021 11:00:45 -0800 (PST)
+ bh=L4t/8M8kFq5a42opgp1R5x4ZoXUV03vj2iLC3WBwq9Q=;
+ b=B26/OYVX/+o7ve4j3xKfRBXqF82rC8GGosuNkGLSTp3e7Z3FLKwLG/2oWSVQ6Jut92
+ BU/FzXjHMCip7a5odIlNRnEPXaNj3cEBEn7wSaKJSvN3mOan6ffK1XNj4nhd4ifhhYLW
+ UNWjeerA0XJ/IiMR9DcDtXQs0Ou/fL+G5OHBik2aruCOI7vwD1N4F0NutW68CLz1zpEd
+ 7YlgpJJ1JGNBQlTqtsDOuGS3s+qfWJFiykPN4G3+QmWypgl0/sZNWbJo8wQ3goIUunU2
+ +njKRWzr8vofUoo/VaWCLYpFZ1KGVFekoQsxPmiS3w2p8mS0WN5dauElxXbiY2gbbHK8
+ prZA==
+X-Gm-Message-State: AOAM533O5IWT1ynRasdhP4VrByGNAUTFGGttW/3WyIlVt+V0+ptxdSQE
+ ytKrJOjhHa7rraKBoSmbhsePvII3VeNavVu0
+X-Google-Smtp-Source: ABdhPJzI7foHxNzutqLjh3noxCtq4pO3PgL8cfUj5HG7Sv1q3U0t8TVDNosRjTtXd682YvLljWkvTg==
+X-Received: by 2002:a17:90a:67ca:: with SMTP id
+ g10mr4496965pjm.28.1612378847178; 
+ Wed, 03 Feb 2021 11:00:47 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id l2sm2906666pju.25.2021.02.03.11.00.43
+ by smtp.gmail.com with ESMTPSA id l2sm2906666pju.25.2021.02.03.11.00.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 11:00:44 -0800 (PST)
+ Wed, 03 Feb 2021 11:00:46 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 15/31] exec: Rename guest_{addr,range}_valid to *_untagged
-Date: Wed,  3 Feb 2021 08:59:54 -1000
-Message-Id: <20210203190010.759771-16-richard.henderson@linaro.org>
+Subject: [PATCH v5 16/31] linux-user: Use cpu_untagged_addr in access_ok;
+ split out *_untagged
+Date: Wed,  3 Feb 2021 08:59:55 -1000
+Message-Id: <20210203190010.759771-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210203190010.759771-1-richard.henderson@linaro.org>
 References: <20210203190010.759771-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,152 +89,162 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The places that use these are better off using untagged
-addresses, so do not provide a tagged versions.  Rename
-to make it clear about the address type.
+Provide both tagged and untagged versions of access_ok.
+In a few places use thread_cpu, as the user is several
+callees removed from do_syscall1.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu_ldst.h |  4 ++--
- linux-user/qemu.h       |  4 ++--
- accel/tcg/user-exec.c   |  9 ++++++---
- linux-user/mmap.c       | 12 ++++++------
- linux-user/syscall.c    |  2 +-
- 5 files changed, 17 insertions(+), 14 deletions(-)
+ linux-user/qemu.h          | 11 +++++++++--
+ linux-user/elfload.c       |  2 +-
+ linux-user/hppa/cpu_loop.c |  8 ++++----
+ linux-user/i386/cpu_loop.c |  2 +-
+ linux-user/i386/signal.c   |  5 +++--
+ linux-user/syscall.c       |  9 ++++++---
+ 6 files changed, 24 insertions(+), 13 deletions(-)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index c54069e3cd..ce6ce82618 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -87,12 +87,12 @@ static inline void *g2h(CPUState *cs, abi_ptr x)
-     return g2h_untagged(cpu_untagged_addr(cs, x));
- }
- 
--static inline bool guest_addr_valid(abi_ulong x)
-+static inline bool guest_addr_valid_untagged(abi_ulong x)
- {
-     return x <= GUEST_ADDR_MAX;
- }
- 
--static inline bool guest_range_valid(abi_ulong start, abi_ulong len)
-+static inline bool guest_range_valid_untagged(abi_ulong start, abi_ulong len)
- {
-     return len - 1 <= GUEST_ADDR_MAX && start <= GUEST_ADDR_MAX - len + 1;
- }
 diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index ba122a7903..b3ccffbf0f 100644
+index b3ccffbf0f..82eabb73f8 100644
 --- a/linux-user/qemu.h
 +++ b/linux-user/qemu.h
-@@ -494,8 +494,8 @@ extern unsigned long guest_stack_size;
- static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+@@ -491,7 +491,7 @@ extern unsigned long guest_stack_size;
+ #define VERIFY_READ  PAGE_READ
+ #define VERIFY_WRITE (PAGE_READ | PAGE_WRITE)
+ 
+-static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
++static inline bool access_ok_untagged(int type, abi_ulong addr, abi_ulong size)
  {
      if (size == 0
--        ? !guest_addr_valid(addr)
--        : !guest_range_valid(addr, size)) {
-+        ? !guest_addr_valid_untagged(addr)
-+        : !guest_range_valid_untagged(addr, size)) {
-         return false;
-     }
+         ? !guest_addr_valid_untagged(addr)
+@@ -501,6 +501,12 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
      return page_check_range((target_ulong)addr, size, type) == 0;
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index a2a353920c..4963e5cc51 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -191,10 +191,11 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-     g_assert_not_reached();
  }
  
--static int probe_access_internal(CPUArchState *env, target_ulong addr,
-+static int probe_access_internal(CPUArchState *env, target_ulong addr_tagged,
-                                  int fault_size, MMUAccessType access_type,
-                                  bool nonfault, uintptr_t ra)
++static inline bool access_ok(CPUState *cpu, int type,
++                             abi_ulong addr, abi_ulong size)
++{
++    return access_ok_untagged(type, cpu_untagged_addr(cpu, addr), size);
++}
++
+ /* NOTE __get_user and __put_user use host pointers and don't check access.
+    These are usually used to access struct data members once the struct has
+    been locked - usually with lock_user_struct.  */
+@@ -636,8 +642,9 @@ abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
+    host area will have the same contents as the guest.  */
+ static inline void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
  {
-+    target_ulong addr;
-     int flags;
+-    if (!access_ok(type, guest_addr, len))
++    if (!access_ok_untagged(type, guest_addr, len)) {
+         return NULL;
++    }
+ #ifdef DEBUG_REMAP
+     {
+         void *addr;
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index f542841ba2..e7209e03cb 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -3500,7 +3500,7 @@ static int vma_get_mapping_count(const struct mm_struct *mm)
+ static abi_ulong vma_dump_size(const struct vm_area_struct *vma)
+ {
+     /* if we cannot even read the first page, skip it */
+-    if (!access_ok(VERIFY_READ, vma->vma_start, TARGET_PAGE_SIZE))
++    if (!access_ok_untagged(VERIFY_READ, vma->vma_start, TARGET_PAGE_SIZE))
+         return (0);
  
-     switch (access_type) {
-@@ -211,13 +212,15 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
-         g_assert_not_reached();
-     }
+     /*
+diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
+index 944511bbe4..3aaaf3337c 100644
+--- a/linux-user/hppa/cpu_loop.c
++++ b/linux-user/hppa/cpu_loop.c
+@@ -35,7 +35,7 @@ static abi_ulong hppa_lws(CPUHPPAState *env)
+         return -TARGET_ENOSYS;
  
--    if (!guest_addr_valid(addr) || page_check_range(addr, 1, flags) < 0) {
-+    addr = cpu_untagged_addr(env_cpu(env), addr_tagged);
-+    if (!guest_addr_valid_untagged(addr) ||
-+        page_check_range(addr, 1, flags) < 0) {
-         if (nonfault) {
-             return TLB_INVALID_MASK;
-         } else {
-             CPUState *cpu = env_cpu(env);
-             CPUClass *cc = CPU_GET_CLASS(cpu);
--            cc->tlb_fill(cpu, addr, fault_size, access_type,
-+            cc->tlb_fill(cpu, addr_tagged, fault_size, access_type,
-                          MMU_USER_IDX, false, ra);
-             g_assert_not_reached();
+     case 0: /* elf32 atomic 32bit cmpxchg */
+-        if ((addr & 3) || !access_ok(VERIFY_WRITE, addr, 4)) {
++        if ((addr & 3) || !access_ok(cs, VERIFY_WRITE, addr, 4)) {
+             return -TARGET_EFAULT;
          }
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 088c50592c..6690384752 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -119,7 +119,7 @@ int target_mprotect(abi_ulong start, abi_ulong len, int target_prot)
-     }
-     len = TARGET_PAGE_ALIGN(len);
-     end = start + len;
--    if (!guest_range_valid(start, len)) {
-+    if (!guest_range_valid_untagged(start, len)) {
-         return -TARGET_ENOMEM;
-     }
-     if (len == 0) {
-@@ -528,7 +528,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-          * It can fail only on 64-bit host with 32-bit target.
-          * On any other target/host host mmap() handles this error correctly.
-          */
--        if (end < start || !guest_range_valid(start, len)) {
-+        if (end < start || !guest_range_valid_untagged(start, len)) {
-             errno = ENOMEM;
-             goto fail;
+         old = tswap32(old);
+@@ -50,9 +50,9 @@ static abi_ulong hppa_lws(CPUHPPAState *env)
+             return -TARGET_ENOSYS;
          }
-@@ -669,7 +669,7 @@ int target_munmap(abi_ulong start, abi_ulong len)
-     if (start & ~TARGET_PAGE_MASK)
-         return -TARGET_EINVAL;
-     len = TARGET_PAGE_ALIGN(len);
--    if (len == 0 || !guest_range_valid(start, len)) {
-+    if (len == 0 || !guest_range_valid_untagged(start, len)) {
-         return -TARGET_EINVAL;
+         if (((addr | old | new) & ((1 << size) - 1))
+-            || !access_ok(VERIFY_WRITE, addr, 1 << size)
+-            || !access_ok(VERIFY_READ, old, 1 << size)
+-            || !access_ok(VERIFY_READ, new, 1 << size)) {
++            || !access_ok(cs, VERIFY_WRITE, addr, 1 << size)
++            || !access_ok(cs, VERIFY_READ, old, 1 << size)
++            || !access_ok(cs, VERIFY_READ, new, 1 << size)) {
+             return -TARGET_EFAULT;
+         }
+         /* Note that below we use host-endian loads so that the cmpxchg
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index 19c8a18cd3..f813e87294 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -99,7 +99,7 @@ static bool write_ok_or_segv(CPUX86State *env, abi_ptr addr, size_t len)
+      * For all the vsyscalls, NULL means "don't write anything" not
+      * "write it at address 0".
+      */
+-    if (addr == 0 || access_ok(VERIFY_WRITE, addr, len)) {
++    if (addr == 0 || access_ok(env_cpu(env), VERIFY_WRITE, addr, len)) {
+         return true;
      }
  
-@@ -727,9 +727,9 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-     int prot;
-     void *host_addr;
+diff --git a/linux-user/i386/signal.c b/linux-user/i386/signal.c
+index 97a39204cc..9320e1d472 100644
+--- a/linux-user/i386/signal.c
++++ b/linux-user/i386/signal.c
+@@ -513,9 +513,10 @@ restore_sigcontext(CPUX86State *env, struct target_sigcontext *sc)
  
--    if (!guest_range_valid(old_addr, old_size) ||
-+    if (!guest_range_valid_untagged(old_addr, old_size) ||
-         ((flags & MREMAP_FIXED) &&
--         !guest_range_valid(new_addr, new_size))) {
-+         !guest_range_valid_untagged(new_addr, new_size))) {
-         errno = ENOMEM;
-         return -1;
-     }
-@@ -777,7 +777,7 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
- 
-             if (host_addr != MAP_FAILED) {
-                 /* Check if address fits target address space */
--                if (!guest_range_valid(h2g(host_addr), new_size)) {
-+                if (!guest_range_valid_untagged(h2g(host_addr), new_size)) {
-                     /* Revert mremap() changes */
-                     host_addr = mremap(g2h_untagged(old_addr),
-                                        new_size, old_size, flags);
+     fpstate_addr = tswapl(sc->fpstate);
+     if (fpstate_addr != 0) {
+-        if (!access_ok(VERIFY_READ, fpstate_addr,
+-                       sizeof(struct target_fpstate)))
++        if (!access_ok(env_cpu(env), VERIFY_READ, fpstate_addr,
++                       sizeof(struct target_fpstate))) {
+             goto badframe;
++        }
+ #ifndef TARGET_X86_64
+         cpu_x86_frstor(env, fpstate_addr, 1);
+ #else
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 4451f8e4f0..30a5021509 100644
+index 30a5021509..24fc1daf02 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -4608,7 +4608,7 @@ static inline abi_ulong do_shmat(CPUArchState *cpu_env,
-             return -TARGET_EINVAL;
-         }
-     }
--    if (!guest_range_valid(shmaddr, shm_info.shm_segsz)) {
-+    if (!guest_range_valid_untagged(shmaddr, shm_info.shm_segsz)) {
+@@ -3515,8 +3515,9 @@ static abi_long do_accept4(int fd, abi_ulong target_addr,
          return -TARGET_EINVAL;
      }
+ 
+-    if (!access_ok(VERIFY_WRITE, target_addr, addrlen))
++    if (!access_ok(thread_cpu, VERIFY_WRITE, target_addr, addrlen)) {
+         return -TARGET_EFAULT;
++    }
+ 
+     addr = alloca(addrlen);
+ 
+@@ -3546,8 +3547,9 @@ static abi_long do_getpeername(int fd, abi_ulong target_addr,
+         return -TARGET_EINVAL;
+     }
+ 
+-    if (!access_ok(VERIFY_WRITE, target_addr, addrlen))
++    if (!access_ok(thread_cpu, VERIFY_WRITE, target_addr, addrlen)) {
+         return -TARGET_EFAULT;
++    }
+ 
+     addr = alloca(addrlen);
+ 
+@@ -3577,8 +3579,9 @@ static abi_long do_getsockname(int fd, abi_ulong target_addr,
+         return -TARGET_EINVAL;
+     }
+ 
+-    if (!access_ok(VERIFY_WRITE, target_addr, addrlen))
++    if (!access_ok(thread_cpu, VERIFY_WRITE, target_addr, addrlen)) {
+         return -TARGET_EFAULT;
++    }
+ 
+     addr = alloca(addrlen);
  
 -- 
 2.25.1
