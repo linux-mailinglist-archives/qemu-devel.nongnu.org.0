@@ -2,91 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ECFE30D512
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 09:22:33 +0100 (CET)
-Received: from localhost ([::1]:55728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E69830D526
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 09:24:36 +0100 (CET)
+Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7DQm-0003xb-5A
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 03:22:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41558)
+	id 1l7DSl-0005Hf-5i
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 03:24:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7DPk-0003MX-Nw
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 03:21:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7DPj-0000Xq-4y
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 03:21:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612340486;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0HaMfCeA3mW7tOo+p9WhxttBgAhTD/hBKuTFreACb0Y=;
- b=e8iqccb4//99J0ZFjA+DhUXklJhl0iDDql2gXgtev898PgOzNQ6UK90+XDKeMCqamYiA+j
- 2BDsVMXG6mQTR7n1Rd5Hg2PnxWk58qis/V2lVD3bCkJ57OA8hPiaLszEorQJn3as4MZWYP
- jozBcjXCQs/cO6/1egBAS89Xg+7291g=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-b5M95Ia0OqO1jHaQs3qnyg-1; Wed, 03 Feb 2021 03:21:21 -0500
-X-MC-Unique: b5M95Ia0OqO1jHaQs3qnyg-1
-Received: by mail-wr1-f69.google.com with SMTP id s15so14025669wrt.14
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 00:21:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0HaMfCeA3mW7tOo+p9WhxttBgAhTD/hBKuTFreACb0Y=;
- b=Kl8JwlfCVjtx8Vc4XL41xTqibpBovjLGKQmQy+cEgNfriQMBqOMnG6x9IQx58eLzQY
- L/yOCfR3p3YFj6GSSrgHLC4oPCY2FfWAK/cqCEtKms8wTIJxk8SE5e1Svo9PvwSx/dIT
- 4CRBuhtEbqCbdyuc4aDgiUIzIa1KAQyOXxpYaHYbYpsSJZu0cRfWXyzX+RikfWMUm86N
- A3vpb62ctEDtUEksLhf21zvlXW3b+XRRWzCj2IvsBdnEtiQBNhLPG2XEz/9KRiZFFd1G
- ljSpNBvOtPP3pP4oNpK+QaRdSI+QKDlNL2VrmPLlzFEqOHsoJiEp//dSoLwDl+q/U0PJ
- sc/Q==
-X-Gm-Message-State: AOAM531VdQaO32PMtrHy0QsnL/e51+tm75QnLRwPhQMwiNKuEUfk9/iE
- FRO2eNCyhGPvRSlap9kcXYx+cUJgT7HU3o+HBl0seFpnhfZir6W2pblxxx/n+CPcNSxVBTBR+56
- MoSjz+xwSBw9TdP8=
-X-Received: by 2002:a05:600c:35ce:: with SMTP id
- r14mr1697987wmq.136.1612340480249; 
- Wed, 03 Feb 2021 00:21:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxqlk2Llr0JZLc2lbDTQIuHpWr8uXqtM11tLokM6Vpyjlzj3L46ZO0480VRP0Xh43cV2ylD1g==
-X-Received: by 2002:a05:600c:35ce:: with SMTP id
- r14mr1697960wmq.136.1612340479881; 
- Wed, 03 Feb 2021 00:21:19 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id i8sm2435645wry.90.2021.02.03.00.21.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Feb 2021 00:21:19 -0800 (PST)
-Subject: Re: ARM Snapshots Not Backwards-Compatible
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-References: <YBogDGJRU5pcDKmi@strawberry.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <153e5c54-f8bf-d088-502d-502309f5d2a6@redhat.com>
-Date: Wed, 3 Feb 2021 09:21:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1l7DQa-0004B5-Rs
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 03:22:20 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:38098)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1l7DQY-0000uk-FM
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 03:22:20 -0500
+Received: from [192.168.0.92] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id C2209407626A;
+ Wed,  3 Feb 2021 08:22:05 +0000 (UTC)
+Subject: Re: [PATCH] char: don't fail when client is not connected
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <161224971122.79781.8594358970645859667.stgit@pasha-ThinkPad-X280>
+ <CAMxuvax4eUGGfLH4sQpS4ocD43bsMVFjiFsv2xcywwbXZ0-JJA@mail.gmail.com>
+ <1a5d134b-c826-9620-094e-48fc6bb931b0@ispras.ru>
+ <CAMxuvay_mLwsLB51Ar4-Usu610QnC7VAzD95BFmvL=VumCcRtA@mail.gmail.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <3f9e991e-da3b-1df5-5124-06dc2e1b7e18@ispras.ru>
+Date: Wed, 3 Feb 2021 11:22:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <YBogDGJRU5pcDKmi@strawberry.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAMxuvay_mLwsLB51Ar4-Usu610QnC7VAzD95BFmvL=VumCcRtA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.155,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,63 +57,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm <qemu-arm@nongnu.org>
+Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing migration team and qemu-arm@ list.
+On 03.02.2021 11:13, Marc-André Lureau wrote:
+> Hi
+> 
+> On Tue, Feb 2, 2021 at 11:33 AM Pavel Dovgalyuk 
+> <pavel.dovgalyuk@ispras.ru <mailto:pavel.dovgalyuk@ispras.ru>> wrote:
+> 
+>     On 02.02.2021 10:27, Marc-André Lureau wrote:
+>      > Hi
+>      >
+>      > On Tue, Feb 2, 2021 at 11:18 AM Pavel Dovgalyuk
+>      > <pavel.dovgalyuk@ispras.ru <mailto:pavel.dovgalyuk@ispras.ru>
+>     <mailto:pavel.dovgalyuk@ispras.ru
+>     <mailto:pavel.dovgalyuk@ispras.ru>>> wrote:
+>      >
+>      >     This patch checks that ioc is not null before
+>      >     using it in tcp socket tcp_chr_add_watch function.
+>      >
+>      >     Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru
+>     <mailto:Pavel.Dovgalyuk@ispras.ru>
+>      >     <mailto:Pavel.Dovgalyuk@ispras.ru
+>     <mailto:Pavel.Dovgalyuk@ispras.ru>>>
+>      >
+>      >
+>      > Do you have a backtrace or a reproducer when this happens?
+>      > thanks
+> 
+>     Here is the backtrace:
+> 
+>     Thread 4 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+>     [Switching to Thread 0x7ffff2506700 (LWP 64988)]
+>     object_get_class (obj=obj@entry=0x0) at ../qom/object.c:999
+>     999         return obj->class;
+>     (gdb) bt
+>     #0  object_get_class (obj=obj@entry=0x0) at ../qom/object.c:999
+>     #1  0x0000555555b70e26 in QIO_CHANNEL_GET_CLASS (obj=0x0) at
+>     /home/pasha/ispras/qemu-test/include/io/channel.h:29
+>     #2  qio_channel_create_watch (ioc=0x0, condition=(G_IO_OUT | G_IO_HUP))
+>     at ../io/channel.c:281
+>     #3  0x0000555555c1bf9b in qemu_chr_fe_add_watch
+>           (be=be@entry=0x555556981648, cond=cond@entry=(G_IO_OUT |
+>     G_IO_HUP),
+>     func=func@entry=0x55555597f170 <serial_watch_cb>,
+>     user_data=user_data@entry=0x5555569815a0)
+>           at /home/pasha/ispras/qemu-test/include/chardev/char.h:229
+>     #4  0x000055555597f042 in serial_xmit (s=s@entry=0x5555569815a0) at
+>     ../hw/char/serial.c:265
+>     #5  0x000055555597f437 in serial_ioport_write (opaque=0x5555569815a0,
+>     addr=<optimized out>, val=91, size=<optimized out>) at
+>     ../hw/char/serial.c:359
+> 
+> 
+> Thanks, I don't understand how this could happen.
+> 
+> serial_xmit:
+>             int rc = qemu_chr_fe_write(&s->chr, &s->tsr, 1);
+> 
+>              if ((rc == 0 ||
+>                   (rc == -1 && errno == EAGAIN)) &&
+>                  s->tsr_retry < MAX_XMIT_RETRY) {
+>                  assert(s->watch_tag == 0);
+>                  s->watch_tag =
+>                      qemu_chr_fe_add_watch(&s->chr, G_IO_OUT | G_IO_HUP,
+>                                            serial_watch_cb, s);
+> 
+> The watch is added only if fe_write() returned 0 || -1 with EAGAIN.
+> 
+> But tcp_chr_write() should return -1 with EIO if the state is 
+> disconnected (and ioc is NULL), or other errors on disconnect.
+> 
+> Can you provide a reproducer?
 
-On 2/3/21 5:01 AM, Aaron Lindsay wrote:
-> Hello,
+
+That was a record/replay scenario. I've used Fedora cloudinit images, 
+that are used in acceptance tests:
+
+qemu-system-x86_64 \
+  -display none -vga none -machine pc -smp 1 -m 1024 \
+  -monitor tcp:127.0.0.1:8081,server,nowait \
+  -serial tcp:127.0.0.1:8082,server,nowait \
+  -object filter-replay,id=replay,netdev=hub0port0 \
+  -drive 
+file=Fedora-Cloud-Base-31-1.9.x86_64.qcow2,snapshot,id=disk0,if=none \
+  -drive driver=blkreplay,id=disk0-rr,if=none,image=disk0 \
+  -device virtio-blk-pci,drive=disk0-rr,ioeventfd=false \
+  -icount shift=1,rr=record,rrfile=replay.bin \
+  -drive file=cloudinit.iso,snapshot,id=disk1,if=none \
+  -drive driver=blkreplay,id=disk1-rr,if=none,image=disk1 \
+  -device virtio-blk-pci,drive=disk1-rr,ioeventfd=false
+
+
+The failure occurred on replay stage:
+
+qemu-system-x86_64 \
+  -display none -vga none -machine pc -smp 1 -m 1024 \
+  -monitor tcp:127.0.0.1:8081,server,nowait \
+  -serial tcp:127.0.0.1:8082,server,nowait \
+  -object filter-replay,id=replay,netdev=hub0port0 \
+  -drive 
+file=Fedora-Cloud-Base-31-1.9.x86_64.qcow2,snapshot,id=disk0,if=none \
+  -drive driver=blkreplay,id=disk0-rr,if=none,image=disk0 \
+  -device virtio-blk-pci,drive=disk0-rr,ioeventfd=false \
+  -icount shift=1,rr=replay,rrfile=replay.bin \
+  -drive file=cloudinit.iso,snapshot,id=disk1,if=none \
+  -drive driver=blkreplay,id=disk1-rr,if=none,image=disk1 \
+  -device virtio-blk-pci,drive=disk1-rr,ioeventfd=false
+
 > 
-> I'm attempting to restore an AArch64 snapshot taken on QEMU 4.1.0 on
-> QEMU 5.2.0, using system mode. My previous impression, possibly from
-> https://wiki.qemu.org/Features/Migration/Troubleshooting#Basics was that
-> this ought to work:
+> thanks
 > 
->> Note that QEMU supports migrating forward between QEMU versions
 > 
-> Note that I'm using qemu-system-aarch64 with -loadvm.
-> 
-> However, I've run into several issues I thought I should report. The
-> first of them was that this commit changed the address of CBAR, which
-> resulted in a mismatch of the register IDs in `cpu_post_load` in
-> target/arm/machine.c:
-> https://patchwork.kernel.org/project/qemu-devel/patch/20190927144249.29999-2-peter.maydell@linaro.org/
-> 
-> The second was that several system registers have changed which bits are
-> allowed to be written in different circumstances, seemingly as a result
-> of a combination of bugfixes and implementation of additional behavior.
-> These hit errors detected in `write_list_to_cpustate` in
-> target/arm/helper.c.
-> 
-> The third is that meanings of the bits in env->features (as defined by
-> `enum arm_features` in target/arm/cpu.h) has shifted. For example,
-> ARM_FEATURE_PXN, ARM_FEATURE_CRC, ARM_FEATURE_VFP, ARM_FEATURE_VFP3,
-> ARM_FEATURE_VFP4 have all been removed and ARM_FEATURE_V8_1M has been
-> added since 4.1.0. Heck, even I have added a field there in the past.
-> Unfortunately, these additions/removals mean that when env->features is
-> saved on one version and restored on another the bits can mean different
-> things. Notably, the removal of the *VFP features means that a snapshot
-> of a CPU reporting it supports ARM_FEATURE_VFP3 on 4.1.0 thinks it's now
-> ARM_FEATURE_M on 5.2.0!
-> 
-> My guess, given the numerous issues and the additional complexity
-> required to properly implement backwards-compatible snapshotting, is
-> that this is not a primary goal. However, if it is a goal, what steps
-> can/should we take to support it more thoroughly?
-> 
-> Thanks!
-> 
-> -Aaron
-> 
-> p.s. Now for an admission: the snapshots I'm testing with were
-> originally taken with `-cpu max`. This was unintentional, and I
-> understand if the response is that I can't expect `-cpu max` checkpoints
-> to work across QEMU versions... but I also don't think that all of these
-> issues can be blamed on that (notably CBAR and env->features).
+>      >
+>      >     ---
+>      >       chardev/char-socket.c |    3 +++
+>      >       1 file changed, 3 insertions(+)
+>      >
+>      >     diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+>      >     index 213a4c8dd0..cef1d9438f 100644
+>      >     --- a/chardev/char-socket.c
+>      >     +++ b/chardev/char-socket.c
+>      >     @@ -385,6 +385,9 @@ static ssize_t tcp_chr_recv(Chardev *chr,
+>     char
+>      >     *buf, size_t len)
+>      >       static GSource *tcp_chr_add_watch(Chardev *chr,
+>     GIOCondition cond)
+>      >       {
+>      >           SocketChardev *s = SOCKET_CHARDEV(chr);
+>      >     +    if (!s->ioc) {
+>      >     +        return NULL;
+>      >     +    }
+>      >           return qio_channel_create_watch(s->ioc, cond);
+>      >       }
+>      >
+>      >
 > 
 
 
