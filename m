@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B02530DD3D
+	by mail.lfdr.de (Postfix) with ESMTPS id 876D330DD3C
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:51:14 +0100 (CET)
-Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:54342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7JUv-0007f5-K4
+	id 1l7JUv-0007eE-JB
 	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:51:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56552)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7JRc-0005PL-Bg
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:47:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40126)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7JRW-0002qK-Eu
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:47:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612363661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9dqlZlpYVU0pBS0cNRkW9I2lCDuHj5Yqb1VD5inmJBE=;
- b=SVGKGUcyZpdxFDHBEvMnUthtqPFX3YNn4QRNCHvH7ECRYGkl9J6FvF8+KWVC8zmh5Dcejw
- ThDf3qvAofS5r+vQmdcM/Jeffw28vSlxJCGh4IkiiWsPT+H9ASnex4/si3F3TQ8a4/Hb6K
- 3PpPm6qaHGK0jjvULxS20EWiYI2EIa0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-wG50h3CBO1mOD6PgKxKqdg-1; Wed, 03 Feb 2021 09:47:39 -0500
-X-MC-Unique: wG50h3CBO1mOD6PgKxKqdg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72ED9193410B;
- Wed,  3 Feb 2021 14:47:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
- [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DDE07046A;
- Wed,  3 Feb 2021 14:47:38 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A89A2113865F; Wed,  3 Feb 2021 15:47:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 08/14] qapi/introspect.py: create a typed 'Annotated'
- data strutcure
-References: <20210202174651.2274166-1-jsnow@redhat.com>
- <20210202174651.2274166-9-jsnow@redhat.com>
-Date: Wed, 03 Feb 2021 15:47:36 +0100
-In-Reply-To: <20210202174651.2274166-9-jsnow@redhat.com> (John Snow's message
- of "Tue, 2 Feb 2021 12:46:45 -0500")
-Message-ID: <878s85tdh3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7JS7-0005p9-RZ
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:48:19 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:43501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7JS6-00033V-0r
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:48:19 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id i5so4982953edu.10
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 06:48:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=N6O8qYTxEzGo3fUj8qfEE6rAJdUBPzeLnjHAOnz/Yss=;
+ b=gPIr9PMy5rXpT1Wnc/nsbIXvdF9/mSfilu/S0PD/k0qM6AYqBY14Nz53h2TJgNdHcX
+ JvEzsEnOb6Sob2Vt+LFWY3PCyke5csxCV3t1LsaDyykPMjHNFMSgt4rseoUKzI0hFNGc
+ ccSn3mCfVh+CskM70Ku9OPJm7ckAzkasDyJSTX841GFJT0ROXLf4ocQXzvvl1Z6Kj92u
+ FY3E5KHXhdF/BOpSvCta0cfhsfuM2t4RUS1nzpKkKAJGFxCo147SUA0rqdfPq/vJ4ZVJ
+ 6wsmUnAD6qsj5itehApR7l4WSjvJ9E6Du7cQoCh7agcKmr83DSKD50TkWsN15SdLcj8A
+ FY4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=N6O8qYTxEzGo3fUj8qfEE6rAJdUBPzeLnjHAOnz/Yss=;
+ b=i+vchzsihnkiLblEOa+mqny/H63VW6xlR+Cu1yOgBbLEQxVfHm1F+MP2+gEwr2A+8O
+ K/wiZh3zCwkEelGIH8CVG2Ga5+ZEXwWSrtkeTq9068MPscpl73klmo4tEKGC1SiXx4j8
+ LlzFSopouWoz9d9hPI/1zH0t2vmgegEplSwmQm3KbR5wPLBX2Z+Kz+WauvlZy507cg/U
+ MO1FiIvdXEJN5KUIae/C0Ig8nwGcP9oDZ+dpAVmAXKSkv7NGLofylOdRdkbwmuFscwt+
+ O4XFRDiiTSDbe9QCxH0EOTzl9BwSq1M1bgBZ38ILKUCI/0BXnS9wWvwrjypnbxMqK/63
+ UaHw==
+X-Gm-Message-State: AOAM532vpj4lNHGi3SzmOLPnk4hg9SxSpn+ZQ4J0sJLbOVNjyy9Q8Y+z
+ cBfbNojYUuvF6WLadJUAi5agUbhP8eM=
+X-Google-Smtp-Source: ABdhPJyrJIBJTDv45Yv3cKeb74qJK3Z8RW7+fB287Q9+Ec4w9FQHCfLqbai/6VLcvb4k0mfu4B/QBQ==
+X-Received: by 2002:a50:b0c1:: with SMTP id j59mr2908659edd.141.1612363695302; 
+ Wed, 03 Feb 2021 06:48:15 -0800 (PST)
+Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.107])
+ by smtp.gmail.com with ESMTPSA id dm6sm1048994ejc.32.2021.02.03.06.48.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Feb 2021 06:48:14 -0800 (PST)
+Subject: Re: [PATCH v15 15/23] cpu: tcg_ops: move to tcg-cpu-ops.h, keep a
+ pointer in CPUClass
+To: Claudio Fontana <cfontana@suse.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20210201100903.17309-1-cfontana@suse.de>
+ <20210201100903.17309-16-cfontana@suse.de> <87im79s05m.fsf@linaro.org>
+ <df44fbe2-476b-f26d-0117-15dfa153e343@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b9e1f2ce-878c-71f8-c259-a8f1c7835a8c@amsat.org>
+Date: Wed, 3 Feb 2021 15:48:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <df44fbe2-476b-f26d-0117-15dfa153e343@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.178,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,223 +92,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On 2/3/21 3:41 PM, Claudio Fontana wrote:
+> On 2/3/21 2:23 PM, Alex Bennée wrote:
+>> Claudio Fontana <cfontana@suse.de> writes:
+...
+>>  /*
+>> modified   target/arm/cpu.c
+>> @@ -2248,7 +2248,7 @@ static gchar *arm_gdb_arch_name(CPUState *cs)
+>>   * NB: cannot be const, as some elements are changed for specific
+>>   * arm cpu classes.
+>>   */
+>> -static struct TCGCPUOps arm_tcg_ops = {
+>> +static const struct TCGCPUOps arm_tcg_ops = {
+>>      .initialize = arm_translate_init,
+>>      .synchronize_from_tb = arm_cpu_synchronize_from_tb,
+>>      .cpu_exec_interrupt = arm_cpu_exec_interrupt,
+>> --8<---------------cut here---------------end--------------->8---
+>>
+>> This does later break MIPS jazz:
+>>
+>> p/hw_mips_jazz.c.o -c ../../hw/mips/jazz.c
+>> ../../hw/mips/jazz.c: In function ‘mips_jazz_init’:
+>> ../../hw/mips/jazz.c:216:40: error: assignment of member ‘do_transaction_failed’ in read-only object
+>>      cc->tcg_ops->do_transaction_failed = mips_jazz_do_transaction_failed;
+>>
+>> which...
+>>
+>> <snip>
+>>>  
+>>> +#ifdef CONFIG_TCG
+>>> +#include "hw/core/tcg-cpu-ops.h"
+>>> +/*
+>>> + * NB: cannot be const, as some elements are changed for specific
+>>> + * mips hardware (see hw/mips/jazz.c).
+>>> + */
+>>
+>> does have a valid comment. So guess keep it as static and just don't
+>> claim ARM hacks around with it or find a more elegant solution for the
+>> Jazz hack (I'm not sure there is one).
+> 
+> Yep, the ARM claim was true when I started looking at this, but now it's not anymore after the changes.
+> 
+> However, I haven't found a way to remove the mips jazz hack.
+> 
+> Maybe Philippe knows?
 
-> Presently, we use a tuple to attach a dict containing annotations
-> (comments and compile-time conditionals) to a tree node. This is
-> undesirable because dicts are difficult to strongly type; promoting it
-> to a real class allows us to name the values and types of the
-> annotations we are expecting.
->
-> In terms of typing, the Annotated<T> type serves as a generic container
-> where the annotated node's type is preserved, allowing for greater
-> specificity than we'd be able to provide without a generic.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/introspect.py | 77 ++++++++++++++++++++++----------------
->  1 file changed, 44 insertions(+), 33 deletions(-)
->
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index b82efe16f6e..2b90a52f016 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -13,8 +13,12 @@
->  from typing import (
->      Any,
->      Dict,
-> +    Generic,
-> +    Iterable,
->      List,
->      Optional,
-> +    Tuple,
-> +    TypeVar,
->      Union,
->  )
->  
-> @@ -51,15 +55,25 @@
->  _scalar = Union[str, bool, None]
->  _nonscalar = Union[Dict[str, _stub], List[_stub]]
->  _value = Union[_scalar, _nonscalar]
-> -# TreeValue = Union[_value, 'Annotated[_value]']
-> +TreeValue = Union[_value, 'Annotated[_value]']
+We need to test the real behavior on real hardware.
 
-You need to quote 'Annotated[_value]', because it's a forward
-reference.
-
-Dependency cycle:
-
-        +-----------------------------------------------+
-        |                                               |
-    TreeValue = Union[_value, 'Annotated[_value]']      |
-                                   |                    |
-        +--------------------------+                    |
-        |                                               |
-    Annotated(Generic[_NodeT])                          |
-                         |                              |
-       +-----------------+                              |
-       |                                                |
-    _NodeT = TypeVar('_NodeT', bound=TreeValue          |
-                                         |              |
-                                         +--------------+
-
-Meh.  We'll live.
-
->  
-> -def _make_tree(obj, ifcond, comment=None):
-> -    extra = {
-> -        'if': ifcond,
-> -        'comment': comment,
-> -    }
-> -    return (obj, extra)
-> +_NodeT = TypeVar('_NodeT', bound=TreeValue)
-
-Can you teach me what NodeT is about?
-
-> +
-> +
-> +class Annotated(Generic[_NodeT]):
-> +    """
-> +    Annotated generally contains a SchemaInfo-like type (as a dict),
-> +    But it also used to wrap comments/ifconds around scalar leaf values,
-> +    for the benefit of features and enums.
-> +    """
-> +    # Remove after 3.7 adds @dataclass:
-
-Make this
-
-       # TODO Remove after Python 3.7 ...
-
-to give us a fighting chance to remember.
-
-> +    # pylint: disable=too-few-public-methods
-> +    def __init__(self, value: _NodeT, ifcond: Iterable[str],
-> +                 comment: Optional[str] = None):
-
-Why not simply value: _value?
-
-> +        self.value = value
-> +        self.comment: Optional[str] = comment
-> +        self.ifcond: Tuple[str, ...] = tuple(ifcond)
->  
->  
->  def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
-> @@ -67,24 +81,20 @@ def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
->      def indent(level):
->          return level * 4 * ' '
->  
-> -    if isinstance(obj, tuple):
-> -        ifobj, extra = obj
-> -        ifcond = extra.get('if')
-> -        comment = extra.get('comment')
-> -
-> +    if isinstance(obj, Annotated):
->          # NB: _tree_to_qlit is called recursively on the values of a key:value
->          # pair; those values can't be decorated with comments or conditionals.
->          msg = "dict values cannot have attached comments or if-conditionals."
->          assert not suppress_first_indent, msg
->  
->          ret = ''
-> -        if comment:
-> -            ret += indent(level) + '/* %s */\n' % comment
-> -        if ifcond:
-> -            ret += gen_if(ifcond)
-> -        ret += _tree_to_qlit(ifobj, level)
-> -        if ifcond:
-> -            ret += '\n' + gen_endif(ifcond)
-> +        if obj.comment:
-> +            ret += indent(level) + '/* %s */\n' % obj.comment
-> +        if obj.ifcond:
-> +            ret += gen_if(obj.ifcond)
-> +        ret += _tree_to_qlit(obj.value, level, suppress_first_indent)
-
-Why do you need to pass suppress_first_indent now?
-
-> +        if obj.ifcond:
-> +            ret += '\n' + gen_endif(obj.ifcond)
->          return ret
->  
->      ret = ''
-> @@ -201,7 +211,7 @@ def _use_type(self, typ):
->  
->      @staticmethod
->      def _gen_features(features):
-> -        return [_make_tree(f.name, f.ifcond) for f in features]
-> +        return [Annotated(f.name, f.ifcond) for f in features]
->  
->      def _gen_tree(self, name, mtype, obj, ifcond, features):
->          comment: Optional[str] = None
-> @@ -215,7 +225,7 @@ def _gen_tree(self, name, mtype, obj, ifcond, features):
->          obj['meta-type'] = mtype
->          if features:
->              obj['features'] = self._gen_features(features)
-> -        self._trees.append(_make_tree(obj, ifcond, comment))
-> +        self._trees.append(Annotated(obj, ifcond, comment))
->  
->      def _gen_member(self, member):
->          obj = {'name': member.name, 'type': self._use_type(member.type)}
-> @@ -223,7 +233,7 @@ def _gen_member(self, member):
->              obj['default'] = None
->          if member.features:
->              obj['features'] = self._gen_features(member.features)
-> -        return _make_tree(obj, member.ifcond)
-> +        return Annotated(obj, member.ifcond)
->  
->      def _gen_variants(self, tag_name, variants):
->          return {'tag': tag_name,
-> @@ -231,16 +241,17 @@ def _gen_variants(self, tag_name, variants):
->  
->      def _gen_variant(self, variant):
->          obj = {'case': variant.name, 'type': self._use_type(variant.type)}
-> -        return _make_tree(obj, variant.ifcond)
-> +        return Annotated(obj, variant.ifcond)
->  
->      def visit_builtin_type(self, name, info, json_type):
->          self._gen_tree(name, 'builtin', {'json-type': json_type}, [], None)
->  
->      def visit_enum_type(self, name, info, ifcond, features, members, prefix):
-> -        self._gen_tree(name, 'enum',
-> -                       {'values': [_make_tree(m.name, m.ifcond, None)
-> -                                   for m in members]},
-> -                       ifcond, features)
-> +        self._gen_tree(
-> +            name, 'enum',
-> +            {'values': [Annotated(m.name, m.ifcond) for m in members]},
-> +            ifcond, features
-> +        )
->  
->      def visit_array_type(self, name, info, ifcond, element_type):
->          element = self._use_type(element_type)
-> @@ -257,12 +268,12 @@ def visit_object_type_flat(self, name, info, ifcond, features,
->          self._gen_tree(name, 'object', obj, ifcond, features)
->  
->      def visit_alternate_type(self, name, info, ifcond, features, variants):
-> -        self._gen_tree(name, 'alternate',
-> -                       {'members': [
-> -                           _make_tree({'type': self._use_type(m.type)},
-> -                                      m.ifcond, None)
-> -                           for m in variants.variants]},
-> -                       ifcond, features)
-> +        self._gen_tree(name, 'alternate', {'members': [
-
-I think I'd prefer another line break after 'alternate', to get
-{'members': align...
-
-> +                Annotated({'type': self._use_type(m.type)}, m.ifcond)
-> +                for m in variants.variants
-> +            ]},
-
-... with ]}.
-
-> +            ifcond, features
-> +        )
->  
->      def visit_command(self, name, info, ifcond, features,
->                        arg_type, ret_type, gen, success_response, boxed,
-
+Eventually writing the test and asking on linux-mips@vger.kernel.org
+if someone can run it?
 
