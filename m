@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EFB630DC8F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:22:49 +0100 (CET)
-Received: from localhost ([::1]:39366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A911E30DC91
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:23:03 +0100 (CET)
+Received: from localhost ([::1]:40324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7J3Q-0001XT-6k
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:22:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43662)
+	id 1l7J3e-0001xz-O8
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:23:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7J1G-0000jL-VC
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:20:34 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:36467)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7J1T-0000tk-J7
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:20:47 -0500
+Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:37319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7J1E-0006Fj-M2
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:20:34 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.19])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id E170A88B5E27;
- Wed,  3 Feb 2021 15:20:21 +0100 (CET)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7J1Q-0006WB-SS
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:20:47 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.13])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id E67B824B294;
+ Wed,  3 Feb 2021 15:20:41 +0100 (CET)
 Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 3 Feb 2021
- 15:20:18 +0100
+ 15:20:38 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-95G00148947b67-7018-4824-99b8-9987dcf8b33b,
+ (GARM-95G001f8f67480-0256-4c3a-bf87-0a60eaa29bff,
  14764A637080470E006017DF0F40374BD57DCD59) smtp.auth=groug@kaod.org
 X-OVh-ClientIp: 78.197.208.248
-Date: Wed, 3 Feb 2021 15:20:14 +0100
+Date: Wed, 3 Feb 2021 15:20:35 +0100
 From: Greg Kurz <groug@kaod.org>
 To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v4 2/3] virtiofsd: optionally return inode pointer from
- lo_do_lookup()
-Message-ID: <20210203152014.443a8b29@bahia.lan>
-In-Reply-To: <20210203113719.83633-3-stefanha@redhat.com>
+Subject: Re: [PATCH v4 1/3] virtiofsd: extract lo_do_open() from lo_open()
+Message-ID: <20210203152035.374924b9@bahia.lan>
+In-Reply-To: <20210203113719.83633-2-stefanha@redhat.com>
 References: <20210203113719.83633-1-stefanha@redhat.com>
- <20210203113719.83633-3-stefanha@redhat.com>
+ <20210203113719.83633-2-stefanha@redhat.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
  (172.16.2.71)
-X-Ovh-Tracer-GUID: c62cfea9-2ac9-4d53-bd10-bfc58d19f2da
-X-Ovh-Tracer-Id: 12764608719518669234
+X-Ovh-Tracer-GUID: 58704edf-4f51-40a7-8a0f-8bd0e12b5a2f
+X-Ovh-Tracer-Id: 12770238222482315698
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrgedvgdeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepshhlphesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
+ helo=7.mo51.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -76,114 +75,147 @@ Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  3 Feb 2021 11:37:18 +0000
+On Wed,  3 Feb 2021 11:37:17 +0000
 Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-> lo_do_lookup() finds an existing inode or allocates a new one. It
-> increments nlookup so that the inode stays alive until the client
-> releases it.
+> Both lo_open() and lo_create() have similar code to open a file. Extract
+> a common lo_do_open() function from lo_open() that will be used by
+> lo_create() in a later commit.
 > 
-> Existing callers don't need the struct lo_inode so the function doesn't
-> return it. Extend the function to optionally return the inode. The next
-> commit will need it.
+> Since lo_do_open() does not otherwise need fuse_req_t req, convert
+> lo_add_fd_mapping() to use struct lo_data *lo instead.
 > 
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 29 +++++++++++++++++++++--------
->  1 file changed, 21 insertions(+), 8 deletions(-)
+
+With the s/ENOMEM/-ENOMEM/ change in lo_do_open() suggested by patchew,
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  tools/virtiofsd/passthrough_ll.c | 73 ++++++++++++++++++++------------
+>  1 file changed, 46 insertions(+), 27 deletions(-)
 > 
 > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index e63cbd3fb7..c87a1f3d72 100644
+> index 5fb36d9407..e63cbd3fb7 100644
 > --- a/tools/virtiofsd/passthrough_ll.c
 > +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -831,11 +831,13 @@ static int do_statx(struct lo_data *lo, int dirfd, const char *pathname,
+> @@ -459,17 +459,17 @@ static void lo_map_remove(struct lo_map *map, size_t key)
 >  }
 >  
->  /*
-> - * Increments nlookup and caller must release refcount using
-> - * lo_inode_put(&parent).
-> + * Increments nlookup on the inode on success. unref_inode_lolocked() must be
-> + * called eventually to decrement nlookup again. If inodep is non-NULL, the
-> + * inode pointer is stored and the caller must call lo_inode_put().
->   */
->  static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
-> -                        struct fuse_entry_param *e)
-> +                        struct fuse_entry_param *e,
-> +                        struct lo_inode **inodep)
+>  /* Assumes lo->mutex is held */
+> -static ssize_t lo_add_fd_mapping(fuse_req_t req, int fd)
+> +static ssize_t lo_add_fd_mapping(struct lo_data *lo, int fd)
 >  {
->      int newfd;
->      int res;
-> @@ -845,6 +847,10 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
->      struct lo_inode *inode = NULL;
->      struct lo_inode *dir = lo_inode(req, parent);
+>      struct lo_map_elem *elem;
 >  
-> +    if (inodep) {
-> +        *inodep = NULL;
-> +    }
-> +
-
-Is this side-effect needed ? If lo_do_lookup() returns an error, it
-rather seems that the caller shouldn't expect anything to be written
-here, i.e. the content of *inodep still belongs to the caller and
-whatever value it previously put in there (as patch 3/3 does) should
-be preserved IMHO.
-
-Apart from that LGTM.
-
->      /*
->       * name_to_handle_at() and open_by_handle_at() can reach here with fuse
->       * mount point in guest, but we don't have its inode info in the
-> @@ -913,7 +919,14 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
->          pthread_mutex_unlock(&lo->mutex);
+> -    elem = lo_map_alloc_elem(&lo_data(req)->fd_map);
+> +    elem = lo_map_alloc_elem(&lo->fd_map);
+>      if (!elem) {
+>          return -1;
 >      }
->      e->ino = inode->fuse_ino;
-> -    lo_inode_put(lo, &inode);
+>  
+>      elem->fd = fd;
+> -    return elem - lo_data(req)->fd_map.elems;
+> +    return elem - lo->fd_map.elems;
+>  }
+>  
+>  /* Assumes lo->mutex is held */
+> @@ -1651,6 +1651,38 @@ static void update_open_flags(int writeback, int allow_direct_io,
+>      }
+>  }
+>  
+> +static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+> +                      struct fuse_file_info *fi)
+> +{
+> +    char buf[64];
+> +    ssize_t fh;
+> +    int fd;
 > +
-> +    /* Transfer ownership of inode pointer to caller or drop it */
-> +    if (inodep) {
-> +        *inodep = inode;
-> +    } else {
-> +        lo_inode_put(lo, &inode);
+> +    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+> +
+> +    sprintf(buf, "%i", inode->fd);
+> +    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> +    if (fd == -1) {
+> +        return -errno;
 > +    }
 > +
->      lo_inode_put(lo, &dir);
+> +    pthread_mutex_lock(&lo->mutex);
+> +    fh = lo_add_fd_mapping(lo, fd);
+> +    pthread_mutex_unlock(&lo->mutex);
+> +    if (fh == -1) {
+> +        close(fd);
+> +        return ENOMEM;
+> +    }
+> +
+> +    fi->fh = fh;
+> +    if (lo->cache == CACHE_NONE) {
+> +        fi->direct_io = 1;
+> +    } else if (lo->cache == CACHE_ALWAYS) {
+> +        fi->keep_cache = 1;
+> +    }
+> +    return 0;
+> +}
+> +
+>  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+>                        mode_t mode, struct fuse_file_info *fi)
+>  {
+> @@ -1691,7 +1723,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+>          ssize_t fh;
 >  
->      fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long long)parent,
-> @@ -948,7 +961,7 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
+>          pthread_mutex_lock(&lo->mutex);
+> -        fh = lo_add_fd_mapping(req, fd);
+> +        fh = lo_add_fd_mapping(lo, fd);
+>          pthread_mutex_unlock(&lo->mutex);
+>          if (fh == -1) {
+>              close(fd);
+> @@ -1892,38 +1924,25 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
+>  
+>  static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>  {
+> -    int fd;
+> -    ssize_t fh;
+> -    char buf[64];
+>      struct lo_data *lo = lo_data(req);
+> +    struct lo_inode *inode = lo_inode(req, ino);
+> +    int err;
+>  
+>      fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino,
+>               fi->flags);
+>  
+> -    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+> -
+> -    sprintf(buf, "%i", lo_fd(req, ino));
+> -    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> -    if (fd == -1) {
+> -        return (void)fuse_reply_err(req, errno);
+> -    }
+> -
+> -    pthread_mutex_lock(&lo->mutex);
+> -    fh = lo_add_fd_mapping(req, fd);
+> -    pthread_mutex_unlock(&lo->mutex);
+> -    if (fh == -1) {
+> -        close(fd);
+> -        fuse_reply_err(req, ENOMEM);
+> +    if (!inode) {
+> +        fuse_reply_err(req, EBADF);
 >          return;
 >      }
 >  
-> -    err = lo_do_lookup(req, parent, name, &e);
-> +    err = lo_do_lookup(req, parent, name, &e, NULL);
->      if (err) {
->          fuse_reply_err(req, err);
->      } else {
-> @@ -1056,7 +1069,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
->          goto out;
+> -    fi->fh = fh;
+> -    if (lo->cache == CACHE_NONE) {
+> -        fi->direct_io = 1;
+> -    } else if (lo->cache == CACHE_ALWAYS) {
+> -        fi->keep_cache = 1;
+> +    err = lo_do_open(lo, inode, fi);
+> +    lo_inode_put(lo, &inode);
+> +    if (err) {
+> +        fuse_reply_err(req, err);
+> +    } else {
+> +        fuse_reply_open(req, fi);
 >      }
+> -    fuse_reply_open(req, fi);
+>  }
 >  
-> -    saverr = lo_do_lookup(req, parent, name, &e);
-> +    saverr = lo_do_lookup(req, parent, name, &e, NULL);
->      if (saverr) {
->          goto out;
->      }
-> @@ -1534,7 +1547,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
->  
->          if (plus) {
->              if (!is_dot_or_dotdot(name)) {
-> -                err = lo_do_lookup(req, ino, name, &e);
-> +                err = lo_do_lookup(req, ino, name, &e, NULL);
->                  if (err) {
->                      goto error;
->                  }
-> @@ -1732,7 +1745,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
->          }
->  
->          fi->fh = fh;
-> -        err = lo_do_lookup(req, parent, name, &e);
-> +        err = lo_do_lookup(req, parent, name, &e, NULL);
->      }
->      if (lo->cache == CACHE_NONE) {
->          fi->direct_io = 1;
+>  static void lo_release(fuse_req_t req, fuse_ino_t ino,
 
 
