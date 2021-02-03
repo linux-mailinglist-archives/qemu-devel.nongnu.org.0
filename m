@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E80A30DD37
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:51:01 +0100 (CET)
-Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E22B30DD19
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:43:02 +0100 (CET)
+Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7JUi-0007QO-E6
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:51:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55348)
+	id 1l7JMz-0000PO-N4
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:43:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7JPp-0003r1-54
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:45:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46074)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7JPk-0001y5-JK
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:45:56 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l7JPc-0002xP-5c
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 14:45:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1F0272E8138
- for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 14:45:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7JLE-0007WA-Sg
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:41:12 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36114)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7JLC-0007o7-Bg
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:41:12 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 65729ACB0;
+ Wed,  3 Feb 2021 14:41:08 +0000 (UTC)
+Subject: Re: [PATCH v15 15/23] cpu: tcg_ops: move to tcg-cpu-ops.h, keep a
+ pointer in CPUClass
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210201100903.17309-1-cfontana@suse.de>
+ <20210201100903.17309-16-cfontana@suse.de> <87im79s05m.fsf@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <df44fbe2-476b-f26d-0117-15dfa153e343@suse.de>
+Date: Wed, 3 Feb 2021 15:41:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Feb 2021 14:39:13 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1913917@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd pmaydell
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <161205975552.32077.17135502611991851570.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161236315314.1579.5767862424366993685.malone@gac.canonical.com>
-Subject: [Bug 1913917] Re: aarch64-virt: heap-use-after-free in gic_dist_writeb
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: 04c5c83516c6706f869f44d86147526e71b43cf6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87im79s05m.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.178,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,84 +56,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913917 <1913917@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commited as edfe2eb4360cde4ed5d95bda7777edcb3510f76a.
+On 2/3/21 2:23 PM, Alex Bennée wrote:
+> 
+> Claudio Fontana <cfontana@suse.de> writes:
+> 
+>> we cannot in principle make the TCG Operations field definitions
+>> conditional on CONFIG_TCG in code that is included by both common_ss
+>> and specific_ss modules.
+>>
+>> Therefore, what we can do safely to restrict the TCG fields to TCG-only
+>> builds, is to move all tcg cpu operations into a separate header file,
+>> which is only included by TCG, target-specific code.
+>>
+>> This leaves just a NULL pointer in the cpu.h for the non-TCG builds.
+>>
+>> This also tidies up the code in all targets a bit, having all TCG cpu
+>> operations neatly contained by a dedicated data struct.
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> ---
+> <snip>
+>>  
+>> -/**
+>> - * struct TcgCpuOperations: TCG operations specific to a CPU class
+>> - */
+>> -typedef struct TcgCpuOperations {
+>> -    /**
+>> -     * @initialize: Initalize TCG state
+>> -     *
+>> -     * Called when the first CPU is realized.
+>> -     */
+>> -    void (*initialize)(void);
+>> -    /**
+>> -     * @synchronize_from_tb: Synchronize state from a TCG #TranslationBlock
+>> -     *
+>> -     * This is called when we abandon execution of a TB before
+>> -     * starting it, and must set all parts of the CPU state which
+>> -     * the previous TB in the chain may not have updated. This
+>> -     * will need to do more. If this hook is not implemented then
+>> -     * the default is to call @set_pc(tb->pc).
+>> -     */
+>> -    void (*synchronize_from_tb)(CPUState *cpu,
+>> -                                const struct TranslationBlock *tb);
+>> -    /** @cpu_exec_enter: Callback for cpu_exec preparation */
+>> -    void (*cpu_exec_enter)(CPUState *cpu);
+>> -    /** @cpu_exec_exit: Callback for cpu_exec cleanup */
+>> -    void (*cpu_exec_exit)(CPUState *cpu);
+>> -    /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
+>> -    bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
+>> -    /** @do_interrupt: Callback for interrupt handling. */
+>> -    void (*do_interrupt)(CPUState *cpu);
+>> -    /**
+>> -     * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
+>> -     *
+>> -     * For system mode, if the access is valid, call tlb_set_page
+>> -     * and return true; if the access is invalid, and probe is
+>> -     * true, return false; otherwise raise an exception and do
+>> -     * not return.  For user-only mode, always raise an exception
+>> -     * and do not return.
+>> -     */
+>> -    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>> -                     MMUAccessType access_type, int mmu_idx,
+>> -                     bool probe, uintptr_t retaddr);
+>> -    /** @debug_excp_handler: Callback for handling debug exceptions */
+>> -    void (*debug_excp_handler)(CPUState *cpu);
+>> +/* see accel-cpu.h */
+>> +struct AccelCPUClass;
+> 
+> This seems unrelated - wasn't AccelCPUClass already introduced. Or is
+> this just catch up documentation.
 
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Committed
+Yep something to check, seems unnecessary.
 
--- =
+> 
+>>  
+>> -    /**
+>> -     * @do_transaction_failed: Callback for handling failed memory transactions
+>> -     * (ie bus faults or external aborts; not MMU faults)
+>> -     */
+>> -    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
+>> -                                  unsigned size, MMUAccessType access_type,
+>> -                                  int mmu_idx, MemTxAttrs attrs,
+>> -                                  MemTxResult response, uintptr_t retaddr);
+>> -    /**
+>> -     * @do_unaligned_access: Callback for unaligned access handling
+>> -     */
+>> -    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+>> -                                MMUAccessType access_type,
+>> -                                int mmu_idx, uintptr_t retaddr);
+>> -    /**
+>> -     * @adjust_watchpoint_address: hack for cpu_check_watchpoint used by ARM
+>> -     */
+>> -    vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr addr, int len);
+>> -
+>> -    /**
+>> -     * @debug_check_watchpoint: return true if the architectural
+>> -     * watchpoint whose address has matched should really fire, used by ARM
+>> -     */
+>> -    bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
+>> -
+>> -} TcgCpuOperations;
+>> +/* see tcg-cpu-ops.h */
+>> +struct TCGCPUOps;
+>>  
+>>  /**
+>>   * CPUClass:
+>> @@ -256,7 +191,14 @@ struct CPUClass {
+>>      int gdb_num_core_regs;
+>>      bool gdb_stop_before_watchpoint;
+>>  
+>> -    TcgCpuOperations tcg_ops;
+>> +    /*
+>> +     * NB: this should be wrapped by CONFIG_TCG, but it is unsafe to do it here,
+>> +     * as this header is included by both ss_specific and ss_common code,
+>> +     * leading to potential differences in the data structure between modules.
+>> +     * We could always keep it last, but it seems safer to just leave this
+>> +     * pointer NULL for non-TCG.
+>> +     */
+>> +    struct TCGCPUOps *tcg_ops;
+> 
+> I suspect the editorial comment is better suited to the commit log
+> rather than the comments. Maybe a simpler:
+> 
+>   As this header is included by both ss_specific and ss_common code we
+>   cannot totally eliminate this field for non CONFIG_TCG builds although
+>   the pointer will be NULL.
+> 
+> and move the justification to the commit comment.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913917
+Ok, I'd still keep also a comment with the code, as it's read more than commit logs, at the minimum a: "this is NULL when TCG code is not available".
 
-Title:
-  aarch64-virt: heap-use-after-free in gic_dist_writeb
+> 
+> <snip>
+>>  
+>> +#ifdef CONFIG_TCG
+>> +/*
+>> + * NB: cannot be const, as some elements are changed for specific
+>> + * arm cpu classes.
+>> + */
+> 
+> This comment seems wrong. I don't see arm_tcg_ops being changed after
+> the fact. We have a separate arm_v7m_tcg_ops which we use instead.
+> Indeed the following seemed to work:
 
-Status in QEMU:
-  Fix Committed
 
-Bug description:
-  Reproducer:
-  cat << EOF | ./qemu-system-aarch64 \
-  -machine virt,accel=3Dqtest -qtest stdio
-  writel 0x8000f00 0x5affaf
-  write 0x8000eff 0x1 0x0
-  EOF
+You are right, the comment is obsolete.
 
-  Stacktrace:
-  ../hw/intc/arm_gic.c:1419:17: runtime error: index 3068 out of bounds for=
- type 'gic_irq_state [1020]'
-  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gi=
-c.c:1419:17 in
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  =3D=3D641550=3D=3DERROR: AddressSanitizer: heap-use-after-free on address=
- 0x629000023a85 at pc 0x55b5dfb0fbf8 bp 0x7fff95cb5870 sp 0x7fff95cb5868
-  WRITE of size 1 at 0x629000023a85 thread T0
-      #0 0x55b5dfb0fbf7 in gic_dist_writeb /home/alxndr/Development/qemu/bu=
-ild/../hw/intc/arm_gic.c:1419:17
-      #1 0x55b5dfb061e2 in gic_dist_write /home/alxndr/Development/qemu/bui=
-ld/../hw/intc/arm_gic.c
-      #2 0x55b5e0809ef4 in memory_region_write_with_attrs_accessor /home/al=
-xndr/Development/qemu/build/../softmmu/memory.c:511:12
-      #3 0x55b5e0808bfb in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c:552:18
-      #4 0x55b5e0808467 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/build/../softmmu/memory.c
-      #5 0x55b5e0b98ffb in flatview_write_continue /home/alxndr/Development=
-/qemu/build/../softmmu/physmem.c:2759:23
-      #6 0x55b5e0b8e71b in flatview_write /home/alxndr/Development/qemu/bui=
-ld/../softmmu/physmem.c:2799:14
-      #7 0x55b5e0b8e71b in address_space_write /home/alxndr/Development/qem=
-u/build/../softmmu/physmem.c:2891:18
-      #8 0x55b5e07fad35 in qtest_process_command /home/alxndr/Development/q=
-emu/build/../softmmu/qtest.c:654:9
-      #9 0x55b5e07f3b97 in qtest_process_inbuf /home/alxndr/Development/qem=
-u/build/../softmmu/qtest.c:797:9
-      #10 0x55b5e1044286 in fd_chr_read /home/alxndr/Development/qemu/build=
-/../chardev/char-fd.c:68:9
-      #11 0x7fa997b30aae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x51aae)
-      #12 0x55b5e169f363 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/build/../util/main-loop.c:232:9
-      #13 0x55b5e169f363 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/build/../util/main-loop.c:255:5
-      #14 0x55b5e169f363 in main_loop_wait /home/alxndr/Development/qemu/bu=
-ild/../util/main-loop.c:531:11
-      #15 0x55b5e075a599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
-ild/../softmmu/runstate.c:721:9
-      #16 0x55b5de9e71fd in main /home/alxndr/Development/qemu/build/../sof=
-tmmu/main.c:50:5
-      #17 0x7fa9975d5cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
-      #18 0x55b5de93abc9 in _start (/home/alxndr/Development/qemu/build/qem=
-u-system-aarch64+0x3350bc9)
+This is a leftover comment from when I thought that there was no way to remove the last place where the tcg ops where changed in arm,
+which was the part I removed here:
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913917/+subscriptions
+@@ -805,10 +808,6 @@ static void aarch64_cpu_class_init(ObjectClass *oc, void *data)
+ {
+     CPUClass *cc = CPU_CLASS(oc);
+ 
+-#ifdef CONFIG_TCG
+-    cc->tcg_ops.cpu_exec_interrupt = arm_cpu_exec_interrupt;
+-#endif /* CONFIG_TCG */
+-
+
+
+I then figured out that this code was completely unnecessary.
+
+
+> 
+> --8<---------------cut here---------------start------------->8---
+> modified   include/hw/core/cpu.h
+> @@ -199,7 +199,7 @@ struct CPUClass {
+>       * We could always keep it last, but it seems safer to just leave this
+>       * pointer NULL for non-TCG.
+>       */
+> -    struct TCGCPUOps *tcg_ops;
+> +    const struct TCGCPUOps *tcg_ops;
+
+
+Yes, I really wanted to do this.
+Mips is the only blocker left that I can remember.
+
+
+>  };
+>  
+>  /*
+> modified   target/arm/cpu.c
+> @@ -2248,7 +2248,7 @@ static gchar *arm_gdb_arch_name(CPUState *cs)
+>   * NB: cannot be const, as some elements are changed for specific
+>   * arm cpu classes.
+>   */
+> -static struct TCGCPUOps arm_tcg_ops = {
+> +static const struct TCGCPUOps arm_tcg_ops = {
+>      .initialize = arm_translate_init,
+>      .synchronize_from_tb = arm_cpu_synchronize_from_tb,
+>      .cpu_exec_interrupt = arm_cpu_exec_interrupt,
+> --8<---------------cut here---------------end--------------->8---
+> 
+> This does later break MIPS jazz:
+> 
+> p/hw_mips_jazz.c.o -c ../../hw/mips/jazz.c
+> ../../hw/mips/jazz.c: In function ‘mips_jazz_init’:
+> ../../hw/mips/jazz.c:216:40: error: assignment of member ‘do_transaction_failed’ in read-only object
+>      cc->tcg_ops->do_transaction_failed = mips_jazz_do_transaction_failed;
+> 
+> which...
+> 
+> <snip>
+>>  
+>> +#ifdef CONFIG_TCG
+>> +#include "hw/core/tcg-cpu-ops.h"
+>> +/*
+>> + * NB: cannot be const, as some elements are changed for specific
+>> + * mips hardware (see hw/mips/jazz.c).
+>> + */
+> 
+> does have a valid comment. So guess keep it as static and just don't
+> claim ARM hacks around with it or find a more elegant solution for the
+> Jazz hack (I'm not sure there is one).
+
+Yep, the ARM claim was true when I started looking at this, but now it's not anymore after the changes.
+
+However, I haven't found a way to remove the mips jazz hack.
+
+Maybe Philippe knows?
+
+
+> 
+> <snip>
+> 
+> These minor trivialities aside:
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+
+Thanks Alex,
+
+Claudio
 
