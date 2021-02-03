@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D044A30E2F2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:57:58 +0100 (CET)
-Received: from localhost ([::1]:50548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7A630E30A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:06:32 +0100 (CET)
+Received: from localhost ([::1]:32866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7NLh-0005Hm-Ay
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:57:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36572)
+	id 1l7NTz-0001jT-2E
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:06:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l7NKW-0004ks-37
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:56:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l7NKT-0008Py-HA
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:56:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612378599;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qR8nD63Ep4bLgwXU7vjyA76Zc3Ax9YCITR2PYAuJq0M=;
- b=AA3AJMcpD9DDrCrNJdSI4DdX45zv5V0VrlWTTO7apEK4q7LsfVzsEVvPXqeYeZGlQhWYtm
- DmLhIdLJKcvke2ZqBmm6OytNw/W54xIYoYz7SAxAJD0DQyxUeWYPIA6ZgZmgmMMnao9klU
- 0q2j0hrvvX+p01/lPerZGm9bqGdfndc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-WNi1y4LeOn2hwdq8sNfi2w-1; Wed, 03 Feb 2021 13:56:36 -0500
-X-MC-Unique: WNi1y4LeOn2hwdq8sNfi2w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 767929126F;
- Wed,  3 Feb 2021 18:56:35 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33F076091B;
- Wed,  3 Feb 2021 18:56:31 +0000 (UTC)
-Subject: Re: [PATCH 4/6] travis.yml: Remove the --enable-debug jobs
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210203113243.280883-1-thuth@redhat.com>
- <20210203113243.280883-5-thuth@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <651b8baa-0905-1221-fc04-21df43877989@redhat.com>
-Date: Wed, 3 Feb 2021 15:56:28 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l7NLs-0005u0-Iy; Wed, 03 Feb 2021 13:58:08 -0500
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:38135)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l7NLq-0000ag-7W; Wed, 03 Feb 2021 13:58:08 -0500
+Received: by mail-io1-xd29.google.com with SMTP id f6so452292ioz.5;
+ Wed, 03 Feb 2021 10:58:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sHHYrEzhdd+NBjgpe1gypf6WoeK9tjLRiqU3lNdj7tI=;
+ b=sPnHKTsTonWgfOtKE7FCbSJK1h+rXlKJPr0/dscgQlOQcEYr2PCWOnW4Db6k6NwyCV
+ /ZdTbLj3L4y808aYKWHVV7OZqlGmveZmpbzKoGKkwW006PVs3tTMnD8EHY3zYgaq2HiT
+ XFeX6ZkKxVwlp3DoOwAuhi/7SbqvgvsJ0I8Mzah1G6Jh2ue778YekR9NcBxZi0F1S9QI
+ o8OE4058r1zAbWfsGHLSUgIYwLChFthdKvev70nxWr/aPyAl6y5VAEXwv3T6NrSYHbj2
+ Q9C86Sg3Rn7CHgLM2/GyZGRscB1pV/BJuLct3G0f1pXZpKPlraLwWLVi2l6HZev0U+NU
+ FV8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sHHYrEzhdd+NBjgpe1gypf6WoeK9tjLRiqU3lNdj7tI=;
+ b=CJArIRRxf2l5baDr7I87qJ/kAgts127xGnW6Ie5vMdWryIHQoJrcmo2iqXAhu8PvFQ
+ rvRMDUhg2vcyB16q0zk+zMp0k7sxetZcFomedUozDAFgdFyI6GXq5ttkCBoi38ZAUO+B
+ EwOsbRmpdDNl0K0jnAKVv+pMUSsVN9Fw1b37YE69W8gHAfsB4Dctg6C2XYYordJjNSlK
+ B0C1+yNRpUwIn9WJjfIIquDpSi4jOugO3mkgi7fANbkbi4EerJMUC6jKPy30LFQeoWsE
+ 35hb4tZJ+dxzOV3z5sts+X1dYNJuAA6ZEEt94o/O/jw1tn9GW5/nk4ZvhTKlINVPD9C7
+ 1m3A==
+X-Gm-Message-State: AOAM533msYP4nbcOOS7OpjES/0fOSeLuJJn6gZDjGRXza0iqzB9cbf2a
+ V8RzFssIoysiIbmLhPEOYgX77jMKk8KrATmlwUY=
+X-Google-Smtp-Source: ABdhPJzTQ+qt/Jz1aQo93FcJXQH6FWHIGxtQabLqbQBpUrsg8bwT2x4zo8eu/B9hsUIxBGGPea21q+xlBSddgH1y6g0=
+X-Received: by 2002:a6b:7d42:: with SMTP id d2mr3670671ioq.176.1612378684300; 
+ Wed, 03 Feb 2021 10:58:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210203113243.280883-5-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210201124458.1248-1-jiangyifei@huawei.com>
+ <20210201124458.1248-2-jiangyifei@huawei.com>
+In-Reply-To: <20210201124458.1248-2-jiangyifei@huawei.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 3 Feb 2021 10:57:38 -0800
+Message-ID: <CAKmqyKPcPmcUWFncS4Q24rhDBbvEVX2MwkcfYP9UdEqheN9XYw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/1] target-riscv: support QMP dump-guest-memory
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,49 +76,310 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "limingwang \(A\)" <limingwang@huawei.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, fanliang@huawei.com,
+ "Wubin \(H\)" <wu.wubin@huawei.com>, "dengkai \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On 2/3/21 8:32 AM, Thomas Huth wrote:
-> We already have such jobs in the gitlab-CI ("build-some-softmmu" and
-> "build-user-plugins"), so we can simply drop these from the Travis-CI.
-
-Those jobs --enable-debug-tcg. Shouldn't at least one --enable-debug?
-
-- Wainer
-
+On Mon, Feb 1, 2021 at 4:46 AM Yifei Jiang <jiangyifei@huawei.com> wrote:
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Add the support needed for creating prstatus elf notes. This allows
+> us to use QMP dump-guest-memory.
+>
+> Now ELF notes of RISC-V only contain prstatus elf notes.
+>
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Mingwang Li <limingwang@huawei.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
+
 > ---
->   .travis.yml | 12 ------------
->   1 file changed, 12 deletions(-)
+>  target/riscv/arch_dump.c | 202 +++++++++++++++++++++++++++++++++++++++
+>  target/riscv/cpu.c       |   2 +
+>  target/riscv/cpu.h       |   4 +
+>  target/riscv/cpu_bits.h  |   1 +
+>  target/riscv/meson.build |   1 +
+>  5 files changed, 210 insertions(+)
+>  create mode 100644 target/riscv/arch_dump.c
 >
-> diff --git a/.travis.yml b/.travis.yml
-> index 45dd017420..b3fc72f561 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -119,18 +119,6 @@ after_script:
->   
->   jobs:
->     include:
-> -    # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
-> -    - name: "GCC debug (main-softmmu)"
-> -      env:
-> -        - CONFIG="--enable-debug --target-list=${MAIN_SOFTMMU_TARGETS}"
-> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
-> -
-> -
-> -    # TCG debug can be run just on its own and is mostly agnostic to user/softmmu distinctions
-> -    - name: "GCC debug (user)"
-> -      env:
-> -        - CONFIG="--enable-debug-tcg --disable-system"
-> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
->   
->   
->       # Using newer GCC with sanitizers
-
+> diff --git a/target/riscv/arch_dump.c b/target/riscv/arch_dump.c
+> new file mode 100644
+> index 0000000000..d965a3a704
+> --- /dev/null
+> +++ b/target/riscv/arch_dump.c
+> @@ -0,0 +1,202 @@
+> +/* Support for writing ELF notes for RISC-V architectures
+> + *
+> + * Copyright (C) 2021 Huawei Technologies Co., Ltd
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "elf.h"
+> +#include "sysemu/dump.h"
+> +
+> +/* struct user_regs_struct from arch/riscv/include/uapi/asm/ptrace.h */
+> +struct riscv64_user_regs {
+> +    uint64_t pc;
+> +    uint64_t regs[31];
+> +} QEMU_PACKED;
+> +
+> +QEMU_BUILD_BUG_ON(sizeof(struct riscv64_user_regs) != 256);
+> +
+> +/* struct elf_prstatus from include/linux/elfcore.h */
+> +struct riscv64_elf_prstatus {
+> +    char pad1[32]; /* 32 == offsetof(struct elf_prstatus, pr_pid) */
+> +    uint32_t pr_pid;
+> +    char pad2[76]; /* 76 == offsetof(struct elf_prstatus, pr_reg) -
+> +                            offsetof(struct elf_prstatus, pr_ppid) */
+> +    struct riscv64_user_regs pr_reg;
+> +    char pad3[8];
+> +} QEMU_PACKED;
+> +
+> +QEMU_BUILD_BUG_ON(sizeof(struct riscv64_elf_prstatus) != 376);
+> +
+> +struct riscv64_note {
+> +    Elf64_Nhdr hdr;
+> +    char name[8]; /* align_up(sizeof("CORE"), 4) */
+> +    struct riscv64_elf_prstatus prstatus;
+> +} QEMU_PACKED;
+> +
+> +#define RISCV64_NOTE_HEADER_SIZE offsetof(struct riscv64_note, prstatus)
+> +#define RISCV64_PRSTATUS_NOTE_SIZE \
+> +            (RISCV64_NOTE_HEADER_SIZE + sizeof(struct riscv64_elf_prstatus))
+> +
+> +static void riscv64_note_init(struct riscv64_note *note, DumpState *s,
+> +                              const char *name, Elf64_Word namesz,
+> +                              Elf64_Word type, Elf64_Word descsz)
+> +{
+> +    memset(note, 0, sizeof(*note));
+> +
+> +    note->hdr.n_namesz = cpu_to_dump32(s, namesz);
+> +    note->hdr.n_descsz = cpu_to_dump32(s, descsz);
+> +    note->hdr.n_type = cpu_to_dump32(s, type);
+> +
+> +    memcpy(note->name, name, namesz);
+> +}
+> +
+> +int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+> +                               int cpuid, void *opaque)
+> +{
+> +    struct riscv64_note note;
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    CPURISCVState *env = &cpu->env;
+> +    DumpState *s = opaque;
+> +    int ret, i = 0;
+> +    const char name[] = "CORE";
+> +
+> +    riscv64_note_init(&note, s, name, sizeof(name),
+> +                      NT_PRSTATUS, sizeof(note.prstatus));
+> +
+> +    note.prstatus.pr_pid = cpu_to_dump32(s, cpuid);
+> +
+> +    note.prstatus.pr_reg.pc = cpu_to_dump64(s, env->pc);
+> +
+> +    for (i = 0; i < 31; i++) {
+> +        note.prstatus.pr_reg.regs[i] = cpu_to_dump64(s, env->gpr[i + 1]);
+> +    }
+> +
+> +    ret = f(&note, RISCV64_PRSTATUS_NOTE_SIZE, s);
+> +    if (ret < 0) {
+> +        return -1;
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +struct riscv32_user_regs {
+> +    uint32_t pc;
+> +    uint32_t regs[31];
+> +} QEMU_PACKED;
+> +
+> +QEMU_BUILD_BUG_ON(sizeof(struct riscv32_user_regs) != 128);
+> +
+> +struct riscv32_elf_prstatus {
+> +    char pad1[24]; /* 24 == offsetof(struct elf_prstatus, pr_pid) */
+> +    uint32_t pr_pid;
+> +    char pad2[44]; /* 44 == offsetof(struct elf_prstatus, pr_reg) -
+> +                            offsetof(struct elf_prstatus, pr_ppid) */
+> +    struct riscv32_user_regs pr_reg;
+> +    char pad3[4];
+> +} QEMU_PACKED;
+> +
+> +QEMU_BUILD_BUG_ON(sizeof(struct riscv32_elf_prstatus) != 204);
+> +
+> +struct riscv32_note {
+> +    Elf32_Nhdr hdr;
+> +    char name[8]; /* align_up(sizeof("CORE"), 4) */
+> +    struct riscv32_elf_prstatus prstatus;
+> +} QEMU_PACKED;
+> +
+> +#define RISCV32_NOTE_HEADER_SIZE offsetof(struct riscv32_note, prstatus)
+> +#define RISCV32_PRSTATUS_NOTE_SIZE \
+> +            (RISCV32_NOTE_HEADER_SIZE + sizeof(struct riscv32_elf_prstatus))
+> +
+> +static void riscv32_note_init(struct riscv32_note *note, DumpState *s,
+> +                              const char *name, Elf32_Word namesz,
+> +                              Elf32_Word type, Elf32_Word descsz)
+> +{
+> +    memset(note, 0, sizeof(*note));
+> +
+> +    note->hdr.n_namesz = cpu_to_dump32(s, namesz);
+> +    note->hdr.n_descsz = cpu_to_dump32(s, descsz);
+> +    note->hdr.n_type = cpu_to_dump32(s, type);
+> +
+> +    memcpy(note->name, name, namesz);
+> +}
+> +
+> +int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+> +                               int cpuid, void *opaque)
+> +{
+> +    struct riscv32_note note;
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    CPURISCVState *env = &cpu->env;
+> +    DumpState *s = opaque;
+> +    int ret, i;
+> +    const char name[] = "CORE";
+> +
+> +    riscv32_note_init(&note, s, name, sizeof(name),
+> +                      NT_PRSTATUS, sizeof(note.prstatus));
+> +
+> +    note.prstatus.pr_pid = cpu_to_dump32(s, cpuid);
+> +
+> +    note.prstatus.pr_reg.pc = cpu_to_dump32(s, env->pc);
+> +
+> +    for (i = 0; i < 31; i++) {
+> +        note.prstatus.pr_reg.regs[i] = cpu_to_dump32(s, env->gpr[i + 1]);
+> +    }
+> +
+> +    ret = f(&note, RISCV32_PRSTATUS_NOTE_SIZE, s);
+> +    if (ret < 0) {
+> +        return -1;
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +int cpu_get_dump_info(ArchDumpInfo *info,
+> +                      const GuestPhysBlockList *guest_phys_blocks)
+> +{
+> +    RISCVCPU *cpu;
+> +    CPURISCVState *env;
+> +
+> +    if (first_cpu == NULL) {
+> +        return -1;
+> +    }
+> +    cpu = RISCV_CPU(first_cpu);
+> +    env = &cpu->env;
+> +
+> +    info->d_machine = EM_RISCV;
+> +
+> +#if defined(TARGET_RISCV64)
+> +    info->d_class = ELFCLASS64;
+> +#else
+> +    info->d_class = ELFCLASS32;
+> +#endif
+> +
+> +    info->d_endian = (env->mstatus & MSTATUS_UBE) != 0
+> +                     ? ELFDATA2MSB : ELFDATA2LSB;
+> +
+> +    return 0;
+> +}
+> +
+> +ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
+> +{
+> +    size_t note_size;
+> +
+> +    if (class == ELFCLASS64) {
+> +        note_size = RISCV64_PRSTATUS_NOTE_SIZE;
+> +    } else {
+> +        note_size = RISCV32_PRSTATUS_NOTE_SIZE;
+> +    }
+> +
+> +    return note_size * nr_cpus;
+> +}
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 27788021eb..c0dd6469ec 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -614,6 +614,8 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+>      cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
+>      /* For now, mark unmigratable: */
+>      cc->vmsd = &vmstate_riscv_cpu;
+> +    cc->write_elf64_note = riscv_cpu_write_elf64_note;
+> +    cc->write_elf32_note = riscv_cpu_write_elf32_note;
+>  #endif
+>      cc->gdb_arch_name = riscv_gdb_arch_name;
+>      cc->gdb_get_dynamic_xml = riscv_gdb_get_dynamic_xml;
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 02758ae0eb..f810169e55 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -323,6 +323,10 @@ extern const char * const riscv_intr_names[];
+>
+>  const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
+>  void riscv_cpu_do_interrupt(CPUState *cpu);
+> +int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+> +                               int cpuid, void *opaque);
+> +int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+> +                               int cpuid, void *opaque);
+>  int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+>  int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>  bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 4196ef8b69..caf4599207 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -368,6 +368,7 @@
+>  #define MSTATUS_MIE         0x00000008
+>  #define MSTATUS_UPIE        0x00000010
+>  #define MSTATUS_SPIE        0x00000020
+> +#define MSTATUS_UBE         0x00000040
+>  #define MSTATUS_MPIE        0x00000080
+>  #define MSTATUS_SPP         0x00000100
+>  #define MSTATUS_MPP         0x00001800
+> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> index 14a5c62dac..88ab850682 100644
+> --- a/target/riscv/meson.build
+> +++ b/target/riscv/meson.build
+> @@ -26,6 +26,7 @@ riscv_ss.add(files(
+>
+>  riscv_softmmu_ss = ss.source_set()
+>  riscv_softmmu_ss.add(files(
+> +  'arch_dump.c',
+>    'pmp.c',
+>    'monitor.c',
+>    'machine.c'
+> --
+> 2.19.1
+>
+>
 
