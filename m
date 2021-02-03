@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3A330DDB3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 16:12:07 +0100 (CET)
-Received: from localhost ([::1]:38290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFDDA30DDE8
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 16:17:51 +0100 (CET)
+Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Jp7-0000c9-IU
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 10:12:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35570)
+	id 1l7Jug-0003G3-M8
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 10:17:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7JoH-0008Qs-S6
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:11:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22467)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7JsE-00026G-SL
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:15:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7JoE-0005OZ-Iw
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:11:12 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7JsC-0007Hr-IV
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:15:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612365069;
+ s=mimecast20190719; t=1612365313;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UVqe9cxC/m6VcfnnUGqLOcKRO5UCgaV+uyZKsrd3sw8=;
- b=LGyIwgV1u4bCT67grJyk7rt/DLZXoZxNC0VMJIH1SneytdZt2QqzjYhXnd8DGVio9pQOEM
- qO4RObidR7u8sSYEaQMqEXGeq0QiDbAFaOiWWP5NssTcxGyya6AZt+nUFCXkoMee+A+fUl
- rsSMuUZjJLxh0KI+o5+sFIuryG8vyiA=
+ bh=8lREfScbLNSOI5X4/rvja53C3nTMPZmkKM+1oOrHQfk=;
+ b=LUiOtAI0W9zVkGEt5aWFnWTjTE0Q5DFDX92ROMBaag/0DdtwrNs+h3aUcZmoFQFoVINFqP
+ pzXhhueJNU7WK+9xcBs+gAS9DOnc9kRnDJWV1v0auzfsaXR9sfDK/BMMmsScXpl19Y7Vq/
+ Z58NcYWfaweG+JqQdVTZu4MYQ2JbUYE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-V-1ekkHsM3-HBNrf21gTFQ-1; Wed, 03 Feb 2021 10:11:05 -0500
-X-MC-Unique: V-1ekkHsM3-HBNrf21gTFQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-314-N3z-WwxkN-qYQ3f1BONYFg-1; Wed, 03 Feb 2021 10:15:10 -0500
+X-MC-Unique: N3z-WwxkN-qYQ3f1BONYFg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94B5779ECB;
- Wed,  3 Feb 2021 15:11:02 +0000 (UTC)
-Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29D786267F;
- Wed,  3 Feb 2021 15:10:56 +0000 (UTC)
-Date: Wed, 3 Feb 2021 15:10:53 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: ARM Snapshots Not Backwards-Compatible
-Message-ID: <20210203151053.GK2950@work-vm>
-References: <YBogDGJRU5pcDKmi@strawberry.localdomain>
- <CAFEAcA-_N2CiNtjPi3hnk285Xdy3RuL8dY8QFhF0TnCydng6yA@mail.gmail.com>
- <YBq6Ct8M6AfMr0Bx@strawberry.localdomain>
- <2572efa4-8aa3-32e4-7559-f93e6522d284@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6AE880402E;
+ Wed,  3 Feb 2021 15:15:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF3D1709AE;
+ Wed,  3 Feb 2021 15:15:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 73793113865F; Wed,  3 Feb 2021 16:15:05 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 11/14] qapi/introspect.py: add type hint annotations
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-12-jsnow@redhat.com>
+Date: Wed, 03 Feb 2021 16:15:05 +0100
+In-Reply-To: <20210202174651.2274166-12-jsnow@redhat.com> (John Snow's message
+ of "Tue, 2 Feb 2021 12:46:48 -0500")
+Message-ID: <87r1lxqj2e.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <2572efa4-8aa3-32e4-7559-f93e6522d284@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,53 +80,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-arm <qemu-arm@nongnu.org>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
-> On 2/3/21 3:58 PM, Aaron Lindsay wrote:
-> > On Feb 03 10:01, Peter Maydell wrote:
-> >>> The third is that meanings of the bits in env->features (as defined by
-> >>> `enum arm_features` in target/arm/cpu.h) has shifted. For example,
-> >>> ARM_FEATURE_PXN, ARM_FEATURE_CRC, ARM_FEATURE_VFP, ARM_FEATURE_VFP3,
-> >>> ARM_FEATURE_VFP4 have all been removed and ARM_FEATURE_V8_1M has been
-> >>> added since 4.1.0. Heck, even I have added a field there in the past.
-> >>> Unfortunately, these additions/removals mean that when env->features is
-> >>> saved on one version and restored on another the bits can mean different
-> >>> things. Notably, the removal of the *VFP features means that a snapshot
-> >>> of a CPU reporting it supports ARM_FEATURE_VFP3 on 4.1.0 thinks it's now
-> >>> ARM_FEATURE_M on 5.2.0!
-> >>
-> >> Ow. I didn't realize the env->features was in the migration state :-(
-> >> There is no reason for it to be, because it's a constant property
-> >> of the CPU. The easy fix is to replace
-> >>        VMSTATE_UINT64(env.features, ARMCPU),
-> >> in target/arm/machine.c with whatever the syntax is for "ignore
-> >> 64 bits of data here". Then we'll ignore whatever is coming in
-> >> from the source, which we don't need, and we'll stop sending it
-> >> out if we're the destination.
-> > 
-> > I'll look into this.
-> 
-> I think this is:
-> 
->   VMSTATE_UNUSED(sizeof(uint64_t))
+John Snow <jsnow@redhat.com> writes:
 
-It's interesting that on x86 we've got a longterm request to *add* cpu
-features to the stream to detect screwups caused by using mismatched
-CPUs; so it's not necessarily a bad idea to include it once you realise
-it's there.
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/introspect.py | 115 ++++++++++++++++++++++++++-----------
+>  scripts/qapi/mypy.ini      |   5 --
+>  scripts/qapi/schema.py     |   2 +-
+>  3 files changed, 82 insertions(+), 40 deletions(-)
+>
+> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+> index 60ec326d2c7..b7f2a6cf260 100644
+> --- a/scripts/qapi/introspect.py
+> +++ b/scripts/qapi/introspect.py
+> @@ -30,10 +30,19 @@
+>  )
+>  from .gen import QAPISchemaMonolithicCVisitor
+>  from .schema import (
+> +    QAPISchema,
+>      QAPISchemaArrayType,
+>      QAPISchemaBuiltinType,
+> +    QAPISchemaEntity,
+> +    QAPISchemaEnumMember,
+> +    QAPISchemaFeature,
+> +    QAPISchemaObjectType,
+> +    QAPISchemaObjectTypeMember,
+>      QAPISchemaType,
+> +    QAPISchemaVariant,
+> +    QAPISchemaVariants,
+>  )
+> +from .source import QAPISourceInfo
+>  
+>  
+>  # This module constructs a tree data structure that is used to
+> @@ -57,6 +66,8 @@
+   # generate the introspection information for QEMU. It behaves similarly
+   # to a JSON value.
+   #
+   # A complexity over JSON is that our values may or may not be annotated.
+   #
+   # Un-annotated values may be:
+   #     Scalar: str, bool, None.
+   #     Non-scalar: List, Dict
+   # _value = Union[str, bool, None, Dict[str, TreeValue], List[TreeValue]]
+   #
+   # With optional annotations, the type of all values is:
+   # TreeValue = Union[_value, Annotated[_value]]
+   #
+   # Sadly, mypy does not support recursive types, so we must approximate this.
+   _stub = Any
+   _scalar = Union[str, bool, None]
+   _nonscalar = Union[Dict[str, _stub], List[_stub]]
+>  _value = Union[_scalar, _nonscalar]
+>  TreeValue = Union[_value, 'Annotated[_value]']
+>  
+> +# This is a (strict) alias for an arbitrary object non-scalar, as above:
+> +_DObject = Dict[str, object]
 
-Dave
+Sounds greek :)
 
-> > 
-> > -Aaron
-> > 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+It's almost the Dict part of _nonscalar, but not quite: object vs. Any.
+
+I naively expect something closer to
+
+   _scalar = ...
+   _object = Dict[str, _stub]
+   _nonscalar = Union[_object, List[_stub]
+
+and (still naively) expect _object to be good enough to serve as type
+annotation for dicts representing JSON objects.
+
+[...]
 
 
