@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD8030E184
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:56:58 +0100 (CET)
-Received: from localhost ([::1]:37444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3528630E231
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:14:55 +0100 (CET)
+Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7MOe-0000qH-Pi
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:56:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41986)
+	id 1l7Mg2-0003dI-93
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:14:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l7M1e-0007SL-QR
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:33:11 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2105)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l7M1c-0005xM-TJ
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:33:10 -0500
-Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DW7w74h6yz67kfF;
- Thu,  4 Feb 2021 01:29:27 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 3 Feb 2021 18:32:58 +0100
-Received: from localhost (10.47.71.126) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2106.2; Wed, 3 Feb 2021
- 17:32:57 +0000
-Date: Wed, 3 Feb 2021 17:32:11 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: Re: [RFC PATCH 0/4] hw/cxl/ + /hw/pci/: PCI DOE + CXL CDAT emulation
-Message-ID: <20210203173211.0000691c@Huawei.com>
-In-Reply-To: <20210201151629.29656-1-Jonathan.Cameron@huawei.com>
-References: <20210201151629.29656-1-Jonathan.Cameron@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7M6j-0004BN-0f
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:38:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7M6g-0006WA-QD
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:38:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612373900;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NaCkT+0wu/V8D1JiT6wMPdsJ0wxmB3357DwRS5wWzOU=;
+ b=aTRj3nva1WR1GuVcghvshSZEiM8CLIpejFRBCzNHMYcZAIwowiznqB+nqFEgxRGqQVq1it
+ bGzXn/joc7cf23mQqtqx6YLoOgFxGGSdKkoPOKHo7Nzf2zp57lMcHMOae+SB5klM5R8MB0
+ WsIopPB+pApri1g8KMMxoY6j7pzU96I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-350-UKSrVcXCMaigfZc6u8Sz8Q-1; Wed, 03 Feb 2021 12:38:08 -0500
+X-MC-Unique: UKSrVcXCMaigfZc6u8Sz8Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A0B41015C84;
+ Wed,  3 Feb 2021 17:38:07 +0000 (UTC)
+Received: from redhat.com (ovpn-114-142.ams2.redhat.com [10.36.114.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F35B477BE5;
+ Wed,  3 Feb 2021 17:37:44 +0000 (UTC)
+Date: Wed, 3 Feb 2021 17:37:39 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/4] hw/i386: Remove the deprecated pc-1.x machine types
+Message-ID: <20210203173739.GX300990@redhat.com>
+References: <20210203171832.483176-1-thuth@redhat.com>
+ <20210203171832.483176-2-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.71.126]
-X-ClientProxiedBy: lhreml705-chm.china.huawei.com (10.201.108.54) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+In-Reply-To: <20210203171832.483176-2-thuth@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,62 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Vishal
- Verma <vishal.l.verma@intel.com>, f.fangjian@huawei.com,
- Chris Browy <cbrowy@avery-design.com>, f4bug@amsat.org, linuxarm@openeuler.org,
- jcm@redhat.com, Prashant V Agarwal <agpr123@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, libvir-list@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Feb 2021 23:16:25 +0800
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
-
-> Whilst I know others are working on an implementation of at least some of
-> this, a desire to work on the kernel user of this required an
-> implementation so I threw this together in the meantime and am sending
-> it out on the basis that it may be of use to others.
+On Wed, Feb 03, 2021 at 06:18:29PM +0100, Thomas Huth wrote:
+> They have been deprecated since QEMU v5.0, time to remove them now.
 > 
-> As it is an RFC I have been lazy on some cleanup and error handling.
-> Will fix that in a future version if we decide to take this forwards.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/system/deprecated.rst       |  6 --
+>  docs/system/removed-features.rst |  6 ++
+>  hw/i386/pc_piix.c                | 94 --------------------------------
+>  3 files changed, 6 insertions(+), 100 deletions(-)
 
-In the interests of info for anyone seeing this, note there is an
-alternative version from Chris Browy and colleagues.
+Ack from libvirt side,
 
-https://lore.kernel.org/qemu-devel/alpine.LRH.2.23.451.2102021543190.30097@server4/
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Note that it's proved useful because we disagreed on a few things some
-of which I believe need spec clarification.
-(definitely one spec misread in this version - oops).
 
-> 
-> Based on Ben's cxl-2.0v3 branch from https://gitlab.com/bwidawsk/qemu
-> Possible I've picked an unstable branch so this may or may not currently
-> apply :)  I'll rebase on Ben's next version when avaialble.
-> 
-> Jonathan Cameron (4):
->   include/standard-headers/linux/pci_regs: temp hack to add necessary
->     DOE definitions.
->   hw/pci/pcie_doe: Introduce utility functions for PCIe DOE
->   hw/cxl/cxl-cdat: Initial CDAT implementation for use by CXL devices
->   hw/mem/cxl_type3: Enabled DOE mailbox for access to CDAT
-> 
->  hw/cxl/cxl-cdat.c                         | 252 +++++++++++++++++++++
->  hw/cxl/meson.build                        |   1 +
->  hw/mem/cxl_type3.c                        |  49 ++++-
->  hw/pci/meson.build                        |   2 +-
->  hw/pci/pcie_doe.c                         | 257 ++++++++++++++++++++++
->  include/hw/cxl/cxl.h                      |   1 +
->  include/hw/cxl/cxl_cdat.h                 | 101 +++++++++
->  include/hw/pci/doe.h                      |  40 ++++
->  include/hw/pci/pci_ids.h                  |   2 +
->  include/standard-headers/linux/pci_regs.h |  33 ++-
->  10 files changed, 734 insertions(+), 4 deletions(-)
->  create mode 100644 hw/cxl/cxl-cdat.c
->  create mode 100644 hw/pci/pcie_doe.c
->  create mode 100644 include/hw/cxl/cxl_cdat.h
->  create mode 100644 include/hw/pci/doe.h
-> 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
