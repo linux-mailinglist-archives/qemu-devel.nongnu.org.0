@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C64430E099
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:11:58 +0100 (CET)
-Received: from localhost ([::1]:37832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB2230E522
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 22:49:37 +0100 (CET)
+Received: from localhost ([::1]:59880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Lh6-0001DE-W5
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:11:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60616)
+	id 1l7Q1n-0003bx-PS
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 16:49:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7LSN-0005KH-4y
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:56:43 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7LSL-00083h-Dp
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:56:42 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id c127so302721wmf.5
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 08:56:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=fcvyX83A2g6RnVBDWvE71mh6+wQmYqQ4poaWo1jIqu8=;
- b=uhludbSldOoHa0SjkVxjEMFWoLvHYjY7maTifpsnIUkat7NmlnepaiAbYaf6Tzqy9q
- muH7S2TXcKXgIzhbs6Xlis9RkQIPkY8gQo6UeybgHHQe5fEYrdSg7sSC6UadFj2OvKTr
- rgptvHisc28VeB1J9r05KwfQ0SUl8TcaFrXm7cFaHFuvk0VH8DvXaRCTiibMozUnzQgd
- mIS7jIs2pAB0ecB/rtrIWHpbNe7JiLZ8Cx1nx5N7S58pP4i/CYPVUqa9IICCzj7jUcGd
- uwUqHeU+vKc2tqz2Kozqz6TiAFmhhLsMQKckXHtQO5gI3Q7v6hmrsBwQyPY4NxWucW+o
- AafA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=fcvyX83A2g6RnVBDWvE71mh6+wQmYqQ4poaWo1jIqu8=;
- b=SUBLx1jAob9zvY9Y15aui0KEQXb1E8sCd5A+AHM7qEb08HFu89m90Ng8eWA8YeiTu+
- xJu9yLSi+FN8c/ZtlfMJAGqY4tDl2LpDyeFQ6PkDX31zNfQwZVMZtan/os43pPNxuinp
- xQZS1EMX0fGF99UocaZkrjVvCbuPfeRc4IBgT/Enw5auRaHraQj1kTj6AeOjw6XG+cU1
- LKd4pwzWBSaA0kLyDwZ1NAkaCqE7CQryUCedddlrhTEpwcLTIuZ4qAPQT4XjYIHOXYa5
- YW/16g9vpb3+N67ho/ECM5R4smBNLNLTGsDEGNa26Hz3c6QHRjEBI5mcRzzMS7r+PXa5
- 13og==
-X-Gm-Message-State: AOAM532/bi0u1WpsP7EicirJdTEu891XWykrmVoQi8pleRsxZuA8g9R/
- V7v1OPLEp6AX2cStphlKMFc+Lg==
-X-Google-Smtp-Source: ABdhPJzdDSSTrUpF6xQBQaYz0rPgDFi2qBVZIypszLBUfNojoFs72od9AW6xU9KvGf1Qqz5BkXpvAg==
-X-Received: by 2002:a7b:c08f:: with SMTP id r15mr3709333wmh.22.1612371399713; 
- Wed, 03 Feb 2021 08:56:39 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d13sm4335222wrx.93.2021.02.03.08.56.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 08:56:38 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C79C61FF7E;
- Wed,  3 Feb 2021 16:56:37 +0000 (GMT)
-References: <20210201100903.17309-1-cfontana@suse.de>
- <20210201100903.17309-24-cfontana@suse.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v15 23/23] accel-cpu: make cpu_realizefn return a bool
-Date: Wed, 03 Feb 2021 16:56:32 +0000
-In-reply-to: <20210201100903.17309-24-cfontana@suse.de>
-Message-ID: <87y2g5qed6.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <daggs@gmx.com>)
+ id 1l7LSS-0005Wd-Gi; Wed, 03 Feb 2021 11:56:48 -0500
+Received: from mout.gmx.net ([212.227.17.22]:36913)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <daggs@gmx.com>)
+ id 1l7LSQ-00083o-Et; Wed, 03 Feb 2021 11:56:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1612371400;
+ bh=wY9epdhClG3pfBMjCONI3dHGDnVcfkwiGJsovbHJ6kI=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=Fi/XtO/C/8qK9jLO7lNLOuoERnTKBrBN1RfkMCYquwnsNjkiS8P7YcjIZMTxOiRFT
+ P6ZrRdzQcuGao1sQiCc1Mf6XIdtElJ+KvIB4MhhOGQLBXAXx8DxEWp0rPenBhjPvAu
+ 76KD6QnqnkG6bv7Y93RzhIwxkINPSBoOKq0jtJoU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [176.231.4.124] ([176.231.4.124]) by web-mail.gmx.net
+ (3c-app-mailcom-bs06.server.lan [172.19.170.174]) (via HTTP); Wed, 3 Feb
+ 2021 17:56:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Message-ID: <trinity-936e979a-507c-483e-aabf-37228fb4989d-1612371400065@3c-app-mailcom-bs06>
+From: daggs <daggs@gmx.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: cdrom scsi passthough not working well
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 3 Feb 2021 17:56:40 +0100
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <46ec2226-2e5b-4e73-9b01-4e55f1f1fcbc@redhat.com>
+References: <trinity-9b27278b-c96f-472f-a115-9bf29b44c103-1603862318112@3c-app-mailcom-bs15>
+ <46ec2226-2e5b-4e73-9b01-4e55f1f1fcbc@redhat.com>
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:oGxqlsPB9VEppAKZtFwO/7Q+VOe4J5qxYD+TOEAGRlrvDgQp+VGXDSzDes6v64e6/L4Kx
+ Z/FSncAApNXd57AZsKeLN0X8uZtoWqXhf7TWVgB8QddWX92hK067+1P/O8zVpiCg6CX2MVRMUAqw
+ WkJBvGnvRhZwJUfK3UvHnk1sNZA7xbvzEIdfmgizwOm+z6ylEHwabSN9x+IxDmrwvDGnl8KmJHNE
+ QqZ/8J53wAz0DeWd5RusGtwn+CKAyxn/3fSHBrezoOaeF91Y4qxC8sw62giKmYcrM6yukOwk5wnV
+ Bk=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:W0+brmSB1eE=:wxaHIzS9WLtw01J5pRKPOS
+ nBFUoTgRE5C2nMGjcRr1dvztT7PU/NpXSZA8oPNr/uZueYYJK1ts1OaAULAt7ksfyvt/oLFud
+ 6JrmgcDeT3fY5ivHUhyG6jWzehQF24NXeojFyG9S2/nF8XvZeXWssc0/X49akWuEyRJeDe1S4
+ bI9tp9fLngE1Wpvn+D1HdOeLWKWxzZkVdV5BFwGhtAnsrRNuU+u13uCqdFAsb2uZw44kASZuN
+ fZ4wopdLYOztl6XnWL7yYeUE/V6asQDibCPRFaFx4U1Ty51gnebycMIhs/5rzp2ZphKeynssA
+ PDtbJPNEHcOrNtkkxOBVsM6ZYw2chJFCaWoxj/I3ZIL5sY7Dmxz+lUSJ3VBNQFU9rWUxAk/1z
+ 5/420akkgK3ZAsOCKQp3/yLwkQ8wB+BqYFQcfytqhQ1aLWQZwUoL8YNmt6DGKZ+GczS7SvtnH
+ G+V8YQCmImi1M8TPEudr1C1/68pEhQsXhENhWg4rrXOhb8w3vgSj9NlUpjvaqn1+ZbLXVsRdO
+ W0Lo31wrOq5rPp8NY0AvU+GiSVhgmhAqNBpAGhl+Lr5SZ2kQEWyLQt7FAKf+P6Tz3TGfufta7
+ suzULjZuwm5wo=
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=daggs@gmx.com;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 03 Feb 2021 16:45:34 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,38 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Greetings Philippe,
 
-Claudio Fontana <cfontana@suse.de> writes:
+> Sent: Wednesday, February 03, 2021 at 6:48 PM
+> From: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat=2Ecom>
+> To: "daggs" <daggs@gmx=2Ecom>, qemu-discuss@nongnu=2Eorg
+> Cc: "qemu-devel" <qemu-devel@nongnu=2Eorg>, "Qemu-block" <qemu-block@non=
+gnu=2Eorg>
+> Subject: Re: cdrom scsi passthough not working well
+>
+> Cc'ing qemu-block@ developers=2E
+>=20
+> On 10/28/20 6:18 AM, daggs wrote:
+> > Greetings,
+> >=20
+> > I have a vm running under qemu 5=2E1=2E0 with a cdrom scsi passthough =
+into it=2E
+> > I can eject the device in and out but when I insert a disc, is isn't d=
+etected and the dmesg on the guest is filled with these prints:
+> > [384216=2E443262] sr 0:0:0:0: ioctl_internal_command return code =3D 8=
+000002
+> > [384216=2E443268] sr 0:0:0:0: Sense Key : 0xb [current]
+> > [384216=2E443272] sr 0:0:0:0: ASC=3D0x0 ASCQ=3D0x6
+> > [384218=2E504142] sr 0:0:0:0: ioctl_internal_command return code =3D 8=
+000002
+> > [384218=2E504150] sr 0:0:0:0: Sense Key : 0xb [current]
+> > [384218=2E504153] sr 0:0:0:0: ASC=3D0x0 ASCQ=3D0x6
+> > [384220=2E561302] sr 0:0:0:0: ioctl_internal_command return code =3D 8=
+000002
+> > [384220=2E561308] sr 0:0:0:0: Sense Key : 0xb [current]
+> > [384220=2E561312] sr 0:0:0:0: ASC=3D0x0 ASCQ=3D0x6
+> >=20
+> > the vm is uefi q35 based, generated by libvirt 6=2E8=2E0, the cdrom pa=
+rt is this:
+> > -blockdev {"driver":"host_device","filename":"/dev/sg0","node-name":"l=
+ibvirt-2-backend","read-only":true}
+> > -device scsi-generic,bus=3Dscsi0=2E0,channel=3D0,scsi-id=3D0,lun=3D0,d=
+rive=3Dlibvirt-2-backend,id=3Dhostdev0
+> >=20
+> > id there something bad with the config or have I encountered a bug?
+> >=20
+> > Thanks,
+> >=20
+> > Dagg=2E
+> >=20
+>=20
 
-> overall, all devices' realize functions take an Error **errp, but return =
-void.
->
-> hw/core/qdev.c code, which realizes devices, therefore does:
->
-> local_err =3D NULL;
-> dc->realize(dev, &local_err);
-> if (local_err !=3D NULL) {
->     goto fail;
-> }
->
-> However, we can improve at least accel_cpu to return a meaningful bool va=
-lue.
->
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+I don't have this issue anymore, however, when I enter the cdrom, the read=
+ light is blinking for a long time and when it is done, the disc isn't dete=
+cted=2E
+/dev/sr0 exists, both the drive and cd are good
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+Dagg=2E
+>
 
