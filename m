@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF9730DBC6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 14:51:11 +0100 (CET)
-Received: from localhost ([::1]:53042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B27D30DC29
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:06:54 +0100 (CET)
+Received: from localhost ([::1]:37914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7IYo-0007Hs-1f
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 08:51:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36326)
+	id 1l7Io1-0005QU-4v
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:06:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7IXM-0006oS-2W
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:49:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7IXJ-0001LO-Lv
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:49:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612360175;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AnbJdrnI73kYqC2KKQZZykVBbRFTWWCPCRVCqDYBxDU=;
- b=TUlTbo/MKpIDLyjkWulBzVJWlGJjvHrzVctPNDk8MgY2+tJl5W5TOqlhjZkQhIs6ZRdVtm
- xPlsmLbCDd9PR1SZ9yq9USUkXgsChRajHOdQ8XArJ44kdfVHyVhHPXEnzmDdLHwdyvcu/j
- v63f6y7wAHxVG15ruxV35L/B5b/D8QM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-W1tupNCDNAKDnsFgZc1TDw-1; Wed, 03 Feb 2021 08:49:26 -0500
-X-MC-Unique: W1tupNCDNAKDnsFgZc1TDw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A9F0801960;
- Wed,  3 Feb 2021 13:49:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
- [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EED0F5D9E8;
- Wed,  3 Feb 2021 13:49:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 865E0113865F; Wed,  3 Feb 2021 14:49:23 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 02/14] qapi/introspect.py: use _make_tree for
- features nodes
-References: <20210202174651.2274166-1-jsnow@redhat.com>
- <20210202174651.2274166-3-jsnow@redhat.com>
-Date: Wed, 03 Feb 2021 14:49:23 +0100
-In-Reply-To: <20210202174651.2274166-3-jsnow@redhat.com> (John Snow's message
- of "Tue, 2 Feb 2021 12:46:39 -0500")
-Message-ID: <87czxhuuqk.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7Ij8-0001oS-02
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:01:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7Ij4-0006hL-4M
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:01:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l7Ij0-0005NN-U7
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 14:01:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B350E2E814F
+ for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 14:01:42 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Feb 2021 13:54:26 -0000
+From: Thomas Huth <1813940@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bonzini darsto dgilbert-h marcandre-lureau philmd
+ th-huth
+X-Launchpad-Bug-Reporter: Darek Stojaczyk (darsto)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <154885462996.30915.15408927273139016803.malonedeb@gac.canonical.com>
+Message-Id: <161236046632.13072.16576612481390338464.malone@soybean.canonical.com>
+Subject: [Bug 1813940] Re: kvm_mem_ioeventfd_add: error adding ioeventfd: No
+ space left on device
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: fda8c14f55908f353878f9a9bbd1cafe3bde3b41
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,55 +72,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1813940 <1813940@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+That patch has been included here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D4f8260248c68e4599a5
+Thus closing this ticket now.
 
-> At present, we open-code this in _make_tree itself; but if the structure
-> of the tree changes, this is brittle. Use an explicit recursive call to
-> _make_tree when appropriate to help keep the interior node typing
-> consistent.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/introspect.py | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index 43ab4be1f77..3295a15c98e 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -30,7 +30,9 @@ def _make_tree(obj, ifcond, features, extra=None):
->      if ifcond:
->          extra['if'] = ifcond
->      if features:
-> -        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
-> +        obj['features'] = [
-> +            _make_tree(f.name, f.ifcond, None) for f in features
-> +        ]
->      if extra:
->          return (obj, extra)
->      return obj
+** Changed in: qemu
+       Status: Confirmed =3D> Fix Released
 
-The commit message made me expect a patch that improves the code without
-changing its behavior.  This is not the case.  We go from
+-- =
 
-    obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1813940
 
-to
+Title:
+  kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device
 
-    obj['features'] = [_make_tree(f.name, f.ifcond) for f in features]
+Status in QEMU:
+  Fix Released
 
-where
+Bug description:
+  Latest QEMU master fails to run with too many MMIO devices specified.
 
-    _make_tree(f.name, f.ifcond)
-    = (f.name, {'if': f.ifcond})       if f.ifcond
-    = f.name                           else
+  After patch 3ac7d43a6fb [1] QEMU just prints an error message and exits.
+  > kvm_mem_ioeventfd_add: error adding ioeventfd: No space left on device
 
-Differs when not f.ifcond.  Feels like an improvement.  However, the
-commit message did not prepare me for it.
+  This is reproducible e.g. with the following setup:
 
+  qemu-3.1.50-dirty \
+      -machine pc-i440fx-2.7,accel=3Dkvm \
+      -cpu host -m 4096 \
+      -smp 2,sockets=3D2,cores=3D1,threads=3D1 \
+      -drive file=3Dfreebsd_vm_1.qcow2,format=3Dqcow2,if=3Dnone,id=3Dbootdr=
+ \
+      -device ide-hd,drive=3Dbootdr,bootindex=3D0 \
+      -device virtio-scsi-pci,id=3Dvc0 \
+      -device virtio-scsi-pci,id=3Dvc1 \
+      -device virtio-scsi-pci,id=3Dvc2 \
+      -device virtio-scsi-pci,id=3Dvc3 \
+
+  Running with just 3 Virtio-SCSI controllers seems to work fine, adding
+  more than that causes the error above. Note that this is not Virtio-
+  SCSI specific. I've also reproduced this without any Virtio devices
+  whatsoever.
+
+  strace shows the following ioctl chain over and over:
+
+  145787 ioctl(11, KVM_UNREGISTER_COALESCED_MMIO, 0x7f60a4985410) =3D 0
+  145787 ioctl(11, KVM_UNREGISTER_COALESCED_MMIO, 0x7f60a4985410) =3D 0
+  145787 ioctl(11, KVM_REGISTER_COALESCED_MMIO, 0x7f60a49853b0) =3D 0
+  145787 ioctl(11, KVM_REGISTER_COALESCED_MMIO, 0x7f60a49853b0) =3D -1 ENOS=
+PC (No space left on device)
+  145787 ioctl(11, KVM_REGISTER_COALESCED_MMIO, 0x7f60a49853b0) =3D -1 ENOS=
+PC (No space left on device)
+  145787 ioctl(11, KVM_REGISTER_COALESCED_MMIO, 0x7f60a49853b0) =3D -1 ENOS=
+PC (No space left on device)
+  145787 ioctl(11, KVM_REGISTER_COALESCED_MMIO, 0x7f60a49853b0) =3D -1 ENOS=
+PC (No space left on device)
+  145787 ioctl(11, KVM_REGISTER_COALESCED_MMIO, 0x7f60a49853b0) =3D -1 ENOS=
+PC (No space left on device)
+  145787 ioctl(11, KVM_REGISTER_COALESCED_MMIO, 0x7f60a49853b0) =3D -1 ENOS=
+PC (No space left on device)
+  145787 ioctl(11, KVM_REGISTER_COALESCED_MMIO, 0x7f60a49853b0) =3D -1 ENOS=
+PC (No space left on device)
+  145787 ioctl(11, KVM_REGISTER_COALESCED_MMIO, 0x7f60a49853b0) =3D -1 ENOS=
+PC (No space left on device)
+
+  Which suggests there's some kind of MMIO region leak.
+
+  [1]
+  commit 3ac7d43a6fbb5d4a3d01fc9a055c218030af3727
+  Author:     Paolo Bonzini <pbonzini@redhat.com>
+  AuthorDate: Wed Nov 28 17:28:45 2018 +0100
+  Commit:     Paolo Bonzini <pbonzini@redhat.com>
+  CommitDate: Fri Jan 11 13:57:24 2019 +0100
+
+      memory: update coalesced_range on transaction_commit
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1813940/+subscriptions
 
