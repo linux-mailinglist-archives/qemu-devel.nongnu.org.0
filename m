@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273C130D2BB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 06:02:46 +0100 (CET)
-Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE6D30D317
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 06:32:55 +0100 (CET)
+Received: from localhost ([::1]:57214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7AJR-0004j5-6U
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 00:02:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37678)
+	id 1l7Amc-0003io-Rb
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 00:32:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l7AFH-00014v-MD
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 23:58:27 -0500
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:42567)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7Akc-0002Lh-8E
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 00:30:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l7AFG-0007za-37
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 23:58:27 -0500
-Received: by mail-il1-x12f.google.com with SMTP id z18so21035629ile.9
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 20:58:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vD0CuwlvG3G5Gb/vqP04uDAKpmcFoTl+ttHz7Ug/21o=;
- b=jTwXvOGeSlv+9fvVjYN1SvW7s9t8/zHbAVKPu6reXITSXK+xBzmkF+annUF2EFW9vl
- 8v+QbG7fz6/yrXKPRivFylCLF74v/tExYVkMNiDxbsUB+l6G093h2rpKi1mSQV9fbDD4
- nrquooQV5xTA9len9Emq9SXbMdHbkXPS7djSlcgvbBUKbwO7pMwNdwqFd++kH7x8gCxN
- j8Jy5j2QoCxjwjsIHU0+5KrNJ4kEkYE9BRnRwMLow7BPwzkL3ogro953O6Fb4GdYvPh1
- iaV0OQKdneBDkaoAMIoiTeravp9luGwuYI4M7q07Rvj2gtZFIrgug4oQfHs1jdEwuEV9
- xDQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vD0CuwlvG3G5Gb/vqP04uDAKpmcFoTl+ttHz7Ug/21o=;
- b=rzINBNK02F0Aui42qVuQFtx7/wQhkr5DCSdfQ7bhTg5zl29Pv/Yo8z3PDrF2UZhWGv
- xfi1GZDvoHarZA+XgBMVGifo8Rv71WTHCy9uxHgdP48eFwZruZi2aEHjCM06iaPRN4Od
- +CJ9SbijVhrIE/7QrGnkab+GZWxJ+35+z2scAdcmHXssEEuz49vAQ8zEBTOvy2m5g2A3
- qQxzJXjefm9inNyZRXJFmiFb73+jnJt2Ynnnr01QniFfCd4E0gi+YS6CixEsX4YtL59B
- 5CkVwPJKXrdUcTgUtZZ235OqIh2MzwSQMYgjBh53a22F1gInSdSAYcIfGBnXJ9QwoPLT
- z45A==
-X-Gm-Message-State: AOAM532gzU59Z02108oInKwMsMzBjpigLCCH7QC6FiZ3eCMHldDaj0pU
- Qj6v+bb3AMmzTfrJbl+GbFNJV0Y7fB6R1/nb9WSqfR0AsYVcPFIMy1YRcr+jnByUExEAHojdjmK
- SPQ5YbFSqdbV4gMw3b3CmWQBHFhIgvFFFwCRKwHJnqWXH/e70DyOnLYNYl9/oU/qnaCIskWQ=
-X-Google-Smtp-Source: ABdhPJx1ZYiSK4fQ8VyLdGSd48D7C93kyp28s0gwN0vmZzL9n0bpHmH2lJHSrCNJCaPX/Y0D3qbeWQ==
-X-Received: by 2002:a92:d250:: with SMTP id v16mr1307248ilg.236.1612328304810; 
- Tue, 02 Feb 2021 20:58:24 -0800 (PST)
-Received: from cube.nuviainc.com (c-174-52-16-57.hsd1.ut.comcast.net.
- [174.52.16.57])
- by smtp.gmail.com with ESMTPSA id a21sm529203ioa.34.2021.02.02.20.58.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 20:58:24 -0800 (PST)
-From: Rebecca Cran <rebecca@nuviainc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/4] target/arm: Set ID_PFR0.DIT to 1 for "max" 32-bit CPU
-Date: Tue,  2 Feb 2021 21:58:16 -0700
-Message-Id: <20210203045816.10953-5-rebecca@nuviainc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210203045816.10953-1-rebecca@nuviainc.com>
-References: <20210203045816.10953-1-rebecca@nuviainc.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7AkY-0006DP-JH
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 00:30:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l7AkV-0003If-TN
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 05:30:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DA57C2E8042
+ for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 05:30:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=rebecca@nuviainc.com; helo=mail-il1-x12f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Feb 2021 05:20:31 -0000
+From: P J P <1914353@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: cve security
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: pjps
+X-Launchpad-Bug-Reporter: P J P (pjps)
+X-Launchpad-Bug-Modifier: P J P (pjps)
+Message-Id: <161232963154.25287.15149381600371735783.malonedeb@wampee.canonical.com>
+Subject: [Bug 1914353] [NEW] QEMU: aarch64: :GIC: out-of-bounds access via
+ interrupt ID
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: 6c5ea37aa628b394635a097b6127b17075c6ca37
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,36 +70,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Rebecca Cran <rebecca@nuviainc.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Reply-To: Bug 1914353 <1914353@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable FEAT_DIT for the "max" 32-bit CPU.
+*** This bug is a security vulnerability ***
 
-Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Public security bug reported:
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 40142ac141e5..c98f44624423 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2197,6 +2197,10 @@ static void arm_max_initfn(Object *obj)
-         t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-         t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
-         cpu->isar.id_mmfr4 = t;
-+
-+        t = cpu->isar.id_pfr0;
-+        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
-+        cpu->isar.id_pfr0 = t;
-     }
- #endif
- }
--- 
-2.26.2
+Via [qemu-security] list
 
++-- On Sun, 31 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote --+
+| On 1/31/21 11:34 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+| > Per the ARM Generic Interrupt Controller Architecture specification
+| > (document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
+| > not 10:
+| >
+| >    - Table 4-21 GICD_SGIR bit assignments
+| >
+| >    The Interrupt ID of the SGI to forward to the specified CPU
+| >    interfaces. The value of this field is the Interrupt ID, in
+| >    the range 0-15, for example a value of 0b0011 specifies
+| >    Interrupt ID 3.
+| >
+...
+| > Correct the irq mask to fix an undefined behavior (which eventually
+| > lead to a heap-buffer-overflow, see [Buglink]):
+| >
+| >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt,a=
+ccel=3Dqtest -qtest stdio
+| >    [I 1612088147.116987] OPENED
+| >  [R +0.278293] writel 0x8000f00 0xff4affb0
+| >  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds f=
+or type 'uint8_t [16][8]'
+| >  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm=
+_gic.c:1498:13
+| >
+| > Cc: qemu-stable@nongnu.org
+| > Fixes: 9ee6e8bb853 ("ARMv7 support.")
+| > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
+| > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
+...
+
+On 210202 1221, Peter Maydell wrote:
+> In both cases the overrun is on the first writel to 0x8000f00,
+> but the fuzzer has for some reason not reported that but instead
+> blundered on until it happens to trigger some other issue that
+> resulted from the memory corruption it induced with the first write.
+>
+...
+> On the CVE:
+>
+> Since this can affect systems using KVM, this is a security bug for
+> us. However, it only affects an uncommon configuration:
+> you are only vulnerable if you are using "kernel-irqchip=3Doff"
+> (the default is 'on', and turning it off is an odd thing to do).
+>
+> thanks
+> -- PMM
+>
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: cve security
+
+** Information type changed from Private Security to Public Security
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914353
+
+Title:
+  QEMU: aarch64: :GIC: out-of-bounds access via interrupt ID
+
+Status in QEMU:
+  New
+
+Bug description:
+  Via [qemu-security] list
+
+  +-- On Sun, 31 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote --+
+  | On 1/31/21 11:34 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+  | > Per the ARM Generic Interrupt Controller Architecture specification
+  | > (document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
+  | > not 10:
+  | >
+  | >    - Table 4-21 GICD_SGIR bit assignments
+  | >
+  | >    The Interrupt ID of the SGI to forward to the specified CPU
+  | >    interfaces. The value of this field is the Interrupt ID, in
+  | >    the range 0-15, for example a value of 0b0011 specifies
+  | >    Interrupt ID 3.
+  | >
+  ...
+  | > Correct the irq mask to fix an undefined behavior (which eventually
+  | > lead to a heap-buffer-overflow, see [Buglink]):
+  | >
+  | >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt=
+,accel=3Dqtest -qtest stdio
+  | >    [I 1612088147.116987] OPENED
+  | >  [R +0.278293] writel 0x8000f00 0xff4affb0
+  | >  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds=
+ for type 'uint8_t [16][8]'
+  | >  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/a=
+rm_gic.c:1498:13
+  | >
+  | > Cc: qemu-stable@nongnu.org
+  | > Fixes: 9ee6e8bb853 ("ARMv7 support.")
+  | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
+  | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
+  ...
+
+  On 210202 1221, Peter Maydell wrote:
+  > In both cases the overrun is on the first writel to 0x8000f00,
+  > but the fuzzer has for some reason not reported that but instead
+  > blundered on until it happens to trigger some other issue that
+  > resulted from the memory corruption it induced with the first write.
+  >
+  ...
+  > On the CVE:
+  >
+  > Since this can affect systems using KVM, this is a security bug for
+  > us. However, it only affects an uncommon configuration:
+  > you are only vulnerable if you are using "kernel-irqchip=3Doff"
+  > (the default is 'on', and turning it off is an odd thing to do).
+  >
+  > thanks
+  > -- PMM
+  >
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914353/+subscriptions
 
