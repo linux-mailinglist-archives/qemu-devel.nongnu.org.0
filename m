@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF15130E51C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 22:46:40 +0100 (CET)
-Received: from localhost ([::1]:55636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A166A30E512
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 22:45:04 +0100 (CET)
+Received: from localhost ([::1]:54482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Pyy-0001RB-1M
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 16:46:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
+	id 1l7PxP-0000ua-Cc
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 16:45:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7PtA-0007MW-Vg
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:40:41 -0500
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32]:43606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7Pt9-0001io-8t
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:40:40 -0500
-Received: by mail-vs1-xe32.google.com with SMTP id u127so663964vsc.10
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 13:40:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=88XYJ0/R7ij1bsqjuqrmE+Ogce6YB3fYgnH6OiKpsxA=;
- b=QDhRMQG/lisLPGqWklypai4RLwU/QfT8q6Fimak51vsE3n6jitciyKBR3DBDX919hk
- qQ3aj1QFD9duSC591RggdAsagEknuohBWbb8lX3tla8stWKXCoJ4/x300ez3s6OhIvHg
- 8uU/958LzPCKJpkBrWYz4fiAQUdvhlzNcmdYKvjT6ahwBtpllzhPIhGTcX7jbrr0DW5w
- s3XjPcPOmuX99+1YD/0awV229sKa9h+ZBEVX+/qztTB2zaPTks5UVDwHDkDD+dlFy7DN
- MET1lFhBWoA+mAi9sBdjwjrgyvH1o9YRZm8R0IwyOHmE07s22OASifjA24FfNf/U8lJZ
- uH6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=88XYJ0/R7ij1bsqjuqrmE+Ogce6YB3fYgnH6OiKpsxA=;
- b=UB1AArH9V5rUJiB7yf8+NdAxfyO3qn0X/pNSBK/mqJe4zP5D5epasvgVQuKCuyLKXi
- ogLhcMcDAa4xXL3LZLCGQ52zp3kdUDpDvsZtN+621K4UTUQaxJGS71IPO3BkX8W1bfYa
- je6j/alFxp/OJVCs2ei2ENCM46MT63HrOSvbNYodePhyLepWNzEG1+nTmusSxq6x7je2
- Y6nQvqGsq6+Ijs/ssUkGbpoQmK74LtUrsBDTpsfp8rtibqKaDO1k4y1Mm1E76/rgsa2Q
- SDbGI35XsEeyjVtNQFTMbF263Ya9Q3Ij396py2PnvWiFreabfMtEPxLEBrhqZ2wumg67
- LUNw==
-X-Gm-Message-State: AOAM531HJQH85OIDaQVK6UdjxqpZ6oaOfEbrCMXR2doqCe1HHk5gz5Cj
- jP6kCuQc3pHn7IszVoelIi31ClAo3L7Oy1k+6Z7iBz6jLqA=
-X-Google-Smtp-Source: ABdhPJybYE0GwTl3FaUlVa2/hRVWPlo0DNy2Iq+JsATMHDGdUZhBUmJcOWIKSPa0gRmY2x09Lqzy4Gov900hqIYc39Q=
-X-Received: by 2002:a67:310e:: with SMTP id x14mr3525959vsx.46.1612388437107; 
- Wed, 03 Feb 2021 13:40:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7Psu-00074k-MV
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:40:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7Psl-0001Wk-C2
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 16:40:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612388413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cSI7NXExjLp4VIUS41KunlU9g66gLs9LO7pBRtOyvWU=;
+ b=AKe7Yj+UrAhnrUG99HdJptPZ8w6c6k5OpyUM+UYlM8e+EGf/YiwSAVxCvA1p+f4Xt0MXLz
+ hT2zAz+Y43aqz9uTPU60ac2BWDy4GVSaTf7HKhqV31BhI1gW0qJKLkmosLMoBSS5RDyZGm
+ 6/3lGy0F8nPIDBF1oCdD8yK8bujbEIM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-3UvrLcVzNDuk1j0pyiWW3w-1; Wed, 03 Feb 2021 16:40:11 -0500
+X-MC-Unique: 3UvrLcVzNDuk1j0pyiWW3w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D093CC620;
+ Wed,  3 Feb 2021 21:40:10 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D34C1971D;
+ Wed,  3 Feb 2021 21:40:09 +0000 (UTC)
+Subject: Re: [PATCH v4 07/14] qapi/introspect.py: Introduce preliminary tree
+ typing
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-8-jsnow@redhat.com>
+ <87im79te9a.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <dd9587ab-07fb-c133-ba9e-7688811675d1@redhat.com>
+Date: Wed, 3 Feb 2021 16:40:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210203213729.1940893-1-dje@google.com>
- <20210203213729.1940893-2-dje@google.com>
-In-Reply-To: <20210203213729.1940893-2-dje@google.com>
-From: Doug Evans <dje@google.com>
-Date: Wed, 3 Feb 2021 13:39:59 -0800
-Message-ID: <CADPb22Re0gwZs5r4YsAK_Gnqk+G9JxpA9GnPsGQKfV==hhAY1w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] net/slirp.c: Refactor address parsing
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Content-Type: multipart/alternative; boundary="00000000000009143105ba7570a0"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
- envelope-from=dje@google.com; helo=mail-vs1-xe32.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <87im79te9a.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,57 +83,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000009143105ba7570a0
-Content-Type: text/plain; charset="UTF-8"
+On 2/3/21 9:30 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> The types will be used in forthcoming patches to add typing. These types
+>> describe the layout and structure of the objects passed to
+>> _tree_to_qlit, but lack the power to describe annotations until the next
+>> commit.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   scripts/qapi/introspect.py | 30 +++++++++++++++++++++++++++++-
+>>   1 file changed, 29 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>> index 0aa3b77109f..b82efe16f6e 100644
+>> --- a/scripts/qapi/introspect.py
+>> +++ b/scripts/qapi/introspect.py
+>> @@ -10,7 +10,13 @@
+>>   See the COPYING file in the top-level directory.
+>>   """
+>>   
+>> -from typing import Optional
+>> +from typing import (
+>> +    Any,
+>> +    Dict,
+>> +    List,
+>> +    Optional,
+>> +    Union,
+>> +)
+>>   
+>>   from .common import (
+>>       c_name,
+>> @@ -26,6 +32,28 @@
+>>   )
+>>   
+>>   
+>> +# This module constructs a tree data structure that is used to
+>> +# generate the introspection information for QEMU. It behaves similarly
+>> +# to a JSON value.
+>> +#
+>> +# A complexity over JSON is that our values may or may not be annotated.
+>> +#
+>> +# Un-annotated values may be:
+>> +#     Scalar: str, bool, None.
+>> +#     Non-scalar: List, Dict
+>> +# _value = Union[str, bool, None, Dict[str, TreeValue], List[TreeValue]]
+>> +#
+>> +# With optional annotations, the type of all values is:
+>> +# TreeValue = Union[_value, Annotated[_value]]
+>> +#
+>> +# Sadly, mypy does not support recursive types, so we must approximate this.
+>> +_stub = Any
+>> +_scalar = Union[str, bool, None]
+>> +_nonscalar = Union[Dict[str, _stub], List[_stub]]
+>> +_value = Union[_scalar, _nonscalar]
+>> +# TreeValue = Union[_value, 'Annotated[_value]']
+> 
+> Why is TreeValue commented out?  Oh, because Annotated doesn't exist,
+> yet.
+> 
 
-On Wed, Feb 3, 2021 at 1:37 PM Doug Evans <dje@google.com> wrote:
+In the comment region specifically, the intent was to give a standalone 
+grammar of the structure without regard to implementation limitations. 
+It is the "real" type of the tree.
 
-> ... in preparation for adding ipv6 host forwarding support.
-> ---
->  net/slirp.c | 200 +++++++++++++++++++++++++++++++++-------------------
->  slirp       |   2 +-
->  2 files changed, 130 insertions(+), 72 deletions(-)
->
-> diff --git a/net/slirp.c b/net/slirp.c
-> index be914c0be0..a21a313302 100644
-> --- a/net/slirp.c
-> +++ b/net/slirp.c
-> @@ -631,15 +631,83 @@ static SlirpState *slirp_lookup(Monitor *mon, const
-> char *id)
+i.e., the grammar is complete and accurate, but abstract.
 
+ From the commit message: "These types describe the layout and structure 
+of the objects passed to _tree_to_qlit, but lack the power to describe 
+annotations until the next commit."
 
+The second occurrence of that type, commented out, could be removed -- 
+see below.
 
-Yeah, the Signed-off-by line is missing here. Will add in next version, but
-will wait for further comments.
+> Possibly less confusing:
+> 
+>     # A complexity over JSON is that our values may or may not be annotated.
+>     #
+>     # Un-annotated values may be:
+>     #     Scalar: str, bool, None.
+>     #     Non-scalar: List, Dict
+>     # _value = Union[str, bool, None, Dict[str, TreeValue], List[TreeValue]]
+>     #
+>     # With optional annotations, the type of all values is:
+>     # TODO
 
---00000000000009143105ba7570a0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I'd actually prefer to keep that one in;
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">On Wed, Feb 3, 2021 at 1:37 PM Doug Evans &lt;<a href=3D"mail=
-to:dje@google.com">dje@google.com</a>&gt; wrote:<br></div></div><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">... in p=
-reparation for adding ipv6 host forwarding support.<br>
----<br>
-=C2=A0net/slirp.c | 200 +++++++++++++++++++++++++++++++++------------------=
--<br>
-=C2=A0slirp=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-=C2=A02 files changed, 130 insertions(+), 72 deletions(-)<br>
-<br>
-diff --git a/net/slirp.c b/net/slirp.c<br>
-index be914c0be0..a21a313302 100644<br>
---- a/net/slirp.c<br>
-+++ b/net/slirp.c<br>
-@@ -631,15 +631,83 @@ static SlirpState *slirp_lookup(Monitor *mon, const c=
-har *id)</blockquote><div><br></div><div><br></div><div><div class=3D"gmail=
-_default" style=3D"font-size:small">Yeah, the Signed-off-by line is missing=
- here. Will add in next version, but will wait for further comments.</div><=
-br></div></div></div>
+>     #
+>     # Sadly, mypy does not support recursive types, so we must approximate this.
+>     _stub = Any
+>     _scalar = Union[str, bool, None]
+>     _nonscalar = Union[Dict[str, _stub], List[_stub]]
+>     _value = Union[_scalar, _nonscalar]
 
---00000000000009143105ba7570a0--
+and augment it here instead, with:
+
+# _TreeValue = TODO - defined in a forthcoming commit.
+
+--js
+
+> 
+> or even just
+> 
+>     # A complexity over JSON is that our values may or may not be annotated.
+>     #
+>     # Un-annotated values may be:
+>     #     Scalar: str, bool, None.
+>     #     Non-scalar: List, Dict
+>     # _value = Union[str, bool, None, Dict[str, TreeValue], List[TreeValue]]
+>     #
+>     # Sadly, mypy does not support recursive types, so we must approximate this.
+>     _stub = Any
+>     _scalar = Union[str, bool, None]
+>     _nonscalar = Union[Dict[str, _stub], List[_stub]]
+>     _value = Union[_scalar, _nonscalar]
+> 
+>> +
+>> +
+>>   def _make_tree(obj, ifcond, comment=None):
+>>       extra = {
+>>           'if': ifcond,
+
 
