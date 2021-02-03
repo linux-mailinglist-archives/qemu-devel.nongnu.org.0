@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1FC30E154
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:45:29 +0100 (CET)
-Received: from localhost ([::1]:59220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39F430E114
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:30:37 +0100 (CET)
+Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7MDY-0002Tt-Mk
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:45:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39188)
+	id 1l7Lz9-0004Vq-RU
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:30:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7LtB-00013C-2X
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:24:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59582)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7LtC-000146-Ul
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:24:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Lt8-0004Px-7J
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:24:24 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Lt8-0004Q3-6p
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:24:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612373057;
+ s=mimecast20190719; t=1612373058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QIZpH4j0cF7I1bNbifZNoqjGEUXyLfrPQHQW4qwyHb0=;
- b=eb8wtvu4EzgKEoivKvRmFmyicK4tslaMWZfOs9LRyOIgK4AF6p9sP/R8lcJGcDnXUlFt+B
- 3kV+2HuG/sNUwmVV2c49SmEeU7y7Ainktq0tdkMvY3x4ZJekR3eGV6gNtMbW58mjU7DqLn
- 9fZF7q/7o4+L5wvz+uqNDe34APACZUo=
+ bh=Ax2MBQxvJ9+UbpjtSMsmccCkSh6z5G1FD3iuHYWj+eM=;
+ b=Jw2/GTYb0DKv1t2nxLR+FtbimroaGsV3XDP7xwrYNsr8zhgLiPeSgucDWYa4QnaiOKmwwo
+ iqppHdBpnRhPlq/4Rbcburrb7nREphP4FnozMRICnj/lRZ/mbqWPh45rQrVqm4d6ey7v7F
+ eAnp6KbqkkOvknOhOYkheWp1TcKjf1g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-uF8Ff9TpMiO-Exdx2F6eaw-1; Wed, 03 Feb 2021 12:24:14 -0500
-X-MC-Unique: uF8Ff9TpMiO-Exdx2F6eaw-1
+ us-mta-225-wpH98T-GOkyCsZcFbE3gLg-1; Wed, 03 Feb 2021 12:24:16 -0500
+X-MC-Unique: wpH98T-GOkyCsZcFbE3gLg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC38A1800D41;
- Wed,  3 Feb 2021 17:24:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3663801962;
+ Wed,  3 Feb 2021 17:24:14 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-89.rdu2.redhat.com
  [10.10.116.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A70218E3D;
- Wed,  3 Feb 2021 17:24:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D5E0131DB;
+ Wed,  3 Feb 2021 17:24:12 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/22] tests/acceptance/boot_linux.py: rename misleading
- cloudinit method
-Date: Wed,  3 Feb 2021 12:23:37 -0500
-Message-Id: <20210203172357.1422425-3-crosa@redhat.com>
+Subject: [PATCH 03/22] Acceptance Tests: remove unnecessary tag from
+ documentation example
+Date: Wed,  3 Feb 2021 12:23:38 -0500
+Message-Id: <20210203172357.1422425-4-crosa@redhat.com>
 In-Reply-To: <20210203172357.1422425-1-crosa@redhat.com>
 References: <20210203172357.1422425-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -93,54 +93,28 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's no downloading happening on that method, so let's call it
-"prepare" instead.  While at it, and because of it, the current
-"prepare_boot" and "prepare_cloudinit" are also renamed.
-
-The reasoning here is that "prepare_" methods will just work on the
-images, while "set_up_" will make them effective to the VM that will
-be launched.  Inspiration comes from the "virtiofs_submounts.py"
-tests, which this expects to converge more into.
+The ":avocado: enable" is not necessary and was removed in 9531d26c,
+so let's remove from the docs.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/boot_linux.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ docs/devel/testing.rst | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index 2ac3e57587..bcd923bb4a 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -57,7 +57,7 @@ class BootLinuxBase(Test):
-             self.cancel('Failed to download/prepare boot image')
-         return boot.path
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 809af69725..209f9d8172 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -765,9 +765,6 @@ and hypothetical example follows:
  
--    def download_cloudinit(self, ssh_pubkey=None):
-+    def prepare_cloudinit(self, ssh_pubkey=None):
-         self.log.info('Preparing cloudinit image')
-         try:
-             cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
-@@ -85,15 +85,15 @@ class BootLinux(BootLinuxBase):
-         super(BootLinux, self).setUp()
-         self.vm.add_args('-smp', '2')
-         self.vm.add_args('-m', '1024')
--        self.prepare_boot()
--        self.prepare_cloudinit(ssh_pubkey)
-+        self.set_up_boot()
-+        self.set_up_cloudinit(ssh_pubkey)
  
--    def prepare_boot(self):
-+    def set_up_boot(self):
-         path = self.download_boot()
-         self.vm.add_args('-drive', 'file=%s' % path)
- 
--    def prepare_cloudinit(self, ssh_pubkey=None):
--        cloudinit_iso = self.download_cloudinit(ssh_pubkey)
-+    def set_up_cloudinit(self, ssh_pubkey=None):
-+        cloudinit_iso = self.prepare_cloudinit(ssh_pubkey)
-         self.vm.add_args('-drive', 'file=%s,format=raw' % cloudinit_iso)
- 
-     def launch_and_wait(self):
+   class MultipleMachines(Test):
+-      """
+-      :avocado: enable
+-      """
+       def test_multiple_machines(self):
+           first_machine = self.get_vm()
+           second_machine = self.get_vm()
 -- 
 2.25.4
 
