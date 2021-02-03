@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEAA30D435
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 08:46:54 +0100 (CET)
-Received: from localhost ([::1]:58316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD6330D45B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 08:54:02 +0100 (CET)
+Received: from localhost ([::1]:55672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7CsH-0004gD-QT
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 02:46:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34218)
+	id 1l7CzB-0006wF-Cz
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 02:54:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1l7Cpe-0002xo-8I
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:10 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3358)
+ id 1l7Cpj-00033r-0m
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:15 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1l7CpP-0008EN-V8
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:08 -0500
+ id 1l7Cpc-0008Lu-SW
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:14 -0500
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DVttr3XjKz163kw;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DVttr4jk3z163x2;
  Wed,  3 Feb 2021 15:42:28 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Wed, 3 Feb 2021
- 15:43:36 +0800
+ 15:43:37 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>, <berrange@redhat.com>
-Subject: [PATCH v4 01/18] migration/rdma: add the 'migrate_rdma_pin_all'
- function
-Date: Wed, 3 Feb 2021 16:01:34 +0800
-Message-ID: <1612339311-114805-2-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v4 02/18] migration/rdma: judge whether or not the RDMA is
+ used for migration
+Date: Wed, 3 Feb 2021 16:01:35 +0800
+Message-ID: <1612339311-114805-3-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
 References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
@@ -63,43 +63,94 @@ Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add enabled_rdma_migration into MigrationState to judge
+whether or not the RDMA is used for migration.
+
 Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 9 +++++++++
- migration/migration.h | 1 +
- 2 files changed, 10 insertions(+)
+ migration/migration.c | 13 +++++++++++++
+ migration/migration.h |  6 ++++++
+ 2 files changed, 19 insertions(+)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 1986cb8..447dfb9 100644
+index 447dfb9..129c81a 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -2382,6 +2382,15 @@ bool migrate_use_events(void)
-     return s->enabled_capabilities[MIGRATION_CAPABILITY_EVENTS];
+@@ -418,11 +418,13 @@ void migrate_add_address(SocketAddress *address)
+ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+ {
+     const char *p = NULL;
++    MigrationState *s = migrate_get_current();
+ 
+     if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
+         return;
+     }
+ 
++    s->enabled_rdma_migration = false;
+     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+@@ -430,6 +432,7 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+         socket_start_incoming_migration(p ? p : uri, errp);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
++        s->enabled_rdma_migration = true;
+         rdma_start_incoming_migration(p, errp);
+ #endif
+     } else if (strstart(uri, "exec:", &p)) {
+@@ -1921,6 +1924,7 @@ void migrate_init(MigrationState *s)
+     s->start_postcopy = false;
+     s->postcopy_after_devices = false;
+     s->migration_thread_running = false;
++    s->enabled_rdma_migration = false;
+     error_free(s->error);
+     s->error = NULL;
+     s->hostname = NULL;
+@@ -2162,6 +2166,7 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+         socket_start_outgoing_migration(s, p ? p : uri, &local_err);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
++        s->enabled_rdma_migration = true;
+         rdma_start_outgoing_migration(s, p, &local_err);
+ #endif
+     } else if (strstart(uri, "exec:", &p)) {
+@@ -2391,6 +2396,14 @@ bool migrate_rdma_pin_all(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL];
  }
  
-+bool migrate_rdma_pin_all(void)
++bool migrate_use_rdma(void)
 +{
 +    MigrationState *s;
-+
 +    s = migrate_get_current();
 +
-+    return s->enabled_capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL];
++    return s->enabled_rdma_migration;
 +}
 +
  bool migrate_use_multifd(void)
  {
      MigrationState *s;
 diff --git a/migration/migration.h b/migration/migration.h
-index d096b77..22b36f3 100644
+index 22b36f3..da5681b 100644
 --- a/migration/migration.h
 +++ b/migration/migration.h
-@@ -316,6 +316,7 @@ bool migrate_ignore_shared(void);
- bool migrate_validate_uuid(void);
+@@ -280,6 +280,11 @@ struct MigrationState {
+      * This save hostname when out-going migration starts
+      */
+     char *hostname;
++
++    /*
++     * Enable RDMA migration
++     */
++    bool enabled_rdma_migration;
+ };
+ 
+ void migrate_set_state(int *state, int old_state, int new_state);
+@@ -317,6 +322,7 @@ bool migrate_validate_uuid(void);
  
  bool migrate_auto_converge(void);
-+bool migrate_rdma_pin_all(void);
+ bool migrate_rdma_pin_all(void);
++bool migrate_use_rdma(void);
  bool migrate_use_multifd(void);
  bool migrate_pause_before_switchover(void);
  int migrate_multifd_channels(void);
