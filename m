@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9826830E3AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:59:39 +0100 (CET)
-Received: from localhost ([::1]:36634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE60430E3BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 21:03:58 +0100 (CET)
+Received: from localhost ([::1]:45512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7OJM-0001If-S2
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:59:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48092)
+	id 1l7ONZ-00053x-Ur
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 15:03:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7Nwd-0003Zc-N4
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:36:13 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:43842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7NwW-0007WK-SH
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:36:07 -0500
-Received: by mail-ed1-x531.google.com with SMTP id i5so1020495edu.10
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 11:35:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aQ00JpduJGsbCkaV7/Kg9/XcOy4RxIZbLVBVL9ajeFI=;
- b=JcE9xAer2ThmwUniENjRk2BK8J2xRz02b9MaRUNXede461vvCiqDTsz/0gL4F76ELc
- RaUiKvpgL19d1sujmiPVRlEHRNeATkvvNI7TgYqECa3GONIxrAJYZH3qRSJhg7qjfYdg
- ulKQ/wVKKIjt36TSv3/XQWODzIBVOwX1MzgqO6QB7Gmaz/36OahYznlwCqWTmy9AIaPj
- /MyAFJcnOjQ0ckxP+Z1HhGSbnA8r00APufPeuTpuRWYnRE4gs3dM2h0ozAGeL0PsIYcp
- ZL/modhLspdCudXoVaxbzdiBgZgVM+8v67M56tjZDvGqyyI3ABnw8g/u/VXWvNHJT2Jb
- mIBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aQ00JpduJGsbCkaV7/Kg9/XcOy4RxIZbLVBVL9ajeFI=;
- b=E4sFc88Xh5m1IyQL/UyozX0ZqwrqwTm4dLijXGLQOTk750KIAgJGBpYzn7swnlZQ+A
- zo5yiGmgdwOoWAG8zl7UFdbj3ZJaMROt3upLFIy4T0XHh/gLDgcNZozNzkQhMMRgEO3v
- scQzBhzO0kZXnWgiWLM9fCWrveLV3u//nSraLnGITcfN86NcyCQj2YIOpzyeEZzmVvSi
- jLkmyHKLluhJfsKP9kvGi/bNdAO2IZS4WjmxfIZbcLz8ePQYb3LhqPFAtJXCY6TmcRha
- mrKPDhADlsRfYKRD4krZMUKAjeq33KXw+x7nxhmJDvTVQOkLKEP9DOe9H2uhmDPzeYDo
- J3PA==
-X-Gm-Message-State: AOAM532MAtl8DPnQ0ge511sNSZVRiXe/1uAU0c2t1dJHxelx9gNNtUfN
- xgMUL0M4kvv8NBZJI3dkfR6PAxrKhGIkNHQ0r6EjBg==
-X-Google-Smtp-Source: ABdhPJyJfDwldVSO4aKKegh/bM+FabMKJphNNY0Far7+mrBeF5lN21BpMA5t2FR3jtJuKh/rfI/+JAdRf3LjN2sQi1Y=
-X-Received: by 2002:a05:6402:3494:: with SMTP id
- v20mr4808908edc.146.1612380955197; 
- Wed, 03 Feb 2021 11:35:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7O3L-0002QW-2f
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:43:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7O3F-0001mu-66
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:43:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612381374;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2e19AB7ioSBjqL3TMIEeY44VLiq1SUycw3Ph8oBRPnM=;
+ b=Ozkc7sLhMq6YIJFVoph2k7Ii2z5tnJAnrlazel8cl47TLt7C0vMDukN6hjm6pTITtcWvL4
+ UzCouf+/AuXe1rNFeYoGewVzqJXJNjyK0XAX2iIfK1PvnLqO4xW35YasQUq4zKAP/cg9tG
+ qzJu8yXu/1D6JCW3W2Ojd5jliDk6OOs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-DjuiW03ZMHGxYh6QazfElQ-1; Wed, 03 Feb 2021 14:42:50 -0500
+X-MC-Unique: DjuiW03ZMHGxYh6QazfElQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 745F180402C;
+ Wed,  3 Feb 2021 19:42:49 +0000 (UTC)
+Received: from [10.36.112.222] (ovpn-112-222.ams2.redhat.com [10.36.112.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C757810016F4;
+ Wed,  3 Feb 2021 19:42:38 +0000 (UTC)
+Subject: Re: [PATCH 3/4] hw/virtio/virtio-balloon: Remove the "class" property
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210203171832.483176-1-thuth@redhat.com>
+ <20210203171832.483176-4-thuth@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <094a993e-367f-25c4-adb3-9cd3a558e655@redhat.com>
+Date: Wed, 3 Feb 2021 20:42:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <20210203142436.703098-1-eblake@redhat.com>
-In-Reply-To: <20210203142436.703098-1-eblake@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 3 Feb 2021 19:35:44 +0000
-Message-ID: <CAFEAcA_eYB=0-xiRxHYpr_+s_nES7r8jM8BL9vuh9QF-JgqvWQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/20] NBD patches for 2021-02-02
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210203171832.483176-4-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,40 +83,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Feb 2021 at 14:28, Eric Blake <eblake@redhat.com> wrote:
->
-> The following changes since commit 8360ebeb4f4a707984cafd1a22c049ec82ddcb4c:
->
->   Merge remote-tracking branch 'remotes/ehabkost-gl/tags/machine-next-pull-request' into staging (2021-02-03 09:54:21 +0000)
->
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-02-02-v2
->
-> for you to fetch changes up to 5082fc82a6bc3fc06a04be47d39777c7cff61e5b:
->
->   nbd: make nbd_read* return -EIO on error (2021-02-03 08:17:12 -0600)
->
-> v2: fix accidental inclusion of .rej file from merge resolution
-> [only affected patches re-sent]
->
-> ----------------------------------------------------------------
-> nbd patches for 2021-02-02
->
-> - more cleanup from iotest python conversion
-> - progress towards consistent use of signed 64-bit types through block layer
-> - fix some crashes related to NBD reconnect
->
+On 03.02.21 18:18, Thomas Huth wrote:
+> This property was only required for compatibility reasons in the
+> pc-1.0 machine type and earlier. Now that these machine types have
+> been removed, the property is not useful anymore.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   hw/virtio/virtio-balloon-pci.c | 11 +----------
+>   1 file changed, 1 insertion(+), 10 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-balloon-pci.c b/hw/virtio/virtio-balloon-pci.c
+> index a2c5cc7207..79a3ba979a 100644
+> --- a/hw/virtio/virtio-balloon-pci.c
+> +++ b/hw/virtio/virtio-balloon-pci.c
+> @@ -34,21 +34,13 @@ struct VirtIOBalloonPCI {
+>       VirtIOPCIProxy parent_obj;
+>       VirtIOBalloon vdev;
+>   };
+> -static Property virtio_balloon_pci_properties[] = {
+> -    DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
+> -    DEFINE_PROP_END_OF_LIST(),
+> -};
+>   
+>   static void virtio_balloon_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>   {
+>       VirtIOBalloonPCI *dev = VIRTIO_BALLOON_PCI(vpci_dev);
+>       DeviceState *vdev = DEVICE(&dev->vdev);
+>   
+> -    if (vpci_dev->class_code != PCI_CLASS_OTHERS &&
+> -        vpci_dev->class_code != PCI_CLASS_MEMORY_RAM) { /* qemu < 1.1 */
+> -        vpci_dev->class_code = PCI_CLASS_OTHERS;
+> -    }
+> -
+> +    vpci_dev->class_code = PCI_CLASS_OTHERS;
+>       qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+>   }
+>   
+> @@ -59,7 +51,6 @@ static void virtio_balloon_pci_class_init(ObjectClass *klass, void *data)
+>       PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
+>       k->realize = virtio_balloon_pci_realize;
+>       set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> -    device_class_set_props(dc, virtio_balloon_pci_properties);
+>       pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
+>       pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_BALLOON;
+>       pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
+> 
 
+Acked-by: David Hildenbrand <david@redhat.com>
 
-Applied, thanks.
+-- 
+Thanks,
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+David / dhildenb
 
--- PMM
 
