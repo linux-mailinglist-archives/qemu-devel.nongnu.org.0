@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E74130DCFE
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:39:24 +0100 (CET)
-Received: from localhost ([::1]:55458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0786B30DCCC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:32:48 +0100 (CET)
+Received: from localhost ([::1]:38788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7JJT-00047T-L8
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:39:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50660)
+	id 1l7JD5-0005Mr-3L
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:32:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7JGd-0002P1-AX
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:36:28 -0500
-Received: from indium.canonical.com ([91.189.90.7]:45506)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7J5q-0005eg-49
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:25:21 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7JGY-0005eX-Gn
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:36:25 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l7JGW-0002HX-Bk
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 14:36:20 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 550362E813B
- for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 14:36:20 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7J5l-0000IN-Pf
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:25:17 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id i9so5428850wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 06:25:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=5kjtRP2lTK8V5zutu1VrXQE3NHMKUI6+9a/M/d3x9pU=;
+ b=IAjq8iFDSS5eINLcx2HpPt2JXwy3hq5TNaQTey5UUy371yjETJp4gY6S7gnUYj01E1
+ uKjymqM9HgsvDHvLvllfMhvWiMWIpDdWlOC9QR/7WgObZkguQZTCBGURKcKTueFUyhvD
+ tWgTDMHE6pMvO8icVhUtZC4cUMJfQwA0qpOg5OibC4Bg0Jci5VXSDgku8K0kVCsRw3G3
+ qKyDZT0gdGBMOhsbWg/QjEhGv7YqlDIH6Whr6OrgF6exrl/GL9t/hQhaHB16HxRQCvmo
+ h9TFDqJpHjhMwcmx+WbIg6ljx1oF/sA7xx6jd5bh1lNh97dcQEuIROgymEyj1qLaiIKk
+ QJUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=5kjtRP2lTK8V5zutu1VrXQE3NHMKUI6+9a/M/d3x9pU=;
+ b=QvhjRxkIAcZrOxLxpCxn289qdCsmKcVQ9GjqoR4fsASLQGmPN2c9RjilfRjyfFn1Fm
+ 24Q/nNRNplGWbGLJoxMdMreML9OoLUtPYK24joHq7RIh7UBSCW0k86iqyCgyxn7KKoxa
+ l50vIN+DfICk/lad/RWwxCidns2AgQrm5MssTIGC6Q0OYERxSpBo5yubcI8q/gpQ/hxI
+ dzMQWOwZcxUnxznEv9PA6lAkfIozz3Xnz44DKI/JnA3ojJvPJAGQVCCMA1/l1khBYnBr
+ unMrzm5RNj/pnYaK+Nos+9/64YCfGWgrQjKQ9wCHc4P4EDf8Cv4I9fN1J3CQkjmkzs7n
+ FAEw==
+X-Gm-Message-State: AOAM532QRBB7/4OfZSfw9RggOCYlVUG63YO7w3SR8daLS/CoFF1YT/59
+ 8cTEtJ+GCR3/PrFwPZ4d9D4fbsvbnM4HeYBS
+X-Google-Smtp-Source: ABdhPJwqHav8+r0LFO8CND1FaWT7N/D5jDUw0VvBVYrOyMvVv0NZ5UplidlXBZSutwdJ7LbQKFyxwg==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr3039750wmr.179.1612362312331; 
+ Wed, 03 Feb 2021 06:25:12 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s23sm2983793wmc.29.2021.02.03.06.25.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Feb 2021 06:25:11 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8EF641FF7E;
+ Wed,  3 Feb 2021 14:25:10 +0000 (GMT)
+References: <20210201100903.17309-1-cfontana@suse.de>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v15 00/23] i386 cleanup PART 2
+Date: Wed, 03 Feb 2021 14:22:38 +0000
+In-reply-to: <20210201100903.17309-1-cfontana@suse.de>
+Message-ID: <87ft2drzy1.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Feb 2021 14:21:59 -0000
-From: Alexandre arents <1912224@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aarents xanclic
-X-Launchpad-Bug-Reporter: Alexandre arents (aarents)
-X-Launchpad-Bug-Modifier: Alexandre arents (aarents)
-References: <161098039664.6686.1246044899603761821.malonedeb@wampee.canonical.com>
-Message-Id: <161236211965.1971.11944199621286216103.malone@gac.canonical.com>
-Subject: [Bug 1912224] Re: qemu may freeze during drive-mirroring on
- fragmented FS
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: 7dbbfe630dedac6947073e3560dcf2ec5510a783
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, LOTS_OF_MONEY=0.001, MONEY_NOHTML=1.142,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,172 +86,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912224 <1912224@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't have currently issue with qcow2 for now,
-In code it goes on different path:
 
-block/file-posix.c:3219:1:    .bdrv_co_block_status =3D raw_co_block_status,
-block/qcow2.c:5892:1: .bdrv_co_block_status =3D qcow2_co_block_status			 =
+Claudio Fontana <cfontana@suse.de> writes:
 
+> v14 -> v15:
+>
+> * change the TcgCpuOperations so that all fields of the struct are
+>   defined unconditionally, as per original patch by Eduardo,
+>   before moving them to a separate struct referenced by a pointer
+>   (Richard, Eduardo).
+>
+<snip>
 
-But when I run strace on qcow2 live migration I also see SEEK_HOLE/DATA
-I will do more test in same condition than raw instances.
+I'm not sure if their is some instability because I keep seeing failures
+in the review trees, e.g:
 
--- =
+  https://gitlab.com/stsquad/qemu/-/pipelines/250749404
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912224
+If you look at my pipeline history you'll see it is *mostly* green:
 
-Title:
-  qemu may freeze during drive-mirroring on fragmented FS
+  https://gitlab.com/stsquad/qemu/-/pipelines
 
-Status in QEMU:
-  New
+especially for the testing/next branches that I apply the reviews to. So
+I worry there might be something lurking in there. How have your CI runs
+looked?
 
-Bug description:
-  =
-
-  We have odd behavior in operation where qemu freeze during long
-  seconds, We started an thread about that issue here:
-  https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05623.html
-
-  It happens at least during openstack nova snapshot (qemu blockdev-mirror)
-  or live block migration(which include network copy of disk).
-
-  After further troubleshoots, it seems related to FS fragmentation on
-  host.
-
-  reproducible at least on:
-  Ubuntu 18.04.3/4.18.0-25-generic/qemu-4.0
-  Ubuntu 16.04.6/5.10.6/qemu-5.2.0-rc2
-
-  # Lets create a dedicated file system on a SSD/Nvme 60GB disk in my case:
-  $sudo mkfs.ext4 /dev/sda3
-  $sudo mount /dev/sda3 /mnt
-  $df -h /mnt
-  Filesystem      Size  Used Avail Use% Mounted on
-  /dev/sda3         59G   53M   56G   1% /mnt
-
-  #Create a fragmented disk on it using 2MB Chunks (about 30min):
-  $sudo python3 create_fragged_disk.py /mnt 2
-  Filling up FS by Creating chunks files in:  /mnt/chunks
-  We are probably full as expected!!:  [Errno 28] No space left on device
-  Creating fragged disk file:  /mnt/disk
-
-  $ls -lhs =
-
-  59G -rw-r--r-- 1 root root 59G Jan 15 14:08 /mnt/disk
-
-  $ sudo e4defrag -c /mnt/disk
-   Total/best extents                             41971/30
-   Average size per extent                        1466 KB
-   Fragmentation score                            2
-   [0-30 no problem: 31-55 a little bit fragmented: 56- needs defrag]
-   This file (/mnt/disk) does not need defragmentation.
-   Done.
-
-  # the tool^^^ says it is not enough fragmented to be able to defrag.
-
-  #Inject an image on fragmented disk
-  sudo chown ubuntu /mnt/disk
-  wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudim=
-g-amd64.img
-  qemu-img convert -O raw  bionic-server-cloudimg-amd64.img \
-                           bionic-server-cloudimg-amd64.img.raw
-  dd conv=3Dnotrunc iflag=3Dfullblock if=3Dbionic-server-cloudimg-amd64.img=
-.raw \
-                  of=3D/mnt/disk bs=3D1M
-  virt-customize -a /mnt/disk --root-password password:xxxx
-
-  # logon run console activity ex: ping -i 0.3 127.0.0.1
-  $qemu-system-x86_64 -m 2G -enable-kvm  -nographic \
-      -chardev socket,id=3Dtest,path=3D/tmp/qmp-monitor,server,nowait \
-      -mon chardev=3Dtest,mode=3Dcontrol \
-      -drive file=3D/mnt/disk,format=3Draw,if=3Dnone,id=3Ddrive-virtio-disk=
-0,cache=3Dnone,discard\
-      -device virtio-blk-pci,scsi=3Doff,drive=3Ddrive-virtio-disk0,id=3Dvir=
-tio-disk0,bootindex=3D1,write-cache=3Don
-
-  $sync
-  $echo 3 | sudo tee -a /proc/sys/vm/drop_caches
-
-  #start drive-mirror via qmp on another SSD/nvme partition
-  nc -U /tmp/qmp-monitor
-  {"execute":"qmp_capabilities"}
-  {"execute":"drive-mirror","arguments":{"device":"drive-virtio-disk0","tar=
-get":"/home/ubuntu/mirror","sync":"full","format":"qcow2"}}
-  ^^^ qemu console may start to freeze at this step.
-
-  NOTE:
-   - smaller chunk sz and bigger disk size the worst it is.
-     In operation we also have issue on 400GB disk size with average 13MB/e=
-xtent
-   - Reproducible also on xfs
-
-  =
-
-  Expected behavior:
-  -------------------
-  QEMU should remain steady, eventually only have decrease storage Performa=
-nce
-  or mirroring, because of fragmented fs.
-
-  Observed behavior:
-  -------------------
-  Perf of mirroring is still quite good even on fragmented FS,
-  but it breaks qemu.
-
-  =
-
-  ######################  create_fragged_disk.py ############
-  import sys
-  import os
-  import tempfile
-  import glob
-  import errno
-
-  MNT_DIR =3D sys.argv[1]
-  CHUNK_SZ_MB =3D int(sys.argv[2])
-  CHUNKS_DIR =3D MNT_DIR + '/chunks'
-  DISK_FILE =3D MNT_DIR + '/disk'
-
-  if not os.path.exists(CHUNKS_DIR):
-      os.makedirs(CHUNKS_DIR)
-
-  with open("/dev/urandom", "rb") as f_rand:
-       mb_rand=3Df_rand.read(1024 * 1024)
-
-  print("Filling up FS by Creating chunks files in: ",CHUNKS_DIR)
-  try:
-      while True:
-          tp =3D tempfile.NamedTemporaryFile(dir=3DCHUNKS_DIR,delete=3DFals=
-e)
-          for x in range(CHUNK_SZ_MB):
-              tp.write(mb_rand)
-          os.fsync(tp)
-          tp.close()
-  except Exception as ex:
-      print("We are probably full as expected!!: ",ex)
-
-  chunks =3D glob.glob(CHUNKS_DIR + '/*')
-
-  print("Creating fragged disk file: ",DISK_FILE)
-  with open(DISK_FILE, "w+b") as f_disk:
-      for chunk in chunks:
-          try:
-              os.unlink(chunk)
-              for x in range(CHUNK_SZ_MB):
-                  f_disk.write(mb_rand)
-              os.fsync(f_disk)
-          except IOError as ex:
-              if ex.errno !=3D errno.ENOSPC:
-                  raise
-  ###########################################################3
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912224/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
