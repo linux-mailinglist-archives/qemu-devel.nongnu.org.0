@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D6F30E011
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 17:53:05 +0100 (CET)
-Received: from localhost ([::1]:57432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3705630E03F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 17:56:49 +0100 (CET)
+Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7LOq-0000DI-Lo
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 11:53:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58694)
+	id 1l7LSS-0004WN-9y
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 11:56:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7LLB-0006PC-54
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:49:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57909)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7LMs-0008C9-0J
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:51:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7LL3-0006zt-Qn
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:49:16 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7LMq-0007IR-H2
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:51:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612370947;
+ s=mimecast20190719; t=1612371058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KqGcYxFxEUpQG9cpBNRqNzLNlyRjyCgl8J6haE53ejI=;
- b=euMfMWxZa8wIw1t63wqzgW7HfQPraxp8nM00tlyy37bTvVd+/LN2V/6u4ltdDhAWnpvhtL
- pLjCXQ4GFfzsMQryW15w4zkvb4FgdNCtiMF2WLzNLqVUf7HI//cyC1mrbS+lmRacmqNXWa
- siUNRDHy6XVCkRCdsi3ZhW4NqvlWi7U=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-VqcoUq9HMRmBy_GHzH3HNA-1; Wed, 03 Feb 2021 11:49:03 -0500
-X-MC-Unique: VqcoUq9HMRmBy_GHzH3HNA-1
-Received: by mail-ej1-f71.google.com with SMTP id bx12so57087ejc.15
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 08:48:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KqGcYxFxEUpQG9cpBNRqNzLNlyRjyCgl8J6haE53ejI=;
- b=Argt06L2Gn+UK1LBwhHIgkfvDXUpwX2MEJG6KhUt9z3ndqDrgyczKrzpydtlv0CaqV
- XhIXE1KC/gB+Vzi7OzMnXWR7UP9R6BuzGeyV6uDDxz6LmcGHQ9Z16poFewUcj8yptAMJ
- SDqGgM9M8Rg9QtNz1q4+cAFdkLZ6RGBc/RH+tEeE66gPB49Z/7Rs5Qh6GbmdOU6GQkct
- CxzteGmVSCtbpANM9ElzDMVvstBqCelMJZzFBm2tDrzy8TcdJSiyQvJzfWjw3au07ERz
- ZoLKNvKQO2H2HWd/oMeTC5Hh4D8pJGXvj1RN4oNkr6/KuUfepJWHzn5gsShzeccLfqjA
- pA4A==
-X-Gm-Message-State: AOAM532KcAX5ze5XQf2G8M/mobkmZwucTCubcwxPARrEPQmHD8rcPMld
- Uw64lLb2nzrMijPzx298kxxj6Z9O5QsP8b4UPX01TvAMUaf9VS0cVlF4acj9sQ7xckroFHHVBUW
- +d91GoxvpwzCOZBI=
-X-Received: by 2002:a17:906:1a11:: with SMTP id
- i17mr4175004ejf.278.1612370936601; 
- Wed, 03 Feb 2021 08:48:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFJmGxYGQ4TV8xgwb/0DNKce0ECz1UjWmWpufJBdKQ+MkVROvn5SuxY70p83PLJaSyezA1JQ==
-X-Received: by 2002:a17:906:1a11:: with SMTP id
- i17mr4174829ejf.278.1612370934103; 
- Wed, 03 Feb 2021 08:48:54 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id w8sm1124153edd.39.2021.02.03.08.48.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Feb 2021 08:48:53 -0800 (PST)
-Subject: Re: cdrom scsi passthough not working well
-To: daggs <daggs@gmx.com>, qemu-discuss@nongnu.org
-References: <trinity-9b27278b-c96f-472f-a115-9bf29b44c103-1603862318112@3c-app-mailcom-bs15>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <46ec2226-2e5b-4e73-9b01-4e55f1f1fcbc@redhat.com>
-Date: Wed, 3 Feb 2021 17:48:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=xSeCiHi/ErG2LHQNhQLGHQjc05W0BDvx2AwIOBAgxpQ=;
+ b=Ps9rPnzz/C7mqXPzoSJrW7poxcbEkGp02MxU59ZMJEcHpEkW4WNMM75F3sdq4BSLpUklgx
+ zKo+67osdPOCjbvmPsu+SqA3AYD8zaWjsKmX17mbeMD1xVVNhADnp95ryigTfnlQXIkC1x
+ NAp2ajk2pAjEs572O/Qfukote9UAkx8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-yh49r8xQOSGwBdKhQ2zXLQ-1; Wed, 03 Feb 2021 11:50:54 -0500
+X-MC-Unique: yh49r8xQOSGwBdKhQ2zXLQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65B01801962;
+ Wed,  3 Feb 2021 16:50:53 +0000 (UTC)
+Received: from localhost (ovpn-115-141.ams2.redhat.com [10.36.115.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D507E5D9E3;
+ Wed,  3 Feb 2021 16:50:52 +0000 (UTC)
+Date: Wed, 3 Feb 2021 16:50:51 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Denis V. Lunev" <den@openvz.org>
+Subject: Re: [PATCH 1/1] docs: fix mistake in dirty bitmap feature description
+Message-ID: <20210203165051.GH74271@stefanha-x1.localdomain>
+References: <20210128171313.2210947-1-den@openvz.org>
+ <a88ad335-05b1-b720-5689-1c477bd55d1f@virtuozzo.com>
+ <ccc0020d-ae27-6e8a-d76e-55615c74befb@redhat.com>
+ <80bb1b27-4bb3-de85-713b-a88c8019a14f@openvz.org>
+ <cbfdf78b-57ff-3482-3adc-f2eb3e65237e@redhat.com>
+ <5bc4c2ef-e1dd-f0bc-12f1-62c1a11a9fe4@openvz.org>
 MIME-Version: 1.0
-In-Reply-To: <trinity-9b27278b-c96f-472f-a115-9bf29b44c103-1603862318112@3c-app-mailcom-bs15>
+In-Reply-To: <5bc4c2ef-e1dd-f0bc-12f1-62c1a11a9fe4@openvz.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="y9PDtDHaFrXNoMPU"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,36 +83,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-block@ developers.
+--y9PDtDHaFrXNoMPU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/28/20 6:18 AM, daggs wrote:
-> Greetings,
-> 
-> I have a vm running under qemu 5.1.0 with a cdrom scsi passthough into it.
-> I can eject the device in and out but when I insert a disc, is isn't detected and the dmesg on the guest is filled with these prints:
-> [384216.443262] sr 0:0:0:0: ioctl_internal_command return code = 8000002
-> [384216.443268] sr 0:0:0:0: Sense Key : 0xb [current]
-> [384216.443272] sr 0:0:0:0: ASC=0x0 ASCQ=0x6
-> [384218.504142] sr 0:0:0:0: ioctl_internal_command return code = 8000002
-> [384218.504150] sr 0:0:0:0: Sense Key : 0xb [current]
-> [384218.504153] sr 0:0:0:0: ASC=0x0 ASCQ=0x6
-> [384220.561302] sr 0:0:0:0: ioctl_internal_command return code = 8000002
-> [384220.561308] sr 0:0:0:0: Sense Key : 0xb [current]
-> [384220.561312] sr 0:0:0:0: ASC=0x0 ASCQ=0x6
-> 
-> the vm is uefi q35 based, generated by libvirt 6.8.0, the cdrom part is this:
-> -blockdev {"driver":"host_device","filename":"/dev/sg0","node-name":"libvirt-2-backend","read-only":true}
-> -device scsi-generic,bus=scsi0.0,channel=0,scsi-id=0,lun=0,drive=libvirt-2-backend,id=hostdev0
-> 
-> id there something bad with the config or have I encountered a bug?
-> 
-> Thanks,
-> 
-> Dagg.
-> 
+On Wed, Feb 03, 2021 at 01:29:03PM +0300, Denis V. Lunev wrote:
+> On 2/3/21 2:08 AM, Eric Blake wrote:
+> > On 2/2/21 4:50 PM, Denis V. Lunev wrote:
+> >> On 2/3/21 1:15 AM, Eric Blake wrote:
+> >>> On 1/28/21 11:21 AM, Vladimir Sementsov-Ogievskiy wrote:
+> >>>> 28.01.2021 20:13, Denis V. Lunev wrote:
+> >>>>> Original specification says that l1 table size if 64 * l1_size, whi=
+ch
+> >>>>> is obviously wrong. The size of the l1 entry is 64 _bits_, not byte=
+s.
+> >>>>> Thus 64 is to be replaces with 8 as specification says about bytes.
+> >>>>>
+> >>>>> There is also minor tweak, field name is renamed from l1 to l1_tabl=
+e,
+> >>>>> which matches with the later text.
+> >>>>>
+> >>>>> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> >>>>> CC: Stefan Hajnoczi <stefanha@redhat.com>
+> >>>>> CC: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >>>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >>>>
+> >>> I saw the subject "dirty bitmap", and assumed it would go through my
+> >>> dirty bitmap tree.  In reality, it's unrelated to the dirty bitmap co=
+de.
+> >>>  Would an improved subject line help?
+> >> hmm. Actually this is about "how the dirty bitmaps are stored in the
+> >> Parallels Image format". The section is called "dirty bitmap feature".
+> >>
+> >> What I can propose? :)
+> >>
+> >> "docs: fix mistake in Parallels Image "dirty bitmap" feature descripti=
+on"
+> >>
+> >> Will this work for you?
+> > That feels a bit long; maybe just:
+> >
+> > docs: fix Parallels Image "dirty bitmap" section
+> >
+> >
+>=20
+> looks great to me. Should I resend?
+
+It's okay. I have merged it, updated the commit message, and added a
+note about the original commit message. The final commit has a
+ Message-id: header so it's easy to find the original email thread.
+
+Thanks, applied to my block tree:
+https://gitlab.com/stefanha/qemu/commits/block
+
+Stefan
+
+--y9PDtDHaFrXNoMPU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAa1GsACgkQnKSrs4Gr
+c8itcAf+IYYio3tPeOgGAlcmvnNCnY2XckcsPTLsSqLlH8zyKTbqpSnGwzlObrRg
+cz5vU/OVfbfIdxOmoi+QxGn+4RjywM9QtmrvPaongkBfBF6tGdWakG8hS69dPy+5
+PY6pcKwdi4iiGZ6zi5Cj2rUtTagBiUg/xT3w2IUYBMv7lkrtiB9upJos8wnAo5qr
+Trx/mCUXVfOwHYdZrSf7tr/SFdB3oth9BvxTulmSvBCb4oAse2jSW6ZT2yTAj4iy
+Qi2AqXQP6rEUFjVlSMCzdAajneUmJbfNSTHc6TO/SOkEJ65vO7IFN3CiDGgBSuod
+zWfbth72AMrAxgbxZ0wRYUpo3xBAUQ==
+=FIwH
+-----END PGP SIGNATURE-----
+
+--y9PDtDHaFrXNoMPU--
 
 
