@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99A830DF8A
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 17:22:42 +0100 (CET)
-Received: from localhost ([::1]:50764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDCD30DF99
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 17:24:39 +0100 (CET)
+Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7KvR-00062b-5N
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 11:22:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50724)
+	id 1l7KxK-0007rF-H8
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 11:24:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7KpK-0001Tj-8h
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:16:24 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:53242)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7KpI-0001eT-96
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:16:21 -0500
-Received: by mail-wm1-x334.google.com with SMTP id l12so197338wmq.2
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 08:16:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=UOQT8h+hflEcNCh9Q3LfChKzHA/xrI+XgiL4rwrm02U=;
- b=oYPVO/X5FXbqv+gHLIxA5zwMEz9B4HYuKuVXX1Gr8XXGI7bug9jfVhXCDFOP3yWjSS
- hHc0hA8W26QH0M8ApNmh156m4Daw7OHG8lqBWwmhXSGITUctb6lmiy2QgEkL6+NGm7Wp
- x6LXy4ElaEPFyxQBtEpgGIe3Pr5h4jSPzn5NLXuNyX98fRgFldquX68sPuVYfb3vukN2
- CwzcQ7MHvHQ9v1IDibfssT1n6YtjQ8Cv9e8OjOlJxqwWaG/Nx3P9zCVsw8kF2YL8ob7m
- 96V6a8SJCKrUwmQE9w4sQxCgcDgCKHusD2hlLKaK8Qkub2OcsDMO2dtlzRAPdUmbPFs2
- ziFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=UOQT8h+hflEcNCh9Q3LfChKzHA/xrI+XgiL4rwrm02U=;
- b=Pahm6vZ2UUuZreQYcMn9panxbATEfV1/iNhtdgUyamYdBY6nz4nY2JL4fqrvBIHE9N
- ZwNSFrz9pBOPbPuRUUEPV69nAQDyfdxb8Pph9UMBBAfXErK1qHXGVXsuy/w5p01HWAn0
- 6IXsGCwIqVOV34H/ADQZdgMkqIWhRTePQ/cxFym3f+3EZAnuMLJP0/CW/Ag+/IGaWCoc
- P8nqqqJRB2TRq9szQBQqaJk28YeiQzunRfAUP3UBJU+3w7cwzhiVOm9xA/y3SrXmGj0g
- qOfqxSmAAx+wqg7qP7SaWbfw1tBWTYznWTfp7kk6q7r94XzkRLebWfqom9hW2HniHTJ8
- eWMQ==
-X-Gm-Message-State: AOAM532aNbhR3qvkcNr7bua/II6rXJhUItJNNllgBBBJ2RfKzCSyjOPI
- h9HOknIOCp5vi3tzt/nYl+Qlvw==
-X-Google-Smtp-Source: ABdhPJxFWcODJz0c1MIVLLqx7RdlQ7quY2WCM4V02JQlhQzrPoLaqx6IuiYWTiZ4CGO3ihkyQwTntQ==
-X-Received: by 2002:a05:600c:27d1:: with SMTP id
- l17mr3519492wmb.18.1612368978433; 
- Wed, 03 Feb 2021 08:16:18 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b3sm3652272wme.32.2021.02.03.08.16.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 08:16:16 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 322CB1FF7E;
- Wed,  3 Feb 2021 16:16:16 +0000 (GMT)
-References: <20210201100903.17309-1-cfontana@suse.de>
- <87ft2drzy1.fsf@linaro.org> <9e821e84-8885-7923-c5a4-3a7afaf0273b@suse.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v15 00/23] i386 cleanup PART 2
-Date: Wed, 03 Feb 2021 16:15:16 +0000
-In-reply-to: <9e821e84-8885-7923-c5a4-3a7afaf0273b@suse.de>
-Message-ID: <878s85rusv.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7KpG-0001OE-92
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:16:18 -0500
+Received: from 3.mo51.mail-out.ovh.net ([188.165.32.156]:46863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7Kp3-0001dP-3B
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 11:16:17 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.141])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 8B62A261D4A;
+ Wed,  3 Feb 2021 17:15:58 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 3 Feb 2021
+ 17:15:54 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R005d03d0090-901e-436c-a398-7faaa0e21e1c,
+ 14764A637080470E006017DF0F40374BD57DCD59) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 3 Feb 2021 17:15:48 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v8 07/13] confidential guest support: Introduce cgs
+ "ready" flag
+Message-ID: <20210203171548.0d8e0494@bahia.lan>
+In-Reply-To: <20210202041315.196530-8-david@gibson.dropbear.id.au>
+References: <20210202041315.196530-1-david@gibson.dropbear.id.au>
+ <20210202041315.196530-8-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: af5f4bdd-8cd5-43de-941a-fb2932b2f48a
+X-Ovh-Tracer-Id: 14717200635796625759
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrgedvgdekgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegvhhgrsghkohhsthesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=groug@kaod.org;
+ helo=3.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,57 +69,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: pair@us.ibm.com, mtosatti@redhat.com, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
+ mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ pragyansri.pathi@intel.com, andi.kleen@intel.com, thuth@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
+ dgilbert@redhat.com, qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ berrange@redhat.com, Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue,  2 Feb 2021 15:13:09 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Claudio Fontana <cfontana@suse.de> writes:
+> The platform specific details of mechanisms for implementing
+> confidential guest support may require setup at various points during
+> initialization.  Thus, it's not really feasible to have a single cgs
+> initialization hook, but instead each mechanism needs its own
+> initialization calls in arch or machine specific code.
+> 
+> However, to make it harder to have a bug where a mechanism isn't
+> properly initialized under some circumstances, we want to have a
+> common place, late in boot, where we verify that cgs has been
+> initialized if it was requested.
+> 
+> This patch introduces a ready flag to the ConfidentialGuestSupport
+> base type to accomplish this, which we verify in
+> qemu_machine_creation_done().
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  include/exec/confidential-guest-support.h | 24 +++++++++++++++++++++++
+>  softmmu/vl.c                              | 10 ++++++++++
+>  target/i386/sev.c                         |  2 ++
+>  3 files changed, 36 insertions(+)
+> 
+> diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
+> index 3db6380e63..5dcf602047 100644
+> --- a/include/exec/confidential-guest-support.h
+> +++ b/include/exec/confidential-guest-support.h
+> @@ -27,6 +27,30 @@ OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
+>  
+>  struct ConfidentialGuestSupport {
+>      Object parent;
+> +
+> +    /*
+> +     * ready: flag set by CGS initialization code once it's ready to
+> +     *        start executing instructions in a potentially-secure
+> +     *        guest
+> +     *
+> +     * The definition here is a bit fuzzy, because this is essentially
+> +     * part of a self-sanity-check, rather than a strict mechanism.
+> +     *
+> +     * It's not fasible to have a single point in the common machine
 
-> On 2/3/21 3:22 PM, Alex Benn=C3=A9e wrote:
->>=20
->> Claudio Fontana <cfontana@suse.de> writes:
->>=20
->>> v14 -> v15:
->>>
->>> * change the TcgCpuOperations so that all fields of the struct are
->>>   defined unconditionally, as per original patch by Eduardo,
->>>   before moving them to a separate struct referenced by a pointer
->>>   (Richard, Eduardo).
->>>
->> <snip>
->>=20
->> I'm not sure if their is some instability because I keep seeing failures
->> in the review trees, e.g:
->>=20
->>   https://gitlab.com/stsquad/qemu/-/pipelines/250749404
->>=20
->> If you look at my pipeline history you'll see it is *mostly* green:
->>=20
->>   https://gitlab.com/stsquad/qemu/-/pipelines
->>=20
->> especially for the testing/next branches that I apply the reviews to. So
->> I worry there might be something lurking in there. How have your CI runs
->> looked?
->>=20
->
-> My CI has looked fine, I build-tested (with make check) every single comm=
-it.
->
-> Rebased last time the day before yesterday.
->
-> https://gitlab.com/hw-claudio/qemu/-/pipelines
+s/fasible/feasible
 
-Yeah it did seem weird given it was a block failure. Chalk it up to
-paranoia ;-)
+Anyway,
 
---=20
-Alex Benn=C3=A9e
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> +     * init path to configure confidential guest support, because
+> +     * different mechanisms have different interdependencies requiring
+> +     * initialization in different places, often in arch or machine
+> +     * type specific code.  It's also usually not possible to check
+> +     * for invalid configurations until that initialization code.
+> +     * That means it would be very easy to have a bug allowing CGS
+> +     * init to be bypassed entirely in certain configurations.
+> +     *
+> +     * Silently ignoring a requested security feature would be bad, so
+> +     * to avoid that we check late in init that this 'ready' flag is
+> +     * set if CGS was requested.  If the CGS init hasn't happened, and
+> +     * so 'ready' is not set, we'll abort.
+> +     */
+> +    bool ready;
+>  };
+>  
+>  typedef struct ConfidentialGuestSupportClass {
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 1b464e3474..1869ed54a9 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -101,6 +101,7 @@
+>  #include "qemu/plugin.h"
+>  #include "qemu/queue.h"
+>  #include "sysemu/arch_init.h"
+> +#include "exec/confidential-guest-support.h"
+>  
+>  #include "ui/qemu-spice.h"
+>  #include "qapi/string-input-visitor.h"
+> @@ -2497,6 +2498,8 @@ static void qemu_create_cli_devices(void)
+>  
+>  static void qemu_machine_creation_done(void)
+>  {
+> +    MachineState *machine = MACHINE(qdev_get_machine());
+> +
+>      /* Did we create any drives that we failed to create a device for? */
+>      drive_check_orphaned();
+>  
+> @@ -2516,6 +2519,13 @@ static void qemu_machine_creation_done(void)
+>  
+>      qdev_machine_creation_done();
+>  
+> +    if (machine->cgs) {
+> +        /*
+> +         * Verify that Confidential Guest Support has actually been initialized
+> +         */
+> +        assert(machine->cgs->ready);
+> +    }
+> +
+>      if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+>          exit(1);
+>      }
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 590cb31fa8..f9e9b5d8ae 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -737,6 +737,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+>      qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
+>      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
+>  
+> +    cgs->ready = true;
+> +
+>      return 0;
+>  err:
+>      sev_guest = NULL;
+
 
