@@ -2,52 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F53730E275
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:26:44 +0100 (CET)
-Received: from localhost ([::1]:47208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D752530E284
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:30:10 +0100 (CET)
+Received: from localhost ([::1]:53392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7MrT-0006tg-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:26:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56812)
+	id 1l7Mun-0001P2-Sy
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:30:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7Mpc-0005n8-4X
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:24:48 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:57193)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7Mpa-0002LT-Ck
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:24:47 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-gd3DHtCUON-z8ZrD5bSM6Q-1; Wed, 03 Feb 2021 13:24:43 -0500
-X-MC-Unique: gd3DHtCUON-z8ZrD5bSM6Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 232A1192AB7A;
- Wed,  3 Feb 2021 18:24:42 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-114-27.ams2.redhat.com [10.36.114.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09AFC5C233;
- Wed,  3 Feb 2021 18:24:34 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] virtiofsd: vu_dispatch locking should never fail
-Date: Wed,  3 Feb 2021 19:24:34 +0100
-Message-Id: <20210203182434.93870-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7MtF-0000LJ-Oy
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:28:33 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:50320)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7MtE-00040E-2r
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:28:33 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id cl8so187443pjb.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 10:28:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=a3tu9XUt/J0ThZrC67TWP1h0eqMB27MzYZPXTgo1riE=;
+ b=q81vj3bTXl9tlkyM3InBQ3vvBK7j0oQ25paD4svfw0gINeyXpwiapc9KeS/6JwSC4I
+ PtTAaQmpgw2vtlm8r88OFQPgKvZUnke2LRor5KN/nQdMyMOmACvS8I9SfvTr7E7ATK4t
+ mOwai52+dihF4WwU9kRQCEdfrdyAnwb3x9WoqL9NEc5Tlsm7PFMiAMUS+pEoxY2+NFYt
+ DZs4TrWlnivyDma8jAecGj1noQ740FHo0iszJO7hZg/oAqFheyEemyNkB0MhUq7UyYg/
+ +D9XvOPfhKcsN4/EysaxzsalJsvi0y4zySUHrFRosHZmC7jPSdidsOPIj83A7muZSG/I
+ yb5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=a3tu9XUt/J0ThZrC67TWP1h0eqMB27MzYZPXTgo1riE=;
+ b=dWb/0DYw+gaFbqwZ8f7vQ0QZU6TiCvzHzQqfweCqF7vYKfHXiTfv5Q5srD6bLi+txc
+ QqvQWhmG3QaBgjyc98Nk2BnRfTtlmk/3QyZnO1jLGUhfy/swVJNPnPpdXpieVfrZTdaW
+ 9gOgCXlXFcbYwaBDBXBuhjBodb+MlLOJuG92fMQLjeFab+NFQdxKEHZqMc0NXVSsPWNC
+ 20C0yq3HwoouF3qBEBLdJDj+PS3rzOUsmF6evFLJpLZc2Db0jxVh7Hsk1/nioQeartO3
+ BXxnoyFACWudS+3TuYbPLm2LQsLZCdzZrd2jhyBwEBeIwUfNFDeE/xttO8IsopuJuAPC
+ fN5A==
+X-Gm-Message-State: AOAM533onv2ARlJyUKaaHUaisVCRGS9MaVFCCL/UCr6jqZlTx/MvbIOX
+ F2ty1umJoJiIBrN4dJJvUOgyIthqCOhH07Np
+X-Google-Smtp-Source: ABdhPJxQxlxdGHfh5VtdwXL3eIeeMsPWgkE4ousXcQeCKjOTclhbL5QK6zmRQqnaobydyUhJUXnLeQ==
+X-Received: by 2002:a17:90b:1088:: with SMTP id
+ gj8mr4443909pjb.35.1612376910521; 
+ Wed, 03 Feb 2021 10:28:30 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id bo1sm1611325pjb.7.2021.02.03.10.28.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Feb 2021 10:28:29 -0800 (PST)
+Subject: Re: [PATCH v2 1/1] target/arm: Fix SCR RES1 handling
+To: Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>, qemu-arm@nongnu.org
+References: <20210203165552.16306-1-michael.nawrocki@gtri.gatech.edu>
+ <20210203165552.16306-2-michael.nawrocki@gtri.gatech.edu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <2858ca66-8abb-f90c-7af3-0a21801e6002@linaro.org>
+Date: Wed, 3 Feb 2021 08:28:26 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20210203165552.16306-2-michael.nawrocki@gtri.gatech.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.178,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,173 +89,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pthread_rwlock_rdlock() and pthread_rwlock_wrlock() can fail if a
-deadlock condition is detected or the current thread already owns
-the lock. They can also fail, like pthread_rwlock_unlock(), if the
-mutex wasn't properly initialized. None of these are ever expected
-to happen with fv_VuDev::vu_dispatch_rwlock.
+On 2/3/21 6:55 AM, michael.nawrocki--- via wrote:
+> The FW and AW bits of SCR_EL3 are RES1 only in some contexts. Force them
+> to 1 only when there is no support for AArch32 at EL1 or above.
+> 
+> The reset value will be 0x30 only if the CPU is AArch64-only; if there
+> is support for AArch32 at EL1 or above, it will be reset to 0.
+> 
+> Also adds helper function isar_feature_aa64_aa32_el1 to check if AArch32
+> is supported at EL1 or above.
+> 
+> Signed-off-by: Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
+> ---
+>  target/arm/cpu.h    |  5 +++++
+>  target/arm/helper.c | 16 ++++++++++++++--
+>  2 files changed, 19 insertions(+), 2 deletions(-)
 
-Some users already check the return value and assert, some others
-don't. Introduce rdlock/wrlock/unlock wrappers that just do the
-former and use them everywhere for improved consistency and
-robustness.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-This is just cleanup. It doesn't fix any actual issue.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
-
-v2: - open-code helpers instead of defining them with a macro (Vivek, Stefa=
-n)
-    - fixed rd/wr typo in fv_queue_thread() (Stefan)
-    - make it clear in the changelog this is just cleanup (Stefan)
-
- tools/virtiofsd/fuse_virtio.c | 49 +++++++++++++++++++++++++----------
- 1 file changed, 35 insertions(+), 14 deletions(-)
-
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index ddcefee4272f..523ee64fb7ae 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -187,6 +187,31 @@ static void copy_iov(struct iovec *src_iov, int src_co=
-unt,
-     }
- }
-=20
-+/*
-+ * pthread_rwlock_rdlock() and pthread_rwlock_wrlock can fail if
-+ * a deadlock condition is detected or the current thread already
-+ * owns the lock. They can also fail, like pthread_rwlock_unlock(),
-+ * if the mutex wasn't properly initialized. None of these are ever
-+ * expected to happen.
-+ */
-+static void vu_dispatch_rdlock(struct fv_VuDev *vud)
-+{
-+    int ret =3D pthread_rwlock_rdlock(&vud->vu_dispatch_rwlock);
-+    assert(ret =3D=3D 0);
-+}
-+
-+static void vu_dispatch_wrlock(struct fv_VuDev *vud)
-+{
-+    int ret =3D pthread_rwlock_wrlock(&vud->vu_dispatch_rwlock);
-+    assert(ret =3D=3D 0);
-+}
-+
-+static void vu_dispatch_unlock(struct fv_VuDev *vud)
-+{
-+    int ret =3D pthread_rwlock_unlock(&vud->vu_dispatch_rwlock);
-+    assert(ret =3D=3D 0);
-+}
-+
- /*
-  * Called back by ll whenever it wants to send a reply/message back
-  * The 1st element of the iov starts with the fuse_out_header
-@@ -240,12 +265,12 @@ int virtio_send_msg(struct fuse_session *se, struct f=
-use_chan *ch,
-=20
-     copy_iov(iov, count, in_sg, in_num, tosend_len);
-=20
--    pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+    vu_dispatch_rdlock(qi->virtio_dev);
-     pthread_mutex_lock(&qi->vq_lock);
-     vu_queue_push(dev, q, elem, tosend_len);
-     vu_queue_notify(dev, q);
-     pthread_mutex_unlock(&qi->vq_lock);
--    pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+    vu_dispatch_unlock(qi->virtio_dev);
-=20
-     req->reply_sent =3D true;
-=20
-@@ -403,12 +428,12 @@ int virtio_send_data_iov(struct fuse_session *se, str=
-uct fuse_chan *ch,
-=20
-     ret =3D 0;
-=20
--    pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+    vu_dispatch_rdlock(qi->virtio_dev);
-     pthread_mutex_lock(&qi->vq_lock);
-     vu_queue_push(dev, q, elem, tosend_len);
-     vu_queue_notify(dev, q);
-     pthread_mutex_unlock(&qi->vq_lock);
--    pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+    vu_dispatch_unlock(qi->virtio_dev);
-=20
- err:
-     if (ret =3D=3D 0) {
-@@ -558,12 +583,12 @@ out:
-         fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n", __func__,
-                  elem->index);
-=20
--        pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+        vu_dispatch_rdlock(qi->virtio_dev);
-         pthread_mutex_lock(&qi->vq_lock);
-         vu_queue_push(dev, q, elem, 0);
-         vu_queue_notify(dev, q);
-         pthread_mutex_unlock(&qi->vq_lock);
--        pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+        vu_dispatch_unlock(qi->virtio_dev);
-     }
-=20
-     pthread_mutex_destroy(&req->ch.lock);
-@@ -596,7 +621,6 @@ static void *fv_queue_thread(void *opaque)
-              qi->qidx, qi->kick_fd);
-     while (1) {
-         struct pollfd pf[2];
--        int ret;
-=20
-         pf[0].fd =3D qi->kick_fd;
-         pf[0].events =3D POLLIN;
-@@ -645,8 +669,7 @@ static void *fv_queue_thread(void *opaque)
-             break;
-         }
-         /* Mutual exclusion with virtio_loop() */
--        ret =3D pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock)=
-;
--        assert(ret =3D=3D 0); /* there is no possible error case */
-+        vu_dispatch_rdlock(qi->virtio_dev);
-         pthread_mutex_lock(&qi->vq_lock);
-         /* out is from guest, in is too guest */
-         unsigned int in_bytes, out_bytes;
-@@ -672,7 +695,7 @@ static void *fv_queue_thread(void *opaque)
-         }
-=20
-         pthread_mutex_unlock(&qi->vq_lock);
--        pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+        vu_dispatch_unlock(qi->virtio_dev);
-=20
-         /* Process all the requests. */
-         if (!se->thread_pool_size && req_list !=3D NULL) {
-@@ -799,7 +822,6 @@ int virtio_loop(struct fuse_session *se)
-     while (!fuse_session_exited(se)) {
-         struct pollfd pf[1];
-         bool ok;
--        int ret;
-         pf[0].fd =3D se->vu_socketfd;
-         pf[0].events =3D POLLIN;
-         pf[0].revents =3D 0;
-@@ -825,12 +847,11 @@ int virtio_loop(struct fuse_session *se)
-         assert(pf[0].revents & POLLIN);
-         fuse_log(FUSE_LOG_DEBUG, "%s: Got VU event\n", __func__);
-         /* Mutual exclusion with fv_queue_thread() */
--        ret =3D pthread_rwlock_wrlock(&se->virtio_dev->vu_dispatch_rwlock)=
-;
--        assert(ret =3D=3D 0); /* there is no possible error case */
-+        vu_dispatch_wrlock(se->virtio_dev);
-=20
-         ok =3D vu_dispatch(&se->virtio_dev->dev);
-=20
--        pthread_rwlock_unlock(&se->virtio_dev->vu_dispatch_rwlock);
-+        vu_dispatch_unlock(se->virtio_dev);
-=20
-         if (!ok) {
-             fuse_log(FUSE_LOG_ERR, "%s: vu_dispatch failed\n", __func__);
---=20
-2.26.2
-
+r~
 
