@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E1430E159
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:46:56 +0100 (CET)
-Received: from localhost ([::1]:34844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B489E30E14D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:42:44 +0100 (CET)
+Received: from localhost ([::1]:52712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7MEx-00045W-17
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:46:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40022)
+	id 1l7MAt-00089M-Q2
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:42:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Luo-000375-0a
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:26:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32468)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Luo-00037c-4N
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:26:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Lul-0004eK-Qf
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Lul-0004eR-Qq
  for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:26:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612373162;
+ s=mimecast20190719; t=1612373163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pgNasKEfM65gT+bkifAHYc5Vf3OqJeIoek37J7Rf8lY=;
- b=C+WXd7QrSxN4AAHOJj+JfmrJTydIrUQw33gj8YvuyYpP3NnJBpL9Hy8jM7J3GWH/2ZUnsg
- Qbhjfi1SeCAOAW8/VjJX8UpfHIxnMiy2r3wmvDCQFBl0aloOS5dMpWKpHVNK32iF4xcfeZ
- 8HIwbHSqRgQhNhSD7crHe+OuXHadTPY=
+ bh=RDjyE29VvfGIbW7GirlILd5tOBaQDLA97jJJqsBtimk=;
+ b=OMlJTfO19uzceSBPaCAXVoHPBI+n92wvg1nEVGMSGAi+rdtTpXDyx0XtCBY2xRz/tkfccB
+ WoGAgvkGNAYos92ZFolK5cGcCULhvVqaNuoJ4VW+rWb4ZSovOgLc8zFQgs3xzz12Rd/7kL
+ 0/SPddseYQmpkw/k41rxcfdvCzIFOmI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-nFpzMv5fNg2EgUDGwvzUFg-1; Wed, 03 Feb 2021 12:24:50 -0500
-X-MC-Unique: nFpzMv5fNg2EgUDGwvzUFg-1
+ us-mta-550-3tL9I8VaOdyCnrF7dWCGMg-1; Wed, 03 Feb 2021 12:24:52 -0500
+X-MC-Unique: 3tL9I8VaOdyCnrF7dWCGMg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4367A801961;
- Wed,  3 Feb 2021 17:24:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 408B5803F49;
+ Wed,  3 Feb 2021 17:24:51 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-89.rdu2.redhat.com
  [10.10.116.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 167FA1971D;
- Wed,  3 Feb 2021 17:24:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 729A6908E;
+ Wed,  3 Feb 2021 17:24:49 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/22] Acceptance tests: clarify ssh connection failure reason
-Date: Wed,  3 Feb 2021 12:23:47 -0500
-Message-Id: <20210203172357.1422425-13-crosa@redhat.com>
+Subject: [PATCH 13/22] tests/acceptance/virtiofs_submounts.py: add missing
+ accel tag
+Date: Wed,  3 Feb 2021 12:23:48 -0500
+Message-Id: <20210203172357.1422425-14-crosa@redhat.com>
 In-Reply-To: <20210203172357.1422425-1-crosa@redhat.com>
 References: <20210203172357.1422425-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -92,42 +93,25 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the connection to the ssh server fails, it may indeed be a "sshd"
-issue, but it may also not be that.  Let's state what we know: the
-establishment of the connection from the client side was not possible.
+Which is useful to select tests that depend/use a particular feature.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/linux_ssh_mips_malta.py | 2 +-
- tests/acceptance/virtiofs_submounts.py   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ tests/acceptance/virtiofs_submounts.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-index ab6cb94aef..1742235758 100644
---- a/tests/acceptance/linux_ssh_mips_malta.py
-+++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -89,7 +89,7 @@ class LinuxSSH(Test):
-             except:
-                 time.sleep(4)
-                 pass
--        self.fail("sshd timeout")
-+        self.fail("ssh connection timeout")
- 
-     def ssh_disconnect_vm(self):
-         self.ssh_session.quit()
 diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
-index bf99164fcb..c998b297ee 100644
+index c998b297ee..1e745f15a2 100644
 --- a/tests/acceptance/virtiofs_submounts.py
 +++ b/tests/acceptance/virtiofs_submounts.py
-@@ -94,7 +94,7 @@ class VirtiofsSubmountsTest(BootLinux):
-             except:
-                 time.sleep(4)
-                 pass
--        self.fail('sshd timeout')
-+        self.fail('ssh connection timeout')
+@@ -75,6 +75,7 @@ def has_cmds(*cmds):
+ class VirtiofsSubmountsTest(BootLinux):
+     """
+     :avocado: tags=arch:x86_64
++    :avocado: tags=accel:kvm
+     """
  
-     def ssh_command(self, command):
-         self.ssh_logger.info(command)
+     def ssh_connect(self, username, keyfile):
 -- 
 2.25.4
 
