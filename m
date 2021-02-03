@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4D530E331
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:24:09 +0100 (CET)
-Received: from localhost ([::1]:36816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 112DC30E312
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:08:30 +0100 (CET)
+Received: from localhost ([::1]:37324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Nl2-0006y2-5a
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:24:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37688)
+	id 1l7NVt-0003gT-42
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:08:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7NON-0007Ix-B0
+ id 1l7NON-0007JH-Ke
  for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:00:43 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:39485)
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:52042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7NOD-0001Yc-4r
+ id 1l7NOF-0001Z3-2I
  for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:00:43 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id b17so379894plz.6
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 11:00:31 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id a20so235012pjs.1
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 11:00:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Yq9neRE5uhExlneFuBSgGmaVVsCJdyYjAvE1n9KBmpg=;
- b=lBxeyrV8U8jCYnP/Lm3TopyWot5KL0pnqKrNf2G2NQhkoOnp6OWBiW/5ZDqF9JVIj4
- qjvo2g5vd4w3qBewxNhKw+VIRFnCchJnNg2vpR9NDRSzghvJ4dySI2SZC2nwklaP4VRL
- sy7R2258B+ifesy1R5PHeGkZdnYSrXloqPzv13sv+eZD0lQJfnCUntjefdBsl6OdYoRM
- 88YfUv1ylfyrY6PYmCz7Xl9oddDxs2BDWTmq63u0YTKJiqOBMcYdNlBi10Ihp5LNYtSY
- 0yawN1Tsa8z87rebMjL+SPOJAVdC/ZOPZUSXC/bMnycDyATF5sDjFuWW6M45f0sDh3HS
- Y+ag==
+ bh=bAoMyMlDDlghVnqeNID447NiBs2PzgjWNFYjdCi+4Lo=;
+ b=v9GoRtutR3idBBXtfxTizd1A4cp0GGn00gTm2PA31jYYWTUZgAfwlPmtI9VD2jFGTC
+ s2kp7kkjbYvTWeljhoQduJ+r+Kbbos+BLNjft6lIYWYrZmAfpthfrhsJn5Vnq1eEcr2W
+ tsHRqJM5D2sLgAZp5AQr7dsFf2JebIvaA0FbtEDHn38R1fUQhe2gEEf/uTWh1UAs/67Y
+ lI5dW6cRUGqPrH0zfydeALs8a/JnLC30bsP9nPjCdQHC035DZtaUMoUdtHogzEIVKdv5
+ fZr1suxFvQ86+1LM8GHX8KawmriRIrEKEu4NTiVBWTAmfq3ORyl6K7ZSSp8TdMdYN5OV
+ hupg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Yq9neRE5uhExlneFuBSgGmaVVsCJdyYjAvE1n9KBmpg=;
- b=FhpdNA2sLwL0ooLrYPmUupS8c8Gt2wd+p1Z1+ETDPB/lR1I6v5J1wqhSp8qXi56qg2
- qC43EdtUGSb5awGviIVUkp6MqAVvuvR7f1xOcS9GI3CS+yzoNH+k75msgdMWGeSpCRtk
- LxiSzrPtVex3ilmI6PhcOmHvWfKec+XUeZMLAFnE3KxXmZlRj9mbJ7MyN/Q7UKGDse0d
- MHLPssyeJlHfT7WJhxe1A4CznBF2TrOmAU0pUQJWxLiIybZMGb8McFeu3JXzyTObgXb3
- 0FSMmkSVJ8xFrbxJS3lIP9/1cW2UWD0JjPoiXd3RWSEsQMLarMurJnD8r/2LPdcWMKhy
- nBmQ==
-X-Gm-Message-State: AOAM533OQyLuJo/xX3zhiFNJeHs6h3UHhcx9xRZ0Xxkl/3zyBlaax04I
- L0mRsjD5ajNjCq1lmFOqY5H4w+WP4TuGG2+T
-X-Google-Smtp-Source: ABdhPJymI5o+21Da+VuL192jHZzuEnI9rSublMuvOenDXLszCUU2ga5HOm637BCRstvCPndh6lZ+Ag==
-X-Received: by 2002:a17:90a:65c4:: with SMTP id
- i4mr4333803pjs.132.1612378831130; 
- Wed, 03 Feb 2021 11:00:31 -0800 (PST)
+ bh=bAoMyMlDDlghVnqeNID447NiBs2PzgjWNFYjdCi+4Lo=;
+ b=rdx+Kvt5YyVr9ZBlE7KOTTCbYFOdxtzOKJaCJcy7JENx5v2GoIn8zbOIDVBdXSOTxI
+ itg4iLGikR6KYBGIH37aYIjU0DVZOlodaXIsWnxkMvx4nBtye4Essy0aJCO2WMU2F0dT
+ vWRoPw/TO5I2tc1KAS3SdgMj55UAUpD3WOcl6/CFC8UUXHiUn3jKTjhgBzonLCjM6frt
+ fVJ0JPMGGQmGguYYiFji5khjCMuqd4PagwjhtRDBdTBKZeM9XZo5YMmGsUETnbpRR5SL
+ +lYKsLF8R4HTJO+tUHhZmNUdoD+GNNiOi+IqI/aUrN5txfvIu7QD4xI1eAsup/zUX25E
+ yQXw==
+X-Gm-Message-State: AOAM533Do6oK2MUPkWgbZFtYP1zUCiP2hU+JUEuw5XRFbNjUha2S4b1N
+ aOPguGG4YdYwko6zJq4/fbwQVSwV9LE+gomt
+X-Google-Smtp-Source: ABdhPJzOhrL9qCTvowqFC18MxhboRcJ22GsnR8oTAEYjqXjK7tCQnvsM5fJd5fWbbK3SDhAnBzqvHw==
+X-Received: by 2002:a17:90a:5601:: with SMTP id
+ r1mr4390757pjf.236.1612378833161; 
+ Wed, 03 Feb 2021 11:00:33 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id l2sm2906666pju.25.2021.02.03.11.00.29
+ by smtp.gmail.com with ESMTPSA id l2sm2906666pju.25.2021.02.03.11.00.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 11:00:30 -0800 (PST)
+ Wed, 03 Feb 2021 11:00:32 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/31] bsd-user: Tidy VERIFY_READ/VERIFY_WRITE
-Date: Wed,  3 Feb 2021 08:59:47 -1000
-Message-Id: <20210203190010.759771-9-richard.henderson@linaro.org>
+Subject: [PATCH v5 09/31] linux-user: Do not use guest_addr_valid for h2g_valid
+Date: Wed,  3 Feb 2021 08:59:48 -1000
+Message-Id: <20210203190010.759771-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210203190010.759771-1-richard.henderson@linaro.org>
 References: <20210203190010.759771-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,43 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, Warner Losh <imp@bsdimp.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These constants are only ever used with access_ok, and friends.
-Rather than translating them to PAGE_* bits, let them equal
-the PAGE_* bits to begin.
+This is the only use of guest_addr_valid that does not begin
+with a guest address, but a host address being transformed to
+a guest address.
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+We will shortly adjust guest_addr_valid to handle guest memory
+tags, and the host address should not be subjected to that.
+
+Move h2g_valid adjacent to the other h2g macros.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/qemu.h | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ include/exec/cpu_ldst.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index f8bb1e5459..4076adabd0 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -218,13 +218,12 @@ extern unsigned long x86_stack_size;
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index 5e8878ee9b..4e6ef3d542 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -77,13 +77,16 @@ typedef uint64_t abi_ptr;
+ #else
+ #define guest_addr_valid(x) ((x) <= GUEST_ADDR_MAX)
+ #endif
+-#define h2g_valid(x) guest_addr_valid((uintptr_t)(x) - guest_base)
  
- /* user access */
- 
--#define VERIFY_READ 0
--#define VERIFY_WRITE 1 /* implies read access */
-+#define VERIFY_READ  PAGE_READ
-+#define VERIFY_WRITE (PAGE_READ | PAGE_WRITE)
- 
--static inline int access_ok(int type, abi_ulong addr, abi_ulong size)
-+static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+ static inline bool guest_range_valid(abi_ulong start, abi_ulong len)
  {
--    return page_check_range((target_ulong)addr, size,
--                            (type == VERIFY_READ) ? PAGE_READ : (PAGE_READ | PAGE_WRITE)) == 0;
-+    return page_check_range((target_ulong)addr, size, type) == 0;
+     return len - 1 <= GUEST_ADDR_MAX && start <= GUEST_ADDR_MAX - len + 1;
  }
  
- /* NOTE __get_user and __put_user use host pointers and don't check access. */
++#define h2g_valid(x) \
++    (HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS || \
++     (uintptr_t)(x) - guest_base <= GUEST_ADDR_MAX)
++
+ #define h2g_nocheck(x) ({ \
+     uintptr_t __ret = (uintptr_t)(x) - guest_base; \
+     (abi_ptr)__ret; \
 -- 
 2.25.1
 
