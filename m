@@ -2,160 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C52830E3C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 21:06:25 +0100 (CET)
-Received: from localhost ([::1]:47748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3768B30E3DC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 21:09:21 +0100 (CET)
+Received: from localhost ([::1]:56492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7OPw-0005zr-3k
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 15:06:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54590)
+	id 1l7OSm-0001VV-AB
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 15:09:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1l7OMC-0004cZ-PW
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 15:02:33 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:40484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1l7OM9-0001em-SY
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 15:02:31 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 113Jsk5k124804;
- Wed, 3 Feb 2021 20:02:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=7dV0koNZwvdsBqxf6TiL97valGE8cU4AHRtXaOtc3ic=;
- b=XcMx/5YSuC8AWzf5QkTdFM3eA+dMSZIqMMEqs4YSDcx0jqtJ/07rM8/60YHHJwxs58Yb
- OlRozsBxyZLhG49f0DeMm4llLhEOLvp9DshthPVeRhkgYs+b9aeLplpbSTd9PECi9vXs
- DmDzdmr7fa7v7QmwMbp9H+2rsoWDATjX6SsPETp288VtMPcc5lDgwVqt7tDMUyI2LGS7
- +U+VPPWpPvCnlqzxqd0VovoxzE0xy5Cdbq7W2h5jTAKXEIon/WVe9i6fyOAy4/LAGCkH
- Lwr1dELQCFL96iU2upn10f3Do0Lo815I8Jtd8ltoTmT7+q0AZyn8ldaJWiliB4csyOSA GA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 36cvyb24ct-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 03 Feb 2021 20:02:16 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 113JuHRZ179808;
- Wed, 3 Feb 2021 20:02:14 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2169.outbound.protection.outlook.com [104.47.55.169])
- by userp3020.oracle.com with ESMTP id 36dh7u2m5h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 03 Feb 2021 20:02:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YccPtZE+8YkhH2dCitZh6RACeXw5V28qOsadSFKpJjIPLXozFJEdOBgt9FLLVAx9ATmkARzv9tv7vIHZ4lqhevSSAgU0p1F8c3bdKZS9OcCIxEjdNKarGbcTwlLf3nlww9MwpqxmIGZY7FPs5YGBZtoavBs1ijxxE9APAqHZaOLedapc9VFszYm0vxJ4Rakm25PhExVMdFpdO/yNT0sAqVeFDn9NLVMmjLxeREyWOLECun5LODfLn9XsTTLq7egR7IltLdPOv9w3jV1RFo15ZtQccspUyF+0GxEGMzIP7Of+UltXV4pCMTPChtZQiTiZtTi3IT+2P/Mf4iKGw7nopw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7dV0koNZwvdsBqxf6TiL97valGE8cU4AHRtXaOtc3ic=;
- b=eJ9YvhjjH5nHVMpUbPts9z2Y6yqUJwdaBYFJPHtObiCFKOD3S5QqHu64qi/YITCnKT9vFJVbwZobFF98yExqess1rjVF7uU4VW0BzvE6joefsZfXAHRApqosl7zYL9zxFljuFFk36oJEbuVnMoTkcYdm7FATbTIhGuWh9MtvnnjpA/p+NBXExHUz45Nw7aJp0NPazgYzOL6H8lkwovadpRd2DMNsmzQ3BgjyKcDO5ZxDUsc5Z12pl79qdYc+Qc0zChH76Du1wpVQM61nOFRaT6kzS09IXRk5ggCJtiZaqoJsvVbFGFgdDgGKV/ES9kRhR5qs4DZdjEV60fGDbADrSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7dV0koNZwvdsBqxf6TiL97valGE8cU4AHRtXaOtc3ic=;
- b=phwCes13nagDgbcLNeLq8yl7YlsapWWJ5s5XZrgU4HnBUrM0BSjARNpVEd8xTZACvPIV79r5LX/Jfz7eMZOEtYzAPqLJTpTU6TIdr27w+YvFV8wg7OeGXrANVq6ZB3dMFEZknwNQO/1T2nH3onK2iZQQ0FoRTNp8ujRIRv4M1XU=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
-Received: from DM6PR10MB3915.namprd10.prod.outlook.com (2603:10b6:5:1fc::13)
- by DS7PR10MB5087.namprd10.prod.outlook.com (2603:10b6:5:3b0::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.20; Wed, 3 Feb
- 2021 20:02:12 +0000
-Received: from DM6PR10MB3915.namprd10.prod.outlook.com
- ([fe80::1ddb:2411:2a04:de71]) by DM6PR10MB3915.namprd10.prod.outlook.com
- ([fe80::1ddb:2411:2a04:de71%3]) with mapi id 15.20.3805.027; Wed, 3 Feb 2021
- 20:02:12 +0000
-Date: Wed, 3 Feb 2021 12:02:05 -0800
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v21 00/20] Initial support for multi-process Qemu
-Message-ID: <20210203200205.GA29182@flaka>
-References: <cover.1611938319.git.jag.raman@oracle.com>
- <20210203161150.GA241524@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7OPs-0007Iz-J6
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 15:06:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7OPq-0003Ai-15
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 15:06:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612382775;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RsDCOyvBGheLTI77K06r/Mg7rDRIpQcBq/dWbO6JpDs=;
+ b=WII0ziu7WExfs7j05mu2k5wr+QpsZMyoaST9a+pShyVVvCDv2q7LbGhv8wsCDFngMt1vzt
+ e0pUezNmOpJnjTG1U2hO9mMZDwcl/oaFKz3APGc8wh4llmHjIGHkomxKljM+g5zzHPGpFT
+ 6McVEwlChrYZxMLw6AhZjcV0rdKCfiw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-v90qeM8BMSut0ss5J58nTw-1; Wed, 03 Feb 2021 15:06:12 -0500
+X-MC-Unique: v90qeM8BMSut0ss5J58nTw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9461192AB78;
+ Wed,  3 Feb 2021 20:06:10 +0000 (UTC)
+Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E63110013DB;
+ Wed,  3 Feb 2021 20:06:08 +0000 (UTC)
+Date: Wed, 3 Feb 2021 20:06:05 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v4 13/18] migration/rdma: Add the function for dynamic
+ page registration
+Message-ID: <20210203200605.GW2950@work-vm>
+References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
+ <1612339311-114805-14-git-send-email-zhengchuan@huawei.com>
+MIME-Version: 1.0
+In-Reply-To: <1612339311-114805-14-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203161150.GA241524@stefanha-x1.localdomain>
-X-Originating-IP: [2606:b400:8301:1010::16aa]
-X-ClientProxiedBy: CH2PR17CA0021.namprd17.prod.outlook.com
- (2603:10b6:610:53::31) To DM6PR10MB3915.namprd10.prod.outlook.com
- (2603:10b6:5:1fc::13)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from flaka (2606:b400:8301:1010::16aa) by
- CH2PR17CA0021.namprd17.prod.outlook.com (2603:10b6:610:53::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.17 via Frontend Transport; Wed, 3 Feb 2021 20:02:08 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2aab1616-0e57-4c10-d103-08d8c87e9804
-X-MS-TrafficTypeDiagnostic: DS7PR10MB5087:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DS7PR10MB5087A07A29BB02BA8AB7C88D8CB49@DS7PR10MB5087.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3dA3bh62Gvd0LmNT8chv6a12OCil7E1M7/yztZVrxUj6PouUhA9dn60qbiUbpkTwrDYlDPthxsj14pzkePe6w1GK6mW2iDyjymFVjf4phzS7Kf2TUBK7XaS4k3LORZ3KrE5Brm7Z2i9JbPHb2KJkn0ZdN1+AysDig5k0qPT/UafLkTT18ibA3pnhC4f9E9RZZ92XnwYUP77zecADBJ9C29v9eUMbsWP6DFy/g5D3WNstObIMNVVBAZ8KnRJyUpUpCCRP84K0bKnUDyBAVaWsdMJMDHPHoCZOm/VePTq8oV/vHg/ePWgAfqMfEZBPyR1INjrELcWDJ44ISabmAoUkkOj4P9sr3kIQhQxVMxL9PB+q2nXHSYKE8vf7pODO/hyHsJuHiLY/ZRfXodw88xf2z6U8it/sRAvyfIh/eKdECLdJBxtINhhe0c2qcu+6IDYRBUuLrIJjefskJ2wbf3+LbpBSSaDnbMDY+fNsRlfwq+9CnWd0WY6DgT/pLfDedXq1P0Mk9YCP8z9iIEReed78t5NF7JsFjYpbvXj3WinvqVMBn7TpsUbIuSv4iihX6Y+ctk207qtL0FCEH/fVS4rzrAtgdlQu/zyfRpbi1iRgRrM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR10MB3915.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(376002)(396003)(136003)(39860400002)(346002)(33716001)(966005)(66556008)(478600001)(86362001)(4744005)(83380400001)(66946007)(4326008)(6916009)(5660300002)(2906002)(16526019)(186003)(66476007)(44832011)(8936002)(6496006)(55016002)(9686003)(1076003)(52116002)(33656002)(7416002)(8676002)(6666004)(9576002)(316002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?qDu1Xt+VXPz9tN/wL5Hio3H0KeT8rzxczxOeVNfoZxZRxv2XSSZtEr48qCIq?=
- =?us-ascii?Q?7Eo4Uc/WvFC/mNZ60ogqdytvJP7zriH8YTtuTJ0Ueyydo6gkJPaWGzvOeh6w?=
- =?us-ascii?Q?m62diguXDpjW1FtCAqHaePsOHyz2oNxvtmk2+q0ykrpKC1LlO9bReK/WGIJG?=
- =?us-ascii?Q?QzgVLRd8ceMRYSKthGLP3olIPzFpw9eo7nVJjn5GBquu+jx1NvRXNQu+7znv?=
- =?us-ascii?Q?vFkujlE04OozeZK39iRSurRtflm7XxQ4zjtMBCIQHicx/a7cSoMI6BNga9pn?=
- =?us-ascii?Q?hd5tYxug/9DOXBNBBb4/q/Qyb/fLOm9KFmN6qDGtPfpENEk76gJ/PRfUXFl2?=
- =?us-ascii?Q?6y+ESSqng1ti7kkz7rXTtoiTAtqbcIitPjVejijBZMxzycLIZAJ3HwZh3dE7?=
- =?us-ascii?Q?oozPKfrGFsuLYb767UfobHbtmXEk/EhJLAsK8cabzhXLcgzSQ9HTYvLDMBnT?=
- =?us-ascii?Q?Dz1F+d4jcSS/yD/UrhpvwqtR63ysJh3NzDej2VRbzfKFq5mno0OW1i6ie6l5?=
- =?us-ascii?Q?UVz6mXn+1QFZtJNUkbzFP3ad+R8942baiRN9gQd7XmtW96yL9xBDrZKNgsFb?=
- =?us-ascii?Q?8AGsyhwim6VvOHOB8wPpil/J6KFoubtcHv92KqKOSV4qoMTw94sJdAlf6zhV?=
- =?us-ascii?Q?ibiVGtggjFF/dT3xT/0svFm5An8P8laHlsiOT3KCBLXruHBF/LT7sZvPppID?=
- =?us-ascii?Q?jLiL/ZqNTpm8+3vKdx6oE6vA21jVBJy+zDtIbMY6m8aMGDnoXsyZo8pxQT9U?=
- =?us-ascii?Q?YaTORrEYtSSrZlH1ijYLQlEHl2mTXkk3kQr1E6NHgVeqg4cmG9tXzMotF7AA?=
- =?us-ascii?Q?pQapPs6sRKhOJChf8OQu+mOnPPPosM/qT7r+dU2/KJAzA2U6v3EpKqmN/A/i?=
- =?us-ascii?Q?r/yQqKQX8O2fSKcT1Dcel3ZBNdFqyN3Ib9L2k6h0AF4zepoSqcX0jiFjsdSR?=
- =?us-ascii?Q?QEvawrYIiOJINpowfaX+4QhS14GAljmOxfGxAPL5KQLqvpRa0dcWD+LQEiSH?=
- =?us-ascii?Q?1OGp0BSR5o4EeNP2RDVGRp4x4CeaPvi2h1KO19iHY5CeY58ibL1DnHnJfDSh?=
- =?us-ascii?Q?CQVNHJ1fLw3Qhm0EfrPWmrNN8cfihueowu7HpCqJM9Krf4JNZME=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2aab1616-0e57-4c10-d103-08d8c87e9804
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3915.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2021 20:02:11.9979 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6njZoHvdPFGHQj8AJh/a6SxSlPguhYCq5q98CxnSn4zXl5Mr5IqJNROCPMPeuyVYc7lq2T4q6u29ePSQxNAZw50cZZqaT21HJoYuqBHQaFY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5087
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9884
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0
- suspectscore=0 spamscore=0 mlxlogscore=999 phishscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102030117
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9884
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
- impostorscore=0
- mlxscore=0 spamscore=0 bulkscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 malwarescore=0 phishscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102030117
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=elena.ufimtseva@oracle.com; helo=aserp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -168,40 +80,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, alex.williamson@redhat.com, thanos.makatos@nutanix.com,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 03, 2021 at 04:11:50PM +0000, Stefan Hajnoczi wrote:
-> On Fri, Jan 29, 2021 at 11:46:01AM -0500, Jagannathan Raman wrote:
-> > This is the v21 of the patchset. This version has the following changes:
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> Add the 'qemu_rdma_registration' function, multifd send threads
+> call it to register memory.
+
+This function is a copy of the code out of qemu_rdma_registration_stop;
+with some of the comments removed.
+It's OK to split this code out so you can use it as well; but then why
+not make qemu_rdma_registration_stop use this function as well to stop
+having two copies ?  And keep the comments!
+
+> Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> ---
+>  migration/rdma.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 51 insertions(+)
 > 
-> The docs/multi-process.rst file caused Sphinx to fail with "document
-> isn't included in any toctree". I moved it into the system emulator
-> documentation to resolve this. The new path is
-> docs/system/multi-process.rst.
->
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index cff9446..1095a8f 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -3739,6 +3739,57 @@ out:
+>      return ret;
+>  }
+>  
+> +/*
+> + * Dynamic page registrations for multifd RDMA threads.
+> + */
+> +static int qemu_rdma_registration(void *opaque)
+> +{
+> +    RDMAContext *rdma = opaque;
 
-Hi Stefan
+Can't you keep that as qemu_rdma_registration(RDMAContext *rdma) ?
 
-Ah, we did not --enable-docs and .travis.yml also disables them.
-Will include into the tests we do for submission.
- 
-> Thanks, applied to my block tree:
-> https://gitlab.com/stefanha/qemu/commits/block
->
-
-Thank you Stefan!
-
-Elena 
-> Stefan
-
+> +    RDMAControlHeader resp = {.type = RDMA_CONTROL_RAM_BLOCKS_RESULT };
+> +    RDMALocalBlocks *local = &rdma->local_ram_blocks;
+> +    int reg_result_idx, i, nb_dest_blocks;
+> +    RDMAControlHeader head = { .len = 0, .repeat = 1 };
+> +    int ret = 0;
+> +
+> +    head.type = RDMA_CONTROL_RAM_BLOCKS_REQUEST;
+> +
+> +    ret = qemu_rdma_exchange_send(rdma, &head, NULL, &resp,
+> +            &reg_result_idx, rdma->pin_all ?
+> +            qemu_rdma_reg_whole_ram_blocks : NULL);
+> +    if (ret < 0) {
+> +        goto out;
+> +    }
+> +
+> +    nb_dest_blocks = resp.len / sizeof(RDMADestBlock);
+> +
+> +    if (local->nb_blocks != nb_dest_blocks) {
+> +        rdma->error_state = -EINVAL;
+> +        ret = -1;
+> +        goto out;
+> +    }
+> +
+> +    qemu_rdma_move_header(rdma, reg_result_idx, &resp);
+> +    memcpy(rdma->dest_blocks,
+> +           rdma->wr_data[reg_result_idx].control_curr, resp.len);
+> +
+> +    for (i = 0; i < nb_dest_blocks; i++) {
+> +        network_to_dest_block(&rdma->dest_blocks[i]);
+> +
+> +        /* We require that the blocks are in the same order */
+> +        if (rdma->dest_blocks[i].length != local->block[i].length) {
+> +            rdma->error_state = -EINVAL;
+> +            ret = -1;
+> +            goto out;
+> +        }
+> +        local->block[i].remote_host_addr =
+> +            rdma->dest_blocks[i].remote_host_addr;
+> +        local->block[i].remote_rkey = rdma->dest_blocks[i].remote_rkey;
+> +    }
+> +
+> +out:
+> +    return ret;
+> +}
+> +
+>  /* Destination:
+>   * Called via a ram_control_load_hook during the initial RAM load section which
+>   * lists the RAMBlocks by name.  This lets us know the order of the RAMBlocks
+> -- 
+> 1.8.3.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
