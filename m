@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7ECD30D2BA
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 06:02:27 +0100 (CET)
-Received: from localhost ([::1]:44770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273C130D2BB
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 06:02:46 +0100 (CET)
+Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7AJ8-0004bf-Pc
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 00:02:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37668)
+	id 1l7AJR-0004j5-6U
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 00:02:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l7AFG-00012Q-Eb
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 23:58:26 -0500
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:35949)
+ id 1l7AFH-00014v-MD
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 23:58:27 -0500
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:42567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l7AFE-0007zL-Tr
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 23:58:26 -0500
-Received: by mail-il1-x134.google.com with SMTP id g9so3127575ilc.3
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 20:58:24 -0800 (PST)
+ id 1l7AFG-0007za-37
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 23:58:27 -0500
+Received: by mail-il1-x12f.google.com with SMTP id z18so21035629ile.9
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 20:58:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JAFdn6IbZBNqvP6S0gWLCOyNml8OyzsyVzQVR6rXHRA=;
- b=md6LZ7fOncCS/eEN+shzt4NvYz35WxI0DyF0VfkNIR+KwHlEW8S8UAYPJxLsCGT3xN
- Jmo2tVfTRkj1aoj9fTg/Hn1RZCdsjZEKJZFFFKb2X6GZi8dd0R3LRq704cDUi11ojTVM
- GiKRIlmPOMSyYAe9FHZOgR8xbh81M2ulbldDjuDLP7+cIVXXiCZUQ3hZyZMlz+bksn4c
- GmUBTSI4pjFVM7u9Jck1mMGdS5J5ioX+9cIRugqt2jaFPEaBr+rTIvPl0Zhi8mr8+JP8
- OacaGN2udTQr8ZH1Ynu0whjy2tWJpwyyGfS3WjqsAZcZYQblY+LQQaRJ0cy6tMc6Srez
- y2BQ==
+ bh=vD0CuwlvG3G5Gb/vqP04uDAKpmcFoTl+ttHz7Ug/21o=;
+ b=jTwXvOGeSlv+9fvVjYN1SvW7s9t8/zHbAVKPu6reXITSXK+xBzmkF+annUF2EFW9vl
+ 8v+QbG7fz6/yrXKPRivFylCLF74v/tExYVkMNiDxbsUB+l6G093h2rpKi1mSQV9fbDD4
+ nrquooQV5xTA9len9Emq9SXbMdHbkXPS7djSlcgvbBUKbwO7pMwNdwqFd++kH7x8gCxN
+ j8Jy5j2QoCxjwjsIHU0+5KrNJ4kEkYE9BRnRwMLow7BPwzkL3ogro953O6Fb4GdYvPh1
+ iaV0OQKdneBDkaoAMIoiTeravp9luGwuYI4M7q07Rvj2gtZFIrgug4oQfHs1jdEwuEV9
+ xDQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JAFdn6IbZBNqvP6S0gWLCOyNml8OyzsyVzQVR6rXHRA=;
- b=j//cgmNdliej3OFxY6BiGEMMqgmPJpvntFjnnNjWpDhpLFi2O2Oa9iokRcXNWMp/DF
- Xx1C+e9p593ehoIErjwadrteu5tljkCGs00Kp+XHC7lmfZJgfytPWPHrGQ9LsuldCKCE
- hXLgoqCJt4iOyYxjhz5tuqPfkAGaDn4wY9uERLjiTPub//PXWagGFuEXsQFkcTBCXQ+j
- eciF/Yldkns7PMxNYkLaxLaq2fs4/Z9IYvvcb/uhXrOzIDFAHLCOSyogNjAqbr4UbwD3
- YIybD/H8ZqHAdaG6Ks8f+2qwEkyqvCTHp7B4S94+7TtoIGuR19AhDPl3hO8xXbx15g4K
- 6yAQ==
-X-Gm-Message-State: AOAM530RXio/zPiklYUG4rAlqFM5sugz7LWlZQIf1SrrJKLVy/5g3eCB
- MhEPJYUG07EL1HUBBfmm1VnsUFb+Z7CDX5ATVPBc0rp1QzIqUe9f4MPkCUx8z+LxM/+PJEVB+mI
- hiaU8mRFLUZbz3GnWGzPN+IN8hs2SKRAZTp6O7wlmWpkMp2YwNyW9M7jVzfFN62cnhwJf4TM=
-X-Google-Smtp-Source: ABdhPJwfvA/a8Gvzo4+5LvU8pb2NxQx/wmE9li+ZBFRIouoQJ6Cpbxp9DJXIeX5xBhoTAjtuQXpxXQ==
-X-Received: by 2002:a92:ad0a:: with SMTP id w10mr1194167ilh.235.1612328303614; 
- Tue, 02 Feb 2021 20:58:23 -0800 (PST)
+ bh=vD0CuwlvG3G5Gb/vqP04uDAKpmcFoTl+ttHz7Ug/21o=;
+ b=rzINBNK02F0Aui42qVuQFtx7/wQhkr5DCSdfQ7bhTg5zl29Pv/Yo8z3PDrF2UZhWGv
+ xfi1GZDvoHarZA+XgBMVGifo8Rv71WTHCy9uxHgdP48eFwZruZi2aEHjCM06iaPRN4Od
+ +CJ9SbijVhrIE/7QrGnkab+GZWxJ+35+z2scAdcmHXssEEuz49vAQ8zEBTOvy2m5g2A3
+ qQxzJXjefm9inNyZRXJFmiFb73+jnJt2Ynnnr01QniFfCd4E0gi+YS6CixEsX4YtL59B
+ 5CkVwPJKXrdUcTgUtZZ235OqIh2MzwSQMYgjBh53a22F1gInSdSAYcIfGBnXJ9QwoPLT
+ z45A==
+X-Gm-Message-State: AOAM532gzU59Z02108oInKwMsMzBjpigLCCH7QC6FiZ3eCMHldDaj0pU
+ Qj6v+bb3AMmzTfrJbl+GbFNJV0Y7fB6R1/nb9WSqfR0AsYVcPFIMy1YRcr+jnByUExEAHojdjmK
+ SPQ5YbFSqdbV4gMw3b3CmWQBHFhIgvFFFwCRKwHJnqWXH/e70DyOnLYNYl9/oU/qnaCIskWQ=
+X-Google-Smtp-Source: ABdhPJx1ZYiSK4fQ8VyLdGSd48D7C93kyp28s0gwN0vmZzL9n0bpHmH2lJHSrCNJCaPX/Y0D3qbeWQ==
+X-Received: by 2002:a92:d250:: with SMTP id v16mr1307248ilg.236.1612328304810; 
+ Tue, 02 Feb 2021 20:58:24 -0800 (PST)
 Received: from cube.nuviainc.com (c-174-52-16-57.hsd1.ut.comcast.net.
  [174.52.16.57])
- by smtp.gmail.com with ESMTPSA id a21sm529203ioa.34.2021.02.02.20.58.22
+ by smtp.gmail.com with ESMTPSA id a21sm529203ioa.34.2021.02.02.20.58.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 20:58:23 -0800 (PST)
+ Tue, 02 Feb 2021 20:58:24 -0800 (PST)
 From: Rebecca Cran <rebecca@nuviainc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/4] target/arm: Set ID_AA64PFR0.DIT and ID_PFR0.DIT to 1
- for "max" AA64 CPU
-Date: Tue,  2 Feb 2021 21:58:15 -0700
-Message-Id: <20210203045816.10953-4-rebecca@nuviainc.com>
+Subject: [PATCH v4 4/4] target/arm: Set ID_PFR0.DIT to 1 for "max" 32-bit CPU
+Date: Tue,  2 Feb 2021 21:58:16 -0700
+Message-Id: <20210203045816.10953-5-rebecca@nuviainc.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210203045816.10953-1-rebecca@nuviainc.com>
 References: <20210203045816.10953-1-rebecca@nuviainc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=rebecca@nuviainc.com; helo=mail-il1-x134.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=rebecca@nuviainc.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,37 +90,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable FEAT_DIT for the "max" AARCH64 CPU.
+Enable FEAT_DIT for the "max" 32-bit CPU.
 
 Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu64.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/arm/cpu.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 5e851028c592..9a5cfd4fc632 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -666,6 +666,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64PFR0, FP, 1);
-         t = FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 1);
-         t = FIELD_DP64(t, ID_AA64PFR0, SEL2, 1);
-+        t = FIELD_DP64(t, ID_AA64PFR0, DIT, 1);
-         cpu->isar.id_aa64pfr0 = t;
- 
-         t = cpu->isar.id_aa64pfr1;
-@@ -715,6 +716,10 @@ static void aarch64_max_initfn(Object *obj)
-         u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
-         cpu->isar.id_isar6 = u;
- 
-+        u = cpu->isar.id_pfr0;
-+        u = FIELD_DP32(u, ID_PFR0, DIT, 1);
-+        cpu->isar.id_pfr0 = u;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 40142ac141e5..c98f44624423 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2197,6 +2197,10 @@ static void arm_max_initfn(Object *obj)
+         t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
+         t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
+         cpu->isar.id_mmfr4 = t;
 +
-         u = cpu->isar.id_mmfr3;
-         u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
-         cpu->isar.id_mmfr3 = u;
++        t = cpu->isar.id_pfr0;
++        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
++        cpu->isar.id_pfr0 = t;
+     }
+ #endif
+ }
 -- 
 2.26.2
 
