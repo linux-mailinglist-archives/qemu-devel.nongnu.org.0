@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C60A30E185
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:57:10 +0100 (CET)
-Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE29A30E1B6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:02:02 +0100 (CET)
+Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7MOr-00012D-Ku
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:57:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40054)
+	id 1l7MTZ-0004VF-L9
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:02:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Lur-00039l-2j
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:26:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23651)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Lur-0003Be-Vk
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:26:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Luo-0004es-TY
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:26:08 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l7Lup-0004eu-0V
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:26:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1612373166;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z5p8Ogo05uauJLsneVHMBqwaeyVtfD1TDGu6KANI5yE=;
- b=a/2TLUTQFUTPk1K9Mp4c5mwNnMJydb82ZC02xqGZnyh1uCwC+vxHFsljCGl4iWRA/2aY8Z
- Viw2GrR25UNwaDHYlPQRxzcQiCBYtskASMPmsAM8kXFXj7PYQfhDp70GZAzd/lJpwDBuEI
- Epwmwg4a9zPNsEtMI9wxbgz97DzfKxE=
+ bh=eGRbyHbYQ9zo2z0wfHc5FihzqoXsnNABuTcXtfPDYOg=;
+ b=bfa4Q/kvdWYxpwClbtQFQhGt/YJqxGoRFwNJQg5TCIeEER5TPjqKlHrXTKz//P7X6kV7xL
+ n4QcQo81w8oUUY56qCogVhiAMDh5BfS3U0TAYfTt54bg1BNOcUhVVR24NdMm/ly7V9Wcz2
+ cdDUwdBPgyEvikUZ3xuVHg4lRmHM3Dg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-KVYfUkgNPwmB9_d73GUt9w-1; Wed, 03 Feb 2021 12:24:54 -0500
-X-MC-Unique: KVYfUkgNPwmB9_d73GUt9w-1
+ us-mta-468-EbSTaYoqOe-ctOahbiq7og-1; Wed, 03 Feb 2021 12:24:56 -0500
+X-MC-Unique: EbSTaYoqOe-ctOahbiq7og-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34A01803F41;
- Wed,  3 Feb 2021 17:24:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2570B107ACC7;
+ Wed,  3 Feb 2021 17:24:55 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-89.rdu2.redhat.com
  [10.10.116.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64C93163C8;
- Wed,  3 Feb 2021 17:24:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 569E4163C8;
+ Wed,  3 Feb 2021 17:24:53 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/22] Acceptance Tests: introduce LinuxTest base class
-Date: Wed,  3 Feb 2021 12:23:49 -0500
-Message-Id: <20210203172357.1422425-15-crosa@redhat.com>
+Subject: [PATCH 15/22] Acceptance Tests: move useful ssh methods to base class
+Date: Wed,  3 Feb 2021 12:23:50 -0500
+Message-Id: <20210203172357.1422425-16-crosa@redhat.com>
 In-Reply-To: <20210203172357.1422425-1-crosa@redhat.com>
 References: <20210203172357.1422425-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -93,285 +93,230 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is basically the infrastructure around "boot_linux.py" tests, but
-now made into a base class for general use.
+Both the virtiofs submounts and the linux ssh mips malta tests
+contains useful methods related to ssh that deserve to be made
+available to other tests.  Let's move them to the base LinuxTest
+class.
+
+The method that helps with setting up an ssh connection will now
+support both key and password based authentication, defaulting to key
+based.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 87 +++++++++++++++++++++
- tests/acceptance/boot_linux.py            | 94 ++---------------------
- tests/acceptance/virtiofs_submounts.py    |  6 +-
- 3 files changed, 94 insertions(+), 93 deletions(-)
+ tests/acceptance/avocado_qemu/__init__.py | 49 ++++++++++++++++++++++-
+ tests/acceptance/linux_ssh_mips_malta.py  | 38 ++----------------
+ tests/acceptance/virtiofs_submounts.py    | 36 -----------------
+ 3 files changed, 51 insertions(+), 72 deletions(-)
 
 diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index bf54e419da..b06692a59d 100644
+index b06692a59d..f0649e5011 100644
 --- a/tests/acceptance/avocado_qemu/__init__.py
 +++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -16,6 +16,13 @@ import tempfile
+@@ -10,6 +10,7 @@
  
- import avocado
- 
-+from avocado.utils import cloudinit
-+from avocado.utils import datadrainer
-+from avocado.utils import network
-+from avocado.utils import vmimage
-+from avocado.utils.path import find_command
-+
-+
- #: The QEMU build root directory.  It may also be the source directory
- #: if building from the source dir, but it's safer to use BUILD_DIR for
- #: that purpose.  Be aware that if this code is moved outside of a source
-@@ -206,3 +213,83 @@ class Test(avocado.Test):
-                         expire=expire,
-                         find_only=find_only,
-                         cancel_on_missing=cancel_on_missing)
-+
-+
-+class LinuxTest(Test):
-+    """Facilitates having a cloud-image Linux based available.
-+
-+    For tests that indend to interact with guests, this is a better choice
-+    to start with than the more vanilla `Test` class.
-+    """
-+
-+    timeout = 900
-+    chksum = None
-+
-+    def setUp(self, ssh_pubkey=None):
-+        super(LinuxTest, self).setUp()
-+        self.vm.add_args('-smp', '2')
-+        self.vm.add_args('-m', '1024')
-+        self.set_up_boot()
-+        self.set_up_cloudinit(ssh_pubkey)
-+
-+    def download_boot(self):
-+        self.log.debug('Looking for and selecting a qemu-img binary to be '
-+                       'used to create the bootable snapshot image')
-+        # If qemu-img has been built, use it, otherwise the system wide one
-+        # will be used.  If none is available, the test will cancel.
-+        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
-+        if not os.path.exists(qemu_img):
-+            qemu_img = find_command('qemu-img', False)
-+        if qemu_img is False:
-+            self.cancel('Could not find "qemu-img", which is required to '
-+                        'create the bootable image')
-+        vmimage.QEMU_IMG = qemu_img
-+
-+        self.log.info('Downloading/preparing boot image')
-+        # Fedora 31 only provides ppc64le images
-+        image_arch = self.arch
-+        if image_arch == 'ppc64':
-+            image_arch = 'ppc64le'
-+        try:
-+            boot = vmimage.get(
-+                'fedora', arch=image_arch, version='31',
-+                checksum=self.chksum,
-+                algorithm='sha256',
-+                cache_dir=self.cache_dirs[0],
-+                snapshot_dir=self.workdir)
-+        except:
-+            self.cancel('Failed to download/prepare boot image')
-+        return boot.path
-+
-+    def prepare_cloudinit(self, ssh_pubkey=None):
-+        self.log.info('Preparing cloudinit image')
-+        try:
-+            cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
-+            self.phone_home_port = network.find_free_port()
-+            cloudinit.iso(cloudinit_iso, self.name,
-+                          username='root',
-+                          password='password',
-+                          # QEMU's hard coded usermode router address
-+                          phone_home_host='10.0.2.2',
-+                          phone_home_port=self.phone_home_port,
-+                          authorized_key=ssh_pubkey)
-+        except Exception:
-+            self.cancel('Failed to prepare the cloudinit image')
-+        return cloudinit_iso
-+
-+    def set_up_boot(self):
-+        path = self.download_boot()
-+        self.vm.add_args('-drive', 'file=%s' % path)
-+
-+    def set_up_cloudinit(self, ssh_pubkey=None):
-+        cloudinit_iso = self.prepare_cloudinit(ssh_pubkey)
-+        self.vm.add_args('-drive', 'file=%s,format=raw' % cloudinit_iso)
-+
-+    def launch_and_wait(self):
-+        self.vm.set_console()
-+        self.vm.launch()
-+        console_drainer = datadrainer.LineLogger(self.vm.console_socket.fileno(),
-+                                                 logger=self.log.getChild('console'))
-+        console_drainer.start()
-+        self.log.info('VM launched, waiting for boot confirmation from guest')
-+        cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index bcd923bb4a..14e89d020d 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -10,16 +10,11 @@
- 
+ import logging
  import os
++import re
+ import sys
+ import uuid
+ import tempfile
+@@ -19,6 +20,7 @@ import avocado
+ from avocado.utils import cloudinit
+ from avocado.utils import datadrainer
+ from avocado.utils import network
++from avocado.utils import ssh
+ from avocado.utils import vmimage
+ from avocado.utils.path import find_command
  
--from avocado_qemu import Test, BUILD_DIR
-+from avocado_qemu import LinuxTest, BUILD_DIR
+@@ -40,6 +42,8 @@ else:
+ sys.path.append(os.path.join(SOURCE_DIR, 'python'))
  
- from qemu.accel import kvm_available
- from qemu.accel import tcg_available
+ from qemu.machine import QEMUMachine
++from qemu.utils import get_info_usernet_hostfwd_port
++
  
--from avocado.utils import cloudinit
--from avocado.utils import network
--from avocado.utils import vmimage
--from avocado.utils import datadrainer
--from avocado.utils.path import find_command
- from avocado import skipIf
- 
- ACCEL_NOT_AVAILABLE_FMT = "%s accelerator does not seem to be available"
-@@ -27,86 +22,7 @@ KVM_NOT_AVAILABLE = ACCEL_NOT_AVAILABLE_FMT % "KVM"
- TCG_NOT_AVAILABLE = ACCEL_NOT_AVAILABLE_FMT % "TCG"
- 
- 
--class BootLinuxBase(Test):
--    def download_boot(self):
--        self.log.debug('Looking for and selecting a qemu-img binary to be '
--                       'used to create the bootable snapshot image')
--        # If qemu-img has been built, use it, otherwise the system wide one
--        # will be used.  If none is available, the test will cancel.
--        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
--        if not os.path.exists(qemu_img):
--            qemu_img = find_command('qemu-img', False)
--        if qemu_img is False:
--            self.cancel('Could not find "qemu-img", which is required to '
--                        'create the bootable image')
--        vmimage.QEMU_IMG = qemu_img
--
--        self.log.info('Downloading/preparing boot image')
--        # Fedora 31 only provides ppc64le images
--        image_arch = self.arch
--        if image_arch == 'ppc64':
--            image_arch = 'ppc64le'
--        try:
--            boot = vmimage.get(
--                'fedora', arch=image_arch, version='31',
--                checksum=self.chksum,
--                algorithm='sha256',
--                cache_dir=self.cache_dirs[0],
--                snapshot_dir=self.workdir)
--        except:
--            self.cancel('Failed to download/prepare boot image')
--        return boot.path
--
--    def prepare_cloudinit(self, ssh_pubkey=None):
--        self.log.info('Preparing cloudinit image')
--        try:
--            cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
--            self.phone_home_port = network.find_free_port()
--            cloudinit.iso(cloudinit_iso, self.name,
--                          username='root',
--                          password='password',
--                          # QEMU's hard coded usermode router address
--                          phone_home_host='10.0.2.2',
--                          phone_home_port=self.phone_home_port,
--                          authorized_key=ssh_pubkey)
--        except Exception:
--            self.cancel('Failed to prepare the cloudinit image')
--        return cloudinit_iso
--
--class BootLinux(BootLinuxBase):
--    """
--    Boots a Linux system, checking for a successful initialization
--    """
--
--    timeout = 900
--    chksum = None
--
--    def setUp(self, ssh_pubkey=None):
--        super(BootLinux, self).setUp()
--        self.vm.add_args('-smp', '2')
--        self.vm.add_args('-m', '1024')
--        self.set_up_boot()
--        self.set_up_cloudinit(ssh_pubkey)
--
--    def set_up_boot(self):
--        path = self.download_boot()
--        self.vm.add_args('-drive', 'file=%s' % path)
--
--    def set_up_cloudinit(self, ssh_pubkey=None):
--        cloudinit_iso = self.prepare_cloudinit(ssh_pubkey)
--        self.vm.add_args('-drive', 'file=%s,format=raw' % cloudinit_iso)
--
--    def launch_and_wait(self):
--        self.vm.set_console()
--        self.vm.launch()
--        console_drainer = datadrainer.LineLogger(self.vm.console_socket.fileno(),
--                                                 logger=self.log.getChild('console'))
--        console_drainer.start()
--        self.log.info('VM launched, waiting for boot confirmation from guest')
--        cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
--
--
--class BootLinuxX8664(BootLinux):
-+class BootLinuxX8664(LinuxTest):
-     """
-     :avocado: tags=arch:x86_64
-     """
-@@ -154,7 +70,7 @@ class BootLinuxX8664(BootLinux):
-         self.launch_and_wait()
+ def is_readable_executable_file(path):
+     return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
+@@ -215,7 +219,50 @@ class Test(avocado.Test):
+                         cancel_on_missing=cancel_on_missing)
  
  
--class BootLinuxAarch64(BootLinux):
-+class BootLinuxAarch64(LinuxTest):
-     """
-     :avocado: tags=arch:aarch64
-     :avocado: tags=machine:virt
-@@ -212,7 +128,7 @@ class BootLinuxAarch64(BootLinux):
-         self.launch_and_wait()
+-class LinuxTest(Test):
++class LinuxSSHMixIn:
++    """Contains utility methods for interacting with a guest via SSH."""
++
++    def ssh_connect(self, username, credential, credential_is_key=True):
++        self.ssh_logger = logging.getLogger('ssh')
++        res = self.vm.command('human-monitor-command',
++                              command_line='info usernet')
++        port = get_info_usernet_hostfwd_port(res)
++        self.assertIsNotNone(port)
++        self.assertGreater(port, 0)
++        self.log.debug('sshd listening on port: %d', port)
++        if credential_is_key:
++            self.ssh_session = ssh.Session('127.0.0.1', port=port,
++                                           user=username, key=credential)
++        else:
++            self.ssh_session = ssh.Session('127.0.0.1', port=port,
++                                           user=username, password=credential)
++        for i in range(10):
++            try:
++                self.ssh_session.connect()
++                return
++            except:
++                time.sleep(4)
++                pass
++        self.fail('ssh connection timeout')
++
++    def ssh_command(self, command):
++        self.ssh_logger.info(command)
++        result = self.ssh_session.cmd(command)
++        stdout_lines = [line.rstrip() for line
++                        in result.stdout_text.splitlines()]
++        for line in stdout_lines:
++            self.ssh_logger.info(line)
++        stderr_lines = [line.rstrip() for line
++                        in result.stderr_text.splitlines()]
++        for line in stderr_lines:
++            self.ssh_logger.warning(line)
++
++        self.assertEqual(result.exit_status, 0,
++                         f'Guest command failed: {command}')
++        return stdout_lines, stderr_lines
++
++
++class LinuxTest(Test, LinuxSSHMixIn):
+     """Facilitates having a cloud-image Linux based available.
  
- 
--class BootLinuxPPC64(BootLinux):
-+class BootLinuxPPC64(LinuxTest):
-     """
-     :avocado: tags=arch:ppc64
-     """
-@@ -230,7 +146,7 @@ class BootLinuxPPC64(BootLinux):
-         self.launch_and_wait()
- 
- 
--class BootLinuxS390X(BootLinux):
-+class BootLinuxS390X(LinuxTest):
-     """
-     :avocado: tags=arch:s390x
-     """
-diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
-index 1e745f15a2..25ea54b6ff 100644
---- a/tests/acceptance/virtiofs_submounts.py
-+++ b/tests/acceptance/virtiofs_submounts.py
-@@ -5,15 +5,13 @@ import subprocess
+     For tests that indend to interact with guests, this is a better choice
+diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
+index 1742235758..3f590a081f 100644
+--- a/tests/acceptance/linux_ssh_mips_malta.py
++++ b/tests/acceptance/linux_ssh_mips_malta.py
+@@ -12,7 +12,7 @@ import logging
  import time
  
  from avocado import skipUnless
--from avocado_qemu import Test, BUILD_DIR
-+from avocado_qemu import LinuxTest, BUILD_DIR
+-from avocado_qemu import Test
++from avocado_qemu import Test, LinuxSSHMixIn
  from avocado_qemu import wait_for_console_pattern
+ from avocado.utils import process
+ from avocado.utils import archive
+@@ -21,7 +21,7 @@ from avocado.utils import ssh
+ from qemu.utils import get_info_usernet_hostfwd_port
+ 
+ 
+-class LinuxSSH(Test):
++class LinuxSSH(Test, LinuxSSHMixIn):
+ 
+     timeout = 150 # Not for 'configure --enable-debug --enable-debug-tcg'
+ 
+@@ -72,41 +72,9 @@ class LinuxSSH(Test):
+     def setUp(self):
+         super(LinuxSSH, self).setUp()
+ 
+-    def ssh_connect(self, username, password):
+-        self.ssh_logger = logging.getLogger('ssh')
+-        res = self.vm.command('human-monitor-command',
+-                              command_line='info usernet')
+-        port = get_info_usernet_hostfwd_port(res)
+-        if not port:
+-            self.cancel("Failed to retrieve SSH port")
+-        self.log.debug("sshd listening on port: %d", port)
+-        self.ssh_session = ssh.Session(self.VM_IP, port=port,
+-                                       user=username, password=password)
+-        for i in range(10):
+-            try:
+-                self.ssh_session.connect()
+-                return
+-            except:
+-                time.sleep(4)
+-                pass
+-        self.fail("ssh connection timeout")
+-
+     def ssh_disconnect_vm(self):
+         self.ssh_session.quit()
+ 
+-    def ssh_command(self, command, is_root=True):
+-        self.ssh_logger.info(command)
+-        result = self.ssh_session.cmd(command)
+-        stdout_lines = [line.rstrip() for line
+-                        in result.stdout_text.splitlines()]
+-        for line in stdout_lines:
+-            self.ssh_logger.info(line)
+-        stderr_lines = [line.rstrip() for line
+-                        in result.stderr_text.splitlines()]
+-        for line in stderr_lines:
+-            self.ssh_logger.warning(line)
+-        return stdout_lines, stderr_lines
+-
+     def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_path):
+         image_url, image_hash = self.get_image_info(endianess)
+         image_path = self.fetch_asset(image_url, asset_hash=image_hash)
+@@ -127,7 +95,7 @@ class LinuxSSH(Test):
+         wait_for_console_pattern(self, console_pattern, 'Oops')
+         self.log.info('sshd ready')
+ 
+-        self.ssh_connect('root', 'root')
++        self.ssh_connect('root', 'root', False)
+ 
+     def shutdown_via_ssh(self):
+         self.ssh_command('poweroff')
+diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
+index 25ea54b6ff..d0fc103f72 100644
+--- a/tests/acceptance/virtiofs_submounts.py
++++ b/tests/acceptance/virtiofs_submounts.py
+@@ -10,7 +10,6 @@ from avocado_qemu import wait_for_console_pattern
  from avocado.utils import ssh
  
  from qemu.accel import kvm_available
- from qemu.utils import get_info_usernet_hostfwd_port
+-from qemu.utils import get_info_usernet_hostfwd_port
  
--from boot_linux import BootLinux
--
  
  def run_cmd(args):
-     subp = subprocess.Popen(args,
-@@ -72,7 +70,7 @@ def has_cmds(*cmds):
-     return (True, '')
- 
- 
--class VirtiofsSubmountsTest(BootLinux):
-+class VirtiofsSubmountsTest(LinuxTest):
-     """
-     :avocado: tags=arch:x86_64
+@@ -76,41 +75,6 @@ class VirtiofsSubmountsTest(LinuxTest):
      :avocado: tags=accel:kvm
+     """
+ 
+-    def ssh_connect(self, username, keyfile):
+-        self.ssh_logger = logging.getLogger('ssh')
+-        res = self.vm.command('human-monitor-command',
+-                              command_line='info usernet')
+-        port = get_info_usernet_hostfwd_port(res)
+-        self.assertIsNotNone(port)
+-        self.assertGreater(port, 0)
+-        self.log.debug('sshd listening on port: %d', port)
+-        self.ssh_session = ssh.Session('127.0.0.1', port=port,
+-                                       user=username, key=keyfile)
+-        for i in range(10):
+-            try:
+-                self.ssh_session.connect()
+-                return
+-            except:
+-                time.sleep(4)
+-                pass
+-        self.fail('ssh connection timeout')
+-
+-    def ssh_command(self, command):
+-        self.ssh_logger.info(command)
+-        result = self.ssh_session.cmd(command)
+-        stdout_lines = [line.rstrip() for line
+-                        in result.stdout_text.splitlines()]
+-        for line in stdout_lines:
+-            self.ssh_logger.info(line)
+-        stderr_lines = [line.rstrip() for line
+-                        in result.stderr_text.splitlines()]
+-        for line in stderr_lines:
+-            self.ssh_logger.warning(line)
+-
+-        self.assertEqual(result.exit_status, 0,
+-                         f'Guest command failed: {command}')
+-        return stdout_lines, stderr_lines
+-
+     def run(self, args, ignore_error=False):
+         stdout, stderr, ret = run_cmd(args)
+ 
 -- 
 2.25.4
 
