@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5AA30E5F2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 23:17:06 +0100 (CET)
-Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C487630E5F9
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 23:22:33 +0100 (CET)
+Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7QSP-0004lU-8o
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 17:17:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56808)
+	id 1l7QXg-00077y-EZ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 17:22:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1l7QR6-0004CL-T6
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:15:46 -0500
-Received: from hera.aquilenet.fr ([2a0c:e300::1]:35792)
+ id 1l7QWB-0006ff-Et
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:20:59 -0500
+Received: from hera.aquilenet.fr ([185.233.100.1]:42872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1l7QR3-0007zs-BT
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:15:43 -0500
+ id 1l7QW9-0001zy-QO
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:20:59 -0500
 Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 5BA7DF2;
- Wed,  3 Feb 2021 23:15:37 +0100 (CET)
+ by hera.aquilenet.fr (Postfix) with ESMTP id 7CABBF2;
+ Wed,  3 Feb 2021 23:20:55 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
 Received: from hera.aquilenet.fr ([127.0.0.1])
  by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7G1LnX8gwJgh; Wed,  3 Feb 2021 23:15:36 +0100 (CET)
+ with ESMTP id yWsUyYCv1HKR; Wed,  3 Feb 2021 23:20:54 +0100 (CET)
 Received: from begin.home (unknown
  [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 3E5D675;
- Wed,  3 Feb 2021 23:15:36 +0100 (CET)
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id C55F675;
+ Wed,  3 Feb 2021 23:20:54 +0100 (CET)
 Received: from samy by begin.home with local (Exim 4.94)
  (envelope-from <samuel.thibault@gnu.org>)
- id 1l7QQx-00AchS-3A; Wed, 03 Feb 2021 23:15:35 +0100
-Date: Wed, 3 Feb 2021 23:15:35 +0100
+ id 1l7QW5-00ArL2-UP; Wed, 03 Feb 2021 23:20:53 +0100
+Date: Wed, 3 Feb 2021 23:20:53 +0100
 From: Samuel Thibault <samuel.thibault@gnu.org>
 To: Doug Evans <dje@google.com>
-Subject: Re: [PATCH v2 1/2] net/slirp.c: Refactor address parsing
-Message-ID: <20210203221535.hvweujukawirjyuj@begin>
+Subject: Re: [PATCH v2 2/2] net: Add -ipv6-hostfwd option,
+ ipv6_hostfwd_add/remove commands
+Message-ID: <20210203222053.htsym7musxnqpc5n@begin>
 References: <20210203213729.1940893-1-dje@google.com>
- <20210203213729.1940893-2-dje@google.com>
+ <20210203213729.1940893-3-dje@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210203213729.1940893-2-dje@google.com>
+In-Reply-To: <20210203213729.1940893-3-dje@google.com>
 Organization: I am not organized
 User-Agent: NeoMutt/20170609 (1.8.3)
 X-Spamd-Bar: --
 Authentication-Results: hera.aquilenet.fr
 X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: 5BA7DF2
+X-Rspamd-Queue-Id: 7CABBF2
 X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
  TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
@@ -58,7 +59,7 @@ X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
  RCVD_COUNT_THREE(0.00)[3]; RCPT_COUNT_TWO(0.00)[2];
  RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
  MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
-Received-SPF: softfail client-ip=2a0c:e300::1;
+Received-SPF: softfail client-ip=185.233.100.1;
  envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
 X-Spam_score_int: -11
 X-Spam_score: -1.2
@@ -81,20 +82,25 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Doug Evans, le mer. 03 févr. 2021 13:37:28 -0800, a ecrit:
-> ... in preparation for adding ipv6 host forwarding support.
+Doug Evans, le mer. 03 févr. 2021 13:37:29 -0800, a ecrit:
+> @@ -1392,6 +1392,34 @@ SRST
+>    Remove host-to-guest TCP or UDP redirection.
+>  ERST
+>  
+> +#ifdef CONFIG_SLIRP
+> +    {
+> +        .name       = "ipv6_hostfwd_add",
+> +        .args_type  = "arg1:s,arg2:s?",
+> +        .params     = "[netdev_id] [tcp|udp]:[hostaddr6]:hostport-[guestaddr6]:guestport",
 
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Perhaps explicit that the IPv6 address should be enclosed with [] ?
 
-except
+> +    /* Ignore the part between the ']' and addr_sep. */
+> +    if (get_str_sep(buf, sizeof(buf), &p, addr_sep) < 0) {
 
-> diff --git a/slirp b/slirp
-> index 8f43a99191..358c0827d4 160000
-> --- a/slirp
-> +++ b/slirp
-> @@ -1 +1 @@
-> -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
-> +Subproject commit 358c0827d49778f016312bfb4167fe639900681f
+Mmm, I would say that we do not want to just ignore it, and rather make
+sure that it is empty, so that we can possibly make extensions later
+without breaking existing misuse.
 
-Which, I would say, deserves its own commit?
+Samuel
 
