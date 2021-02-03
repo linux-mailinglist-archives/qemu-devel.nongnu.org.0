@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F4330D8EC
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 12:41:17 +0100 (CET)
-Received: from localhost ([::1]:55494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F9230D8E6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 12:40:40 +0100 (CET)
+Received: from localhost ([::1]:53004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7GX6-0002IW-KC
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 06:41:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56684)
+	id 1l7GWV-0001Gv-C3
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 06:40:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1l7GSO-0005JQ-UX
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:36:26 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1l7GSL-0006JU-Bx
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:36:24 -0500
-Received: by mail-wr1-x429.google.com with SMTP id z6so23770829wrq.10
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 03:36:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=kCe0wrxhIixQPpuqfAk/hnqjmpLhcYOLtawH01e4W7k=;
- b=NVwcNH6jfteO/c6zKUhsc2YB5yzzHbyiC7Kbe1TcwqsbREccFgjB2/IPt4PBX2Vjg5
- zcXP5gL+fPTt/SFOpBBePwb23D4MQpsH5aVrhIh1U0TSDEQ17gU++XHC+INKgWEs5POn
- EJvywQAaBcqMlg++0A7012anlaphxXwbEh4vul6GxW7W55URXg9ilnHvJ77UZ3mFs/us
- W5Nn5OtxSgrLgNcdEXrX15GdrsB4tOB6OSdOHZGFeY9HRL1H4Nm/BOT4EQat6dJEgMAJ
- Z4J7Lj9+xg89oKyolHAJ5ypmoAaGWDVF/0PxaLYjcJmbiPz7CzdRAGvgPHcyd1MlLCCh
- l0jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=kCe0wrxhIixQPpuqfAk/hnqjmpLhcYOLtawH01e4W7k=;
- b=jHpbzHS/AZYpPjLx+f8MUWo5P1gmGX8dMQd55ytLtC8khYPUqv0WFUa0x8AtC/olqe
- 0fEeoK5FnXGbrMlpLll43hK2Xx0nfbQZuD8suhcQUUR1sM3dZ8HeyAXZQwkavTJqIDvR
- 3X8vBxIMkb/P8/IW2bVPyqig7FgZHNGJdo+94oEq22OpUtz6y1NHd+TCOnOvoToQ1Nr+
- wmLycPcU91GqehWOERITCF/99mN6vrB7T+5Q477+1nSFW7wyhUWNo/gj+HSCUOU4S0rt
- 2iGI8KURIGPrFwckkidqg6iva8It/Ot+x8Yyqrk+iQJUVQ4knjDlNVRu0f3rjCgLZVWS
- 9Qvw==
-X-Gm-Message-State: AOAM532NK6MlaVlgXYlEvXFHMjrxzeo0/L/BPO+BMwTxXJMgmq+G1VlM
- vcylAgE5XkbXuvTlAZYmdemL5g==
-X-Google-Smtp-Source: ABdhPJxxaLQiumtcIHW7t2vedrG49PZnDSQvmxahoP9HRMzBu+9niDGOkiw68Ikej6y7IQGOUi59JQ==
-X-Received: by 2002:adf:eccc:: with SMTP id s12mr2959944wro.383.1612352179576; 
- Wed, 03 Feb 2021 03:36:19 -0800 (PST)
-Received: from vanye (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net.
- [82.27.183.148])
- by smtp.gmail.com with ESMTPSA id c18sm14955709wmk.0.2021.02.03.03.36.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 03:36:19 -0800 (PST)
-Date: Wed, 3 Feb 2021 11:36:17 +0000
-From: Leif Lindholm <leif@nuviainc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH 4/4] hw/intc: make gicv3_idreg() distinguish between
- gicv3/gicv4
-Message-ID: <20210203113617.GV1664@vanye>
-References: <20210124025306.3949-1-leif@nuviainc.com>
- <20210124025306.3949-5-leif@nuviainc.com>
- <CAFEAcA-j8TeozQLSTSK1ueVFKZ4J6tTCjMBNJMQTLQCeAnKkpw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7GTY-0006Sr-5Z
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:37:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54489)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7GTW-0006sN-Lm
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 06:37:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612352253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7UgtqJh8shH6LnZBT2YWFJLGzV2O2mRyyLonmsjOnLE=;
+ b=Ske9+KD8zr9lKaYfNPFv4v2wmFD9yuiFGUD+kC53zM2dafng/q+haqIeYbthJibyav52jR
+ hrKEhBLweLeh4zvNlkYFOr3q2Hg/h8jZ4akAeZvY5Vj6aLkm4L4IryowMUzSOasmzv4LmR
+ kCfaLPdu2yoc5o6/YzUMCNPbqywL2Hs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-GGSRR82xPWmeReJckIpThw-1; Wed, 03 Feb 2021 06:37:31 -0500
+X-MC-Unique: GGSRR82xPWmeReJckIpThw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F10B85B664;
+ Wed,  3 Feb 2021 11:37:30 +0000 (UTC)
+Received: from localhost (ovpn-115-141.ams2.redhat.com [10.36.115.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F110C5D9E3;
+ Wed,  3 Feb 2021 11:37:20 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/3] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+Date: Wed,  3 Feb 2021 11:37:16 +0000
+Message-Id: <20210203113719.83633-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-j8TeozQLSTSK1ueVFKZ4J6tTCjMBNJMQTLQCeAnKkpw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=leif@nuviainc.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,57 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
+ Stefan Hajnoczi <stefanha@redhat.com>, P J P <ppandit@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 02, 2021 at 10:31:16 +0000, Peter Maydell wrote:
-> On Sun, 24 Jan 2021 at 02:53, Leif Lindholm <leif@nuviainc.com> wrote:
-> >
-> > Make gicv3_idreg() able to return either gicv3 or gicv4 data.
-> > Add a parameter to specify gic version.
-> >
-> > Signed-off-by: Leif Lindholm <leif@nuviainc.com>
-> > ---
-> >  hw/intc/arm_gicv3_dist.c   |  2 +-
-> >  hw/intc/arm_gicv3_redist.c |  2 +-
-> >  hw/intc/gicv3_internal.h   | 12 ++++++++++--
-> >  3 files changed, 12 insertions(+), 4 deletions(-)
-> 
-> > -static inline uint32_t gicv3_idreg(int regoffset)
-> > +static inline uint32_t gicv3_idreg(int regoffset, int revision)
-> 
-> I would prefer to pass in the GICv3State* and let the function
-> look at s->revision.
+djM6DQogKiBSZXN0cnVjdHVyZSBsb19jcmVhdGUoKSB0byBoYW5kbGUgZXh0ZXJuYWxseS1jcmVh
+dGVkIGZpbGVzICh3ZSBuZWVkDQogICB0byBhbGxvY2F0ZSBhbiBpbm9kZSBmb3IgdGhlbSkgW0dy
+ZWddDQogKiBQYXRjaCAxICYgMiByZWZhY3RvciB0aGUgY29kZSBzbyB0aGF0IFBhdGNoIDMgY2Fu
+IGltcGxlbWVudCB0aGUgQ1ZFIGZpeA0KdjM6DQogKiBQcm90ZWN0IGxvX2NyZWF0ZSgpIFtHcmVn
+XQ0KdjI6DQogKiBBZGQgZG9jIGNvbW1lbnQgY2xhcmlmeWluZyB0aGF0IHN5bWxpbmtzIGFyZSB0
+cmF2ZXJzZWQgY2xpZW50LXNpZGUNCiAgIFtEYW5pZWxdDQoNCkEgd2VsbC1iZWhhdmVkIEZVU0Ug
+Y2xpZW50IGRvZXMgbm90IGF0dGVtcHQgdG8gb3BlbiBzcGVjaWFsIGZpbGVzIHdpdGgNCkZVU0Vf
+T1BFTiBiZWNhdXNlIHRoZXkgYXJlIGhhbmRsZWQgb24gdGhlIGNsaWVudCBzaWRlIChlLmcuIGRl
+dmljZSBub2Rlcw0KYXJlIGhhbmRsZWQgYnkgY2xpZW50LXNpZGUgZGV2aWNlIGRyaXZlcnMpLg0K
+DQpUaGUgY2hlY2sgdG8gcHJldmVudCB2aXJ0aW9mc2QgZnJvbSBvcGVuaW5nIHNwZWNpYWwgZmls
+ZXMgaXMgbWlzc2luZyBpbg0KYSBmZXcgY2FzZXMsIG1vc3Qgbm90YWJseSBGVVNFX09QRU4uIEEg
+bWFsaWNpb3VzIGNsaWVudCBjYW4gY2F1c2UNCnZpcnRpb2ZzZCB0byBvcGVuIGEgZGV2aWNlIG5v
+ZGUsIHBvdGVudGlhbGx5IGFsbG93aW5nIHRoZSBndWVzdCB0bw0KZXNjYXBlLiBUaGlzIGNhbiBi
+ZSBleHBsb2l0ZWQgYnkgYSBtb2RpZmllZCBndWVzdCBkZXZpY2UgZHJpdmVyLiBJdCBpcw0Kbm90
+IGV4cGxvaXRhYmxlIGZyb20gZ3Vlc3QgdXNlcnNwYWNlIHNpbmNlIHRoZSBndWVzdCBrZXJuZWwg
+d2lsbCBoYW5kbGUNCnNwZWNpYWwgZmlsZXMgaW5zaWRlIHRoZSBndWVzdCBpbnN0ZWFkIG9mIHNl
+bmRpbmcgRlVTRSByZXF1ZXN0cy4NCg0KVGhpcyBwYXRjaCBzZXJpZXMgZml4ZXMgdGhpcyBpc3N1
+ZSBieSBpbnRyb2R1Y2luZyB0aGUgbG9faW5vZGVfb3BlbigpIGZ1bmN0aW9uDQp0byBjaGVjayB0
+aGUgZmlsZSB0eXBlIGJlZm9yZSBvcGVuaW5nIGl0LiBUaGlzIGlzIGEgc2hvcnQtdGVybSBzb2x1
+dGlvbiBiZWNhdXNlDQppdCBkb2VzIG5vdCBwcmV2ZW50IGEgY29tcHJvbWlzZWQgdmlydGlvZnNk
+IHByb2Nlc3MgZnJvbSBvcGVuaW5nIGRldmljZSBub2Rlcw0Kb24gdGhlIGhvc3QuDQoNClRoaXMg
+aXNzdWUgd2FzIGRpYWdub3NlZCBvbiBwdWJsaWMgSVJDIGFuZCBpcyB0aGVyZWZvcmUgYWxyZWFk
+eSBrbm93bg0KYW5kIG5vdCBlbWJhcmdvZWQuDQoNClJlcG9ydGVkLWJ5OiBBbGV4IFh1IDxhbGV4
+QGFseHUuY2E+DQpGaXhlczogQ1ZFLTIwMjAtMzU1MTcNCg0KU3RlZmFuIEhham5vY3ppICgzKToN
+CiAgdmlydGlvZnNkOiBleHRyYWN0IGxvX2RvX29wZW4oKSBmcm9tIGxvX29wZW4oKQ0KICB2aXJ0
+aW9mc2Q6IG9wdGlvbmFsbHkgcmV0dXJuIGlub2RlIHBvaW50ZXIgZnJvbSBsb19kb19sb29rdXAo
+KQ0KICB2aXJ0aW9mc2Q6IHByZXZlbnQgb3BlbmluZyBvZiBzcGVjaWFsIGZpbGVzIChDVkUtMjAy
+MC0zNTUxNykNCg0KIHRvb2xzL3ZpcnRpb2ZzZC9wYXNzdGhyb3VnaF9sbC5jIHwgMjIxICsrKysr
+KysrKysrKysrKysrKysrLS0tLS0tLS0tLS0NCiAxIGZpbGUgY2hhbmdlZCwgMTQ1IGluc2VydGlv
+bnMoKyksIDc2IGRlbGV0aW9ucygtKQ0KDQotLSANCjIuMjkuMg0KDQo=
 
-Yeah, that'd be neater.
-
-> >  {
-> >      /* Return the value of the CoreSight ID register at the specified
-> >       * offset from the first ID register (as found in the distributor
-> > @@ -331,7 +331,15 @@ static inline uint32_t gicv3_idreg(int regoffset)
-> >      static const uint8_t gicd_ids[] = {
-> >          0x44, 0x00, 0x00, 0x00, 0x92, 0xB4, 0x3B, 0x00, 0x0D, 0xF0, 0x05, 0xB1
-> >      };
-> > -    return gicd_ids[regoffset / 4];
-> > +    static const uint8_t gicdv4_ids[] = {
-> > +        0x44, 0x00, 0x00, 0x00, 0x92, 0xB4, 0x4B, 0x00, 0x0D, 0xF0, 0x05, 0xB1
-> > +    };
-> > +
-> > +    if (revision == 3) {
-> > +        return gicd_ids[regoffset / 4];
-> > +    } else {
-> > +        return gicdv4_ids[regoffset / 4];
-> > +    }
-> >  }
-> 
-> Updating the comment "These values indicate an ARM implementation of a GICv3"
-> to add a note about what the new values are indicating would be nice.
-
-Will do.
-
-Regards,
-
-Leif
 
