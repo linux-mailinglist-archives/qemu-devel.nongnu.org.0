@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01D830E247
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:17:09 +0100 (CET)
-Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9E130E28F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:33:01 +0100 (CET)
+Received: from localhost ([::1]:55054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7MiC-0006Es-FN
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:17:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51386)
+	id 1l7MxY-0002AS-Om
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:33:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7MXB-0001vj-N7
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:05:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44106)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7MX9-0002UJ-Fh
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:05:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612375541;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lJVPvZPFKUR6Xs1v0CURfJymdYmFOv0QSO2UfXLpSFM=;
- b=AaBnXVwWfiYLm2bQwykmRUl0ZvsQY765yR5+GqfnrsYR8x9U+bAZllVB3c/EXd5zuPxcix
- f4LT0fHpqjHojTvKS7iUkqzw9Yqjcul5a90H9JHmuFqVVa+1p5e3FFsbg0Aif3Rd+mkBqT
- XahQMqJrUMQa6ks5WlNWGpxnHc2sqWM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-xYHIBfUHO0emFnvZ2Y7mhQ-1; Wed, 03 Feb 2021 13:05:37 -0500
-X-MC-Unique: xYHIBfUHO0emFnvZ2Y7mhQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ABC8100F340;
- Wed,  3 Feb 2021 18:05:36 +0000 (UTC)
-Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC28060BFA;
- Wed,  3 Feb 2021 18:05:23 +0000 (UTC)
-Date: Wed, 3 Feb 2021 18:05:20 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v4 3/3] virtiofsd: prevent opening of special files
- (CVE-2020-35517)
-Message-ID: <20210203180520.GO2950@work-vm>
-References: <20210203113719.83633-1-stefanha@redhat.com>
- <20210203113719.83633-4-stefanha@redhat.com>
- <20210203152850.GA3307@redhat.com>
- <20210203170237.0c98f95f@bahia.lan>
- <20210203160858.GC3307@redhat.com>
- <20210203170514.GL74271@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l7MYG-0003h9-NN
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:06:54 -0500
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:33348)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l7MYD-0002fa-Vi
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:06:52 -0500
+Received: by mail-qk1-x72d.google.com with SMTP id x81so648581qkb.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 10:06:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Srga0kM0wmnBWJA57DtgviklXyVl4bkLcNGl6ypYKFE=;
+ b=jCZbkIEYb8Jpc6Y7Ax/5E+eO+CvhCj+ca95NMCbA888W4CDhzGV+9lEhcZwBfch87M
+ FAP4oEE3og61c3tIbdekx60QEE2I0NK36fpJimH7B0uQFCG5BtOm2uXAA9o3NAaFCFN8
+ /IcuJTxpKrMgI2jBWQK3nqIAdUbtGIp28cRFeT0iW5lJdcH+zalmhLCSLtiDrZK4iyk5
+ dhceGG2YdMWbRJfirUePqZ7lhUYe360dwMP+cneRIEh0R8NyrQKvkP73W8adQdrThuXi
+ XOYGVlaZOLGAl+k5olIu/wgofPqotibDfoQTB94KkqU/MP4RJeCq73+VVmZz6wubiGYF
+ CzQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Srga0kM0wmnBWJA57DtgviklXyVl4bkLcNGl6ypYKFE=;
+ b=R1HXx/gCfJxl817JfQhRkuzgjj7N33+EXHWTwtMrK1JNIfOPthZ6H1zYW+h9Px9248
+ 6OtSnY2yUIJwoidsgww9OtHogRgd2M7gxJoTHoavKJI+E9a0o6IOgejKQWf8iTfyhUx1
+ oJSyZFC1sD7W6wEplTpspmzB1sSrjjt1OaPnp2cgg4s6mdKPZecI4qMl6qnuKTvPSvXY
+ WhNbjboEMFBpPrs1VWpNHehSBT2eG7zLvHSUs+anyetTD+fQhq3nP/otzNUKPdUo1LgZ
+ /VsVhlus7xRkGq/veFJEGFakUpHuqUhQcR7ljG/Es2HgktqYA57bNcKDvL3GlWDX+sFW
+ At1Q==
+X-Gm-Message-State: AOAM533DGDeXwuKgoYd9vrqf0+BwfTCZK43nDtFszNbqaF+Psop/j2BA
+ CkMiF6vpaESmdOmfWAsj/hRPc5fvMRreVp2VZnGvRQ==
+X-Google-Smtp-Source: ABdhPJwr9BoJTnsX+lhDJvVMegfF5ceUtvukcgsEd/4jTbh2woZrI6Z0gZqUoXToavqMnwxnO08V//LCUyprNZDR5VA=
+X-Received: by 2002:a37:a34f:: with SMTP id m76mr3693965qke.89.1612375608294; 
+ Wed, 03 Feb 2021 10:06:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210203170514.GL74271@stefanha-x1.localdomain>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CANCZdfp7VDodG_-Po6r9t+-4YNWOMVQUOeoL1hTm4-C989qa0A@mail.gmail.com>
+ <27e6eb09-654a-2eae-4b6f-c02419a129b1@redhat.com>
+In-Reply-To: <27e6eb09-654a-2eae-4b6f-c02419a129b1@redhat.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Wed, 3 Feb 2021 11:06:37 -0700
+Message-ID: <CANCZdfpgj6AA_N9fjMmxoUJhTMKtewofkcmb_R4G+npfsq2WrA@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: update bsd-user maintainers
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000006094ae05ba72730e"
+Received-SPF: none client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x72d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,71 +75,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, virtio-fs@redhat.com,
- Alex Xu <alex@alxu.ca>, P J P <ppandit@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> On Wed, Feb 03, 2021 at 11:08:58AM -0500, Vivek Goyal wrote:
-> > On Wed, Feb 03, 2021 at 05:02:37PM +0100, Greg Kurz wrote:
-> > > On Wed, 3 Feb 2021 10:28:50 -0500
-> > > Vivek Goyal <vgoyal@redhat.com> wrote:
-> > > 
-> > > > On Wed, Feb 03, 2021 at 11:37:19AM +0000, Stefan Hajnoczi wrote:
-> > > > 
-> > > > [..]
-> > > > > @@ -1727,36 +1764,38 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-> > > > >  
-> > > > >      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
-> > > > >  
-> > > > > -    fd = openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFOLLOW,
-> > > > > -                mode);
-> > > > > +    /* Try to create a new file but don't open existing files */
-> > > > > +    fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
-> > > > >      err = fd == -1 ? errno : 0;
-> > > > > +
-> > > > >      lo_restore_cred(&old);
-> > > > >  
-> > > > > -    if (!err) {
-> > > > > -        ssize_t fh;
-> > > > > -
-> > > > > -        pthread_mutex_lock(&lo->mutex);
-> > > > > -        fh = lo_add_fd_mapping(lo, fd);
-> > > > > -        pthread_mutex_unlock(&lo->mutex);
-> > > > > -        if (fh == -1) {
-> > > > > -            close(fd);
-> > > > > -            err = ENOMEM;
-> > > > > -            goto out;
-> > > > > -        }
-> > > > > +    /* Ignore the error if file exists and O_EXCL was not given */
-> > > > > +    if (err && !(err == EEXIST && !(fi->flags & O_EXCL))) {
-> > > > 
-> > > > Can this check be simplified to.
-> > > >        if (err && (err == EEXIST && (fi->flags & O_EXCL)) {
-> > > 
-> > > I guess you meant :
-> > > 
-> > >         if (err && (err != EEXIST || fi->flags & O_EXCL) {
-> > 
-> > This sounds correct. I forgot to take into account that if error is
-> > not -EEXIST, we still want to bail out irrespective of O_EXCL.
-> 
-> I thought about De Morgan's law too but found the OR expression is not
-> easier to read than the AND expression :(. If you prefer it written this
-> way I can change it though.
+--0000000000006094ae05ba72730e
+Content-Type: text/plain; charset="UTF-8"
 
-I think the version that you put, matches your comment well; although
-it's a bit of a weird case where nesting a pair of ! makes sense.
+On Sun, Jan 31, 2021 at 11:30 PM Thomas Huth <thuth@redhat.com> wrote:
 
-Dave
+> On 30/01/2021 17.46, Warner Losh wrote:
+> > bsd-user: Add new mainatiners
+> >
+> > The FreeBSD project has a number of enhancements to bsd-user. Add myself
+> > as maintainer and Kyle Evans as a reviewer. Also add our github repo.
+> >
+> > Signed-off-by: Warner Losh <imp@bsdimp.com <mailto:imp@bsdimp.com>>
+> > ---
+> >   MAINTAINERS | 5 ++++-
+> >   1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index bcd88668bc..1b2c276eca 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2845,9 +2845,12 @@ F: thunk.c
+> >   F: accel/tcg/user-exec*.c
+> >
+> >   BSD user
+> > -S: Orphan
+> > +M: Warner Losh <imp@bsdimp.com <mailto:imp@bsdimp.com>>
+> > +R: Kyle Evans <kevans@freebsd.org <mailto:kevans@freebsd.org>>
+> > +S: Maintained
+> >   F: bsd-user/
+> >   F: default-configs/*-bsd-user.mak
+>
+> Oh, by the way, while you're at it, please update the second F: line to:
+>
+>   F: default-configs/targets/*-bsd-user.mak
+>
+> Otherwise the scripts/get_maintainer.pl script won't recognize the files
+> correctly.
+>
 
-> Stefan
+Thanks! I notice that the linux-user entry is missing the targets/ part of
+the patch as well..
 
+Uploading new version soon...
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Warner
 
+--0000000000006094ae05ba72730e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 31, 2021 at 11:30 PM Thom=
+as Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 30/01/20=
+21 17.46, Warner Losh wrote:<br>
+&gt; bsd-user: Add new mainatiners<br>
+&gt; <br>
+&gt; The FreeBSD project has a number of enhancements to bsd-user. Add myse=
+lf<br>
+&gt; as maintainer and Kyle Evans as a reviewer. Also add our github repo.<=
+br>
+&gt; <br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a> &lt;mailto:<a href=3D"mailto:imp@bsdimp.com=
+" target=3D"_blank">imp@bsdimp.com</a>&gt;&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0MAINTAINERS | 5 ++++-<br>
+&gt;=C2=A0 =C2=A01 file changed, 4 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/MAINTAINERS b/MAINTAINERS<br>
+&gt; index bcd88668bc..1b2c276eca 100644<br>
+&gt; --- a/MAINTAINERS<br>
+&gt; +++ b/MAINTAINERS<br>
+&gt; @@ -2845,9 +2845,12 @@ F: thunk.c<br>
+&gt;=C2=A0 =C2=A0F: accel/tcg/user-exec*.c<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0BSD user<br>
+&gt; -S: Orphan<br>
+&gt; +M: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_blank=
+">imp@bsdimp.com</a> &lt;mailto:<a href=3D"mailto:imp@bsdimp.com" target=3D=
+"_blank">imp@bsdimp.com</a>&gt;&gt;<br>
+&gt; +R: Kyle Evans &lt;<a href=3D"mailto:kevans@freebsd.org" target=3D"_bl=
+ank">kevans@freebsd.org</a> &lt;mailto:<a href=3D"mailto:kevans@freebsd.org=
+" target=3D"_blank">kevans@freebsd.org</a>&gt;&gt;<br>
+&gt; +S: Maintained<br>
+&gt;=C2=A0 =C2=A0F: bsd-user/<br>
+&gt;=C2=A0 =C2=A0F: default-configs/*-bsd-user.mak<br>
+<br>
+Oh, by the way, while you&#39;re at it, please update the second F: line to=
+:<br>
+<br>
+=C2=A0 F: default-configs/targets/*-bsd-user.mak<br>
+<br>
+Otherwise the scripts/<a href=3D"http://get_maintainer.pl" rel=3D"noreferre=
+r" target=3D"_blank">get_maintainer.pl</a> script won&#39;t recognize the f=
+iles <br>
+correctly.<br></blockquote><div><br></div><div>Thanks! I notice that the li=
+nux-user entry is missing the targets/ part of the patch as well..</div><di=
+v><br></div><div>Uploading new version soon...</div><div><br></div><div>War=
+ner</div><div>=C2=A0</div></div></div>
+
+--0000000000006094ae05ba72730e--
 
