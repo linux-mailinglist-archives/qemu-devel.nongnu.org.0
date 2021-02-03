@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A9C30E39D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:54:41 +0100 (CET)
-Received: from localhost ([::1]:56126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BEE930E38C
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:49:58 +0100 (CET)
+Received: from localhost ([::1]:44664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7OEa-0005bG-Bx
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:54:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44178)
+	id 1l7OA1-0000WT-Bu
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:49:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l7Njx-0007b0-RF; Wed, 03 Feb 2021 14:23:01 -0500
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:44194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l7Njv-00024r-Sk; Wed, 03 Feb 2021 14:23:01 -0500
-Received: by mail-io1-xd34.google.com with SMTP id j5so489645iog.11;
- Wed, 03 Feb 2021 11:22:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=osC5Zac+xNOTRaCQpM81ZoE0EIeTczb0uhROUmWlmtw=;
- b=vJGp3PvReHBU5rSDTgJy2TaEJz8udQqVX/y0gYSY7v4WcNfPXzI6a+t07SBIMZsw9N
- kJmcDVcJlRaCKAdc4+4HLkdL6Aytia7OJXpsfL9ZkZDmTZJrgslAMcBuaAAO5ottQbFG
- YltT8KRGSq3E2EGm8r6s31hF8Iyzf1RU7OSdE9g+K2T9BznE+yqLU+PVTkJEpGYS/Mfo
- 5GafI5LnvK2hk4WHiIwTfL+L+avxJR7rZ0dIJxZSbH5XaRcQvsglbHShKny7erpbTGPs
- zPHVSHVZoF8RkMCuQT+pe8BxtmALLxOPx/vtx/AwQ+mTNo6KE4jaxlnZXmpEEppJg8xW
- ADoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=osC5Zac+xNOTRaCQpM81ZoE0EIeTczb0uhROUmWlmtw=;
- b=HnYETXN3UUMfTIpLxntIWyqah5jU1Y9NHwg+c7J0QAKvmrmTBJv77WFmnLw95gFvSI
- 5+IVMOjEso+TXM4G96+LKD56thvLFLpDiB7qWr4Hv9P+CmMgC4AWKTdaLQrZKjqDUh6C
- 9mhDeEQwuokXJaJdTjr8g+BAgKgivfC1VKvlJfxHc7ywVzCqUVqi2a7s5sc8Av2AHr+c
- WHx4gJihjFmv5uGjYbGOSIasQKorDvZoF2MwPc4SJkpNtaxDruQP11OFal3icUJDDdFx
- J0CxVdP8CPy6d4MbUUPx47aP0TCCpppcKO+BBkQD2J8laY4niojGdkRcBhaWjWY6XrY7
- hywg==
-X-Gm-Message-State: AOAM532WqGsTeOnzV0vaF+R/82TDTUwOHg/H+H268HjOEVuE2LemNh9s
- EeSRlrvOJ0uC567uIX5tHQ5oOodkW9uoWw1IKO0=
-X-Google-Smtp-Source: ABdhPJy8DG72woIC4M7Wrpl4ekM22GnU6QUr0tqdZjOEZxKLvdfDdCaX1Yf6HjYD3sfPg/N438MCGo6JmuVlqafWNkc=
-X-Received: by 2002:a05:6638:3c8:: with SMTP id
- r8mr4325618jaq.135.1612380178225; 
- Wed, 03 Feb 2021 11:22:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l7Nky-00088G-BF
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:24:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56305)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l7Nkp-0002K5-Hi
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:24:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612380215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vtgJJ+s9lNCHKDIHim7D6mC/IoggxkHLJyuAiwvOZ6U=;
+ b=WAekLIwEWBh2j6IHhvwCqqdASNhAvKOuKv3NZnlkNgrgfo4fdec8XMGuxJqvSov6CfhYyO
+ GcDVXUy5erE6TtdkWLwmFTmawdmvLRDGhwAb1DIki/dC/pdfqm9jquO6ZdRu6zOzG1XgJx
+ 5pRwtCLddrSyJFNSZfI88I1NiiBXTAo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-378-UuoQBX_7Mwy53c7cSHRA8w-1; Wed, 03 Feb 2021 14:23:33 -0500
+X-MC-Unique: UuoQBX_7Mwy53c7cSHRA8w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C8A45B364;
+ Wed,  3 Feb 2021 19:23:32 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
+ [10.97.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12673779F4;
+ Wed,  3 Feb 2021 19:23:28 +0000 (UTC)
+Subject: Re: [PATCH 6/6] travis.yml: Move the -fsanitize=thread
+ compile-testing to the gitlab-CI
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210203113243.280883-1-thuth@redhat.com>
+ <20210203113243.280883-7-thuth@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <efa13112-64c7-b906-f6bd-970039a62151@redhat.com>
+Date: Wed, 3 Feb 2021 16:23:25 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <20210110185109.29841-1-space.monkey.delivers@gmail.com>
-In-Reply-To: <20210110185109.29841-1-space.monkey.delivers@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 3 Feb 2021 11:22:32 -0800
-Message-ID: <CAKmqyKP7tig8Lh=qktUnM+HMhZK0__qTgRXDeCayiZ-S0fyGTA@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] RISC-V Pointer Masking implementation
-To: Alexey Baturo <baturo.alexey@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210203113243.280883-7-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,74 +86,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- space.monkey.delivers@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
- kupokupokupopo@gmail.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 10, 2021 at 10:54 AM Alexey Baturo <baturo.alexey@gmail.com> wrote:
->
-> Hi folks,
->
-> Sorry it took me almost 3 month to provide the reply and fixes: it was a really busy EOY.
-> This series contains fixed @Alistair suggestion on enabling J-ext.
->
-> As for @Richard comments:
-> - Indeed I've missed appending review-by to the approved commits. Now I've restored them except for the fourth commit. @Richard could you please tell if you think it's still ok to commit it as is, or should I support masking mem ops for RVV first?
-> - These patches don't have any support for load/store masking for RVV and RVH extensions, so no support for special load/store for Hypervisor in particular.
->
-> If this patch series would be accepted, I think my further attention would be to:
-> - Support pm for memory operations for RVV
-> - Add proper csr and support pm for memory operations for Hypervisor mode
-> - Support address wrapping on unaligned accesses as @Richard mentioned previously
+Hi,
 
-Overall this looks fine.
+On 2/3/21 8:32 AM, Thomas Huth wrote:
+> It's only about compile-testing (there is too much noise when running
+> the tests), so let's simply add the -fsanitize=thread flag to a job that
+> only compiles the sources. The "build-gprof-gcov" seems to be a good
+> candidate.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   .gitlab-ci.yml |  1 +
+>   .travis.yml    | 51 --------------------------------------------------
+>   2 files changed, 1 insertion(+), 51 deletions(-)
 
-Unfortunately it doesn't look like there is a release of the pointer
-masking spec. Until there is a release (a draft release counts) we
-can't accept it. We need a version to point to so that we can say "we
-support v0.1 of the RISC-V pointer masking spec". Otherwise we are
-chasing a moving target and users don't know what version we do/don't
-support.
+It will be a little weird to see a gprof/gcov failing with a sanitize 
+error, but it seems indeed the best job.
 
-Do you know the current state of the spec?
+Allow me to double-check: doesn't it need -g to show the line numbers?
 
-Alistair
+- Wainer
 
 >
-> Thanks!
->
-> Alexey Baturo (5):
->   [RISCV_PM] Add J-extension into RISC-V
->   [RISCV_PM] Support CSRs required for RISC-V PM extension except for
->     the ones required for hypervisor mode
->   [RISCV_PM] Print new PM CSRs in QEMU logs
->   [RISCV_PM] Support pointer masking for RISC-V for i/c/f/d/a types of
->     instructions
->   [RISCV_PM] Allow experimental J-ext to be turned on
->
-> Anatoly Parshintsev (1):
->   [RISCV_PM] Implement address masking functions required for RISC-V
->     Pointer Masking extension
->
->  target/riscv/cpu.c                      |  30 +++
->  target/riscv/cpu.h                      |  33 +++
->  target/riscv/cpu_bits.h                 |  66 ++++++
->  target/riscv/csr.c                      | 271 ++++++++++++++++++++++++
->  target/riscv/insn_trans/trans_rva.c.inc |   3 +
->  target/riscv/insn_trans/trans_rvd.c.inc |   2 +
->  target/riscv/insn_trans/trans_rvf.c.inc |   2 +
->  target/riscv/insn_trans/trans_rvi.c.inc |   2 +
->  target/riscv/translate.c                |  44 ++++
->  9 files changed, 453 insertions(+)
->
-> --
-> 2.20.1
->
->
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 4654798523..e5c86e38c4 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -484,6 +484,7 @@ build-gprof-gcov:
+>     variables:
+>       IMAGE: ubuntu2004
+>       CONFIGURE_ARGS: --enable-gprof --enable-gcov
+> +                    --extra-cflags=-fsanitize=thread
+>       MAKE_CHECK_ARGS: build-tcg
+>       TARGETS: aarch64-softmmu mips64-softmmu ppc64-softmmu
+>                riscv64-softmmu s390x-softmmu x86_64-softmmu
+> diff --git a/.travis.yml b/.travis.yml
+> index b3fc72f561..18e62f282f 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -120,57 +120,6 @@ after_script:
+>   jobs:
+>     include:
+>   
+> -
+> -    # Using newer GCC with sanitizers
+> -    - name: "GCC9 with sanitizers (softmmu)"
+> -      dist: bionic
+> -      addons:
+> -        apt:
+> -          update: true
+> -          sources:
+> -            # PPAs for newer toolchains
+> -            - ubuntu-toolchain-r-test
+> -          packages:
+> -            # Extra toolchains
+> -            - gcc-9
+> -            - g++-9
+> -            # Build dependencies
+> -            - libaio-dev
+> -            - libattr1-dev
+> -            - libbrlapi-dev
+> -            - libcap-ng-dev
+> -            - libgnutls28-dev
+> -            - libgtk-3-dev
+> -            - libiscsi-dev
+> -            - liblttng-ust-dev
+> -            - libnfs-dev
+> -            - libncurses5-dev
+> -            - libnss3-dev
+> -            - libpixman-1-dev
+> -            - libpng-dev
+> -            - librados-dev
+> -            - libsdl2-dev
+> -            - libsdl2-image-dev
+> -            - libseccomp-dev
+> -            - libspice-protocol-dev
+> -            - libspice-server-dev
+> -            - liburcu-dev
+> -            - libusb-1.0-0-dev
+> -            - libvte-2.91-dev
+> -            - ninja-build
+> -            - sparse
+> -            - uuid-dev
+> -      language: generic
+> -      compiler: none
+> -      env:
+> -        - COMPILER_NAME=gcc CXX=g++-9 CC=gcc-9
+> -        - CONFIG="--cc=gcc-9 --cxx=g++-9 --disable-linux-user"
+> -        - TEST_CMD=""
+> -      before_script:
+> -        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+> -        - ${SRC_DIR}/configure ${CONFIG} --extra-cflags="-g3 -O0 -fsanitize=thread" || { cat config.log meson-logs/meson-log.txt && exit 1; }
+> -
+> -
+>       - name: "[aarch64] GCC check-tcg"
+>         arch: arm64
+>         dist: focal
+
 
