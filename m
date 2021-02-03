@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C884930D7D3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 11:43:53 +0100 (CET)
-Received: from localhost ([::1]:52292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA0230D7E3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 11:46:44 +0100 (CET)
+Received: from localhost ([::1]:54988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7FdY-0007Ys-Su
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 05:43:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43356)
+	id 1l7FgJ-0000Jp-5z
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 05:46:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <otubo@redhat.com>) id 1l7Fc0-00073B-RA
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 05:42:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39756)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7Fck-0007f7-GM
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 05:43:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <otubo@redhat.com>) id 1l7Fby-0006Pr-4Y
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 05:42:16 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7Fch-0006lM-TK
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 05:43:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612348931;
+ s=mimecast20190719; t=1612348979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6DEYCHSFU1I0/eXO2HEPuRqcE1zkeiuQOJ9kAYtxOYc=;
- b=Djhj9l2SScBfxYFZdncZECzH0DP87+DqtRjpGACIKAKTwQAkjsbLp/vfyteMNb4SBF5+aS
- retKESkCozjmGBIeo0V0ijL2TVt9kGwZFwCW7fxQZ3osGFjSn8dmvJ1TW1pRgdBf9PQsWE
- Zc2x8Bq+lHtGRhMIgGexD3lu7akJcaA=
+ bh=oj/fRtwaugb2KEHyNX5mAT8ioDdcAkdWaaBzV6FQItM=;
+ b=NFX0Kk6F5+dCvFBXznCzIxnNnFiXJdJuzy98XfDBt2SsgzAA6YgvGcoAjhtMK+mMMdzzPt
+ aQxFujBGWzF1ASSGVSvFeKq43sQnyem3gvVSQJLnNa0e+31Y6m2GoqGzKF5BmheMe4s3Ur
+ DrlnCUf4M+mozour0FsUHxF8uYHiPb4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-9aWgbiehOouYuvThdv0_iQ-1; Wed, 03 Feb 2021 05:42:08 -0500
-X-MC-Unique: 9aWgbiehOouYuvThdv0_iQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-507-l84PUT_BP26V9PpDkNfxBQ-1; Wed, 03 Feb 2021 05:42:57 -0500
+X-MC-Unique: l84PUT_BP26V9PpDkNfxBQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B2CC803624;
- Wed,  3 Feb 2021 10:42:07 +0000 (UTC)
-Received: from genji (ovpn-113-181.ams2.redhat.com [10.36.113.181])
- by smtp.corp.redhat.com (Postfix) with SMTP id 1F80D60BFA;
- Wed,  3 Feb 2021 10:41:54 +0000 (UTC)
-Date: Wed, 3 Feb 2021 11:41:54 +0100
-From: Eduardo Otubo <otubo@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 08/12] seccomp: Replace the word 'blacklist'
-Message-ID: <20210203104154.GA5503@genji>
-References: <20210202205824.1085853-1-philmd@redhat.com>
- <20210202205824.1085853-9-philmd@redhat.com>
- <20210203101555.GI300990@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EE8F192D786;
+ Wed,  3 Feb 2021 10:42:55 +0000 (UTC)
+Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC7E05D9E3;
+ Wed,  3 Feb 2021 10:42:44 +0000 (UTC)
+Date: Wed, 3 Feb 2021 10:42:42 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v8 07/13] confidential guest support: Introduce cgs
+ "ready" flag
+Message-ID: <20210203104242.GD2950@work-vm>
+References: <20210202041315.196530-1-david@gibson.dropbear.id.au>
+ <20210202041315.196530-8-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-In-Reply-To: <20210203101555.GI300990@redhat.com>
-User-Agent: Mutt/1.8.3+47 (5f034395e53d) (2017-05-23)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=otubo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=otubo@redhat.com;
+In-Reply-To: <20210202041315.196530-8-david@gibson.dropbear.id.au>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,57 +76,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Michael Roth <michael.roth@amd.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pair@us.ibm.com, mtosatti@redhat.com, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
+ mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ pragyansri.pathi@intel.com, andi.kleen@intel.com, thuth@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
+ Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ berrange@redhat.com, Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---PEIAKu/WMn1b1Hv9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* David Gibson (david@gibson.dropbear.id.au) wrote:
+> The platform specific details of mechanisms for implementing
+> confidential guest support may require setup at various points during
+> initialization.  Thus, it's not really feasible to have a single cgs
+> initialization hook, but instead each mechanism needs its own
+> initialization calls in arch or machine specific code.
+> 
+> However, to make it harder to have a bug where a mechanism isn't
+> properly initialized under some circumstances, we want to have a
+> common place, late in boot, where we verify that cgs has been
+> initialized if it was requested.
+> 
+> This patch introduces a ready flag to the ConfidentialGuestSupport
+> base type to accomplish this, which we verify in
+> qemu_machine_creation_done().
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-On 03/02/2021 - 10:15:55, Daniel P. Berrange wrote:
-> On Tue, Feb 02, 2021 at 09:58:20PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > Follow the inclusive terminology from the "Conscious Language in your
-> > Open Source Projects" guidelines [*] and replace the word "blacklist"
-> > appropriately.
-> >=20
-> > [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq=
-.md
-> >=20
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
-> >  softmmu/qemu-seccomp.c | 16 ++++++++--------
-> >  1 file changed, 8 insertions(+), 8 deletions(-)
->=20
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Acked-by: Eduardo Otubo <otubo@redhat.com>
-
---PEIAKu/WMn1b1Hv9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEE1n4bUJN0hrQHI9ur3zLnwPD/+aIFAmAaffEACgkQ3zLnwPD/
-+aJnIgf/ToUQYfZo6xWK3DdR3bpjdvle1Ik9g0uNL7ssq9N69hA6XrQY+vKPL47P
-JUan1dKBhtDgYzIl4V/DDovoMziczAfRzHk0vZHAq/LzomJJhSTWbIe/drw62eF2
-co7jWmmcReHdo3aznFOINizeNIUNPl8E01ai0YAOs6ikRGxKEG57rIheV28bJKWT
-J07HB9c784bylAOhLQVAfSwj2YKx2XkHrETX/47HUz7nXo4DLuIhX/CsHRI6rpzy
-INYo3uApVyTTDIBg7lI/hnlwNvg1TfePtO6Jans4awIzpGL/nQI0bUjVzwxT1G8q
-GZZ50V+BO6vcnykQ1vtEYmcVKuLaIw==
-=6fJG
------END PGP SIGNATURE-----
-
---PEIAKu/WMn1b1Hv9--
+> ---
+>  include/exec/confidential-guest-support.h | 24 +++++++++++++++++++++++
+>  softmmu/vl.c                              | 10 ++++++++++
+>  target/i386/sev.c                         |  2 ++
+>  3 files changed, 36 insertions(+)
+> 
+> diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
+> index 3db6380e63..5dcf602047 100644
+> --- a/include/exec/confidential-guest-support.h
+> +++ b/include/exec/confidential-guest-support.h
+> @@ -27,6 +27,30 @@ OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
+>  
+>  struct ConfidentialGuestSupport {
+>      Object parent;
+> +
+> +    /*
+> +     * ready: flag set by CGS initialization code once it's ready to
+> +     *        start executing instructions in a potentially-secure
+> +     *        guest
+> +     *
+> +     * The definition here is a bit fuzzy, because this is essentially
+> +     * part of a self-sanity-check, rather than a strict mechanism.
+> +     *
+> +     * It's not fasible to have a single point in the common machine
+> +     * init path to configure confidential guest support, because
+> +     * different mechanisms have different interdependencies requiring
+> +     * initialization in different places, often in arch or machine
+> +     * type specific code.  It's also usually not possible to check
+> +     * for invalid configurations until that initialization code.
+> +     * That means it would be very easy to have a bug allowing CGS
+> +     * init to be bypassed entirely in certain configurations.
+> +     *
+> +     * Silently ignoring a requested security feature would be bad, so
+> +     * to avoid that we check late in init that this 'ready' flag is
+> +     * set if CGS was requested.  If the CGS init hasn't happened, and
+> +     * so 'ready' is not set, we'll abort.
+> +     */
+> +    bool ready;
+>  };
+>  
+>  typedef struct ConfidentialGuestSupportClass {
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 1b464e3474..1869ed54a9 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -101,6 +101,7 @@
+>  #include "qemu/plugin.h"
+>  #include "qemu/queue.h"
+>  #include "sysemu/arch_init.h"
+> +#include "exec/confidential-guest-support.h"
+>  
+>  #include "ui/qemu-spice.h"
+>  #include "qapi/string-input-visitor.h"
+> @@ -2497,6 +2498,8 @@ static void qemu_create_cli_devices(void)
+>  
+>  static void qemu_machine_creation_done(void)
+>  {
+> +    MachineState *machine = MACHINE(qdev_get_machine());
+> +
+>      /* Did we create any drives that we failed to create a device for? */
+>      drive_check_orphaned();
+>  
+> @@ -2516,6 +2519,13 @@ static void qemu_machine_creation_done(void)
+>  
+>      qdev_machine_creation_done();
+>  
+> +    if (machine->cgs) {
+> +        /*
+> +         * Verify that Confidential Guest Support has actually been initialized
+> +         */
+> +        assert(machine->cgs->ready);
+> +    }
+> +
+>      if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+>          exit(1);
+>      }
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 590cb31fa8..f9e9b5d8ae 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -737,6 +737,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+>      qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
+>      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
+>  
+> +    cgs->ready = true;
+> +
+>      return 0;
+>  err:
+>      sev_guest = NULL;
+> -- 
+> 2.29.2
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
