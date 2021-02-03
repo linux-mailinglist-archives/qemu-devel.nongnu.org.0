@@ -2,67 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F5B30D32C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 06:52:29 +0100 (CET)
-Received: from localhost ([::1]:40190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DECA230D32B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 06:50:33 +0100 (CET)
+Received: from localhost ([::1]:37456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7B5Y-0001qt-7u
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 00:52:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44720)
+	id 1l7B3g-0000X6-Eh
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 00:50:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7B3p-0001FI-I0
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 00:50:41 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58940)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7B2N-000804-OO
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 00:49:11 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:46024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7B3n-0007bS-79
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 00:50:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l7B3l-0004QC-72
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 05:50:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 28DA72E8135
- for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 05:50:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7B2L-0006qk-GO
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 00:49:11 -0500
+Received: by mail-pg1-x535.google.com with SMTP id v19so16537382pgj.12
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 21:49:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bgeMERJZbFZAc6USC3fjOyLoKU/bLq3+UFxkbpKL4/c=;
+ b=Xpjp5dZ+P0LfHwzKIU8RZnRcTQUVHQ7bMCYevrq0rtYbsA8UwJI7cg7VB6MsERr9I1
+ u6KuC7nEbcyEPaqSMfhABJ+oL7RWElKXQGkgxlJTUGMdWerGze2aB1EsP1xORXf9Dpbf
+ J9BBBcSWXtLjxRnDtOxt1i/ZRRsv0fa11u5jApARLGQ0gf+2uAciJv7aSFdfq3n1Rszp
+ 4jxNYMg8vVeKNpwKQi7P/GEHywldEMDu+JRGPO0Ry5WwSIDVyO0h4bE09+dPLECk31oo
+ 1u3b9BuhjhekjgTHhVHKt6WnTw/X5jGbHKaX+4r3SZmavPgdoLDy+QwebFcsP7AxP6Wi
+ N0Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bgeMERJZbFZAc6USC3fjOyLoKU/bLq3+UFxkbpKL4/c=;
+ b=YICPmC6jfFgYk+kEUmokEEx9HCFXa7lke0xndyCGEI7M/2h0aptQzadWZGvIXkxF5w
+ jrCsRnXaf63ob6HV4rMEmsfxvhGjLtnmRYRQyOx94yj5XLl2V+bqvRfnjxfII1upnQGc
+ LCfEpSGqY091unI6fYkrwHO1+uFHFtRq6NZ9iFYgG3q1ipyDo/YHpQtCfBpQ9nj/LaHw
+ ErnNgmLRxUrduGI5Q8mjO8/EE4dll26EUMuZ6IgsMElpi/T70JcJXtzFollBgyPnW4sj
+ ew5kuECDn1PzUdNc5hgMeHBv4dnnMm6nAsvqYoef/rt6H0QsXC8y5bvfmLmqCNzCpoHq
+ +U4Q==
+X-Gm-Message-State: AOAM530EGld6gAntf3MkKi1XiytwmzS/mBb+zCdszAG0c8yzlcp4rXLJ
+ MaAmPr7d/LSW6kGkUQKUFLOf+g==
+X-Google-Smtp-Source: ABdhPJyAuBo/HEYPIHZXHgVqx5Nppt0hjv/zo1Z6waAMtTGrtvDiZq1q9XiwGKs0wGtRfE84TIq6pQ==
+X-Received: by 2002:a62:e30e:0:b029:1b9:3823:4b3a with SMTP id
+ g14-20020a62e30e0000b02901b938234b3amr1574694pfh.15.1612331347982; 
+ Tue, 02 Feb 2021 21:49:07 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id b206sm792760pfb.73.2021.02.02.21.49.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Feb 2021 21:49:07 -0800 (PST)
+Subject: Re: [PATCH v4 01/23] tcg: Introduce target-specific page data for
+ user-only
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210128224141.638790-1-richard.henderson@linaro.org>
+ <20210128224141.638790-2-richard.henderson@linaro.org>
+ <CAFEAcA8r5+ciCFb0kPC1bAi-kU53iJBiLf7Jiso-gr2cOBtxeQ@mail.gmail.com>
+ <ededd9b5-5836-b1c4-9fc8-e732bf1c2204@linaro.org>
+Message-ID: <2aaedf0e-3594-13a7-7576-8e0566464224@linaro.org>
+Date: Tue, 2 Feb 2021 19:49:04 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Feb 2021 05:45:06 -0000
-From: P J P <1914353@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: cve security
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: pjps
-X-Launchpad-Bug-Reporter: P J P (pjps)
-X-Launchpad-Bug-Modifier: P J P (pjps)
-References: <161232963154.25287.15149381600371735783.malonedeb@wampee.canonical.com>
-Message-Id: <161233110689.2019.7301464997786322710.malone@gac.canonical.com>
-Subject: [Bug 1914353] Re: QEMU: aarch64: :GIC: out-of-bounds access via
- interrupt ID
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: 2278c0ecadd2344ab59a27dedb6925b9b855249e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <ededd9b5-5836-b1c4-9fc8-e732bf1c2204@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.155,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,77 +92,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914353 <1914353@bugs.launchpad.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CVE requested.
+On 2/2/21 4:40 PM, Richard Henderson wrote:
+> Well, here's the thing: this appears to be v3, reposted.
+> 
+> All of the work I did for v4 has gone missing.  I went to go fix the single use
+> of current_cpu, and it wasn't where I expected it to be, and that's when I
+> noticed.  I'm grepping blobs now, but I must have made some horrible git error.
+>  :-(
 
--- =
+It's not quite that bad.  About half of the changes are here.
+But e.g. patch 11 had been split into at least 4, and those are all missing.  I
+presume all of the r-b that I collected before that point got lost at the same
+time.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914353
 
-Title:
-  QEMU: aarch64: :GIC: out-of-bounds access via interrupt ID
-
-Status in QEMU:
-  New
-
-Bug description:
-  Via [qemu-security] list
-
-  +-- On Sun, 31 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote --+
-  | On 1/31/21 11:34 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-  | > Per the ARM Generic Interrupt Controller Architecture specification
-  | > (document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
-  | > not 10:
-  | >
-  | >    - Table 4-21 GICD_SGIR bit assignments
-  | >
-  | >    The Interrupt ID of the SGI to forward to the specified CPU
-  | >    interfaces. The value of this field is the Interrupt ID, in
-  | >    the range 0-15, for example a value of 0b0011 specifies
-  | >    Interrupt ID 3.
-  | >
-  ...
-  | > Correct the irq mask to fix an undefined behavior (which eventually
-  | > lead to a heap-buffer-overflow, see [Buglink]):
-  | >
-  | >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt=
-,accel=3Dqtest -qtest stdio
-  | >    [I 1612088147.116987] OPENED
-  | >  [R +0.278293] writel 0x8000f00 0xff4affb0
-  | >  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds=
- for type 'uint8_t [16][8]'
-  | >  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/a=
-rm_gic.c:1498:13
-  | >
-  | > Cc: qemu-stable@nongnu.org
-  | > Fixes: 9ee6e8bb853 ("ARMv7 support.")
-  | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
-  | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
-  ...
-
-  On 210202 1221, Peter Maydell wrote:
-  > In both cases the overrun is on the first writel to 0x8000f00,
-  > but the fuzzer has for some reason not reported that but instead
-  > blundered on until it happens to trigger some other issue that
-  > resulted from the memory corruption it induced with the first write.
-  >
-  ...
-  > On the CVE:
-  >
-  > Since this can affect systems using KVM, this is a security bug for
-  > us. However, it only affects an uncommon configuration:
-  > you are only vulnerable if you are using "kernel-irqchip=3Doff"
-  > (the default is 'on', and turning it off is an odd thing to do).
-  >
-  > thanks
-  > -- PMM
-  >
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914353/+subscriptions
+r~
 
