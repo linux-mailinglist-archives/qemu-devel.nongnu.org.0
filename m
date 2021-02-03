@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB4C30E13B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:39:05 +0100 (CET)
-Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2898830E0E6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 18:25:44 +0100 (CET)
+Received: from localhost ([::1]:46948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7M7M-0003YE-91
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:39:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38080)
+	id 1l7LuR-00017P-2I
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 12:25:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7Loj-0004Gh-Hm
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:19:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34220)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7Loo-0004L6-Ao
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:19:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7Log-0003rH-EY
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:19:49 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7Lol-0003s8-3l
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:19:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612372785;
+ s=mimecast20190719; t=1612372790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7nr90Yzwoq06/56xL6reoAmyLnIJp44T6sVIESCbk0s=;
- b=Cd4jV5XgcNUh1EiDdSdI2H40TIFtfUBkBXyKFlmW0FtwEEYZ8oKpth2xI5OQX7UgPL1lAe
- 0932KKu+EXD1UtWqKv1sYggnZSObbiQpJQyD7B6M/urOEanjNOkgwkGPUuA9EPQg7iad62
- cAXCYYH6SYImdhZPfZL2pk9yrnYEUUc=
+ bh=mJY/cGKSL/CUJEXgY5804aFPSKvib7o1+hs7CdYXhEU=;
+ b=KpBx9EeDMAbHdMXAXGc0GfKEdTNtZKExQE3Got08D/Q6QkgbMDudDtLofz8a5YP8kGea8o
+ 0AS7ft24VwvTdCXPGMYEx+zGB1aL/kHvgKjneoHBzAchuxdRKfE79gvqjE/3xrVJBhYCU+
+ +d0UjXnqZrIdK4Qe1ZzRVu6PUVUJhjA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-Xx6NzrIxNu2RXWd6X5CyEg-1; Wed, 03 Feb 2021 12:19:44 -0500
-X-MC-Unique: Xx6NzrIxNu2RXWd6X5CyEg-1
+ us-mta-200-O5-R4rHzPFuMh7Wdoq4L_w-1; Wed, 03 Feb 2021 12:19:46 -0500
+X-MC-Unique: O5-R4rHzPFuMh7Wdoq4L_w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 231FD8030BC;
- Wed,  3 Feb 2021 17:19:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBD05107ACF4;
+ Wed,  3 Feb 2021 17:19:45 +0000 (UTC)
 Received: from thuth.com (ovpn-112-165.ams2.redhat.com [10.36.112.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03F895C238;
- Wed,  3 Feb 2021 17:19:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B3DB61D33;
+ Wed,  3 Feb 2021 17:19:43 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 3/4] hw/virtio/virtio-balloon: Remove the "class" property
-Date: Wed,  3 Feb 2021 18:18:31 +0100
-Message-Id: <20210203171832.483176-4-thuth@redhat.com>
+Subject: [PATCH 4/4] hw/usb/bus: Remove the "full-path" property
+Date: Wed,  3 Feb 2021 18:18:32 +0100
+Message-Id: <20210203171832.483176-5-thuth@redhat.com>
 In-Reply-To: <20210203171832.483176-1-thuth@redhat.com>
 References: <20210203171832.483176-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,50 +84,55 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This property was only required for compatibility reasons in the
-pc-1.0 machine type and earlier. Now that these machine types have
-been removed, the property is not useful anymore.
+This property was only required for the pc-1.0 and earlier machine
+types. Since these have been removed now, we can delete the property
+as well.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/virtio/virtio-balloon-pci.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ hw/usb/bus.c     | 7 +------
+ include/hw/usb.h | 2 +-
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/hw/virtio/virtio-balloon-pci.c b/hw/virtio/virtio-balloon-pci.c
-index a2c5cc7207..79a3ba979a 100644
---- a/hw/virtio/virtio-balloon-pci.c
-+++ b/hw/virtio/virtio-balloon-pci.c
-@@ -34,21 +34,13 @@ struct VirtIOBalloonPCI {
-     VirtIOPCIProxy parent_obj;
-     VirtIOBalloon vdev;
- };
--static Property virtio_balloon_pci_properties[] = {
--    DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
--    DEFINE_PROP_END_OF_LIST(),
--};
- 
- static void virtio_balloon_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+diff --git a/hw/usb/bus.c b/hw/usb/bus.c
+index 064f94e9c3..df7411fea8 100644
+--- a/hw/usb/bus.c
++++ b/hw/usb/bus.c
+@@ -19,8 +19,6 @@ static void usb_qdev_unrealize(DeviceState *qdev);
+ static Property usb_props[] = {
+     DEFINE_PROP_STRING("port", USBDevice, port_path),
+     DEFINE_PROP_STRING("serial", USBDevice, serial),
+-    DEFINE_PROP_BIT("full-path", USBDevice, flags,
+-                    USB_DEV_FLAG_FULL_PATH, true),
+     DEFINE_PROP_BIT("msos-desc", USBDevice, flags,
+                     USB_DEV_FLAG_MSOS_DESC_ENABLE, true),
+     DEFINE_PROP_STRING("pcap", USBDevice, pcap_filename),
+@@ -596,11 +594,8 @@ static char *usb_get_dev_path(DeviceState *qdev)
  {
-     VirtIOBalloonPCI *dev = VIRTIO_BALLOON_PCI(vpci_dev);
-     DeviceState *vdev = DEVICE(&dev->vdev);
+     USBDevice *dev = USB_DEVICE(qdev);
+     DeviceState *hcd = qdev->parent_bus->parent;
+-    char *id = NULL;
++    char *id = qdev_get_dev_path(hcd);
  
--    if (vpci_dev->class_code != PCI_CLASS_OTHERS &&
--        vpci_dev->class_code != PCI_CLASS_MEMORY_RAM) { /* qemu < 1.1 */
--        vpci_dev->class_code = PCI_CLASS_OTHERS;
+-    if (dev->flags & (1 << USB_DEV_FLAG_FULL_PATH)) {
+-        id = qdev_get_dev_path(hcd);
 -    }
--
-+    vpci_dev->class_code = PCI_CLASS_OTHERS;
-     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
- }
+     if (id) {
+         char *ret = g_strdup_printf("%s/%s", id, dev->port->path);
+         g_free(id);
+diff --git a/include/hw/usb.h b/include/hw/usb.h
+index abfbfc5284..c44b77dae0 100644
+--- a/include/hw/usb.h
++++ b/include/hw/usb.h
+@@ -216,7 +216,7 @@ struct USBEndpoint {
+ };
  
-@@ -59,7 +51,6 @@ static void virtio_balloon_pci_class_init(ObjectClass *klass, void *data)
-     PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-     k->realize = virtio_balloon_pci_realize;
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
--    device_class_set_props(dc, virtio_balloon_pci_properties);
-     pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
-     pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_BALLOON;
-     pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
+ enum USBDeviceFlags {
+-    USB_DEV_FLAG_FULL_PATH,
++    USB_DEV_FLAG_FULL_PATH,             /* unused since QEMU v6.0 */
+     USB_DEV_FLAG_IS_HOST,
+     USB_DEV_FLAG_MSOS_DESC_ENABLE,
+     USB_DEV_FLAG_MSOS_DESC_IN_USE,
 -- 
 2.27.0
 
