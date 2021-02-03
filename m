@@ -2,90 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04E830E261
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:21:01 +0100 (CET)
-Received: from localhost ([::1]:34952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A929F30E1CD
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:04:36 +0100 (CET)
+Received: from localhost ([::1]:52350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Mlw-0001Tq-Qm
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:21:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44846)
+	id 1l7MW3-0007oX-Ly
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:04:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7MEj-0005Qb-LH
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:46:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7MEi-0007t1-1J
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:46:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612374398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+0ZXIFDEkX8SG5LCJGOs3M0cM2KDSPKGjyLqJlmWoJM=;
- b=QL+akd3BcphHsxvKiykAya3HVo8kEicVm9h1Tz29CcH29JmPf3Z8TT2Zi5Crj9REk7Vo9d
- N7lXAHSLJ/nAxCfnUNjkbdzK/bthCQ9NxxmfBM4ddO+7pgpHEjvtYkDH0fUV+yCoubDzsp
- XNUhsVF4joc3JyfXPa1id/nQc4io7cI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-QMNbTndBMveXBCas7fsS3Q-1; Wed, 03 Feb 2021 12:46:36 -0500
-X-MC-Unique: QMNbTndBMveXBCas7fsS3Q-1
-Received: by mail-ed1-f70.google.com with SMTP id ay16so308745edb.2
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 09:46:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+0ZXIFDEkX8SG5LCJGOs3M0cM2KDSPKGjyLqJlmWoJM=;
- b=H1eMf/9+LuP0+gw6VYYmXDSiMUfJPZQVu3lgCyL666iGQQP+FDxroi52NJHJD3rJps
- zkwxUEodnbC4OZnDxhPDdV+dZf30HaccLYlzPQMDIVN3pgyo7JMzh4dA3iHow2D19D4d
- zmeFD9FDIw7j8nEE5wQcDhR3DHrbnhpv3U8cHrKIDefm4GmKNdR3VzInoGX/j1FJQAdY
- R+IpgvzZVSjUAB9ZD/VP5AHC+Vb+B7klSj/9SPUJspiZngDYdOWRUHtLwOLWcdFpaIti
- QYg0tJCU6IVKnkBHiPjn9yEfSvfWL2U4C4rgvxDNmMG4xyAgqHtq3w4IJ8evLMb6p31m
- 2jug==
-X-Gm-Message-State: AOAM532Yl6TQWcKBV8pDv6p6JsIXm+adGR79Xkha9ciOfPW6NIxGAA4A
- OeUp9PLYdx/B6rxaMEBJum9wYsiQ8Is4MDkU90C/JDUZNMgXIUU1FUGC5IjAbGld19i65BVA7QV
- cJpmXtp8bPFM/Los=
-X-Received: by 2002:aa7:ca55:: with SMTP id j21mr4157653edt.172.1612374395351; 
- Wed, 03 Feb 2021 09:46:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxDI0H9/pXMYjrgIs5Dr9DHnZENIud5j4/NlTpHKaxVGOTchLGTUlUoM3KnAU+11aDAIKQs8Q==
-X-Received: by 2002:aa7:ca55:: with SMTP id j21mr4157626edt.172.1612374395161; 
- Wed, 03 Feb 2021 09:46:35 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id u18sm1307020ejc.76.2021.02.03.09.46.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Feb 2021 09:46:34 -0800 (PST)
-Subject: Re: [PATCH 19/22] Acceptance Tests: add port redirection for ssh by
- default
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-20-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e0f187b2-8cc2-f187-a44c-e9448cbe5fc2@redhat.com>
-Date: Wed, 3 Feb 2021 18:46:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7MFZ-0006YN-Bj
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:47:33 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:58305)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7MFX-0007za-4R
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:47:33 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.186])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 082458234E9C;
+ Wed,  3 Feb 2021 18:47:27 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 3 Feb 2021
+ 18:47:27 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R00330987d28-1862-4953-b50f-915fddf2a586,
+ 14764A637080470E006017DF0F40374BD57DCD59) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 3 Feb 2021 18:47:26 +0100
+From: Greg Kurz <groug@kaod.org>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v4 1/3] virtiofsd: extract lo_do_open() from lo_open()
+Message-ID: <20210203184726.339bd944@bahia.lan>
+In-Reply-To: <20210203164510.08ab60db@bahia.lan>
+References: <20210203113719.83633-1-stefanha@redhat.com>
+ <20210203113719.83633-2-stefanha@redhat.com>
+ <20210203152035.374924b9@bahia.lan> <20210203144730.GJ2950@work-vm>
+ <20210203164510.08ab60db@bahia.lan>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210203172357.1422425-20-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 8af1dfb3-f71e-4dd8-8417-c1c31f9b39c5
+X-Ovh-Tracer-Id: 16262216781422631346
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrgedvgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepvhhgohihrghlsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,43 +70,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
+ qemu-devel@nongnu.org, P J P <ppandit@redhat.com>, virtio-fs@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/21 6:23 PM, Cleber Rosa wrote:
-> For users of the LinuxTest class, let's set up the VM with the port
-> redirection for SSH, instead of requiring each test to set the same
-> arguments.
-> 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  tests/acceptance/avocado_qemu/__init__.py | 2 ++
->  tests/acceptance/virtiofs_submounts.py    | 4 ----
->  2 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index 5f4dd6b9ec..89669cc604 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -301,6 +301,8 @@ class LinuxTest(Test, LinuxSSHMixIn):
->          super(LinuxTest, self).setUp()
->          self.vm.add_args('-smp', '2')
->          self.vm.add_args('-m', '1024')
-> +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-> +                         '-device', 'virtio-net,netdev=vnet')
+On Wed, 3 Feb 2021 16:45:10 +0100
+Greg Kurz <groug@kaod.org> wrote:
 
-You need a machine with a virtio-bus to be able to plug a virtio device,
-not all provide one.
+> On Wed, 3 Feb 2021 14:47:30 +0000
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> 
+> > * Greg Kurz (groug@kaod.org) wrote:
+> > > On Wed,  3 Feb 2021 11:37:17 +0000
+> > > Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > > 
+> > > > Both lo_open() and lo_create() have similar code to open a file. Extract
+> > > > a common lo_do_open() function from lo_open() that will be used by
+> > > > lo_create() in a later commit.
+> > > > 
+> > > > Since lo_do_open() does not otherwise need fuse_req_t req, convert
+> > > > lo_add_fd_mapping() to use struct lo_data *lo instead.
+> > > > 
+> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > > ---
+> > > 
+> > > With the s/ENOMEM/-ENOMEM/ change in lo_do_open() suggested by patchew,
+> > 
+> > Isn't it actually the return -errno that's different from the original?
+> > 
+> 
+> Yes and this is expected. The original sits in the top level handler
+> lo_open() which sends the reply back to the client and doesn't have
+> a return value, while lo_do_open() has a return value which should be
+> 0 or negative.
+> 
+
+I got it backwards of course... sorry for the noise :)
+
+Cheers,
+
+--
+Greg
+
+> > Dave
+> > 
+> > > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > > 
+> > > >  tools/virtiofsd/passthrough_ll.c | 73 ++++++++++++++++++++------------
+> > > >  1 file changed, 46 insertions(+), 27 deletions(-)
+> > > > 
+> > > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > > > index 5fb36d9407..e63cbd3fb7 100644
+> > > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > > @@ -459,17 +459,17 @@ static void lo_map_remove(struct lo_map *map, size_t key)
+> > > >  }
+> > > >  
+> > > >  /* Assumes lo->mutex is held */
+> > > > -static ssize_t lo_add_fd_mapping(fuse_req_t req, int fd)
+> > > > +static ssize_t lo_add_fd_mapping(struct lo_data *lo, int fd)
+> > > >  {
+> > > >      struct lo_map_elem *elem;
+> > > >  
+> > > > -    elem = lo_map_alloc_elem(&lo_data(req)->fd_map);
+> > > > +    elem = lo_map_alloc_elem(&lo->fd_map);
+> > > >      if (!elem) {
+> > > >          return -1;
+> > > >      }
+> > > >  
+> > > >      elem->fd = fd;
+> > > > -    return elem - lo_data(req)->fd_map.elems;
+> > > > +    return elem - lo->fd_map.elems;
+> > > >  }
+> > > >  
+> > > >  /* Assumes lo->mutex is held */
+> > > > @@ -1651,6 +1651,38 @@ static void update_open_flags(int writeback, int allow_direct_io,
+> > > >      }
+> > > >  }
+> > > >  
+> > > > +static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+> > > > +                      struct fuse_file_info *fi)
+> > > > +{
+> > > > +    char buf[64];
+> > > > +    ssize_t fh;
+> > > > +    int fd;
+> > > > +
+> > > > +    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+> > > > +
+> > > > +    sprintf(buf, "%i", inode->fd);
+> > > > +    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> > > > +    if (fd == -1) {
+> > > > +        return -errno;
+> > > > +    }
+> > > > +
+> > > > +    pthread_mutex_lock(&lo->mutex);
+> > > > +    fh = lo_add_fd_mapping(lo, fd);
+> > > > +    pthread_mutex_unlock(&lo->mutex);
+> > > > +    if (fh == -1) {
+> > > > +        close(fd);
+> > > > +        return ENOMEM;
+> > > > +    }
+> > > > +
+> > > > +    fi->fh = fh;
+> > > > +    if (lo->cache == CACHE_NONE) {
+> > > > +        fi->direct_io = 1;
+> > > > +    } else if (lo->cache == CACHE_ALWAYS) {
+> > > > +        fi->keep_cache = 1;
+> > > > +    }
+> > > > +    return 0;
+> > > > +}
+> > > > +
+> > > >  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+> > > >                        mode_t mode, struct fuse_file_info *fi)
+> > > >  {
+> > > > @@ -1691,7 +1723,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+> > > >          ssize_t fh;
+> > > >  
+> > > >          pthread_mutex_lock(&lo->mutex);
+> > > > -        fh = lo_add_fd_mapping(req, fd);
+> > > > +        fh = lo_add_fd_mapping(lo, fd);
+> > > >          pthread_mutex_unlock(&lo->mutex);
+> > > >          if (fh == -1) {
+> > > >              close(fd);
+> > > > @@ -1892,38 +1924,25 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
+> > > >  
+> > > >  static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+> > > >  {
+> > > > -    int fd;
+> > > > -    ssize_t fh;
+> > > > -    char buf[64];
+> > > >      struct lo_data *lo = lo_data(req);
+> > > > +    struct lo_inode *inode = lo_inode(req, ino);
+> > > > +    int err;
+> > > >  
+> > > >      fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino,
+> > > >               fi->flags);
+> > > >  
+> > > > -    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+> > > > -
+> > > > -    sprintf(buf, "%i", lo_fd(req, ino));
+> > > > -    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> > > > -    if (fd == -1) {
+> > > > -        return (void)fuse_reply_err(req, errno);
+> > > > -    }
+> > > > -
+> > > > -    pthread_mutex_lock(&lo->mutex);
+> > > > -    fh = lo_add_fd_mapping(req, fd);
+> > > > -    pthread_mutex_unlock(&lo->mutex);
+> > > > -    if (fh == -1) {
+> > > > -        close(fd);
+> > > > -        fuse_reply_err(req, ENOMEM);
+> > > > +    if (!inode) {
+> > > > +        fuse_reply_err(req, EBADF);
+> > > >          return;
+> > > >      }
+> > > >  
+> > > > -    fi->fh = fh;
+> > > > -    if (lo->cache == CACHE_NONE) {
+> > > > -        fi->direct_io = 1;
+> > > > -    } else if (lo->cache == CACHE_ALWAYS) {
+> > > > -        fi->keep_cache = 1;
+> > > > +    err = lo_do_open(lo, inode, fi);
+> > > > +    lo_inode_put(lo, &inode);
+> > > > +    if (err) {
+> > > > +        fuse_reply_err(req, err);
+> > > > +    } else {
+> > > > +        fuse_reply_open(req, fi);
+> > > >      }
+> > > > -    fuse_reply_open(req, fi);
+> > > >  }
+> > > >  
+> > > >  static void lo_release(fuse_req_t req, fuse_ino_t ino,
+> > > 
+> 
+> 
 
 
