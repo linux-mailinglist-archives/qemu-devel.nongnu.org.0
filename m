@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAC830DCBD
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:29:09 +0100 (CET)
-Received: from localhost ([::1]:58136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9698B30DCBE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:29:26 +0100 (CET)
+Received: from localhost ([::1]:58702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7J9Y-0001SX-R8
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:29:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46208)
+	id 1l7J9o-0001go-T6
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:29:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l7J5Z-0005Do-9e; Wed, 03 Feb 2021 09:25:01 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:35175)
+ id 1l7J5d-0005O9-Bi; Wed, 03 Feb 2021 09:25:05 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l7J5W-000098-Vs; Wed, 03 Feb 2021 09:25:00 -0500
-Received: by mail-ej1-x635.google.com with SMTP id a9so17676365ejr.2;
- Wed, 03 Feb 2021 06:24:58 -0800 (PST)
+ id 1l7J5b-0000Cg-Ie; Wed, 03 Feb 2021 09:25:05 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id y8so11936511ede.6;
+ Wed, 03 Feb 2021 06:25:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=shmuImXb78Qso4rl4jfZzpUvLVqAKTSdKCsX9HuBPTQ=;
- b=eg3w4UXdc5UjjQquH8ghBwf7hETyi5sFt80rI20LESMoNVejBzJ+bJDdJNmt4gdyl4
- AfFU/y2tz5n/JNljPYT3NO/zc4lsLpEdRnbTdv6aicTdRjeo1aqVUqddLWoPa+u5rUYX
- QIapcNVBWWJGlMltShD7mKyVkuyG5EEubY2K2/i5KiIZmN+QVU/8RPEyIGCN3VcXrNSv
- hT2rrZmNO7Djc3ISMJxWQguTxfvcN/KTQBf3OreEjz//vhTT4uLc+/wHgpj6dd06lvqM
- ObrTtM9ZRh25oGAhp8mkTk9/RUh5KLrjjERAal+DCh/2qaTL0Tvoklxt6XNqMbbX/eys
- W9EQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kaP3R/qu+ldSx+S+KGlvJ4b2oIxu41EJJ0K98J8iP7k=;
+ b=WwzdnJbj+SOOL117rWxBEL5qfmMM/9wrQDV1XF5bYvoxcxHb8x+Q9PiGnxPwxlHWOo
+ E5lTuqga2B28aYU3+xFA4W/ekx5dxQ0eUDPPVu6moHNfBygswPKb3FucGIAIZxOJtfw4
+ doYXYF0SYatvvsWmdN8GwWEmuusn2d+F+47ytL9QSe5D4nzbaIbzHyltSX0KzdhDq0hP
+ GiQ9Kr+UXT/WlYHxjEXmxHiWIBnPjOYzgBB3CPFilrf/dZ3EvGljbi1BoT3k9XW5LtYe
+ w24VpzgTIzFbsG4E1PXmMKcQCIhQfwsr+GG8wGR96N+/dd9pMwt51+YUgAKHfZ5u11QD
+ BdZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=shmuImXb78Qso4rl4jfZzpUvLVqAKTSdKCsX9HuBPTQ=;
- b=aLQzAyScadCaXL0FqY+Ynz2NEXZOh4aUk1uNimVsCU3jDRLRh7qfCTA5aFcUKGUYy9
- tL7oRwTDUrp0jYel39la4z5RFo45NUYTAorQUqITdvwr13PxMuxtWTGh5ufL8I7w8O5s
- 7oii3oti2eFz2Hhc+5dlsIdj6K1zQB5blcMydvVdQkb0oAvV172K1IsVX4u4AM1I2IJJ
- RX0anqz4ZJ7U5Zoe+QePW+ZFFBK+WPjDO0JtpNw3iWP8deunxg2A9p8Tuzyb0ejzMk2f
- JXx1Z8WS7bnLhxsnhf3ekpBLeyiHxXF0/D9CRUjwjZOu2xcx6Z7SRHMvQQK37SzyHhCb
- v8QA==
-X-Gm-Message-State: AOAM533AbMOji5SGTGLhofewFWUT3zFTBpMW07QfnPPZOFkDujf7+KkD
- DKcdjAIyDwkn84KGo0baz6bU9wKN86M=
-X-Google-Smtp-Source: ABdhPJzPp0lK3Ay5Bfg+aXmEfh7PQfy/XEKXnY6aj9i5/UIuANHfDuBnBcelVWuim7jhbfW3d/NHuQ==
-X-Received: by 2002:a17:906:17d7:: with SMTP id
- u23mr748980eje.390.1612362297125; 
- Wed, 03 Feb 2021 06:24:57 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kaP3R/qu+ldSx+S+KGlvJ4b2oIxu41EJJ0K98J8iP7k=;
+ b=Tue0UKRmprUwKOwk4pKriKmbls1Xvjt/vLVQ6iweNevZakOPsmCv4YLfJ95cpvHdwF
+ Om0z0BKTozjpqc7GIhMiVIc+U9u7kbGUOpk7eKGm/BBcmOmKDguL5JebDbmBifF95TxN
+ zCOBnAZOYFK2yS7k2ZaXdLgyEgh2DbmNTNHthYLSxppyZsvgGnGEm6fJrU4yEtcExwEZ
+ R1X9zXF18bAHOW/acr8aOm0E3tpoJKMgXCbPfoj+CTGBgMX6VgE+PKxyMt0/UCYKr7hQ
+ oGnfnmzJFIvmFVYrPqm00Dcdwu5ceMAzlDHd0MgyotnA8I5bzb0AttYir8yPHAJ8YWQM
+ Iljg==
+X-Gm-Message-State: AOAM5335oBFBBIozu7Pgsu8IbN4og8dNjko8IXwVTIB+rrqs1vjVaOEW
+ dtJ8WUfCAgeC+PayPHLQ5o8=
+X-Google-Smtp-Source: ABdhPJwXLuJoMdYXfvzNG6aERVKVaejifERBNe+BIG3DZecE9KWBjHR2iW6r2Bt6FImvufvvCbTf1Q==
+X-Received: by 2002:a05:6402:1642:: with SMTP id
+ s2mr3078781edx.360.1612362301925; 
+ Wed, 03 Feb 2021 06:25:01 -0800 (PST)
 Received: from pek-vx-bsp2.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id p12sm982638edr.82.2021.02.03.06.24.53
+ by smtp.gmail.com with ESMTPSA id p12sm982638edr.82.2021.02.03.06.24.57
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Feb 2021 06:24:56 -0800 (PST)
+ Wed, 03 Feb 2021 06:25:01 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: David Gibson <david@gibson.dropbear.id.au>,
 	Greg Kurz <groug@kaod.org>
-Subject: [PATCH v2 1/2] hw/ppc: e500: Use a macro for the platform clock
- frequency
-Date: Wed,  3 Feb 2021 22:24:47 +0800
-Message-Id: <1612362288-22216-1-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH v2 2/2] hw/ppc: e500: Fill in correct <clock-frequency> for
+ the serial nodes
+Date: Wed,  3 Feb 2021 22:24:48 +0800
+Message-Id: <1612362288-22216-2-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1612362288-22216-1-git-send-email-bmeng.cn@gmail.com>
+References: <1612362288-22216-1-git-send-email-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,53 +93,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present the platform clock frequency is using a magic number.
-Convert it to a macro and use it everywhere.
+At present the <clock-frequency> property of the serial node is
+populated with value zero. U-Boot's ns16550 driver is not happy
+about this, so let's fill in a meaningful value.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 ---
 
-Changes in v2:
-- Rename the macro per Philippe's comments
+(no changes since v1)
 
- hw/ppc/e500.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/ppc/e500.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index c64b5d0..c795276 100644
+index c795276..01517a6 100644
 --- a/hw/ppc/e500.c
 +++ b/hw/ppc/e500.c
-@@ -74,6 +74,8 @@
- #define MPC8544_I2C_IRQ            43
- #define RTC_REGS_OFFSET            0x68
- 
-+#define PLATFORM_CLK_FREQ_HZ       (400 * 1000 * 1000)
-+
- struct boot_info
- {
-     uint32_t dt_base;
-@@ -320,8 +322,8 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
-     int fdt_size;
-     void *fdt;
-     uint8_t hypercall[16];
--    uint32_t clock_freq = 400000000;
--    uint32_t tb_freq = 400000000;
-+    uint32_t clock_freq = PLATFORM_CLK_FREQ_HZ;
-+    uint32_t tb_freq = PLATFORM_CLK_FREQ_HZ;
-     int i;
-     char compatible_sb[] = "fsl,mpc8544-immr\0simple-bus";
-     char *soc;
-@@ -890,7 +892,7 @@ void ppce500_init(MachineState *machine)
-         env->spr_cb[SPR_BOOKE_PIR].default_value = cs->cpu_index = i;
-         env->mpic_iack = pmc->ccsrbar_base + MPC8544_MPIC_REGS_OFFSET + 0xa0;
- 
--        ppc_booke_timers_init(cpu, 400000000, PPC_TIMER_E500);
-+        ppc_booke_timers_init(cpu, PLATFORM_CLK_FREQ_HZ, PPC_TIMER_E500);
- 
-         /* Register reset handler */
-         if (!i) {
+@@ -126,7 +126,7 @@ static void dt_serial_create(void *fdt, unsigned long long offset,
+     qemu_fdt_setprop_string(fdt, ser, "compatible", "ns16550");
+     qemu_fdt_setprop_cells(fdt, ser, "reg", offset, 0x100);
+     qemu_fdt_setprop_cell(fdt, ser, "cell-index", idx);
+-    qemu_fdt_setprop_cell(fdt, ser, "clock-frequency", 0);
++    qemu_fdt_setprop_cell(fdt, ser, "clock-frequency", PLATFORM_CLK_FREQ_HZ);
+     qemu_fdt_setprop_cells(fdt, ser, "interrupts", 42, 2);
+     qemu_fdt_setprop_phandle(fdt, ser, "interrupt-parent", mpic);
+     qemu_fdt_setprop_string(fdt, "/aliases", alias, ser);
 -- 
 2.7.4
 
