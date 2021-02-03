@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2B230DD73
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 16:03:16 +0100 (CET)
-Received: from localhost ([::1]:52656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B2C30DD8A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 16:04:43 +0100 (CET)
+Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7JgZ-0002ZY-TU
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 10:03:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
+	id 1l7Jhx-0003zC-3S
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 10:04:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1l7Je1-0001Jm-3y; Wed, 03 Feb 2021 10:00:37 -0500
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:47724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1l7Jdw-0000Ep-AL; Wed, 03 Feb 2021 10:00:35 -0500
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 3FB642E14DE;
- Wed,  3 Feb 2021 18:00:26 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- khkBx7bRYC-0O08pajq; Wed, 03 Feb 2021 18:00:26 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1612364426; bh=VOm7AS6hywWWWtOPO4YKz7cOOAFaleY3jve9jh6YOD4=;
- h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
- b=sL/tdMEJ3R8S+r1gIVVQro/Hg6d4QnJpXtnljZsTHUMW2dJjtUar45gMoH23BpY0B
- RyXlVAU368YcT5YVJ9aBc9Br0Nw3zfwaRJUOnA7QKTfumGa+EsOWw7Ftf+2IK1Amhx
- k7RLqgw6djuO0s6NfeGbvY5To/XVpzN60rrSwUTc=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:316::1:11])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- UV2IDMYmnS-0Oo0p9pU; Wed, 03 Feb 2021 18:00:24 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Wed, 3 Feb 2021 18:00:20 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 1/4] block/nbd: fix drain dead-lock because of nbd
- reconnect-delay
-Message-ID: <20210203150020.GE2786@rvkaganb.lan>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kwolf@redhat.com, eblake@redhat.com, den@openvz.org
-References: <20200903190301.367620-1-vsementsov@virtuozzo.com>
- <20200903190301.367620-2-vsementsov@virtuozzo.com>
- <20210203105305.GA113539@rvkaganb.lan>
- <903d9c6f-b6ed-cff7-b2d3-29945165f6d0@virtuozzo.com>
- <20210203142140.GD2786@rvkaganb.lan>
- <e4387e05-4963-e335-3002-ddbbcf5aaf82@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7Jfn-0002fy-8T
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:02:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51465)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7Jfl-0001K8-Ch
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 10:02:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612364544;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6JMMRJI5+xvslKllJTsTL6nQ/JLc/gQX1Z2pX/05S2c=;
+ b=a8NYht6rbbXA0O63jrJC0fw1OqaRnYjYFxTfvS9nK99PNZ7Fvb1+ODftmWjWQvs9DcUNT5
+ PhB2SDHumqLBl+B4FTe3AvS/Z6POaLTX2zm68YERca+gVmzOUNmiBM4iAmNEQ/ucHczh/p
+ y1SeGAejBjDNVdeZuzY3x61atLwrv/0=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-zTeMx7pHPgemhTCZW-9yuQ-1; Wed, 03 Feb 2021 10:02:23 -0500
+X-MC-Unique: zTeMx7pHPgemhTCZW-9yuQ-1
+Received: by mail-ej1-f70.google.com with SMTP id dc21so12183908ejb.19
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 07:02:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6JMMRJI5+xvslKllJTsTL6nQ/JLc/gQX1Z2pX/05S2c=;
+ b=b3HKMerOgt5VomhzktlNbuDR1140bxMpViA8CMLwJeJ6hc8UkVdZrdlpVxDceDyTOS
+ 5aLdMViPOFt/AZonwQWqNLrEa1JY1l7w/pdkx4hJqiZWoK7jBKL6a0n6F4jSs6/csQ+x
+ drzu34UtuuiudDYM+Fo0WM5hzX8UKKapQi5Ogt1F2N5Z/GUCliB8MNJwUQey9v57h0h0
+ /oHSwKr1Rkq4nNS9/7CdN4mwQZ5rVsHphnK/xL6pP+YBIzQLmMJlzkD9bt2f4a1GzVmS
+ VTfN9Y2hGsbY5wyyiaX6uS5P+cTP0pWM7Qr/dg/NLde2exswVhUB71NGajXXC8axz0Bf
+ HNpQ==
+X-Gm-Message-State: AOAM531wV+iI2jcrxERvaJ6XU3GTV+dajd6Ybg8ijFNiKvVJabEPIYmQ
+ INpWk83slzU41mh2AhRF15CVSwLyR0SBzCr5isrZ579uqtP2ztIFQN0LiwZFxbiE7eAyXylpb9P
+ ZVFcGDgZjLGITPiI=
+X-Received: by 2002:a17:906:8519:: with SMTP id
+ i25mr3750640ejx.106.1612364542313; 
+ Wed, 03 Feb 2021 07:02:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyADEE+6YgsPDVsiwKUyTlYBP0X0ofpQt/B3WBp3DeFqHAoEp7ZZx3AZQKav+qj/+Kf1XC/zw==
+X-Received: by 2002:a17:906:8519:: with SMTP id
+ i25mr3750607ejx.106.1612364541989; 
+ Wed, 03 Feb 2021 07:02:21 -0800 (PST)
+Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.107])
+ by smtp.gmail.com with ESMTPSA id lo26sm1099833ejb.106.2021.02.03.07.02.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Feb 2021 07:02:21 -0800 (PST)
+Subject: Re: ARM Snapshots Not Backwards-Compatible
+To: Aaron Lindsay <aaron@os.amperecomputing.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <YBogDGJRU5pcDKmi@strawberry.localdomain>
+ <CAFEAcA-_N2CiNtjPi3hnk285Xdy3RuL8dY8QFhF0TnCydng6yA@mail.gmail.com>
+ <YBq6Ct8M6AfMr0Bx@strawberry.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2572efa4-8aa3-32e4-7559-f93e6522d284@redhat.com>
+Date: Wed, 3 Feb 2021 16:02:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e4387e05-4963-e335-3002-ddbbcf5aaf82@virtuozzo.com>
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <YBq6Ct8M6AfMr0Bx@strawberry.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,132 +102,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org
+Cc: Andrew Jones <drjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 03, 2021 at 05:44:34PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 03.02.2021 17:21, Roman Kagan wrote:
-> > On Wed, Feb 03, 2021 at 04:10:41PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > 03.02.2021 13:53, Roman Kagan wrote:
-> > > > On Thu, Sep 03, 2020 at 10:02:58PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > > > We pause reconnect process during drained section. So, if we have some
-> > > > > requests, waiting for reconnect we should cancel them, otherwise they
-> > > > > deadlock the drained section.
-> > > > > 
-> > > > > How to reproduce:
-> > > > > 
-> > > > > 1. Create an image:
-> > > > >      qemu-img create -f qcow2 xx 100M
-> > > > > 
-> > > > > 2. Start NBD server:
-> > > > >      qemu-nbd xx
-> > > > > 
-> > > > > 3. Start vm with second nbd disk on node2, like this:
-> > > > > 
-> > > > >     ./build/x86_64-softmmu/qemu-system-x86_64 -nodefaults -drive \
-> > > > >        file=/work/images/cent7.qcow2 -drive \
-> > > > >        driver=nbd,server.type=inet,server.host=192.168.100.5,server.port=10809,reconnect-delay=60 \
-> > > > >        -vnc :0 -m 2G -enable-kvm -vga std
-> > > > > 
-> > > > > 4. Access the vm through vnc (or some other way?), and check that NBD
-> > > > >      drive works:
-> > > > > 
-> > > > >      dd if=/dev/sdb of=/dev/null bs=1M count=10
-> > > > > 
-> > > > >      - the command should succeed.
-> > > > > 
-> > > > > 5. Now, kill the nbd server, and run dd in the guest again:
-> > > > > 
-> > > > >      dd if=/dev/sdb of=/dev/null bs=1M count=10
-> > > > > 
-> > > > > Now Qemu is trying to reconnect, and dd-generated requests are waiting
-> > > > > for the connection (they will wait up to 60 seconds (see
-> > > > > reconnect-delay option above) and than fail). But suddenly, vm may
-> > > > > totally hang in the deadlock. You may need to increase reconnect-delay
-> > > > > period to catch the dead-lock.
-> > > > > 
-> > > > > VM doesn't respond because drain dead-lock happens in cpu thread with
-> > > > > global mutex taken. That's not good thing by itself and is not fixed
-> > > > > by this commit (true way is using iothreads). Still this commit fixes
-> > > > > drain dead-lock itself.
-> > > > > 
-> > > > > Note: probably, we can instead continue to reconnect during drained
-> > > > > section. To achieve this, we may move negotiation to the connect thread
-> > > > > to make it independent of bs aio context. But expanding drained section
-> > > > > doesn't seem good anyway. So, let's now fix the bug the simplest way.
-> > > > > 
-> > > > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > > > > ---
-> > > > >    block/nbd.c | 5 +++++
-> > > > >    1 file changed, 5 insertions(+)
-> > > > > 
-> > > > > diff --git a/block/nbd.c b/block/nbd.c
-> > > > > index 9daf003bea..912ea27be7 100644
-> > > > > --- a/block/nbd.c
-> > > > > +++ b/block/nbd.c
-> > > > > @@ -242,6 +242,11 @@ static void coroutine_fn nbd_client_co_drain_begin(BlockDriverState *bs)
-> > > > >        }
-> > > > >        nbd_co_establish_connection_cancel(bs, false);
-> > > > > +
-> > > > > +    if (s->state == NBD_CLIENT_CONNECTING_WAIT) {
-> > > > > +        s->state = NBD_CLIENT_CONNECTING_NOWAIT;
-> > > > > +        qemu_co_queue_restart_all(&s->free_sema);
-> > > > > +    }
-> > > > >    }
-> > > > >    static void coroutine_fn nbd_client_co_drain_end(BlockDriverState *bs)
-> > > > 
-> > > > This basically defeats the whole purpose of reconnect: if the nbd client
-> > > > is trying to reconnect, drain effectively cancels that and makes all
-> > > > in-flight requests to complete with an error.
-> > > > 
-> > > > I'm not suggesting to revert this patch (it's now in the tree as commit
-> > > > 8c517de24a), because the deadlock is no better, but I'm afraid the only
-> > > > real fix is to implement reconnect during the drain section.  I'm still
-> > > > trying to get my head around it so no patch yet, but I just wanted to
-> > > > bring this up in case anybody beats me to it.
-> > > > 
-> > > 
-> > > 
-> > > What do you mean by "reconnect during drained section"? Trying to
-> > > establish the connection? Or keeping in-flight requests instead of
-> > > cancelling them? We can't keep in-flight requests during drained
-> > > section, as it's the whole sense of drained-section: no in-flight
-> > > requests. So we'll have to wait for them at drain_begin (waiting up to
-> > > reconnect-delay, which doesn't seem good and triggers dead-lock for
-> > > non-iothread environment) or just cancel them..
-> > > 
-> > > Do you argue that waiting on drained-begin is somehow better than
-> > > cancelling?
-> > 
-> > Sorry I should have used more accurate wording to be clear.
-> > 
-> > Yes, my point is that canceling the requests on entry to a drained
-> > section is incorrect.  And no, it doesn't matter if it can be long:
-> > that's the price you pay for doing the drain.  Think of reconnect as a
-> > special case of a slow connection: if an nbd reply from the server is
-> > delayed for whatever reason without dropping the connection, you have to
-> > wait here, too.  (In fact, reconnect is even slightly better here since
-> > it has a configurable finite timeout while the message delay does not
-> > AFAIK.)
-> > 
-> > Does it make sense?
+On 2/3/21 3:58 PM, Aaron Lindsay wrote:
+> On Feb 03 10:01, Peter Maydell wrote:
+>>> The third is that meanings of the bits in env->features (as defined by
+>>> `enum arm_features` in target/arm/cpu.h) has shifted. For example,
+>>> ARM_FEATURE_PXN, ARM_FEATURE_CRC, ARM_FEATURE_VFP, ARM_FEATURE_VFP3,
+>>> ARM_FEATURE_VFP4 have all been removed and ARM_FEATURE_V8_1M has been
+>>> added since 4.1.0. Heck, even I have added a field there in the past.
+>>> Unfortunately, these additions/removals mean that when env->features is
+>>> saved on one version and restored on another the bits can mean different
+>>> things. Notably, the removal of the *VFP features means that a snapshot
+>>> of a CPU reporting it supports ARM_FEATURE_VFP3 on 4.1.0 thinks it's now
+>>> ARM_FEATURE_M on 5.2.0!
+>>
+>> Ow. I didn't realize the env->features was in the migration state :-(
+>> There is no reason for it to be, because it's a constant property
+>> of the CPU. The easy fix is to replace
+>>        VMSTATE_UINT64(env.features, ARMCPU),
+>> in target/arm/machine.c with whatever the syntax is for "ignore
+>> 64 bits of data here". Then we'll ignore whatever is coming in
+>> from the source, which we don't need, and we'll stop sending it
+>> out if we're the destination.
 > 
-> Hmm, yes..
+> I'll look into this.
+
+I think this is:
+
+  VMSTATE_UNUSED(sizeof(uint64_t))
+
 > 
-> But then we should fix the original deadlock some other way.
+> -Aaron
+> 
 
-Exactly.
-
-> Probably it will be possible only by using iothread for nbd node (I
-> failed to find original thread where someone said that iothreads is a
-> solution). And than we can do cancel in nbd_client_co_drain_begin()
-> only if bs doesn't have a separate iothread.
-
-Without this commit, I see qemu hang with nbd in an iothread, too.  I'll
-double-check if it's that very same deadlock or something else.
-
-Thanks,
-Roman.
 
