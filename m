@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C0E30E2F6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:00:35 +0100 (CET)
-Received: from localhost ([::1]:52308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D044A30E2F2
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:57:58 +0100 (CET)
+Received: from localhost ([::1]:50548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7NOD-00064M-HK
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:00:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36368)
+	id 1l7NLh-0005Hm-Ay
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:57:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l7NJi-0004QR-RI; Wed, 03 Feb 2021 13:55:54 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:40709)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l7NJg-0007zV-K1; Wed, 03 Feb 2021 13:55:54 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 5852E6AF;
- Wed,  3 Feb 2021 13:55:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 03 Feb 2021 13:55:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=QHwJKqfMfOME1hx5UzhZcJIJt/5
- ZG7DJoPDZECvFchw=; b=OCbwbhl1Bh3mQnP9kMATFexK+b5MBc4G09fOlgfU/UH
- aeRZ3JbTkjTbCku4J7IQ2o9vx3TGi/wpwP5v6yO/Dw/PZvPDqGaZ8vemDXhvDKd/
- XdchF+b599hHCUOBtv8WMtfbzm4yPQDoAGRnzivNkaRgH6BaAx+6r9En9gM/KanV
- WtmVZjlIv2nsRx8OhitadxPxf1gaSXZfIM8Iz/Elw9394waWTo63Zk/SNTMXWeT4
- wUabq/Ry+gJouf0MgAWHPgBxki8Hp+lFleGfYcKNpQbaXwF7O/sSQ/av+C7kq5I2
- hVAG1GpHHtBYzlVsZYoNzP7u2H71lNlyeo/YVvP6vtA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=QHwJKq
- fMfOME1hx5UzhZcJIJt/5ZG7DJoPDZECvFchw=; b=OOM2SXhzBXrRIhEP1E2V4U
- n13cvaMsPFHrySmtIOO3hbh066122W3rTmpf798RDeq0xTZEBCMu9cDP/48L3fc/
- 4JOfEoxK967MbVahG/ohRY8jeGC8bGa2Fh3f7inDtaAwiycppzb1hR1Fy/LcG8Vq
- CAaLasCwn+h2PEeNZPaEYzpxjINtqY9q0r2lWdcDABfF5lxP8N00N7I663R7MzY6
- oxVs28YSHSEsSQlbzGhKdGALwf+NxBUBjqYfdPvx8Gd/yEq6wv+7ILBAIhQxPiAV
- 3c8zuRCT80oicFwl0lfIYeJlFuwgcomCsHn0Z9T8Llu/bdiPcW87UIWP+XSYCSjQ
- ==
-X-ME-Sender: <xms:svEaYCG0D2g9-ch59Ym0HMOvOx3j5fnpzE4vqhaD31ZZmF4VP6vHPg>
- <xme:svEaYDV0517PrE7LH5qLAvHgxI6B3h2-8g-b0tmEiySi2nsFSOgoQj3z8b_QFcFMY
- EUzMOvwwo6A1A5KwqI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrgedvgdduudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:svEaYMJwMGlk2UzzOyZ4cxdUQEJk5dnVkTVyP_7zPf1P4BdVeXzw2g>
- <xmx:svEaYMG6qcJU5DfRIIK6wAUva660TQKTNoUb4Ldbi5H78URdodaw9g>
- <xmx:svEaYIWuPSSglm-36_gF3fWMIgiIaQS9dblEHgDsQb24dUDhJ5EF4A>
- <xmx:s_EaYKJjxjVy6kUOjpArZJG6l8ZaHrbIbzux1eEIUbacCOV3U0l6hA>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8A7F924005E;
- Wed,  3 Feb 2021 13:55:45 -0500 (EST)
-Date: Wed, 3 Feb 2021 19:55:43 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v5 4/5] nvme: updated shared header for copy command
-Message-ID: <YBrxrysIslChqwY2@apples.localdomain>
-References: <20210129091541.566330-1-its@irrelevant.dk>
- <20210129091541.566330-5-its@irrelevant.dk>
- <20210203172126.GC2182779@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l7NKW-0004ks-37
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:56:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39724)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l7NKT-0008Py-HA
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 13:56:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612378599;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qR8nD63Ep4bLgwXU7vjyA76Zc3Ax9YCITR2PYAuJq0M=;
+ b=AA3AJMcpD9DDrCrNJdSI4DdX45zv5V0VrlWTTO7apEK4q7LsfVzsEVvPXqeYeZGlQhWYtm
+ DmLhIdLJKcvke2ZqBmm6OytNw/W54xIYoYz7SAxAJD0DQyxUeWYPIA6ZgZmgmMMnao9klU
+ 0q2j0hrvvX+p01/lPerZGm9bqGdfndc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-WNi1y4LeOn2hwdq8sNfi2w-1; Wed, 03 Feb 2021 13:56:36 -0500
+X-MC-Unique: WNi1y4LeOn2hwdq8sNfi2w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 767929126F;
+ Wed,  3 Feb 2021 18:56:35 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
+ [10.97.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33F076091B;
+ Wed,  3 Feb 2021 18:56:31 +0000 (UTC)
+Subject: Re: [PATCH 4/6] travis.yml: Remove the --enable-debug jobs
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210203113243.280883-1-thuth@redhat.com>
+ <20210203113243.280883-5-thuth@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <651b8baa-0905-1221-fc04-21df43877989@redhat.com>
+Date: Wed, 3 Feb 2021 15:56:28 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2EYXWOdTfuq1Rgr6"
-Content-Disposition: inline
-In-Reply-To: <20210203172126.GC2182779@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210203113243.280883-5-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,90 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---2EYXWOdTfuq1Rgr6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2/3/21 8:32 AM, Thomas Huth wrote:
+> We already have such jobs in the gitlab-CI ("build-some-softmmu" and
+> "build-user-plugins"), so we can simply drop these from the Travis-CI.
 
-On Feb  3 09:21, Keith Busch wrote:
-> On Fri, Jan 29, 2021 at 10:15:40AM +0100, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > Add new data structures and types for the Simple Copy command.
-> >=20
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
-> > Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  include/block/nvme.h | 45 ++++++++++++++++++++++++++++++++++++++++++--
-> >  1 file changed, 43 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/include/block/nvme.h b/include/block/nvme.h
-> > index e4b918064df9..5977bcf0308a 100644
-> > --- a/include/block/nvme.h
-> > +++ b/include/block/nvme.h
-> > @@ -579,6 +579,7 @@ enum NvmeIoCommands {
-> >      NVME_CMD_COMPARE            =3D 0x05,
-> >      NVME_CMD_WRITE_ZEROES       =3D 0x08,
-> >      NVME_CMD_DSM                =3D 0x09,
-> > +    NVME_CMD_COPY               =3D 0x19,
-> >      NVME_CMD_ZONE_MGMT_SEND     =3D 0x79,
-> >      NVME_CMD_ZONE_MGMT_RECV     =3D 0x7a,
-> >      NVME_CMD_ZONE_APPEND        =3D 0x7d,
-> > @@ -724,6 +725,35 @@ typedef struct QEMU_PACKED NvmeDsmRange {
-> >      uint64_t    slba;
-> >  } NvmeDsmRange;
-> > =20
-> > +enum {
-> > +    NVME_COPY_FORMAT_0 =3D 0x0,
-> > +};
-> > +
-> > +typedef struct NvmeCopyCmd {
-> > +    uint8_t     opcode;
-> > +    uint8_t     flags;
-> > +    uint16_t    cid;
-> > +    uint32_t    nsid;
-> > +    uint32_t    rsvd2[4];
-> > +    NvmeCmdDptr dptr;
-> > +    uint64_t    sdlba;
-> > +    uint32_t    cdw12;
-> > +    uint32_t    cdw13;
->=20
-> Can we find better names for the fields within cdw's 12 and 13?
-> Something like:
->=20
->     uint8_t nr;
->     uint8_t control[3];
->     uint16_t rsvd13;
->     uint16_t dspec;
->=20
+Those jobs --enable-debug-tcg. Shouldn't at least one --enable-debug?
 
-Absolutely.
+- Wainer
 
-I honestly didn't think about doing an array-3 of those control bytes.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   .travis.yml | 12 ------------
+>   1 file changed, 12 deletions(-)
+>
+> diff --git a/.travis.yml b/.travis.yml
+> index 45dd017420..b3fc72f561 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -119,18 +119,6 @@ after_script:
+>   
+>   jobs:
+>     include:
+> -    # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
+> -    - name: "GCC debug (main-softmmu)"
+> -      env:
+> -        - CONFIG="--enable-debug --target-list=${MAIN_SOFTMMU_TARGETS}"
+> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
+> -
+> -
+> -    # TCG debug can be run just on its own and is mostly agnostic to user/softmmu distinctions
+> -    - name: "GCC debug (user)"
+> -      env:
+> -        - CONFIG="--enable-debug-tcg --disable-system"
+> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>   
+>   
+>       # Using newer GCC with sanitizers
 
---2EYXWOdTfuq1Rgr6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAa8aoACgkQTeGvMW1P
-Dek4VQf/X552+MkkiTuMPHTaUhg+xysfIpdWi0JtUIvqIZWXdSQquuiofNGvyNTH
-PoIULtj0U6ba1hEoOeOoE6J9kUui9f9UiySUuGRsbQDBC0dz6GuZjWQbeXcd2IzC
-JhTXJJCABQkZSZNpZvgbdV94c5i8XTBvkviUVCL9wXwMbqDt4pa/sm9GFDP+GYWA
-ynzRgKBqMJQjEe5XRXFr0QiCl2sR/dhihWqvwxLtIcSj52vhLFryugx2bTs5yTP6
-XR/fgpgVWc/WayIbeRNRYhIiqEtFHOawjEIE4yWvgiMllE2simm98SFG47FqK15U
-M6nueF9598j1+j09TO99//rIqTW2Aw==
-=RrXu
------END PGP SIGNATURE-----
-
---2EYXWOdTfuq1Rgr6--
 
