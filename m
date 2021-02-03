@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C31D30DB2F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 14:27:33 +0100 (CET)
-Received: from localhost ([::1]:50636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B2130DB35
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 14:29:13 +0100 (CET)
+Received: from localhost ([::1]:53410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7IBv-0001TS-Ua
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 08:27:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58896)
+	id 1l7IDY-0002hn-Ag
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 08:29:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l7I9Q-0000gP-6o
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:24:56 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:36271)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l7I9O-0006zs-D1
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:24:55 -0500
-Received: by mail-ed1-x532.google.com with SMTP id l12so720012edt.3
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 05:24:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lF/X7HLYwYH6OsAkoy2FzzaD/YnXxMTGl96BmWnUOw4=;
- b=QLcrD+1i1Pr+0nMo0wvcSbqtJEMVgx6WbDKGhzd9PGY/6gHgXfwDvlYa+3WjqKUd84
- ZufF1rT7uIsXf6QFwKRXJ7y2YLIqqAQMKld+5VPGu5IG1dyo9PZ0BNQhspib+gEDpXPw
- pxFY88vqqzmnefyOobWJQXntwJo4AV5dFs07/lKcBQ1lmUtywLVvWuQyP/J31xoEDVbY
- RoNJkEY/2npGHRiKlwr3I7nF7okg+ZU5Rki3oZgmF0qdcsEyP9tV2vPFfpzvHQuf64ua
- wss6CLMg4oi/GOuWvI1XQZIjtfvJLSZQDX1DcfizSJniuDOoHk1GBl0zhrFm2XqTnw45
- 5SSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=lF/X7HLYwYH6OsAkoy2FzzaD/YnXxMTGl96BmWnUOw4=;
- b=gdW7cGnKC1OrsfUVA2EzcEc68tRYULGIMmbIvm6s9P1f/eP4zXcluiQ7By5ENLHVzq
- +u7bBZZxA1/QqejfPDTVhcJaT9+Pa+AVfHi+SpXbVE+fr13MkDHZXEn1HIMaiWn2kWtK
- 6GZ7hNdmJHJGqu7cdMT/rvmur6gImw3n70LTnBXIUjPcEDfm1G8nKIBQeX6hXJMGDqZZ
- PObE03Q1NpE56UFMTtU47vzjkUfsq5LB1U5gCsZp6jFnY4WhuPZ7VezCdhA9ZWJeMB8j
- oJ9l8Fa97PwRw7ui7HoKjUz4sj3e7HmXOlbhj2h9ZzITfdLLdadgLg9C0YwSmuJ58R3m
- Z27w==
-X-Gm-Message-State: AOAM532Dl6BfgIsNGHKY0j7E0FIAWHne5xWGJMdfynCodOZOIXUxSb82
- ZTecGTUonFOaF2HxK2NCfWAv8HLJwWFDnQ==
-X-Google-Smtp-Source: ABdhPJzqOyrpqxzigDAmSAVOuKJJ/bEZJ6ACxQVJLdNTJu9NbxVDRrAEtOkl26JgnM0e3t79Suc8QA==
-X-Received: by 2002:aa7:de8f:: with SMTP id j15mr2938823edv.268.1612358692757; 
- Wed, 03 Feb 2021 05:24:52 -0800 (PST)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- g3sm847996eds.69.2021.02.03.05.24.51 for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 05:24:51 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7IAL-0000zV-Ae
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:25:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29257)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7IAI-0007Tc-0e
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:25:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612358748;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oQLTr46nEoxBQEdjscKsQ+beOqVLBrus6F3qvioMbGY=;
+ b=f7etiCKpUWLGcGrGNB/aiGqaOcmKqsxIkZEsOcg9ZYrQnZh8Hg/sWYovmf2Gb/drYnGnGI
+ xTBjmC0eELb4ZJmlcsTtgZ4caNwJweCtLxo0RznPSFtKcKZ8vJIg/aMMSA85lZ+b1nA37h
+ ABTwGnzf4XQ7trluF0OhQwrK0GP/0KU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-B_PIRojbOl-lBgQxrJkfBQ-1; Wed, 03 Feb 2021 08:25:45 -0500
+X-MC-Unique: B_PIRojbOl-lBgQxrJkfBQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACA52EC1A1
+ for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 13:25:44 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8783E1971D
+ for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 13:25:44 +0000 (UTC)
+Subject: Re: [PULL 00/20] NBD patches for 2021-02-02
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 00/36] Misc patches (buildsys, i386, fuzzing) for 2021-01-29
-Date: Wed,  3 Feb 2021 14:24:51 +0100
-Message-Id: <20210203132451.158395-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+References: <161230756982.28419.16212519598286401273@c667a6b167f6>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <609897ed-b6a3-4d99-abdc-2d9e7a9229e4@redhat.com>
+Date: Wed, 3 Feb 2021 07:25:43 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <161230756982.28419.16212519598286401273@c667a6b167f6>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,139 +84,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit cf7ca7d5b9faca13f1f8e3ea92cfb2f741eb0c0e:
+On 2/2/21 5:12 PM, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20210202224529.642055-1-eblake@redhat.com/
+> 
+> 
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
 
-  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/tracing-pull-request' into staging (2021-02-01 16:28:00 +0000)
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #73: 
+> new file mode 100644
+> 
+> ERROR: trailing whitespace
+> #82: FILE: block/io.c.rej:5:
 
-are available in the Git repository at:
+Ouch. That file should not be there. I will send a v2 pull request ASAP.
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 4e1cd7b1d59727ae471bae95db4002739eda085b:
-
-  pc-bios/descriptors: fix paths in json files (2021-02-03 14:20:21 +0100)
-
-----------------------------------------------------------------
-* Fuzzing improvements (Qiuhao, Alexander)
-* i386: Fix BMI decoding for instructions with the 0x66 prefix (David)
-* initial attempt at fixing event_notifier emulation (Maxim)
-* i386: PKS emulation, fix for "qemu-system-i386 -cpu host" (myself)
-* meson: RBD test fixes (myself)
-* meson: TCI warnings (Philippe)
-* Leaner build for --disable-guest-agent, --disable-system and
-  --disable-tools (Philippe, Stefan)
-* --enable-tcg-interpreter fix (Richard)
-* i386: SVM feature bits (Wei)
-* HVF bugfix (Alex)
-* KVM bugfix (Thomas)
-
-----------------------------------------------------------------
-
-v3->v4: dropped slirp update
-
-Alexander Bulekov (7):
-      fuzz: ignore address_space_map is_write flag
-      fuzz: refine the ide/ahci fuzzer configs
-      docs/fuzz: fix pre-meson path
-      fuzz: log the arguments used to initialize QEMU
-      fuzz: enable dynamic args for generic-fuzz configs
-      docs/fuzz: add some information about OSS-Fuzz
-      fuzz: add virtio-9p configurations for fuzzing
-
-Alexander Graf (1):
-      hvf: Fetch cr4 before evaluating CPUID(1)
-
-David Greenaway (1):
-      target/i386: Fix decoding of certain BMI instructions
-
-Igor Mammedov (1):
-      machine: add missing doc for memory-backend option
-
-Maxim Levitsky (2):
-      virtio-scsi: don't uninitialize queues that we didn't initialize
-      event_notifier: handle initialization failure better
-
-Paolo Bonzini (4):
-      target/i386: do not set LM for 32-bit emulation "-cpu host/max"
-      meson: accept either shared or static libraries if --disable-static
-      meson: honor --enable-rbd if cc.links test fails
-      target/i86: implement PKS
-
-Pavel Dovgalyuk (1):
-      replay: fix replay of the interrupts
-
-Philippe Mathieu-Daudé (13):
-      configure: Improve TCI feature description
-      meson: Explicit TCG backend used
-      meson: Warn when TCI is selected but TCG backend is available
-      tests/meson: Only build softfloat objects if TCG is selected
-      pc-bios/meson: Only install EDK2 blob firmwares with system emulation
-      meson: Restrict block subsystem processing
-      meson: Merge trace_events_subdirs array
-      meson: Restrict some trace event directories to user/system emulation
-      meson: Restrict emulation code
-      qapi/meson: Restrict qdev code to system-mode emulation
-      qapi/meson: Remove QMP from user-mode emulation
-      qapi/meson: Restrict system-mode specific modules
-      qapi/meson: Restrict UI module to system emulation and tools
-
-Qiuhao Li (1):
-      fuzz: fix wrong index in clear_bits
-
-Richard Henderson (1):
-      configure: Fix --enable-tcg-interpreter
-
-Sergei Trofimovich (1):
-      pc-bios/descriptors: fix paths in json files
-
-Stefan Reiter (1):
-      docs: don't install corresponding man page if guest agent is disabled
-
-Thomas Huth (1):
-      accel/kvm/kvm-all: Fix wrong return code handling in dirty log code
-
-Wei Huang (1):
-      x86/cpu: Populate SVM CPUID feature bits
-
- MAINTAINERS                              |   1 +
- accel/kvm/kvm-all.c                      |  21 +--
- accel/tcg/tcg-cpus-icount.c              |   8 +-
- backends/hostmem.c                       |  10 ++
- configure                                |   7 +-
- docs/devel/build-system.rst              |   2 +-
- docs/devel/fuzzing.rst                   |  35 ++++-
- docs/meson.build                         |   6 +-
- hw/scsi/virtio-scsi-dataplane.c          |   8 +-
- include/exec/memory.h                    |   8 +-
- include/exec/memory_ldst_cached.h.inc    |   6 +-
- include/qemu/event_notifier.h            |   1 +
- memory_ldst.c.inc                        |   8 +-
- meson.build                              | 214 +++++++++++++++++--------------
- meson_options.txt                        |   2 +-
- pc-bios/descriptors/meson.build          |   2 +-
- pc-bios/meson.build                      |   1 +
- qapi/meson.build                         |  34 +++--
- qemu-options.hx                          |  26 +++-
- scripts/oss-fuzz/minimize_qtest_trace.py |   2 +-
- softmmu/memory.c                         |   5 +-
- softmmu/physmem.c                        |   4 +-
- stubs/meson.build                        |   2 +
- stubs/qdev.c                             |  23 ++++
- target/i386/cpu.c                        |  15 ++-
- target/i386/cpu.h                        |  29 +++--
- target/i386/helper.c                     |   3 +
- target/i386/hvf/hvf.c                    |   4 +
- target/i386/machine.c                    |  24 +++-
- target/i386/tcg/excp_helper.c            |  32 +++--
- target/i386/tcg/misc_helper.c            |  14 ++
- target/i386/tcg/translate.c              |   2 +-
- tests/meson.build                        |  11 +-
- tests/qtest/fuzz/fuzz.c                  |  11 +-
- tests/qtest/fuzz/generic_fuzz.c          |  19 ++-
- tests/qtest/fuzz/generic_fuzz_configs.h  |  41 +++++-
- util/event_notifier-posix.c              |  16 +++
- 37 files changed, 468 insertions(+), 189 deletions(-)
- create mode 100644 stubs/qdev.c
 -- 
-2.29.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
