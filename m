@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D8A30E38E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:50:45 +0100 (CET)
-Received: from localhost ([::1]:48058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A9C30E39D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:54:41 +0100 (CET)
+Received: from localhost ([::1]:56126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7OAm-000209-7A
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:50:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43716)
+	id 1l7OEa-0005bG-Bx
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:54:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7Nhs-0005bL-1s; Wed, 03 Feb 2021 14:20:52 -0500
-Received: from mail-ot1-f51.google.com ([209.85.210.51]:34434)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l7Njx-0007b0-RF; Wed, 03 Feb 2021 14:23:01 -0500
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:44194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7Nhq-00014L-4R; Wed, 03 Feb 2021 14:20:51 -0500
-Received: by mail-ot1-f51.google.com with SMTP id y11so996066otq.1;
- Wed, 03 Feb 2021 11:20:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l7Njv-00024r-Sk; Wed, 03 Feb 2021 14:23:01 -0500
+Received: by mail-io1-xd34.google.com with SMTP id j5so489645iog.11;
+ Wed, 03 Feb 2021 11:22:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=osC5Zac+xNOTRaCQpM81ZoE0EIeTczb0uhROUmWlmtw=;
+ b=vJGp3PvReHBU5rSDTgJy2TaEJz8udQqVX/y0gYSY7v4WcNfPXzI6a+t07SBIMZsw9N
+ kJmcDVcJlRaCKAdc4+4HLkdL6Aytia7OJXpsfL9ZkZDmTZJrgslAMcBuaAAO5ottQbFG
+ YltT8KRGSq3E2EGm8r6s31hF8Iyzf1RU7OSdE9g+K2T9BznE+yqLU+PVTkJEpGYS/Mfo
+ 5GafI5LnvK2hk4WHiIwTfL+L+avxJR7rZ0dIJxZSbH5XaRcQvsglbHShKny7erpbTGPs
+ zPHVSHVZoF8RkMCuQT+pe8BxtmALLxOPx/vtx/AwQ+mTNo6KE4jaxlnZXmpEEppJg8xW
+ ADoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YrGgGWWweZkEz7oDY1Wcj2Z6pQgRXUiEDcvYXKMtsUU=;
- b=iPD5zEkvgxzrxORmiUpzdR1Ren/NyJ8CaZz4o4olmR1nxMBmcRyZQaH6gU4nDpg2+v
- 7/qAVIxfuhnr4ScaE2XoYplVbp5G4z+lHbtJIjB3dAiqfs3KaIx2TRJEUPUZUgSsrjgH
- N1TAXyf7Fwo8V2qDWS8ICwqSZne+LAAXhnZOclqEf5RBTw62b7KOUGRIvGeK03YYSf63
- wyd/oS3qtbQH5BJZy2eMNq3yocAm5r5dbaefNVA+17YNO1ZxqRqpxlqypBmdi/yusfe7
- ICtgadtw4g7kkm3H+VYgzptFQI82YrSi0l8u/RS4UFEsU7Aq1aPl3MNr2/ofywxj6HnZ
- idgg==
-X-Gm-Message-State: AOAM533lay8ogA0IhEj9twGSgaVdy9hS3gJ0gWSy1JsgCEHwZ6NL9Y/t
- pm8GrbOhOVzNxHobVk9xYdP4ojAdabCS/3Nt8BY=
-X-Google-Smtp-Source: ABdhPJwvKYj5n2c4rrF+eH1No5W4eVZW74seyMjtiYN1xJ69m5x8vh23uprQeUN3HF/hD6o+O05e3ScG9KkIf3DIsMk=
-X-Received: by 2002:a9d:4a8e:: with SMTP id i14mr3139135otf.37.1612380047163; 
- Wed, 03 Feb 2021 11:20:47 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=osC5Zac+xNOTRaCQpM81ZoE0EIeTczb0uhROUmWlmtw=;
+ b=HnYETXN3UUMfTIpLxntIWyqah5jU1Y9NHwg+c7J0QAKvmrmTBJv77WFmnLw95gFvSI
+ 5+IVMOjEso+TXM4G96+LKD56thvLFLpDiB7qWr4Hv9P+CmMgC4AWKTdaLQrZKjqDUh6C
+ 9mhDeEQwuokXJaJdTjr8g+BAgKgivfC1VKvlJfxHc7ywVzCqUVqi2a7s5sc8Av2AHr+c
+ WHx4gJihjFmv5uGjYbGOSIasQKorDvZoF2MwPc4SJkpNtaxDruQP11OFal3icUJDDdFx
+ J0CxVdP8CPy6d4MbUUPx47aP0TCCpppcKO+BBkQD2J8laY4niojGdkRcBhaWjWY6XrY7
+ hywg==
+X-Gm-Message-State: AOAM532WqGsTeOnzV0vaF+R/82TDTUwOHg/H+H268HjOEVuE2LemNh9s
+ EeSRlrvOJ0uC567uIX5tHQ5oOodkW9uoWw1IKO0=
+X-Google-Smtp-Source: ABdhPJy8DG72woIC4M7Wrpl4ekM22GnU6QUr0tqdZjOEZxKLvdfDdCaX1Yf6HjYD3sfPg/N438MCGo6JmuVlqafWNkc=
+X-Received: by 2002:a05:6638:3c8:: with SMTP id
+ r8mr4325618jaq.135.1612380178225; 
+ Wed, 03 Feb 2021 11:22:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20210203190010.759771-1-richard.henderson@linaro.org>
- <20210203190010.759771-4-richard.henderson@linaro.org>
- <fd583fe4-46c5-a9dc-dd3f-c38504e2e498@amsat.org>
- <f51c9b7a-c9b5-29b6-9f88-b6d774be5da9@linaro.org>
-In-Reply-To: <f51c9b7a-c9b5-29b6-9f88-b6d774be5da9@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Wed, 3 Feb 2021 20:20:36 +0100
-Message-ID: <CAAdtpL4=ndPPrfV61ZKMcH9SL2qEjZa-WTLGFYC-ewz_0p9EMg@mail.gmail.com>
-Subject: Re: [PATCH v5 03/31] exec: Use uintptr_t for guest_base
-To: Richard Henderson <richard.henderson@linaro.org>
+References: <20210110185109.29841-1-space.monkey.delivers@gmail.com>
+In-Reply-To: <20210110185109.29841-1-space.monkey.delivers@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 3 Feb 2021 11:22:32 -0800
+Message-ID: <CAKmqyKP7tig8Lh=qktUnM+HMhZK0__qTgRXDeCayiZ-S0fyGTA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] RISC-V Pointer Masking implementation
+To: Alexey Baturo <baturo.alexey@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.210.51;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f51.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,71 +76,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ space.monkey.delivers@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ kupokupokupopo@gmail.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 3, 2021 at 8:10 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> On 2/3/21 9:08 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 2/3/21 7:59 PM, Richard Henderson wrote:
-> >> This is more descriptive than 'unsigned long'.
-> >> No functional change, since these match on all linux+bsd hosts.
-> >>
-> >> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >> ---
-> >>  include/exec/cpu-all.h | 2 +-
-> >>  bsd-user/main.c        | 4 ++--
-> >>  linux-user/elfload.c   | 4 ++--
-> >>  linux-user/main.c      | 4 ++--
-> >>  4 files changed, 7 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> >> index c23c77589b..c52180e8e6 100644
-> >> --- a/include/exec/cpu-all.h
-> >> +++ b/include/exec/cpu-all.h
-> >> @@ -158,7 +158,7 @@ static inline void tswap64s(uint64_t *s)
-> >>  /* On some host systems the guest address space is reserved on the ho=
-st.
-> >>   * This allows the guest address space to be offset to a convenient l=
-ocation.
-> >>   */
-> >> -extern unsigned long guest_base;
-> >> +extern uintptr_t guest_base;
-> >>  extern bool have_guest_base;
-> >>  extern unsigned long reserved_va;
-> >>
-> >> diff --git a/bsd-user/main.c b/bsd-user/main.c
-> >> index 65163e1396..c09d74d788 100644
-> >> --- a/bsd-user/main.c
-> >> +++ b/bsd-user/main.c
-> >> @@ -41,7 +41,7 @@
-> >>
-> >>  int singlestep;
-> >>  unsigned long mmap_min_addr;
-> >> -unsigned long guest_base;
-> >> +uintptr_t guest_base;
-> >>  bool have_guest_base;
-> >>  unsigned long reserved_va;
-> >>
-> >> @@ -965,7 +965,7 @@ int main(int argc, char **argv)
-> >>      g_free(target_environ);
-> >>
-> >>      if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
-> >> -        qemu_log("guest_base  0x%lx\n", guest_base);
-> >> +        qemu_log("guest_base  %p\n", (void *)guest_base);
-> >
-> > Why not use PRIxPTR?
+On Sun, Jan 10, 2021 at 10:54 AM Alexey Baturo <baturo.alexey@gmail.com> wrote:
 >
-> Didn't think of it.  Worth a respin?
+> Hi folks,
+>
+> Sorry it took me almost 3 month to provide the reply and fixes: it was a really busy EOY.
+> This series contains fixed @Alistair suggestion on enabling J-ext.
+>
+> As for @Richard comments:
+> - Indeed I've missed appending review-by to the approved commits. Now I've restored them except for the fourth commit. @Richard could you please tell if you think it's still ok to commit it as is, or should I support masking mem ops for RVV first?
+> - These patches don't have any support for load/store masking for RVV and RVH extensions, so no support for special load/store for Hypervisor in particular.
+>
+> If this patch series would be accepted, I think my further attention would be to:
+> - Support pm for memory operations for RVV
+> - Add proper csr and support pm for memory operations for Hypervisor mode
+> - Support address wrapping on unaligned accesses as @Richard mentioned previously
 
-No, I was simply curious if it weren't possible for some reason.
+Overall this looks fine.
 
-> >
-> > Otherwise:
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >
+Unfortunately it doesn't look like there is a release of the pointer
+masking spec. Until there is a release (a draft release counts) we
+can't accept it. We need a version to point to so that we can say "we
+support v0.1 of the RISC-V pointer masking spec". Otherwise we are
+chasing a moving target and users don't know what version we do/don't
+support.
+
+Do you know the current state of the spec?
+
+Alistair
+
+>
+> Thanks!
+>
+> Alexey Baturo (5):
+>   [RISCV_PM] Add J-extension into RISC-V
+>   [RISCV_PM] Support CSRs required for RISC-V PM extension except for
+>     the ones required for hypervisor mode
+>   [RISCV_PM] Print new PM CSRs in QEMU logs
+>   [RISCV_PM] Support pointer masking for RISC-V for i/c/f/d/a types of
+>     instructions
+>   [RISCV_PM] Allow experimental J-ext to be turned on
+>
+> Anatoly Parshintsev (1):
+>   [RISCV_PM] Implement address masking functions required for RISC-V
+>     Pointer Masking extension
+>
+>  target/riscv/cpu.c                      |  30 +++
+>  target/riscv/cpu.h                      |  33 +++
+>  target/riscv/cpu_bits.h                 |  66 ++++++
+>  target/riscv/csr.c                      | 271 ++++++++++++++++++++++++
+>  target/riscv/insn_trans/trans_rva.c.inc |   3 +
+>  target/riscv/insn_trans/trans_rvd.c.inc |   2 +
+>  target/riscv/insn_trans/trans_rvf.c.inc |   2 +
+>  target/riscv/insn_trans/trans_rvi.c.inc |   2 +
+>  target/riscv/translate.c                |  44 ++++
+>  9 files changed, 453 insertions(+)
+>
+> --
+> 2.20.1
+>
 >
 
