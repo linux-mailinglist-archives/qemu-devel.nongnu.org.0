@@ -2,67 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A43630D2A4
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 05:27:15 +0100 (CET)
-Received: from localhost ([::1]:54362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3F830D2AE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 05:56:36 +0100 (CET)
+Received: from localhost ([::1]:34836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l79l4-0002Pk-21
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 23:27:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33766)
+	id 1l7ADT-0008VF-8W
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 23:56:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l79jm-0001r2-5b
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 23:25:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l79jk-0001Cd-2S
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 23:25:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l79jg-0007Eo-PG
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 04:25:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 13D912E814F
- for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 04:25:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l7ABs-0007jA-7b; Tue, 02 Feb 2021 23:54:57 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:42693 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l7ABp-0006K9-AA; Tue, 02 Feb 2021 23:54:55 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DVq9F12dCz9tlJ; Wed,  3 Feb 2021 15:54:41 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1612328081;
+ bh=CNQgVW9SbTV4ZWlIklx+uRK7Uo+Sn+f3cTnJJojbiGk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=M8T83j8bh4wwrXJOaDH4Kjf9vSMABZO/RVe1xeJ26RfptpzrQ85gx4SZdYJLp4j09
+ M3UCnxMPJE7nnjD0qtQf5zmVQx7bXO3Gqmq/FojBG6wzJGDGaEvPBshzwtE6wDGcyy
+ 8n6NWI7DXx8AfiLT4gDDTjCGN3Pj70ZGN+DIW1/o=
+Date: Wed, 3 Feb 2021 15:53:04 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v8 12/13] confidential guest support: Alter virtio
+ default properties for protected guests
+Message-ID: <20210203045304.GE2251@yekko.fritz.box>
+References: <20210202041315.196530-1-david@gibson.dropbear.id.au>
+ <20210202041315.196530-13-david@gibson.dropbear.id.au>
+ <20210202180328-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Feb 2021 04:17:24 -0000
-From: Launchpad Bug Tracker <1906156@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h janitor th-huth
-X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160665259684.21842.16670509730009461748.malonedeb@gac.canonical.com>
-Message-Id: <161232584470.9329.14902159727544091323.malone@loganberry.canonical.com>
-Subject: [Bug 1906156] Re: Host OS Reboot Required,
- for Guest kext to Load (Fully)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: a744f79c984f662c9cef56a4d449fa0fc4848a5a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="T6xhMxlHU34Bk0ad"
+Content-Disposition: inline
+In-Reply-To: <20210202180328-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,46 +60,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906156 <1906156@bugs.launchpad.net>
+Cc: pair@us.ibm.com, mtosatti@redhat.com, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
+ mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, pragyansri.pathi@intel.com,
+ andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ richard.henderson@linaro.org, dgilbert@redhat.com, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com, berrange@redhat.com,
+ Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+--T6xhMxlHU34Bk0ad
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Tue, Feb 02, 2021 at 06:06:34PM -0500, Michael S. Tsirkin wrote:
+> On Tue, Feb 02, 2021 at 03:13:14PM +1100, David Gibson wrote:
+> > The default behaviour for virtio devices is not to use the platforms no=
+rmal
+> > DMA paths, but instead to use the fact that it's running in a hypervisor
+> > to directly access guest memory.  That doesn't work if the guest's memo=
+ry
+> > is protected from hypervisor access, such as with AMD's SEV or POWER's =
+PEF.
+> >=20
+> > So, if a confidential guest mechanism is enabled, then apply the
+> > iommu_platform=3Don option so it will go through normal DMA mechanisms.
+> > Those will presumably have some way of marking memory as shared with
+> > the hypervisor or hardware so that DMA will work.
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+>=20
+> > ---
+> >  hw/core/machine.c | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
+> >=20
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index 94194ab82d..497949899b 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -33,6 +33,8 @@
+> >  #include "migration/global_state.h"
+> >  #include "migration/vmstate.h"
+> >  #include "exec/confidential-guest-support.h"
+> > +#include "hw/virtio/virtio.h"
+> > +#include "hw/virtio/virtio-pci.h"
+> > =20
+> >  GlobalProperty hw_compat_5_2[] =3D {};
+> >  const size_t hw_compat_5_2_len =3D G_N_ELEMENTS(hw_compat_5_2);
+> > @@ -1196,6 +1198,17 @@ void machine_run_board_init(MachineState *machin=
+e)
+> >           * areas.
+> >           */
+> >          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
+> > +
+> > +        /*
+> > +         * Virtio devices can't count on directly accessing guest
+> > +         * memory, so they need iommu_platform=3Don to use normal DMA
+> > +         * mechanisms.  That requires also disabling legacy virtio
+> > +         * support for those virtio pci devices which allow it.
+> > +         */
+> > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy",
+> > +                                   "on", true);
+> > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform=
+",
+> > +                                   "on", false);
+>=20
+> So overriding a boolean property always poses a problem:
+> if user does set iommu_platform=3Doff we are ignoring this
+> silently.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906156
+No, we don't.  That's why this is register_sugar_prop() rather than an
+outright set_prop().  An explicitly given option will take precedence.
 
-Title:
-  Host OS Reboot Required, for Guest kext to Load (Fully)
+> Can we change iommu_platform to on/off/auto? Then we can
+> change how does auto behave.
 
-Status in QEMU:
-  Expired
+I've never had a satisfactory explanation of what the semantics of
+"auto" need to be.
 
-Bug description:
-  Hi,
+>=20
+> Bonus points for adding "access_platform" and making it
+> a synonym of platform_iommu.
+>=20
+> >      }
+> > =20
+> >      machine_class->init(machine);
+>=20
 
-  Finding this one a bit odd, but I am loading a driver (kext) in a
-  macOS guest ... and it works, on the first VM (domain) startup after a
-  full / clean host OS boot (or reboot). However, if I even reboot the
-  guest OS, then the driver load fails =3D> can be "corrected" by a full
-  host OS reboot (which seems very extreme).
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-  Is this a known issue, and/or is there a workaround?
+--T6xhMxlHU34Bk0ad
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  FYI, running,
-  QEMU emulator version 5.0.0 (Debian 1:5.0-5ubuntu9.1)
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+-----BEGIN PGP SIGNATURE-----
 
-  This is for a macOS guest, on a Linux host.
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAaLC8ACgkQbDjKyiDZ
+s5IKVg//VEhQsxG6YSNFZlvGHGLtCASQW+t3Zjixh4R2NV4hsDOfRRBFJOuiiemg
+ZAHPLAEVQxAv0B4liBQoEuS3L+dysNEa7ZSKHkznHqwV1WpYSXjOcPysUPw6PZh6
+ZNQ5C3YzeIvszZ32itr7ddk812Vqkpn70djTDg5qRcOnd+f1Q0IS9wN8msc6YkNe
+7mK65RucgRZZPH3PDJCCti5YVXyxUP8KXVTgLQoJvSFrpN2Q0OY4UR05uYX2nJpD
+Mh0jZPUa2ZAsBecpsiJHm21MaH07eUD7zVtHnXW4QgzGmqQjtlsQxXgZsXvFLmq+
+TnkktW2GKqe/vsO6HdEE2upqXk7ILSs6sIqV5/L6O0/i9K9dJ+YaloLE/f1hH6sS
+9GAXGVBO2hUd+Xfq5F8m4ykKkjAq9KQEXe4KUrfndGqKDUrJQYrThfvsSmTndk06
+Bqd6NBelIvnZ7klrHhot1Q36cgEcq0OjD62rrHylf1uJKODStkkxaXDvRU9l1vng
+aGSipPmfmRwfPUl0g6k7Lf2Pp8e+0h9FKTY771J0YZDerqa0gdWtKkc63TuQRYls
+kDIWaKmD1bLxMFc9tI93hwweIA7ZRz5gXGGRC15KujIFsmLgHP9yJBanJLDdpJQL
+7Bie7nZETgaqtCtKaqACRnD4Agk4Q65kxLbTYCuRXO5Ls3KHgbw=
+=DMPf
+-----END PGP SIGNATURE-----
 
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906156/+subscriptions
+--T6xhMxlHU34Bk0ad--
 
