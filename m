@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C94030D45A
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 08:54:02 +0100 (CET)
-Received: from localhost ([::1]:55584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A5330D447
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 08:51:24 +0100 (CET)
+Received: from localhost ([::1]:47126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7CzB-0006tz-4a
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 02:54:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34320)
+	id 1l7Cwd-0003NW-Bk
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 02:51:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1l7Cpk-00037v-EK
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:16 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3477)
+ id 1l7Cph-000317-Vu
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:14 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1l7Cpi-0008Ma-0h
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:16 -0500
+ id 1l7Cpb-0008J7-HU
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 02:44:13 -0500
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DVtv06kvFzjJgj;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DVtv05VLBzjJgZ;
  Wed,  3 Feb 2021 15:42:36 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Wed, 3 Feb 2021
- 15:43:42 +0800
+ 15:43:43 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>, <berrange@redhat.com>
-Subject: [PATCH v4 10/18] migration/rdma: Create the multifd recv channels for
- RDMA
-Date: Wed, 3 Feb 2021 16:01:43 +0800
-Message-ID: <1612339311-114805-11-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v4 11/18] migration/rdma: record host_port for multifd RDMA
+Date: Wed, 3 Feb 2021 16:01:44 +0800
+Message-ID: <1612339311-114805-12-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
 References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
@@ -63,116 +62,60 @@ Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We still don't transmit anything through them, and we only build
-the RDMA connections.
-
-Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- migration/rdma.c | 69 ++++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 67 insertions(+), 2 deletions(-)
+ migration/migration.c | 1 +
+ migration/migration.h | 3 +++
+ migration/rdma.c      | 3 +++
+ 3 files changed, 7 insertions(+)
 
+diff --git a/migration/migration.c b/migration/migration.c
+index 129c81a..b8f4844 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1925,6 +1925,7 @@ void migrate_init(MigrationState *s)
+     s->postcopy_after_devices = false;
+     s->migration_thread_running = false;
+     s->enabled_rdma_migration = false;
++    s->host_port = NULL;
+     error_free(s->error);
+     s->error = NULL;
+     s->hostname = NULL;
+diff --git a/migration/migration.h b/migration/migration.h
+index da5681b..537ee09 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -285,6 +285,9 @@ struct MigrationState {
+      * Enable RDMA migration
+      */
+     bool enabled_rdma_migration;
++
++    /* Need by Multi-RDMA */
++    char *host_port;
+ };
+ 
+ void migrate_set_state(int *state, int old_state, int new_state);
 diff --git a/migration/rdma.c b/migration/rdma.c
-index 996afb0..ed8a015 100644
+index ed8a015..9654b87 100644
 --- a/migration/rdma.c
 +++ b/migration/rdma.c
-@@ -3267,6 +3267,40 @@ static void rdma_cm_poll_handler(void *opaque)
-     }
- }
- 
-+static bool qemu_rdma_accept_setup(RDMAContext *rdma)
-+{
-+    RDMAContext *multifd_rdma = NULL;
-+    int thread_count;
-+    int i;
-+    MultiFDRecvParams *multifd_recv_param;
-+    thread_count = migrate_multifd_channels();
-+    /* create the multifd channels for RDMA */
-+    for (i = 0; i < thread_count; i++) {
-+        if (get_multifd_recv_param(i, &multifd_recv_param) < 0) {
-+            error_report("rdma: error getting multifd_recv_param(%d)", i);
-+            return false;
-+        }
-+
-+        multifd_rdma = (RDMAContext *) multifd_recv_param->rdma;
-+        if (multifd_rdma->cm_id == NULL) {
-+            break;
-+        } else {
-+            multifd_rdma = NULL;
-+        }
-+    }
-+
-+    if (multifd_rdma) {
-+        qemu_set_fd_handler(rdma->channel->fd,
-+                            rdma_accept_incoming_migration,
-+                            NULL, (void *)(intptr_t)multifd_rdma);
-+    } else {
-+        qemu_set_fd_handler(rdma->channel->fd, rdma_cm_poll_handler,
-+                            NULL, rdma);
-+    }
-+
-+    return true;
-+}
-+
- static int qemu_rdma_accept(RDMAContext *rdma)
- {
-     RDMACapabilities cap;
-@@ -3366,6 +3400,10 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-         qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
-                             NULL,
-                             (void *)(intptr_t)rdma->return_path);
-+    } else if (migrate_use_multifd()) {
-+        if (!qemu_rdma_accept_setup(rdma)) {
-+            goto err_rdma_dest_wait;
-+        }
-     } else {
-         qemu_set_fd_handler(rdma->channel->fd, rdma_cm_poll_handler,
-                             NULL, rdma);
-@@ -3976,6 +4014,34 @@ static QEMUFile *qemu_fopen_rdma(RDMAContext *rdma, const char *mode)
-     return rioc->file;
- }
- 
-+static void migration_rdma_process_incoming(QEMUFile *f,
-+                                            RDMAContext *rdma, Error **errp)
-+{
-+    MigrationIncomingState *mis = migration_incoming_get_current();
-+    QIOChannel *ioc = NULL;
-+    bool start_migration = false;
-+
-+    if (!migrate_use_multifd()) {
-+        rdma->migration_started_on_destination = 1;
-+        migration_fd_process_incoming(f, errp);
-+        return;
-+    }
-+
-+    if (!mis->from_src_file) {
-+        mis->from_src_file = f;
-+        qemu_file_set_blocking(f, false);
-+    } else {
-+        ioc = QIO_CHANNEL(getQIOChannel(f));
-+        /* Multiple connections */
-+        assert(migrate_use_multifd());
-+        start_migration = multifd_recv_new_channel(ioc, errp);
-+    }
-+
-+    if (start_migration) {
-+        migration_incoming_process();
-+    }
-+}
-+
- static void rdma_accept_incoming_migration(void *opaque)
- {
-     RDMAContext *rdma = opaque;
-@@ -4004,8 +4070,7 @@ static void rdma_accept_incoming_migration(void *opaque)
-         return;
+@@ -4206,6 +4206,8 @@ void rdma_start_outgoing_migration(void *opaque,
+         goto err;
      }
  
--    rdma->migration_started_on_destination = 1;
--    migration_fd_process_incoming(f, &local_err);
-+    migration_rdma_process_incoming(f, rdma, &local_err);
-     if (local_err) {
-         error_reportf_err(local_err, "RDMA ERROR:");
-     }
++    s->host_port = g_strdup(host_port);
++
+     ret = qemu_rdma_source_init(rdma,
+         s->enabled_capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL], errp);
+ 
+@@ -4250,6 +4252,7 @@ void rdma_start_outgoing_migration(void *opaque,
+ 
+     s->to_dst_file = qemu_fopen_rdma(rdma, "wb");
+     migrate_fd_connect(s, NULL);
++    g_free(s->host_port);
+     return;
+ return_path_err:
+     qemu_rdma_cleanup(rdma);
 -- 
 1.8.3.1
 
