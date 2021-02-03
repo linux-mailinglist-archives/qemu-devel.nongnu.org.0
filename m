@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D49C830E62C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 23:41:01 +0100 (CET)
-Received: from localhost ([::1]:40512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D3530E62F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 23:42:33 +0100 (CET)
+Received: from localhost ([::1]:42726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7QpY-0006O1-V7
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 17:41:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59810)
+	id 1l7Qr1-0007gx-Dp
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 17:42:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7Qes-0000If-0x
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:29:58 -0500
-Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:42288)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7QhT-0000iN-Rz
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:32:39 -0500
+Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e]:45371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7Qeq-0005h0-Ay
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:29:57 -0500
-Received: by mail-vs1-xe34.google.com with SMTP id v19so727105vsf.9
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 14:29:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7QhS-0006vN-9O
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 17:32:39 -0500
+Received: by mail-vs1-xe2e.google.com with SMTP id n18so719662vsa.12
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 14:32:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2CnDQPA2VutawhiAFJDcmgS62w28j51ePUxMLJ093go=;
- b=YSmHPhkNtYmIwK3Fcxxcq2YUCLxXXW9edjSjOuoMj4agAur/P+2R4rdcuUnWitxiEh
- CFqBx7mevLtVB0TeJRi5rur73n9MJ1MEHaKG5nmJaGn0ZMwTgQH+ExQmHJmPioM6JPsr
- Ok20PXZHLk3XnKIIJ5I7n4Rhc5wxwfTyFHx2T4gt59HCAwys73vJd2xZl+ol+kx9g6W5
- aSprz0/2zJKnIH7MVOF12Fu7j/SXWbibDPfEUjnvlPG6G38QpDBiVL+1NP+x+VYfJluc
- bFPptwtRhxDoC0b9z7LwzM+x2qW6DaKLPmMPGS3jFthgdxiF5ulNo1V4BsioM6kakmn8
- 94kg==
+ :cc; bh=CcKLayz/6twqYwx7cnQSZyf0gNLojWBopqUY7VAPIm0=;
+ b=klLReYUj3ooGTsF1EtG+DC8LZasFQyIEBmERRJJuXeNa1TuUUTY1m5y8cHAn87qVtS
+ H/oUSYH/nhFSk+sOfaYeYEzJofFMGk8ok4wwQoCHf9Fid37gigwDFwlFx4kB+aCok5tl
+ lCP6eS8iTJoU5duHLj7tloP6AnDxILXMbExSSTILYcAeFLzxJtkhdra1Umcog9DWk24Q
+ UmSNzmbHa3yMVcb1mK3iCfStKXRlWE5T6qN1f39zWTvVAQRLBNCd+Ug/ORMg/jtt5t6t
+ 8nk1ols1IwYdD5S4yDYmvTY+zVtKeee8uanhIkJoonJ0Amve+/8DwQNt6GP20aCKpCW0
+ pCgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2CnDQPA2VutawhiAFJDcmgS62w28j51ePUxMLJ093go=;
- b=gtWLtPBd4Kae3YfSe5Myb68nMYDoYz58LmBHpBXuSWPAxyiJZkbboZK/MliayAAu0N
- o6hHvNSvtkw7Dxyp4PWE4a6dqYbhc9S2FpB2FgavRlsMKtp/N2CFVPhh6y1P7Pna/IT3
- WWayqW/wNheY3tDJWpHGXZDcQHwE+EZaSPMBMTEPcu96Omtc5SCVGPQT8Pn5e3YBOYgd
- fT3/+jjUrsd2E2gKAofoUA9eOwg7wusH9bbxVX2TgKgi1TcnLhXMcYViFxqBJxjOyMG5
- pTKz1pRNeH5A2XLyVZdIYH9dTRtPYvDGwJKfsJGZ4XVn9YfAU8QVYV0vq6X8VU6x9RqK
- uSkg==
-X-Gm-Message-State: AOAM530p6xciX6EwaS7wIZyM0//PQGKkYu/rZ/ZbanLIbXH/kn70oMU8
- mDOP62cJKbg9rRAA+0I8lzRiQoYDkv3iqlPDWpRZvUrFvKk=
-X-Google-Smtp-Source: ABdhPJxBVzsyxiS2HcVQrtuDexXTiyWmsPoM4bIGPyP1WC1VZHQZgkkhMoGWaq5YtJo+tctmeRKO3U1eOmTZIb5/juw=
+ bh=CcKLayz/6twqYwx7cnQSZyf0gNLojWBopqUY7VAPIm0=;
+ b=RhNSOzh/+Zeo6GA5tg9kzGbnREcYqejmBrP3PIcmwlzpRSXzM3sEk3XXv3DjiHPJK1
+ z/hYH7bXW/KM7jGuCsuAdPsdxg+7rv2/NCyZJM0M9AbF4oVbIhqb+iNsPWn6SX9ODguk
+ /kQLtOo+IKoimMVoGstSSl5HAQLVSAFGp3zPdWGs5DkknQh/WrMTAxij2joZLuo3cHvB
+ 5VIgVyg7/a0UMVcnhgXHAHVX22iw6OUCbVLrbQuexVhyrQC6REqrWbF7xcUqigMhdQ77
+ iyZf1jGyvMAKuOlIutnpQxh7OAExPdamyOSj0ibmDZEboF3q6yooQvlmcEqb3UkkNoHj
+ 9zlg==
+X-Gm-Message-State: AOAM532bLEaQGenGZUB3QQAIfBCpkBWKYfFepxU8rnfL7O82IoQ1omZe
+ cwefwjKbT2MJ0pk0viNLJm4MIUq+dOEuKmPq0qtAJg==
+X-Google-Smtp-Source: ABdhPJye19ay28QDm3c1nYq1KAqvnouTpPzO8olVPIoeQkBVKzP4wBk6JTaz5A+YMSg4IpbzpzyEy+dVqrKOUOJENjM=
 X-Received: by 2002:a05:6102:2e5:: with SMTP id
- j5mr3134665vsj.29.1612391394991; 
- Wed, 03 Feb 2021 14:29:54 -0800 (PST)
+ j5mr3139138vsj.29.1612391556628; 
+ Wed, 03 Feb 2021 14:32:36 -0800 (PST)
 MIME-Version: 1.0
 References: <20210203213729.1940893-1-dje@google.com>
- <20210203213729.1940893-3-dje@google.com>
- <20210203222053.htsym7musxnqpc5n@begin>
-In-Reply-To: <20210203222053.htsym7musxnqpc5n@begin>
+ <20210203213729.1940893-2-dje@google.com>
+ <20210203221535.hvweujukawirjyuj@begin>
+In-Reply-To: <20210203221535.hvweujukawirjyuj@begin>
 From: Doug Evans <dje@google.com>
-Date: Wed, 3 Feb 2021 14:29:16 -0800
-Message-ID: <CADPb22SNUYx9pBR-c+YSJV_T-LL4scGRV6=sFZfceCPHQfyosA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] net: Add -ipv6-hostfwd option,
- ipv6_hostfwd_add/remove commands
+Date: Wed, 3 Feb 2021 14:31:58 -0800
+Message-ID: <CADPb22RWrwno7VR7eA9Lb4XVBbm+ahNfNF5E=35fgbrHjeBKnw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] net/slirp.c: Refactor address parsing
 To: Samuel Thibault <samuel.thibault@gnu.org>
 Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000056c48f05ba762059"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
- envelope-from=dje@google.com; helo=mail-vs1-xe34.google.com
+Content-Type: multipart/alternative; boundary="000000000000f91af905ba76297b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
+ envelope-from=dje@google.com; helo=mail-vs1-xe2e.google.com
 X-Spam_score_int: -175
 X-Spam_score: -17.6
 X-Spam_bar: -----------------
@@ -83,87 +82,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000056c48f05ba762059
+--000000000000f91af905ba76297b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 3, 2021 at 2:20 PM Samuel Thibault <samuel.thibault@gnu.org>
+On Wed, Feb 3, 2021 at 2:15 PM Samuel Thibault <samuel.thibault@gnu.org>
 wrote:
 
-> Doug Evans, le mer. 03 f=C3=A9vr. 2021 13:37:29 -0800, a ecrit:
-> > @@ -1392,6 +1392,34 @@ SRST
-> >    Remove host-to-guest TCP or UDP redirection.
-> >  ERST
-> >
-> > +#ifdef CONFIG_SLIRP
-> > +    {
-> > +        .name       =3D "ipv6_hostfwd_add",
-> > +        .args_type  =3D "arg1:s,arg2:s?",
-> > +        .params     =3D "[netdev_id]
-> [tcp|udp]:[hostaddr6]:hostport-[guestaddr6]:guestport",
+> Doug Evans, le mer. 03 f=C3=A9vr. 2021 13:37:28 -0800, a ecrit:
+> > ... in preparation for adding ipv6 host forwarding support.
 >
-> Perhaps explicit that the IPv6 address should be enclosed with [] ?
+> Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 >
-
-
-Yeah, totally open to suggestions for what to write.
-I wasn't sure how to do that without getting klunky,
-
-
-> > +    /* Ignore the part between the ']' and addr_sep. */
-> > +    if (get_str_sep(buf, sizeof(buf), &p, addr_sep) < 0) {
+> except
 >
-> Mmm, I would say that we do not want to just ignore it, and rather make
-> sure that it is empty, so that we can possibly make extensions later
-> without breaking existing misuse.
+> > diff --git a/slirp b/slirp
+> > index 8f43a99191..358c0827d4 160000
+> > --- a/slirp
+> > +++ b/slirp
+> > @@ -1 +1 @@
+> > -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
+> > +Subproject commit 358c0827d49778f016312bfb4167fe639900681f
+>
+> Which, I would say, deserves its own commit?
 >
 
 
-Completely agree.
+Yep. Still getting used to patch submission in the presence of submodules
+...
 
---00000000000056c48f05ba762059
+--000000000000f91af905ba76297b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">On Wed, Feb 3, 2021 at 2:20 PM Samuel Thibault &lt;<a href=3D=
+t-size:small">On Wed, Feb 3, 2021 at 2:15 PM Samuel Thibault &lt;<a href=3D=
 "mailto:samuel.thibault@gnu.org">samuel.thibault@gnu.org</a>&gt; wrote:<br>=
 </div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
 yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">Doug Evans, le mer. 03 f=C3=A9vr. 2021 13:37:29 -0800, a ecri=
+ing-left:1ex">Doug Evans, le mer. 03 f=C3=A9vr. 2021 13:37:28 -0800, a ecri=
 t:<br>
-&gt; @@ -1392,6 +1392,34 @@ SRST<br>
-&gt;=C2=A0 =C2=A0 Remove host-to-guest TCP or UDP redirection.<br>
-&gt;=C2=A0 ERST<br>
-&gt;=C2=A0 <br>
-&gt; +#ifdef CONFIG_SLIRP<br>
-&gt; +=C2=A0 =C2=A0 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot=
-;ipv6_hostfwd_add&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 .args_type=C2=A0 =3D &quot;arg1:s,arg2:s?=
-&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 .params=C2=A0 =C2=A0 =C2=A0=3D &quot;[net=
-dev_id] [tcp|udp]:[hostaddr6]:hostport-[guestaddr6]:guestport&quot;,<br>
+&gt; ... in preparation for adding ipv6 host forwarding support.<br>
 <br>
-Perhaps explicit that the IPv6 address should be enclosed with [] ?<br></bl=
-ockquote><div><br></div><div><br></div><div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">Yeah, totally open to suggestions for what to write=
-.</div><div class=3D"gmail_default" style=3D"font-size:small">I wasn&#39;t =
-sure how to do that without getting klunky,</div><br></div><div class=3D"gm=
-ail_default" style=3D"font-size:small"></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
+Reviewed-by: Samuel Thibault &lt;<a href=3D"mailto:samuel.thibault@ens-lyon=
+.org" target=3D"_blank">samuel.thibault@ens-lyon.org</a>&gt;<br>
 <br>
-&gt; +=C2=A0 =C2=A0 /* Ignore the part between the &#39;]&#39; and addr_sep=
-. */<br>
-&gt; +=C2=A0 =C2=A0 if (get_str_sep(buf, sizeof(buf), &amp;p, addr_sep) &lt=
-; 0) {<br>
+except<br>
 <br>
-Mmm, I would say that we do not want to just ignore it, and rather make<br>
-sure that it is empty, so that we can possibly make extensions later<br>
-without breaking existing misuse.<br></blockquote><div><br></div><div><br><=
-/div><div class=3D"gmail_default" style=3D"font-size:small">Completely=C2=
-=A0agree.</div></div></div>
+&gt; diff --git a/slirp b/slirp<br>
+&gt; index 8f43a99191..358c0827d4 160000<br>
+&gt; --- a/slirp<br>
+&gt; +++ b/slirp<br>
+&gt; @@ -1 +1 @@<br>
+&gt; -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece<br>
+&gt; +Subproject commit 358c0827d49778f016312bfb4167fe639900681f<br>
+<br>
+Which, I would say, deserves its own commit?<br></blockquote><div><br></div=
+><div><br></div><div class=3D"gmail_default" style=3D"font-size:small">Yep.=
+ Still getting used to patch submission in the presence of submodules ...</=
+div></div></div>
 
---00000000000056c48f05ba762059--
+--000000000000f91af905ba76297b--
 
