@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B7730E362
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:39:39 +0100 (CET)
-Received: from localhost ([::1]:44092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DEF30E36D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 20:41:54 +0100 (CET)
+Received: from localhost ([::1]:50180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7O02-0005LF-MS
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:39:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39554)
+	id 1l7O2D-0007uV-GS
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 14:41:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7NSJ-0001u5-QN
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:04:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39892)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7NS9-0002yl-12
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 14:04:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612379075;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=W2yUObHqdTvXgPpYU0xv7G0bfsiTV52my9ghb9WluSk=;
- b=VmWPyUbxAqP19OrVlvNv2MIwp0YVQxnIGOgQ+eKUlPIfNUbXfSUtFUFR9WsFeLodeIljEl
- YGujtm7w/tyCmMkLcdP5eFkYKHmxUkgcgoAE33XDYdSGfoEWuhGnM+WnK3ao1iOcMZFV57
- 7gpUnyUDNPPOPNOV3ZWD8rsHE6oAa+k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-7aAeZxfOMHSVTnpqSauH4w-1; Wed, 03 Feb 2021 14:04:33 -0500
-X-MC-Unique: 7aAeZxfOMHSVTnpqSauH4w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0130E107ACE3;
- Wed,  3 Feb 2021 19:04:32 +0000 (UTC)
-Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB99860C5F;
- Wed,  3 Feb 2021 19:04:29 +0000 (UTC)
-Date: Wed, 3 Feb 2021 19:04:27 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v4 11/18] migration/rdma: record host_port for multifd RDMA
-Message-ID: <20210203190427.GU2950@work-vm>
-References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
- <1612339311-114805-12-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7NWQ-0005L1-At; Wed, 03 Feb 2021 14:09:02 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7NWN-0004lu-M9; Wed, 03 Feb 2021 14:09:01 -0500
+Received: by mail-wr1-x430.google.com with SMTP id c12so487860wrc.7;
+ Wed, 03 Feb 2021 11:08:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Cs9h/ffY5s4ZZxlFWluRkP9BBFE0+Iz8u7LrtIefvkY=;
+ b=fcKTRfnZ+k6S9COR0hLsnpYHk1q0gCmns7yz45NS0viVpYQL5YnWQW3v/Cc2Lv4j9N
+ hGzXSH1n5nK1bi17o5Yf5q5emHCPR6QWPDyJ1MNO9gkUTgYHR9fMK5aU8dcg0xxpKHos
+ RWY178zMn+Rr20Arwy6DKCnooxk4ddmdXMPu61VBMMkUygMhqot8PmzDABQ+Mj4wIVQr
+ mYQkNjGZsu1dYPgxrTyAZo0ws8kSS48mlCWRKvE6jTk7bmfjrzZ0YNRGZXMZ617IGUBr
+ nHXQOEJPDtfntzpchADrUwoxqnMw4LkImXOr+3LiwAju7y3DQNRWSYFMYn5fIHnalpC5
+ jQHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Cs9h/ffY5s4ZZxlFWluRkP9BBFE0+Iz8u7LrtIefvkY=;
+ b=JMNxrNFuqjst35fKUJDGOPgmssTybXb3Nn6XneqBNQJgiGAhOnI79KD9+d0iVVSetg
+ xJWvcmYjotbFerBgsS95gb1qLE704mxOzx5tBZ5CjB2vBr/jtQBbssfbO+WJXjlpba20
+ 3wdAYValsratABemsAQuOfFOOfQi0n6VYSH47wX9cwfJT/EdyYMkeZPAHRrmjZzLs8J5
+ UnYkBcELkJbeZmiPryBCXjIG4bRCVIVAajruV1eVKsapIbFaLA3YeDEBRx59RUof7P1g
+ VMvZsBOXiUTjIWaeG8cJJmKvK3yBq+xw/aH3v5MCZwKL5YfAxka/Pv9VK3ewremHpAop
+ oWQw==
+X-Gm-Message-State: AOAM532ZzIdyVdhCfjNLKN/fiZK6gvZ+FwwsXX00dGkdzyr54HogGlGE
+ nhsX+t9EWHbQurCFILs4DMJJLrSmiIs=
+X-Google-Smtp-Source: ABdhPJzbwWTNxAVf1kFPiN94tMvo5I1CgLLMXvBy7k/SQgKy4x1Siu2n66Hm8yT+sHxb62o24+rVsg==
+X-Received: by 2002:adf:f307:: with SMTP id i7mr5092970wro.367.1612379337366; 
+ Wed, 03 Feb 2021 11:08:57 -0800 (PST)
+Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.107])
+ by smtp.gmail.com with ESMTPSA id b138sm3557914wmb.35.2021.02.03.11.08.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Feb 2021 11:08:56 -0800 (PST)
+Subject: Re: [PATCH v5 03/31] exec: Use uintptr_t for guest_base
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210203190010.759771-1-richard.henderson@linaro.org>
+ <20210203190010.759771-4-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <fd583fe4-46c5-a9dc-dd3f-c38504e2e498@amsat.org>
+Date: Wed, 3 Feb 2021 20:08:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <1612339311-114805-12-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210203190010.759771-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.178,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,77 +87,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
- quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com, wanghao232@huawei.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+On 2/3/21 7:59 PM, Richard Henderson wrote:
+> This is more descriptive than 'unsigned long'.
+> No functional change, since these match on all linux+bsd hosts.
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  migration/migration.c | 1 +
->  migration/migration.h | 3 +++
->  migration/rdma.c      | 3 +++
->  3 files changed, 7 insertions(+)
+>  include/exec/cpu-all.h | 2 +-
+>  bsd-user/main.c        | 4 ++--
+>  linux-user/elfload.c   | 4 ++--
+>  linux-user/main.c      | 4 ++--
+>  4 files changed, 7 insertions(+), 7 deletions(-)
 > 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 129c81a..b8f4844 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1925,6 +1925,7 @@ void migrate_init(MigrationState *s)
->      s->postcopy_after_devices = false;
->      s->migration_thread_running = false;
->      s->enabled_rdma_migration = false;
-> +    s->host_port = NULL;
->      error_free(s->error);
->      s->error = NULL;
->      s->hostname = NULL;
-> diff --git a/migration/migration.h b/migration/migration.h
-> index da5681b..537ee09 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -285,6 +285,9 @@ struct MigrationState {
->       * Enable RDMA migration
->       */
->      bool enabled_rdma_migration;
-> +
-> +    /* Need by Multi-RDMA */
-> +    char *host_port;
-
-Please keep that next to the char *hostname, since they go together.
-Also, 'Needed'
-
-Dave
-
->  };
+> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+> index c23c77589b..c52180e8e6 100644
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -158,7 +158,7 @@ static inline void tswap64s(uint64_t *s)
+>  /* On some host systems the guest address space is reserved on the host.
+>   * This allows the guest address space to be offset to a convenient location.
+>   */
+> -extern unsigned long guest_base;
+> +extern uintptr_t guest_base;
+>  extern bool have_guest_base;
+>  extern unsigned long reserved_va;
 >  
->  void migrate_set_state(int *state, int old_state, int new_state);
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index ed8a015..9654b87 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -4206,6 +4206,8 @@ void rdma_start_outgoing_migration(void *opaque,
->          goto err;
->      }
+> diff --git a/bsd-user/main.c b/bsd-user/main.c
+> index 65163e1396..c09d74d788 100644
+> --- a/bsd-user/main.c
+> +++ b/bsd-user/main.c
+> @@ -41,7 +41,7 @@
 >  
-> +    s->host_port = g_strdup(host_port);
-> +
->      ret = qemu_rdma_source_init(rdma,
->          s->enabled_capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL], errp);
+>  int singlestep;
+>  unsigned long mmap_min_addr;
+> -unsigned long guest_base;
+> +uintptr_t guest_base;
+>  bool have_guest_base;
+>  unsigned long reserved_va;
 >  
-> @@ -4250,6 +4252,7 @@ void rdma_start_outgoing_migration(void *opaque,
+> @@ -965,7 +965,7 @@ int main(int argc, char **argv)
+>      g_free(target_environ);
 >  
->      s->to_dst_file = qemu_fopen_rdma(rdma, "wb");
->      migrate_fd_connect(s, NULL);
-> +    g_free(s->host_port);
->      return;
->  return_path_err:
->      qemu_rdma_cleanup(rdma);
-> -- 
-> 1.8.3.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>      if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
+> -        qemu_log("guest_base  0x%lx\n", guest_base);
+> +        qemu_log("guest_base  %p\n", (void *)guest_base);
 
+Why not use PRIxPTR?
+
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
