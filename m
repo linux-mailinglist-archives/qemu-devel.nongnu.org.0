@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F6530DD36
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:51:00 +0100 (CET)
-Received: from localhost ([::1]:53614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B02530DD3D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 15:51:14 +0100 (CET)
+Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7JUi-0007L9-0w
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:51:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56586)
+	id 1l7JUv-0007f5-K4
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 09:51:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7JRh-0005XY-BG
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:47:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35661)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7JRc-0005PL-Bg
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:47:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7JRf-0002tD-Lv
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:47:53 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7JRW-0002qK-Eu
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 09:47:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612363670;
+ s=mimecast20190719; t=1612363661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mEAuE0pw2FrDmE3oamjQNR28YzunNWY7GGBbLuvaFLI=;
- b=UXpxhhtyLllyjStOhw2Aez4QinL4bik6zWgI48XveidZJf2f7BsqviOiJTnaGymGDI+6c8
- 7CVKnniQIGfFtPl9M60LhWfjzhRsbSYI7gfOOX+lECtSYoUITYFv6FgQrQkAXSziYWpWWx
- 5KVUw2scYCwFJlR1aBTTZwfWuSYOG5s=
+ bh=9dqlZlpYVU0pBS0cNRkW9I2lCDuHj5Yqb1VD5inmJBE=;
+ b=SVGKGUcyZpdxFDHBEvMnUthtqPFX3YNn4QRNCHvH7ECRYGkl9J6FvF8+KWVC8zmh5Dcejw
+ ThDf3qvAofS5r+vQmdcM/Jeffw28vSlxJCGh4IkiiWsPT+H9ASnex4/si3F3TQ8a4/Hb6K
+ 3PpPm6qaHGK0jjvULxS20EWiYI2EIa0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-Vr4DCjsJMt-LPV9hq6OHMQ-1; Wed, 03 Feb 2021 09:47:46 -0500
-X-MC-Unique: Vr4DCjsJMt-LPV9hq6OHMQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-573-wG50h3CBO1mOD6PgKxKqdg-1; Wed, 03 Feb 2021 09:47:39 -0500
+X-MC-Unique: wG50h3CBO1mOD6PgKxKqdg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E6D41076215;
- Wed,  3 Feb 2021 14:47:45 +0000 (UTC)
-Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0456F60C6C;
- Wed,  3 Feb 2021 14:47:32 +0000 (UTC)
-Date: Wed, 3 Feb 2021 14:47:30 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v4 1/3] virtiofsd: extract lo_do_open() from lo_open()
-Message-ID: <20210203144730.GJ2950@work-vm>
-References: <20210203113719.83633-1-stefanha@redhat.com>
- <20210203113719.83633-2-stefanha@redhat.com>
- <20210203152035.374924b9@bahia.lan>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72ED9193410B;
+ Wed,  3 Feb 2021 14:47:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DDE07046A;
+ Wed,  3 Feb 2021 14:47:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A89A2113865F; Wed,  3 Feb 2021 15:47:36 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 08/14] qapi/introspect.py: create a typed 'Annotated'
+ data strutcure
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-9-jsnow@redhat.com>
+Date: Wed, 03 Feb 2021 15:47:36 +0100
+In-Reply-To: <20210202174651.2274166-9-jsnow@redhat.com> (John Snow's message
+ of "Tue, 2 Feb 2021 12:46:45 -0500")
+Message-ID: <878s85tdh3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210203152035.374924b9@bahia.lan>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -80,162 +81,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
- qemu-devel@nongnu.org, P J P <ppandit@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- vgoyal@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> On Wed,  3 Feb 2021 11:37:17 +0000
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> 
-> > Both lo_open() and lo_create() have similar code to open a file. Extract
-> > a common lo_do_open() function from lo_open() that will be used by
-> > lo_create() in a later commit.
-> > 
-> > Since lo_do_open() does not otherwise need fuse_req_t req, convert
-> > lo_add_fd_mapping() to use struct lo_data *lo instead.
-> > 
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> 
-> With the s/ENOMEM/-ENOMEM/ change in lo_do_open() suggested by patchew,
+John Snow <jsnow@redhat.com> writes:
 
-Isn't it actually the return -errno that's different from the original?
+> Presently, we use a tuple to attach a dict containing annotations
+> (comments and compile-time conditionals) to a tree node. This is
+> undesirable because dicts are difficult to strongly type; promoting it
+> to a real class allows us to name the values and types of the
+> annotations we are expecting.
+>
+> In terms of typing, the Annotated<T> type serves as a generic container
+> where the annotated node's type is preserved, allowing for greater
+> specificity than we'd be able to provide without a generic.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/introspect.py | 77 ++++++++++++++++++++++----------------
+>  1 file changed, 44 insertions(+), 33 deletions(-)
+>
+> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+> index b82efe16f6e..2b90a52f016 100644
+> --- a/scripts/qapi/introspect.py
+> +++ b/scripts/qapi/introspect.py
+> @@ -13,8 +13,12 @@
+>  from typing import (
+>      Any,
+>      Dict,
+> +    Generic,
+> +    Iterable,
+>      List,
+>      Optional,
+> +    Tuple,
+> +    TypeVar,
+>      Union,
+>  )
+>  
+> @@ -51,15 +55,25 @@
+>  _scalar = Union[str, bool, None]
+>  _nonscalar = Union[Dict[str, _stub], List[_stub]]
+>  _value = Union[_scalar, _nonscalar]
+> -# TreeValue = Union[_value, 'Annotated[_value]']
+> +TreeValue = Union[_value, 'Annotated[_value]']
 
-Dave
+You need to quote 'Annotated[_value]', because it's a forward
+reference.
 
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> 
-> >  tools/virtiofsd/passthrough_ll.c | 73 ++++++++++++++++++++------------
-> >  1 file changed, 46 insertions(+), 27 deletions(-)
-> > 
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index 5fb36d9407..e63cbd3fb7 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -459,17 +459,17 @@ static void lo_map_remove(struct lo_map *map, size_t key)
-> >  }
-> >  
-> >  /* Assumes lo->mutex is held */
-> > -static ssize_t lo_add_fd_mapping(fuse_req_t req, int fd)
-> > +static ssize_t lo_add_fd_mapping(struct lo_data *lo, int fd)
-> >  {
-> >      struct lo_map_elem *elem;
-> >  
-> > -    elem = lo_map_alloc_elem(&lo_data(req)->fd_map);
-> > +    elem = lo_map_alloc_elem(&lo->fd_map);
-> >      if (!elem) {
-> >          return -1;
-> >      }
-> >  
-> >      elem->fd = fd;
-> > -    return elem - lo_data(req)->fd_map.elems;
-> > +    return elem - lo->fd_map.elems;
-> >  }
-> >  
-> >  /* Assumes lo->mutex is held */
-> > @@ -1651,6 +1651,38 @@ static void update_open_flags(int writeback, int allow_direct_io,
-> >      }
-> >  }
-> >  
-> > +static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
-> > +                      struct fuse_file_info *fi)
-> > +{
-> > +    char buf[64];
-> > +    ssize_t fh;
-> > +    int fd;
-> > +
-> > +    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
-> > +
-> > +    sprintf(buf, "%i", inode->fd);
-> > +    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
-> > +    if (fd == -1) {
-> > +        return -errno;
-> > +    }
-> > +
-> > +    pthread_mutex_lock(&lo->mutex);
-> > +    fh = lo_add_fd_mapping(lo, fd);
-> > +    pthread_mutex_unlock(&lo->mutex);
-> > +    if (fh == -1) {
-> > +        close(fd);
-> > +        return ENOMEM;
-> > +    }
-> > +
-> > +    fi->fh = fh;
-> > +    if (lo->cache == CACHE_NONE) {
-> > +        fi->direct_io = 1;
-> > +    } else if (lo->cache == CACHE_ALWAYS) {
-> > +        fi->keep_cache = 1;
-> > +    }
-> > +    return 0;
-> > +}
-> > +
-> >  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-> >                        mode_t mode, struct fuse_file_info *fi)
-> >  {
-> > @@ -1691,7 +1723,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-> >          ssize_t fh;
-> >  
-> >          pthread_mutex_lock(&lo->mutex);
-> > -        fh = lo_add_fd_mapping(req, fd);
-> > +        fh = lo_add_fd_mapping(lo, fd);
-> >          pthread_mutex_unlock(&lo->mutex);
-> >          if (fh == -1) {
-> >              close(fd);
-> > @@ -1892,38 +1924,25 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
-> >  
-> >  static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
-> >  {
-> > -    int fd;
-> > -    ssize_t fh;
-> > -    char buf[64];
-> >      struct lo_data *lo = lo_data(req);
-> > +    struct lo_inode *inode = lo_inode(req, ino);
-> > +    int err;
-> >  
-> >      fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino,
-> >               fi->flags);
-> >  
-> > -    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
-> > -
-> > -    sprintf(buf, "%i", lo_fd(req, ino));
-> > -    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
-> > -    if (fd == -1) {
-> > -        return (void)fuse_reply_err(req, errno);
-> > -    }
-> > -
-> > -    pthread_mutex_lock(&lo->mutex);
-> > -    fh = lo_add_fd_mapping(req, fd);
-> > -    pthread_mutex_unlock(&lo->mutex);
-> > -    if (fh == -1) {
-> > -        close(fd);
-> > -        fuse_reply_err(req, ENOMEM);
-> > +    if (!inode) {
-> > +        fuse_reply_err(req, EBADF);
-> >          return;
-> >      }
-> >  
-> > -    fi->fh = fh;
-> > -    if (lo->cache == CACHE_NONE) {
-> > -        fi->direct_io = 1;
-> > -    } else if (lo->cache == CACHE_ALWAYS) {
-> > -        fi->keep_cache = 1;
-> > +    err = lo_do_open(lo, inode, fi);
-> > +    lo_inode_put(lo, &inode);
-> > +    if (err) {
-> > +        fuse_reply_err(req, err);
-> > +    } else {
-> > +        fuse_reply_open(req, fi);
-> >      }
-> > -    fuse_reply_open(req, fi);
-> >  }
-> >  
-> >  static void lo_release(fuse_req_t req, fuse_ino_t ino,
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Dependency cycle:
+
+        +-----------------------------------------------+
+        |                                               |
+    TreeValue = Union[_value, 'Annotated[_value]']      |
+                                   |                    |
+        +--------------------------+                    |
+        |                                               |
+    Annotated(Generic[_NodeT])                          |
+                         |                              |
+       +-----------------+                              |
+       |                                                |
+    _NodeT = TypeVar('_NodeT', bound=TreeValue          |
+                                         |              |
+                                         +--------------+
+
+Meh.  We'll live.
+
+>  
+> -def _make_tree(obj, ifcond, comment=None):
+> -    extra = {
+> -        'if': ifcond,
+> -        'comment': comment,
+> -    }
+> -    return (obj, extra)
+> +_NodeT = TypeVar('_NodeT', bound=TreeValue)
+
+Can you teach me what NodeT is about?
+
+> +
+> +
+> +class Annotated(Generic[_NodeT]):
+> +    """
+> +    Annotated generally contains a SchemaInfo-like type (as a dict),
+> +    But it also used to wrap comments/ifconds around scalar leaf values,
+> +    for the benefit of features and enums.
+> +    """
+> +    # Remove after 3.7 adds @dataclass:
+
+Make this
+
+       # TODO Remove after Python 3.7 ...
+
+to give us a fighting chance to remember.
+
+> +    # pylint: disable=too-few-public-methods
+> +    def __init__(self, value: _NodeT, ifcond: Iterable[str],
+> +                 comment: Optional[str] = None):
+
+Why not simply value: _value?
+
+> +        self.value = value
+> +        self.comment: Optional[str] = comment
+> +        self.ifcond: Tuple[str, ...] = tuple(ifcond)
+>  
+>  
+>  def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
+> @@ -67,24 +81,20 @@ def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
+>      def indent(level):
+>          return level * 4 * ' '
+>  
+> -    if isinstance(obj, tuple):
+> -        ifobj, extra = obj
+> -        ifcond = extra.get('if')
+> -        comment = extra.get('comment')
+> -
+> +    if isinstance(obj, Annotated):
+>          # NB: _tree_to_qlit is called recursively on the values of a key:value
+>          # pair; those values can't be decorated with comments or conditionals.
+>          msg = "dict values cannot have attached comments or if-conditionals."
+>          assert not suppress_first_indent, msg
+>  
+>          ret = ''
+> -        if comment:
+> -            ret += indent(level) + '/* %s */\n' % comment
+> -        if ifcond:
+> -            ret += gen_if(ifcond)
+> -        ret += _tree_to_qlit(ifobj, level)
+> -        if ifcond:
+> -            ret += '\n' + gen_endif(ifcond)
+> +        if obj.comment:
+> +            ret += indent(level) + '/* %s */\n' % obj.comment
+> +        if obj.ifcond:
+> +            ret += gen_if(obj.ifcond)
+> +        ret += _tree_to_qlit(obj.value, level, suppress_first_indent)
+
+Why do you need to pass suppress_first_indent now?
+
+> +        if obj.ifcond:
+> +            ret += '\n' + gen_endif(obj.ifcond)
+>          return ret
+>  
+>      ret = ''
+> @@ -201,7 +211,7 @@ def _use_type(self, typ):
+>  
+>      @staticmethod
+>      def _gen_features(features):
+> -        return [_make_tree(f.name, f.ifcond) for f in features]
+> +        return [Annotated(f.name, f.ifcond) for f in features]
+>  
+>      def _gen_tree(self, name, mtype, obj, ifcond, features):
+>          comment: Optional[str] = None
+> @@ -215,7 +225,7 @@ def _gen_tree(self, name, mtype, obj, ifcond, features):
+>          obj['meta-type'] = mtype
+>          if features:
+>              obj['features'] = self._gen_features(features)
+> -        self._trees.append(_make_tree(obj, ifcond, comment))
+> +        self._trees.append(Annotated(obj, ifcond, comment))
+>  
+>      def _gen_member(self, member):
+>          obj = {'name': member.name, 'type': self._use_type(member.type)}
+> @@ -223,7 +233,7 @@ def _gen_member(self, member):
+>              obj['default'] = None
+>          if member.features:
+>              obj['features'] = self._gen_features(member.features)
+> -        return _make_tree(obj, member.ifcond)
+> +        return Annotated(obj, member.ifcond)
+>  
+>      def _gen_variants(self, tag_name, variants):
+>          return {'tag': tag_name,
+> @@ -231,16 +241,17 @@ def _gen_variants(self, tag_name, variants):
+>  
+>      def _gen_variant(self, variant):
+>          obj = {'case': variant.name, 'type': self._use_type(variant.type)}
+> -        return _make_tree(obj, variant.ifcond)
+> +        return Annotated(obj, variant.ifcond)
+>  
+>      def visit_builtin_type(self, name, info, json_type):
+>          self._gen_tree(name, 'builtin', {'json-type': json_type}, [], None)
+>  
+>      def visit_enum_type(self, name, info, ifcond, features, members, prefix):
+> -        self._gen_tree(name, 'enum',
+> -                       {'values': [_make_tree(m.name, m.ifcond, None)
+> -                                   for m in members]},
+> -                       ifcond, features)
+> +        self._gen_tree(
+> +            name, 'enum',
+> +            {'values': [Annotated(m.name, m.ifcond) for m in members]},
+> +            ifcond, features
+> +        )
+>  
+>      def visit_array_type(self, name, info, ifcond, element_type):
+>          element = self._use_type(element_type)
+> @@ -257,12 +268,12 @@ def visit_object_type_flat(self, name, info, ifcond, features,
+>          self._gen_tree(name, 'object', obj, ifcond, features)
+>  
+>      def visit_alternate_type(self, name, info, ifcond, features, variants):
+> -        self._gen_tree(name, 'alternate',
+> -                       {'members': [
+> -                           _make_tree({'type': self._use_type(m.type)},
+> -                                      m.ifcond, None)
+> -                           for m in variants.variants]},
+> -                       ifcond, features)
+> +        self._gen_tree(name, 'alternate', {'members': [
+
+I think I'd prefer another line break after 'alternate', to get
+{'members': align...
+
+> +                Annotated({'type': self._use_type(m.type)}, m.ifcond)
+> +                for m in variants.variants
+> +            ]},
+
+... with ]}.
+
+> +            ifcond, features
+> +        )
+>  
+>      def visit_command(self, name, info, ifcond, features,
+>                        arg_type, ret_type, gen, success_response, boxed,
 
 
