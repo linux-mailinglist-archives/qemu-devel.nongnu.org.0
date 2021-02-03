@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4615930DFD8
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 17:38:10 +0100 (CET)
-Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F307630E1B5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:01:27 +0100 (CET)
+Received: from localhost ([::1]:44738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7LAP-0004ey-89
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 11:38:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55434)
+	id 1l7MSz-000445-3p
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:01:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7L7q-0002oQ-OK; Wed, 03 Feb 2021 11:35:30 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:42837)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7MPB-0002PS-9E
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:57:29 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7L7n-0004Oi-DY; Wed, 03 Feb 2021 11:35:30 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id z22so282711edb.9;
- Wed, 03 Feb 2021 08:35:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eGmNkCScX26h0PduqMYxigfd4oa0Xjbk5fcZes3t+Sg=;
- b=G4mPbCLa274yN62A0CIYoxS6GduhFCZoY7Bez/l5SGLNzk3uhBFm76ij7klFJfMpA7
- C3qnlwoDnxHD5PaSof1eFyoiTsBA6mdcJxMG5pSWLAjii4IIm1GOVFHGcDMRV/SLcZiv
- gem027+KH20BezqPNELKdnleGrpFH4VmpP6XZwotTmPlxloMSYmeLsloYS2L0WbI5B7W
- O2swt0FU277aEHrJHtrtaITyjncSnpjA/99DDHh9rjKrSv3GQCzeIXdrk96QsjpOe1ez
- XvF2AndyQVng996gOIyDjfk7+fQtlGgxi8EIvNrQ9og1PVWeUNTZmONdYbI4BqPa1yhs
- HQRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eGmNkCScX26h0PduqMYxigfd4oa0Xjbk5fcZes3t+Sg=;
- b=mESvoClbGNdPbfNwfSUmQJxUwF3ft/mgS8Ay/qhCOXN9LCusn2ZGZaOppPXkxLc52r
- GnaGuEmcULWvYWM0TWYZ4YaDfr8LjELThFbIcuqfmc1DL7N5OKQbY7BVszasda0zM0so
- 6ATVuC1wEwtJThl0pXOLtabe+CSc42TsqcRlTseoO1xWFuYzoya1F71gNfJsqG9W35Tg
- +X0hNxyJCJm9KfIJvPUeZUbBjmipiBOT3zoGMtOYLl94U79zEzP4aLL49IsIoIeyC7Gd
- uxF2D4/ZtHOT/KI4KGv1mFj2jOk+1lekcDBBH755s0DEdI9G6HGxzajj+BvevqfpEkfa
- Y4pA==
-X-Gm-Message-State: AOAM533tkA0JQBjYS+giOiToqX3Z8u76K3ztsU7DrNELUWbPgQDX9N9e
- GiTLaJiSv2zHIcQXFn5crKs=
-X-Google-Smtp-Source: ABdhPJwHc9y/CysdKMlcin3EYw81Rw5JeW0sqlmT54FO7wp93oX6Do1lmBUnAOzq17MIYxnOLaZzAQ==
-X-Received: by 2002:aa7:d045:: with SMTP id n5mr3878192edo.306.1612370122060; 
- Wed, 03 Feb 2021 08:35:22 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id j9sm1142466edr.25.2021.02.03.08.35.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Feb 2021 08:35:21 -0800 (PST)
-Subject: Re: [PATCH 4/8] hw/ppc/ppc440_bamboo: Drop use of ppcuic_init()
-To: avocado-devel <avocado-devel@redhat.com>
-References: <20201212001537.24520-1-peter.maydell@linaro.org>
- <20201212001537.24520-5-peter.maydell@linaro.org>
- <20210111010028.GA3499905@ubuntu-m3-large-x86>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1e76accf-08cb-4633-d9cd-7296560c9bad@amsat.org>
-Date: Wed, 3 Feb 2021 17:35:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7MP8-00014O-6n
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:57:29 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l7MP5-0006K0-JJ
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:57:23 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 396E02E815A
+ for <qemu-devel@nongnu.org>; Wed,  3 Feb 2021 17:57:23 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210111010028.GA3499905@ubuntu-m3-large-x86>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.178,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Feb 2021 16:41:49 -0000
+From: Alexander Bulekov <1913917@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd pmaydell
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Duplicate: 1914353
+References: <161205975552.32077.17135502611991851570.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161237051067.24466.12844625626687987422.launchpad@wampee.canonical.com>
+Subject: [Bug 1913917] Re: aarch64-virt: heap-use-after-free in gic_dist_writeb
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: 5f924af1759f18a1e55d564ce139cca37efadb45
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,112 +72,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1913917 <1913917@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing avocado-devel for test idea.
+*** This bug is a duplicate of bug 1914353 ***
+    https://bugs.launchpad.net/bugs/1914353
 
-On 1/11/21 2:00 AM, Nathan Chancellor wrote:
-> On Sat, Dec 12, 2020 at 12:15:33AM +0000, Peter Maydell wrote:
->> Switch the bamboo board to directly creating and configuring the UIC,
->> rather than doing it via the old ppcuic_init() helper function.
->>
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->>  hw/ppc/ppc440_bamboo.c | 38 +++++++++++++++++++++++++++-----------
->>  1 file changed, 27 insertions(+), 11 deletions(-)
-...
-> 
-> Hopefully reporting this here is okay, I find Launchpad hard to use but
-> I can file it there if need be.
-> 
-> This patch causes a panic while trying to boot a ppc44x_defconfig Linux
-> kernel:
-> 
-> $ qemu-system-ppc \
->     -machine bamboo \
->     -no-reboot \
->     -append console=ttyS0 \
->     -display none \
->     -kernel uImage \
->     -m 128m \
->     -nodefaults \
->     -serial mon:stdio
-> Linux version 5.11.0-rc3 (nathan@ubuntu-m3-large-x86) (powerpc-linux-gcc (GCC) 10.2.0, GNU ld (GNU Binutils) 2.35) #1 Sun Jan 10 15:52:24 MST 2021
-> Using PowerPC 44x Platform machine description
-> ioremap() called early from find_legacy_serial_ports+0x64c/0x794. Use early_ioremap() instead
-> printk: bootconsole [udbg0] enabled
-> -----------------------------------------------------
-> phys_mem_size     = 0x8000000
-> dcache_bsize      = 0x20
-> icache_bsize      = 0x20
-> cpu_features      = 0x0000000000000100
->   possible        = 0x0000000040000100
->   always          = 0x0000000000000100
-> cpu_user_features = 0x8c008000 0x00000000
-> mmu_features      = 0x00000008
-> -----------------------------------------------------
-> Zone ranges:
->   Normal   [mem 0x0000000000000000-0x0000000007ffffff]
-> Movable zone start for each node
-> Early memory node ranges
->   node   0: [mem 0x0000000000000000-0x0000000007ffffff]
-> Initmem setup node 0 [mem 0x0000000000000000-0x0000000007ffffff]
-> MMU: Allocated 1088 bytes of context maps for 255 contexts
-> Built 1 zonelists, mobility grouping on.  Total pages: 32448
-> Kernel command line: console=ttyS0
-> Dentry cache hash table entries: 16384 (order: 4, 65536 bytes, linear)
-> Inode-cache hash table entries: 8192 (order: 3, 32768 bytes, linear)
-> mem auto-init: stack:off, heap alloc:off, heap free:off
-> Memory: 122712K/131072K available (5040K kernel code, 236K rwdata, 1260K rodata, 200K init, 134K bss, 8360K reserved, 0K cma-reserved)
-> Kernel virtual memory layout:
->   * 0xffbdf000..0xfffff000  : fixmap
->   * 0xffbdd000..0xffbdf000  : early ioremap
->   * 0xd1000000..0xffbdd000  : vmalloc & ioremap
-> SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
-> NR_IRQS: 512, nr_irqs: 512, preallocated irqs: 16
-> Oops: Exception in kernel mode, sig: 4 [#1]
-> BE PAGE_SIZE=4K PowerPC 44x Platform
-> Modules linked in:
-> CPU: 0 PID: 0 Comm: swapper Not tainted 5.11.0-rc3 #1
-> NIP:  c0019e58 LR: c062e3a0 CTR: c0019e58
-> REGS: c067fe90 TRAP: 0700   Not tainted  (5.11.0-rc3)
-> MSR:  000a1000 <CE,ME>  CR: 84000224  XER: 20000000
-> 
-> GPR00: c062e370 c067ff50 c065c300 c0019e58 00000000 c0019238 c067fde0 c065c300
-> GPR08: 00000000 00000000 c066fca4 00000066 84000222 00000000 00000000 00000000
-> GPR16: 00000000 00000000 00000000 00000000 00000000 00000000 c0000010 00000000
-> GPR24: c0651594 c0651594 c0690000 c7ffe080 c0690000 c05c6f64 c0680000 c0802100
-> NIP [c0019e58] __mtdcr_table+0xc20/0x3ff8
-> LR [c062e3a0] uic_init_one+0x13c/0x214
-> Call Trace:
-> [c067ff50] [c062e370] uic_init_one+0x10c/0x214 (unreliable)
-> [c067ff80] [c062e4f8] uic_init_tree+0x80/0x174
-> [c067ffb0] [c0627af8] start_kernel+0x33c/0x508
-> [c067fff0] [c0000044] _start+0x44/0x88
-> Instruction dump:
-> 7c9f2b86 4e800020 7c603286 4e800020 7c803386 4e800020 7c613286 4e800020
-> 7c813386 4e800020 7c623286 4e800020 <7c823386> 4e800020 7c633286 4e800020
-> random: get_random_bytes called from oops_exit+0x44/0x84 with crng_init=0
-> ---[ end trace 0000000000000000 ]---
-> 
-> Kernel panic - not syncing: Attempted to kill the idle task!
-> Rebooting in 180 seconds..
-> 
-> I have uploaded the kernel image here:
-> 
-> https://github.com/nathanchance/bug-files/blob/8edf230441bd8eda067973fdf0eb063c94f04379/qemu-0270d74ef886235051c13c39b0de88500c628a02/uImage
-> 
-> Do note that this is not the only commit that causes an issue on this
-> machine, there is also a few assertion failures which I am about to
-> report as well.
-> 
-> Cheers,
-> Nathan
-> 
+** This bug has been marked a duplicate of bug 1914353
+   QEMU: aarch64: :GIC: out-of-bounds access via interrupt ID
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913917
+
+Title:
+  aarch64-virt: heap-use-after-free in gic_dist_writeb
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  Reproducer:
+  cat << EOF | ./qemu-system-aarch64 \
+  -machine virt,accel=3Dqtest -qtest stdio
+  writel 0x8000f00 0x5affaf
+  write 0x8000eff 0x1 0x0
+  EOF
+
+  Stacktrace:
+  ../hw/intc/arm_gic.c:1419:17: runtime error: index 3068 out of bounds for=
+ type 'gic_irq_state [1020]'
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gi=
+c.c:1419:17 in
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D641550=3D=3DERROR: AddressSanitizer: heap-use-after-free on address=
+ 0x629000023a85 at pc 0x55b5dfb0fbf8 bp 0x7fff95cb5870 sp 0x7fff95cb5868
+  WRITE of size 1 at 0x629000023a85 thread T0
+      #0 0x55b5dfb0fbf7 in gic_dist_writeb /home/alxndr/Development/qemu/bu=
+ild/../hw/intc/arm_gic.c:1419:17
+      #1 0x55b5dfb061e2 in gic_dist_write /home/alxndr/Development/qemu/bui=
+ld/../hw/intc/arm_gic.c
+      #2 0x55b5e0809ef4 in memory_region_write_with_attrs_accessor /home/al=
+xndr/Development/qemu/build/../softmmu/memory.c:511:12
+      #3 0x55b5e0808bfb in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c:552:18
+      #4 0x55b5e0808467 in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c
+      #5 0x55b5e0b98ffb in flatview_write_continue /home/alxndr/Development=
+/qemu/build/../softmmu/physmem.c:2759:23
+      #6 0x55b5e0b8e71b in flatview_write /home/alxndr/Development/qemu/bui=
+ld/../softmmu/physmem.c:2799:14
+      #7 0x55b5e0b8e71b in address_space_write /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2891:18
+      #8 0x55b5e07fad35 in qtest_process_command /home/alxndr/Development/q=
+emu/build/../softmmu/qtest.c:654:9
+      #9 0x55b5e07f3b97 in qtest_process_inbuf /home/alxndr/Development/qem=
+u/build/../softmmu/qtest.c:797:9
+      #10 0x55b5e1044286 in fd_chr_read /home/alxndr/Development/qemu/build=
+/../chardev/char-fd.c:68:9
+      #11 0x7fa997b30aae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x51aae)
+      #12 0x55b5e169f363 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/build/../util/main-loop.c:232:9
+      #13 0x55b5e169f363 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/build/../util/main-loop.c:255:5
+      #14 0x55b5e169f363 in main_loop_wait /home/alxndr/Development/qemu/bu=
+ild/../util/main-loop.c:531:11
+      #15 0x55b5e075a599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
+ild/../softmmu/runstate.c:721:9
+      #16 0x55b5de9e71fd in main /home/alxndr/Development/qemu/build/../sof=
+tmmu/main.c:50:5
+      #17 0x7fa9975d5cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #18 0x55b5de93abc9 in _start (/home/alxndr/Development/qemu/build/qem=
+u-system-aarch64+0x3350bc9)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913917/+subscriptions
 
