@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136FB30DB86
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 14:41:23 +0100 (CET)
-Received: from localhost ([::1]:44442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF9730DBC6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 14:51:11 +0100 (CET)
+Received: from localhost ([::1]:53042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7IPK-00031m-61
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 08:41:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34080)
+	id 1l7IYo-0007Hs-1f
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 08:51:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1l7INi-0002Pt-9D
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:39:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31705)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7IXM-0006oS-2W
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:49:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1l7INg-0005Km-MO
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:39:42 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7IXJ-0001LO-Lv
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 08:49:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612359580;
+ s=mimecast20190719; t=1612360175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0xtjWJuTmH5XdTCapqVv1HPn+ANwV4oNSWaKAOCbax0=;
- b=OY/pL067HV9cFJB3GQJQ5TEbOEhuiUD1TQZtYeXyVOjYrQSlaEoZQI6hNEmAf2eNCAkkbi
- OlPsMt1Au8XQd8CulvQCldrapaaA1/0ZjUG7RSjw/5PJZdP8LRMtkPsPA9OaSz2uGnbkDC
- xjcfyrW/F3NMfL6fwOmHSgVrSLkIwzY=
+ bh=AnbJdrnI73kYqC2KKQZZykVBbRFTWWCPCRVCqDYBxDU=;
+ b=TUlTbo/MKpIDLyjkWulBzVJWlGJjvHrzVctPNDk8MgY2+tJl5W5TOqlhjZkQhIs6ZRdVtm
+ xPlsmLbCDd9PR1SZ9yq9USUkXgsChRajHOdQ8XArJ44kdfVHyVhHPXEnzmDdLHwdyvcu/j
+ v63f6y7wAHxVG15ruxV35L/B5b/D8QM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-5MCtCHdJM2C8hW-FV1clNw-1; Wed, 03 Feb 2021 08:39:38 -0500
-X-MC-Unique: 5MCtCHdJM2C8hW-FV1clNw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-267-W1tupNCDNAKDnsFgZc1TDw-1; Wed, 03 Feb 2021 08:49:26 -0500
+X-MC-Unique: W1tupNCDNAKDnsFgZc1TDw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5380C85EE60;
- Wed,  3 Feb 2021 13:39:37 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FAD6E15B;
- Wed,  3 Feb 2021 13:39:35 +0000 (UTC)
-Date: Wed, 3 Feb 2021 14:39:32 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 2/2] migration: dirty-bitmap: Allow control of bitmap
- persistence on destination
-Message-ID: <20210203133932.GF54538@angien.pipo.sk>
-References: <cover.1612356810.git.pkrempa@redhat.com>
- <3afd4b353cf75c01c9260ca65e073d897e8c42d2.1612356810.git.pkrempa@redhat.com>
- <a519d6af-7f24-e9bc-894b-070738008e01@virtuozzo.com>
- <20210203132744.GE54538@angien.pipo.sk>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A9F0801960;
+ Wed,  3 Feb 2021 13:49:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EED0F5D9E8;
+ Wed,  3 Feb 2021 13:49:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 865E0113865F; Wed,  3 Feb 2021 14:49:23 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 02/14] qapi/introspect.py: use _make_tree for
+ features nodes
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-3-jsnow@redhat.com>
+Date: Wed, 03 Feb 2021 14:49:23 +0100
+In-Reply-To: <20210202174651.2274166-3-jsnow@redhat.com> (John Snow's message
+ of "Tue, 2 Feb 2021 12:46:39 -0500")
+Message-ID: <87czxhuuqk.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210203132744.GE54538@angien.pipo.sk>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -84,50 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 03, 2021 at 14:27:49 +0100, Peter Krempa wrote:
-> On Wed, Feb 03, 2021 at 16:23:21 +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > 03.02.2021 16:00, Peter Krempa wrote:
-> > > Bitmap's source persistence is transported over the migration stream and
-> > > the destination mirrors it. In some cases the destination might want to
-> > > persist bitmaps which are not persistent on the source (e.g. the result
-> > > of merge of bitmaps from a number of layers on the source when migrating
-> > > into a squashed image)
-> > 
-> > Why not make merge target on source be persistent itself? Then it will be persistent on migration destination.
-> 
-> Because they are temporary on the source. I don't want to make it
-> persistent in case of a failure so that it doesn't get written to the
-> disk e.g. in case of VM shutdown.
+John Snow <jsnow@redhat.com> writes:
 
-To be a bit more specific, I don't want the bitmaps to stay in the
-image, that means that I'd have to also delete them on the source after
-a successfull migration before qemu is terminated, which might not even
-be possible since source deactivates storage after migration.
+> At present, we open-code this in _make_tree itself; but if the structure
+> of the tree changes, this is brittle. Use an explicit recursive call to
+> _make_tree when appropriate to help keep the interior node typing
+> consistent.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/introspect.py | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+> index 43ab4be1f77..3295a15c98e 100644
+> --- a/scripts/qapi/introspect.py
+> +++ b/scripts/qapi/introspect.py
+> @@ -30,7 +30,9 @@ def _make_tree(obj, ifcond, features, extra=None):
+>      if ifcond:
+>          extra['if'] = ifcond
+>      if features:
+> -        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
+> +        obj['features'] = [
+> +            _make_tree(f.name, f.ifcond, None) for f in features
+> +        ]
+>      if extra:
+>          return (obj, extra)
+>      return obj
 
-So making them persistent on source is impossible.
+The commit message made me expect a patch that improves the code without
+changing its behavior.  This is not the case.  We go from
 
-> 
-> > 
-> > > but currently it would need to create another set
-> > > of persistent bitmaps and merge them.
-> > > 
-> > > This adds 'dest-persistent' optional property to
-> > > 'BitmapMigrationBitmapAlias' which when present overrides the bitmap
-> > > presence state from the source.
-> > 
-> > It's seems simpler to make a separate qmp command block-dirty-bitmap-make-persistent.. Didn't you consider this way?
-> 
-> I'm not sure how the internals work entirely. In my case it's way
-> simpler to do this setup when generating the mapping which I need to do
-> anyways rather than calling separate commands.
+    obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
 
-Similarly here, after a successful migration I'd have to go and make all
-the bitmaps persistent, which is an extra step, and also a vector for
-possible failures after migration which also doesn't seem appealing.
+to
+
+    obj['features'] = [_make_tree(f.name, f.ifcond) for f in features]
+
+where
+
+    _make_tree(f.name, f.ifcond)
+    = (f.name, {'if': f.ifcond})       if f.ifcond
+    = f.name                           else
+
+Differs when not f.ifcond.  Feels like an improvement.  However, the
+commit message did not prepare me for it.
 
 
