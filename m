@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E732330E20B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:10:41 +0100 (CET)
-Received: from localhost ([::1]:39434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F8730E1CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Feb 2021 19:04:48 +0100 (CET)
+Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Mbw-0006hE-Vw
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:10:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46428)
+	id 1l7MWF-0008Ct-EO
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 13:04:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7MJk-0003xs-Fg
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:51:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25441)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7MQ4-0003aO-1x
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:58:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7MJi-0000Eh-N6
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:51:52 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7MPx-0001A5-DK
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 12:58:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612374710;
+ s=mimecast20190719; t=1612375095;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PMBF1hLs70iUL2gd7WBzO9t/dhs+KV55I0fekI8WbdE=;
- b=BnmmYvwFUM80hj4Vt2isSNW5fTlIeFacoBoiREB33MsyeUpt5sKm3MVcE5GXMxALpnEO94
- yMr4iEDtAnpx/OgvGpbpY11gZRNb9NiSbG6D+q/FVCHhhH+jvKaWspcuN6FMA7+ZjYBrdP
- K+TbQmIwddEUmdoEq1TcUXDxDGF9y7c=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-IqljWbjwMwWkaz_fZ24o8Q-1; Wed, 03 Feb 2021 12:51:46 -0500
-X-MC-Unique: IqljWbjwMwWkaz_fZ24o8Q-1
-Received: by mail-ej1-f71.google.com with SMTP id d15so158372ejc.21
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 09:51:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PMBF1hLs70iUL2gd7WBzO9t/dhs+KV55I0fekI8WbdE=;
- b=M1EkmdVmsBy75YP2V7BfzeB93YlxzzSbtSD9PEvzXXTLBifzWANXFD8JJzEN8bFAWp
- HKjKYmI9foey+rxYCp0onyfH+0ltraowHhekm0uSATDCSyYqfpPcTl50krU6hHIUKOw5
- pG7W4X9jc3u6R1V+JwJS7zq6St43XqJPj7Q327HEYclUwq/gaQvLO+W6ESIoqst2P74d
- 9SUYyW7xF0oHKjYZF18o4jTveB1fdRu0x4yjLDtUsoR78TJm1coqRpIRxyLeHeD4MkDx
- 1pYy4EcAmKu9i/nYZ1TrodO6FJM3PUDBafGmJ0u4rp/tlwvfvA6G34hiTD+96WzO7pI6
- 6Eow==
-X-Gm-Message-State: AOAM531DwssGHG0VoRIcbiI4v7K+OoypZ1lixcZKDFEOnmbavLXNnIzQ
- FEcVIHnAJSCQ6FOQrqMl/Cd0and8TwWcnTjuhkf0mOsaUr4VwyVzLxBR0ZBWcCpyT4xGmptVqdL
- P0bjDRjyP9WIua2g=
-X-Received: by 2002:a05:6402:19bd:: with SMTP id
- o29mr2689388edz.161.1612374705333; 
- Wed, 03 Feb 2021 09:51:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwEfboC2TfJTeEPhc32avkmGVjn51KPuhpP8A27tRIA1rLkc7fZSy75SmqBkCNof5b8lfn86w==
-X-Received: by 2002:a05:6402:19bd:: with SMTP id
- o29mr2689366edz.161.1612374705157; 
- Wed, 03 Feb 2021 09:51:45 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id i6sm1256555ejd.110.2021.02.03.09.51.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Feb 2021 09:51:44 -0800 (PST)
-Subject: Re: [PATCH 19/22] Acceptance Tests: add port redirection for ssh by
- default
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-20-crosa@redhat.com>
- <e0f187b2-8cc2-f187-a44c-e9448cbe5fc2@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2acf7e3a-0fc3-fe63-5af2-c49e5053fbe5@redhat.com>
-Date: Wed, 3 Feb 2021 18:51:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=j3Sne9DXwf61unuc+tkaz86MPBfrwyrM01AKKKNhUsQ=;
+ b=MQiz1+J8nGvYMKopOSjeSs+GsYpyGY71YZEfvDO5sIAdQCPhsXoSIIJLqGyO4o8cVdKts7
+ Hj0hdfn6ixIBfuz/dLTwjMHQDgxPYGVMn4Pyo/vmdWCF0KEyW5RzNP8j0VwKVXe88yJC/3
+ fQr7EZ/1gtwbEUx0NFq71Qr2I2TxkUM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-wy1kPnkLMnWY-E-Pn8K9mg-1; Wed, 03 Feb 2021 12:58:11 -0500
+X-MC-Unique: wy1kPnkLMnWY-E-Pn8K9mg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22F76100F343;
+ Wed,  3 Feb 2021 17:58:10 +0000 (UTC)
+Received: from work-vm (ovpn-115-70.ams2.redhat.com [10.36.115.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D2441007637;
+ Wed,  3 Feb 2021 17:58:07 +0000 (UTC)
+Date: Wed, 3 Feb 2021 17:58:05 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v4 04/18] migration/rdma: add multifd_setup_ops for rdma
+Message-ID: <20210203175805.GN2950@work-vm>
+References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
+ <1612339311-114805-5-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <e0f187b2-8cc2-f187-a44c-e9448cbe5fc2@redhat.com>
+In-Reply-To: <1612339311-114805-5-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,47 +79,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/21 6:46 PM, Philippe Mathieu-Daudé wrote:
-> On 2/3/21 6:23 PM, Cleber Rosa wrote:
->> For users of the LinuxTest class, let's set up the VM with the port
->> redirection for SSH, instead of requiring each test to set the same
->> arguments.
->>
->> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->> ---
->>  tests/acceptance/avocado_qemu/__init__.py | 2 ++
->>  tests/acceptance/virtiofs_submounts.py    | 4 ----
->>  2 files changed, 2 insertions(+), 4 deletions(-)
->>
->> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
->> index 5f4dd6b9ec..89669cc604 100644
->> --- a/tests/acceptance/avocado_qemu/__init__.py
->> +++ b/tests/acceptance/avocado_qemu/__init__.py
->> @@ -301,6 +301,8 @@ class LinuxTest(Test, LinuxSSHMixIn):
->>          super(LinuxTest, self).setUp()
->>          self.vm.add_args('-smp', '2')
->>          self.vm.add_args('-m', '1024')
->> +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
->> +                         '-device', 'virtio-net,netdev=vnet')
-> 
-> You need a machine with a virtio-bus to be able to plug a virtio device,
-> not all provide one.
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> ---
+>  migration/multifd.c |  6 +++++
+>  migration/multifd.h |  5 ++++
+>  migration/rdma.c    | 71 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 82 insertions(+)
 
-Alternatively you could provide a network_device_type argument to
-setUp() which has to be explicitly set (since the tests would be
-pointless without network access).
+I think that's OK, although will need minor changes with my suggested
+change to 'migrate_use' in the previous patch.
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index cb1fc01..4820702 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -1232,6 +1232,12 @@ MultiFDSetup *multifd_setup_ops_init(void)
+>  {
+>      MultiFDSetup *ops;
+>  
+> +#ifdef CONFIG_RDMA
+> +    if (migrate_use_rdma()) {
+> +        ops = &multifd_rdma_ops;
+> +        return ops;
+> +    }
+> +#endif
+>      ops = &multifd_socket_ops;
+>      return ops;
+>  }
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index 1d2dc90..e3ab4b0 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -173,6 +173,11 @@ typedef struct {
+>      void (*recv_channel_setup)(QIOChannel *ioc, MultiFDRecvParams *p);
+>  } MultiFDSetup;
+>  
+> +#ifdef CONFIG_RDMA
+> +extern MultiFDSetup multifd_rdma_ops;
+> +#endif
+> +MultiFDSetup *multifd_setup_ops_init(void);
+> +
+>  void multifd_register_ops(int method, MultiFDMethods *ops);
+>  
+>  #endif
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index 00eac34..e0ea86d 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -19,6 +19,7 @@
+>  #include "qemu/cutils.h"
+>  #include "rdma.h"
+>  #include "migration.h"
+> +#include "multifd.h"
+>  #include "qemu-file.h"
+>  #include "ram.h"
+>  #include "qemu-file-channel.h"
+> @@ -4139,3 +4140,73 @@ err:
+>      g_free(rdma);
+>      g_free(rdma_return_path);
+>  }
+> +
+> +static void *multifd_rdma_send_thread(void *opaque)
+> +{
+> +    MultiFDSendParams *p = opaque;
+> +
+> +    while (true) {
+> +        WITH_QEMU_LOCK_GUARD(&p->mutex) {
+> +            if (p->quit) {
+> +                break;
+> +            }
+> +        }
+> +        qemu_sem_wait(&p->sem);
+> +    }
+> +
+> +    WITH_QEMU_LOCK_GUARD(&p->mutex) {
+> +        p->running = false;
+> +    }
+> +
+> +    return NULL;
+> +}
+> +
+> +static void multifd_rdma_send_channel_setup(MultiFDSendParams *p)
+> +{
+> +    Error *local_err = NULL;
+> +
+> +    if (p->quit) {
+> +        error_setg(&local_err, "multifd: send id %d already quit", p->id);
+> +        return ;
+> +    }
+> +    p->running = true;
+> +
+> +    qemu_thread_create(&p->thread, p->name, multifd_rdma_send_thread, p,
+> +                       QEMU_THREAD_JOINABLE);
+> +}
+> +
+> +static void *multifd_rdma_recv_thread(void *opaque)
+> +{
+> +    MultiFDRecvParams *p = opaque;
+> +
+> +    while (true) {
+> +        WITH_QEMU_LOCK_GUARD(&p->mutex) {
+> +            if (p->quit) {
+> +                break;
+> +            }
+> +        }
+> +        qemu_sem_wait(&p->sem_sync);
+> +    }
+> +
+> +    WITH_QEMU_LOCK_GUARD(&p->mutex) {
+> +        p->running = false;
+> +    }
+> +
+> +    return NULL;
+> +}
+> +
+> +static void multifd_rdma_recv_channel_setup(QIOChannel *ioc,
+> +                                            MultiFDRecvParams *p)
+> +{
+> +    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(ioc);
+> +
+> +    p->file = rioc->file;
+> +    return;
+> +}
+> +
+> +MultiFDSetup multifd_rdma_ops = {
+> +    .send_thread = multifd_rdma_send_thread,
+> +    .recv_thread = multifd_rdma_recv_thread,
+> +    .send_channel_setup = multifd_rdma_send_channel_setup,
+> +    .recv_channel_setup = multifd_rdma_recv_channel_setup
+> +};
+> -- 
+> 1.8.3.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
