@@ -2,73 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE0730F84C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:46:43 +0100 (CET)
-Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B9F30F97D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:23:00 +0100 (CET)
+Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7hmE-0007eX-1A
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:46:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39004)
+	id 1l7iLL-00019R-7y
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:22:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l7hbn-00036h-J9
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:35:55 -0500
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:41370)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l7hbm-0002V9-1k
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:35:55 -0500
-Received: by mail-lf1-x12b.google.com with SMTP id a8so5426823lfi.8
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 08:35:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4WI16CTOIH3OYsFhn8s8asBAXjvcK1IPlUFFZNLp6qM=;
- b=jVRnJC5/sf0nf352t3fX3TX48Kl2NNB2VjgSFGX5jyeT2J2whX1lmFSIHC/zOJqBC8
- S5WJ0N7h92Kk2zYv4cQvCwPOxrVUZFiWPiBBVfbqpJDJoWWsdHe5mYuIMR6UFuOW8jCt
- aX/Ke4KQQBzxGZ7T0XRw6DwQnQKVfjIm4/TEBomXUcOibaaw8p/hR3HKmrlvzvQAGmRW
- RkUJtK6GQuCWdxp4bJ15sjR5HVjDGtEwJtoMSd/jEinbf3QwXvJZScOh21X6Riy8Mqix
- r6+MJBboa2GAkoIwEg8zrElu1RLO0FzcS4WE3rosXt7+hzyBJsgMuCbMay5GsxR0ozVo
- 2BUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4WI16CTOIH3OYsFhn8s8asBAXjvcK1IPlUFFZNLp6qM=;
- b=m1OvD3QRaYYr+/jx4i23JUGP/Y/M1kvZoDTTEW0vISGz5rAX+H1f3fo6V9yQA7s0iD
- Kqk590OG96ANVZa1SPlmZ5JckXtCPqkyaj+Q9eZA6a477KN90kbO11AD4b5/fY5LBZ9e
- mdaw0WyOjZINUtq6PqWeKgNKigo/9HptCdXr3QiucpNeoNYqqy2TENX6d46KQiw0pxhl
- 6RXDnSvb+JqwpYJVY3x2Wy0XnLTcRcI2B66FiiGUQD1eE9RL+BV9Kvreu78qSj0mmuKq
- hztmtV5bZ2jIGfDqJKppDmb18IAA5S3B0q22GELzpqP3VbY8Xm7Ubov2tyieHmGLzgU8
- sP+Q==
-X-Gm-Message-State: AOAM530P0MTBHUnHYJZQ8MxCTm5PeOHcAFEo1VdAcQCCPFTnR1HS9Z4I
- 1h7ANbvbh/80NTw8WTfu14bIKw==
-X-Google-Smtp-Source: ABdhPJx00HUbTZlTsswRRmsWo5FVxOwcicXIuJMDTiqnPfmrEFC370rHgdp8OjD/yUE/J5/aZeXQTQ==
-X-Received: by 2002:ac2:510a:: with SMTP id q10mr138036lfb.48.1612456552204;
- Thu, 04 Feb 2021 08:35:52 -0800 (PST)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id c123sm668172lfd.95.2021.02.04.08.35.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 08:35:51 -0800 (PST)
-From: Andrew Melnychenko <andrew@daynix.com>
-To: jasowang@redhat.com,
-	mst@redhat.com
-Subject: [RFC PATCH v4 7/7] MAINTAINERS: Added eBPF maintainers information.
-Date: Thu,  4 Feb 2021 19:09:51 +0200
-Message-Id: <20210204170951.91805-8-andrew@daynix.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210204170951.91805-1-andrew@daynix.com>
-References: <20210204170951.91805-1-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1l7hii-0004HK-R0
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:43:04 -0500
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:59541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1l7hig-00063v-Py
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:43:04 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id A2ACE461E2;
+ Thu,  4 Feb 2021 17:35:48 +0100 (CET)
+From: Stefan Reiter <s.reiter@proxmox.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH] migration: only check page size match if RAM postcopy is
+ enabled
+Date: Thu,  4 Feb 2021 17:35:22 +0100
+Message-Id: <20210204163522.13291-1-s.reiter@proxmox.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::12b;
- envelope-from=andrew@daynix.com; helo=mail-lf1-x12b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,39 +52,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, yuri.benditovich@daynix.com, berrange@redhat.com,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew <andrew@daynix.com>
+Postcopy may also be advised for dirty-bitmap migration only, in which
+case the remote page size will not be available and we'll instead read
+bogus data, blocking migration with a mismatch error if the VM uses
+hugepages.
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+Fixes: 58110f0acb ("migration: split common postcopy out of ram postcopy")
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ migration/ram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 00626941f1..5ca9e8f304 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3194,6 +3194,14 @@ S: Maintained
- F: hw/semihosting/
- F: include/hw/semihosting/
- 
-+EBPF:
-+M: Jason Wang <jasowang@redhat.com>
-+R: Andrew Melnychenko <andrew@daynix.com>
-+R: Yuri Benditovich <yuri.benditovich@daynix.com>
-+S: Maintained
-+F: ebpf/*
-+F: tools/ebpf/*
-+
- Build and test automation
- -------------------------
- Build and test automation
+diff --git a/migration/ram.c b/migration/ram.c
+index 7811cde643..6ace15261c 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3521,7 +3521,7 @@ static int ram_load_precopy(QEMUFile *f)
+                         }
+                     }
+                     /* For postcopy we need to check hugepage sizes match */
+-                    if (postcopy_advised &&
++                    if (postcopy_advised && migrate_postcopy_ram() &&
+                         block->page_size != qemu_host_page_size) {
+                         uint64_t remote_page_size = qemu_get_be64(f);
+                         if (remote_page_size != block->page_size) {
 -- 
-2.30.0
+2.20.1
+
 
 
