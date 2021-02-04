@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56AD730F152
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:57:54 +0100 (CET)
-Received: from localhost ([::1]:34938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892CE30F158
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:59:53 +0100 (CET)
+Received: from localhost ([::1]:43534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7cKf-0003UN-8S
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:57:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37430)
+	id 1l7cMa-0006x6-K8
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:59:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cHJ-00072t-27
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:54:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29902)
+ id 1l7cHh-0007zS-3I
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:54:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cHH-0007zn-BP
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:54:24 -0500
+ id 1l7cHf-0008FH-Bq
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:54:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612436062;
+ s=mimecast20190719; t=1612436086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cUzDXpRqEv5VZgfSoKIGtEVGT6KJtVlzOdFvjwVT2vE=;
- b=alETCbFCuekOoBHwSCMHpDspR2oI8TQnGNi3W2U3eu2oY2rTJ0tZZQYyGy/dE8AjtsYFgt
- 3HSrLiG9s3WHSEYu0XfuRPSRoBYWukWfnldRAS9Y171elw6oULuMdzJDP3D4oeRTeAlwO9
- YH1PYLXcDNre/ewARkE2m7Z2UD/jE8k=
+ bh=dIyy5vmNRolTVyHmnt4JivqphRRjGpYRnUmqFs8/g84=;
+ b=MGjm3o7nObF1q4fehvclGPxC1CVqPomkUyTUQab/n6zXgLFWOgfsC+nNCYnDNM4RaaPYA+
+ 5mzj+roVxe1ke3Yd5sKJP8R9fAhEQunTHe8eZtFtoa4vbrrZefEKg0E1owzv94TTop+Bwb
+ wIDTPDbqYghM3CFMhj3nrRg5u3Nb2xo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-QebEVOLEPnOoHe-IJTYOxg-1; Thu, 04 Feb 2021 05:54:21 -0500
-X-MC-Unique: QebEVOLEPnOoHe-IJTYOxg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-387-UU89KUyqNfaMxVVvuT1QMA-1; Thu, 04 Feb 2021 05:54:45 -0500
+X-MC-Unique: UU89KUyqNfaMxVVvuT1QMA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3679A107ACE3
- for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:54:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9569B195D566
+ for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:54:44 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4659E722CF;
- Thu,  4 Feb 2021 10:54:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 562345FC3A;
+ Thu,  4 Feb 2021 10:54:36 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/20] ui: annotate DCLOps callback requirements
-Date: Thu,  4 Feb 2021 14:52:20 +0400
-Message-Id: <20210204105232.834642-9-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 10/20] vhost-user-gpu: add a configuration flag for dmabuf
+ usage
+Date: Thu,  4 Feb 2021 14:52:22 +0400
+Message-Id: <20210204105232.834642-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 References: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,86 +87,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Let's inform VirtioGPUBase that vhost-user-gpu require DMABUF messages.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/ui/console.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ include/hw/virtio/virtio-gpu.h | 3 +++
+ hw/display/vhost-user-gpu.c    | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index ce6c72e37c..bea2b6329a 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -174,35 +174,49 @@ typedef struct DisplayState DisplayState;
- typedef struct DisplayChangeListenerOps {
-     const char *dpy_name;
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 1aed7275c8..4f3dbf79f9 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -71,6 +71,7 @@ enum virtio_gpu_base_conf_flags {
+     VIRTIO_GPU_FLAG_VIRGL_ENABLED = 1,
+     VIRTIO_GPU_FLAG_STATS_ENABLED,
+     VIRTIO_GPU_FLAG_EDID_ENABLED,
++    VIRTIO_GPU_FLAG_DMABUF_ENABLED,
+ };
  
-+    /* optional */
-     void (*dpy_refresh)(DisplayChangeListener *dcl);
+ #define virtio_gpu_virgl_enabled(_cfg) \
+@@ -79,6 +80,8 @@ enum virtio_gpu_base_conf_flags {
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_STATS_ENABLED))
+ #define virtio_gpu_edid_enabled(_cfg) \
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_EDID_ENABLED))
++#define virtio_gpu_dmabuf_enabled(_cfg) \
++    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
  
-+    /* optional */
-     void (*dpy_gfx_update)(DisplayChangeListener *dcl,
-                            int x, int y, int w, int h);
-+    /* optional */
-     void (*dpy_gfx_switch)(DisplayChangeListener *dcl,
-                            struct DisplaySurface *new_surface);
-+    /* optional */
-     bool (*dpy_gfx_check_format)(DisplayChangeListener *dcl,
-                                  pixman_format_code_t format);
+ struct virtio_gpu_base_conf {
+     uint32_t max_outputs;
+diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+index dd587436ff..b7bde9feb6 100644
+--- a/hw/display/vhost-user-gpu.c
++++ b/hw/display/vhost-user-gpu.c
+@@ -547,6 +547,8 @@ vhost_user_gpu_device_realize(DeviceState *qdev, Error **errp)
+         return;
+     }
  
-+    /* optional */
-     void (*dpy_text_cursor)(DisplayChangeListener *dcl,
-                             int x, int y);
-+    /* optional */
-     void (*dpy_text_resize)(DisplayChangeListener *dcl,
-                             int w, int h);
-+    /* optional */
-     void (*dpy_text_update)(DisplayChangeListener *dcl,
-                             int x, int y, int w, int h);
- 
-+    /* optional */
-     void (*dpy_mouse_set)(DisplayChangeListener *dcl,
-                           int x, int y, int on);
-+    /* optional */
-     void (*dpy_cursor_define)(DisplayChangeListener *dcl,
-                               QEMUCursor *cursor);
- 
-+    /* required if GL */
-     QEMUGLContext (*dpy_gl_ctx_create)(DisplayChangeListener *dcl,
-                                        QEMUGLParams *params);
-+    /* required if GL */
-     void (*dpy_gl_ctx_destroy)(DisplayChangeListener *dcl,
-                                QEMUGLContext ctx);
-+    /* required if GL */
-     int (*dpy_gl_ctx_make_current)(DisplayChangeListener *dcl,
-                                    QEMUGLContext ctx);
- 
-+    /* required if GL */
-     void (*dpy_gl_scanout_disable)(DisplayChangeListener *dcl);
-+    /* required if GL */
-     void (*dpy_gl_scanout_texture)(DisplayChangeListener *dcl,
-                                    uint32_t backing_id,
-                                    bool backing_y_0_top,
-@@ -210,15 +224,20 @@ typedef struct DisplayChangeListenerOps {
-                                    uint32_t backing_height,
-                                    uint32_t x, uint32_t y,
-                                    uint32_t w, uint32_t h);
-+    /* optional */
-     void (*dpy_gl_scanout_dmabuf)(DisplayChangeListener *dcl,
-                                   QemuDmaBuf *dmabuf);
-+    /* optional */
-     void (*dpy_gl_cursor_dmabuf)(DisplayChangeListener *dcl,
-                                  QemuDmaBuf *dmabuf, bool have_hot,
-                                  uint32_t hot_x, uint32_t hot_y);
-+    /* optional */
-     void (*dpy_gl_cursor_position)(DisplayChangeListener *dcl,
-                                    uint32_t pos_x, uint32_t pos_y);
-+    /* optional */
-     void (*dpy_gl_release_dmabuf)(DisplayChangeListener *dcl,
-                                   QemuDmaBuf *dmabuf);
-+    /* required if GL */
-     void (*dpy_gl_update)(DisplayChangeListener *dcl,
-                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
- 
++    /* existing backend may send DMABUF, so let's add that requirement */
++    g->parent_obj.conf.flags |= 1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED;
+     if (virtio_has_feature(g->vhost->dev.features, VIRTIO_GPU_F_VIRGL)) {
+         g->parent_obj.conf.flags |= 1 << VIRTIO_GPU_FLAG_VIRGL_ENABLED;
+     }
 -- 
 2.29.0
 
