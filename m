@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04C630F91F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:09:48 +0100 (CET)
-Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F2430F99A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:26:16 +0100 (CET)
+Received: from localhost ([::1]:37128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7i8Z-0002Lq-K7
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:09:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41346)
+	id 1l7iOV-0004jX-OC
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:26:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7hhG-0002er-MD
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:34 -0500
-Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:35528)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l7hhE-0005L9-RM
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:34 -0500
-Received: by mail-vs1-xe29.google.com with SMTP id m13so2093719vsr.2
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 08:41:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SbYb75lV+1ZDNBqwij9Q6/BjDGCkbRuiq3/xLqBhgp0=;
- b=cetnX3ChEhg9qx0MaOx7P99wEu4AKUkrxrq46WLtYrGWaMaZqyocMp/Yti2I1Uzug8
- 4v7OhnzXuProNXnsKSQ4yLcTLMH0xmq5Sv0TRCJ7wDxrckEoWShZ+oMmkCdye/8pBJsL
- SHlSEmwDiIYjB9BIaV0RarW8dqgbfTvGf/LL+VfGAV5cPXC9GKP2DKg/8buRGtLaJaZh
- CCArd/zV3IoVxTy3KXOhXzn2zUxaylkNfuywlaJQCqCU9n3jJQCEmwtgrfGAVDFhNatP
- u+0J/0mbaKOykRVU7DahQ3gCpT7DLYUD/lBhk+xZmezJvyjMIxEIQDb2LQh0F4mhwv5a
- 076A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SbYb75lV+1ZDNBqwij9Q6/BjDGCkbRuiq3/xLqBhgp0=;
- b=CmkTJXBs0Gs1TJ6fP98AI0OpXLJfQah+ylT/qLZMR0joFvuRQy3GnWWnAm6IMK37UI
- W0VaOLzCFZvZ+de0TPsPP+DewGvxQMfFAdhaLK0+4vasfISPrXGtJA71nvMc+c/EWGvR
- lsLqa6MOj+heJtSqIEvnvk0PZ2icTqfp43rwvZEY8VyJv+RLLiAJlixLXYPFFaXe2rLy
- br1GN9HkIDsOXJMyckCp4efPV9aqO+ap8pogq6gI/hGYVG9kwX3VoYkRGdPpZ++WPXfh
- 3/AVDjKBQnreRnZaSbDLN/1F2lP7e5H2ZlGJBrqIo1jGkANBfrkgFNCicja56J8gQETt
- tzOg==
-X-Gm-Message-State: AOAM530cSrfS7EDB8/fzlDn9tDFY3Pk4KOOOrHaJoDXOits20EBpLDd8
- UCcjZDPBWemTAMZFhxDO59/Es31tNlFXnI19jByUKA==
-X-Google-Smtp-Source: ABdhPJwyYjf4UFj3BtEa7LHo97dJ9ZjhvTWcx8nvwzb1LArtZ32Bm7hQPskQXQDYfYLNX9U165H/7WQiAul+0V6gxgE=
-X-Received: by 2002:a67:310e:: with SMTP id x14mr449735vsx.46.1612456889982;
- Thu, 04 Feb 2021 08:41:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7hrb-000638-8y
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:52:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7hrX-0001j8-La
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:52:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612457531;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IuSgxnUnp/fPAXkl4v/A8qaT9ISedOc/NMfD0553Q9M=;
+ b=cz8NLO3I4VU5fpuvKd0y0XmYhvZOD1cuSBwU1gPW77tuCEaPziWVB11cWgq0d+W/xlNu0j
+ erhVGJYEfZ3+xWAnP0j/x4rTng5ARpXT83Wozz9y8UeVGFoN1keIbpFFuhmYsWTg/U/xFM
+ 10R2VqVD0yn9GqIKquhRto/zRezx8BU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-575-dNaMH9tGNhGQQMdKPOBMuQ-1; Thu, 04 Feb 2021 11:52:07 -0500
+X-MC-Unique: dNaMH9tGNhGQQMdKPOBMuQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0513801960;
+ Thu,  4 Feb 2021 16:52:06 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 35F6B1981C;
+ Thu,  4 Feb 2021 16:52:03 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ David Hildenbrand <david@redhat.com>, "Richard W.M. Jones"
+ <rjones@redhat.com>, Richard Henderson <richard.henderson@linaro.org>
+References: <28457ae1-7e9b-4428-cb10-3b79ebeac8d0@linaro.org>
+ <19D304C1-6401-4D16-AB54-DD19C978D04D@redhat.com>
+ <db32a1f5-ad73-a341-f5e7-1c8f592d3d5b@redhat.com>
+ <bd7154e1-4d6c-5b98-9e80-ec04f8476373@redhat.com>
+ <20210204090351.GN30079@redhat.com> <20210204092916.GS27779@redhat.com>
+ <b94570e3-9f87-d259-a338-adef1d552d1a@redhat.com>
+ <e1bc591d-009f-3b0f-83a0-36095efff7ee@amsat.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
+ constant folding
+Message-ID: <2d75544e-a325-aa1a-6b01-ecdd41eb64bf@redhat.com>
+Date: Thu, 4 Feb 2021 10:52:02 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210203233539.1990032-1-dje@google.com>
- <20210203233539.1990032-2-dje@google.com>
- <93a6cf6b-bb53-7b05-20a7-f2976c093f0e@redhat.com>
-In-Reply-To: <93a6cf6b-bb53-7b05-20a7-f2976c093f0e@redhat.com>
-From: Doug Evans <dje@google.com>
-Date: Thu, 4 Feb 2021 08:40:47 -0800
-Message-ID: <CADPb22S_AfBADYsj2T=Cb6G_Mk1=aHxid0VsWe+EeZwXcnJZnw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] slirp: Placeholder for libslirp ipv6 hostfwd
- support
-To: Eric Blake <eblake@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Content-Type: multipart/alternative; boundary="00000000000025131305ba8560cf"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
- envelope-from=dje@google.com; helo=mail-vs1-xe29.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <e1bc591d-009f-3b0f-83a0-36095efff7ee@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,95 +90,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000025131305ba8560cf
-Content-Type: text/plain; charset="UTF-8"
+On 2/4/21 10:04 AM, Philippe Mathieu-Daudé wrote:
 
-On Thu, Feb 4, 2021 at 8:02 AM Eric Blake <eblake@redhat.com> wrote:
+>>> Isn't it kind of weird that this would only affect an s390 host?  I
+>>> don't understand why the host would make a difference if we're doing
+>>> TCG.
+>>
+>> I assume an existing BUG in the s390x TCG backend ... which makes it
+>> harder to debug :)
+> 
+> This seems to fix it:
+> 
+> -- >8 --
+> diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+> index 8517e552323..32d03dbfbaf 100644
+> --- a/tcg/s390/tcg-target.c.inc
+> +++ b/tcg/s390/tcg-target.c.inc
+> @@ -1094,10 +1094,16 @@ static int tgen_cmp(TCGContext *s, TCGType type,
+> TCGCond c, TCGReg r1,
+>                  op = (is_unsigned ? RIL_CLFI : RIL_CFI);
+>                  tcg_out_insn_RIL(s, op, r1, c2);
+>                  goto exit;
+> -            } else if (c2 == (is_unsigned ? (uint32_t)c2 : (int32_t)c2)) {
 
-> On 2/3/21 5:35 PM, dje--- via wrote:
-> > This commit is intended to only contain the slirp submodule change
-> > that adds ipv6 hostfwd support.
->
->
-> Missing your signed-off-by, and as written, your authorship would be
-> based on the From: dje--- via <qemu-devel@nongnu.org> header (that looks
-> like our mailing list rewrote things due to SPF policies, but that it
-> botched your name in the process), rather than your Reply-to: Doug Evans
-> <dje@google.com> header.  To fix the latter, you can convince git to
-> include a From: line in the first line of the body that will override
-> whatever is in the headers even after mailing list rewrites.
->
-> > ---
-> >  slirp | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/slirp b/slirp
-> > index 8f43a99191..358c0827d4 160000
-> > --- a/slirp
-> > +++ b/slirp
-> > @@ -1 +1 @@
-> > -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
-> > +Subproject commit 358c0827d49778f016312bfb4167fe639900681f
-> >
+In this code, you are comparing c2 to the type promotion of uint32_t and
+int32_t.  That is, the conversion rules are as if you had done:
 
+(common_type) c2 == (common_type) (uint32_t) (is_unsigned ? (uint32_t)c2
+: (uint32_t)(int32_t)c2)
 
-Samuel, how do merges from the libslirp tree into the qemu tree work?
-I wasn't expecting there was anything more I would do, but please correct
-me if I'm wrong.
+> -                op = (is_unsigned ? RIL_CLGFI : RIL_CGFI);
+> -                tcg_out_insn_RIL(s, op, r1, c2);
+> -                goto exit;
+> +            } else if (is_unsigned) {
+> +                if (c2 == (uint32_t)c2) {
 
-Therefore, what this patch (1/3) is is just a placeholder to solve the
-problem of removing the "subproject comment" out of the other patches.
-The signed-off-by line is intentionally missing.
+whereas this is:
 
---00000000000025131305ba8560cf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+(common_type_unsigned)c2 == (common_type_unsigned)(uint32_t)c2
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">On Thu, Feb 4, 2021 at 8:02 AM Eric Blake &lt;<a href=3D"mail=
-to:eblake@redhat.com">eblake@redhat.com</a>&gt; wrote:<br></div></div><div =
-class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
-2/3/21 5:35 PM, dje--- via wrote:<br>
-&gt; This commit is intended to only contain the slirp submodule change<br>
-&gt; that adds ipv6 hostfwd support.<br>
-<br>
-<br>
-Missing your signed-off-by, and as written, your authorship would be<br>
-based on the From: dje--- via &lt;<a href=3D"mailto:qemu-devel@nongnu.org" =
-target=3D"_blank">qemu-devel@nongnu.org</a>&gt; header (that looks<br>
-like our mailing list rewrote things due to SPF policies, but that it<br>
-botched your name in the process), rather than your Reply-to: Doug Evans<br=
->
-&lt;<a href=3D"mailto:dje@google.com" target=3D"_blank">dje@google.com</a>&=
-gt; header.=C2=A0 To fix the latter, you can convince git to<br>
-include a From: line in the first line of the body that will override<br>
-whatever is in the headers even after mailing list rewrites.<br>
-<br>
-&gt; ---<br>
-&gt;=C2=A0 slirp | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/slirp b/slirp<br>
-&gt; index 8f43a99191..358c0827d4 160000<br>
-&gt; --- a/slirp<br>
-&gt; +++ b/slirp<br>
-&gt; @@ -1 +1 @@<br>
-&gt; -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece<br>
-&gt; +Subproject commit 358c0827d49778f016312bfb4167fe639900681f<br>
-&gt;</blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">Samuel, how do merges from the libslirp tree into the qemu=
- tree work?</div><div class=3D"gmail_default" style=3D"font-size:small">I w=
-asn&#39;t expecting there was anything more I would do, but please correct =
-me if I&#39;m wrong.</div><div class=3D"gmail_default" style=3D"font-size:s=
-mall"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Ther=
-efore, what this patch (1/3) is is just a placeholder to solve the problem =
-of removing the &quot;subproject comment&quot; out of the other patches.</d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">The signed-off-by=
- line is intentionally missing.</div><br></div></div></div>
+> +                    tcg_out_insn_RIL(s, RIL_CLGFI, r1, c2);
+> +                    goto exit;
+> +                }
+> +            } else {
+> +                if (c2 == (int32_t)c2) {
 
---00000000000025131305ba8560cf--
+and this is:
+
+(common_type_signed)c2 == (common_type_signed)(int32_t)c2
+
+and the two may indeed use a different type.
+
+I'm not sure (from the context shown here) what the type of c2 was, to
+determine what the common types are, but as an example, on my 64-bit system,
+
+(long)-1 == (int32_t)-1
+
+is true (the 64-bit value (long)-1 is equal to the sign-extended 64-bit
+value created from the signed 32-bit value (int32_t)-1), while
+
+(unsigned long)-1 == (uint32_t)(int32_t)-1
+
+is false (the 32-bit unsigned value (uint32_t) -1 promotes without sign
+extension to the 64-bit (unsigned long) type, and 0xffffffffffffffff is
+not equal to 0x00000000ffffffff).
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
