@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF5430E8A9
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 01:39:58 +0100 (CET)
-Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE0830E88A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 01:34:36 +0100 (CET)
+Received: from localhost ([::1]:37078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Sgf-00083Q-E3
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 19:39:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56836)
+	id 1l7SbT-00036f-1p
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 19:34:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7SZR-0001Kl-Vb
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 19:32:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36265)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7SZQ-0001HK-Pm
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 19:32:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7SZG-0000dd-Re
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 19:32:29 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7SZH-0000do-HT
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 19:32:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1612398738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wkntpfCCYf5FRo2qTCa/3nf3Rr89MHeedyElkjKNYSU=;
- b=fSwHF05Y98qgzzmagZnzRIorP+9tPoSa1tIZkl3f31rx5xfKDh+RwGcEPx/vnOFOtf5aeR
- FDOIA6jqx8UFnkAMy9s4ofMRDzxSCx5KJoeU8SRd9AdCUJ8GhwEsymwDVFTTSoaZ8wEMOn
- FDUsJ6N67TnoZwwPh6LlJ8cnvY5fbgY=
+ bh=ir8W7GI/RAEul9zjs7iM1O4jtduanRSkeI8lg+5O0Y8=;
+ b=T0JJcNhEu5z065NsI8I5GGxnoOitWqQBQoxSsFaDWZxSSkm9KxuwjJFa0lgkZwQ4SraltC
+ AtBlr7R9o9fp8+phe91KrqQkfD7QhtQOw9VL5fXtlEjv+zi1n/BixiDQ1GVzZL9UhMOEDj
+ xCsa0pdsW3Aq4bKQaPmSZvT1xfKdioI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-0YzPafoZOfCxs2dJQXUFsQ-1; Wed, 03 Feb 2021 19:32:16 -0500
-X-MC-Unique: 0YzPafoZOfCxs2dJQXUFsQ-1
+ us-mta-125-T4304iNhPdGXRK0WxIYszQ-1; Wed, 03 Feb 2021 19:32:16 -0500
+X-MC-Unique: T4304iNhPdGXRK0WxIYszQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 307808030B6
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E65A3AFA82
  for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 00:32:15 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8FCDE100AE4A;
- Thu,  4 Feb 2021 00:32:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53863100AE4E;
+ Thu,  4 Feb 2021 00:32:15 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 09/15] qapi/introspect.py: create a typed 'Annotated' data
- strutcure
-Date: Wed,  3 Feb 2021 19:32:01 -0500
-Message-Id: <20210204003207.2856909-10-jsnow@redhat.com>
+Subject: [PATCH v5 10/15] qapi/introspect.py: improve _tree_to_qlit error
+ message
+Date: Wed,  3 Feb 2021 19:32:02 -0500
+Message-Id: <20210204003207.2856909-11-jsnow@redhat.com>
 In-Reply-To: <20210204003207.2856909-1-jsnow@redhat.com>
 References: <20210204003207.2856909-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -57,14 +57,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,173 +83,29 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Presently, we use a tuple to attach a dict containing annotations
-(comments and compile-time conditionals) to a tree node. This is
-undesirable because dicts are difficult to strongly type; promoting it
-to a real class allows us to name the values and types of the
-annotations we are expecting.
-
-In terms of typing, the Annotated<T> type serves as a generic container
-where the annotated node's type is preserved, allowing for greater
-specificity than we'd be able to provide without a generic.
+Trivial; make the error message just a pinch more explicit in case we
+trip this by accident in the future.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/introspect.py | 77 ++++++++++++++++++++++----------------
- 1 file changed, 44 insertions(+), 33 deletions(-)
+ scripts/qapi/introspect.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 8e019b4a26a..b9427aba449 100644
+index b9427aba449..0146e4c6a0c 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -13,8 +13,12 @@
- from typing import (
-     Any,
-     Dict,
-+    Generic,
-+    Iterable,
-     List,
-     Optional,
-+    Tuple,
-+    TypeVar,
-     Union,
- )
- 
-@@ -51,15 +55,25 @@
- _scalar = Union[str, bool, None]
- _nonscalar = Union[Dict[str, _stub], List[_stub]]
- _value = Union[_scalar, _nonscalar]
--# TreeValue = TODO, in a forthcoming commit.
-+TreeValue = Union[_value, 'Annotated[_value]']
- 
- 
--def _make_tree(obj, ifcond, comment=None):
--    extra = {
--        'if': ifcond,
--        'comment': comment
--    }
--    return (obj, extra)
-+_NodeT = TypeVar('_NodeT', bound=_value)
-+
-+
-+class Annotated(Generic[_NodeT]):
-+    """
-+    Annotated generally contains a SchemaInfo-like type (as a dict),
-+    But it also used to wrap comments/ifconds around scalar leaf values,
-+    for the benefit of features and enums.
-+    """
-+    # TODO: Remove after Python 3.7 adds @dataclass:
-+    # pylint: disable=too-few-public-methods
-+    def __init__(self, value: _NodeT, ifcond: Iterable[str],
-+                 comment: Optional[str] = None):
-+        self.value = value
-+        self.comment: Optional[str] = comment
-+        self.ifcond: Tuple[str, ...] = tuple(ifcond)
- 
- 
- def _tree_to_qlit(obj, level=0, dict_value=False):
-@@ -67,24 +81,20 @@ def _tree_to_qlit(obj, level=0, dict_value=False):
-     def indent(level):
-         return level * 4 * ' '
- 
--    if isinstance(obj, tuple):
--        ifobj, extra = obj
--        ifcond = extra.get('if')
--        comment = extra.get('comment')
--
-+    if isinstance(obj, Annotated):
-         # NB: _tree_to_qlit is called recursively on the values of a key:value
-         # pair; those values can't be decorated with comments or conditionals.
-         msg = "dict values cannot have attached comments or if-conditionals."
-         assert not dict_value, msg
- 
-         ret = ''
--        if comment:
--            ret += indent(level) + '/* %s */\n' % comment
--        if ifcond:
--            ret += gen_if(ifcond)
--        ret += _tree_to_qlit(ifobj, level)
--        if ifcond:
--            ret += '\n' + gen_endif(ifcond)
-+        if obj.comment:
-+            ret += indent(level) + '/* %s */\n' % obj.comment
-+        if obj.ifcond:
-+            ret += gen_if(obj.ifcond)
-+        ret += _tree_to_qlit(obj.value, level)
-+        if obj.ifcond:
-+            ret += '\n' + gen_endif(obj.ifcond)
-         return ret
- 
-     ret = ''
-@@ -201,7 +211,7 @@ def _use_type(self, typ):
- 
-     @staticmethod
-     def _gen_features(features):
--        return [_make_tree(f.name, f.ifcond) for f in features]
-+        return [Annotated(f.name, f.ifcond) for f in features]
- 
-     def _gen_tree(self, name, mtype, obj, ifcond, features):
-         comment: Optional[str] = None
-@@ -215,7 +225,7 @@ def _gen_tree(self, name, mtype, obj, ifcond, features):
-         obj['meta-type'] = mtype
-         if features:
-             obj['features'] = self._gen_features(features)
--        self._trees.append(_make_tree(obj, ifcond, comment))
-+        self._trees.append(Annotated(obj, ifcond, comment))
- 
-     def _gen_member(self, member):
-         obj = {'name': member.name, 'type': self._use_type(member.type)}
-@@ -223,7 +233,7 @@ def _gen_member(self, member):
-             obj['default'] = None
-         if member.features:
-             obj['features'] = self._gen_features(member.features)
--        return _make_tree(obj, member.ifcond)
-+        return Annotated(obj, member.ifcond)
- 
-     def _gen_variants(self, tag_name, variants):
-         return {'tag': tag_name,
-@@ -231,16 +241,17 @@ def _gen_variants(self, tag_name, variants):
- 
-     def _gen_variant(self, variant):
-         obj = {'case': variant.name, 'type': self._use_type(variant.type)}
--        return _make_tree(obj, variant.ifcond)
-+        return Annotated(obj, variant.ifcond)
- 
-     def visit_builtin_type(self, name, info, json_type):
-         self._gen_tree(name, 'builtin', {'json-type': json_type}, [], None)
- 
-     def visit_enum_type(self, name, info, ifcond, features, members, prefix):
--        self._gen_tree(name, 'enum',
--                       {'values': [_make_tree(m.name, m.ifcond, None)
--                                   for m in members]},
--                       ifcond, features)
-+        self._gen_tree(
-+            name, 'enum',
-+            {'values': [Annotated(m.name, m.ifcond) for m in members]},
-+            ifcond, features
+@@ -124,7 +124,9 @@ def indent(level):
+     elif isinstance(obj, bool):
+         ret += 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
+     else:
+-        assert False                # not implemented
++        raise NotImplementedError(
++            f"type '{type(obj).__name__}' not implemented"
 +        )
- 
-     def visit_array_type(self, name, info, ifcond, element_type):
-         element = self._use_type(element_type)
-@@ -257,12 +268,12 @@ def visit_object_type_flat(self, name, info, ifcond, features,
-         self._gen_tree(name, 'object', obj, ifcond, features)
- 
-     def visit_alternate_type(self, name, info, ifcond, features, variants):
--        self._gen_tree(name, 'alternate',
--                       {'members': [
--                           _make_tree({'type': self._use_type(m.type)},
--                                      m.ifcond, None)
--                           for m in variants.variants]},
--                       ifcond, features)
-+        self._gen_tree(
-+            name, 'alternate',
-+            {'members': [Annotated({'type': self._use_type(m.type)}, m.ifcond)
-+                         for m in variants.variants]},
-+            ifcond, features
-+        )
- 
-     def visit_command(self, name, info, ifcond, features,
-                       arg_type, ret_type, gen, success_response, boxed,
+     if level > 0:
+         ret += ','
+     return ret
 -- 
 2.29.2
 
