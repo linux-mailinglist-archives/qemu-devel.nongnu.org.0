@@ -2,74 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6468730FDA5
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 21:05:08 +0100 (CET)
-Received: from localhost ([::1]:55662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C048130FDC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 21:11:38 +0100 (CET)
+Received: from localhost ([::1]:35940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ksA-0003V0-8e
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 15:05:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33132)
+	id 1l7kyX-0007TZ-Ch
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 15:11:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7kqH-0002b8-T8
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:03:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23199)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7kqG-0007eM-1d
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:03:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612468983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9VyMbVrWwN9sxWINMq/9lf5xZMWFhPRdOS/NVALpJwY=;
- b=eoskkkmsRTtH2wPOoOcSZ7cZF1+jDTn9SjKbv68oIKi4o/Ut4pP10lQUv+RIxcywg2XhLR
- KCOC3n+uiCEvXH+0h7l4aaHhIK3qd6dDEnJpbnbeQuDsQ198ivlzeKpwencpNchOsF2sAE
- Po4x1NkFgtNm6g8muVftGfVwoBV2+4I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-3clr5p15NqqmbR-4lpRSHQ-1; Thu, 04 Feb 2021 15:03:00 -0500
-X-MC-Unique: 3clr5p15NqqmbR-4lpRSHQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 823EB107ACC7;
- Thu,  4 Feb 2021 20:02:59 +0000 (UTC)
-Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B122660BF1;
- Thu,  4 Feb 2021 20:02:55 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-References: <20210204190708.1306296-1-eblake@redhat.com>
- <20210204190708.1306296-4-eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH 3/3] utils: Deprecate inexact fractional suffix sizes
-Message-ID: <e7cfe14c-2a55-47be-a840-6a6a943e9072@redhat.com>
-Date: Thu, 4 Feb 2021 14:02:54 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l7kx3-0006pG-Oi
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:10:05 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:59029)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l7kx1-0002IR-KZ
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:10:05 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Thu, 4 Feb 2021 21:09:48 +0100
+Received: (qmail 6251 invoked from network); 4 Feb 2021 20:09:53 -0000
+Received: from ac71.vpn.kamp-intra.net (HELO ?172.20.250.71?)
+ (pl@kamp.de@::ffff:172.20.250.71)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
+ 4 Feb 2021 20:09:53 -0000
+Subject: Re: [PATCH] qemu-img: add seek and -n option to dd command
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20210128140704.6547-1-pl@kamp.de>
+ <99982043-ed89-5fbe-afe2-691a9c19280d@redhat.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <567ab8bb-b452-d6c2-dec7-bc2cf1e34ec8@kamp.de>
+Date: Thu, 4 Feb 2021 21:09:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210204190708.1306296-4-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <99982043-ed89-5fbe-afe2-691a9c19280d@redhat.com>
 Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.182,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,51 +59,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berrange@redhat.com, qemu-block@nongnu.org,
- tao3.xu@intel.com, armbru@redhat.com,
- "libvirt-list@redhat.com" <libvirt-list@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 1:07 PM, Eric Blake wrote:
-> The value '1.1k' is inexact; 1126.4 bytes is not possible, so we
-> happen to truncate it to 1126.  Our use of fractional sizes is
-> intended for convenience, but when a user specifies a fraction that is
-> not a clean translation to binary, truncating/rounding behind their
-> backs can cause confusion.  Better is to deprecate inexact values,
-> which still leaves '1.5k' as valid, but alerts the user to spell out
-> their values as a precise byte number in cases where they are
-> currently being rounded.
-
-And I promptly forgot to save my changes in my editor.  Consider this
-squashed in:
-
-diff --git i/docs/system/deprecated.rst w/docs/system/deprecated.rst
-index c404c3926e6f..8e5e05a10642 100644
---- i/docs/system/deprecated.rst
-+++ w/docs/system/deprecated.rst
-@@ -154,6 +154,15 @@ Input parameters that take a size value should only
-use a size suffix
- the value is hexadecimal.  That is, '0x20M' is deprecated, and should
- be written either as '32M' or as '0x2000000'.
-
-+inexact sizes via scaled fractions (since 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Input parameters that take a size value should only use a fractional
-+size (such as '1.5M') that will result in an exact byte value.  The
-+use of inexact values (such as '1.1M') that require truncation or
-+rounding is deprecated, and you should instead consider writing your
-+unusual size in bytes (here, '1153433' or '1153434' as desired).
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
+Am 02.02.21 um 16:51 schrieb Eric Blake:
+> On 1/28/21 8:07 AM, Peter Lieven wrote:
+>> Signed-off-by: Peter Lieven <pl@kamp.de>
+> Your commit message says 'what', but not 'why'.  Generally, the one-line
+> 'what' works well as the subject line, but you want the commit body to
+> give an argument why your patch should be applied, rather than blank.
+>
+> Here's the last time we tried to improve qemu-img dd:
+> https://lists.gnu.org/archive/html/qemu-devel/2018-08/msg02618.html
 
 
+I was not aware of that story. My use case is that I want to be
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+able to "patch" an image that Qemu is able to handle by overwriting
+
+certain sectors. And I especially do not want to "mount" that image
+
+via qemu-nbd because I might not trust it. I totally want to avoid that the host
+
+system tries to analyse that image in terms of scanning the bootsector, partprobe,
+
+lvm etc. pp.
+
+
+>
+> where I also proposed adding seek=, and fixing skip= with count=.  Your
+> patch does not do the latter.  But the bigger complaint back then was
+> that 'qemu-img copy' should be able to do everything, and that qemu-img
+> dd should then just be a thin shim around 'qemu-img copy', rather than
+> having two parallel projects that diverge in their implementations.
+
+
+understood. I was not aware of an issue with skip and count.
+
+The patch works for me and I wanted to share it. But when I read
+
+the thread it seems that it would be a difficult task to get it merged.
+
+
+>
+> Your patch does not have the typical '---' divider and diffstat between
+> the commit message and the patch proper; this may be a factor of which
+> git packages you have installed, but having the diffstat present makes
+> it easier to see at a glance what your patch touches without reading the
+> entire email.  I had to go hunting to learn if you added iotest coverage
+> of this new feature...
+>
+> ...and the answer was no, you didn't.  You'll need to add that in v2
+> (see the link to my earlier attempt at modifying dd for an example).
+
+
+I did not. Maybe I accidently killed the '---' divider. If I will make a V2 I will add
+
+an I/O test.
+
+
+Thanks for your suggestions,
+
+Peter
+
+
 
 
