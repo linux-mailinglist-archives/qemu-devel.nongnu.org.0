@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA39E30FC71
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:19:31 +0100 (CET)
-Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F96B30FC44
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:12:00 +0100 (CET)
+Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kA6-0002qH-Vu
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:19:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39696)
+	id 1l7k2p-0005Et-8Z
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:11:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7jTb-0002UD-T1
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:35:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46228)
+ id 1l7jTm-0002br-G3
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:35:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7jTO-0004T9-C1
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:35:34 -0500
+ id 1l7jTZ-0004Vi-Bx
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:35:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612463720;
+ s=mimecast20190719; t=1612463729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=34bn4iYROhYf74704WZ1pi7p7y8NX/XWdva2PxfrYeo=;
- b=hjkL5IjuhPfum8Dm2Z+85+Cpv10+SqPab00rQv9iqyWrwyMv74526oJplOS50Aum7rUmqh
- gfb/WEd8wFgIc/JhZiW6aHPnEHMcz4s5ZKqNlsbqQmjexPvEkhXQgeL237l3wEaI7zg3ky
- k+PjZknMXm47jVc+b0U2T9GBsO+ZU30=
+ bh=iyZSoVD/PK1v2AgTUerEGLiNIWbX3CD0IF78yPdqESg=;
+ b=ZOiHEuCx93PBswgWc928ct0D1vS7e+FlVoo9aM0tB+nbpvnHRw/ubZGNLPRy1Po9SZxdf8
+ 76iv/Gk61bEzyHGgP3j4Q1I6y02nVwhZJNfih48k7cmbS4UcNeaj2Vrf3Cdej1sqqXqoIK
+ K3WOBI8w92hJ/JMDEo/FYJh/gCQYcQE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-5e8DL4jWPHW_SArQ2uFebw-1; Thu, 04 Feb 2021 13:35:16 -0500
-X-MC-Unique: 5e8DL4jWPHW_SArQ2uFebw-1
+ us-mta-567-FNaItIcrPuKQF9WWIv7x4Q-1; Thu, 04 Feb 2021 13:35:25 -0500
+X-MC-Unique: FNaItIcrPuKQF9WWIv7x4Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42A5B8799EC;
- Thu,  4 Feb 2021 18:35:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A58A68799E0;
+ Thu,  4 Feb 2021 18:35:24 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-21.ams2.redhat.com
  [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1581870483;
- Thu,  4 Feb 2021 18:35:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D49E5B4B5;
+ Thu,  4 Feb 2021 18:35:15 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, virtio-fs@redhat.com, stefanha@redhat.com,
  groug@kaod.org, qemu-stable@nongnu.org
-Subject: [PULL 1/5] virtiofsd: extract lo_do_open() from lo_open()
-Date: Thu,  4 Feb 2021 18:34:35 +0000
-Message-Id: <20210204183439.546918-2-dgilbert@redhat.com>
+Subject: [PULL 2/5] virtiofsd: optionally return inode pointer from
+ lo_do_lookup()
+Date: Thu,  4 Feb 2021 18:34:36 +0000
+Message-Id: <20210204183439.546918-3-dgilbert@redhat.com>
 In-Reply-To: <20210204183439.546918-1-dgilbert@redhat.com>
 References: <20210204183439.546918-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +60,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,143 +86,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Both lo_open() and lo_create() have similar code to open a file. Extract
-a common lo_do_open() function from lo_open() that will be used by
-lo_create() in a later commit.
+lo_do_lookup() finds an existing inode or allocates a new one. It
+increments nlookup so that the inode stays alive until the client
+releases it.
 
-Since lo_do_open() does not otherwise need fuse_req_t req, convert
-lo_add_fd_mapping() to use struct lo_data *lo instead.
+Existing callers don't need the struct lo_inode so the function doesn't
+return it. Extend the function to optionally return the inode. The next
+commit will need it.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210204150208.367837-2-stefanha@redhat.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20210204150208.367837-3-stefanha@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 73 ++++++++++++++++++++------------
- 1 file changed, 46 insertions(+), 27 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 5fb36d9407..f14fa5124d 100644
+index f14fa5124d..aa35fc6ba5 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -459,17 +459,17 @@ static void lo_map_remove(struct lo_map *map, size_t key)
+@@ -831,11 +831,13 @@ static int do_statx(struct lo_data *lo, int dirfd, const char *pathname,
  }
  
- /* Assumes lo->mutex is held */
--static ssize_t lo_add_fd_mapping(fuse_req_t req, int fd)
-+static ssize_t lo_add_fd_mapping(struct lo_data *lo, int fd)
+ /*
+- * Increments nlookup and caller must release refcount using
+- * lo_inode_put(&parent).
++ * Increments nlookup on the inode on success. unref_inode_lolocked() must be
++ * called eventually to decrement nlookup again. If inodep is non-NULL, the
++ * inode pointer is stored and the caller must call lo_inode_put().
+  */
+ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+-                        struct fuse_entry_param *e)
++                        struct fuse_entry_param *e,
++                        struct lo_inode **inodep)
  {
-     struct lo_map_elem *elem;
+     int newfd;
+     int res;
+@@ -845,6 +847,10 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+     struct lo_inode *inode = NULL;
+     struct lo_inode *dir = lo_inode(req, parent);
  
--    elem = lo_map_alloc_elem(&lo_data(req)->fd_map);
-+    elem = lo_map_alloc_elem(&lo->fd_map);
-     if (!elem) {
-         return -1;
-     }
- 
-     elem->fd = fd;
--    return elem - lo_data(req)->fd_map.elems;
-+    return elem - lo->fd_map.elems;
- }
- 
- /* Assumes lo->mutex is held */
-@@ -1651,6 +1651,38 @@ static void update_open_flags(int writeback, int allow_direct_io,
-     }
- }
- 
-+static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
-+                      struct fuse_file_info *fi)
-+{
-+    char buf[64];
-+    ssize_t fh;
-+    int fd;
-+
-+    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
-+
-+    sprintf(buf, "%i", inode->fd);
-+    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
-+    if (fd == -1) {
-+        return errno;
++    if (inodep) {
++        *inodep = NULL;
 +    }
 +
-+    pthread_mutex_lock(&lo->mutex);
-+    fh = lo_add_fd_mapping(lo, fd);
-+    pthread_mutex_unlock(&lo->mutex);
-+    if (fh == -1) {
-+        close(fd);
-+        return ENOMEM;
-+    }
-+
-+    fi->fh = fh;
-+    if (lo->cache == CACHE_NONE) {
-+        fi->direct_io = 1;
-+    } else if (lo->cache == CACHE_ALWAYS) {
-+        fi->keep_cache = 1;
-+    }
-+    return 0;
-+}
-+
- static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-                       mode_t mode, struct fuse_file_info *fi)
- {
-@@ -1691,7 +1723,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-         ssize_t fh;
- 
-         pthread_mutex_lock(&lo->mutex);
--        fh = lo_add_fd_mapping(req, fd);
-+        fh = lo_add_fd_mapping(lo, fd);
+     /*
+      * name_to_handle_at() and open_by_handle_at() can reach here with fuse
+      * mount point in guest, but we don't have its inode info in the
+@@ -913,7 +919,14 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
          pthread_mutex_unlock(&lo->mutex);
-         if (fh == -1) {
-             close(fd);
-@@ -1892,38 +1924,25 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
+     }
+     e->ino = inode->fuse_ino;
+-    lo_inode_put(lo, &inode);
++
++    /* Transfer ownership of inode pointer to caller or drop it */
++    if (inodep) {
++        *inodep = inode;
++    } else {
++        lo_inode_put(lo, &inode);
++    }
++
+     lo_inode_put(lo, &dir);
  
- static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
- {
--    int fd;
--    ssize_t fh;
--    char buf[64];
-     struct lo_data *lo = lo_data(req);
-+    struct lo_inode *inode = lo_inode(req, ino);
-+    int err;
- 
-     fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino,
-              fi->flags);
- 
--    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
--
--    sprintf(buf, "%i", lo_fd(req, ino));
--    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
--    if (fd == -1) {
--        return (void)fuse_reply_err(req, errno);
--    }
--
--    pthread_mutex_lock(&lo->mutex);
--    fh = lo_add_fd_mapping(req, fd);
--    pthread_mutex_unlock(&lo->mutex);
--    if (fh == -1) {
--        close(fd);
--        fuse_reply_err(req, ENOMEM);
-+    if (!inode) {
-+        fuse_reply_err(req, EBADF);
+     fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long long)parent,
+@@ -948,7 +961,7 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
          return;
      }
  
--    fi->fh = fh;
--    if (lo->cache == CACHE_NONE) {
--        fi->direct_io = 1;
--    } else if (lo->cache == CACHE_ALWAYS) {
--        fi->keep_cache = 1;
-+    err = lo_do_open(lo, inode, fi);
-+    lo_inode_put(lo, &inode);
-+    if (err) {
-+        fuse_reply_err(req, err);
-+    } else {
-+        fuse_reply_open(req, fi);
+-    err = lo_do_lookup(req, parent, name, &e);
++    err = lo_do_lookup(req, parent, name, &e, NULL);
+     if (err) {
+         fuse_reply_err(req, err);
+     } else {
+@@ -1056,7 +1069,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+         goto out;
      }
--    fuse_reply_open(req, fi);
- }
  
- static void lo_release(fuse_req_t req, fuse_ino_t ino,
+-    saverr = lo_do_lookup(req, parent, name, &e);
++    saverr = lo_do_lookup(req, parent, name, &e, NULL);
+     if (saverr) {
+         goto out;
+     }
+@@ -1534,7 +1547,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+ 
+         if (plus) {
+             if (!is_dot_or_dotdot(name)) {
+-                err = lo_do_lookup(req, ino, name, &e);
++                err = lo_do_lookup(req, ino, name, &e, NULL);
+                 if (err) {
+                     goto error;
+                 }
+@@ -1732,7 +1745,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+         }
+ 
+         fi->fh = fh;
+-        err = lo_do_lookup(req, parent, name, &e);
++        err = lo_do_lookup(req, parent, name, &e, NULL);
+     }
+     if (lo->cache == CACHE_NONE) {
+         fi->direct_io = 1;
 -- 
 2.29.2
 
