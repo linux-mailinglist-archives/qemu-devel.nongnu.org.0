@@ -2,50 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B6530FDA3
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 21:04:58 +0100 (CET)
-Received: from localhost ([::1]:55618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6468730FDA5
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 21:05:08 +0100 (CET)
+Received: from localhost ([::1]:55662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ks5-0003Tn-OS
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 15:04:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32912)
+	id 1l7ksA-0003V0-8e
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 15:05:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l7kpS-000281-FI
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:02:14 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:36248
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l7kpQ-0007Gw-0t
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:02:14 -0500
-Received: from macbook02.fritz.box (p5b1511bf.dip0.t-ipconnect.de
- [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7kqH-0002b8-T8
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:03:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23199)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7kqG-0007eM-1d
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:03:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612468983;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9VyMbVrWwN9sxWINMq/9lf5xZMWFhPRdOS/NVALpJwY=;
+ b=eoskkkmsRTtH2wPOoOcSZ7cZF1+jDTn9SjKbv68oIKi4o/Ut4pP10lQUv+RIxcywg2XhLR
+ KCOC3n+uiCEvXH+0h7l4aaHhIK3qd6dDEnJpbnbeQuDsQ198ivlzeKpwencpNchOsF2sAE
+ Po4x1NkFgtNm6g8muVftGfVwoBV2+4I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-3clr5p15NqqmbR-4lpRSHQ-1; Thu, 04 Feb 2021 15:03:00 -0500
+X-MC-Unique: 3clr5p15NqqmbR-4lpRSHQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id C6B82DA0730;
- Thu,  4 Feb 2021 21:02:08 +0100 (CET)
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210204014509.882821-1-richard.henderson@linaro.org>
- <CAFEAcA8yiVXSLwP4kzsE4MSfhVKTn9H3VtnXgXRmnHZmxUrfhw@mail.gmail.com>
-From: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH v2 00/93] TCI fixes and cleanups
-Message-ID: <6923a507-4d10-49c5-c9b6-b275bcb520dd@weilnetz.de>
-Date: Thu, 4 Feb 2021 21:02:08 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 823EB107ACC7;
+ Thu,  4 Feb 2021 20:02:59 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B122660BF1;
+ Thu,  4 Feb 2021 20:02:55 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+References: <20210204190708.1306296-1-eblake@redhat.com>
+ <20210204190708.1306296-4-eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH 3/3] utils: Deprecate inexact fractional suffix sizes
+Message-ID: <e7cfe14c-2a55-47be-a840-6a6a943e9072@redhat.com>
+Date: Thu, 4 Feb 2021 14:02:54 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8yiVXSLwP4kzsE4MSfhVKTn9H3VtnXgXRmnHZmxUrfhw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.182,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210204190708.1306296-4-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,71 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: vsementsov@virtuozzo.com, berrange@redhat.com, qemu-block@nongnu.org,
+ tao3.xu@intel.com, armbru@redhat.com,
+ "libvirt-list@redhat.com" <libvirt-list@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.02.21 um 10:58 schrieb Peter Maydell:
-> On Thu, 4 Feb 2021 at 01:49, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->> Almost 7 years ago I detailed 5 major problems in tci[1], of
->> which three still remain:
->>
->>    * Unaligned accesses to the bytecode stream, which means
->>      that we immediately SIGBUS on any host requiring alignment.
->>    * Non-portable calls to helper functions.
->>    * Full of useless ifdefs and TODOs.
->>
->> To my mind, this means the code is unmaintained, despite what it
->> says in MAINTAINERS.  Thus tci *should* be simply removed.
->> However, every time removal is suggested, someone comes out of the
->> woodwork and says we should keep it, because it's useful for $FOO.
-> Not listed, but also a problem:
->   * it's a configure-time choice, not a runtime choice
+On 2/4/21 1:07 PM, Eric Blake wrote:
+> The value '1.1k' is inexact; 1126.4 bytes is not possible, so we
+> happen to truncate it to 1126.  Our use of fractional sizes is
+> intended for convenience, but when a user specifies a fraction that is
+> not a clean translation to binary, truncating/rounding behind their
+> backs can cause confusion.  Better is to deprecate inexact values,
+> which still leaves '1.5k' as valid, but alerts the user to spell out
+> their values as a precise byte number in cases where they are
+> currently being rounded.
+
+And I promptly forgot to save my changes in my editor.  Consider this
+squashed in:
+
+diff --git i/docs/system/deprecated.rst w/docs/system/deprecated.rst
+index c404c3926e6f..8e5e05a10642 100644
+--- i/docs/system/deprecated.rst
++++ w/docs/system/deprecated.rst
+@@ -154,6 +154,15 @@ Input parameters that take a size value should only
+use a size suffix
+ the value is hexadecimal.  That is, '0x20M' is deprecated, and should
+ be written either as '32M' or as '0x2000000'.
+
++inexact sizes via scaled fractions (since 6.0)
++''''''''''''''''''''''''''''''''''''''''''''''
++
++Input parameters that take a size value should only use a fractional
++size (such as '1.5M') that will result in an exact byte value.  The
++use of inexact values (such as '1.1M') that require truncation or
++rounding is deprecated, and you should instead consider writing your
++unusual size in bytes (here, '1153433' or '1153434' as desired).
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
 
 
-That's the feature which I also desire most. Technically it was not=20
-possible to have native and interpreted TCG in the same code some years=20
-ago when I tried to implement this, but that might have changed as TCG=20
-has evolved a lot. Having TCI as a runtime choice would not only require =
 
-less CI builds but also allow new use cases for TCG testing.
-
-I also agree with most of Richard's list of problems and appreciate the=20
-efforts to fix them.
-
-I disagree on the #ifdefs which can help to understand TCG better in my=20
-opinion, so for me they have a useful side effect of being also=20
-documentation.
-
-Most of the problems which you named above were already mentioned in the =
-
-README for TCI from 2011.
-
-Nevertheless I had the impression that TCI was "good enough" for those=20
-who used it, and it was sufficient to fix a newly used TCG opcode which=20
-triggered a TODO assertion from time to time. Obviously I underestimated =
-
-Richard's desire to have a 100 % working TCI. I am sorry for that.
-
-Technically the patch series looks reasonable. I like especially the=20
-disassembler. Is there a Git repository which makes pulling all changes=20
-easier? It would also help if the patches which were already reviewed=20
-were already merged in qemu master.
-
-Regarding misaligned bytecode access, there exist two solutions. We=20
-could either use code which handles that correctly (I had sent a patch=20
-using memcpy two years ago and recently sent a V2 which uses the QEMU=20
-standard functions for that). Or we can align the data like it is done=20
-in Richard's patches. For me it is not obvious which one is better.=20
-While a single access is faster for aligned data, this might be=20
-different for sequential access on misaligned data which might profit=20
-from better caching of smaller bytecode.
-
-Kind regards,
-
-Stefan
-
-
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
