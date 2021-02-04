@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199B530FC92
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:24:48 +0100 (CET)
-Received: from localhost ([::1]:42026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488C430FC74
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:22:01 +0100 (CET)
+Received: from localhost ([::1]:32792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kFD-0002Uq-3K
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:24:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42582)
+	id 1l7kCW-00070n-A9
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:22:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7jgP-0007gi-3J
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:48:49 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7jgL-0001Cw-5K
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:48:47 -0500
-Received: by mail-wm1-x332.google.com with SMTP id f16so4017825wmq.5
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 10:48:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=IavaTd5JlizAcIuHAmC8EXN9WDzsqhQnUQYWWV3gHS8=;
- b=VdcRGSOVcXSi43q0kpZPsFdVkqKv+HhOkWei963l0SyemUuvlxXXjLsXw6DryIf1Qr
- +UNeV9pFGdZ+BV/cUAh1oeboN7NynazObopt8p5/wEKGGDGSIo8flPtMe+oDIdkoQ80V
- q1vMfkvfIokjbCYQBLxYCE/ndcxzePpPq5AbAz+YYcQXhlUusO5pXwcIq759M8zogOsm
- bdXe4m7hWqpMpgwTDdyrbTuSMAXc1TcIxWn0Md+REK8RzFfbw90uANCuJy2JLDH1BVES
- 8s9qofrSkm/hPOhdPuICYLSA47to3i3bwsYjHhqeLLIdBT7gZqr07ur1ISVdk1lSWEnA
- xL+g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l7jf9-0005nT-QB
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:47:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29311)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l7jf6-0000iq-9y
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:47:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612464446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wByFY0kwvNlhRPrKZVLBOl0S4foTNSWB3yIVdN3y5I4=;
+ b=cUPP5yAWeVMt3nMv/gwz5tB7xdb75tfAis4n27HauQzMe2nM0ZwEtt5LeLABSmG4m6BFcS
+ Qtafa+YgEoYNu1XaMLyMemYbqKCgqRD0Tkn9q6znPdrjgBDOExZgYKyIAXnijVHU3xNw4Y
+ k3QmViFhNqq/uU8pEAd1IzFpM9Hfarg=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-p6gVvv-6OUKUuH5Wb0izIg-1; Thu, 04 Feb 2021 13:47:24 -0500
+X-MC-Unique: p6gVvv-6OUKUuH5Wb0izIg-1
+Received: by mail-pf1-f200.google.com with SMTP id z3so3069684pfj.3
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 10:47:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=IavaTd5JlizAcIuHAmC8EXN9WDzsqhQnUQYWWV3gHS8=;
- b=koYdRlk4ugsQEQ2sG+D3Ut4XmGae6vvO904QS4jOtpjnmzR7Zf+Y4ZSgtT/tmy3bsS
- CQuGcUhYV+KeY0tdKo9vKPIfjjpfwTpcnN3X2+Hxa3d+3CMFig5CmfhxMuhHgT6oHe9g
- +U2I/G1aZj3Yhbpg21ftETg44X7VVaL/OQTTLaneAAqhlPG5ky4og7FP3ts6v+0YfoUR
- tuxxKrhFOqBFWadk3mqIu7pd/bqOze13ZxZ6pOT66sJhKys0QI3RyiRZAY/ZuktwMIK8
- yYwIm3wTibH80pt2E2aWXdbY0MthDUE8yV4cTTdnbeHnigH+d1HRPPSTqESK+jad00UM
- m3aw==
-X-Gm-Message-State: AOAM5334b5MrOxwhyQwS6/nCfuhzWTs9vNNiFQ034M6mYZmDs4XACKwh
- sPCACyXbo8ROnthKEGRzTjyHVg==
-X-Google-Smtp-Source: ABdhPJylnWi2jVGSpt+flPnPt4ZEYkyiIm98eiK/Rlyv0NnBDAct3zBZAAZcgjFO74ukdIpsLWnPgQ==
-X-Received: by 2002:a1c:8083:: with SMTP id b125mr490952wmd.188.1612464518832; 
- Thu, 04 Feb 2021 10:48:38 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a27sm8856822wrc.94.2021.02.04.10.48.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 10:48:37 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7B57F1FF7E;
- Thu,  4 Feb 2021 18:48:36 +0000 (GMT)
-References: <20210204014509.882821-1-richard.henderson@linaro.org>
- <20210204014509.882821-5-richard.henderson@linaro.org>
- <87tuqrq3hh.fsf@linaro.org>
- <82078884-4213-158e-9e1e-7d9b6b026536@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 04/93] tcg: Manage splitwx in tc_ptr_to_region_tree
- by hand
-Date: Thu, 04 Feb 2021 18:45:09 +0000
-In-reply-to: <82078884-4213-158e-9e1e-7d9b6b026536@linaro.org>
-Message-ID: <87a6sjpt2z.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wByFY0kwvNlhRPrKZVLBOl0S4foTNSWB3yIVdN3y5I4=;
+ b=q7fIpCjywJCyiF6QRKUDl96Cu8nIeCFkFjDQxwWCw8v3+0wUtuKFBjL9pxKpgyw6GM
+ n7J37JYLFKDM84B5jSnaPbQqQF7dWS/hsUtvqQWpsB90OzkpgZeXGeHnmSOj3R+TUzJe
+ uwtv4RdjKvqzRuLn4oqVRWa1GiHpVH9DjjCTPSoi/SbikY7PBZJJhFaB1SMiKotEgB9p
+ f+OvO5VaQwGYvOfucKQb71KhloEgmqiTtNywAnor4sI2rmgvGVD45CPABNVpxVnf9bTD
+ NI8iiiGwhijTIpCw1Nf22MfSRKOJJhS7eXAH7kSWhn8Bp0BA0qYwozSsJ3U+7eUUCLeG
+ MS4A==
+X-Gm-Message-State: AOAM531MNqmyjg8U9LO4boZJPzm8dccQ47RtCfJCezUvnJJdkRUnAXTa
+ KCexJX3ziOd2813BhZkFxkkOcC2wfwpdBZ8IYktaBFAJMSGoguOMZ3hBrntxTjCClSjbR2w4XwX
+ whuBgNkyPaNByod3WOhJnh1vYikDJbHM=
+X-Received: by 2002:a63:215f:: with SMTP id s31mr387121pgm.146.1612464443680; 
+ Thu, 04 Feb 2021 10:47:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJysg8UoVS4wyQmPAyHPqeZ6ppgtBEUqwZ0Wbe2sL3fuh4HbwQXLcjzcAYEpK5URUZ0xMAKNwOLJgqLP5RVUPVE=
+X-Received: by 2002:a63:215f:: with SMTP id s31mr387090pgm.146.1612464443366; 
+ Thu, 04 Feb 2021 10:47:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210204180328.1735105-1-f4bug@amsat.org>
+ <0e3863f5-179c-7bb9-e5de-5a5a6d21c2c6@redhat.com>
+ <CAAdtpL6+vkmJSPB39jww75CsFv6ZkTgfD+7yzUqBH+OX-uT4gQ@mail.gmail.com>
+In-Reply-To: <CAAdtpL6+vkmJSPB39jww75CsFv6ZkTgfD+7yzUqBH+OX-uT4gQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 4 Feb 2021 19:47:11 +0100
+Message-ID: <CABgObfbZYsjfmbO47-LmP6fzZaB3bQiYR3dM1qvXk0OpPbcK5A@mail.gmail.com>
+Subject: Re: [PATCH] exec/cpu-defs: Remove TCG backends dependency
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000005c370705ba872232"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,44 +90,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000005c370705ba872232
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Il gio 4 feb 2021, 19:41 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> ha
+scritto:
 
-> On 2/4/21 5:01 AM, Alex Benn=C3=A9e wrote:
->>=20
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>=20
->>> The use in tcg_tb_lookup is given a random pc that comes from the pc
->>> of a signal handler.  Do not assert that the pointer is already within
->>> the code gen buffer at all, much less the writable mirror of it.
->>=20
->> Surely we are asserting that - or at least you can find a rt entry for
->> the pointer passed (which we always expect to work)?
+> On Thu, Feb 4, 2021 at 7:19 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> > On 04/02/21 19:03, Philippe Mathieu-Daud=C3=A9 wrote:
+> > > "exec/cpu-defs.h" contains common CPU definitions for
+> > > accelerators, which is not related to the TCG backends.
+> > > See tcg/README description:
+> >
+> > Most of the definitions are actually for TCG, not for all accelerators
+> > (the TLB mostly).
 >
-> What?  No.  The pointer could be anything at all, depending on any other =
-bug
-> within qemu.
+> Ah ok. Richard, could you update the description or do you want
+> me to respin?
+>
+> > However, they're indeed unrelated to the backends, so
+> >
+> > Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+>
+> Thanks, this avoids rebuilding the whole tree when doing a single change
+> in these headers (I'll send a quick mail about it later, proven useful
+> while
+> bisecting).
+>
 
-But you do assert it:
+You could respin and include this info as well.
 
-     struct tcg_region_tree *rt =3D tc_ptr_to_region_tree(tb->tc.ptr);
-=20
-     g_assert(rt !=3D NULL);
+Paolo
 
-and rt is only NULL when it's !in_code_gen_buffer(p).
-
-In tcg_tb_lookup you haven't removed an assert - you just ensure you
-don't fail if it's not.
 
 >
+
+--0000000000005c370705ba872232
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il gio 4 feb 2021, 19:41 Philippe Mathieu-Daud=C3=A9 &=
+lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; ha scritto:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">On Thu, Feb 4, 2021 at 7:19 PM Paolo=
+ Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" rel=
+=3D"noreferrer">pbonzini@redhat.com</a>&gt; wrote:<br>
+&gt; On 04/02/21 19:03, Philippe Mathieu-Daud=C3=A9 wrote:<br>
+&gt; &gt; &quot;exec/cpu-defs.h&quot; contains common CPU definitions for<b=
+r>
+&gt; &gt; accelerators, which is not related to the TCG backends.<br>
+&gt; &gt; See tcg/README description:<br>
+&gt;<br>
+&gt; Most of the definitions are actually for TCG, not for all accelerators=
+<br>
+&gt; (the TLB mostly).<br>
+<br>
+Ah ok. Richard, could you update the description or do you want<br>
+me to respin?<br>
+<br>
+&gt; However, they&#39;re indeed unrelated to the backends, so<br>
+&gt;<br>
+&gt; Acked-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
+<br>
+Thanks, this avoids rebuilding the whole tree when doing a single change<br=
 >
-> r~
+in these headers (I&#39;ll send a quick mail about it later, proven useful =
+while<br>
+bisecting).<br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
+r=3D"auto">You could respin and include this info as well.</div><div dir=3D=
+"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><=
+div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+</blockquote></div></div></div>
 
+--0000000000005c370705ba872232--
 
---=20
-Alex Benn=C3=A9e
 
