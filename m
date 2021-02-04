@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7CA30F96A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:21:02 +0100 (CET)
-Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CEC30F99B
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:26:17 +0100 (CET)
+Received: from localhost ([::1]:37146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7iJR-0007Be-8A
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:21:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40976)
+	id 1l7iOW-0004ju-Hx
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:26:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hgV-0001PQ-FO
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37124)
+ id 1l7hgd-0001TF-2t
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hgT-0004vz-0L
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:47 -0500
+ id 1l7hgY-0004y3-2d
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612456844;
+ s=mimecast20190719; t=1612456849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TFm5Ym9lRFuRYCfOAFW0tWn/PAoPK/Ezau01U7EEF/k=;
- b=DT1znCSAw4QmG6EabX+BePYppXNG3hUfwL2x+hx+nwIYSoks0FVPUv2QuNqLI+X7Wa5bTg
- nXlTb6oBIcto+6EExhe2g70Ngvq43nylngPR4AxWMYOQt1Sk7rksTORYs5GKQZuS4D96VA
- t8A68Rzb2uaAiruvRMQ5J8Rgfzg60dM=
+ bh=6nfrvNfSCyKfA/BX2b5QmFJgrDmLnqzA9oepRR5UN3I=;
+ b=ewqrRTqsIW/4W+CD2JjjpliFhsOCXWSazYhjgNiOIlMnEegcTrIzWm922HA1/+3jKCtOWL
+ 0y8REsvPEJaX+pV9dKMuDOw8N6e0JhS8yVYf+nNQsAAqXf77gKxAfiwvki0iDSw9jQmm0L
+ ix1mMVDoQcoI8YupyAbgRxSSEFv+S04=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-naCXf4u7OOiZhHRtxcluZw-1; Thu, 04 Feb 2021 11:40:42 -0500
-X-MC-Unique: naCXf4u7OOiZhHRtxcluZw-1
+ us-mta-388-oZ_g8wI7OxOSVbRJ20Evpw-1; Thu, 04 Feb 2021 11:40:47 -0500
+X-MC-Unique: oZ_g8wI7OxOSVbRJ20Evpw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D635107ACE3;
- Thu,  4 Feb 2021 16:40:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00577804022;
+ Thu,  4 Feb 2021 16:40:46 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-21.ams2.redhat.com
  [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 290F41A38C;
- Thu,  4 Feb 2021 16:40:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AB421A26A;
+ Thu,  4 Feb 2021 16:40:41 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
  gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
  wainersm@redhat.com
-Subject: [PULL 07/27] migration: support UFFD write fault processing in
- ram_save_iterate()
-Date: Thu,  4 Feb 2021 16:39:39 +0000
-Message-Id: <20210204163959.377618-8-dgilbert@redhat.com>
+Subject: [PULL 08/27] migration: implementation of background snapshot thread
+Date: Thu,  4 Feb 2021 16:39:40 +0000
+Message-Id: <20210204163959.377618-9-dgilbert@redhat.com>
 In-Reply-To: <20210204163959.377618-1-dgilbert@redhat.com>
 References: <20210204163959.377618-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -63,13 +62,14 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URG_BIZ=0.573 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,470 +87,367 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 
-In this particular implementation the same single migration
-thread is responsible for both normal linear dirty page
-migration and procesing UFFD page fault events.
+Introducing implementation of 'background' snapshot thread
+which in overall follows the logic of precopy migration
+while internally utilizes completely different mechanism
+to 'freeze' vmstate at the start of snapshot creation.
 
-Processing write faults includes reading UFFD file descriptor,
-finding respective RAM block and saving faulting page to
-the migration stream. After page has been saved, write protection
-can be removed. Since asynchronous version of qemu_put_buffer()
-is expected to be used to save pages, we also have to flush
-migraion stream prior to un-protecting saved memory range.
-
-Write protection is being removed for any previously protected
-memory chunk that has hit the migration stream. That's valid
-for pages from linear page scan along with write fault pages.
+This mechanism is based on userfault_fd with wr-protection
+support and is Linux-specific.
 
 Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Acked-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20210129101407.103458-4-andrey.gruzdev@virtuozzo.com>
+Message-Id: <20210129101407.103458-5-andrey.gruzdev@virtuozzo.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  fixup pagefault.address cast for 32bit
 ---
- include/exec/memory.h  |   7 +
- migration/ram.c        | 324 +++++++++++++++++++++++++++++++++++++----
- migration/ram.h        |   2 +
- migration/trace-events |   2 +
- 4 files changed, 306 insertions(+), 29 deletions(-)
+ migration/migration.c | 255 +++++++++++++++++++++++++++++++++++++++++-
+ migration/migration.h |   3 +
+ migration/savevm.c    |   1 -
+ migration/savevm.h    |   2 +
+ 4 files changed, 258 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 37096217e7..e58c09f130 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -150,6 +150,13 @@ typedef struct IOMMUTLBEvent {
- #define RAM_PMEM (1 << 5)
- 
- 
-+/*
-+ * UFFDIO_WRITEPROTECT is used on this RAMBlock to
-+ * support 'write-tracking' migration type.
-+ * Implies ram_state->ram_wt_enabled.
-+ */
-+#define RAM_UF_WRITEPROTECT (1 << 6)
-+
- static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
-                                        IOMMUNotifierFlag flags,
-                                        hwaddr start, hwaddr end,
-diff --git a/migration/ram.c b/migration/ram.c
-index ae8de17153..26adb55aa9 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -56,6 +56,11 @@
- #include "savevm.h"
- #include "qemu/iov.h"
- #include "multifd.h"
-+#include "sysemu/runstate.h"
-+
-+#if defined(__linux__)
-+#include "qemu/userfaultfd.h"
-+#endif /* defined(__linux__) */
- 
- /***********************************************************/
- /* ram save/restore */
-@@ -298,6 +303,8 @@ struct RAMSrcPageRequest {
- struct RAMState {
-     /* QEMUFile used for this migration */
-     QEMUFile *f;
-+    /* UFFD file descriptor, used in 'write-tracking' migration */
-+    int uffdio_fd;
-     /* Last block that we have visited searching for dirty pages */
-     RAMBlock *last_seen_block;
-     /* Last block from where we have sent data */
-@@ -1434,6 +1441,269 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
-     return block;
+diff --git a/migration/migration.c b/migration/migration.c
+index 2262f348af..ecb4115d68 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2000,6 +2000,7 @@ void migrate_init(MigrationState *s)
+      * locks.
+      */
+     s->cleanup_bh = 0;
++    s->vm_start_bh = 0;
+     s->to_dst_file = NULL;
+     s->state = MIGRATION_STATUS_NONE;
+     s->rp_state.from_dst_file = NULL;
+@@ -3217,6 +3218,50 @@ fail:
+                       MIGRATION_STATUS_FAILED);
  }
  
-+#if defined(__linux__)
 +/**
-+ * poll_fault_page: try to get next UFFD write fault page and, if pending fault
-+ *   is found, return RAM block pointer and page offset
++ * bg_migration_completion: Used by bg_migration_thread when after all the
++ *   RAM has been saved. The caller 'breaks' the loop when this returns.
 + *
-+ * Returns pointer to the RAMBlock containing faulting page,
-+ *   NULL if no write faults are pending
-+ *
-+ * @rs: current RAM state
-+ * @offset: page offset from the beginning of the block
++ * @s: Current migration state
 + */
-+static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
++static void bg_migration_completion(MigrationState *s)
 +{
-+    struct uffd_msg uffd_msg;
-+    void *page_address;
-+    RAMBlock *bs;
-+    int res;
++    int current_active_state = s->state;
 +
-+    if (!migrate_background_snapshot()) {
-+        return NULL;
++    /*
++     * Stop tracking RAM writes - un-protect memory, un-register UFFD
++     * memory ranges, flush kernel wait queues and wake up threads
++     * waiting for write fault to be resolved.
++     */
++    ram_write_tracking_stop();
++
++    if (s->state == MIGRATION_STATUS_ACTIVE) {
++        /*
++         * By this moment we have RAM content saved into the migration stream.
++         * The next step is to flush the non-RAM content (device state)
++         * right after the ram content. The device state has been stored into
++         * the temporary buffer before RAM saving started.
++         */
++        qemu_put_buffer(s->to_dst_file, s->bioc->data, s->bioc->usage);
++        qemu_fflush(s->to_dst_file);
++    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
++        goto fail;
 +    }
 +
-+    res = uffd_read_events(rs->uffdio_fd, &uffd_msg, 1);
-+    if (res <= 0) {
-+        return NULL;
++    if (qemu_file_get_error(s->to_dst_file)) {
++        trace_migration_completion_file_err();
++        goto fail;
 +    }
 +
-+    page_address = (void *)(uintptr_t) uffd_msg.arg.pagefault.address;
-+    bs = qemu_ram_block_from_host(page_address, false, offset);
-+    assert(bs && (bs->flags & RAM_UF_WRITEPROTECT) != 0);
-+    return bs;
++    migrate_set_state(&s->state, current_active_state,
++                      MIGRATION_STATUS_COMPLETED);
++    return;
++
++fail:
++    migrate_set_state(&s->state, current_active_state,
++                      MIGRATION_STATUS_FAILED);
 +}
 +
-+/**
-+ * ram_save_release_protection: release UFFD write protection after
-+ *   a range of pages has been saved
-+ *
-+ * @rs: current RAM state
-+ * @pss: page-search-status structure
-+ * @start_page: index of the first page in the range relative to pss->block
-+ *
-+ * Returns 0 on success, negative value in case of an error
-+*/
-+static int ram_save_release_protection(RAMState *rs, PageSearchStatus *pss,
-+        unsigned long start_page)
+ bool migrate_colo_enabled(void)
+ {
+     MigrationState *s = migrate_get_current();
+@@ -3557,6 +3602,47 @@ static void migration_iteration_finish(MigrationState *s)
+     qemu_mutex_unlock_iothread();
+ }
+ 
++static void bg_migration_iteration_finish(MigrationState *s)
 +{
-+    int res = 0;
++    qemu_mutex_lock_iothread();
++    switch (s->state) {
++    case MIGRATION_STATUS_COMPLETED:
++        migration_calculate_complete(s);
++        break;
 +
-+    /* Check if page is from UFFD-managed region. */
-+    if (pss->block->flags & RAM_UF_WRITEPROTECT) {
-+        void *page_address = pss->block->host + (start_page << TARGET_PAGE_BITS);
-+        uint64_t run_length = (pss->page - start_page + 1) << TARGET_PAGE_BITS;
++    case MIGRATION_STATUS_ACTIVE:
++    case MIGRATION_STATUS_FAILED:
++    case MIGRATION_STATUS_CANCELLED:
++    case MIGRATION_STATUS_CANCELLING:
++        break;
 +
-+        /* Flush async buffers before un-protect. */
-+        qemu_fflush(rs->f);
-+        /* Un-protect memory range. */
-+        res = uffd_change_protection(rs->uffdio_fd, page_address, run_length,
-+                false, false);
++    default:
++        /* Should not reach here, but if so, forgive the VM. */
++        error_report("%s: Unknown ending state %d", __func__, s->state);
++        break;
 +    }
 +
-+    return res;
-+}
-+
-+/* ram_write_tracking_available: check if kernel supports required UFFD features
-+ *
-+ * Returns true if supports, false otherwise
-+ */
-+bool ram_write_tracking_available(void)
-+{
-+    uint64_t uffd_features;
-+    int res;
-+
-+    res = uffd_query_features(&uffd_features);
-+    return (res == 0 &&
-+            (uffd_features & UFFD_FEATURE_PAGEFAULT_FLAG_WP) != 0);
-+}
-+
-+/* ram_write_tracking_compatible: check if guest configuration is
-+ *   compatible with 'write-tracking'
-+ *
-+ * Returns true if compatible, false otherwise
-+ */
-+bool ram_write_tracking_compatible(void)
-+{
-+    const uint64_t uffd_ioctls_mask = BIT(_UFFDIO_WRITEPROTECT);
-+    int uffd_fd;
-+    RAMBlock *bs;
-+    bool ret = false;
-+
-+    /* Open UFFD file descriptor */
-+    uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, false);
-+    if (uffd_fd < 0) {
-+        return false;
-+    }
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        uint64_t uffd_ioctls;
-+
-+        /* Nothing to do with read-only and MMIO-writable regions */
-+        if (bs->mr->readonly || bs->mr->rom_device) {
-+            continue;
-+        }
-+        /* Try to register block memory via UFFD-IO to track writes */
-+        if (uffd_register_memory(uffd_fd, bs->host, bs->max_length,
-+                UFFDIO_REGISTER_MODE_WP, &uffd_ioctls)) {
-+            goto out;
-+        }
-+        if ((uffd_ioctls & uffd_ioctls_mask) != uffd_ioctls_mask) {
-+            goto out;
-+        }
-+    }
-+    ret = true;
-+
-+out:
-+    uffd_close_fd(uffd_fd);
-+    return ret;
++    migrate_fd_cleanup_schedule(s);
++    qemu_mutex_unlock_iothread();
 +}
 +
 +/*
-+ * ram_write_tracking_start: start UFFD-WP memory tracking
-+ *
-+ * Returns 0 for success or negative value in case of error
++ * Return true if continue to the next iteration directly, false
++ * otherwise.
 + */
-+int ram_write_tracking_start(void)
++static MigIterateState bg_migration_iteration_run(MigrationState *s)
 +{
-+    int uffd_fd;
-+    RAMState *rs = ram_state;
-+    RAMBlock *bs;
++    int res;
 +
-+    /* Open UFFD file descriptor */
-+    uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, true);
-+    if (uffd_fd < 0) {
-+        return uffd_fd;
-+    }
-+    rs->uffdio_fd = uffd_fd;
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        /* Nothing to do with read-only and MMIO-writable regions */
-+        if (bs->mr->readonly || bs->mr->rom_device) {
-+            continue;
-+        }
-+
-+        /* Register block memory with UFFD to track writes */
-+        if (uffd_register_memory(rs->uffdio_fd, bs->host,
-+                bs->max_length, UFFDIO_REGISTER_MODE_WP, NULL)) {
-+            goto fail;
-+        }
-+        /* Apply UFFD write protection to the block memory range */
-+        if (uffd_change_protection(rs->uffdio_fd, bs->host,
-+                bs->max_length, true, false)) {
-+            goto fail;
-+        }
-+        bs->flags |= RAM_UF_WRITEPROTECT;
-+        memory_region_ref(bs->mr);
-+
-+        trace_ram_write_tracking_ramblock_start(bs->idstr, bs->page_size,
-+                bs->host, bs->max_length);
++    res = qemu_savevm_state_iterate(s->to_dst_file, false);
++    if (res > 0) {
++        bg_migration_completion(s);
++        return MIG_ITERATE_BREAK;
 +    }
 +
-+    return 0;
++    return MIG_ITERATE_RESUME;
++}
 +
-+fail:
-+    error_report("ram_write_tracking_start() failed: restoring initial memory state");
+ void migration_make_urgent_request(void)
+ {
+     qemu_sem_post(&migrate_get_current()->rate_limit_sem);
+@@ -3704,6 +3790,165 @@ static void *migration_thread(void *opaque)
+     return NULL;
+ }
+ 
++static void bg_migration_vm_start_bh(void *opaque)
++{
++    MigrationState *s = opaque;
 +
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
-+            continue;
-+        }
-+        /*
-+         * In case some memory block failed to be write-protected
-+         * remove protection and unregister all succeeded RAM blocks
-+         */
-+        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
-+        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
-+        /* Cleanup flags and remove reference */
-+        bs->flags &= ~RAM_UF_WRITEPROTECT;
-+        memory_region_unref(bs->mr);
-+    }
++    qemu_bh_delete(s->vm_start_bh);
++    s->vm_start_bh = NULL;
 +
-+    uffd_close_fd(uffd_fd);
-+    rs->uffdio_fd = -1;
-+    return -1;
++    vm_start();
++    s->downtime = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) - s->downtime_start;
 +}
 +
 +/**
-+ * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
++ * Background snapshot thread, based on live migration code.
++ * This is an alternative implementation of live migration mechanism
++ * introduced specifically to support background snapshots.
++ *
++ * It takes advantage of userfault_fd write protection mechanism introduced
++ * in v5.7 kernel. Compared to existing dirty page logging migration much
++ * lesser stream traffic is produced resulting in smaller snapshot images,
++ * simply cause of no page duplicates can get into the stream.
++ *
++ * Another key point is that generated vmstate stream reflects machine state
++ * 'frozen' at the beginning of snapshot creation compared to dirty page logging
++ * mechanism, which effectively results in that saved snapshot is the state of VM
++ * at the end of the process.
 + */
-+void ram_write_tracking_stop(void)
++static void *bg_migration_thread(void *opaque)
 +{
-+    RAMState *rs = ram_state;
-+    RAMBlock *bs;
++    MigrationState *s = opaque;
++    int64_t setup_start;
++    MigThrError thr_error;
++    QEMUFile *fb;
++    bool early_fail = true;
 +
-+    RCU_READ_LOCK_GUARD();
++    rcu_register_thread();
++    object_ref(OBJECT(s));
 +
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
-+            continue;
++    qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
++
++    setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
++    /*
++     * We want to save vmstate for the moment when migration has been
++     * initiated but also we want to save RAM content while VM is running.
++     * The RAM content should appear first in the vmstate. So, we first
++     * stash the non-RAM part of the vmstate to the temporary buffer,
++     * then write RAM part of the vmstate to the migration stream
++     * with vCPUs running and, finally, write stashed non-RAM part of
++     * the vmstate from the buffer to the migration stream.
++     */
++    s->bioc = qio_channel_buffer_new(128 * 1024);
++    qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
++    fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
++    object_unref(OBJECT(s->bioc));
++
++    update_iteration_initial_status(s);
++
++    qemu_savevm_state_header(s->to_dst_file);
++    qemu_savevm_state_setup(s->to_dst_file);
++
++    if (qemu_savevm_state_guest_unplug_pending()) {
++        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
++                          MIGRATION_STATUS_WAIT_UNPLUG);
++
++        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
++               qemu_savevm_state_guest_unplug_pending()) {
++            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
 +        }
-+        /* Remove protection and unregister all affected RAM blocks */
-+        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
-+        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
 +
-+        trace_ram_write_tracking_ramblock_stop(bs->idstr, bs->page_size,
-+                bs->host, bs->max_length);
++        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
++                          MIGRATION_STATUS_ACTIVE);
++    } else {
++        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
++                MIGRATION_STATUS_ACTIVE);
++    }
++    s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
 +
-+        /* Cleanup flags and remove reference */
-+        bs->flags &= ~RAM_UF_WRITEPROTECT;
-+        memory_region_unref(bs->mr);
++    trace_migration_thread_setup_complete();
++    s->downtime_start = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++
++    qemu_mutex_lock_iothread();
++
++    /*
++     * If VM is currently in suspended state, then, to make a valid runstate
++     * transition in vm_stop_force_state() we need to wakeup it up.
++     */
++    qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, NULL);
++    s->vm_was_running = runstate_is_running();
++
++    if (global_state_store()) {
++        goto fail;
++    }
++    /* Forcibly stop VM before saving state of vCPUs and devices */
++    if (vm_stop_force_state(RUN_STATE_PAUSED)) {
++        goto fail;
++    }
++    /*
++     * Put vCPUs in sync with shadow context structures, then
++     * save their state to channel-buffer along with devices.
++     */
++    cpu_synchronize_all_states();
++    if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
++        goto fail;
++    }
++    /* Now initialize UFFD context and start tracking RAM writes */
++    if (ram_write_tracking_start()) {
++        goto fail;
++    }
++    early_fail = false;
++
++    /*
++     * Start VM from BH handler to avoid write-fault lock here.
++     * UFFD-WP protection for the whole RAM is already enabled so
++     * calling VM state change notifiers from vm_start() would initiate
++     * writes to virtio VQs memory which is in write-protected region.
++     */
++    s->vm_start_bh = qemu_bh_new(bg_migration_vm_start_bh, s);
++    qemu_bh_schedule(s->vm_start_bh);
++
++    qemu_mutex_unlock_iothread();
++
++    while (migration_is_active(s)) {
++        MigIterateState iter_state = bg_migration_iteration_run(s);
++        if (iter_state == MIG_ITERATE_SKIP) {
++            continue;
++        } else if (iter_state == MIG_ITERATE_BREAK) {
++            break;
++        }
++
++        /*
++         * Try to detect any kind of failures, and see whether we
++         * should stop the migration now.
++         */
++        thr_error = migration_detect_error(s);
++        if (thr_error == MIG_THR_ERR_FATAL) {
++            /* Stop migration */
++            break;
++        }
++
++        migration_update_counters(s, qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
 +    }
 +
-+    /* Finally close UFFD file descriptor */
-+    uffd_close_fd(rs->uffdio_fd);
-+    rs->uffdio_fd = -1;
-+}
++    trace_migration_thread_after_loop();
 +
-+#else
-+/* No target OS support, stubs just fail or ignore */
++fail:
++    if (early_fail) {
++        migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
++                MIGRATION_STATUS_FAILED);
++        qemu_mutex_unlock_iothread();
++    }
 +
-+static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
-+{
-+    (void) rs;
-+    (void) offset;
++    bg_migration_iteration_finish(s);
++
++    qemu_fclose(fb);
++    object_unref(OBJECT(s));
++    rcu_unregister_thread();
 +
 +    return NULL;
 +}
 +
-+static int ram_save_release_protection(RAMState *rs, PageSearchStatus *pss,
-+        unsigned long start_page)
-+{
-+    (void) rs;
-+    (void) pss;
-+    (void) start_page;
+ void migrate_fd_connect(MigrationState *s, Error *error_in)
+ {
+     Error *local_err = NULL;
+@@ -3767,8 +4012,14 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+         migrate_fd_cleanup(s);
+         return;
+     }
+-    qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
+-                       QEMU_THREAD_JOINABLE);
 +
-+    return 0;
-+}
-+
-+bool ram_write_tracking_available(void)
-+{
-+    return false;
-+}
-+
-+bool ram_write_tracking_compatible(void)
-+{
-+    assert(0);
-+    return false;
-+}
-+
-+int ram_write_tracking_start(void)
-+{
-+    assert(0);
-+    return -1;
-+}
-+
-+void ram_write_tracking_stop(void)
-+{
-+    assert(0);
-+}
-+#endif /* defined(__linux__) */
-+
- /**
-  * get_queued_page: unqueue a page from the postcopy requests
-  *
-@@ -1473,6 +1743,14 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
- 
-     } while (block && !dirty);
- 
-+    if (!block) {
-+        /*
-+         * Poll write faults too if background snapshot is enabled; that's
-+         * when we have vcpus got blocked by the write protected pages.
-+         */
-+        block = poll_fault_page(rs, &offset);
++    if (migrate_background_snapshot()) {
++        qemu_thread_create(&s->thread, "bg_snapshot",
++                bg_migration_thread, s, QEMU_THREAD_JOINABLE);
++    } else {
++        qemu_thread_create(&s->thread, "live_migration",
++                migration_thread, s, QEMU_THREAD_JOINABLE);
 +    }
-+
-     if (block) {
-         /*
-          * As soon as we start servicing pages out of order, then we have
-@@ -1715,6 +1993,8 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
-     int tmppages, pages = 0;
-     size_t pagesize_bits =
-         qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
-+    unsigned long start_page = pss->page;
-+    int res;
- 
-     if (ramblock_is_ignored(pss->block)) {
-         error_report("block %s should not be migrated !", pss->block->idstr);
-@@ -1740,10 +2020,11 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
-     } while ((pss->page & (pagesize_bits - 1)) &&
-              offset_in_ramblock(pss->block,
-                                 ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
--
-     /* The offset we leave with is the last one we looked at */
-     pss->page--;
--    return pages;
-+
-+    res = ram_save_release_protection(rs, pss, start_page);
-+    return (res < 0 ? res : pages);
+     s->migration_thread_running = true;
  }
  
- /**
-@@ -1880,10 +2161,13 @@ static void ram_save_cleanup(void *opaque)
-     RAMState **rsp = opaque;
-     RAMBlock *block;
+diff --git a/migration/migration.h b/migration/migration.h
+index f40338cfbf..0723955cd7 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -20,6 +20,7 @@
+ #include "qemu/thread.h"
+ #include "qemu/coroutine_int.h"
+ #include "io/channel.h"
++#include "io/channel-buffer.h"
+ #include "net/announce.h"
+ #include "qom/object.h"
  
--    /* caller have hold iothread lock or is in a bh, so there is
--     * no writing race against the migration bitmap
--     */
--    memory_global_dirty_log_stop();
-+    /* We don't use dirty log with background snapshots */
-+    if (!migrate_background_snapshot()) {
-+        /* caller have hold iothread lock or is in a bh, so there is
-+         * no writing race against the migration bitmap
-+         */
-+        memory_global_dirty_log_stop();
-+    }
+@@ -147,8 +148,10 @@ struct MigrationState {
  
-     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         g_free(block->clear_bmap);
-@@ -2343,8 +2627,11 @@ static void ram_init_bitmaps(RAMState *rs)
- 
-     WITH_RCU_READ_LOCK_GUARD() {
-         ram_list_init_bitmaps();
--        memory_global_dirty_log_start();
--        migration_bitmap_sync_precopy(rs);
-+        /* We don't use dirty log with background snapshots */
-+        if (!migrate_background_snapshot()) {
-+            memory_global_dirty_log_start();
-+            migration_bitmap_sync_precopy(rs);
-+        }
-     }
-     qemu_mutex_unlock_ramlist();
-     qemu_mutex_unlock_iothread();
-@@ -3788,27 +4075,6 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
+     /*< public >*/
+     QemuThread thread;
++    QEMUBH *vm_start_bh;
+     QEMUBH *cleanup_bh;
+     QEMUFile *to_dst_file;
++    QIOChannelBuffer *bioc;
+     /*
+      * Protects to_dst_file pointer.  We need to make sure we won't
+      * yield or hang during the critical section, since this lock will
+diff --git a/migration/savevm.c b/migration/savevm.c
+index d1e6aaed60..d5bf53388f 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1378,7 +1378,6 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
      return 0;
  }
  
--/* ram_write_tracking_available: check if kernel supports required UFFD features
-- *
-- * Returns true if supports, false otherwise
-- */
--bool ram_write_tracking_available(void)
--{
--    /* TODO: implement */
--    return false;
--}
--
--/* ram_write_tracking_compatible: check if guest configuration is
-- *   compatible with 'write-tracking'
-- *
-- * Returns true if compatible, false otherwise
-- */
--bool ram_write_tracking_compatible(void)
--{
--    /* TODO: implement */
--    return false;
--}
--
- static SaveVMHandlers savevm_ram_handlers = {
-     .save_setup = ram_save_setup,
-     .save_live_iterate = ram_save_iterate,
-diff --git a/migration/ram.h b/migration/ram.h
-index 1a9ff90304..c25540cb93 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -82,5 +82,7 @@ void colo_incoming_start_dirty_log(void);
- /* Background snapshot */
- bool ram_write_tracking_available(void);
- bool ram_write_tracking_compatible(void);
-+int ram_write_tracking_start(void);
-+void ram_write_tracking_stop(void);
+-static
+ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+                                                     bool in_postcopy,
+                                                     bool inactivate_disks)
+diff --git a/migration/savevm.h b/migration/savevm.h
+index ba64a7e271..aaee2528ed 100644
+--- a/migration/savevm.h
++++ b/migration/savevm.h
+@@ -64,5 +64,7 @@ int qemu_loadvm_state(QEMUFile *f);
+ void qemu_loadvm_state_cleanup(void);
+ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
+ int qemu_load_device_state(QEMUFile *f);
++int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
++        bool in_postcopy, bool inactivate_disks);
  
  #endif
-diff --git a/migration/trace-events b/migration/trace-events
-index 75de5004ac..668c562fed 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -111,6 +111,8 @@ save_xbzrle_page_skipping(void) ""
- save_xbzrle_page_overflow(void) ""
- ram_save_iterate_big_wait(uint64_t milliconds, int iterations) "big wait: %" PRIu64 " milliseconds, %d iterations"
- ram_load_complete(int ret, uint64_t seq_iter) "exit_code %d seq iteration %" PRIu64
-+ram_write_tracking_ramblock_start(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
-+ram_write_tracking_ramblock_stop(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
- 
- # multifd.c
- multifd_new_send_channel_async(uint8_t id) "channel %d"
 -- 
 2.29.2
 
