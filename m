@@ -2,47 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4655E30EFEC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:48:20 +0100 (CET)
-Received: from localhost ([::1]:52034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F3630EFF4
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:50:13 +0100 (CET)
+Received: from localhost ([::1]:55518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7bFL-0003GH-CS
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:48:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47056)
+	id 1l7bHA-0004rK-Sy
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:50:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7bDI-0001mr-Fh
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:46:14 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7bDE-0002HO-Ul
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:46:12 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 99B55AD5C;
- Thu,  4 Feb 2021 09:46:07 +0000 (UTC)
-Subject: Re: [PATCH v15 00/23] i386 cleanup PART 2
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210201100903.17309-1-cfontana@suse.de>
- <87v9b9qe78.fsf@linaro.org> <76d623a9-90e3-31bc-5998-1e159fe25b04@suse.de>
- <CAHDbmO1yhjYt9qUU6a6Lo2-v9yXg+E=YJ8N0=mM+mbP99Vsk_Q@mail.gmail.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <0be3c3d9-3dfe-3ffb-a725-a8a5ba5c4c77@suse.de>
-Date: Thu, 4 Feb 2021 10:46:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7bEu-0003Wh-EE
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:47:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7bEr-0003Et-7C
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:47:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612432068;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NrJRw/GQsmp4QSSde9KHxk64U090O1fjmeDUzZpM+P8=;
+ b=GIGqOTYPy0tUMbgDYNsqma8GWhBpZIZZE7+Z6yT7ahl1aAzofc+/qUkEM1GgfbbE1T0NDD
+ eL3WC7ELb72UfQSpI56m08y8uvktUwfu/YIWkSOEACi6exHMR/Lg/yJLXLBxFeA57I8KJu
+ XOJ6wK/njy2RX+wAVn0HDjUWobFe/4s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-LS88h7ByPOOIcyeQMs3kkA-1; Thu, 04 Feb 2021 04:47:46 -0500
+X-MC-Unique: LS88h7ByPOOIcyeQMs3kkA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E72DD100AA2B;
+ Thu,  4 Feb 2021 09:47:44 +0000 (UTC)
+Received: from localhost (ovpn-115-89.ams2.redhat.com [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E51B5D9C0;
+ Thu,  4 Feb 2021 09:47:35 +0000 (UTC)
+Date: Thu, 4 Feb 2021 09:47:34 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v4 3/3] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+Message-ID: <20210204094734.GC344659@stefanha-x1.localdomain>
+References: <20210203113719.83633-1-stefanha@redhat.com>
+ <20210203113719.83633-4-stefanha@redhat.com>
+ <20210203152850.GA3307@redhat.com>
+ <20210203170237.0c98f95f@bahia.lan>
+ <20210203160858.GC3307@redhat.com>
+ <20210203170514.GL74271@stefanha-x1.localdomain>
+ <20210203211441.GH3307@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHDbmO1yhjYt9qUU6a6Lo2-v9yXg+E=YJ8N0=mM+mbP99Vsk_Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.178,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210203211441.GH3307@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bKyqfOwhbdpXa4YI"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,123 +85,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Alex Xu <alex@alxu.ca>, P J P <ppandit@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/21 11:07 PM, Alex Bennée wrote:
-> For patch 17 on onwards it was just seeing what the actual benefit of
-> the derived class was - I think I get it later on but you should
-> mention it up front.
-> 
-> I do think we need to address the ordering constraint in 21 - are we
-> introducing one or just formalising what has been created? If we are
-> introducing one then can we a) do it a better way with the structuring
-> of QOM or b) enforce it so new models don't run into unexpected bugs.
+--bKyqfOwhbdpXa4YI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Feb 03, 2021 at 04:14:41PM -0500, Vivek Goyal wrote:
+> On Wed, Feb 03, 2021 at 05:05:14PM +0000, Stefan Hajnoczi wrote:
+> > On Wed, Feb 03, 2021 at 11:08:58AM -0500, Vivek Goyal wrote:
+> > > On Wed, Feb 03, 2021 at 05:02:37PM +0100, Greg Kurz wrote:
+> > > > On Wed, 3 Feb 2021 10:28:50 -0500
+> > > > Vivek Goyal <vgoyal@redhat.com> wrote:
+> > > >=20
+> > > > > On Wed, Feb 03, 2021 at 11:37:19AM +0000, Stefan Hajnoczi wrote:
+> > > > >=20
+> > > > > [..]
+> > > > > > @@ -1727,36 +1764,38 @@ static void lo_create(fuse_req_t req, f=
+use_ino_t parent, const char *name,
+> > > > > > =20
+> > > > > >      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+> > > > > > =20
+> > > > > > -    fd =3D openat(parent_inode->fd, name, (fi->flags | O_CREAT=
+) & ~O_NOFOLLOW,
+> > > > > > -                mode);
+> > > > > > +    /* Try to create a new file but don't open existing files =
+*/
+> > > > > > +    fd =3D openat(parent_inode->fd, name, fi->flags | O_CREAT =
+| O_EXCL, mode);
+> > > > > >      err =3D fd =3D=3D -1 ? errno : 0;
+> > > > > > +
+> > > > > >      lo_restore_cred(&old);
+> > > > > > =20
+> > > > > > -    if (!err) {
+> > > > > > -        ssize_t fh;
+> > > > > > -
+> > > > > > -        pthread_mutex_lock(&lo->mutex);
+> > > > > > -        fh =3D lo_add_fd_mapping(lo, fd);
+> > > > > > -        pthread_mutex_unlock(&lo->mutex);
+> > > > > > -        if (fh =3D=3D -1) {
+> > > > > > -            close(fd);
+> > > > > > -            err =3D ENOMEM;
+> > > > > > -            goto out;
+> > > > > > -        }
+> > > > > > +    /* Ignore the error if file exists and O_EXCL was not give=
+n */
+> > > > > > +    if (err && !(err =3D=3D EEXIST && !(fi->flags & O_EXCL))) =
+{
+> > > > >=20
+> > > > > Can this check be simplified to.
+> > > > >        if (err && (err =3D=3D EEXIST && (fi->flags & O_EXCL)) {
+> > > >=20
+> > > > I guess you meant :
+> > > >=20
+> > > >         if (err && (err !=3D EEXIST || fi->flags & O_EXCL) {
+> > >=20
+> > > This sounds correct. I forgot to take into account that if error is
+> > > not -EEXIST, we still want to bail out irrespective of O_EXCL.
+> >=20
+> > I thought about De Morgan's law too but found the OR expression is not
+> > easier to read than the AND expression :(. If you prefer it written thi=
+s
+> > way I can change it though.
+>=20
+> I personally find this one to read. And not because of AND but because
+> of double logical negation (!x) in previous expression.
+>=20
+> But I am not particular about it. If you don't find it easier to
+> read, I can live with previous one.
 
-What patch 21 tried to do is to improve on the existing call method of "realizefn" for cpus.
-To be honest it ended up not really achieving the goal, only removing one open call to qemu_init_vcpu in the target code.
+Okay, I'll convert it. Dave also mentioned he finds the AND version
+strange.
 
-The actual problem of the completely freak call order of realizefn, where the object model and device model interactions just really get in the way and create more problems than they solve,
-remains largely untouched.
+Stefan
 
-The problem is everything that has been plugged on top of realizing cpus now, which depends on the existing call order, which makes it almost impossible in my view to untangle properly.
-As an example, the addition of a new cpu (cpu_list_add) should theoretically be done in the common cpu code, but it can't, due to the web of dependencies of the cpu_index being already updated before the common code is reached (tcg plugins are also a blocker there IIRC, but it is by no means the only one).
+--bKyqfOwhbdpXa4YI
+Content-Type: application/pgp-signature; name="signature.asc"
 
-cpu_exec_realizefn then remains the place where this is done, which is called directly inside the target/xxx/cpu.c code.
-Add to it the fact that we cannot do all framework operations in hw/core/cpu.c, because of the common_ss / specific_ss code split necessity,
-and you get a web of constraints that is likely impossible to navigate.
+-----BEGIN PGP SIGNATURE-----
 
-To answer your questions:
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAbwrYACgkQnKSrs4Gr
+c8gfPggAyGK+i7L+A4oau0a74aVdaHkMYqvj5dQcZmO18mqU3e/p0tZ8rm27Qn+g
+BSEQmIltXXTPcem0wc1rIWRmZpb50JgMN/VvmUIGUtCyGtOTzJgmjRNnHpgErZFC
+I7PwN14ahmEe2kTAzJUlwbnAgim8Fnzf+IwqYfIld1uHJd97l2dimtesEN6O4dMY
+klb1tb6h9RegnmiljxfiB5NbaGpM2UtIZ5saVWTRuupZ8zvrLDwDsT5lG7NZmOZO
+JIkQJ79OPqLwh3Igq7JvS3PIMgT6E+fQOfKjju/3QBneEao6u84Bvql37brOrHrB
+/X1ZbRUHj0vTMlbc4SdBHqdrkNm47A==
+=NKQZ
+-----END PGP SIGNATURE-----
 
-a) we are introducing a more strict order in this patch, in the sense that implementations in target/xxx/cpu.c are not free to call qemu_init_vcpu where they please, instead the call is included in common code, triggered by the parent_realize() call.
-
-b) this is basically automatically enforced by the fact that the call is not in target/ anymore
-
-
---
-
-As can be seen by the patch, for some targets, in particular the ones requiring a cpu_reset() after qemu_init_vcpu, this slightly changes the initialization,
-as between qemu_init_vcpu and cpu_reset() you now have the common code:
-
-    /* qdev_get_machine() can return something that's not TYPE_MACHINE                                                                      
-     * if this is one of the user-only emulators; in that case there's                                                                      
-     * no need to check the ignore_memory_transaction_failures board flag.                                                                  
-     */
-    if (object_dynamic_cast(machine, TYPE_MACHINE)) {
-        ObjectClass *oc = object_get_class(machine);
-        MachineClass *mc = MACHINE_CLASS(oc);
-
-        if (mc) {
-            cpu->ignore_memory_transaction_failures =
-                mc->ignore_memory_transaction_failures;
-        }
-    }
-
-    if (dev->hotplugged) {
-        cpu_synchronize_post_init(cpu);
-        cpu_resume(cpu);
-    }
-
-which was executed later before.
-
---
-
-Only as a result of your comment I now noticed the last part about hotplug, which looks a bit scary tbh.
-I wonder if there is some automated test that covers cpu device hotplug?
-
-And regardless of the fact that I could not see any issue, I am tempted to drop patch 21 entirely now.
-
-Let me know what you think,
-
-Thanks,
-
-Claudio
-
-
-
-
-> 
-> On Wed, 3 Feb 2021 at 17:10, Claudio Fontana <cfontana@suse.de> wrote:
->>
->> Hi Alex,
->>
->> thanks for your review,
->>
->> On 2/3/21 5:57 PM, Alex Bennée wrote:
->>>
->>> Claudio Fontana <cfontana@suse.de> writes:
->>>
->>> <snip>
->>>
->>> Final comments. I think overall this series is looking pretty good
->>> although I got a bit lost at the end when we started expanding on the
->>> AccelClass.
->>> The main yuck was the start-up ordering constraint which
->>
->> To be sure, are you referring to tcg_accel_ops_init(), ie your comments towards the end of PATCH 17?
->>
->> Ciao,
->>
->> Claudio
->>
->>> would be nice to remove or failing that catch with some asserts so weird
->>> bugs don't get introduced.
->>>
->>> Paolo, is it worth picking up some of the early patches to reduce the
->>> patch delta going forward?
->>>
->>
-> 
-> 
+--bKyqfOwhbdpXa4YI--
 
 
