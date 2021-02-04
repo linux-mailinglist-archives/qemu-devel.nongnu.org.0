@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7F530FAAB
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 19:07:02 +0100 (CET)
-Received: from localhost ([::1]:48360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEEB30FAAD
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 19:09:38 +0100 (CET)
+Received: from localhost ([::1]:55588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7j1x-0006Up-25
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 13:07:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45634)
+	id 1l7j4T-0001Cc-Hw
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 13:09:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l7hy6-0006kb-BV
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:58:59 -0500
-Resent-Date: Thu, 04 Feb 2021 11:58:58 -0500
-Resent-Message-Id: <E1l7hy6-0006kb-BV@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21305)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7iBn-0008Na-BG
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:13:07 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:55569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l7hy1-0004U6-JC
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:58:56 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1612457924; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=UmXvGYWYFrw156fKiA/0HC8oiS8edgULEngeuN+dRDGoPLHBBKnHkVvW2IVh6/CN42bVaXR1yxN5GCuCoBeDG2ej6hOyLWaDKwVfvShD9iuUNJI6Wcu3QFFC/4F6QKHNpVPUdjcrluCYPwXaHkhRZsv7FJILdvcUTpL2CzM+Xn8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1612457924;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=OkEDS05Cvb3zMvRY6byEpX34LxadK+V5WHac5OTbjRI=; 
- b=LXGMWX8DDXXeP2UoEBJz43tn4aNcTZPwLICt6vRLnbb5t+YW6ltrg32NdGahOpkMMUMT1ETCj0kyheNzpbw/NMHufGHCGsbdUbxT0kDiCBUkyrUwVAhicya4vjtZk8yxNXAcTN9JXHqKp/h1uGcIZDAJ+tYv4hiwBDhym3DAs5Y=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1612457922681921.6592161584134;
- Thu, 4 Feb 2021 08:58:42 -0800 (PST)
-In-Reply-To: <20210204170951.91805-1-andrew@daynix.com>
-Subject: Re: [RFC PATCH v4 0/7] eBPF RSS support for virtio-net
-Message-ID: <161245792125.30579.16790259536664223524@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7iBf-0002eT-Vl
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:13:07 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.62])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 93D52892D9C0;
+ Thu,  4 Feb 2021 18:12:56 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 4 Feb 2021
+ 18:12:55 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0026fd7543b-f061-4a00-9ef6-3aeb008480b9,
+ B83331F2441F4055165AC8819D583561B3B7D288) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 4 Feb 2021 18:12:53 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v5 3/3] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+Message-ID: <20210204181253.22c3e191@bahia.lan>
+In-Reply-To: <20210204150208.367837-4-stefanha@redhat.com>
+References: <20210204150208.367837-1-stefanha@redhat.com>
+ <20210204150208.367837-4-stefanha@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: andrew@daynix.com
-Date: Thu, 4 Feb 2021 08:58:42 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 59bc55f6-b36d-4c37-828d-8551c8800385
+X-Ovh-Tracer-Id: 3105231943088642549
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrgeeggdeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheprghlvgigsegrlhiguhdrtggr
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -5
+X-Spam_score: -0.6
 X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UC_GIBBERISH_OBFU=1 autolearn=no autolearn_force=no
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_BL_SPAMCOP_NET=1.347,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,252 +69,349 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, mst@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, yuri.benditovich@daynix.com, yan@daynix.com
+Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
+ qemu-devel@nongnu.org, P J
+ P <ppandit@redhat.com>, virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
+ vgoyal@redhat.com, Laszlo Ersek <lersek@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIwNDE3MDk1MS45MTgw
-NS0xLWFuZHJld0BkYXluaXguY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAyMDQxNzA5NTEuOTE4MDUt
-MS1hbmRyZXdAZGF5bml4LmNvbQpTdWJqZWN0OiBbUkZDIFBBVENIIHY0IDAvN10gZUJQRiBSU1Mg
-c3VwcG9ydCBmb3IgdmlydGlvLW5ldAoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4v
-YmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcg
-LS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
-cyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3Jp
-cHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9
-PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dp
-dGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwowNzc0MjkxIE1BSU5UQUlORVJTOiBBZGRlZCBl
-QlBGIG1haW50YWluZXJzIGluZm9ybWF0aW9uLgo0YzFjNjYzIGRvY3M6IEFkZGVkIGVCUEYgZG9j
-dW1lbnRhdGlvbi4KMjBlNDA1MCB2aXJ0aW8tbmV0OiBBZGRlZCBlQlBGIFJTUyB0byB2aXJ0aW8t
-bmV0Lgo0NzJkYTJiIGVicGY6IEFkZGVkIGVCUEYgUlNTIGxvYWRlci4KNzk5OWI1ZSBlYnBmOiBB
-ZGRlZCBlQlBGIFJTUyBwcm9ncmFtLgowNDM4NWQyIG5ldDogQWRkZWQgU2V0U3RlZXJpbmdFQlBG
-IG1ldGhvZCBmb3IgTmV0Q2xpZW50U3RhdGUuCjZlZjBhYzkgbmV0L3RhcDogQWRkZWQgVFVOU0VU
-U1RFRVJJTkdFQlBGIGNvZGUuCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzcgQ2hlY2tpbmcgY29t
-bWl0IDZlZjBhYzlkMDM3OCAobmV0L3RhcDogQWRkZWQgVFVOU0VUU1RFRVJJTkdFQlBGIGNvZGUu
-KQoyLzcgQ2hlY2tpbmcgY29tbWl0IDA0Mzg1ZDI2YzlhMCAobmV0OiBBZGRlZCBTZXRTdGVlcmlu
-Z0VCUEYgbWV0aG9kIGZvciBOZXRDbGllbnRTdGF0ZS4pCjMvNyBDaGVja2luZyBjb21taXQgNzk5
-OWI1ZWI3YTA1IChlYnBmOiBBZGRlZCBlQlBGIFJTUyBwcm9ncmFtLikKV0FSTklORzogYWRkZWQs
-IG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5n
-PwojMjI6IApuZXcgZmlsZSBtb2RlIDEwMDc1NQoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJh
-Y3RlcnMKIzIyMDogRklMRTogdG9vbHMvZWJwZi9yc3MuYnBmLmM6MTU1OgorICogQWNjb3JkaW5n
-IHRvIGh0dHBzOi8vd3d3LmlhbmEub3JnL2Fzc2lnbm1lbnRzL2lwdjYtcGFyYW1ldGVycy9pcHY2
-LXBhcmFtZXRlcnMueGh0bWwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyMjM6
-IEZJTEU6IHRvb2xzL2VicGYvcnNzLmJwZi5jOjE1ODoKKyAqIE5lZWQgdG8gY2hvb3NlIHJlYXNv
-bmFibGUgYW1vdW50IG9mIG1heGltdW0gZXh0ZW5zaW9ucy9vcHRpb25zIHdlIG1heSBjaGVjayB0
-byBmaW5kCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjgzOiBGSUxFOiB0b29s
-cy9lYnBmL3Jzcy5icGYuYzoyMTg6CisgICAgICAgICAgICAgICAgICAgICAgICAqbDRfb2Zmc2V0
-ICsgb3B0X29mZnNldCArIG9mZnNldG9mKHN0cnVjdCBpcHY2X2Rlc3RvcHRfaGFvLCBhZGRyKSwK
-CnRvdGFsOiAwIGVycm9ycywgNCB3YXJuaW5ncywgNTM4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMv
-NyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo0LzcgQ2hlY2tpbmcgY29tbWl0IDQ3MmRhMmI5
-ODVmZSAoZWJwZjogQWRkZWQgZUJQRiBSU1MgbG9hZGVyLikKV0FSTklORzogYWRkZWQsIG1vdmVk
-IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojOTk6
-IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRl
-ZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzM4MTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9u
-Lmg6NDoKKyNpZm5kZWYgX19SU1NfQlBGX1NLRUxfSF9fCgpFUlJPUjogY29kZSBpbmRlbnQgc2hv
-dWxkIG5ldmVyIHVzZSB0YWJzCiMzODg6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEx
-OgorXklzdHJ1Y3QgYnBmX29iamVjdF9za2VsZXRvbiAqc2tlbGV0b247JAoKRVJST1I6IGNvZGUg
-aW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMzg5OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tl
-bGV0b24uaDoxMjoKK15Jc3RydWN0IGJwZl9vYmplY3QgKm9iajskCgpFUlJPUjogY29kZSBpbmRl
-bnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzOTA6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRv
-bi5oOjEzOgorXklzdHJ1Y3QgeyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
-IHRhYnMKIzM5MTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTQ6CiteSV5Jc3RydWN0
-IGJwZl9tYXAgKnRhcF9yc3NfbWFwX2NvbmZpZ3VyYXRpb25zOyQKCkVSUk9SOiBjb2RlIGluZGVu
-dCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM5MjogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9u
-Lmg6MTU6CiteSV5Jc3RydWN0IGJwZl9tYXAgKnRhcF9yc3NfbWFwX2luZGlyZWN0aW9uX3RhYmxl
-OyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM5MzogRklMRTog
-ZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTY6CiteSV5Jc3RydWN0IGJwZl9tYXAgKnRhcF9yc3Nf
-bWFwX3RvZXBsaXR6X2tleTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0
-YWJzCiMzOTQ6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjE3OgorXkl9IG1hcHM7JAoK
-RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMzk1OiBGSUxFOiBlYnBm
-L3Jzcy5icGYuc2tlbGV0b24uaDoxODoKK15Jc3RydWN0IHskCgpFUlJPUjogY29kZSBpbmRlbnQg
-c2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzOTY6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5o
-OjE5OgorXkleSXN0cnVjdCBicGZfcHJvZ3JhbSAqdHVuX3Jzc19zdGVlcmluZ19wcm9nOyQKCkVS
-Uk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM5NzogRklMRTogZWJwZi9y
-c3MuYnBmLnNrZWxldG9uLmg6MjA6CiteSX0gcHJvZ3M7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNo
-b3VsZCBuZXZlciB1c2UgdGFicwojMzk4OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoy
-MToKK15Jc3RydWN0IHskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJz
-CiMzOTk6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjIyOgorXkleSXN0cnVjdCBicGZf
-bGluayAqdHVuX3Jzc19zdGVlcmluZ19wcm9nOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQg
-bmV2ZXIgdXNlIHRhYnMKIzQwMDogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MjM6Cite
-SX0gbGlua3M7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDA2
-OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoyOToKK15JaWYgKCFvYmopJAoKRVJST1I6
-IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAoj
-NDA2OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoyOToKKyAgICAgICBpZiAoIW9iaikK
-Wy4uLl0KCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQwNzogRklM
-RTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MzA6CiteSV5JcmV0dXJuOyQKCkVSUk9SOiBjb2Rl
-IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQwODogRklMRTogZWJwZi9yc3MuYnBmLnNr
-ZWxldG9uLmg6MzE6CiteSWlmIChvYmotPnNrZWxldG9uKSQKCkVSUk9SOiBicmFjZXMge30gYXJl
-IG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzQwODogRklMRTogZWJw
-Zi9yc3MuYnBmLnNrZWxldG9uLmg6MzE6CisgICAgICAgaWYgKG9iai0+c2tlbGV0b24pClsuLi5d
-CgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0MDk6IEZJTEU6IGVi
-cGYvcnNzLmJwZi5za2VsZXRvbi5oOjMyOgorXkleSWJwZl9vYmplY3RfX2Rlc3Ryb3lfc2tlbGV0
-b24ob2JqLT5za2VsZXRvbik7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2Ug
-dGFicwojNDEwOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDozMzoKK15JZnJlZShvYmop
-OyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQxOTogRklMRTog
-ZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NDI6CiteSXN0cnVjdCByc3NfYnBmICpvYmo7JAoKRVJS
-T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDIxOiBGSUxFOiBlYnBmL3Jz
-cy5icGYuc2tlbGV0b24uaDo0NDoKK15Jb2JqID0gKHN0cnVjdCByc3NfYnBmICopY2FsbG9jKDEs
-IHNpemVvZigqb2JqKSk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFi
-cwojNDIyOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo0NToKK15JaWYgKCFvYmopJAoK
-RVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRl
-bWVudAojNDIyOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo0NToKKyAgICAgICBpZiAo
-IW9iaikKWy4uLl0KCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQy
-MzogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NDY6CiteSV5JcmV0dXJuIE5VTEw7JAoK
-RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDI0OiBGSUxFOiBlYnBm
-L3Jzcy5icGYuc2tlbGV0b24uaDo0NzoKK15JaWYgKHJzc19icGZfX2NyZWF0ZV9za2VsZXRvbihv
-YmopKSQKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhp
-cyBzdGF0ZW1lbnQKIzQyNDogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NDc6CisgICAg
-ICAgaWYgKHJzc19icGZfX2NyZWF0ZV9za2VsZXRvbihvYmopKQpbLi4uXQoKRVJST1I6IGNvZGUg
-aW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDI1OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tl
-bGV0b24uaDo0ODoKK15JXklnb3RvIGVycjskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiM0MjY6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjQ5OgorXklp
-ZiAoYnBmX29iamVjdF9fb3Blbl9za2VsZXRvbihvYmotPnNrZWxldG9uLCBvcHRzKSkkCgpFUlJP
-UjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50
-CiM0MjY6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjQ5OgorICAgICAgIGlmIChicGZf
-b2JqZWN0X19vcGVuX3NrZWxldG9uKG9iai0+c2tlbGV0b24sIG9wdHMpKQpbLi4uXQoKRVJST1I6
-IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDI3OiBGSUxFOiBlYnBmL3Jzcy5i
-cGYuc2tlbGV0b24uaDo1MDoKK15JXklnb3RvIGVycjskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hv
-dWxkIG5ldmVyIHVzZSB0YWJzCiM0Mjk6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjUy
-OgorXklyZXR1cm4gb2JqOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRh
-YnMKIzQzMTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NTQ6CiteSXJzc19icGZfX2Rl
-c3Ryb3kob2JqKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0
-MzI6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjU1OgorXklyZXR1cm4gTlVMTDskCgpF
-UlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0Mzg6IEZJTEU6IGVicGYv
-cnNzLmJwZi5za2VsZXRvbi5oOjYxOgorXklyZXR1cm4gcnNzX2JwZl9fb3Blbl9vcHRzKE5VTEwp
-OyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ0NDogRklMRTog
-ZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6Njc6CiteSXJldHVybiBicGZfb2JqZWN0X19sb2FkX3Nr
-ZWxldG9uKG9iai0+c2tlbGV0b24pOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIg
-dXNlIHRhYnMKIzQ1MDogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NzM6CiteSXN0cnVj
-dCByc3NfYnBmICpvYmo7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFi
-cwojNDUyOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo3NToKK15Jb2JqID0gcnNzX2Jw
-Zl9fb3BlbigpOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ1
-MzogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NzY6CiteSWlmICghb2JqKSQKCkVSUk9S
-OiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQK
-IzQ1MzogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NzY6CisgICAgICAgaWYgKCFvYmop
-ClsuLi5dCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NTQ6IEZJ
-TEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjc3OgorXkleSXJldHVybiBOVUxMOyQKCkVSUk9S
-OiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ1NTogRklMRTogZWJwZi9yc3Mu
-YnBmLnNrZWxldG9uLmg6Nzg6CiteSWlmIChyc3NfYnBmX19sb2FkKG9iaikpIHskCgpFUlJPUjog
-Y29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NTY6IEZJTEU6IGVicGYvcnNzLmJw
-Zi5za2VsZXRvbi5oOjc5OgorXkleSXJzc19icGZfX2Rlc3Ryb3kob2JqKTskCgpFUlJPUjogY29k
-ZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NTc6IEZJTEU6IGVicGYvcnNzLmJwZi5z
-a2VsZXRvbi5oOjgwOgorXkleSXJldHVybiBOVUxMOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91
-bGQgbmV2ZXIgdXNlIHRhYnMKIzQ1ODogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6ODE6
-CiteSX0kCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NTk6IEZJ
-TEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjgyOgorXklyZXR1cm4gb2JqOyQKCkVSUk9SOiBj
-b2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ2NTogRklMRTogZWJwZi9yc3MuYnBm
-LnNrZWxldG9uLmg6ODg6CiteSXJldHVybiBicGZfb2JqZWN0X19hdHRhY2hfc2tlbGV0b24ob2Jq
-LT5za2VsZXRvbik7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwoj
-NDcxOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo5NDoKK15JcmV0dXJuIGJwZl9vYmpl
-Y3RfX2RldGFjaF9za2VsZXRvbihvYmotPnNrZWxldG9uKTskCgpFUlJPUjogY29kZSBpbmRlbnQg
-c2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0Nzc6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5o
-OjEwMDoKK15Jc3RydWN0IGJwZl9vYmplY3Rfc2tlbGV0b24gKnM7JAoKRVJST1I6IGNvZGUgaW5k
-ZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDc5OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0
-b24uaDoxMDI6CiteSXMgPSAoc3RydWN0IGJwZl9vYmplY3Rfc2tlbGV0b24gKiljYWxsb2MoMSwg
-c2l6ZW9mKCpzKSk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwoj
-NDgwOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMDM6CiteSWlmICghcykkCgpFUlJP
-UjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50
-CiM0ODA6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEwMzoKKyAgICAgICBpZiAoIXMp
-ClsuLi5dCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0ODE6IEZJ
-TEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEwNDoKK15JXklyZXR1cm4gLTE7JAoKRVJST1I6
-IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDgyOiBGSUxFOiBlYnBmL3Jzcy5i
-cGYuc2tlbGV0b24uaDoxMDU6CiteSW9iai0+c2tlbGV0b24gPSBzOyQKCkVSUk9SOiBjb2RlIGlu
-ZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ4NDogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxl
-dG9uLmg6MTA3OgorXklzLT5zeiA9IHNpemVvZigqcyk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNo
-b3VsZCBuZXZlciB1c2UgdGFicwojNDg1OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDox
-MDg6CiteSXMtPm5hbWUgPSAicnNzX2JwZiI7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBu
-ZXZlciB1c2UgdGFicwojNDg2OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMDk6Cite
-SXMtPm9iaiA9ICZvYmotPm9iajskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVz
-ZSB0YWJzCiM0ODg6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjExMToKK15JLyogbWFw
-cyAqLyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ4OTogRklM
-RTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTEyOgorXklzLT5tYXBfY250ID0gMzskCgpFUlJP
-UjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0OTA6IEZJTEU6IGVicGYvcnNz
-LmJwZi5za2VsZXRvbi5oOjExMzoKK15Jcy0+bWFwX3NrZWxfc3ogPSBzaXplb2YoKnMtPm1hcHMp
-OyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ5MTogRklMRTog
-ZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTE0OgorXklzLT5tYXBzID0gKHN0cnVjdCBicGZfbWFw
-X3NrZWxldG9uICopY2FsbG9jKHMtPm1hcF9jbnQsIHMtPm1hcF9za2VsX3N6KTskCgpFUlJPUjog
-Y29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0OTI6IEZJTEU6IGVicGYvcnNzLmJw
-Zi5za2VsZXRvbi5oOjExNToKK15JaWYgKCFzLT5tYXBzKSQKCkVSUk9SOiBicmFjZXMge30gYXJl
-IG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzQ5MjogRklMRTogZWJw
-Zi9yc3MuYnBmLnNrZWxldG9uLmg6MTE1OgorICAgICAgIGlmICghcy0+bWFwcykKWy4uLl0KCkVS
-Uk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ5MzogRklMRTogZWJwZi9y
-c3MuYnBmLnNrZWxldG9uLmg6MTE2OgorXkleSWdvdG8gZXJyOyQKCkVSUk9SOiBjb2RlIGluZGVu
-dCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ5NTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9u
-Lmg6MTE4OgorXklzLT5tYXBzWzBdLm5hbWUgPSAidGFwX3Jzc19tYXBfY29uZmlndXJhdGlvbnMi
-OyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ5NjogRklMRTog
-ZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTE5OgorXklzLT5tYXBzWzBdLm1hcCA9ICZvYmotPm1h
-cHMudGFwX3Jzc19tYXBfY29uZmlndXJhdGlvbnM7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3Vs
-ZCBuZXZlciB1c2UgdGFicwojNDk4OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMjE6
-CiteSXMtPm1hcHNbMV0ubmFtZSA9ICJ0YXBfcnNzX21hcF9pbmRpcmVjdGlvbl90YWJsZSI7JAoK
-RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDk5OiBGSUxFOiBlYnBm
-L3Jzcy5icGYuc2tlbGV0b24uaDoxMjI6CiteSXMtPm1hcHNbMV0ubWFwID0gJm9iai0+bWFwcy50
-YXBfcnNzX21hcF9pbmRpcmVjdGlvbl90YWJsZTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxk
-IG5ldmVyIHVzZSB0YWJzCiM1MDE6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEyNDoK
-K15Jcy0+bWFwc1syXS5uYW1lID0gInRhcF9yc3NfbWFwX3RvZXBsaXR6X2tleSI7JAoKRVJST1I6
-IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTAyOiBGSUxFOiBlYnBmL3Jzcy5i
-cGYuc2tlbGV0b24uaDoxMjU6CiteSXMtPm1hcHNbMl0ubWFwID0gJm9iai0+bWFwcy50YXBfcnNz
-X21hcF90b2VwbGl0el9rZXk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2Ug
-dGFicwojNTA0OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMjc6CiteSS8qIHByb2dy
-YW1zICovJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTA1OiBG
-SUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMjg6CiteSXMtPnByb2dfY250ID0gMTskCgpF
-UlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1MDY6IEZJTEU6IGVicGYv
-cnNzLmJwZi5za2VsZXRvbi5oOjEyOToKK15Jcy0+cHJvZ19za2VsX3N6ID0gc2l6ZW9mKCpzLT5w
-cm9ncyk7JAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzUwNzogRklMRTogZWJw
-Zi9yc3MuYnBmLnNrZWxldG9uLmg6MTMwOgorICAgICAgIHMtPnByb2dzID0gKHN0cnVjdCBicGZf
-cHJvZ19za2VsZXRvbiAqKWNhbGxvYyhzLT5wcm9nX2NudCwgcy0+cHJvZ19za2VsX3N6KTsKCkVS
-Uk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzUwNzogRklMRTogZWJwZi9y
-c3MuYnBmLnNrZWxldG9uLmg6MTMwOgorXklzLT5wcm9ncyA9IChzdHJ1Y3QgYnBmX3Byb2dfc2tl
-bGV0b24gKiljYWxsb2Mocy0+cHJvZ19jbnQsIHMtPnByb2dfc2tlbF9zeik7JAoKRVJST1I6IGNv
-ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTA4OiBGSUxFOiBlYnBmL3Jzcy5icGYu
-c2tlbGV0b24uaDoxMzE6CiteSWlmICghcy0+cHJvZ3MpJAoKRVJST1I6IGJyYWNlcyB7fSBhcmUg
-bmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojNTA4OiBGSUxFOiBlYnBm
-L3Jzcy5icGYuc2tlbGV0b24uaDoxMzE6CisgICAgICAgaWYgKCFzLT5wcm9ncykKWy4uLl0KCkVS
-Uk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzUwOTogRklMRTogZWJwZi9y
-c3MuYnBmLnNrZWxldG9uLmg6MTMyOgorXkleSWdvdG8gZXJyOyQKCkVSUk9SOiBjb2RlIGluZGVu
-dCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzUxMTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9u
-Lmg6MTM0OgorXklzLT5wcm9nc1swXS5uYW1lID0gInR1bl9yc3Nfc3RlZXJpbmdfcHJvZyI7JAoK
-RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTEyOiBGSUxFOiBlYnBm
-L3Jzcy5icGYuc2tlbGV0b24uaDoxMzU6CiteSXMtPnByb2dzWzBdLnByb2cgPSAmb2JqLT5wcm9n
-cy50dW5fcnNzX3N0ZWVyaW5nX3Byb2c7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZl
-ciB1c2UgdGFicwojNTEzOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMzY6CiteSXMt
-PnByb2dzWzBdLmxpbmsgPSAmb2JqLT5saW5rcy50dW5fcnNzX3N0ZWVyaW5nX3Byb2c7JAoKRVJS
-T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTE1OiBGSUxFOiBlYnBmL3Jz
-cy5icGYuc2tlbGV0b24uaDoxMzg6CiteSXMtPmRhdGFfc3ogPSA3MDg4OyQKCkVSUk9SOiBjb2Rl
-IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzUxNjogRklMRTogZWJwZi9yc3MuYnBmLnNr
-ZWxldG9uLmg6MTM5OgorXklzLT5kYXRhID0gKHZvaWQgKikiXCQKCkVSUk9SOiBjb2RlIGluZGVu
-dCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzc2ODogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9u
-Lmg6MzkxOgorXklyZXR1cm4gMDskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVz
-ZSB0YWJzCiM3NzA6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjM5MzoKK15JYnBmX29i
-amVjdF9fZGVzdHJveV9za2VsZXRvbihzKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiM3NzE6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjM5NDoKK15J
-cmV0dXJuIC0xOyQKCnRvdGFsOiA4NSBlcnJvcnMsIDMgd2FybmluZ3MsIDc1MyBsaW5lcyBjaGVj
-a2VkCgpQYXRjaCA0LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjUvNyBDaGVja2luZyBj
-b21taXQgMjBlNDA1MDRkZTU5ICh2aXJ0aW8tbmV0OiBBZGRlZCBlQlBGIFJTUyB0byB2aXJ0aW8t
-bmV0LikKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE5ODogRklMRTogaHcvbmV0
-L3ZpcnRpby1uZXQuYzoyODY4OgorICAgICAgICAgICAgICAgICAgICB3YXJuX3JlcG9ydCgiQ2Fu
-J3QgcG9zdC1sb2FkIGVCUEYgUlNTIC0gZmFsbGJhY2sgdG8gc29mdHdhcmUgUlNTIik7Cgp0b3Rh
-bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDIyNyBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzcgaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNi83IENoZWNraW5nIGNvbW1pdCA0YzFjNjYzOGQxZjYg
-KGRvY3M6IEFkZGVkIGVCUEYgZG9jdW1lbnRhdGlvbi4pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBv
-ciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE1OiAK
-bmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTI1IGxp
-bmVzIGNoZWNrZWQKClBhdGNoIDYvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
-ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
-dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo3LzcgQ2hl
-Y2tpbmcgY29tbWl0IDA3NzQyOTFlNjA3YiAoTUFJTlRBSU5FUlM6IEFkZGVkIGVCUEYgbWFpbnRh
-aW5lcnMgaW5mb3JtYXRpb24uKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0
-ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0
-Y2hldy5vcmcvbG9ncy8yMDIxMDIwNDE3MDk1MS45MTgwNS0xLWFuZHJld0BkYXluaXguY29tL3Rl
-c3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9t
-YXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5
-b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Thu,  4 Feb 2021 15:02:08 +0000
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
+
+> A well-behaved FUSE client does not attempt to open special files with
+> FUSE_OPEN because they are handled on the client side (e.g. device nodes
+> are handled by client-side device drivers).
+> 
+> The check to prevent virtiofsd from opening special files is missing in
+> a few cases, most notably FUSE_OPEN. A malicious client can cause
+> virtiofsd to open a device node, potentially allowing the guest to
+> escape. This can be exploited by a modified guest device driver. It is
+> not exploitable from guest userspace since the guest kernel will handle
+> special files inside the guest instead of sending FUSE requests.
+> 
+> This patch fixes this issue by introducing the lo_inode_open() function
+> to check the file type before opening it. This is a short-term solution
+> because it does not prevent a compromised virtiofsd process from opening
+> device nodes on the host.
+> 
+> Restructure lo_create() to try O_CREAT | O_EXCL first. Note that O_CREAT
+> | O_EXCL does not follow symlinks, so O_NOFOLLOW masking is not
+> necessary here. If the file exists and the user did not specify O_EXCL,
+> open it via lo_do_open().
+> 
+> Reported-by: Alex Xu <alex@alxu.ca>
+> Fixes: CVE-2020-35517
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> v4:
+>  * Return -fd instead or -errno after lo_inode_open() in lo_do_open() [Greg]
+>  * Use De Morgan's Law to simplify the boolean expression in lo_create() [Vivek]
+>  * Add missing errno = -truncfd after lo_inode_open() call in lo_setattr
+
+Good catch !
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> v3:
+>  * Restructure lo_create() to handle externally-created files (we need
+>    to allocate an inode for them) [Greg]
+> v3:
+>  * Protect lo_create() [Greg]
+> v2:
+>  * Add doc comment clarifying that symlinks are traversed client-side
+>    [Daniel]
+> 
+> This issue was diagnosed on public IRC and is therefore already known
+> and not embargoed.
+> 
+> A stronger fix, and the long-term solution, is for users to mount the
+> shared directory and any sub-mounts with nodev, as well as nosuid and
+> noexec. Unfortunately virtiofsd cannot do this automatically because
+> bind mounts added by the user after virtiofsd has launched would not be
+> detected. I suggest the following:
+> 
+> 1. Modify libvirt and Kata Containers to explicitly set these mount
+>    options.
+> 2. Then modify virtiofsd to check that the shared directory has the
+>    necessary options at startup. Refuse to start if the options are
+>    missing so that the user is aware of the security requirements.
+> 
+> As a bonus this also increases the likelihood that other host processes
+> besides virtiofsd will be protected by nosuid/noexec/nodev so that a
+> malicious guest cannot drop these files in place and then arrange for a
+> host process to come across them.
+> 
+> Additionally, user namespaces have been discussed. They seem like a
+> worthwhile addition as an unprivileged or privilege-separated mode
+> although there are limitations with respect to security xattrs and the
+> actual uid/gid stored on the host file system not corresponding to the
+> guest uid/gid.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 144 ++++++++++++++++++++-----------
+>  1 file changed, 92 insertions(+), 52 deletions(-)
+> 
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index aa35fc6ba5..147b59338a 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -555,6 +555,38 @@ static int lo_fd(fuse_req_t req, fuse_ino_t ino)
+>      return fd;
+>  }
+>  
+> +/*
+> + * Open a file descriptor for an inode. Returns -EBADF if the inode is not a
+> + * regular file or a directory.
+> + *
+> + * Use this helper function instead of raw openat(2) to prevent security issues
+> + * when a malicious client opens special files such as block device nodes.
+> + * Symlink inodes are also rejected since symlinks must already have been
+> + * traversed on the client side.
+> + */
+> +static int lo_inode_open(struct lo_data *lo, struct lo_inode *inode,
+> +                         int open_flags)
+> +{
+> +    g_autofree char *fd_str = g_strdup_printf("%d", inode->fd);
+> +    int fd;
+> +
+> +    if (!S_ISREG(inode->filetype) && !S_ISDIR(inode->filetype)) {
+> +        return -EBADF;
+> +    }
+> +
+> +    /*
+> +     * The file is a symlink so O_NOFOLLOW must be ignored. We checked earlier
+> +     * that the inode is not a special file but if an external process races
+> +     * with us then symlinks are traversed here. It is not possible to escape
+> +     * the shared directory since it is mounted as "/" though.
+> +     */
+> +    fd = openat(lo->proc_self_fd, fd_str, open_flags & ~O_NOFOLLOW);
+> +    if (fd < 0) {
+> +        return -errno;
+> +    }
+> +    return fd;
+> +}
+> +
+>  static void lo_init(void *userdata, struct fuse_conn_info *conn)
+>  {
+>      struct lo_data *lo = (struct lo_data *)userdata;
+> @@ -684,9 +716,9 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+>          if (fi) {
+>              truncfd = fd;
+>          } else {
+> -            sprintf(procname, "%i", ifd);
+> -            truncfd = openat(lo->proc_self_fd, procname, O_RDWR);
+> +            truncfd = lo_inode_open(lo, inode, O_RDWR);
+>              if (truncfd < 0) {
+> +                errno = -truncfd;
+>                  goto out_err;
+>              }
+>          }
+> @@ -848,7 +880,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+>      struct lo_inode *dir = lo_inode(req, parent);
+>  
+>      if (inodep) {
+> -        *inodep = NULL;
+> +        *inodep = NULL; /* in case there is an error */
+>      }
+>  
+>      /*
+> @@ -1664,19 +1696,26 @@ static void update_open_flags(int writeback, int allow_direct_io,
+>      }
+>  }
+>  
+> +/*
+> + * Open a regular file, set up an fd mapping, and fill out the struct
+> + * fuse_file_info for it. If existing_fd is not negative, use that fd instead
+> + * opening a new one. Takes ownership of existing_fd.
+> + *
+> + * Returns 0 on success or a positive errno.
+> + */
+>  static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+> -                      struct fuse_file_info *fi)
+> +                      int existing_fd, struct fuse_file_info *fi)
+>  {
+> -    char buf[64];
+>      ssize_t fh;
+> -    int fd;
+> +    int fd = existing_fd;
+>  
+>      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+>  
+> -    sprintf(buf, "%i", inode->fd);
+> -    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> -    if (fd == -1) {
+> -        return errno;
+> +    if (fd < 0) {
+> +        fd = lo_inode_open(lo, inode, fi->flags);
+> +        if (fd < 0) {
+> +            return -fd;
+> +        }
+>      }
+>  
+>      pthread_mutex_lock(&lo->mutex);
+> @@ -1699,9 +1738,10 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+>  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+>                        mode_t mode, struct fuse_file_info *fi)
+>  {
+> -    int fd;
+> +    int fd = -1;
+>      struct lo_data *lo = lo_data(req);
+>      struct lo_inode *parent_inode;
+> +    struct lo_inode *inode = NULL;
+>      struct fuse_entry_param e;
+>      int err;
+>      struct lo_cred old = {};
+> @@ -1727,36 +1767,38 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+>  
+>      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+>  
+> -    fd = openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFOLLOW,
+> -                mode);
+> +    /* Try to create a new file but don't open existing files */
+> +    fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
+>      err = fd == -1 ? errno : 0;
+> +
+>      lo_restore_cred(&old);
+>  
+> -    if (!err) {
+> -        ssize_t fh;
+> -
+> -        pthread_mutex_lock(&lo->mutex);
+> -        fh = lo_add_fd_mapping(lo, fd);
+> -        pthread_mutex_unlock(&lo->mutex);
+> -        if (fh == -1) {
+> -            close(fd);
+> -            err = ENOMEM;
+> -            goto out;
+> -        }
+> +    /* Ignore the error if file exists and O_EXCL was not given */
+> +    if (err && (err != EEXIST || (fi->flags & O_EXCL))) {
+> +        goto out;
+> +    }
+>  
+> -        fi->fh = fh;
+> -        err = lo_do_lookup(req, parent, name, &e, NULL);
+> +    err = lo_do_lookup(req, parent, name, &e, &inode);
+> +    if (err) {
+> +        goto out;
+>      }
+> -    if (lo->cache == CACHE_NONE) {
+> -        fi->direct_io = 1;
+> -    } else if (lo->cache == CACHE_ALWAYS) {
+> -        fi->keep_cache = 1;
+> +
+> +    err = lo_do_open(lo, inode, fd, fi);
+> +    fd = -1; /* lo_do_open() takes ownership of fd */
+> +    if (err) {
+> +        /* Undo lo_do_lookup() nlookup ref */
+> +        unref_inode_lolocked(lo, inode, 1);
+>      }
+>  
+>  out:
+> +    lo_inode_put(lo, &inode);
+>      lo_inode_put(lo, &parent_inode);
+>  
+>      if (err) {
+> +        if (fd >= 0) {
+> +            close(fd);
+> +        }
+> +
+>          fuse_reply_err(req, err);
+>      } else {
+>          fuse_reply_create(req, &e, fi);
+> @@ -1770,7 +1812,6 @@ static struct lo_inode_plock *lookup_create_plock_ctx(struct lo_data *lo,
+>                                                        pid_t pid, int *err)
+>  {
+>      struct lo_inode_plock *plock;
+> -    char procname[64];
+>      int fd;
+>  
+>      plock =
+> @@ -1787,12 +1828,10 @@ static struct lo_inode_plock *lookup_create_plock_ctx(struct lo_data *lo,
+>      }
+>  
+>      /* Open another instance of file which can be used for ofd locks. */
+> -    sprintf(procname, "%i", inode->fd);
+> -
+>      /* TODO: What if file is not writable? */
+> -    fd = openat(lo->proc_self_fd, procname, O_RDWR);
+> -    if (fd == -1) {
+> -        *err = errno;
+> +    fd = lo_inode_open(lo, inode, O_RDWR);
+> +    if (fd < 0) {
+> +        *err = -fd;
+>          free(plock);
+>          return NULL;
+>      }
+> @@ -1949,7 +1988,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>          return;
+>      }
+>  
+> -    err = lo_do_open(lo, inode, fi);
+> +    err = lo_do_open(lo, inode, -1, fi);
+>      lo_inode_put(lo, &inode);
+>      if (err) {
+>          fuse_reply_err(req, err);
+> @@ -2014,39 +2053,40 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>  static void lo_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
+>                       struct fuse_file_info *fi)
+>  {
+> +    struct lo_inode *inode = lo_inode(req, ino);
+> +    struct lo_data *lo = lo_data(req);
+>      int res;
+>      int fd;
+> -    char *buf;
+>  
+>      fuse_log(FUSE_LOG_DEBUG, "lo_fsync(ino=%" PRIu64 ", fi=0x%p)\n", ino,
+>               (void *)fi);
+>  
+> +    if (!inode) {
+> +        fuse_reply_err(req, EBADF);
+> +        return;
+> +    }
+> +
+>      if (!fi) {
+> -        struct lo_data *lo = lo_data(req);
+> -
+> -        res = asprintf(&buf, "%i", lo_fd(req, ino));
+> -        if (res == -1) {
+> -            return (void)fuse_reply_err(req, errno);
+> -        }
+> -
+> -        fd = openat(lo->proc_self_fd, buf, O_RDWR);
+> -        free(buf);
+> -        if (fd == -1) {
+> -            return (void)fuse_reply_err(req, errno);
+> +        fd = lo_inode_open(lo, inode, O_RDWR);
+> +        if (fd < 0) {
+> +            res = -fd;
+> +            goto out;
+>          }
+>      } else {
+>          fd = lo_fi_fd(req, fi);
+>      }
+>  
+>      if (datasync) {
+> -        res = fdatasync(fd);
+> +        res = fdatasync(fd) == -1 ? errno : 0;
+>      } else {
+> -        res = fsync(fd);
+> +        res = fsync(fd) == -1 ? errno : 0;
+>      }
+>      if (!fi) {
+>          close(fd);
+>      }
+> -    fuse_reply_err(req, res == -1 ? errno : 0);
+> +out:
+> +    lo_inode_put(lo, &inode);
+> +    fuse_reply_err(req, res);
+>  }
+>  
+>  static void lo_read(fuse_req_t req, fuse_ino_t ino, size_t size, off_t offset,
+
 
