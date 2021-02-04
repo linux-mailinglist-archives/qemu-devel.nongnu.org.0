@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866D030F192
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:07:26 +0100 (CET)
-Received: from localhost ([::1]:36518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3BB230F16B
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:01:25 +0100 (CET)
+Received: from localhost ([::1]:46282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7cTt-0007cm-Kd
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:07:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37456)
+	id 1l7cO4-00088a-Kh
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:01:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cHW-0007XQ-9K
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:54:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21021)
+ id 1l7cI2-0000B1-JF
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cHU-00087W-Fz
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:54:38 -0500
+ id 1l7cI0-0008NU-Qw
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612436075;
+ s=mimecast20190719; t=1612436108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eb2CGzD3TyOgBuW3soHR73dC4rDlZH0FmrocXLTMxhI=;
- b=aE59vPKuzaq3ir6h52JnCiuw6bvjVk1X86+GZATNI8zGhMWprq0Zx4mTWwLIliFudKy0XK
- PRWwd4kY/r0mUiYAYLh8XZaP6OIQCS+xOs7NcdkQqnam/X+aVhXrPZM4b8uBQkFnG2VAkf
- e0TzqHDXCkkkorxHZSkakDzwral3jhU=
+ bh=+qhXw4Teb4iB7F+1sn1YUEn7LdT1/1iDGCqwCLBci3Y=;
+ b=Omi/HR0rOqQi1kQk6cFZiRObbPdEPP8iriXq3T6/L6Lywr5Z+Cxs9ad0ycjT1ungXgCRLV
+ dPd7eHjTUhvdROybzc2fdhDgUBNA5ERGo6uybIJJEp8aytD181rNxQgMgbZPrOTqZgAUAq
+ PdXT6/bdnvUHO/OKzKWrhUHnOCgia74=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-Sv5vAkHkMiiUGgSvgjavPg-1; Thu, 04 Feb 2021 05:54:34 -0500
-X-MC-Unique: Sv5vAkHkMiiUGgSvgjavPg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-247-sp4ZturWO_mJOW0rC6cZpQ-1; Thu, 04 Feb 2021 05:55:06 -0500
+X-MC-Unique: sp4ZturWO_mJOW0rC6cZpQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54918195D562
- for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:54:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA1F3801967
+ for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:55:05 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 547EF60C78;
- Thu,  4 Feb 2021 10:54:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F9CC722E4;
+ Thu,  4 Feb 2021 10:54:58 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/20] ui: remove console_has_gl_dmabuf()
-Date: Thu,  4 Feb 2021 14:52:21 +0400
-Message-Id: <20210204105232.834642-10-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 13/20] ui: check hw requirements during DCL registration
+Date: Thu,  4 Feb 2021 14:52:25 +0400
+Message-Id: <20210204105232.834642-14-marcandre.lureau@redhat.com>
 In-Reply-To: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 References: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,64 +86,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This check is currently limited. It only is used by vhost-user-gpu (not
-by vfio-display), and will print an error repeatedly during run-time.
-
-We are going to dissociate the GL context from the
-DisplayChangeListener, and listeners may come and go. The following
-patches will address this differently.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/ui/console.h        | 1 -
- hw/display/vhost-user-gpu.c | 5 -----
- ui/console.c                | 5 -----
- 3 files changed, 11 deletions(-)
+ ui/console.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index bea2b6329a..ac989fdf70 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -323,7 +323,6 @@ void dpy_gl_ctx_destroy(QemuConsole *con, QEMUGLContext ctx);
- int dpy_gl_ctx_make_current(QemuConsole *con, QEMUGLContext ctx);
- 
- bool console_has_gl(QemuConsole *con);
--bool console_has_gl_dmabuf(QemuConsole *con);
- 
- static inline int surface_stride(DisplaySurface *s)
- {
-diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-index 55b0ed15f2..dd587436ff 100644
---- a/hw/display/vhost-user-gpu.c
-+++ b/hw/display/vhost-user-gpu.c
-@@ -224,11 +224,6 @@ vhost_user_gpu_handle_display(VhostUserGPU *g, VhostUserGpuMsg *msg)
-             close(dmabuf->fd);
-             dmabuf->fd = -1;
-         }
--        if (!console_has_gl_dmabuf(con)) {
--            /* it would be nice to report that error earlier */
--            error_report("console doesn't support dmabuf!");
--            break;
--        }
-         dpy_gl_release_dmabuf(con, dmabuf);
-         if (fd == -1) {
-             dpy_gl_scanout_disable(con);
 diff --git a/ui/console.c b/ui/console.c
-index ab9224429e..b5bc3f7699 100644
+index a645418ada..d8cc640c28 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -1463,11 +1463,6 @@ bool console_has_gl(QemuConsole *con)
-     return con->gl != NULL;
+@@ -1476,12 +1476,37 @@ static bool displaychangelistener_has_dmabuf(DisplayChangeListener *dcl)
+     return false;
  }
  
--bool console_has_gl_dmabuf(QemuConsole *con)
--{
--    return con->gl != NULL && con->gl->ops->dpy_gl_scanout_dmabuf != NULL;
--}
--
++static bool dpy_compatible_with(QemuConsole *con,
++                                DisplayChangeListener *dcl, Error **errp)
++{
++    ERRP_GUARD();
++    int flags;
++
++    flags = con->hw_ops->get_flags ? con->hw_ops->get_flags(con->hw) : 0;
++
++    if (flags & GRAPHIC_FLAGS_GL &&
++        !console_has_gl(con)) {
++        error_setg(errp, "The console requires a GL context.");
++        return false;
++
++    }
++
++    if (flags & GRAPHIC_FLAGS_DMABUF &&
++        !displaychangelistener_has_dmabuf(dcl)) {
++        error_setg(errp, "The console requires display DMABUF support.");
++        return false;
++    }
++
++    return true;
++}
++
  void register_displaychangelistener(DisplayChangeListener *dcl)
  {
      static const char nodev[] =
+         "This VM has no graphic display device.";
+     static DisplaySurface *dummy;
+     QemuConsole *con;
++    Error *err = NULL;
+ 
+     assert(!dcl->ds);
+ 
+@@ -1496,6 +1521,11 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
+         dcl->con->gl = dcl;
+     }
+ 
++    if (dcl->con && !dpy_compatible_with(dcl->con, dcl, &err)) {
++        error_report_err(err);
++        exit(1);
++    }
++
+     trace_displaychangelistener_register(dcl, dcl->ops->dpy_name);
+     dcl->ds = get_alloc_displaystate();
+     QLIST_INSERT_HEAD(&dcl->ds->listeners, dcl, next);
 -- 
 2.29.0
 
