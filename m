@@ -2,95 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E0630FB73
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 19:32:29 +0100 (CET)
-Received: from localhost ([::1]:38142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E4630FBBA
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 19:42:58 +0100 (CET)
+Received: from localhost ([::1]:55470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7jQa-0007Mf-5z
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 13:32:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55514)
+	id 1l7jah-0006tq-Cy
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 13:42:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7ied-0006v2-86
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:42:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7ieb-0007Ni-FX
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:42:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612460570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ymY6gtpmt5rR2xzrdY59UgjTHm5tOYd33wQ5u0YMlAM=;
- b=UOkAwBtTlVPR3ig5ZkF4n87Rnj0YMbXe31YntFeymS2QyBXTUoS4YWVyXIPfsE2sqjnndV
- Q0As6vV+aEGGt8jMHI6nr2od5dlJMYZl4iiWtgQPE4V69cVCr9iBdoYqwFx1aCS4XW89dB
- pdLyTvDnpg1Avt54bt4SAGRVqnM4JVk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-xp7MXNlGO8aLkiflAfPAYg-1; Thu, 04 Feb 2021 12:42:49 -0500
-X-MC-Unique: xp7MXNlGO8aLkiflAfPAYg-1
-Received: by mail-ej1-f71.google.com with SMTP id jg11so3191127ejc.23
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 09:42:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7iiC-0002Qv-4O
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:46:37 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:41593)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7ii8-0000o8-DZ
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:46:35 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id i7so2614146pgc.8
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 09:46:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Y/Z1kSm76MLRMzMr9Zi8L6ipZ9s4Q4Z2Vn1nnhljNXg=;
+ b=h0gCkKkH0BiQ87buVfqbZ0tAlx0PnsduySIB1XK6w/3x6PeTL72+wHFy0ktd54DdfH
+ dwMNgQLQ/OT8nWd7PUqM97IGbBU1xSUOkLbNE8CMcbvYC1zOptwYfrXPMzevWaHgWh58
+ 8x5dyZAqSIEOf4V24pwDqdDPIzHf3QttiOjpm7QRtwMjiZ1uEmD0BCF8uD54qhDSenFu
+ /ghBe3fr2avBniOD2E4fQmoYpW5ftW0z/BePQroHx6rQtysT0yilX2pcAb2riOwHnh1G
+ CzAkzKld7LOKKywt38Ou4M+IkIv+7rml+hmegCHHPFGJMIsDrflsKTqZBV34j64m3xHO
+ Ic1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ymY6gtpmt5rR2xzrdY59UgjTHm5tOYd33wQ5u0YMlAM=;
- b=pL1O3W7TqigkoxLS1e6pi+K/wMv1aXsrkD4ObLRTDXLqiy5LglPWvF4GtZYZHJlO2r
- UMbwDhieAkclY1QKYNXUPzWPFMt6szbLCA4xSl17bWYtArUG05mKU+abfVUp33Bu/eDo
- k0YA0N4YhIksGAJo/9/itz4lIgs2TesQp9oWFeJyArb5J5x14vC9FxKG0OvEKgw8RP/i
- 8cZORwFpvDh6sUimfKd3+845Q55gV2zTweZ4AhgXXZ5E+HjcSlnNEGPwIyIMvnOzheB/
- 54PYvy/cEymLl5t/avNfJRlFg0vaZk90DbO9SmtiL+7fM2DA4HAE+0oKuZ3seNwkB+vc
- uEEA==
-X-Gm-Message-State: AOAM532H/KIXWLyOrw3Bi/QQlY+nihUWarwQ5cR2nLH7oXGaPo5CR+YW
- plx2i/M5usNLNCBOmom03Uzv6kbXlIcx2+zT58pL+1GmQR/+qLIqZoFGWypiye2nVP0nAEalPtb
- tLMyEjVIKYlwfqBk=
-X-Received: by 2002:a05:6402:304e:: with SMTP id
- bu14mr127186edb.60.1612460568042; 
- Thu, 04 Feb 2021 09:42:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzuMoPPvDTymC0uIVtPyCoPLIvOEb4B5PubbV842X6UtZXHpZ1Qp6bpn+9j0fltO6LObxHT7g==
-X-Received: by 2002:a05:6402:304e:: with SMTP id
- bu14mr127164edb.60.1612460567836; 
- Thu, 04 Feb 2021 09:42:47 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id f11sm2736391eje.114.2021.02.04.09.42.46
+ bh=Y/Z1kSm76MLRMzMr9Zi8L6ipZ9s4Q4Z2Vn1nnhljNXg=;
+ b=NLcFlKXegaNW6DdCx43U+JPfstmgg2FlGguXOR4d3C3EPp4yX5x3mpMocddFHYJ0JY
+ KskbX15i8jsmW87g82kyElS+5R7c6xNgOeuPmZHY94V0dRr0q8zO35TkXc+o5J9+BODl
+ C4oBDUhssVtsI+yMeGiV437PSwFCfRGXbRjTP9J+fQWVhQJQ6C59fUrm65zrwnIPz1r5
+ H47L52xwskuP5mXcqZ7TInmfs7SSiMZhXx6nM8p4/AX/u/EWPLI+sxaS2hq6Lc2A2DgA
+ +NuTCJ1rGx9+D5CYbHqLKSRjCwlD2pWScDt4PsZa5cQRhgSybFSYZV+cVSSga/P/ucgt
+ rCdw==
+X-Gm-Message-State: AOAM531ymT00E94eYq1UA8yx0OBNZaisM+PI2pInQQFZndiDgmUS5ApF
+ 4CgB59dGuLoizokJpY8T1A/eg+4jTJb3/wfr
+X-Google-Smtp-Source: ABdhPJzdoTlnhKsmbdHyJKGNxPLFxiyYptne/+L78iKa+USPb2TICpecU7EDZh0h5qLcdO2GzgyovA==
+X-Received: by 2002:aa7:9585:0:b029:1c5:10ce:ba7f with SMTP id
+ z5-20020aa795850000b02901c510ceba7fmr550287pfj.79.1612460790330; 
+ Thu, 04 Feb 2021 09:46:30 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id g17sm7373931pgg.78.2021.02.04.09.46.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 09:42:47 -0800 (PST)
-Subject: Re: [RFC] Move tools sources to the tools directory (was Re: [PATCH
- v2] MAINTAINERS: Fix the location of tools manuals)
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
-References: <20210204135425.1380280-1-wainersm@redhat.com>
- <516694bd-42fe-7929-811b-545f257c58bf@redhat.com>
- <0e0f9745-fe21-0bc6-2d02-431d67a6b57e@redhat.com>
- <affe4e6c-8f3e-1ec2-5a6f-6da31a2ced98@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <573fa4c4-6092-09ac-be49-0cc18af72a1a@redhat.com>
-Date: Thu, 4 Feb 2021 18:42:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thu, 04 Feb 2021 09:46:29 -0800 (PST)
+Subject: Re: [PATCH v2 04/93] tcg: Manage splitwx in tc_ptr_to_region_tree by
+ hand
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210204014509.882821-1-richard.henderson@linaro.org>
+ <20210204014509.882821-5-richard.henderson@linaro.org>
+ <87tuqrq3hh.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <82078884-4213-158e-9e1e-7d9b6b026536@linaro.org>
+Date: Thu, 4 Feb 2021 07:46:26 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <affe4e6c-8f3e-1ec2-5a6f-6da31a2ced98@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <87tuqrq3hh.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.182,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,35 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Greg Kurz <groug@kaod.org>, stefanha@redhat.com
+Cc: sw@weilnetz.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 3:40 PM, Paolo Bonzini wrote:
-> On 04/02/21 15:22, Wainer dos Santos Moschetta wrote:
->>>> -F: docs/interop/virtfs-proxy-helper.rst
->>>> +F: docs/tools/virtfs-proxy-helper.rst
->>>
->>> Unrelated, but Paolo once said helpers are not tools.
+On 2/4/21 5:01 AM, Alex Bennée wrote:
 > 
-> I think helpers is not a good word.  However, if an executable:
+> Richard Henderson <richard.henderson@linaro.org> writes:
 > 
-> - can be started directly by QEMU, or is not useful without an emulator
+>> The use in tcg_tb_lookup is given a random pc that comes from the pc
+>> of a signal handler.  Do not assert that the pointer is already within
+>> the code gen buffer at all, much less the writable mirror of it.
 > 
-> - is usually too complex for a user to run manually
-> 
-> then it should be documented in docs/interop (not docs/tools).  Their
-> sources however can be in tools/, that's not a problem at all.
+> Surely we are asserting that - or at least you can find a rt entry for
+> the pointer passed (which we always expect to work)?
 
-I understand tools can be built/used standalone (no dependence),
-while helpers are companion of another binary, thus dependent on it:
+What?  No.  The pointer could be anything at all, depending on any other bug
+within qemu.
 
-- we can build tools without emulator
-- it is probably pointless to build an helper without its helpee
-- some binaries can't be use without helpers
 
-Maybe "companion" is a better candidate to describe?
-
+r~
 
