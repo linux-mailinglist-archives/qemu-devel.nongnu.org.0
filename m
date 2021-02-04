@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7D130F4E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:26:22 +0100 (CET)
-Received: from localhost ([::1]:52106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC8B30F4EB
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:28:48 +0100 (CET)
+Received: from localhost ([::1]:54410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7faP-00022P-NG
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:26:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58714)
+	id 1l7fcl-0003DZ-6D
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:28:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7fZC-0001Zv-DI
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:25:06 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:35652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7fZA-0002Db-MV
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:25:06 -0500
-Received: by mail-ed1-x535.google.com with SMTP id g10so4366088eds.2
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 06:25:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Wr2wmMaNGmX6i+k+nsdbLKLl6sSuEN3yJSueFtDW6eE=;
- b=vhYRFlr/lgiOJCqhtXoKEKcnWXpLhElK4gwna9EoL/JkH8Y49YzgenBXbPES8XMiVG
- pfQOZ4VABEj+PVOgKC6PrUke8ePLZuPlGyu9HbIf2CM2QVYap3Gz5H9NMoa4GrkBIZT0
- 43u2GCgGcgVISSsMzTlcDxBjtRPWTnHI2BLVWViS/ofOezzjjfUoP1tIsmop0uAyU65n
- E+fNXLXP85Ow0aWHss3euO8DsgxWR/qESc2+su8Tl9kovHIuk8ee4mwj+QgS4dIlyTOB
- HHdwXiifE9UOkBrldmhQBKUqEIuwd/HTcB7I5FgTwfbXmmt2WdAN4l4Wcj4YzoAV5uwY
- 0qGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Wr2wmMaNGmX6i+k+nsdbLKLl6sSuEN3yJSueFtDW6eE=;
- b=WTI0dZNhsZ9Ssvx/x7CegNNPtJM6wzvfB+P1BmOFpE0F3GTuJ16uVjozpNaiJOF/RY
- H72C3bM1s8vRFeZbtn3mkfi9IaPWo2kVSIOkMIClikmopHpebq9yxUeX5r7RxPrIggsI
- yaFlpCe0K/O6ZTAn1X+elIcsIBMY2bu3BDhxhZf3ux5qSmJQse9T0w8jOdyg5dVWndHB
- 49utNJfqpD43y2Guts1xVQSAt7zqkdsB8amc5KnNVcavUAQrmC0QDefRTpYWnh3ca44x
- QwfJ2aWWh/IIS1Z68+M6Uigb2rQsRCGnuUvCkQgj/FdtMJWLBkvb7oPBy/kt27wO2gfF
- nl3Q==
-X-Gm-Message-State: AOAM533u6n3UM9OW1bM1vccnTjJA7Ocea6BeX9zG8xqFIZLlMob4Ffj8
- m3KN2gLz/slb9LSQ3XLOCD+zgewhTKS06umaJY6vIQ==
-X-Google-Smtp-Source: ABdhPJytKKjBC+1tx/tosNe+wPjZ+tqJeaSSCuI/UKVuljhp49pDktYwOrZhqRFSjcDRa+YjkKhPUevM9kSQOtK1mRQ=
-X-Received: by 2002:a05:6402:3514:: with SMTP id
- b20mr7927541edd.100.1612448702682; 
- Thu, 04 Feb 2021 06:25:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7fbB-0002eV-7d
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:27:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44727)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7fb9-0003CM-Et
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:27:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612448826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DutrP1uz4kRrDww2uWDkP07dwE4u2Gj+H3DrU0icnVU=;
+ b=aLUUgLYC1LRhsYXziSHqZookmDpoMkDIQDYu8On8b4IFz/UDWoYK5xk4naYjkVc1t0ckqr
+ Q10vZb1+LjNs9vjs+NCzahMwVllehZYYP9+Nr/Yyy37j+o+R1r92cYOsIw/1p8zZEphp2+
+ xP0aR7l2BzWoBYYjl5t0qVC5OEUnBzI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-bAWLhdymNu2Sbtr71y8X1A-1; Thu, 04 Feb 2021 09:27:05 -0500
+X-MC-Unique: bAWLhdymNu2Sbtr71y8X1A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F0AA107ACE6;
+ Thu,  4 Feb 2021 14:27:03 +0000 (UTC)
+Received: from work-vm (ovpn-114-21.ams2.redhat.com [10.36.114.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9344A514BC;
+ Thu,  4 Feb 2021 14:26:53 +0000 (UTC)
+Date: Thu, 4 Feb 2021 14:26:50 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Jinhao Gao <gaojinhao@huawei.com>
+Subject: Re: [PATCH v3 0/3] Fix memory leak of some device state in migration
+Message-ID: <20210204142650.GA24147@work-vm>
+References: <20201231061020.828-1-gaojinhao@huawei.com>
 MIME-Version: 1.0
-References: <20210201100903.17309-1-cfontana@suse.de>
- <20210201100903.17309-22-cfontana@suse.de>
- <871rdxrt08.fsf@linaro.org> <7500a412-c94a-6990-eb48-9ee78bfb94e3@suse.de>
- <05980f44-88a6-6ef7-b263-07c2d898b8f0@redhat.com>
- <483bc092-cf71-d2c2-59d7-861f3131c8e4@suse.de>
-In-Reply-To: <483bc092-cf71-d2c2-59d7-861f3131c8e4@suse.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Feb 2021 14:24:51 +0000
-Message-ID: <CAFEAcA_ArFBhfasRHQ3VbmKisnP7i2rm48vmji9RB5ub+dzStA@mail.gmail.com>
-Subject: Re: [PATCH v15 21/23] hw/core/cpu: call qemu_init_vcpu in
- cpu_common_realizefn
-To: Claudio Fontana <cfontana@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201231061020.828-1-gaojinhao@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,37 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ qemu-ppc@nongnu.org, wanghaibin.wang@huawei.com,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ zhukeqian1@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Feb 2021 at 14:18, Claudio Fontana <cfontana@suse.de> wrote:
-> If we could consistently move not only qemu_vcpu_init, but also reset in the common code in cpu_common_realizefn,
-> and force the sequence: qemu_vcpu_init(); cpu_reset(); in there,
->
-> and this actually works for all targets, maybe this could actually be an improvement.
+* Jinhao Gao (gaojinhao@huawei.com) wrote:
+> For some device state having some fields of VMS_ALLOC flag, they
+> don't free memory allocated for the fields in vmstate_save_state
+> and vmstate_load_state. We add funcs or sentences of free memory
+> before and after VM saves or loads device state to avoid memory leak.
 
-So my question here would be: what is special about CPUs that
-we have to reset them in their realize function?  For other
-devices, we don't reset them in the init/realize sequence;
-we rely on the whole system getting reset and that doing
-reset of devices.
+Queued
 
-There almost certainly *is* a reason here (my guess would be
-that it's related to the mess that is reset and in particular
-that CPU objects don't get automatically reset on system reset
-because they're not on a qbus). But if we're thinking about
-aspirational goals, I think the aspiration should be to not
-need to reset the CPU in its own realize function at all...
+> 
+> v2
+>  - Drop patch1-3,6-8 of v1
+>  - Address Michael's comment (free memory before load vmsd centrally)
+>  - Add David's Acked-by and Michael's Signed-off-by
+> 
+> v3
+>  - Add Euler's Reported-by and Michael's Reviewed-by
+> 
+> Jinhao Gao (3):
+>   spapr_pci: Fix memory leak of vmstate_spapr_pci
+>   savevm: Fix memory leak of vmstate_configuration
+>   vmstate: Fix memory leak in vmstate_handle_alloc()
+> 
+>  hw/ppc/spapr_pci.c  | 11 +++++++++++
+>  migration/savevm.c  | 31 +++++++++++++++++++++++++++----
+>  migration/vmstate.c |  1 +
+>  3 files changed, 39 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.23.0
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-thanks
--- PMM
 
