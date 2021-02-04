@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6A730FCFD
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:37:44 +0100 (CET)
-Received: from localhost ([::1]:43982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64CC30FCD8
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:33:28 +0100 (CET)
+Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kRj-0007Tt-7c
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:37:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49030)
+	id 1l7kNb-0003Qz-VR
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:33:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l7k3a-0006oG-JO
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:12:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49019)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l7k3P-0003IZ-6b
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:12:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612465953;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wq1oNNb6es5putCafMaMjx/H+TYOyFtHTNVfvZIqlXQ=;
- b=GpAyHUu39Zz9oxv7gpzUZnmZJje4j+F3n8QzmhAT0gEtg3r6RrzmtqHl3ksXzvlxKOY7Cg
- xfiy0ih7szvGd3KARzt/3Bx2iWQDZawf34WqUz9MU+jvla+X0/KdCo2g2ac/zOfmEXcFzW
- WkbqhzKwurpcX++ETWpNnu53a8BURt8=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-mc9JYkYRPjqYmF6iwxl69g-1; Thu, 04 Feb 2021 14:12:31 -0500
-X-MC-Unique: mc9JYkYRPjqYmF6iwxl69g-1
-Received: by mail-qt1-f198.google.com with SMTP id v13so3365448qtq.18
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 11:12:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7k5E-0000Fj-Q3
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:14:28 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:39760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7k5D-000429-Bg
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:14:28 -0500
+Received: by mail-ej1-x632.google.com with SMTP id p20so7368164ejb.6
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 11:14:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tzD0bWLvrJuHdSAU0iemw994PzFpgeqZwEOcF0GHL5o=;
+ b=pvwlCWxAlTfZDar4wBmSkVxwUBP+kn7k7SRKcKwjkOcWEft3w2tBqgm89KqbrdKEo2
+ fN58cQ+ufKehGrV/aVZ+G77Egzq0V8zzOjgQIuFc/9V7WnpNrYrXpjWwB5X0Q7PG/8Ji
+ WeSGNMZFRN91NlAVgxQ1jTemkNB96VbLUNsvMfknqqMYkA29Yj/S6iODbCgQhRLrqtTj
+ zwh4SLZBo2s3K/CwgMcTxAteUx8EeRuIsekv8Hq87uZeH+Rxe67y2EK2V0DHoFcMIjFF
+ 7pZdTqNcyodtTqIFwCF+52CckR5ODD3GTl3gv+GJcpZzwyTY4/bYe97E/Hr0d7gEJ4/l
+ 9qDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wq1oNNb6es5putCafMaMjx/H+TYOyFtHTNVfvZIqlXQ=;
- b=OS4JYJYYofx6D86Nr7N/x9HmAUgtinQO3xbo1CJIcRbjwjWkCrpUKrZM4fMxJFw9kz
- +4qEiJKyWlzzWwQPodRX9iqdi0FpwtU+JfudUVlpTLaNB/wtUrBQzFwAB7z1VNG/xlX3
- WGWJJ+4csx+9OJnq1XTNcPgEHWCLjTN2Mxe8UBx7bAZZAn1qnuOTWTRUoREa3MLYSn4b
- RUr3r+2LhJ/Us7OO7KGyZs1yq1xlazDOBTtCFO/VoF8m2otBOBPozUPOuGJFxQQKsse5
- Sa9rZPSFBk6eTYINPc753BWSydOSkNCCVUfgX9Gyquff4cmA+RSjcNFSRWr6SIswewvf
- q/6A==
-X-Gm-Message-State: AOAM533BsXe1FTRfzMsJnv0qxAafOnMpuOrMOM2Rbpp9kPuEvyc2ggLI
- 2xCjsJU36xI9zEHVkKHErFjH6jrviChjDai7NsbPfnNCSA0y1OohCenrQmyxj7hiA/VVQVmHcf7
- zmiUCTAytk1zdZdTvQaNFrrvWB8TCdprwhHyDV3kMmgSXgAhcDpGZ5TbnO17TYF2D
-X-Received: by 2002:ac8:5189:: with SMTP id c9mr1016147qtn.241.1612465950922; 
- Thu, 04 Feb 2021 11:12:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwIptZK7bql5eMTeTTrmSHEQHwypTIdWETmGMAkytwTmSMLM3O7P6oEHLbdK7ADTJyPpHlvA==
-X-Received: by 2002:ac8:5189:: with SMTP id c9mr1016117qtn.241.1612465950629; 
- Thu, 04 Feb 2021 11:12:30 -0800 (PST)
-Received: from xz-x1.redhat.com
- (bras-vprn-toroon474qw-lp130-20-174-93-89-182.dsl.bell.ca. [174.93.89.182])
- by smtp.gmail.com with ESMTPSA id k8sm6220122qkk.79.2021.02.04.11.12.29
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=tzD0bWLvrJuHdSAU0iemw994PzFpgeqZwEOcF0GHL5o=;
+ b=GBaVKCnYvfgJEk6UI2rdATlghnlM7kQ2k8OL3HoqAac0bJxzvXJub7H+4rMp/J+l/q
+ pYH385KphENMFcfUhe2hqQCDdiO75GbkSgZLPrb1hdLhJv3JNXcwNvFF0gy3K+OK+j0a
+ 8TifhNIds5mroDIstsYwhKl2HZ/HLjdpkvpryAz3AP2P3p4RI4lNrg2GI1Kbbe29IKUN
+ I7qqKMfa4yELC3tUAha+mnlxshZYWILVelxCjjImdNAf9YeO8NBgDR+eQuNcbazAxQvW
+ 7gWjjBCpuEGzLZb076ILF0tdeZllyAufQ0i9F1yn12wYPXgWPqCyNypgMVFhgxs7eqWX
+ 4KNA==
+X-Gm-Message-State: AOAM5303lFOtP/IwJjCwPmb7ZRXxaVFPHAoECUz7PGHiVg/KJk9QA5U1
+ DOHj2ggAueiKV4zWN/4mAoMsR9sUinw=
+X-Google-Smtp-Source: ABdhPJygc0P7pZQGT47UOPjnBF0W1Y4nJX6ZmM4xDIiYw10oEeZQibLGxsoPBkgp/HTUvCyKEuVkIQ==
+X-Received: by 2002:a17:907:7605:: with SMTP id
+ jx5mr595313ejc.340.1612466065519; 
+ Thu, 04 Feb 2021 11:14:25 -0800 (PST)
+Received: from x1w.redhat.com (107.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.107])
+ by smtp.gmail.com with ESMTPSA id e19sm2964363eds.79.2021.02.04.11.14.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 11:12:29 -0800 (PST)
-From: Peter Xu <peterx@redhat.com>
+ Thu, 04 Feb 2021 11:14:24 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support
-Date: Thu,  4 Feb 2021 14:12:28 -0500
-Message-Id: <20210204191228.187550-1-peterx@redhat.com>
+Subject: [PATCH v2] exec/cpu-defs: Remove TCG backends dependency
+Date: Thu,  4 Feb 2021 20:14:23 +0100
+Message-Id: <20210204191423.1754158-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,106 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, peterx@redhat.com,
- Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous work on dev-iotlb message broke vhost on either SMMU or virtio-iommu
-since dev-iotlb (or PCIe ATS) is not yet supported for those archs.
+"exec/cpu-defs.h" contains generic CPU definitions for the
+TCG frontends (mostly related to TLB). TCG backends definitions
+aren't relevant here.
 
-An initial idea is that we can let IOMMU to export this information to vhost so
-that vhost would know whether the vIOMMU would support dev-iotlb, then vhost
-can conditionally register to dev-iotlb or the old iotlb way.  We can work
-based on some previous patch to introduce PCIIOMMUOps as Yi Liu proposed [1].
+See tcg/README description:
 
-However it's not as easy as I thought since vhost_iommu_region_add() does not
-have a PCIDevice context at all since it's completely a backend.  It seems
-non-trivial to pass over a PCI device to the backend during init.  E.g. when
-the IOMMU notifier registered hdev->vdev is still NULL.
+  4) Backend
 
-To make the fix smaller and easier, this patch goes the other way to leverage
-the flag_changed() hook of vIOMMUs so that SMMU and virtio-iommu can trap the
-dev-iotlb registration and fail it.  Then vhost could try the fallback solution
-as using UNMAP invalidation for it's translations.
+  tcg-target.h contains the target specific definitions. tcg-target.c.inc
+  contains the target specific code; it is #included by tcg/tcg.c, rather
+  than being a standalone C file.
 
-[1] https://lore.kernel.org/qemu-devel/1599735398-6829-4-git-send-email-yi.l.liu@intel.com/
+So far only "tcg/tcg.h" requires these headers.
 
-Reported-by: Eric Auger <eric.auger@redhat.com>
-Fixes: b68ba1ca57677acf870d5ab10579e6105c1f5338
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Tested-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
+Remove the "target-tcg.h" header dependency on TCG frontends, so we
+don't have to rebuild all frontends when hacking a single backend.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/smmuv3.c          |  5 +++++
- hw/virtio/vhost.c        | 13 +++++++++++--
- hw/virtio/virtio-iommu.c |  5 +++++
- 3 files changed, 21 insertions(+), 2 deletions(-)
+v2: Reword description (bonzini)
+---
+ include/exec/cpu-defs.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 98b99d4fe8e..bd1f97000d9 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -1497,6 +1497,11 @@ static int smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
-     SMMUv3State *s3 = sdev->smmu;
-     SMMUState *s = &(s3->smmu_state);
+diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+index d1f5e3fc3d8..ba3cd32a1ec 100644
+--- a/include/exec/cpu-defs.h
++++ b/include/exec/cpu-defs.h
+@@ -25,9 +25,6 @@
  
-+    if (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
-+        error_setg(errp, "SMMUv3 does not support dev-iotlb yet");
-+        return -EINVAL;
-+    }
-+
-     if (new & IOMMU_NOTIFIER_MAP) {
-         error_setg(errp,
-                    "device %02x.%02x.%x requires iommu MAP notifier which is "
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 28c7d781721..6e17d631f77 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -704,6 +704,7 @@ static void vhost_iommu_region_add(MemoryListener *listener,
-     Int128 end;
-     int iommu_idx;
-     IOMMUMemoryRegion *iommu_mr;
-+    int ret;
- 
-     if (!memory_region_is_iommu(section->mr)) {
-         return;
-@@ -726,8 +727,16 @@ static void vhost_iommu_region_add(MemoryListener *listener,
-     iommu->iommu_offset = section->offset_within_address_space -
-                           section->offset_within_region;
-     iommu->hdev = dev;
--    memory_region_register_iommu_notifier(section->mr, &iommu->n,
--                                          &error_fatal);
-+    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
-+    if (ret) {
-+        /*
-+         * Some vIOMMUs do not support dev-iotlb yet.  If so, try to use the
-+         * UNMAP legacy message
-+         */
-+        iommu->n.notifier_flags = IOMMU_NOTIFIER_UNMAP;
-+        memory_region_register_iommu_notifier(section->mr, &iommu->n,
-+                                              &error_fatal);
-+    }
-     QLIST_INSERT_HEAD(&dev->iommu_list, iommu, iommu_next);
-     /* TODO: can replay help performance here? */
- }
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 6b9ef7f6b2b..c2883a2f6c8 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -893,6 +893,11 @@ static int virtio_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu_mr,
-                                             IOMMUNotifierFlag new,
-                                             Error **errp)
- {
-+    if (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
-+        error_setg(errp, "Virtio-iommu does not support dev-iotlb yet");
-+        return -EINVAL;
-+    }
-+
-     if (old == IOMMU_NOTIFIER_NONE) {
-         trace_virtio_iommu_notify_flag_add(iommu_mr->parent_obj.name);
-     } else if (new == IOMMU_NOTIFIER_NONE) {
+ #include "qemu/host-utils.h"
+ #include "qemu/thread.h"
+-#ifdef CONFIG_TCG
+-#include "tcg-target.h"
+-#endif
+ #ifndef CONFIG_USER_ONLY
+ #include "exec/hwaddr.h"
+ #endif
 -- 
 2.26.2
 
