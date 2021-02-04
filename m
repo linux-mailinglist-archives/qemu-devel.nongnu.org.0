@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE2D30EA32
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 03:31:12 +0100 (CET)
-Received: from localhost ([::1]:38306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4BB30EA44
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 03:37:11 +0100 (CET)
+Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7UQJ-0005x0-Tu
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 21:31:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45262)
+	id 1l7UW6-0005XT-Gg
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 21:37:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7Tjh-0006Cl-F2
+ id 1l7Tjj-0006D9-AB
  for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:47:12 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:36058)
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:39193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7Tjd-00048r-DR
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:47:09 -0500
-Received: by mail-pl1-x634.google.com with SMTP id e9so898042plh.3
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:47:04 -0800 (PST)
+ id 1l7Tje-00049J-V4
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:47:11 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id d2so820872pjs.4
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:47:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YQBNB7jLXwaZJSYBL0BvoU6n3wPE6zwxayv+Hpeg13U=;
- b=uXpTlARhhPLGPSnuVDZU8sjiGNGdW5EXwqXne5QuPo2m5mq4baN+1dAVNZeyRC8ldl
- gwbfi/jhdkTsxiIPppl9gDL591Gr4BIOD9+EqsoHuxnHySXDo5KdFZvHU0uExJLDOOOb
- 0kTOH7fDtAkLYStcfaB3DvPYckJ9b00LKS4J6ytMQzwgH/UvGIv7fUWpTFhLkiPUxKMY
- hjRu4057ezcvufKh+gs0oId5SI9YErJR4jwz+cE6FLe89mWIpxfkuzXbYGid6rMD4M9/
- IDVjLc6m6dwHmurHvrqbM+bqL2D8CfLixz60iMciKyWoAkKXhPRLFcCl8eBqT9BxktqO
- 972g==
+ bh=LAWykP8xawhD0n2LEjnvxt6U+It9ZnMCGaTxxtC6jn0=;
+ b=YGX1wPtCD2Ap8FPJxD1u9xl6GRm8bV1wPkAN/ScfYkHiHzeWPipbnbmzIPZjU6h+lB
+ BwEs0JgZnBAbBOgvdkgEl/hCczUb4ouloF2Cmpfy4bxjhnkendyEnLrcvVI6OoHtQ55a
+ uvm9Kwead7s8U+2JJLbZ+kYBSN1ViIFLHuB70KYYU9a1RuYkm4EXzTVoC+RtAGiGE7/J
+ pRVNh2EcPEpsF4maDwVY50OYBwaHYVkHFQjPp+eS+5vllbYZn47l26TjIFA/hXPFhJX5
+ fKeYFZUkZMtApMOab3kn6/14XbZArQrFqfMd5qfDArbd70FMWqllCF59g1oynGiBQ1jV
+ tDeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YQBNB7jLXwaZJSYBL0BvoU6n3wPE6zwxayv+Hpeg13U=;
- b=r9o0Jeau9sDbuYZLpO2MwG/c9rpkZkrzKtyvj5E7/FSYfgHk9CK2aT6KeeimjJldxM
- TKnMTcrEurEvu6UMRqhWiUYe1D72WQgBJcQwIVLvYeswb1BH+mEHcmdJHDfgMv1h1/lU
- JoS92c0HInOGlHBCcmzOYFl6HQFwHWaQsAg8kQ99eVYbwBzXCzLJxGUCxVF0+vghjI6o
- Tu/MtjwX8wsiHqbvkCbUTE91MT5lk2yMX9H4Di6ZT7jvjCR4UBxiZOz6E1Nj1GDBlj84
- lm7v179hbbV2e5gE8iZxnnyfTsBLX7cy0HR5qp245HPCQMsbNGwu1+gsf725YQg41XCT
- Lqag==
-X-Gm-Message-State: AOAM531mn4Ew2O+MpbdOq8qZcBwqcUEYFC3QT7DX1sGVA7SXCrEcD9qG
- 8EcIDjtcppytcVy3eNePNJo1OggtymkNELrs
-X-Google-Smtp-Source: ABdhPJySFzIeHZqIVVrCLVi8EQ/TnsUOn3bhbG73BG+r3sO5lcmFTCa572TXbrSMgTzvIdDBky0yBw==
-X-Received: by 2002:a17:902:70c3:b029:de:af88:f17e with SMTP id
- l3-20020a17090270c3b02900deaf88f17emr5777031plt.3.1612403224131; 
- Wed, 03 Feb 2021 17:47:04 -0800 (PST)
+ bh=LAWykP8xawhD0n2LEjnvxt6U+It9ZnMCGaTxxtC6jn0=;
+ b=YH6DJlzYpnIAr77q3A/UHAJ/lhAEeCrFSD2SxOU1mQBQz6/dxgnlKXfY8sIZvu60zX
+ ZbEnjkrZyAb4e24uEwMhp0ULK2h/5P4uxgX/RNPn/gknM6hOXl1LCwWZaHa0A94vIaUE
+ s2eoUkBQUUh2RqjFfuo+cPNDxc8hJMAcXkRPAB4UUwwWhibn4Lj0CUbSwf4nDeXc+WIs
+ XbXJ6F6fPm2Q7n7nU2LmrpjO8gYgcZGRgdaYC/DmCOjYck7hortXoXyS8gnESgGG3/X+
+ MdigynzvOKXQFNYOFySzbjNS8iGYUv2E9VRLharZfP0SDhmfk+SlL1Bhhcf6DKhQVqXB
+ IQ1w==
+X-Gm-Message-State: AOAM533gjeQBkPYfH70E3hYUOXqc+jP1+UpFfMKQvjmz2DmG2knA0nmC
+ 2hT8wfDDeXZ3wUp0bY0wCYGL+KyqGDje2N5G
+X-Google-Smtp-Source: ABdhPJwB9ct52ywpGtTNuKyVMpYwBcIrz7raZURjJonyAJ2urPxdZehjLNrx0gIlLc/+bZ2LBx5QQA==
+X-Received: by 2002:a17:902:70c6:b029:df:d62a:8c69 with SMTP id
+ l6-20020a17090270c6b02900dfd62a8c69mr5597285plt.20.1612403225526; 
+ Wed, 03 Feb 2021 17:47:05 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.47.02
+ by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.47.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 17:47:03 -0800 (PST)
+ Wed, 03 Feb 2021 17:47:05 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 64/93] tcg/tci: Improve tcg_target_call_clobber_regs
-Date: Wed,  3 Feb 2021 15:44:40 -1000
-Message-Id: <20210204014509.882821-65-richard.henderson@linaro.org>
+Subject: [PATCH v2 65/93] tcg/tci: Move call-return regs to end of
+ tcg_target_reg_alloc_order
+Date: Wed,  3 Feb 2021 15:44:41 -1000
+Message-Id: <20210204014509.882821-66-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210204014509.882821-1-richard.henderson@linaro.org>
 References: <20210204014509.882821-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,37 +89,36 @@ Cc: sw@weilnetz.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current setting is much too pessimistic.  Indicating only
-the one or two registers that are actually assigned after a
-call should avoid unnecessary movement between the register
-array and the stack array.
+As the only call-clobbered regs for TCI, these should
+receive the least priority.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci/tcg-target.c.inc | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ tcg/tci/tcg-target.c.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 8d75482546..4dae09deda 100644
+index 4dae09deda..53edc50a3b 100644
 --- a/tcg/tci/tcg-target.c.inc
 +++ b/tcg/tci/tcg-target.c.inc
-@@ -623,8 +623,14 @@ static void tcg_target_init(TCGContext *s)
-     tcg_target_available_regs[TCG_TYPE_I32] = BIT(TCG_TARGET_NB_REGS) - 1;
-     /* Registers available for 64 bit operations. */
-     tcg_target_available_regs[TCG_TYPE_I64] = BIT(TCG_TARGET_NB_REGS) - 1;
--    /* TODO: Which registers should be set here? */
--    tcg_target_call_clobber_regs = BIT(TCG_TARGET_NB_REGS) - 1;
-+    /*
-+     * The interpreter "registers" are in the local stack frame and
-+     * cannot be clobbered by the called helper functions.  However,
-+     * the interpreter assumes a 64-bit return value and assigns to
-+     * the return value registers.
-+     */
-+    tcg_target_call_clobber_regs =
-+        MAKE_64BIT_MASK(TCG_REG_R0, 64 / TCG_TARGET_REG_BITS);
+@@ -170,8 +170,6 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+ }
  
-     s->reserved_regs = 0;
-     tcg_regset_set_reg(s->reserved_regs, TCG_REG_CALL_STACK);
+ static const int tcg_target_reg_alloc_order[] = {
+-    TCG_REG_R0,
+-    TCG_REG_R1,
+     TCG_REG_R2,
+     TCG_REG_R3,
+     TCG_REG_R4,
+@@ -186,6 +184,8 @@ static const int tcg_target_reg_alloc_order[] = {
+     TCG_REG_R13,
+     TCG_REG_R14,
+     TCG_REG_R15,
++    TCG_REG_R1,
++    TCG_REG_R0,
+ };
+ 
+ #if MAX_OPC_PARAM_IARGS != 6
 -- 
 2.25.1
 
