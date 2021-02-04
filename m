@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBB230E9B8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 02:54:36 +0100 (CET)
-Received: from localhost ([::1]:51854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDD030E9CA
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 03:00:56 +0100 (CET)
+Received: from localhost ([::1]:40256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Tqs-0005l8-W1
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 20:54:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44344)
+	id 1l7Tx1-0004GA-Mg
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 21:00:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7TiN-0004k4-7K
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:47 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:45516)
+ id 1l7TiZ-00051I-VN
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:59 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:38322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7TiL-0003jB-BL
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:46 -0500
-Received: by mail-pl1-x633.google.com with SMTP id b8so869457plh.12
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:45:43 -0800 (PST)
+ id 1l7TiX-0003qU-0v
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:59 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id y205so1074765pfc.5
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:45:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SP+dSNoCSW/u6ABPE/2oquCEK8adb2mItiXQWA/oP48=;
- b=rIVz8A2Q3OkvbEYRbfC5vbM4owPmPE7eX6sTZfu5/YAExfsSh5qfcqNWcyNi2VFU6h
- dyvjOUTYsNO9LMnkwbTygoww44tpkqXnQZC4l3sLGrk8giD2C9tzG/eKZNGV9SlnD/rB
- bvjsd1mbmoetK2dK+KO6HGEgGHA5/pmJvPVGQVAo9cW5P8wBg28gHu+YP8OFNcmW4ipq
- 3kHJfrNT/iVZlLv5Q9X2ByKOWU016YhGRmjIGWwlw+HL/FfFDOdoskKZ8kgbsbr4kqRL
- Ke0TtIjA65dPHOK/Y9KH42YVSn0f+qqboqGweU2KOJcCY+OY52b3hzlhTGpTx7MRjZLB
- HCPg==
+ bh=rzqE8qXvCMMaAx4wVWdxYTRZ0dwbqGtPGHyjXMn8W48=;
+ b=lZJQyPOO1KRBaGJWUaxPtMbyv5ZnjpvVgchjfLMlgsJdrzobET4BPO1b0pwD6C8RzD
+ ZMBrPcGfdgpK992RRyi57neonIkdb3J9WhzhqKSntZj7Wtoa40oN+hytYuNl06o/4ifj
+ M0FWJjuAMMWU72G9kog9LrIZqM/a65o5uAP1Da9/8Xg+sgk+EB6NCaREiOzuUG7eYKkc
+ popXNDg4UKZ5pUPs9vmn4eewx60rYi2xtt7BGd9dZCDrwC6z6kt2Kb/hN1D2U2VJEmi4
+ c1pzjE/VnFRfaEDnAByTlkcy5J7JEQiVprpvV6S62g3/O85zmHGlanAKxvAAcyNh9s4f
+ YFOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SP+dSNoCSW/u6ABPE/2oquCEK8adb2mItiXQWA/oP48=;
- b=qCuf2priFhq18tiNleo2r4YV2LRl2yJrOSnmp8IHYbZSjuSq0LUlYoxTxx6fvNTvJC
- dYcm5UkIXmTfkqm+deWsZLB2ug82J7O35VYo2+9wJoZaNGKkj/XKP/DNydG81P5RECh5
- rnfJwA8Sk+2xYlQJ4cTjGlEzhXgUTKFJmX5Flj2t5nNVPSKTutC9Vr9hub3aYbIr6Aeh
- Bwkzll6aMfAJ0rccqzbZP4Q8c1InOGw246ORpM+366CjAMxcwUTtyoOQYXBsxXeFacm6
- +B3zJK81IvLIsnZ3iMny6NYsr+2rCPk4KMuAGDKCbRScTzjZGHjYSPrsROClNxKeHsPW
- pM0g==
-X-Gm-Message-State: AOAM530PnrU/gzqe9lEAMBqfv5thmA8lEoCaG8wIMsF97NqvR5lR9QBR
- bMJH4YE9kAojiK3hdbB5aflJ70zRT4PZUfRM
-X-Google-Smtp-Source: ABdhPJwW2qiSZLUtqIiaMuQN3AACNiT8TiEA/z23UAEoJl29PN5+LTKU2wKDxie++TlXSYl8Mc/0mA==
-X-Received: by 2002:a17:90a:4dc5:: with SMTP id
- r5mr5846098pjl.114.1612403142387; 
- Wed, 03 Feb 2021 17:45:42 -0800 (PST)
+ bh=rzqE8qXvCMMaAx4wVWdxYTRZ0dwbqGtPGHyjXMn8W48=;
+ b=mxezS9+9UHSPheQSjivWonwHShUayNIct6enY3M34lqQ0LQ9Vfwb9vNDaiYqUtRISi
+ HUu4YHflwiYWaZkRE/w+EWONEbYZAW8Zkq8+sUQb/v3nu/pCkO9wXIZwmzsL//imTjz2
+ ZB5IdI6HUuJW64d0W7WgA+r8oAEmNLBeS/pKbioUNOOS5OtSAaQyfncvIAxrNSj6VYlN
+ VslpTSPi4YeP7j70Jns85vY8StzjHymiPbm/A/LFLAIoxBiFAN66iVpcdQU2Rx0kAmvg
+ dApLHNJQjdmW6lUoWL6fkE2i19WbZQLvJw/XBFJF+N40q3x50h6DHxTolhCDXSGW06S5
+ Y7rQ==
+X-Gm-Message-State: AOAM5330jc+Dp1okB9QtS5D9kGJvmZQTODg8tktnxmFTVX2AKCV5g/Ea
+ hpcJyeNJQIs9XCA+FHHJzn0GAFjesvafMUIa
+X-Google-Smtp-Source: ABdhPJweLhPK8Av3gDK9TDMCUE0yrNUHjH24yAdIXtSUbg+jWxIoff/f9z10SkCVlHFvpnw+AoEjrQ==
+X-Received: by 2002:a63:4507:: with SMTP id s7mr6512529pga.390.1612403155898; 
+ Wed, 03 Feb 2021 17:45:55 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.45.40
+ by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.45.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 17:45:41 -0800 (PST)
+ Wed, 03 Feb 2021 17:45:55 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/93] tcg/tci: Merge INDEX_op_ld16u_{i32,i64}
-Date: Wed,  3 Feb 2021 15:43:51 -1000
-Message-Id: <20210204014509.882821-16-richard.henderson@linaro.org>
+Subject: [PATCH v2 23/93] tcg/tci: Remove dead code for TCG_TARGET_HAS_div2_*
+Date: Wed,  3 Feb 2021 15:43:59 -1000
+Message-Id: <20210204014509.882821-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210204014509.882821-1-richard.henderson@linaro.org>
 References: <20210204014509.882821-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,46 +88,80 @@ Cc: sw@weilnetz.de, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eliminating a TODO for ld16u_i32.
+We do not simultaneously support div and div2 -- it's one
+or the other.  TCI is already using div, so remove div2.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ tcg/tci.c                | 12 ------------
+ tcg/tci/tcg-target.c.inc |  8 --------
+ 2 files changed, 20 deletions(-)
 
 diff --git a/tcg/tci.c b/tcg/tci.c
-index c31be1a1f4..b64d611ec9 100644
+index 36d594672f..25329345cf 100644
 --- a/tcg/tci.c
 +++ b/tcg/tci.c
-@@ -593,8 +593,11 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             t2 = tci_read_s32(&tb_ptr);
-             tci_write_reg(regs, t0, *(int8_t *)(t1 + t2));
+@@ -652,7 +652,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+             t2 = tci_read_ri32(regs, &tb_ptr);
+             tci_write_reg(regs, t0, t1 * t2);
              break;
--        case INDEX_op_ld16u_i32:
--            TODO();
-+        CASE_32_64(ld16u)
-+            t0 = *tb_ptr++;
-+            t1 = tci_read_r(regs, &tb_ptr);
-+            t2 = tci_read_s32(&tb_ptr);
-+            tci_write_reg(regs, t0, *(uint16_t *)(t1 + t2));
-             break;
-         case INDEX_op_ld16s_i32:
+-#if TCG_TARGET_HAS_div_i32
+         case INDEX_op_div_i32:
              t0 = *tb_ptr++;
-@@ -858,12 +861,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
- 
-             /* Load/store operations (64 bit). */
- 
--        case INDEX_op_ld16u_i64:
--            t0 = *tb_ptr++;
--            t1 = tci_read_r(regs, &tb_ptr);
--            t2 = tci_read_s32(&tb_ptr);
--            tci_write_reg(regs, t0, *(uint16_t *)(t1 + t2));
+             t1 = tci_read_ri32(regs, &tb_ptr);
+@@ -677,12 +676,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+             t2 = tci_read_ri32(regs, &tb_ptr);
+             tci_write_reg(regs, t0, t1 % t2);
+             break;
+-#elif TCG_TARGET_HAS_div2_i32
+-        case INDEX_op_div2_i32:
+-        case INDEX_op_divu2_i32:
+-            TODO();
 -            break;
-         case INDEX_op_ld16s_i64:
+-#endif
+         case INDEX_op_and_i32:
+             t0 = *tb_ptr++;
+             t1 = tci_read_ri32(regs, &tb_ptr);
+@@ -908,11 +901,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+         case INDEX_op_remu_i64:
              TODO();
              break;
+-#elif TCG_TARGET_HAS_div2_i64
+-        case INDEX_op_div2_i64:
+-        case INDEX_op_divu2_i64:
+-            TODO();
+-            break;
+ #endif
+         case INDEX_op_and_i64:
+             t0 = *tb_ptr++;
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 82efb9af60..6dc5bac2f3 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -596,10 +596,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+     case INDEX_op_remu_i64:     /* Optional (TCG_TARGET_HAS_div_i64). */
+         TODO();
+         break;
+-    case INDEX_op_div2_i64:     /* Optional (TCG_TARGET_HAS_div2_i64). */
+-    case INDEX_op_divu2_i64:    /* Optional (TCG_TARGET_HAS_div2_i64). */
+-        TODO();
+-        break;
+     case INDEX_op_brcond_i64:
+         tcg_out_r(s, args[0]);
+         tcg_out_ri64(s, const_args[1], args[1]);
+@@ -639,10 +635,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+         tcg_out_ri32(s, const_args[1], args[1]);
+         tcg_out_ri32(s, const_args[2], args[2]);
+         break;
+-    case INDEX_op_div2_i32:     /* Optional (TCG_TARGET_HAS_div2_i32). */
+-    case INDEX_op_divu2_i32:    /* Optional (TCG_TARGET_HAS_div2_i32). */
+-        TODO();
+-        break;
+ #if TCG_TARGET_REG_BITS == 32
+     case INDEX_op_add2_i32:
+     case INDEX_op_sub2_i32:
 -- 
 2.25.1
 
