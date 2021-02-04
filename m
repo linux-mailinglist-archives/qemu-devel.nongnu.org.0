@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF5130F566
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:52:35 +0100 (CET)
-Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0A930F572
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:56:27 +0100 (CET)
+Received: from localhost ([::1]:37094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7fzm-00031p-AS
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:52:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36068)
+	id 1l7g3X-00057D-1s
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:56:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7fxh-0001a3-27
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:50:28 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:45881)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7g2I-0004Yd-24
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:55:10 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7fxe-0004wj-Si
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:50:24 -0500
-Received: by mail-ed1-x535.google.com with SMTP id t5so4393347eds.12
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 06:50:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7g2G-00079X-F5
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:55:09 -0500
+Received: by mail-wr1-x436.google.com with SMTP id a1so3851864wrq.6
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 06:55:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YeQtZ0DWseKqa2xSTR5sxEWc+wNr6Qr983RrLFfa/qU=;
- b=xIFyLmpCwB+kBLUsV8JF8nMHO7/ccLo6ebkKO+3dC+kac1ibYgoFStqbckUeYcDlyv
- mYdI6SV8XAj4sVrW+A9207sXLAhDhc8PQCoSyh0LJp3kZSithRDYT6S0Xacs/zwIPu17
- e9Qj0a2txsI4VxwFDfi3iePgPXmPoIaSQCyX301pzxr5R+hEj1OZZtqDqujol0hKJUKb
- j6n1I1MD9vGZwhHhv1xurjWvY+055vMmoEaE61uoUDUy6ARX4PBGhGbE/g4xQzbUFfle
- BlXEMcU01sRAnyk/VhEckyWOcl1DZw8kCXYDUpVGtZLEeR1hFCEVxqGzSwVmDHWABHeS
- 7tJw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7Bo58QsslRpu+TerGsfgE2m82F82JOfEjVLgj3RT4Y8=;
+ b=Jnpl5ZZBh0jzhxehyhA4CsD50ZrL6zTmaOto5nHSGIXNot+EZJmcxuEPADX4FfM6LD
+ oMecks5NBFwwtFAzKTfAXqw36qprS8S2Ek6jejMVZw3RcVWUVzH7/leAPNXX6IPZ03v2
+ y8l0t8kxyfn/mb8tiQiwoSdSiTj8FpcP3GipUfqFkMwTk2wwbWTRNSIsW4NxaY4bFN+a
+ SZ0TZAcGW7mFYrus0BIWQgY9RgxNKVCXmxl4V3qtKXo4QRohVjgmyD+3QYArKuliH/L3
+ AOB4QiOekGlnrEHNQ2JMo/KBoAcTNnJqz812JWR65h3b+gRdWMBIGZpU4K9r/WXpQckt
+ 8L/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YeQtZ0DWseKqa2xSTR5sxEWc+wNr6Qr983RrLFfa/qU=;
- b=XSZwi5FUDin8fpbvP9pfbTbxghGqRB8PaBw3Jxfw6Ig6amW+cIqii6qkI0leBBEzi0
- OX3Rg4JEvQSTHu5BksEu4Wnxc5I6o3zk+chUyzSPSCVBeLjHtFVXGiAOjTBjSxkQZUiA
- HQkUfHEZrjta8KqrC2sdKFRieMR7djxTKvBPzrVB8ZIfe4FDu55BoSvK7fp3UKt/RHXS
- DUJuFR3/ZxTEVx6VyyIqAZ9Ul1CWJe/9RzBG2doNJ4h3RB/hahXtxLbG9wB7/C0vcYym
- xj8WUMzLfvs/rcyUS/U7dND/L207tUlF45opMkIfnEZyvPTb1CEIonfgAvXaO2ls3BbS
- 2c7g==
-X-Gm-Message-State: AOAM532/y71Y+XTIWu2nUASRcmmjXOMf/KtgxU9FH2M6PW48Csg27BF4
- oomZsXx959kattFceU3IcNxmi5e1APb+RDgCwmw5mQ==
-X-Google-Smtp-Source: ABdhPJy4KcxzyD9YqKL7EzdBlJQ8a4rS17nBZWe6Welv0kvVkLpzz85+hTeb7HgovVJiiHSUqzkf9Bexl8UpfEH8gt4=
-X-Received: by 2002:a50:e80d:: with SMTP id e13mr8099366edn.251.1612450219531; 
- Thu, 04 Feb 2021 06:50:19 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=7Bo58QsslRpu+TerGsfgE2m82F82JOfEjVLgj3RT4Y8=;
+ b=uZ44VSFjxWyq6Ogf+Etl1tXOaW7zbgU2aFj29s6ea8J48CPcPx2di1devR+MA94YAu
+ swVCtq6Guj5QrOOzqDOGB1qO5fJTsxRVleGKsKU8XSB78Id/E4K5SCjcokhheG+nGnF/
+ t6KKAHYJROGgZKdD+PJwv2jjuy/JWWdctmJX8NgNPCA2VSEZSLcrqXwp22NLI9DFPgpP
+ FoA8T7WlSVAWuP7KmHqRLNvNKhL67dEeqKb9M7YqTc+t+ZPMr+QvAXFd/1cwqLxiRM6T
+ 5/X582eHXdCLUFlY/0tqzMIAmv4c50wMg5kJbUrr6E5sTKdsjSYWkK9E/e/xkdH2EktB
+ ouyQ==
+X-Gm-Message-State: AOAM531NmG9JqZHy6vsiWqJydLc5AevU1MIiRP33MaZW8BoPhpEXcv/V
+ LSaNI6mG75ODTbC5zkicfIzycw==
+X-Google-Smtp-Source: ABdhPJyqwuW90fzlSm3PGJRRj+p1BAh1rCL4/2aEiEokIcwNXGwlWEhj3W6ki3e5C3yW2YP4fJKrBQ==
+X-Received: by 2002:a05:6000:108b:: with SMTP id
+ y11mr9695752wrw.379.1612450506765; 
+ Thu, 04 Feb 2021 06:55:06 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q7sm8402728wrx.18.2021.02.04.06.55.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Feb 2021 06:55:05 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CBD951FF7E;
+ Thu,  4 Feb 2021 14:55:04 +0000 (GMT)
+References: <20210204014509.882821-1-richard.henderson@linaro.org>
+ <20210204015433.885239-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 79/93] tcg/tci: Split out tcg_out_op_{rrm,rrrm,rrrrm}
+Date: Thu, 04 Feb 2021 14:54:23 +0000
+In-reply-to: <20210204015433.885239-1-richard.henderson@linaro.org>
+Message-ID: <87wnvnq3w7.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210204135425.1380280-1-wainersm@redhat.com>
- <516694bd-42fe-7929-811b-545f257c58bf@redhat.com>
- <0e0f9745-fe21-0bc6-2d02-431d67a6b57e@redhat.com>
- <CAFEAcA9nwnii1geGFpwEg8CFfST8B21y0BRL5ci=4ykiwqJywQ@mail.gmail.com>
- <20210204144006.GI6496@merkur.fritz.box> <20210204144700.GN549438@redhat.com>
-In-Reply-To: <20210204144700.GN549438@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Feb 2021 14:50:08 +0000
-Message-ID: <CAFEAcA_=ANGKcy7QNfEdxUft9qGyCHttHo9hfvjQHC_ZfYeo1g@mail.gmail.com>
-Subject: Re: [RFC] Move tools sources to the tools directory (was Re: [PATCH
- v2] MAINTAINERS: Fix the location of tools manuals)
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,30 +88,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: sw@weilnetz.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Feb 2021 at 14:47, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
-> The distinction of contrib/ vs tools/ is supposed to be more a
-> reflection on the quality of the program.
->
-> contrib/ should be considered demo-ware, no back compat guaranteed,
-> may or may not work, no testing guaranteed, no man pages.
 
-On this definition, why do we have any of it in our source tree?
-Interesting but unmaintained side things can live quite happily
-elsewhere (other peoples' git forks, blog posts, whatever).
-If we care about a bit of code enough to keep it in our source
-tree we ought to care about it enough to properly document
-and test it and give it a suitable place to live.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-thanks
--- PMM
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/tci/tcg-target.c.inc | 70
+> ++++++++++++++++++++++++++++++----------
+
+Hmm duplicate patch tripped up my mail tools, did send-email have a
+brain fart at 79/93?
+
+--=20
+Alex Benn=C3=A9e
 
