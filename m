@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362C830FEAA
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 21:43:16 +0100 (CET)
-Received: from localhost ([::1]:43472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD2B30FEB1
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 21:46:57 +0100 (CET)
+Received: from localhost ([::1]:49094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7lT8-0008WM-QI
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 15:43:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
+	id 1l7lWi-0002zJ-2S
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 15:46:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7lSL-0007yN-NM
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:42:25 -0500
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:40582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7lSJ-0008LK-Br
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:42:25 -0500
-Received: by mail-pg1-x534.google.com with SMTP id b21so2949025pgk.7
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 12:42:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9fOtF1R+WgqH2F5Q6oV1ryx9z3mlIkkqIPktKkJ7PlU=;
- b=FZaYhm1UDpvJZ0Bu6JVbvXJmQQmU5iVS1XL6eTh32hhb9Td2fzHx3Upuwe8J77x+6f
- QD+Pv4sKkU+QVi0FbafdwbZKuhnIXwVJmEBNoyE1qG8P4Zw0SRtZjm/kCOGDRVRK1Eef
- 74fXk9oGP0zvc16W20XlQQaAQv6q2QAcaW6WSPARxUA+Oc6r9nE4Ci6ONVZNDZWhxrWd
- K2D89X/XZIRBRojjcOXKgW3n0epB/T+L8awkcn3VWc3/0jkEtwBmxPchGEpuhAd3oVhy
- XodtNUJ7FwqqIEScvx3ojC2UAG8TSI0Oy14k6lKZODYMAQVH5S7y7lk6ie0ocvQybzAc
- Ltuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9fOtF1R+WgqH2F5Q6oV1ryx9z3mlIkkqIPktKkJ7PlU=;
- b=K/HWXI/o55MLjl0hjEuvT3GdluckafIo98DWUmTcHN/p3mStOlEY3jVfAvvRQnTqKj
- Tkq0atxL4vyrZVyxvDueNUTF8EzZRNfPrq6CT7vac4r/V2n4+Oq3uR/yaxvmmQhd1Pws
- TcxxGPIlZ/i67U221MPFpzB1LBToA1RboNx+vKysnbzfUUooXhNQRbh+TR3twFN1K1x/
- lsVXuXfHIFQ/m80pR7OIAD9Vkwc+c1q62xITtTa4nM5R+3eTbPpnh0bCncJkMLIKRa5O
- LpjoXXveVDzoUntAk4psFtuZioslpjp6Hbx+5XCNr9YJ3rvFGHfm3K/KQWbU2j9Kdfp0
- 6//g==
-X-Gm-Message-State: AOAM532qgksbfm4e6e6s675PYZrceLysFcwL9p/2Qq1LcZtR9Itff9eg
- ag2+vxNqNxi33kjjFkiCivATuRxg9UaIATP/
-X-Google-Smtp-Source: ABdhPJywvfmVR+MFyVoTVH9GbWOrk3w+ILKM20ktSMH0OBVT34eWgqgQU0H8xpl5+LGdcDM8l7ADmw==
-X-Received: by 2002:a63:dd17:: with SMTP id t23mr807231pgg.320.1612471341581; 
- Thu, 04 Feb 2021 12:42:21 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
- [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id l14sm6117069pjy.15.2021.02.04.12.42.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 12:42:20 -0800 (PST)
-Subject: Re: [PATCH v2 00/93] TCI fixes and cleanups
-To: Stefan Weil <sw@weilnetz.de>, Peter Maydell <peter.maydell@linaro.org>
-References: <20210204014509.882821-1-richard.henderson@linaro.org>
- <CAFEAcA8yiVXSLwP4kzsE4MSfhVKTn9H3VtnXgXRmnHZmxUrfhw@mail.gmail.com>
- <6923a507-4d10-49c5-c9b6-b275bcb520dd@weilnetz.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <26a9b175-5b67-21d1-1007-1b1a2f801853@linaro.org>
-Date: Thu, 4 Feb 2021 10:42:17 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7lU6-00019N-86
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:44:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7lU2-0000f7-Cj
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:44:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612471448;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d1YGT76Y3flsh8qeWPyv5iNTj+/KnXlwuTzvQrajzyo=;
+ b=e1U4OfahsxcRswZOyAta7QaGliZM2MuhN2vD2sIh7wM9GcmNAHLcvuSmWMVbfd8YhcLPdS
+ qxHWwc0GXXjAfKZW0tSLcnsDoJoJYRb7eLmji+dY3NYQ8MbPoqcyc8QurLxyO5cCp8dZCo
+ at3UFUEgjt9vTogu0L18uB/njeWD60g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-8HgSTvndOPKHyWdd7YP_JQ-1; Thu, 04 Feb 2021 15:44:05 -0500
+X-MC-Unique: 8HgSTvndOPKHyWdd7YP_JQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B66F3C2A9;
+ Thu,  4 Feb 2021 20:44:04 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21C1D5B695;
+ Thu,  4 Feb 2021 20:44:04 +0000 (UTC)
+To: Peter Lieven <pl@kamp.de>, qemu-block@nongnu.org
+References: <20210128140704.6547-1-pl@kamp.de>
+ <99982043-ed89-5fbe-afe2-691a9c19280d@redhat.com>
+ <567ab8bb-b452-d6c2-dec7-bc2cf1e34ec8@kamp.de>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH] qemu-img: add seek and -n option to dd command
+Message-ID: <3dff97ae-5172-d9ca-509f-2a520c2841b5@redhat.com>
+Date: Thu, 4 Feb 2021 14:44:03 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <6923a507-4d10-49c5-c9b6-b275bcb520dd@weilnetz.de>
+In-Reply-To: <567ab8bb-b452-d6c2-dec7-bc2cf1e34ec8@kamp.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.182,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,50 +83,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, "Richard W.M. Jones" <rjones@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 10:02 AM, Stefan Weil wrote:
-> Is there a Git repository which makes pulling all changes easier?
+On 2/4/21 2:09 PM, Peter Lieven wrote:
+> Am 02.02.21 um 16:51 schrieb Eric Blake:
+>> On 1/28/21 8:07 AM, Peter Lieven wrote:
+>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>> Your commit message says 'what', but not 'why'.  Generally, the one-line
+>> 'what' works well as the subject line, but you want the commit body to
+>> give an argument why your patch should be applied, rather than blank.
+>>
+>> Here's the last time we tried to improve qemu-img dd:
+>> https://lists.gnu.org/archive/html/qemu-devel/2018-08/msg02618.html
+> 
+> 
+> I was not aware of that story. My use case is that I want to be
+> 
+> able to "patch" an image that Qemu is able to handle by overwriting
+> 
+> certain sectors. And I especially do not want to "mount" that image
+> 
+> via qemu-nbd because I might not trust it. I totally want to avoid that the host
+> 
+> system tries to analyse that image in terms of scanning the bootsector, partprobe,
+> 
+> lvm etc. pp.
 
-https://gitlab.com/rth7680/qemu/-/tree/tci-next
+qemu-nbd does not have to mount an image (yes, one use of qemu-nbd is to
+use -c /dev/nbdX to get the kernel to mount it; but other uses are to
+expose the NBD image in user-space only with no kernel involvement, and
+therefore no system mount efforts).
 
-> Regarding misaligned bytecode access, there exist two solutions. We could
-> either use code which handles that correctly (I had sent a patch using memcpy
-> two years ago and recently sent a V2 which uses the QEMU standard functions for
-> that). Or we can align the data like it is done in Richard's patches. For me it
-> is not obvious which one is better.
+Another thing you might try is libnbd, which now includes a utility
+nbdcopy.  It should make it easier to overwrite a portion of an NBD
+image using only user-space actions.  I'm not sure if Rich has got it
+doing partial file overwrites yet (.../me goes and compiles the latest
+git checkout... nope, still a TODO item to implement subsetting), but it
+may be possible to combine nbdkit's --filter=offset with the full NBD
+image in order to then easily point nbdcopy to only the subset you care
+about.  Definitely some ideas worthy of implementation.
 
-I think it is obvious.  If a host requires aligned access, a single aligned
-load requires only one instruction, and an unaligned access requires lots.
-E.g., for sparc,
+> 
+>>
+>> where I also proposed adding seek=, and fixing skip= with count=.  Your
+>> patch does not do the latter.  But the bigger complaint back then was
+>> that 'qemu-img copy' should be able to do everything, and that qemu-img
+>> dd should then just be a thin shim around 'qemu-img copy', rather than
+>> having two parallel projects that diverge in their implementations.
+> 
+> 
+> understood. I was not aware of an issue with skip and count.
+> 
+> The patch works for me and I wanted to share it. But when I read
+> 
+> the thread it seems that it would be a difficult task to get it merged.
 
-int foo(void *p)
-{
-    int x;
-    __builtin_memcpy(&x, p, 4);
-    return x;
-}
-
-	ldub	[%i0], %g3
-	ldub	[%i0+1], %g2
-	stb	%g3, [%fp+2043]
-	stb	%g2, [%fp+2044]
-	ldub	[%i0+2], %g3
-	ldub	[%i0+3], %g2
-	stb	%g3, [%fp+2045]
-	stb	%g2, [%fp+2046]
-	ldsw	[%fp+2043], %i0
-
-Such unaligned accesses are *really* slow.
-
-> While a single access is faster for aligned
-> data, this might be different for sequential access on misaligned data which
-> might profit from better caching of smaller bytecode.
-
-I believe you'll find that the rewrite encoding is smaller already.
+Just because we're reluctant to improve qemu-img dd without also
+improving qemu-img copy does not mean that your improvements are
+unwanted.  And hacking on nbdcopy may be faster than waiting for
+qemu-img to catch up to where we want it to go.
 
 
-r~
+> 
+> 
+>>
+>> Your patch does not have the typical '---' divider and diffstat between
+>> the commit message and the patch proper; this may be a factor of which
+>> git packages you have installed, but having the diffstat present makes
+>> it easier to see at a glance what your patch touches without reading the
+>> entire email.  I had to go hunting to learn if you added iotest coverage
+>> of this new feature...
+>>
+>> ...and the answer was no, you didn't.  You'll need to add that in v2
+>> (see the link to my earlier attempt at modifying dd for an example).
+> 
+> 
+> I did not. Maybe I accidently killed the '---' divider. If I will make a V2 I will add
+> 
+> an I/O test.
+> 
+> 
+> Thanks for your suggestions,
+
+Good luck!
+
+> 
+> Peter
+> 
+> 
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
