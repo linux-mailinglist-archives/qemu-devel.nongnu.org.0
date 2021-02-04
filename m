@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD0130FA12
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:47:57 +0100 (CET)
-Received: from localhost ([::1]:60616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4147530FA35
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:52:39 +0100 (CET)
+Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ijU-0002jJ-Qo
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:47:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43042)
+	id 1l7io2-0007do-9o
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:52:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7hnO-0001lE-RT
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:47:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42778)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1l7hnv-00021H-Ew
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:48:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7hnK-0008RQ-Hp
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:47:54 -0500
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1l7hnt-0000Eu-MP
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:48:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612457269;
+ s=mimecast20190719; t=1612457304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FANuDbx/nRP7NfEN+rlR+ZjzbXf+twWzXv3dTOtJnqA=;
- b=TrfGMgkcY6FG43DU6UnHV1QcEgNBHaxi1Weu/C/CkTVqBR0Gj6CVhdtjhBkbROFSk/QvXa
- FchRRUjrJtmc7HAASgIJHNEDBBNaMhrIwiEv+Q1AtvA6IpS6xB/G8L+nO97i8jaSe6kgci
- RrFmksdaEM1Wc98i276MUG/TT+YcjOk=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-0Vs8d4wgO1iZicLpQunFew-1; Thu, 04 Feb 2021 11:47:46 -0500
-X-MC-Unique: 0Vs8d4wgO1iZicLpQunFew-1
-Received: by mail-ej1-f72.google.com with SMTP id by20so3013152ejc.1
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 08:47:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=FANuDbx/nRP7NfEN+rlR+ZjzbXf+twWzXv3dTOtJnqA=;
- b=YxCE2AxkJPc0qvzFpToKqAM+b3VHGMEUHvuuVAUyhFgbRWvr9i1eq3ADWjL28hUeLn
- 4SZkUkgqvhK0biOPsJBBE2AgHEugSnvfIndv8kTUW4iTWg71KS2kPGxU2sDd+NMT2gCx
- woViNr6Z3uVTuxrjUw+d18N+fetOGxp0AWqmTgeoSw3qDrDuzvALMs/T56SEts51HAPD
- QofQPM94O4ZCte/MgTnK7YO7UUr4UsSxRtnfZaBhBmzHOuQG49iKoXWbDaYW9QhZ9rJw
- r2VGMngHlgyVCabzodrzLVfCe10NuZbNKVzGL6o3dHMZpWFnKQkolm8DPNTYuvY+P3Nd
- r+/g==
-X-Gm-Message-State: AOAM530WYDsSuArQJJygKOHbG9tjukNEKxkjPuldtjF+4Do3vEGHaIZP
- hR32SYEUvXwsa0BXVcfNeTBKlr/nCMjUNLdACy78giNiaf9oIrozv3CRDvjg8jKrqXleoysohp/
- XisIlUi7lRQxL+NIK6VadhGN4n9xR1Ia5chKFRzCsxIbMN5/Ei1igRsAdptaBVYWn
-X-Received: by 2002:a05:6402:2211:: with SMTP id
- cq17mr8611504edb.167.1612457264707; 
- Thu, 04 Feb 2021 08:47:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyBGXjKTaFujSRrXYyism7t1HQ3ayDD98R+Xx9IIL/aoEEEu78zx2tdGKyB0E4enZQ/84dGHQ==
-X-Received: by 2002:a05:6402:2211:: with SMTP id
- cq17mr8611474edb.167.1612457264411; 
- Thu, 04 Feb 2021 08:47:44 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id u17sm2712156ejr.59.2021.02.04.08.47.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 08:47:43 -0800 (PST)
-To: Qemu-block <qemu-block@nongnu.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Subject: iotest 30 failing
-Message-ID: <818b08af-3077-7003-63eb-614fa459d01c@redhat.com>
-Date: Thu, 4 Feb 2021 17:47:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JQS6c1Ff7oRNT4E7aZGLoGNlz9zWh3TxNedGRxLSArQ=;
+ b=MQPmQrISWgViprtyDGn0cZwpK9V5sP4pfw0OjMR4IuIwbXCmBoT6EudzIz1EIvUhDFgUzO
+ 6JPwYbrsCUL+jiTj0M9xINOhZymA0DQ/9Pm9Aqzj6d/l6QoxOMwMUP34aa4/F2qWQmDbXo
+ Nygq42QwTDScbdsHmSQylCM94YKVCig=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-NvQ8Ts7ZMVKBYtrjQoCilw-1; Thu, 04 Feb 2021 11:48:18 -0500
+X-MC-Unique: NvQ8Ts7ZMVKBYtrjQoCilw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8985E8030B4;
+ Thu,  4 Feb 2021 16:48:17 +0000 (UTC)
+Received: from localhost (ovpn-114-98.ams2.redhat.com [10.36.114.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30E5219708;
+ Thu,  4 Feb 2021 16:48:14 +0000 (UTC)
+Date: Thu, 4 Feb 2021 16:48:13 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
+ constant folding
+Message-ID: <20210204164813.GU30079@redhat.com>
+References: <28457ae1-7e9b-4428-cb10-3b79ebeac8d0@linaro.org>
+ <19D304C1-6401-4D16-AB54-DD19C978D04D@redhat.com>
+ <db32a1f5-ad73-a341-f5e7-1c8f592d3d5b@redhat.com>
+ <bd7154e1-4d6c-5b98-9e80-ec04f8476373@redhat.com>
+ <20210204090351.GN30079@redhat.com>
+ <20210204092916.GS27779@redhat.com>
+ <b94570e3-9f87-d259-a338-adef1d552d1a@redhat.com>
+ <e1bc591d-009f-3b0f-83a0-36095efff7ee@amsat.org>
 MIME-Version: 1.0
+In-Reply-To: <e1bc591d-009f-3b0f-83a0-36095efff7ee@amsat.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -94,30 +86,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Thu, Feb 04, 2021 at 05:04:22PM +0100, Philippe Mathieu-Daudé wrote:
+> On 2/4/21 10:37 AM, David Hildenbrand wrote:
+> > On 04.02.21 10:29, Richard W.M. Jones wrote:
+> >>>> commit 8f17a975e60b773d7c366a81c0d9bbe304f30859
+> >>>> Author: Richard Henderson <richard.henderson@linaro.org>
+> >>>> Date:   Mon Mar 30 19:52:02 2020 -0700
+> >>>>
+> >>>>      tcg/optimize: Adjust TempOptInfo allocation
+> >>>>
+> >>>> The image boots just fine on s390x/TCG as well.
+> >>>
+> >>> Let me try this in a minute on my original test machine.
+> >>
+> >> I got the wrong end of the stick as David pointed out in the other email.
+> >>
+> >> However I did test things again this morning (all on s390 host), and
+> >> current head (1ed9228f63ea4b) fails same as before ("mount" command
+> >> fails).
+> >>
+> >> Also I downloaded:
+> >>
+> >>   
+> >> https://dl.fedoraproject.org/pub/fedora-secondary/releases/33/Cloud/s390x/images/Fedora-Cloud-Base-33-1.2.s390x.qcow2
+> >>
+> >>
+> >> and booted it on 1ed9228f63ea4b using this command:
+> >>
+> >>    $ ~/d/qemu/build/s390x-softmmu/qemu-system-s390x -machine accel=tcg
+> >> -m 2048 -drive
+> >> file=Fedora-Cloud-Base-33-1.2.s390x.qcow2,format=qcow2,if=virtio
+> >> -serial stdio
+> >>
+> >> Lots of core dumps inside the guest, same as David saw.
+> >>
+> >> I then reset qemu back to 8f17a975e60b773d ("tcg/optimize: Adjust
+> >> TempOptInfo allocation"), rebuilt qemu, tested the same command and
+> >> cloud image, and that booted up much happier with no failures or core
+> >> dumps.
+> >>
+> >> Isn't it kind of weird that this would only affect an s390 host?  I
+> >> don't understand why the host would make a difference if we're doing
+> >> TCG.
+> > 
+> > I assume an existing BUG in the s390x TCG backend ... which makes it
+> > harder to debug :)
+> 
+> This seems to fix it:
+> 
+> -- >8 --
+> diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+> index 8517e552323..32d03dbfbaf 100644
+> --- a/tcg/s390/tcg-target.c.inc
+> +++ b/tcg/s390/tcg-target.c.inc
+> @@ -1094,10 +1094,16 @@ static int tgen_cmp(TCGContext *s, TCGType type,
+> TCGCond c, TCGReg r1,
+>                  op = (is_unsigned ? RIL_CLFI : RIL_CFI);
+>                  tcg_out_insn_RIL(s, op, r1, c2);
+>                  goto exit;
+> -            } else if (c2 == (is_unsigned ? (uint32_t)c2 : (int32_t)c2)) {
+> -                op = (is_unsigned ? RIL_CLGFI : RIL_CGFI);
+> -                tcg_out_insn_RIL(s, op, r1, c2);
+> -                goto exit;
+> +            } else if (is_unsigned) {
+> +                if (c2 == (uint32_t)c2) {
+> +                    tcg_out_insn_RIL(s, RIL_CLGFI, r1, c2);
+> +                    goto exit;
+> +                }
+> +            } else {
+> +                if (c2 == (int32_t)c2) {
+> +                    tcg_out_insn_RIL(s, RIL_CGFI, r1, c2);
+> +                    goto exit;
+> +                }
+>              }
+>          }
 
-Based on commit 1ed9228f63e (ericb/tags/pull-nbd-2021-02-02-v2)
-I got:
+Thanks - can confirm this fixes both observed problems here.
 
-  TEST   iotest-qcow2: 030 [fail]
---- /builds/philmd/qemu/tests/qemu-iotests/030.out
-+++ 030.out.bad
-@@ -1,5 +1,47 @@
--...........................
-+WARNING:qemu.machine:qemu received signal 11; command:
-"/builds/philmd/qemu/build/tests/qemu-iotests/../../qemu-system-x86_64
--display none -vga none -chardev
-socket,id=mon,path=/tmp/tmphop581f2/qemu-12072-monitor.sock -mon
-chardev=mon,mode=control -qtest
-unix:path=/tmp/tmphop581f2/qemu-12072-qtest.sock -accel qtest
--nodefaults -display none -accel qtest -drive
-if=virtio,id=drive0,file=/builds/philmd/qemu/build/tests/qemu-iotests/scratch/img-8.img,format=qcow2,cache=writeback,aio=threads,backing.backing.backing.backing.backing.backing.backing.backing.node-name=node0,backing.backing.backing.backing.backing.backing.backing.node-name=node1,backing.backing.backing.backing.backing.backing.node-name=node2,backing.backing.backing.backing.backing.node-name=node3,backing.backing.backing.backing.node-name=node4,backing.backing.backing.node-name=node5,backing.backing.node-name=node6,backing.node-name=node7,node-name=node8"
-+.........EE.................
+Rich.
 
-https://gitlab.com/philmd/qemu/-/jobs/1008007132
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-builder quickly builds VMs from scratch
+http://libguestfs.org/virt-builder.1.html
 
 
