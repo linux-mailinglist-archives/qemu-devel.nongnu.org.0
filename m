@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D386930FDC1
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 21:14:12 +0100 (CET)
-Received: from localhost ([::1]:38968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D2F30FE48
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 21:31:02 +0100 (CET)
+Received: from localhost ([::1]:53406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7l11-0000Nk-Tn
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 15:14:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35634)
+	id 1l7lHH-000806-U0
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 15:31:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7kzj-0008Ij-BA
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:12:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31033)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7lFe-00072Z-F2
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:29:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7kzf-0003Yl-6Z
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:12:50 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7lFb-0002Wd-Px
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 15:29:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612469564;
+ s=mimecast20190719; t=1612470555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YfophCiIB9zra3Y5ymTvwCo1KMyI9S8r5R47FgHiHBU=;
- b=YAZH04bKpO7uD5q2YLalOF/YZ4hB8O2BDSPhSnBeAzz9NRJQdDm2U3NydmfhIKB13RbUoV
- 4W06VDrpZ2FH/bU2rhT4ZSxMY/8PaSSMBGbuXzN13D/CdSAkf2NwWvkQpwZ9Ha+6ai8dVn
- zOAFdTxyT+PbEmME/EycTUc6bgjG8Yg=
+ bh=bjLfQ766BG5o+ljdn1MEZgMJAeBeKsfgBJhwbU2urKU=;
+ b=VWh116JXiI5aS81s0ytVX4p7U0eElczPVVpe5kKknH0C7eIdJYeA7GwTWtYsPcgKqrmsxG
+ Cq+xZi8tBKoZUJRwzMrR+04ComHNCRQ7chGUNgWCcWZ2RaeOLvj5A2GOsHnCktvzAtfcxt
+ 1QrQXxe2x7Quw6ZXXwqXDvhDNgU2gD0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-wDnOQNyCPxuKNg1higrhnA-1; Thu, 04 Feb 2021 15:12:42 -0500
-X-MC-Unique: wDnOQNyCPxuKNg1higrhnA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-64-BGQUGJcbO4qxulPUBUgr9Q-1; Thu, 04 Feb 2021 15:29:10 -0500
+X-MC-Unique: BGQUGJcbO4qxulPUBUgr9Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C33885B664;
- Thu,  4 Feb 2021 20:12:41 +0000 (UTC)
-Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 862DF10074FC;
- Thu,  4 Feb 2021 20:12:40 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-References: <20210204190708.1306296-1-eblake@redhat.com>
- <20210204190708.1306296-2-eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH 1/3] utils: Improve qemu_strtosz() to have 64 bits of
- precision
-Message-ID: <a141ad8f-113e-b769-931a-767e0807a1f9@redhat.com>
-Date: Thu, 4 Feb 2021 14:12:39 -0600
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99EF0193410F;
+ Thu,  4 Feb 2021 20:29:08 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DCBE5D6D7;
+ Thu,  4 Feb 2021 20:29:02 +0000 (UTC)
+Subject: Re: About creating machines on the command line
+To: Alexander Graf <graf@amazon.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Luc Michel <luc.michel@greensocs.com>,
+ qemu-devel@nongnu.org, Nikos Dragazis <ndragazis@arrikto.com>,
+ Maxime Coquelin <maxime.coquelin@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Andra-Irina Paraschiv <andraprs@amazon.com>,
+ "John G. Johnson" <john.g.johnson@oracle.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>
+References: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
+ <93e41283-ec7c-4c2b-dcfd-9e0e7a2e435c@amsat.org>
+ <497eb0f5-a308-7a10-37ef-5fcc3ec21b8a@amazon.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <5fcd9231-2579-4829-862b-e23bdd184ac5@redhat.com>
+Date: Thu, 4 Feb 2021 15:29:02 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210204190708.1306296-2-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <497eb0f5-a308-7a10-37ef-5fcc3ec21b8a@amazon.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,196 +89,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- berrange@redhat.com, qemu-block@nongnu.org, tao3.xu@intel.com,
- armbru@redhat.com, Max Reitz <mreitz@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
+ berrange@redhat.com, sam.grove@sifive.com,
+ Mark Burton <mark.burton@greensocs.com>, richard.fuhler@sifive.com,
+ armbru@redhat.com, edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 1:07 PM, Eric Blake wrote:
-> We have multiple clients of qemu_strtosz (qemu-io, the opts visitor,
-> the keyval visitor), and it gets annoying that edge-case testing is
-> impacted by implicit rounding to 53 bits of precision due to parsing
-> with strtod().  As an example posted by Rich Jones:
->  $ nbdkit memory $(( 2**63 - 2**30 )) --run \
->    'build/qemu-io -f raw "$uri" -c "w -P 3 $(( 2**63 - 2**30 - 512 )) 512" '
->  write failed: Input/output error
+On 2/3/21 12:09 PM, graf--- via wrote:
 > 
-> because 9223372035781033472 got rounded to 0x7fffffffc0000000 which is
-> out of bounds.
 > 
-> It is also worth noting that our existing parser, by virtue of using
-> strtod(), accepts decimal AND hex numbers, even though test-cutils
-> previously lacked any coverage of the latter.  We do have existing
-> clients that expect a hex parse to work (for example, iotest 33 using
-> qemu-io -c "write -P 0xa 0x200 0x400"), but strtod() parses "08" as 8
-> rather than as an invalid octal number, so we know there are no
-> clients that depend on octal.  Our use of strtod() also means that
-> "0x1.8k" would actually parse as 1536 (the fraction is 8/16), rather
-> than 1843 (if the fraction were 8/10); but as this was not covered in
-> the testsuite, I have no qualms forbidding hex fractions as invalid,
-> so this patch declares that the use of fractions is only supported
-> with decimal input, and enhances the testsuite to document that.
-> 
-> Our previous use of strtod() meant that -1 parsed as a negative; now
-> that we parse with strtoull(), negative values can wrap around module
+> On 03.02.21 17:55, Philippe Mathieu-Daudé wrote:
+>>
+>> On 1/11/21 3:50 PM, Luc Michel wrote:
+>>> Hi,
+>>>
+>>> We would like to work on improving QEMU to be able to create custom
+>>> machines from the command line. The goal here is to get feedback from
+>>> the community and shape the future developments.
+>>
+>> Cc'ing John who is working on command line, and some developers from
+>> the "inter-VM device emulation interface" call.
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg723252.html
+>>
 
-modulo
+I have a bunch of extremely naive questions about what it would take to 
+generalize this kind of interface; my familiarity is largely with x86 
+and so I actually just have a series of very basic questions about the 
+scope of this work.
 
-> 2^64, so we have to explicitly check whether the user passed in a '-'.
+>>>
+>>> The use case mainly comes from people working with tools to customize
+>>> their designs, such as SiFive Core Designer
+>>> (https://scs.sifive.com/core-designer). This kind of tools may allow
+>>> creation or customization of a whole SoC, from the number of cores, to
+>>> the memory and IRQ mapping of peripherals etc.
+>>>
+>>> The ultimate goal would be to be able to create any kind of machine on
+>>> the command line. However we are aware that this is a substantial amount
+>>> of changes in QEMU.
 > 
-> We also had no testsuite coverage of "1.1e0k", which happened to parse
-> under strtod() but is unlikely to occur in practice; as long as we are
-> making things more robust, it is easy enough to reject the use of
-> exponents in a strtod parse.
+> Is the command line really the right abstraction level here? Wouldn't it 
+> make more sense to have a QOM / <scripting language> bridge that allows 
+> you to create and connect QOM objects using for example Python?
 > 
-> The fix is done by breaking the parse into an integer prefix (no loss
-> in precision), rejecting negative values (since we can no longer rely
-> on strtod() to do that), determining if a decimal or hexadecimal parse
-> was intended (with the new restriction that a fractional hex parse is
-> not allowed), and where appropriate, using a floating point fractional
-> parse (where we also scan to reject use of exponents in the fraction).
-> The bulk of the patch is then updates to the testsuite to match our
-> new precision, as well as adding new cases we reject (whether they
-> were rejected or inadvertenly accepted before).
-
-inadvertently
-
+> You could then have machine descriptions in a script, which could be 
+> generated by the SoC customization tools.
 > 
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+> In combination with plugin support for platform devices, that should 
+> allow pretty much any customization you would need to happen, no?
 > 
-> ---
+> 
+> Alex
 > 
 
-Is it a bad sign when I review my own code?
+Right, I am just reading this proposal as "We want an interface language 
+that allows us to construct more arbitrary configurations."
 
+In this case, something QMP/QOM-based would be the right place to do it 
+and not the CLI as it exists today. Small details in the grand scheme of 
+things the kind of internal modeling cleanup this idea seems to imply.
+
+>>>
+>>> In its current state, QEMU allows for very limited customization of
+>>> existing machines on the command line. We identified the following
+>>> limitations (feel free to add to the list):
+>>>
+>>>    - Most devices are not user creatable. Moreover, sysbus devices must
+>>> be explicitly allowed by a machine to be creatable through `-device`,
+>>>
+>>>    - Memory regions cannot be created on the command line,
+>>>
+>>>    - Device MMIO regions cannot be mapped on a bus from the command 
+>>> line,
+>>>
+>>>    - GPIOs and clocks cannot be wired from the command line,
+>>>
+>>>    - CPUs are not sysbus devices (and not user-creatable). They need
+>>> special care when creating them regarding system reset. Not being on a
+>>> bus means that they must be reset manually on system reset. This is done
+>>> in machines by registering a QEMU reset handler.
+>>>
+>>>    - Machine specific boot code is usually hard-coded into the machine
+>>> itself.  Some architectures (e.g. ARM) do factorize bootloader related
+>>> code, but there is no standard way of doing that in QEMU.
+>>>
+>>> We don't want to address all those limitations at once. We plan to start
+>>> with the following scenario:
+>>>
+
+It does sound like a staggering level of work.
+
+>>>    - Start with a base machine that would handle CPU creation and
+>>> bootloader stuff. Note that the "none" machine is probably not
+>>> sufficient in its current shape. It does allow only one CPU and
+>>> obviously does not handle the boot process.
+>>>
+
+I suppose this implies a type of machine that doesn't have migration 
+compatibility. e.g. your "blank" might be different from someone else's 
+"blank".
+
+Or at least, not migration compatibility in its current form. Some 
+thought might need to be put into how to negotiate migration 
+compatibility between two instances of QEMU; it sounds like a hard problem.
+
+(Jokingly, I'd want to call a machine like this "Apple Pie", but that 
+would probably be too confusing for both Apple and Raspberry Pi 
+enthusiasts.)
+
+>>>    - Allow for this machine every sysbus devices we want to be user
+>>> command-line creatable (and mark them user_creatable if needed)
+>>>
+
+Is it even possible to enumerate, for every sysbus device in QEMU, what 
+the interface requirements are?
+
+e.g. I assume most need a memory region, or maybe an IO region, or maybe 
+an IRQ resource of some kind, or ...
+
+doing this kind of dynamic bringup requires a lot of configuration data 
+that is at-present just hardcoded absolutely everywhere.
+
+>>>    - Add command line options to create memory regions (probably ram 
+>>> ones
+>>> at first)
+>>>
+
+Naive question: what does adding a memory region mean to you in this 
+context?
+
+For whom (which device, spec, standard, instruction set, etc?) are these 
+regions tangible abstractions?
+
+>>>    - Add command line options to map a memory region (including sysbus
+>>> device MMIO regions) onto another (memory_region_add_subregion)
+>>>
+
+More naive questions:
+
+The assumption here being that sysbus devices can be modeled using their 
+own private memory addressing namespace; and we configure them by 
+mapping that space onto the machine's physical address space.
+
+Instead of, say, making the memory address of that device a property of 
+the device.
+
+Yes?
+
+>>>    - Add command line options to connect GPIOs and clocks.
+>>>
+
+Similar to elsewhere, I wonder how much work it is to generalize this 
+kind of pluggability so that all existing clocks and GPIO devices can be 
+modeled in the same way.
+
+(I say this meaning: Wow, I have no idea. I know a lot of the ones we 
+have are hard-coded. What does a configuration interface for this look 
+like?)
+
+>>> This would hopefully allow for simple machines creation. We would then
+>>> be able to use either the command line or the `-readconfig` option to
+>>> create the machine.
+>>>
+>>> Note that we are not planning to use QMP/HMP for now. From our
+>>> understanding, a `device_add` request is always considered as hot-plug,
+>>> which is not what we want here.
+>>>
+
+We're working our way towards being able to use QMP to define machines 
+prior to execution start in order to have a QMP-only interaction with 
+QEMU possible.
+
+You likely want to invest in that kind of a strategy where you define 
+structures that describe the machines you want to build.
+
+>>> Please tell us what do you think about this plan. Any feedback is
+>>> appreciated.  Then we can discuss the details of how to do this 
+>>> properly.
+>>> Thanks!
+>>>
+>>> -- 
+>>> Luc
+>>>
 > 
->  /*
-> - * Convert string to bytes, allowing either B/b for bytes, K/k for KB,
-> - * M/m for MB, G/g for GB or T/t for TB. End pointer will be returned
-> - * in *end, if not NULL. Return -ERANGE on overflow, and -EINVAL on
-> - * other error.
-> + * Convert size string to bytes.
-> + *
-> + * Allow either B/b for bytes, K/k for KB, M/m for MB, G/g for GB or
-> + * T/t for TB, with scaling based on @unit, and with @default_suffix
-> + * implied if no explicit suffix was given.
-
-Reformatted existing text, but incomplete; we also support 'P' and 'E'.
-
-> + *
-> + * The end pointer will be returned in *end, if not NULL.  If there is
-> + * no fraction, the input can be decimal or hexadecimal; if there is a
-> + * fraction, then the input must be decimal and there must be a suffix
-> + * (possibly by @default_suffix) larger than Byte, and the fractional
-> + * portion may suffer from precision loss or rounding.  The input must
-> + * be positive.
-> + *
-> + * Return -ERANGE on overflow (with *@end advanced), and -EINVAL on
-> + * other error (with *@end left unchanged).
-
-If we take patch 2 and 3, this contract should also be updated to
-mention what we consider to be deprecated.
-
->   */
->  static int do_strtosz(const char *nptr, const char **end,
->                        const char default_suffix, int64_t unit,
-> @@ -253,40 +264,66 @@ static int do_strtosz(const char *nptr, const char **end,
->      int retval;
->      const char *endptr;
->      unsigned char c;
-> -    int mul_required = 0;
-> -    double val, mul, integral, fraction;
-> +    bool mul_required = false;
-> +    uint64_t val;
-> +    int64_t mul;
-> +    double fraction = 0.0;
 > 
-> -    retval = qemu_strtod_finite(nptr, &endptr, &val);
-> +    /* Parse integral portion as decimal. */
-> +    retval = qemu_strtou64(nptr, &endptr, 10, &val);
->      if (retval) {
->          goto out;
->      }
-> -    fraction = modf(val, &integral);
-> -    if (fraction != 0) {
-> -        mul_required = 1;
-> +    if (strchr(nptr, '-') != NULL) {
-> +        retval = -ERANGE;
-> +        goto out;
-> +    }
-> +    if (val == 0 && (*endptr == 'x' || *endptr == 'X')) {
-> +        /* Input looks like hex, reparse, and insist on no fraction. */
-> +        retval = qemu_strtou64(nptr, &endptr, 16, &val);
-> +        if (retval) {
-> +            goto out;
-> +        }
-> +        if (*endptr == '.') {
-> +            endptr = nptr;
-> +            retval = -EINVAL;
-> +            goto out;
-> +        }
-> +    } else if (*endptr == '.') {
-> +        /* Input is fractional, insist on 0 <= fraction < 1, with no exponent */
-> +        retval = qemu_strtod_finite(endptr, &endptr, &fraction);
-> +        if (retval) {
-> +            endptr = nptr;
-> +            goto out;
-> +        }
-> +        if (fraction >= 1.0 || memchr(nptr, 'e', endptr - nptr)
-> +            || memchr(nptr, 'E', endptr - nptr)) {
-> +            endptr = nptr;
-> +            retval = -EINVAL;
-> +            goto out;
-> +        }
-> +        if (fraction != 0) {
-> +            mul_required = true;
-> +        }
->      }
->      c = *endptr;
->      mul = suffix_mul(c, unit);
-> -    if (mul >= 0) {
-> +    if (mul > 0) {
->          endptr++;
->      } else {
->          mul = suffix_mul(default_suffix, unit);
-> -        assert(mul >= 0);
-> +        assert(mul > 0);
->      }
->      if (mul == 1 && mul_required) {
-> +        endptr = nptr;
->          retval = -EINVAL;
->          goto out;
->      }
-> -    /*
-> -     * Values near UINT64_MAX overflow to 2**64 when converting to double
-> -     * precision.  Compare against the maximum representable double precision
-> -     * value below 2**64, computed as "the next value after 2**64 (0x1p64) in
-> -     * the direction of 0".
-> -     */
-> -    if ((val * mul > nextafter(0x1p64, 0)) || val < 0) {
-> +    if (val > UINT64_MAX / mul) {
-
-Hmm, do we care about:
-15.9999999999999999999999999999E
-where the fractional portion becomes large enough to actually bump our
-sum below to 16E which indeed overflows?  Then again, we rejected a
-fraction of 1.0 above, and 0.9999999999999999999999999999 parses to 1.0
-due to rounding.
-Maybe it's just worth a good comment why the overflow check here works
-without consulting fraction.
-
->          retval = -ERANGE;
->          goto out;
->      }
-> -    *result = val * mul;
-> +    *result = val * mul + (uint64_t) (fraction * mul);
->      retval = 0;
 > 
->  out:
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> Amazon Development Center Germany GmbH
+> Krausenstr. 38
+> 10117 Berlin
+> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+> Sitz: Berlin
+> Ust-ID: DE 289 237 879
+> 
+> 
 
 
