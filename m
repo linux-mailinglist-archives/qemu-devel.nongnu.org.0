@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64CC30FCD8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:33:28 +0100 (CET)
-Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732EB30FD27
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:45:00 +0100 (CET)
+Received: from localhost ([::1]:36174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kNb-0003Qz-VR
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:33:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49296)
+	id 1l7kYl-0007wF-Fa
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:44:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7k5E-0000Fj-Q3
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:14:28 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:39760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7k5D-000429-Bg
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:14:28 -0500
-Received: by mail-ej1-x632.google.com with SMTP id p20so7368164ejb.6
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 11:14:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tzD0bWLvrJuHdSAU0iemw994PzFpgeqZwEOcF0GHL5o=;
- b=pvwlCWxAlTfZDar4wBmSkVxwUBP+kn7k7SRKcKwjkOcWEft3w2tBqgm89KqbrdKEo2
- fN58cQ+ufKehGrV/aVZ+G77Egzq0V8zzOjgQIuFc/9V7WnpNrYrXpjWwB5X0Q7PG/8Ji
- WeSGNMZFRN91NlAVgxQ1jTemkNB96VbLUNsvMfknqqMYkA29Yj/S6iODbCgQhRLrqtTj
- zwh4SLZBo2s3K/CwgMcTxAteUx8EeRuIsekv8Hq87uZeH+Rxe67y2EK2V0DHoFcMIjFF
- 7pZdTqNcyodtTqIFwCF+52CckR5ODD3GTl3gv+GJcpZzwyTY4/bYe97E/Hr0d7gEJ4/l
- 9qDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=tzD0bWLvrJuHdSAU0iemw994PzFpgeqZwEOcF0GHL5o=;
- b=GBaVKCnYvfgJEk6UI2rdATlghnlM7kQ2k8OL3HoqAac0bJxzvXJub7H+4rMp/J+l/q
- pYH385KphENMFcfUhe2hqQCDdiO75GbkSgZLPrb1hdLhJv3JNXcwNvFF0gy3K+OK+j0a
- 8TifhNIds5mroDIstsYwhKl2HZ/HLjdpkvpryAz3AP2P3p4RI4lNrg2GI1Kbbe29IKUN
- I7qqKMfa4yELC3tUAha+mnlxshZYWILVelxCjjImdNAf9YeO8NBgDR+eQuNcbazAxQvW
- 7gWjjBCpuEGzLZb076ILF0tdeZllyAufQ0i9F1yn12wYPXgWPqCyNypgMVFhgxs7eqWX
- 4KNA==
-X-Gm-Message-State: AOAM5303lFOtP/IwJjCwPmb7ZRXxaVFPHAoECUz7PGHiVg/KJk9QA5U1
- DOHj2ggAueiKV4zWN/4mAoMsR9sUinw=
-X-Google-Smtp-Source: ABdhPJygc0P7pZQGT47UOPjnBF0W1Y4nJX6ZmM4xDIiYw10oEeZQibLGxsoPBkgp/HTUvCyKEuVkIQ==
-X-Received: by 2002:a17:907:7605:: with SMTP id
- jx5mr595313ejc.340.1612466065519; 
- Thu, 04 Feb 2021 11:14:25 -0800 (PST)
-Received: from x1w.redhat.com (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id e19sm2964363eds.79.2021.02.04.11.14.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 11:14:24 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] exec/cpu-defs: Remove TCG backends dependency
-Date: Thu,  4 Feb 2021 20:14:23 +0100
-Message-Id: <20210204191423.1754158-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7k6J-0000x7-52
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:15:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55193)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7k6F-0004U6-Rk
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:15:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612466129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oAXM4yRY1a6l1YyyizyftSZ0KPJLF2gkJ2DMS3oYW8U=;
+ b=BnkUQ4J/ZSlWvBtctqzMB4Au4NBxrTUHG/T+qNyOISrfKRxKwifxAs8hdc9izzT1xAou5x
+ wxy7UqRv3sMFYcg5VFxN2+YPxXmLrU6+nR7UpXN6EUOh8qtcRuwcKskutjFBWNMUKkuhRL
+ eZD00zhq1yYx0Dg7cBF/3Eu1+sDh3+I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-259-L7GLFOGiMgSRugdVzJTYcQ-1; Thu, 04 Feb 2021 14:15:27 -0500
+X-MC-Unique: L7GLFOGiMgSRugdVzJTYcQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C77F1800D50;
+ Thu,  4 Feb 2021 19:15:26 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1CD6722D9;
+ Thu,  4 Feb 2021 19:15:25 +0000 (UTC)
+Subject: Re: [PATCH 2/2] migration: dirty-bitmap: Allow control of bitmap
+ persistence on destination
+To: Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org
+References: <cover.1612356810.git.pkrempa@redhat.com>
+ <3afd4b353cf75c01c9260ca65e073d897e8c42d2.1612356810.git.pkrempa@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <00322937-0aaa-271f-5e62-f988f603a20f@redhat.com>
+Date: Thu, 4 Feb 2021 13:15:25 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <3afd4b353cf75c01c9260ca65e073d897e8c42d2.1612356810.git.pkrempa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,52 +83,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"exec/cpu-defs.h" contains generic CPU definitions for the
-TCG frontends (mostly related to TLB). TCG backends definitions
-aren't relevant here.
+On 2/3/21 7:00 AM, Peter Krempa wrote:
+> Bitmap's source persistence is transported over the migration stream and
+> the destination mirrors it. In some cases the destination might want to
+> persist bitmaps which are not persistent on the source (e.g. the result
+> of merge of bitmaps from a number of layers on the source when migrating
+> into a squashed image) but currently it would need to create another set
+> of persistent bitmaps and merge them.
+> 
+> This adds 'dest-persistent' optional property to
+> 'BitmapMigrationBitmapAlias' which when present overrides the bitmap
+> presence state from the source.
 
-See tcg/README description:
+persistance
 
-  4) Backend
+> 
+> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+> ---
+>  migration/block-dirty-bitmap.c | 30 +++++++++++++++++++++++++++++-
+>  qapi/migration.json            |  7 ++++++-
+>  2 files changed, 35 insertions(+), 2 deletions(-)
+> 
 
-  tcg-target.h contains the target specific definitions. tcg-target.c.inc
-  contains the target specific code; it is #included by tcg/tcg.c, rather
-  than being a standalone C file.
+> +++ b/qapi/migration.json
+> @@ -533,12 +533,17 @@
+>  # @alias: An alias name for migration (for example the bitmap name on
+>  #         the opposite site).
+>  #
+> +# @dest-persistent: If populated set the bitmap will be turned persistent
+> +#                   or transient depending on this parameter.
 
-So far only "tcg/tcg.h" requires these headers.
+s/populated set/present,/
 
-Remove the "target-tcg.h" header dependency on TCG frontends, so we
-don't have to rebuild all frontends when hacking a single backend.
+> +#                   (since 6.0)
+> +#
+>  # Since: 5.2
+>  ##
+>  { 'struct': 'BitmapMigrationBitmapAlias',
+>    'data': {
+>        'name': 'str',
+> -      'alias': 'str'
+> +      'alias': 'str',
+> +      '*dest-persistent': 'bool'
+>    } }
+> 
+>  ##
+> 
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v2: Reword description (bonzini)
----
- include/exec/cpu-defs.h | 3 ---
- 1 file changed, 3 deletions(-)
+The grammar fix is trivial, so
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-index d1f5e3fc3d8..ba3cd32a1ec 100644
---- a/include/exec/cpu-defs.h
-+++ b/include/exec/cpu-defs.h
-@@ -25,9 +25,6 @@
- 
- #include "qemu/host-utils.h"
- #include "qemu/thread.h"
--#ifdef CONFIG_TCG
--#include "tcg-target.h"
--#endif
- #ifndef CONFIG_USER_ONLY
- #include "exec/hwaddr.h"
- #endif
+I see there is discussion over whether this is the best approach, but it
+makes sense to me.  Unless there's a good reason why something else
+would be better, I'm probably going to queue this through my dirty
+bitmaps tree for a pull request sometime next week.
+
 -- 
-2.26.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
