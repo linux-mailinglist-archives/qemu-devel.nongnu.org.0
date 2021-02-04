@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F6330EC4A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 07:03:57 +0100 (CET)
-Received: from localhost ([::1]:46378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793E430EC4B
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 07:05:01 +0100 (CET)
+Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7XkB-0006ih-KD
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 01:03:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33250)
+	id 1l7XlE-0007dd-EC
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 01:05:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l7Xiz-0006BG-2L; Thu, 04 Feb 2021 01:02:41 -0500
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:41541)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l7Xit-0004tf-DE; Thu, 04 Feb 2021 01:02:40 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id e132so2043926ybh.8;
- Wed, 03 Feb 2021 22:02:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WD8XcinHNckhzz1oofp0MBbemCQPyHOGo5O6+OEs3NY=;
- b=ahEFFrCKK9kxJGLIkPxvMhYPyWwBzMtsGvnxo/tqtEeQaVaTiCM1JzObWCSlsl5hfa
- 9tuBMhIPaJacp4gISUMLiZEKcRuD82dhfJnBbRMcS8/TPWxy/HHQBWTFwh0cTeT7t8ze
- q1DG2dAYvAYpyugZlZBDgZogch1iMNuQkN+XH6aMdzUGK+ixTa/dEa91fcc7zUQRz1+j
- VIrVf6v9BS4rg9LM3Z8G/H6TsnVUgj4sfEyTB365FKnk8q8Xz8K6Qfx8KGlifhd7uec/
- AtOg2Jky24g055qB723uoNbyRoIQeeUZ6T9OynzU0i79TIS/+bEuLk3nssOmGiAf+2ci
- tw9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WD8XcinHNckhzz1oofp0MBbemCQPyHOGo5O6+OEs3NY=;
- b=hKIUS9dS/jp/93hapyzQ/qPRbD/OHWYFXOdc6ScTEBHeaN1u1oaW5uw185pEBzVLj5
- Q84zxXoyg4rEgCTFPZT4qbj6DbzC+6d8oX8o2m2N4z36Q4+LrhN73oDkBl+YjgYE6Xgn
- JzkQ879AqaLPlgYGIdUN7Pb5eAZPLEiReGi4essgOjXDcsPTvIMcIbByUuviJVzVUPql
- KMAQTVJjq81Kg76Qsix6DhCxFwHTJEzQZewGfu5ZJq+Z4Fau2dcfP7mgcM//x1+um92a
- eKUWYYeZqFNruEqpPaI/grgJ2L3HDUP2kHREMX5rQSd+WQxYfZzlQZCMUpcUpFMYnono
- iOGQ==
-X-Gm-Message-State: AOAM533zU9RIMrV2JXDdA4C2gcwavS7w9pRpFoY0OfLaapQ52uYUAW+O
- qaZHFnPs4m6mYBcsLOrERD5yJqB2IUfkUWlKG+4=
-X-Google-Smtp-Source: ABdhPJyW2w5zhfN47a/CdEAZijB7qa1nOHePO3k32+EW3Gx4Ca0qYevXfeGqLZXM3AF8FajBWLpD7TmZRS6zNn2FUHM=
-X-Received: by 2002:a25:7d01:: with SMTP id y1mr8495673ybc.152.1612418553506; 
- Wed, 03 Feb 2021 22:02:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7Xk5-0006vt-M0
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 01:03:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37915)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7Xk1-0005RI-Un
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 01:03:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612418623;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=paeziodS+8PBjOWuX3wYptWpLXBAcdEy2Q5dqXyfA3w=;
+ b=bbtcLG75bvU860lv3oz6RNjvtGePKErWHSxfDCkS4bQUpCH7pZ/o/kVsrnUuv7HCwYvl9L
+ qB2hUzGrKkmZGNU3LNosXsGIN63VYf1CLa9DeyU199uBm4N1ghNTF6qF6o7Ulit2t0N7hb
+ T/s5j2SWvjcuQEcppTGzNELprbyA1BA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-575-56GDTBLMMJ6T-DvIFvmw0Q-1; Thu, 04 Feb 2021 01:03:40 -0500
+X-MC-Unique: 56GDTBLMMJ6T-DvIFvmw0Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB79B801970;
+ Thu,  4 Feb 2021 06:03:38 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-90.ams2.redhat.com [10.36.112.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF0B22C15A;
+ Thu,  4 Feb 2021 06:03:37 +0000 (UTC)
+Subject: Re: gitlab containers are broken
+To: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <567366a0-0e5a-3ab6-8e8e-ad66b46264b2@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <756e4707-b0ae-f26c-6e09-67fe205ec098@redhat.com>
+Date: Thu, 4 Feb 2021 07:03:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <20210128063035.15674-1-bmeng.cn@gmail.com>
-In-Reply-To: <20210128063035.15674-1-bmeng.cn@gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 4 Feb 2021 14:02:21 +0800
-Message-ID: <CAEUhbmXofQq9AerwBQfjDZkwp0kA9w+y+x_F0LUWZ6ArP+9H=g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/9] hw/sd: Support block read/write in SPI mode
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Qemu-block <qemu-block@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <567366a0-0e5a-3ab6-8e8e-ad66b46264b2@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,35 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 28, 2021 at 2:30 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> This includes the previously v3 series [1], and one single patch [2].
->
-> Compared to v3, this fixed the following issue in patch [v3,6/6]:
-> - Keep the card state to SSI_SD_CMD instead of SSI_SD_RESPONSE after
->   receiving the STOP_TRAN token per the spec
->
-> All software tested so far (U-Boot/Linux/VxWorks) do work without
-> the fix, but it is better to comform with the spec.
->
-> In addition to [2], one more issue was exposed when testing with
-> VxWorks driver related to STOP_TRANSMISSION (CMD12) response.
->
-> [1] http://patchwork.ozlabs.org/project/qemu-devel/list/?series=226136
-> [2] http://patchwork.ozlabs.org/project/qemu-devel/patch/1611636214-52427-1-git-send-email-bmeng.cn@gmail.com/
->
-> Changes in v4:
-> - Keep the card state to SSI_SD_CMD instead of SSI_SD_RESPONSE after
->   receiving the STOP_TRAN token per the spec
-> - new patch: fix STOP_TRANSMISSION (CMD12) response
-> - new patch: handle the rest commands with R1b response type
->
+On 04/02/2021 00.04, Richard Henderson wrote:
+> Something has gone wrong with the building of the containers
+> in gitlab, because *all* off them are installing Alpine Linux.
+> 
+> https://gitlab.com/rth7680/qemu/-/jobs/1006336396#L155
 
-Ping?
+I think that's ok ... the output about alpine that you see there is just the 
+output from the container that builds the final container. Later you can see 
+some "yum install" lines in that output, too, that's where the CentOS 
+container gets build. And the final compilation job runs on CentOS, too:
+
+  https://gitlab.com/rth7680/qemu/-/jobs/1006336699#L35
+
+(look for the string "Red Hat" there)
+
+> I presume that IMAGE is not actually being passed through, and alpine.docker is
+> lexicographically first.
+> 
+> I have a strong suspicion that it's related to local "make docker" breakage, in
+> that e.g.
+> 
+> $ make docker-test-build@fedora-i386-cross
+> /usr/bin/python3 -B /home/rth/qemu/qemu/meson/meson.py introspect --targets
+> --tests --benchmarks | /usr/bin/python3 -B scripts/mtest2make.py > Makefile.mtest
+>    GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
+> tests/fp/berkeley-softfloat-3 meson dtc capstone slirp
+>    GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
+> tests/fp/berkeley-softfloat-3 meson dtc capstone slirp
+> make: *** No rule to make target 'docker-test-build@fedora-i386-cross'.  Stop.
+> 
+> which certainly looks like the docker-TEST@IMAGE format documented.
+
+No clue about that, local containers never really worked for me... Alex? 
+Philippe? Any ideas?
+
+  Thomas
+
 
