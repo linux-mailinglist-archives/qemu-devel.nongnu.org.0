@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B513430F094
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:27:08 +0100 (CET)
-Received: from localhost ([::1]:57408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9120530F075
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:25:18 +0100 (CET)
+Received: from localhost ([::1]:52422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7bqt-0001Ks-PV
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:27:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
+	id 1l7bp7-0007aH-Jy
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:25:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7bTF-00066T-NI
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:02:42 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42407)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7bTC-0001xE-Gs
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:02:41 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id r12so4289690ejb.9
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 02:02:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Oy7+smgn1Cjo01XixnjTwDHXuEz3tlrtDi2O+vkrH7M=;
- b=bgjVWBAKCFRsMNWJ0P3/NdxurQNxeh588Z0w78wmFdXoooalTFlXsBtMx/TntjTOhY
- sS4Ua9RbPYgQ4cxVGi8NJfSmGiqI3ickU/YZY0cKgbaBLjljy4NPfy+Hz0+qltLXxXF2
- zh14X+bz+WtrAOkdOBNAtB7Ks+wcSCBuNYC6+RZO8NtXOQLcPX1gEYl37bBj/SMGWFOV
- zmFiM9jam6lrwbplIa9+hs6dKXfqnkGCJTIT4rTcou0mB1vnLNnFatBJNxokFB7CnxUB
- E9Vwx3XC7Ub+EVBzyyHY7lLsTgHdmVuWWoghnP+hLzx/ndi5gxyh5ByoXuAwAyrfncby
- A3wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Oy7+smgn1Cjo01XixnjTwDHXuEz3tlrtDi2O+vkrH7M=;
- b=jBJFH76mQREmtUf0jvIB1Oc/mBK+q+Sdldd9A57zCR868QM5XrtKgmFApWqkYyWF0z
- y7q4ETpwnx/zC9HbwndMViLJtvumSdwRi3fCo7oBY1MJY2v0YLijwlFTBBH0Qk8OGBMB
- YNlVHEjxgAWZ529Bd8nSJIRtCtNqAcHX71KrPUsNLIcpQxxK5ZkPQDqHN6RRo62xmmhQ
- hnBt+/yNV8ORFL5e7ZLbBnIcYdt7XXwHPfeWTDD9S/HVnKShGtUAtkq8wz3oTo4UHV5b
- 6suu29yV2jqEYqyHnQ6oFJKhnK5q7h0Z0ioXWNjF4rKdJrJlZ0uRoUGWrD8JTfEkCv7g
- uSKw==
-X-Gm-Message-State: AOAM533mwPMtriDRH6nA/wL19ab3UkIgHC6hBN5olHuK62/v7mYNhYLc
- k1ogF0ChY7J650DcmHEZaVB2J/v3gCH2IxHQX2W+Ng==
-X-Google-Smtp-Source: ABdhPJyNYYPdfEgyhkywuVBv29HVHp0nIn2ojwDMawuaRA9sJyNmG8Bz2hHJqh9ir6VK9FPS905PL/BLLDus7HMmN44=
-X-Received: by 2002:a17:906:3603:: with SMTP id
- q3mr7026276ejb.382.1612432956708; 
- Thu, 04 Feb 2021 02:02:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7bVN-0000kF-UI
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:04:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7bVK-0002v2-4d
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:04:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612433089;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XaPgwjnPTOYLWmaDCewDGV78yucxzmAnSZQcZ1o98bE=;
+ b=QfrfgnCvyjT+23xP37wfacPnHonj7UwM3x2MYakAX0LOqZkaQfZ+6EPSfcaiIE5tggwNdx
+ 6bdc5SUfvvTYqReZY92iahe6pVT3ftkPZYXmbWixzSqgOZRtJ6AGVgcU38k9pGF7Syxg4z
+ 2omkt9sch7DAASX8XwU/ghV/tJfABhU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-307-tHxKBeUWOpmtyOJX9UrdNQ-1; Thu, 04 Feb 2021 05:04:47 -0500
+X-MC-Unique: tHxKBeUWOpmtyOJX9UrdNQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83E011020C20;
+ Thu,  4 Feb 2021 10:04:46 +0000 (UTC)
+Received: from redhat.com (ovpn-115-169.ams2.redhat.com [10.36.115.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 664805D9C0;
+ Thu,  4 Feb 2021 10:04:45 +0000 (UTC)
+Date: Thu, 4 Feb 2021 10:04:42 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] qemu-storage-daemon: Enable object-add
+Message-ID: <20210204100442.GG549438@redhat.com>
+References: <20210204072137.19663-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20210204095834.345749-1-stefanha@redhat.com>
-In-Reply-To: <20210204095834.345749-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Feb 2021 10:02:25 +0000
-Message-ID: <CAFEAcA-jCbyuYQ_HPR2VB1OLZGJ7SebFZ3qz-eehUV=aWuA3Ng@mail.gmail.com>
-Subject: Re: [PULL 00/27] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210204072137.19663-1-kwolf@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,61 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- John G Johnson <john.g.johnson@oracle.com>, "Denis V. Lunev" <den@openvz.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Feb 2021 at 09:58, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> The following changes since commit 77f3804ab7ed94b471a14acb260e5aeacf26193f:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-02-02 16:47:51 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
->
-> for you to fetch changes up to 026362226f1ff6a1168524a326bbd6347ad40e85:
->
->   docs: fix Parallels Image "dirty bitmap" section (2021-02-03 16:48:21 +0000)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> The pull request includes Multi-Process QEMU, GitLab repo URL updates, and even
-> a block layer patch to fix the Parallels Image format specification!
->
-> ----------------------------------------------------------------
+On Thu, Feb 04, 2021 at 08:21:37AM +0100, Kevin Wolf wrote:
+> As we don't have a fully QAPIfied version of object-add yet and it still
+> has 'gen': false in the schema, it needs to be registered explicitly in
+> init_qmp_commands() to be available for users.
+> 
+> Fixes: 2af282ec51a27116d0402cab237b8970800f870c
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  storage-daemon/qemu-storage-daemon.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-This has merge conflicts:
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Auto-merging util/oslib-posix.c
-CONFLICT (content): Merge conflict in util/oslib-posix.c
-Auto-merging util/mmap-alloc.c
-CONFLICT (content): Merge conflict in util/mmap-alloc.c
-Auto-merging softmmu/physmem.c
-CONFLICT (content): Merge conflict in softmmu/physmem.c
-Auto-merging softmmu/memory.c
-CONFLICT (content): Merge conflict in softmmu/memory.c
-Auto-merging include/qemu/mmap-alloc.h
-Auto-merging include/exec/ram_addr.h
-CONFLICT (content): Merge conflict in include/exec/ram_addr.h
-Auto-merging include/exec/memory.h
-Auto-merging hw/Kconfig
-Automatic merge failed; fix conflicts and then commit the result.
 
-Can you rebase and resend, please?
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-thanks
--- PMM
 
