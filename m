@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D1E30F9E9
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:39:58 +0100 (CET)
-Received: from localhost ([::1]:43642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B93530FA11
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:47:30 +0100 (CET)
+Received: from localhost ([::1]:58960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ibi-00034d-G6
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:39:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41922)
+	id 1l7ij3-0001kw-If
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:47:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hiZ-0004BE-LI
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:42:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38179)
+ id 1l7hib-0004Bd-HM
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:42:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hiV-00061p-FU
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:42:55 -0500
+ id 1l7hiX-00062A-CD
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:42:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612456970;
+ s=mimecast20190719; t=1612456972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HXZkIG1FG7xNYVW+bw6BuJvqBE8IR/R+/E0I+C8PJlQ=;
- b=hcSbDiK7shcQZGIR77QFagqvvN3G5gZxXH3C3Me3ZsYt3y2HO2MyeF1cCIb+9YF4QHGhhm
- 1WoZ+H+WA93CEFrIPC0zsLJmrDhLm3468yIq9BNM5FQQheSO0NMvkjiOsbb9g9/8MVXcZc
- /YnPHr8LYl9FZcqWz0FhTWHn4cgDCGk=
+ bh=33j6FfCcNYV1dyqcF5bmQgZ57R1Tc7rnfkK/2IYugOQ=;
+ b=YP2F0jerWca+8wpi233soli0m8ergDsLttGa0+W9cMQfwGGHUSVosPd0gLR/zc3GVhsUqs
+ gXp3hVDri7ppMaKwDubBcd/7+WqeuzOolnDZPLQ9tiFR/gQgwZlZ1wx5sVtxTvYNB/EnoN
+ rXkOJdC1A/e4CS96yzLm7qk325pHI2w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-CQIx67pxMsC_7t24KASEpg-1; Thu, 04 Feb 2021 11:42:48 -0500
-X-MC-Unique: CQIx67pxMsC_7t24KASEpg-1
+ us-mta-164-B-cv0IpRO1qiz3yGdfnMpw-1; Thu, 04 Feb 2021 11:42:50 -0500
+X-MC-Unique: B-cv0IpRO1qiz3yGdfnMpw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58F3AC7402;
- Thu,  4 Feb 2021 16:42:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76098C7400;
+ Thu,  4 Feb 2021 16:42:49 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-21.ams2.redhat.com
  [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 961461A38C;
- Thu,  4 Feb 2021 16:42:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3CAC19708;
+ Thu,  4 Feb 2021 16:42:47 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
  gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
  wainersm@redhat.com
-Subject: [PULL 25/27] iotests: add support for capturing and matching QMP
- events
-Date: Thu,  4 Feb 2021 16:39:57 +0000
-Message-Id: <20210204163959.377618-26-dgilbert@redhat.com>
+Subject: [PULL 26/27] iotests: fix loading of common.config from tests/ subdir
+Date: Thu,  4 Feb 2021 16:39:58 +0000
+Message-Id: <20210204163959.377618-27-dgilbert@redhat.com>
 In-Reply-To: <20210204163959.377618-1-dgilbert@redhat.com>
 References: <20210204163959.377618-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -61,14 +60,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,167 +86,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-When using the _launch_qemu and _send_qemu_cmd functions from
-common.qemu, any QMP events get mixed in with the output from
-the commands and responses.
+common.rc assumes it is being sourced from the same directory and
+so also tries to source common.config from the current working
+directory. With the ability to now have named tests in the tests/
+subdir we need to check two locations for common.config.
 
-This makes it difficult to write a test case as the ordering
-of events in the output is not stable.
-
-This introduces a variable 'capture_events' which can be set
-to a list of event names. Any events listed in this variable
-will not be printed, instead collected in the $QEMU_EVENTS
-environment variable.
-
-A new '_wait_event' function can be invoked to collect events
-at a fixed point in time. The function will first pull events
-cached in $QEMU_EVENTS variable, and if none are found, will
-then read more from QMP.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210204124834.774401-11-berrange@redhat.com>
+Message-Id: <20210204124834.774401-12-berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tests/qemu-iotests/common.qemu | 106 ++++++++++++++++++++++++++++++++-
- 1 file changed, 105 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/common.rc | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
-index ef105dfc39..0fc52d20d7 100644
---- a/tests/qemu-iotests/common.qemu
-+++ b/tests/qemu-iotests/common.qemu
-@@ -53,6 +53,15 @@ _in_fd=4
- # If $mismatch_only is set, only non-matching responses will
- # be echoed.
- #
-+# If $capture_events is non-empty, then any QMP event names it lists
-+# will not be echoed out, but instead collected in the $QEMU_EVENTS
-+# variable. The _wait_event function can later be used to receive
-+# the cached events.
-+#
-+# If $only_capture_events is set to anything but an empty string,
-+# then an error will be raised if a QMP message is seen which is
-+# not an event listed in $capture_events.
-+#
- # If $success_or_failure is set, the meaning of the arguments is
- # changed as follows:
- # $2: A string to search for in the response; if found, this indicates
-@@ -78,6 +87,31 @@ _timed_wait_for()
-     QEMU_STATUS[$h]=0
-     while IFS= read -t ${QEMU_COMM_TIMEOUT} resp <&${QEMU_OUT[$h]}
-     do
-+        if [ -n "$capture_events" ]; then
-+            capture=0
-+            local evname
-+            for evname in $capture_events
-+            do
-+                case ${resp} in
-+                    *\"event\":\ \"${evname}\"* ) capture=1 ;;
-+                esac
-+            done
-+            if [ $capture = 1 ];
-+            then
-+                ev=$(echo "${resp}" | tr -d '\r' | tr % .)
-+                QEMU_EVENTS="${QEMU_EVENTS:+${QEMU_EVENTS}%}${ev}"
-+                if [ -n "$only_capture_events" ]; then
-+                    return
-+                else
-+                    continue
-+                fi
-+            fi
-+        fi
-+        if [ -n "$only_capture_events" ]; then
-+            echo "Only expected $capture_events but got ${resp}"
-+            exit 1
-+        fi
-+
-         if [ -z "${silent}" ] && [ -z "${mismatch_only}" ]; then
-             echo "${resp}" | _filter_testdir | _filter_qemu \
-                            | _filter_qemu_io | _filter_qmp | _filter_hmp
-@@ -172,12 +206,82 @@ _send_qemu_cmd()
-         let count--;
-     done
-     if [ ${QEMU_STATUS[$h]} -ne 0 ] && [ -z "${qemu_error_no_exit}" ]; then
--        echo "Timeout waiting for ${1} on handle ${h}"
-+        echo "Timeout waiting for command ${1} response on handle ${h}"
-         exit 1 #Timeout means the test failed
-     fi
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 297acf9b6a..77c37e8312 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -109,8 +109,14 @@ peek_file_raw()
+     dd if="$1" bs=1 skip="$2" count="$3" status=none
  }
  
- 
-+# Check event cache for a named QMP event
-+#
-+# Input parameters:
-+# $1:       Name of the QMP event to check for
-+#
-+# Checks if the named QMP event that was previously captured
-+# into $QEMU_EVENTS. When matched, the QMP event will be echoed
-+# and the $matched variable set to 1.
-+#
-+# _wait_event is more suitable for test usage in most cases
-+_check_cached_events()
-+{
-+    local evname=${1}
-+
-+    local match="\"event\": \"$evname\""
-+
-+    matched=0
-+    if [ -n "$QEMU_EVENTS" ]; then
-+        CURRENT_QEMU_EVENTS=$QEMU_EVENTS
-+        QEMU_EVENTS=
-+        old_IFS=$IFS
-+        IFS="%"
-+        for ev in $CURRENT_QEMU_EVENTS
-+        do
-+            grep -q "$match" < <(echo "${ev}")
-+            if [ $? -eq 0 ] && [ $matched = 0 ]; then
-+                echo "${ev}" | _filter_testdir | _filter_qemu \
-+                           | _filter_qemu_io | _filter_qmp | _filter_hmp
-+                matched=1
-+            else
-+                QEMU_EVENTS="${QEMU_EVENTS:+${QEMU_EVENTS}%}${ev}"
-+            fi
-+        done
-+        IFS=$old_IFS
-+    fi
-+}
-+
-+# Wait for a named QMP event
-+#
-+# Input parameters:
-+# $1:       QEMU handle to use
-+# $2:       Name of the QMP event to wait for
-+#
-+# Checks if the named QMP even was previously captured
-+# into $QEMU_EVENTS. If none are present, then waits for the
-+# event to arrive on the QMP channel. When matched, the QMP
-+# event will be echoed
-+_wait_event()
-+{
-+    local h=${1}
-+    local evname=${2}
-+
-+    while true
-+    do
-+        _check_cached_events $evname
-+
-+        if [ $matched = 1 ];
-+        then
-+            return
-+        fi
-+
-+        only_capture_events=1 qemu_error_no_exit=1 _timed_wait_for ${h}
-+
-+        if [ ${QEMU_STATUS[$h]} -ne 0 ] ; then
-+            echo "Timeout waiting for event ${evname} on handle ${h}"
-+            exit 1 #Timeout means the test failed
-+        fi
-+    done
-+}
-+
- # Launch a QEMU process.
- #
- # Input parameters:
+-
+-if ! . ./common.config
++config=common.config
++test -f $config || config=../common.config
++if ! test -f $config
++then
++    echo "$0: failed to find common.config"
++    exit 1
++fi
++if ! . $config
+     then
+     echo "$0: failed to source common.config"
+     exit 1
 -- 
 2.29.2
 
