@@ -2,68 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2EA30F326
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 13:30:07 +0100 (CET)
-Received: from localhost ([::1]:54466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EC830F323
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 13:29:27 +0100 (CET)
+Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7dlp-0002r4-6z
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 07:30:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57086)
+	id 1l7dlG-0001mV-9H
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 07:29:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7diy-0008Ul-9w
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:27:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7diu-0000Lq-9a
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:27:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612441619;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S9YBSS4SKC8dgrrm51/ZETXbrIXu/Ukckx0vBLxo3Z4=;
- b=COqA581o+bpu+M6NpDQgJNfmI9HWiwRBAKDsshdv/NU4tFZSxy3I7930dfFBvqoDVyR8wF
- mHFAT23QkVaru8fibvXhfn9lL93rbD7bcRdqXV3zKIJ69OMAT/nmmeqGgK45BbR+VHF0ML
- DylqShYc8oxoBcW/j+/Dsdyq6dD5GqY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-f4n81AlbO6qb2mpb-jfLkw-1; Thu, 04 Feb 2021 07:26:55 -0500
-X-MC-Unique: f4n81AlbO6qb2mpb-jfLkw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88E0619611A3;
- Thu,  4 Feb 2021 12:26:54 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-162.ams2.redhat.com [10.36.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C680C100164C;
- Thu,  4 Feb 2021 12:26:52 +0000 (UTC)
-Date: Thu, 4 Feb 2021 13:26:51 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 26/36] block/backup-top: drop .active
-Message-ID: <20210204122651.GE6496@merkur.fritz.box>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l7djd-0000P3-VU; Thu, 04 Feb 2021 07:27:45 -0500
+Received: from mail-vi1eur05on2094.outbound.protection.outlook.com
+ ([40.107.21.94]:12408 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l7dja-0000aQ-Qa; Thu, 04 Feb 2021 07:27:45 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Uz0GmI/bMdjfg2WjkRDyEJWsFMu+9Gh+tO3tx6nO17KqPRFPd1iPAUv09yRj8+SrUmywBxSCkVhf8dw/rlJCPiMDpp14VdHrLbISPxSpnTTlZr+GX2Cnq5+PvajLos30g072ZyxpFPzDGSGYzt4ytniVxyD/gODZOa7eCiY5laMjh2GPwgpIUM3byBdsy95sEGT2WuCT0U7yRlzBXX8hfWL3Om6fp3xnd0UlbqYZ/qeq50CGBhttMoeII9HetHrZ5a2/YSx/zsNqN1fRYFCCeISIdGZYDtFb+VkpDOJyLj+yUL4M9DmD3eYaCR5N5RqPUCusRvVMEYK9f80ltBDlDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yZnKGpwckNuyzl5gxNNJQOUq5a2puQRwpyxO9QeZVts=;
+ b=lCBuVuUV32ckMBBaigtykc1hw3kgip10sW3ufhPi0IHETlO+/feJ9psj4mMKRD6R6K0x1zgFF4/vr5To1zgFlLHn8L5uQaHBheqpDhSiiD8gXdtC+OAiqxDGW9IjB2i5IBNubXnIuyC7u54CNj9eAGLBsQvUeQMGycgJzpQJIfM8h/ODB6o8TZkt+tYNNf/JOHSdLWgTfuu++NsmVwseD2KqsOIdW6dLGCo3gSg3b3a4sMmSCD5Hpgd/spH4i2nXDNeZPvvFLNysJ2tv6t52ELJaXaIXFNfSTAMtkt3NTEHkiCAdNW2LcjsZqbdI4NewFELICQTN+vzZ+LLKmwJj7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yZnKGpwckNuyzl5gxNNJQOUq5a2puQRwpyxO9QeZVts=;
+ b=poaBg8NDsVFpZJYp3gyPg/PincuXLeWnAnRr8JFeTdxe6cLzdqUG5Kk5Xj5hxo3ltsWQW9vWgsq2wMF/VkBkkCA2LI4u4n+ZN78Gi2RFdxih/APi3JhyJfSWqDhRFytQuSfKdYcIH1RBu5PMLfXt5v4lHpQEH92ZObpNXWuWGn8=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB5895.eurprd08.prod.outlook.com (2603:10a6:20b:298::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.26; Thu, 4 Feb
+ 2021 12:27:39 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Thu, 4 Feb 2021
+ 12:27:39 +0000
+Subject: Re: [PATCH v2 25/36] block: introduce bdrv_drop_filter()
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, mreitz@redhat.com, den@openvz.org
 References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-27-vsementsov@virtuozzo.com>
+ <20201127144522.29991-26-vsementsov@virtuozzo.com>
+ <20210204113128.GD6496@merkur.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <221cebd2-6ba4-0e15-cf40-2aa2969cc230@virtuozzo.com>
+Date: Thu, 4 Feb 2021 15:27:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+In-Reply-To: <20210204113128.GD6496@merkur.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.214]
+X-ClientProxiedBy: AM0P190CA0030.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:190::40) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <20201127144522.29991-27-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.214) by
+ AM0P190CA0030.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.20 via Frontend Transport; Thu, 4 Feb 2021 12:27:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 603b00de-b560-4e0a-5dda-08d8c90842c2
+X-MS-TrafficTypeDiagnostic: AS8PR08MB5895:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB5895A315381AF968ABDD40D4C1B39@AS8PR08MB5895.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MI/sqSAQqOoRyiABfklzNCmxLilAHJ6pBUSaRLeP5F0MfECujX7icu4D/Axrx3WW9UCYIU4X6N6znlTaYHeWRxlTgXVi3gOle+EXPuQRS7sQc/qT5dPw0mTE1SeAKW3Cu1hVxBSmvvxW1L3C2T2LlNWDKl+Wn02qJTkxX7aDooKIVsjtnmrbFLBFUXbD8kUgcTm7ikrJ8J6+EqqGM67Wb/CkUjqd4b1pdGeuU6Gz4K3zCocT/Kgix6uHBhVTR4jnlvuJfZ3tTst8EKI3izz3X3H86opUqrLgZwRqzk11lmo9ofYwTWDRwPOjuHqYwuOxwsY4i6YWGVyHuq8Ax/V7op2Z/5I7VVapGek52QvdSEA/hnjy93d6GBGiDKsd7tOcTDhtxzqV9J6mZsDBc4WNqihIf+yBCxKnO000JyRcbY92Z+bVxbUztobA2HzgclBmsLwVzBeOUbNWxqvNQuIu7HfNIL/5k0rqx7CliRkoJ1dksAseWmKDajvp/GZ5Ga6avkEY42TlIUHtvIL9ERHLdYcpdJz/cK6eI/iBTTogJFGww0u72TTlTADa6nrrBGe6QsJCSXJ43SQnxG+HrlmAdwvspVUk78ou3TBi8C55X1Q=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(396003)(376002)(39840400004)(136003)(478600001)(31686004)(31696002)(2906002)(107886003)(316002)(4326008)(6916009)(956004)(86362001)(5660300002)(16576012)(66476007)(66556008)(16526019)(6486002)(83380400001)(186003)(26005)(8676002)(36756003)(8936002)(52116002)(2616005)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UjNOOXlqWThtY0toS2JLUkowSVNDKzhLMlRsT0d6M25Kd3VrQ3c3MVBYWWxh?=
+ =?utf-8?B?N3pwRUdJTFZqb3FwcjR2Y011c3VoUC9VVlhPSFRXTURJWEsrVWpMcURQYXZa?=
+ =?utf-8?B?RTJ3U0tXcTMwY3FwMXZ4d0VnRDN6M1o1ZXlQQ0VYT0ZHZ1k1MjJWMWpqS1N4?=
+ =?utf-8?B?MzJ0QzE1VEp5anh0MzFnNTZkREVRb1pmVFhUTzVISElrV0Q2cjJ6VzYwN0E1?=
+ =?utf-8?B?d2thUVE2MjRqVk93dE5NdG1WajFaeWVCMGRhN05RWDdvZmc5UG8vTzZGUFVn?=
+ =?utf-8?B?ZTNjczFYQTBWU0lmY2RVZjJlK1pnUVozNUtONVNPWjJSYnExNVowaHpFL0ph?=
+ =?utf-8?B?VUpBRjlKZU5kQXpXcVVuek9GTzY2TTFUcVp2aXFFT3NMQVJwWVFMV3hiOEtZ?=
+ =?utf-8?B?emZRSDUvQm9vY1JTK1pTQURFQWx2N2ZxR3gwMGFmUXNtRHJpSUxOWTJYT3lR?=
+ =?utf-8?B?eXE5aEc4ZzMxM2orVzAzMXBZVngwNUZuemZCVGhGS3hRTS92UFZYNzd2NlB2?=
+ =?utf-8?B?ZVN0V252SWNhZmlPUk9jVUg0VGN2U3g1dHI5djR1TG9NWW15QWhqamNNKzlt?=
+ =?utf-8?B?bUpUNG1wZ2RkM0dacnBybm9PL04wQzJWNm9NTDdzL004OXNvSUc2S2ZTU0Vr?=
+ =?utf-8?B?SzlJYVFKSDBIRSs1cEtiL2VmMi9JNjMxcllOcVR3ZXJrQXEyRXJVcmw1ZU9D?=
+ =?utf-8?B?WWZHREh1S1o0UkV1SHlVbDdJOVJoUkJFLzdkSVFBT2ZzSHAyUVlYR3BGMEZB?=
+ =?utf-8?B?YTlPOEs2YloreUNZV3BiMmM2SHdKZkxQeEg2N0VLeXJzNlFmTnNuQ0lZMkVh?=
+ =?utf-8?B?RVBTRW5zQW81SmRhMGtUbUZUSjQ3WWNKbUlmVHBsVW5VZy9JVlNqdnhtZGpx?=
+ =?utf-8?B?S2c3OFQyaGV1Q21IRnhXaWZuOUdkN1lQQXRZWGNheHUxMWx4eHROczVRcC9s?=
+ =?utf-8?B?TzdJT0RLQmxYUzFvZEF5STBsTndmQ2VmaHJxTlhTNzVROTdQTVQ4OGZRYkVz?=
+ =?utf-8?B?eURnUzNXaWwwR1RWc2VyWnRqWVdJREJLWmtWRkVMRFZpbGpQS2RoQkpla0Zz?=
+ =?utf-8?B?NVNlV2xXa1VSMFNIZExmNVJNL1NSQ2V6YzJKcHVxVk9ITWhvU1l1d3l4b2k5?=
+ =?utf-8?B?aXVoWk1aSTNFcFJ1VkVyaTQzbVRUbGp4ZDhqQ2tDUWJPbDRmYWU3RXdncVFa?=
+ =?utf-8?B?cy9CM1dSTTdoMzUvTzNzSGNFb3dEN2ZMc3ROdkdPekdNT2lHSnFtd0pMNU4w?=
+ =?utf-8?B?QmJLTEZNNDhZaXFIQUpwVFgrVGtUZFdFZUNwRThlMnE3cGxiRE5qNXJIaEJL?=
+ =?utf-8?B?QlZINlB3blB6QTZ1UDFzVU5sQzNVNmh3UHd3YXdZMnJScHQ2b0QxdGlCQjZP?=
+ =?utf-8?B?a0RMZDBhT0h2dWdjc3hsUGQ0ckxGZ0R4WWNjVFh3Mi9xbHRjOE00NkIzK3pL?=
+ =?utf-8?Q?1O7d+1Vi?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 603b00de-b560-4e0a-5dda-08d8c90842c2
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2021 12:27:39.0836 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o9rqr3OeLoQn+zQ4CDA5xjdyMTgamAVhkhHocq0UrPH6Vd8MDCxRuHxmiUuJAlE0ulOwm7ir968vinQ8TWxFZ3RkJndBVf9jBw6zwzlKQBU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5895
+Received-SPF: pass client-ip=40.107.21.94;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,72 +141,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> We don't need this workaround anymore: bdrv_append is already smart
-> enough and we can use new bdrv_drop_filter().
+04.02.2021 14:31, Kevin Wolf wrote:
+> Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> Using bdrv_replace_node() for removing filter is not good enough: it
+>> keeps child reference of the filter, which may conflict with original
+>> top node during permission update.
+>>
+>> Instead let's create new interface, which will do all graph
+>> modifications first and then update permissions.
+>>
+>> Let's modify bdrv_replace_node_common(), allowing it additionally drop
+>> backing chain child link pointing to new node. This is quite
+>> appropriate for bdrv_drop_intermediate() and makes possible to add
+>> new bdrv_drop_filter() as a simple wrapper.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   include/block/block.h |  1 +
+>>   block.c               | 42 ++++++++++++++++++++++++++++++++++++++----
+>>   2 files changed, 39 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/include/block/block.h b/include/block/block.h
+>> index 8f6100dad7..0f21ef313f 100644
+>> --- a/include/block/block.h
+>> +++ b/include/block/block.h
+>> @@ -348,6 +348,7 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+>>                   Error **errp);
+>>   int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+>>                         Error **errp);
+>> +int bdrv_drop_filter(BlockDriverState *bs, Error **errp);
+>>   
+>>   int bdrv_parse_aio(const char *mode, int *flags);
+>>   int bdrv_parse_cache_mode(const char *mode, int *flags, bool *writethrough);
+>> diff --git a/block.c b/block.c
+>> index b1394b721c..e835a78f06 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -4919,7 +4919,6 @@ static TransactionActionDrv bdrv_remove_backing_drv = {
+>>       .commit = bdrv_child_free,
+>>   };
+>>   
+>> -__attribute__((unused))
+>>   static void bdrv_remove_backing(BlockDriverState *bs, GSList **tran)
+>>   {
+>>       if (!bs->backing) {
+>> @@ -4968,15 +4967,30 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
+>>    *
+>>    * With auto_skip=false the error is returned if from has a parent which should
+>>    * not be updated.
+>> + *
+>> + * With detach_subchain to must be in a backing chain of from. In this case
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/backup-top.c         | 38 +-------------------------------------
->  tests/qemu-iotests/283.out |  2 +-
->  2 files changed, 2 insertions(+), 38 deletions(-)
+> @to and @from make it easier to read.
 > 
-> diff --git a/block/backup-top.c b/block/backup-top.c
-> index 650ed6195c..84eb73aeb7 100644
-> --- a/block/backup-top.c
-> +++ b/block/backup-top.c
-> @@ -37,7 +37,6 @@
->  typedef struct BDRVBackupTopState {
->      BlockCopyState *bcs;
->      BdrvChild *target;
-> -    bool active;
->      int64_t cluster_size;
->  } BDRVBackupTopState;
->  
-> @@ -127,21 +126,6 @@ static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
->                                    uint64_t perm, uint64_t shared,
->                                    uint64_t *nperm, uint64_t *nshared)
->  {
-> -    BDRVBackupTopState *s = bs->opaque;
-> -
-> -    if (!s->active) {
-> -        /*
-> -         * The filter node may be in process of bdrv_append(), which firstly do
-> -         * bdrv_set_backing_hd() and then bdrv_replace_node(). This means that
-> -         * we can't unshare BLK_PERM_WRITE during bdrv_append() operation. So,
-> -         * let's require nothing during bdrv_append() and refresh permissions
-> -         * after it (see bdrv_backup_top_append()).
-> -         */
-> -        *nperm = 0;
-> -        *nshared = BLK_PERM_ALL;
-> -        return;
-> -    }
-> -
->      if (!(role & BDRV_CHILD_FILTERED)) {
->          /*
->           * Target child
-> @@ -229,18 +213,6 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
->      }
->      appended = true;
->  
-> -    /*
-> -     * bdrv_append() finished successfully, now we can require permissions
-> -     * we want.
-> -     */
-> -    state->active = true;
-> -    bdrv_child_refresh_perms(top, top->backing, &local_err);
+>> + * backing link of the cow-parent of @to is removed.
+>>    */
+>>   static int bdrv_replace_node_common(BlockDriverState *from,
+>>                                       BlockDriverState *to,
+>> -                                    bool auto_skip, Error **errp)
+>> +                                    bool auto_skip, bool detach_subchain,
+>> +                                    Error **errp)
+>>   {
+>>       int ret = -EPERM;
+>>       GSList *tran = NULL;
+>>       g_autoptr(GHashTable) found = NULL;
+>>       g_autoptr(GSList) refresh_list = NULL;
+>> +    BlockDriverState *to_cow_parent;
+>> +
+>> +    if (detach_subchain) {
+>> +        assert(bdrv_chain_contains(from, to));
+> 
+> The loop below also relies on from != to, so maybe assert that, too.
+> 
+>> +        for (to_cow_parent = from;
+>> +             bdrv_filter_or_cow_bs(to_cow_parent) != to;
+>> +             to_cow_parent = bdrv_filter_or_cow_bs(to_cow_parent))
+>> +        {
+>> +            ;
+>> +        }
+>> +    }
+>>   
+>>       /* Make sure that @from doesn't go away until we have successfully attached
+>>        * all of its parents to @to. */
+>> @@ -4997,6 +5011,10 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+>>           goto out;
+>>       }
+>>   
+>> +    if (detach_subchain) {
+>> +        bdrv_remove_backing(to_cow_parent, &tran);
+>> +    }
+> 
+> So bdrv_drop_filter() only works for filters that go through
+> bs->backing?
+> 
+> Wouldn't it have been more useful to make it bdrv_remove_filter_or_cow()
+> like you use already use in other places in this patch?
+> 
+> If not, the limitation needs to be documented for bdrv_drop_filter().
+> 
 
-bdrv_append() uses bdrv_refresh_perms() for the whole node. Is it doing
-unnecessary extra work there and should really do the same as backup-top
-did here, i.e. bdrv_child_refresh_perms(bs_new->backing)?
+bdrv_append supports only bs->backing based filters too.. So for now it's enough. And probably in future we'll refactor it all again when implement multi-reopen qmp command. Will look at it when prepare new version and either improve or document limitation.
 
-(Really a comment for an earlier patch. This patch itself looks fine.)
 
-Kevin
-
+-- 
+Best regards,
+Vladimir
 
