@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9D630EDDB
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 08:57:31 +0100 (CET)
-Received: from localhost ([::1]:49054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48ED330EDFE
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 09:07:57 +0100 (CET)
+Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ZW6-0005U7-7b
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 02:57:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52622)
+	id 1l7ZgB-0001G2-PM
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 03:07:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7ZUf-0004XY-QH
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 02:56:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7ZUe-0002z5-0g
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 02:56:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612425359;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sVdN7nh2sC02yHJ4J4ba7Ey5KgVf2fqnglm7dMg8QXQ=;
- b=cBvwT8wXxA7nwRgNahmHvqw1UCsIvzKrPQTUHWRNghHYqeB5cZHsqvdX9ivdULXaCOkBRs
- E0QjcJzVhyxsaGPLfTboo0DE/2y93G9Ejrt4eErVgOxZOM01R86wr6ksQJPJZPB/y0b/gV
- Yq0LYdV+ThVUkR604vF7e1XF8WA3XnU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-VMTt3pldPxSFmoevF2NfsA-1; Thu, 04 Feb 2021 02:55:57 -0500
-X-MC-Unique: VMTt3pldPxSFmoevF2NfsA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4627D183CD01;
- Thu,  4 Feb 2021 07:55:56 +0000 (UTC)
-Received: from [10.36.113.146] (ovpn-113-146.ams2.redhat.com [10.36.113.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 505F2131EF;
- Thu,  4 Feb 2021 07:55:55 +0000 (UTC)
-Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
- constant folding
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <28457ae1-7e9b-4428-cb10-3b79ebeac8d0@linaro.org>
- <19D304C1-6401-4D16-AB54-DD19C978D04D@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <db32a1f5-ad73-a341-f5e7-1c8f592d3d5b@redhat.com>
-Date: Thu, 4 Feb 2021 08:55:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-MIME-Version: 1.0
-In-Reply-To: <19D304C1-6401-4D16-AB54-DD19C978D04D@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1l7ZeJ-0008Tz-M6
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:05:59 -0500
+Received: from mga05.intel.com ([192.55.52.43]:43412)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1l7ZeH-0007VQ-CG
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:05:58 -0500
+IronPort-SDR: 1sA82tzO6hftdVPwWQFAxMNXjP43TRY21Ua1pnbJZct5pYLWfwHkuoRaxB1ChHSu9XvbUaeUA6
+ 1s2zhsKzLeUQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="266025478"
+X-IronPort-AV: E=Sophos;i="5.79,400,1602572400"; d="scan'208";a="266025478"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2021 00:05:44 -0800
+IronPort-SDR: bWyIdsW/xfU3zSm8GOf/yxDcdKOyk5Xw3vS69zbE7H8E3s86cZHZmASy2B5mBbnf1IwGzuTknw
+ TDKPZ3k/31YA==
+X-IronPort-AV: E=Sophos;i="5.79,400,1602572400"; d="scan'208";a="372302423"
+Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2021 00:05:44 -0800
+From: isaku.yamahata@gmail.com
+To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
+ marcel.apfelbaum@gmail.com
+Subject: [PATCH 0/4] ACPI related fixes
+Date: Thu,  4 Feb 2021 00:04:07 -0800
+Message-Id: <cover.1612424814.git.isaku.yamahata@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=192.55.52.43;
+ envelope-from=isaku.yamahata@intel.com; helo=mga05.intel.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NML_ADSP_CUSTOM_MED=0.9,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,44 +61,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Richard W.M. Jones" <rjones@redhat.com>, qemu-devel@nongnu.org
+Cc: Isaku Yamahata <isaku.yamahata@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.02.21 07:41, David Hildenbrand wrote:
-> 
->> Am 04.02.2021 um 03:22 schrieb Richard Henderson <richard.henderson@linaro.org>:
->>
->> ﻿On 2/1/21 10:45 AM, Richard W.M. Jones wrote:
->>> This commit breaks running certain s390x binaries, at least
->>> the "mount" command (or a library it uses) breaks.
->>>
->>> More details in this BZ:
->>>
->>> https://bugzilla.redhat.com/show_bug.cgi?id=1922248
->>>
->>> Could we revert this change since it seems to have caused other
->>> problems as well?
->>
->> Well, the other problems have been fixed (which were in fact latent, and could
->> have been produced by other means).  I would not like to sideline this patch
->> set indefinitely.
->>
->> Could you give me some help extracting the relevant binaries?  "Begin with an
->> s390x host" is a non-starter.
->>
-> 
-> Hi,
-> 
-> I‘m planning on reproducing it today or tomorrow. Especially, finding a reproducer and trying reproducing on x86-64 host.
+From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-FWIW, on an x86-64 host, I can boot F32, Fedora rawhide, and RHEL8.X 
-just fine from qcow2 (so "mount" seems to work in that environment as 
-expected). Maybe it's really s390x-host specific? I'll give it a try.
+Miscellaneous bug fixes related to ACPI to play nice with guest BIOSes/OSes
+by conforming to ACPI spec better.
+
+Isaku Yamahata (3):
+  acpi/core: always set SCI_EN when SMM isn't supported
+  acpi: set fadt.smi_cmd to zero when SMM is not supported
+  hw/i386: declare ACPI mother board resource for MMCONFIG region
+
+Sean Christopherson (1):
+  i386: acpi: Don't build HPET ACPI entry if HPET is disabled
+
+ hw/acpi/core.c         |  11 ++-
+ hw/acpi/ich9.c         |   2 +-
+ hw/acpi/piix4.c        |   3 +-
+ hw/i386/acpi-build.c   | 188 +++++++++++++++++++++++++++++++++++++++--
+ hw/isa/vt82c686.c      |   2 +-
+ include/hw/acpi/acpi.h |   4 +-
+ 6 files changed, 200 insertions(+), 10 deletions(-)
 
 -- 
-Thanks,
-
-David / dhildenb
+2.17.1
 
 
