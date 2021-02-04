@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB5E30F06B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:21:32 +0100 (CET)
-Received: from localhost ([::1]:41758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B513430F094
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:27:08 +0100 (CET)
+Received: from localhost ([::1]:57408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7blT-000356-LW
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:21:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52100)
+	id 1l7bqt-0001Ks-PV
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:27:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7bRk-0004QW-JS
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:01:09 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:36768)
+ id 1l7bTF-00066T-NI
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:02:42 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7bRX-00012D-QD
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:01:01 -0500
-Received: by mail-ed1-x531.google.com with SMTP id l12so3418155edt.3
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 02:00:54 -0800 (PST)
+ id 1l7bTC-0001xE-Gs
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:02:41 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id r12so4289690ejb.9
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 02:02:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yTcW/eXW4WJdW3XzlWkBNbudEqakNA/chwoDbJWVV68=;
- b=zT5lcY1XwXH3VLhJiL6QLaTKRrC7s5r5p0e/kAzTpFkPMRNuslmSqTUktR4yBA4S4w
- vtB9pwc2XTpBjacNuDlWctAYKXeXEwAdnkM5OoN3+2hKcfwRaR02JntC2Rr05fYXg+KK
- qFSqzGqrJuXJlItAhcHbPT4gyx9b2/FWFmdETH7imMFoAgmpOiyb5PUFhMcqs/ZrhKmW
- K65WKADjWLhlCJ0ZFSDSFq47SgxBCR5vVjBTK4jUvFPwghG3RFVMCfsJIzF3NwDzaQuY
- LXgbz78sWuKQczXYtL2d5IQtTXPYZgwMsDzERWgjpD4ZenoMEXSgRrDcaCMjNy9aY+wz
- v+Bg==
+ :cc; bh=Oy7+smgn1Cjo01XixnjTwDHXuEz3tlrtDi2O+vkrH7M=;
+ b=bgjVWBAKCFRsMNWJ0P3/NdxurQNxeh588Z0w78wmFdXoooalTFlXsBtMx/TntjTOhY
+ sS4Ua9RbPYgQ4cxVGi8NJfSmGiqI3ickU/YZY0cKgbaBLjljy4NPfy+Hz0+qltLXxXF2
+ zh14X+bz+WtrAOkdOBNAtB7Ks+wcSCBuNYC6+RZO8NtXOQLcPX1gEYl37bBj/SMGWFOV
+ zmFiM9jam6lrwbplIa9+hs6dKXfqnkGCJTIT4rTcou0mB1vnLNnFatBJNxokFB7CnxUB
+ E9Vwx3XC7Ub+EVBzyyHY7lLsTgHdmVuWWoghnP+hLzx/ndi5gxyh5ByoXuAwAyrfncby
+ A3wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yTcW/eXW4WJdW3XzlWkBNbudEqakNA/chwoDbJWVV68=;
- b=g/7uhBfBQOkdg/mD6pBOt2d9J9k73wyft+GX4svqu33rQ7TbIbQfl/6N20OQXaiPFQ
- JXqbaLmA+Jr/oRqvr6CfjTcJBNT3JPD7esRIkLvKY14IKYKdY2vdOm2ckPMSI76v+BvB
- uMtTEGsG3HzGd+LoDjJdBz0jyTb704I6PoGOtgDahEqHo/vAvkp20D6E8PVM88kGOSXN
- W46Z2u6YP9MkqpRM+nmvzR2iJ5uAW+Qjiz5VjA2OwmmQ7MIx60bb/6bsFvqr2zpNDF+Q
- 9jBV7HK/T6j+cQIBqbZkBrtAVJQ/fFAzvTCd4DUILrfMTCSO8FcuoAf9z8qffYZ0+TlU
- Yuwg==
-X-Gm-Message-State: AOAM533dSAvSU5MjEYCWf9TubG+TjGExS7TmvSJ7Qc/yHXUWJHZ+ONDP
- QpqIFvOLhKkkM1gH3Zo3cjw4/SaTg3/HDZdYGP4YGg==
-X-Google-Smtp-Source: ABdhPJzLayraX92F5ExK2PerL2QrJmLf6ZezJNrMC1/CktzzNPjfw7x0oVZIL17HC47bFBTcycOxPUjQQ0ev1TonDsY=
-X-Received: by 2002:aa7:c88a:: with SMTP id p10mr7183440eds.204.1612432853289; 
- Thu, 04 Feb 2021 02:00:53 -0800 (PST)
+ bh=Oy7+smgn1Cjo01XixnjTwDHXuEz3tlrtDi2O+vkrH7M=;
+ b=jBJFH76mQREmtUf0jvIB1Oc/mBK+q+Sdldd9A57zCR868QM5XrtKgmFApWqkYyWF0z
+ y7q4ETpwnx/zC9HbwndMViLJtvumSdwRi3fCo7oBY1MJY2v0YLijwlFTBBH0Qk8OGBMB
+ YNlVHEjxgAWZ529Bd8nSJIRtCtNqAcHX71KrPUsNLIcpQxxK5ZkPQDqHN6RRo62xmmhQ
+ hnBt+/yNV8ORFL5e7ZLbBnIcYdt7XXwHPfeWTDD9S/HVnKShGtUAtkq8wz3oTo4UHV5b
+ 6suu29yV2jqEYqyHnQ6oFJKhnK5q7h0Z0ioXWNjF4rKdJrJlZ0uRoUGWrD8JTfEkCv7g
+ uSKw==
+X-Gm-Message-State: AOAM533mwPMtriDRH6nA/wL19ab3UkIgHC6hBN5olHuK62/v7mYNhYLc
+ k1ogF0ChY7J650DcmHEZaVB2J/v3gCH2IxHQX2W+Ng==
+X-Google-Smtp-Source: ABdhPJyNYYPdfEgyhkywuVBv29HVHp0nIn2ojwDMawuaRA9sJyNmG8Bz2hHJqh9ir6VK9FPS905PL/BLLDus7HMmN44=
+X-Received: by 2002:a17:906:3603:: with SMTP id
+ q3mr7026276ejb.382.1612432956708; 
+ Thu, 04 Feb 2021 02:02:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20210203021550.375058-1-richard.henderson@linaro.org>
-In-Reply-To: <20210203021550.375058-1-richard.henderson@linaro.org>
+References: <20210204095834.345749-1-stefanha@redhat.com>
+In-Reply-To: <20210204095834.345749-1-stefanha@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Feb 2021 10:00:42 +0000
-Message-ID: <CAFEAcA-M5Xk1SimwtTgy0uio5V-R+PBGmNwgy_MNBEjHuaV0tw@mail.gmail.com>
-Subject: Re: [PULL 00/24] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 4 Feb 2021 10:02:25 +0000
+Message-ID: <CAFEAcA-jCbyuYQ_HPR2VB1OLZGJ7SebFZ3qz-eehUV=aWuA3Ng@mail.gmail.com>
+Subject: Re: [PULL 00/27] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,12 +77,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ John G Johnson <john.g.johnson@oracle.com>, "Denis V. Lunev" <den@openvz.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Feb 2021 at 02:15, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 4 Feb 2021 at 09:58, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
 > The following changes since commit 77f3804ab7ed94b471a14acb260e5aeacf26193f:
 >
@@ -89,22 +99,39 @@ On Wed, 3 Feb 2021 at 02:15, Richard Henderson
 >
 > are available in the Git repository at:
 >
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210202
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
 >
-> for you to fetch changes up to 0c823e596877a30fd6c17a1ae9f98218a53055ea:
+> for you to fetch changes up to 026362226f1ff6a1168524a326bbd6347ad40e85:
 >
->   tcg: Remove TCG_TARGET_CON_SET_H (2021-02-02 12:12:43 -1000)
->
-> ----------------------------------------------------------------
-> TCG backend constraints cleanup
+>   docs: fix Parallels Image "dirty bitmap" section (2021-02-03 16:48:21 +0000)
 >
 > ----------------------------------------------------------------
+> Pull request
+>
+> The pull request includes Multi-Process QEMU, GitLab repo URL updates, and even
+> a block layer patch to fix the Parallels Image format specification!
+>
+> ----------------------------------------------------------------
 
+This has merge conflicts:
 
-Applied, thanks.
+Auto-merging util/oslib-posix.c
+CONFLICT (content): Merge conflict in util/oslib-posix.c
+Auto-merging util/mmap-alloc.c
+CONFLICT (content): Merge conflict in util/mmap-alloc.c
+Auto-merging softmmu/physmem.c
+CONFLICT (content): Merge conflict in softmmu/physmem.c
+Auto-merging softmmu/memory.c
+CONFLICT (content): Merge conflict in softmmu/memory.c
+Auto-merging include/qemu/mmap-alloc.h
+Auto-merging include/exec/ram_addr.h
+CONFLICT (content): Merge conflict in include/exec/ram_addr.h
+Auto-merging include/exec/memory.h
+Auto-merging hw/Kconfig
+Automatic merge failed; fix conflicts and then commit the result.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+Can you rebase and resend, please?
 
+thanks
 -- PMM
 
