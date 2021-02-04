@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA6E30F4C7
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:20:00 +0100 (CET)
-Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB5430F4C9
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:21:20 +0100 (CET)
+Received: from localhost ([::1]:45514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7fUF-0005yQ-8F
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:19:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56802)
+	id 1l7fVW-00074F-Uq
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:21:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7fT5-0005Pk-Jb
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:18:47 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44010)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7fT3-0007av-Mu
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:18:47 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C17FEAD24;
- Thu,  4 Feb 2021 14:18:41 +0000 (UTC)
-Subject: Re: [PATCH v15 21/23] hw/core/cpu: call qemu_init_vcpu in
- cpu_common_realizefn
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Laurent Vivier <lvivier@redhat.com>
-References: <20210201100903.17309-1-cfontana@suse.de>
- <20210201100903.17309-22-cfontana@suse.de> <871rdxrt08.fsf@linaro.org>
- <7500a412-c94a-6990-eb48-9ee78bfb94e3@suse.de>
- <05980f44-88a6-6ef7-b263-07c2d898b8f0@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <483bc092-cf71-d2c2-59d7-861f3131c8e4@suse.de>
-Date: Thu, 4 Feb 2021 15:18:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1l7fUf-0006TH-KP
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:20:26 -0500
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:33200)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1l7fUV-0008KW-FE
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:20:19 -0500
+Received: by mail-qk1-x72f.google.com with SMTP id x81so3434093qkb.0
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 06:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aVWMu4BQWRyHyd01ehyCVpNb0rwxHTCgoW7Sb+vyrGs=;
+ b=nnflVOw1rYD89HVoVW59Wlh+vCmKjuZ2sBSWZmQya7EHHQe9a7V+J2qE/JCFTt25yx
+ yr1tfzKFG7KvOnSZkUUQkLfIdBG+YqK136kIBadCgOTFCUkopvwKjJzJtJeThNduUY+4
+ oKyQ1vV8IVFqFX1oCD9FNXcG3YlrtTt4G7TEUktkBfL/06k+ttW3P6L1CZtiEj2goEIS
+ tKPdqkd9TTHdVeoPICBmPcV78o5pcTzyrtHO2XB5NTGzKa7V8qa5ytPGSFHQYVcgXiQj
+ el6foHJV99w5hJ3hEEncZZ2tjLcSkLTe1G3xLtox0rkfT+kirIIHAA/GLq57JV71a11s
+ t69g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aVWMu4BQWRyHyd01ehyCVpNb0rwxHTCgoW7Sb+vyrGs=;
+ b=JBg0UghqrH/VzcU+wig4kHugqLhpgwF8gDaASyejDRsRTO/Lh+5txlM5aKFGeh2Dmn
+ OEF1h0Du61l2bxBy2cU/iUT0iR9qY9/jYC0RUeCfImJwma3c2pv1nwubKZqVXLXbLTVC
+ 1uSOt17wKmCXDXMmE0lT2qYa2/nI1/1NH1/CKZoJBRdqTXqRMpf12BU9yD9P9bxIwaza
+ Lu5u0hYU2jkT9MdgF/+fiwzln3/8MJ1/dMjZhVLrTMiJDXp3akbTSM4dp8zK5TZTq1qj
+ 6wdzejCMUECefIPouDDaflJBtki7//tuSdi6gYGxydvXf+zSgaril2yCJBgc7uauwbsh
+ Q2rg==
+X-Gm-Message-State: AOAM530EQm38kGH7jYOQEDyZnQo/PeMtaLuP6j2GL1DbAC9QQT/MIA9g
+ TYYjZ+yo7vT+m90m0llg2GnQm5SPDurSKjJCBsPZEg==
+X-Google-Smtp-Source: ABdhPJxzkcUrGt30tFwjALZ2fpuBftaBUaeQCe9Xd0D/4jrifPFFiTb+s+ddOex4QB1pNiJ0UVFpoZAdcYBTkRpspCk=
+X-Received: by 2002:a37:b105:: with SMTP id a5mr7470186qkf.83.1612448414377;
+ Thu, 04 Feb 2021 06:20:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <05980f44-88a6-6ef7-b263-07c2d898b8f0@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.182,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
+ <20201215162119.27360-10-zhangjiachen.jaycee@bytedance.com>
+ <20210204121538.GH3039@work-vm>
+In-Reply-To: <20210204121538.GH3039@work-vm>
+From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+Date: Thu, 4 Feb 2021 22:20:05 +0800
+Message-ID: <CAFQAk7jEsMD_FM0D+MyL4rzDPUOXsRpKw53nPmLoH_7-Tx3pDw@mail.gmail.com>
+Subject: Re: [External] Re: [RFC PATCH 9/9] virtiofsd: (work around) Comment
+ qsort in inflight I/O tracking
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f54dbb05ba83661c"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-qk1-x72f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,92 +79,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: virtio-fs@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
+ QEMU <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 2:41 PM, Philippe Mathieu-Daudé wrote:
-> On 2/4/21 11:23 AM, Claudio Fontana wrote:
->> On 2/3/21 5:51 PM, Alex Bennée wrote:
->>>
->>> Claudio Fontana <cfontana@suse.de> writes:
->>>
->>>> move the call to qemu_init_vcpu inside cpu_common_realizefn,
->>>> so it does not need to be done explicitly in each target cpu.
->>>>
->>>> Despite this, the way cpu realize is done continues to be not ideal;
->>>>
->>>> ideally the cpu_list_add would be done in common_cpu,
->>>> and in this case we could avoid even more redundant open coded
->>>> additional calls in target/xxx/cpu.c,
->>>>
->>>> but this cannot happen because target cpu code, plugins, etc
->>>> now all came to rely on cpu->index
->>>> (which is updated in cpu_list_add), since no particular order
->>>> was defined previously, so we are stuck with the freak call
->>>> order for the target cpu realizefn.
->>>>
->>>> After this patch the target/xxx/cpu.c realizefn body becomes:
->>>>
->>>> void mycpu_realizefn(DeviceState *dev, Error **errp)
->>>> {
->>>>     /* ... */
->>>>     cpu_exec_realizefn(CPU_STATE(dev), errp);
->>>>
->>>>     /* ... anything that needs done pre-qemu_vcpu_init */
->>>>
->>>>     xcc->parent_realize(dev, errp); /* does qemu_vcpu_init */
->>>>
->>>>     /* ... anything that needs to be done after qemu_vcpu_init */
->>>> }
->>>
->>> Uggh, introducing a magic order seems like inviting trouble for later
->>> on. Is there anyway we can improve things? Paolo?
->>>
->>
->>
->> The magic order is there already. I call it "freak order" instead of "magic", because this is more the result of uncontrolled code growth rather than the work of magic :-)
-> 
-> Eventually related to this unsolved problem:
-> 
->   cpu_reset() might modify architecture-specific fields allocated
->   by qemu_init_vcpu(). To avoid bugs similar to the one fixed in
->   commit 00d0f7cb66 when introducing new architectures, move the
->   cpu_reset() calls after qemu_init_vcpu().
+--000000000000f54dbb05ba83661c
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Philippe,
+On Thu, Feb 4, 2021 at 8:16 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
+wrote:
 
-> 
-> See discussion:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg686480.html
+> * Jiachen Zhang (zhangjiachen.jaycee@bytedance.com) wrote:
+> > This is a work around. The qsort function will malloc memory instead of
+> use
+> > stack memory when the resubmit_num is larger than 64 (total size larger
+> than
+> > 1024 Bytes). This will cause seccomp kill virtiofsd, so we comment qsort.
+> > This work around will not affect the correctness of inflight I/O
+> tracking.
+> >
+> > Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+>
+> That's an odd hack!   Just follow the audit log to see what seccomp was
+> upset by and add the right syscall.
+>
+> Dave
+>
+>
+We recently found the cause is sysinfo (2). We will revert this and add
+sysinfo to the
+whitelist in the 2nd version patchset. Thanks!
 
-thanks to the pointer, it is useful.
+Jiachen
 
-Maybe there is a point to try to face this challenge.
 
-If we could consistently move not only qemu_vcpu_init, but also reset in the common code in cpu_common_realizefn,
-and force the sequence: qemu_vcpu_init(); cpu_reset(); in there,
 
-and this actually works for all targets, maybe this could actually be an improvement.
+> > ---
+> >  contrib/libvhost-user/libvhost-user.c | 18 ------------------
+> >  1 file changed, 18 deletions(-)
+> >
+> > diff --git a/contrib/libvhost-user/libvhost-user.c
+> b/contrib/libvhost-user/libvhost-user.c
+> > index 8c97013e59..c226d5d915 100644
+> > --- a/contrib/libvhost-user/libvhost-user.c
+> > +++ b/contrib/libvhost-user/libvhost-user.c
+> > @@ -1167,20 +1167,6 @@ vu_check_queue_msg_file(VuDev *dev, VhostUserMsg
+> *vmsg)
+> >      return true;
+> >  }
+> >
+> > -static int
+> > -inflight_desc_compare(const void *a, const void *b)
+> > -{
+> > -    VuVirtqInflightDesc *desc0 = (VuVirtqInflightDesc *)a,
+> > -                        *desc1 = (VuVirtqInflightDesc *)b;
+> > -
+> > -    if (desc1->counter > desc0->counter &&
+> > -        (desc1->counter - desc0->counter) < VIRTQUEUE_MAX_SIZE * 2) {
+> > -        return 1;
+> > -    }
+> > -
+> > -    return -1;
+> > -}
+> > -
+> >  static int
+> >  vu_check_queue_inflights(VuDev *dev, VuVirtq *vq)
+> >  {
+> > @@ -1236,10 +1222,6 @@ vu_check_queue_inflights(VuDev *dev, VuVirtq *vq)
+> >              }
+> >          }
+> >
+> > -        if (vq->resubmit_num > 1) {
+> > -            qsort(vq->resubmit_list, vq->resubmit_num,
+> > -                  sizeof(VuVirtqInflightDesc), inflight_desc_compare);
+> > -        }
+> >          vq->counter = vq->resubmit_list[0].counter + 1;
+> >      }
+> >
+> > --
+> > 2.20.1
+> >
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
+>
 
-I could cook the change as at least an aspirational goal, if there is a way to test it maybe it could help targets get progressively fixed in that direction?
+--000000000000f54dbb05ba83661c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It should be an RFC outside of this context I guess.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 4, 2021 at 8:16 PM Dr. Da=
+vid Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.com">dgilbert@redhat=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">* Jiachen Zhang (<a href=3D"mailto:zhangjiachen.jaycee@bytedance.com" t=
+arget=3D"_blank">zhangjiachen.jaycee@bytedance.com</a>) wrote:<br>
+&gt; This is a work around. The qsort function will malloc memory instead o=
+f use<br>
+&gt; stack memory when the resubmit_num is larger than 64 (total size large=
+r than<br>
+&gt; 1024 Bytes). This will cause seccomp kill virtiofsd, so we comment qso=
+rt.<br>
+&gt; This work around will not affect the correctness of inflight I/O track=
+ing.<br>
+&gt; <br>
+&gt; Signed-off-by: Jiachen Zhang &lt;<a href=3D"mailto:zhangjiachen.jaycee=
+@bytedance.com" target=3D"_blank">zhangjiachen.jaycee@bytedance.com</a>&gt;=
+<br>
+&gt; Signed-off-by: Xie Yongji &lt;<a href=3D"mailto:xieyongji@bytedance.co=
+m" target=3D"_blank">xieyongji@bytedance.com</a>&gt;<br>
+<br>
+That&#39;s an odd hack!=C2=A0 =C2=A0Just follow the audit log to see what s=
+eccomp was<br>
+upset by and add the right syscall.<br>
+<br>
+Dave<br>
+<br></blockquote><div><br></div><div>We recently found the cause is sysinfo=
+ (2). We will revert this and add sysinfo to the</div><div>whitelist in the=
+ 2nd version patchset. Thanks!</div><div><br></div><div>Jiachen</div><div><=
+br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>
+&gt; ---<br>
+&gt;=C2=A0 contrib/libvhost-user/libvhost-user.c | 18 ------------------<br=
+>
+&gt;=C2=A0 1 file changed, 18 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-=
+user/libvhost-user.c<br>
+&gt; index 8c97013e59..c226d5d915 100644<br>
+&gt; --- a/contrib/libvhost-user/libvhost-user.c<br>
+&gt; +++ b/contrib/libvhost-user/libvhost-user.c<br>
+&gt; @@ -1167,20 +1167,6 @@ vu_check_queue_msg_file(VuDev *dev, VhostUserMs=
+g *vmsg)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return true;<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -static int<br>
+&gt; -inflight_desc_compare(const void *a, const void *b)<br>
+&gt; -{<br>
+&gt; -=C2=A0 =C2=A0 VuVirtqInflightDesc *desc0 =3D (VuVirtqInflightDesc *)a=
+,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 *desc1 =3D (VuVirtqInflightDesc *)b;<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 if (desc1-&gt;counter &gt; desc0-&gt;counter &amp;&amp;=
+<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 (desc1-&gt;counter - desc0-&gt;counter) &=
+lt; VIRTQUEUE_MAX_SIZE * 2) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1;<br>
+&gt; -=C2=A0 =C2=A0 }<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 return -1;<br>
+&gt; -}<br>
+&gt; -<br>
+&gt;=C2=A0 static int<br>
+&gt;=C2=A0 vu_check_queue_inflights(VuDev *dev, VuVirtq *vq)<br>
+&gt;=C2=A0 {<br>
+&gt; @@ -1236,10 +1222,6 @@ vu_check_queue_inflights(VuDev *dev, VuVirtq *v=
+q)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vq-&gt;resubmit_num &gt; 1) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qsort(vq-&gt;resubmit_list,=
+ vq-&gt;resubmit_num,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof=
+(VuVirtqInflightDesc), inflight_desc_compare);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vq-&gt;counter =3D vq-&gt;resubmit_l=
+ist[0].counter + 1;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -- <br>
+&gt; 2.20.1<br>
+&gt; <br>
+-- <br>
+Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com" target=3D"_=
+blank">dgilbert@redhat.com</a> / Manchester, UK<br>
+<br>
+</blockquote></div></div>
 
-Ciao, thanks,
-
-Claudio
-
-> 
->>
->> This patch attempts to remove one degree of freedom, but the current situation of cpu realizing is basically fubar. This patch attempts to improve things slightly,
->> but as mentioned elsewhere it basically fails to achieve the goal,
->>
->> so I am tempted to just retire it. Maybe someone interested could look at the situation with new eyes (possibly even me later on).
-> 
-
+--000000000000f54dbb05ba83661c--
 
