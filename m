@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE9230F002
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:56:25 +0100 (CET)
-Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E3930F016
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:02:45 +0100 (CET)
+Received: from localhost ([::1]:44450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7bNA-0001I5-Dl
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:56:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49210)
+	id 1l7bTB-0004cs-O2
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:02:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7bJu-0007is-29
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:53:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51358)
+ id 1l7bOW-00022F-Uf
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:57:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7bJs-0005nT-8u
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:53:01 -0500
+ id 1l7bOV-00087G-2w
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:57:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612432379;
+ s=mimecast20190719; t=1612432666;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=9tAkjk8CKXBxsCTpiJSWlNw5mbiJ+c2doexbNrv4YKQ=;
- b=UInIQPcWPcG5KwEXq4fybkG+QUWiiCriMN4DBfH2wLRCIh5ahDUspchQRwIYTjVYHc3ayQ
- llq1rcFZhsBKHnF4tLzrTho0zl22A9/WqBCkQXGq5MRjnBEybdANMyGsTaIv2FK/Ei4T0z
- LCWi4FNOTxmkeghBwiWyXPSxPUSgPrY=
+ bh=sfD0Iy1zkYa7/TyKZv5KGhUHpRh5I3j+5JrumN8Z4Wg=;
+ b=JF96q5G5lq/5GpFGUosdqVLd63xGFZX4wyWQSc0YMQcXo0j/AjKa0Kxw4PGFJpArg5pWg/
+ jAE9sUmg0H0DWcREdxeb4Yjq0DcrUFXx76khtXnaz2GN1k8lAlRRpWDRPGhGyNQ2QekoPg
+ xWDHcVEQonU1jhw1zhiW3GtEMAzT/cQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-VdxhkDBlOU-rwhcRtBEQSw-1; Thu, 04 Feb 2021 04:52:44 -0500
-X-MC-Unique: VdxhkDBlOU-rwhcRtBEQSw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-463-HSf1OME4MDalSKEdPxYcdA-1; Thu, 04 Feb 2021 04:57:44 -0500
+X-MC-Unique: HSf1OME4MDalSKEdPxYcdA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 055696D51E;
- Thu,  4 Feb 2021 09:52:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82ACC1020C25;
+ Thu,  4 Feb 2021 09:57:43 +0000 (UTC)
 Received: from redhat.com (ovpn-115-169.ams2.redhat.com [10.36.115.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D50D60CA0;
- Thu,  4 Feb 2021 09:51:48 +0000 (UTC)
-Date: Thu, 4 Feb 2021 09:51:45 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0976310016FA;
+ Thu,  4 Feb 2021 09:57:41 +0000 (UTC)
+Date: Thu, 4 Feb 2021 09:57:38 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Subject: Re: [PATCH v21 00/20] Initial support for multi-process Qemu
-Message-ID: <20210204095145.GC549438@redhat.com>
-References: <cover.1611938319.git.jag.raman@oracle.com>
- <20210203161150.GA241524@stefanha-x1.localdomain>
- <20210203200205.GA29182@flaka>
+To: Doug Evans <dje@google.com>
+Subject: Re: [PATCH v2 2/2] net: Add -ipv6-hostfwd option,
+ ipv6_hostfwd_add/remove commands
+Message-ID: <20210204095738.GD549438@redhat.com>
+References: <20210203213729.1940893-1-dje@google.com>
+ <20210203213729.1940893-3-dje@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20210203200205.GA29182@flaka>
+In-Reply-To: <20210203213729.1940893-3-dje@google.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,42 +81,65 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, alex.williamson@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, thanos.makatos@nutanix.com,
- kwolf@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 03, 2021 at 12:02:05PM -0800, Elena Ufimtseva wrote:
-> On Wed, Feb 03, 2021 at 04:11:50PM +0000, Stefan Hajnoczi wrote:
-> > On Fri, Jan 29, 2021 at 11:46:01AM -0500, Jagannathan Raman wrote:
-> > > This is the v21 of the patchset. This version has the following changes:
-> > 
-> > The docs/multi-process.rst file caused Sphinx to fail with "document
-> > isn't included in any toctree". I moved it into the system emulator
-> > documentation to resolve this. The new path is
-> > docs/system/multi-process.rst.
-> >
+On Wed, Feb 03, 2021 at 01:37:29PM -0800, dje--- via wrote:
+> These are identical to their ipv4 counterparts, but for ipv6.
 > 
-> Hi Stefan
+> Signed-off-by: Doug Evans <dje@google.com>
+> ---
+>  hmp-commands.hx     |  28 ++++++++++
+>  include/net/slirp.h |   2 +
+>  net/slirp.c         | 129 +++++++++++++++++++++++++++++++++++++++++++-
+>  qapi/net.json       |   4 ++
+>  4 files changed, 161 insertions(+), 2 deletions(-)
 > 
-> Ah, we did not --enable-docs and .travis.yml also disables them.
-> Will include into the tests we do for submission.
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index d4001f9c5d..bd51173472 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1392,6 +1392,34 @@ SRST
+>    Remove host-to-guest TCP or UDP redirection.
+>  ERST
+>  
+> +#ifdef CONFIG_SLIRP
+> +    {
+> +        .name       = "ipv6_hostfwd_add",
+> +        .args_type  = "arg1:s,arg2:s?",
+> +        .params     = "[netdev_id] [tcp|udp]:[hostaddr6]:hostport-[guestaddr6]:guestport",
+> +        .help       = "redirect TCP6 or UDP6 connections from host to guest (requires -net user)",
+> +        .cmd        = hmp_ipv6_hostfwd_add,
+> +    },
+> +#endif
+> +SRST
+> +``ipv6_hostfwd_add``
+> +  Redirect TCP6 or UDP6 connections from host to guest (requires -net user).
+> +ERST
+> +
+> +#ifdef CONFIG_SLIRP
+> +    {
+> +        .name       = "ipv6_hostfwd_remove",
+> +        .args_type  = "arg1:s,arg2:s?",
+> +        .params     = "[netdev_id] [tcp|udp]:[hostaddr6]:hostport",
+> +        .help       = "remove host-to-guest TCP6 or UDP6 redirection",
+> +        .cmd        = hmp_ipv6_hostfwd_remove,
+> +    },
+> +#endif
+> +SRST
+> +``ipv6_hostfwd_remove``
+> +  Remove host-to-guest TCP6 or UDP6 redirection.
+> +ERST
 
-FWIW if you're relying on travis for testing before submission that's
-something you'll want to change real soon. Travis has discontinued its
-free service and turned it into a one time free trial. So all QEMU
-primary CI is moving to GitLab CI now and we'll be deleting remaining
-travis CI jobs any day now.  All you need todo is have a fork of the
-main qemu repo on gitlab, and when you push to your forkk the CI
-pipeline will run in GitLab.
+DO we really need new commands for this ? It seems to me that we
+can reliably distinction IPv4 vs v6 from the address format, and
+thus existing commands can be adapted to support both.
 
+This is the way other command line options and monitor commands
+work for IPv4 vs IPv6 elsewhere in QEMU, so I think consistency
+is beneficial.  We already have the helper method inet_parse()
+that can do this parsing.
 
 Regards,
 Daniel
