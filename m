@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADEB30F032
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:13:14 +0100 (CET)
-Received: from localhost ([::1]:49238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB5E30F06B
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:21:32 +0100 (CET)
+Received: from localhost ([::1]:41758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7bdR-0002S4-Mv
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:13:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51858)
+	id 1l7blT-000356-LW
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:21:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7bRB-0004Eq-IN
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:00:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51809)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7bQy-0000qY-G4
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:00:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612432819;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+kMYK4+SI4YEuqtoT8f59PIAti8w/i9T3p9qxNeagpo=;
- b=KfvZVUgKeH5nn83MxA5WFAini1yeEbpc7A1f/SMqXDCkDv+zQzyiAkJ8a4xT7bqtf3OrF8
- tKfebyKX1u5i8jL4hGA7S1rD8qpIBjJ77cLrxeMIVif4s3Z4r/Lv8Kex9Ll/7XqkphOqw0
- QfZYrZw1yrWJrld8c7riYM6rzTI5hxA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-MkPC-z1VPU-h7JR8eL9uxA-1; Thu, 04 Feb 2021 05:00:17 -0500
-X-MC-Unique: MkPC-z1VPU-h7JR8eL9uxA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1A7480402E;
- Thu,  4 Feb 2021 10:00:16 +0000 (UTC)
-Received: from redhat.com (ovpn-115-169.ams2.redhat.com [10.36.115.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD1A85B697;
- Thu,  4 Feb 2021 10:00:12 +0000 (UTC)
-Date: Thu, 4 Feb 2021 10:00:09 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: gitlab containers are broken
-Message-ID: <20210204100009.GE549438@redhat.com>
-References: <567366a0-0e5a-3ab6-8e8e-ad66b46264b2@linaro.org>
- <756e4707-b0ae-f26c-6e09-67fe205ec098@redhat.com>
- <8238fe1d-c7c0-ab72-fa2f-c4cf9ce018bc@linaro.org>
- <6ec7bebe-587d-df2d-0221-e12cb6f4c775@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l7bRk-0004QW-JS
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:01:09 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:36768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l7bRX-00012D-QD
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:01:01 -0500
+Received: by mail-ed1-x531.google.com with SMTP id l12so3418155edt.3
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 02:00:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yTcW/eXW4WJdW3XzlWkBNbudEqakNA/chwoDbJWVV68=;
+ b=zT5lcY1XwXH3VLhJiL6QLaTKRrC7s5r5p0e/kAzTpFkPMRNuslmSqTUktR4yBA4S4w
+ vtB9pwc2XTpBjacNuDlWctAYKXeXEwAdnkM5OoN3+2hKcfwRaR02JntC2Rr05fYXg+KK
+ qFSqzGqrJuXJlItAhcHbPT4gyx9b2/FWFmdETH7imMFoAgmpOiyb5PUFhMcqs/ZrhKmW
+ K65WKADjWLhlCJ0ZFSDSFq47SgxBCR5vVjBTK4jUvFPwghG3RFVMCfsJIzF3NwDzaQuY
+ LXgbz78sWuKQczXYtL2d5IQtTXPYZgwMsDzERWgjpD4ZenoMEXSgRrDcaCMjNy9aY+wz
+ v+Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yTcW/eXW4WJdW3XzlWkBNbudEqakNA/chwoDbJWVV68=;
+ b=g/7uhBfBQOkdg/mD6pBOt2d9J9k73wyft+GX4svqu33rQ7TbIbQfl/6N20OQXaiPFQ
+ JXqbaLmA+Jr/oRqvr6CfjTcJBNT3JPD7esRIkLvKY14IKYKdY2vdOm2ckPMSI76v+BvB
+ uMtTEGsG3HzGd+LoDjJdBz0jyTb704I6PoGOtgDahEqHo/vAvkp20D6E8PVM88kGOSXN
+ W46Z2u6YP9MkqpRM+nmvzR2iJ5uAW+Qjiz5VjA2OwmmQ7MIx60bb/6bsFvqr2zpNDF+Q
+ 9jBV7HK/T6j+cQIBqbZkBrtAVJQ/fFAzvTCd4DUILrfMTCSO8FcuoAf9z8qffYZ0+TlU
+ Yuwg==
+X-Gm-Message-State: AOAM533dSAvSU5MjEYCWf9TubG+TjGExS7TmvSJ7Qc/yHXUWJHZ+ONDP
+ QpqIFvOLhKkkM1gH3Zo3cjw4/SaTg3/HDZdYGP4YGg==
+X-Google-Smtp-Source: ABdhPJzLayraX92F5ExK2PerL2QrJmLf6ZezJNrMC1/CktzzNPjfw7x0oVZIL17HC47bFBTcycOxPUjQQ0ev1TonDsY=
+X-Received: by 2002:aa7:c88a:: with SMTP id p10mr7183440eds.204.1612432853289; 
+ Thu, 04 Feb 2021 02:00:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6ec7bebe-587d-df2d-0221-e12cb6f4c775@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210203021550.375058-1-richard.henderson@linaro.org>
+In-Reply-To: <20210203021550.375058-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 4 Feb 2021 10:00:42 +0000
+Message-ID: <CAFEAcA-M5Xk1SimwtTgy0uio5V-R+PBGmNwgy_MNBEjHuaV0tw@mail.gmail.com>
+Subject: Re: [PULL 00/24] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,62 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 04, 2021 at 09:08:13AM +0100, Thomas Huth wrote:
-> On 04/02/2021 07.27, Richard Henderson wrote:
-> > On 2/3/21 8:03 PM, Thomas Huth wrote:
-> > > On 04/02/2021 00.04, Richard Henderson wrote:
-> > > > Something has gone wrong with the building of the containers
-> > > > in gitlab, because *all* off them are installing Alpine Linux.
-> > > > 
-> > > > https://gitlab.com/rth7680/qemu/-/jobs/1006336396#L155
-> > > 
-> > > I think that's ok ... the output about alpine that you see there is just the
-> > > output from the container that builds the final container. Later you can see
-> > > some "yum install" lines in that output, too, that's where the CentOS container
-> > > gets build. And the final compilation job runs on CentOS, too:
-> > > 
-> > >   https://gitlab.com/rth7680/qemu/-/jobs/1006336699#L35
-> > > 
-> > > (look for the string "Red Hat" there)
-> > 
-> > Hmm.  Is there any way to get the full output of the container build?  At
-> > present it's being truncated:
-> > 
-> > #7 [4/5] RUN yum install -y bzip2     bzip2-devel     ccache     csnappy-de...
-> > 
-> > 
-> > In particular, I'm trying to add a new test, and I have added libffi-devel.i686
-> > to the fedora-i386-cross.docker file, but then the actual build fails because
-> > the libffi header file is missing.
-> > 
-> > I know you may need the actual patch to comment, but pointers to how to debug
-> > this sort of failure are welcome.
-> 
-> I don't have a clue, all that container magic has been done by Daniel
-> initially - maybe he can help (now on CC:) ...
-
-I honestly never bother with the local QEMU container build sripts as
-they've over-engineered IMHO.  If I need to debug something locally
-I'd just do  "podman build -f path/to/docker-file /path/to/docker-dir".
-
-Alternatively just make your changes to the dockerfiles and thne push
-the branch to gitlab. Gitlab will run the build and you can pull down
-the docker image from your fork's docker registry
+On Wed, 3 Feb 2021 at 02:15, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit 77f3804ab7ed94b471a14acb260e5aeacf26193f:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-02-02 16:47:51 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210202
+>
+> for you to fetch changes up to 0c823e596877a30fd6c17a1ae9f98218a53055ea:
+>
+>   tcg: Remove TCG_TARGET_CON_SET_H (2021-02-02 12:12:43 -1000)
+>
+> ----------------------------------------------------------------
+> TCG backend constraints cleanup
+>
+> ----------------------------------------------------------------
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
