@@ -2,47 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F31130F104
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:39:10 +0100 (CET)
-Received: from localhost ([::1]:54898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E004530F107
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:40:48 +0100 (CET)
+Received: from localhost ([::1]:59610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7c2X-00049y-4g
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:39:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58990)
+	id 1l7c48-00069J-0e
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:40:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7bno-00073Y-K2
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:23:56 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7bnm-0002lp-Sc
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:23:56 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0FB49B004;
- Thu,  4 Feb 2021 10:23:53 +0000 (UTC)
-Subject: Re: [PATCH v15 21/23] hw/core/cpu: call qemu_init_vcpu in
- cpu_common_realizefn
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210201100903.17309-1-cfontana@suse.de>
- <20210201100903.17309-22-cfontana@suse.de> <871rdxrt08.fsf@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <7500a412-c94a-6990-eb48-9ee78bfb94e3@suse.de>
-Date: Thu, 4 Feb 2021 11:23:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7bwX-0007Bg-V0
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:32:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41344)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7bwU-0006bf-QX
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:32:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612434773;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/osaP0MbFpclO3OzMpiNU8BhjWGIfaBgDOYDFB56zjg=;
+ b=DyWbb99rdTY11yV2U6FywPUFNyP0AWRPwTc3WU422nfhkS/FACoTckBmDR37BNqIdl1Ucy
+ iUEdc/4wE+qwrSYKsCFahyE5gwZvAcfq69EF/C3mBZ/YJbOXgGBsB8WbA/joqSMpv4Y8vp
+ lEuUXQqVWFgEW/Y9fCuN5+PAgEpI0AM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-Oy5oo7X0O---JJM2P9pibw-1; Thu, 04 Feb 2021 05:32:49 -0500
+X-MC-Unique: Oy5oo7X0O---JJM2P9pibw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 378CA36492;
+ Thu,  4 Feb 2021 10:32:48 +0000 (UTC)
+Received: from work-vm (ovpn-114-21.ams2.redhat.com [10.36.114.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6D285B698;
+ Thu,  4 Feb 2021 10:32:45 +0000 (UTC)
+Date: Thu, 4 Feb 2021 10:32:43 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v4 18/18] migration/rdma: RDMA cleanup for multifd
+ migration
+Message-ID: <20210204103243.GF3039@work-vm>
+References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
+ <1612339311-114805-19-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <871rdxrt08.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.178,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <1612339311-114805-19-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,67 +80,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/21 5:51 PM, Alex Bennée wrote:
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> ---
+>  migration/multifd.c |  6 ++++++
+>  migration/multifd.h |  1 +
+>  migration/rdma.c    | 16 +++++++++++++++-
+>  3 files changed, 22 insertions(+), 1 deletion(-)
 > 
-> Claudio Fontana <cfontana@suse.de> writes:
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 1186246..4031648 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -577,6 +577,9 @@ void multifd_save_cleanup(void)
+>          p->packet_len = 0;
+>          g_free(p->packet);
+>          p->packet = NULL;
+> +#ifdef CONFIG_RDMA
+> +        multifd_rdma_cleanup(p->rdma);
+> +#endif
+
+You may find it easier to add an entry into stubs/ for
+multifd_rdma_cleanup; it then avoids the need for the ifdef.
+
+>          multifd_send_state->ops->send_cleanup(p, &local_err);
+>          if (local_err) {
+>              migrate_set_error(migrate_get_current(), local_err);
+> @@ -1039,6 +1042,9 @@ int multifd_load_cleanup(Error **errp)
+>          p->packet_len = 0;
+>          g_free(p->packet);
+>          p->packet = NULL;
+> +#ifdef CONFIG_RDMA
+> +        multifd_rdma_cleanup(p->rdma);
+> +#endif
+>          multifd_recv_state->ops->recv_cleanup(p);
+>      }
+>      qemu_sem_destroy(&multifd_recv_state->sem_sync);
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index 26d4489..0ecec5e 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -183,6 +183,7 @@ typedef struct {
+>  
+>  #ifdef CONFIG_RDMA
+>  extern MultiFDSetup multifd_rdma_ops;
+> +void multifd_rdma_cleanup(void *opaque);
+>  #endif
+>  void multifd_send_terminate_threads(Error *err);
+>  int multifd_send_initial_packet(MultiFDSendParams *p, Error **errp);
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index c19a91f..f14357f 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -2369,7 +2369,7 @@ static void qemu_rdma_cleanup(RDMAContext *rdma)
+>  {
+>      int idx;
+>  
+> -    if (rdma->cm_id && rdma->connected) {
+> +    if (rdma->channel && rdma->cm_id && rdma->connected) {
+>          if ((rdma->error_state ||
+>               migrate_get_current()->state == MIGRATION_STATUS_CANCELLING) &&
+>              !rdma->received_error) {
+> @@ -4599,6 +4599,20 @@ static void multifd_rdma_recv_channel_setup(QIOChannel *ioc,
+>      return;
+>  }
+>  
+> +void multifd_rdma_cleanup(void *opaque)
+
+I think you need to make it clear that this is only to cleanup one
+channel, rather than the whole multifd-rdma connection;
+multifd_load_cleanup for example cleans up all the channels, where as I
+think this is only doing one?
+
+Don't use a 'void *opaque' except for something that's called via
+a registration/callback scheme that's designed to be generic
+(e.g. multifd_send_thread does it because it's called from
+qemu_thread_create that doesn't know the type).  Where you know
+the type, use it!
+
+> +{
+> +    RDMAContext *rdma = (RDMAContext *)opaque;
+> +
+> +    if (!migrate_use_rdma()) {
+> +        return;
+> +    }
+> +
+> +    rdma->listen_id = NULL;
+> +    rdma->channel = NULL;
+> +    qemu_rdma_cleanup(rdma);
+> +    g_free(rdma);
+> +}
+> +
+>  MultiFDSetup multifd_rdma_ops = {
+>      .send_thread = multifd_rdma_send_thread,
+>      .recv_thread = multifd_rdma_recv_thread,
+> -- 
+> 1.8.3.1
 > 
->> move the call to qemu_init_vcpu inside cpu_common_realizefn,
->> so it does not need to be done explicitly in each target cpu.
->>
->> Despite this, the way cpu realize is done continues to be not ideal;
->>
->> ideally the cpu_list_add would be done in common_cpu,
->> and in this case we could avoid even more redundant open coded
->> additional calls in target/xxx/cpu.c,
->>
->> but this cannot happen because target cpu code, plugins, etc
->> now all came to rely on cpu->index
->> (which is updated in cpu_list_add), since no particular order
->> was defined previously, so we are stuck with the freak call
->> order for the target cpu realizefn.
->>
->> After this patch the target/xxx/cpu.c realizefn body becomes:
->>
->> void mycpu_realizefn(DeviceState *dev, Error **errp)
->> {
->>     /* ... */
->>     cpu_exec_realizefn(CPU_STATE(dev), errp);
->>
->>     /* ... anything that needs done pre-qemu_vcpu_init */
->>
->>     xcc->parent_realize(dev, errp); /* does qemu_vcpu_init */
->>
->>     /* ... anything that needs to be done after qemu_vcpu_init */
->> }
-> 
-> Uggh, introducing a magic order seems like inviting trouble for later
-> on. Is there anyway we can improve things? Paolo?
-> 
-
-
-The magic order is there already. I call it "freak order" instead of "magic", because this is more the result of uncontrolled code growth rather than the work of magic :-)
-
-This patch attempts to remove one degree of freedom, but the current situation of cpu realizing is basically fubar. This patch attempts to improve things slightly,
-but as mentioned elsewhere it basically fails to achieve the goal,
-
-so I am tempted to just retire it. Maybe someone interested could look at the situation with new eyes (possibly even me later on).
-
-Ciao,
-
-Claudio
-
-
-
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
