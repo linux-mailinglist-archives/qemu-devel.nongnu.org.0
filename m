@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC4130F40A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 14:42:27 +0100 (CET)
-Received: from localhost ([::1]:44304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FB530F40D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 14:44:23 +0100 (CET)
+Received: from localhost ([::1]:46982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ett-0004lz-G6
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 08:42:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44878)
+	id 1l7evm-0005yY-CQ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 08:44:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7esv-0004HI-NQ
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:41:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58021)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7euy-0005TQ-N5
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:43:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7est-0007wR-AZ
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:41:25 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7eux-0000Ot-5Y
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:43:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612446082;
+ s=mimecast20190719; t=1612446210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UY3HeSFQU1gYw0AOW9igLbtTne46XsofYnEUcAhBLHk=;
- b=ZxYOfnSj9ZS+eJPg/JTVP7n6prQcarL6DtmR9QsQvKV9qbJivzRvrAQewSBkaXKxSuLL4j
- /FRNBtdptrd4rX3d0h9wvPKRsIWY0oCyKqudeUOCxtcsDNuz+72Mb/Y2wfYc0v1zYVyDD7
- EBYuZSer72lCUd65F5jZNf4XtxgXYr8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-532-AS1r6aVBPpOzK1q2no6OPA-1; Thu, 04 Feb 2021 08:41:19 -0500
-X-MC-Unique: AS1r6aVBPpOzK1q2no6OPA-1
-Received: by mail-ed1-f70.google.com with SMTP id u19so2838120edr.1
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 05:41:19 -0800 (PST)
+ bh=PFWhTpLd2/gwhN22gIam3Xo0mOxIYh/4or06cKui9sc=;
+ b=LrpuWg0Yw/CXqtMktvYIXaWvqOt3cqwFgsvkCDUHpoSOAPyGLIu55TR9xbr2nx94YHfZwo
+ KTILluBBqS9V4D7N+mqTCVS3CIRml6wx8sJjbJfwjP56UWxnGfUDDkoQCX3qHro0VZcc8Z
+ wa3LNx5Ubl0oIDhxomU8e1XpgeJHm6E=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-v_N2yYYnNAytClwAxCez0Q-1; Thu, 04 Feb 2021 08:43:22 -0500
+X-MC-Unique: v_N2yYYnNAytClwAxCez0Q-1
+Received: by mail-ed1-f72.google.com with SMTP id o8so2803974edh.12
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 05:43:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=UY3HeSFQU1gYw0AOW9igLbtTne46XsofYnEUcAhBLHk=;
- b=QPy9lTYKqndj53KGAJBYUSHlPW1lkkAl+mx7BCs34vf2ox3aLApavNdx3ZdMe2pPyd
- jFciIvHdftaJfq8LKxoB067S5aXMY651x5Ztdy8gNcj2F7DoZJ43YAOEebvN4995SWUB
- CGN5nLHki/WjXUiI4jpnFLKdczO5QSRi5Eo+HDpls13H3IZ8BRHWzT0NEbaohdLkTFxU
- jpDaYIgts/xw9J8psd8Dt0XgP+x8D2hmjPfyh1vW+qU1y+o4ivJPDjHzjcUnfZ8/idkF
- JLBMZABWJ9eaIt3dcoS5amD3XriJD5emJ6KNIQT03eIXRK0ov7RpJoMKZikj9FW+kfmx
- /1QQ==
-X-Gm-Message-State: AOAM532uyPJtWPBgZ+W0f0ntmQPcFNA6BXXWcz/Be/b2+xPgS2t5cLK8
- 5y2EN8mwgA/hjhYIacvQR9YtqApikUFD1ZrKbdqJTt+4xL3o1HAECqoJIjFpv99+HVZflNab2BD
- YFj4j2Ozf68L90tk=
-X-Received: by 2002:a17:906:b756:: with SMTP id
- fx22mr7650084ejb.406.1612446078380; 
- Thu, 04 Feb 2021 05:41:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzoqXXeN40DKwFwhNHWwRlwEBZxAcN1w7/zRhTifNYLtAvY03l9d7z0ji+nhDoj6dIKUl5Knw==
-X-Received: by 2002:a17:906:b756:: with SMTP id
- fx22mr7650069ejb.406.1612446078180; 
- Thu, 04 Feb 2021 05:41:18 -0800 (PST)
+ bh=PFWhTpLd2/gwhN22gIam3Xo0mOxIYh/4or06cKui9sc=;
+ b=khlnjN0fNzfQjsmkox3ONUfQ1yh+3kUvgIwN1QCfoy6EUykhk7XKosaX0eT8j5Ffut
+ 3LPx2R7bMLReH9n1QbmJj9putdVw3XCSqhUAIeAxgrGBtnnCzivGHAcqEu3Bi0YoOuzQ
+ oyUqmhqjJ31s1rUSlMjChIVWkHlRLbZYffcgd8QoZJs8Z/UwsCbG98c/xm58zKZ/RJHo
+ Uld8kdLxluIub8fxSVXU4UAxh9N0vw4D52hbO2lWepJjX+eGIzuK32UWYeZfRYEOpR15
+ hv7PH/9EPvbtn0pBoL61jt/jQrKGiILTG1fsOesvVXNcZ91rbM0lR3HlQxfA6Y78D2Jo
+ EVLw==
+X-Gm-Message-State: AOAM531w3Gfpquiah8ac/olalmOH6wkG2mpkh/W5mhkv8N4uaQIxX3G3
+ 56U/mgNlFEVdv++HGrIW2adFQQbN6QsZbMFJ9CBpFYzNX+eXvvNj7KjHxM+J3f5f2A/YMvoPpHV
+ V4v85upqafTa3C7k=
+X-Received: by 2002:a50:8b66:: with SMTP id l93mr7773110edl.384.1612446201786; 
+ Thu, 04 Feb 2021 05:43:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyaiBhsiU8rP4uVrmS3V0k4rpOx9Q6/O8fnqhWjJUQJ+QD8eyo2z1FXGyVwwPUrydgxsO59iA==
+X-Received: by 2002:a50:8b66:: with SMTP id l93mr7773104edl.384.1612446201677; 
+ Thu, 04 Feb 2021 05:43:21 -0800 (PST)
 Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id a7sm2484771eje.96.2021.02.04.05.41.14
+ by smtp.gmail.com with ESMTPSA id er1sm2498155ejc.69.2021.02.04.05.43.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 05:41:15 -0800 (PST)
-Subject: Re: [PATCH v15 21/23] hw/core/cpu: call qemu_init_vcpu in
- cpu_common_realizefn
-To: Claudio Fontana <cfontana@suse.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20210201100903.17309-1-cfontana@suse.de>
- <20210201100903.17309-22-cfontana@suse.de> <871rdxrt08.fsf@linaro.org>
- <7500a412-c94a-6990-eb48-9ee78bfb94e3@suse.de>
+ Thu, 04 Feb 2021 05:43:20 -0800 (PST)
+Subject: Re: [PATCH v2 03/20] vhost-user-gpu: use an extandable state enum for
+ commands
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <05980f44-88a6-6ef7-b263-07c2d898b8f0@redhat.com>
-Date: Thu, 4 Feb 2021 14:41:13 +0100
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210204105232.834642-1-marcandre.lureau@redhat.com>
+ <20210204105232.834642-4-marcandre.lureau@redhat.com>
+ <b820bcfc-4e98-8a33-23ab-f76548443a51@redhat.com>
+Message-ID: <c3ae91d7-5f39-b706-12e2-4e0bbc46e143@redhat.com>
+Date: Thu, 4 Feb 2021 14:43:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <7500a412-c94a-6990-eb48-9ee78bfb94e3@suse.de>
+In-Reply-To: <b820bcfc-4e98-8a33-23ab-f76548443a51@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -104,69 +100,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 11:23 AM, Claudio Fontana wrote:
-> On 2/3/21 5:51 PM, Alex Bennée wrote:
+On 2/4/21 12:26 PM, Philippe Mathieu-Daudé wrote:
+> On 2/4/21 11:52 AM, marcandre.lureau@redhat.com wrote:
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 >>
->> Claudio Fontana <cfontana@suse.de> writes:
+>> Introduce a pending state for commands which aren't finished yet, but
+>> are being handled. See following patch.
 >>
->>> move the call to qemu_init_vcpu inside cpu_common_realizefn,
->>> so it does not need to be done explicitly in each target cpu.
->>>
->>> Despite this, the way cpu realize is done continues to be not ideal;
->>>
->>> ideally the cpu_list_add would be done in common_cpu,
->>> and in this case we could avoid even more redundant open coded
->>> additional calls in target/xxx/cpu.c,
->>>
->>> but this cannot happen because target cpu code, plugins, etc
->>> now all came to rely on cpu->index
->>> (which is updated in cpu_list_add), since no particular order
->>> was defined previously, so we are stuck with the freak call
->>> order for the target cpu realizefn.
->>>
->>> After this patch the target/xxx/cpu.c realizefn body becomes:
->>>
->>> void mycpu_realizefn(DeviceState *dev, Error **errp)
->>> {
->>>     /* ... */
->>>     cpu_exec_realizefn(CPU_STATE(dev), errp);
->>>
->>>     /* ... anything that needs done pre-qemu_vcpu_init */
->>>
->>>     xcc->parent_realize(dev, errp); /* does qemu_vcpu_init */
->>>
->>>     /* ... anything that needs to be done after qemu_vcpu_init */
->>> }
+>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>> ---
+>>  contrib/vhost-user-gpu/vugpu.h          | 8 +++++++-
+>>  contrib/vhost-user-gpu/vhost-user-gpu.c | 8 ++++----
+>>  contrib/vhost-user-gpu/virgl.c          | 2 +-
+>>  3 files changed, 12 insertions(+), 6 deletions(-)
 >>
->> Uggh, introducing a magic order seems like inviting trouble for later
->> on. Is there anyway we can improve things? Paolo?
->>
+>> diff --git a/contrib/vhost-user-gpu/vugpu.h b/contrib/vhost-user-gpu/vugpu.h
+>> index 86f3ac86aa..04d5615812 100644
+>> --- a/contrib/vhost-user-gpu/vugpu.h
+>> +++ b/contrib/vhost-user-gpu/vugpu.h
+>> @@ -129,12 +129,18 @@ typedef struct VuGpu {
+>>      QTAILQ_HEAD(, virtio_gpu_ctrl_command) fenceq;
+>>  } VuGpu;
+>>  
+>> +enum {
+>> +    VG_CMD_STATE_NEW,
 > 
+> Maybe VG_CMD_STATE_STARTING?
 > 
-> The magic order is there already. I call it "freak order" instead of "magic", because this is more the result of uncontrolled code growth rather than the work of magic :-)
-
-Eventually related to this unsolved problem:
-
-  cpu_reset() might modify architecture-specific fields allocated
-  by qemu_init_vcpu(). To avoid bugs similar to the one fixed in
-  commit 00d0f7cb66 when introducing new architectures, move the
-  cpu_reset() calls after qemu_init_vcpu().
-
-See discussion:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg686480.html
-
+>> +    VG_CMD_STATE_PENDING,
 > 
-> This patch attempts to remove one degree of freedom, but the current situation of cpu realizing is basically fubar. This patch attempts to improve things slightly,
-> but as mentioned elsewhere it basically fails to achieve the goal,
+> Maybe introduce VG_CMD_STATE_PENDING in the
+> patch using it.
 > 
-> so I am tempted to just retire it. Maybe someone interested could look at the situation with new eyes (possibly even me later on).
+>> +    VG_CMD_STATE_FINISHED,
+>> +};
+> 
+> Can we use a typedef ...
+> 
+>> +
+>>  struct virtio_gpu_ctrl_command {
+>>      VuVirtqElement elem;
+>>      VuVirtq *vq;
+>>      struct virtio_gpu_ctrl_hdr cmd_hdr;
+>>      uint32_t error;
+>> -    bool finished;
+>> +    int state;
+> 
+> ... and use it here?
+> 
+> Or directly declare in place:
+> 
+>        enum {
+>            VG_CMD_STATE_STARTING,
+>            VG_CMD_STATE_PENDING,
+>            VG_CMD_STATE_FINISHED,
+>        } state;
+> 
+>>      QTAILQ_ENTRY(virtio_gpu_ctrl_command) next;
+>>  };
+>>  
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Since Gerd was willing to queue v1, feel free to ignore my
+comments at this point. R-b stands.
 
 
