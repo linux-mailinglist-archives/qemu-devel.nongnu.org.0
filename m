@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A3430FD0F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:41:43 +0100 (CET)
-Received: from localhost ([::1]:52628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181D030FD18
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:43:51 +0100 (CET)
+Received: from localhost ([::1]:32794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kVa-0002wI-1R
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:41:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51646)
+	id 1l7kXd-0006Wh-PW
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:43:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l7kFd-0004SN-J2; Thu, 04 Feb 2021 14:25:17 -0500
-Resent-Date: Thu, 04 Feb 2021 14:25:13 -0500
-Resent-Message-Id: <E1l7kFd-0004SN-J2@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21320)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l7kFa-0008Mc-1d; Thu, 04 Feb 2021 14:25:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1612466691; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cYCJO9MmQL7EU4uy/kWY9csxctytOxEdIO8Oi0kuIzuX1r1HAAmSHezjtUxqVwjgdSlOnCg7WFf500GF+tUpbv2h0aMR5swSFijcgIww0xqK5vJhSxPiFCpxkorkFW8IEreq3z1XO8ZwqBBipUIxdUIfFmHVEEwEevHu+rbGxWU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1612466691;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=/rATe4C0o+lzbjv1iRjExdllaLVtB8Vgmp3pzugvmmQ=; 
- b=EIPSyT3966RpJYgOk1j4HO27hYnz8sE0e6xOrf0Y1JuXQqMNMLk8YVd8Wapzcg/wgExtS+QcFvx81obqjSHxCEpKFA5Hxi/rEI2YPAzQpkLsE+ypyyfvvrtdwrdv4/dWIKYrMPgteqdPrbVT/48PTitY3BVnOltrX9S+1HWPExY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1612466689300688.612024442736;
- Thu, 4 Feb 2021 11:24:49 -0800 (PST)
-In-Reply-To: <20210204183439.546918-1-dgilbert@redhat.com>
-Subject: Re: [PULL 0/5] virtiofs queue: Security fix
-Message-ID: <161246668791.30579.7760426288477164722@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7kHL-0006TM-ER
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:26:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7kHI-0000mu-RH
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:26:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612466814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VzA6bF2AfWvN7JOpobb80RhLY3ZUPcm/irvy9qYtoJA=;
+ b=PH1bm+CE7g5hEFs0l/48uLmJB6vVeS73+KZpCWE+t+fTLHpwfs1ZUoU9rGWt8Ai132J+i+
+ V+fVfkZwrcfqXUltPdgApjZCWKMW9k0w+z5GTY44VhKM9mHjC7TOqGF59bgDah3SuCixhH
+ 0CPKCt3GNohHTSI4H/+8kqt2ehSwGhM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-oGzIELw_Ot2-TCoLUVti9g-1; Thu, 04 Feb 2021 14:25:18 -0500
+X-MC-Unique: oGzIELw_Ot2-TCoLUVti9g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF836DF8A4;
+ Thu,  4 Feb 2021 19:25:17 +0000 (UTC)
+Received: from [10.36.113.146] (ovpn-113-146.ams2.redhat.com [10.36.113.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 01BC65C257;
+ Thu,  4 Feb 2021 19:25:15 +0000 (UTC)
+Subject: Re: [PATCH] tcg/s390: Fix compare instruction from extended-immediate
+ facility
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210204182902.1742826-1-f4bug@amsat.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <fb601524-f90d-ec3b-b43d-634dfd7b5f03@redhat.com>
+Date: Thu, 4 Feb 2021 20:25:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dgilbert@redhat.com
-Date: Thu, 4 Feb 2021 11:24:49 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210204182902.1742826-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,50 +83,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: virtio-fs@redhat.com, qemu-stable@nongnu.org, qemu-devel@nongnu.org,
- stefanha@redhat.com, groug@kaod.org
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Richard W . M . Jones" <rjones@redhat.com>, qemu-s390x@nongnu.org,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIwNDE4MzQzOS41NDY5
-MTgtMS1kZ2lsYmVydEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAyMDQxODM0MzkuNTQ2
-OTE4LTEtZGdpbGJlcnRAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwLzVdIHZpcnRpb2ZzIHF1
-ZXVlOiBTZWN1cml0eSBmaXgKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gK
-Z2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1
-ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9j
-aGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpV
-cGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0
-cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAg
-IHBhdGNoZXcvMjAyMTAyMDQxODM0MzkuNTQ2OTE4LTEtZGdpbGJlcnRAcmVkaGF0LmNvbSAtPiBw
-YXRjaGV3LzIwMjEwMjA0MTgzNDM5LjU0NjkxOC0xLWRnaWxiZXJ0QHJlZGhhdC5jb20KU3dpdGNo
-ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpjYzU4YTBjIHZpcnRpb2ZzZDogQWRkIHJlc3RhcnRf
-c3lzY2FsbCB0byB0aGUgc2VjY29tcCB3aGl0ZWxpc3QKYmM4ODFlZCB2aXJ0aW9mc2Q6IEFkZCBf
-bGxzZWVrIHRvIHRoZSBzZWNjb21wIHdoaXRlbGlzdAo0NDliMzBmIHZpcnRpb2ZzZDogcHJldmVu
-dCBvcGVuaW5nIG9mIHNwZWNpYWwgZmlsZXMgKENWRS0yMDIwLTM1NTE3KQo1ZGExMmZlIHZpcnRp
-b2ZzZDogb3B0aW9uYWxseSByZXR1cm4gaW5vZGUgcG9pbnRlciBmcm9tIGxvX2RvX2xvb2t1cCgp
-CjM2OTAzODcgdmlydGlvZnNkOiBleHRyYWN0IGxvX2RvX29wZW4oKSBmcm9tIGxvX29wZW4oKQoK
-PT09IE9VVFBVVCBCRUdJTiA9PT0KMS81IENoZWNraW5nIGNvbW1pdCAzNjkwMzg3YTNiYzIgKHZp
-cnRpb2ZzZDogZXh0cmFjdCBsb19kb19vcGVuKCkgZnJvbSBsb19vcGVuKCkpCkVSUk9SOiByZXR1
-cm4gb2YgYW4gZXJybm8gc2hvdWxkIHR5cGljYWxseSBiZSAtdmUgKHJldHVybiAtRU5PTUVNKQoj
-NzI6IEZJTEU6IHRvb2xzL3ZpcnRpb2ZzZC9wYXNzdGhyb3VnaF9sbC5jOjE2NzQ6CisgICAgICAg
-IHJldHVybiBFTk9NRU07Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDExNCBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAxLzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIvNSBDaGVja2lu
-ZyBjb21taXQgNWRhMTJmZTYxZjUwICh2aXJ0aW9mc2Q6IG9wdGlvbmFsbHkgcmV0dXJuIGlub2Rl
-IHBvaW50ZXIgZnJvbSBsb19kb19sb29rdXAoKSkKMy81IENoZWNraW5nIGNvbW1pdCA0NDliMzBm
-Y2M3YmUgKHZpcnRpb2ZzZDogcHJldmVudCBvcGVuaW5nIG9mIHNwZWNpYWwgZmlsZXMgKENWRS0y
-MDIwLTM1NTE3KSkKNC81IENoZWNraW5nIGNvbW1pdCBiYzg4MWVkNTRlZTggKHZpcnRpb2ZzZDog
-QWRkIF9sbHNlZWsgdG8gdGhlIHNlY2NvbXAgd2hpdGVsaXN0KQo1LzUgQ2hlY2tpbmcgY29tbWl0
-IGNjNThhMGM3ZjFhMCAodmlydGlvZnNkOiBBZGQgcmVzdGFydF9zeXNjYWxsIHRvIHRoZSBzZWNj
-b21wIHdoaXRlbGlzdCkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdp
-dGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcu
-b3JnL2xvZ3MvMjAyMTAyMDQxODM0MzkuNTQ2OTE4LTEtZGdpbGJlcnRAcmVkaGF0LmNvbS90ZXN0
-aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
-aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91
-ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 04.02.21 19:29, Philippe Mathieu-Daudé wrote:
+> The code is currently comparing c2 to the type promotion of
+> uint32_t and int32_t. That is, the conversion rules are as:
+> 
+>    (common_type) c2 == (common_type) (uint32_t)
+>                          (is_unsigned
+>                          ? (uint32_t)c2
+>                          : (uint32_t)(int32_t)c2)
+> 
+> In the signed case we lose the desired sign extensions because
+> of the argument promotion rules of the ternary operator.
+> 
+> Solve the problem by doing the round-trip parsing through the
+> intermediate type and back to the desired common type (all at
+> one expression).
+> 
+> Fixes: a534bb15f30 ("tcg/s390: Use constant pool for cmpi")
+> Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> Suggested-by: David Hildenbrand <david@redhat.com>
+> Suggested-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   tcg/s390/tcg-target.c.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+> index b67470137c4..695d7ee6523 100644
+> --- a/tcg/s390/tcg-target.c.inc
+> +++ b/tcg/s390/tcg-target.c.inc
+> @@ -1067,7 +1067,7 @@ static int tgen_cmp(TCGContext *s, TCGType type, TCGCond c, TCGReg r1,
+>                   op = (is_unsigned ? RIL_CLFI : RIL_CFI);
+>                   tcg_out_insn_RIL(s, op, r1, c2);
+>                   goto exit;
+> -            } else if (c2 == (is_unsigned ? (uint32_t)c2 : (int32_t)c2)) {
+> +            } else if (c2 == (is_unsigned ? (TCGArg)(uint32_t)c2 : (TCGArg)(int32_t)c2)) {
+>                   op = (is_unsigned ? RIL_CLGFI : RIL_CGFI);
+>                   tcg_out_insn_RIL(s, op, r1, c2);
+>                   goto exit;
+> 
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
