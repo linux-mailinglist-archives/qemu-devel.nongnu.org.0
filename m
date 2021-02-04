@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8462430EF5A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:14:39 +0100 (CET)
-Received: from localhost ([::1]:54626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD78B30EFA3
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:27:55 +0100 (CET)
+Received: from localhost ([::1]:34112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7aij-0007C2-OV
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:14:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40534)
+	id 1l7ava-0002jE-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:27:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7ahB-0006Rt-BT
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:13:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29525)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l7auK-0002Hl-Cn
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:26:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7ah8-0004ZX-RC
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:13:00 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l7auH-0002MN-TV
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:26:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612429977;
+ s=mimecast20190719; t=1612430791;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sjPtFdm7Fs35zlO3xh27VWqcG9XGCSsGcPvCuPEt/BA=;
- b=d3B9fSyCMEGF6axjP2unuOKDMH9KRLSlXt3jQOQPjRjNS2a38UfQgQ7s2ouU5a9KFFVgic
- R6PHpmdNbLhVBhWFURqLE5lqU2+lD7PVzrbu0YObyWYegjvRtRmjmRQm0UKx6c6W8T0CvB
- WybxAWtzWnQ1fKuACjEj7X7xf3gS90c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-CZPvZpZfNi-KCv3nNeaZ-Q-1; Thu, 04 Feb 2021 04:12:55 -0500
-X-MC-Unique: CZPvZpZfNi-KCv3nNeaZ-Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75A9B107ACF8;
- Thu,  4 Feb 2021 09:12:54 +0000 (UTC)
-Received: from [10.36.113.146] (ovpn-113-146.ams2.redhat.com [10.36.113.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFB1060C13;
- Thu,  4 Feb 2021 09:12:53 +0000 (UTC)
-To: "Richard W.M. Jones" <rjones@redhat.com>
-References: <28457ae1-7e9b-4428-cb10-3b79ebeac8d0@linaro.org>
- <19D304C1-6401-4D16-AB54-DD19C978D04D@redhat.com>
- <db32a1f5-ad73-a341-f5e7-1c8f592d3d5b@redhat.com>
- <bd7154e1-4d6c-5b98-9e80-ec04f8476373@redhat.com>
- <20210204090351.GN30079@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
- constant folding
-Message-ID: <9853eb69-8ac9-4655-2363-e48148238897@redhat.com>
-Date: Thu, 4 Feb 2021 10:12:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ bh=BLIHKrmPXGBvFAtZDz+TQjcdkEORlCpcSGeyWmYlj/I=;
+ b=NW4N9pcg3WWcSDlYK4M1gST5rKYf94MJz42D5dSY1dzYjcH+PfZEpT8UFKfkMm2eBfLHgA
+ QEwr5PHOZTemA7vt4x19KUfrMmx1/gOjacb6G2k1uL5qJVrtqaVwqRBEL3Wm7qOd+Agm8N
+ LNLENhz9H4nL5IqL+B+eorg+bf3wj2M=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358--m9GBOImNoaCATAY2Oatcg-1; Thu, 04 Feb 2021 04:26:27 -0500
+X-MC-Unique: -m9GBOImNoaCATAY2Oatcg-1
+Received: by mail-qt1-f199.google.com with SMTP id v13so2091717qtq.18
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 01:26:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BLIHKrmPXGBvFAtZDz+TQjcdkEORlCpcSGeyWmYlj/I=;
+ b=MnzAWB+jlHI7xwNHjZxssrNAX7YjOIwOOLyfoGWZIj29qF6oSnf4KzzzvsZV3zEaSE
+ NJgrWxlXvqD7pFt1oaxl+9Rbv14xI3J4DOZTyj/mc9T6B9GC/korD7K8IAvURDLpg5rw
+ E98NHiERxcLTL6W2Y+O66B6ZWuBjitfg5xWL8DpOP3jakKjpB/F+ELU3z/ulDjQ3D2uz
+ lyDY7QY02BOw23Qbdvy9J31oblwDYAB2Mpy/0QC0Y62YkcldaYz9uRQzLf3R0D3Q/vsU
+ KpCOoSeltyQHnSuIX4EZsSbv4yGsmFwpgIja7WOGE2YXT80dhM/pimVy8qilvSRHV0NN
+ jFzA==
+X-Gm-Message-State: AOAM532T0BXLyYeRDxvWM7lEatmYdchVFYBfkPj9M32xb4Jc6Nvousq8
+ tSyq4yQsy8Py0SxR0je5uwvUQm5dJRfLn3M+1PKLDpvFDxgpLzOBQ6GP1VE/BNnror8xb8mxwd2
+ WvzddC0wSgnY2h0eRTB86Y3jp68Gf8iE=
+X-Received: by 2002:ac8:6b8a:: with SMTP id z10mr6549937qts.384.1612430787399; 
+ Thu, 04 Feb 2021 01:26:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzOad7srowUhJCPg77zZM7k8nOgeldwpkFxi8pED1twQ3NPZ4yHjk/7u0HKPP34y5hMHNqDGCz7l/okHrmIuUY=
+X-Received: by 2002:ac8:6b8a:: with SMTP id z10mr6549910qts.384.1612430787195; 
+ Thu, 04 Feb 2021 01:26:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210204090351.GN30079@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20210129205415.876290-1-eperezma@redhat.com>
+ <20210129205415.876290-6-eperezma@redhat.com>
+ <acf16fd6-2282-c220-e642-0868ac839b70@redhat.com>
+ <CAJaqyWeRK_i3MMZVgXJUwUNfLaq_h80jChZfQ3sRmWAcQnGLkQ@mail.gmail.com>
+ <a526b3ac-91d9-28e6-5ffc-2308aab4fbd6@redhat.com>
+ <CAJaqyWf-qsr5eLzk4Sum=GYhHoW_+V-9arfbssSjd6G6WnretQ@mail.gmail.com>
+ <a37502d6-b83f-fd34-7634-1060f4661540@redhat.com>
+In-Reply-To: <a37502d6-b83f-fd34-7634-1060f4661540@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 4 Feb 2021 10:25:51 +0100
+Message-ID: <CAJaqyWcvWyMxRuH4U2aMRrcZJHSkajO94JcH1WBfYvFrthESLw@mail.gmail.com>
+Subject: Re: [RFC 05/10] vhost: Add vhost_dev_from_virtio
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,92 +95,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Rob Miller <rob.miller@broadcom.com>, Parav Pandit <parav@mellanox.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ virtualization@lists.linux-foundation.org, Michael Lilja <ml@napatech.com>,
+ Jim Harford <jim.harford@broadcom.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.02.21 10:03, Richard W.M. Jones wrote:
-> On Thu, Feb 04, 2021 at 09:38:45AM +0100, David Hildenbrand wrote:
->> On 04.02.21 08:55, David Hildenbrand wrote:
->>> On 04.02.21 07:41, David Hildenbrand wrote:
->>>>
->>>>> Am 04.02.2021 um 03:22 schrieb Richard Henderson <richard.henderson@linaro.org>:
->>>>>
->>>>> ﻿On 2/1/21 10:45 AM, Richard W.M. Jones wrote:
->>>>>> This commit breaks running certain s390x binaries, at least
->>>>>> the "mount" command (or a library it uses) breaks.
->>>>>>
->>>>>> More details in this BZ:
->>>>>>
->>>>>> https://bugzilla.redhat.com/show_bug.cgi?id=1922248
->>>>>>
->>>>>> Could we revert this change since it seems to have caused other
->>>>>> problems as well?
->>>>>
->>>>> Well, the other problems have been fixed (which were in fact latent, and could
->>>>> have been produced by other means).  I would not like to sideline this patch
->>>>> set indefinitely.
->>>>>
->>>>> Could you give me some help extracting the relevant binaries?  "Begin with an
->>>>> s390x host" is a non-starter.
->>>>>
->>>>
->>>> Hi,
->>>>
->>>> I‘m planning on reproducing it today or tomorrow. Especially, finding a reproducer and trying reproducing on x86-64 host.
->>>
->>> FWIW, on an x86-64 host, I can boot F32, Fedora rawhide, and RHEL8.X
->>> just fine from qcow2 (so "mount" seems to work in that environment as
->>> expected). Maybe it's really s390x-host specific? I'll give it a try.
->>>
->>
->> F33 qcow2 [1] fails booting on an s390x/TCG host.
-> 
-> What did the failure look like?
+On Thu, Feb 4, 2021 at 4:14 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> On 2021/2/2 =E4=B8=8B=E5=8D=886:17, Eugenio Perez Martin wrote:
+> > On Tue, Feb 2, 2021 at 4:31 AM Jason Wang <jasowang@redhat.com> wrote:
+> >>
+> >> On 2021/2/1 =E4=B8=8B=E5=8D=884:28, Eugenio Perez Martin wrote:
+> >>> On Mon, Feb 1, 2021 at 7:13 AM Jason Wang <jasowang@redhat.com> wrote=
+:
+> >>>> On 2021/1/30 =E4=B8=8A=E5=8D=884:54, Eugenio P=C3=A9rez wrote:
+> >>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >>>>> ---
+> >>>>>     include/hw/virtio/vhost.h |  1 +
+> >>>>>     hw/virtio/vhost.c         | 17 +++++++++++++++++
+> >>>>>     2 files changed, 18 insertions(+)
+> >>>>>
+> >>>>> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> >>>>> index 4a8bc75415..fca076e3f0 100644
+> >>>>> --- a/include/hw/virtio/vhost.h
+> >>>>> +++ b/include/hw/virtio/vhost.h
+> >>>>> @@ -123,6 +123,7 @@ uint64_t vhost_get_features(struct vhost_dev *h=
+dev, const int *feature_bits,
+> >>>>>     void vhost_ack_features(struct vhost_dev *hdev, const int *feat=
+ure_bits,
+> >>>>>                             uint64_t features);
+> >>>>>     bool vhost_has_free_slot(void);
+> >>>>> +struct vhost_dev *vhost_dev_from_virtio(const VirtIODevice *vdev);
+> >>>>>
+> >>>>>     int vhost_net_set_backend(struct vhost_dev *hdev,
+> >>>>>                               struct vhost_vring_file *file);
+> >>>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> >>>>> index 28c7d78172..8683d507f5 100644
+> >>>>> --- a/hw/virtio/vhost.c
+> >>>>> +++ b/hw/virtio/vhost.c
+> >>>>> @@ -61,6 +61,23 @@ bool vhost_has_free_slot(void)
+> >>>>>         return slots_limit > used_memslots;
+> >>>>>     }
+> >>>>>
+> >>>>> +/*
+> >>>>> + * Get the vhost device associated to a VirtIO device.
+> >>>>> + */
+> >>>>> +struct vhost_dev *vhost_dev_from_virtio(const VirtIODevice *vdev)
+> >>>>> +{
+> >>>>> +    struct vhost_dev *hdev;
+> >>>>> +
+> >>>>> +    QLIST_FOREACH(hdev, &vhost_devices, entry) {
+> >>>>> +        if (hdev->vdev =3D=3D vdev) {
+> >>>>> +            return hdev;
+> >>>>> +        }
+> >>>>> +    }
+> >>>>> +
+> >>>>> +    assert(hdev);
+> >>>>> +    return NULL;
+> >>>>> +}
+> >>>> I'm not sure this can work in the case of multiqueue. E.g vhost-net
+> >>>> multiqueue is a N:1 mapping between vhost devics and virtio devices.
+> >>>>
+> >>>> Thanks
+> >>>>
+> >>> Right. We could add an "vdev vq index" parameter to the function in
+> >>> this case, but I guess the most reliable way to do this is to add a
+> >>> vhost_opaque value to VirtQueue, as Stefan proposed in previous RFC.
+> >>
+> >> So the question still, it looks like it's easier to hide the shadow
+> >> virtqueue stuffs at vhost layer instead of expose them to virtio layer=
+:
+> >>
+> >> 1) vhost protocol is stable ABI
+> >> 2) no need to deal with virtio stuffs which is more complex than vhost
+> >>
+> >> Or are there any advantages if we do it at virtio layer?
+> >>
+> > As far as I can tell, we will need the virtio layer the moment we
+> > start copying/translating buffers.
+> >
+> > In this series, the virtio dependency can be reduced if qemu does not
+> > check the used ring _F_NO_NOTIFY flag before writing to irqfd. It
+> > would enable packed queues and IOMMU immediately, and I think the cost
+> > should not be so high. In the previous RFC this check was deleted
+> > later anyway, so I think it was a bad idea to include it from the start=
+.
+>
+>
+> I am not sure I understand here. For vhost, we can still do anything we
+> want, e.g accessing guest memory etc. Any blocker that prevent us from
+> copying/translating buffers? (Note that qemu will propagate memory
+> mappings to vhost).
+>
 
-It starts booting just fine until
+There is nothing that forbids us to access directly, but if we don't
+reuse the virtio layer functionality we would have to duplicate every
+access function. "Need" was a too strong word maybe :).
 
-[   10.869011] Core dump to |/bin/false pipe failed
-[   10.915968] systemd[1]: Finished Create list of static device nodes for the current kernel.
-[   10.946424] systemd[1]: systemd-journald.service: Main process exited, code=killed, status=31/SYS
-[   10.966677] systemd[1]: systemd-journald.service: Failed with result 'signal'.
-[   11.017545] systemd[1]: Failed to start Journal Service.
-[FAILED] Failed to start Journal Service.
-See 'systemctl status systemd-journald.service' for details.
+In other words: for the shadow vq vring exposed for the device, qemu
+treats it as a driver, and this functionality needs to be added to
+qemu. But for accessing the guest's one do not reuse virtio.c would be
+a bad idea in my opinion.
 
-which repeats a couple of times. Then things go nuts
-
-[   32.488899] systemd[1]: Failed to start Rule-based Manager for Device Events and Files.
-[FAILED] Failed to start Rule-based…r for Device Events and Files.
-See 'systemctl status systemd-udevd.service' for details.
-[   32.501449] systemd[1]: systemd-udevd.service: Scheduled restart job, restart counter is at 1.
-[   32.502134] systemd[1]: Stopped Rule-based Manager for Device Events and Files.
-
-
-Looks also related to /dev / udev.
-
-> 
->> I tried "-cpu qemu" and "-qemu qemu=vx=off". The same image boots on
->> x86-64/TCG host just fine.
->>
->>
->> With
->>
->> commit 8f17a975e60b773d7c366a81c0d9bbe304f30859
->> Author: Richard Henderson <richard.henderson@linaro.org>
->> Date:   Mon Mar 30 19:52:02 2020 -0700
->>
->>      tcg/optimize: Adjust TempOptInfo allocation
->>
->> The image boots just fine on s390x/TCG as well.
-> 
-> Let me try this in a minute on my original test machine.
-
-That's the commit exactly before the problematic one (didn't want to mess with reverts for now).
-
--- 
-Thanks,
-
-David / dhildenb
+> Thanks
+>
+>
+> >
+> >
+> >
+> >
+> >
+> >> Thanks
+> >>
+> >>
+> >>> I need to take this into account in qmp_x_vhost_enable_shadow_vq too.
+> >>>
+> >>>>> +
+> >>>>>     static void vhost_dev_sync_region(struct vhost_dev *dev,
+> >>>>>                                       MemoryRegionSection *section,
+> >>>>>                                       uint64_t mfirst, uint64_t mla=
+st,
+> >
+>
 
 
