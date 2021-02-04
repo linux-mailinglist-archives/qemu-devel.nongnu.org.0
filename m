@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4B930F514
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:36:37 +0100 (CET)
-Received: from localhost ([::1]:39054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915D230F515
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:37:00 +0100 (CET)
+Received: from localhost ([::1]:40506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7fkK-0000fb-OX
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:36:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60338)
+	id 1l7fkh-0001Ij-Lp
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:36:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1l7fhJ-0006QQ-6X
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:33:29 -0500
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:46071)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1l7fhH-000695-Jk
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:33:28 -0500
-Received: by mail-lj1-x235.google.com with SMTP id e18so3602244lja.12
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 06:33:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=xkdDG3i8COhlrstdleDSnmJss+riUa4zhVHMfn5hAco=;
- b=gp4waBXpMdJwXgi+qwH9soYOjwm2/NgB9OQTT6CrlSY3gRH4OKE4h5BIcsp3QChfw0
- jriZG3ZTl3CRQBWKZaE/LTD2b370S565SEjFFEc2poi1A7X0jWC4TsODm6vylM7uFTMA
- +9XXfGo+DVd2SHXGc8aEMJBEz9NaE9TK5T9Cr3aIuLZvK9AJBrfOmTLLJeiro1Cg5xsw
- nJocGhalsK7SWtXOdm3s3abWFkrzI/Q0VLRxcIHSZbAZOofd1ZMD3oAkZke1IjpodEJc
- H87aNWgPnTUVIl8SA+1XSf3MSxzGM8GB/eg86Rmy/XXjJ/w/O2VVo/3Hk+Uof2G3+2DU
- 0a9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=xkdDG3i8COhlrstdleDSnmJss+riUa4zhVHMfn5hAco=;
- b=GLQQX8lhAWZbPBPwUMWrv1Q9c+MovWFv6yFljxpkbc8I9UT8LWue+Bd+7knXbCLXoD
- /wTQ1fyTycEFDdgE4Z2o4s8jQRBs+SFLKAlRTRe1WuGJzfL25JhakndsOmeq3+uKQ7jx
- VThXaqmE0MQ63J1qNsb/x+selZmE/BmHKBclU/UwSQCd2uiAHI5OIzEkP+zVdWFkxd9U
- skDtherdcQHHywa+rLs+SH8XVIInZ3Nasb8vHk/H5LEbh7Qe6W937yRta4YdeoWw1oxR
- kJpqrHgutXtjOP8JaqnHNB+uyf6n982Me41WEoA3PB2dea2QWHEkuB7OSNt3gYzR+vqs
- /lhg==
-X-Gm-Message-State: AOAM533IoMfXStAkRTE0dbXl/an16DtXjTHPmLnMVOQckV8k5S2Uf5et
- nZgCC7XLB9YFmE5infCtUnc=
-X-Google-Smtp-Source: ABdhPJy+UVIMfJ/3qo3kdGNXbX7mM2okR6B6CXIy9dXrIlx55U/gn8aKaPBnGN4uZHitzJ/ZkZfHxQ==
-X-Received: by 2002:a2e:bc28:: with SMTP id b40mr4822157ljf.167.1612449205001; 
- Thu, 04 Feb 2021 06:33:25 -0800 (PST)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id z23sm680096ljj.25.2021.02.04.06.33.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 06:33:24 -0800 (PST)
-Date: Thu, 4 Feb 2021 15:33:23 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 1/2] target/cris: Use MMUAccessType enum type when possible
-Message-ID: <20210204143323.GF477672@toto>
-References: <20210128003223.3561108-1-f4bug@amsat.org>
- <20210128003223.3561108-2-f4bug@amsat.org>
- <c92e6957-8e17-e11f-e269-888b8b1b3c84@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7fhb-00072p-CW
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:33:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7fhY-0006Gw-6K
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:33:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612449223;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5ndk5Yf4S/GC/8aplpnnUzSx26fb13E20aF4VIcl2wE=;
+ b=KpjPhpYj0DyPfbQJL+JxNYon9fw7FeF0gy0Kr3/00Q4OS9D3VsrXhCOcD2dtHNpfij/GAo
+ ut732ePZj2n8mp8MF2B5/FD1KJPKd1oGuLFgcpHAelvANvPJo8ktl2dUMDNKgGRfqZhJ4k
+ jW2FpE4rVt2untyyytSBmRkLAWP7izI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-427-hRL65DR6OB6fZ-OZpnFXvA-1; Thu, 04 Feb 2021 09:33:36 -0500
+X-MC-Unique: hRL65DR6OB6fZ-OZpnFXvA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 012388030B7
+ for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 14:33:36 +0000 (UTC)
+Received: from work-vm (ovpn-114-21.ams2.redhat.com [10.36.114.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C0A05C541;
+ Thu,  4 Feb 2021 14:33:30 +0000 (UTC)
+Date: Thu, 4 Feb 2021 14:33:26 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH] migration/qemu-file: Fix maybe uninitialized on
+ qemu_get_buffer_in_place()
+Message-ID: <20210204143326.GB24147@work-vm>
+References: <20210128130625.569900-1-wainersm@redhat.com>
+ <20210128171619.GF2951@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <20210128171619.GF2951@work-vm>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c92e6957-8e17-e11f-e269-888b8b1b3c84@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x235.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,27 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Joe Komlodi <komlodi@xilinx.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 03, 2021 at 04:45:50PM -1000, Richard Henderson wrote:
-> On 1/27/21 2:32 PM, Philippe Mathieu-Daudé wrote:
-> > Replace the 0/1/2 magic values by the corresponding MMUAccessType.
-> > We can remove a comment as enum names are self explicit.
+* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> * Wainer dos Santos Moschetta (wainersm@redhat.com) wrote:
+> > Fixed error when compiling migration/qemu-file.c with -Werror=maybe-uninitialized
+> > as shown here:
 > > 
-> > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > ../migration/qemu-file.c: In function 'qemu_get_buffer_in_place':
+> > ../migration/qemu-file.c:604:18: error: 'src' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> >   604 |             *buf = src;
+> >       |             ~~~~~^~~~~
+> > cc1: all warnings being treated as errors
+> > 
+> > Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> 
+> Yes, I think I had a discussion with someone about this recently but
+> can't find it; the compiler is technically correct, but the only time
+> it's unitialised is the case where it's result doesn't matter.
+> 
+> Still, to shut the compiler up:
+> 
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Queued
+
+> 
 > > ---
-> >  target/cris/helper.c |  4 ++--
-> >  target/cris/mmu.c    | 13 ++++++-------
-> >  2 files changed, 8 insertions(+), 9 deletions(-)
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > Passed on CI: https://gitlab.com/wainersm/qemu/-/pipelines/247801576
+> > 
+> >  migration/qemu-file.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> > index be21518c57..d6e03dbc0e 100644
+> > --- a/migration/qemu-file.c
+> > +++ b/migration/qemu-file.c
+> > @@ -595,7 +595,7 @@ size_t qemu_get_buffer_in_place(QEMUFile *f, uint8_t **buf, size_t size)
+> >  {
+> >      if (size < IO_BUF_SIZE) {
+> >          size_t res;
+> > -        uint8_t *src;
+> > +        uint8_t *src = NULL;
+> >  
+> >          res = qemu_peek_buffer(f, &src, size, 0);
+> >  
+> > -- 
+> > 2.28.0
+> > 
+> -- 
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-Can this go through the trivial tree?
-
-Thanks,
-Edgar
 
