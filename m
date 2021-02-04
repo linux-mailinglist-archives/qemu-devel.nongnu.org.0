@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30DD230FC1E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:03:05 +0100 (CET)
-Received: from localhost ([::1]:53526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F55C30FC54
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:14:08 +0100 (CET)
+Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7juC-0007fo-9I
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:03:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37958)
+	id 1l7k4t-000553-Hc
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:14:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7jNN-0005cw-DQ; Thu, 04 Feb 2021 13:29:09 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:37060)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7jNL-000203-Q4; Thu, 04 Feb 2021 13:29:09 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id jj19so7124090ejc.4;
- Thu, 04 Feb 2021 10:29:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rnBP+G+AfTb5HZhTrwyYmkaQSKMTs0uwOtrFD3BNUBk=;
- b=n/RmAlbf6KCtcuCrDD5Yc5YlA+8ZgURoa/4LPYRc/ujaNMNc8mrt/UAD+avNou4pmg
- VQzK8aX0kEhALDOgE1MsEN13kPS9UNJPc1Sw2ykSnkV+RRtFqOkBhnAb43h43Wd0u3ZK
- gIPrS0CmCaHAM6lRZ9pDQ+PTlhCHxnFPKrJ4ayaIfWTOr1J8fAza8l337q+ci9i8b2YT
- NR+t3/PXYn4VX1QnBX/2DKgwK+NtAxDqKPE62Fdri0KbJC8i/H53ewkyE98GmQDo7JW2
- Vmldg+97AAsO3gct1KTlmQPxYNfg5ksyFXj8RJVTJFKfpQOAbLgFue1QJedUvJsv5XZY
- FxPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=rnBP+G+AfTb5HZhTrwyYmkaQSKMTs0uwOtrFD3BNUBk=;
- b=pxmPZDLBjUaTLcLe0ef1Lw809ZIm24CvxTe8tMoUrqlxXMYBYbf+7Wt2CYNVA/Ki5d
- xgUyNhcrYSm7WMA/dQlpW6pLMF8euonBTOgh+c8O0GcGKEII+KOa7MGWVeQE6wmE2S3u
- rLMIl7Mq8vdXD0NNh28VUS/oOOZ3Lgi7f2vA4sKMQMvNbRCsOjEC5q+Or0j8ZmXiuk56
- 5xA8/Z0yB28LPuMVghE8yxHDNdVMaxTgNrhvTPQCG1aMqI1sSn/rinqZ1ka+S9UWW9dJ
- m/ErcMuquknAMMJvj3oEs40q1oYrKpbtOh4MR/OwJ7VZlLRq3279uQnLqsqDGjSbeV6Z
- TUNw==
-X-Gm-Message-State: AOAM530fMTYi5kWoxFFz9c8BwbmHGd9x01mtbVAApSHN8SdFvAcXixQt
- Ip5/bYaST8k+gZR+XbsbLnhteQ7BjIw=
-X-Google-Smtp-Source: ABdhPJx5EZhtCiasnPKxZVjZfGCMk8a4BIKr8A64EmjO5gdGbFNqDpwjDy1WhEOFU+ECUhkbVAL6WA==
-X-Received: by 2002:a17:907:35ca:: with SMTP id
- ap10mr380183ejc.451.1612463345558; 
- Thu, 04 Feb 2021 10:29:05 -0800 (PST)
-Received: from x1w.redhat.com (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id z2sm335523ejn.91.2021.02.04.10.29.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 10:29:04 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/s390: Fix compare instruction from extended-immediate
- facility
-Date: Thu,  4 Feb 2021 19:29:02 +0100
-Message-Id: <20210204182902.1742826-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l7jQB-00087r-U6; Thu, 04 Feb 2021 13:32:05 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:36583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l7jQ8-0003D0-97; Thu, 04 Feb 2021 13:32:03 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id DC6845C006C;
+ Thu,  4 Feb 2021 13:31:57 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 04 Feb 2021 13:31:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=jLNBGOFZQU5Xz/3Bc3G10sQPgY/
+ PITk0vMCHbfc2Sqs=; b=tox+IgzIFaXAsz2F8EDmsQ4iuQaqq4cLt3YmLCkowO9
+ 0ulYeZAh9WFDIdQOzhta+0F38kxmiSvr3iuFUQlrX5h+dsE8je7Sd6gBaGEwoh2T
+ /9DiKuCj8o+LMuhrnatIaKd/YaZnmKWWDfGZI7ZJck9np3bHTcZDeAnyTs3FULTf
+ 67Oudi92Zj8M5d43bJrwj1zS7DP1d5emut6Zq5Oli/UZC40JTaI34jo5MzG5Usud
+ bSrHvcHYY3Hd+GWA+Rmt3yVQNE29epy/+8jJxikx5XGk3QdwZP3uwkacCzWu6xQN
+ rxuvKoU0+m4h++p7+5mBkEOY/iwyI7PTK/ueunb5GJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=jLNBGO
+ FZQU5Xz/3Bc3G10sQPgY/PITk0vMCHbfc2Sqs=; b=fOWppz12Hg00FLf7jWEEpz
+ F7HuqwoEEEQbeYDNpQ5SKRc9JMSst2BhQkUFOQ/ozvOaTDGW64pi2N7oYzjOXw/k
+ q37MWBcw+pZ5qRtrxdRPdF4jncu5m2BGNLiYOr9gbbp3LgudMqWiHBLFFeOHqC8b
+ s0cByY7s2X+O0qVGl3ytLu9AUiW35QEzOCZS0kTfJCxGZ/azEYVVFuH4ZkWYJIQ5
+ llW/srgNvOu/+D5BjhKSPSTOuJ3laHjSMX4SvvCMTtd1327yXBfhqHcr/2eSoeEm
+ oP9IS4eqICj4uwTmANTmGEd0U5seCqWQlEZxwXi6hsmjjvLT7SMWVCO0CsteyMaA
+ ==
+X-ME-Sender: <xms:nT0cYHevSWnExJeQYhDYaOVx0NCTm4rMZyuV2XJQUNpDJgjmZuq1lw>
+ <xme:nT0cYPMK23fh1pSDLCfHrl9Y1TSxcI_OcvMUhWWT5K5cF-6NUnijvF_G9mrdGn7WM
+ wqPTEI7xyB1EHC0zdA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrgeeggddutdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:nT0cYJ58kw7GQda1W0UnGKtrn3bJyVdgJ7QdNmrDR8JCFc2apmnQcA>
+ <xmx:nT0cYLL4jj1y3jGAHkZD8EwktSQTDg1nQ5W8hi8BW_8w2Jm29i5rHA>
+ <xmx:nT0cYLe8Egu91weFGglOnh0A5SUdB0joD7XXm7D7gkO2xfkmwCRigA>
+ <xmx:nT0cYHLuG_1AADx7jZ9eNJasgsu6NUHQS9QmU6AAOXWKO472GkvzgQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 28DDA108005C;
+ Thu,  4 Feb 2021 13:31:56 -0500 (EST)
+Date: Thu, 4 Feb 2021 19:31:54 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH V6 0/6] hw/block/nvme: support multi-path for ctrl/ns
+Message-ID: <YBw9mvw3xzT7SUMe@apples.localdomain>
+References: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZGzHnrUNII2j30Dq"
+Content-Disposition: inline
+In-Reply-To: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,54 +93,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Richard W . M . Jones" <rjones@redhat.com>, qemu-s390x@nongnu.org,
- Miroslav Rezanina <mrezanin@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code is currently comparing c2 to the type promotion of
-uint32_t and int32_t. That is, the conversion rules are as:
 
-  (common_type) c2 == (common_type) (uint32_t)
-                        (is_unsigned
-                        ? (uint32_t)c2
-                        : (uint32_t)(int32_t)c2)
+--ZGzHnrUNII2j30Dq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the signed case we lose the desired sign extensions because
-of the argument promotion rules of the ternary operator.
+On Jan 24 11:54, Minwoo Im wrote:
+>=20
+> Minwoo Im (6):
+>   hw/block/nvme: introduce nvme-subsys device
+>   hw/block/nvme: support to map controller to a subsystem
+>   hw/block/nvme: add CMIC enum value for Identify Controller
+>   hw/block/nvme: support for multi-controller in subsystem
+>   hw/block/nvme: add NMIC enum value for Identify Namespace
+>   hw/block/nvme: support for shared namespace in subsystem
+>=20
+>  hw/block/meson.build   |   2 +-
+>  hw/block/nvme-ns.c     |  23 +++++++--
+>  hw/block/nvme-ns.h     |   7 +++
+>  hw/block/nvme-subsys.c | 106 +++++++++++++++++++++++++++++++++++++++++
+>  hw/block/nvme-subsys.h |  32 +++++++++++++
+>  hw/block/nvme.c        |  72 +++++++++++++++++++++++++---
+>  hw/block/nvme.h        |   4 ++
+>  include/block/nvme.h   |   8 ++++
+>  8 files changed, 242 insertions(+), 12 deletions(-)
+>  create mode 100644 hw/block/nvme-subsys.c
+>  create mode 100644 hw/block/nvme-subsys.h
+>=20
 
-Solve the problem by doing the round-trip parsing through the
-intermediate type and back to the desired common type (all at
-one expression).
+Thanks Minwoo, this was a super awesome series.
 
-Fixes: a534bb15f30 ("tcg/s390: Use constant pool for cmpi")
-Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
-Reported-by: Richard W.M. Jones <rjones@redhat.com>
-Suggested-by: David Hildenbrand <david@redhat.com>
-Suggested-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tcg/s390/tcg-target.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to nvme-next!
 
-diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-index b67470137c4..695d7ee6523 100644
---- a/tcg/s390/tcg-target.c.inc
-+++ b/tcg/s390/tcg-target.c.inc
-@@ -1067,7 +1067,7 @@ static int tgen_cmp(TCGContext *s, TCGType type, TCGCond c, TCGReg r1,
-                 op = (is_unsigned ? RIL_CLFI : RIL_CFI);
-                 tcg_out_insn_RIL(s, op, r1, c2);
-                 goto exit;
--            } else if (c2 == (is_unsigned ? (uint32_t)c2 : (int32_t)c2)) {
-+            } else if (c2 == (is_unsigned ? (TCGArg)(uint32_t)c2 : (TCGArg)(int32_t)c2)) {
-                 op = (is_unsigned ? RIL_CLGFI : RIL_CGFI);
-                 tcg_out_insn_RIL(s, op, r1, c2);
-                 goto exit;
--- 
-2.26.2
+--ZGzHnrUNII2j30Dq
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAcPZgACgkQTeGvMW1P
+Delaagf+K+wG6ytd6VPBRYKvaSR4O6aqfnONOdAOVBd7j3ubl4YI+TwEPZParXy0
+iAuaSvGxPW7VTlz4LrxTYZ+fkTEAgl9ZbEgwetALt5xJpGasvxw6kfFng4TcoCK3
+WSo65uYWS7g8vALBdEEtCgro/LOH122YMrzuzpKttBnz/XYWhHnjZTNhpt4y9afF
+CLiNALU7hWLeVmllExwD1MMXMRlTwqWNuQ9+cQHWxPYZmE8aRgQ/OL5C4Glvgdfp
+azPoIqyTPzXwWgb5epuBZ+e9aNPGfD/jIFo1kQglnZakORuDBHAQkpnqWt1rGSBn
+PDejKHb/UPa5L8iR+q6JhlDIiLLjLw==
+=EfQ3
+-----END PGP SIGNATURE-----
+
+--ZGzHnrUNII2j30Dq--
 
