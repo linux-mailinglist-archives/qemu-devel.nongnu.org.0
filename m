@@ -2,99 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C4230F343
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 13:37:01 +0100 (CET)
-Received: from localhost ([::1]:33408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A59B30F36D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 13:51:05 +0100 (CET)
+Received: from localhost ([::1]:40828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7dsa-0006EJ-Bw
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 07:37:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58700)
+	id 1l7e6B-0002HU-F2
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 07:51:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l7drM-0005io-R3
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:35:44 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:40741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l7drK-0004Gs-ID
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:35:44 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 4D0A85C01B7;
- Thu,  4 Feb 2021 07:35:39 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 04 Feb 2021 07:35:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=l
- uxbUbNtvZfempCLO/nsYkm35CHRCQYT9jQspOUlBkQ=; b=M+afXbGy3baPO6n1W
- Rhc7VaKvT7fYJYN2EalcPcTO9BKLuRx67b89op26yWcHcvFiV50anSoJ4QGnR0bn
- LHEPXgUIHlpJzwQVHHjRgPgRg283ac03+ckBxIL/LELMEvaaMh9X3QiJ1AD/ex+3
- TkbdqdTmgECuv5KfpPGPYAEaApFsUhcFoMnW2EP1PkcPHD8zttsnOZLvGa0/Oizh
- XdHzVxx1VlZFZVYmJSG7lYbfov9fDlKRLM5GGgGBbgRT1YQkE2jK4A5RdLj3c3GH
- UM1D8TbNPdNQ3bknjZYM4ZOR4Abbxxlk9kNXfE3QcWY/aUqIdb9YSFomA7NbM65w
- dibTQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=luxbUbNtvZfempCLO/nsYkm35CHRCQYT9jQspOUlB
- kQ=; b=j8GCHfJPxVLh9Iw8ZEuR0ka/Kza6fm1RHfCG5ewVAyCgBGN4+/c7IrhmM
- 6ePnM2q91gFKQbQp34UNvJasZ30XsYNx08HSW/cg3PyWbjvVjA7rE+hgAUxNAfW7
- 7GI42jHyxn3BC/gkQ+cuANxb3lm9t0k/BhPjjzlvt5Tg4mL16brafRWopHL5Qrj3
- xYZvlurV3FMHUyDGS5HOSSYDiNzrG2P9wT/K2Wu70Yj24dg0Ntjs+w07Y6xEFdPQ
- 4l4XJKiz39t2QhQf+uP9xowdkDowKFPZbrtLMBOXiZvG/R4ALF0sTNfsh9ByK/oh
- XYX11oYa8ZElXaiYOH9HRaRXu5H2g==
-X-ME-Sender: <xms:GuobYG0okNVcDjuXvKuvqe6HysSt8ST6Cy3ZMPjhFMNjSETIW32I2A>
- <xme:GuobYJFAJYUTT_9sAeiShBzl724hqxh97oYj_Rb-HerYHY2Zep5H3ySPJDqp8LiuA
- RO5bauigp6XTqVg9Zs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrgeeggdefvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
- nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
- ftrfgrthhtvghrnhepfeefgfefvdegudejueekffelleeiteduhfeuhfejkedvffdugffh
- udfggeetgedtnecuffhomhgrihhnpegtohhntggvrhhnvggurdhpihhnghdpohiilhgrsg
- hsrdhorhhgnecukfhppedufeeirddujeehrddujeeirddukeejnecuvehluhhsthgvrhfu
- ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfh
- hlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:GuobYO4b62PdlEZDhTOjarPuDvj3S-EphOvTfxJM4CMaokcgtySfZA>
- <xmx:GuobYH0kfi43x85WjfeMs0KR8Ms5y9ErN9c8a7ZasKVMuoCR9TxoYw>
- <xmx:GuobYJGb_WWXAof1rzgIKz91niHuRiSX2jI2DtJCy1ObaBFgb9buIA>
- <xmx:G-obYCP9ubD8t4SF7-QuKofoKagDoxhDv0bnS7vormn_-84TWJzKSQ>
-Received: from [0.0.0.0] (unknown [136.175.176.187])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8BFA71080057;
- Thu,  4 Feb 2021 07:35:34 -0500 (EST)
-Subject: Re: [PATCH v2 08/13] vt82c686: Move creation of ISA devices to the
- ISA bridge
-To: BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <cover.1610223396.git.balaton@eik.bme.hu>
- <bf9400cc8e4ddd3129aa5678de4d3cf38384805f.1610223397.git.balaton@eik.bme.hu>
- <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
- <5c5ce8b9-f5c4-c58d-6f8a-76c47ad8db4d@eik.bme.hu>
- <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
- <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
- <alpine.LMD.2.03.2102012101480.9444@eik.bme.hu>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <e78d15f1-13a6-d856-2801-f28b8077d97c@flygoat.com>
-Date: Thu, 4 Feb 2021 20:35:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7e44-0000cu-1H
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:48:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56441)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7e40-0001YX-RI
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:48:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612442927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2KGhacpik4l2L0n2hZaFtEbeV9dcCtyLwm+fNcHWTbc=;
+ b=D3+7mGlMhmBMjNRT7kLR5albkRyKveRUUfu6lQpFDsjdusbwPOW3cNNH3ZjLds1z7OELvO
+ 1kfg5rBe7xeG4/h/ROaieWco2Hzaw+nJ9y/cUmB50gSw5cf5WC1Uv9uTkI96CUgVYWXWir
+ 5a2xuc+ZmNGM9cPiAewJWlrYHdHtbRg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-ujDkXqwCMhazDgWqwwvJ9w-1; Thu, 04 Feb 2021 07:48:44 -0500
+X-MC-Unique: ujDkXqwCMhazDgWqwwvJ9w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2894C107ACC7;
+ Thu,  4 Feb 2021 12:48:43 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-115-169.ams2.redhat.com
+ [10.36.115.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A87D722FC;
+ Thu,  4 Feb 2021 12:48:36 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v11 00/12] migration: bring improved savevm/loadvm/delvm to QMP
+Date: Thu,  4 Feb 2021 12:48:22 +0000
+Message-Id: <20210204124834.774401-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LMD.2.03.2102012101480.9444@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.182,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,159 +76,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2021/2/2 上午4:04, BALATON Zoltan 写道:
-> On Sun, 10 Jan 2021, BALATON Zoltan wrote:
->> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
->>> +PCI experts
->>>
->>> On 1/10/21 1:43 AM, BALATON Zoltan wrote:
->>>> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
->>>>> Hi Zoltan,
->>>>>
->>>>> On 1/9/21 9:16 PM, BALATON Zoltan wrote:
->>>>>> Currently the ISA devices that are part of the VIA south bridge,
->>>>>> superio chip are wired up by board code. Move creation of these ISA
->>>>>> devices to the VIA ISA bridge model so that board code does not need
->>>>>> to access ISA bus. This also allows vt82c686b-superio to be made
->>>>>> internal to vt82c686 which allows implementing its configuration via
->>>>>> registers in subseqent commits.
->>>>>
->>>>> Is this patch dependent of the VT82C686B_PM changes
->>>>> or can it be applied before them?
->>>>
->>>> I don't know but why would that be better? I thought it's clearer to
->>>> clean up pm related parts first before moving more stuff to this 
->>>> file so
->>>> that's why this patch comes after (and also because that's the order I
->>>> did it).
->>>
->>> Not any better, but easier for me to get your patches integrated,
->>> as I'm reviewing your patches slowly. Finding other reviewers
->>> would certainly help.
->>
->> No problem, I'll wait for your review. Merging parts of the series 
->> does not help much because the whole series is needed for vt8231 
->> which is prerequisite for pegasos2 so eventually all of these are 
->> needed so it does not matter if this one patch gets in earlier or later.
->>
->> Not sure who could help with review. Maybe Jiaxun or Huacai as this 
->> is used by fuloong2e so they might be interested and could have info 
->> on this chip. Most of these patches just cleaning up the vt82c686b 
->> and adding some missing features so these can be reused by the vt8231 
->> model in last 3 patches (which is very similar to 686b only some reg 
->> addresses and ids seem to be different for what we are concerned).
->
-> Ping? There are still a few patches needing review:
->
-> http://patchwork.ozlabs.org/project/qemu-devel/list/?series=223512
->
-> Jiaxun, Hiacai, or anybody else could you please help reviewing or 
-> testing if this works with fuloong2e?
-
-Tested the series against Fuloong2E PMON. Fuloong's kernel doesn't have 
-much to do with
-VIA ISA.
-
-Which patch is pending for test or review?
-
-Thanks.
-
-- Jiaxun
-
->
-> Thank you,
-> BALATON Zoltan
->
->>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>>> ---
->>>>>>  hw/isa/vt82c686.c   | 20 ++++++++++++++++++++
->>>>>>  hw/mips/fuloong2e.c | 29 +++++------------------------
->>>>>>  2 files changed, 25 insertions(+), 24 deletions(-)
->>>>>>
->>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>>>>> index 58c0bba1d0..5df9be8ff4 100644
->>>>>> --- a/hw/isa/vt82c686.c
->>>>>> +++ b/hw/isa/vt82c686.c
->>>>>> @@ -16,6 +16,11 @@
->>>>>>  #include "hw/qdev-properties.h"
->>>>>>  #include "hw/isa/isa.h"
->>>>>>  #include "hw/isa/superio.h"
->>>>>> +#include "hw/intc/i8259.h"
->>>>>> +#include "hw/irq.h"
->>>>>> +#include "hw/dma/i8257.h"
->>>>>> +#include "hw/timer/i8254.h"
->>>>>> +#include "hw/rtc/mc146818rtc.h"
->>>>>>  #include "migration/vmstate.h"
->>>>>>  #include "hw/isa/apm.h"
->>>>>>  #include "hw/acpi/acpi.h"
->>>>>> @@ -307,9 +312,16 @@ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState,
->>>>>> VT82C686B_ISA)
->>>>>>
->>>>>>  struct VT82C686BISAState {
->>>>>>      PCIDevice dev;
->>>>>> +    qemu_irq cpu_intr;
->>>>>>      SuperIOConfig superio_cfg;
->>>>>>  };
->>>>>>
->>>>>> +static void via_isa_request_i8259_irq(void *opaque, int irq, int 
->>>>>> level)
->>>>>> +{
->>>>>> +    VT82C686BISAState *s = opaque;
->>>>>> +    qemu_set_irq(s->cpu_intr, level);
->>>>>> +}
->>>>>> +
->>>>>>  static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
->>>>>>                                     uint32_t val, int len)
->>>>>>  {
->>>>>> @@ -365,10 +377,18 @@ static void vt82c686b_realize(PCIDevice *d,
->>>>>> Error **errp)
->>>>>>      VT82C686BISAState *s = VT82C686B_ISA(d);
->>>>>>      DeviceState *dev = DEVICE(d);
->>>>>>      ISABus *isa_bus;
->>>>>> +    qemu_irq *isa_irq;
->>>>>>      int i;
->>>>>>
->>>>>> +    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
->>>>>
->>>>> Why not use the SysBus API?
->>>>
->>>> How? This is a PCIDevice not a SysBusDevice.
->>>
->>> Indeed :)
->>>
->>>>>> +    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
->>>>>>      isa_bus = isa_bus_new(dev, get_system_memory(),
->>>>>> pci_address_space_io(d),
->>>>>>                            &error_fatal);
->>>>>
->>>>> Isn't it get_system_memory() -> pci_address_space(d)?
->>>>
->>>> I don't really know. Most other places that create an isa bus seem to
->>>> also use get_system_memory(), only piix4 uses 
->>>> pci_address_space(dev) so
->>>> I thought if those others are OK this should be too.
->>>
->>> I'm not a PCI expert but my understanding is PCI device functions are
->>> restricted to the PCI bus address space. The host bridge may map this
->>> space within the host.
->>>
->>> QEMU might be using get_system_memory() because for some host bridge
->>> the mapping is not implemented so it was easier this way?
->>
->> Maybe, also one less indirection which if not really needed is a good 
->> thing for performance so unless it's found to be needed to use 
->> another address space here I'm happy with this as it matches what 
->> other similar devices do and it seems to work. Maybe a separate 
->> address space is only really needed if we have an iommu?
->>
->> Regards,
->> BALATON Zoltan
+ v1: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg00866.html=0D
+ v2: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg07523.html=0D
+ v3: https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg07076.html=0D
+ v4: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg05221.html=0D
+ v5: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg00587.html=0D
+ v6: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02158.html=0D
+ v7: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg06205.html=0D
+ v8: https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg06464.html=0D
+ v9: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05016.html=0D
+ vA: https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg00620.html=0D
+=0D
+This series aims to provide a better designed replacement for the=0D
+savevm/loadvm/delvm HMP commands, which despite their flaws continue=0D
+to be actively used in the QMP world via the HMP command passthrough=0D
+facility.=0D
+=0D
+The main problems addressed are:=0D
+=0D
+ - The logic to pick which disk to store the vmstate in is not=0D
+   satsifactory.=0D
+=0D
+   The first block driver state cannot be assumed to be the root disk=0D
+   image, it might be OVMF varstore and we don't want to store vmstate=0D
+   in there.=0D
+=0D
+ - The logic to decide which disks must be snapshotted is hardwired=0D
+   to all disks which are writable=0D
+=0D
+   Again with OVMF there might be a writable varstore, but this can be=0D
+   raw rather than qcow2 format, and thus unable to be snapshotted.=0D
+   While users might wish to snapshot their varstore, in some/many/most=0D
+   cases it is entirely uneccessary. Users are blocked from snapshotting=0D
+   their VM though due to this varstore.=0D
+=0D
+ - The commands are synchronous blocking execution and returning=0D
+   errors immediately.=0D
+=0D
+   This is partially addressed by integrating with the job framework.=0D
+   This forces the client to use the async commands to determine=0D
+   the completion status or error message from the operations.=0D
+=0D
+In the block code I've only dealt with node names for block devices, as=0D
+IIUC, this is all that libvirt should need in the -blockdev world it now=0D
+lives in. IOW, I've made not attempt to cope with people wanting to use=0D
+these QMP commands in combination with -drive args, as libvirt will=0D
+never use -drive with a QEMU new enough to have these new commands.=0D
+=0D
+The main limitations of this current impl=0D
+=0D
+ - The snapshot process runs serialized in the main thread. ie QEMU=0D
+   guest execution is blocked for the duration. The job framework=0D
+   lets us fix this in future without changing the QMP semantics=0D
+   exposed to the apps.=0D
+=0D
+ - Most vmstate loading errors just go to stderr, as they are not=0D
+   using Error **errp reporting. Thus the job framework just=0D
+   reports a fairly generic message=0D
+=0D
+     "Error -22 while loading VM state"=0D
+=0D
+   Again this can be fixed later without changing the QMP semantics=0D
+   exposed to apps.=0D
+=0D
+I've done some minimal work in libvirt to start to make use of the new=0D
+commands to validate their functionality, but this isn't finished yet.=0D
+=0D
+My ultimate goal is to make the GNOME Boxes maintainer happy again by=0D
+having internal snapshots work with OVMF:=0D
+=0D
+  https://gitlab.gnome.org/GNOME/gnome-boxes/-/commit/c486da262f6566326fbcb=
+5e=3D=0D
+f45c5f64048f16a6e=0D
+=0D
+Changed in v11:=0D
+=0D
+ - Add missing docs for events for snapshot-delete=0D
+ - Fix mistaken operation name in snapshot-delete docs=0D
+=0D
+Changed in v10:=0D
+=0D
+ - Fix some mis-placed patch chunks=0D
+ - Update qapi version number annotations=0D
+ - Move iotests to new naming scheme=0D
+ - Fix shell based iotests in tests/qemu-iotests/tests subdir=0D
+ - Expand QAPI examples=0D
+ - Remove bogus submodule commit update=0D
+ - Optimize shell pattern matching code=0D
+ - Misc other typo/whitespace fixes=0D
+=0D
+Changed in v9:=0D
+=0D
+ - Rebase to git master to resolve conflicts=0D
+ - Fixed accidental regression in error handling in previous v8=0D
+ - Fixed formatting of iotest expected output now that we switched=0D
+   to preserving whitespace in QMP input=0D
+=0D
+Changed in v8:=0D
+=0D
+ - Rebase to git master to resolve conflicts=0D
+ - Updated QAPI since versions to 6.0=0D
+=0D
+Changed in v7:=0D
+=0D
+ - Incorporate changes from:=0D
+=0D
+     https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03165.html=0D
+=0D
+ - Tweaked error message=0D
+=0D
+Changed in v6:=0D
+=0D
+ - Resolve many conflicts with recent replay changes=0D
+ - Misc typos in QAPI=0D
+=0D
+Changed in v5:=0D
+=0D
+ - Fix prevention of tag overwriting=0D
+ - Refactor and expand test suite coverage to validate=0D
+   more negative scenarios=0D
+=0D
+Changed in v4:=0D
+=0D
+ - Make the device lists mandatory, dropping all support for=0D
+   QEMU's built-in heuristics to select devices.=0D
+=0D
+ - Improve some error reporting and I/O test coverage=0D
+=0D
+Changed in v3:=0D
+=0D
+ - Schedule a bottom half to escape from coroutine context in=0D
+   the jobs. This is needed because the locking in the snapshot=0D
+   code goes horribly wrong when run from a background coroutine=0D
+   instead of the main event thread.=0D
+=0D
+ - Re-factor way we iterate over devices, so that we correctly=0D
+   report non-existant devices passed by the user over QMP.=0D
+=0D
+ - Add QAPI docs notes about limitations wrt vmstate error=0D
+   reporting (it all goes to stderr not an Error **errp)=0D
+   so QMP only gets a fairly generic error message currently.=0D
+=0D
+ - Add I/O test to validate many usage scenarios / errors=0D
+=0D
+ - Add I/O test helpers to handle QMP events with a deterministic=0D
+   ordering=0D
+=0D
+ - Ensure 'delete-snapshot' reports an error if requesting=0D
+   delete from devices that don't support snapshot, instead of=0D
+   silently succeeding with no erro.=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Use new command names "snapshot-{load,save,delete}" to make it=0D
+   clear that these are different from the "savevm|loadvm|delvm"=0D
+   as they use the Job framework=0D
+=0D
+ - Use an include list for block devs, not an exclude list=0D
+=0D
+Daniel P. Berrang=3DC3=3DA9 (11):=0D
+  block: push error reporting into bdrv_all_*_snapshot functions=0D
+  migration: stop returning errno from load_snapshot()=0D
+  block: add ability to specify list of blockdevs during snapshot=0D
+  block: allow specifying name of block device for vmstate storage=0D
+  block: rename and alter bdrv_all_find_snapshot semantics=0D
+  migration: control whether snapshots are ovewritten=0D
+  migration: wire up support for snapshot device selection=0D
+  migration: introduce a delete_snapshot wrapper=0D
+  iotests: add support for capturing and matching QMP events=0D
+  iotests: fix loading of common.config from tests/ subdir=0D
+  migration: introduce snapshot-{save,load,delete} QMP commands=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (1):=0D
+  migration: Make save_snapshot() return bool, not 0/-1=0D
+=0D
+ block/monitor/block-hmp-cmds.c                |   7 +-=0D
+ block/snapshot.c                              | 256 ++++++---=0D
+ include/block/snapshot.h                      |  23 +-=0D
+ include/migration/snapshot.h                  |  47 +-=0D
+ migration/savevm.c                            | 296 ++++++++--=0D
+ monitor/hmp-cmds.c                            |  12 +-=0D
+ qapi/job.json                                 |   9 +-=0D
+ qapi/migration.json                           | 173 ++++++=0D
+ replay/replay-debugging.c                     |  12 +-=0D
+ replay/replay-snapshot.c                      |   5 +-=0D
+ softmmu/vl.c                                  |   2 +-=0D
+ tests/qemu-iotests/267.out                    |  12 +-=0D
+ tests/qemu-iotests/common.qemu                | 106 +++-=0D
+ tests/qemu-iotests/common.rc                  |  10 +-=0D
+ .../tests/internal-snapshots-qapi             | 386 +++++++++++++=0D
+ .../tests/internal-snapshots-qapi.out         | 520 ++++++++++++++++++=0D
+ 16 files changed, 1721 insertions(+), 155 deletions(-)=0D
+ create mode 100755 tests/qemu-iotests/tests/internal-snapshots-qapi=0D
+ create mode 100644 tests/qemu-iotests/tests/internal-snapshots-qapi.out=0D
+=0D
+--=3D20=0D
+2.29.2=0D
+=0D
 
 
