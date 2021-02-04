@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0849930FAFF
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 19:14:39 +0100 (CET)
-Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5F830FB6F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 19:29:44 +0100 (CET)
+Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7j9K-0007HH-2q
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 13:14:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50484)
+	id 1l7jNv-0004yf-Qs
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 13:29:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7iId-00082B-F6
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:20:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50249)
+ id 1l7iIp-000884-1l
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:20:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7iIY-0005jA-Ou
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:20:11 -0500
+ id 1l7iIf-0005kN-0w
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:20:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612459206;
+ s=mimecast20190719; t=1612459211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nU9gbdVdxbA/Vb8LzY88c++3UVYHBPlwcea4+Ts01r8=;
- b=RUTSiQownEvQINJ2H7WP4PNF+3dO/w6f0VUEm8ksfp4/hWjDDTatnfTsfmXtGavwsoR0+t
- Dc+yRUdLZ3+AQpG1Z/oxCac8saDymXiP0ToLHANH89YOqVG/H89TsSp+5/gAp+3j0y+o6K
- F84HsZS2KM7mkhTw5QA4IQYba8xNUfk=
+ bh=BRaYRd3bi86keHrgnU6pJ7kzGifTS5EX3va68q0833A=;
+ b=RJDzTX0BTj4DCzSfqkQzJs65CIjBW9bSmUYyYj3mHBd6Q9h4nR18MeqC/noBuQOz6oXBvO
+ tZYjVf4XN0z7JRcE74lnBhm7xwQMv0NRGLJo6L914MqCamoIe4jEPu8npT2XbemIhKhBbN
+ dkINkfif2a/q3oraXXVDylywnhSObh0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-R4Vpfpi_NHSTbYxAPGiT7w-1; Thu, 04 Feb 2021 12:20:04 -0500
-X-MC-Unique: R4Vpfpi_NHSTbYxAPGiT7w-1
+ us-mta-283-21irJaa7PaCluITxgd_tFg-1; Thu, 04 Feb 2021 12:20:08 -0500
+X-MC-Unique: 21irJaa7PaCluITxgd_tFg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 286B0107ACE4;
- Thu,  4 Feb 2021 17:20:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65768100C668;
+ Thu,  4 Feb 2021 17:20:07 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-221.ams2.redhat.com
  [10.36.112.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 074D860CFA;
- Thu,  4 Feb 2021 17:20:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72AA860C9B;
+ Thu,  4 Feb 2021 17:20:03 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 29/33] migration: push Error **errp into
- qemu_savevm_live_state()
-Date: Thu,  4 Feb 2021 17:19:03 +0000
-Message-Id: <20210204171907.901471-30-berrange@redhat.com>
+Subject: [PATCH 30/33] migration: push Error **errp into
+ qemu_save_device_state()
+Date: Thu,  4 Feb 2021 17:19:04 +0000
+Message-Id: <20210204171907.901471-31-berrange@redhat.com>
 In-Reply-To: <20210204171907.901471-1-berrange@redhat.com>
 References: <20210204171907.901471-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -92,62 +92,130 @@ via Error objects instead of printing directly to the console/monitor.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- migration/colo.c   | 4 +++-
- migration/savevm.c | 8 ++++----
- migration/savevm.h | 2 +-
- 3 files changed, 8 insertions(+), 6 deletions(-)
+ migration/colo.c   |  2 +-
+ migration/savevm.c | 51 ++++++++++++++++++++++++++++------------------
+ migration/savevm.h |  2 +-
+ 3 files changed, 33 insertions(+), 22 deletions(-)
 
 diff --git a/migration/colo.c b/migration/colo.c
-index 4a050ac579..a76b72c984 100644
+index a76b72c984..fc824a9732 100644
 --- a/migration/colo.c
 +++ b/migration/colo.c
-@@ -470,7 +470,9 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
-      * TODO: We may need a timeout mechanism to prevent COLO process
-      * to be blocked here.
-      */
--    qemu_savevm_live_state(s->to_dst_file);
-+    if (qemu_savevm_live_state(s->to_dst_file, &local_err) < 0) {
-+        goto out;
-+    }
+@@ -459,7 +459,7 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+         goto out;
+     }
+     /* Note: device state is saved into buffer */
+-    ret = qemu_save_device_state(fb);
++    ret = qemu_save_device_state(fb, &local_err);
  
-     qemu_fflush(fb);
- 
+     qemu_mutex_unlock_iothread();
+     if (ret < 0) {
 diff --git a/migration/savevm.c b/migration/savevm.c
-index deea8854db..884d12c6eb 100644
+index 884d12c6eb..994a7c7dab 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -1594,14 +1594,14 @@ static int qemu_savevm_state(QEMUFile *f, Error **errp)
-     return -1;
+@@ -1604,9 +1604,10 @@ int qemu_savevm_live_state(QEMUFile *f, Error **errp)
+     return 0;
  }
  
--void qemu_savevm_live_state(QEMUFile *f)
-+int qemu_savevm_live_state(QEMUFile *f, Error **errp)
+-int qemu_save_device_state(QEMUFile *f)
++int qemu_save_device_state(QEMUFile *f, Error **errp)
  {
--    Error *local_err = NULL;
-     /* save QEMU_VM_SECTION_END section */
--    if (qemu_savevm_state_complete_precopy(f, true, false, &local_err) < 0) {
--        error_report_err(local_err);
-+    if (qemu_savevm_state_complete_precopy(f, true, false, errp) < 0) {
-+        return -1;
-     }
+     SaveStateEntry *se;
++    int ret;
+ 
+     if (!migration_in_colo_state()) {
+         qemu_put_be32(f, QEMU_VM_FILE_MAGIC);
+@@ -1615,7 +1616,6 @@ int qemu_save_device_state(QEMUFile *f)
+     cpu_synchronize_all_states();
+ 
+     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+-        int ret;
+ 
+         if (se->is_ram) {
+             continue;
+@@ -1630,8 +1630,9 @@ int qemu_save_device_state(QEMUFile *f)
+         save_section_header(f, se, QEMU_VM_SECTION_FULL);
+ 
+         ret = vmstate_save(f, se, NULL);
+-        if (ret) {
+-            return ret;
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "failed to save device state");
++            return -1;
+         }
+ 
+         save_section_footer(f, se);
+@@ -1639,7 +1640,12 @@ int qemu_save_device_state(QEMUFile *f)
+ 
      qemu_put_byte(f, QEMU_VM_EOF);
+ 
+-    return qemu_file_get_error(f);
++    ret = qemu_file_get_error(f);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "I/O error saving device state");
++        return -1;
++    }
 +    return 0;
  }
  
- int qemu_save_device_state(QEMUFile *f)
+ static SaveStateEntry *find_se(const char *idstr, uint32_t instance_id)
+@@ -2959,22 +2965,27 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
+     qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-save-state");
+     f = qemu_fopen_channel_output(QIO_CHANNEL(ioc));
+     object_unref(OBJECT(ioc));
+-    ret = qemu_save_device_state(f);
+-    if (ret < 0 || qemu_fclose(f) < 0) {
++    ret = qemu_save_device_state(f, errp);
++    if (ret < 0) {
++        goto the_end;
++    }
++
++    if (qemu_fclose(f) < 0) {
+         error_setg(errp, QERR_IO_ERROR);
+-    } else {
+-        /* libxl calls the QMP command "stop" before calling
+-         * "xen-save-devices-state" and in case of migration failure, libxl
+-         * would call "cont".
+-         * So call bdrv_inactivate_all (release locks) here to let the other
+-         * side of the migration take control of the images.
+-         */
+-        if (live && !saved_vm_running) {
+-            ret = bdrv_inactivate_all();
+-            if (ret) {
+-                error_setg(errp, "%s: bdrv_inactivate_all() failed (%d)",
+-                           __func__, ret);
+-            }
++        goto the_end;
++    }
++
++    /* libxl calls the QMP command "stop" before calling
++     * "xen-save-devices-state" and in case of migration failure, libxl
++     * would call "cont".
++     * So call bdrv_inactivate_all (release locks) here to let the other
++     * side of the migration take control of the images.
++     */
++    if (live && !saved_vm_running) {
++        ret = bdrv_inactivate_all();
++        if (ret) {
++            error_setg(errp, "%s: bdrv_inactivate_all() failed (%d)",
++                       __func__, ret);
+         }
+     }
+ 
 diff --git a/migration/savevm.h b/migration/savevm.h
-index 2d46e848cd..7abd75b668 100644
+index 7abd75b668..a91e097b51 100644
 --- a/migration/savevm.h
 +++ b/migration/savevm.h
-@@ -59,7 +59,7 @@ void qemu_savevm_send_postcopy_ram_discard(QEMUFile *f, const char *name,
-                                            uint64_t *start_list,
+@@ -60,7 +60,7 @@ void qemu_savevm_send_postcopy_ram_discard(QEMUFile *f, const char *name,
                                             uint64_t *length_list);
  void qemu_savevm_send_colo_enable(QEMUFile *f);
--void qemu_savevm_live_state(QEMUFile *f);
-+int qemu_savevm_live_state(QEMUFile *f, Error **errp);
- int qemu_save_device_state(QEMUFile *f);
+ int qemu_savevm_live_state(QEMUFile *f, Error **errp);
+-int qemu_save_device_state(QEMUFile *f);
++int qemu_save_device_state(QEMUFile *f, Error **errp);
  
  int qemu_loadvm_state(QEMUFile *f, Error **errp);
+ void qemu_loadvm_state_cleanup(void);
 -- 
 2.29.2
 
