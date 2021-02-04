@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488C430FC74
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:22:01 +0100 (CET)
-Received: from localhost ([::1]:32792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941C530FC93
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:25:08 +0100 (CET)
+Received: from localhost ([::1]:43204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kCW-00070n-A9
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:22:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42218)
+	id 1l7kFX-00031M-Fp
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:25:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l7jf9-0005nT-QB
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:47:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l7jf6-0000iq-9y
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:47:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612464446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wByFY0kwvNlhRPrKZVLBOl0S4foTNSWB3yIVdN3y5I4=;
- b=cUPP5yAWeVMt3nMv/gwz5tB7xdb75tfAis4n27HauQzMe2nM0ZwEtt5LeLABSmG4m6BFcS
- Qtafa+YgEoYNu1XaMLyMemYbqKCgqRD0Tkn9q6znPdrjgBDOExZgYKyIAXnijVHU3xNw4Y
- k3QmViFhNqq/uU8pEAd1IzFpM9Hfarg=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-p6gVvv-6OUKUuH5Wb0izIg-1; Thu, 04 Feb 2021 13:47:24 -0500
-X-MC-Unique: p6gVvv-6OUKUuH5Wb0izIg-1
-Received: by mail-pf1-f200.google.com with SMTP id z3so3069684pfj.3
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 10:47:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7jgm-0008Fz-DW
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:49:12 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35014)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7jgk-0001VG-Sy
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:49:12 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id l12so4821668wry.2
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 10:49:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=en74di+LzSO3pBdW4pcxaImxoU/XsOIyXRxnSBm7zT8=;
+ b=alMWBF9+m7nt33RExNdH3QY1hYi7hC3rD0BTkhc6xA4I7IeXAwlkU1/0fEHkDXzNnQ
+ pD3eg0EW6NP3jgr0bcNyQ++Zt6wahowaiLYP8bje244dbkAnhYTXDg8eL0ji0XwJhm/r
+ 1o/OqoJLjGS9pzIkyE8evD62+TQkVKK50BK5a3HZ22NKw9WwBNCQAxGPdlYkp8VtiO3X
+ sntEAmtmGHohY3L0cg9pSXuzGwWxXj8nxV10l3mNzTqMKRKS5FBJvl+0GPR4J38tHqw2
+ nZwg/fjEKKpYAPe3q0TKAVGe5ZZemrhlEctwH82/ajrzA698//y1eBB24zWKuCXT5iOI
+ +Q6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wByFY0kwvNlhRPrKZVLBOl0S4foTNSWB3yIVdN3y5I4=;
- b=q7fIpCjywJCyiF6QRKUDl96Cu8nIeCFkFjDQxwWCw8v3+0wUtuKFBjL9pxKpgyw6GM
- n7J37JYLFKDM84B5jSnaPbQqQF7dWS/hsUtvqQWpsB90OzkpgZeXGeHnmSOj3R+TUzJe
- uwtv4RdjKvqzRuLn4oqVRWa1GiHpVH9DjjCTPSoi/SbikY7PBZJJhFaB1SMiKotEgB9p
- f+OvO5VaQwGYvOfucKQb71KhloEgmqiTtNywAnor4sI2rmgvGVD45CPABNVpxVnf9bTD
- NI8iiiGwhijTIpCw1Nf22MfSRKOJJhS7eXAH7kSWhn8Bp0BA0qYwozSsJ3U+7eUUCLeG
- MS4A==
-X-Gm-Message-State: AOAM531MNqmyjg8U9LO4boZJPzm8dccQ47RtCfJCezUvnJJdkRUnAXTa
- KCexJX3ziOd2813BhZkFxkkOcC2wfwpdBZ8IYktaBFAJMSGoguOMZ3hBrntxTjCClSjbR2w4XwX
- whuBgNkyPaNByod3WOhJnh1vYikDJbHM=
-X-Received: by 2002:a63:215f:: with SMTP id s31mr387121pgm.146.1612464443680; 
- Thu, 04 Feb 2021 10:47:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJysg8UoVS4wyQmPAyHPqeZ6ppgtBEUqwZ0Wbe2sL3fuh4HbwQXLcjzcAYEpK5URUZ0xMAKNwOLJgqLP5RVUPVE=
-X-Received: by 2002:a63:215f:: with SMTP id s31mr387090pgm.146.1612464443366; 
- Thu, 04 Feb 2021 10:47:23 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=en74di+LzSO3pBdW4pcxaImxoU/XsOIyXRxnSBm7zT8=;
+ b=ZZ5i57Fm/JSe6p5IEszzmcUQn+ornMcP1moaV09CAlSa5T2UYpp2EAAP8/R7DlRJeD
+ +plHTjEagjIOkstYIHuiaFmqWyM/jxpV2OYvX65E4vmXXtA8HfWbJuzInljM6KDfkl/W
+ l+woNrNz0Q+zoEX8E/yj28TdvU0HU3u1iBS91UAvp8INpb9YyUK+/C7Eymrw1uoTLyB0
+ E7bcTCT71GqtiXr5GdpXK++r1SCfsGyqkbcAScXwFmHn+F/1OcrIhrBvjU6hL7CzjHZh
+ awjvrr6rK3Jgu0UlctPtt5bStTADGVLEGvvwTEvaZvv51l4kwa77DaVzQdAlwLlXSGtp
+ mCFg==
+X-Gm-Message-State: AOAM533yIapahE+6wJT6xzuvphAMjRl4h9py/8ZO2tAP3afGW4shhOvm
+ yijvGCpLFhvCFXx9ZlwEUgCwcQ==
+X-Google-Smtp-Source: ABdhPJxQs/1iGz83IBWztuQ3tiGoBdzCpGst0b/D6/qj0oS6TcjGkuQP0YVOD6qWgmTsa8add9XgLQ==
+X-Received: by 2002:adf:e48b:: with SMTP id i11mr826106wrm.406.1612464548313; 
+ Thu, 04 Feb 2021 10:49:08 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 36sm9877177wrj.97.2021.02.04.10.49.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Feb 2021 10:49:07 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9FFB91FF7E;
+ Thu,  4 Feb 2021 18:49:06 +0000 (GMT)
+References: <20210204014509.882821-1-richard.henderson@linaro.org>
+ <20210204014509.882821-30-richard.henderson@linaro.org>
+ <87czxfq1t0.fsf@linaro.org>
+ <a8651dd2-3cb5-30f2-d8fd-632717a764e3@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 29/93] tcg/tci: Remove TCG_CONST
+Date: Thu, 04 Feb 2021 18:48:54 +0000
+In-reply-to: <a8651dd2-3cb5-30f2-d8fd-632717a764e3@linaro.org>
+Message-ID: <877dnnpt25.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210204180328.1735105-1-f4bug@amsat.org>
- <0e3863f5-179c-7bb9-e5de-5a5a6d21c2c6@redhat.com>
- <CAAdtpL6+vkmJSPB39jww75CsFv6ZkTgfD+7yzUqBH+OX-uT4gQ@mail.gmail.com>
-In-Reply-To: <CAAdtpL6+vkmJSPB39jww75CsFv6ZkTgfD+7yzUqBH+OX-uT4gQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 4 Feb 2021 19:47:11 +0100
-Message-ID: <CABgObfbZYsjfmbO47-LmP6fzZaB3bQiYR3dM1qvXk0OpPbcK5A@mail.gmail.com>
-Subject: Re: [PATCH] exec/cpu-defs: Remove TCG backends dependency
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000005c370705ba872232"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,89 +89,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Claudio Fontana <cfontana@suse.de>
+Cc: sw@weilnetz.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005c370705ba872232
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Il gio 4 feb 2021, 19:41 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> ha
-scritto:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> On Thu, Feb 4, 2021 at 7:19 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > On 04/02/21 19:03, Philippe Mathieu-Daud=C3=A9 wrote:
-> > > "exec/cpu-defs.h" contains common CPU definitions for
-> > > accelerators, which is not related to the TCG backends.
-> > > See tcg/README description:
-> >
-> > Most of the definitions are actually for TCG, not for all accelerators
-> > (the TLB mostly).
+> On 2/4/21 5:39 AM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> Only allow registers or constants, but not both, in any
+>>> given position.
+>>=20
+>> Aren't we switching to all registers (there are no more _i functions
+>> after this)? I guess you mean the registers can have constants in them?
 >
-> Ah ok. Richard, could you update the description or do you want
-> me to respin?
+> Ah, bad wording.  I think I was thinking of movi, which would be r,i if it
+> actually existed in this list (which it doesn't).
 >
-> > However, they're indeed unrelated to the backends, so
-> >
-> > Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Better as
 >
-> Thanks, this avoids rebuilding the whole tree when doing a single change
-> in these headers (I'll send a quick mail about it later, proven useful
-> while
-> bisecting).
->
+>   Restrict all operands to registers.  All constants will be
+>   forced into registers by the middle-end.
 
-You could respin and include this info as well.
+better thanks..
 
-Paolo
-
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 >
-
---0000000000005c370705ba872232
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il gio 4 feb 2021, 19:41 Philippe Mathieu-Daud=C3=A9 &=
-lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; ha scritto:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">On Thu, Feb 4, 2021 at 7:19 PM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" rel=
-=3D"noreferrer">pbonzini@redhat.com</a>&gt; wrote:<br>
-&gt; On 04/02/21 19:03, Philippe Mathieu-Daud=C3=A9 wrote:<br>
-&gt; &gt; &quot;exec/cpu-defs.h&quot; contains common CPU definitions for<b=
-r>
-&gt; &gt; accelerators, which is not related to the TCG backends.<br>
-&gt; &gt; See tcg/README description:<br>
-&gt;<br>
-&gt; Most of the definitions are actually for TCG, not for all accelerators=
-<br>
-&gt; (the TLB mostly).<br>
-<br>
-Ah ok. Richard, could you update the description or do you want<br>
-me to respin?<br>
-<br>
-&gt; However, they&#39;re indeed unrelated to the backends, so<br>
-&gt;<br>
-&gt; Acked-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
-get=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
-<br>
-Thanks, this avoids rebuilding the whole tree when doing a single change<br=
+> ?
 >
-in these headers (I&#39;ll send a quick mail about it later, proven useful =
-while<br>
-bisecting).<br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">You could respin and include this info as well.</div><div dir=3D=
-"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><=
-div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-</blockquote></div></div></div>
+>
+> r~
 
---0000000000005c370705ba872232--
 
+--=20
+Alex Benn=C3=A9e
 
