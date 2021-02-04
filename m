@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4FA30EA9C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 04:03:53 +0100 (CET)
-Received: from localhost ([::1]:49038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 276FA30EA9E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 04:04:17 +0100 (CET)
+Received: from localhost ([::1]:51306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Uvw-00057z-Aa
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 22:03:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47542)
+	id 1l7UwK-00066U-5f
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 22:04:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7Tuy-0003V1-JN
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:58:48 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:40669)
+ id 1l7UHh-0005K4-Rz
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 21:22:17 -0500
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:44078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7Tuq-0007Zl-RF
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:58:48 -0500
-Received: by mail-pg1-x533.google.com with SMTP id b21so1045395pgk.7
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:58:40 -0800 (PST)
+ id 1l7UHa-0006Do-Mr
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 21:22:17 -0500
+Received: by mail-pf1-x429.google.com with SMTP id t29so1104895pfg.11
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 18:22:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=K7frB2t4HRQY2QCd4vmgctpTB+qUKaU+sWJuOgxV4RM=;
- b=L3peDv4H7aEltwWOcPCZ8688ephTfrKHliYyspBi2HozLSZ6Em/Pje8JSVzMXqZlt9
- riTF+c1w7ROp1fGEV4ITqXTONZXsm4p+2DWUMNsb8YKV8u6TmEbDTXFJ01ouGFIJdSvL
- RFrhAgMjFeNXO7xvyq54aDtya1dVVTj4CRRBT/hOqer0IwOH39D4R6T5Ec9v8IyBWati
- OIRG/RQ1L2PIUa0SFhUVzFXggQOwnleyYvjzxHbzxNoYvJ76ZN+4tWQ6gbu8odJJSEgg
- 5FM+N00GP7oFtCmBtXKd6JnqlzCfvQRYCvGKgoDUwyCfUnJNmjVKoUVZ2RTFRO254JYi
- unqQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9NOKLS3s9exLmQHsZD3PAUO8XcRMJTvh7NwbSI9HB3Q=;
+ b=F+/yCdstdB22xOojaG9sxO2RE2QiDoQsRU02mj3/iw8vg5CX7bkJn4FeB+cOn7C6dk
+ Q0iybnTMxCjVW6iYAhm8sfOVElZ7CYQplxKX/9cHSFowwnwVgjAQw/N2G7EpnuleAHsx
+ Wp6UlTNSEHTVW25V1sdMkFP64vzRtKGi5j/hAgxSX+bnXJoXQ837sCv+asjkFoIvioVI
+ qup/CX61ZO6hNxa7//0LZLA7mXY/gI9fPCXwjEzz8FehIUzO/LP8xEmuYCxPys3gBVwn
+ ktbmfIzljpLeo8m1li1FkCBuZSgxLMtLErkghDCIlFCxpje0BJVQvn2yMIxBV2LzHzyW
+ AN3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=K7frB2t4HRQY2QCd4vmgctpTB+qUKaU+sWJuOgxV4RM=;
- b=e61ajFuXPr5+dpskVxbw1KGTUWqcsJSl+PSPny7Gz1PurKce8SafQ2aYut20J5zTpt
- d9Hgoc3rruHejeGUS/LfdDgpppexVqey6ooaQtBzqzyaLfo6ZgjW+Anl1DF2uv3RkvN1
- 85Wqtfj85mnRDt83yLawE0tpa+EfQm3VU5NLzB6S28l59UqnYgQyrACftUxHM1LRhhfq
- y5DI8YKiMQ18lknbkG2WSHO5J7znaChCTu+tz/SRHzEjVUpw3S0J2F5u6zU53+qB36nH
- /Am0e/fcYBD2Q6ZxYO5MKweBWnD8qwj3frzM6vCDouAg+WgdV1ydYjypH/bSJBahc1Dc
- Od4A==
-X-Gm-Message-State: AOAM530IW1Gttmbz/IeGA3KNDZ1Fc3dzJ5+ET9nuSqzLHz/cfPFkGI2s
- b3GmwvSoPMblQeOo1yhYo1ze79ntsoCpQPMa
-X-Google-Smtp-Source: ABdhPJxdtT2blUegOZo2LUHx6Zqfy9wTE1TOuU13jH7eeV2SHkzrcYI1amSGtkA93hysca86G2w/Uw==
-X-Received: by 2002:a63:d143:: with SMTP id c3mr6826866pgj.86.1612403919564;
- Wed, 03 Feb 2021 17:58:39 -0800 (PST)
-Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9NOKLS3s9exLmQHsZD3PAUO8XcRMJTvh7NwbSI9HB3Q=;
+ b=kmWnxhOAiGdGsO5oWxT0oQDjmD1fPNnUmEE819d8hXMYGw6uNmLOxQHEz2g86EXZfQ
+ us4DP6/R1mDM0s1PD6Sa0FHHjEOZfJsZrtGAe0rRvrwf/A+jipmvdvWyWJkHdLC1+D9t
+ BUWyVjm0joXnPFKjT2mrwgfNS9vS5V/gr6Q+BZn8OjVKnYRtH41kIbGfCir3LwoTzoOK
+ Jqbwe8TfhKo4DE2X24JQOZ8lBipkfSUFxZWt21SuZTS9OuRjQmw6MNaVPdnf0Sh/V/74
+ CGnfrSMz5QXicPAlH2jgxN0LQzo1NZWPLjyCDrKpVaHxs7WC2VbDjmxmt5y9J8VtmR8o
+ aorA==
+X-Gm-Message-State: AOAM531QepjNgL030WdVfPNvw6rBYqkBb3K3W5N1A0+O6JRPAdnv+pe1
+ 29i7F/Gr/4UQoqSI7LtBQXqdpg==
+X-Google-Smtp-Source: ABdhPJwrhnGZVzZP2ncwj7kN3Md76tbJEvByebtzoY2cO8UD+jqkGmbtr7dKZ+YlYfK6XdQjJjvsXA==
+X-Received: by 2002:a05:6a00:22d1:b029:1b4:9bb5:724c with SMTP id
+ f17-20020a056a0022d1b02901b49bb5724cmr6092287pfj.63.1612405328762; 
+ Wed, 03 Feb 2021 18:22:08 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id x17sm3562973pff.180.2021.02.03.17.58.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 17:58:38 -0800 (PST)
+ by smtp.gmail.com with ESMTPSA id o190sm4230894pgo.50.2021.02.03.18.22.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Feb 2021 18:22:07 -0800 (PST)
+Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
+ constant folding
+To: "Richard W.M. Jones" <rjones@redhat.com>
+References: <20210114021654.647242-1-richard.henderson@linaro.org>
+ <20210114021654.647242-12-richard.henderson@linaro.org>
+ <20210201204547.GD2673@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 92/93] tcg/tci: Implement mulu2, muls2
-Date: Wed,  3 Feb 2021 15:58:36 -1000
-Message-Id: <20210204015836.885930-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210204014509.882821-1-richard.henderson@linaro.org>
-References: <20210204014509.882821-1-richard.henderson@linaro.org>
+Message-ID: <28457ae1-7e9b-4428-cb10-3b79ebeac8d0@linaro.org>
+Date: Wed, 3 Feb 2021 16:22:04 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210201204547.GD2673@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.178,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,194 +91,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de
+Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already had mulu2_i32 for a 32-bit host; expand this to 64-bit
-hosts as well.  The muls2_i32 and the 64-bit opcodes are new.
+On 2/1/21 10:45 AM, Richard W.M. Jones wrote:
+> This commit breaks running certain s390x binaries, at least
+> the "mount" command (or a library it uses) breaks.
+> 
+> More details in this BZ:
+> 
+> https://bugzilla.redhat.com/show_bug.cgi?id=1922248
+> 
+> Could we revert this change since it seems to have caused other
+> problems as well?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/tci/tcg-target.h     |  8 ++++----
- tcg/tci.c                | 35 +++++++++++++++++++++++++++++------
- tcg/tci/tcg-target.c.inc | 16 ++++++++++------
- 3 files changed, 43 insertions(+), 16 deletions(-)
+Well, the other problems have been fixed (which were in fact latent, and could
+have been produced by other means).  I would not like to sideline this patch
+set indefinitely.
 
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 59859bd8a6..71a44bbfb0 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -83,7 +83,7 @@
- #define TCG_TARGET_HAS_orc_i32          1
- #define TCG_TARGET_HAS_rot_i32          1
- #define TCG_TARGET_HAS_movcond_i32      1
--#define TCG_TARGET_HAS_muls2_i32        0
-+#define TCG_TARGET_HAS_muls2_i32        1
- #define TCG_TARGET_HAS_muluh_i32        0
- #define TCG_TARGET_HAS_mulsh_i32        0
- #define TCG_TARGET_HAS_goto_ptr         1
-@@ -120,13 +120,13 @@
- #define TCG_TARGET_HAS_orc_i64          1
- #define TCG_TARGET_HAS_rot_i64          1
- #define TCG_TARGET_HAS_movcond_i64      1
--#define TCG_TARGET_HAS_muls2_i64        0
-+#define TCG_TARGET_HAS_muls2_i64        1
- #define TCG_TARGET_HAS_add2_i32         0
- #define TCG_TARGET_HAS_sub2_i32         0
--#define TCG_TARGET_HAS_mulu2_i32        0
-+#define TCG_TARGET_HAS_mulu2_i32        1
- #define TCG_TARGET_HAS_add2_i64         0
- #define TCG_TARGET_HAS_sub2_i64         0
--#define TCG_TARGET_HAS_mulu2_i64        0
-+#define TCG_TARGET_HAS_mulu2_i64        1
- #define TCG_TARGET_HAS_muluh_i64        0
- #define TCG_TARGET_HAS_mulsh_i64        0
- #else
-diff --git a/tcg/tci.c b/tcg/tci.c
-index 35f2c4bfbb..5d83b2d957 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -39,7 +39,7 @@ __thread uintptr_t tci_tb_ptr;
- static void tci_write_reg64(tcg_target_ulong *regs, uint32_t high_index,
-                             uint32_t low_index, uint64_t value)
- {
--    regs[low_index] = value;
-+    regs[low_index] = (uint32_t)value;
-     regs[high_index] = value >> 32;
- }
- 
-@@ -169,7 +169,6 @@ static void tci_args_rrrrr(uint32_t insn, TCGReg *r0, TCGReg *r1,
-     *r4 = extract32(insn, 24, 4);
- }
- 
--#if TCG_TARGET_REG_BITS == 32
- static void tci_args_rrrr(uint32_t insn,
-                           TCGReg *r0, TCGReg *r1, TCGReg *r2, TCGReg *r3)
- {
-@@ -178,7 +177,6 @@ static void tci_args_rrrr(uint32_t insn,
-     *r2 = extract32(insn, 16, 4);
-     *r3 = extract32(insn, 20, 4);
- }
--#endif
- 
- static void tci_args_rrrrrc(uint32_t insn, TCGReg *r0, TCGReg *r1,
-                             TCGReg *r2, TCGReg *r3, TCGReg *r4, TCGCond *c5)
-@@ -680,11 +678,21 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             T2 = tci_uint64(regs[r5], regs[r4]);
-             tci_write_reg64(regs, r1, r0, T1 - T2);
-             break;
-+#endif /* TCG_TARGET_REG_BITS == 32 */
-+#if TCG_TARGET_HAS_mulu2_i32
-         case INDEX_op_mulu2_i32:
-             tci_args_rrrr(insn, &r0, &r1, &r2, &r3);
--            tci_write_reg64(regs, r1, r0, (uint64_t)regs[r2] * regs[r3]);
-+            tmp64 = (uint64_t)(uint32_t)regs[r2] * (uint32_t)regs[r3];
-+            tci_write_reg64(regs, r1, r0, tmp64);
-             break;
--#endif /* TCG_TARGET_REG_BITS == 32 */
-+#endif
-+#if TCG_TARGET_HAS_muls2_i32
-+        case INDEX_op_muls2_i32:
-+            tci_args_rrrr(insn, &r0, &r1, &r2, &r3);
-+            tmp64 = (int64_t)(int32_t)regs[r2] * (int32_t)regs[r3];
-+            tci_write_reg64(regs, r1, r0, tmp64);
-+            break;
-+#endif
- #if TCG_TARGET_HAS_ext8s_i32 || TCG_TARGET_HAS_ext8s_i64
-         CASE_32_64(ext8s)
-             tci_args_rr(insn, &r0, &r1);
-@@ -788,6 +796,18 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             regs[r0] = ctpop64(regs[r1]);
-             break;
- #endif
-+#if TCG_TARGET_HAS_mulu2_i64
-+        case INDEX_op_mulu2_i64:
-+            tci_args_rrrr(insn, &r0, &r1, &r2, &r3);
-+            mulu64(&regs[r0], &regs[r1], regs[r2], regs[r3]);
-+            break;
-+#endif
-+#if TCG_TARGET_HAS_muls2_i64
-+        case INDEX_op_muls2_i64:
-+            tci_args_rrrr(insn, &r0, &r1, &r2, &r3);
-+            muls64(&regs[r0], &regs[r1], regs[r2], regs[r3]);
-+            break;
-+#endif
- 
-             /* Shift/rotate operations (64 bit). */
- 
-@@ -1295,14 +1315,17 @@ int print_insn_tci(bfd_vma addr, disassemble_info *info)
-                            str_r(r3), str_r(r4), str_c(c));
-         break;
- 
--#if TCG_TARGET_REG_BITS == 32
-     case INDEX_op_mulu2_i32:
-+    case INDEX_op_mulu2_i64:
-+    case INDEX_op_muls2_i32:
-+    case INDEX_op_muls2_i64:
-         tci_args_rrrr(insn, &r0, &r1, &r2, &r3);
-         info->fprintf_func(info->stream, "%-12s  %s,%s,%s,%s",
-                            op_name, str_r(r0), str_r(r1),
-                            str_r(r2), str_r(r3));
-         break;
- 
-+#if TCG_TARGET_REG_BITS == 32
-     case INDEX_op_add2_i32:
-     case INDEX_op_sub2_i32:
-         tci_args_rrrrrr(insn, &r0, &r1, &r2, &r3, &r4, &r5);
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 664d715440..eb48633fba 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -141,10 +141,14 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-         return C_O2_I4(r, r, r, r, r, r);
-     case INDEX_op_brcond2_i32:
-         return C_O0_I4(r, r, r, r);
--    case INDEX_op_mulu2_i32:
--        return C_O2_I2(r, r, r, r);
- #endif
- 
-+    case INDEX_op_mulu2_i32:
-+    case INDEX_op_mulu2_i64:
-+    case INDEX_op_muls2_i32:
-+    case INDEX_op_muls2_i64:
-+        return C_O2_I2(r, r, r, r);
-+
-     case INDEX_op_movcond_i32:
-     case INDEX_op_movcond_i64:
-     case INDEX_op_setcond2_i32:
-@@ -434,7 +438,6 @@ static void tcg_out_op_rrrrr(TCGContext *s, TCGOpcode op, TCGReg r0,
-     tcg_out32(s, insn);
- }
- 
--#if TCG_TARGET_REG_BITS == 32
- static void tcg_out_op_rrrr(TCGContext *s, TCGOpcode op,
-                             TCGReg r0, TCGReg r1, TCGReg r2, TCGReg r3)
- {
-@@ -447,7 +450,6 @@ static void tcg_out_op_rrrr(TCGContext *s, TCGOpcode op,
-     insn = deposit32(insn, 20, 4, r3);
-     tcg_out32(s, insn);
- }
--#endif
- 
- static void tcg_out_op_rrrrrc(TCGContext *s, TCGOpcode op,
-                               TCGReg r0, TCGReg r1, TCGReg r2,
-@@ -728,10 +730,12 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-                           args[0], args[1], args[2], args[3], args[4]);
-         tcg_out_op_rl(s, INDEX_op_brcond_i32, TCG_REG_TMP, arg_label(args[5]));
-         break;
--    case INDEX_op_mulu2_i32:
-+#endif
-+
-+    CASE_32_64(mulu2)
-+    CASE_32_64(muls2)
-         tcg_out_op_rrrr(s, opc, args[0], args[1], args[2], args[3]);
-         break;
--#endif
- 
-     case INDEX_op_qemu_ld_i32:
-     case INDEX_op_qemu_st_i32:
--- 
-2.25.1
+Could you give me some help extracting the relevant binaries?  "Begin with an
+s390x host" is a non-starter.
 
+FWIW, with qemu-system-s390x, booting debian, building qemu-s390x, and running
+"/bin/mount -t proc proc /mnt" under double-emulation does not show the bug.
+
+I suspect that's because debian targets a relatively old s390x cpu, and that
+yours is using the relatively new vector instructions.  But I don't know.
+
+What I do know is that current qemu doesn't seem to boot current fedora:
+
+ $ ../bld/qemu-system-s390x -nographic -m 4G -cpu max -drive
+file=Fedora-Server-netinst-s390x-33-1.2.iso,format=raw,if=virtio
+ qemu-system-s390x: warning: 'msa5-base' requires 'kimd-sha-512'.
+ qemu-system-s390x: warning: 'msa5-base' requires 'klmd-sha-512'.
+ LOADPARM=[        ]
+ Using virtio-blk.
+ ISO boot image size verified
+
+ KASLR disabled: CPU has no PRNG
+ Linux version 5.8.15-301.fc33.s390x
+(mockbuild@buildvm-s390x-07.s390.fedoraproject.org) 1 SMP Thu Oct 15 15:55:57
+UTC 2020Kernel fault: interruption code 0005 ilc:2
+ PSW : 0000200180000000 00000000000124c4
+       R:0 T:0 IO:0 EX:0 Key:0 M:0 W:0 P:0 AS:0 CC:2 PM:0 RI:0 EA:3
+ GPRS: 0000000000000000 0000000b806a2da6 7aa19c5cbb980703 95f62d65812b83ab
+       d5e42882af203615 0000000b806a2da0 0000000000000000 0000000000000000
+       00000000000230e8 0000000001438500 0000000001720320 0000000000000000
+       0000000001442718 0000000000010070 0000000000012482 000000000000bf20
+
+Which makes me thing that fedora 33 is now targeting a cpu that is too new and
+not actually supported by tcg.
+
+
+r~
 
