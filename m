@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6DC31004F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 23:50:02 +0100 (CET)
-Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233AB310051
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 23:52:25 +0100 (CET)
+Received: from localhost ([::1]:59674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7nRp-0002uO-BP
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 17:50:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40746)
+	id 1l7nU7-00051k-Um
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 17:52:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7nQB-0002Lp-AZ
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 17:48:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44399)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7nSa-00043A-Tl
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 17:50:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7nQ8-0004vu-9D
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 17:48:18 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7nSZ-00061u-28
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 17:50:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612478895;
+ s=mimecast20190719; t=1612479046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=/81/LvVCMTVOSvqLCbLQh+qCxtuSEoIMFzFNM1miJj4=;
- b=GDoruJF1rqshbRBSVwQ2lIGF1Ki5plnCJtwQrlDmbq5Txdn25Z0mP4a2pYVfEjHHbCu2pm
- +erdfnomehxOMf9fWNE3KZWCCae8jAnXj73eX0/y/HVWd5kKPt+U+vg9XDtjaiaxPIvmc6
- Ktl8z88Uj0bau1AqwK+jIVDcIjqnMCg=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-6f4T_GzgPp63qI_J4fBJUQ-1; Thu, 04 Feb 2021 17:48:11 -0500
-X-MC-Unique: 6f4T_GzgPp63qI_J4fBJUQ-1
-Received: by mail-ej1-f71.google.com with SMTP id gt18so4130738ejb.18
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 14:48:11 -0800 (PST)
+ bh=oPGTla5PrkCsppu+7N9sKNWNuYVuSz/EYc1S5deb/zQ=;
+ b=EfoD2MV0tbsNOfetVLSqIW7a2YUvjn7Tff1Gmx146lTHHfTVXS4dRWKaRXrtctSH09nOma
+ 91C08K/a+TivCAsQ1hF3vIIXWIpiw4tNCYFGXAzlaCwMTQsAcK30/vMd4lz2a5yNs5DreI
+ 0ouN7zt3tgweDhz18nnipHJD/qrFdKA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-DyU9awsWNpKh5bF2b8l-mA-1; Thu, 04 Feb 2021 17:50:44 -0500
+X-MC-Unique: DyU9awsWNpKh5bF2b8l-mA-1
+Received: by mail-ej1-f69.google.com with SMTP id yh28so4211103ejb.11
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 14:50:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/81/LvVCMTVOSvqLCbLQh+qCxtuSEoIMFzFNM1miJj4=;
- b=alTcJOLIdbsQJkHWmMJPzrq2z9W2QMcqn1Rr3Kv2AOwViS6HIctSpOEyn8R2r88G8K
- W8t7Pl1jEX2d1T4bOdSNsYZN9PdJGyufttQU9V4oe3fdUJNJKf8Fuq4YfQI2lbHCBreM
- bC0oAPQIOXhrURptUkgbqeIxcdJixANRjJLj9MwPRmcseawGjnTM1XTRHrv9Q4Bw3yKi
- Ju9JJtB/8EREibIeJqyPhgswxkc1Xb38KQNve1CqYgKuJh4nbOtXByUYiKrcLR+L/MIe
- mFm88cMkdtAkhkOw+psVM2jB+w2hZhrdS7d06DoIvLdYB7MwN+XHuwFlMHtAmkQ+zHtH
- k0Sw==
-X-Gm-Message-State: AOAM532RM3NxtAd0lEerbqEQmLgG39Nhh72nSmba1RMP5OAN9G6Xny9b
- cewLQ/JqgjLeBEG2dm3CQSTUd1wIoWpXYYAA46hIq5Rk7+jOWZGEHZY1WqpznFQvbnkSo00J7eb
- Cd5G+hM/IfoLO2lDOPp6fxBhZQlT4Yk86TZXsylcx1PtJVJeMczlkDoCwy5nSwxv7
-X-Received: by 2002:aa7:c3c4:: with SMTP id l4mr758202edr.255.1612478890439;
- Thu, 04 Feb 2021 14:48:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz/uGCF+5by7dhK4ScjdsZMiWpdsaGQ49aHjlMcHCP0/FraxGz+1tqFeNyPXjgqw3f2JYAsDA==
-X-Received: by 2002:aa7:c3c4:: with SMTP id l4mr758186edr.255.1612478890246;
- Thu, 04 Feb 2021 14:48:10 -0800 (PST)
+ bh=oPGTla5PrkCsppu+7N9sKNWNuYVuSz/EYc1S5deb/zQ=;
+ b=ZN1SF1U4WSmG0vo0sl2hhQCmWYevIVnL9kdekNW/TDDvV9ha7yrvyEUhUyHv+QNSaD
+ 3V4g5oiH8LPSMljqfYRzb+J/lBAnroSUXx2FTxQHDwZ8pEyuHimvt9tDQrTIqDN3byO0
+ 4pzAaHMUanjTeR+DapfPf2OHkAV7hIDrr6gsU7op75eD8XNlR7DCSx5SOb/PBUhLl4kX
+ /wiO4nKaj1Vl6YZOAL3ublevpcoynZ5bFpFrxAgUV0vCxav+nkg0y5r+LJRjUyLDc453
+ pyT/JlaV46a2rTDIWxmyBhKOMgADr7BGVEzaFS78PXZZ7D40GcVav6SDxcvt/Vcqwoak
+ Em2A==
+X-Gm-Message-State: AOAM531txoXftOndgG6tWxyCqYa1XZd5sWmc2LtqWg2bCOYSuFKFEa3W
+ UvLHI3iGmF7V13kpoYMhhMvwaJYp+aCTqqfJLoYpN/YJZRPpltojARBD3uZ03mG3J1KeuyH/toH
+ yvzyiDke6oUI88j19UEyBf9Zo+4p65B8BeYCoPE/AUU4dq1xtJ6aCml16RotczvQN
+X-Received: by 2002:a17:906:d8b5:: with SMTP id
+ qc21mr1247221ejb.62.1612479043418; 
+ Thu, 04 Feb 2021 14:50:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxda5jqG/9SAr1NKPWhmgnkgZT1Om4oLaqKxWLHM3keC8no89hmuUxGPwAz3c0j+qMKmOQDdg==
+X-Received: by 2002:a17:906:d8b5:: with SMTP id
+ qc21mr1247208ejb.62.1612479043253; 
+ Thu, 04 Feb 2021 14:50:43 -0800 (PST)
 Received: from x1w.redhat.com (107.red-83-59-163.dynamicip.rima-tde.net.
  [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id g9sm3056329ejp.55.2021.02.04.14.48.08
+ by smtp.gmail.com with ESMTPSA id cw21sm3083641edb.85.2021.02.04.14.50.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 14:48:09 -0800 (PST)
+ Thu, 04 Feb 2021 14:50:42 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/scsi/scsi-disk: Fix out of bounds access in
+Subject: [PATCH v2] hw/scsi/scsi-disk: Fix out of bounds access in
  mode_sense_page()
-Date: Thu,  4 Feb 2021 23:48:07 +0100
-Message-Id: <20210204224808.1821734-1-philmd@redhat.com>
+Date: Thu,  4 Feb 2021 23:50:40 +0100
+Message-Id: <20210204225041.1822673-1-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -78,7 +80,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,7 +105,7 @@ Per the "SCSI Commands Reference Manual" (Rev. J) chapter 5.3
 codes", the last page code is 0x3f. When using it as array index,
 the array must have 0x40 elements. Replace the magic 0x3f value
 by its definition and increase the size of the mode_sense_valid[]
-to avoid an out of bound access:
+to avoid an out of bound access (reproducer available in [Buglink]):
 
   hw/scsi/scsi-disk.c:1104:10: runtime error: index 63 out of bounds for type 'const int [63]'
   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior hw/scsi/scsi-disk.c:1104:10 in
@@ -132,6 +134,8 @@ Reported-by: Alexander Bulekov <alxndr@bu.edu>
 Buglink: https://bugs.launchpad.net/qemu/+bug/1914638
 Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+v2: Mention reproducer link
 ---
  hw/scsi/scsi-disk.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
