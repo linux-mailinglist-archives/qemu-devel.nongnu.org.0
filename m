@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6727230F486
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:06:26 +0100 (CET)
-Received: from localhost ([::1]:42158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27CD30F483
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:06:25 +0100 (CET)
+Received: from localhost ([::1]:42096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7fH7-0000hQ-63
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:06:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50808)
+	id 1l7fH6-0000el-OT
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:06:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7fCd-0003g1-Jf
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:01:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60308)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7fCc-0003d9-67
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:01:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7fCa-00007D-Ej
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:01:47 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7fCZ-00006V-Ep
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:01:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612447303;
+ s=mimecast20190719; t=1612447302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WiKUwcqAxk/6h1IpL+D52uPALPdCahks4rIdmD6Ny/A=;
- b=HwBArAxcAGgvP3aUofhXcUxy/P5Np3jvcTxj00Pp9gFypmsz4Crz4nkyOIKK2K+AZ5qcWa
- pc4H+eBeDo6hV2t5Ub6h+7GSOzt5TTAxSdA5e227WpGbspyZGLmKByMsHlp7bp239jUgQK
- rbAtj+BxkRPVkT8mvBLx/dgj8FoTF2Q=
+ bh=ikr8HeGtt1+y/GKfPrOvTl5EQwsX7uwyKwQWVt0oj8k=;
+ b=RTB7fe7cDwBKO3pm0vxCDwgYUSb7XgEZwAzNHjxkbEp1fpJq3cTcMmqPg/5faJnaos4SBq
+ a3bbTzbxJS306EH64h0zXed9DD7yBoh3zeWbt86YQUAE8vMRrb028bU0Ddjeq0HwKSkgCd
+ AGR3jGi2S1x6DOlu+Ax+lwkrGlJqMN0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-h4xDiwM_NCqx9yRS6cUoRg-1; Thu, 04 Feb 2021 09:01:41 -0500
-X-MC-Unique: h4xDiwM_NCqx9yRS6cUoRg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-593-PtyFhFGkPAGcwOPTldKoJw-1; Thu, 04 Feb 2021 09:01:39 -0500
+X-MC-Unique: PtyFhFGkPAGcwOPTldKoJw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B44E9107ACC7;
- Thu,  4 Feb 2021 14:01:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 566ED874983;
+ Thu,  4 Feb 2021 14:01:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
  [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B2ED6F984;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 28BB41007613;
  Thu,  4 Feb 2021 14:01:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6EB181138461; Thu,  4 Feb 2021 15:01:36 +0100 (CET)
+ id 71D841138468; Thu,  4 Feb 2021 15:01:36 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/9] qobject: open brace '{' following struct go on the same
- line
-Date: Thu,  4 Feb 2021 15:01:29 +0100
-Message-Id: <20210204140136.2769065-3-armbru@redhat.com>
+Subject: [PULL 3/9] qobject: code indent should never use tabs
+Date: Thu,  4 Feb 2021 15:01:30 +0100
+Message-Id: <20210204140136.2769065-4-armbru@redhat.com>
 In-Reply-To: <20210204140136.2769065-1-armbru@redhat.com>
 References: <20210204140136.2769065-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -80,53 +79,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Zhang Han <zhanghan64@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, Zhang Han <zhanghan64@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Han <zhanghan64@huawei.com>
 
-Put open brace '{' on the same line of struct.
+Transfer tabs to spaces.
 
 Signed-off-by: Zhang Han <zhanghan64@huawei.com>
-Message-Id: <20201228071129.24563-2-zhanghan64@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201228071129.24563-3-zhanghan64@huawei.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qobject/json-parser.c | 3 +--
- qobject/qjson.c       | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ qobject/qdict.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qobject/json-parser.c b/qobject/json-parser.c
-index d351039b10..008b326fb8 100644
---- a/qobject/json-parser.c
-+++ b/qobject/json-parser.c
-@@ -31,8 +31,7 @@ struct JSONToken {
-     char str[];
- };
+diff --git a/qobject/qdict.c b/qobject/qdict.c
+index d84443391e..d4d016ad69 100644
+--- a/qobject/qdict.c
++++ b/qobject/qdict.c
+@@ -39,8 +39,8 @@ QDict *qdict_new(void)
+  */
+ static unsigned int tdb_hash(const char *name)
+ {
+-    unsigned value;	/* Used to compute the hash value.  */
+-    unsigned   i;	/* Used to cycle through random values. */
++    unsigned value;    /* Used to compute the hash value.  */
++    unsigned   i;      /* Used to cycle through random values. */
  
--typedef struct JSONParserContext
--{
-+typedef struct JSONParserContext {
-     Error *err;
-     JSONToken *current;
-     GQueue *buf;
-diff --git a/qobject/qjson.c b/qobject/qjson.c
-index bcc376e626..167fcb429c 100644
---- a/qobject/qjson.c
-+++ b/qobject/qjson.c
-@@ -22,8 +22,7 @@
- #include "qapi/qmp/qnum.h"
- #include "qapi/qmp/qstring.h"
- 
--typedef struct JSONParsingState
--{
-+typedef struct JSONParsingState {
-     JSONMessageParser parser;
-     QObject *result;
-     Error *err;
+     /* Set the initial value from the key size. */
+     for (value = 0x238F13AF * strlen(name), i=0; name[i]; i++)
 -- 
 2.26.2
 
