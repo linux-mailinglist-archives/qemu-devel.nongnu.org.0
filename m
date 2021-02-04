@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31D730EFD6
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:41:31 +0100 (CET)
-Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31BC30EFEB
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:48:07 +0100 (CET)
+Received: from localhost ([::1]:51050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7b8k-0000K2-V2
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:41:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45692)
+	id 1l7bF8-0002rJ-PI
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:48:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7b75-00081b-F4
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:39:48 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:46283)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l7b73-0007nh-81
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:39:46 -0500
-Received: by mail-ej1-x633.google.com with SMTP id w2so4119357ejk.13
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 01:39:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:subject:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lMzMUTE95Zvm1LcdwzO14KO7oyZtwSiA18dFVFZtzHU=;
- b=ka1wm/4STWtoFd0u/ri0qDAb2gHRAB5DC797yYgsTBjNa6LEsTPmlT7peYoIu5C9z8
- rnwWtz+Rraw7E8PyAsJmzzbgz6ZLHuZ6RgqZP4DLPW2VKSw2qCy+lqYNZVYqf2VpSH+i
- 3N70KdzKduICn/AcMSVl72svWR0XZb+mxrPyjFydgrqC93uvigwUrrqY8Tx16EbrhDAc
- M1OsPyXNWXGHnXIvdCsmYYUebLPjRCynQR5tD3reZi5GdF66mHU4peMnXNeei2U1cb+w
- tgCRuid0qNtHnXlBN5a7O1cNUqqactTCCMCRG+f6JxZR96uFoTQZaK71XuchH6qIFLhA
- P5Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:subject:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lMzMUTE95Zvm1LcdwzO14KO7oyZtwSiA18dFVFZtzHU=;
- b=UaZH/pAjXL7X4KkI4N1Ynipc1WW1M30grshjO4lcxgGHxJr4O9oM0dpP+fM1umgKXK
- sxkjrlzvRH78I2hk3VE1sNoPMzAa/73TwkCN1Abu8S5xpTRiBrTAfyAgVJvh3YdLtoLx
- ZhLYBookt/AWrXnmFsE7Hu0iWsDrnp1uGMKuLquyY6Li4fP/6xPOhtw3MYluKfe1HMQo
- tjhtJDFEryC09CSwVXuDYwFFj46i2wAhGHqs+GXVEqSeioLIC1OfOTvnU6YMOzBqwdol
- 94bUvv1SQyp2amuT+ITk2P8jFQUPlvMOsloNcwkQTXrC2oyEs+eIGIrj9/Ci9s32g6tx
- qTvQ==
-X-Gm-Message-State: AOAM533QPKz2tbvOP/kGIWLGBaR+CXrqcCZiLAGNBjV2YPR6GkwPg2Ts
- 6yk0Pczhlfe9m3E2KgKg1QQ=
-X-Google-Smtp-Source: ABdhPJzvtGtdEFN/lkikszs4o3YPZlF8J0kz3wJ/UrXI9UUWsEAoUvRyzRd3/o6i7ma1631Prg5AqQ==
-X-Received: by 2002:a17:906:70d4:: with SMTP id
- g20mr7282729ejk.361.1612431583113; 
- Thu, 04 Feb 2021 01:39:43 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id u21sm2207696ejj.120.2021.02.04.01.39.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 01:39:42 -0800 (PST)
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Subject: Re: [PULL 16/21] hw/timer: Refactor NPCM7XX Timer to use CLK clock
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210112165750.30475-1-peter.maydell@linaro.org>
- <20210112165750.30475-17-peter.maydell@linaro.org>
-Message-ID: <d1811f65-b08e-57c6-d0a7-5c498f8eb3ff@amsat.org>
-Date: Thu, 4 Feb 2021 10:39:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7bCy-0001KT-Ew
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:45:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50006)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7bCw-00028z-JF
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:45:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612431949;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ed0ICb5OHsa52+nJnCB4b+pkJnLk2YvgatUc2FVj+Ks=;
+ b=IbUel0mC/gBZdZG9JcHNBU5Vhpy3NOpTpsoth4QNe60sDn1jjVspDatWnL4T1S7DkEEcAQ
+ dqGmTD77oYkAG0q0HYvad49wrRsGO4Go3qK/ilPfXwhP1F6mgD0q0ohMwN6ElUX+e9LD1N
+ reKklXdIq1wRNLgo0g+9oDea3ceOh/8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-NLNqWm4jNByDAn5ZPgujMw-1; Thu, 04 Feb 2021 04:45:46 -0500
+X-MC-Unique: NLNqWm4jNByDAn5ZPgujMw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6731D801960;
+ Thu,  4 Feb 2021 09:45:45 +0000 (UTC)
+Received: from localhost (ovpn-115-89.ams2.redhat.com [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E34BD5D9C9;
+ Thu,  4 Feb 2021 09:45:38 +0000 (UTC)
+Date: Thu, 4 Feb 2021 09:45:37 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v4 2/3] virtiofsd: optionally return inode pointer from
+ lo_do_lookup()
+Message-ID: <20210204094537.GB344659@stefanha-x1.localdomain>
+References: <20210203113719.83633-1-stefanha@redhat.com>
+ <20210203113719.83633-3-stefanha@redhat.com>
+ <20210203152014.443a8b29@bahia.lan>
+ <20210203170006.GK74271@stefanha-x1.localdomain>
+ <20210204092528.0f4b3200@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20210112165750.30475-17-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.178,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210204092528.0f4b3200@bahia.lan>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DKU6Jbt7q3WqK7+M"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,44 +83,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, Tyrone Ting <kfting@nuvoton.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Havard Skinnemoen <hskinnemoen@google.com>
+Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ virtio-fs@redhat.com, P J P <ppandit@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+--DKU6Jbt7q3WqK7+M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 12, 2021 at 6:20 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
->
-> From: Hao Wu <wuhaotsh@google.com>
->
-> This patch makes NPCM7XX Timer to use a the timer clock generated by the
-> CLK module instead of the magic number TIMER_REF_HZ.
->
-> Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
-> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Message-id: 20210108190945.949196-3-wuhaotsh@google.com
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  include/hw/misc/npcm7xx_clk.h    |  6 -----
->  include/hw/timer/npcm7xx_timer.h |  1 +
->  hw/arm/npcm7xx.c                 |  5 ++++
->  hw/timer/npcm7xx_timer.c         | 39 +++++++++++++++-----------------
->  4 files changed, 24 insertions(+), 27 deletions(-)
+On Thu, Feb 04, 2021 at 09:25:28AM +0100, Greg Kurz wrote:
+> On Wed, 3 Feb 2021 17:00:06 +0000
+> Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>=20
+> > On Wed, Feb 03, 2021 at 03:20:14PM +0100, Greg Kurz wrote:
+> > > On Wed,  3 Feb 2021 11:37:18 +0000
+> > > Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > >=20
+> > > > lo_do_lookup() finds an existing inode or allocates a new one. It
+> > > > increments nlookup so that the inode stays alive until the client
+> > > > releases it.
+> > > >=20
+> > > > Existing callers don't need the struct lo_inode so the function doe=
+sn't
+> > > > return it. Extend the function to optionally return the inode. The =
+next
+> > > > commit will need it.
+> > > >=20
+> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > > ---
+> > > >  tools/virtiofsd/passthrough_ll.c | 29 +++++++++++++++++++++-------=
+-
+> > > >  1 file changed, 21 insertions(+), 8 deletions(-)
+> > > >=20
+> > > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/pas=
+sthrough_ll.c
+> > > > index e63cbd3fb7..c87a1f3d72 100644
+> > > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > > @@ -831,11 +831,13 @@ static int do_statx(struct lo_data *lo, int d=
+irfd, const char *pathname,
+> > > >  }
+> > > > =20
+> > > >  /*
+> > > > - * Increments nlookup and caller must release refcount using
+> > > > - * lo_inode_put(&parent).
+> > > > + * Increments nlookup on the inode on success. unref_inode_lolocke=
+d() must be
+> > > > + * called eventually to decrement nlookup again. If inodep is non-=
+NULL, the
+> > > > + * inode pointer is stored and the caller must call lo_inode_put()=
+.
+> > > >   */
+> > > >  static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const c=
+har *name,
+> > > > -                        struct fuse_entry_param *e)
+> > > > +                        struct fuse_entry_param *e,
+> > > > +                        struct lo_inode **inodep)
+> > > >  {
+> > > >      int newfd;
+> > > >      int res;
+> > > > @@ -845,6 +847,10 @@ static int lo_do_lookup(fuse_req_t req, fuse_i=
+no_t parent, const char *name,
+> > > >      struct lo_inode *inode =3D NULL;
+> > > >      struct lo_inode *dir =3D lo_inode(req, parent);
+> > > > =20
+> > > > +    if (inodep) {
+> > > > +        *inodep =3D NULL;
+> > > > +    }
+> > > > +
+> > >=20
+> > > Is this side-effect needed ? If lo_do_lookup() returns an error, it
+> > > rather seems that the caller shouldn't expect anything to be written
+> > > here, i.e. the content of *inodep still belongs to the caller and
+> > > whatever value it previously put in there (as patch 3/3 does) should
+> > > be preserved IMHO.
+> > >=20
+> > > Apart from that LGTM.
+> >=20
+> > I like this approach because it prevents accessing uninitialized memory
+> > in the caller:
+> >=20
+> >   struct lo_inode *inode;
+> >=20
+> >   if (lo_do_lookup(..., &inodep) !=3D 0) {
+> >     goto err;
+> >   }
+> >   ...
+> >=20
+> >   err:
+> >   lo_inode_put(&inode); <-- uninitialized in the error case!
+>=20
+> My point is that it is the caller's business to ensure that inode
+> doesn't contain garbage if it is to be used irrespective of the
+> outcome of lo_do_lookup(). This is precisely what patch 3/3 does,
+> so I don't understand the ultimate purpose of nullifying the
+> inode pointer _again_ in lo_do_lookup()...
 
-Is that a spurious error (building with Clang)?
+APIs should be designed to eliminate classes of errors where possible
+IMO. Taking care regarding the uninitialized pointer in the error case
+could be the caller's responsibility, but what's the advantage?
 
-Running test qtest-arm/npcm7xx_timer-test
-ERROR:../tests/qtest/npcm7xx_timer-test.c:475:test_periodic_interrupt:
-assertion failed (tim_read(td, TISR) == tim_timer_bit(td)): (0x00000000
-== 0x00000004)
-ERROR:../tests/qtest/npcm7xx_timer-test.c:476:test_periodic_interrupt:
-'qtest_get_irq(global_qtest, tim_timer_irq(td))' should be TRUE
-FAIL 155 qtest-arm/npcm7xx_timer-test
-/arm/npcm7xx_timer/tim[2]/timer[2]/periodic_interrupt
-make: *** [Makefile.mtest:1033: run-test-127] Error 1
+(There's a related thing with lo_inode_put(&inode) where it sets *inode
+=3D NULL to eliminate use-after-free bugs in callers. It would have been
+possible to use the same approach as free(3) where it's the caller's
+responsiblity, but that API design decision in free(3) has caused
+many bugs in applications.)
+
+Stefan
+
+--DKU6Jbt7q3WqK7+M
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAbwkEACgkQnKSrs4Gr
+c8h15wf9F9O6BieAFs2QafRMQcgfmL/9VsYKQyRV1yrH2nzfG/xTMbKsdx81S/yj
+EIiXqs9ni8xyMW5jNTr9F1YEoeyYNFFE9FbIx/AsiUJDegnHwg40yorzOswP2lFu
+5YdAM5YjDi/ZCXRJ7b7l3SX12bqCDtIWzYbmtrFlCGPjHScy8uS6dt2JpUvUq+/o
+dXxEd8KCF6YZHul7immXpVD52h4CdPV5cSjpphrCmjnJqZ7lpF8FPX0xKFiMSEPo
+3h1L5+w2zAYw156ng56re6QBMW3vJqJjXkCHh+hLiqQ2XGJTNREUOUf/4o7Tkj9E
+QN8ioUtu6geV14yyT+FWSnZBzgT4sg==
+=b+/r
+-----END PGP SIGNATURE-----
+
+--DKU6Jbt7q3WqK7+M--
+
 
