@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932EE30F843
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:43:32 +0100 (CET)
-Received: from localhost ([::1]:42866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4E530F816
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:37:01 +0100 (CET)
+Received: from localhost ([::1]:53074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7hj9-0003jL-Cr
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:43:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33106)
+	id 1l7hcq-0003dJ-Va
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:37:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l7hId-0007fn-Rc
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:16:09 -0500
-Resent-Date: Thu, 04 Feb 2021 11:16:07 -0500
-Resent-Message-Id: <E1l7hId-0007fn-Rc@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21363)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l7hIZ-0001sJ-41
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:16:07 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1612455348; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=BxCcvdrJpQq5P/G/L1Fjvqs9BxD8mHqGsfosTfIqfretW8b5HWebYGrRcN3WGjZWKA6ECiO7rjLw17Dt3uh38e7HMz0ZJxNqfHNMASr1s+4bopVWl3rCG/xwLyKnE8N+G46HDEHjyoj63hJgefVym4yIickTeMsM+Tlmpk1Ui0g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1612455348;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=znOADW66RBwV2wFVq4tt8zTbMmcvE1lJ6I7DPqkasGY=; 
- b=VtdOipnD28BieBfu68LnfeN1ycEjnttOBfYCk9jaQuhOYgao/sHUClrATZbHEK+e1tQnWgBBQTGIy6sXECFJgS4hkQrjC+XgExxn1cSf18RI/X81hs7rj7kJ0PQ2hwfxFJZC0nn8aeD25pGFvXrbjZdkIy5hH3qhC0Z8D5r1MW0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1612455345754679.938990592573;
- Thu, 4 Feb 2021 08:15:45 -0800 (PST)
-In-Reply-To: <20210204150208.367837-1-stefanha@redhat.com>
-Subject: Re: [PATCH v5 0/3] virtiofsd: prevent opening of special files
- (CVE-2020-35517)
-Message-ID: <161245534386.30579.2853899336444305293@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1l7hV6-0004uT-T3
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:29:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60330)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1l7hV3-0007YF-IL
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:29:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612456136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PIbJeu3OMGSHYaHLB9jzR8Kw5PhMGKIJJuG12OG/S6A=;
+ b=Hfjj40Z5SIvps6Bfj/YurUGHWriqD1GXxAplTk6z6c/q1kqhHqhcxHolmDIHCsBhVb2qGT
+ Nmh/A7k6N6ICIQJKTsFCfzsj+TNtJfvN22sZBAKV/jytkAlUhqtefnCDasnPTSylqWX6tH
+ aR9cW8OjTCVqpmDhi71eSs/ACrsOQzI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-ZBoh4LVHNY6rgz8WcaOO-A-1; Thu, 04 Feb 2021 11:28:52 -0500
+X-MC-Unique: ZBoh4LVHNY6rgz8WcaOO-A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECCC1A0BD9;
+ Thu,  4 Feb 2021 16:28:51 +0000 (UTC)
+Received: from localhost (ovpn-3-197.rdu2.redhat.com [10.22.3.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB12110016FA;
+ Thu,  4 Feb 2021 16:28:48 +0000 (UTC)
+Date: Thu, 4 Feb 2021 11:28:47 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v4 08/14] qapi/introspect.py: create a typed 'Annotated'
+ data strutcure
+Message-ID: <20210204162847.GD126021@habkost.net>
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-9-jsnow@redhat.com>
+ <878s85tdh3.fsf@dusky.pond.sub.org>
+ <20210203215026.GB126021@habkost.net>
+ <87a6sjdet2.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: stefanha@redhat.com
-Date: Thu, 4 Feb 2021 08:15:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87a6sjdet2.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,55 +82,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mszeredi@redhat.com, berrange@redhat.com, slp@redhat.com,
- qemu-devel@nongnu.org, ppandit@redhat.com, virtio-fs@redhat.com,
- groug@kaod.org, alex@alxu.ca, dgilbert@redhat.com, stefanha@redhat.com,
- lersek@redhat.com, vgoyal@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIwNDE1MDIwOC4zNjc4
-MzctMS1zdGVmYW5oYUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAyMDQxNTAyMDguMzY3
-ODM3LTEtc3RlZmFuaGFAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjUgMC8zXSB2aXJ0aW9m
-c2Q6IHByZXZlbnQgb3BlbmluZyBvZiBzcGVjaWFsIGZpbGVzIChDVkUtMjAyMC0zNTUxNykKCj09
-PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4g
-L2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwg
-ZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJh
-Y2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZm
-ODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNo
-ZXctcHJvamVjdC9xZW11CiAgIGRiNzU0ZjguLjFiYTA4OWYgIG1hc3RlciAgICAgLT4gbWFzdGVy
-CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTAyMDQwMTQ1MDkuODgyODIxLTEtcmlj
-aGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIwMjEwMjA0MDE0NTA5Ljg4Mjgy
-MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0
-Y2hldy8yMDIxMDIwNDEyNDgzNC43NzQ0MDEtMS1iZXJyYW5nZUByZWRoYXQuY29tIC0+IHBhdGNo
-ZXcvMjAyMTAyMDQxMjQ4MzQuNzc0NDAxLTEtYmVycmFuZ2VAcmVkaGF0LmNvbQogKiBbbmV3IHRh
-Z10gICAgICAgICBwYXRjaGV3LzIwMjEwMjA0MTUwMjA4LjM2NzgzNy0xLXN0ZWZhbmhhQHJlZGhh
-dC5jb20gLT4gcGF0Y2hldy8yMDIxMDIwNDE1MDIwOC4zNjc4MzctMS1zdGVmYW5oYUByZWRoYXQu
-Y29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAyMDQxNTM5MjUuMjAzMDYwNi0x
-LUphc29uQHp4MmM0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMjA0MTUzOTI1LjIwMzA2MDYtMS1KYXNv
-bkB6eDJjNC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpiNWJiODAzIHZpcnRp
-b2ZzZDogcHJldmVudCBvcGVuaW5nIG9mIHNwZWNpYWwgZmlsZXMgKENWRS0yMDIwLTM1NTE3KQow
-ZDg4YTc5IHZpcnRpb2ZzZDogb3B0aW9uYWxseSByZXR1cm4gaW5vZGUgcG9pbnRlciBmcm9tIGxv
-X2RvX2xvb2t1cCgpCmJlNmFhMjMgdmlydGlvZnNkOiBleHRyYWN0IGxvX2RvX29wZW4oKSBmcm9t
-IGxvX29wZW4oKQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8zIENoZWNraW5nIGNvbW1pdCBiZTZh
-YTIzMTk4NzUgKHZpcnRpb2ZzZDogZXh0cmFjdCBsb19kb19vcGVuKCkgZnJvbSBsb19vcGVuKCkp
-CkVSUk9SOiByZXR1cm4gb2YgYW4gZXJybm8gc2hvdWxkIHR5cGljYWxseSBiZSAtdmUgKHJldHVy
-biAtRU5PTUVNKQojNzA6IEZJTEU6IHRvb2xzL3ZpcnRpb2ZzZC9wYXNzdGhyb3VnaF9sbC5jOjE2
-NzQ6CisgICAgICAgIHJldHVybiBFTk9NRU07Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3Ms
-IDExNCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-CjIvMyBDaGVja2luZyBjb21taXQgMGQ4OGE3OTI1YTgzICh2aXJ0aW9mc2Q6IG9wdGlvbmFsbHkg
-cmV0dXJuIGlub2RlIHBvaW50ZXIgZnJvbSBsb19kb19sb29rdXAoKSkKMy8zIENoZWNraW5nIGNv
-bW1pdCBiNWJiODAzOWViM2MgKHZpcnRpb2ZzZDogcHJldmVudCBvcGVuaW5nIG9mIHNwZWNpYWwg
-ZmlsZXMgKENWRS0yMDIwLTM1NTE3KSkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQg
-ZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDov
-L3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAyMDQxNTAyMDguMzY3ODM3LTEtc3RlZmFuaGFAcmVkaGF0
-LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRl
-ZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNl
-IHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Thu, Feb 04, 2021 at 04:37:45PM +0100, Markus Armbruster wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> 
+> > On Wed, Feb 03, 2021 at 03:47:36PM +0100, Markus Armbruster wrote:
+> >> John Snow <jsnow@redhat.com> writes:
+> >> 
+> >> > Presently, we use a tuple to attach a dict containing annotations
+> >> > (comments and compile-time conditionals) to a tree node. This is
+> >> > undesirable because dicts are difficult to strongly type; promoting it
+> >> > to a real class allows us to name the values and types of the
+> >> > annotations we are expecting.
+> >> >
+> >> > In terms of typing, the Annotated<T> type serves as a generic container
+> >> > where the annotated node's type is preserved, allowing for greater
+> >> > specificity than we'd be able to provide without a generic.
+> >> >
+> >> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > [...]
+> >> > +class Annotated(Generic[_NodeT]):
+> >> > +    """
+> >> > +    Annotated generally contains a SchemaInfo-like type (as a dict),
+> >> > +    But it also used to wrap comments/ifconds around scalar leaf values,
+> >> > +    for the benefit of features and enums.
+> >> > +    """
+> >> > +    # Remove after 3.7 adds @dataclass:
+> >> 
+> >> Make this
+> >> 
+> >>        # TODO Remove after Python 3.7 ...
+> >> 
+> >> to give us a fighting chance to remember.
+> >> 
+> >> > +    # pylint: disable=too-few-public-methods
+> >> > +    def __init__(self, value: _NodeT, ifcond: Iterable[str],
+> >> > +                 comment: Optional[str] = None):
+> >> 
+> >> Why not simply value: _value?
+> >
+> > Example:
+> >   x = C(1)
+> >   y: C[int]
+> >   y = C('x')  # mistake
+> >
+> > Declaring value as _NodeT does:
+> > - Make the inferred type of x be Annotated[int].
+> > - Catch the mistake above.
+> 
+> I smell overengineering.  I may well be wrong.
+
+To me it's just regular and idiomatic use of Generic.
+
+> 
+> Without doubt, there are uses for using the type system for keeping
+> SomeGenericType[SomeType] and SomeGenericType[AnotherType] apart.
+> 
+> But what do we gain by keeping the Annotated[T] for the possible T
+> apart?
+
+I understand this as (valid) criticism of the use of Generic.
+If we don't want to make Generic[T1] and Generic[T2] be
+different types, there's no point in using Generic at all.
+
+
+> 
+> _tree_to_qlit() doesn't care: it peels off the wrapper holding ifcond
+> and comment, and recurses for the JSON so wrapped.  Regardless of what
+> was wrapped, i.e. what kind of T we got.
+> 
+> Heck, it works just fine even if you wrap your JSON multiple times.  It
+> doesn't give a hoot whether that makes sense.  Making sense is the
+> caller's business.
+> 
+> So what does care?
+> 
+> Or am I simply confused?
+
+Those are valid questions.  Maybe using Generic will be useful
+in the future, but maybe we don't need it right now.
+
+Personally, I don't care either way.  I just wish this small
+choice don't became another obstacle for doing useful work.
+
+> 
+> 
+> PS: As far as I can tell, _tree_to_qlit() doesn't give a hoot whether a
+> dictionary's values are wrapped, either.
+
+-- 
+Eduardo
+
 
