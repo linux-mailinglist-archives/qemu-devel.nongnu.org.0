@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F1530F16F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:03:43 +0100 (CET)
-Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41ED530F16D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:02:07 +0100 (CET)
+Received: from localhost ([::1]:47620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7cQG-0002Bb-F3
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:03:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37688)
+	id 1l7cOk-0000IV-8M
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:02:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cII-0000QN-Vp
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33647)
+ id 1l7cIU-0000UP-KX
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cIE-0008UC-7S
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:26 -0500
+ id 1l7cIR-0000A8-Ps
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612436121;
+ s=mimecast20190719; t=1612436134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dou1qOpZaEkFXcKWgOv3gzF6OQH87OBQVOoeDaU0xPs=;
- b=LbnFiQWYfvr0yW7miiP9PcuTv81LJlGSaJXILLdqVeEvtSMSd6x2GYnYYhG5UzEdKSH0Ix
- 2HjmDpAw2TyXGbZbdyHOK1iFw2aQ+6O8yR6oeetovMum39WbuUdym9ONcAybXeuoUMzkEh
- P6XsT+JaKPzY84hymoRyWcAzgNa0s+k=
+ bh=iAjgD2HxI5CRJrYmtMdOMhwLEqD+c2PlXBfujPZTe+8=;
+ b=EGSp8ocXbQm3fpugTuz5QkkX9nPBlQ/mIBbmt7Pq8tAqUalteLfXx9qUcmX48eldAme6ME
+ vml1zmNqr3jLLfXaScV+2KK8pdZa9wMsz2YS1sHnzkuFSbW2+h/GqARuRROafbxkLrlK2g
+ sE7fusj49qpH8MkHLMOE9juMnrUDIM4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-k6fhMOs7MDmcPHyPOJu1rQ-1; Thu, 04 Feb 2021 05:55:19 -0500
-X-MC-Unique: k6fhMOs7MDmcPHyPOJu1rQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-546-R4HwjlHqP0KEUraZ46zVvA-1; Thu, 04 Feb 2021 05:55:32 -0500
+X-MC-Unique: R4HwjlHqP0KEUraZ46zVvA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2292107ACED
- for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:55:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F12F2801960
+ for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:55:31 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A9B060C66;
- Thu,  4 Feb 2021 10:55:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B015D10023B9;
+ Thu,  4 Feb 2021 10:55:22 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/20] ui: add qemu_egl_has_dmabuf helper
-Date: Thu,  4 Feb 2021 14:52:26 +0400
-Message-Id: <20210204105232.834642-15-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 15/20] ui: check gtk-egl dmabuf support
+Date: Thu,  4 Feb 2021 14:52:27 +0400
+Message-Id: <20210204105232.834642-16-marcandre.lureau@redhat.com>
 In-Reply-To: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 References: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
@@ -65,7 +65,7 @@ X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,42 +88,56 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/ui/egl-helpers.h |  1 +
- ui/egl-helpers.c         | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+ include/ui/gtk.h | 1 +
+ ui/gtk.c         | 9 +++++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
-index 94a4b3e6f3..5b1f7fafe0 100644
---- a/include/ui/egl-helpers.h
-+++ b/include/ui/egl-helpers.h
-@@ -51,5 +51,6 @@ EGLSurface qemu_egl_init_surface_x11(EGLContext ectx, EGLNativeWindowType win);
- int qemu_egl_init_dpy_x11(EGLNativeDisplayType dpy, DisplayGLMode mode);
- int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode);
- EGLContext qemu_egl_init_ctx(void);
-+bool qemu_egl_has_dmabuf(void);
- 
- #endif /* EGL_HELPERS_H */
-diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-index 7c530c2825..73fe61f878 100644
---- a/ui/egl-helpers.c
-+++ b/ui/egl-helpers.c
-@@ -441,6 +441,16 @@ int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode)
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index 7569d090fa..aaef884b95 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -48,6 +48,7 @@ typedef struct VirtualGfxConsole {
+     int cursor_y;
+     bool y0_top;
+     bool scanout_mode;
++    bool has_dmabuf;
  #endif
- }
+ } VirtualGfxConsole;
  
-+bool qemu_egl_has_dmabuf(void)
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 00045881b1..f41c396cb9 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -623,6 +623,13 @@ static const DisplayChangeListenerOps dcl_ops = {
+ 
+ #if defined(CONFIG_OPENGL)
+ 
++static bool gd_has_dmabuf(DisplayChangeListener *dcl)
 +{
-+    if (qemu_egl_display == EGL_NO_DISPLAY) {
-+        return false;
-+    }
++    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
 +
-+    return epoxy_has_egl_extension(qemu_egl_display,
-+                                   "EGL_EXT_image_dma_buf_import");
++    return vc->gfx.has_dmabuf;
 +}
 +
- EGLContext qemu_egl_init_ctx(void)
- {
-     static const EGLint ctx_att_core[] = {
+ /** DisplayState Callbacks (opengl version) **/
+ 
+ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+@@ -661,6 +668,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_gl_cursor_position  = gd_egl_cursor_position,
+     .dpy_gl_release_dmabuf   = gd_egl_release_dmabuf,
+     .dpy_gl_update           = gd_egl_scanout_flush,
++    .dpy_has_dmabuf          = gd_has_dmabuf,
+ };
+ 
+ #endif /* CONFIG_OPENGL */
+@@ -2004,6 +2012,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+             gtk_widget_set_double_buffered(vc->gfx.drawing_area, FALSE);
+ #pragma GCC diagnostic pop
+             vc->gfx.dcl.ops = &dcl_egl_ops;
++            vc->gfx.has_dmabuf = qemu_egl_has_dmabuf();
+         }
+     } else
+ #endif
 -- 
 2.29.0
 
