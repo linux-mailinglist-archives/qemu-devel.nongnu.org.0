@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BB230F16B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:01:25 +0100 (CET)
-Received: from localhost ([::1]:46282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F1530F16F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:03:43 +0100 (CET)
+Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7cO4-00088a-Kh
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:01:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37628)
+	id 1l7cQG-0002Bb-F3
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:03:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cI2-0000B1-JF
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27554)
+ id 1l7cII-0000QN-Vp
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cI0-0008NU-Qw
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:10 -0500
+ id 1l7cIE-0008UC-7S
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:55:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612436108;
+ s=mimecast20190719; t=1612436121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+qhXw4Teb4iB7F+1sn1YUEn7LdT1/1iDGCqwCLBci3Y=;
- b=Omi/HR0rOqQi1kQk6cFZiRObbPdEPP8iriXq3T6/L6Lywr5Z+Cxs9ad0ycjT1ungXgCRLV
- dPd7eHjTUhvdROybzc2fdhDgUBNA5ERGo6uybIJJEp8aytD181rNxQgMgbZPrOTqZgAUAq
- PdXT6/bdnvUHO/OKzKWrhUHnOCgia74=
+ bh=Dou1qOpZaEkFXcKWgOv3gzF6OQH87OBQVOoeDaU0xPs=;
+ b=LbnFiQWYfvr0yW7miiP9PcuTv81LJlGSaJXILLdqVeEvtSMSd6x2GYnYYhG5UzEdKSH0Ix
+ 2HjmDpAw2TyXGbZbdyHOK1iFw2aQ+6O8yR6oeetovMum39WbuUdym9ONcAybXeuoUMzkEh
+ P6XsT+JaKPzY84hymoRyWcAzgNa0s+k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-sp4ZturWO_mJOW0rC6cZpQ-1; Thu, 04 Feb 2021 05:55:06 -0500
-X-MC-Unique: sp4ZturWO_mJOW0rC6cZpQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-49-k6fhMOs7MDmcPHyPOJu1rQ-1; Thu, 04 Feb 2021 05:55:19 -0500
+X-MC-Unique: k6fhMOs7MDmcPHyPOJu1rQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA1F3801967
- for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:55:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2292107ACED
+ for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:55:18 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F9CC722E4;
- Thu,  4 Feb 2021 10:54:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A9B060C66;
+ Thu,  4 Feb 2021 10:55:09 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/20] ui: check hw requirements during DCL registration
-Date: Thu,  4 Feb 2021 14:52:25 +0400
-Message-Id: <20210204105232.834642-14-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 14/20] ui: add qemu_egl_has_dmabuf helper
+Date: Thu,  4 Feb 2021 14:52:26 +0400
+Message-Id: <20210204105232.834642-15-marcandre.lureau@redhat.com>
 In-Reply-To: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 References: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,63 +88,42 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/console.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ include/ui/egl-helpers.h |  1 +
+ ui/egl-helpers.c         | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/ui/console.c b/ui/console.c
-index a645418ada..d8cc640c28 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1476,12 +1476,37 @@ static bool displaychangelistener_has_dmabuf(DisplayChangeListener *dcl)
-     return false;
+diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
+index 94a4b3e6f3..5b1f7fafe0 100644
+--- a/include/ui/egl-helpers.h
++++ b/include/ui/egl-helpers.h
+@@ -51,5 +51,6 @@ EGLSurface qemu_egl_init_surface_x11(EGLContext ectx, EGLNativeWindowType win);
+ int qemu_egl_init_dpy_x11(EGLNativeDisplayType dpy, DisplayGLMode mode);
+ int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode);
+ EGLContext qemu_egl_init_ctx(void);
++bool qemu_egl_has_dmabuf(void);
+ 
+ #endif /* EGL_HELPERS_H */
+diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+index 7c530c2825..73fe61f878 100644
+--- a/ui/egl-helpers.c
++++ b/ui/egl-helpers.c
+@@ -441,6 +441,16 @@ int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode)
+ #endif
  }
  
-+static bool dpy_compatible_with(QemuConsole *con,
-+                                DisplayChangeListener *dcl, Error **errp)
++bool qemu_egl_has_dmabuf(void)
 +{
-+    ERRP_GUARD();
-+    int flags;
-+
-+    flags = con->hw_ops->get_flags ? con->hw_ops->get_flags(con->hw) : 0;
-+
-+    if (flags & GRAPHIC_FLAGS_GL &&
-+        !console_has_gl(con)) {
-+        error_setg(errp, "The console requires a GL context.");
-+        return false;
-+
-+    }
-+
-+    if (flags & GRAPHIC_FLAGS_DMABUF &&
-+        !displaychangelistener_has_dmabuf(dcl)) {
-+        error_setg(errp, "The console requires display DMABUF support.");
++    if (qemu_egl_display == EGL_NO_DISPLAY) {
 +        return false;
 +    }
 +
-+    return true;
++    return epoxy_has_egl_extension(qemu_egl_display,
++                                   "EGL_EXT_image_dma_buf_import");
 +}
 +
- void register_displaychangelistener(DisplayChangeListener *dcl)
+ EGLContext qemu_egl_init_ctx(void)
  {
-     static const char nodev[] =
-         "This VM has no graphic display device.";
-     static DisplaySurface *dummy;
-     QemuConsole *con;
-+    Error *err = NULL;
- 
-     assert(!dcl->ds);
- 
-@@ -1496,6 +1521,11 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
-         dcl->con->gl = dcl;
-     }
- 
-+    if (dcl->con && !dpy_compatible_with(dcl->con, dcl, &err)) {
-+        error_report_err(err);
-+        exit(1);
-+    }
-+
-     trace_displaychangelistener_register(dcl, dcl->ops->dpy_name);
-     dcl->ds = get_alloc_displaystate();
-     QLIST_INSERT_HEAD(&dcl->ds->listeners, dcl, next);
+     static const EGLint ctx_att_core[] = {
 -- 
 2.29.0
 
