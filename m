@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B137730FCB2
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:28:06 +0100 (CET)
-Received: from localhost ([::1]:51180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC1430FC94
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:25:20 +0100 (CET)
+Received: from localhost ([::1]:43516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kIP-0006Ut-Co
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:28:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44392)
+	id 1l7kFh-000395-8b
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:25:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7jmH-0001bi-CX
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:54:55 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:33882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7jmF-0004NA-85
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:54:53 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id my11so5469532pjb.1
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 10:54:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BfJehlSta+hp0R2SImPBG6xERlpT4B8ZSwFuh35geo0=;
- b=cAC6G8hG56PRPyjAcl0zEXGDX4lJJsn6MbrdA/98poJbTEP+jXX17k0JmXB3tR0jVs
- LdDQZwdiciY0K0zWuuZLMqk6s3y5TT29e2MWAS0HT2OHNgxGs7M7qnSHLzELEZQFw/PM
- Et2PqS6aGb/S6sR9Nue1Z1UDiCb+U7NJNNK7UiwYEyoECEgAOU2btQvdrhu2OarEiH8I
- X+kKGQ8PXdtPB9snBxoWyBYNfkFZqLZqglbOsX68UYaEat2nH5zCOj9z02nTC3PoaKM6
- BsAweugry+6YVOJUX4g/fpw7RFuzUGyoSsVuIp7PoxvuNzS9w3NIc0r6c63aEPvKzMpQ
- zMRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BfJehlSta+hp0R2SImPBG6xERlpT4B8ZSwFuh35geo0=;
- b=hwWRE4RugKS/TtRRFUH63kKgmRprY5V4mmdmL+hNi8f8XHD4YHpkrE4+FLiCEFus7h
- NQmFcE18CwRBT0738Xcn8XZJzYbXwbwrSf1ixypXPrYa9AA0Obgj8frTRhpDFU6nIr+Z
- os5DcwDkKi6ok1HcfkA6+spVWuY+mpl+1UMRYvfpwrWt9G6oFvfkNgyqFg6kHnBxQm76
- GY4kOqUqTu4HnSV9/7xyXVDIYiGOptfAMQZBeyAcFhrMB3sc5v5upuhvQVJYEvbw/DK6
- krzhu8pZ88DjjN7KJhULt5AGZ8gk5x0GPoNXXN6vnr3RwmgJIHBwFmgf9gh5bPTAgY/x
- tpMg==
-X-Gm-Message-State: AOAM531xiYHdFU/2EzYVHBmdv+LPxZKW3fjc2xPWaE836p/fbYneReRO
- C/gHMrlp19LNRSFfO1Mh8IovOg==
-X-Google-Smtp-Source: ABdhPJxPVO81LWD+CT5dWV/jklHzWHxAo3YeoNlXCCdot0ku9Fg/fbTZKFQkyBB7Hn//TeT6eKiuOg==
-X-Received: by 2002:a17:902:a58b:b029:e1:1040:36fb with SMTP id
- az11-20020a170902a58bb02900e1104036fbmr561888plb.0.1612464889764; 
- Thu, 04 Feb 2021 10:54:49 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
- [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id i25sm7178988pgb.33.2021.02.04.10.54.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 10:54:49 -0800 (PST)
-Subject: Re: [PATCH] tcg/s390: Fix compare instruction from extended-immediate
- facility
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210204182902.1742826-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3328ae06-976f-5240-a538-6156cdbc71dc@linaro.org>
-Date: Thu, 4 Feb 2021 08:54:45 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7jph-0005sp-VE
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:58:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7jpb-0005zu-TX
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:58:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612465097;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fe/PtsqQ+9PL1kFV7mQ0CAVPnCfjgvjVa2fR+8Pl1Ko=;
+ b=g6yQlSjimzUTXCLlnfUMWY8aWreJwJGr7nv0kVue9/IbEXNYH7tA4cQDHbQMRFjFBzIT6y
+ s2x5xP/xLrwm5N2llvwW/G772tOgL2jmrrHT5x+SuDZtgtGgJMs/OOBn55/1g19qM1e/bN
+ MMQWr+HCj5ceUHMn+fnhkgD2iBFMOS0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-QjrYEj-lPXSuiWvNX9ymAw-1; Thu, 04 Feb 2021 13:58:12 -0500
+X-MC-Unique: QjrYEj-lPXSuiWvNX9ymAw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E37D80403C;
+ Thu,  4 Feb 2021 18:58:10 +0000 (UTC)
+Received: from redhat.com (ovpn-112-221.ams2.redhat.com [10.36.112.221])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AAB7D10016F5;
+ Thu,  4 Feb 2021 18:58:08 +0000 (UTC)
+Date: Thu, 4 Feb 2021 18:58:05 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: gitlab containers are broken
+Message-ID: <20210204185805.GA903389@redhat.com>
+References: <567366a0-0e5a-3ab6-8e8e-ad66b46264b2@linaro.org>
+ <756e4707-b0ae-f26c-6e09-67fe205ec098@redhat.com>
+ <8238fe1d-c7c0-ab72-fa2f-c4cf9ce018bc@linaro.org>
+ <6ec7bebe-587d-df2d-0221-e12cb6f4c775@redhat.com>
+ <20210204100009.GE549438@redhat.com>
+ <9e716df9-3be3-4c79-dff3-e6475b13fdc5@linaro.org>
+ <20210204173736.GV549438@redhat.com>
+ <f2a184c7-80f1-afb2-e502-3b03f586d4dc@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210204182902.1742826-1-f4bug@amsat.org>
+In-Reply-To: <f2a184c7-80f1-afb2-e502-3b03f586d4dc@linaro.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.182,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,40 +88,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, "Richard W . M . Jones" <rjones@redhat.com>,
- qemu-s390x@nongnu.org, Miroslav Rezanina <mrezanin@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 8:29 AM, Philippe Mathieu-Daudé wrote:
-> The code is currently comparing c2 to the type promotion of
-> uint32_t and int32_t. That is, the conversion rules are as:
+On Thu, Feb 04, 2021 at 08:27:00AM -1000, Richard Henderson wrote:
+> On 2/4/21 7:37 AM, Daniel P. Berrangé wrote:
+> > On Thu, Feb 04, 2021 at 07:36:19AM -1000, Richard Henderson wrote:
+> >> On 2/4/21 12:00 AM, Daniel P. Berrangé wrote:
+> >>>>> Hmm.  Is there any way to get the full output of the container build?  At
+> >>>>> present it's being truncated:
+> >>>>>
+> >>>>> #7 [4/5] RUN yum install -y bzip2     bzip2-devel     ccache     csnappy-de...
+> >>>>>
+> >>>>>
+> >>>>> In particular, I'm trying to add a new test, and I have added libffi-devel.i686
+> >>>>> to the fedora-i386-cross.docker file, but then the actual build fails because
+> >>>>> the libffi header file is missing.
+> >> ...
+> >>> Alternatively just make your changes to the dockerfiles and thne push
+> >>> the branch to gitlab. Gitlab will run the build and you can pull down
+> >>> the docker image from your fork's docker registry
+> >>
+> >> That's what I did, with the results as described above.
+> > 
+> > Ah, if you can point me to the gitlab pipeline / branch I can have a
+> > look at diagnosing it.
 > 
->   (common_type) c2 == (common_type) (uint32_t)
->                         (is_unsigned
->                         ? (uint32_t)c2
->                         : (uint32_t)(int32_t)c2)
+> One that failed is
 > 
-> In the signed case we lose the desired sign extensions because
-> of the argument promotion rules of the ternary operator.
+> https://gitlab.com/rth7680/qemu/-/pipelines/250583359
 > 
-> Solve the problem by doing the round-trip parsing through the
-> intermediate type and back to the desired common type (all at
-> one expression).
-> 
-> Fixes: a534bb15f30 ("tcg/s390: Use constant pool for cmpi")
-> Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
-> Reported-by: Richard W.M. Jones <rjones@redhat.com>
-> Suggested-by: David Hildenbrand <david@redhat.com>
-> Suggested-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  tcg/s390/tcg-target.c.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> where the cross-i386-tci job fails.  It takes some digging to see that all of
+> the correct bits are in place: from the head (84f9ac62) up to the ffi patch
+> (7bdae288) which modifies the docker files, up to the gitlab patch (a1d93694)
+> which adds the cross test.  I'll note that for this particular push, gitlab has
+> failed to rebuild the containers, and I don't know why.
 
-A most excellent catch, thanks.  Queued.
+> Irritatingly, I re-pushed a combined cross-test+ffi patch on top of my current
+> tci branch (since I had removed both patches shown above), and it seems to be
+> working.  Possibly because this time gitlab decided to rebuild the containers:
+> 
+> https://gitlab.com/rth7680/qemu/-/pipelines/251596167
+
+I'm inclined to blame our gitlab CI rules. We have a condition for
+the container builds:
+
+  rules:
+    - changes:
+      - .gitlab-ci.d/containers.yml
+      - tests/docker/*
+      - tests/docker/dockerfiles/*
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_REF_NAME == "testing/next"'
 
 
-r~
+The intent here is that containers are only built if a patch touches
+these files.
+
+The question is though *how* gitlab identifies that changes have been
+made, when running a job for a branch. ie what set of commits does it
+look at ?
+
+The docs say it looks at the commits "in the push event".
+
+IOW, if you have a git branch which has a delta of 40 commits vs
+current git master, and you force push to that branch, it is not
+guaranteed to look at all 40 commits.  I suspect it only looks
+at commits which have changed since the previous push on that
+branch.
+
+This is a problem if you are pushing to multiple different
+branches.
+
+The containers are always tagged with ":latest", which means
+that every time a build runs on a branch it will replace
+containers created from a different branch.
+
+So consider you
+
+ - Push 40 commits to tci-next with a dockerfile change in the 4th commit.
+   This triggers a build of the containers.
+
+   Containers reflect your tci-next branch content.
+
+ - Now push to master to catch up with upstream. This triggers a rebuild
+   becuase of if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+   Containers reflect your master branch content.
+
+ - Push 40 commits to tci-next, but only the last 5 in the branch are
+   different from your previous commit.  The container build won't
+   trigger, despite the branch containing a dockerfile change, because
+   the commit with the dockerfile wasn't changed from previous push
+
+
+I've not dug further back into your pipeline history to verify if this
+is what happened, but I've convinced myself that it is plausible, and
+thus I believe our rules for container rebuilds are likely fundamentally
+broken.
+
+When I first introduced the container build stuff to gitlab, I used
+the :latest tag because I don't want to pollute the container registry
+with an ever growing number of tags for throwaway branches. This was
+safe because my original patches *always* ran the container builds,
+and told docker to use the existing image as a cache. This meant that
+despite running in every pipeline, the container builds were reasonably
+fast as they'd hit docker layer cache most of the time.
+
+The addition of the rules to make container builds conditional has
+broken the assumption that it is safe to use :latest for the docker
+tag.
+
+I think we need to remove the rules condition
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
