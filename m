@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A00030F216
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:28:56 +0100 (CET)
-Received: from localhost ([::1]:36520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E39530F217
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:29:10 +0100 (CET)
+Received: from localhost ([::1]:37280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7coh-0004NK-FE
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:28:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44578)
+	id 1l7cov-0004iA-56
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:29:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7cmj-0003Rt-Eu
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 06:26:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28680)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7cnI-0003nN-ST
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 06:27:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7cmh-00065C-Jp
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 06:26:53 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7cnH-0006L1-Be
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 06:27:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612438010;
+ s=mimecast20190719; t=1612438046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=04WXk89cXikXn8ogopBOmUR13z3UIvOjmVnfSzLYrWg=;
- b=WqNu70+wy6V/p81a3rMVSXRsP+tZ+D5q+lGEvFLKD+5hnY3YZrjGqHxelW07RNAXcVVmOM
- FLkYzQp0n6/IfjI1eFqDf0utcKfHHjWUyLOP+vAmdM0VGxhVimh+ZKKuvCV3+YOCC6/Xsx
- b9NVDvfB6tJUNW5TjNzUqPISfXjsZeU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-iAvwfdOvPCeilynvLtYXrg-1; Thu, 04 Feb 2021 06:26:48 -0500
-X-MC-Unique: iAvwfdOvPCeilynvLtYXrg-1
-Received: by mail-ed1-f69.google.com with SMTP id b1so2615171edt.22
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 03:26:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=04WXk89cXikXn8ogopBOmUR13z3UIvOjmVnfSzLYrWg=;
- b=nDkA+m8Mi/x1YtmYmo/fps2X0R82TMBZ+kgiFo6L0izaEA5YfbRqv2FTj5G8c8r2ha
- m3nbP5Mjcv/DXTo0XFXzxHXyVKvbYfZ1SWdQW+HAPIo8+RFr1YQbbB2mwWnvqGJVqD4J
- zb+PF4KYSpNWXPdffN0lLNoRTY549nSVjCGgeyrt5Xzh7vvr4YS55rf1JHUI4SB8KcX7
- rRiKMnKrSokUP7OIQAeIqWKaeiHBjbQxetMb78g5V7zpTbt2CJCWYj3iL/LbBIf5taVl
- m5XJEpBBeQlOC0r0TUA9MNf/g+WFCzrWs/B9/76SGvILx75nxyE0Ejl3emvfGbmquA/c
- KELw==
-X-Gm-Message-State: AOAM533dy63Gswe+yA9as60tKueLwPSMvv4QyUUnlmn8F9TjIwd0377V
- 87zI4YYXMJHMVCj0MSPsih2c2so3UAD0DOk2IOSvIxATnpf2yBwbhieXlcbDJ4Yak+wgfbBCRt9
- +3xHX1OdK4pWf28w=
-X-Received: by 2002:a17:906:6087:: with SMTP id
- t7mr7634130ejj.90.1612438007613; 
- Thu, 04 Feb 2021 03:26:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxPwNd3xUAttv80mtVags3LjYkGGJP7sglNixMu/AlBn57BV7WsP1ZTrA0hObALXA62Q3hScA==
-X-Received: by 2002:a17:906:6087:: with SMTP id
- t7mr7634121ejj.90.1612438007442; 
- Thu, 04 Feb 2021 03:26:47 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id v20sm2324066edt.3.2021.02.04.03.26.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 03:26:46 -0800 (PST)
-Subject: Re: [PATCH v2 03/20] vhost-user-gpu: use an extandable state enum for
- commands
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20210204105232.834642-1-marcandre.lureau@redhat.com>
- <20210204105232.834642-4-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b820bcfc-4e98-8a33-23ab-f76548443a51@redhat.com>
-Date: Thu, 4 Feb 2021 12:26:45 +0100
+ bh=HCsTXkZD1/T5w4BCd+1yOOaWXakj5qZ8M+TbWELIfVk=;
+ b=EpQ4GFQpLY1M7CeCBD+CBfmdthcjxrxcsxuJl5xgDzbd8U7KeU17ATzf+9lGWaZVpgA93R
+ 4wcck1X7zLa1KDUkgKo5FytrU6HuNFoG6SkhF3qldpQsnUyMZ0pRwE1aYZZtM9bSEmfW4J
+ TyCU93AgZd1kuvcwXeNi7PTjLqiZGio=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-gHAKTu_DNpO0J8QKa9wHiQ-1; Thu, 04 Feb 2021 06:27:23 -0500
+X-MC-Unique: gHAKTu_DNpO0J8QKa9wHiQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA5E8107ACC7;
+ Thu,  4 Feb 2021 11:27:21 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-90.ams2.redhat.com [10.36.112.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE5CE6F968;
+ Thu,  4 Feb 2021 11:27:11 +0000 (UTC)
+Subject: Re: [PATCH v4 0/4] GitLab Custom Runners and Jobs (was: QEMU Gating
+ CI)
+To: Cleber Rosa <crosa@redhat.com>
+References: <20201019015003.1527746-1-crosa@redhat.com>
+ <e253800c-815c-d561-1fd7-ac9b581c5b2b@redhat.com>
+ <20210203210603.GB1432466@localhost.localdomain>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <06951c19-f342-91c1-c24f-c48d8e5cc423@redhat.com>
+Date: Thu, 4 Feb 2021 12:27:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210204105232.834642-4-marcandre.lureau@redhat.com>
+In-Reply-To: <20210203210603.GB1432466@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -101,69 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 11:52 AM, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 03/02/2021 22.06, Cleber Rosa wrote:
+> On Thu, Jan 28, 2021 at 12:51:20PM +0100, Thomas Huth wrote:
+[...]
+>> Could you elaborate on what's left to do to get the s390x and aarch64
+>> runners enabled, and rebase your patches if necessary
 > 
-> Introduce a pending state for commands which aren't finished yet, but
-> are being handled. See following patch.
+> Basically what's needed is to enable the jobs, meaning committing the
+> relevant snippets to the "gitlab-ci.{yml,d/*}" files.
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  contrib/vhost-user-gpu/vugpu.h          | 8 +++++++-
->  contrib/vhost-user-gpu/vhost-user-gpu.c | 8 ++++----
->  contrib/vhost-user-gpu/virgl.c          | 2 +-
->  3 files changed, 12 insertions(+), 6 deletions(-)
+> Both ansible playbooks have been run on both machines, so the gitlab-runner
+> and tooling to build QEMU are in place.  The gitlab-runners have also
+> been registered on the "qemu-project/qemu" GitLab repo.
 > 
-> diff --git a/contrib/vhost-user-gpu/vugpu.h b/contrib/vhost-user-gpu/vugpu.h
-> index 86f3ac86aa..04d5615812 100644
-> --- a/contrib/vhost-user-gpu/vugpu.h
-> +++ b/contrib/vhost-user-gpu/vugpu.h
-> @@ -129,12 +129,18 @@ typedef struct VuGpu {
->      QTAILQ_HEAD(, virtio_gpu_ctrl_command) fenceq;
->  } VuGpu;
->  
-> +enum {
-> +    VG_CMD_STATE_NEW,
+> I'll send a rebased/updated version of the playbooks, gitlab-ci.yml
+> configurations, etc.  In it, I'll propose that we enable the jobs, but
+> ignore errors for now (allow_failure: true), because it'll ease the
+> review.  Once the jobs prove mature, waiving of failures can be
+> removed.
+> 
+> How does that sound?
 
-Maybe VG_CMD_STATE_STARTING?
+Sounds good, please go ahead!
 
-> +    VG_CMD_STATE_PENDING,
-
-Maybe introduce VG_CMD_STATE_PENDING in the
-patch using it.
-
-> +    VG_CMD_STATE_FINISHED,
-> +};
-
-Can we use a typedef ...
-
-> +
->  struct virtio_gpu_ctrl_command {
->      VuVirtqElement elem;
->      VuVirtq *vq;
->      struct virtio_gpu_ctrl_hdr cmd_hdr;
->      uint32_t error;
-> -    bool finished;
-> +    int state;
-
-... and use it here?
-
-Or directly declare in place:
-
-       enum {
-           VG_CMD_STATE_STARTING,
-           VG_CMD_STATE_PENDING,
-           VG_CMD_STATE_FINISHED,
-       } state;
-
->      QTAILQ_ENTRY(virtio_gpu_ctrl_command) next;
->  };
->  
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+  Thanks,
+   Thomas
 
 
