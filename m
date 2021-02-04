@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1130830FA39
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:53:40 +0100 (CET)
-Received: from localhost ([::1]:45870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63ED730FA32
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:50:44 +0100 (CET)
+Received: from localhost ([::1]:37572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ip0-0001L9-VE
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:53:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50200)
+	id 1l7imB-0005Rr-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:50:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7iIC-0007h8-QT
+ id 1l7iIC-0007gR-GZ
  for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:19:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33561)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7iI9-0005UY-VA
+ id 1l7iI9-0005UR-HF
  for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:19:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612459181;
+ s=mimecast20190719; t=1612459180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qpnFJrKmjfx8jC3liGyK8aQBDBkIsy6KWZI/dHoaB18=;
- b=Ea6fqtn1oM6KQwzZRtMEqV9Dx1O41cYgBywOzghShy7T0s8Hzz/wyaS+pXOgGaj//y41yG
- qacX7gxyBpSB6jGd4XL9qcv1pWx96S5p1WFBXhCuurANF/YYPJDMFCldqydhb2ExZgGIUL
- bhqNn9nHYi3d8rrk3xJNehYghxUh7cE=
+ bh=+Bp/ykzT35hp7/WS7WOcWfE7pOcZUPRsrVWHHW+DBlg=;
+ b=CC34vmvdbeoN3rf179wofDxAXTAtWS/qVeHPZUqrWLT3vFvYf73EGBu3YdvQnxOZgMVcVs
+ XkqvP/O430cC9dg1AQ+K83kZod4wL+sPY34AhSM6C1ip+tfG1XpnmyeJGGXAMq/xxEGaZD
+ eYsCn4Q/h0VzdINcwcRjO6klsFXc+C8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-Y1Ghtud-O621OgYoYU8CuA-1; Thu, 04 Feb 2021 12:19:37 -0500
-X-MC-Unique: Y1Ghtud-O621OgYoYU8CuA-1
+ us-mta-13-DBXTFUmnM8GEtrtXjPZnDA-1; Thu, 04 Feb 2021 12:19:39 -0500
+X-MC-Unique: DBXTFUmnM8GEtrtXjPZnDA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E4AE107ACE3;
- Thu,  4 Feb 2021 17:19:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B285100C67E;
+ Thu,  4 Feb 2021 17:19:38 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-221.ams2.redhat.com
  [10.36.112.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76CD160CFA;
- Thu,  4 Feb 2021 17:19:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9D8260CFA;
+ Thu,  4 Feb 2021 17:19:36 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/33] migration: push Error **errp into
- ram_postcopy_incoming_init()
-Date: Thu,  4 Feb 2021 17:18:45 +0000
-Message-Id: <20210204171907.901471-12-berrange@redhat.com>
+Subject: [PATCH 12/33] migration: push Error **errp into
+ loadvm_postcopy_handle_listen()
+Date: Thu,  4 Feb 2021 17:18:46 +0000
+Message-Id: <20210204171907.901471-13-berrange@redhat.com>
 In-Reply-To: <20210204171907.901471-1-berrange@redhat.com>
 References: <20210204171907.901471-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -92,112 +92,61 @@ via Error objects instead of printing directly to the console/monitor.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- migration/postcopy-ram.c | 8 ++++++--
- migration/postcopy-ram.h | 2 +-
- migration/ram.c          | 6 +++---
- migration/ram.h          | 2 +-
- migration/savevm.c       | 3 +--
- 5 files changed, 12 insertions(+), 9 deletions(-)
+ migration/savevm.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index ab482adef1..54b748757a 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -446,6 +446,7 @@ out:
-  */
- static int init_range(RAMBlock *rb, void *opaque)
- {
-+    Error **errp = opaque;
-     const char *block_name = qemu_ram_get_idstr(rb);
-     void *host_addr = qemu_ram_get_host_addr(rb);
-     ram_addr_t offset = qemu_ram_get_offset(rb);
-@@ -459,6 +460,8 @@ static int init_range(RAMBlock *rb, void *opaque)
-      * (Precopy will just overwrite this data, so doesn't need the discard)
-      */
-     if (ram_discard_range(block_name, 0, length)) {
-+        error_setg(errp, "failed to discard RAM block %s len=%zu",
-+                   block_name, length);
-         return -1;
-     }
- 
-@@ -507,9 +510,10 @@ static int cleanup_range(RAMBlock *rb, void *opaque)
-  * postcopy later; must be called prior to any precopy.
-  * called from arch_init's similarly named ram_postcopy_incoming_init
-  */
--int postcopy_ram_incoming_init(MigrationIncomingState *mis)
-+int postcopy_ram_incoming_init(MigrationIncomingState *mis,
-+                               Error **errp)
- {
--    if (foreach_not_ignored_block(init_range, NULL)) {
-+    if (foreach_not_ignored_block(init_range, errp)) {
-         return -1;
-     }
- 
-diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
-index 6d2b3cf124..7458ac1199 100644
---- a/migration/postcopy-ram.h
-+++ b/migration/postcopy-ram.h
-@@ -27,7 +27,7 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis);
-  * postcopy later; must be called prior to any precopy.
-  * called from ram.c's similarly named ram_postcopy_incoming_init
-  */
--int postcopy_ram_incoming_init(MigrationIncomingState *mis);
-+int postcopy_ram_incoming_init(MigrationIncomingState *mis, Error **errp);
- 
- /*
-  * At the end of a migration where postcopy_ram_incoming_init was called.
-diff --git a/migration/ram.c b/migration/ram.c
-index 7811cde643..f6180e8f4f 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3156,7 +3156,7 @@ static int ram_load_cleanup(void *opaque)
- /**
-  * ram_postcopy_incoming_init: allocate postcopy data structures
-  *
-- * Returns 0 for success and negative if there was one error
-+ * Returns 0 for success and -1 if there was one error
-  *
-  * @mis: current migration incoming state
-  *
-@@ -3164,9 +3164,9 @@ static int ram_load_cleanup(void *opaque)
-  * postcopy-ram. postcopy-ram's similarly names
-  * postcopy_ram_incoming_init does the work.
-  */
--int ram_postcopy_incoming_init(MigrationIncomingState *mis)
-+int ram_postcopy_incoming_init(MigrationIncomingState *mis, Error **errp)
- {
--    return postcopy_ram_incoming_init(mis);
-+    return postcopy_ram_incoming_init(mis, errp);
- }
- 
- /**
-diff --git a/migration/ram.h b/migration/ram.h
-index 011e85414e..1cea36ba51 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -61,7 +61,7 @@ void ram_postcopy_migrated_memory_release(MigrationState *ms);
- int ram_postcopy_send_discard_bitmap(MigrationState *ms);
- /* For incoming postcopy discard */
- int ram_discard_range(const char *block_name, uint64_t start, size_t length);
--int ram_postcopy_incoming_init(MigrationIncomingState *mis);
-+int ram_postcopy_incoming_init(MigrationIncomingState *mis, Error **errp);
- 
- void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
- 
 diff --git a/migration/savevm.c b/migration/savevm.c
-index b0eb250d1c..c505526406 100644
+index c505526406..447596383f 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -1722,8 +1722,7 @@ static int loadvm_postcopy_handle_advise(MigrationIncomingState *mis,
+@@ -1909,14 +1909,15 @@ static void *postcopy_ram_listen_thread(void *opaque)
+ }
+ 
+ /* After this message we must be able to immediately receive postcopy data */
+-static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
++static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis,
++                                         Error **errp)
+ {
+     PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
+     trace_loadvm_postcopy_handle_listen();
+-    Error *local_err = NULL;
+ 
+     if (ps != POSTCOPY_INCOMING_ADVISE && ps != POSTCOPY_INCOMING_DISCARD) {
+-        error_report("CMD_POSTCOPY_LISTEN in wrong postcopy state (%d)", ps);
++        error_setg(errp,
++                   "CMD_POSTCOPY_LISTEN in wrong postcopy state (%d)", ps);
+         return -1;
+     }
+     if (ps == POSTCOPY_INCOMING_ADVISE) {
+@@ -1937,12 +1938,12 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+     if (migrate_postcopy_ram()) {
+         if (postcopy_ram_incoming_setup(mis)) {
+             postcopy_ram_incoming_cleanup(mis);
++            error_setg(errp, "Failed to setup incoming postcoyp RAM blocks");
+             return -1;
+         }
+     }
+ 
+-    if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, &local_err)) {
+-        error_report_err(local_err);
++    if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, errp)) {
          return -1;
      }
  
--    if (ram_postcopy_incoming_init(mis)) {
--        error_setg(errp, "Postcopy RAM incoming init failed");
-+    if (ram_postcopy_incoming_init(mis, errp)) {
-         return -1;
-     }
+@@ -2288,12 +2289,7 @@ static int loadvm_process_command(QEMUFile *f, Error **errp)
+         return loadvm_postcopy_handle_advise(mis, len, errp);
  
+     case MIG_CMD_POSTCOPY_LISTEN:
+-        ret = loadvm_postcopy_handle_listen(mis);
+-        if (ret < 0) {
+-            error_setg(errp, "Failed to load device state command: %d", ret);
+-            return -1;
+-        }
+-        return ret;
++        return loadvm_postcopy_handle_listen(mis, errp);
+ 
+     case MIG_CMD_POSTCOPY_RUN:
+         ret = loadvm_postcopy_handle_run(mis);
 -- 
 2.29.2
 
