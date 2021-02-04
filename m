@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD72F30F118
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:45:46 +0100 (CET)
-Received: from localhost ([::1]:37882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643A530F12B
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:48:48 +0100 (CET)
+Received: from localhost ([::1]:40714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7c8v-0000v6-L9
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:45:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35550)
+	id 1l7cBr-0002JC-HH
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:48:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1l7c7z-0000Qp-Es
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:44:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59304)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1l7c7u-0003UY-PG
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:44:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612435479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fcFgKjaA2RDFYeupqM2OOSm1g/C6/4Y3IwpDhxM+RXs=;
- b=N4mr7Cid/tXVgb8WqXhVuab2Fpd/F8+UMCGVGO28JgoXzPRruetNmC3tuzjPAHr1l+ORHw
- DOzDpGFNTAp/lt96Zzxq6m6l13U43aeqBMjELyax+xJHlxvH+Q0MR4mia0raq0UI6oOA0I
- 0aVKE5tnkZNpyAEBJjCbN32TYEKyUmI=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-66_YRbdPMCSwlcJhbLwDyg-1; Thu, 04 Feb 2021 05:44:37 -0500
-X-MC-Unique: 66_YRbdPMCSwlcJhbLwDyg-1
-Received: by mail-qt1-f200.google.com with SMTP id o20so2189231qtx.22
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 02:44:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7cAo-0001eM-5I
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:47:42 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42567)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7cAm-00055U-CO
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:47:41 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id c4so2892784wru.9
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 02:47:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=U/q+ed5nk8fE8kBOfiKNwOZQ4onKkZam6iRYsgcVvS0=;
+ b=eK8PGHzG9n5LEqOFIQbuQpWWd1BVCADhPpCV8/ae1oVLhGzszHN8toDVFHnTl+RVud
+ NShNPVASSwafTFIw9tm4NwNv0mUUVYl6CbHFSLnL9hvjcquj/dDsAPycmstfx4qaE/jf
+ z9x0/M57kMZjCbVvIPjQ03LAaxkgUpkBTsJGyAaP2WKRMUlcYTYBL75QvwZGyWaLS/W6
+ XNWDExsojZCzqktx3vpt/lCXRtYMXfbfTAvGYFKSliNxiRFzSpAJjZImjAJCQCIJCYSi
+ Vyg7m50asmK1fbHs8b7bfr/oy/NBTI3yQ6fxI6PvdAUfiPbZYKmpyKKz2cmwpIp+axZx
+ AsQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fcFgKjaA2RDFYeupqM2OOSm1g/C6/4Y3IwpDhxM+RXs=;
- b=jF7zEJYhfWenKsgDn/epxMcnD7u7kZqqTprZ9SQJpDOgxhbabqF1xdCtPaeJOFLIid
- 4RHLomRY4ZGJaP59Lv21MyRGLw5rfnjJg+ouxxkWGnTH+Uwg+FbYSJucuiugK7AByykl
- Af3ra8wNLl6sZamL1kdXi4ezKU43a+Wu+jpThtLpreInPUh2LsvtG+a1cMq1W2zRaEly
- wpY8rao7cNJEqdfcV7aMQtov7eTV5W9Xg15wxMxYwEReETruV7lKHet/gbtDBWibm5Z2
- XRkrtMneGVpVl9MbWaU42mGyBpCM5O/azbl9yc33g+Z2n6V2wc+aCEPIK+L4zBtBexXz
- 795g==
-X-Gm-Message-State: AOAM532vCIOKmsArlkypWPMkAfqfvPETOZfkFFP6aqcPNchO1zwzq+pB
- kniEkXLa+R9Lo/ADRwRVPF+vtRhpEIcht0GZUik6jCkTdXWuzDectBqbemsZtJBsh8AKXHToWrK
- ovtgmJAoQfB+K3Wc=
-X-Received: by 2002:a05:622a:347:: with SMTP id
- r7mr6029093qtw.279.1612435477414; 
- Thu, 04 Feb 2021 02:44:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJygut69bygt39wN+U5ogUzDP6PqezJl67/9gIc9PRfEt/aKxac32GdIduOaBSnhA4Qxp+6Cpg==
-X-Received: by 2002:a05:622a:347:: with SMTP id
- r7mr6029079qtw.279.1612435477249; 
- Thu, 04 Feb 2021 02:44:37 -0800 (PST)
-Received: from localhost ([181.191.236.144])
- by smtp.gmail.com with ESMTPSA id q6sm5055726qkq.34.2021.02.04.02.44.36
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=U/q+ed5nk8fE8kBOfiKNwOZQ4onKkZam6iRYsgcVvS0=;
+ b=GuSiQfu8wGN4VDKAQBvFIl+kSKqdIh3189KY6zVJofthz0Ic4cNV9Ntib9MDbu57h2
+ P1YffdY02H6ZI/geesMe9RZKDwYLy9CE1xuaJ3KOIogtO9TrZ5O6q3cLycQbYwRKeCur
+ bV+/nwFYvHoXOqVKWbBlUeVBN6abGuv7Gd9kDAvQZcgjNoD8YUWUPC1qsQ+NCnofVJGA
+ kVPkL8z4Ic96HWuPuXhjwpSNitwEuQfaDl94scdqzMqCrzYNAYPPPODG4yMvttfRQ9YP
+ R81leQeQW4FDiVoUgqIpjQtOdIV+/kDjIEPDUIJZGjarGaNEq10xno6L1fR05MTZ9oie
+ y/ow==
+X-Gm-Message-State: AOAM533vWFZazPoDeRvRzgXEIdJohK6Bso+EYkuZsNEWjmdXjNzs1wCr
+ zGJA3mOBQeZBb1IkK5JMOWnSzw==
+X-Google-Smtp-Source: ABdhPJxpYAgWWk2MQaYFm8pTSMQsnrllkpbzkxdfe52/PEtBK9S434Xib+OgzIEdipDscqelSsFD1Q==
+X-Received: by 2002:adf:ae01:: with SMTP id x1mr8529181wrc.381.1612435658641; 
+ Thu, 04 Feb 2021 02:47:38 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i18sm8057257wrn.29.2021.02.04.02.47.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 02:44:36 -0800 (PST)
-Date: Thu, 4 Feb 2021 07:44:34 -0300
-From: Beraldo Leal <bleal@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH 01/22] tests/acceptance/boot_linux.py: fix typo on
- cloudinit error message
-Message-ID: <20210204104434.3o4h3qy7yz6n3xmi@laptop.redhat>
+ Thu, 04 Feb 2021 02:47:37 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B8DB81FF7E;
+ Thu,  4 Feb 2021 10:47:36 +0000 (GMT)
 References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-2-crosa@redhat.com>
+ <20210203172357.1422425-3-crosa@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH 02/22] tests/acceptance/boot_linux.py: rename misleading
+ cloudinit method
+Date: Thu, 04 Feb 2021 10:47:31 +0000
+In-reply-to: <20210203172357.1422425-3-crosa@redhat.com>
+Message-ID: <87k0roqfcn.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210203172357.1422425-2-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=bleal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,25 +90,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- John Snow <jsnow@redhat.com>, Eric Auger <eauger@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  Max Reitz <mreitz@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 03, 2021 at 12:23:36PM -0500, Cleber Rosa wrote:
+
+Cleber Rosa <crosa@redhat.com> writes:
+
+> There's no downloading happening on that method, so let's call it
+> "prepare" instead.  While at it, and because of it, the current
+> "prepare_boot" and "prepare_cloudinit" are also renamed.
+>
+> The reasoning here is that "prepare_" methods will just work on the
+> images, while "set_up_" will make them effective to the VM that will
+> be launched.  Inspiration comes from the "virtiofs_submounts.py"
+> tests, which this expects to converge more into.
+>
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  tests/acceptance/boot_linux.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Beraldo Leal <bleal@redhat.com>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
