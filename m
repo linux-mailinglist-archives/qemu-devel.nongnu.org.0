@@ -2,132 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3348530FF91
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 22:48:14 +0100 (CET)
-Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C8B430FF70
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 22:42:25 +0100 (CET)
+Received: from localhost ([::1]:33376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7mU1-0002cZ-16
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 16:48:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57084)
+	id 1l7mOO-0000ro-2S
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 16:42:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1l7mSI-00025h-Hh
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 16:46:26 -0500
-Received: from mail-dm6nam10on2101.outbound.protection.outlook.com
- ([40.107.93.101]:26145 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1l7mSG-0003oU-As
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 16:46:26 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ST8OJnjpFnE6xd0WbIQrAsyC3zq3BXgXcZpXUJ6MiQJBhRitj1wmIXkQX4U8LgfVYLKXDzCBcUtW0bletS2djXUA1erYA0Ro4M0v5FcKpA/QtqSqwGTicYezwabF0IlC9kZlAj17USZaIWvd+Koogr7/geyLw4uzexgTn2B+AQIGp6DQQA47WcN+fNSH9N1eo1IgeJ6tx29DK1hYE+LPZjAvSL7w70Rmc1X729/XkqodetDTTKyOKHqNzC91e11KmzLZ8dxWC36YZ67huMD6A87lHA9EmrxJ8njsHRrtR6riw7Vf0OV/E6O0z1Ur1rgNcYhh7R7E47eFg9SL/B3wfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r14tG3UEoRHO6wLQjO2ou0OwMF4M4cuHTczDMv1VLh4=;
- b=Iy1URtTUxkX4F+ThMLiyjW4GL0Wvlq1Fti7eUGlrg92zOsArZ2zLeDf4c1RQ36jHPkd33BZhtNPlXbddnhdASg/s61bOZqo5vFmr7lkcFE0RsrVO/Ga4kgZigZBX7vx5Ujk8tQGYQy5zhpLbEQi81/RuA6eUn1jhZT4ym7RLi76vYPm5Y8c0hJxVl9mNNEHiee4uth8j4YVAV/oGPCYKlq0uRNvCt3XYW5Z+udihdk/uFp5G1ssg+wiKacn3A8LtDl+cIG39VKfxYanJPaxeh6pvTmctuwRqINFe3npoTPDIh2Rukk6Su6h2KFtmnsMO1qSR2FUTmwIGTBIO2kwWmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r14tG3UEoRHO6wLQjO2ou0OwMF4M4cuHTczDMv1VLh4=;
- b=CEtqVjymUgAMNtYV2BIk2r4KgrmO0nMiJPSS/BmPJa3HyB1hVcYy6zKKwsl2Ng0d2ZHcxMBbfAntwVaUuHFotyf9PPwj5gYVD3oKUET5oirmcnBK8MdNpaM/xXM27/gKZ8bFTvV6yMfJFNKIzBjRNYCatMJEF79EDxuZAyfxGCM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
- SA1PR01MB6768.prod.exchangelabs.com (2603:10b6:806:1a9::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.27; Thu, 4 Feb 2021 21:31:12 +0000
-Received: from SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::6caf:7c56:c4de:b5c5]) by SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::6caf:7c56:c4de:b5c5%6]) with mapi id 15.20.3805.027; Thu, 4 Feb 2021
- 21:31:11 +0000
-Date: Thu, 4 Feb 2021 16:31:01 -0500
-From: Aaron Lindsay <aaron@os.amperecomputing.com>
-To: qemu-devel@nongnu.org
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, cota@braap.org,
- richard.henderson@linaro.org
-Subject: Re: Detecting Faulting Instructions From Plugins
-Message-ID: <YBxnlZFkp7YA9PXL@strawberry.localdomain>
-References: <YBTRSK4/F5KLH+FZ@strawberry.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YBTRSK4/F5KLH+FZ@strawberry.localdomain>
-X-Originating-IP: [68.73.113.219]
-X-ClientProxiedBy: BL1PR13CA0352.namprd13.prod.outlook.com
- (2603:10b6:208:2c6::27) To SN6PR01MB4304.prod.exchangelabs.com
- (2603:10b6:805:a6::23)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7mN5-0000Nj-PA
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 16:41:03 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35130)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7mMu-0001fd-G6
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 16:41:03 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l7mMr-0004m8-RA
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 21:40:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C68582E813B
+ for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 21:40:49 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from strawberry.localdomain (68.73.113.219) by
- BL1PR13CA0352.namprd13.prod.outlook.com (2603:10b6:208:2c6::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.11 via Frontend
- Transport; Thu, 4 Feb 2021 21:31:11 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7c7a16cc-1060-478f-702e-08d8c954315d
-X-MS-TrafficTypeDiagnostic: SA1PR01MB6768:
-X-Microsoft-Antispam-PRVS: <SA1PR01MB676893A711FDBC30B3CF20588AB39@SA1PR01MB6768.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ulz5raib+bNgmaAgW0HfYN5jfPb5ifuJJ1JkE/i7C3Aw4BZ1rP/GP3LglKAVZHeOHgtEK2YIReLZTzVddBbQXwBtBnYROGJ8J/YMDls74rThS+NZn/cHjBIUQiZ7l3PNOrGJyIHGKaHDL8dUS8MC6Gq2uHUsrn5A4oIBIYBrpqHFEmQrg/KL7vzih3K3Ux+3lwy6rroBYYVa/AA8lDActN/Z117zC6XWxn29AUx7wGhuMXx2tDVQbIGnd2x8AjDR7WVxwTtHayf4CgYa0k0vQGzBaJB81SknoMK+/LGx9HOV7VILYfr/tgIGoXu55ZXvwis/pFfrazFZX+gY4e1FEfENq1x4zjBhwnrkbpxyV7FOPd2YFbFO1PapvNR3SuC2wu0Zg5mdCGiGzKT9JcW6R2KmunRnhloYeTtMnlaQIdsiwgBGALvL9iIezaizp7aEIF3tZKjGD+LaJz3LMWQOOiIA+G5/04Qr2JPtqqpfjr8h9WKuYbT59urD9fU9udggekUVzkkaeaifkYD24p79SQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(346002)(39840400004)(366004)(396003)(2906002)(316002)(8676002)(55016002)(26005)(4326008)(16526019)(6666004)(5660300002)(86362001)(956004)(186003)(66476007)(6916009)(66556008)(52116002)(7696005)(478600001)(8936002)(9686003)(6506007)(66946007)(83380400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?VPn2/WLELJGzmumAWbNCBEVV7SvxsFU3aGa3euRt7ItwY4F9YBN+lmEZUeYR?=
- =?us-ascii?Q?Y4bknpLCJziM/1w/UfXDDPzOVlXwOJIVLpZvvQtQz6bJpCMizLsiRdQaCDdJ?=
- =?us-ascii?Q?Wf+NIb58P6gXUSgfylH/yk/CbSqHEqqXmv2r5EvFotEGW0WeZehUikzK81FD?=
- =?us-ascii?Q?Lswp4mjAWEUGLDRgkCqaK2wg7/D0V9sSL5fB4YEr9yWsdo7xGNUnVbBKD4lE?=
- =?us-ascii?Q?DH+V+EHVaT4XOeVcAnaSdIXJ1S//2XFJBiogOEPRE9SJhvJkVtZBE8duxbyl?=
- =?us-ascii?Q?Tb2DFYUP3qUjNJhzjoB1yXjVzrWkUN8bOpZOPfpT8ILP7u5fGsIV3ozuSy+v?=
- =?us-ascii?Q?4VAkS1aAGgXXcsKfvjWvG8ro7q9pkimUoE7S0CWNxfcJ67rnBSzM0vHQvXMh?=
- =?us-ascii?Q?/l9jaJ181IZDZVixLdJnHRFDcRggFYQwBvc+6eKjMNUQmafx8DXPM6sOsYQ1?=
- =?us-ascii?Q?6mST1RvwDl9qiQGk6iLKnjKaDaAS1btH09Oirwwt78vSBZdngCl7E7c/W5WG?=
- =?us-ascii?Q?c4exnsdwK52OxL7ENZkM3AR0xDF6z5r+q40XqVXG1LpZHJOJFUiUzSnkZgKx?=
- =?us-ascii?Q?Kw2q3XDIIrYqi7ANn/DMo3SfrqEnykOOguwll3k0lYpHqcd8AIYQpJPAp30X?=
- =?us-ascii?Q?/Ha5BGc7sWZueIbG72n+0iwM40gQgRqSyH/8wjSfILdgI5dXo0I+PEprRPPT?=
- =?us-ascii?Q?Wcyy7od6ezXLIqA4MnTNawnh5lWghcM2uYrVbn1zMvw0wZJYBhcT37PdgMZv?=
- =?us-ascii?Q?GQNLVPm3OT3b0lo3gv28HiTi44Is+8XUzb7Sdwg9h6mcyCcZxatKkl/26Cz2?=
- =?us-ascii?Q?evWsB4Ri8sBVl6Q+7ES1nzf5M/cqxesXK9jKFUzyhPg9HW9w5frBJOeylqy0?=
- =?us-ascii?Q?/wrPqNIYWVU1Ts1AUKXkhTBuHMvXtglLE+lgaEHnS8tpT3/HPXXLYRS1/ugj?=
- =?us-ascii?Q?PZarme+YRu59vHAj/mbIVcHjl4QtGtRb3Pdo/zIej7SiAZ0jvxFOBJYwUbMZ?=
- =?us-ascii?Q?Q7MeppzZtzn6VUuq7AFCIsquwf6rK+EL+fptq4biJAHdUhyvm6qKt+tqM4Zd?=
- =?us-ascii?Q?vqemTJ9MoBpOuStukXR4KnMqtZjuEE64VF5OkJLWulOpChT+dDpqepNYDNij?=
- =?us-ascii?Q?rCTT/8hJEo6uJ2qb/FsDOVAy2N9fvC7vY4bmHbH3sjNYnnjjXzu6KRSeKcf/?=
- =?us-ascii?Q?ZU6guPyvyL174SO8BKKC5YBI9P2oLnc4AcIMZf419XEedBZunTiavYFzKbzD?=
- =?us-ascii?Q?kUfPq79XubJO4A1Y+2OkMR3C6opwtY+TQ+ivY0GmN1t/KQ52BGBTDF9Hh9AZ?=
- =?us-ascii?Q?DTn4LDb/ZBBKxfqEMsuvuzy/?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c7a16cc-1060-478f-702e-08d8c954315d
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2021 21:31:11.8526 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pCUEp7PoUjHQHmpuF9vp1kcy95hBwyrKkkti42E7RkfQstVRTUtjMTzdwjJdNGjI2hOFjniXE2oCfwbKc2uS49II0M3BYwVoU1H5oLC37ZQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR01MB6768
-Received-SPF: pass client-ip=40.107.93.101;
- envelope-from=aaron@os.amperecomputing.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 04 Feb 2021 21:33:48 -0000
+From: Peter Maydell <1914638@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161245973905.12681.5626615334396289850.malonedeb@soybean.canonical.com>
+Message-Id: <161247442860.3999.7461527809173520794.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1914638] Re: [OSS-Fuzz] Issue 30219: Global-buffer-overflow in
+ mode_sense_page
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: aa72904bb42c97dc1206e704c66de4567dae907d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -136,73 +71,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1914638 <1914638@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jan 29 22:23, Aaron Lindsay wrote:
-> I appear to be seeing that if I register a callback for an instruction
-> via `qemu_plugin_register_vcpu_insn_exec_cb` I receive a callback even
-> if the instruction faults.
+** Tags added: fuzzer
 
-I was wrong about what I was seeing - I made some false assumptions
-based on incomplete information. After adding some additional
-instrumentation, I do not believe what I am seeing is explained by
-translation faults, and think it might even be a bug.
+-- =
 
-For the below output, I've got a plugin which registers a callback via
-`qemu_plugin_register_vcpu_insn_exec_cb` for each instruction executed.
-I've enabled `-d in_asm` and added prints in my instruction execution
-callback when it sees the opcode for the `ldr` instruction in question.
-I'm running a local source build of the v5.2.0 release.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914638
 
-Note in the output below the instruction at 0xffffdd2f1d4102c0 is
-getting re-translated for some reason, and that two callbacks are made
-to my function registered with qemu_plugin_register_vcpu_insn_exec_cb
-(the "*** saw encoding"... output) for what should be one instruction
-execution.
+Title:
+  [OSS-Fuzz] Issue 30219: Global-buffer-overflow in mode_sense_page
 
-Do you have any tips for debugging this further or ideas for ensuring the
-callback is called only once for this instruction?
+Status in QEMU:
+  New
 
-----------------
-IN:
-0xffffdd2f1d410250:  aa1e03e9  mov      x9, x30
-0xffffdd2f1d410254:  d503201f  nop
-0xffffdd2f1d410258:  a9bc7bfd  stp      x29, x30, [sp, #-0x40]!
-0xffffdd2f1d41025c:  910003fd  mov      x29, sp
-0xffffdd2f1d410260:  a90153f3  stp      x19, x20, [sp, #0x10]
-0xffffdd2f1d410264:  b000f2d3  adrp     x19, #0xffffdd2f1f269000
-0xffffdd2f1d410268:  911c4273  add      x19, x19, #0x710
-0xffffdd2f1d41026c:  a9025bf5  stp      x21, x22, [sp, #0x20]
-0xffffdd2f1d410270:  f000cad6  adrp     x22, #0xffffdd2f1ed6b000
-0xffffdd2f1d410274:  aa0003f5  mov      x21, x0
-0xffffdd2f1d410278:  f9409674  ldr      x20, [x19, #0x128]
-0xffffdd2f1d41027c:  913d42d6  add      x22, x22, #0xf50
-0xffffdd2f1d410280:  f9001bf7  str      x23, [sp, #0x30]
-0xffffdd2f1d410284:  91003297  add      x23, x20, #0xc
-0xffffdd2f1d410288:  91004294  add      x20, x20, #0x10
-0xffffdd2f1d41028c:  1400000d  b        #0xffffdd2f1d4102c0
+Bug description:
+  =3D=3D Reproducer (build with --enable-sanitizers) =3D=3D
 
-----------------
-IN:
-0xffffdd2f1d4102c0:  b94002e2  ldr      w2, [x23]
-0xffffdd2f1d4102c4:  12002441  and      w1, w2, #0x3ff
-0xffffdd2f1d4102c8:  710fec3f  cmp      w1, #0x3fb
-0xffffdd2f1d4102cc:  54fffe29  b.ls     #0xffffdd2f1d410290
+  cat << EOF | ./qemu-system-i386 -machine q35 -nodefaults \
+  -device megasas -device scsi-cd,drive=3Dnull0 \
+  -blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 \
+  -nographic -qtest stdio
+  outl 0xcf8 0x80000818
+  outl 0xcfc 0xc000
+  outl 0xcf8 0x80000804
+  outw 0xcfc 0x7
+  write 0x0 0x1 0x03
+  write 0x7 0x1 0x3f
+  write 0x10 0x1 0x03
+  write 0x20 0x1 0x55
+  write 0x21 0x1 0x10
+  write 0x28 0x1 0x10
+  write 0x30 0x1 0xff
+  write 0x31 0x1 0xff
+  write 0x32 0x1 0xff
+  write 0x33 0x1 0xff
+  write 0x34 0x1 0xff
+  write 0x35 0x1 0xff
+  write 0x36 0x1 0xff
+  write 0x37 0x1 0xff
+  write 0x3b 0x1 0x10
+  write 0x43 0x1 0x10
+  write 0x44 0x1 0x10
+  write 0x4f 0x1 0x10
+  write 0x53 0x1 0x10
+  write 0x5b 0x1 0x10
+  write 0x5f 0x1 0x10
+  write 0x67 0x1 0x10
+  write 0x6b 0x1 0x10
+  write 0x73 0x1 0x10
+  write 0x75 0x1 0x10
+  write 0x7d 0x1 0x10
+  write 0x83 0x1 0x10
+  write 0x8b 0x1 0x10
+  write 0x8f 0x1 0x10
+  write 0x97 0x1 0x10
+  write 0x9b 0x1 0x10
+  write 0xa3 0x1 0x03
+  write 0xa6 0x1 0x10
+  write 0xae 0x1 0x10
+  write 0xb3 0x1 0x10
+  write 0xbb 0x1 0x10
+  write 0xbf 0x1 0x10
+  write 0xc7 0x1 0x10
+  write 0xca 0x1 0x10
+  write 0xd3 0x1 0x06
+  write 0xd7 0x1 0x10
+  write 0xdf 0x1 0x10
+  write 0xe3 0x1 0x06
+  write 0xeb 0x1 0x01
+  write 0xef 0x1 0x10
+  write 0xf7 0x1 0x10
+  write 0xfb 0x1 0x10
+  write 0x103 0x1 0x20
+  write 0x107 0x1 0x10
+  write 0x10f 0x1 0x10
+  write 0x113 0x1 0x10
+  write 0x11b 0x1 0x10
+  write 0x11f 0x1 0x10
+  write 0x127 0x1 0x10
+  write 0x12b 0x1 0x10
+  write 0x130 0x1 0x10
+  write 0x137 0x1 0x10
+  write 0x13f 0x1 0x40
+  write 0x141 0x1 0x10
+  write 0x14b 0x1 0x10
+  write 0x14f 0x1 0x10
+  write 0x157 0x1 0x10
+  write 0x15b 0x1 0x10
+  write 0x161 0x1 0x10
+  write 0x167 0x1 0x03
+  write 0x16f 0x1 0x06
+  write 0x172 0x1 0x10
+  write 0x17b 0x1 0x10
+  write 0x17f 0x1 0x10
+  write 0x187 0x1 0x10
+  write 0x18b 0x1 0x10
+  write 0x192 0x1 0x10
+  write 0x197 0x1 0x06
+  write 0x19f 0x1 0x20
+  write 0x1a3 0x1 0x10
+  write 0x1ab 0x1 0x40
+  write 0x1af 0x1 0x01
+  write 0x1b7 0x1 0x10
+  write 0x1bb 0x1 0x20
+  write 0x1c3 0x1 0x10
+  write 0x1c7 0x1 0x20
+  write 0x1cc 0x1 0x10
+  write 0x1d3 0x1 0x10
+  write 0x1db 0x1 0x10
+  write 0x1df 0x1 0x10
+  write 0x1e7 0x1 0x10
+  write 0x1eb 0x1 0x10
+  write 0x1f3 0x1 0x10
+  write 0x1f4 0x1 0x10
+  write 0x1fd 0x1 0x10
+  write 0x203 0x1 0x40
+  write 0x20b 0x1 0x10
+  write 0x20f 0x1 0x10
+  write 0x217 0x1 0x10
+  write 0x21b 0x1 0x10
+  write 0x223 0x1 0x10
+  write 0x225 0x1 0x10
+  write 0x22e 0x1 0x10
+  write 0x233 0x1 0x06
+  write 0x23b 0x1 0x10
+  write 0x23f 0x1 0x10
+  write 0x247 0x1 0x10
+  write 0x24b 0x1 0x10
+  write 0x252 0x1 0x10
+  write 0x256 0x1 0x10
+  write 0x25f 0x1 0x10
+  write 0x263 0x1 0x20
+  write 0x26b 0x1 0x06
+  write 0x26f 0x1 0x40
+  write 0x277 0x1 0x10
+  write 0x27b 0x1 0x10
+  write 0x283 0x1 0x10
+  write 0x287 0x1 0x10
+  write 0x28f 0x1 0x10
+  write 0x290 0x1 0x10
+  write 0x29b 0x1 0x10
+  write 0x29f 0x1 0x10
+  write 0x2a7 0x1 0x10
+  write 0x2ab 0x1 0x10
+  write 0x2b3 0x1 0x10
+  write 0x2b7 0x1 0x10
+  write 0x2bf 0x1 0x10
+  write 0x2c1 0x1 0x10
+  write 0x2c9 0x1 0x10
+  write 0x2cf 0x1 0x10
+  write 0x2d7 0x1 0x10
+  write 0x2db 0x1 0x10
+  write 0x2e3 0x1 0x10
+  write 0x2e7 0x1 0x10
+  write 0x2ef 0x1 0x03
+  write 0x2f2 0x1 0x10
+  write 0x2fa 0x1 0x10
+  write 0x2ff 0x1 0x10
+  write 0x307 0x1 0x10
+  write 0x30b 0x1 0x10
+  write 0x313 0x1 0x10
+  write 0x316 0x1 0x10
+  write 0x31f 0x1 0x06
+  write 0x323 0x1 0x10
+  outb 0xc040 0x0
+  EOF
 
-*** saw encoding 0xb94002e2 (@ 504107673 instructions)
-----------------
-IN:
-0xffffdd2f1d4102c0:  b94002e2  ldr      w2, [x23]
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  =3D=3D1025760=3D=3DERROR: AddressSanitizer: global-buffer-overflow on add=
+ress 0x558f557253fc at pc 0x558f549ab376 bp
+  0x7ffd436e9770 sp 0x7ffd436e9768
+  READ of size 4 at 0x558f557253fc thread T0
+  SCARINESS: 17 (4-byte-read-global-buffer-overflow)
+  #0 0x558f549ab375 in mode_sense_page /src/qemu/hw/scsi/scsi-disk.c:1104:10
+  #1 0x558f549afd86 in scsi_disk_check_mode_select /src/qemu/hw/scsi/scsi-d=
+isk.c:1447:11
+  #2 0x558f549af9a6 in mode_select_pages /src/qemu/hw/scsi/scsi-disk.c:1515=
+:17
+  #3 0x558f549ae593 in scsi_disk_emulate_mode_select /src/qemu/hw/scsi/scsi=
+-disk.c:1570:13
+  #4 0x558f549a56e9 in scsi_disk_emulate_write_data /src/qemu/hw/scsi/scsi-=
+disk.c:1861:9
+  #5 0x558f548b9b49 in scsi_req_continue /src/qemu/hw/scsi/scsi-bus.c:0
+  #6 0x558f548b9fc4 in scsi_req_data /src/qemu/hw/scsi/scsi-bus.c:1427:5
+  #7 0x558f549a5554 in scsi_disk_emulate_write_data /src/qemu/hw/scsi/scsi-=
+disk.c:1853:9
+  #8 0x558f548b9b49 in scsi_req_continue /src/qemu/hw/scsi/scsi-bus.c:0
+  #9 0x558f54ac7cf6 in megasas_enqueue_req /src/qemu/hw/scsi/megasas.c:1660=
+:9
+  #10 0x558f54ab6e09 in megasas_handle_scsi /src/qemu/hw/scsi/megasas.c:173=
+5:5
+  #11 0x558f54ab3083 in megasas_handle_frame /src/qemu/hw/scsi/megasas.c:19=
+74:24
+  #12 0x558f54ab1c8b in megasas_mmio_write /src/qemu/hw/scsi/megasas.c:2131=
+:9
+  #13 0x558f54acc784 in megasas_port_write /src/qemu/hw/scsi/megasas.c:2182=
+:5
+  #14 0x558f54f78d57 in memory_region_write_accessor /src/qemu/softmmu/memo=
+ry.c:491:5
+  #15 0x558f54f78be2 in access_with_adjusted_size /src/qemu/softmmu/memory.=
+c:552:18
+  #16 0x558f54f78441 in memory_region_dispatch_write /src/qemu/softmmu/memo=
+ry.c:0:13
+  #17 0x558f550d5627 in flatview_write_continue /src/qemu/softmmu/physmem.c=
+:2763:23
+  #18 0x558f550d02ac in flatview_write /src/qemu/softmmu/physmem.c:2803:14
+  #19 0x558f550d00c7 in address_space_write /src/qemu/softmmu/physmem.c:289=
+5:18
+  #20 0x558f5506c4ff in cpu_outb /src/qemu/softmmu/ioport.c:60:5
 
-*** saw encoding 0xb94002e2 (@ 504107674 instructions)
-----------------
-IN:
-0xffffdd2f1d4102c4:  12002441  and      w1, w2, #0x3ff
-0xffffdd2f1d4102c8:  710fec3f  cmp      w1, #0x3fb
-0xffffdd2f1d4102cc:  54fffe29  b.ls     #0xffffdd2f1d410290
-
-Thanks!
-
--Aaron
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914638/+subscriptions
 
