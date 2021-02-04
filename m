@@ -2,69 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074A330F9C6
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:33:34 +0100 (CET)
-Received: from localhost ([::1]:53958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804BD30FA37
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:53:08 +0100 (CET)
+Received: from localhost ([::1]:44212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7iVZ-0003sz-0K
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:33:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45018)
+	id 1l7ioV-0000Re-G9
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:53:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hv7-0002K5-FN
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:55:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hv4-0003BV-DL
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:55:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612457749;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JGPMJAyTQ7vK8QI4vspUw22eFZOUxQX9TG2LqHlCXG8=;
- b=Sglb0wHtaeOTVACwMl/98r/RIv75NUsH6pAg81/iHK7mKseprXDUs1411OHjCHCVl1u5Qn
- G2eWSmkrJmXtOnAkjUawfwWwsjgrrOVRzwsLlvnA1mKFGdzM4zxyjVFWZpBPkuEjPj7To2
- ciR2Ql0bGLuY1ZdQDqUts77vXhXKLKQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-FXXmrVlYMPitoWkUETAcgQ-1; Thu, 04 Feb 2021 11:55:48 -0500
-X-MC-Unique: FXXmrVlYMPitoWkUETAcgQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C29DA425C9;
- Thu,  4 Feb 2021 16:55:46 +0000 (UTC)
-Received: from work-vm (ovpn-114-21.ams2.redhat.com [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B4CB15C290;
- Thu,  4 Feb 2021 16:55:45 +0000 (UTC)
-Date: Thu, 4 Feb 2021 16:55:43 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH] migration: only check page size match if RAM postcopy is
- enabled
-Message-ID: <20210204165543.GL3039@work-vm>
-References: <20210204163522.13291-1-s.reiter@proxmox.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1l7hzW-0007Zh-BR; Thu, 04 Feb 2021 12:00:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1l7hzT-00051K-A5; Thu, 04 Feb 2021 12:00:26 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 114Gh4E8074759; Thu, 4 Feb 2021 12:00:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=fPfiVUjrlVKGwzFG6nrCPeFcEdBPy8sajRCmqU91TOw=;
+ b=d7P13QgyXHnA8noqcfLhKPzhmhjVdlHYXNbS7hHRFlAO5iRsHPs/gCsXEMnq4KyoPFKM
+ yWPpnlNUhUNySkaGf/+T6xfz+H/bSb2dfGBNB2jrshvqklHP0qp1CNswjNWJe8a0SJaK
+ pwxKqD/fXXlzrCvRiogt/Lzh5wIYzwMqTe89C0rV6bArITUyD6Hoalohr/4ZpxDeI/du
+ fHgNHy/jHqua070KOlaxvOeX7fU4GV1SXaB9ISn1ZCLnPJFKlg/rvgDU5efvdSzsT1pv
+ ZLrHlibquIL2E12ESjzlMGmRv05SnAHYKR7+9n6+sR2cB4pTgztxsDx6+5VqsbbgI9Us OA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36gmpmgdct-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 Feb 2021 12:00:16 -0500
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 114GhPKJ075490;
+ Thu, 4 Feb 2021 12:00:16 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36gmpmgdaq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 Feb 2021 12:00:16 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 114GqhhW024405;
+ Thu, 4 Feb 2021 17:00:13 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 36evvf2rw2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 Feb 2021 17:00:13 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 114H0BsM48627978
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 4 Feb 2021 17:00:11 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1C52342042;
+ Thu,  4 Feb 2021 17:00:11 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BE8D54204C;
+ Thu,  4 Feb 2021 17:00:10 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.45.97])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu,  4 Feb 2021 17:00:10 +0000 (GMT)
+Subject: Re: [PATCH v2] target/s390x/arch_dump: Fixes for the name field in
+ the PT_NOTE section
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>
+References: <20210204164117.721110-1-thuth@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <8674a570-93f7-24dc-10b8-0c3577c0841f@de.ibm.com>
+Date: Thu, 4 Feb 2021 18:00:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <20210204163522.13291-1-s.reiter@proxmox.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210204164117.721110-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
+ definitions=2021-02-04_08:2021-02-04,
+ 2021-02-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ suspectscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 priorityscore=1501 spamscore=0 clxscore=1015 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102040100
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.182,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,49 +111,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Reiter (s.reiter@proxmox.com) wrote:
-> Postcopy may also be advised for dirty-bitmap migration only, in which
-> case the remote page size will not be available and we'll instead read
-> bogus data, blocking migration with a mismatch error if the VM uses
-> hugepages.
+On 04.02.21 17:41, Thomas Huth wrote:
+> According to the "ELF-64 Object File Format" specification:
 > 
-> Fixes: 58110f0acb ("migration: split common postcopy out of ram postcopy")
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-
-Ah! That would explain a report on qemu-discuss a few days ago; yes this
-makes sense.
-(However you've literally just missed a migration pull; next time!)
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> "The first word in the entry, namesz, identifies the length, in
+>  bytes, of a name identifying the entry’s owner or originator. The name field
+>  contains a null-terminated string, with padding as necessary to ensure 8-
+>  byte alignment for the descriptor field. The length does not include the
+>  terminating null or the padding."
+> 
+> So we should not include the terminating NUL in the length field here.
+> 
+> Also there is a compiler warning with GCC 9.3 when compiling with
+> the -fsanitize=thread compiler flag:
+> 
+>  In function 'strncpy',
+>     inlined from 's390x_write_elf64_notes' at ../target/s390x/arch_dump.c:219:9:
+>  /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
+>   '__builtin_strncpy' specified bound 8 equals destination size
+>   [-Werror=stringop-truncation]
+> 
+> Since the name should always be NUL-terminated, let's use g_strlcpy() to
+> silence this warning. And while we're at it, also add an assert() to make
+> sure that the provided names always fit the size field (which is fine for
+> the current callers, the function is called once with "CORE" and once with
+> "LINUX" as a name).
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  migration/ram.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 7811cde643..6ace15261c 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3521,7 +3521,7 @@ static int ram_load_precopy(QEMUFile *f)
->                          }
->                      }
->                      /* For postcopy we need to check hugepage sizes match */
-> -                    if (postcopy_advised &&
-> +                    if (postcopy_advised && migrate_postcopy_ram() &&
->                          block->page_size != qemu_host_page_size) {
->                          uint64_t remote_page_size = qemu_get_be64(f);
->                          if (remote_page_size != block->page_size) {
-> -- 
-> 2.20.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  v2: Use g_strlcpy instead of strncpy
 
+
+With this patch I do get
+
+WARNING: possibly corrupt Elf64_Nhdr: n_namesz: 0 n_descsz: 4 n_type: 88
+
+when running crash on the elf file created by dump-guest-memory. Without the
+patch everything is fine. 
+
+> 
+>  target/s390x/arch_dump.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
+> index 50fa0ae4b6..f205123834 100644
+> --- a/target/s390x/arch_dump.c
+> +++ b/target/s390x/arch_dump.c
+> @@ -212,11 +212,13 @@ static int s390x_write_elf64_notes(const char *note_name,
+>      int note_size;
+>      int ret = -1;
+>  
+> +    assert(strlen(note_name) < sizeof(note.name));
+> +
+>      for (nf = funcs; nf->note_contents_func; nf++) {
+>          memset(&note, 0, sizeof(note));
+> -        note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
+> +        note.hdr.n_namesz = cpu_to_be32(strlen(note_name));
+>          note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
+> -        strncpy(note.name, note_name, sizeof(note.name));
+> +        g_strlcpy(note.name, note_name, sizeof(note.name));
+>          (*nf->note_contents_func)(&note, cpu, id);
+>  
+>          note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
+> 
 
