@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8847830FC3A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:10:06 +0100 (CET)
-Received: from localhost ([::1]:35076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30DD230FC1E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:03:05 +0100 (CET)
+Received: from localhost ([::1]:53526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7k0t-0003qK-G7
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:10:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37618)
+	id 1l7juC-0007fo-9I
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:03:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7jLS-0002wr-Gi
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:27:10 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41997)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7jNN-0005cw-DQ; Thu, 04 Feb 2021 13:29:09 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:37060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7jLP-000188-NE
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:27:10 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id g15so2694180pgu.9
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 10:27:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=u8+x8WkL1M8tckQ1iNNSeNtVeKzdbQi5D/31HDAUV78=;
- b=ktqVf0c1PrFuakdT4GWoULh47GUdC7rO2+mNquG0+VETcGUB8PzhIc9RDIR7V31HzE
- 5AwGaUgP4FMJidbqrX3DdCU/d3aUqvXz8vHxUmd2iIGK5iMoewgPb9zqSd9eqEOuLeZn
- U/5QLPFPy2jrm0d1gOeTZz7EKltxhg5U4jLO65H9sdvESaAg1yhbrz/mq2KwEFLQyRBB
- eFsPrvgMvHUaNaSaJ0cpNu2oywwkba1jmqc4Niw5NdRdum06zFFd/Kkj4dzPcnp38FlF
- hHGWM26sVglMvJ7D9S53EchcPmeCLNN5vvednjCIpHFm6EYZQXZN8NvPafAxr6DKAQUI
- HHfw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7jNL-000203-Q4; Thu, 04 Feb 2021 13:29:09 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id jj19so7124090ejc.4;
+ Thu, 04 Feb 2021 10:29:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rnBP+G+AfTb5HZhTrwyYmkaQSKMTs0uwOtrFD3BNUBk=;
+ b=n/RmAlbf6KCtcuCrDD5Yc5YlA+8ZgURoa/4LPYRc/ujaNMNc8mrt/UAD+avNou4pmg
+ VQzK8aX0kEhALDOgE1MsEN13kPS9UNJPc1Sw2ykSnkV+RRtFqOkBhnAb43h43Wd0u3ZK
+ gIPrS0CmCaHAM6lRZ9pDQ+PTlhCHxnFPKrJ4ayaIfWTOr1J8fAza8l337q+ci9i8b2YT
+ NR+t3/PXYn4VX1QnBX/2DKgwK+NtAxDqKPE62Fdri0KbJC8i/H53ewkyE98GmQDo7JW2
+ Vmldg+97AAsO3gct1KTlmQPxYNfg5ksyFXj8RJVTJFKfpQOAbLgFue1QJedUvJsv5XZY
+ FxPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=u8+x8WkL1M8tckQ1iNNSeNtVeKzdbQi5D/31HDAUV78=;
- b=K60nXut3GJKr8YkT/u8q3lMqwmcjVDC+BWRCx1dQGkyfmBBBzeESFnwZY5/mMazu7n
- x55OATlCtnyjJGS5XAtoAqzDBZoEfycSspbufiUTLptUsRhnDXN4yQl1Ov9LSB1vuysN
- BqPYsnc88R7W4NTrEaVleeJnU+MFOgCU9VNogyJbu+VBn0spt3NRkObfquNsHvaiyA+P
- M+GWulC5KdFGgXYItx2iOlz6gLTeQQzco3RvEr8LEAbwOgSyi2p5igEDcIRjR6z1Q4Lu
- 4EnZc688qrNY37xQj3viaAiEhvD+J7j+uvjpl9oVT7J20Hq4/8oxeZfisIZAJKv3qOn4
- Vqsg==
-X-Gm-Message-State: AOAM5318jZJVJaoxsLnwI8+dMU1sPldityg1LKJNmouIg7H7PCQCucaw
- FkJ0XqZcTpf8lU/LyrTVGw52mw==
-X-Google-Smtp-Source: ABdhPJz0uGAuDMvs+DYPMcjJKBDHx1Fb+zBS/6l7pqW4M1/SxywOBaRHCsDJIGU12S1i8yBIAmZNzQ==
-X-Received: by 2002:a63:d246:: with SMTP id t6mr245896pgi.283.1612463224753;
- Thu, 04 Feb 2021 10:27:04 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
- [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id n73sm6557225pfd.109.2021.02.04.10.27.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 10:27:03 -0800 (PST)
-Subject: Re: gitlab containers are broken
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <567366a0-0e5a-3ab6-8e8e-ad66b46264b2@linaro.org>
- <756e4707-b0ae-f26c-6e09-67fe205ec098@redhat.com>
- <8238fe1d-c7c0-ab72-fa2f-c4cf9ce018bc@linaro.org>
- <6ec7bebe-587d-df2d-0221-e12cb6f4c775@redhat.com>
- <20210204100009.GE549438@redhat.com>
- <9e716df9-3be3-4c79-dff3-e6475b13fdc5@linaro.org>
- <20210204173736.GV549438@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f2a184c7-80f1-afb2-e502-3b03f586d4dc@linaro.org>
-Date: Thu, 4 Feb 2021 08:27:00 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=rnBP+G+AfTb5HZhTrwyYmkaQSKMTs0uwOtrFD3BNUBk=;
+ b=pxmPZDLBjUaTLcLe0ef1Lw809ZIm24CvxTe8tMoUrqlxXMYBYbf+7Wt2CYNVA/Ki5d
+ xgUyNhcrYSm7WMA/dQlpW6pLMF8euonBTOgh+c8O0GcGKEII+KOa7MGWVeQE6wmE2S3u
+ rLMIl7Mq8vdXD0NNh28VUS/oOOZ3Lgi7f2vA4sKMQMvNbRCsOjEC5q+Or0j8ZmXiuk56
+ 5xA8/Z0yB28LPuMVghE8yxHDNdVMaxTgNrhvTPQCG1aMqI1sSn/rinqZ1ka+S9UWW9dJ
+ m/ErcMuquknAMMJvj3oEs40q1oYrKpbtOh4MR/OwJ7VZlLRq3279uQnLqsqDGjSbeV6Z
+ TUNw==
+X-Gm-Message-State: AOAM530fMTYi5kWoxFFz9c8BwbmHGd9x01mtbVAApSHN8SdFvAcXixQt
+ Ip5/bYaST8k+gZR+XbsbLnhteQ7BjIw=
+X-Google-Smtp-Source: ABdhPJx5EZhtCiasnPKxZVjZfGCMk8a4BIKr8A64EmjO5gdGbFNqDpwjDy1WhEOFU+ECUhkbVAL6WA==
+X-Received: by 2002:a17:907:35ca:: with SMTP id
+ ap10mr380183ejc.451.1612463345558; 
+ Thu, 04 Feb 2021 10:29:05 -0800 (PST)
+Received: from x1w.redhat.com (107.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.107])
+ by smtp.gmail.com with ESMTPSA id z2sm335523ejn.91.2021.02.04.10.29.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Feb 2021 10:29:04 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg/s390: Fix compare instruction from extended-immediate
+ facility
+Date: Thu,  4 Feb 2021 19:29:02 +0100
+Message-Id: <20210204182902.1742826-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210204173736.GV549438@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.182,
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,51 +83,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "Richard W . M . Jones" <rjones@redhat.com>, qemu-s390x@nongnu.org,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 7:37 AM, Daniel P. Berrangé wrote:
-> On Thu, Feb 04, 2021 at 07:36:19AM -1000, Richard Henderson wrote:
->> On 2/4/21 12:00 AM, Daniel P. Berrangé wrote:
->>>>> Hmm.  Is there any way to get the full output of the container build?  At
->>>>> present it's being truncated:
->>>>>
->>>>> #7 [4/5] RUN yum install -y bzip2     bzip2-devel     ccache     csnappy-de...
->>>>>
->>>>>
->>>>> In particular, I'm trying to add a new test, and I have added libffi-devel.i686
->>>>> to the fedora-i386-cross.docker file, but then the actual build fails because
->>>>> the libffi header file is missing.
->> ...
->>> Alternatively just make your changes to the dockerfiles and thne push
->>> the branch to gitlab. Gitlab will run the build and you can pull down
->>> the docker image from your fork's docker registry
->>
->> That's what I did, with the results as described above.
-> 
-> Ah, if you can point me to the gitlab pipeline / branch I can have a
-> look at diagnosing it.
+The code is currently comparing c2 to the type promotion of
+uint32_t and int32_t. That is, the conversion rules are as:
 
-One that failed is
+  (common_type) c2 == (common_type) (uint32_t)
+                        (is_unsigned
+                        ? (uint32_t)c2
+                        : (uint32_t)(int32_t)c2)
 
-https://gitlab.com/rth7680/qemu/-/pipelines/250583359
+In the signed case we lose the desired sign extensions because
+of the argument promotion rules of the ternary operator.
 
-where the cross-i386-tci job fails.  It takes some digging to see that all of
-the correct bits are in place: from the head (84f9ac62) up to the ffi patch
-(7bdae288) which modifies the docker files, up to the gitlab patch (a1d93694)
-which adds the cross test.  I'll note that for this particular push, gitlab has
-failed to rebuild the containers, and I don't know why.
+Solve the problem by doing the round-trip parsing through the
+intermediate type and back to the desired common type (all at
+one expression).
 
-Irritatingly, I re-pushed a combined cross-test+ffi patch on top of my current
-tci branch (since I had removed both patches shown above), and it seems to be
-working.  Possibly because this time gitlab decided to rebuild the containers:
+Fixes: a534bb15f30 ("tcg/s390: Use constant pool for cmpi")
+Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+Reported-by: Richard W.M. Jones <rjones@redhat.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
+Suggested-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tcg/s390/tcg-target.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://gitlab.com/rth7680/qemu/-/pipelines/251596167
+diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+index b67470137c4..695d7ee6523 100644
+--- a/tcg/s390/tcg-target.c.inc
++++ b/tcg/s390/tcg-target.c.inc
+@@ -1067,7 +1067,7 @@ static int tgen_cmp(TCGContext *s, TCGType type, TCGCond c, TCGReg r1,
+                 op = (is_unsigned ? RIL_CLFI : RIL_CFI);
+                 tcg_out_insn_RIL(s, op, r1, c2);
+                 goto exit;
+-            } else if (c2 == (is_unsigned ? (uint32_t)c2 : (int32_t)c2)) {
++            } else if (c2 == (is_unsigned ? (TCGArg)(uint32_t)c2 : (TCGArg)(int32_t)c2)) {
+                 op = (is_unsigned ? RIL_CLGFI : RIL_CGFI);
+                 tcg_out_insn_RIL(s, op, r1, c2);
+                 goto exit;
+-- 
+2.26.2
 
-
-r~
 
