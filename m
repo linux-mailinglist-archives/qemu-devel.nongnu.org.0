@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042B030E9B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 02:54:32 +0100 (CET)
-Received: from localhost ([::1]:51360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1995930E9C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 02:58:39 +0100 (CET)
+Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Tqp-0005Z7-1N
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 20:54:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
+	id 1l7Tuo-0001z8-2l
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 20:58:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7Ti8-0004cb-7Q
+ id 1l7Ti9-0004cf-ED
  for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:35 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:41213)
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:40778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7Ti6-0003ao-2b
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:31 -0500
-Received: by mail-pf1-x435.google.com with SMTP id q20so1061410pfu.8
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:45:28 -0800 (PST)
+ id 1l7Ti7-0003bR-8Z
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:33 -0500
+Received: by mail-pf1-x435.google.com with SMTP id i63so1067624pfg.7
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:45:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tnzvFG8Gmy7YN7i7Jw+CtzTgCAPtOrT7NLuSzhM8paA=;
- b=SQxCuMS0LF4ER8qQ5oRHJTfQUI1Cy4UYlY1W6qUVQUhQS8nG3TS+zJg8BaZtPv6xTu
- iWR0Q+DMzbPPdp55xFxnA3WNJablkmj4T9XdxdHutzeelq2vznmG7wLl1HE6xpug5XDZ
- pZi21GDypetOyKTA6+3OO6KlaCSw/nxDEr0/jmMgwy1M64reuD29JeNqme3fbBSMM3Ic
- zu8MaMYlzcyAPm90uCXCdl+hElkGyePAWbIYV8ZNAnJW4MCotTE2gf6R89hFqmHaZEuA
- ktu6733i5oXHs2N2KIMyqzhaTpHA2ji8YyDb1zsXTQhIKGIeyQTfHzMFzGj777DE4zQm
- 5C0A==
+ bh=Tquh43lruzGWRcmOiBMYX1Wiqh+FHEpp7zn+YOCAYms=;
+ b=Q7YCG5gBBR5dAENACZmZOp7ONIuHDlbayAnxtx6eFqMp9PaKBu+A9BpZuWWD4tm5Xk
+ 6Oesllt3amJOwSlKjvXYL8mGBv/rKLqW/M12ovQxJ8dVtmwPCBqVzbDBet95y3t1i0mT
+ wgW9QDIfAYPZI9pODbb/WPo1B5A3m900957ncFYf7a5+M7/tR6MCv7pmyMswuGzpI2V3
+ NwO4HLimCcKZ5ofNGmol34hNiv/nHtKxNvesjWylOm2zyIjQda/imjtDnNEWkyXcoMC0
+ e658QHjiPlBBrTLQiwaRe704aNr/7n9VJ+oqEcXARSalP3TaqU/6xzpa+t2mJx931NZO
+ T73A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tnzvFG8Gmy7YN7i7Jw+CtzTgCAPtOrT7NLuSzhM8paA=;
- b=t1TBNyH57TH1Js/LAFerUbpWV4IMM3+yJPnMfBQXLxGpu4PhJFrBtgmoZUoSlrR+2y
- jhB1i8R/Bb27EHatdzlqVOA5Uq5DW1jwC7YZkxLQoMsycNsksfhf/PFg3cefxaJ27ApS
- w5qWdhHvtgJIkpapCcNlA/D9YFDu0oAxB7AQicPMY8qw2D6PZCfwSRK3034Rcq/Tt64y
- kAv2VtYRN2jAWJ2Z5vIhCAZBZeuwWsqdMkbTRzb2H+RmLGp3l73PnwKqnkY4LDQLlprt
- Tp7ndsKO0FZRI4tVoIy0vgJxge+xLXizUjNcFCF7BS8zZL7pJwXfiS9A2jo340l9VdOX
- VbOQ==
-X-Gm-Message-State: AOAM533yxaLtKR6CoO29zDicBqz913VuGlc+vpXPsBNcUii4E/n6Sjok
- stenhlq0Xetjt6d+9xIee67Zr2TlzORbByd1
-X-Google-Smtp-Source: ABdhPJzLfxQVlSZpOgb9LiTsrCSZFYzf4P79/Z1lC1gPuNqQ3yFGOLJ+QGvO1fjgeFNSuQKJw/TF3w==
-X-Received: by 2002:a62:ac06:0:b029:1cb:35bc:5e2c with SMTP id
- v6-20020a62ac060000b02901cb35bc5e2cmr5690416pfe.42.1612403128026; 
- Wed, 03 Feb 2021 17:45:28 -0800 (PST)
+ bh=Tquh43lruzGWRcmOiBMYX1Wiqh+FHEpp7zn+YOCAYms=;
+ b=VkLJetjMdO4+upL8F0pA79jrB/WDwTvRBxt/xfr4Z16EkuI43TdbhvmRKgXNuw9irB
+ ArBuWuNSFAn4ebq+Te1Q6kJ+PVBgPVrlOIk85gY1lr5/TG6gLXu2jaZ5TlKsg5eIjcDM
+ xKGgWyx5cBMMb1i4vz2AlOZmUdJ1kw0hnnwb3VE70zLKeV6sz9bRIkgpK4xvhqWvA2T1
+ nUqtXNKRNH5A4zZgYaeq3FAlG6V0zlCBSy0GdWqlmB0w0X/FUNZNgR0cv261aphUWzVp
+ ES81TeaOy8e0vrc3cOLznUduZI+FuK6jyjq/11I5/FE81CktyKwaPp+ZdXhBCX7xz0jf
+ rIAA==
+X-Gm-Message-State: AOAM533QDbyk+ZXKhIrzLobxczlqjLAMzu/4hko9kJWKHR2pVzljzvZr
+ 4ntB7/35HN5orP8GYCrHCaI1e5s+b4qxz2x3
+X-Google-Smtp-Source: ABdhPJzboqZX7rjxAy8bprtsZWdo0ibjYYxnLODfTTVe9JX6wsqjprlcKcbm9txLeIPf9PAN7oDuJw==
+X-Received: by 2002:aa7:8bc3:0:b029:1ba:7a2:7720 with SMTP id
+ s3-20020aa78bc30000b02901ba07a27720mr5798186pfd.3.1612403129958; 
+ Wed, 03 Feb 2021 17:45:29 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.45.26
+ by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.45.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 17:45:27 -0800 (PST)
+ Wed, 03 Feb 2021 17:45:29 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/93] tcg/tci: Implement INDEX_op_ld8s_i64
-Date: Wed,  3 Feb 2021 15:43:43 -1000
-Message-Id: <20210204014509.882821-8-richard.henderson@linaro.org>
+Subject: [PATCH v2 08/93] tcg/tci: Inline tci_write_reg32s into the only caller
+Date: Wed,  3 Feb 2021 15:43:44 -1000
+Message-Id: <20210204014509.882821-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210204014509.882821-1-richard.henderson@linaro.org>
 References: <20210204014509.882821-1-richard.henderson@linaro.org>
@@ -89,37 +89,40 @@ Cc: sw@weilnetz.de, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Weil <sw@weilnetz.de>
-
-That TCG opcode is used by debian-buster (arm64) running ffmpeg:
-
-    qemu-aarch64 /usr/bin/ffmpeg -i theora.mkv theora.webm
-
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20210128020425.2055454-1-sw@weilnetz.de>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ tcg/tci.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
 diff --git a/tcg/tci.c b/tcg/tci.c
-index 2ba97da189..c3a8511dfe 100644
+index c3a8511dfe..e8023b5384 100644
 --- a/tcg/tci.c
 +++ b/tcg/tci.c
-@@ -883,7 +883,10 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             tci_write_reg8(regs, t0, *(uint8_t *)(t1 + t2));
+@@ -117,14 +117,6 @@ tci_write_reg(tcg_target_ulong *regs, TCGReg index, tcg_target_ulong value)
+     regs[index] = value;
+ }
+ 
+-#if TCG_TARGET_REG_BITS == 64
+-static void
+-tci_write_reg32s(tcg_target_ulong *regs, TCGReg index, int32_t value)
+-{
+-    tci_write_reg(regs, index, value);
+-}
+-#endif
+-
+ static void tci_write_reg8(tcg_target_ulong *regs, TCGReg index, uint8_t value)
+ {
+     tci_write_reg(regs, index, value);
+@@ -907,7 +899,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+             t0 = *tb_ptr++;
+             t1 = tci_read_r(regs, &tb_ptr);
+             t2 = tci_read_s32(&tb_ptr);
+-            tci_write_reg32s(regs, t0, *(int32_t *)(t1 + t2));
++            tci_write_reg(regs, t0, *(int32_t *)(t1 + t2));
              break;
-         case INDEX_op_ld8s_i64:
--            TODO();
-+            t0 = *tb_ptr++;
-+            t1 = tci_read_r(regs, &tb_ptr);
-+            t2 = tci_read_s32(&tb_ptr);
-+            tci_write_reg(regs, t0, *(int8_t *)(t1 + t2));
-             break;
-         case INDEX_op_ld16u_i64:
+         case INDEX_op_ld_i64:
              t0 = *tb_ptr++;
 -- 
 2.25.1
