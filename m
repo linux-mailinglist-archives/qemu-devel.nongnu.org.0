@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5A730F939
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:12:52 +0100 (CET)
-Received: from localhost ([::1]:60140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C373930F94E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:16:11 +0100 (CET)
+Received: from localhost ([::1]:40500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7iBX-0006gE-N9
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:12:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41408)
+	id 1l7iEk-0001qJ-Po
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:16:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hhM-0002u6-7L
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55520)
+ id 1l7hhZ-0003Eg-TP
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hhJ-0005OM-C1
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:39 -0500
+ id 1l7hhX-0005Zw-Oe
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612456896;
+ s=mimecast20190719; t=1612456910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2/g6xzZ/kCZp2f4ptDqdlxGVJM9ZkpZgAyouxgPX+5A=;
- b=LiVxvRe6JoMJXObGLqH1BtEGv9AjkTJNsgLmZEd5Mx7naVklMx+3w5iToQhhwr2xnv18d3
- ioGV1Xa4gAYW0cE1TWxMAykH2rcAFzbdMBb3T7TA2gwzQfQA8idYGkYLr1Zhn2cmVHTVz7
- Avbgk5VqP+TVtcR00BQBzN021wVsrHs=
+ bh=IJlWNOZuDIfpXA6INj9klRTUjTDuqsHP4GxCCBGl+qM=;
+ b=NKRt5ZyeTvl/8Bc4csby69gq5JyOhaa585NzFy4mBYTFMCr77Oc9z3KU9nEDdtXCPoWqrT
+ 4s9s0uxCSauQOEMdyZvqsKOPNDgH9dFgWwx8o+8qoQsdaM3xPtYIwM/umhUJsI7+QvZ6DP
+ PJhUQCq5yh51FahDUQN6p/JGKdGxjY0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-uy2_nTcvM3CrHW6Rnilchg-1; Thu, 04 Feb 2021 11:41:32 -0500
-X-MC-Unique: uy2_nTcvM3CrHW6Rnilchg-1
+ us-mta-1-_6nC2JpENviidVldj81L_A-1; Thu, 04 Feb 2021 11:41:47 -0500
+X-MC-Unique: _6nC2JpENviidVldj81L_A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75295C7400;
- Thu,  4 Feb 2021 16:41:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C787D193578E;
+ Thu,  4 Feb 2021 16:41:46 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-21.ams2.redhat.com
  [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF33F19708;
- Thu,  4 Feb 2021 16:41:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3A4719708;
+ Thu,  4 Feb 2021 16:41:40 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
  gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
  wainersm@redhat.com
-Subject: [PULL 15/27] migration: Display the migration blockers
-Date: Thu,  4 Feb 2021 16:39:47 +0000
-Message-Id: <20210204163959.377618-16-dgilbert@redhat.com>
+Subject: [PULL 17/27] migration: Make save_snapshot() return bool, not 0/-1
+Date: Thu,  4 Feb 2021 16:39:49 +0000
+Message-Id: <20210204163959.377618-18-dgilbert@redhat.com>
 In-Reply-To: <20210204163959.377618-1-dgilbert@redhat.com>
 References: <20210204163959.377618-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,59 +84,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Update 'info migrate' to display migration blocking information.
-If the outbound migration is not blocked, there is no change, however
-if it is blocked a message is displayed with a list of reasons why,
-e.g.
+Just for consistency, following the example documented since
+commit e3fe3988d7 ("error: Document Error API usage rules"),
+return a boolean value indicating an error is set or not.
 
-qemu-system-x86_64 -nographic  -smp 4 -m 4G -M pc,usb=on \
- -chardev null,id=n -device usb-serial,chardev=n \
- -virtfs local,path=/home,mount_tag=fs,security_model=none \
- -drive if=virtio,file=myimage.qcow2
-
-(qemu) info migrate
-globals:
-store-global-state: on
-only-migratable: off
-send-configuration: on
-send-section-footer: on
-decompress-error-check: on
-clear-bitmap-shift: 18
-Outgoing migration blocked:
-  Migration is disabled when VirtFS export path '/home' is mounted in the guest using mount_tag 'fs'
-  non-migratable device: 0000:00:01.2/1/usb-serial
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20210202135522.127380-3-dgilbert@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Acked-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210204124834.774401-3-berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- monitor/hmp-cmds.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ include/migration/snapshot.h |  9 ++++++++-
+ migration/savevm.c           | 16 ++++++++--------
+ replay/replay-debugging.c    |  2 +-
+ replay/replay-snapshot.c     |  2 +-
+ 4 files changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 509d6b01ee..992ecf6f04 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -224,6 +224,15 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+diff --git a/include/migration/snapshot.h b/include/migration/snapshot.h
+index c85b6ec75b..0eaf1ba0b1 100644
+--- a/include/migration/snapshot.h
++++ b/include/migration/snapshot.h
+@@ -15,7 +15,14 @@
+ #ifndef QEMU_MIGRATION_SNAPSHOT_H
+ #define QEMU_MIGRATION_SNAPSHOT_H
  
-     migration_global_dump(mon);
+-int save_snapshot(const char *name, Error **errp);
++/**
++ * save_snapshot: Save an internal snapshot.
++ * @name: name of internal snapshot
++ * @errp: pointer to error object
++ * On success, return %true.
++ * On failure, store an error through @errp and return %false.
++ */
++bool save_snapshot(const char *name, Error **errp);
+ int load_snapshot(const char *name, Error **errp);
  
-+    if (info->blocked) {
-+        strList *reasons = info->blocked_reasons;
-+        monitor_printf(mon, "Outgoing migration blocked:\n");
-+        while (reasons) {
-+            monitor_printf(mon, "  %s\n", reasons->value);
-+            reasons = reasons->next;
-+        }
-+    }
-+
-     if (info->has_status) {
-         monitor_printf(mon, "Migration status: %s",
-                        MigrationStatus_str(info->status));
+ #endif
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 948e82c9ed..63f1e63e51 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2764,7 +2764,7 @@ int qemu_load_device_state(QEMUFile *f)
+     return 0;
+ }
+ 
+-int save_snapshot(const char *name, Error **errp)
++bool save_snapshot(const char *name, Error **errp)
+ {
+     BlockDriverState *bs;
+     QEMUSnapshotInfo sn1, *sn = &sn1;
+@@ -2777,29 +2777,29 @@ int save_snapshot(const char *name, Error **errp)
+     AioContext *aio_context;
+ 
+     if (migration_is_blocked(errp)) {
+-        return ret;
++        return false;
+     }
+ 
+     if (!replay_can_snapshot()) {
+         error_setg(errp, "Record/replay does not allow making snapshot "
+                    "right now. Try once more later.");
+-        return ret;
++        return false;
+     }
+ 
+     if (!bdrv_all_can_snapshot(errp)) {
+-        return ret;
++        return false;
+     }
+ 
+     /* Delete old snapshots of the same name */
+     if (name) {
+         if (bdrv_all_delete_snapshot(name, errp) < 0) {
+-            return ret;
++            return false;
+         }
+     }
+ 
+     bs = bdrv_all_find_vmstate_bs(errp);
+     if (bs == NULL) {
+-        return ret;
++        return false;
+     }
+     aio_context = bdrv_get_aio_context(bs);
+ 
+@@ -2808,7 +2808,7 @@ int save_snapshot(const char *name, Error **errp)
+     ret = global_state_store();
+     if (ret) {
+         error_setg(errp, "Error saving global state");
+-        return ret;
++        return false;
+     }
+     vm_stop(RUN_STATE_SAVE_VM);
+ 
+@@ -2880,7 +2880,7 @@ int save_snapshot(const char *name, Error **errp)
+     if (saved_vm_running) {
+         vm_start();
+     }
+-    return ret;
++    return ret == 0;
+ }
+ 
+ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
+diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
+index 3a9b609e62..8e0050915d 100644
+--- a/replay/replay-debugging.c
++++ b/replay/replay-debugging.c
+@@ -323,7 +323,7 @@ void replay_gdb_attached(void)
+      */
+     if (replay_mode == REPLAY_MODE_PLAY
+         && !replay_snapshot) {
+-        if (save_snapshot("start_debugging", NULL) != 0) {
++        if (!save_snapshot("start_debugging", NULL)) {
+             /* Can't create the snapshot. Continue conventional debugging. */
+         }
+     }
+diff --git a/replay/replay-snapshot.c b/replay/replay-snapshot.c
+index e26fa4c892..4f2560d156 100644
+--- a/replay/replay-snapshot.c
++++ b/replay/replay-snapshot.c
+@@ -77,7 +77,7 @@ void replay_vmstate_init(void)
+ 
+     if (replay_snapshot) {
+         if (replay_mode == REPLAY_MODE_RECORD) {
+-            if (save_snapshot(replay_snapshot, &err) != 0) {
++            if (!save_snapshot(replay_snapshot, &err)) {
+                 error_report_err(err);
+                 error_report("Could not create snapshot for icount record");
+                 exit(1);
 -- 
 2.29.2
 
