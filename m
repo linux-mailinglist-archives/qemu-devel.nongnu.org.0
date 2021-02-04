@@ -2,56 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8298A30F3B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 14:13:03 +0100 (CET)
-Received: from localhost ([::1]:50872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A7630F3CB
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 14:23:06 +0100 (CET)
+Received: from localhost ([::1]:57360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7eRS-0002S7-Jy
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 08:13:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38362)
+	id 1l7ebA-0005g3-SE
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 08:23:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l7eP8-0001Zc-7S
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:10:39 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:59229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l7eP1-0002fd-Nr
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:10:37 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 257EB7462E1;
- Thu,  4 Feb 2021 14:10:27 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E14127462DB; Thu,  4 Feb 2021 14:10:26 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id DEBF974581E;
- Thu,  4 Feb 2021 14:10:26 +0100 (CET)
-Date: Thu, 4 Feb 2021 14:10:26 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH v2 08/13] vt82c686: Move creation of ISA devices to the
- ISA bridge
-In-Reply-To: <e78d15f1-13a6-d856-2801-f28b8077d97c@flygoat.com>
-Message-ID: <2d73d668-aad2-1a84-376f-521e99b1850@eik.bme.hu>
-References: <cover.1610223396.git.balaton@eik.bme.hu>
- <bf9400cc8e4ddd3129aa5678de4d3cf38384805f.1610223397.git.balaton@eik.bme.hu>
- <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
- <5c5ce8b9-f5c4-c58d-6f8a-76c47ad8db4d@eik.bme.hu>
- <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
- <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
- <alpine.LMD.2.03.2102012101480.9444@eik.bme.hu>
- <e78d15f1-13a6-d856-2801-f28b8077d97c@flygoat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7eaK-0005Cj-47
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:22:12 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39040)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7eaH-0007q3-V8
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:22:11 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id a1so3475379wrq.6
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 05:22:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=fY2MsHMjO9BDnalU5QeO+1wkCGXNA5f0IWYf5N0jHJs=;
+ b=s69DN1EA2zeOjyNT7dZaL544gYIqMvIQ5Pik2eSR8GQLCNSHOYVzdDCP414sAHSk0A
+ WIiU71Oy/CPynr6U7kXN9Ab4rGYu/+xFeDJc8QlT2MxqoUGCfecJA51NCAr4mQVBJkWn
+ ixYCH9BJKwinY+4vAjCt+Hz/Jry0r0F19Pxb7H1q0glx8KVtcxi/9iVrxWow5oIHU7kS
+ EGa073tNHqaYP7XIOHdLqf9M7idKTMuydiC1g1m77cPUo5uoj/z7ZWKN07Tpip6/FDTW
+ o3VQjbcj6UneGz3TX/B8eYXUg/D8y7G4P7iJUGh+Syy/OiitUxvhlMGw7vETWq54NNZ5
+ PNvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=fY2MsHMjO9BDnalU5QeO+1wkCGXNA5f0IWYf5N0jHJs=;
+ b=PVGs72XuL6Wd1CoT8cgKrreOTY+DpUzyqcEofsTYvLtVaDuwnaRHK5CUZG1LP5hrY9
+ cqgaB2KdGJ5mrclxJm5oTlQdxSW53Pb1hl3o4lNx/0kIT5ylKUUc8hq0RBaJrJV0Xyw7
+ XViVDrSFpT6d9NY3wXLXbOcVJd2+CQaklDDURUTgd2YIXxJXXmzkWrGrCAw6q/FtqVJS
+ cy6Q1pQN+7hYUTm5kMDnjVvuUP4JyHEdqmDs1r5RaQpUH4ayqRSoV/QQIYu94xa0OBPw
+ 5QXfmqxwnAx67n0cNLiADmRzLFA3MwUImkcGoiby5ZrOtyRZiKUtZgN4jeqtP0z+XApB
+ ZG0Q==
+X-Gm-Message-State: AOAM530MC6zGp0WeQTRUMgFgtlltO5i8UGhcUu4+WBwlJjJraEmHrQME
+ xYuJVmnEVFjj68S7y3LHD/mR4g==
+X-Google-Smtp-Source: ABdhPJyL8RQuf5r3NelE0sU+e2aNq/9cMEOmBgaLa1/0BX5YMbG0TU50oRFTubiKCPer3RLP+5by0Q==
+X-Received: by 2002:a5d:5708:: with SMTP id a8mr9264270wrv.211.1612444928156; 
+ Thu, 04 Feb 2021 05:22:08 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 9sm8866259wra.80.2021.02.04.05.22.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Feb 2021 05:22:06 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2197C1FF7E;
+ Thu,  4 Feb 2021 13:22:06 +0000 (GMT)
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <20210203172357.1422425-7-crosa@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH 06/22] tests/acceptance/virtiofs_submounts.py: use a
+ virtio-net device instead
+Date: Thu, 04 Feb 2021 13:22:01 +0000
+In-reply-to: <20210203172357.1422425-7-crosa@redhat.com>
+Message-ID: <875z38q875.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-845156101-1612444226=:66698"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,87 +88,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-845156101-1612444226=:66698
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Cleber Rosa <crosa@redhat.com> writes:
 
-On Thu, 4 Feb 2021, Jiaxun Yang wrote:
-> 在 2021/2/2 上午4:04, BALATON Zoltan 写道:
->> On Sun, 10 Jan 2021, BALATON Zoltan wrote:
->>> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
->>>> +PCI experts
->>>> 
->>>> On 1/10/21 1:43 AM, BALATON Zoltan wrote:
->>>>> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
->>>>>> Hi Zoltan,
->>>>>> 
->>>>>> On 1/9/21 9:16 PM, BALATON Zoltan wrote:
->>>>>>> Currently the ISA devices that are part of the VIA south bridge,
->>>>>>> superio chip are wired up by board code. Move creation of these ISA
->>>>>>> devices to the VIA ISA bridge model so that board code does not need
->>>>>>> to access ISA bus. This also allows vt82c686b-superio to be made
->>>>>>> internal to vt82c686 which allows implementing its configuration via
->>>>>>> registers in subseqent commits.
->>>>>> 
->>>>>> Is this patch dependent of the VT82C686B_PM changes
->>>>>> or can it be applied before them?
->>>>> 
->>>>> I don't know but why would that be better? I thought it's clearer to
->>>>> clean up pm related parts first before moving more stuff to this file so
->>>>> that's why this patch comes after (and also because that's the order I
->>>>> did it).
->>>> 
->>>> Not any better, but easier for me to get your patches integrated,
->>>> as I'm reviewing your patches slowly. Finding other reviewers
->>>> would certainly help.
->>> 
->>> No problem, I'll wait for your review. Merging parts of the series does 
->>> not help much because the whole series is needed for vt8231 which is 
->>> prerequisite for pegasos2 so eventually all of these are needed so it does 
->>> not matter if this one patch gets in earlier or later.
->>> 
->>> Not sure who could help with review. Maybe Jiaxun or Huacai as this is 
->>> used by fuloong2e so they might be interested and could have info on this 
->>> chip. Most of these patches just cleaning up the vt82c686b and adding some 
->>> missing features so these can be reused by the vt8231 model in last 3 
->>> patches (which is very similar to 686b only some reg addresses and ids 
->>> seem to be different for what we are concerned).
->> 
->> Ping? There are still a few patches needing review:
->> 
->> http://patchwork.ozlabs.org/project/qemu-devel/list/?series=223512
->> 
->> Jiaxun, Hiacai, or anybody else could you please help reviewing or testing 
->> if this works with fuloong2e?
+> In a virtiofs based tests, it seems safe to assume that the guest will
+> be capable of a virtio-net device.
 >
-> Tested the series against Fuloong2E PMON. Fuloong's kernel doesn't have much 
-> to do with
-> VIA ISA.
->
-> Which patch is pending for test or review?
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
 
-Thank you. In the above patchwork link there are numbers next to patches 
-showing the number of tags, those which don't have any need review, mostly 
-the last few. Unfortunately patchwork seems to be down at the moment from 
-here. Pathes that don't have review yet are: vt82c686: Fix up power 
-management io base and config and those starting with vt82c686: Fix 
-superio_cfg_{read,write}() functions and after that. The patchew link for 
-the series is here:
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-https://patchew.org/QEMU/cover.1610223396.git.balaton@eik.bme.hu/
-
-Regards,
-BALATON Zoltan
---3866299591-845156101-1612444226=:66698--
+--=20
+Alex Benn=C3=A9e
 
