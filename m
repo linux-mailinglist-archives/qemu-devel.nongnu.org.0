@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643A530F12B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:48:48 +0100 (CET)
-Received: from localhost ([::1]:40714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D552930F12E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:50:21 +0100 (CET)
+Received: from localhost ([::1]:42848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7cBr-0002JC-HH
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:48:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36094)
+	id 1l7cDM-0003HM-V6
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:50:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7cAo-0001eM-5I
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:47:42 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42567)
+ id 1l7cBD-0001tJ-G3
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:48:07 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:50283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7cAm-00055U-CO
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:47:41 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id c4so2892784wru.9
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 02:47:39 -0800 (PST)
+ id 1l7cBC-0005IZ-0V
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:48:07 -0500
+Received: by mail-wm1-x336.google.com with SMTP id 190so2712660wmz.0
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 02:48:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=U/q+ed5nk8fE8kBOfiKNwOZQ4onKkZam6iRYsgcVvS0=;
- b=eK8PGHzG9n5LEqOFIQbuQpWWd1BVCADhPpCV8/ae1oVLhGzszHN8toDVFHnTl+RVud
- NShNPVASSwafTFIw9tm4NwNv0mUUVYl6CbHFSLnL9hvjcquj/dDsAPycmstfx4qaE/jf
- z9x0/M57kMZjCbVvIPjQ03LAaxkgUpkBTsJGyAaP2WKRMUlcYTYBL75QvwZGyWaLS/W6
- XNWDExsojZCzqktx3vpt/lCXRtYMXfbfTAvGYFKSliNxiRFzSpAJjZImjAJCQCIJCYSi
- Vyg7m50asmK1fbHs8b7bfr/oy/NBTI3yQ6fxI6PvdAUfiPbZYKmpyKKz2cmwpIp+axZx
- AsQw==
+ bh=Q6CjC4Qa8oJ4fockxdpaXDdvhx/pzoyyZsLY6QsFFOg=;
+ b=wjJSMrFCXme4c6DuIhjeKZZvkkkNWvVKtUEtIgQrwXWxlDKmAHf4Yxspv+5AFvKyBM
+ AozNNzkK4hrZowYXJBsfZ0N4gTSaBSbATJcpL8fW1tXZfOkOhvf0RLM4gHAX+QrQ6k7b
+ 8vhIb6jRg/amkzvdJnXcs9FYncZ6hrZHQCgZBSV21w/V3RyO4M3ZPSVlYYOdNMY3S2m5
+ x6PeGx5pbHWw00NMfJ2r9zuNY0KRgj5Ue4YuG6LdGAH8ecOavgqcamvZWGnEXYH/CQVU
+ bMBVUoeacaB168gSLjJzNJDtLZ5O2IugL2qxW/hkom5j3WPunU0dHctLCx7ik1ILJFQ8
+ 39lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=U/q+ed5nk8fE8kBOfiKNwOZQ4onKkZam6iRYsgcVvS0=;
- b=GuSiQfu8wGN4VDKAQBvFIl+kSKqdIh3189KY6zVJofthz0Ic4cNV9Ntib9MDbu57h2
- P1YffdY02H6ZI/geesMe9RZKDwYLy9CE1xuaJ3KOIogtO9TrZ5O6q3cLycQbYwRKeCur
- bV+/nwFYvHoXOqVKWbBlUeVBN6abGuv7Gd9kDAvQZcgjNoD8YUWUPC1qsQ+NCnofVJGA
- kVPkL8z4Ic96HWuPuXhjwpSNitwEuQfaDl94scdqzMqCrzYNAYPPPODG4yMvttfRQ9YP
- R81leQeQW4FDiVoUgqIpjQtOdIV+/kDjIEPDUIJZGjarGaNEq10xno6L1fR05MTZ9oie
- y/ow==
-X-Gm-Message-State: AOAM533vWFZazPoDeRvRzgXEIdJohK6Bso+EYkuZsNEWjmdXjNzs1wCr
- zGJA3mOBQeZBb1IkK5JMOWnSzw==
-X-Google-Smtp-Source: ABdhPJxpYAgWWk2MQaYFm8pTSMQsnrllkpbzkxdfe52/PEtBK9S434Xib+OgzIEdipDscqelSsFD1Q==
-X-Received: by 2002:adf:ae01:: with SMTP id x1mr8529181wrc.381.1612435658641; 
- Thu, 04 Feb 2021 02:47:38 -0800 (PST)
+ bh=Q6CjC4Qa8oJ4fockxdpaXDdvhx/pzoyyZsLY6QsFFOg=;
+ b=FrJJOZC+GyCs5ksul3izYaA+7znAHMiG/FQ2vPXeWEqBFpaPoSFCLc69xy3w+MhdLx
+ CMusLAZURShzR/t9p19Zlvo+YRu26rRj5HWDdIUgLFlsw4PjwiRC+mVA9dBHWHSEKini
+ wrnJpHI1xbwzDzh4GH0+Pzbs1KyUK8gjuI3tnlRbY5cIqRUpBsSyju+TttZAkAKVF3nl
+ odB1FWSD3jvY68dUZIjL9SnctXi+s1Y3lLTtferKE25Hf2xA0GlZkGLz7uog1/D1tz8s
+ v1koZT32LuOee7NNg1H2E6z7CPZ7LtqfZNw089v5Q9yIbW0LfK0+vPP/giIb/uEarokI
+ kAlg==
+X-Gm-Message-State: AOAM533Vq4wP2+T+EmbC3hW9dPmKmVC6zwvNLrzInwKKTbMXn4ff6CIV
+ xwMy1kUGv6Dx+/cu3sGQymFHOQ==
+X-Google-Smtp-Source: ABdhPJzSJ5tg8z75zTjHpnfF9UlUlGSzFG4qVRDSYx3wS81iwdPMYPBa2ZgmY+a5eHCwcoF3124D9Q==
+X-Received: by 2002:a05:600c:2307:: with SMTP id
+ 7mr5892006wmo.120.1612435684517; 
+ Thu, 04 Feb 2021 02:48:04 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i18sm8057257wrn.29.2021.02.04.02.47.37
+ by smtp.gmail.com with ESMTPSA id l1sm7651650wrp.40.2021.02.04.02.48.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 02:47:37 -0800 (PST)
+ Thu, 04 Feb 2021 02:48:03 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B8DB81FF7E;
- Thu,  4 Feb 2021 10:47:36 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id A8BF01FF7E;
+ Thu,  4 Feb 2021 10:48:02 +0000 (GMT)
 References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-3-crosa@redhat.com>
+ <20210203172357.1422425-4-crosa@redhat.com>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH 02/22] tests/acceptance/boot_linux.py: rename misleading
- cloudinit method
-Date: Thu, 04 Feb 2021 10:47:31 +0000
-In-reply-to: <20210203172357.1422425-3-crosa@redhat.com>
-Message-ID: <87k0roqfcn.fsf@linaro.org>
+Subject: Re: [PATCH 03/22] Acceptance Tests: remove unnecessary tag from
+ documentation example
+Date: Thu, 04 Feb 2021 10:47:57 +0000
+In-reply-to: <20210203172357.1422425-4-crosa@redhat.com>
+Message-ID: <87h7msqfbx.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,14 +107,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Cleber Rosa <crosa@redhat.com> writes:
 
-> There's no downloading happening on that method, so let's call it
-> "prepare" instead.  While at it, and because of it, the current
-> "prepare_boot" and "prepare_cloudinit" are also renamed.
->
-> The reasoning here is that "prepare_" methods will just work on the
-> images, while "set_up_" will make them effective to the VM that will
-> be launched.  Inspiration comes from the "virtiofs_submounts.py"
-> tests, which this expects to converge more into.
+> The ":avocado: enable" is not necessary and was removed in 9531d26c,
+> so let's remove from the docs.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 
