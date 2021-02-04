@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D36930F1A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:10:45 +0100 (CET)
-Received: from localhost ([::1]:44670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDA830F1CC
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:17:43 +0100 (CET)
+Received: from localhost ([::1]:53466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7cX6-0002i3-7z
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:10:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40464)
+	id 1l7cdq-000774-RB
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:17:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1l7cTz-0000L3-EE
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 06:07:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47869)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1l7cbM-0006Tb-52
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 06:15:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1l7cTx-0005Xc-DU
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 06:07:31 -0500
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1l7cbK-0000aC-2R
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 06:15:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612436848;
+ s=mimecast20190719; t=1612437304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8pzO1gkE8XAl54gTeb+30vK7f3mIL2y9IHMX9g3m1F4=;
- b=GufCBxSORSSFMg4XKiaO3V/VqkFwykUfT2THE1t3qy4TXIDO6wzpsxDh5P40FfgarUjD4N
- KhPHSY8DEJinG5xj32HTa9lqRMkZGdpnXgFeizDaS8JtckvU+WTRypX/NZloP4bEGT/wMV
- 3tNYEizAmJQq7lF6ndDyGOn1Uqldur4=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-NQ-duo1QNNuJ-mTYotANqA-1; Thu, 04 Feb 2021 06:07:24 -0500
-X-MC-Unique: NQ-duo1QNNuJ-mTYotANqA-1
-Received: by mail-qk1-f198.google.com with SMTP id b20so715104qkg.0
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 03:07:24 -0800 (PST)
+ bh=ligznXOZ6Z1zOsknSUdjjEZjRdmB743lxtyQ8e6Qi0E=;
+ b=OhQ+qmC/BZ6+HZ3SOujqtt3wCmcuRpGt0AEIzQG8WBc9J2OcrufZvFviNSYaSSMS1qfncP
+ Tkzkc/CXsWqTIAiAP0LNKodD8iuE9OHrMur4BA3CWrWVWMdD52YID1Vvqki2KSqvLsKXQG
+ klbFYu9dowDX8oO71sRsB1hxK+xb0Wk=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-3ZRWMtW9MEWkcFWsSRlCPQ-1; Thu, 04 Feb 2021 06:15:01 -0500
+X-MC-Unique: 3ZRWMtW9MEWkcFWsSRlCPQ-1
+Received: by mail-qv1-f69.google.com with SMTP id a12so1917175qvo.3
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 03:15:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=8pzO1gkE8XAl54gTeb+30vK7f3mIL2y9IHMX9g3m1F4=;
- b=cMWlMKNlQqv/4GQ3u3E0OnENvkvDs9SIOoZsCJS00Sr1rGFci8gJwOeRCeBi2o2qlX
- aeEdNgueThREVWna+FzAkDAofSu7F9cv8MStHmgF/GGi91q9l7tknUjVl1tlT//7Wdf9
- bIWIFlsBV5J0qY2+2a75Qf1Par9J6J9cln8VhoX7uPLNsB4rskL06nnGSr2dSrnMd1Sl
- GGIm6O77/2IJc5k3QmJ4NVA6HRUXhgJKECTOJRQMnuKTNit90QDLkQq2vhDRpu4vM6/p
- W1foxw4JusQBvLVTx6ZCghuFomFgWpI+UX8RY8LlPZ87wd3Ic27x0AMhPXgVArgEAY6F
- rVxA==
-X-Gm-Message-State: AOAM532SJPa60nB645anv43yjl5gNCQceaFzCVGcqp+i+KcUkHqTSrxM
- +r6DDs73lNblQruTXNjor3DUOF06rY1Bk2znZS1NE9Sm/9oCXTWnwBgH5tCyOCWg09f4C29RQLR
- Pi16sLUEC90su4vY=
-X-Received: by 2002:a37:9581:: with SMTP id x123mr6831524qkd.439.1612436844385; 
- Thu, 04 Feb 2021 03:07:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxrXO0s3XnkoBOGMscSJJQoWjUUeHe49QWNaRyt/NtJdlldwyQUyeWGf/0+9jhV0Hr5/2pSvA==
-X-Received: by 2002:a37:9581:: with SMTP id x123mr6831499qkd.439.1612436844209; 
- Thu, 04 Feb 2021 03:07:24 -0800 (PST)
+ bh=ligznXOZ6Z1zOsknSUdjjEZjRdmB743lxtyQ8e6Qi0E=;
+ b=OTVzEW/NgbdX9lIs/Ba7RxvH+a+gEj/kqeVQ0mi/s88aNsn94Yv2fGs4FqByTSYYwa
+ oXMI7YLWHty8NMxRW0AmsJLOIKfX20xQf7zU2uoiVK1xjQGi9848SlAWRm7qlw4HUOMj
+ RSsorCus5ykU0+uBvhX15lTOf8kGClZ2ufpgmFIKFjD6PWbgFomKlDj9E/JkZW11UlNf
+ kRns/wLnSGI6Msq7lOOllkCTwaLYPkoNZtBQ3DvZuwFITF0WxpAt60t8GBFfpUJxdKeD
+ twBm9KwIYgq52+lGKgPkNFTQpX9CadQ1+PSRRXptD1xxJzM09/YvBkdPsI6sQQUjqkRk
+ NkQg==
+X-Gm-Message-State: AOAM5310kGE7+x8xuU2WqWqXOwMjZOzgCbR+fFRl5lLabNZ1LcxH5eSY
+ uvkKOLpkMv/An9zloqPVn9a/cQJ3W5dMljQ+DTDOoRjtATxReWK6WYJbcjhyfEH+rX0jB2anza3
+ Zfo+3fQFp8tPVeaY=
+X-Received: by 2002:a05:6214:d6d:: with SMTP id
+ 13mr7256792qvs.60.1612437300706; 
+ Thu, 04 Feb 2021 03:15:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw9lGbDwWKB1dXR3NH/h72lAensTjav+WVxEuzyAUrTo9UAASpYibrkgf1K+ZczHEoVB2SfZw==
+X-Received: by 2002:a05:6214:d6d:: with SMTP id
+ 13mr7256766qvs.60.1612437300484; 
+ Thu, 04 Feb 2021 03:15:00 -0800 (PST)
 Received: from localhost ([181.191.236.144])
- by smtp.gmail.com with ESMTPSA id 12sm4906891qkg.39.2021.02.04.03.07.23
+ by smtp.gmail.com with ESMTPSA id c139sm4858311qke.83.2021.02.04.03.14.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 03:07:23 -0800 (PST)
-Date: Thu, 4 Feb 2021 08:07:21 -0300
+ Thu, 04 Feb 2021 03:14:59 -0800 (PST)
+Date: Thu, 4 Feb 2021 08:14:57 -0300
 From: Beraldo Leal <bleal@redhat.com>
 To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH 07/22] tests/acceptance/virtiofs_submounts.py: evaluate
- string not length
-Message-ID: <20210204110721.wd646pwcap7hect2@laptop.redhat>
+Subject: Re: [PATCH 08/22] tests/acceptance/virtiofs_submounts.py:
+ standardize port as integer
+Message-ID: <20210204111457.enkgwqxlscrcw5dd@laptop.redhat>
 References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-8-crosa@redhat.com>
+ <20210203172357.1422425-9-crosa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210203172357.1422425-8-crosa@redhat.com>
+In-Reply-To: <20210203172357.1422425-9-crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -107,32 +109,45 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 03, 2021 at 12:23:42PM -0500, Cleber Rosa wrote:
-> If the vmlinuz variable is set to anything that evaluates to True,
-> then the respective arguments should be set.  If the variable contains
-> an empty string, than it will evaluate to False, and the extra
-> arguments will not be set.
+On Wed, Feb 03, 2021 at 12:23:43PM -0500, Cleber Rosa wrote:
+> Instead of having to cast it whenever it's going to be used, let's
+> standardize it as an integer, which is the data type that will be
+> used most often.
 > 
-> This keeps the same logic, but improves readability a bit.
+> Given that the regex will only match digits, it's safe that we'll
+> end up getting a integer, but, it could as well be a zero.
 > 
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/virtiofs_submounts.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/acceptance/virtiofs_submounts.py | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
 > diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
-> index f1b49f03bb..f25a386a19 100644
+> index f25a386a19..227a3cf1ee 100644
 > --- a/tests/acceptance/virtiofs_submounts.py
 > +++ b/tests/acceptance/virtiofs_submounts.py
-> @@ -241,7 +241,7 @@ class VirtiofsSubmountsTest(BootLinux):
+> @@ -86,17 +86,18 @@ class VirtiofsSubmountsTest(BootLinux):
+>                  re.search(r'TCP.HOST_FORWARD.*127\.0\.0\.1\s*(\d+)\s+10\.',
+>                            line)
+>              if match is not None:
+> -                port = match[1]
+> +                port = int(match[1])
+>                  break
 >  
->          super(VirtiofsSubmountsTest, self).setUp(pubkey)
+>          self.assertIsNotNone(port)
+> -        self.log.debug('sshd listening on port: ' + port)
+> +        self.assertGreater(port, 0)
+> +        self.log.debug('sshd listening on port: %d', port)
+>          return port
 >  
-> -        if len(vmlinuz) > 0:
-> +        if vmlinuz:
->              self.vm.add_args('-kernel', vmlinuz,
->                               '-append', 'console=ttyS0 root=/dev/sda1')
->  
+>      def ssh_connect(self, username, keyfile):
+>          self.ssh_logger = logging.getLogger('ssh')
+>          port = self.get_portfwd()
+> -        self.ssh_session = ssh.Session('127.0.0.1', port=int(port),
+> +        self.ssh_session = ssh.Session('127.0.0.1', port=port,
+>                                         user=username, key=keyfile)
+>          for i in range(10):
+>              try:
 > -- 
 > 2.25.4
 >
