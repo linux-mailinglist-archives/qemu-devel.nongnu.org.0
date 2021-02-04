@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFBC30F17A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:04:23 +0100 (CET)
-Received: from localhost ([::1]:54830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC5530F196
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 12:09:48 +0100 (CET)
+Received: from localhost ([::1]:42918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7cQw-0003QX-GM
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:04:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37898)
+	id 1l7cWB-0001wK-MN
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 06:09:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cIq-0001Uy-RD
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:56:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58524)
+ id 1l7cJ3-00022M-F5
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:56:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l7cIo-0000RQ-M1
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:56:00 -0500
+ id 1l7cJ0-0000Ww-RH
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:56:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612436158;
+ s=mimecast20190719; t=1612436170;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2hjXGn6r0/yrb9LYWphq3SI0hUk92h1ayDItWCET1Jg=;
- b=LjMYZuMoSwtvw1XhT+hgoJ34xECvoF6d+1pgi63JWG4YxZp5bL4IBKuB+I5RsqQKhAqWvd
- DHk9DDOJC58ajSDXYPisVUq4jvhzWS1p6e18frhAxy/OTIvnxpfqp17ZBAe02SgjDVHDNt
- e8eRwpJAM7sKdOGj+pc9RENiIBrIYwc=
+ bh=5ZMXOQ/ay69NN18p8OGrAgE37Jw2rGk0zURd/oLRZzw=;
+ b=V9RaAK5tjSrpQJ7mVXs8VJFFr+C/Dqrz1B42HYDnUtKf3fbMrqF9Nsiwwz6xom9s3o+w0A
+ Tm1eepfVZn+6dx1NvruGB+tYIItwOCB6edfhnO58KyxVq0u6mm/HLeHAWaoGJDGqAs83nS
+ 5i5+Mc4NdKKk30xrXg6Q1JAiTDv4c1Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-u78lF6crOZGa6wV3jOkA2w-1; Thu, 04 Feb 2021 05:55:56 -0500
-X-MC-Unique: u78lF6crOZGa6wV3jOkA2w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-40-8W9E6SWsP_6gkSmzEcMpLQ-1; Thu, 04 Feb 2021 05:56:08 -0500
+X-MC-Unique: 8W9E6SWsP_6gkSmzEcMpLQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7ED4801968
- for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:55:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0E69874983
+ for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 10:56:07 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67A04100164C;
- Thu,  4 Feb 2021 10:55:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 309957770F;
+ Thu,  4 Feb 2021 10:55:59 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/20] virtio-gpu: avoid re-entering cmdq processing
-Date: Thu,  4 Feb 2021 14:52:29 +0400
-Message-Id: <20210204105232.834642-18-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 18/20] display/ui: add a callback to indicate GL state is
+ flushed
+Date: Thu,  4 Feb 2021 14:52:30 +0400
+Message-Id: <20210204105232.834642-19-marcandre.lureau@redhat.com>
 In-Reply-To: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 References: <20210204105232.834642-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
@@ -65,7 +66,7 @@ X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,51 +87,262 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The next patch will notify the GL context got flush, which will resume
-the queue processing. However, if this happens within the caller
-context, it will end up with a stack overflow flush/update loop.
+Displaying rendered resources requires blocking qemu GPU to avoid extra
+framebuffer copies. For an external display, via Spice currently, there
+is a callback to block/unblock the rendering in the same thread.
+
+But with the vhost-user-gpu backend, the qemu process doesn't handle
+the rendering itself, and the blocking callback isn't effective.
+Instead, the backend must be notified when the display code is done.
+
+Fix this by adding a new GraphicHwOps callback to indicate the GL state
+is flushed, and we are done manipulating the shared GL resources. Call
+it from gtk and spice display.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/hw/virtio/virtio-gpu.h | 1 +
- hw/display/virtio-gpu.c        | 5 +++++
- 2 files changed, 6 insertions(+)
+ include/hw/virtio/virtio-gpu.h |  2 +-
+ include/ui/console.h           |  2 ++
+ hw/display/vhost-user-gpu.c    |  4 ++--
+ hw/display/virtio-gpu-base.c   | 17 ++++++++++++-----
+ hw/display/virtio-gpu.c        |  4 ++--
+ hw/display/virtio-vga.c        | 11 +++++++++++
+ ui/console.c                   |  9 +++++++++
+ ui/gtk-egl.c                   |  3 +++
+ ui/gtk-gl-area.c               |  3 +++
+ ui/sdl2-gl.c                   |  2 ++
+ ui/spice-display.c             |  1 +
+ 11 files changed, 48 insertions(+), 10 deletions(-)
 
 diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 4f3dbf79f9..0043268e90 100644
+index 0043268e90..fae149235c 100644
 --- a/include/hw/virtio/virtio-gpu.h
 +++ b/include/hw/virtio/virtio-gpu.h
-@@ -148,6 +148,7 @@ struct VirtIOGPU {
+@@ -121,7 +121,7 @@ struct VirtIOGPUBase {
+ struct VirtIOGPUBaseClass {
+     VirtioDeviceClass parent;
  
-     uint64_t hostmem;
+-    void (*gl_unblock)(VirtIOGPUBase *g);
++    void (*gl_flushed)(VirtIOGPUBase *g);
+ };
  
-+    bool processing_cmdq;
-     bool renderer_inited;
-     bool renderer_reset;
-     QEMUTimer *fence_poll;
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 0e833a462b..7eb4265a6d 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -814,6 +814,10 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
- {
-     struct virtio_gpu_ctrl_command *cmd;
+ #define VIRTIO_GPU_BASE_PROPERTIES(_state, _conf)                       \
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 875885d9c7..d30e972d0b 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -387,6 +387,7 @@ typedef struct GraphicHwOps {
+     void (*update_interval)(void *opaque, uint64_t interval);
+     int (*ui_info)(void *opaque, uint32_t head, QemuUIInfo *info);
+     void (*gl_block)(void *opaque, bool block);
++    void (*gl_flushed)(void *opaque);
+ } GraphicHwOps;
  
-+    if (g->processing_cmdq) {
-+        return;
-+    }
-+    g->processing_cmdq = true;
-     while (!QTAILQ_EMPTY(&g->cmdq)) {
-         cmd = QTAILQ_FIRST(&g->cmdq);
+ QemuConsole *graphic_console_init(DeviceState *dev, uint32_t head,
+@@ -402,6 +403,7 @@ void graphic_hw_update_done(QemuConsole *con);
+ void graphic_hw_invalidate(QemuConsole *con);
+ void graphic_hw_text_update(QemuConsole *con, console_ch_t *chardata);
+ void graphic_hw_gl_block(QemuConsole *con, bool block);
++void graphic_hw_gl_flushed(QemuConsole *con);
  
-@@ -843,6 +847,7 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
-             g_free(cmd);
-         }
-     }
-+    g->processing_cmdq = false;
+ void qemu_console_early_init(void);
+ 
+diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+index b7bde9feb6..4d8cb3525b 100644
+--- a/hw/display/vhost-user-gpu.c
++++ b/hw/display/vhost-user-gpu.c
+@@ -360,7 +360,7 @@ vhost_user_gpu_update_blocked(VhostUserGPU *g, bool blocked)
  }
  
- static void virtio_gpu_gl_unblock(VirtIOGPUBase *b)
+ static void
+-vhost_user_gpu_gl_unblock(VirtIOGPUBase *b)
++vhost_user_gpu_gl_flushed(VirtIOGPUBase *b)
+ {
+     VhostUserGPU *g = VHOST_USER_GPU(b);
+ 
+@@ -578,7 +578,7 @@ vhost_user_gpu_class_init(ObjectClass *klass, void *data)
+     VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
+     VirtIOGPUBaseClass *vgc = VIRTIO_GPU_BASE_CLASS(klass);
+ 
+-    vgc->gl_unblock = vhost_user_gpu_gl_unblock;
++    vgc->gl_flushed = vhost_user_gpu_gl_flushed;
+ 
+     vdc->realize = vhost_user_gpu_device_realize;
+     vdc->reset = vhost_user_gpu_reset;
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index f27a6fbe75..4a57350917 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -97,21 +97,27 @@ static int virtio_gpu_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
+ }
+ 
+ static void
+-virtio_gpu_gl_block(void *opaque, bool block)
++virtio_gpu_gl_flushed(void *opaque)
+ {
+     VirtIOGPUBase *g = opaque;
+     VirtIOGPUBaseClass *vgc = VIRTIO_GPU_BASE_GET_CLASS(g);
+ 
++    if (vgc->gl_flushed) {
++        vgc->gl_flushed(g);
++    }
++}
++
++static void
++virtio_gpu_gl_block(void *opaque, bool block)
++{
++    VirtIOGPUBase *g = opaque;
++
+     if (block) {
+         g->renderer_blocked++;
+     } else {
+         g->renderer_blocked--;
+     }
+     assert(g->renderer_blocked >= 0);
+-
+-    if (g->renderer_blocked == 0) {
+-        vgc->gl_unblock(g);
+-    }
+ }
+ 
+ static int
+@@ -138,6 +144,7 @@ static const GraphicHwOps virtio_gpu_ops = {
+     .text_update = virtio_gpu_text_update,
+     .ui_info = virtio_gpu_ui_info,
+     .gl_block = virtio_gpu_gl_block,
++    .gl_flushed = virtio_gpu_gl_flushed,
+ };
+ 
+ bool
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 7eb4265a6d..2e4a9822b6 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -850,7 +850,7 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
+     g->processing_cmdq = false;
+ }
+ 
+-static void virtio_gpu_gl_unblock(VirtIOGPUBase *b)
++static void virtio_gpu_gl_flushed(VirtIOGPUBase *b)
+ {
+     VirtIOGPU *g = VIRTIO_GPU(b);
+ 
+@@ -1257,7 +1257,7 @@ static void virtio_gpu_class_init(ObjectClass *klass, void *data)
+     VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
+     VirtIOGPUBaseClass *vgc = VIRTIO_GPU_BASE_CLASS(klass);
+ 
+-    vgc->gl_unblock = virtio_gpu_gl_unblock;
++    vgc->gl_flushed = virtio_gpu_gl_flushed;
+     vdc->realize = virtio_gpu_device_realize;
+     vdc->reset = virtio_gpu_reset;
+     vdc->get_config = virtio_gpu_get_config;
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index b071909b68..d3c6404061 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -68,6 +68,16 @@ static void virtio_vga_base_gl_block(void *opaque, bool block)
+     }
+ }
+ 
++static void virtio_vga_base_gl_flushed(void *opaque)
++{
++    VirtIOVGABase *vvga = opaque;
++    VirtIOGPUBase *g = vvga->vgpu;
++
++    if (g->hw_ops->gl_flushed) {
++        g->hw_ops->gl_flushed(g);
++    }
++}
++
+ static int virtio_vga_base_get_flags(void *opaque)
+ {
+     VirtIOVGABase *vvga = opaque;
+@@ -83,6 +93,7 @@ static const GraphicHwOps virtio_vga_base_ops = {
+     .text_update = virtio_vga_base_text_update,
+     .ui_info = virtio_vga_base_ui_info,
+     .gl_block = virtio_vga_base_gl_block,
++    .gl_flushed = virtio_vga_base_gl_flushed,
+ };
+ 
+ static const VMStateDescription vmstate_virtio_vga_base = {
+diff --git a/ui/console.c b/ui/console.c
+index d8cc640c28..c5d11bc701 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -294,6 +294,15 @@ void graphic_hw_gl_block(QemuConsole *con, bool block)
+     }
+ }
+ 
++void graphic_hw_gl_flushed(QemuConsole *con)
++{
++    assert(con != NULL);
++
++    if (con->hw_ops->gl_flushed) {
++        con->hw_ops->gl_flushed(con->hw);
++    }
++}
++
+ int qemu_console_get_window_id(QemuConsole *con)
+ {
+     return con->window_id;
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index 71c3d698b4..588e7b1bb1 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -92,6 +92,9 @@ void gd_egl_draw(VirtualConsole *vc)
+         vc->gfx.scale_x = (double)ww / surface_width(vc->gfx.ds);
+         vc->gfx.scale_y = (double)wh / surface_height(vc->gfx.ds);
+     }
++
++    glFlush();
++    graphic_hw_gl_flushed(vc->gfx.dcl.con);
+ }
+ 
+ void gd_egl_update(DisplayChangeListener *dcl,
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index 72bcd94918..e7ca73c7b1 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -70,6 +70,9 @@ void gd_gl_area_draw(VirtualConsole *vc)
+         surface_gl_setup_viewport(vc->gfx.gls, vc->gfx.ds, ww, wh);
+         surface_gl_render_texture(vc->gfx.gls, vc->gfx.ds);
+     }
++
++    glFlush();
++    graphic_hw_gl_flushed(vc->gfx.dcl.con);
+ }
+ 
+ void gd_gl_area_update(DisplayChangeListener *dcl,
+diff --git a/ui/sdl2-gl.c b/ui/sdl2-gl.c
+index 82139ba49e..fd594d7461 100644
+--- a/ui/sdl2-gl.c
++++ b/ui/sdl2-gl.c
+@@ -58,6 +58,7 @@ static void sdl2_gl_render_surface(struct sdl2_console *scon)
+ 
+     surface_gl_render_texture(scon->gls, scon->surface);
+     SDL_GL_SwapWindow(scon->real_window);
++    graphic_hw_gl_flushed(scon->dcl.con);
+ }
+ 
+ void sdl2_gl_update(DisplayChangeListener *dcl,
+@@ -240,4 +241,5 @@ void sdl2_gl_scanout_flush(DisplayChangeListener *dcl,
+     egl_fb_blit(&scon->win_fb, &scon->guest_fb, !scon->y0_top);
+ 
+     SDL_GL_SwapWindow(scon->real_window);
++    graphic_hw_gl_flushed(dcl->con);
+ }
+diff --git a/ui/spice-display.c b/ui/spice-display.c
+index 6a5e189a67..7247a93924 100644
+--- a/ui/spice-display.c
++++ b/ui/spice-display.c
+@@ -826,6 +826,7 @@ static void qemu_spice_gl_unblock_bh(void *opaque)
+     SimpleSpiceDisplay *ssd = opaque;
+ 
+     qemu_spice_gl_block(ssd, false);
++    graphic_hw_gl_flushed(ssd->dcl.con);
+ }
+ 
+ static void qemu_spice_gl_block_timer(void *opaque)
 -- 
 2.29.0
 
