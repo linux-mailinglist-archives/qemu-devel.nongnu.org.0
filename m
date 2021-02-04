@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5815230F9FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:44:43 +0100 (CET)
-Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D1E30F9E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:39:58 +0100 (CET)
+Received: from localhost ([::1]:43642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7igM-0007DL-8x
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:44:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41892)
+	id 1l7ibi-00034d-G6
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:39:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hiV-0004A6-O9
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:42:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57070)
+ id 1l7hiZ-0004BE-LI
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:42:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hiS-00060l-QV
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:42:51 -0500
+ id 1l7hiV-00061p-FU
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:42:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612456967;
+ s=mimecast20190719; t=1612456970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S7EjN/BVvI2LI8U3n5kPOXaqjdiqQ9k1KV92LfmtmpM=;
- b=dxaUkeUAVMVkIyJ1a+HR8cK7eBY681l5S9gdskem1/glMqJUxC3+JEXQ1hZlbkGViNJKpT
- s6+5pTdF5x2FmQ9fIsVRugdmUpn8EgvE15v684Pp4c8A9BcTsBMJ5GUT+gQlDz/lBX1ZBu
- eubSNzzBSz02f52eSCalUJ/R7tfecEg=
+ bh=HXZkIG1FG7xNYVW+bw6BuJvqBE8IR/R+/E0I+C8PJlQ=;
+ b=hcSbDiK7shcQZGIR77QFagqvvN3G5gZxXH3C3Me3ZsYt3y2HO2MyeF1cCIb+9YF4QHGhhm
+ 1WoZ+H+WA93CEFrIPC0zsLJmrDhLm3468yIq9BNM5FQQheSO0NMvkjiOsbb9g9/8MVXcZc
+ /YnPHr8LYl9FZcqWz0FhTWHn4cgDCGk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-4E6Un_OSOo6Cza21MguC8w-1; Thu, 04 Feb 2021 11:42:43 -0500
-X-MC-Unique: 4E6Un_OSOo6Cza21MguC8w-1
+ us-mta-233-CQIx67pxMsC_7t24KASEpg-1; Thu, 04 Feb 2021 11:42:48 -0500
+X-MC-Unique: CQIx67pxMsC_7t24KASEpg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B45080196F;
- Thu,  4 Feb 2021 16:42:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58F3AC7402;
+ Thu,  4 Feb 2021 16:42:47 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-21.ams2.redhat.com
  [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D66517A9A;
- Thu,  4 Feb 2021 16:42:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 961461A38C;
+ Thu,  4 Feb 2021 16:42:42 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
  gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
  wainersm@redhat.com
-Subject: [PULL 24/27] migration: introduce a delete_snapshot wrapper
-Date: Thu,  4 Feb 2021 16:39:56 +0000
-Message-Id: <20210204163959.377618-25-dgilbert@redhat.com>
+Subject: [PULL 25/27] iotests: add support for capturing and matching QMP
+ events
+Date: Thu,  4 Feb 2021 16:39:57 +0000
+Message-Id: <20210204163959.377618-26-dgilbert@redhat.com>
 In-Reply-To: <20210204163959.377618-1-dgilbert@redhat.com>
 References: <20210204163959.377618-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,14 +61,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,81 +87,167 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Make snapshot deletion consistent with the snapshot save
-and load commands by using a wrapper around the blockdev
-layer. The main difference is that we get upfront validation
-of the passed in device list (if any).
+When using the _launch_qemu and _send_qemu_cmd functions from
+common.qemu, any QMP events get mixed in with the output from
+the commands and responses.
+
+This makes it difficult to write a test case as the ordering
+of events in the output is not stable.
+
+This introduces a variable 'capture_events' which can be set
+to a list of event names. Any events listed in this variable
+will not be printed, instead collected in the $QEMU_EVENTS
+environment variable.
+
+A new '_wait_event' function can be invoked to collect events
+at a fixed point in time. The function will first pull events
+cached in $QEMU_EVENTS variable, and if none are found, will
+then read more from QMP.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210204124834.774401-10-berrange@redhat.com>
+Message-Id: <20210204124834.774401-11-berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- include/migration/snapshot.h | 13 +++++++++++++
- migration/savevm.c           | 14 ++++++++++++++
- monitor/hmp-cmds.c           |  2 +-
- 3 files changed, 28 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/common.qemu | 106 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 105 insertions(+), 1 deletion(-)
 
-diff --git a/include/migration/snapshot.h b/include/migration/snapshot.h
-index 3bdbef435b..e72083b117 100644
---- a/include/migration/snapshot.h
-+++ b/include/migration/snapshot.h
-@@ -48,4 +48,17 @@ bool load_snapshot(const char *name,
-                    bool has_devices, strList *devices,
-                    Error **errp);
- 
-+/**
-+ * delete_snapshot: Delete a snapshot.
-+ * @name: path to snapshot
-+ * @has_devices: whether to use explicit device list
-+ * @devices: explicit device list to snapshot
-+ * @errp: pointer to error object
-+ * On success, return %true.
-+ * On failure, store an error through @errp and return %false.
-+ */
-+bool delete_snapshot(const char *name,
-+                    bool has_devices, strList *devices,
-+                    Error **errp);
+diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
+index ef105dfc39..0fc52d20d7 100644
+--- a/tests/qemu-iotests/common.qemu
++++ b/tests/qemu-iotests/common.qemu
+@@ -53,6 +53,15 @@ _in_fd=4
+ # If $mismatch_only is set, only non-matching responses will
+ # be echoed.
+ #
++# If $capture_events is non-empty, then any QMP event names it lists
++# will not be echoed out, but instead collected in the $QEMU_EVENTS
++# variable. The _wait_event function can later be used to receive
++# the cached events.
++#
++# If $only_capture_events is set to anything but an empty string,
++# then an error will be raised if a QMP message is seen which is
++# not an event listed in $capture_events.
++#
+ # If $success_or_failure is set, the meaning of the arguments is
+ # changed as follows:
+ # $2: A string to search for in the response; if found, this indicates
+@@ -78,6 +87,31 @@ _timed_wait_for()
+     QEMU_STATUS[$h]=0
+     while IFS= read -t ${QEMU_COMM_TIMEOUT} resp <&${QEMU_OUT[$h]}
+     do
++        if [ -n "$capture_events" ]; then
++            capture=0
++            local evname
++            for evname in $capture_events
++            do
++                case ${resp} in
++                    *\"event\":\ \"${evname}\"* ) capture=1 ;;
++                esac
++            done
++            if [ $capture = 1 ];
++            then
++                ev=$(echo "${resp}" | tr -d '\r' | tr % .)
++                QEMU_EVENTS="${QEMU_EVENTS:+${QEMU_EVENTS}%}${ev}"
++                if [ -n "$only_capture_events" ]; then
++                    return
++                else
++                    continue
++                fi
++            fi
++        fi
++        if [ -n "$only_capture_events" ]; then
++            echo "Only expected $capture_events but got ${resp}"
++            exit 1
++        fi
 +
- #endif
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 0b27a8c55a..0c5d61ae20 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -3071,6 +3071,20 @@ err_drain:
-     return false;
+         if [ -z "${silent}" ] && [ -z "${mismatch_only}" ]; then
+             echo "${resp}" | _filter_testdir | _filter_qemu \
+                            | _filter_qemu_io | _filter_qmp | _filter_hmp
+@@ -172,12 +206,82 @@ _send_qemu_cmd()
+         let count--;
+     done
+     if [ ${QEMU_STATUS[$h]} -ne 0 ] && [ -z "${qemu_error_no_exit}" ]; then
+-        echo "Timeout waiting for ${1} on handle ${h}"
++        echo "Timeout waiting for command ${1} response on handle ${h}"
+         exit 1 #Timeout means the test failed
+     fi
  }
  
-+bool delete_snapshot(const char *name, bool has_devices,
-+                     strList *devices, Error **errp)
+ 
++# Check event cache for a named QMP event
++#
++# Input parameters:
++# $1:       Name of the QMP event to check for
++#
++# Checks if the named QMP event that was previously captured
++# into $QEMU_EVENTS. When matched, the QMP event will be echoed
++# and the $matched variable set to 1.
++#
++# _wait_event is more suitable for test usage in most cases
++_check_cached_events()
 +{
-+    if (!bdrv_all_can_snapshot(has_devices, devices, errp)) {
-+        return false;
-+    }
++    local evname=${1}
 +
-+    if (bdrv_all_delete_snapshot(name, has_devices, devices, errp) < 0) {
-+        return false;
-+    }
++    local match="\"event\": \"$evname\""
 +
-+    return true;
++    matched=0
++    if [ -n "$QEMU_EVENTS" ]; then
++        CURRENT_QEMU_EVENTS=$QEMU_EVENTS
++        QEMU_EVENTS=
++        old_IFS=$IFS
++        IFS="%"
++        for ev in $CURRENT_QEMU_EVENTS
++        do
++            grep -q "$match" < <(echo "${ev}")
++            if [ $? -eq 0 ] && [ $matched = 0 ]; then
++                echo "${ev}" | _filter_testdir | _filter_qemu \
++                           | _filter_qemu_io | _filter_qmp | _filter_hmp
++                matched=1
++            else
++                QEMU_EVENTS="${QEMU_EVENTS:+${QEMU_EVENTS}%}${ev}"
++            fi
++        done
++        IFS=$old_IFS
++    fi
 +}
 +
- void vmstate_register_ram(MemoryRegion *mr, DeviceState *dev)
- {
-     qemu_ram_set_idstr(mr->ram_block,
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 15d4e039ac..3c88a4faef 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1159,7 +1159,7 @@ void hmp_delvm(Monitor *mon, const QDict *qdict)
-     Error *err = NULL;
-     const char *name = qdict_get_str(qdict, "name");
- 
--    bdrv_all_delete_snapshot(name, false, NULL, &err);
-+    delete_snapshot(name, false, NULL, &err);
-     hmp_handle_error(mon, err);
- }
- 
++# Wait for a named QMP event
++#
++# Input parameters:
++# $1:       QEMU handle to use
++# $2:       Name of the QMP event to wait for
++#
++# Checks if the named QMP even was previously captured
++# into $QEMU_EVENTS. If none are present, then waits for the
++# event to arrive on the QMP channel. When matched, the QMP
++# event will be echoed
++_wait_event()
++{
++    local h=${1}
++    local evname=${2}
++
++    while true
++    do
++        _check_cached_events $evname
++
++        if [ $matched = 1 ];
++        then
++            return
++        fi
++
++        only_capture_events=1 qemu_error_no_exit=1 _timed_wait_for ${h}
++
++        if [ ${QEMU_STATUS[$h]} -ne 0 ] ; then
++            echo "Timeout waiting for event ${evname} on handle ${h}"
++            exit 1 #Timeout means the test failed
++        fi
++    done
++}
++
+ # Launch a QEMU process.
+ #
+ # Input parameters:
 -- 
 2.29.2
 
