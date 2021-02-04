@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634A230F79F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:24:58 +0100 (CET)
-Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B4C30F7CA
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:28:49 +0100 (CET)
+Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7hRB-0008FN-G1
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:24:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60670)
+	id 1l7hUq-0003Tp-T4
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:28:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7hFm-0004St-2R
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:13:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29162)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7hNO-0005Sf-Qg
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:21:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7hFi-0000Px-3a
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:13:08 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7hNK-000454-Tq
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:21:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612455185;
+ s=mimecast20190719; t=1612455657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tyjRzr7ybR/L6ifpQjartm9dbSQS0TNJYiXSww3NPVM=;
- b=gCiAUnDgeqwzvqW2dmbAadFTPBKoHB9sgzh5EmOwDQjs7u1bY+/gxHZJLtuOaafDbIdE8C
- QiDuXb7sDvR7ZVACtNV9oZPFQds5DJp9NPRp41VhWxA6YN5NyUmJrHDxFJUHFb8YIaLAyz
- KFqF+ZJ3S6AshsceAhRUQKA65CtkjbI=
+ bh=qK1/RCTsD0n/mkJWTAuC6fzy3GxAICPpud0x4USovmc=;
+ b=jFUC7mUgcQ4JQ46zL8kR/8o9a1viI7LeeUe7itMozjG9nbbvTPQCUJuukHMhCRumez8qJX
+ vkTr60yor2CZTKL3vhN0sbs+GrxPnm9L7HVwp2SQinI3qTZL2NWn1Zww3D4/k3WG0yRnQq
+ CJ+LpksxH207NVnpep+OrBIZfZFkwD0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-ZUl1HYKMMJSkEX-kx0PTvw-1; Thu, 04 Feb 2021 11:12:59 -0500
-X-MC-Unique: ZUl1HYKMMJSkEX-kx0PTvw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-255--qM6dMNxNBODco3ki54EBA-1; Thu, 04 Feb 2021 11:20:51 -0500
+X-MC-Unique: -qM6dMNxNBODco3ki54EBA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FD0085B6C5;
- Thu,  4 Feb 2021 16:12:58 +0000 (UTC)
-Received: from [10.36.113.146] (ovpn-113-146.ams2.redhat.com [10.36.113.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C2295DEC1;
- Thu,  4 Feb 2021 16:12:56 +0000 (UTC)
-Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
- constant folding
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <28457ae1-7e9b-4428-cb10-3b79ebeac8d0@linaro.org>
- <19D304C1-6401-4D16-AB54-DD19C978D04D@redhat.com>
- <db32a1f5-ad73-a341-f5e7-1c8f592d3d5b@redhat.com>
- <bd7154e1-4d6c-5b98-9e80-ec04f8476373@redhat.com>
- <20210204090351.GN30079@redhat.com> <20210204092916.GS27779@redhat.com>
- <b94570e3-9f87-d259-a338-adef1d552d1a@redhat.com>
- <e1bc591d-009f-3b0f-83a0-36095efff7ee@amsat.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <70038b42-cc4c-978a-0926-f2a786ed4f74@redhat.com>
-Date: Thu, 4 Feb 2021 17:12:55 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE6CE8030B3;
+ Thu,  4 Feb 2021 16:20:49 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3655D60BF1;
+ Thu,  4 Feb 2021 16:20:49 +0000 (UTC)
+Subject: Re: [PATCH v4 08/14] qapi/introspect.py: create a typed 'Annotated'
+ data strutcure
+To: Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-9-jsnow@redhat.com>
+ <878s85tdh3.fsf@dusky.pond.sub.org> <20210203215026.GB126021@habkost.net>
+ <87a6sjdet2.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <77cc0262-3192-130f-81d8-a72193bf1020@redhat.com>
+Date: Thu, 4 Feb 2021 11:20:48 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <e1bc591d-009f-3b0f-83a0-36095efff7ee@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <87a6sjdet2.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -90,92 +85,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.02.21 17:04, Philippe Mathieu-Daudé wrote:
-> On 2/4/21 10:37 AM, David Hildenbrand wrote:
->> On 04.02.21 10:29, Richard W.M. Jones wrote:
->>>>> commit 8f17a975e60b773d7c366a81c0d9bbe304f30859
->>>>> Author: Richard Henderson <richard.henderson@linaro.org>
->>>>> Date:   Mon Mar 30 19:52:02 2020 -0700
->>>>>
->>>>>       tcg/optimize: Adjust TempOptInfo allocation
->>>>>
->>>>> The image boots just fine on s390x/TCG as well.
+On 2/4/21 10:37 AM, Markus Armbruster wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> 
+>> On Wed, Feb 03, 2021 at 03:47:36PM +0100, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
+>>>> Presently, we use a tuple to attach a dict containing annotations
+>>>> (comments and compile-time conditionals) to a tree node. This is
+>>>> undesirable because dicts are difficult to strongly type; promoting it
+>>>> to a real class allows us to name the values and types of the
+>>>> annotations we are expecting.
 >>>>
->>>> Let me try this in a minute on my original test machine.
+>>>> In terms of typing, the Annotated<T> type serves as a generic container
+>>>> where the annotated node's type is preserved, allowing for greater
+>>>> specificity than we'd be able to provide without a generic.
+>>>>
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> [...]
+>>>> +class Annotated(Generic[_NodeT]):
+>>>> +    """
+>>>> +    Annotated generally contains a SchemaInfo-like type (as a dict),
+>>>> +    But it also used to wrap comments/ifconds around scalar leaf values,
+>>>> +    for the benefit of features and enums.
+>>>> +    """
+>>>> +    # Remove after 3.7 adds @dataclass:
 >>>
->>> I got the wrong end of the stick as David pointed out in the other email.
+>>> Make this
 >>>
->>> However I did test things again this morning (all on s390 host), and
->>> current head (1ed9228f63ea4b) fails same as before ("mount" command
->>> fails).
+>>>         # TODO Remove after Python 3.7 ...
 >>>
->>> Also I downloaded:
+>>> to give us a fighting chance to remember.
 >>>
->>>    
->>> https://dl.fedoraproject.org/pub/fedora-secondary/releases/33/Cloud/s390x/images/Fedora-Cloud-Base-33-1.2.s390x.qcow2
+>>>> +    # pylint: disable=too-few-public-methods
+>>>> +    def __init__(self, value: _NodeT, ifcond: Iterable[str],
+>>>> +                 comment: Optional[str] = None):
 >>>
->>>
->>> and booted it on 1ed9228f63ea4b using this command:
->>>
->>>     $ ~/d/qemu/build/s390x-softmmu/qemu-system-s390x -machine accel=tcg
->>> -m 2048 -drive
->>> file=Fedora-Cloud-Base-33-1.2.s390x.qcow2,format=qcow2,if=virtio
->>> -serial stdio
->>>
->>> Lots of core dumps inside the guest, same as David saw.
->>>
->>> I then reset qemu back to 8f17a975e60b773d ("tcg/optimize: Adjust
->>> TempOptInfo allocation"), rebuilt qemu, tested the same command and
->>> cloud image, and that booted up much happier with no failures or core
->>> dumps.
->>>
->>> Isn't it kind of weird that this would only affect an s390 host?  I
->>> don't understand why the host would make a difference if we're doing
->>> TCG.
+>>> Why not simply value: _value?
 >>
->> I assume an existing BUG in the s390x TCG backend ... which makes it
->> harder to debug :)
+>> Example:
+>>    x = C(1)
+>>    y: C[int]
+>>    y = C('x')  # mistake
+>>
+>> Declaring value as _NodeT does:
+>> - Make the inferred type of x be Annotated[int].
+>> - Catch the mistake above.
 > 
-> This seems to fix it:
+> I smell overengineering.  I may well be wrong.
 > 
-> -- >8 --
-> diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-> index 8517e552323..32d03dbfbaf 100644
-> --- a/tcg/s390/tcg-target.c.inc
-> +++ b/tcg/s390/tcg-target.c.inc
-> @@ -1094,10 +1094,16 @@ static int tgen_cmp(TCGContext *s, TCGType type,
-> TCGCond c, TCGReg r1,
->                   op = (is_unsigned ? RIL_CLFI : RIL_CFI);
->                   tcg_out_insn_RIL(s, op, r1, c2);
->                   goto exit;
-> -            } else if (c2 == (is_unsigned ? (uint32_t)c2 : (int32_t)c2)) {
-> -                op = (is_unsigned ? RIL_CLGFI : RIL_CGFI);
-> -                tcg_out_insn_RIL(s, op, r1, c2);
-> -                goto exit;
-> +            } else if (is_unsigned) {
-> +                if (c2 == (uint32_t)c2) {
-> +                    tcg_out_insn_RIL(s, RIL_CLGFI, r1, c2);
-> +                    goto exit;
-> +                }
-> +            } else {
-> +                if (c2 == (int32_t)c2) {
-> +                    tcg_out_insn_RIL(s, RIL_CGFI, r1, c2);
-> +                    goto exit;
-> +                }
->               }
->           }
+> Without doubt, there are uses for using the type system for keeping
+> SomeGenericType[SomeType] and SomeGenericType[AnotherType] apart.
+> 
+> But what do we gain by keeping the Annotated[T] for the possible T
+> apart?
+> 
+> _tree_to_qlit() doesn't care: it peels off the wrapper holding ifcond
+> and comment, and recurses for the JSON so wrapped.  Regardless of what
+> was wrapped, i.e. what kind of T we got.
+> 
+> Heck, it works just fine even if you wrap your JSON multiple times.  It
+> doesn't give a hoot whether that makes sense.  Making sense is the
+> caller's business.
+> 
+> So what does care?
+> 
+> Or am I simply confused?
+> 
+> 
+> PS: As far as I can tell, _tree_to_qlit() doesn't give a hoot whether a
+> dictionary's values are wrapped, either.
+> 
 
-Indeed, seems to work. Thanks!
+You're right that it offers no necessary power to the automated 
+checking, I cede as much in my other replies to you.
 
-... will try to review :)
+(1) I hope the explanation was helpful, because the technique will 
+return for structures like QAPISchemaMember where it does become more 
+obviously useful to disambiguate the wrapped types.
 
--- 
-Thanks,
+(2) It still has a notational benefit to the human for documentation and 
+IDE purposes, e.g. at the end of this series:
 
-David / dhildenb
+```
+self._trees: List[Annotated[SchemaInfo]] = []
+```
+
+That's nice! It tells us exactly what's in there.
+
+Does it work if I dumb it down to just:
+
+```
+self.trees: List[AnnotatedThingy] = []
+```
+
+Yes, but it's worse to the human and the IDE both. I consider type hints 
+as serving a dual purpose; both provability and declaration of intent.
+
+--js
 
 
