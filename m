@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2AC30E9FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 03:12:31 +0100 (CET)
-Received: from localhost ([::1]:46614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57E230E9DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 03:03:47 +0100 (CET)
+Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7U8E-00020y-O5
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 21:12:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44410)
+	id 1l7Tzm-0000f9-RV
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 21:03:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7TiT-0004x7-JM
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:53 -0500
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46777)
+ id 1l7TiW-0004zh-CI
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:57 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7TiR-0003pH-SA
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:53 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id f63so1046685pfa.13
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:45:51 -0800 (PST)
+ id 1l7TiT-0003pO-HC
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:45:56 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id e9so830340pjj.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:45:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aEJQJ28aTfFYwWXCrc4/tQ7PstJpDur23rDVFAChQBo=;
- b=RixZ2tfG4LIRL+V3EXWjLFxaErEiHAkX62uedpc/7udtA6rqMVPDJP36G6hDNwBK6G
- tfsst1+7V2O8zecmXnWirr8AtTxdNQmcgNExM0tb//8vX62CsdS2ZrJQUf1e41PsfabG
- pz65jsZYndxld7EQIqJ4RzZs1LS7M36oR5d+nJipqV+6hL2I1SqU5EGGFni3gUQid11V
- GRmrIsodM00q7mAZD5vkoj3wOQfJRrS4YfUk1r9lKGiSfdmlH+H0LEs6QW6eMYJTZb4l
- OSdDUaaHceEW4HQE1DmZMytffHm1GRqdyYY7iLZBvSJecGaF1feeccJ2UslQ7Kc02BWT
- mtlA==
+ bh=pMV4BySeK8KuIUlVV1lxW3l1A4MrToushLk684ASlQM=;
+ b=qKoRnNM1V0rKUajNMEYrupKr1+Gxq4lBoSBpOzjwIwrWH2fFvl10/2P0IVCTcgnMWD
+ /SvdNztn2tBMUiPhoEmgaHkzf3SYIxt9M6y/KvwiAMV+CEnuPzZ8HlAa6ik7g73eIvlJ
+ 7ynCPjkOdcAp3ILeW9Bk1pzKYycixP1mtKwLQTkVKSDRwioj6KfcS3AhUJyZxfv86xcU
+ fkUfSERsSX6W1E6MPBY8s4eU3Tb0SUkjaK8XimlnnAk8QmAtocSDLv1O/i8ZA+XixAz3
+ pMJKMpo2H1t9pwGhNhzN2Z0AJ2u6Aa8aYusrH8oDhWdIF6KW5Ir8lXU9TSrWsfkXTIrn
+ nC3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aEJQJ28aTfFYwWXCrc4/tQ7PstJpDur23rDVFAChQBo=;
- b=WNEv5FI/6ibUsqLrh5ojbCLOmy9LOQiFQ6YxRqikfHAsUJXA4bhlP911NuejO0h30N
- 8Ux+j4sPdnPL3PSe4I77gzeBe1vqLcZMuXovrjZY3bpDEMdzhhtVuZWiXHYv6n1gxSG7
- UND0pCNORovIFNFjWCLophLWNHd5kouNUPgMTldBuZld7DodN2ErUB9yhOb4sE54iEb8
- gKRaQnfDGqdXJylCNooI0BkeNEtLC+t4RpHzvBkI3KmLztBZjvT6TADTUHzXXkuNOArj
- FPT5VuTEXasufPm1VpR9JJufBLCI9Kkzr7oY7QzJN9fkgtBt1vjtwI2ULPgohUyBpvWW
- uZtw==
-X-Gm-Message-State: AOAM530mH4pNPjHWxQHLi+94jvGXzbJDuh5rsA+EyMjgX10px0bbLNHZ
- ytUSawj1eW+otSJD4Ll7zky22ssxkSet0m+S
-X-Google-Smtp-Source: ABdhPJwflp2+Jr+UrevoEzwyTX6jknaYbF3jvW8+AmcjvCgS3w0ONZlFC7DqTaI2BMRMP73q49TWsQ==
-X-Received: by 2002:a65:4983:: with SMTP id r3mr6716986pgs.288.1612403150550; 
- Wed, 03 Feb 2021 17:45:50 -0800 (PST)
+ bh=pMV4BySeK8KuIUlVV1lxW3l1A4MrToushLk684ASlQM=;
+ b=htnXhKIQ58OKDw2tKHnJO7NDkyo7Yb1m/v2G98OJdOAtirUE7+3z8yraffxNBxcfgi
+ FmvA8WBsX+ZYutGVQsQP7r7GlX+6BrGmA6wVyxH42NSAEH9h5PsvEZfWSFhpMjDn1Too
+ UGBWwYXUE0i80V/YeLg66CSPkXFRBe7N9F3NHumfx2uaRj7LRBvyjOsT/PoPNJwKFKXA
+ amMLcT4O7vbq5ZPVDjGS6guBOSE33JsIzL1uVaIZCufL653v+WdtCxh82F+l5/4JiTF/
+ +sNotcn20Y4Z/mZgKGYKXp/wpC00I00dN8BiOLWzzsju01pYuxJaFCNAnhnhhQjRnUPU
+ 0MSw==
+X-Gm-Message-State: AOAM53141D22GhV71aYK+CXQK/KxWB/0wJlwkMAUCkGGens/LrkOwqtK
+ MJA54WhctadjQPGGAq/jNLjZko3w1oe2qpc2
+X-Google-Smtp-Source: ABdhPJylIsj99THRzvGTc6Gi810JoHk+e+xJB35z6HyB414HdkftwyU7zYacuk2o76/Fe+p5pFkraw==
+X-Received: by 2002:a17:903:181:b029:df:c7e5:8e39 with SMTP id
+ z1-20020a1709030181b02900dfc7e58e39mr5921269plg.25.1612403152244; 
+ Wed, 03 Feb 2021 17:45:52 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.45.49
+ by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.45.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 17:45:49 -0800 (PST)
+ Wed, 03 Feb 2021 17:45:51 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 20/93] tcg/tci: Move stack bounds check to compile-time
-Date: Wed,  3 Feb 2021 15:43:56 -1000
-Message-Id: <20210204014509.882821-21-richard.henderson@linaro.org>
+Subject: [PATCH v2 21/93] tcg/tci: Merge INDEX_op_{st_i32,st32_i64}
+Date: Wed,  3 Feb 2021 15:43:57 -1000
+Message-Id: <20210204014509.882821-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210204014509.882821-1-richard.henderson@linaro.org>
 References: <20210204014509.882821-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,83 +89,38 @@ Cc: sw@weilnetz.de, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing check was incomplete:
-(1) Only applied to two of the 7 stores, and not to the loads at all.
-(2) Only checked the upper, but not the lower bound of the stack.
-
-Doing this at compile time means that we don't need to do it
-at runtime as well.
-
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c                |  2 --
- tcg/tci/tcg-target.c.inc | 13 +++++++++++++
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ tcg/tci.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/tcg/tci.c b/tcg/tci.c
-index fe935e71a3..ee2cd7dfa2 100644
+index ee2cd7dfa2..eb70672efb 100644
 --- a/tcg/tci.c
 +++ b/tcg/tci.c
-@@ -628,7 +628,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+@@ -625,6 +625,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+             *(uint16_t *)(t1 + t2) = t0;
+             break;
+         case INDEX_op_st_i32:
++        CASE_64(st32)
              t0 = tci_read_r32(regs, &tb_ptr);
              t1 = tci_read_r(regs, &tb_ptr);
              t2 = tci_read_s32(&tb_ptr);
--            tci_assert(t1 != sp_value || (int32_t)t2 < 0);
-             *(uint32_t *)(t1 + t2) = t0;
+@@ -873,12 +874,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+             t2 = tci_read_s32(&tb_ptr);
+             tci_write_reg(regs, t0, *(uint64_t *)(t1 + t2));
              break;
- 
-@@ -884,7 +883,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+-        case INDEX_op_st32_i64:
+-            t0 = tci_read_r32(regs, &tb_ptr);
+-            t1 = tci_read_r(regs, &tb_ptr);
+-            t2 = tci_read_s32(&tb_ptr);
+-            *(uint32_t *)(t1 + t2) = t0;
+-            break;
+         case INDEX_op_st_i64:
              t0 = tci_read_r64(regs, &tb_ptr);
              t1 = tci_read_r(regs, &tb_ptr);
-             t2 = tci_read_s32(&tb_ptr);
--            tci_assert(t1 != sp_value || (int32_t)t2 < 0);
-             *(uint64_t *)(t1 + t2) = t0;
-             break;
- 
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index f0f6b13112..82efb9af60 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -375,10 +375,20 @@ static void tci_out_label(TCGContext *s, TCGLabel *label)
-     }
- }
- 
-+static void stack_bounds_check(TCGReg base, target_long offset)
-+{
-+    if (base == TCG_REG_CALL_STACK) {
-+        tcg_debug_assert(offset < 0);
-+        tcg_debug_assert(offset >= -(CPU_TEMP_BUF_NLONGS * sizeof(long)));
-+    }
-+}
-+
- static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
-                        intptr_t arg2)
- {
-     uint8_t *old_code_ptr = s->code_ptr;
-+
-+    stack_bounds_check(arg1, arg2);
-     if (type == TCG_TYPE_I32) {
-         tcg_out_op_t(s, INDEX_op_ld_i32);
-         tcg_out_r(s, ret);
-@@ -514,6 +524,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-     case INDEX_op_st16_i64:
-     case INDEX_op_st32_i64:
-     case INDEX_op_st_i64:
-+        stack_bounds_check(args[1], args[2]);
-         tcg_out_r(s, args[0]);
-         tcg_out_r(s, args[1]);
-         tcg_debug_assert(args[2] == (int32_t)args[2]);
-@@ -716,6 +727,8 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg, TCGReg arg1,
-                        intptr_t arg2)
- {
-     uint8_t *old_code_ptr = s->code_ptr;
-+
-+    stack_bounds_check(arg1, arg2);
-     if (type == TCG_TYPE_I32) {
-         tcg_out_op_t(s, INDEX_op_st_i32);
-         tcg_out_r(s, arg);
 -- 
 2.25.1
 
