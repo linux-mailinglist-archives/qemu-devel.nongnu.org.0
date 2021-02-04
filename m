@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E6330F5E3
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 16:12:58 +0100 (CET)
-Received: from localhost ([::1]:46006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51B930F606
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 16:20:30 +0100 (CET)
+Received: from localhost ([::1]:60378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7gJV-0005Ut-UQ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 10:12:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41624)
+	id 1l7gQn-0003R0-Sb
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 10:20:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7gD6-0007aE-SK
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:06:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52509)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7gDe-0007rD-8N
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:06:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7gD4-000440-Sp
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:06:20 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7gDb-0004M6-TL
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:06:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612451178;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1612451211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VrZ8HBAgTvxJfylQ4tscyV0QpNsDc1DQAgzIcAIeUNI=;
- b=Tz6wFyax+fuZfFUwDuELyEdP6chNsSmBbBNXcbWowzOuEqTqtxz3ejgkWmsV2R5DO0JrCD
- lFrnPohEl0UK6H6Gh0hysf4ImQ0/hq6Gwltre3+kV/JuiZXxjdnf/RFM3Yt+scssn3zrMW
- ZDArszqfJsp64ixrgz4/ipRUe4n5mkA=
+ bh=vN3yz2Ih3YEhE8Df+XJ2kPg/dt/Sy1imTSydKVRbSXw=;
+ b=TNNVCfl24Bl5LfszIZsekWrS05ae/DeFPNGfs9JtWdRqM4vkJZQFFCo6e7qxVN07o1RVda
+ hjKXFCnsn4QzVcsB7m/pipvTlmjbSHPSfXrTpC9Sotc0iViqaoQVkWalEgUxeDYG2F8CC+
+ RjBGCCrXsH8KUtmjr13Ekuoh/1HxDYE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-SZfP6bqxMGmjSBTlKJznsw-1; Thu, 04 Feb 2021 10:06:14 -0500
-X-MC-Unique: SZfP6bqxMGmjSBTlKJznsw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-230-3K6mAJERPzCczQHqObcMSg-1; Thu, 04 Feb 2021 10:06:47 -0500
+X-MC-Unique: 3K6mAJERPzCczQHqObcMSg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C66F107ACE3;
- Thu,  4 Feb 2021 15:06:13 +0000 (UTC)
-Received: from redhat.com (ovpn-115-169.ams2.redhat.com [10.36.115.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0CCF17CD6;
- Thu,  4 Feb 2021 15:06:04 +0000 (UTC)
-Date: Thu, 4 Feb 2021 15:06:01 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC] Move tools sources to the tools directory (was Re: [PATCH
- v2] MAINTAINERS: Fix the location of tools manuals)
-Message-ID: <20210204150601.GQ549438@redhat.com>
-References: <20210204135425.1380280-1-wainersm@redhat.com>
- <516694bd-42fe-7929-811b-545f257c58bf@redhat.com>
- <0e0f9745-fe21-0bc6-2d02-431d67a6b57e@redhat.com>
- <CAFEAcA9nwnii1geGFpwEg8CFfST8B21y0BRL5ci=4ykiwqJywQ@mail.gmail.com>
- <20210204144006.GI6496@merkur.fritz.box>
- <20210204144700.GN549438@redhat.com>
- <CAFEAcA_=ANGKcy7QNfEdxUft9qGyCHttHo9hfvjQHC_ZfYeo1g@mail.gmail.com>
- <6339c78f-e77c-85e7-8e3f-6c2c514f3206@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BA946D4E0;
+ Thu,  4 Feb 2021 15:06:46 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4707F60C16;
+ Thu,  4 Feb 2021 15:06:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CC12A113865F; Thu,  4 Feb 2021 16:06:44 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 04/14] qapi/introspect.py: guard against
+ ifcond/comment misuse
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-5-jsnow@redhat.com>
+ <874kitutv4.fsf@dusky.pond.sub.org>
+ <fc2f7fd7-b212-ca3a-ef87-a05c4cd297cf@redhat.com>
+Date: Thu, 04 Feb 2021 16:06:44 +0100
+In-Reply-To: <fc2f7fd7-b212-ca3a-ef87-a05c4cd297cf@redhat.com> (John Snow's
+ message of "Wed, 3 Feb 2021 15:42:54 -0500")
+Message-ID: <87lfc3dg8r.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <6339c78f-e77c-85e7-8e3f-6c2c514f3206@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,60 +83,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Greg Kurz <groug@kaod.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 04, 2021 at 04:02:01PM +0100, Paolo Bonzini wrote:
-> On 04/02/21 15:50, Peter Maydell wrote:
-> > On Thu, 4 Feb 2021 at 14:47, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > The distinction of contrib/ vs tools/ is supposed to be more a
-> > > reflection on the quality of the program.
-> > > 
-> > > contrib/ should be considered demo-ware, no back compat guaranteed,
-> > > may or may not work, no testing guaranteed, no man pages.
-> > 
-> > On this definition, why do we have any of it in our source tree?
-> > Interesting but unmaintained side things can live quite happily
-> > elsewhere (other peoples' git forks, blog posts, whatever).
-> > If we care about a bit of code enough to keep it in our source
-> > tree we ought to care about it enough to properly document
-> > and test it and give it a suitable place to live.
-> 
-> That's indeed what happened with libvhost-user; it has graduated to a
-> separate project since it is okay for use in other (production-ready)
-> vhost-user backends.
-> 
-> Most of the software in contrib/ is essentially a reference implementations.
-> They are "perfect" for that task, but not meant to grow more features or to
-> be used in production (compare vhost-user-blk with qemu-storage-daemon for
-> example).
-> 
-> The other four can be classified as follows:
-> 
-> - elf2dmp and rdmacm-mux should be in tools/, probably it's in contrib/
-> because nobody uses it and there's no tests so it might bitrot.
-> 
-> - systemd is just a couple files meant for distros to pick up, possibly with
-> customizations.  gitdm is just for people who want to get QEMU development
-> stats, so I suppose these two are in the same group as well.
+John Snow <jsnow@redhat.com> writes:
 
-gitdm ought to be in scripts/ really
+> On 2/3/21 9:08 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> _tree_to_qlit is called recursively on dict values alone; at such a
+>>> point in generating output it is too late to apply an ifcond. Similarly,
+>>> comments do not necessarily have a "tidy" place they can be printed in
+>>> such a circumstance.
+>>>
+>>> Forbid this usage.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>   scripts/qapi/introspect.py | 6 ++++++
+>>>   1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>>> index 4749f65ea3c..ccdf4f1c0d0 100644
+>>> --- a/scripts/qapi/introspect.py
+>>> +++ b/scripts/qapi/introspect.py
+>>> @@ -43,6 +43,12 @@ def indent(level):
+>>>           ifobj, extra = obj
+>>>           ifcond = extra.get('if')
+>>>           comment = extra.get('comment')
+>>> +
+>>> +        # NB: _tree_to_qlit is called recursively on the values of a key:value
+>>> +        # pair; those values can't be decorated with comments or conditionals.
+>>> +        msg = "dict values cannot have attached comments or if-conditionals."
+>>> +        assert not suppress_first_indent, msg
+>>> +
+>>>           ret = ''
+>>>           if comment:
+>>>               ret += indent(level) + '/* %s */\n' % comment
+>> This uses @suppress_first_indent as a proxy for "@obj is a value in
+>> a
+>> dict".  Works, because we pass suppress_first_indent=True exactly
+>> there.  Took me a minute to see, though.
+>> 
+>
+> Yes, the link is a little tenuous; in truth, the field could be
+> renamed "dict_value: bool" or so to make it more clear, at the expense
+> of making the inner workings of _tree_to_qlit more opaque.
+>
+> So we happen to know that only dict values want to suppress the
+> indent; and the error message explains what went wrong in language 
+> (subjectively, again) more directly helpful to the theoretical hapless user.
+>
+> (Tentatively: I'll amend the parameter name to make the relationship
+> more concrete, but I expect you'll have more to say.)
+>
+>> Do you need this assertion to help mypy over the hump?
+>> 
+>
+> It was added as a result of an observation by Eduardo that by always
+> generating annotation data (To make the return type from _make_tree
+> not conditional) that there were cases where you could conceivably
+> call _tree_to_qlit that didn't make sense; or at least we couldn't
+> prove easily that it wouldn't happen.
+>
+> (Of course, in practice, it does not.)
+>
+> I added the assertion to call attention to the limitations of this
+> existing code: passing annotations alongside dict values made no
+> sense.
+>
+> (Or maybe made no sense.)
+>
+> Conceptually it makes sense that some keys of a dict might be
+> conditionally compiled out, but in terms of the actual data structures 
+> we use to convey this information, we don't actually use dicts to
+> represent keys like that ... we use a list, actually.
+>
+> (See visit_object_type_flat)
+>
+> Anyway, this was an attempt to clear up that misunderstanding for
+> reviewers less familiar with these structures, and to guard against 
+> future code in particular that may misunderstand it.
 
-The systemd files ought to be in the same directory as the tool they
-are associated with.
+I doubt the guard is needed for code.  This stuff hasn't changed in a
+long time.  JSON is set in stone.  If we ever need extras beyond ifcond
+and comment (unlikely), we can stuff them in just like ifcond and
+comment.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I accept readers and reviewers may find it useful.
+
+> It isn't (to my recollection) necessary for mypy. If you want to
+> remove it, I think I'd like Eduardo to sign off on that matter.
+>
+> (We both found this code very, very confusing to read and modify. For
+> whatever reason, I still find it fairly hard to reason about clearly.)
+
+Sorry about that.  If I had known how much trouble the cheap and
+somewhat hacky extension of the QLit-generating code for ifcond (commit
+d626b6c1ae7) would give you[*], I would've nacked it.
+
+>> Perhaps we'd be better off with two functions, one that takes possibly
+>> annotated @obj, and one that takes only plain @obj.  "Yes, but not now"
+>> woule be one acceptable answer to that.
+>> 
+>
+> Yes, I tried to prototype this a few times but found that it quickly
+> touched too many things and I was losing appetite for re-spins. Recent 
+> reviews urged a focus on "typing what we have, where possible" before
+> making alterations. The debate between "fix-then-type" or 
+> "type-then-fix" is valid, but largely intractable.
+
+Yes, we need to focus, and resist mission creep.
+
+When review uncovers improvement opportunities, we need to decide
+whether to pursue within the series, in a follow-up series, or
+"later"[**].
+
+This should *not* stop us from pointing out improvement opportunities!
+
+With the benefit of hindsight: I wish we had kicked this one down the
+road some.  Sunk cost, though.
+
+> Since my only immediate goal was "Get everything typed", the
+> "type-then-fix" approach has the side-effect of dropping improvements 
+> that aren't strictly needed whenever possible.
+>
+> LONG STORY SHORT: Yes, I think that design would be better overall,
+> but I think it should wait for later. In particular, if you embark
+> upon your more radical rewrite of introspection, it could just be
+> handled at that time.
+
+Got it.
+
+> (My careful separation of scalars vs non-scalars in the typing comment
+> later in this series is an artifact of the time spent playing around 
+> with splitting this function out into two mutually recursive
+> functions, but found it was too noisy in an already long-challenged
+> series.)
+>
+> --js
+
+
+[*] And then indirectly me, to be honest.
+
+[**] Which may well mean "never" in practice.
 
 
