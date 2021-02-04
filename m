@@ -2,95 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C716430EF3D
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:10:16 +0100 (CET)
-Received: from localhost ([::1]:47854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968B330EF8D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:22:25 +0100 (CET)
+Received: from localhost ([::1]:59580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7aeV-00048m-TQ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:10:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39606)
+	id 1l7aqG-0001Hy-5E
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:22:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7add-0003aI-Pj
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:09:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7adb-0002gg-Jc
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:09:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612429758;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WMWpVk3aYmovOv5BRUp7PSXHyR+f7dVyRZWmCWElF5g=;
- b=PDJtEt81ovhWUJj+zdrAaUaDB7RceAu1XlDQbmxUeLJ4pflQWqU/K4nKGXgxyZHPNlWZi0
- +WFmqd02+bAxweQ1AhtnkL9eNzzy0aIDxx1lI8/sbEMobID0d01dz2rtRiGh5kmnz6Pxop
- ct9geGHUnYtzsvAeZPoPz+h2Z2lRpTo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-cdszzDLjP1Oo8VUhD_uAGQ-1; Thu, 04 Feb 2021 04:09:15 -0500
-X-MC-Unique: cdszzDLjP1Oo8VUhD_uAGQ-1
-Received: by mail-wm1-f69.google.com with SMTP id y138so1430788wmd.5
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 01:09:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WMWpVk3aYmovOv5BRUp7PSXHyR+f7dVyRZWmCWElF5g=;
- b=mSHqq0njseZKfaV5ph0cZUgnZ3z6oZbWoco0ZDIsP1aArMlxGyh7PALMgpcFxF7A5K
- R3VoRyBTDHuByS5S6CjkQ6zFXf+PSzX+CWK7/qQ4gOejat+AZkK8kM01nr8+GN6oxRQC
- q1w9+oOhHIS5xuYn8MoIwThwIAWbsgB1tTnTgxtuBCmr74/PwUUDKHyTV4hUAQxGTfI6
- QI5OvPPS7pm1wgnqccCTQRM78rTyCFt3yiBaUWIQYPD8wjh8E+6vtOZdMCRUPcVMVb3w
- dUUIIfpuweZHkG+A3cTtqrf2DACkr6EJZIsyI+H6Zjr/vbIwReRotk4kYtjuIyGfhThU
- CpAg==
-X-Gm-Message-State: AOAM532dU6z8nK8exm2cAi1QnKLi/K69OYMIxGiDYWHxgC6ljDq9iWOk
- sU7P+k217/eHfzoyDn8Jjs0GEVzctnagsGZJJsMVCCGbpdIjn1q1wR92FAdugb8vYvcowa6cK7z
- sjJxM1bHBD+tBQC8=
-X-Received: by 2002:adf:f182:: with SMTP id h2mr8120771wro.355.1612429753922; 
- Thu, 04 Feb 2021 01:09:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz/MKUQsH2gkVfA8ioNvD5UHqHJu3mWS6SbOP4gtJGwsrHMYAYH2467vS3hOG83CFttN8po/A==
-X-Received: by 2002:adf:f182:: with SMTP id h2mr8120733wro.355.1612429753612; 
- Thu, 04 Feb 2021 01:09:13 -0800 (PST)
-Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
- [83.59.163.107])
- by smtp.gmail.com with ESMTPSA id s4sm6816041wrt.85.2021.02.04.01.09.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Feb 2021 01:09:12 -0800 (PST)
-Subject: Re: [PATCH 09/12] qemu-options: Replace the word 'blacklist'
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210202205824.1085853-1-philmd@redhat.com>
- <20210202205824.1085853-10-philmd@redhat.com>
- <20210203102558.GK300990@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <562ca6ca-3562-8465-5bda-cc69ac4ae340@redhat.com>
-Date: Thu, 4 Feb 2021 10:09:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7aot-0000lp-Sc
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:20:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7aor-0008IC-Da
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:20:59 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l7aop-0007Ao-Aa
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 09:20:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 091942E813A
+ for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 09:20:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210203102558.GK300990@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 04 Feb 2021 09:11:12 -0000
+From: Alexandre arents <1912224@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aarents xanclic
+X-Launchpad-Bug-Reporter: Alexandre arents (aarents)
+X-Launchpad-Bug-Modifier: Alexandre arents (aarents)
+References: <161098039664.6686.1246044899603761821.malonedeb@wampee.canonical.com>
+Message-Id: <161242987247.2612.7461643252308869226.malone@gac.canonical.com>
+Subject: [Bug 1912224] Re: qemu may freeze during drive-mirroring on
+ fragmented FS
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: fcdd09f3911f6c6037c707a2cf5c743825864025
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, LOTS_OF_MONEY=0.001, MONEY_NOHTML=1.142,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -99,64 +70,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Otubo <otubo@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1912224 <1912224@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/21 11:25 AM, Daniel P. Berrangé wrote:
-> On Tue, Feb 02, 2021 at 09:58:21PM +0100, Philippe Mathieu-Daudé wrote:
->> Follow the inclusive terminology from the "Conscious Language in your
->> Open Source Projects" guidelines [*] and replace the word "blacklist"
->> appropriately.
->>
->> [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  qemu-options.hx | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index d0410f05125..75997ee2ea6 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -4275,11 +4275,11 @@ DEF("sandbox", HAS_ARG, QEMU_OPTION_sandbox, \
->>      "                    by the kernel, but typically no longer used by modern\n" \
->>      "                    C library implementations.\n" \
->>      "                use 'elevateprivileges' to allow or deny QEMU process to elevate\n" \
->> -    "                    its privileges by blacklisting all set*uid|gid system calls.\n" \
->> +    "                    its privileges by denylisting all set*uid|gid system calls.\n" \
-> 
-> The original description is a bit wierd in how it reads/explains it, so
-> I think it needs bigger changes:
-> 
->     "                use 'elevateprivileges' to allow or deny the QEMU process ability
->     "                to elevate privileges using set*uid|gid system calls.\n" \
-> 
->>      "                    The value 'children' will deny set*uid|gid system calls for\n" \
->>      "                    main QEMU process but will allow forks and execves to run unprivileged\n" \
->>      "                use 'spawn' to avoid QEMU to spawn new threads or processes by\n" \
->> -    "                     blacklisting *fork and execve\n" \
->> +    "                     denylisting *fork and execve\n" \
-> 
-> denylisting is a very strange term to use - its not really a word IMHO.
-> Better as
-> 
->     "                     preventing *fork and execve\n" \
-> 
-> or
-> 
->     "                     blocking *fork and execve\n" \
+It helps a lot, and it goes fast !
 
-While 'preventing' sounds nicer, 'blocking' is simpler to understand
-from a technical English speaker, so I took your 2nd suggestion, thanks.
+live block migration of 400GB raw disk:
+master      1130s (362MB/s) qemu  unstable/frozen
+master+fix  445s  (920MB/s) qemu  stable
 
+Thanks Max, It will be nice to have this one merged.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912224
+
+Title:
+  qemu may freeze during drive-mirroring on fragmented FS
+
+Status in QEMU:
+  New
+
+Bug description:
+  =
+
+  We have odd behavior in operation where qemu freeze during long
+  seconds, We started an thread about that issue here:
+  https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05623.html
+
+  It happens at least during openstack nova snapshot (qemu blockdev-mirror)
+  or live block migration(which include network copy of disk).
+
+  After further troubleshoots, it seems related to FS fragmentation on
+  host.
+
+  reproducible at least on:
+  Ubuntu 18.04.3/4.18.0-25-generic/qemu-4.0
+  Ubuntu 16.04.6/5.10.6/qemu-5.2.0-rc2
+
+  # Lets create a dedicated file system on a SSD/Nvme 60GB disk in my case:
+  $sudo mkfs.ext4 /dev/sda3
+  $sudo mount /dev/sda3 /mnt
+  $df -h /mnt
+  Filesystem      Size  Used Avail Use% Mounted on
+  /dev/sda3         59G   53M   56G   1% /mnt
+
+  #Create a fragmented disk on it using 2MB Chunks (about 30min):
+  $sudo python3 create_fragged_disk.py /mnt 2
+  Filling up FS by Creating chunks files in:  /mnt/chunks
+  We are probably full as expected!!:  [Errno 28] No space left on device
+  Creating fragged disk file:  /mnt/disk
+
+  $ls -lhs =
+
+  59G -rw-r--r-- 1 root root 59G Jan 15 14:08 /mnt/disk
+
+  $ sudo e4defrag -c /mnt/disk
+   Total/best extents                             41971/30
+   Average size per extent                        1466 KB
+   Fragmentation score                            2
+   [0-30 no problem: 31-55 a little bit fragmented: 56- needs defrag]
+   This file (/mnt/disk) does not need defragmentation.
+   Done.
+
+  # the tool^^^ says it is not enough fragmented to be able to defrag.
+
+  #Inject an image on fragmented disk
+  sudo chown ubuntu /mnt/disk
+  wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudim=
+g-amd64.img
+  qemu-img convert -O raw  bionic-server-cloudimg-amd64.img \
+                           bionic-server-cloudimg-amd64.img.raw
+  dd conv=3Dnotrunc iflag=3Dfullblock if=3Dbionic-server-cloudimg-amd64.img=
+.raw \
+                  of=3D/mnt/disk bs=3D1M
+  virt-customize -a /mnt/disk --root-password password:xxxx
+
+  # logon run console activity ex: ping -i 0.3 127.0.0.1
+  $qemu-system-x86_64 -m 2G -enable-kvm  -nographic \
+      -chardev socket,id=3Dtest,path=3D/tmp/qmp-monitor,server,nowait \
+      -mon chardev=3Dtest,mode=3Dcontrol \
+      -drive file=3D/mnt/disk,format=3Draw,if=3Dnone,id=3Ddrive-virtio-disk=
+0,cache=3Dnone,discard\
+      -device virtio-blk-pci,scsi=3Doff,drive=3Ddrive-virtio-disk0,id=3Dvir=
+tio-disk0,bootindex=3D1,write-cache=3Don
+
+  $sync
+  $echo 3 | sudo tee -a /proc/sys/vm/drop_caches
+
+  #start drive-mirror via qmp on another SSD/nvme partition
+  nc -U /tmp/qmp-monitor
+  {"execute":"qmp_capabilities"}
+  {"execute":"drive-mirror","arguments":{"device":"drive-virtio-disk0","tar=
+get":"/home/ubuntu/mirror","sync":"full","format":"qcow2"}}
+  ^^^ qemu console may start to freeze at this step.
+
+  NOTE:
+   - smaller chunk sz and bigger disk size the worst it is.
+     In operation we also have issue on 400GB disk size with average 13MB/e=
+xtent
+   - Reproducible also on xfs
+
+  =
+
+  Expected behavior:
+  -------------------
+  QEMU should remain steady, eventually only have decrease storage Performa=
+nce
+  or mirroring, because of fragmented fs.
+
+  Observed behavior:
+  -------------------
+  Perf of mirroring is still quite good even on fragmented FS,
+  but it breaks qemu.
+
+  =
+
+  ######################  create_fragged_disk.py ############
+  import sys
+  import os
+  import tempfile
+  import glob
+  import errno
+
+  MNT_DIR =3D sys.argv[1]
+  CHUNK_SZ_MB =3D int(sys.argv[2])
+  CHUNKS_DIR =3D MNT_DIR + '/chunks'
+  DISK_FILE =3D MNT_DIR + '/disk'
+
+  if not os.path.exists(CHUNKS_DIR):
+      os.makedirs(CHUNKS_DIR)
+
+  with open("/dev/urandom", "rb") as f_rand:
+       mb_rand=3Df_rand.read(1024 * 1024)
+
+  print("Filling up FS by Creating chunks files in: ",CHUNKS_DIR)
+  try:
+      while True:
+          tp =3D tempfile.NamedTemporaryFile(dir=3DCHUNKS_DIR,delete=3DFals=
+e)
+          for x in range(CHUNK_SZ_MB):
+              tp.write(mb_rand)
+          os.fsync(tp)
+          tp.close()
+  except Exception as ex:
+      print("We are probably full as expected!!: ",ex)
+
+  chunks =3D glob.glob(CHUNKS_DIR + '/*')
+
+  print("Creating fragged disk file: ",DISK_FILE)
+  with open(DISK_FILE, "w+b") as f_disk:
+      for chunk in chunks:
+          try:
+              os.unlink(chunk)
+              for x in range(CHUNK_SZ_MB):
+                  f_disk.write(mb_rand)
+              os.fsync(f_disk)
+          except IOError as ex:
+              if ex.errno !=3D errno.ENOSPC:
+                  raise
+  ###########################################################3
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912224/+subscriptions
 
