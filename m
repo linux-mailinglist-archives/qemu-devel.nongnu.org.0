@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B4C30F7CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:28:49 +0100 (CET)
-Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A143130F7F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:33:08 +0100 (CET)
+Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7hUq-0003Tp-T4
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:28:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34550)
+	id 1l7hZ5-0007LL-Ll
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:33:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7hNO-0005Sf-Qg
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:21:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49934)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7grb-0002J8-A9
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:48:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7hNK-000454-Tq
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:21:01 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l7grX-00060D-H6
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:48:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612455657;
+ s=mimecast20190719; t=1612453685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qK1/RCTsD0n/mkJWTAuC6fzy3GxAICPpud0x4USovmc=;
- b=jFUC7mUgcQ4JQ46zL8kR/8o9a1viI7LeeUe7itMozjG9nbbvTPQCUJuukHMhCRumez8qJX
- vkTr60yor2CZTKL3vhN0sbs+GrxPnm9L7HVwp2SQinI3qTZL2NWn1Zww3D4/k3WG0yRnQq
- CJ+LpksxH207NVnpep+OrBIZfZFkwD0=
+ bh=R2Qvy19eJdC+602G2SjjJETx98iWAlmXaIyusGU/mUY=;
+ b=WBSofOL/2rwg/ibIJ6ZaqU2qcPMFIzuUlExyFj6agmgFdLidAQleU0xVoxnfcwZaJhuCCt
+ Kxkes1omRHF6GeaEb/j+O+D5BmRHkIVOeAWKQzCx8Alp/GgtBIpswsHWKCUfcjN1vaGYYV
+ 7RSnC3ieZeoK95teX+aYCVsgHy1lqF8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255--qM6dMNxNBODco3ki54EBA-1; Thu, 04 Feb 2021 11:20:51 -0500
-X-MC-Unique: -qM6dMNxNBODco3ki54EBA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-395-JvOkQKuMMsC4y1VQy1UNZg-1; Thu, 04 Feb 2021 10:48:03 -0500
+X-MC-Unique: JvOkQKuMMsC4y1VQy1UNZg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE6CE8030B3;
- Thu,  4 Feb 2021 16:20:49 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3655D60BF1;
- Thu,  4 Feb 2021 16:20:49 +0000 (UTC)
-Subject: Re: [PATCH v4 08/14] qapi/introspect.py: create a typed 'Annotated'
- data strutcure
-To: Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20210202174651.2274166-1-jsnow@redhat.com>
- <20210202174651.2274166-9-jsnow@redhat.com>
- <878s85tdh3.fsf@dusky.pond.sub.org> <20210203215026.GB126021@habkost.net>
- <87a6sjdet2.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <77cc0262-3192-130f-81d8-a72193bf1020@redhat.com>
-Date: Thu, 4 Feb 2021 11:20:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E410A100A267;
+ Thu,  4 Feb 2021 15:48:01 +0000 (UTC)
+Received: from localhost (ovpn-115-89.ams2.redhat.com [10.36.115.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D3D8B70483;
+ Thu,  4 Feb 2021 15:47:49 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL v2 26/27] multi-process: perform device reset in the remote
+ process
+Date: Thu,  4 Feb 2021 15:43:26 +0000
+Message-Id: <20210204154327.386529-27-stefanha@redhat.com>
+In-Reply-To: <20210204154327.386529-1-stefanha@redhat.com>
+References: <20210204154327.386529-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87a6sjdet2.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,108 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 10:37 AM, Markus Armbruster wrote:
-> Eduardo Habkost <ehabkost@redhat.com> writes:
-> 
->> On Wed, Feb 03, 2021 at 03:47:36PM +0100, Markus Armbruster wrote:
->>> John Snow <jsnow@redhat.com> writes:
->>>
->>>> Presently, we use a tuple to attach a dict containing annotations
->>>> (comments and compile-time conditionals) to a tree node. This is
->>>> undesirable because dicts are difficult to strongly type; promoting it
->>>> to a real class allows us to name the values and types of the
->>>> annotations we are expecting.
->>>>
->>>> In terms of typing, the Annotated<T> type serves as a generic container
->>>> where the annotated node's type is preserved, allowing for greater
->>>> specificity than we'd be able to provide without a generic.
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->> [...]
->>>> +class Annotated(Generic[_NodeT]):
->>>> +    """
->>>> +    Annotated generally contains a SchemaInfo-like type (as a dict),
->>>> +    But it also used to wrap comments/ifconds around scalar leaf values,
->>>> +    for the benefit of features and enums.
->>>> +    """
->>>> +    # Remove after 3.7 adds @dataclass:
->>>
->>> Make this
->>>
->>>         # TODO Remove after Python 3.7 ...
->>>
->>> to give us a fighting chance to remember.
->>>
->>>> +    # pylint: disable=too-few-public-methods
->>>> +    def __init__(self, value: _NodeT, ifcond: Iterable[str],
->>>> +                 comment: Optional[str] = None):
->>>
->>> Why not simply value: _value?
->>
->> Example:
->>    x = C(1)
->>    y: C[int]
->>    y = C('x')  # mistake
->>
->> Declaring value as _NodeT does:
->> - Make the inferred type of x be Annotated[int].
->> - Catch the mistake above.
-> 
-> I smell overengineering.  I may well be wrong.
-> 
-> Without doubt, there are uses for using the type system for keeping
-> SomeGenericType[SomeType] and SomeGenericType[AnotherType] apart.
-> 
-> But what do we gain by keeping the Annotated[T] for the possible T
-> apart?
-> 
-> _tree_to_qlit() doesn't care: it peels off the wrapper holding ifcond
-> and comment, and recurses for the JSON so wrapped.  Regardless of what
-> was wrapped, i.e. what kind of T we got.
-> 
-> Heck, it works just fine even if you wrap your JSON multiple times.  It
-> doesn't give a hoot whether that makes sense.  Making sense is the
-> caller's business.
-> 
-> So what does care?
-> 
-> Or am I simply confused?
-> 
-> 
-> PS: As far as I can tell, _tree_to_qlit() doesn't give a hoot whether a
-> dictionary's values are wrapped, either.
-> 
-
-You're right that it offers no necessary power to the automated 
-checking, I cede as much in my other replies to you.
-
-(1) I hope the explanation was helpful, because the technique will 
-return for structures like QAPISchemaMember where it does become more 
-obviously useful to disambiguate the wrapped types.
-
-(2) It still has a notational benefit to the human for documentation and 
-IDE purposes, e.g. at the end of this series:
-
-```
-self._trees: List[Annotated[SchemaInfo]] = []
-```
-
-That's nice! It tells us exactly what's in there.
-
-Does it work if I dumb it down to just:
-
-```
-self.trees: List[AnnotatedThingy] = []
-```
-
-Yes, but it's worse to the human and the IDE both. I consider type hints 
-as serving a dual purpose; both provability and declaration of intent.
-
---js
+RnJvbTogRWxlbmEgVWZpbXRzZXZhIDxlbGVuYS51ZmltdHNldmFAb3JhY2xlLmNvbT4KClBlcmZv
+cm0gZGV2aWNlIHJlc2V0IGluIHRoZSByZW1vdGUgcHJvY2VzcyB3aGVuIFFFTVUgcGVyZm9ybXMK
+ZGV2aWNlIHJlc2V0LiBUaGlzIGlzIHJlcXVpcmVkIHRvIHJlc2V0IHRoZSBpbnRlcm5hbCBzdGF0
+ZQoobGlrZSByZWdpc3RlcnMsIGV0Yy4uLikgb2YgZW11bGF0ZWQgZGV2aWNlcwoKU2lnbmVkLW9m
+Zi1ieTogRWxlbmEgVWZpbXRzZXZhIDxlbGVuYS51ZmltdHNldmFAb3JhY2xlLmNvbT4KU2lnbmVk
+LW9mZi1ieTogSm9obiBHIEpvaG5zb24gPGpvaG4uZy5qb2huc29uQG9yYWNsZS5jb20+ClNpZ25l
+ZC1vZmYtYnk6IEphZ2FubmF0aGFuIFJhbWFuIDxqYWcucmFtYW5Ab3JhY2xlLmNvbT4KUmV2aWV3
+ZWQtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KTWVzc2FnZS1pZDog
+N2NiMjIwYTUxZjU2NWRjMDgxN2JkNzZlMmY1NDBlODljMmQyYjg1MC4xNjExOTM4MzE5LmdpdC5q
+YWcucmFtYW5Ab3JhY2xlLmNvbQpTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZh
+bmhhQHJlZGhhdC5jb20+Ci0tLQogaW5jbHVkZS9ody9yZW1vdGUvbXBxZW11LWxpbmsuaCB8ICAx
+ICsKIGh3L3JlbW90ZS9tZXNzYWdlLmMgICAgICAgICAgICAgfCAyMiArKysrKysrKysrKysrKysr
+KysrKysrCiBody9yZW1vdGUvcHJveHkuYyAgICAgICAgICAgICAgIHwgMTkgKysrKysrKysrKysr
+KysrKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9ody9yZW1vdGUvbXBxZW11LWxpbmsuaCBiL2luY2x1ZGUvaHcvcmVtb3RlL21wcWVt
+dS1saW5rLmgKaW5kZXggNzFkMjA2ZjAwZS4uNGVjMDkxNTg4NSAxMDA2NDQKLS0tIGEvaW5jbHVk
+ZS9ody9yZW1vdGUvbXBxZW11LWxpbmsuaAorKysgYi9pbmNsdWRlL2h3L3JlbW90ZS9tcHFlbXUt
+bGluay5oCkBAIC00MCw2ICs0MCw3IEBAIHR5cGVkZWYgZW51bSB7CiAgICAgTVBRRU1VX0NNRF9C
+QVJfV1JJVEUsCiAgICAgTVBRRU1VX0NNRF9CQVJfUkVBRCwKICAgICBNUFFFTVVfQ01EX1NFVF9J
+UlFGRCwKKyAgICBNUFFFTVVfQ01EX0RFVklDRV9SRVNFVCwKICAgICBNUFFFTVVfQ01EX01BWCwK
+IH0gTVBRZW11Q21kOwogCmRpZmYgLS1naXQgYS9ody9yZW1vdGUvbWVzc2FnZS5jIGIvaHcvcmVt
+b3RlL21lc3NhZ2UuYwppbmRleCBhZGFiMDQwY2ExLi4xMWQ3Mjk4NDVjIDEwMDY0NAotLS0gYS9o
+dy9yZW1vdGUvbWVzc2FnZS5jCisrKyBiL2h3L3JlbW90ZS9tZXNzYWdlLmMKQEAgLTE5LDYgKzE5
+LDcgQEAKICNpbmNsdWRlICJleGVjL21lbWF0dHJzLmgiCiAjaW5jbHVkZSAiaHcvcmVtb3RlL21l
+bW9yeS5oIgogI2luY2x1ZGUgImh3L3JlbW90ZS9pb2h1Yi5oIgorI2luY2x1ZGUgInN5c2VtdS9y
+ZXNldC5oIgogCiBzdGF0aWMgdm9pZCBwcm9jZXNzX2NvbmZpZ193cml0ZShRSU9DaGFubmVsICpp
+b2MsIFBDSURldmljZSAqZGV2LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTVBR
+ZW11TXNnICptc2csIEVycm9yICoqZXJycCk7CkBAIC0yNiw2ICsyNyw4IEBAIHN0YXRpYyB2b2lk
+IHByb2Nlc3NfY29uZmlnX3JlYWQoUUlPQ2hhbm5lbCAqaW9jLCBQQ0lEZXZpY2UgKmRldiwKICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTVBRZW11TXNnICptc2csIEVycm9yICoqZXJy
+cCk7CiBzdGF0aWMgdm9pZCBwcm9jZXNzX2Jhcl93cml0ZShRSU9DaGFubmVsICppb2MsIE1QUWVt
+dU1zZyAqbXNnLCBFcnJvciAqKmVycnApOwogc3RhdGljIHZvaWQgcHJvY2Vzc19iYXJfcmVhZChR
+SU9DaGFubmVsICppb2MsIE1QUWVtdU1zZyAqbXNnLCBFcnJvciAqKmVycnApOworc3RhdGljIHZv
+aWQgcHJvY2Vzc19kZXZpY2VfcmVzZXRfbXNnKFFJT0NoYW5uZWwgKmlvYywgUENJRGV2aWNlICpk
+ZXYsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRXJyb3IgKiplcnJwKTsK
+IAogdm9pZCBjb3JvdXRpbmVfZm4gbXBxZW11X3JlbW90ZV9tc2dfbG9vcF9jbyh2b2lkICpkYXRh
+KQogewpAQCAtNjksNiArNzIsOSBAQCB2b2lkIGNvcm91dGluZV9mbiBtcHFlbXVfcmVtb3RlX21z
+Z19sb29wX2NvKHZvaWQgKmRhdGEpCiAgICAgICAgIGNhc2UgTVBRRU1VX0NNRF9TRVRfSVJRRkQ6
+CiAgICAgICAgICAgICBwcm9jZXNzX3NldF9pcnFmZF9tc2cocGNpX2RldiwgJm1zZyk7CiAgICAg
+ICAgICAgICBicmVhazsKKyAgICAgICAgY2FzZSBNUFFFTVVfQ01EX0RFVklDRV9SRVNFVDoKKyAg
+ICAgICAgICAgIHByb2Nlc3NfZGV2aWNlX3Jlc2V0X21zZyhjb20tPmlvYywgcGNpX2RldiwgJmxv
+Y2FsX2Vycik7CisgICAgICAgICAgICBicmVhazsKICAgICAgICAgZGVmYXVsdDoKICAgICAgICAg
+ICAgIGVycm9yX3NldGcoJmxvY2FsX2VyciwKICAgICAgICAgICAgICAgICAgICAgICAgIlVua25v
+d24gY29tbWFuZCAoJWQpIHJlY2VpdmVkIGZvciBkZXZpY2UgJXMiCkBAIC0yMDYsMyArMjEyLDE5
+IEBAIGZhaWw6CiAgICAgICAgICAgICAgICAgICAgICAgZ2V0cGlkKCkpOwogICAgIH0KIH0KKwor
+c3RhdGljIHZvaWQgcHJvY2Vzc19kZXZpY2VfcmVzZXRfbXNnKFFJT0NoYW5uZWwgKmlvYywgUENJ
+RGV2aWNlICpkZXYsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRXJyb3Ig
+KiplcnJwKQoreworICAgIERldmljZUNsYXNzICpkYyA9IERFVklDRV9HRVRfQ0xBU1MoZGV2KTsK
+KyAgICBEZXZpY2VTdGF0ZSAqcyA9IERFVklDRShkZXYpOworICAgIE1QUWVtdU1zZyByZXQgPSB7
+IDAgfTsKKworICAgIGlmIChkYy0+cmVzZXQpIHsKKyAgICAgICAgZGMtPnJlc2V0KHMpOworICAg
+IH0KKworICAgIHJldC5jbWQgPSBNUFFFTVVfQ01EX1JFVDsKKworICAgIG1wcWVtdV9tc2dfc2Vu
+ZCgmcmV0LCBpb2MsIGVycnApOworfQpkaWZmIC0tZ2l0IGEvaHcvcmVtb3RlL3Byb3h5LmMgYi9o
+dy9yZW1vdGUvcHJveHkuYwppbmRleCBhMDgyNzA5ODgxLi40ZmE0YmUwNzlkIDEwMDY0NAotLS0g
+YS9ody9yZW1vdGUvcHJveHkuYworKysgYi9ody9yZW1vdGUvcHJveHkuYwpAQCAtMjYsNiArMjYs
+NyBAQAogI2luY2x1ZGUgInV0aWwvZXZlbnRfbm90aWZpZXItcG9zaXguYyIKIAogc3RhdGljIHZv
+aWQgcHJvYmVfcGNpX2luZm8oUENJRGV2aWNlICpkZXYsIEVycm9yICoqZXJycCk7CitzdGF0aWMg
+dm9pZCBwcm94eV9kZXZpY2VfcmVzZXQoRGV2aWNlU3RhdGUgKmRldik7CiAKIHN0YXRpYyB2b2lk
+IHByb3h5X2ludHhfdXBkYXRlKFBDSURldmljZSAqcGNpX2RldikKIHsKQEAgLTIwMiw2ICsyMDMs
+OCBAQCBzdGF0aWMgdm9pZCBwY2lfcHJveHlfZGV2X2NsYXNzX2luaXQoT2JqZWN0Q2xhc3MgKmts
+YXNzLCB2b2lkICpkYXRhKQogICAgIGstPmNvbmZpZ19yZWFkID0gcGNpX3Byb3h5X3JlYWRfY29u
+ZmlnOwogICAgIGstPmNvbmZpZ193cml0ZSA9IHBjaV9wcm94eV93cml0ZV9jb25maWc7CiAKKyAg
+ICBkYy0+cmVzZXQgPSBwcm94eV9kZXZpY2VfcmVzZXQ7CisKICAgICBkZXZpY2VfY2xhc3Nfc2V0
+X3Byb3BzKGRjLCBwcm94eV9wcm9wZXJ0aWVzKTsKIH0KIApAQCAtMzU4LDMgKzM2MSwxOSBAQCBz
+dGF0aWMgdm9pZCBwcm9iZV9wY2lfaW5mbyhQQ0lEZXZpY2UgKmRldiwgRXJyb3IgKiplcnJwKQog
+ICAgICAgICB9CiAgICAgfQogfQorCitzdGF0aWMgdm9pZCBwcm94eV9kZXZpY2VfcmVzZXQoRGV2
+aWNlU3RhdGUgKmRldikKK3sKKyAgICBQQ0lQcm94eURldiAqcGRldiA9IFBDSV9QUk9YWV9ERVYo
+ZGV2KTsKKyAgICBNUFFlbXVNc2cgbXNnID0geyAwIH07CisgICAgRXJyb3IgKmxvY2FsX2VyciA9
+IE5VTEw7CisKKyAgICBtc2cuY21kID0gTVBRRU1VX0NNRF9ERVZJQ0VfUkVTRVQ7CisgICAgbXNn
+LnNpemUgPSAwOworCisgICAgbXBxZW11X21zZ19zZW5kX2FuZF9hd2FpdF9yZXBseSgmbXNnLCBw
+ZGV2LCAmbG9jYWxfZXJyKTsKKyAgICBpZiAobG9jYWxfZXJyKSB7CisgICAgICAgIGVycm9yX3Jl
+cG9ydF9lcnIobG9jYWxfZXJyKTsKKyAgICB9CisKK30KLS0gCjIuMjkuMgoK
 
 
