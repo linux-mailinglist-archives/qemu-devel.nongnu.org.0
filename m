@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1133B30EE7E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 09:34:42 +0100 (CET)
-Received: from localhost ([::1]:58272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA82830EE94
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 09:39:39 +0100 (CET)
+Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7a65-0007T8-4B
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 03:34:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59250)
+	id 1l7aAs-00017H-Ry
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 03:39:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7a3l-00062P-6N
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:32:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40387)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7a8R-0000Iy-6v
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:37:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7a3g-0003Bz-L1
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:32:15 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7a8N-0005ND-HJ
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:37:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612427528;
+ s=mimecast20190719; t=1612427821;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z8fzRMKeKITPsIL0lVIoOrHHflkwIkHl0uf4vj+zRw4=;
- b=FzceIUpRLNvoeL0HHFJQrBV8H/dNrGQfZPwTsW76RrQDtejeNWkiUgKVXSpvti+/NU/2Lh
- xAESN93hXWho/IWxwdTGQKtqX+LZCu3TlMDo9ClSnTD+pGZozIwf3sm+0WWuM8qkm9lL1u
- p2KB53DDHc5c/Y3NX0PhxoEuE1yuR8U=
+ bh=fPJ+ZOwQuiliR7hnBxH1hlej1UeBobqethhy/c3vb6o=;
+ b=QkTuaCDTJBuEVPhWgpQDkYhRnqEmlK3bxjBM0rBmGSaBeny8dXsxCZq4d+PY8AsLmMTdYx
+ wbcRub8D4tCo/EnSue+k9TAeF22gl/J/Ny1SZm+1M/W6OGPl3BKGDKcKjM4ihMweIVD/Lk
+ OC9BwO8cT5x1psPT0ndBfHtRDHo2J6U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-kld1GpYcOlSLJi85vBZf3Q-1; Thu, 04 Feb 2021 03:32:06 -0500
-X-MC-Unique: kld1GpYcOlSLJi85vBZf3Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-372-JsLaxc_INIShHDmhzZJ8ww-1; Thu, 04 Feb 2021 03:36:59 -0500
+X-MC-Unique: JsLaxc_INIShHDmhzZJ8ww-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2A936D4E6
- for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 08:32:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1B7A1934100;
+ Thu,  4 Feb 2021 08:36:58 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
  [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CE6210013C1;
- Thu,  4 Feb 2021 08:32:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 18D925D9F4;
+ Thu,  4 Feb 2021 08:36:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F29121800385; Thu,  4 Feb 2021 09:32:00 +0100 (CET)
-Date: Thu, 4 Feb 2021 09:32:00 +0100
+ id 5524A1800385; Thu,  4 Feb 2021 09:36:48 +0100 (CET)
+Date: Thu, 4 Feb 2021 09:36:48 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 11/20] ui: add an optional get_flags callback to
- GraphicHwOps
-Message-ID: <20210204083200.xduubtproypxcgtv@sirius.home.kraxel.org>
-References: <20210202142625.609070-1-marcandre.lureau@redhat.com>
- <20210202142625.609070-12-marcandre.lureau@redhat.com>
- <20210203154820.wolx57xxegwdw7q2@sirius.home.kraxel.org>
- <CAMxuvaxDMR2a+mKFPjA29rQrTzbNPt7hpBWVqBvV3iAABTLeoA@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 4/4] hw/usb/bus: Remove the "full-path" property
+Message-ID: <20210204083648.b4tbk5kftdk4j6ez@sirius.home.kraxel.org>
+References: <20210203171832.483176-1-thuth@redhat.com>
+ <20210203171832.483176-5-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvaxDMR2a+mKFPjA29rQrTzbNPt7hpBWVqBvV3iAABTLeoA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210203171832.483176-5-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
@@ -84,44 +79,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, libvir-list@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 04, 2021 at 02:21:02AM +0400, Marc-André Lureau wrote:
-> On Wed, Feb 3, 2021 at 7:48 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> 
-> > > +static int
-> > > +virtio_gpu_get_flags(void *opaque)
-> > > +{
-> > > +    VirtIOGPUBase *g = opaque;
-> > > +    int flags = GRAPHIC_FLAGS_NONE;
-> > > +
-> > > +    if (virtio_gpu_virgl_enabled(g->conf))
-> > > +        flags |= GRAPHIC_FLAGS_GL;
-> > > +
-> > > +    if (virtio_gpu_dmabuf_enabled(g->conf))
-> > > +        flags |= GRAPHIC_FLAGS_DMABUF;
-> >
-> > fbe6ba76ac01 ui: add an optional get_flags callback to GraphicHwOps
-> > ERROR: braces {} are necessary for all arms of this statement
-> > #50: FILE: hw/display/virtio-gpu-base.c:123:
-> > +    if (virtio_gpu_virgl_enabled(g->conf))
-> > [...]
-> >
-> > ERROR: braces {} are necessary for all arms of this statement
-> > #53: FILE: hw/display/virtio-gpu-base.c:126:
-> > +    if (virtio_gpu_dmabuf_enabled(g->conf))
-> > [...]
-> >
-> > total: 2 errors, 0 warnings, 68 lines checked
-> >
-> 
-> If you queued the series, do you mind squashing a style fix? Otherwise I
-> can resend.
+  Hi,
 
-Whatever is easier for you (note there are more codestyle warnings in
-following patches, see patchew report).
+>  enum USBDeviceFlags {
+> -    USB_DEV_FLAG_FULL_PATH,
+> +    USB_DEV_FLAG_FULL_PATH,             /* unused since QEMU v6.0 */
+
+Why not just drop it?  Any remaining users?
 
 take care,
   Gerd
