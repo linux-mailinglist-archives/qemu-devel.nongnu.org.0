@@ -2,72 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3DA30FC72
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:21:03 +0100 (CET)
-Received: from localhost ([::1]:56960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766FA30FC70
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:19:10 +0100 (CET)
+Received: from localhost ([::1]:49932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kBa-0005L8-Dt
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:21:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39860)
+	id 1l7k9l-0002OY-EL
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:19:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7jTp-0002iK-1y
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:35:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36144)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7jTm-0004be-1V
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:35:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612463745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2eURxzPZfAOYhVaseFeS8aD/J7t65JxsxrfDsA5hqfc=;
- b=DXsW0Nh3A4in1yZ3EyK730P0ociT/hjTJ9JwVaiN/HSlQho6pfqzJsMus13FMLyMBw+3y1
- MjXW/90VSeg5mTsRDdXvYeIya5WaGxI9lrA29naHmGZ2JjyKrNZFRUJL1v/hv1vfSQunVq
- 4ExWfZ3iinm+s3yskalQWZdgP2tDM6Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-dbNGDVrGPQWATEqj51qiUQ-1; Thu, 04 Feb 2021 13:35:42 -0500
-X-MC-Unique: dbNGDVrGPQWATEqj51qiUQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D2138799F0;
- Thu,  4 Feb 2021 18:35:41 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-21.ams2.redhat.com
- [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6751F6A252;
- Thu,  4 Feb 2021 18:35:40 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, virtio-fs@redhat.com, stefanha@redhat.com,
- groug@kaod.org, qemu-stable@nongnu.org
-Subject: [PULL 5/5] virtiofsd: Add restart_syscall to the seccomp whitelist
-Date: Thu,  4 Feb 2021 18:34:39 +0000
-Message-Id: <20210204183439.546918-6-dgilbert@redhat.com>
-In-Reply-To: <20210204183439.546918-1-dgilbert@redhat.com>
-References: <20210204183439.546918-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l7jWq-0004wa-2v
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:38:58 -0500
+Received: from relay68.bu.edu ([128.197.228.73]:46800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l7jWl-0005iu-8J
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 13:38:55 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 114IbGsV007345
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 4 Feb 2021 13:37:20 -0500
+Date: Thu, 4 Feb 2021 13:37:16 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Bug 1914638 <1914638@bugs.launchpad.net>
+Subject: Re: [Bug 1914638] [NEW] [OSS-Fuzz] Issue 30219:
+ Global-buffer-overflow in mode_sense_page
+Message-ID: <20210204183716.g5a763kbjqqk3cvd@mozz.bu.edu>
+References: <161245973905.12681.5626615334396289850.malonedeb@soybean.canonical.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <161245973905.12681.5626615334396289850.malonedeb@soybean.canonical.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,37 +55,399 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
++CC Paolo and Fam
 
-This is how linux restarts some system calls after SIGSTOP/SIGCONT.
-This is needed to avoid virtiofsd termination when resuming execution
-under GDB for example.
+scsi-disk.c:1092     static const int mode_sense_valid[0x3f] =
+...
+scsi-disk.c:1488          page = p[0] & 0x3f;
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20210201193305.136390-1-groug@kaod.org>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/passthrough_seccomp.c | 1 +
- 1 file changed, 1 insertion(+)
+OSS-Fuzz found this same crash for virtio-scsi, however, since the
+reproducer involved a double-fetch, I don't have a simple QTest
+reproducer
 
-diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-index 1ecf5bf318..ea852e2e33 100644
---- a/tools/virtiofsd/passthrough_seccomp.c
-+++ b/tools/virtiofsd/passthrough_seccomp.c
-@@ -89,6 +89,7 @@ static const int syscall_whitelist[] = {
-     SCMP_SYS(renameat),
-     SCMP_SYS(renameat2),
-     SCMP_SYS(removexattr),
-+    SCMP_SYS(restart_syscall),
-     SCMP_SYS(rt_sigaction),
-     SCMP_SYS(rt_sigprocmask),
-     SCMP_SYS(rt_sigreturn),
--- 
-2.29.2
-
+On 210204 1728, Alexander Bulekov wrote:
+> Public bug reported:
+> 
+> == Reproducer (build with --enable-sanitizers) ==
+> 
+> cat << EOF | ./qemu-system-i386 -machine q35 -nodefaults \
+> -device megasas -device scsi-cd,drive=null0 \
+> -blockdev driver=null-co,read-zeroes=on,node-name=null0 \
+> -nographic -qtest stdio
+> outl 0xcf8 0x80000818
+> outl 0xcfc 0xc000
+> outl 0xcf8 0x80000804
+> outw 0xcfc 0x7
+> write 0x0 0x1 0x03
+> write 0x7 0x1 0x3f
+> write 0x10 0x1 0x03
+> write 0x20 0x1 0x55
+> write 0x21 0x1 0x10
+> write 0x28 0x1 0x10
+> write 0x30 0x1 0xff
+> write 0x31 0x1 0xff
+> write 0x32 0x1 0xff
+> write 0x33 0x1 0xff
+> write 0x34 0x1 0xff
+> write 0x35 0x1 0xff
+> write 0x36 0x1 0xff
+> write 0x37 0x1 0xff
+> write 0x3b 0x1 0x10
+> write 0x43 0x1 0x10
+> write 0x44 0x1 0x10
+> write 0x4f 0x1 0x10
+> write 0x53 0x1 0x10
+> write 0x5b 0x1 0x10
+> write 0x5f 0x1 0x10
+> write 0x67 0x1 0x10
+> write 0x6b 0x1 0x10
+> write 0x73 0x1 0x10
+> write 0x75 0x1 0x10
+> write 0x7d 0x1 0x10
+> write 0x83 0x1 0x10
+> write 0x8b 0x1 0x10
+> write 0x8f 0x1 0x10
+> write 0x97 0x1 0x10
+> write 0x9b 0x1 0x10
+> write 0xa3 0x1 0x03
+> write 0xa6 0x1 0x10
+> write 0xae 0x1 0x10
+> write 0xb3 0x1 0x10
+> write 0xbb 0x1 0x10
+> write 0xbf 0x1 0x10
+> write 0xc7 0x1 0x10
+> write 0xca 0x1 0x10
+> write 0xd3 0x1 0x06
+> write 0xd7 0x1 0x10
+> write 0xdf 0x1 0x10
+> write 0xe3 0x1 0x06
+> write 0xeb 0x1 0x01
+> write 0xef 0x1 0x10
+> write 0xf7 0x1 0x10
+> write 0xfb 0x1 0x10
+> write 0x103 0x1 0x20
+> write 0x107 0x1 0x10
+> write 0x10f 0x1 0x10
+> write 0x113 0x1 0x10
+> write 0x11b 0x1 0x10
+> write 0x11f 0x1 0x10
+> write 0x127 0x1 0x10
+> write 0x12b 0x1 0x10
+> write 0x130 0x1 0x10
+> write 0x137 0x1 0x10
+> write 0x13f 0x1 0x40
+> write 0x141 0x1 0x10
+> write 0x14b 0x1 0x10
+> write 0x14f 0x1 0x10
+> write 0x157 0x1 0x10
+> write 0x15b 0x1 0x10
+> write 0x161 0x1 0x10
+> write 0x167 0x1 0x03
+> write 0x16f 0x1 0x06
+> write 0x172 0x1 0x10
+> write 0x17b 0x1 0x10
+> write 0x17f 0x1 0x10
+> write 0x187 0x1 0x10
+> write 0x18b 0x1 0x10
+> write 0x192 0x1 0x10
+> write 0x197 0x1 0x06
+> write 0x19f 0x1 0x20
+> write 0x1a3 0x1 0x10
+> write 0x1ab 0x1 0x40
+> write 0x1af 0x1 0x01
+> write 0x1b7 0x1 0x10
+> write 0x1bb 0x1 0x20
+> write 0x1c3 0x1 0x10
+> write 0x1c7 0x1 0x20
+> write 0x1cc 0x1 0x10
+> write 0x1d3 0x1 0x10
+> write 0x1db 0x1 0x10
+> write 0x1df 0x1 0x10
+> write 0x1e7 0x1 0x10
+> write 0x1eb 0x1 0x10
+> write 0x1f3 0x1 0x10
+> write 0x1f4 0x1 0x10
+> write 0x1fd 0x1 0x10
+> write 0x203 0x1 0x40
+> write 0x20b 0x1 0x10
+> write 0x20f 0x1 0x10
+> write 0x217 0x1 0x10
+> write 0x21b 0x1 0x10
+> write 0x223 0x1 0x10
+> write 0x225 0x1 0x10
+> write 0x22e 0x1 0x10
+> write 0x233 0x1 0x06
+> write 0x23b 0x1 0x10
+> write 0x23f 0x1 0x10
+> write 0x247 0x1 0x10
+> write 0x24b 0x1 0x10
+> write 0x252 0x1 0x10
+> write 0x256 0x1 0x10
+> write 0x25f 0x1 0x10
+> write 0x263 0x1 0x20
+> write 0x26b 0x1 0x06
+> write 0x26f 0x1 0x40
+> write 0x277 0x1 0x10
+> write 0x27b 0x1 0x10
+> write 0x283 0x1 0x10
+> write 0x287 0x1 0x10
+> write 0x28f 0x1 0x10
+> write 0x290 0x1 0x10
+> write 0x29b 0x1 0x10
+> write 0x29f 0x1 0x10
+> write 0x2a7 0x1 0x10
+> write 0x2ab 0x1 0x10
+> write 0x2b3 0x1 0x10
+> write 0x2b7 0x1 0x10
+> write 0x2bf 0x1 0x10
+> write 0x2c1 0x1 0x10
+> write 0x2c9 0x1 0x10
+> write 0x2cf 0x1 0x10
+> write 0x2d7 0x1 0x10
+> write 0x2db 0x1 0x10
+> write 0x2e3 0x1 0x10
+> write 0x2e7 0x1 0x10
+> write 0x2ef 0x1 0x03
+> write 0x2f2 0x1 0x10
+> write 0x2fa 0x1 0x10
+> write 0x2ff 0x1 0x10
+> write 0x307 0x1 0x10
+> write 0x30b 0x1 0x10
+> write 0x313 0x1 0x10
+> write 0x316 0x1 0x10
+> write 0x31f 0x1 0x06
+> write 0x323 0x1 0x10
+> outb 0xc040 0x0
+> EOF
+> 
+> === Stack Trace ===
+> ==1025760==ERROR: AddressSanitizer: global-buffer-overflow on address 0x558f557253fc at pc 0x558f549ab376 bp
+> 0x7ffd436e9770 sp 0x7ffd436e9768
+> READ of size 4 at 0x558f557253fc thread T0
+> SCARINESS: 17 (4-byte-read-global-buffer-overflow)
+> #0 0x558f549ab375 in mode_sense_page /src/qemu/hw/scsi/scsi-disk.c:1104:10
+> #1 0x558f549afd86 in scsi_disk_check_mode_select /src/qemu/hw/scsi/scsi-disk.c:1447:11
+> #2 0x558f549af9a6 in mode_select_pages /src/qemu/hw/scsi/scsi-disk.c:1515:17
+> #3 0x558f549ae593 in scsi_disk_emulate_mode_select /src/qemu/hw/scsi/scsi-disk.c:1570:13
+> #4 0x558f549a56e9 in scsi_disk_emulate_write_data /src/qemu/hw/scsi/scsi-disk.c:1861:9
+> #5 0x558f548b9b49 in scsi_req_continue /src/qemu/hw/scsi/scsi-bus.c:0
+> #6 0x558f548b9fc4 in scsi_req_data /src/qemu/hw/scsi/scsi-bus.c:1427:5
+> #7 0x558f549a5554 in scsi_disk_emulate_write_data /src/qemu/hw/scsi/scsi-disk.c:1853:9
+> #8 0x558f548b9b49 in scsi_req_continue /src/qemu/hw/scsi/scsi-bus.c:0
+> #9 0x558f54ac7cf6 in megasas_enqueue_req /src/qemu/hw/scsi/megasas.c:1660:9
+> #10 0x558f54ab6e09 in megasas_handle_scsi /src/qemu/hw/scsi/megasas.c:1735:5
+> #11 0x558f54ab3083 in megasas_handle_frame /src/qemu/hw/scsi/megasas.c:1974:24
+> #12 0x558f54ab1c8b in megasas_mmio_write /src/qemu/hw/scsi/megasas.c:2131:9
+> #13 0x558f54acc784 in megasas_port_write /src/qemu/hw/scsi/megasas.c:2182:5
+> #14 0x558f54f78d57 in memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+> #15 0x558f54f78be2 in access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+> #16 0x558f54f78441 in memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+> #17 0x558f550d5627 in flatview_write_continue /src/qemu/softmmu/physmem.c:2763:23
+> #18 0x558f550d02ac in flatview_write /src/qemu/softmmu/physmem.c:2803:14
+> #19 0x558f550d00c7 in address_space_write /src/qemu/softmmu/physmem.c:2895:18
+> #20 0x558f5506c4ff in cpu_outb /src/qemu/softmmu/ioport.c:60:5
+> 
+> ** Affects: qemu
+>      Importance: Undecided
+>          Status: New
+> 
+> -- 
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1914638
+> 
+> Title:
+>   [OSS-Fuzz] Issue 30219: Global-buffer-overflow in mode_sense_page
+> 
+> Status in QEMU:
+>   New
+> 
+> Bug description:
+>   == Reproducer (build with --enable-sanitizers) ==
+> 
+>   cat << EOF | ./qemu-system-i386 -machine q35 -nodefaults \
+>   -device megasas -device scsi-cd,drive=null0 \
+>   -blockdev driver=null-co,read-zeroes=on,node-name=null0 \
+>   -nographic -qtest stdio
+>   outl 0xcf8 0x80000818
+>   outl 0xcfc 0xc000
+>   outl 0xcf8 0x80000804
+>   outw 0xcfc 0x7
+>   write 0x0 0x1 0x03
+>   write 0x7 0x1 0x3f
+>   write 0x10 0x1 0x03
+>   write 0x20 0x1 0x55
+>   write 0x21 0x1 0x10
+>   write 0x28 0x1 0x10
+>   write 0x30 0x1 0xff
+>   write 0x31 0x1 0xff
+>   write 0x32 0x1 0xff
+>   write 0x33 0x1 0xff
+>   write 0x34 0x1 0xff
+>   write 0x35 0x1 0xff
+>   write 0x36 0x1 0xff
+>   write 0x37 0x1 0xff
+>   write 0x3b 0x1 0x10
+>   write 0x43 0x1 0x10
+>   write 0x44 0x1 0x10
+>   write 0x4f 0x1 0x10
+>   write 0x53 0x1 0x10
+>   write 0x5b 0x1 0x10
+>   write 0x5f 0x1 0x10
+>   write 0x67 0x1 0x10
+>   write 0x6b 0x1 0x10
+>   write 0x73 0x1 0x10
+>   write 0x75 0x1 0x10
+>   write 0x7d 0x1 0x10
+>   write 0x83 0x1 0x10
+>   write 0x8b 0x1 0x10
+>   write 0x8f 0x1 0x10
+>   write 0x97 0x1 0x10
+>   write 0x9b 0x1 0x10
+>   write 0xa3 0x1 0x03
+>   write 0xa6 0x1 0x10
+>   write 0xae 0x1 0x10
+>   write 0xb3 0x1 0x10
+>   write 0xbb 0x1 0x10
+>   write 0xbf 0x1 0x10
+>   write 0xc7 0x1 0x10
+>   write 0xca 0x1 0x10
+>   write 0xd3 0x1 0x06
+>   write 0xd7 0x1 0x10
+>   write 0xdf 0x1 0x10
+>   write 0xe3 0x1 0x06
+>   write 0xeb 0x1 0x01
+>   write 0xef 0x1 0x10
+>   write 0xf7 0x1 0x10
+>   write 0xfb 0x1 0x10
+>   write 0x103 0x1 0x20
+>   write 0x107 0x1 0x10
+>   write 0x10f 0x1 0x10
+>   write 0x113 0x1 0x10
+>   write 0x11b 0x1 0x10
+>   write 0x11f 0x1 0x10
+>   write 0x127 0x1 0x10
+>   write 0x12b 0x1 0x10
+>   write 0x130 0x1 0x10
+>   write 0x137 0x1 0x10
+>   write 0x13f 0x1 0x40
+>   write 0x141 0x1 0x10
+>   write 0x14b 0x1 0x10
+>   write 0x14f 0x1 0x10
+>   write 0x157 0x1 0x10
+>   write 0x15b 0x1 0x10
+>   write 0x161 0x1 0x10
+>   write 0x167 0x1 0x03
+>   write 0x16f 0x1 0x06
+>   write 0x172 0x1 0x10
+>   write 0x17b 0x1 0x10
+>   write 0x17f 0x1 0x10
+>   write 0x187 0x1 0x10
+>   write 0x18b 0x1 0x10
+>   write 0x192 0x1 0x10
+>   write 0x197 0x1 0x06
+>   write 0x19f 0x1 0x20
+>   write 0x1a3 0x1 0x10
+>   write 0x1ab 0x1 0x40
+>   write 0x1af 0x1 0x01
+>   write 0x1b7 0x1 0x10
+>   write 0x1bb 0x1 0x20
+>   write 0x1c3 0x1 0x10
+>   write 0x1c7 0x1 0x20
+>   write 0x1cc 0x1 0x10
+>   write 0x1d3 0x1 0x10
+>   write 0x1db 0x1 0x10
+>   write 0x1df 0x1 0x10
+>   write 0x1e7 0x1 0x10
+>   write 0x1eb 0x1 0x10
+>   write 0x1f3 0x1 0x10
+>   write 0x1f4 0x1 0x10
+>   write 0x1fd 0x1 0x10
+>   write 0x203 0x1 0x40
+>   write 0x20b 0x1 0x10
+>   write 0x20f 0x1 0x10
+>   write 0x217 0x1 0x10
+>   write 0x21b 0x1 0x10
+>   write 0x223 0x1 0x10
+>   write 0x225 0x1 0x10
+>   write 0x22e 0x1 0x10
+>   write 0x233 0x1 0x06
+>   write 0x23b 0x1 0x10
+>   write 0x23f 0x1 0x10
+>   write 0x247 0x1 0x10
+>   write 0x24b 0x1 0x10
+>   write 0x252 0x1 0x10
+>   write 0x256 0x1 0x10
+>   write 0x25f 0x1 0x10
+>   write 0x263 0x1 0x20
+>   write 0x26b 0x1 0x06
+>   write 0x26f 0x1 0x40
+>   write 0x277 0x1 0x10
+>   write 0x27b 0x1 0x10
+>   write 0x283 0x1 0x10
+>   write 0x287 0x1 0x10
+>   write 0x28f 0x1 0x10
+>   write 0x290 0x1 0x10
+>   write 0x29b 0x1 0x10
+>   write 0x29f 0x1 0x10
+>   write 0x2a7 0x1 0x10
+>   write 0x2ab 0x1 0x10
+>   write 0x2b3 0x1 0x10
+>   write 0x2b7 0x1 0x10
+>   write 0x2bf 0x1 0x10
+>   write 0x2c1 0x1 0x10
+>   write 0x2c9 0x1 0x10
+>   write 0x2cf 0x1 0x10
+>   write 0x2d7 0x1 0x10
+>   write 0x2db 0x1 0x10
+>   write 0x2e3 0x1 0x10
+>   write 0x2e7 0x1 0x10
+>   write 0x2ef 0x1 0x03
+>   write 0x2f2 0x1 0x10
+>   write 0x2fa 0x1 0x10
+>   write 0x2ff 0x1 0x10
+>   write 0x307 0x1 0x10
+>   write 0x30b 0x1 0x10
+>   write 0x313 0x1 0x10
+>   write 0x316 0x1 0x10
+>   write 0x31f 0x1 0x06
+>   write 0x323 0x1 0x10
+>   outb 0xc040 0x0
+>   EOF
+> 
+>   === Stack Trace ===
+>   ==1025760==ERROR: AddressSanitizer: global-buffer-overflow on address 0x558f557253fc at pc 0x558f549ab376 bp
+>   0x7ffd436e9770 sp 0x7ffd436e9768
+>   READ of size 4 at 0x558f557253fc thread T0
+>   SCARINESS: 17 (4-byte-read-global-buffer-overflow)
+>   #0 0x558f549ab375 in mode_sense_page /src/qemu/hw/scsi/scsi-disk.c:1104:10
+>   #1 0x558f549afd86 in scsi_disk_check_mode_select /src/qemu/hw/scsi/scsi-disk.c:1447:11
+>   #2 0x558f549af9a6 in mode_select_pages /src/qemu/hw/scsi/scsi-disk.c:1515:17
+>   #3 0x558f549ae593 in scsi_disk_emulate_mode_select /src/qemu/hw/scsi/scsi-disk.c:1570:13
+>   #4 0x558f549a56e9 in scsi_disk_emulate_write_data /src/qemu/hw/scsi/scsi-disk.c:1861:9
+>   #5 0x558f548b9b49 in scsi_req_continue /src/qemu/hw/scsi/scsi-bus.c:0
+>   #6 0x558f548b9fc4 in scsi_req_data /src/qemu/hw/scsi/scsi-bus.c:1427:5
+>   #7 0x558f549a5554 in scsi_disk_emulate_write_data /src/qemu/hw/scsi/scsi-disk.c:1853:9
+>   #8 0x558f548b9b49 in scsi_req_continue /src/qemu/hw/scsi/scsi-bus.c:0
+>   #9 0x558f54ac7cf6 in megasas_enqueue_req /src/qemu/hw/scsi/megasas.c:1660:9
+>   #10 0x558f54ab6e09 in megasas_handle_scsi /src/qemu/hw/scsi/megasas.c:1735:5
+>   #11 0x558f54ab3083 in megasas_handle_frame /src/qemu/hw/scsi/megasas.c:1974:24
+>   #12 0x558f54ab1c8b in megasas_mmio_write /src/qemu/hw/scsi/megasas.c:2131:9
+>   #13 0x558f54acc784 in megasas_port_write /src/qemu/hw/scsi/megasas.c:2182:5
+>   #14 0x558f54f78d57 in memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+>   #15 0x558f54f78be2 in access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+>   #16 0x558f54f78441 in memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+>   #17 0x558f550d5627 in flatview_write_continue /src/qemu/softmmu/physmem.c:2763:23
+>   #18 0x558f550d02ac in flatview_write /src/qemu/softmmu/physmem.c:2803:14
+>   #19 0x558f550d00c7 in address_space_write /src/qemu/softmmu/physmem.c:2895:18
+>   #20 0x558f5506c4ff in cpu_outb /src/qemu/softmmu/ioport.c:60:5
+> 
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1914638/+subscriptions
+> 
 
