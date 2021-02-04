@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB7F30F955
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:17:50 +0100 (CET)
-Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82F4630F950
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:16:17 +0100 (CET)
+Received: from localhost ([::1]:41068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7iGL-0004Bi-N1
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:17:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40806)
+	id 1l7iEq-00027G-Gl
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:16:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7hg3-0000o8-RJ
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7hgA-0000qk-5P
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7hfv-0004cQ-Q1
  for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:21 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53838)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7hfw-0004Z1-2o
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:19 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 40694ABD5;
- Thu,  4 Feb 2021 16:39:58 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v16 23/23] accel-cpu: make cpu_realizefn return a bool
-Date: Thu,  4 Feb 2021 17:39:31 +0100
-Message-Id: <20210204163931.7358-24-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210204163931.7358-1-cfontana@suse.de>
-References: <20210204163931.7358-1-cfontana@suse.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612456809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sJRtlrRi+ayfBnt4kwlZNaPoqEJSlXBxZjL3PYNPR6s=;
+ b=HVKHfOutfCvv1Fifgnirho8ApT6HdyIyhUo2MlPwvsgH/Sj10yPLgaL/N69EczLTXIzr68
+ BpPD0r/ewcGarmAcb+NuJHt86jXs3BJ+50zOc4OMEJ2N2ly9siqq4ek7vpCkst05+FyhIP
+ bKxBww/z3mlFipm07tNHEqF4Cc3QOwM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-Qms0SK3fN9qUrTbWVsspeg-1; Thu, 04 Feb 2021 11:40:07 -0500
+X-MC-Unique: Qms0SK3fN9qUrTbWVsspeg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1116A85B6F9;
+ Thu,  4 Feb 2021 16:40:04 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-114-21.ams2.redhat.com
+ [10.36.114.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E17D19708;
+ Thu,  4 Feb 2021 16:40:01 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
+ gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
+ wainersm@redhat.com
+Subject: [PULL 00/27] migration queue
+Date: Thu,  4 Feb 2021 16:39:32 +0000
+Message-Id: <20210204163959.377618-1-dgilbert@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,193 +78,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-overall, all devices' realize functions take an Error **errp, but return void.
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-hw/core/qdev.c code, which realizes devices, therefore does:
+The following changes since commit 1ba089f2255bfdb071be3ce6ac6c3069e8012179:
 
-local_err = NULL;
-dc->realize(dev, &local_err);
-if (local_err != NULL) {
-    goto fail;
-}
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qmp-2021-02-04' into staging (2021-02-04 14:15:35 +0000)
 
-However, we can improve at least accel_cpu to return a meaningful bool value.
+are available in the Git repository at:
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/hw/core/accel-cpu.h | 2 +-
- include/qemu/accel.h        | 2 +-
- target/i386/host-cpu.h      | 2 +-
- accel/accel-common.c        | 6 +++---
- cpu.c                       | 5 +++--
- target/i386/host-cpu.c      | 5 +++--
- target/i386/kvm/kvm-cpu.c   | 4 ++--
- target/i386/tcg/tcg-cpu.c   | 6 ++++--
- 8 files changed, 18 insertions(+), 14 deletions(-)
+  git://github.com/dagrh/qemu.git tags/pull-migration-20210204a
 
-diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
-index 24a6697412..5dbfd79955 100644
---- a/include/hw/core/accel-cpu.h
-+++ b/include/hw/core/accel-cpu.h
-@@ -32,7 +32,7 @@ typedef struct AccelCPUClass {
- 
-     void (*cpu_class_init)(CPUClass *cc);
-     void (*cpu_instance_init)(CPUState *cpu);
--    void (*cpu_realizefn)(CPUState *cpu, Error **errp);
-+    bool (*cpu_realizefn)(CPUState *cpu, Error **errp);
- } AccelCPUClass;
- 
- #endif /* ACCEL_CPU_H */
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index da0c8ab523..4f4c283f6f 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -89,6 +89,6 @@ void accel_cpu_instance_init(CPUState *cpu);
-  * @cpu: The CPU that needs to call accel-specific cpu realization.
-  * @errp: currently unused.
-  */
--void accel_cpu_realizefn(CPUState *cpu, Error **errp);
-+bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
- 
- #endif /* QEMU_ACCEL_H */
-diff --git a/target/i386/host-cpu.h b/target/i386/host-cpu.h
-index b47bc0943f..6a9bc918ba 100644
---- a/target/i386/host-cpu.h
-+++ b/target/i386/host-cpu.h
-@@ -12,7 +12,7 @@
- 
- void host_cpu_instance_init(X86CPU *cpu);
- void host_cpu_max_instance_init(X86CPU *cpu);
--void host_cpu_realizefn(CPUState *cs, Error **errp);
-+bool host_cpu_realizefn(CPUState *cs, Error **errp);
- 
- void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping);
- 
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 0f6fb4fb66..d77c09d7b5 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -98,14 +98,14 @@ void accel_cpu_instance_init(CPUState *cpu)
-     }
- }
- 
--void accel_cpu_realizefn(CPUState *cpu, Error **errp)
-+bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
--        /* NB: errp parameter is unused currently */
--        cc->accel_cpu->cpu_realizefn(cpu, errp);
-+        return cc->accel_cpu->cpu_realizefn(cpu, errp);
-     }
-+    return true;
- }
- 
- static const TypeInfo accel_cpu_type = {
-diff --git a/cpu.c b/cpu.c
-index 25e6fbfa2c..34a0484bf4 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -130,8 +130,9 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     cpu_list_add(cpu);
--    accel_cpu_realizefn(cpu, errp);
--
-+    if (!accel_cpu_realizefn(cpu, errp)) {
-+        return;
-+    }
- #ifdef CONFIG_TCG
-     /* NB: errp parameter is unused currently */
-     if (tcg_enabled()) {
-diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
-index d07d41c34c..4ea9e354ea 100644
---- a/target/i386/host-cpu.c
-+++ b/target/i386/host-cpu.c
-@@ -80,7 +80,7 @@ static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu)
-     return phys_bits;
- }
- 
--void host_cpu_realizefn(CPUState *cs, Error **errp)
-+bool host_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -97,10 +97,11 @@ void host_cpu_realizefn(CPUState *cs, Error **errp)
-             error_setg(errp, "phys-bits should be between 32 and %u "
-                        " (but is %u)",
-                        TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
--            return;
-+            return false;
-         }
-         cpu->phys_bits = phys_bits;
-     }
-+    return true;
- }
- 
- #define CPUID_MODEL_ID_SZ 48
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index c23bbe6c50..c660ad4293 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -18,7 +18,7 @@
- #include "kvm_i386.h"
- #include "hw/core/accel-cpu.h"
- 
--static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool kvm_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -41,7 +41,7 @@ static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
-                                                    MSR_IA32_UCODE_REV);
-         }
-     }
--    host_cpu_realizefn(cs, errp);
-+    return host_cpu_realizefn(cs, errp);
- }
- 
- /*
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 1d3d6d1c6a..23e1f5f0c3 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -96,7 +96,7 @@ static void x86_cpu_machine_done(Notifier *n, void *unused)
-     }
- }
- 
--static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
- 
-@@ -132,12 +132,14 @@ static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-     /* ... SMRAM with higher priority, linked from /machine/smram.  */
-     cpu->machine_done.notify = x86_cpu_machine_done;
-     qemu_add_machine_init_done_notifier(&cpu->machine_done);
-+    return true;
- }
- 
- #else /* CONFIG_USER_ONLY */
- 
--static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
- {
-+    return true;
- }
- 
- #endif /* !CONFIG_USER_ONLY */
--- 
-2.26.2
+for you to fetch changes up to ef74d46576a9e5aff96f285b74150f341a525688:
+
+  migration: introduce snapshot-{save, load, delete} QMP commands (2021-02-04 16:29:03 +0000)
+
+----------------------------------------------------------------
+Migration pull 2020-02-04
+
+ New snapshot features:
+   a) Andrey's RAM snapshot feature using userfault-wp
+   b) Dan's native-QMP snapshots
+
+Cleanups:
+   c) Jinhao's memory leeak fixes
+   d) Wainer's maybe unitialized fix
+   e) Markus's parameter fixes
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+Andrey Gruzdev (5):
+      migration: introduce 'background-snapshot' migration capability
+      migration: introduce UFFD-WP low-level interface helpers
+      migration: support UFFD write fault processing in ram_save_iterate()
+      migration: implementation of background snapshot thread
+      migration: introduce 'userfaultfd-wrlat.py' script
+
+Daniel P. Berrangé (11):
+      block: push error reporting into bdrv_all_*_snapshot functions
+      migration: stop returning errno from load_snapshot()
+      block: add ability to specify list of blockdevs during snapshot
+      block: allow specifying name of block device for vmstate storage
+      block: rename and alter bdrv_all_find_snapshot semantics
+      migration: control whether snapshots are ovewritten
+      migration: wire up support for snapshot device selection
+      migration: introduce a delete_snapshot wrapper
+      iotests: add support for capturing and matching QMP events
+      iotests: fix loading of common.config from tests/ subdir
+      migration: introduce snapshot-{save, load, delete} QMP commands
+
+Dr. David Alan Gilbert (2):
+      migration: Add blocker information
+      migration: Display the migration blockers
+
+Jinhao Gao (3):
+      spapr_pci: Fix memory leak of vmstate_spapr_pci
+      savevm: Fix memory leak of vmstate_configuration
+      vmstate: Fix memory leak in vmstate_handle_alloc()
+
+Markus Armbruster (4):
+      migration: Fix migrate-set-parameters argument validation
+      migration: Clean up signed vs. unsigned XBZRLE cache-size
+      migration: Fix cache_init()'s "Failed to allocate" error messages
+      migration: Fix a few absurdly defective error messages
+
+Philippe Mathieu-Daudé (1):
+      migration: Make save_snapshot() return bool, not 0/-1
+
+Wainer dos Santos Moschetta (1):
+      migration/qemu-file: Fix maybe uninitialized on qemu_get_buffer_in_place()
+
+ block/monitor/block-hmp-cmds.c |   7 +-
+ block/snapshot.c               | 256 ++++++++++++++++++--------
+ hw/ppc/spapr_pci.c             |  11 ++
+ include/block/snapshot.h       |  23 ++-
+ include/exec/memory.h          |   8 +
+ include/migration/snapshot.h   |  47 ++++-
+ include/qemu/userfaultfd.h     |  35 ++++
+ migration/migration.c          | 409 +++++++++++++++++++++++++++++++++++++++--
+ migration/migration.h          |   6 +-
+ migration/page_cache.c         |   8 +-
+ migration/page_cache.h         |   2 +-
+ migration/qemu-file.c          |   2 +-
+ migration/ram.c                | 305 +++++++++++++++++++++++++++++-
+ migration/ram.h                |   8 +-
+ migration/savevm.c             | 341 +++++++++++++++++++++++++++++-----
+ migration/savevm.h             |   3 +
+ migration/trace-events         |   2 +
+ migration/vmstate.c            |   1 +
+ monitor/hmp-cmds.c             |  45 +++--
+ qapi/job.json                  |   9 +-
+ qapi/migration.json            | 218 ++++++++++++++++++++--
+ replay/replay-debugging.c      |  12 +-
+ replay/replay-snapshot.c       |   5 +-
+ scripts/userfaultfd-wrlat.py   | 122 ++++++++++++
+ softmmu/vl.c                   |   2 +-
+ tests/qemu-iotests/267.out     |  12 +-
+ tests/qemu-iotests/common.qemu | 106 ++++++++++-
+ tests/qemu-iotests/common.rc   |  10 +-
+ util/meson.build               |   1 +
+ util/trace-events              |   9 +
+ util/userfaultfd.c             | 345 ++++++++++++++++++++++++++++++++++
+ 31 files changed, 2145 insertions(+), 225 deletions(-)
+ create mode 100644 include/qemu/userfaultfd.h
+ create mode 100755 scripts/userfaultfd-wrlat.py
+ create mode 100644 util/userfaultfd.c
 
 
