@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC8B30F4EB
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:28:48 +0100 (CET)
-Received: from localhost ([::1]:54410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F6F30F505
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:33:38 +0100 (CET)
+Received: from localhost ([::1]:59100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7fcl-0003DZ-6D
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:28:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
+	id 1l7fhQ-0005YX-RY
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:33:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7fbB-0002eV-7d
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:27:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44727)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7fb9-0003CM-Et
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:27:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612448826;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DutrP1uz4kRrDww2uWDkP07dwE4u2Gj+H3DrU0icnVU=;
- b=aLUUgLYC1LRhsYXziSHqZookmDpoMkDIQDYu8On8b4IFz/UDWoYK5xk4naYjkVc1t0ckqr
- Q10vZb1+LjNs9vjs+NCzahMwVllehZYYP9+Nr/Yyy37j+o+R1r92cYOsIw/1p8zZEphp2+
- xP0aR7l2BzWoBYYjl5t0qVC5OEUnBzI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-bAWLhdymNu2Sbtr71y8X1A-1; Thu, 04 Feb 2021 09:27:05 -0500
-X-MC-Unique: bAWLhdymNu2Sbtr71y8X1A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F0AA107ACE6;
- Thu,  4 Feb 2021 14:27:03 +0000 (UTC)
-Received: from work-vm (ovpn-114-21.ams2.redhat.com [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9344A514BC;
- Thu,  4 Feb 2021 14:26:53 +0000 (UTC)
-Date: Thu, 4 Feb 2021 14:26:50 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jinhao Gao <gaojinhao@huawei.com>
-Subject: Re: [PATCH v3 0/3] Fix memory leak of some device state in migration
-Message-ID: <20210204142650.GA24147@work-vm>
-References: <20201231061020.828-1-gaojinhao@huawei.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l7ffk-0004dD-6x
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:31:52 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:34443)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l7ffi-0005LR-DN
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:31:51 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id hs11so5695789ejc.1
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 06:31:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QH75qojPyWFSDNZbeOnrpAUYY95u58vKv1gk+W+Btzk=;
+ b=R0nZLgE7wIWtDn8L++ILi5pn+qf7JJ8OSUrTPpuXbCOHDrm1NIzVSvBKyM0nth812+
+ 3u6c4TCAHGzN3OU5uCoRLnsatkJifO4LzkQXYCbHQapsL6cvHPmAEP5MEmm1mpbXF+A/
+ a3axQT48w0Cl4YEA94nCiICJSyBS84hJT3gYEgPAzgiYFQelqgJvitieUuaZxwuxZw7J
+ PlFFOxZL7D/qk18hO4jgFMwvZSQLQe31yTkMZF4EHxx0F0x5ItS2Fg8ThNPMEu+ECiWp
+ ikfY1hYts/GQLt1fmQOL4QUnuwyBE8ZRCZRsBeaclrzxnv19sDNw0gq7GTc2fiMXbHId
+ irzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QH75qojPyWFSDNZbeOnrpAUYY95u58vKv1gk+W+Btzk=;
+ b=JRo5hb2ksbz4OTLsozBPdo+qNQbv9dlSvLQRzKGK5ciFcmWH6fy2u7tk/ozxNM4wVF
+ PogHK9K9COMhfV+HjAAgegu5q784J1AEMMft7Qhx+CSICWxBLjIi8YebxD7MGNZ7Ngrl
+ 17La2hHzqNXL+VlAj5091sMahk5cj8qPuzdnG1g5gPTbCIggQd11mcm5fMqgPKpMuYKD
+ IFbqua0MhtWIWxYcGbBSsmsCypE6UAmQVKcmBXke1ApfgUhNKOw/Tmhj3V0qqt5M9Eui
+ TXm+h/ObUKfPuZVPEV+w2nzBaVjUobS2iEuu6hcbE5MX8bIaxxuXIcoNFG+rkzKkMwGP
+ NbMw==
+X-Gm-Message-State: AOAM53272KBCqbk05L4hXcLCsRgeR/PWG5sApFOxL9Xm8V4eCaCVL7hv
+ WsqshLooLNjrpxd59pGF/DHnAL8uFGAKu1ZssSQS0g==
+X-Google-Smtp-Source: ABdhPJwmeh5/fpJTXjiO0OFiTGB02cVcCBL6Va5IkdT67b5rmtZvAwCcaq0sgQH+00iSZjZrLb7taMvZgBkO9BjYq88=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr8455850ejd.250.1612449108710; 
+ Thu, 04 Feb 2021 06:31:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201231061020.828-1-gaojinhao@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210204135425.1380280-1-wainersm@redhat.com>
+ <516694bd-42fe-7929-811b-545f257c58bf@redhat.com>
+ <0e0f9745-fe21-0bc6-2d02-431d67a6b57e@redhat.com>
+In-Reply-To: <0e0f9745-fe21-0bc6-2d02-431d67a6b57e@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 4 Feb 2021 14:31:37 +0000
+Message-ID: <CAFEAcA9nwnii1geGFpwEg8CFfST8B21y0BRL5ci=4ykiwqJywQ@mail.gmail.com>
+Subject: Re: [RFC] Move tools sources to the tools directory (was Re: [PATCH
+ v2] MAINTAINERS: Fix the location of tools manuals)
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,47 +80,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- qemu-ppc@nongnu.org, wanghaibin.wang@huawei.com,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- zhukeqian1@huawei.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Jinhao Gao (gaojinhao@huawei.com) wrote:
-> For some device state having some fields of VMS_ALLOC flag, they
-> don't free memory allocated for the fields in vmstate_save_state
-> and vmstate_load_state. We add funcs or sentences of free memory
-> before and after VM saves or loads device state to avoid memory leak.
+On Thu, 4 Feb 2021 at 14:23, Wainer dos Santos Moschetta
+<wainersm@redhat.com> wrote:
+> Unrelated too, but allow me to ask:
+>
+> Should we move the tools (qemu-img, qemu-io, qemu-nbd...etc) to the
+> tools directory (virtiofsd seems to feel alone there)?
 
-Queued
+I think that would be a good thing, yes (things documented in docs/tools
+should have their source code in tools).
 
-> 
-> v2
->  - Drop patch1-3,6-8 of v1
->  - Address Michael's comment (free memory before load vmsd centrally)
->  - Add David's Acked-by and Michael's Signed-off-by
-> 
-> v3
->  - Add Euler's Reported-by and Michael's Reviewed-by
-> 
-> Jinhao Gao (3):
->   spapr_pci: Fix memory leak of vmstate_spapr_pci
->   savevm: Fix memory leak of vmstate_configuration
->   vmstate: Fix memory leak in vmstate_handle_alloc()
-> 
->  hw/ppc/spapr_pci.c  | 11 +++++++++++
->  migration/savevm.c  | 31 +++++++++++++++++++++++++++----
->  migration/vmstate.c |  1 +
->  3 files changed, 39 insertions(+), 4 deletions(-)
-> 
-> -- 
-> 2.23.0
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
