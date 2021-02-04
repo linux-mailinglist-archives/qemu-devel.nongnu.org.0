@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BDF30EF3B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:07:38 +0100 (CET)
-Received: from localhost ([::1]:43208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3364430EF3C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:08:00 +0100 (CET)
+Received: from localhost ([::1]:43532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7abx-000274-PF
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:07:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38382)
+	id 1l7acH-0002GK-TQ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:07:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
- id 1l7aYr-00087z-UJ; Thu, 04 Feb 2021 04:04:25 -0500
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:40512)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
- id 1l7aYp-0000R8-5G; Thu, 04 Feb 2021 04:04:25 -0500
-Received: by mail-io1-xd2a.google.com with SMTP id n2so2401743iom.7;
- Thu, 04 Feb 2021 01:04:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=mgRpYo9gc2MvpIIUW7kKzGP0A2yzDNuup2L97imVU+I=;
- b=CjSqQDRnFCNF8ZqweI07o93LqFobhxsrNVZb4rkkLll0vJyRWbMd3LRfntX4kN2pK6
- SvN8Luxqg3UCZjKotsAzoXs/F1dfLfI98doTCKyIR3fZlX15OXkx8XzmQ2hPo7GpuGU8
- aOoxVZcahM8jwqbgJ7g52seIQjtYnJPWVIv/jKykxywhIph/vOlbUMg3VQESZewQpv52
- Xb16I6wrP8fZzRyCpDgOb3eb4eUIkpe4/TEbL4jl7ikSNrOCzNjaUMjo8JXpTVLlNFFV
- bxeXVBRf1HyIIVq5+jqc55OTIou55oNdF9aANkMH6x6suhbr5DKBg1COFohUpn/ZOf13
- tuQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=mgRpYo9gc2MvpIIUW7kKzGP0A2yzDNuup2L97imVU+I=;
- b=BBLc0Qwu12FXPWpEbk9RhNwzmH4EghDb3N0U/YijSxcG1Ju/7Mh+0E2+FeYhoFkEqZ
- DuWivJbbtwYcuCYpzI6IKDn0s8qmDWp+BoZLrbgL5LCGMVczhp6oFTYeXl3CMWn6y+Sw
- C+fNAZRDX6ICnnGi5hhPaPi/1JBqUvxRdxhBlKM6z4FCmPeecr1ghZgnbAJXjKJoN2Rh
- QN+dO5fKqrEBaUWDemC7KgqTTzeipolTL80l29uQj3/fWYjw4m4Ukix2GlAUMnjb3qoX
- K3UWPYG5TCGXOr+kD6RCmos31ZGGnOZl4jBXir5hoVwh7aIAQQ2Q5pTtptTdMP7ie3Ub
- NYew==
-X-Gm-Message-State: AOAM533k0BOENbrq0rvCEnADDbeCNneM0NS5K0ANYQ02Mvlq7/YALq0/
- Kg1jCYieSMCTyhqp5wcm+uA=
-X-Google-Smtp-Source: ABdhPJw3h7i2j47yGMJjAEuFpFNfOIIMybv+wzT2teRHBTZGWv1ULwmmJ2sqsbcjsCBYONRe7hHwcw==
-X-Received: by 2002:a05:6602:2d81:: with SMTP id
- k1mr6101827iow.90.1612429461606; 
- Thu, 04 Feb 2021 01:04:21 -0800 (PST)
-Received: from [127.0.0.1] (ec2-3-14-82-192.us-east-2.compute.amazonaws.com.
- [3.14.82.192])
- by smtp.gmail.com with ESMTPSA id f11sm2326096ils.0.2021.02.04.01.04.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 01:04:21 -0800 (PST)
-Message-ID: <6f6a803af5941346050d84e77fcaa52e0175a8a7.camel@gmail.com>
-Subject: Re: [PATCH] arm: xlnx-versal: fix virtio-mmio base address assignment
-From: schspa <schspa@gmail.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, 
- qemu-devel@nongnu.org, qemu-arm <qemu-arm@nongnu.org>
-Date: Thu, 04 Feb 2021 17:04:17 +0800
-In-Reply-To: <dbcfce3c-3140-01b7-06ca-497cf7fdace7@amsat.org>
-References: <3362132240927a23ecca7b9d8cfd6e4130509eea.camel@gmail.com>
- <dbcfce3c-3140-01b7-06ca-497cf7fdace7@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3 
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7aaJ-0001Gu-UD
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:05:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44553)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7aaH-00014e-Qe
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:05:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612429553;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3nka1WlGycd2zA23QQsKCkmdKgDG8FTpIhL/PIMS+vo=;
+ b=G+lqjxMBeAc2OTcvVEobI+RQTAJPDr3zbWiw2HG0So1jRFCZhv+r/AXXujxedar7RXjsyN
+ K1cUp1LIkQ7ZtISxOywE8u5bVXPOnbCBcWrpkmG6Y98e97ok1UGePqmqV4rwOd6LryArNt
+ VfiUyJIkeMg9QvKTkWHM+I4SLFRAvo8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-417-0Ee-FxAIP6uDFk0AdmVssA-1; Thu, 04 Feb 2021 04:05:51 -0500
+X-MC-Unique: 0Ee-FxAIP6uDFk0AdmVssA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 149BC107ACE3;
+ Thu,  4 Feb 2021 09:05:50 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-112-162.ams2.redhat.com [10.36.112.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95CB4E155;
+ Thu,  4 Feb 2021 09:05:48 +0000 (UTC)
+Date: Thu, 4 Feb 2021 10:05:47 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 23/36] block: adapt bdrv_append() for inserting filters
+Message-ID: <20210204090547.GC6496@merkur.fritz.box>
+References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+ <20201127144522.29991-24-vsementsov@virtuozzo.com>
+ <20210203213346.GJ5507@merkur.fritz.box>
+ <a68bc8ae-3cc5-5f9b-e3c0-6e39b23edc87@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=schspa@gmail.com; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a68bc8ae-3cc5-5f9b-e3c0-6e39b23edc87@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,114 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, Kevin Zhao <kevin.zhao@linaro.org>
+Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2021-02-04 at 09:19 +0100, Philippe Mathieu-Daudé wrote:
-> Hi,
+Am 04.02.2021 um 09:30 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 04.02.2021 00:33, Kevin Wolf wrote:
+> > Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > >   int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+> > >                   Error **errp)
+> > >   {
+> > > -    Error *local_err = NULL;
+> > > +    int ret;
+> > > +    GSList *tran = NULL;
+> > > -    bdrv_set_backing_hd(bs_new, bs_top, &local_err);
+> > > -    if (local_err) {
+> > > -        error_propagate(errp, local_err);
+> > > -        return -EPERM;
+> > > +    assert(!bs_new->backing);
+> > > +
+> > > +    ret = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
+> > > +                                   &child_of_bds, bdrv_backing_role(bs_new),
+> > > +                                   &bs_new->backing, &tran, errp);
+> > > +    if (ret < 0) {
+> > > +        goto out;
+> > >       }
+> > 
+> > I don't think changing bs->backing without bdrv_set_backing_hd() is
+> > correct at the moment. We lose a few things:
+> > 
+> > 1. The bdrv_is_backing_chain_frozen() check
+> > 2. Updating backing_hd->inherits_from if necessary
+> > 3. bdrv_refresh_limits()
+> > 
+> > If I'm not missing anything, all of these are needed in the context of
+> > bdrv_append().
 > 
-> Please Cc the maintainers when posting your patch:
+> I decided that bdrv_append() is only for appending new nodes, so
+> frozen and inherts_from checks are not needed. And I've added
+> assert(!bs_new->backing)...
 > 
-> ./scripts/get_maintainer.pl -f hw/arm/xlnx-versal-virt.c
-> Alistair Francis <alistair@alistair23.me> (maintainer:Xilinx ZynqMP
-> and...)
-> "Edgar E. Iglesias" <edgar.iglesias@gmail.com> (maintainer:Xilinx
-> ZynqMP
-> and...)
-> Peter Maydell <peter.maydell@linaro.org> (maintainer:Xilinx ZynqMP
-> and...)
-> qemu-arm@nongnu.org (open list:Xilinx ZynqMP and...)
+> Checking this now:
 > 
+> - appending filters is obvious
+> - bdrv_append_temp_snapshot() creates new qcow2 node based on tmp
+>   file, don't see any backing initialization (and it would be rather
+>   strange)
 
-Thanks for reminding, I will pay attention next time
+Yes, the internal uses are obviously unproblematic for the frozen check.
 
-> On 2/4/21 7:58 AM, schspa wrote:
-> > 
-> > At the moment the following QEMU command line triggers an assertion
-> > failure On xlnx-versal SOC:
-> >   qemu-system-aarch64 \
-> >       -machine xlnx-versal-virt -nographic -smp 2 -m 128 \
-> >       -fsdev local,id=shareid,path=${HOME}/work,security_model=none
-> > \
-> >       -device virtio-9p-device,fsdev=shareid,mount_tag=share \
-> >       -fsdev
-> > local,id=shareid1,path=${HOME}/Music,security_model=none \
-> >       -device virtio-9p-device,fsdev=shareid1,mount_tag=share1
-> > 
-> >   qemu-system-aarch64: ../migration/savevm.c:860:
-> >   vmstate_register_with_alias_id:
-> >   Assertion `!se->compat || se->instance_id == 0' failed.
-> > 
-> > This problem was fixed on arm virt platform in patch
-> >  
-> >  
-> > https://lists.nongnu.org/archive/html/qemu-devel/2016-07/msg01119.html
-> 
-> Please use instead "in commit f58b39d2d5b ("virtio-mmio: format
-> transport base address in BusClass.get_dev_path")".
-> 
+> - external_snapshot_prepare() do check if
+>   (bdrv_cow_child(state->new_bs)) {  error-out }
 
-Thanks, I will upload a new patch to fix it if there is no need to do
-further change for the next question.
+Ok, the only thing bdrv_set_backing_hd() can and must check is whether
+the link to the old backing file was frozen, and we know that we don't
+have an old backing file. Makes sense.
 
-> > It works perfectly on arm virt platform. but there is still there
-> > on
-> > xlnx-versal SOC.
-> > 
-> > The main difference between arm virt and xlnx-versal is they use
-> > different way to create virtio-mmio qdev. on arm virt, it calls
-> > sysbus_create_simple("virtio-mmio", base, pic[irq]); which will
-> > call
-> > sysbus_mmio_map internally and assign base address to subsys device
-> > mmio correctly. but xlnx-versal's implements won't do this.
-> > 
-> > However, xlnx-versal can't switch to sysbus_create_simple() to
-> > create
-> > virtio-mmio device. It's because xlnx-versal's cpu use
-> > VersalVirt.soc.fpd.apu.mr as it's memory. which is subregion of
-> > system_memory. sysbus_create_simple will add virtio to
-> > system_memory,
-> > which can't be accessed by cpu.
-> > 
-> > We can solve this by simply assign mmio[0].addr directly. makes
-> > virtio_mmio_bus_get_dev_path to produce correct unique device path.
-> > 
-> > Signed-off-by: schspa <schspa@gmail.com>
-> > ---
-> >  hw/arm/xlnx-versal-virt.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-> > index 8482cd6196..87b92ec6c3 100644
-> > --- a/hw/arm/xlnx-versal-virt.c
-> > +++ b/hw/arm/xlnx-versal-virt.c
-> > @@ -490,6 +490,7 @@ static void create_virtio_regions(VersalVirt
-> > *s)
-> >          object_property_add_child(OBJECT(&s->soc), name,
-> > OBJECT(dev));
-> >          sysbus_realize_and_unref(SYS_BUS_DEVICE(dev),
-> > &error_fatal);
-> >          sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic_irq);
-> > +        SYS_BUS_DEVICE(dev)->mmio[0].addr = base;
-> 
-> The proper API call is:
-> 
->            sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-> 
+Same thing for inherits_from, we only do this if the the new backing
+file (i.e. the old active layer for bdrv_append) was already in the
+backing chain of the new node.
 
-Can't to call this API, because this api will map virtio device memory
-region to system_map. and it can't be add to &s->soc.mr_ps again. I'm
-willing to change it to proper api but can't find a proper one.
+> So everything is OK. I should describe it in commit message and add a
+> comment to bdrv_append.
 
-> >          mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-> >          memory_region_add_subregion(&s->soc.mr_ps, base, mr);
-> >          g_free(name);
-> > 
-> 
+What about bdrv_refresh_limits()? The node gains a new backing file, so
+I think the limits could change.
 
--- 
-schspa <schspa@gmail.com>
+Ideally, bdrv_child_cb_attach/detach() would take care of this, but at
+the moment they don't.
+
+Kevin
 
 
