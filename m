@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4967130F82B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:40:43 +0100 (CET)
-Received: from localhost ([::1]:34222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E71730F819
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:40:04 +0100 (CET)
+Received: from localhost ([::1]:60610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7hgQ-0007sD-6L
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:40:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38950)
+	id 1l7hfm-0006sm-RG
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:40:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l7hbk-0002yJ-K3
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l7hbk-0002xM-Az
  for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:35:52 -0500
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:32890)
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:38379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l7hbi-0002Sn-EN
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l7hbi-0002T1-FS
  for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:35:52 -0500
-Received: by mail-lj1-x22e.google.com with SMTP id a25so4210385ljn.0
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 08:35:46 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id m22so5458962lfg.5
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 08:35:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cTnguGGtqdyf8gWjKVQlcNWC1budaKgRqXL9sEPSx7g=;
- b=iYtOfQKKYYqxTf3OCv0seY+bbgNISpAfFy0vSyWXRiuZeFjFoOgKpCjDedVRuJdrAT
- r5Qb32Tpn0t2gTiM9sS0BhDb4aR3mkqVwEPdz/N8MuCXD8YTnluOY5ITI3F6EDFmwHPz
- BBo8JQQM9KbeK5EgtmxPOz+1phheDRK2DLiIFQlDY+V1k2gEs46R8IiraQf4xenI0pgL
- qOalQ4hmaP3TyJf4zrstQ7x4D9Rs6WoBGWp4xfdAQfkPDGCR14JwzXpKmvAL/ktCv+10
- bEbOZ1IwigiWnJYGXwA6QE26/mF8RBw1d6MCEWThgIx3BXZSp2bouwZsRVpIDgJIwc+8
- Niyw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Qy2e9yCeCbLW2TyypLKklMLFEi/pzkwaSVzGs7kRXVI=;
+ b=JxrWS/taYgEJYx/TwwjKbQEo/84rgFhKatuvH1oeqFtnZy+jT1Nm9kaKPeVXZQPJB0
+ 0mNcjDN2kag/HbQoZcYGCf51zusCEOubqW7h79saG8QGgJHC4aT9eO1TZBvCrPQRDXzF
+ ZOe7WHK6ZI/h6owVKO7KU2pRdB5gWnGb+m96h3eXzDBh4Tx057LFhZPf+rGyDVyAewkO
+ CANz2vQSWfHQi/WKaCjB1Y3/pCVbDPSHze84lnvSfdYD/zeyJHvjD3VAT8r4kVbOzU2K
+ MRSmFAdYDgYdxrZry9FKtNQ0CcaQKsNblOHIBNQEyFApChIevnCLayQRHXqRFmNeYaGt
+ qPrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cTnguGGtqdyf8gWjKVQlcNWC1budaKgRqXL9sEPSx7g=;
- b=qb3u5cOwDNpP+PdctwYDI63FOzybpR0jsdi4oNnmrTaduTDeO0socwrZiJL3/q1a/d
- ox89uB8g3jwKA3f7UMWJPPQoim6SB+NrOjza/iUVPmfApnN+HwPVBnn8GNaR/ZJwHr9D
- gRFlsi+Pj/RGLO2GidKOYXsfqjnKXntAFlEg7WR7zkgDiNX1ale4EGobotq6chwKalbu
- dMrNCESIdPEsW7Gn1RIM01g75TXuEMdW8eQfFXdChe5S+SWDlsBTj6yI5ULnWmnPoRM9
- H9boJ0TuXItjjuCb+DBflD2Uh22Tgfr0Hs7g5oRkC/M9fWnhrbfyu4qQopyvVW67ISsQ
- etGw==
-X-Gm-Message-State: AOAM530rE4KFLrq+SpGuQ5FCcu9lI4MR5cYwZxZlyNP4XxI4XCmFtQ5/
- 4RSOlRmjZtwDVpSnev8VvztF1A==
-X-Google-Smtp-Source: ABdhPJw/UJU9l+YIg6IpT4LGeJvYFhzDP1I6jKXeZzP7o5Rna8sBeqp7BK7NWgs1gkHq78EkY2pbTQ==
-X-Received: by 2002:a2e:a593:: with SMTP id m19mr131940ljp.1.1612456543060;
- Thu, 04 Feb 2021 08:35:43 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Qy2e9yCeCbLW2TyypLKklMLFEi/pzkwaSVzGs7kRXVI=;
+ b=F7wqPvotJwvcPAZNprEUG0049GCYCcKbxnRsFAx1tsSQgUJKPR1zWKsGVm+5qey0II
+ jK0DNOkCwMX/eHf9ZgxiL5vZVrFpyvgYOHxDqAXmHguvW4WdzDc/YNHTqErGCFj8Btye
+ W9Px1af6Ly+7Qd8UB2JoxcGAsNtQSUlVEtEM2gwZ28D+nnv4r3Cqyy9L8vC9zJ7P3YWq
+ IXaDbE6l/6PqHM/kIu0YlLMpQ5AKz9gBCznuzICoOTTh5xx9sSide04xU69Q0B0dWE2h
+ RyjFmcO7jmYNkGzY3c6rtWwj1uTeoBO2zoDpTK7hG48mXsHMFbJL8UEuUcu6Y8AuZXuw
+ cfug==
+X-Gm-Message-State: AOAM5325klcUoQnJ2TzZzUaTDl0PHQouPP6PoEqrfKCo2JSFTRJMzmXa
+ 6BIqqXFssFgRL/sbBYfvzP/0rQ==
+X-Google-Smtp-Source: ABdhPJx3cNxqn27C4RbBqxVUPiXKdhTpaav9fno3Yb8azMotfci6lMK3bhW1P3cb5c1ahVNC9YYV6A==
+X-Received: by 2002:a05:6512:516:: with SMTP id
+ o22mr103585lfb.487.1612456544295; 
+ Thu, 04 Feb 2021 08:35:44 -0800 (PST)
 Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id c123sm668172lfd.95.2021.02.04.08.35.41
+ by smtp.gmail.com with ESMTPSA id c123sm668172lfd.95.2021.02.04.08.35.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 08:35:42 -0800 (PST)
+ Thu, 04 Feb 2021 08:35:43 -0800 (PST)
 From: Andrew Melnychenko <andrew@daynix.com>
 To: jasowang@redhat.com,
 	mst@redhat.com
-Subject: [RFC PATCH v4 0/7] eBPF RSS support for virtio-net
-Date: Thu,  4 Feb 2021 19:09:44 +0200
-Message-Id: <20210204170951.91805-1-andrew@daynix.com>
+Subject: [RFC PATCH v4 1/7] net/tap: Added TUNSETSTEERINGEBPF code.
+Date: Thu,  4 Feb 2021 19:09:45 +0200
+Message-Id: <20210204170951.91805-2-andrew@daynix.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210204170951.91805-1-andrew@daynix.com>
+References: <20210204170951.91805-1-andrew@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::22e;
- envelope-from=andrew@daynix.com; helo=mail-lj1-x22e.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::12c;
+ envelope-from=andrew@daynix.com; helo=mail-lf1-x12c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -84,118 +87,27 @@ Cc: yan@daynix.com, yuri.benditovich@daynix.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This set of patches introduces the usage of eBPF for packet steering
-and RSS hash calculation:
-* RSS(Receive Side Scaling) is used to distribute network packets to
-guest virtqueues by calculating packet hash
-* Additionally adding support for the usage of RSS with vhost
+From: Andrew <andrew@daynix.com>
 
-The eBPF works on kernels 5.8+
-On earlier kerneld it fails to load and the RSS feature is reported
-only without vhost and implemented in 'in-qemu' software.
+Additional code that will be used for eBPF setting steering routine.
 
-Implementation notes:
-Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
-Added libbpf dependency and eBPF support.
-The eBPF program is part of the qemu and presented as an array
-of BPF ELF file data. The eBPF array file initially generated by bpftool.
-The compilation of eBPF is not part of QEMU build and can be done
-using provided Makefile.ebpf(need to adjust 'linuxhdrs').
-Added changes to virtio-net and vhost, primary eBPF RSS is used.
-'in-qemu' RSS used in the case of hash population and as a fallback option.
-For vhost, the hash population feature is not reported to the guest.
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+---
+ net/tap-linux.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Please also see the documentation in PATCH 6/6.
-
-I am sending those patches as RFC to initiate the discussions and get
-feedback on the following points:
-* Fallback when eBPF is not supported by the kernel
-* Live migration to the kernel that doesn't have eBPF support
-* Integration with current QEMU build
-* Additional usage for eBPF for packet filtering
-
-Known issues:
-* hash population not supported by eBPF RSS: 'in-qemu' RSS used
-as a fallback, also, hash population feature is not reported to guests
-with vhost.
-
-Changes since v1:
-* using libbpf instead of direct 'bpf' system call.
-* added libbpf dependency to the configure/meson scripts.
-* changed python script for eBPF .h file generation.
-* changed eBPF program - reading L3 proto from ethernet frame.
-* added TUNSETSTEERINGEBPF define for TUN.
-* changed the maintainer's info.
-* added license headers.
-* refactored code.Changes since v1:
-* using libbpf instead of direct 'bpf' system call.
-* added libbpf dependency to the configure/meson scripts.
-* changed python script for eBPF .h file generation.
-* changed eBPF program - reading L3 proto from ethernet frame.
-* added TUNSETSTEERINGEBPF define for TUN.
-* changed the maintainer's info.
-* added license headers.
-* refactored code.
-
-Changes since v2:
-* using bpftool for eBPF skeleton generation.
-* ebpf_rss is refactored to use skeleton generated by bpftool.
-* added/adjasted license in comment sections and in eBPF file.
-* rss.bpf.c and Makefile.ebpf moved to the tool/ebpf folder.
-* virtio-net eBPF rss refactored. Now eBPF initialized during realize().
-
-Changes since v3:
-* rebased to last master.
-* fixed issue with failed build without libebpf.
-* fixed ebpf loading without rss option.
-* refactored labels in ebpf_rss.c
-
-Andrew (7):
-  net/tap: Added TUNSETSTEERINGEBPF code.
-  net: Added SetSteeringEBPF method for NetClientState.
-  ebpf: Added eBPF RSS program.
-  ebpf: Added eBPF RSS loader.
-  virtio-net: Added eBPF RSS to virtio-net.
-  docs: Added eBPF documentation.
-  MAINTAINERS: Added eBPF maintainers information.
-
- MAINTAINERS                    |   8 +
- configure                      |  30 ++
- docs/ebpf_rss.rst              | 125 ++++++++
- ebpf/ebpf_rss-stub.c           |  40 +++
- ebpf/ebpf_rss.c                | 165 +++++++++++
- ebpf/ebpf_rss.h                |  44 +++
- ebpf/meson.build               |   1 +
- ebpf/rss.bpf.skeleton.h        | 397 ++++++++++++++++++++++++++
- ebpf/trace-events              |   4 +
- ebpf/trace.h                   |   2 +
- hw/net/vhost_net.c             |   2 +
- hw/net/virtio-net.c            | 129 ++++++++-
- include/hw/virtio/virtio-net.h |   4 +
- include/net/net.h              |   2 +
- meson.build                    |  13 +
- net/tap-bsd.c                  |   5 +
- net/tap-linux.c                |  13 +
- net/tap-linux.h                |   1 +
- net/tap-solaris.c              |   5 +
- net/tap-stub.c                 |   5 +
- net/tap.c                      |   9 +
- net/tap_int.h                  |   1 +
- net/vhost-vdpa.c               |   2 +
- tools/ebpf/Makefile.ebpf       |  33 +++
- tools/ebpf/rss.bpf.c           | 505 +++++++++++++++++++++++++++++++++
- 25 files changed, 1541 insertions(+), 4 deletions(-)
- create mode 100644 docs/ebpf_rss.rst
- create mode 100644 ebpf/ebpf_rss-stub.c
- create mode 100644 ebpf/ebpf_rss.c
- create mode 100644 ebpf/ebpf_rss.h
- create mode 100644 ebpf/meson.build
- create mode 100644 ebpf/rss.bpf.skeleton.h
- create mode 100644 ebpf/trace-events
- create mode 100644 ebpf/trace.h
- create mode 100755 tools/ebpf/Makefile.ebpf
- create mode 100644 tools/ebpf/rss.bpf.c
-
+diff --git a/net/tap-linux.h b/net/tap-linux.h
+index 2f36d100fc..1d06fe0de6 100644
+--- a/net/tap-linux.h
++++ b/net/tap-linux.h
+@@ -31,6 +31,7 @@
+ #define TUNSETQUEUE  _IOW('T', 217, int)
+ #define TUNSETVNETLE _IOW('T', 220, int)
+ #define TUNSETVNETBE _IOW('T', 222, int)
++#define TUNSETSTEERINGEBPF _IOR('T', 224, int)
+ 
+ #endif
+ 
 -- 
 2.30.0
 
