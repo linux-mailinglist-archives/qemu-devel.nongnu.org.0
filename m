@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E004530F107
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:40:48 +0100 (CET)
-Received: from localhost ([::1]:59610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F8230F109
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:41:31 +0100 (CET)
+Received: from localhost ([::1]:60908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7c48-00069J-0e
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:40:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60660)
+	id 1l7c4o-0006n7-Dc
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:41:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7bwX-0007Bg-V0
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:32:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7bwU-0006bf-QX
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:32:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612434773;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/osaP0MbFpclO3OzMpiNU8BhjWGIfaBgDOYDFB56zjg=;
- b=DyWbb99rdTY11yV2U6FywPUFNyP0AWRPwTc3WU422nfhkS/FACoTckBmDR37BNqIdl1Ucy
- iUEdc/4wE+qwrSYKsCFahyE5gwZvAcfq69EF/C3mBZ/YJbOXgGBsB8WbA/joqSMpv4Y8vp
- lEuUXQqVWFgEW/Y9fCuN5+PAgEpI0AM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-Oy5oo7X0O---JJM2P9pibw-1; Thu, 04 Feb 2021 05:32:49 -0500
-X-MC-Unique: Oy5oo7X0O---JJM2P9pibw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 378CA36492;
- Thu,  4 Feb 2021 10:32:48 +0000 (UTC)
-Received: from work-vm (ovpn-114-21.ams2.redhat.com [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6D285B698;
- Thu,  4 Feb 2021 10:32:45 +0000 (UTC)
-Date: Thu, 4 Feb 2021 10:32:43 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v4 18/18] migration/rdma: RDMA cleanup for multifd
- migration
-Message-ID: <20210204103243.GF3039@work-vm>
-References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
- <1612339311-114805-19-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7byL-0000oj-Dn
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:34:49 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35111)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l7byJ-0007I6-I5
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:34:48 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id e15so2562415wme.0
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 02:34:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=VlYZ9nYH3pp4MwioJSgMkMP1V2mDm3teHO79rZTT5pQ=;
+ b=GeoxzaMnYulAWPGJQlVwKWK4Cr/KiXON5eSVRjyUewzz9UMTB3oNci5Gj11t5uJyv+
+ eAMOfMQ/4cxIymXh1QbSeWWFsuHaFh3YsGayI1y4qoC5UMm7yW//O+Uv6mSYsLlMunHX
+ tOomAmefUsx0aoVc9VPodR+uRfEo+qtakTidbZ5IlEgvB2qAfyip5vv7qXs6cJEW2JGh
+ 7u4iPH/l2KoLSFGdR2ZtRZLKQj+YzdPpMLWWpucSrKde1DFGMz8giguCQSpZU2b8KuJJ
+ 1yU0mskbTHYgplu6cKF1yXM9yBCBOx16MjSpXdZXaaWQk1f/rdctxuDdxqrj1D9qsST+
+ JxBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=VlYZ9nYH3pp4MwioJSgMkMP1V2mDm3teHO79rZTT5pQ=;
+ b=MstFRIseevi2CqdwBOUYnsBXnru+59d2Ly1OVqJnL3yExAFeSMIFpE+sErBpdUWaOy
+ 0fJsOLDVIvZy1shHdh/sUJhyCGdwrsTlh35Z3XQaF4cjwBg+3doZAZlRTxoSrBnCzPvG
+ Cjkb52sfPk/U/9bbJSc7NWtSz/QskqfnWjIXnJGthUhyzVfJku4+OGqEUWoltYQwceOP
+ UuDtbvRJnPdFEegGirNTSC1/0nMfPLLQZTnBum+0w9dux8AMrj1VqVCmT5jhkkIQs7gy
+ b3rawyl8/IN8MBdeu+Rq3XWOV0fk5xd0gogi26oob0FX71eR4HVKFQyz4TJRVrI9tCQo
+ CBQw==
+X-Gm-Message-State: AOAM532/7w53M5yWATHZ6Wh62d5s1NGXmmcjvJ1SAGuVZv0V0qEObNXO
+ payCAD7wJLZyP1UH9PotUietFA==
+X-Google-Smtp-Source: ABdhPJwTqxn2jyavU8hJjzjao0lpRggN/iiwCpFQKZ0RK1EHD2Y5k19/xfIDkctXJ5jbNuUvYAp+ig==
+X-Received: by 2002:a1c:4e13:: with SMTP id g19mr663405wmh.55.1612434885740;
+ Thu, 04 Feb 2021 02:34:45 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r15sm7475761wrq.1.2021.02.04.02.34.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Feb 2021 02:34:44 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DA38C1FF7E;
+ Thu,  4 Feb 2021 10:34:43 +0000 (GMT)
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <20210203172357.1422425-2-crosa@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH 01/22] tests/acceptance/boot_linux.py: fix typo on
+ cloudinit error message
+Date: Thu, 04 Feb 2021 10:34:37 +0000
+In-reply-to: <20210203172357.1422425-2-crosa@redhat.com>
+Message-ID: <87mtwkqfy4.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1612339311-114805-19-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,110 +88,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
- quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com, wanghao232@huawei.com
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> ---
->  migration/multifd.c |  6 ++++++
->  migration/multifd.h |  1 +
->  migration/rdma.c    | 16 +++++++++++++++-
->  3 files changed, 22 insertions(+), 1 deletion(-)
-> 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 1186246..4031648 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -577,6 +577,9 @@ void multifd_save_cleanup(void)
->          p->packet_len = 0;
->          g_free(p->packet);
->          p->packet = NULL;
-> +#ifdef CONFIG_RDMA
-> +        multifd_rdma_cleanup(p->rdma);
-> +#endif
 
-You may find it easier to add an entry into stubs/ for
-multifd_rdma_cleanup; it then avoids the need for the ifdef.
+Cleber Rosa <crosa@redhat.com> writes:
 
->          multifd_send_state->ops->send_cleanup(p, &local_err);
->          if (local_err) {
->              migrate_set_error(migrate_get_current(), local_err);
-> @@ -1039,6 +1042,9 @@ int multifd_load_cleanup(Error **errp)
->          p->packet_len = 0;
->          g_free(p->packet);
->          p->packet = NULL;
-> +#ifdef CONFIG_RDMA
-> +        multifd_rdma_cleanup(p->rdma);
-> +#endif
->          multifd_recv_state->ops->recv_cleanup(p);
->      }
->      qemu_sem_destroy(&multifd_recv_state->sem_sync);
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 26d4489..0ecec5e 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -183,6 +183,7 @@ typedef struct {
->  
->  #ifdef CONFIG_RDMA
->  extern MultiFDSetup multifd_rdma_ops;
-> +void multifd_rdma_cleanup(void *opaque);
->  #endif
->  void multifd_send_terminate_threads(Error *err);
->  int multifd_send_initial_packet(MultiFDSendParams *p, Error **errp);
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index c19a91f..f14357f 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -2369,7 +2369,7 @@ static void qemu_rdma_cleanup(RDMAContext *rdma)
->  {
->      int idx;
->  
-> -    if (rdma->cm_id && rdma->connected) {
-> +    if (rdma->channel && rdma->cm_id && rdma->connected) {
->          if ((rdma->error_state ||
->               migrate_get_current()->state == MIGRATION_STATUS_CANCELLING) &&
->              !rdma->received_error) {
-> @@ -4599,6 +4599,20 @@ static void multifd_rdma_recv_channel_setup(QIOChannel *ioc,
->      return;
->  }
->  
-> +void multifd_rdma_cleanup(void *opaque)
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
 
-I think you need to make it clear that this is only to cleanup one
-channel, rather than the whole multifd-rdma connection;
-multifd_load_cleanup for example cleans up all the channels, where as I
-think this is only doing one?
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Don't use a 'void *opaque' except for something that's called via
-a registration/callback scheme that's designed to be generic
-(e.g. multifd_send_thread does it because it's called from
-qemu_thread_create that doesn't know the type).  Where you know
-the type, use it!
-
-> +{
-> +    RDMAContext *rdma = (RDMAContext *)opaque;
-> +
-> +    if (!migrate_use_rdma()) {
-> +        return;
-> +    }
-> +
-> +    rdma->listen_id = NULL;
-> +    rdma->channel = NULL;
-> +    qemu_rdma_cleanup(rdma);
-> +    g_free(rdma);
-> +}
-> +
->  MultiFDSetup multifd_rdma_ops = {
->      .send_thread = multifd_rdma_send_thread,
->      .recv_thread = multifd_rdma_recv_thread,
-> -- 
-> 1.8.3.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+--=20
+Alex Benn=C3=A9e
 
