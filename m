@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D3F30EFFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:53:08 +0100 (CET)
-Received: from localhost ([::1]:60170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE9230F002
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:56:25 +0100 (CET)
+Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7bJz-0007DK-6T
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:53:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48916)
+	id 1l7bNA-0001I5-Dl
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:56:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l7bIt-0006Mu-3Q; Thu, 04 Feb 2021 04:51:59 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:54060 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l7bIl-0005GO-Be; Thu, 04 Feb 2021 04:51:58 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 3FD024124F;
- Thu,  4 Feb 2021 09:51:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1612432306;
- x=1614246707; bh=7oxOfChya2pP3wumcjlwjFp9dz+XbBxdRVEi82PfkV0=; b=
- soGCmKjRCgLWhtH8i6j9LkvM+vDoLv/xhu2+m20rbr49RljZMzn8VBwEEJhm7hgv
- bENsT0W1+61inJjL5ezUtrKqkaOtAv4098DpHtFdCkCfEfjrotuf2ndECBOKh3cs
- C3rIaAaHhfyVGccPBucrYG+s6SLj442XLd+m0IfQtxc=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id waO__zykndef; Thu,  4 Feb 2021 12:51:46 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7bJu-0007is-29
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:53:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51358)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7bJs-0005nT-8u
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:53:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612432379;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=9tAkjk8CKXBxsCTpiJSWlNw5mbiJ+c2doexbNrv4YKQ=;
+ b=UInIQPcWPcG5KwEXq4fybkG+QUWiiCriMN4DBfH2wLRCIh5ahDUspchQRwIYTjVYHc3ayQ
+ llq1rcFZhsBKHnF4tLzrTho0zl22A9/WqBCkQXGq5MRjnBEybdANMyGsTaIv2FK/Ei4T0z
+ LCWi4FNOTxmkeghBwiWyXPSxPUSgPrY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-VdxhkDBlOU-rwhcRtBEQSw-1; Thu, 04 Feb 2021 04:52:44 -0500
+X-MC-Unique: VdxhkDBlOU-rwhcRtBEQSw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id BBE5040416;
- Thu,  4 Feb 2021 12:51:46 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 4 Feb
- 2021 12:51:46 +0300
-Date: Thu, 4 Feb 2021 12:51:45 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: <yaroshchuk2000@gmail.com>
-Subject: Re: [PATCH v3] target/i386/hvf: add vmware-cpuid-freq cpu feature
-Message-ID: <YBvDseGDzp6xCTiu@SPB-NB-133.local>
-References: <20210114194703.134333-1-yaroshchuk2000@gmail.com>
- <20210122150518.3551-1-yaroshchuk2000@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 055696D51E;
+ Thu,  4 Feb 2021 09:52:36 +0000 (UTC)
+Received: from redhat.com (ovpn-115-169.ams2.redhat.com [10.36.115.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D50D60CA0;
+ Thu,  4 Feb 2021 09:51:48 +0000 (UTC)
+Date: Thu, 4 Feb 2021 09:51:45 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Subject: Re: [PATCH v21 00/20] Initial support for multi-process Qemu
+Message-ID: <20210204095145.GC549438@redhat.com>
+References: <cover.1611938319.git.jag.raman@oracle.com>
+ <20210203161150.GA241524@stefanha-x1.localdomain>
+ <20210203200205.GA29182@flaka>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20210203200205.GA29182@flaka>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210122150518.3551-1-yaroshchuk2000@gmail.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,45 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, pbonzini@redhat.com, qemu-devel@nongnu.org,
- dirty@apple.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
+ mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
+ thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ dgilbert@redhat.com, alex.williamson@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, thanos.makatos@nutanix.com,
+ kwolf@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 06:05:18PM +0300, yaroshchuk2000@gmail.com wrote:
-> From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+On Wed, Feb 03, 2021 at 12:02:05PM -0800, Elena Ufimtseva wrote:
+> On Wed, Feb 03, 2021 at 04:11:50PM +0000, Stefan Hajnoczi wrote:
+> > On Fri, Jan 29, 2021 at 11:46:01AM -0500, Jagannathan Raman wrote:
+> > > This is the v21 of the patchset. This version has the following changes:
+> > 
+> > The docs/multi-process.rst file caused Sphinx to fail with "document
+> > isn't included in any toctree". I moved it into the system emulator
+> > documentation to resolve this. The new path is
+> > docs/system/multi-process.rst.
+> >
 > 
-> For `-accel hvf` cpu_x86_cpuid() is wrapped with hvf_cpu_x86_cpuid() to
-> add paravirtualization cpuid leaf 0x40000010
-> https://lkml.org/lkml/2008/10/1/246
+> Hi Stefan
 > 
-> Leaf 0x40000010, Timing Information:
-> EAX: (Virtual) TSC frequency in kHz.
-> EBX: (Virtual) Bus (local apic timer) frequency in kHz.
-> ECX, EDX: RESERVED (Per above, reserved fields are set to zero).
-> 
-> On macOS TSC and APIC Bus frequencies can be readed by sysctl call with
-> names `machdep.tsc.frequency` and `hw.busfrequency`
-> 
-> This options is required for Darwin-XNU guest to be synchronized with
-> host
-> 
-> Leaf 0x40000000 not exposes HVF leaving hypervisor signature empty
-> 
-> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
-> ---
->  target/i386/hvf/hvf.c | 96 ++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 95 insertions(+), 1 deletion(-)
-> 
+> Ah, we did not --enable-docs and .travis.yml also disables them.
+> Will include into the tests we do for submission.
 
-I'd prefer to have generic expose-accel option for CPU and
-vmware-cpuid-freq=on would depend on expose-accel=on.
+FWIW if you're relying on travis for testing before submission that's
+something you'll want to change real soon. Travis has discontinued its
+free service and turned it into a one time free trial. So all QEMU
+primary CI is moving to GitLab CI now and we'll be deleting remaining
+travis CI jobs any day now.  All you need todo is have a fork of the
+main qemu repo on gitlab, and when you push to your forkk the CI
+pipeline will run in GitLab.
 
-Regardless of that,
 
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Thanks,
-Roman
 
