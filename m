@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC6B30F5D7
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 16:10:54 +0100 (CET)
-Received: from localhost ([::1]:40074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E6330F5E3
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 16:12:58 +0100 (CET)
+Received: from localhost ([::1]:46006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7gHV-0002n8-1n
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 10:10:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41376)
+	id 1l7gJV-0005Ut-UQ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 10:12:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7gCB-0005YB-9V
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:05:23 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7gC9-0003b1-Go
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:05:23 -0500
-Received: by mail-wr1-x429.google.com with SMTP id c12so3869997wrc.7
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 07:05:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ydmeuZnL9MhIBzrr7zZE5TlNo9RbZ5rIHtMKoTc5qS0=;
- b=sDCgFX0/Dr2XBc19sy8ngPkoCwH4AbzYmGORV1OMfKyvmLlx2cnoDcdPjTYCVQmdo5
- cF3TeycVMboRzIMmdDadzm+hMGZFJNfXFl5E+VfasIn9BneXANQ8IMIwOrSiOZkBNklu
- quXH4ch+4MMg7aDKKzlPcbde6IzpiLZ2Vum2NEQ5R7qk2rcYllwACghELeU97tRIqS5u
- vUDhAS++HNhVER1JEq9LOSk1OJyL3/HHBGqu7VJYZ89Z9THPhXWa95FM01JQiRAxxnoo
- eORqWTzzb7dVo5tjIYJKWtVnYqPBP7dcVH+7d8h1XKOgmAOckEoxSmJUGjpnj0W14HWv
- 4/8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ydmeuZnL9MhIBzrr7zZE5TlNo9RbZ5rIHtMKoTc5qS0=;
- b=NibW/hu/dJMhXlAvwu3qvcxYNVmZYBuSMyFD0g3T4K3ibD4/5bgTuzZ6C3Nn3EBAPu
- yOyWD63uSE11oCXxHGck6VtLPI20lZVYu939Ijoq/TbglhAHK73nQ9mxv/Ymuwf/pb2D
- PYidATJzrh1JjS6qKBD+Q/46L91CDmyar7uenrSzyPC+sq/T5L9iu9uIJAGYbdv5pET1
- V9WYBi672k8i5Q2h6pKdnsN+99+pa7zTrWhu2KsDuOMd3R8ji6f9PYpCRPl9QWHhL2wd
- IgsWqzfq5sjbysou4ugyyD+NHWa2nd4/LxMWq5Jej+hwPxeLtHUK3XfqspWrKNwpZdaW
- 3DjA==
-X-Gm-Message-State: AOAM533tZWXrGWdo81cMuPS3+0RGXpJ2r+jZ1dR1/javKfGr/lcrunIi
- LHKDYDzVLGlv5D/uC1dl3tnw2g==
-X-Google-Smtp-Source: ABdhPJxWEIyDXUzznWinCMH2t5kVS+k42j+S6E4ErBirCjXS6yFRN+eN5HFgPiYog/X6gVTEIDoIWw==
-X-Received: by 2002:adf:f749:: with SMTP id z9mr9621210wrp.327.1612451119745; 
- Thu, 04 Feb 2021 07:05:19 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b11sm8273416wrp.60.2021.02.04.07.05.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 07:05:18 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9317B1FF7E;
- Thu,  4 Feb 2021 15:05:17 +0000 (GMT)
-References: <20210204014509.882821-1-richard.henderson@linaro.org>
- <20210204014509.882821-6-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 05/93] tcg/tci: Make tci_tb_ptr thread-local
-Date: Thu, 04 Feb 2021 15:05:12 +0000
-In-reply-to: <20210204014509.882821-6-richard.henderson@linaro.org>
-Message-ID: <87r1lvq3f6.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7gD6-0007aE-SK
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:06:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7gD4-000440-Sp
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 10:06:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612451178;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VrZ8HBAgTvxJfylQ4tscyV0QpNsDc1DQAgzIcAIeUNI=;
+ b=Tz6wFyax+fuZfFUwDuELyEdP6chNsSmBbBNXcbWowzOuEqTqtxz3ejgkWmsV2R5DO0JrCD
+ lFrnPohEl0UK6H6Gh0hysf4ImQ0/hq6Gwltre3+kV/JuiZXxjdnf/RFM3Yt+scssn3zrMW
+ ZDArszqfJsp64ixrgz4/ipRUe4n5mkA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-SZfP6bqxMGmjSBTlKJznsw-1; Thu, 04 Feb 2021 10:06:14 -0500
+X-MC-Unique: SZfP6bqxMGmjSBTlKJznsw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C66F107ACE3;
+ Thu,  4 Feb 2021 15:06:13 +0000 (UTC)
+Received: from redhat.com (ovpn-115-169.ams2.redhat.com [10.36.115.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0CCF17CD6;
+ Thu,  4 Feb 2021 15:06:04 +0000 (UTC)
+Date: Thu, 4 Feb 2021 15:06:01 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC] Move tools sources to the tools directory (was Re: [PATCH
+ v2] MAINTAINERS: Fix the location of tools manuals)
+Message-ID: <20210204150601.GQ549438@redhat.com>
+References: <20210204135425.1380280-1-wainersm@redhat.com>
+ <516694bd-42fe-7929-811b-545f257c58bf@redhat.com>
+ <0e0f9745-fe21-0bc6-2d02-431d67a6b57e@redhat.com>
+ <CAFEAcA9nwnii1geGFpwEg8CFfST8B21y0BRL5ci=4ykiwqJywQ@mail.gmail.com>
+ <20210204144006.GI6496@merkur.fritz.box>
+ <20210204144700.GN549438@redhat.com>
+ <CAFEAcA_=ANGKcy7QNfEdxUft9qGyCHttHo9hfvjQHC_ZfYeo1g@mail.gmail.com>
+ <6339c78f-e77c-85e7-8e3f-6c2c514f3206@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <6339c78f-e77c-85e7-8e3f-6c2c514f3206@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,24 +89,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Greg Kurz <groug@kaod.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Feb 04, 2021 at 04:02:01PM +0100, Paolo Bonzini wrote:
+> On 04/02/21 15:50, Peter Maydell wrote:
+> > On Thu, 4 Feb 2021 at 14:47, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > > The distinction of contrib/ vs tools/ is supposed to be more a
+> > > reflection on the quality of the program.
+> > > 
+> > > contrib/ should be considered demo-ware, no back compat guaranteed,
+> > > may or may not work, no testing guaranteed, no man pages.
+> > 
+> > On this definition, why do we have any of it in our source tree?
+> > Interesting but unmaintained side things can live quite happily
+> > elsewhere (other peoples' git forks, blog posts, whatever).
+> > If we care about a bit of code enough to keep it in our source
+> > tree we ought to care about it enough to properly document
+> > and test it and give it a suitable place to live.
+> 
+> That's indeed what happened with libvhost-user; it has graduated to a
+> separate project since it is okay for use in other (production-ready)
+> vhost-user backends.
+> 
+> Most of the software in contrib/ is essentially a reference implementations.
+> They are "perfect" for that task, but not meant to grow more features or to
+> be used in production (compare vhost-user-blk with qemu-storage-daemon for
+> example).
+> 
+> The other four can be classified as follows:
+> 
+> - elf2dmp and rdmacm-mux should be in tools/, probably it's in contrib/
+> because nobody uses it and there's no tests so it might bitrot.
+> 
+> - systemd is just a couple files meant for distros to pick up, possibly with
+> customizations.  gitdm is just for people who want to get QEMU development
+> stats, so I suppose these two are in the same group as well.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+gitdm ought to be in scripts/ really
 
-> Each thread must have its own pc, even under TCI.
->
-> Remove the GETPC ifdef, because GETPC is always available for
-> helpers, and thus is always required.  Move the assignment
-> under INDEX_op_call, because the value is only visible when
-> we make a call to a helper function.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+The systemd files ought to be in the same directory as the tool they
+are associated with.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---=20
-Alex Benn=C3=A9e
 
