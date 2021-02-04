@@ -2,47 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9D030F894
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:55:21 +0100 (CET)
-Received: from localhost ([::1]:45048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9FC30F8B9
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 17:58:32 +0100 (CET)
+Received: from localhost ([::1]:53746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7hua-0000VC-Mb
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:55:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40780)
+	id 1l7hxf-0004H0-Nu
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 11:58:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7hg2-0000mI-Pv
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:18 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53836)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l7hfv-0004YN-Ni
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:18 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1520CAFD5;
- Thu,  4 Feb 2021 16:39:57 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v16 21/23] accel: introduce new accessor functions
-Date: Thu,  4 Feb 2021 17:39:29 +0100
-Message-Id: <20210204163931.7358-22-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210204163931.7358-1-cfontana@suse.de>
-References: <20210204163931.7358-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7hg4-0000oF-1J
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7hfx-0004eA-IY
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:40:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612456812;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HqI8wcuIzgCOY6SV8v1+SOlkUHDqTVOPvRGtc8JjW1M=;
+ b=OCTzPhw8ls6+Nw0OEdrWnnRurSdKENiwRjx9IMIn26dLDHFcu4T0LDnBeKKwMFUfPLCn+r
+ 2Oayg14KIOaf2MJej6WkDodi/y/DlflpMFq3ld8CxY4HfbP2euWxrJQ07Y+1XYdckeTwpQ
+ v+IB6T9KtLHjyKLjuDm1DDBVr96VRBE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-2S-9JDjgPuenPbxs5DCagQ-1; Thu, 04 Feb 2021 11:40:10 -0500
+X-MC-Unique: 2S-9JDjgPuenPbxs5DCagQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E680D18A08BB;
+ Thu,  4 Feb 2021 16:40:08 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-114-21.ams2.redhat.com
+ [10.36.114.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B86D1A38C;
+ Thu,  4 Feb 2021 16:40:04 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
+ gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
+ wainersm@redhat.com
+Subject: [PULL 01/27] spapr_pci: Fix memory leak of vmstate_spapr_pci
+Date: Thu,  4 Feb 2021 16:39:33 +0000
+Message-Id: <20210204163959.377618-2-dgilbert@redhat.com>
+In-Reply-To: <20210204163959.377618-1-dgilbert@redhat.com>
+References: <20210204163959.377618-1-dgilbert@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,134 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-avoid open coding the accesses to cpu->accel_cpu interfaces,
-and instead introduce:
+From: Jinhao Gao <gaojinhao@huawei.com>
 
-accel_cpu_instance_init,
-accel_cpu_realizefn
+When VM migrate VMState of spapr_pci, the field(msi_devs) of spapr_pci
+having a flag of VMS_ALLOC need to allocate memory. If the src doesn't free
+memory of msi_devs in SaveStateEntry of spapr_pci after QEMUFile save
+VMState of spapr_pci, it may result in memory leak of msi_devs. We add the
+post_save func to free memory, which prevents memory leak.
 
-to be used by the targets/ initfn code,
-and by cpu_exec_realizefn respectively.
-
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20201231061020.828-2-gaojinhao@huawei.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- include/qemu/accel.h | 13 +++++++++++++
- accel/accel-common.c | 19 +++++++++++++++++++
- cpu.c                |  6 +-----
- target/i386/cpu.c    |  9 ++-------
- 4 files changed, 35 insertions(+), 12 deletions(-)
+ hw/ppc/spapr_pci.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index b9d6d69eb8..da0c8ab523 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -78,4 +78,17 @@ int accel_init_machine(AccelState *accel, MachineState *ms);
- void accel_setup_post(MachineState *ms);
- #endif /* !CONFIG_USER_ONLY */
- 
-+/**
-+ * accel_cpu_instance_init:
-+ * @cpu: The CPU that needs to do accel-specific object initializations.
-+ */
-+void accel_cpu_instance_init(CPUState *cpu);
-+
-+/**
-+ * accel_cpu_realizefn:
-+ * @cpu: The CPU that needs to call accel-specific cpu realization.
-+ * @errp: currently unused.
-+ */
-+void accel_cpu_realizefn(CPUState *cpu, Error **errp);
-+
- #endif /* QEMU_ACCEL_H */
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 9901b0531c..0f6fb4fb66 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -89,6 +89,25 @@ void accel_init_interfaces(AccelClass *ac)
-     accel_init_cpu_interfaces(ac);
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 76d7c91e9c..1b2b940606 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -2173,6 +2173,16 @@ static int spapr_pci_pre_save(void *opaque)
+     return 0;
  }
  
-+void accel_cpu_instance_init(CPUState *cpu)
++static int spapr_pci_post_save(void *opaque)
 +{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
++    SpaprPhbState *sphb = opaque;
 +
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_instance_init) {
-+        cc->accel_cpu->cpu_instance_init(cpu);
-+    }
++    g_free(sphb->msi_devs);
++    sphb->msi_devs = NULL;
++    sphb->msi_devs_num = 0;
++    return 0;
 +}
 +
-+void accel_cpu_realizefn(CPUState *cpu, Error **errp)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
-+        /* NB: errp parameter is unused currently */
-+        cc->accel_cpu->cpu_realizefn(cpu, errp);
-+    }
-+}
-+
- static const TypeInfo accel_cpu_type = {
-     .name = TYPE_ACCEL_CPU,
-     .parent = TYPE_OBJECT,
-diff --git a/cpu.c b/cpu.c
-index ba5d272c1e..25e6fbfa2c 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -130,11 +130,7 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     cpu_list_add(cpu);
--
--    if (cc->accel_cpu) {
--        /* NB: errp parameter is unused currently */
--        cc->accel_cpu->cpu_realizefn(cpu, errp);
--    }
-+    accel_cpu_realizefn(cpu, errp);
- 
- #ifdef CONFIG_TCG
-     /* NB: errp parameter is unused currently */
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index d7735f0ed3..be068fcc5e 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -28,7 +28,6 @@
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "sysemu/hvf.h"
--#include "hw/core/accel-cpu.h"
- #include "sysemu/xen.h"
- #include "sysemu/whpx.h"
- #include "kvm/kvm_i386.h"
-@@ -6675,8 +6674,6 @@ static void x86_cpu_initfn(Object *obj)
+ static int spapr_pci_post_load(void *opaque, int version_id)
  {
-     X86CPU *cpu = X86_CPU(obj);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
--    CPUClass *cc = CPU_CLASS(xcc);
--
-     CPUX86State *env = &cpu->env;
- 
-     env->nr_dies = 1;
-@@ -6725,10 +6722,8 @@ static void x86_cpu_initfn(Object *obj)
-         x86_cpu_load_model(cpu, xcc->model);
-     }
- 
--    /* if required, do the accelerator-specific cpu initialization */
--    if (cc->accel_cpu) {
--        cc->accel_cpu->cpu_instance_init(CPU(obj));
--    }
-+    /* if required, do accelerator-specific cpu initializations */
-+    accel_cpu_instance_init(CPU(obj));
- }
- 
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
+     SpaprPhbState *sphb = opaque;
+@@ -2205,6 +2215,7 @@ static const VMStateDescription vmstate_spapr_pci = {
+     .version_id = 2,
+     .minimum_version_id = 2,
+     .pre_save = spapr_pci_pre_save,
++    .post_save = spapr_pci_post_save,
+     .post_load = spapr_pci_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT64_EQUAL(buid, SpaprPhbState, NULL),
 -- 
-2.26.2
+2.29.2
 
 
