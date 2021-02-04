@@ -2,103 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804BD30FA37
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:53:08 +0100 (CET)
-Received: from localhost ([::1]:44212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9548F30F9EE
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:42:07 +0100 (CET)
+Received: from localhost ([::1]:46738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ioV-0000Re-G9
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:53:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46036)
+	id 1l7idq-0004OH-Ln
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:42:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l7hzW-0007Zh-BR; Thu, 04 Feb 2021 12:00:26 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43898)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7i7E-0001j7-3G
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:08:24 -0500
+Received: from 1.mo51.mail-out.ovh.net ([178.32.121.110]:36152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l7hzT-00051K-A5; Thu, 04 Feb 2021 12:00:26 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 114Gh4E8074759; Thu, 4 Feb 2021 12:00:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=fPfiVUjrlVKGwzFG6nrCPeFcEdBPy8sajRCmqU91TOw=;
- b=d7P13QgyXHnA8noqcfLhKPzhmhjVdlHYXNbS7hHRFlAO5iRsHPs/gCsXEMnq4KyoPFKM
- yWPpnlNUhUNySkaGf/+T6xfz+H/bSb2dfGBNB2jrshvqklHP0qp1CNswjNWJe8a0SJaK
- pwxKqD/fXXlzrCvRiogt/Lzh5wIYzwMqTe89C0rV6bArITUyD6Hoalohr/4ZpxDeI/du
- fHgNHy/jHqua070KOlaxvOeX7fU4GV1SXaB9ISn1ZCLnPJFKlg/rvgDU5efvdSzsT1pv
- ZLrHlibquIL2E12ESjzlMGmRv05SnAHYKR7+9n6+sR2cB4pTgztxsDx6+5VqsbbgI9Us OA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36gmpmgdct-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Feb 2021 12:00:16 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 114GhPKJ075490;
- Thu, 4 Feb 2021 12:00:16 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36gmpmgdaq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Feb 2021 12:00:16 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 114GqhhW024405;
- Thu, 4 Feb 2021 17:00:13 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06ams.nl.ibm.com with ESMTP id 36evvf2rw2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Feb 2021 17:00:13 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 114H0BsM48627978
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 4 Feb 2021 17:00:11 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1C52342042;
- Thu,  4 Feb 2021 17:00:11 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE8D54204C;
- Thu,  4 Feb 2021 17:00:10 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.45.97])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  4 Feb 2021 17:00:10 +0000 (GMT)
-Subject: Re: [PATCH v2] target/s390x/arch_dump: Fixes for the name field in
- the PT_NOTE section
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>
-References: <20210204164117.721110-1-thuth@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <8674a570-93f7-24dc-10b8-0c3577c0841f@de.ibm.com>
-Date: Thu, 4 Feb 2021 18:00:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7i79-0008OA-Ud
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 12:08:23 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.47])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 357DB262A4E;
+ Thu,  4 Feb 2021 18:08:09 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 4 Feb 2021
+ 18:08:07 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00261992405-1e3b-4b21-8f72-6db6aa907f2a,
+ B83331F2441F4055165AC8819D583561B3B7D288) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 4 Feb 2021 18:08:05 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v5 1/3] virtiofsd: extract lo_do_open() from lo_open()
+Message-ID: <20210204180805.34f907b7@bahia.lan>
+In-Reply-To: <20210204150208.367837-2-stefanha@redhat.com>
+References: <20210204150208.367837-1-stefanha@redhat.com>
+ <20210204150208.367837-2-stefanha@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210204164117.721110-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
- definitions=2021-02-04_08:2021-02-04,
- 2021-02-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- suspectscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0
- impostorscore=0 priorityscore=1501 spamscore=0 clxscore=1015 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102040100
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.182,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 993b3e14-d32a-4fc0-96d6-61303dd2613b
+X-Ovh-Tracer-Id: 3024448628806097330
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrgeeggdeklecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepvhhgohihrghlsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=groug@kaod.org;
+ helo=1.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,72 +68,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
+Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
+ qemu-devel@nongnu.org, P J
+ P <ppandit@redhat.com>, virtio-fs@redhat.com, vgoyal@redhat.com,
+ Laszlo Ersek <lersek@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.02.21 17:41, Thomas Huth wrote:
-> According to the "ELF-64 Object File Format" specification:
+On Thu,  4 Feb 2021 15:02:06 +0000
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
+
+> Both lo_open() and lo_create() have similar code to open a file. Extract
+> a common lo_do_open() function from lo_open() that will be used by
+> lo_create() in a later commit.
 > 
-> "The first word in the entry, namesz, identifies the length, in
->  bytes, of a name identifying the entry’s owner or originator. The name field
->  contains a null-terminated string, with padding as necessary to ensure 8-
->  byte alignment for the descriptor field. The length does not include the
->  terminating null or the padding."
+> Since lo_do_open() does not otherwise need fuse_req_t req, convert
+> lo_add_fd_mapping() to use struct lo_data *lo instead.
 > 
-> So we should not include the terminating NUL in the length field here.
-> 
-> Also there is a compiler warning with GCC 9.3 when compiling with
-> the -fsanitize=thread compiler flag:
-> 
->  In function 'strncpy',
->     inlined from 's390x_write_elf64_notes' at ../target/s390x/arch_dump.c:219:9:
->  /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
->   '__builtin_strncpy' specified bound 8 equals destination size
->   [-Werror=stringop-truncation]
-> 
-> Since the name should always be NUL-terminated, let's use g_strlcpy() to
-> silence this warning. And while we're at it, also add an assert() to make
-> sure that the provided names always fit the size field (which is fine for
-> the current callers, the function is called once with "CORE" and once with
-> "LINUX" as a name).
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  v2: Use g_strlcpy instead of strncpy
 
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-With this patch I do get
-
-WARNING: possibly corrupt Elf64_Nhdr: n_namesz: 0 n_descsz: 4 n_type: 88
-
-when running crash on the elf file created by dump-guest-memory. Without the
-patch everything is fine. 
-
+> v4:
+>  * Return positive errno if openat(2) fails in lo_do_open() [Greg]
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 73 ++++++++++++++++++++------------
+>  1 file changed, 46 insertions(+), 27 deletions(-)
 > 
->  target/s390x/arch_dump.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
-> index 50fa0ae4b6..f205123834 100644
-> --- a/target/s390x/arch_dump.c
-> +++ b/target/s390x/arch_dump.c
-> @@ -212,11 +212,13 @@ static int s390x_write_elf64_notes(const char *note_name,
->      int note_size;
->      int ret = -1;
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index 5fb36d9407..f14fa5124d 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -459,17 +459,17 @@ static void lo_map_remove(struct lo_map *map, size_t key)
+>  }
 >  
-> +    assert(strlen(note_name) < sizeof(note.name));
+>  /* Assumes lo->mutex is held */
+> -static ssize_t lo_add_fd_mapping(fuse_req_t req, int fd)
+> +static ssize_t lo_add_fd_mapping(struct lo_data *lo, int fd)
+>  {
+>      struct lo_map_elem *elem;
+>  
+> -    elem = lo_map_alloc_elem(&lo_data(req)->fd_map);
+> +    elem = lo_map_alloc_elem(&lo->fd_map);
+>      if (!elem) {
+>          return -1;
+>      }
+>  
+>      elem->fd = fd;
+> -    return elem - lo_data(req)->fd_map.elems;
+> +    return elem - lo->fd_map.elems;
+>  }
+>  
+>  /* Assumes lo->mutex is held */
+> @@ -1651,6 +1651,38 @@ static void update_open_flags(int writeback, int allow_direct_io,
+>      }
+>  }
+>  
+> +static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+> +                      struct fuse_file_info *fi)
+> +{
+> +    char buf[64];
+> +    ssize_t fh;
+> +    int fd;
 > +
->      for (nf = funcs; nf->note_contents_func; nf++) {
->          memset(&note, 0, sizeof(note));
-> -        note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
-> +        note.hdr.n_namesz = cpu_to_be32(strlen(note_name));
->          note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
-> -        strncpy(note.name, note_name, sizeof(note.name));
-> +        g_strlcpy(note.name, note_name, sizeof(note.name));
->          (*nf->note_contents_func)(&note, cpu, id);
+> +    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+> +
+> +    sprintf(buf, "%i", inode->fd);
+> +    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> +    if (fd == -1) {
+> +        return errno;
+> +    }
+> +
+> +    pthread_mutex_lock(&lo->mutex);
+> +    fh = lo_add_fd_mapping(lo, fd);
+> +    pthread_mutex_unlock(&lo->mutex);
+> +    if (fh == -1) {
+> +        close(fd);
+> +        return ENOMEM;
+> +    }
+> +
+> +    fi->fh = fh;
+> +    if (lo->cache == CACHE_NONE) {
+> +        fi->direct_io = 1;
+> +    } else if (lo->cache == CACHE_ALWAYS) {
+> +        fi->keep_cache = 1;
+> +    }
+> +    return 0;
+> +}
+> +
+>  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+>                        mode_t mode, struct fuse_file_info *fi)
+>  {
+> @@ -1691,7 +1723,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+>          ssize_t fh;
 >  
->          note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
-> 
+>          pthread_mutex_lock(&lo->mutex);
+> -        fh = lo_add_fd_mapping(req, fd);
+> +        fh = lo_add_fd_mapping(lo, fd);
+>          pthread_mutex_unlock(&lo->mutex);
+>          if (fh == -1) {
+>              close(fd);
+> @@ -1892,38 +1924,25 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
+>  
+>  static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>  {
+> -    int fd;
+> -    ssize_t fh;
+> -    char buf[64];
+>      struct lo_data *lo = lo_data(req);
+> +    struct lo_inode *inode = lo_inode(req, ino);
+> +    int err;
+>  
+>      fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino,
+>               fi->flags);
+>  
+> -    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+> -
+> -    sprintf(buf, "%i", lo_fd(req, ino));
+> -    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> -    if (fd == -1) {
+> -        return (void)fuse_reply_err(req, errno);
+> -    }
+> -
+> -    pthread_mutex_lock(&lo->mutex);
+> -    fh = lo_add_fd_mapping(req, fd);
+> -    pthread_mutex_unlock(&lo->mutex);
+> -    if (fh == -1) {
+> -        close(fd);
+> -        fuse_reply_err(req, ENOMEM);
+> +    if (!inode) {
+> +        fuse_reply_err(req, EBADF);
+>          return;
+>      }
+>  
+> -    fi->fh = fh;
+> -    if (lo->cache == CACHE_NONE) {
+> -        fi->direct_io = 1;
+> -    } else if (lo->cache == CACHE_ALWAYS) {
+> -        fi->keep_cache = 1;
+> +    err = lo_do_open(lo, inode, fi);
+> +    lo_inode_put(lo, &inode);
+> +    if (err) {
+> +        fuse_reply_err(req, err);
+> +    } else {
+> +        fuse_reply_open(req, fi);
+>      }
+> -    fuse_reply_open(req, fi);
+>  }
+>  
+>  static void lo_release(fuse_req_t req, fuse_ino_t ino,
+
 
