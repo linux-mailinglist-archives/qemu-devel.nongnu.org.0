@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F2430F99A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:26:16 +0100 (CET)
-Received: from localhost ([::1]:37128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0FF30F9AB
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:29:55 +0100 (CET)
+Received: from localhost ([::1]:45452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7iOV-0004jX-OC
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:26:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44218)
+	id 1l7iS2-00009v-SX
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:29:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7hrb-000638-8y
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:52:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56679)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7htE-0008HZ-6U
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:53:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7hrX-0001j8-La
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:52:14 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l7ht9-0002K6-Th
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:53:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612457531;
+ s=mimecast20190719; t=1612457631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IuSgxnUnp/fPAXkl4v/A8qaT9ISedOc/NMfD0553Q9M=;
- b=cz8NLO3I4VU5fpuvKd0y0XmYhvZOD1cuSBwU1gPW77tuCEaPziWVB11cWgq0d+W/xlNu0j
- erhVGJYEfZ3+xWAnP0j/x4rTng5ARpXT83Wozz9y8UeVGFoN1keIbpFFuhmYsWTg/U/xFM
- 10R2VqVD0yn9GqIKquhRto/zRezx8BU=
+ bh=hP+DR++xu3ptHhHPWxCLN/culkyAHdRwLQCA1dZFR74=;
+ b=MyzH///gUKdzwI9nyFRwapdwT66Lfi29BD6Gn1/MfSA/PNBZDDF9ljhJOUhCddVqSS19cd
+ T0DLjwTx8ihAhzHc5hS5uxLhB+MM0bmGe8IiWhdNIw/iPy3K+Pr6ct/mb4NFO3M7MDnJNU
+ nw83Hvo4pNHd8qBQko7JELVXEbVPLd8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-575-dNaMH9tGNhGQQMdKPOBMuQ-1; Thu, 04 Feb 2021 11:52:07 -0500
-X-MC-Unique: dNaMH9tGNhGQQMdKPOBMuQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-549-uaPw7mloOaaCeFehgs9M_g-1; Thu, 04 Feb 2021 11:53:49 -0500
+X-MC-Unique: uaPw7mloOaaCeFehgs9M_g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0513801960;
- Thu,  4 Feb 2021 16:52:06 +0000 (UTC)
-Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 35F6B1981C;
- Thu,  4 Feb 2021 16:52:03 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- David Hildenbrand <david@redhat.com>, "Richard W.M. Jones"
- <rjones@redhat.com>, Richard Henderson <richard.henderson@linaro.org>
-References: <28457ae1-7e9b-4428-cb10-3b79ebeac8d0@linaro.org>
- <19D304C1-6401-4D16-AB54-DD19C978D04D@redhat.com>
- <db32a1f5-ad73-a341-f5e7-1c8f592d3d5b@redhat.com>
- <bd7154e1-4d6c-5b98-9e80-ec04f8476373@redhat.com>
- <20210204090351.GN30079@redhat.com> <20210204092916.GS27779@redhat.com>
- <b94570e3-9f87-d259-a338-adef1d552d1a@redhat.com>
- <e1bc591d-009f-3b0f-83a0-36095efff7ee@amsat.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
- constant folding
-Message-ID: <2d75544e-a325-aa1a-6b01-ecdd41eb64bf@redhat.com>
-Date: Thu, 4 Feb 2021 10:52:02 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13474100F340;
+ Thu,  4 Feb 2021 16:53:48 +0000 (UTC)
+Received: from work-vm (ovpn-114-21.ams2.redhat.com [10.36.114.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BA5F1D5;
+ Thu,  4 Feb 2021 16:53:43 +0000 (UTC)
+Date: Thu, 4 Feb 2021 16:53:20 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v14 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <20210204165320.GA4276@work-vm>
+References: <20210129101407.103458-1-andrey.gruzdev@virtuozzo.com>
+ <20210204150140.GC24147@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <e1bc591d-009f-3b0f-83a0-36095efff7ee@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210204150140.GC24147@work-vm>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,78 +79,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 10:04 AM, Philippe Mathieu-Daudé wrote:
-
->>> Isn't it kind of weird that this would only affect an s390 host?  I
->>> don't understand why the host would make a difference if we're doing
->>> TCG.
->>
->> I assume an existing BUG in the s390x TCG backend ... which makes it
->> harder to debug :)
+* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> * Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
+> > This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+> > implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
+> > 
+> > Currently the only way to make (external) live VM snapshot is using existing
+> > dirty page logging migration mechanism. The main problem is that it tends to
+> > produce a lot of page duplicates while running VM goes on updating already
+> > saved pages. That leads to the fact that vmstate image size is commonly several
+> > times bigger then non-zero part of virtual machine's RSS. Time required to
+> > converge RAM migration and the size of snapshot image severely depend on the
+> > guest memory write rate, sometimes resulting in unacceptably long snapshot
+> > creation time and huge image size.
+> > 
+> > This series propose a way to solve the aforementioned problems. This is done
+> > by using different RAM migration mechanism based on UFFD write protection
+> > management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+> > guest RAM content using write-protection and iteratively release protection
+> > for memory ranges that have already been saved to the migration stream.
+> > At the same time we read in pending UFFD write fault events and save those
+> > pages out-of-order with higher priority.
 > 
-> This seems to fix it:
+> Queued
 > 
-> -- >8 --
-> diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-> index 8517e552323..32d03dbfbaf 100644
-> --- a/tcg/s390/tcg-target.c.inc
-> +++ b/tcg/s390/tcg-target.c.inc
-> @@ -1094,10 +1094,16 @@ static int tgen_cmp(TCGContext *s, TCGType type,
-> TCGCond c, TCGReg r1,
->                  op = (is_unsigned ? RIL_CLFI : RIL_CFI);
->                  tcg_out_insn_RIL(s, op, r1, c2);
->                  goto exit;
-> -            } else if (c2 == (is_unsigned ? (uint32_t)c2 : (int32_t)c2)) {
+Andrey:
+  I've fixed up some 32bit build casts in the pull.
+Please check them.
 
-In this code, you are comparing c2 to the type promotion of uint32_t and
-int32_t.  That is, the conversion rules are as if you had done:
+Dave
 
-(common_type) c2 == (common_type) (uint32_t) (is_unsigned ? (uint32_t)c2
-: (uint32_t)(int32_t)c2)
-
-> -                op = (is_unsigned ? RIL_CLGFI : RIL_CGFI);
-> -                tcg_out_insn_RIL(s, op, r1, c2);
-> -                goto exit;
-> +            } else if (is_unsigned) {
-> +                if (c2 == (uint32_t)c2) {
-
-whereas this is:
-
-(common_type_unsigned)c2 == (common_type_unsigned)(uint32_t)c2
-
-> +                    tcg_out_insn_RIL(s, RIL_CLGFI, r1, c2);
-> +                    goto exit;
-> +                }
-> +            } else {
-> +                if (c2 == (int32_t)c2) {
-
-and this is:
-
-(common_type_signed)c2 == (common_type_signed)(int32_t)c2
-
-and the two may indeed use a different type.
-
-I'm not sure (from the context shown here) what the type of c2 was, to
-determine what the common types are, but as an example, on my 64-bit system,
-
-(long)-1 == (int32_t)-1
-
-is true (the 64-bit value (long)-1 is equal to the sign-extended 64-bit
-value created from the signed 32-bit value (int32_t)-1), while
-
-(unsigned long)-1 == (uint32_t)(int32_t)-1
-
-is false (the 32-bit unsigned value (uint32_t) -1 promotes without sign
-extension to the 64-bit (unsigned long) type, and 0xffffffffffffffff is
-not equal to 0x00000000ffffffff).
-
+> > How to use:
+> > 1. Enable write-tracking migration capability
+> >    virsh qemu-monitor-command <domain> --hmp migrate_set_capability
+> >    background-snapshot on
+> > 
+> > 2. Start the external migration to a file
+> >    virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
+> > 
+> > 3. Wait for the migration finish and check that the migration has completed.
+> > state.
+> > 
+> > 
+> > Changes v13->v14:
+> > 
+> > * 1. Removed unneeded '#ifdef CONFIG_LINUX' from [PATCH 1/5] where #ifdef'ed
+> > *    code was originally introduced. In v13 removed #ifdef's appeared to be
+> > *    a diff in [PATCH 4/5] on top of previous patches.
+> > 
+> > Changes v12->v13:
+> > 
+> > * 1. Fixed codestyle problem for checkpatch.
+> > 
+> > Changes v11->v12:
+> > 
+> > * 1. Consolidated UFFD-related code under single #if defined(__linux__).
+> > * 2. Abandoned use of pre/post hooks in ram_find_and_save_block() in favour
+> > *    of more compact code fragment in ram_save_host_page().
+> > * 3. Refactored/simplified eBPF code in userfaultfd-wrlat.py script.
+> > 
+> > Changes v10->v11:
+> > 
+> > * 1. Updated commit messages.
+> > 
+> > Changes v9->v10:
+> > 
+> > * 1. Fixed commit message for [PATCH v9 1/5].
+> > 
+> > Changes v8->v9:
+> > 
+> > * 1. Fixed wrong cover letter subject.
+> > 
+> > Changes v7->v8:
+> > 
+> > * 1. Fixed coding style problems to pass checkpatch.
+> > 
+> > Changes v6->v7:
+> > 
+> > * 1. Fixed background snapshot on suspended guest: call qemu_system_wakeup_request()
+> > *    before stopping VM to make runstate transition valid.
+> > * 2. Disabled dirty page logging and log syn when 'background-snapshot' is enabled.
+> > * 3. Introduced 'userfaultfd-wrlat.py' script to analyze UFFD write fault latencies.
+> > 
+> > Changes v5->v6:
+> > 
+> > * 1. Consider possible hot pluggin/unpluggin of memory device - don't use static
+> > *    for write-tracking support level in migrate_query_write_tracking(), check
+> > *    each time when one tries to enable 'background-snapshot' capability.
+> > 
+> > Changes v4->v5:
+> > 
+> > * 1. Refactored util/userfaultfd.c code to support features required by postcopy.
+> > * 2. Introduced checks for host kernel and guest memory backend compatibility
+> > *    to 'background-snapshot' branch in migrate_caps_check().
+> > * 3. Switched to using trace_xxx instead of info_report()/error_report() for
+> > *    cases when error message must be hidden (probing UFFD-IO) or info may be
+> > *    really littering output if goes to stderr.
+> > * 4  Added RCU_READ_LOCK_GUARDs to the code dealing with RAM block list.
+> > * 5. Added memory_region_ref() for each RAM block being wr-protected.
+> > * 6. Reused qemu_ram_block_from_host() instead of custom RAM block lookup routine.
+> > * 7. Refused from using specific hwaddr/ram_addr_t in favour of void */uint64_t.
+> > * 8. Currently dropped 'linear-scan-rate-limiting' patch. The reason is that
+> > *    that choosen criteria for high-latency fault detection (i.e. timestamp of
+> > *    UFFD event fetch) is not representative enough for this task.
+> > *    At the moment it looks somehow like premature optimization effort.
+> > * 8. Dropped some unnecessary/unused code.
+> > 
+> > Andrey Gruzdev (5):
+> >   migration: introduce 'background-snapshot' migration capability
+> >   migration: introduce UFFD-WP low-level interface helpers
+> >   migration: support UFFD write fault processing in ram_save_iterate()
+> >   migration: implementation of background snapshot thread
+> >   migration: introduce 'userfaultfd-wrlat.py' script
+> > 
+> >  include/exec/memory.h        |   8 +
+> >  include/qemu/userfaultfd.h   |  35 ++++
+> >  migration/migration.c        | 357 ++++++++++++++++++++++++++++++++++-
+> >  migration/migration.h        |   4 +
+> >  migration/ram.c              | 303 ++++++++++++++++++++++++++++-
+> >  migration/ram.h              |   6 +
+> >  migration/savevm.c           |   1 -
+> >  migration/savevm.h           |   2 +
+> >  migration/trace-events       |   2 +
+> >  qapi/migration.json          |   7 +-
+> >  scripts/userfaultfd-wrlat.py | 122 ++++++++++++
+> >  util/meson.build             |   1 +
+> >  util/trace-events            |   9 +
+> >  util/userfaultfd.c           | 345 +++++++++++++++++++++++++++++++++
+> >  14 files changed, 1190 insertions(+), 12 deletions(-)
+> >  create mode 100644 include/qemu/userfaultfd.h
+> >  create mode 100755 scripts/userfaultfd-wrlat.py
+> >  create mode 100644 util/userfaultfd.c
+> > 
+> > -- 
+> > 2.25.1
+> > 
+> > 
+> -- 
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+> 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
