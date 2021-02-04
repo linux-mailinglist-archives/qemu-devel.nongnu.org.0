@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3364430EF3C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:08:00 +0100 (CET)
-Received: from localhost ([::1]:43532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C716430EF3D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 10:10:16 +0100 (CET)
+Received: from localhost ([::1]:47854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7acH-0002GK-TQ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:07:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38674)
+	id 1l7aeV-00048m-TQ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 04:10:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7aaJ-0001Gu-UD
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:05:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44553)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7add-0003aI-Pj
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:09:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7aaH-00014e-Qe
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:05:55 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7adb-0002gg-Jc
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 04:09:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612429553;
+ s=mimecast20190719; t=1612429758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3nka1WlGycd2zA23QQsKCkmdKgDG8FTpIhL/PIMS+vo=;
- b=G+lqjxMBeAc2OTcvVEobI+RQTAJPDr3zbWiw2HG0So1jRFCZhv+r/AXXujxedar7RXjsyN
- K1cUp1LIkQ7ZtISxOywE8u5bVXPOnbCBcWrpkmG6Y98e97ok1UGePqmqV4rwOd6LryArNt
- VfiUyJIkeMg9QvKTkWHM+I4SLFRAvo8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-0Ee-FxAIP6uDFk0AdmVssA-1; Thu, 04 Feb 2021 04:05:51 -0500
-X-MC-Unique: 0Ee-FxAIP6uDFk0AdmVssA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 149BC107ACE3;
- Thu,  4 Feb 2021 09:05:50 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-162.ams2.redhat.com [10.36.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 95CB4E155;
- Thu,  4 Feb 2021 09:05:48 +0000 (UTC)
-Date: Thu, 4 Feb 2021 10:05:47 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 23/36] block: adapt bdrv_append() for inserting filters
-Message-ID: <20210204090547.GC6496@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-24-vsementsov@virtuozzo.com>
- <20210203213346.GJ5507@merkur.fritz.box>
- <a68bc8ae-3cc5-5f9b-e3c0-6e39b23edc87@virtuozzo.com>
+ bh=WMWpVk3aYmovOv5BRUp7PSXHyR+f7dVyRZWmCWElF5g=;
+ b=PDJtEt81ovhWUJj+zdrAaUaDB7RceAu1XlDQbmxUeLJ4pflQWqU/K4nKGXgxyZHPNlWZi0
+ +WFmqd02+bAxweQ1AhtnkL9eNzzy0aIDxx1lI8/sbEMobID0d01dz2rtRiGh5kmnz6Pxop
+ ct9geGHUnYtzsvAeZPoPz+h2Z2lRpTo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-cdszzDLjP1Oo8VUhD_uAGQ-1; Thu, 04 Feb 2021 04:09:15 -0500
+X-MC-Unique: cdszzDLjP1Oo8VUhD_uAGQ-1
+Received: by mail-wm1-f69.google.com with SMTP id y138so1430788wmd.5
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 01:09:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WMWpVk3aYmovOv5BRUp7PSXHyR+f7dVyRZWmCWElF5g=;
+ b=mSHqq0njseZKfaV5ph0cZUgnZ3z6oZbWoco0ZDIsP1aArMlxGyh7PALMgpcFxF7A5K
+ R3VoRyBTDHuByS5S6CjkQ6zFXf+PSzX+CWK7/qQ4gOejat+AZkK8kM01nr8+GN6oxRQC
+ q1w9+oOhHIS5xuYn8MoIwThwIAWbsgB1tTnTgxtuBCmr74/PwUUDKHyTV4hUAQxGTfI6
+ QI5OvPPS7pm1wgnqccCTQRM78rTyCFt3yiBaUWIQYPD8wjh8E+6vtOZdMCRUPcVMVb3w
+ dUUIIfpuweZHkG+A3cTtqrf2DACkr6EJZIsyI+H6Zjr/vbIwReRotk4kYtjuIyGfhThU
+ CpAg==
+X-Gm-Message-State: AOAM532dU6z8nK8exm2cAi1QnKLi/K69OYMIxGiDYWHxgC6ljDq9iWOk
+ sU7P+k217/eHfzoyDn8Jjs0GEVzctnagsGZJJsMVCCGbpdIjn1q1wR92FAdugb8vYvcowa6cK7z
+ sjJxM1bHBD+tBQC8=
+X-Received: by 2002:adf:f182:: with SMTP id h2mr8120771wro.355.1612429753922; 
+ Thu, 04 Feb 2021 01:09:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/MKUQsH2gkVfA8ioNvD5UHqHJu3mWS6SbOP4gtJGwsrHMYAYH2467vS3hOG83CFttN8po/A==
+X-Received: by 2002:adf:f182:: with SMTP id h2mr8120733wro.355.1612429753612; 
+ Thu, 04 Feb 2021 01:09:13 -0800 (PST)
+Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.107])
+ by smtp.gmail.com with ESMTPSA id s4sm6816041wrt.85.2021.02.04.01.09.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Feb 2021 01:09:12 -0800 (PST)
+Subject: Re: [PATCH 09/12] qemu-options: Replace the word 'blacklist'
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210202205824.1085853-1-philmd@redhat.com>
+ <20210202205824.1085853-10-philmd@redhat.com>
+ <20210203102558.GK300990@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <562ca6ca-3562-8465-5bda-cc69ac4ae340@redhat.com>
+Date: Thu, 4 Feb 2021 10:09:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <a68bc8ae-3cc5-5f9b-e3c0-6e39b23edc87@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210203102558.GK300990@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,76 +99,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Eduardo Otubo <otubo@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.02.2021 um 09:30 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 04.02.2021 00:33, Kevin Wolf wrote:
-> > Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > >   int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-> > >                   Error **errp)
-> > >   {
-> > > -    Error *local_err = NULL;
-> > > +    int ret;
-> > > +    GSList *tran = NULL;
-> > > -    bdrv_set_backing_hd(bs_new, bs_top, &local_err);
-> > > -    if (local_err) {
-> > > -        error_propagate(errp, local_err);
-> > > -        return -EPERM;
-> > > +    assert(!bs_new->backing);
-> > > +
-> > > +    ret = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
-> > > +                                   &child_of_bds, bdrv_backing_role(bs_new),
-> > > +                                   &bs_new->backing, &tran, errp);
-> > > +    if (ret < 0) {
-> > > +        goto out;
-> > >       }
-> > 
-> > I don't think changing bs->backing without bdrv_set_backing_hd() is
-> > correct at the moment. We lose a few things:
-> > 
-> > 1. The bdrv_is_backing_chain_frozen() check
-> > 2. Updating backing_hd->inherits_from if necessary
-> > 3. bdrv_refresh_limits()
-> > 
-> > If I'm not missing anything, all of these are needed in the context of
-> > bdrv_append().
+On 2/3/21 11:25 AM, Daniel P. Berrangé wrote:
+> On Tue, Feb 02, 2021 at 09:58:21PM +0100, Philippe Mathieu-Daudé wrote:
+>> Follow the inclusive terminology from the "Conscious Language in your
+>> Open Source Projects" guidelines [*] and replace the word "blacklist"
+>> appropriately.
+>>
+>> [*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  qemu-options.hx | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index d0410f05125..75997ee2ea6 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -4275,11 +4275,11 @@ DEF("sandbox", HAS_ARG, QEMU_OPTION_sandbox, \
+>>      "                    by the kernel, but typically no longer used by modern\n" \
+>>      "                    C library implementations.\n" \
+>>      "                use 'elevateprivileges' to allow or deny QEMU process to elevate\n" \
+>> -    "                    its privileges by blacklisting all set*uid|gid system calls.\n" \
+>> +    "                    its privileges by denylisting all set*uid|gid system calls.\n" \
 > 
-> I decided that bdrv_append() is only for appending new nodes, so
-> frozen and inherts_from checks are not needed. And I've added
-> assert(!bs_new->backing)...
+> The original description is a bit wierd in how it reads/explains it, so
+> I think it needs bigger changes:
 > 
-> Checking this now:
+>     "                use 'elevateprivileges' to allow or deny the QEMU process ability
+>     "                to elevate privileges using set*uid|gid system calls.\n" \
 > 
-> - appending filters is obvious
-> - bdrv_append_temp_snapshot() creates new qcow2 node based on tmp
->   file, don't see any backing initialization (and it would be rather
->   strange)
+>>      "                    The value 'children' will deny set*uid|gid system calls for\n" \
+>>      "                    main QEMU process but will allow forks and execves to run unprivileged\n" \
+>>      "                use 'spawn' to avoid QEMU to spawn new threads or processes by\n" \
+>> -    "                     blacklisting *fork and execve\n" \
+>> +    "                     denylisting *fork and execve\n" \
+> 
+> denylisting is a very strange term to use - its not really a word IMHO.
+> Better as
+> 
+>     "                     preventing *fork and execve\n" \
+> 
+> or
+> 
+>     "                     blocking *fork and execve\n" \
 
-Yes, the internal uses are obviously unproblematic for the frozen check.
-
-> - external_snapshot_prepare() do check if
->   (bdrv_cow_child(state->new_bs)) {  error-out }
-
-Ok, the only thing bdrv_set_backing_hd() can and must check is whether
-the link to the old backing file was frozen, and we know that we don't
-have an old backing file. Makes sense.
-
-Same thing for inherits_from, we only do this if the the new backing
-file (i.e. the old active layer for bdrv_append) was already in the
-backing chain of the new node.
-
-> So everything is OK. I should describe it in commit message and add a
-> comment to bdrv_append.
-
-What about bdrv_refresh_limits()? The node gains a new backing file, so
-I think the limits could change.
-
-Ideally, bdrv_child_cb_attach/detach() would take care of this, but at
-the moment they don't.
-
-Kevin
+While 'preventing' sounds nicer, 'blocking' is simpler to understand
+from a technical English speaker, so I took your 2nd suggestion, thanks.
 
 
