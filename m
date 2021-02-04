@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1B030FD3E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:50:08 +0100 (CET)
-Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F24D30FD42
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:51:11 +0100 (CET)
+Received: from localhost ([::1]:50812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kdj-00055w-2p
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:50:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55136)
+	id 1l7kek-0005nD-MV
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:51:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1l7kUJ-0002le-Da
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:40:23 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37206)
+ id 1l7kV8-0003LD-Eu
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:41:14 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1l7kUH-00068s-9Z
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:40:23 -0500
+ id 1l7kV5-0006XN-0k
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:41:14 -0500
 Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 114JZaeR047819; Thu, 4 Feb 2021 14:40:18 -0500
+ 114JZWBT047541; Thu, 4 Feb 2021 14:41:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=XeF6SjxQBRr1vOUBLVNYEP4918ZfK22ED/VcSJPDxWU=;
- b=sH8kaZDyyhhdW8f6/cbxHvueLMJpg4RkIzpA0wXl87dGTAl6lFAnuD2t7cMe3dhS/sTl
- 4Ooe91HgbD+DGbAlEBKX6cntxwYDql2v3c5eGaqXys1j0MkTYoMF953LHQPrLejWZ5pv
- jqww4dZ3Zzd84TcBDZL7fTYfJo/0d62XQJ4jnJy6AG0Aae7XR652Q2tP7AE3wDl3SKmn
- ImYNxY2jE98wH+YKT5taO0NlulNjCNPoUlbarLvqKvWLN9kXwJT9k1U/YOmjSwDlOyDU
- f9NNq0s4tO9v3Pxs1zXBklW05aFCLDfhvpGd6gKoS1HXr0ee6KiOZ0NU55VSdw+hMaTr xQ== 
+ bh=EyMUtAnR+754LGsn4ff2xN2ShGV0cZeWERjWRJBcNhc=;
+ b=oTluc6Vb9TL1DjMgdqFIVm4n5V01mjiHF6MG3C8ghijfqT+i1JyVnT2hYD1Kd05Zoqrb
+ NtX2GwFJfRKIeKbC0S7oxeY7+4n/v4E1YPpcpNqz06FAbj/rWBOO80x9wJ4xfXa2iGDq
+ 5W7nimIvSSwoKYou4ESzrjpTPrQ27ZUXuSTl/oBKJoZiHRb+P6eK1VX04CrhuzJ0CtM8
+ xLFOlM11ZS/Zw6eX1y+s/50mNFs9C5TfE+ynkskVhQd0k8AQo4uMsNkyJkxRlAbaW0L6
+ RRuKq9MZOQXkHqwHzEugV8zC2Ra8Qqflg+5Kj9aeJhGs7YmtyO1V1nLKCi+kMo+ad+lw 3Q== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36gn5tbjsj-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36gn5tbkn0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Feb 2021 14:40:18 -0500
+ Thu, 04 Feb 2021 14:41:08 -0500
 Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 114JZsdB050256;
- Thu, 4 Feb 2021 14:40:18 -0500
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 114JZaF4047888;
+ Thu, 4 Feb 2021 14:41:08 -0500
 Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
  [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36gn5tbjs0-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36gn5tbkmr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Feb 2021 14:40:18 -0500
+ Thu, 04 Feb 2021 14:41:08 -0500
 Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 114Jc8ks019409;
- Thu, 4 Feb 2021 19:40:17 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma03dal.us.ibm.com with ESMTP id 36f3kvs1f6-1
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 114Jc8xu019431;
+ Thu, 4 Feb 2021 19:41:07 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03dal.us.ibm.com with ESMTP id 36f3kvs1mc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 Feb 2021 19:40:17 +0000
+ Thu, 04 Feb 2021 19:41:07 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 114JeD4x24772936
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 114Jf3SL26870166
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 4 Feb 2021 19:40:14 GMT
+ Thu, 4 Feb 2021 19:41:04 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D90336A051;
- Thu,  4 Feb 2021 19:40:13 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id DA42D6A04D;
+ Thu,  4 Feb 2021 19:41:03 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7703D6A047;
- Thu,  4 Feb 2021 19:40:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 762066A047;
+ Thu,  4 Feb 2021 19:41:01 +0000 (GMT)
 Received: from jarvis.int.hansenpartnership.com (unknown [9.85.153.205])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  4 Feb 2021 19:40:11 +0000 (GMT)
+ Thu,  4 Feb 2021 19:41:01 +0000 (GMT)
 From: James Bottomley <jejb@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] pc: add parser for OVMF reset block
-Date: Thu,  4 Feb 2021 11:39:38 -0800
-Message-Id: <20210204193939.16617-2-jejb@linux.ibm.com>
+Subject: [PATCH v3 2/2] sev: update sev-inject-launch-secret to make gpa
+ optional
+Date: Thu,  4 Feb 2021 11:39:39 -0800
+Message-Id: <20210204193939.16617-3-jejb@linux.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210204193939.16617-1-jejb@linux.ibm.com>
 References: <20210204193939.16617-1-jejb@linux.ibm.com>
@@ -116,189 +117,84 @@ Cc: thomas.lendacky@amd.com, ashish.kalra@amd.com, brijesh.singh@amd.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OVMF is developing a mechanism for depositing a GUIDed table just
-below the known location of the reset vector.  The table goes
-backwards in memory so all entries are of the form
+If the gpa isn't specified, it's value is extracted from the OVMF
+properties table located below the reset vector (and if this doesn't
+exist, an error is returned).  OVMF has defined the GUID for the SEV
+secret area as 4c2eb361-7d9b-4cc3-8081-127c90d3d294 and the format of
+the <data> is: <base>|<size> where both are uint32_t.  We extract
+<base> and use it as the gpa for the injection.
 
-<data>|len|<GUID>
-
-Where <data> is arbtrary size and type, <len> is a uint16_t and
-describes the entire length of the entry from the beginning of the
-data to the end of the guid.
-
-The foot of the table is of this form and <len> for this case
-describes the entire size of the table.  The table foot GUID is
-defined by OVMF as 96b582de-1fb2-45f7-baea-a366c55a082d and if the
-table is present this GUID is just below the reset vector, 48 bytes
-before the end of the firmware file.
-
-Add a parser for the ovmf reset block which takes a copy of the block,
-if the table foot guid is found, minus the footer and a function for
-later traversal to return the data area of any specified GUIDs.
+Note: it is expected that the injected secret will also be GUID
+described but since qemu can't interpret it, the format is left
+undefined here.
 
 Signed-off-by: James Bottomley <jejb@linux.ibm.com>
 
 ---
 
-v2: fix brace warnings and return values
-v3: add bounds checking for flash tables
+v2: fix line length warning, add more comments about sev area
+v2: remove misleading comment
 ---
- hw/i386/pc_sysfw.c   | 112 +++++++++++++++++++++++++++++++++++++++++++
- include/hw/i386/pc.h |   4 ++
- 2 files changed, 116 insertions(+)
+ qapi/misc-target.json |  2 +-
+ target/i386/monitor.c | 23 ++++++++++++++++++++++-
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index 92e90ff013..8ef73dbc3a 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -124,6 +124,113 @@ void pc_system_flash_cleanup_unused(PCMachineState *pcms)
-     }
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index 06ef8757f0..0c7491cd82 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -216,7 +216,7 @@
+ #
+ ##
+ { 'command': 'sev-inject-launch-secret',
+-  'data': { 'packet-header': 'str', 'secret': 'str', 'gpa': 'uint64' },
++  'data': { 'packet-header': 'str', 'secret': 'str', '*gpa': 'uint64' },
+   'if': 'defined(TARGET_I386)' }
+ 
+ ##
+diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+index 1bc91442b1..5994408bee 100644
+--- a/target/i386/monitor.c
++++ b/target/i386/monitor.c
+@@ -34,6 +34,7 @@
+ #include "sev_i386.h"
+ #include "qapi/qapi-commands-misc-target.h"
+ #include "qapi/qapi-commands-misc.h"
++#include "hw/i386/pc.h"
+ 
+ /* Perform linear address sign extension */
+ static hwaddr addr_canonical(CPUArchState *env, hwaddr addr)
+@@ -730,9 +731,29 @@ SevCapability *qmp_query_sev_capabilities(Error **errp)
+     return sev_get_capabilities(errp);
  }
  
-+#define OVMF_TABLE_FOOTER_GUID "96b582de-1fb2-45f7-baea-a366c55a082d"
++#define SEV_SECRET_GUID "4c2eb361-7d9b-4cc3-8081-127c90d3d294"
++struct sev_secret_area {
++    uint32_t base;
++    uint32_t size;
++};
 +
-+static uint8_t *ovmf_table;
-+static int ovmf_table_len;
+ void qmp_sev_inject_launch_secret(const char *packet_hdr,
+-                                  const char *secret, uint64_t gpa,
++                                  const char *secret,
++                                  bool has_gpa, uint64_t gpa,
+                                   Error **errp)
+ {
++    if (!has_gpa) {
++        uint8_t *data;
++        struct sev_secret_area *area;
 +
-+static void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
-+{
-+    uint8_t *ptr;
-+    QemuUUID guid;
-+    int tot_len;
-+
-+    /* should only be called once */
-+    if (ovmf_table) {
-+        return;
-+    }
-+
-+    if (flash_size < TARGET_PAGE_SIZE) {
-+        return;
-+    }
-+
-+    /*
-+     * if this is OVMF there will be a table footer
-+     * guid 48 bytes before the end of the flash file.  If it's
-+     * not found, silently abort the flash parsing.
-+     */
-+    qemu_uuid_parse(OVMF_TABLE_FOOTER_GUID, &guid);
-+    guid = qemu_uuid_bswap(guid); /* guids are LE */
-+    ptr = flash_ptr + flash_size - 48;
-+    if (!qemu_uuid_is_equal((QemuUUID *)ptr, &guid)) {
-+        return;
-+    }
-+
-+    /* if found, just before is two byte table length */
-+    ptr -= sizeof(uint16_t);
-+    tot_len = le16_to_cpu(*(uint16_t *)ptr) - sizeof(guid) - sizeof(uint16_t);
-+
-+    if (tot_len <= 0) {
-+        return;
-+    }
-+
-+    ovmf_table = g_malloc(tot_len);
-+    ovmf_table_len = tot_len;
-+
-+    /*
-+     * ptr is the foot of the table, so copy it all to the newly
-+     * allocated ovmf_table and then set the ovmf_table pointer
-+     * to the table foot
-+     */
-+    memcpy(ovmf_table, ptr - tot_len, tot_len);
-+    ovmf_table += tot_len;
-+}
-+
-+bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
-+                               int *data_len)
-+{
-+    uint8_t *ptr = ovmf_table;
-+    int tot_len = ovmf_table_len;
-+    QemuUUID entry_guid;
-+
-+    if (qemu_uuid_parse(entry, &entry_guid) < 0) {
-+        return false;
-+    }
-+
-+    if (!ptr) {
-+        return false;
-+    }
-+
-+    entry_guid = qemu_uuid_bswap(entry_guid); /* guids are LE */
-+    while (tot_len >= sizeof(QemuUUID) + sizeof(uint16_t)) {
-+        int len;
-+        QemuUUID *guid;
-+
-+        /*
-+         * The data structure is
-+         *   arbitrary length data
-+         *   2 byte length of entire entry
-+         *   16 byte guid
-+         */
-+        guid = (QemuUUID *)(ptr - sizeof(QemuUUID));
-+        len = le16_to_cpu(*(uint16_t *)(ptr - sizeof(QemuUUID) -
-+                                        sizeof(uint16_t)));
-+
-+        /*
-+         * just in case the table is corrupt, wouldn't want to spin in
-+         * the zero case
-+         */
-+        if (len < sizeof(QemuUUID) + sizeof(uint16_t)) {
-+            return false;
-+        } else if (len > tot_len) {
-+            return false;
++        if (!pc_system_ovmf_table_find(SEV_SECRET_GUID, &data, NULL)) {
++            error_setg(errp, "SEV: no secret area found in OVMF,"
++                       " gpa must be specified.");
++            return;
 +        }
-+
-+        ptr -= len;
-+        tot_len -= len;
-+        if (qemu_uuid_is_equal(guid, &entry_guid)) {
-+            if (data) {
-+                *data = ptr;
-+            }
-+            if (data_len) {
-+                *data_len = len - sizeof(QemuUUID) - sizeof(uint16_t);
-+            }
-+            return true;
-+        }
++        area = (struct sev_secret_area *)data;
++        gpa = area->base;
 +    }
-+    return false;
-+}
 +
- /*
-  * Map the pcms->flash[] from 4GiB downward, and realize.
-  * Map them in descending order, i.e. pcms->flash[0] at the top,
-@@ -195,6 +302,11 @@ static void pc_system_flash_map(PCMachineState *pcms,
-             if (kvm_memcrypt_enabled()) {
-                 flash_ptr = memory_region_get_ram_ptr(flash_mem);
-                 flash_size = memory_region_size(flash_mem);
-+                /*
-+                 * OVMF places a GUIDed structures in the flash, so
-+                 * search for them
-+                 */
-+                pc_system_parse_ovmf_flash(flash_ptr, flash_size);
-                 ret = kvm_memcrypt_encrypt_data(flash_ptr, flash_size);
-                 if (ret) {
-                     error_report("failed to encrypt pflash rom");
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 2aa8797c6e..19a53f745f 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -3,6 +3,7 @@
- 
- #include "qemu/notify.h"
- #include "qapi/qapi-types-common.h"
-+#include "qemu/uuid.h"
- #include "hw/boards.h"
- #include "hw/block/fdc.h"
- #include "hw/block/flash.h"
-@@ -188,6 +189,9 @@ ISADevice *pc_find_fdc0(void);
- void pc_system_flash_create(PCMachineState *pcms);
- void pc_system_flash_cleanup_unused(PCMachineState *pcms);
- void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
-+bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
-+                               int *data_len);
-+
- 
- /* acpi-build.c */
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+     sev_inject_launch_secret(packet_hdr, secret, gpa, errp);
+ }
 -- 
 2.26.2
 
