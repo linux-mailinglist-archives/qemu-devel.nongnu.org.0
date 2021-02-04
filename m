@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A7630F3CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 14:23:06 +0100 (CET)
-Received: from localhost ([::1]:57360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE7430F3D8
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 14:28:18 +0100 (CET)
+Received: from localhost ([::1]:33880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ebA-0005g3-SE
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 08:23:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40756)
+	id 1l7egE-0007u8-2Z
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 08:28:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7eaK-0005Cj-47
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:22:12 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39040)
+ id 1l7ee1-0006bt-1C
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:26:02 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7eaH-0007q3-V8
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:22:11 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id a1so3475379wrq.6
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 05:22:09 -0800 (PST)
+ id 1l7edx-00010B-QT
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 08:26:00 -0500
+Received: by mail-wm1-x331.google.com with SMTP id c127so2968755wmf.5
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 05:25:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=fY2MsHMjO9BDnalU5QeO+1wkCGXNA5f0IWYf5N0jHJs=;
- b=s69DN1EA2zeOjyNT7dZaL544gYIqMvIQ5Pik2eSR8GQLCNSHOYVzdDCP414sAHSk0A
- WIiU71Oy/CPynr6U7kXN9Ab4rGYu/+xFeDJc8QlT2MxqoUGCfecJA51NCAr4mQVBJkWn
- ixYCH9BJKwinY+4vAjCt+Hz/Jry0r0F19Pxb7H1q0glx8KVtcxi/9iVrxWow5oIHU7kS
- EGa073tNHqaYP7XIOHdLqf9M7idKTMuydiC1g1m77cPUo5uoj/z7ZWKN07Tpip6/FDTW
- o3VQjbcj6UneGz3TX/B8eYXUg/D8y7G4P7iJUGh+Syy/OiitUxvhlMGw7vETWq54NNZ5
- PNvA==
+ bh=t1kqjXAcfqKGsvUDjObHdyYOolHS416prALECSmtfDg=;
+ b=jyLdik+0CqiUWXioGejGvbw/8MfIPjcWO7G8pu2Vtu2qC3wYMvYoeOO+awls4kergk
+ jbDdCvbH3JKANpjZRKdpyjwwyg/eiknJTaSydnyirxkCxi3HxLwwNL3DnSZkTg6k9nU3
+ uhQxQhLjOTWVINwtmvVnrbvt0Hs4uFTilvflIIHcEfp/ZBUgTJGzLfiUfmoXHq5bPNA/
+ R4q3W27FJjThhg+NExSIEfGAWTE9t4Z8dUQrkWvZfYKjGEq43sFuHAflYMeno4U8fyHT
+ ir7dOtfCyqN2TUNOEP9/a+JQIf3K7sgC8CLq18xVa8Lk+kNQssOBQF+Ooah5/4buZ298
+ MUpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=fY2MsHMjO9BDnalU5QeO+1wkCGXNA5f0IWYf5N0jHJs=;
- b=PVGs72XuL6Wd1CoT8cgKrreOTY+DpUzyqcEofsTYvLtVaDuwnaRHK5CUZG1LP5hrY9
- cqgaB2KdGJ5mrclxJm5oTlQdxSW53Pb1hl3o4lNx/0kIT5ylKUUc8hq0RBaJrJV0Xyw7
- XViVDrSFpT6d9NY3wXLXbOcVJd2+CQaklDDURUTgd2YIXxJXXmzkWrGrCAw6q/FtqVJS
- cy6Q1pQN+7hYUTm5kMDnjVvuUP4JyHEdqmDs1r5RaQpUH4ayqRSoV/QQIYu94xa0OBPw
- 5QXfmqxwnAx67n0cNLiADmRzLFA3MwUImkcGoiby5ZrOtyRZiKUtZgN4jeqtP0z+XApB
- ZG0Q==
-X-Gm-Message-State: AOAM530MC6zGp0WeQTRUMgFgtlltO5i8UGhcUu4+WBwlJjJraEmHrQME
- xYuJVmnEVFjj68S7y3LHD/mR4g==
-X-Google-Smtp-Source: ABdhPJyL8RQuf5r3NelE0sU+e2aNq/9cMEOmBgaLa1/0BX5YMbG0TU50oRFTubiKCPer3RLP+5by0Q==
-X-Received: by 2002:a5d:5708:: with SMTP id a8mr9264270wrv.211.1612444928156; 
- Thu, 04 Feb 2021 05:22:08 -0800 (PST)
+ bh=t1kqjXAcfqKGsvUDjObHdyYOolHS416prALECSmtfDg=;
+ b=liexSsmjGLWeEfChasAxI+tXHpc/Bzo8zXMwIza4IzQNcoUL8aP/ECX4+tpq7frhfZ
+ Xq5lgDbpUJoixUpt/Hwjy+cpPpbHwdTWuMnZQSLg5iAukeV3khAb+7tvLl2GIkY2eBuS
+ Z9DQ9eOqeksjdCj3T5mf/ZIjOWo33Bo/QsoknBjxof//+Hs8+XcM3lg4vkuoANWrdlo4
+ NNNrlfYNgIyQFdS9HX29oUJJUVFwSmmry3DeSnceeu0K7vaCeQZdJFgaq0mKoletFgrR
+ fLqf+8ZHkLzJYcwn8nSw8zLlpKhpFFAD+hqHItVQ6LEjuKLcwRE9WOOMAvsplTNsaqUZ
+ bWNA==
+X-Gm-Message-State: AOAM531RmdjTKWIVGJjS/V4KSIU+qZ4/PYEqVhhkDUArX7Vh+Vx3WqDg
+ bCM2GXLA+4MI3THgoKVVqQ1FBA==
+X-Google-Smtp-Source: ABdhPJyzxs1wXcBGq8xxC97lLjlMUlLSRMvAyYJC7oXEQlFipFG2lQXtf/smEjbDS/l9JzEKECwU0w==
+X-Received: by 2002:a7b:c188:: with SMTP id y8mr7215787wmi.173.1612445156095; 
+ Thu, 04 Feb 2021 05:25:56 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 9sm8866259wra.80.2021.02.04.05.22.06
+ by smtp.gmail.com with ESMTPSA id b13sm7911470wrt.31.2021.02.04.05.25.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Feb 2021 05:22:06 -0800 (PST)
+ Thu, 04 Feb 2021 05:25:54 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2197C1FF7E;
- Thu,  4 Feb 2021 13:22:06 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 681DB1FF7E;
+ Thu,  4 Feb 2021 13:25:53 +0000 (GMT)
 References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-7-crosa@redhat.com>
+ <20210203172357.1422425-8-crosa@redhat.com>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH 06/22] tests/acceptance/virtiofs_submounts.py: use a
- virtio-net device instead
-Date: Thu, 04 Feb 2021 13:22:01 +0000
-In-reply-to: <20210203172357.1422425-7-crosa@redhat.com>
-Message-ID: <875z38q875.fsf@linaro.org>
+Subject: Re: [PATCH 07/22] tests/acceptance/virtiofs_submounts.py: evaluate
+ string not length
+Date: Thu, 04 Feb 2021 13:23:21 +0000
+In-reply-to: <20210203172357.1422425-8-crosa@redhat.com>
+Message-ID: <8735ycq80u.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,12 +106,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Cleber Rosa <crosa@redhat.com> writes:
 
-> In a virtiofs based tests, it seems safe to assume that the guest will
-> be capable of a virtio-net device.
+> If the vmlinuz variable is set to anything that evaluates to True,
+> then the respective arguments should be set.  If the variable contains
+> an empty string, than it will evaluate to False, and the extra
+> arguments will not be set.
+>
+> This keeps the same logic, but improves readability a bit.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  tests/acceptance/virtiofs_submounts.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/vi=
+rtiofs_submounts.py
+> index f1b49f03bb..f25a386a19 100644
+> --- a/tests/acceptance/virtiofs_submounts.py
+> +++ b/tests/acceptance/virtiofs_submounts.py
+> @@ -241,7 +241,7 @@ class VirtiofsSubmountsTest(BootLinux):
+>=20=20
+>          super(VirtiofsSubmountsTest, self).setUp(pubkey)
+>=20=20
+> -        if len(vmlinuz) > 0:
+> +        if vmlinuz:
+>              self.vm.add_args('-kernel', vmlinuz,
+>                               '-append', 'console=3DttyS0 root=3D/dev/sda=
+1')
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+And this is were I gave up because I can't see how to run the test:
+
+  ./tests/venv/bin/avocado run ./tests/acceptance/virtiofs_submounts.py
+  JOB ID     : b3d9bfcfcd603189a471bec7d770fca3b50a81ee
+  JOB LOG    : /home/alex/avocado/job-results/job-2021-02-04T13.21-b3d9bfc/=
+job.log
+   (1/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.tes=
+t_pre_virtiofsd_set_up: CANCEL: vmlinuz parameter not set; you must point i=
+t to a Linux kernel binary to test (to run this test with the on-image kern=
+el, set it to an empty string) (0.00 s)
+   (2/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.tes=
+t_pre_launch_set_up: CANCEL: vmlinuz parameter not set; you must point it t=
+o a Linux kernel binary to test (to run this test with the on-image kernel,=
+ set it to an empty string) (0.00 s)
+   (3/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.tes=
+t_post_launch_set_up: CANCEL: vmlinuz parameter not set; you must point it =
+to a Linux kernel binary
+  to test (to run this test with the on-image kernel, set it to an empty st=
+ring) (0.00 s)
+   (4/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.tes=
+t_post_mount_set_up: CANCEL: vmlinuz parameter not set; you must point it t=
+o a Linux kernel binary to test (to run this test with the on-image kernel,=
+ set it to an empty string) (0.00 s)
+   (5/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.tes=
+t_two_runs: CANCEL: vmlinuz parameter not set; you must point it to a Linux=
+ kernel binary to test (to run this test with the on-image kernel, set it t=
+o an empty string) (0.00 s)
+  RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | =
+CANCEL 5
+  JOB TIME   : 0.56 s
+
+Given the test seems to make assumptions about an environment being
+setup for it I think we need some documentation somewhere about what
+those pre-requisites are. FWIW I also had the following locally applied
+to workaround the fact the losetup and mkfs.xfs binaries aren't visible
+to normal users.
+
+modified   tests/acceptance/virtiofs_submounts.py
+@@ -173,7 +173,10 @@ class VirtiofsSubmountsTest(LinuxTest):
+         self.run(('bash', self.get_data('cleanup.sh'), scratch_dir))
+=20
+     @skipUnless(*has_cmds(('sudo -n', ('sudo', '-n', 'true')),
+-                          'ssh-keygen', 'bash', 'losetup', 'mkfs.xfs', 'mo=
+unt'))
++                          'ssh-keygen', 'bash',
++                          ('losetup', ('sudo', '-n', 'losetup')),
++                          ('mkfs.xfs', ('sudo', '-n', 'which', 'mkfs.xfs')=
+),
++                          'mount'))
+     def setUp(self):
+         vmlinuz =3D self.params.get('vmlinuz')
+         if vmlinuz is None:
 
 --=20
 Alex Benn=C3=A9e
