@@ -2,62 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0589C30EE46
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 09:27:10 +0100 (CET)
-Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A702430EE5D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 09:31:58 +0100 (CET)
+Received: from localhost ([::1]:53380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7Zym-0002k5-Ms
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 03:27:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
+	id 1l7a3R-0005Ef-Ec
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 03:31:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7ZxQ-0001lQ-Cd
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:25:44 -0500
-Received: from 10.mo52.mail-out.ovh.net ([87.98.187.244]:33119)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l7a1s-0004bf-GD; Thu, 04 Feb 2021 03:30:21 -0500
+Received: from mail-am6eur05on2095.outbound.protection.outlook.com
+ ([40.107.22.95]:60800 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l7ZxL-00007k-WC
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:25:44 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 366E623D1A5;
- Thu,  4 Feb 2021 09:25:35 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l7a1p-0002KH-48; Thu, 04 Feb 2021 03:30:19 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K2TQkTizYj0floA+CjPveTbwGXUzNA80X8bu35FnwkWopqpvNN6zDePmReHDfTv3YMBrsFefpgCf3Ibrw6wjtyxSkEv6/MKxH1rG8Ej3mUNPmoEJ2/70K/gEjTrZjDxDw/ev4g1EJKnCAfcH0WpscfH2lfy+uiS/C/tZZWqI88TQEVMBCR4mctSHYc46JEm+A8bqIJgVcrS+BV7okswuuZYDlwdqq/wkSllP7HCQQys4LiuQoph9l5aZSEj+H1slFGn/4sfO5i+p/p0ep6JgiP0vUFLBKxM+Y24Qu89mevX+TtPlaiNgG1Y5+FVZG+/p+TkelmQdz5xIckFTmQ3t/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Bb07x2YER/534SEwlxIaV6A9cuvcX0mJi3ST5mNrNI=;
+ b=nyxm0b4xCYfK1CRpA5McLscSnHbtv14ij9IJbPe+6D2Ivjk3whObBqukewlE0Egc0PNUAAalfLV1kdRxbJI7U0fXyBa6fE72ShCUmkHwud6eWKGw8UkuSDDtwmRCeExOFxLFHyjldSLbGuyWDQkp/44G5r7vzaEag8j+9vh3uJQL5MX3u4FUkvmMognuHb6b4ghcRu3X7itnG1qNtys8C7HcTkL9tnc38oV3X9ioO5Uztn8o+2C53h+WZV7wRu/+SAL4WpuMW3u0yootgpze70PJc9xEyRP9NCqS7vcvqlDLd0jRAk83su+k4Xet1U84QERjCGdi75vT2i+MXRuguA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Bb07x2YER/534SEwlxIaV6A9cuvcX0mJi3ST5mNrNI=;
+ b=VOG+FY5WUyG/zitS1VewGF6mDsVbTNG9m7JwJsmfTPFAiMSe9HNgh9DgtAsNA7+OzpH0dgvo7tGt6EiwiKQvC+TCcza6Zutkvg72W5WvI/rQrPzgtR5ftMu6L0INquJL7iOaxmtskw+Ws9MCeRPdzUY1bHG4ej76NTBx9X09BoE=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6069.eurprd08.prod.outlook.com (2603:10a6:20b:29c::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 4 Feb 2021
- 09:25:33 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G00543c615aa-5356-4efd-b57d-319afd77e0e3,
- B83331F2441F4055165AC8819D583561B3B7D288) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Thu, 4 Feb 2021 09:25:28 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v4 2/3] virtiofsd: optionally return inode pointer from
- lo_do_lookup()
-Message-ID: <20210204092528.0f4b3200@bahia.lan>
-In-Reply-To: <20210203170006.GK74271@stefanha-x1.localdomain>
-References: <20210203113719.83633-1-stefanha@redhat.com>
- <20210203113719.83633-3-stefanha@redhat.com>
- <20210203152014.443a8b29@bahia.lan>
- <20210203170006.GK74271@stefanha-x1.localdomain>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.23; Thu, 4 Feb
+ 2021 08:30:13 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Thu, 4 Feb 2021
+ 08:30:13 +0000
+Subject: Re: [PATCH v2 23/36] block: adapt bdrv_append() for inserting filters
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, mreitz@redhat.com, den@openvz.org
+References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+ <20201127144522.29991-24-vsementsov@virtuozzo.com>
+ <20210203213346.GJ5507@merkur.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <a68bc8ae-3cc5-5f9b-e3c0-6e39b23edc87@virtuozzo.com>
+Date: Thu, 4 Feb 2021 11:30:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+In-Reply-To: <20210203213346.GJ5507@merkur.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.214]
+X-ClientProxiedBy: AM0PR08CA0033.eurprd08.prod.outlook.com
+ (2603:10a6:208:d2::46) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/1E9Ev5psbM7H+GMPlMXCCEO";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: e23b8230-123d-4dc0-80aa-4c7d073613a9
-X-Ovh-Tracer-Id: 12645826279831673266
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrgeefgdduudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefggfefueegudegkeevieevveejfffhuddvgeffteekieevueefgfeltdfgieetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehslhhpsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=87.98.187.244; envelope-from=groug@kaod.org;
- helo=10.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.214) by
+ AM0PR08CA0033.eurprd08.prod.outlook.com (2603:10a6:208:d2::46) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.19 via Frontend Transport; Thu, 4 Feb 2021 08:30:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 28eeb479-b585-4d90-3b68-08d8c8e717af
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6069:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6069124A29364BD52A8C2260C1B39@AS8PR08MB6069.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: KwP13RaiWCPaBwvPPRh8w8TMNjNA0wep8NRxM0e5WBHcPdho5AtOQF3Baj9hMA9zL8e9ngKYEqnIi9BJQUUnWL8Wl1lFVJ2hYtmqsTpjzN3Qk2tfA4vKlFRCji0z1iCI4D2KzoTAvait53xP4zoKiMSBHjY7bZEZ+q7e41QnCaeJAWvpmsCTPVcJOEMCM21m+f1Ut2YWkhSlCByZz1zlXZXdoqFPg6NqGfS6PdrAeowSPxrhGZYJBt4PFuivKoHE75VaQlD6/Do9RDgTNvasAqHGFbJ69Z4EJ2gUybKg5pxVlHMkxNgJM2/cX0OvS7QXrBRxWpSWTFgrDJr0Noj9aDl0IrW2xEajPLHdtsBvBalxl/TG9tkhTNqG4NztW4LLD4MK+3uTqqy+sBh/lO0DBVc+53rzGaz5O19IsYH86OqJiikWcXkE/FGyOF+Py1QSkYZ44J6kvdLR+A8y2X3X8Q2U6PruzdHTakmsevsVbdJRDHNNeFBZL7aoRsROnQxj16swEUQqkBR/0MXJJbiK574XdmDei9MT36TeOGDADN/w8ps/HQTYOv+6mcrZcLNVxyJmk/gAw9lywBFASVoDvh9BeKRSZa5aGTpqLF7Hyxg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(39840400004)(136003)(366004)(5660300002)(478600001)(66946007)(6916009)(52116002)(86362001)(31696002)(956004)(8936002)(66476007)(2616005)(4326008)(186003)(16576012)(16526019)(26005)(8676002)(2906002)(316002)(107886003)(31686004)(83380400001)(66556008)(36756003)(6486002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?M3RBR0dPc2VIeWhNZEtKUEh5L0pxdkZEdzNZTjVmeXlTZTNoaTdjcEp5dWEw?=
+ =?utf-8?B?VGxFcHNmK2t3MEN5VlRUYmJNYTNJTWl0dzcxU01JTnh4am54TXFvR3d5eW1P?=
+ =?utf-8?B?MThkeUVIR0N5MjlXdy9KMXVnNmhYQ0x4dVVsMDVCT2NoMTRzenhRZTRVL241?=
+ =?utf-8?B?MFo5eCs3UVhsZlNKMk1vTDZXWXpiOWNpRkxRcjdQdXlRRzVMTWJZQk8rNEJP?=
+ =?utf-8?B?dlNzVXhRTzk5RklGTXk5b08vVU9hNmFKWHJFeFdidXNwb2pFR2NIYTNYTWNK?=
+ =?utf-8?B?bmdqZDBHOEZzcGJlVld1R0tidHJhbXZZdko0S2ZNRGFFSkdONDFvUk1ubTc1?=
+ =?utf-8?B?THdJdUhFa2ZFbHo0QkNmSVdXUGtnK3RLN2l3bEpmcnFhaTZjbGYvWXQ4dHZJ?=
+ =?utf-8?B?ZCtsbVAwL0dBZXJHSTE4aXpWUThsdTREQWxPaS90L3U5aU15NzBhMkw0WDZj?=
+ =?utf-8?B?c0hZN3E2Z3BqN21ubFRWazNybkZIT0tocWROZVE1MHRNOW5TR1hURm40T1FH?=
+ =?utf-8?B?QlZtM1duWFRIaUk0ZTB4QnlrVmFRUExGallSbFg3dmRqMzI4K1JrcTkvaE12?=
+ =?utf-8?B?OTdlZStXTm9yc3JwYlJPMklGeW1iU3dMOVBMODNpWldFclNEd1JaQnRhUmVO?=
+ =?utf-8?B?YWNmM0Y0NkUvQ1lGMFlaV3lhN3R0R3h4eHhJRnhTMW4rdG9EaGxZd0x1dWpk?=
+ =?utf-8?B?T3BZVUw5QlI4UVhNYzhsL3VwcFYyeGR0Mk1kWE5FdWwzem1KbDVHV3YyaHhX?=
+ =?utf-8?B?b1FPcC96SXh4bURTRkNiNnU3ZEdVemwwemN2UTJINnRWaWxvZFQ0UXk5aCsy?=
+ =?utf-8?B?TGhTZDJsNWhNYUV6cnlhOUFyNzYwMWszemRwUjVBNEFmNVoyVXJZYzRFTW9p?=
+ =?utf-8?B?VXEvSVZDRm11dXdnUHpWZkxyeVMzV0pWaVkwcnRGNFg1cit4by90bVJ4QVpS?=
+ =?utf-8?B?RXMxR2MxSFV0d0k5Vm1TQ2hPQ1dZYk5hbUJOWVA0bUlMUG1LYjVoaW5tNUIv?=
+ =?utf-8?B?YXJVLzRjTjZqVXVkTkZPNzZPTHhQNVRXWDFuVzdvRUkwekZLNjVucWg1dGRX?=
+ =?utf-8?B?YStuTUhrU2JsbzBlL1pUaFliQ3J4aEw4SVZnSVFBMDlid0U5NXFZQkpRaHlr?=
+ =?utf-8?B?K0ZuSW82cG4vd0JESTVRVU9OY09odkxONU80MHJJeXBVZ0ZPdHY2alJmWVk4?=
+ =?utf-8?B?M0NIMGxwU3JPb3QvKzZaSnNad1BZM0wrTDc3dkNnMUdJd3ZkZngrV2YrelRK?=
+ =?utf-8?B?aU5TNnZyaGtXMVFQdTcva2V2ZHZWemdEWHhCS0R2RHpZbHBBOXBwVXpUaStu?=
+ =?utf-8?B?d0dqOHpHYkZCKy9LZXhqSHpIOGFEN1J0S2ZLVXN3NlpSQTJDK09mZFVqMWt1?=
+ =?utf-8?B?Z1loSGJ0dzBKbmhUbkxkOGdVcnlFa1NSdGNkTHBvbnZXOFpzOXFXVVJaMkFo?=
+ =?utf-8?Q?rYUrcgtI?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28eeb479-b585-4d90-3b68-08d8c8e717af
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2021 08:30:13.5227 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FTTUbz8Ps2E/nX/VHLUKzkzQT3u3OxLSTzmi/Z+cgxMouDsBg0acNhQKsGiTJ2tsZye8/RClZ0lS3sN/gfzxhsqbdiZ81rexgjlxJRPyPtY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6069
+Received-SPF: pass client-ip=40.107.22.95;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,122 +141,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- virtio-fs@redhat.com, P J P <ppandit@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/1E9Ev5psbM7H+GMPlMXCCEO
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+04.02.2021 00:33, Kevin Wolf wrote:
+> Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> bdrv_append is not very good for inserting filters: it does extra
+>> permission update as part of bdrv_set_backing_hd(). During this update
+>> filter may conflict with other parents of top_bs.
+>>
+>> Instead, let's first do all graph modifications and after it update
+>> permissions.
+> 
+> This sounds like it fixes a bug. If so, should we have a test like for
+> the other cases fixed by this series?
 
-On Wed, 3 Feb 2021 17:00:06 +0000
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
+Hm. I considered it mostly like a lack not a bug. We just have to workaround this lack by "inactive" mode of filters. But adding a test is good idea anyway. Will do.
 
-> On Wed, Feb 03, 2021 at 03:20:14PM +0100, Greg Kurz wrote:
-> > On Wed,  3 Feb 2021 11:37:18 +0000
-> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >=20
-> > > lo_do_lookup() finds an existing inode or allocates a new one. It
-> > > increments nlookup so that the inode stays alive until the client
-> > > releases it.
-> > >=20
-> > > Existing callers don't need the struct lo_inode so the function doesn=
-'t
-> > > return it. Extend the function to optionally return the inode. The ne=
-xt
-> > > commit will need it.
-> > >=20
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > ---
-> > >  tools/virtiofsd/passthrough_ll.c | 29 +++++++++++++++++++++--------
-> > >  1 file changed, 21 insertions(+), 8 deletions(-)
-> > >=20
-> > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passt=
-hrough_ll.c
-> > > index e63cbd3fb7..c87a1f3d72 100644
-> > > --- a/tools/virtiofsd/passthrough_ll.c
-> > > +++ b/tools/virtiofsd/passthrough_ll.c
-> > > @@ -831,11 +831,13 @@ static int do_statx(struct lo_data *lo, int dir=
-fd, const char *pathname,
-> > >  }
-> > > =20
-> > >  /*
-> > > - * Increments nlookup and caller must release refcount using
-> > > - * lo_inode_put(&parent).
-> > > + * Increments nlookup on the inode on success. unref_inode_lolocked(=
-) must be
-> > > + * called eventually to decrement nlookup again. If inodep is non-NU=
-LL, the
-> > > + * inode pointer is stored and the caller must call lo_inode_put().
-> > >   */
-> > >  static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const cha=
-r *name,
-> > > -                        struct fuse_entry_param *e)
-> > > +                        struct fuse_entry_param *e,
-> > > +                        struct lo_inode **inodep)
-> > >  {
-> > >      int newfd;
-> > >      int res;
-> > > @@ -845,6 +847,10 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino=
-_t parent, const char *name,
-> > >      struct lo_inode *inode =3D NULL;
-> > >      struct lo_inode *dir =3D lo_inode(req, parent);
-> > > =20
-> > > +    if (inodep) {
-> > > +        *inodep =3D NULL;
-> > > +    }
-> > > +
-> >=20
-> > Is this side-effect needed ? If lo_do_lookup() returns an error, it
-> > rather seems that the caller shouldn't expect anything to be written
-> > here, i.e. the content of *inodep still belongs to the caller and
-> > whatever value it previously put in there (as patch 3/3 does) should
-> > be preserved IMHO.
-> >=20
-> > Apart from that LGTM.
->=20
-> I like this approach because it prevents accessing uninitialized memory
-> in the caller:
->=20
->   struct lo_inode *inode;
->=20
->   if (lo_do_lookup(..., &inodep) !=3D 0) {
->     goto err;
->   }
->   ...
->=20
->   err:
->   lo_inode_put(&inode); <-- uninitialized in the error case!
+> 
+>> Note: bdrv_append() is still only works for backing-child based
+>> filters. It's something to improve later.
+>>
+>> It simplifies the fact that bdrv_append() used to append new nodes,
+>> without backing child. Let's add an assertion.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block.c | 28 +++++++++++++++++-----------
+>>   1 file changed, 17 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/block.c b/block.c
+>> index 02da1a90bc..7094922509 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -4998,22 +4998,28 @@ int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+>>   int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+>>                   Error **errp)
+>>   {
+>> -    Error *local_err = NULL;
+>> +    int ret;
+>> +    GSList *tran = NULL;
+>>   
+>> -    bdrv_set_backing_hd(bs_new, bs_top, &local_err);
+>> -    if (local_err) {
+>> -        error_propagate(errp, local_err);
+>> -        return -EPERM;
+>> +    assert(!bs_new->backing);
+>> +
+>> +    ret = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
+>> +                                   &child_of_bds, bdrv_backing_role(bs_new),
+>> +                                   &bs_new->backing, &tran, errp);
+>> +    if (ret < 0) {
+>> +        goto out;
+>>       }
+> 
+> I don't think changing bs->backing without bdrv_set_backing_hd() is
+> correct at the moment. We lose a few things:
+> 
+> 1. The bdrv_is_backing_chain_frozen() check
+> 2. Updating backing_hd->inherits_from if necessary
+> 3. bdrv_refresh_limits()
+> 
+> If I'm not missing anything, all of these are needed in the context of
+> bdrv_append().
 
-My point is that it is the caller's business to ensure that inode
-doesn't contain garbage if it is to be used irrespective of the
-outcome of lo_do_lookup(). This is precisely what patch 3/3 does,
-so I don't understand the ultimate purpose of nullifying the
-inode pointer _again_ in lo_do_lookup()...
+I decided that bdrv_append() is only for appending new nodes, so frozen and inherts_from checks are not needed. And I've added assert(!bs_new->backing)...
 
---Sig_/1E9Ev5psbM7H+GMPlMXCCEO
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Checking this now:
 
------BEGIN PGP SIGNATURE-----
+- appending filters is obvious
+- bdrv_append_temp_snapshot() creates new qcow2 node based on tmp file, don't see any backing initialization (and it would be rather strange)
+- external_snapshot_prepare() do check if (bdrv_cow_child(state->new_bs)) {  error-out }
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmAbr3gACgkQcdTV5YIv
-c9bZkRAAksgKW+l5JBklGUgl5b2gvoL5F0sjX2LDJKtX3lTT+vy9jrE5U2otcqqo
-7oyeC3m1+/BkakV3TrphqYrBr4cpA4icDd78brJFu9opXNsy6CwyC3uagzd9huID
-Ga6YbeH/MZBR/Acmjf07fR0OucmZulcYbE6+ajVGhbDmuDxpk5u/1TTCoPKse0tv
-1WzF4Xhztryc3qYdK3jAS7V7avqYBIBv+fDP7zihYz/4RkWu4Kt1hnC6zUnOxt/v
-zEu2B1t1pflTzXADquorPaVVZt5wJL6FyZZ2RLplB1oAw3O9ha8UN3s36gP8cxr7
-RAhRQMq47EqyKFnUOCueWAzTLDIsgm2S2MOm7V6ToeivrOMclz8ug37XO+w8UVeK
-Cn7uJ5v9sGYGbhVwT6iVo3z8HJViRUTxMZVNDSe9yoRBuXRJs8NoAXE6DJENz9Ww
-+CLgwoMc3lNICGK6r75VZd/WxM2uYznYNce99P/6nlgugUWiObsqpnlVKHXAfgNQ
-loTaAFQZ9GsgUPAXFhQ6FY0qABLpky9ik/3J35LWYS9Ken/9kl6xqofSwJNQNMGH
-BicpOz24IH4XGzJXAqzWovuMh/8zi3BjywiyA6vUVT6UneVUHATKDrh/6w2UXl0c
-fhKUzcuJ69uv6yURaJ7nhgkI6v/P08Gk+2Dca0YzL5YCa1irJdA=
-=lr6D
------END PGP SIGNATURE-----
+So everything is OK. I should describe it in commit message and add a comment to bdrv_append.
 
---Sig_/1E9Ev5psbM7H+GMPlMXCCEO--
+> 
+>> -    bdrv_replace_node(bs_top, bs_new, &local_err);
+>> -    if (local_err) {
+>> -        error_propagate(errp, local_err);
+>> -        bdrv_set_backing_hd(bs_new, NULL, &error_abort);
+>> -        return -EPERM;
+>> +    ret = bdrv_replace_node_noperm(bs_top, bs_new, true, &tran, errp);
+>> +    if (ret < 0) {
+>> +        goto out;
+>>       }
+>>   
+>> -    return 0;
+>> +    ret = bdrv_refresh_perms(bs_new, errp);
+>> +out:
+>> +    tran_finalize(tran, ret);
+>> +
+>> +    return ret;
+>>   }
+> 
+> Kevin
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
