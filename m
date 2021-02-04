@@ -2,127 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4AF31000D
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 23:27:02 +0100 (CET)
-Received: from localhost ([::1]:37572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F8F8310040
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 23:42:18 +0100 (CET)
+Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7n5Z-0001gG-Vt
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 17:27:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36400)
+	id 1l7nKL-0000OF-4L
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 17:42:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l7n3g-0000m9-Gu
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 17:25:04 -0500
-Received: from mail-db8eur05on2095.outbound.protection.outlook.com
- ([40.107.20.95]:47072 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l7n3c-0002w1-Gc
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 17:25:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J2H4IOtqF/XKKOidhDrCd7YvrjVjUrPrq+oOIe6Wh6HYaKf4kfP2aHu+eKDQZ2GjDYJadde8Cb/TRK7Z4PQin8Azcm4wvq9JE6IMtnoYCGF9AOi68sAawrYXsxeLodCsddAGUZfvEi/aKjAOkIp/IU2wLM0EUGo44CtNp6qsl/NClUsZ7F6j558KNcEYVqVcKYt9psVflJEBb6ZVGfxlCt1IO4lFo1fYLYPvfqGhqtjiJv8JhijNVo7fXf/8L0sGxojae8IzCkvKn5G3kj3RGQo3f6WVn/KKMtTVtFoLtbG66iVq2ixiqGaAvpPhq/rKmB6kRjjo7o6HaBkvPcSsng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iCVea8OpEB7NCRS3o6kD94k9nGEnZv2udiKM3qPap1A=;
- b=gEcsR1Xk7hK6JxvbHKpyh7dv/bhc9Afm4SUGoVkksbo2GEGL3o4g2l4/HblFxs+E9d8wRHWq4LHCh+2gBOLmbxUSI9v+G5pOWzJVY9anN8nIoXi1bpXE6Iejy7D35bxBL0YFY5XBh3cZJtbMPEBUby3+fKmKSJH0hx8iyDSAqa8xH1rD3JL5leiUpaa2Fd00ff/ywxURz3VZcKj/tk80xCPr9cCvcQscNWXpxqfrcj4UX/SLqBeO4MqR+X12FKNAEMu+uxbfmq1RSO/a9FIzSV523Rx/qjsZX/AnzSmquyJK9R8eYeExVlozjCwV78eroZzq8+oxPnJU53gYgmMvHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iCVea8OpEB7NCRS3o6kD94k9nGEnZv2udiKM3qPap1A=;
- b=p9vUCndjdEK4Zlu8hiJIbCgOm1HEp7aiVRZsdhFczvfY8a3Fs9oFnBYC8OwVoBgP8JD6KnlT+cJbsrSofIF7/MJ2Ot46KN+i0NIghOAwu9f2xrHnT96G39gw7lRgVXAmwlvCe8T6XIqs5ihTCWaJl7vSBoc0KhZEnZhSaPfFNTQ=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6357.eurprd08.prod.outlook.com (2603:10a6:20b:31b::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19; Thu, 4 Feb
- 2021 22:24:56 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Thu, 4 Feb 2021
- 22:24:55 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com,
-	vsementsov@virtuozzo.com
-Subject: [PATCH] monitor: trace qmp_send_response
-Date: Fri,  5 Feb 2021 01:24:44 +0300
-Message-Id: <20210204222444.22217-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.213]
-X-ClientProxiedBy: AM9P192CA0020.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:21d::25) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1l7nGS-0006Ev-UB
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 17:38:18 -0500
+Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d]:38044)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1l7nGQ-00009p-E1
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 17:38:16 -0500
+Received: by mail-lj1-x22d.google.com with SMTP id f19so5417106ljn.5
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 14:38:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q8SSLH5M8olERrbosyAxoDgd9ZJSYeXL6DUTpxb5NdQ=;
+ b=gnQKu0aTBbwUfhHrxpITBwhTxFDK0s5YkhdP7ZMqoZcPP3dPnS2VLqSuI1Xgk6h+Bw
+ T+SbO8fEUQ9EVTl8QhdWJheqkr13d/7dPRFIoil0XVoZkbdzBcvWquqC1tuk0KT0HqfL
+ BtrM1SRuZ2eFqyGgCB0mq2HM+9+DCbpiolamq+HTUjcqcgWs/jgvXKWJktMrrMaN31tu
+ UXEEPDM9DbMsrbrP2qF3UGjOJF42VzqbMSUZvEXjRZ0C5vrjS28BhIwtbUpmMKgtAn1M
+ NuqEAMUMmG86r/5odzJDVAHaefixcA8Uwh9E+VTKyp+LMHFg7VeXAaMGw8RmV8qVkMu7
+ 3lVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=q8SSLH5M8olERrbosyAxoDgd9ZJSYeXL6DUTpxb5NdQ=;
+ b=f4StZJUtdNRz5H/TL32N6JdOHoWce4NLYB+wtlaIo34WU3QQEaiMHOFNLmf4Y2FxGI
+ PiQlvEXu2Ta7p9yIDS4prMjUFb/lAMgdYofG5HVEV3RgPbFb0D41Te8RhRZhxqEEsfwO
+ /4A3C/YEHSSUUeW+DLyLtaniuRuRag4UVd5kFYOi0U4dGILZSRBF5RN0tIUx50DpwzUI
+ LSH3J8/sVNOFrGA4jd1HTtWAGxs4sJbM1yHCoNLAieYtjEcBwNf/JFP40Ht/Snd+DT3X
+ q+RqkwqQzC9m/VRDGgUIRHcaAXBqDnhvyKOrZnah0aNDzLVy7EdJ/iN7yNSwtbj4ADrh
+ c7AA==
+X-Gm-Message-State: AOAM533qYnRrb+3EDZgPHCXCaskcdYch0BucaDd7UpzMoOZvHyx3Ps7p
+ H6R9fVIIoID/mdlYrHaGE25f5tyhuKsBvbuchehV8Q==
+X-Google-Smtp-Source: ABdhPJyxpnhuro4ld6TFRdimZ+vi/Zsms/dTLcb1lBSoZcALO0VIRz67FjLlcHHWS4ivA1L/0ublXSDLUHxwyyeeD6I=
+X-Received: by 2002:a2e:8ec3:: with SMTP id e3mr833125ljl.467.1612478290371;
+ Thu, 04 Feb 2021 14:38:10 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.213) by
- AM9P192CA0020.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21d::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.20 via Frontend Transport; Thu, 4 Feb 2021 22:24:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7a887960-8854-467e-6222-08d8c95bb2ca
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6357:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6357A02AFDD004A480596316C1B39@AS8PR08MB6357.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:261;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0hXwGPme26IZhZdn+04/Mhpqw6amQchgyqYNiyaa73SHTH9LpZDwTucf0trwKFHpBq+vinYFfMTA1ePkvVVhDq8k+0U1M0c5QAzHihLXN7/LZyZgQt7G9KzDZzqCwWI2a7w/YTGHvvbhZnEufFI1yqIHOmab2iyJUkvjV1/7oLZhqV05pHXXxrW+BGnUXx42l2upmqsql0v6syq6B2txfy13tPKCxHTeZkpV2g2bjs0LfpjreYUDf5GkK9ceXoSXS/LOTtJRDK4E/QWvJpEG74YSOySm+vTJT0Ju6O4S1OCFSctScynI90tyzFc+XhesvW756GtY0LmMilltiWoUKlDHfZ3ACys7Y8gycBuU0jCb8BdqlE47OjrpQs0W9AEyoLToGYmj28s2HooeYWyBXw/fsiacchrzalI6UNIx91RkWXRrnBfKp23Y3LnNQRbOn5WNq/BWCxkE1npmiKx8M9gsURHdb/hjsfJ/pEoFjrCFzKJojkmP/3jXYhdfwCWGR0LBFQhNGCxiTWdxNqcVVg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39830400003)(136003)(376002)(346002)(396003)(956004)(6486002)(6666004)(66946007)(2616005)(6916009)(316002)(83380400001)(5660300002)(478600001)(26005)(8676002)(6512007)(1076003)(16526019)(66476007)(8936002)(107886003)(186003)(52116002)(36756003)(86362001)(2906002)(4326008)(66556008)(6506007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?O6Sj3VOdzcvRJLkGtcoPKqDh5ikJFL0RZTVddh7Qk8Qj73UTFNW7dLSLwVbD?=
- =?us-ascii?Q?szDYShulFC6+f4+/lkSTMO5oIRds0xG3b8zU+uMvDJlhDkH5Hftge7vOQdQP?=
- =?us-ascii?Q?FVFVJBVl9IQS6w/13jSCCPegW0SnjmwOa0dQHXYHVRUn3WKVxSGtpHHvAQGK?=
- =?us-ascii?Q?T7viDi5yN5/BxHQSQgl0ov8tsjo2D9j7WxjdyVgiAOfOoqDzV51pYlY4V5nq?=
- =?us-ascii?Q?5XApEvAIUtctaLSyde+kiTsw3eX7Eal14b4zFLAXUJ3tUyWc0PG3NOskyu+r?=
- =?us-ascii?Q?bQJziRCSwP6IZ+kkXvU2UJeHQ5R556rDOUBQq2VIaVwsVmRPCpv7uwv5JvRa?=
- =?us-ascii?Q?j1OmINLJR4IGbmEryL4zYjf+MGiBBe18BsxtykkaDaee1457dfzv6TPNVaVj?=
- =?us-ascii?Q?7scvo6NzigK09K5KWV4fg0Pd9INo2Y9KBrE42xkb4WgKIRJkfLZ7PvCbrrQU?=
- =?us-ascii?Q?WcrNslYqVpZZI8FZ/lnaplOW1xw/Y49mazX9DEAxFRYUVuS6dVYZcTx+R0b0?=
- =?us-ascii?Q?h+V+j73XOv68UJhXN0T3U7MLJiGRu3l9AWKgBo1/5x7FkQc9HKCGGX7+KS1x?=
- =?us-ascii?Q?fpHW87L/Sr+jgDyyD+vCQg0ng+uf7AmLoLIJaDvVsTfO701yyCxNsljyoK95?=
- =?us-ascii?Q?KKmAhS2h466K4x4DK3QhLqdt0KbieOHK5mpv1tsDaDmwMC8AhrjE7wLoTJ8n?=
- =?us-ascii?Q?Uec+ZJa29MWDgQZEtg+tMQegMZqUbmPhNR2GLyR9Oy8L44/9ILz798uR1q0D?=
- =?us-ascii?Q?JsfUkxjJh60Ngdqx2UPPWflonUTVa5NAkx4oEJ0ClMHPoon9b2Rc4W4fa91K?=
- =?us-ascii?Q?B7fNGdBkPo1JNo6oHQnaqhmpb2VAyn+C28KJqBDhJTAqblCLCZR9im3Mh4rt?=
- =?us-ascii?Q?EvU/juj+Yjm5MgT8n13keEdwN6DfKjsj0M9ELuv5JLjwelWP/6SIyrVq6u3g?=
- =?us-ascii?Q?4Fy6PeN842/luRIWDr4jBPt8xeKY8NWm2dihGhXnWA2KwspCNMBSkF9OL8Hx?=
- =?us-ascii?Q?1SxPpFcXk0lg6cSa2aQTG1G9PEUqJ//fzVIT8xPXsaP4vabWBLD+06gHY4Kg?=
- =?us-ascii?Q?hqF6lgOLeNLc5gMDCXCjivepeGBiTF0xfC/6gNAEJQKgW39vaRlFZjTPqGRd?=
- =?us-ascii?Q?YyeYBffOof1zcz5c+WHYHhf2/Kz+VZVCQLL5Kq0aWOUYZJQlhiA3kiqGicD1?=
- =?us-ascii?Q?E8MXgKiaDql9Rv5NcSI7KMEIFiGBMkdvhElOkKA8tMQeJNQ6a1prgMbsSSpM?=
- =?us-ascii?Q?vbOQbOel2oQfdomYq5IU4+veltHIey4YVGAPwbAAeO2eO2Bxyb9aCMEmLVEU?=
- =?us-ascii?Q?83+zadVhKYrtnh623CwQtRpH?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a887960-8854-467e-6222-08d8c95bb2ca
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2021 22:24:55.3691 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TZTl1S7WRFQuf92psJ5T4qA6h4EBEnXUq2U4EHBA5zeIDRp57enGD/FN+iS6waCUHWQ/UaSIGEDTlECUwaOg4RK8qbwwBcVEkX85nsG/eS0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6357
-Received-SPF: pass client-ip=40.107.20.95;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210112165750.30475-1-peter.maydell@linaro.org>
+ <20210112165750.30475-17-peter.maydell@linaro.org>
+ <d1811f65-b08e-57c6-d0a7-5c498f8eb3ff@amsat.org>
+In-Reply-To: <d1811f65-b08e-57c6-d0a7-5c498f8eb3ff@amsat.org>
+From: Hao Wu <wuhaotsh@google.com>
+Date: Thu, 4 Feb 2021 14:37:58 -0800
+Message-ID: <CAGcCb13FAMS6q0jPfc4uJS+03HtO1OO7z3c5UQ_41=rUiBPSKg@mail.gmail.com>
+Subject: Re: [PULL 16/21] hw/timer: Refactor NPCM7XX Timer to use CLK clock
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, 
+ Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>
+Content-Type: multipart/alternative; boundary="000000000000b5091d05ba8a5b1c"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22d;
+ envelope-from=wuhaotsh@google.com; helo=mail-lj1-x22d.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,42 +85,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a useful counterpart for trace_handle_qmp_command for debugging
-libvirt guests.
+--000000000000b5091d05ba8a5b1c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- monitor/qmp.c        | 6 ++++++
- monitor/trace-events | 1 +
- 2 files changed, 7 insertions(+)
+I don't see this error. It could be some error in the clock that the timer
+module does not get a correct clock input.
+How do you reproduce this?
 
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 8f91af32be..772b9e7b30 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -111,6 +111,12 @@ void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
-     const QObject *data = QOBJECT(rsp);
-     GString *json;
- 
-+    if (trace_event_get_state_backends(TRACE_QMP_SEND_RESPONSE)) {
-+        json = qobject_to_json(data);
-+        trace_qmp_send_response(mon, json->str);
-+        g_string_free(json, true);
-+    }
-+
-     json = qobject_to_json_pretty(data, mon->pretty);
-     assert(json != NULL);
- 
-diff --git a/monitor/trace-events b/monitor/trace-events
-index 0365ac4d99..12f0576c7b 100644
---- a/monitor/trace-events
-+++ b/monitor/trace-events
-@@ -13,3 +13,4 @@ monitor_suspend(void *ptr, int cnt) "mon %p: %d"
- monitor_qmp_cmd_in_band(const char *id) "%s"
- monitor_qmp_cmd_out_of_band(const char *id) "%s"
- handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
-+qmp_send_response(void *mon, const char *req) "mon %p req: %s"
--- 
-2.29.2
+On Thu, Feb 4, 2021 at 1:39 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+>
+wrote:
 
+> Hi,
+>
+> On Tue, Jan 12, 2021 at 6:20 PM Peter Maydell <peter.maydell@linaro.org>
+> wrote:
+> >
+> > From: Hao Wu <wuhaotsh@google.com>
+> >
+> > This patch makes NPCM7XX Timer to use a the timer clock generated by th=
+e
+> > CLK module instead of the magic number TIMER_REF_HZ.
+> >
+> > Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+> > Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+> > Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> > Message-id: 20210108190945.949196-3-wuhaotsh@google.com
+> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >  include/hw/misc/npcm7xx_clk.h    |  6 -----
+> >  include/hw/timer/npcm7xx_timer.h |  1 +
+> >  hw/arm/npcm7xx.c                 |  5 ++++
+> >  hw/timer/npcm7xx_timer.c         | 39 +++++++++++++++-----------------
+> >  4 files changed, 24 insertions(+), 27 deletions(-)
+>
+> Is that a spurious error (building with Clang)?
+>
+> Running test qtest-arm/npcm7xx_timer-test
+> ERROR:../tests/qtest/npcm7xx_timer-test.c:475:test_periodic_interrupt:
+> assertion failed (tim_read(td, TISR) =3D=3D tim_timer_bit(td)): (0x000000=
+00
+> =3D=3D 0x00000004)
+> ERROR:../tests/qtest/npcm7xx_timer-test.c:476:test_periodic_interrupt:
+> 'qtest_get_irq(global_qtest, tim_timer_irq(td))' should be TRUE
+> FAIL 155 qtest-arm/npcm7xx_timer-test
+> /arm/npcm7xx_timer/tim[2]/timer[2]/periodic_interrupt
+> make: *** [Makefile.mtest:1033: run-test-127] Error 1
+>
+
+--000000000000b5091d05ba8a5b1c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I don&#39;t see this error. It could be some error in the =
+clock that the timer module does not get a correct clock input.<div>How do =
+you reproduce this?</div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Thu, Feb 4, 2021 at 1:39 AM Philippe Mathieu-Da=
+ud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@ams=
+at.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">Hi,<br>
+<br>
+On Tue, Jan 12, 2021 at 6:20 PM Peter Maydell &lt;<a href=3D"mailto:peter.m=
+aydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; From: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=3D"_bla=
+nk">wuhaotsh@google.com</a>&gt;<br>
+&gt;<br>
+&gt; This patch makes NPCM7XX Timer to use a the timer clock generated by t=
+he<br>
+&gt; CLK module instead of the magic number TIMER_REF_HZ.<br>
+&gt;<br>
+&gt; Reviewed-by: Havard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@googl=
+e.com" target=3D"_blank">hskinnemoen@google.com</a>&gt;<br>
+&gt; Reviewed-by: Tyrone Ting &lt;<a href=3D"mailto:kfting@nuvoton.com" tar=
+get=3D"_blank">kfting@nuvoton.com</a>&gt;<br>
+&gt; Signed-off-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" targe=
+t=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
+&gt; Message-id: <a href=3D"mailto:20210108190945.949196-3-wuhaotsh@google.=
+com" target=3D"_blank">20210108190945.949196-3-wuhaotsh@google.com</a><br>
+&gt; Reviewed-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.=
+org" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+&gt; Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linar=
+o.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 include/hw/misc/npcm7xx_clk.h=C2=A0 =C2=A0 |=C2=A0 6 -----<br>
+&gt;=C2=A0 include/hw/timer/npcm7xx_timer.h |=C2=A0 1 +<br>
+&gt;=C2=A0 hw/arm/npcm7xx.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 5 ++++<br>
+&gt;=C2=A0 hw/timer/npcm7xx_timer.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 39 +=
+++++++++++++++-----------------<br>
+&gt;=C2=A0 4 files changed, 24 insertions(+), 27 deletions(-)<br>
+<br>
+Is that a spurious error (building with Clang)?<br>
+<br>
+Running test qtest-arm/npcm7xx_timer-test<br>
+ERROR:../tests/qtest/npcm7xx_timer-test.c:475:test_periodic_interrupt:<br>
+assertion failed (tim_read(td, TISR) =3D=3D tim_timer_bit(td)): (0x00000000=
+<br>
+=3D=3D 0x00000004)<br>
+ERROR:../tests/qtest/npcm7xx_timer-test.c:476:test_periodic_interrupt:<br>
+&#39;qtest_get_irq(global_qtest, tim_timer_irq(td))&#39; should be TRUE<br>
+FAIL 155 qtest-arm/npcm7xx_timer-test<br>
+/arm/npcm7xx_timer/tim[2]/timer[2]/periodic_interrupt<br>
+make: *** [Makefile.mtest:1033: run-test-127] Error 1<br>
+</blockquote></div>
+
+--000000000000b5091d05ba8a5b1c--
 
