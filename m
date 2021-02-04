@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D1230FD4E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:53:10 +0100 (CET)
-Received: from localhost ([::1]:57672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85DA30FD5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 20:55:52 +0100 (CET)
+Received: from localhost ([::1]:36354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7kgf-0000N8-UU
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:53:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57690)
+	id 1l7kjH-0003JO-MH
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 14:55:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7kcM-0004GA-SY
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:48:43 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:33220)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7kc9-0001De-3B
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:48:37 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id sa23so7625262ejb.0
- for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 11:48:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qoylg8djR6fUTmvBxblfeYi279JpJ1UxAHWQm9aoB3g=;
- b=Za+POu3+tvLBtET6YZYaFx8YDyefq0wm9vkD/CxSSV9OqvzZJT8/6wVg8lpe5vgCVc
- hHIF9aFrXlaS8upBcpRCFqxQVpTpJMp8I+aL9FWgMDk5pbdN1as5HNuKWHU83WVq8W8z
- VTxiyAeKfMXBYmFbrqfJD+FItyj/Tra1fzngoC92dNOsEZMGxfN/k/4gHkFaz2GjWGA1
- hq0V4Z9GPzjqlwHaoPxh7G9zWyJ9mtyBWXHW8t8R74hBKBP1/uj6p25zKfbCaK0bKWLW
- XZ18mqsQT4NiLua0eVu8AiJRwWkI/1dQmz8O2q7z8b1rd5FSpQj8effQunDhoxQz+PWZ
- 6geg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qoylg8djR6fUTmvBxblfeYi279JpJ1UxAHWQm9aoB3g=;
- b=eDKFgYFkOjwK7U2nx3KEIuQjd9OwYGMS0L5fwPUWXF63eQms4K7lqrKG3FfUIe1JmY
- aHznVguVefr33NpTjyFA6DcNUcvOKmK/rmH3y8pd9gg32jUaRukpKN9s/nIcnBILW0m4
- qBRcT9KlIwtG46zNqOalQtGS2t5z42bDvrT9q9edYHf63mD7AXdh6AXTCWNcK9go7C8t
- tj//KZuj752rlxgzgtdVP0t7iEtyvwLXUjUds5c2FNnJTitgtIkoBlawQSFqsZ5q9bpn
- nGLjxzSLFuEDSY9P+YRcVXwycApAZIbOZmtGISaVglrvwQO8Bd/9KjuVj7hjuvEq2pan
- kTBQ==
-X-Gm-Message-State: AOAM530N6gur9iP3XnGgxwvGPyg4MgdtDzdABjj7VzgztWhaeGe+f6im
- aEviuq9QVfMZ7s4ZdBtGtXPo93E5m2hwj5dXGfkOlw==
-X-Google-Smtp-Source: ABdhPJzXgYVnGKHNBSUX7XNBKiMbmXIT/68/G1O3HwMLsxZRBZX/6vlhroahxGjO761wO6EsGOiZTY3QvfvkMAIRCHk=
-X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr727037ejd.250.1612468104442; 
- Thu, 04 Feb 2021 11:48:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7kfH-0007TZ-LO
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:51:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l7kfE-0002XK-EN
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 14:51:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612468298;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=slQBX41uezPmR/Q5+LFPRq1Wlg6eL3NxPimMOBAdqs0=;
+ b=cyTHVWR3dFqGtjR6IejZ7a456Ze4x/CERb/eDpkVIEPwSRQ0KxEkeN/sHmklOxiKKXjQ5P
+ 3+36HZN5lb+t1Zb0RsGluiqifIJzRF5Dp4CyzuIkyi996fg1eC4npvbCKs2niFcw+H9+15
+ 5H/viphhYtJqTSMeTeJReoSFmOED/ss=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-8GgGCvKuPNGpVEi5gZhZHQ-1; Thu, 04 Feb 2021 14:51:34 -0500
+X-MC-Unique: 8GgGCvKuPNGpVEi5gZhZHQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB36E107ACE3;
+ Thu,  4 Feb 2021 19:51:33 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2397B60BE2;
+ Thu,  4 Feb 2021 19:51:33 +0000 (UTC)
+To: phillip.ennen@gmail.com, qemu-devel@nongnu.org
+References: <20210204162544.65439-1-phillip.ennen@gmail.com>
+ <20210204162544.65439-3-phillip.ennen@gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH 2/2] net: implement vmnet-based netdev
+Message-ID: <bfa145d6-648a-8b01-03ba-cd64ba082c69@redhat.com>
+Date: Thu, 4 Feb 2021 13:51:32 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210204163959.377618-1-dgilbert@redhat.com>
-In-Reply-To: <20210204163959.377618-1-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Feb 2021 19:48:13 +0000
-Message-ID: <CAFEAcA--Orfsp_V6PDMW4GcKsZYBJ7rW4V4QsU+ia6BUVdXXug@mail.gmail.com>
-Subject: Re: [PULL 00/27] migration queue
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210204162544.65439-3-phillip.ennen@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,195 +82,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gaojinhao@huawei.com, "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- andrey.gruzdev@virtuozzo.com
+Cc: stefanha@gmail.com, jasowang@redhat.com, phillip@axleos.com,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Feb 2021 at 17:16, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> The following changes since commit 1ba089f2255bfdb071be3ce6ac6c3069e8012179:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-qmp-2021-02-04' into staging (2021-02-04 14:15:35 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/dagrh/qemu.git tags/pull-migration-20210204a
->
-> for you to fetch changes up to ef74d46576a9e5aff96f285b74150f341a525688:
->
->   migration: introduce snapshot-{save, load, delete} QMP commands (2021-02-04 16:29:03 +0000)
->
-> ----------------------------------------------------------------
-> Migration pull 2020-02-04
->
->  New snapshot features:
->    a) Andrey's RAM snapshot feature using userfault-wp
->    b) Dan's native-QMP snapshots
->
-> Cleanups:
->    c) Jinhao's memory leeak fixes
->    d) Wainer's maybe unitialized fix
->    e) Markus's parameter fixes
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On 2/4/21 10:25 AM, phillip.ennen@gmail.com wrote:
+> From: Phillip Tennen <phillip@axleos.com>
+> 
+> This patch implements a new netdev device, reachable via -netdev
+> vmnet-macos, that’s backed by macOS’s vmnet framework.
+> 
+> The vmnet framework provides native bridging support, and its usage in
+> this patch is intended as a replacement for attempts to use a tap device
+> via the tuntaposx kernel extension. Notably, the tap/tuntaposx approach
+> never would have worked in the first place, as QEMU interacts with the
+> tap device via poll(), and macOS does not support polling device files.
+> 
 
-Fails iotest 267 on ppc64 host:
-  TEST   iotest-qcow2: 267 [fail]
-QEMU          --
-"/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-system-ppc64"
--nodefaults -display none -accel q
-test
-QEMU_IMG      -- "/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-img"
-QEMU_IO       --
-"/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-io" --cache
-writeback --aio threads -f qcow2
-QEMU_NBD      -- "/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-nbd"
-IMGFMT        -- qcow2
-IMGPROTO      -- file
-PLATFORM      -- Linux/ppc64 gcc1-power7.osuosl.org 3.10.0-862.14.4.el7.ppc64
-TEST_DIR      -- /home/pm215/qemu/build/all/tests/qemu-iotests/scratch
-SOCK_DIR      -- /tmp/tmpea7m6_b4
-SOCKET_SCM_HELPER --
-/home/pm215/qemu/build/all/tests/qemu-iotests/socket_scm_helper
---- /home/pm215/qemu/tests/qemu-iotests/267.out
-+++ 267.out.bad
-@@ -36,7 +36,9 @@
- ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
- --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
- (qemu) loadvm snap0
--(qemu) quit
-+./common.rc: line 163: 24600 Segmentation fault      ( if [ -n
-"${QEMU_NEED_PID}" ]; then
-+    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-+fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-"${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+> This is my first QEMU contribution, so please feel free to let me know
+> what I’ve missed or what needs improving. Thanks very much for taking a
+> look =)
 
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
- Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none -device
-virtio-blk,drive=none0
-@@ -47,7 +49,9 @@
- ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
- --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
- (qemu) loadvm snap0
--(qemu) quit
-+./common.rc: line 163: 24653 Segmentation fault      ( if [ -n
-"${QEMU_NEED_PID}" ]; then
-+    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-+fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-"${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+This paragraph would fit better...
 
+> 
+> Signed-off-by: Phillip Tennen <phillip@axleos.com>
+> ---
 
- === -drive if=virtio ===
-@@ -72,7 +76,9 @@
- ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
- --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
- (qemu) loadvm snap0
--(qemu) quit
-+./common.rc: line 163: 24760 Segmentation fault      ( if [ -n
-"${QEMU_NEED_PID}" ]; then
-+    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-+fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-"${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+...here, after the --- marker.  It's useful to the reviewer (and welcome
+to the community, by the way!), but does not need to be enshrined in git
+history.
 
+>  configure         |   2 +-
+>  net/clients.h     |   6 +
+>  net/meson.build   |   1 +
+>  net/net.c         |   3 +
+>  net/vmnet-macos.c | 444 ++++++++++++++++++++++++++++++++++++++++++++++
+>  qapi/net.json     |  64 ++++++-
+>  qemu-options.hx   |   9 +
 
- === Simple -blockdev ===
-@@ -97,7 +103,9 @@
- ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
- --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
- (qemu) loadvm snap0
--(qemu) quit
-+./common.rc: line 163: 24866 Segmentation fault      ( if [ -n
-"${QEMU_NEED_PID}" ]; then
-+    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-+fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-"${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+I'm focusing mainly on the UI aspects, and did not look closely at the rest.
 
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
- Testing: -blockdev
-driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev
-driver=raw,file=file,node-name=raw -blockdev
-driver=IMGFMT,file=raw,node-name=fmt
-@@ -108,7 +116,9 @@
- ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
- --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
- (qemu) loadvm snap0
--(qemu) quit
-+./common.rc: line 163: 24919 Segmentation fault      ( if [ -n
-"${QEMU_NEED_PID}" ]; then
-+    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-+fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-"${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+> +++ b/qapi/net.json
+> @@ -450,6 +450,65 @@
+>      '*vhostdev':     'str',
+>      '*queues':       'int' } }
+>  
+> +##
+> +# @VmnetOperatingMode:
+> +#
+> +# An enumeration of the I/O operation types
+> +#
+> +# @host: the guest may communicate with the host 
+> +#        and other guest network interfaces
+> +#
+> +# @shared: the guest may reach the Internet through a NAT, 
+> +#          and may communicate with the host and other guest 
+> +#          network interfaces
+> +#
+> +# @bridged: the guest's traffic is bridged with a 
+> +#           physical network interface of the host
+> +#
+> +# Since: 5.3
 
+The next release will be 6.0, not 5.3.
 
- === -blockdev with a filter on top ===
-@@ -122,7 +132,9 @@
- ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
- --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
- (qemu) loadvm snap0
--(qemu) quit
-+./common.rc: line 163: 24972 Segmentation fault      ( if [ -n
-"${QEMU_NEED_PID}" ]; then
-+    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-+fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-"${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+> +##
+> +{ 'enum': 'VmnetOperatingMode',
+> +  'data': [ 'host', 'shared', 'bridged' ] }
+> +
+> +##
+> +# @NetdevVmnetOptions:
+> +#
+> +# vmnet network backend (only available on macOS)
+> +#
+> +# @mode: the operating mode vmnet should run in
+> +#
+> +# @ifname: the physical network interface to bridge with 
+> +#          (only valid with mode=bridged)
 
+If this is only valid with bridged, then you should use a union type,
+where only the bridged branch supports this member.  That is more
+typesafe than always supporting it in the schema and having to
+semantically filter it out after the fact.
 
- === -blockdev with a backing file ===
-@@ -137,7 +149,9 @@
- ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
- --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
- (qemu) loadvm snap0
--(qemu) quit
-+./common.rc: line 163: 25056 Segmentation fault      ( if [ -n
-"${QEMU_NEED_PID}" ]; then
-+    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-+fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-"${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+> +#
+> +# @dhcp_start_address: the gateway address to use for the interface. 
 
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
-backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
- Testing: -blockdev
-driver=file,filename=TEST_DIR/t.IMGFMT.base,node-name=backing-file
--blockdev driver=IMGFMT,file=backing-file,node-name=backing-fmt
--blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file
--blockdev driver=IMGFMT,file=file,backing=backing-fmt,node-name=fmt
-@@ -148,7 +162,9 @@
- ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
- --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
- (qemu) loadvm snap0
--(qemu) quit
-+./common.rc: line 163: 25109 Segmentation fault      ( if [ -n
-"${QEMU_NEED_PID}" ]; then
-+    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-+fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-"${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+New QAPI additions should favor names with '-' rather than '_', as in
+dhcp-start-address; the exception is if you are closely copying another
+older interface that already used _.
 
- Internal snapshots on overlay:
- Snapshot list:
-@@ -169,7 +185,9 @@
- ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
- --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
- (qemu) loadvm snap0
--(qemu) quit
-+./common.rc: line 163: 25179 Segmentation fault      ( if [ -n
-"${QEMU_NEED_PID}" ]; then
-+    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-+fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-"${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
+> +#                      The range to dhcp_end_address is placed in the DHCP pool.
+> +#                      (only valid with mode=host|shared)
+> +#                      (must be specified with dhcp_end_address and 
+> +#                       dhcp_subnet_mask)
+> +#                      (allocated automatically if unset)
+> +#
+> +# @dhcp_end_address: the DHCP IPv4 range end address to use for the interface. 
+> +#                      (only valid with mode=host|shared)
+> +#                      (must be specified with dhcp_start_address and 
+> +#                       dhcp_subnet_mask)
+> +#                      (allocated automatically if unset)
+> +#
+> +# @dhcp_subnet_mask: the IPv4 subnet mask (string) to use on the interface.
+> +#                    (only valid with mode=host|shared)
+> +#                    (must be specified with dhcp_start_address and 
+> +#                     dhcp_end_address)
+> +#                    (allocated automatically if unset)
+> +#
+> +# Since: 5.3
 
- Internal snapshots on overlay:
- Snapshot list:
-  TEST   iotest-qcow2: 268
+6.0
 
+> +##
+> +{ 'struct': 'NetdevVmnetOptions',
+> +  'data': {
+> +    'mode':        'VmnetOperatingMode',
+> +    '*ifname':        'str',
+> +    '*dhcp_start_address':      'str',
+> +    '*dhcp_end_address':        'str',
+> +    '*dhcp_subnet_mask':        'str' } }
 
-thanks
--- PMM
+In addition to my suggestion of making this a union rather than a
+struct, you probably also want to include an 'if' tag so that the struct
+is present only on MacOS builds (it's nicer for introspection to not
+advertise something that won't work).
+
+> +
+>  ##
+>  # @NetClientDriver:
+>  #
+> @@ -461,7 +520,7 @@
+>  ##
+>  { 'enum': 'NetClientDriver',
+>    'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
+> +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa', 'vmnet-macos' ] }
+
+Missing a doc mention that 'vmnet-macos' is new to 6.0.
+
+>  
+>  ##
+>  # @Netdev:
+> @@ -490,7 +549,8 @@
+>      'hubport':  'NetdevHubPortOptions',
+>      'netmap':   'NetdevNetmapOptions',
+>      'vhost-user': 'NetdevVhostUserOptions',
+> -    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
+> +    'vhost-vdpa': 'NetdevVhostVDPAOptions',
+> +    'vmnet-macos': 'NetdevVmnetOptions' } }
+
+Adding Markus in cc; right now, I don't think QAPI supports a union type
+as a branch to another union type. There's nothing that technically
+would prevent us from doing that, just the grunt work of modifying the
+QAPI code generator to support it.
+
+>  
+>  ##
+>  # @NetFilterDirection:
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 9172d51659..ec6b40b079 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2483,6 +2483,15 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+>  #ifdef __linux__
+>      "-netdev vhost-vdpa,id=str,vhostdev=/path/to/dev\n"
+>      "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
+> +#endif
+> +#ifdef CONFIG_DARWIN
+> +    "-netdev vmnet-macos,id=str,mode=bridged[,ifname=ifname]\n"
+> +    "         configure a macOS-provided vmnet network in \"physical interface bridge\" mode\n"
+> +    "         the physical interface to bridge with defaults to en0 if unspecified\n"
+> +    "-netdev vmnet-macos,id=str,mode=host|shared\n"
+> +    "                     [,dhcp_start_address=addr,dhcp_end_address=addr,dhcp_subnet_mask=mask]\n"
+> +    "         configure a macOS-provided vmnet network in \"host\" or \"shared\" mode\n"
+> +    "         the DHCP configuration will be set automatically if unspecified\n"
+>  #endif
+>      "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
+>      "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
