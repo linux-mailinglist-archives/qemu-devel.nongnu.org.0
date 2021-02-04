@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1E430F988
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:24:23 +0100 (CET)
-Received: from localhost ([::1]:32954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F38230F99E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 18:27:26 +0100 (CET)
+Received: from localhost ([::1]:41188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7iMf-0002ta-1g
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:24:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41258)
+	id 1l7iPd-0006bF-4l
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 12:27:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hh5-0002Fk-W9
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43601)
+ id 1l7hhB-0002RD-K8
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l7hh3-0005Ev-MR
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:23 -0500
+ id 1l7hh9-0005Hv-PR
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 11:41:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612456881;
+ s=mimecast20190719; t=1612456887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HjLOWmZArq6FQ4QbVsGRrFuusXByKswK9vWyVZhQ+2g=;
- b=D8TXqc8UiikI2hlYV1T87qHx5Dg1r7PPRx8JEeD02LuGNwIKOKUdzluxDov0Z1VTAFUjWV
- rdjzNfzq4Eba1zRlZGh2xJbncAZaxMXIgGeBqQsB68H7f3YyhRYvAZjFATuoEatMfZ4J4r
- OXbhTLKJiO3ptyckTEX+PrHr0CqtWng=
+ bh=C2MXwALsDH8SfU3T1u4oBtPowlnQBSHSYO9aYVFdlVA=;
+ b=L6vvayDOvgYzqGRdkBCGjgP94sYV9mcyUCNSMHb9uxBoVHUV1As6gtsgDiiHMSCjpejgpS
+ bWtahTsvPIsqumX9JG0Z/ozmexpCgwT/eCu7wnrB7lgRV8q0FcEygNvxpIcIlSLXxZX/OH
+ ij1WV2cTcz4L6C7Y6u5obddKfmcLLSY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-XZwG0sI6NIS41_HZ7JDDqA-1; Thu, 04 Feb 2021 11:41:19 -0500
-X-MC-Unique: XZwG0sI6NIS41_HZ7JDDqA-1
+ us-mta-47-5VXhAx7SPW-mkH9lGyDmnA-1; Thu, 04 Feb 2021 11:41:24 -0500
+X-MC-Unique: 5VXhAx7SPW-mkH9lGyDmnA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E726980403B;
- Thu,  4 Feb 2021 16:41:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE402C7405;
+ Thu,  4 Feb 2021 16:41:23 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-21.ams2.redhat.com
  [10.36.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF4AE19708;
- Thu,  4 Feb 2021 16:41:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3CF2219708;
+ Thu,  4 Feb 2021 16:41:18 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
  gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
  wainersm@redhat.com
-Subject: [PULL 12/27] migration: Fix cache_init()'s "Failed to allocate" error
- messages
-Date: Thu,  4 Feb 2021 16:39:44 +0000
-Message-Id: <20210204163959.377618-13-dgilbert@redhat.com>
+Subject: [PULL 13/27] migration: Fix a few absurdly defective error messages
+Date: Thu,  4 Feb 2021 16:39:45 +0000
+Message-Id: <20210204163959.377618-14-dgilbert@redhat.com>
 In-Reply-To: <20210204163959.377618-1-dgilbert@redhat.com>
 References: <20210204163959.377618-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -87,49 +86,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Markus Armbruster <armbru@redhat.com>
 
-cache_init() attempts to handle allocation failure.  The two error
-messages are garbage, as untested error messages commonly are:
+migrate_params_check() has a number of error messages of the form
 
-    Parameter 'cache size' expects Failed to allocate cache
-    Parameter 'cache size' expects Failed to allocate page cache
+    Parameter 'NAME' expects is invalid, it should be ...
 
-Fix them to just
+Fix them to something like
 
-    Failed to allocate cache
-    Failed to allocate page cache
+    Parameter 'NAME' expects a ...
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20210202141734.2488076-4-armbru@redhat.com>
+Message-Id: <20210202141734.2488076-5-armbru@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/page_cache.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ migration/migration.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/migration/page_cache.c b/migration/page_cache.c
-index b384f265fb..6d4f7a9bbc 100644
---- a/migration/page_cache.c
-+++ b/migration/page_cache.c
-@@ -60,8 +60,7 @@ PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
-     /* We prefer not to abort if there is no memory */
-     cache = g_try_malloc(sizeof(*cache));
-     if (!cache) {
--        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
--                   "Failed to allocate cache");
-+        error_setg(errp, "Failed to allocate cache");
-         return NULL;
+diff --git a/migration/migration.c b/migration/migration.c
+index 77b0c39b50..38efaeee94 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1317,21 +1317,21 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+     if (params->has_compress_level &&
+         (params->compress_level > 9)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "compress_level",
+-                   "is invalid, it should be in the range of 0 to 9");
++                   "a value between 0 and 9");
+         return false;
      }
-     cache->page_size = page_size;
-@@ -74,8 +73,7 @@ PageCache *cache_init(uint64_t new_size, size_t page_size, Error **errp)
-     cache->page_cache = g_try_malloc((cache->max_num_items) *
-                                      sizeof(*cache->page_cache));
-     if (!cache->page_cache) {
--        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cache size",
--                   "Failed to allocate page cache");
-+        error_setg(errp, "Failed to allocate page cache");
-         g_free(cache);
-         return NULL;
+ 
+     if (params->has_compress_threads && (params->compress_threads < 1)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                    "compress_threads",
+-                   "is invalid, it should be in the range of 1 to 255");
++                   "a value between 1 and 255");
+         return false;
      }
+ 
+     if (params->has_decompress_threads && (params->decompress_threads < 1)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                    "decompress_threads",
+-                   "is invalid, it should be in the range of 1 to 255");
++                   "a value between 1 and 255");
+         return false;
+     }
+ 
+@@ -1384,21 +1384,21 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+     if (params->has_multifd_channels && (params->multifd_channels < 1)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                    "multifd_channels",
+-                   "is invalid, it should be in the range of 1 to 255");
++                   "a value between 1 and 255");
+         return false;
+     }
+ 
+     if (params->has_multifd_zlib_level &&
+         (params->multifd_zlib_level > 9)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "multifd_zlib_level",
+-                   "is invalid, it should be in the range of 0 to 9");
++                   "a value between 0 and 9");
+         return false;
+     }
+ 
+     if (params->has_multifd_zstd_level &&
+         (params->multifd_zstd_level > 20)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "multifd_zstd_level",
+-                   "is invalid, it should be in the range of 0 to 20");
++                   "a value between 0 and 20");
+         return false;
+     }
+ 
+@@ -1407,8 +1407,7 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+          !is_power_of_2(params->xbzrle_cache_size))) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                    "xbzrle_cache_size",
+-                   "is invalid, it should be bigger than target page size"
+-                   " and a power of 2");
++                   "a power of two no less than the target page size");
+         return false;
+     }
+ 
+@@ -1425,21 +1424,21 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+         params->announce_initial > 100000) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                    "announce_initial",
+-                   "is invalid, it must be less than 100000 ms");
++                   "a value between 0 and 100000");
+         return false;
+     }
+     if (params->has_announce_max &&
+         params->announce_max > 100000) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                    "announce_max",
+-                   "is invalid, it must be less than 100000 ms");
++                   "a value between 0 and 100000");
+        return false;
+     }
+     if (params->has_announce_rounds &&
+         params->announce_rounds > 1000) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                    "announce_rounds",
+-                   "is invalid, it must be in the range of 0 to 1000");
++                   "a value between 0 and 1000");
+        return false;
+     }
+     if (params->has_announce_step &&
+@@ -1447,7 +1446,7 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+         params->announce_step > 10000)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+                    "announce_step",
+-                   "is invalid, it must be in the range of 1 to 10000 ms");
++                   "a value between 0 and 10000");
+        return false;
+     }
+ 
 -- 
 2.29.2
 
