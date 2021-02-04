@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F60230EEB7
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 09:45:00 +0100 (CET)
-Received: from localhost ([::1]:44570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F7130EF0D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 09:54:06 +0100 (CET)
+Received: from localhost ([::1]:54654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7aG3-00065b-5h
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 03:44:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60772)
+	id 1l7aOq-0002j3-VD
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 03:54:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7aAD-0001aK-PF
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:38:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38394)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l7aA8-0005z8-HA
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:38:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612427931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ljR/zD1IE0HNVDuDdK9eiv9aGgEofFeNWdtITDLMWR4=;
- b=XW5egt43vb30JQClJDuBACRd+dkA9Fv2hKWXZggS9KZNpD5E8ANR3Hp70KDnqQQGMQxCc/
- TwPps5VfPRUgpFvrCerv7jPjut5MyEnGmNC+v59q0VD3Em4FaHCoa/l+51pWu8jHaGwVXQ
- eyLdguSQ3a1/qYv72Df7qPg7PiaPFkg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-8hAMYFpkOAu4m0eoJLD4GQ-1; Thu, 04 Feb 2021 03:38:48 -0500
-X-MC-Unique: 8hAMYFpkOAu4m0eoJLD4GQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 077DE91280;
- Thu,  4 Feb 2021 08:38:47 +0000 (UTC)
-Received: from [10.36.113.146] (ovpn-113-146.ams2.redhat.com [10.36.113.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4592B60C13;
- Thu,  4 Feb 2021 08:38:46 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <28457ae1-7e9b-4428-cb10-3b79ebeac8d0@linaro.org>
- <19D304C1-6401-4D16-AB54-DD19C978D04D@redhat.com>
- <db32a1f5-ad73-a341-f5e7-1c8f592d3d5b@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
- constant folding
-Message-ID: <bd7154e1-4d6c-5b98-9e80-ec04f8476373@redhat.com>
-Date: Thu, 4 Feb 2021 09:38:45 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7aNk-0001au-0b; Thu, 04 Feb 2021 03:52:56 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:46229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l7aNi-000457-Gs; Thu, 04 Feb 2021 03:52:55 -0500
+Received: by mail-ed1-x535.google.com with SMTP id y18so3080710edw.13;
+ Thu, 04 Feb 2021 00:52:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YRBwtqdmkvWWALcEF2e/qcXfAT8b2ppuWWtWSMJDD6E=;
+ b=p1dk5Bar7sbghU+d0sAZMGwiU15aGlZutR3Yid83BugkjVRO8o4N8i5T2Sr4AnU53z
+ fd/8mie3CmXNnt7n3uarAH6BhSZtvLUHcHlKmX88P94GMts0JkhrYOyA3GLYgwqUWIKW
+ N/6BtEyY3+9OY7CNvt3NC3pLvlVR5y5QzYI64sfhbsjeqLmVP1ut+KGDZcbHcHYdoI4Y
+ PRLqN6HHX0DtTjEHel97DjQvj9tslufIUovdNtegs45jYVl5yr0WoMGd7y885ZwD8Ij5
+ KuoYVkTf7JO6SUyhJ3h4AX0BpCp/gMOaEFb5FTa2RMuf8iXSKidoCE8/NYz8u87JGaen
+ 0wXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YRBwtqdmkvWWALcEF2e/qcXfAT8b2ppuWWtWSMJDD6E=;
+ b=eaDDNMKZzxGT4pq9iaNuIK42xYqpeJwDOSLcJwj0LqZRGkwPyuz4m2Ox0MkUfUTneo
+ DKYFQ6ob8VEtoNhJwGZeFzma+HxxzxyJIOYf0i+/mA8ldD7HXo3s+7gbUnsUFYTr+xK7
+ TXYmlmVp0p5rkGAeOCj5t2iy7BUm/MtRBRTyA+f5Ix7K9qmiWe39u74Rxm/ZgNgverjW
+ D4ZbEMKq0uSkT+RIrbcBMJbkHxK51VzT7p2hJLL/mr9w2NUvVgK/7KWMOOJBJQHuaDQr
+ 8JN1Qje+EpiWlPrDk+2ksheM3WRb0F0/4zmcm+nhlKEckseVL+5xr49AVRTL7JnKp/Z6
+ QQkg==
+X-Gm-Message-State: AOAM530DUc5h12Q0NI+1lEqoTmzjfkcHxiVO9Cd4aaSTaeOSWI/1cDAH
+ 1SaHYpiTVvnqVWbURfubk9I=
+X-Google-Smtp-Source: ABdhPJznKOWrw0Gdm3gMKfDtxcznpuV/clvi8xq+cuR1GCY0DFwHzOHP59BYJWV2lHpK529kk+w2Fg==
+X-Received: by 2002:a05:6402:2707:: with SMTP id
+ y7mr6760289edd.5.1612428772565; 
+ Thu, 04 Feb 2021 00:52:52 -0800 (PST)
+Received: from [192.168.1.36] (107.red-83-59-163.dynamicip.rima-tde.net.
+ [83.59.163.107])
+ by smtp.gmail.com with ESMTPSA id bo12sm2108935ejb.93.2021.02.04.00.52.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Feb 2021 00:52:51 -0800 (PST)
+Subject: Re: [PATCH 1/3] tests/acceptance: Move the pseries test to a separate
+ file
+To: Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <20210112164045.98565-1-thuth@redhat.com>
+ <20210112164045.98565-2-thuth@redhat.com>
+ <6cb6f7dd-2f9e-05c3-0efe-8f7f9f75fe84@redhat.com>
+ <67dde2d9-1d87-35fa-9233-9264b0731e28@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <23ca4afc-97a9-7438-0182-93cd49271d4e@amsat.org>
+Date: Thu, 4 Feb 2021 09:52:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <db32a1f5-ad73-a341-f5e7-1c8f592d3d5b@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <67dde2d9-1d87-35fa-9233-9264b0731e28@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.178, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.178,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,66 +93,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Richard W.M. Jones" <rjones@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-ppc@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.02.21 08:55, David Hildenbrand wrote:
-> On 04.02.21 07:41, David Hildenbrand wrote:
->>
->>> Am 04.02.2021 um 03:22 schrieb Richard Henderson <richard.henderson@linaro.org>:
->>>
->>> ﻿On 2/1/21 10:45 AM, Richard W.M. Jones wrote:
->>>> This commit breaks running certain s390x binaries, at least
->>>> the "mount" command (or a library it uses) breaks.
->>>>
->>>> More details in this BZ:
->>>>
->>>> https://bugzilla.redhat.com/show_bug.cgi?id=1922248
->>>>
->>>> Could we revert this change since it seems to have caused other
->>>> problems as well?
->>>
->>> Well, the other problems have been fixed (which were in fact latent, and could
->>> have been produced by other means).  I would not like to sideline this patch
->>> set indefinitely.
->>>
->>> Could you give me some help extracting the relevant binaries?  "Begin with an
->>> s390x host" is a non-starter.
->>>
->>
+Hi Thomas,
+
+On 1/13/21 6:30 AM, Thomas Huth wrote:
+> On 12/01/2021 19.50, Wainer dos Santos Moschetta wrote:
 >> Hi,
 >>
->> I‘m planning on reproducing it today or tomorrow. Especially, finding a reproducer and trying reproducing on x86-64 host.
+>> On 1/12/21 1:40 PM, Thomas Huth wrote:
+>>> Let's gather the POWER-related tests in a separate file.
+>>
+>>
+>> Did you consider having others ppc/ppc64 boot tests together too?
+>>
+>> Some candidates:
+>>
+>> tests/acceptance/boot_linux.py:BootLinuxPPC64.test_pseries_tcg
+>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_ppc64_e500
+>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_ppc_g3beige
+>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_ppc_mac99
 > 
-> FWIW, on an x86-64 host, I can boot F32, Fedora rawhide, and RHEL8.X
-> just fine from qcow2 (so "mount" seems to work in that environment as
-> expected). Maybe it's really s390x-host specific? I'll give it a try.
+> The e500, g3beige and mac99 tests are depending on the
+> do_test_advcal_2018() function in that file, so I think they should
+> rather stay there.
 > 
+>> tests/acceptance/ppc_prep_40p.py:IbmPrep40pMachine.test_factory_firmware_and_netbsd
+>> tests/acceptance/ppc_prep_40p.py:IbmPrep40pMachine.test_openbios_192m
+>> tests/acceptance/ppc_prep_40p.py:IbmPrep40pMachine.test_openbios_and_netbsd
+>>
+> 
+> That's a good point, I did not notice that file when writing my patches.
+> Philippe, since you've created this ppc_prep_40p.py file, what do you
+> think, should it be merged with the other ppc tests, or shall we rather
+> keep this separate?
 
-F33 qcow2 [1] fails booting on an s390x/TCG host.
+The choice was deliberate: the PReP machine has a different set of
+maintainers. If possible when we have a particular section in
+MAINTAINERS I'd like to use it as separation, to let the maintainers
+track changes in tests.
 
-I tried "-cpu qemu" and "-qemu qemu=vx=off". The same image boots on 
-x86-64/TCG host just fine.
+In this example, Hervé is interested to look for PReP related files,
+but doesn't have bandwidth to look at all PPC patches.
 
+If this doesn't scale, I suggested (was it on the list or directly
+to Willian?) to add a Python script to map Avocado test tags to
+MAINTAINERS entry, so 1/ maintainers could run all tests linked to
+their subsystem by naming the subsystem, and 2/ when a test fails
+we know which maintainer to contact.
 
-With
+Regards,
 
-commit 8f17a975e60b773d7c366a81c0d9bbe304f30859
-Author: Richard Henderson <richard.henderson@linaro.org>
-Date:   Mon Mar 30 19:52:02 2020 -0700
-
-     tcg/optimize: Adjust TempOptInfo allocation
-
-The image boots just fine on s390x/TCG as well.
-
-
-[1] 
-https://dl.fedoraproject.org/pub/fedora-secondary/releases/33/Cloud/s390x/images/Fedora-Cloud-Base-33-1.2.s390x.qcow2
-
--- 
-Thanks,
-
-David / dhildenb
-
+Phil.
 
