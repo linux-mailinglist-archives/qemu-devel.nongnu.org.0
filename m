@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA82830EE94
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 09:39:39 +0100 (CET)
-Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B609930EE97
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 09:40:48 +0100 (CET)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7aAs-00017H-Ry
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 03:39:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60448)
+	id 1l7aBz-00022a-KW
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 03:40:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7a8R-0000Iy-6v
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:37:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39778)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7a9U-0000iu-4f
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:38:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7a8N-0005ND-HJ
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:37:06 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7a9O-0005fx-Ca
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 03:38:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612427821;
+ s=mimecast20190719; t=1612427882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fPJ+ZOwQuiliR7hnBxH1hlej1UeBobqethhy/c3vb6o=;
- b=QkTuaCDTJBuEVPhWgpQDkYhRnqEmlK3bxjBM0rBmGSaBeny8dXsxCZq4d+PY8AsLmMTdYx
- wbcRub8D4tCo/EnSue+k9TAeF22gl/J/Ny1SZm+1M/W6OGPl3BKGDKcKjM4ihMweIVD/Lk
- OC9BwO8cT5x1psPT0ndBfHtRDHo2J6U=
+ bh=JnrOoKXQgrzcUvp2lxbO9WoBSjwwEbq7mZSdWjGeToM=;
+ b=KkeYiQdwNbP01TW8mtA0xfaGYFJ0+GiQ6HAzU7X1SdwdSgR6aTT/g9i86fM6zCn43hmmbz
+ YAgYpsZ0z8kB34u1pA3CXHkgu7HgtR+8s0cQoQuPixs9/952md27lFmtet99eXXzA42xy1
+ FX7DRHdJdwrc47YNcEF/btmHPLKB3xI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-JsLaxc_INIShHDmhzZJ8ww-1; Thu, 04 Feb 2021 03:36:59 -0500
-X-MC-Unique: JsLaxc_INIShHDmhzZJ8ww-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-599-G-Mk2pKuN7y29l1fm7eLiw-1; Thu, 04 Feb 2021 03:37:24 -0500
+X-MC-Unique: G-Mk2pKuN7y29l1fm7eLiw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1B7A1934100;
- Thu,  4 Feb 2021 08:36:58 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
- [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 18D925D9F4;
- Thu,  4 Feb 2021 08:36:50 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5524A1800385; Thu,  4 Feb 2021 09:36:48 +0100 (CET)
-Date: Thu, 4 Feb 2021 09:36:48 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 4/4] hw/usb/bus: Remove the "full-path" property
-Message-ID: <20210204083648.b4tbk5kftdk4j6ez@sirius.home.kraxel.org>
-References: <20210203171832.483176-1-thuth@redhat.com>
- <20210203171832.483176-5-thuth@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58FCD107ACE4;
+ Thu,  4 Feb 2021 08:37:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27CFB71C9B;
+ Thu,  4 Feb 2021 08:37:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A7F26113865F; Thu,  4 Feb 2021 09:37:21 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 06/14] qapi/introspect.py: replace 'extra' dict with
+ 'comment' argument
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-7-jsnow@redhat.com>
+ <87tuqtteks.fsf@dusky.pond.sub.org>
+ <fac0a218-2d43-bc70-dadf-1f5da4c5b03f@redhat.com>
+Date: Thu, 04 Feb 2021 09:37:21 +0100
+In-Reply-To: <fac0a218-2d43-bc70-dadf-1f5da4c5b03f@redhat.com> (John Snow's
+ message of "Wed, 3 Feb 2021 16:21:38 -0500")
+Message-ID: <87lfc4kz3y.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210203171832.483176-5-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -79,22 +83,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, libvir-list@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+John Snow <jsnow@redhat.com> writes:
 
->  enum USBDeviceFlags {
-> -    USB_DEV_FLAG_FULL_PATH,
-> +    USB_DEV_FLAG_FULL_PATH,             /* unused since QEMU v6.0 */
+> On 2/3/21 9:23 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> This is only used to pass in a dictionary with a comment already set, so
+>>> skip the runaround and just accept the comment.
+>>>
+>>> This works because _tree_to_qlit() treats 'if': None; 'comment': None
+>>> exactly like absent 'if'; 'comment'.
+>> Confusing, because the two paragraphs talk about two different
+>> things:
+>> 1. Actual arguments for @extra are either None or {'comment':
+>> comment}.
+>>     Simplify: replace parameter @extra by parameter @comment.
+>> 2. Dumb down the return value to always be of the form
+>>      (obj {'if': ifcond, 'comment': comment})
+>> 
+>
+> I think you are drawing attention to the fact that 'if' and 'comment'
+> are now always present in this dict instead of conditionally present.
 
-Why not just drop it?  Any remaining users?
+Correct.
 
-take care,
-  Gerd
+> (else, I have misread you. (I think you are missing a comma.))
+
+I am!  I meant to write
+
+    (obj, {'if': ifcond, 'comment': comment})
+
+>> I suspect splitting the patch is easier than crafting a clear commit
+>> message for the combined one.
+>> 
+>
+> I wouldn't have considered to break out such a small change into two
+> even smaller changes, but as you are in charge here ... Okey Dokey.
+>
+> (meta-tangent: [1])
+[...]
+> [1] As a matter of process, I sometimes find it cumbersome to
+> intentionally engineer an intermediary state when I jumped straight
+> from A->C in my actual editing.
+
+Yes, the extra work can be cumbersome.  But then writing a neat commit
+message for a commit that does two things can also be cumbersome.
+"Split and write two straightforward commit messages" has proven easier
+for me many times.
+
+> I will usually keep such intermediary forms when they come about
+> naturally in the course of development, but rarely seek to add them 
+> artificially -- it feels like a major bummer to engineer, test, and
+> scrutinize code that's only bound to be deleted immediately after. 
+> Sometimes, it feels like a waste of reviewer effort, too.
+
+It depends.  Sometimes "don't split and write a complicated commit
+message" is easier.
+
+Which way you get to "commit message(s) don't confuse Markus" in this
+particular case is up to you :)
+
+> It's been years and I still don't think I have any real intuitive
+> sense for this, which is ...unfortunate.
+
+It's been years, and my intuition still evolves.
 
 
