@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE0830E88A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 01:34:36 +0100 (CET)
-Received: from localhost ([::1]:37078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1376530E8BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 01:43:33 +0100 (CET)
+Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7SbT-00036f-1p
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 19:34:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56802)
+	id 1l7Sk7-0002DW-Ug
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 19:43:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7SZQ-0001HK-Pm
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 19:32:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56179)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7SZT-0001Oc-IC
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 19:32:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7SZH-0000do-HT
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 19:32:28 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7SZH-0000ds-NU
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 19:32:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612398738;
+ s=mimecast20190719; t=1612398739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ir8W7GI/RAEul9zjs7iM1O4jtduanRSkeI8lg+5O0Y8=;
- b=T0JJcNhEu5z065NsI8I5GGxnoOitWqQBQoxSsFaDWZxSSkm9KxuwjJFa0lgkZwQ4SraltC
- AtBlr7R9o9fp8+phe91KrqQkfD7QhtQOw9VL5fXtlEjv+zi1n/BixiDQ1GVzZL9UhMOEDj
- xCsa0pdsW3Aq4bKQaPmSZvT1xfKdioI=
+ bh=glJ6THkx7gbhIxYppi/omqSbh0u9hLVsk2WwC6p2wHw=;
+ b=J42wBebj1wCM13B1AxsSHVCTedyT6kw4az1MVfqAhBTqtiU+Cc3ayFzZpDQtV58SU5xiqj
+ Rw6ouzNpgVU25/c2IJks8Sm7jQbXeybEZNK0XIyPK6W/7PEFeVZfAR6nN4uPcscJiIIlAp
+ TMI4GASG1BFZgP41L2tle4oRTVmEbBU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-T4304iNhPdGXRK0WxIYszQ-1; Wed, 03 Feb 2021 19:32:16 -0500
-X-MC-Unique: T4304iNhPdGXRK0WxIYszQ-1
+ us-mta-121-Ho4G1eKjNY-sawIwgPOMRQ-1; Wed, 03 Feb 2021 19:32:17 -0500
+X-MC-Unique: Ho4G1eKjNY-sawIwgPOMRQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E65A3AFA82
- for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 00:32:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8E5B8030BA
+ for <qemu-devel@nongnu.org>; Thu,  4 Feb 2021 00:32:16 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53863100AE4E;
- Thu,  4 Feb 2021 00:32:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16C1B100AE4A;
+ Thu,  4 Feb 2021 00:32:16 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 10/15] qapi/introspect.py: improve _tree_to_qlit error
- message
-Date: Wed,  3 Feb 2021 19:32:02 -0500
-Message-Id: <20210204003207.2856909-11-jsnow@redhat.com>
+Subject: [PATCH v5 11/15] qapi/introspect.py: improve readability of
+ _tree_to_qlit
+Date: Wed,  3 Feb 2021 19:32:03 -0500
+Message-Id: <20210204003207.2856909-12-jsnow@redhat.com>
 In-Reply-To: <20210204003207.2856909-1-jsnow@redhat.com>
 References: <20210204003207.2856909-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,26 +83,76 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trivial; make the error message just a pinch more explicit in case we
-trip this by accident in the future.
+Subjective, but I find getting rid of the comprehensions helps. Also,
+divide the sections into scalar and non-scalar sections, and remove
+old-style string formatting.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/introspect.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/qapi/introspect.py | 33 ++++++++++++++++++---------------
+ 1 file changed, 18 insertions(+), 15 deletions(-)
 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index b9427aba449..0146e4c6a0c 100644
+index 0146e4c6a0c..cf0e4e05c5c 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -124,7 +124,9 @@ def indent(level):
-     elif isinstance(obj, bool):
-         ret += 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
+@@ -89,7 +89,7 @@ def indent(level):
+ 
+         ret = ''
+         if obj.comment:
+-            ret += indent(level) + '/* %s */\n' % obj.comment
++            ret += indent(level) + f"/* {obj.comment} */\n"
+         if obj.ifcond:
+             ret += gen_if(obj.ifcond)
+         ret += _tree_to_qlit(obj.value, level)
+@@ -100,33 +100,36 @@ def indent(level):
+     ret = ''
+     if not dict_value:
+         ret += indent(level)
++
++    # Scalars:
+     if obj is None:
+         ret += 'QLIT_QNULL'
+     elif isinstance(obj, str):
+-        ret += 'QLIT_QSTR(' + to_c_string(obj) + ')'
++        ret += f"QLIT_QSTR({to_c_string(obj)})"
++    elif isinstance(obj, bool):
++        ret += f"QLIT_QBOOL({str(obj).lower()})"
++
++    # Non-scalars:
+     elif isinstance(obj, list):
+-        elts = [_tree_to_qlit(elt, level + 1).strip('\n')
+-                for elt in obj]
+-        elts.append(indent(level + 1) + "{}")
+         ret += 'QLIT_QLIST(((QLitObject[]) {\n'
+-        ret += '\n'.join(elts) + '\n'
++        for value in obj:
++            ret += _tree_to_qlit(value, level + 1).strip('\n') + '\n'
++        ret += indent(level + 1) + '{}\n'
+         ret += indent(level) + '}))'
+     elif isinstance(obj, dict):
+-        elts = []
+-        for key, value in sorted(obj.items()):
+-            elts.append(indent(level + 1) + '{ %s, %s }' %
+-                        (to_c_string(key),
+-                         _tree_to_qlit(value, level + 1, True)))
+-        elts.append(indent(level + 1) + '{}')
+         ret += 'QLIT_QDICT(((QLitDictEntry[]) {\n'
+-        ret += ',\n'.join(elts) + '\n'
++        for key, value in sorted(obj.items()):
++            ret += indent(level + 1) + "{{ {:s}, {:s} }},\n".format(
++                to_c_string(key),
++                _tree_to_qlit(value, level + 1, dict_value=True)
++            )
++        ret += indent(level + 1) + '{}\n'
+         ret += indent(level) + '}))'
+-    elif isinstance(obj, bool):
+-        ret += 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
      else:
--        assert False                # not implemented
-+        raise NotImplementedError(
-+            f"type '{type(obj).__name__}' not implemented"
-+        )
+         raise NotImplementedError(
+             f"type '{type(obj).__name__}' not implemented"
+         )
++
      if level > 0:
          ret += ','
      return ret
