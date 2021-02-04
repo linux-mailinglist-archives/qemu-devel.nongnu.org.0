@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B277430EA35
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 03:32:22 +0100 (CET)
-Received: from localhost ([::1]:40200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B70230EA3C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 03:34:36 +0100 (CET)
+Received: from localhost ([::1]:48658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7URR-0006on-M5
-	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 21:32:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45048)
+	id 1l7UTb-0001wx-H4
+	for lists+qemu-devel@lfdr.de; Wed, 03 Feb 2021 21:34:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7TjP-0005aA-H7
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:46:52 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:43882)
+ id 1l7TjR-0005be-10
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:46:53 -0500
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l7TjN-00042D-P7
- for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:46:51 -0500
-Received: by mail-pl1-x632.google.com with SMTP id 8so873960plc.10
- for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:46:49 -0800 (PST)
+ id 1l7TjP-00043J-Ei
+ for qemu-devel@nongnu.org; Wed, 03 Feb 2021 20:46:52 -0500
+Received: by mail-pg1-x533.google.com with SMTP id o7so1053830pgl.1
+ for <qemu-devel@nongnu.org>; Wed, 03 Feb 2021 17:46:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CAFEcBhH5Bm/1S+hn6Be2S25m9MyX50Fw2Tvsr0CL7s=;
- b=vRfRRsIUon+0UU2dXlgzfAEjFgukXsHoKg4a+hTih4VUa3QM7Fdx2xhumbcbVXJ/9B
- 5nFiJjEjgVjp+4UwCnebniGWuDT4DT7TG+eDUYATrIfrmo18KiK3oVouddt9z93DzVzN
- SfIZQ40GLlS31cl8cIF3fs3kEw3ari/tbCoN7oZbvkjcS9Ifo280g7S1MxwKDm+s5JMT
- +jRK33h58hWb3Cjaliztvnjhc/g6Oor0A4txb8rSTIRsJLQy8arOEnp9now1uFhDqGF0
- u3wlist0uix5z7wNJv/VwvNvhWrJoZo9/38eyEWKj0GUcxyX2t7/T31mPg575n69XxkE
- J9YA==
+ bh=nLwOsyO0LIePZbanFLMg77EMdmZd3QPy/SBwJ8JDkus=;
+ b=l9WN+zATzNqEXOczx5DUp3oVFvdvWDLnJi276EF1NJO2nJmCpj5wsybeSFLv3r31hD
+ 9MJBobsz9Hk1c71/tZHqXwHpM6hESMQkk33MWtOfMj6M15T0fl+TzQfnGMY9P9JbK5D+
+ 1v3GYzIM6YB19lfotDykflEnNyPToqK1x/F8y3G7Pp/fXvzPWGrTwPIGjI7aPmWrphPY
+ VO0uMlNuUte91xhNiXFtCZsz1Y3Xy+pEMevjEca2e91lyfVNtoS/TOdtHLwr7ayhBjgc
+ TytFi+ul2p4kZlo5NTnL50733l+tsjX5uJLqH8oXC1uRyQbHjJDNemAOJqSLiGAVBT2z
+ xNDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CAFEcBhH5Bm/1S+hn6Be2S25m9MyX50Fw2Tvsr0CL7s=;
- b=pCzJ1upqPCwcBFY/yv67OZ34HhO/iaTbm3vXM9ydxn3F/H8/ZSH1NrgNXrXTOz3ArH
- MpLtVVCyUolhn9kfYwPbzBw34dQxkHX5IsMJj81v8qsCb9wLhzxKhP3DX+UCGgmBSvoL
- w8pcBluNABi5TA9TIdS6AvfV5eKDodRZE93xKB6EbvqDqtUqc2KYRkVXDCSWbHGa1Trq
- UImpDk4K3aTvC/OgQoK+k86H3wqWI8Lfa5xhg3F4YjPxlSXwl8W3Iy6QR0vlNDaDDMt7
- sZKi4+RvX6y3yCWru9lvMew0C9gXDyCQ5fWynTWGzYZDBQ7IOzeXmBc3oLdvFFshi2N3
- sBxw==
-X-Gm-Message-State: AOAM5318WDbsCCY5pDkGDig8ZwfSO0tJgfYd7m29xxKU3mGUmR4LJf4s
- q/HF1UbbGvn30mFdKS6HDXfkyvv9vAoQlfNU
-X-Google-Smtp-Source: ABdhPJzp2ya/dkrwliLOcNCdMVCNgvT4Q4ZB9OZMpGFj6n6RWB5d3k6WxTmAAszH94sZCgeVbAluIA==
-X-Received: by 2002:a17:90a:8d13:: with SMTP id
- c19mr6080617pjo.179.1612403208515; 
- Wed, 03 Feb 2021 17:46:48 -0800 (PST)
+ bh=nLwOsyO0LIePZbanFLMg77EMdmZd3QPy/SBwJ8JDkus=;
+ b=VCkXe38gO/O5DiO6CJGnqVH2zdsrxPklkZm7iC4MQKQHTbxUF77pz9Q9N7CfknZAq0
+ ZXzDuw3NH6rQaaoLcYShaedmJ6IqUn3qPSF351Cb7yD23tuxaXZtLS2eZm/7C2i6tZnZ
+ M6StohsIzd7XfVuNZjGoagGliMgfBhl2cPYdvfLyNXlJVNlAgO/TkpZTKur70FL4oAQm
+ w8uwvu2WJS1A2tiSxoMvf+TWwQ66twPbkVBOFly3BbtbKNBC2kJX91X22gQ8Onjp+c9k
+ WenvP0R6THbKzuOcutvmd8IPL+wb9hLbv+/gkvMGkif0izNAgrzizE9FkYwNjbCgo0lb
+ fBMQ==
+X-Gm-Message-State: AOAM5331/Ttjf+CF3dAhNH9S+WbfQvkdmbj7+TUWYGhqHWyRKiibYWlw
+ TwOK9SkcHA4ezv2UsHi93lzzpdpYK+ECfOXl
+X-Google-Smtp-Source: ABdhPJybhrveviLWxXs57AgkWyeBu52FgTwY7r+UBBE7eS7zrPQQy+w0wGfTvCJt9ZWhM7YW2A+0dQ==
+X-Received: by 2002:a62:484:0:b029:1b7:878b:c170 with SMTP id
+ 126-20020a6204840000b02901b7878bc170mr5701593pfe.28.1612403210161; 
+ Wed, 03 Feb 2021 17:46:50 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.46.47
+ by smtp.gmail.com with ESMTPSA id q132sm3835462pfq.171.2021.02.03.17.46.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Feb 2021 17:46:47 -0800 (PST)
+ Wed, 03 Feb 2021 17:46:49 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 54/93] tcg/tci: Split out tci_args_rrrrrr
-Date: Wed,  3 Feb 2021 15:44:30 -1000
-Message-Id: <20210204014509.882821-55-richard.henderson@linaro.org>
+Subject: [PATCH v2 55/93] tcg/tci: Split out tci_args_rrrr
+Date: Wed,  3 Feb 2021 15:44:31 -1000
+Message-Id: <20210204014509.882821-56-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210204014509.882821-1-richard.henderson@linaro.org>
 References: <20210204014509.882821-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,67 +90,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c | 31 ++++++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 11 deletions(-)
+ tcg/tci.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/tcg/tci.c b/tcg/tci.c
-index 0301ee63a7..84d77855ee 100644
+index 84d77855ee..cb24295cd9 100644
 --- a/tcg/tci.c
 +++ b/tcg/tci.c
-@@ -258,6 +258,17 @@ static void tci_args_rrrrrc(const uint8_t **tb_ptr, TCGReg *r0, TCGReg *r1,
-     *r4 = tci_read_r(tb_ptr);
-     *c5 = tci_read_b(tb_ptr);
+@@ -237,6 +237,15 @@ static void tci_args_rrrc(const uint8_t **tb_ptr,
  }
-+
-+static void tci_args_rrrrrr(const uint8_t **tb_ptr, TCGReg *r0, TCGReg *r1,
-+                            TCGReg *r2, TCGReg *r3, TCGReg *r4, TCGReg *r5)
+ 
+ #if TCG_TARGET_REG_BITS == 32
++static void tci_args_rrrr(const uint8_t **tb_ptr,
++                          TCGReg *r0, TCGReg *r1, TCGReg *r2, TCGReg *r3)
 +{
 +    *r0 = tci_read_r(tb_ptr);
 +    *r1 = tci_read_r(tb_ptr);
 +    *r2 = tci_read_r(tb_ptr);
 +    *r3 = tci_read_r(tb_ptr);
-+    *r4 = tci_read_r(tb_ptr);
-+    *r5 = tci_read_r(tb_ptr);
 +}
- #endif
- 
- static bool tci_compare32(uint32_t u0, uint32_t u1, TCGCond condition)
-@@ -437,7 +448,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         uint32_t tmp32;
-         uint64_t tmp64;
- #if TCG_TARGET_REG_BITS == 32
--        TCGReg r3, r4;
-+        TCGReg r3, r4, r5;
-         uint64_t T1, T2;
- #endif
-         TCGMemOpIdx oi;
-@@ -643,18 +654,16 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
++
+ static void tci_args_rrrrcl(const uint8_t **tb_ptr, TCGReg *r0, TCGReg *r1,
+                             TCGReg *r2, TCGReg *r3, TCGCond *c4, void **l5)
+ {
+@@ -676,11 +685,8 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+             }
              break;
- #if TCG_TARGET_REG_BITS == 32
-         case INDEX_op_add2_i32:
+         case INDEX_op_mulu2_i32:
 -            t0 = *tb_ptr++;
 -            t1 = *tb_ptr++;
--            tmp64 = tci_read_r64(regs, &tb_ptr);
--            tmp64 += tci_read_r64(regs, &tb_ptr);
--            tci_write_reg64(regs, t1, t0, tmp64);
-+            tci_args_rrrrrr(&tb_ptr, &r0, &r1, &r2, &r3, &r4, &r5);
-+            T1 = tci_uint64(regs[r3], regs[r2]);
-+            T2 = tci_uint64(regs[r5], regs[r4]);
-+            tci_write_reg64(regs, r1, r0, T1 + T2);
+-            t2 = tci_read_rval(regs, &tb_ptr);
+-            tmp64 = (uint32_t)tci_read_rval(regs, &tb_ptr);
+-            tci_write_reg64(regs, t1, t0, (uint32_t)t2 * tmp64);
++            tci_args_rrrr(&tb_ptr, &r0, &r1, &r2, &r3);
++            tci_write_reg64(regs, r1, r0, (uint64_t)regs[r2] * regs[r3]);
              break;
-         case INDEX_op_sub2_i32:
--            t0 = *tb_ptr++;
--            t1 = *tb_ptr++;
--            tmp64 = tci_read_r64(regs, &tb_ptr);
--            tmp64 -= tci_read_r64(regs, &tb_ptr);
--            tci_write_reg64(regs, t1, t0, tmp64);
-+            tci_args_rrrrrr(&tb_ptr, &r0, &r1, &r2, &r3, &r4, &r5);
-+            T1 = tci_uint64(regs[r3], regs[r2]);
-+            T2 = tci_uint64(regs[r5], regs[r4]);
-+            tci_write_reg64(regs, r1, r0, T1 - T2);
-             break;
-         case INDEX_op_brcond2_i32:
-             tci_args_rrrrcl(&tb_ptr, &r0, &r1, &r2, &r3, &condition, &ptr);
+ #endif /* TCG_TARGET_REG_BITS == 32 */
+ #if TCG_TARGET_HAS_ext8s_i32 || TCG_TARGET_HAS_ext8s_i64
 -- 
 2.25.1
 
