@@ -2,72 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD0330F507
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:34:12 +0100 (CET)
-Received: from localhost ([::1]:60106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A0B30F511
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 15:34:54 +0100 (CET)
+Received: from localhost ([::1]:34962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7fhx-000602-Fv
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:34:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59950)
+	id 1l7fif-0007H2-KT
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 09:34:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7fg4-0004qY-Px
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:32:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l7ffx-0005TI-4t
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:32:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612449123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2reUQzzarqgssbUcyDxWpMwQ8uXrhWFbgIP0XLEN3Lk=;
- b=UxadbC2U2qiTatVZSpDVw4ENjZqvadrYiGAaQhyr1nuLBvN4o2YjRTh56u8LzOd/rPjm2N
- gAmNXAxZHn8/UxVOGPnY6ktxFbDq8hHkKrXcMggz7fm15dnvbfcog/Rhf9qNrU1JnaeXh3
- NFE/up0WZi1hvuPs2TL8sFERGyiyACE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-GkKLHvmXP0qODAnubpiRQw-1; Thu, 04 Feb 2021 09:32:02 -0500
-X-MC-Unique: GkKLHvmXP0qODAnubpiRQw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98BBE801960;
- Thu,  4 Feb 2021 14:32:00 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-162.ams2.redhat.com [10.36.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C6485C3DF;
- Thu,  4 Feb 2021 14:31:58 +0000 (UTC)
-Date: Thu, 4 Feb 2021 15:31:57 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 26/36] block/backup-top: drop .active
-Message-ID: <20210204143157.GH6496@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-27-vsementsov@virtuozzo.com>
- <20210204122651.GE6496@merkur.fritz.box>
- <e29d97df-3a05-0164-09c3-c0336719c78f@virtuozzo.com>
- <20210204132529.GF6496@merkur.fritz.box>
- <cb558baf-2ee5-aa46-ef5e-228140f3bd44@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1l7fgx-0005cs-7T
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:33:07 -0500
+Received: from foss.arm.com ([217.140.110.172]:51996)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1l7fgs-0005y5-Pi
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 09:33:06 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3B24D6E;
+ Thu,  4 Feb 2021 06:32:58 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A7C83F694;
+ Thu,  4 Feb 2021 06:32:56 -0800 (PST)
+From: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v7 1/3] arm64: kvm: Save/restore MTE registers
+To: Marc Zyngier <maz@kernel.org>
+References: <20210115152811.8398-1-steven.price@arm.com>
+ <20210115152811.8398-2-steven.price@arm.com>
+ <a99f09a56cf33bfa18b55c251380ef22@kernel.org>
+Message-ID: <e294d3d3-20d6-717d-4274-c190f9cc5887@arm.com>
+Date: Thu, 4 Feb 2021 14:33:10 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <cb558baf-2ee5-aa46-ef5e-228140f3bd44@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <a99f09a56cf33bfa18b55c251380ef22@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.182,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,107 +59,334 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.02.2021 um 14:46 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 04.02.2021 16:25, Kevin Wolf wrote:
-> > Am 04.02.2021 um 13:33 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > 04.02.2021 15:26, Kevin Wolf wrote:
-> > > > Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > > > We don't need this workaround anymore: bdrv_append is already smart
-> > > > > enough and we can use new bdrv_drop_filter().
-> > > > > 
-> > > > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > > > > ---
-> > > > >    block/backup-top.c         | 38 +-------------------------------------
-> > > > >    tests/qemu-iotests/283.out |  2 +-
-> > > > >    2 files changed, 2 insertions(+), 38 deletions(-)
-> > > > > 
-> > > > > diff --git a/block/backup-top.c b/block/backup-top.c
-> > > > > index 650ed6195c..84eb73aeb7 100644
-> > > > > --- a/block/backup-top.c
-> > > > > +++ b/block/backup-top.c
-> > > > > @@ -37,7 +37,6 @@
-> > > > >    typedef struct BDRVBackupTopState {
-> > > > >        BlockCopyState *bcs;
-> > > > >        BdrvChild *target;
-> > > > > -    bool active;
-> > > > >        int64_t cluster_size;
-> > > > >    } BDRVBackupTopState;
-> > > > > @@ -127,21 +126,6 @@ static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
-> > > > >                                      uint64_t perm, uint64_t shared,
-> > > > >                                      uint64_t *nperm, uint64_t *nshared)
-> > > > >    {
-> > > > > -    BDRVBackupTopState *s = bs->opaque;
-> > > > > -
-> > > > > -    if (!s->active) {
-> > > > > -        /*
-> > > > > -         * The filter node may be in process of bdrv_append(), which firstly do
-> > > > > -         * bdrv_set_backing_hd() and then bdrv_replace_node(). This means that
-> > > > > -         * we can't unshare BLK_PERM_WRITE during bdrv_append() operation. So,
-> > > > > -         * let's require nothing during bdrv_append() and refresh permissions
-> > > > > -         * after it (see bdrv_backup_top_append()).
-> > > > > -         */
-> > > > > -        *nperm = 0;
-> > > > > -        *nshared = BLK_PERM_ALL;
-> > > > > -        return;
-> > > > > -    }
-> > > > > -
-> > > > >        if (!(role & BDRV_CHILD_FILTERED)) {
-> > > > >            /*
-> > > > >             * Target child
-> > > > > @@ -229,18 +213,6 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-> > > > >        }
-> > > > >        appended = true;
-> > > > > -    /*
-> > > > > -     * bdrv_append() finished successfully, now we can require permissions
-> > > > > -     * we want.
-> > > > > -     */
-> > > > > -    state->active = true;
-> > > > > -    bdrv_child_refresh_perms(top, top->backing, &local_err);
-> > > > 
-> > > > bdrv_append() uses bdrv_refresh_perms() for the whole node. Is it doing
-> > > > unnecessary extra work there and should really do the same as backup-top
-> > > > did here, i.e. bdrv_child_refresh_perms(bs_new->backing)?
-> > > > 
-> > > > (Really a comment for an earlier patch. This patch itself looks fine.)
-> > > > 
-> > > 
-> > > You mean how backup-top code works at the point when we modified
-> > > bdrv_append()? Actually all works, as we use state->active. We set it
-> > > to true and should call refresh_perms. Now we drop _refresh_perms
-> > > _together_ with state->active variable, so filter is always "active",
-> > > but new bdrv_append can handle it now. I.e., before this patch
-> > > backup-top.c code is correct but over-complicated with logic which is
-> > > not necessary after bdrv_append() improvement (and of-course we need
-> > > also bdrv_drop_filter() to drop the whole state->active related
-> > > logic).
-> > 
-> > No, I just mean that bdrv_child_refresh_perms(bs, bs->backing) is enough
-> > when adding a new image to the chain. A full bdrv_child_refresh_perms()
-> > like we now have in bdrv_append() is doing more work than is necessary.
-> > 
-> > It doesn't make a difference for backup-top (because the filter has only
-> > a single child), but if you append a new qcow2 snapshot, you would also
-> > recalculate permissions for the bs->file subtree even though nothing has
-> > changed there.
-> > 
-> > It's only a small detail anyway, not very important in a slow path.
+On 02/02/2021 15:36, Marc Zyngier wrote:
+> On 2021-01-15 15:28, Steven Price wrote:
+>> Define the new system registers that MTE introduces and context switch
+>> them. The MTE feature is still hidden from the ID register as it isn't
+>> supported in a VM yet.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>  arch/arm64/include/asm/kvm_host.h          |  4 ++
+>>  arch/arm64/include/asm/kvm_mte.h           | 74 ++++++++++++++++++++++
+>>  arch/arm64/include/asm/sysreg.h            |  3 +-
+>>  arch/arm64/kernel/asm-offsets.c            |  3 +
+>>  arch/arm64/kvm/hyp/entry.S                 |  7 ++
+>>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h |  4 ++
+>>  arch/arm64/kvm/sys_regs.c                  | 14 ++--
+>>  7 files changed, 104 insertions(+), 5 deletions(-)
+>>  create mode 100644 arch/arm64/include/asm/kvm_mte.h
+>>
+>> diff --git a/arch/arm64/include/asm/kvm_host.h
+>> b/arch/arm64/include/asm/kvm_host.h
+>> index 11beda85ee7e..51590a397e4b 100644
+>> --- a/arch/arm64/include/asm/kvm_host.h
+>> +++ b/arch/arm64/include/asm/kvm_host.h
+>> @@ -148,6 +148,8 @@ enum vcpu_sysreg {
+>>      SCTLR_EL1,    /* System Control Register */
+>>      ACTLR_EL1,    /* Auxiliary Control Register */
+>>      CPACR_EL1,    /* Coprocessor Access Control */
+>> +    RGSR_EL1,    /* Random Allocation Tag Seed Register */
+>> +    GCR_EL1,    /* Tag Control Register */
+>>      ZCR_EL1,    /* SVE Control */
+>>      TTBR0_EL1,    /* Translation Table Base Register 0 */
+>>      TTBR1_EL1,    /* Translation Table Base Register 1 */
+>> @@ -164,6 +166,8 @@ enum vcpu_sysreg {
+>>      TPIDR_EL1,    /* Thread ID, Privileged */
+>>      AMAIR_EL1,    /* Aux Memory Attribute Indirection Register */
+>>      CNTKCTL_EL1,    /* Timer Control Register (EL1) */
+>> +    TFSRE0_EL1,    /* Tag Fault Status Register (EL0) */
+>> +    TFSR_EL1,    /* Tag Fault Stauts Register (EL1) */
 > 
-> Understand now. I think bdrv_append() do correct things: bs_new gets
-> new parents, so we refresh the whole subtree.. So for appending qcow2
-> we should refresh its file child as well. Probably new permissions of
-> new bs_new parents will influence what qcow2 wants to do with it file
-> node..
+> s/Stauts/Status/
+> 
+> Is there any reason why the MTE registers aren't grouped together?
 
-You mean the parents that move from bs_top to bs_new and that they could
-change the permissions that bs_new needs?
+I has been under the impression this list is sorted by the encoding of 
+the system registers, although double checking I've screwed up the order 
+of TFSRE0_EL1/TFSR_EL1, and not all the other fields are sorted that way.
 
-Good point, yes.
+I'll move them together in their own section.
 
-Kevin
+>>      PAR_EL1,    /* Physical Address Register */
+>>      MDSCR_EL1,    /* Monitor Debug System Control Register */
+>>      MDCCINT_EL1,    /* Monitor Debug Comms Channel Interrupt Enable 
+>> Reg */
+>> diff --git a/arch/arm64/include/asm/kvm_mte.h 
+>> b/arch/arm64/include/asm/kvm_mte.h
+>> new file mode 100644
+>> index 000000000000..62bbfae77f33
+>> --- /dev/null
+>> +++ b/arch/arm64/include/asm/kvm_mte.h
+>> @@ -0,0 +1,74 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Copyright (C) 2020 ARM Ltd.
+>> + */
+>> +#ifndef __ASM_KVM_MTE_H
+>> +#define __ASM_KVM_MTE_H
+>> +
+>> +#ifdef __ASSEMBLY__
+>> +
+>> +#include <asm/sysreg.h>
+>> +
+>> +#ifdef CONFIG_ARM64_MTE
+>> +
+>> +.macro mte_switch_to_guest g_ctxt, h_ctxt, reg1
+>> +alternative_if_not ARM64_MTE
+>> +    b    .L__skip_switch\@
+>> +alternative_else_nop_endif
+>> +    mrs    \reg1, hcr_el2
+>> +    and    \reg1, \reg1, #(HCR_ATA)
+>> +    cbz    \reg1, .L__skip_switch\@
+>> +
+>> +    mrs_s    \reg1, SYS_RGSR_EL1
+>> +    str    \reg1, [\h_ctxt, #CPU_RGSR_EL1]
+>> +    mrs_s    \reg1, SYS_GCR_EL1
+>> +    str    \reg1, [\h_ctxt, #CPU_GCR_EL1]
+>> +    mrs_s    \reg1, SYS_TFSRE0_EL1
+>> +    str    \reg1, [\h_ctxt, #CPU_TFSRE0_EL1]
+>> +
+>> +    ldr    \reg1, [\g_ctxt, #CPU_RGSR_EL1]
+>> +    msr_s    SYS_RGSR_EL1, \reg1
+>> +    ldr    \reg1, [\g_ctxt, #CPU_GCR_EL1]
+>> +    msr_s    SYS_GCR_EL1, \reg1
+>> +    ldr    \reg1, [\g_ctxt, #CPU_TFSRE0_EL1]
+>> +    msr_s    SYS_TFSRE0_EL1, \reg1
+>> +
+>> +.L__skip_switch\@:
+>> +.endm
+>> +
+>> +.macro mte_switch_to_hyp g_ctxt, h_ctxt, reg1
+>> +alternative_if_not ARM64_MTE
+>> +    b    .L__skip_switch\@
+>> +alternative_else_nop_endif
+>> +    mrs    \reg1, hcr_el2
+>> +    and    \reg1, \reg1, #(HCR_ATA)
+>> +    cbz    \reg1, .L__skip_switch\@
+>> +
+>> +    mrs_s    \reg1, SYS_RGSR_EL1
+>> +    str    \reg1, [\g_ctxt, #CPU_RGSR_EL1]
+>> +    mrs_s    \reg1, SYS_GCR_EL1
+>> +    str    \reg1, [\g_ctxt, #CPU_GCR_EL1]
+>> +    mrs_s    \reg1, SYS_TFSRE0_EL1
+>> +    str    \reg1, [\g_ctxt, #CPU_TFSRE0_EL1]
+> 
+> Can't the EL0 state save/restore be moved to the C code?
+
+True, that should be safe. I'm not sure how I missed that.
+
+>> +
+>> +    ldr    \reg1, [\h_ctxt, #CPU_RGSR_EL1]
+>> +    msr_s    SYS_RGSR_EL1, \reg1
+>> +    ldr    \reg1, [\h_ctxt, #CPU_GCR_EL1]
+>> +    msr_s    SYS_GCR_EL1, \reg1
+>> +    ldr    \reg1, [\h_ctxt, #CPU_TFSRE0_EL1]
+>> +    msr_s    SYS_TFSRE0_EL1, \reg1
+>> +
+>> +.L__skip_switch\@:
+>> +.endm
+>> +
+>> +#else /* CONFIG_ARM64_MTE */
+>> +
+>> +.macro mte_switch_to_guest g_ctxt, h_ctxt, reg1
+>> +.endm
+>> +
+>> +.macro mte_switch_to_hyp g_ctxt, h_ctxt, reg1
+>> +.endm
+>> +
+>> +#endif /* CONFIG_ARM64_MTE */
+>> +#endif /* __ASSEMBLY__ */
+>> +#endif /* __ASM_KVM_MTE_H */
+>> diff --git a/arch/arm64/include/asm/sysreg.h 
+>> b/arch/arm64/include/asm/sysreg.h
+>> index 8b5e7e5c3cc8..0a01975d331d 100644
+>> --- a/arch/arm64/include/asm/sysreg.h
+>> +++ b/arch/arm64/include/asm/sysreg.h
+>> @@ -574,7 +574,8 @@
+>>  #define SCTLR_ELx_M    (BIT(0))
+>>
+>>  #define SCTLR_ELx_FLAGS    (SCTLR_ELx_M  | SCTLR_ELx_A | SCTLR_ELx_C | \
+>> -             SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB)
+>> +             SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB | \
+>> +             SCTLR_ELx_ITFSB)
+>>
+>>  /* SCTLR_EL2 specific flags. */
+>>  #define SCTLR_EL2_RES1    ((BIT(4))  | (BIT(5))  | (BIT(11)) | 
+>> (BIT(16)) | \
+>> diff --git a/arch/arm64/kernel/asm-offsets.c 
+>> b/arch/arm64/kernel/asm-offsets.c
+>> index f42fd9e33981..801531e1fa5c 100644
+>> --- a/arch/arm64/kernel/asm-offsets.c
+>> +++ b/arch/arm64/kernel/asm-offsets.c
+>> @@ -105,6 +105,9 @@ int main(void)
+>>    DEFINE(VCPU_WORKAROUND_FLAGS,    offsetof(struct kvm_vcpu,
+>> arch.workaround_flags));
+>>    DEFINE(VCPU_HCR_EL2,        offsetof(struct kvm_vcpu, arch.hcr_el2));
+>>    DEFINE(CPU_USER_PT_REGS,    offsetof(struct kvm_cpu_context, regs));
+>> +  DEFINE(CPU_RGSR_EL1,        offsetof(struct kvm_cpu_context, 
+>> sys_regs[RGSR_EL1]));
+>> +  DEFINE(CPU_GCR_EL1,        offsetof(struct kvm_cpu_context, 
+>> sys_regs[GCR_EL1]));
+>> +  DEFINE(CPU_TFSRE0_EL1,    offsetof(struct kvm_cpu_context,
+>> sys_regs[TFSRE0_EL1]));
+>>    DEFINE(CPU_APIAKEYLO_EL1,    offsetof(struct kvm_cpu_context,
+>> sys_regs[APIAKEYLO_EL1]));
+>>    DEFINE(CPU_APIBKEYLO_EL1,    offsetof(struct kvm_cpu_context,
+>> sys_regs[APIBKEYLO_EL1]));
+>>    DEFINE(CPU_APDAKEYLO_EL1,    offsetof(struct kvm_cpu_context,
+>> sys_regs[APDAKEYLO_EL1]));
+>> diff --git a/arch/arm64/kvm/hyp/entry.S b/arch/arm64/kvm/hyp/entry.S
+>> index b0afad7a99c6..c67582c6dd55 100644
+>> --- a/arch/arm64/kvm/hyp/entry.S
+>> +++ b/arch/arm64/kvm/hyp/entry.S
+>> @@ -13,6 +13,7 @@
+>>  #include <asm/kvm_arm.h>
+>>  #include <asm/kvm_asm.h>
+>>  #include <asm/kvm_mmu.h>
+>> +#include <asm/kvm_mte.h>
+>>  #include <asm/kvm_ptrauth.h>
+>>
+>>      .text
+>> @@ -51,6 +52,9 @@ alternative_else_nop_endif
+>>
+>>      add    x29, x0, #VCPU_CONTEXT
+>>
+>> +    // mte_switch_to_guest(g_ctxt, h_ctxt, tmp1)
+>> +    mte_switch_to_guest x29, x1, x2
+>> +
+>>      // Macro ptrauth_switch_to_guest format:
+>>      //     ptrauth_switch_to_guest(guest cxt, tmp1, tmp2, tmp3)
+>>      // The below macro to restore guest keys is not implemented in C 
+>> code
+>> @@ -140,6 +144,9 @@ SYM_INNER_LABEL(__guest_exit, SYM_L_GLOBAL)
+>>      // when this feature is enabled for kernel code.
+>>      ptrauth_switch_to_hyp x1, x2, x3, x4, x5
+>>
+>> +    // mte_switch_to_hyp(g_ctxt, h_ctxt, reg1)
+>> +    mte_switch_to_hyp x1, x2, x3
+>> +
+>>      // Restore hyp's sp_el0
+>>      restore_sp_el0 x2, x3
+>>
+>> diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+>> b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+>> index cce43bfe158f..94d9736f0133 100644
+>> --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+>> +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+>> @@ -45,6 +45,8 @@ static inline void __sysreg_save_el1_state(struct
+>> kvm_cpu_context *ctxt)
+>>      ctxt_sys_reg(ctxt, CNTKCTL_EL1)    = read_sysreg_el1(SYS_CNTKCTL);
+>>      ctxt_sys_reg(ctxt, PAR_EL1)    = read_sysreg_par();
+>>      ctxt_sys_reg(ctxt, TPIDR_EL1)    = read_sysreg(tpidr_el1);
+>> +    if (system_supports_mte())
+>> +        ctxt_sys_reg(ctxt, TFSR_EL1) = read_sysreg_el1(SYS_TFSR);
+> 
+> I already asked for it, and I'm going to ask for it again:
+> Most of the sysreg save/restore is guarded by a per-vcpu check
+> (HCR_EL2.ATA), while this one is unconditionally saved/restore
+> if the host is MTE capable. Why is that so?
+
+Sorry, I thought your concern was for registers that affect the host (as 
+they are obviously more performance critical as they are hit on every 
+guest exit). Although I guess that's incorrect for nVHE which is what 
+all the cool kids want now ;)
+
+> The required infrastructure should be available, and if anything
+> is missing, let's add it.
+
+I think I can see a way of accessing the necessary state.
+
+>>
+>>      ctxt_sys_reg(ctxt, SP_EL1)    = read_sysreg(sp_el1);
+>>      ctxt_sys_reg(ctxt, ELR_EL1)    = read_sysreg_el1(SYS_ELR);
+>> @@ -106,6 +108,8 @@ static inline void
+>> __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt)
+>>      write_sysreg_el1(ctxt_sys_reg(ctxt, CNTKCTL_EL1), SYS_CNTKCTL);
+>>      write_sysreg(ctxt_sys_reg(ctxt, PAR_EL1),    par_el1);
+>>      write_sysreg(ctxt_sys_reg(ctxt, TPIDR_EL1),    tpidr_el1);
+>> +    if (system_supports_mte())
+>> +        write_sysreg_el1(ctxt_sys_reg(ctxt, TFSR_EL1), SYS_TFSR);
+>>
+>>      if (!has_vhe() &&
+>>          cpus_have_final_cap(ARM64_WORKAROUND_SPECULATIVE_AT) &&
+>> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+>> index 3313dedfa505..88d4f360949e 100644
+>> --- a/arch/arm64/kvm/sys_regs.c
+>> +++ b/arch/arm64/kvm/sys_regs.c
+>> @@ -1281,6 +1281,12 @@ static bool access_ccsidr(struct kvm_vcpu
+>> *vcpu, struct sys_reg_params *p,
+>>      return true;
+>>  }
+>>
+>> +static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
+>> +                   const struct sys_reg_desc *rd)
+>> +{
+>> +    return REG_HIDDEN;
+>> +}
+>> +
+>>  /* sys_reg_desc initialiser for known cpufeature ID registers */
+>>  #define ID_SANITISED(name) {            \
+>>      SYS_DESC(SYS_##name),            \
+>> @@ -1449,8 +1455,8 @@ static const struct sys_reg_desc sys_reg_descs[] 
+>> = {
+>>      { SYS_DESC(SYS_ACTLR_EL1), access_actlr, reset_actlr, ACTLR_EL1 },
+>>      { SYS_DESC(SYS_CPACR_EL1), NULL, reset_val, CPACR_EL1, 0 },
+>>
+>> -    { SYS_DESC(SYS_RGSR_EL1), undef_access },
+>> -    { SYS_DESC(SYS_GCR_EL1), undef_access },
+>> +    { SYS_DESC(SYS_RGSR_EL1), undef_access, reset_unknown, RGSR_EL1,
+>> .visibility = mte_visibility },
+>> +    { SYS_DESC(SYS_GCR_EL1), undef_access, reset_unknown, GCR_EL1,
+>> .visibility = mte_visibility },
+> 
+> Please don't mix implicit and designated assignments, as it is
+> pretty confusing.
+
+Sorry - I was copying the style elsewhere in this list (e.g. just 
+below). I guess it might actually be better to create a new macro for 
+MTE similar to AMU / PTRAUTH - it should remove some of the boilerplate.
+
+Thanks,
+
+Steve
+
+>>
+>>      { SYS_DESC(SYS_ZCR_EL1), NULL, reset_val, ZCR_EL1, 0, .visibility =
+>> sve_visibility },
+>>      { SYS_DESC(SYS_TTBR0_EL1), access_vm_reg, reset_unknown, 
+>> TTBR0_EL1 },
+>> @@ -1476,8 +1482,8 @@ static const struct sys_reg_desc sys_reg_descs[] 
+>> = {
+>>      { SYS_DESC(SYS_ERXMISC0_EL1), trap_raz_wi },
+>>      { SYS_DESC(SYS_ERXMISC1_EL1), trap_raz_wi },
+>>
+>> -    { SYS_DESC(SYS_TFSR_EL1), undef_access },
+>> -    { SYS_DESC(SYS_TFSRE0_EL1), undef_access },
+>> +    { SYS_DESC(SYS_TFSR_EL1), undef_access, reset_unknown, TFSR_EL1,
+>> .visibility = mte_visibility },
+>> +    { SYS_DESC(SYS_TFSRE0_EL1), undef_access, reset_unknown, TFSRE0_EL1,
+>> .visibility = mte_visibility },
+>>
+>>      { SYS_DESC(SYS_FAR_EL1), access_vm_reg, reset_unknown, FAR_EL1 },
+>>      { SYS_DESC(SYS_PAR_EL1), NULL, reset_unknown, PAR_EL1 },
+> 
+> Thanks,
+> 
+>          M.
 
 
