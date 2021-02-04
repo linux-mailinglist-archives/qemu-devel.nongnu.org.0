@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3528630F387
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 13:57:28 +0100 (CET)
-Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D02230F394
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 14:01:37 +0100 (CET)
+Received: from localhost ([::1]:39662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7eCM-0001pJ-UN
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 07:57:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33584)
+	id 1l7eGO-0005bu-8y
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 08:01:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7e4x-0002SY-Mo
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:49:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49843)
+ id 1l7e4i-0001pb-Tn
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:49:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l7e4q-0001yw-U8
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:49:47 -0500
+ id 1l7e4h-0001tT-0S
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 07:49:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612442980;
+ s=mimecast20190719; t=1612442970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=emCGk0hq3OKYjEUYOmrQ76ZjTV13iiZlS6edEpdeprc=;
- b=TjTd2id1dlUADzBHeiMB/2qJnISNuaLqU4RLiKisNhmn+QMy5EUljC7P/7utpO94D8CEnG
- tlLsUttTduy4Dwtex5ElQMvPWp6umpayPrySTYn4qTiyyWOkemTWi0kaoJShTQNqdXTYRG
- f7Xqj+tEfbHcCro0dDm4or0zVzsaKCQ=
+ bh=DLUttjE7lpqdmkOzs/9HdCsEmO1LtHbBEMYgQOMPt2Q=;
+ b=B1mle4ZUphsNKR1JnOXEvH/86ryZW4M7gocv1PfMxlYNIN2YshkKqiE0eIqIIRZxzhmq7z
+ TySpwcisTm6PN/ZnwVjozjaHYqbxPTkz3Zu8R5XlXz4R6cKoMnpJnrHPL7O+TYidLle26S
+ s251NBOS1Pj4qGaibZlavxzQv6fQL98=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-wkUSJde0Pqy5rbuyL_M7Kg-1; Thu, 04 Feb 2021 07:49:36 -0500
-X-MC-Unique: wkUSJde0Pqy5rbuyL_M7Kg-1
+ us-mta-604-Kp-utG8dNJe_O9lILhFP3A-1; Thu, 04 Feb 2021 07:49:29 -0500
+X-MC-Unique: Kp-utG8dNJe_O9lILhFP3A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F523427D8;
- Thu,  4 Feb 2021 12:49:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2A65801962;
+ Thu,  4 Feb 2021 12:49:27 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-169.ams2.redhat.com
  [10.36.115.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC75517C58;
- Thu,  4 Feb 2021 12:49:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF4732BFE2;
+ Thu,  4 Feb 2021 12:49:24 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 12/12] migration: introduce snapshot-{save, load,
- delete} QMP commands
-Date: Thu,  4 Feb 2021 12:48:34 +0000
-Message-Id: <20210204124834.774401-13-berrange@redhat.com>
+Subject: [PATCH v11 10/12] iotests: add support for capturing and matching QMP
+ events
+Date: Thu,  4 Feb 2021 12:48:32 +0000
+Message-Id: <20210204124834.774401-11-berrange@redhat.com>
 In-Reply-To: <20210204124834.774401-1-berrange@redhat.com>
 References: <20210204124834.774401-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -67,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,1367 +91,165 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-savevm, loadvm and delvm are some of the few HMP commands that have never
-been converted to use QMP. The reasons for the lack of conversion are
-that they blocked execution of the event thread, and the semantics
-around choice of disks were ill-defined.
+When using the _launch_qemu and _send_qemu_cmd functions from
+common.qemu, any QMP events get mixed in with the output from
+the commands and responses.
 
-Despite this downside, however, libvirt and applications using libvirt
-have used these commands for as long as QMP has existed, via the
-"human-monitor-command" passthrough command. IOW, while it is clearly
-desirable to be able to fix the problems, they are not a blocker to
-all real world usage.
+This makes it difficult to write a test case as the ordering
+of events in the output is not stable.
 
-Meanwhile there is a need for other features which involve adding new
-parameters to the commands. This is possible with HMP passthrough, but
-it provides no reliable way for apps to introspect features, so using
-QAPI modelling is highly desirable.
+This introduces a variable 'capture_events' which can be set
+to a list of event names. Any events listed in this variable
+will not be printed, instead collected in the $QEMU_EVENTS
+environment variable.
 
-This patch thus introduces new snapshot-{load,save,delete} commands to
-QMP that are intended to replace the old HMP counterparts. The new
-commands are given different names, because they will be using the new
-QEMU job framework and thus will have diverging behaviour from the HMP
-originals. It would thus be misleading to keep the same name.
+A new '_wait_event' function can be invoked to collect events
+at a fixed point in time. The function will first pull events
+cached in $QEMU_EVENTS variable, and if none are found, will
+then read more from QMP.
 
-While this design uses the generic job framework, the current impl is
-still blocking. The intention that the blocking problem is fixed later.
-None the less applications using these new commands should assume that
-they are asynchronous and thus wait for the job status change event to
-indicate completion.
-
-In addition to using the job framework, the new commands require the
-caller to be explicit about all the block device nodes used in the
-snapshot operations, with no built-in default heuristics in use.
-
-Note that the existing "query-named-block-nodes" can be used to query
-what snapshots currently exist for block nodes.
-
-Acked-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- migration/savevm.c                            | 184 +++++++
- qapi/job.json                                 |   9 +-
- qapi/migration.json                           | 173 ++++++
- .../tests/internal-snapshots-qapi             | 386 +++++++++++++
- .../tests/internal-snapshots-qapi.out         | 520 ++++++++++++++++++
- 5 files changed, 1271 insertions(+), 1 deletion(-)
- create mode 100755 tests/qemu-iotests/tests/internal-snapshots-qapi
- create mode 100644 tests/qemu-iotests/tests/internal-snapshots-qapi.out
+ tests/qemu-iotests/common.qemu | 106 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 105 insertions(+), 1 deletion(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 48186918a3..6b320423c7 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -3077,3 +3077,187 @@ bool vmstate_check_only_migratable(const VMStateDescription *vmsd)
- 
-     return !(vmsd && vmsd->unmigratable);
+diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
+index ef105dfc39..0fc52d20d7 100644
+--- a/tests/qemu-iotests/common.qemu
++++ b/tests/qemu-iotests/common.qemu
+@@ -53,6 +53,15 @@ _in_fd=4
+ # If $mismatch_only is set, only non-matching responses will
+ # be echoed.
+ #
++# If $capture_events is non-empty, then any QMP event names it lists
++# will not be echoed out, but instead collected in the $QEMU_EVENTS
++# variable. The _wait_event function can later be used to receive
++# the cached events.
++#
++# If $only_capture_events is set to anything but an empty string,
++# then an error will be raised if a QMP message is seen which is
++# not an event listed in $capture_events.
++#
+ # If $success_or_failure is set, the meaning of the arguments is
+ # changed as follows:
+ # $2: A string to search for in the response; if found, this indicates
+@@ -78,6 +87,31 @@ _timed_wait_for()
+     QEMU_STATUS[$h]=0
+     while IFS= read -t ${QEMU_COMM_TIMEOUT} resp <&${QEMU_OUT[$h]}
+     do
++        if [ -n "$capture_events" ]; then
++            capture=0
++            local evname
++            for evname in $capture_events
++            do
++                case ${resp} in
++                    *\"event\":\ \"${evname}\"* ) capture=1 ;;
++                esac
++            done
++            if [ $capture = 1 ];
++            then
++                ev=$(echo "${resp}" | tr -d '\r' | tr % .)
++                QEMU_EVENTS="${QEMU_EVENTS:+${QEMU_EVENTS}%}${ev}"
++                if [ -n "$only_capture_events" ]; then
++                    return
++                else
++                    continue
++                fi
++            fi
++        fi
++        if [ -n "$only_capture_events" ]; then
++            echo "Only expected $capture_events but got ${resp}"
++            exit 1
++        fi
++
+         if [ -z "${silent}" ] && [ -z "${mismatch_only}" ]; then
+             echo "${resp}" | _filter_testdir | _filter_qemu \
+                            | _filter_qemu_io | _filter_qmp | _filter_hmp
+@@ -172,12 +206,82 @@ _send_qemu_cmd()
+         let count--;
+     done
+     if [ ${QEMU_STATUS[$h]} -ne 0 ] && [ -z "${qemu_error_no_exit}" ]; then
+-        echo "Timeout waiting for ${1} on handle ${h}"
++        echo "Timeout waiting for command ${1} response on handle ${h}"
+         exit 1 #Timeout means the test failed
+     fi
  }
-+
-+typedef struct SnapshotJob {
-+    Job common;
-+    char *tag;
-+    char *vmstate;
-+    strList *devices;
-+    Coroutine *co;
-+    Error **errp;
-+    bool ret;
-+} SnapshotJob;
-+
-+static void qmp_snapshot_job_free(SnapshotJob *s)
-+{
-+    g_free(s->tag);
-+    g_free(s->vmstate);
-+    qapi_free_strList(s->devices);
-+}
-+
-+
-+static void snapshot_load_job_bh(void *opaque)
-+{
-+    Job *job = opaque;
-+    SnapshotJob *s = container_of(job, SnapshotJob, common);
-+    int orig_vm_running;
-+
-+    job_progress_set_remaining(&s->common, 1);
-+
-+    orig_vm_running = runstate_is_running();
-+    vm_stop(RUN_STATE_RESTORE_VM);
-+
-+    s->ret = load_snapshot(s->tag, s->vmstate, true, s->devices, s->errp);
-+    if (s->ret && orig_vm_running) {
-+        vm_start();
-+    }
-+
-+    job_progress_update(&s->common, 1);
-+
-+    qmp_snapshot_job_free(s);
-+    aio_co_wake(s->co);
-+}
-+
-+static void snapshot_save_job_bh(void *opaque)
-+{
-+    Job *job = opaque;
-+    SnapshotJob *s = container_of(job, SnapshotJob, common);
-+
-+    job_progress_set_remaining(&s->common, 1);
-+    s->ret = save_snapshot(s->tag, false, s->vmstate,
-+                           true, s->devices, s->errp);
-+    job_progress_update(&s->common, 1);
-+
-+    qmp_snapshot_job_free(s);
-+    aio_co_wake(s->co);
-+}
-+
-+static void snapshot_delete_job_bh(void *opaque)
-+{
-+    Job *job = opaque;
-+    SnapshotJob *s = container_of(job, SnapshotJob, common);
-+
-+    job_progress_set_remaining(&s->common, 1);
-+    s->ret = delete_snapshot(s->tag, true, s->devices, s->errp);
-+    job_progress_update(&s->common, 1);
-+
-+    qmp_snapshot_job_free(s);
-+    aio_co_wake(s->co);
-+}
-+
-+static int coroutine_fn snapshot_save_job_run(Job *job, Error **errp)
-+{
-+    SnapshotJob *s = container_of(job, SnapshotJob, common);
-+    s->errp = errp;
-+    s->co = qemu_coroutine_self();
-+    aio_bh_schedule_oneshot(qemu_get_aio_context(),
-+                            snapshot_save_job_bh, job);
-+    qemu_coroutine_yield();
-+    return s->ret ? 0 : -1;
-+}
-+
-+static int coroutine_fn snapshot_load_job_run(Job *job, Error **errp)
-+{
-+    SnapshotJob *s = container_of(job, SnapshotJob, common);
-+    s->errp = errp;
-+    s->co = qemu_coroutine_self();
-+    aio_bh_schedule_oneshot(qemu_get_aio_context(),
-+                            snapshot_load_job_bh, job);
-+    qemu_coroutine_yield();
-+    return s->ret ? 0 : -1;
-+}
-+
-+static int coroutine_fn snapshot_delete_job_run(Job *job, Error **errp)
-+{
-+    SnapshotJob *s = container_of(job, SnapshotJob, common);
-+    s->errp = errp;
-+    s->co = qemu_coroutine_self();
-+    aio_bh_schedule_oneshot(qemu_get_aio_context(),
-+                            snapshot_delete_job_bh, job);
-+    qemu_coroutine_yield();
-+    return s->ret ? 0 : -1;
-+}
-+
-+
-+static const JobDriver snapshot_load_job_driver = {
-+    .instance_size = sizeof(SnapshotJob),
-+    .job_type      = JOB_TYPE_SNAPSHOT_LOAD,
-+    .run           = snapshot_load_job_run,
-+};
-+
-+static const JobDriver snapshot_save_job_driver = {
-+    .instance_size = sizeof(SnapshotJob),
-+    .job_type      = JOB_TYPE_SNAPSHOT_SAVE,
-+    .run           = snapshot_save_job_run,
-+};
-+
-+static const JobDriver snapshot_delete_job_driver = {
-+    .instance_size = sizeof(SnapshotJob),
-+    .job_type      = JOB_TYPE_SNAPSHOT_DELETE,
-+    .run           = snapshot_delete_job_run,
-+};
-+
-+
-+void qmp_snapshot_save(const char *job_id,
-+                       const char *tag,
-+                       const char *vmstate,
-+                       strList *devices,
-+                       Error **errp)
-+{
-+    SnapshotJob *s;
-+
-+    s = job_create(job_id, &snapshot_save_job_driver, NULL,
-+                   qemu_get_aio_context(), JOB_MANUAL_DISMISS,
-+                   NULL, NULL, errp);
-+    if (!s) {
-+        return;
-+    }
-+
-+    s->tag = g_strdup(tag);
-+    s->vmstate = g_strdup(vmstate);
-+    s->devices = QAPI_CLONE(strList, devices);
-+
-+    job_start(&s->common);
-+}
-+
-+void qmp_snapshot_load(const char *job_id,
-+                       const char *tag,
-+                       const char *vmstate,
-+                       strList *devices,
-+                       Error **errp)
-+{
-+    SnapshotJob *s;
-+
-+    s = job_create(job_id, &snapshot_load_job_driver, NULL,
-+                   qemu_get_aio_context(), JOB_MANUAL_DISMISS,
-+                   NULL, NULL, errp);
-+    if (!s) {
-+        return;
-+    }
-+
-+    s->tag = g_strdup(tag);
-+    s->vmstate = g_strdup(vmstate);
-+    s->devices = QAPI_CLONE(strList, devices);
-+
-+    job_start(&s->common);
-+}
-+
-+void qmp_snapshot_delete(const char *job_id,
-+                         const char *tag,
-+                         strList *devices,
-+                         Error **errp)
-+{
-+    SnapshotJob *s;
-+
-+    s = job_create(job_id, &snapshot_delete_job_driver, NULL,
-+                   qemu_get_aio_context(), JOB_MANUAL_DISMISS,
-+                   NULL, NULL, errp);
-+    if (!s) {
-+        return;
-+    }
-+
-+    s->tag = g_strdup(tag);
-+    s->devices = QAPI_CLONE(strList, devices);
-+
-+    job_start(&s->common);
-+}
-diff --git a/qapi/job.json b/qapi/job.json
-index 280c2f76f1..1a6ef03451 100644
---- a/qapi/job.json
-+++ b/qapi/job.json
-@@ -22,10 +22,17 @@
- #
- # @amend: image options amend job type, see "x-blockdev-amend" (since 5.1)
- #
-+# @snapshot-load: snapshot load job type, see "snapshot-load" (since 6.0)
-+#
-+# @snapshot-save: snapshot save job type, see "snapshot-save" (since 6.0)
-+#
-+# @snapshot-delete: snapshot delete job type, see "snapshot-delete" (since 6.0)
-+#
- # Since: 1.7
- ##
- { 'enum': 'JobType',
--  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend'] }
-+  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend',
-+           'snapshot-load', 'snapshot-save', 'snapshot-delete'] }
  
- ##
- # @JobStatus:
-diff --git a/qapi/migration.json b/qapi/migration.json
-index d1d9632c2a..5ca0ff9bed 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1843,3 +1843,176 @@
- # Since: 5.2
- ##
- { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
-+
-+##
-+# @snapshot-save:
+ 
++# Check event cache for a named QMP event
 +#
-+# Save a VM snapshot
++# Input parameters:
++# $1:       Name of the QMP event to check for
 +#
-+# @job-id: identifier for the newly created job
-+# @tag: name of the snapshot to create
-+# @vmstate: block device node name to save vmstate to
-+# @devices: list of block device node names to save a snapshot to
++# Checks if the named QMP event that was previously captured
++# into $QEMU_EVENTS. When matched, the QMP event will be echoed
++# and the $matched variable set to 1.
 +#
-+# Applications should not assume that the snapshot save is complete
-+# when this command returns. The job commands / events must be used
-+# to determine completion and to fetch details of any errors that arise.
-+#
-+# Note that execution of the guest CPUs may be stopped during the
-+# time it takes to save the snapshot. A future version of QEMU
-+# may ensure CPUs are executing continuously.
-+#
-+# It is strongly recommended that @devices contain all writable
-+# block device nodes if a consistent snapshot is required.
-+#
-+# If @tag already exists, an error will be reported
-+#
-+# Returns: nothing
-+#
-+# Example:
-+#
-+# -> { "execute": "snapshot-save",
-+#      "data": {
-+#         "job-id": "snapsave0",
-+#         "tag": "my-snap",
-+#         "vmstate": "disk0",
-+#         "devices": ["disk0", "disk1"]
-+#      }
-+#    }
-+# <- { "return": { } }
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "created", "id": "snapsave0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "running", "id": "snapsave0"}}
-+# <- {"event": "STOP"}
-+# <- {"event": "RESUME"}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "waiting", "id": "snapsave0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "pending", "id": "snapsave0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "concluded", "id": "snapsave0"}}
-+# -> {"execute": "query-jobs"}
-+# <- {"return": [{"current-progress": 1,
-+#                 "status": "concluded",
-+#                 "total-progress": 1,
-+#                 "type": "snapshot-save",
-+#                 "id": "snapsave0"}]}
-+#
-+# Since: 6.0
-+##
-+{ 'command': 'snapshot-save',
-+  'data': { 'job-id': 'str',
-+            'tag': 'str',
-+            'vmstate': 'str',
-+            'devices': ['str'] } }
-+
-+##
-+# @snapshot-load:
-+#
-+# Load a VM snapshot
-+#
-+# @job-id: identifier for the newly created job
-+# @tag: name of the snapshot to load.
-+# @vmstate: block device node name to load vmstate from
-+# @devices: list of block device node names to load a snapshot from
-+#
-+# Applications should not assume that the snapshot load is complete
-+# when this command returns. The job commands / events must be used
-+# to determine completion and to fetch details of any errors that arise.
-+#
-+# Note that execution of the guest CPUs will be stopped during the
-+# time it takes to load the snapshot.
-+#
-+# It is strongly recommended that @devices contain all writable
-+# block device nodes that can have changed since the original
-+# @snapshot-save command execution.
-+#
-+# Returns: nothing
-+#
-+# Example:
-+#
-+# -> { "execute": "snapshot-load",
-+#      "data": {
-+#         "job-id": "snapload0",
-+#         "tag": "my-snap",
-+#         "vmstate": "disk0",
-+#         "devices": ["disk0", "disk1"]
-+#      }
-+#    }
-+# <- { "return": { } }
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "created", "id": "snapload0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "running", "id": "snapload0"}}
-+# <- {"event": "STOP"}
-+# <- {"event": "RESUME"}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "waiting", "id": "snapload0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "pending", "id": "snapload0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "concluded", "id": "snapload0"}}
-+# -> {"execute": "query-jobs"}
-+# <- {"return": [{"current-progress": 1,
-+#                 "status": "concluded",
-+#                 "total-progress": 1,
-+#                 "type": "snapshot-load",
-+#                 "id": "snapload0"}]}
-+#
-+# Since: 6.0
-+##
-+{ 'command': 'snapshot-load',
-+  'data': { 'job-id': 'str',
-+            'tag': 'str',
-+            'vmstate': 'str',
-+            'devices': ['str'] } }
-+
-+##
-+# @snapshot-delete:
-+#
-+# Delete a VM snapshot
-+#
-+# @job-id: identifier for the newly created job
-+# @tag: name of the snapshot to delete.
-+# @devices: list of block device node names to delete a snapshot from
-+#
-+# Applications should not assume that the snapshot delete is complete
-+# when this command returns. The job commands / events must be used
-+# to determine completion and to fetch details of any errors that arise.
-+#
-+# Returns: nothing
-+#
-+# Example:
-+#
-+# -> { "execute": "snapshot-delete",
-+#      "data": {
-+#         "job-id": "snapdelete0",
-+#         "tag": "my-snap",
-+#         "devices": ["disk0", "disk1"]
-+#      }
-+#    }
-+# <- { "return": { } }
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "created", "id": "snapdelete0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "running", "id": "snapdelete0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "waiting", "id": "snapdelete0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "pending", "id": "snapdelete0"}}
-+# <- {"event": "JOB_STATUS_CHANGE",
-+#     "data": {"status": "concluded", "id": "snapdelete0"}}
-+# -> {"execute": "query-jobs"}
-+# <- {"return": [{"current-progress": 1,
-+#                 "status": "concluded",
-+#                 "total-progress": 1,
-+#                 "type": "snapshot-delete",
-+#                 "id": "snapdelete0"}]}
-+#
-+# Since: 6.0
-+##
-+{ 'command': 'snapshot-delete',
-+  'data': { 'job-id': 'str',
-+            'tag': 'str',
-+            'devices': ['str'] } }
-diff --git a/tests/qemu-iotests/tests/internal-snapshots-qapi b/tests/qemu-iotests/tests/internal-snapshots-qapi
-new file mode 100755
-index 0000000000..6467eaaac0
---- /dev/null
-+++ b/tests/qemu-iotests/tests/internal-snapshots-qapi
-@@ -0,0 +1,386 @@
-+#!/usr/bin/env bash
-+# group: rw auto quick snapshot
-+#
-+# Test which nodes are involved in internal snapshots
-+#
-+# Copyright (C) 2020-2021 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=berrange@redhat.com
-+
-+seq=`basename $0`
-+echo "QA output created by $seq"
-+
-+status=1        # failure is the default!
-+
-+_cleanup()
++# _wait_event is more suitable for test usage in most cases
++_check_cached_events()
 +{
-+    _cleanup_qemu
-+    _cleanup_test_img
-+    TEST_IMG="$TEST_IMG.alt1" _cleanup_test_img
-+    TEST_IMG="$TEST_IMG.alt2" _cleanup_test_img
-+    rm -f "$SOCK_DIR/nbd"
++    local evname=${1}
++
++    local match="\"event\": \"$evname\""
++
++    matched=0
++    if [ -n "$QEMU_EVENTS" ]; then
++        CURRENT_QEMU_EVENTS=$QEMU_EVENTS
++        QEMU_EVENTS=
++        old_IFS=$IFS
++        IFS="%"
++        for ev in $CURRENT_QEMU_EVENTS
++        do
++            grep -q "$match" < <(echo "${ev}")
++            if [ $? -eq 0 ] && [ $matched = 0 ]; then
++                echo "${ev}" | _filter_testdir | _filter_qemu \
++                           | _filter_qemu_io | _filter_qmp | _filter_hmp
++                matched=1
++            else
++                QEMU_EVENTS="${QEMU_EVENTS:+${QEMU_EVENTS}%}${ev}"
++            fi
++        done
++        IFS=$old_IFS
++    fi
 +}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
 +
-+# get standard environment, filters and checks
-+. ../common.rc
-+. ../common.filter
-+. ../common.qemu
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+_require_drivers copy-on-read
-+
-+# Internal snapshots are (currently) impossible with refcount_bits=1,
-+# and generally impossible with external data files
-+_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+
-+_require_devices virtio-blk
-+
-+
-+size=128M
-+
-+if [ -n "$BACKING_FILE" ]; then
-+    _make_test_img -b "$BACKING_FILE" -F $IMGFMT $size
-+else
-+    _make_test_img $size
-+fi
-+TEST_IMG="$TEST_IMG.alt1" _make_test_img $size
-+IMGOPTS= IMGFMT=raw TEST_IMG="$TEST_IMG.alt2" _make_test_img $size
-+
-+export capture_events="JOB_STATUS_CHANGE STOP RESUME"
-+
-+wait_job()
++# Wait for a named QMP event
++#
++# Input parameters:
++# $1:       QEMU handle to use
++# $2:       Name of the QMP event to wait for
++#
++# Checks if the named QMP even was previously captured
++# into $QEMU_EVENTS. If none are present, then waits for the
++# event to arrive on the QMP channel. When matched, the QMP
++# event will be echoed
++_wait_event()
 +{
-+    local job=$1
-+    shift
++    local h=${1}
++    local evname=${2}
 +
-+    # All jobs start with two events...
-+    #
-+    # created
-+    _wait_event $QEMU_HANDLE "JOB_STATUS_CHANGE"
-+    # running
-+    _wait_event $QEMU_HANDLE "JOB_STATUS_CHANGE"
-+
-+    # Next events vary depending on job type and
-+    # whether it succeeds or not.
-+    for evname in $@
++    while true
 +    do
-+        _wait_event $QEMU_HANDLE $evname
++        _check_cached_events $evname
++
++        if [ $matched = 1 ];
++        then
++            return
++        fi
++
++        only_capture_events=1 qemu_error_no_exit=1 _timed_wait_for ${h}
++
++        if [ ${QEMU_STATUS[$h]} -ne 0 ] ; then
++            echo "Timeout waiting for event ${evname} on handle ${h}"
++            exit 1 #Timeout means the test failed
++        fi
 +    done
-+
-+    # All jobs finish off with two more events...
-+    # concluded
-+    _wait_event $QEMU_HANDLE "JOB_STATUS_CHANGE"
-+    _send_qemu_cmd $QEMU_HANDLE "{\"execute\": \"query-jobs\"}" "return"
-+    _send_qemu_cmd $QEMU_HANDLE "{\"execute\": \"job-dismiss\", \"arguments\": {\"id\": \"$job\"}}" "return"
-+    # null
-+    _wait_event $QEMU_HANDLE "JOB_STATUS_CHANGE"
 +}
 +
-+run_save()
-+{
-+    local job=$1
-+    local vmstate=$2
-+    local devices=$3
-+    local fail=$4
-+
-+    _send_qemu_cmd $QEMU_HANDLE "{\"execute\": \"snapshot-save\",
-+                                  \"arguments\": {
-+                                     \"job-id\": \"$job\",
-+                                     \"tag\": \"snap0\",
-+                                     \"vmstate\": \"$vmstate\",
-+                                     \"devices\": $devices}}" "return"
-+
-+    if [ $fail = 0 ]; then
-+        # job status: waiting, pending
-+        wait_job $job "STOP" "RESUME" "JOB_STATUS_CHANGE" "JOB_STATUS_CHANGE"
-+    else
-+        # job status: aborting
-+        wait_job $job "JOB_STATUS_CHANGE"
-+    fi
-+}
-+
-+run_load()
-+{
-+    local job=$1
-+    local vmstate=$2
-+    local devices=$3
-+    local fail=$4
-+
-+    _send_qemu_cmd $QEMU_HANDLE "{\"execute\": \"snapshot-load\",
-+                                  \"arguments\": {
-+                                     \"job-id\": \"$job\",
-+                                     \"tag\": \"snap0\",
-+                                     \"vmstate\": \"$vmstate\",
-+                                     \"devices\": $devices}}" "return"
-+    if [ $fail = 0 ]; then
-+        # job status: waiting, pending
-+        wait_job $job "STOP" "RESUME" "JOB_STATUS_CHANGE" "JOB_STATUS_CHANGE"
-+    else
-+        # job status: aborting
-+        wait_job $job "STOP" "JOB_STATUS_CHANGE"
-+    fi
-+}
-+
-+run_delete()
-+{
-+    local job=$1
-+    local devices=$2
-+    local fail=$3
-+
-+    _send_qemu_cmd $QEMU_HANDLE "{\"execute\": \"snapshot-delete\",
-+                                  \"arguments\": {
-+                                     \"job-id\": \"$job\",
-+                                     \"tag\": \"snap0\",
-+                                     \"devices\": $devices}}" "return"
-+    if [ $fail = 0 ]; then
-+        # job status: waiting, pending
-+        wait_job $job "JOB_STATUS_CHANGE" "JOB_STATUS_CHANGE"
-+    else
-+        # job status: aborting
-+        wait_job $job "JOB_STATUS_CHANGE"
-+    fi
-+}
-+
-+start_qemu()
-+{
-+    keep_stderr=y
-+    _launch_qemu -nodefaults -nographic "$@"
-+
-+    _send_qemu_cmd $QEMU_HANDLE '{"execute": "qmp_capabilities"}' 'return'
-+}
-+
-+stop_qemu()
-+{
-+    _send_qemu_cmd $QEMU_HANDLE '{"execute": "quit"}' 'return'
-+
-+    wait=1 _cleanup_qemu
-+}
-+
-+
-+echo
-+echo "=====  Snapshot single qcow2 image ====="
-+echo
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}"
-+run_save "save-simple" "diskfmt0" "[\"diskfmt0\"]" 0
-+run_load "load-simple" "diskfmt0" "[\"diskfmt0\"]" 0
-+run_delete "delete-simple" "[\"diskfmt0\"]" 0
-+stop_qemu
-+
-+
-+echo
-+echo "=====  Snapshot no image ====="
-+echo
-+
-+# When snapshotting we need to pass at least one writable disk
-+# otherwise there's no work to do
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}"
-+run_save "save-no-image" "diskfmt0" "[]" 1
-+stop_qemu
-+
-+
-+echo
-+echo "=====  Snapshot missing image ====="
-+echo
-+
-+# The block node names we pass need to actually exist
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}"
-+run_save "save-missing-image" "diskfmt1729" "[\"diskfmt1729\"]" 1
-+stop_qemu
-+
-+echo
-+echo "=====  Snapshot vmstate not in devices list ====="
-+echo
-+
-+# The node name referred to for vmstate must be one of the nodes
-+# being included in the snapshot, otherwise the vmstate that is
-+# captured is liable to be overwritten making subsequent load
-+# impossible
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}" \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG.alt1','node-name':'disk1'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk1','node-name':'diskfmt1'}"
-+run_save "save-excluded-vmstate" "diskfmt0" "[\"diskfmt1\"]" 1
-+stop_qemu
-+
-+
-+echo
-+echo "=====  Snapshot protocol instead of format ====="
-+echo
-+
-+# The snapshot has to be done against the qcow2 format layer
-+# not the underlying file protocol layer
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}"
-+run_save "save-proto-not-fmt" "disk0" "[\"disk0\"]" 1
-+stop_qemu
-+
-+
-+echo
-+echo "=====  Snapshot dual qcow2 image ====="
-+echo
-+
-+# We can snapshot multiple qcow2 disks at the same time
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}" \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG.alt1','node-name':'disk1'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk1','node-name':'diskfmt1'}"
-+run_save "save-dual-image" "diskfmt0" "[\"diskfmt0\", \"diskfmt1\"]" 0
-+run_load "load-dual-image" "diskfmt0" "[\"diskfmt0\", \"diskfmt1\"]" 0
-+run_delete "delete-dual-image" "[\"diskfmt0\", \"diskfmt1\"]" 0
-+stop_qemu
-+
-+
-+echo
-+echo "=====  Snapshot error with raw image ====="
-+echo
-+
-+# If we're snapshotting multiple disks, all must be capable
-+# of supporting snapshots. A raw disk in the list must cause
-+# an error.
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}" \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG.alt1','node-name':'disk1'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk1','node-name':'diskfmt1'}" \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG.alt2','node-name':'disk2'}" \
-+    -blockdev "{'driver':'raw','file':'disk2','node-name':'diskfmt2'}"
-+run_save "save-raw-fmt" "diskfmt0" "[\"diskfmt0\", \"diskfmt1\", \"diskfmt2\"]" 1
-+stop_qemu
-+
-+
-+echo
-+echo "=====  Snapshot with raw image excluded ====="
-+echo
-+
-+# If we're snapshotting multiple disks, all must be capable
-+# of supporting snapshots. A writable raw disk can be excluded
-+# from the snapshot, though it means its data won't be restored
-+# by later snapshot load operation.
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}" \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG.alt1','node-name':'disk1'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk1','node-name':'diskfmt1'}" \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG.alt2','node-name':'disk2'}" \
-+    -blockdev "{'driver':'raw','file':'disk2','node-name':'diskfmt2'}"
-+run_save "save-skip-raw" "diskfmt0" "[\"diskfmt0\", \"diskfmt1\"]" 0
-+run_load "load-skip-raw" "diskfmt0" "[\"diskfmt0\", \"diskfmt1\"]" 0
-+run_delete "delete-skip-raw" "[\"diskfmt0\", \"diskfmt1\"]" 0
-+stop_qemu
-+
-+echo
-+echo "=====  Snapshot bad error reporting to stderr ====="
-+echo
-+
-+# This demonstrates that we're not capturing vmstate loading failures
-+# into QMP errors, they're ending up in stderr instead. vmstate needs
-+# to report errors via Error object but that is a major piece of work
-+# for the future. This test case's expected output log will need
-+# adjusting when that is done.
-+
-+start_qemu \
-+    -device virtio-rng \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}"
-+
-+run_save "save-err-stderr" "diskfmt0" "[\"diskfmt0\"]" 0
-+stop_qemu
-+
-+# leave off virtio-rng to provoke vmstate failure
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}"
-+
-+run_load "load-err-stderr" "diskfmt0" "[\"diskfmt0\"]" 1
-+run_delete "delete-err-stderr" "[\"diskfmt0\"]" 0
-+
-+stop_qemu
-+
-+
-+echo
-+echo "=====  Snapshot reuse same tag ====="
-+echo
-+
-+# Validates that we get an error when reusing a snapshot tag that
-+# already exists
-+
-+start_qemu \
-+    -device virtio-rng \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}"
-+
-+run_save "save-err-stderr-initial" "diskfmt0" "[\"diskfmt0\"]" 0
-+run_save "save-err-stderr-repeat1" "diskfmt0" "[\"diskfmt0\"]" 1
-+run_delete "delete-err-stderr" "[\"diskfmt0\"]" 0
-+run_save "save-err-stderr-repeat2" "diskfmt0" "[\"diskfmt0\"]" 0
-+run_delete "delete-err-stderr-repeat2" "[\"diskfmt0\"]" 0
-+
-+stop_qemu
-+
-+echo
-+echo "=====  Snapshot load does not exist ====="
-+echo
-+
-+# Validates that we get an error when loading a snapshot that does
-+# not exist
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}"
-+run_load "load-missing-snapshot" "diskfmt0" "[\"diskfmt0\"]" 1
-+stop_qemu
-+
-+
-+echo
-+echo "=====  Snapshot delete does not exist ====="
-+echo
-+
-+# Validates that we don't get an error when deleting a snapshot that
-+# does not exist
-+
-+start_qemu \
-+    -blockdev "{'driver':'file','filename':'$TEST_IMG','node-name':'disk0'}" \
-+    -blockdev "{'driver':'qcow2','file':'disk0','node-name':'diskfmt0'}"
-+run_delete "delete-missing-snapshot" "[\"diskfmt0\"]" 0
-+stop_qemu
-+
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/tests/internal-snapshots-qapi.out b/tests/qemu-iotests/tests/internal-snapshots-qapi.out
-new file mode 100644
-index 0000000000..26ff4a838c
---- /dev/null
-+++ b/tests/qemu-iotests/tests/internal-snapshots-qapi.out
-@@ -0,0 +1,520 @@
-+QA output created by internal-snapshots-qapi
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
-+Formatting 'TEST_DIR/t.IMGFMT.alt1', fmt=IMGFMT size=134217728
-+Formatting 'TEST_DIR/t.qcow2.alt2', fmt=IMGFMT size=134217728
-+
-+=====  Snapshot single qcow2 image =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-simple",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "save-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "save-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-simple"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-simple"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-simple"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-simple"}}
-+{"execute": "snapshot-load",
-+                                  "arguments": {
-+                                     "job-id": "load-simple",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "load-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "load-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "load-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "load-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "load-simple"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-simple"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "load-simple"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "load-simple"}}
-+{"execute": "snapshot-delete",
-+                                  "arguments": {
-+                                     "job-id": "delete-simple",
-+                                     "tag": "snap0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "delete-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "delete-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "delete-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "delete-simple"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "delete-simple"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-delete", "id": "delete-simple"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "delete-simple"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "delete-simple"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot no image =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-no-image",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": []}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-no-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-no-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "save-no-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-no-image"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-no-image", "error": "At least one device is required for snapshot"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-no-image"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-no-image"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot missing image =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-missing-image",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt1729",
-+                                     "devices": ["diskfmt1729"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-missing-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-missing-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "save-missing-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-missing-image"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-missing-image", "error": "No block device node 'diskfmt1729'"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-missing-image"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-missing-image"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot vmstate not in devices list =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-excluded-vmstate",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt1"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-excluded-vmstate"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-excluded-vmstate"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "save-excluded-vmstate"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-excluded-vmstate"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-excluded-vmstate", "error": "vmstate block device 'diskfmt0' does not exist"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-excluded-vmstate"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-excluded-vmstate"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot protocol instead of format =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-proto-not-fmt",
-+                                     "tag": "snap0",
-+                                     "vmstate": "disk0",
-+                                     "devices": ["disk0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-proto-not-fmt"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-proto-not-fmt"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "save-proto-not-fmt"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-proto-not-fmt"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-proto-not-fmt", "error": "Device 'disk0' is writable but does not support snapshots"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-proto-not-fmt"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-proto-not-fmt"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot dual qcow2 image =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-dual-image",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0", "diskfmt1"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "save-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "save-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-dual-image"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-dual-image"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-dual-image"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-dual-image"}}
-+{"execute": "snapshot-load",
-+                                  "arguments": {
-+                                     "job-id": "load-dual-image",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0", "diskfmt1"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "load-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "load-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "load-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "load-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "load-dual-image"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-dual-image"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "load-dual-image"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "load-dual-image"}}
-+{"execute": "snapshot-delete",
-+                                  "arguments": {
-+                                     "job-id": "delete-dual-image",
-+                                     "tag": "snap0",
-+                                     "devices": ["diskfmt0", "diskfmt1"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "delete-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "delete-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "delete-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "delete-dual-image"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "delete-dual-image"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-delete", "id": "delete-dual-image"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "delete-dual-image"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "delete-dual-image"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot error with raw image =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-raw-fmt",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0", "diskfmt1", "diskfmt2"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-raw-fmt"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-raw-fmt"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "save-raw-fmt"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-raw-fmt"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-raw-fmt", "error": "Device 'diskfmt2' is writable but does not support snapshots"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-raw-fmt"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-raw-fmt"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot with raw image excluded =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-skip-raw",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0", "diskfmt1"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "save-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "save-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-skip-raw"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-skip-raw"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-skip-raw"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-skip-raw"}}
-+{"execute": "snapshot-load",
-+                                  "arguments": {
-+                                     "job-id": "load-skip-raw",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0", "diskfmt1"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "load-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "load-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "load-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "load-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "load-skip-raw"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-skip-raw"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "load-skip-raw"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "load-skip-raw"}}
-+{"execute": "snapshot-delete",
-+                                  "arguments": {
-+                                     "job-id": "delete-skip-raw",
-+                                     "tag": "snap0",
-+                                     "devices": ["diskfmt0", "diskfmt1"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "delete-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "delete-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "delete-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "delete-skip-raw"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "delete-skip-raw"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-delete", "id": "delete-skip-raw"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "delete-skip-raw"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "delete-skip-raw"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot bad error reporting to stderr =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-err-stderr",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "save-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "save-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-err-stderr"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-err-stderr"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-err-stderr"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-err-stderr"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-load",
-+                                  "arguments": {
-+                                     "job-id": "load-err-stderr",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "load-err-stderr"}}
-+qemu-system-x86_64: Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "load-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "load-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "load-err-stderr"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Error -22 while loading VM state"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "load-err-stderr"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "load-err-stderr"}}
-+{"execute": "snapshot-delete",
-+                                  "arguments": {
-+                                     "job-id": "delete-err-stderr",
-+                                     "tag": "snap0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "delete-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "delete-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "delete-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "delete-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "delete-err-stderr"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-delete", "id": "delete-err-stderr"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "delete-err-stderr"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "delete-err-stderr"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot reuse same tag =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-err-stderr-initial",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-err-stderr-initial"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-err-stderr-initial"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "save-err-stderr-initial"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "save-err-stderr-initial"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-err-stderr-initial"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-err-stderr-initial"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-err-stderr-initial"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-err-stderr-initial"}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-err-stderr-repeat1",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-err-stderr-repeat1"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-err-stderr-repeat1"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "save-err-stderr-repeat1"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-err-stderr-repeat1"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-err-stderr-repeat1", "error": "Snapshot 'snap0' already exists in one or more devices"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-err-stderr-repeat1"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-err-stderr-repeat1"}}
-+{"execute": "snapshot-delete",
-+                                  "arguments": {
-+                                     "job-id": "delete-err-stderr",
-+                                     "tag": "snap0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "delete-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "delete-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "delete-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "delete-err-stderr"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "delete-err-stderr"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-delete", "id": "delete-err-stderr"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "delete-err-stderr"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "delete-err-stderr"}}
-+{"execute": "snapshot-save",
-+                                  "arguments": {
-+                                     "job-id": "save-err-stderr-repeat2",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "save-err-stderr-repeat2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "save-err-stderr-repeat2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "save-err-stderr-repeat2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "save-err-stderr-repeat2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "save-err-stderr-repeat2"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-save", "id": "save-err-stderr-repeat2"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "save-err-stderr-repeat2"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "save-err-stderr-repeat2"}}
-+{"execute": "snapshot-delete",
-+                                  "arguments": {
-+                                     "job-id": "delete-err-stderr-repeat2",
-+                                     "tag": "snap0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "delete-err-stderr-repeat2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "delete-err-stderr-repeat2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "delete-err-stderr-repeat2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "delete-err-stderr-repeat2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "delete-err-stderr-repeat2"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-delete", "id": "delete-err-stderr-repeat2"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "delete-err-stderr-repeat2"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "delete-err-stderr-repeat2"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot load does not exist =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-load",
-+                                  "arguments": {
-+                                     "job-id": "load-missing-snapshot",
-+                                     "tag": "snap0",
-+                                     "vmstate": "diskfmt0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "load-missing-snapshot"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "load-missing-snapshot"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "STOP"}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "load-missing-snapshot"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "load-missing-snapshot"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-missing-snapshot", "error": "Snapshot 'snap0' does not exist in one or more devices"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "load-missing-snapshot"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "load-missing-snapshot"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+
-+=====  Snapshot delete does not exist =====
-+
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "snapshot-delete",
-+                                  "arguments": {
-+                                     "job-id": "delete-missing-snapshot",
-+                                     "tag": "snap0",
-+                                     "devices": ["diskfmt0"]}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "delete-missing-snapshot"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "delete-missing-snapshot"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "delete-missing-snapshot"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "delete-missing-snapshot"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "delete-missing-snapshot"}}
-+{"execute": "query-jobs"}
-+{"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-delete", "id": "delete-missing-snapshot"}]}
-+{"execute": "job-dismiss", "arguments": {"id": "delete-missing-snapshot"}}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "delete-missing-snapshot"}}
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+*** done
+ # Launch a QEMU process.
+ #
+ # Input parameters:
 -- 
 2.29.2
 
