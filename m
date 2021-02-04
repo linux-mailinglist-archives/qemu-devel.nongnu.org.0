@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A02830F02E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:09:21 +0100 (CET)
-Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADEB30F032
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Feb 2021 11:13:14 +0100 (CET)
+Received: from localhost ([::1]:49238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7bZf-0006bC-W4
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:09:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53120)
+	id 1l7bdR-0002S4-Mv
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 05:13:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l7bTr-0007Ex-12
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:03:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60811)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7bRB-0004Eq-IN
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:00:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l7bTl-0002FJ-QO
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:03:17 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7bQy-0000qY-G4
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 05:00:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612432993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1612432819;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R2Qvy19eJdC+602G2SjjJETx98iWAlmXaIyusGU/mUY=;
- b=DpWPFAaVZet1y2vxeRl+jYjcPns+mkDe+/vSx0mFb8MAWOw1TUklwT6rz1wnBJsxHe5x3W
- jUe2hhnB4nw6TD8bsWDoi9mqQ8hlPZjBI9e/D6ZogQ0KAqbix7xpW+4IyFamumuR9Vhp39
- lyRgBWRgx0xbRUgYUoZVImqWdUSTG2I=
+ bh=+kMYK4+SI4YEuqtoT8f59PIAti8w/i9T3p9qxNeagpo=;
+ b=KfvZVUgKeH5nn83MxA5WFAini1yeEbpc7A1f/SMqXDCkDv+zQzyiAkJ8a4xT7bqtf3OrF8
+ tKfebyKX1u5i8jL4hGA7S1rD8qpIBjJ77cLrxeMIVif4s3Z4r/Lv8Kex9Ll/7XqkphOqw0
+ QfZYrZw1yrWJrld8c7riYM6rzTI5hxA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-7Oymc28IMF6HzaD_nJIyvQ-1; Thu, 04 Feb 2021 05:03:09 -0500
-X-MC-Unique: 7Oymc28IMF6HzaD_nJIyvQ-1
+ us-mta-185-MkPC-z1VPU-h7JR8eL9uxA-1; Thu, 04 Feb 2021 05:00:17 -0500
+X-MC-Unique: MkPC-z1VPU-h7JR8eL9uxA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84B9D8030B7;
- Thu,  4 Feb 2021 10:03:07 +0000 (UTC)
-Received: from localhost (ovpn-115-89.ams2.redhat.com [10.36.115.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0285F5D762;
- Thu,  4 Feb 2021 10:02:57 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 26/27] multi-process: perform device reset in the remote process
-Date: Thu,  4 Feb 2021 09:58:33 +0000
-Message-Id: <20210204095834.345749-27-stefanha@redhat.com>
-In-Reply-To: <20210204095834.345749-1-stefanha@redhat.com>
-References: <20210204095834.345749-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1A7480402E;
+ Thu,  4 Feb 2021 10:00:16 +0000 (UTC)
+Received: from redhat.com (ovpn-115-169.ams2.redhat.com [10.36.115.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD1A85B697;
+ Thu,  4 Feb 2021 10:00:12 +0000 (UTC)
+Date: Thu, 4 Feb 2021 10:00:09 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: gitlab containers are broken
+Message-ID: <20210204100009.GE549438@redhat.com>
+References: <567366a0-0e5a-3ab6-8e8e-ad66b46264b2@linaro.org>
+ <756e4707-b0ae-f26c-6e09-67fe205ec098@redhat.com>
+ <8238fe1d-c7c0-ab72-fa2f-c4cf9ce018bc@linaro.org>
+ <6ec7bebe-587d-df2d-0221-e12cb6f4c775@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <6ec7bebe-587d-df2d-0221-e12cb6f4c775@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.539,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,90 +84,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- John G Johnson <john.g.johnson@oracle.com>, "Denis V. Lunev" <den@openvz.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogRWxlbmEgVWZpbXRzZXZhIDxlbGVuYS51ZmltdHNldmFAb3JhY2xlLmNvbT4KClBlcmZv
-cm0gZGV2aWNlIHJlc2V0IGluIHRoZSByZW1vdGUgcHJvY2VzcyB3aGVuIFFFTVUgcGVyZm9ybXMK
-ZGV2aWNlIHJlc2V0LiBUaGlzIGlzIHJlcXVpcmVkIHRvIHJlc2V0IHRoZSBpbnRlcm5hbCBzdGF0
-ZQoobGlrZSByZWdpc3RlcnMsIGV0Yy4uLikgb2YgZW11bGF0ZWQgZGV2aWNlcwoKU2lnbmVkLW9m
-Zi1ieTogRWxlbmEgVWZpbXRzZXZhIDxlbGVuYS51ZmltdHNldmFAb3JhY2xlLmNvbT4KU2lnbmVk
-LW9mZi1ieTogSm9obiBHIEpvaG5zb24gPGpvaG4uZy5qb2huc29uQG9yYWNsZS5jb20+ClNpZ25l
-ZC1vZmYtYnk6IEphZ2FubmF0aGFuIFJhbWFuIDxqYWcucmFtYW5Ab3JhY2xlLmNvbT4KUmV2aWV3
-ZWQtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KTWVzc2FnZS1pZDog
-N2NiMjIwYTUxZjU2NWRjMDgxN2JkNzZlMmY1NDBlODljMmQyYjg1MC4xNjExOTM4MzE5LmdpdC5q
-YWcucmFtYW5Ab3JhY2xlLmNvbQpTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZh
-bmhhQHJlZGhhdC5jb20+Ci0tLQogaW5jbHVkZS9ody9yZW1vdGUvbXBxZW11LWxpbmsuaCB8ICAx
-ICsKIGh3L3JlbW90ZS9tZXNzYWdlLmMgICAgICAgICAgICAgfCAyMiArKysrKysrKysrKysrKysr
-KysrKysrCiBody9yZW1vdGUvcHJveHkuYyAgICAgICAgICAgICAgIHwgMTkgKysrKysrKysrKysr
-KysrKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEv
-aW5jbHVkZS9ody9yZW1vdGUvbXBxZW11LWxpbmsuaCBiL2luY2x1ZGUvaHcvcmVtb3RlL21wcWVt
-dS1saW5rLmgKaW5kZXggNzFkMjA2ZjAwZS4uNGVjMDkxNTg4NSAxMDA2NDQKLS0tIGEvaW5jbHVk
-ZS9ody9yZW1vdGUvbXBxZW11LWxpbmsuaAorKysgYi9pbmNsdWRlL2h3L3JlbW90ZS9tcHFlbXUt
-bGluay5oCkBAIC00MCw2ICs0MCw3IEBAIHR5cGVkZWYgZW51bSB7CiAgICAgTVBRRU1VX0NNRF9C
-QVJfV1JJVEUsCiAgICAgTVBRRU1VX0NNRF9CQVJfUkVBRCwKICAgICBNUFFFTVVfQ01EX1NFVF9J
-UlFGRCwKKyAgICBNUFFFTVVfQ01EX0RFVklDRV9SRVNFVCwKICAgICBNUFFFTVVfQ01EX01BWCwK
-IH0gTVBRZW11Q21kOwogCmRpZmYgLS1naXQgYS9ody9yZW1vdGUvbWVzc2FnZS5jIGIvaHcvcmVt
-b3RlL21lc3NhZ2UuYwppbmRleCBhZGFiMDQwY2ExLi4xMWQ3Mjk4NDVjIDEwMDY0NAotLS0gYS9o
-dy9yZW1vdGUvbWVzc2FnZS5jCisrKyBiL2h3L3JlbW90ZS9tZXNzYWdlLmMKQEAgLTE5LDYgKzE5
-LDcgQEAKICNpbmNsdWRlICJleGVjL21lbWF0dHJzLmgiCiAjaW5jbHVkZSAiaHcvcmVtb3RlL21l
-bW9yeS5oIgogI2luY2x1ZGUgImh3L3JlbW90ZS9pb2h1Yi5oIgorI2luY2x1ZGUgInN5c2VtdS9y
-ZXNldC5oIgogCiBzdGF0aWMgdm9pZCBwcm9jZXNzX2NvbmZpZ193cml0ZShRSU9DaGFubmVsICpp
-b2MsIFBDSURldmljZSAqZGV2LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTVBR
-ZW11TXNnICptc2csIEVycm9yICoqZXJycCk7CkBAIC0yNiw2ICsyNyw4IEBAIHN0YXRpYyB2b2lk
-IHByb2Nlc3NfY29uZmlnX3JlYWQoUUlPQ2hhbm5lbCAqaW9jLCBQQ0lEZXZpY2UgKmRldiwKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTVBRZW11TXNnICptc2csIEVycm9yICoqZXJy
-cCk7CiBzdGF0aWMgdm9pZCBwcm9jZXNzX2Jhcl93cml0ZShRSU9DaGFubmVsICppb2MsIE1QUWVt
-dU1zZyAqbXNnLCBFcnJvciAqKmVycnApOwogc3RhdGljIHZvaWQgcHJvY2Vzc19iYXJfcmVhZChR
-SU9DaGFubmVsICppb2MsIE1QUWVtdU1zZyAqbXNnLCBFcnJvciAqKmVycnApOworc3RhdGljIHZv
-aWQgcHJvY2Vzc19kZXZpY2VfcmVzZXRfbXNnKFFJT0NoYW5uZWwgKmlvYywgUENJRGV2aWNlICpk
-ZXYsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRXJyb3IgKiplcnJwKTsK
-IAogdm9pZCBjb3JvdXRpbmVfZm4gbXBxZW11X3JlbW90ZV9tc2dfbG9vcF9jbyh2b2lkICpkYXRh
-KQogewpAQCAtNjksNiArNzIsOSBAQCB2b2lkIGNvcm91dGluZV9mbiBtcHFlbXVfcmVtb3RlX21z
-Z19sb29wX2NvKHZvaWQgKmRhdGEpCiAgICAgICAgIGNhc2UgTVBRRU1VX0NNRF9TRVRfSVJRRkQ6
-CiAgICAgICAgICAgICBwcm9jZXNzX3NldF9pcnFmZF9tc2cocGNpX2RldiwgJm1zZyk7CiAgICAg
-ICAgICAgICBicmVhazsKKyAgICAgICAgY2FzZSBNUFFFTVVfQ01EX0RFVklDRV9SRVNFVDoKKyAg
-ICAgICAgICAgIHByb2Nlc3NfZGV2aWNlX3Jlc2V0X21zZyhjb20tPmlvYywgcGNpX2RldiwgJmxv
-Y2FsX2Vycik7CisgICAgICAgICAgICBicmVhazsKICAgICAgICAgZGVmYXVsdDoKICAgICAgICAg
-ICAgIGVycm9yX3NldGcoJmxvY2FsX2VyciwKICAgICAgICAgICAgICAgICAgICAgICAgIlVua25v
-d24gY29tbWFuZCAoJWQpIHJlY2VpdmVkIGZvciBkZXZpY2UgJXMiCkBAIC0yMDYsMyArMjEyLDE5
-IEBAIGZhaWw6CiAgICAgICAgICAgICAgICAgICAgICAgZ2V0cGlkKCkpOwogICAgIH0KIH0KKwor
-c3RhdGljIHZvaWQgcHJvY2Vzc19kZXZpY2VfcmVzZXRfbXNnKFFJT0NoYW5uZWwgKmlvYywgUENJ
-RGV2aWNlICpkZXYsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRXJyb3Ig
-KiplcnJwKQoreworICAgIERldmljZUNsYXNzICpkYyA9IERFVklDRV9HRVRfQ0xBU1MoZGV2KTsK
-KyAgICBEZXZpY2VTdGF0ZSAqcyA9IERFVklDRShkZXYpOworICAgIE1QUWVtdU1zZyByZXQgPSB7
-IDAgfTsKKworICAgIGlmIChkYy0+cmVzZXQpIHsKKyAgICAgICAgZGMtPnJlc2V0KHMpOworICAg
-IH0KKworICAgIHJldC5jbWQgPSBNUFFFTVVfQ01EX1JFVDsKKworICAgIG1wcWVtdV9tc2dfc2Vu
-ZCgmcmV0LCBpb2MsIGVycnApOworfQpkaWZmIC0tZ2l0IGEvaHcvcmVtb3RlL3Byb3h5LmMgYi9o
-dy9yZW1vdGUvcHJveHkuYwppbmRleCBhMDgyNzA5ODgxLi40ZmE0YmUwNzlkIDEwMDY0NAotLS0g
-YS9ody9yZW1vdGUvcHJveHkuYworKysgYi9ody9yZW1vdGUvcHJveHkuYwpAQCAtMjYsNiArMjYs
-NyBAQAogI2luY2x1ZGUgInV0aWwvZXZlbnRfbm90aWZpZXItcG9zaXguYyIKIAogc3RhdGljIHZv
-aWQgcHJvYmVfcGNpX2luZm8oUENJRGV2aWNlICpkZXYsIEVycm9yICoqZXJycCk7CitzdGF0aWMg
-dm9pZCBwcm94eV9kZXZpY2VfcmVzZXQoRGV2aWNlU3RhdGUgKmRldik7CiAKIHN0YXRpYyB2b2lk
-IHByb3h5X2ludHhfdXBkYXRlKFBDSURldmljZSAqcGNpX2RldikKIHsKQEAgLTIwMiw2ICsyMDMs
-OCBAQCBzdGF0aWMgdm9pZCBwY2lfcHJveHlfZGV2X2NsYXNzX2luaXQoT2JqZWN0Q2xhc3MgKmts
-YXNzLCB2b2lkICpkYXRhKQogICAgIGstPmNvbmZpZ19yZWFkID0gcGNpX3Byb3h5X3JlYWRfY29u
-ZmlnOwogICAgIGstPmNvbmZpZ193cml0ZSA9IHBjaV9wcm94eV93cml0ZV9jb25maWc7CiAKKyAg
-ICBkYy0+cmVzZXQgPSBwcm94eV9kZXZpY2VfcmVzZXQ7CisKICAgICBkZXZpY2VfY2xhc3Nfc2V0
-X3Byb3BzKGRjLCBwcm94eV9wcm9wZXJ0aWVzKTsKIH0KIApAQCAtMzU4LDMgKzM2MSwxOSBAQCBz
-dGF0aWMgdm9pZCBwcm9iZV9wY2lfaW5mbyhQQ0lEZXZpY2UgKmRldiwgRXJyb3IgKiplcnJwKQog
-ICAgICAgICB9CiAgICAgfQogfQorCitzdGF0aWMgdm9pZCBwcm94eV9kZXZpY2VfcmVzZXQoRGV2
-aWNlU3RhdGUgKmRldikKK3sKKyAgICBQQ0lQcm94eURldiAqcGRldiA9IFBDSV9QUk9YWV9ERVYo
-ZGV2KTsKKyAgICBNUFFlbXVNc2cgbXNnID0geyAwIH07CisgICAgRXJyb3IgKmxvY2FsX2VyciA9
-IE5VTEw7CisKKyAgICBtc2cuY21kID0gTVBRRU1VX0NNRF9ERVZJQ0VfUkVTRVQ7CisgICAgbXNn
-LnNpemUgPSAwOworCisgICAgbXBxZW11X21zZ19zZW5kX2FuZF9hd2FpdF9yZXBseSgmbXNnLCBw
-ZGV2LCAmbG9jYWxfZXJyKTsKKyAgICBpZiAobG9jYWxfZXJyKSB7CisgICAgICAgIGVycm9yX3Jl
-cG9ydF9lcnIobG9jYWxfZXJyKTsKKyAgICB9CisKK30KLS0gCjIuMjkuMgoK
+On Thu, Feb 04, 2021 at 09:08:13AM +0100, Thomas Huth wrote:
+> On 04/02/2021 07.27, Richard Henderson wrote:
+> > On 2/3/21 8:03 PM, Thomas Huth wrote:
+> > > On 04/02/2021 00.04, Richard Henderson wrote:
+> > > > Something has gone wrong with the building of the containers
+> > > > in gitlab, because *all* off them are installing Alpine Linux.
+> > > > 
+> > > > https://gitlab.com/rth7680/qemu/-/jobs/1006336396#L155
+> > > 
+> > > I think that's ok ... the output about alpine that you see there is just the
+> > > output from the container that builds the final container. Later you can see
+> > > some "yum install" lines in that output, too, that's where the CentOS container
+> > > gets build. And the final compilation job runs on CentOS, too:
+> > > 
+> > >   https://gitlab.com/rth7680/qemu/-/jobs/1006336699#L35
+> > > 
+> > > (look for the string "Red Hat" there)
+> > 
+> > Hmm.  Is there any way to get the full output of the container build?  At
+> > present it's being truncated:
+> > 
+> > #7 [4/5] RUN yum install -y bzip2     bzip2-devel     ccache     csnappy-de...
+> > 
+> > 
+> > In particular, I'm trying to add a new test, and I have added libffi-devel.i686
+> > to the fedora-i386-cross.docker file, but then the actual build fails because
+> > the libffi header file is missing.
+> > 
+> > I know you may need the actual patch to comment, but pointers to how to debug
+> > this sort of failure are welcome.
+> 
+> I don't have a clue, all that container magic has been done by Daniel
+> initially - maybe he can help (now on CC:) ...
+
+I honestly never bother with the local QEMU container build sripts as
+they've over-engineered IMHO.  If I need to debug something locally
+I'd just do  "podman build -f path/to/docker-file /path/to/docker-dir".
+
+Alternatively just make your changes to the dockerfiles and thne push
+the branch to gitlab. Gitlab will run the build and you can pull down
+the docker image from your fork's docker registry
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
