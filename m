@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA30310E1A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:47:30 +0100 (CET)
-Received: from localhost ([::1]:58358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B396C310E05
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:41:25 +0100 (CET)
+Received: from localhost ([::1]:45100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l84GX-000146-3d
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:47:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40436)
+	id 1l84Ae-00031g-Q8
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:41:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l847F-00006W-37; Fri, 05 Feb 2021 11:37:53 -0500
-Received: from mail-eopbgr00136.outbound.protection.outlook.com
- ([40.107.0.136]:22969 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ id 1l847F-00008X-Vi; Fri, 05 Feb 2021 11:37:54 -0500
+Received: from mail-eopbgr20092.outbound.protection.outlook.com
+ ([40.107.2.92]:26183 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l847D-0002Zv-A5; Fri, 05 Feb 2021 11:37:52 -0500
+ id 1l847E-0002Vt-0Z; Fri, 05 Feb 2021 11:37:53 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kFWI3uiaSbNr4EMcBb9hwslVn+ZBCSoiHCQvd7FT+8HRB6eaG2R3zWO803G21mxSUI8LSSOBV0YXdoK/U2TpAXZp1zAbHiGUgZrNPEDFygLTN9kjClCDyr4Cp7eHmYarfzcQJyu6/N6BGbMGW4Mmx26gorNnE9+NTWmuYnii4eoyqHjkdk8sjdzY/RPLoI1hyDelOf0VzPFKvNFpy/BRx/smVVjcodl3bFgXvq5zcLdydSgjXLJhLBBIEQwFSsanfjLLsr2opstlxOLxIzXfR4hzLCJ4n20xDQqp4S8RYvOppg2lNQgH9ThYR9q2e6y/CcOf+lcYBPC3Y6LynrGs7A==
+ b=Sp67XcGQ9+fev5zVevM7v2vy7SnG/w0vslbaDBnHeRNaR/MnS8ngv3xE3Y3BFLYRiJoqEyZuKeol7d04eUiAwwcdNduSZN1KDxUt5Y9tIn+krk/tOa1Pmdbe5JJhYVix2ZKnfnm0ntyRX4/K15+b/ZeRo4wVjdWpHgGaRLPcqlAoiGQHpk/WK8t0vGfyqLdp7mn3E7YDC94968GxN/HN49ody6nOpM4JIOPUQI5uPx4hpN6Dj2IP2OVdlBgIhgVvtznOUBnKazq7poaiDYxTcuYjKpQmlP6bbwH6vRTe17VuEOw9kL+y7wXLxTN00WcdecMjj7I29k4r+vAfl4bCAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vyz1XND5omVmyjpBJb1rOG9vCcFs4qBL4Mimt4dg2xo=;
- b=FyAzb7mPuCY9Rin9huPykkjiiqRV8dHdYBWjioI6sqnK4Xv9UDVc2iCEumQZwB+1cqhvK/9QQXhruWdsK4AZdAbCxkJQh3U6cNvIIKvOcsruxemQIn5u4Lb3VzZF6WsXjeNrutYrJD0gYxGiycWZcg9A7SNWWiZnONw0/XYGXWlpR2bSaArEywm5D/4dbeJF0gMYCWm/YuT1wICze50BFjgr/XOpwqd2nwgSozFftBMVOaqOc5XVBpNpdLpWu1O+SL13zFvG6xxlbaTBeO9032Nt/1kxB0kDVtaKCltyC2hcN/pjtPYMRaDTFYXCausf27te+vhvKx7w50qiJqMWdA==
+ bh=51y7D3MhEC9G0aDfAeaSFXFETfOB0ad+Y2fHOJTk8D8=;
+ b=Fghl2FSxL3OFw8K4YaTMQl/5vlcSneyYRUQgdlfY7HCbYQ55PP/frKyOJL5GerA2GdYBK/5JqQutWwkhqQmgMCd/8e6foBnyPCdvKNuhDhGF71l5Iz2nauK6Uc8bSC6Lav8dyyDsbHtaXXSg/sPsxHcV+4QJFGE/o81/D3dx4B7VPAvLVjCcpRF/yBGdthY+FpKsKfftRVNb1PfMaP8smmFODPtP19916EbNpTx+ttkz68M0S4JYGNs+tO6JZ39wXvu6kEAru5zhHAQdb3AE/KA+Wwpr3pcisb2ktw9teXpua2DJ2XJBcy5ag722WHYbFdBGug0HY/Yf71uN15B7NA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vyz1XND5omVmyjpBJb1rOG9vCcFs4qBL4Mimt4dg2xo=;
- b=J1cv36gGR9Ce5s2by9+bhhM+Et3lGEnYRUVgYv8DNS2BnPB3AijC/Gq38s23e7bTxPnFvLrgoEF3Ibr+mUEVEY49eLZnjshEEzs7NBKa9eMGFNYDrudSAadgCQ5aAhvnVnKm5UI5UuLMbplpKj7f3vSS7RgktzYBIe23zae0Uxk=
+ bh=51y7D3MhEC9G0aDfAeaSFXFETfOB0ad+Y2fHOJTk8D8=;
+ b=YICVUPYtriegvfqX60LvEu92nOQYr8w4v8FMk9cQihm7DVJMMyu+OPGO05S5q/oPnLSrAJI9t9DTs4rfFBlSBPu5XVYRoG8DU5/p1PVyZ9OHJm9hDRUTLn7prs+T+A+A8VuajMEkXXontaQ+cjysby3c1r1aWy0aHwJ53dCkzb0=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4470.eurprd08.prod.outlook.com (2603:10a6:20b:b5::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19; Fri, 5 Feb
- 2021 16:37:38 +0000
+ 2021 16:37:39 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Fri, 5 Feb 2021
- 16:37:38 +0000
+ 16:37:39 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, fam@euphon.net,
  stefanha@redhat.com, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com, den@openvz.org
-Subject: [PATCH v2 05/10] block/mirror: implement .cancel job handler
-Date: Fri,  5 Feb 2021 19:37:15 +0300
-Message-Id: <20210205163720.887197-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 06/10] iotests/264: move to python unittest
+Date: Fri,  5 Feb 2021 19:37:16 +0300
+Message-Id: <20210205163720.887197-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210205163720.887197-1-vsementsov@virtuozzo.com>
 References: <20210205163720.887197-1-vsementsov@virtuozzo.com>
@@ -66,63 +66,64 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.213) by
  AM9P193CA0029.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.21 via Frontend Transport; Fri, 5 Feb 2021 16:37:37 +0000
+ 15.20.3825.21 via Frontend Transport; Fri, 5 Feb 2021 16:37:38 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2f1d6e7e-ca5f-408c-1e21-08d8c9f4593d
+X-MS-Office365-Filtering-Correlation-Id: 5660bf7e-9e43-4950-c903-08d8c9f459d0
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4470:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB44703BC49D841816788629D8C1B29@AM6PR08MB4470.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:514;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4470F12946B0ED7EC950D7EDC1B29@AM6PR08MB4470.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cmBE4DwJfIQCE3q/lMZvv5wWf1riTmgFfR6IGf8+b5TzJtx/Nyhmy/uhJeR2gK9pgAuoFst6DLNLIJMczYDnj6/9vPkVmc294kDKXTDvyFlV+17HiesTl3Cjb8d2NKO/UVyYhCJvr+JBNUw2R6HX4Zjm4I/7XNDxuXcSgUTQKcRmytND5pF+3VHIGD5ZEFb5I6cSdQvtmppv08ZGWYB2oPjD6Adf2CXiDATwjZ6SuR9YEj8XUyJkpH8e+rrINsEDqJdn7qYt3OpoR/UibEmni32eUC3jvGD2jilolYS1TrakGbYMT7vHXiJNciSBQsAWA2In9O+WYUDU293oxE58VbPE/b8591k/e4/wDrZfJo7CyaDmKDslb7vqkj8awi5K7L43TwJToeobGhm1sgJIwE1zqhfAhlx9BLO0sdEgW/kZrgPOnkXKbC1gWc9Q4o20Te4CENnu1aRdNoEJDLAkyWZQ/9FItuslrQc1Jy9jeNicpXrd+TqT+GLRO2fwv3VS3ITT+wKnEk9IesHno2TDtkR/db5WmDtUOUm6BU0pg1Ta3LbJu6Fu9XpjMzaNDmmUv4cTI10r5jyX69lBNiVWjS36tpkqVe0ncjOBvZ1og7U=
+X-Microsoft-Antispam-Message-Info: O4cazu5DpPF48mn85c0Png+WNCy7OjBGVXuSHUpH5r+hRzuqhNB+PEHL9PDUgKgd7GWKy9Z4jTajmUVnRAigqvcvWVpDl2stIeYVMEmyURuGXtnCZrj9xE3wOTezQCCa7nVgXR37IurO1YMN6Akfb3LTpYroFZxAFPIrOmEIEefjSBZ2ugCVViw80/qHf1TM7j1gtwucZgWbOOb13AgBlJM3grp267RFd+x7Oi5ZgnrBQ4yXqxprP2/WkxdjANi8h3VPrloXe3Z/XC6XtDTJuM0XZq/10qmyIPAmkfg14wNNiXnullW1Z/u5uDnCOHDUyYWlLYFBJBIH7TjmRlJhCMnmQbKqxUS+GDM0ppKiXklTAdho0r97HFvVnKrenF746pAO7wqW5AZ9wkHel1fjUkBnRzdOWNoqClmiaDf/9RIdl/r1sez6ybc+Yq/SsSW8gp85q70ZkKbwrsRFiyN/KHkLFOt4jVDPXB2D0JdmeTiTUfy8Eol9FlIjiSSc//2YnNCUUiPK87OCOHFltD8oradNegkHYqihQB89sYXwMXscrdYNdzUrWmtg6AX3MvIyxMxF+HC8ZuYQRL0i46UU9g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(346002)(376002)(366004)(396003)(39840400004)(6916009)(4326008)(6506007)(478600001)(86362001)(66556008)(66476007)(8676002)(316002)(66946007)(107886003)(6486002)(83380400001)(36756003)(4744005)(6512007)(956004)(2616005)(8936002)(26005)(5660300002)(52116002)(6666004)(186003)(2906002)(16526019)(1076003)(142923001)(309714004);
+ SFS:(4636009)(136003)(346002)(376002)(366004)(396003)(39840400004)(6916009)(4326008)(6506007)(478600001)(86362001)(66556008)(66476007)(8676002)(316002)(66946007)(107886003)(6486002)(83380400001)(36756003)(6512007)(956004)(2616005)(8936002)(26005)(5660300002)(52116002)(6666004)(186003)(2906002)(16526019)(1076003)(33290500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?RnzvGsM7miwlN7fAT/ZnBiBD1FfAeM7/Tiy9GtS0F2tfXP0wxLL+Y4bQxbet?=
- =?us-ascii?Q?Ab3LCNXQX/xInZe7UZCq8mft9d02l5RSAczGGheBLi8fyNr1paE9TBQ6f34l?=
- =?us-ascii?Q?K/cfQxs3KVvLKoDcYT42aymK57WFUW3b8C9YxQ+ouJuGeqGMhT06zBD7hYdz?=
- =?us-ascii?Q?JsbeAM3epvRn/JlOehW23Lblp3SdcIFjZmvRxk1+7Br2OTSUo4wgCJx1/O2H?=
- =?us-ascii?Q?AXQQCv7EwZThXi5uEBOevcpF7xrN8+l9asZoNVLq+k7iCtTkdU2FC0XbE3IV?=
- =?us-ascii?Q?j4cwZqzk7sLS39QKGd8gkqxSMM5CMr5X2zwfjm2N8VzJdfs95qUz0ihgZBPP?=
- =?us-ascii?Q?USRPM1LP+tbJQhSmreY/MinrB6yNRW59A0xKND89HAt6wXCRAvUnHEhnq5+r?=
- =?us-ascii?Q?wLX3cDHoFUnc/oYOxr0Ajs2/oyTlN5w859UFCUpDynGAXUFaftdeIneFRQZ+?=
- =?us-ascii?Q?xE+j5UKxrxis2YOO6dzrW0eNuPbzvNCB2fzrECSsfYLfxWQnxuUCpWIta+qG?=
- =?us-ascii?Q?7rrLFW5pjxHVY7GvWThXpK9iKtdS5X89mjQSnrQAEGrtKC3L9Wp7EQnlZaNx?=
- =?us-ascii?Q?hVu4wpseaBIPdQ9awqlo+/AWCcrAtWhOKzHI9AAKWnz7xNvHxUIX8uCpnit7?=
- =?us-ascii?Q?y63KEcFUhbwtrqq9QnTxwItvMOb9eoDk/Oe0lj/UpixuOSbF/knEzZKGcd+y?=
- =?us-ascii?Q?Gax/PdNIKbqA9Cniss64vM5h9C5bZCY20AesssSKya4Eks2zLdvCsNgyAxAK?=
- =?us-ascii?Q?xUmy07FBKFCbN2I2UdKdYgYtj4s9RRVOYpWwdjcLEXP/2p4BKA6TOXNEEVLa?=
- =?us-ascii?Q?SY94/6uM+XcWL6DGWhTu4WAYqtG65j+lv5vqB5bTOAq2zTztDKPpX4LwyvMQ?=
- =?us-ascii?Q?8zt00/JhDLrcMCTTQ1Zle5XDDMwFAtAwWUloURbucv7xdAOrkHnGGRTL2NiY?=
- =?us-ascii?Q?3qx5a7MHdETx+fj3/DxbnmWpkD31S+7FU1h9i2sh98fg9jp+HIPx4bOEwu7e?=
- =?us-ascii?Q?lve6V+m2qHu/OCvV+x67bGD2Z6JCBg54IYEvgSd3LhhlPa/T9wNECaM87yzV?=
- =?us-ascii?Q?Wosn2rk2DC9c1kvsmahE9+9bUv2uoWWn+YvDNu2jXAHzgNLot6hRzHWEDDxW?=
- =?us-ascii?Q?u9PIAK7k3fUBrt9FsNcDAhA34CvD0gVxOnJJ0xtPC/vCSidh3TZ795OuFWX5?=
- =?us-ascii?Q?x7NCJdPyMsdxSvkGn97ohgtwTWcuYbtafzPUXdbX/b4Qx92DPmDbn6QURTM7?=
- =?us-ascii?Q?FpI2gnxM/J9+4aLT/tSlj1UxsfP7Oyq84QF4Mj9Xm+8eH5/xU3q0voHu6VH+?=
- =?us-ascii?Q?dpTkd8zeLqozYVb+yFSP5py8?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?HHg8+G1E/4oqHfHLqGojdQZOC+GeJnflZV81WHbwVUFbb8OEJNt0ky/PdyCW?=
+ =?us-ascii?Q?NACc/asyHcuilgor5BTB+7kdil5WUI+RExmxCbu/JGEL6YysyfAUCFlRDuT/?=
+ =?us-ascii?Q?I+6uXryU9n+zFNdZKEtuBrUf7Hw374O8iP5NCRlWpLEnLW4QC8bvVnn6RxE7?=
+ =?us-ascii?Q?FBLt6JQ+KJMSj0IVj/L0w5DLRwOTLO9UMIH+SNoBu1A7aoyRzJ6PhvnJ+w4Y?=
+ =?us-ascii?Q?BNdB6xSG/6nr+vaWz0hhuaBp9bbyoQgw5IUUZGBwLXban428/puJiFaBE8qO?=
+ =?us-ascii?Q?WtXhMJvaUXyADkHeJ6LMFnfk8Glrs3QalHpBicpk/ZpL85c9gt0yTbxYts8P?=
+ =?us-ascii?Q?TTF5vuljMPDD+Ba+bYuEGCB+ICJ5kSE7x/ThvV471gwKXKU65YRW2QmkqvZu?=
+ =?us-ascii?Q?mY60eg1SPVlX/GGZ0h8bo3eXN18tCPjWOZzm6T8AvruCja5UC9IF7R6nl1O5?=
+ =?us-ascii?Q?GJ55eP77RTyBJv5+8wS5k6h2jffRhDHvhVoEA4KThR1pV426xwaI6J8XmIkM?=
+ =?us-ascii?Q?R1cAvzNRKA4dZPy+GGnghVumrQvnhHcoiIwyaymGEeABT+ODGOpb2dOPjt26?=
+ =?us-ascii?Q?ad7+omAxntWTHOgK5vRLBVh44I8UHK697ToQQRGqJ8T6B1gPNZo+1B7CzoOj?=
+ =?us-ascii?Q?SF4/DyhV+7Z90XSdbD7//i2i9WBBX5qd5RGcDlQ58fZIzVMVCSHWQFnObECR?=
+ =?us-ascii?Q?j404fK+yMNBcHIHL/wVfW3PtCerhm/8osZ07FJU34dUIDlAD1/3N0nqoDI7d?=
+ =?us-ascii?Q?d209v9CwXdw3WTUxK1pXbtNvqqk176w6HlAUVzwrBwUsUSPtBzuo2Tz6jJe3?=
+ =?us-ascii?Q?QBWcQpxCfaIlMLgrLnwtE3+Ywsmee/3db5SdXmcy4lrRJHdwHTC0C7wqgZ5d?=
+ =?us-ascii?Q?2l+O6JBFrS6bu2irIRGQJ4CBlGa7Co9GycVfZcFFw4wKJN7g3QgQeURZE3Sd?=
+ =?us-ascii?Q?/tF0APwmxO60LAj+cjWBT8Uzn8Hft+5qwoZ+P8uyNQWZsgcTjnAcGA46jBLD?=
+ =?us-ascii?Q?qh4kgg/wrKoDF/tAvlTHvbiZZ/cPAuJHcHSLlkmJ763K0kKoZ5Pnf9ybDwKr?=
+ =?us-ascii?Q?vBwPa/Vytyi+3fyzK4M4pFmg37WMpjHJROB6A4XZVRTkviR9KmcNaDnrrub4?=
+ =?us-ascii?Q?koyzlJpJPPgCA0c+4piGLKTtXGAkphrAxclX9g1rXISI33lhZU/e7L8q/Sfw?=
+ =?us-ascii?Q?qXxLNvwDn4z4PzYrsQeD6HHHOaPpv9kDbfsAXoNYBXgrSWEepwq9JBC4xIsw?=
+ =?us-ascii?Q?+OymTdc6lUISof7qtBjEQUe354YEa721l2eaz5d1IyrwpqyzFSro81gZAvEI?=
+ =?us-ascii?Q?5rLxx/IoFps4MGz6ayoztRFv?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f1d6e7e-ca5f-408c-1e21-08d8c9f4593d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5660bf7e-9e43-4950-c903-08d8c9f459d0
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 16:37:38.0829 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 16:37:39.1094 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tQtktfJld6dfInGalKtsotA8coxcUTQLAXGzObO5qZ2D2u7z4wNZoS6gSLEF8y3AvpLJQ2uNb43c2qhngkuwvfU4t/fpqOQ8hsXV1T3wKnk=
+X-MS-Exchange-CrossTenant-UserPrincipalName: mmPfJ/4zKQpjQETNfRKHzFULV+lUt43hRr3Gh5l1SB0weWw3JciA/1OnYmyuzHWBBAceuzHm6iJTwmGcQ1AdL7mEadSfyrOxYkjTUvfR+sM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4470
-Received-SPF: pass client-ip=40.107.0.136;
+Received-SPF: pass client-ip=40.107.2.92;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,41 +139,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cancel in-flight io on target to not waste the time.
+We are going to add more test cases, so use the library supporting test
+cases.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/mirror.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ tests/qemu-iotests/264     | 93 ++++++++++++++++++++++----------------
+ tests/qemu-iotests/264.out | 20 ++------
+ 2 files changed, 58 insertions(+), 55 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 8e1ad6eceb..9faffe4707 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1179,6 +1179,14 @@ static bool mirror_drained_poll(BlockJob *job)
-     return !!s->in_flight;
- }
+diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
+index e725cefd47..6feeaa4056 100755
+--- a/tests/qemu-iotests/264
++++ b/tests/qemu-iotests/264
+@@ -20,13 +20,10 @@
+ #
  
-+static void mirror_cancel(Job *job)
-+{
-+    MirrorBlockJob *s = container_of(job, MirrorBlockJob, common.job);
-+    BlockDriverState *target = blk_bs(s->target);
+ import time
++import os
+ 
+ import iotests
+-from iotests import qemu_img_create, file_path, qemu_nbd_popen, log
+-
+-iotests.script_initialize(
+-    supported_fmts=['qcow2'],
+-)
++from iotests import qemu_img_create, file_path, qemu_nbd_popen
+ 
+ disk_a, disk_b, nbd_sock = file_path('disk_a', 'disk_b', 'nbd-sock')
+ nbd_uri = 'nbd+unix:///?socket=' + nbd_sock
+@@ -34,46 +31,62 @@ size = 5 * 1024 * 1024
+ wait_limit = 3.0
+ wait_step = 0.2
+ 
+-qemu_img_create('-f', iotests.imgfmt, disk_a, str(size))
+-qemu_img_create('-f', iotests.imgfmt, disk_b, str(size))
+ 
+-with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
+-    vm = iotests.VM().add_drive(disk_a)
+-    vm.launch()
+-    vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
++class TestNbdReconnect(iotests.QMPTestCase):
++    def setUp(self):
++        qemu_img_create('-f', iotests.imgfmt, disk_a, str(size))
++        qemu_img_create('-f', iotests.imgfmt, disk_b, str(size))
++        self.vm = iotests.VM().add_drive(disk_a)
++        self.vm.launch()
++        self.vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
 +
-+    bdrv_cancel_in_flight(target);
-+}
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(disk_a)
++        os.remove(disk_b)
 +
- static const BlockJobDriver mirror_job_driver = {
-     .job_driver = {
-         .instance_size          = sizeof(MirrorBlockJob),
-@@ -1190,6 +1198,7 @@ static const BlockJobDriver mirror_job_driver = {
-         .abort                  = mirror_abort,
-         .pause                  = mirror_pause,
-         .complete               = mirror_complete,
-+        .cancel                 = mirror_cancel,
-     },
-     .drained_poll           = mirror_drained_poll,
- };
++    def test(self):
++        with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
++            result = self.vm.qmp('blockdev-add',
++                                 **{'node_name': 'backup0',
++                                    'driver': 'raw',
++                                    'file': {'driver': 'nbd',
++                                             'server': {'type': 'unix',
++                                                        'path': nbd_sock},
++                                             'reconnect-delay': 10}})
++            self.assert_qmp(result, 'return', {})
++            result = self.vm.qmp('blockdev-backup', device='drive0',
++                                 sync='full', target='backup0',
++                                 speed=(1 * 1024 * 1024))
++            self.assert_qmp(result, 'return', {})
++
++            # Wait for some progress
++            t = 0.0
++            while t < wait_limit:
++                jobs = self.vm.qmp('query-block-jobs')['return']
++                if jobs and jobs[0]['offset'] > 0:
++                    break
++                time.sleep(wait_step)
++                t += wait_step
+ 
+-    vm.qmp_log('blockdev-add', filters=[iotests.filter_qmp_testfiles],
+-               **{'node_name': 'backup0',
+-                  'driver': 'raw',
+-                  'file': {'driver': 'nbd',
+-                           'server': {'type': 'unix', 'path': nbd_sock},
+-                           'reconnect-delay': 10}})
+-    vm.qmp_log('blockdev-backup', device='drive0', sync='full',
+-               target='backup0', speed=(1 * 1024 * 1024))
++            self.assertTrue(jobs and jobs[0]['offset'] > 0)  # job started
+ 
+-    # Wait for some progress
+-    t = 0.0
+-    while t < wait_limit:
+-        jobs = vm.qmp('query-block-jobs')['return']
+-        if jobs and jobs[0]['offset'] > 0:
+-            break
+-        time.sleep(wait_step)
+-        t += wait_step
++        jobs = self.vm.qmp('query-block-jobs')['return']
++        # Check that job is still in progress
++        self.assertTrue(jobs and jobs[0]['offset'] < jobs[0]['len'])
+ 
+-    if jobs and jobs[0]['offset'] > 0:
+-        log('Backup job is started')
++        result = self.vm.qmp('block-job-set-speed', device='drive0', speed=0)
++        self.assert_qmp(result, 'return', {})
+ 
+-jobs = vm.qmp('query-block-jobs')['return']
+-if jobs and jobs[0]['offset'] < jobs[0]['len']:
+-    log('Backup job is still in progress')
++        # Emulate server down time for 1 second
++        time.sleep(1)
+ 
+-vm.qmp_log('block-job-set-speed', device='drive0', speed=0)
++        with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
++            e = self.vm.event_wait('BLOCK_JOB_COMPLETED')
++            self.assertEqual(e['data']['offset'], size)
++            result = self.vm.qmp('blockdev-del', node_name='backup0')
++            self.assert_qmp(result, 'return', {})
+ 
+-# Emulate server down time for 1 second
+-time.sleep(1)
+ 
+-with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
+-    e = vm.event_wait('BLOCK_JOB_COMPLETED')
+-    log('Backup completed: {}'.format(e['data']['offset']))
+-    vm.qmp_log('blockdev-del', node_name='backup0')
+-    vm.shutdown()
++if __name__ == '__main__':
++    iotests.main(supported_fmts=['qcow2'])
+diff --git a/tests/qemu-iotests/264.out b/tests/qemu-iotests/264.out
+index c45b1e81ef..ae1213e6f8 100644
+--- a/tests/qemu-iotests/264.out
++++ b/tests/qemu-iotests/264.out
+@@ -1,15 +1,5 @@
+-Start NBD server
+-{"execute": "blockdev-add", "arguments": {"driver": "raw", "file": {"driver": "nbd", "reconnect-delay": 10, "server": {"path": "TEST_DIR/PID-nbd-sock", "type": "unix"}}, "node-name": "backup0"}}
+-{"return": {}}
+-{"execute": "blockdev-backup", "arguments": {"device": "drive0", "speed": 1048576, "sync": "full", "target": "backup0"}}
+-{"return": {}}
+-Backup job is started
+-Kill NBD server
+-Backup job is still in progress
+-{"execute": "block-job-set-speed", "arguments": {"device": "drive0", "speed": 0}}
+-{"return": {}}
+-Start NBD server
+-Backup completed: 5242880
+-{"execute": "blockdev-del", "arguments": {"node-name": "backup0"}}
+-{"return": {}}
+-Kill NBD server
++.
++----------------------------------------------------------------------
++Ran 1 tests
++
++OK
 -- 
 2.29.2
 
