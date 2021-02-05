@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96918310AB7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 12:56:53 +0100 (CET)
-Received: from localhost ([::1]:55766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BBC4310A58
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 12:37:18 +0100 (CET)
+Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7zjI-00080Y-NY
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 06:56:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37082)
+	id 1l7zQK-000489-QJ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 06:37:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7ziK-0007Yo-Em
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 06:55:52 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38603)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l7ziI-0002U8-4H
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 06:55:52 -0500
-Received: by mail-wm1-x336.google.com with SMTP id y187so5700042wmd.3
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 03:55:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=4dJpZxQc8ajouJAspbfRxTsIjf1yrkpiIzIKQ60S1H4=;
- b=IT5ICvy0tWH+jAs3XSUSlB3ZLKRTFHuZSsJgo+2jzZQFmxVBaRq+ZgLfU95pMRQH17
- Xw7Ns4+IxpSagFSLKlx7jnHUIb2rpKG/Te6GMO1pFGk6EbmVUDw5nJwtUgSr7cZ+N1Gb
- Loccx5T5/ViUtKsiQ0G7PG69D5sKnE4bKDsd/gCR7vZaiacnCbzvTa1neoeMpP6rCScG
- CMaTCx8J+AzbXk/6WQls1VXpfl82MynKT6dmmksIhF1Z7RwO8Pu2rYJn1p9ZCgimfEKo
- 2QACkGANBAcKBfN8+q/fqkvFxSAP/uqn8WRlR6eIxBukmhNUcpzAk+9DErcp73EzKEzE
- Urlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=4dJpZxQc8ajouJAspbfRxTsIjf1yrkpiIzIKQ60S1H4=;
- b=PFIoLhu6KGh/ObiFrDOyRhn3EVZk6XIQI/sZz3quoiiOosgVGI913v/qnqLM7r0KWd
- r5x1WXXu/L4tmnXZN2/dL+y8ScYUcxWTZEIs/E3t3Xf1/QxIIKCFuli5Ch5T+ADAZ/WL
- siaL7SyA6tZ2CnqVmKEvehmZEH21/KF508u9prj0b/Anm5uEC8XIdsNsuAQxFq2XQ09p
- 19bF/yejoMJ12J06P3rRMvGXZ2ZxMJQZMkBUu8hjjkl/UZpr5/q6U50x/TLeda+k0RXV
- UG3a5XhXzIvKE6FGP0aDEz//gIiBhW3XrtKx4pTbqlIOGNzTPAkwEAulLLasjRkh/r1d
- rasg==
-X-Gm-Message-State: AOAM5312qV987SMxHrYZTFnLryNaGe1HgSm0Z9n2g8uoCbYCXpgpLVm/
- 6Y6IsXOjOlgL3ERtqVt26PixnQ==
-X-Google-Smtp-Source: ABdhPJzFCN5gSm5xPdxRH5GLALs/vPrNN8yvSdemV9DgeRBqBrBX01dg3dufS7xVqZ80rDvssMt58Q==
-X-Received: by 2002:a1c:7f93:: with SMTP id a141mr3307874wmd.105.1612526148195; 
- Fri, 05 Feb 2021 03:55:48 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f7sm11130733wre.78.2021.02.05.03.55.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 03:55:46 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 398DB1FF7E;
- Fri,  5 Feb 2021 11:55:46 +0000 (GMT)
-References: <YBTRSK4/F5KLH+FZ@strawberry.localdomain>
- <YBxnlZFkp7YA9PXL@strawberry.localdomain>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: Detecting Faulting Instructions From Plugins
-Date: Fri, 05 Feb 2021 11:19:44 +0000
-In-reply-to: <YBxnlZFkp7YA9PXL@strawberry.localdomain>
-Message-ID: <871rdupw3h.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7zNx-0002jT-U4
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 06:34:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49867)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7zNt-0001a8-IY
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 06:34:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612524883;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=H5mcWG6OuaqvRNCoWBABiHQud0GgiZZkX2QKi3cmGCQ=;
+ b=ZImGKwnxOjla4Ke/Lr99jW97X51owdAaHhgscmzGmosRRTlc56anxrORYHtcvYya5gwF1a
+ ft5HN+H1OhhLMxTKUeyILsAgHnnZ1AjJKyI2DTt/UUxgsQYpVgcrdpnpa/7TT4WsBeRZqs
+ rMz6uxM+jJrE6ZQRuXkz2z9N0CVknxw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-guJES7qnN_y6ih-obXh_Mw-1; Fri, 05 Feb 2021 06:34:37 -0500
+X-MC-Unique: guJES7qnN_y6ih-obXh_Mw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACD10BBEE3;
+ Fri,  5 Feb 2021 11:34:35 +0000 (UTC)
+Received: from redhat.com (ovpn-114-212.ams2.redhat.com [10.36.114.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ABDE66268F;
+ Fri,  5 Feb 2021 11:34:32 +0000 (UTC)
+Date: Fri, 5 Feb 2021 11:34:29 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 1/3] utils: Improve qemu_strtosz() to have 64 bits of
+ precision
+Message-ID: <20210205113429.GG908621@redhat.com>
+References: <20210204190708.1306296-1-eblake@redhat.com>
+ <20210204190708.1306296-2-eblake@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210204190708.1306296-2-eblake@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,108 +80,294 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, rjones@redhat.com, tao3.xu@intel.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Feb 04, 2021 at 01:07:06PM -0600, Eric Blake wrote:
+> We have multiple clients of qemu_strtosz (qemu-io, the opts visitor,
+> the keyval visitor), and it gets annoying that edge-case testing is
+> impacted by implicit rounding to 53 bits of precision due to parsing
+> with strtod().  As an example posted by Rich Jones:
+>  $ nbdkit memory $(( 2**63 - 2**30 )) --run \
+>    'build/qemu-io -f raw "$uri" -c "w -P 3 $(( 2**63 - 2**30 - 512 )) 512" '
+>  write failed: Input/output error
+> 
+> because 9223372035781033472 got rounded to 0x7fffffffc0000000 which is
+> out of bounds.
+> 
+> It is also worth noting that our existing parser, by virtue of using
+> strtod(), accepts decimal AND hex numbers, even though test-cutils
+> previously lacked any coverage of the latter.  We do have existing
+> clients that expect a hex parse to work (for example, iotest 33 using
+> qemu-io -c "write -P 0xa 0x200 0x400"), but strtod() parses "08" as 8
+> rather than as an invalid octal number, so we know there are no
+> clients that depend on octal.  Our use of strtod() also means that
+> "0x1.8k" would actually parse as 1536 (the fraction is 8/16), rather
+> than 1843 (if the fraction were 8/10); but as this was not covered in
+> the testsuite, I have no qualms forbidding hex fractions as invalid,
+> so this patch declares that the use of fractions is only supported
+> with decimal input, and enhances the testsuite to document that.
+> 
+> Our previous use of strtod() meant that -1 parsed as a negative; now
+> that we parse with strtoull(), negative values can wrap around module
+> 2^64, so we have to explicitly check whether the user passed in a '-'.
+> 
+> We also had no testsuite coverage of "1.1e0k", which happened to parse
+> under strtod() but is unlikely to occur in practice; as long as we are
+> making things more robust, it is easy enough to reject the use of
+> exponents in a strtod parse.
+> 
+> The fix is done by breaking the parse into an integer prefix (no loss
+> in precision), rejecting negative values (since we can no longer rely
+> on strtod() to do that), determining if a decimal or hexadecimal parse
+> was intended (with the new restriction that a fractional hex parse is
+> not allowed), and where appropriate, using a floating point fractional
+> parse (where we also scan to reject use of exponents in the fraction).
+> The bulk of the patch is then updates to the testsuite to match our
+> new precision, as well as adding new cases we reject (whether they
+> were rejected or inadvertenly accepted before).
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> ---
+> 
+> Note that this approach differs from what has been attempted in the
+> past; see the thread starting at
+> https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg00852.html
+> That approach tried to parse both as strtoull and strtod and take
+> whichever was longer, but that was harder to document.
+> ---
+>  tests/test-cutils.c        | 79 ++++++++++++++++++++++++++++++--------
+>  tests/test-keyval.c        | 24 +++++++++---
+>  tests/test-qemu-opts.c     | 20 +++++++---
+>  util/cutils.c              | 77 +++++++++++++++++++++++++++----------
+>  tests/qemu-iotests/049.out |  7 +++-
+>  5 files changed, 156 insertions(+), 51 deletions(-)
+> 
+> diff --git a/tests/test-cutils.c b/tests/test-cutils.c
+> index 1aa8351520ae..0c2c89d6f113 100644
+> --- a/tests/test-cutils.c
+> +++ b/tests/test-cutils.c
+> @@ -1960,6 +1960,13 @@ static void test_qemu_strtosz_simple(void)
+>      g_assert_cmpint(res, ==, 0);
+>      g_assert(endptr == str + 1);
+> 
+> +    /* Leading 0 gives decimal results, not octal */
+> +    str = "08";
+> +    err = qemu_strtosz(str, &endptr, &res);
+> +    g_assert_cmpint(err, ==, 0);
+> +    g_assert_cmpint(res, ==, 8);
+> +    g_assert(endptr == str + 2);
+> +
+>      str = "12345";
+>      err = qemu_strtosz(str, &endptr, &res);
+>      g_assert_cmpint(err, ==, 0);
+> @@ -1970,7 +1977,7 @@ static void test_qemu_strtosz_simple(void)
+>      g_assert_cmpint(err, ==, 0);
+>      g_assert_cmpint(res, ==, 12345);
+> 
+> -    /* Note: precision is 53 bits since we're parsing with strtod() */
+> +    /* Note: If there is no '.', we get full 64 bits of precision */
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+IIUC, our goal is that we should never loose precision for the
+non-fractional part. 
 
-> On Jan 29 22:23, Aaron Lindsay wrote:
->> I appear to be seeing that if I register a callback for an instruction
->> via `qemu_plugin_register_vcpu_insn_exec_cb` I receive a callback even
->> if the instruction faults.
->
-> I was wrong about what I was seeing - I made some false assumptions
-> based on incomplete information. After adding some additional
-> instrumentation, I do not believe what I am seeing is explained by
-> translation faults, and think it might even be a bug.
+> 
+>      str = "9007199254740991"; /* 2^53-1 */
+>      err = qemu_strtosz(str, &endptr, &res);
+> @@ -1987,7 +1994,7 @@ static void test_qemu_strtosz_simple(void)
+>      str = "9007199254740993"; /* 2^53+1 */
+>      err = qemu_strtosz(str, &endptr, &res);
+>      g_assert_cmpint(err, ==, 0);
+> -    g_assert_cmpint(res, ==, 0x20000000000000); /* rounded to 53 bits */
+> +    g_assert_cmpint(res, ==, 0x20000000000001);
+>      g_assert(endptr == str + 16);
+> 
+>      str = "18446744073709549568"; /* 0xfffffffffffff800 (53 msbs set) */
+> @@ -1999,11 +2006,35 @@ static void test_qemu_strtosz_simple(void)
+>      str = "18446744073709550591"; /* 0xfffffffffffffbff */
+>      err = qemu_strtosz(str, &endptr, &res);
+>      g_assert_cmpint(err, ==, 0);
+> -    g_assert_cmpint(res, ==, 0xfffffffffffff800); /* rounded to 53 bits */
+> +    g_assert_cmpint(res, ==, 0xfffffffffffffbff);
+>      g_assert(endptr == str + 20);
+> 
+> -    /* 0x7ffffffffffffe00..0x7fffffffffffffff get rounded to
+> -     * 0x8000000000000000, thus -ERANGE; see test_qemu_strtosz_erange() */
+> +    str = "18446744073709551615"; /* 0xffffffffffffffff */
+> +    err = qemu_strtosz(str, &endptr, &res);
+> +    g_assert_cmpint(err, ==, 0);
+> +    g_assert_cmpint(res, ==, 0xffffffffffffffff);
+> +    g_assert(endptr == str + 20);
+> +
+> +}
+> +
+> +static void test_qemu_strtosz_hex(void)
+> +{
+> +    const char *str;
+> +    const char *endptr;
+> +    int err;
+> +    uint64_t res = 0xbaadf00d;
+> +
+> +    str = "0x0";
+> +    err = qemu_strtosz(str, &endptr, &res);
+> +    g_assert_cmpint(err, ==, 0);
+> +    g_assert_cmpint(res, ==, 0);
+> +    g_assert(endptr == str + 3);
+> +
+> +    str = "0xa";
+> +    err = qemu_strtosz(str, &endptr, &res);
+> +    g_assert_cmpint(err, ==, 0);
+> +    g_assert_cmpint(res, ==, 10);
+> +    g_assert(endptr == str + 3);
 
-Hmm it's possibly a corner case we don't handle for plugins. Currently
-we put instruction callbacks before the actual instruction because we
-know a) it has to execute and b) we might not execute any code after -
-for example if we do a jump. We do actually put placeholders before and
-after each instruction because we do need them for memory
-instrumentation.
+I'd stick a  '0xab' or "0xae" in there, to demonstrate that we're
+not accidentally applyin the scaling units for "b" and "e" in hex.
 
-> For the below output, I've got a plugin which registers a callback via
-> `qemu_plugin_register_vcpu_insn_exec_cb` for each instruction executed.
-> I've enabled `-d in_asm` and added prints in my instruction execution
-> callback when it sees the opcode for the `ldr` instruction in question.
-> I'm running a local source build of the v5.2.0 release.
->
-> Note in the output below the instruction at 0xffffdd2f1d4102c0 is
-> getting re-translated for some reason, and that two callbacks are made
-> to my function registered with qemu_plugin_register_vcpu_insn_exec_cb
-> (the "*** saw encoding"... output) for what should be one instruction
-> execution.
+>  }
+> 
+>  static void test_qemu_strtosz_units(void)
+> @@ -2106,6 +2137,21 @@ static void test_qemu_strtosz_invalid(void)
+>      err = qemu_strtosz(str, &endptr, &res);
+>      g_assert_cmpint(err, ==, -EINVAL);
+>      g_assert(endptr == str);
+> +
+> +    str = "1.1e5";
+> +    err = qemu_strtosz(str, &endptr, &res);
+> +    g_assert_cmpint(err, ==, -EINVAL);
+> +    g_assert(endptr == str);
+> +
+> +    str = "1.1B";
+> +    err = qemu_strtosz(str, &endptr, &res);
+> +    g_assert_cmpint(err, ==, -EINVAL);
+> +    g_assert(endptr == str);
+> +
+> +    str = "0x1.8k";
+> +    err = qemu_strtosz(str, &endptr, &res);
+> +    g_assert_cmpint(err, ==, -EINVAL);
+> +    g_assert(endptr == str);
+>  }
 
-I wonder is that load accessing a HW location? I suspect what is
-happening is we detect a io_readx/io_writex when ->can_do_io is not
-true. As HW access can only happen at the end of a block (because it may
-change system state) we trigger a recompile of that instruction and try aga=
-in.
+A test case to reject negative numers ?
 
-> Do you have any tips for debugging this further or ideas for ensuring the
-> callback is called only once for this instruction?
+> @@ -253,40 +264,66 @@ static int do_strtosz(const char *nptr, const char **end,
+>      int retval;
+>      const char *endptr;
+>      unsigned char c;
+> -    int mul_required = 0;
+> -    double val, mul, integral, fraction;
+> +    bool mul_required = false;
+> +    uint64_t val;
+> +    int64_t mul;
+> +    double fraction = 0.0;
+> 
+> -    retval = qemu_strtod_finite(nptr, &endptr, &val);
+> +    /* Parse integral portion as decimal. */
+> +    retval = qemu_strtou64(nptr, &endptr, 10, &val);
+>      if (retval) {
+>          goto out;
+>      }
+> -    fraction = modf(val, &integral);
+> -    if (fraction != 0) {
+> -        mul_required = 1;
+> +    if (strchr(nptr, '-') != NULL) {
+> +        retval = -ERANGE;
+> +        goto out;
+> +    }
+> +    if (val == 0 && (*endptr == 'x' || *endptr == 'X')) {
 
-If you also plant a memory callback you should only see one load
-happening for that instruction. Could you verify that?
+This works as an approach but it might be more clear to
+just check for hex upfront.
 
-> ----------------
-> IN:
-> 0xffffdd2f1d410250:  aa1e03e9  mov      x9, x30
-> 0xffffdd2f1d410254:  d503201f  nop
-> 0xffffdd2f1d410258:  a9bc7bfd  stp      x29, x30, [sp, #-0x40]!
-> 0xffffdd2f1d41025c:  910003fd  mov      x29, sp
-> 0xffffdd2f1d410260:  a90153f3  stp      x19, x20, [sp, #0x10]
-> 0xffffdd2f1d410264:  b000f2d3  adrp     x19, #0xffffdd2f1f269000
-> 0xffffdd2f1d410268:  911c4273  add      x19, x19, #0x710
-> 0xffffdd2f1d41026c:  a9025bf5  stp      x21, x22, [sp, #0x20]
-> 0xffffdd2f1d410270:  f000cad6  adrp     x22, #0xffffdd2f1ed6b000
-> 0xffffdd2f1d410274:  aa0003f5  mov      x21, x0
-> 0xffffdd2f1d410278:  f9409674  ldr      x20, [x19, #0x128]
-> 0xffffdd2f1d41027c:  913d42d6  add      x22, x22, #0xf50
-> 0xffffdd2f1d410280:  f9001bf7  str      x23, [sp, #0x30]
-> 0xffffdd2f1d410284:  91003297  add      x23, x20, #0xc
-> 0xffffdd2f1d410288:  91004294  add      x20, x20, #0x10
-> 0xffffdd2f1d41028c:  1400000d  b        #0xffffdd2f1d4102c0
->
-> ----------------
-> IN:
-> 0xffffdd2f1d4102c0:  b94002e2  ldr      w2, [x23]
-> 0xffffdd2f1d4102c4:  12002441  and      w1, w2, #0x3ff
-> 0xffffdd2f1d4102c8:  710fec3f  cmp      w1, #0x3fb
-> 0xffffdd2f1d4102cc:  54fffe29  b.ls     #0xffffdd2f1d410290
->
-> *** saw encoding 0xb94002e2 (@ 504107673 instructions)
-> ----------------
-> IN:
-> 0xffffdd2f1d4102c0:  b94002e2  ldr      w2, [x23]
->
-> *** saw encoding 0xb94002e2 (@ 504107674 instructions)
-> ----------------
-> IN:
-> 0xffffdd2f1d4102c4:  12002441  and      w1, w2, #0x3ff
-> 0xffffdd2f1d4102c8:  710fec3f  cmp      w1, #0x3fb
-> 0xffffdd2f1d4102cc:  54fffe29  b.ls     #0xffffdd2f1d410290
+  if (g_str_has_prefix("0x", val) ||
+      g_str_has_prefix("0X", val)) {
+      ... do hex parse..
+  } else {
+      ... do dec parse..
+  }
+      
 
-I think you can work around this in your callback by looking for a
-double execution but that exposes rather more of the knowledge of what
-is going on behind the scenes than we intended for the plugin interface.
-The point is you shouldn't need to know the details of the translator to
-write your instruments.
+> +        /* Input looks like hex, reparse, and insist on no fraction. */
+> +        retval = qemu_strtou64(nptr, &endptr, 16, &val);
+> +        if (retval) {
+> +            goto out;
+> +        }
+> +        if (*endptr == '.') {
+> +            endptr = nptr;
+> +            retval = -EINVAL;
+> +            goto out;
+> +        }
+> +    } else if (*endptr == '.') {
+> +        /* Input is fractional, insist on 0 <= fraction < 1, with no exponent */
+> +        retval = qemu_strtod_finite(endptr, &endptr, &fraction);
+> +        if (retval) {
+> +            endptr = nptr;
+> +            goto out;
+> +        }
+> +        if (fraction >= 1.0 || memchr(nptr, 'e', endptr - nptr)
+> +            || memchr(nptr, 'E', endptr - nptr)) {
 
-My initial thought is that maybe when we install the callbacks we should
-place them after translation if we know there is a guest load/store
-happening. However my concern is having such heuristics might miss other
-cases - could you see a load from HW indirect jump instruction for
-example? It also has the potential to get confusing when we add the
-ability to access register values.
+Can this be simplified ?  Fraction can be > 1, if-and only-if exponent
+syntax is used IIUC.
 
-I'll see if I can document the limitation for now though while we think
-about the best way forward.
+Shouldn't we be passing 'endptr+1' as the first arg to memchr ?
 
---=20
-Alex Benn=C3=A9e
+nptr points to the leading decimal part, and we only need to
+scan the fractional part.
+
+Also what happens with   "1.1e" - that needs to be treated
+as a exabyte suffix, and not rejected as an exponent. We
+ought to test that if we don't already.
+
+> +            endptr = nptr;
+> +            retval = -EINVAL;
+> +            goto out;
+> +        }
+> +        if (fraction != 0) {
+> +            mul_required = true;
+> +        }
+>      }
+>      c = *endptr;
+>      mul = suffix_mul(c, unit);
+> -    if (mul >= 0) {
+> +    if (mul > 0) {
+>          endptr++;
+>      } else {
+>          mul = suffix_mul(default_suffix, unit);
+> -        assert(mul >= 0);
+> +        assert(mul > 0);
+>      }
+>      if (mul == 1 && mul_required) {
+> +        endptr = nptr;
+>          retval = -EINVAL;
+>          goto out;
+>      }
+> -    /*
+> -     * Values near UINT64_MAX overflow to 2**64 when converting to double
+> -     * precision.  Compare against the maximum representable double precision
+> -     * value below 2**64, computed as "the next value after 2**64 (0x1p64) in
+> -     * the direction of 0".
+> -     */
+> -    if ((val * mul > nextafter(0x1p64, 0)) || val < 0) {
+> +    if (val > UINT64_MAX / mul) {
+>          retval = -ERANGE;
+>          goto out;
+>      }
+> -    *result = val * mul;
+> +    *result = val * mul + (uint64_t) (fraction * mul);
+>      retval = 0;
+> 
+>  out:
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
