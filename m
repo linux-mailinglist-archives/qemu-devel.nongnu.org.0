@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5570E310C9C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:38:26 +0100 (CET)
-Received: from localhost ([::1]:42466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982C6310C9D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:42:03 +0100 (CET)
+Received: from localhost ([::1]:47044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l82Fd-0005oz-DH
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:38:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40694)
+	id 1l82J7-0008TD-9L
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:42:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l82Ds-0004cw-5P
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:36:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29214)
+ id 1l82HZ-0007LW-4m
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:40:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l82Dq-0007U4-3y
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:36:35 -0500
+ id 1l82HV-0000iu-0Z
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:40:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612535793;
+ s=mimecast20190719; t=1612536020;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/vizd6mekfrRgm5TBdMWUobQtTY5rEIc5CyHj+U1/xQ=;
- b=HjNvuBpcHdPQTBIhdoq+VEHmF8HsQdC5/BI8EMe2Gvi5CzZRf55Khj3CELzy9Nr1E6MBDc
- Dt9RWGqqK2xQ6IbRkTIq+3nEPsfmEEqqLLwDmDSx+oTCwJPKOmTv9dBN1JKzeTwCtyXadt
- QkGGuJFpewA7Xj9ho1rpxldTNWF16fc=
+ bh=OY8ZHnb6wSHVmB8q5ewzSqnDYzyuyLwVXxT5xPYHYrY=;
+ b=OOYzDISz7nAgY16n2Vpz3qbbEh2J1SydaFFRvCMv54JAb7FHiDS3vKeuheeOylkf90kxcR
+ iFDTjHwG+DOPCSPjEUdRuPKOLRZicKuc1E+9NA3Y3RW6G/1bmGGle4Luj01LQ/l4N4lR7c
+ V1HPhmlkxXWBJo13r3VAiwyc7EYiwWo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-RWEtTU4gMs6UhGkdFSHvVQ-1; Fri, 05 Feb 2021 09:36:27 -0500
-X-MC-Unique: RWEtTU4gMs6UhGkdFSHvVQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-440-XKQXY_NVNL-SyVP-vU05LQ-1; Fri, 05 Feb 2021 09:40:18 -0500
+X-MC-Unique: XKQXY_NVNL-SyVP-vU05LQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71822100CCC0;
- Fri,  5 Feb 2021 14:36:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 686D28710E3;
+ Fri,  5 Feb 2021 14:40:17 +0000 (UTC)
 Received: from redhat.com (ovpn-114-212.ams2.redhat.com [10.36.114.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4227360937;
- Fri,  5 Feb 2021 14:36:23 +0000 (UTC)
-Date: Fri, 5 Feb 2021 14:36:20 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AEA3D10016F5;
+ Fri,  5 Feb 2021 14:40:15 +0000 (UTC)
+Date: Fri, 5 Feb 2021 14:40:12 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 1/3] utils: Improve qemu_strtosz() to have 64 bits of
- precision
-Message-ID: <20210205143620.GQ908621@redhat.com>
+Subject: Re: [PATCH 3/3] utils: Deprecate inexact fractional suffix sizes
+Message-ID: <20210205144012.GR908621@redhat.com>
 References: <20210204190708.1306296-1-eblake@redhat.com>
- <20210204190708.1306296-2-eblake@redhat.com>
- <20210205110206.GD908621@redhat.com>
- <1e2a3fbf-b501-403e-d472-3b114c6b18ea@redhat.com>
+ <20210204190708.1306296-4-eblake@redhat.com>
+ <20210205111036.GE908621@redhat.com>
+ <c257a78a-1cc4-9d29-ac2c-fb4b5d68e469@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1e2a3fbf-b501-403e-d472-3b114c6b18ea@redhat.com>
+In-Reply-To: <c257a78a-1cc4-9d29-ac2c-fb4b5d68e469@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,94 +85,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, rjones@redhat.com, tao3.xu@intel.com, armbru@redhat.com,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, rjones@redhat.com,
+ tao3.xu@intel.com, armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 05, 2021 at 08:27:14AM -0600, Eric Blake wrote:
-> On 2/5/21 5:02 AM, Daniel P. Berrangé wrote:
-> 
-> >>  /*
-> >> - * Convert string to bytes, allowing either B/b for bytes, K/k for KB,
-> >> - * M/m for MB, G/g for GB or T/t for TB. End pointer will be returned
-> >> - * in *end, if not NULL. Return -ERANGE on overflow, and -EINVAL on
-> >> - * other error.
-> >> + * Convert size string to bytes.
-> >> + *
-> >> + * Allow either B/b for bytes, K/k for KB, M/m for MB, G/g for GB or
-> >> + * T/t for TB, with scaling based on @unit, and with @default_suffix
-> >> + * implied if no explicit suffix was given.
-> >> + *
-> >> + * The end pointer will be returned in *end, if not NULL.  If there is
-> >> + * no fraction, the input can be decimal or hexadecimal; if there is a
-> >> + * fraction, then the input must be decimal and there must be a suffix
-> >> + * (possibly by @default_suffix) larger than Byte, and the fractional
-> >> + * portion may suffer from precision loss or rounding.  The input must
-> >> + * be positive.
+On Fri, Feb 05, 2021 at 08:28:31AM -0600, Eric Blake wrote:
+> On 2/5/21 5:10 AM, Daniel P. Berrangé wrote:
+> > On Thu, Feb 04, 2021 at 01:07:08PM -0600, Eric Blake wrote:
+> >> The value '1.1k' is inexact; 1126.4 bytes is not possible, so we
+> >> happen to truncate it to 1126.  Our use of fractional sizes is
+> >> intended for convenience, but when a user specifies a fraction that is
+> >> not a clean translation to binary, truncating/rounding behind their
+> >> backs can cause confusion.  Better is to deprecate inexact values,
+> >> which still leaves '1.5k' as valid, but alerts the user to spell out
+> >> their values as a precise byte number in cases where they are
+> >> currently being rounded.
 > > 
-> > Even though the test suite gives some illustrations, I think we should
-> > document here the patterns we're intending to support. IIUC, we aim for
+> > I don't think we should be deprecating this, as I think it makes
+> > it very user hostile.  Users who require exact answers, won't be
+> > using fractional syntax in the first place. IOW, by using fractional
+> > syntax you've decided that approximation is acceptable. Given that,
+> > I should not have to worry about whether or not the fraction I'm
+> > using is exact or truncated. It is horrible usability to say that
+> > "1.1k" is invalid, while "1.5k" is valid - both are valid from my
+> > POV as a user of this.
 > > 
-> > [quote]
-> > The size parsing supports the following syntaxes
 > > 
-> >  - 12345   - decimal, bytes
-> >  - 12345{bBkKmMgGtT} - decimal, scaled bytes
-> 
-> Yes.  Actually 12345{bBkKmMgGtTpPeE}, as long as it doesn't overflow 16E.
-> 
-> >  - 12345.678 - fractional decimal, bytes
-> 
-> No - this was already rejected prior to my patch, and my patch keeps it
-> as rejected (that's the whole mul_required bool, which checks whether
-> mul > 1).
-
-Oh yes, of course.
-
-> >  - 12345.678{bBkKmMgGtT} - fractional decimal, scaled bytes
-> 
-> Close; we reject bB in this situation for the same reason that we reject
-> fractional decimal without suffix.  Also, patch 3/3 was questioning
-> whether the fractional portion must be exact or is permitted to round
-
-Yep, rejecting bB makes sense.
-
-> 
-> >  - 0x7FEE  - hex, bytes
-> 
-> Yes, and with the additional note that 'E' and 'B' are treated as hex
-> digits, not scale suffixes, in this form.
-> 
 > > 
-> > The following are intentionally not supported
+> >> Note that values like '0.1G' in the testsuite need adjustment as a
+> >> result.
+> >>
+> >> Sadly, since qemu_strtosz() does not have an Err** parameter, we
+> >> pollute to stderr.
 > > 
-> >  - octal
+> > This is only an warning, so setting an Err ** would not be appropriate
+> > right now.
+> > 
+> > None the less we should add an Err **, because many of the callers
+> > want an Err ** object populated, or use error_report().
 > 
-> Never has worked.
-> 
-> >  - fractional hex
-> 
-> worked by accident, dropping it in this patch is not deemed worth a
-> deprecation period.
-> 
-> >  - floating point exponents
-> 
-> worked by accident, dropping it in this patch is not deemed worth a
-> deprecation period.
-> 
-> > [/quote]
-> 
-> and with one more form:
-> 
-> patch 2/3
->  - 0x123abc{kKmMgGtTpP} - hex, scaled bytes, with limited set of working
-> suffixes, and slated for future removal (this one is barely plausible
-> enough that we need the deprecation period to see who uses it)
+> That is more effort.  What's the consensus - is it important enough that
+> I should spend that effort getting rid of technical debt by adding
+> versions of qemu_strto* that take Err** at this point in time?
 
-Ok
+To be clear, I'm not requesting that you make it use Err** right now.
 
+I just raise it as an idea for future technical debt removal.
 
 Regards,
 Daniel
