@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E4931054D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:01:00 +0100 (CET)
-Received: from localhost ([::1]:46908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8303231055F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:02:50 +0100 (CET)
+Received: from localhost ([::1]:55298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7v6x-0006F3-Gw
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:00:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35488)
+	id 1l7v8j-0001KG-IX
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:02:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2r-000121-3m
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20347)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2s-00013Y-BB
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2n-00014h-0S
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:44 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2q-00016V-2J
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612508199;
+ s=mimecast20190719; t=1612508203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CUzrok0od2UniBYVQjVvxJRYbTpXZi0LWg4Ts0Ns92I=;
- b=TDvwlfkLwNPIdxh7+dOs1UqEXvKVdWIzn3V09KeO3h/d1kIqsnFP+m+1QC9O01A6MHL4ys
- etP0cgssw12hxy6O/bCaQBL225G16XuZxyOduOBfg/gLNAii2a3yXpIc3hS3Z2bWPnEtgi
- mysDkA53VDzzyQHxvI9tGC5pfr7+o+U=
+ bh=aeLBRC2kaQK4y9W3XGmrQ1Lmflzr0/i0Jg9ggrUC7d8=;
+ b=igGr15Qspk1HCZ5F6EHSRLWWdzEkChYB5+cYMXEjS1AByQMbYFtTNdEl/CTgAkvYlNaRAS
+ Y258wa0xcpE93O51wpuvtDwhuhl6q2JLCTgR7PGO8mWN+irwa66wuSfUa7CbuxRtjFfwUZ
+ P3yJMqzKBvH5yjtgtCgPzLKGa0R4ef4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-unoTkJOaNeidshzDHlV1Cw-1; Fri, 05 Feb 2021 01:56:38 -0500
-X-MC-Unique: unoTkJOaNeidshzDHlV1Cw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-250-NfshzEcSOparwJ99wUDNrQ-1; Fri, 05 Feb 2021 01:56:41 -0500
+X-MC-Unique: NfshzEcSOparwJ99wUDNrQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 263D280196C
- for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDEF2192CC44
+ for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:40 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
  [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F5CC60C9B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F7FF194A4;
  Fri,  5 Feb 2021 06:56:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7AE7D18003A0; Fri,  5 Feb 2021 07:56:20 +0100 (CET)
+ id 8554918003A1; Fri,  5 Feb 2021 07:56:20 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/24] qxl: set qxl.ssd.dcl.con on secondary devices
-Date: Fri,  5 Feb 2021 07:55:58 +0100
-Message-Id: <20210205065620.1726554-3-kraxel@redhat.com>
+Subject: [PULL 03/24] qxl: also notify the rendering is done when skipping it
+Date: Fri,  5 Feb 2021 07:55:59 +0100
+Message-Id: <20210205065620.1726554-4-kraxel@redhat.com>
 In-Reply-To: <20210205065620.1726554-1-kraxel@redhat.com>
 References: <20210205065620.1726554-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,30 +91,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-On secondary QXL devices, the console is only set on qxl.vga.con. But
-graphic_hw_update_done() is called with qxl.ssd.dcl.con.
+Asynchronous handlers may be waiting for the graphic_hw_update_done() to
+be called in this case too.
 
-Like for primary QXL devices, set qxl.sdd.dcl.con = qxl.vga.con.
-
+Fixes: 4d6316218 ("console: add graphic_hw_update_done()")
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210201201422.446552-2-marcandre.lureau@redhat.com>
+Message-Id: <20210201201422.446552-3-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/qxl.c | 1 +
+ hw/display/qxl-render.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 874bb8ad9e30..6784d32920c5 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -2266,6 +2266,7 @@ static void qxl_realize_secondary(PCIDevice *dev, Error **errp)
-                            qxl->vga.vram_size, &error_fatal);
-     qxl->vga.vram_ptr = memory_region_get_ram_ptr(&qxl->vga.vram);
-     qxl->vga.con = graphic_console_init(DEVICE(dev), 0, &qxl_ops, qxl);
-+    qxl->ssd.dcl.con = qxl->vga.con;
-     qxl->id = qemu_console_get_index(qxl->vga.con); /* == channel_id */
+diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
+index 3ce2e57b8feb..d28849b12176 100644
+--- a/hw/display/qxl-render.c
++++ b/hw/display/qxl-render.c
+@@ -181,6 +181,7 @@ void qxl_render_update(PCIQXLDevice *qxl)
+         qxl->mode == QXL_MODE_UNDEFINED) {
+         qxl_render_update_area_unlocked(qxl);
+         qemu_mutex_unlock(&qxl->ssd.lock);
++        graphic_hw_update_done(qxl->ssd.dcl.con);
+         return;
+     }
  
-     qxl_realize_common(qxl, errp);
 -- 
 2.29.2
 
