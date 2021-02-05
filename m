@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49823310FC3
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:18:51 +0100 (CET)
-Received: from localhost ([::1]:34966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5EFB310FC9
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:22:51 +0100 (CET)
+Received: from localhost ([::1]:43650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l85gv-00011o-SQ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:18:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46426)
+	id 1l85ko-0004kg-R3
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:22:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84Tp-0006y2-Rf
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:13 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35871)
+ id 1l84Ts-00071d-Qn
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:16 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84TQ-00046f-UU
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:13 -0500
-Received: by mail-wr1-x433.google.com with SMTP id u14so8485423wri.3
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:47 -0800 (PST)
+ id 1l84TS-00047W-Rx
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:16 -0500
+Received: by mail-wr1-x436.google.com with SMTP id 7so8520725wrz.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fbSQXUXJEDGMaGC9KOnv4xEcH7gCV3geuE6p5sgHfh8=;
- b=Hte+PatvB/wD6GEvkwc2+vBLqw6TWp5P6EGpVjHY6DYpftiUEYd0/TXuSJQqbe/smp
- fTwC12Hb6g84oP52inUgUXsuH8iVW/pXtLL3wD9D/3OHS4Q++PCN7rmuuxURTQhMGKvB
- omEv/5PVMGLYfnlOkdEtdQaFTdvfVIHzNWoMHlqJCv44zysIBrap5SbArmG0sLRpuaa2
- YxENM/axDVe+q64TGSmU0e/qoyGPiEdJkvMNdKHqVSXVDVVUYEoGYu3AlPg6O69UpV/a
- YFpusFTYkXTQOT//ERABnLC+O1Za485byjNDPX5F9mn8Yi+SrMkKd/2ZessTcJsihNUW
- RENg==
+ bh=saCU3fNa93sGe02vfYgHjxSHpcdvDyRLS+pyj+1uZRs=;
+ b=Vqi0kulHOqCCVtlemY34va18uaiYFHQQR5y+nmjaIJT5o7eW4bn/r7gMBzWWgofvYV
+ hW1+i67RTEeQAqhivgNzte/6UqMhoJSh5MeEC1Ta0znzvTyNUSd8QGW8jP8DVjvaOVIu
+ gTHKOPGZ5/vE1Ds2nYOR3ahc+1eSnLH1yKjuEOMSlVXKHgxQt9UFvtAn//8fVYSNEBlf
+ b8/4nbRoR6EOJRmFDG5NW9cmoKtNDIq/S6GhfY9qzLaBroLdv3Juz9kNQYs8DLdpMs0R
+ e5AZX0SUakA7IrRp/B4OYg6+XlA6SOTjoe3lQp7D5xuDed9pAf+8lDpl6DmTeVtTkYMJ
+ GSMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fbSQXUXJEDGMaGC9KOnv4xEcH7gCV3geuE6p5sgHfh8=;
- b=O83OFBWqeGEUU5oeRknF6ydg/IO4gWvswureK/2TrCpB+lUKH0nfIHop49gsAbwctR
- U4/60KyupUGRo+OgHJNa8kykZh4SUwebfFXBltlmOIaPOFKY8UmKTF8C0yvPRb9EjwVw
- nJImpBITv2WtNfzH90jhp5pVNy7cPpsTL0cHI4kmpGZjzDZjYjCTpAMLYdXoYlKA/TJV
- RI68JemrhaGabzPQhapGn8SmzksWvlFsHHxmMRtlN/i/MIgDCTAzlOjZj+DUo9zhUi2F
- wVUqJ+M2KWXaEbW9ShejlyGCsxzrU9XGiiHgGrpXXn3qAUPEza0q4c5YoclFZl7omk2q
- 5h5w==
-X-Gm-Message-State: AOAM531/IoJT8P/V8HQ8npXN4gflDw0WTgcQ5YCPJv79Puc1TzOnG2N9
- gKcHb2e8iqiu5vCK+HOvg7KqRw==
-X-Google-Smtp-Source: ABdhPJz+OXQX1Mq8/xcv3ZWn6/CIXW4Zo8KcjqH8sEoLPtDkyhOcVEuBSvih3ddxK48paaTFJVTKag==
-X-Received: by 2002:a5d:458a:: with SMTP id p10mr6085659wrq.168.1612544439505; 
- Fri, 05 Feb 2021 09:00:39 -0800 (PST)
+ bh=saCU3fNa93sGe02vfYgHjxSHpcdvDyRLS+pyj+1uZRs=;
+ b=SXI36a6vL99fT5jf49xIzcxzSGAOvZ0BSsbX+MJpj0fdiXd976P7oV07Qyj01CZnL/
+ lTRFdGuo2mekaJsb6DCtb0Q7RnGgCGV6mvgWejf1gEKRW/IeJL9l44JieplT8TNkEYao
+ DkDnPJB1v0UVBvb/bbxRpXbdPmBfoMQpIoFC/Oxx/tGugU68EE7yCKHEY3055lIOSIAv
+ MDzlJecXNhRyVkSp3xIoi8u32t4qSldrdJ1wxCTIJ1afoP0bwPkp+H8MdNquQp1hSlcD
+ Dk3rfRLPn0CSNzkmLoJq8lBjq+qXLhHhz64mFR4B6hzeqwLgeCD1xSzMm5YLtG+Twn9k
+ mYMw==
+X-Gm-Message-State: AOAM531lv2blUDK3nJP5kZADEQKIWhGwaUJml2xLbvWx2+nteY8nVLp3
+ B3GyPCfDjQwivtxom9uGocbu3w==
+X-Google-Smtp-Source: ABdhPJw/Q8zqSHNh1pF+QaNV1mDx9nGVciuno+RpjDrHeW8j9Br7yxhlwNEnoQiWNziB8e9icI1Xzw==
+X-Received: by 2002:adf:decf:: with SMTP id i15mr6010264wrn.405.1612544440245; 
+ Fri, 05 Feb 2021 09:00:40 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.38
+ by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 05 Feb 2021 09:00:39 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 22/24] hw/arm/mps2-tz: Provide PL031 RTC on mps3-an524
-Date: Fri,  5 Feb 2021 17:00:17 +0000
-Message-Id: <20210205170019.25319-23-peter.maydell@linaro.org>
+Subject: [PATCH 23/24] docs/system/arm/mps2.rst: Document the new mps3-an524
+ board
+Date: Fri,  5 Feb 2021 17:00:18 +0000
+Message-Id: <20210205170019.25319-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210205170019.25319-1-peter.maydell@linaro.org>
 References: <20210205170019.25319-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,69 +87,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN524 has a PL031 RTC, which we have a model of; provide it
-rather than an unimplemented-device stub.
+Add brief documentation of the new mps3-an524 board.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2-tz.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ docs/system/arm/mps2.rst | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index db1afa4bd22..27feb36616e 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -59,6 +59,7 @@
- #include "hw/misc/tz-msc.h"
- #include "hw/arm/armsse.h"
- #include "hw/dma/pl080.h"
-+#include "hw/rtc/pl031.h"
- #include "hw/ssi/pl022.h"
- #include "hw/i2c/arm_sbcon_i2c.h"
- #include "hw/net/lan9118.h"
-@@ -131,8 +132,8 @@ struct MPS2TZMachineState {
-     UnimplementedDeviceState gpio[4];
-     UnimplementedDeviceState gfx;
-     UnimplementedDeviceState cldc;
--    UnimplementedDeviceState rtc;
-     UnimplementedDeviceState usb;
-+    PL031State rtc;
-     PL080State dma[4];
-     TZMSC msc[4];
-     CMSDKAPBUART uart[6];
-@@ -595,6 +596,23 @@ static MemoryRegion *make_i2c(MPS2TZMachineState *mms, void *opaque,
-     return sysbus_mmio_get_region(s, 0);
- }
+diff --git a/docs/system/arm/mps2.rst b/docs/system/arm/mps2.rst
+index 8c5b5f1fe07..601ccea15cb 100644
+--- a/docs/system/arm/mps2.rst
++++ b/docs/system/arm/mps2.rst
+@@ -1,12 +1,15 @@
+-Arm MPS2 boards (``mps2-an385``, ``mps2-an386``, ``mps2-an500``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``)
+-================================================================================================================
++Arm MPS2 and MPS3 boards (``mps2-an385``, ``mps2-an386``, ``mps2-an500``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``, ``mps3-an524``)
++=========================================================================================================================================
  
-+static MemoryRegion *make_rtc(MPS2TZMachineState *mms, void *opaque,
-+                              const char *name, hwaddr size,
-+                              const int *irqs)
-+{
-+    PL031State *pl031 = opaque;
-+    SysBusDevice *s;
-+
-+    object_initialize_child(OBJECT(mms), name, pl031, TYPE_PL031);
-+    s = SYS_BUS_DEVICE(pl031);
-+    sysbus_realize(s, &error_fatal);
-+    /*
-+     * The board docs don't give an IRQ number for the PL031, so
-+     * presumably it is not connected.
-+     */
-+    return sysbus_mmio_get_region(s, 0);
-+}
-+
- static void create_non_mpc_ram(MPS2TZMachineState *mms)
- {
-     /*
-@@ -845,7 +863,7 @@ static void mps2tz_common_init(MachineState *machine)
+ These board models all use Arm M-profile CPUs.
  
-                 { /* port 9 reserved */ },
-                 { "clcd", make_unimp_dev, &mms->cldc, 0x4130a000, 0x1000 },
--                { "rtc", make_unimp_dev, &mms->rtc, 0x4130b000, 0x1000 },
-+                { "rtc", make_rtc, &mms->rtc, 0x4130b000, 0x1000 },
-             },
-         }, {
-             .name = "ahb_ppcexp0",
+-The Arm MPS2 and MPS2+ dev boards are FPGA based (the 2+ has a bigger
+-FPGA but is otherwise the same as the 2). Since the CPU itself
+-and most of the devices are in the FPGA, the details of the board
+-as seen by the guest depend significantly on the FPGA image.
++The Arm MPS2, MPS2+ and MPS3 dev boards are FPGA based (the 2+ has a
++bigger FPGA but is otherwise the same as the 2; the 3 has a bigger
++FPGA again, can handle 4GB of RAM and has a USB controller and QSPI flash).
++
++Since the CPU itself and most of the devices are in the FPGA, the
++details of the board as seen by the guest depend significantly on the
++FPGA image.
+ 
+ QEMU models the following FPGA images:
+ 
+@@ -22,12 +25,21 @@ QEMU models the following FPGA images:
+   Cortex-M3 'DesignStart' as documented in Arm Application Note AN511
+ ``mps2-an521``
+   Dual Cortex-M33 as documented in Arm Application Note AN521
++``mps3-an524``
++  Dual Cortex-M33 on an MPS3, as documented in Arm Application Note AN524
+ 
+ Differences between QEMU and real hardware:
+ 
+ - AN385/AN386 remapping of low 16K of memory to either ZBT SSRAM1 or to
+   block RAM is unimplemented (QEMU always maps this to ZBT SSRAM1, as
+   if zbt_boot_ctrl is always zero)
++- AN524 remapping of low memory to either BRAM or to QSPI flash is
++  unimplemented (QEMU always maps this to BRAM, ignoring the
++  SCC CFG_REG0 memory-remap bit)
+ - QEMU provides a LAN9118 ethernet rather than LAN9220; the only guest
+   visible difference is that the LAN9118 doesn't support checksum
+   offloading
++- QEMU does not model the QSPI flash in MPS3 boards as real QSPI
++  flash, but only as simple ROM, so attempting to rewrite the flash
++  from the guest will fail
++- QEMU does not model the USB controller in MPS3 boards
 -- 
 2.20.1
 
