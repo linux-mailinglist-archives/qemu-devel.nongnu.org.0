@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8E6310C11
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 14:46:28 +0100 (CET)
-Received: from localhost ([::1]:40482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E058E310C21
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 14:48:54 +0100 (CET)
+Received: from localhost ([::1]:43720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l81RL-00034k-7X
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 08:46:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58528)
+	id 1l81Th-0004qa-Vk
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 08:48:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l81Om-0001qY-MM
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:43:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31118)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l81S8-0004Px-Ry
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:47:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l81Ok-0000Y5-Qo
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:43:48 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l81S5-0002DA-Uq
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:47:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612532626;
+ s=mimecast20190719; t=1612532833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bX2i7rILP95x6Vz2HLUUAi5wnV35TybORxt2ovEJctA=;
- b=RgU1gyQJhAVKkF8VS0PFe6SUQHRD27VNYUIdUWvDZj40OgIB8YmjbDpZfEWtEaBWBs/JLF
- qUAE11VSq+GukXHHiKPPv5/op+Bi+2hME/j/Ip7T6Oc9N4/hENyQv/8bqWtQbxSerZ2ng0
- m2Df5Q+xd5+HKfoR3l7PcCTqQ6i6Cok=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-UTYIM4iOOdKqzndJnv-w5A-1; Fri, 05 Feb 2021 08:43:44 -0500
-X-MC-Unique: UTYIM4iOOdKqzndJnv-w5A-1
-Received: by mail-wr1-f72.google.com with SMTP id x7so5337957wrp.9
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 05:43:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bX2i7rILP95x6Vz2HLUUAi5wnV35TybORxt2ovEJctA=;
- b=kAZ8alCFjq2AZJf/41EAv0jTfGDwLpQpIlu6QECVGVkrl3yeisyQPOwtSShChKk31C
- cbcnmYsz+WKIJDeCLnwL10Go8rfs7jddGFlF2H4vf4CGYCsX+c+j444AkycLb6ggtldH
- w+3FbOe0ElSciqBTOWXdracIIaoIni0/Cs9/gJzgu7YPgPpuTGqfX18hhFLv5RbgtWtU
- rxGvrKHEL4Aj3aA6WM11xMgbQNl8ns7leoPYfXy7dMGpWzLeXoLRX9PO9KsoZ66KbcMS
- iS1BM107yz4nChfVaJ2XusanKokIwh++gVDJTCknX5EWjpDbEmLzGEMi2z/mmeCTgHDG
- 0czw==
-X-Gm-Message-State: AOAM5332Q6SW2S0/cKjkleUVCSZHbV7PTmGT31C/rfOy5PIvbHntd75P
- Eed4hcjfptI2BSsH+KXHugHXBr+31iUO81Sp7Kbn+7/Qav6fuTvWx1XRprqeA0OG0Ne6fgmVnX5
- fUvxkKBS420g29RA=
-X-Received: by 2002:a05:600c:4f02:: with SMTP id
- l2mr3565958wmq.67.1612532623439; 
- Fri, 05 Feb 2021 05:43:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwGxgxjE+sD0iHvbnDT2eHiNNVXLHOzluj3E8UYWFipzVW4ciHB8+vpRANCY9h7+As3Edj26A==
-X-Received: by 2002:a05:600c:4f02:: with SMTP id
- l2mr3565942wmq.67.1612532623273; 
- Fri, 05 Feb 2021 05:43:43 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id l10sm12298522wro.4.2021.02.05.05.43.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 05:43:42 -0800 (PST)
-Date: Fri, 5 Feb 2021 08:43:39 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH 3/3] virtio-net: graceful fallback to vhost=off for tap
- netdev
-Message-ID: <20210205084018-mutt-send-email-mst@kernel.org>
-References: <20210204202915.15925-1-yuri.benditovich@daynix.com>
- <20210204202915.15925-4-yuri.benditovich@daynix.com>
- <20210205083742-mutt-send-email-mst@kernel.org>
+ bh=m0hjfS0J+Q7y6F+CQx0R54Az6JkpFygfxPifthw7zf8=;
+ b=eby9toLyQuDJcDvzC9f+P5FGhlGg3TsmQ4IrXHwJotAj7NFwKe84pJB3KtCBKSehsNsVGh
+ x/AeVslAStnMFeBxHp5GBaySwCA5G6J1s3LIi0g0OeU2hwZyXNlhbN9nFUmSeJSA9+X1Sy
+ hSJF4wmaokZmXK+KYCXLmEqRzjVUxpo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-DQ8-A3rfP1WnE4v7rCh6sA-1; Fri, 05 Feb 2021 08:47:11 -0500
+X-MC-Unique: DQ8-A3rfP1WnE4v7rCh6sA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69C251007321;
+ Fri,  5 Feb 2021 13:46:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BE0C60843;
+ Fri,  5 Feb 2021 13:46:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9C1E9113865F; Fri,  5 Feb 2021 14:46:55 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH] monitor: trace qmp_send_response
+References: <20210204222444.22217-1-vsementsov@virtuozzo.com>
+ <874kir6j8e.fsf@dusky.pond.sub.org>
+ <57b5be3a-ce9f-51f8-9ac8-7baf20823723@virtuozzo.com>
+Date: Fri, 05 Feb 2021 14:46:55 +0100
+In-Reply-To: <57b5be3a-ce9f-51f8-9ac8-7baf20823723@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Fri, 5 Feb 2021 11:17:30 +0300")
+Message-ID: <87sg6azkxc.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210205083742-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -95,44 +81,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, jasowang@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 05, 2021 at 08:38:49AM -0500, Michael S. Tsirkin wrote:
-> On Thu, Feb 04, 2021 at 10:29:15PM +0200, Yuri Benditovich wrote:
-> > Currently virtio-net silently clears features if they are
-> > not supported by respective vhost. This may create migration
-> > problems in future if vhost features on the source and destination
-> > are different. Implement graceful fallback to no-vhost mode
-> > when some acked features contradict with vhost. The decision is
-> > taken on set_features call and the vhost will be disabled
-> > till next reset (or migration).
-> > Such fallback is currently enabled only for TAP netdev.
-> > 
-> > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> 
-> 
-> Sounds good, but I don't think we should do this if
-> vhostforce=on is set.
-> 
-> Also, let's document this behaviour with the vhost option so people
-> are not suprized.
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-Here's another thing that bothers me.
+> 05.02.2021 10:56, Markus Armbruster wrote:
+>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>> 
+>>> Add a useful counterpart for trace_handle_qmp_command for debugging
+>>> libvirt guests.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   monitor/qmp.c        | 6 ++++++
+>>>   monitor/trace-events | 1 +
+>>>   2 files changed, 7 insertions(+)
+>>>
+>>> diff --git a/monitor/qmp.c b/monitor/qmp.c
+>>> index 8f91af32be..772b9e7b30 100644
+>>> --- a/monitor/qmp.c
+>>> +++ b/monitor/qmp.c
+>>> @@ -111,6 +111,12 @@ void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
+>>>       const QObject *data = QOBJECT(rsp);
+>>>       GString *json;
+>>>   +    if (trace_event_get_state_backends(TRACE_QMP_SEND_RESPONSE))
+>>> {
+>>> +        json = qobject_to_json(data);
+>>> +        trace_qmp_send_response(mon, json->str);
+>>> +        g_string_free(json, true);
+>>> +    }
+>>> +
+>>>       json = qobject_to_json_pretty(data, mon->pretty);
+>>>       assert(json != NULL);
+>>>   diff --git a/monitor/trace-events b/monitor/trace-events
+>>> index 0365ac4d99..12f0576c7b 100644
+>>> --- a/monitor/trace-events
+>>> +++ b/monitor/trace-events
+>>> @@ -13,3 +13,4 @@ monitor_suspend(void *ptr, int cnt) "mon %p: %d"
+>>>   monitor_qmp_cmd_in_band(const char *id) "%s"
+>>>   monitor_qmp_cmd_out_of_band(const char *id) "%s"
+>>>   handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
+>>> +qmp_send_response(void *mon, const char *req) "mon %p req: %s"
+>> A slightly lazier version of this just landed in commit f680405f45
+>> "qmp:
+>> Add more tracepoints".  The difference is yours ignores mon->pretty for
+>> tracing.
+>> Thoughts?
+>> 
+>
+> Ah, missed this, great. Then, nothing to do.
+>
+> In our environment (I'm not sure who do it libvirt, or other our tool) different query- commands are called periodically and their output is big enough, so I decided to trace json in oneline.. Still better is developing a way to not trace some qmp commands and their output.
 
-At the moment we easily add new features, enabled by default,
-as long as kernels are consistent on source and destination
-everything works fine.
-
-With this patch first time we add a new feature that kernel
-does not support, vhost gets disabled. Given lots of people
-update their kernels less frequently than userspace,
-lots of users will start running with vhost off all of a sudden.
-
-Don't have good suggestions yet.
-
--- 
-MST
+Feel free to add features you find useful on top.
 
 
