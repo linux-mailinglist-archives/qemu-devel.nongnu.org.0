@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63BD310D23
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:26:42 +0100 (CET)
-Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D884F310D21
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:26:21 +0100 (CET)
+Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l830L-0006mP-Uy
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:26:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51726)
+	id 1l8300-00062n-V5
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:26:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1l82tC-0005t1-O6
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:19:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1l82t7-0000tX-FW
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:19:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612538350;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iqTAOZK9CE1PPCXsSwtDn6iyqomK+bZghLCsoaPe4GY=;
- b=ce1eEf/3R/Ns3iSeAqi6iZ8TvAsbHOAQLJpwYc1XOyu6Fzz+cdeTzUPmmVt39RMH2a75tR
- R9XoqctnKBJBaV7Z7F2SExJxZl2uUONHUDVnG6uxdvGbEPwcOSkBCsgVfNNcqmxQybB1Xp
- sPJUgOtFW6i/N1QV8DTgjIeQR5T9sOA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-mRrzRsjhPtaIPrTZP-vPsA-1; Fri, 05 Feb 2021 10:19:07 -0500
-X-MC-Unique: mRrzRsjhPtaIPrTZP-vPsA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFE24100A8EC;
- Fri,  5 Feb 2021 15:19:05 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.195.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 694C219C47;
- Fri,  5 Feb 2021 15:19:03 +0000 (UTC)
-Date: Fri, 5 Feb 2021 16:19:00 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 8/9] hw/arm/virt: Restrict 32-bit CPUs to TCG
-Message-ID: <20210205151900.7rqsv6evey6erfqh@kamzik.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l82tK-00069x-Fr; Fri, 05 Feb 2021 10:19:26 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:35791)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l82tI-0000uQ-Lr; Fri, 05 Feb 2021 10:19:26 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id g10so9238801eds.2;
+ Fri, 05 Feb 2021 07:19:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xs/h5pwcWBfMfXCSsJxrtS4LW+NHIjyZFcqK0jtcVIk=;
+ b=CyjGoyZ/RW6ORzJF/8kfOqu2W54R+Q6T7YAozjVUhXeA3Tshxhx355EacdIARXbIkj
+ tlcryGB9mBH7WpNl+yw6a9utlx7T5fdyMqdJaP7htOQt6ittyAw4/UFN2YFgEp+9JBOP
+ 9aDelGdWeludaldjKk5RoUcw627SnSGB18gEgwsdtFRu7wYqDvDaesVE6FyN/uzHN1iv
+ HXmejbN+NusbR6uQ6KqoXN6Zu6xZqitcy60lAHm0shhJcGZYJ+THw0Max3TKURKC4K9F
+ gVy9AjwT0puwLI+K/+iExRVKW+dVt8z9yDQC9EJ0U+9XSY/4Y3Qy7KjprcFJG1OWj5Lr
+ UM6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xs/h5pwcWBfMfXCSsJxrtS4LW+NHIjyZFcqK0jtcVIk=;
+ b=aEWBX2HkWvpaVMvqvvBiEterJPUmVcudRxAut0cyD+KuJ56aCJlOS6FPhL9FHepwOF
+ /F5zCVqmvAGsDitlejfY4u54QFchc52IMzYGJ5VTgxgU9Mx7d5Z4kfvmKXXOlCGfOzc8
+ cbtZjzBCwgJB17Yc4cT5f8YEO/W/13nYjhyfDtf7xo50CcEuH4JYiC4kCtVc8wy127dc
+ V1R6DM8ocrR0Bnv+kDb5v2OLro3pYJPQPJFkKh0fcey9voIoXVoqvcBVlymSll0RWUGv
+ gQKFDjht6sdSLXvaE1rTCyjaINHQBFUUJt5mHvN604tT5kqrF0RkBFHSeLFbHb9Z4vq6
+ gxMA==
+X-Gm-Message-State: AOAM530EJ/aAAaMUzLcP7s0yE6ar32oHFIQ+9p5WSAwSn5coTfiDt19S
+ 9w6HHPwBAzFCC65mm04a9v9IGVjx1Rw=
+X-Google-Smtp-Source: ABdhPJyNWpQc2n8paMZp+AnVgG5aS1rpDkouXtG9u02HxRSXzDUYr0tooqkOQq36OfMoJRP60wmuVA==
+X-Received: by 2002:aa7:d696:: with SMTP id d22mr3907185edr.361.1612538362528; 
+ Fri, 05 Feb 2021 07:19:22 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id z13sm4181575edc.73.2021.02.05.07.19.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Feb 2021 07:19:21 -0800 (PST)
+Subject: Re: [PATCH 4/9] tests/qtest/cdrom-test: Only allow the Virt machine
+ under KVM
+To: Andrew Jones <drjones@redhat.com>, Thomas Huth <thuth@redhat.com>
 References: <20210205144345.2068758-1-f4bug@amsat.org>
- <20210205144345.2068758-9-f4bug@amsat.org>
+ <20210205144345.2068758-5-f4bug@amsat.org>
+ <20210205150810.feuywlyy7xav56di@kamzik.brq.redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ed098234-3de6-9e25-e912-cfd64a1c9c5c@amsat.org>
+Date: Fri, 5 Feb 2021 16:19:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210205144345.2068758-9-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20210205150810.feuywlyy7xav56di@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.33,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,50 +90,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 05, 2021 at 03:43:44PM +0100, Philippe Mathieu-Daudé wrote:
-> Support for ARMv7 has been dropped in commit 82bf7ae84ce
-> ("target/arm: Remove KVM support for 32-bit Arm hosts").
-> Restrict the 32-bit CPUs to --enable-tcg builds.
+On 2/5/21 4:08 PM, Andrew Jones wrote:
+> On Fri, Feb 05, 2021 at 03:43:40PM +0100, Philippe Mathieu-DaudÃ© wrote:
+>> Only the Virt and Versal machines are supported under KVM.
+>> Restrict the other ones to TCG.
+>>
+>> Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
+>> ---
+>>  tests/qtest/cdrom-test.c | 5 ++++-
+>>  1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+>> index 5af944a5fb7..ac02f2bb4f1 100644
+>> --- a/tests/qtest/cdrom-test.c
+>> +++ b/tests/qtest/cdrom-test.c
+>> @@ -222,9 +222,12 @@ int main(int argc, char **argv)
+>>          add_cdrom_param_tests(mips64machines);
+>>      } else if (g_str_equal(arch, "arm") || g_str_equal(arch, "aarch64")) {
+>>          const char *armmachines[] = {
+>> +#ifdef CONFIG_TCG
+>>              "realview-eb", "realview-eb-mpcore", "realview-pb-a8",
+>>              "realview-pbx-a9", "versatileab", "versatilepb", "vexpress-a15",
+>> -            "vexpress-a9", "virt", NULL
+>> +            "vexpress-a9",
+>> +#endif /* CONFIG_TCG */
+>> +            "virt", NULL
+>>          };
+>>          add_cdrom_param_tests(armmachines);
+>>      } else {
+>> -- 
+>> 2.26.2
+>>
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/arm/virt.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index f5e4a6ec914..ab6300650f9 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -197,8 +197,10 @@ static const int a15irqmap[] = {
->  };
->  
->  static const char *valid_cpus[] = {
-> +#ifdef CONFIG_TCG
->      ARM_CPU_TYPE_NAME("cortex-a7"),
->      ARM_CPU_TYPE_NAME("cortex-a15"),
-> +#endif /* CONFIG_TCG */
->  #ifdef TARGET_AARCH64
->      ARM_CPU_TYPE_NAME("cortex-a53"),
->      ARM_CPU_TYPE_NAME("cortex-a57"),
-> -- 
-> 2.26.2
->
+> Don't we need to use a runtime check for this? I'd guess we can
+> build a QEMU that supports both KVM and TCG and then attempt to
+> run this test with KVM, which would still try all these other
+> machine types.
 
-So this filters the cpus out of KVM only builds, which seems
-reasonable to do. Of course, if the build is for both KVM and
-TCG, then the cpus won't be filtered out and we'll have to rely
-on the runtime checks to error out if one where to try a 32-bit
-cpu with KVM. But that's fine too, so
-
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-
-Thanks,
-drew
-
+Yes, I followed commit c51a5a23d87 fix ("qtest: unbreak non-TCG
+builds in bios-tables-test").
+We need that QMP 'query-accelerators' command then.
 
