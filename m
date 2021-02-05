@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02071310D2C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:31:55 +0100 (CET)
-Received: from localhost ([::1]:55832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCA0310D2E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:32:43 +0100 (CET)
+Received: from localhost ([::1]:56692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l835O-0002XS-1k
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:31:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53582)
+	id 1l836A-00030c-U0
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:32:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1l831r-0000kP-S7
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:28:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1l831o-0004jA-64
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:28:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612538890;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K0Ds7ZZK9fwS3VMmIYWHYAwwawmZc5Y1jd+Sf3GIklA=;
- b=Hhs/i7S9tq+nzNF/ZQnPf6mNb/wn+zVw13s44F5C3DXkBD5JEo9mmYsitUrBsEQgzgdzB3
- PlEEPthYGFPIzCrEu88D+G6n/mMqkkzCj0N6aPESl1i8BhqCdyZHVoUnts38RhrGVloEVa
- v+QKLQF/m2SBzVG+xiEUoRP9KvWEE8c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-PjeAto4gO_G6C9E9z8gEuQ-1; Fri, 05 Feb 2021 10:28:07 -0500
-X-MC-Unique: PjeAto4gO_G6C9E9z8gEuQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A39F0100AA27;
- Fri,  5 Feb 2021 15:28:05 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.195.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF1F360C5F;
- Fri,  5 Feb 2021 15:28:02 +0000 (UTC)
-Date: Fri, 5 Feb 2021 16:27:59 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 9/9] tests/qtest/arm-cpu-features: Restrict TCG-only
- tests
-Message-ID: <20210205152759.5vqfnpvelqbydwnu@kamzik.brq.redhat.com>
-References: <20210205144345.2068758-1-f4bug@amsat.org>
- <20210205144345.2068758-10-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <chirantan@google.com>)
+ id 1l8333-0001vl-E1
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:29:30 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:41866)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chirantan@google.com>)
+ id 1l8330-0005Bf-OE
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:29:29 -0500
+Received: by mail-ej1-x636.google.com with SMTP id f14so12521326ejc.8
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 07:29:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UQ0FvqEsvwhOk1J4aJRozU/5FhgB0VGKiDGGsG4//rw=;
+ b=Ab9CSnmhQzkZR/cpBXjY3+uocCQDKvCeWJ2Wz00b5LoSap8nsI6+fmijNjeHlg0Z4n
+ XCBY1dzAwTmXk3uzdZyJb7E3tXsC8yIyupAoqpzh0wcwN7/xFU5rPWLSAD00ZPbzMXCn
+ jFWc8TRG18Ru05TR7exOajo3NUy4zOdPTOVhU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UQ0FvqEsvwhOk1J4aJRozU/5FhgB0VGKiDGGsG4//rw=;
+ b=Hx56bEQw40weH0okC0gWQo155WVZh4Tm2eeXu99/eJ5XDG7SeVFq4aAJ9e3Qt03pWe
+ 6ihiq6Hhx4B9+iz9aAG/z8+OPKIh6J6KcldDUAJ9tnKBDFiNvr+ojYG6dKeV3jfMYZnK
+ ftbvtojRKhNnwXNTRF5wX8eyU4uoeJUOyFmA5/FkEL05OfTmvPiXCgL6llAZ2GSQmGpn
+ mz+jT1uTmAs6Q4NPGcRzhq5mJbXiZzep+/sABRH8ezgpF7bxDyY+k6gDtj1xVyEMFlLp
+ o0K1HrUwxqA4DWh0Ug0KmjqYwmjZb3iM39WC6OfTNE8hTlnBaxMnrpi9s6DKCeM1G4jW
+ uguw==
+X-Gm-Message-State: AOAM531ZUYw7HFvj62Lfk/MdpAtGiOOlySu5xeBp8k9QCqotwqfQhWp9
+ RSOF6AUObOTIWs/R2g3R5VNZLIcuTW7sQsIc9BDwYw==
+X-Google-Smtp-Source: ABdhPJy+n5T4noLuXUlz4IJwSviadqTlNl9uZlJ9y4YVp2b9WdQfkJLPWyolH6xFMd2vj/WvGe9obsu1hxFVMcK0pZY=
+X-Received: by 2002:a17:907:78d5:: with SMTP id
+ kv21mr4538731ejc.461.1612538963116; 
+ Fri, 05 Feb 2021 07:29:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210205144345.2068758-10-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210127112131.308451-1-stefanha@redhat.com>
+ <20210128184416.4dbdd23b@bahia.lan>
+ <20210201171440.GA180539@stefanha-x1.localdomain>
+ <20210201182215.GA221556@stefanha-x1.localdomain>
+In-Reply-To: <20210201182215.GA221556@stefanha-x1.localdomain>
+From: Chirantan Ekbote <chirantan@chromium.org>
+Date: Sat, 6 Feb 2021 00:29:11 +0900
+Message-ID: <CAJFHJrq9Miy91T1fmb9iSTYya7U7kwPNpX3y9pvL2JHW=eav=A@mail.gmail.com>
+Subject: Re: [Virtio-fs] [PATCH v3] virtiofsd: prevent opening of special
+ files (CVE-2020-35517)
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=chirantan@google.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,120 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
+ P J P <ppandit@redhat.com>, virtio-fs-list <virtio-fs@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Alex Xu <alex@alxu.ca>,
+ Laszlo Ersek <lersek@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 05, 2021 at 03:43:45PM +0100, Philippe Mathieu-Daudé wrote:
-> Some tests explicitly request the TCG accelerator. As these
-> tests will obviously fails if TCG is not present, disable
-> them in such case.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Cc: Roman Bolshakov <r.bolshakov@yadro.com>
-> Cc: Claudio Fontana <cfontana@suse.de>
-> 
-> RFC because of the TODO.
-> 
-> Roman posted a series to have a QMP command to query enabled
-> accelerators.
-> ---
->  tests/qtest/arm-cpu-features.c | 33 +++++++++++++++++++++++++++++----
->  1 file changed, 29 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-> index c59c3cb002b..c6e86282b66 100644
-> --- a/tests/qtest/arm-cpu-features.c
-> +++ b/tests/qtest/arm-cpu-features.c
-> @@ -20,7 +20,7 @@
->   */
->  #define SVE_MAX_VQ 16
->  
-> -#define MACHINE     "-machine virt,gic-version=max -accel tcg "
-> +#define MACHINE_TCG "-machine virt,gic-version=max -accel tcg "
->  #define MACHINE_KVM "-machine virt,gic-version=max -accel kvm -accel tcg "
-
-Should probably also drop the TCG fallback from MACHINE_KVM when
-TCG is not present and then find another way to confirm KVM is
-present in the kvm tests prior to calling qtest_init().
-
->  #define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
->                      "  'arguments': { 'type': 'full', "
-> @@ -41,6 +41,16 @@ static bool kvm_enabled(QTestState *qts)
->      return enabled;
->  }
->  
-> +static bool tcg_enabled(QTestState *qts)
-> +{
-> +    /* TODO: Implement QMP query-accel? */
-> +#ifdef CONFIG_TCG
-> +    return true;
-> +#else
-> +    return false;
-> +#endif /* CONFIG_TCG */
-> +}
-> +
->  static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
->  {
->      return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
-> @@ -352,7 +362,12 @@ static void sve_tests_sve_max_vq_8(const void *data)
->  {
->      QTestState *qts;
->  
-> -    qts = qtest_init(MACHINE "-cpu max,sve-max-vq=8");
-> +    qts = qtest_init(MACHINE_TCG "-cpu max,sve-max-vq=8");
-
-Won't this fail when TCG isn't present? If so, then the test will
-either have already aborted or at least qts can't be passed to
-tcg_enabled().
-
-> +
-> +    if (!tcg_enabled(qts)) {
-> +        qtest_quit(qts);
-> +        return;
-> +    }
->  
->      assert_sve_vls(qts, "max", BIT_ULL(8) - 1, NULL);
->  
-> @@ -387,7 +402,12 @@ static void sve_tests_sve_off(const void *data)
->  {
->      QTestState *qts;
->  
-> -    qts = qtest_init(MACHINE "-cpu max,sve=off");
-> +    qts = qtest_init(MACHINE_TCG "-cpu max,sve=off");
-> +
-> +    if (!tcg_enabled(qts)) {
-> +        qtest_quit(qts);
-> +        return;
-> +    }
->  
->      /* SVE is off, so the map should be empty. */
->      assert_sve_vls(qts, "max", 0, NULL);
-> @@ -443,7 +463,12 @@ static void test_query_cpu_model_expansion(const void *data)
->  {
->      QTestState *qts;
->  
-> -    qts = qtest_init(MACHINE "-cpu max");
-> +    qts = qtest_init(MACHINE_TCG "-cpu max");
-> +
-> +    if (!tcg_enabled(qts)) {
-> +        qtest_quit(qts);
-> +        return;
-> +    }
->  
->      /* Test common query-cpu-model-expansion input validation */
->      assert_type_full(qts);
-> -- 
-> 2.26.2
+On Tue, Feb 2, 2021 at 3:22 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> Hi Chirantan,
+> I wanted to bring this CVE to your attention because the discussion has
+> revealed a number of other issues (not necessarily security issues) in
+> virtiofsd that may also be present in other virtio-fs daemon
+> implementations.
 >
 
-Thanks,
-drew 
+Hi Stefan,
 
+Thanks for the heads up.  I'm going to summarize the thread just to
+make sure I understood correctly.
+
+The CVE seems to be that the virtio-fs daemon allows opening special
+files and the short-term fix is to detect and block this in the
+daemon.  The long term fix is to mount the data with
+nosuid,nodev,noexec.  I think crosvm's virtio-fs also doesn't check
+the file type before opening it but chrome os has mounted all stateful
+data as nosuid,nodev,noexec as long as I can remember so I think we
+got lucky there.  It's probably still worth adding the check to the
+server.
+
+The other issue is that there is a race between when an entry is
+created and when we look it up by name where it may be modified and
+replaced by an external process.  While I can see how this can be
+fixed for files, it seems like there's no choice for directories.
+It's not like mkdirat returns an fd for the newly created directory.
+Though, it seems like every process is affected by this.  I guess if
+you wanted to be really paranoid you could do something like mkdtemp,
+get an fd, and then rename to the real name.
+
+Did I miss anything?
+
+Thanks,
+Chirantan
 
