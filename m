@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12164311001
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:36:19 +0100 (CET)
-Received: from localhost ([::1]:46330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09BE311049
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:48:24 +0100 (CET)
+Received: from localhost ([::1]:45750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l85xq-0000oa-14
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:36:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51154)
+	id 1l869X-0004Nj-6Y
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:48:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l84l4-0000ww-U2
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:19:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l84l3-0003VP-5e
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:19:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612545540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9i8oDXDPeH/7jq3Qnbvz0BqQFc/V0wdV23pNv7JLEdc=;
- b=GLOyJa2LzrOf2JIzN8iWV2DoY9QzQ5/hn3NFm74GAO1sMFf3U6UaJMprOsiOGml9fTLmpC
- R+SglXlETKURVtyul+2G+t5HIwA2cAurL+awPX04hBoolFLXkTuXoi+Ye9OVyAKlPizMra
- JHVrc9nxgcXMdzNdDSd+tTFa26LJkRM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-AO34F-1NOmicY8tgioAo_A-1; Fri, 05 Feb 2021 12:18:58 -0500
-X-MC-Unique: AO34F-1NOmicY8tgioAo_A-1
-Received: by mail-ej1-f72.google.com with SMTP id dc21so7108968ejb.19
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:18:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l84ms-0002zg-HN; Fri, 05 Feb 2021 12:20:54 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:32851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l84mq-0004MZ-Df; Fri, 05 Feb 2021 12:20:54 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id sa23so13151442ejb.0;
+ Fri, 05 Feb 2021 09:20:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sLa712d/xvbAqL4rld7olUxpRSh3DprVkjC3mAOjcIQ=;
+ b=kskaPdt9G8TitmGISASC7aDEsV5Z02tnEuggcgwhF8FfwWzmUloh//WKgvGbppmtLq
+ z1yvgTS+oAClHi4SQEv0t266WJsvF3yZINXe2CLKPMfoCgLwL1SU4thN/MS4uHBCoM8p
+ Q1fi+5UcaFW5B4jz3G6nawqsecxEql1m1uW29BGJeFbiZCwv2TC7ZIeihSkmRTM079B+
+ kosid8F/2Uh28omk5xfr+8qCkelkjJMGRpGt32MLayMeH/p9NmLw/UXYT24/gCSh0JhY
+ 3fNjMwh9uElD/zlRtQ7OXo9eX+z+AHbj6ujmAklHW2eT27963Jv+xBDAaqToZGJ4ywTD
+ Pixg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9i8oDXDPeH/7jq3Qnbvz0BqQFc/V0wdV23pNv7JLEdc=;
- b=K2PQUI+KRgiL1gE73MfmLLZhappdQkabWpCugi+8sBcQclJ9ZkFJOas8CQ8sWWMOH4
- c2Mkuz5D7z/TfwoR6vi+6hGTd1vcqVXYAT7JfgtvijIIndOUkqzTcpj8k+Kzp1pSvyAj
- 9FpOTP+sVK8VgjwkFmMfyM3O4LAj1VrUNrj89lqXoOXmAHkN58+OHhCawpSVHUgMcFfg
- rNQCVvvyvRhOGY74GWNCChf4ZfIWzyqa0cNncbBbRSc5AmyRMrGwuXJkhzBLihQ+uNwf
- OLOT1a0a+oW+ADhGuAG+OQivaG7AH3zWcxl3BuHFqsp4p6qGl4E3X4Y46u8ICtBhO2Mk
- 7XSA==
-X-Gm-Message-State: AOAM531o/VTyMiPhas9e1b48Jv3+VfO03Cg/D7iVJQk7fUyUnPA/VLdN
- PzSOiy1gn0ZYvZNMQwGXEwBmUCPAZN5mFiHHK700/ozNF2uVL34wfNASySDPw9d90y/ZVDzAPd4
- wqYpu0xW1/620oBkjA7Vn/i/Xv2JdPYdXzTpH/RFBXuL4UhnJr45GuOnfa9F6AMCT
-X-Received: by 2002:a17:906:914a:: with SMTP id
- y10mr4898772ejw.33.1612545537312; 
- Fri, 05 Feb 2021 09:18:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxK/BymxXxj4/wtv/Oc/UeouB7c/+8o5EWtixz6ejzBOZKBVrb0PXXibQV9NReIEmN6AUyN1w==
-X-Received: by 2002:a17:906:914a:: with SMTP id
- y10mr4898743ejw.33.1612545537068; 
- Fri, 05 Feb 2021 09:18:57 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sLa712d/xvbAqL4rld7olUxpRSh3DprVkjC3mAOjcIQ=;
+ b=Ccjj8w7pjpUWy0uQVOA8Igh0J4xlOULNlwlS0q6skKVG1jxJ1HcJNoEqKe59zR3d1a
+ C/2ippavPLg4QdGZmnwBqMnsZVefHRPl2ccHc6Zqg7sREqDr10txCLvpQ7VC1KyEoPRD
+ pE+bF/Grg5OF9auHLxbFD/Zmx53KKPQA9RNuA9SpePuiF1iLCLtaX5X1b0r7ozK7z6Qd
+ zZoGSrb0FeBT/X4I1tZurJ9fOt53YQV2FKKiPki4S2roNV+ozU0TGpCY4f9Hge8Dy36H
+ 3F7ltMulzV/kqmflwufsI4QOjwC0CIC5FC9lQDqYdChoWm3glBmYIJstceU2lsnJC9NM
+ XYQA==
+X-Gm-Message-State: AOAM531zwfz2NzSZdO3lDS7Slatgo0UlNW3+Q52Kr7KxVNnPp9Rg06GK
+ xbqUIZ9zKnf7JaUnVAKcw5w=
+X-Google-Smtp-Source: ABdhPJwnmznYjzZGxI9p8kI7tsVaa1Xps9weoZUCe64SAiTHSqGjFRYRGHAsOABITTDDt6zDpYs/vA==
+X-Received: by 2002:a17:906:6d94:: with SMTP id
+ h20mr5174124ejt.231.1612545649071; 
+ Fri, 05 Feb 2021 09:20:49 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id cb21sm4297128edb.57.2021.02.05.09.18.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 09:18:56 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/8] qemu-options: Replace the word 'blacklist'
-Date: Fri,  5 Feb 2021 18:18:15 +0100
-Message-Id: <20210205171817.2108907-7-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210205171817.2108907-1-philmd@redhat.com>
-References: <20210205171817.2108907-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id df15sm4175753edb.24.2021.02.05.09.20.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Feb 2021 09:20:48 -0800 (PST)
+Subject: Re: [PATCH 2/9] tests/qtest: Restrict xlnx-can-test to TCG builds
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210205144345.2068758-1-f4bug@amsat.org>
+ <20210205144345.2068758-3-f4bug@amsat.org>
+ <CAFEAcA99NTiq+a7ZLiVVEbvpe0mgOcmrKrQLTHZeQ9ndNLOb8A@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <62f48e45-c333-a004-e98a-7a7d977eef87@amsat.org>
+Date: Fri, 5 Feb 2021 18:20:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAFEAcA99NTiq+a7ZLiVVEbvpe0mgOcmrKrQLTHZeQ9ndNLOb8A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.33,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,52 +89,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Otubo <otubo@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Michael Roth <michael.roth@amd.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vikram Garhwal <fnu.vikram@xilinx.com>, Qemu-block <qemu-block@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>, Andrew Jones <drjones@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow the inclusive terminology from the "Conscious Language in your
-Open Source Projects" guidelines [*] and replace the word "blacklist"
-appropriately.
+On 2/5/21 5:57 PM, Peter Maydell wrote:
+> On Fri, 5 Feb 2021 at 14:43, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> The Xilinx CAN controller test is uses the ZCU102 board which is
+>> based on a ZynqMP SoC. In the default configuration - used by this
+>> test - this SoC creates 2 Cortex R5F cores. Such cores are not
+>> v8A archicture, thus can not be run under KVM. Therefore restrict
+>> this test to TCG.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> Cc: Alistair Francis <alistair@alistair23.me>
+>> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+>> Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
+>> ---
+>>  tests/qtest/meson.build | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+>> index c83bc211b6a..d8ebd5bf98e 100644
+>> --- a/tests/qtest/meson.build
+>> +++ b/tests/qtest/meson.build
+>> @@ -159,10 +159,10 @@
+>>    (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
+>>    (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+>>    (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+>> +  (config_all.has_key('CONFIG_TCG') ? ['xlnx-can-test'] : []) +  \
+>>    ['arm-cpu-features',
+>>     'numa-test',
+>>     'boot-serial-test',
+>> -   'xlnx-can-test',
+>>     'migration-test']
+> 
+> The implementation in hw/net/can/meson.build is conditioned on
+> CONFIG_XLNX_ZYNQMP -- does it work to use that here too?
 
-[*] https://github.com/conscious-lang/conscious-lang-docs/blob/main/faq.md
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-v2: Reword (danpb)
----
- qemu-options.hx | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/qemu-options.hx b/qemu-options.hx
-index c09c4646e28..5f86cd2fbbf 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4274,12 +4274,12 @@ DEF("sandbox", HAS_ARG, QEMU_OPTION_sandbox, \
-     "                use 'obsolete' to allow obsolete system calls that are provided\n" \
-     "                    by the kernel, but typically no longer used by modern\n" \
-     "                    C library implementations.\n" \
--    "                use 'elevateprivileges' to allow or deny QEMU process to elevate\n" \
--    "                    its privileges by blacklisting all set*uid|gid system calls.\n" \
-+    "                use 'elevateprivileges' to allow or deny the QEMU process ability\n" \
-+    "                    to elevate privileges using set*uid|gid system calls.\n" \
-     "                    The value 'children' will deny set*uid|gid system calls for\n" \
-     "                    main QEMU process but will allow forks and execves to run unprivileged\n" \
-     "                use 'spawn' to avoid QEMU to spawn new threads or processes by\n" \
--    "                     blacklisting *fork and execve\n" \
-+    "                     blocking *fork and execve\n" \
-     "                use 'resourcecontrol' to disable process affinity and schedular priority\n",
-     QEMU_ARCH_ALL)
- SRST
--- 
-2.26.2
-
+Yes. Thanks, clever idea :)
 
