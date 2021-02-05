@@ -2,68 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5652D310D9E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:08:48 +0100 (CET)
-Received: from localhost ([::1]:53890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF6D310D9B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:07:51 +0100 (CET)
+Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l83f5-0003Yw-9M
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:08:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33220)
+	id 1l83eA-0003yA-Tl
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:07:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1l83aT-0000F9-72
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:04:01 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:33700)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l83cl-0002zM-85; Fri, 05 Feb 2021 11:06:23 -0500
+Received: from mail-vi1eur05on2098.outbound.protection.outlook.com
+ ([40.107.21.98]:18817 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1l83aP-0003tK-T3
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:04:00 -0500
-Received: from [192.168.61.100] (lfbn-lyo-1-447-149.w2-7.abo.wanadoo.fr
- [2.7.4.149])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 1F4B320777;
- Fri,  5 Feb 2021 16:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1612541034;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CZ2BEuHaw9B0CttOW9AfgyPpCwFxGFcabF0O0pd9owM=;
- b=q2f8YXeNPPghSea3sh5Rw7ffYSnT/JGMG5wadObRmutaygyXEb4BudOyksW6lP/RrsJeyk
- JgDdOgIQRbO/+cgYzqWPbEpQ182RgZ0q8I81uFGvz+hFcvG8OfnAhOglrMXdH/Mr1413Sk
- LeCChOK1p3/7WSx+338RAuxDNSgPQOs=
-Subject: Re: About creating machines on the command line
-To: John Snow <jsnow@redhat.com>, Alexander Graf <graf@amazon.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Nikos Dragazis <ndragazis@arrikto.com>,
- Maxime Coquelin <maxime.coquelin@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Andra-Irina Paraschiv <andraprs@amazon.com>,
- "John G. Johnson" <john.g.johnson@oracle.com>,
- Jan Kiszka <jan.kiszka@siemens.com>
-References: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
- <93e41283-ec7c-4c2b-dcfd-9e0e7a2e435c@amsat.org>
- <497eb0f5-a308-7a10-37ef-5fcc3ec21b8a@amazon.com>
- <5fcd9231-2579-4829-862b-e23bdd184ac5@redhat.com>
-From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <88f9098a-fd13-0fe5-004e-590f60848621@greensocs.com>
-Date: Fri, 5 Feb 2021 17:04:22 +0100
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l83cg-0005CH-C6; Fri, 05 Feb 2021 11:06:21 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EdNLUoAOL+9fWwvOLGIEGlJLe1TvJuFCIEJeuHRIVj6sQp0aNRSk87rQdQ6WB2CB8ZOEEAds8LoR4Ug2FsnP8pHcmnIeXjUc/kwonkGaXYw9jkbJLE7G7DPgruva58C1mfgHxdHRaoZ+Hxn3O3g+iGE43xH2rLYOESZ8P8zcA+ATb2dRsoH6DEUj6ERkCAnChFDNhQyAonffPEUUEAybQ+1V7Ibaih2MJZUoT2SsBIS9JO/g0DMR9yOrnPijlXxRwH5dwe79TARP5lMBGKMNrpXD8APfwndRg4UkBYDAEOd8t7zAmuz5QOQn6P+JyISRTSMFdpHJRlBC0HWe24J0kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QII9fBwy9dg2YYlSOsN/jXDH7R4zkZaEQ8YcUUaeDgM=;
+ b=Pkjjd/RrQBrhm2eYG78LuvT9vzdUwvseybSZNvVDF5kvNs1F+M3LYHMmvQIYfs5YiDKPV+sdk89sVkYsTQKHwjkJ+I8RZc2mh4hGfIyDhNn49u4Kw5eUWRXll3RMHBU2f3am4uZdM1ikklaBIpHyNALqmXGljgMMKjXYwJL40OZ/ONIetVHUuMXIQQpLGhPHMoz4b7+XDJTnFUwQloZ1BX1lHhLoKrZhZHuFmGOEjFHzfn3/I1VCvAHesik3HowNKQ1OCF6XHZTu1M/tdTd3QRGq63JDvZMguKvbF6lBTJ/3jKWMT1wlb3ecvnnWKJMU/fDaJBPIdlAXZz2kjPVHpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QII9fBwy9dg2YYlSOsN/jXDH7R4zkZaEQ8YcUUaeDgM=;
+ b=dN81JyCvcQA7Y3ivIeyapCCFukdfTbK7U31wOuSDxgAgqpHPdeix8CzRsGi5UwTAF/anarxWEF1ZAM0iGzCqSrGNBsF3s2pHJPcBkQWG3ATDCASNU6h4NEI7OOI8UTL2ITB4Mk/uIOQK2AD6gI4VHq3k9FNuGCZkdNLl0RzQVHM=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6376.eurprd08.prod.outlook.com (2603:10a6:20b:33e::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19; Fri, 5 Feb
+ 2021 16:06:13 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Fri, 5 Feb 2021
+ 16:06:13 +0000
+Subject: Re: [PATCH v2 28/36] block: add bdrv_set_backing_noperm() transaction
+ action
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, mreitz@redhat.com, den@openvz.org
+References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+ <20201127144522.29991-29-vsementsov@virtuozzo.com>
+ <20210205140028.GC7072@merkur.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <9fe6a325-4af7-5d97-fc0d-06911f7c677a@virtuozzo.com>
+Date: Fri, 5 Feb 2021 19:06:10 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-MIME-Version: 1.0
-In-Reply-To: <5fcd9231-2579-4829-862b-e23bdd184ac5@redhat.com>
+ Thunderbird/78.7.0
+In-Reply-To: <20210205140028.GC7072@merkur.fritz.box>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.213]
+X-ClientProxiedBy: AM3PR05CA0150.eurprd05.prod.outlook.com
+ (2603:10a6:207:3::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.213) by
+ AM3PR05CA0150.eurprd05.prod.outlook.com (2603:10a6:207:3::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.17 via Frontend Transport; Fri, 5 Feb 2021 16:06:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3f204e96-672e-43bc-643e-08d8c9eff581
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6376:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6376C0250DD05CBD2A9FD676C1B29@AS8PR08MB6376.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ENbT4/oPomIXdyXcq0uviWgRIfiV7j5Pmosm5qtmIYiUuYtdxMTTipm2JuPDHpbW3NSwkPUQaJ4tzcii8r0Kh+81NiCrYoMxIPR1QQDJzVpNSG0MUuvPaViTfIeSuFert7/UOTtOqUUbs9ryTKUKCpm+AoJ41GzvCs4pKjWl+VJBIxmWCIa2bvHhxkyx9MMaTJCDZW4J+/h0poQYESWB+4USUjmb8Y+CVzsiFoTkLi4Lku46baQCbMs7xXTYDeZwPqvESBUJ2l+KWhxw/RG5DUhm4T6/SqvXeC7xK3HfW/Btcr60xKd1Cq08XWIiq9VOQMh9CJybeabwHkSMfWjQYd1HXwvnET0zUKO4mH3NXORPNfYnFS7jdo7QMQQSvkLwc4bn9Av+X4efKIg2+hIPDD/rTVrHRJjz24aFsjzK0ri5VXh9iAjgJU0O4HMIizM6el4qz0cSWqlgJv8cdHZYRTHRucnO7mOaXVbmz8/06896hYtETCG58m4OxlpfmyHY0tc/gmqxOeErWNIVI+M6TrWis21eACHThnNwKHp+5QHPErimwBYj9sFHovRWvWJhkacbL1Gt6H5MaPft2k2y1JbRmWW3v/0zEpsAvbAdnZo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39840400004)(396003)(346002)(376002)(366004)(86362001)(8676002)(83380400001)(36756003)(6486002)(8936002)(66556008)(66946007)(31686004)(2616005)(16576012)(4326008)(16526019)(956004)(107886003)(478600001)(186003)(5660300002)(2906002)(316002)(52116002)(31696002)(6916009)(26005)(66476007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VFRGUW1zSm13YWhIbGR6WkwrcFNqMW9sUVpPSWxjbmxFYjhDV3crR1oxOXkv?=
+ =?utf-8?B?Zk5ndU5XdWt5ZGlBVkxTOURRRzNQSlRxOUxuY3hyYldSYmFrUHR2ckxBVFJj?=
+ =?utf-8?B?VU4zZnpRcGx3bGFUblR6eTA3QlhjekZ5bTdiNmhvRXgxTWxXdk8zWElZUXc2?=
+ =?utf-8?B?ZSs2cXJTVjFsd0dFOHYwZ29jdTlHTzNZdmJGcTlHZjE5WC9uSHdXSlF2MzNJ?=
+ =?utf-8?B?YVdNU1lNb2ljYk9OM1FraFBOVFJpWHM1UzUvWHBnM3lhUDc1NXVmaEdsRHhz?=
+ =?utf-8?B?WlJIRGpmZzA5enN6ZmpsYU9hRFBUOWhhaDhLb0xvZExMOXB0ZTBXaGhxZ1lh?=
+ =?utf-8?B?UkhreG1lVnNjeitTUFRXUkFpd1BDQXZ6d1g5MjhadGJxQzh0N0Ewd2NXNmFQ?=
+ =?utf-8?B?UWVGemdPc01mcFFkQ0hGR1lKYzVSdTNCTStJdFlOclJyK3MxYkNnTHU1Sm9L?=
+ =?utf-8?B?cWthSUpSOE9pTUtIbXo2MWQwdnFFbjg4L3FKdnJoa2Jkdk9jSnJ3WGtMVjMz?=
+ =?utf-8?B?d3pEVllVSk1YYUc4MUhoVUYyb25rMno3OExVYUpxUGFQQTRSV0FEU3p3R3Vm?=
+ =?utf-8?B?alY0Q01jYXVhVVN4UXRvMEVLNEZONWczbC82UUowTzhhZjFuYUJqYlNjVWx5?=
+ =?utf-8?B?V0lCU0dIdXlCSkM3TGZzM2pkT2pFcG1zUjlXWUFWdGJQZUVhbFc3V01mQTYw?=
+ =?utf-8?B?OEJTT1FHY1hHQVlUenhFV0pzU29qeE5MVnBzbGZOdzdyV1JhWUZXVUxtYnho?=
+ =?utf-8?B?eUlzekM5bTV6OENDbDZjN3l6RGgrKzlMUzdjbHRrNXNGcVdxR0pUY2ZvL1VJ?=
+ =?utf-8?B?VFUrM0FuSU5USVBrTlJNYXdqMTBrWlZ6U08wdml6alg4TG11ZVdlWDdTdXhO?=
+ =?utf-8?B?d2xFWklvOS9HRFRzZWJsYXZCc1VBV2RCSXNxazk5dVVzcVJ1Yy91ZUE2ZERt?=
+ =?utf-8?B?V3FveU9NS1ZKL2lSN2VSYnA3UEU2Z1JQaG4yOGE1Q0U5STQ0NXo3K3NPUWdY?=
+ =?utf-8?B?b3E3TXZMN3pnRzFYdy9jSmRON3lkMmdleVA2ZFlwM2RNMjBFOHhnZlUra2pk?=
+ =?utf-8?B?YjJCbHlGa0lKMmJrWFZNZ0lybE1vNDEwU2kwUE40S0x0QjZxMUwvU1ZaSzJP?=
+ =?utf-8?B?cnNhRWd5b0pwVkZJZm03bTEwZVVCNzNJN0hzd3BsVUVMb0ZQbmtXYnVwNjhx?=
+ =?utf-8?B?MDhDOFZzS3JvMTRFLytIOHZxUmt0RG9ZWVJkMFc4b011Rk0yY3Y3SU40M2xp?=
+ =?utf-8?B?UG9JZWJWRmpRdlIyM014Z09IUjR6SVpFUE1HTGpmZkMzSmhuaW9lV1lQU2Y2?=
+ =?utf-8?B?OWxNUlpmYWh5NXFZUUlqU0ZIaUhOQTZpMWRlUS9DOFZsZlVEMEQxU0VkYnlZ?=
+ =?utf-8?B?WVFGanZRaDh6NWVuSHJZUWtkQk5xbkhOMERmOE5TaTVWYnplcHJHV1c0aW5V?=
+ =?utf-8?B?dUxzaVExYXNuL2hQVTU4dmJ3UVFpYTB6Z1Vxc0ZuaG5TZStGaHdjMmZDVTNP?=
+ =?utf-8?B?cXR3U3hOWVJlVnI2TUZEd0ZzZHlDRUpWY1FvajVBVXdmaDJZY2JYR2lzaWtK?=
+ =?utf-8?B?Vkd1RU9Mdm42V3Iyb2luZHN5aE5NNjlCcWdFOXdFamJ3RUdBTGM2cXNlY0Uw?=
+ =?utf-8?B?RzZwa2dYNUt2VXFXTk9FZWpJMi9OR21FeGtQbEV3cnJ0aHZFdVgvMG5OcjRo?=
+ =?utf-8?B?MFBsRER0cDJtNFU2Tzlvb2h5WE1Rci9ocHJ4YjdTQTdXWnhJcS9DOGZ3c1Bi?=
+ =?utf-8?Q?8CMv99z1jTPwpt5DEaHjPNdtYR1ahLoWG0/EMu0?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f204e96-672e-43bc-643e-08d8c9eff581
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 16:06:12.9176 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: v3HqpU8+s4CrGNGPelPBeVhiZtgbILsifgCffuw5a/hbK17I9JH9CDLAKpNvmSIWfeumxXsLyr4BLy2DGeuws7Kw4AAYJCJBYT8XduQ88+A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6376
+Received-SPF: pass client-ip=40.107.21.98;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.33,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,263 +147,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- berrange@redhat.com, sam.grove@sifive.com,
- Mark Burton <mark.burton@greensocs.com>, richard.fuhler@sifive.com,
- armbru@redhat.com, edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 9:29 PM, John Snow wrote:
-> On 2/3/21 12:09 PM, graf--- via wrote:
+05.02.2021 17:00, Kevin Wolf wrote:
+> Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> Split out no-perm part of bdrv_set_backing_hd() as a separate
+>> transaction action. Note the in case of existing BdrvChild we reuse it,
+>> not recreate, just to do less actions.
 >>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block.c | 111 +++++++++++++++++++++++++++++++++++++++++++++-----------
+>>   1 file changed, 89 insertions(+), 22 deletions(-)
 >>
->> On 03.02.21 17:55, Philippe Mathieu-Daudé wrote:
->>>
->>> On 1/11/21 3:50 PM, Luc Michel wrote:
->>>> Hi,
->>>>
->>>> We would like to work on improving QEMU to be able to create custom
->>>> machines from the command line. The goal here is to get feedback from
->>>> the community and shape the future developments.
->>>
->>> Cc'ing John who is working on command line, and some developers from
->>> the "inter-VM device emulation interface" call.
->>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg723252.html
->>>
+>> diff --git a/block.c b/block.c
+>> index 54fb6d24bd..617cba9547 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -101,6 +101,7 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
+>>                                       uint64_t perm, uint64_t shared_perm,
+>>                                       void *opaque, BdrvChild **child,
+>>                                       GSList **tran, Error **errp);
+>> +static void bdrv_remove_backing(BlockDriverState *bs, GSList **tran);
+>>   
+>>   static int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue
+>>                                  *queue, Error **errp);
+>> @@ -3194,45 +3195,111 @@ static BdrvChildRole bdrv_backing_role(BlockDriverState *bs)
+>>       }
+>>   }
+>>   
+>> +typedef struct BdrvSetBackingNoPermState {
+>> +    BlockDriverState *bs;
+>> +    BlockDriverState *backing_bs;
+>> +    BlockDriverState *old_inherits_from;
+>> +    GSList *attach_tran;
+>> +} BdrvSetBackingNoPermState;
 > 
-> I have a bunch of extremely naive questions about what it would take to 
-> generalize this kind of interface; my familiarity is largely with x86 
-> and so I actually just have a series of very basic questions about the 
-> scope of this work.
+> Why do we need the nested attach_tran instead of just including these
+> actions in the outer transaction?
 > 
->>>>
->>>> The use case mainly comes from people working with tools to customize
->>>> their designs, such as SiFive Core Designer
->>>> (https://scs.sifive.com/core-designer). This kind of tools may allow
->>>> creation or customization of a whole SoC, from the number of cores, to
->>>> the memory and IRQ mapping of peripherals etc.
->>>>
->>>> The ultimate goal would be to be able to create any kind of machine on
->>>> the command line. However we are aware that this is a substantial 
->>>> amount
->>>> of changes in QEMU.
->>
->> Is the command line really the right abstraction level here? Wouldn't 
->> it make more sense to have a QOM / <scripting language> bridge that 
->> allows you to create and connect QOM objects using for example Python?
->>
->> You could then have machine descriptions in a script, which could be 
->> generated by the SoC customization tools.
->>
->> In combination with plugin support for platform devices, that should 
->> allow pretty much any customization you would need to happen, no?
->>
->>
->> Alex
->>
+>> +static void bdrv_set_backing_noperm_abort(void *opaque)
+>> +{
+>> +    BdrvSetBackingNoPermState *s = opaque;
+>> +
+>> +    if (s->backing_bs) {
+>> +        s->backing_bs->inherits_from = s->old_inherits_from;
+>> +    }
+>> +
+>> +    tran_abort(s->attach_tran);
+>> +
+>> +    bdrv_refresh_limits(s->bs, NULL);
+>> +    if (s->old_inherits_from) {
+>> +        bdrv_refresh_limits(s->old_inherits_from, NULL);
+>> +    }
 > 
-> Right, I am just reading this proposal as "We want an interface language 
-> that allows us to construct more arbitrary configurations."
+> How is bs->inherits_from related to limits? I don't see a
+> bdrv_refresh_limits() call in bdrv_set_backing_noperm() that this would
+> undo.
+> 
+>> +}
+>> +
+>> +static void bdrv_set_backing_noperm_commit(void *opaque)
+>> +{
+>> +    BdrvSetBackingNoPermState *s = opaque;
+>> +
+>> +    tran_commit(s->attach_tran);
+>> +}
+>> +
+>> +static TransactionActionDrv bdrv_set_backing_noperm_drv = {
+>> +    .abort = bdrv_set_backing_noperm_abort,
+>> +    .commit = bdrv_set_backing_noperm_commit,
+>> +    .clean = g_free,
+>> +};
+>> +
+>>   /*
+>>    * Sets the bs->backing link of a BDS. A new reference is created; callers
+>>    * which don't need their own reference any more must call bdrv_unref().
+>>    */
+>> -void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+>> -                         Error **errp)
+>> +static int bdrv_set_backing_noperm(BlockDriverState *bs,
+>> +                                   BlockDriverState *backing_bs,
+>> +                                   GSList **tran, Error **errp)
+>>   {
+>> -    bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
+>> -        bdrv_inherits_from_recursive(backing_hd, bs);
+>> +    int ret = 0;
+>> +    bool update_inherits_from = bdrv_chain_contains(bs, backing_bs) &&
+>> +        bdrv_inherits_from_recursive(backing_bs, bs);
+>> +    GSList *attach_tran = NULL;
+>> +    BdrvSetBackingNoPermState *s;
+>>   
+>>       if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
+>> -        return;
+>> +        return -EPERM;
+>>       }
+>>   
+>> -    if (backing_hd) {
+>> -        bdrv_ref(backing_hd);
+>> +    if (bs->backing && backing_bs) {
+>> +        bdrv_replace_child_safe(bs->backing, backing_bs, tran);
+>> +    } else if (bs->backing && !backing_bs) {
+>> +        bdrv_remove_backing(bs, tran);
+>> +    } else if (backing_bs) {
+>> +        assert(!bs->backing);
+>> +        ret = bdrv_attach_child_noperm(bs, backing_bs, "backing",
+>> +                                       &child_of_bds, bdrv_backing_role(bs),
+>> +                                       &bs->backing, &attach_tran, errp);
+>> +        if (ret < 0) {
+>> +            tran_abort(attach_tran);
+> 
+> This looks wrong to me, we'll call tran_abort() a second time through
+> bdrv_set_backing_noperm_abort() when the outer transaction aborts.
+> 
+> I also notice that the other two if branches do just add things to the
+> outer 'tran', it's just this branch that gets a nested one.
+> 
+>> +            return ret;
+>> +        }
+>>       }
+>>   
+>> -    if (bs->backing) {
+>> -        /* Cannot be frozen, we checked that above */
+>> -        bdrv_unref_child(bs, bs->backing);
+>> -        bs->backing = NULL;
+>> -    }
+>> +    s = g_new(BdrvSetBackingNoPermState, 1);
+>> +    *s = (BdrvSetBackingNoPermState) {
+>> +        .bs = bs,
+>> +        .backing_bs = backing_bs,
+>> +        .old_inherits_from = backing_bs ? backing_bs->inherits_from : NULL,
+>> +    };
+>> +    tran_prepend(tran, &bdrv_set_backing_noperm_drv, s);
+>>   
+>> -    if (!backing_hd) {
+>> -        goto out;
+>> +    /*
+>> +     * If backing_bs was already part of bs's backing chain, and
+>> +     * inherits_from pointed recursively to bs then let's update it to
+>> +     * point directly to bs (else it will become NULL).
+> 
+> Setting it to NULL was previously done by bdrv_unref_child().
+> 
+> bdrv_replace_child_safe() and bdrv_remove_backing() don't seem to do
+> this any more.
 
-Yes exactly.
-
-> 
-> In this case, something QMP/QOM-based would be the right place to do it 
-> and not the CLI as it exists today.
-
-Yes, we realized this through the discussions. We are now changing our 
-plan to focus on QMP.
-
-> Small details in the grand scheme of 
-> things the kind of internal modeling cleanup this idea seems to imply.
-> 
->>>>
->>>> In its current state, QEMU allows for very limited customization of
->>>> existing machines on the command line. We identified the following
->>>> limitations (feel free to add to the list):
->>>>
->>>>    - Most devices are not user creatable. Moreover, sysbus devices must
->>>> be explicitly allowed by a machine to be creatable through `-device`,
->>>>
->>>>    - Memory regions cannot be created on the command line,
->>>>
->>>>    - Device MMIO regions cannot be mapped on a bus from the command 
->>>> line,
->>>>
->>>>    - GPIOs and clocks cannot be wired from the command line,
->>>>
->>>>    - CPUs are not sysbus devices (and not user-creatable). They need
->>>> special care when creating them regarding system reset. Not being on a
->>>> bus means that they must be reset manually on system reset. This is 
->>>> done
->>>> in machines by registering a QEMU reset handler.
->>>>
->>>>    - Machine specific boot code is usually hard-coded into the machine
->>>> itself.  Some architectures (e.g. ARM) do factorize bootloader related
->>>> code, but there is no standard way of doing that in QEMU.
->>>>
->>>> We don't want to address all those limitations at once. We plan to 
->>>> start
->>>> with the following scenario:
->>>>
-> 
-> It does sound like a staggering level of work.
-> 
->>>>    - Start with a base machine that would handle CPU creation and
->>>> bootloader stuff. Note that the "none" machine is probably not
->>>> sufficient in its current shape. It does allow only one CPU and
->>>> obviously does not handle the boot process.
->>>>
-> 
-> I suppose this implies a type of machine that doesn't have migration 
-> compatibility. e.g. your "blank" might be different from someone else's 
-> "blank".
-> 
-> Or at least, not migration compatibility in its current form. Some 
-> thought might need to be put into how to negotiate migration 
-> compatibility between two instances of QEMU; it sounds like a hard problem.
-> 
-> (Jokingly, I'd want to call a machine like this "Apple Pie", but that 
-> would probably be too confusing for both Apple and Raspberry Pi 
-> enthusiasts.)
-
-Migration is definitely an issue. We didn't think too much about it yet 
-because the use-case is more firmware/OS development oriented (i.e. I 
-fix, compile and re-run my code in QEMU to test/debug). Migration is not 
-a must-have for this use-case.
-
-> 
->>>>    - Allow for this machine every sysbus devices we want to be user
->>>> command-line creatable (and mark them user_creatable if needed)
->>>>
-> 
-> Is it even possible to enumerate, for every sysbus device in QEMU, what 
-> the interface requirements are?
-> 
-> e.g. I assume most need a memory region, or maybe an IO region, or maybe 
-> an IRQ resource of some kind, or ...
-> 
-> doing this kind of dynamic bringup requires a lot of configuration data 
-> that is at-present just hardcoded absolutely everywhere.
-
-As of today, as I understand it, what a sysbus device exposes is part of 
-its "specification" (i.e. in best cases, it is documented in a comment 
-somewhere in its header file). Apart from that there is no way of 
-knowing that the memory region number 0 is e.g for the ARM GIC, the 
-distributor interface, while the number 1 is the CPU interface.
-
-An introspection mechanism would be very helpful here. A simple addition 
-would be to be able to name those regions at sysbus device init time, 
-the same way we can name GPIOs and clocks. Having a proper name is 
-already a good piece of "self-documentation" for the device, and it 
-could be made observable by the user (as properties are today in QMP).
+Hmm, yes.. May be we should move bdrv_unset_inherts_from() from bdrv_unref_child() to bdrv_replace_child_noperm() ?
 
 > 
->>>>    - Add command line options to create memory regions (probably ram 
->>>> ones
->>>> at first)
->>>>
+>> +     */
+>> +    if (backing_bs && update_inherits_from) {
+>> +        backing_bs->inherits_from = bs;
+>>       }
+>>   
+>> -    bs->backing = bdrv_attach_child(bs, backing_hd, "backing", &child_of_bds,
+>> -                                    bdrv_backing_role(bs), errp);
+>> -    /* If backing_hd was already part of bs's backing chain, and
+>> -     * inherits_from pointed recursively to bs then let's update it to
+>> -     * point directly to bs (else it will become NULL). */
+>> -    if (bs->backing && update_inherits_from) {
+>> -        backing_hd->inherits_from = bs;
+>> +    bdrv_refresh_limits(bs, NULL);
+>> +
+>> +    return 0;
+>> +}
 > 
-> Naive question: what does adding a memory region mean to you in this 
-> context?
+> Kevin
 > 
-> For whom (which device, spec, standard, instruction set, etc?) are these 
-> regions tangible abstractions?
 
-Good question. What we want here is basically being able to create the 
-memories of our platform (rom, ram). Those can be viewed as devices 
-really, and this is how in our current prototype we made them (a simple 
-sysbus device that embeds the memory region and exposes it through SBD 
-API). I think this is the good level of abstraction to choose because it 
-aligns nicely with the rest. Such a simple device would make sense in 
-vanilla IMO. Creating the memories of the platform would then resort to 
-creating a device (with parameters to set the size, set if it is 
-read-only, ...) and connecting it to a bus.
-
-> 
->>>>    - Add command line options to map a memory region (including sysbus
->>>> device MMIO regions) onto another (memory_region_add_subregion)
->>>>
-> 
-> More naive questions:
-> 
-> The assumption here being that sysbus devices can be modeled using their 
-> own private memory addressing namespace; and we configure them by 
-> mapping that space onto the machine's physical address space.
-> 
-> Instead of, say, making the memory address of that device a property of 
-> the device.
-> 
-> Yes?
-
-Yes memory regions can be created by sysbus devices and exposed at the 
-sysbus device API level. Then the parent device instantiating this 
-device (or the machine itself) can use the SBD API to fetch and connect 
-them to other memory regions. This is then up to the parent to choose 
-where and how to map the child region(s).
-
-> 
->>>>    - Add command line options to connect GPIOs and clocks.
->>>>
-> 
-> Similar to elsewhere, I wonder how much work it is to generalize this 
-> kind of pluggability so that all existing clocks and GPIO devices can be 
-> modeled in the same way.
-> 
-> (I say this meaning: Wow, I have no idea. I know a lot of the ones we 
-> have are hard-coded. What does a configuration interface for this look 
-> like?)
-
-By hard-coded, you mean the connections? Because otherwise the GPIO and 
-Clock APIs are well defined already. Exposing this to QMP does not seem 
-to be an issue. I could be wrong though.
-
-> 
->>>> This would hopefully allow for simple machines creation. We would then
->>>> be able to use either the command line or the `-readconfig` option to
->>>> create the machine.
->>>>
->>>> Note that we are not planning to use QMP/HMP for now. From our
->>>> understanding, a `device_add` request is always considered as hot-plug,
->>>> which is not what we want here.
->>>>
-> 
-> We're working our way towards being able to use QMP to define machines 
-> prior to execution start in order to have a QMP-only interaction with 
-> QEMU possible.
-> 
-> You likely want to invest in that kind of a strategy where you define 
-> structures that describe the machines you want to build.
-
-OK. It is clear to us that QMP is the way to go now. The plan is for us 
-to work and come up with a first RFC series.
-
-Thanks a lot!
 
 -- 
-Luc
-
-> 
->>>> Please tell us what do you think about this plan. Any feedback is
->>>> appreciated.  Then we can discuss the details of how to do this 
->>>> properly.
->>>> Thanks!
->>>>
->>>> -- 
->>>> Luc
->>>>
->>
->>
->>
->> Amazon Development Center Germany GmbH
->> Krausenstr. 38
->> 10117 Berlin
->> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
->> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
->> Sitz: Berlin
->> Ust-ID: DE 289 237 879
->>
->>
-> 
+Best regards,
+Vladimir
 
