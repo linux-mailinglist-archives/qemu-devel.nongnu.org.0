@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCA0310D2E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:32:43 +0100 (CET)
-Received: from localhost ([::1]:56692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F598310D32
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:36:06 +0100 (CET)
+Received: from localhost ([::1]:34798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l836A-00030c-U0
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:32:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53830)
+	id 1l839R-0005lO-5t
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:36:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chirantan@google.com>)
- id 1l8333-0001vl-E1
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:29:30 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:41866)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l833w-0002XO-Sf; Fri, 05 Feb 2021 10:30:24 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chirantan@google.com>)
- id 1l8330-0005Bf-OE
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:29:29 -0500
-Received: by mail-ej1-x636.google.com with SMTP id f14so12521326ejc.8
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 07:29:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UQ0FvqEsvwhOk1J4aJRozU/5FhgB0VGKiDGGsG4//rw=;
- b=Ab9CSnmhQzkZR/cpBXjY3+uocCQDKvCeWJ2Wz00b5LoSap8nsI6+fmijNjeHlg0Z4n
- XCBY1dzAwTmXk3uzdZyJb7E3tXsC8yIyupAoqpzh0wcwN7/xFU5rPWLSAD00ZPbzMXCn
- jFWc8TRG18Ru05TR7exOajo3NUy4zOdPTOVhU=
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l833r-0005Zu-FB; Fri, 05 Feb 2021 10:30:24 -0500
+Received: by mail-ej1-x632.google.com with SMTP id bl23so12535881ejb.5;
+ Fri, 05 Feb 2021 07:30:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=j4o0LEcJJQdmqJawD0zvnFopZOSp2j3LU3S8PxCkLaM=;
+ b=t5ezDEcN3cUtmwGeMzVvPekjld4MT14JKeF74f28nULLxkbVcJDZPylMpfnzqtMnmt
+ 8XpDDM6UzgUfABc7g7liYm5aMiWMFnF9ZCFvS8LHeFfJ/mgU39EOYElBb5zzzyhve3xw
+ 8sbIJdV14+rONlScVd5RyHZPaYr71sS+cbMq6+o/LeZTyAPG6csk0yEjLs4DrDSgDURG
+ jfcOMVfyEw9XqcF7duIPDdly0IThD+Ffr3KdiyBvetOTPeGPvLaLwpVwVNS9zAF0ND9T
+ RDaVGTx6MkfKv3iWuit/x7q2fiUHya6iPhR9zi1ITGMt8XXENqk29gwlzdQwhpYy16le
+ v5iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UQ0FvqEsvwhOk1J4aJRozU/5FhgB0VGKiDGGsG4//rw=;
- b=Hx56bEQw40weH0okC0gWQo155WVZh4Tm2eeXu99/eJ5XDG7SeVFq4aAJ9e3Qt03pWe
- 6ihiq6Hhx4B9+iz9aAG/z8+OPKIh6J6KcldDUAJ9tnKBDFiNvr+ojYG6dKeV3jfMYZnK
- ftbvtojRKhNnwXNTRF5wX8eyU4uoeJUOyFmA5/FkEL05OfTmvPiXCgL6llAZ2GSQmGpn
- mz+jT1uTmAs6Q4NPGcRzhq5mJbXiZzep+/sABRH8ezgpF7bxDyY+k6gDtj1xVyEMFlLp
- o0K1HrUwxqA4DWh0Ug0KmjqYwmjZb3iM39WC6OfTNE8hTlnBaxMnrpi9s6DKCeM1G4jW
- uguw==
-X-Gm-Message-State: AOAM531ZUYw7HFvj62Lfk/MdpAtGiOOlySu5xeBp8k9QCqotwqfQhWp9
- RSOF6AUObOTIWs/R2g3R5VNZLIcuTW7sQsIc9BDwYw==
-X-Google-Smtp-Source: ABdhPJy+n5T4noLuXUlz4IJwSviadqTlNl9uZlJ9y4YVp2b9WdQfkJLPWyolH6xFMd2vj/WvGe9obsu1hxFVMcK0pZY=
-X-Received: by 2002:a17:907:78d5:: with SMTP id
- kv21mr4538731ejc.461.1612538963116; 
- Fri, 05 Feb 2021 07:29:23 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=j4o0LEcJJQdmqJawD0zvnFopZOSp2j3LU3S8PxCkLaM=;
+ b=LMGkVcBZmqwESgnsBO8nCZkYS6vmKRHRqVLXp96+K2qoDh4L1R5v/HOsc3PZuXoB0P
+ XTyIs/Zpl+uXuKPOt34rFqU+w5KP37uDXDidwlt8gwH9voCKFIXflu/5wP2Z9F/BtNLf
+ DxkTmhDoz+jVNqWRyULhhqAOfrykaux6cRKL2OzCLIkqb0s/NtV1B0k/yrTiYmBJTHjK
+ kda9O2mD3/Vzf8q0TN8ljO1iNFohanTr27ovFxUU4XZuyf8Kplh1kM/su8P+T+77VTNb
+ UiL3GdXDYPoLr1S+d3Kt3+A74BGxZ+x2tXZOEMkUnx8YkKkHg101m4xMbJxvOQJTSZKk
+ IRcw==
+X-Gm-Message-State: AOAM533R/cveiM4aD2izJiotQGq56giACVzxTxltv+aqduwI/zTHrJqQ
+ ffhAqXJ9I36waxw4zorkA+4=
+X-Google-Smtp-Source: ABdhPJzOe7E9vgGMlrKDEOsHED+LXL+i+ODw/elDWmqrUTEs5DdiihP+H/8cN9sMpuKtGJWh5SsQJw==
+X-Received: by 2002:a17:907:98d7:: with SMTP id
+ kd23mr4528373ejc.283.1612539017577; 
+ Fri, 05 Feb 2021 07:30:17 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id cw21sm4086351edb.85.2021.02.05.07.30.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Feb 2021 07:30:16 -0800 (PST)
+Subject: Re: [RFC PATCH 9/9] tests/qtest/arm-cpu-features: Restrict TCG-only
+ tests
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+References: <20210205144345.2068758-1-f4bug@amsat.org>
+ <20210205144345.2068758-10-f4bug@amsat.org>
+ <17a58366-a25e-1c9b-eeba-2924803a48e7@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <db67a0e1-7933-736f-9e1c-78532444afdf@amsat.org>
+Date: Fri, 5 Feb 2021 16:30:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210127112131.308451-1-stefanha@redhat.com>
- <20210128184416.4dbdd23b@bahia.lan>
- <20210201171440.GA180539@stefanha-x1.localdomain>
- <20210201182215.GA221556@stefanha-x1.localdomain>
-In-Reply-To: <20210201182215.GA221556@stefanha-x1.localdomain>
-From: Chirantan Ekbote <chirantan@chromium.org>
-Date: Sat, 6 Feb 2021 00:29:11 +0900
-Message-ID: <CAJFHJrq9Miy91T1fmb9iSTYya7U7kwPNpX3y9pvL2JHW=eav=A@mail.gmail.com>
-Subject: Re: [Virtio-fs] [PATCH v3] virtiofsd: prevent opening of special
- files (CVE-2020-35517)
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=chirantan@google.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <17a58366-a25e-1c9b-eeba-2924803a48e7@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.33,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,46 +90,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
- P J P <ppandit@redhat.com>, virtio-fs-list <virtio-fs@redhat.com>,
- Greg Kurz <groug@kaod.org>, Alex Xu <alex@alxu.ca>,
- Laszlo Ersek <lersek@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Andrew Jones <drjones@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 2, 2021 at 3:22 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> Hi Chirantan,
-> I wanted to bring this CVE to your attention because the discussion has
-> revealed a number of other issues (not necessarily security issues) in
-> virtiofsd that may also be present in other virtio-fs daemon
-> implementations.
->
+On 2/5/21 4:20 PM, Claudio Fontana wrote:
+> On 2/5/21 3:43 PM, Philippe Mathieu-Daudé wrote:
+>> Some tests explicitly request the TCG accelerator. As these
+>> tests will obviously fails if TCG is not present, disable
+>> them in such case.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> Cc: Roman Bolshakov <r.bolshakov@yadro.com>
+>> Cc: Claudio Fontana <cfontana@suse.de>
+>>
+>> RFC because of the TODO.
+>>
+>> Roman posted a series to have a QMP command to query enabled
+>> accelerators.
+>> ---
+>>  tests/qtest/arm-cpu-features.c | 33 +++++++++++++++++++++++++++++----
+>>  1 file changed, 29 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+>> index c59c3cb002b..c6e86282b66 100644
+>> --- a/tests/qtest/arm-cpu-features.c
+>> +++ b/tests/qtest/arm-cpu-features.c
+>> @@ -20,7 +20,7 @@
+>>   */
+>>  #define SVE_MAX_VQ 16
+>>  
+>> -#define MACHINE     "-machine virt,gic-version=max -accel tcg "
+>> +#define MACHINE_TCG "-machine virt,gic-version=max -accel tcg "
+>>  #define MACHINE_KVM "-machine virt,gic-version=max -accel kvm -accel tcg "
+>>  #define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
+>>                      "  'arguments': { 'type': 'full', "
+>> @@ -41,6 +41,16 @@ static bool kvm_enabled(QTestState *qts)
+>>      return enabled;
+>>  }
+>>  
+>> +static bool tcg_enabled(QTestState *qts)
+>> +{
+>> +    /* TODO: Implement QMP query-accel? */
+>> +#ifdef CONFIG_TCG
+>> +    return true;
+>> +#else
+>> +    return false;
+>> +#endif /* CONFIG_TCG */
+> 
+> 
+> I would not use the same name as the existing tcg_enabled(), which has different semantics, even in test code;
+> 
+> what you mean here is tcg_available() right?
 
-Hi Stefan,
+No, I meant static tcg_enabled as the kvm_enabled() earlier method:
 
-Thanks for the heads up.  I'm going to summarize the thread just to
-make sure I understood correctly.
+static bool kvm_enabled(QTestState *qts)
+{
+    QDict *resp, *qdict;
+    bool enabled;
 
-The CVE seems to be that the virtio-fs daemon allows opening special
-files and the short-term fix is to detect and block this in the
-daemon.  The long term fix is to mount the data with
-nosuid,nodev,noexec.  I think crosvm's virtio-fs also doesn't check
-the file type before opening it but chrome os has mounted all stateful
-data as nosuid,nodev,noexec as long as I can remember so I think we
-got lucky there.  It's probably still worth adding the check to the
-server.
+    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
+    g_assert(qdict_haskey(resp, "return"));
+    qdict = qdict_get_qdict(resp, "return");
+    g_assert(qdict_haskey(qdict, "enabled"));
+    enabled = qdict_get_bool(qdict, "enabled");
+    qobject_unref(resp);
 
-The other issue is that there is a race between when an entry is
-created and when we look it up by name where it may be modified and
-replaced by an external process.  While I can see how this can be
-fixed for files, it seems like there's no choice for directories.
-It's not like mkdirat returns an fd for the newly created directory.
-Though, it seems like every process is affected by this.  I guess if
-you wanted to be really paranoid you could do something like mkdtemp,
-get an fd, and then rename to the real name.
+    return enabled;
+}
 
-Did I miss anything?
-
-Thanks,
-Chirantan
+This should be moved to something generic to QTest IMO,
+and we need some runtime qtest_is_accelerator_enabled().
 
