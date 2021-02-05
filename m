@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D96310F69
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:04:00 +0100 (CET)
-Received: from localhost ([::1]:56560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAF0310F7F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:07:31 +0100 (CET)
+Received: from localhost ([::1]:36804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l85SZ-0000cJ-FA
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:03:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46152)
+	id 1l85Vx-0004PJ-Ns
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:07:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84TZ-0006kM-Uz
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:00:58 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34278)
+ id 1l84Ta-0006kL-Uz
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:00:59 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84T8-00041a-Nh
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:00:57 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id o10so8223197wmc.1
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:26 -0800 (PST)
+ id 1l84T8-00043W-N7
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:00:56 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id l12so8485702wry.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FHr6FuqE0B2b9d2HJA4DI+zb7En8n9XfTjpsu+vmnps=;
- b=VwtlGJvqc9vzrrtxKLU+wWrLnXTjlDfg0aroLhg4kM1G3UF0A8Z4NgDMZ9mYx/1fBg
- RCj8pWT1J6SogJaBttzVilfetr05xULGMdAfbCenKz8G92aSaQmaPViZhO2ZxtpT+tUp
- l9YcYGvE7uKWs27P4csHIGkWs3vCdfXY52/ZNd17YGHY69p/gb4ASNOHtmanPAMACbb+
- ytBqkBAbse4qGtcxToac1I0l4SbIqjw9gomjNWbwVWkObH34A6L1piRGLYeoZGr43P/w
- TScjOuZ75Xnetq9YJxCBX/n3OX9qXHfTNH8jswv7EsBN1zte7D0bVWcGz3uXFe67ahbs
- kkrQ==
+ bh=WtrfuXabVXGeTIyTEVS5d0lsWCXmLnI61ZuEmNjOGlM=;
+ b=DDtqw24MGTthrvTCDmCVUhvyNywQQ3ySB1PCZmmdqA69MvBPLN8u+GuH550lICpKTM
+ /2Ur1N+ajMBksskb/5L85bcM0JId2ij6HExRnzFXFAyyQI2m4hCMGJRJYVuHNmeGNN3F
+ zsX+EspckPaQQftqV2kqKbLrT2u4/JSCWPyWOCG2JpOAeev7VVgyIhQijjSeZ8LSEiGc
+ kxeOdU7UilnarRePQ0M2zVlXuT94V52X55+xXMh/LN8HIy3xIt3qZQOKZt0hmJSY+B+O
+ /xkdf0icRQFKPVF/Tcg1aOOP2u49grsQlKA5VCDHhwYy2NB+eIvTXmtc/urONqgoq7fR
+ ZUvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FHr6FuqE0B2b9d2HJA4DI+zb7En8n9XfTjpsu+vmnps=;
- b=o0pyHJXj90k53I1OxCd3X28gSzKD/z+BRnfWbjMqhhzcM9Z/Td5s55S1sGhZk7ziJy
- H+QAd8WfZkZxq1o/wTA+/bEHjsJ2BYezQhrlAEKN6Md8DxesIqA0gXoO8D/vI61kdtCT
- Oj82hK0lz00LQUpg9PZNu3TSw6/MzA/qUUe6ZymXXtpu2CYGkbdHH6pefGuPtCyTCWk7
- nBS3RDmVK2Q0F65wtg88CUDCR9oq9DAW2njTiWLRkV/RLtm2eC4cvcT2JPPSTcrs3qnp
- erYusCGNPFu5aJS5Rr5lMTMwRYVJTXsm9fyqyoUyA0wAQDrv8oFFz7qRA2/tQmF70VzF
- 7eag==
-X-Gm-Message-State: AOAM532cO9cprDRSmVMXQCVTUMpSUfRkXjsqQQtoydo6Rr/jdfPoEodT
- hBZHHiKdkzsb7L9TFCMVqM1oyIAmJkAocw==
-X-Google-Smtp-Source: ABdhPJzO8461YBBzNNJZgcfXlkxRXibCIejMuMAm0szLwSMhmwceM2Pv3abohSEFdFb9voabClranw==
-X-Received: by 2002:a05:600c:3504:: with SMTP id
- h4mr4444267wmq.168.1612544425124; 
- Fri, 05 Feb 2021 09:00:25 -0800 (PST)
+ bh=WtrfuXabVXGeTIyTEVS5d0lsWCXmLnI61ZuEmNjOGlM=;
+ b=dRJ+l6XpRgVZ4SGm3xqscbkeyawISNoJSWJ3FxgknsAFO/xjg5Ff6wufSXhHrrrcMS
+ v3LIa7arEbiXbP7hcEPl02/UDS/fnvMd0V1C609WcTQtmVEWzE+Ruw2+3EdOQsrnNENF
+ AVALFX74p6jdtytOa9FAdI5AZBMQ6T0I5bx2UKjFvqJT+4FEirmiFyEBMWdpyZp9yAFG
+ dI+8spb2Zz583vd+qCOdyx7eqdrS7R2N0EoDhtjjBTcbmEZgq0vK3Kh/3j15LqjHPcmX
+ KeICJHFC0kRcZCbb1dSHHEIj8cN0YDtwkz/oD+Lu3gJjFrCZbMm+56TQQXVMaecSzCGc
+ Ekeg==
+X-Gm-Message-State: AOAM533KGPl1sg8eDBpx25G28gkyFmsIFPEGZFr9ilEk9E8NzR9ee5tC
+ Zopxw+5Ta3kF12hqbpiBh4aUanivt2Dbkg==
+X-Google-Smtp-Source: ABdhPJybn6y2gQSULSVsv1OrsCCTXzBd/a+tOJs0XPHiYTRigflHHmdt+wnotStNMNz9YAIn6gMVcg==
+X-Received: by 2002:adf:f182:: with SMTP id h2mr5997610wro.355.1612544429075; 
+ Fri, 05 Feb 2021 09:00:29 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.24
+ by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 09:00:24 -0800 (PST)
+ Fri, 05 Feb 2021 09:00:28 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 04/24] hw/arm/mps2-tz: Make the OSCCLK settings be
- configurable per-board
-Date: Fri,  5 Feb 2021 16:59:59 +0000
-Message-Id: <20210205170019.25319-5-peter.maydell@linaro.org>
+Subject: [PATCH 09/24] hw/arm/mps2-tz: Make number of IRQs board-specific
+Date: Fri,  5 Feb 2021 17:00:04 +0000
+Message-Id: <20210205170019.25319-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210205170019.25319-1-peter.maydell@linaro.org>
 References: <20210205170019.25319-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,80 +86,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN505 and AN511 happen to share the same OSCCLK values, but the
-AN524 will have a different set (and more of them), so split the
-settings out to be per-board.
+The AN524 has more interrupt lines than the AN505 and AN521; make
+numirq board-specific rather than a compile-time constant.
+
+Since the difference is small (92 on the current boards and 95 on the
+new one) we don't dynamically allocate the cpu_irq_splitter[] array
+but leave it as a fixed length array whose size is the maximum needed
+for any of the boards.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2-tz.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ hw/arm/mps2-tz.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 976f5f5c682..9add1453cc2 100644
+index 4d8e42fa6b6..0f021676854 100644
 --- a/hw/arm/mps2-tz.c
 +++ b/hw/arm/mps2-tz.c
-@@ -77,6 +77,8 @@ struct MPS2TZMachineClass {
-     MPS2TZFPGAType fpga_type;
-     uint32_t scc_id;
-     uint32_t sysclk_frq; /* Main SYSCLK frequency in Hz */
-+    uint32_t len_oscclk;
-+    const uint32_t *oscclk;
+@@ -65,7 +65,7 @@
+ #include "hw/qdev-clock.h"
+ #include "qom/object.h"
+ 
+-#define MPS2TZ_NUMIRQ 92
++#define MPS2TZ_NUMIRQ_MAX 92
+ 
+ typedef enum MPS2TZFPGAType {
+     FPGA_AN505,
+@@ -81,6 +81,7 @@ struct MPS2TZMachineClass {
+     const uint32_t *oscclk;
+     uint32_t fpgaio_num_leds; /* Number of LEDs in FPGAIO LED0 register */
+     bool fpgaio_switches; /* Does FPGAIO have SWITCH register? */
++    int numirq; /* Number of external interrupts */
      const char *armsse_type;
  };
  
-@@ -115,6 +117,12 @@ OBJECT_DECLARE_TYPE(MPS2TZMachineState, MPS2TZMachineClass, MPS2TZ_MACHINE)
- /* Slow 32Khz S32KCLK frequency in Hz */
- #define S32KCLK_FRQ (32 * 1000)
+@@ -105,7 +106,7 @@ struct MPS2TZMachineState {
+     SplitIRQ sec_resp_splitter;
+     qemu_or_irq uart_irq_orgate;
+     DeviceState *lan9118;
+-    SplitIRQ cpu_irq_splitter[MPS2TZ_NUMIRQ];
++    SplitIRQ cpu_irq_splitter[MPS2TZ_NUMIRQ_MAX];
+     Clock *sysclk;
+     Clock *s32kclk;
+ };
+@@ -140,8 +141,9 @@ static qemu_irq get_sse_irq_in(MPS2TZMachineState *mms, int irqno)
+ {
+     /* Return a qemu_irq which will signal IRQ n to all CPUs in the SSE. */
+     MachineClass *mc = MACHINE_GET_CLASS(mms);
++    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
  
-+static const uint32_t an505_oscclk[] = {
-+    40000000,
-+    24580000,
-+    25000000,
-+};
-+
- /* Create an alias of an entire original MemoryRegion @orig
-  * located at @base in the memory map.
-  */
-@@ -213,17 +221,18 @@ static MemoryRegion *make_scc(MPS2TZMachineState *mms, void *opaque,
-     MPS2SCC *scc = opaque;
-     DeviceState *sccdev;
-     MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
-+    int i;
+-    assert(irqno < MPS2TZ_NUMIRQ);
++    assert(irqno < mmc->numirq);
  
-     object_initialize_child(OBJECT(mms), "scc", scc, TYPE_MPS2_SCC);
-     sccdev = DEVICE(scc);
-     qdev_prop_set_uint32(sccdev, "scc-cfg4", 0x2);
-     qdev_prop_set_uint32(sccdev, "scc-aid", 0x00200008);
-     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
--    /* This will need to be per-FPGA image eventually */
--    qdev_prop_set_uint32(sccdev, "len-oscclk", 3);
--    qdev_prop_set_uint32(sccdev, "oscclk[0]", 40000000);
--    qdev_prop_set_uint32(sccdev, "oscclk[1]", 24580000);
--    qdev_prop_set_uint32(sccdev, "oscclk[2]", 25000000);
-+    qdev_prop_set_uint32(sccdev, "len-oscclk", mmc->len_oscclk);
-+    for (i = 0; i < mmc->len_oscclk; i++) {
-+        g_autofree char *propname = g_strdup_printf("oscclk[%d]", i);
-+        qdev_prop_set_uint32(sccdev, propname, mmc->oscclk[i]);
-+    }
-     sysbus_realize(SYS_BUS_DEVICE(scc), &error_fatal);
-     return sysbus_mmio_get_region(SYS_BUS_DEVICE(sccdev), 0);
- }
-@@ -676,6 +685,8 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
-     mmc->scc_id = 0x41045050;
-     mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
-+    mmc->oscclk = an505_oscclk;
-+    mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+     if (mc->max_cpus > 1) {
+         return qdev_get_gpio_in(DEVICE(&mms->cpu_irq_splitter[irqno]), 0);
+@@ -428,7 +430,7 @@ static void mps2tz_common_init(MachineState *machine)
+     iotkitdev = DEVICE(&mms->iotkit);
+     object_property_set_link(OBJECT(&mms->iotkit), "memory",
+                              OBJECT(system_memory), &error_abort);
+-    qdev_prop_set_uint32(iotkitdev, "EXP_NUMIRQ", MPS2TZ_NUMIRQ);
++    qdev_prop_set_uint32(iotkitdev, "EXP_NUMIRQ", mmc->numirq);
+     qdev_connect_clock_in(iotkitdev, "MAINCLK", mms->sysclk);
+     qdev_connect_clock_in(iotkitdev, "S32KCLK", mms->s32kclk);
+     sysbus_realize(SYS_BUS_DEVICE(&mms->iotkit), &error_fatal);
+@@ -439,8 +441,9 @@ static void mps2tz_common_init(MachineState *machine)
+      * board. If there is only one CPU, we can just wire the device IRQ
+      * directly to the SSE's IRQ input.
+      */
++    assert(mmc->numirq <= MPS2TZ_NUMIRQ_MAX);
+     if (mc->max_cpus > 1) {
+-        for (i = 0; i < MPS2TZ_NUMIRQ; i++) {
++        for (i = 0; i < mmc->numirq; i++) {
+             char *name = g_strdup_printf("mps2-irq-splitter%d", i);
+             SplitIRQ *splitter = &mms->cpu_irq_splitter[i];
+ 
+@@ -693,6 +696,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+     mmc->fpgaio_num_leds = 2;
+     mmc->fpgaio_switches = false;
++    mmc->numirq = 92;
      mmc->armsse_type = TYPE_IOTKIT;
  }
  
-@@ -692,6 +703,8 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
-     mmc->scc_id = 0x41045210;
-     mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
-+    mmc->oscclk = an505_oscclk; /* AN521 is the same as AN505 here */
-+    mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+@@ -713,6 +717,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
+     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+     mmc->fpgaio_num_leds = 2;
+     mmc->fpgaio_switches = false;
++    mmc->numirq = 92;
      mmc->armsse_type = TYPE_SSE200;
  }
  
