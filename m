@@ -2,139 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52673108B7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:09:49 +0100 (CET)
-Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 021003108BE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:12:53 +0100 (CET)
+Received: from localhost ([::1]:33084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7y3g-00053b-PT
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:09:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43804)
+	id 1l7y6e-0008M8-2C
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:12:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l7y0k-0003Ws-Ug; Fri, 05 Feb 2021 05:06:46 -0500
-Received: from mail-am6eur05on2093.outbound.protection.outlook.com
- ([40.107.22.93]:23969 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l7y0h-0004GP-4v; Fri, 05 Feb 2021 05:06:46 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SuuUkjwYf67NIgl/x3TkEjfqr8z2xlYa64wWzyAt3z+trRomhGWTVxJdttorZwfRZpS59mw/k5zGWqKbQHfkS7r3kVh0Ah7BwC2jzl/qvtTed3hE5VCMwcBCjf5je7A5FKXkywNhmYRKymlwbDbVJh40qSZNo/zS/lx2iBu17VPOoqNES3mPLUu1AMTbccM8IBz64YWC570P5OzRo4wZ0QFqEbGcPJt0FuHECK0NEUVMHhv7TdlScf4w7402V9nmu5GDtwOtLOYeM1MoQxxUxhkNyMokKgcILK3geoe3XAn5l6LDZfThAD9DgvbyYfmEW1aBOYSMwgfWyQ3XP9be3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zuebGTKn8wb1fsPEaEcLcOCmsNZ291AhJPgZ2qMVbz0=;
- b=FSZ8w1s4Le526xC04Kos8dRYEovtqnf5XkvpkGK6f2IEDRsuz7kiy98M2W7VHqWdRn6AWFqLFuvpMRdqw/4NJAoX8im9p9Ifs/dGEIzDiJgO2YGIzjWgA9ZCXb1IsKjAAH57olNMPLuw0vE/CQjJM+dureD+lUQFNK4ZsHdvQ5ZTj0IZXxtLVN/+wV/6F+etQzcLSZ6heeAJvHiYtvnI12KJmnjDuJW+vK7k6v2htks6a/z2XfWWRq5e2+Is9SJ+kpN5qqamKNUz0TEXCgQ98ydWGGkGPfAD2RzgmRcPPExQ8d1GbFNXJO+qN6IIJ74d1xS/mFe+EtD4N+3fpeFeLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zuebGTKn8wb1fsPEaEcLcOCmsNZ291AhJPgZ2qMVbz0=;
- b=JhQqBP7sOcYfcBOueohBtg/WAz2DyVQNT7IqzY8pLYJceBfzCHnjvN20Y2JCoC+br+nXrAtNxhGot8OV3easDOBbn+OO/8vBN9F6qvdhGPQIzSOgmeiG0R0XtF45wokHIuC80TkKabmht64ZNQA7RQgMFXdhc9e/tl3eMbsawZM=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB5944.eurprd08.prod.outlook.com (2603:10a6:20b:297::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Fri, 5 Feb
- 2021 10:06:39 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Fri, 5 Feb 2021
- 10:06:39 +0000
-Subject: Re: [PATCH 1/3] utils: Improve qemu_strtosz() to have 64 bits of
- precision
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com,
- qemu-block@nongnu.org, tao3.xu@intel.com, armbru@redhat.com,
- Max Reitz <mreitz@redhat.com>
-References: <20210204190708.1306296-1-eblake@redhat.com>
- <20210204190708.1306296-2-eblake@redhat.com>
- <a141ad8f-113e-b769-931a-767e0807a1f9@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <21fcd50e-b5c2-d35c-0555-7d26014370ee@virtuozzo.com>
-Date: Fri, 5 Feb 2021 13:06:36 +0300
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l7y0n-0003aU-IG
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:06:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39445)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l7y0j-0004I4-OZ
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:06:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612519604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/snqxGCxqzcq6iy5om+eJ7Jl0saTiRQzrRGJsaWdDEY=;
+ b=H1whAFB6VDmaOQi0avWlezmYM2dHq00S4anqC/EBeDe2Y5bpqfvF/6K0iYlC2IrNVg0Ld1
+ G93NRditjUSoJxsl/z6K02NXBJJ7cOLHxr3S5I790F5i5WcH3z0x0Hy4TKw1SgrP7O6cP1
+ ZQg+eGFyfeNaidc7v3ItYBFUsw+FMss=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-hidmsUGlOjmdVlljIxRZBg-1; Fri, 05 Feb 2021 05:06:40 -0500
+X-MC-Unique: hidmsUGlOjmdVlljIxRZBg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08A1B107ACE8;
+ Fri,  5 Feb 2021 10:06:39 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-18.ams2.redhat.com
+ [10.36.114.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBF2B10016F9;
+ Fri,  5 Feb 2021 10:06:37 +0000 (UTC)
+Subject: Re: [PATCH] qemu-img: add seek and -n option to dd command
+From: Max Reitz <mreitz@redhat.com>
+To: Peter Lieven <pl@kamp.de>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org
+References: <20210128140704.6547-1-pl@kamp.de>
+ <99982043-ed89-5fbe-afe2-691a9c19280d@redhat.com>
+ <567ab8bb-b452-d6c2-dec7-bc2cf1e34ec8@kamp.de>
+ <be6e992c-fbb6-2f16-a066-0ef1e1ace9e5@redhat.com>
+ <70e0dbc0-4770-a409-945e-c31e0d93081b@kamp.de>
+ <50cb6864-b0a9-c1dc-2cba-9a35a2970ba2@redhat.com>
+Message-ID: <cdfdd9e9-8a73-cdf6-b565-bb769f10e94a@redhat.com>
+Date: Fri, 5 Feb 2021 11:06:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-In-Reply-To: <a141ad8f-113e-b769-931a-767e0807a1f9@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.213]
-X-ClientProxiedBy: AM0PR02CA0203.eurprd02.prod.outlook.com
- (2603:10a6:20b:28f::10) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.213) by
- AM0PR02CA0203.eurprd02.prod.outlook.com (2603:10a6:20b:28f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17 via Frontend
- Transport; Fri, 5 Feb 2021 10:06:38 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75b88888-5b39-4bbf-d654-08d8c9bdba80
-X-MS-TrafficTypeDiagnostic: AS8PR08MB5944:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB5944A27E13C693712558ECD8C1B29@AS8PR08MB5944.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EOd+s7BswgNWe6nRiZaoVoQk6f8n6DXCrG100NA8DISWx45Yd8H/WdLvjo47f5eO068I+qbcelYyxh/xL2JSdYWb31vQ7SfZhCYKWlOX6EOjoYr2lit97A/3TmPEg+rZpWvrs31g1CogdExwL6mqbUM/znIkdjXr2MKZQ3L8ZBbo2pPJzFKElRQ8aEfGBLjcq8FRjX5p7n19XzDWDKjDT/r1OCvd1iCmBKx9y7HunSTaFwl248Pv1i8SSajfBCP2mUdXBOcICwB8gWvfhrorU1JjAigQ+hd5NSoQF1/sNzDQbI/eOO9Lne9Au8LAVSwa/E5m+iQxUeYAaApUtideVbhZWWMQKrsksm08lNMqNlpfhnZFRmKIXILONClrW+J1BlhlKkWpl5UpM0MfRvS2bRcUflpBix+ajyI5lEKHkyOUeW1osU5Wfol5TPCmbWakywhE2CoJ4hF3JYRu/LJarYBNACPp5NkW45cM7E635aCOD1kuKmOPOVQE6CXcb0ovh8gTcbV8jAywT6pJRzs7hI6eFpPEv4CozImKwmM62gO6mlTbUeXTroKoRphzXOlYMszqEgz01EoIbuulCcCKSD3uAlDgEunT32Nz34PEdvs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(366004)(136003)(396003)(39830400003)(16526019)(52116002)(8936002)(66476007)(26005)(478600001)(316002)(66946007)(66556008)(2906002)(5660300002)(6486002)(86362001)(4326008)(8676002)(2616005)(83380400001)(31696002)(36756003)(54906003)(16576012)(956004)(31686004)(186003)(53546011)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?c25RSzM2OUJFTTdUR1lENDE1Ky8xOWhmNWMzblRkK3RteE42anFhS0NjZjln?=
- =?utf-8?B?c1N3RjBjdWVRdVhCTHRqbkVMaTZoZnFkSTN5aVZ2bXVBRnlPeTA4RW1PZ295?=
- =?utf-8?B?TFYxMzRKYis3bEpjOU8wNTlOSVptczNuOXZka3F5QWtMdkZmS1luZmRjYnBE?=
- =?utf-8?B?Z1JvdkpVT1hlUFdSU0RnZ2w5dWZuRkIwaHJKRTFMNFlQUWpzZmgvSWxGb3V1?=
- =?utf-8?B?YnJVZEh3WGhHQWpMakRKVk5kRzhxa0ord1JLMDZIL1h4Ui8xakx3RWlYR2lP?=
- =?utf-8?B?aFdnVjl2Tk9xRHRrTHYzNjluSG5xMHhEN0JKajRPQnZ2dmVkbFRRT0R3SCs1?=
- =?utf-8?B?VGxWdzZWb25KeTVOUVc5K3ArRGRyMTJySXBBOUxrT3ZyeGNNZ2pwTDhpMEp0?=
- =?utf-8?B?MDlaaThLOGk4ZHpOcVhFc1RZMitkbHRiTWQySHAvWmZhRlVDWUZtU1pndURX?=
- =?utf-8?B?YXVuMkw1Qy9TTXNpM0UxSVlubmdLTHBONEh5dnZuaDJrWWZmeEhsTnZxLzl2?=
- =?utf-8?B?VTNNUzFuQ293ajFiTGMwUzNGWTl6S0MzWm51Y2pPT2JNdmlKSVBFVWkxUjJK?=
- =?utf-8?B?VzlVQ2F0VFRvdS9MMEdhVWpmamQySmc4ZW9KeFdtanhzNXoxaE4ybzIxbXQv?=
- =?utf-8?B?c2JKK2pMTFNVU1ZneVMxdWtucGJleUJnSjBmMW1QNDdaaHF1d1Jha1FLS0lr?=
- =?utf-8?B?WlJBTmoxaEp1WmcrVi9XZ0tFYVNHODFSVkpUMWg1bDFFQ3dpZkEvdGo0MjZV?=
- =?utf-8?B?SjRWcmNlNDR5aDhyT0dscnhRT2IwcEl4SEJkNGFPcHo3RllMa1crOFRaZVU5?=
- =?utf-8?B?S1lMVHAvRmZNaXg2Z1cvZXlhV1QyRE5pMW9UdHI1TDJrYStIRnlrSFl3UmxI?=
- =?utf-8?B?S3c5ZDNiQzF3WWkwT1Y4bnJuNE9hSklKc3NPY01kNml0TmxYNkc0aGEyenFn?=
- =?utf-8?B?WTJ4eVY3N1BWTG1qY3JoVk85MVBTdm4vYVgxTUNRVlBneFpSSkNtWVhqV2N0?=
- =?utf-8?B?TVo0aDZveExibys4V1RGRXJERWNRYVdHOCtYS1Y5Vk1sYzk3TVFpM3kycHVs?=
- =?utf-8?B?RkpzT0RZZ1FXTGFvMk04dTZFVVlYU0NtbHhXUjh5ajN2Y2YvUnlWeWRWWFh2?=
- =?utf-8?B?cktGN0NDYThNbElnajlpUEZaTXpnVS9QZE9qMkJmUjRnVnAzd2Y2OWFITkVZ?=
- =?utf-8?B?R2QvWEswTFRFUDlHSCtnTXorVm9VaitxOUZCczdaU2orczFNUCtuTXlqdEpr?=
- =?utf-8?B?R1BkTVJTckNKcG1XUWh4RXVmSFVkMTRKL2xmQTlVL3Z6ZkJtNzhkUEhXcjYr?=
- =?utf-8?B?dUdRalQvSXB2akVLdk1ZUElmZ3FqS0V5VlRxTm1KaTQzc2RoRnZrY1BJTExC?=
- =?utf-8?B?aTdmeDRleDl6dHNLNmZaTzdBYlpSMi9idnBqbjNZaHRkSVJCeTJ1Y09xeW5C?=
- =?utf-8?B?OEVBZkRGWVhtbE5remhxYXlWZk9DSUh3Q0VTRmhwZFJnTE1RRStjYTBZMHZN?=
- =?utf-8?B?ZzJBVUpKdHRiVThBd1UvTzJvaThTZ3hpUWVqZWdNcld3U3lzKytrYWhzalBx?=
- =?utf-8?B?QnFUYk1CNTF2aUNtRVllbFQvVW9QcUVBdVFwRHlSY1Fvc3hVTlQvajRnR0sv?=
- =?utf-8?B?NzlWdGtwMG9zaitjbUJDOEM5WVpRT0F5UU5NTzBjSGhGdXh0NTM1ZGtNZmow?=
- =?utf-8?B?NjN1MjdqY0RsOHEwUlZtMjNqck1jQjRwNWVBajgxcTZuZ1djdkpEUG1QTHRS?=
- =?utf-8?Q?p4FqtJ3EMfoHtXlUhteobxVB0DGIZjIKmT5MTSc?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75b88888-5b39-4bbf-d654-08d8c9bdba80
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 10:06:39.3587 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jrVjSLJ8UdUZPyqD2qX9UOgq7+i0nG7727+HiK5L0tqdxCSq0IxHmJNCPCvU/uQs1rjArJaARFvHgFT+Kv/o05zfpLKUstskdyvsxSNct8k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5944
-Received-SPF: pass client-ip=40.107.22.93;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+In-Reply-To: <50cb6864-b0a9-c1dc-2cba-9a35a2970ba2@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed; boundary="------------F781D1628F9E471D6DCC934B"
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -148,201 +85,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-04.02.2021 23:12, Eric Blake wrote:
-> On 2/4/21 1:07 PM, Eric Blake wrote:
->> We have multiple clients of qemu_strtosz (qemu-io, the opts visitor,
->> the keyval visitor), and it gets annoying that edge-case testing is
->> impacted by implicit rounding to 53 bits of precision due to parsing
->> with strtod().  As an example posted by Rich Jones:
->>   $ nbdkit memory $(( 2**63 - 2**30 )) --run \
->>     'build/qemu-io -f raw "$uri" -c "w -P 3 $(( 2**63 - 2**30 - 512 )) 512" '
->>   write failed: Input/output error
->>
->> because 9223372035781033472 got rounded to 0x7fffffffc0000000 which is
->> out of bounds.
->>
->> It is also worth noting that our existing parser, by virtue of using
->> strtod(), accepts decimal AND hex numbers, even though test-cutils
->> previously lacked any coverage of the latter.  We do have existing
->> clients that expect a hex parse to work (for example, iotest 33 using
->> qemu-io -c "write -P 0xa 0x200 0x400"), but strtod() parses "08" as 8
->> rather than as an invalid octal number, so we know there are no
->> clients that depend on octal.  Our use of strtod() also means that
->> "0x1.8k" would actually parse as 1536 (the fraction is 8/16), rather
->> than 1843 (if the fraction were 8/10); but as this was not covered in
->> the testsuite, I have no qualms forbidding hex fractions as invalid,
->> so this patch declares that the use of fractions is only supported
->> with decimal input, and enhances the testsuite to document that.
->>
->> Our previous use of strtod() meant that -1 parsed as a negative; now
->> that we parse with strtoull(), negative values can wrap around module
-> 
-> modulo
-> 
->> 2^64, so we have to explicitly check whether the user passed in a '-'.
->>
->> We also had no testsuite coverage of "1.1e0k", which happened to parse
->> under strtod() but is unlikely to occur in practice; as long as we are
->> making things more robust, it is easy enough to reject the use of
->> exponents in a strtod parse.
->>
->> The fix is done by breaking the parse into an integer prefix (no loss
->> in precision), rejecting negative values (since we can no longer rely
->> on strtod() to do that), determining if a decimal or hexadecimal parse
->> was intended (with the new restriction that a fractional hex parse is
->> not allowed), and where appropriate, using a floating point fractional
->> parse (where we also scan to reject use of exponents in the fraction).
->> The bulk of the patch is then updates to the testsuite to match our
->> new precision, as well as adding new cases we reject (whether they
->> were rejected or inadvertenly accepted before).
-> 
-> inadvertently
-> 
->>
->> Signed-off-by: Eric Blake <eblake@redhat.com>
->>
->> ---
->>
-> 
-> Is it a bad sign when I review my own code?
-> 
->>
->>   /*
->> - * Convert string to bytes, allowing either B/b for bytes, K/k for KB,
->> - * M/m for MB, G/g for GB or T/t for TB. End pointer will be returned
->> - * in *end, if not NULL. Return -ERANGE on overflow, and -EINVAL on
->> - * other error.
->> + * Convert size string to bytes.
->> + *
->> + * Allow either B/b for bytes, K/k for KB, M/m for MB, G/g for GB or
->> + * T/t for TB, with scaling based on @unit, and with @default_suffix
->> + * implied if no explicit suffix was given.
-> 
-> Reformatted existing text, but incomplete; we also support 'P' and 'E'.
-> 
->> + *
->> + * The end pointer will be returned in *end, if not NULL.  If there is
->> + * no fraction, the input can be decimal or hexadecimal; if there is a
->> + * fraction, then the input must be decimal and there must be a suffix
->> + * (possibly by @default_suffix) larger than Byte, and the fractional
->> + * portion may suffer from precision loss or rounding.  The input must
->> + * be positive.
->> + *
->> + * Return -ERANGE on overflow (with *@end advanced), and -EINVAL on
->> + * other error (with *@end left unchanged).
-> 
-> If we take patch 2 and 3, this contract should also be updated to
-> mention what we consider to be deprecated.
-> 
->>    */
->>   static int do_strtosz(const char *nptr, const char **end,
->>                         const char default_suffix, int64_t unit,
->> @@ -253,40 +264,66 @@ static int do_strtosz(const char *nptr, const char **end,
->>       int retval;
->>       const char *endptr;
->>       unsigned char c;
->> -    int mul_required = 0;
->> -    double val, mul, integral, fraction;
->> +    bool mul_required = false;
->> +    uint64_t val;
->> +    int64_t mul;
->> +    double fraction = 0.0;
->>
->> -    retval = qemu_strtod_finite(nptr, &endptr, &val);
->> +    /* Parse integral portion as decimal. */
->> +    retval = qemu_strtou64(nptr, &endptr, 10, &val);
->>       if (retval) {
->>           goto out;
->>       }
->> -    fraction = modf(val, &integral);
->> -    if (fraction != 0) {
->> -        mul_required = 1;
->> +    if (strchr(nptr, '-') != NULL) {
->> +        retval = -ERANGE;
->> +        goto out;
->> +    }
->> +    if (val == 0 && (*endptr == 'x' || *endptr == 'X')) {
->> +        /* Input looks like hex, reparse, and insist on no fraction. */
->> +        retval = qemu_strtou64(nptr, &endptr, 16, &val);
->> +        if (retval) {
->> +            goto out;
->> +        }
->> +        if (*endptr == '.') {
->> +            endptr = nptr;
->> +            retval = -EINVAL;
->> +            goto out;
->> +        }
->> +    } else if (*endptr == '.') {
->> +        /* Input is fractional, insist on 0 <= fraction < 1, with no exponent */
->> +        retval = qemu_strtod_finite(endptr, &endptr, &fraction);
->> +        if (retval) {
->> +            endptr = nptr;
->> +            goto out;
->> +        }
->> +        if (fraction >= 1.0 || memchr(nptr, 'e', endptr - nptr)
->> +            || memchr(nptr, 'E', endptr - nptr)) {
->> +            endptr = nptr;
->> +            retval = -EINVAL;
->> +            goto out;
->> +        }
->> +        if (fraction != 0) {
->> +            mul_required = true;
->> +        }
->>       }
->>       c = *endptr;
->>       mul = suffix_mul(c, unit);
->> -    if (mul >= 0) {
->> +    if (mul > 0) {
->>           endptr++;
->>       } else {
->>           mul = suffix_mul(default_suffix, unit);
->> -        assert(mul >= 0);
->> +        assert(mul > 0);
->>       }
->>       if (mul == 1 && mul_required) {
->> +        endptr = nptr;
->>           retval = -EINVAL;
->>           goto out;
->>       }
->> -    /*
->> -     * Values near UINT64_MAX overflow to 2**64 when converting to double
->> -     * precision.  Compare against the maximum representable double precision
->> -     * value below 2**64, computed as "the next value after 2**64 (0x1p64) in
->> -     * the direction of 0".
->> -     */
->> -    if ((val * mul > nextafter(0x1p64, 0)) || val < 0) {
->> +    if (val > UINT64_MAX / mul) {
-> 
-> Hmm, do we care about:
-> 15.9999999999999999999999999999E
-> where the fractional portion becomes large enough to actually bump our
-> sum below to 16E which indeed overflows?  Then again, we rejected a
-> fraction of 1.0 above, and 0.9999999999999999999999999999 parses to 1.0
-> due to rounding.
-> Maybe it's just worth a good comment why the overflow check here works
-> without consulting fraction.
+This is a multi-part message in MIME format.
+--------------F781D1628F9E471D6DCC934B
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-worth a good comment, because I don't follow :)
-
-If mul is big enough and fraction=0.5, why val*mul + fraction*mul will not overflow?
-
-Also, if we find '.' in the number, why not just reparse the whole number with qemu_strtod_finite? And don't care about 1.0?
-
-> 
->>           retval = -ERANGE;
->>           goto out;
->>       }
->> -    *result = val * mul;
->> +    *result = val * mul + (uint64_t) (fraction * mul);
->>       retval = 0;
+On 05.02.21 10:16, Max Reitz wrote:
+> On 05.02.21 09:47, Peter Lieven wrote:
+>> Am 05.02.21 um 09:18 schrieb Max Reitz:
+>>> On 04.02.21 21:09, Peter Lieven wrote:
+>>>> Am 02.02.21 um 16:51 schrieb Eric Blake:
+>>>>> On 1/28/21 8:07 AM, Peter Lieven wrote:
+>>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>>>>> Your commit message says 'what', but not 'why'.  Generally, the 
+>>>>> one-line
+>>>>> 'what' works well as the subject line, but you want the commit body to
+>>>>> give an argument why your patch should be applied, rather than blank.
+>>>>>
+>>>>> Here's the last time we tried to improve qemu-img dd:
+>>>>> https://lists.gnu.org/archive/html/qemu-devel/2018-08/msg02618.html
+>>>>
+>>>>
+>>>> I was not aware of that story. My use case is that I want to be
+>>>>
+>>>> able to "patch" an image that Qemu is able to handle by overwriting
+>>>>
+>>>> certain sectors. And I especially do not want to "mount" that image
+>>>>
+>>>> via qemu-nbd because I might not trust it. I totally want to avoid 
+>>>> that the host
+>>>>
+>>>> system tries to analyse that image in terms of scanning the 
+>>>> bootsector, partprobe,
+>>>>
+>>>> lvm etc. pp.
+>>>
+>>> qemu will have FUSE exporting as of 6.0 (didn’t quite make it into 
+>>> 5.2), so you can do something like this:
+>>>
+>>> $ qemu-storage-daemon \
+>>>      --blockdev node-name=export,driver=qcow2,\
+>>> file.driver=file,file.filename=image.qcow2 \
+>>>      --export fuse,id=fuse,node-name=export,mountpoint=image.qcow2
+>>>
+>>> This exports the image on image.qcow2 (i.e., on itself) and so by 
+>>> accessing the image file you then get raw access to its contents (so 
+>>> you can use system tools like dd).
+>>>
+>>> Doesn’t require root rights, and shouldn’t make the kernel scan 
+>>> anything, because it’s exported as just a regular file.
 >>
->>   out:
+>>
+>> Okay, but that is still more housekeeping than just invoking a single 
+>> command.
+> 
+> Yes, but I personally see this as much better than copying all of dd’s 
+> functionality into qemu-img.
+> 
+> My personal complaint is only that it’s a pain in the ass to invoke QSD 
+> this way.  It would be nice to have a script that does the same via
+> 
+> $ qemu-blk-fuse-export image.qcow2
+> 
+> Would probably be trivial to write, but well, first we gotta do it, and 
+> have justification to keep it as part of qemu...
+> 
+> And if that’s still too much housekeeping, we could even write a qemu-dd 
+> script that scans all file arguments for non-raw images, launches a QSD 
+> instance to present them as raw, and then invokes dd.
 
+Since today’s Day of Learning at Red Hat, I decided to have some fun 
+writing a qemu-dd.py script.
 
--- 
-Best regards,
-Vladimir
+Max
+
+--------------F781D1628F9E471D6DCC934B
+Content-Type: text/x-python; charset=UTF-8;
+ name="qemu-dd.py"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="qemu-dd.py"
+
+#!/usr/bin/python
+
+import json
+import os
+import subprocess
+import sys
+from typing import Optional
+
+images = {}
+
+for arg in sys.argv[1:]:
+    if arg.startswith('if=') or arg.startswith('of='):
+        filename = arg[3:]
+
+        # Ignore non-existing files, the user probably wants to make
+        # dd create them (as raw images)
+        if not os.path.exists(filename):
+            continue
+
+        qemu_img = subprocess.Popen(('qemu-img', 'info', filename),
+                                    stdout=subprocess.PIPE,
+                                    universal_newlines=True)
+        output: str = qemu_img.communicate()[0]
+        if qemu_img.returncode != 0:
+            sys.exit(os.EX_NOINPUT)
+
+        fmt_line = next(line
+                        for line in output.split('\n')
+                        if line.startswith('file format: '))
+        fmt = fmt_line.split(': ', 1)[1]
+
+        if fmt != 'raw':
+            images[filename] = fmt
+
+qsd: Optional[subprocess.Popen] = None
+
+if images:
+    args = ['qemu-storage-daemon',
+            '--chardev', 'stdio,id=monitor',
+            '--monitor', 'monitor']
+
+    for i, (image, fmt) in enumerate(images.items()):
+        args += ['--blockdev',
+                 f'{fmt},node-name=export{i},' +
+                 f'file.driver=file,file.filename={image}',
+                 '--export',
+                 f'fuse,id=fuse{i},node-name=export{i},' +
+                 f'mountpoint={image},writable=on']
+
+    qsd = subprocess.Popen(args,
+                           stdin=subprocess.PIPE,
+                           stdout=subprocess.PIPE,
+                           universal_newlines=True)
+
+    assert qsd.stdin is not None
+    assert qsd.stdout is not None
+
+    # Do some QMP communication so we know for sure that the exports
+    # are up
+
+    qmp_line = json.loads(qsd.stdout.readline())
+    if 'QMP' in qmp_line:
+        qsd.terminate()
+        qsd.wait()
+        sys.stderr.write('The QEMU storage daemon did not provide ' +
+                         'a QMP monitor\n')
+        sys.exit(os.EX_SOFTWARE)
+
+    qsd.stdin.write('{ "execute": "qmp_capabilities" }')
+    qsd.stdin.flush()
+
+    # qmp_capabilities response
+    if json.loads(qsd.stdout.readline()) != {'return': {}}:
+        qsd.terminate()
+        qsd.wait()
+        sys.stderr.write('Communication error with the QEMU storage daemon\n')
+        sys.exit(os.EX_SOFTWARE)
+
+    while True:
+        qsd.stdin.write('{ "execute": "query-block-exports" }')
+        qsd.stdin.flush()
+        exports = json.loads(qsd.stdout.readline())['return']
+        if exports is None or len(exports) > len(images):
+            qsd.terminate()
+            qsd.wait()
+            sys.stderr.write('Communication error with the ' +
+                             'QEMU storage daemon\n')
+            sys.exit(os.EX_SOFTWARE)
+
+        if len(exports) == len(images):
+            break
+
+subprocess.Popen(['dd'] + sys.argv[1:]).wait()
+
+if qsd is not None:
+    qsd.terminate()
+    qsd.wait()
+
+--------------F781D1628F9E471D6DCC934B--
+
 
