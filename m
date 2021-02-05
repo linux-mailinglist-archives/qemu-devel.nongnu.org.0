@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30AED31056C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:06:39 +0100 (CET)
-Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D31310578
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:09:09 +0100 (CET)
+Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7vCQ-0007T4-7x
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:06:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35684)
+	id 1l7vEq-0001iB-NH
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:09:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v39-0001Sv-B6
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36122)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v3C-0001aQ-23
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v36-0001EV-4n
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:02 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v3A-0001GE-98
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612508219;
+ s=mimecast20190719; t=1612508223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NBMNjbjTe6trPUZ4O0c0FepAOVSExaPM9dz+xKmbDuE=;
- b=GMxQZHRNa9D1yu4ajGHkGlvpN4vcNrwQu7ywpYkO3ZW0TQmD/fteLzNGjeK0Ux3O2odSgF
- w2ZQUowTMldPJeZQx09ayXapbpxJfXr2uEOmLeAITpzhxJbHROQP4wmjQFUCxGkyCdLlE9
- KH3uvHu//E2EsUsJZwNUgKB/ylevarM=
+ bh=d4ajX2jqr8XyJJQE5LbbPBUY7Hqk7qujv+RKmmfrqdI=;
+ b=Zj/Z/akeBDOOYyCCvX7w49pZP6qaMEffWhjuXdm+pu3Vqgy+QK/APznCT/VWtmXIRCsxvj
+ CUhTBQ16tY6isKsVrqmwbFFdi2ZymZqo5tLmABOofRG1CF7xjC/ackASWaLtqHnqYLIAdf
+ B9cL0DfsGtrCMVsBCvHBtbc1hz6/1Qg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-tXYOE47CM92r1o_cRuVx_w-1; Fri, 05 Feb 2021 01:56:57 -0500
-X-MC-Unique: tXYOE47CM92r1o_cRuVx_w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-481-FlgQ6SD6MT2Jf4-Ue7syyA-1; Fri, 05 Feb 2021 01:57:01 -0500
+X-MC-Unique: FlgQ6SD6MT2Jf4-Ue7syyA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 085E55B364
- for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E974B192CC40
+ for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:57:00 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
  [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4309F62461;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A6121A26A;
  Fri,  5 Feb 2021 06:56:42 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5F95D18003BE; Fri,  5 Feb 2021 07:56:21 +0100 (CET)
+ id 6C2F718003BF; Fri,  5 Feb 2021 07:56:21 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/24] ui: add qemu_egl_has_dmabuf helper
-Date: Fri,  5 Feb 2021 07:56:14 +0100
-Message-Id: <20210205065620.1726554-19-kraxel@redhat.com>
+Subject: [PULL 19/24] ui: check gtk-egl dmabuf support
+Date: Fri,  5 Feb 2021 07:56:15 +0100
+Message-Id: <20210205065620.1726554-20-kraxel@redhat.com>
 In-Reply-To: <20210205065620.1726554-1-kraxel@redhat.com>
 References: <20210205065620.1726554-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,45 +92,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210204105232.834642-15-marcandre.lureau@redhat.com>
+Message-Id: <20210204105232.834642-16-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/egl-helpers.h |  1 +
- ui/egl-helpers.c         | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+ include/ui/gtk.h | 1 +
+ ui/gtk.c         | 9 +++++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
-index 94a4b3e6f3bd..5b1f7fafe0bc 100644
---- a/include/ui/egl-helpers.h
-+++ b/include/ui/egl-helpers.h
-@@ -51,5 +51,6 @@ EGLSurface qemu_egl_init_surface_x11(EGLContext ectx, EGLNativeWindowType win);
- int qemu_egl_init_dpy_x11(EGLNativeDisplayType dpy, DisplayGLMode mode);
- int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode);
- EGLContext qemu_egl_init_ctx(void);
-+bool qemu_egl_has_dmabuf(void);
- 
- #endif /* EGL_HELPERS_H */
-diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-index 7c530c2825be..73fe61f87819 100644
---- a/ui/egl-helpers.c
-+++ b/ui/egl-helpers.c
-@@ -441,6 +441,16 @@ int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode)
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index 7569d090fa95..aaef884b95b4 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -48,6 +48,7 @@ typedef struct VirtualGfxConsole {
+     int cursor_y;
+     bool y0_top;
+     bool scanout_mode;
++    bool has_dmabuf;
  #endif
- }
+ } VirtualGfxConsole;
  
-+bool qemu_egl_has_dmabuf(void)
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 00045881b121..f41c396cb98a 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -623,6 +623,13 @@ static const DisplayChangeListenerOps dcl_ops = {
+ 
+ #if defined(CONFIG_OPENGL)
+ 
++static bool gd_has_dmabuf(DisplayChangeListener *dcl)
 +{
-+    if (qemu_egl_display == EGL_NO_DISPLAY) {
-+        return false;
-+    }
++    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
 +
-+    return epoxy_has_egl_extension(qemu_egl_display,
-+                                   "EGL_EXT_image_dma_buf_import");
++    return vc->gfx.has_dmabuf;
 +}
 +
- EGLContext qemu_egl_init_ctx(void)
- {
-     static const EGLint ctx_att_core[] = {
+ /** DisplayState Callbacks (opengl version) **/
+ 
+ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+@@ -661,6 +668,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_gl_cursor_position  = gd_egl_cursor_position,
+     .dpy_gl_release_dmabuf   = gd_egl_release_dmabuf,
+     .dpy_gl_update           = gd_egl_scanout_flush,
++    .dpy_has_dmabuf          = gd_has_dmabuf,
+ };
+ 
+ #endif /* CONFIG_OPENGL */
+@@ -2004,6 +2012,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+             gtk_widget_set_double_buffered(vc->gfx.drawing_area, FALSE);
+ #pragma GCC diagnostic pop
+             vc->gfx.dcl.ops = &dcl_egl_ops;
++            vc->gfx.has_dmabuf = qemu_egl_has_dmabuf();
+         }
+     } else
+ #endif
 -- 
 2.29.2
 
