@@ -2,69 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E80310D8E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:04:19 +0100 (CET)
-Received: from localhost ([::1]:45766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC8E310D92
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:05:06 +0100 (CET)
+Received: from localhost ([::1]:48156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l83aj-0007oJ-Kd
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:04:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32772)
+	id 1l83bV-0000az-2h
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:05:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l83Yk-000731-Ej
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:02:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l83Yg-00039K-R9
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:02:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612540928;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j7XLtWGYu/YcuJLZotFQJLJ0vVj/BEcBcg5XSbN7LuI=;
- b=CtzXbJ8ypZJ32H6e5YbCKZy12kb3RiLLx9wwqR1t/qtNb4tvplZUp0x6QiZOadR71w0ua2
- AVTZFeSgVBV9poU25DWHQTGo0Cnr2+nH0h9r64vzqO3QiANx9c33Gol6M5LVTQ6GBZbx5B
- nvWDHJTmMXTxESS1wk0QjUoIM8RUVoA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-kO0qzTMtPB6QzZdZP0y5QQ-1; Fri, 05 Feb 2021 11:02:02 -0500
-X-MC-Unique: kO0qzTMtPB6QzZdZP0y5QQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4709B8710EE;
- Fri,  5 Feb 2021 16:02:01 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B3E2F5C257;
- Fri,  5 Feb 2021 16:01:59 +0000 (UTC)
-Date: Fri, 5 Feb 2021 17:01:58 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 29/36] blockdev: qmp_x_blockdev_reopen: acquire all
- contexts
-Message-ID: <20210205160158.GE7072@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-30-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1l83Zd-0007cl-9S; Fri, 05 Feb 2021 11:03:09 -0500
+Received: from relay68.bu.edu ([128.197.228.73]:56509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1l83Za-0003XF-Tv; Fri, 05 Feb 2021 11:03:08 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 115G2Aas018445
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 5 Feb 2021 11:02:13 -0500
+Date: Fri, 5 Feb 2021 11:02:10 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2] hw/scsi/scsi-disk: Fix out of bounds access in
+ mode_sense_page()
+Message-ID: <20210205160145.kyqggrsmsll2ymwh@mozz.bu.edu>
+References: <20210204225041.1822673-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201127144522.29991-30-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210204225041.1822673-1-philmd@redhat.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,39 +56,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Li Qiang <liq3ea@gmail.com>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ Darren Kenny <darren.kenny@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> During reopen we may add backing bs from other aio context, which may
-> lead to changing original context of top bs.
+On 210204 2350, Philippe Mathieu-Daudé wrote:
+> Per the "SCSI Commands Reference Manual" (Rev. J) chapter 5.3
+> "Mode parameters" and table 359 "Mode page codes and subpage
+> codes", the last page code is 0x3f. When using it as array index,
+> the array must have 0x40 elements. Replace the magic 0x3f value
+> by its definition and increase the size of the mode_sense_valid[]
+> to avoid an out of bound access (reproducer available in [Buglink]):
 > 
-> We are going to move graph modification to prepare stage. So, it will
-> be possible that bdrv_flush() in bdrv_reopen_prepare called on bs in
-> non-original aio context, which we didn't aquire which leads to crash.
+>   hw/scsi/scsi-disk.c:1104:10: runtime error: index 63 out of bounds for type 'const int [63]'
+>   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior hw/scsi/scsi-disk.c:1104:10 in
+>   =================================================================
+>   ==1813911==ERROR: AddressSanitizer: global-buffer-overflow
+>   READ of size 4 at 0x5624b84aff1c thread T0
+>       #0 0x5624b63004b3 in mode_sense_page hw/scsi/scsi-disk.c:1104:10
+>       #1 0x5624b630f798 in scsi_disk_check_mode_select hw/scsi/scsi-disk.c:1447:11
+>       #2 0x5624b630efb8 in mode_select_pages hw/scsi/scsi-disk.c:1515:17
+>       #3 0x5624b630988e in scsi_disk_emulate_mode_select hw/scsi/scsi-disk.c:1570:13
+>       #4 0x5624b62f08e7 in scsi_disk_emulate_write_data hw/scsi/scsi-disk.c:1861:9
+>       #5 0x5624b62b171b in scsi_req_continue hw/scsi/scsi-bus.c:1391:9
+>       #6 0x5624b62b2d4c in scsi_req_data hw/scsi/scsi-bus.c:1427:5
+>       #7 0x5624b62f05f6 in scsi_disk_emulate_write_data hw/scsi/scsi-disk.c:1853:9
+>       #8 0x5624b62b171b in scsi_req_continue hw/scsi/scsi-bus.c:1391:9
+>       #9 0x5624b63e47ed in megasas_enqueue_req hw/scsi/megasas.c:1660:9
+>       #10 0x5624b63b9cfa in megasas_handle_scsi hw/scsi/megasas.c:1735:5
+>       #11 0x5624b63acf91 in megasas_handle_frame hw/scsi/megasas.c:1974:24
+>       #12 0x5624b63aa200 in megasas_mmio_write hw/scsi/megasas.c:2131:9
+>       #13 0x5624b63ebed3 in megasas_port_write hw/scsi/megasas.c:2182:5
+>       #14 0x5624b6f43568 in memory_region_write_accessor softmmu/memory.c:491:5
 > 
-> More correct would be to acquire all aio context we are going to work
-> with. And the simplest ways is to just acquire all of them. It may be
-> optimized later if needed.
+> Cc: qemu-stable@nongnu.org
+> Reported-by: OSS-Fuzz
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1914638
+> Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+
+> ---
+> v2: Mention reproducer link
+> ---
+>  hw/scsi/scsi-disk.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-I'm afraid it's not as easy. Holding the lock of more than one
-AioContext is always a bit risky with respect to deadlocks.
-
-For example, changing the AioContext of a node with
-bdrv_set_aio_context_ignore() has explicit rules that are now violated:
-
- * The caller must own the AioContext lock for the old AioContext of bs, but it
- * must not own the AioContext lock for new_context (unless new_context is the
- * same as the current context of bs).
-
-Draining while holding all AioContext locks is suspicious, too. I think
-I have seen deadlocks before, which is why bdrv_drain_all_*() are
-careful to only ever lock a single AioContext at a time.
-
-Kevin
-
+> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+> index ed52fcd49ff..93aec483e88 100644
+> --- a/hw/scsi/scsi-disk.c
+> +++ b/hw/scsi/scsi-disk.c
+> @@ -1089,7 +1089,7 @@ static int scsi_emulate_mechanism_status(SCSIDiskState *s, uint8_t *outbuf)
+>  static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
+>                             int page_control)
+>  {
+> -    static const int mode_sense_valid[0x3f] = {
+> +    static const int mode_sense_valid[MODE_PAGE_ALLS + 1] = {
+>          [MODE_PAGE_HD_GEOMETRY]            = (1 << TYPE_DISK),
+>          [MODE_PAGE_FLEXIBLE_DISK_GEOMETRY] = (1 << TYPE_DISK),
+>          [MODE_PAGE_CACHING]                = (1 << TYPE_DISK) | (1 << TYPE_ROM),
+> -- 
+> 2.26.2
+> 
 
