@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F7C310399
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 04:32:11 +0100 (CET)
-Received: from localhost ([::1]:46352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FDD3103E5
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 04:53:27 +0100 (CET)
+Received: from localhost ([::1]:54648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7rqs-00026C-6C
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 22:32:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59332)
+	id 1l7sBR-0007qG-VU
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 22:53:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7rpX-0001KB-QO
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:30:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7rpT-0005ZL-Qj
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:30:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l7rpR-0003Z2-Sp
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 03:30:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 956022E813A
- for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 03:30:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l7sAU-0007Nx-4Z
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:52:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l7sAQ-0006uf-Jp
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:52:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612497140;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8P6pdfLS5GEKfdGqSXpH34pu174A+WIrkQ5mPvKYUds=;
+ b=C+SlSpr19Ti+7favdeLKS36kN9cA74zZNR59HPrFVkvuiwAspjmqkWzhinC1GN+XMeW5Rr
+ awgKj+qU+PWNFEI99Xe34p2iZSxX0FCmrUqEF+lJf11yYKK9Tx2rbHhAbfaOVrK49UHCh+
+ 2mlKjXLeHKWy/Q+adBZXmTOBSlf5YQs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-178-UeSIlErjPZycKm2BSpJ8VA-1; Thu, 04 Feb 2021 22:52:19 -0500
+X-MC-Unique: UeSIlErjPZycKm2BSpJ8VA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77BD510066EE;
+ Fri,  5 Feb 2021 03:52:17 +0000 (UTC)
+Received: from [10.72.12.112] (ovpn-12-112.pek2.redhat.com [10.72.12.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 95DDE5D9D2;
+ Fri,  5 Feb 2021 03:51:49 +0000 (UTC)
+Subject: Re: [RFC 05/10] vhost: Add vhost_dev_from_virtio
+To: Eugenio Perez Martin <eperezma@redhat.com>
+References: <20210129205415.876290-1-eperezma@redhat.com>
+ <20210129205415.876290-6-eperezma@redhat.com>
+ <acf16fd6-2282-c220-e642-0868ac839b70@redhat.com>
+ <CAJaqyWeRK_i3MMZVgXJUwUNfLaq_h80jChZfQ3sRmWAcQnGLkQ@mail.gmail.com>
+ <a526b3ac-91d9-28e6-5ffc-2308aab4fbd6@redhat.com>
+ <CAJaqyWf-qsr5eLzk4Sum=GYhHoW_+V-9arfbssSjd6G6WnretQ@mail.gmail.com>
+ <a37502d6-b83f-fd34-7634-1060f4661540@redhat.com>
+ <CAJaqyWcvWyMxRuH4U2aMRrcZJHSkajO94JcH1WBfYvFrthESLw@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <569ace3d-f2c3-8b9f-63f5-809ce7067046@redhat.com>
+Date: Fri, 5 Feb 2021 11:51:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Feb 2021 03:16:30 -0000
-From: lizhijian <1914696@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: zhijianli88
-X-Launchpad-Bug-Reporter: lizhijian (zhijianli88)
-X-Launchpad-Bug-Modifier: lizhijian (zhijianli88)
-References: <161249398803.13999.15324457641617983607.malonedeb@soybean.canonical.com>
-Message-Id: <161249499025.25521.16953977854318272380.malone@wampee.canonical.com>
-Subject: [Bug 1914696] Re: aarch64: migration failed: Segmentation fault (core
- dumped)
-X-Launchpad-Message-Rationale: Subscriber @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: bcac394ac2ab4f5f311346e9b584e0773853b52b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAJaqyWcvWyMxRuH4U2aMRrcZJHSkajO94JcH1WBfYvFrthESLw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,145 +89,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914696 <1914696@bugs.launchpad.net>
+Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ virtualization@lists.linux-foundation.org, Michael Lilja <ml@napatech.com>,
+ Jim Harford <jim.harford@broadcom.com>, Rob Miller <rob.miller@broadcom.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-i have no a good idea how to fix it prefectly yet.
 
--- =
+On 2021/2/4 下午5:25, Eugenio Perez Martin wrote:
+> On Thu, Feb 4, 2021 at 4:14 AM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> On 2021/2/2 下午6:17, Eugenio Perez Martin wrote:
+>>> On Tue, Feb 2, 2021 at 4:31 AM Jason Wang <jasowang@redhat.com> wrote:
+>>>> On 2021/2/1 下午4:28, Eugenio Perez Martin wrote:
+>>>>> On Mon, Feb 1, 2021 at 7:13 AM Jason Wang <jasowang@redhat.com> wrote:
+>>>>>> On 2021/1/30 上午4:54, Eugenio Pérez wrote:
+>>>>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>>>>>> ---
+>>>>>>>      include/hw/virtio/vhost.h |  1 +
+>>>>>>>      hw/virtio/vhost.c         | 17 +++++++++++++++++
+>>>>>>>      2 files changed, 18 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+>>>>>>> index 4a8bc75415..fca076e3f0 100644
+>>>>>>> --- a/include/hw/virtio/vhost.h
+>>>>>>> +++ b/include/hw/virtio/vhost.h
+>>>>>>> @@ -123,6 +123,7 @@ uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_bits,
+>>>>>>>      void vhost_ack_features(struct vhost_dev *hdev, const int *feature_bits,
+>>>>>>>                              uint64_t features);
+>>>>>>>      bool vhost_has_free_slot(void);
+>>>>>>> +struct vhost_dev *vhost_dev_from_virtio(const VirtIODevice *vdev);
+>>>>>>>
+>>>>>>>      int vhost_net_set_backend(struct vhost_dev *hdev,
+>>>>>>>                                struct vhost_vring_file *file);
+>>>>>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>>>>>>> index 28c7d78172..8683d507f5 100644
+>>>>>>> --- a/hw/virtio/vhost.c
+>>>>>>> +++ b/hw/virtio/vhost.c
+>>>>>>> @@ -61,6 +61,23 @@ bool vhost_has_free_slot(void)
+>>>>>>>          return slots_limit > used_memslots;
+>>>>>>>      }
+>>>>>>>
+>>>>>>> +/*
+>>>>>>> + * Get the vhost device associated to a VirtIO device.
+>>>>>>> + */
+>>>>>>> +struct vhost_dev *vhost_dev_from_virtio(const VirtIODevice *vdev)
+>>>>>>> +{
+>>>>>>> +    struct vhost_dev *hdev;
+>>>>>>> +
+>>>>>>> +    QLIST_FOREACH(hdev, &vhost_devices, entry) {
+>>>>>>> +        if (hdev->vdev == vdev) {
+>>>>>>> +            return hdev;
+>>>>>>> +        }
+>>>>>>> +    }
+>>>>>>> +
+>>>>>>> +    assert(hdev);
+>>>>>>> +    return NULL;
+>>>>>>> +}
+>>>>>> I'm not sure this can work in the case of multiqueue. E.g vhost-net
+>>>>>> multiqueue is a N:1 mapping between vhost devics and virtio devices.
+>>>>>>
+>>>>>> Thanks
+>>>>>>
+>>>>> Right. We could add an "vdev vq index" parameter to the function in
+>>>>> this case, but I guess the most reliable way to do this is to add a
+>>>>> vhost_opaque value to VirtQueue, as Stefan proposed in previous RFC.
+>>>> So the question still, it looks like it's easier to hide the shadow
+>>>> virtqueue stuffs at vhost layer instead of expose them to virtio layer:
+>>>>
+>>>> 1) vhost protocol is stable ABI
+>>>> 2) no need to deal with virtio stuffs which is more complex than vhost
+>>>>
+>>>> Or are there any advantages if we do it at virtio layer?
+>>>>
+>>> As far as I can tell, we will need the virtio layer the moment we
+>>> start copying/translating buffers.
+>>>
+>>> In this series, the virtio dependency can be reduced if qemu does not
+>>> check the used ring _F_NO_NOTIFY flag before writing to irqfd. It
+>>> would enable packed queues and IOMMU immediately, and I think the cost
+>>> should not be so high. In the previous RFC this check was deleted
+>>> later anyway, so I think it was a bad idea to include it from the start.
+>>
+>> I am not sure I understand here. For vhost, we can still do anything we
+>> want, e.g accessing guest memory etc. Any blocker that prevent us from
+>> copying/translating buffers? (Note that qemu will propagate memory
+>> mappings to vhost).
+>>
+> There is nothing that forbids us to access directly, but if we don't
+> reuse the virtio layer functionality we would have to duplicate every
+> access function. "Need" was a too strong word maybe :).
+>
+> In other words: for the shadow vq vring exposed for the device, qemu
+> treats it as a driver, and this functionality needs to be added to
+> qemu. But for accessing the guest's one do not reuse virtio.c would be
+> a bad idea in my opinion.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to the bug report.
-https://bugs.launchpad.net/bugs/1914696
 
-Title:
-  aarch64: migration failed: Segmentation fault (core dumped)
+The problem is, virtio.c is not a library and it has a lot of dependency 
+with other qemu modules basically makes it impossible to be reused at 
+vhost level.
 
-Status in QEMU:
-  New
+We can solve this by:
 
-Bug description:
-  reproduce:
+1) split the core functions out as a library or
+2) switch to use contrib/lib-vhostuser but needs to decouple UNIX socket 
+transport
 
-  arch: aarch64
-  source qemu: v4.2.0
-  destination qemu: 1ed9228f63ea4bcc0ae240365305ee264e9189ce
+None of the above looks trivial and they are only device codes. For 
+shadow virtqueue, we need driver codes as well where no code can be reused.
 
-  cmdline:
-  source: =
+As we discussed, we probably need IOVA allocated when forwarding 
+descriptors between the two virtqueues. So my feeling is we can have our 
+own codes to start then we can consider whether we can reuse some from 
+the existing virtio.c or lib-vhostuser.
 
-  $ ./aarch64-softmmu/qemu-system-aarch64     -name 'avocado-vt-vm1'    -ma=
-chine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024=
-      -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor st=
-dio
-  (qemu) =
+Thanks
 
-  (qemu) migrate -d tcp:10.19.241.167:888
-  (qemu) info status
-  VM status: paused (postmigrate)
 
-  destination: =
+>
+>> Thanks
+>>
+>>
+>>>
+>>>
+>>>
+>>>
+>>>> Thanks
+>>>>
+>>>>
+>>>>> I need to take this into account in qmp_x_vhost_enable_shadow_vq too.
+>>>>>
+>>>>>>> +
+>>>>>>>      static void vhost_dev_sync_region(struct vhost_dev *dev,
+>>>>>>>                                        MemoryRegionSection *section,
+>>>>>>>                                        uint64_t mfirst, uint64_t mlast,
+>
 
-  ./build/aarch64-softmmu/qemu-system-aarch64 -name 'avocado-vt-vm1'  -mach=
-ine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024  =
-    -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor stdi=
-o -incoming tcp:0:888
-  QEMU 5.2.50 monitor - type 'help' for more information
-  (qemu) Segmentation fault (core dumped)
-
-  =
-
-  i have bisected and confirmed that the first bad commit is: [f9506e162c33=
-e87b609549157dd8431fcc732085] target/arm: Remove ARM_FEATURE_VFP*
-
-  bisect log:
-  git bisect log
-  # bad: [1ed9228f63ea4bcc0ae240365305ee264e9189ce] Merge remote-tracking b=
-ranch 'remotes/ericb/tags/pull-nbd-2021-02-02-v2' into staging
-  git bisect bad 1ed9228f63ea4bcc0ae240365305ee264e9189ce
-  # good: [b0ca999a43a22b38158a222233d3f5881648bb4f] Update version for v4.=
-2.0 release
-  git bisect good b0ca999a43a22b38158a222233d3f5881648bb4f
-  # bad: [59093cc407cb044c72aa786006a07bd404eb36b9] hw/char: Convert the Ib=
-ex UART to use the registerfields API
-  git bisect bad 59093cc407cb044c72aa786006a07bd404eb36b9
-  # bad: [4dabf39592e92d692c6f2a1633571114ae25d843] aspeed/smc: Fix DMA sup=
-port for AST2600
-  git bisect bad 4dabf39592e92d692c6f2a1633571114ae25d843
-  # good: [93c86fff53a267f657e79ec07dcd04b63882e330] Merge remote-tracking =
-branch 'remotes/pmaydell/tags/pull-target-arm-20200207' into staging
-  git bisect good 93c86fff53a267f657e79ec07dcd04b63882e330
-  # bad: [2ac031d171ccd18c973014d9978b4a63f0ad5fb0] Merge remote-tracking b=
-ranch 'remotes/palmer/tags/riscv-for-master-5.0-sf3' into staging
-  git bisect bad 2ac031d171ccd18c973014d9978b4a63f0ad5fb0
-  # good: [4036b7d1cd9fb1097a5f4bc24d7d31744256260f] target/arm: Use isar_f=
-eature function for testing AA32HPD feature
-  git bisect good 4036b7d1cd9fb1097a5f4bc24d7d31744256260f
-  # good: [002375895c10df40615fc615e2639f49e0c442fe] tests/iotests: be a li=
-ttle more forgiving on the size test
-  git bisect good 002375895c10df40615fc615e2639f49e0c442fe
-  # good: [c695724868ce4049fd79c5a509880dbdf171e744] target/riscv: Emulate =
-TIME CSRs for privileged mode
-  git bisect good c695724868ce4049fd79c5a509880dbdf171e744
-  # good: [f67957e17cbf8fc3cc5d1146a2db2023404578b0] target/arm: Add isar_f=
-eature_aa32_{fpsp_v2, fpsp_v3, fpdp_v3}
-  git bisect good f67957e17cbf8fc3cc5d1146a2db2023404578b0
-  # bad: [a1229109dec4375259d3fff99f362405aab7917a] target/arm: Implement v=
-8.4-RCPC
-  git bisect bad a1229109dec4375259d3fff99f362405aab7917a
-  # bad: [906b60facc3d3dd3af56cb1a7860175d805e10a3] target/arm: Add formats=
- for some vfp 2 and 3-register insns
-  git bisect bad 906b60facc3d3dd3af56cb1a7860175d805e10a3
-  # good: [c52881bbc22b50db99a6c37171ad3eea7d959ae6] target/arm: Replace AR=
-M_FEATURE_VFP4 with isar_feature_aa32_simdfmac
-  git bisect good c52881bbc22b50db99a6c37171ad3eea7d959ae6
-  # good: [f0f6d5c81be47d593e5ece7f06df6fba4c15738b] target/arm: Move the v=
-fp decodetree calls next to the base isa
-  git bisect good f0f6d5c81be47d593e5ece7f06df6fba4c15738b
-  # bad: [f9506e162c33e87b609549157dd8431fcc732085] target/arm: Remove ARM_=
-FEATURE_VFP*
-  git bisect bad f9506e162c33e87b609549157dd8431fcc732085
-  # good: [bfa8a370d2f5d4ed03f7a7e2987982f15fe73758] linux-user/arm: Replac=
-e ARM_FEATURE_VFP* tests for HWCAP
-  git bisect good bfa8a370d2f5d4ed03f7a7e2987982f15fe73758
-  # first bad commit: [f9506e162c33e87b609549157dd8431fcc732085] target/arm=
-: Remove ARM_FEATURE_VFP*
-
-  =
-
-  the root cause is that, some feature bit is not consistent any more with =
-below changes in this commit:
-  diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-  index b29b0eddfc..05aa9711cd 100644
-  --- a/target/arm/cpu.h
-  +++ b/target/arm/cpu.h
-  @@ -1880,7 +1880,6 @@ QEMU_BUILD_BUG_ON(ARRAY_SIZE(((ARMCPU *)0)->ccsidr)=
- <=3D R_V7M_CSSELR_INDEX_MASK);
-    * mapping in linux-user/elfload.c:get_elf_hwcap().
-    */
-   enum arm_features {
-  -    ARM_FEATURE_VFP,
-       ARM_FEATURE_AUXCR,  /* ARM1026 Auxiliary control register.  */
-       ARM_FEATURE_XSCALE, /* Intel XScale extensions.  */
-       ARM_FEATURE_IWMMXT, /* Intel iwMMXt extension.  */
-  @@ -1889,7 +1888,6 @@ enum arm_features {
-       ARM_FEATURE_V7,
-       ARM_FEATURE_THUMB2,
-       ARM_FEATURE_PMSA,   /* no MMU; may have Memory Protection Unit */
-  -    ARM_FEATURE_VFP3,
-       ARM_FEATURE_NEON,
-       ARM_FEATURE_M, /* Microcontroller profile.  */
-       ARM_FEATURE_OMAPCP, /* OMAP specific CP15 ops handling.  */
-  @@ -1900,7 +1898,6 @@ enum arm_features {
-       ARM_FEATURE_V5,
-       ARM_FEATURE_STRONGARM,
-       ARM_FEATURE_VAPA, /* cp15 VA to PA lookups */
-  -    ARM_FEATURE_VFP4, /* VFPv4 (implies that NEON is v2) */
-       ARM_FEATURE_GENERIC_TIMER,
-       ARM_FEATURE_MVFR, /* Media and VFP Feature Registers 0 and 1 */
-       ARM_FEATURE_DUMMY_C15_REGS, /* RAZ/WI all of cp15 crn=3D15 */
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914696/+subscriptions
 
