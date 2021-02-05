@@ -2,81 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844F6310C26
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 14:50:09 +0100 (CET)
-Received: from localhost ([::1]:46696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCC0310C51
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 14:59:31 +0100 (CET)
+Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l81Uu-00065J-Jf
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 08:50:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59610)
+	id 1l81dy-00088y-Ga
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 08:59:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l81Tt-0005Ks-Gg
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:49:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25345)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l81Tr-0002uP-TO
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:49:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612532942;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=joK+FAL6GjE8yaKgiMntTmakeVv7Fu91l3U8zFqK+bM=;
- b=SsFbShhjuouLrspMCDA3d4JPKG7vwClCtw9QiHo9DVRFnFFMyvDMarvKmQ+ZOIJyF904//
- 5GD6dDm9J4cD/b9sKpdk8sXNoj8Zr+WcpLzh5sJ+rNNnsWhONiJCGfonSmMRGlz18OcPY/
- VoS7m/eUic99xKUio4nporPxllp5AKg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-20P7V1TmMJKS999oAEq88w-1; Fri, 05 Feb 2021 08:49:01 -0500
-X-MC-Unique: 20P7V1TmMJKS999oAEq88w-1
-Received: by mail-wm1-f72.google.com with SMTP id z67so3824263wme.3
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 05:49:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=joK+FAL6GjE8yaKgiMntTmakeVv7Fu91l3U8zFqK+bM=;
- b=H1aH3OaTyZbuRsLW1HOH4H89tnW50d9/2V21VhVzqhVx0I33xJyKm8elTQZdoxrooA
- pJlpBgvID0WLOF+DLa189zWINMDTzq3GssOfhj4ufjX4Kdr6rG0DgRvFhuLX26Vw0UgZ
- uACuBxcqjcBASSmdraON88EhT+L8FEXArDqYp/Alt2cJLPNv3D5WODWkImje2sJmBPT5
- Neb4XV1mcbmaZDDf/FGHctJBtII8wQapSilByYraKH6DsN7JfREWamjSPEVGqi01vcIB
- 8YIQs6yAcS4Djw2OLu/aQD0X9nl0w6pJ4dwqjPTM+fe+QL3ppkyP8fj58TDJAF7Svgnn
- 0fWA==
-X-Gm-Message-State: AOAM532CFPCdIF9/v7A+ixuwHFmXEnJ6mJNXLJtAeLakRf2NFXuteqht
- vulWIAPPgB57zTq1CRhcJGQ28kSc4qDq37XGfOG8X+L/OcLx7D1esinrPQzdqyv8xpw8Za0d3il
- TWzFCPHxrL0yyaLk=
-X-Received: by 2002:adf:f750:: with SMTP id z16mr5179320wrp.243.1612532939888; 
- Fri, 05 Feb 2021 05:48:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxNbx423HqPzn6TZnVX8pxwCyROcgSFp+wm6vfqCbq7lJgOiXYpBxnajHbnMb1j/ga20LpNiA==
-X-Received: by 2002:adf:f750:: with SMTP id z16mr5179305wrp.243.1612532939720; 
- Fri, 05 Feb 2021 05:48:59 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id k6sm12861573wro.27.2021.02.05.05.48.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 05:48:58 -0800 (PST)
-Date: Fri, 5 Feb 2021 08:48:56 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: isaku.yamahata@gmail.com
-Subject: Re: [PATCH 0/4] ACPI related fixes
-Message-ID: <20210205084711-mutt-send-email-mst@kernel.org>
-References: <cover.1612424814.git.isaku.yamahata@intel.com>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1l81d0-0006zo-5y
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:58:30 -0500
+Received: from foss.arm.com ([217.140.110.172]:53000)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1l81ct-00073S-QS
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:58:29 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE27331B;
+ Fri,  5 Feb 2021 05:58:21 -0800 (PST)
+Received: from e112269-lin.arm.com (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 076A83F719;
+ Fri,  5 Feb 2021 05:58:18 -0800 (PST)
+From: Steven Price <steven.price@arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: [PATCH v8 0/5] MTE support for KVM guest
+Date: Fri,  5 Feb 2021 13:57:58 +0000
+Message-Id: <20210205135803.48321-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1612424814.git.isaku.yamahata@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,50 +52,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>, imammedo@redhat.com,
- qemu-devel@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 04, 2021 at 12:04:07AM -0800, isaku.yamahata@gmail.com wrote:
-> From: Isaku Yamahata <isaku.yamahata@intel.com>
-> 
-> Miscellaneous bug fixes related to ACPI to play nice with guest BIOSes/OSes
-> by conforming to ACPI spec better.
-> 
-> Isaku Yamahata (3):
->   acpi/core: always set SCI_EN when SMM isn't supported
->   acpi: set fadt.smi_cmd to zero when SMM is not supported
->   hw/i386: declare ACPI mother board resource for MMCONFIG region
+Another round of updates following review comments from Marc (thanks!).
+This is rather late for v5.12, so I'll rebase again after -rc1 is out.
 
-These all look good, but break make check:
+This series adds support for using the Arm Memory Tagging Extensions
+(MTE) in a KVM guest.
 
-acpi-test: Warning! DSDT binary file mismatch. Actual [aml:/tmp/aml-YLJ7X0], Expected [aml:tests/data/acpi/q35/DSDT].
-See source file tests/qtest/bios-tables-test.c for instructions on how to update expected files.
-acpi-test: Warning! DSDT mismatch. Actual [asl:/tmp/asl-2KJ7X0.dsl, aml:/tmp/aml-YLJ7X0], Expected [asl:/tmp/asl-U2R7X0.dsl, aml:tests/data/acpi/q35/DSDT].
-**
-ERROR:../qemu/tests/qtest/bios-tables-test.c:509:test_acpi_asl: assertion failed: (all_tables_match)
-ERROR qtest-i386/bios-tables-test - Bail out! ERROR:../qemu/tests/qtest/bios-tables-test.c:509:test_acpi_asl: assertion failed: (all_tables_match)
-make: *** [Makefile.mtest:1713: run-test-212] Error 1
+This version splits the change to the tag synchronisation out to it's
+own patch (patch 1), and also separates the introduction and exposing of
+KVM_ARM_CAP_MTE into two patches (2 and 4) to avoid a dependency problem
+with the save/restore patch (3). As before patch 5 is an RFC for adding
+a new ioctl for reading/writing tags (I would appreciate feedback!).
 
-Probably because you didn't update the expected files.
-Pls follow the process at the top of tests/qtest/bios-tables-test.c
+Changes since v7[1]:
+ * Split into hopefully more logic patches.
+ * Save/restore of TFSRE0_EL1 is now done in C code.
+ * Make save/restore of TFSR_EL1 conditional on the VM having MTE
+   enabled.
+ * Replaced register descriptions boilerplate in sys_regs.c with a new
+   MTE_REG() macro.
 
-and make sure all tests pass.
+[1] https://lore.kernel.org/r/20210115152811.8398-1-steven.price%40arm.com
 
+Steven Price (5):
+  arm64: mte: Sync tags for pages where PTE is untagged
+  arm64: kvm: Introduce MTE VM feature
+  arm64: kvm: Save/restore MTE registers
+  arm64: kvm: Expose KVM_ARM_CAP_MTE
+  KVM: arm64: ioctl to fetch/store tags in a guest
 
-> Sean Christopherson (1):
->   i386: acpi: Don't build HPET ACPI entry if HPET is disabled
-> 
->  hw/acpi/core.c         |  11 ++-
->  hw/acpi/ich9.c         |   2 +-
->  hw/acpi/piix4.c        |   3 +-
->  hw/i386/acpi-build.c   | 188 +++++++++++++++++++++++++++++++++++++++--
->  hw/isa/vt82c686.c      |   2 +-
->  include/hw/acpi/acpi.h |   4 +-
->  6 files changed, 200 insertions(+), 10 deletions(-)
-> 
-> -- 
-> 2.17.1
+ arch/arm64/include/asm/kvm_emulate.h       |  3 +
+ arch/arm64/include/asm/kvm_host.h          |  9 +++
+ arch/arm64/include/asm/kvm_mte.h           | 66 ++++++++++++++++++++++
+ arch/arm64/include/asm/pgtable.h           |  2 +-
+ arch/arm64/include/asm/sysreg.h            |  3 +-
+ arch/arm64/include/uapi/asm/kvm.h          | 13 +++++
+ arch/arm64/kernel/asm-offsets.c            |  3 +
+ arch/arm64/kernel/mte.c                    | 16 ++++--
+ arch/arm64/kvm/arm.c                       | 66 ++++++++++++++++++++++
+ arch/arm64/kvm/hyp/entry.S                 |  7 +++
+ arch/arm64/kvm/hyp/exception.c             |  3 +-
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 21 +++++++
+ arch/arm64/kvm/mmu.c                       | 16 ++++++
+ arch/arm64/kvm/sys_regs.c                  | 28 +++++++--
+ include/uapi/linux/kvm.h                   |  2 +
+ 15 files changed, 246 insertions(+), 12 deletions(-)
+ create mode 100644 arch/arm64/include/asm/kvm_mte.h
+
+-- 
+2.20.1
 
 
