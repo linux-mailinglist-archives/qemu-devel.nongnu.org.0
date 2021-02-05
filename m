@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC454310D0D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:16:29 +0100 (CET)
-Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87B7310D03
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:12:18 +0100 (CET)
+Received: from localhost ([::1]:54910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l82qS-00012E-KT
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:16:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47896)
+	id 1l82mP-0003Cm-O6
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:12:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l82eP-00041o-E7
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:04:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32779)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l82hS-0007HE-RT
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:07:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l82eN-0002zt-98
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:04:01 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l82hN-0004IV-8e
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:07:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612537438;
+ s=mimecast20190719; t=1612537624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NQXW1/SZyEseosS3Pdw5NegFFGQKTt5n2ODFCN2dPLY=;
- b=f2rRz97gNDTaN2AjjHsc42xg58OYMWbqb7Y8XqtfDILpKlBQhjUtcuu9XsuI5vR2rVw2wo
- 3mjhkk+8mAayrFENIznTomXZYcIutnNXquqQ/iu5r+dyNF4+4x8UWMDbNsBeKCW5PV1R0f
- saUWoXQQlqoDucOEBG48wBZlXjZTj9E=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-0KGGVqNDP8yCi89ZoB_QIw-1; Fri, 05 Feb 2021 10:03:56 -0500
-X-MC-Unique: 0KGGVqNDP8yCi89ZoB_QIw-1
-Received: by mail-ed1-f71.google.com with SMTP id ck25so7031458edb.16
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 07:03:56 -0800 (PST)
+ bh=NM5gGdPhi2A0Xfk2U2Gp/inbSM/ee2Z72/b98qblcAQ=;
+ b=YhvNGA3I3qTaKMefKJvarZtOtNT3K0aZXQMAbt1kHsXciE43jbcQwUYOYLV9Nf3bDFMFtA
+ LfpwNYj43Mwp0r3vkyeD2BFnrlP5NS4Vg+cinAYhT4izhcafuaCYcTwBSH7ZfjKIzME7aQ
+ /4wTgw1P1l27W7z9rVx1v5HhktmoJyE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-HESJU1FtN_CsJZN_k0Ewow-1; Fri, 05 Feb 2021 10:03:58 -0500
+X-MC-Unique: HESJU1FtN_CsJZN_k0Ewow-1
+Received: by mail-ed1-f69.google.com with SMTP id l23so4453238edt.23
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 07:03:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=NQXW1/SZyEseosS3Pdw5NegFFGQKTt5n2ODFCN2dPLY=;
- b=pVlMwvZhT6mTKDqq00w8OejBcMOYkHnzLqwC2auwvsZnGR6bll6XJ1lZmxXbpJGMtj
- DeQCQtOWDveyZaTK2HzYuhig4lRXupBdClJBhaPQwEt7A/sdnXz9WSE/YvQSQEd5vePu
- CHQXMHes1VwhtpWAbAdcUUlpdYg3/CMt1X2HoLPGskoHSHFNESSjOCTCB4nGY3cFq4d4
- OtbWOZY8dDGgwBS/jBuFCVtkr5X8Z6/v3qSyaRLC24fq+bN3MQiJLk4wH/ahNKMY9/L4
- OXL1LAqOQ2NFUprGKNTYo81SpiUfdM0zyEkJao9G5euKtlUE8QNk6qYsLU3h2s60Fe7j
- 1NwQ==
-X-Gm-Message-State: AOAM530gWqVAfM8riQSP+oPyEZfELzC+Tjo4y9xKl4D+Wo+k5IKuh3Kf
- 5SiEYmQdf7WQJMiMmJW9jiV4xk9XtB2+1m+DV5oancpCiSyD/D5BWncycVFFDCxYxgml2AH73b8
- O2LukbHuw8ZIVqlg/DTyv+mczpdbYBwlxXWL1MrQ2oldx1B403V6R/MQtR+8W
-X-Received: by 2002:a17:906:4c4b:: with SMTP id
- d11mr4426770ejw.387.1612537434917; 
- Fri, 05 Feb 2021 07:03:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyQ6wGeqSOagw/8jmeSUqXi7g60Csz3C+pzWJ5D17OzyTpAM9E3fBhB026TdXEUPdMqpna/RA==
-X-Received: by 2002:a17:906:4c4b:: with SMTP id
- d11mr4426733ejw.387.1612537434710; 
- Fri, 05 Feb 2021 07:03:54 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=NM5gGdPhi2A0Xfk2U2Gp/inbSM/ee2Z72/b98qblcAQ=;
+ b=G2DeVMMAOwWhlHsWsK/S17nhlfINyQX2T9VxsOwv1cKm0pbVxlV2eh126dRUVgWJk2
+ P6MEbRwo/p21ijYNUz8cVLYSildqxJiRYnB2fPxA1lG50u1HhoYzlTEEa06MZpxcWGQQ
+ Sdf0aemDxEGY0WFGmLkpuFPb69ecVDypswvh5XJGIU90She1WuRAVXi8Pun69Ej37sjg
+ A9eJSTOKj/XwY0mukoB8xbP9prMRsyWVGEdXLkAGVZy7mpE+IMdYj2sfPj+ORkGG7PuH
+ XWVLYTeaJdW6vDdb6xawJex4omlxeft0uFngyTATpqdDei/UeNK1TaQVTZ3niuAlIaI9
+ Vqrw==
+X-Gm-Message-State: AOAM531ThkY4AExFECW82gkBfpKwOJWvkq0L5tRSZU9eUKRe8mkEysPh
+ aYMMPekjzIGvXR8yE/JEG/meWlbnrE1AkR/a0ofAPwgFwiNmueu9iaXM7h7Aa+JDqZrPjpVjs4W
+ 6C6yZ/IJHPJuI0y60JPTr1k4D8ipYDQgIv3cGS7BYMK7rRIvunUIcrFOXVVvT
+X-Received: by 2002:a17:906:d189:: with SMTP id
+ c9mr4533481ejz.36.1612537437445; 
+ Fri, 05 Feb 2021 07:03:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyFkKNbCT01jdx/jX7L40+CRAp4II9nQ02wxf9EHJPpNC5SkmJjQFpmIfk7Y9nOe5ST4JM+qw==
+X-Received: by 2002:a17:906:d189:: with SMTP id
+ c9mr4533459ejz.36.1612537437238; 
+ Fri, 05 Feb 2021 07:03:57 -0800 (PST)
 Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id ah20sm4000000ejc.99.2021.02.05.07.03.52
+ by smtp.gmail.com with ESMTPSA id sb6sm3755295ejb.54.2021.02.05.07.03.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 07:03:54 -0800 (PST)
-Date: Fri, 5 Feb 2021 10:03:51 -0500
+ Fri, 05 Feb 2021 07:03:56 -0800 (PST)
+Date: Fri, 5 Feb 2021 10:03:54 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 08/16] hw/i386: Remove the deprecated pc-1.x machine types
-Message-ID: <20210205150135.94643-9-mst@redhat.com>
+Subject: [PULL v2 09/16] hw/virtio/virtio-balloon: Remove the "class" property
+Message-ID: <20210205150135.94643-10-mst@redhat.com>
 References: <20210205150135.94643-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210205150135.94643-1-mst@redhat.com>
@@ -73,18 +71,17 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,174 +95,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-They have been deprecated since QEMU v5.0, time to remove them now.
+This property was only required for compatibility reasons in the
+pc-1.0 machine type and earlier. Now that these machine types have
+been removed, the property is not useful anymore.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210203171832.483176-2-thuth@redhat.com>
+Message-Id: <20210203171832.483176-4-thuth@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Acked-by: David Hildenbrand <david@redhat.com>
 ---
- hw/i386/pc_piix.c                | 94 --------------------------------
- docs/system/deprecated.rst       |  6 --
- docs/system/removed-features.rst |  6 ++
- 3 files changed, 6 insertions(+), 100 deletions(-)
+ hw/virtio/virtio-balloon-pci.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 6188c3e97e..2904b40163 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -359,18 +359,6 @@ static void pc_compat_1_4_fn(MachineState *machine)
-     pc_compat_1_5_fn(machine);
+diff --git a/hw/virtio/virtio-balloon-pci.c b/hw/virtio/virtio-balloon-pci.c
+index a2c5cc7207..79a3ba979a 100644
+--- a/hw/virtio/virtio-balloon-pci.c
++++ b/hw/virtio/virtio-balloon-pci.c
+@@ -34,21 +34,13 @@ struct VirtIOBalloonPCI {
+     VirtIOPCIProxy parent_obj;
+     VirtIOBalloon vdev;
+ };
+-static Property virtio_balloon_pci_properties[] = {
+-    DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+ 
+ static void virtio_balloon_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+ {
+     VirtIOBalloonPCI *dev = VIRTIO_BALLOON_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+ 
+-    if (vpci_dev->class_code != PCI_CLASS_OTHERS &&
+-        vpci_dev->class_code != PCI_CLASS_MEMORY_RAM) { /* qemu < 1.1 */
+-        vpci_dev->class_code = PCI_CLASS_OTHERS;
+-    }
+-
++    vpci_dev->class_code = PCI_CLASS_OTHERS;
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
  }
  
--static void pc_compat_1_3(MachineState *machine)
--{
--    pc_compat_1_4_fn(machine);
--}
--
--/* PC compat function for pc-1.0 to pc-1.2 */
--static void pc_compat_1_2(MachineState *machine)
--{
--    pc_compat_1_3(machine);
--    x86_cpu_change_kvm_default("kvm-pv-eoi", NULL);
--}
--
- static void pc_init_isa(MachineState *machine)
- {
-     pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, TYPE_I440FX_PCI_DEVICE);
-@@ -772,88 +760,6 @@ static void pc_i440fx_1_4_machine_options(MachineClass *m)
- DEFINE_I440FX_MACHINE(v1_4, "pc-i440fx-1.4", pc_compat_1_4_fn,
-                       pc_i440fx_1_4_machine_options);
- 
--static void pc_i440fx_1_3_machine_options(MachineClass *m)
--{
--    X86MachineClass *x86mc = X86_MACHINE_CLASS(m);
--    static GlobalProperty compat[] = {
--        PC_CPU_MODEL_IDS("1.3.0")
--        { "usb-tablet", "usb_version", "1" },
--        { "virtio-net-pci", "ctrl_mac_addr", "off" },
--        { "virtio-net-pci", "mq", "off" },
--        { "e1000", "autonegotiation", "off" },
--    };
--
--    pc_i440fx_1_4_machine_options(m);
--    m->hw_version = "1.3.0";
--    m->deprecation_reason = "use a newer machine type instead";
--    x86mc->compat_apic_id_mode = true;
--    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
--}
--
--DEFINE_I440FX_MACHINE(v1_3, "pc-1.3", pc_compat_1_3,
--                      pc_i440fx_1_3_machine_options);
--
--
--static void pc_i440fx_1_2_machine_options(MachineClass *m)
--{
--    static GlobalProperty compat[] = {
--        PC_CPU_MODEL_IDS("1.2.0")
--        { "nec-usb-xhci", "msi", "off" },
--        { "nec-usb-xhci", "msix", "off" },
--        { "qxl", "revision", "3" },
--        { "qxl-vga", "revision", "3" },
--        { "VGA", "mmio", "off" },
--    };
--
--    pc_i440fx_1_3_machine_options(m);
--    m->hw_version = "1.2.0";
--    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
--}
--
--DEFINE_I440FX_MACHINE(v1_2, "pc-1.2", pc_compat_1_2,
--                      pc_i440fx_1_2_machine_options);
--
--
--static void pc_i440fx_1_1_machine_options(MachineClass *m)
--{
--    static GlobalProperty compat[] = {
--        PC_CPU_MODEL_IDS("1.1.0")
--        { "virtio-scsi-pci", "hotplug", "off" },
--        { "virtio-scsi-pci", "param_change", "off" },
--        { "VGA", "vgamem_mb", "8" },
--        { "vmware-svga", "vgamem_mb", "8" },
--        { "qxl-vga", "vgamem_mb", "8" },
--        { "qxl", "vgamem_mb", "8" },
--        { "virtio-blk-pci", "config-wce", "off" },
--    };
--
--    pc_i440fx_1_2_machine_options(m);
--    m->hw_version = "1.1.0";
--    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
--}
--
--DEFINE_I440FX_MACHINE(v1_1, "pc-1.1", pc_compat_1_2,
--                      pc_i440fx_1_1_machine_options);
--
--static void pc_i440fx_1_0_machine_options(MachineClass *m)
--{
--    static GlobalProperty compat[] = {
--        PC_CPU_MODEL_IDS("1.0")
--        { TYPE_ISA_FDC, "check_media_rate", "off" },
--        { "virtio-balloon-pci", "class", stringify(PCI_CLASS_MEMORY_RAM) },
--        { "apic-common", "vapic", "off" },
--        { TYPE_USB_DEVICE, "full-path", "no" },
--    };
--
--    pc_i440fx_1_1_machine_options(m);
--    m->hw_version = "1.0";
--    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
--}
--
--DEFINE_I440FX_MACHINE(v1_0, "pc-1.0", pc_compat_1_2,
--                      pc_i440fx_1_0_machine_options);
--
--
- typedef struct {
-     uint16_t gpu_device_id;
-     uint16_t pch_device_id;
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 6ac757ed9f..2fcac7861e 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -322,12 +322,6 @@ The 'scsi-disk' device is deprecated. Users should use 'scsi-hd' or
- System emulator machines
- ------------------------
- 
--``pc-1.0``, ``pc-1.1``, ``pc-1.2`` and ``pc-1.3`` (since 5.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--These machine types are very old and likely can not be used for live migration
--from old QEMU versions anymore. A newer machine type should be used instead.
--
- Raspberry Pi ``raspi2`` and ``raspi3`` machines (since 5.2)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 88b81a6156..c8481cafbd 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -136,6 +136,12 @@ mips ``fulong2e`` machine alias (removed in 6.0)
- 
- This machine has been renamed ``fuloong2e``.
- 
-+``pc-1.0``, ``pc-1.1``, ``pc-1.2`` and ``pc-1.3`` (removed in 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+These machine types were very old and likely could not be used for live
-+migration from old QEMU versions anymore. Use a newer machine type instead.
-+
- Related binaries
- ----------------
- 
+@@ -59,7 +51,6 @@ static void virtio_balloon_pci_class_init(ObjectClass *klass, void *data)
+     PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
+     k->realize = virtio_balloon_pci_realize;
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+-    device_class_set_props(dc, virtio_balloon_pci_properties);
+     pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
+     pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_BALLOON;
+     pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
 -- 
 MST
 
