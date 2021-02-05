@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34114310DE0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:28:43 +0100 (CET)
-Received: from localhost ([::1]:57296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185EB310DE6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:32:02 +0100 (CET)
+Received: from localhost ([::1]:34472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l83yM-0002m0-9F
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:28:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38090)
+	id 1l841Z-0005UZ-3v
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:32:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l83wZ-0001Lh-Nh
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:26:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22542)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l840H-0004pw-KP
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:30:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l83wU-0006VL-JV
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:26:50 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l840E-0007f5-MY
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:30:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612542405;
+ s=mimecast20190719; t=1612542638;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TEcq0ltk07Lf0OSF/ygfFrv99IbO9E0evp/LKtf+izA=;
- b=XriXyBROq6wWhrUOFgy7qhwg7wgUOhEQSdFuxSPIN+coW3CGqJXEhy744uzRMTVUqK/Lzv
- rBdqZzVarZZyLBpeCxgO23RFJ9+TjYmtqwVNuKrSD7sEELUNpD2+xhHU7UvZieV/Eu75hF
- lr1oqZsEoO+bhZtk5u4Sd55OCTqegJk=
+ bh=IXjvjLme6FM+0TCKRr9F+HiQeorls1D61+p1jS48xeI=;
+ b=Omi4yqqZWbF3SfpCpbdI35WY54n1ZKjnvSf0gQk6pxJ/EnQ0UljNwgUg3MYmVgXw73akg4
+ 4R03m4IP1iGpgW7rGUORXx8VBtmEfV39gSeJblKdOw1DyuHbuLxu0WZ6rftcElES4s9L4P
+ /s9PH/1QV5EFPO5IagtWeCIaBzoW+2w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-sOBoJFYiN-6vhFhksq91JA-1; Fri, 05 Feb 2021 11:26:44 -0500
-X-MC-Unique: sOBoJFYiN-6vhFhksq91JA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-497-594OMumFMPyicBGLYyI9IA-1; Fri, 05 Feb 2021 11:30:34 -0500
+X-MC-Unique: 594OMumFMPyicBGLYyI9IA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A613192AB7C;
- Fri,  5 Feb 2021 16:26:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C108107ACC7;
+ Fri,  5 Feb 2021 16:30:33 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DEA0100164C;
- Fri,  5 Feb 2021 16:26:40 +0000 (UTC)
-Date: Fri, 5 Feb 2021 17:26:39 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F5BF60BF1;
+ Fri,  5 Feb 2021 16:30:30 +0000 (UTC)
+Date: Fri, 5 Feb 2021 17:30:29 +0100
 From: Kevin Wolf <kwolf@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Subject: Re: [PATCH v2 28/36] block: add bdrv_set_backing_noperm()
  transaction action
-Message-ID: <20210205162639.GF7072@merkur.fritz.box>
+Message-ID: <20210205163029.GG7072@merkur.fritz.box>
 References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
  <20201127144522.29991-29-vsementsov@virtuozzo.com>
+ <20210205140028.GC7072@merkur.fritz.box>
+ <9fe6a325-4af7-5d97-fc0d-06911f7c677a@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20201127144522.29991-29-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <9fe6a325-4af7-5d97-fc0d-06911f7c677a@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,51 +84,176 @@ Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Split out no-perm part of bdrv_set_backing_hd() as a separate
-> transaction action. Note the in case of existing BdrvChild we reuse it,
-> not recreate, just to do less actions.
+Am 05.02.2021 um 17:06 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 05.02.2021 17:00, Kevin Wolf wrote:
+> > Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > > Split out no-perm part of bdrv_set_backing_hd() as a separate
+> > > transaction action. Note the in case of existing BdrvChild we reuse it,
+> > > not recreate, just to do less actions.
+> > > 
+> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > > ---
+> > >   block.c | 111 +++++++++++++++++++++++++++++++++++++++++++++-----------
+> > >   1 file changed, 89 insertions(+), 22 deletions(-)
+> > > 
+> > > diff --git a/block.c b/block.c
+> > > index 54fb6d24bd..617cba9547 100644
+> > > --- a/block.c
+> > > +++ b/block.c
+> > > @@ -101,6 +101,7 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
+> > >                                       uint64_t perm, uint64_t shared_perm,
+> > >                                       void *opaque, BdrvChild **child,
+> > >                                       GSList **tran, Error **errp);
+> > > +static void bdrv_remove_backing(BlockDriverState *bs, GSList **tran);
+> > >   static int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue
+> > >                                  *queue, Error **errp);
+> > > @@ -3194,45 +3195,111 @@ static BdrvChildRole bdrv_backing_role(BlockDriverState *bs)
+> > >       }
+> > >   }
+> > > +typedef struct BdrvSetBackingNoPermState {
+> > > +    BlockDriverState *bs;
+> > > +    BlockDriverState *backing_bs;
+> > > +    BlockDriverState *old_inherits_from;
+> > > +    GSList *attach_tran;
+> > > +} BdrvSetBackingNoPermState;
+> > 
+> > Why do we need the nested attach_tran instead of just including these
+> > actions in the outer transaction?
+> > 
+> > > +static void bdrv_set_backing_noperm_abort(void *opaque)
+> > > +{
+> > > +    BdrvSetBackingNoPermState *s = opaque;
+> > > +
+> > > +    if (s->backing_bs) {
+> > > +        s->backing_bs->inherits_from = s->old_inherits_from;
+> > > +    }
+> > > +
+> > > +    tran_abort(s->attach_tran);
+> > > +
+> > > +    bdrv_refresh_limits(s->bs, NULL);
+> > > +    if (s->old_inherits_from) {
+> > > +        bdrv_refresh_limits(s->old_inherits_from, NULL);
+> > > +    }
+> > 
+> > How is bs->inherits_from related to limits? I don't see a
+> > bdrv_refresh_limits() call in bdrv_set_backing_noperm() that this would
+> > undo.
+> > 
+> > > +}
+> > > +
+> > > +static void bdrv_set_backing_noperm_commit(void *opaque)
+> > > +{
+> > > +    BdrvSetBackingNoPermState *s = opaque;
+> > > +
+> > > +    tran_commit(s->attach_tran);
+> > > +}
+> > > +
+> > > +static TransactionActionDrv bdrv_set_backing_noperm_drv = {
+> > > +    .abort = bdrv_set_backing_noperm_abort,
+> > > +    .commit = bdrv_set_backing_noperm_commit,
+> > > +    .clean = g_free,
+> > > +};
+> > > +
+> > >   /*
+> > >    * Sets the bs->backing link of a BDS. A new reference is created; callers
+> > >    * which don't need their own reference any more must call bdrv_unref().
+> > >    */
+> > > -void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+> > > -                         Error **errp)
+> > > +static int bdrv_set_backing_noperm(BlockDriverState *bs,
+> > > +                                   BlockDriverState *backing_bs,
+> > > +                                   GSList **tran, Error **errp)
+> > >   {
+> > > -    bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
+> > > -        bdrv_inherits_from_recursive(backing_hd, bs);
+> > > +    int ret = 0;
+> > > +    bool update_inherits_from = bdrv_chain_contains(bs, backing_bs) &&
+> > > +        bdrv_inherits_from_recursive(backing_bs, bs);
+> > > +    GSList *attach_tran = NULL;
+> > > +    BdrvSetBackingNoPermState *s;
+> > >       if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
+> > > -        return;
+> > > +        return -EPERM;
+> > >       }
+> > > -    if (backing_hd) {
+> > > -        bdrv_ref(backing_hd);
+> > > +    if (bs->backing && backing_bs) {
+> > > +        bdrv_replace_child_safe(bs->backing, backing_bs, tran);
+> > > +    } else if (bs->backing && !backing_bs) {
+> > > +        bdrv_remove_backing(bs, tran);
+> > > +    } else if (backing_bs) {
+> > > +        assert(!bs->backing);
+> > > +        ret = bdrv_attach_child_noperm(bs, backing_bs, "backing",
+> > > +                                       &child_of_bds, bdrv_backing_role(bs),
+> > > +                                       &bs->backing, &attach_tran, errp);
+> > > +        if (ret < 0) {
+> > > +            tran_abort(attach_tran);
+> > 
+> > This looks wrong to me, we'll call tran_abort() a second time through
+> > bdrv_set_backing_noperm_abort() when the outer transaction aborts.
+> > 
+> > I also notice that the other two if branches do just add things to the
+> > outer 'tran', it's just this branch that gets a nested one.
+> > 
+> > > +            return ret;
+> > > +        }
+> > >       }
+> > > -    if (bs->backing) {
+> > > -        /* Cannot be frozen, we checked that above */
+> > > -        bdrv_unref_child(bs, bs->backing);
+> > > -        bs->backing = NULL;
+> > > -    }
+> > > +    s = g_new(BdrvSetBackingNoPermState, 1);
+> > > +    *s = (BdrvSetBackingNoPermState) {
+> > > +        .bs = bs,
+> > > +        .backing_bs = backing_bs,
+> > > +        .old_inherits_from = backing_bs ? backing_bs->inherits_from : NULL,
+> > > +    };
+> > > +    tran_prepend(tran, &bdrv_set_backing_noperm_drv, s);
+> > > -    if (!backing_hd) {
+> > > -        goto out;
+> > > +    /*
+> > > +     * If backing_bs was already part of bs's backing chain, and
+> > > +     * inherits_from pointed recursively to bs then let's update it to
+> > > +     * point directly to bs (else it will become NULL).
+> > 
+> > Setting it to NULL was previously done by bdrv_unref_child().
+> > 
+> > bdrv_replace_child_safe() and bdrv_remove_backing() don't seem to do
+> > this any more.
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Hmm, yes.. May be we should move bdrv_unset_inherts_from() from
+> bdrv_unref_child() to bdrv_replace_child_noperm() ?
 
->  /*
->   * Sets the bs->backing link of a BDS. A new reference is created; callers
->   * which don't need their own reference any more must call bdrv_unref().
->   */
-> -void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-> -                         Error **errp)
-> +static int bdrv_set_backing_noperm(BlockDriverState *bs,
-> +                                   BlockDriverState *backing_bs,
-> +                                   GSList **tran, Error **errp)
->  {
-> -    bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
-> -        bdrv_inherits_from_recursive(backing_hd, bs);
-> +    int ret = 0;
-> +    bool update_inherits_from = bdrv_chain_contains(bs, backing_bs) &&
-> +        bdrv_inherits_from_recursive(backing_bs, bs);
-> +    GSList *attach_tran = NULL;
-> +    BdrvSetBackingNoPermState *s;
->  
->      if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
-> -        return;
-> +        return -EPERM;
->      }
->  
-> -    if (backing_hd) {
-> -        bdrv_ref(backing_hd);
-> +    if (bs->backing && backing_bs) {
-> +        bdrv_replace_child_safe(bs->backing, backing_bs, tran);
-
-The old code with separate bdrv_unref_child() and then
-bdrv_attach_child() tried to make the AioContests of bs and backing_bs
-compatible by moving one of the nodes if necessary.
-
-bdrv_replace_child_safe() doesn't seem to do that, but it only asserts
-that both nodes are already in the same context.
-
-I see that iotest 245 doesn't crash, which I think it should if this
-were broken, but where does the switch happen now?
+Sounds good to me. This should hopefully be called for all graph changes
+that could possibly happen.
 
 Kevin
+
+> > 
+> > > +     */
+> > > +    if (backing_bs && update_inherits_from) {
+> > > +        backing_bs->inherits_from = bs;
+> > >       }
+> > > -    bs->backing = bdrv_attach_child(bs, backing_hd, "backing", &child_of_bds,
+> > > -                                    bdrv_backing_role(bs), errp);
+> > > -    /* If backing_hd was already part of bs's backing chain, and
+> > > -     * inherits_from pointed recursively to bs then let's update it to
+> > > -     * point directly to bs (else it will become NULL). */
+> > > -    if (bs->backing && update_inherits_from) {
+> > > -        backing_hd->inherits_from = bs;
+> > > +    bdrv_refresh_limits(bs, NULL);
+> > > +
+> > > +    return 0;
+> > > +}
+> > 
+> > Kevin
+> > 
+> 
+> 
+> -- 
+> Best regards,
+> Vladimir
+> 
 
 
