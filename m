@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4866311700
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 00:27:59 +0100 (CET)
-Received: from localhost ([::1]:45320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A60C311691
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 00:19:23 +0100 (CET)
+Received: from localhost ([::1]:48704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8AW6-0006VP-Nx
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 18:27:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59680)
+	id 1l8ANm-0004KK-6N
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 18:19:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8A3I-0002mr-FS
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:58:12 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:42600)
+ id 1l8A3H-0002jW-7Y
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:58:11 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:46300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8A3B-0003dU-JK
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:58:12 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id g15so5562455pgu.9
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 14:58:04 -0800 (PST)
+ id 1l8A3D-0003eQ-F3
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:58:10 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id r38so5546679pgk.13
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 14:58:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/J9mJrdJwyDdM6ya72Do/M7+N2yTyUicIjTCtaubLCs=;
- b=Tj6GM3KnayleoBJr+xn1WQd8pwSFkgIGFsPcAT6k+TK8lG1EePtIK/7FY7OgOgXvax
- SMutso8ttPorN0vzl9Xln5/Jbvmm4ePS1RYoEfL1zFasL58tnu5OW2/jqId2HJ344Swn
- y+DaEf4JfRTNqH9OGwHx2raJbYNxfSuW/EjUBOHZymgCe/1ak6LvBjlHhk+qJULT2kIT
- CIMSRg/fDSjrVeUn9ucJm7e1ZNe9Y/BKxlWhIuxDZ7Z4yd7CtGljAV5zXjCy73CXmrOz
- cK8SncZCByGH2wlQOkQ5TbJaF+wAfEqPEvTZzzNLZob85r4eeiRQDZy3j1MD+OT+SZZ7
- 7vGg==
+ bh=rFjHhw95AixicSl/izmOOxjEy3QBcrFO1Yxm9VLmZkM=;
+ b=olJJhU8rGEOS1yBaVIXr0dJNgNicTpeEZ2iLIHX6tJ/OsOnF3QkYPsBDEv0EFz2Uhg
+ qyUfV/dcI+Eplg3pyra+vDebPo5MOiWNs/VGOuBn8frkX1ULXn8nS2WijX94IjuHpwk8
+ Pxon1SkFKz/aXcMMwt4aogFfAJb696/Fppd/a4eToNRzYtJ50L+52L8OwXVsONOsaR7j
+ tURpQJhCHM47zt+jzAOShT8nCOA/1cKEV5+XOkm/26mrTsBsdbAU+mUvqrnoVaq9UP3X
+ YBS9mCBkLa5tzwmTn84I4brEAOA0ZyB4LubnAzmJCKJVChslOo3mWupqzSPGAFVoDxmC
+ bi1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/J9mJrdJwyDdM6ya72Do/M7+N2yTyUicIjTCtaubLCs=;
- b=DRtMCcru4l86zT30XuaKwM8xeJbn8v7fB0JXukDT43+Chsdz75TflVSThENhsRmAd9
- xnAJjzuZ/o5n575c1G/OUyzGhJZIuOaM4MOPRzOUT4rumCvthrBb6fqLMH1vXM+FQMbJ
- e0MSrel92wKlf6F+xCas/8urgI7BIt93Zf9PKb6nJlo6wRfzWwDVF03qYZBoepB9OO7R
- P4TToj2fQ+jpkI5FdBf6TpekBMXyVWmSGS8C8OQ0G+RV+4efMVQrcmJttEnq4UhKZ+rs
- 0WVYcYKvygxyj5turv5qSnYy5CmVt3XJe02FAe91ZdXlRmtTEhOryKpqH6RzXykAJJJ0
- vWhA==
-X-Gm-Message-State: AOAM531YeJSevZk3fCbDcf58hEa5Ag4hL/fPwpP8OijDNYRB0ce0rXCV
- INhRDc6zra2M3dhDUzfAk0otktcooMFlNVcO
-X-Google-Smtp-Source: ABdhPJyA2PFpEOrWqe+YHzDxgfvmK1RspV+6lSlHDYT24HKfBUJfePyE4fg2k4/ptpKh997aY6Sf6A==
-X-Received: by 2002:aa7:87d9:0:b029:1b7:1c6c:56e0 with SMTP id
- i25-20020aa787d90000b02901b71c6c56e0mr6355429pfo.25.1612565884045; 
- Fri, 05 Feb 2021 14:58:04 -0800 (PST)
+ bh=rFjHhw95AixicSl/izmOOxjEy3QBcrFO1Yxm9VLmZkM=;
+ b=miNuRIhdjE2Bu27xqIY7MfO10zIXH1fe0uD5+ayW7xvdcKJM5UrsfAlN0iV1n2ZVm0
+ sHQdTFpuVh4qOWZtzELQpJTMwdGamE8CrPnIu9N4jWMNQaNwVpzmUYG2jKqzM26KQA/U
+ 5PYyc4J36PvvtjUApVEbflUuU/dYpCLs8R5bBUMC1KEAgt0Lo/H0XuPAwcwx2zuTJ7ID
+ cfqODsBBLtJRh7m7Sb59TdUxYouBYUguphVQCe0pOMM2autcroWoYSFe+BGFXJrEmMB+
+ JUcI+hVsBLG6Z+BEssIrJhUSJjiRPe7aP6B4g7Wv62y/JoU4cVKP0aKnB5pnLw7+u4L+
+ Ag7g==
+X-Gm-Message-State: AOAM530s+a14WYjJGIYh+AfUsDjaJkUWgz/aPZjQbOh2E1wRVhr8gIQB
+ 7U4hM90W8qYY0LbP1/py2KXjfxxDmNs84gU4
+X-Google-Smtp-Source: ABdhPJzaf+6kaQFpRTVk2iph8J3K/ZFkOF7JABPqf6ZagF4SEFuHfcTVlp2Ds69O5PGsHJlY5BiAQA==
+X-Received: by 2002:a62:1995:0:b029:1c0:c4d8:adcb with SMTP id
+ 143-20020a6219950000b02901c0c4d8adcbmr6759034pfz.60.1612565886013; 
+ Fri, 05 Feb 2021 14:58:06 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id c23sm12155149pgc.72.2021.02.05.14.58.02
+ by smtp.gmail.com with ESMTPSA id c23sm12155149pgc.72.2021.02.05.14.58.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 14:58:03 -0800 (PST)
+ Fri, 05 Feb 2021 14:58:05 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/46] cpu: move cc->do_interrupt to tcg_ops
-Date: Fri,  5 Feb 2021 12:56:41 -1000
-Message-Id: <20210205225650.1330794-38-richard.henderson@linaro.org>
+Subject: [PULL 38/46] cpu: move cc->transaction_failed to tcg_ops
+Date: Fri,  5 Feb 2021 12:56:42 -1000
+Message-Id: <20210205225650.1330794-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210205225650.1330794-1-richard.henderson@linaro.org>
 References: <20210205225650.1330794-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,7 +87,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Claudio Fontana <cfontana@suse.de>
+ Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,529 +96,284 @@ From: Claudio Fontana <cfontana@suse.de>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210204163931.7358-10-cfontana@suse.de>
+
+[claudio: wrap target code around CONFIG_TCG and !CONFIG_USER_ONLY]
+
+avoiding its use in headers used by common_ss code (should be poisoned).
+
+Note: need to be careful with the use of CONFIG_USER_ONLY,
+Message-Id: <20210204163931.7358-11-cfontana@suse.de>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h           |  4 ++--
- accel/tcg/cpu-exec.c            |  4 ++--
- target/alpha/cpu.c              |  2 +-
- target/arm/cpu.c                |  4 ++--
- target/arm/cpu_tcg.c            |  9 ++++-----
- target/avr/cpu.c                |  2 +-
- target/avr/helper.c             |  4 ++--
- target/cris/cpu.c               | 12 ++++++------
- target/cris/helper.c            |  4 ++--
- target/hppa/cpu.c               |  2 +-
- target/i386/tcg/tcg-cpu.c       |  2 +-
- target/lm32/cpu.c               |  2 +-
- target/m68k/cpu.c               |  2 +-
- target/microblaze/cpu.c         |  2 +-
- target/mips/cpu.c               |  4 ++--
- target/moxie/cpu.c              |  2 +-
- target/nios2/cpu.c              |  2 +-
- target/openrisc/cpu.c           |  2 +-
- target/riscv/cpu.c              |  2 +-
- target/rx/cpu.c                 |  2 +-
- target/s390x/cpu.c              |  2 +-
- target/sh4/cpu.c                |  2 +-
- target/sparc/cpu.c              |  2 +-
- target/tilegx/cpu.c             |  2 +-
- target/unicore32/cpu.c          |  2 +-
- target/xtensa/cpu.c             |  2 +-
- target/ppc/translate_init.c.inc |  2 +-
- 27 files changed, 41 insertions(+), 42 deletions(-)
+ include/hw/core/cpu.h     | 28 +++++++++++++---------------
+ hw/mips/jazz.c            |  9 +++++++--
+ target/alpha/cpu.c        |  2 +-
+ target/arm/cpu.c          |  4 ++--
+ target/m68k/cpu.c         |  2 +-
+ target/microblaze/cpu.c   |  2 +-
+ target/mips/cpu.c         |  4 +++-
+ target/riscv/cpu.c        |  2 +-
+ target/riscv/cpu_helper.c |  2 +-
+ target/sparc/cpu.c        |  2 +-
+ target/xtensa/cpu.c       |  2 +-
+ target/xtensa/helper.c    |  4 ++--
+ 12 files changed, 34 insertions(+), 29 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index ff82eae939..60cf20bf05 100644
+index 60cf20bf05..41ce1daefc 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -105,6 +105,8 @@ typedef struct TcgCpuOperations {
-     void (*cpu_exec_exit)(CPUState *cpu);
-     /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
-     bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
-+    /** @do_interrupt: Callback for interrupt handling. */
-+    void (*do_interrupt)(CPUState *cpu);
-     /**
-      * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
-      *
-@@ -129,7 +131,6 @@ typedef struct TcgCpuOperations {
-  * @parse_features: Callback to parse command line arguments.
-  * @reset_dump_flags: #CPUDumpFlags to use for reset logging.
+@@ -122,6 +122,14 @@ typedef struct TcgCpuOperations {
+     /** @debug_excp_handler: Callback for handling debug exceptions */
+     void (*debug_excp_handler)(CPUState *cpu);
+ 
++    /**
++     * @do_transaction_failed: Callback for handling failed memory transactions
++     * (ie bus faults or external aborts; not MMU faults)
++     */
++    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
++                                  unsigned size, MMUAccessType access_type,
++                                  int mmu_idx, MemTxAttrs attrs,
++                                  MemTxResult response, uintptr_t retaddr);
+ } TcgCpuOperations;
+ 
+ /**
+@@ -133,8 +141,6 @@ typedef struct TcgCpuOperations {
   * @has_work: Callback for checking if there is work to do.
-- * @do_interrupt: Callback for interrupt handling.
   * @do_unaligned_access: Callback for unaligned access handling, if
   * the target defines #TARGET_ALIGNED_ONLY.
-  * @do_transaction_failed: Callback for handling failed memory transactions
-@@ -199,7 +200,6 @@ struct CPUClass {
- 
-     int reset_dump_flags;
-     bool (*has_work)(CPUState *cpu);
--    void (*do_interrupt)(CPUState *cpu);
+- * @do_transaction_failed: Callback for handling failed memory transactions
+- * (ie bus faults or external aborts; not MMU faults)
+  * @virtio_is_big_endian: Callback to return %true if a CPU which supports
+  * runtime configurable endianness is currently big-endian. Non-configurable
+  * CPUs can use the default implementation of this method. This method should
+@@ -203,10 +209,6 @@ struct CPUClass {
      void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
                                  MMUAccessType access_type,
                                  int mmu_idx, uintptr_t retaddr);
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index e7e54fd75d..633ee3ef9e 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -547,7 +547,7 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-            loop */
- #if defined(TARGET_I386)
-         CPUClass *cc = CPU_GET_CLASS(cpu);
--        cc->do_interrupt(cpu);
-+        cc->tcg_ops.do_interrupt(cpu);
- #endif
-         *ret = cpu->exception_index;
-         cpu->exception_index = -1;
-@@ -556,7 +556,7 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-         if (replay_exception()) {
-             CPUClass *cc = CPU_GET_CLASS(cpu);
-             qemu_mutex_lock_iothread();
--            cc->do_interrupt(cpu);
-+            cc->tcg_ops.do_interrupt(cpu);
-             qemu_mutex_unlock_iothread();
-             cpu->exception_index = -1;
+-    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
+-                                  unsigned size, MMUAccessType access_type,
+-                                  int mmu_idx, MemTxAttrs attrs,
+-                                  MemTxResult response, uintptr_t retaddr);
+     bool (*virtio_is_big_endian)(CPUState *cpu);
+     int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+                            uint8_t *buf, int len, bool is_write);
+@@ -879,9 +881,6 @@ CPUState *cpu_by_arch_id(int64_t id);
  
-diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-index 9f36f824fd..66f1166672 100644
---- a/target/alpha/cpu.c
-+++ b/target/alpha/cpu.c
-@@ -217,7 +217,7 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
+ void cpu_interrupt(CPUState *cpu, int mask);
  
-     cc->class_by_name = alpha_cpu_class_by_name;
-     cc->has_work = alpha_cpu_has_work;
--    cc->do_interrupt = alpha_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = alpha_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = alpha_cpu_exec_interrupt;
-     cc->dump_state = alpha_cpu_dump_state;
-     cc->set_pc = alpha_cpu_set_pc;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 66ac210b0c..dfb2398392 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -590,7 +590,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-  found:
-     cs->exception_index = excp_idx;
-     env->exception.target_el = target_el;
--    cc->do_interrupt(cs);
-+    cc->tcg_ops.do_interrupt(cs);
-     return true;
- }
+-#ifdef NEED_CPU_H
+-
+-#ifdef CONFIG_SOFTMMU
+ static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
+                                         MMUAccessType access_type,
+                                         int mmu_idx, uintptr_t retaddr)
+@@ -900,14 +899,13 @@ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+ {
+     CPUClass *cc = CPU_GET_CLASS(cpu);
  
-@@ -2261,7 +2261,6 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_read_register = arm_cpu_gdb_read_register;
-     cc->gdb_write_register = arm_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
--    cc->do_interrupt = arm_cpu_do_interrupt;
-     cc->get_phys_page_attrs_debug = arm_cpu_get_phys_page_attrs_debug;
-     cc->asidx_from_attrs = arm_asidx_from_attrs;
-     cc->vmsd = &vmstate_arm_cpu;
-@@ -2286,6 +2285,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
- #if !defined(CONFIG_USER_ONLY)
-     cc->do_transaction_failed = arm_cpu_do_transaction_failed;
-     cc->adjust_watchpoint_address = arm_adjust_watchpoint_address;
-+    cc->tcg_ops.do_interrupt = arm_cpu_do_interrupt;
- #endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
- #endif
- }
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index f2e565166e..d9c160f1ac 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -34,7 +34,7 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     if (interrupt_request & CPU_INTERRUPT_HARD
-         && (armv7m_nvic_can_take_pending_exception(env->nvic))) {
-         cs->exception_index = EXCP_IRQ;
--        cc->do_interrupt(cs);
-+        cc->tcg_ops.do_interrupt(cs);
-         ret = true;
+-    if (!cpu->ignore_memory_transaction_failures && cc->do_transaction_failed) {
+-        cc->do_transaction_failed(cpu, physaddr, addr, size, access_type,
+-                                  mmu_idx, attrs, response, retaddr);
++    if (!cpu->ignore_memory_transaction_failures &&
++        cc->tcg_ops.do_transaction_failed) {
++        cc->tcg_ops.do_transaction_failed(cpu, physaddr, addr, size,
++                                          access_type, mmu_idx, attrs,
++                                          response, retaddr);
      }
-     return ret;
-@@ -666,12 +666,11 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
-     CPUClass *cc = CPU_CLASS(oc);
- 
-     acc->info = data;
--#ifndef CONFIG_USER_ONLY
--    cc->do_interrupt = arm_v7m_cpu_do_interrupt;
+ }
 -#endif
 -
- #ifdef CONFIG_TCG
-     cc->tcg_ops.cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt;
-+#ifndef CONFIG_USER_ONLY
-+    cc->tcg_ops.do_interrupt = arm_v7m_cpu_do_interrupt;
-+#endif
- #endif /* CONFIG_TCG */
+-#endif /* NEED_CPU_H */
  
-     cc->gdb_core_xml_file = "arm-m-profile.xml";
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index d6e93049b4..476e645b37 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -198,7 +198,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = avr_cpu_class_by_name;
- 
-     cc->has_work = avr_cpu_has_work;
--    cc->do_interrupt = avr_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = avr_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = avr_cpu_exec_interrupt;
-     cc->dump_state = avr_cpu_dump_state;
-     cc->set_pc = avr_cpu_set_pc;
-diff --git a/target/avr/helper.c b/target/avr/helper.c
-index d96d14372b..69d3b6181f 100644
---- a/target/avr/helper.c
-+++ b/target/avr/helper.c
-@@ -34,7 +34,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     if (interrupt_request & CPU_INTERRUPT_RESET) {
-         if (cpu_interrupts_enabled(env)) {
-             cs->exception_index = EXCP_RESET;
--            cc->do_interrupt(cs);
-+            cc->tcg_ops.do_interrupt(cs);
- 
-             cs->interrupt_request &= ~CPU_INTERRUPT_RESET;
- 
-@@ -45,7 +45,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         if (cpu_interrupts_enabled(env) && env->intsrc != 0) {
-             int index = ctz32(env->intsrc);
-             cs->exception_index = EXCP_INT(index);
--            cc->do_interrupt(cs);
-+            cc->tcg_ops.do_interrupt(cs);
- 
-             env->intsrc &= env->intsrc - 1; /* clear the interrupt */
-             cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-index 9222717f3e..b65743e8ca 100644
---- a/target/cris/cpu.c
-+++ b/target/cris/cpu.c
-@@ -199,7 +199,7 @@ static void crisv8_cpu_class_init(ObjectClass *oc, void *data)
-     CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
- 
-     ccc->vr = 8;
--    cc->do_interrupt = crisv10_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
-     cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
+ /**
+  * cpu_set_pc:
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index f9442731dd..46c71a0ac8 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -116,6 +116,8 @@ static const MemoryRegionOps dma_dummy_ops = {
+ #define MAGNUM_BIOS_SIZE_MAX 0x7e000
+ #define MAGNUM_BIOS_SIZE                                                       \
+         (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE : MAGNUM_BIOS_SIZE_MAX)
++
++#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+ static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr,
+                                           vaddr addr, unsigned size,
+                                           MMUAccessType access_type,
+@@ -137,6 +139,7 @@ static void mips_jazz_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+     (*real_do_transaction_failed)(cs, physaddr, addr, size, access_type,
+                                   mmu_idx, attrs, response, retaddr);
  }
-@@ -210,7 +210,7 @@ static void crisv9_cpu_class_init(ObjectClass *oc, void *data)
-     CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
++#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
  
-     ccc->vr = 9;
--    cc->do_interrupt = crisv10_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
-     cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
+ static void mips_jazz_init(MachineState *machine,
+                            enum jazz_model_e jazz_model)
+@@ -205,8 +208,10 @@ static void mips_jazz_init(MachineState *machine,
+      * memory region that catches all memory accesses, as we do on Malta.
+      */
+     cc = CPU_GET_CLASS(cpu);
+-    real_do_transaction_failed = cc->do_transaction_failed;
+-    cc->do_transaction_failed = mips_jazz_do_transaction_failed;
++#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
++    real_do_transaction_failed = cc->tcg_ops.do_transaction_failed;
++    cc->tcg_ops.do_transaction_failed = mips_jazz_do_transaction_failed;
++#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+ 
+     /* allocate RAM */
+     memory_region_add_subregion(address_space, 0, machine->ram);
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index 66f1166672..a1696bebeb 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -225,7 +225,7 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_write_register = alpha_cpu_gdb_write_register;
+     cc->tcg_ops.tlb_fill = alpha_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_transaction_failed = alpha_cpu_do_transaction_failed;
++    cc->tcg_ops.do_transaction_failed = alpha_cpu_do_transaction_failed;
+     cc->do_unaligned_access = alpha_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = alpha_cpu_get_phys_page_debug;
+     dc->vmsd = &vmstate_alpha_cpu;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index dfb2398392..bd1882944c 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2283,11 +2283,11 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->debug_check_watchpoint = arm_debug_check_watchpoint;
+     cc->do_unaligned_access = arm_cpu_do_unaligned_access;
+ #if !defined(CONFIG_USER_ONLY)
+-    cc->do_transaction_failed = arm_cpu_do_transaction_failed;
++    cc->tcg_ops.do_transaction_failed = arm_cpu_do_transaction_failed;
+     cc->adjust_watchpoint_address = arm_adjust_watchpoint_address;
+     cc->tcg_ops.do_interrupt = arm_cpu_do_interrupt;
+ #endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+-#endif
++#endif /* CONFIG_TCG */
  }
-@@ -221,7 +221,7 @@ static void crisv10_cpu_class_init(ObjectClass *oc, void *data)
-     CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
  
-     ccc->vr = 10;
--    cc->do_interrupt = crisv10_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
-     cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
- }
-@@ -232,7 +232,7 @@ static void crisv11_cpu_class_init(ObjectClass *oc, void *data)
-     CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
- 
-     ccc->vr = 11;
--    cc->do_interrupt = crisv10_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
-     cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
- }
-@@ -243,7 +243,7 @@ static void crisv17_cpu_class_init(ObjectClass *oc, void *data)
-     CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
- 
-     ccc->vr = 17;
--    cc->do_interrupt = crisv10_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
-     cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
- }
-@@ -268,7 +268,7 @@ static void cris_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = cris_cpu_class_by_name;
-     cc->has_work = cris_cpu_has_work;
--    cc->do_interrupt = cris_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = cris_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = cris_cpu_exec_interrupt;
-     cc->dump_state = cris_cpu_dump_state;
-     cc->set_pc = cris_cpu_set_pc;
-diff --git a/target/cris/helper.c b/target/cris/helper.c
-index ed45c3d9b7..1f4d6f7d45 100644
---- a/target/cris/helper.c
-+++ b/target/cris/helper.c
-@@ -299,7 +299,7 @@ bool cris_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         && (env->pregs[PR_CCS] & I_FLAG)
-         && !env->locked_irq) {
-         cs->exception_index = EXCP_IRQ;
--        cc->do_interrupt(cs);
-+        cc->tcg_ops.do_interrupt(cs);
-         ret = true;
-     }
-     if (interrupt_request & CPU_INTERRUPT_NMI) {
-@@ -311,7 +311,7 @@ bool cris_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         }
-         if ((env->pregs[PR_CCS] & m_flag_archval)) {
-             cs->exception_index = EXCP_NMI;
--            cc->do_interrupt(cs);
-+            cc->tcg_ops.do_interrupt(cs);
-             ret = true;
-         }
-     }
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index d5a25014e8..68233acf53 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -140,7 +140,7 @@ static void hppa_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = hppa_cpu_class_by_name;
-     cc->has_work = hppa_cpu_has_work;
--    cc->do_interrupt = hppa_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = hppa_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = hppa_cpu_exec_interrupt;
-     cc->dump_state = hppa_cpu_dump_state;
-     cc->set_pc = hppa_cpu_set_pc;
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 6c1ebbdcc6..4a53cd89e2 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -59,7 +59,7 @@ static void x86_cpu_synchronize_from_tb(CPUState *cs,
- 
- void tcg_cpu_common_class_init(CPUClass *cc)
- {
--    cc->do_interrupt = x86_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = x86_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = x86_cpu_exec_interrupt;
-     cc->tcg_ops.synchronize_from_tb = x86_cpu_synchronize_from_tb;
-     cc->tcg_ops.cpu_exec_enter = x86_cpu_exec_enter;
-diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
-index bbe1405e32..fb3761b749 100644
---- a/target/lm32/cpu.c
-+++ b/target/lm32/cpu.c
-@@ -222,7 +222,7 @@ static void lm32_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = lm32_cpu_class_by_name;
-     cc->has_work = lm32_cpu_has_work;
--    cc->do_interrupt = lm32_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = lm32_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = lm32_cpu_exec_interrupt;
-     cc->dump_state = lm32_cpu_dump_state;
-     cc->set_pc = lm32_cpu_set_pc;
+ #ifdef CONFIG_KVM
 diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index e38e4d5456..69093a621f 100644
+index 69093a621f..e68b933c84 100644
 --- a/target/m68k/cpu.c
 +++ b/target/m68k/cpu.c
-@@ -465,7 +465,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
- 
-     cc->class_by_name = m68k_cpu_class_by_name;
-     cc->has_work = m68k_cpu_has_work;
--    cc->do_interrupt = m68k_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = m68k_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = m68k_cpu_exec_interrupt;
-     cc->dump_state = m68k_cpu_dump_state;
-     cc->set_pc = m68k_cpu_set_pc;
+@@ -473,7 +473,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
+     cc->gdb_write_register = m68k_cpu_gdb_write_register;
+     cc->tcg_ops.tlb_fill = m68k_cpu_tlb_fill;
+ #if defined(CONFIG_SOFTMMU)
+-    cc->do_transaction_failed = m68k_cpu_transaction_failed;
++    cc->tcg_ops.do_transaction_failed = m68k_cpu_transaction_failed;
+     cc->get_phys_page_debug = m68k_cpu_get_phys_page_debug;
+     dc->vmsd = &vmstate_m68k_cpu;
+ #endif
 diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 3c09507069..c93e44b8e5 100644
+index c93e44b8e5..e405f6422d 100644
 --- a/target/microblaze/cpu.c
 +++ b/target/microblaze/cpu.c
-@@ -364,7 +364,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = mb_cpu_class_by_name;
-     cc->has_work = mb_cpu_has_work;
--    cc->do_interrupt = mb_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = mb_cpu_do_interrupt;
-     cc->do_unaligned_access = mb_cpu_do_unaligned_access;
-     cc->tcg_ops.cpu_exec_interrupt = mb_cpu_exec_interrupt;
-     cc->dump_state = mb_cpu_dump_state;
+@@ -374,7 +374,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_write_register = mb_cpu_gdb_write_register;
+     cc->tcg_ops.tlb_fill = mb_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_transaction_failed = mb_cpu_transaction_failed;
++    cc->tcg_ops.do_transaction_failed = mb_cpu_transaction_failed;
+     cc->get_phys_page_attrs_debug = mb_cpu_get_phys_page_attrs_debug;
+     dc->vmsd = &vmstate_mb_cpu;
+ #endif
 diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 63c0f3b94c..a88a138a8d 100644
+index a88a138a8d..ed2a7664e9 100644
 --- a/target/mips/cpu.c
 +++ b/target/mips/cpu.c
-@@ -676,7 +676,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
- 
-     cc->class_by_name = mips_cpu_class_by_name;
-     cc->has_work = mips_cpu_has_work;
--    cc->do_interrupt = mips_cpu_do_interrupt;
-     cc->dump_state = mips_cpu_dump_state;
-     cc->set_pc = mips_cpu_set_pc;
+@@ -681,7 +681,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
      cc->gdb_read_register = mips_cpu_gdb_read_register;
-@@ -690,10 +689,11 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     cc->disas_set_info = mips_cpu_disas_set_info;
- #ifdef CONFIG_TCG
-     cc->tcg_ops.initialize = mips_tcg_init;
-+    cc->tcg_ops.do_interrupt = mips_cpu_do_interrupt;
+     cc->gdb_write_register = mips_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_transaction_failed = mips_cpu_do_transaction_failed;
+     cc->do_unaligned_access = mips_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = mips_cpu_get_phys_page_debug;
+     cc->vmsd = &vmstate_mips_cpu;
+@@ -693,6 +692,9 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
      cc->tcg_ops.cpu_exec_interrupt = mips_cpu_exec_interrupt;
      cc->tcg_ops.synchronize_from_tb = mips_cpu_synchronize_from_tb;
      cc->tcg_ops.tlb_fill = mips_cpu_tlb_fill;
--#endif
-+#endif /* CONFIG_TCG */
++#ifndef CONFIG_USER_ONLY
++    cc->tcg_ops.do_transaction_failed = mips_cpu_do_transaction_failed;
++#endif /* CONFIG_USER_ONLY */
+ #endif /* CONFIG_TCG */
  
      cc->gdb_num_core_regs = 73;
-     cc->gdb_stop_before_watchpoint = true;
-diff --git a/target/moxie/cpu.c b/target/moxie/cpu.c
-index 1177d092c1..36bef4d357 100644
---- a/target/moxie/cpu.c
-+++ b/target/moxie/cpu.c
-@@ -107,7 +107,7 @@ static void moxie_cpu_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = moxie_cpu_class_by_name;
- 
-     cc->has_work = moxie_cpu_has_work;
--    cc->do_interrupt = moxie_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = moxie_cpu_do_interrupt;
-     cc->dump_state = moxie_cpu_dump_state;
-     cc->set_pc = moxie_cpu_set_pc;
-     cc->tcg_ops.tlb_fill = moxie_cpu_tlb_fill;
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 1384836de0..b5fe779ceb 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -221,7 +221,7 @@ static void nios2_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = nios2_cpu_class_by_name;
-     cc->has_work = nios2_cpu_has_work;
--    cc->do_interrupt = nios2_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = nios2_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = nios2_cpu_exec_interrupt;
-     cc->dump_state = nios2_cpu_dump_state;
-     cc->set_pc = nios2_cpu_set_pc;
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index 9857bfde23..1a31f7564f 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -186,7 +186,7 @@ static void openrisc_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = openrisc_cpu_class_by_name;
-     cc->has_work = openrisc_cpu_has_work;
--    cc->do_interrupt = openrisc_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = openrisc_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = openrisc_cpu_exec_interrupt;
-     cc->dump_state = openrisc_cpu_dump_state;
-     cc->set_pc = openrisc_cpu_set_pc;
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 9d813924ef..345b78fc3d 100644
+index 345b78fc3d..9a23af9a9d 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -593,7 +593,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+@@ -609,7 +609,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+     cc->gdb_stop_before_watchpoint = true;
+     cc->disas_set_info = riscv_cpu_disas_set_info;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_transaction_failed = riscv_cpu_do_transaction_failed;
++    cc->tcg_ops.do_transaction_failed = riscv_cpu_do_transaction_failed;
+     cc->do_unaligned_access = riscv_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
+     /* For now, mark unmigratable: */
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f8350f5f78..2f43939fb6 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -671,7 +671,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+     env->badaddr = addr;
+     riscv_raise_exception(env, cs->exception_index, retaddr);
+ }
+-#endif
++#endif /* !CONFIG_USER_ONLY */
  
-     cc->class_by_name = riscv_cpu_class_by_name;
-     cc->has_work = riscv_cpu_has_work;
--    cc->do_interrupt = riscv_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = riscv_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = riscv_cpu_exec_interrupt;
-     cc->dump_state = riscv_cpu_dump_state;
-     cc->set_pc = riscv_cpu_set_pc;
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 77609728b8..e79f009cbd 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -186,7 +186,7 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
- 
-     cc->class_by_name = rx_cpu_class_by_name;
-     cc->has_work = rx_cpu_has_work;
--    cc->do_interrupt = rx_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = rx_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = rx_cpu_exec_interrupt;
-     cc->dump_state = rx_cpu_dump_state;
-     cc->set_pc = rx_cpu_set_pc;
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 8ade66178e..e6cf933594 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -496,7 +496,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = s390_cpu_class_by_name,
-     cc->has_work = s390_cpu_has_work;
- #ifdef CONFIG_TCG
--    cc->do_interrupt = s390_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = s390_cpu_do_interrupt;
- #endif
-     cc->dump_state = s390_cpu_dump_state;
-     cc->set_pc = s390_cpu_set_pc;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 1f6c687c3c..f69360fc16 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -219,7 +219,7 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = superh_cpu_class_by_name;
-     cc->has_work = superh_cpu_has_work;
--    cc->do_interrupt = superh_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = superh_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = superh_cpu_exec_interrupt;
-     cc->dump_state = superh_cpu_dump_state;
-     cc->set_pc = superh_cpu_set_pc;
+ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         MMUAccessType access_type, int mmu_idx,
 diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 19e90a414d..871b2a83c6 100644
+index 871b2a83c6..8d6d7c1f83 100644
 --- a/target/sparc/cpu.c
 +++ b/target/sparc/cpu.c
-@@ -863,7 +863,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = sparc_cpu_class_by_name;
-     cc->parse_features = sparc_cpu_parse_features;
-     cc->has_work = sparc_cpu_has_work;
--    cc->do_interrupt = sparc_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = sparc_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = sparc_cpu_exec_interrupt;
-     cc->dump_state = sparc_cpu_dump_state;
- #if !defined(TARGET_SPARC64) && !defined(CONFIG_USER_ONLY)
-diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
-index 75b3a4bae3..7d4ead4ef1 100644
---- a/target/tilegx/cpu.c
-+++ b/target/tilegx/cpu.c
-@@ -147,7 +147,7 @@ static void tilegx_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = tilegx_cpu_class_by_name;
-     cc->has_work = tilegx_cpu_has_work;
--    cc->do_interrupt = tilegx_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = tilegx_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = tilegx_cpu_exec_interrupt;
-     cc->dump_state = tilegx_cpu_dump_state;
-     cc->set_pc = tilegx_cpu_set_pc;
-diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
-index a57d315d2f..e27ffc571a 100644
---- a/target/unicore32/cpu.c
-+++ b/target/unicore32/cpu.c
-@@ -131,7 +131,7 @@ static void uc32_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = uc32_cpu_class_by_name;
-     cc->has_work = uc32_cpu_has_work;
--    cc->do_interrupt = uc32_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = uc32_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = uc32_cpu_exec_interrupt;
-     cc->dump_state = uc32_cpu_dump_state;
-     cc->set_pc = uc32_cpu_set_pc;
+@@ -875,7 +875,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_write_register = sparc_cpu_gdb_write_register;
+     cc->tcg_ops.tlb_fill = sparc_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_transaction_failed = sparc_cpu_do_transaction_failed;
++    cc->tcg_ops.do_transaction_failed = sparc_cpu_do_transaction_failed;
+     cc->do_unaligned_access = sparc_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = sparc_cpu_get_phys_page_debug;
+     cc->vmsd = &vmstate_sparc_cpu;
 diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index b6f13ceb32..3ff025f0fe 100644
+index 3ff025f0fe..fc52fde696 100644
 --- a/target/xtensa/cpu.c
 +++ b/target/xtensa/cpu.c
-@@ -194,7 +194,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = xtensa_cpu_class_by_name;
-     cc->has_work = xtensa_cpu_has_work;
--    cc->do_interrupt = xtensa_cpu_do_interrupt;
-+    cc->tcg_ops.do_interrupt = xtensa_cpu_do_interrupt;
-     cc->tcg_ops.cpu_exec_interrupt = xtensa_cpu_exec_interrupt;
-     cc->dump_state = xtensa_cpu_dump_state;
-     cc->set_pc = xtensa_cpu_set_pc;
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 1e0fc5ac3d..b16430a9d4 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -10845,7 +10845,6 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = ppc_cpu_class_by_name;
-     cc->has_work = ppc_cpu_has_work;
--    cc->do_interrupt = ppc_cpu_do_interrupt;
-     cc->dump_state = ppc_cpu_dump_state;
-     cc->dump_statistics = ppc_cpu_dump_statistics;
-     cc->set_pc = ppc_cpu_set_pc;
-@@ -10883,6 +10882,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
- #ifdef CONFIG_TCG
-     cc->tcg_ops.initialize = ppc_translate_init;
-     cc->tcg_ops.cpu_exec_interrupt = ppc_cpu_exec_interrupt;
-+    cc->tcg_ops.do_interrupt = ppc_cpu_do_interrupt;
-     cc->tcg_ops.tlb_fill = ppc_cpu_tlb_fill;
+@@ -205,7 +205,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
  #ifndef CONFIG_USER_ONLY
-     cc->tcg_ops.cpu_exec_enter = ppc_cpu_exec_enter;
+     cc->do_unaligned_access = xtensa_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
+-    cc->do_transaction_failed = xtensa_cpu_do_transaction_failed;
++    cc->tcg_ops.do_transaction_failed = xtensa_cpu_do_transaction_failed;
+ #endif
+     cc->tcg_ops.debug_excp_handler = xtensa_breakpoint_handler;
+     cc->disas_set_info = xtensa_cpu_disas_set_info;
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index 05e2b7f70a..eeffee297d 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -261,7 +261,7 @@ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+ 
+-#else
++#else /* !CONFIG_USER_ONLY */
+ 
+ void xtensa_cpu_do_unaligned_access(CPUState *cs,
+                                     vaddr addr, MMUAccessType access_type,
+@@ -337,4 +337,4 @@ void xtensa_runstall(CPUXtensaState *env, bool runstall)
+         qemu_cpu_kick(cpu);
+     }
+ }
+-#endif
++#endif /* !CONFIG_USER_ONLY */
 -- 
 2.25.1
 
