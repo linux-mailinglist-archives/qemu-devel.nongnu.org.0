@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC494310F5F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:02:31 +0100 (CET)
-Received: from localhost ([::1]:53886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FCCA310F81
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:09:46 +0100 (CET)
+Received: from localhost ([::1]:41120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l85R9-0007hG-0W
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:02:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50134)
+	id 1l85Y9-0007Gc-Gp
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:09:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84hE-0007Tu-BK
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:15:04 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84hB-0001zc-2L
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:15:04 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id v15so8518237wrx.4
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:15:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VExqa+lpIqLqPOLyo4g6/fWlW+zXneTP5pLyMzsvn58=;
- b=nAY7BipYixZPLxu6I/91/qCUWebSsNUvTkU8kZ4sy4eT7VfKmeUGEqy+275D0ZIwWe
- QxXgPd6NCLCU/1g9YOxlASkytDybTbMA2OUFbyuG04AdQODqcl/aSwqRh0j+usPNrGw2
- nd521EYlzNIs68n7U4OgMwk1xmwZSfG3hA++lG+uPDZ7D8vsN0rTHaR3fm4mmmOfBv28
- 34RTheQOg4ECQk7g6eX91SnJgkDWPKaXIpb8wq/hLX37Swpr4/Fd3hvhvwx2Y9F2EfUo
- 47E5rGetlUjcJ7rFPZ5rp6qBo11CYVnL8aJjUCskrmOkdhwsoCeJpi2BJEXM/shX3JYd
- HPZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VExqa+lpIqLqPOLyo4g6/fWlW+zXneTP5pLyMzsvn58=;
- b=QgswhlA0crfij46xnkef0b2p5C7XUA7L9LFqjjgUc3QMwZpjrNmAzNCJ8KET1cJLPZ
- GHgsaPPQk8wSxBHwrEJx3lYrH2NBfiodVGBOXSVSqpPGBc+fsPGc0d5PzNBhJFCrChz9
- gSUQo8PD8PI+nWO/e/eCII1gKLrEAGpT91OWpsWz29C5dPDP+SXdm1NiFeUBGCLEWHXG
- meOhQgqKhDqfF4PxSVuTQo2KEq2zFTKN98g5tzZGeQkOCrY4G1k39rtlOnHHD6XwFomx
- zUQuJcJwI/WaTufUA8ibLvh2OjFuzJ7znLcCdM76ZFzxv6M63vozxkWNzMIRuw6+J/MH
- wqpQ==
-X-Gm-Message-State: AOAM532NnhSS58tQxgt4G7bDwLyV2M9alEXKbcjm6060B4scOBIQTDbb
- h1/pME18Xru5f4fKqdyRMckYh3bDWlEyqA==
-X-Google-Smtp-Source: ABdhPJyhzM8Xh6WL01USYIkFKua08CMNBD2/jw8k3WJ/i6Gx20YwvVEBTME0no6VbOyEfuO/aWxaYg==
-X-Received: by 2002:adf:e68e:: with SMTP id r14mr6345493wrm.242.1612545299307; 
- Fri, 05 Feb 2021 09:14:59 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c62sm9044531wme.16.2021.02.05.09.14.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 09:14:58 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] arm: Update infocenter.arm.com URLs
-Date: Fri,  5 Feb 2021 17:14:56 +0000
-Message-Id: <20210205171456.19939-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l84jB-000090-G5
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:17:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l84j8-0002qw-At
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:17:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612545421;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bs9xW0n/RJktpGPaSJ5YlIrWl+4Rrz5pL183302BLYk=;
+ b=TOghsxQem3jEjXAV3sGEM72/nOveOMIKshR0AkhGazHk0YPW4mYf08NzrwL+Jk6cbg8Pyi
+ xIdF9pBkGYI4rJpvQBL8nuL99T784NHD02YOMh3DXmMWBmajW1Y256TAEZb7v7rEzElzGB
+ RiMf0pVfZ15NWOqnEkf1C2pRFt5zY10=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-ZAS2o4_NNOSYzQ4YL1sRSQ-1; Fri, 05 Feb 2021 12:16:56 -0500
+X-MC-Unique: ZAS2o4_NNOSYzQ4YL1sRSQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83F5E107ACE8;
+ Fri,  5 Feb 2021 17:16:41 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-112-253.phx2.redhat.com [10.3.112.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BCD719CA8;
+ Fri,  5 Feb 2021 17:16:41 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5] qga: Utilize QAPI_LIST_APPEND in
+ qmp_guest_network_get_interfaces
+Date: Fri,  5 Feb 2021 11:16:34 -0600
+Message-Id: <20210205171634.1491258-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,139 +74,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <michael.roth@amd.com>, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update infocenter.arm.com URLs for various pieces of Arm
-documentation to the new developer.arm.com equivalents.  (There is a
-redirection in place from the old URLs, but we might as well update
-our comments in case the redirect ever disappears in future.)
+I found another spot that can benefit from using our macros instead of
+open-coding qapi list creation.
 
-This patch covers all the URLs which are not MPS2/SSE-200/IoTKit
-related (those are dealt with in a different patch).
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- include/hw/dma/pl080.h                 | 7 ++++---
- include/hw/misc/arm_integrator_debug.h | 2 +-
- include/hw/ssi/pl022.h                 | 5 +++--
- hw/arm/aspeed_ast2600.c                | 2 +-
- hw/arm/musca.c                         | 4 ++--
- hw/misc/arm_integrator_debug.c         | 2 +-
- hw/timer/arm_timer.c                   | 7 ++++---
- 7 files changed, 16 insertions(+), 13 deletions(-)
 
-diff --git a/include/hw/dma/pl080.h b/include/hw/dma/pl080.h
-index 1883f042701..3c9659e4381 100644
---- a/include/hw/dma/pl080.h
-+++ b/include/hw/dma/pl080.h
-@@ -10,11 +10,12 @@
-  * (at your option) any later version.
-  */
- 
--/* This is a model of the Arm PrimeCell PL080/PL081 DMA controller:
-+/*
-+ * This is a model of the Arm PrimeCell PL080/PL081 DMA controller:
-  * The PL080 TRM is:
-- * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0196g/DDI0196.pdf
-+ * https://developer.arm.com/documentation/ddi0196/latest
-  * and the PL081 TRM is:
-- * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0218e/DDI0218.pdf
-+ * https://developer.arm.com/documentation/ddi0218/latest
-  *
-  * QEMU interface:
-  * + sysbus IRQ 0: DMACINTR combined interrupt line
-diff --git a/include/hw/misc/arm_integrator_debug.h b/include/hw/misc/arm_integrator_debug.h
-index 0077dacb44d..798b0821646 100644
---- a/include/hw/misc/arm_integrator_debug.h
-+++ b/include/hw/misc/arm_integrator_debug.h
-@@ -3,7 +3,7 @@
-  *
-  * Browse the data sheet:
-  *
-- *    http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0159b/Babbfijf.html
-+ *  https://developer.arm.com/documentation/dui0159/b/peripherals-and-interfaces/debug-leds-and-dip-switch-interface
-  *
-  * Copyright (c) 2013 Alex Bennée <alex@bennee.com>
-  *
-diff --git a/include/hw/ssi/pl022.h b/include/hw/ssi/pl022.h
-index 545b52689c1..25d58db5f32 100644
---- a/include/hw/ssi/pl022.h
-+++ b/include/hw/ssi/pl022.h
-@@ -9,9 +9,10 @@
-  * (at your option) any later version.
-  */
- 
--/* This is a model of the Arm PrimeCell PL022 synchronous serial port.
-+/*
-+ * This is a model of the Arm PrimeCell PL022 synchronous serial port.
-  * The PL022 TRM is:
-- * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0194h/DDI0194H_ssp_pl022_trm.pdf
-+ * https://developer.arm.com/documentation/ddi0194/latest
-  *
-  * QEMU interface:
-  * + sysbus IRQ: SSPINTR combined interrupt line
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 12e4a16d376..bf31ca351fe 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -216,7 +216,7 @@ static void aspeed_soc_ast2600_init(Object *obj)
- /*
-  * ASPEED ast2600 has 0xf as cluster ID
-  *
-- * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0388e/CIHEBGFG.html
-+ * https://developer.arm.com/documentation/ddi0388/e/the-system-control-coprocessors/summary-of-system-control-coprocessor-registers/multiprocessor-affinity-register
-  */
- static uint64_t aspeed_calc_affinity(int cpu)
- {
-diff --git a/hw/arm/musca.c b/hw/arm/musca.c
-index 945643c3cd7..7a83f7dda7d 100644
---- a/hw/arm/musca.c
-+++ b/hw/arm/musca.c
-@@ -15,8 +15,8 @@
-  * https://developer.arm.com/products/system-design/development-boards/iot-test-chips-and-boards/musca-a-test-chip-board
-  * https://developer.arm.com/products/system-design/development-boards/iot-test-chips-and-boards/musca-b-test-chip-board
-  * We model the A and B1 variants of this board, as described in the TRMs:
-- * http://infocenter.arm.com/help/topic/com.arm.doc.101107_0000_00_en/index.html
-- * http://infocenter.arm.com/help/topic/com.arm.doc.101312_0000_00_en/index.html
-+ * https://developer.arm.com/documentation/101107/latest/
-+ * https://developer.arm.com/documentation/101312/latest/
-  */
- 
- #include "qemu/osdep.h"
-diff --git a/hw/misc/arm_integrator_debug.c b/hw/misc/arm_integrator_debug.c
-index ec0d4b90d3d..9a197278290 100644
---- a/hw/misc/arm_integrator_debug.c
-+++ b/hw/misc/arm_integrator_debug.c
-@@ -6,7 +6,7 @@
-  * to this area.
-  *
-  * The real h/w is described at:
-- *  http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0159b/Babbfijf.html
-+ *  https://developer.arm.com/documentation/dui0159/b/peripherals-and-interfaces/debug-leds-and-dip-switch-interface
-  *
-  * Copyright (c) 2013 Alex Bennée <alex@bennee.com>
-  *
-diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
-index 98e70b2d262..15caff0e41c 100644
---- a/hw/timer/arm_timer.c
-+++ b/hw/timer/arm_timer.c
-@@ -185,10 +185,11 @@ static arm_timer_state *arm_timer_init(uint32_t freq)
-     return s;
+Marked v5 because it missed commit 95b3a8c8a82, which was v4:
+https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg06574.html
+
+ qga/commands-posix.c | 75 ++++++++++++++++++--------------------------
+ 1 file changed, 30 insertions(+), 45 deletions(-)
+
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 8dd94a33144b..3f18df1bb6d1 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -2153,17 +2153,17 @@ void qmp_guest_suspend_hybrid(Error **errp)
+     guest_suspend(SUSPEND_MODE_HYBRID, errp);
  }
- 
--/* ARM PrimeCell SP804 dual timer module.
-+/*
-+ * ARM PrimeCell SP804 dual timer module.
-  * Docs at
-- * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0271d/index.html
--*/
-+ * https://developer.arm.com/documentation/ddi0271/latest/
-+ */
- 
- #define TYPE_SP804 "sp804"
- OBJECT_DECLARE_SIMPLE_TYPE(SP804State, SP804)
+
+-static GuestNetworkInterfaceList *
++static GuestNetworkInterface *
+ guest_find_interface(GuestNetworkInterfaceList *head,
+                      const char *name)
+ {
+     for (; head; head = head->next) {
+         if (strcmp(head->value->name, name) == 0) {
+-            break;
++            return head->value;
+         }
+     }
+
+-    return head;
++    return NULL;
+ }
+
+ static int guest_get_network_stats(const char *name,
+@@ -2232,7 +2232,7 @@ static int guest_get_network_stats(const char *name,
+  */
+ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+ {
+-    GuestNetworkInterfaceList *head = NULL, *cur_item = NULL;
++    GuestNetworkInterfaceList *head = NULL, **tail = &head;
+     struct ifaddrs *ifap, *ifa;
+
+     if (getifaddrs(&ifap) < 0) {
+@@ -2241,9 +2241,10 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+     }
+
+     for (ifa = ifap; ifa; ifa = ifa->ifa_next) {
+-        GuestNetworkInterfaceList *info;
+-        GuestIpAddressList **address_list = NULL, *address_item = NULL;
+-        GuestNetworkInterfaceStat  *interface_stat = NULL;
++        GuestNetworkInterface *info;
++        GuestIpAddressList **address_tail;
++        GuestIpAddress *address_item = NULL;
++        GuestNetworkInterfaceStat *interface_stat = NULL;
+         char addr4[INET_ADDRSTRLEN];
+         char addr6[INET6_ADDRSTRLEN];
+         int sock;
+@@ -2257,19 +2258,12 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+
+         if (!info) {
+             info = g_malloc0(sizeof(*info));
+-            info->value = g_malloc0(sizeof(*info->value));
+-            info->value->name = g_strdup(ifa->ifa_name);
++            info->name = g_strdup(ifa->ifa_name);
+
+-            if (!cur_item) {
+-                head = cur_item = info;
+-            } else {
+-                cur_item->next = info;
+-                cur_item = info;
+-            }
++            QAPI_LIST_APPEND(tail, info);
+         }
+
+-        if (!info->value->has_hardware_address &&
+-            ifa->ifa_flags & SIOCGIFHWADDR) {
++        if (!info->has_hardware_address && ifa->ifa_flags & SIOCGIFHWADDR) {
+             /* we haven't obtained HW address yet */
+             sock = socket(PF_INET, SOCK_STREAM, 0);
+             if (sock == -1) {
+@@ -2278,7 +2272,7 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+             }
+
+             memset(&ifr, 0, sizeof(ifr));
+-            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->value->name);
++            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->name);
+             if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
+                 error_setg_errno(errp, errno,
+                                  "failed to get MAC address of %s",
+@@ -2290,13 +2284,13 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+             close(sock);
+             mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
+
+-            info->value->hardware_address =
++            info->hardware_address =
+                 g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
+                                 (int) mac_addr[0], (int) mac_addr[1],
+                                 (int) mac_addr[2], (int) mac_addr[3],
+                                 (int) mac_addr[4], (int) mac_addr[5]);
+
+-            info->value->has_hardware_address = true;
++            info->has_hardware_address = true;
+         }
+
+         if (ifa->ifa_addr &&
+@@ -2309,15 +2303,14 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+             }
+
+             address_item = g_malloc0(sizeof(*address_item));
+-            address_item->value = g_malloc0(sizeof(*address_item->value));
+-            address_item->value->ip_address = g_strdup(addr4);
+-            address_item->value->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV4;
++            address_item->ip_address = g_strdup(addr4);
++            address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV4;
+
+             if (ifa->ifa_netmask) {
+                 /* Count the number of set bits in netmask.
+                  * This is safe as '1' and '0' cannot be shuffled in netmask. */
+                 p = &((struct sockaddr_in *)ifa->ifa_netmask)->sin_addr;
+-                address_item->value->prefix = ctpop32(((uint32_t *) p)[0]);
++                address_item->prefix = ctpop32(((uint32_t *) p)[0]);
+             }
+         } else if (ifa->ifa_addr &&
+                    ifa->ifa_addr->sa_family == AF_INET6) {
+@@ -2329,15 +2322,14 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+             }
+
+             address_item = g_malloc0(sizeof(*address_item));
+-            address_item->value = g_malloc0(sizeof(*address_item->value));
+-            address_item->value->ip_address = g_strdup(addr6);
+-            address_item->value->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV6;
++            address_item->ip_address = g_strdup(addr6);
++            address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV6;
+
+             if (ifa->ifa_netmask) {
+                 /* Count the number of set bits in netmask.
+                  * This is safe as '1' and '0' cannot be shuffled in netmask. */
+                 p = &((struct sockaddr_in6 *)ifa->ifa_netmask)->sin6_addr;
+-                address_item->value->prefix =
++                address_item->prefix =
+                     ctpop32(((uint32_t *) p)[0]) +
+                     ctpop32(((uint32_t *) p)[1]) +
+                     ctpop32(((uint32_t *) p)[2]) +
+@@ -2349,29 +2341,22 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+             continue;
+         }
+
+-        address_list = &info->value->ip_addresses;
+-
+-        while (*address_list && (*address_list)->next) {
+-            address_list = &(*address_list)->next;
+-        }
+-
+-        if (!*address_list) {
+-            *address_list = address_item;
+-        } else {
+-            (*address_list)->next = address_item;
++        address_tail = &info->ip_addresses;
++        while (*address_tail) {
++            address_tail = &(*address_tail)->next;
+         }
++        QAPI_LIST_APPEND(address_tail, address_item);
+
+-        info->value->has_ip_addresses = true;
++        info->has_ip_addresses = true;
+
+-        if (!info->value->has_statistics) {
++        if (!info->has_statistics) {
+             interface_stat = g_malloc0(sizeof(*interface_stat));
+-            if (guest_get_network_stats(info->value->name,
+-                interface_stat) == -1) {
+-                info->value->has_statistics = false;
++            if (guest_get_network_stats(info->name, interface_stat) == -1) {
++                info->has_statistics = false;
+                 g_free(interface_stat);
+             } else {
+-                info->value->statistics = interface_stat;
+-                info->value->has_statistics = true;
++                info->statistics = interface_stat;
++                info->has_statistics = true;
+             }
+         }
+     }
 -- 
-2.20.1
+2.30.0
 
 
