@@ -2,105 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414013105B3
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:18:15 +0100 (CET)
-Received: from localhost ([::1]:34912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7829310611
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:52:02 +0100 (CET)
+Received: from localhost ([::1]:50770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7vNd-0008VH-2J
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:18:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38358)
+	id 1l7vuL-0001iT-It
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:52:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l7vK2-0006u0-4H; Fri, 05 Feb 2021 02:14:31 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l7vJv-0000F4-EV; Fri, 05 Feb 2021 02:14:29 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11575pfJ178321; Fri, 5 Feb 2021 02:14:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : references : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=3F/8OvHLEguJQcfeNQwpGA6SXQ46j8kXd3DXraApU3k=;
- b=HGeUphiOPPZgkBZ4Ffp5xGO+OfKyQO8tE5bRu3Uf9lkZygC2cU/n9qShI/M+rcnEjpTV
- kp1oW1yN8DvZwuzj14JYaKzs6RzLygHxXi2czbaZzdLamLBq6x4RqP3FPbgKjKARz2b1
- LbRZDqauXcquVoWBF5aw7ri3bRHL1kdK8Rl2HCydK5ikV9+m9Pt79hRcBMiLgPKixXvQ
- gAoJue1qnC4ydaAPt0kLivgO6v7dauuUebOti3XbJFbuljDLZB8VzyTSTeJOMIkybPFN
- esn+E1ddkioJxaeQ077kEpE1EFnKPz54mx3T8kUpo/vLFHeCzCM1DHj1wzkKdxcPfVqJ vQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36gxxnb275-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Feb 2021 02:14:20 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11575qJx178337;
- Fri, 5 Feb 2021 02:14:20 -0500
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36gxxnb265-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Feb 2021 02:14:20 -0500
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11572f8D024652;
- Fri, 5 Feb 2021 07:14:16 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma02fra.de.ibm.com with ESMTP id 36cy38aygk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Feb 2021 07:14:16 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1157EE3v46268708
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Feb 2021 07:14:14 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E26AC11C04A;
- Fri,  5 Feb 2021 07:14:13 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 92E9F11C058;
- Fri,  5 Feb 2021 07:14:13 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.76.67])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  5 Feb 2021 07:14:13 +0000 (GMT)
-Subject: Re: [PATCH v2] target/s390x/arch_dump: Fixes for the name field in
- the PT_NOTE section
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>
-References: <20210204164117.721110-1-thuth@redhat.com>
- <8674a570-93f7-24dc-10b8-0c3577c0841f@de.ibm.com>
- <1d54bafb-b995-0052-e9f9-2572e69dcc11@redhat.com>
- <f72a20f1-581b-b262-4546-acf167198aa4@de.ibm.com>
-Message-ID: <896eb62a-19f6-997a-6f38-a10c4b62035a@de.ibm.com>
-Date: Fri, 5 Feb 2021 08:14:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-In-Reply-To: <f72a20f1-581b-b262-4546-acf167198aa4@de.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7vso-0001By-4y
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 02:50:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52901)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7vsl-0008Th-Ir
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 02:50:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612511421;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/LpGCbVmk0ljMYjk+XRQJEo9AJD3aipdUecunsRdxw8=;
+ b=ac1L3MGfLMKHz9YWSsFcetGEU7ZoiCV4BonAwMdicm+wyQZyPXB3zbnsU7714G0b/PV4/i
+ CxDAyeDBQ/kcuvdmT5FIZjSEbiNfFXu/c9qAT1I8/4WdfmzQgkPSdEZWCRYP22e1zi2f8n
+ GnXFf1VSjXAL2mVIk/IqmYJ1ZDSfo+4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-MHvCz2SuP4KV8MRssRErXw-1; Fri, 05 Feb 2021 02:50:18 -0500
+X-MC-Unique: MHvCz2SuP4KV8MRssRErXw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E01E280196C;
+ Fri,  5 Feb 2021 07:50:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED2711971C;
+ Fri,  5 Feb 2021 07:50:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 33C60113865F; Fri,  5 Feb 2021 08:50:12 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH 03/33] migration: push Error **errp into
+ qemu_loadvm_state_setup()
+References: <20210204171907.901471-1-berrange@redhat.com>
+ <20210204171907.901471-4-berrange@redhat.com>
+Date: Fri, 05 Feb 2021 08:50:12 +0100
+In-Reply-To: <20210204171907.901471-4-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 4 Feb 2021 17:18:37
+ +0000")
+Message-ID: <878s836jij.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
- definitions=2021-02-05_04:2021-02-05,
- 2021-02-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- priorityscore=1501 clxscore=1015 malwarescore=0 bulkscore=0
- impostorscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102050045
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.182,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -115,74 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>, qemu-devel@nongnu.org,
+ "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
+> This is an incremental step in converting vmstate loading code to report
+> via Error objects instead of printing directly to the console/monitor.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  migration/savevm.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 870199b629..f4ed14a230 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2490,7 +2490,7 @@ static int qemu_loadvm_state_header(QEMUFile *f, Er=
+ror **errp)
+>      return 0;
+>  }
+> =20
+> -static int qemu_loadvm_state_setup(QEMUFile *f)
+> +static int qemu_loadvm_state_setup(QEMUFile *f, Error **errp)
+>  {
+>      SaveStateEntry *se;
+>      int ret;
+> @@ -2509,7 +2509,7 @@ static int qemu_loadvm_state_setup(QEMUFile *f)
+>          ret =3D se->ops->load_setup(f, se->opaque);
+>          if (ret < 0) {
+>              qemu_file_set_error(f, ret);
+> -            error_report("Load state of device %s failed", se->idstr);
+> +            error_setg(errp, "Load state of device %s failed", se->idstr=
+);
+>              return ret;
+>          }
+>      }
+> @@ -2656,8 +2656,7 @@ int qemu_loadvm_state(QEMUFile *f, Error **errp)
+>          return -1;
+>      }
+> =20
+> -    if (qemu_loadvm_state_setup(f) !=3D 0) {
+> -        error_setg(errp, "Error %d while loading VM state", -EINVAL);
+> +    if (qemu_loadvm_state_setup(f, errp) < 0) {
+>          return -1;
+>      }
 
-On 05.02.21 08:08, Christian Borntraeger wrote:
-> 
-> 
-> On 05.02.21 07:12, Thomas Huth wrote:
->> On 04/02/2021 18.00, Christian Borntraeger wrote:
->>> On 04.02.21 17:41, Thomas Huth wrote:
->>>> According to the "ELF-64 Object File Format" specification:
->>>>
->>>> "The first word in the entry, namesz, identifies the length, in
->>>>   bytes, of a name identifying the entry’s owner or originator. The name field
->>>>   contains a null-terminated string, with padding as necessary to ensure 8-
->>>>   byte alignment for the descriptor field. The length does not include the
->>>>   terminating null or the padding."
->>>>
->>>> So we should not include the terminating NUL in the length field here.
->>>>
->>>> Also there is a compiler warning with GCC 9.3 when compiling with
->>>> the -fsanitize=thread compiler flag:
->>>>
->>>>   In function 'strncpy',
->>>>      inlined from 's390x_write_elf64_notes' at ../target/s390x/arch_dump.c:219:9:
->>>>   /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
->>>>    '__builtin_strncpy' specified bound 8 equals destination size
->>>>    [-Werror=stringop-truncation]
->>>>
->>>> Since the name should always be NUL-terminated, let's use g_strlcpy() to
->>>> silence this warning. And while we're at it, also add an assert() to make
->>>> sure that the provided names always fit the size field (which is fine for
->>>> the current callers, the function is called once with "CORE" and once with
->>>> "LINUX" as a name).
->>>>
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>   v2: Use g_strlcpy instead of strncpy
->>>
->>>
->>> With this patch I do get
->>>
->>> WARNING: possibly corrupt Elf64_Nhdr: n_namesz: 0 n_descsz: 4 n_type: 88
->>>
->>> when running crash on the elf file created by dump-guest-memory. Without the
->>> patch everything is fine.
->>
->> Drat! Looking at the crash sources:
->>
->>  https://github.com/crash-utility/crash/blob/master/s390x.c#L378
->>
->> ... it seems like crash is rather rounding up to the next 4 bytes boundary instead of the next 8 bytes boundary. Thus things go wrong now when QEMU writes writes the "CORE" notes section. In the old code we were using 4 + 1 as a lengths, so crash correctly rounded this up to 8. But now with 4 as a length, this does not work right anymore :-(
->>
->> Seems like I either misunderstood the "ELF-64 Object File Format" specification, or this is a bug in the crash utility (it should either add 1 to n_namesz for the trailing NUL or pad to 8 instead of 4)? Anyway, it's maybe better to keep the "+ 1" in QEMU for now to avoid breaking things, I guess?
-> 
-> I guess kdump and friends are also doing the +1 otherwise we would see the error with those ELF dumps.
-> But yes, as long as crash does not work we must not apply this patch.
-
-FWIW, readelf also complains:
-Displaying notes found at file offset 0x000000b0 with length 0x000004d8:
-  Owner                Data size 	Description
-  CORE                 0x00000150	NT_PRSTATUS (prstatus structure)
-  (NONE)               0x00000004	Unknown note type: (0x00000088)
-   description data: 00 00 00 02 
-readelf: dump.mem2: Warning: note with invalid namesz and/or descsz found at offset 0x170
-readelf: dump.mem2: Warning:  type: 0x0, namesize: 0x434f5245, descsize: 0x00000000, alignment: 4
+Drive-by remark, *not* a demand: I don't like "0 on success, -1 on
+failure".  When we return just one value on success and one on failure,
+I prefer true and false.  Negative value on failure is of course fine
+for returning error codes, and were we want to return arbitrary
+non-negative values on success.
 
 
