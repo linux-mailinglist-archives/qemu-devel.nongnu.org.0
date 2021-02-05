@@ -2,53 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23FCA3106B6
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 09:32:36 +0100 (CET)
-Received: from localhost ([::1]:33762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B9B3106C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 09:34:46 +0100 (CET)
+Received: from localhost ([::1]:40550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7wXb-0003sM-6z
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 03:32:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51024)
+	id 1l7wZg-0006iU-TU
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 03:34:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1l7wVg-0002Ru-SB
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 03:30:36 -0500
-Received: from mga02.intel.com ([134.134.136.20]:9788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1l7wVf-000213-1L
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 03:30:36 -0500
-IronPort-SDR: dRPwWyohsCfYpUhmSuZ1jfG4at1clPEqSQwCgo49L+wW3yzB7MsDGETRJXDOkUTCp5IjLlDkNO
- ZSOaI2bXqqjg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="168518447"
-X-IronPort-AV: E=Sophos;i="5.81,154,1610438400"; d="scan'208";a="168518447"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2021 00:30:24 -0800
-IronPort-SDR: fAONsr0cR/4n0Oc67xrJwFKxJiteK2GLbzYEZmMBsbo9ZRhWIMKtAt4vy7wDB3C69vCRtekz2Z
- G8PA+SriKQyQ==
-X-IronPort-AV: E=Sophos;i="5.81,154,1610438400"; d="scan'208";a="393760307"
-Received: from chenyi-pc.sh.intel.com ([10.239.159.24])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2021 00:30:21 -0800
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: [PATCH 2/2] target/i386: Expose VMX entry/exit load pkrs control bits
-Date: Fri,  5 Feb 2021 16:33:25 +0800
-Message-Id: <20210205083325.13880-3-chenyi.qiang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210205083325.13880-1-chenyi.qiang@intel.com>
-References: <20210205083325.13880-1-chenyi.qiang@intel.com>
-Received-SPF: pass client-ip=134.134.136.20;
- envelope-from=chenyi.qiang@intel.com; helo=mga02.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1l7wYq-000685-Bs
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 03:33:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1l7wYn-0003UW-09
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 03:33:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612514026;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l0Nhq3zkio4CntYBZpARJjKfgcrsxE0HR9eWSUZk87c=;
+ b=HwBseLKjADWtd4hXcnPzO+YHXJmLZoRivnTZCLdPijpAGqXzGLgTfDRaTyBm3uJKVgPcie
+ R70QLG3hcnZ2kI5EyZhamHpyVxUqYQJjLhyvM6ukL1UnKQcFSFGbEpvZ6fkrfR1JjAKrCF
+ R+VXUZVQVZJSxOJ/zVn38tw25t+cFWc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-v4z3Fy0KMRqAlANgDRT20w-1; Fri, 05 Feb 2021 03:33:45 -0500
+X-MC-Unique: v4z3Fy0KMRqAlANgDRT20w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 240E7107ACE3;
+ Fri,  5 Feb 2021 08:33:44 +0000 (UTC)
+Received: from [10.36.113.43] (ovpn-113-43.ams2.redhat.com [10.36.113.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D7A275D9D3;
+ Fri,  5 Feb 2021 08:33:30 +0000 (UTC)
+Subject: Re: [PATCH] vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support
+To: Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210204191228.187550-1-peterx@redhat.com>
+ <2382a93d-41c1-24fd-144f-87ee18171bc9@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <213acf9a-d1c0-3a1d-4846-877d90fadc03@redhat.com>
+Date: Fri, 5 Feb 2021 09:33:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <2382a93d-41c1-24fd-144f-87ee18171bc9@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,63 +84,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Jean-Philippe Brucker <Jean-Philippe.Brucker@arm.com>,
+ Eugenio Perez Martin <eperezma@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expose the VMX exit/entry load pkrs control bits in
-VMX_TRUE_EXIT_CTLS/VMX_TRUE_ENTRY_CTLS MSRs to guest, which supports the
-PKS in nested VM.
+Hi,
 
-Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
----
- target/i386/cpu.c | 4 ++--
- target/i386/cpu.h | 2 ++
- 2 files changed, 4 insertions(+), 2 deletions(-)
+On 2/5/21 4:16 AM, Jason Wang wrote:
+> 
+> On 2021/2/5 上午3:12, Peter Xu wrote:
+>> Previous work on dev-iotlb message broke vhost on either SMMU
+> 
+> 
+> Have a quick git grep and it looks to me v3 support ATS and have command
+> for device iotlb (ATC) invalidation.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 21136c61a8..0de67bbbb2 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1215,7 +1215,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "vmx-exit-save-efer", "vmx-exit-load-efer",
-                 "vmx-exit-save-preemption-timer", "vmx-exit-clear-bndcfgs",
-             NULL, "vmx-exit-clear-rtit-ctl", NULL, NULL,
--            NULL, NULL, NULL, NULL,
-+            NULL, "vmx-exit-load-pkrs", NULL, NULL,
-         },
-         .msr = {
-             .index = MSR_IA32_VMX_TRUE_EXIT_CTLS,
-@@ -1230,7 +1230,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             NULL, "vmx-entry-ia32e-mode", NULL, NULL,
-             NULL, "vmx-entry-load-perf-global-ctrl", "vmx-entry-load-pat", "vmx-entry-load-efer",
-             "vmx-entry-load-bndcfgs", NULL, "vmx-entry-load-rtit-ctl", NULL,
--            NULL, NULL, NULL, NULL,
-+            NULL, NULL, "vmx-entry-load-pkrs", NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-         },
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d7f3ef99d1..fbf65db4db 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -969,6 +969,7 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define VMX_VM_EXIT_CLEAR_BNDCFGS                   0x00800000
- #define VMX_VM_EXIT_PT_CONCEAL_PIP                  0x01000000
- #define VMX_VM_EXIT_CLEAR_IA32_RTIT_CTL             0x02000000
-+#define VMX_VM_EXIT_LOAD_IA32_PKRS                  0x20000000
- 
- #define VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS            0x00000004
- #define VMX_VM_ENTRY_IA32E_MODE                     0x00000200
-@@ -980,6 +981,7 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define VMX_VM_ENTRY_LOAD_BNDCFGS                   0x00010000
- #define VMX_VM_ENTRY_PT_CONCEAL_PIP                 0x00020000
- #define VMX_VM_ENTRY_LOAD_IA32_RTIT_CTL             0x00040000
-+#define VMX_VM_ENTRY_LOAD_IA32_PKRS                 0x00400000
- 
- /* Supported Hyper-V Enlightenments */
- #define HYPERV_FEAT_RELAXED             0
--- 
-2.17.1
+
+Yes I will do that. Should not be a big deal.
+> 
+> 
+>> or virtio-iommu
+>> since dev-iotlb (or PCIe ATS)
+> 
+> 
+> We may need to add this in the future.
+added Jean-Philippe in CC
+> 
+> 
+>> is not yet supported for those archs.
+> 
+> 
+> Rethink about this, it looks to me the point is that we should make
+> vhost work when ATS is disabled like what ATS spec defined:
+> 
+> """
+> 
+> ATS is enabled through a new Capability and associated configuration
+> structure.  To enable 15 ATS, software must detect this Capability and
+> enable the Function to issue ATS TLP.  If a Function is not enabled, the
+> Function is required not to issue ATS Translation Requests and is
+> required to issue all DMA Read and Write Requests with the TLP AT field
+> set to “untranslated.”
+> 
+> """
+> 
+> Maybe we can add this in the commit log.
+> 
+> 
+>>
+>> An initial idea is that we can let IOMMU to export this information to
+>> vhost so
+>> that vhost would know whether the vIOMMU would support dev-iotlb, then
+>> vhost
+>> can conditionally register to dev-iotlb or the old iotlb way.  We can
+>> work
+>> based on some previous patch to introduce PCIIOMMUOps as Yi Liu
+>> proposed [1].
+>>
+>> However it's not as easy as I thought since vhost_iommu_region_add()
+>> does not
+>> have a PCIDevice context at all since it's completely a backend.  It
+>> seems
+>> non-trivial to pass over a PCI device to the backend during init. 
+>> E.g. when
+>> the IOMMU notifier registered hdev->vdev is still NULL.
+>>
+>> To make the fix smaller and easier, this patch goes the other way to
+>> leverage
+>> the flag_changed() hook of vIOMMUs so that SMMU and virtio-iommu can
+>> trap the
+>> dev-iotlb registration and fail it.  Then vhost could try the fallback
+>> solution
+>> as using UNMAP invalidation for it's translations.
+>>
+>> [1]
+>> https://lore.kernel.org/qemu-devel/1599735398-6829-4-git-send-email-yi.l.liu@intel.com/
+>>
+>>
+>> Reported-by: Eric Auger <eric.auger@redhat.com>
+>> Fixes: b68ba1ca57677acf870d5ab10579e6105c1f5338
+>> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+>> Tested-by: Eric Auger <eric.auger@redhat.com>
+>> Signed-off-by: Peter Xu <peterx@redhat.com>
+>> ---
+>>   hw/arm/smmuv3.c          |  5 +++++
+>>   hw/virtio/vhost.c        | 13 +++++++++++--
+>>   hw/virtio/virtio-iommu.c |  5 +++++
+>>   3 files changed, 21 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+>> index 98b99d4fe8e..bd1f97000d9 100644
+>> --- a/hw/arm/smmuv3.c
+>> +++ b/hw/arm/smmuv3.c
+>> @@ -1497,6 +1497,11 @@ static int
+>> smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>>       SMMUv3State *s3 = sdev->smmu;
+>>       SMMUState *s = &(s3->smmu_state);
+>>   +    if (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
+>> +        error_setg(errp, "SMMUv3 does not support dev-iotlb yet");
+>> +        return -EINVAL;
+>> +    }
+>> +
+>>       if (new & IOMMU_NOTIFIER_MAP) {
+>>           error_setg(errp,
+>>                      "device %02x.%02x.%x requires iommu MAP notifier
+>> which is "
+>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>> index 28c7d781721..6e17d631f77 100644
+>> --- a/hw/virtio/vhost.c
+>> +++ b/hw/virtio/vhost.c
+>> @@ -704,6 +704,7 @@ static void vhost_iommu_region_add(MemoryListener
+>> *listener,
+>>       Int128 end;
+>>       int iommu_idx;
+>>       IOMMUMemoryRegion *iommu_mr;
+>> +    int ret;
+>>         if (!memory_region_is_iommu(section->mr)) {
+>>           return;
+>> @@ -726,8 +727,16 @@ static void vhost_iommu_region_add(MemoryListener
+>> *listener,
+>>       iommu->iommu_offset = section->offset_within_address_space -
+>>                             section->offset_within_region;
+>>       iommu->hdev = dev;
+>> -    memory_region_register_iommu_notifier(section->mr, &iommu->n,
+>> -                                          &error_fatal);
+>> +    ret = memory_region_register_iommu_notifier(section->mr,
+>> &iommu->n, NULL);
+>> +    if (ret) {
+>> +        /*
+>> +         * Some vIOMMUs do not support dev-iotlb yet.  If so, try to
+>> use the
+>> +         * UNMAP legacy message
+>> +         */
+>> +        iommu->n.notifier_flags = IOMMU_NOTIFIER_UNMAP;
+>> +        memory_region_register_iommu_notifier(section->mr, &iommu->n,
+>> +                                              &error_fatal);
+>> +    }
+>>       QLIST_INSERT_HEAD(&dev->iommu_list, iommu, iommu_next);
+>>       /* TODO: can replay help performance here? */
+>>   }
+>> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+>> index 6b9ef7f6b2b..c2883a2f6c8 100644
+>> --- a/hw/virtio/virtio-iommu.c
+>> +++ b/hw/virtio/virtio-iommu.c
+>> @@ -893,6 +893,11 @@ static int
+>> virtio_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu_mr,
+>>                                               IOMMUNotifierFlag new,
+>>                                               Error **errp)
+>>   {
+>> +    if (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
+>> +        error_setg(errp, "Virtio-iommu does not support dev-iotlb yet");
+>> +        return -EINVAL;
+>> +    }
+>> +
+>>       if (old == IOMMU_NOTIFIER_NONE) {
+>>           trace_virtio_iommu_notify_flag_add(iommu_mr->parent_obj.name);
+>>       } else if (new == IOMMU_NOTIFIER_NONE) {
+> 
+> 
+> Patch looks good. I wonder whether we should fix intel when ATS is
+> disabled.
+good point
+
+Thanks
+
+Eric
+> 
+> Thanks
+> 
 
 
