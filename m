@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731943107F7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 10:37:22 +0100 (CET)
-Received: from localhost ([::1]:52738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED38F310811
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 10:41:14 +0100 (CET)
+Received: from localhost ([::1]:55484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7xYH-0006yp-Hl
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 04:37:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37718)
+	id 1l7xc2-0008QJ-0t
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 04:41:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7xWi-0005d0-R6
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:35:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58456)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7xaV-0007uV-69
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:39:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l7xWg-0007CY-Vz
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:35:44 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7xaT-0000Sw-K9
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:39:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612517742;
+ s=mimecast20190719; t=1612517976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6Qoq3KYEOCm2Yzn6GooOpeqIP7eZFBEovRLfj+pQSOw=;
- b=CQkx6T5wjKelHD4DK+hgmyvZ5WajkLK5ozRzK+SW8AbW9jT82zo9SxOpmXu9LKutLJRnVh
- fYn215LXPuCjMvSxAib0xGetBjzEdtBkcvBUwj81xuRuoxAWg4+DgdQKXfQlaj7iaHExaa
- iJit+q3YzmJKgKadlVQFLzAmXM8+WYQ=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-ag7FMXLhO6SAiG-4lSiHkQ-1; Fri, 05 Feb 2021 04:35:40 -0500
-X-MC-Unique: ag7FMXLhO6SAiG-4lSiHkQ-1
-Received: by mail-ot1-f71.google.com with SMTP id 36so3257421oto.19
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 01:35:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6Qoq3KYEOCm2Yzn6GooOpeqIP7eZFBEovRLfj+pQSOw=;
- b=ERToWZ8ZBWh9XSsuRH+Eg7O0QOsWXHpUV8SzTIEaTRf6TuOVWQLR9VnjKmvLMl9zpy
- mOStvBI9hlGU2GEZ3cA6tIUs6H41RTk+xygdcTYUPx0EyY/79egk3+WwSseLD1ExmdV+
- 6gb5Q+h0WlMSuo25Dr8OpmcU452c+MMKhOU7RFLSncAsXWb7M/Wqgv2eTbVVPEPE6bUa
- kM10dPcmdOsginlru6vjmcPwb0BOI7eAV0bHkrU+euksPjrDnMuTyq6eVD+XMoCuRL+E
- ZzCmu1KYmMQ/eKQI0QI3xeYYt8Z5c4+r1QJp/W/hRxu5ERbRJlDsEiYl5QRx5FDpOTgT
- 2d1w==
-X-Gm-Message-State: AOAM530UV0WRH3/loHpx7XJED9fVj9bRD8sJ3oWb/xB9ZwA5kHeRIkzn
- XBHLPKui/vpbgvvGUoC9ytHqrWHNQJWPQQ7hOsZ7aiUD2pJ8Ppc7N3sVdXIr+IO/eOhfIS2w4nz
- dVPM9GL7M64XZR4dLHDAM0pTE64i87+A=
-X-Received: by 2002:a9d:67:: with SMTP id 94mr2871998ota.79.1612517739639;
- Fri, 05 Feb 2021 01:35:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyOs9wixLl/woUkOvk5r1Yy/wCdzSnGrER7WTV9MqdBKaELRTpiqcUdg5mfsao3NLggpIK8quU7fixNYmQN2o0=
-X-Received: by 2002:a9d:67:: with SMTP id 94mr2871988ota.79.1612517739448;
- Fri, 05 Feb 2021 01:35:39 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vwaMKLVPT5yDr/IYYbwiHBYRp6227JGEdmt6WssAiuI=;
+ b=aZXM0Hbz3jBzMBjA3PTHkb44/446NeLJKl+Ftt1oQIPaBz8P1X9YBVOSkpjUMqG7ZalNvK
+ vweenSE5nxbBnhnXwXzf94fejMkAiRZyVNTUlNfBxqb3jtBaB3wx3M9kX33VXTV2BZbFQ9
+ ET91n6oAeBN+DlKxLbkfk0nO3d7ko3s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-e516U8vANp2i_yS_TepwJQ-1; Fri, 05 Feb 2021 04:39:28 -0500
+X-MC-Unique: e516U8vANp2i_yS_TepwJQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8A6D1934102;
+ Fri,  5 Feb 2021 09:39:27 +0000 (UTC)
+Received: from thuth.com (ovpn-112-46.ams2.redhat.com [10.36.112.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B27110013DB;
+ Fri,  5 Feb 2021 09:39:22 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: [PATCH v3] target/s390x/arch_dump: Fix warning for the name field in
+ the PT_NOTE section
+Date: Fri,  5 Feb 2021 10:39:21 +0100
+Message-Id: <20210205093921.848260-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210204171907.901471-1-berrange@redhat.com>
- <20210204171907.901471-2-berrange@redhat.com>
- <74407f84-c670-cc87-27fe-f3d9d38bda33@redhat.com>
- <20210205093345.GA908621@redhat.com>
-In-Reply-To: <20210205093345.GA908621@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Fri, 5 Feb 2021 10:35:28 +0100
-Message-ID: <CAP+75-XnReuDAXw6N28-ckzCtu88A8pn92RH1UgsBMWcN=oYAw@mail.gmail.com>
-Subject: Re: [PATCH 01/33] migration: push Error **errp into
- qemu_loadvm_state()
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -78,7 +62,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,82 +75,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 5, 2021 at 10:33 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
-> On Thu, Feb 04, 2021 at 10:57:20PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > On 2/4/21 6:18 PM, Daniel P. Berrang=C3=A9 wrote:
-> > > This is an incremental step in converting vmstate loading code to rep=
-ort
-> > > via Error objects instead of printing directly to the console/monitor=
-.
-> > >
-> > > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > > ---
-> > >  migration/migration.c |  4 ++--
-> > >  migration/savevm.c    | 36 ++++++++++++++++++++----------------
-> > >  migration/savevm.h    |  2 +-
-> > >  3 files changed, 23 insertions(+), 19 deletions(-)
-> > ...
-> >
-> > > diff --git a/migration/savevm.c b/migration/savevm.c
-> > > index 6b320423c7..c8d93eee1e 100644
-> > > --- a/migration/savevm.c
-> > > +++ b/migration/savevm.c
-> > > @@ -2638,40 +2638,49 @@ out:
-> > >      return ret;
-> > >  }
-> > >
-> > > -int qemu_loadvm_state(QEMUFile *f)
-> > > +int qemu_loadvm_state(QEMUFile *f, Error **errp)
-> > >  {
-> > >      MigrationIncomingState *mis =3D migration_incoming_get_current()=
-;
-> > > -    Error *local_err =3D NULL;
-> > >      int ret;
-> > >
-> > > -    if (qemu_savevm_state_blocked(&local_err)) {
-> > > -        error_report_err(local_err);
-> > > -        return -EINVAL;
-> > > +    if (qemu_savevm_state_blocked(errp)) {
-> > > +        return -1;
-> > >      }
-> > >
-> > >      ret =3D qemu_loadvm_state_header(f);
-> > >      if (ret) {
-> > > -        return ret;
-> > > +        error_setg(errp, "Error %d while loading VM state", ret);
-> >
-> > Using error_setg_errno() instead (multiple occurences):
->
-> I don't think we want todo that in general, because the code is
-> already not reliable at actually returning an errno value, sometimes
-> returning just "-1". At the end of this series it will almost always
-> be returning "-1", not an errno.  There are some places where an
-> errno is relevant though - specificially qemu_get_file_error calls.
+There is a compiler warning with GCC 9.3 when compiling with
+the -fsanitize=thread compiler flag:
 
-Fair. Ignore my other same comments in this. R-b tag stands.
+ In function 'strncpy',
+    inlined from 's390x_write_elf64_notes' at ../target/s390x/arch_dump.c:219:9:
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
+  '__builtin_strncpy' specified bound 8 equals destination size
+  [-Werror=stringop-truncation]
 
->
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+Since the name should always be NUL-terminated, let's use g_strlcpy() to
+silence this warning. And while we're at it, also add an assert() to make
+sure that the provided names always fit the size field (which is fine for
+the current callers, the function is called once with "CORE" and once with
+"LINUX" as a name).
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ v3: Do not touch the namesz field
+
+ target/s390x/arch_dump.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
+index 50fa0ae4b6..cc1330876b 100644
+--- a/target/s390x/arch_dump.c
++++ b/target/s390x/arch_dump.c
+@@ -212,11 +212,13 @@ static int s390x_write_elf64_notes(const char *note_name,
+     int note_size;
+     int ret = -1;
+ 
++    assert(strlen(note_name) < sizeof(note.name));
++
+     for (nf = funcs; nf->note_contents_func; nf++) {
+         memset(&note, 0, sizeof(note));
+         note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
+         note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
+-        strncpy(note.name, note_name, sizeof(note.name));
++        g_strlcpy(note.name, note_name, sizeof(note.name));
+         (*nf->note_contents_func)(&note, cpu, id);
+ 
+         note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
+-- 
+2.27.0
 
 
