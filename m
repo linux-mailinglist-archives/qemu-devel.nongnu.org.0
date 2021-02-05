@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5AD310CA7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:47:03 +0100 (CET)
-Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C68310CB4
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:50:00 +0100 (CET)
+Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l82Ny-0004Zt-Om
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:47:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42582)
+	id 1l82Qp-00083j-2Z
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:49:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l82LC-0002gY-TR; Fri, 05 Feb 2021 09:44:12 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:33704)
+ id 1l82LN-0002iM-To; Fri, 05 Feb 2021 09:44:23 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:46629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l82L9-0002Ls-I4; Fri, 05 Feb 2021 09:44:08 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id sa23so12380597ejb.0;
- Fri, 05 Feb 2021 06:44:06 -0800 (PST)
+ id 1l82LE-0002Od-TN; Fri, 05 Feb 2021 09:44:14 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id w2so12229161ejk.13;
+ Fri, 05 Feb 2021 06:44:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dblZ2cMrQMLC69vQiQ7PjI15tp+Aw6tS1AsWq28yjKE=;
- b=bGc1ZUgV/Nx9pGAJJXViDeubeLJ3KSyyySwPiOg1BcmYgeuNDgULMpXA2lFqCQOS+2
- dVofPa6szRxLCBGdumWJ2Hq0PqqT0FN1q4vuwoscidrgEsV2f/FbsPay+3W+PPTrN7mE
- QF7hjGJYJ+gas9Oh2k3oL2yzoysFyU6zXuRI5SlXwHkiVTNXo76aE+wjbEFkMyAeKuE/
- qLGRuoOtLaezzyOnrjmdja+hhb1yqoZpyA2VDbjU1m3oO1yugGKvDCwklLjPJhZSW0KC
- khv8YP2S1gLUff666R+h2xBYDBqJ0yi0u2VsrJMzHdEn3Us5Bfwm/T8zthZ0NHxXvZJp
- iwdg==
+ bh=J1pU1ssoi/DL7VDtGz6ONx3+WvqS4tj/g3xHAkg3ZBQ=;
+ b=D1xw66rtNR0SWJkqUGEwEab54BWMTjVSeIAbEXtcvqBUuQcFvkXFhjK/XKX4vMte99
+ bTohPpXVDAjVboUqoXuXuQ8rhR32EfzjZKoPfgVSKwFoRjQAVcNMxf4og7v4irYgkBBP
+ CYnGBsF/NDFoFLJuc1lkcsnBH1cpG7YaMpFjRIuKpl8r6Oq7pft0eVVo4HAAwwwpsiQA
+ Pukz59fotWp/SGSh9hetGDXUBscTYodbx1aqgAnTJ7nMzdD8/DOW+AB9apyuYopeTtMV
+ pGHWQACn4zjRB1Pv1RretfM+mky7Ljpw10hugSpXm+fJ6vO8FTYKh+yikEso4aG2xxHE
+ m+JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dblZ2cMrQMLC69vQiQ7PjI15tp+Aw6tS1AsWq28yjKE=;
- b=YuLNj53hXxMRtWDuJ/LjihVOifVIzdeoXDA2gTI+7AVqA9HwhukOv/83a+luQxU+GW
- WemaLNbhDDTgZuoI4wZ5pRAMDBeYPecZOGJdT+24eMJz1+MLhvjlYduzTsrD1F89yCov
- MByy2NC34WwoSAnNI+WdfuSaykITd+xYCMNXxRUsrjJ7nPOW6srz2jULJ4OkMrQqQulG
- GlYHQrDPa4BsYlW5BL4zjdcOJ1Z3zTSP7CqeMry1gdtLnsIY9NaxWfSbinZ410rBgPrU
- XEZ/VwtYq+GiKk9ENvvAnvXFSOwPJulEjNhiQuaG1YTHGaiDgo0QMCfpIP6uWtS4yJeX
- OkXQ==
-X-Gm-Message-State: AOAM533rbIlyBYBKR3t8AOxpC7jBtr9a3t6ickkN5qcn+/7xJ14gJaiH
- HI0APqMhtU/yYlP8hAAc9QY3wzibc3A=
-X-Google-Smtp-Source: ABdhPJwaFQ8BXAkJNPUM74PRENPBWmQSvgr5KlhqbctAGJ1lOmTFgL2AY/oZPSRVFnuTXrImQzzyeg==
-X-Received: by 2002:a17:906:87c3:: with SMTP id
- zb3mr4373739ejb.244.1612536245246; 
- Fri, 05 Feb 2021 06:44:05 -0800 (PST)
+ bh=J1pU1ssoi/DL7VDtGz6ONx3+WvqS4tj/g3xHAkg3ZBQ=;
+ b=tO/x/owb+WfCYPVRhEaUca0GSldxHwmHC05212/3FEVWtNpD+DoFdSJ6gAx4vH42qB
+ oTNFWir3umiApTTrvQCSAihbmYq6VG3eu1zLBBEjYBFKhyI/1xTow92+oyxI4TgUxvl1
+ VQgzIYssTHCF2C9OA4CJQ6NJLr0+JzC4Hs8kOtZwiacQTajjdXkRvwZSi+I3J+as6+7S
+ Fk8e8ejNKSlEQ9NMPX5NPRCLHjU/BGEpMHSoTZ24Lxg8r9K2MCrWWzlFBqqgAmM0M9kn
+ Nl4A4mC3uISlVH0kd9MkKfvGVVMi/XZyR+y+zij+ahik/UxjYUwOcE+lJuQ3A5vT9e/H
+ oVgw==
+X-Gm-Message-State: AOAM531J/4QneOePghq6SH6l8x/JnCtNC+kPNjbmSIIsEGMe3toASekH
+ NCjGflsTnxu9oT6UgIynWcfC3LxR0e8=
+X-Google-Smtp-Source: ABdhPJw7OYWzgx0HnsRoje7yX5BHhHsO7USy6vPSLilXjKMAU+KnVjxfV2oJzuqY9tCZ+d2VzR4nkA==
+X-Received: by 2002:a17:906:2697:: with SMTP id
+ t23mr4363534ejc.357.1612536250581; 
+ Fri, 05 Feb 2021 06:44:10 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id g16sm3980102ejo.107.2021.02.05.06.44.03
+ by smtp.gmail.com with ESMTPSA id qx8sm3971665ejb.48.2021.02.05.06.44.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 06:44:04 -0800 (PST)
+ Fri, 05 Feb 2021 06:44:10 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/9] tests/qtest/boot-serial-test: Test Virt machine with 'max'
-Date: Fri,  5 Feb 2021 15:43:39 +0100
-Message-Id: <20210205144345.2068758-4-f4bug@amsat.org>
+Subject: [PATCH 4/9] tests/qtest/cdrom-test: Only allow the Virt machine under
+ KVM
+Date: Fri,  5 Feb 2021 15:43:40 +0100
+Message-Id: <20210205144345.2068758-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210205144345.2068758-1-f4bug@amsat.org>
 References: <20210205144345.2068758-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,33 +94,32 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using KVM, using a specific cpu type will only work if the
-host CPU really is that exact CPU type.
+Only the Virt and Versal machines are supported under KVM.
+Restrict the other ones to TCG.
 
-During testing we can simply use the 'max' CPU which will select
-all the features available from the host.
-
-This allow running this test on a Cavium CN8890 (ThunderX cores).
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/boot-serial-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/cdrom-test.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index b6b1c23cd01..d74509b1c57 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -149,7 +149,7 @@ static testdef_t tests[] = {
-     { "arm", "raspi2", "", "TT", sizeof(bios_raspi2), 0, bios_raspi2 },
-     /* For hppa, force bios to output to serial by disabling graphics. */
-     { "hppa", "hppa", "-vga none", "SeaBIOS wants SYSTEM HALT" },
--    { "aarch64", "virt", "-cpu cortex-a57", "TT", sizeof(kernel_aarch64),
-+    { "aarch64", "virt", "-cpu max", "TT", sizeof(kernel_aarch64),
-       kernel_aarch64 },
-     { "arm", "microbit", "", "T", sizeof(kernel_nrf51), kernel_nrf51 },
- 
+diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+index 5af944a5fb7..ac02f2bb4f1 100644
+--- a/tests/qtest/cdrom-test.c
++++ b/tests/qtest/cdrom-test.c
+@@ -222,9 +222,12 @@ int main(int argc, char **argv)
+         add_cdrom_param_tests(mips64machines);
+     } else if (g_str_equal(arch, "arm") || g_str_equal(arch, "aarch64")) {
+         const char *armmachines[] = {
++#ifdef CONFIG_TCG
+             "realview-eb", "realview-eb-mpcore", "realview-pb-a8",
+             "realview-pbx-a9", "versatileab", "versatilepb", "vexpress-a15",
+-            "vexpress-a9", "virt", NULL
++            "vexpress-a9",
++#endif /* CONFIG_TCG */
++            "virt", NULL
+         };
+         add_cdrom_param_tests(armmachines);
+     } else {
 -- 
 2.26.2
 
