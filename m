@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25D331167A
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 00:17:45 +0100 (CET)
-Received: from localhost ([::1]:43102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615F7311670
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 00:13:17 +0100 (CET)
+Received: from localhost ([::1]:60232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8AMC-0001pT-Or
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 18:17:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59454)
+	id 1l8AHs-0005HJ-En
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 18:13:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8A2w-0002TJ-H2
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:57:52 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:40838)
+ id 1l8A2y-0002TX-FR
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:57:54 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:51829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8A2r-0003V8-63
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:57:50 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id i63so5296914pfg.7
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 14:57:42 -0800 (PST)
+ id 1l8A2r-0003VL-Db
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:57:52 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id fa16so3998452pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 14:57:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qiThUlNgHGJ/mquJtz2e8kAX1s9Aecgyjtto5Sl+Qt8=;
- b=IG85gxo2JKC6LcenbsCMp+MvmEbCPXpLX6sMLvIUa/0vfkA4ZLM5kBKogdtQWatiG5
- bEj86w99JO7dRP+Sz0Ro1hbdYNFdK6IEwGHPBLIghneQmDjSYKHHqSeLa6d3Cx0aSGS3
- 3UnCH3wtRnyhaJ+lh1l798QYexLIqaIA/Zh9FOsnD4SJC1BA+54FpFgqcM//7b1EWwvi
- Ph6NGVdp1/4NFFm1ZtL42VBFWNENWRyrcQXyaLKQ9Xs3R1iHnNZzRcVhW77spMbEmZvc
- 9LUP4m4Z2PoDJIx44nT2DYcg2bLmkF2Tg/Bmnejcr7BLXB+HRyUy+pno+FJTZZ11+rj1
- EXjQ==
+ bh=HpWGR2pzYCq2nhr0I+4v9m7InqBQYpMtzCuE7YrrkGg=;
+ b=NSZplcO+8PJeXUTBol9psnMFi5eU5iK/eBhSnx/24VTIe8RVlRQcM9qUUZzUPVIJES
+ bBwGwjwZxzcqI6h2eeh0NskIylD1ryqKjM16WoD6wtQNr337kuQt2JJzHSwVMga4RKW9
+ rahJBhuYspwT1Zb8ZysGJi2vH0Sz8COBaDG1rLJV08ELu2y5WhfDSE0B3h9alzfz/ZDr
+ D6RM/coevpbwkaP054WXQCdtaxlsWvN7Qd8bnZ1glS4pXoz1rcmqjiyBnfvuTUdCpPv7
+ dMStcr/9OnDQmafy5QE7uK08RlW5kE0iCVHq+V6jIJepvM4/kKVCy4VRmh728dWvbWJM
+ zO+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qiThUlNgHGJ/mquJtz2e8kAX1s9Aecgyjtto5Sl+Qt8=;
- b=nYKeQczCK/GlKtIEYs5IzwlvB19TxCC+cCfkPKTHQElrvTExRBNvX8lT2JRxrG277g
- gPO3BraZNcGblcv30TsVcSc05sTyk0rfkS062PqqvwCmqis0SI4H6dfJtbfbjbvZK2To
- yUbciOLj4ajy+vCflsNhI2wTZzVnHX9TG0ZuCMQq3QHcqnNftp8xLeXmWKqWF/kxpYHV
- eeraeJPvimlzQAiSSoqdxKyiTSWet9LJ6WS/CJlNmUAa8wdpVkxMD1xHUxDgdWieBNLy
- 6ZD89QaZvNZEPseceNh9WWIJmPUQvpv4Mh+mQKxLcMCGjHeU7tf29JvwPzt/cwQLhfRL
- RHDQ==
-X-Gm-Message-State: AOAM533sO/sNrHWue1u3ev167H6qJcpZur5h4HWhD4+AICmsH/Ln6tui
- shbxuDYloCJq54GYNHpIAzL54jvbgazygtIa
-X-Google-Smtp-Source: ABdhPJwvP1N+Uw8Q1dZmoGTdXA6YBIsTfu3t14qZ+Su0yK8puDwUUWp6BOsJ+rDXx4D8x3m3HSYd4A==
-X-Received: by 2002:a63:3008:: with SMTP id w8mr6392876pgw.207.1612565861934; 
- Fri, 05 Feb 2021 14:57:41 -0800 (PST)
+ bh=HpWGR2pzYCq2nhr0I+4v9m7InqBQYpMtzCuE7YrrkGg=;
+ b=GT6otCo5ee9m/OOj94gZ9951kdNITuTqkXlXG8aZqaJO8I8lVYPbwX6H500WMCGXYL
+ tPbPFVevs0JjdZ1Ju/iSG45ZKYja7+w0vEkvK9W+M9WTmMMa77XQsVfJkrnEZRit947e
+ PhfvQJf0Ex7d/rA0OgpCCz1QnwFTt8xBienWbJ4R/Kf/dC8BIqHnjMpL2/FNhD/6k5q4
+ tUhvgD3t2AwFMLSRVP+YaQPuXMzYLJr/PerXTcdXvX0zFYWOKrUx9QakZHZwKM0+nSnX
+ QmrpbNrvCrDElf1a3a/XIMkQD01KYQ3ECX9u3Y7DWeDoE8lFLSMrNuzxHNZi63p5T8ky
+ S2FA==
+X-Gm-Message-State: AOAM530xDFBOPpy3BEQkcSy5dyVI+xtkNTUikko9pfPVOWdHwaKX+EtI
+ t7RTwoUSC9camLpc5NqkECQVklnIsnqOLV6f
+X-Google-Smtp-Source: ABdhPJznWhl8o99lYZNA/Qtp5I/CZeoT89jKNgZ6QmPNIMAniIarIaRszRJzzr5Jl17hdq1JlJrWlg==
+X-Received: by 2002:a17:90a:46cb:: with SMTP id
+ x11mr6251365pjg.124.1612565863753; 
+ Fri, 05 Feb 2021 14:57:43 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id c23sm12155149pgc.72.2021.02.05.14.57.40
+ by smtp.gmail.com with ESMTPSA id c23sm12155149pgc.72.2021.02.05.14.57.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 14:57:41 -0800 (PST)
+ Fri, 05 Feb 2021 14:57:43 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/46] tcg/tci: Restrict TCG_TARGET_NB_REGS to 16
-Date: Fri,  5 Feb 2021 12:56:30 -1000
-Message-Id: <20210205225650.1330794-27-richard.henderson@linaro.org>
+Subject: [PULL 27/46] tcg/tci: Fix TCG_REG_R4 misusage
+Date: Fri,  5 Feb 2021 12:56:31 -1000
+Message-Id: <20210205225650.1330794-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210205225650.1330794-1-richard.henderson@linaro.org>
 References: <20210205225650.1330794-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,149 +90,88 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As noted in several comments, 8 regs is not enough for 32-bit
-to perform calls, as currently implemented.  Shortly, we will
-rearrange the encoding which will make 32 regs impossible.
+This was removed from tcg_target_reg_alloc_order and
+tcg_target_call_iarg_regs on the assumption that it
+was the stack.  This was incorrectly copied from i386.
+For tci, the stack is R15.
+
+By adding R4 back to tcg_target_call_iarg_regs, adjust the other
+entries so that 6 (or 12) entries are still present in the array,
+and adjust the numbers in the interpreter.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci/tcg-target.h     | 32 +++++---------------------------
- tcg/tci/tcg-target.c.inc | 26 --------------------------
- 2 files changed, 5 insertions(+), 53 deletions(-)
+ tcg/tci.c                | 8 ++++----
+ tcg/tci/tcg-target.c.inc | 7 +------
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 7fc349a3de..8f7ed676fc 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -133,11 +133,8 @@
- #define TCG_TARGET_HAS_mulu2_i32        1
- #endif /* TCG_TARGET_REG_BITS == 64 */
- 
--/* Number of registers available.
--   For 32 bit hosts, we need more than 8 registers (call arguments). */
--/* #define TCG_TARGET_NB_REGS 8 */
-+/* Number of registers available. */
- #define TCG_TARGET_NB_REGS 16
--/* #define TCG_TARGET_NB_REGS 32 */
- 
- /* List of registers which are used by TCG. */
- typedef enum {
-@@ -149,7 +146,6 @@ typedef enum {
-     TCG_REG_R5,
-     TCG_REG_R6,
-     TCG_REG_R7,
--#if TCG_TARGET_NB_REGS >= 16
-     TCG_REG_R8,
-     TCG_REG_R9,
-     TCG_REG_R10,
-@@ -158,33 +154,15 @@ typedef enum {
-     TCG_REG_R13,
-     TCG_REG_R14,
-     TCG_REG_R15,
--#if TCG_TARGET_NB_REGS >= 32
--    TCG_REG_R16,
--    TCG_REG_R17,
--    TCG_REG_R18,
--    TCG_REG_R19,
--    TCG_REG_R20,
--    TCG_REG_R21,
--    TCG_REG_R22,
--    TCG_REG_R23,
--    TCG_REG_R24,
--    TCG_REG_R25,
--    TCG_REG_R26,
--    TCG_REG_R27,
--    TCG_REG_R28,
--    TCG_REG_R29,
--    TCG_REG_R30,
--    TCG_REG_R31,
--#endif
--#endif
-+
-+    TCG_AREG0 = TCG_REG_R14,
-+    TCG_REG_CALL_STACK = TCG_REG_R15,
-+
-     /* Special value UINT8_MAX is used by TCI to encode constant values. */
-     TCG_CONST = UINT8_MAX
- } TCGReg;
- 
--#define TCG_AREG0                       (TCG_TARGET_NB_REGS - 2)
--
- /* Used for function call generation. */
--#define TCG_REG_CALL_STACK              (TCG_TARGET_NB_REGS - 1)
- #define TCG_TARGET_CALL_STACK_OFFSET    0
- #define TCG_TARGET_STACK_ALIGN          16
- 
+diff --git a/tcg/tci.c b/tcg/tci.c
+index e0d815e4b2..935eb87330 100644
+--- a/tcg/tci.c
++++ b/tcg/tci.c
+@@ -511,14 +511,14 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+                                           tci_read_reg(regs, TCG_REG_R1),
+                                           tci_read_reg(regs, TCG_REG_R2),
+                                           tci_read_reg(regs, TCG_REG_R3),
++                                          tci_read_reg(regs, TCG_REG_R4),
+                                           tci_read_reg(regs, TCG_REG_R5),
+                                           tci_read_reg(regs, TCG_REG_R6),
+                                           tci_read_reg(regs, TCG_REG_R7),
+                                           tci_read_reg(regs, TCG_REG_R8),
+                                           tci_read_reg(regs, TCG_REG_R9),
+                                           tci_read_reg(regs, TCG_REG_R10),
+-                                          tci_read_reg(regs, TCG_REG_R11),
+-                                          tci_read_reg(regs, TCG_REG_R12));
++                                          tci_read_reg(regs, TCG_REG_R11));
+             tci_write_reg(regs, TCG_REG_R0, tmp64);
+             tci_write_reg(regs, TCG_REG_R1, tmp64 >> 32);
+ #else
+@@ -526,8 +526,8 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+                                           tci_read_reg(regs, TCG_REG_R1),
+                                           tci_read_reg(regs, TCG_REG_R2),
+                                           tci_read_reg(regs, TCG_REG_R3),
+-                                          tci_read_reg(regs, TCG_REG_R5),
+-                                          tci_read_reg(regs, TCG_REG_R6));
++                                          tci_read_reg(regs, TCG_REG_R4),
++                                          tci_read_reg(regs, TCG_REG_R5));
+             tci_write_reg(regs, TCG_REG_R0, tmp64);
+ #endif
+             break;
 diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 3327ce3072..7e3bed811e 100644
+index 7e3bed811e..aba7f75ad1 100644
 --- a/tcg/tci/tcg-target.c.inc
 +++ b/tcg/tci/tcg-target.c.inc
-@@ -187,7 +187,6 @@ static const int tcg_target_reg_alloc_order[] = {
+@@ -181,9 +181,7 @@ static const int tcg_target_reg_alloc_order[] = {
+     TCG_REG_R1,
+     TCG_REG_R2,
+     TCG_REG_R3,
+-#if 0 /* used for TCG_REG_CALL_STACK */
+     TCG_REG_R4,
+-#endif
      TCG_REG_R5,
      TCG_REG_R6,
      TCG_REG_R7,
--#if TCG_TARGET_NB_REGS >= 16
-     TCG_REG_R8,
-     TCG_REG_R9,
-     TCG_REG_R10,
-@@ -196,7 +195,6 @@ static const int tcg_target_reg_alloc_order[] = {
-     TCG_REG_R13,
-     TCG_REG_R14,
-     TCG_REG_R15,
+@@ -206,19 +204,16 @@ static const int tcg_target_call_iarg_regs[] = {
+     TCG_REG_R1,
+     TCG_REG_R2,
+     TCG_REG_R3,
+-#if 0 /* used for TCG_REG_CALL_STACK */
+     TCG_REG_R4,
 -#endif
- };
- 
- #if MAX_OPC_PARAM_IARGS != 6
-@@ -216,15 +214,11 @@ static const int tcg_target_call_iarg_regs[] = {
+     TCG_REG_R5,
+-    TCG_REG_R6,
  #if TCG_TARGET_REG_BITS == 32
      /* 32 bit hosts need 2 * MAX_OPC_PARAM_IARGS registers. */
++    TCG_REG_R6,
      TCG_REG_R7,
--#if TCG_TARGET_NB_REGS >= 16
      TCG_REG_R8,
      TCG_REG_R9,
      TCG_REG_R10,
      TCG_REG_R11,
-     TCG_REG_R12,
--#else
--# error Too few input registers available
--#endif
+-    TCG_REG_R12,
  #endif
  };
- 
-@@ -245,7 +239,6 @@ static const char *const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
-     "r05",
-     "r06",
-     "r07",
--#if TCG_TARGET_NB_REGS >= 16
-     "r08",
-     "r09",
-     "r10",
-@@ -254,25 +247,6 @@ static const char *const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
-     "r13",
-     "r14",
-     "r15",
--#if TCG_TARGET_NB_REGS >= 32
--    "r16",
--    "r17",
--    "r18",
--    "r19",
--    "r20",
--    "r21",
--    "r22",
--    "r23",
--    "r24",
--    "r25",
--    "r26",
--    "r27",
--    "r28",
--    "r29",
--    "r30",
--    "r31"
--#endif
--#endif
- };
- #endif
  
 -- 
 2.25.1
