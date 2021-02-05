@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F853108AC
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:06:38 +0100 (CET)
-Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3F83108DD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:20:49 +0100 (CET)
+Received: from localhost ([::1]:54690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7y0b-0002In-3k
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:06:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43126)
+	id 1l7yEK-0000cQ-NZ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:20:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7xyF-00016t-5J
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:04:11 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:34341)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7y9e-0005pP-OT
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:15:58 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l7xy9-00037v-H1
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:04:10 -0500
-Received: by mail-ed1-x529.google.com with SMTP id df22so8177972edb.1
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 02:04:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QkRraTuG9I3+RUzT5etVSoU/LORb9JRlwCxVj6PexCU=;
- b=Bomdp42eh4lVeXpgpduSUl9xuTWk1AnIq3e5LYDgJ4/U83wVG756NFvUNanCdqn/zV
- 0ZLZ2cEbhAQIYCJCIwJonZk7gDKBQkoAauwqU1BjhP8eDRjCBp5cXVzHBIo/xGhonHNU
- P3dXyRNmnaWRKCfmXISZrG8ak//RxlOjqAbK4TzW5KvWpxhn5eQYbKnld6WcYZFfye6u
- Do6dbuxR8x1LAkXlg8KyYNEUTByjEhEtfaeUby4R9BYlXb/7HxAvQz1L+NELX1aeQcid
- +MAD5urynzw8z4FeEdkV5GpgbPqAfqlINnZNirCaTJEPwVfufd/wluq07fQ0g5UOmFSX
- 7SaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QkRraTuG9I3+RUzT5etVSoU/LORb9JRlwCxVj6PexCU=;
- b=Hd3FnFagcUc6y1aUzKSQ4ZzFeXKP21OI+9C+dyNnrryvHT97/NptToTRlaUGXrzhqK
- rg0TMHM4f+64RbblaW7+DArYVyUB0N88lVsPm+m9RDcR5v/vPhh1CDccSUpZ6W+o5IJX
- fzu7eqLHZFJAXf0gtvYKmG1AkU4o2nCHTp6niLb9GRLKMuNvo+TeYPVXqix8Elp2NWLA
- yZDGsnrjrXwUb/eaRBjMZeZL4p9CuqRqvnaSpTwEZZSfibhNFVS7ARpROlWVfUxm9VNI
- EsdWTfcaa3cMZdLIRbn9YAvrITW1vOtCdMGsdiNxejh+z2bLwVhlepJEav4kEhTaWiV+
- IOVw==
-X-Gm-Message-State: AOAM532fESZdbV0k+z3qOKEFK39jFwqU0amYWTGcF7QKDj39AKEJbNIC
- lTUb6wqqBI9sCLiBmfxE5hcC877qGh4iudSaF00RjQ==
-X-Google-Smtp-Source: ABdhPJzm1DrlbNbX6Cp/zLRQlJpKpYvo+qGK9qugjmWB1YoLSFiSnlOSSfJ80/efLyIjxFw75oghBMiAaSUV55tLS7I=
-X-Received: by 2002:a50:9e01:: with SMTP id z1mr1332075ede.44.1612519443895;
- Fri, 05 Feb 2021 02:04:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l7y9b-0008Ds-S3
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:15:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l7y9W-0007cF-Jc
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 10:15:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CEF1A2E8162
+ for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 10:15:46 +0000 (UTC)
 MIME-Version: 1.0
-References: <3362132240927a23ecca7b9d8cfd6e4130509eea.camel@gmail.com>
- <dbcfce3c-3140-01b7-06ca-497cf7fdace7@amsat.org>
- <6f6a803af5941346050d84e77fcaa52e0175a8a7.camel@gmail.com>
- <f4862169-28cc-82a9-32fb-da56b000cf54@amsat.org>
-In-Reply-To: <f4862169-28cc-82a9-32fb-da56b000cf54@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Feb 2021 10:03:52 +0000
-Message-ID: <CAFEAcA9JkTEOhmoFjWYfR5d7ANhKnc9URk89Xe36q7qMVxkMmg@mail.gmail.com>
-Subject: Re: [PATCH] arm: xlnx-versal: fix virtio-mmio base address assignment
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Fri, 05 Feb 2021 10:05:55 -0000
+From: Peter Maydell <1914696@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: pmaydell zhijianli88
+X-Launchpad-Bug-Reporter: lizhijian (zhijianli88)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161249398803.13999.15324457641617983607.malonedeb@soybean.canonical.com>
+Message-Id: <161251955523.25342.17532049421394818992.malone@wampee.canonical.com>
+Subject: [Bug 1914696] Re: aarch64: migration failed: Segmentation fault (core
+ dumped)
+X-Launchpad-Message-Rationale: Subscriber @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: ae8ec32a2b3165eb10e74d362bb15ce240657379
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,37 +70,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, schspa <schspa@gmail.com>,
- Kevin Zhao <kevin.zhao@linaro.org>, Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Reply-To: Bug 1914696 <1914696@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Feb 2021 at 07:53, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
-> Indeed, you found a design issue IMO:
->
-> Versal creates the "mr-ps-switch" to be explicitly different from
-> the main sysbus memory. TYPE_VIRTIO_MMIO is a SYSBUS device, thus
-> can not be created without being plugged on sysbus.
-> We want TYPE_VIRTIO_MMIO to be TYPE_USER_CREATABLE so we can create
-> it on the command line (like your usage). TYPE_SYSBUS allows such
-> automatic plug it on the main bus, but also maps to main memory.
+This just came up on the list the other day. It should be fixed by this pat=
+ch:
+https://patchew.org/QEMU/20210203161340.55210-1-aaron@os.amperecomputing.co=
+m/
 
-That was never the design intent for the virtio mmio transport.
-The idea was that the board creates a bunch of transports
-(unconditionally). The user then uses command line options
-to create virtio backends (blk, net, etc) which get plugged
-into the virtio-bus buses that each transport has.
+-- =
 
-virtio-mmio is not user-creatable for the same reason that
-all devices with MMIO memory regions and IRQ lines are not
-user-creatable -- there's no good command line syntax for
-the user to wire them up, and we don't want the user to have
-to know "on this board address 0x50003000 is a good place to
-put a device, and irq 43 is free".
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to the bug report.
+https://bugs.launchpad.net/bugs/1914696
 
-thanks
--- PMM
+Title:
+  aarch64: migration failed: Segmentation fault (core dumped)
+
+Status in QEMU:
+  New
+
+Bug description:
+  reproduce:
+
+  arch: aarch64
+  source qemu: v4.2.0
+  destination qemu: 1ed9228f63ea4bcc0ae240365305ee264e9189ce
+
+  cmdline:
+  source: =
+
+  $ ./aarch64-softmmu/qemu-system-aarch64     -name 'avocado-vt-vm1'    -ma=
+chine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024=
+      -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor st=
+dio
+  (qemu) =
+
+  (qemu) migrate -d tcp:10.19.241.167:888
+  (qemu) info status
+  VM status: paused (postmigrate)
+
+  destination: =
+
+  ./build/aarch64-softmmu/qemu-system-aarch64 -name 'avocado-vt-vm1'  -mach=
+ine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024  =
+    -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor stdi=
+o -incoming tcp:0:888
+  QEMU 5.2.50 monitor - type 'help' for more information
+  (qemu) Segmentation fault (core dumped)
+
+  =
+
+  i have bisected and confirmed that the first bad commit is: [f9506e162c33=
+e87b609549157dd8431fcc732085] target/arm: Remove ARM_FEATURE_VFP*
+
+  bisect log:
+  git bisect log
+  # bad: [1ed9228f63ea4bcc0ae240365305ee264e9189ce] Merge remote-tracking b=
+ranch 'remotes/ericb/tags/pull-nbd-2021-02-02-v2' into staging
+  git bisect bad 1ed9228f63ea4bcc0ae240365305ee264e9189ce
+  # good: [b0ca999a43a22b38158a222233d3f5881648bb4f] Update version for v4.=
+2.0 release
+  git bisect good b0ca999a43a22b38158a222233d3f5881648bb4f
+  # bad: [59093cc407cb044c72aa786006a07bd404eb36b9] hw/char: Convert the Ib=
+ex UART to use the registerfields API
+  git bisect bad 59093cc407cb044c72aa786006a07bd404eb36b9
+  # bad: [4dabf39592e92d692c6f2a1633571114ae25d843] aspeed/smc: Fix DMA sup=
+port for AST2600
+  git bisect bad 4dabf39592e92d692c6f2a1633571114ae25d843
+  # good: [93c86fff53a267f657e79ec07dcd04b63882e330] Merge remote-tracking =
+branch 'remotes/pmaydell/tags/pull-target-arm-20200207' into staging
+  git bisect good 93c86fff53a267f657e79ec07dcd04b63882e330
+  # bad: [2ac031d171ccd18c973014d9978b4a63f0ad5fb0] Merge remote-tracking b=
+ranch 'remotes/palmer/tags/riscv-for-master-5.0-sf3' into staging
+  git bisect bad 2ac031d171ccd18c973014d9978b4a63f0ad5fb0
+  # good: [4036b7d1cd9fb1097a5f4bc24d7d31744256260f] target/arm: Use isar_f=
+eature function for testing AA32HPD feature
+  git bisect good 4036b7d1cd9fb1097a5f4bc24d7d31744256260f
+  # good: [002375895c10df40615fc615e2639f49e0c442fe] tests/iotests: be a li=
+ttle more forgiving on the size test
+  git bisect good 002375895c10df40615fc615e2639f49e0c442fe
+  # good: [c695724868ce4049fd79c5a509880dbdf171e744] target/riscv: Emulate =
+TIME CSRs for privileged mode
+  git bisect good c695724868ce4049fd79c5a509880dbdf171e744
+  # good: [f67957e17cbf8fc3cc5d1146a2db2023404578b0] target/arm: Add isar_f=
+eature_aa32_{fpsp_v2, fpsp_v3, fpdp_v3}
+  git bisect good f67957e17cbf8fc3cc5d1146a2db2023404578b0
+  # bad: [a1229109dec4375259d3fff99f362405aab7917a] target/arm: Implement v=
+8.4-RCPC
+  git bisect bad a1229109dec4375259d3fff99f362405aab7917a
+  # bad: [906b60facc3d3dd3af56cb1a7860175d805e10a3] target/arm: Add formats=
+ for some vfp 2 and 3-register insns
+  git bisect bad 906b60facc3d3dd3af56cb1a7860175d805e10a3
+  # good: [c52881bbc22b50db99a6c37171ad3eea7d959ae6] target/arm: Replace AR=
+M_FEATURE_VFP4 with isar_feature_aa32_simdfmac
+  git bisect good c52881bbc22b50db99a6c37171ad3eea7d959ae6
+  # good: [f0f6d5c81be47d593e5ece7f06df6fba4c15738b] target/arm: Move the v=
+fp decodetree calls next to the base isa
+  git bisect good f0f6d5c81be47d593e5ece7f06df6fba4c15738b
+  # bad: [f9506e162c33e87b609549157dd8431fcc732085] target/arm: Remove ARM_=
+FEATURE_VFP*
+  git bisect bad f9506e162c33e87b609549157dd8431fcc732085
+  # good: [bfa8a370d2f5d4ed03f7a7e2987982f15fe73758] linux-user/arm: Replac=
+e ARM_FEATURE_VFP* tests for HWCAP
+  git bisect good bfa8a370d2f5d4ed03f7a7e2987982f15fe73758
+  # first bad commit: [f9506e162c33e87b609549157dd8431fcc732085] target/arm=
+: Remove ARM_FEATURE_VFP*
+
+  =
+
+  the root cause is that, some feature bit is not consistent any more with =
+below changes in this commit:
+  diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+  index b29b0eddfc..05aa9711cd 100644
+  --- a/target/arm/cpu.h
+  +++ b/target/arm/cpu.h
+  @@ -1880,7 +1880,6 @@ QEMU_BUILD_BUG_ON(ARRAY_SIZE(((ARMCPU *)0)->ccsidr)=
+ <=3D R_V7M_CSSELR_INDEX_MASK);
+    * mapping in linux-user/elfload.c:get_elf_hwcap().
+    */
+   enum arm_features {
+  -    ARM_FEATURE_VFP,
+       ARM_FEATURE_AUXCR,  /* ARM1026 Auxiliary control register.  */
+       ARM_FEATURE_XSCALE, /* Intel XScale extensions.  */
+       ARM_FEATURE_IWMMXT, /* Intel iwMMXt extension.  */
+  @@ -1889,7 +1888,6 @@ enum arm_features {
+       ARM_FEATURE_V7,
+       ARM_FEATURE_THUMB2,
+       ARM_FEATURE_PMSA,   /* no MMU; may have Memory Protection Unit */
+  -    ARM_FEATURE_VFP3,
+       ARM_FEATURE_NEON,
+       ARM_FEATURE_M, /* Microcontroller profile.  */
+       ARM_FEATURE_OMAPCP, /* OMAP specific CP15 ops handling.  */
+  @@ -1900,7 +1898,6 @@ enum arm_features {
+       ARM_FEATURE_V5,
+       ARM_FEATURE_STRONGARM,
+       ARM_FEATURE_VAPA, /* cp15 VA to PA lookups */
+  -    ARM_FEATURE_VFP4, /* VFPv4 (implies that NEON is v2) */
+       ARM_FEATURE_GENERIC_TIMER,
+       ARM_FEATURE_MVFR, /* Media and VFP Feature Registers 0 and 1 */
+       ARM_FEATURE_DUMMY_C15_REGS, /* RAZ/WI all of cp15 crn=3D15 */
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914696/+subscriptions
 
