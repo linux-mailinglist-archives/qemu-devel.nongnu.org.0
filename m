@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2D1310543
+	by mail.lfdr.de (Postfix) with ESMTPS id B02AB310544
 	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 07:58:43 +0100 (CET)
-Received: from localhost ([::1]:38190 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7v4j-0002fo-Dv
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 01:58:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35452)
+	id 1l7v4k-0002iM-Nx
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 01:58:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2p-00011D-Fq
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2p-00011H-Md
  for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27859)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2m-00014d-W2
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2n-00014x-43
  for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612508199;
+ s=mimecast20190719; t=1612508200;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8g1I8TeDpgfKcKJDVZonGOBO0NvoFOy6rkm/tg58S+0=;
- b=BXCp3zcLw9rTBIC2DxlaLXqHpK1hFmzqrzQEWg+9fP0y1Vyuv/oIncWg+t/Y1HrbZfvJBm
- Y96sbiP03fFcZtc1KSuNI7Uo53ojPH4OgmOqtbjaHJPHvjulrlvrJxkf6JAAqE/CK6EYLH
- YlmcWcjNflO5q99ME7v0HtcXW4YtjJc=
+ bh=NmLsQKuBdww5LuZpsu3BQHeaQUpz86YMSwmKHGTNfCM=;
+ b=c/OvroPb+pGp3zFKNU006MdQ3AVWlM/AjuUUQ8qHnZva5irfwHuoA4RsF49gqdfLHWUx8b
+ ySRQ73GQdc3RtRBBgMifI9daR+cN5TquzaGy3Wu2VkOzw0BjmD8/oklTPBx9P6c7GRtfo6
+ thZ2iy9acUKDuL4F3FxvQus0yWJsalE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-4hHaveykOKiBznk_-XyHUA-1; Fri, 05 Feb 2021 01:56:37 -0500
-X-MC-Unique: 4hHaveykOKiBznk_-XyHUA-1
+ us-mta-13-ghiF04fqPv-8CchCUJj8Pw-1; Fri, 05 Feb 2021 01:56:39 -0500
+X-MC-Unique: ghiF04fqPv-8CchCUJj8Pw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CC48801977
- for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 362F5835E22
+ for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
  [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B05862461;
- Fri,  5 Feb 2021 06:56:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA14D54529;
+ Fri,  5 Feb 2021 06:56:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 938BC18003AF; Fri,  5 Feb 2021 07:56:20 +0100 (CET)
+ id D0F0918003B5; Fri,  5 Feb 2021 07:56:20 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/24] spice: delay starting until display are initialized
-Date: Fri,  5 Feb 2021 07:56:00 +0100
-Message-Id: <20210205065620.1726554-5-kraxel@redhat.com>
+Subject: [PULL 09/24] ui: remove extra #ifdef CONFIG_OPENGL
+Date: Fri,  5 Feb 2021 07:56:05 +0100
+Message-Id: <20210205065620.1726554-10-kraxel@redhat.com>
 In-Reply-To: <20210205065620.1726554-1-kraxel@redhat.com>
 References: <20210205065620.1726554-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -91,75 +91,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-QEMU used to run qemu_spice.display_init() before vm_start(), and
-QXL/display interfaces where started then. Now, vm_start() happens
-before QXL/display interfaces are added and Spice server doesn't
-automatically start them in this case (fixed in spice git)
-
-Fixes Spice regression introduced after 5.2, with refactoring commits
-b4e1a34211 ("vl: remove separate preconfig main_loop") and
-facf7c60ee ("vl: initialize displays _after_ exiting preconfiguration"),
-probably others.
+Since commit 5cb69566daa8081abb82a13403dcc0fffed02007 ("gtk: remove
+CONFIG_GTK_GL"), some #ifdef are redundants.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210129152351.161971-1-marcandre.lureau@redhat.com>
+Message-Id: <20210204105232.834642-6-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/qemu-spice.h | 1 +
- ui/spice-core.c         | 9 ++++++++-
- ui/spice-display.c      | 2 ++
- 3 files changed, 11 insertions(+), 1 deletion(-)
+ ui/gtk.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
-index 2beb7929728c..71ecd6cfd106 100644
---- a/include/ui/qemu-spice.h
-+++ b/include/ui/qemu-spice.h
-@@ -28,6 +28,7 @@
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 26665cd2e657..e1ee0840b377 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -625,8 +625,6 @@ static const DisplayChangeListenerOps dcl_ops = {
  
- void qemu_spice_input_init(void);
- void qemu_spice_display_init(void);
-+void qemu_spice_display_init_done(void);
- bool qemu_spice_have_display_interface(QemuConsole *con);
- int qemu_spice_add_display_interface(QXLInstance *qxlin, QemuConsole *con);
- int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 514c0f975443..beee932f5546 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -625,6 +625,14 @@ static void vm_change_state_handler(void *opaque, int running,
-     }
- }
+ /** DisplayState Callbacks (opengl version) **/
  
-+void qemu_spice_display_init_done(void)
-+{
-+    if (runstate_is_running()) {
-+        qemu_spice_display_start();
-+    }
-+    qemu_add_vm_change_state_handler(vm_change_state_handler, NULL);
-+}
-+
- static void qemu_spice_init(void)
- {
-     QemuOpts *opts = QTAILQ_FIRST(&qemu_spice_opts.head);
-@@ -796,7 +804,6 @@ static void qemu_spice_init(void)
+-#if defined(CONFIG_OPENGL)
+-
+ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_name             = "gtk-egl",
+     .dpy_gfx_update       = gd_gl_area_update,
+@@ -644,8 +642,6 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_gl_update           = gd_gl_area_scanout_flush,
+ };
  
-     qemu_spice_input_init();
+-#endif /* CONFIG_OPENGL */
+-
+ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_name             = "gtk-egl",
+     .dpy_gfx_update       = gd_egl_update,
+@@ -1993,13 +1989,10 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
  
--    qemu_add_vm_change_state_handler(vm_change_state_handler, NULL);
-     qemu_spice_display_stop();
- 
-     g_free(x509_key_file);
-diff --git a/ui/spice-display.c b/ui/spice-display.c
-index 0178d5766d2c..3d3e3bcb2246 100644
---- a/ui/spice-display.c
-+++ b/ui/spice-display.c
-@@ -1188,4 +1188,6 @@ void qemu_spice_display_init(void)
-         }
-         qemu_spice_display_init_one(con);
-     }
-+
-+    qemu_spice_display_init_done();
- }
+ #if defined(CONFIG_OPENGL)
+     if (display_opengl) {
+-#if defined(CONFIG_OPENGL)
+         if (gtk_use_gl_area) {
+             vc->gfx.drawing_area = gtk_gl_area_new();
+             vc->gfx.dcl.ops = &dcl_gl_area_ops;
+-        } else
+-#endif /* CONFIG_OPENGL */
+-        {
++        } else {
+             vc->gfx.drawing_area = gtk_drawing_area_new();
+             /*
+              * gtk_widget_set_double_buffered() was deprecated in 3.14.
 -- 
 2.29.2
 
