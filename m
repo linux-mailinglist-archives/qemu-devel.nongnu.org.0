@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56656310359
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 04:12:25 +0100 (CET)
-Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FFA310364
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 04:17:24 +0100 (CET)
+Received: from localhost ([::1]:60528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7rXj-0002La-S5
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 22:12:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56012)
+	id 1l7rcV-0003e7-Rb
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 22:17:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7rWG-0001uW-4T
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:10:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48956)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7rWA-0006dJ-0Z
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:10:51 -0500
-Received: from gac.canonical.com ([91.189.90.20])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l7rW6-0002BS-RN
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 03:10:42 +0000
-Received: from gac.canonical.com (localhost [IPv6:::1])
- by gac.canonical.com (Postfix) with ESMTPS id BCE7C5C01C7
- for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 03:10:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l7rb9-00038W-P0
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:15:55 -0500
+Resent-Date: Thu, 04 Feb 2021 22:15:55 -0500
+Resent-Message-Id: <E1l7rb9-00038W-P0@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l7rb5-0000XX-H8
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:15:55 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1612494944; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=WaHNqenr+0ECkdKXiN+MsNR6U95PuMlisN4Lgy534W5QY0BwVKHK61C/4/hN2IHmOPYQTTBcT0kx58ah87/6oojIrtJkPqmhZlrONk1gqoL0S8kb73AGzns7qxRFKuiaC6Kk7MeYyQdOksYLB5Nd1GuMKvd7VxV84zfAOmyk3ks=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1612494944;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=ftsWsv0QBt9JYszzvL4hf7BvlSSQyt2LrbSE2TMCDDE=; 
+ b=m9KnNn3bZxRuHGnMPZeDJ+S2vYTealNqYhzt4SQmVem+/v3+LjfY3+tHgvgPLxOkcVh/y6C6sxwkGjpxN3WzHUjUrS3ABUuBi++y+mLs3dCnrPCduS2MTtzIIlNQs21mmroD+EoO2yDUEv3wJpxDtOiBlYDZC66K744JL2r6zeM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1612494942885890.6880414297489;
+ Thu, 4 Feb 2021 19:15:42 -0800 (PST)
+In-Reply-To: <161249464270.1626.1619585641070694953.launchpad@gac.canonical.com>
+Subject: Re: [Bug 1914696] [NEW] aarch64: migration failed: Segmentation fault
+ (core dumped)
+Message-ID: <161249494195.30579.11627832753112113739@c667a6b167f6>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Feb 2021 03:10:42 -0000
-From: Launchpad Bug Tracker <1914696@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: zhijianli88
-X-Launchpad-Bug-Reporter: lizhijian (zhijianli88)
-References: <161249398803.13999.15324457641617983607.malonedeb@soybean.canonical.com>
-Subject: [Bug 1914696] [NEW] aarch64: migration failed: Segmentation fault
- (core dumped)
-X-Launchpad-Message-Rationale: Subscriber @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Message-Id: <161249464270.1626.1619585641070694953.launchpad@gac.canonical.com>
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="lpnet3"
-X-Launchpad-Hash: 7d5f6ac20df9e3e0f51e2a97a71905435146f08f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: 1914696@bugs.launchpad.net
+Date: Thu, 4 Feb 2021 19:15:42 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,140 +68,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914696 <1914696@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a security vulnerability ***
-
-You have been subscribed to a public security bug by lizhijian (zhijianli88=
-):
-
-reproduce:
-
-arch: aarch64
-source qemu: v4.2.0
-destination qemu: 1ed9228f63ea4bcc0ae240365305ee264e9189ce
-
-cmdline:
-source: =
-
-$ ./aarch64-softmmu/qemu-system-aarch64     -name 'avocado-vt-vm1'    -mach=
-ine virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024  =
-    -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor stdio
-(qemu) =
-
-(qemu) migrate -d tcp:10.19.241.167:888
-(qemu) info status
-VM status: paused (postmigrate)
-
-destination: =
-
-./build/aarch64-softmmu/qemu-system-aarch64 -name 'avocado-vt-vm1'  -machin=
-e virt-4.2,gic-version=3Dhost,graphics=3Don     -nodefaults     -m 1024    =
-  -smp 2      -cpu 'host'     -vnc :10      -enable-kvm     -monitor stdio =
--incoming tcp:0:888
-QEMU 5.2.50 monitor - type 'help' for more information
-(qemu) Segmentation fault (core dumped)
-
-
-i have bisected and confirmed that the first bad commit is: [f9506e162c33e8=
-7b609549157dd8431fcc732085] target/arm: Remove ARM_FEATURE_VFP*
-
-bisect log:
-git bisect log
-# bad: [1ed9228f63ea4bcc0ae240365305ee264e9189ce] Merge remote-tracking bra=
-nch 'remotes/ericb/tags/pull-nbd-2021-02-02-v2' into staging
-git bisect bad 1ed9228f63ea4bcc0ae240365305ee264e9189ce
-# good: [b0ca999a43a22b38158a222233d3f5881648bb4f] Update version for v4.2.=
-0 release
-git bisect good b0ca999a43a22b38158a222233d3f5881648bb4f
-# bad: [59093cc407cb044c72aa786006a07bd404eb36b9] hw/char: Convert the Ibex=
- UART to use the registerfields API
-git bisect bad 59093cc407cb044c72aa786006a07bd404eb36b9
-# bad: [4dabf39592e92d692c6f2a1633571114ae25d843] aspeed/smc: Fix DMA suppo=
-rt for AST2600
-git bisect bad 4dabf39592e92d692c6f2a1633571114ae25d843
-# good: [93c86fff53a267f657e79ec07dcd04b63882e330] Merge remote-tracking br=
-anch 'remotes/pmaydell/tags/pull-target-arm-20200207' into staging
-git bisect good 93c86fff53a267f657e79ec07dcd04b63882e330
-# bad: [2ac031d171ccd18c973014d9978b4a63f0ad5fb0] Merge remote-tracking bra=
-nch 'remotes/palmer/tags/riscv-for-master-5.0-sf3' into staging
-git bisect bad 2ac031d171ccd18c973014d9978b4a63f0ad5fb0
-# good: [4036b7d1cd9fb1097a5f4bc24d7d31744256260f] target/arm: Use isar_fea=
-ture function for testing AA32HPD feature
-git bisect good 4036b7d1cd9fb1097a5f4bc24d7d31744256260f
-# good: [002375895c10df40615fc615e2639f49e0c442fe] tests/iotests: be a litt=
-le more forgiving on the size test
-git bisect good 002375895c10df40615fc615e2639f49e0c442fe
-# good: [c695724868ce4049fd79c5a509880dbdf171e744] target/riscv: Emulate TI=
-ME CSRs for privileged mode
-git bisect good c695724868ce4049fd79c5a509880dbdf171e744
-# good: [f67957e17cbf8fc3cc5d1146a2db2023404578b0] target/arm: Add isar_fea=
-ture_aa32_{fpsp_v2, fpsp_v3, fpdp_v3}
-git bisect good f67957e17cbf8fc3cc5d1146a2db2023404578b0
-# bad: [a1229109dec4375259d3fff99f362405aab7917a] target/arm: Implement v8.=
-4-RCPC
-git bisect bad a1229109dec4375259d3fff99f362405aab7917a
-# bad: [906b60facc3d3dd3af56cb1a7860175d805e10a3] target/arm: Add formats f=
-or some vfp 2 and 3-register insns
-git bisect bad 906b60facc3d3dd3af56cb1a7860175d805e10a3
-# good: [c52881bbc22b50db99a6c37171ad3eea7d959ae6] target/arm: Replace ARM_=
-FEATURE_VFP4 with isar_feature_aa32_simdfmac
-git bisect good c52881bbc22b50db99a6c37171ad3eea7d959ae6
-# good: [f0f6d5c81be47d593e5ece7f06df6fba4c15738b] target/arm: Move the vfp=
- decodetree calls next to the base isa
-git bisect good f0f6d5c81be47d593e5ece7f06df6fba4c15738b
-# bad: [f9506e162c33e87b609549157dd8431fcc732085] target/arm: Remove ARM_FE=
-ATURE_VFP*
-git bisect bad f9506e162c33e87b609549157dd8431fcc732085
-# good: [bfa8a370d2f5d4ed03f7a7e2987982f15fe73758] linux-user/arm: Replace =
-ARM_FEATURE_VFP* tests for HWCAP
-git bisect good bfa8a370d2f5d4ed03f7a7e2987982f15fe73758
-# first bad commit: [f9506e162c33e87b609549157dd8431fcc732085] target/arm: =
-Remove ARM_FEATURE_VFP*
-
-
-the root cause is that, some feature bit is not consistent any more with be=
-low changes in this commit:
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index b29b0eddfc..05aa9711cd 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1880,7 +1880,6 @@ QEMU_BUILD_BUG_ON(ARRAY_SIZE(((ARMCPU *)0)->ccsidr) <=
-=3D R_V7M_CSSELR_INDEX_MASK);
-  * mapping in linux-user/elfload.c:get_elf_hwcap().
-  */
- enum arm_features {
--    ARM_FEATURE_VFP,
-     ARM_FEATURE_AUXCR,  /* ARM1026 Auxiliary control register.  */
-     ARM_FEATURE_XSCALE, /* Intel XScale extensions.  */
-     ARM_FEATURE_IWMMXT, /* Intel iwMMXt extension.  */
-@@ -1889,7 +1888,6 @@ enum arm_features {
-     ARM_FEATURE_V7,
-     ARM_FEATURE_THUMB2,
-     ARM_FEATURE_PMSA,   /* no MMU; may have Memory Protection Unit */
--    ARM_FEATURE_VFP3,
-     ARM_FEATURE_NEON,
-     ARM_FEATURE_M, /* Microcontroller profile.  */
-     ARM_FEATURE_OMAPCP, /* OMAP specific CP15 ops handling.  */
-@@ -1900,7 +1898,6 @@ enum arm_features {
-     ARM_FEATURE_V5,
-     ARM_FEATURE_STRONGARM,
-     ARM_FEATURE_VAPA, /* cp15 VA to PA lookups */
--    ARM_FEATURE_VFP4, /* VFPv4 (implies that NEON is v2) */
-     ARM_FEATURE_GENERIC_TIMER,
-     ARM_FEATURE_MVFR, /* Media and VFP Feature Registers 0 and 1 */
-     ARM_FEATURE_DUMMY_C15_REGS, /* RAZ/WI all of cp15 crn=3D15 */
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-aarch64: migration failed: Segmentation fault (core dumped)
-https://bugs.launchpad.net/bugs/1914696
-You received this bug notification because you are a member of qemu-devel-m=
-l, which is subscribed to the bug report.
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNjEyNDk0NjQyNzAuMTYyNi4x
+NjE5NTg1NjQxMDcwNjk0OTUzLmxhdW5jaHBhZEBnYWMuY2Fub25pY2FsLmNvbS8KCgoKSGksCgpU
+aGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUg
+b3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2Ut
+aWQ6IDE2MTI0OTQ2NDI3MC4xNjI2LjE2MTk1ODU2NDEwNzA2OTQ5NTMubGF1bmNocGFkQGdhYy5j
+YW5vbmljYWwuY29tClN1YmplY3Q6IFtCdWcgMTkxNDY5Nl0gW05FV10gYWFyY2g2NDogbWlncmF0
+aW9uIGZhaWxlZDogU2VnbWVudGF0aW9uIGZhdWx0IChjb3JlIGR1bXBlZCkKCj09PSBURVNUIFND
+UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
+IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
+cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
+Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQx
+ZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVj
+dC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMTYxMjQ5NDY0MjcwLjE2MjYuMTYx
+OTU4NTY0MTA3MDY5NDk1My5sYXVuY2hwYWRAZ2FjLmNhbm9uaWNhbC5jb20gLT4gcGF0Y2hldy8x
+NjEyNDk0NjQyNzAuMTYyNi4xNjE5NTg1NjQxMDcwNjk0OTUzLmxhdW5jaHBhZEBnYWMuY2Fub25p
+Y2FsLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCgo9PT0gT1VUUFVUIEJFR0lO
+ID09PQpjaGVja3BhdGNoLnBsOiBubyByZXZpc2lvbnMgcmV0dXJuZWQgZm9yIHJldmxpc3QgJ2Jh
+c2UuLicKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
+MjU1CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9n
+cy8xNjEyNDk0NjQyNzAuMTYyNi4xNjE5NTg1NjQxMDcwNjk0OTUzLmxhdW5jaHBhZEBnYWMuY2Fu
+b25pY2FsLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdl
+bmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4K
+UGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
