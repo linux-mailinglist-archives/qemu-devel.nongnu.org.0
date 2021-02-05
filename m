@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DD5310EE9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 18:42:27 +0100 (CET)
-Received: from localhost ([::1]:37172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85271310EDA
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 18:38:13 +0100 (CET)
+Received: from localhost ([::1]:57120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l857i-0005Zy-DJ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 12:42:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46174)
+	id 1l853c-0001JQ-HD
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 12:38:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84Td-0006m0-G1
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:02 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35379)
+ id 1l84Tb-0006lN-Nd
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:01 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84T8-000439-OP
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:01 -0500
-Received: by mail-wr1-x433.google.com with SMTP id l12so8485577wry.2
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:28 -0800 (PST)
+ id 1l84T8-00043L-NT
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:00:59 -0500
+Received: by mail-wm1-x330.google.com with SMTP id c127so6433852wmf.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=RMlSEt6PiH0qMk4plcisXlg9m+5b90Bk6CfkYCOT5n0=;
- b=vbfFqhNMDID3Tq4WnXtj/B2iEi46MaVQecWXaH7uv2XJgxqARyIf5WxSSqr0B7ztvN
- 5RrNU0VUzhQoONZoL1y/nlsbqoa6wk2WPggrN3M54QuThfzix8HxJK+0WkVRFIOqqVWS
- rgqT0ajJASPdK38jXZyCgGB0NIdycmNQ0IFV6vz8SKl13Uq2wtC4W/dq9aJGUpkCJTWd
- JaNmGSX30keRBld/wiL5BRKlCndatLB7U/BVtT6ac7EALdMrvf5rsP7cZ+YTi78JhbGD
- w3v3tjo1r84jOn0IWYNhzffncSoqfFrJAJIorGwUCk/bREBPwClANSjaxYnPf8yv9lTF
- OgJw==
+ bh=va0A81ClB5F8EaAWROYYvDbctjGQ9fM8K2ZTOurTkG4=;
+ b=TTcdLbMweCBfuBARQyE3SgXm8z7P6eT37kQBiei0xUACTJXkaefHx3E5pE8m9lc71t
+ 2T8BQNDcp2OpDguWB2iaeHOxH30YxoEXkk9idN6qxtysEJAJek3ybHj1edxmj6B43Aub
+ wdmjEKQPc5n5ukAII2R7JmS/vTa7KxzZIW1osvEx3hhX5REPjdr6JBrMI+0XYTo5zYlc
+ 8fvOtA8YjG8KSVjwok5BVqdDN0UwwciHxved2zwOnoTVkYytqNGp1Z55Y+q8u9nsEFGD
+ jHMrWMi/yBdpV12koric9YsSL4UI6QmTSqai9hj4HDJaNJYQwq0wgxAHBjAFY4N90eoy
+ N6wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RMlSEt6PiH0qMk4plcisXlg9m+5b90Bk6CfkYCOT5n0=;
- b=KxWJE1z0oO3bpXzqeqqBEpmptzUuNl3RjYPKbtpLUmcm84PUOI6rQNoLL240CTPGFu
- N4WLwgd32e+MDtyjTepOC37pOd669pjxF+QpJWpvuGc8RYii6rqtVHk8h0qbRvKNFIkE
- w0oSLxyO8jRc9yv82HUXLjNfo+EuuSS/W0OsvMOnutMJC4ceRwmwo3ineJCsz+1Vx9aD
- O36STaQEuXx9ymCblbPBqvzasQ44f/ffPt17jfIf8/oMQC2OVdLDVg8u2LNic7aGKgGU
- 7wfwH3NpvMef8uf+DwGW3TAxqn57JoJVtH8UthzTQeptNgV03SdsiiN7XojGofV/C8jt
- QATQ==
-X-Gm-Message-State: AOAM530ElhbHOhk5qY9e09rj2k4ci4gdcxK9+BKLhrT1wLxDXTeEMWbp
- JgWEA493apQLdVwfNl286N4v876Xm4j4DA==
-X-Google-Smtp-Source: ABdhPJyTBeVt0JOPV+n4JwGZLwSJArPUngUMEK/PxchKlLXawU2q7EpDp8NEJ/VqfZBRZFWs95PiXg==
-X-Received: by 2002:a5d:50d2:: with SMTP id f18mr6334526wrt.338.1612544427436; 
- Fri, 05 Feb 2021 09:00:27 -0800 (PST)
+ bh=va0A81ClB5F8EaAWROYYvDbctjGQ9fM8K2ZTOurTkG4=;
+ b=K9caKbvW1hpMwBU75sCk1CxvpqyHK+6qPFpdwrcr+fq34mnHJK29EuSx/2+7BvrgEv
+ dMIyhGH5EB1GH5vMK9ugXVjAvKlpKdiCN7Q6VPzq8cF4UuhZKY34kyoY1KEnUDxQtlD2
+ Itgm0bYBzZsDzWFCuO6W2FNjpphO5w2WpV9EmfYJJArlGW+l+ofpzfuvV+hszC4TzR3j
+ o+/8WrrtpCOsAU7VV1AQZsrdzwb1bqEN2m+9tRSfZiM335yH/WQnw8jEyPkyZYNosie4
+ L5F/hPFSURD7r3BB1QRvs2zSweUVnqf7sByJC7v8imRO1sJtJavbjToay0z5cTkouw1s
+ bSHg==
+X-Gm-Message-State: AOAM533a79IYqrRrjw0oSB/CtqL9kiJVJpYQt9cUENZ8o+1RmT6keeqe
+ lBalr2zT0nPza3pm6/qSeFC2vw7kKpveIw==
+X-Google-Smtp-Source: ABdhPJyeSSj3NxNlRdlExOhyNhCqA8XV5jAZediKVZaMg8c27NDiLGY5kyXAhMma353O9GknmyYP4A==
+X-Received: by 2002:a1c:a9d7:: with SMTP id s206mr4469059wme.42.1612544428262; 
+ Fri, 05 Feb 2021 09:00:28 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.26
+ by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 05 Feb 2021 09:00:27 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 07/24] hw/arm/mps2-tz: Make FPGAIO switch and LED config
- per-board
-Date: Fri,  5 Feb 2021 17:00:02 +0000
-Message-Id: <20210205170019.25319-8-peter.maydell@linaro.org>
+Subject: [PATCH 08/24] hw/arm/mps2-tz: Condition IRQ splitting on number of
+ CPUs, not board type
+Date: Fri,  5 Feb 2021 17:00:03 +0000
+Message-Id: <20210205170019.25319-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210205170019.25319-1-peter.maydell@linaro.org>
 References: <20210205170019.25319-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,59 +87,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set the FPGAIO num-leds and have-switches properties explicitly
-per-board, rather than relying on the defaults.  The AN505 and AN521
-both have the same settings as the default values, but the AN524 will
-be different.
+In the mps2-tz board code, we handle devices whose interrupt lines
+must be wired to all CPUs by creating IRQ splitter devices for the
+AN521, because it has 2 CPUs, but wiring the device IRQ directly to
+the SSE/IoTKit input for the AN505, which has only 1 CPU.
+
+We can avoid making an explicit check on the board type constant by
+instead creating and using the IRQ splitters for any board with more
+than 1 CPU.  This avoids having to add extra cases to the
+conditionals every time we add new boards.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2-tz.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+This removes the only current user of mmc->fpga_type, but we're
+going to want it again later in the series.
+---
+ hw/arm/mps2-tz.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 9add1453cc2..94618ae54d2 100644
+index 94618ae54d2..4d8e42fa6b6 100644
 --- a/hw/arm/mps2-tz.c
 +++ b/hw/arm/mps2-tz.c
-@@ -79,6 +79,8 @@ struct MPS2TZMachineClass {
-     uint32_t sysclk_frq; /* Main SYSCLK frequency in Hz */
-     uint32_t len_oscclk;
-     const uint32_t *oscclk;
-+    uint32_t fpgaio_num_leds; /* Number of LEDs in FPGAIO LED0 register */
-+    bool fpgaio_switches; /* Does FPGAIO have SWITCH register? */
-     const char *armsse_type;
- };
- 
-@@ -241,8 +243,11 @@ static MemoryRegion *make_fpgaio(MPS2TZMachineState *mms, void *opaque,
-                                  const char *name, hwaddr size)
+@@ -139,17 +139,14 @@ static void make_ram_alias(MemoryRegion *mr, const char *name,
+ static qemu_irq get_sse_irq_in(MPS2TZMachineState *mms, int irqno)
  {
-     MPS2FPGAIO *fpgaio = opaque;
-+    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
+     /* Return a qemu_irq which will signal IRQ n to all CPUs in the SSE. */
+-    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
++    MachineClass *mc = MACHINE_GET_CLASS(mms);
  
-     object_initialize_child(OBJECT(mms), "fpgaio", fpgaio, TYPE_MPS2_FPGAIO);
-+    qdev_prop_set_uint32(DEVICE(fpgaio), "num-leds", mmc->fpgaio_num_leds);
-+    qdev_prop_set_bit(DEVICE(fpgaio), "have-switches", mmc->fpgaio_switches);
-     sysbus_realize(SYS_BUS_DEVICE(fpgaio), &error_fatal);
-     return sysbus_mmio_get_region(SYS_BUS_DEVICE(fpgaio), 0);
- }
-@@ -687,6 +692,8 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-     mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
-     mmc->oscclk = an505_oscclk;
-     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
-+    mmc->fpgaio_num_leds = 2;
-+    mmc->fpgaio_switches = false;
-     mmc->armsse_type = TYPE_IOTKIT;
- }
+     assert(irqno < MPS2TZ_NUMIRQ);
  
-@@ -705,6 +712,8 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-     mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
-     mmc->oscclk = an505_oscclk; /* AN521 is the same as AN505 here */
-     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
-+    mmc->fpgaio_num_leds = 2;
-+    mmc->fpgaio_switches = false;
-     mmc->armsse_type = TYPE_SSE200;
+-    switch (mmc->fpga_type) {
+-    case FPGA_AN505:
+-        return qdev_get_gpio_in_named(DEVICE(&mms->iotkit), "EXP_IRQ", irqno);
+-    case FPGA_AN521:
++    if (mc->max_cpus > 1) {
+         return qdev_get_gpio_in(DEVICE(&mms->cpu_irq_splitter[irqno]), 0);
+-    default:
+-        g_assert_not_reached();
++    } else {
++        return qdev_get_gpio_in_named(DEVICE(&mms->iotkit), "EXP_IRQ", irqno);
+     }
  }
  
+@@ -437,10 +434,12 @@ static void mps2tz_common_init(MachineState *machine)
+     sysbus_realize(SYS_BUS_DEVICE(&mms->iotkit), &error_fatal);
+ 
+     /*
+-     * The AN521 needs us to create splitters to feed the IRQ inputs
+-     * for each CPU in the SSE-200 from each device in the board.
++     * If this board has more than one CPU, then we need to create splitters
++     * to feed the IRQ inputs for each CPU in the SSE from each device in the
++     * board. If there is only one CPU, we can just wire the device IRQ
++     * directly to the SSE's IRQ input.
+      */
+-    if (mmc->fpga_type == FPGA_AN521) {
++    if (mc->max_cpus > 1) {
+         for (i = 0; i < MPS2TZ_NUMIRQ; i++) {
+             char *name = g_strdup_printf("mps2-irq-splitter%d", i);
+             SplitIRQ *splitter = &mms->cpu_irq_splitter[i];
 -- 
 2.20.1
 
