@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C93310DD2
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:24:55 +0100 (CET)
-Received: from localhost ([::1]:48632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9FE310DD4
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:25:11 +0100 (CET)
+Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l83ug-00071D-88
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:24:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37350)
+	id 1l83uw-0007Ip-SK
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:25:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l83tE-0005hI-Sq
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:23:24 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l83tD-0004v7-3J
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:23:24 -0500
-Received: by mail-ej1-x636.google.com with SMTP id i8so12780844ejc.7
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 08:23:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rep0lK1KaNu1xs3vZkB5bz8Z3dVym5AcZHkpq0teltk=;
- b=AaMcHpNlYGVi88Deche4k8xjCPSDHhtRuxjG57kUr/w80uCk2pg83KVpUpQ7DEFzdL
- WMIblTxaSopFwvC3IvkOYxfId2klrCh9IWmQGgsRwApeZsQujP48jnaK5az3pdpn5Dw6
- Fg8cwkhaown6pr4+f1oS5BXdKpoNCtfd9UaIYa69jiCuPrkFyvu1Ajgp3HzFIINU/UIQ
- 1802XTzPZc+KhNvL201rIjejUG8PmkLfvFkjb4Wat/0blgvEx7yTNg7wJ5RAuzrpWub8
- IO92o9l1YT5zejXXb9szB1semsN1+XphQH8s6uf4vJ+WFhiMy3yChxez/icd+BQRPZTH
- B5bA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l83tQ-0005yV-3f
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:23:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55841)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l83tN-000504-GX
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:23:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612542211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AbGy7tn5cRvax/Myyhp6tb0Rz1d03HuUm9SH5JiiMts=;
+ b=FpyV82WGfWPlM5qVGOLLYOi/q4ZIfD/SqYh/m7iDt6vGOia6p7dyd2aQ7a5w5NeIZXVqDT
+ sqY77D3Q1Zminul3HM+1A4zVDOUio/4l4UN3RqEd7eQVQJMdAkL/ihFmmLbuUnV7rKGAbf
+ CKMtxsKPqZZLgAiJDwuaduiQB1Nz7BU=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-0H1Gt9DrMgK_jGwAnug-PA-1; Fri, 05 Feb 2021 11:23:30 -0500
+X-MC-Unique: 0H1Gt9DrMgK_jGwAnug-PA-1
+Received: by mail-ed1-f70.google.com with SMTP id bo11so7233031edb.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 08:23:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rep0lK1KaNu1xs3vZkB5bz8Z3dVym5AcZHkpq0teltk=;
- b=oC7ubZk+sT9qf9VHEXWV+oyeGbLeIeVpeGspGKoFR/1kZh+rbaFoFZtKhhdhZ7YkTt
- QdrDQlKKsQHtKy0DAs1wr1EBG1sc4i4lyay2FD+j5L2c9Dvuz4ivfkd8sFaPyQpmlKjm
- 5hdv9qHnhiC2WttpdNZz1BjjONTG+mcSqDPO58H65rEusfgC5BpPFfof0qMCvx8jKXiJ
- 36E4et1QmPvZGKUshqdrlJovpephRCGwSI4ecQ3iwDiPdMv/U6YTzaAxOztMSrTOiyOS
- c/cVufBHAHHjceb8/5iAAgniU0kyMbq+rmnAWbHazJFeunG+oc9USZs4wdSUsGfbWNEH
- olSA==
-X-Gm-Message-State: AOAM533OQ/Q0uuYltxKxCIeO3rUNYD9wme8ER5r7d+SuxZFjTu1zwdH6
- r1jt58tIKztFb6mJUsY1Z8uF8vVii++fCVLV5H441Q==
-X-Google-Smtp-Source: ABdhPJyOxTFWabdk5KA2AOI6RbXHP3kQHbCPttiLoKpTmqMJQQcTZHRFGVE5WUlVFON4Yz4PeH4bAtpgkZI5ESO7mjM=
-X-Received: by 2002:a17:906:3a89:: with SMTP id y9mr4718295ejd.4.1612542201455; 
- Fri, 05 Feb 2021 08:23:21 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AbGy7tn5cRvax/Myyhp6tb0Rz1d03HuUm9SH5JiiMts=;
+ b=fuOOJz2Mzhh+4rx4OHqoh5suKnSIDJHxKmxmf2iflYowSF45JgyuihXHOnTfTCbdEU
+ P8yzsbmlriFPDpuhC0N01wdX3MuluCXNWQDxRahNIoy5G325PWB8Rpk7BhTH3lSNG9pk
+ tU21qZqQBFH5UtUQeLs6BCV6uy+3Hbb3CsRUP5pKH5MmNI/qOlH9W0ljlhSevldwT9hN
+ gLT9Wm2SuW5Jcbd8FrPlShtjAqu1AxOysUav0N9/RisEpT/+eRPK9yaP9S3oWACSpVUn
+ zcUHjEbvzMD8SQZFM4Rzc8o0YCdnX1xiywz8VIWEgLUDd3lQmu4FhZe4U+qdJuKPyXQR
+ 0QrQ==
+X-Gm-Message-State: AOAM530/9bRW//S3KyE8K3g5GBMnYDvDYjA3Xebo6J4eeOVBXxWMWZzT
+ HtTGjEEUwZ3bj5ph+p0C6IUI0787UwsehW50K/pHg0e1emxm9EkD6zdGSZsNjGvMx44spbECZZS
+ 1ojkKEYFX2wrQXbU=
+X-Received: by 2002:aa7:c58e:: with SMTP id g14mr4389385edq.318.1612542208038; 
+ Fri, 05 Feb 2021 08:23:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx6iWfcVvCcjg79ED0FTsHgo1aCGOmZbu7pJDDhWiA0Ytks+wJpYNZU83yN5zejOU3szh5v5A==
+X-Received: by 2002:aa7:c58e:: with SMTP id g14mr4389382edq.318.1612542207929; 
+ Fri, 05 Feb 2021 08:23:27 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id n5sm4238432edw.7.2021.02.05.08.23.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Feb 2021 08:23:27 -0800 (PST)
+Subject: Re: [PATCH 13/33] migration: push Error **errp into
+ loadvm_postcopy_handle_run()
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210204171907.901471-1-berrange@redhat.com>
+ <20210204171907.901471-14-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e0ddcf32-9462-68f2-8627-d2be9e673d09@redhat.com>
+Date: Fri, 5 Feb 2021 17:23:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210204154327.386529-1-stefanha@redhat.com>
- <CAFEAcA9krQPfgzLSEimNdN7dUQJbqUObGtoiK7A9ZOGKxanR+g@mail.gmail.com>
- <20210205162105.GB416527@stefanha-x1.localdomain>
-In-Reply-To: <20210205162105.GB416527@stefanha-x1.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Feb 2021 16:23:10 +0000
-Message-ID: <CAFEAcA-VFfcWzH47nxgthtcdkCzm8c74uo3rj8Zd=M3mWAXX7g@mail.gmail.com>
-Subject: Re: [PULL v2 00/27] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210204171907.901471-14-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,34 +100,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Feb 2021 at 16:21, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> Thanks, I update the patch in question.
->
-> It looks like the GitLab CI doesn't include a clang version that
-> produces this error because the pipeline passed for me:
-> https://gitlab.com/stefanha/qemu/-/pipelines/251524779
->
-> Is there something clang-specific you want to check in the CI? Maybe
-> clang 3.4, the oldest version supported according to ./configure?
+On 2/4/21 6:18 PM, Daniel P. Berrangé wrote:
+> This is an incremental step in converting vmstate loading code to report
+> via Error objects instead of printing directly to the console/monitor.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  migration/savevm.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
 
-Would probably be nice I guess. My ad-hoc builds use clang 6,
-which is what tripped up here.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-thanks
--- PMM
 
