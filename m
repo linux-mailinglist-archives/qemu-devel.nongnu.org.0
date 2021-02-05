@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02AB310544
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 07:58:43 +0100 (CET)
-Received: from localhost ([::1]:38298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A27310546
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 07:58:52 +0100 (CET)
+Received: from localhost ([::1]:38838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7v4k-0002iM-Nx
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 01:58:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
+	id 1l7v4t-0002vZ-Bw
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 01:58:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2p-00011H-Md
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53580)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2v-00019w-De
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2n-00014x-43
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:43 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v2s-00018A-OD
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612508200;
+ s=mimecast20190719; t=1612508206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NmLsQKuBdww5LuZpsu3BQHeaQUpz86YMSwmKHGTNfCM=;
- b=c/OvroPb+pGp3zFKNU006MdQ3AVWlM/AjuUUQ8qHnZva5irfwHuoA4RsF49gqdfLHWUx8b
- ySRQ73GQdc3RtRBBgMifI9daR+cN5TquzaGy3Wu2VkOzw0BjmD8/oklTPBx9P6c7GRtfo6
- thZ2iy9acUKDuL4F3FxvQus0yWJsalE=
+ bh=6aeaFdKFD1NDXgg0nyIAYB++g539Kt7EH3Bafhy3pTM=;
+ b=YP8tCFV+7NzohYG79txdjmS3cB1jVSkz9spHIpapfDsoYNk1gDD8zpyp7+16KBY+P/CD2K
+ ia3St9LQzu7gg2NlPrTYwR0Gc5mFv0puKN3oFHPt1QGDpMp7sZfeDmSSe4E7YzNcR/WtZB
+ j+zyzkLp6lMqt1FSa9k1ipilktzLbFk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-ghiF04fqPv-8CchCUJj8Pw-1; Fri, 05 Feb 2021 01:56:39 -0500
-X-MC-Unique: ghiF04fqPv-8CchCUJj8Pw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-99-NPA-5fEnPy-dqo-MYpneOg-1; Fri, 05 Feb 2021 01:56:44 -0500
+X-MC-Unique: NPA-5fEnPy-dqo-MYpneOg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 362F5835E22
- for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 774F5801965
+ for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:43 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
  [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA14D54529;
- Fri,  5 Feb 2021 06:56:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B8BBF60C9B;
+ Fri,  5 Feb 2021 06:56:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D0F0918003B5; Fri,  5 Feb 2021 07:56:20 +0100 (CET)
+ id 1107F18003B8; Fri,  5 Feb 2021 07:56:21 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/24] ui: remove extra #ifdef CONFIG_OPENGL
-Date: Fri,  5 Feb 2021 07:56:05 +0100
-Message-Id: <20210205065620.1726554-10-kraxel@redhat.com>
+Subject: [PULL 12/24] ui: annotate DCLOps callback requirements
+Date: Fri,  5 Feb 2021 07:56:08 +0100
+Message-Id: <20210205065620.1726554-13-kraxel@redhat.com>
 In-Reply-To: <20210205065620.1726554-1-kraxel@redhat.com>
 References: <20210205065620.1726554-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,53 +91,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Since commit 5cb69566daa8081abb82a13403dcc0fffed02007 ("gtk: remove
-CONFIG_GTK_GL"), some #ifdef are redundants.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210204105232.834642-6-marcandre.lureau@redhat.com>
+Message-Id: <20210204105232.834642-9-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/gtk.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ include/ui/console.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 26665cd2e657..e1ee0840b377 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -625,8 +625,6 @@ static const DisplayChangeListenerOps dcl_ops = {
+diff --git a/include/ui/console.h b/include/ui/console.h
+index ce6c72e37c6b..bea2b6329a92 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -174,35 +174,49 @@ typedef struct DisplayState DisplayState;
+ typedef struct DisplayChangeListenerOps {
+     const char *dpy_name;
  
- /** DisplayState Callbacks (opengl version) **/
++    /* optional */
+     void (*dpy_refresh)(DisplayChangeListener *dcl);
  
--#if defined(CONFIG_OPENGL)
--
- static const DisplayChangeListenerOps dcl_gl_area_ops = {
-     .dpy_name             = "gtk-egl",
-     .dpy_gfx_update       = gd_gl_area_update,
-@@ -644,8 +642,6 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
-     .dpy_gl_update           = gd_gl_area_scanout_flush,
- };
++    /* optional */
+     void (*dpy_gfx_update)(DisplayChangeListener *dcl,
+                            int x, int y, int w, int h);
++    /* optional */
+     void (*dpy_gfx_switch)(DisplayChangeListener *dcl,
+                            struct DisplaySurface *new_surface);
++    /* optional */
+     bool (*dpy_gfx_check_format)(DisplayChangeListener *dcl,
+                                  pixman_format_code_t format);
  
--#endif /* CONFIG_OPENGL */
--
- static const DisplayChangeListenerOps dcl_egl_ops = {
-     .dpy_name             = "gtk-egl",
-     .dpy_gfx_update       = gd_egl_update,
-@@ -1993,13 +1989,10 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
++    /* optional */
+     void (*dpy_text_cursor)(DisplayChangeListener *dcl,
+                             int x, int y);
++    /* optional */
+     void (*dpy_text_resize)(DisplayChangeListener *dcl,
+                             int w, int h);
++    /* optional */
+     void (*dpy_text_update)(DisplayChangeListener *dcl,
+                             int x, int y, int w, int h);
  
- #if defined(CONFIG_OPENGL)
-     if (display_opengl) {
--#if defined(CONFIG_OPENGL)
-         if (gtk_use_gl_area) {
-             vc->gfx.drawing_area = gtk_gl_area_new();
-             vc->gfx.dcl.ops = &dcl_gl_area_ops;
--        } else
--#endif /* CONFIG_OPENGL */
--        {
-+        } else {
-             vc->gfx.drawing_area = gtk_drawing_area_new();
-             /*
-              * gtk_widget_set_double_buffered() was deprecated in 3.14.
++    /* optional */
+     void (*dpy_mouse_set)(DisplayChangeListener *dcl,
+                           int x, int y, int on);
++    /* optional */
+     void (*dpy_cursor_define)(DisplayChangeListener *dcl,
+                               QEMUCursor *cursor);
+ 
++    /* required if GL */
+     QEMUGLContext (*dpy_gl_ctx_create)(DisplayChangeListener *dcl,
+                                        QEMUGLParams *params);
++    /* required if GL */
+     void (*dpy_gl_ctx_destroy)(DisplayChangeListener *dcl,
+                                QEMUGLContext ctx);
++    /* required if GL */
+     int (*dpy_gl_ctx_make_current)(DisplayChangeListener *dcl,
+                                    QEMUGLContext ctx);
+ 
++    /* required if GL */
+     void (*dpy_gl_scanout_disable)(DisplayChangeListener *dcl);
++    /* required if GL */
+     void (*dpy_gl_scanout_texture)(DisplayChangeListener *dcl,
+                                    uint32_t backing_id,
+                                    bool backing_y_0_top,
+@@ -210,15 +224,20 @@ typedef struct DisplayChangeListenerOps {
+                                    uint32_t backing_height,
+                                    uint32_t x, uint32_t y,
+                                    uint32_t w, uint32_t h);
++    /* optional */
+     void (*dpy_gl_scanout_dmabuf)(DisplayChangeListener *dcl,
+                                   QemuDmaBuf *dmabuf);
++    /* optional */
+     void (*dpy_gl_cursor_dmabuf)(DisplayChangeListener *dcl,
+                                  QemuDmaBuf *dmabuf, bool have_hot,
+                                  uint32_t hot_x, uint32_t hot_y);
++    /* optional */
+     void (*dpy_gl_cursor_position)(DisplayChangeListener *dcl,
+                                    uint32_t pos_x, uint32_t pos_y);
++    /* optional */
+     void (*dpy_gl_release_dmabuf)(DisplayChangeListener *dcl,
+                                   QemuDmaBuf *dmabuf);
++    /* required if GL */
+     void (*dpy_gl_update)(DisplayChangeListener *dcl,
+                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+ 
 -- 
 2.29.2
 
