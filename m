@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4CB310DD8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:27:17 +0100 (CET)
-Received: from localhost ([::1]:53392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C93310DD2
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:24:55 +0100 (CET)
+Received: from localhost ([::1]:48632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l83wy-0000ta-BV
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:27:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37288)
+	id 1l83ug-00071D-88
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:24:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l83sz-0005Ja-B7
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:23:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59330)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l83sx-0004os-PQ
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:23:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612542186;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JLaXjsAccGWOFYV4LHkNPNuwuNfu0xiG2uf1x9Ryd+8=;
- b=LoAnjWPVC9ltwW+ELDhhP6R9F/iojProd2dNkW/DH8jERBNevw1D8v3dWanccxeJSpjT22
- vqYpppC7edjc58LRfo9X2Mv8wVTJmRr8D+JS9nD1/TTBF7/mIihz6aM12SQwdskz6H8SvW
- MLYXcRx8XiFQNIsTdKT0TfesiYBErj0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-i9JhDsr7OvWg2nITB_Q4pA-1; Fri, 05 Feb 2021 11:23:05 -0500
-X-MC-Unique: i9JhDsr7OvWg2nITB_Q4pA-1
-Received: by mail-ed1-f72.google.com with SMTP id w23so7139663edr.15
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 08:23:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l83tE-0005hI-Sq
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:23:24 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l83tD-0004v7-3J
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:23:24 -0500
+Received: by mail-ej1-x636.google.com with SMTP id i8so12780844ejc.7
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 08:23:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rep0lK1KaNu1xs3vZkB5bz8Z3dVym5AcZHkpq0teltk=;
+ b=AaMcHpNlYGVi88Deche4k8xjCPSDHhtRuxjG57kUr/w80uCk2pg83KVpUpQ7DEFzdL
+ WMIblTxaSopFwvC3IvkOYxfId2klrCh9IWmQGgsRwApeZsQujP48jnaK5az3pdpn5Dw6
+ Fg8cwkhaown6pr4+f1oS5BXdKpoNCtfd9UaIYa69jiCuPrkFyvu1Ajgp3HzFIINU/UIQ
+ 1802XTzPZc+KhNvL201rIjejUG8PmkLfvFkjb4Wat/0blgvEx7yTNg7wJ5RAuzrpWub8
+ IO92o9l1YT5zejXXb9szB1semsN1+XphQH8s6uf4vJ+WFhiMy3yChxez/icd+BQRPZTH
+ B5bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JLaXjsAccGWOFYV4LHkNPNuwuNfu0xiG2uf1x9Ryd+8=;
- b=UBXPn6ecHhwPpRrcQz+rZIHlohfDS4Ci9+0Gttlah1qf3GQ0aLVf9auhawwJuhjkKr
- C0z0O+2AzSsHdy5PBHUdDJTQPlviaBJpqG8J6nvQov4i+QQZfMl/USM4NjdRH6e36ZkQ
- X8gfiGDLBqiqxY6E797qYFnfPhtRAkiAKzx5bme5WyNIrgU2CBzRij1ec+UD+omorqlv
- /+WP5y6TURSUzrnualB7Iy3FOFf+5dl7fvq5dpsmociAmY3tmi0c+P2P/vapF8mSTYWa
- qauYeIavym1yTh8/UL1omCdcLFEP+upUQTaR0x6ublQCwviAJKcbOahSRQVoMOHpsbd6
- nPvA==
-X-Gm-Message-State: AOAM532o157PVxN+PVMUFg7bpsltxh96G3v2mts/cSbeSKVVRWDF+AZj
- lkwN/zjVq2kCvIkpJKd7YTL2Dk4v/tL8+1NHowJWk39L/h1SLdnSEWeS5MwEunzUHrHUvLsvLGF
- Rv9HvYe8kQAogzFw=
-X-Received: by 2002:a17:906:e03:: with SMTP id l3mr4685614eji.64.1612542184057; 
- Fri, 05 Feb 2021 08:23:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzggzXxSXXScsxU2TD3fNAFfe6VIyy4hfwmSm5WCqpUw1G+Fvw8r8GNdLGhj8SOIwxV3LLH8g==
-X-Received: by 2002:a17:906:e03:: with SMTP id l3mr4685589eji.64.1612542183845; 
- Fri, 05 Feb 2021 08:23:03 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id m19sm4211125edq.81.2021.02.05.08.23.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Feb 2021 08:23:03 -0800 (PST)
-Subject: Re: [PATCH 12/33] migration: push Error **errp into
- loadvm_postcopy_handle_listen()
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210204171907.901471-1-berrange@redhat.com>
- <20210204171907.901471-13-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3d260288-6aae-d484-4500-cef6954ec5c4@redhat.com>
-Date: Fri, 5 Feb 2021 17:23:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rep0lK1KaNu1xs3vZkB5bz8Z3dVym5AcZHkpq0teltk=;
+ b=oC7ubZk+sT9qf9VHEXWV+oyeGbLeIeVpeGspGKoFR/1kZh+rbaFoFZtKhhdhZ7YkTt
+ QdrDQlKKsQHtKy0DAs1wr1EBG1sc4i4lyay2FD+j5L2c9Dvuz4ivfkd8sFaPyQpmlKjm
+ 5hdv9qHnhiC2WttpdNZz1BjjONTG+mcSqDPO58H65rEusfgC5BpPFfof0qMCvx8jKXiJ
+ 36E4et1QmPvZGKUshqdrlJovpephRCGwSI4ecQ3iwDiPdMv/U6YTzaAxOztMSrTOiyOS
+ c/cVufBHAHHjceb8/5iAAgniU0kyMbq+rmnAWbHazJFeunG+oc9USZs4wdSUsGfbWNEH
+ olSA==
+X-Gm-Message-State: AOAM533OQ/Q0uuYltxKxCIeO3rUNYD9wme8ER5r7d+SuxZFjTu1zwdH6
+ r1jt58tIKztFb6mJUsY1Z8uF8vVii++fCVLV5H441Q==
+X-Google-Smtp-Source: ABdhPJyOxTFWabdk5KA2AOI6RbXHP3kQHbCPttiLoKpTmqMJQQcTZHRFGVE5WUlVFON4Yz4PeH4bAtpgkZI5ESO7mjM=
+X-Received: by 2002:a17:906:3a89:: with SMTP id y9mr4718295ejd.4.1612542201455; 
+ Fri, 05 Feb 2021 08:23:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210204171907.901471-13-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210204154327.386529-1-stefanha@redhat.com>
+ <CAFEAcA9krQPfgzLSEimNdN7dUQJbqUObGtoiK7A9ZOGKxanR+g@mail.gmail.com>
+ <20210205162105.GB416527@stefanha-x1.localdomain>
+In-Reply-To: <20210205162105.GB416527@stefanha-x1.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 5 Feb 2021 16:23:10 +0000
+Message-ID: <CAFEAcA-VFfcWzH47nxgthtcdkCzm8c74uo3rj8Zd=M3mWAXX7g@mail.gmail.com>
+Subject: Re: [PULL v2 00/27] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,41 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 6:18 PM, Daniel P. Berrangé wrote:
-> This is an incremental step in converting vmstate loading code to report
-> via Error objects instead of printing directly to the console/monitor.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  migration/savevm.c | 18 +++++++-----------
->  1 file changed, 7 insertions(+), 11 deletions(-)
-> 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index c505526406..447596383f 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1909,14 +1909,15 @@ static void *postcopy_ram_listen_thread(void *opaque)
->  }
-...
+On Fri, 5 Feb 2021 at 16:21, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> Thanks, I update the patch in question.
+>
+> It looks like the GitLab CI doesn't include a clang version that
+> produces this error because the pipeline passed for me:
+> https://gitlab.com/stefanha/qemu/-/pipelines/251524779
+>
+> Is there something clang-specific you want to check in the CI? Maybe
+> clang 3.4, the oldest version supported according to ./configure?
 
-> @@ -1937,12 +1938,12 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->      if (migrate_postcopy_ram()) {
->          if (postcopy_ram_incoming_setup(mis)) {
->              postcopy_ram_incoming_cleanup(mis);
-> +            error_setg(errp, "Failed to setup incoming postcoyp RAM blocks");
+Would probably be nice I guess. My ad-hoc builds use clang 6,
+which is what tripped up here.
 
-New error, OK.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
->              return -1;
->          }
->      }
-
+thanks
+-- PMM
 
