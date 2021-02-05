@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6459E310CA5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:46:53 +0100 (CET)
-Received: from localhost ([::1]:55936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCFA3310CA6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:47:00 +0100 (CET)
+Received: from localhost ([::1]:56450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l82No-0004GP-EN
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:46:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42518)
+	id 1l82Nv-0004Sw-Vt
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:47:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l82Kz-0002Dg-G5; Fri, 05 Feb 2021 09:43:57 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37790)
+ id 1l82L5-0002Tb-BQ; Fri, 05 Feb 2021 09:44:03 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l82Kx-0002F8-VE; Fri, 05 Feb 2021 09:43:57 -0500
-Received: by mail-ed1-x536.google.com with SMTP id q2so9092338edi.4;
- Fri, 05 Feb 2021 06:43:54 -0800 (PST)
+ id 1l82L3-0002IJ-Q9; Fri, 05 Feb 2021 09:44:03 -0500
+Received: by mail-ej1-x629.google.com with SMTP id w2so12228234ejk.13;
+ Fri, 05 Feb 2021 06:44:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MuD8YH8lHXlIxKXXmwlYnLHbV+/5tH7GQop+yQUZbaM=;
- b=UVtaku4poOccipZPXArt8FJrAo0tP+JQ+UJCfKk9EcrQXamQ3Y8rwUPGExq3yo/0ri
- su5oboHhT+O4yIzBrmO7iRLiaYkOGi2Re5XCuHqs453irTe0g9FKQR/8T81KZhbeDT8O
- nik5djKfjs5Qs25uDwg3OlrmtjXHbtN1YhTOGk4qsjLhwr7hxsJ/70PndDEltiWaTobi
- Q+7xSMkWEZ9kPxwxT1se+7UbmN5txuYmSto9eM4UV9DheD4hyIguExwI+uMpqF2caK+H
- qr2G5SPpBRTHhTol24SGT1opEWK9jCO8aPmaPDpx5+KkG+r+4c21V8X15tF8SYzLB6zb
- RvYw==
+ bh=5evm7ZSskwEzcmWuSglI+6mAOCvHUIp+CaSdo/EhioA=;
+ b=knA0/DNEN+J6r5N0LMxv/4w0HzFCCbw/cP0NtYeKLDwZxuCNQtfk9ug4cZAJvgBycC
+ qr4E8XMPAtAYioZA6UvPPHGCTJJi+ZKY7iHQqycdUC6nbgpFtjHA+YXkNKdbAzbmK8BD
+ 5eDgGkdw/7hg/6iDftkL3KaRMmHrZOdP0VEuJ5Jjlae6fmSsOI2XeWaSNdJiH440oc/h
+ 9f6jeP/RRO2XuCdfpHhIh7G6YdVr3OnfQgOA2YqDc3AaOT+UDGfXULePeDVFmrkFRhI6
+ lxAehMWzw4GA3zjaAacZzz4JMSY4ExiP3LQmHWz8DsBxmB6Ff/MpnP2qOPCvH2nRGX0m
+ UmSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MuD8YH8lHXlIxKXXmwlYnLHbV+/5tH7GQop+yQUZbaM=;
- b=q0M6W8tCOZbRYYlnlbqZ+0FYwGHpgosYAnt85tvWXK/JYgpJd8z97FEoQp1QmB7+Dy
- ZdILRteSsoYwRJUTC8GQXlHp8cjNwrvvEGW1/pYr2TmevxsLHvNyVvyUFIz8uylyyjva
- tVZJG8fufvJ3tIFMy0/aEU8KQWQeMpP/fVXy7hVC+TUqUIoAsMdvsBELpu+KmaBFc/dL
- uynI+nrTTqTbfqzs8rBgYrR8mo36QdrXwIFX9DMFZVOLLBW35ZaJUfZKel0J/h3P4Ehy
- MPH/M13KPU1A6O0VwSNLVcoTVH8STE3jtAxvThY+nJu/5vCDvHRJ+3zFKiv5NmdBJuKY
- eCxg==
-X-Gm-Message-State: AOAM531+0M5psoVpIZt2exBtAJEeSpXnfFmp4YbJRKLoX2NnclAJu3+Z
- oVrV/TNJkchrxTxL3JBu5qfeBmQR7Xk=
-X-Google-Smtp-Source: ABdhPJy2Tz/Vu+jSec0Y9r7HLzwWZw8Eah5pSbB0YNpLaExd3y3LunZpElvmz7HFVGcWuJcqczuHtA==
-X-Received: by 2002:a05:6402:40c4:: with SMTP id
- z4mr3807226edb.233.1612536233607; 
- Fri, 05 Feb 2021 06:43:53 -0800 (PST)
+ bh=5evm7ZSskwEzcmWuSglI+6mAOCvHUIp+CaSdo/EhioA=;
+ b=cbAB7lcrCExZ9alxeBf6GF0eufg8ViXUTFKjLFARXKKkav7wqvTzjTF1ys/X89Wff6
+ 3PmHhIJcf6AfpOcBvghslZ1rZtZx2RzvxjwJmZgnEG6Y6ZJh1IKrYQIM4LoI/tB8xrnU
+ z7OkJoENUL41pm9Ht9JgwpEQ/ID/czMiN5fXG2uQxrbhumrlQ0P1vISCP/4mLdIfiTE7
+ 1yBqhhG7MxBEI8H0HPzvh1hlsH2ri/MMXdaA/ZXUzgg802H35mBIUup2JM6hf0Bm9rc3
+ pmBjzJg/ptxzqTmq65RAmJqXTjMZB3OyzyiQld9G3yba5li7xFLCYC97wY6Gqv7og6Qj
+ ZY/g==
+X-Gm-Message-State: AOAM532GvXvIQTcvRP1rnzxdI2FyuB/Ok3WNTyvmvqIcIQqiNBJpsJTd
+ bJ7FxFav553sWAIpYLRc/oQ3u71VhR8=
+X-Google-Smtp-Source: ABdhPJyZ+1oifxJWzXIBLvDe3Eqlb4kZypcVFevwEUY5rXxJD4fEtVvJfiQpIKfJpLBJnh+O4BfV+A==
+X-Received: by 2002:a17:906:a082:: with SMTP id
+ q2mr4286120ejy.483.1612536239401; 
+ Fri, 05 Feb 2021 06:43:59 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id q9sm4009547ejd.113.2021.02.05.06.43.52
+ by smtp.gmail.com with ESMTPSA id a25sm936260edt.16.2021.02.05.06.43.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 06:43:52 -0800 (PST)
+ Fri, 05 Feb 2021 06:43:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/9] tests/qtest/arm-cpu-features: Remove Cortex-A15 check
-Date: Fri,  5 Feb 2021 15:43:37 +0100
-Message-Id: <20210205144345.2068758-2-f4bug@amsat.org>
+Subject: [PATCH 2/9] tests/qtest: Restrict xlnx-can-test to TCG builds
+Date: Fri,  5 Feb 2021 15:43:38 +0100
+Message-Id: <20210205144345.2068758-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210205144345.2068758-1-f4bug@amsat.org>
 References: <20210205144345.2068758-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,37 +86,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Andrew Jones <drjones@redhat.com>,
+ Vikram Garhwal <fnu.vikram@xilinx.com>, qemu-block@nongnu.org,
+ Alistair Francis <alistair@alistair23.me>, Andrew Jones <drjones@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+ qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support for ARMv7 has been dropped in commit 82bf7ae84ce
-("target/arm: Remove KVM support for 32-bit Arm hosts"),
-no need to check for Cortex A15 host cpu anymore.
+The Xilinx CAN controller test is uses the ZCU102 board which is
+based on a ZynqMP SoC. In the default configuration - used by this
+test - this SoC creates 2 Cortex R5F cores. Such cores are not
+v8A archicture, thus can not be run under KVM. Therefore restrict
+this test to TCG.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/arm-cpu-features.c | 4 ----
- 1 file changed, 4 deletions(-)
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
+---
+ tests/qtest/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 8252b85bb85..c59c3cb002b 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -515,10 +515,6 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-         QDict *resp;
-         char *error;
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index c83bc211b6a..d8ebd5bf98e 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -159,10 +159,10 @@
+   (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
++  (config_all.has_key('CONFIG_TCG') ? ['xlnx-can-test'] : []) +  \
+   ['arm-cpu-features',
+    'numa-test',
+    'boot-serial-test',
+-   'xlnx-can-test',
+    'migration-test']
  
--        assert_error(qts, "cortex-a15",
--            "We cannot guarantee the CPU type 'cortex-a15' works "
--            "with KVM on this host", NULL);
--
-         assert_has_feature_enabled(qts, "host", "aarch64");
- 
-         /* Enabling and disabling pmu should always work. */
+ qtests_s390x = \
 -- 
 2.26.2
 
