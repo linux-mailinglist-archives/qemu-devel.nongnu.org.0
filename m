@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EBD9310E04
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:41:06 +0100 (CET)
-Received: from localhost ([::1]:43998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E8B310E01
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 17:40:03 +0100 (CET)
+Received: from localhost ([::1]:42400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l84AF-0002U3-Ih
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:41:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39880)
+	id 1l849J-0001hg-OB
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 11:40:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l845F-0006jW-Ok
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:35:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20035)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l846T-0007tY-3l
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:37:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l845D-0001pi-AF
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:35:49 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l846N-0002Ih-35
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 11:37:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612542946;
+ s=mimecast20190719; t=1612543017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZNWh3ySWKVW4moNUlw4BNwoRASk4c2nPcuS/T1yXv5o=;
- b=UtQ2uyl1DqwXMYM5xAfn+ul9yG0aISaxfIzSQ+LY6qPe9xRHFRhHlDQY/Luh+N00UPq9iT
- 1SpwLCwvOf+WHz2pYpBaW0FeXL6OAig1YV5kI3ZeNJkGxFx/pVtEFHLHbVwcgXKmYwUjol
- fT7fl/k8njBOH0XW2tU2y+Nrm5CqTsA=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-AHPVg022MbK9JYZxK1sivA-1; Fri, 05 Feb 2021 11:35:44 -0500
-X-MC-Unique: AHPVg022MbK9JYZxK1sivA-1
-Received: by mail-ej1-f71.google.com with SMTP id x22so7170046ejb.10
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 08:35:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZNWh3ySWKVW4moNUlw4BNwoRASk4c2nPcuS/T1yXv5o=;
- b=nsxkDB2R7dGZnDMJ96zn15tLxBjimnfBHgCOR877ukEqq/HfHTPsZuhOKWdS1RzP5Z
- KuIocmIAmfnZQuw+CF1Yl5FQzTe7q/1aSOZyzoyClkzkWWQf/uly2zpc/+0ra7QEQr8b
- hkt2Y+f5vE+JtVQ05uPrNRjIMBXLzUH+ESZvKrvHFNBflRwlR/cEXFyKocjKOmE9eVcg
- MLiNleVA7C/zQmE2t0F4f9qbJ/iQ2t84WG2P7SaHFU28Rvja47dcS84o/MrvJwl95e47
- TmoeUrqxtSmmKANWD2Uke0amuJF51cFvPNkzFfVw2px1Zq1O5tSkeeb9pxTdQrKPG1x2
- 3GnQ==
-X-Gm-Message-State: AOAM531NIT5MisAp9guTfuOI0c9Tdcs0HPvnxXxbqySmnuUZIbPmRV0v
- UqyLLWorVYdHLUe3+3Y5p8V6uR4pBO60QDiGIMqu6cunZ9l/8q7nU1Rlsxb7YP1SVE3UlCYZaAg
- bFUo6Bhw0XAqmBBQ=
-X-Received: by 2002:a05:6402:35ca:: with SMTP id
- z10mr4332464edc.186.1612542943222; 
- Fri, 05 Feb 2021 08:35:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJweJU2wncdw9vlFCZTY0u6dqtynfWBEvc3EcpdzydtSVa32WsRkyoFZ2weF4p2hSFTi+UNH7g==
-X-Received: by 2002:a05:6402:35ca:: with SMTP id
- z10mr4332451edc.186.1612542943088; 
- Fri, 05 Feb 2021 08:35:43 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id e11sm4111206ejz.94.2021.02.05.08.35.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Feb 2021 08:35:42 -0800 (PST)
-Subject: Re: [PATCH] tests/acceptance: Increase the timeout in the replay tests
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-References: <20210127065222.48650-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <878747af-79b2-093d-456d-29b9cd80915d@redhat.com>
-Date: Fri, 5 Feb 2021 17:35:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=ZQlYE4bia3o1A0TdeA21k/vfnJctiyRticruMA73M38=;
+ b=XgEwX5uQPPi+oTNsVQtQPglzW24MNcYu/mLLYi4vC89etPTZZExX0ytegSV26DGPOCBqjK
+ Yv8hGtgJWE3tMpEr3kgzW2d62efHEHaCLandCc9Z8PygzEOx/4zCR5fx6aOcja4H/qDq5Q
+ bFFwZs0Sf+6NhrgACVrsFrf5pg/8axQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-LSxGi19mNUGsTfozo0ARUg-1; Fri, 05 Feb 2021 11:36:55 -0500
+X-MC-Unique: LSxGi19mNUGsTfozo0ARUg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F6D61934100;
+ Fri,  5 Feb 2021 16:36:54 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-240.ams2.redhat.com [10.36.114.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C07095D9D7;
+ Fri,  5 Feb 2021 16:36:52 +0000 (UTC)
+Date: Fri, 5 Feb 2021 17:36:51 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 29/36] blockdev: qmp_x_blockdev_reopen: acquire all
+ contexts
+Message-ID: <20210205163651.GH7072@merkur.fritz.box>
+References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+ <20201127144522.29991-30-vsementsov@virtuozzo.com>
+ <20210205160158.GE7072@merkur.fritz.box>
+ <b9af714d-3a3a-af8d-fb96-7807553bd55e@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210127065222.48650-1-thuth@redhat.com>
+In-Reply-To: <b9af714d-3a3a-af8d-fb96-7807553bd55e@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,23 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/27/21 7:52 AM, Thomas Huth wrote:
-> Our gitlab-CI just showed a failed test_ppc_mac99 since it was apparently
-> killed some few seconds before the test finished. Allow it some more
-> time to complete.
+Am 05.02.2021 um 17:16 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 05.02.2021 19:01, Kevin Wolf wrote:
+> > Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > > During reopen we may add backing bs from other aio context, which may
+> > > lead to changing original context of top bs.
+> > > 
+> > > We are going to move graph modification to prepare stage. So, it will
+> > > be possible that bdrv_flush() in bdrv_reopen_prepare called on bs in
+> > > non-original aio context, which we didn't aquire which leads to crash.
+> > > 
+> > > More correct would be to acquire all aio context we are going to work
+> > > with. And the simplest ways is to just acquire all of them. It may be
+> > > optimized later if needed.
+> > > 
+> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > 
+> > I'm afraid it's not as easy. Holding the lock of more than one
+> > AioContext is always a bit risky with respect to deadlocks.
+> > 
+> > For example, changing the AioContext of a node with
+> > bdrv_set_aio_context_ignore() has explicit rules that are now violated:
+> > 
+> >   * The caller must own the AioContext lock for the old AioContext of bs, but it
+> >   * must not own the AioContext lock for new_context (unless new_context is the
+> >   * same as the current context of bs).
+> > 
+> > Draining while holding all AioContext locks is suspicious, too. I think
+> > I have seen deadlocks before, which is why bdrv_drain_all_*() are
+> > careful to only ever lock a single AioContext at a time.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Seen in this test log:
->  https://gitlab.com/qemu-project/qemu/-/jobs/987148065/artifacts/file/build/tests/results/latest/test-results/26-tests_acceptance_replay_kernel.py_ReplayKernelNormal.test_ppc_mac99/debug.log
-> 
->  tests/acceptance/replay_kernel.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> That's not good :\ Hmm, probably we just should flush everything
+> before all graph modifications.
 
-Hopefully this buy us time. Applied to my acceptance-testing tree.
+Would that have to be a separate phase before prepare then?
+
+I suppose the same problem exists with drv->bdrv_reopen_prepare, which
+might be called in a different state (both graph structure and
+AioContext) than before. I'll have to see the patch first that reorders
+things, but this callback has always had the problem that sometimes it
+wants the old state and sometimes it wants the new state...
+
+Kevin
 
 
