@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F89311031
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:45:19 +0100 (CET)
-Received: from localhost ([::1]:38204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D56A311075
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:57:26 +0100 (CET)
+Received: from localhost ([::1]:39328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l866Y-00014n-1m
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:45:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35726)
+	id 1l86IG-0005Hz-Kw
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:57:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l85po-0003vF-Bn; Fri, 05 Feb 2021 13:28:00 -0500
-Resent-Date: Fri, 05 Feb 2021 13:28:00 -0500
-Resent-Message-Id: <E1l85po-0003vF-Bn@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21345)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l85pk-0006zv-HF; Fri, 05 Feb 2021 13:27:59 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1612549672; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=O7NA2+Rz7BsrOKjYSbR+Eo5Fy8DQWC64nYvlJMoMMK5QqTFe4rTzzLtfL12mXUAuuxy+MrWSpcI68PfK8tmGwrrN7GDiaqOqUXtzvY0CcvykUGZF7/8QJ8CMcCeOouqcyDmMNrIgRGTQeK58aTnOiB+LHsueZz/6zS85ak1wgHg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1612549672;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=YexoLermF/EtivDF+aOyZ6/5A0rl52FfkhGPWz9foVo=; 
- b=BkGzzhcSZK0ZOnBPsFKmdUogux/SDuj9Jj79jqh8l+dYJqYXcODQusylh7N7W7BFIMzcTH/A39wJsU2w9xMxo2gikqRl+mMzpPvhphQUayOAM7gTn5d5Uk+bIeUYgQee11ZKrTEDMAnOigHByH6etIxfQdZ+rvodT/3u4Nmb7M0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1612549669438479.306121746689;
- Fri, 5 Feb 2021 10:27:49 -0800 (PST)
-In-Reply-To: <20210205170019.25319-1-peter.maydell@linaro.org>
-Subject: Re: [PATCH 00/24] hw/arm: New board model mps3-an524
-Message-ID: <161254966835.4617.2511911275485078727@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <kaifengx@princeton.edu>)
+ id 1l85vL-0000Xs-3a
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 13:33:43 -0500
+Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236]:46817)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kaifengx@princeton.edu>)
+ id 1l85vF-0000uu-Lg
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 13:33:39 -0500
+Received: by mail-lj1-x236.google.com with SMTP id v15so8856703ljk.13
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 10:33:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=princeton-edu.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=HS6JGhW+kDdYhhL9WdvAcUadm2ah2ErVY19Nz06DgP4=;
+ b=xDsi1epU2uD/SE65uDZTFfFO/1Zgp+n03U2ctpHLdeiia2Sy+zmWUjpmUpTuHfyfcG
+ EBLwUdXRJZ4i3F7n6qNj05QBGPFkw/HKCNEw4Sxm66k5KYC7AV2eUNN7NULP4Bki5VXv
+ L3Y9cA505R7aHoWYQZeF9T2gJHgCikOT5dQBX/jdY6pR0HVoKO3+vFTEYCqnmyNjBkQ6
+ 95nk8ZOsl2s5H8p9y8ZZCQSMTYkoCA/SzFonnRiyHg5+r2amx3X3H+//buHCXTEs9Go7
+ 5oqMuPJVUqrzbjwqCRrFf7DmJojB/483sgJENuModRGHSVGaDE95LpUUWNrr6bEIbhM+
+ Rs6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=HS6JGhW+kDdYhhL9WdvAcUadm2ah2ErVY19Nz06DgP4=;
+ b=RtwCKduCRWYDpW85IW9/S/MHvnr2WVtH9mEFUn2esQfXXnmbznncDf0+rKOPYHhpJE
+ szrXaF8yybIzeXPiWXEDLMHTjuoVTiN558zSOo90k+3O+GxW0+0+6kR7VgQUup9nbuJI
+ W98PMGLkK/O5M5DjNN/s1xqj8C0JUsibhbVYUr3VqwQOtvzLMS7EsD5DwBe13pudRrGa
+ L+STwlQe7RH1sdrYHBChrYe3m7QR7LsNQ/pRMcKajzmOksYd0LQ200Ya3vFeLGidZmCH
+ 0WuAHBCMYnCh5OLPQNIF1aG1kLQLVWuysYPNVjoe3WtoPrhLeWi92BcFp8zymDfIlmca
+ Y5TA==
+X-Gm-Message-State: AOAM532WQhMQzrkmRy5AonguIp4ixYAlhuBavNUk68IvDjmjl0nEYmjV
+ dYPEcwF10i8xaXmsNyS5VTRY1NOUSQBEM74d2QWp6JBSfDwdqQ==
+X-Google-Smtp-Source: ABdhPJzHI94yT1+9H80fvYODJ3YuZTZcQ93c2ySY0weKLnKKeTodYMgzlifoAV5SpftfxX9+MUsAO1b2gvo7R3Wnbks=
+X-Received: by 2002:a2e:2ac5:: with SMTP id q188mr3427085ljq.345.1612550009147; 
+ Fri, 05 Feb 2021 10:33:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: peter.maydell@linaro.org
-Date: Fri, 5 Feb 2021 10:27:49 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+From: Kaifeng Xu <kaifengx@princeton.edu>
+Date: Fri, 5 Feb 2021 13:33:17 -0500
+Message-ID: <CAN6boZY7CEmkdfkKhauObLT8BOi_wJfs4CezRpqC4PPB3sbC=A@mail.gmail.com>
+Subject: [QEMU TCG] Qeustion about the PCID Feature in TCG
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000007a651705ba9b0e28"
+Received-SPF: neutral client-ip=2a00:1450:4864:20::236;
+ envelope-from=kaifengx@princeton.edu; helo=mail-lj1-x236.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 05 Feb 2021 13:54:45 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,155 +74,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIwNTE3MDAxOS4yNTMx
-OS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
-byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
-b3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMjA1MTcwMDE5
-LjI1MzE5LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnClN1YmplY3Q6IFtQQVRDSCAwMC8yNF0g
-aHcvYXJtOiBOZXcgYm9hcmQgbW9kZWwgbXBzMy1hbjUyNAoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
-ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0g
-W3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDIwNTA5MTg1Ny44NDUzODktMS10aHV0aEBy
-ZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAyMDUwOTE4NTcuODQ1Mzg5LTEtdGh1dGhAcmVkaGF0
-LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwMjA1MTcwMDE5LjI1MzE5LTEt
-cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMTAyMDUxNzAwMTkuMjUzMTkt
-MS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0
-JwpiNmQwOGM5IGh3L2FybS9tcHMyOiBVcGRhdGUgb2xkIGluZm9jZW50ZXIuYXJtLmNvbSBVUkxz
-CjkwYzdjMTYgZG9jcy9zeXN0ZW0vYXJtL21wczIucnN0OiBEb2N1bWVudCB0aGUgbmV3IG1wczMt
-YW41MjQgYm9hcmQKNWYzYmZiOSBody9hcm0vbXBzMi10ejogUHJvdmlkZSBQTDAzMSBSVEMgb24g
-bXBzMy1hbjUyNAoyZGNlZmFmIGh3L2FybS9tcHMyLXR6OiBTdHViIG91dCBVU0IgY29udHJvbGxl
-ciBmb3IgbXBzMy1hbjUyNAo3M2QxMGU2IGh3L2FybS9tcHMyLXR6OiBBZGQgbmV3IG1wczMtYW41
-MjQgYm9hcmQKZDdkOWU5NSBody9hcm0vbXBzMi10ejogR2V0IGFybXY3bV9sb2FkX2tlcm5lbCgp
-IHNpemUgYXJndW1lbnQgZnJvbSBSQU1JbmZvCjliN2FiZTQgaHcvYXJtL21wczItdHo6IFN1cHBv
-cnQgUk9NcyBhcyB3ZWxsIGFzIFJBTXMKN2MyMTMyNyBody9hcm0vbXBzMi10ejogU2V0IE1hY2hp
-bmVDbGFzcyBkZWZhdWx0X3JhbSBpbmZvIGZyb20gUkFNSW5mbyBkYXRhCjk1Y2RhMGUgaHcvYXJt
-L21wczItdHo6IE1ha2UgUkFNIGFycmFuZ2VtZW50IGJvYXJkLXNwZWNpZmljCjZiOTg2ODAgaHcv
-YXJtL21wczItdHo6IEFsbG93IGJvYXJkcyB0byBoYXZlIGRpZmZlcmVudCBQUENJbmZvIGRhdGEK
-NTlmZTM0YyBody9hcm0vbXBzMi10ejogU2l6ZSB0aGUgdWFydC1pcnEtb3JnYXRlIGJhc2VkIG9u
-IHRoZSBudW1iZXIgb2YgVUFSVHMKNTExY2M5OSBody9hcm0vbXBzMi10ejogTW92ZSBkZXZpY2Ug
-SVJRIGluZm8gdG8gZGF0YSBzdHJ1Y3R1cmVzCmMxNTgxNjggaHcvYXJtL21wczItdHo6IEFsbG93
-IFBQQ1BvcnRJbmZvIHN0cnVjdHVyZXMgdG8gc3BlY2lmeSBkZXZpY2UgaW50ZXJydXB0cwo3MWEy
-YTk5IGh3L2FybS9tcHMyLXR6OiBDb3JyZWN0IHdyb25nIGludGVycnVwdCBudW1iZXJzIGZvciBE
-TUEgYW5kIFNQSQpjZDE0MzIzIGh3L21pc2MvbXBzMi1zY2M6IEltcGxlbWVudCBDRkdfUkVHNSBh
-bmQgQ0ZHX1JFRzYgZm9yIE1QUzMgQU41MjQKZDFlMTYxNiBody9hcm0vbXBzMi10ejogTWFrZSBu
-dW1iZXIgb2YgSVJRcyBib2FyZC1zcGVjaWZpYwphYjAyMjNhIGh3L2FybS9tcHMyLXR6OiBDb25k
-aXRpb24gSVJRIHNwbGl0dGluZyBvbiBudW1iZXIgb2YgQ1BVcywgbm90IGJvYXJkIHR5cGUKNjBl
-NmI2ZiBody9hcm0vbXBzMi10ejogTWFrZSBGUEdBSU8gc3dpdGNoIGFuZCBMRUQgY29uZmlnIHBl
-ci1ib2FyZAoyZjczZTBlIGh3L21pc2MvbXBzMi1mcGdhaW86IFN1cHBvcnQgU1dJVENIIHJlZ2lz
-dGVyCmY2Yjk5OWYgaHcvbWlzYy9tcHMyLWZwZ2FpbzogTWFrZSBudW1iZXIgb2YgTEVEcyBjb25m
-aWd1cmFibGUgYnkgYm9hcmQKODE1ZWJjOCBody9hcm0vbXBzMi10ejogTWFrZSB0aGUgT1NDQ0xL
-IHNldHRpbmdzIGJlIGNvbmZpZ3VyYWJsZSBwZXItYm9hcmQKY2I3NTU2MCBody9hcm0vbXBzMi10
-ejogQ29ycmVjdCB0aGUgT1NDQ0xLIHNldHRpbmdzIGZvciBtcHMyLWFuNTA1IGFuZCBtcHMyLWFu
-NTExCmFkYjIxMDIgaHcvbWlzYy9tcHMyLXNjYzogU3VwcG9ydCBjb25maWd1cmFibGUgbnVtYmVy
-IG9mIE9TQ0NMSyB2YWx1ZXMKNWNhNWE0NiBody9hcm0vbXBzMi10ejogTWFrZSBTWVNDTEsgZnJl
-cXVlbmN5IGJvYXJkLXNwZWNpZmljCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzI0IENoZWNraW5n
-IGNvbW1pdCA1Y2E1YTQ2YmZhMTYgKGh3L2FybS9tcHMyLXR6OiBNYWtlIFNZU0NMSyBmcmVxdWVu
-Y3kgYm9hcmQtc3BlY2lmaWMpCjIvMjQgQ2hlY2tpbmcgY29tbWl0IGFkYjIxMDIyMGQyNyAoaHcv
-bWlzYy9tcHMyLXNjYzogU3VwcG9ydCBjb25maWd1cmFibGUgbnVtYmVyIG9mIE9TQ0NMSyB2YWx1
-ZXMpCjMvMjQgQ2hlY2tpbmcgY29tbWl0IGNiNzU1NjA1ODlmZCAoaHcvYXJtL21wczItdHo6IENv
-cnJlY3QgdGhlIE9TQ0NMSyBzZXR0aW5ncyBmb3IgbXBzMi1hbjUwNSBhbmQgbXBzMi1hbjUxMSkK
-NC8yNCBDaGVja2luZyBjb21taXQgODE1ZWJjODUyNzEzIChody9hcm0vbXBzMi10ejogTWFrZSB0
-aGUgT1NDQ0xLIHNldHRpbmdzIGJlIGNvbmZpZ3VyYWJsZSBwZXItYm9hcmQpCjUvMjQgQ2hlY2tp
-bmcgY29tbWl0IGY2Yjk5OWYxYjIzMCAoaHcvbWlzYy9tcHMyLWZwZ2FpbzogTWFrZSBudW1iZXIg
-b2YgTEVEcyBjb25maWd1cmFibGUgYnkgYm9hcmQpCjYvMjQgQ2hlY2tpbmcgY29tbWl0IDJmNzNl
-MGUzMmJiZSAoaHcvbWlzYy9tcHMyLWZwZ2FpbzogU3VwcG9ydCBTV0lUQ0ggcmVnaXN0ZXIpCjcv
-MjQgQ2hlY2tpbmcgY29tbWl0IDYwZTZiNmY0MWM3ZSAoaHcvYXJtL21wczItdHo6IE1ha2UgRlBH
-QUlPIHN3aXRjaCBhbmQgTEVEIGNvbmZpZyBwZXItYm9hcmQpCjgvMjQgQ2hlY2tpbmcgY29tbWl0
-IGFiMDIyM2FmYTI2NSAoaHcvYXJtL21wczItdHo6IENvbmRpdGlvbiBJUlEgc3BsaXR0aW5nIG9u
-IG51bWJlciBvZiBDUFVzLCBub3QgYm9hcmQgdHlwZSkKOS8yNCBDaGVja2luZyBjb21taXQgZDFl
-MTYxNmU3YmZmIChody9hcm0vbXBzMi10ejogTWFrZSBudW1iZXIgb2YgSVJRcyBib2FyZC1zcGVj
-aWZpYykKMTAvMjQgQ2hlY2tpbmcgY29tbWl0IGNkMTQzMjM5ZTczOSAoaHcvbWlzYy9tcHMyLXNj
-YzogSW1wbGVtZW50IENGR19SRUc1IGFuZCBDRkdfUkVHNiBmb3IgTVBTMyBBTjUyNCkKMTEvMjQg
-Q2hlY2tpbmcgY29tbWl0IDcxYTJhOTk3MzRjZCAoaHcvYXJtL21wczItdHo6IENvcnJlY3Qgd3Jv
-bmcgaW50ZXJydXB0IG51bWJlcnMgZm9yIERNQSBhbmQgU1BJKQoxMi8yNCBDaGVja2luZyBjb21t
-aXQgYzE1ODE2OGE1YTY3IChody9hcm0vbXBzMi10ejogQWxsb3cgUFBDUG9ydEluZm8gc3RydWN0
-dXJlcyB0byBzcGVjaWZ5IGRldmljZSBpbnRlcnJ1cHRzKQoxMy8yNCBDaGVja2luZyBjb21taXQg
-NTExY2M5OWExN2RlIChody9hcm0vbXBzMi10ejogTW92ZSBkZXZpY2UgSVJRIGluZm8gdG8gZGF0
-YSBzdHJ1Y3R1cmVzKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTE1OiBGSUxF
-OiBody9hcm0vbXBzMi10ei5jOjU1NzoKKyAgICAgICAgICAgICAgICB7ICJ1YXJ0MCIsIG1ha2Vf
-dWFydCwgJm1tcy0+dWFydFswXSwgMHg0MDIwMDAwMCwgMHgxMDAwLCB7IDMyLCAzMywgNDIgfSB9
-LAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzExNjogRklMRTogaHcvYXJtL21w
-czItdHouYzo1NTg6CisgICAgICAgICAgICAgICAgeyAidWFydDEiLCBtYWtlX3VhcnQsICZtbXMt
-PnVhcnRbMV0sIDB4NDAyMDEwMDAsIDB4MTAwMCwgeyAzNCwgMzUsIDQzIH0gfSwKCldBUk5JTkc6
-IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMTc6IEZJTEU6IGh3L2FybS9tcHMyLXR6LmM6NTU5
-OgorICAgICAgICAgICAgICAgIHsgInVhcnQyIiwgbWFrZV91YXJ0LCAmbW1zLT51YXJ0WzJdLCAw
-eDQwMjAyMDAwLCAweDEwMDAsIHsgMzYsIDM3LCA0NCB9IH0sCgpXQVJOSU5HOiBsaW5lIG92ZXIg
-ODAgY2hhcmFjdGVycwojMTE4OiBGSUxFOiBody9hcm0vbXBzMi10ei5jOjU2MDoKKyAgICAgICAg
-ICAgICAgICB7ICJ1YXJ0MyIsIG1ha2VfdWFydCwgJm1tcy0+dWFydFszXSwgMHg0MDIwMzAwMCwg
-MHgxMDAwLCB7IDM4LCAzOSwgNDUgfSB9LAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
-cnMKIzExOTogRklMRTogaHcvYXJtL21wczItdHouYzo1NjE6CisgICAgICAgICAgICAgICAgeyAi
-dWFydDQiLCBtYWtlX3VhcnQsICZtbXMtPnVhcnRbNF0sIDB4NDAyMDQwMDAsIDB4MTAwMCwgeyA0
-MCwgNDEsIDQ2IH0gfSwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMzc6IEZJ
-TEU6IGh3L2FybS9tcHMyLXR6LmM6NTg4OgorICAgICAgICAgICAgICAgIHsgImRtYTAiLCBtYWtl
-X2RtYSwgJm1tcy0+ZG1hWzBdLCAweDQwMTEwMDAwLCAweDEwMDAsIHsgNTgsIDU2LCA1NyB9IH0s
-CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTM4OiBGSUxFOiBody9hcm0vbXBz
-Mi10ei5jOjU4OToKKyAgICAgICAgICAgICAgICB7ICJkbWExIiwgbWFrZV9kbWEsICZtbXMtPmRt
-YVsxXSwgMHg0MDExMTAwMCwgMHgxMDAwLCB7IDYxLCA1OSwgNjAgfSB9LAoKV0FSTklORzogbGlu
-ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzEzOTogRklMRTogaHcvYXJtL21wczItdHouYzo1OTA6Cisg
-ICAgICAgICAgICAgICAgeyAiZG1hMiIsIG1ha2VfZG1hLCAmbW1zLT5kbWFbMl0sIDB4NDAxMTIw
-MDAsIDB4MTAwMCwgeyA2NCwgNjIsIDYzIH0gfSwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFy
-YWN0ZXJzCiMxNDA6IEZJTEU6IGh3L2FybS9tcHMyLXR6LmM6NTkxOgorICAgICAgICAgICAgICAg
-IHsgImRtYTMiLCBtYWtlX2RtYSwgJm1tcy0+ZG1hWzNdLCAweDQwMTEzMDAwLCAweDEwMDAsIHsg
-NjcsIDY1LCA2NiB9IH0sCgp0b3RhbDogMCBlcnJvcnMsIDkgd2FybmluZ3MsIDExNCBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAxMy8yNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxNC8yNCBDaGVj
-a2luZyBjb21taXQgNTlmZTM0YzhlYjIwIChody9hcm0vbXBzMi10ejogU2l6ZSB0aGUgdWFydC1p
-cnEtb3JnYXRlIGJhc2VkIG9uIHRoZSBudW1iZXIgb2YgVUFSVHMpCjE1LzI0IENoZWNraW5nIGNv
-bW1pdCA2Yjk4NjgwNDliMjYgKGh3L2FybS9tcHMyLXR6OiBBbGxvdyBib2FyZHMgdG8gaGF2ZSBk
-aWZmZXJlbnQgUFBDSW5mbyBkYXRhKQoxNi8yNCBDaGVja2luZyBjb21taXQgOTVjZGEwZTI5YTQ0
-IChody9hcm0vbXBzMi10ejogTWFrZSBSQU0gYXJyYW5nZW1lbnQgYm9hcmQtc3BlY2lmaWMpCjE3
-LzI0IENoZWNraW5nIGNvbW1pdCA3YzIxMzI3NWM3YTAgKGh3L2FybS9tcHMyLXR6OiBTZXQgTWFj
-aGluZUNsYXNzIGRlZmF1bHRfcmFtIGluZm8gZnJvbSBSQU1JbmZvIGRhdGEpCjE4LzI0IENoZWNr
-aW5nIGNvbW1pdCA5YjdhYmU0NzZhZTAgKGh3L2FybS9tcHMyLXR6OiBTdXBwb3J0IFJPTXMgYXMg
-d2VsbCBhcyBSQU1zKQoxOS8yNCBDaGVja2luZyBjb21taXQgZDdkOWU5NWQ4ZTg4IChody9hcm0v
-bXBzMi10ejogR2V0IGFybXY3bV9sb2FkX2tlcm5lbCgpIHNpemUgYXJndW1lbnQgZnJvbSBSQU1J
-bmZvKQoyMC8yNCBDaGVja2luZyBjb21taXQgNzNkMTBlNjEzZjM5IChody9hcm0vbXBzMi10ejog
-QWRkIG5ldyBtcHMzLWFuNTI0IGJvYXJkKQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBs
-ZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTU3OiBGSUxFOiBody9hcm0vbXBzMi10ei5j
-Ojc4MzoKKyAgICAgICAgICAgICAgICB7IC8qIHBvcnQgNyByZXNlcnZlZCAqLyB9LAoKV0FSTklO
-RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE2NzogRklMRTogaHcvYXJtL21wczItdHouYzo3
-OTM6CisgICAgICAgICAgICAgICAgeyAidWFydDAiLCBtYWtlX3VhcnQsICZtbXMtPnVhcnRbMF0s
-IDB4NDEzMDMwMDAsIDB4MTAwMCwgeyAzMiwgMzMsIDQyIH0gfSwKCldBUk5JTkc6IGxpbmUgb3Zl
-ciA4MCBjaGFyYWN0ZXJzCiMxNjg6IEZJTEU6IGh3L2FybS9tcHMyLXR6LmM6Nzk0OgorICAgICAg
-ICAgICAgICAgIHsgInVhcnQxIiwgbWFrZV91YXJ0LCAmbW1zLT51YXJ0WzFdLCAweDQxMzA0MDAw
-LCAweDEwMDAsIHsgMzQsIDM1LCA0MyB9IH0sCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFj
-dGVycwojMTY5OiBGSUxFOiBody9hcm0vbXBzMi10ei5jOjc5NToKKyAgICAgICAgICAgICAgICB7
-ICJ1YXJ0MiIsIG1ha2VfdWFydCwgJm1tcy0+dWFydFsyXSwgMHg0MTMwNTAwMCwgMHgxMDAwLCB7
-IDM2LCAzNywgNDQgfSB9LAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE3MDog
-RklMRTogaHcvYXJtL21wczItdHouYzo3OTY6CisgICAgICAgICAgICAgICAgeyAidWFydDMiLCBt
-YWtlX3VhcnQsICZtbXMtPnVhcnRbM10sIDB4NDEzMDYwMDAsIDB4MTAwMCwgeyAzOCwgMzksIDQ1
-IH0gfSwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxNzE6IEZJTEU6IGh3L2Fy
-bS9tcHMyLXR6LmM6Nzk3OgorICAgICAgICAgICAgICAgIHsgInVhcnQ0IiwgbWFrZV91YXJ0LCAm
-bW1zLT51YXJ0WzRdLCAweDQxMzA3MDAwLCAweDEwMDAsIHsgNDAsIDQxLCA0NiB9IH0sCgpFUlJP
-UjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzE3MjogRklMRTogaHcvYXJtL21wczItdHouYzo3
-OTg6CisgICAgICAgICAgICAgICAgeyAidWFydDUiLCBtYWtlX3VhcnQsICZtbXMtPnVhcnRbNV0s
-IDB4NDEzMDgwMDAsIDB4MTAwMCwgeyAxMjQsIDEyNSwgMTI2IH0gfSwKCldBUk5JTkc6IEJsb2Nr
-IGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxNzQ6IEZJTEU6
-IGh3L2FybS9tcHMyLXR6LmM6ODAwOgorICAgICAgICAgICAgICAgIHsgLyogcG9ydCA5IHJlc2Vy
-dmVkICovIH0sCgp0b3RhbDogMSBlcnJvcnMsIDcgd2FybmluZ3MsIDIxNSBsaW5lcyBjaGVja2Vk
-CgpQYXRjaCAyMC8yNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMjEvMjQgQ2hlY2tpbmcg
-Y29tbWl0IDJkY2VmYWY1NWMzOCAoaHcvYXJtL21wczItdHo6IFN0dWIgb3V0IFVTQiBjb250cm9s
-bGVyIGZvciBtcHMzLWFuNTI0KQoyMi8yNCBDaGVja2luZyBjb21taXQgNWYzYmZiOTE2MTdjICho
-dy9hcm0vbXBzMi10ejogUHJvdmlkZSBQTDAzMSBSVEMgb24gbXBzMy1hbjUyNCkKMjMvMjQgQ2hl
-Y2tpbmcgY29tbWl0IDkwYzdjMTYxMmJmYyAoZG9jcy9zeXN0ZW0vYXJtL21wczIucnN0OiBEb2N1
-bWVudCB0aGUgbmV3IG1wczMtYW41MjQgYm9hcmQpCjI0LzI0IENoZWNraW5nIGNvbW1pdCBiNmQw
-OGM5ZDIwMWQgKGh3L2FybS9tcHMyOiBVcGRhdGUgb2xkIGluZm9jZW50ZXIuYXJtLmNvbSBVUkxz
-KQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoK
-VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIx
-MDIwNTE3MDAxOS4yNTMxOS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNr
-cGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5
-IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFj
-ayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+--0000000000007a651705ba9b0e28
+Content-Type: text/plain; charset="UTF-8"
+
+Hi,
+I am running QEMU in TCG mode (my server doesn't have kvm support), and I
+am getting the memory traces in a x86 guest machine of all memory accesses,
+including the PCID (process-context identifier, and I need that for my
+current research), on a linux host. I have seen the TCG PCID feature flag
+is commented out in target/i386/cpu.c, and if I directly emulate a CPU
+which has PCID flag I got the warning:
+
+warning: TCG doesn't support requested feature: CPUID.01H:ECX.pcid [bit 17]
+
+so I uncommented the CPUID_EXT_PCID in TCG_EXT_FEATURES, and
+the CPUID_7_0_EBX_INVPCID in TCG_7_0_EBX_FEATURES, in  target/i386/cpu.c. I
+have seen the PCID in the cr3 register in cpu get set, my question is that
+I am not sure if there will be any issues with this flag. Why is it
+commented out by default?
+
+Just in case, I will put my commands here. Here are my configurations for
+compiling:
+
+*./configure --prefix=/tigress/kaifengx/sysroot/
+--target-list=x86_64-softmmu,x86_64-linux-user --disable-kvm --disable-vnc
+--enable-gtk --enable-plugins*
+
+And my command for running the QEMU:
+
+
+*qemu-system-x86_64 \*
+
+
+
+
+
+
+
+
+
+
+
+*    -cpu qemu64,+pcid\    -m 4G \    -icount shift=0 \    -drive
+if=virtio,file=${DISK},cache=none \    -device pqii \    -trace
+events=`pwd`/events \    -D ${LOG_FILE} \    -net
+user,hostfwd=tcp::10022-:22 \    -net nic \    -display none \
+-nographic \    -plugin QEMU_PATH/tests/plugin/libtlb.so,arg=inline,arg=io*
+
+Best,
+Kaifeng
+
+--0000000000007a651705ba9b0e28
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small"><di=
+v class=3D"gmail-gE gmail-iv gmail-gt" style=3D"padding:20px 0px 0px;font-s=
+ize:0.875rem;font-family:Roboto,RobotoDraft,Helvetica,Arial,sans-serif"><ta=
+ble cellpadding=3D"0" class=3D"gmail-cf gmail-gJ" style=3D"border-collapse:=
+collapse;margin-top:0px;width:auto;font-size:0.875rem;letter-spacing:0.2px;=
+display:block"><tbody style=3D"display:block"></tbody></table><span style=
+=3D"font-family:Arial,Helvetica,sans-serif;font-size:small">Hi,</span></div=
+><div class=3D"gmail-" style=3D"font-family:Roboto,RobotoDraft,Helvetica,Ar=
+ial,sans-serif;font-size:medium"><div id=3D"gmail-:1az" class=3D"gmail-ii g=
+mail-gt" style=3D"font-size:0.875rem;direction:ltr;margin:8px 0px 0px;paddi=
+ng:0px"><div id=3D"gmail-:1ay" class=3D"gmail-a3s gmail-aiL" style=3D"overf=
+low:hidden;font-variant-numeric:normal;font-variant-east-asian:normal;font-=
+stretch:normal;font-size:small;line-height:1.5;font-family:Arial,Helvetica,=
+sans-serif"><div dir=3D"ltr"><div class=3D"gmail_default">I am running QEMU=
+ in TCG mode (my server doesn&#39;t have kvm support), and I am getting the=
+ memory traces in a x86 guest machine of all memory accesses, including the=
+ PCID (process-context identifier, and I need that for my current research)=
+, on a linux host. I have seen the TCG PCID feature flag is commented out i=
+n=C2=A0target/i386/cpu.c, and if I directly emulate a CPU which has PCID fl=
+ag I got the warning:=C2=A0<br><br></div><div class=3D"gmail_default"><span=
+ style=3D"color:rgb(51,51,51);font-family:monospace;font-size:12px">warning=
+: TCG doesn&#39;t support requested feature: CPUID.01H:ECX.pcid [bit 17]<br=
+></span><br>so I uncommented the CPUID_EXT_PCID in=C2=A0TCG_EXT_FEATURES, a=
+nd the=C2=A0CPUID_7_0_EBX_INVPCID in=C2=A0TCG_7_0_EBX_FEATURES, in=C2=A0 ta=
+rget/i386/cpu.c. I have seen the PCID in the cr3 register in cpu get set,=
+=C2=A0my question is that I am not sure if there will be any issues with th=
+is flag. Why is it commented out by default?</div><div class=3D"gmail_defau=
+lt"><br></div><div class=3D"gmail_default">Just in case, I will put my comm=
+ands here. Here are my configurations for compiling:</div><div class=3D"gma=
+il_default"><br><i>./configure --prefix=3D/tigress/kaifengx/sysroot/ --targ=
+et-list=3Dx86_64-softmmu,x86_64-linux-user --disable-kvm --disable-vnc --en=
+able-gtk --enable-plugins</i><br></div><div><br></div><div><div class=3D"gm=
+ail_default">And my command for running the QEMU:</div><div class=3D"gmail_=
+default"><br></div><div class=3D"gmail_default"><i>qemu-system-x86_64 \<br>=
+</i></div><i>=C2=A0 =C2=A0 -cpu qemu64,+pcid\<br>=C2=A0 =C2=A0 -m 4G \<br>=
+=C2=A0 =C2=A0 -icount shift=3D0 \<br>=C2=A0 =C2=A0 -drive if=3Dvirtio,file=
+=3D${DISK},cache=3Dnone \<br>=C2=A0 =C2=A0 -device pqii \<br>=C2=A0 =C2=A0 =
+-trace events=3D`pwd`/events \<br>=C2=A0 =C2=A0 -D ${LOG_FILE} \<br>=C2=A0 =
+=C2=A0 -net user,hostfwd=3Dtcp::10022-:22 \<br>=C2=A0 =C2=A0 -net nic \<br>=
+=C2=A0 =C2=A0 -display none \<br>=C2=A0 =C2=A0 -nographic \<br>=C2=A0 =C2=
+=A0 -plugin=C2=A0<span class=3D"gmail_default">QEMU_PATH</span>/tests/plugi=
+n/libtlb.so,arg=3Dinline,arg=3Dio</i></div><div><i><br></i></div><div>Best,=
+</div><div>Kaifeng</div></div></div></div></div></div></div>
+
+--0000000000007a651705ba9b0e28--
 
