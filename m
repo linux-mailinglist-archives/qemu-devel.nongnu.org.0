@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF48310726
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 09:54:57 +0100 (CET)
-Received: from localhost ([::1]:53768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2545331074D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 10:09:49 +0100 (CET)
+Received: from localhost ([::1]:36918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7wtE-0005SJ-Fg
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 03:54:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55590)
+	id 1l7x7b-0003HT-Pl
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 04:09:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l7wpI-0004k5-WB; Fri, 05 Feb 2021 03:50:53 -0500
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:41319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l7wpC-0003R0-8A; Fri, 05 Feb 2021 03:50:52 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 3BFACB61;
- Fri,  5 Feb 2021 03:50:40 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 05 Feb 2021 03:50:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=eCxRfEJCIav0kswVWxNgeu8SbC+
- dWMe/4emvIvwQxW0=; b=DhA4ye6fTZK3jcJzngQYZXblhx3TVjH81HNq6h2Kq0y
- M/mRgGATdJXkB4wEGK95tZxjZsjcirEOWUJaWoNGBpUvIQ/QZJNbdSyU3XKB47E1
- JfGVeOqguRTEeLyMRntguE7p14QJd4y3b0R0P6fZ+Ip2uyReQv4hHZCFNRpyVm3A
- RgV4zftSmNkGYJFFi5yMk1dZn5r3xxqsTRWZi8NBs+wC6E6OYnBLnjb9uz+Sc9Jm
- kOWBt+8vlVNgEGrjLU0pvij1Be6SyCXgLxPYpckCGdayqrDohdpVhREcY9zPXwnm
- j7fd9v/iTXGseskEEthL9CifRiu95oedtsy0XZcFEDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eCxRfE
- JCIav0kswVWxNgeu8SbC+dWMe/4emvIvwQxW0=; b=T8bGYgIGrM+nLiFW5DPXd4
- G7Zs6mOFtMJIapRm4s6FDu778etTK7nqK6mfWE7NmWl93beiQl7PViC31z3e8mRh
- MwSwgPfY7T5k4vGR5RMyAoTizXcnzSHmjVbcTXwAfgppYsGQRJ0dhVDHpt3Wjzca
- W8N0jQTP/utfoW60a4RxuL2GL9q6gzvqVWY0c/dHiVun0UlfUToznzgPYHVMSlGD
- YO9Wkhz4aQFNTR26OFlcuHAVP96HtfGXiXf6Rxx4GzRP5rK9jGo01JhIqFMOaxE1
- fSbmaXewOhuO8/GJJFxAhny1JFVvTi651/xJeplSzQAd5WxN04VC5W+cDb0y3EbQ
- ==
-X-ME-Sender: <xms:3gYdYJxYFY5n2GC4GgIyxp2UjgkJbFTnY5t9Q7lTFMG5gqrfkvegaQ>
- <xme:3gYdYNjXp0WHLNO_5HXe8gOQek5DuIzTQNt7t7Gaj125RwOgVnddFypnneKCaWM2W
- wVkxAqTTzUiS8UhyzI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrgeehgdduvdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:3gYdYOXjLYGnLTNYcAhE_Ui43DDRzZ4ba316zSbbo1G8JehLIc8-zw>
- <xmx:3gYdYP3PZPeCdC0mEEgTFre2SJ9evkB6vYcS3Mc01IqHopBJzJp76Q>
- <xmx:3gYdYEF8meSHx5ro4e13rIl68VrwZ99LSs1ZUJED9sYHYvwqx3OvpQ>
- <xmx:3wYdYA4HwUa76_kV5e6EcU-019RKRgISHxdGHDZxFfponSoecO32aw>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 47780240057;
- Fri,  5 Feb 2021 03:50:37 -0500 (EST)
-Date: Fri, 5 Feb 2021 09:50:34 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v5 0/5] hw/block/nvme: add simple copy command
-Message-ID: <YB0G2swUkY1XHJk/@apples.localdomain>
-References: <20210129091541.566330-1-its@irrelevant.dk>
- <20210203172709.GD2182779@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7x6V-0002q2-SN
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:08:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7x6R-00036Y-SM
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:08:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612516113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fKjIa7kVU0ABKsoqHVW+sSIhsgw0jJD0/qNaeVzBYvw=;
+ b=LZOEfJrn2Zfd8FtLE1XqtSnQ1qGPbyVv0pw9eBnJslYyCjllx3RiZrXMEIXVf+X7joDQdN
+ CnX+4NjXPXADfgdjIZPmRti4UdJRKllU4m4VJl1/HWXEibiksr+KBFCSFh/Lps6yP24w8C
+ qYyf7TjbFq9v0gXvXn9xIQX8KHTYF/M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-298-ISihq742ONeb7HeY9fMmSw-1; Fri, 05 Feb 2021 04:08:28 -0500
+X-MC-Unique: ISihq742ONeb7HeY9fMmSw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A77C118A08C0;
+ Fri,  5 Feb 2021 09:08:27 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-46.ams2.redhat.com [10.36.112.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBD891970A;
+ Fri,  5 Feb 2021 09:08:22 +0000 (UTC)
+Subject: Re: [PATCH v2] target/s390x/arch_dump: Fixes for the name field in
+ the PT_NOTE section
+From: Thomas Huth <thuth@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>
+References: <20210204164117.721110-1-thuth@redhat.com>
+ <8674a570-93f7-24dc-10b8-0c3577c0841f@de.ibm.com>
+ <1d54bafb-b995-0052-e9f9-2572e69dcc11@redhat.com>
+ <f72a20f1-581b-b262-4546-acf167198aa4@de.ibm.com>
+ <79f2abd2-fe71-006f-d9b4-a3781f292766@redhat.com>
+Message-ID: <54dd2e90-b8b0-b5a7-f527-0897576d7a8f@redhat.com>
+Date: Fri, 5 Feb 2021 10:08:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BaL/pJNAG9sfCpnU"
-Content-Disposition: inline
-In-Reply-To: <20210203172709.GD2182779@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <79f2abd2-fe71-006f-d9b4-a3781f292766@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,43 +86,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 05/02/2021 09.18, Thomas Huth wrote:
+> On 05/02/2021 08.08, Christian Borntraeger wrote:
+>>
+>>
+>> On 05.02.21 07:12, Thomas Huth wrote:
+>>> On 04/02/2021 18.00, Christian Borntraeger wrote:
+>>>> On 04.02.21 17:41, Thomas Huth wrote:
+>>>>> According to the "ELF-64 Object File Format" specification:
+>>>>>
+>>>>> "The first word in the entry, namesz, identifies the length, in
+>>>>>    bytes, of a name identifying the entry’s owner or originator. The 
+>>>>> name field
+>>>>>    contains a null-terminated string, with padding as necessary to 
+>>>>> ensure 8-
+>>>>>    byte alignment for the descriptor field. The length does not include 
+>>>>> the
+>>>>>    terminating null or the padding."
+>>>>>
+>>>>> So we should not include the terminating NUL in the length field here.
+>>>>>
+>>>>> Also there is a compiler warning with GCC 9.3 when compiling with
+>>>>> the -fsanitize=thread compiler flag:
+>>>>>
+>>>>>    In function 'strncpy',
+>>>>>       inlined from 's390x_write_elf64_notes' at 
+>>>>> ../target/s390x/arch_dump.c:219:9:
+>>>>>    /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
+>>>>>     '__builtin_strncpy' specified bound 8 equals destination size
+>>>>>     [-Werror=stringop-truncation]
+>>>>>
+>>>>> Since the name should always be NUL-terminated, let's use g_strlcpy() to
+>>>>> silence this warning. And while we're at it, also add an assert() to make
+>>>>> sure that the provided names always fit the size field (which is fine for
+>>>>> the current callers, the function is called once with "CORE" and once with
+>>>>> "LINUX" as a name).
+>>>>>
+>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>> ---
+>>>>>    v2: Use g_strlcpy instead of strncpy
+>>>>
+>>>>
+>>>> With this patch I do get
+>>>>
+>>>> WARNING: possibly corrupt Elf64_Nhdr: n_namesz: 0 n_descsz: 4 n_type: 88
+>>>>
+>>>> when running crash on the elf file created by dump-guest-memory. Without 
+>>>> the
+>>>> patch everything is fine.
+>>>
+>>> Drat! Looking at the crash sources:
+>>>
+>>>   https://github.com/crash-utility/crash/blob/master/s390x.c#L378
+>>>
+>>> ... it seems like crash is rather rounding up to the next 4 bytes 
+>>> boundary instead of the next 8 bytes boundary. Thus things go wrong now 
+>>> when QEMU writes writes the "CORE" notes section. In the old code we were 
+>>> using 4 + 1 as a lengths, so crash correctly rounded this up to 8. But 
+>>> now with 4 as a length, this does not work right anymore :-(
+>>>
+>>> Seems like I either misunderstood the "ELF-64 Object File Format" 
+>>> specification, or this is a bug in the crash utility (it should either 
+>>> add 1 to n_namesz for the trailing NUL or pad to 8 instead of 4)? Anyway, 
+>>> it's maybe better to keep the "+ 1" in QEMU for now to avoid breaking 
+>>> things, I guess?
+>>
+>> I guess kdump and friends are also doing the +1 otherwise we would see the 
+>> error with those ELF dumps.
+>> But yes, as long as crash does not work we must not apply this patch.
+> 
+> Looking at the other target/*/arch_dump.c files, it also seems like they 
+> include the NUL in the namesz field for their 64-bit flavours ... I've got 
+> the feeling that the "ELF-64 Object File Format" spec simply does not apply 
+> here, or I must have missed something else.
+After searching for a little bit longer, I guess this is the spec that 
+applies nowadays:
 
---BaL/pJNAG9sfCpnU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  http://www.sco.com/developers/gabi/latest/ch5.pheader.html#note_section
 
-On Feb  3 09:27, Keith Busch wrote:
-> Just had the one comment on patch 4, which is really no big deal. I need
-> to integrate tooling and/or kernel support in order to properly test
-> this, but just from code inspection, I think it's good.
->=20
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
->=20
+Citing:
 
-Applied, with the small fix to patch 4.
+  "The first namesz bytes in name contain a null-terminated character 
+representation of the entry's owner or originator."
 
---BaL/pJNAG9sfCpnU
-Content-Type: application/pgp-signature; name="signature.asc"
+So the NUL should be included in the namesz field, indeed.
 
------BEGIN PGP SIGNATURE-----
+  Thomas
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAdBtkACgkQTeGvMW1P
-DelHagf/cswVX7HaswpaJFLORu+4NWtKdGkMOdY/B67TbZBBrboX1ZSFjRmyr+YT
-D3eCsUt+Qn+D3EHBQrusd3I1o3NZTUaXjhsTPk41XEAlq4WONDp7O1UMZ81Lv2S7
-b9Z7SMwbo42P4WqhXlUaRlHxUwG0pLEQn7A3o7ByAgilBl6epUukwqXmi/rFQiAp
-AHsc8AylOO9O4kVQzeJ/K/L/fCPnG4uSNiIdB7LxADxIG5H2FcvgT14zchzinqX5
-KQp+AzH2FUKm0zmo61OwSRjpXhUkCOFEh/HKWlq2wh5URa11SB1VZkQXbQmJUyb+
-Zq+ZqXiLzWcevSXqd0otZHcPjqGFoQ==
-=CmZ+
------END PGP SIGNATURE-----
-
---BaL/pJNAG9sfCpnU--
 
