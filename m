@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02111310CBC
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:52:30 +0100 (CET)
-Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63B0310CD3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:00:58 +0100 (CET)
+Received: from localhost ([::1]:58756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l82TF-0003IC-2R
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:52:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43946)
+	id 1l82bR-0000jP-99
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:00:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l82Q0-0008EO-B8
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:49:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27081)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l82Pu-0004U1-3N
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:49:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612536538;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bKjgt7Izfm47YlfWZTYmDBl39DhYUIGnf1Mho0r/0po=;
- b=J0ezOtJcbMi5s5WxxuElYrsaNOi3Ieu19O59L1Ydpzu3EWgVuxNnlK39DF3QE4ue16HGS8
- Z7Gcs67Et5IwuqwrIEnZiNeaxT9cH1BD7ZdHEafRkR3iN25IXCqnFEl8CBW3SzXvD1xuft
- e/50+WMVUQ9LZMArlLJQH0tX7sQPADk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-mp9wQsZ_MQqj_7w2Xn8e9A-1; Fri, 05 Feb 2021 09:48:54 -0500
-X-MC-Unique: mp9wQsZ_MQqj_7w2Xn8e9A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 401B9107ACED;
- Fri,  5 Feb 2021 14:48:43 +0000 (UTC)
-Received: from [10.3.112.253] (ovpn-112-253.phx2.redhat.com [10.3.112.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D0B610016F4;
- Fri,  5 Feb 2021 14:48:42 +0000 (UTC)
-Subject: Re: [PATCH] iotests: 30: drop from auto group (and effectively from
- make check)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210205111021.715240-1-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <c3c5a481-08f7-ddee-492c-0b9e637a416a@redhat.com>
-Date: Fri, 5 Feb 2021 08:48:42 -0600
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l82ZL-0008FU-1T; Fri, 05 Feb 2021 09:58:47 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l82ZI-0000QS-W3; Fri, 05 Feb 2021 09:58:46 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id i8so12352548ejc.7;
+ Fri, 05 Feb 2021 06:58:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6x7jYRdLvIzMcciYOMf1Fxfpu+l/EBO99NN0NllskSs=;
+ b=ZDZHGf/C9gO0Q/JcvDONMFRVduO9QvsdPrWxzKTZIpq8f9+u1uYDgqPoy+PaG7TQ3O
+ 9jr3HdKWS9D5EOGzUpsAi+yqvn70LHUiNimirlhyouAwVK372saB0afhcgdQxRLaywYH
+ 1K0h8yAwmHKV0x9xNXm/LGqFU9ZjBnkkHnEbYa/N4YjpxRJXLZ1aAqgiHHOB364PUs0V
+ rmEEMrwLq6h87j+FXIzOktuAffgfL9ncOWX+ScU1RbwDmUV86BpZswX0ONZsLowT6a5I
+ 2aJoCoRPYOj4VW2cISyoK1Y7PuiQU4RDEPH+AqbQWJFhtoSuezR4NGC/ELwO0HDDDE7d
+ 1c8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6x7jYRdLvIzMcciYOMf1Fxfpu+l/EBO99NN0NllskSs=;
+ b=XVoeuUm/YohTJBT5aGBHOdEWRHux/Bf6fBJ/phExvLCxOobsglENfUHoYTnzwtjn0Z
+ 9c6svv2dOHRwJPIoJrT0AZRcb5wQo+T+dYqJvpmE4HcIwDY3ATLB4rTKlAKbs84LiX1v
+ R4Q2ULnplKOyXhIaWael4mPXe8xEoPjUu2vP5K/YXIAgekC9fOjIG/7a5r0Fjjrdwzyi
+ Kk42yzAuCW4A8JXbv/iMO2HmLjIAS1s4bpcW+nrrFHVzwy1LFQR41P9I0rttdcNaXwOw
+ RRm5zm8xAYSSXRnJLG+xPtE5t0XX9+qXycgatd02Og2WYG2qc4m+dN0N3//tSmR89BdC
+ WmUQ==
+X-Gm-Message-State: AOAM530W9JZDvX08Mr3CKcBi0LI9zZxBMeEvLLsfrsNj+tbBN13M7IJ8
+ YLg7/oZLjQDKJh+FJXsRONk=
+X-Google-Smtp-Source: ABdhPJwyIoTyB0qds7KKVUhH5+r2fNt0fdo6Splp9xeipsENwRAG3A64TF3L41E8EwMOhYRKUfG/wA==
+X-Received: by 2002:a17:906:ada:: with SMTP id
+ z26mr4371286ejf.218.1612537121928; 
+ Fri, 05 Feb 2021 06:58:41 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id z22sm4042644edb.88.2021.02.05.06.58.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Feb 2021 06:58:41 -0800 (PST)
+Subject: Re: [PATCH 5/9] hw/arm/virt: Improve CPU name in help message
+To: qemu-devel@nongnu.org
+References: <20210205144345.2068758-1-f4bug@amsat.org>
+ <20210205144345.2068758-6-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <281cac4e-fda8-ebfb-2f3a-39050d2cf109@amsat.org>
+Date: Fri, 5 Feb 2021 15:58:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210205111021.715240-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210205144345.2068758-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.33,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,78 +88,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, cfontana@suse.de, philmd@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Andrew Jones <drjones@redhat.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/21 5:10 AM, Vladimir Sementsov-Ogievskiy wrote:
-> I reproduced the following crash fast enough:
+On 2/5/21 3:43 PM, Philippe Mathieu-Daudé wrote:
+> When selecting an incorrect CPU, there is a mismatch between the
+> CPU name provided and the one displayed (which is some QEMU internal
+> name):
 > 
-> 0  raise () at /lib64/libc.so.6
-> 1  abort () at /lib64/libc.so.6
-> 2  _nl_load_domain.cold () at /lib64/libc.so.6
-> 3  annobin_assert.c_end () at /lib64/libc.so.6
-> 4  bdrv_reopen_multiple (bs_queue=0x55de75fa9b70, errp=0x0)
->    at ../block.c:3820
-> 5  bdrv_reopen_set_read_only (bs=0x55de760fc020, read_only=true,
->    errp=0x0) at ../block.c:3870
-> 6  stream_clean (job=0x55de75fa9410) at ../block/stream.c:99
+>   $ qemu-system-aarch64 -M virt -cpu cortex-a8
+>   qemu-system-aarch64: mach-virt: CPU type cortex-a8-arm-cpu not supported
+> 
+> Strip the suffix to display the correct CPU name:
+> 
+>   $ qemu-system-aarch64 -M virt -cpu cortex-a8
+>   qemu-system-aarch64: mach-virt: CPU type cortex-a8-arm
 
-> Then I had 38 successful iterations and another crash:
-> 0  bdrv_check_update_perm (bs=0x5631ac97bc50, q=0x0, new_used_perm=1,
->    new_shared_perm=31, ignore_children=0x0, errp=0x7ffd9d477cf8) at
->    ../block.c:2197
-> 1  bdrv_root_attach_child
->     (child_bs=0x5631ac97bc50, child_name=0x5631aaf6b1f9 "backing",
->     child_class=0x5631ab280ca0 <child_of_bds>, child_role=8,
->     ctx=0x5631ab757300, perm=1, shared_perm=31, opaque=0x5631abb8c020,
->     errp=0x7ffd9d477cf8)
->     at ../block.c:2642
-> 2  bdrv_attach_child (parent_bs=0x5631abb8c020,
->    child_bs=0x5631ac97bc50, child_name=0x5631aaf6b1f9 "backing",
->    child_class=0x5631ab280ca0 <child_of_bds>, child_role=8,
->    errp=0x7ffd9d477cf8)
->     at ../block.c:2719
-> 3  bdrv_set_backing_hd (bs=0x5631abb8c020, backing_hd=0x5631ac97bc50,
->    errp=0x7ffd9d477cf8) at ../block.c:2854
-> 4  stream_prepare (job=0x5631ac751eb0) at ../block/stream.c:74
+Grrr wrong paste. Should be:
 
-So we definitely have a race that can show a wide variety of knock-on
-effects.
-
+  qemu-system-aarch64: mach-virt: CPU type cortex-a8 not supported
 
 > 
-> and trying to reproduce it on top of
-> "block: update graph permissions update" I had 634 successful
-> iterations
-> and then the following crash (which looks much better):
-
-This part of the commit message is odd - if we check it in to git as
-written, you're pointing to a future commit, while still stating that it
-is not a perfect commit.  But maybe by the time that commit gets in
-we'll have figured out this last crash and corrected it as well.
-Sticking to just the first two logs is fine by me.
-
-
-> 
-> So it seems reasonable to drop test from auto group at least until we
-> merge "block: update graph permissions update"
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
+>  hw/arm/virt.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> Note: be free to shorten commit message if needed :)
-
-Indeed.  But as to the patch itself, I agree, and may Peter wants to
-apply it directly to master instead of waiting for it to come through on
-of the block maintainers?
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 399da734548..7802d3a66e8 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1829,7 +1829,10 @@ static void machvirt_init(MachineState *machine)
+>      finalize_gic_version(vms);
+>  
+>      if (!cpu_type_valid(machine->cpu_type)) {
+> -        error_report("mach-virt: CPU type %s not supported", machine->cpu_type);
+> +        int len = strlen(machine->cpu_type) - strlen(ARM_CPU_TYPE_SUFFIX);
+> +
+> +        error_report("mach-virt: CPU type %.*s not supported",
+> +                     len, machine->cpu_type);
+>          exit(1);
+>      }
+>  
+> 
 
