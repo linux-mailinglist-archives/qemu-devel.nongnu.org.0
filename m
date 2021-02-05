@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F95D310CE9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:06:42 +0100 (CET)
-Received: from localhost ([::1]:40832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C363310CFF
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 16:11:44 +0100 (CET)
+Received: from localhost ([::1]:52868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l82gz-0005YO-Ax
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:06:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47778)
+	id 1l82lr-0002GT-Kp
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 10:11:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l82eC-0003db-7b
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:03:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29867)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l82eG-0003gr-PB
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:03:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l82e9-0002tC-Id
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:03:47 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l82eE-0002wF-74
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 10:03:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612537424;
+ s=mimecast20190719; t=1612537429;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=b12CtRnbl7Nqs3gJjcv4tUQW0ofPPzvIUK5DBHZsRyc=;
- b=Luwo2wU6YugSEDu5VUVxLRJES38giuSlP9T9797WGQITS+RviPjY2cQnEOjSr7Orbk8o8r
- f7759M+OtnoDFiOSghxUAKEe3y7v+9OBLs4UOcsQyQVAXaUTDXUkPzKOzBIyMI41r4uvl4
- fr5BAnBQnp2p5WOWJuFb9poqgqBC7qk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-PNkEbhexNBiIlQmrRXdLuQ-1; Fri, 05 Feb 2021 10:03:42 -0500
-X-MC-Unique: PNkEbhexNBiIlQmrRXdLuQ-1
-Received: by mail-ed1-f69.google.com with SMTP id bd22so7090684edb.4
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 07:03:42 -0800 (PST)
+ bh=0YVwlnyhma8tw3aikrEQmkUKeFTYcxGuyLeIpvMJSOU=;
+ b=EqNeaZ+b4qXcXkWmkZjqNT2vAdoGgpXHEnWgmosv5FpwjII95zI/b31M2taVuY5nD5Xrma
+ CFDQI1rZywluuKEaPOiqLe+8pCYfS3gm3NPeWqkDkitH0y06WlFx2+qmzqIChF9VdCJosx
+ LrRgiHK9fD5aFfGicqea/E6mjjx8Htk=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-jEhGuVdHMtGuKn6avrIWHA-1; Fri, 05 Feb 2021 10:03:45 -0500
+X-MC-Unique: jEhGuVdHMtGuKn6avrIWHA-1
+Received: by mail-ej1-f72.google.com with SMTP id yh28so6907615ejb.11
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 07:03:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=b12CtRnbl7Nqs3gJjcv4tUQW0ofPPzvIUK5DBHZsRyc=;
- b=tK90aGtHMYJTHHLprGvOSStAsCXZEuVNgbH3E/fwsUzTYzbL74QtpuiHGJcFzk3sdh
- lX4NubWS18MtOvYMOFskjW5VT1tbBMNLOkEDsBPAbVguZJbHa5r1NITSo74nqZqWdlSQ
- 5XefvPgA88kdyElHU1qxcOA3D59nv14GzhJmNw21qyaiyRD64UueGD/7sgRYYbLxQbra
- pht63v6ZyTJtwi4eJ+jeyBNQAed8R8N0Kb8yIxHY1eTReKXcS+o4MmjZ4V2pgV4xB5AT
- yFw7L0lOraCSpH9Qw1NWYD7KkVEjhn0MunqzmMwJvhUosUAccZ/xeA6RYQH9PfYhphNV
- n0zQ==
-X-Gm-Message-State: AOAM531qej4yHh6fEjapt8qhH+S6Fux4obMhNGpIviBSXyPj+k65Uzqe
- 0iiB92hV8FeCiAWCjz3CQtQSr9NZqKoK7vxG/T/9kLjz7pZHa0lxKjFgiEKTlyqMMH+AU3bhlf0
- 51YCXuqAm/pMGqe9cyUOuKIch5Vne6bO0H9/9UDmHDPSJQgHhSYdjop6oqeFD
-X-Received: by 2002:a50:9310:: with SMTP id m16mr3955883eda.94.1612537421179; 
- Fri, 05 Feb 2021 07:03:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwnY4WJainvY5Z3F+kZcKRpf2oQgQrkf+/fKQ61K9AHz9lX53ouYWk+PtCIqmKkVI+ykjElzg==
-X-Received: by 2002:a50:9310:: with SMTP id m16mr3955840eda.94.1612537420784; 
- Fri, 05 Feb 2021 07:03:40 -0800 (PST)
+ bh=0YVwlnyhma8tw3aikrEQmkUKeFTYcxGuyLeIpvMJSOU=;
+ b=ZOk5hsgASvvVNbGsILZgFvRFwKEfUsUZ6J6zPvI+jU9+j2g6YwfizytuxoJc8rBwj7
+ CNVP1d6nS7cWfslxgahaFcfgwhI7+p3fU3P03QcxaeohhsFhKYu32+qeFCknfmMXTbMf
+ z8kKiWMB9GlY+QC5wOYgzWbLY7diQ3LW3S78JTI/hhyD6tXqEhqZ7EKZGCftXHSb/6Yj
+ AZLzVeqP1TAmHs8YOqbwHsAllzmolJjjh1WfPy94zAx0zhrYHEy/NFG3MlKihJQagE03
+ 1jjwhXPbI7t33K3fJUhmVRWjnw0a5MIh2pjDIzByx66j9m6TIvZfq7BHlQFJdGYIVCPJ
+ xBXQ==
+X-Gm-Message-State: AOAM532JF5c6kQh9ine3ZZ2sGWwJch+Eusk3NZ50NzoK7DpIDHlYKF57
+ czD+DduDfMrS1thB+8re24/tPCvMlM/M6S2ac9iXYe7YUuzRKFWPaoSRfrKGffhJW8yeEvydCoY
+ 46PDdcFQBjYzFKPhh1hr7PxTkVEKley+wmdHC451oSRF9JvDUEYdHe2Mw+mqN
+X-Received: by 2002:a50:bf4a:: with SMTP id g10mr3759973edk.201.1612537423776; 
+ Fri, 05 Feb 2021 07:03:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzBBrxNGYfwiVbSab/8GAANM2FFTaEMhekLRBWouXRJNuNvq5AjR2EVFCMWymsGI+Ho1W4LzA==
+X-Received: by 2002:a50:bf4a:: with SMTP id g10mr3759944edk.201.1612537423494; 
+ Fri, 05 Feb 2021 07:03:43 -0800 (PST)
 Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id v20sm4115787edt.3.2021.02.05.07.03.39
+ by smtp.gmail.com with ESMTPSA id l12sm2068012edn.83.2021.02.05.07.03.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 07:03:40 -0800 (PST)
-Date: Fri, 5 Feb 2021 10:03:38 -0500
+ Fri, 05 Feb 2021 07:03:42 -0800 (PST)
+Date: Fri, 5 Feb 2021 10:03:41 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 03/16] virtio: move 'use-disabled-flag' property to
- hw_compat_4_2
-Message-ID: <20210205150135.94643-4-mst@redhat.com>
+Subject: [PULL v2 04/16] virtio-mmio: fix guest kernel crash with SHM regions
+Message-ID: <20210205150135.94643-5-mst@redhat.com>
 References: <20210205150135.94643-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210205150135.94643-1-mst@redhat.com>
@@ -72,14 +71,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,70 +93,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
- mdroth@linux.vnet.ibm.com, Jing Zhao <jinzhao@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
 
-Commit 9d7bd0826f introduced a new 'use-disabled-flag' property
-set to true by default.
-To allow the migration, we set this property to false in the hw_compat,
-but in the wrong place (hw_compat_4_1).
+In the kernel, virtio_gpu_init() uses virtio_get_shm_region()
+since
+commit 6076a9711dc5 ("drm/virtio: implement blob resources: probe for host visible region")
+but vm_get_shm_region() unconditionally uses VIRTIO_MMIO_SHM_SEL to
+get the address and the length of the region.
 
-Since commit 9d7bd0826f was released with QEMU 5.0, we move
-'use-disabled-flag' property to hw_compat_4_2, so 4.2 machine types
-will have the pre-patch behavior and the migration can work.
+commit 38e895487afc ("virtio: Implement get_shm_region for MMIO transport"
 
-The issue was discovered with vhost-vsock device and 4.2 machine
-type without running any kernel in the VM:
-    $ qemu-4.2 -M pc-q35-4.2,accel=kvm \
-        -device vhost-vsock-pci,guest-cid=4 \
-        -monitor stdio -incoming tcp:0:3333
+As this is not implemented in QEMU, address and length are 0 and passed
+as is to devm_request_mem_region() that triggers a crash:
 
-    $ qemu-5.2 -M pc-q35-4.2,accel=kvm \
-        -device vhost-vsock-pci,guest-cid=3 \
-        -monitor stdio
-    (qemu) migrate -d tcp:0:3333
+  [drm:virtio_gpu_init] *ERROR* Could not reserve host visible region
+  Unable to handle kernel NULL pointer dereference at virtual address (ptrval)
 
-    # qemu-4.2 output
-    qemu-system-x86_64: Failed to load virtio-vhost_vsock:virtio
-    qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:03.0/virtio-vhost_vsock'
-    qemu-system-x86_64: load of migration failed: No such file or directory
+According to the comments in the kernel, a non existent shared region
+has a length of (u64)-1.
 
-Reported-by: Jing Zhao <jinzhao@redhat.com>
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1907255
-Fixes: 9d7bd0826f ("virtio-pci: disable vring processing when bus-mastering is disabled")
-Cc: mdroth@linux.vnet.ibm.com
-CC: qemu-stable@nongnu.org
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20210108171252.209502-1-sgarzare@redhat.com>
+This is what we return now with this patch to disable the region.
+
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20201220163539.2255963-1-laurent@vivier.eu>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/core/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/virtio/virtio-mmio.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index de3b8f1b31..5d6163ab70 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -70,12 +70,12 @@ GlobalProperty hw_compat_4_2[] = {
-     { "qxl", "revision", "4" },
-     { "qxl-vga", "revision", "4" },
-     { "fw_cfg", "acpi-mr-restore", "false" },
-+    { "virtio-device", "use-disabled-flag", "false" },
- };
- const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
- 
- GlobalProperty hw_compat_4_1[] = {
-     { "virtio-pci", "x-pcie-flr-init", "off" },
--    { "virtio-device", "use-disabled-flag", "false" },
- };
- const size_t hw_compat_4_1_len = G_N_ELEMENTS(hw_compat_4_1);
- 
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index e1b5c3b81e..610661d6a5 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -191,6 +191,14 @@ static uint64_t virtio_mmio_read(void *opaque, hwaddr offset, unsigned size)
+             return 0;
+         }
+         return vdev->generation;
++   case VIRTIO_MMIO_SHM_LEN_LOW:
++   case VIRTIO_MMIO_SHM_LEN_HIGH:
++        /*
++         * VIRTIO_MMIO_SHM_SEL is unimplemented
++         * according to the linux driver, if region length is -1
++         * the shared memory doesn't exist
++         */
++        return -1;
+     case VIRTIO_MMIO_DEVICE_FEATURES_SEL:
+     case VIRTIO_MMIO_DRIVER_FEATURES:
+     case VIRTIO_MMIO_DRIVER_FEATURES_SEL:
 -- 
 MST
 
