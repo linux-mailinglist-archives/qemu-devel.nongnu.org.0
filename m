@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFF4310C6A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:03:42 +0100 (CET)
-Received: from localhost ([::1]:60556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23642310C71
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:05:01 +0100 (CET)
+Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l81i1-0003nk-Vk
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:03:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32848)
+	id 1l81jI-00062A-24
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:05:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l81f8-0001yz-Bu
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:00:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34569)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l81hW-0004XF-DR
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:03:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l81f3-0008H2-G0
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:00:41 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l81hU-0000vt-Kz
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:03:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612533634;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1612533787;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SXifmunM6AO/NnYy9JaS0UxZRhg6wsJRNbRfd1+3iOA=;
- b=KwGPf5hvVs2WnFsf/9t97L9qDb146FITN+WtIdAKn3ZYrK1yx6V41pEXO3u5CZ6Tl6vIPj
- ord0Q5wQdyx0aTMu4CPXpn1CIPrJkZEMrIe1Dk1R4t1VY9RV4ZXx+7HjYHFbiGMdd0cZ/D
- EM0t/A9b7mRK+7H7kjdITFAxvfiIrEU=
+ bh=9gBmu76JpMnz87az7vDT9d7n1qZVxVk09DGLxhrK6L4=;
+ b=aKxWjrO0g0r68d4Kt5qDeauW0APxpddJv7esIVa6F1z38k7mU/7yhwRRBejkPSvY2yiAAg
+ BNTM83Eja15VpMcky1CVU+PcUMtl7/EBLBxiEUY5Cj+fJZtMbNyzAQiDRe57QKFyZkI8eL
+ 1Iv8A8XzgFundS+mSamSiXCo0B7jcMA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-jx4UsYiCPT2VQwiw2RQWCw-1; Fri, 05 Feb 2021 09:00:32 -0500
-X-MC-Unique: jx4UsYiCPT2VQwiw2RQWCw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-487-vg2tupm6MFeqNMzEP9-MuQ-1; Fri, 05 Feb 2021 09:03:01 -0500
+X-MC-Unique: vg2tupm6MFeqNMzEP9-MuQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C200107ACC7;
- Fri,  5 Feb 2021 14:00:31 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D951060C43;
- Fri,  5 Feb 2021 14:00:29 +0000 (UTC)
-Date: Fri, 5 Feb 2021 15:00:28 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 28/36] block: add bdrv_set_backing_noperm()
- transaction action
-Message-ID: <20210205140028.GC7072@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-29-vsementsov@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6EBE814303;
+ Fri,  5 Feb 2021 14:03:00 +0000 (UTC)
+Received: from redhat.com (ovpn-114-212.ams2.redhat.com [10.36.114.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD84A5D9CC;
+ Fri,  5 Feb 2021 14:02:58 +0000 (UTC)
+Date: Fri, 5 Feb 2021 14:02:55 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 2/3] utils: Deprecate hex-with-suffix sizes
+Message-ID: <20210205140255.GN908621@redhat.com>
+References: <20210204190708.1306296-1-eblake@redhat.com>
+ <20210204190708.1306296-3-eblake@redhat.com>
+ <20210205111302.GF908621@redhat.com>
+ <f08f11a9-f76c-4473-a770-9939f28c7373@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201127144522.29991-29-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <f08f11a9-f76c-4473-a770-9939f28c7373@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -64,7 +71,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,170 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, rjones@redhat.com,
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>, tao3.xu@intel.com,
+ armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Split out no-perm part of bdrv_set_backing_hd() as a separate
-> transaction action. Note the in case of existing BdrvChild we reuse it,
-> not recreate, just to do less actions.
+On Fri, Feb 05, 2021 at 07:40:36AM -0600, Eric Blake wrote:
+> On 2/5/21 5:13 AM, Daniel P. Berrangé wrote:
+> > On Thu, Feb 04, 2021 at 01:07:07PM -0600, Eric Blake wrote:
+> >> Supporting '0x20M' looks odd, particularly since we have an 'E' suffix
+> >> that is ambiguous between a hex digit and the extremely large exibyte
+> >> suffix, as well as a 'B' suffix for bytes.  In practice, people using
+> >> hex inputs are specifying values in bytes (and would have written
+> >> 0x2000000, or possibly relied on default_suffix in the case of
+> >> qemu_strtosz_MiB), and the use of scaling suffixes makes the most
+> >> sense for inputs in decimal (where the user would write 32M).  But
+> >> rather than outright dropping support for hex-with-suffix, let's
+> >> follow our deprecation policy.  Sadly, since qemu_strtosz() does not
+> >> have an Err** parameter, we pollute to stderr.
+> > 
+> > Err** is only appropriate for errors, not warnings, so this statement
+> > can be removed.
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block.c | 111 +++++++++++++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 89 insertions(+), 22 deletions(-)
+> The point of the comment was that we have no other mechanism for
+> reporting the deprecation other than polluting to stderr.  And if we
+> ever remove the support, we'll either have to silently reject input that
+> we used to accept, or plumb through Err** handling to allow better
+> reporting of WHY we are rejecting input.  But I didn't feel like adding
+> Err** support now.
+
+Yeah, I guess what I meant was that warning on stderr is the expected
+standard practice for deprecations. We only need to worry about other
+thing once the deprecation turns into a hard error later.
+
 > 
-> diff --git a/block.c b/block.c
-> index 54fb6d24bd..617cba9547 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -101,6 +101,7 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
->                                      uint64_t perm, uint64_t shared_perm,
->                                      void *opaque, BdrvChild **child,
->                                      GSList **tran, Error **errp);
-> +static void bdrv_remove_backing(BlockDriverState *bs, GSList **tran);
->  
->  static int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue
->                                 *queue, Error **errp);
-> @@ -3194,45 +3195,111 @@ static BdrvChildRole bdrv_backing_role(BlockDriverState *bs)
->      }
->  }
->  
-> +typedef struct BdrvSetBackingNoPermState {
-> +    BlockDriverState *bs;
-> +    BlockDriverState *backing_bs;
-> +    BlockDriverState *old_inherits_from;
-> +    GSList *attach_tran;
-> +} BdrvSetBackingNoPermState;
+> >> @@ -309,6 +309,10 @@ static int do_strtosz(const char *nptr, const char **end,
+> >>      c = *endptr;
+> >>      mul = suffix_mul(c, unit);
+> >>      if (mul > 0) {
+> >> +        if (hex) {
+> >> +            fprintf(stderr, "Using a multiplier suffix on hex numbers "
+> >> +                    "is deprecated: %s\n", nptr);
+> > 
+> > warn_report(), since IIUC, that'll get into HMP response correctly.
+> 
+> Yes, that sounds better.  I'll use that in v2, as well as tweaking the
+> commit message.
+> 
+> > 
+> >> +        }
+> >>          endptr++;
+> >>      } else {
+> >>          mul = suffix_mul(default_suffix, unit);
+> > 
+> > Regards,
+> > Daniel
+> > 
+> 
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
 
-Why do we need the nested attach_tran instead of just including these
-actions in the outer transaction?
-
-> +static void bdrv_set_backing_noperm_abort(void *opaque)
-> +{
-> +    BdrvSetBackingNoPermState *s = opaque;
-> +
-> +    if (s->backing_bs) {
-> +        s->backing_bs->inherits_from = s->old_inherits_from;
-> +    }
-> +
-> +    tran_abort(s->attach_tran);
-> +
-> +    bdrv_refresh_limits(s->bs, NULL);
-> +    if (s->old_inherits_from) {
-> +        bdrv_refresh_limits(s->old_inherits_from, NULL);
-> +    }
-
-How is bs->inherits_from related to limits? I don't see a
-bdrv_refresh_limits() call in bdrv_set_backing_noperm() that this would
-undo.
-
-> +}
-> +
-> +static void bdrv_set_backing_noperm_commit(void *opaque)
-> +{
-> +    BdrvSetBackingNoPermState *s = opaque;
-> +
-> +    tran_commit(s->attach_tran);
-> +}
-> +
-> +static TransactionActionDrv bdrv_set_backing_noperm_drv = {
-> +    .abort = bdrv_set_backing_noperm_abort,
-> +    .commit = bdrv_set_backing_noperm_commit,
-> +    .clean = g_free,
-> +};
-> +
->  /*
->   * Sets the bs->backing link of a BDS. A new reference is created; callers
->   * which don't need their own reference any more must call bdrv_unref().
->   */
-> -void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-> -                         Error **errp)
-> +static int bdrv_set_backing_noperm(BlockDriverState *bs,
-> +                                   BlockDriverState *backing_bs,
-> +                                   GSList **tran, Error **errp)
->  {
-> -    bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
-> -        bdrv_inherits_from_recursive(backing_hd, bs);
-> +    int ret = 0;
-> +    bool update_inherits_from = bdrv_chain_contains(bs, backing_bs) &&
-> +        bdrv_inherits_from_recursive(backing_bs, bs);
-> +    GSList *attach_tran = NULL;
-> +    BdrvSetBackingNoPermState *s;
->  
->      if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
-> -        return;
-> +        return -EPERM;
->      }
->  
-> -    if (backing_hd) {
-> -        bdrv_ref(backing_hd);
-> +    if (bs->backing && backing_bs) {
-> +        bdrv_replace_child_safe(bs->backing, backing_bs, tran);
-> +    } else if (bs->backing && !backing_bs) {
-> +        bdrv_remove_backing(bs, tran);
-> +    } else if (backing_bs) {
-> +        assert(!bs->backing);
-> +        ret = bdrv_attach_child_noperm(bs, backing_bs, "backing",
-> +                                       &child_of_bds, bdrv_backing_role(bs),
-> +                                       &bs->backing, &attach_tran, errp);
-> +        if (ret < 0) {
-> +            tran_abort(attach_tran);
-
-This looks wrong to me, we'll call tran_abort() a second time through
-bdrv_set_backing_noperm_abort() when the outer transaction aborts.
-
-I also notice that the other two if branches do just add things to the
-outer 'tran', it's just this branch that gets a nested one.
-
-> +            return ret;
-> +        }
->      }
->  
-> -    if (bs->backing) {
-> -        /* Cannot be frozen, we checked that above */
-> -        bdrv_unref_child(bs, bs->backing);
-> -        bs->backing = NULL;
-> -    }
-> +    s = g_new(BdrvSetBackingNoPermState, 1);
-> +    *s = (BdrvSetBackingNoPermState) {
-> +        .bs = bs,
-> +        .backing_bs = backing_bs,
-> +        .old_inherits_from = backing_bs ? backing_bs->inherits_from : NULL,
-> +    };
-> +    tran_prepend(tran, &bdrv_set_backing_noperm_drv, s);
->  
-> -    if (!backing_hd) {
-> -        goto out;
-> +    /*
-> +     * If backing_bs was already part of bs's backing chain, and
-> +     * inherits_from pointed recursively to bs then let's update it to
-> +     * point directly to bs (else it will become NULL).
-
-Setting it to NULL was previously done by bdrv_unref_child().
-
-bdrv_replace_child_safe() and bdrv_remove_backing() don't seem to do
-this any more.
-
-> +     */
-> +    if (backing_bs && update_inherits_from) {
-> +        backing_bs->inherits_from = bs;
->      }
->  
-> -    bs->backing = bdrv_attach_child(bs, backing_hd, "backing", &child_of_bds,
-> -                                    bdrv_backing_role(bs), errp);
-> -    /* If backing_hd was already part of bs's backing chain, and
-> -     * inherits_from pointed recursively to bs then let's update it to
-> -     * point directly to bs (else it will become NULL). */
-> -    if (bs->backing && update_inherits_from) {
-> -        backing_hd->inherits_from = bs;
-> +    bdrv_refresh_limits(bs, NULL);
-> +
-> +    return 0;
-> +}
-
-Kevin
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
