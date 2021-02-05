@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A465311219
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 21:17:33 +0100 (CET)
-Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20715311225
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 21:19:14 +0100 (CET)
+Received: from localhost ([::1]:56088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l87Xo-0007p1-C2
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 15:17:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59278)
+	id 1l87ZR-0000Zx-6d
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 15:19:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l87WG-0006sO-9U
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 15:15:56 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:51385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l87W8-0004Dr-Sf
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 15:15:55 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id fa16so3813619pjb.1
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 12:15:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Gpk004GJ+WR0mdgWcaU3G8WKvEs41j4kXDn0esGMPZQ=;
- b=AfTeE5BThdt4bXGA59UR1seoLgho+ZuTtlrkvJjkceiFp548D8falMdgKtyTjpi1pb
- pfcdh8iSgv04g9dgMntLOOdaoWXEdf6KbE892dCN3aI4Rtrm8ric9nJcs/NpKDNaMz+f
- AQfEMsMP/eYLNOYUbLG6HBvI/K62Mvbe4W1GhCkw+Z3ES+xVeo+xsGCuKHMdH2tYofQw
- FQQgLo+tWriLwWUSzqHR0Y+F/dPYRVEhLQNWX9zkJpnFtxNXmUO0IBu5LyWV11c2Utup
- WA1eURad213qWHWM/Bg1vqog5IR1cRNOiuMQeRTvE0SrUNWz4WW5/ujzEktAZmlSyVdy
- jg7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Gpk004GJ+WR0mdgWcaU3G8WKvEs41j4kXDn0esGMPZQ=;
- b=lRMrwRTD62JzOZBmGM89Z5Y7ATw6DzPw8k8EEfUiQ3MkqljpjXbvUmYCKBW8Kim6g7
- ksoxNXtUVlJjF0ot87Jf3QEoSZd5Fy82Cr/cn6ScE7ewm6HatA9ELG5PI6+w8zDjLpor
- N3gF5DxXIFAg9kjc1GFDNKWlanqU+z8qxcpvF7Vwu9A68Hzs6ThB0gpihgoMwxq8vSej
- jmU7urG6W1Z8ck6okuYBUoJKlArWZMoA1oDFo2z4pRnmQJ+Cxn4JnyodoBExEmS8QmXM
- cEQ9JjWWx0HjDra7bivmLQfOGTdEymNMcIJHJ5BtWvHwOUm0XO33RbmfWFFHuSPH7wxv
- Z//Q==
-X-Gm-Message-State: AOAM53195+yaPlvysj5hO0uC2r5mwJyvw8IrPCELsBl5aapY1rpd5rFV
- PIXg6m2LLVXIDtX24c+LRlwYTNPjIkKlS4DB
-X-Google-Smtp-Source: ABdhPJz1GtxJuYMceG2By+STkWbr53yA3f+8X5MBzY4/48xiOlmodOogkMojAHA0xubc9GOQ/CJXCA==
-X-Received: by 2002:a17:90b:4c10:: with SMTP id
- na16mr5620745pjb.49.1612556147500; 
- Fri, 05 Feb 2021 12:15:47 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
- [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id f7sm9145746pjh.45.2021.02.05.12.15.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Feb 2021 12:15:46 -0800 (PST)
-Subject: Re: [PATCH v16 22/23] target/i386: fix host_cpu_adjust_phys_bits
- error handling
-To: Claudio Fontana <cfontana@suse.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210204163931.7358-1-cfontana@suse.de>
- <20210204163931.7358-23-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <aa60b5a9-b072-a967-879f-6cd2b3f457c1@linaro.org>
-Date: Fri, 5 Feb 2021 10:15:42 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l87We-0007AC-Df
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 15:16:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45198)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l87WZ-0004Se-DG
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 15:16:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612556173;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7AMrM2hJ+NDLTIpzLTrutVBYP/hlwEHX781dh2w/2wI=;
+ b=EShpVbo/QetASxGgi9pkJ4hVTPyS1qtF8RDdARqSikbzci+n6Za3C4+4ER/sjbm7yvFUGQ
+ L25Ptkv4ZJ+EXMFJHE3N1Ga/yspIy6kHaTXRWOI6KXrdtTdgbS6qBCGe10dehUZk+WObxk
+ yUj7hxNHmUoNVaZzQMGwC9yEZfPAmm0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-IN8y3YTXPe2HbjVcOL83sg-1; Fri, 05 Feb 2021 15:16:11 -0500
+X-MC-Unique: IN8y3YTXPe2HbjVcOL83sg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EA851005501;
+ Fri,  5 Feb 2021 20:16:10 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89EEA19727;
+ Fri,  5 Feb 2021 20:15:56 +0000 (UTC)
+Subject: Re: [PATCH 2/4] hw/block/fdc: Remove the check_media_rate property
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210203171832.483176-1-thuth@redhat.com>
+ <20210203171832.483176-3-thuth@redhat.com>
+ <125f27d8-8987-99f7-321e-86e7365d5a07@redhat.com>
+ <fb4a2611-49f0-1292-a3c2-478666dfa65c@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <96906059-731d-1e48-5b60-98ed4df9c037@redhat.com>
+Date: Fri, 5 Feb 2021 15:15:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210204163931.7358-23-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <fb4a2611-49f0-1292-a3c2-478666dfa65c@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.33,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,25 +84,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, libvir-list@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 6:39 AM, Claudio Fontana wrote:
-> move the check for phys_bits outside of host_cpu_adjust_phys_bits,
-> because otherwise it is impossible to return an error condition
-> explicitly.
+On 2/5/21 1:37 AM, Thomas Huth wrote:
+> On 05/02/2021 01.40, John Snow wrote:
+>> On 2/3/21 12:18 PM, Thomas Huth wrote:
+>>> This was only required for the pc-1.0 and earlier machine types.
+>>> Now that these have been removed, we can also drop the corresponding
+>>> code from the FDC device.
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>   hw/block/fdc.c             | 17 ++---------------
+>>>   tests/qemu-iotests/172.out | 35 -----------------------------------
+>>>   2 files changed, 2 insertions(+), 50 deletions(-)
+>>>
+>>> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+>>> index 292ea87805..198940e737 100644
+>>> --- a/hw/block/fdc.c
+>>> +++ b/hw/block/fdc.c
+>>> @@ -874,7 +874,6 @@ struct FDCtrl {
+>>>           FloppyDriveType type;
+>>>       } qdev_for_drives[MAX_FD];
+>>>       int reset_sensei;
+>>> -    uint32_t check_media_rate;
+>>
+>> I am a bit of a dunce when it comes to the compatibility properties... 
+>> does this mess with the migration format?
+>>
+>> I guess it doesn't, since it's not in the VMSTATE declaration.
+>>
+>> Hmmmm, alright.
 > 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  target/i386/host-cpu.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
+> I think that should be fine, yes.
+> 
+>>>       FloppyDriveType fallback; /* type=auto failure fallback */
+>>>       /* Timers state */
+>>>       uint8_t timer0;
+>>> @@ -1021,18 +1020,10 @@ static const VMStateDescription 
+>>> vmstate_fdrive_media_changed = {
+>>>       }
+>>>   };
+>>> -static bool fdrive_media_rate_needed(void *opaque)
+>>> -{
+>>> -    FDrive *drive = opaque;
+>>> -
+>>> -    return drive->fdctrl->check_media_rate;
+>>> -}
+>>> -
+>>>   static const VMStateDescription vmstate_fdrive_media_rate = {
+>>>       .name = "fdrive/media_rate",
+>>>       .version_id = 1,
+>>>       .minimum_version_id = 1,
+>>> -    .needed = fdrive_media_rate_needed,
+>>>       .fields = (VMStateField[]) {
+>>>           VMSTATE_UINT8(media_rate, FDrive),
+>>>           VMSTATE_END_OF_LIST()
+>>> @@ -1689,8 +1680,7 @@ static void fdctrl_start_transfer(FDCtrl 
+>>> *fdctrl, int direction)
+>>>       /* Check the data rate. If the programmed data rate does not match
+>>>        * the currently inserted medium, the operation has to fail. */
+>>> -    if (fdctrl->check_media_rate &&
+>>> -        (fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
+>>> +    if ((fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
+>>>           FLOPPY_DPRINTF("data rate mismatch (fdc=%d, media=%d)\n",
+>>>                          fdctrl->dsr & FD_DSR_DRATEMASK, 
+>>> cur_drv->media_rate);
+>>>           fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_MA, 0x00);
+>>> @@ -2489,8 +2479,7 @@ static void fdctrl_result_timer(void *opaque)
+>>>           cur_drv->sect = (cur_drv->sect % cur_drv->last_sect) + 1;
+>>>       }
+>>>       /* READ_ID can't automatically succeed! */
+>>> -    if (fdctrl->check_media_rate &&
+>>> -        (fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
+>>> +    if ((fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
+>>>           FLOPPY_DPRINTF("read id rate mismatch (fdc=%d, media=%d)\n",
+>>>                          fdctrl->dsr & FD_DSR_DRATEMASK, 
+>>> cur_drv->media_rate);
+>>>           fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_MA, 0x00);
+>>> @@ -2895,8 +2884,6 @@ static Property isa_fdc_properties[] = {
+>>>       DEFINE_PROP_UINT32("dma", FDCtrlISABus, dma, 2),
+>>>       DEFINE_PROP_DRIVE("driveA", FDCtrlISABus, 
+>>> state.qdev_for_drives[0].blk),
+>>>       DEFINE_PROP_DRIVE("driveB", FDCtrlISABus, 
+>>> state.qdev_for_drives[1].blk),
+>>> -    DEFINE_PROP_BIT("check_media_rate", FDCtrlISABus, 
+>>> state.check_media_rate,
+>>> -                    0, true),
+>>
+>> Could you theoretically set this via QOM commands in QMP, and claim 
+>> that this is a break in behavior?
+>>
+>> Though, it's ENTIRELY undocumented, so ... it's probably fine, I 
+>> think. Probably. (Please soothe my troubled mind.)
+> 
+> A user actually could mess with this property even on the command line, 
+> e.g. by using:
+> 
+>   qemu-system-x86_64 -global isa-fdc.check_media_rate=false
+> 
+> ... but, as you said, it's completely undocumented, the property is 
+> really just there for the internal use of machine type compatibility. 
+> We've done such clean-ups in the past already, see e.g. 
+> c6026998eef382d7ad76 or 2a4dbaf1c0db2453ab78f, so I think this should be 
+> fine. But if you disagree, I could replace this by a patch that adds 
+> this property to the list of deprecated features instead, so we could at 
+> least remove it after it has been deprecated for two releases?
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I don't think it's necessary, personally -- just wanted to make sure I 
+knew the exact stakes here.
 
-r~
+Reviewed-by: John Snow <jsnow@redhat.com>
+Acked-by: John Snow <jsnow@redhat.com>
+
 
