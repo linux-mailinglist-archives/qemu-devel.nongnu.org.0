@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5062B310FBB
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:17:41 +0100 (CET)
-Received: from localhost ([::1]:58104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FAA310FD3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:25:51 +0100 (CET)
+Received: from localhost ([::1]:50998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l85fo-0007Lb-5o
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:17:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54322)
+	id 1l85ni-0007ox-HJ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:25:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l8514-0000Ug-Pr
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:35:36 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:46407)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l850u-0001q4-JO
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:35:34 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id y18so9654337edw.13
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:35:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=b7XmjC+j8puZVGqc8/yxuW/1C5OSlZD4jQAl/AxXOyE=;
- b=bvhf/8wIpOVnSqa3AZcLOpPAvecaD7RXJOHnSBcoqIRHGxHyTsnkC/GgFgOa+yVOfz
- 9/QqbRLT/JzrOJim93raC9avO3+SoGfnatA2nv7TRpDo0ah1J/NszyJfSFJRaiHCsRso
- fTIUCwHH1fsnL2ETp7bs2y2Bwi4Afs8jipfDb4vIuGZuXw7nqZdaJnpGOMoebUbJT45S
- DCWUh2t8sEv4dby9zmW+oOiUoiEiMdGpy3CTofMBNSCr1tcMSqCQaIC74XtWM3KaCc2H
- n9QfJPuPW3zWBVWSFEU6Y1exPLEZGDWn4uXbagXTc4tF9LWLnhhbl0goCPYVVVoTtNDf
- UeAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=b7XmjC+j8puZVGqc8/yxuW/1C5OSlZD4jQAl/AxXOyE=;
- b=bTHF9N0+4Jmd7TqlyLjT1/Jmj+0Vx7NJcezaeb4l6BMfpG2ySInb7BDN/6knuJByIg
- bZMcEfWIZfLRBfyu64pVEEEEyLNrkxx21jtIXuJT8Wh76z+SNMZEpGwN1zKxjtXJUG28
- JMKbPX44Fgyg8EmbD2t7fexwqgq6kVCSVkScO4vi4y5vjD3I1nD5XZwibqG3gPk4t2PQ
- L4Sm2OFcd3kh3pMpc4e8dBpKvmL4pXwBOqq+q0G6aJHEiLcqLwn/GjhV0nAYyOcU3Zz2
- wT+cNLn+O2WMWVHDH5TVaMIlDY2OLzOcgHqZ7fCvmOrpvEOchaZ5V1efZATnpPJ775TO
- x1qA==
-X-Gm-Message-State: AOAM5334+XONxEfB6BgvmW+MGQG9XgLe1y4LlMdLaB5jUn99GUMfBD6U
- kFeRDNNfM4ko7OIsg58u+vU=
-X-Google-Smtp-Source: ABdhPJwmkisjcIXJqitjDAGargiLiZ5sG+SFq/U4uag5Y9BRAk7SW5CsGcll85eWz6V/5k7q5xiZ8Q==
-X-Received: by 2002:a05:6402:35ca:: with SMTP id
- z10mr4683892edc.174.1612546521974; 
- Fri, 05 Feb 2021 09:35:21 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id f6sm4346934edk.13.2021.02.05.09.35.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Feb 2021 09:35:21 -0800 (PST)
-Subject: Re: [PATCH v7 12/35] Hexagon (target/hexagon) instruction attributes
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
- <1611113349-24906-13-git-send-email-tsimpson@quicinc.com>
- <11960eff-406b-158c-7fae-61b2e0550268@amsat.org>
- <BYAPR02MB48867F2DC90D2A81897C387FDEA09@BYAPR02MB4886.namprd02.prod.outlook.com>
- <55f89e45-c479-e02b-27c6-f2e6a7fb85ed@amsat.org>
- <BYAPR02MB4886F04D58FB80D87179FC71DEB99@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ddf4afa5-4c9c-7831-9706-580993d104ad@amsat.org>
-Date: Fri, 5 Feb 2021 18:35:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l85M9-00040Y-6z
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:57:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28287)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l85M2-0002U8-S1
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:57:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612547832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tDFEDRnGk9FQuv0to0J9i+I/mJN7MbcYL8pG0IxqE5E=;
+ b=D9VzI6rtQH8GWl7mZIpni5IkFuqkmjSkHA8SqRU17euY1vNY21vb9jX3qnq/E5XlEhCWlw
+ DIbZb/dxThXg7q+Cf49nNQePd72F3or+WYhwWn8A4lsIJdEc+zBjm+YaA7w29Mf/bxbdkW
+ +KsGM7g319J/NkxpqJi90MSUACQK0cM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-tbYdHvgDN1iveH1soD9E1Q-1; Fri, 05 Feb 2021 12:57:10 -0500
+X-MC-Unique: tbYdHvgDN1iveH1soD9E1Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 787F31800D41;
+ Fri,  5 Feb 2021 17:57:09 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-240.ams2.redhat.com [10.36.114.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C3C6560C43;
+ Fri,  5 Feb 2021 17:57:07 +0000 (UTC)
+Date: Fri, 5 Feb 2021 18:57:06 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 30/36] block: bdrv_reopen_multiple: refresh
+ permissions on updated graph
+Message-ID: <20210205175706.GI7072@merkur.fritz.box>
+References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+ <20201127144522.29991-31-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB4886F04D58FB80D87179FC71DEB99@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.33,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201127144522.29991-31-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,113 +77,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Taylor,
-
-+Eric in case I'm wrong.
-
-On 1/30/21 12:15 AM, Taylor Simpson wrote:
->>>> On 1/20/21 4:28 AM, Taylor Simpson wrote:
->>>>> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
->>>>> ---
->>>>>  target/hexagon/attribs.h     | 30 ++++++++++++++
->>>>>  target/hexagon/attribs_def.h | 95
->>>> ++++++++++++++++++++++++++++++++++++++++++++
->>>>>  2 files changed, 125 insertions(+)
->>>>>  create mode 100644 target/hexagon/attribs.h
->>>>>  create mode 100644 target/hexagon/attribs_def.h
->>>>>
->>>>> diff --git a/target/hexagon/attribs.h b/target/hexagon/attribs.h
->>>>> new file mode 100644
->>>>> index 0000000..e88e5eb
->>>>> --- /dev/null
->>>>> +++ b/target/hexagon/attribs.h
->>>>> @@ -0,0 +1,30 @@
->>>>> +
->>>>> +enum {
->>>>> +#define DEF_ATTRIB(NAME, ...) A_##NAME,
->>>>> +#include "attribs_def.h"
->>>>
->>>> Per QEMU conventions, this file has to be named "attribs_def.h.inc".
->>>
->>> Didn't know that.  Which files should end in .inc?
->>
->> Oh you are right, it is not documented in CODING_STYLE.rst.
->>
->> You can see the rationale in commits:139c1837db7 and 0979ed017f0:
->>
->>   meson: rename included C source files to .c.inc
->>
->>   With Makefiles that have automatically generated dependencies, you
->>   generated includes are set as dependencies of the Makefile, so that they
->>   are built before everything else and they are available when first
->>   building the .c files.
->>
->>   Alternatively you can use a fine-grained dependency, e.g.
->>
->>           target/arm/translate.o: target/arm/decode-neon-shared.inc.c
->>
->>   With Meson you have only one choice and it is a third option, namely
->>   "build at the beginning of the corresponding target"; the way you
->>   express it is to list the includes in the sources of that target.
->>
->>   The problem is that Meson decides if something is a source vs. a
->>   generated include by looking at the extension: '.c', '.cc', '.m', '.C'
->>   are sources, while everything else is considered an include---including
->>   '.inc.c'.
->>
->>   Use '.c.inc' to avoid this, as it is consistent with our other convention
->>   of using '.rst.inc' for included reStructuredText files.  The editorconfig
->>   file is adjusted.
+Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Move bdrv_reopen_multiple to new paradigm of permission update:
+> first update graph relations, then do refresh the permissions.
 > 
-> OK, I understand why it's better to have files end .[ch].inc than .inc.[ch].
+> We have to modify reopen process in file-posix driver: with new scheme
+> we don't have prepared permissions in raw_reopen_prepare(), so we
+> should reconfigure fd in raw_check_perm(). Still this seems more native
+> and simple anyway.
+
+Hm... The diffstat shows that it is simpler because it needs less code.
+
+But relying on the permission change callbacks for getting a new file
+descriptor that changes more than just permissions doesn't feel
+completely right either. Can we even expect the permission callbacks to
+be called when the permissions aren't changed?
+
+But then, reopen and permission updates were already a bit entangled
+before. If we can guarantee that the permission functions will always be
+called, even if the permissions don't change, I guess it's okay.
+
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/block/block.h |   2 +-
+>  block.c               | 183 +++++++++++-------------------------------
+>  block/file-posix.c    |  84 +++++--------------
+>  3 files changed, 70 insertions(+), 199 deletions(-)
 > 
-> However, I need some confirmation on which files need .inc instead of simply ending in .h.  From what I can tell these are the guidelines
-> - If a file is intended to be included in the middle of another file (as opposed to the top), it should end in .inc.
+> diff --git a/include/block/block.h b/include/block/block.h
+> index 0f21ef313f..82271d9ccd 100644
+> --- a/include/block/block.h
+> +++ b/include/block/block.h
+> @@ -195,7 +195,7 @@ typedef struct BDRVReopenState {
+>      BlockdevDetectZeroesOptions detect_zeroes;
+>      bool backing_missing;
+>      bool replace_backing_bs;  /* new_backing_bs is ignored if this is false */
+> -    BlockDriverState *new_backing_bs; /* If NULL then detach the current bs */
+> +    BlockDriverState *old_backing_bs; /* keep pointer for permissions update */
+>      uint64_t perm, shared_perm;
 
-This has to be justified. Usually such file use macro definitions which
-are defined by the file including them.
+perm and shared_perm are unused now and can be removed.
 
-If you can not justify, there is probably a way to have your file as its
-own .c/.h unit.
+>      QDict *options;
+>      QDict *explicit_options;
+> diff --git a/block.c b/block.c
+> index 617cba9547..474e624152 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -103,8 +103,9 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
+>                                      GSList **tran, Error **errp);
+>  static void bdrv_remove_backing(BlockDriverState *bs, GSList **tran);
+>  
+> -static int bdrv_reopen_prepare(BDRVReopenState *reopen_state, BlockReopenQueue
+> -                               *queue, Error **errp);
+> +static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
+> +                               BlockReopenQueue *queue,
+> +                               GSList **set_backings_tran, Error **errp);
+>  static void bdrv_reopen_commit(BDRVReopenState *reopen_state);
+>  static void bdrv_reopen_abort(BDRVReopenState *reopen_state);
+>  
+> @@ -2403,6 +2404,7 @@ static void bdrv_list_abort_perm_update(GSList *list)
+>      }
+>  }
+>  
+> +__attribute__((unused))
+>  static void bdrv_abort_perm_update(BlockDriverState *bs)
+>  {
+>      g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
+> @@ -2498,6 +2500,7 @@ char *bdrv_perm_names(uint64_t perm)
+>   *
+>   * Needs to be followed by a call to either bdrv_set_perm() or
+>   * bdrv_abort_perm_update(). */
+> +__attribute__((unused))
+>  static int bdrv_check_update_perm(BlockDriverState *bs, BlockReopenQueue *q,
+>                                    uint64_t new_used_perm,
+>                                    uint64_t new_shared_perm,
+> @@ -4100,10 +4103,6 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
+>      bs_entry->state.explicit_options = explicit_options;
+>      bs_entry->state.flags = flags;
+>  
+> -    /* This needs to be overwritten in bdrv_reopen_prepare() */
+> -    bs_entry->state.perm = UINT64_MAX;
+> -    bs_entry->state.shared_perm = 0;
+> -
+>      /*
+>       * If keep_old_opts is false then it means that unspecified
+>       * options must be reset to their original value. We don't allow
+> @@ -4186,40 +4185,37 @@ BlockReopenQueue *bdrv_reopen_queue(BlockReopenQueue *bs_queue,
+>   */
+>  int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+>  {
+> -    int ret = -1;
+> +    int ret = 0;
 
-> - If a .inc file is intended to be included in a .h file, it should end in .h.inc.
+I would prefer to leave this right before the 'goto cleanup'.
 
-Yes, no exception.
+Not sure if I fully understand all consequences yet, but overall, apart
+from my concerns about file-posix and the potential AioContext locking
+problems, this looks like a nice simplification of the process.
 
-> - If a .inc file is intended to be included in a .c file, it should end in .c.inc.
+Come to think of it, the AioContext handling is probably wrong already
+before your series. reopen_commit for one node could move the whole tree
+to a different context and then the later nodes would all be processed
+while holding the wrong lock.
 
-Not necessarily, you can have .h.inc included in .c.inc:
+Kevin
 
-Function prototype declarations -> .h
-If generated -> .h.inc
-
-Function body definitions -> .c
-These can NOT go in .h, so if generated -> .c.inc
-
-Inlined function body definitions -> .h/.c/.h.inc
-
-> - The above applies to both human-written and generated files.
-
-Yes, although it is harder to justify human-written .inc.
-
-Also:
-
-Header exposing subsystem X API to other subsystems go in include/..X..h
-(example include/hw/sd/sd.h)
-
-Header sharing prototypes local to a particular subsystem go in X/..h
-(example hw/sd/sdmmc-internal.h)
-
-*.inc must not go in include/
-
-Regards (and sorry for answering late),
-
-Phil.
 
