@@ -2,95 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92536310F39
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 18:57:30 +0100 (CET)
-Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D413B310FD7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:26:50 +0100 (CET)
+Received: from localhost ([::1]:54180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l85MH-00032R-Ht
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 12:57:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48880)
+	id 1l85of-0000ha-QW
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:26:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l84cJ-00011Q-N8
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:09:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l84cD-000824-Mz
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:09:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612544991;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MKZ9sZmrFdHUii9FC+I/0Z4Bq9xh7JxpLFtIFUbiz9k=;
- b=L7+/K6zNEb0RBPwZGU9J8bHzgH5otb6TA7nbXrsdMQmZd52JTj0YO8We+D4rB2ytKKxGML
- uYy29FxN06A7/k0kVuBUhr5t+7K/juZ0o37yu5iTj8apIMxkgH3l0brhP4Wgw0lEb4pI2j
- am/P03I/EPypVORHK688B2BJY8BAfXI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-avjgQ6IYNFmzlmowc2AVZw-1; Fri, 05 Feb 2021 12:09:50 -0500
-X-MC-Unique: avjgQ6IYNFmzlmowc2AVZw-1
-Received: by mail-ed1-f71.google.com with SMTP id w23so7209268edr.15
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:09:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l84V7-0000Bc-Qd
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:02:37 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46105)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l84V4-0004os-Gv
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:02:33 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id q7so8400667wre.13
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:02:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=LdWgyO2zPb/JEQszL1uIIoVUIJQDmtTT27aFUt/yx6k=;
+ b=QBzTVAAw6+l50YOzIZC+p4thsKcbrTt+3giNVMc8WmDrOExAnsYnUN5O2f7Ukl+qdi
+ syw7xBL1HROBB2lOD4dIzocyhvItkwI9qAp3eq7DD3mBhixJOLQJhDsqZb/vMopndTeB
+ +3XCplCci5DqWw1b7bLO0P3YdWBJLNSoKgCQ7+t8uXb2LYtPIO/m8AlQC/Vl08mxv3cO
+ dL/Pmmr58pwEqd25E4D8ZkLpjHYZwF11UDIvfJ1F+yANyErODiEZO8ZBi6m2blFCOVWl
+ LSrAM0BgSfEUYE0A8++xGBhyAmOAsZHmd8cTOKjp72d6KIVdD7hGy6S2gdef0LnDojj5
+ M0/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MKZ9sZmrFdHUii9FC+I/0Z4Bq9xh7JxpLFtIFUbiz9k=;
- b=h6juBNdmBI/HSzkAklB5otvuR6H00p7zu+QQmGFyoNfzGfFJ+OLP8u6M4+EUeNc6++
- xKJNWCj2U7MfTvegKVCca+AfHYgP2fuAFznMYUnzXMvEvb75kW4xTz0XRwSHnwpwtc+a
- AiVbtTdPPaLAg9kvOiAXSs3nJd4h5tab2OTyM+E11oHSab+utZeCt1GXGKinFrPm3IUJ
- zbUuPb7rI28gwjuUnp/udVjG9al+ngeojZyw9QG+2Hhck+9ahmBVjCl1Pr4/3QGDA7rZ
- fI6WJgZtCA0ulXmSQm92XptWswN2x3BPt44NcDbcKMDmCCENdIeg4C4kwGR/AI8xzMcz
- HgMQ==
-X-Gm-Message-State: AOAM531VrRiHs15QAmZrLmNbuwJIGH7ig9P4cRCHiExic8i40SmycTEO
- NMvCcrxxPdIW4xMnWefRpSu7KUixdcKM23Sb2JuPwp/EI7DiWjK8srlfWwdtp16CYMeXwBnTExm
- vCxw8XnE+yueBfC4=
-X-Received: by 2002:a17:906:a149:: with SMTP id
- bu9mr5035671ejb.185.1612544988209; 
- Fri, 05 Feb 2021 09:09:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJze70pG7KTZjOo6d5DBxDBUYzH1SR4Bz+ITm1jaMtUFBUGozi1hsSaVBQKY2r2ClxOWkJFMLA==
-X-Received: by 2002:a17:906:a149:: with SMTP id
- bu9mr5035640ejb.185.1612544988010; 
- Fri, 05 Feb 2021 09:09:48 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id i21sm4275997edy.9.2021.02.05.09.09.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Feb 2021 09:09:47 -0800 (PST)
-Subject: Re: acceptance-system-fedora and acceptance-system-centos failing
- sporadically with timeout?
-To: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- avocado-devel <avocado-devel@redhat.com>
-References: <7da911b5-40d3-fd3b-768f-862c07f879ba@suse.de>
- <68c85b98-6a4b-13a7-ae86-8a63013549a7@redhat.com>
- <a3d25c79-0cf0-6c8e-7346-68d775e14e50@redhat.com>
- <dee3488c-ca1d-24bc-5900-117992d30013@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <30cab296-77ae-a76d-b450-a507c967413e@redhat.com>
-Date: Fri, 5 Feb 2021 18:09:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=LdWgyO2zPb/JEQszL1uIIoVUIJQDmtTT27aFUt/yx6k=;
+ b=JnkhLgBMpDELOaDlyJ8RkxsYGTn6dvMZwCM/2xMikbRMdmUHimnEV4EedfzB2neMMq
+ xqp1eoHW5ubQ65Slf6FfMyeXWh9p/sTxqOhU8b0f6AldxGU4lHyH13ENclblCJN3xgIB
+ 9S5hyvsauk7Vuzsasp1bHzKcqpP1vJ1ln3X3cLBzn4G3/uY0Eu7Ealov5mn/Es7MQ5nJ
+ zrbMkjnIKVj0lXHUmhE5PogjKak8RRXGLx+4X078ak5+lYcMQNYnjImUZ1iEVuBPYvRJ
+ qMLprWiL07U4ZFYYJIHt7o8BWzKsM/S8Qf4J9n3+ROd721qU8+EJIZ1TINPSpBpX/bbs
+ iOvA==
+X-Gm-Message-State: AOAM531Q/ASwGqLVMHMgtrLXae7bCwph9wcWRCPLGOGxaKVARfLl7qKH
+ OgTnYuuiRsAHLxaBlI1SNYDmJYA2rda2ximF
+X-Google-Smtp-Source: ABdhPJySJ/ScRmqN/pIebC9hYfjoBx/0m//72+HkA4rQeeMbEugklprOdJOtHSFesHaTN0dOehYqnQ==
+X-Received: by 2002:adf:cd10:: with SMTP id w16mr6051228wrm.90.1612544547736; 
+ Fri, 05 Feb 2021 09:02:27 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w14sm13048740wro.86.2021.02.05.09.02.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Feb 2021 09:02:26 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DB8DC1FF7E;
+ Fri,  5 Feb 2021 17:02:25 +0000 (GMT)
+References: <20210205091857.845389-1-thuth@redhat.com>
+ <20210205091857.845389-3-thuth@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 2/5] travis.yml: Move the -fsanitize=undefined test
+ to the gitlab-CI
+Date: Fri, 05 Feb 2021 16:59:50 +0000
+In-reply-to: <20210205091857.845389-3-thuth@redhat.com>
+Message-ID: <87k0rmo3by.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <dee3488c-ca1d-24bc-5900-117992d30013@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,51 +88,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Alex Bennee <alex.bennee@linaro.org>,
- Claudio Fontana <cfontana@suse.de>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/21 5:49 PM, Thomas Huth wrote:
-> On 05/02/2021 17.43, Philippe Mathieu-Daudé wrote:
->> Cc'ing Avocado team & John (Python inferior exit delay?).
->>
->> On 1/28/21 11:10 AM, Thomas Huth wrote:
->>> On 28/01/2021 10.45, Claudio Fontana wrote:
->>>>
->>>> is it just me, or is the CI sometimes failing with timeout?
->>>>
->>>> Fedora:
->>>> https://gitlab.com/hw-claudio/qemu/-/jobs/986936506
->>>
->>> I've sent a patch for that issue just yesterday:
->>>
->>>   https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg06852.html
->>>
->>>> CentOS:
->>>> https://gitlab.com/hw-claudio/qemu/-/jobs/980769080
->>>
->>> Never seen that one before - if you hit it again, could you please save
->>> the artifacts and have a look at the log file in there to see what's
->>> exactly the problem?
->>
->> https://gitlab.com/philmd/qemu/-/jobs/1008007125
->>
->>   (28/36)
->> tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_ppc_mac99:
->> ERROR: Test reported status but did not finish (90.09 s)
->>
->> Attached debug.log.
-> 
-> That's again the failing test on the mac99 machine where I've already
-> sent a patch for. I'm looking for a log of the failing or1k machine that
-> Claudio has experienced in the CentOS pipeline.
 
-Oh sorry I should have started a new thread instead :/
+Thomas Huth <thuth@redhat.com> writes:
 
-There is still a problem that "Test reported status but did
-not finish" and make the CI red, while the debug.log show the
-test succeeded. This is where I'd like Avocado guys and John
-feedback.
+> Add it to the existing Clang job and also add a job that covers the
+> linux-user code with this compiler flag. To make sure that the detected
+> problems are not simply ignored, let's also use "-fno-sanitize-recover=3D=
+..."
+> now instead.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  .gitlab-ci.yml | 14 ++++++++++++--
+>  .travis.yml    | 27 ---------------------------
+>  2 files changed, 12 insertions(+), 29 deletions(-)
+>
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 1070efce3f..1419eb4825 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -433,13 +433,23 @@ build-some-softmmu-plugins:
+>      TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
+>      MAKE_CHECK_ARGS: check-tcg
+>=20=20
+> -build-clang:
+> +clang-system:
+>    <<: *native_build_job_definition
+>    variables:
+>      IMAGE: fedora
+>      CONFIGURE_ARGS: --cc=3Dclang --cxx=3Dclang++
+> +      --extra-cflags=3D-fno-sanitize-recover=3Dundefined
+>      TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
+> -      ppc-softmmu s390x-softmmu arm-linux-user
+> +      ppc-softmmu s390x-softmmu
+> +    MAKE_CHECK_ARGS: check-qtest check-block check-tcg
+> +
+> +clang-user:
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: fedora
+> +    CONFIGURE_ARGS: --cc=3Dclang --cxx=3Dclang++ --disable-system
+> +      --target-list-exclude=3Dmicroblazeel-linux-user,aarch64-linux-user=
+,armeb-linux-user,x86_64-linux-user,mipsn32el-linux-user,xtensa-linux-user
+> +      --extra-cflags=3D-fno-sanitize-recover=3Dundefined
+>      MAKE_CHECK_ARGS: check
 
+Interesting choice of things to skip. I don't think we'll get much
+coverage though as check-tcg is about the only thing that exercises
+linux-user to any degree and you'll want to include arches the build
+system can build binaries for (arguably we should also update check-tcg
+to build for ^endian variants of the main targets).
+
+>=20=20
+>  # These targets are on the way out
+> diff --git a/.travis.yml b/.travis.yml
+> index 05fa1ca905..533a60c130 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -138,33 +138,6 @@ jobs:
+>          - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+>=20=20
+>=20=20
+> -    # Test with Clang for compile portability (Travis uses clang-5.0)
+> -    - name: "Clang (user)"
+> -      env:
+> -        - CONFIG=3D"--disable-system --host-cc=3Dclang --cxx=3Dclang++"
+> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-clang-default"
+> -      compiler: clang
+> -
+> -
+> -    - name: "Clang (main-softmmu)"
+> -      env:
+> -        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS}
+> -                  --host-cc=3Dclang --cxx=3Dclang++"
+> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-clang-sanitize"
+> -      compiler: clang
+> -      before_script:
+> -        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+> -        - ${SRC_DIR}/configure ${CONFIG} --extra-cflags=3D"-fsanitize=3D=
+undefined -Werror" || { cat config.log meson-logs/meson-log.txt && exit 1; }
+> -
+> -
+> -    - name: "Clang (other-softmmu)"
+> -      env:
+> -        - CONFIG=3D"--disable-user --target-list-exclude=3D${MAIN_SOFTMM=
+U_TARGETS}
+> -                  --host-cc=3Dclang --cxx=3Dclang++"
+> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-clang-default"
+> -      compiler: clang
+> -
+> -
+>      # Using newer GCC with sanitizers
+>      - name: "GCC9 with sanitizers (softmmu)"
+>        dist: bionic
+
+
+--=20
+Alex Benn=C3=A9e
 
