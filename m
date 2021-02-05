@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9703108C5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:16:00 +0100 (CET)
-Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4655E3108EE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:23:29 +0100 (CET)
+Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7y9f-0004aq-Cm
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:15:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45662)
+	id 1l7yGu-0003om-AO
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:23:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7Z-0002wa-HH; Fri, 05 Feb 2021 05:13:49 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2938)
+ id 1l7y7X-0002uQ-TL; Fri, 05 Feb 2021 05:13:47 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7W-00078Q-7h; Fri, 05 Feb 2021 05:13:49 -0500
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DXB6T2R83zMW3L;
- Fri,  5 Feb 2021 18:12:01 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
- 18:13:32 +0800
+ id 1l7y7U-00077b-JS; Fri, 05 Feb 2021 05:13:47 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DXB6s0Yrzz164WY;
+ Fri,  5 Feb 2021 18:12:21 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
+ 18:13:33 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 7/9] virtio_blk: Add support for retry on errors
-Date: Fri, 5 Feb 2021 18:13:13 +0800
-Message-ID: <20210205101315.13042-8-cenjiahui@huawei.com>
+Subject: [PATCH v5 8/9] scsi-bus: Refactor the code that retries requests
+Date: Fri, 5 Feb 2021 18:13:14 +0800
+Message-ID: <20210205101315.13042-9-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210205101315.13042-1-cenjiahui@huawei.com>
 References: <20210205101315.13042-1-cenjiahui@huawei.com>
@@ -36,13 +36,13 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.155]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
- helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
+ helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,87 +64,66 @@ Cc: Kevin Wolf <kwolf@redhat.com>, cenjiahui@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Insert failed requests into device's list for later retry and handle
-queued requests to implement retry_request_cb.
+Move the code that retries requests from scsi_dma_restart_bh() to its own,
+non-static, function. This will allow us to call it from the
+retry_request_cb() of scsi-disk in a future patch.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- hw/block/virtio-blk.c | 21 +++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ hw/scsi/scsi-bus.c     | 16 +++++++++++-----
+ include/hw/scsi/scsi.h |  1 +
+ 2 files changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index e8600b069d..58f098fb9c 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -108,6 +108,10 @@ static int virtio_blk_handle_rw_error(VirtIOBlockReq *req, int error,
-             block_acct_failed(blk_get_stats(s->blk), &req->acct);
-         }
-         virtio_blk_free_request(req);
-+    } else if (action == BLOCK_ERROR_ACTION_RETRY) {
-+        req->mr_next = NULL;
-+        req->next = s->rq;
-+        s->rq = req;
-     }
- 
-     blk_error_action(s->blk, action, is_read, error);
-@@ -149,6 +153,7 @@ static void virtio_blk_rw_complete(void *opaque, int ret)
-             }
-         }
- 
-+        blk_error_retry_reset_timeout(s->blk);
-         virtio_blk_req_complete(req, VIRTIO_BLK_S_OK);
-         block_acct_done(blk_get_stats(s->blk), &req->acct);
-         virtio_blk_free_request(req);
-@@ -168,6 +173,7 @@ static void virtio_blk_flush_complete(void *opaque, int ret)
-         }
-     }
- 
-+    blk_error_retry_reset_timeout(s->blk);
-     virtio_blk_req_complete(req, VIRTIO_BLK_S_OK);
-     block_acct_done(blk_get_stats(s->blk), &req->acct);
-     virtio_blk_free_request(req);
-@@ -190,6 +196,7 @@ static void virtio_blk_discard_write_zeroes_complete(void *opaque, int ret)
-         }
-     }
- 
-+    blk_error_retry_reset_timeout(s->blk);
-     virtio_blk_req_complete(req, VIRTIO_BLK_S_OK);
-     if (is_write_zeroes) {
-         block_acct_done(blk_get_stats(s->blk), &req->acct);
-@@ -828,12 +835,12 @@ static void virtio_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- 
- void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
- {
--    VirtIOBlockReq *req = s->rq;
-+    VirtIOBlockReq *req;
-     MultiReqBuffer mrb = {};
- 
--    s->rq = NULL;
--
-     aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    req = s->rq;
-+    s->rq = NULL;
-     while (req) {
-         VirtIOBlockReq *next = req->next;
-         if (virtio_blk_handle_request(req, &mrb)) {
-@@ -1134,8 +1141,16 @@ static void virtio_blk_resize(void *opaque)
-     aio_bh_schedule_oneshot(qemu_get_aio_context(), virtio_resize_cb, vdev);
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index c349fb7f2d..b2a174efe2 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -143,14 +143,10 @@ void scsi_bus_new(SCSIBus *bus, size_t bus_size, DeviceState *host,
+     qbus_set_bus_hotplug_handler(BUS(bus));
  }
  
-+static void virtio_blk_retry_request(void *opaque)
-+{
-+    VirtIOBlock *s = VIRTIO_BLK(opaque);
-+
-+    virtio_blk_process_queued_requests(s, false);
+-static void scsi_dma_restart_bh(void *opaque)
++void scsi_retry_requests(SCSIDevice *s)
+ {
+-    SCSIDevice *s = opaque;
+     SCSIRequest *req, *next;
+ 
+-    qemu_bh_delete(s->bh);
+-    s->bh = NULL;
+-
+     aio_context_acquire(blk_get_aio_context(s->conf.blk));
+     QTAILQ_FOREACH_SAFE(req, &s->requests, next, next) {
+         scsi_req_ref(req);
+@@ -170,6 +166,16 @@ static void scsi_dma_restart_bh(void *opaque)
+         scsi_req_unref(req);
+     }
+     aio_context_release(blk_get_aio_context(s->conf.blk));
 +}
 +
- static const BlockDevOps virtio_block_ops = {
-     .resize_cb = virtio_blk_resize,
-+    .retry_request_cb = virtio_blk_retry_request,
- };
- 
- static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
++static void scsi_dma_restart_bh(void *opaque)
++{
++    SCSIDevice *s = opaque;
++
++    qemu_bh_delete(s->bh);
++    s->bh = NULL;
++
++    scsi_retry_requests(s);
+     /* Drop the reference that was acquired in scsi_dma_restart_cb */
+     object_unref(OBJECT(s));
+ }
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index 09fa5c9d2a..28f330deaf 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -181,6 +181,7 @@ void scsi_req_cancel_complete(SCSIRequest *req);
+ void scsi_req_cancel(SCSIRequest *req);
+ void scsi_req_cancel_async(SCSIRequest *req, Notifier *notifier);
+ void scsi_req_retry(SCSIRequest *req);
++void scsi_retry_requests(SCSIDevice *s);
+ void scsi_device_purge_requests(SCSIDevice *sdev, SCSISense sense);
+ void scsi_device_set_ua(SCSIDevice *sdev, SCSISense sense);
+ void scsi_device_report_change(SCSIDevice *dev, SCSISense sense);
 -- 
 2.29.2
 
