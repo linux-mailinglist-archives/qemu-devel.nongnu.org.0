@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFA3310CA6
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:47:00 +0100 (CET)
-Received: from localhost ([::1]:56450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5AD310CA7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:47:03 +0100 (CET)
+Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l82Nv-0004Sw-Vt
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:47:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
+	id 1l82Ny-0004Zt-Om
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:47:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l82L5-0002Tb-BQ; Fri, 05 Feb 2021 09:44:03 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46623)
+ id 1l82LC-0002gY-TR; Fri, 05 Feb 2021 09:44:12 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:33704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l82L3-0002IJ-Q9; Fri, 05 Feb 2021 09:44:03 -0500
-Received: by mail-ej1-x629.google.com with SMTP id w2so12228234ejk.13;
- Fri, 05 Feb 2021 06:44:00 -0800 (PST)
+ id 1l82L9-0002Ls-I4; Fri, 05 Feb 2021 09:44:08 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id sa23so12380597ejb.0;
+ Fri, 05 Feb 2021 06:44:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5evm7ZSskwEzcmWuSglI+6mAOCvHUIp+CaSdo/EhioA=;
- b=knA0/DNEN+J6r5N0LMxv/4w0HzFCCbw/cP0NtYeKLDwZxuCNQtfk9ug4cZAJvgBycC
- qr4E8XMPAtAYioZA6UvPPHGCTJJi+ZKY7iHQqycdUC6nbgpFtjHA+YXkNKdbAzbmK8BD
- 5eDgGkdw/7hg/6iDftkL3KaRMmHrZOdP0VEuJ5Jjlae6fmSsOI2XeWaSNdJiH440oc/h
- 9f6jeP/RRO2XuCdfpHhIh7G6YdVr3OnfQgOA2YqDc3AaOT+UDGfXULePeDVFmrkFRhI6
- lxAehMWzw4GA3zjaAacZzz4JMSY4ExiP3LQmHWz8DsBxmB6Ff/MpnP2qOPCvH2nRGX0m
- UmSg==
+ bh=dblZ2cMrQMLC69vQiQ7PjI15tp+Aw6tS1AsWq28yjKE=;
+ b=bGc1ZUgV/Nx9pGAJJXViDeubeLJ3KSyyySwPiOg1BcmYgeuNDgULMpXA2lFqCQOS+2
+ dVofPa6szRxLCBGdumWJ2Hq0PqqT0FN1q4vuwoscidrgEsV2f/FbsPay+3W+PPTrN7mE
+ QF7hjGJYJ+gas9Oh2k3oL2yzoysFyU6zXuRI5SlXwHkiVTNXo76aE+wjbEFkMyAeKuE/
+ qLGRuoOtLaezzyOnrjmdja+hhb1yqoZpyA2VDbjU1m3oO1yugGKvDCwklLjPJhZSW0KC
+ khv8YP2S1gLUff666R+h2xBYDBqJ0yi0u2VsrJMzHdEn3Us5Bfwm/T8zthZ0NHxXvZJp
+ iwdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5evm7ZSskwEzcmWuSglI+6mAOCvHUIp+CaSdo/EhioA=;
- b=cbAB7lcrCExZ9alxeBf6GF0eufg8ViXUTFKjLFARXKKkav7wqvTzjTF1ys/X89Wff6
- 3PmHhIJcf6AfpOcBvghslZ1rZtZx2RzvxjwJmZgnEG6Y6ZJh1IKrYQIM4LoI/tB8xrnU
- z7OkJoENUL41pm9Ht9JgwpEQ/ID/czMiN5fXG2uQxrbhumrlQ0P1vISCP/4mLdIfiTE7
- 1yBqhhG7MxBEI8H0HPzvh1hlsH2ri/MMXdaA/ZXUzgg802H35mBIUup2JM6hf0Bm9rc3
- pmBjzJg/ptxzqTmq65RAmJqXTjMZB3OyzyiQld9G3yba5li7xFLCYC97wY6Gqv7og6Qj
- ZY/g==
-X-Gm-Message-State: AOAM532GvXvIQTcvRP1rnzxdI2FyuB/Ok3WNTyvmvqIcIQqiNBJpsJTd
- bJ7FxFav553sWAIpYLRc/oQ3u71VhR8=
-X-Google-Smtp-Source: ABdhPJyZ+1oifxJWzXIBLvDe3Eqlb4kZypcVFevwEUY5rXxJD4fEtVvJfiQpIKfJpLBJnh+O4BfV+A==
-X-Received: by 2002:a17:906:a082:: with SMTP id
- q2mr4286120ejy.483.1612536239401; 
- Fri, 05 Feb 2021 06:43:59 -0800 (PST)
+ bh=dblZ2cMrQMLC69vQiQ7PjI15tp+Aw6tS1AsWq28yjKE=;
+ b=YuLNj53hXxMRtWDuJ/LjihVOifVIzdeoXDA2gTI+7AVqA9HwhukOv/83a+luQxU+GW
+ WemaLNbhDDTgZuoI4wZ5pRAMDBeYPecZOGJdT+24eMJz1+MLhvjlYduzTsrD1F89yCov
+ MByy2NC34WwoSAnNI+WdfuSaykITd+xYCMNXxRUsrjJ7nPOW6srz2jULJ4OkMrQqQulG
+ GlYHQrDPa4BsYlW5BL4zjdcOJ1Z3zTSP7CqeMry1gdtLnsIY9NaxWfSbinZ410rBgPrU
+ XEZ/VwtYq+GiKk9ENvvAnvXFSOwPJulEjNhiQuaG1YTHGaiDgo0QMCfpIP6uWtS4yJeX
+ OkXQ==
+X-Gm-Message-State: AOAM533rbIlyBYBKR3t8AOxpC7jBtr9a3t6ickkN5qcn+/7xJ14gJaiH
+ HI0APqMhtU/yYlP8hAAc9QY3wzibc3A=
+X-Google-Smtp-Source: ABdhPJwaFQ8BXAkJNPUM74PRENPBWmQSvgr5KlhqbctAGJ1lOmTFgL2AY/oZPSRVFnuTXrImQzzyeg==
+X-Received: by 2002:a17:906:87c3:: with SMTP id
+ zb3mr4373739ejb.244.1612536245246; 
+ Fri, 05 Feb 2021 06:44:05 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a25sm936260edt.16.2021.02.05.06.43.57
+ by smtp.gmail.com with ESMTPSA id g16sm3980102ejo.107.2021.02.05.06.44.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 06:43:58 -0800 (PST)
+ Fri, 05 Feb 2021 06:44:04 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/9] tests/qtest: Restrict xlnx-can-test to TCG builds
-Date: Fri,  5 Feb 2021 15:43:38 +0100
-Message-Id: <20210205144345.2068758-3-f4bug@amsat.org>
+Subject: [PATCH 3/9] tests/qtest/boot-serial-test: Test Virt machine with 'max'
+Date: Fri,  5 Feb 2021 15:43:39 +0100
+Message-Id: <20210205144345.2068758-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210205144345.2068758-1-f4bug@amsat.org>
 References: <20210205144345.2068758-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,45 +86,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Vikram Garhwal <fnu.vikram@xilinx.com>, qemu-block@nongnu.org,
- Alistair Francis <alistair@alistair23.me>, Andrew Jones <drjones@redhat.com>,
+ qemu-block@nongnu.org, Andrew Jones <drjones@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Xilinx CAN controller test is uses the ZCU102 board which is
-based on a ZynqMP SoC. In the default configuration - used by this
-test - this SoC creates 2 Cortex R5F cores. Such cores are not
-v8A archicture, thus can not be run under KVM. Therefore restrict
-this test to TCG.
+When using KVM, using a specific cpu type will only work if the
+host CPU really is that exact CPU type.
 
+During testing we can simply use the 'max' CPU which will select
+all the features available from the host.
+
+This allow running this test on a Cavium CN8890 (ThunderX cores).
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: Alistair Francis <alistair@alistair23.me>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
----
- tests/qtest/meson.build | 2 +-
+ tests/qtest/boot-serial-test.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c83bc211b6a..d8ebd5bf98e 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -159,10 +159,10 @@
-   (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-+  (config_all.has_key('CONFIG_TCG') ? ['xlnx-can-test'] : []) +  \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
--   'xlnx-can-test',
-    'migration-test']
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+index b6b1c23cd01..d74509b1c57 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -149,7 +149,7 @@ static testdef_t tests[] = {
+     { "arm", "raspi2", "", "TT", sizeof(bios_raspi2), 0, bios_raspi2 },
+     /* For hppa, force bios to output to serial by disabling graphics. */
+     { "hppa", "hppa", "-vga none", "SeaBIOS wants SYSTEM HALT" },
+-    { "aarch64", "virt", "-cpu cortex-a57", "TT", sizeof(kernel_aarch64),
++    { "aarch64", "virt", "-cpu max", "TT", sizeof(kernel_aarch64),
+       kernel_aarch64 },
+     { "arm", "microbit", "", "T", sizeof(kernel_nrf51), kernel_nrf51 },
  
- qtests_s390x = \
 -- 
 2.26.2
 
