@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC3031075E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 10:11:35 +0100 (CET)
-Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9829D310773
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 10:14:01 +0100 (CET)
+Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7x9J-0004gT-EX
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 04:11:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1l7xBg-0007pP-Dw
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 04:14:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7x7W-0003ba-Oy
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:09:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58103)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7x8a-0004jj-EN
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:10:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7x7U-0003cm-SW
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:09:42 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7x8X-0004GG-V1
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:10:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612516180;
+ s=mimecast20190719; t=1612516245;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GpEjnitDwcN/rKPUOoz5i7oTAwlDKQ7At71hLVGeBy4=;
- b=Bm9Wa4rV8+OPAosArS/e1WoL4Osbq1OnB0PqMV1PHdGZk6XZRQyMtL5ekWDYhI/ka7ll7c
- kWtB++m6Vxa6pZrtpQ+Gu3zq3Y+hxkNN6I7kQB7KHU+qZN/bxFxozPQ46jKwUmgQif7t0l
- jx+jn2Hq/9aFBpu0/ve5iSSd2e04KHU=
+ bh=+RRoDrKXNsNxHbohVVIit7XF8i+sLrbSy28zPc4dX8U=;
+ b=URgothAgGRJVinupL2Ffs4F0iQRpoS9Pk9+FnUsrvNNeewb36nj3CHNC4TKFSRIH9jR1F8
+ adf5GX/kNvPGORoW6V6OkUhwbdXpCGOZVEIA4eAIKdmHoqYRR2T28rNGwkKb69Otu+Yvj8
+ IM/BSlFwVD0VHsxQ5dZWEpL7SdGENpk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-mCsscWo8PEOfV25YpgTwuQ-1; Fri, 05 Feb 2021 04:09:38 -0500
-X-MC-Unique: mCsscWo8PEOfV25YpgTwuQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-524-nl25-CD0N5O8QSIUmBQspQ-1; Fri, 05 Feb 2021 04:10:40 -0500
+X-MC-Unique: nl25-CD0N5O8QSIUmBQspQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CA8A15720;
- Fri,  5 Feb 2021 09:09:37 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
- [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A699D10013DB;
- Fri,  5 Feb 2021 09:09:21 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DFCBF18000B6; Fri,  5 Feb 2021 10:09:19 +0100 (CET)
-Date: Fri, 5 Feb 2021 10:09:19 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 4/4] hw/usb/bus: Remove the "full-path" property
-Message-ID: <20210205090919.bfd6g5e3aof2b2zh@sirius.home.kraxel.org>
-References: <20210203171832.483176-1-thuth@redhat.com>
- <20210203171832.483176-5-thuth@redhat.com>
- <20210204083648.b4tbk5kftdk4j6ez@sirius.home.kraxel.org>
- <491c2cc6-ea07-d281-4dfc-01a81d02da77@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFDDD192AB78;
+ Fri,  5 Feb 2021 09:10:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FCFB772E0;
+ Fri,  5 Feb 2021 09:10:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E9448113865F; Fri,  5 Feb 2021 10:10:37 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 08/14] qapi/introspect.py: create a typed 'Annotated'
+ data strutcure
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-9-jsnow@redhat.com>
+ <878s85tdh3.fsf@dusky.pond.sub.org>
+ <a62d8293-8779-0f62-21e9-442b2e03b8c8@redhat.com>
+Date: Fri, 05 Feb 2021 10:10:37 +0100
+In-Reply-To: <a62d8293-8779-0f62-21e9-442b2e03b8c8@redhat.com> (John Snow's
+ message of "Wed, 3 Feb 2021 18:12:20 -0500")
+Message-ID: <87zh0i5182.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <491c2cc6-ea07-d281-4dfc-01a81d02da77@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,29 +83,350 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, libvir-list@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 04, 2021 at 04:51:39PM +0100, Thomas Huth wrote:
-> On 04/02/2021 09.36, Gerd Hoffmann wrote:
-> >    Hi,
-> > 
-> > >   enum USBDeviceFlags {
-> > > -    USB_DEV_FLAG_FULL_PATH,
-> > > +    USB_DEV_FLAG_FULL_PATH,             /* unused since QEMU v6.0 */
-> > 
-> > Why not just drop it?  Any remaining users?
-> 
-> I didn't want to change the values of the other members of the enum ...
+John Snow <jsnow@redhat.com> writes:
 
-This should be purely internal to qemu hw/usb and not some kind of abi,
-so changing the values shouldn't break anything ...
+> On 2/3/21 9:47 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> Presently, we use a tuple to attach a dict containing annotations
+>>> (comments and compile-time conditionals) to a tree node. This is
+>>> undesirable because dicts are difficult to strongly type; promoting it
+>>> to a real class allows us to name the values and types of the
+>>> annotations we are expecting.
+>>>
+>>> In terms of typing, the Annotated<T> type serves as a generic container
+>>> where the annotated node's type is preserved, allowing for greater
+>>> specificity than we'd be able to provide without a generic.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>   scripts/qapi/introspect.py | 77 ++++++++++++++++++++++----------------
+>>>   1 file changed, 44 insertions(+), 33 deletions(-)
+>>>
+>>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>>> index b82efe16f6e..2b90a52f016 100644
+>>> --- a/scripts/qapi/introspect.py
+>>> +++ b/scripts/qapi/introspect.py
+>>> @@ -13,8 +13,12 @@
+>>>   from typing import (
+>>>       Any,
+>>>       Dict,
+>>> +    Generic,
+>>> +    Iterable,
+>>>       List,
+>>>       Optional,
+>>> +    Tuple,
+>>> +    TypeVar,
+>>>       Union,
+>>>   )
+>>>   
+>>> @@ -51,15 +55,25 @@
+>>>   _scalar = Union[str, bool, None]
+>>>   _nonscalar = Union[Dict[str, _stub], List[_stub]]
+>>>   _value = Union[_scalar, _nonscalar]
+>>> -# TreeValue = Union[_value, 'Annotated[_value]']
+>>> +TreeValue = Union[_value, 'Annotated[_value]']
+>> 
+>> You need to quote 'Annotated[_value]', because it's a forward
+>> reference.
+>> 
+>> Dependency cycle:
+>> 
+>>          +-----------------------------------------------+
+>>          |                                               |
+>>      TreeValue = Union[_value, 'Annotated[_value]']      |
+>>                                     |                    |
+>>          +--------------------------+                    |
+>>          |                                               |
+>>      Annotated(Generic[_NodeT])                          |
+>>                           |                              |
+>>         +-----------------+                              |
+>>         |                                                |
+>>      _NodeT = TypeVar('_NodeT', bound=TreeValue          |
+>>                                           |              |
+>>                                           +--------------+
+>> 
+>> Meh.  We'll live.
+>> 
+>
+> Python 3.10 (!) will fix this sort of thing. It fixes it in a funny way, 
+> though: all annotations are treated as delayed-evaluation strings. :)
+>
+> See https://www.python.org/dev/peps/pep-0563/ which now becomes the 
+> *default* behavior.
+>
+> We do not gain access to this behavior at all, because it is exclusive 
+> to 3.7+. Boo.
+>
+> For now, (and for the foreseeable future of the QEMU project, as Python 
+> 3.7 support will not be available to us for many, many, many more years 
+> [1]) forward references in the global scope need to be quoted.
+>
+>>>   
+>>> -def _make_tree(obj, ifcond, comment=None):
+>>> -    extra = {
+>>> -        'if': ifcond,
+>>> -        'comment': comment,
+>>> -    }
+>>> -    return (obj, extra)
+>>> +_NodeT = TypeVar('_NodeT', bound=TreeValue)
+>> 
+>> Can you teach me what NodeT is about?
+>> 
+>
+> It's a TypeVar. If you're a TAPL sort of person, canonically you use 
+> T,U,V and so on. Relevant tutorial section for mypy is here: 
+> https://mypy.readthedocs.io/en/stable/generics.html
+>
+> (Yes, a weird thing about Generics in Python is that you have to declare 
+> them. No, I don't know why. Yes, it's weird.)
 
-take care,
-  Gerd
+The notational overhead is regrettable.  Not your fault.
+
+> I have bound it to TreeValue, indicating that this type variable may 
+> only *ever* represent something that isa TreeValue. Because of this, I 
+> use "NodeT" to indicate that it's a Generic type T, but with some 
+> constraint.
+>
+> (Though, it really should have been bound to _value instead ... my 
+> mistake. I shouldn't allow for nested annotations ...!)
+
+Fixed in v5.  Good.
+
+> Using it allows me to define the Annotated class below in terms of some 
+> input parameter instead of a fixed, opaque type.
+>
+>>> +
+>>> +
+>>> +class Annotated(Generic[_NodeT]):
+>
+> Annotated here is defined as Annotated[T], but T is our special _NodeT, 
+> so Annotated may only hold other TreeValues*.
+>
+> (* Again, as per above, this is an oopsie.)
+>
+>>> +    """
+>>> +    Annotated generally contains a SchemaInfo-like type (as a dict),
+>>> +    But it also used to wrap comments/ifconds around scalar leaf values,
+>>> +    for the benefit of features and enums.
+>>> +    """
+>>> +    # Remove after 3.7 adds @dataclass:
+>> 
+>> Make this
+>> 
+>>         # TODO Remove after Python 3.7 ...
+>> 
+>> to give us a fighting chance to remember.
+>> 
+>
+> Having done a lot of the python 2 excision work, I only ever grepped for 
+> e.g. "3.7" or "sys.version". I was targeting that.
+>
+> Adding TODO seems fine enough to do, and I'm here anyway.
+
+Done in v5.  Thanks!
+
+>>> +    # pylint: disable=too-few-public-methods
+>>> +    def __init__(self, value: _NodeT, ifcond: Iterable[str],
+>>> +                 comment: Optional[str] = None):
+>> 
+>> Why not simply value: _value?
+>> 
+>
+> This is what connects back with the Generic instantiation of this 
+> annotation. `class Annotated(Generic[_NodeT])` says that this class is a 
+> higher-kinded type parameterized on ... something. We don't know yet.
+>
+> In the initializer, we use the TypeVar to describe which argument 
+> determines that parameterization.
+>
+>>> +        self.value = value
+>
+> That parameter flows down and connects to this property. Thus, this 
+> field actually has a dynamic type that will track the original type used 
+> to instantiate it. If it was a Dict, this will also be a Dict.
+>
+> (Of course, it's limited to what mypy knows about the constraint of that 
+> value when passed. It isn't interrogated at runtime.)
+>
+> This is a way to achieve dynamism in container-style classes without 
+> losing precision in data types. It allows us to declare and keep a more 
+> specific "inner type" that survives the boxing and unboxing process.
+>
+> e.g. Annotated[Dict[str, object]] and Annotated[str] are two different 
+> types, and can be differentiated by mypy.
+>
+> (*cough*, and yes, if you have a function that takes Annotated[Any], you 
+> lose that precision at that point. So, we aren't taking full advantage 
+> of that power here in introspect.py, but it still seemed like the 
+> "right" way to type something like this.)
+
+A generic type feels like overkill here.  This is code that fits on a
+page or two.  It solves a simple problem in a simple way.  It's also
+badly structured, and virtually undocumented.  I think it needs a
+restructuring much more than it needs maximally tight typing.
+
+I'm not demanding you dumb down the types now.  Let's move on.
+
+>>> +        self.comment: Optional[str] = comment
+>>> +        self.ifcond: Tuple[str, ...] = tuple(ifcond)
+>>>   
+>>>   
+>>>   def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
+>>> @@ -67,24 +81,20 @@ def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
+>>>       def indent(level):
+>>>           return level * 4 * ' '
+>>>   
+>>> -    if isinstance(obj, tuple):
+>>> -        ifobj, extra = obj
+>>> -        ifcond = extra.get('if')
+>>> -        comment = extra.get('comment')
+>>> -
+>>> +    if isinstance(obj, Annotated):
+>>>           # NB: _tree_to_qlit is called recursively on the values of a key:value
+>>>           # pair; those values can't be decorated with comments or conditionals.
+>>>           msg = "dict values cannot have attached comments or if-conditionals."
+>>>           assert not suppress_first_indent, msg
+>>>   
+>>>           ret = ''
+>>> -        if comment:
+>>> -            ret += indent(level) + '/* %s */\n' % comment
+>>> -        if ifcond:
+>>> -            ret += gen_if(ifcond)
+>>> -        ret += _tree_to_qlit(ifobj, level)
+>>> -        if ifcond:
+>>> -            ret += '\n' + gen_endif(ifcond)
+>>> +        if obj.comment:
+>>> +            ret += indent(level) + '/* %s */\n' % obj.comment
+>>> +        if obj.ifcond:
+>>> +            ret += gen_if(obj.ifcond)
+>>> +        ret += _tree_to_qlit(obj.value, level, suppress_first_indent)
+>> 
+>> Why do you need to pass suppress_first_indent now?
+>> 
+>
+> UH, technically I guess I don't. Holdover from when that was maybe not 
+> clear.
+
+Dropped in v5.  Good.
+
+>>> +        if obj.ifcond:
+>>> +            ret += '\n' + gen_endif(obj.ifcond)
+>>>           return ret
+>>>   
+>>>       ret = ''
+>>> @@ -201,7 +211,7 @@ def _use_type(self, typ):
+>>>   
+>>>       @staticmethod
+>>>       def _gen_features(features):
+>>> -        return [_make_tree(f.name, f.ifcond) for f in features]
+>>> +        return [Annotated(f.name, f.ifcond) for f in features]
+>>>   
+>>>       def _gen_tree(self, name, mtype, obj, ifcond, features):
+>>>           comment: Optional[str] = None
+>>> @@ -215,7 +225,7 @@ def _gen_tree(self, name, mtype, obj, ifcond, features):
+>>>           obj['meta-type'] = mtype
+>>>           if features:
+>>>               obj['features'] = self._gen_features(features)
+>>> -        self._trees.append(_make_tree(obj, ifcond, comment))
+>>> +        self._trees.append(Annotated(obj, ifcond, comment))
+>>>   
+>>>       def _gen_member(self, member):
+>>>           obj = {'name': member.name, 'type': self._use_type(member.type)}
+>>> @@ -223,7 +233,7 @@ def _gen_member(self, member):
+>>>               obj['default'] = None
+>>>           if member.features:
+>>>               obj['features'] = self._gen_features(member.features)
+>>> -        return _make_tree(obj, member.ifcond)
+>>> +        return Annotated(obj, member.ifcond)
+>>>   
+>>>       def _gen_variants(self, tag_name, variants):
+>>>           return {'tag': tag_name,
+>>> @@ -231,16 +241,17 @@ def _gen_variants(self, tag_name, variants):
+>>>   
+>>>       def _gen_variant(self, variant):
+>>>           obj = {'case': variant.name, 'type': self._use_type(variant.type)}
+>>> -        return _make_tree(obj, variant.ifcond)
+>>> +        return Annotated(obj, variant.ifcond)
+>>>   
+>>>       def visit_builtin_type(self, name, info, json_type):
+>>>           self._gen_tree(name, 'builtin', {'json-type': json_type}, [], None)
+>>>   
+>>>       def visit_enum_type(self, name, info, ifcond, features, members, prefix):
+>>> -        self._gen_tree(name, 'enum',
+>>> -                       {'values': [_make_tree(m.name, m.ifcond, None)
+>>> -                                   for m in members]},
+>>> -                       ifcond, features)
+>>> +        self._gen_tree(
+>>> +            name, 'enum',
+>>> +            {'values': [Annotated(m.name, m.ifcond) for m in members]},
+>>> +            ifcond, features
+>>> +        )
+>>>   
+>>>       def visit_array_type(self, name, info, ifcond, element_type):
+>>>           element = self._use_type(element_type)
+>>> @@ -257,12 +268,12 @@ def visit_object_type_flat(self, name, info, ifcond, features,
+>>>           self._gen_tree(name, 'object', obj, ifcond, features)
+>>>   
+>>>       def visit_alternate_type(self, name, info, ifcond, features, variants):
+>>> -        self._gen_tree(name, 'alternate',
+>>> -                       {'members': [
+>>> -                           _make_tree({'type': self._use_type(m.type)},
+>>> -                                      m.ifcond, None)
+>>> -                           for m in variants.variants]},
+>>> -                       ifcond, features)
+>>> +        self._gen_tree(name, 'alternate', {'members': [
+>> 
+>> I think I'd prefer another line break after 'alternate', to get
+>> {'members': align...
+>> 
+>>> +                Annotated({'type': self._use_type(m.type)}, m.ifcond)
+>>> +                for m in variants.variants
+>>> +            ]},
+>> 
+>> ... with ]}.
+>> 
+>
+> How's about
+>
+> ```
+> self._gen_tree(
+>      name, 'alternate',
+>      {'members': [Annotated({'type': self._use_type(m.type)}, m.ifcond)
+>                   for m in variants.variants]},
+>      ifcond, features
+> )
+> ```
+>
+> (It'd look cooler if I re-arranged the other short parameters first, or 
+> I could create a temporary local. In-line objects with in-line 
+> comprehensions are bound to look sorta ugly. I'm going with what I wrote 
+> above for now, though.)
+
+I'll see how it comes out in v5.
+
+>>> +            ifcond, features
+>>> +        )
+>>>   
+>>>       def visit_command(self, name, info, ifcond, features,
+>>>                         arg_type, ret_type, gen, success_response, boxed,
+>
+> [1] Python 3.6 EOL is this December, but OpenSuSE Leap 15.2 was released 
+> 2020-07-02 and only offers Python 3.6. Ouch! It is not clear if they 
+> will add support for Python 3.7 at any point, but otherwise we are stuck 
+> supporting 15.2 for two years after the next OpenSUSE is released, which 
+> hasn't happened yet. Ouch!!! So we don't even have a date on the tin for 
+> when we might conceivably inch up our requirements again.
+>
+> I think the situation for RHEL and Debian is also sad, IIRC.
+
+Things like these are why your salary is called "compensation".  The
+"for personal suffering" part you figure out quickly enough.
 
 
