@@ -2,127 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785773109FB
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEE73109FA
 	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 12:13:05 +0100 (CET)
-Received: from localhost ([::1]:58544 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7z2u-0007Lc-Hz
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 06:13:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56850)
+	id 1l7z2t-0007N5-Sj
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 06:13:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l7z0i-000691-Gs; Fri, 05 Feb 2021 06:10:50 -0500
-Received: from mail-db8eur05on2133.outbound.protection.outlook.com
- ([40.107.20.133]:5088 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l7z0a-00073l-Nt; Fri, 05 Feb 2021 06:10:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lFoyxYb0vOxpSaqP1fHQtIvkZFUhz0Rk5LlYe/+u3+Ffe7tWr68QQEYjVrVOlXh/B7hE4+wxE+itgBjPvdgdhgVlvEGZwN1Mjy4NRjk+90dU7NycYhK0tzabYVCUn6zK9DlDGPujAsYO+fUZg1ZzlgPCOuHB18ziJEGGmgj/NXQeqS4qqr+Idk5PLZgqMsJV5rpc6i/zPU+2DQzr9+sNYRkcT9abczziRTm62JTn5xb1T97qfU5J7TW7YLdX3vAcMaBDU6V9aTpW/wXsGXo/i3MIGkXMzvB/4XjOB8RNyyu6PjI2uIf8gjcbf9rjUp135NG7YbW5gKgFyd2xTUqxog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w6Ie5mYXqefVzXXbtRXGm2VZD+r+90QeWeLr1pwW9Pg=;
- b=LmntPzEeh0dic4ZqfL7Ljmx3+5hxct+g1wAPURj9fHP8CdMOfny41P1nmcRcEM4+8fhCBcgmiKCq90loqYt7IGLmdRRcJWdoIwVjN01W1zqyHRz+RsCza1dG21BsiNZLAvFMiH4txj5h+f6ezOa1tnfrv7bECHT7ZF657EbzDHehJR/9uDsYHmeSJmx2df8/dU4vtK+ZQhZPLuhHvoBoCvPTQejzTd2s1D6SJktWe2Hxj69Jp0PvyMcstzYcOE2tl/6hMy2AnQMlsNZU6GO49MjH2OcpIyl2cvCk1jfOl4/2/lxkEoATkRzfeSeuJxcOeLfSOfU4Iqiz7bSGZbgopA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w6Ie5mYXqefVzXXbtRXGm2VZD+r+90QeWeLr1pwW9Pg=;
- b=DuAA8fUQGVpsJBhH+pEhjgwJopm5Xy2mIlqBvh4m32NH+CTHYcPZ/J+X2WTEbLe4gwkPspfOxGDY37Ftbdt9/aL6+YNPbd7k+6vOmJrggbkdQDyl/sgQHwaqeXeRQe/OJkctCzgEF+yHQEbbhU5lWSc/CtTT5yCG7npRJShRUf8=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3863.eurprd08.prod.outlook.com (2603:10a6:20b:8b::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16; Fri, 5 Feb
- 2021 11:10:34 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Fri, 5 Feb 2021
- 11:10:34 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
- vsementsov@virtuozzo.com, cfontana@suse.de, peter.maydell@linaro.org,
- philmd@redhat.com
-Subject: [PATCH] iotests: 30: drop from auto group (and effectively from make
- check)
-Date: Fri,  5 Feb 2021 14:10:21 +0300
-Message-Id: <20210205111021.715240-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.213]
-X-ClientProxiedBy: AM0PR10CA0035.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7z0p-0006HJ-N7
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 06:10:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l7z0h-00075H-Oe
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 06:10:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612523445;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=a7pp9G1ExoCGMov6AtrKjsKCRxMqRJOclfLXXlZT2f8=;
+ b=LOGNERKzBM+GGBnDRq5yzW0jtlcHiUX/55/6SUXmrWHad6If37e8t6kt+Ct3QdqAiLHVdH
+ woqqyeRRRyofi0ttXMqGI+0GwDM+w6iZIJBMHt0iWWe9s+QBzwzb2OhaTUK7L34cxPEirk
+ BiK22RfEHL8LSck5jAYoGYWcTvF01UE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-204-oQw4gjpXMKCTqUTLKei9AQ-1; Fri, 05 Feb 2021 06:10:42 -0500
+X-MC-Unique: oQw4gjpXMKCTqUTLKei9AQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB8C7801965;
+ Fri,  5 Feb 2021 11:10:40 +0000 (UTC)
+Received: from redhat.com (ovpn-114-212.ams2.redhat.com [10.36.114.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F186E5D9CD;
+ Fri,  5 Feb 2021 11:10:38 +0000 (UTC)
+Date: Fri, 5 Feb 2021 11:10:36 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 3/3] utils: Deprecate inexact fractional suffix sizes
+Message-ID: <20210205111036.GE908621@redhat.com>
+References: <20210204190708.1306296-1-eblake@redhat.com>
+ <20210204190708.1306296-4-eblake@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.213) by
- AM0PR10CA0035.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17 via Frontend
- Transport; Fri, 5 Feb 2021 11:10:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4a997ce1-1d3f-4d8a-7071-08d8c9c6a861
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3863:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3863C2970F9F998DBC5E23B5C1B29@AM6PR08MB3863.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:158;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GFIVWdryi8oc8gxKmdAAsHPhDCD0yPnDlw0Fli/Vs3NvAE0Yt2ktfEuvXFuko2r+AqgpT0sKgs5av3/zvVSMWUn814m0MB9D80rhaZu5ORwn+JuAAQwP8gGV9hMMQDpP7szKi2Z+vQEWQnFQudSWJD1x9OSTFPNlqpPUSO/Sr1ncwZpl+Tu/xN73TlLo030EgLXT+Q6asF/doINo7ek/P5SOFLqhMcieUWFDFZ+yOUSLyayE1Exg5meWiMYBesdiZByy7jzLukSA95IDJTa/LyXLfzvzGe+IsPH8g8okpkfGbrRPsgmyi1X7HjzElLDCyQR5usDrguoau7T5xbvZdvEOZO5+VBeYKFaduFpnkKbn3b0+MDfjQF4ovhYWAN98IYH7VJeTwM5nlSuXh2mwe4ViPVCmONalgSMHxJyuIAyOoQ82Su+cLsJ65l8HpXunRR599jHMj+0T8r5+oceTIdXocYK33s+C6ewdkrTBDazNxLPAqeWCQkiEefk4bJY2wncXDTlqfmT9L6Ujz7qngw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(39840400004)(136003)(346002)(396003)(66946007)(66476007)(66556008)(52116002)(36756003)(478600001)(5660300002)(6916009)(316002)(8676002)(1076003)(16526019)(956004)(83380400001)(6666004)(186003)(2906002)(86362001)(4326008)(6486002)(2616005)(8936002)(6512007)(6506007)(26005);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?eu1lfk9iiHhEqW9ZNx5gOlqwjE77xyEJ/mReyIdS8a1WlLrhdjUVf9drR/lj?=
- =?us-ascii?Q?xXwF+OZqfo+CRbQ3pJogLEQOrEeIfAb4ewJdFj5j5Jvn8C68yy001xftC5X6?=
- =?us-ascii?Q?IGX4a7fT+mecfLSbJtqcT1Jwf81gZZOA6GT1bjgwi6jD0vJwB6oALzLLvbTG?=
- =?us-ascii?Q?6QSayC2Umo1fipsGoyIQuVgcOaGVVEEpdIhSY0KJ12ShSWEEzjquI5BqOn6t?=
- =?us-ascii?Q?O0cvKn6A3cllHAdHYAJD7N1ph/YTbSi8tauuhDCmfKOY5O0Q88aV1qC8VDkN?=
- =?us-ascii?Q?Z3tg3TwhpB1ohbCwYequb0ZUBD9A6M8/0awOp4GbGZX+LrWunZ2Gi81CwrR6?=
- =?us-ascii?Q?hM6rlCbqFfF8oq6iaeXUHsCe9UUE3/QiudRy22i7WiN980DAHuRC2NjBya/3?=
- =?us-ascii?Q?AbsH7v4U9rc4p6fXjeVIp+7z90OMrkInLjGVHNTpdDM+4lOhT95JuNNvHBfn?=
- =?us-ascii?Q?r2wMwu2Kkr1qCeY336p9XMtgnA2ZFQgjhF0wsw/e80o5sPiYrCHAf7/Qw/uo?=
- =?us-ascii?Q?kMcMSxPsRUAI+uN7mrneTAJUkG7kVNVnYpXtdg2PnYMAecpcpDyHa7dqM83i?=
- =?us-ascii?Q?Imctw0f4mKVnLnhYsO8orlCXQnfZlBraMTPyzvOjMF1XAPA3wXavr1ffmAbn?=
- =?us-ascii?Q?q2EEJnuwTDKJzhso/NNCzEYsTlBM5/ZO75rt5LsvJyi3Grbw2JHE8Sey9imN?=
- =?us-ascii?Q?XR6Wvn8RNqOKK9LjcQDqjEyU2zhYkIZNeOo7WSNJT06+CqKegiZTlL0JAktW?=
- =?us-ascii?Q?kHlpdZhG4J4GEbdpB1AwrhfcOmM0nLldCvOyPSLMs4uZM3qhZyf4dn4X59th?=
- =?us-ascii?Q?LfcK08xqcpWR7Lvt09CknerM0O1EypyDiX4BRH/39GK4/nrlbwdNqj1zG7Y9?=
- =?us-ascii?Q?BHNolbcic8ywYfwUt4BWGoTb9N5pY9tlk7zm1lSQH0zIaSzVPE92Y0IfSW7v?=
- =?us-ascii?Q?C7IdwUxmwWtO9DtPJ/C4zjbbeziE/1NnMqrKxOUCX6vChrSpmpe6bFt36EA6?=
- =?us-ascii?Q?0NoyHxJ1xdcEU/cTXWmkc+FfDmHdqcmVIuv9KQGQipi+4bFoSNb+VW759ibA?=
- =?us-ascii?Q?bq+wOwrD/XlDN6kKQ4tW6QHvgQKXo5syHEwm2WE5H3qxP+02QSRVyU3UuJzN?=
- =?us-ascii?Q?NXEEIjDPs4kteDkvTcyQsRfeZ8lLegzigReg5oWXUsaiLP0jBeylkV/rOCw6?=
- =?us-ascii?Q?Ue/5tbSTOiJWUiflBbQB9jgzLnIwk6D32dE9X2AGF81IOtRbYplbgtqGXqCY?=
- =?us-ascii?Q?SQJi6EZS6G6s6k4V587rFFHe1ks6FOnewlq02KsgWvSeGLE2LwELE+zp9kIO?=
- =?us-ascii?Q?y9nSPt0k0Ykh4tTu6ItwQQ/A?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a997ce1-1d3f-4d8a-7071-08d8c9c6a861
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 11:10:34.1816 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lr7YgRt1EWlMndQ6ikfx9zrcumDobgF4hhIkPxxzSUhjmozIM+bX8cd8KeQ6jIf2OVaiGB48il7UFRfCJd870+PnXlHEigtf4md4lJLFBmU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3863
-Received-SPF: pass client-ip=40.107.20.133;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210204190708.1306296-4-eblake@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -135,197 +79,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, rjones@redhat.com,
+ tao3.xu@intel.com, armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I reproduced the following crash fast enough:
+On Thu, Feb 04, 2021 at 01:07:08PM -0600, Eric Blake wrote:
+> The value '1.1k' is inexact; 1126.4 bytes is not possible, so we
+> happen to truncate it to 1126.  Our use of fractional sizes is
+> intended for convenience, but when a user specifies a fraction that is
+> not a clean translation to binary, truncating/rounding behind their
+> backs can cause confusion.  Better is to deprecate inexact values,
+> which still leaves '1.5k' as valid, but alerts the user to spell out
+> their values as a precise byte number in cases where they are
+> currently being rounded.
 
-0  raise () at /lib64/libc.so.6
-1  abort () at /lib64/libc.so.6
-2  _nl_load_domain.cold () at /lib64/libc.so.6
-3  annobin_assert.c_end () at /lib64/libc.so.6
-4  bdrv_reopen_multiple (bs_queue=0x55de75fa9b70, errp=0x0)
-   at ../block.c:3820
-5  bdrv_reopen_set_read_only (bs=0x55de760fc020, read_only=true,
-   errp=0x0) at ../block.c:3870
-6  stream_clean (job=0x55de75fa9410) at ../block/stream.c:99
-7  job_clean (job=0x55de75fa9410) at ../job.c:680
-8  job_finalize_single (job=0x55de75fa9410) at ../job.c:696
-9  job_txn_apply (job=0x55de75fa9410,
-   fn=0x55de741eee27 <job_finalize_single>) at ../job.c:158
-10 job_do_finalize (job=0x55de75fa9410) at ../job.c:805
-11 job_completed_txn_success (job=0x55de75fa9410) at ../job.c:855
-12 job_completed (job=0x55de75fa9410) at ../job.c:868
-13 job_exit (opaque=0x55de75fa9410) at ../job.c:888
-14 aio_bh_call (bh=0x55de76b9b4e0) at ../util/async.c:136
-15 aio_bh_poll (ctx=0x55de75bc5300) at ../util/async.c:164
-16 aio_dispatch (ctx=0x55de75bc5300) at ../util/aio-posix.c:381
-17 aio_ctx_dispatch (source=0x55de75bc5300, callback=0x0,
-   user_data=0x0) at ../util/async.c:306
-18 g_main_context_dispatch () at /lib64/libglib-2.0.so.0
-19 glib_pollfds_poll () at ../util/main-loop.c:232
-20 os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:255
-21 main_loop_wait (nonblocking=0) at ../util/main-loop.c:531
-22 qemu_main_loop () at ../softmmu/runstate.c:722
-23 main (argc=20, argv=0x7ffe218f0268, envp=0x7ffe218f0310) at
-   ../softmmu/main.c:50
+I don't think we should be deprecating this, as I think it makes
+it very user hostile.  Users who require exact answers, won't be
+using fractional syntax in the first place. IOW, by using fractional
+syntax you've decided that approximation is acceptable. Given that,
+I should not have to worry about whether or not the fraction I'm
+using is exact or truncated. It is horrible usability to say that
+"1.1k" is invalid, while "1.5k" is valid - both are valid from my
+POV as a user of this.
 
-(gdb) fr 4
-4  bdrv_reopen_multiple (bs_queue=0x55de75fa9b70, errp=0x0) at
-      ../block.c:3820
-3820                assert(perm == state->perm);
-(gdb) list
-3815
-3816            if (ret == 0) {
-3817                uint64_t perm, shared;
-3818
-3819                bdrv_get_cumulative_perm(state->bs, &perm,
-                    &shared);
-3820                assert(perm == state->perm);
-3821                assert(shared == state->shared_perm);
-3822
-3823                bdrv_set_perm(state->bs);
-3824            } else {
-(gdb) p perm
-$1 = 1
-(gdb) p state->perm
-$2 = 0
 
-Then I had 38 successful iterations and another crash:
-0  bdrv_check_update_perm (bs=0x5631ac97bc50, q=0x0, new_used_perm=1,
-   new_shared_perm=31, ignore_children=0x0, errp=0x7ffd9d477cf8) at
-   ../block.c:2197
-1  bdrv_root_attach_child
-    (child_bs=0x5631ac97bc50, child_name=0x5631aaf6b1f9 "backing",
-    child_class=0x5631ab280ca0 <child_of_bds>, child_role=8,
-    ctx=0x5631ab757300, perm=1, shared_perm=31, opaque=0x5631abb8c020,
-    errp=0x7ffd9d477cf8)
-    at ../block.c:2642
-2  bdrv_attach_child (parent_bs=0x5631abb8c020,
-   child_bs=0x5631ac97bc50, child_name=0x5631aaf6b1f9 "backing",
-   child_class=0x5631ab280ca0 <child_of_bds>, child_role=8,
-   errp=0x7ffd9d477cf8)
-    at ../block.c:2719
-3  bdrv_set_backing_hd (bs=0x5631abb8c020, backing_hd=0x5631ac97bc50,
-   errp=0x7ffd9d477cf8) at ../block.c:2854
-4  stream_prepare (job=0x5631ac751eb0) at ../block/stream.c:74
-5  job_prepare (job=0x5631ac751eb0) at ../job.c:784
-6  job_txn_apply (job=0x5631ac751eb0, fn=0x5631aacb1156 <job_prepare>)
-   at ../job.c:158
-7  job_do_finalize (job=0x5631ac751eb0) at ../job.c:801
-8  job_completed_txn_success (job=0x5631ac751eb0) at ../job.c:855
-9  job_completed (job=0x5631ac751eb0) at ../job.c:868
-10 job_exit (opaque=0x5631ac751eb0) at ../job.c:888
-11 aio_bh_call (bh=0x7f3d9c007680) at ../util/async.c:136
-12 aio_bh_poll (ctx=0x5631ab757300) at ../util/async.c:164
-13 aio_dispatch (ctx=0x5631ab757300) at ../util/aio-posix.c:381
-14 aio_ctx_dispatch (source=0x5631ab757300, callback=0x0,
-   user_data=0x0) at ../util/async.c:306
-15 g_main_context_dispatch () at /lib64/libglib-2.0.so.0
-16 glib_pollfds_poll () at ../util/main-loop.c:232
-17 os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:255
-18 main_loop_wait (nonblocking=0) at ../util/main-loop.c:531
-19 qemu_main_loop () at ../softmmu/runstate.c:722
-20 main (argc=20, argv=0x7ffd9d478198, envp=0x7ffd9d478240) at
-   ../softmmu/main.c:50
-(gdb) list
-2192        QLIST_FOREACH(c, &bs->parents, next_parent) {
-2193            if (g_slist_find(ignore_children, c)) {
-2194                continue;
-2195            }
-2196
-2197            if ((new_used_perm & c->shared_perm) != new_used_perm)
-                {
-2198                char *user = bdrv_child_user_desc(c);
-2199                char *perm_names = bdrv_perm_names(new_used_perm &
-                    ~c->shared_perm);
-2200
-2201                error_setg(errp, "Conflicts with use by %s as '%s',
-                    which does not "
-(gdb) p c
-$1 = (BdrvChild *) 0x8585858585858585
 
-and trying to reproduce it on top of
-"block: update graph permissions update" I had 634 successful
-iterations
-and then the following crash (which looks much better):
-0  raise () at /lib64/libc.so.6
-1  abort () at /lib64/libc.so.6
-2  _nl_load_domain.cold () at /lib64/libc.so.6
-3  annobin_assert.c_end () at /lib64/libc.so.6
-4  bdrv_replace_child_noperm (child=0x5585bb632010,
-   new_bs=0x5585bc4f42a0) at ../block.c:2589
-5  bdrv_replace_child (child=0x5585bb632010, new_bs=0x5585bc4f42a0,
-   tran=0x7fff5a14d8e0) at ../block.c:2211
-6  bdrv_set_backing_noperm (bs=0x5585bb704020,
-   backing_bs=0x5585bc4f42a0, tran=0x7fff5a14d8e0, errp=0x7fff5a14d918)
-   at ../block.c:3030
-7  bdrv_set_backing_hd (bs=0x5585bb704020, backing_hd=0x5585bc4f42a0,
-   errp=0x7fff5a14d918) at ../block.c:3072
-8  stream_prepare (job=0x5585bc2ef230) at ../block/stream.c:74
-9  job_prepare (job=0x5585bc2ef230) at ../job.c:784
-10 job_txn_apply (job=0x5585bc2ef230, fn=0x5585ba638ad0 <job_prepare>)
-   at ../job.c:158
-11 job_do_finalize (job=0x5585bc2ef230) at ../job.c:801
-12 job_completed_txn_success (job=0x5585bc2ef230) at ../job.c:855
-13 job_completed (job=0x5585bc2ef230) at ../job.c:868
-14 job_exit (opaque=0x5585bc2ef230) at ../job.c:888
-15 aio_bh_call (bh=0x7f62b8004270) at ../util/async.c:136
-16 aio_bh_poll (ctx=0x5585bb2ce4a0) at ../util/async.c:164
-17 aio_dispatch (ctx=0x5585bb2ce4a0) at ../util/aio-posix.c:381
-18 aio_ctx_dispatch (source=0x5585bb2ce4a0, callback=0x0,
-   user_data=0x0) at ../util/async.c:306
-19 g_main_context_dispatch () at /lib64/libglib-2.0.so.0
-20 glib_pollfds_poll () at ../util/main-loop.c:232
-21 os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:255
-22 main_loop_wait (nonblocking=0) at ../util/main-loop.c:531
-23 qemu_main_loop () at ../softmmu/runstate.c:722
-24 main (argc=20, argv=0x7fff5a14ddb8, envp=0x7fff5a14de60) at
-   ../softmmu/main.c:50
+> Note that values like '0.1G' in the testsuite need adjustment as a
+> result.
+> 
+> Sadly, since qemu_strtosz() does not have an Err** parameter, we
+> pollute to stderr.
 
-(gdb) fr 4
-4  bdrv_replace_child_noperm (child=0x5585bb632010,
-   new_bs=0x5585bc4f42a0) at ../block.c:2589
-2589            assert(bdrv_get_aio_context(old_bs) ==
-                bdrv_get_aio_context(new_bs));
-(gdb) list
-2584        int drain_saldo;
-2585
-2586        assert(!child->frozen);
-2587
-2588        if (old_bs && new_bs) {
-2589            assert(bdrv_get_aio_context(old_bs) ==
-                bdrv_get_aio_context(new_bs));
-2590        }
-2591
-2592        new_bs_quiesce_counter = (new_bs ? new_bs->quiesce_counter
-            : 0);
-2593        drain_saldo = new_bs_quiesce_counter -
-            child->parent_quiesce_counter;
+This is only an warning, so setting an Err ** would not be appropriate
+right now.
 
-So it seems reasonable to drop test from auto group at least until we
-merge "block: update graph permissions update"
+None the less we should add an Err **, because many of the callers
+want an Err ** object populated, or use error_report().
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  tests/test-cutils.c    | 4 ++--
+>  tests/test-keyval.c    | 4 ++--
+>  tests/test-qemu-opts.c | 4 ++--
+>  util/cutils.c          | 4 ++++
+>  4 files changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/test-cutils.c b/tests/test-cutils.c
+> index 0c2c89d6f113..ad51fb1baa51 100644
+> --- a/tests/test-cutils.c
+> +++ b/tests/test-cutils.c
+> @@ -2095,14 +2095,14 @@ static void test_qemu_strtosz_units(void)
+> 
+>  static void test_qemu_strtosz_float(void)
+>  {
+> -    const char *str = "12.345M";
+> +    const char *str = "12.125M";
+>      int err;
+>      const char *endptr;
+>      uint64_t res = 0xbaadf00d;
+> 
+>      err = qemu_strtosz(str, &endptr, &res);
+>      g_assert_cmpint(err, ==, 0);
+> -    g_assert_cmpint(res, ==, 12.345 * MiB);
+> +    g_assert_cmpint(res, ==, 12.125 * MiB);
+>      g_assert(endptr == str + 7);
+>  }
+> 
+> diff --git a/tests/test-keyval.c b/tests/test-keyval.c
+> index 13be763650b2..c951ac54cd23 100644
+> --- a/tests/test-keyval.c
+> +++ b/tests/test-keyval.c
+> @@ -522,7 +522,7 @@ static void test_keyval_visit_size(void)
+>      visit_free(v);
+> 
+>      /* Suffixes */
+> -    qdict = keyval_parse("sz1=8b,sz2=1.5k,sz3=2M,sz4=0.1G,sz5=16777215T",
+> +    qdict = keyval_parse("sz1=8b,sz2=1.5k,sz3=2M,sz4=0.125G,sz5=16777215T",
+>                           NULL, NULL, &error_abort);
+>      v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
+>      qobject_unref(qdict);
+> @@ -534,7 +534,7 @@ static void test_keyval_visit_size(void)
+>      visit_type_size(v, "sz3", &sz, &error_abort);
+>      g_assert_cmphex(sz, ==, 2 * MiB);
+>      visit_type_size(v, "sz4", &sz, &error_abort);
+> -    g_assert_cmphex(sz, ==, GiB / 10);
+> +    g_assert_cmphex(sz, ==, GiB / 8);
+>      visit_type_size(v, "sz5", &sz, &error_abort);
+>      g_assert_cmphex(sz, ==, 16777215ULL * TiB);
+>      visit_check_struct(v, &error_abort);
+> diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
+> index f79b698e6715..6a1ea1d01c4f 100644
+> --- a/tests/test-qemu-opts.c
+> +++ b/tests/test-qemu-opts.c
+> @@ -717,10 +717,10 @@ static void test_opts_parse_size(void)
+>      g_assert_cmphex(qemu_opt_get_size(opts, "size1", 0), ==, 8);
+>      g_assert_cmphex(qemu_opt_get_size(opts, "size2", 0), ==, 1536);
+>      g_assert_cmphex(qemu_opt_get_size(opts, "size3", 0), ==, 2 * MiB);
+> -    opts = qemu_opts_parse(&opts_list_02, "size1=0.1G,size2=16777215T",
+> +    opts = qemu_opts_parse(&opts_list_02, "size1=0.125G,size2=16777215T",
+>                             false, &error_abort);
+>      g_assert_cmpuint(opts_count(opts), ==, 2);
+> -    g_assert_cmphex(qemu_opt_get_size(opts, "size1", 0), ==, GiB / 10);
+> +    g_assert_cmphex(qemu_opt_get_size(opts, "size1", 0), ==, GiB / 8);
+>      g_assert_cmphex(qemu_opt_get_size(opts, "size2", 0), ==, 16777215ULL * TiB);
+> 
+>      /* Beyond limit with suffix */
+> diff --git a/util/cutils.c b/util/cutils.c
+> index 75190565cbb5..5ec6101ae778 100644
+> --- a/util/cutils.c
+> +++ b/util/cutils.c
+> @@ -327,6 +327,10 @@ static int do_strtosz(const char *nptr, const char **end,
+>          retval = -ERANGE;
+>          goto out;
+>      }
+> +    if (mul_required && fraction * mul != (uint64_t) (fraction * mul)) {
+> +        fprintf(stderr, "Using a fractional size that is not an exact byte "
+> +                "multiple is deprecated: %s\n", nptr);
+> +    }
+>      *result = val * mul + (uint64_t) (fraction * mul);
+>      retval = 0;
+> 
+> -- 
+> 2.30.0
+> 
 
-Note: be free to shorten commit message if needed :)
-
- tests/qemu-iotests/030 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 832fe4a1e2..12aa9ed37e 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -1,5 +1,5 @@
- #!/usr/bin/env python3
--# group: rw auto backing
-+# group: rw backing
- #
- # Tests for image streaming.
- #
+Regards,
+Daniel
 -- 
-2.29.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
