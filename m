@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BCDD310449
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 06:02:06 +0100 (CET)
-Received: from localhost ([::1]:40934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045BF3104C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 06:58:01 +0100 (CET)
+Received: from localhost ([::1]:47294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7tFt-0003is-AB
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 00:02:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44198)
+	id 1l7u7z-0006BM-G9
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 00:57:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1l7tDj-00032D-UP; Thu, 04 Feb 2021 23:59:51 -0500
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:36207)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1l7tDi-0004T3-5F; Thu, 04 Feb 2021 23:59:51 -0500
-Received: by mail-oi1-x233.google.com with SMTP id k204so4707225oih.3;
- Thu, 04 Feb 2021 20:59:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Ps5ErN2IC4d3feM32CXbLkM9FMnanAcwmZcZxFMm3YU=;
- b=cpgubWnTWZWIaBbbPUFoSXJEORMjxXIFM3YhPxUD7vFaOEKUPWh2konbLG5Yuf+vh5
- xIWAPHpQqUi6hvHC/bAlr4rYMl1AHn9RVoQR3BdqnFbqDVzzM7a1CcqB0R8kOl3WD3Rh
- ph+cFbVVFSccx+t3J1Wtqke5XGq+W+ymGc2mo9S78henIVcejycrcFq/oSm4x3EZhafq
- KRxrGYiKzzdq3Yz4MrK3KyMSMn/NPW1jpJKGQE/y0LBAbIBRqR5XjefN3xqWWsWnkHWt
- axTarYCLmmy97zIO4goBpU+W4u3zFKCcCuXbSMcwgbiz3fU2wojAnrBIdD3YhSgUyFyx
- 8tow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ps5ErN2IC4d3feM32CXbLkM9FMnanAcwmZcZxFMm3YU=;
- b=BnGm2r6YNGE2Ncu3E0KrW+0XmtD55fjNqQjTiyLG1LXY4BiRCdwitNWA23ZOXY0QLF
- Mg/CUqqublNX2YvDm9npuIYul2Q+PYtr5sutJQoYDkg334Ugh1jLDUMBb+X2/h/OLm1M
- qwqLYDfRekwDgopL1em6RgD+y/XqRh4go/B0XBhqP7ByXL/lz80hZ3XgLvls6zitk602
- Wsy9xr3+3yeJXOUUS+Z9YTxZzN2EQBoR0XejJ2RmrXE/wAEHXHv1Mm7iYu00hmGwcERL
- SdDe3ZBn+CZQsBwnifdyAL7G6hoj5anuBcsT4MRCUP37ky7rjNrsBVXzsGpPjXmasZF5
- 5PmA==
-X-Gm-Message-State: AOAM531UdpE2edYlTpJimmUIXgmjN3X8g6LwW6mf7iOYMvwp6Ej85xlQ
- jl2wB+9E3Frvoa7419oYg9nTHqZOk/J5OYEthpw=
-X-Google-Smtp-Source: ABdhPJyzz9jjCMIFSYlGQdPqWuzRnkg1HNxC9LW9XWYDCezFtgTZjBk0gI1QzVoRYnzkCWyOdbGXfvJ1mS38o4ZeeBQ=
-X-Received: by 2002:a54:4706:: with SMTP id k6mr2010266oik.56.1612501188301;
- Thu, 04 Feb 2021 20:59:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7u6v-0005hy-W2
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 00:56:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49477)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7u6r-0006ZV-UF
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 00:56:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612504607;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JdeTiSTfPuisx8UNW9mHBhfrq/5OH974tDCCc4jypAA=;
+ b=FVq3trIw5S0so5ZIc2UnjE6sFJe+CQgmS7QHLM4xID3DL762S+OnVpFO34hiJF0jc3IeLt
+ 0KV0QMLLQEhbUauYd4DgMvQrib6u/FLqp4pZQ3S2EbnABjuw9+e5MRaYyKXr37amPPebRJ
+ t/irdthHTINeNoty/t4XNa0dQa+Z3ss=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-eQvI4YibN86dxlLqJb3lIg-1; Fri, 05 Feb 2021 00:56:43 -0500
+X-MC-Unique: eQvI4YibN86dxlLqJb3lIg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83D531020C23;
+ Fri,  5 Feb 2021 05:56:41 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-46.ams2.redhat.com [10.36.112.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4EABF1A868;
+ Fri,  5 Feb 2021 05:56:40 +0000 (UTC)
+Subject: Re: [PATCH 1/2] build: add configure flag to indicate when the host
+ is Darwin
+To: phillip.ennen@gmail.com, qemu-devel@nongnu.org
+References: <20210204162544.65439-1-phillip.ennen@gmail.com>
+ <20210204162544.65439-2-phillip.ennen@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <eacb4adb-3139-e8ed-0d1f-d070af226872@redhat.com>
+Date: Fri, 5 Feb 2021 06:56:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210204225041.1822673-1-philmd@redhat.com>
-In-Reply-To: <20210204225041.1822673-1-philmd@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 5 Feb 2021 12:59:11 +0800
-Message-ID: <CAKXe6SKTj0GwLzR7XTTvtgRhAA3mcXDw1NP_pkmmeeUvqq69DA@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/scsi/scsi-disk: Fix out of bounds access in
- mode_sense_page()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x233.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210204162544.65439-2-phillip.ennen@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,86 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Alexander Bulekov <alxndr@bu.edu>,
- qemu-stable@nongnu.org, Qemu Developers <qemu-devel@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: stefanha@gmail.com, jasowang@redhat.com, phillip@axleos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2021=E5=B9=B42=E6=
-=9C=885=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=886:50=E5=86=99=E9=81=93=
-=EF=BC=9A
->
-> Per the "SCSI Commands Reference Manual" (Rev. J) chapter 5.3
-> "Mode parameters" and table 359 "Mode page codes and subpage
-> codes", the last page code is 0x3f. When using it as array index,
-> the array must have 0x40 elements. Replace the magic 0x3f value
-> by its definition and increase the size of the mode_sense_valid[]
-> to avoid an out of bound access (reproducer available in [Buglink]):
->
->   hw/scsi/scsi-disk.c:1104:10: runtime error: index 63 out of bounds for =
-type 'const int [63]'
->   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior hw/scsi/scsi-di=
-sk.c:1104:10 in
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->   =3D=3D1813911=3D=3DERROR: AddressSanitizer: global-buffer-overflow
->   READ of size 4 at 0x5624b84aff1c thread T0
->       #0 0x5624b63004b3 in mode_sense_page hw/scsi/scsi-disk.c:1104:10
->       #1 0x5624b630f798 in scsi_disk_check_mode_select hw/scsi/scsi-disk.=
-c:1447:11
->       #2 0x5624b630efb8 in mode_select_pages hw/scsi/scsi-disk.c:1515:17
->       #3 0x5624b630988e in scsi_disk_emulate_mode_select hw/scsi/scsi-dis=
-k.c:1570:13
->       #4 0x5624b62f08e7 in scsi_disk_emulate_write_data hw/scsi/scsi-disk=
-.c:1861:9
->       #5 0x5624b62b171b in scsi_req_continue hw/scsi/scsi-bus.c:1391:9
->       #6 0x5624b62b2d4c in scsi_req_data hw/scsi/scsi-bus.c:1427:5
->       #7 0x5624b62f05f6 in scsi_disk_emulate_write_data hw/scsi/scsi-disk=
-.c:1853:9
->       #8 0x5624b62b171b in scsi_req_continue hw/scsi/scsi-bus.c:1391:9
->       #9 0x5624b63e47ed in megasas_enqueue_req hw/scsi/megasas.c:1660:9
->       #10 0x5624b63b9cfa in megasas_handle_scsi hw/scsi/megasas.c:1735:5
->       #11 0x5624b63acf91 in megasas_handle_frame hw/scsi/megasas.c:1974:2=
-4
->       #12 0x5624b63aa200 in megasas_mmio_write hw/scsi/megasas.c:2131:9
->       #13 0x5624b63ebed3 in megasas_port_write hw/scsi/megasas.c:2182:5
->       #14 0x5624b6f43568 in memory_region_write_accessor softmmu/memory.c=
-:491:5
->
-> Cc: qemu-stable@nongnu.org
-> Reported-by: OSS-Fuzz
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1914638
-> Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-
+On 04/02/2021 17.25, phillip.ennen@gmail.com wrote:
+> From: Phillip Tennen <phillip@axleos.com>
+> 
+> Although we already have CONFIG_BSD, I added this flag to be sure that we could rely on various macOS-specific subsystems, such as vmnet.framework.
+> 
+> Signed-off-by: Phillip Tennen <phillip@axleos.com>
 > ---
-> v2: Mention reproducer link
-> ---
->  hw/scsi/scsi-disk.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index ed52fcd49ff..93aec483e88 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -1089,7 +1089,7 @@ static int scsi_emulate_mechanism_status(SCSIDiskSt=
-ate *s, uint8_t *outbuf)
->  static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbu=
-f,
->                             int page_control)
->  {
-> -    static const int mode_sense_valid[0x3f] =3D {
-> +    static const int mode_sense_valid[MODE_PAGE_ALLS + 1] =3D {
->          [MODE_PAGE_HD_GEOMETRY]            =3D (1 << TYPE_DISK),
->          [MODE_PAGE_FLEXIBLE_DISK_GEOMETRY] =3D (1 << TYPE_DISK),
->          [MODE_PAGE_CACHING]                =3D (1 << TYPE_DISK) | (1 << =
-TYPE_ROM),
-> --
-> 2.26.2
->
+>   configure | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/configure b/configure
+> index 87de49e2c2..4afd22bdf5 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5825,6 +5825,10 @@ if [ "$bsd" = "yes" ] ; then
+>     echo "CONFIG_BSD=y" >> $config_host_mak
+>   fi
+>   
+> +if [ "$darwin" = "yes" ] ; then
+> +  echo "CONFIG_DARWIN=y" >> $config_host_mak
+> +fi
+
+  Hi!
+
+We already have these lines in "configure":
+
+if test "$darwin" = "yes" ; then
+   echo "CONFIG_DARWIN=y" >> $config_host_mak
+fi
+
+... so your patch here looks pretty redundant?
+
+  Thomas
+
 
