@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18658310F42
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 18:58:46 +0100 (CET)
-Received: from localhost ([::1]:46496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54FF310F30
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 18:56:07 +0100 (CET)
+Received: from localhost ([::1]:38672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l85NV-0004cS-43
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 12:58:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
+	id 1l85Kw-0001Gk-PQ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 12:56:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84TO-0006eU-S0
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:00:48 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38578)
+ id 1l84Te-0006n5-Dg
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:03 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84T3-000400-GM
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:00:46 -0500
-Received: by mail-wm1-x330.google.com with SMTP id y187so6447735wmd.3
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:24 -0800 (PST)
+ id 1l84T8-00042R-Or
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:02 -0500
+Received: by mail-wr1-x435.google.com with SMTP id m13so8407841wro.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6e/ocFlNpbvzWzShp69RWnr5b+cScjq0s1B9GZ0rX5w=;
- b=VU1fOfjB2vqX/Qnx5iw3D6D2LKQ5cXEMGUOcCXoeSDIPHiT8skK9dQ+bcMEdO7KO5o
- mC9qvqGOsXgevNc5lM4IM8r3Ef7vlEABp1I55DxtpSQCkI/t9A5gzCuBvUDkRJ2GuxsJ
- 6akzD/X3yWBAUf3FzNvPc5WuJpGhy7SaFS6gSfa/7bBN2as44MgjiZKx0RjVEXWEp4tQ
- 1nfZ8cdhpTg1ZZXLJ/q99IZ+ir3NpZ1/x4VkVkH04nsJk1RjSdLmpCH2MpkkWgxJqQvp
- /TLb5A+U15K9ZgKhVfdtxs7GT914ofbI32qNOUKdQ6Xu3agB4xt1DL1Z+m9OexoN6wra
- Twvw==
+ bh=vPha70CdlIz8Ft1BgdKuRx55ClhohOzaXUUXYhoxm5M=;
+ b=g/8Lv/PCmVVItNdnAT1VaNzH6B+1ScitB/EWkMXo76JuspwX8JbLRsHlLlLee0nDvW
+ EWrJJV7170rDPEvm6/JvvOJBv0R5dHiecIISaq3C2j3KWh17zKwfN3NdhUeJ3+45Khl/
+ 0PUmeCACBhuD54Axrp3YkMofMjoHhcl7FGs8tpxROV9vCM1rNuBr7uW/nhAA03wxZ+pr
+ ETdjw0M7A1WllSLuIK+X+MyFkaOGuWko4akScpG6ZOlP3wwxQoi6DKEdIAamjTCsqFs6
+ mPskzGVRO6jR/oCWmQ0Pd9st2x1d40Id4RF4M0Pr+4s2BKDDdmu/OjRI5hZVMUHrl1Ax
+ t0LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6e/ocFlNpbvzWzShp69RWnr5b+cScjq0s1B9GZ0rX5w=;
- b=deSb9FcMmWwAveO051RF8tzWXYAd0HEL93pgT+eTitdjEvExQY+U5cenVP5xkAzU23
- ZMRJoohSzf3VJJro3DfsRztxuCjPWnTQhzv+/AbmQjarwaERXQEyMCbV2y1/xw2Phjxm
- py5v4XlTrECHhSdUAmP8VFsfzXns2vfWkNxsGi9UwhRY9iWUHMJ2jpgW2gew5c7g0/kG
- 1uEq+I6KIYBv5r6mfcr/d2/LghL1bynLAekbR2trThTfaMavIwz/0dVuw3mkh3YDED/T
- JkqpYJkYvEvKE87MzjKRT3dlG54Wm1kl9y3TkzxmYehBwukAkEm11qnMZgBBEao7jn5p
- lg/w==
-X-Gm-Message-State: AOAM532nbXMdGxHjlQiCxnoRLSSI6buNA0nHCct6WPEzj0A3BnVS58jz
- xcueykyzz/v+s1UoavaNI7wkrw==
-X-Google-Smtp-Source: ABdhPJzWKPvIEAKCmVNCEUVyCzbULaEZg7w+QFOYy+JZneu3IYKAOLki6bAyCyBbkIkOrKnM+I3Rsg==
-X-Received: by 2002:a05:600c:4e8e:: with SMTP id
- f14mr4348607wmq.139.1612544423375; 
- Fri, 05 Feb 2021 09:00:23 -0800 (PST)
+ bh=vPha70CdlIz8Ft1BgdKuRx55ClhohOzaXUUXYhoxm5M=;
+ b=dTO623Z/WI78uXIFs3uJlAUbp+RxFzE8qbwhIGRGX2wAe+jukPdMiOUjUnftodjGJr
+ L2Dh5JSIptzR7gNwFgfOC70mww7VjNWxCTkj6kwAWb7Mdw4oW0tGWVnGg4GXbrCos8S4
+ CHNa9Gdr7WRnr+yFGBCYOmvlf0Jw6UuOk21K4+L3Vzcntl6sPh5U4r5fZPm1UYqta+En
+ HbNpVMBSUSgSjoPyTLHW6er5lKqbCGq/NrAgqZj2PV0cKzvgj1XWLv8SvxVO30Kpbzfm
+ In1QsLFzk8JXZATuj1QhJiPHEig6t3NEkhV3Mgj3nMvyy8tLjKqJ96AMrGvJSBY2fcpK
+ oniw==
+X-Gm-Message-State: AOAM531GkXtgErGRv/R/rCWX37HRc9XQGPRkN6tj1PlhjUZ/6mPXAA//
+ 3nx3pEK09Y+LgktV3beq3mWvzEPWCfD+bQ==
+X-Google-Smtp-Source: ABdhPJwq74pQs3PSxuyoQe+TpvHr/b5JJ6jNvIXFdf6Gyhejr/WqQWr6I7iQVUAL0A0s2EfKV8xeBg==
+X-Received: by 2002:a5d:6712:: with SMTP id o18mr5862736wru.375.1612544425859; 
+ Fri, 05 Feb 2021 09:00:25 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.22
+ by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 09:00:22 -0800 (PST)
+ Fri, 05 Feb 2021 09:00:25 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 02/24] hw/misc/mps2-scc: Support configurable number of OSCCLK
- values
-Date: Fri,  5 Feb 2021 16:59:57 +0000
-Message-Id: <20210205170019.25319-3-peter.maydell@linaro.org>
+Subject: [PATCH 05/24] hw/misc/mps2-fpgaio: Make number of LEDs configurable
+ by board
+Date: Fri,  5 Feb 2021 17:00:00 +0000
+Message-Id: <20210205170019.25319-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210205170019.25319-1-peter.maydell@linaro.org>
 References: <20210205170019.25319-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,163 +87,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the MPS2 SCC device implements a fixed number of OSCCLK
-values (3).  The variant of this device in the MPS3 AN524 board has 6
-OSCCLK values.  Switch to using a PROP_ARRAY, which allows board code
-to specify how large the OSCCLK array should be as well as its
-values.
-
-With a variable-length property array, the SCC no longer specifies
-default values for the OSCCLKs, so we must set them explicitly in the
-board code.  This defaults are actually incorrect for the an521 and
-an505; we will correct this bug in a following patch.
-
-This is a migration compatibility break for all the mps boards.
+The MPS2 board has 2 LEDs, but the MPS3 board has 10 LEDs.  The
+FPGAIO device is similar on both sets of boards, but the LED0
+register has correspondingly more bits that have an effect.  Add a
+device property for number of LEDs.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-It would be possible to avoid the compat break, but we've already
-broken compat for the mps boards this release cycle (eg in commit
-eeae0b2bf4e69de2) when we added Clock support to the armsse code, so
-there's no point in trying to keep compat for this change.
----
- include/hw/misc/mps2-scc.h |  7 +++----
- hw/arm/mps2-tz.c           |  5 +++++
- hw/arm/mps2.c              |  5 +++++
- hw/misc/mps2-scc.c         | 24 +++++++++++++-----------
- 4 files changed, 26 insertions(+), 15 deletions(-)
+ include/hw/misc/mps2-fpgaio.h |  5 ++++-
+ hw/misc/mps2-fpgaio.c         | 31 +++++++++++++++++++++++--------
+ 2 files changed, 27 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/misc/mps2-scc.h b/include/hw/misc/mps2-scc.h
-index f65d8732031..514da49f69e 100644
---- a/include/hw/misc/mps2-scc.h
-+++ b/include/hw/misc/mps2-scc.h
-@@ -19,8 +19,6 @@
- #define TYPE_MPS2_SCC "mps2-scc"
- OBJECT_DECLARE_SIMPLE_TYPE(MPS2SCC, MPS2_SCC)
+diff --git a/include/hw/misc/mps2-fpgaio.h b/include/hw/misc/mps2-fpgaio.h
+index a010fdb2b6d..bfe73134e78 100644
+--- a/include/hw/misc/mps2-fpgaio.h
++++ b/include/hw/misc/mps2-fpgaio.h
+@@ -28,13 +28,16 @@
+ #define TYPE_MPS2_FPGAIO "mps2-fpgaio"
+ OBJECT_DECLARE_SIMPLE_TYPE(MPS2FPGAIO, MPS2_FPGAIO)
  
--#define NUM_OSCCLK 3
--
- struct MPS2SCC {
++#define MPS2FPGAIO_MAX_LEDS 32
++
+ struct MPS2FPGAIO {
      /*< private >*/
      SysBusDevice parent_obj;
-@@ -39,8 +37,9 @@ struct MPS2SCC {
-     uint32_t dll;
-     uint32_t aid;
-     uint32_t id;
--    uint32_t oscclk[NUM_OSCCLK];
--    uint32_t oscclk_reset[NUM_OSCCLK];
-+    uint32_t num_oscclk;
-+    uint32_t *oscclk;
-+    uint32_t *oscclk_reset;
- };
  
- #endif
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 82ce6262817..7c066c11ed4 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -219,6 +219,11 @@ static MemoryRegion *make_scc(MPS2TZMachineState *mms, void *opaque,
-     qdev_prop_set_uint32(sccdev, "scc-cfg4", 0x2);
-     qdev_prop_set_uint32(sccdev, "scc-aid", 0x00200008);
-     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
-+    /* This will need to be per-FPGA image eventually */
-+    qdev_prop_set_uint32(sccdev, "len-oscclk", 3);
-+    qdev_prop_set_uint32(sccdev, "oscclk[0]", 50000000);
-+    qdev_prop_set_uint32(sccdev, "oscclk[1]", 24576000);
-+    qdev_prop_set_uint32(sccdev, "oscclk[2]", 25000000);
-     sysbus_realize(SYS_BUS_DEVICE(scc), &error_fatal);
-     return sysbus_mmio_get_region(SYS_BUS_DEVICE(sccdev), 0);
- }
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index 39add416db5..81413b7133e 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -373,6 +373,11 @@ static void mps2_common_init(MachineState *machine)
-     qdev_prop_set_uint32(sccdev, "scc-cfg4", 0x2);
-     qdev_prop_set_uint32(sccdev, "scc-aid", 0x00200008);
-     qdev_prop_set_uint32(sccdev, "scc-id", mmc->scc_id);
-+    /* All these FPGA images have the same OSCCLK configuration */
-+    qdev_prop_set_uint32(sccdev, "len-oscclk", 3);
-+    qdev_prop_set_uint32(sccdev, "oscclk[0]", 50000000);
-+    qdev_prop_set_uint32(sccdev, "oscclk[1]", 24576000);
-+    qdev_prop_set_uint32(sccdev, "oscclk[2]", 25000000);
-     sysbus_realize(SYS_BUS_DEVICE(&mms->scc), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(sccdev), 0, 0x4002f000);
-     object_initialize_child(OBJECT(mms), "fpgaio",
-diff --git a/hw/misc/mps2-scc.c b/hw/misc/mps2-scc.c
-index ce1dfe93562..52a4e183b71 100644
---- a/hw/misc/mps2-scc.c
-+++ b/hw/misc/mps2-scc.c
-@@ -57,7 +57,7 @@ static bool scc_cfg_write(MPS2SCC *s, unsigned function,
- {
-     trace_mps2_scc_cfg_write(function, device, value);
+     /*< public >*/
+     MemoryRegion iomem;
+-    LEDState *led[2];
++    LEDState *led[MPS2FPGAIO_MAX_LEDS];
++    uint32_t num_leds;
  
--    if (function != 1 || device >= NUM_OSCCLK) {
-+    if (function != 1 || device >= s->num_oscclk) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "MPS2 SCC config write: bad function %d device %d\n",
-                       function, device);
-@@ -75,7 +75,7 @@ static bool scc_cfg_write(MPS2SCC *s, unsigned function,
- static bool scc_cfg_read(MPS2SCC *s, unsigned function,
-                          unsigned device, uint32_t *value)
- {
--    if (function != 1 || device >= NUM_OSCCLK) {
-+    if (function != 1 || device >= s->num_oscclk) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "MPS2 SCC config read: bad function %d device %d\n",
-                       function, device);
-@@ -227,7 +227,7 @@ static void mps2_scc_reset(DeviceState *dev)
-     s->cfgctrl = 0x100000;
-     s->cfgstat = 0;
-     s->dll = 0xffff0001;
--    for (i = 0; i < NUM_OSCCLK; i++) {
-+    for (i = 0; i < s->num_oscclk; i++) {
-         s->oscclk[i] = s->oscclk_reset[i];
-     }
-     for (i = 0; i < ARRAY_SIZE(s->led); i++) {
-@@ -254,12 +254,14 @@ static void mps2_scc_realize(DeviceState *dev, Error **errp)
-                                       LED_COLOR_GREEN, name);
-         g_free(name);
-     }
+     uint32_t led0;
+     uint32_t prescale;
+diff --git a/hw/misc/mps2-fpgaio.c b/hw/misc/mps2-fpgaio.c
+index 6af0e8f837a..b28a1be22cc 100644
+--- a/hw/misc/mps2-fpgaio.c
++++ b/hw/misc/mps2-fpgaio.c
+@@ -177,9 +177,14 @@ static void mps2_fpgaio_write(void *opaque, hwaddr offset, uint64_t value,
+ 
+     switch (offset) {
+     case A_LED0:
+-        s->led0 = value & 0x3;
+-        led_set_state(s->led[0], value & 0x01);
+-        led_set_state(s->led[1], value & 0x02);
++        if (s->num_leds != 0) {
++            int i;
 +
-+    s->oscclk = g_new0(uint32_t, s->num_oscclk);
++            s->led0 = value & MAKE_64BIT_MASK(0, s->num_leds);
++            for (i = 0; i < s->num_leds; i++) {
++                led_set_state(s->led[i], value & (1 << i));
++            }
++        }
+         break;
+     case A_PRESCALE:
+         resync_counter(s);
+@@ -238,7 +243,7 @@ static void mps2_fpgaio_reset(DeviceState *dev)
+     s->pscntr = 0;
+     s->pscntr_sync_ticks = now;
+ 
+-    for (size_t i = 0; i < ARRAY_SIZE(s->led); i++) {
++    for (size_t i = 0; i < s->num_leds; i++) {
+         device_cold_reset(DEVICE(s->led[i]));
+     }
+ }
+@@ -256,11 +261,19 @@ static void mps2_fpgaio_init(Object *obj)
+ static void mps2_fpgaio_realize(DeviceState *dev, Error **errp)
+ {
+     MPS2FPGAIO *s = MPS2_FPGAIO(dev);
++    int i;
+ 
+-    s->led[0] = led_create_simple(OBJECT(dev), GPIO_POLARITY_ACTIVE_HIGH,
+-                                  LED_COLOR_GREEN, "USERLED0");
+-    s->led[1] = led_create_simple(OBJECT(dev), GPIO_POLARITY_ACTIVE_HIGH,
+-                                  LED_COLOR_GREEN, "USERLED1");
++    if (s->num_leds > MPS2FPGAIO_MAX_LEDS) {
++        error_setg(errp, "num-leds cannot be greater than %d",
++                   MPS2FPGAIO_MAX_LEDS);
++        return;
++    }
++
++    for (i = 0; i < s->num_leds; i++) {
++        g_autofree char *ledname = g_strdup_printf("USERLED%d", i);
++        s->led[i] = led_create_simple(OBJECT(dev), GPIO_POLARITY_ACTIVE_HIGH,
++                                      LED_COLOR_GREEN, ledname);
++    }
  }
  
- static const VMStateDescription mps2_scc_vmstate = {
-     .name = "mps2-scc",
--    .version_id = 1,
--    .minimum_version_id = 1,
-+    .version_id = 2,
-+    .minimum_version_id = 2,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(cfg0, MPS2SCC),
-         VMSTATE_UINT32(cfg1, MPS2SCC),
-@@ -268,7 +270,8 @@ static const VMStateDescription mps2_scc_vmstate = {
-         VMSTATE_UINT32(cfgctrl, MPS2SCC),
-         VMSTATE_UINT32(cfgstat, MPS2SCC),
-         VMSTATE_UINT32(dll, MPS2SCC),
--        VMSTATE_UINT32_ARRAY(oscclk, MPS2SCC, NUM_OSCCLK),
-+        VMSTATE_VARRAY_UINT32(oscclk, MPS2SCC, num_oscclk,
-+                              0, vmstate_info_uint32, uint32_t),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -280,14 +283,13 @@ static Property mps2_scc_properties[] = {
-     DEFINE_PROP_UINT32("scc-cfg4", MPS2SCC, cfg4, 0),
-     DEFINE_PROP_UINT32("scc-aid", MPS2SCC, aid, 0),
-     DEFINE_PROP_UINT32("scc-id", MPS2SCC, id, 0),
--    /* These are the initial settings for the source clocks on the board.
-+    /*
-+     * These are the initial settings for the source clocks on the board.
-      * In hardware they can be configured via a config file read by the
-      * motherboard configuration controller to suit the FPGA image.
--     * These default values are used by most of the standard FPGA images.
-      */
--    DEFINE_PROP_UINT32("oscclk0", MPS2SCC, oscclk_reset[0], 50000000),
--    DEFINE_PROP_UINT32("oscclk1", MPS2SCC, oscclk_reset[1], 24576000),
--    DEFINE_PROP_UINT32("oscclk2", MPS2SCC, oscclk_reset[2], 25000000),
-+    DEFINE_PROP_ARRAY("oscclk", MPS2SCC, num_oscclk, oscclk_reset,
-+                      qdev_prop_uint32, uint32_t),
+ static bool mps2_fpgaio_counters_needed(void *opaque)
+@@ -303,6 +316,8 @@ static const VMStateDescription mps2_fpgaio_vmstate = {
+ static Property mps2_fpgaio_properties[] = {
+     /* Frequency of the prescale counter */
+     DEFINE_PROP_UINT32("prescale-clk", MPS2FPGAIO, prescale_clk, 20000000),
++    /* Number of LEDs controlled by LED0 register */
++    DEFINE_PROP_UINT32("num-leds", MPS2FPGAIO, num_leds, 2),
      DEFINE_PROP_END_OF_LIST(),
  };
  
