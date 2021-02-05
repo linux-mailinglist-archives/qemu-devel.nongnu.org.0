@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B9B3106C8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 09:34:46 +0100 (CET)
-Received: from localhost ([::1]:40550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8494D3106F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 09:48:04 +0100 (CET)
+Received: from localhost ([::1]:46022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7wZg-0006iU-TU
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 03:34:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51648)
+	id 1l7wmZ-0001wU-28
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 03:48:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1l7wYq-000685-Bs
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 03:33:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41619)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7wkT-0001OY-UW
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 03:45:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1l7wYn-0003UW-09
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 03:33:51 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l7wkK-0000yG-Lg
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 03:45:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612514026;
+ s=mimecast20190719; t=1612514736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l0Nhq3zkio4CntYBZpARJjKfgcrsxE0HR9eWSUZk87c=;
- b=HwBseLKjADWtd4hXcnPzO+YHXJmLZoRivnTZCLdPijpAGqXzGLgTfDRaTyBm3uJKVgPcie
- R70QLG3hcnZ2kI5EyZhamHpyVxUqYQJjLhyvM6ukL1UnKQcFSFGbEpvZ6fkrfR1JjAKrCF
- R+VXUZVQVZJSxOJ/zVn38tw25t+cFWc=
+ bh=b05gdun2MSfN3UqAsWO62HqpdER1zg0jKTdSAXqEUhE=;
+ b=MrlCDiPcnnQai0++6RtmDGoW2ixAu1YADZYn9DXP6MEUBNjq/2H/yhd7uusMEUEI/lbEAC
+ /zIZF4LS3CQSfnM5kR8QT2V7lihm8b99r5UEegiF2DkBSRqhkY85egQNBDsKX4gr5W4lgx
+ +63aJ7VVPY98VCUh2RYxDzCmhqnI7x0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-v4z3Fy0KMRqAlANgDRT20w-1; Fri, 05 Feb 2021 03:33:45 -0500
-X-MC-Unique: v4z3Fy0KMRqAlANgDRT20w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-266-W4NyyL6RP9qSXSiKZs90Dw-1; Fri, 05 Feb 2021 03:45:34 -0500
+X-MC-Unique: W4NyyL6RP9qSXSiKZs90Dw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 240E7107ACE3;
- Fri,  5 Feb 2021 08:33:44 +0000 (UTC)
-Received: from [10.36.113.43] (ovpn-113-43.ams2.redhat.com [10.36.113.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D7A275D9D3;
- Fri,  5 Feb 2021 08:33:30 +0000 (UTC)
-Subject: Re: [PATCH] vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support
-To: Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210204191228.187550-1-peterx@redhat.com>
- <2382a93d-41c1-24fd-144f-87ee18171bc9@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <213acf9a-d1c0-3a1d-4846-877d90fadc03@redhat.com>
-Date: Fri, 5 Feb 2021 09:33:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB7FB107ACE6;
+ Fri,  5 Feb 2021 08:45:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F73C72FA0;
+ Fri,  5 Feb 2021 08:45:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E8A72113865F; Fri,  5 Feb 2021 09:45:31 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v4 08/14] qapi/introspect.py: create a typed 'Annotated'
+ data strutcure
+References: <20210202174651.2274166-1-jsnow@redhat.com>
+ <20210202174651.2274166-9-jsnow@redhat.com>
+ <878s85tdh3.fsf@dusky.pond.sub.org>
+ <20210203215026.GB126021@habkost.net>
+ <87a6sjdet2.fsf@dusky.pond.sub.org>
+ <20210204162847.GD126021@habkost.net>
+Date: Fri, 05 Feb 2021 09:45:31 +0100
+In-Reply-To: <20210204162847.GD126021@habkost.net> (Eduardo Habkost's message
+ of "Thu, 4 Feb 2021 11:28:47 -0500")
+Message-ID: <878s826gyc.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <2382a93d-41c1-24fd-144f-87ee18171bc9@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,175 +85,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <Jean-Philippe.Brucker@arm.com>,
- Eugenio Perez Martin <eperezma@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-On 2/5/21 4:16 AM, Jason Wang wrote:
-> 
-> On 2021/2/5 上午3:12, Peter Xu wrote:
->> Previous work on dev-iotlb message broke vhost on either SMMU
-> 
-> 
-> Have a quick git grep and it looks to me v3 support ATS and have command
-> for device iotlb (ATC) invalidation.
+> On Thu, Feb 04, 2021 at 04:37:45PM +0100, Markus Armbruster wrote:
+>> Eduardo Habkost <ehabkost@redhat.com> writes:
+>> 
+>> > On Wed, Feb 03, 2021 at 03:47:36PM +0100, Markus Armbruster wrote:
+>> >> John Snow <jsnow@redhat.com> writes:
+>> >> 
+>> >> > Presently, we use a tuple to attach a dict containing annotations
+>> >> > (comments and compile-time conditionals) to a tree node. This is
+>> >> > undesirable because dicts are difficult to strongly type; promoting it
+>> >> > to a real class allows us to name the values and types of the
+>> >> > annotations we are expecting.
+>> >> >
+>> >> > In terms of typing, the Annotated<T> type serves as a generic container
+>> >> > where the annotated node's type is preserved, allowing for greater
+>> >> > specificity than we'd be able to provide without a generic.
+>> >> >
+>> >> > Signed-off-by: John Snow <jsnow@redhat.com>
+>> > [...]
+>> >> > +class Annotated(Generic[_NodeT]):
+>> >> > +    """
+>> >> > +    Annotated generally contains a SchemaInfo-like type (as a dict),
+>> >> > +    But it also used to wrap comments/ifconds around scalar leaf values,
+>> >> > +    for the benefit of features and enums.
+>> >> > +    """
+>> >> > +    # Remove after 3.7 adds @dataclass:
+>> >> 
+>> >> Make this
+>> >> 
+>> >>        # TODO Remove after Python 3.7 ...
+>> >> 
+>> >> to give us a fighting chance to remember.
+>> >> 
+>> >> > +    # pylint: disable=too-few-public-methods
+>> >> > +    def __init__(self, value: _NodeT, ifcond: Iterable[str],
+>> >> > +                 comment: Optional[str] = None):
+>> >> 
+>> >> Why not simply value: _value?
+>> >
+>> > Example:
+>> >   x = C(1)
+>> >   y: C[int]
+>> >   y = C('x')  # mistake
+>> >
+>> > Declaring value as _NodeT does:
+>> > - Make the inferred type of x be Annotated[int].
+>> > - Catch the mistake above.
+>> 
+>> I smell overengineering.  I may well be wrong.
+>
+> To me it's just regular and idiomatic use of Generic.
+
+Bear in mind that I'm (ab)using these reviews to learn Python's way of
+static typing.  My ignorant questions may evolve into mere grumblings as
+I learn.  Or into requests for change.
+
+Grumbling: the notational overhead is regrettable.
+
+>> 
+>> Without doubt, there are uses for using the type system for keeping
+>> SomeGenericType[SomeType] and SomeGenericType[AnotherType] apart.
+>> 
+>> But what do we gain by keeping the Annotated[T] for the possible T
+>> apart?
+>
+> I understand this as (valid) criticism of the use of Generic.
+> If we don't want to make Generic[T1] and Generic[T2] be
+> different types, there's no point in using Generic at all.
+
+True.
+
+>> _tree_to_qlit() doesn't care: it peels off the wrapper holding ifcond
+>> and comment, and recurses for the JSON so wrapped.  Regardless of what
+>> was wrapped, i.e. what kind of T we got.
+>> 
+>> Heck, it works just fine even if you wrap your JSON multiple times.  It
+>> doesn't give a hoot whether that makes sense.  Making sense is the
+>> caller's business.
+>> 
+>> So what does care?
+>> 
+>> Or am I simply confused?
+>
+> Those are valid questions.  Maybe using Generic will be useful
+> in the future, but maybe we don't need it right now.
+>
+> Personally, I don't care either way.  I just wish this small
+> choice don't became another obstacle for doing useful work.
+
+I agree this one's minor.
+
+The general problem is not.
+
+Some invariants can be elegantly expressed as static types.  Easier to
+read than assertions and comments, and statically checkable.  Lovely, me
+want.
+
+There are also cases we can express, but the notational overhead
+compromises readability.  We effectively trade readability for static
+checking.  I believe this is a bad trade for the QAPI generator.
+
+"Compromises readability" is highly subjective.  Lots of gray area.
+
+My point is: please don't aim for maximally tight types.  Try to
+optimize comprehension instead.  Be pragmatic.
+
+There are plenty of languages "where you have to sit with a teacup of
+types balanced on your knee and make polite conversation with a strict
+old aunt of a compiler."[*]  Let's not press Python into that role :)
+
+>> PS: As far as I can tell, _tree_to_qlit() doesn't give a hoot whether a
+>> dictionary's values are wrapped, either.
 
 
-Yes I will do that. Should not be a big deal.
-> 
-> 
->> or virtio-iommu
->> since dev-iotlb (or PCIe ATS)
-> 
-> 
-> We may need to add this in the future.
-added Jean-Philippe in CC
-> 
-> 
->> is not yet supported for those archs.
-> 
-> 
-> Rethink about this, it looks to me the point is that we should make
-> vhost work when ATS is disabled like what ATS spec defined:
-> 
-> """
-> 
-> ATS is enabled through a new Capability and associated configuration
-> structure.  To enable 15 ATS, software must detect this Capability and
-> enable the Function to issue ATS TLP.  If a Function is not enabled, the
-> Function is required not to issue ATS Translation Requests and is
-> required to issue all DMA Read and Write Requests with the TLP AT field
-> set to “untranslated.”
-> 
-> """
-> 
-> Maybe we can add this in the commit log.
-> 
-> 
->>
->> An initial idea is that we can let IOMMU to export this information to
->> vhost so
->> that vhost would know whether the vIOMMU would support dev-iotlb, then
->> vhost
->> can conditionally register to dev-iotlb or the old iotlb way.  We can
->> work
->> based on some previous patch to introduce PCIIOMMUOps as Yi Liu
->> proposed [1].
->>
->> However it's not as easy as I thought since vhost_iommu_region_add()
->> does not
->> have a PCIDevice context at all since it's completely a backend.  It
->> seems
->> non-trivial to pass over a PCI device to the backend during init. 
->> E.g. when
->> the IOMMU notifier registered hdev->vdev is still NULL.
->>
->> To make the fix smaller and easier, this patch goes the other way to
->> leverage
->> the flag_changed() hook of vIOMMUs so that SMMU and virtio-iommu can
->> trap the
->> dev-iotlb registration and fail it.  Then vhost could try the fallback
->> solution
->> as using UNMAP invalidation for it's translations.
->>
->> [1]
->> https://lore.kernel.org/qemu-devel/1599735398-6829-4-git-send-email-yi.l.liu@intel.com/
->>
->>
->> Reported-by: Eric Auger <eric.auger@redhat.com>
->> Fixes: b68ba1ca57677acf870d5ab10579e6105c1f5338
->> Reviewed-by: Eric Auger <eric.auger@redhat.com>
->> Tested-by: Eric Auger <eric.auger@redhat.com>
->> Signed-off-by: Peter Xu <peterx@redhat.com>
->> ---
->>   hw/arm/smmuv3.c          |  5 +++++
->>   hw/virtio/vhost.c        | 13 +++++++++++--
->>   hw/virtio/virtio-iommu.c |  5 +++++
->>   3 files changed, 21 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
->> index 98b99d4fe8e..bd1f97000d9 100644
->> --- a/hw/arm/smmuv3.c
->> +++ b/hw/arm/smmuv3.c
->> @@ -1497,6 +1497,11 @@ static int
->> smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
->>       SMMUv3State *s3 = sdev->smmu;
->>       SMMUState *s = &(s3->smmu_state);
->>   +    if (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
->> +        error_setg(errp, "SMMUv3 does not support dev-iotlb yet");
->> +        return -EINVAL;
->> +    }
->> +
->>       if (new & IOMMU_NOTIFIER_MAP) {
->>           error_setg(errp,
->>                      "device %02x.%02x.%x requires iommu MAP notifier
->> which is "
->> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->> index 28c7d781721..6e17d631f77 100644
->> --- a/hw/virtio/vhost.c
->> +++ b/hw/virtio/vhost.c
->> @@ -704,6 +704,7 @@ static void vhost_iommu_region_add(MemoryListener
->> *listener,
->>       Int128 end;
->>       int iommu_idx;
->>       IOMMUMemoryRegion *iommu_mr;
->> +    int ret;
->>         if (!memory_region_is_iommu(section->mr)) {
->>           return;
->> @@ -726,8 +727,16 @@ static void vhost_iommu_region_add(MemoryListener
->> *listener,
->>       iommu->iommu_offset = section->offset_within_address_space -
->>                             section->offset_within_region;
->>       iommu->hdev = dev;
->> -    memory_region_register_iommu_notifier(section->mr, &iommu->n,
->> -                                          &error_fatal);
->> +    ret = memory_region_register_iommu_notifier(section->mr,
->> &iommu->n, NULL);
->> +    if (ret) {
->> +        /*
->> +         * Some vIOMMUs do not support dev-iotlb yet.  If so, try to
->> use the
->> +         * UNMAP legacy message
->> +         */
->> +        iommu->n.notifier_flags = IOMMU_NOTIFIER_UNMAP;
->> +        memory_region_register_iommu_notifier(section->mr, &iommu->n,
->> +                                              &error_fatal);
->> +    }
->>       QLIST_INSERT_HEAD(&dev->iommu_list, iommu, iommu_next);
->>       /* TODO: can replay help performance here? */
->>   }
->> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
->> index 6b9ef7f6b2b..c2883a2f6c8 100644
->> --- a/hw/virtio/virtio-iommu.c
->> +++ b/hw/virtio/virtio-iommu.c
->> @@ -893,6 +893,11 @@ static int
->> virtio_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu_mr,
->>                                               IOMMUNotifierFlag new,
->>                                               Error **errp)
->>   {
->> +    if (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
->> +        error_setg(errp, "Virtio-iommu does not support dev-iotlb yet");
->> +        return -EINVAL;
->> +    }
->> +
->>       if (old == IOMMU_NOTIFIER_NONE) {
->>           trace_virtio_iommu_notify_flag_add(iommu_mr->parent_obj.name);
->>       } else if (new == IOMMU_NOTIFIER_NONE) {
-> 
-> 
-> Patch looks good. I wonder whether we should fix intel when ATS is
-> disabled.
-good point
-
-Thanks
-
-Eric
-> 
-> Thanks
-> 
+[*] Paul Graham
 
 
