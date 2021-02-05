@@ -2,71 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFED310963
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:45:18 +0100 (CET)
-Received: from localhost ([::1]:55226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B903109A7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:58:28 +0100 (CET)
+Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7yc0-00009S-Hd
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:45:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
+	id 1l7yol-0006Ea-GB
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:58:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1l7yab-00084q-Gq
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:43:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30652)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l7yml-0005KQ-Jh
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:56:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1l7yaY-00040E-FN
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:43:48 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l7ymh-0000wY-Lr
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:56:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612521824;
+ s=mimecast20190719; t=1612522577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WVbXENClknuo+rUYn1oIto34wAdR3aYEcF6u2XNibWM=;
- b=b0iRW19v5Wi5yP/HdP2U+Le85laUar41mblWT26S03T/zbuw5TnQFJ9Ozzz0zPlFtZ8zmh
- KOSK1n66wfNOOZRH5a5C1+bhudzo99n6dfzokB/lZkCgxHvvM8svdjh4NAOH3E0pTYHp2e
- CNXdNwJxcHq2TQ455vVEgaeEnXV7D7U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-WHv3nM7PMJ6wdWoDtHnouw-1; Fri, 05 Feb 2021 05:43:42 -0500
-X-MC-Unique: WHv3nM7PMJ6wdWoDtHnouw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E50C8195D560;
- Fri,  5 Feb 2021 10:43:40 +0000 (UTC)
-Received: from localhost (ovpn-114-98.ams2.redhat.com [10.36.114.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 747605C5B5;
- Fri,  5 Feb 2021 10:43:40 +0000 (UTC)
-Date: Fri, 5 Feb 2021 10:43:39 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] qemu-img: add seek and -n option to dd command
-Message-ID: <20210205104339.GD30079@redhat.com>
-References: <20210128140704.6547-1-pl@kamp.de>
- <99982043-ed89-5fbe-afe2-691a9c19280d@redhat.com>
- <567ab8bb-b452-d6c2-dec7-bc2cf1e34ec8@kamp.de>
- <3dff97ae-5172-d9ca-509f-2a520c2841b5@redhat.com>
+ bh=DUAefeF6fs9WmWdSKCa8nVgeKA/mqUIu6vol8vY7BFc=;
+ b=TxZVbbi+SsQdZGfAGwbbFwAz4o4QGuOzwvEMeWE7t611wG2q7lqjxHHwpdxNCxyX/rqo1l
+ 43qWZpecL76+pykG5tffqtE9M6Qd1BSjQ82hb8spCv1C9MCDhf4xG0zizhx3z6bOxkAal1
+ 8adQR3ZkAt22FnUlASNeE7elqDfTnGM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-rc2g0uwXP4-2zsOmMdKR8g-1; Fri, 05 Feb 2021 05:56:16 -0500
+X-MC-Unique: rc2g0uwXP4-2zsOmMdKR8g-1
+Received: by mail-wr1-f69.google.com with SMTP id u3so5101752wri.19
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 02:56:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DUAefeF6fs9WmWdSKCa8nVgeKA/mqUIu6vol8vY7BFc=;
+ b=M7p7DZu617qc409Yjxg0Prlv7IH7KdprET+P+wKnWWkSQdaH5gI4kl21hiWGbGknSe
+ JA9M/Hyqe4UPHZFBw97CY9oFQAPZq+FDV+4tXfQm8MI1LshdD1rqsDlEiqRQF6vmdA8u
+ lrEMns1U71JDNXRJwJ940jYc0xXOaeoyo9AgGGGOxLdlgJT6JMhfWOvxw6YQX5E1qCOU
+ tDn4WdwMLzjNbFiFmfr0SC0XiMBKskThnPIVv0GHwLL0IQOnjf0SNFZAa9Aj70o7D9S9
+ wijMrza5PHfaNMZDkQJZ0uDlrS2+UtPE2WaKlUKy08RNCdfdSe0Wwd9jQaZ5HZRKK+UZ
+ FK/g==
+X-Gm-Message-State: AOAM530fi01v0RwZiae0P6qGEoPsbW+84CKeNwedDDYJaBuu7PcFLwLo
+ G8LQ/J6U7fmY2hb+Gs3XfM0h5EIp9wtM4CviCZt5+/n9sijgH8su5Csf7nfFUaRXnHnmjkPwpWr
+ DgiYe+LFaYZjpqkC8V3IW0AKFyaqBAUKay4J41rHuLct0ZUBEOu7S1nKAfSu9S9aih7k=
+X-Received: by 2002:a5d:4f86:: with SMTP id d6mr4435034wru.246.1612522574884; 
+ Fri, 05 Feb 2021 02:56:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwtBs4CgurTZXzEb0ZP3Qn/cL1YcpAHgyepQh/MYmM1lN4kU2l+RSavfk+hHkk7PaPwcEXKAA==
+X-Received: by 2002:a5d:4f86:: with SMTP id d6mr4435012wru.246.1612522574667; 
+ Fri, 05 Feb 2021 02:56:14 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id x82sm3260875wmg.31.2021.02.05.02.56.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Feb 2021 02:56:13 -0800 (PST)
+Subject: Re: [PATCH 0/2] Remaining work for PKS Implementation
+To: Chenyi Qiang <chenyi.qiang@intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
+References: <20210205083325.13880-1-chenyi.qiang@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6fa5d5db-4916-a220-abee-e85bf0b174db@redhat.com>
+Date: Fri, 5 Feb 2021 11:56:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <3dff97ae-5172-d9ca-509f-2a520c2841b5@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210205083325.13880-1-chenyi.qiang@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,78 +101,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 04, 2021 at 02:44:03PM -0600, Eric Blake wrote:
-> On 2/4/21 2:09 PM, Peter Lieven wrote:
-> > Am 02.02.21 um 16:51 schrieb Eric Blake:
-> >> On 1/28/21 8:07 AM, Peter Lieven wrote:
-> >>> Signed-off-by: Peter Lieven <pl@kamp.de>
-> >> Your commit message says 'what', but not 'why'.  Generally, the one-line
-> >> 'what' works well as the subject line, but you want the commit body to
-> >> give an argument why your patch should be applied, rather than blank.
-> >>
-> >> Here's the last time we tried to improve qemu-img dd:
-> >> https://lists.gnu.org/archive/html/qemu-devel/2018-08/msg02618.html
-> > 
-> > 
-> > I was not aware of that story. My use case is that I want to be
-> > 
-> > able to "patch" an image that Qemu is able to handle by overwriting
-> > 
-> > certain sectors. And I especially do not want to "mount" that image
-> > 
-> > via qemu-nbd because I might not trust it. I totally want to avoid that the host
-> > 
-> > system tries to analyse that image in terms of scanning the bootsector, partprobe,
-> > 
-> > lvm etc. pp.
+On 05/02/21 09:33, Chenyi Qiang wrote:
+> Protection Keys for Supervisor Pages (PKS) is a feature that extends the
+> Protection Keys architecture to support thread-specific permission
+> restrictions on superviosr pages, which works similar to an existing
+> feature named PKU (protecting user-mode pages).
 > 
-> qemu-nbd does not have to mount an image (yes, one use of qemu-nbd is to
-> use -c /dev/nbdX to get the kernel to mount it; but other uses are to
-> expose the NBD image in user-space only with no kernel involvement, and
-> therefore no system mount efforts).
+> Thanks Paolo to send out the PKS QEMU implemention at:
+> https://lore.kernel.org/qemu-devel/20210127093540.472624-1-pbonzini@redhat.com/
+> 
+> This patch series is just to add the remaining part, i.e. the support
+> for save/load PKRS and expose the vmx entry/exit load controls to guest.
+> 
+> Chenyi Qiang (2):
+>    target/i386: Add support for save/load IA32_PKRS MSR
+>    target/i386: Expose VMX entry/exit load pkrs control bits
+> 
+>   target/i386/cpu.c     |  4 ++--
+>   target/i386/cpu.h     |  2 ++
+>   target/i386/kvm/kvm.c | 13 +++++++++++++
+>   3 files changed, 17 insertions(+), 2 deletions(-)
+> 
 
-I agree, there's nothing unsafe about qemu-nbd (provided you don't use
-the -c option).
+Queued, thanks.
 
-> Another thing you might try is libnbd, which now includes a utility
-> nbdcopy.  It should make it easier to overwrite a portion of an NBD
-> image using only user-space actions.  I'm not sure if Rich has got it
-> doing partial file overwrites yet (.../me goes and compiles the latest
-> git checkout... nope, still a TODO item to implement subsetting), but it
-> may be possible to combine nbdkit's --filter=offset with the full NBD
-> image in order to then easily point nbdcopy to only the subset you care
-> about.  Definitely some ideas worthy of implementation.
-
-TBH I would use nbdsh.  For example to overwrite the sector at 1M in a
-qcow2 image with "1"s:
-
-  $ qemu-img create -f qcow2 test.qcow2 10M
-  $ nbdsh -c 'h.connect_systemd_socket_activation(["qemu-nbd","-t","-f","qcow2","test.qcow2"])' \
-          -c 'h.pwrite(b"1"*512, 1024*1024)'
-
-and to show it was really overwritten:
-
-  $ nbdcopy -- [ qemu-nbd -f qcow2 test.qcow2 ] - | hexdump -C
-  00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-  *
-  00100000  31 31 31 31 31 31 31 31  31 31 31 31 31 31 31 31  |1111111111111111|
-*
-  00100200  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-*
-  00a00000
-
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-df lists disk usage of guests without needing to install any
-software inside the virtual machine.  Supports Linux and Windows.
-http://people.redhat.com/~rjones/virt-df/
+Paolo
 
 
