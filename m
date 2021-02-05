@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6083108C6
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:16:38 +0100 (CET)
-Received: from localhost ([::1]:45344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E96310904
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:28:01 +0100 (CET)
+Received: from localhost ([::1]:47890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7yAH-00056r-Et
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:16:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
+	id 1l7yLI-0001Lg-8C
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:28:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7b-00030R-D9; Fri, 05 Feb 2021 05:13:51 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:3043)
+ id 1l7y7c-00032O-3J; Fri, 05 Feb 2021 05:13:52 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7Y-000769-BC; Fri, 05 Feb 2021 05:13:51 -0500
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DXB751bPqzjGSt;
- Fri,  5 Feb 2021 18:12:33 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
- 18:13:30 +0800
+ id 1l7y7W-00076r-LZ; Fri, 05 Feb 2021 05:13:51 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DXB6q64bXz7h5Y;
+ Fri,  5 Feb 2021 18:12:19 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
+ 18:13:31 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 4/9] block-backend: Enable retry action on errors
-Date: Fri, 5 Feb 2021 18:13:10 +0800
-Message-ID: <20210205101315.13042-5-cenjiahui@huawei.com>
+Subject: [PATCH v5 5/9] block-backend: Add timeout support for retry
+Date: Fri, 5 Feb 2021 18:13:11 +0800
+Message-ID: <20210205101315.13042-6-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210205101315.13042-1-cenjiahui@huawei.com>
 References: <20210205101315.13042-1-cenjiahui@huawei.com>
@@ -36,8 +36,8 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.155]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=cenjiahui@huawei.com;
- helo=szxga06-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
+ helo=szxga07-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -64,42 +64,72 @@ Cc: Kevin Wolf <kwolf@redhat.com>, cenjiahui@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable retry action when backend's retry timer is available. It would
-trigger the timer to do device specific retry action.
+Retry should only be triggered when timeout is not reached, so let's check
+timeout before retry. Device should also reset retry_start_time after
+successful retry.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- block/block-backend.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ block/block-backend.c          | 25 +++++++++++++++++++-
+ include/sysemu/block-backend.h |  1 +
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/block/block-backend.c b/block/block-backend.c
-index a8bfaf6e4a..ab75cb1971 100644
+index ab75cb1971..8ad1e5105d 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -1803,6 +1803,9 @@ BlockErrorAction blk_get_error_action(BlockBackend *blk, bool is_read,
-         return BLOCK_ERROR_ACTION_REPORT;
+@@ -1776,6 +1776,29 @@ void blk_drain_all(void)
+     bdrv_drain_all_end();
+ }
+ 
++static bool blk_error_retry_timeout(BlockBackend *blk)
++{
++    /* No timeout set, infinite retries. */
++    if (!blk->retry_timeout) {
++        return false;
++    }
++
++    /* The first time an error occurs. */
++    if (!blk->retry_start_time) {
++        blk->retry_start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++        return false;
++    }
++
++    return qemu_clock_get_ms(QEMU_CLOCK_REALTIME) > (blk->retry_start_time +
++                                                     blk->retry_timeout);
++}
++
++void blk_error_retry_reset_timeout(BlockBackend *blk)
++{
++    if (blk->retry_timer && blk->retry_start_time)
++        blk->retry_start_time = 0;
++}
++
+ void blk_set_on_error(BlockBackend *blk, BlockdevOnError on_read_error,
+                       BlockdevOnError on_write_error)
+ {
+@@ -1804,7 +1827,7 @@ BlockErrorAction blk_get_error_action(BlockBackend *blk, bool is_read,
      case BLOCKDEV_ON_ERROR_IGNORE:
          return BLOCK_ERROR_ACTION_IGNORE;
-+    case BLOCKDEV_ON_ERROR_RETRY:
-+        return (blk->retry_timer) ?
-+               BLOCK_ERROR_ACTION_RETRY : BLOCK_ERROR_ACTION_REPORT;
+     case BLOCKDEV_ON_ERROR_RETRY:
+-        return (blk->retry_timer) ?
++        return (blk->retry_timer && !blk_error_retry_timeout(blk)) ?
+                BLOCK_ERROR_ACTION_RETRY : BLOCK_ERROR_ACTION_REPORT;
      case BLOCKDEV_ON_ERROR_AUTO:
      default:
-         abort();
-@@ -1850,6 +1853,12 @@ void blk_error_action(BlockBackend *blk, BlockErrorAction action,
-         qemu_system_vmstop_request_prepare();
-         send_qmp_error_event(blk, action, is_read, error);
-         qemu_system_vmstop_request(RUN_STATE_IO_ERROR);
-+    } else if (action == BLOCK_ERROR_ACTION_RETRY) {
-+        if (!blk->quiesce_counter) {
-+            timer_mod(blk->retry_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME) +
-+                                        blk->retry_interval);
-+            send_qmp_error_event(blk, action, is_read, error);
-+        }
-     } else {
-         send_qmp_error_event(blk, action, is_read, error);
-     }
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index d806852db5..286d2db918 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -188,6 +188,7 @@ void blk_inc_in_flight(BlockBackend *blk);
+ void blk_dec_in_flight(BlockBackend *blk);
+ void blk_drain(BlockBackend *blk);
+ void blk_drain_all(void);
++void blk_error_retry_reset_timeout(BlockBackend *blk);
+ void blk_set_on_error(BlockBackend *blk, BlockdevOnError on_read_error,
+                       BlockdevOnError on_write_error);
+ BlockdevOnError blk_get_on_error(BlockBackend *blk, bool is_read);
 -- 
 2.29.2
 
