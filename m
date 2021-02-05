@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58271310562
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:02:57 +0100 (CET)
-Received: from localhost ([::1]:55836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA12310579
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:09:10 +0100 (CET)
+Received: from localhost ([::1]:48176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7v8q-0001XR-Cd
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:02:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35556)
+	id 1l7vEr-0001kV-C7
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:09:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v34-0001GA-7L
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46927)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v39-0001Ud-VW
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v32-0001CS-Ad
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:56:57 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v38-0001FA-0k
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612508215;
+ s=mimecast20190719; t=1612508221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VpqN1X6lM/NqMScdBNfoLoqLAA7POIJ78WZvDIkb35k=;
- b=eQ52reTlAWfblYRRccU27xSCMFcpeLS7lW2+dMEG5irNywCUEFvKXer/c87DTtYGHQtC0S
- xNvujssKETTLg6bsFnVyorZWn0T5DW0C/qz33cFye01gNUCzD4wj+rcqXo94UHSa5eggMb
- uWaJnxvm1Df9P1SbQzBUXXMfjajEfco=
+ bh=oMDSLR/pWQEGW/rdRVaRllWHOCsmrATvxvOmSwGqzUw=;
+ b=XXLTOQ+PpmN8pHq0Ths0/gB7NaxnY+YcMBFpITB+dtsZNrqq5Cz+g38c9Q1NIEEyu7LlVR
+ 5UxMRny6HxipaXxBNZCdhavZKE2U7arBH9hbJ3as027hrK/0AvzeVaXpM9TOU69ucXyFV7
+ EpocJ925nCvyQalDF358FN1z2yp3PmE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-vHZFAwf9NgyzkSdniCu64A-1; Fri, 05 Feb 2021 01:56:54 -0500
-X-MC-Unique: vHZFAwf9NgyzkSdniCu64A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-367-3WIA_yPTPt6VUDuhCmjR7g-1; Fri, 05 Feb 2021 01:56:59 -0500
+X-MC-Unique: 3WIA_yPTPt6VUDuhCmjR7g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18E86192CC45
- for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EA7A192CC43
+ for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:58 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
  [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37FEA722EF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EA82100F49E;
  Fri,  5 Feb 2021 06:56:42 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3CB5518003BB; Fri,  5 Feb 2021 07:56:21 +0100 (CET)
+ id 48BE118003BC; Fri,  5 Feb 2021 07:56:21 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/24] ui: add an optional get_flags callback to GraphicHwOps
-Date: Fri,  5 Feb 2021 07:56:11 +0100
-Message-Id: <20210205065620.1726554-16-kraxel@redhat.com>
+Subject: [PULL 16/24] ui: add a DCLOps callback to check dmabuf support
+Date: Fri,  5 Feb 2021 07:56:12 +0100
+Message-Id: <20210205065620.1726554-17-kraxel@redhat.com>
 In-Reply-To: <20210205065620.1726554-1-kraxel@redhat.com>
 References: <20210205065620.1726554-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,109 +91,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Those flags can be used to express different requirements for the
-display or other needs.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210204105232.834642-12-marcandre.lureau@redhat.com>
+Message-Id: <20210204105232.834642-13-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/console.h         |  9 +++++++++
- hw/display/virtio-gpu-base.c | 18 ++++++++++++++++++
- hw/display/virtio-vga.c      |  9 +++++++++
- hw/vfio/display.c            |  6 ++++++
- 4 files changed, 42 insertions(+)
+ include/ui/console.h |  2 ++
+ ui/console.c         | 13 +++++++++++++
+ 2 files changed, 15 insertions(+)
 
 diff --git a/include/ui/console.h b/include/ui/console.h
-index ac989fdf7016..0595aa9953cf 100644
+index 0595aa9953cf..875885d9c7ce 100644
 --- a/include/ui/console.h
 +++ b/include/ui/console.h
-@@ -368,7 +368,16 @@ static inline void console_write_ch(console_ch_t *dest, uint32_t ch)
-     *dest = ch;
+@@ -224,6 +224,8 @@ typedef struct DisplayChangeListenerOps {
+                                    uint32_t backing_height,
+                                    uint32_t x, uint32_t y,
+                                    uint32_t w, uint32_t h);
++    /* optional (default to true if has dpy_gl_scanout_dmabuf) */
++    bool (*dpy_has_dmabuf)(DisplayChangeListener *dcl);
+     /* optional */
+     void (*dpy_gl_scanout_dmabuf)(DisplayChangeListener *dcl,
+                                   QemuDmaBuf *dmabuf);
+diff --git a/ui/console.c b/ui/console.c
+index b5bc3f7699a1..a645418adad5 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1463,6 +1463,19 @@ bool console_has_gl(QemuConsole *con)
+     return con->gl != NULL;
  }
  
-+enum {
-+    GRAPHIC_FLAGS_NONE     = 0,
-+    /* require a console/display with GL callbacks */
-+    GRAPHIC_FLAGS_GL       = 1 << 0,
-+    /* require a console/display with DMABUF import */
-+    GRAPHIC_FLAGS_DMABUF   = 1 << 1,
-+};
-+
- typedef struct GraphicHwOps {
-+    int (*get_flags)(void *opaque); /* optional, default 0 */
-     void (*invalidate)(void *opaque);
-     void (*gfx_update)(void *opaque);
-     bool gfx_update_async; /* if true, calls graphic_hw_update_done() */
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index 40ccd00f9421..f27a6fbe75d1 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -114,7 +114,25 @@ virtio_gpu_gl_block(void *opaque, bool block)
-     }
- }
- 
-+static int
-+virtio_gpu_get_flags(void *opaque)
++static bool displaychangelistener_has_dmabuf(DisplayChangeListener *dcl)
 +{
-+    VirtIOGPUBase *g = opaque;
-+    int flags = GRAPHIC_FLAGS_NONE;
-+
-+    if (virtio_gpu_virgl_enabled(g->conf)) {
-+        flags |= GRAPHIC_FLAGS_GL;
++    if (dcl->ops->dpy_has_dmabuf) {
++        return dcl->ops->dpy_has_dmabuf(dcl);
 +    }
 +
-+    if (virtio_gpu_dmabuf_enabled(g->conf)) {
-+        flags |= GRAPHIC_FLAGS_DMABUF;
++    if (dcl->ops->dpy_gl_scanout_dmabuf) {
++        return true;
 +    }
 +
-+    return flags;
++    return false;
 +}
 +
- static const GraphicHwOps virtio_gpu_ops = {
-+    .get_flags = virtio_gpu_get_flags,
-     .invalidate = virtio_gpu_invalidate_display,
-     .gfx_update = virtio_gpu_update_display,
-     .text_update = virtio_gpu_text_update,
-diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-index 81f776ee36e7..b071909b6893 100644
---- a/hw/display/virtio-vga.c
-+++ b/hw/display/virtio-vga.c
-@@ -68,7 +68,16 @@ static void virtio_vga_base_gl_block(void *opaque, bool block)
-     }
- }
- 
-+static int virtio_vga_base_get_flags(void *opaque)
-+{
-+    VirtIOVGABase *vvga = opaque;
-+    VirtIOGPUBase *g = vvga->vgpu;
-+
-+    return g->hw_ops->get_flags(g);
-+}
-+
- static const GraphicHwOps virtio_vga_base_ops = {
-+    .get_flags = virtio_vga_base_get_flags,
-     .invalidate = virtio_vga_base_invalidate_display,
-     .gfx_update = virtio_vga_base_update_display,
-     .text_update = virtio_vga_base_text_update,
-diff --git a/hw/vfio/display.c b/hw/vfio/display.c
-index 42d67e870b71..f04473e3cece 100644
---- a/hw/vfio/display.c
-+++ b/hw/vfio/display.c
-@@ -335,7 +335,13 @@ static void vfio_display_dmabuf_update(void *opaque)
-     }
- }
- 
-+static int vfio_display_get_flags(void *opaque)
-+{
-+    return GRAPHIC_FLAGS_GL | GRAPHIC_FLAGS_DMABUF;
-+}
-+
- static const GraphicHwOps vfio_display_dmabuf_ops = {
-+    .get_flags  = vfio_display_get_flags,
-     .gfx_update = vfio_display_dmabuf_update,
-     .ui_info    = vfio_display_edid_ui_info,
- };
+ void register_displaychangelistener(DisplayChangeListener *dcl)
+ {
+     static const char nodev[] =
 -- 
 2.29.2
 
