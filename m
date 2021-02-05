@@ -2,81 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09BE311049
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:48:24 +0100 (CET)
-Received: from localhost ([::1]:45750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D455A311058
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:51:46 +0100 (CET)
+Received: from localhost ([::1]:53908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l869X-0004Nj-6Y
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:48:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51616)
+	id 1l86Cn-0007tC-ET
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:51:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l84ms-0002zg-HN; Fri, 05 Feb 2021 12:20:54 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:32851)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l84mq-0004MZ-Df; Fri, 05 Feb 2021 12:20:54 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id sa23so13151442ejb.0;
- Fri, 05 Feb 2021 09:20:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sLa712d/xvbAqL4rld7olUxpRSh3DprVkjC3mAOjcIQ=;
- b=kskaPdt9G8TitmGISASC7aDEsV5Z02tnEuggcgwhF8FfwWzmUloh//WKgvGbppmtLq
- z1yvgTS+oAClHi4SQEv0t266WJsvF3yZINXe2CLKPMfoCgLwL1SU4thN/MS4uHBCoM8p
- Q1fi+5UcaFW5B4jz3G6nawqsecxEql1m1uW29BGJeFbiZCwv2TC7ZIeihSkmRTM079B+
- kosid8F/2Uh28omk5xfr+8qCkelkjJMGRpGt32MLayMeH/p9NmLw/UXYT24/gCSh0JhY
- 3fNjMwh9uElD/zlRtQ7OXo9eX+z+AHbj6ujmAklHW2eT27963Jv+xBDAaqToZGJ4ywTD
- Pixg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l84tK-0001My-PM
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:27:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l84tF-00070G-AR
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:27:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612546047;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hQy5nXL0DMJH5281SuYV1V5cNgfuetsom4yvoadm30M=;
+ b=Q0QaWh0hQ6x2xa8BrTNb952rdxblErgbIsKRrkJhQOuxJCC+tiDAFp2y08KhzT+FCxkWS/
+ ifsrJSr/BOPuMZ3EsesqxwSjUHc8tuyAXBH0O7QrxmJJvAVossZ1wtTmvKjQcU8r31Oiko
+ 4uVMMz4yC2Yxi9ccIONJwgWSNekeBh4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-OSEzV12SNzyfTvernbthYQ-1; Fri, 05 Feb 2021 12:27:23 -0500
+X-MC-Unique: OSEzV12SNzyfTvernbthYQ-1
+Received: by mail-wm1-f70.google.com with SMTP id u15so4075480wmj.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:27:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sLa712d/xvbAqL4rld7olUxpRSh3DprVkjC3mAOjcIQ=;
- b=Ccjj8w7pjpUWy0uQVOA8Igh0J4xlOULNlwlS0q6skKVG1jxJ1HcJNoEqKe59zR3d1a
- C/2ippavPLg4QdGZmnwBqMnsZVefHRPl2ccHc6Zqg7sREqDr10txCLvpQ7VC1KyEoPRD
- pE+bF/Grg5OF9auHLxbFD/Zmx53KKPQA9RNuA9SpePuiF1iLCLtaX5X1b0r7ozK7z6Qd
- zZoGSrb0FeBT/X4I1tZurJ9fOt53YQV2FKKiPki4S2roNV+ozU0TGpCY4f9Hge8Dy36H
- 3F7ltMulzV/kqmflwufsI4QOjwC0CIC5FC9lQDqYdChoWm3glBmYIJstceU2lsnJC9NM
- XYQA==
-X-Gm-Message-State: AOAM531zwfz2NzSZdO3lDS7Slatgo0UlNW3+Q52Kr7KxVNnPp9Rg06GK
- xbqUIZ9zKnf7JaUnVAKcw5w=
-X-Google-Smtp-Source: ABdhPJwnmznYjzZGxI9p8kI7tsVaa1Xps9weoZUCe64SAiTHSqGjFRYRGHAsOABITTDDt6zDpYs/vA==
-X-Received: by 2002:a17:906:6d94:: with SMTP id
- h20mr5174124ejt.231.1612545649071; 
- Fri, 05 Feb 2021 09:20:49 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id df15sm4175753edb.24.2021.02.05.09.20.46
+ bh=hQy5nXL0DMJH5281SuYV1V5cNgfuetsom4yvoadm30M=;
+ b=buezIQNbdDR+NC4oka3pIphUAgZAmabwfSHqE3JZYp5cc8VILpvW8e/TJg8ih63es8
+ m+IdoDUadFNYTU63kcvD83+Bu5Cdobo63L6w78wsrIS8+PpV5wvMaaXisQ+2XYeNbBRI
+ 9UwTLlX27+s+sBu/9U+CgaFZfo3HxXIbRK96XnUGQHo3J10y0+CxqIwlvxuUkvvRg+gw
+ Sv7rXK3Ps+sAgGRGH4t5tII7cShqJbqWNr1WdpCAlj5CoLsxNdDq5cCaQdxvOKawcrJZ
+ hf/hZhLXQEGTppjlqXh7Yd0rTPKRXBiuZCIJa3/BhUQ3zCEs9PW2bxVrGcA1bpF2WytG
+ lOWg==
+X-Gm-Message-State: AOAM53220a/lBWvPDzFqq5pfkQnm9ApWrM8CpgkGc//xRLyqD3vxtxEs
+ Z1k/jyCt+5Vn5gBtbOYyD4sIibo5WdsfAlrQYhVI/SidHyyrn41CMIqwl9XXxB6IpsW3naRNBGB
+ w1Xwhxy3r3hVLArg=
+X-Received: by 2002:adf:c6c1:: with SMTP id c1mr6275909wrh.326.1612546042593; 
+ Fri, 05 Feb 2021 09:27:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxcFNN+2R0oaVBeW7b1Dw6/50BMIIn6fzAoI16xXlaoXV8vIYgizthzyJh7PZ+km1w1k+guJA==
+X-Received: by 2002:adf:c6c1:: with SMTP id c1mr6275896wrh.326.1612546042380; 
+ Fri, 05 Feb 2021 09:27:22 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id b19sm9100292wmj.22.2021.02.05.09.27.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Feb 2021 09:20:48 -0800 (PST)
-Subject: Re: [PATCH 2/9] tests/qtest: Restrict xlnx-can-test to TCG builds
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210205144345.2068758-1-f4bug@amsat.org>
- <20210205144345.2068758-3-f4bug@amsat.org>
- <CAFEAcA99NTiq+a7ZLiVVEbvpe0mgOcmrKrQLTHZeQ9ndNLOb8A@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <62f48e45-c333-a004-e98a-7a7d977eef87@amsat.org>
-Date: Fri, 5 Feb 2021 18:20:46 +0100
+ Fri, 05 Feb 2021 09:27:21 -0800 (PST)
+Subject: Re: [PATCH v2] hw/scsi/scsi-disk: Fix out of bounds access in
+ mode_sense_page()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210204225041.1822673-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <657ad3cd-b533-3028-baaf-6718fb44f4cb@redhat.com>
+Date: Fri, 5 Feb 2021 18:27:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA99NTiq+a7ZLiVVEbvpe0mgOcmrKrQLTHZeQ9ndNLOb8A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210204225041.1822673-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.33,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,50 +101,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vikram Garhwal <fnu.vikram@xilinx.com>, Qemu-block <qemu-block@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>, Andrew Jones <drjones@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, John Snow <jsnow@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Darren Kenny <darren.kenny@oracle.com>,
+ Li Qiang <liq3ea@gmail.com>, qemu-stable@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/21 5:57 PM, Peter Maydell wrote:
-> On Fri, 5 Feb 2021 at 14:43, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> The Xilinx CAN controller test is uses the ZCU102 board which is
->> based on a ZynqMP SoC. In the default configuration - used by this
->> test - this SoC creates 2 Cortex R5F cores. Such cores are not
->> v8A archicture, thus can not be run under KVM. Therefore restrict
->> this test to TCG.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> Cc: Alistair Francis <alistair@alistair23.me>
->> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
->> Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
->> ---
->>  tests/qtest/meson.build | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
->> index c83bc211b6a..d8ebd5bf98e 100644
->> --- a/tests/qtest/meson.build
->> +++ b/tests/qtest/meson.build
->> @@ -159,10 +159,10 @@
->>    (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
->>    (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
->>    (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
->> +  (config_all.has_key('CONFIG_TCG') ? ['xlnx-can-test'] : []) +  \
->>    ['arm-cpu-features',
->>     'numa-test',
->>     'boot-serial-test',
->> -   'xlnx-can-test',
->>     'migration-test']
+On 04/02/21 23:50, Philippe Mathieu-Daudé wrote:
+> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+> index ed52fcd49ff..93aec483e88 100644
+> --- a/hw/scsi/scsi-disk.c
+> +++ b/hw/scsi/scsi-disk.c
+> @@ -1089,7 +1089,7 @@ static int scsi_emulate_mechanism_status(SCSIDiskState *s, uint8_t *outbuf)
+>   static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
+>                              int page_control)
+>   {
+> -    static const int mode_sense_valid[0x3f] = {
+> +    static const int mode_sense_valid[MODE_PAGE_ALLS + 1] = {
+>           [MODE_PAGE_HD_GEOMETRY]            = (1 << TYPE_DISK),
+>           [MODE_PAGE_FLEXIBLE_DISK_GEOMETRY] = (1 << TYPE_DISK),
+>           [MODE_PAGE_CACHING]                = (1 << TYPE_DISK) | (1 << TYPE_ROM),
 > 
-> The implementation in hw/net/can/meson.build is conditioned on
-> CONFIG_XLNX_ZYNQMP -- does it work to use that here too?
 
-Yes. Thanks, clever idea :)
+The bug is really that mode select with page 0x3f should fail, but it's 
+okay too.  Can you also write a testcase along the lines of 
+test_unaligned_write_same?
+
+Paolo
+
 
