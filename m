@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82483108D9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:20:35 +0100 (CET)
-Received: from localhost ([::1]:54230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAF03108F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:25:00 +0100 (CET)
+Received: from localhost ([::1]:40644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7yE5-0000Qe-QO
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:20:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45598)
+	id 1l7yIN-0006di-9S
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:24:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7W-0002tR-SD; Fri, 05 Feb 2021 05:13:46 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3305)
+ id 1l7y7b-000319-M2; Fri, 05 Feb 2021 05:13:51 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7U-00075S-FB; Fri, 05 Feb 2021 05:13:46 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DXB6L6n6xzlH0p;
- Fri,  5 Feb 2021 18:11:54 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
- 18:13:29 +0800
+ id 1l7y7Y-00077Y-Aq; Fri, 05 Feb 2021 05:13:51 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DXB6s1hqjz7h16;
+ Fri,  5 Feb 2021 18:12:21 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
+ 18:13:30 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 2/9] block-backend: Introduce retry timer
-Date: Fri, 5 Feb 2021 18:13:08 +0800
-Message-ID: <20210205101315.13042-3-cenjiahui@huawei.com>
+Subject: [PATCH v5 3/9] block-backend: Add device specific retry callback
+Date: Fri, 5 Feb 2021 18:13:09 +0800
+Message-ID: <20210205101315.13042-4-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210205101315.13042-1-cenjiahui@huawei.com>
 References: <20210205101315.13042-1-cenjiahui@huawei.com>
@@ -36,8 +36,8 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.155]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
- helo=szxga04-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
+ helo=szxga07-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -64,67 +64,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, cenjiahui@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a timer to regularly trigger retry on errors.
+Add retry_request_cb in BlockDevOps to do device specific retry action.
+Backend's timer would be registered only when the backend is set 'retry'
+on errors and the device supports retry action.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- block/block-backend.c | 21 ++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ block/block-backend.c          | 8 ++++++++
+ include/sysemu/block-backend.h | 4 ++++
+ 2 files changed, 12 insertions(+)
 
 diff --git a/block/block-backend.c b/block/block-backend.c
-index e493f17515..3a9d55cbe3 100644
+index 3a9d55cbe3..a8bfaf6e4a 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -35,6 +35,9 @@
+@@ -995,6 +995,14 @@ void blk_set_dev_ops(BlockBackend *blk, const BlockDevOps *ops,
+     blk->dev_ops = ops;
+     blk->dev_opaque = opaque;
  
- static AioContext *blk_aiocb_get_aio_context(BlockAIOCB *acb);
- 
-+/* block backend default retry interval */
-+#define BLOCK_BACKEND_DEFAULT_RETRY_INTERVAL   1000
-+
- typedef struct BlockBackendAioNotifier {
-     void (*attached_aio_context)(AioContext *new_context, void *opaque);
-     void (*detach_aio_context)(void *opaque);
-@@ -95,6 +98,15 @@ struct BlockBackend {
-      * Accessed with atomic ops.
-      */
-     unsigned int in_flight;
-+
-+    /* Timer for retry on errors. */
-+    QEMUTimer *retry_timer;
-+    /* Interval in ms to trigger next retry. */
-+    int64_t retry_interval;
-+    /* Start time of the first error. Used to check timeout. */
-+    int64_t retry_start_time;
-+    /* Retry timeout. 0 represents infinite retry. */
-+    int64_t retry_timeout;
- };
- 
- typedef struct BlockBackendAIOCB {
-@@ -345,6 +357,11 @@ BlockBackend *blk_new(AioContext *ctx, uint64_t perm, uint64_t shared_perm)
-     blk->on_read_error = BLOCKDEV_ON_ERROR_REPORT;
-     blk->on_write_error = BLOCKDEV_ON_ERROR_ENOSPC;
- 
-+    blk->retry_timer = NULL;
-+    blk->retry_interval = BLOCK_BACKEND_DEFAULT_RETRY_INTERVAL;
-+    blk->retry_start_time = 0;
-+    blk->retry_timeout = 0;
-+
-     block_acct_init(&blk->stats);
- 
-     qemu_co_queue_init(&blk->queued_requests);
-@@ -456,6 +473,10 @@ static void blk_delete(BlockBackend *blk)
-     QTAILQ_REMOVE(&block_backends, blk, link);
-     drive_info_del(blk->legacy_dinfo);
-     block_acct_cleanup(&blk->stats);
-+    if (blk->retry_timer) {
-+        timer_del(blk->retry_timer);
-+        timer_free(blk->retry_timer);
++    if ((blk->on_read_error == BLOCKDEV_ON_ERROR_RETRY ||
++         blk->on_write_error == BLOCKDEV_ON_ERROR_RETRY) &&
++        ops->retry_request_cb) {
++        blk->retry_timer = aio_timer_new(blk->ctx, QEMU_CLOCK_REALTIME,
++                                         SCALE_MS, ops->retry_request_cb,
++                                         opaque);
 +    }
-     g_free(blk);
- }
++
+     /* Are we currently quiesced? Should we enforce this right now? */
+     if (blk->quiesce_counter && ops->drained_begin) {
+         ops->drained_begin(opaque);
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index 880e903293..d806852db5 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -66,6 +66,10 @@ typedef struct BlockDevOps {
+      * Runs when the backend's last drain request ends.
+      */
+     void (*drained_end)(void *opaque);
++    /*
++     * Runs when retrying failed requests.
++     */
++    void (*retry_request_cb)(void *opaque);
+ } BlockDevOps;
  
+ /* This struct is embedded in (the private) BlockBackend struct and contains
 -- 
 2.29.2
 
