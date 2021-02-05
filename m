@@ -2,49 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484193109BD
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 12:03:26 +0100 (CET)
-Received: from localhost ([::1]:45562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446663109C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 12:06:04 +0100 (CET)
+Received: from localhost ([::1]:50778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7ytZ-0001AZ-2G
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 06:03:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54846)
+	id 1l7yw7-0003Ty-Ag
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 06:06:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l7yqP-00080F-8m; Fri, 05 Feb 2021 06:00:10 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l7yqM-0002TX-QZ; Fri, 05 Feb 2021 06:00:09 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C22F2AD24;
- Fri,  5 Feb 2021 11:00:04 +0000 (UTC)
-Subject: Re: iotest 30 failing
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <818b08af-3077-7003-63eb-614fa459d01c@redhat.com>
- <CAFEAcA9LJMS+qZRn9H97cnderDm8LRg7wyy+dgz3nXGLF_QQeA@mail.gmail.com>
- <5c0ffc79-aabc-1b40-8758-9840845432bf@virtuozzo.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <b5e61c20-f500-b1cd-daa4-bdb9a368cb96@suse.de>
-Date: Fri, 5 Feb 2021 12:00:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l7yqw-00087P-PF
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 06:00:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54367)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l7yqu-0002kL-1e
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 06:00:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612522834;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zaf3S9PwtdukBM/etRGWGCJbpMRWSPMiSF+DWj62VHg=;
+ b=NhXYj29VsOkb0KcnVAOvnvcNYVlzbZbcLwDHIddR+tGGcK27K4bf/djmBQdc2jyouNTnIL
+ GngS/K2kg9NqUCzEqlDxMFJtF0mEukov7+ShzRnJnMbxfDItKNfsuxAGaHr8M+eef2aDpo
+ UUrOL8ENRAAWj60vybaE7C8Gu+2XPtg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-Orll_PSkNMC2kyYFMKl4Aw-1; Fri, 05 Feb 2021 06:00:32 -0500
+X-MC-Unique: Orll_PSkNMC2kyYFMKl4Aw-1
+Received: by mail-wr1-f72.google.com with SMTP id n18so5154957wrm.8
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 03:00:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=zaf3S9PwtdukBM/etRGWGCJbpMRWSPMiSF+DWj62VHg=;
+ b=U4a1RmXcz8I4yhcy9gN0ah2sph0rfsFtDYqQnzBOlQbKeZoHZnhA2V5WE5tjQFDz2p
+ WvLIie/VaWKuI90CEX6eEl7KTjuORD+SprBZzWwou3GXx8xwr3upJFeA5u5EOoXzC6uW
+ J+y/0rrxm2GeEkD7GGdAZ/5KAfkHptSFX2OoLSBYfH301BMyYnMbR7/N2vTBB7h6ci3H
+ RtRgeW9bVmiw6maKvEuD54ZWo5NKx93WYKJSaol7pKVJ0mz5GNKFfxDtfItYA2nBt2pH
+ DbLja8mkLcxzJHLD/UckfADvQ1uWb2wC9cY98+HYk7m4/2OXku/ym+HlfuMPJRs+s84X
+ vx5w==
+X-Gm-Message-State: AOAM532p6pBZHsV6ybTEWjvNkz4uz1v+otze8JiPk6w1KGuOLbWZITgu
+ 4i4aAk8jrZy26s4icXXvArDf48qe4YAlOU7mSprDqYYxcCHid3AwQXZIOqUCRW+zcDwejJltXL6
+ 8XTbK1WL3/jYoZcI=
+X-Received: by 2002:adf:c6c1:: with SMTP id c1mr4450510wrh.326.1612522831337; 
+ Fri, 05 Feb 2021 03:00:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyjtSI3aEK6/D7CgFJjBY+9g5mc52IH7pR/OM5O2Rk2GRdnPqhQrRPPlWmD6/I5qpnp5IO29Q==
+X-Received: by 2002:adf:c6c1:: with SMTP id c1mr4450486wrh.326.1612522831209; 
+ Fri, 05 Feb 2021 03:00:31 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id b19sm8269590wmj.22.2021.02.05.03.00.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Feb 2021 03:00:30 -0800 (PST)
+Date: Fri, 5 Feb 2021 06:00:27 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 0/4] Remove the deprecated pc-1.x machine types and
+ related stuff
+Message-ID: <20210205060017-mutt-send-email-mst@kernel.org>
+References: <20210203171832.483176-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5c0ffc79-aabc-1b40-8758-9840845432bf@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.182,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210203171832.483176-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,39 +91,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 11:38 PM, Vladimir Sementsov-Ogievskiy wrote:
-> 04.02.2021 20:51, Peter Maydell wrote:
->> On Thu, 4 Feb 2021 at 17:48, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>>
->>> Hi,
->>>
->>> Based on commit 1ed9228f63e (ericb/tags/pull-nbd-2021-02-02-v2)
->>> I got:
->>>
->>>    TEST   iotest-qcow2: 030 [fail]
->>
->> Yes; see also this thread:
->> https://lore.kernel.org/qemu-devel/9e71568c-ce4a-f844-fbd3-a4a59f850d74@redhat.com/
->>
->> Can somebody write a simple patch to disable the test entirely,
->> please? It's too unreliable to be in our CI set.
->>
-> 
-> I can..
-> 
-> Still, maybe I'll try tomorrow to make v2 from my "[PATCH RFC 0/5] Fix accidental crash in iotest 30"?
-> 
-> It would be very interesting will it fail after that fix. My experiments shows that my patches helps. But the question is do we really have the same crash in all these reports or not. So I think it worth taking my fix (even being incomplete solution) to understand do we ignore some unknown bug.
-> 
+On Wed, Feb 03, 2021 at 06:18:28PM +0100, Thomas Huth wrote:
+> The pc-1.x machine types have been deprecated since QEMU v5.0 already, and
+> nobody complained, so they can now be removed. While we're at it, also
+> remove some compatibility switches and related code that are now not
+> necessary anymore after these machine types have been removed.
+> (We could maybe even remove more stuff like the various host_features
+> switches in the virtio devices, but they still might be useful in certain
+> cases, so I decided not to remove them yet)
 
-Today's master passes the test for me, yesterday's failed. Was something changed or is it just flicky..
 
-Ciao,
+I queued patches 1 and 3. Thanks!
 
-Claudio
+> Thomas Huth (4):
+>   hw/i386: Remove the deprecated pc-1.x machine types
+>   hw/block/fdc: Remove the check_media_rate property
+>   hw/virtio/virtio-balloon: Remove the "class" property
+>   hw/usb/bus: Remove the "full-path" property
+> 
+>  docs/system/deprecated.rst       |  6 --
+>  docs/system/removed-features.rst |  6 ++
+>  hw/block/fdc.c                   | 17 +-----
+>  hw/i386/pc_piix.c                | 94 --------------------------------
+>  hw/usb/bus.c                     |  7 +--
+>  hw/virtio/virtio-balloon-pci.c   | 11 +---
+>  include/hw/usb.h                 |  2 +-
+>  tests/qemu-iotests/172.out       | 35 ------------
+>  8 files changed, 11 insertions(+), 167 deletions(-)
+> 
+> -- 
+> 2.27.0
 
 
