@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A884C3108ED
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:23:12 +0100 (CET)
-Received: from localhost ([::1]:60846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5633108D1
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:17:54 +0100 (CET)
+Received: from localhost ([::1]:47636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7yGd-0003IN-MQ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:23:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45706)
+	id 1l7yBV-00065B-Km
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:17:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7a-0002zO-TY; Fri, 05 Feb 2021 05:13:50 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3365)
+ id 1l7y7Z-0002vz-4W; Fri, 05 Feb 2021 05:13:49 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7X-00074q-0Y; Fri, 05 Feb 2021 05:13:50 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DXB6k6fmCz164xF;
- Fri,  5 Feb 2021 18:12:14 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
- 18:13:28 +0800
+ id 1l7y7W-00075T-GS; Fri, 05 Feb 2021 05:13:48 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DXB6L61NtzMVqV;
+ Fri,  5 Feb 2021 18:11:54 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
+ 18:13:29 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 0/9] block: Add retry for werror=/rerror= mechanism
-Date: Fri, 5 Feb 2021 18:13:06 +0800
-Message-ID: <20210205101315.13042-1-cenjiahui@huawei.com>
+Subject: [PATCH v5 1/9] qapi/block-core: Add retry option for error action
+Date: Fri, 5 Feb 2021 18:13:07 +0800
+Message-ID: <20210205101315.13042-2-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210205101315.13042-1-cenjiahui@huawei.com>
+References: <20210205101315.13042-1-cenjiahui@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.155]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
- helo=szxga04-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
+ helo=szxga05-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,63 +64,61 @@ Cc: Kevin Wolf <kwolf@redhat.com>, cenjiahui@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A VM in the cloud environment may use a virutal disk as the backend storage,
-and there are usually filesystems on the virtual block device. When backend
-storage is temporarily down, any I/O issued to the virtual block device
-will cause an error. For example, an error occurred in ext4 filesystem would
-make the filesystem readonly. In production environment, a cloud backend
-storage can be soon recovered. For example, an IP-SAN may be down due to
-network failure and will be online soon after network is recovered. However,
-the error in the filesystem may not be recovered unless a device reattach
-or system restart. Thus an I/O retry mechanism is in need to implement a
-self-healing system.
+Add a new error action 'retry' to support retry on errors.
 
-This patch series propose to extend the werror=/rerror= mechanism to add
-a 'retry' feature. It can automatically retry failed I/O requests on error
-without sending error back to guest, and guest can get back running smoothly
-when I/O is recovred.
+Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+Signed-off-by: Ying Fang <fangying1@huawei.com>
+---
+ blockdev.c           | 2 ++
+ qapi/block-core.json | 9 +++++++--
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-v4->v5:
-* Add document for 'retry' in qapi.
-* Support werror=/rerror=retry for scsi-disk.
-* Pause retry when draining.
-
-v3->v4:
-* Adapt to werror=/rerror= mechanism.
-
-v2->v3:
-* Add a doc to describe I/O hang.
-
-v1->v2:
-* Rebase to fix compile problems.
-* Fix incorrect remove of rehandle list.
-* Provide rehandle pause interface.
-
-REF: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg06560.html
-
-Jiahui Cen (9):
-  qapi/block-core: Add retry option for error action
-  block-backend: Introduce retry timer
-  block-backend: Add device specific retry callback
-  block-backend: Enable retry action on errors
-  block-backend: Add timeout support for retry
-  block: Add error retry param setting
-  virtio_blk: Add support for retry on errors
-  scsi-bus: Refactor the code that retries requests
-  scsi-disk: Add support for retry on errors
-
- block/block-backend.c          | 68 ++++++++++++++++++++
- blockdev.c                     | 52 +++++++++++++++
- hw/block/block.c               | 10 +++
- hw/block/virtio-blk.c          | 21 +++++-
- hw/scsi/scsi-bus.c             | 16 +++--
- hw/scsi/scsi-disk.c            | 16 +++++
- include/hw/block/block.h       |  7 +-
- include/hw/scsi/scsi.h         |  1 +
- include/sysemu/block-backend.h | 10 +++
- qapi/block-core.json           |  9 ++-
- 10 files changed, 199 insertions(+), 11 deletions(-)
-
+diff --git a/blockdev.c b/blockdev.c
+index b250b9b959..ece1d8ae58 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -342,6 +342,8 @@ static int parse_block_error_action(const char *buf, bool is_read, Error **errp)
+         return BLOCKDEV_ON_ERROR_STOP;
+     } else if (!strcmp(buf, "report")) {
+         return BLOCKDEV_ON_ERROR_REPORT;
++    } else if (!strcmp(buf, "retry")) {
++        return BLOCKDEV_ON_ERROR_RETRY;
+     } else {
+         error_setg(errp, "'%s' invalid %s error action",
+                    buf, is_read ? "read" : "write");
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 9f555d5c1d..30ea43cb77 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1143,10 +1143,13 @@
+ #
+ # @auto: inherit the error handling policy of the backend (since: 2.7)
+ #
++# @retry: for guest operations, retry the failing request; (since: 6.0)
++#         for jobs, not supported
++#
+ # Since: 1.3
+ ##
+ { 'enum': 'BlockdevOnError',
+-  'data': ['report', 'ignore', 'enospc', 'stop', 'auto'] }
++  'data': ['report', 'ignore', 'enospc', 'stop', 'auto', 'retry'] }
+ 
+ ##
+ # @MirrorSyncMode:
+@@ -4839,10 +4842,12 @@
+ #
+ # @stop: error caused VM to be stopped
+ #
++# @retry: error has been retried (since: 6.0)
++#
+ # Since: 2.1
+ ##
+ { 'enum': 'BlockErrorAction',
+-  'data': [ 'ignore', 'report', 'stop' ] }
++  'data': [ 'ignore', 'report', 'stop', 'retry' ] }
+ 
+ 
+ ##
 -- 
 2.29.2
 
