@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076CB311665
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 00:08:07 +0100 (CET)
-Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F8531166C
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 00:10:14 +0100 (CET)
+Received: from localhost ([::1]:52986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8ACs-0006nz-2M
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 18:08:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59162)
+	id 1l8AEv-00021A-9k
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 18:10:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8A2S-00023s-3H
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:57:20 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35873)
+ id 1l8A2T-00026N-8I
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:57:21 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:37867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8A2P-0003Jz-TJ
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:57:19 -0500
-Received: by mail-pf1-x431.google.com with SMTP id 18so3156577pfz.3
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 14:57:17 -0800 (PST)
+ id 1l8A2R-0003Li-Nl
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:57:21 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id z21so5584816pgj.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 14:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3gzoTh/DnzHssC7cCFW1QEczWz5vWhlHn8h/Weu1Sj0=;
- b=BIYAbNO98EmJmFzSTcx0Xg1uTHRkieCeU7/tu307qjpGqWUA5EJxNXuiWk4y3yR5hM
- 6inBeVS/8QA2a4dlP/Jyc+6sgd6Ky8FDvbnfBRvyW/1RXG5dY/0RGH2xBhbPLjwoGVGM
- zOFuzQRiqS00iAa/1f11bHihNl6pxHstf1pzeAuXs9592mT0LNPoChSQtHtwzC1UsTRH
- f0zGz6rCXdbK1s9da9LBgu+orZr5DXaxhChYWncIRQVDgM+7LaBVCOZ9KW0PPIPQhT7m
- 8gD/UW1hmpS81Is1T4Xi3yrLL7BSNVoYDcXRjC7tvcAYr0kkF4I8UnODcSiY43PZJMAv
- 5VbQ==
+ bh=G2sd+rMiFVhWCMHNvyHgxhZmWKXrzCkUbxixI9tGVCY=;
+ b=dmjhXO+PEPjleCmwixqeNYYmo16Ktxg8qXT3ryFx38P/z2NLdygFLG3i2vW4ZEjccq
+ xiKTGZvceEqzx1b0CyHeH+k1rr4RIEosnr0OxeCBsQugkvWpq80Sofrc7IECKVOHG+Tq
+ 4Fh9weIUT7qeXCplHGeDBKXrZy2s+cPNU9WfcdJKp41tngvxDOntGasqxE4aIycnS/Y8
+ fPzYlhsP4O3bccrmuL7HOi5Pj99QZgW1gA8dPkD9aDW+soezrWW4eLC6tbLtg3KNjry7
+ +PUlBpc4/FmJD/cpp6V0PWmqREO28KzKD+UhyaL/kpCp5OS3661vMrQuc9VuCXs91Wu9
+ S01Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3gzoTh/DnzHssC7cCFW1QEczWz5vWhlHn8h/Weu1Sj0=;
- b=KrsT0eHxKIM4uqbaIDdusYLzrBDT5oM0Xvjk4PKW3Na2MyZ++NA6C99iSpe8NhDzyx
- +VtfymWw3p21FOtN6TvStt0vaC9Z1sgY7yHsXnndXw+kQrloxf8zCun48q+iNMb1ZBje
- W7wz+xySaZ4HNOJer7gKOY+G+fqdDiEZr9xHGvlefzYR+i6jaMCt5BsSHdtqdkS6Woh8
- WWEvw/YHP3rUR8+iyTEV2nNtQz42s2RpcK/PWNSfAwmXEP6n3qcuhD8SO0q3FySrcYIW
- SoA3qw7QdFBkDQTNaE1KfJzguyHwjT1cERgmIy/2jWNjBvDLCUiY0/KMaHf7ELnWxPXu
- AC3g==
-X-Gm-Message-State: AOAM531sRnEkBVeEY4+5UKV3FibTmm8uLz/u0l++JimYrV2d9Tap2FbG
- c5evxNAczltAVweHw388Nc+X1wMvcakSPY/X
-X-Google-Smtp-Source: ABdhPJwAl59Vpdb03EpL2GLGDMcuQz27oZxe2HQvDQHQab/hGKVo3ugvP5sAQFDVYsw1s+yovkEMqw==
-X-Received: by 2002:aa7:8b51:0:b029:1ae:687f:d39b with SMTP id
- i17-20020aa78b510000b02901ae687fd39bmr6910751pfd.50.1612565836560; 
- Fri, 05 Feb 2021 14:57:16 -0800 (PST)
+ bh=G2sd+rMiFVhWCMHNvyHgxhZmWKXrzCkUbxixI9tGVCY=;
+ b=XM19McAmmr3y3HkkiRzG4s8Vq25g9ipwuMtIZg24LdRFCtY/dCLimAtiKf44tFLiCA
+ e+PcaTBnyhuWexujcK7Oi0CZSaJSWOa5anL1ur2us9SZ+8jwmI7I77swDUnayl8T36Br
+ miSfaaqmm3ih5JLTc69tpnWfyD+ECtFVjU8MKUGAQNKW7uUVthpVzbykQFVn23yR/4cU
+ eRDfbS6wdbrfRVvO+p3ASSfPKiQc9LRc2hdYJ2tEQnH74yXNBK12//gQ4A7Evu648PXi
+ tyomVN7x9UQ5q6PBxh+xRx+b3cm3TlL4V06y08YBz+ZFoFYu3kYhGUglH8T5TSXPt1Xo
+ 3QqQ==
+X-Gm-Message-State: AOAM532rn8aIiGplhcMqS1gj9bliFqZNf+x7bRqEzsURsEz2V0ivyR5I
+ z9TJX3fyZU1IRtJb++juMDZFHYt1Jtj2gACG
+X-Google-Smtp-Source: ABdhPJyTDMhQPBBMnO3UaftMux4PIU6aHzE0UabuHAc7D0fE7XwgWjlIyWB+3146qpBKAHjwF7qD2A==
+X-Received: by 2002:a62:190d:0:b029:1bd:e11c:4eff with SMTP id
+ 13-20020a62190d0000b02901bde11c4effmr6608317pfz.22.1612565838346; 
+ Fri, 05 Feb 2021 14:57:18 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id c23sm12155149pgc.72.2021.02.05.14.57.15
+ by smtp.gmail.com with ESMTPSA id c23sm12155149pgc.72.2021.02.05.14.57.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 14:57:15 -0800 (PST)
+ Fri, 05 Feb 2021 14:57:17 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/46] tcg/tci: Inline tci_write_reg64 into 64-bit callers
-Date: Fri,  5 Feb 2021 12:56:16 -1000
-Message-Id: <20210205225650.1330794-13-richard.henderson@linaro.org>
+Subject: [PULL 13/46] tcg/tci: Merge INDEX_op_ld8u_{i32,i64}
+Date: Fri,  5 Feb 2021 12:56:17 -1000
+Message-Id: <20210205225650.1330794-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210205225650.1330794-1-richard.henderson@linaro.org>
 References: <20210205225650.1330794-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,251 +90,58 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that we had two functions of the same name: a 32-bit version
-which took two register numbers and a 64-bit version which was a
-no-op wrapper for tcg_write_reg.  After this, we are left with
-only the 32-bit version.
-
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c | 60 +++++++++++++++++++++++++------------------------------
- 1 file changed, 27 insertions(+), 33 deletions(-)
+ tcg/tci.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/tcg/tci.c b/tcg/tci.c
-index 39ad00663f..0f56702b93 100644
+index 0f56702b93..7e108bcbb3 100644
 --- a/tcg/tci.c
 +++ b/tcg/tci.c
-@@ -124,12 +124,6 @@ static void tci_write_reg64(tcg_target_ulong *regs, uint32_t high_index,
-     tci_write_reg(regs, low_index, value);
-     tci_write_reg(regs, high_index, value >> 32);
- }
--#elif TCG_TARGET_REG_BITS == 64
--static void
--tci_write_reg64(tcg_target_ulong *regs, TCGReg index, uint64_t value)
--{
--    tci_write_reg(regs, index, value);
--}
+@@ -455,6 +455,18 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
+ # define qemu_st_beq(X)  stq_be_p(g2h(taddr), X)
  #endif
  
- #if TCG_TARGET_REG_BITS == 32
-@@ -559,7 +553,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             t1 = tci_read_r64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
-             condition = *tb_ptr++;
--            tci_write_reg64(regs, t0, tci_compare64(t1, t2, condition));
-+            tci_write_reg(regs, t0, tci_compare64(t1, t2, condition));
-             break;
- #endif
-         case INDEX_op_mov_i32:
-@@ -839,12 +833,12 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         case INDEX_op_mov_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1);
-+            tci_write_reg(regs, t0, t1);
-             break;
-         case INDEX_op_tci_movi_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_i64(&tb_ptr);
--            tci_write_reg64(regs, t0, t1);
-+            tci_write_reg(regs, t0, t1);
-             break;
++#if TCG_TARGET_REG_BITS == 64
++# define CASE_32_64(x) \
++        case glue(glue(INDEX_op_, x), _i64): \
++        case glue(glue(INDEX_op_, x), _i32):
++# define CASE_64(x) \
++        case glue(glue(INDEX_op_, x), _i64):
++#else
++# define CASE_32_64(x) \
++        case glue(glue(INDEX_op_, x), _i32):
++# define CASE_64(x)
++#endif
++
+ /* Interpret pseudo code in tb. */
+ /*
+  * Disable CFI checks.
+@@ -569,7 +581,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
  
-             /* Load/store operations (64 bit). */
-@@ -886,7 +880,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+             /* Load/store operations (32 bit). */
+ 
+-        case INDEX_op_ld8u_i32:
++        CASE_32_64(ld8u)
              t0 = *tb_ptr++;
              t1 = tci_read_r(regs, &tb_ptr);
              t2 = tci_read_s32(&tb_ptr);
--            tci_write_reg64(regs, t0, *(uint64_t *)(t1 + t2));
-+            tci_write_reg(regs, t0, *(uint64_t *)(t1 + t2));
-             break;
-         case INDEX_op_st8_i64:
-             t0 = tci_read_r8(regs, &tb_ptr);
-@@ -920,19 +914,19 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1 + t2);
-+            tci_write_reg(regs, t0, t1 + t2);
-             break;
-         case INDEX_op_sub_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1 - t2);
-+            tci_write_reg(regs, t0, t1 - t2);
-             break;
-         case INDEX_op_mul_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1 * t2);
-+            tci_write_reg(regs, t0, t1 * t2);
-             break;
- #if TCG_TARGET_HAS_div_i64
-         case INDEX_op_div_i64:
-@@ -951,19 +945,19 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1 & t2);
-+            tci_write_reg(regs, t0, t1 & t2);
-             break;
-         case INDEX_op_or_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1 | t2);
-+            tci_write_reg(regs, t0, t1 | t2);
-             break;
-         case INDEX_op_xor_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1 ^ t2);
-+            tci_write_reg(regs, t0, t1 ^ t2);
-             break;
+@@ -843,12 +855,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
  
-             /* Shift/rotate operations (64 bit). */
-@@ -972,32 +966,32 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+             /* Load/store operations (64 bit). */
+ 
+-        case INDEX_op_ld8u_i64:
+-            t0 = *tb_ptr++;
+-            t1 = tci_read_r(regs, &tb_ptr);
+-            t2 = tci_read_s32(&tb_ptr);
+-            tci_write_reg(regs, t0, *(uint8_t *)(t1 + t2));
+-            break;
+         case INDEX_op_ld8s_i64:
              t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1 << (t2 & 63));
-+            tci_write_reg(regs, t0, t1 << (t2 & 63));
-             break;
-         case INDEX_op_shr_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1 >> (t2 & 63));
-+            tci_write_reg(regs, t0, t1 >> (t2 & 63));
-             break;
-         case INDEX_op_sar_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, ((int64_t)t1 >> (t2 & 63)));
-+            tci_write_reg(regs, t0, ((int64_t)t1 >> (t2 & 63)));
-             break;
- #if TCG_TARGET_HAS_rot_i64
-         case INDEX_op_rotl_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, rol64(t1, t2 & 63));
-+            tci_write_reg(regs, t0, rol64(t1, t2 & 63));
-             break;
-         case INDEX_op_rotr_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_ri64(regs, &tb_ptr);
-             t2 = tci_read_ri64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, ror64(t1, t2 & 63));
-+            tci_write_reg(regs, t0, ror64(t1, t2 & 63));
-             break;
- #endif
- #if TCG_TARGET_HAS_deposit_i64
-@@ -1008,7 +1002,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             tmp16 = *tb_ptr++;
-             tmp8 = *tb_ptr++;
-             tmp64 = (((1ULL << tmp8) - 1) << tmp16);
--            tci_write_reg64(regs, t0, (t1 & ~tmp64) | ((t2 << tmp16) & tmp64));
-+            tci_write_reg(regs, t0, (t1 & ~tmp64) | ((t2 << tmp16) & tmp64));
-             break;
- #endif
-         case INDEX_op_brcond_i64:
-@@ -1026,28 +1020,28 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         case INDEX_op_ext8u_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r8(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1);
-+            tci_write_reg(regs, t0, t1);
-             break;
- #endif
- #if TCG_TARGET_HAS_ext8s_i64
-         case INDEX_op_ext8s_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r8s(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1);
-+            tci_write_reg(regs, t0, t1);
-             break;
- #endif
- #if TCG_TARGET_HAS_ext16s_i64
-         case INDEX_op_ext16s_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r16s(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1);
-+            tci_write_reg(regs, t0, t1);
-             break;
- #endif
- #if TCG_TARGET_HAS_ext16u_i64
-         case INDEX_op_ext16u_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r16(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1);
-+            tci_write_reg(regs, t0, t1);
-             break;
- #endif
- #if TCG_TARGET_HAS_ext32s_i64
-@@ -1056,7 +1050,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         case INDEX_op_ext_i32_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r32s(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1);
-+            tci_write_reg(regs, t0, t1);
-             break;
- #if TCG_TARGET_HAS_ext32u_i64
-         case INDEX_op_ext32u_i64:
-@@ -1064,41 +1058,41 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         case INDEX_op_extu_i32_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r32(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, t1);
-+            tci_write_reg(regs, t0, t1);
-             break;
- #if TCG_TARGET_HAS_bswap16_i64
-         case INDEX_op_bswap16_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r16(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, bswap16(t1));
-+            tci_write_reg(regs, t0, bswap16(t1));
-             break;
- #endif
- #if TCG_TARGET_HAS_bswap32_i64
-         case INDEX_op_bswap32_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r32(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, bswap32(t1));
-+            tci_write_reg(regs, t0, bswap32(t1));
-             break;
- #endif
- #if TCG_TARGET_HAS_bswap64_i64
-         case INDEX_op_bswap64_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, bswap64(t1));
-+            tci_write_reg(regs, t0, bswap64(t1));
-             break;
- #endif
- #if TCG_TARGET_HAS_not_i64
-         case INDEX_op_not_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, ~t1);
-+            tci_write_reg(regs, t0, ~t1);
-             break;
- #endif
- #if TCG_TARGET_HAS_neg_i64
-         case INDEX_op_neg_i64:
-             t0 = *tb_ptr++;
-             t1 = tci_read_r64(regs, &tb_ptr);
--            tci_write_reg64(regs, t0, -t1);
-+            tci_write_reg(regs, t0, -t1);
-             break;
- #endif
- #endif /* TCG_TARGET_REG_BITS == 64 */
+             t1 = tci_read_r(regs, &tb_ptr);
 -- 
 2.25.1
 
