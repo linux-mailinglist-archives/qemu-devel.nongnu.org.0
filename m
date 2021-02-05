@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00047310BEF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 14:37:34 +0100 (CET)
-Received: from localhost ([::1]:54466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6625310BF0
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 14:39:09 +0100 (CET)
+Received: from localhost ([::1]:56686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l81Ik-0005BA-2i
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 08:37:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57076)
+	id 1l81KG-00066q-My
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 08:39:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l81HX-0004jG-1h
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:36:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32890)
+ id 1l81J7-0005fJ-DW
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:37:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l81HU-0005l1-EY
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:36:18 -0500
+ id 1l81J5-0006Wc-Ja
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:37:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612532171;
+ s=mimecast20190719; t=1612532274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DENYHIfKzrrBsCM5NYVF/d5Kjt4Gr9OkPY4xumHR5zY=;
- b=L5MQ0BbP2SORi6xfuwe33pIGkegH1scII6oawaWj4GFEK3msDsCklugaJZ/uYZHnntd0z2
- Q5IXRknYcA/1ZR6mbmOP1EbekbwlCPewJLKYbj+qP/+2TWemOH9xw0DzdyTmorpFHgre0c
- MmxR74528wWl+M+Kz2o1x2cqLvHSY30=
+ bh=UQkmYi9HY4k8AUOOLAlLcrdlJNVE9zPdoG+lKpmXo1c=;
+ b=d0snZM+Qr3SyFim+0j6P2RHo7lLbx6baQHRVBUyc9bQh+SQrPpoPdQ3zbzF5dLflY+PyHh
+ NGA6n1BOeQs7zaBxr5PZRX9cL3tTSDu704UTPfo5r/Rfc4cKKx1tkeLhwsTwWVQ7ik6OhT
+ X17YZU4LxgFDmSVxZxxZuuSKVFeyysM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-zmmGrPWtO1ml4vkPESCB3g-1; Fri, 05 Feb 2021 08:36:09 -0500
-X-MC-Unique: zmmGrPWtO1ml4vkPESCB3g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-310-UTZDSLZpNy21RnQzyUzWyg-1; Fri, 05 Feb 2021 08:37:51 -0500
+X-MC-Unique: UTZDSLZpNy21RnQzyUzWyg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2562108C30B;
- Fri,  5 Feb 2021 13:36:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B7341572B;
+ Fri,  5 Feb 2021 13:37:50 +0000 (UTC)
 Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
  [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A28195D9D2;
- Fri,  5 Feb 2021 13:36:03 +0000 (UTC)
-Subject: Re: [PATCH v2 4/5] travis.yml: (Re-)move the --enable-debug jobs
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F1ED360843;
+ Fri,  5 Feb 2021 13:37:46 +0000 (UTC)
+Subject: Re: [PATCH v2 1/5] travis.yml: Move gprof/gcov test across to gitlab
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210205091857.845389-1-thuth@redhat.com>
- <20210205091857.845389-5-thuth@redhat.com>
+ <20210205091857.845389-2-thuth@redhat.com>
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <b531d1e3-4f36-fc3b-8525-00b1773acae5@redhat.com>
-Date: Fri, 5 Feb 2021 10:36:00 -0300
+Message-ID: <be049ff7-5237-455b-f3e8-3b24415ec087@redhat.com>
+Date: Fri, 5 Feb 2021 10:37:44 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <20210205091857.845389-5-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210205091857.845389-2-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,56 +92,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 2/5/21 6:18 AM, Thomas Huth wrote:
-> We already have similar jobs in the gitlab-CI ("build-some-softmmu" and
-> "build-user-plugins"), so let's switch one of them to use --enable-debug
-> instead of --enable-debug-tcg, then we can simply drop these jobs from
-> the Travis-CI.
+> From: Philippe Mathieu-Daudé <philmd@redhat.com>
 >
+> Similarly to commit 8cdb2cef3f1, move the gprof/gcov test to GitLab.
+>
+> The coverage-summary.sh script is not Travis-CI specific, make it
+> generic.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Message-Id: <20201108204535.2319870-10-philmd@redhat.com>
+> [thuth: Add gcovr and bsdmainutils which are required for the
+>          coverage-summary.sh script to the ubuntu docker file,
+>          and use 'check' as test target]
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   .gitlab-ci.yml |  2 +-
->   .travis.yml    | 12 ------------
->   2 files changed, 1 insertion(+), 13 deletions(-)
+>   .gitlab-ci.yml                             | 12 ++++++++++++
+>   .travis.yml                                | 15 ---------------
+>   MAINTAINERS                                |  2 +-
+>   scripts/{travis => ci}/coverage-summary.sh |  2 +-
+>   tests/docker/dockerfiles/ubuntu2004.docker |  2 ++
+>   5 files changed, 16 insertions(+), 17 deletions(-)
+>   rename scripts/{travis => ci}/coverage-summary.sh (92%)
 
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
 
 >
 > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 94c22ced7b..5926ec02a7 100644
+> index 7c0db64710..1070efce3f 100644
 > --- a/.gitlab-ci.yml
 > +++ b/.gitlab-ci.yml
-> @@ -404,7 +404,7 @@ build-some-softmmu:
+> @@ -468,6 +468,18 @@ check-deprecated:
+>       MAKE_CHECK_ARGS: check-tcg
+>     allow_failure: true
+>   
+> +# gprof/gcov are GCC features
+> +gprof-gcov:
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: ubuntu2004
+> +    CONFIGURE_ARGS: --enable-gprof --enable-gcov
+> +    MAKE_CHECK_ARGS: check
+> +    TARGETS: aarch64-softmmu mips64-softmmu ppc64-softmmu
+> +             riscv64-softmmu s390x-softmmu x86_64-softmmu
+> +  after_script:
+> +    - ${CI_PROJECT_DIR}/scripts/ci/coverage-summary.sh
+> +
+>   build-oss-fuzz:
 >     <<: *native_build_job_definition
 >     variables:
->       IMAGE: debian-all-test-cross
-> -    CONFIGURE_ARGS: --disable-tools --enable-debug-tcg
-> +    CONFIGURE_ARGS: --disable-tools --enable-debug
->       TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
->       MAKE_CHECK_ARGS: check-tcg
->   
 > diff --git a/.travis.yml b/.travis.yml
-> index 7744ec3a2f..f0e2b1059c 100644
+> index 5f1dea873e..05fa1ca905 100644
 > --- a/.travis.yml
 > +++ b/.travis.yml
-> @@ -118,18 +118,6 @@ after_script:
+> @@ -52,7 +52,6 @@ addons:
+>         - ninja-build
+>         - sparse
+>         - uuid-dev
+> -      - gcovr
+>         # Tests dependencies
+>         - genisoimage
 >   
->   jobs:
->     include:
-> -    # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
-> -    - name: "GCC debug (main-softmmu)"
+> @@ -166,20 +165,6 @@ jobs:
+>         compiler: clang
+>   
+>   
+> -    # gprof/gcov are GCC features
+> -    - name: "GCC gprof/gcov"
+> -      dist: bionic
+> -      addons:
+> -        apt:
+> -          packages:
+> -            - ninja-build
 > -      env:
-> -        - CONFIG="--enable-debug --target-list=${MAIN_SOFTMMU_TARGETS}"
-> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
+> -        - CONFIG="--enable-gprof --enable-gcov --disable-libssh
+> -                  --target-list=${MAIN_SOFTMMU_TARGETS}"
+> -      after_success:
+> -        - ${SRC_DIR}/scripts/travis/coverage-summary.sh
 > -
 > -
-> -    # TCG debug can be run just on its own and is mostly agnostic to user/softmmu distinctions
-> -    - name: "GCC debug (user)"
-> -      env:
-> -        - CONFIG="--enable-debug-tcg --disable-system"
-> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
->   
->   
 >       # Using newer GCC with sanitizers
+>       - name: "GCC9 with sanitizers (softmmu)"
+>         dist: bionic
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 00626941f1..472e54f786 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3203,7 +3203,7 @@ R: Philippe Mathieu-Daudé <philmd@redhat.com>
+>   S: Maintained
+>   F: .github/lockdown.yml
+>   F: .travis.yml
+> -F: scripts/travis/
+> +F: scripts/ci/
+>   F: .shippable.yml
+>   F: tests/docker/
+>   F: tests/vm/
+> diff --git a/scripts/travis/coverage-summary.sh b/scripts/ci/coverage-summary.sh
+> similarity index 92%
+> rename from scripts/travis/coverage-summary.sh
+> rename to scripts/ci/coverage-summary.sh
+> index d7086cf9ca..8d9fb4de40 100755
+> --- a/scripts/travis/coverage-summary.sh
+> +++ b/scripts/ci/coverage-summary.sh
+> @@ -3,7 +3,7 @@
+>   # Author: Alex Bennée <alex.bennee@linaro.org>
+>   #
+>   # Summerise the state of code coverage with gcovr and tweak the output
+> -# to be more sane on Travis hosts. As we expect to be executed on a
+> +# to be more sane on CI runner. As we expect to be executed on a
+>   # throw away CI instance we do spam temp files all over the shop. You
+>   # most likely don't want to execute this script but just call gcovr
+>   # directly. See also "make coverage-report"
+> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+> index 8519584d2b..9750016e51 100644
+> --- a/tests/docker/dockerfiles/ubuntu2004.docker
+> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+> @@ -1,8 +1,10 @@
+>   FROM ubuntu:20.04
+>   ENV PACKAGES flex bison \
+> +    bsdmainutils \
+>       ccache \
+>       clang-10\
+>       gcc \
+> +    gcovr \
+>       genisoimage \
+>       gettext \
+>       git \
 
 
