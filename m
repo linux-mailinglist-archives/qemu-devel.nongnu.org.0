@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599733116BE
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 00:19:53 +0100 (CET)
-Received: from localhost ([::1]:51544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9F23116FF
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 00:25:39 +0100 (CET)
+Received: from localhost ([::1]:40306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8AOG-0005Wj-Bu
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 18:19:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59606)
+	id 1l8ATq-0004Mb-8n
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 18:25:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8A3B-0002cQ-Bk
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:58:05 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:55624)
+ id 1l8A39-0002ZC-KV
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:58:03 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:41555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8A30-0003ZH-BQ
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:58:04 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id s24so4425903pjp.5
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 14:57:52 -0800 (PST)
+ id 1l8A33-0003Zd-7d
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 17:58:03 -0500
+Received: by mail-pl1-x632.google.com with SMTP id a16so4310622plh.8
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 14:57:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p24OmppzTkk6imjU3BHdTzuVQpvNCrU4ZaFU25HopQk=;
- b=xtg8lqfw1Trhgjziu5+aQ/gdu/2tZ2IB7qmvfttRHxFJBP2YwzX9eUJxn1jO73vWkw
- osgufH4FrPT93jCtQr4VluOs6amKO2Wd4hiePKwS/mh2OVZkSkJJKV/+GEPrhdJZoa7L
- mkuEWN6efC7g/fHuF1C5163uxzEOKSSP78XycR4TNSYWXkdWQAous5q1Gtj+83V3sxOj
- gs6yZ+pODU472ovhzYmM3t9hgq9OQQReUmvNcaCatVe36WF2V1yHxlgI+F3NsB/IeE70
- SueeimrFRafMyVjHO6HzEwHq7BQ8hgyS8RLyqJwz3M53u3K16+awiyMYb3oX63yZuS7P
- ieYQ==
+ bh=ta7Xa7xkFMBbNPIy/284vzcbT6wt5OS9JI8O+IndJkY=;
+ b=ywOC30BA8Y6mWuYiHXZlrCc4ohYsNSJBsN0Mj4sRHb/BP5kDbNnk6fBaABpx08bw90
+ dn3ah6zWUXT1ad4dVyYJu4DQbT6MV1dwyVkbDbfcgCN+Wm/WdZtBk5h6Lvf9mLdxZFaM
+ vyK8rpV7HZLbprNtmNtYfBU9AxMcOnmjb0KIu19+NiuYlQ/2SlLcyO6nf/gM8iXvpmKB
+ OBRUVh2U8KTvQunQ/dt6idRv3b/Pq2G2t8qQkS/S+a23lsVEOIKu5rAkNxo74V1S2Er4
+ 7lZRlqk1xpvV6aOWMMaooNGclePwy77f3P5bSWf8hxIR3uuXTjRxbkas9STSjaNU/HDc
+ /m4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p24OmppzTkk6imjU3BHdTzuVQpvNCrU4ZaFU25HopQk=;
- b=WfsgKBdUG9XVyujGaB+XwLVwWxXk9GleCVCCoIOG3lUzRcesxrlRqPmZdZ74lwZeeg
- 4aPULYY70YORmC1mxXSkAf6QPwwAcB/gaV80PEJN0+6G6JxmwoYpjMQFJMSC7ORyzH0A
- IKgf/tL1uHAs/0F1rvL0NHhzRQ//w8igytfFEjWeTpiC25AkgtfYc+n1BKQi/Dryaqil
- cXDPCCZnLTH3+fsd8YgKfRsL50HTCmj7yCrRQooJ2AHrTpGU+RCucKcYOi5bpgc5U15F
- gTGPmkL8BoYyUdgW3g/4axVvblONEvGuvounYJggO/hoUBtvzzise7Peah8iVwq2mj8X
- DkqA==
-X-Gm-Message-State: AOAM533oN+I2JEz5pEee8LV+4K/ZKvYpjtNEcAG8Oixo6NpBeCUUBPeh
- Eq0tbnJEgVztHZE9NznbUbq7d6Pcv3RnxmEt
-X-Google-Smtp-Source: ABdhPJxQ0pWZQMald5awKwH6GKn+zCBcaVIvEyxwf8ur5YEvhOWwwNNpn4ZfN7dP1vVJjkVBePJ93A==
-X-Received: by 2002:a17:902:6808:b029:e2:b405:fc0d with SMTP id
- h8-20020a1709026808b02900e2b405fc0dmr4026457plk.10.1612565871471; 
- Fri, 05 Feb 2021 14:57:51 -0800 (PST)
+ bh=ta7Xa7xkFMBbNPIy/284vzcbT6wt5OS9JI8O+IndJkY=;
+ b=gr5ilHhZDmkvX4adInGSd5+pRiJwriK2CQf9uej1s9DxgBuxjRjCBoDF1Y7/YcMIs/
+ wJ9IjT/XNFusJ0rabhuEgbgmgbg+F1W9kmhC0CNCeaTaFNMGi6JGvC8XF41sQSpuWzPd
+ S1OHyWzEIFfQzGXqiBx9iR5Wn8IDDtTxFVmkurLsHSVTiW2o1HwiPRHtVoSsAmXgoKFZ
+ ElcA+vZzkPtACf3Sgj+hL0ElTM4LbI/X1gzP9LQXOmeAWEXki4BU6gSyhtVN+cLCIW1f
+ C0ZFBYCC5rUrXy1UDOAvqO69kTz+IYsOc+UILKiCBIs/X0i2a64aFvwPUIQ5NWmuHJRk
+ V44Q==
+X-Gm-Message-State: AOAM531cu9J90k6GrxvyUyXY7FoeMxYBfKlcRpVdcrY9e5F/h/WTNmie
+ wKZw/6TGSblUivt9tmYlR9mp89X4K0UUHWvB
+X-Google-Smtp-Source: ABdhPJyBxA7Uf1RaQZFIAy/vaTslCSFWVWscLbMxUL/VcgbiF6GT3PoqVNV+2ifWTSnUkUojclqHhA==
+X-Received: by 2002:a17:90a:9905:: with SMTP id
+ b5mr5989914pjp.195.1612565873558; 
+ Fri, 05 Feb 2021 14:57:53 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id c23sm12155149pgc.72.2021.02.05.14.57.50
+ by smtp.gmail.com with ESMTPSA id c23sm12155149pgc.72.2021.02.05.14.57.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 14:57:50 -0800 (PST)
+ Fri, 05 Feb 2021 14:57:52 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/46] accel/tcg: split TCG-only code from cpu_exec_realizefn
-Date: Fri,  5 Feb 2021 12:56:35 -1000
-Message-Id: <20210205225650.1330794-32-richard.henderson@linaro.org>
+Subject: [PULL 32/46] cpu: Move synchronize_from_tb() to tcg_ops
+Date: Fri,  5 Feb 2021 12:56:36 -1000
+Message-Id: <20210205225650.1330794-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210205225650.1330794-1-richard.henderson@linaro.org>
 References: <20210205225650.1330794-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,238 +87,285 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Claudio Fontana <cfontana@suse.de>
+ Eduardo Habkost <ehabkost@redhat.com>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Claudio Fontana <cfontana@suse.de>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-move away TCG-only code, make it compile only on TCG.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-[claudio: moved the prototypes from hw/core/cpu.h to exec/cpu-all.h]
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+[claudio: wrapped target code in CONFIG_TCG, reworded comments]
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Message-Id: <20210204163931.7358-4-cfontana@suse.de>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210204163931.7358-5-cfontana@suse.de>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h | 11 +++++--
- include/hw/core/cpu.h  |  2 ++
- accel/tcg/cpu-exec.c   | 28 +++++++++++++++++
- cpu.c                  | 70 ++++++++++++++++++++----------------------
- hw/core/cpu.c          |  6 +++-
- 5 files changed, 77 insertions(+), 40 deletions(-)
+ include/hw/core/cpu.h     | 22 +++++++++++++---------
+ accel/tcg/cpu-exec.c      |  4 ++--
+ target/arm/cpu.c          |  4 +++-
+ target/avr/cpu.c          |  2 +-
+ target/hppa/cpu.c         |  2 +-
+ target/i386/tcg/tcg-cpu.c |  2 +-
+ target/microblaze/cpu.c   |  2 +-
+ target/mips/cpu.c         |  4 +++-
+ target/riscv/cpu.c        |  2 +-
+ target/rx/cpu.c           |  2 +-
+ target/sh4/cpu.c          |  2 +-
+ target/sparc/cpu.c        |  2 +-
+ target/tricore/cpu.c      |  2 +-
+ 13 files changed, 30 insertions(+), 22 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 4b5408c341..cfb1d79331 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -410,19 +410,26 @@ static inline bool tlb_hit(target_ulong tlb_addr, target_ulong addr)
- }
- 
- #ifdef CONFIG_TCG
-+/* accel/tcg/cpu-exec.c */
- void dump_drift_info(void);
-+/* accel/tcg/translate-all.c */
- void dump_exec_info(void);
- void dump_opcount_info(void);
- #endif /* CONFIG_TCG */
- 
- #endif /* !CONFIG_USER_ONLY */
- 
-+#ifdef CONFIG_TCG
-+/* accel/tcg/cpu-exec.c */
-+int cpu_exec(CPUState *cpu);
-+void tcg_exec_realizefn(CPUState *cpu, Error **errp);
-+void tcg_exec_unrealizefn(CPUState *cpu);
-+#endif /* CONFIG_TCG */
-+
- /* Returns: 0 on success, -1 on error */
- int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
-                         void *ptr, target_ulong len, bool is_write);
- 
--int cpu_exec(CPUState *cpu);
--
- /**
-  * cpu_set_cpustate_pointers(cpu)
-  * @cpu: The cpu object
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 26b89fd7a4..d0b17dcc4c 100644
+index d0b17dcc4c..8cf5585db7 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -1126,6 +1126,8 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx);
+@@ -86,6 +86,19 @@ typedef struct TcgCpuOperations {
+      * Called when the first CPU is realized.
+      */
+     void (*initialize)(void);
++    /**
++     * @synchronize_from_tb: Synchronize state from a TCG #TranslationBlock
++     *
++     * This is called when we abandon execution of a TB before starting it,
++     * and must set all parts of the CPU state which the previous TB in the
++     * chain may not have updated.
++     * By default, when this is NULL, a call is made to @set_pc(tb->pc).
++     *
++     * If more state needs to be restored, the target must implement a
++     * function to restore all the state, and register it here.
++     */
++    void (*synchronize_from_tb)(CPUState *cpu,
++                                const struct TranslationBlock *tb);
  
- void QEMU_NORETURN cpu_abort(CPUState *cpu, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
-+
-+/* $(top_srcdir)/cpu.c */
- void cpu_exec_initfn(CPUState *cpu);
- void cpu_exec_realizefn(CPUState *cpu, Error **errp);
- void cpu_exec_unrealizefn(CPUState *cpu);
+ } TcgCpuOperations;
+ 
+@@ -119,13 +132,6 @@ typedef struct TcgCpuOperations {
+  *       If the target behaviour here is anything other than "set
+  *       the PC register to the value passed in" then the target must
+  *       also implement the synchronize_from_tb hook.
+- * @synchronize_from_tb: Callback for synchronizing state from a TCG
+- *       #TranslationBlock. This is called when we abandon execution
+- *       of a TB before starting it, and must set all parts of the CPU
+- *       state which the previous TB in the chain may not have updated.
+- *       This always includes at least the program counter; some targets
+- *       will need to do more. If this hook is not implemented then the
+- *       default is to call @set_pc(tb->pc).
+  * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+  *       address fault.  For system mode, if the access is valid, call
+  *       tlb_set_page and return true; if the access is invalid, and
+@@ -202,8 +208,6 @@ struct CPUClass {
+     void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+                                Error **errp);
+     void (*set_pc)(CPUState *cpu, vaddr value);
+-    void (*synchronize_from_tb)(CPUState *cpu,
+-                                const struct TranslationBlock *tb);
+     bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+                      MMUAccessType access_type, int mmu_idx,
+                      bool probe, uintptr_t retaddr);
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 6d017e46dd..5628a156d1 100644
+index 5628a156d1..12b6a91d62 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -828,6 +828,34 @@ int cpu_exec(CPUState *cpu)
-     return ret;
- }
- 
-+void tcg_exec_realizefn(CPUState *cpu, Error **errp)
-+{
-+    static bool tcg_target_initialized;
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (!tcg_target_initialized) {
-+        cc->tcg_ops.initialize();
-+        tcg_target_initialized = true;
-+    }
-+    tlb_init(cpu);
-+    qemu_plugin_vcpu_init_hook(cpu);
-+
-+#ifndef CONFIG_USER_ONLY
-+    tcg_iommu_init_notifier_list(cpu);
-+#endif /* !CONFIG_USER_ONLY */
-+}
-+
-+/* undo the initializations in reverse order */
-+void tcg_exec_unrealizefn(CPUState *cpu)
-+{
-+#ifndef CONFIG_USER_ONLY
-+    tcg_iommu_free_notifier_list(cpu);
-+#endif /* !CONFIG_USER_ONLY */
-+
-+    qemu_plugin_vcpu_exit_hook(cpu);
-+    tlb_destroy(cpu);
-+}
-+
- #ifndef CONFIG_USER_ONLY
- 
- void dump_drift_info(void)
-diff --git a/cpu.c b/cpu.c
-index 79a2bf12b3..bfbe5a66f9 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -124,12 +124,34 @@ const VMStateDescription vmstate_cpu_common = {
- };
- #endif
- 
--void cpu_exec_unrealizefn(CPUState *cpu)
-+void cpu_exec_realizefn(CPUState *cpu, Error **errp)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
--    tlb_destroy(cpu);
--    cpu_list_remove(cpu);
-+    cpu_list_add(cpu);
-+
-+#ifdef CONFIG_TCG
-+    /* NB: errp parameter is unused currently */
-+    if (tcg_enabled()) {
-+        tcg_exec_realizefn(cpu, errp);
-+    }
-+#endif /* CONFIG_TCG */
-+
-+#ifdef CONFIG_USER_ONLY
-+    assert(cc->vmsd == NULL);
-+#else
-+    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-+        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
-+    }
-+    if (cc->vmsd != NULL) {
-+        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
-+    }
-+#endif /* CONFIG_USER_ONLY */
-+}
-+
-+void cpu_exec_unrealizefn(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
- 
- #ifdef CONFIG_USER_ONLY
-     assert(cc->vmsd == NULL);
-@@ -140,8 +162,15 @@ void cpu_exec_unrealizefn(CPUState *cpu)
-     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-         vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
+@@ -213,8 +213,8 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
+                                TARGET_FMT_lx "] %s\n",
+                                last_tb->tc.ptr, last_tb->pc,
+                                lookup_symbol(last_tb->pc));
+-        if (cc->synchronize_from_tb) {
+-            cc->synchronize_from_tb(cpu, last_tb);
++        if (cc->tcg_ops.synchronize_from_tb) {
++            cc->tcg_ops.synchronize_from_tb(cpu, last_tb);
+         } else {
+             assert(cc->set_pc);
+             cc->set_pc(cpu, last_tb->pc);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index fa4d4ba4eb..140cb33f07 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -54,6 +54,7 @@ static void arm_cpu_set_pc(CPUState *cs, vaddr value)
      }
--    tcg_iommu_free_notifier_list(cpu);
- #endif
+ }
+ 
 +#ifdef CONFIG_TCG
-+    /* NB: errp parameter is unused currently */
-+    if (tcg_enabled()) {
-+        tcg_exec_unrealizefn(cpu);
-+    }
+ static void arm_cpu_synchronize_from_tb(CPUState *cs,
+                                         const TranslationBlock *tb)
+ {
+@@ -70,6 +71,7 @@ static void arm_cpu_synchronize_from_tb(CPUState *cs,
+         env->regs[15] = tb->pc;
+     }
+ }
 +#endif /* CONFIG_TCG */
-+
-+    cpu_list_remove(cpu);
+ 
+ static bool arm_cpu_has_work(CPUState *cs)
+ {
+@@ -2257,7 +2259,6 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->cpu_exec_interrupt = arm_cpu_exec_interrupt;
+     cc->dump_state = arm_cpu_dump_state;
+     cc->set_pc = arm_cpu_set_pc;
+-    cc->synchronize_from_tb = arm_cpu_synchronize_from_tb;
+     cc->gdb_read_register = arm_cpu_gdb_read_register;
+     cc->gdb_write_register = arm_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+@@ -2277,6 +2278,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->disas_set_info = arm_disas_set_info;
+ #ifdef CONFIG_TCG
+     cc->tcg_ops.initialize = arm_translate_init;
++    cc->tcg_ops.synchronize_from_tb = arm_cpu_synchronize_from_tb;
+     cc->tlb_fill = arm_cpu_tlb_fill;
+     cc->debug_excp_handler = arm_debug_excp_handler;
+     cc->debug_check_watchpoint = arm_debug_check_watchpoint;
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+index fb66695fbb..a82fa9d7a8 100644
+--- a/target/avr/cpu.c
++++ b/target/avr/cpu.c
+@@ -208,7 +208,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
+     cc->vmsd = &vms_avr_cpu;
+     cc->disas_set_info = avr_cpu_disas_set_info;
+     cc->tcg_ops.initialize = avr_cpu_tcg_init;
+-    cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
++    cc->tcg_ops.synchronize_from_tb = avr_cpu_synchronize_from_tb;
+     cc->gdb_read_register = avr_cpu_gdb_read_register;
+     cc->gdb_write_register = avr_cpu_gdb_write_register;
+     cc->gdb_num_core_regs = 35;
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index 80e3081631..94ea3014a3 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -144,7 +144,7 @@ static void hppa_cpu_class_init(ObjectClass *oc, void *data)
+     cc->cpu_exec_interrupt = hppa_cpu_exec_interrupt;
+     cc->dump_state = hppa_cpu_dump_state;
+     cc->set_pc = hppa_cpu_set_pc;
+-    cc->synchronize_from_tb = hppa_cpu_synchronize_from_tb;
++    cc->tcg_ops.synchronize_from_tb = hppa_cpu_synchronize_from_tb;
+     cc->gdb_read_register = hppa_cpu_gdb_read_register;
+     cc->gdb_write_register = hppa_cpu_gdb_write_register;
+     cc->tlb_fill = hppa_cpu_tlb_fill;
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+index d90502a0cc..874286de28 100644
+--- a/target/i386/tcg/tcg-cpu.c
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -61,7 +61,7 @@ void tcg_cpu_common_class_init(CPUClass *cc)
+ {
+     cc->do_interrupt = x86_cpu_do_interrupt;
+     cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
+-    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
++    cc->tcg_ops.synchronize_from_tb = x86_cpu_synchronize_from_tb;
+     cc->cpu_exec_enter = x86_cpu_exec_enter;
+     cc->cpu_exec_exit = x86_cpu_exec_exit;
+     cc->tcg_ops.initialize = tcg_x86_init;
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index f2978ca726..e40d1db88d 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -369,7 +369,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+     cc->cpu_exec_interrupt = mb_cpu_exec_interrupt;
+     cc->dump_state = mb_cpu_dump_state;
+     cc->set_pc = mb_cpu_set_pc;
+-    cc->synchronize_from_tb = mb_cpu_synchronize_from_tb;
++    cc->tcg_ops.synchronize_from_tb = mb_cpu_synchronize_from_tb;
+     cc->gdb_read_register = mb_cpu_gdb_read_register;
+     cc->gdb_write_register = mb_cpu_gdb_write_register;
+     cc->tlb_fill = mb_cpu_tlb_fill;
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index b96c3d5969..350f1c66c7 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -257,6 +257,7 @@ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
+     }
  }
  
- void cpu_exec_initfn(CPUState *cpu)
-@@ -156,39 +185,6 @@ void cpu_exec_initfn(CPUState *cpu)
++#ifdef CONFIG_TCG
+ static void mips_cpu_synchronize_from_tb(CPUState *cs,
+                                          const TranslationBlock *tb)
+ {
+@@ -267,6 +268,7 @@ static void mips_cpu_synchronize_from_tb(CPUState *cs,
+     env->hflags &= ~MIPS_HFLAG_BMASK;
+     env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
+ }
++#endif /* CONFIG_TCG */
+ 
+ static bool mips_cpu_has_work(CPUState *cs)
+ {
+@@ -678,7 +680,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+     cc->cpu_exec_interrupt = mips_cpu_exec_interrupt;
+     cc->dump_state = mips_cpu_dump_state;
+     cc->set_pc = mips_cpu_set_pc;
+-    cc->synchronize_from_tb = mips_cpu_synchronize_from_tb;
+     cc->gdb_read_register = mips_cpu_gdb_read_register;
+     cc->gdb_write_register = mips_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+@@ -690,6 +691,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+     cc->disas_set_info = mips_cpu_disas_set_info;
+ #ifdef CONFIG_TCG
+     cc->tcg_ops.initialize = mips_tcg_init;
++    cc->tcg_ops.synchronize_from_tb = mips_cpu_synchronize_from_tb;
+     cc->tlb_fill = mips_cpu_tlb_fill;
  #endif
- }
  
--void cpu_exec_realizefn(CPUState *cpu, Error **errp)
--{
--    CPUClass *cc = CPU_GET_CLASS(cpu);
--#ifdef CONFIG_TCG
--    static bool tcg_target_initialized;
--#endif /* CONFIG_TCG */
--
--    cpu_list_add(cpu);
--
--#ifdef CONFIG_TCG
--    if (tcg_enabled() && !tcg_target_initialized) {
--        tcg_target_initialized = true;
--        cc->tcg_ops.initialize();
--    }
--#endif /* CONFIG_TCG */
--    tlb_init(cpu);
--
--    qemu_plugin_vcpu_init_hook(cpu);
--
--#ifdef CONFIG_USER_ONLY
--    assert(cc->vmsd == NULL);
--#else /* !CONFIG_USER_ONLY */
--    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
--        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
--    }
--    if (cc->vmsd != NULL) {
--        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
--    }
--
--    tcg_iommu_init_notifier_list(cpu);
--#endif
--}
--
- const char *parse_cpu_option(const char *cpu_option)
- {
-     ObjectClass *oc;
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 7553411653..57542b6906 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -199,6 +199,10 @@ static bool cpu_common_virtio_is_big_endian(CPUState *cpu)
-     return target_words_bigendian();
- }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 60d0b43153..1e9bd3c313 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -597,7 +597,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+     cc->cpu_exec_interrupt = riscv_cpu_exec_interrupt;
+     cc->dump_state = riscv_cpu_dump_state;
+     cc->set_pc = riscv_cpu_set_pc;
+-    cc->synchronize_from_tb = riscv_cpu_synchronize_from_tb;
++    cc->tcg_ops.synchronize_from_tb = riscv_cpu_synchronize_from_tb;
+     cc->gdb_read_register = riscv_cpu_gdb_read_register;
+     cc->gdb_write_register = riscv_cpu_gdb_write_register;
+     cc->gdb_num_core_regs = 33;
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index cdcab49c8a..4e0de14eef 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -190,7 +190,7 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
+     cc->cpu_exec_interrupt = rx_cpu_exec_interrupt;
+     cc->dump_state = rx_cpu_dump_state;
+     cc->set_pc = rx_cpu_set_pc;
+-    cc->synchronize_from_tb = rx_cpu_synchronize_from_tb;
++    cc->tcg_ops.synchronize_from_tb = rx_cpu_synchronize_from_tb;
+     cc->gdb_read_register = rx_cpu_gdb_read_register;
+     cc->gdb_write_register = rx_cpu_gdb_write_register;
+     cc->get_phys_page_debug = rx_cpu_get_phys_page_debug;
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index b86753cda5..130debe074 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -223,7 +223,7 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
+     cc->cpu_exec_interrupt = superh_cpu_exec_interrupt;
+     cc->dump_state = superh_cpu_dump_state;
+     cc->set_pc = superh_cpu_set_pc;
+-    cc->synchronize_from_tb = superh_cpu_synchronize_from_tb;
++    cc->tcg_ops.synchronize_from_tb = superh_cpu_synchronize_from_tb;
+     cc->gdb_read_register = superh_cpu_gdb_read_register;
+     cc->gdb_write_register = superh_cpu_gdb_write_register;
+     cc->tlb_fill = superh_cpu_tlb_fill;
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index 3ab71e9d00..0ae38eb496 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -870,7 +870,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->memory_rw_debug = sparc_cpu_memory_rw_debug;
+ #endif
+     cc->set_pc = sparc_cpu_set_pc;
+-    cc->synchronize_from_tb = sparc_cpu_synchronize_from_tb;
++    cc->tcg_ops.synchronize_from_tb = sparc_cpu_synchronize_from_tb;
+     cc->gdb_read_register = sparc_cpu_gdb_read_register;
+     cc->gdb_write_register = sparc_cpu_gdb_write_register;
+     cc->tlb_fill = sparc_cpu_tlb_fill;
+diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
+index bf135af40f..09cc6a0e62 100644
+--- a/target/tricore/cpu.c
++++ b/target/tricore/cpu.c
+@@ -162,7 +162,7 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
  
-+/*
-+ * XXX the following #if is always true because this is a common_ss
-+ * module, so target CONFIG_* is never defined.
-+ */
- #if !defined(CONFIG_USER_ONLY)
- GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
- {
-@@ -340,9 +344,9 @@ static void cpu_common_realizefn(DeviceState *dev, Error **errp)
- static void cpu_common_unrealizefn(DeviceState *dev)
- {
-     CPUState *cpu = CPU(dev);
-+
-     /* NOTE: latest generic point before the cpu is fully unrealized */
-     trace_fini_vcpu(cpu);
--    qemu_plugin_vcpu_exit_hook(cpu);
-     cpu_exec_unrealizefn(cpu);
- }
- 
+     cc->dump_state = tricore_cpu_dump_state;
+     cc->set_pc = tricore_cpu_set_pc;
+-    cc->synchronize_from_tb = tricore_cpu_synchronize_from_tb;
++    cc->tcg_ops.synchronize_from_tb = tricore_cpu_synchronize_from_tb;
+     cc->get_phys_page_debug = tricore_cpu_get_phys_page_debug;
+     cc->tcg_ops.initialize = tricore_tcg_init;
+     cc->tlb_fill = tricore_cpu_tlb_fill;
 -- 
 2.25.1
 
