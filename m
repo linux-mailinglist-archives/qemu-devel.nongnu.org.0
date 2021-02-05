@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9465C310BF7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 14:39:55 +0100 (CET)
-Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD99B310BF8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 14:40:08 +0100 (CET)
+Received: from localhost ([::1]:60376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l81L0-0007EG-N6
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 08:39:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57450)
+	id 1l81LD-0007dF-Pf
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 08:40:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l81JX-00062g-Fm
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:38:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24396)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l81K2-0006UF-J7
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:38:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l81JV-0006hg-4u
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:38:23 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l81K0-0006w6-SC
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 08:38:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612532300;
+ s=mimecast20190719; t=1612532332;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zsui2dalQ5POsCv8LiEb8VF0CL3klyOITGAHeoyHrg8=;
- b=T1NBC6RChXB2AgpfKV3tamWrYDpFT/fR/BYQPvkx+YG9Av0xTTB4aAA9Rs8DImw46ZyCm1
- cOageADreA4PC7HEsjCIzB7BC62vkfKyEk8QCLJf4TzpVxiZikA1oAvKl7SdpD5KshhfnY
- 63lZmZPoKCUhXFwJZm7vYF6AjePwcP0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-E62E6PwPMzmnnDEPrBYHXA-1; Fri, 05 Feb 2021 08:38:17 -0500
-X-MC-Unique: E62E6PwPMzmnnDEPrBYHXA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76DCF1800D50;
- Fri,  5 Feb 2021 13:38:16 +0000 (UTC)
-Received: from [10.3.112.253] (ovpn-112-253.phx2.redhat.com [10.3.112.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB40360843;
- Fri,  5 Feb 2021 13:38:12 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20210204190708.1306296-1-eblake@redhat.com>
- <20210204190708.1306296-3-eblake@redhat.com>
- <7d2c705b-8bac-5229-00e1-0c3d2f1a6f07@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH 2/3] utils: Deprecate hex-with-suffix sizes
-Message-ID: <00271002-6329-8dd5-f714-85c0875c3733@redhat.com>
-Date: Fri, 5 Feb 2021 07:38:12 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=uocQje0GvsACJsrxI7nGSC09nXzmR8CsNnnjuH6DNOI=;
+ b=TawdtDvAJ6HEPc8HY4wHSWreaxeiCnkPSA/S7lpzs4fD3o5w2rvEzC1fgtlVqdtLLZ03Km
+ HMxWhdlFqlni9Ujvjq8R8nF8RE/WryKztSaxrlGTawx8/o6UrM6esQF3CkZF6vjxfs+ZiB
+ rLaQsFrLQZA9wDb8v/+F6mp2+a8G1IU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-8a33_x0MM2CDRX4jkCF05g-1; Fri, 05 Feb 2021 08:38:50 -0500
+X-MC-Unique: 8a33_x0MM2CDRX4jkCF05g-1
+Received: by mail-wm1-f71.google.com with SMTP id z25so5596704wml.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 05:38:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uocQje0GvsACJsrxI7nGSC09nXzmR8CsNnnjuH6DNOI=;
+ b=dkXF8p2edd83jChcYe0sZxWiTZgF4yI4aod64jfi8zTVPIipDriFPw8UdEiPyVeqe4
+ NT6Od3x1hHEgjKyAYBx9s59joQJhFqFXN6PKvro6X2bHj7BINgZxw+/DT3BIu55jfLsa
+ eqq/TJumXk1fCWgQ4+tt98G30ZarC8+pQ7nGFxkJBV9AemwzR4e3iV7kKHMxJW0Y3e4D
+ NqYYASW5MMWLphornPdND5RKeBgi3zcMrVNt2WTa+9Iqg79UxUuGjp88jZkY4MNBX9Pt
+ J5Z0ehbC3pSQR9LX+hB1houvEL3Hsh9DfonufyWjP+W1u69M6n7Zfm3QmplE1NKwK9bL
+ Tamg==
+X-Gm-Message-State: AOAM531CvdWWuceyc/ne40Qfsf0X4c2lpxrSpqLFNeKVyuRFPlPlga97
+ TtsCK67PVPN3q1g3JEvflx6I4EB9Db/KBB0fOogJcylKxc0v7jP3d4tQbJqAUmNYRj/Ta+0/S/g
+ mDZjUl8CHK/dYBH8=
+X-Received: by 2002:adf:b60f:: with SMTP id f15mr5130267wre.83.1612532329072; 
+ Fri, 05 Feb 2021 05:38:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz7EXCH6FZjspnGeLuA17Fo03KNTj6Pj1QCIh/LxiwQ1uezvNizbzEWei1W5yNcyEwGo2PugA==
+X-Received: by 2002:adf:b60f:: with SMTP id f15mr5130246wre.83.1612532328832; 
+ Fri, 05 Feb 2021 05:38:48 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id 4sm13415242wrr.3.2021.02.05.05.38.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Feb 2021 05:38:48 -0800 (PST)
+Date: Fri, 5 Feb 2021 08:38:45 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+Subject: Re: [PATCH 3/3] virtio-net: graceful fallback to vhost=off for tap
+ netdev
+Message-ID: <20210205083742-mutt-send-email-mst@kernel.org>
+References: <20210204202915.15925-1-yuri.benditovich@daynix.com>
+ <20210204202915.15925-4-yuri.benditovich@daynix.com>
 MIME-Version: 1.0
-In-Reply-To: <7d2c705b-8bac-5229-00e1-0c3d2f1a6f07@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210204202915.15925-4-yuri.benditovich@daynix.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,78 +92,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-block@nongnu.org,
- "reviewer:Incompatible changes" <libvir-list@redhat.com>, tao3.xu@intel.com,
- rjones@redhat.com, armbru@redhat.com
+Cc: yan@daynix.com, jasowang@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/21 4:25 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 04.02.2021 22:07, Eric Blake wrote:
->> Supporting '0x20M' looks odd, particularly since we have an 'E' suffix
+On Thu, Feb 04, 2021 at 10:29:15PM +0200, Yuri Benditovich wrote:
+> Currently virtio-net silently clears features if they are
+> not supported by respective vhost. This may create migration
+> problems in future if vhost features on the source and destination
+> are different. Implement graceful fallback to no-vhost mode
+> when some acked features contradict with vhost. The decision is
+> taken on set_features call and the vhost will be disabled
+> till next reset (or migration).
+> Such fallback is currently enabled only for TAP netdev.
 > 
-> What about also deprecating 'E' suffix? (just my problem of reviewing
-> previous patch)
+> Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 
-No, we want to keep '1E' as a valid way to spell 1 exabyte.  That has
-uses in the wild (admittedly corner-case, as that is a LOT of storage).
-It is only '0x1E' where the use of 'E' as a hex digit has priority over
-'E' as a suffix meaning exabyte.
 
+Sounds good, but I don't think we should do this if
+vhostforce=on is set.
+
+Also, let's document this behaviour with the vhost option so people
+are not suprized.
+
+> ---
+>  hw/net/virtio-net.c | 58 ++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 50 insertions(+), 8 deletions(-)
 > 
->> that is ambiguous between a hex digit and the extremely large exibyte
->> suffix, as well as a 'B' suffix for bytes.  In practice, people using
->> hex inputs are specifying values in bytes (and would have written
->> 0x2000000, or possibly relied on default_suffix in the case of
->> qemu_strtosz_MiB), and the use of scaling suffixes makes the most
->> sense for inputs in decimal (where the user would write 32M).  But
->> rather than outright dropping support for hex-with-suffix, let's
->> follow our deprecation policy.  Sadly, since qemu_strtosz() does not
->> have an Err** parameter, we pollute to stderr.
->>
->> Signed-off-by: Eric Blake <eblake@redhat.com>
->> ---
-
->> +++ b/util/cutils.c
->> @@ -264,7 +264,7 @@ static int do_strtosz(const char *nptr, const char
->> **end,
->>       int retval;
->>       const char *endptr;
->>       unsigned char c;
->> -    bool mul_required = false;
->> +    bool mul_required = false, hex = false;
->>       uint64_t val;
->>       int64_t mul;
->>       double fraction = 0.0;
->> @@ -309,6 +309,10 @@ static int do_strtosz(const char *nptr, const
->> char **end,
-> 
-> you forget to set hex to true in corresponding if(){...}
-> 
->>       c = *endptr;
->>       mul = suffix_mul(c, unit);
->>       if (mul > 0) {
->> +        if (hex) {
->> +            fprintf(stderr, "Using a multiplier suffix on hex numbers "
->> +                    "is deprecated: %s\n", nptr);
->> +        }
-
-D'oh.  Now I get to rerun my tests to see when the warning triggers.
-
->>           endptr++;
->>       } else {
->>           mul = suffix_mul(default_suffix, unit);
-> 
-> should we also deprecate hex where default_suffix is not 'B' ?
-
-That's exactly what this patch is (supposed to be) doing.  If we parsed
-a hex number, and there was an explicit suffix at all (which is
-necessarily neither 'B' nor 'E', since those were already consumed while
-parsing the hex number), issue a warning.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 5150f295e8..b353060e63 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -515,6 +515,15 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
+>      return info;
+>  }
+>  
+> +static void virtio_net_allow_vhost(VirtIONet *n, bool allow)
+> +{
+> +    int i;
+> +    for (i = 0; i < n->max_queues; i++) {
+> +        NetClientState *nc = qemu_get_subqueue(n->nic, i)->peer;
+> +        nc->vhost_net_disabled = !allow;
+> +    }
+> +}
+> +
+>  static void virtio_net_reset(VirtIODevice *vdev)
+>  {
+>      VirtIONet *n = VIRTIO_NET(vdev);
+> @@ -552,6 +561,7 @@ static void virtio_net_reset(VirtIODevice *vdev)
+>              assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
+>          }
+>      }
+> +    virtio_net_allow_vhost(n, true);
+>  }
+>  
+>  static void peer_test_vnet_hdr(VirtIONet *n)
+> @@ -689,6 +699,15 @@ static void virtio_net_set_queues(VirtIONet *n)
+>      }
+>  }
+>  
+> +static bool can_disable_vhost(VirtIONet *n)
+> +{
+> +    NetClientState *peer = qemu_get_queue(n->nic)->peer;
+> +    if (!get_vhost_net(peer)) {
+> +        return false;
+> +    }
+> +    return !peer || peer->info->type == NET_CLIENT_DRIVER_TAP;
+> +}
+> +
+>  static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
+>  
+>  static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+> @@ -725,14 +744,14 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+>          return features;
+>      }
+>  
+> -    virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
+> -    virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
+> -    features = vhost_net_get_features(get_vhost_net(nc->peer), features);
+> -    vdev->backend_features = features;
+> +    vdev->backend_features = vhost_net_get_features(get_vhost_net(nc->peer), features);
+>  
+> -    if (n->mtu_bypass_backend &&
+> -            (n->host_features & 1ULL << VIRTIO_NET_F_MTU)) {
+> -        features |= (1ULL << VIRTIO_NET_F_MTU);
+> +    if (!can_disable_vhost(n)) {
+> +        features = vdev->backend_features;
+> +        if (n->mtu_bypass_backend &&
+> +                (n->host_features & 1ULL << VIRTIO_NET_F_MTU)) {
+> +            features |= (1ULL << VIRTIO_NET_F_MTU);
+> +        }
+>      }
+>  
+>      return features;
+> @@ -872,10 +891,25 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
+>      error_propagate(errp, err);
+>  }
+>  
+> +static bool check_vhost_features(VirtIONet *n, uint64_t features)
+> +{
+> +    NetClientState *nc = qemu_get_queue(n->nic);
+> +    uint64_t filtered;
+> +    if (n->rss_data.redirect) {
+> +        return false;
+> +    }
+> +    filtered = vhost_net_get_features(get_vhost_net(nc->peer), features);
+> +    if (filtered != features) {
+> +        return false;
+> +    }
+> +    return true;
+> +}
+> +
+>  static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+>  {
+>      VirtIONet *n = VIRTIO_NET(vdev);
+>      Error *err = NULL;
+> +    bool disable_vhost = false;
+>      int i;
+>  
+>      if (n->mtu_bypass_backend &&
+> @@ -894,13 +928,21 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+>                                                    VIRTIO_F_VERSION_1),
+>                                 virtio_has_feature(features,
+>                                                    VIRTIO_NET_F_HASH_REPORT));
+> -
+>      n->rsc4_enabled = virtio_has_feature(features, VIRTIO_NET_F_RSC_EXT) &&
+>          virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO4);
+>      n->rsc6_enabled = virtio_has_feature(features, VIRTIO_NET_F_RSC_EXT) &&
+>          virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO6);
+>      n->rss_data.redirect = virtio_has_feature(features, VIRTIO_NET_F_RSS);
+>  
+> +    if (can_disable_vhost(n)) {
+> +        disable_vhost = !check_vhost_features(n, features);
+> +    }
+> +    if (disable_vhost) {
+> +        warn_report("Some of requested features aren't supported by vhost, "
+> +                    "vhost is turned off till next reset");
+> +        virtio_net_allow_vhost(n, false);
+> +    }
+> +
+>      if (n->has_vnet_hdr) {
+>          n->curr_guest_offloads =
+>              virtio_net_guest_offloads_by_features(features);
+> -- 
+> 2.17.1
 
 
