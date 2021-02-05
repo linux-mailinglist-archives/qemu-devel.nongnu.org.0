@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B903109A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:58:28 +0100 (CET)
-Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455953109B8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 12:00:45 +0100 (CET)
+Received: from localhost ([::1]:41190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7yol-0006Ea-GB
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:58:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54104)
+	id 1l7yqw-0007Zn-HX
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 06:00:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l7yml-0005KQ-Jh
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:56:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27494)
+ id 1l7you-0006wN-6x
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:58:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l7ymh-0000wY-Lr
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:56:22 -0500
+ id 1l7yos-0001nc-LT
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 05:58:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612522577;
+ s=mimecast20190719; t=1612522713;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DUAefeF6fs9WmWdSKCa8nVgeKA/mqUIu6vol8vY7BFc=;
- b=TxZVbbi+SsQdZGfAGwbbFwAz4o4QGuOzwvEMeWE7t611wG2q7lqjxHHwpdxNCxyX/rqo1l
- 43qWZpecL76+pykG5tffqtE9M6Qd1BSjQ82hb8spCv1C9MCDhf4xG0zizhx3z6bOxkAal1
- 8adQR3ZkAt22FnUlASNeE7elqDfTnGM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-rc2g0uwXP4-2zsOmMdKR8g-1; Fri, 05 Feb 2021 05:56:16 -0500
-X-MC-Unique: rc2g0uwXP4-2zsOmMdKR8g-1
-Received: by mail-wr1-f69.google.com with SMTP id u3so5101752wri.19
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 02:56:16 -0800 (PST)
+ bh=ZNtrDZzHl06xAB6Q1H6MEmrOKdAJ8o4m/JQqIbGB/cg=;
+ b=VIceKk1ZQJHbcpBGfJR21xrOArfluj+5YRj4Q85zxAOQ20PqlxDJc7wmYs8NPwoTwssUYr
+ J8IOFtpyhgkN5vJMNzePWZcmExwFrlhd1KTCBl3oqcRw/BnFBMmljvwMf/axcnYbERJmcU
+ D3r57PHkkejxb9H+hj/qUszx0AcsESA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-EVb2EhERMheTPRUHisZmNQ-1; Fri, 05 Feb 2021 05:58:30 -0500
+X-MC-Unique: EVb2EhERMheTPRUHisZmNQ-1
+Received: by mail-ej1-f69.google.com with SMTP id by20so6563299ejc.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 02:58:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DUAefeF6fs9WmWdSKCa8nVgeKA/mqUIu6vol8vY7BFc=;
- b=M7p7DZu617qc409Yjxg0Prlv7IH7KdprET+P+wKnWWkSQdaH5gI4kl21hiWGbGknSe
- JA9M/Hyqe4UPHZFBw97CY9oFQAPZq+FDV+4tXfQm8MI1LshdD1rqsDlEiqRQF6vmdA8u
- lrEMns1U71JDNXRJwJ940jYc0xXOaeoyo9AgGGGOxLdlgJT6JMhfWOvxw6YQX5E1qCOU
- tDn4WdwMLzjNbFiFmfr0SC0XiMBKskThnPIVv0GHwLL0IQOnjf0SNFZAa9Aj70o7D9S9
- wijMrza5PHfaNMZDkQJZ0uDlrS2+UtPE2WaKlUKy08RNCdfdSe0Wwd9jQaZ5HZRKK+UZ
- FK/g==
-X-Gm-Message-State: AOAM530fi01v0RwZiae0P6qGEoPsbW+84CKeNwedDDYJaBuu7PcFLwLo
- G8LQ/J6U7fmY2hb+Gs3XfM0h5EIp9wtM4CviCZt5+/n9sijgH8su5Csf7nfFUaRXnHnmjkPwpWr
- DgiYe+LFaYZjpqkC8V3IW0AKFyaqBAUKay4J41rHuLct0ZUBEOu7S1nKAfSu9S9aih7k=
-X-Received: by 2002:a5d:4f86:: with SMTP id d6mr4435034wru.246.1612522574884; 
- Fri, 05 Feb 2021 02:56:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwtBs4CgurTZXzEb0ZP3Qn/cL1YcpAHgyepQh/MYmM1lN4kU2l+RSavfk+hHkk7PaPwcEXKAA==
-X-Received: by 2002:a5d:4f86:: with SMTP id d6mr4435012wru.246.1612522574667; 
- Fri, 05 Feb 2021 02:56:14 -0800 (PST)
+ bh=ZNtrDZzHl06xAB6Q1H6MEmrOKdAJ8o4m/JQqIbGB/cg=;
+ b=Q2J340lOi5ZpcWSzmdhAw30SmjScnDkx+PBnQFVWAUBxQfxV7DlnZEOJfwoOcvri+0
+ EzaUVPP6/Jmz6NCXjWyho6I/jRv6XWDcudPsLChtvpfLM0P1VXnz+Vjbi1G79vVxp0jl
+ R0jJoSXv+xZ+eDKc2Y1eqPUxWTLY5nXIVvhVSJc39kE4HIOzP9zu3c6EtZLnnfc/C9wd
+ /VwpZXdFXfPHfkDQOI6lhaQjpmIQjvoPe2zfMbZ1nj+u30SinODzGXKQWMpiT64WSsn/
+ NbBYMdeLZedUTJfAJvjGbyNA67OmiNuJH/b1LXPrjNjcnyeaagDF3Qi/Ro9paslqeAoO
+ rUEg==
+X-Gm-Message-State: AOAM530/i39mY9MhkBLwECgcxW7O99XKFcm5I6gbYAGM0QhM8BpM9lxs
+ nK3v936H5kPGO615MtcE9ZCTBfSdwvv7xgZbDxq0y1ZBbWE0VEb8mIiOKJeyEj/OEkXqPob0yHr
+ az7UyfPwJd5KXmL8=
+X-Received: by 2002:a17:907:7347:: with SMTP id
+ dq7mr3577312ejc.385.1612522708924; 
+ Fri, 05 Feb 2021 02:58:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzDNBXi4vmMGYUrevitPiDiVfAB69m1bLhPNNxHEYdh94hOA17HO8AWDMEBylQ1WFrGC4tjtg==
+X-Received: by 2002:a17:907:7347:: with SMTP id
+ dq7mr3577295ejc.385.1612522708769; 
+ Fri, 05 Feb 2021 02:58:28 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x82sm3260875wmg.31.2021.02.05.02.56.13
+ by smtp.gmail.com with ESMTPSA id x14sm3738122ejb.0.2021.02.05.02.58.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Feb 2021 02:56:13 -0800 (PST)
-Subject: Re: [PATCH 0/2] Remaining work for PKS Implementation
-To: Chenyi Qiang <chenyi.qiang@intel.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
-References: <20210205083325.13880-1-chenyi.qiang@intel.com>
+ Fri, 05 Feb 2021 02:58:27 -0800 (PST)
+Subject: Re: [PATCH v3 2/2] sev: update sev-inject-launch-secret to make gpa
+ optional
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>
+References: <20210204193939.16617-1-jejb@linux.ibm.com>
+ <20210204193939.16617-3-jejb@linux.ibm.com>
+ <20210205095115.GB908621@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6fa5d5db-4916-a220-abee-e85bf0b174db@redhat.com>
-Date: Fri, 5 Feb 2021 11:56:12 +0100
+Message-ID: <e11240d0-d325-336b-f43b-3cee6cf94b76@redhat.com>
+Date: Fri, 5 Feb 2021 11:58:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210205083325.13880-1-chenyi.qiang@intel.com>
+In-Reply-To: <20210205095115.GB908621@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
@@ -101,33 +105,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: thomas.lendacky@amd.com, ashish.kalra@amd.com, brijesh.singh@amd.com,
+ david.kaplan@amd.com, jon.grimm@amd.com, tobin@ibm.com, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, frankeh@us.ibm.com,
+ Dov.Murik1@il.ibm.com, dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/02/21 09:33, Chenyi Qiang wrote:
-> Protection Keys for Supervisor Pages (PKS) is a feature that extends the
-> Protection Keys architecture to support thread-specific permission
-> restrictions on superviosr pages, which works similar to an existing
-> feature named PKU (protecting user-mode pages).
-> 
-> Thanks Paolo to send out the PKS QEMU implemention at:
-> https://lore.kernel.org/qemu-devel/20210127093540.472624-1-pbonzini@redhat.com/
-> 
-> This patch series is just to add the remaining part, i.e. the support
-> for save/load PKRS and expose the vmx entry/exit load controls to guest.
-> 
-> Chenyi Qiang (2):
->    target/i386: Add support for save/load IA32_PKRS MSR
->    target/i386: Expose VMX entry/exit load pkrs control bits
-> 
->   target/i386/cpu.c     |  4 ++--
->   target/i386/cpu.h     |  2 ++
->   target/i386/kvm/kvm.c | 13 +++++++++++++
->   3 files changed, 17 insertions(+), 2 deletions(-)
-> 
+On 05/02/21 10:51, Daniel P. Berrangé wrote:
+>> +        if (!pc_system_ovmf_table_find(SEV_SECRET_GUID, &data, NULL)) {
+>> +            error_setg(errp, "SEV: no secret area found in OVMF,"
+>> +                       " gpa must be specified.");
+>> +            return;
+>> +        }
+> IIUC, historically QEMU has gone out of its way to avoid creating a
+> direct dependancy on specific firmware implementation details such
+> as this, so this whole approach makes me feel really uneasy.
 
-Queued, thanks.
+The problem here is that this secret must be measured and therefore 
+cannot be extracted by the guest out of fw_cfg.  Note that there's no 
+reason why other firmware than OVMF could not adopt the same interface.
 
 Paolo
 
