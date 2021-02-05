@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C883107CA
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 10:27:08 +0100 (CET)
-Received: from localhost ([::1]:42420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3553107B5
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 10:24:39 +0100 (CET)
+Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7xON-0001Rz-Ae
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 04:27:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34542)
+	id 1l7xLy-00075Y-BE
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 04:24:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7xGr-0002ta-4u
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:19:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21232)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7xGq-0002sQ-G4
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:19:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7xGo-0007ri-VP
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l7xGo-0007rg-VZ
  for qemu-devel@nongnu.org; Fri, 05 Feb 2021 04:19:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1612516756;
@@ -23,30 +23,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=294+IabvThalBtJV2abIi72SGjv0QFA9cYH6XDLTfEw=;
- b=HPscyJXQ2bN7xds1Sgd76tKVZ9SCEkqd1tezv+DtUvGgbG3cVuHJZ6sHKZUXjn/0X5jp6n
- X9KZkGt7R8JLDGkXVTuAHIMU3QB2X5K5/j9Omclpn023WznDf3AZTwQH1e9mog64Qt5EgK
- UmXDeutqd+LQYmtVnNCC32KmGSFwbjo=
+ bh=mJwNUMO6ucmG9R8HejdpIocYJaqaPf7Ij8L/zvJvnzM=;
+ b=ez0dLu1a8QhA5AZgV413jMVhk8FCX32O1kSCFtFBofkVUH0+9IBu7lDsdk+h2HR6SX1Muj
+ aWWGxlZIUJd5EJf+LQKDLBLAsVYl5f5k8W1JNdM4dyRA09XZ7acSpYwL4dF9qT46sb09A8
+ bh431G1YwPYTUyUabbIJzWbD85QT+AI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-NGWUCweWPHia-XEbGKiJbA-1; Fri, 05 Feb 2021 04:19:12 -0500
-X-MC-Unique: NGWUCweWPHia-XEbGKiJbA-1
+ us-mta-288-cE0QNYZuNYmGnBWpuZOWbA-1; Fri, 05 Feb 2021 04:19:14 -0500
+X-MC-Unique: cE0QNYZuNYmGnBWpuZOWbA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C381B80364B;
- Fri,  5 Feb 2021 09:19:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97B63100A8E9;
+ Fri,  5 Feb 2021 09:19:13 +0000 (UTC)
 Received: from thuth.com (ovpn-112-46.ams2.redhat.com [10.36.112.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F2CD5D9CC;
- Fri,  5 Feb 2021 09:19:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 393385D9CC;
+ Fri,  5 Feb 2021 09:19:12 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 3/5] travis.yml: Move the --enable-modules test to the
- gitlab-CI
-Date: Fri,  5 Feb 2021 10:18:55 +0100
-Message-Id: <20210205091857.845389-4-thuth@redhat.com>
+Subject: [PATCH v2 4/5] travis.yml: (Re-)move the --enable-debug jobs
+Date: Fri,  5 Feb 2021 10:18:56 +0100
+Message-Id: <20210205091857.845389-5-thuth@redhat.com>
 In-Reply-To: <20210205091857.845389-1-thuth@redhat.com>
 References: <20210205091857.845389-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,14 +56,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,45 +83,53 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simply add the flag to an existing job, no need for yet another
-job here.
+We already have similar jobs in the gitlab-CI ("build-some-softmmu" and
+"build-user-plugins"), so let's switch one of them to use --enable-debug
+instead of --enable-debug-tcg, then we can simply drop these jobs from
+the Travis-CI.
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 1 +
- .travis.yml    | 6 ------
- 2 files changed, 1 insertion(+), 6 deletions(-)
+ .gitlab-ci.yml |  2 +-
+ .travis.yml    | 12 ------------
+ 2 files changed, 1 insertion(+), 13 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 1419eb4825..94c22ced7b 100644
+index 94c22ced7b..5926ec02a7 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -223,6 +223,7 @@ build-system-centos:
+@@ -404,7 +404,7 @@ build-some-softmmu:
+   <<: *native_build_job_definition
    variables:
-     IMAGE: centos8
-     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=system
-+                    --enable-modules
-     TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
-       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
-     MAKE_CHECK_ARGS: check-build
+     IMAGE: debian-all-test-cross
+-    CONFIGURE_ARGS: --disable-tools --enable-debug-tcg
++    CONFIGURE_ARGS: --disable-tools --enable-debug
+     TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
+     MAKE_CHECK_ARGS: check-tcg
+ 
 diff --git a/.travis.yml b/.travis.yml
-index 533a60c130..7744ec3a2f 100644
+index 7744ec3a2f..f0e2b1059c 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -131,12 +131,6 @@ jobs:
-         - CONFIG="--enable-debug-tcg --disable-system"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+@@ -118,18 +118,6 @@ after_script:
  
--    # Module builds are mostly of interest to major distros
--    - name: "GCC modules (main-softmmu)"
+ jobs:
+   include:
+-    # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
+-    - name: "GCC debug (main-softmmu)"
 -      env:
--        - CONFIG="--enable-modules --target-list=${MAIN_SOFTMMU_TARGETS}"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-        - CONFIG="--enable-debug --target-list=${MAIN_SOFTMMU_TARGETS}"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
 -
+-
+-    # TCG debug can be run just on its own and is mostly agnostic to user/softmmu distinctions
+-    - name: "GCC debug (user)"
+-      env:
+-        - CONFIG="--enable-debug-tcg --disable-system"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
  
      # Using newer GCC with sanitizers
-     - name: "GCC9 with sanitizers (softmmu)"
 -- 
 2.27.0
 
