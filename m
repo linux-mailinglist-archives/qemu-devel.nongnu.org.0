@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332EF31026C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 02:52:02 +0100 (CET)
-Received: from localhost ([::1]:34454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7636B310280
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 02:59:32 +0100 (CET)
+Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7qHw-0003BY-MT
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 20:52:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42724)
+	id 1l7qPD-0004xq-AK
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 20:59:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7qGg-0002gn-Fy
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 20:50:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41904)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7qNw-0004Ww-Qi
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 20:58:12 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:46714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l7qGe-0004A6-10
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 20:50:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l7qGc-0004Gv-1k
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 01:50:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D44802E813A
- for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 01:50:37 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Feb 2021 01:40:23 -0000
-From: John Arbuckle <1914667@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l7qNu-0007QB-Br
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 20:58:12 -0500
+Received: by mail-pf1-x436.google.com with SMTP id f63so3282508pfa.13
+ for <qemu-devel@nongnu.org>; Thu, 04 Feb 2021 17:58:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rQnZeltFcMCYQ9xe609eFENXoL/masnHJpQsAf4wZNg=;
+ b=LD0J/q7PNeMxIB/3crWe1k7O3cEC3r8Onr2YVG2Vy1H7Z+wZvR4K7wBOVicu4Rq+n+
+ ZQQ4rJLsTiyZOYb6J6+hvJEgulsn3E9V9nC4G4/HayLqEzVn2EGhOl4CwnEM/dh6TrgJ
+ zk048PXNZpCTxka0QUJpEU9jtzbXsZlPNdHqsUZkKCZFVJ1kMGTMnY4jiVFNp4mF5cmU
+ Rp8MM6zaWG2h2DY0lbV185MxciJU27dVlteLuH1+Wt5cyEJq+2LV3tpEhddtsPdfKTxp
+ 0R8D/MXRD1jsiH4ZVybo7hYwGAzUeTAbwagyd//3Wa11uSZza+PLF4CLRF30+yyz4+k+
+ wxQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rQnZeltFcMCYQ9xe609eFENXoL/masnHJpQsAf4wZNg=;
+ b=t3RFdV5k/seit7rCVLL8Jok5jxIRChgCA4i7lZe3LuPelAfveT0Gl+tUX0AGK4JCoS
+ POmJ3TLV3ukVqnJbs8z547CinJKrKAZBVJ76ox761MMeY1Eq11tKX32yqNgOD7+Qdp5N
+ ONo0UVheOyBR53CSSKjnXQhS72anVGS0btArCWvFzZ2BQ4uy/akuzz75HLJIpUQJvVvv
+ NKXQmFtB6uOOfkWc/TBh55JPdUXE5qvn1e9Sx0shO6G+lNOobRfAYTCbOa82li3+Fr6l
+ UdZVjb8hToV1iatBfKtSCJKmTal8vd5sAwr4uywCWdMQrLv+DemIElshZI3eGoXxvRjS
+ S0Ag==
+X-Gm-Message-State: AOAM531e2Z8GUEkU1fmlFEaXsO3n7MI52uYjsZv20xqickT6kYr8cwOx
+ CU3z6YPwqNqWaMupTowiLMFdZIJjuugyRmOu
+X-Google-Smtp-Source: ABdhPJxnV+JZLv3euRYUuzSYTqS3F7Ll21qj4OWKU0AsBnucx8nJgFFAbEbEHb3+dXOmGDe83RaInA==
+X-Received: by 2002:aa7:946c:0:b029:1ce:3f04:3f67 with SMTP id
+ t12-20020aa7946c0000b02901ce3f043f67mr2332026pfq.6.1612490288122; 
+ Thu, 04 Feb 2021 17:58:08 -0800 (PST)
+Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id 6sm7746246pgv.70.2021.02.04.17.58.06
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Feb 2021 17:58:07 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: programmingkidx
-X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
-X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
-References: <161248158218.12871.10682279346002918371.malonedeb@soybean.canonical.com>
-Message-Id: <161248922373.2846.17006090225355491407.malone@gac.canonical.com>
-Subject: [Bug 1914667] Re: High cpu usage when guest is idle on
- qemu-system-i386
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: 0e0ee4004b46f853fc63b34a81d7b463305ce1d3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] tcg/aarch64: Do not convert TCGArg to temps that are not temps
+Date: Thu,  4 Feb 2021 15:58:04 -1000
+Message-Id: <20210205015804.999729-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,53 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914667 <1914667@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For version 5.2 of qemu-system-i386 the instruction the guest is busy
-executing over and over again is this: addb %al, (%eax)
+Fixes INDEX_op_rotli_vec for aarch64 host, where the 3rd
+argument is an integer, not a temporary, which now tickles
+an assert added in e89b28a6350.
 
-For version 2.10.1 this is the instruction that is being executed when the =
-guest is idle:
-add %al,(%eax)
+Previously, the value computed into v2 would be garbage for
+rotli_vec, but as the value was unused it caused no harm.
 
--- =
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/aarch64/tcg-target.c.inc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914667
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 3c1ee39fd4..1376cdc404 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -2488,7 +2488,7 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
+     v0 = temp_tcgv_vec(arg_temp(a0));
+     v1 = temp_tcgv_vec(arg_temp(va_arg(va, TCGArg)));
+     a2 = va_arg(va, TCGArg);
+-    v2 = temp_tcgv_vec(arg_temp(a2));
++    va_end(va);
+ 
+     switch (opc) {
+     case INDEX_op_rotli_vec:
+@@ -2502,6 +2502,7 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
+     case INDEX_op_shrv_vec:
+     case INDEX_op_sarv_vec:
+         /* Right shifts are negative left shifts for AArch64.  */
++        v2 = temp_tcgv_vec(arg_temp(a2));
+         t1 = tcg_temp_new_vec(type);
+         tcg_gen_neg_vec(vece, t1, v2);
+         opc = (opc == INDEX_op_shrv_vec
+@@ -2512,6 +2513,7 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
+         break;
+ 
+     case INDEX_op_rotlv_vec:
++        v2 = temp_tcgv_vec(arg_temp(a2));
+         t1 = tcg_temp_new_vec(type);
+         c1 = tcg_constant_vec(type, vece, 8 << vece);
+         tcg_gen_sub_vec(vece, t1, v2, c1);
+@@ -2525,6 +2527,7 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
+         break;
+ 
+     case INDEX_op_rotrv_vec:
++        v2 = temp_tcgv_vec(arg_temp(a2));
+         t1 = tcg_temp_new_vec(type);
+         t2 = tcg_temp_new_vec(type);
+         c1 = tcg_constant_vec(type, vece, 8 << vece);
+@@ -2543,8 +2546,6 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
+     default:
+         g_assert_not_reached();
+     }
+-
+-    va_end(va);
+ }
+ 
+ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+-- 
+2.25.1
 
-Title:
-  High cpu usage when guest is idle on qemu-system-i386
-
-Status in QEMU:
-  New
-
-Bug description:
-  When running Windows XP in qemu-system-i386, the cpu usage of QEMU is
-  about 100% even when the guest CPU usage is close to 2%. The host cpu
-  usage should be low when the guest cpu usage is low.
-
-  Command: qemu-system-i386 -hda <Windows XP HD image>
-
-  Using this command also shows around 100% host CPU usage:
-  qemu-system-i386 -m 700 -hda <Windows XP HD image> -usb -device usb-audio=
- -net nic,model=3Drtl8139 -net user -hdb mountable.img -soundhw pcspk
-
-  Using the Penryn CPU option also saw this problem:
-  qemu-system-i386 -hda <Windows XP HD image> -m 700 -cpu Penryn-v1
-
-  Using "-cpu pentium2" saw the same high host cpu usage.
-
-  =
-
-  My Info:
-  M1 MacBook Air
-  Mac OS 11.1
-  qemu-system-i386 version 5.2 (1ba089f2255bfdb071be3ce6ac6c3069e8012179)
-  Windows XP SP3 Build 2600
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914667/+subscriptions
 
