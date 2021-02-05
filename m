@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA12310579
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:09:10 +0100 (CET)
-Received: from localhost ([::1]:48176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43F7B310568
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 08:04:39 +0100 (CET)
+Received: from localhost ([::1]:35380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7vEr-0001kV-C7
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35700)
+	id 1l7vAU-0004jB-BH
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 02:04:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v39-0001Ud-VW
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35695)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v36-0001Lf-AD
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v38-0001FA-0k
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:03 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l7v34-0001Cy-Kp
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 01:57:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612508221;
+ s=mimecast20190719; t=1612508218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oMDSLR/pWQEGW/rdRVaRllWHOCsmrATvxvOmSwGqzUw=;
- b=XXLTOQ+PpmN8pHq0Ths0/gB7NaxnY+YcMBFpITB+dtsZNrqq5Cz+g38c9Q1NIEEyu7LlVR
- 5UxMRny6HxipaXxBNZCdhavZKE2U7arBH9hbJ3as027hrK/0AvzeVaXpM9TOU69ucXyFV7
- EpocJ925nCvyQalDF358FN1z2yp3PmE=
+ bh=OLUVdXP2FV6oVY2GVzSlffIYDJOXIoNyEi5o8vks5f0=;
+ b=akl0jodhYmz5lsLXzKqqC+UY5fuigQAtybhRy5cdC6wIywA2xi5k4wMsbzkhMi/ioQ+d9G
+ C8wXbt1nLosJHjmoOK9pVXffV9r1K79z2IZm5C5OXXLl+GVRpTi4IwvRakcaLWp3HOp+In
+ aMSH2AxDt2Km0yTB5VGTrdeeQ7ElK6E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-3WIA_yPTPt6VUDuhCmjR7g-1; Fri, 05 Feb 2021 01:56:59 -0500
-X-MC-Unique: 3WIA_yPTPt6VUDuhCmjR7g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-495-h1tvKncnOc6Ayfp4L4ZMYQ-1; Fri, 05 Feb 2021 01:56:56 -0500
+X-MC-Unique: h1tvKncnOc6Ayfp4L4ZMYQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EA7A192CC43
- for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 603065B378
+ for <qemu-devel@nongnu.org>; Fri,  5 Feb 2021 06:56:55 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-108.ams2.redhat.com
  [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EA82100F49E;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 42F3E5D9CD;
  Fri,  5 Feb 2021 06:56:42 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 48BE118003BC; Fri,  5 Feb 2021 07:56:21 +0100 (CET)
+ id 535C918003BD; Fri,  5 Feb 2021 07:56:21 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/24] ui: add a DCLOps callback to check dmabuf support
-Date: Fri,  5 Feb 2021 07:56:12 +0100
-Message-Id: <20210205065620.1726554-17-kraxel@redhat.com>
+Subject: [PULL 17/24] ui: check hw requirements during DCL registration
+Date: Fri,  5 Feb 2021 07:56:13 +0100
+Message-Id: <20210205065620.1726554-18-kraxel@redhat.com>
 In-Reply-To: <20210205065620.1726554-1-kraxel@redhat.com>
 References: <20210205065620.1726554-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,50 +92,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210204105232.834642-13-marcandre.lureau@redhat.com>
+Message-Id: <20210204105232.834642-14-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/console.h |  2 ++
- ui/console.c         | 13 +++++++++++++
- 2 files changed, 15 insertions(+)
+ ui/console.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index 0595aa9953cf..875885d9c7ce 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -224,6 +224,8 @@ typedef struct DisplayChangeListenerOps {
-                                    uint32_t backing_height,
-                                    uint32_t x, uint32_t y,
-                                    uint32_t w, uint32_t h);
-+    /* optional (default to true if has dpy_gl_scanout_dmabuf) */
-+    bool (*dpy_has_dmabuf)(DisplayChangeListener *dcl);
-     /* optional */
-     void (*dpy_gl_scanout_dmabuf)(DisplayChangeListener *dcl,
-                                   QemuDmaBuf *dmabuf);
 diff --git a/ui/console.c b/ui/console.c
-index b5bc3f7699a1..a645418adad5 100644
+index a645418adad5..d8cc640c28db 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -1463,6 +1463,19 @@ bool console_has_gl(QemuConsole *con)
-     return con->gl != NULL;
+@@ -1476,12 +1476,37 @@ static bool displaychangelistener_has_dmabuf(DisplayChangeListener *dcl)
+     return false;
  }
  
-+static bool displaychangelistener_has_dmabuf(DisplayChangeListener *dcl)
++static bool dpy_compatible_with(QemuConsole *con,
++                                DisplayChangeListener *dcl, Error **errp)
 +{
-+    if (dcl->ops->dpy_has_dmabuf) {
-+        return dcl->ops->dpy_has_dmabuf(dcl);
++    ERRP_GUARD();
++    int flags;
++
++    flags = con->hw_ops->get_flags ? con->hw_ops->get_flags(con->hw) : 0;
++
++    if (flags & GRAPHIC_FLAGS_GL &&
++        !console_has_gl(con)) {
++        error_setg(errp, "The console requires a GL context.");
++        return false;
++
 +    }
 +
-+    if (dcl->ops->dpy_gl_scanout_dmabuf) {
-+        return true;
++    if (flags & GRAPHIC_FLAGS_DMABUF &&
++        !displaychangelistener_has_dmabuf(dcl)) {
++        error_setg(errp, "The console requires display DMABUF support.");
++        return false;
 +    }
 +
-+    return false;
++    return true;
 +}
 +
  void register_displaychangelistener(DisplayChangeListener *dcl)
  {
      static const char nodev[] =
+         "This VM has no graphic display device.";
+     static DisplaySurface *dummy;
+     QemuConsole *con;
++    Error *err = NULL;
+ 
+     assert(!dcl->ds);
+ 
+@@ -1496,6 +1521,11 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
+         dcl->con->gl = dcl;
+     }
+ 
++    if (dcl->con && !dpy_compatible_with(dcl->con, dcl, &err)) {
++        error_report_err(err);
++        exit(1);
++    }
++
+     trace_displaychangelistener_register(dcl, dcl->ops->dpy_name);
+     dcl->ds = get_alloc_displaystate();
+     QLIST_INSERT_HEAD(&dcl->ds->listeners, dcl, next);
 -- 
 2.29.2
 
