@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4655E3108EE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:23:29 +0100 (CET)
-Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE75C3108F8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 11:25:06 +0100 (CET)
+Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7yGu-0003om-AO
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:23:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45616)
+	id 1l7yIU-0006t1-10
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 05:25:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7X-0002uQ-TL; Fri, 05 Feb 2021 05:13:47 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3366)
+ id 1l7y7Z-0002wU-G1; Fri, 05 Feb 2021 05:13:49 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l7y7U-00077b-JS; Fri, 05 Feb 2021 05:13:47 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DXB6s0Yrzz164WY;
- Fri,  5 Feb 2021 18:12:21 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
+ id 1l7y7W-00078Y-EI; Fri, 05 Feb 2021 05:13:49 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DXB6v3Nzfz164xB;
+ Fri,  5 Feb 2021 18:12:23 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Fri, 5 Feb 2021
  18:13:33 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 8/9] scsi-bus: Refactor the code that retries requests
-Date: Fri, 5 Feb 2021 18:13:14 +0800
-Message-ID: <20210205101315.13042-9-cenjiahui@huawei.com>
+Subject: [PATCH v5 9/9] scsi-disk: Add support for retry on errors
+Date: Fri, 5 Feb 2021 18:13:15 +0800
+Message-ID: <20210205101315.13042-10-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210205101315.13042-1-cenjiahui@huawei.com>
 References: <20210205101315.13042-1-cenjiahui@huawei.com>
@@ -64,66 +64,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>, cenjiahui@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the code that retries requests from scsi_dma_restart_bh() to its own,
-non-static, function. This will allow us to call it from the
-retry_request_cb() of scsi-disk in a future patch.
+Mark failed requests as to be retried and implement retry_request_cb to
+handle these requests.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- hw/scsi/scsi-bus.c     | 16 +++++++++++-----
- include/hw/scsi/scsi.h |  1 +
- 2 files changed, 12 insertions(+), 5 deletions(-)
+ hw/scsi/scsi-disk.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index c349fb7f2d..b2a174efe2 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -143,14 +143,10 @@ void scsi_bus_new(SCSIBus *bus, size_t bus_size, DeviceState *host,
-     qbus_set_bus_hotplug_handler(BUS(bus));
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index ed52fcd49f..687ed19822 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -184,6 +184,8 @@ static void scsi_disk_load_request(QEMUFile *f, SCSIRequest *req)
+ 
+ static bool scsi_disk_req_check_error(SCSIDiskReq *r, int ret, bool acct_failed)
+ {
++    SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
++
+     if (r->req.io_canceled) {
+         scsi_req_cancel_complete(&r->req);
+         return true;
+@@ -193,6 +195,7 @@ static bool scsi_disk_req_check_error(SCSIDiskReq *r, int ret, bool acct_failed)
+         return scsi_handle_rw_error(r, -ret, acct_failed);
+     }
+ 
++    blk_error_retry_reset_timeout(s->qdev.conf.blk);
+     return false;
  }
  
--static void scsi_dma_restart_bh(void *opaque)
-+void scsi_retry_requests(SCSIDevice *s)
- {
--    SCSIDevice *s = opaque;
-     SCSIRequest *req, *next;
- 
--    qemu_bh_delete(s->bh);
--    s->bh = NULL;
--
-     aio_context_acquire(blk_get_aio_context(s->conf.blk));
-     QTAILQ_FOREACH_SAFE(req, &s->requests, next, next) {
-         scsi_req_ref(req);
-@@ -170,6 +166,16 @@ static void scsi_dma_restart_bh(void *opaque)
-         scsi_req_unref(req);
+@@ -499,6 +502,10 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
+         }
      }
-     aio_context_release(blk_get_aio_context(s->conf.blk));
+ 
++    if (action == BLOCK_ERROR_ACTION_RETRY) {
++        scsi_req_retry(&r->req);
++    }
++
+     blk_error_action(s->qdev.conf.blk, action, is_read, error);
+     if (action == BLOCK_ERROR_ACTION_IGNORE) {
+         scsi_req_complete(&r->req, 0);
+@@ -2284,6 +2291,13 @@ static void scsi_disk_resize_cb(void *opaque)
+     }
+ }
+ 
++static void scsi_disk_retry_request(void *opaque)
++{
++    SCSIDiskState *s = opaque;
++
++    scsi_retry_requests(&s->qdev);
 +}
 +
-+static void scsi_dma_restart_bh(void *opaque)
-+{
-+    SCSIDevice *s = opaque;
-+
-+    qemu_bh_delete(s->bh);
-+    s->bh = NULL;
-+
-+    scsi_retry_requests(s);
-     /* Drop the reference that was acquired in scsi_dma_restart_cb */
-     object_unref(OBJECT(s));
- }
-diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-index 09fa5c9d2a..28f330deaf 100644
---- a/include/hw/scsi/scsi.h
-+++ b/include/hw/scsi/scsi.h
-@@ -181,6 +181,7 @@ void scsi_req_cancel_complete(SCSIRequest *req);
- void scsi_req_cancel(SCSIRequest *req);
- void scsi_req_cancel_async(SCSIRequest *req, Notifier *notifier);
- void scsi_req_retry(SCSIRequest *req);
-+void scsi_retry_requests(SCSIDevice *s);
- void scsi_device_purge_requests(SCSIDevice *sdev, SCSISense sense);
- void scsi_device_set_ua(SCSIDevice *sdev, SCSISense sense);
- void scsi_device_report_change(SCSIDevice *dev, SCSISense sense);
+ static void scsi_cd_change_media_cb(void *opaque, bool load, Error **errp)
+ {
+     SCSIDiskState *s = opaque;
+@@ -2332,10 +2346,12 @@ static const BlockDevOps scsi_disk_removable_block_ops = {
+     .is_medium_locked = scsi_cd_is_medium_locked,
+ 
+     .resize_cb = scsi_disk_resize_cb,
++    .retry_request_cb = scsi_disk_retry_request,
+ };
+ 
+ static const BlockDevOps scsi_disk_block_ops = {
+     .resize_cb = scsi_disk_resize_cb,
++    .retry_request_cb = scsi_disk_retry_request,
+ };
+ 
+ static void scsi_disk_unit_attention_reported(SCSIDevice *dev)
 -- 
 2.29.2
 
