@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C68310CB4
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:50:00 +0100 (CET)
-Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FAAA310CBB
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:52:10 +0100 (CET)
+Received: from localhost ([::1]:44004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l82Qp-00083j-2Z
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:49:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42626)
+	id 1l82Sv-0002lZ-Dm
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:52:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l82LN-0002iM-To; Fri, 05 Feb 2021 09:44:23 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:46629)
+ id 1l82LR-0002j0-IX; Fri, 05 Feb 2021 09:44:26 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:33718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l82LE-0002Od-TN; Fri, 05 Feb 2021 09:44:14 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id w2so12229161ejk.13;
- Fri, 05 Feb 2021 06:44:11 -0800 (PST)
+ id 1l82LN-0002Qy-Ab; Fri, 05 Feb 2021 09:44:22 -0500
+Received: by mail-ej1-x636.google.com with SMTP id sa23so12381565ejb.0;
+ Fri, 05 Feb 2021 06:44:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J1pU1ssoi/DL7VDtGz6ONx3+WvqS4tj/g3xHAkg3ZBQ=;
- b=D1xw66rtNR0SWJkqUGEwEab54BWMTjVSeIAbEXtcvqBUuQcFvkXFhjK/XKX4vMte99
- bTohPpXVDAjVboUqoXuXuQ8rhR32EfzjZKoPfgVSKwFoRjQAVcNMxf4og7v4irYgkBBP
- CYnGBsF/NDFoFLJuc1lkcsnBH1cpG7YaMpFjRIuKpl8r6Oq7pft0eVVo4HAAwwwpsiQA
- Pukz59fotWp/SGSh9hetGDXUBscTYodbx1aqgAnTJ7nMzdD8/DOW+AB9apyuYopeTtMV
- pGHWQACn4zjRB1Pv1RretfM+mky7Ljpw10hugSpXm+fJ6vO8FTYKh+yikEso4aG2xxHE
- m+JQ==
+ bh=Xkg/zu6AKq/Ee23oMpv0PA3XN//XoILVWe2S9GBryeE=;
+ b=DUzbQda1m4bnqAFLyLB6eIM8vYj/X4I0dEM5/Ae7NndZhZNO++wYpb/GsrkM9G2fdb
+ ZdeE4zBDjXvdz2m8akGj5Yn4O3blQpeegw8s7cKFkwW2dxZCe1yEEF0ZHFmFNwE4WiTh
+ FYRsGfxNqFIjlDK7mJH5yPmKclBvvtlGUbMpmjW7jJ95L0i50SUz6FPktQzwc5M2QUwW
+ hRlosIUrdwj5wu8eRpSOBgh1/Zvhvt94LHhBxDhkbdaCRuPF9vE6OcJmZAocZpM0Q2Cb
+ LQqFcH1zXbw2ipZoLIq+thGyDXa/6A2DHUSbkSQC73XfLGutXgdH6fl1jwQ0QMczt3Ow
+ LQhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=J1pU1ssoi/DL7VDtGz6ONx3+WvqS4tj/g3xHAkg3ZBQ=;
- b=tO/x/owb+WfCYPVRhEaUca0GSldxHwmHC05212/3FEVWtNpD+DoFdSJ6gAx4vH42qB
- oTNFWir3umiApTTrvQCSAihbmYq6VG3eu1zLBBEjYBFKhyI/1xTow92+oyxI4TgUxvl1
- VQgzIYssTHCF2C9OA4CJQ6NJLr0+JzC4Hs8kOtZwiacQTajjdXkRvwZSi+I3J+as6+7S
- Fk8e8ejNKSlEQ9NMPX5NPRCLHjU/BGEpMHSoTZ24Lxg8r9K2MCrWWzlFBqqgAmM0M9kn
- Nl4A4mC3uISlVH0kd9MkKfvGVVMi/XZyR+y+zij+ahik/UxjYUwOcE+lJuQ3A5vT9e/H
- oVgw==
-X-Gm-Message-State: AOAM531J/4QneOePghq6SH6l8x/JnCtNC+kPNjbmSIIsEGMe3toASekH
- NCjGflsTnxu9oT6UgIynWcfC3LxR0e8=
-X-Google-Smtp-Source: ABdhPJw7OYWzgx0HnsRoje7yX5BHhHsO7USy6vPSLilXjKMAU+KnVjxfV2oJzuqY9tCZ+d2VzR4nkA==
-X-Received: by 2002:a17:906:2697:: with SMTP id
- t23mr4363534ejc.357.1612536250581; 
- Fri, 05 Feb 2021 06:44:10 -0800 (PST)
+ bh=Xkg/zu6AKq/Ee23oMpv0PA3XN//XoILVWe2S9GBryeE=;
+ b=JM/4Kz7U18FXQDRjYPALPYTQx4aLMtvtTNbEqx9cwBhg2pQUJErPEKoYGLwCf8I5XK
+ 5e1iO6ThNedoJvYn49S/Mz42otvfBfwUBJj9RTHXxqRc54/KqTb8t3L7gu2JzqN5IuX7
+ EEfri/7kxDEu6FilAA0btwkLepKE991OVkNGSwOZwdAzK7CwBWRgaUrSHsgQSpP1KQr2
+ XGC6DuYw7KZpWcIA0/CFS+E81KCeS8zJMCWrmS9x5dOl4U9wyrLLn5jyRM9OWXqiWf4u
+ 4IIRyajvl89Hz3mFGu1UHWjsBN1WgjNZOluzC+JP15We0KfcvnAsZ6qfmU9NwYPFXAOB
+ rkYg==
+X-Gm-Message-State: AOAM533EVEL/vprCDyLsDyQ9+qV8klrpfFULEoqMZgezA62fBnp0I3el
+ Kpqn5x1eCgq1s3x/m3oQwwPi9xiNA3U=
+X-Google-Smtp-Source: ABdhPJyPOvLRzMbqEXMiNye6S+y3gEcu3PM5eYVrEVRsGsPslWOGaP7SGofKpbBnhs2bGt5IvYs4LQ==
+X-Received: by 2002:a17:907:3f13:: with SMTP id
+ hq19mr4391142ejc.142.1612536256133; 
+ Fri, 05 Feb 2021 06:44:16 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id qx8sm3971665ejb.48.2021.02.05.06.44.09
+ by smtp.gmail.com with ESMTPSA id u2sm3982732ejb.65.2021.02.05.06.44.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 06:44:10 -0800 (PST)
+ Fri, 05 Feb 2021 06:44:15 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/9] tests/qtest/cdrom-test: Only allow the Virt machine under
- KVM
-Date: Fri,  5 Feb 2021 15:43:40 +0100
-Message-Id: <20210205144345.2068758-5-f4bug@amsat.org>
+Subject: [PATCH 5/9] hw/arm/virt: Improve CPU name in help message
+Date: Fri,  5 Feb 2021 15:43:41 +0100
+Message-Id: <20210205144345.2068758-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210205144345.2068758-1-f4bug@amsat.org>
 References: <20210205144345.2068758-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,32 +93,39 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only the Virt and Versal machines are supported under KVM.
-Restrict the other ones to TCG.
+When selecting an incorrect CPU, there is a mismatch between the
+CPU name provided and the one displayed (which is some QEMU internal
+name):
+
+  $ qemu-system-aarch64 -M virt -cpu cortex-a8
+  qemu-system-aarch64: mach-virt: CPU type cortex-a8-arm-cpu not supported
+
+Strip the suffix to display the correct CPU name:
+
+  $ qemu-system-aarch64 -M virt -cpu cortex-a8
+  qemu-system-aarch64: mach-virt: CPU type cortex-a8-arm
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/cdrom-test.c | 5 ++++-
+ hw/arm/virt.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-index 5af944a5fb7..ac02f2bb4f1 100644
---- a/tests/qtest/cdrom-test.c
-+++ b/tests/qtest/cdrom-test.c
-@@ -222,9 +222,12 @@ int main(int argc, char **argv)
-         add_cdrom_param_tests(mips64machines);
-     } else if (g_str_equal(arch, "arm") || g_str_equal(arch, "aarch64")) {
-         const char *armmachines[] = {
-+#ifdef CONFIG_TCG
-             "realview-eb", "realview-eb-mpcore", "realview-pb-a8",
-             "realview-pbx-a9", "versatileab", "versatilepb", "vexpress-a15",
--            "vexpress-a9", "virt", NULL
-+            "vexpress-a9",
-+#endif /* CONFIG_TCG */
-+            "virt", NULL
-         };
-         add_cdrom_param_tests(armmachines);
-     } else {
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 399da734548..7802d3a66e8 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1829,7 +1829,10 @@ static void machvirt_init(MachineState *machine)
+     finalize_gic_version(vms);
+ 
+     if (!cpu_type_valid(machine->cpu_type)) {
+-        error_report("mach-virt: CPU type %s not supported", machine->cpu_type);
++        int len = strlen(machine->cpu_type) - strlen(ARM_CPU_TYPE_SUFFIX);
++
++        error_report("mach-virt: CPU type %.*s not supported",
++                     len, machine->cpu_type);
+         exit(1);
+     }
+ 
 -- 
 2.26.2
 
