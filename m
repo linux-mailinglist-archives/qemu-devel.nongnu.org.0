@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56941310C77
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:08:39 +0100 (CET)
-Received: from localhost ([::1]:40930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188E0310C78
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 15:09:50 +0100 (CET)
+Received: from localhost ([::1]:43364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l81mo-0007bx-9a
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:08:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
+	id 1l81nx-0000Ak-6P
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 09:09:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l81lm-000762-34
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:07:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l81lk-0002rj-6p
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 09:07:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612534050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8osqUjNLad5Li8K/E9Elc/gsq4TtN4e1Pvyf+o0K8b4=;
- b=hUAN0FH2j4T2q9ssmy/+xo4SnoaQZCD01PUj6ntaGRPLynqvNEyJ1cghB1RfBa8lJfvEN/
- lCO6SaZc9La4FFj1an9jbsBL+gg4511FQbRP9c9EEBe2z+f4OdC6vnxrPV1xc+lKrxPUfm
- Pj4fYE0lF4KzyaLZ4cv559mmYeFB1pI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-gKuy0bqpOT-5KQmBl1TXGA-1; Fri, 05 Feb 2021 09:07:28 -0500
-X-MC-Unique: gKuy0bqpOT-5KQmBl1TXGA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8699C10866AE;
- Fri,  5 Feb 2021 14:06:55 +0000 (UTC)
-Received: from [10.3.112.253] (ovpn-112-253.phx2.redhat.com [10.3.112.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D7D0C63623;
- Fri,  5 Feb 2021 14:06:53 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20210204190708.1306296-1-eblake@redhat.com>
- <20210204190708.1306296-2-eblake@redhat.com>
- <a141ad8f-113e-b769-931a-767e0807a1f9@redhat.com>
- <21fcd50e-b5c2-d35c-0555-7d26014370ee@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH 1/3] utils: Improve qemu_strtosz() to have 64 bits of
- precision
-Message-ID: <f2463f98-90a9-380d-06dd-9e410c32cfe3@redhat.com>
-Date: Fri, 5 Feb 2021 08:06:53 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l81mO-0007bG-Jv; Fri, 05 Feb 2021 09:08:12 -0500
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:45106)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l81mN-00039F-65; Fri, 05 Feb 2021 09:08:12 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id q12so9984436lfo.12;
+ Fri, 05 Feb 2021 06:08:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=mkljodUMFPRwb+m6aBJQT8Lo5+kaLRlqdFzwYBBCSgY=;
+ b=AsGffv9hiGJ+KOsCwMzWjVQkU+7NxU6Kb4T3QWB6TL5e23Z1gzu8pXh70Ba3Jc8Ipz
+ UhkU8Y7QV+fg4Q+9XBTqM+DRcGBvL+K4gOP4RS6YiDhzuk6/x+yhDSjTuCQQty4IYx+i
+ ixqqYEt8ci101Z+Lfta/YnStC3uWuf7c2yVsc3q4eibnPoKHrWR0hOcgnOgFdShfDoa9
+ cwknkwN8bQlmIzoy7s+KQhqSKPHUVYiojgycDLblx1x9v5yP7a1/shr1OxBNYonqkWch
+ kXIrZMGPIG6EQ6U7vhC6pBrthyyfk339aQV35Dm9yxZ0WlmoIRYgtCQhRJLwVq1hHGfO
+ dUEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=mkljodUMFPRwb+m6aBJQT8Lo5+kaLRlqdFzwYBBCSgY=;
+ b=rocCdURcXyTU1x+zRtavcUvBug20ZtMcdTY1poZnwbJDRfDvAwNQRRaS0p0tZU9Y20
+ JcsCpgW0jANil17tiHn05r8XKTUtJ5SWFIrwKiYMds6+gMJhw3NZtDTuqKbxPk8E23nV
+ WVEUDAoY+eJcu7CdkckPpPf0ieHlaqWXzohKCQpRhp1jjN297GUm7JBdeplTghF4pBKD
+ 163XahaBKD/W2VvrzvvHoe957qehaKLaE9UmpBkwDFORdJOg9ikpXaQv55DKCnbYLZ9R
+ X0EBoRDSYqJrwJL83te9IKeUhpnCtaCIpdMtfAGjg0NNAmf9QLCVus3gr48CSYwKOun+
+ JZVw==
+X-Gm-Message-State: AOAM532D/hL7ecx3G2CtMNSkFJ7V1smlV9GAh/7wwVp8Rue6wELpN7+Y
+ FrgBANEdAmaCxSa/HTZ4a4c=
+X-Google-Smtp-Source: ABdhPJzqMK6MWrJN6W9l4Qxzr71id6Lyinycj+AmKCqYhy9bKHnkvlbyBd+wGuYfq/pAwtzV3tKKiA==
+X-Received: by 2002:a05:6512:118e:: with SMTP id
+ g14mr2515235lfr.205.1612534088708; 
+ Fri, 05 Feb 2021 06:08:08 -0800 (PST)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id b1sm1000038lff.77.2021.02.05.06.08.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Feb 2021 06:08:07 -0800 (PST)
+Date: Fri, 5 Feb 2021 15:08:07 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] arm: xlnx-versal: fix virtio-mmio base address assignment
+Message-ID: <20210205140807.GH477672@toto>
+References: <3362132240927a23ecca7b9d8cfd6e4130509eea.camel@gmail.com>
+ <dbcfce3c-3140-01b7-06ca-497cf7fdace7@amsat.org>
+ <6f6a803af5941346050d84e77fcaa52e0175a8a7.camel@gmail.com>
+ <f4862169-28cc-82a9-32fb-da56b000cf54@amsat.org>
+ <CAFEAcA9JkTEOhmoFjWYfR5d7ANhKnc9URk89Xe36q7qMVxkMmg@mail.gmail.com>
+ <aa8ccb78-c977-20fa-a814-4223b678d9c4@amsat.org>
+ <CAFEAcA-+dS5r5LvW5DTEH2vBrm1S2rs7sjjh2V7zjtD6ut0wBw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <21fcd50e-b5c2-d35c-0555-7d26014370ee@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.352,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.33, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAFEAcA-+dS5r5LvW5DTEH2vBrm1S2rs7sjjh2V7zjtD6ut0wBw@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,73 +89,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, qemu-block@nongnu.org,
- tao3.xu@intel.com, armbru@redhat.com, Max Reitz <mreitz@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, schspa <schspa@gmail.com>,
+ Kevin Zhao <kevin.zhao@linaro.org>, Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/21 4:06 AM, Vladimir Sementsov-Ogievskiy wrote:
-
->>> -    /*
->>> -     * Values near UINT64_MAX overflow to 2**64 when converting to
->>> double
->>> -     * precision.  Compare against the maximum representable double
->>> precision
->>> -     * value below 2**64, computed as "the next value after 2**64
->>> (0x1p64) in
->>> -     * the direction of 0".
->>> -     */
->>> -    if ((val * mul > nextafter(0x1p64, 0)) || val < 0) {
->>> +    if (val > UINT64_MAX / mul) {
->>
->> Hmm, do we care about:
->> 15.9999999999999999999999999999E
->> where the fractional portion becomes large enough to actually bump our
->> sum below to 16E which indeed overflows?  Then again, we rejected a
->> fraction of 1.0 above, and 0.9999999999999999999999999999 parses to 1.0
->> due to rounding.
->> Maybe it's just worth a good comment why the overflow check here works
->> without consulting fraction.
+On Fri, Feb 05, 2021 at 11:18:28AM +0000, Peter Maydell wrote:
+> On Fri, 5 Feb 2021 at 10:31, Philippe Mathieu-Daud� <f4bug@amsat.org> wrote:
+> > 1/ virtio-mmio must be sysbus-device,
 > 
-> worth a good comment, because I don't follow :)
+> Yes.
 > 
-> If mul is big enough and fraction=0.5, why val*mul + fraction*mul will
-> not overflow?
-
-When mul is a power of 2, we know that fraction*mul does not change the
-number of significant bits, but merely moves the exponent, so starting
-with fraction < 1.0, we know fraction*mul < mul.  But when @unit is
-1000, there is indeed a rare possibility that the multiplication will
-cause an inexact answer that will trigger rounding, so we could end up
-with fraction*mul == mul.  So I'm not yet 100% confident that there is
-no possible combination where we can't cause an overflow to result in
-val*mul + (uint64_t)(fraction*mul) resulting in 0 instead of UINT64_MAX,
-and I think I will have to tighten this code up for v2.
-
-
+> > 2/ we can not sysbus-map out of main memory so private container
+> > is incorrect, and Versal can not use "mr-ps-switch"?
 > 
-> Also, if we find '.' in the number, why not just reparse the whole
-> number with qemu_strtod_finite? And don't care about 1.0?
+> No. If you have a sysbus device, and you want to map it somewhere
+> other than into system-memory-map, you can do that: you use
+> sysbus_mmio_get_region() to get the MemoryRegion*, and then map
+> it into whatever container you need with memory_region_add_subregion().
+>
 
-Reparsing the whole number loses precision. Since we already have a
-64-bit precise integer, why throw it away?
+Thanks, that matches how I thought things should work.
 
-> 
->>
->>>           retval = -ERANGE;
->>>           goto out;
->>>       }
->>> -    *result = val * mul;
->>> +    *result = val * mul + (uint64_t) (fraction * mul);
->>>       retval = 0;
->>>
->>>   out:
-> 
-> 
+I wonder if virtio_mmio_bus_get_dev_path() really should be peeking into
+Sysbus internals mmio[].addr?
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Sysbus mmio[].addr looks like a candidate for removal if we ever get rid
+of the default system_memory...
 
+I don't have any good suggestions how to fix this. I guess we could wrap
+memory_region_add_subregion() with a sysbus version of it that sets
+mmio[].addr but that seems like a step backwards to me.
+Perhaps there's a way fix this in virtio_mmio_bus_get_dev_path()?
+
+Best regards,
+Edgar
 
