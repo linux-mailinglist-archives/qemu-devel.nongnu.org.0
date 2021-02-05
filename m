@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FDD3103E5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 04:53:27 +0100 (CET)
-Received: from localhost ([::1]:54648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCDD310449
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 06:02:06 +0100 (CET)
+Received: from localhost ([::1]:40934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7sBR-0007qG-VU
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 22:53:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
+	id 1l7tFt-0003is-AB
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 00:02:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l7sAU-0007Nx-4Z
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:52:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l7sAQ-0006uf-Jp
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 22:52:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612497140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8P6pdfLS5GEKfdGqSXpH34pu174A+WIrkQ5mPvKYUds=;
- b=C+SlSpr19Ti+7favdeLKS36kN9cA74zZNR59HPrFVkvuiwAspjmqkWzhinC1GN+XMeW5Rr
- awgKj+qU+PWNFEI99Xe34p2iZSxX0FCmrUqEF+lJf11yYKK9Tx2rbHhAbfaOVrK49UHCh+
- 2mlKjXLeHKWy/Q+adBZXmTOBSlf5YQs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-UeSIlErjPZycKm2BSpJ8VA-1; Thu, 04 Feb 2021 22:52:19 -0500
-X-MC-Unique: UeSIlErjPZycKm2BSpJ8VA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77BD510066EE;
- Fri,  5 Feb 2021 03:52:17 +0000 (UTC)
-Received: from [10.72.12.112] (ovpn-12-112.pek2.redhat.com [10.72.12.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95DDE5D9D2;
- Fri,  5 Feb 2021 03:51:49 +0000 (UTC)
-Subject: Re: [RFC 05/10] vhost: Add vhost_dev_from_virtio
-To: Eugenio Perez Martin <eperezma@redhat.com>
-References: <20210129205415.876290-1-eperezma@redhat.com>
- <20210129205415.876290-6-eperezma@redhat.com>
- <acf16fd6-2282-c220-e642-0868ac839b70@redhat.com>
- <CAJaqyWeRK_i3MMZVgXJUwUNfLaq_h80jChZfQ3sRmWAcQnGLkQ@mail.gmail.com>
- <a526b3ac-91d9-28e6-5ffc-2308aab4fbd6@redhat.com>
- <CAJaqyWf-qsr5eLzk4Sum=GYhHoW_+V-9arfbssSjd6G6WnretQ@mail.gmail.com>
- <a37502d6-b83f-fd34-7634-1060f4661540@redhat.com>
- <CAJaqyWcvWyMxRuH4U2aMRrcZJHSkajO94JcH1WBfYvFrthESLw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <569ace3d-f2c3-8b9f-63f5-809ce7067046@redhat.com>
-Date: Fri, 5 Feb 2021 11:51:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1l7tDj-00032D-UP; Thu, 04 Feb 2021 23:59:51 -0500
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:36207)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1l7tDi-0004T3-5F; Thu, 04 Feb 2021 23:59:51 -0500
+Received: by mail-oi1-x233.google.com with SMTP id k204so4707225oih.3;
+ Thu, 04 Feb 2021 20:59:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Ps5ErN2IC4d3feM32CXbLkM9FMnanAcwmZcZxFMm3YU=;
+ b=cpgubWnTWZWIaBbbPUFoSXJEORMjxXIFM3YhPxUD7vFaOEKUPWh2konbLG5Yuf+vh5
+ xIWAPHpQqUi6hvHC/bAlr4rYMl1AHn9RVoQR3BdqnFbqDVzzM7a1CcqB0R8kOl3WD3Rh
+ ph+cFbVVFSccx+t3J1Wtqke5XGq+W+ymGc2mo9S78henIVcejycrcFq/oSm4x3EZhafq
+ KRxrGYiKzzdq3Yz4MrK3KyMSMn/NPW1jpJKGQE/y0LBAbIBRqR5XjefN3xqWWsWnkHWt
+ axTarYCLmmy97zIO4goBpU+W4u3zFKCcCuXbSMcwgbiz3fU2wojAnrBIdD3YhSgUyFyx
+ 8tow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ps5ErN2IC4d3feM32CXbLkM9FMnanAcwmZcZxFMm3YU=;
+ b=BnGm2r6YNGE2Ncu3E0KrW+0XmtD55fjNqQjTiyLG1LXY4BiRCdwitNWA23ZOXY0QLF
+ Mg/CUqqublNX2YvDm9npuIYul2Q+PYtr5sutJQoYDkg334Ugh1jLDUMBb+X2/h/OLm1M
+ qwqLYDfRekwDgopL1em6RgD+y/XqRh4go/B0XBhqP7ByXL/lz80hZ3XgLvls6zitk602
+ Wsy9xr3+3yeJXOUUS+Z9YTxZzN2EQBoR0XejJ2RmrXE/wAEHXHv1Mm7iYu00hmGwcERL
+ SdDe3ZBn+CZQsBwnifdyAL7G6hoj5anuBcsT4MRCUP37ky7rjNrsBVXzsGpPjXmasZF5
+ 5PmA==
+X-Gm-Message-State: AOAM531UdpE2edYlTpJimmUIXgmjN3X8g6LwW6mf7iOYMvwp6Ej85xlQ
+ jl2wB+9E3Frvoa7419oYg9nTHqZOk/J5OYEthpw=
+X-Google-Smtp-Source: ABdhPJyzz9jjCMIFSYlGQdPqWuzRnkg1HNxC9LW9XWYDCezFtgTZjBk0gI1QzVoRYnzkCWyOdbGXfvJ1mS38o4ZeeBQ=
+X-Received: by 2002:a54:4706:: with SMTP id k6mr2010266oik.56.1612501188301;
+ Thu, 04 Feb 2021 20:59:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWcvWyMxRuH4U2aMRrcZJHSkajO94JcH1WBfYvFrthESLw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210204225041.1822673-1-philmd@redhat.com>
+In-Reply-To: <20210204225041.1822673-1-philmd@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Fri, 5 Feb 2021 12:59:11 +0800
+Message-ID: <CAKXe6SKTj0GwLzR7XTTvtgRhAA3mcXDw1NP_pkmmeeUvqq69DA@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/scsi/scsi-disk: Fix out of bounds access in
+ mode_sense_page()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x233.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,146 +77,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- virtualization@lists.linux-foundation.org, Michael Lilja <ml@napatech.com>,
- Jim Harford <jim.harford@broadcom.com>, Rob Miller <rob.miller@broadcom.com>
+Cc: Fam Zheng <fam@euphon.net>, Alexander Bulekov <alxndr@bu.edu>,
+ qemu-stable@nongnu.org, Qemu Developers <qemu-devel@nongnu.org>,
+ Darren Kenny <darren.kenny@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2021/2/4 下午5:25, Eugenio Perez Martin wrote:
-> On Thu, Feb 4, 2021 at 4:14 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> On 2021/2/2 下午6:17, Eugenio Perez Martin wrote:
->>> On Tue, Feb 2, 2021 at 4:31 AM Jason Wang <jasowang@redhat.com> wrote:
->>>> On 2021/2/1 下午4:28, Eugenio Perez Martin wrote:
->>>>> On Mon, Feb 1, 2021 at 7:13 AM Jason Wang <jasowang@redhat.com> wrote:
->>>>>> On 2021/1/30 上午4:54, Eugenio Pérez wrote:
->>>>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>>>>>> ---
->>>>>>>      include/hw/virtio/vhost.h |  1 +
->>>>>>>      hw/virtio/vhost.c         | 17 +++++++++++++++++
->>>>>>>      2 files changed, 18 insertions(+)
->>>>>>>
->>>>>>> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
->>>>>>> index 4a8bc75415..fca076e3f0 100644
->>>>>>> --- a/include/hw/virtio/vhost.h
->>>>>>> +++ b/include/hw/virtio/vhost.h
->>>>>>> @@ -123,6 +123,7 @@ uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_bits,
->>>>>>>      void vhost_ack_features(struct vhost_dev *hdev, const int *feature_bits,
->>>>>>>                              uint64_t features);
->>>>>>>      bool vhost_has_free_slot(void);
->>>>>>> +struct vhost_dev *vhost_dev_from_virtio(const VirtIODevice *vdev);
->>>>>>>
->>>>>>>      int vhost_net_set_backend(struct vhost_dev *hdev,
->>>>>>>                                struct vhost_vring_file *file);
->>>>>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->>>>>>> index 28c7d78172..8683d507f5 100644
->>>>>>> --- a/hw/virtio/vhost.c
->>>>>>> +++ b/hw/virtio/vhost.c
->>>>>>> @@ -61,6 +61,23 @@ bool vhost_has_free_slot(void)
->>>>>>>          return slots_limit > used_memslots;
->>>>>>>      }
->>>>>>>
->>>>>>> +/*
->>>>>>> + * Get the vhost device associated to a VirtIO device.
->>>>>>> + */
->>>>>>> +struct vhost_dev *vhost_dev_from_virtio(const VirtIODevice *vdev)
->>>>>>> +{
->>>>>>> +    struct vhost_dev *hdev;
->>>>>>> +
->>>>>>> +    QLIST_FOREACH(hdev, &vhost_devices, entry) {
->>>>>>> +        if (hdev->vdev == vdev) {
->>>>>>> +            return hdev;
->>>>>>> +        }
->>>>>>> +    }
->>>>>>> +
->>>>>>> +    assert(hdev);
->>>>>>> +    return NULL;
->>>>>>> +}
->>>>>> I'm not sure this can work in the case of multiqueue. E.g vhost-net
->>>>>> multiqueue is a N:1 mapping between vhost devics and virtio devices.
->>>>>>
->>>>>> Thanks
->>>>>>
->>>>> Right. We could add an "vdev vq index" parameter to the function in
->>>>> this case, but I guess the most reliable way to do this is to add a
->>>>> vhost_opaque value to VirtQueue, as Stefan proposed in previous RFC.
->>>> So the question still, it looks like it's easier to hide the shadow
->>>> virtqueue stuffs at vhost layer instead of expose them to virtio layer:
->>>>
->>>> 1) vhost protocol is stable ABI
->>>> 2) no need to deal with virtio stuffs which is more complex than vhost
->>>>
->>>> Or are there any advantages if we do it at virtio layer?
->>>>
->>> As far as I can tell, we will need the virtio layer the moment we
->>> start copying/translating buffers.
->>>
->>> In this series, the virtio dependency can be reduced if qemu does not
->>> check the used ring _F_NO_NOTIFY flag before writing to irqfd. It
->>> would enable packed queues and IOMMU immediately, and I think the cost
->>> should not be so high. In the previous RFC this check was deleted
->>> later anyway, so I think it was a bad idea to include it from the start.
->>
->> I am not sure I understand here. For vhost, we can still do anything we
->> want, e.g accessing guest memory etc. Any blocker that prevent us from
->> copying/translating buffers? (Note that qemu will propagate memory
->> mappings to vhost).
->>
-> There is nothing that forbids us to access directly, but if we don't
-> reuse the virtio layer functionality we would have to duplicate every
-> access function. "Need" was a too strong word maybe :).
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2021=E5=B9=B42=E6=
+=9C=885=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=886:50=E5=86=99=E9=81=93=
+=EF=BC=9A
 >
-> In other words: for the shadow vq vring exposed for the device, qemu
-> treats it as a driver, and this functionality needs to be added to
-> qemu. But for accessing the guest's one do not reuse virtio.c would be
-> a bad idea in my opinion.
-
-
-The problem is, virtio.c is not a library and it has a lot of dependency 
-with other qemu modules basically makes it impossible to be reused at 
-vhost level.
-
-We can solve this by:
-
-1) split the core functions out as a library or
-2) switch to use contrib/lib-vhostuser but needs to decouple UNIX socket 
-transport
-
-None of the above looks trivial and they are only device codes. For 
-shadow virtqueue, we need driver codes as well where no code can be reused.
-
-As we discussed, we probably need IOVA allocated when forwarding 
-descriptors between the two virtqueues. So my feeling is we can have our 
-own codes to start then we can consider whether we can reuse some from 
-the existing virtio.c or lib-vhostuser.
-
-Thanks
-
-
+> Per the "SCSI Commands Reference Manual" (Rev. J) chapter 5.3
+> "Mode parameters" and table 359 "Mode page codes and subpage
+> codes", the last page code is 0x3f. When using it as array index,
+> the array must have 0x40 elements. Replace the magic 0x3f value
+> by its definition and increase the size of the mode_sense_valid[]
+> to avoid an out of bound access (reproducer available in [Buglink]):
 >
->> Thanks
->>
->>
->>>
->>>
->>>
->>>
->>>> Thanks
->>>>
->>>>
->>>>> I need to take this into account in qmp_x_vhost_enable_shadow_vq too.
->>>>>
->>>>>>> +
->>>>>>>      static void vhost_dev_sync_region(struct vhost_dev *dev,
->>>>>>>                                        MemoryRegionSection *section,
->>>>>>>                                        uint64_t mfirst, uint64_t mlast,
+>   hw/scsi/scsi-disk.c:1104:10: runtime error: index 63 out of bounds for =
+type 'const int [63]'
+>   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior hw/scsi/scsi-di=
+sk.c:1104:10 in
+>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>   =3D=3D1813911=3D=3DERROR: AddressSanitizer: global-buffer-overflow
+>   READ of size 4 at 0x5624b84aff1c thread T0
+>       #0 0x5624b63004b3 in mode_sense_page hw/scsi/scsi-disk.c:1104:10
+>       #1 0x5624b630f798 in scsi_disk_check_mode_select hw/scsi/scsi-disk.=
+c:1447:11
+>       #2 0x5624b630efb8 in mode_select_pages hw/scsi/scsi-disk.c:1515:17
+>       #3 0x5624b630988e in scsi_disk_emulate_mode_select hw/scsi/scsi-dis=
+k.c:1570:13
+>       #4 0x5624b62f08e7 in scsi_disk_emulate_write_data hw/scsi/scsi-disk=
+.c:1861:9
+>       #5 0x5624b62b171b in scsi_req_continue hw/scsi/scsi-bus.c:1391:9
+>       #6 0x5624b62b2d4c in scsi_req_data hw/scsi/scsi-bus.c:1427:5
+>       #7 0x5624b62f05f6 in scsi_disk_emulate_write_data hw/scsi/scsi-disk=
+.c:1853:9
+>       #8 0x5624b62b171b in scsi_req_continue hw/scsi/scsi-bus.c:1391:9
+>       #9 0x5624b63e47ed in megasas_enqueue_req hw/scsi/megasas.c:1660:9
+>       #10 0x5624b63b9cfa in megasas_handle_scsi hw/scsi/megasas.c:1735:5
+>       #11 0x5624b63acf91 in megasas_handle_frame hw/scsi/megasas.c:1974:2=
+4
+>       #12 0x5624b63aa200 in megasas_mmio_write hw/scsi/megasas.c:2131:9
+>       #13 0x5624b63ebed3 in megasas_port_write hw/scsi/megasas.c:2182:5
+>       #14 0x5624b6f43568 in memory_region_write_accessor softmmu/memory.c=
+:491:5
 >
+> Cc: qemu-stable@nongnu.org
+> Reported-by: OSS-Fuzz
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1914638
+> Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+
+> ---
+> v2: Mention reproducer link
+> ---
+>  hw/scsi/scsi-disk.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+> index ed52fcd49ff..93aec483e88 100644
+> --- a/hw/scsi/scsi-disk.c
+> +++ b/hw/scsi/scsi-disk.c
+> @@ -1089,7 +1089,7 @@ static int scsi_emulate_mechanism_status(SCSIDiskSt=
+ate *s, uint8_t *outbuf)
+>  static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbu=
+f,
+>                             int page_control)
+>  {
+> -    static const int mode_sense_valid[0x3f] =3D {
+> +    static const int mode_sense_valid[MODE_PAGE_ALLS + 1] =3D {
+>          [MODE_PAGE_HD_GEOMETRY]            =3D (1 << TYPE_DISK),
+>          [MODE_PAGE_FLEXIBLE_DISK_GEOMETRY] =3D (1 << TYPE_DISK),
+>          [MODE_PAGE_CACHING]                =3D (1 << TYPE_DISK) | (1 << =
+TYPE_ROM),
+> --
+> 2.26.2
+>
 
