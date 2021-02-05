@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D1D310F6A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:05:24 +0100 (CET)
-Received: from localhost ([::1]:59974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49823310FC3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 19:18:51 +0100 (CET)
+Received: from localhost ([::1]:34966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l85Tv-00025A-6L
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:05:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46596)
+	id 1l85gv-00011o-SQ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 13:18:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84U0-0007Ae-2O
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:24 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46089)
+ id 1l84Tp-0006y2-Rf
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:13 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l84TZ-00048Q-LA
- for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:23 -0500
-Received: by mail-wr1-x432.google.com with SMTP id q7so8393054wre.13
- for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:52 -0800 (PST)
+ id 1l84TQ-00046f-UU
+ for qemu-devel@nongnu.org; Fri, 05 Feb 2021 12:01:13 -0500
+Received: by mail-wr1-x433.google.com with SMTP id u14so8485423wri.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Feb 2021 09:00:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=M0p8lPGYTACYbzRLtR7fBRTYLnsV3hqqOQcj+ku4dlo=;
- b=pY+t6REUnChKux8CNuu2SL+CRK0Itagle1XrT50PNB3claeRbxT/M/N0hz29P7yYRo
- 6tVFbzK1ACPm3Dn1bVIrHn5TumAuXXjS/hQwBDhhuE8xvW31PxriJ49Mph48IE6JYOLg
- ju6rb7l9QhV4LIF9xKnFvGT0gceyOgNZvz4Fu59ZmgUjIE7O5OmvDKY6siKHAKbvDmyS
- fPDLO2ycNPVyUmUl46EaJjeG5YK0iMKRl08afnOiZhQ/CdsxaX7xNZjRdGue0DgBEmrT
- pGRorGH3TUEyUzSJp07nL/qjepY4UD4A3HqcEP6zdRGvqOJ58zQAef87/6ych5e5tPIt
- Vhhw==
+ bh=fbSQXUXJEDGMaGC9KOnv4xEcH7gCV3geuE6p5sgHfh8=;
+ b=Hte+PatvB/wD6GEvkwc2+vBLqw6TWp5P6EGpVjHY6DYpftiUEYd0/TXuSJQqbe/smp
+ fTwC12Hb6g84oP52inUgUXsuH8iVW/pXtLL3wD9D/3OHS4Q++PCN7rmuuxURTQhMGKvB
+ omEv/5PVMGLYfnlOkdEtdQaFTdvfVIHzNWoMHlqJCv44zysIBrap5SbArmG0sLRpuaa2
+ YxENM/axDVe+q64TGSmU0e/qoyGPiEdJkvMNdKHqVSXVDVVUYEoGYu3AlPg6O69UpV/a
+ YFpusFTYkXTQOT//ERABnLC+O1Za485byjNDPX5F9mn8Yi+SrMkKd/2ZessTcJsihNUW
+ RENg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M0p8lPGYTACYbzRLtR7fBRTYLnsV3hqqOQcj+ku4dlo=;
- b=R4M2UU8WuBnky3IIBApwNXWx9NCGuutRXp7BCLyKBY1EVB/nRLlShbOfOXQFzM4Buj
- hR4jtzqm+1x0aVcm+ejZe2CzrpaxMPudoM/cvoWGY9mQqrf7PAV+DEv2FYwCEE5RtyGc
- xKeg7M//N3TTBdbSzrimOZDqeJRmcWxW6tCYqYJbUT3jKbBh385LCi93S9jIBbG/H1g5
- mwMeTdPsIjUQ8k8kI4cfpTekVJuVQ595B5zh2pVXiwrE+hJAJZiQpgXUzLsVyofA7Yd5
- enl8ismGD3GNOiN9iOvYxHNjjUeraUW3F6sRh9XHAbMUYac2+p+ApJUAxQ91zy912rEm
- qhAg==
-X-Gm-Message-State: AOAM5326I7jiiMY7a0eK4EaNT8FqbY+8naTZgLxhcNUj0KCRGx6y3cD5
- aGQrbq5GEZOE9OVeLbSWhbww+A==
-X-Google-Smtp-Source: ABdhPJyH4cp5e66yqoKU8hyQ78w00L4f68V6CL98B690UarIZm9R8DTyq9PYxoYhPwhmJdizjfCE1A==
-X-Received: by 2002:a5d:50d2:: with SMTP id f18mr6335347wrt.338.1612544436251; 
- Fri, 05 Feb 2021 09:00:36 -0800 (PST)
+ bh=fbSQXUXJEDGMaGC9KOnv4xEcH7gCV3geuE6p5sgHfh8=;
+ b=O83OFBWqeGEUU5oeRknF6ydg/IO4gWvswureK/2TrCpB+lUKH0nfIHop49gsAbwctR
+ U4/60KyupUGRo+OgHJNa8kykZh4SUwebfFXBltlmOIaPOFKY8UmKTF8C0yvPRb9EjwVw
+ nJImpBITv2WtNfzH90jhp5pVNy7cPpsTL0cHI4kmpGZjzDZjYjCTpAMLYdXoYlKA/TJV
+ RI68JemrhaGabzPQhapGn8SmzksWvlFsHHxmMRtlN/i/MIgDCTAzlOjZj+DUo9zhUi2F
+ wVUqJ+M2KWXaEbW9ShejlyGCsxzrU9XGiiHgGrpXXn3qAUPEza0q4c5YoclFZl7omk2q
+ 5h5w==
+X-Gm-Message-State: AOAM531/IoJT8P/V8HQ8npXN4gflDw0WTgcQ5YCPJv79Puc1TzOnG2N9
+ gKcHb2e8iqiu5vCK+HOvg7KqRw==
+X-Google-Smtp-Source: ABdhPJz+OXQX1Mq8/xcv3ZWn6/CIXW4Zo8KcjqH8sEoLPtDkyhOcVEuBSvih3ddxK48paaTFJVTKag==
+X-Received: by 2002:a5d:458a:: with SMTP id p10mr6085659wrq.168.1612544439505; 
+ Fri, 05 Feb 2021 09:00:39 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.35
+ by smtp.gmail.com with ESMTPSA id l11sm12200010wrt.23.2021.02.05.09.00.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 09:00:35 -0800 (PST)
+ Fri, 05 Feb 2021 09:00:39 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 18/24] hw/arm/mps2-tz: Support ROMs as well as RAMs
-Date: Fri,  5 Feb 2021 17:00:13 +0000
-Message-Id: <20210205170019.25319-19-peter.maydell@linaro.org>
+Subject: [PATCH 22/24] hw/arm/mps2-tz: Provide PL031 RTC on mps3-an524
+Date: Fri,  5 Feb 2021 17:00:17 +0000
+Message-Id: <20210205170019.25319-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210205170019.25319-1-peter.maydell@linaro.org>
 References: <20210205170019.25319-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,47 +86,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN505 and AN521 don't have any read-only memory, but the AN524
-does; add a flag to ROMInfo to mark a region as ROM.
+The AN524 has a PL031 RTC, which we have a model of; provide it
+rather than an unimplemented-device stub.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2-tz.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/arm/mps2-tz.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index b46b32746e0..ce5e804c734 100644
+index db1afa4bd22..27feb36616e 100644
 --- a/hw/arm/mps2-tz.c
 +++ b/hw/arm/mps2-tz.c
-@@ -92,8 +92,10 @@ typedef struct RAMInfo {
-  * Flag values:
-  *  IS_ALIAS: this RAM area is an alias to the upstream end of the
-  *    MPC specified by its .mpc value
-+ *  IS_ROM: this RAM area is read-only
-  */
- #define IS_ALIAS 1
-+#define IS_ROM 2
- 
- struct MPS2TZMachineClass {
-     MachineClass parent;
-@@ -209,6 +211,7 @@ static MemoryRegion *mr_for_raminfo(MPS2TZMachineState *mms,
-     if (raminfo->mrindex < 0) {
-         /* Means this RAMInfo is for QEMU's "system memory" */
-         MachineState *machine = MACHINE(mms);
-+        assert(!(raminfo->flags & IS_ROM));
-         return machine->ram;
-     }
- 
-@@ -217,6 +220,9 @@ static MemoryRegion *mr_for_raminfo(MPS2TZMachineState *mms,
- 
-     memory_region_init_ram(ram, NULL, raminfo->name,
-                            raminfo->size, &error_fatal);
-+    if (raminfo->flags & IS_ROM) {
-+        memory_region_set_readonly(ram, true);
-+    }
-     return ram;
+@@ -59,6 +59,7 @@
+ #include "hw/misc/tz-msc.h"
+ #include "hw/arm/armsse.h"
+ #include "hw/dma/pl080.h"
++#include "hw/rtc/pl031.h"
+ #include "hw/ssi/pl022.h"
+ #include "hw/i2c/arm_sbcon_i2c.h"
+ #include "hw/net/lan9118.h"
+@@ -131,8 +132,8 @@ struct MPS2TZMachineState {
+     UnimplementedDeviceState gpio[4];
+     UnimplementedDeviceState gfx;
+     UnimplementedDeviceState cldc;
+-    UnimplementedDeviceState rtc;
+     UnimplementedDeviceState usb;
++    PL031State rtc;
+     PL080State dma[4];
+     TZMSC msc[4];
+     CMSDKAPBUART uart[6];
+@@ -595,6 +596,23 @@ static MemoryRegion *make_i2c(MPS2TZMachineState *mms, void *opaque,
+     return sysbus_mmio_get_region(s, 0);
  }
  
++static MemoryRegion *make_rtc(MPS2TZMachineState *mms, void *opaque,
++                              const char *name, hwaddr size,
++                              const int *irqs)
++{
++    PL031State *pl031 = opaque;
++    SysBusDevice *s;
++
++    object_initialize_child(OBJECT(mms), name, pl031, TYPE_PL031);
++    s = SYS_BUS_DEVICE(pl031);
++    sysbus_realize(s, &error_fatal);
++    /*
++     * The board docs don't give an IRQ number for the PL031, so
++     * presumably it is not connected.
++     */
++    return sysbus_mmio_get_region(s, 0);
++}
++
+ static void create_non_mpc_ram(MPS2TZMachineState *mms)
+ {
+     /*
+@@ -845,7 +863,7 @@ static void mps2tz_common_init(MachineState *machine)
+ 
+                 { /* port 9 reserved */ },
+                 { "clcd", make_unimp_dev, &mms->cldc, 0x4130a000, 0x1000 },
+-                { "rtc", make_unimp_dev, &mms->rtc, 0x4130b000, 0x1000 },
++                { "rtc", make_rtc, &mms->rtc, 0x4130b000, 0x1000 },
+             },
+         }, {
+             .name = "ahb_ppcexp0",
 -- 
 2.20.1
 
