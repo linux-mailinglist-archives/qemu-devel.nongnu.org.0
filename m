@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4D33101BC
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 01:42:42 +0100 (CET)
-Received: from localhost ([::1]:46996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03913101DE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Feb 2021 01:52:11 +0100 (CET)
+Received: from localhost ([::1]:57384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l7pCr-0006V6-9D
-	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 19:42:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60742)
+	id 1l7pM2-0003LL-7z
+	for lists+qemu-devel@lfdr.de; Thu, 04 Feb 2021 19:52:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7pAv-0005p6-Ka
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 19:40:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56502)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7pJl-0002B7-UK
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 19:49:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7pAk-0006ZC-NX
- for qemu-devel@nongnu.org; Thu, 04 Feb 2021 19:40:40 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l7pJi-00022Y-7a
+ for qemu-devel@nongnu.org; Thu, 04 Feb 2021 19:49:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612485628;
+ s=mimecast20190719; t=1612486184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u0JtKY6M2Oq1P+HnS/kYMU8Hxm/6akOSsSyHV0KOQo0=;
- b=cEhFbFFNeRyaxiwR8fEegN7vrL/oqupNhVOhRDu8D2Cofa0yDvVanUjC5UOhAumUyECOo/
- kPx5cZCvKwo12NYlpHb9mB506WdjtiMLYoAmXFeFhTi2V/91togCBtayUkLm/pmtA+pPsS
- x735Blx3B3fct8lq3d0dT9haJ3DG9kc=
+ bh=XLTNRrzP2IMBcT20ZznMX9a2Yl4rhnxequXcc1SFyEI=;
+ b=bNK28rM+Z576OKgKXMWrTj5T1ggDCwqjERZoT46Bp7sYv5EWLBYHUAjc4QyKh8ToKMrwqD
+ +h3M3HY2DT1Cgig8M483T9MgWSd1j3V06n0hp6Ch8OePS7z+TYqoPYYG5ZUWFbKkVcOJyc
+ UatUqksHQ+Oq77v74rsRSjighYIBJoE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-wRkKPnwBPvWXF7n09dbJMg-1; Thu, 04 Feb 2021 19:40:26 -0500
-X-MC-Unique: wRkKPnwBPvWXF7n09dbJMg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-466-GNrBeqWDPo-8nSXOjPyr0w-1; Thu, 04 Feb 2021 19:49:41 -0500
+X-MC-Unique: GNrBeqWDPo-8nSXOjPyr0w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B08D315722;
- Fri,  5 Feb 2021 00:40:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D0778030B7;
+ Fri,  5 Feb 2021 00:49:40 +0000 (UTC)
 Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9655D5C541;
- Fri,  5 Feb 2021 00:40:09 +0000 (UTC)
-Subject: Re: [PATCH 2/4] hw/block/fdc: Remove the check_media_rate property
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210203171832.483176-1-thuth@redhat.com>
- <20210203171832.483176-3-thuth@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 81CF260BE2;
+ Fri,  5 Feb 2021 00:49:39 +0000 (UTC)
+Subject: Re: [PATCH] README: Add Documentation blurb
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20201104193032.1319248-1-jsnow@redhat.com>
+ <16d9f8d6-170d-633e-6c52-a6f3ee1de6fb@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <125f27d8-8987-99f7-321e-86e7365d5a07@redhat.com>
-Date: Thu, 4 Feb 2021 19:40:08 -0500
+Message-ID: <9d31519b-76ca-38a7-4c26-06c98d4d578b@redhat.com>
+Date: Thu, 4 Feb 2021 19:49:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210203171832.483176-3-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <16d9f8d6-170d-633e-6c52-a6f3ee1de6fb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.182, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,94 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, libvir-list@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/21 12:18 PM, Thomas Huth wrote:
-> This was only required for the pc-1.0 and earlier machine types.
-> Now that these have been removed, we can also drop the corresponding
-> code from the FDC device.
+On 2/4/21 9:07 AM, Thomas Huth wrote:
+> On 04/11/2020 20.30, John Snow wrote:
+>> Add it in a prominent place: Right after figuring out what QEMU is,
+>> users may wish to know how to use it more than they want to know how to
+>> build their own version of it.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   README.rst | 11 +++++++++++
+>>   1 file changed, 11 insertions(+)
+>>
+>> diff --git a/README.rst b/README.rst
+>> index 58b9f2dc15c4..758ea8fd2ff0 100644
+>> --- a/README.rst
+>> +++ b/README.rst
+>> @@ -31,6 +31,17 @@ QEMU as a whole is released under the GNU General 
+>> Public License,
+>>   version 2. For full licensing details, consult the LICENSE file.
+>> +Documentation
+>> +=============
+>> +
+>> +Documentation can be found hosted online at
+>> +`<https://www.qemu.org/documentation/>`_. The documentation for the
+>> +current development version that is available at
+>> +`<https://www.qemu.org/docs/master/>`_ is generated from the ``docs/``
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   hw/block/fdc.c             | 17 ++---------------
->   tests/qemu-iotests/172.out | 35 -----------------------------------
->   2 files changed, 2 insertions(+), 50 deletions(-)
+> That URL is now redirecting to https://qemu.readthedocs.io/en/latest/ 
+> ... could you maybe update your patch and resend?
 > 
-> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-> index 292ea87805..198940e737 100644
-> --- a/hw/block/fdc.c
-> +++ b/hw/block/fdc.c
-> @@ -874,7 +874,6 @@ struct FDCtrl {
->           FloppyDriveType type;
->       } qdev_for_drives[MAX_FD];
->       int reset_sensei;
-> -    uint32_t check_media_rate;
+>   Thanks,
+>    Thomas
 
-I am a bit of a dunce when it comes to the compatibility properties... 
-does this mess with the migration format?
+does "v: latest" on readthedocs mean 5.2.0 or the current development 
+head? Looks like the current development head.
 
-I guess it doesn't, since it's not in the VMSTATE declaration.
+https://www.qemu.org/documentation/ points to /docs/master, which is why 
+I took that link. Is it worth updating that link, too? The website in 
+particular should be rephrased to point to the latest stable release 
+docs as a default, I suspect.
 
-Hmmmm, alright.
-
->       FloppyDriveType fallback; /* type=auto failure fallback */
->       /* Timers state */
->       uint8_t timer0;
-> @@ -1021,18 +1020,10 @@ static const VMStateDescription vmstate_fdrive_media_changed = {
->       }
->   };
->   
-> -static bool fdrive_media_rate_needed(void *opaque)
-> -{
-> -    FDrive *drive = opaque;
-> -
-> -    return drive->fdctrl->check_media_rate;
-> -}
-> -
->   static const VMStateDescription vmstate_fdrive_media_rate = {
->       .name = "fdrive/media_rate",
->       .version_id = 1,
->       .minimum_version_id = 1,
-> -    .needed = fdrive_media_rate_needed,
->       .fields = (VMStateField[]) {
->           VMSTATE_UINT8(media_rate, FDrive),
->           VMSTATE_END_OF_LIST()
-> @@ -1689,8 +1680,7 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, int direction)
->   
->       /* Check the data rate. If the programmed data rate does not match
->        * the currently inserted medium, the operation has to fail. */
-> -    if (fdctrl->check_media_rate &&
-> -        (fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
-> +    if ((fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
->           FLOPPY_DPRINTF("data rate mismatch (fdc=%d, media=%d)\n",
->                          fdctrl->dsr & FD_DSR_DRATEMASK, cur_drv->media_rate);
->           fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_MA, 0x00);
-> @@ -2489,8 +2479,7 @@ static void fdctrl_result_timer(void *opaque)
->           cur_drv->sect = (cur_drv->sect % cur_drv->last_sect) + 1;
->       }
->       /* READ_ID can't automatically succeed! */
-> -    if (fdctrl->check_media_rate &&
-> -        (fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
-> +    if ((fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
->           FLOPPY_DPRINTF("read id rate mismatch (fdc=%d, media=%d)\n",
->                          fdctrl->dsr & FD_DSR_DRATEMASK, cur_drv->media_rate);
->           fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_MA, 0x00);
-> @@ -2895,8 +2884,6 @@ static Property isa_fdc_properties[] = {
->       DEFINE_PROP_UINT32("dma", FDCtrlISABus, dma, 2),
->       DEFINE_PROP_DRIVE("driveA", FDCtrlISABus, state.qdev_for_drives[0].blk),
->       DEFINE_PROP_DRIVE("driveB", FDCtrlISABus, state.qdev_for_drives[1].blk),
-> -    DEFINE_PROP_BIT("check_media_rate", FDCtrlISABus, state.check_media_rate,
-> -                    0, true),
-
-Could you theoretically set this via QOM commands in QMP, and claim that 
-this is a break in behavior?
-
-Though, it's ENTIRELY undocumented, so ... it's probably fine, I think. 
-Probably. (Please soothe my troubled mind.)
+The README should probably keep pointing to the latest development docs.
 
 --js
 
