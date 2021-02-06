@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3FE311E6F
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 16:30:06 +0100 (CET)
-Received: from localhost ([::1]:36518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37137311EB5
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 17:42:45 +0100 (CET)
+Received: from localhost ([::1]:45068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8PXB-0005yL-GM
-	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 10:30:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53234)
+	id 1l8QfT-0003Yt-IK
+	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 11:42:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l8PVl-00054S-AW
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 10:28:37 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:39613)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l8Qdk-0002yO-Lt
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 11:40:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l8PVh-0003md-8s
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 10:28:36 -0500
-Received: by mail-ej1-x634.google.com with SMTP id p20so17745927ejb.6
- for <qemu-devel@nongnu.org>; Sat, 06 Feb 2021 07:28:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HwMjgbftjKDi2lbeG286xdsTw24hvQxNd7Rs4rv2iv8=;
- b=Khc1pVdPRsKuwsbSCsuJLrc9Twh6wj429fSqcVWVi/FzUt+DDW2BjDGPQ7gtyuH7b5
- ISeEnmiwd+YdtZ8zWPTZDaQG0Z/catkcyjIsVu9BGpOU627IVmjWCtyw3bcYy1gNybPj
- TbiMsikTMYY2MDsGJQwKlPYGaTUWuO8DkDqcWEHZQiNoJvljzFg23L4vlZd3/MgExQVQ
- CX3b7kzmLUXElfUURKrKxVlZ03ULNVzhPQE3R2SWp4KsLKNV8/jNiI1MHv0DbF9SgGEN
- RD6zr7JT+IxCd6rh2VbhspIAZ4d+v3s2GiqvwUhNCEVVXsPvzhiVOj0HJukf8ZAqIngc
- pJiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HwMjgbftjKDi2lbeG286xdsTw24hvQxNd7Rs4rv2iv8=;
- b=sybqHULSmar/KAAScbZPB/LI0Ti/OE8lihDkDOQGUrAeb6JJPxLbhWVAX0WyZHHOqo
- ojpn7xD+UpHnXnuJlg7DwqItSx+Rxht54wq8wWxpTdDlVNGuUeIH5LItb3dm+uuD5mZb
- 41/FdsZs73zWoKMayAWur6gwlOvgT1LK5sdbAmaiYUm1Zf1mccru9ChmlsZSRQyxDyA9
- 6WaEhDgLPRB5UVRBIXy05cVujaRf3lQ9aeb59mL2X8X3sy3fVYKOtUsAWeoDWyXEY1MU
- zfs3GJoXjPnO9USbtO0TrP+91g/ERr4CJ1BGyf7+LBN6oKVdNFsf65DitIiLKEotxqC5
- eOlA==
-X-Gm-Message-State: AOAM533kbSiurH9A2RVJ8Xv7Qb0e1P9ApxsdSD5AYlxF8JkmL3XYRjDF
- FTkvyU+JYGODv1vWmVikZ4VDYDb5JJ1WmH7SRO2/Tw==
-X-Google-Smtp-Source: ABdhPJxSWUVS7+NYPldNWKmmbNw2MO490EAmPpuxcHktVykwlSkXhDZjUBPJrD52pfJYKAJrjXkhDQJ6rFJmcw09xuk=
-X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr9575707ejd.250.1612625311619; 
- Sat, 06 Feb 2021 07:28:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l8Qdg-00046F-Fw
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 11:40:56 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l8Qdb-0006Jz-Eh
+ for <qemu-devel@nongnu.org>; Sat, 06 Feb 2021 16:40:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6CC272E8042
+ for <qemu-devel@nongnu.org>; Sat,  6 Feb 2021 16:40:47 +0000 (UTC)
 MIME-Version: 1.0
-References: <1612622294-37297-1-git-send-email-bmeng.cn@gmail.com>
- <1612622294-37297-3-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1612622294-37297-3-git-send-email-bmeng.cn@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 6 Feb 2021 15:28:20 +0000
-Message-ID: <CAFEAcA-VWeAPSTFKJ6dZ4-M7OYdqyw1wwBgzpNuasPYRzMvRWQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/ssi: xilinx_spips: Implement basic QSPI DMA support
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 06 Feb 2021 16:35:40 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1914870@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <161262934089.14056.18327208796436481224.malonedeb@soybean.canonical.com>
+Subject: [Bug 1914870] [NEW] libvixl compilation failure on Debian unstable
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: b3cfb8b59e970eb107c4989bb21fce34fa56fdcc
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,87 +70,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Reply-To: Bug 1914870 <1914870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 6 Feb 2021 at 14:38, Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->
-> ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
-> is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
-> crash. This is observed when testing VxWorks 7.
->
-> Add a basic implementation of QSPI DMA functionality.
->
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Public bug reported:
 
-> +static size_t xlnx_zynqmp_gspips_dma_push(XlnxZynqMPQSPIPS *s,
-> +                                          uint8_t *buf, size_t len, bool eop)
-> +{
-> +    hwaddr dst = (hwaddr)s->regs[R_GQSPI_DMA_ADDR_MSB] << 32
-> +                 | s->regs[R_GQSPI_DMA_ADDR];
-> +    uint32_t size = s->regs[R_GQSPI_DMA_SIZE];
-> +    uint32_t mlen = MIN(size, len) & (~3); /* Size is word aligned */
-> +
-> +    if (size == 0 || len <= 0) {
-> +        return 0;
-> +    }
-> +
-> +    cpu_physical_memory_write(dst, buf, mlen);
-> +    size = xlnx_zynqmp_gspips_dma_advance(s, mlen, dst);
-> +
-> +    if (size == 0) {
-> +        xlnx_zynqmp_gspips_dma_done(s);
-> +        xlnx_zynqmp_qspips_update_ixr(s);
-> +    }
-> +
-> +   return mlen;
-> +}
+As of commit 0e324626306:
 
-> @@ -861,7 +986,7 @@ static void xlnx_zynqmp_qspips_notify(void *opaque)
->          recv_fifo = &s->rx_fifo;
->      }
->      while (recv_fifo->num >= 4
-> -           && stream_can_push(rq->dma, xlnx_zynqmp_qspips_notify, rq))
-> +           && xlnx_zynqmp_gspips_dma_can_push(rq))
->      {
->          size_t ret;
->          uint32_t num;
-> @@ -874,7 +999,7 @@ static void xlnx_zynqmp_qspips_notify(void *opaque)
->
->          memcpy(rq->dma_buf, rxd, num);
->
-> -        ret = stream_push(rq->dma, rq->dma_buf, num, false);
-> +        ret = xlnx_zynqmp_gspips_dma_push(rq, rq->dma_buf, num, false);
->          assert(ret == num);
->          xlnx_zynqmp_qspips_check_flush(rq);
->      }
+$ lsb_release -d
+Description:    Debian GNU/Linux bullseye/sid
 
-This seems to be removing the existing handling of DMA to the
-TYPE_STREAM_SINK via the stream_* functions -- that doesn't look
-right. I don't know any of the details of this device, but if it
-has two different modes of DMA then we need to support both of them,
-surely ?
+Project version: 5.2.50
+C compiler for the host machine: cc (gcc 10.2.1 "cc (Debian 10.2.1-6) 10.2.=
+1 20210110")
+C linker for the host machine: cc ld.bfd 2.35.1
+C++ compiler for the host machine: c++ (gcc 10.2.1 "c++ (Debian 10.2.1-6) 1=
+0.2.1 20210110")
+C++ linker for the host machine: c++ ld.bfd 2.35.1
 
-If the device really should be doing its own DMA memory
-accesses, please don't use cpu_physical_memory_write() for
-this. The device should take a TYPE_MEMORY_REGION link property,
-and the board code should set this to tell the device what
-its view of the world that it is doing DMA to is. Then the
-device in its realize method calls address_space_init() to create
-an AddressSpace for this MemoryRegion, and does memory accesses
-using functions like address_space_read()/address_space_write()/
-address_space_ld*()/etc. (Examples in hw/dma, eg pl080.c.)
-Note that the address_space* functions have a return value
-indicating whether the access failed, which you should handle.
-(The pl080 code doesn't do that, but that's because it's older code.)
+[6/79] Compiling C++ object libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
+FAILED: libcommon.fa.p/disas_libvixl_vixl_utils.cc.o =
 
-thanks
--- PMM
+c++ -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui/shader -I/usr/include/cap=
+stone -I/usr/include/glib-2.0 -I/usr/lib/hppa-linux-gnu/glib-2.0/include -f=
+diagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -Werr=
+or -std=3Dgnu++11 -O2 -g -isystem /home/philmd/qemu/linux-headers -isystem =
+linux-headers -iquote . -iquote /home/philmd/qemu -iquote /home/philmd/qemu=
+/include -iquote /home/philmd/qemu/disas/libvixl -iquote /home/philmd/qemu/=
+tcg/hppa -iquote /home/philmd/qemu/accel/tcg -pthread -D__STDC_LIMIT_MACROS=
+ -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -U_FORTIFY_SOURCE -D_FORTI=
+FY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -W=
+undef -Wwrite-strings -fno-strict-aliasing -fno-common -fwrapv -Wtype-limit=
+s -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-b=
+ody -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-m=
+issing-include-dirs -Wno-shift-negative-value -Wno-psabi -fPIE -MD -MQ libc=
+ommon.fa.p/disas_libvixl_vixl_utils.cc.o -MF libcommon.fa.p/disas_libvixl_v=
+ixl_utils.cc.o.d -o libcommon.fa.p/disas_libvixl_vixl_utils.cc.o -c ../disa=
+s/libvixl/vixl/utils.cc
+In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                 from ../disas/libvixl/vixl/utils.cc:27:
+/usr/include/string.h:36:43: error: missing binary operator before token "("
+   36 | #if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
+      |                                           ^
+/usr/include/string.h:53:62: error: missing binary operator before token "("
+   53 | #if defined __USE_MISC || defined __USE_XOPEN || __GLIBC_USE (ISOC2=
+X)
+      |                                                              ^
+/usr/include/string.h:165:21: error: missing binary operator before token "=
+("
+  165 |      || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
+      |                     ^
+/usr/include/string.h:174:43: error: missing binary operator before token "=
+("
+  174 | #if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE=
+ (ISOC2X)
+      |                                           ^
+/usr/include/string.h:492:19: error: missing binary operator before token "=
+("
+  492 | #if __GNUC_PREREQ (3,4)
+      |                   ^
+In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                 from ../disas/libvixl/vixl/utils.cc:27:
+/usr/include/string.h:28:1: error: =E2=80=98__BEGIN_DECLS=E2=80=99 does not=
+ name a type
+   28 | __BEGIN_DECLS
+      | ^~~~~~~~~~~~~
+In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                 from ../disas/libvixl/vixl/utils.cc:27:
+/usr/include/string.h:44:8: error: =E2=80=98size_t=E2=80=99 has not been de=
+clared
+   44 |        size_t __n) __THROW __nonnull ((1, 2));
+      |        ^~~~~~
+/usr/include/string.h:44:20: error: expected initializer before =E2=80=98__=
+THROW=E2=80=99
+   44 |        size_t __n) __THROW __nonnull ((1, 2));
+      |                    ^~~~~~~
+/usr/include/string.h:47:56: error: =E2=80=98size_t=E2=80=99 has not been d=
+eclared
+   47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+      |                                                        ^~~~~~
+/usr/include/string.h:48:6: error: expected initializer before =E2=80=98__T=
+HROW=E2=80=99
+   48 |      __THROW __nonnull ((1, 2));
+      |      ^~~~~~~
+/usr/include/string.h:61:42: error: =E2=80=98size_t=E2=80=99 has not been d=
+eclared
+   61 | extern void *memset (void *__s, int __c, size_t __n) __THROW __nonn=
+ull ((1));
+      |                                          ^~~~~~
+
+Is there a package dependency missing?
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914870
+
+Title:
+  libvixl compilation failure on Debian unstable
+
+Status in QEMU:
+  New
+
+Bug description:
+  As of commit 0e324626306:
+
+  $ lsb_release -d
+  Description:    Debian GNU/Linux bullseye/sid
+
+  Project version: 5.2.50
+  C compiler for the host machine: cc (gcc 10.2.1 "cc (Debian 10.2.1-6) 10.=
+2.1 20210110")
+  C linker for the host machine: cc ld.bfd 2.35.1
+  C++ compiler for the host machine: c++ (gcc 10.2.1 "c++ (Debian 10.2.1-6)=
+ 10.2.1 20210110")
+  C++ linker for the host machine: c++ ld.bfd 2.35.1
+
+  [6/79] Compiling C++ object libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
+  FAILED: libcommon.fa.p/disas_libvixl_vixl_utils.cc.o =
+
+  c++ -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui/shader -I/usr/include/c=
+apstone -I/usr/include/glib-2.0 -I/usr/lib/hppa-linux-gnu/glib-2.0/include =
+-fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -We=
+rror -std=3Dgnu++11 -O2 -g -isystem /home/philmd/qemu/linux-headers -isyste=
+m linux-headers -iquote . -iquote /home/philmd/qemu -iquote /home/philmd/qe=
+mu/include -iquote /home/philmd/qemu/disas/libvixl -iquote /home/philmd/qem=
+u/tcg/hppa -iquote /home/philmd/qemu/accel/tcg -pthread -D__STDC_LIMIT_MACR=
+OS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -U_FORTIFY_SOURCE -D_FOR=
+TIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE =
+-Wundef -Wwrite-strings -fno-strict-aliasing -fno-common -fwrapv -Wtype-lim=
+its -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty=
+-body -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno=
+-missing-include-dirs -Wno-shift-negative-value -Wno-psabi -fPIE -MD -MQ li=
+bcommon.fa.p/disas_libvixl_vixl_utils.cc.o -MF libcommon.fa.p/disas_libvixl=
+_vixl_utils.cc.o.d -o libcommon.fa.p/disas_libvixl_vixl_utils.cc.o -c ../di=
+sas/libvixl/vixl/utils.cc
+  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                   from ../disas/libvixl/vixl/utils.cc:27:
+  /usr/include/string.h:36:43: error: missing binary operator before token =
+"("
+     36 | #if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
+        |                                           ^
+  /usr/include/string.h:53:62: error: missing binary operator before token =
+"("
+     53 | #if defined __USE_MISC || defined __USE_XOPEN || __GLIBC_USE (ISO=
+C2X)
+        |                                                              ^
+  /usr/include/string.h:165:21: error: missing binary operator before token=
+ "("
+    165 |      || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
+        |                     ^
+  /usr/include/string.h:174:43: error: missing binary operator before token=
+ "("
+    174 | #if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) || __GLIBC_U=
+SE (ISOC2X)
+        |                                           ^
+  /usr/include/string.h:492:19: error: missing binary operator before token=
+ "("
+    492 | #if __GNUC_PREREQ (3,4)
+        |                   ^
+  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                   from ../disas/libvixl/vixl/utils.cc:27:
+  /usr/include/string.h:28:1: error: =E2=80=98__BEGIN_DECLS=E2=80=99 does n=
+ot name a type
+     28 | __BEGIN_DECLS
+        | ^~~~~~~~~~~~~
+  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                   from ../disas/libvixl/vixl/utils.cc:27:
+  /usr/include/string.h:44:8: error: =E2=80=98size_t=E2=80=99 has not been =
+declared
+     44 |        size_t __n) __THROW __nonnull ((1, 2));
+        |        ^~~~~~
+  /usr/include/string.h:44:20: error: expected initializer before =E2=80=98=
+__THROW=E2=80=99
+     44 |        size_t __n) __THROW __nonnull ((1, 2));
+        |                    ^~~~~~~
+  /usr/include/string.h:47:56: error: =E2=80=98size_t=E2=80=99 has not been=
+ declared
+     47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+        |                                                        ^~~~~~
+  /usr/include/string.h:48:6: error: expected initializer before =E2=80=98_=
+_THROW=E2=80=99
+     48 |      __THROW __nonnull ((1, 2));
+        |      ^~~~~~~
+  /usr/include/string.h:61:42: error: =E2=80=98size_t=E2=80=99 has not been=
+ declared
+     61 | extern void *memset (void *__s, int __c, size_t __n) __THROW __no=
+nnull ((1));
+        |                                          ^~~~~~
+
+  Is there a package dependency missing?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914870/+subscriptions
 
