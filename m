@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33065311DE8
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 15:47:28 +0100 (CET)
-Received: from localhost ([::1]:37114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAFC311E64
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 16:20:09 +0100 (CET)
+Received: from localhost ([::1]:56670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8Orv-0007uj-AB
-	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 09:47:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45960)
+	id 1l8PNX-0001sb-Ls
+	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 10:20:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l8Oqk-00077G-GE; Sat, 06 Feb 2021 09:46:14 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:59645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l8Oqi-0001fY-QH; Sat, 06 Feb 2021 09:46:14 -0500
-Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MRCBm-1lKac93Fwa-00NCNG; Sat, 06 Feb 2021 15:46:01 +0100
-Subject: Re: [PATCH v2 6/7] goldfish_rtc: re-arm the alarm after migration
-To: Alistair Francis <alistair23@gmail.com>
-References: <20201220112615.933036-1-laurent@vivier.eu>
- <20201220112615.933036-7-laurent@vivier.eu>
- <2bb1378d-1ccb-d373-1de2-9add2f5e8a23@vivier.eu>
- <CAKmqyKMjunx2kD6u+11QbT56Lr_ruMxbAu58-UckD7oy-15OXw@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <1e2a030b-d41d-9d73-f350-95559ebd1f95@vivier.eu>
-Date: Sat, 6 Feb 2021 15:46:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l8PMQ-0001J6-Hj
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 10:18:58 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:36456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l8PMO-0007wD-BZ
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 10:18:58 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id lg21so17742034ejb.3
+ for <qemu-devel@nongnu.org>; Sat, 06 Feb 2021 07:18:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4vJ1lQKX1v6SenhEmlnLttWdjwQawhaMDzpMNlaY7xU=;
+ b=AFmAkW/x14HQWXxOAC+CNMGFvGYXymMkdzhRSpvKTCoLcWUNTAdq1SWPbPUCvaX4V8
+ qXhEvHQc7lIyOCA2q0ykmdtIP/xURaep4WnCF/92QDn2y1gv5u7MwFEBI/FFf4H74VXc
+ VkoqsQRL9YcQzM+izwg6mDoccRrWqCxBW7Tpg15kGbtKuyYbfO0qnxariyMSQYz97wmy
+ lUTBTTUva5YmJ9W3gyGS/rr3IBVLTbGpv3HI2qSe/dnh4KXACRNHPRyhAalXe426QpcM
+ eCMmkFSCifS0hlSk2bQmAroH6UBqt2I3LWCRcUZXbD6fB551rxpon4pOzCfJb69CVAo6
+ kHpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4vJ1lQKX1v6SenhEmlnLttWdjwQawhaMDzpMNlaY7xU=;
+ b=jhFt5DgFiW22H0pC7FrPAzCEUgvpTldXDSH0YlUWLepY49RnKpcXlm/0ja6rWP3i5/
+ YWZwPFlHXvUHloInHYuk6i9mV16pnJkur9Ok2miQpQzcXtptiFUt04LVQMiys7t92MSu
+ /yDweej5piTf/pCRlBLB+/crqfOyoK4DA49fYtACtn0FDUDVSIVMymBFDsKrm/bSf7TD
+ tFP+AmzsrUP9Fz7+9qy6g9ScGUhR3+81HwrVNcKDCtINIW4yP5O+obgMf43n4WPRn8rj
+ W6PE2WVgdl1zRy6xPPyAe06K9VtWoQ4VnaY+YeaoEcFi7EBtjw2kfCBqzXkTu9yDvQoK
+ lBEw==
+X-Gm-Message-State: AOAM533Vb11a6cdooWWBNf5YpK08vTiyMXINv87dxyqYJ8r7h+A/BKJC
+ 6fPlfVLKl5IcNH7gyioBqq2k/j4CM9fyLw37sbNj1A==
+X-Google-Smtp-Source: ABdhPJxZWgKq/gMX+u6M8L2SG/TKuyzJANUn6uym5E413zs42+t58jrbFfC9uc+Sz1yfxdeyUcZ5qVVCSsyCTkaw03s=
+X-Received: by 2002:a17:907:98c3:: with SMTP id
+ kd3mr9348517ejc.482.1612624734138; 
+ Sat, 06 Feb 2021 07:18:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKMjunx2kD6u+11QbT56Lr_ruMxbAu58-UckD7oy-15OXw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2VXWj4b1s+4I9aqOW0oTFTs8rSwDHLoiuto3U2OlL5XXGQE+5B3
- 9bEgx16bAfJtREVoXr9FZTwrOfxu4xwxcQ8VUXPb8B/yyb6495Y+NHxSamUPkdZGa/2o6bl
- PaJoPkc+r3deVii52sOktK6TPKMJ7vcAUfDkXaQ3ACGg1dnGTMielKjLw8zuO5JNHAVZw+q
- skN2H2DTvUPhOzMEeLDiA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h9YgQzxm3J0=:J4uFPj7feD2EJ1dCUp3zvL
- +/HL4VGjP5t/pHt3Kem/FYUTCewrpAWH4QNDI5jTkQHjGAUi7grDytgN/j6cvM1eX8ArOXJfR
- TImZ+v0Jl4rBw6ZfrG+aVicbf7giAkby09NPtNpndvBwr9a49LKAJS3xoP678B6AcN0bm7ZvV
- Z72U4oZZndOKrdQc9h03vyns14P3lbEzcO2W8jIsTWaZ0CwaH+s5dJYTaM0wUJyLwwQHPkBEV
- oR7dJtsrclsri8L2FviDeAR5I42QnVOD0YqWD+owf/Ex6hFAtYpKiOPlasFFCE75V4ItnxYu0
- fVB0gCIs5kYRsIjhmns6jDCz6YRs4rI/lMJXzD0Cl+fTlwjegqy4grEUes4c3eoQlcdzJj8Ih
- BjANSBxS2rJZvUNO1E8q2RFCo564CO2CvzYc/5evymBuH5uy+UDvekgcKd1ETIh41earJVcqE
- wHvzt0bBPA==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <1612622294-37297-1-git-send-email-bmeng.cn@gmail.com>
+ <1612622294-37297-2-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1612622294-37297-2-git-send-email-bmeng.cn@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 6 Feb 2021 15:18:42 +0000
+Message-ID: <CAFEAcA8dAU+kT1WDFfdeCJsicpoFu6tZ-GTRcWuv+oVR-OL28w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/ssi: xilinx_spips: Clean up coding convention
+ issues
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.105,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,24 +79,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/01/2021 à 00:44, Alistair Francis a écrit :
-> On Sat, Jan 23, 2021 at 7:06 AM Laurent Vivier <laurent@vivier.eu> wrote:
->>
->> Is there someone to merge this?
-> 
-> Do you mean just this patch or the whole series?
+On Sat, 6 Feb 2021 at 14:38, Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>
+> There are some coding convention warnings in xilinx_spips.c,
+> as reported by:
+>
+>   $ ./scripts/checkpatch.pl hw/ssi/xilinx_spips.c
+>
+> Let's clean them up.
+>
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
 
-Sorry, I missed your mail.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-I mean only this patch.
-
-Thanks,
-Laurent
-
+thanks
+-- PMM
 
