@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BC9311D23
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 13:42:53 +0100 (CET)
-Received: from localhost ([::1]:39602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3759D311D9A
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 15:17:37 +0100 (CET)
+Received: from localhost ([::1]:45722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8MvM-0007mZ-Ca
-	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 07:42:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54840)
+	id 1l8OP1-0005fA-L8
+	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 09:17:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1l8Msu-00060i-FU
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 07:40:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26373)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1l8Mss-0003y3-7q
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 07:40:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612615217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZyKUyofWE67481aBG/vXPtlg6uti0I7CC265LmJLkCk=;
- b=AFX+Tp4cExZQWGjJG8TUCsLT+HEkCimcUQntQZrER4k0yXYx07TXoddN55vjykCLiMIlH1
- ihdpQwzM1o8jC3KHs/J7kWCQvGxSUTztuDuF8zd44I/FnBenqUjG9i13hk0WNPbDOl/SWc
- PLACG7oQ0wxLYRHEzh5h+ti5iMOZP9w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-Vox8_2MrOpqswkZQVzpulQ-1; Sat, 06 Feb 2021 07:40:13 -0500
-X-MC-Unique: Vox8_2MrOpqswkZQVzpulQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <stefan-guix@vodafonemail.de>)
+ id 1l8OJ5-0004zT-53; Sat, 06 Feb 2021 09:11:27 -0500
+Received: from smtpout2.vodafonemail.de ([145.253.239.133]:49580)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefan-guix@vodafonemail.de>)
+ id 1l8OIz-0002l7-MQ; Sat, 06 Feb 2021 09:11:26 -0500
+Received: from smtp.vodafone.de (smtpa06.fra-mediabeam.com [10.2.0.36])
+ by smtpout2.vodafonemail.de (Postfix) with ESMTP id 42E44608E6;
+ Sat,  6 Feb 2021 15:11:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vodafonemail.de;
+ s=vfde-smtpout-mb-15sep; t=1612620676;
+ bh=kp7u8smFK4vQgWRYupbNWH/ojcByFtzdrJxpADzMcQw=;
+ h=From:Subject:Date:References:Cc:In-Reply-To:To;
+ b=qUL0bayjjV7HpGno4fKVpeaU7Inn5pXCvuoiWq42UNQBRl7gyepbNmcalwww9J+Ce
+ Y/F8YZYx78KTQdvSjcI826A/S8MWOPP4ZPhIzeTGwOxf2bOmNDy/dxLFQk7pRBiCNF
+ aSfEOIK51QodDBAoVCNxTkjAZOINx8hor5vT9IhU=
+Received: from [10.11.12.25]
+ (ipservice-092-218-117-062.092.218.pools.vodafone-ip.de [92.218.117.62])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4E3CAFA80;
- Sat,  6 Feb 2021 12:40:12 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-112-23.ams2.redhat.com [10.36.112.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88E795D9CC;
- Sat,  6 Feb 2021 12:40:05 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] virtio-net: add missing object_unref()
-Date: Sat,  6 Feb 2021 13:39:55 +0100
-Message-Id: <20210206123955.2196514-3-lvivier@redhat.com>
-In-Reply-To: <20210206123955.2196514-1-lvivier@redhat.com>
-References: <20210206123955.2196514-1-lvivier@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.353,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ by smtp.vodafone.de (Postfix) with ESMTPSA id C9431140265;
+ Sat,  6 Feb 2021 14:11:15 +0000 (UTC)
+Content-Type: multipart/alternative;
+ boundary=Apple-Mail-25B9AED2-0E94-4BD6-A242-1925129C72E4
+Content-Transfer-Encoding: 7bit
+From: Stefan <stefan-guix@vodafonemail.de>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 1/1] linux-user/syscall: Fix do_ioctl_ifconf() for 64 bit
+ targets.
+Date: Sat, 6 Feb 2021 15:11:15 +0100
+Message-Id: <03D81A4B-DFE7-4B1F-98D6-F2A506E9DD72@vodafonemail.de>
+References: <5B52EBE5-2490-4997-B7CB-944DE3F3AB6D@vodafonemail.de>
+In-Reply-To: <5B52EBE5-2490-4997-B7CB-944DE3F3AB6D@vodafonemail.de>
+To: Laurent Vivier <laurent@vivier.eu>
+X-Mailer: iPhone Mail (18D52)
+X-purgate-type: clean
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for
+ further information)
+X-purgate: clean
+X-purgate-size: 2265
+X-purgate-ID: 155817::1612620675-000006DC-1F3C61BA/0/0
+Received-SPF: pass client-ip=145.253.239.133;
+ envelope-from=stefan-guix@vodafonemail.de; helo=smtpout2.vodafonemail.de
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ MIME_QP_LONG_LINE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,49 +75,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, jfreimann@redhat.com,
- Laurent Vivier <laurent@vivier.eu>, quintela@redhat.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-failover_add_primary() calls qdev_device_add() and doesn't unref
-the device. Because of that, when the device is unplugged a reference
-is remaining and prevents the cleanup of the object.
 
-This prevents to be able to plugin back the failover primary device,
-with errors like:
+--Apple-Mail-25B9AED2-0E94-4BD6-A242-1925129C72E4
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-  (qemu) device_add vfio-pci,host=0000:41:00.0,id=hostdev0,bus=root.3,failover_pair_id=net0
-  (qemu) device_del hostdev0
+ping
 
-We can check with "info qtree" and "info pci" that the device has been removed, and then:
+http://patchwork.ozlabs.org/project/qemu-devel/patch/60AA0765-53DD-43D1-A3D2=
+-75F1778526F6@vodafonemail.de/#2615112
 
-  (qemu) device_add vfio-pci,host=0000:41:00.0,id=hostdev1,bus=root.3,failover_pair_id=net0
-  Error: vfio 0000:41:00.0: device is already attached
-  (qemu) device_add vfio-pci,host=0000:41:00.0,id=hostdev0,bus=root.3,failover_pair_id=net0
-  qemu-kvm: Duplicate ID 'hostdev0' for device
+Hi!
 
-Fixes: 21e8709b29cd ("failover: Remove primary_dev member")
-Cc: quintela@redhat.com
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- hw/net/virtio-net.c | 2 ++
- 1 file changed, 2 insertions(+)
+I=E2=80=99d like to remind you to this trivial patch to get ioclt(=E2=80=A6,=
+ SIOCGIFCONF, =E2=80=A6) working properly on 64 bit target architectures.
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 5150f295e8c5..1c5af08dc556 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -862,6 +862,8 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
-         dev = qdev_device_add(opts, &err);
-         if (err) {
-             qemu_opts_del(opts);
-+        } else {
-+            object_unref(OBJECT(dev));
-         }
-     } else {
-         error_setg(errp, "Primary device not found");
--- 
-2.29.2
 
+Bye
+
+Stefan
+
+--Apple-Mail-25B9AED2-0E94-4BD6-A242-1925129C72E4
+Content-Type: text/html;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
+utf-8"></head><body dir=3D"auto"><span style=3D"-webkit-text-size-adjust: au=
+to;">ping</span><br style=3D"-webkit-text-size-adjust: auto;"><span style=3D=
+"-webkit-text-size-adjust: auto;"></span><br><a href=3D"http://patchwork.ozl=
+abs.org/project/qemu-devel/patch/60AA0765-53DD-43D1-A3D2-75F1778526F6@vodafo=
+nemail.de/#2615112">http://patchwork.ozlabs.org/project/qemu-devel/patch/60A=
+A0765-53DD-43D1-A3D2-75F1778526F6@vodafonemail.de/#2615112</a><br style=3D"-=
+webkit-text-size-adjust: auto;"><br style=3D"-webkit-text-size-adjust: auto;=
+"><span style=3D"-webkit-text-size-adjust: auto;">Hi!</span><br style=3D"-we=
+bkit-text-size-adjust: auto;"><span style=3D"-webkit-text-size-adjust: auto;=
+"></span><br style=3D"-webkit-text-size-adjust: auto;"><span style=3D"-webki=
+t-text-size-adjust: auto;">I=E2=80=99d like to remind you to this trivial pa=
+tch to get ioclt(=E2=80=A6, SIOCGIFCONF, =E2=80=A6) working properly on 64 b=
+it target architectures.</span><br style=3D"-webkit-text-size-adjust: auto;"=
+><span style=3D"-webkit-text-size-adjust: auto;"></span><br style=3D"-webkit=
+-text-size-adjust: auto;"><span style=3D"-webkit-text-size-adjust: auto;"></=
+span><br style=3D"-webkit-text-size-adjust: auto;"><span style=3D"-webkit-te=
+xt-size-adjust: auto;">Bye</span><br style=3D"-webkit-text-size-adjust: auto=
+;"><span style=3D"-webkit-text-size-adjust: auto;"></span><br style=3D"-webk=
+it-text-size-adjust: auto;"><span style=3D"-webkit-text-size-adjust: auto;">=
+Stefan</span><br></body></html>=
+
+--Apple-Mail-25B9AED2-0E94-4BD6-A242-1925129C72E4--
 
