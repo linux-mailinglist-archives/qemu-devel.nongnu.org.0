@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF1E311A44
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 04:39:02 +0100 (CET)
-Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6377B311A45
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 04:39:14 +0100 (CET)
+Received: from localhost ([::1]:56666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8ER3-0007as-IF
-	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 22:39:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37432)
+	id 1l8ERA-0007r5-CS
+	for lists+qemu-devel@lfdr.de; Fri, 05 Feb 2021 22:39:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l8EOt-0005qO-Ik; Fri, 05 Feb 2021 22:36:47 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52258)
+ id 1l8EOv-0005u6-8K; Fri, 05 Feb 2021 22:36:49 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:40864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l8EOr-0003ha-8R; Fri, 05 Feb 2021 22:36:47 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id q72so4667327pjq.2;
- Fri, 05 Feb 2021 19:36:44 -0800 (PST)
+ id 1l8EOt-0003i3-Pa; Fri, 05 Feb 2021 22:36:48 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id i63so5612303pfg.7;
+ Fri, 05 Feb 2021 19:36:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Tba0cycsltwUC73PsTkrnovi7914K2kfDYRvppj6aFo=;
- b=XPlsnorcMY8zpRVO5amxQIQ7usNTwiTabNgXr6YXkAmd4xZZwP9hihFseqg11VylCQ
- l6V0HqTGKNqS4vOXtJgHUijNBwqVxsMcet6V6+gzCdJzAybkcv3/jhywpAjZ0OqUyv3Y
- MVGgrmm8smadRpnM9E2XwYxjV7EwJPSqlllRCzHURZPPUqSW1mdsIIdBeSjE+THj+hX2
- G44kJKwVlv6lEySxc6JRxuMIEIHGYaS6hdzovGxKEXcwPugdKlt3cxgYTWIfgtMSbf+T
- roxB7dPZJO16Y/g+nul9K5mJwYnqzG3Hb+YEI7wdjD8gCOTkej3aCV4t6Ri9ZGCR6MTq
- PzOg==
+ bh=Abv+wakfYHnDIu4Rl391RohO9DmRG+0B+bBge9capEA=;
+ b=fggVsCVzwKn8lIOoMJNsX4LJ652swjZcP/FeHWVk9I3cjdmIfQxnCO9AzlHJ/GKOiZ
+ +fJpZ/iAmAqRHmmlCrTTXzP1FgUJnHBFy32H3Nfptrwrk+G3JKjHAFU3fbqdg3+hLigO
+ KKxa6dZ/4VDwrB8QPdACfgAHsKrGJv3pTgYAyU3tK5qEl44nRm6NU4sw5Vg4z0Z3zg+R
+ mJLdPxrMEFmK5NZ/OBAUJDNBwDE0nTCPd2Z2RixtipTryyVE31a5r6fqcmzsn1N1jCEz
+ vjCEqobD26oMwptt6jOTtkxsBBC4Q+uK9/LhkyQhRMwfuKKc9ujoTPSS3KSRWos9r0Hj
+ FvEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Tba0cycsltwUC73PsTkrnovi7914K2kfDYRvppj6aFo=;
- b=T2HMG637obRpGJsHu//9sQtzN+gfA7pJnCaUgWyPP2EksYmaXnN+uzO3Sc9TiD65YW
- CyxAJFgPoHyQez5g2Tu+geyy8vOZDnB6v97hVCHShZ6XQmEbi4/i/tZ6C9h5JYHnOSfR
- 9ei745Yk85HkElQ9FnpC3sX7kfAxW+8E0AQc7iCkF1Sy4iS12YjkrAUgPpkgklCxiZPZ
- Z8YF6/8zZydnprdWa63AbOYPPzm194kUqbxgGoxsRKeL8f4f+KOZcXebL8gSVXQ3kop9
- Ig6zMhBwaqXd9k2rZ0/2HGlgbUjm8M4F535rDL13twAtZxX0s4YhxcgwTj9fPrfCiOyG
- /ehw==
-X-Gm-Message-State: AOAM531q4m9h9b4SoMR6AgGO8DuHVaUJVFuB/QNw28E7Tl/BBwEjzZl5
- rR4tE3q530T4zCBVHM7WnBDat1t4U5uqKg==
-X-Google-Smtp-Source: ABdhPJyAUvFqCTusu6uEQNoAADYvptL2FfzD837Gji0pkkKaN2kpN0ag8wlqGt0T4PWl+6peY5SLow==
-X-Received: by 2002:a17:90a:4a0e:: with SMTP id
- e14mr7119834pjh.200.1612582603441; 
- Fri, 05 Feb 2021 19:36:43 -0800 (PST)
+ bh=Abv+wakfYHnDIu4Rl391RohO9DmRG+0B+bBge9capEA=;
+ b=lTv67Cf5NrhvlVf3y2Vyt7YgW28p3XDeXGqw5p6VvDAG5uAWnkLiAKG7ToES7PsOxh
+ pkPGTQLSalscMuA98QdXotHYmb+eXl7hhxW5TH6JDvKbedJz/VK7ViPB62hWaCagghJr
+ V7fKTYQyaV+eO3IwmErDmyG69AYJhkOWC51CnMeHVvGBtUNFjymAx2wY1puvhT6Q+cIs
+ UeC0b/wcfirCZU6pQQl43YuqzEFIJ5os5YrboXZu3V4N7rHaut8drTlpAFjhvrKcy2zd
+ 4dQZYINm84di6NKkJjrjJ2iQBeP1/Ei5RzbjGBswMCtvNCdBqZvT1j3V+y6gmudEMIGf
+ 3g9Q==
+X-Gm-Message-State: AOAM530bfRt3JjIwRH0+aRfH90aFQf0hVSI2LkedlThUJwPPHG2oS0mn
+ STGHioDts/7+4iTuqUm2YiB27e1AKH5JUg==
+X-Google-Smtp-Source: ABdhPJx6R1t17JZzCdGOCV6jctuJpLuDtVb971M8v/HimEQrRqpLokEGhwbR5qi0/pxCVzuT1KvT8Q==
+X-Received: by 2002:a63:c205:: with SMTP id b5mr7422154pgd.281.1612582605807; 
+ Fri, 05 Feb 2021 19:36:45 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id j17sm10862375pfh.183.2021.02.05.19.36.41
+ by smtp.gmail.com with ESMTPSA id j17sm10862375pfh.183.2021.02.05.19.36.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Feb 2021 19:36:43 -0800 (PST)
+ Fri, 05 Feb 2021 19:36:45 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH 2/6] hw/block/nvme: fix namespaces array to 1-based
-Date: Sat,  6 Feb 2021 12:36:25 +0900
-Message-Id: <20210206033629.4278-3-minwoo.im.dev@gmail.com>
+Subject: [PATCH 3/6] hw/block/nvme: fix allocated namespace list to 256
+Date: Sat,  6 Feb 2021 12:36:26 +0900
+Message-Id: <20210206033629.4278-4-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210206033629.4278-1-minwoo.im.dev@gmail.com>
 References: <20210206033629.4278-1-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,28 +84,54 @@ Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-subsys->namespaces array used to be sized to NVME_SUBSYS_MAX_NAMESPACES.
-But subsys->namespaces are being accessed with 1-based namespace id
-which means the very first array entry will always be empty(NULL).
+Expand allocated namespace list (subsys->namespaces) to have 256 entries
+which is a value lager than at least NVME_MAX_NAMESPACES which is for
+attached namespace list in a controller.
+
+Allocated namespace list should at least larger than attached namespace
+list.
+
+	n->num_namespaces = NVME_MAX_NAMESPACES;
+
+The above line will set the NN field by id->nn so that the subsystem
+should also prepare at least this number of namespace list entries.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
  hw/block/nvme-subsys.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/nvme.h        | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
-index 890d118117dc..574774390c4c 100644
+index 574774390c4c..8a0732b22316 100644
 --- a/hw/block/nvme-subsys.h
 +++ b/hw/block/nvme-subsys.h
-@@ -24,7 +24,7 @@ typedef struct NvmeSubsystem {
+@@ -14,7 +14,7 @@
+     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
  
-     NvmeCtrl    *ctrls[NVME_SUBSYS_MAX_CTRLS];
-     /* Allocated namespaces for this subsystem */
--    NvmeNamespace *namespaces[NVME_SUBSYS_MAX_NAMESPACES];
-+    NvmeNamespace *namespaces[NVME_SUBSYS_MAX_NAMESPACES + 1];
- } NvmeSubsystem;
+ #define NVME_SUBSYS_MAX_CTRLS   32
+-#define NVME_SUBSYS_MAX_NAMESPACES  32
++#define NVME_SUBSYS_MAX_NAMESPACES  256
  
- int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
+ typedef struct NvmeCtrl NvmeCtrl;
+ typedef struct NvmeNamespace NvmeNamespace;
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index bde0ed7c2679..1c7796b20996 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -10,6 +10,12 @@
+ #define NVME_DEFAULT_ZONE_SIZE   (128 * MiB)
+ #define NVME_DEFAULT_MAX_ZA_SIZE (128 * KiB)
+ 
++/*
++ * Subsystem namespace list for allocated namespaces should be larger than
++ * attached namespace list in a controller.
++ */
++QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_SUBSYS_MAX_NAMESPACES);
++
+ typedef struct NvmeParams {
+     char     *serial;
+     uint32_t num_queues; /* deprecated since 5.1 */
 -- 
 2.17.1
 
