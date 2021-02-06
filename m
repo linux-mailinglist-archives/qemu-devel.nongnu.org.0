@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3B9311DA9
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 15:29:53 +0100 (CET)
-Received: from localhost ([::1]:52196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3980311DB1
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 15:33:32 +0100 (CET)
+Received: from localhost ([::1]:54780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8Oau-00010F-Bv
-	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 09:29:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43574)
+	id 1l8OeR-0002Kz-P1
+	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 09:33:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l8OZz-0000X2-Rw
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 09:28:55 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:36044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l8OZx-0001wv-10
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 09:28:55 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id lg21so17599929ejb.3
- for <qemu-devel@nongnu.org>; Sat, 06 Feb 2021 06:28:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8g9ZK4CB8bB9cad3+qoOqz3l68lkJS7Z0h/KhRj6Qyg=;
- b=BkYXOgGzEBFrLEHhIGeMtJVtEBY0/bCLVSUPHgpybtebrB2ljSR9ajPbwPRifhE/xG
- Fh12HvCWE/4D3OviaQpZX7MurEdA0+on9+pGkVQ8/ZA7pd6erYD+nucjPhoDRcErj8pL
- tFNWBCntyxijTmtLZyDDlgTU2QnrGGyV7eS8CAjV9CCIYTBYC13oN+sAM3ucoNc0eU2s
- 1gEHgKIwifWXexomIHyTaVOqPzuB0YDEW8FFBpJy3YCi9YAvRFYGta9QFpmnCp2vNpQc
- Hl7kjLgYVWIkBkqSlkOoqMjNdRG2GvP/PLi6/XUTfuXpSxaFqZat1cFyMryi8m8Jb8Fz
- sc0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8g9ZK4CB8bB9cad3+qoOqz3l68lkJS7Z0h/KhRj6Qyg=;
- b=AhZY+5yh2xlmIuIOtcBZGIlkgCY3An2MyJdzab33HJfHGfOLOHGxELD84ednEv/v2Z
- I7g7Jhasn71LDwMa2YYVleL4PjN7TMfNeVNlUFMYDfii5/M0PVA/9mnXvHrow/e0bmON
- tt1fSGCMCG0peVe9+qfeTL8hw0RueyArR/pt8wVt0LLiOhu6HQpPnzEx+wu6T7X29CBe
- /sh90B/MgBd9f7Tx09xlJZtafSV+0O8eeNfdH6DFSjiwa5iElUSr7ML+WUzM6AQMBmZR
- qDFCt1PKIPE0TqogAWkY3ViRzh5BEUBWOZGDs5HxvOhzMTdz2qh1rqBuSKIlkNFJAYn4
- Jz1Q==
-X-Gm-Message-State: AOAM533VelvydOrOjs/l1URhhEx8FzgMpgOH8XERrqr35xOgyxlozg4Q
- l15qdlmxWt2L/jPi/+kgOSMzlYrnJ/dbZJjnRaVP6g==
-X-Google-Smtp-Source: ABdhPJwYmU8PLQ061Cl8Uc0ivfaMQbAz/uPpw/1R2kUXt+WxVpJ0Hfh5DcEDD7rWsmiMBZ3kvniiXQfNAySLUKxmHsY=
-X-Received: by 2002:a17:906:2e4f:: with SMTP id
- r15mr9129256eji.407.1612621730556; 
- Sat, 06 Feb 2021 06:28:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1l8Odb-0001tj-MC
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 09:32:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31186)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1l8OdY-0003rw-Tw
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 09:32:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612621956;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CjWEnYh/RUZ4gWsrPq3+EoRDeJZRkyTI4Z4loK2cI2Y=;
+ b=HFaf/yxnf7f4lwPmlbpKDwurqjZmu18pElAtyNP7lsie3q/alhrRWdw6fX15FJjN2mA5zL
+ HEB9UtGQjRk1ZEYrR9GMy72Nan9hwBg852OZpHLH98wiiSCOvQnQdgUXBboLJQHTtVxmgV
+ T6g4b2KvDu8pr17uWp9E7OLHYIsZUx8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-TxS6d_4PPuq7cTL45KHMlA-1; Sat, 06 Feb 2021 09:32:32 -0500
+X-MC-Unique: TxS6d_4PPuq7cTL45KHMlA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42CBF801962;
+ Sat,  6 Feb 2021 14:32:31 +0000 (UTC)
+Received: from [10.36.112.23] (ovpn-112-23.ams2.redhat.com [10.36.112.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 293F819CBC;
+ Sat,  6 Feb 2021 14:32:26 +0000 (UTC)
+Subject: Re: [PATCH 1/2] pci: cleanup failover sanity check
+To: qemu-devel@nongnu.org
+References: <20210206123955.2196514-1-lvivier@redhat.com>
+ <20210206123955.2196514-2-lvivier@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <ec94fd87-8bc0-ae85-8854-b7be326b07a5@redhat.com>
+Date: Sat, 6 Feb 2021 15:32:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210205225650.1330794-1-richard.henderson@linaro.org>
-In-Reply-To: <20210205225650.1330794-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 6 Feb 2021 14:28:39 +0000
-Message-ID: <CAFEAcA-+Y+NcPdct_APTPnEA-rngyFwHbVEvwKvT-hWTHBqSJg@mail.gmail.com>
-Subject: Re: [PULL 00/46] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210206123955.2196514-2-lvivier@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.353,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.105, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,38 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, jfreimann@redhat.com,
+ Laurent Vivier <laurent@vivier.eu>, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Feb 2021 at 22:56, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit d0dddab40e472ba62b5f43f11cc7dba085dabe71:
->
->   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-02-05 15:27:02 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210205
->
-> for you to fetch changes up to fb6916dd6ca8bb4b42d44baba9c67ecaf2279577:
->
->   accel: introduce AccelCPUClass extending CPUClass (2021-02-05 10:24:15 -1000)
->
-> ----------------------------------------------------------------
-> TCGCPUOps cleanups (claudio)
-> tcg/s390 compare fix (phil)
-> tcg/aarch64 rotli_vec fix
-> tcg/tci cleanups and fixes
->
-> ----------------------------------------------------------------
+On 06/02/2021 13:39, Laurent Vivier wrote:
+> Commit a1190ab628 has added a "allow_unplug_during_migration = true" at
+> the end of the main "if" block, so it is not needed to set it anymore
+> in the previous checking.
+> 
+> Remove it, to have only sub-ifs that check for needed conditions and exit
+> if one fails.
+> 
+> Fixes: 4f5b6a05a4e7 ("pci: add option for net failover")
+> Fixes: a1190ab628c0 ("migration: allow unplug during migration for failover devices")
+> Cc: jfreimann@redhat.com
+> Signed-off-by: Laurent Vivier <lvivier@virtlab415.virt.lab.eng.bos.redhat.com>
 
+Sorry, git misconfiguration, read:
 
-Applied, thanks.
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+> ---
+>  hw/pci/pci.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 512e9042ffae..ecb7aa31fabd 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -2120,10 +2120,8 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
+>              pci_qdev_unrealize(DEVICE(pci_dev));
+>              return;
+>          }
+> -        if (!(pci_dev->cap_present & QEMU_PCI_CAP_MULTIFUNCTION)
+> -            && (PCI_FUNC(pci_dev->devfn) == 0)) {
+> -            qdev->allow_unplug_during_migration = true;
+> -        } else {
+> +        if ((pci_dev->cap_present & QEMU_PCI_CAP_MULTIFUNCTION)
+> +            || (PCI_FUNC(pci_dev->devfn) != 0)) {
+>              error_setg(errp, "failover: primary device must be in its own "
+>                                "PCI slot");
+>              pci_qdev_unrealize(DEVICE(pci_dev));
+> 
 
--- PMM
 
