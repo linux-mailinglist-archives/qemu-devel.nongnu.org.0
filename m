@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F99311F05
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 18:07:38 +0100 (CET)
-Received: from localhost ([::1]:58256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562E2311F3C
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Feb 2021 18:59:15 +0100 (CET)
+Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8R3Z-0002uM-Am
-	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 12:07:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40284)
+	id 1l8RrV-0001CS-SU
+	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 12:59:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l8Qzt-0001C1-1U
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 12:03:50 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:36306)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l8Qzg-00063n-Dq
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 12:03:48 -0500
-Received: by mail-ej1-x635.google.com with SMTP id lg21so18022902ejb.3
- for <qemu-devel@nongnu.org>; Sat, 06 Feb 2021 09:03:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DiT9G3DnYoEDx5MMfkMbS+N1wUtvb/Wa8/tQTBIy8P8=;
- b=oO4lEMfUXzWosANA970mnm5goKjceOSj4PBCz89ZK3vzIHCCzCtT771e6dWcCsaADN
- qnW9nvnN9GaT4sEjIfQ5/YrQpDamav9qH+b0FXZqyzKyt+Jxaf9gT2fLIAUc2OpkkYCK
- pyhr2Y/oqSQnltoOhd7fRrXuf5tZcCPQjMPeYYe68qCZisPXUpnt0tEX1TqbxMs1vg2p
- +YmCI9AXh1Csdu5udYG9CiLjFC3ya9ebYVYmTwtVCHLPtXIYxPaZyQWT7kR82xSg+ia4
- dPBth8xGE6gvY4KTMa3gco3GPl0bSBYD/ibt+rX3HY9ZW2x6fXv8pb0V92WTPBeH5XLP
- crzA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l8Rq5-0000gb-3n
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 12:57:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22995)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l8Rq0-0004ev-Mr
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 12:57:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612634256;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fxq3c6rkh/W4qe9DOSGRD/nx7Ze2dDULgpMzZydYTb0=;
+ b=D1QBPYy+qNAvYrlPrJFlJZQJ8qtvOvxbggAFE2MgM80apVymPRcBptS/Gk/t2N72SLEvr9
+ tvshsecDkaaUCZfJGxN2AUw4F7zaF0qExIsKareneraDTh7JTtg9ugA1fEl9Cf/pPp1PH5
+ vcuYKHz01m1uJsdCoyBxuT6apUmtd9g=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-WGv5d1RQOWKL0AuvMRcH_A-1; Sat, 06 Feb 2021 12:57:35 -0500
+X-MC-Unique: WGv5d1RQOWKL0AuvMRcH_A-1
+Received: by mail-wr1-f70.google.com with SMTP id s18so8195113wrf.0
+ for <qemu-devel@nongnu.org>; Sat, 06 Feb 2021 09:57:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DiT9G3DnYoEDx5MMfkMbS+N1wUtvb/Wa8/tQTBIy8P8=;
- b=A9Ng+epomEZx2gqcdyEOilXBOe0FEaGkFfH+s9G+qiwRUi2rVGJqc7gXQ6prHQBd5D
- 1RH59tafGTT1PbeOFlW86fAgEssukh4SHXNALbAHddEROcIYzm3X9cVL2wws2QDnLS/N
- 8lJqi9tppMmOZvhf+bOlj7dY/jsBpA0sNexBhVrePi4RRU/vvym0gcZ3hjyN+Jfg7+bl
- w1xWahW7gm6DPZYifY+TY8/jGwxFH5JziDl83Fva7XKJY3DcxRiBQlpxxzLLmn7tAz5w
- elr5ov1yKmlk4Flrbd3dlx191i0pSU6LdYvBioPmn2lOvM5KTMAxJNBA/vf89mnlLW52
- X7BQ==
-X-Gm-Message-State: AOAM532UNlQr9Jrtu2R7lhwlPedWaWINxHKxCsC2CG+lCCjenMnIL/VT
- gHE5NUZzoBle7okgE8FHfR6OKHUYUthNXN/bHSkaaw==
-X-Google-Smtp-Source: ABdhPJzX5K8SfElyTlzy99aC+AN2vLwGXIMYpZK21ute4f75kRUZjhacHXkUSI7sIe1ZX7GTJ+Z44WVSDE9Dzph+pkA=
-X-Received: by 2002:a17:906:b4a:: with SMTP id
- v10mr5601653ejg.382.1612631012278; 
- Sat, 06 Feb 2021 09:03:32 -0800 (PST)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Fxq3c6rkh/W4qe9DOSGRD/nx7Ze2dDULgpMzZydYTb0=;
+ b=Rwh2oSEuSrx2JX6jdUIdG2mUY4Gc39meYYu4u2gzOtqc7kJg0upuedzkROkgkwfFOc
+ BnPT1TRzJn7/5TmqSp4Ggr7faBhBF0LeXp9iRjgX7pmMcNANAaOIR6o7PIWGzvfQLAWm
+ usp7JsRnwTjcqPtbBwoLSnVaB+eCmwIPaY1uHGtkrQ44wBRUNZiIToTQgnl4EwYM5uEE
+ JyJqMvwDYB4ZGm91uCVA7fIDosdOzxu6O5FEDBJG3Fd5Rtkn/Mq2Rdo6SQwjMP6aLSA3
+ hGp3wapZALxqTT/zz90N8MQGcOMNwrOoY7ZKhFmPxSFRteaaeP5PAv1g0IZZZNuW+qBk
+ SO+Q==
+X-Gm-Message-State: AOAM533kxpPrW+CvPebxT4F5TKJSyZ+77AvA5DxzgpO59UVxOwgrEpgF
+ J5pE2S2bLC2vWnJU1ex8i/eRaNPICyN3dhL2L1Z+jA5hRqcbtUVzmGo6Ts8dykmTZQdkxgrWMJF
+ jFki8V9Cy+Y18MJo=
+X-Received: by 2002:a1c:7e4e:: with SMTP id z75mr8370435wmc.168.1612634253839; 
+ Sat, 06 Feb 2021 09:57:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJys+QaSaSqtH67gjZFYPEdlGVn+B4n5YpHys0rgQ6CDtfgzMOt9sVC/1SqvcKhVE9pSDu89dg==
+X-Received: by 2002:a1c:7e4e:: with SMTP id z75mr8370420wmc.168.1612634253645; 
+ Sat, 06 Feb 2021 09:57:33 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id x13sm6958444wmc.27.2021.02.06.09.57.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 06 Feb 2021 09:57:32 -0800 (PST)
+Subject: Re: [PULL v3 11/27] multi-process: setup PCI host bridge for remote
+ device
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210205164459.432714-1-stefanha@redhat.com>
- <CAFEAcA-dQtOaXB-eHEbiF0Z7jF-wSHt0LwW8Bk+BU2B66+=Cyw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-dQtOaXB-eHEbiF0Z7jF-wSHt0LwW8Bk+BU2B66+=Cyw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 6 Feb 2021 17:03:20 +0000
-Message-ID: <CAFEAcA8sOgF9Czy+GUBti7W-C9ZtW9PB+1YxG7mqAXKr5mV18g@mail.gmail.com>
-Subject: Re: [PULL v3 00/27] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ <20210205164459.432714-12-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <353e7615-4860-d0d0-1f52-b448559e7629@redhat.com>
+Date: Sat, 6 Feb 2021 18:57:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <20210205164459.432714-12-stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.353,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.105, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,103 +101,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
- Thomas Huth <thuth@redhat.com>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
  "Michael S. Tsirkin" <mst@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Feb 2021 at 22:53, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 5 Feb 2021 at 16:45, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >
-> > The following changes since commit e2c5093c993ef646e4e28f7aa78429853bcc06ac:
-> >
-> >   iotests: 30: drop from auto group (and effectively from make check) (2021-02-05 15:16:13 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
-> >
-> > for you to fetch changes up to b07011f375bda3319cf72eee7cb18d310078387b:
-> >
-> >   docs: fix Parallels Image "dirty bitmap" section (2021-02-05 16:36:36 +0000)
-> >
-> > ----------------------------------------------------------------
-> > Pull request
-> >
-> > v3:
-> >  * Replace {0} array initialization with {} to make clang happy [Peter]
-> >
-> > ----------------------------------------------------------------
->
->
-> Fails 'make check' on s390x host:
+On 2/5/21 5:44 PM, Stefan Hajnoczi wrote:
+> From: Jagannathan Raman <jag.raman@oracle.com>
+> 
+> PCI host bridge is setup for the remote device process. It is
+> implemented using remote-pcihost object. It is an extension of the PCI
+> host bridge setup by QEMU.
+> Remote-pcihost configures a PCI bus which could be used by the remote
+> PCI device to latch on to.
+> 
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Message-id: 0871ba857abb2eafacde07e7fe66a3f12415bfb2.1611938319.git.jag.raman@oracle.com
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  MAINTAINERS                  |  2 +
+>  include/hw/pci-host/remote.h | 29 ++++++++++++++
+>  hw/pci-host/remote.c         | 75 ++++++++++++++++++++++++++++++++++++
+>  hw/pci-host/Kconfig          |  3 ++
+>  hw/pci-host/meson.build      |  1 +
+>  hw/remote/Kconfig            |  1 +
+>  6 files changed, 111 insertions(+)
+>  create mode 100644 include/hw/pci-host/remote.h
+>  create mode 100644 hw/pci-host/remote.c
+...
 
-I gave this a rerun to check it was reproducible (it is) and realised
-I missed what looks like an important line in the log. As usual,
-trying to disentangle which lines of a parallel make check correspond
-to the failure is pretty tricky, but the lines
- Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
+> +static const TypeInfo remote_pcihost_info = {
+> +    .name = TYPE_REMOTE_PCIHOST,
+> +    .parent = TYPE_PCIE_HOST_BRIDGE,
 
-are probably the proximate causes of the assertion failures.
+                 ^^^^^^^^^^^^^^^^^^^^^
 
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=./qemu-img
-G_TEST_DBUS_DAEMON=/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-rx tests/qtest/qos-test --tap -k
-PASS 45 qtest-rx/qmp-cmd-test /rx/qmp/query-memory-size-summary
-SKIP
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=./qemu-img
-G_TEST_DBUS_DAEMON=/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-s390x tests/qtest/pxe-test --tap -k
-PASS 46 qtest-rx/qmp-cmd-test /rx/qmp/query-memory-devices
-Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
-PASS 47 qtest-rx/qmp-cmd-test /rx/qmp/query-replay
-PASS 48 qtest-rx/qmp-cmd-test /rx/qmp/query-yank
-PASS 49 qtest-rx/qmp-cmd-test /rx/qmp/query-name
-PASS 50 qtest-rx/qmp-cmd-test /rx/qmp/query-iothreads
-PASS 51 qtest-rx/qmp-cmd-test /rx/qmp/query-fdsets
-PASS 52 qtest-rx/qmp-cmd-test /rx/qmp/query-command-line-options
-PASS 53 qtest-rx/qmp-cmd-test /rx/qmp/query-acpi-ospm-status
-PASS 54 qtest-rx/qmp-cmd-test /rx/qmp/object-add-failure-modes
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=./qemu-img
-G_TEST_DBUS_DAEMON=/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-s390x tests/qtest/test-netfilter --tap
--k
-Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
-socket_accept failed: Resource temporarily unavailable
-socket_accept failed: Resource temporarily unavailable
-**
-ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
-assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
-**
-ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
-assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
-../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
-signal 6 (Aborted) (core dumped)
-../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
-signal 6 (Aborted) (core dumped)
-ERROR qtest-s390x/pxe-test - Bail out!
-ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
-assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
-ERROR qtest-s390x/test-netfilter - Bail out!
-ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
-assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
-Makefile.mtest:3113: recipe for target 'run-test-387' failed
-make: *** [run-test-387] Error 1
-make: *** Waiting for unfinished jobs....
-Makefile.mtest:3121: recipe for target 'run-test-388' failed
+> +    .instance_size = sizeof(RemotePCIHost),
+> +    .class_init = remote_pcihost_class_init,
+> +};
+> +
+> +static void remote_pcihost_register(void)
+> +{
+> +    type_register_static(&remote_pcihost_info);
+> +}
+> +
+> +type_init(remote_pcihost_register)
+> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+> index eb03f0489d..8b8c763c28 100644
+> --- a/hw/pci-host/Kconfig
+> +++ b/hw/pci-host/Kconfig
+> @@ -65,3 +65,6 @@ config PCI_POWERNV
+>      select PCI_EXPRESS
+>      select MSI_NONBROKEN
+>      select PCIE_PORT
+> +
+> +config REMOTE_PCIHOST
+> +    bool
 
-thanks
--- PMM
+       select CONFIG_PCI_EXPRESS ?
+
+(Reported by Peter Maydell on s390x)
+
+Side question, does it make sense to enable this feature by
+default on all architectures?
+
+Regards,
+
+Phil.
+
 
