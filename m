@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D3E3126E9
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 19:47:12 +0100 (CET)
-Received: from localhost ([::1]:50634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E7F31273F
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 20:44:41 +0100 (CET)
+Received: from localhost ([::1]:53380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8p5S-00062U-VZ
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 13:47:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58376)
+	id 1l8pz6-0007QV-17
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 14:44:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l8p1h-00033Z-IY
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 13:43:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l8p1d-0004Hp-G6
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 13:43:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612723389;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/DlRknGDm8ztpJbw/VJVI857aGO9KwH1Q+65xG4ueUM=;
- b=cxQfjA/CP0VQ1RNwkCC7Nelld/tSUewMkseuW2+eq1wn5juI3XIbINuwD7qlHAhbsDZh5o
- XzHCmdkUzHQx5tIn1dzVM2d2KLkKLU8NP+PqCCN5HGt9iRLWHQV2jm2IJGojuuKbkCR6Dh
- E/coQvvR4I5c0OCNTMrVO6YaR2SALoE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-1G9R84rMMLSA5OxdDXTktw-1; Sun, 07 Feb 2021 13:43:07 -0500
-X-MC-Unique: 1G9R84rMMLSA5OxdDXTktw-1
-Received: by mail-wr1-f69.google.com with SMTP id f5so1252414wro.7
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 10:43:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l8pxq-0006tx-CW
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 14:43:22 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l8pxo-00060e-Rp
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 14:43:22 -0500
+Received: by mail-ed1-x532.google.com with SMTP id g10so15773499eds.2
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 11:43:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=g6WqhSbZTmwrr6IwTRD4JR01OICW/h4xkvW30PV0DqU=;
+ b=oRKmXYIby93Mg/xKZ0W41ny0HudVdS+S3HWBcWYweEOn2E/Otl9sXrEAatphpZx9we
+ zol0r6QIlKXTcyndsH7IsSeK3BkGP4ZWJlS75Zw/cJnJfG3TG1CDA9Xhb+3s4fcrJfWG
+ xOc3WLA0tixZRuD049D2HrLXk9NeCKlblfKjmn3rAaAVKHy8fsX+VVoZOQZjJK/Kn/kl
+ h3+mGXJl7fqBakH7jmCIcuOj9PaPQ02Um34Zo2+2MZp5nHEKKVuwNh0ARDr92IiiIkIC
+ RI80e0CDcgfWhGiElXJgDEqprBtNy8ulzb/nzNoPkbchm0H0YaPk2qZqbVLjz9svXWkB
+ zEVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/DlRknGDm8ztpJbw/VJVI857aGO9KwH1Q+65xG4ueUM=;
- b=VdX8Lgsh0SfXU+Li0L1kC351SM2OMoue05c6h1KjuXFTTx2goUEH1N0V6dI382LObm
- MS02uiiXlwPm1syNZ6uNdGrAeAi0R7Hsa5lpzr4hj2Skc4n21sI1YT4zJ00BpGCDUsVG
- xYjlXSdVPHeQb43YWRNFz0V7uki6PF6cJDT30T5VSS4AW3U51MG5EIEL1y6NTh+aVTBw
- MsKMiW0X7qSedZG1UR3IERr1bbOLQnFb9u29u0c5bZRYVqcfDxQEE7oHxkQfhcCzC4HX
- r7VOLZmG1dyEbQVeCyd3aoc0Hv+ZxFWTfZWjdhZkYmGw7tLRVdj/59qRgcXPbMWjRmPe
- nPNQ==
-X-Gm-Message-State: AOAM532eZ36hBD9jBKTmeBtr/kd7vNa5qFR5g7Y0RNPDY19bYEI6SBld
- Rhd85lxTqLTXST+rbQrIE6SRqwqCkRa2nVjvXzMSLpHNdP0DR6FFZwb4HVEdAQYvAGQUpRWqzYi
- RIzOB1oNz4JhfWxU=
-X-Received: by 2002:a05:6000:1542:: with SMTP id
- 2mr16360285wry.356.1612723386565; 
- Sun, 07 Feb 2021 10:43:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvotwlZPcHagFk3ndWmzSgTFkrv9sT2FeIOPWs5Pjk7Yb5GWn5oAKIXKpVp+63eqUI/UOQCg==
-X-Received: by 2002:a05:6000:1542:: with SMTP id
- 2mr16360263wry.356.1612723386320; 
- Sun, 07 Feb 2021 10:43:06 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id b13sm22525604wrt.31.2021.02.07.10.43.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 10:43:05 -0800 (PST)
-Date: Sun, 7 Feb 2021 13:43:01 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Marian Postevca <posteuca@mutex.one>
-Subject: Re: [PATCH v4 2/5] acpi: Permit OEM ID and OEM table ID fields to be
- changed
-Message-ID: <20210207134214-mutt-send-email-mst@kernel.org>
-References: <20210119003216.17637-1-posteuca@mutex.one>
- <20210119003216.17637-3-posteuca@mutex.one>
- <20210205082049-mutt-send-email-mst@kernel.org>
- <87h7mnzqhm.fsf@mutex.one>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=g6WqhSbZTmwrr6IwTRD4JR01OICW/h4xkvW30PV0DqU=;
+ b=IIsougoBHrhTsSEcgIEF/c3aW6JYkJKgEw/DwR1TU9GGDjWTKyh10i4Wq7eCFSvR+3
+ cvCQ4u6dgcUrLqK5/jzX5MpLl1JuunVj0NvMcoSX/iMK0JmhBRijTrhXJj3zj6qVXMYY
+ xML8ZBQiwsbMWCJOM6TQmJEi5Z3xAmenRbtg3FLk0ppnUOk24CL3uDFILQu9uv7C3Kty
+ 2TyIqn73UNPMA9mfG5NTJGoJb4l1y7jf1weHgGaJXPH4dNAAQHonV5BHSv3aTYIHl8tJ
+ +pCCNNQJOXnqedL0h0lWmUbWZ7I8is5xJQO5nAzkCtm+YL/47yrI9TnuPieAtveDdGHo
+ XiqA==
+X-Gm-Message-State: AOAM5321x8Xr1s1wJicpgfUuxIgWfyJNbEZ6KVHVLHWXmYQR2pEtwgd7
+ 776doSj8vMNNGsZlpk7GJU0hAJJWIrVTRmZm8z5eKA==
+X-Google-Smtp-Source: ABdhPJyKvgkErMTeNzXLJHqk0gdlGGPqcdLhg74xheQefy6dXTUllCNyIKc8uuCh3XUrYa8Nje9DSwFFdysajhO76HU=
+X-Received: by 2002:a50:e80d:: with SMTP id e13mr13701530edn.251.1612726998562; 
+ Sun, 07 Feb 2021 11:43:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87h7mnzqhm.fsf@mutex.one>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201022120830.5938-1-peter.maydell@linaro.org>
+ <d258bc62-1a17-aeed-13ac-b61297e01a04@amsat.org>
+In-Reply-To: <d258bc62-1a17-aeed-13ac-b61297e01a04@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 7 Feb 2021 19:43:07 +0000
+Message-ID: <CAFEAcA_T=HyjZWSXUpP1-07rwUsUsQs0rLOjQKNsm-cUAo1FEA@mail.gmail.com>
+Subject: Re: [PATCH] migration: Drop unused VMSTATE_FLOAT64 support
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,37 +79,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Feb 07, 2021 at 08:23:33PM +0200, Marian Postevca wrote:
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
-> >
-> >
-> > I queued this but there's a lot of code duplication with this.
-> > Further, the use of g_strdup adds unnecessary dynamic memory
-> > management where it's not needed.
-> > I'd prefer
-> > -   a new struct AcpiBuildOem including the correct strings
-> > -   use sizeof of fields in above instead of 8/6
-> > -   move shared strings and code into a common header
-> >
-> 
-> So how should I approach this since the patches are queued? A new patch
-> with the suggested changes, or resending the original patches?
+On Sun, 7 Feb 2021 at 17:10, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> On 10/22/20 2:08 PM, Peter Maydell wrote:
+> > Commit ef96e3ae9698d6 in January 2019 removed the last user of the
+> > VMSTATE_FLOAT64* macros. These were used by targets which defined
+> > their floating point register file as an array of 'float64'.
+>
+> Similar candidate: VMSTATE_CPUDOUBLE_ARRAY()
 
-A patch on top please. They are merged so really easy, just basing on
-masted should be good.
+Isn't that still used by target/sparc ?
 
--- 
-MST
-
+-- PMM
 
