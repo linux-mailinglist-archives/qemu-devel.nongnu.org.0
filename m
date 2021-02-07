@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29E43124D1
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 15:48:46 +0100 (CET)
-Received: from localhost ([::1]:52512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B363124FD
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 16:12:49 +0100 (CET)
+Received: from localhost ([::1]:38160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8lMj-0003pm-4Q
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 09:48:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46496)
+	id 1l8ljz-0002jp-Rp
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 10:12:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l8lLV-0003PF-8i
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 09:47:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l8lLQ-0001jD-OZ
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 09:47:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612709241;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q1N+ssVaxn9jqBD2d3tWHHzxF/a6CzSvM8lDNZZ3lAc=;
- b=SaLwjnWOULWhZxzwBVxWn/JInQ3t6hczqsl+o7m8Q9J05FBvO5w/S6YawnvPFWwbypuXWb
- 5dzK9FbpsJECriXCSrYU7NLSRUs9OBAkPnMFMY85nI8TMyZq0mb/Vlsyu3SUeYFCO2pWYE
- Vwezppd9gpcaBZgN7f+rcNdWatHLwks=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-HqOTJVhHN_S0R1eDOnYFYg-1; Sun, 07 Feb 2021 09:47:19 -0500
-X-MC-Unique: HqOTJVhHN_S0R1eDOnYFYg-1
-Received: by mail-qk1-f200.google.com with SMTP id o16so10519439qkj.15
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 06:47:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l8lj0-0002B5-MW; Sun, 07 Feb 2021 10:11:46 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:43676)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l8liy-00040q-OL; Sun, 07 Feb 2021 10:11:46 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id s26so9441772edt.10;
+ Sun, 07 Feb 2021 07:11:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=G6vja1e/EUSs2abvV9QEzIfbWmOFFIxRU4k0bpZasic=;
+ b=ll9tdBvAIa1vcS1izbjZcIyE+jru99q9AQaw5By59YA/Kmm3Ri6Xk5AmcvLJP7SXWw
+ aAARdY9QS7WgIbslthYgo6lXmjrj3Mro94G/XTZi3Xogadmmxd47/HTaFxNQE7Z8ek4L
+ Fh4KeOJsbB3fzHy9LUvQdT2fh1d9HcZMb3XerfUHJelpsOkgofI95X7tuZesgLO+jrCS
+ JFNkjzkxp/1Jd8O23c3eiC3G9UyDCnll3MKy+QwE7loLK+ZzAWrLkOWZZwzJ8klAct/F
+ GRxItOR6YwAQi8roANwMOjpLlLorv52TzN9EDIgA9rjs6jSqrkByo94s7gRaDmZ1hDCR
+ o39Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Q1N+ssVaxn9jqBD2d3tWHHzxF/a6CzSvM8lDNZZ3lAc=;
- b=kaaGAGNf28aArJallYRqxMl2XpJ7iaBKnP/tL0jmnHMucx5AK2Ful6idEW1dgQspVX
- 90tROPmVKDkMGO+D/e1SA4hSTcQ1strkA7SSnOvjRSC/ekKFS5bq1LxuDxlzQXYxP98m
- xBJNTqX1UpDRL8TLd43UEJhhnu6fKZhIX83F8Z6PlkjwgW+6/y8OAkCyvQXVfwFsc7k6
- cGlwJ4PbTE5xbKi8obKdaYvRgAd5MbgshvrQ4svJkwcoyTV/XgZTUe6kJubdePJUROe8
- yhU1X7LuXDeavb9xFB756YZ1vKkCIIL8+n8/0+0I5hL7cDApL+Fb7NHta8tS+umURj4C
- 7VyA==
-X-Gm-Message-State: AOAM531VcV7bfLDAam5E8mU74LtTD/4GT4eJjWPjtjzVxNG20BEtwMOT
- BPMq4CMu7f6tHzGRdz0mI0QqDd2OIyi/agoG25pKq2w6QQ8NPen9k3GaPTvXPQRNLDjuUkBlSry
- eoEIAGb9mEa4kRYk=
-X-Received: by 2002:a37:7304:: with SMTP id o4mr13254654qkc.140.1612709238899; 
- Sun, 07 Feb 2021 06:47:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwSPieFHqWyemJkIVGBfyXsdHQuxhh76HPML2GuJFUNvC/s3d0kne5DdOu9rb6hnTO8hWafYQ==
-X-Received: by 2002:a37:7304:: with SMTP id o4mr13254637qkc.140.1612709238666; 
- Sun, 07 Feb 2021 06:47:18 -0800 (PST)
-Received: from xz-x1
- (bras-vprn-toroon474qw-lp130-20-174-93-89-182.dsl.bell.ca. [174.93.89.182])
- by smtp.gmail.com with ESMTPSA id 62sm14856682qkn.136.2021.02.07.06.47.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 06:47:17 -0800 (PST)
-Date: Sun, 7 Feb 2021 09:47:15 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH] vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support
-Message-ID: <20210207144715.GG3195@xz-x1>
-References: <20210204191228.187550-1-peterx@redhat.com>
- <2382a93d-41c1-24fd-144f-87ee18171bc9@redhat.com>
- <213acf9a-d1c0-3a1d-4846-877d90fadc03@redhat.com>
- <20210205153107.GX6468@xz-x1>
- <MWHPR11MB1886DACA066190C94FD2C27F8CB09@MWHPR11MB1886.namprd11.prod.outlook.com>
-MIME-Version: 1.0
-In-Reply-To: <MWHPR11MB1886DACA066190C94FD2C27F8CB09@MWHPR11MB1886.namprd11.prod.outlook.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=G6vja1e/EUSs2abvV9QEzIfbWmOFFIxRU4k0bpZasic=;
+ b=K6PuvUKLMnoQs7g2IG4RZCPlAYPp2sqtG1iaGsdnMVQ6v0Z8Z/oC158u9n++ZP2WNP
+ FkZS9pPh1sJnfZFA1/9e5NGbZcqEbjt67rQvUnAL9yP9wjk80kbT7VzUije0jEjStud1
+ F6J4tKF3C3aN0KHGkSBfRIfvuU8xeXIPQ8CSgZ7GvXOV/a6ItLlCQdxM6MpIDY6I3FXu
+ ++53SAll8v+t0UU6PJ7wrHe42iSXv84NfKO9++m0qfhK/4XsnASQGsKF6amQLKFc7SmN
+ y3fgy29V5UyKWG6JU6RIxzqojFdYaxQUEw6x90nPwhdzH5rUTvenTmkEf22n6JdNjG+M
+ pEmw==
+X-Gm-Message-State: AOAM530KCSIPONYUowlwX3DiOCR6newK3WygMoen12oFbyO2mgRzwAO7
+ ne4YooFnBGgmRuqxlAWSK0Q=
+X-Google-Smtp-Source: ABdhPJwpGoHAl7OfRPWKXTGUyxNLYIoYNiwoJmi00wCY1At0R6/Dn82z2tisD6LahSFvKkUwr8Itmg==
+X-Received: by 2002:a05:6402:13cd:: with SMTP id
+ a13mr13166127edx.87.1612710702162; 
+ Sun, 07 Feb 2021 07:11:42 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id w26sm2010399edq.46.2021.02.07.07.11.36
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 07 Feb 2021 07:11:41 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Simon Glass <sjg@chromium.org>, Alexander Graf <agraf@csgraf.de>,
+ Priyanka Jain <priyanka.jain@nxp.com>
+Subject: [PATCH 00/26] ppc: qemu: Convert qemu-ppce500 to driver model
+Date: Sun,  7 Feb 2021 23:11:00 +0800
+Message-Id: <1612710687-56493-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,84 +77,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- Jean-Philippe Brucker <Jean-Philippe.Brucker@arm.com>,
- Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Auger Eric <eric.auger@redhat.com>, Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Tom Rini <trini@konsulko.com>, Heiko Schocher <hs@denx.de>,
+ qemu-devel@nongnu.org, U-Boot Mailing List <u-boot@lists.denx.de>,
+ Matthias Brugger <mbrugger@suse.com>, qemu-ppc@nongnu.org,
+ Stefan Roese <sr@denx.de>, Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Kevin,
+At present when building qemu-ppce500 the following warnings are seen:
 
-On Sun, Feb 07, 2021 at 09:04:55AM +0000, Tian, Kevin wrote:
-> > From: Peter Xu
-> > Sent: Friday, February 5, 2021 11:31 PM
-> > 
-> > > >
-> > > >
-> > > >> or virtio-iommu
-> > > >> since dev-iotlb (or PCIe ATS)
-> > > >
-> > > >
-> > > > We may need to add this in the future.
-> > > added Jean-Philippe in CC
-> > 
-> > So that's the part I'm unsure about..  Since everybody is cced so maybe good
-> > time to ask. :)
-> > 
-> > The thing is I'm still not clear on whether dev-iotlb is useful for a full
-> > emulation environment and how that should differ from a normal iotlb, since
-> > after all normal iotlb will be attached with device information too.
-> 
-> dev-iotlb is useful in two manners. First, it's a functional prerequisite for
-> supporting I/O page faults.
+===================== WARNING ======================
+This board does not use CONFIG_DM. CONFIG_DM will be
+compulsory starting with the v2020.01 release.
+Failure to update may result in board removal.
+  UPD     include/generated/timestamp_autogenerated.h
+See doc/driver-model/migration.rst for more info.
+====================================================
+===================== WARNING ======================
+This board does not use CONFIG_DM_PCI Please update
+the board to use CONFIG_DM_PCI before the v2019.07 release.
+Failure to update by the deadline may result in board removal.
+See doc/driver-model/migration.rst for more info.
+====================================================
+===================== WARNING ======================
+This board does not use CONFIG_DM_ETH (Driver Model
+for Ethernet drivers). Please update the board to use
+CONFIG_DM_ETH before the v2020.07 release. Failure to
+update by the deadline may result in board removal.
+See doc/driver-model/migration.rst for more info.
+====================================================
 
-Is this also a hard requirement for virtio-iommu, which is not a real hardware
-after all?
+The conversion of qemu-ppce500 board to driver model is long overdue.
 
-> Second, it has performance benefit as you don't
-> need to contend the lock of global iotlb.
+When testing the exisitng qemu-ppce500 support, PCI was found broken.
+This is caused by 2 separate issues:
 
-Hmm.. are you talking about e.g. vt-d driver or virtio-iommu?
+- One issue was caused by U-Boot:
+  Commit e002474158d1 ("pci: pci-uclass: Dynamically allocate the PCI regions")
+  Patch #1 reverts this commit as it broken all boards that have not converted
+  to driver model PCI.
+- One issue was caused by QEMU:
+  commit e6b4e5f4795b ("PPC: e500: Move CCSR and MMIO space to upper end of address space")
+  commit cb3778a0455a ("PPC: e500 pci host: Add support for ATMUs")
+  Patch #3-4 fixed this issue to keep in sync with latest QEMU upstream
 
-Assuming it's about vt-d, qi_flush_dev_iotlb() will still call qi_submit_sync()
-and taking the same global QI lock, as I see it, or I could be wrong somewhere.
-I don't see where dev-iotlb has a standalone channel for delivery.
+Patch #5-8 are minor fixes and clean-ups.
 
-For virtio-iommu, we haven't defined dev-iotlb, right?  Sorry I missed things
-when I completely didn't follow virtio-iommu recently - let's say if
-virtio-iommu in the future can support per-dev dev-iotlb queue so it doesn't
-need a global lock, what if we make it still per-device but still delivering
-iotlb message?  Again, it's still a bit unclear to me why a full emulation
-iommu would need that definition of "iotlb" and "dev-iotlb".
+Starting from patch#9, these are driver model conversion patches.
 
-> 
-> > 
-> > For real hardwares, they make sense because they ask for two things: iotlb is
-> > for IOMMU, but dev-iotlb is for the device cache.  For emulation
-> > environment
-> > (virtio-iommu is the case) do we really need that complexity?
-> > 
-> > Note that even if there're assigned devices under virtio-iommu in the future,
-> > we can still isolate that and iiuc we can easily convert an iotlb (from
-> > virtio-iommu) into a hardware IOMMU dev-iotlb no matter what type of
-> > IOMMU is
-> > underneath the vIOMMU.
-> > 
-> 
-> Didn't get this point. Hardware dev-iotlb is updated by hardware (between
-> the device and the IOMMU). How could software convert a virtual iotlb
-> entry into hardware dev-iotlb?
+Patch #11-16 are mainly related to CONFIG_ADDR_MAP, a library to support targets
+that have non-identity virtual-physical address mappings. A new command 'addrmap'
+is introduced to aid debugging, and a fix to arch/powerpc/asm/include/io.h is
+made to correct the usage of CONFIG_ADDR_MAP as it can only be used in the post-
+relocation phase. Also the initialization of this library is moved a bit earlier
+in the post-relocation phase otherwise device drivers won't work.
 
-I mean if virtio-iommu must be run in a guest, then we can trap that message
-first, right?  If there're assigned device in the guest, we must convert that
-invalidation to whatever message required for the host, that seems to not
-require the virtio-iommu to have dev-iotlb knowledge, still?
+Patch #18-20 are 85xx PCI driver fixes. It adds support to controller register
+physical address beyond 32-bit, as well as support to 64-bit bus and cpu address
+as current upstream QEMU uses 64-bit cpu address.
 
-Thanks,
+Patch #23 is minor fix to the 'virtio' command dependency.
+
+Patch #24 enables the VirtIO NET support as by default a VirtIO standard PCI
+networking device is connected as an ethernet interface at PCI address 0.1.0.
+
+Patch #25 moves the qemu-ppce500 boards codes to board/emulation as that is the
+place for other QEMU targets like x86, arm, riscv.
+
+Patch #26 adds a reST document to describe how to build and run U-Boot for the
+QEMU ppce500 machine.
+
+I hope we can make this series to U-Boot v2021.04 release.
+
+This series is available at u-boot-x86/qemu-ppc for testing.
+
+This cover letter is cc'ed to QEMU mailing list for a heads-up.
+A future patch will be sent to QEMU mailing list to bring its in-tree
+U-Boot source codes up-to-date.
+
+
+Bin Meng (26):
+  Revert "pci: pci-uclass: Dynamically allocate the PCI regions"
+  ppc: qemu: Update MAINTAINERS for correct email address
+  common: fdt_support: Support special case of PCI address in
+    fdt_read_prop()
+  ppc: qemu: Support non-identity PCI bus address
+  ppc: qemu: Fix CONFIG_SYS_PCI_MAP_END
+  ppc: mpc85xx: Wrap LAW related codes with CONFIG_FSL_LAW
+  ppc: qemu: Drop init_laws() and print_laws()
+  ppc: qemu: Drop board_early_init_f()
+  ppc: qemu: Enable OF_CONTROL
+  ppc: qemu: Enable driver model
+  include: Remove extern from addr_map.h
+  lib: addr_map: Move address_map[] type to the header file
+  cmd: Add a command to display the address map
+  lib: kconfig: Mention CONFIG_ADDR_MAP limitation in the help
+  ppc: io.h: Use addrmap_ translation APIs only in post-relocation phase
+  common: Move initr_addr_map() to a bit earlier
+  ppc: qemu: Switch over to use DM serial
+  pci: mpc85xx: Wrap LAW programming with CONFIG_FSL_LAW
+  pci: mpc85xx: Support controller register physical address beyond
+    32-bit
+  pci: mpc85xx: Support 64-bit bus and cpu address
+  ppc: qemu: Switch over to use DM ETH and PCI
+  ppc: qemu: Drop CONFIG_OF_BOARD_SETUP
+  cmd: Fix virtio command dependency
+  ppc: qemu: Enable VirtIO NET support
+  ppc: qemu: Move board directory from board/freescale to
+    board/emulation
+  doc: Add a reST document for qemu-ppce500
+
+ arch/powerpc/cpu/mpc85xx/Kconfig                   |   2 +-
+ arch/powerpc/cpu/mpc85xx/cpu.c                     |   2 +
+ arch/powerpc/cpu/mpc85xx/cpu_init_early.c          |   2 +
+ arch/powerpc/include/asm/io.h                      |  15 +-
+ .../{freescale => emulation}/qemu-ppce500/Kconfig  |   2 +-
+ board/emulation/qemu-ppce500/MAINTAINERS           |   7 +
+ .../{freescale => emulation}/qemu-ppce500/Makefile |   0
+ .../qemu-ppce500/qemu-ppce500.c                    | 159 ++++++---------------
+ board/freescale/qemu-ppce500/MAINTAINERS           |   6 -
+ cmd/Kconfig                                        |   8 ++
+ cmd/Makefile                                       |   1 +
+ cmd/addrmap.c                                      |  35 +++++
+ common/board_r.c                                   |   6 +-
+ common/fdt_support.c                               |  15 +-
+ configs/qemu-ppce500_defconfig                     |  14 +-
+ doc/board/emulation/index.rst                      |   1 +
+ doc/board/emulation/qemu-ppce500.rst               |  73 ++++++++++
+ drivers/pci/pci-uclass.c                           |  14 +-
+ drivers/pci/pci_mpc85xx.c                          |  25 ++--
+ include/addr_map.h                                 |  16 ++-
+ include/configs/qemu-ppce500.h                     |  25 +---
+ include/pci.h                                      |   4 +-
+ lib/Kconfig                                        |   2 +
+ lib/addr_map.c                                     |   6 +-
+ 24 files changed, 250 insertions(+), 190 deletions(-)
+ rename board/{freescale => emulation}/qemu-ppce500/Kconfig (86%)
+ create mode 100644 board/emulation/qemu-ppce500/MAINTAINERS
+ rename board/{freescale => emulation}/qemu-ppce500/Makefile (100%)
+ rename board/{freescale => emulation}/qemu-ppce500/qemu-ppce500.c (68%)
+ delete mode 100644 board/freescale/qemu-ppce500/MAINTAINERS
+ create mode 100644 cmd/addrmap.c
+ create mode 100644 doc/board/emulation/qemu-ppce500.rst
 
 -- 
-Peter Xu
+2.7.4
 
 
