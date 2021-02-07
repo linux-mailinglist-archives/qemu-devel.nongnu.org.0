@@ -2,83 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C7E3126B4
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 19:39:02 +0100 (CET)
-Received: from localhost ([::1]:39608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D3E3126E9
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 19:47:12 +0100 (CET)
+Received: from localhost ([::1]:50634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8oxX-0000vh-0f
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 13:39:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57314)
+	id 1l8p5S-00062U-VZ
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 13:47:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8owO-0000Up-JD
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 13:37:48 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:43030)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8owJ-00021z-3V
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 13:37:48 -0500
-Received: by mail-pf1-x432.google.com with SMTP id q131so8266746pfq.10
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 10:37:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=bIzcM3h3sDv1/YryOWDcENUYj5dBU6y8wRj79XTVLTg=;
- b=bEoIzE5lK/ELANq7aMDJCqBH2MX7N9uLYlXhp0HzsTU5gdFW805vjSqHXRE2T37PDn
- TN9ePyIx3CaQGgISn8Ltfv6ztq60qFf7UEQa97FoT43l904eLIBbIIaofRJf9BMu4CBK
- nhWWUY7JehpYxRubCBRpESeB9VV2lQSayZPOhpcCVhLVwPT502lpsE7Ud4+M8lFs155W
- 7Jwc2GdpOEIsgbd8P975t4n3cJyCbEI/xIOsTv7NNayWk4/XKp4jSuX6IwaJ/KdU1VHl
- 4HtZEKUAIJ169xYeW/r2dBtusdf5jxxlVhl1HtfQZ7XhFCED+zHtat1c30NeIIoQv+NA
- 54MA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l8p1h-00033Z-IY
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 13:43:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l8p1d-0004Hp-G6
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 13:43:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612723389;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/DlRknGDm8ztpJbw/VJVI857aGO9KwH1Q+65xG4ueUM=;
+ b=cxQfjA/CP0VQ1RNwkCC7Nelld/tSUewMkseuW2+eq1wn5juI3XIbINuwD7qlHAhbsDZh5o
+ XzHCmdkUzHQx5tIn1dzVM2d2KLkKLU8NP+PqCCN5HGt9iRLWHQV2jm2IJGojuuKbkCR6Dh
+ E/coQvvR4I5c0OCNTMrVO6YaR2SALoE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-1G9R84rMMLSA5OxdDXTktw-1; Sun, 07 Feb 2021 13:43:07 -0500
+X-MC-Unique: 1G9R84rMMLSA5OxdDXTktw-1
+Received: by mail-wr1-f69.google.com with SMTP id f5so1252414wro.7
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 10:43:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bIzcM3h3sDv1/YryOWDcENUYj5dBU6y8wRj79XTVLTg=;
- b=FY85O63lazE9XdDAC+yGBpDnH/m67+Xpk7ZN+vx+1M8VxS6aCfp3vJ/yXD6T2VyDYM
- NUZ5c4RgoL9Cs4wEIYWA6N7rF9vCW9s4k9AiYfDxU0rFZvIGYToptW30y3K8NRLW7wbm
- BtoNT9A6VopO35XN8Lzmyui+XbRQRFPN3wQf8Vt369fdwvzWPKC2N3wQWFmrRTl31SVr
- BJmQvLwJuUBP4frPmNVUVuDvuFxLeBLlLImfs+wbAArH9Me+XBDjFxIuuMPDZPD02Shr
- Dk+AT4VAMcuEMtD0PIKSLVWIujOzscLpy5lhaToEr6+9RRigW2rHfkeGMdsApDBKHXgg
- JL2g==
-X-Gm-Message-State: AOAM5306PEefc9KQsX10rYzyPb11NTRDc9xzyHEV5WHzyB/xTuQBP3vv
- Ad5xuHVs+oz5GeTLiU9oV5lQnMb/100o9A==
-X-Google-Smtp-Source: ABdhPJwRXmnBs3aS9b1181lb0+Vdp6XqGOwjqQ0+Chh3qHoS/TRqRxkmEXe8alzZIqYeownadaCwtQ==
-X-Received: by 2002:a63:3e4b:: with SMTP id l72mr13669797pga.139.1612723061359; 
- Sun, 07 Feb 2021 10:37:41 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- 9sm15991931pfo.1.2021.02.07.10.37.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Feb 2021 10:37:40 -0800 (PST)
-Subject: Re: Increased execution time with TCI in latest git master (was: Re:
- [PULL 00/46] tcg patch queue)
-To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
-References: <20210205225650.1330794-1-richard.henderson@linaro.org>
- <02ad8dba-48a5-b547-05ba-d7fa1150b1d0@weilnetz.de>
- <95d0b17b-b1ed-6b4f-f26a-69ec6a2e6e03@linaro.org>
- <e5c2d572-f4dc-62a7-8bac-c5968c3b6da7@weilnetz.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <343aa3ac-e8c5-48ca-7c50-dc8f6141f789@linaro.org>
-Date: Sun, 7 Feb 2021 10:37:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/DlRknGDm8ztpJbw/VJVI857aGO9KwH1Q+65xG4ueUM=;
+ b=VdX8Lgsh0SfXU+Li0L1kC351SM2OMoue05c6h1KjuXFTTx2goUEH1N0V6dI382LObm
+ MS02uiiXlwPm1syNZ6uNdGrAeAi0R7Hsa5lpzr4hj2Skc4n21sI1YT4zJ00BpGCDUsVG
+ xYjlXSdVPHeQb43YWRNFz0V7uki6PF6cJDT30T5VSS4AW3U51MG5EIEL1y6NTh+aVTBw
+ MsKMiW0X7qSedZG1UR3IERr1bbOLQnFb9u29u0c5bZRYVqcfDxQEE7oHxkQfhcCzC4HX
+ r7VOLZmG1dyEbQVeCyd3aoc0Hv+ZxFWTfZWjdhZkYmGw7tLRVdj/59qRgcXPbMWjRmPe
+ nPNQ==
+X-Gm-Message-State: AOAM532eZ36hBD9jBKTmeBtr/kd7vNa5qFR5g7Y0RNPDY19bYEI6SBld
+ Rhd85lxTqLTXST+rbQrIE6SRqwqCkRa2nVjvXzMSLpHNdP0DR6FFZwb4HVEdAQYvAGQUpRWqzYi
+ RIzOB1oNz4JhfWxU=
+X-Received: by 2002:a05:6000:1542:: with SMTP id
+ 2mr16360285wry.356.1612723386565; 
+ Sun, 07 Feb 2021 10:43:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzvotwlZPcHagFk3ndWmzSgTFkrv9sT2FeIOPWs5Pjk7Yb5GWn5oAKIXKpVp+63eqUI/UOQCg==
+X-Received: by 2002:a05:6000:1542:: with SMTP id
+ 2mr16360263wry.356.1612723386320; 
+ Sun, 07 Feb 2021 10:43:06 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id b13sm22525604wrt.31.2021.02.07.10.43.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 07 Feb 2021 10:43:05 -0800 (PST)
+Date: Sun, 7 Feb 2021 13:43:01 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Marian Postevca <posteuca@mutex.one>
+Subject: Re: [PATCH v4 2/5] acpi: Permit OEM ID and OEM table ID fields to be
+ changed
+Message-ID: <20210207134214-mutt-send-email-mst@kernel.org>
+References: <20210119003216.17637-1-posteuca@mutex.one>
+ <20210119003216.17637-3-posteuca@mutex.one>
+ <20210205082049-mutt-send-email-mst@kernel.org>
+ <87h7mnzqhm.fsf@mutex.one>
 MIME-Version: 1.0
-In-Reply-To: <e5c2d572-f4dc-62a7-8bac-c5968c3b6da7@weilnetz.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87h7mnzqhm.fsf@mutex.one>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,25 +96,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/7/21 2:50 AM, Stefan Weil wrote:
-> Your latest code from the rth7680/tci-next branch is twice as fast as my code
-> with BIOS boot and qemu-x86_64 on sparc64. That's great.
+On Sun, Feb 07, 2021 at 08:23:33PM +0200, Marian Postevca wrote:
+> "Michael S. Tsirkin" <mst@redhat.com> writes:
 > 
-> With that code I don't get any BIOS output at all when running qemu-i386.
-> That's not so good.
+> >
+> >
+> > I queued this but there's a lot of code duplication with this.
+> > Further, the use of g_strdup adds unnecessary dynamic memory
+> > management where it's not needed.
+> > I'd prefer
+> > -   a new struct AcpiBuildOem including the correct strings
+> > -   use sizeof of fields in above instead of 8/6
+> > -   move shared strings and code into a common header
+> >
 > 
-> Did I test the correct branch? If yes, I could try the same test on amd64 and
-> arm64 hosts.
+> So how should I approach this since the patches are queued? A new patch
+> with the suggested changes, or resending the original patches?
 
-Yes, tci-next is the correct branch.  I've just rebased it against master,
-which includes the first 30-odd patches.
+A patch on top please. They are merged so really easy, just basing on
+masted should be good.
 
-What host do you not see bios output from qemu-system-i386 (I assume that's a
-typo above)?  I see correct output on x86_64, sparc64, ppc64le, and aarch64 hosts.
+-- 
+MST
 
-
-r~
 
