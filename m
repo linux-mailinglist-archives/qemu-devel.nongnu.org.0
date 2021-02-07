@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E7F31273F
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 20:44:41 +0100 (CET)
-Received: from localhost ([::1]:53380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8663312755
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 20:54:37 +0100 (CET)
+Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8pz6-0007QV-17
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 14:44:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41300)
+	id 1l8q8i-0003ar-At
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 14:54:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l8pxq-0006tx-CW
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 14:43:22 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35224)
+ id 1l8q7N-00032E-J0
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 14:53:13 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:34554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l8pxo-00060e-Rp
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 14:43:22 -0500
-Received: by mail-ed1-x532.google.com with SMTP id g10so15773499eds.2
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 11:43:19 -0800 (PST)
+ id 1l8q7L-00026E-R7
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 14:53:13 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id hs11so21446525ejc.1
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 11:53:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=g6WqhSbZTmwrr6IwTRD4JR01OICW/h4xkvW30PV0DqU=;
- b=oRKmXYIby93Mg/xKZ0W41ny0HudVdS+S3HWBcWYweEOn2E/Otl9sXrEAatphpZx9we
- zol0r6QIlKXTcyndsH7IsSeK3BkGP4ZWJlS75Zw/cJnJfG3TG1CDA9Xhb+3s4fcrJfWG
- xOc3WLA0tixZRuD049D2HrLXk9NeCKlblfKjmn3rAaAVKHy8fsX+VVoZOQZjJK/Kn/kl
- h3+mGXJl7fqBakH7jmCIcuOj9PaPQ02Um34Zo2+2MZp5nHEKKVuwNh0ARDr92IiiIkIC
- RI80e0CDcgfWhGiElXJgDEqprBtNy8ulzb/nzNoPkbchm0H0YaPk2qZqbVLjz9svXWkB
- zEVg==
+ :cc; bh=rVZ4Lzb23G2lx+OAtK/km/Gjjp259+i4YrZ7LTXFhYY=;
+ b=aG1J/z2J5A7BtgJFeMawf9lmGt33dwCm3Xewd7IxnuP/FNUk47ICF449XHiUGa3ace
+ qjaX01sTJ86ZnGHbk7ax96kHEHLDdRXrs//oKyvfumDCVc4/kz03213xPl5IzpGRXQp+
+ zFKlpMGf+d8sGzvDcN8AnAMn79ofDmksiQIgCzaAp2IQpRTjDlyJaEAdLLdvk+cqKR8p
+ ks5VB6Bh8iYklXEohYtRTqlKTrHYK6WR+k1xYQK6KHs8cIVSrd2+ga4ruK+g4G+32uot
+ 3MhWr1GTXQQZulIonV1LQ9TcAqsaABoa+OzwlxsZ41dHm559a+uKxY1gpai5xcxbSdgs
+ j4EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=g6WqhSbZTmwrr6IwTRD4JR01OICW/h4xkvW30PV0DqU=;
- b=IIsougoBHrhTsSEcgIEF/c3aW6JYkJKgEw/DwR1TU9GGDjWTKyh10i4Wq7eCFSvR+3
- cvCQ4u6dgcUrLqK5/jzX5MpLl1JuunVj0NvMcoSX/iMK0JmhBRijTrhXJj3zj6qVXMYY
- xML8ZBQiwsbMWCJOM6TQmJEi5Z3xAmenRbtg3FLk0ppnUOk24CL3uDFILQu9uv7C3Kty
- 2TyIqn73UNPMA9mfG5NTJGoJb4l1y7jf1weHgGaJXPH4dNAAQHonV5BHSv3aTYIHl8tJ
- +pCCNNQJOXnqedL0h0lWmUbWZ7I8is5xJQO5nAzkCtm+YL/47yrI9TnuPieAtveDdGHo
- XiqA==
-X-Gm-Message-State: AOAM5321x8Xr1s1wJicpgfUuxIgWfyJNbEZ6KVHVLHWXmYQR2pEtwgd7
- 776doSj8vMNNGsZlpk7GJU0hAJJWIrVTRmZm8z5eKA==
-X-Google-Smtp-Source: ABdhPJyKvgkErMTeNzXLJHqk0gdlGGPqcdLhg74xheQefy6dXTUllCNyIKc8uuCh3XUrYa8Nje9DSwFFdysajhO76HU=
-X-Received: by 2002:a50:e80d:: with SMTP id e13mr13701530edn.251.1612726998562; 
- Sun, 07 Feb 2021 11:43:18 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=rVZ4Lzb23G2lx+OAtK/km/Gjjp259+i4YrZ7LTXFhYY=;
+ b=et/A/bzmD/+n4z/d8Prw2c/n+fBw4gbsg4B7PI8qeTWipFUogD34gP2H8dBJElkKAu
+ ZBWvHeacruvGN8gRbrSZjO6LXb6huhvA5/OmWO+QI5QOr3hw1bVct1UwfQSMqIjASpiR
+ Q3CAm4MF1Sxte+WicWaeNV9kUzTZEdFdWfzvO8TlXIhvTtlgvHjght3ZcKHQMJIMOf0I
+ bWCA7HKLA1tJkiKnvH4bmx/pzQM8s+zHqG3LL+yxD27ZeUaiYsl3OytTg94fzVZGvbj+
+ uoqtEhvg/qnqlW13c3r9yqPsq/0j7tqgjGIUAs7DXSyGl2y4FYo+gOceD2QnIjB42cfe
+ TyPA==
+X-Gm-Message-State: AOAM530qhSWKwqEJ8e86HufM4P2QB+5593oEe99v6MT43BvIB4hCGERy
+ +0W47Y3OnGbcw+DqVxEsgmt2JhNECK8p/NuSzMBH8A==
+X-Google-Smtp-Source: ABdhPJyGkRFx22PDyemYYiC5lxsBRcEJ5sx4SMpYHn+sY8oy2ryli4DuKHWa/spvs8sejwK9QfiUjjgdUyyZomdrjGg=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr14257748ejd.250.1612727590009; 
+ Sun, 07 Feb 2021 11:53:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20201022120830.5938-1-peter.maydell@linaro.org>
- <d258bc62-1a17-aeed-13ac-b61297e01a04@amsat.org>
-In-Reply-To: <d258bc62-1a17-aeed-13ac-b61297e01a04@amsat.org>
+References: <20210204014509.882821-1-richard.henderson@linaro.org>
+ <20210204014509.882821-64-richard.henderson@linaro.org>
+ <9d107cb2-ee8c-2a89-e004-9996a647a060@weilnetz.de>
+ <9f552075-1783-dc8b-f338-23e12a138ffd@linaro.org>
+In-Reply-To: <9f552075-1783-dc8b-f338-23e12a138ffd@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 7 Feb 2021 19:43:07 +0000
-Message-ID: <CAFEAcA_T=HyjZWSXUpP1-07rwUsUsQs0rLOjQKNsm-cUAo1FEA@mail.gmail.com>
-Subject: Re: [PATCH] migration: Drop unused VMSTATE_FLOAT64 support
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Sun, 7 Feb 2021 19:52:58 +0000
+Message-ID: <CAFEAcA9TtuWaFo3cg_Qhxkg8gRqBNBkuHkSAJ-Lbxzbp23iR+w@mail.gmail.com>
+Subject: Re: [PATCH v2 63/93] tcg/tci: Use ffi for calls
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,24 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 7 Feb 2021 at 17:10, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
+On Sun, 7 Feb 2021 at 17:41, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On 10/22/20 2:08 PM, Peter Maydell wrote:
-> > Commit ef96e3ae9698d6 in January 2019 removed the last user of the
-> > VMSTATE_FLOAT64* macros. These were used by targets which defined
-> > their floating point register file as an array of 'float64'.
+> On 2/7/21 8:25 AM, Stefan Weil wrote:
+> >> +#include "qemu-common.h"
+> >> +#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
+> >> +#include "exec/cpu_ldst.h"
+> >> +#include "tcg/tcg-op.h"
+> >> +#include "qemu/compiler.h"
+> >> +#include <ffi.h>
+> >> +
+> >
+> >
+> > ffi.h is not found on macOS with Homebrew.
+> >
+> > This can be fixed by using pkg-config to find the right compiler (and maybe
+> > also linker) flags:
+> >
+> > % pkg-config --cflags libffi
+> > -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ffi
+> > % pkg-config --libs libffi
+> > -lffi
 >
-> Similar candidate: VMSTATE_CPUDOUBLE_ARRAY()
+>
+> Which is exactly what I do in the previous patch:
+>
+>
+> > +++ b/meson.build
+> > @@ -1901,7 +1901,14 @@ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+> >    'tcg/tcg-op.c',
+> >    'tcg/tcg.c',
+> >  ))
+> > -specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
+> > +
+> > +if get_option('tcg_interpreter')
+> > +  libffi = dependency('libffi', version: '>=3.0',
+> > +                      static: enable_static, method: 'pkg-config',
+> > +                      required: true)
+> > +  specific_ss.add(libffi)
+> > +  specific_ss.add(files('tcg/tci.c'))
+> > +endif
+>
+> Did you need a PKG_CONFIG_LIBDIR set for homebrew?
 
-Isn't that still used by target/sparc ?
+Is this the "meson doesn't actually add the cflags everywhere it should"
+bug again ?
 
+thanks
 -- PMM
 
