@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9C2312658
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 18:13:00 +0100 (CET)
-Received: from localhost ([::1]:60044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E7A312675
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 18:41:08 +0100 (CET)
+Received: from localhost ([::1]:41342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8ncJ-0004FW-0F
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 12:12:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42330)
+	id 1l8o3W-0001xP-RT
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 12:41:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l8na9-0003a2-CI
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 12:10:46 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39583)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l8o1t-0001RG-LO
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 12:39:25 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l8na4-0006ob-4P
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 12:10:45 -0500
-Received: by mail-wr1-x433.google.com with SMTP id a1so14411779wrq.6
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 09:10:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iF+hY2IV6VYgKEUtzaMXeWLXOqayZAhiOABVYSalV/4=;
- b=uAGgs/urLLBYdRz1Bdn27ZIHGNjwSB92nfTlf3wZF2ZEzICqcQUxjLfBd4ErzE605p
- ZIwPp8hyN0g+qBhsOatbubQSH8DCyBr5NRUUYEKDBuemog5Qdjp4U0zAJnsVk5655O+0
- Hx+BruuJjQEZt7kriQ0c3KvV/MSVTOw7N2bjdoulO1EiNc3ec019T6WS6x3UMqUWtBNL
- QUwzzyfGTNOaw6+fPMfW/IA6FKnC+80F9FaeZQ4o7L/uRnfeDo5SBH4kdKvXClAKJg7E
- 7uKxQr4jc0FuwlieeDm1zht6YDguggYQX5zSULyf9bfQoj0v+cW34go9SGU5R/2E8RfX
- GVsw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l8o1q-0000gI-68
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 12:39:24 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id w18so8218970pfu.9
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 09:39:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=YXWzvZITx/cPkYXYKIbwss5wwpCQtj3hYmvvQRzGmeM=;
+ b=Im+oKDeoZciWtP6/Mq3lMQqLNnWODrJnzEgX5I1bhCVgAkGb/Ehb/urndazgNrfz3i
+ pgUqbkCjkCsHMvxeS2zhG2eJ5PiIkvCvFolYdtIyYRiBxjqGQscxU/jG4Dx9tNZK6GSx
+ eERrPBYvCItt6sH6nU2BwDCCE9e2LaYaWI91+x7fmgr6IJNdaAn65zRFIVQITA0bLjO6
+ 7Ege0lBT2RSnxEv5LKrtfGPkQYuOllp+Jp4/VCOaye0eW9Mrl2m4Gb6Cc9Qlo2KqTYPO
+ 2aTUQkZq3LQwGPHbOktNh2c3HfvWeEZufndEwSWuOW3k/ZKBslid3JW89UNs3Xkwj6at
+ SvDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=iF+hY2IV6VYgKEUtzaMXeWLXOqayZAhiOABVYSalV/4=;
- b=eEo19aEz1B+17BNWU+/kh7cbgsZBCRc2IlJef99mBMHBSgsqgPwfroRZ5xUz+XJ/+b
- PLIVnA/At8q61gBnNmPW0T74JMboplEK3gwMv6fET8ZDV/VL0PXl4a13uAUH5KATWuHL
- Fz4UAXDwx2TgAcWNaudFelsIdOsPCvhSWHAdxxmX0wsgiXamzyNAXjoiLm1kipPP1fqv
- +lXnfmoHlmzwklD20fpmTAwsMZyxrgG6iBemPlfzPEOFSDX5jF6wyR6Wg2CL2/KlBRGO
- rgonvPufMpNPUpVlfXzNkWOCC72zgkVn9RWPL49MbFWVTW5C1W0aGfwNEXkjWpe1URi7
- b4uw==
-X-Gm-Message-State: AOAM532PcfCP5Jxi/4Z+EzjB/BmsTqn0JP5PtKhNdjxQGGwobjH26KQw
- LTQ3KA0/bZ8rN1Xb8aUrRzc=
-X-Google-Smtp-Source: ABdhPJzpYDosB8IdzljO8UNy06Io3Syyzij47xOTIIPxDtYDEi4hLBJWEIA98+yg+PwSRIM9zCIxag==
-X-Received: by 2002:a5d:6089:: with SMTP id w9mr7855356wrt.412.1612717838622; 
- Sun, 07 Feb 2021 09:10:38 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id x18sm5084812wmi.8.2021.02.07.09.10.37
+ bh=YXWzvZITx/cPkYXYKIbwss5wwpCQtj3hYmvvQRzGmeM=;
+ b=bmOO7QQjyZN4HbfnzSjGzCNIpGqHfqjcKE7Mm1Wcy/znJ9/Oc2jWd/jW0xoWJEYmnl
+ gNtjaL6WjDb296p+790z7UyRiiu8A4Q7kcT8EuqwySk/Qe14qvimatwbDiPfI/SbRpEt
+ /8LpT831vWeSmYVGm4y3OKh4cgVUKAog/KU5UQyjdRGHLNUtFkdgUSDQjA5mkwY+Iiyt
+ SFEJWvfz9m/D83hxVYEBT28/ai5SultdYciuUNVnpqPzL+s7qWgJM/l2qUU18nxkizOY
+ qOQV+ueh9+nYCTv18Dr+pDG2+uMg5d6AHm8JPOJrcFENzcJvmEqdvbiubXeWSgK36ywk
+ K9og==
+X-Gm-Message-State: AOAM531YavGRDALU11A7JVkllzLupXd/Il30ixHwBb1+YPrZ0O3hzPqC
+ 6nIvGZAiaLp6rFAkTcPeZs88oRwhmikEZg==
+X-Google-Smtp-Source: ABdhPJxQ5HNzp0dXDtaKhL//jepjLY7EDzvuJP5ehGx+0YvjbFPvVuRfrnwGKaZ33y6lxu6/dwF1Ng==
+X-Received: by 2002:a63:1f45:: with SMTP id q5mr13602449pgm.414.1612719560297; 
+ Sun, 07 Feb 2021 09:39:20 -0800 (PST)
+Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
+ by smtp.gmail.com with ESMTPSA id
+ h15sm12731015pfo.193.2021.02.07.09.39.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Feb 2021 09:10:37 -0800 (PST)
-Subject: Re: [PATCH] migration: Drop unused VMSTATE_FLOAT64 support
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20201022120830.5938-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d258bc62-1a17-aeed-13ac-b61297e01a04@amsat.org>
-Date: Sun, 7 Feb 2021 18:10:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Sun, 07 Feb 2021 09:39:19 -0800 (PST)
+Subject: Re: [PATCH v2 63/93] tcg/tci: Use ffi for calls
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+References: <20210204014509.882821-1-richard.henderson@linaro.org>
+ <20210204014509.882821-64-richard.henderson@linaro.org>
+ <9d107cb2-ee8c-2a89-e004-9996a647a060@weilnetz.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9f552075-1783-dc8b-f338-23e12a138ffd@linaro.org>
+Date: Sun, 7 Feb 2021 09:39:16 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201022120830.5938-1-peter.maydell@linaro.org>
+In-Reply-To: <9d107cb2-ee8c-2a89-e004-9996a647a060@weilnetz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,37 +89,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/20 2:08 PM, Peter Maydell wrote:
-> Commit ef96e3ae9698d6 in January 2019 removed the last user of the
-> VMSTATE_FLOAT64* macros. These were used by targets which defined
-> their floating point register file as an array of 'float64'.
-
-Similar candidate: VMSTATE_CPUDOUBLE_ARRAY()
-
-> We used to try to maintain a stricter distinction between
-> 'float64' (a type for holding an integer representing an IEEE float)
-> and 'uint64_t', including having a debug option for 'float64' being
-> a struct and supposedly mandatory macros for converting between
-> float64 and uint64_t. We no longer think that's a usefully
-> strong distinction to draw and we allow ourselves to freely
-> assume that float64 really is just a 64-bit integer type, so
-> for new targets we would simply recommend use of the uint64_t type
-> for a floating point register file. The float64 type remains
-> as a useful way of documenting in the type signature of helper
-> functions and the like that they expect to receive an IEEE float
-> from the TCG generated code rather than an arbitrary integer.
+On 2/7/21 8:25 AM, Stefan Weil wrote:
+>> +#include "qemu-common.h"
+>> +#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
+>> +#include "exec/cpu_ldst.h"
+>> +#include "tcg/tcg-op.h"
+>> +#include "qemu/compiler.h"
+>> +#include <ffi.h>
+>> +
 > 
-> Since the VMSTATE_FLOAT64* macros have no remaining users and
-> we don't recommend new code uses them, delete them.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  include/migration/vmstate.h | 13 -------------
->  migration/vmstate-types.c   | 26 --------------------------
->  2 files changed, 39 deletions(-)
+> ffi.h is not found on macOS with Homebrew.
+> 
+> This can be fixed by using pkg-config to find the right compiler (and maybe
+> also linker) flags:
+> 
+> % pkg-config --cflags libffi
+> -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ffi
+> % pkg-config --libs libffi
+> -lffi
+
+
+Which is exactly what I do in the previous patch:
+
+
+> +++ b/meson.build
+> @@ -1901,7 +1901,14 @@ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+>    'tcg/tcg-op.c',
+>    'tcg/tcg.c',
+>  ))
+> -specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
+> +
+> +if get_option('tcg_interpreter')
+> +  libffi = dependency('libffi', version: '>=3.0',
+> +                      static: enable_static, method: 'pkg-config',
+> +                      required: true)
+> +  specific_ss.add(libffi)
+> +  specific_ss.add(files('tcg/tci.c'))
+> +endif
+
+Did you need a PKG_CONFIG_LIBDIR set for homebrew?
+
+
+r~
 
