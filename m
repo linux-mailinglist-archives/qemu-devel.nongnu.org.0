@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF003127E4
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 23:31:07 +0100 (CET)
-Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008CB3127E8
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 23:33:19 +0100 (CET)
+Received: from localhost ([::1]:41686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8sa9-0003cr-Ki
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 17:31:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45340)
+	id 1l8scI-0005eX-0y
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 17:33:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l8sYQ-0002eS-Bw
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 17:29:18 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52588
+ id 1l8sYT-0002gy-RL
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 17:29:21 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52594
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l8sYO-0005IT-LW
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 17:29:18 -0500
+ id 1l8sYS-0005K9-Dm
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 17:29:21 -0500
 Received: from host109-153-84-1.range109-153.btcentralplus.com ([109.153.84.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l8sYf-00075W-C4; Sun, 07 Feb 2021 22:29:38 +0000
+ id 1l8sYk-00075W-5d; Sun, 07 Feb 2021 22:29:42 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Sun,  7 Feb 2021 22:29:00 +0000
-Message-Id: <20210207222902.29099-1-mark.cave-ayland@ilande.co.uk>
+Date: Sun,  7 Feb 2021 22:29:01 +0000
+Message-Id: <20210207222902.29099-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210207222902.29099-1-mark.cave-ayland@ilande.co.uk>
+References: <20210207222902.29099-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 0/2] qemu-sparc queue 20210207
+Subject: [PULL 1/2] utils/fifo8: change fatal errors from abort() to assert()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,27 +64,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5b19cb63d9dfda41b412373b8c9fe14641bcab60:
+Developer errors are better represented with assert() rather than abort(). Also
+improve the strictness of the checks by using range checks within the assert()
+rather than converting the existing equality checks to inequality checks.
 
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210205' into staging (2021-02-05 22:59:12 +0000)
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210121102518.20112-1-mark.cave-ayland@ilande.co.uk>
+---
+ util/fifo8.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-are available in the Git repository at:
+diff --git a/util/fifo8.c b/util/fifo8.c
+index a5dd789ce5..d4d1c135e0 100644
+--- a/util/fifo8.c
++++ b/util/fifo8.c
+@@ -31,9 +31,7 @@ void fifo8_destroy(Fifo8 *fifo)
+ 
+ void fifo8_push(Fifo8 *fifo, uint8_t data)
+ {
+-    if (fifo->num == fifo->capacity) {
+-        abort();
+-    }
++    assert(fifo->num < fifo->capacity);
+     fifo->data[(fifo->head + fifo->num) % fifo->capacity] = data;
+     fifo->num++;
+ }
+@@ -42,9 +40,7 @@ void fifo8_push_all(Fifo8 *fifo, const uint8_t *data, uint32_t num)
+ {
+     uint32_t start, avail;
+ 
+-    if (fifo->num + num > fifo->capacity) {
+-        abort();
+-    }
++    assert(fifo->num + num <= fifo->capacity);
+ 
+     start = (fifo->head + fifo->num) % fifo->capacity;
+ 
+@@ -63,9 +59,7 @@ uint8_t fifo8_pop(Fifo8 *fifo)
+ {
+     uint8_t ret;
+ 
+-    if (fifo->num == 0) {
+-        abort();
+-    }
++    assert(fifo->num > 0);
+     ret = fifo->data[fifo->head++];
+     fifo->head %= fifo->capacity;
+     fifo->num--;
+@@ -76,9 +70,7 @@ const uint8_t *fifo8_pop_buf(Fifo8 *fifo, uint32_t max, uint32_t *num)
+ {
+     uint8_t *ret;
+ 
+-    if (max == 0 || max > fifo->num) {
+-        abort();
+-    }
++    assert(max > 0 && max <= fifo->num);
+     *num = MIN(fifo->capacity - fifo->head, max);
+     ret = &fifo->data[fifo->head];
+     fifo->head += *num;
+-- 
+2.20.1
 
-  git://github.com/mcayland/qemu.git tags/qemu-sparc-20210207
-
-for you to fetch changes up to cdf01ca4810203e229bcac822b42eba58e1abbf9:
-
-  utils/fifo8: add VMSTATE_FIFO8_TEST macro (2021-02-07 20:38:34 +0000)
-
-----------------------------------------------------------------
-qemu-sparc queue
-
-----------------------------------------------------------------
-Mark Cave-Ayland (2):
-      utils/fifo8: change fatal errors from abort() to assert()
-      utils/fifo8: add VMSTATE_FIFO8_TEST macro
-
- include/qemu/fifo8.h | 16 ++++++++++------
- util/fifo8.c         | 16 ++++------------
- 2 files changed, 14 insertions(+), 18 deletions(-)
 
