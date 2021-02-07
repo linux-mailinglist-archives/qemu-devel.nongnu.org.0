@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96893126A5
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 19:22:06 +0100 (CET)
-Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C733126A3
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 19:21:50 +0100 (CET)
+Received: from localhost ([::1]:59944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8ohB-0004jm-Nu
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 13:22:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54126)
+	id 1l8ogr-0004Vs-1H
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 13:21:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l8ofu-0003rJ-Dt
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 13:20:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l8ofr-000324-03
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 13:20:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l8ofo-0001A8-10
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:20:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E5D162E813A
- for <qemu-devel@nongnu.org>; Sun,  7 Feb 2021 18:20:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
+ id 1l8off-0003bK-5X; Sun, 07 Feb 2021 13:20:31 -0500
+Received: from mail.mutex.one ([62.77.152.124]:47078)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
+ id 1l8ofd-0002qg-Ju; Sun, 07 Feb 2021 13:20:30 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.mutex.one (Postfix) with ESMTP id 3C8B4BF441E3;
+ Sun,  7 Feb 2021 20:20:25 +0200 (EET)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+ by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id NRUtSAJ81Slr; Sun,  7 Feb 2021 20:20:24 +0200 (EET)
+Received: [127.0.0.1] (localhost [127.0.0.1])nknown [79.112.103.255])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mutex.one (Postfix) with ESMTPSA id 7CD0BBF441E2;
+ Sun,  7 Feb 2021 20:20:24 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+ t=1612722024; bh=693iw3gbALaml7e0wrgJtTtezq/JTq5YEQaiIrvzsBI=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=KR4iZygl7T51qvE3oM4697+fBxAd95K8QoPDrMgog+13tyKEFDHEvrdlTcize02s7
+ NePXnkVYUaPVH3mzqtYopc61CPHt0E5rSbZIrRDVMQPp3n1UqFh3G4Ad+9VUyj1tyo
+ SO4qprBojlpiQR69/kZ4TAbb6nB/T7iV54LES194=
+From: Marian Postevca <posteuca@mutex.one>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v4 2/5] acpi: Permit OEM ID and OEM table ID fields to
+ be changed
+In-Reply-To: <20210205082049-mutt-send-email-mst@kernel.org>
+References: <20210119003216.17637-1-posteuca@mutex.one>
+ <20210119003216.17637-3-posteuca@mutex.one>
+ <20210205082049-mutt-send-email-mst@kernel.org>
+Date: Sun, 07 Feb 2021 20:23:33 +0200
+Message-ID: <87h7mnzqhm.fsf@mutex.one>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 07 Feb 2021 18:10:51 -0000
-From: Chris Pinnock <1914117@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrispinnock th-huth
-X-Launchpad-Bug-Reporter: Chris Pinnock (chrispinnock)
-X-Launchpad-Bug-Modifier: Chris Pinnock (chrispinnock)
-References: <161221293549.4659.2173832767419505412.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161272145123.1781.10919682128561134530.malone@gac.canonical.com>
-Subject: [Bug 1914117] Re: Short files returned via FTP on Qemu with various
- architectures and OSes
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: de71b30032c11eaf208c05e49780caba77116a8a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=62.77.152.124; envelope-from=posteuca@mutex.one;
+ helo=mail.mutex.one
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,64 +67,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914117 <1914117@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The more I look at this, the more I think it may be a macOS bug
-underneath.
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-I've tested OpenBSD as a guest on a Debian AWS instance running 4.2.1 - all=
- is fine.
-I've tested OpenBSD as a guest on a FreeBSD AWS instance running whatever i=
-s in ports and all is fine.
+>
+>
+> I queued this but there's a lot of code duplication with this.
+> Further, the use of g_strdup adds unnecessary dynamic memory
+> management where it's not needed.
+> I'd prefer
+> -   a new struct AcpiBuildOem including the correct strings
+> -   use sizeof of fields in above instead of 8/6
+> -   move shared strings and code into a common header
+>
 
-Also others are having trouble:
-https://twitter.com/astr0baby/status/1354952352713887754
-Mac OS on M1 silicon with Free and NetBSD as guest OS.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914117
-
-Title:
-  Short files returned via FTP on Qemu with various architectures and
-  OSes
-
-Status in QEMU:
-  New
-
-Bug description:
-  =
-
-  Qemu 5.2 on Mac OS X Big Sur.
-
-  I originally thought that it might be caused by the home-brew version of =
-Qemu, but this evening I have removed the brew edition and compiled from sc=
-ratch (using Ninja & Xcode compiler). =
-
-  Still getting the same problem,.
-
-  On the following architectures: =
-
-  arm64, amd64 and sometimes i386 running NetBSD host OS; =
-
-  i386 running OpenBSD host OS:
-
-  I have seen a consistent problem with FTP returning short files. The
-  file will be a couple of bytes too short. I do not believe this is a
-  problem with the OS. Downloading the perl source code from CPAN does
-  not work properly, nor does downloading bind from isc. I've tried this
-  on different architectures as above.
-
-  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
-  gut feel is there is something not right on the Mac OS version of Qemu
-  or a bug in 5.2 - obviously in the network layer somewhere. If you
-  have anything you want me to try, please let me know - happy to help
-  get a resolution.)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
+So how should I approach this since the patches are queued? A new patch
+with the suggested changes, or resending the original patches?
 
