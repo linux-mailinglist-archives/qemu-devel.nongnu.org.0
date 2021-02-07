@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C56D31276C
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 21:38:11 +0100 (CET)
-Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6434312790
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 22:34:02 +0100 (CET)
+Received: from localhost ([::1]:46484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8qor-0008F1-Ji
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 15:38:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49170)
+	id 1l8rgv-0005Mx-GT
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 16:34:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l8qn6-0007DA-19
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 15:36:21 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52530
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l8rgA-0004tf-Oz
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 16:33:14 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:35970
+ helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l8qn4-0004RE-68
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 15:36:19 -0500
-Received: from host109-153-84-1.range109-153.btcentralplus.com ([109.153.84.1]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l8qnG-0006n3-MA; Sun, 07 Feb 2021 20:36:36 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org, peter.maydell@linaro.org, cfontana@suse.de,
- philmd@redhat.com
-References: <20210128221728.14887-1-mark.cave-ayland@ilande.co.uk>
-Message-ID: <e44c6eda-3165-0b9c-bfd8-bdbb0a1ea0d0@ilande.co.uk>
-Date: Sun, 7 Feb 2021 20:36:06 +0000
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l8rg7-0005FZ-WD
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 16:33:14 -0500
+Received: from [192.168.178.24] (p5b1511bf.dip0.t-ipconnect.de [91.21.17.191])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 3918ADA1368;
+ Sun,  7 Feb 2021 22:33:08 +0100 (CET)
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210204014509.882821-1-richard.henderson@linaro.org>
+ <20210204014509.882821-64-richard.henderson@linaro.org>
+ <9d107cb2-ee8c-2a89-e004-9996a647a060@weilnetz.de>
+ <9f552075-1783-dc8b-f338-23e12a138ffd@linaro.org>
+ <CAFEAcA9TtuWaFo3cg_Qhxkg8gRqBNBkuHkSAJ-Lbxzbp23iR+w@mail.gmail.com>
+ <69d3bc09-aeb8-6a40-157e-bf0dc19c0035@linaro.org>
+From: Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH v2 63/93] tcg/tci: Use ffi for calls
+Message-ID: <2e72abaf-0ef2-f822-3be3-b8f59f18d9d2@weilnetz.de>
+Date: Sun, 7 Feb 2021 22:33:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210128221728.14887-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <69d3bc09-aeb8-6a40-157e-bf0dc19c0035@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.153.84.1
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/2] utils/fifo8: minor updates
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -63,34 +62,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/01/2021 22:17, Mark Cave-Ayland wrote:
-
-> This patchset contains a couple of minor updates to QEMU's Fifo8 implementation
-> conceived whilst working on the next revision of the ESP series.
+On 07.02.21 21:12, Richard Henderson wrote:
+> On 2/7/21 11:52 AM, Peter Maydell wrote:
+>> On Sun, 7 Feb 2021 at 17:41, Richard Henderson
+>> <richard.henderson@linaro.org> wrote:
+>>>
+>>> On 2/7/21 8:25 AM, Stefan Weil wrote:
+>>>>> +#include "qemu-common.h"
+>>>>> +#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
+>>>>> +#include "exec/cpu_ldst.h"
+>>>>> +#include "tcg/tcg-op.h"
+>>>>> +#include "qemu/compiler.h"
+>>>>> +#include <ffi.h>
+>>>>> +
+>>>>
+>>>>
+>>>> ffi.h is not found on macOS with Homebrew.
+>>>>
+>>>> This can be fixed by using pkg-config to find the right compiler (and maybe
+>>>> also linker) flags:
+>>>>
+>>>> % pkg-config --cflags libffi
+>>>> -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ffi
+>>>> % pkg-config --libs libffi
+>>>> -lffi
+>>>
+>>>
+>>> Which is exactly what I do in the previous patch:
+>>>
+>>>
+>>>> +++ b/meson.build
+>>>> @@ -1901,7 +1901,14 @@ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+>>>>    'tcg/tcg-op.c',
+>>>>    'tcg/tcg.c',
+>>>>  ))
+>>>> -specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
+>>>> +
+>>>> +if get_option('tcg_interpreter')
+>>>> +  libffi = dependency('libffi', version: '>=3.0',
+>>>> +                      static: enable_static, method: 'pkg-config',
+>>>> +                      required: true)
+>>>> +  specific_ss.add(libffi)
+>>>> +  specific_ss.add(files('tcg/tci.c'))
+>>>> +endif
+>>>
+>>> Did you need a PKG_CONFIG_LIBDIR set for homebrew?
+>>
+>> Is this the "meson doesn't actually add the cflags everywhere it should"
+>> bug again ?
 > 
-> Patch 1 has already been reviewed on-list whilst patch 2 adds a new
-> VMSTATE_FIFO8_TEST macro which is required to allow the updated ESP series
-> to handle incoming migrations from previous QEMU versions.
+> I guess so.  I realized after sending this reply that PKG_CONFIG_LIBDIR can't
+> be the answer, since the original configure should have failed if pkg-config
+> didn't find ffi.
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> 
-> 
-> Mark Cave-Ayland (2):
->    utils/fifo8: change fatal errors from abort() to assert()
->    utils/fifo8: add VMSTATE_FIFO8_TEST macro
-> 
->   include/qemu/fifo8.h | 16 ++++++++++------
->   util/fifo8.c         | 16 ++++------------
->   2 files changed, 14 insertions(+), 18 deletions(-)
+> Was there a resolution to said meson bug?
 
-I've applied these to my qemu-sparc branch and will send a PR shortly since they are 
-a pre-requisite to the respin of the ESP patchset.
+Meanwhile I noticed an additional detail:
 
+There exist two different pkg-config configurations for libffi on Homebrew:
 
-ATB,
+% pkg-config --cflags libffi
+-I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ffi
+% export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
+% pkg-config --cflags libffi
+-I/opt/homebrew/Cellar/libffi/3.3_2/include
 
-Mark.
+By default it points to a system directory which does not exist at all
+on my Mac, so that will never work.
+
+With the right PKG_CONFIG_PATH a correct include directory is set, and
+the latest rebased tci-next branch now works for me with a compiler warning:
+
+/opt/homebrew/Cellar/libffi/3.3_2/include/ffi.h:441:5: warning:
+'FFI_GO_CLOSURES' is not defined, evaluates to 0 [-Wundef]
+
+Stefan
 
