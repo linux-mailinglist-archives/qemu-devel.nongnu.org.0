@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38D631257D
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 16:49:13 +0100 (CET)
-Received: from localhost ([::1]:53342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86443125A8
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 16:58:04 +0100 (CET)
+Received: from localhost ([::1]:32870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8mJE-0003Lu-Gw
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 10:49:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56310)
+	id 1l8mRn-0006zS-ET
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 10:58:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l8mHC-0002lJ-G9; Sun, 07 Feb 2021 10:47:06 -0500
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:33334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l8mGx-0002tr-Kj; Sun, 07 Feb 2021 10:47:06 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id m76so12126819ybf.0;
- Sun, 07 Feb 2021 07:46:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=S7aA6v6YMd5jGxjwZMyGB+V4IiPhmBwtwiPIXv/uttM=;
- b=Y97PNqUAtf+973Pf89zDtbdId+J36lSKdwF8fGKDx8iB+nRkh/QtFSIlhbgc0TU+pI
- dxeUNha9TEPb2Oi6vdrpSX6lhXsmHMHaJ2SODmBM118rJV6xJPnlGTOXFgQtAHfhR3lS
- mqj8h0rY3T2Y1iw8Lbxocph9TFJF/6o2C7UN4v9qJj/leJq4D0YWAzwYN+ZnJdcUGKen
- OqFp1oEWr0SRMZtASdVL98+/MOGEF12tFfSN0WzQEpDUD1ppGsPsTjdh8rz68Yu+q3SD
- IsZFgzFbYeW8QQhX0oMe5HP/ethIweRRZDQf8MBGhqxmGfnQLzaKWByOe3X+JtRoWmt5
- 8IEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S7aA6v6YMd5jGxjwZMyGB+V4IiPhmBwtwiPIXv/uttM=;
- b=ZFCoMrAvpBS/V8ZzTsC7yfTF/yu5GBSq4bA9mI7OgHPjTlH9V8fQk6v9NM6H3abchR
- uGQglGUozNUFYADZPLLyBxkIdyvUS6SAlSNInzcYB/U9aNvXYIDLoGfJIGv3cdbEMe9m
- G7fITmolJtJTrh8lv0/MZNfZ6Tz2kLTw2Eqi1xqV1WCcV+gz7tOK0bbAx/DfmCNjBGjC
- JmQsllSz+FnQzdMdeyNss4tuk4KCkqAbHBZoXhP1WKUs7iRHvtkqnRQOkUo8JOiOXRlX
- VG59beX/9ceqZ60eEldfDtvEp1gyEaVdc79IKyzYLqrZ/G8F47tmcTwRYN041MH6lUal
- pwMA==
-X-Gm-Message-State: AOAM530LomwiPSHjrzsaCZwGpN5xIzYjx4NEt3KBDV8+GOw1OoYs1NFu
- QCVbwZC8X8bpVlPmKrmqejsWKUiIzLMe1aFASRE=
-X-Google-Smtp-Source: ABdhPJxolAIJHnRSBeXnXMYNwBNHRVN6lqq+EH4e6z9Nl6hJZ6T8TtEeWAvd0H6L8YjSEScEBsDQcRfaPY10eKtAcFs=
-X-Received: by 2002:a5b:5ce:: with SMTP id w14mr19004105ybp.314.1612712810259; 
- Sun, 07 Feb 2021 07:46:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1l8mOy-0005w2-JL
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 10:55:08 -0500
+Received: from mout.web.de ([212.227.17.12]:36447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1l8mOw-0006Lq-Ps
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 10:55:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1612713301;
+ bh=+SfqWGs3H24X2CfYxAHK43P0Yq6whSwTWylXt0psaN4=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=i9zYbuWtgPXnZMsYiPTNBTqqjKHdO0whzYU5BEAM/LuLerqypV7gDepRki2uMhDsG
+ 5RLwlLeLnci2WyG4BYH851gOVp/1EZhX4jyM/9MRaP13VLiU35LxeWZuK5SbUll514
+ 6oPsfQFr5WLan0U9MPuk2bWoutOhb1Y0rCmD5M6w=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([87.123.206.85]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M4sc1-1lAhXf3JWJ-0022Rd; Sun, 07
+ Feb 2021 16:55:00 +0100
+Date: Sun, 7 Feb 2021 16:54:22 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v4 0/6] colo: Introduce resource agent and test suite/CI
+Message-ID: <cover.1612712637.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-References: <1612622294-37297-1-git-send-email-bmeng.cn@gmail.com>
- <1612622294-37297-3-git-send-email-bmeng.cn@gmail.com>
- <CAFEAcA-VWeAPSTFKJ6dZ4-M7OYdqyw1wwBgzpNuasPYRzMvRWQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-VWeAPSTFKJ6dZ4-M7OYdqyw1wwBgzpNuasPYRzMvRWQ@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 7 Feb 2021 23:46:39 +0800
-Message-ID: <CAEUhbmUp+fzbbiFn4rz46PD6CQqSAzm7psHDczuBEEe_WRV2BA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/ssi: xilinx_spips: Implement basic QSPI DMA support
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/0sfJFWlFdQO=QnETt7HoZJd";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:Y9z2HRt4GzVR/nMJ/YMm7ZM0Q2kod/DCySomA3Eg3tWPWSGkNij
+ dqykdHbNxn9nNyFQzVDHrIQaz4XZ9/LGaTSxT3NszOlqpqQ8L02RHQY6XMrr74ExRIipsvD
+ XsEoUXmdf3wWSTtpsLoi59RaB7tnr6K0A3lDqfB8IxRZ3wJBP/gPRle7EdRcKoofIuNqnMV
+ L00Ia/gC+S0g+ZtbheEXw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:d/4V7htL0/A=:MdTw5rqRv6mhqPWjiJUtDf
+ RmInXRumyjdNM8GiCitSkq/fKMMZeTVH5GG71l6UMwvX2r6q40ASnk/xXQJ+4dDvlUSDBzOJI
+ WF57mLGj7ObblBeulp6j7iegoKfVzVH2Wp6OBbOf0tKJLtScnAlLTAwaFl/AklpSGXB9VQl5m
+ QEclBuUWKkuXVJlJJu8JjcVFGflB3WLxWcnZzgw0ufy1Ecq6RHO9VFDvkQPVR7rC41Lm+9CXN
+ Yb/tBYDGCiVO6MV/beIrFXPkaB5i/R+XnW07oN1UJSKBKCegpG9XWGK3QoPnso7mTECMHhyff
+ Tgv2/wnetzTk8lK1Wdq1+wwQP0bn2IiAiHhSo0Ap07Jfi4cC1hCjihbDsH5/LbP1fr+0moOYg
+ C4uejgQq7EmNzhBqGnWlhtWcp+uXgQkm4joS6Rg9MF3fvy/7KIutv2VXKt/d5ouVC5vXBJwRW
+ iATTK+kyrJ3kEZYgqZi3wXoAPjXI4G5US7W2XmLFsnPB8HGZXe4JKL0V+I8eJLLXcpgS/A65Y
+ AndMIqcxkO4owTIoJ6X7QLbqIeH75iIoJ6zqQeRaZ6Fs/h2o3jzWJYxH50i506jWZXF5wNCeS
+ qynT6W5lhCCYF2cI42Ogc5f97xu1HDjEgIeDD7ugziJ1ebQEj5Mn49jL0+y7eGyay3NHC1Nk8
+ vcM0qJ6gW7wGzcHoXX123/1ahIwXVRQ73Tc2wKF1CD3hfkdLNa1/WLh2/cgDaMNht5682oh5A
+ P+IaRADWOcgKtjOpX9K9liGMxbPt69Zri9srUkAQ9XTvkrLKfNDAoCwlnlGJWpkpACTGPjlhI
+ mosF/udhz+vyPUJRCWenqFBsc784hiDPYsE//WDTPv/jUdrd+BprtgHMcN71YI4laZuOTrho+
+ JyyNJdDX3LpQgTSqo2apONzh8Hj0tXCZrT9gTXePM=
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,96 +78,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Cc: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+--Sig_/0sfJFWlFdQO=QnETt7HoZJd
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 6, 2021 at 11:28 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Sat, 6 Feb 2021 at 14:38, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> >
-> > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
-> > is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
-> > crash. This is observed when testing VxWorks 7.
-> >
-> > Add a basic implementation of QSPI DMA functionality.
-> >
-> > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
->
-> > +static size_t xlnx_zynqmp_gspips_dma_push(XlnxZynqMPQSPIPS *s,
-> > +                                          uint8_t *buf, size_t len, bool eop)
-> > +{
-> > +    hwaddr dst = (hwaddr)s->regs[R_GQSPI_DMA_ADDR_MSB] << 32
-> > +                 | s->regs[R_GQSPI_DMA_ADDR];
-> > +    uint32_t size = s->regs[R_GQSPI_DMA_SIZE];
-> > +    uint32_t mlen = MIN(size, len) & (~3); /* Size is word aligned */
-> > +
-> > +    if (size == 0 || len <= 0) {
-> > +        return 0;
-> > +    }
-> > +
-> > +    cpu_physical_memory_write(dst, buf, mlen);
-> > +    size = xlnx_zynqmp_gspips_dma_advance(s, mlen, dst);
-> > +
-> > +    if (size == 0) {
-> > +        xlnx_zynqmp_gspips_dma_done(s);
-> > +        xlnx_zynqmp_qspips_update_ixr(s);
-> > +    }
-> > +
-> > +   return mlen;
-> > +}
->
-> > @@ -861,7 +986,7 @@ static void xlnx_zynqmp_qspips_notify(void *opaque)
-> >          recv_fifo = &s->rx_fifo;
-> >      }
-> >      while (recv_fifo->num >= 4
-> > -           && stream_can_push(rq->dma, xlnx_zynqmp_qspips_notify, rq))
-> > +           && xlnx_zynqmp_gspips_dma_can_push(rq))
-> >      {
-> >          size_t ret;
-> >          uint32_t num;
-> > @@ -874,7 +999,7 @@ static void xlnx_zynqmp_qspips_notify(void *opaque)
-> >
-> >          memcpy(rq->dma_buf, rxd, num);
-> >
-> > -        ret = stream_push(rq->dma, rq->dma_buf, num, false);
-> > +        ret = xlnx_zynqmp_gspips_dma_push(rq, rq->dma_buf, num, false);
-> >          assert(ret == num);
-> >          xlnx_zynqmp_qspips_check_flush(rq);
-> >      }
->
-> This seems to be removing the existing handling of DMA to the
-> TYPE_STREAM_SINK via the stream_* functions -- that doesn't look
-> right. I don't know any of the details of this device, but if it
-> has two different modes of DMA then we need to support both of them,
-> surely ?
-
-This DMA engine is a built-in engine dedicated for QSPI so I think
-there is no need to use the stream_* functions.
-
-> If the device really should be doing its own DMA memory
-> accesses, please don't use cpu_physical_memory_write() for
-> this. The device should take a TYPE_MEMORY_REGION link property,
-> and the board code should set this to tell the device what
-> its view of the world that it is doing DMA to is. Then the
-> device in its realize method calls address_space_init() to create
-> an AddressSpace for this MemoryRegion, and does memory accesses
-> using functions like address_space_read()/address_space_write()/
-> address_space_ld*()/etc. (Examples in hw/dma, eg pl080.c.)
-> Note that the address_space* functions have a return value
-> indicating whether the access failed, which you should handle.
-> (The pl080 code doesn't do that, but that's because it's older code.)
-
-Sure will switch to use DMA AddressSpace in v2.
+Hello Everyone,
+So here is v4.
 
 Regards,
-Bin
+Lukas Straub
+
+Changes:
+
+v4:
+ -use new yank api that finally has been merged
+ -cleanup the test a bit by using numbers instead of "hosta" and "hostb"
+ -resource-agent: Don't set master-score to 0 on invalid configuration
+
+v3:
+ -resource-agent: Don't determine local qemu state by remote master-score, =
+query
+  directly via qmp instead
+ -resource-agent: Add max_queue_size parameter for colo-compare
+ -resource-agent: Fix monitor action on secondary returning error during
+  clean shutdown
+ -resource-agent: Fix stop action setting master-score to 0 on primary on
+  clean shutdown
+
+v2:
+ -use new yank api
+ -drop disk_size parameter
+ -introduce pick_qemu_util function and use it
+
+Overview:
+
+Hello Everyone,
+These patches introduce a resource agent for fully automatic management of =
+colo
+and a test suite building upon the resource agent to extensively test colo.
+
+Test suite features:
+-Tests failover with peer crashing and hanging and failover during checkpoi=
+nt
+-Tests network using ssh and iperf3
+-Quick test requires no special configuration
+-Network test for testing colo-compare
+-Stress test: failover all the time with network load
+
+Resource agent features:
+-Fully automatic management of colo
+-Handles many failures: hanging/crashing qemu, replication error, disk erro=
+r, ...
+-Recovers from hanging qemu by using the "yank" oob command
+-Tracks which node has up-to-date data
+-Works well in clusters with more than 2 nodes
+
+Run times on my laptop:
+Quick test: 200s
+Network test: 800s (tagged as slow)
+Stress test: 1300s (tagged as slow)
+
+For the last two tests, the test suite needs access to a network bridge to
+properly test the network, so some parameters need to be given to the test
+run. See tests/acceptance/colo.py for more information.
+
+Regards,
+Lukas Straub
+
+Lukas Straub (6):
+  avocado_qemu: Introduce pick_qemu_util to pick qemu utility binaries
+  boot_linux.py: Use pick_qemu_util
+  colo: Introduce resource agent
+  colo: Introduce high-level test suite
+  configure,Makefile: Install colo resource-agent
+  MAINTAINERS: Add myself as maintainer for COLO resource agent
+
+ MAINTAINERS                               |    6 +
+ configure                                 |    7 +
+ meson.build                               |    5 +
+ meson_options.txt                         |    2 +
+ scripts/colo-resource-agent/colo          | 1527 +++++++++++++++++++++
+ scripts/colo-resource-agent/crm_master    |   44 +
+ scripts/colo-resource-agent/crm_resource  |   12 +
+ tests/acceptance/avocado_qemu/__init__.py |   15 +
+ tests/acceptance/boot_linux.py            |   11 +-
+ tests/acceptance/colo.py                  |  654 +++++++++
+ 10 files changed, 2274 insertions(+), 9 deletions(-)
+ create mode 100755 scripts/colo-resource-agent/colo
+ create mode 100755 scripts/colo-resource-agent/crm_master
+ create mode 100755 scripts/colo-resource-agent/crm_resource
+ create mode 100644 tests/acceptance/colo.py
+
+--
+2.30.0
+
+--Sig_/0sfJFWlFdQO=QnETt7HoZJd
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmAgDS4ACgkQNasLKJxd
+sljpMRAAnFs1sl/uEJ05Hl96umcqXBCILzvJLcyoB7EovglBFhauOU0Tpdumzwj5
+ZQXnjgEreiqnQEXwXrNHxW1vb4Fu0mlr2GoGV3E9e/bgpqbUvRSMibKBdI7KzH4H
+2awJ71Q9tVDWqnD1uT7YemNVb4ZIe/qIFD85LcWvphTTUTB4y1kLaj2nyRS1/xDM
+QKCzMbwHkzMVRC0Pd8hvHQPJ7XtmKYdOCEZ6M5V1+i4KIyiYe7Hz++MMT1i7f+40
+jBTiANYq62EpRJwzxA5mHvlLrttGD/DwRdG0dul+M8/J/y1f+co3+tLXPoE+8Jm3
+/fwpAJxK0DqBDvu5464UfKpPOtaJxr+wNakQKC53vtPkYGrmeSihgNoXHlsr0yqh
+x1R0l2PSBMruw4AUoUYv7EVoQjNtqyE48/kHOEvlD1vZ8Niw6ag2GPvnLLnL/4dg
+hGavsbOX3Uvy8Ckq6I9nkTxCONBtF9YSZPmDQXcBKZahLUY70231NbcBDMlepDo5
+h6n9wWfEKpeQNxFWGY6b4JLwawIfTr4a7dvBmG6S6r44k66DFVXt2JI3n5yuHdPE
+DScd5tjuwVVKgVV3ODvY6g4km8AaYowMOwdRV8F/M8gK6j+hsfZNVeB9biUpNNwi
+XsTh+82v8kvLPxNzo5PeWiIR5SkLK87UN+Yp1VTcesnizCFhR54=
+=ghFP
+-----END PGP SIGNATURE-----
+
+--Sig_/0sfJFWlFdQO=QnETt7HoZJd--
 
