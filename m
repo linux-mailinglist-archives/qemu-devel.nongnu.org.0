@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B643127C6
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 23:07:56 +0100 (CET)
-Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F9C3127C0
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 23:02:37 +0100 (CET)
+Received: from localhost ([::1]:35806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8sDj-00017Z-6v
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 17:07:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36162)
+	id 1l8s8a-00068t-5Y
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 17:02:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l8rwJ-0000eP-OK; Sun, 07 Feb 2021 16:49:55 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:54415)
+ id 1l8rwK-0000fY-Ap; Sun, 07 Feb 2021 16:49:56 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:45765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l8rwG-0004R1-PD; Sun, 07 Feb 2021 16:49:55 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 06A955C00C1;
- Sun,  7 Feb 2021 16:49:51 -0500 (EST)
+ id 1l8rwH-0004Rr-Vk; Sun, 07 Feb 2021 16:49:56 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 296595C00BC;
+ Sun,  7 Feb 2021 16:49:53 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Sun, 07 Feb 2021 16:49:51 -0500
+ by compute1.internal (MEProxy); Sun, 07 Feb 2021 16:49:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=BQZijiKyGPWgJ
- dmqEiZwPb6tk3In04ZggQSqETfzK9o=; b=v3OfXpU0WNvqKWPylkNveJmXwpK0J
- oEnEG5MkA/4LwxJlrQOJQlhqRzUjGTL7FxakXRloPKcXwi2rh5s1/7xtWSfw9rsa
- o2tyMrIG6bwyKEERwBJI1l6lnWzsJ1Mogl9c8pUW13zmIFEziNIyuDl6k1ZNjKib
- pzO7Zrnyzbx55vkNhGWWCCaQbkGNIyko7AUF6dMHZ+22yNclJL8Z+dKm1EHmmwOb
- Ql6L3YM6y6CQVI8cNqFnnvePR7GpgOGff2J3B67B2uF3peqwrPmXKWwXRSLJ9/Gz
- 656IX8eTPduHEzfjAmUjLKgCe+TEIr8JA4zXwArwxXvlgyQgFdo8pMROw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=+YhEiJgCQmYAy
+ 7xFR0BmYOo7AMO05W8tLO21riKC1BM=; b=smzjjqI1Bc2GojRXduCWsvPYVDKj5
+ 7x5+MZ4n0I4piBa7RF/ie4PMv9+ZBalE1vzXvgoY+QfJAjmyh21BkoO68J0W3MKy
+ rmob9wB86cgtqoBnt7elEMx6jA9/R8ciQU6K6vpgmvS5VIK47oz69o3/C5zl1Vq8
+ qm818I4ZF0ritGAIi3NfdLmGCDehFNlyFJglEdrxMJ+omdDoqTDWUyZXe7DzfUcz
+ rVyq1H75bl18pO7L4UQH0BFbbfxNY3OKSokg+X+iyfZarHRgYC/d00SXQ8UUSorV
+ i3Yz0p22TD3DO2RfcM+45eutKFXKXymRL2kno1SgTBE7rpqY4aiPtnD3A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=BQZijiKyGPWgJdmqEiZwPb6tk3In04ZggQSqETfzK9o=; b=apyI9lNl
- FJ9W0wl6/AR7tOOj8SCWWsuYcrOdct5VeXxWnUGSCbLvCk+Si/GtBPt7zCngK9Tb
- NM23KCrddm1YV9EvIpjDJF+pV8saXTSEb4RTm8Q1OKHjAISyQhAU47XgFr+17xvf
- uyEeFqq+MFJdmqBfbKKIz2J9sBrNuImIAeUxgVZFNtrKwerskEOfhsatN/qAf9xr
- mQz0iy3X8EXEms6EPteLuRCvj0OM8ZSXjC6uuwiME2i6am08s6ZqLv2J5dHYvBsA
- ldcTycVALQazfuNj24Ufhz4ghM0qAPXxhX9TI9gQ5FdeoaPH9RssqFT3D3DZj12P
- Tg0QLyySYp1tmg==
-X-ME-Sender: <xms:fmAgYPa52wzLbVpaRomVls0sTyChT1oUJ6d6G0I_K929KncY5L_mVg>
- <xme:fmAgYOZNX-28DhOJ_wyUQmaqvsS-hMZu2DSDT2SxXRa1oVsEnnYGGhOizVe7RVCl6
- kgSGE1gUeiBPhdP964>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrhedugdduheegucetufdoteggodetrfdotf
+ fm2; bh=+YhEiJgCQmYAy7xFR0BmYOo7AMO05W8tLO21riKC1BM=; b=texyTH6/
+ ANzFgLhX6Tsm6YvaPOxmu6+oDtG8bsUx2aaNCPqN2deubuMcM1dOKFyV4ziV1ik+
+ 3scRqj/tM2krUbpLnfa7huh+pi1l3RED2+NJXqZv25lOFLZJP1D6pGCW/WpRSOf1
+ ZFWvgHwegIqLJICyeC6E1ijBgY1mqoGC94okFax17IAHzD7J6SBYNZ1X9jT/UILL
+ zl6RorPcU5fMQsidHv+V4XCOu97+qe5UF0MZhpnxDSBdtr39lI8W2MDkORgpiEgB
+ 7t93AGgnG5cbNvh8A9a8RB0yjWr49pyB0FndtCkmG4A0tOI8pfXFOlG2JwumNKQH
+ yujstjsSn/+SIQ==
+X-ME-Sender: <xms:gGAgYCp5ozQKMHfTotc2XW-fNTGz8eUvmTgvidNH6e3MBB1vzWPohQ>
+ <xme:gGAgYAnUo8-tEE57HEhQOtNkcPV2xY1xMIoDt2SI_3F38kRZsVKN5IMw3bUtxGT0K
+ yFV1Gn7_Mmb-jdceek>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrhedugdduheehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeefne
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:fmAgYB8n-ezfnmb9QfcOHQd6Exve_lXb6lWtFlV69ZKX1s6BMonZvw>
- <xmx:fmAgYFrusvY-gpdNGlIcKqxSxJ5vLgkbisE96LhFYqsrFLC0PafRLA>
- <xmx:fmAgYKockM-M9XlHQZUKmCV8cpmVoRNtfYLK907Re63FWqy1DMYB0w>
- <xmx:f2AgYKIdcII3Qn1CizvT12xXFDu7khXYHbCt3up4twc9mY_5MYEDEA>
+X-ME-Proxy: <xmx:gGAgYEFTsoBTt_gzrV4rpVj2h-OSF1EHUDW88Vkb1SdytkJeGbV8bw>
+ <xmx:gGAgYJrFUOJBLg9aDxbqgeabz_o4TB4LYIpS15gUmmUhZJNXgje_DA>
+ <xmx:gGAgYA6I47LlOqmT6WJOM1N8c9pY7Wqda4F5vAVgtnMmxh0P0QDtZA>
+ <xmx:gWAgYLs3SdbrjFG1MxsOuIrbDZXR2A0TVZCrhrl64xiToBUIL-MLWA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9D8C01080057;
- Sun,  7 Feb 2021 16:49:49 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 16BAD1080057;
+ Sun,  7 Feb 2021 16:49:50 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 5/8] hw/block/nvme: remove the req dependency in map
- functions
-Date: Sun,  7 Feb 2021 22:49:37 +0100
-Message-Id: <20210207214940.281889-6-its@irrelevant.dk>
+Subject: [PATCH RFC v2 6/8] hw/block/nvme: refactor nvme_dma
+Date: Sun,  7 Feb 2021 22:49:38 +0100
+Message-Id: <20210207214940.281889-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210207214940.281889-1-its@irrelevant.dk>
 References: <20210207214940.281889-1-its@irrelevant.dk>
@@ -103,242 +102,326 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The PRP and SGL mapping functions does not have any particular need for
-the entire NvmeRequest as a parameter. Clean it up.
+The nvme_dma function doesn't just do DMA (QEMUSGList-based) memory transfers;
+it also handles QEMUIOVector copies.
+
+Introduce the NvmeTxDirection enum and rename to nvme_tx. Remove mapping
+of PRPs/SGLs from nvme_tx and instead assert that they have been mapped
+previously. This allows more fine-grained use in subsequent patches.
+
+Add new (better named) helpers, nvme_{c2h,h2c}, that does both PRP/SGL
+mapping and transfer.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c       | 61 ++++++++++++++++++++++---------------------
- hw/block/trace-events |  4 +--
- 2 files changed, 33 insertions(+), 32 deletions(-)
+ hw/block/nvme.c | 143 ++++++++++++++++++++++++++----------------------
+ 1 file changed, 77 insertions(+), 66 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index a0009c057f1e..24156699b035 100644
+index 24156699b035..2752e5d8572a 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -516,8 +516,8 @@ static uint16_t nvme_map_addr(NvmeCtrl *n, NvmeSg *sg, hwaddr addr, size_t len)
-     return NVME_SUCCESS;
- }
- 
--static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
--                             uint32_t len, NvmeRequest *req)
-+static uint16_t nvme_map_prp(NvmeCtrl *n, NvmeSg *sg, uint64_t prp1,
-+                             uint64_t prp2, uint32_t len)
- {
-     hwaddr trans_len = n->page_size - (prp1 % n->page_size);
-     trans_len = MIN(len, trans_len);
-@@ -527,9 +527,9 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
- 
-     trace_pci_nvme_map_prp(trans_len, len, prp1, prp2, num_prps);
- 
--    nvme_sg_init(n, &req->sg);
-+    nvme_sg_init(n, sg);
- 
--    status = nvme_map_addr(n, &req->sg, prp1, trans_len);
-+    status = nvme_map_addr(n, sg, prp1, trans_len);
-     if (status) {
-         goto unmap;
+@@ -843,48 +843,72 @@ static uint16_t nvme_map_dptr(NvmeCtrl *n, NvmeSg *sg, size_t len,
      }
-@@ -579,7 +579,7 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
-                 }
- 
-                 trans_len = MIN(len, n->page_size);
--                status = nvme_map_addr(n, &req->sg, prp_ent, trans_len);
-+                status = nvme_map_addr(n, sg, prp_ent, trans_len);
-                 if (status) {
-                     goto unmap;
-                 }
-@@ -593,7 +593,7 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
-                 status = NVME_INVALID_PRP_OFFSET | NVME_DNR;
-                 goto unmap;
-             }
--            status = nvme_map_addr(n, &req->sg, prp2, len);
-+            status = nvme_map_addr(n, sg, prp2, len);
-             if (status) {
-                 goto unmap;
-             }
-@@ -603,7 +603,7 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
-     return NVME_SUCCESS;
- 
- unmap:
--    nvme_sg_unmap(&req->sg);
-+    nvme_sg_unmap(sg);
-     return status;
  }
  
-@@ -613,7 +613,7 @@ unmap:
-  */
- static uint16_t nvme_map_sgl_data(NvmeCtrl *n, NvmeSg *sg,
-                                   NvmeSglDescriptor *segment, uint64_t nsgld,
--                                  size_t *len, NvmeRequest *req)
-+                                  size_t *len, NvmeCmd *cmd)
+-static uint16_t nvme_dma(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
+-                         DMADirection dir, NvmeRequest *req)
++typedef enum NvmeTxDirection {
++    NVME_TX_DIRECTION_TO_DEVICE   = 0,
++    NVME_TX_DIRECTION_FROM_DEVICE = 1,
++} NvmeTxDirection;
++
++static uint16_t nvme_tx(NvmeCtrl *n, NvmeSg *sg, uint8_t *ptr, uint32_t len,
++                        NvmeTxDirection dir)
  {
-     dma_addr_t addr, trans_len;
-     uint32_t dlen;
-@@ -624,7 +624,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, NvmeSg *sg,
+-    uint16_t status = NVME_SUCCESS;
++    /* assert that exactly one of qsg and iov carries data */
++    assert((sg->qsg.nsg > 0) != (sg->iov.niov > 0));
++
++    if (sg->qsg.nsg > 0) {
++        uint64_t residual;
++
++        if (dir == NVME_TX_DIRECTION_TO_DEVICE) {
++            residual = dma_buf_write(ptr, len, &sg->qsg);
++        } else {
++            residual = dma_buf_read(ptr, len, &sg->qsg);
++        }
++
++        if (unlikely(residual)) {
++            trace_pci_nvme_err_invalid_dma();
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
++    } else {
++        size_t bytes;
++
++        if (dir == NVME_TX_DIRECTION_TO_DEVICE) {
++            bytes = qemu_iovec_to_buf(&sg->iov, 0, ptr, len);
++        } else {
++            bytes = qemu_iovec_from_buf(&sg->iov, 0, ptr, len);
++        }
++
++        if (unlikely(bytes != len)) {
++            trace_pci_nvme_err_invalid_dma();
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
++    }
++
++    return NVME_SUCCESS;
++}
++
++static inline uint16_t nvme_c2h(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
++                                NvmeRequest *req)
++{
++    uint16_t status;
  
-         switch (type) {
-         case NVME_SGL_DESCR_TYPE_BIT_BUCKET:
--            if (req->cmd.opcode == NVME_CMD_WRITE) {
-+            if (cmd->opcode == NVME_CMD_WRITE) {
-                 continue;
-             }
-         case NVME_SGL_DESCR_TYPE_DATA_BLOCK:
-@@ -653,7 +653,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, NvmeSg *sg,
-                 break;
-             }
- 
--            trace_pci_nvme_err_invalid_sgl_excess_length(nvme_cid(req));
-+            trace_pci_nvme_err_invalid_sgl_excess_length(dlen);
-             return NVME_DATA_SGL_LEN_INVALID | NVME_DNR;
-         }
- 
-@@ -682,7 +682,7 @@ next:
- }
- 
- static uint16_t nvme_map_sgl(NvmeCtrl *n, NvmeSg *sg, NvmeSglDescriptor sgl,
--                             size_t len, NvmeRequest *req)
-+                             size_t len, NvmeCmd *cmd)
- {
-     /*
-      * Read the segment in chunks of 256 descriptors (one 4k page) to avoid
-@@ -705,14 +705,14 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, NvmeSg *sg, NvmeSglDescriptor sgl,
-     sgld = &sgl;
-     addr = le64_to_cpu(sgl.addr);
- 
--    trace_pci_nvme_map_sgl(nvme_cid(req), NVME_SGL_TYPE(sgl.type), len);
-+    trace_pci_nvme_map_sgl(NVME_SGL_TYPE(sgl.type), len);
- 
-     /*
-      * If the entire transfer can be described with a single data block it can
-      * be mapped directly.
-      */
-     if (NVME_SGL_TYPE(sgl.type) == NVME_SGL_DESCR_TYPE_DATA_BLOCK) {
--        status = nvme_map_sgl_data(n, sg, sgld, 1, &len, req);
-+        status = nvme_map_sgl_data(n, sg, sgld, 1, &len, cmd);
-         if (status) {
-             goto unmap;
-         }
-@@ -751,7 +751,7 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, NvmeSg *sg, NvmeSglDescriptor sgl,
-             }
- 
-             status = nvme_map_sgl_data(n, sg, segment, SEG_CHUNK_SIZE,
--                                       &len, req);
-+                                       &len, cmd);
-             if (status) {
-                 goto unmap;
-             }
-@@ -777,7 +777,7 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, NvmeSg *sg, NvmeSglDescriptor sgl,
-         switch (NVME_SGL_TYPE(last_sgld->type)) {
-         case NVME_SGL_DESCR_TYPE_DATA_BLOCK:
-         case NVME_SGL_DESCR_TYPE_BIT_BUCKET:
--            status = nvme_map_sgl_data(n, sg, segment, nsgld, &len, req);
-+            status = nvme_map_sgl_data(n, sg, segment, nsgld, &len, cmd);
-             if (status) {
-                 goto unmap;
-             }
-@@ -804,7 +804,7 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, NvmeSg *sg, NvmeSglDescriptor sgl,
-          * Do not map the last descriptor; it will be a Segment or Last Segment
-          * descriptor and is handled by the next iteration.
-          */
--        status = nvme_map_sgl_data(n, sg, segment, nsgld - 1, &len, req);
-+        status = nvme_map_sgl_data(n, sg, segment, nsgld - 1, &len, cmd);
-         if (status) {
-             goto unmap;
-         }
-@@ -824,24 +824,20 @@ unmap:
-     return status;
- }
- 
--static uint16_t nvme_map_dptr(NvmeCtrl *n, size_t len, NvmeRequest *req)
-+static uint16_t nvme_map_dptr(NvmeCtrl *n, NvmeSg *sg, size_t len,
-+                              NvmeCmd *cmd)
- {
-     uint64_t prp1, prp2;
- 
--    switch (NVME_CMD_FLAGS_PSDT(req->cmd.flags)) {
-+    switch (NVME_CMD_FLAGS_PSDT(cmd->flags)) {
-     case NVME_PSDT_PRP:
--        prp1 = le64_to_cpu(req->cmd.dptr.prp1);
--        prp2 = le64_to_cpu(req->cmd.dptr.prp2);
-+        prp1 = le64_to_cpu(cmd->dptr.prp1);
-+        prp2 = le64_to_cpu(cmd->dptr.prp2);
- 
--        return nvme_map_prp(n, prp1, prp2, len, req);
-+        return nvme_map_prp(n, sg, prp1, prp2, len);
-     case NVME_PSDT_SGL_MPTR_CONTIGUOUS:
-     case NVME_PSDT_SGL_MPTR_SGL:
--        /* SGLs shall not be used for Admin commands in NVMe over PCIe */
--        if (!req->sq->sqid) {
--            return NVME_INVALID_FIELD | NVME_DNR;
--        }
--
--        return nvme_map_sgl(n, &req->sg, req->cmd.dptr.sgl, len, req);
-+        return nvme_map_sgl(n, sg, cmd->dptr.sgl, len, cmd);
-     default:
-         return NVME_INVALID_FIELD;
-     }
-@@ -852,7 +848,7 @@ static uint16_t nvme_dma(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
- {
-     uint16_t status = NVME_SUCCESS;
- 
--    status = nvme_map_dptr(n, len, req);
-+    status = nvme_map_dptr(n, &req->sg, len, &req->cmd);
+     status = nvme_map_dptr(n, &req->sg, len, &req->cmd);
      if (status) {
          return status;
      }
-@@ -1985,7 +1981,7 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
-         }
+ 
+-    /* assert that only one of qsg and iov carries data */
+-    assert((req->sg.qsg.nsg > 0) != (req->sg.iov.niov > 0));
++    return nvme_tx(n, &req->sg, ptr, len, NVME_TX_DIRECTION_FROM_DEVICE);
++}
+ 
+-    if (req->sg.qsg.nsg > 0) {
+-        uint64_t residual;
++static inline uint16_t nvme_h2c(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
++                                NvmeRequest *req)
++{
++    uint16_t status;
+ 
+-        if (dir == DMA_DIRECTION_TO_DEVICE) {
+-            residual = dma_buf_write(ptr, len, &req->sg.qsg);
+-        } else {
+-            residual = dma_buf_read(ptr, len, &req->sg.qsg);
+-        }
+-
+-        if (unlikely(residual)) {
+-            trace_pci_nvme_err_invalid_dma();
+-            status = NVME_INVALID_FIELD | NVME_DNR;
+-        }
+-    } else {
+-        size_t bytes;
+-
+-        if (dir == DMA_DIRECTION_TO_DEVICE) {
+-            bytes = qemu_iovec_to_buf(&req->sg.iov, 0, ptr, len);
+-        } else {
+-            bytes = qemu_iovec_from_buf(&req->sg.iov, 0, ptr, len);
+-        }
+-
+-        if (unlikely(bytes != len)) {
+-            trace_pci_nvme_err_invalid_dma();
+-            status = NVME_INVALID_FIELD | NVME_DNR;
+-        }
++    status = nvme_map_dptr(n, &req->sg, len, &req->cmd);
++    if (status) {
++        return status;
      }
  
--    status = nvme_map_dptr(n, data_size, req);
-+    status = nvme_map_dptr(n, &req->sg, data_size, &req->cmd);
+-    return status;
++    return nvme_tx(n, &req->sg, ptr, len, NVME_TX_DIRECTION_TO_DEVICE);
+ }
+ 
+ static inline void nvme_blk_read(BlockBackend *blk, int64_t offset,
+@@ -1683,8 +1707,7 @@ static void nvme_compare_cb(void *opaque, int ret)
+ 
+     buf = g_malloc(ctx->iov.size);
+ 
+-    status = nvme_dma(nvme_ctrl(req), buf, ctx->iov.size,
+-                      DMA_DIRECTION_TO_DEVICE, req);
++    status = nvme_h2c(nvme_ctrl(req), buf, ctx->iov.size, req);
      if (status) {
-         goto invalid;
-     }
-@@ -2076,7 +2072,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-     data_offset = nvme_l2b(ns, slba);
+         req->status = status;
+         goto out;
+@@ -1720,8 +1743,7 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
+         NvmeDsmRange range[nr];
+         uintptr_t *discards = (uintptr_t *)&req->opaque;
  
-     if (!wrz) {
--        status = nvme_map_dptr(n, data_size, req);
-+        status = nvme_map_dptr(n, &req->sg, data_size, &req->cmd);
+-        status = nvme_dma(n, (uint8_t *)range, sizeof(range),
+-                          DMA_DIRECTION_TO_DEVICE, req);
++        status = nvme_h2c(n, (uint8_t *)range, sizeof(range), req);
          if (status) {
-             goto invalid;
+             return status;
          }
-@@ -3732,6 +3728,11 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
-         return NVME_INVALID_OPCODE | NVME_DNR;
+@@ -1803,8 +1825,8 @@ static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
+ 
+     range = g_new(NvmeCopySourceRange, nr);
+ 
+-    status = nvme_dma(n, (uint8_t *)range, nr * sizeof(NvmeCopySourceRange),
+-                      DMA_DIRECTION_TO_DEVICE, req);
++    status = nvme_h2c(n, (uint8_t *)range, nr * sizeof(NvmeCopySourceRange),
++                      req);
+     if (status) {
+         return status;
+     }
+@@ -2413,8 +2435,7 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
+             return NVME_INVALID_FIELD | NVME_DNR;
+         }
+         zd_ext = nvme_get_zd_extension(ns, zone_idx);
+-        status = nvme_dma(n, zd_ext, ns->params.zd_extension_size,
+-                          DMA_DIRECTION_TO_DEVICE, req);
++        status = nvme_h2c(n, zd_ext, ns->params.zd_extension_size, req);
+         if (status) {
+             trace_pci_nvme_err_zd_extension_map_error(zone_idx);
+             return status;
+@@ -2569,8 +2590,7 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
+         }
      }
  
-+    /* SGLs shall not be used for Admin commands in NVMe over PCIe */
-+    if (NVME_CMD_FLAGS_PSDT(req->cmd.flags) != NVME_PSDT_PRP) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-     switch (req->cmd.opcode) {
-     case NVME_ADM_CMD_DELETE_SQ:
-         return nvme_del_sq(n, req);
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index b6e972d733a6..fe4a6c24306d 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -37,7 +37,7 @@ pci_nvme_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=0x%"PRIx64" prp2
- pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_map_addr_cmb(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_map_prp(uint64_t trans_len, uint32_t len, uint64_t prp1, uint64_t prp2, int num_prps) "trans_len %"PRIu64" len %"PRIu32" prp1 0x%"PRIx64" prp2 0x%"PRIx64" num_prps %d"
--pci_nvme_map_sgl(uint16_t cid, uint8_t typ, uint64_t len) "cid %"PRIu16" type 0x%"PRIx8" len %"PRIu64""
-+pci_nvme_map_sgl(uint8_t typ, uint64_t len) "type 0x%"PRIx8" len %"PRIu64""
- pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid %"PRIu32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
- pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
- pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
-@@ -121,7 +121,7 @@ pci_nvme_err_aio(uint16_t cid, const char *errname, uint16_t status) "cid %"PRIu
- pci_nvme_err_copy_invalid_format(uint8_t format) "format 0x%"PRIx8""
- pci_nvme_err_invalid_sgld(uint16_t cid, uint8_t typ) "cid %"PRIu16" type 0x%"PRIx8""
- pci_nvme_err_invalid_num_sgld(uint16_t cid, uint8_t typ) "cid %"PRIu16" type 0x%"PRIx8""
--pci_nvme_err_invalid_sgl_excess_length(uint16_t cid) "cid %"PRIu16""
-+pci_nvme_err_invalid_sgl_excess_length(uint32_t residual) "residual %"PRIu32""
- pci_nvme_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
- pci_nvme_err_invalid_prplist_ent(uint64_t prplist) "PRP list entry is not page aligned: 0x%"PRIx64""
- pci_nvme_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned: 0x%"PRIx64""
+-    status = nvme_dma(n, (uint8_t *)buf, data_size,
+-                      DMA_DIRECTION_FROM_DEVICE, req);
++    status = nvme_c2h(n, (uint8_t *)buf, data_size, req);
+ 
+     g_free(buf);
+ 
+@@ -2814,8 +2834,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+         nvme_clear_events(n, NVME_AER_TYPE_SMART);
+     }
+ 
+-    return nvme_dma(n, (uint8_t *) &smart + off, trans_len,
+-                    DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, (uint8_t *) &smart + off, trans_len, req);
+ }
+ 
+ static uint16_t nvme_fw_log_info(NvmeCtrl *n, uint32_t buf_len, uint64_t off,
+@@ -2833,8 +2852,7 @@ static uint16_t nvme_fw_log_info(NvmeCtrl *n, uint32_t buf_len, uint64_t off,
+     strpadcpy((char *)&fw_log.frs1, sizeof(fw_log.frs1), "1.0", ' ');
+     trans_len = MIN(sizeof(fw_log) - off, buf_len);
+ 
+-    return nvme_dma(n, (uint8_t *) &fw_log + off, trans_len,
+-                    DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, (uint8_t *) &fw_log + off, trans_len, req);
+ }
+ 
+ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+@@ -2854,8 +2872,7 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+     memset(&errlog, 0x0, sizeof(errlog));
+     trans_len = MIN(sizeof(errlog) - off, buf_len);
+ 
+-    return nvme_dma(n, (uint8_t *)&errlog, trans_len,
+-                    DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, (uint8_t *)&errlog, trans_len, req);
+ }
+ 
+ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint8_t csi, uint32_t buf_len,
+@@ -2895,8 +2912,7 @@ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint8_t csi, uint32_t buf_len,
+ 
+     trans_len = MIN(sizeof(log) - off, buf_len);
+ 
+-    return nvme_dma(n, ((uint8_t *)&log) + off, trans_len,
+-                    DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, ((uint8_t *)&log) + off, trans_len, req);
+ }
+ 
+ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+@@ -3066,7 +3082,7 @@ static uint16_t nvme_rpt_empty_id_struct(NvmeCtrl *n, NvmeRequest *req)
+ {
+     uint8_t id[NVME_IDENTIFY_DATA_SIZE] = {};
+ 
+-    return nvme_dma(n, id, sizeof(id), DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, id, sizeof(id), req);
+ }
+ 
+ static inline bool nvme_csi_has_nvm_support(NvmeNamespace *ns)
+@@ -3083,8 +3099,7 @@ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
+ {
+     trace_pci_nvme_identify_ctrl();
+ 
+-    return nvme_dma(n, (uint8_t *)&n->id_ctrl, sizeof(n->id_ctrl),
+-                    DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, (uint8_t *)&n->id_ctrl, sizeof(n->id_ctrl), req);
+ }
+ 
+ static uint16_t nvme_identify_ctrl_csi(NvmeCtrl *n, NvmeRequest *req)
+@@ -3100,8 +3115,7 @@ static uint16_t nvme_identify_ctrl_csi(NvmeCtrl *n, NvmeRequest *req)
+         if (n->params.zasl_bs) {
+             id.zasl = n->zasl;
+         }
+-        return nvme_dma(n, (uint8_t *)&id, sizeof(id),
+-                        DMA_DIRECTION_FROM_DEVICE, req);
++        return nvme_c2h(n, (uint8_t *)&id, sizeof(id), req);
+     }
+ 
+     return NVME_INVALID_FIELD | NVME_DNR;
+@@ -3125,8 +3139,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req)
+     }
+ 
+     if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
+-        return nvme_dma(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs),
+-                        DMA_DIRECTION_FROM_DEVICE, req);
++        return nvme_c2h(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs), req);
+     }
+ 
+     return NVME_INVALID_CMD_SET | NVME_DNR;
+@@ -3152,8 +3165,8 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req)
+     if (c->csi == NVME_CSI_NVM && nvme_csi_has_nvm_support(ns)) {
+         return nvme_rpt_empty_id_struct(n, req);
+     } else if (c->csi == NVME_CSI_ZONED && ns->csi == NVME_CSI_ZONED) {
+-        return nvme_dma(n, (uint8_t *)ns->id_ns_zoned, sizeof(NvmeIdNsZoned),
+-                        DMA_DIRECTION_FROM_DEVICE, req);
++        return nvme_c2h(n, (uint8_t *)ns->id_ns_zoned, sizeof(NvmeIdNsZoned),
++                        req);
+     }
+ 
+     return NVME_INVALID_FIELD | NVME_DNR;
+@@ -3195,7 +3208,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+         }
+     }
+ 
+-    return nvme_dma(n, list, data_len, DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, list, data_len, req);
+ }
+ 
+ static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req)
+@@ -3235,7 +3248,7 @@ static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req)
+         }
+     }
+ 
+-    return nvme_dma(n, list, data_len, DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, list, data_len, req);
+ }
+ 
+ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
+@@ -3282,7 +3295,7 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
+     ns_descrs->csi.hdr.nidl = NVME_NIDL_CSI;
+     ns_descrs->csi.v = ns->csi;
+ 
+-    return nvme_dma(n, list, sizeof(list), DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, list, sizeof(list), req);
+ }
+ 
+ static uint16_t nvme_identify_cmd_set(NvmeCtrl *n, NvmeRequest *req)
+@@ -3295,7 +3308,7 @@ static uint16_t nvme_identify_cmd_set(NvmeCtrl *n, NvmeRequest *req)
+     NVME_SET_CSI(*list, NVME_CSI_NVM);
+     NVME_SET_CSI(*list, NVME_CSI_ZONED);
+ 
+-    return nvme_dma(n, list, data_len, DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, list, data_len, req);
+ }
+ 
+ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+@@ -3384,8 +3397,7 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
+ {
+     uint64_t timestamp = nvme_get_timestamp(n);
+ 
+-    return nvme_dma(n, (uint8_t *)&timestamp, sizeof(timestamp),
+-                    DMA_DIRECTION_FROM_DEVICE, req);
++    return nvme_c2h(n, (uint8_t *)&timestamp, sizeof(timestamp), req);
+ }
+ 
+ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+@@ -3545,8 +3557,7 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
+     uint16_t ret;
+     uint64_t timestamp;
+ 
+-    ret = nvme_dma(n, (uint8_t *)&timestamp, sizeof(timestamp),
+-                   DMA_DIRECTION_TO_DEVICE, req);
++    ret = nvme_h2c(n, (uint8_t *)&timestamp, sizeof(timestamp), req);
+     if (ret) {
+         return ret;
+     }
 -- 
 2.30.0
 
