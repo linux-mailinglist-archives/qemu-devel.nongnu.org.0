@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC58312134
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 04:46:43 +0100 (CET)
-Received: from localhost ([::1]:58948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9B731214F
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 05:27:14 +0100 (CET)
+Received: from localhost ([::1]:40770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8b21-0003jJ-T7
-	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 22:46:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
+	id 1l8bfE-0002u4-Nb
+	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 23:27:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8b0g-0003Cw-Be
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 22:45:18 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:45170)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l8bdu-0002M1-0Y
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 23:25:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8b0e-0006m7-0w
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 22:45:17 -0500
-Received: by mail-pg1-x532.google.com with SMTP id o21so6651373pgn.12
- for <qemu-devel@nongnu.org>; Sat, 06 Feb 2021 19:45:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=IHdjoeIlepbmD2QRfbHWlODLn3Lf9Angw9yh7oZdOzE=;
- b=G1GOjK1SrGymRM+aTfzE1/5F2IOPPkZNPPpTzfxhkBOYJp6crQ1WxTa0vvlqej9rh9
- JquECCceAFXveiEKROwDqvzJ0w34EBerS5S17dLtEpS2FHbsR12fHl0hQXQQPWsYSUp1
- HyqpSYMAsaT+Si8kKgoWwDwIxTl3pYosbP8XJbBDNzsQuBc3qjElQSADqnsc384THfIN
- 7qre03gwA3EYBoKwln2Y4i7QsXmmv4Jamj/tkfGyfKf1n8czteR+n/sDn77ZL/MSq/Qe
- YKMVnUSKRJi4Gw+p//ShzPDsiU1vJ8LyT8NXf4GQHXTcur/rdV3NmvrlyBPUv3fE5yhV
- JDPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IHdjoeIlepbmD2QRfbHWlODLn3Lf9Angw9yh7oZdOzE=;
- b=V8wWQ/WTyNg13mgoukTbGoCpYQRUBjrwWFk/7NaQ5N6KGooYr7WaHZu6naGLpCYFZt
- LBUrGOY36VZOPtlzo43Yg2HepE6EhbGZZw3KnlVszxG0rF/Rw4foCN8YlwKI8yyW7q6x
- 21WAbApCfLjPTs6WeQiuiIiBpLXXXp1v4c2Cd02Ik0dpXaH+mqGhLFO3nANozppA+jAF
- SnDYCEqteCJwp2VickdZwU2AWXa7gCOzdFy0jZWG2aPEa52AGPk06qTlVuKs8Uqo5ACX
- zZwV/2aUMpPv2VjT4/B3LFdfWkeg+9lTgfJKnI+6/0XS7clcDwnRwVxkVaXWVvxpp2SP
- LN5A==
-X-Gm-Message-State: AOAM530iixIur/nr8fJmXYU5qkKUKUuxwwqBYn4uIFgalWCWv/RlN9zj
- 3dLDTEbZwFIkLUZiY4p6nwQEROaH+DIoqg==
-X-Google-Smtp-Source: ABdhPJyZWJQjDINrMJEDkLOq6BtmDHo0HM1dOI+5R1xfB0AgUZQ+5jVbUtuTpymw3ownW0Pm6fM9ag==
-X-Received: by 2002:a63:574c:: with SMTP id h12mr11827252pgm.79.1612669513750; 
- Sat, 06 Feb 2021 19:45:13 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- 123sm14437971pfd.91.2021.02.06.19.45.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 06 Feb 2021 19:45:12 -0800 (PST)
-Subject: Re: Increased execution time with TCI in latest git master (was: Re:
- [PULL 00/46] tcg patch queue)
-To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
-References: <20210205225650.1330794-1-richard.henderson@linaro.org>
- <02ad8dba-48a5-b547-05ba-d7fa1150b1d0@weilnetz.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <95d0b17b-b1ed-6b4f-f26a-69ec6a2e6e03@linaro.org>
-Date: Sat, 6 Feb 2021 19:45:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l8bdq-0008Vm-NG
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 23:25:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l8bdn-0002Ar-KO
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 04:25:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 80DC52E80E1
+ for <qemu-devel@nongnu.org>; Sun,  7 Feb 2021 04:25:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <02ad8dba-48a5-b547-05ba-d7fa1150b1d0@weilnetz.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.105,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 07 Feb 2021 04:17:21 -0000
+From: Launchpad Bug Tracker <1905979@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange janitor oseibert-sys11
+X-Launchpad-Bug-Reporter: Olaf Seibert (oseibert-sys11)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <160648885405.8173.13759191424779303608.malonedeb@soybean.canonical.com>
+Message-Id: <161267144121.32486.6884059180343617140.malone@loganberry.canonical.com>
+Subject: [Bug 1905979] Re: Check if F_OFD_SETLK is supported may give wrong
+ result
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: 0296dfcf07fdaebad7e0d22dd96dab204a12b570
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,16 +71,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1905979 <1905979@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/6/21 11:38 AM, Stefan Weil wrote:
-> I am still searching what caused this detoriation. My first suspect was thread
-> local storage, but that wasn't it. Do you have any idea?
+[Expired for QEMU because there has been no activity for 60 days.]
 
-No, but since it's 1/3 of a complete patch set, I don't care to investigate the
-intermediate result either.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
+-- =
 
-r~
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1905979
+
+Title:
+  Check if F_OFD_SETLK is supported may give wrong result
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  In util/osdep.c there is a function qemu_probe_lock_ops() to check if
+  file locks F_OFD_SETLK and F_OFD_GETLK (of the style "Open file
+  description locks (non-POSIX)") are supported.
+
+  This test is done by trying a lock operation on the file /dev/null.
+
+  This test can get a wrong result.
+
+  The result is (probably) if the operating system *in general* supports
+  these locks. However, it does not guarantee that the file system where
+  the lock is really wanted (for instance, in caller
+  raw_check_lock_bytes() in block/file-posix.c) does support these
+  locks.
+
+  (In theory it could even be that /dev/null, being a device special
+  file, does not support the lock type while a plain file would.)
+
+  This is in particular relevant for disk images which are stored on a
+  shared file system (my particular use case is the Quobyte file system,
+  which appears not to support these locks).
+
+  The code as mentioned above is present in the master branch (I checked
+  commit ea8208249d1082eae0444934efb3b59cd3183f05) but also for example
+  on stable-2.11 commit 0982a56a551556c704dc15752dabf57b4be1c640)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1905979/+subscriptions
 
