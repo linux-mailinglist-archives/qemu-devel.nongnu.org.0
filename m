@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8D83120E4
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 03:26:59 +0100 (CET)
-Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC58312134
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 04:46:43 +0100 (CET)
+Received: from localhost ([::1]:58948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8Zms-00033n-Jk
-	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 21:26:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56418)
+	id 1l8b21-0003jJ-T7
+	for lists+qemu-devel@lfdr.de; Sat, 06 Feb 2021 22:46:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l8Zld-0002YH-Fp
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 21:25:41 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55172)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l8b0g-0003Cw-Be
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 22:45:18 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:45170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l8Zlb-0003is-C8
- for qemu-devel@nongnu.org; Sat, 06 Feb 2021 21:25:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l8ZlY-0004Ob-Pq
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 02:25:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A80152E8086
- for <qemu-devel@nongnu.org>; Sun,  7 Feb 2021 02:25:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l8b0e-0006m7-0w
+ for qemu-devel@nongnu.org; Sat, 06 Feb 2021 22:45:17 -0500
+Received: by mail-pg1-x532.google.com with SMTP id o21so6651373pgn.12
+ for <qemu-devel@nongnu.org>; Sat, 06 Feb 2021 19:45:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=IHdjoeIlepbmD2QRfbHWlODLn3Lf9Angw9yh7oZdOzE=;
+ b=G1GOjK1SrGymRM+aTfzE1/5F2IOPPkZNPPpTzfxhkBOYJp6crQ1WxTa0vvlqej9rh9
+ JquECCceAFXveiEKROwDqvzJ0w34EBerS5S17dLtEpS2FHbsR12fHl0hQXQQPWsYSUp1
+ HyqpSYMAsaT+Si8kKgoWwDwIxTl3pYosbP8XJbBDNzsQuBc3qjElQSADqnsc384THfIN
+ 7qre03gwA3EYBoKwln2Y4i7QsXmmv4Jamj/tkfGyfKf1n8czteR+n/sDn77ZL/MSq/Qe
+ YKMVnUSKRJi4Gw+p//ShzPDsiU1vJ8LyT8NXf4GQHXTcur/rdV3NmvrlyBPUv3fE5yhV
+ JDPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IHdjoeIlepbmD2QRfbHWlODLn3Lf9Angw9yh7oZdOzE=;
+ b=V8wWQ/WTyNg13mgoukTbGoCpYQRUBjrwWFk/7NaQ5N6KGooYr7WaHZu6naGLpCYFZt
+ LBUrGOY36VZOPtlzo43Yg2HepE6EhbGZZw3KnlVszxG0rF/Rw4foCN8YlwKI8yyW7q6x
+ 21WAbApCfLjPTs6WeQiuiIiBpLXXXp1v4c2Cd02Ik0dpXaH+mqGhLFO3nANozppA+jAF
+ SnDYCEqteCJwp2VickdZwU2AWXa7gCOzdFy0jZWG2aPEa52AGPk06qTlVuKs8Uqo5ACX
+ zZwV/2aUMpPv2VjT4/B3LFdfWkeg+9lTgfJKnI+6/0XS7clcDwnRwVxkVaXWVvxpp2SP
+ LN5A==
+X-Gm-Message-State: AOAM530iixIur/nr8fJmXYU5qkKUKUuxwwqBYn4uIFgalWCWv/RlN9zj
+ 3dLDTEbZwFIkLUZiY4p6nwQEROaH+DIoqg==
+X-Google-Smtp-Source: ABdhPJyZWJQjDINrMJEDkLOq6BtmDHo0HM1dOI+5R1xfB0AgUZQ+5jVbUtuTpymw3ownW0Pm6fM9ag==
+X-Received: by 2002:a63:574c:: with SMTP id h12mr11827252pgm.79.1612669513750; 
+ Sat, 06 Feb 2021 19:45:13 -0800 (PST)
+Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
+ by smtp.gmail.com with ESMTPSA id
+ 123sm14437971pfd.91.2021.02.06.19.45.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 06 Feb 2021 19:45:12 -0800 (PST)
+Subject: Re: Increased execution time with TCI in latest git master (was: Re:
+ [PULL 00/46] tcg patch queue)
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+References: <20210205225650.1330794-1-richard.henderson@linaro.org>
+ <02ad8dba-48a5-b547-05ba-d7fa1150b1d0@weilnetz.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <95d0b17b-b1ed-6b4f-f26a-69ec6a2e6e03@linaro.org>
+Date: Sat, 6 Feb 2021 19:45:10 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 07 Feb 2021 02:17:15 -0000
-From: hikalium <1914849@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: macos tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hikalium roolebo tnishinaga
-X-Launchpad-Bug-Reporter: Toshifumi NISHINAGA (tnishinaga)
-X-Launchpad-Bug-Modifier: hikalium (hikalium)
-References: <161259505296.24527.7729976640303273029.malonedeb@wampee.canonical.com>
-Message-Id: <161266423509.2846.13019124961581445864.malone@gac.canonical.com>
-Subject: [Bug 1914849] Re: mprotect fails after MacOS 11.2 on arm mac
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: 114595eaab096ca0431c84f9d4efd4413077ba29
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <02ad8dba-48a5-b547-05ba-d7fa1150b1d0@weilnetz.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.105,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,110 +89,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914849 <1914849@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I hit the same problem and did some initial investigation with
-Toshifumi.
+On 2/6/21 11:38 AM, Stefan Weil wrote:
+> I am still searching what caused this detoriation. My first suspect was thread
+> local storage, but that wasn't it. Do you have any idea?
 
-Here is a more exhaustive test program I wrote based on the post on the
-Apple Developer Forums and the result shows that very interesting
-behavior of mmap and mprotect since macOS 11.2.
+No, but since it's 1/3 of a complete patch set, I don't care to investigate the
+intermediate result either.
 
-https://gist.github.com/hikalium/75ae822466ee4da13cbbe486498a191f
 
-I and my friend confirmed that all mmap & following mprotect calls with
-any protection bit combinations are succeeded up to 11.1 on M1 Mac but
-starting from 11.2 mprotect starts failing if we call mmap with
-PROT_WRITE + PROT_EXEC. (Surprisingly, mmap itself is not failing even
-on those patterns.)
-
-It looks like the allocation of code gen buffer in QEMU uses this combinati=
-on at mmap call:
-https://github.com/qemu/qemu/blob/master/accel/tcg/translate-all.c#L1294
-
-So maybe we need to specify PROT_NONE instead on the initial mmap and
-change it appropriately afterwards to make it working on M1 Mac after
-11.2.
-
-(We tried to fix it but we have no sufficient knowledge about tcg...
-Could you take a look into it?)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914849
-
-Title:
-  mprotect fails after MacOS 11.2 on arm mac
-
-Status in QEMU:
-  New
-
-Bug description:
-  I got the following error when I ran qemu on arm mac(MacOS 11.2).
-
-  ```
-  $ ./qemu-system-x86_64
-  qemu-system-x86_64: qemu_mprotect__osdep: mprotect failed: Permission den=
-ied
-  **
-  ERROR:../tcg/tcg.c:844:tcg_region_init: assertion failed: (!rc)
-  Bail out! ERROR:../tcg/tcg.c:844:tcg_region_init: assertion failed: (!rc)
-  [1]    34898 abort      ./qemu-system-x86_64
-  ```
-
-  I tested the same version of qemu on intel mac(MacOS 11.2), but it
-  works fine.
-
-  And my friend told me that they did not have this error with MacOS
-  11.1.
-
-  So, I think it is CPU architecture or an OS version dependent error.
-
-  =
-
-  Environment:
-
-  Qemu commit id: d0dddab40e472ba62b5f43f11cc7dba085dabe71
-  OS: MacOS 11.2(20D64)
-  Hardware: MacBook Air (M1, 2020)
-
-  =
-
-  How to build:
-
-  ```
-  mkdir build/
-  cd build/
-  ../configure --target-list=3Daarch64-softmmu,x86_64-softmmu
-  make
-  ```
-
-  =
-
-  How to reproduce:
-
-  ```
-  ./qemu-system-x86_64
-  ```
-
-  =
-
-  Error message:
-
-  ```
-  $ ./qemu-system-x86_64
-  qemu-system-x86_64: qemu_mprotect__osdep: mprotect failed: Permission den=
-ied
-  **
-  ERROR:../tcg/tcg.c:844:tcg_region_init: assertion failed: (!rc)
-  Bail out! ERROR:../tcg/tcg.c:844:tcg_region_init: assertion failed: (!rc)
-  [1]    34898 abort      ./qemu-system-x86_64
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914849/+subscriptions
+r~
 
