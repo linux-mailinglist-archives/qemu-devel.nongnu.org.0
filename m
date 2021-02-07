@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE833125AD
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 17:00:19 +0100 (CET)
-Received: from localhost ([::1]:39236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB673125AA
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Feb 2021 16:58:42 +0100 (CET)
+Received: from localhost ([::1]:34258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8mTy-0001CB-3Q
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 11:00:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57534)
+	id 1l8mSP-0007YV-2L
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 10:58:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1l8mPN-0006As-Rg
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 10:55:33 -0500
-Received: from mout.web.de ([217.72.192.78]:41243)
+ id 1l8mPa-0006GO-C8
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 10:55:46 -0500
+Received: from mout.web.de ([212.227.17.11]:55551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1l8mPJ-0006YM-BH
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 10:55:32 -0500
+ id 1l8mPX-0006hh-5J
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 10:55:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1612713325;
- bh=7ua/6SuBV446QElSblUX2fQTa/2wqoZLR8jSt7jDu/M=;
+ s=dbaedf251592; t=1612713338;
+ bh=VZwVPIcXWmppBYI3UKMa0Q+ozgHnE3/ryr7dpnEnnFE=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=FzeHGzkLkFsMxkwEO0KuxXcBg+anQ4jTiDiSVR4JaY/f0Gk8RyqcXgZcQN1NbSCCF
- qLPn8/YXa09O94dMzwfVqJ8QoS0a4ZMewA05eJpmsWxc+TdulVlY6bZNBBKFcnu1kE
- /Xbzi861HhfIA2VTsBfRn0CZviygmOUjpVLlj2z8=
+ b=m9P6d1lvouZfBcMIbs6eXLDtwZC/rfJeGVxJGmj9M4u7MYz2LWFnJRslF/LazXni+
+ vGT+BC+gtOd1blKidk8+4lS9aVF/63XmBalW80fXThmWqili3Ks7wlZcHUqHweP5E5
+ JI5LSvKmVecI/5kcyMOyNCrl8aMxV1FJufbFPtDU=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([87.123.206.85]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Mf0pJ-1lXKTM2pZZ-00OaLn; Sun, 07
- Feb 2021 16:55:25 +0100
-Date: Sun, 7 Feb 2021 16:55:23 +0100
+Received: from gecko.fritz.box ([87.123.206.85]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MKdHC-1lTjZW2S7w-00Kvr5; Sun, 07
+ Feb 2021 16:55:38 +0100
+Date: Sun, 7 Feb 2021 16:55:36 +0100
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v4 2/6] boot_linux.py: Use pick_qemu_util
-Message-ID: <cff831492e743dbe4791e51f6d7f5598a4f3ef28.1612712637.git.lukasstraub2@web.de>
+Subject: [PATCH v4 5/6] configure,Makefile: Install colo resource-agent
+Message-ID: <39eb7839a2117286817e4f9fe7838badff08b012.1612712637.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1612712637.git.lukasstraub2@web.de>
 References: <cover.1612712637.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/kZHiV/msAvsnz34J4_s/s81";
+Content-Type: multipart/signed; boundary="Sig_/T2XWj64uVw5v7+sKSMlB+Wb";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:vbFCNwORPiBNsfBIb7ZeLTW25SEFzfbUJr8Zpr2+SZBJGWcceQh
- 3anVeJKIZlqu9Akxn7hMqOYRyj80af8U3jlhyKH/KWD/3ERRjW+Bm5xbX7SmeaiB/oPB0SA
- ll/N5+giMiXaRQW+KkDgLhE5FOvXIlzKlqiL3BFddfzWlXgzMZha7C1Qhc9pM/EkgkymjPl
- bkCjyDrBUxYlbSOs34+tg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HkfAg+BpS1c=:+2Za27j1EEmnr99vt7lAAn
- yzFmfNa2X/w/w7GoPUMaVpg5GWYCiJi1Ltkritbh5WeSyf96HYNmXPFW35DLuQMEy3oJsx+xU
- +YmiDlNYKHd4AkXokTh8lYc1A1e+4PmutXSe0lXiWUy0co3lvzUoL61Ql5WTMEsVNCaG8WO3a
- P861Vk2y9mscF0YaKmF0/dCN/gDujFMdTfIKWfiWswE2PBa2kBvbNmgNXV0zOI+UXRstmvMAC
- gVsXf1awVyTXCtNk5QjFSy//szCZGmI9RZrzrc7UTHgVtiIvOnYOAyA9VxLlCI9Pn/AuRnoes
- ipKmJEsxRBgpoQd7bxicFoLSoFHxBRafIBvpZxvRrivzXT2waJnr+hHRpslIE+taMeUo7ErJ+
- hGRx5sEXwpwW2cI1u4vBE6jkxJ3zQ2pB23RqNjt0OTuONGW34BN3udjRFbcyzM86uTj+e6iMc
- fmDRkIkMr8ak97u7S6a8DdZXOhby7+lTDdqiQ0yOF7Bta/5XxuDfuMfxZGJAlJy6Xb4awI03m
- lSjSIF253Io5qj8YMkW7EbASATPKpCpwrrJUCABrz1+kz26gVVHReclyZcl2ulg/5VbjyiRW/
- nAiv2yZumfm564w0xQVOGqmtasa6JrJA7Mo8c43jM/ZvlCVENMUBkku1MY7rvKSLmnwL6IPoo
- jbi2UNs98njWiP7e/aCoEbrUlFwmU9A1Jtiwf0tjI9r0GL7P1JEnoNC/C86pZKQJ/wc/+xmNQ
- +ZaNrDD1m5mYL6lkP3aZVT6G4Aet3FnHclGSEdlbASzLocARkCYBP+2WRxvfPI3iTtXfIGqq+
- 7shficlIgDUItJBGURb2c7EyKBu1AT89ydGFiaHlD2Asa5mrSUASi9Iv3vTl9UU1I/oCjOis6
- Ua+3NWOnXu5xw77gKXf8lhIQb32HAEfz5ZDgJsQaQ=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:sSEQmA6y8AcZyrBIzbP81J6i/RPahu75n2q1CG4UqkM1+/VRm5q
+ 4BerQb4IeJJTVPf6g9BqYOdMJ2FI/ezaDZ3N1hRJN6CT6OKVaNGJFUlfzDX3wv7TJfGDcQN
+ 6WPoZUtzVPGiXtsfD4SZxoaPpCdABCA4jCx/pcUiE2kcIuIGtYDWvrPEAwR3Yn9FIu6g4Pl
+ EYIFMs6KV2DWyYdnEYw7A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eZ+y+fEHr38=:joJN9UOlp5ufhb3ojJTb9q
+ T2sz7KA03Y6UoaBCTE1PH2kNrzq7Fn50Kv7O79hP1DCTtlg2TjGDrr2DITYXgatJk1gnX3+lh
+ 5kECfbtt5rOieI6VUoqSzOvp2pJSe/OrP5Jt7sfmCUfqjxHwvTWm0md1PoqbJWBZw3GHKpn9Y
+ tSptYe+IlrbiCe8UyEDWdRZCrOixsaYuyPtr+E9m2s3LYOTdU9Ijl4qJZMFV2GEYpi/Nr5Pwl
+ NUZGoBzvgsLuMy9KPr30XoSs6eT/MhybD5byWhtlvX0N7+4FefIC38IZJonDZ8Yuq9zIucPEj
+ 0QKDLMXNDmpO03VIipwLriGVxQrQ6D8gOkHylmhYXFj3H3AnZCV+okiCgikWh1Zk17kN/nlAC
+ wkgrIPp9gJZxyinrkw/p0A19ive3ZhvokFN5p5WswkyQ05chXv8cOM4Ro+ZlMDdRdGmj1/qPE
+ m3BbuRcQtWl/FI/aOu+WkewMijc8CtEqWdowvP8ii1NPYh7WsWSIPVty+mgj0ZdX6brPX5Mm2
+ jr2DfAAlKynYAj3s5LGe4QThVWvHX14vwLs/mbphsr57Xgf2xOAKMeYMf4L8mIScxT1z/ykrB
+ 3soHovqD5rqZn3++FEIX+uklneG5ui1H4C4vS7wStiHCdFfzmfUYEdVaPCfKtuL9Fyi0NzJtE
+ bZZUELL2pUq+04PEH9xfshrsT17pNs+RdqhJGkTZ/8CbvjA2Bcx+iA/7ShNHUtMxiKhoqG3Bp
+ RdHsVwNpwpEJeg+plagXGUDlpj/gE9ZOsGGfe2AabShGzcGvJ5bmYkj3zL7wsaiTgqj4gBoYg
+ PtWyGUk0bDN9aoTMI9/mggJdesPKyqD02TPZSmlCth5y9BD2yFnhhgZ6TPHdojZ9vNBhWrdls
+ oM+W9UtcgHDdti5/veOOC1fXgTo4lRRUCK8rnrNRM=
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,63 +86,131 @@ Cc: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/kZHiV/msAvsnz34J4_s/s81
+--Sig_/T2XWj64uVw5v7+sKSMlB+Wb
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Replace duplicate code with pick_qemu_util.
+Optionally install the resouce-agent so it gets picked up by
+pacemaker.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- tests/acceptance/boot_linux.py | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ configure         | 7 +++++++
+ meson.build       | 5 +++++
+ meson_options.txt | 2 ++
+ 3 files changed, 14 insertions(+)
 
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index 1da4a53d6a..38029f8c70 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -31,15 +31,8 @@ class BootLinuxBase(Test):
-     def download_boot(self):
-         self.log.debug('Looking for and selecting a qemu-img binary to be '
-                        'used to create the bootable snapshot image')
--        # If qemu-img has been built, use it, otherwise the system wide one
--        # will be used.  If none is available, the test will cancel.
--        qemu_img =3D os.path.join(BUILD_DIR, 'qemu-img')
--        if not os.path.exists(qemu_img):
--            qemu_img =3D find_command('qemu-img', False)
--        if qemu_img is False:
--            self.cancel('Could not find "qemu-img", which is required to '
--                        'create the bootable image')
--        vmimage.QEMU_IMG =3D qemu_img
+diff --git a/configure b/configure
+index a34f91171d..54fc7e533f 100755
+--- a/configure
++++ b/configure
+@@ -382,6 +382,7 @@ softmmu=3D"yes"
+ linux_user=3D"no"
+ bsd_user=3D"no"
+ blobs=3D"true"
++install_colo_ra=3D"false"
+ pkgversion=3D""
+ pie=3D""
+ qom_cast_debug=3D"yes"
+@@ -1229,6 +1230,10 @@ for opt do
+   ;;
+   --disable-blobs) blobs=3D"false"
+   ;;
++  --disable-colo-ra) install_colo_ra=3D"false"
++  ;;
++  --enable-colo-ra) install_colo_ra=3D"true"
++  ;;
+   --with-pkgversion=3D*) pkgversion=3D"$optarg"
+   ;;
+   --with-coroutine=3D*) coroutine=3D"$optarg"
+@@ -1772,6 +1777,7 @@ Advanced options (experts only):
+                            ucontext, sigaltstack, windows
+   --enable-gcov            enable test coverage analysis with gcov
+   --disable-blobs          disable installing provided firmware blobs
++  --enable-colo-ra         enable installing the COLO resource agent for p=
+acemaker
+   --with-vss-sdk=3DSDK-path  enable Windows VSS support in QEMU Guest Agent
+   --with-win-sdk=3DSDK-path  path to Windows Platform SDK (to build VSS .t=
+lb)
+   --tls-priority           default TLS protocol/cipher priority string
+@@ -6414,6 +6420,7 @@ NINJA=3D$ninja $meson setup \
+         -Dzstd=3D$zstd -Dseccomp=3D$seccomp -Dvirtfs=3D$virtfs -Dcap_ng=3D=
+$cap_ng \
+         -Dattr=3D$attr -Ddefault_devices=3D$default_devices \
+         -Ddocs=3D$docs -Dsphinx_build=3D$sphinx_build -Dinstall_blobs=3D$b=
+lobs \
++        -Dinstall_colo_ra=3D$install_colo_ra \
+         -Dvhost_user_blk_server=3D$vhost_user_blk_server \
+         -Dfuse=3D$fuse -Dfuse_lseek=3D$fuse_lseek -Dguest_agent_msi=3D$gue=
+st_agent_msi \
+         $(if test "$default_features" =3D no; then echo "-Dauto_features=
+=3Ddisabled"; fi) \
+diff --git a/meson.build b/meson.build
+index 2d8b433ff0..82efa75e36 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2263,6 +2263,10 @@ elif get_option('guest_agent_msi').enabled()
+   error('Guest agent MSI requested, but the guest agent is not being built=
+')
+ endif
+
++if get_option('install_colo_ra')
++  install_data('scripts/colo-resource-agent/colo', install_dir: get_option=
+('libdir') / 'ocf/resource.d/qemu')
++endif
 +
-+        vmimage.QEMU_IMG =3D self.pick_qemu_util("qemu-img")
-
-         self.log.info('Downloading/preparing boot image')
-         # Fedora 31 only provides ppc64le images
+ # Don't build qemu-keymap if xkbcommon is not explicitly enabled
+ # when we don't build tools or system
+ if xkbcommon.found()
+@@ -2398,6 +2402,7 @@ summary_info +=3D {'system-mode emulation': have_syst=
+em}
+ summary_info +=3D {'user-mode emulation': have_user}
+ summary_info +=3D {'block layer':       have_block}
+ summary_info +=3D {'Install blobs':     get_option('install_blobs')}
++summary_info +=3D {'Install COLO resource agent': get_option('install_colo=
+_ra')}
+ summary_info +=3D {'module support':    config_host.has_key('CONFIG_MODULE=
+S')}
+ if config_host.has_key('CONFIG_MODULES')
+   summary_info +=3D {'alternative module path': config_host.has_key('CONFI=
+G_MODULE_UPGRADES')}
+diff --git a/meson_options.txt b/meson_options.txt
+index 95f1079829..907d5dff61 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -15,6 +15,8 @@ option('gettext', type : 'feature', value : 'auto',
+        description: 'Localization of the GTK+ user interface')
+ option('install_blobs', type : 'boolean', value : true,
+        description: 'install provided firmware blobs')
++option('install_colo_ra', type : 'boolean', value : false,
++       description: 'install the COLO resource agent for pacemaker')
+ option('sparse', type : 'feature', value : 'auto',
+        description: 'sparse checker')
+ option('guest_agent_msi', type : 'feature', value : 'auto',
 --
 2.30.0
 
 
---Sig_/kZHiV/msAvsnz34J4_s/s81
+--Sig_/T2XWj64uVw5v7+sKSMlB+Wb
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmAgDWsACgkQNasLKJxd
-slhFjw//X6egO+r9dALXzK54i/A8UF/bgwa3YeRRK424cQbRiDYoZsyuQOHE+YGj
-sCBbUteB/xBRgm5fBE+ognheYcQWDHtTHq4wDEiaFi1X6ASnh9PsTNhpWuudDB1J
-+Hh/CDdvBAGrFJA0uA1AS6o5EjFc23cGPds7VVyfr7WTjw79DjtDw1aOG7BF8JH7
-CuAP/bhjkfPqvPNwc07RHPFNRFtePc9ypm3wdpg+c7NFIHZqcxUf31zwZbjhCi5Y
-K+ebf7j2C7Lnby8DPl6/s4rB9eJUFHLeEJ5mqObJW+6N8JcTatQD+WyI0SWXQSrZ
-R5/ebwsSBkWjsWLd8fUhZ4nd401oP9HtGxj2OXZ9xn1zJzHqQfEDSoaP5xjSFxKR
-I692GggmtobE3lvnfk7dOlczMEwXCbZg6/mcletfoa9AsIOLDcJNUVtLbXGj8HGT
-H588yWvyBpfHWgN5dEx0mwwJZ+MAdxpXX9RblYtXGoZx0mEUbtk9YKzx19HAgV25
-zC2zjC0jENB+OZdGoCJmaA8srC2RloNE0Z0U0OOKFSAdFcGNBK8V1TFS51umSOq8
-MVU52kEOnN2xzwEqweJiXkAROoRrvwQbT5WufMpDTSaxRUIj2TKXBSVnY7zY5LeY
-hutVYkg0lMI7/yk9pZ42/OeER2RFJHoFFeA1kjjKidPKgy4qP1w=
-=YdLT
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmAgDXkACgkQNasLKJxd
+slgP0RAAp76QTfWN9xPF2/y1rg3JyddZknhUtbheZCeh9mhLc0aVmF1XTAnGVx6B
+m8Oi5W/H3hkwKhQ8b25V1RU6BzaurqGoUIQCDW1Yk25wuYwUlj152ENQabtKY/QD
+uqVUTZJUcyWuP44VB7FrzsjK0Fje2iwg3G6EjAOIA/EFZ+3jxVnjRM9QaQAeF+Sk
+BhbEZNJEc4RzOE+4ZvFbfaSB199WjbcJ5c1aGQVOA6Y220fHqY2yHg3mK7hzhF5J
+xlGKW29yqP+yrNYNRf4zPxRm2f4Y45+zy8k8MN3JGjILNFxUvWDPzVAIRtywbq+s
+AGc0ve3mk9dl/doAngPe/QaMka4F8l76waFjcyygmvSeW93PlLsG3r+1yLVFZ42+
+pJpaZ0JvT7XUIDOdq8tsxvSCp1DOS3Fe96QdjNWjtRDgoPKCxSi3l2sw9jDptRqk
+LmLhyJZPKvDJzDaQ2rKRlZNvY0GGj5oyquQSzK7M+HGVLEGoCgG8+5lCpqGAflDq
+SOiczKj7VPrUeB2W9OjGGa/nFuAwEUL4Cs5//QVWoghD6uznEDtEgrXjkUaujoNB
+XGsiWUgEwaRAtXhLw7AQ0L+8JTi70OBIS/21mNrZut2B3+J5eJ9o/OAz732cBJm2
+Nefj8xWByUzEz61FwemK0folcj78zUdbwyzWZ5PWGzra3LqZHQ4=
+=uYOG
 -----END PGP SIGNATURE-----
 
---Sig_/kZHiV/msAvsnz34J4_s/s81--
+--Sig_/T2XWj64uVw5v7+sKSMlB+Wb--
 
