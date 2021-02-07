@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8C831283A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 00:25:30 +0100 (CET)
-Received: from localhost ([::1]:52240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC93312853
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 00:28:11 +0100 (CET)
+Received: from localhost ([::1]:59058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8tQm-00019X-Dv
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 18:25:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55422)
+	id 1l8tTO-00044f-5k
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 18:28:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l8tOu-0007cy-VF; Sun, 07 Feb 2021 18:23:33 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33976)
+ id 1l8tP4-0007uY-CO; Sun, 07 Feb 2021 18:23:42 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l8tOt-0001AF-D4; Sun, 07 Feb 2021 18:23:32 -0500
-Received: by mail-wr1-x435.google.com with SMTP id g10so15171303wrx.1;
- Sun, 07 Feb 2021 15:23:30 -0800 (PST)
+ id 1l8tOz-0001Ce-Ra; Sun, 07 Feb 2021 18:23:42 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id i5so3098340wmq.2;
+ Sun, 07 Feb 2021 15:23:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NB0PxeiyUnyh7a2jT9hNZ8p231d4tVFomh4sbxGsRA8=;
- b=H6dm/1g2ElXpRCdyGyvOLm4dKRdC6BeKWByg/dXiUz0knV2bgWzJd3p7kpSMk48iUj
- n0YgH4Mi06hj9k34E/GnUesKNDs2zXLHIY2a403RiqM/29KiHeHOfIrt7Eru9EIavz8F
- 2vBeGt9jCLeMEBHZtC9XBCbJBitHKeb8N2hdWhxlTB3LdatBjksFWjR3jwVSgVbGyGTc
- +GUX9kmB+ZzY9XmyyCjpzeQYAtrvw/3diNFHUWKzGwOAlYQ0Pvx80vzkjfMiY0C5FY+2
- sBWm1dY2uowJxUj2hcDyp1SbD1RLCBzO+u5ylJ5C8VsTboAptYR0Gq9PQYentVq26HUp
- vlkQ==
+ bh=9gknr3qlLHrPVofS5zv6p1SYehluW78knvLtOubYhBs=;
+ b=K1AaafdYfn0sBrm+KdYQJAGu13yoJyk/44KneP29aXMPf/9RL7wbXwv7enDMeXR8tG
+ /XuGjf+uAIKFmqwYv7PpvhzNyH4LmfOlux/5XFu6+tDrz1e7uvByNMY4StPMoRM6yC7+
+ 0evGxHJPAXFHJdP0jUM3wtH9MvFFUulsPJFi5AsAaUe3q2xEcYVtcqXbU/c/nS/sG3HY
+ x5hGdI4HSEtrBnwHNAvHwVPQAa80SRIKMwLDxuaWfIk/of/Z25GE5ExlWUaf/jGIy89j
+ TE2M2PqdEWRCWK8lqc5fmIWpB/Mcy9MKv1QtHsZlClyoziZspXHVZ5f9QUgCkYrvKJr7
+ r2Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NB0PxeiyUnyh7a2jT9hNZ8p231d4tVFomh4sbxGsRA8=;
- b=WppPWDLDR46c5wZ46otFtMh3AgHtDcycVGVjSYlLiUN+21zvk73mED1mZOE+DyIObX
- 2Uj6NaaHUgVkz9e0hcRwHBDmu8o0x369iempXVSmpwBgIrhGrGjMFfu1okZuoj3J/HB9
- w75hhQoXwfy+oYs2YQs1hcPhxc7+TQWQZ//XIz4JoHi4mRuOZ/4jcfC17Cvo9ipvyxES
- gkkms/vCUYU3bRuh1XjCtgi2fldTiFmF83y/yIjZYS6Uvwln/dIQVml1uX8PyRt8vPWi
- 6OsN9Bygc6utAsX3VtgHMfqSxcEKJ+5slYztr60Oel+zH6K6bClhxEfSx4CbWoz6Birf
- 17WA==
-X-Gm-Message-State: AOAM533+wK+ad9DdwIdJcIrJFGT43jhVL4FckH6bSKN3mEni3v6qDNzk
- UxTTfMNiQG/So356Y2S/US2Ubk2Lj60=
-X-Google-Smtp-Source: ABdhPJyQhz82BwQ8fi6Ee/12u4Dqp9KXCyb8ZlEgT+XV6b8wbWh5emTcY+vdGvd0IVs3IxxcaNbqow==
-X-Received: by 2002:a5d:4292:: with SMTP id k18mr17223984wrq.218.1612740209256; 
- Sun, 07 Feb 2021 15:23:29 -0800 (PST)
+ bh=9gknr3qlLHrPVofS5zv6p1SYehluW78knvLtOubYhBs=;
+ b=QsXk9CNm1ov1dl40ICsXfQr7s9MYuZYmUYgkfiYtHWhVBD40KAtaxgrfAcnl7C9x0X
+ vJmLjywAbJqnX+ezml9HheejCAIhg/oZ6pq4gxM/L9cL/nmZT2SmH3HbIMobBbPs67Un
+ Ee2RbucOUhA3xDSjUq10SIohSlrR/Hubuu2klolODNqpWkqgHuXtO1EMFw4nyf+Rmb6O
+ xPrsTGppb7qZEC5JemS6DptTBYQ8dxEGu38i5u5U2y0A9QGU/yuJXTEABJhdsT2Jz8Iq
+ 9nv5cNQ6XqZM/1YKemcxnUpayRH8ufztsTduY0U8KGxuzswYdvimDqRsiLOEYUEFqCiE
+ DM0A==
+X-Gm-Message-State: AOAM531se0NGysmQbz3n1t7cJxASjbh9i5LUMZa0OI6jOabLniajCLqq
+ kJvfkQIGEDuy38461I2UWh7GWRL+Wss=
+X-Google-Smtp-Source: ABdhPJxC60ACe0vE/X8upoWTKt/bY8N5fxgL8wrEih7fHr44FtHzW3qjMJzC63oI76VmJSIKv+s0fQ==
+X-Received: by 2002:a1c:6308:: with SMTP id x8mr12528249wmb.78.1612740214536; 
+ Sun, 07 Feb 2021 15:23:34 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id z15sm23614358wrt.8.2021.02.07.15.23.27
+ by smtp.gmail.com with ESMTPSA id e10sm24315162wro.65.2021.02.07.15.23.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 15:23:28 -0800 (PST)
+ Sun, 07 Feb 2021 15:23:33 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/6] target/mips: Include missing "tcg/tcg.h" header
-Date: Mon,  8 Feb 2021 00:23:07 +0100
-Message-Id: <20210207232310.2505283-4-f4bug@amsat.org>
+Subject: [PATCH v2 4/6] accel/tcg: Include missing "tcg/tcg.h" header
+Date: Mon,  8 Feb 2021 00:23:08 +0100
+Message-Id: <20210207232310.2505283-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210207232310.2505283-1-f4bug@amsat.org>
 References: <20210207232310.2505283-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,45 +98,58 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 83be6b54123 ("Fix MSA instructions LD.<B|H|W|D> on big endian
-host") introduced use of typedef/prototypes declared in "tcg/tcg.h"
-without including it. This was not a problem because "tcg/tcg.h" is
-pulled in by "exec/cpu_ldst.h". To be able to remove this header
-there, we first need to include it here in op_helper.c, else we get:
+Commit 3468b59e18b ("tcg: enable multiple TCG contexts in softmmu")
+introduced use of typedef/prototypes declared in "tcg/tcg.h" without
+including it. This was not a problem because "tcg/tcg.h" is pulled
+in by "exec/cpu_ldst.h". To be able to remove this header there, we
+first need to include it here in op_helper.c, else we get:
 
-  [222/337] Compiling C object libqemu-mips-softmmu.fa.p/target_mips_msa_helper.c.o
-  target/mips/msa_helper.c: In function ‘helper_msa_ld_b’:
-  target/mips/msa_helper.c:8214:9: error: unknown type name ‘TCGMemOpIdx’
-   8214 |         TCGMemOpIdx oi = make_memop_idx(MO_TE | DF | MO_UNALN,  \
-        |         ^~~~~~~~~~~
-  target/mips/msa_helper.c:8224:5: note: in expansion of macro ‘MEMOP_IDX’
-   8224 |     MEMOP_IDX(DF_BYTE)
-        |     ^~~~~~~~~
-  target/mips/msa_helper.c:8214:26: error: implicit declaration of function ‘make_memop_idx’ [-Werror=implicit-function-declaration]
-   8214 |         TCGMemOpIdx oi = make_memop_idx(MO_TE | DF | MO_UNALN,  \
-        |                          ^~~~~~~~~~~~~~
-  target/mips/msa_helper.c:8227:18: error: implicit declaration of function ‘helper_ret_ldub_mmu’ [-Werror=implicit-function-declaration]
-   8227 |     pwd->b[0]  = helper_ret_ldub_mmu(env, addr + (0  << DF_BYTE), oi, GETPC());
-        |                  ^~~~~~~~~~~~~~~~~~~
+  accel/tcg/tcg-accel-ops-mttcg.c: In function ‘mttcg_cpu_thread_fn’:
+  accel/tcg/tcg-accel-ops-mttcg.c:52:5: error: implicit declaration of function ‘tcg_register_thread’; did you mean ‘rcu_register_thread’? [-Werror=implicit-function-declaration]
+     52 |     tcg_register_thread();
+        |     ^~~~~~~~~~~~~~~~~~~
+        |     rcu_register_thread
+  accel/tcg/tcg-accel-ops-mttcg.c:52:5: error: nested extern declaration of ‘tcg_register_thread’ [-Werror=nested-externs]
+  cc1: all warnings being treated as errors
+
+  accel/tcg/tcg-accel-ops-rr.c: In function ‘rr_cpu_thread_fn’:
+  accel/tcg/tcg-accel-ops-rr.c:153:5: error: implicit declaration of function ‘tcg_register_thread’; did you mean ‘rcu_register_thread’? [-Werror=implicit-function-declaration]
+    153 |     tcg_register_thread();
+        |     ^~~~~~~~~~~~~~~~~~~
+        |     rcu_register_thread
+  accel/tcg/tcg-accel-ops-rr.c:153:5: error: nested extern declaration of ‘tcg_register_thread’ [-Werror=nested-externs]
   cc1: all warnings being treated as errors
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/msa_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ accel/tcg/tcg-accel-ops-mttcg.c | 1 +
+ accel/tcg/tcg-accel-ops-rr.c    | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index 1298a1917ce..4caefe29ad7 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "internal.h"
-+#include "tcg/tcg.h"
+diff --git a/accel/tcg/tcg-accel-ops-mttcg.c b/accel/tcg/tcg-accel-ops-mttcg.c
+index 42973fb062b..ddbca6c5b8c 100644
+--- a/accel/tcg/tcg-accel-ops-mttcg.c
++++ b/accel/tcg/tcg-accel-ops-mttcg.c
+@@ -32,6 +32,7 @@
  #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
- #include "exec/memop.h"
+ #include "hw/boards.h"
+ 
++#include "tcg/tcg.h"
+ #include "tcg-accel-ops.h"
+ #include "tcg-accel-ops-mttcg.h"
+ 
+diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+index 4a66055e0d7..1bb1d0f8f1c 100644
+--- a/accel/tcg/tcg-accel-ops-rr.c
++++ b/accel/tcg/tcg-accel-ops-rr.c
+@@ -32,6 +32,7 @@
+ #include "exec/exec-all.h"
+ #include "hw/boards.h"
+ 
++#include "tcg/tcg.h"
+ #include "tcg-accel-ops.h"
+ #include "tcg-accel-ops-rr.h"
+ #include "tcg-accel-ops-icount.h"
 -- 
 2.26.2
 
