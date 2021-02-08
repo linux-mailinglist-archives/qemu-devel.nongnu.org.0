@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1802313FC6
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:01:34 +0100 (CET)
-Received: from localhost ([::1]:50948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FBE313FE7
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:06:35 +0100 (CET)
+Received: from localhost ([::1]:59870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Ciz-0005ww-C9
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:01:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47426)
+	id 1l9Cnq-0001T1-OM
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:06:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96ja-00033T-Qi
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:37:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28947)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96kW-0003Bx-JC
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:38:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96jI-0004zm-SC
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:37:39 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96k5-00055X-LZ
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:38:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612791448;
+ s=mimecast20190719; t=1612791496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W/983sKCXCSNy2SywL9DvVo0od8KR97/FwleNIFTEaM=;
- b=JCpPRnKqA3n1gMnH3q43dU3kEvbqqVkj+yhkzIvh1DcDBY2ovbK7O+hFg0My/n3ZKI1bp8
- peR6U7epiqGWZqVFdXWlLxjgVOCNhcvxCk4qdsJwVTW8xTbfwTTk4oArSX8IUOd8D54SBg
- 91PZ//BUVve1UyZqG/1l4cEElqxU0hY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-seIDDmioOVus8JOe9dU26w-1; Mon, 08 Feb 2021 08:37:25 -0500
-X-MC-Unique: seIDDmioOVus8JOe9dU26w-1
-Received: by mail-wm1-f72.google.com with SMTP id n17so6512331wmk.3
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 05:37:25 -0800 (PST)
+ bh=Nm/ExYlKufTmMZyvqaMCH5BvpDN6afR/9tY/eyJ/hhU=;
+ b=dNw+7DDLvIc+bG7LhjYUPFlwNqO5lA2jfNZyyOtYeTIkHe6DSwmadrQy0TQl80N00hLPdX
+ fiJaZU1WOIXafWXt1yPHwv8X8xY/fiGNzARqgWEmelC4kcOLcRjWB90eRbTObApI+j94g3
+ 2S4aY/0QZjOSirdvGzSWDaVnpprSySg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-5fdcgSwmMqqWOhj-7-af8g-1; Mon, 08 Feb 2021 08:38:14 -0500
+X-MC-Unique: 5fdcgSwmMqqWOhj-7-af8g-1
+Received: by mail-wr1-f71.google.com with SMTP id m7so13267516wro.12
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 05:38:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W/983sKCXCSNy2SywL9DvVo0od8KR97/FwleNIFTEaM=;
- b=TD9Ow6tPQGLA1zXIVkKfrbz2qXEstuxiuL8ancvr4yusLOqFl91AiRNgoX+tUDb0bN
- xX5ffqmAmt0xRlIX6zkigcEOt0Fx7ybLDBxxKaBY3nCR7uGDCg54xw8X0jfwQ6hQaC+i
- dfRzCAJavwFiEXsTQaz/t5QDezW8pLTAFLWXFITf0E8yKzd7abee+QePn33WtQip4ZZo
- tHJt2YnINvLM9Q36pSPtapiCwwLa02TJAy2pmCkTCnaHdz55lHRnUn6YGw9yX2wE3caP
- fCxpkP7fc2djJGBgTKtzB2Lc50KYZ5j8DF9ryGezlTxhLmw62ij/8/j8RNwKNr0PFnGI
- LsPA==
-X-Gm-Message-State: AOAM532Xfs8BeI0lKcMcpFILP1XTiJS40dC2uUCmT2jkOarCjc35/tdX
- jVM8Y+r5H3Rzu9a/9oG5waT9hnDiXjVd4n36kimGxS1r5TVHSVZMbbbsD014t2CAznRXi97Poip
- LLoaoyDvD13GRuGz+X9Wtj4UeVCZQZQH8Wxk6rLDFo2D/nKZ1T8kg+TejmBpxFOau
-X-Received: by 2002:a05:600c:4857:: with SMTP id
- j23mr3415414wmo.66.1612791441426; 
- Mon, 08 Feb 2021 05:37:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzYZ9l0l9dfqa49K8Xmck4MY+gwz7LZQDFFjHnu+9T4zSsfulzysDKTayX86AAgaF/DZMwZog==
-X-Received: by 2002:a05:600c:4857:: with SMTP id
- j23mr3415263wmo.66.1612791438521; 
- Mon, 08 Feb 2021 05:37:18 -0800 (PST)
+ bh=Nm/ExYlKufTmMZyvqaMCH5BvpDN6afR/9tY/eyJ/hhU=;
+ b=o3ejoUAXUnVfPJ1EtOKq24Yja7QIU5uUe3OdGLouQLOMUkjO75d0XKJMZoDlCZKwG5
+ hloXBGzEewy7JrFp0iEzOC83zSFwOm+XhxK11n4+sLGMxVNZnkECNBByo7ngxXq1gzdQ
+ JnTmVLbsB2K2JEEiAJo26+vRyiJcx+RDoYksVIwTjNzFA7m6r9XJnBdeWt/aIuJ0fX25
+ VpQoqxoDrhVse+2w8v8iRHKJuynVhujNvgM0FHlIWuM0spqe1O2ys3X6rYkH5rlTFNAL
+ VIlPc0EhkZx21ZyPWE6pPQF6jCF2ZJv/UgPdSMdwpXcMH744ahObIs+mjZBGv1Q6Db3x
+ VgNQ==
+X-Gm-Message-State: AOAM533aozkvJlVVfkmpEeAvs/qVc33DspMoSNHBJP3CzAa9gMYQpumZ
+ 9TDJaahOrRYKFAsY3i5i38mTPJOyMcAL303yGBsKkNjkQYm4baoV/GB47OR5D2MXNfwiFkt8CiU
+ 9B09BtN+FNU0BfTfqBqs2A/+8HhA0oMKJkZb+eHehNpgmncktu5q5shePKOrd5iZR
+X-Received: by 2002:a1c:7d41:: with SMTP id y62mr14448718wmc.139.1612791493039; 
+ Mon, 08 Feb 2021 05:38:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwtxV+C9+SWVwL6VXEnWtsInoVEWIAsYlI5B4HmtwQuM1Med9IZ75/uYsQMXDoQ25gTqLpzoQ==
+X-Received: by 2002:a1c:7d41:: with SMTP id y62mr14448698wmc.139.1612791492755; 
+ Mon, 08 Feb 2021 05:38:12 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id g1sm28113599wrq.30.2021.02.08.05.37.17
+ by smtp.gmail.com with ESMTPSA id s64sm22086029wms.21.2021.02.08.05.38.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 05:37:17 -0800 (PST)
+ Mon, 08 Feb 2021 05:38:12 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/18] tests/acceptance: Extract tesseract_available() helper
- in new namespace
-Date: Mon,  8 Feb 2021 14:36:54 +0100
-Message-Id: <20210208133711.2596075-2-philmd@redhat.com>
+Subject: [PULL 11/18] tests/acceptance/boot_linux: rename misleading cloudinit
+ method
+Date: Mon,  8 Feb 2021 14:37:04 +0100
+Message-Id: <20210208133711.2596075-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210208133711.2596075-1-philmd@redhat.com>
 References: <20210208133711.2596075-1-philmd@redhat.com>
@@ -96,116 +94,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Cleber Rosa <crosa@redhat.com>
 
-We are going to reuse tesseract_available(). Extract it to
-a new 'tesseract_utils' namespace.
+There's no downloading happening on that method, so let's call it
+"prepare" instead.  While at it, and because of it, the current
+"prepare_boot" and "prepare_cloudinit" are also renamed.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The reasoning here is that "prepare_" methods will just work on the
+images, while "set_up_" will make them effective to the VM that will
+be launched.  Inspiration comes from the "virtiofs_submounts.py"
+tests, which this expects to converge more into.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201021105035.2477784-4-f4bug@amsat.org>
+Message-Id: <20210203172357.1422425-3-crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/acceptance/machine_m68k_nextcube.py | 25 +++-----------------
- tests/acceptance/tesseract_utils.py       | 28 +++++++++++++++++++++++
- 2 files changed, 31 insertions(+), 22 deletions(-)
- create mode 100644 tests/acceptance/tesseract_utils.py
+ tests/acceptance/boot_linux.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptance/machine_m68k_nextcube.py
-index 2baba5fdc26..3c7400c43e4 100644
---- a/tests/acceptance/machine_m68k_nextcube.py
-+++ b/tests/acceptance/machine_m68k_nextcube.py
-@@ -1,19 +1,19 @@
- # Functional test that boots a VM and run OCR on the framebuffer
- #
--# Copyright (c) Philippe Mathieu-Daudé <f4bug@amsat.org>
-+# Copyright (c) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
- #
- # This work is licensed under the terms of the GNU GPL, version 2 or
- # later.  See the COPYING file in the top-level directory.
+diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+index 2ac3e575874..bcd923bb4a0 100644
+--- a/tests/acceptance/boot_linux.py
++++ b/tests/acceptance/boot_linux.py
+@@ -57,7 +57,7 @@ def download_boot(self):
+             self.cancel('Failed to download/prepare boot image')
+         return boot.path
  
- import os
--import re
- import time
- import logging
+-    def download_cloudinit(self, ssh_pubkey=None):
++    def prepare_cloudinit(self, ssh_pubkey=None):
+         self.log.info('Preparing cloudinit image')
+         try:
+             cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
+@@ -85,15 +85,15 @@ def setUp(self, ssh_pubkey=None):
+         super(BootLinux, self).setUp()
+         self.vm.add_args('-smp', '2')
+         self.vm.add_args('-m', '1024')
+-        self.prepare_boot()
+-        self.prepare_cloudinit(ssh_pubkey)
++        self.set_up_boot()
++        self.set_up_cloudinit(ssh_pubkey)
  
- from avocado_qemu import Test
- from avocado import skipUnless
- from avocado.utils import process
--from avocado.utils.path import find_command, CmdNotFoundError
-+
-+from tesseract_utils import tesseract_available
+-    def prepare_boot(self):
++    def set_up_boot(self):
+         path = self.download_boot()
+         self.vm.add_args('-drive', 'file=%s' % path)
  
- PIL_AVAILABLE = True
- try:
-@@ -22,25 +22,6 @@
-     PIL_AVAILABLE = False
+-    def prepare_cloudinit(self, ssh_pubkey=None):
+-        cloudinit_iso = self.download_cloudinit(ssh_pubkey)
++    def set_up_cloudinit(self, ssh_pubkey=None):
++        cloudinit_iso = self.prepare_cloudinit(ssh_pubkey)
+         self.vm.add_args('-drive', 'file=%s,format=raw' % cloudinit_iso)
  
- 
--def tesseract_available(expected_version):
--    try:
--        find_command('tesseract')
--    except CmdNotFoundError:
--        return False
--    res = process.run('tesseract --version')
--    try:
--        version = res.stdout_text.split()[1]
--    except IndexError:
--        version = res.stderr_text.split()[1]
--    return int(version.split('.')[0]) == expected_version
--
--    match = re.match(r'tesseract\s(\d)', res)
--    if match is None:
--        return False
--    # now this is guaranteed to be a digit
--    return int(match.groups()[0]) == expected_version
--
--
- class NextCubeMachine(Test):
-     """
-     :avocado: tags=arch:m68k
-diff --git a/tests/acceptance/tesseract_utils.py b/tests/acceptance/tesseract_utils.py
-new file mode 100644
-index 00000000000..acd6e8c2faa
---- /dev/null
-+++ b/tests/acceptance/tesseract_utils.py
-@@ -0,0 +1,28 @@
-+# ...
-+#
-+# Copyright (c) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later. See the COPYING file in the top-level directory.
-+
-+import re
-+
-+from avocado.utils.path import find_command, CmdNotFoundError
-+
-+def tesseract_available(expected_version):
-+    try:
-+        find_command('tesseract')
-+    except CmdNotFoundError:
-+        return False
-+    res = process.run('tesseract --version')
-+    try:
-+        version = res.stdout_text.split()[1]
-+    except IndexError:
-+        version = res.stderr_text.split()[1]
-+    return int(version.split('.')[0]) == expected_version
-+
-+    match = re.match(r'tesseract\s(\d)', res)
-+    if match is None:
-+        return False
-+    # now this is guaranteed to be a digit
-+    return int(match.groups()[0]) == expected_version
+     def launch_and_wait(self):
 -- 
 2.26.2
 
