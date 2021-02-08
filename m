@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187F9312AA2
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 07:19:47 +0100 (CET)
-Received: from localhost ([::1]:42092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE1C312B0C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 08:23:31 +0100 (CET)
+Received: from localhost ([::1]:55366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8zti-0004Cj-1V
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 01:19:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
+	id 1l90tH-0001Y2-QE
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 02:23:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgY-00082r-UT; Mon, 08 Feb 2021 01:06:10 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:50671 helo=ozlabs.org)
+ id 1l8zgP-0007hX-Rt; Mon, 08 Feb 2021 01:06:01 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34453 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgW-000666-RW; Mon, 08 Feb 2021 01:06:10 -0500
+ id 1l8zgL-0005nW-LK; Mon, 08 Feb 2021 01:06:01 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwVt5mMhz9sWR; Mon,  8 Feb 2021 17:05:42 +1100 (AEDT)
+ id 4DYwVs1pClz9sVV; Mon,  8 Feb 2021 17:05:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612764342;
- bh=GIE3uji1EOtZhp/GWt1+qTzLlocuzrn5OQvsiMW1YSk=;
+ d=gibson.dropbear.id.au; s=201602; t=1612764341;
+ bh=wapW+hFPonrY5NcNhJL2s94tGKTRKw27BwqVT6c2VhM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Jbw1Y2y3smwJvCthyYGgkoEvZN81Rrq4jBX7b1cc5FffWtBg82rvXU5qFBUc4BBDc
- D+plbj7LKUTwP59bW4ueCaLNuaofxhxprY6P4bvXbH71r45ATXSp0vVgtmChVtKh7Z
- nEoGVe9zu9gcyNGiG1Q14/bu55l4jfhKjJeDELzE=
+ b=nVKLfjfukgCEzgcRme0Rw4vgF5i3FzJK1WEESDBUl+Zk/gwVepHx+EHnA36guCCd6
+ 7nuUWtTk+Qa/qob/tz7jzim7QDNfOE+zKuQrA32UmksNMZm0LJHoDngU8s0OSzmGqd
+ DK6kYrEnITIU6FpoZMDfsjSBjKMPUJ4F8uKsi2Bw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: pasic@linux.ibm.com, dgilbert@redhat.com, pair@us.ibm.com,
  qemu-devel@nongnu.org, brijesh.singh@amd.com
-Subject: [PULL v9 13/13] s390: Recognize confidential-guest-support option
-Date: Mon,  8 Feb 2021 17:05:38 +1100
-Message-Id: <20210208060538.39276-14-david@gibson.dropbear.id.au>
+Subject: [PULL v9 02/13] confidential guest support: Introduce new
+ confidential guest support class
+Date: Mon,  8 Feb 2021 17:05:27 +1100
+Message-Id: <20210208060538.39276-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208060538.39276-1-david@gibson.dropbear.id.au>
 References: <20210208060538.39276-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -69,216 +70,171 @@ Cc: Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least some s390 cpu models support "Protected Virtualization" (PV),
-a mechanism to protect guests from eavesdropping by a compromised
-hypervisor.
+Several architectures have mechanisms which are designed to protect
+guest memory from interference or eavesdropping by a compromised
+hypervisor.  AMD SEV does this with in-chip memory encryption and
+Intel's TDX can do similar things.  POWER's Protected Execution
+Framework (PEF) accomplishes a similar goal using an ultravisor and
+new memory protection features, instead of encryption.
 
-This is similar in function to other mechanisms like AMD's SEV and
-POWER's PEF, which are controlled by the "confidential-guest-support"
-machine option.  s390 is a slightly special case, because we already
-supported PV, simply by using a CPU model with the required feature
-(S390_FEAT_UNPACK).
+To (partially) unify handling for these, this introduces a new
+ConfidentialGuestSupport QOM base class.  "Confidential" is kind of vague,
+but "confidential computing" seems to be the buzzword about these schemes,
+and "secure" or "protected" are often used in connection to unrelated
+things (such as hypervisor-from-guest or guest-from-guest security).
 
-To integrate this with the option used by other platforms, we
-implement the following compromise:
-
- - When the confidential-guest-support option is set, s390 will
-   recognize it, verify that the CPU can support PV (failing if not)
-   and set virtio default options necessary for encrypted or protected
-   guests, as on other platforms.  i.e. if confidential-guest-support
-   is set, we will either create a guest capable of entering PV mode,
-   or fail outright.
-
- - If confidential-guest-support is not set, guests might still be
-   able to enter PV mode, if the CPU has the right model.  This may be
-   a little surprising, but shouldn't actually be harmful.
-
-To start a guest supporting Protected Virtualization using the new
-option use the command line arguments:
-    -object s390-pv-guest,id=pv0 -machine confidential-guest-support=pv0
+The "support" in the name is significant because in at least some of the
+cases it requires the guest to take specific actions in order to protect
+itself from hypervisor eavesdropping.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- docs/confidential-guest-support.txt |  3 ++
- docs/system/s390x/protvirt.rst      | 19 ++++++---
- hw/s390x/pv.c                       | 62 +++++++++++++++++++++++++++++
- hw/s390x/s390-virtio-ccw.c          |  3 ++
- include/hw/s390x/pv.h               | 17 ++++++++
- 5 files changed, 98 insertions(+), 6 deletions(-)
+ backends/confidential-guest-support.c     | 33 ++++++++++++++++++++
+ backends/meson.build                      |  1 +
+ include/exec/confidential-guest-support.h | 38 +++++++++++++++++++++++
+ include/qemu/typedefs.h                   |  1 +
+ target/i386/sev.c                         |  5 +--
+ 5 files changed, 76 insertions(+), 2 deletions(-)
+ create mode 100644 backends/confidential-guest-support.c
+ create mode 100644 include/exec/confidential-guest-support.h
 
-diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-index 4da4c91bd3..71d07ba57a 100644
---- a/docs/confidential-guest-support.txt
-+++ b/docs/confidential-guest-support.txt
-@@ -43,4 +43,7 @@ AMD Secure Encrypted Virtualization (SEV)
- POWER Protected Execution Facility (PEF)
-     docs/papr-pef.txt
- 
-+s390x Protected Virtualization (PV)
-+    docs/system/s390x/protvirt.rst
-+
- Other mechanisms may be supported in future.
-diff --git a/docs/system/s390x/protvirt.rst b/docs/system/s390x/protvirt.rst
-index 712974ad87..0f481043d9 100644
---- a/docs/system/s390x/protvirt.rst
-+++ b/docs/system/s390x/protvirt.rst
-@@ -22,15 +22,22 @@ If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
- will indicate that KVM can support PVMs on that LPAR.
- 
- 
--QEMU Settings
---------------
-+Running a Protected Virtual Machine
-+-----------------------------------
- 
--To indicate to the VM that it can transition into protected mode, the
-+To run a PVM you will need to select a CPU model which includes the
- `Unpack facility` (stfle bit 161 represented by the feature
--`unpack`/`S390_FEAT_UNPACK`) needs to be part of the cpu model of
--the VM.
-+`unpack`/`S390_FEAT_UNPACK`), and add these options to the command line::
-+
-+    -object s390-pv-guest,id=pv0 \
-+    -machine confidential-guest-support=pv0
-+
-+Adding these options will:
-+
-+* Ensure the `unpack` facility is available
-+* Enable the IOMMU by default for all I/O devices
-+* Initialize the PV mechanism
- 
--All I/O devices need to use the IOMMU.
- Passthrough (vfio) devices are currently not supported.
- 
- Host huge page backings are not supported. However guests can use huge
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index ab3a2482aa..93eccfc05d 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -14,8 +14,11 @@
- #include <linux/kvm.h>
- 
- #include "cpu.h"
-+#include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-+#include "qom/object_interfaces.h"
-+#include "exec/confidential-guest-support.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
- 
-@@ -111,3 +114,62 @@ void s390_pv_inject_reset_error(CPUState *cs)
-     /* Report that we are unable to enter protected mode */
-     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
- }
-+
-+#define TYPE_S390_PV_GUEST "s390-pv-guest"
-+OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
-+
-+/**
-+ * S390PVGuest:
+diff --git a/backends/confidential-guest-support.c b/backends/confidential-guest-support.c
+new file mode 100644
+index 0000000000..052fde8db0
+--- /dev/null
++++ b/backends/confidential-guest-support.c
+@@ -0,0 +1,33 @@
++/*
++ * QEMU Confidential Guest support
 + *
-+ * The S390PVGuest object is basically a dummy used to tell the
-+ * confidential guest support system to use s390's PV mechanism.
++ * Copyright Red Hat.
 + *
-+ * # $QEMU \
-+ *         -object s390-pv-guest,id=pv0 \
-+ *         -machine ...,confidential-guest-support=pv0
++ * Authors:
++ *  David Gibson <david@gibson.dropbear.id.au>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ *
 + */
-+struct S390PVGuest {
++
++#include "qemu/osdep.h"
++
++#include "exec/confidential-guest-support.h"
++
++OBJECT_DEFINE_ABSTRACT_TYPE(ConfidentialGuestSupport,
++                            confidential_guest_support,
++                            CONFIDENTIAL_GUEST_SUPPORT,
++                            OBJECT)
++
++static void confidential_guest_support_class_init(ObjectClass *oc, void *data)
++{
++}
++
++static void confidential_guest_support_init(Object *obj)
++{
++}
++
++static void confidential_guest_support_finalize(Object *obj)
++{
++}
+diff --git a/backends/meson.build b/backends/meson.build
+index 484456ece7..d4221831fc 100644
+--- a/backends/meson.build
++++ b/backends/meson.build
+@@ -6,6 +6,7 @@ softmmu_ss.add([files(
+   'rng-builtin.c',
+   'rng-egd.c',
+   'rng.c',
++  'confidential-guest-support.c',
+ ), numa])
+ 
+ softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
+diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
+new file mode 100644
+index 0000000000..3db6380e63
+--- /dev/null
++++ b/include/exec/confidential-guest-support.h
+@@ -0,0 +1,38 @@
++/*
++ * QEMU Confidential Guest support
++ *   This interface describes the common pieces between various
++ *   schemes for protecting guest memory or other state against a
++ *   compromised hypervisor.  This includes memory encryption (AMD's
++ *   SEV and Intel's MKTME) or special protection modes (PEF on POWER,
++ *   or PV on s390x).
++ *
++ * Copyright Red Hat.
++ *
++ * Authors:
++ *  David Gibson <david@gibson.dropbear.id.au>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ *
++ */
++#ifndef QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
++#define QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
++
++#ifndef CONFIG_USER_ONLY
++
++#include "qom/object.h"
++
++#define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
++OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
++
++struct ConfidentialGuestSupport {
++    Object parent;
++};
++
++typedef struct ConfidentialGuestSupportClass {
++    ObjectClass parent;
++} ConfidentialGuestSupportClass;
++
++#endif /* !CONFIG_USER_ONLY */
++
++#endif /* QEMU_CONFIDENTIAL_GUEST_SUPPORT_H */
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 68deb74ef6..dc39b05c30 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -37,6 +37,7 @@ typedef struct Chardev Chardev;
+ typedef struct Clock Clock;
+ typedef struct CompatProperty CompatProperty;
+ typedef struct CoMutex CoMutex;
++typedef struct ConfidentialGuestSupport ConfidentialGuestSupport;
+ typedef struct CPUAddressSpace CPUAddressSpace;
+ typedef struct CPUState CPUState;
+ typedef struct DeviceListener DeviceListener;
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 1546606811..b738dc45b6 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -31,6 +31,7 @@
+ #include "qom/object.h"
+ #include "exec/address-spaces.h"
+ #include "monitor/monitor.h"
++#include "exec/confidential-guest-support.h"
+ 
+ #define TYPE_SEV_GUEST "sev-guest"
+ OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
+@@ -47,7 +48,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
+  *         -machine ...,memory-encryption=sev0
+  */
+ struct SevGuestState {
+-    Object parent_obj;
 +    ConfidentialGuestSupport parent_obj;
-+};
-+
-+typedef struct S390PVGuestClass S390PVGuestClass;
-+
-+struct S390PVGuestClass {
-+    ConfidentialGuestSupportClass parent_class;
-+};
-+
-+int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
-+        return 0;
-+    }
-+
-+    if (!s390_has_feat(S390_FEAT_UNPACK)) {
-+        error_setg(errp,
-+                   "CPU model does not support Protected Virtualization");
-+        return -1;
-+    }
-+
-+    cgs->ready = true;
-+
-+    return 0;
-+}
-+
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(S390PVGuest,
-+                                   s390_pv_guest,
-+                                   S390_PV_GUEST,
-+                                   CONFIDENTIAL_GUEST_SUPPORT,
-+                                   { TYPE_USER_CREATABLE },
-+                                   { NULL })
-+
-+static void s390_pv_guest_class_init(ObjectClass *oc, void *data)
-+{
-+}
-+
-+static void s390_pv_guest_init(Object *obj)
-+{
-+}
-+
-+static void s390_pv_guest_finalize(Object *obj)
-+{
-+}
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index a2d9a79c84..2972b607f3 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -250,6 +250,9 @@ static void ccw_init(MachineState *machine)
-     /* init CPUs (incl. CPU model) early so s390_has_feature() works */
-     s390_init_cpus(machine);
  
-+    /* Need CPU model to be determined before we can set up PV */
-+    s390_pv_init(machine->cgs, &error_fatal);
-+
-     s390_flic_init();
+     /* configuration parameters */
+     char *sev_device;
+@@ -322,7 +323,7 @@ sev_guest_instance_init(Object *obj)
  
-     /* init the SIGP facility */
-diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-index aee758bc2d..1f1f545bfc 100644
---- a/include/hw/s390x/pv.h
-+++ b/include/hw/s390x/pv.h
-@@ -12,6 +12,9 @@
- #ifndef HW_S390_PV_H
- #define HW_S390_PV_H
- 
-+#include "qapi/error.h"
-+#include "sysemu/kvm.h"
-+
- #ifdef CONFIG_KVM
- #include "cpu.h"
- #include "hw/s390x/s390-virtio-ccw.h"
-@@ -55,4 +58,18 @@ static inline void s390_pv_unshare(void) {}
- static inline void s390_pv_inject_reset_error(CPUState *cs) {};
- #endif /* CONFIG_KVM */
- 
-+int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-+static inline int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!cgs) {
-+        return 0;
-+    }
-+    if (kvm_enabled()) {
-+        return s390_pv_kvm_init(cgs, errp);
-+    }
-+
-+    error_setg(errp, "Protected Virtualization requires KVM");
-+    return -1;
-+}
-+
- #endif /* HW_S390_PV_H */
+ /* sev guest info */
+ static const TypeInfo sev_guest_info = {
+-    .parent = TYPE_OBJECT,
++    .parent = TYPE_CONFIDENTIAL_GUEST_SUPPORT,
+     .name = TYPE_SEV_GUEST,
+     .instance_size = sizeof(SevGuestState),
+     .instance_finalize = sev_guest_finalize,
 -- 
 2.29.2
 
