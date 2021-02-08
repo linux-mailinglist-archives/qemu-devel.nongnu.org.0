@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF2631423B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:50:09 +0100 (CET)
-Received: from localhost ([::1]:36866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB7A314226
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:46:17 +0100 (CET)
+Received: from localhost ([::1]:55110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9EQ4-0004rH-4q
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:50:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54916)
+	id 1l9EMK-0000ea-Jp
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:46:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l99UF-0002fW-7Y
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:34:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l99U9-0002WA-RQ
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:34:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612802040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NtsW/xZ8jPUYbl96XkpFvC4neVA9U2JLnwg3EpnQEFA=;
- b=O+fAXdH3ZtnpwTB/ywhFo5yH5l8djYpQH7dq4jaYvEwoq6AP8Mnf0Lwm2Qy3ZOxPHLT+qb
- jFN/3K8nHz9tEhBwCDyup5YHzchFzz+gmrfdgwxu5+WHTJPDJa3H0zb9z3iHAGT0xQMKhc
- BZBk8yL0ITEtEKQ3gq0g7fQZ0MqUhJo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-ux-wC1kHPGCwuQCFiKMhdQ-1; Mon, 08 Feb 2021 11:33:54 -0500
-X-MC-Unique: ux-wC1kHPGCwuQCFiKMhdQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8FE7804023;
- Mon,  8 Feb 2021 16:33:53 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-115-97.ams2.redhat.com
- [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C398E19C59;
- Mon,  8 Feb 2021 16:33:51 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] gitlab: fix inconsistent indentation
-Date: Mon,  8 Feb 2021 16:33:39 +0000
-Message-Id: <20210208163339.1159514-4-berrange@redhat.com>
-In-Reply-To: <20210208163339.1159514-1-berrange@redhat.com>
-References: <20210208163339.1159514-1-berrange@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l99ax-0005pH-Hg
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:41:04 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:43591)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l99aq-0004Vo-C5
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:41:01 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 166FEC9B;
+ Mon,  8 Feb 2021 11:40:49 -0500 (EST)
+Received: from imap1 ([10.202.2.51])
+ by compute6.internal (MEProxy); Mon, 08 Feb 2021 11:40:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=dU5h27z4AeGVyx1E8nezZcaSez3dTWq
+ QSluUdmULy/o=; b=2xPkEEZr9L+F5/OpMpvA9nJKCjOL4PBYafjCMN66RsBWuYo
+ fO5RR/66b5Utyz8hQi25SIfbS+M8SuiXl3uxN7ilmx3hh4fFlIHOZAnFroIUfz9W
+ RNYo1vGiUu74T0pE3Glq+PmVF76WgpjQnPA2+iqvetgq8f98Ix0Rjj7KGEI91pqG
+ p9FuOjmtyfdmVlyNeYgW1hLdR1ZZpKOVcmHA+Aaev/pg0bfwejHE14SIMvSTViUk
+ FydkdtnBMFHqhNFH85N3NhlxNtoh/W6fwp74pPSXLTy7L7iBsJKWNS+vGDyDMKxm
+ TIn61n0IMaN2HUS1Qyb7wAf4RxrLtE6xyPgMz3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dU5h27
+ z4AeGVyx1E8nezZcaSez3dTWqQSluUdmULy/o=; b=bKnKixkcNLqOhRbL2HZEhc
+ jB8xv0Bf9hImrHr/TEDsHd+j/FNeJ6SyBawI/d1wDp9PaP4BiSFsA53D8rE3HEmT
+ 5TXcj8g50uoJZeOVFYCXHbiu2Ah00SRjPGFJSNG+IlnfIqgAKtC77VJ4s5x+EV52
+ OFkIz7nHVfqW7R8w9gAJJv7CLGwXkK66mLlX9oBbrPeB5W3XxYTg+v39aOBKhrql
+ kP/zZS+TGHYpU0Twks8LlL0w5X1xJ6SI1YZ/UQEoMrcub61YHct6EUsZCuj4rtNx
+ As45QubAOlxtMsNHhgLYtMNWT0JiQsxCfpCHYodvWYWZ10CDzcC4THgW/3Q+wjvg
+ ==
+X-ME-Sender: <xms:j2khYA9txObGHdIiOS1kIPioA-bOw66KYj_msPX9D1n8RXX2KSY3gw>
+ <xme:j2khYIsFaI_PbnbD961y3L2PMK7rZXv0ii1pPDHh36oUcnPUSPjByerODgzytEz3p
+ e2jblid5mbU3VPSs44>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheefgdeludcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedflfhirgig
+ uhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
+ cuggftrfgrthhtvghrnhepkeelheethfehffdttdelieevfeeiheeuudeifeeugeeuieel
+ iedtueejheehhedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+ hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:j2khYGCWySGqIEMd8IFdh4cH8RR2nzYouytZeJQncjNa7xB4bUX8qg>
+ <xmx:j2khYAezUqVV7bQDXaE3FxJiWINwb1fdX3zUXUqbsOliHSlicOQikw>
+ <xmx:j2khYFNIxgmFpyaV2T1uIaP6laFEPCJsugQPi-3s-gLz0PhOAIa4RA>
+ <xmx:kGkhYObsRCfPFfTh4HkMzov2CmMCyugXsst11IXwW1L1VNdXmqYzhA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id C4A3E130005E; Mon,  8 Feb 2021 11:40:47 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-93-gef6c4048e6-fm-20210128.002-gef6c4048
+Mime-Version: 1.0
+Message-Id: <59a9a55c-2866-413f-89e3-b11e274c2d34@www.fastmail.com>
+In-Reply-To: <20210207193952.GA21929@alpha.franken.de>
+References: <20210203123425.GA9574@alpha.franken.de>
+ <a2a2cfe3-5618-43b1-a6a4-cc768fc1b9fb@www.fastmail.com>
+ <20210207193952.GA21929@alpha.franken.de>
+Date: Tue, 09 Feb 2021 00:40:25 +0800
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>
+Subject: Re: KVM Guest
+Content-Type: text/plain
+Received-SPF: pass client-ip=64.147.123.19;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,49 +95,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Huacai Chen <chenhuacai@kernel.org>, "linux-mips@vger.kernel.org,
+ " <linux-mips@vger.kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The standard is to use 2 space indent, not 3.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- .gitlab-ci.yml | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index a1d5a876e3..53173da9bf 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -282,14 +282,14 @@ check-system-opensuse:
-     MAKE_CHECK_ARGS: check
- 
- acceptance-system-opensuse:
--   <<: *native_test_job_definition
--   needs:
--     - job: build-system-opensuse
--       artifacts: true
--   variables:
--     IMAGE: opensuse-leap
--     MAKE_CHECK_ARGS: check-acceptance
--   <<: *acceptance_definition
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-system-opensuse
-+      artifacts: true
-+  variables:
-+    IMAGE: opensuse-leap
-+    MAKE_CHECK_ARGS: check-acceptance
-+  <<: *acceptance_definition
- 
- 
- build-disabled:
+On Mon, Feb 8, 2021, at 3:39 AM, Thomas Bogendoerfer wrote:
+> On Wed, Feb 03, 2021 at 08:52:34PM +0800, Jiaxun Yang wrote:
+> > 
+> > 
+> > On Wed, Feb 3, 2021, at 8:34 PM, Thomas Bogendoerfer wrote:
+> > > Hi,
+> > > 
+> > > Does kvm guest kernel still work ? I'm playing with current mips-next
+> > > and starting a kvm guest kernel inside an emulated malta system also
+> > > running a mips-next kernel. The kvm guest kernel starts, but hangs
+> > > in calibrate_delay (at least that's what info registers in qemu monitor
+> > > suggests). Ayn ideas ?
+> > 
+> > The current KVM guest kernel is actually a Trap-and-emul guest kernel.
+> > VZ based KVM uses the same binary with the host one, so does TCG.
+> > 
+> > TE KVM is current unmaintained. I'll try to get a malta and do some test.
+> 
+> hmm, so it looks broken, is unmaintained, how about removing it ?
+
+Probably. I got remote access of a CoreLV malta but no luck to boot kernel as well.
+
++ Huacai as KVM/MIPS Maintainer.
++ Philippe as QEMU/MIPS Maintainer.
++ qemu-devel for wider audience.
+
+If nobody intended to maintain it probably it's time to remove it.
+
+> 
+> Thomas.
+> 
+> -- 
+> Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+> good idea.                                                [ RFC1925, 2.3 ]
+>
+
 -- 
-2.29.2
-
+- Jiaxun
 
