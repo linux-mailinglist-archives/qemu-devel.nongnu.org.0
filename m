@@ -2,47 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE25E31445D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:57:44 +0100 (CET)
-Received: from localhost ([::1]:43064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A564731446A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:00:10 +0100 (CET)
+Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9GPY-00081p-0C
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:57:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47176)
+	id 1l9GRt-0001dB-P0
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:00:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1l9EYp-0006ds-BN
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:11 -0500
+ id 1l9EYw-0006qw-D1
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:19 -0500
 Received: from mga02.intel.com ([134.134.136.20]:59480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1l9EYm-0005DL-Ss
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:11 -0500
-IronPort-SDR: pfulXf8KXVYCE+ye9xwk8w8yW5J/BihfTfoEX1ootrUDjyAwqKqgrwMK1d2FOJaiUgP0h1G7ed
- xKnT0aRGiKTg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="168911423"
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="168911423"
+ id 1l9EYu-0005DL-9R
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:18 -0500
+IronPort-SDR: HTXVzKdyeA2nCT/MvcctWL0wANQdolDPUV9n0+OVzir7MBPwNufUG2+XP4u/WXarqnwlOuAcD8
+ 4WksXC1/XlLw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="168911429"
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="168911429"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2021 13:59:05 -0800
-IronPort-SDR: shXO/DgnABvV9fUsGEKEo0ROQXPuoZseXNiPGYIIvPqRier4rEk/NogNVpUOndqxeiC9yDQ4Nl
- 5yB5xO07UITg==
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="487608580"
+IronPort-SDR: i7rp+8hcjmQmpxjEzPiX1+cUCy7vZ17vgtCOQv4dTghBRiULCLckt0nRnQ2IigQoP7sBvIiYAh
+ ZzxRVaUjM4Mg==
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="487608593"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2021 13:59:04 -0800
+ 08 Feb 2021 13:59:05 -0800
 From: isaku.yamahata@gmail.com
 To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
  marcel.apfelbaum@gmail.com, philmd@redhat.com
-Subject: [PATCH v2 3/9] acpi/core: always set SCI_EN when SMM isn't supported
-Date: Mon,  8 Feb 2021 13:57:22 -0800
-Message-Id: <b21a1b211ad4dc99aaf5f19d803f96dfa88b3fb1.1612821109.git.isaku.yamahata@intel.com>
+Subject: [PATCH v2 7/9] i386: acpi: Don't build HPET ACPI entry if HPET is
+ disabled
+Date: Mon,  8 Feb 2021 13:57:26 -0800
+Message-Id: <4d380b7f97149f82da91f967a419ff3f3a2bc1a4.1612821109.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1612821108.git.isaku.yamahata@intel.com>
 References: <cover.1612821108.git.isaku.yamahata@intel.com>
 In-Reply-To: <cover.1612821108.git.isaku.yamahata@intel.com>
 References: <cover.1612821108.git.isaku.yamahata@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.20;
  envelope-from=isaku.yamahata@intel.com; helo=mga02.intel.com
 X-Spam_score_int: -17
@@ -65,132 +69,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: Sean Christopherson <sean.j.christopherson@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Isaku Yamahata <isaku.yamahata@intel.com>
+From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-If SMM is not supported, ACPI fixed hardware doesn't support
-legacy-mode. ACPI-only platform. Where SCI_EN in PM1_CNT register is
-always set.
-The bit tells OS legacy mode(SCI_EN cleared) or ACPI mode(SCI_EN set).
+Omit HPET AML if the HPET is disabled, QEMU is not emulating it and the
+guest may get confused by seeing HPET in the ACPI tables without a
+"physical" device present.
 
-ACPI spec 4.8.10.1 PM1 Event Grouping
-PM1 Eanble Registers
-> For ACPI-only platforms (where SCI_EN is always set)
+The change of DSDT when -no-hpet is as follows.
 
-Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+@@ -141,47 +141,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS "
+         }
+     }
+
+-    Scope (_SB)
+-    {
+-        Device (HPET)
+-        {
+-            Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
+-            Name (_UID, Zero)  // _UID: Unique ID
+-            OperationRegion (HPTM, SystemMemory, 0xFED00000, 0x0400)
+-            Field (HPTM, DWordAcc, Lock, Preserve)
+-            {
+-                VEND,   32,
+-                PRD,    32
+-            }
+-
+-            Method (_STA, 0, NotSerialized)  // _STA: Status
+-            {
+-                Local0 = VEND /* \_SB_.HPET.VEND */
+-                Local1 = PRD /* \_SB_.HPET.PRD_ */
+-                Local0 >>= 0x10
+-                If (((Local0 == Zero) || (Local0 == 0xFFFF)))
+-                {
+-                    Return (Zero)
+-                }
+-
+-                If (((Local1 == Zero) || (Local1 > 0x05F5E100)))
+-                {
+-                    Return (Zero)
+-                }
+-
+-                Return (0x0F)
+-            }
+-
+-            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+-            {
+-                Memory32Fixed (ReadOnly,
+-                    0xFED00000,         // Address Base
+-                    0x00000400,         // Address Length
+-                    )
+-            })
+-        }
+-    }
+-
+     Scope (_SB.PCI0)
+     {
+         Device (ISA)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
- hw/acpi/core.c         | 11 ++++++++++-
- hw/acpi/ich9.c         |  2 +-
- hw/acpi/piix4.c        |  3 ++-
- hw/isa/vt82c686.c      |  2 +-
- include/hw/acpi/acpi.h |  4 +++-
- 5 files changed, 17 insertions(+), 5 deletions(-)
+ hw/i386/acpi-build.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 7170bff657..1e004d0078 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -579,6 +579,10 @@ void acpi_pm1_cnt_update(ACPIREGS *ar,
-                          bool sci_enable, bool sci_disable)
- {
-     /* ACPI specs 3.0, 4.7.2.5 */
-+    if (ar->pm1.cnt.acpi_only) {
-+        return;
-+    }
-+
-     if (sci_enable) {
-         ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
-     } else if (sci_disable) {
-@@ -608,11 +612,13 @@ static const MemoryRegionOps acpi_pm_cnt_ops = {
- };
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index bcb1f65c1d..73ec0b6d32 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1405,7 +1405,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(sb_scope, dev);
+         aml_append(dsdt, sb_scope);
  
- void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
--                       bool disable_s3, bool disable_s4, uint8_t s4_val)
-+                       bool disable_s3, bool disable_s4, uint8_t s4_val,
-+                       bool acpi_only)
- {
-     FWCfgState *fw_cfg;
+-        build_hpet_aml(dsdt);
++        if (misc->has_hpet) {
++            build_hpet_aml(dsdt);
++        }
+         build_piix4_isa_bridge(dsdt);
+         build_isa_devices_aml(dsdt);
+         if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+@@ -1450,7 +1452,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
  
-     ar->pm1.cnt.s4_val = s4_val;
-+    ar->pm1.cnt.acpi_only = acpi_only;
-     ar->wakeup.notify = acpi_notify_wakeup;
-     qemu_register_wakeup_notifier(&ar->wakeup);
+         aml_append(dsdt, sb_scope);
  
-@@ -638,6 +644,9 @@ void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
- void acpi_pm1_cnt_reset(ACPIREGS *ar)
- {
-     ar->pm1.cnt.cnt = 0;
-+    if (ar->pm1.cnt.acpi_only) {
-+        ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
-+    }
- }
- 
- /* ACPI GPE */
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 5ff4e01c36..1a34d7f621 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -282,7 +282,7 @@ void ich9_pm_init(PCIDevice *lpc_pci, ICH9LPCPMRegs *pm,
-     acpi_pm_tmr_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
-     acpi_pm1_evt_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
-     acpi_pm1_cnt_init(&pm->acpi_regs, &pm->io, pm->disable_s3, pm->disable_s4,
--                      pm->s4_val);
-+                      pm->s4_val, !smm_enabled);
- 
-     acpi_gpe_init(&pm->acpi_regs, ICH9_PMIO_GPE0_LEN);
-     memory_region_init_io(&pm->io_gpe, OBJECT(lpc_pci), &ich9_gpe_ops, pm,
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 669be5bbf6..0cddf91de5 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -496,7 +496,8 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
- 
-     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
-     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
--    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val);
-+    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val,
-+                      !s->smm_enabled);
-     acpi_gpe_init(&s->ar, GPE_LEN);
- 
-     s->powerdown_notifier.notify = piix4_pm_powerdown_req;
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index a6f5a0843d..071b64b497 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -240,7 +240,7 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
- 
-     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
-     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
--    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
-+    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2, false);
- }
- 
- static Property via_pm_properties[] = {
-diff --git a/include/hw/acpi/acpi.h b/include/hw/acpi/acpi.h
-index 22b0b65bb2..9e8a76f2e2 100644
---- a/include/hw/acpi/acpi.h
-+++ b/include/hw/acpi/acpi.h
-@@ -128,6 +128,7 @@ struct ACPIPM1CNT {
-     MemoryRegion io;
-     uint16_t cnt;
-     uint8_t s4_val;
-+    bool acpi_only;
- };
- 
- struct ACPIGPE {
-@@ -163,7 +164,8 @@ void acpi_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
- 
- /* PM1a_CNT: piix and ich9 don't implement PM1b CNT. */
- void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
--                       bool disable_s3, bool disable_s4, uint8_t s4_val);
-+                       bool disable_s3, bool disable_s4, uint8_t s4_val,
-+                       bool acpi_only);
- void acpi_pm1_cnt_update(ACPIREGS *ar,
-                          bool sci_enable, bool sci_disable);
- void acpi_pm1_cnt_reset(ACPIREGS *ar);
+-        build_hpet_aml(dsdt);
++        if (misc->has_hpet) {
++            build_hpet_aml(dsdt);
++        }
+         build_q35_isa_bridge(dsdt);
+         build_isa_devices_aml(dsdt);
+         build_q35_pci0_int(dsdt);
 -- 
 2.17.1
 
