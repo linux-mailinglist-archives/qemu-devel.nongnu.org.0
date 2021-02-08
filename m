@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B582313F14
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:34:29 +0100 (CET)
-Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF73F313F49
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:41:20 +0100 (CET)
+Received: from localhost ([::1]:46634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9CIm-0003ys-8v
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:34:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37930)
+	id 1l9CPP-00083g-J4
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:41:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l969I-0006hx-Ck
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:00:19 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:47023)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9692-00054L-UL
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:00:13 -0500
-Received: by mail-ed1-x532.google.com with SMTP id y18so17899190edw.13
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 04:59:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VXstIEEQ61Cn4wtGdWUEpZXJMxNohWtfh/1DgCQY5os=;
- b=vKJK8D4KGRf+al1dK10oFdV13lGK/l/b0qIc+JXR0G4DCV989gmnXDg2jx1/EpHxvK
- Ex6zs5iPbFE//jx3TpeeWRkkcypU9wYdutqzGoCDjtfENY0I004aa3Uw5+iSaOfFQIp5
- iCglpJx9+geiLz83Idl7AR33RO25fiHUeUiWZqCN0rv2mAAjkPUzinc/lYXYvTq3n81c
- lMZEsXpIXUc/rah5AVyiVqFs4VoDCtGmeGYQpkBneUCvDKUlAXZHgoz5oM9XuJmf3cxZ
- vm1eCUhAX7nMbg3Wdtcl0y1wX/wTfh2lNRLL8xXY9nUuYpiHk+LqfIlIArptO+TF2+SB
- v/sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VXstIEEQ61Cn4wtGdWUEpZXJMxNohWtfh/1DgCQY5os=;
- b=M6j5EvIEMlQdBmdoyhiBZI7NE79b9421IS4omx4WVNCANcs0UTjv1E6UG8D3tzUhSF
- 7TSl9oEooFeWZqINIrjOwIWsUsIF5xEa3aIqfqKwaU1B6l5zTuHtLaQzSl6MlBfZ6ETU
- UZ+Yoj20gpqQWn3tOJKyO73QAoqxDxC3oJdr3sHGjO8zXafBLrCFbbQikX5uNHmt66yg
- U3pFzg+JrNLZQnneVD3vRkfV6qyYd6RyS7uFthVon7a/GACWNCkBrc70kvTTdY5i0H6b
- E51y/wM3GPaWRs0hMUVBEoHEBWv16z1ytBHIosRQ2Dpy7IZC9BVbThdFAG5gsAXAHKr7
- Bc0A==
-X-Gm-Message-State: AOAM530R3RbdyU4+HQ5JFt+KMy399RjUZUgoM5KuycAQOv7RT56kjKFB
- JVkzmp8IZhqB809jZxO+OF0ZC28ezHTQKkHHVTNopQ==
-X-Google-Smtp-Source: ABdhPJwNQNcygXCQTk1J1qDFPHFRLfdhD7Wy72Dnd8KnFIWcryggOgj5EVQJC/+J+1Xm5wBdYKbUNcVkpA3QoxUO2VY=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr16916654edd.52.1612789196531; 
- Mon, 08 Feb 2021 04:59:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l96Go-0007Vk-FM
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:08:07 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:40330
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l96GN-0006Y5-RM
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:07:52 -0500
+Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
+ [91.21.17.191])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id EEE9ADA0782;
+ Mon,  8 Feb 2021 14:07:07 +0100 (CET)
+Subject: Re: [PATCH v2 63/93] tcg/tci: Use ffi for calls
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210204014509.882821-1-richard.henderson@linaro.org>
+ <20210204014509.882821-64-richard.henderson@linaro.org>
+ <9d107cb2-ee8c-2a89-e004-9996a647a060@weilnetz.de>
+ <9f552075-1783-dc8b-f338-23e12a138ffd@linaro.org>
+ <CAFEAcA9TtuWaFo3cg_Qhxkg8gRqBNBkuHkSAJ-Lbxzbp23iR+w@mail.gmail.com>
+ <69d3bc09-aeb8-6a40-157e-bf0dc19c0035@linaro.org>
+ <CAFEAcA_=DZTRNvQsqT4dki1GTyAhL0RmhPoHG+OBw=W0yct0sg@mail.gmail.com>
+ <2a61b461-c460-3b25-edd8-30e52b2eb578@redhat.com>
+From: Stefan Weil <sw@weilnetz.de>
+Message-ID: <02ea197e-7ad0-0d85-78d7-c58f4aeceddc@weilnetz.de>
+Date: Mon, 8 Feb 2021 14:07:05 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <3362132240927a23ecca7b9d8cfd6e4130509eea.camel@gmail.com>
- <dbcfce3c-3140-01b7-06ca-497cf7fdace7@amsat.org>
- <6f6a803af5941346050d84e77fcaa52e0175a8a7.camel@gmail.com>
- <f4862169-28cc-82a9-32fb-da56b000cf54@amsat.org>
- <CAFEAcA9JkTEOhmoFjWYfR5d7ANhKnc9URk89Xe36q7qMVxkMmg@mail.gmail.com>
- <aa8ccb78-c977-20fa-a814-4223b678d9c4@amsat.org>
- <CAFEAcA-+dS5r5LvW5DTEH2vBrm1S2rs7sjjh2V7zjtD6ut0wBw@mail.gmail.com>
- <20210205140807.GH477672@toto>
-In-Reply-To: <20210205140807.GH477672@toto>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Feb 2021 12:59:45 +0000
-Message-ID: <CAFEAcA_W0AhNYs7+9hn1H6B2DL+UnSdhrj2JsBS4vCZ6fEd_pw@mail.gmail.com>
-Subject: Re: [PATCH] arm: xlnx-versal: fix virtio-mmio base address assignment
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <2a61b461-c460-3b25-edd8-30e52b2eb578@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.265,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,37 +65,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, schspa <schspa@gmail.com>,
- Kevin Zhao <kevin.zhao@linaro.org>, Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Feb 2021 at 14:08, Edgar E. Iglesias <edgar.iglesias@gmail.com> wrote:
-> I wonder if virtio_mmio_bus_get_dev_path() really should be peeking into
-> Sysbus internals mmio[].addr?
+Am 08.02.21 um 10:35 schrieb Paolo Bonzini:
 
-Nope, it should not.
-
-> Sysbus mmio[].addr looks like a candidate for removal if we ever get rid
-> of the default system_memory...
+> On 08/02/21 10:20, Peter Maydell wrote:
+>>>>> +
+>>>>> +if get_option('tcg_interpreter')
+>>>>> +  libffi = dependency('libffi', version: '>=3.0',
+>>>>> +                      static: enable_static, method: 'pkg-config',
+>>>>> +                      required: true)
+>>>>> +  specific_ss.add(libffi)
+>>>>> +  specific_ss.add(files('tcg/tci.c'))
+>>>>> +endif
+>>>> Did you need a PKG_CONFIG_LIBDIR set for homebrew?
+>>> Is this the "meson doesn't actually add the cflags everywhere it 
+>>> should"
+>>> bug again ?
 >
-> I don't have any good suggestions how to fix this. I guess we could wrap
-> memory_region_add_subregion() with a sysbus version of it that sets
-> mmio[].addr but that seems like a step backwards to me.
-> Perhaps there's a way fix this in virtio_mmio_bus_get_dev_path()?
+> No, it shouldn't be the same bug.  In this case the dependency is not 
+> indirect dependency, specific_ss is included directly:
+>
+>   target_specific = specific_ss.apply(config_target, strict: false)
+>   arch_srcs += target_specific.sources()
+>   arch_deps += target_specific.dependencies()
+>
+>   lib = static_library('qemu-' + target,
+>                  sources: arch_srcs + genh,
+>                  dependencies: arch_deps,
+>                  objects: objects,
+>                  include_directories: target_inc,
+>                  c_args: c_args,
+>                  build_by_default: false,
+>                  name_suffix: 'fa')
+>
+> It's more likely to be what Stefan pointed out later:
+>
+>> Meanwhile I noticed an additional detail:
+>>
+>> There exist two different pkg-config configurations for libffi on 
+>> Homebrew:
+>>
+>> % pkg-config --cflags libffi
+>> -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ffi
+>> % export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
+>> % pkg-config --cflags libffi
+>> -I/opt/homebrew/Cellar/libffi/3.3_2/include
+>>
+>> By default it points to a system directory which does not exist at all
+>> on my Mac, so that will never work.
+>
+> Paolo
 
-I just suggested something on another thread: call memory_region_find()
-and then look at the offset_within_address_space field of the returned
-MemoryRegionSection. I think that should get you the offset of the
-transport within the system address space regardless of how much
-use of containers and other oddball mappings are involved. (If the
-transport is not mapped into the system address space at all then
-you'll get its offset within whatever that other address space is,
-but I think we can reasonably ignore that unlikely corner case.)
 
-thanks
--- PMM
+Yes, it looks like setting the right PKG_CONFIG_PATH is sufficient for 
+builds with Homebrew on macOS.
+
+Richard, this commit is also the one which breaks qemu-system-i386 on 
+sparc64 for me:
+
+sw@gcc102:~/src/gitlab/qemu-project/qemu$ git bisect good
+115a01c323e6a01902894ec23ba704bf3dc8215a is the first bad commit
+commit 115a01c323e6a01902894ec23ba704bf3dc8215a
+Author: Richard Henderson <richard.henderson@linaro.org>
+Date:   Sat Jan 30 14:24:25 2021 -0800
+
+     tcg/tci: Use ffi for calls
+
+     This requires adjusting where arguments are stored.
+     Place them on the stack at left-aligned positions.
+     Adjust the stack frame to be at entirely positive offsets.
+
+     Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+  include/tcg/tcg.h        |   1 +
+  tcg/tcg.c                |  72 +++++++++++++++-----------
+  tcg/tci.c                | 131 
+++++++++++++++++++++++++++---------------------
+  tcg/tci/tcg-target.c.inc |  50 +++++++++---------
+  tcg/tci/tcg-target.h     |   2 +-
+  5 files changed, 143 insertions(+), 113 deletions(-)
+
+Regards,
+
+Stefan
+
+
 
