@@ -2,69 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95AC31309F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 12:22:22 +0100 (CET)
-Received: from localhost ([::1]:37808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C69D313103
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 12:38:39 +0100 (CET)
+Received: from localhost ([::1]:51494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l94cX-0005hk-MG
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 06:22:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
+	id 1l94sH-0004P4-Od
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 06:38:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l90GB-0003fl-5S; Mon, 08 Feb 2021 01:43:01 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l90Fi-0000XL-O5; Mon, 08 Feb 2021 01:42:46 -0500
-Received: by mail-ed1-x536.google.com with SMTP id s11so16809410edd.5;
- Sun, 07 Feb 2021 22:41:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=vfyGIVBLh46WHUXmpy8/GIwWAOX2AIpZ5UzYaoUuAEQ=;
- b=Ks2PXtH4rkJPalqPrzzIO3fnv80Bm6CS/cHkqZOmocsU/OQTL1NsOUbU4rY2yO7g9+
- tuPsayX/rOts3PyTOifReRr2J/3NsnqJjHHHTLaqsXW3itq24z4WQnV8aztGumx66ifK
- OA1UZDwKiKikPay2w3yLnuUziPXtyXwk0Zew8s6Xal9VMdjMj15iMTkV/W3ZlVVgE6AX
- t5GZMzaddl8LqOlSWlyNVGYrU7I+MwpZXeGITLiCg0UUkEzKaCf69J+XzM1QL/8IgN9y
- /y5efwUVSYsPUA8CssGOq5NPuA8LmTFceITbsDLSe3wYl9+GjMgnm2qjiS9cFnrX7Daf
- I0BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=vfyGIVBLh46WHUXmpy8/GIwWAOX2AIpZ5UzYaoUuAEQ=;
- b=ZtA6YW7/xnU1jbjdr7IByEMZueU9BxLePbPEtrI8N8+WbPkwhjNze5v/NbeidTRu8R
- Ls4V9dKMtlosiLe/N7X5wg6kxA8hoJHprf0ptn2JyTo+aY4uOcw4aI4d20ISGnzEniKg
- yhNnj5O/UJ+ZSAwsTWYM/TA+hHhimkNuglUW4vw+rnqe9swOSocW1wqPabd0v89vxY1L
- 8nYrnevmGSScXkQGUofMbLAbuuusGQlgKIn+2VNHIlTHUopnNgZZJRa+SUaywM4TD8Xj
- bDxVfumSMQKMH81Ej4eHwpa/fpfx3Qubg9xvr6NkGFCGXGhdt91ZY+txFaDLMovexps7
- q0iA==
-X-Gm-Message-State: AOAM530vyUjakh5rzF7yq4pZDgp8wbvdAHpj4MzIV+YkultCkTa/km15
- o6f5PR8bk6WbwH/awSoz/KA=
-X-Google-Smtp-Source: ABdhPJy0lZBHtVESecesvXy1CvlEW/39/dx4sADNHV5ezd1y9J6buK2bW06iAcqiy36KCbxlb2IaAw==
-X-Received: by 2002:aa7:d98f:: with SMTP id u15mr15806198eds.267.1612766476719; 
- Sun, 07 Feb 2021 22:41:16 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id b4sm3222734edh.40.2021.02.07.22.41.13
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 07 Feb 2021 22:41:16 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PATCH] hw/net: fsl_etsec: Do not reject short frames
-Date: Mon,  8 Feb 2021 14:41:05 +0800
-Message-Id: <1612766465-7639-1-git-send-email-bin.meng@windriver.com>
-X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l8zi7-0002AM-Rh; Mon, 08 Feb 2021 01:07:47 -0500
+Received: from ozlabs.org ([203.11.71.1]:48085)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l8zi4-0006p6-BV; Mon, 08 Feb 2021 01:07:47 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DYwY53vNhz9sVR; Mon,  8 Feb 2021 17:07:37 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1612764457;
+ bh=wapW+hFPonrY5NcNhJL2s94tGKTRKw27BwqVT6c2VhM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=i1RocBBq1R86WqdILxuvkgYAkJ4HsGF/3nHPHlQX7m/qy0w3ar0POYAYeiuHvD6T7
+ 30HVZ4mTeo3B5x+Eikqhz69iKwtcpteFwpBfXXDJzMUdiYili5zYzXM1XSPz4lVfjF
+ t+DkyKmp6e9pP5qxsmZo1kZo/VAvMFdBRJ8Wl3aI=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: pair@us.ibm.com, qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ dgilbert@redhat.com, brijesh.singh@amd.com, pasic@linux.ibm.com
+Subject: [PULL v9 02/13] confidential guest support: Introduce new
+ confidential guest support class
+Date: Mon,  8 Feb 2021 17:07:24 +1100
+Message-Id: <20210208060735.39838-3-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210208060735.39838-1-david@gibson.dropbear.id.au>
+References: <20210208060735.39838-1-david@gibson.dropbear.id.au>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,60 +58,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, kvm@vger.kernel.org,
+ david@redhat.com, jun.nakajima@intel.com, mtosatti@redhat.com,
+ richard.henderson@linaro.org, mdroth@linux.vnet.ibm.com,
+ Greg Kurz <groug@kaod.org>, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ frankja@linux.ibm.com, mst@redhat.com, pragyansri.pathi@intel.com,
+ andi.kleen@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of today both slirp and tap networking do not pad short frames
-(e.g.: an ARP packet) to the minimum frame size of 60 bytes.
+Several architectures have mechanisms which are designed to protect
+guest memory from interference or eavesdropping by a compromised
+hypervisor.  AMD SEV does this with in-chip memory encryption and
+Intel's TDX can do similar things.  POWER's Protected Execution
+Framework (PEF) accomplishes a similar goal using an ultravisor and
+new memory protection features, instead of encryption.
 
-If eTSEC is programmed to reject short frames, ARP requests will be
-dropped, preventing the guest from becoming visible on the network.
+To (partially) unify handling for these, this introduces a new
+ConfidentialGuestSupport QOM base class.  "Confidential" is kind of vague,
+but "confidential computing" seems to be the buzzword about these schemes,
+and "secure" or "protected" are often used in connection to unrelated
+things (such as hypervisor-from-guest or guest-from-guest security).
 
-The same issue was reported on e1000 and vmxenet3 before, see:
+The "support" in the name is significant because in at least some of the
+cases it requires the guest to take specific actions in order to protect
+itself from hypervisor eavesdropping.
 
-commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
-
-Ideally this should be fixed on the slirp/tap networking side to
-pad short frames to the minimum frame length, but I am not sure
-whether that's doable.
-
-This commit changes to codes to ignore the RCTRL_RSF setting and
-still allow receiving the short frame. The log message is updated
-to mention the reject short frames functionality is unimplemented.
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
+ backends/confidential-guest-support.c     | 33 ++++++++++++++++++++
+ backends/meson.build                      |  1 +
+ include/exec/confidential-guest-support.h | 38 +++++++++++++++++++++++
+ include/qemu/typedefs.h                   |  1 +
+ target/i386/sev.c                         |  5 +--
+ 5 files changed, 76 insertions(+), 2 deletions(-)
+ create mode 100644 backends/confidential-guest-support.c
+ create mode 100644 include/exec/confidential-guest-support.h
 
- hw/net/fsl_etsec/rings.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
-index 121415a..503b4d3 100644
---- a/hw/net/fsl_etsec/rings.c
-+++ b/hw/net/fsl_etsec/rings.c
-@@ -502,10 +502,17 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uint8_t *buf, size_t size)
-         return -1;
-     }
+diff --git a/backends/confidential-guest-support.c b/backends/confidential-guest-support.c
+new file mode 100644
+index 0000000000..052fde8db0
+--- /dev/null
++++ b/backends/confidential-guest-support.c
+@@ -0,0 +1,33 @@
++/*
++ * QEMU Confidential Guest support
++ *
++ * Copyright Red Hat.
++ *
++ * Authors:
++ *  David Gibson <david@gibson.dropbear.id.au>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++
++#include "exec/confidential-guest-support.h"
++
++OBJECT_DEFINE_ABSTRACT_TYPE(ConfidentialGuestSupport,
++                            confidential_guest_support,
++                            CONFIDENTIAL_GUEST_SUPPORT,
++                            OBJECT)
++
++static void confidential_guest_support_class_init(ObjectClass *oc, void *data)
++{
++}
++
++static void confidential_guest_support_init(Object *obj)
++{
++}
++
++static void confidential_guest_support_finalize(Object *obj)
++{
++}
+diff --git a/backends/meson.build b/backends/meson.build
+index 484456ece7..d4221831fc 100644
+--- a/backends/meson.build
++++ b/backends/meson.build
+@@ -6,6 +6,7 @@ softmmu_ss.add([files(
+   'rng-builtin.c',
+   'rng-egd.c',
+   'rng.c',
++  'confidential-guest-support.c',
+ ), numa])
  
-+    /*
-+     * Both slirp and tap networking do not pad short frames
-+     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
-+     *
-+     * If eTSEC is programmed to reject short frames, ARP requests
-+     * will be dropped, preventing the guest from becoming visible
-+     * on the network.
-+     */
-     if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
-         /* CRC is not in the packet yet, so short frame is below 60 bytes */
--        RING_DEBUG("%s: Drop short frame\n", __func__);
--        return -1;
-+        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
-     }
+ softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
+diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
+new file mode 100644
+index 0000000000..3db6380e63
+--- /dev/null
++++ b/include/exec/confidential-guest-support.h
+@@ -0,0 +1,38 @@
++/*
++ * QEMU Confidential Guest support
++ *   This interface describes the common pieces between various
++ *   schemes for protecting guest memory or other state against a
++ *   compromised hypervisor.  This includes memory encryption (AMD's
++ *   SEV and Intel's MKTME) or special protection modes (PEF on POWER,
++ *   or PV on s390x).
++ *
++ * Copyright Red Hat.
++ *
++ * Authors:
++ *  David Gibson <david@gibson.dropbear.id.au>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ *
++ */
++#ifndef QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
++#define QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
++
++#ifndef CONFIG_USER_ONLY
++
++#include "qom/object.h"
++
++#define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
++OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
++
++struct ConfidentialGuestSupport {
++    Object parent;
++};
++
++typedef struct ConfidentialGuestSupportClass {
++    ObjectClass parent;
++} ConfidentialGuestSupportClass;
++
++#endif /* !CONFIG_USER_ONLY */
++
++#endif /* QEMU_CONFIDENTIAL_GUEST_SUPPORT_H */
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 68deb74ef6..dc39b05c30 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -37,6 +37,7 @@ typedef struct Chardev Chardev;
+ typedef struct Clock Clock;
+ typedef struct CompatProperty CompatProperty;
+ typedef struct CoMutex CoMutex;
++typedef struct ConfidentialGuestSupport ConfidentialGuestSupport;
+ typedef struct CPUAddressSpace CPUAddressSpace;
+ typedef struct CPUState CPUState;
+ typedef struct DeviceListener DeviceListener;
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 1546606811..b738dc45b6 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -31,6 +31,7 @@
+ #include "qom/object.h"
+ #include "exec/address-spaces.h"
+ #include "monitor/monitor.h"
++#include "exec/confidential-guest-support.h"
  
-     rx_init_frame(etsec, buf, size);
+ #define TYPE_SEV_GUEST "sev-guest"
+ OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
+@@ -47,7 +48,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
+  *         -machine ...,memory-encryption=sev0
+  */
+ struct SevGuestState {
+-    Object parent_obj;
++    ConfidentialGuestSupport parent_obj;
+ 
+     /* configuration parameters */
+     char *sev_device;
+@@ -322,7 +323,7 @@ sev_guest_instance_init(Object *obj)
+ 
+ /* sev guest info */
+ static const TypeInfo sev_guest_info = {
+-    .parent = TYPE_OBJECT,
++    .parent = TYPE_CONFIDENTIAL_GUEST_SUPPORT,
+     .name = TYPE_SEV_GUEST,
+     .instance_size = sizeof(SevGuestState),
+     .instance_finalize = sev_guest_finalize,
 -- 
-2.7.4
+2.29.2
 
 
