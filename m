@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027D7314288
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:07:37 +0100 (CET)
-Received: from localhost ([::1]:48202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3B231429B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:11:20 +0100 (CET)
+Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Egx-00050v-Od
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:07:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50452)
+	id 1l9EkZ-0000oy-IQ
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:11:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCR-0003Bf-9f
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:51 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:39546)
+ id 1l9BCS-0003FI-Eg
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:52 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCP-00069B-NU
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:51 -0500
-Received: by mail-wm1-x331.google.com with SMTP id u14so48151wmq.4
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:49 -0800 (PST)
+ id 1l9BCQ-00069e-Pv
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:52 -0500
+Received: by mail-wr1-x430.google.com with SMTP id g10so18424754wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BX3ZP47xPXHNjViaL+mWjoCAJTKiSXDCljaMBbMGeYI=;
- b=lmPX2d1OfvWm4AP1WhVZ/CjiTSUu3GpTHdjNdIZ3P/B8oVAEPJ/YJlZCHMmhyUlwv9
- PzeAd8R/Vnq9qy9l4SbAc8QWn5f8KT0cq1bdu0s+gb/0rl6gn9V3DNBTGl1FjNYDtKZx
- Z0AlOzMztRjSlk4GKpuVeaEAi4WkWwDg/Cua1DsWqICKmzcjO5bheHiqPYodJyVizOGJ
- j8o6M1dema+qL2hzO4hgCL48jsoPJfUwSr7cR/eAHHLb4nrWvmc9RZLozNXCHGA1mKQt
- AFPoZwzpU1py6jSKXh7IEtaEdejh8dc+iY509yDn6jQeqhOnBL2N8u0qqsYSNXhPhxch
- NbWg==
+ bh=d+G+BDRQ2Y2nPV4bMRufOluSE675gO6hBAOJ+JNH5TA=;
+ b=vdjF7qpygnoL40iXRnQwfWmFIwdBBhqO+VgN6mqECtLR6sTAGeU387AflJ71LjV3iy
+ UKiW7z8V25Fw2qB6UPwMTgeKHVFgex3Q5AAm7Pb/4fan4CLbiyHXbyS/ybYPSxi1KDZ9
+ 6o05o+25Oi+j7HgVRjNl//l1NDvPrV5PwL/39fVfKaJIt+MSt32NlL6beOfAIFlvH/Lx
+ MMj6Orkid69+3bvcfVh07ayD5xHQI31uv7l8do3Upk/tgSFPe4JKsnC6+xTKgjHOCyq1
+ VzrVu45nJ+xow+ge0ZduNSKloyHfSYvK9YqFSAb6FkBd1gKWBF3pRxusOtxcIPWYgMl8
+ FLRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BX3ZP47xPXHNjViaL+mWjoCAJTKiSXDCljaMBbMGeYI=;
- b=YU2DEvxIWZIwTMR7X1jb5l31Nd2FNVfxo62sBbJVuU5B9r+VlS5zKd4hS57UKSpPrb
- 4Qm2fFVgQssZKGziI6H69r3f0+tYzN+FuyETO6exrRRcaiOFrewYFZR230rvRrGskHHR
- gBTlrbVvG6au4Ws5r5IEKjDW4CVohXJqYr5m4WMVHwcQ6O9rfXbpxTYlc/6pHAzTlw37
- c1lNo53ROdSVrN/ykEKWuKtp27TL+cRd6BfaXTR7adTM/9AyK2Sa3QJo/fs4etenFPNm
- uyOSUVMzwxr1DC5JvAgdVbRuDooLjE/dGSdt3rSgHkVb8cNamiV/Q10HLWKRK204qX1Z
- n7Tg==
-X-Gm-Message-State: AOAM532XJTPTDfFbW/4nqRkENfxuPNolX0D3aSYMatVo3jW1G3atPg6a
- 87csEnVw/Bx61c1ZEMQ+7sXh5Ya9et0fmw==
-X-Google-Smtp-Source: ABdhPJy0GjbZLAQfF3glDgt1ccsyMogCn/EDRMvzLUl7YfvTXvZ8IVRvZ+6aFu9hykD1OhU/j/JXHg==
-X-Received: by 2002:a1c:9851:: with SMTP id a78mr92422wme.66.1612808628329;
- Mon, 08 Feb 2021 10:23:48 -0800 (PST)
+ bh=d+G+BDRQ2Y2nPV4bMRufOluSE675gO6hBAOJ+JNH5TA=;
+ b=SnLThniOh8yOMC3NpmdtfN5jzCEts/ERLahSfdjWpcXvfHkIt/EB50Sb/4KI46W96V
+ /YpOW3CxXFs7BFpuBK8nOwBBwWnqWaE6f3TTGiy0/vNCn5OHvS3b8kg8FvIhP5c3dYB9
+ MOp+eVVZeRNA1BVGESbUmMId2w26XJKtJdBs2XVd+rw3H73k0MK55SXjdE4XucCGnQH8
+ q6a2TADQ/wf369c71n+H5R5iusS7S3O1UMKrwF+dzfk0DmGq4bBpnoqvsqwZNbkXD3D/
+ 0ewOK7HEg6UnZnBDAIVEn3T4kYnyyku6oxdsua8KD+If++lk/Pg9MLtOzXYCy9BrM6K0
+ nE/Q==
+X-Gm-Message-State: AOAM532xne+O8FY8UDWfB707lFdMDhZ8MUk2Y8VhEDCH/nTyqsuD8x8B
+ GUiRhK85c9BbHUJ6iRvDpJp9DaRtgIJtMw==
+X-Google-Smtp-Source: ABdhPJwyFdvp0qUmc7KyPbVGMcO1O2iHrpqPuMI8AZd8xpqV2j0SQGWSwUmFJrpg4bAmrh5RQMJjHw==
+X-Received: by 2002:adf:fd52:: with SMTP id h18mr21411786wrs.295.1612808629214; 
+ Mon, 08 Feb 2021 10:23:49 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.23.47
+ x22sm19670wmc.25.2021.02.08.10.23.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:23:47 -0800 (PST)
+ Mon, 08 Feb 2021 10:23:48 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/46] event_notifier: handle initialization failure better
-Date: Mon,  8 Feb 2021 19:23:01 +0100
-Message-Id: <20210208182331.58897-17-pbonzini@redhat.com>
+Subject: [PULL 17/46] target/i386: Fix decoding of certain BMI instructions
+Date: Mon,  8 Feb 2021 19:23:02 +0100
+Message-Id: <20210208182331.58897-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,99 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maxim Levitsky <mlevitsk@redhat.com>
+Cc: David Greenaway <dgreenaway@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+From: David Greenaway <dgreenaway@google.com>
 
-Add 'initialized' field and use it to avoid touching event notifiers which are
-either not initialized or if their initialization failed.
+This patch fixes a translation bug for a subset of x86 BMI instructions
+such as the following:
 
-This is somewhat a hack, but it seems the less intrusive way to make
-virtio code deal with event notifiers that failed initialization.
+   c4 e2 f9 f7 c0                shlxq   %rax, %rax, %rax
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-Id: <20201217150040.906961-4-mlevitsk@redhat.com>
+Currently, these incorrectly generate an undefined instruction exception
+when SSE is disabled via CR4, while instructions like "shrxq" work fine.
+
+The problem appears to be related to BMI instructions encoded using VEX
+and with a mandatory prefix of "0x66" (data). Instructions with this
+data prefix (such as shlxq) are currently rejected. Instructions with
+other mandatory prefixes (such as shrxq) translate as expected.
+
+This patch removes the incorrect check in "gen_sse" that causes the
+exception to be generated. For the non-BMI cases, the check is
+redundant: prefixes are already checked at line 3696.
+
+Buglink: https://bugs.launchpad.net/qemu/+bug/1748296
+
+Signed-off-by: David Greenaway <dgreenaway@google.com>
+Message-Id: <20210114063958.1508050-1-dgreenaway@google.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/event_notifier.h |  1 +
- util/event_notifier-posix.c   | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
+ target/i386/tcg/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/event_notifier.h b/include/qemu/event_notifier.h
-index 3380b662f3..b79add035d 100644
---- a/include/qemu/event_notifier.h
-+++ b/include/qemu/event_notifier.h
-@@ -24,6 +24,7 @@ struct EventNotifier {
- #else
-     int rfd;
-     int wfd;
-+    bool initialized;
- #endif
- };
- 
-diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
-index 00d93204f9..5b2110e861 100644
---- a/util/event_notifier-posix.c
-+++ b/util/event_notifier-posix.c
-@@ -29,6 +29,7 @@ void event_notifier_init_fd(EventNotifier *e, int fd)
- {
-     e->rfd = fd;
-     e->wfd = fd;
-+    e->initialized = true;
- }
- #endif
- 
-@@ -68,6 +69,7 @@ int event_notifier_init(EventNotifier *e, int active)
-     if (active) {
-         event_notifier_set(e);
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 6a4c31f933..af1faf9342 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -3075,7 +3075,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
      }
-+    e->initialized = true;
-     return 0;
- 
- fail:
-@@ -78,12 +80,18 @@ fail:
- 
- void event_notifier_cleanup(EventNotifier *e)
- {
-+    if (!e->initialized) {
-+        return;
-+    }
-+
-     if (e->rfd != e->wfd) {
-         close(e->rfd);
+     if (is_xmm
+         && !(s->flags & HF_OSFXSR_MASK)
+-        && ((b != 0x38 && b != 0x3a) || (s->prefix & PREFIX_DATA))) {
++        && (b != 0x38 && b != 0x3a)) {
+         goto unknown_op;
      }
-+
-     e->rfd = -1;
-     close(e->wfd);
-     e->wfd = -1;
-+    e->initialized = false;
- }
- 
- int event_notifier_get_fd(const EventNotifier *e)
-@@ -96,6 +104,10 @@ int event_notifier_set(EventNotifier *e)
-     static const uint64_t value = 1;
-     ssize_t ret;
- 
-+    if (!e->initialized) {
-+        return -1;
-+    }
-+
-     do {
-         ret = write(e->wfd, &value, sizeof(value));
-     } while (ret < 0 && errno == EINTR);
-@@ -113,6 +125,10 @@ int event_notifier_test_and_clear(EventNotifier *e)
-     ssize_t len;
-     char buffer[512];
- 
-+    if (!e->initialized) {
-+        return 0;
-+    }
-+
-     /* Drain the notify pipe.  For eventfd, only 8 bytes will be read.  */
-     value = 0;
-     do {
+     if (b == 0x0e) {
 -- 
 2.29.2
 
