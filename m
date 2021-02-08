@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 274E43142B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:19:13 +0100 (CET)
-Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D493142C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:24:23 +0100 (CET)
+Received: from localhost ([::1]:55958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9EsC-0008T0-5v
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:19:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50594)
+	id 1l9ExC-0003hd-0i
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:24:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCX-0003T1-FA
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:57 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42026)
+ id 1l9BCe-0003Zw-T9
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:04 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCW-0006EA-0t
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:57 -0500
-Received: by mail-wr1-x430.google.com with SMTP id r21so2150114wrr.9
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:55 -0800 (PST)
+ id 1l9BCd-0006Fr-1P
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:04 -0500
+Received: by mail-wr1-x435.google.com with SMTP id r21so2150262wrr.9
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n0oc9vUhZzR8ZVs9lZClM6fTo+wKdeM1A7PGawhfO4U=;
- b=Sgx+8DSkrUtCqrP8HpGTVbdZORVLS5FdQy/Hj/fuGRF1ENhtPbVPghSgOMQEji+nmd
- N8ZzSV76FCIpEQjzsQztO5iUIyfRwEODz0mMdC7kvdmaq5uq9kQZ0clgMG4/X+vK/3+7
- CGUCYF1z6bdHF8VcnxRgrKoOlgtNJ+9y389zT1E2wNhgVGJABC0kzvS7ykM8LL1t9AMC
- JX1+9fAK8Nan+OJkEvtQ0RQRqV9C9YTmIEvjZzJ4i0XqpjjUpeCuv88k77fLhoWktkkW
- qIBO/QXvrZKO9tsBw6r0vscd2OuiNPPj6N71HByqoDPdTEkio0oLwj2cI7/vyvGQ+a7d
- COtw==
+ bh=YDl//AE2f3xGXEVdNr/160U3DFg4IAMDxHMNoVyzCI4=;
+ b=N64mXyyjbiMMQWuIO2a0EHanWuhDtJbjUngecQE1LlFyIKYKutg9i2oLPeFNY4mwau
+ XFkJd+lNVRZHhRPhkgGnOcWirKGEpYm2CA4G4PDBw7fSw61rnZTGvOMEJFNh3BNtUGD1
+ wYg2Iie2iaymGvobDwI/FRd/7PYj70ZAt1rXzPbdNRRi+n9Uy4uf/qJzOFS1vn6GuGem
+ VPZwrdegqfHEmBjHE3wNyXSxkYRmjy/LArVALy0OUQ2+n7Yg32tOTsdlfW6xPKfsAGcT
+ 58jKy4RrpDE1a2bgh1iPPFpuDN2AGiA9lSOM8JYQRS4iB01qm8/QdMVirsP4ytE44xGz
+ hOKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=n0oc9vUhZzR8ZVs9lZClM6fTo+wKdeM1A7PGawhfO4U=;
- b=hb/DwkbtMimH5lX+BAu6Cpv+CYWB+1FmgAUdOYVGF4I7Jlomn5D3aa9HkkM1H8cgcN
- ye3dG85S7BVgbLl7mjHHu8NFpm6Qd0FYar/D5hv3x2Lb7cvqAnvtG1doJ8wMIorjJdJc
- lWUyaprwv8jLK6MWMLWDnrMNI7n8tlQAppUYgCQtU+RI3S7aC6ZSV+a/xFFjQAqpJ1iv
- Z/SLuUsbavnGrgFbIutUFvteoKsqDPI/8DAhsHzgEEWKakA5FVySJdDdH/38bT2U9LhY
- hiScMaxP8n2Hlyg5h4IzeYZxD8tczTcLY/LxY8CQX/ymz8Mx743PcmM+PV+x9nrP5y0x
- jvog==
-X-Gm-Message-State: AOAM533I4/Qd2H/2bF5O34n94dKLhqevZOIgvM1FybVP+N/KbLkInzZm
- H1irrSObz34CXq9nfFjDpOnFyS6+As+WTw==
-X-Google-Smtp-Source: ABdhPJxY/VIOCMS7SsNfIqSNPsbx45MZCPcMRg7JAY+O1wi0NdH7iWGcRksfGv176/sK0UL1GI+qsg==
-X-Received: by 2002:a05:6000:1806:: with SMTP id
- m6mr12810213wrh.320.1612808634857; 
- Mon, 08 Feb 2021 10:23:54 -0800 (PST)
+ bh=YDl//AE2f3xGXEVdNr/160U3DFg4IAMDxHMNoVyzCI4=;
+ b=HsKPyvj5dJ2EeFVlS187zlANegvNjueamAJ0JAauaOeflsXvIWgdIPlf2QLEOLXI71
+ PlAOA1ZyuREX67a+00xAxfuGyayMHiyw2iat5zH0b51Fn1/PHACwBI5nxKdQQCQrSV90
+ Mb4dB1/kEqY3kUT2gWJ6ok8CDkfwQ2UkpIiGs/1pcE+vu69E/MtzxBmKqK6wVu2bFDvP
+ uOGMA2PYTq7f4E86I1fCVsrW6w3bVHAPuFuKfE2E8JU1+Rp4sHefdhSmGiSVhoD+TW9e
+ VStU8mEtyO0yTjLgky619APFWXP+n8On6dWvYRIi82ScaproKNClmV8t68lJEwMvMCnP
+ w9ew==
+X-Gm-Message-State: AOAM530t1tWpar1VIzKfgWfXJgkfs/DQ3dSj1+tIpFmrKI+eMmzrrpp7
+ dXbZeYj5nSDdtR4iM/Im0aySF4L42tkZKQ==
+X-Google-Smtp-Source: ABdhPJx3iRKJKbb/HcBCJWcyCLer+wnseCCqj1jZkNiK0yB0Z9UmCBQckmm3UtEO4VJl3obF+/WK2Q==
+X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr20520591wrq.136.1612808637488; 
+ Mon, 08 Feb 2021 10:23:57 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.23.54
+ x22sm19670wmc.25.2021.02.08.10.23.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:23:54 -0800 (PST)
+ Mon, 08 Feb 2021 10:23:56 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/46] pc-bios/meson: Only install EDK2 blob firmwares with
- system emulation
-Date: Mon,  8 Feb 2021 19:23:08 +0100
-Message-Id: <20210208182331.58897-24-pbonzini@redhat.com>
+Subject: [PULL 26/46] meson: Restrict some trace event directories to
+ user/system emulation
+Date: Mon,  8 Feb 2021 19:23:11 +0100
+Message-Id: <20210208182331.58897-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,24 +94,69 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210122204441.2145197-4-philmd@redhat.com>
+Message-Id: <20210122204441.2145197-8-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- pc-bios/meson.build | 1 +
- 1 file changed, 1 insertion(+)
+ meson.build | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index af95c5d1f1..f2b32598af 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -12,6 +12,7 @@ if install_edk2_blobs
+diff --git a/meson.build b/meson.build
+index da21812064..d6eb880b89 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1741,22 +1741,10 @@ target_softmmu_arch = {}
+ # TODO: add each directory to the subdirs from its own meson.build, once
+ # we have those
+ trace_events_subdirs = [
+-  'accel/kvm',
+-  'accel/tcg',
+   'crypto',
+-  'hw/core',
+   'qapi',
+   'qom',
+   'monitor',
+-  'target/arm',
+-  'target/hppa',
+-  'target/i386',
+-  'target/i386/kvm',
+-  'target/mips',
+-  'target/ppc',
+-  'target/riscv',
+-  'target/s390x',
+-  'target/sparc',
+   'util',
+ ]
+ if have_user
+@@ -1773,6 +1761,7 @@ if have_block
+ endif
+ if have_system
+   trace_events_subdirs += [
++    'accel/kvm',
+     'audio',
+     'backends',
+     'backends/tpm',
+@@ -1830,6 +1819,21 @@ if have_system
+     'ui',
+   ]
+ endif
++if have_system or have_user
++  trace_events_subdirs += [
++    'accel/tcg',
++    'hw/core',
++    'target/arm',
++    'target/hppa',
++    'target/i386',
++    'target/i386/kvm',
++    'target/mips',
++    'target/ppc',
++    'target/riscv',
++    'target/s390x',
++    'target/sparc',
++  ]
++endif
  
-   foreach f : fds
-     custom_target(f,
-+                  build_by_default: have_system,
-                   output: f,
-                   input: '@0@.bz2'.format(f),
-                   capture: true,
+ vhost_user = not_found
+ if 'CONFIG_VHOST_USER' in config_host
 -- 
 2.29.2
 
