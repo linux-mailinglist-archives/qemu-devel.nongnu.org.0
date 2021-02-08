@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0CF03144E6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:27:34 +0100 (CET)
-Received: from localhost ([::1]:35876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BEFB3144EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:29:39 +0100 (CET)
+Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9GsP-0007CY-Oa
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:27:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44094)
+	id 1l9GuQ-0001Xt-J4
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:29:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9G7c-0004zX-Kk
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 18:39:12 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:35155)
+ id 1l9G7i-00055q-UD
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 18:39:18 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:43242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9G7a-0000zN-SI
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 18:39:12 -0500
-Received: by mail-pg1-x530.google.com with SMTP id t25so11297101pga.2
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 15:39:10 -0800 (PST)
+ id 1l9G7c-00010E-Dn
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 18:39:18 -0500
+Received: by mail-pf1-x435.google.com with SMTP id q131so10719681pfq.10
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 15:39:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/4OvZ/z8zgs+Zk4nXR9BgeBunVL67Ul7jA+wIZOB714=;
- b=VG7PcQvJ4VX8D6VAVxKrn7wbhNBalrA3j8geyB01s1RBhwZWbE78HjedcQr9gD11JP
- fbid8Zx/iWO7nagnQtdPrKKxePAWqzuMDbGvxeEBZz+MwoNsuTAgnwP1Db+mm6rzAFL+
- WPy1K/yCByV8OM25Jvi7dCEnOEErPhHa2AsEybBMG7eJKWf0F76aJyMJM6Y6PGmNNmrp
- LEViBLo+RJnA9xxkFccbnMdWhq/uPDGqJ4+prhFQUBH/DXzhDdtikrcpToVZNdkFdPeC
- WzUU4++CihRqzNkFXOm++JuBYOcBr3uUIQd6IRLtbb+SmX56pGAD94oNOb9Ac9lt7/gU
- QfrA==
+ bh=DqDS++ASKRz2BpCakcktMBnc/QXED2AN0Q9nieRwrbQ=;
+ b=u3xF5UPOm10jLoMEaWGYABTmMgunkc7m3/+K++5qMoq96rTXD6k1fb4nX99eBixENC
+ ZReNA5ERd4OEcuODIBuTYK8iE6KHG0sT6rtz2TPc63RPB0xmhsjNFHDFiUlZZAQFyYTT
+ lC/9zIon4XDQtmJgq+3gh1ZsQf1U4ZpWlLnS4piKmZB02OviIIp5QPe3mduAN8Oa0qJg
+ 1xRkkcu2Gdil1PQmPw0LAiVMTSWW2nRC8cDjZSS9QaY1Lg/TdPC5CDumEMcdatOJy3QT
+ Olg2PHq86RZ9EktDaIsn9aBpDWdP5/s2GIsxpoJbBUsofYtexvaX9KOjXJDFvkJ07yhU
+ ZSpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/4OvZ/z8zgs+Zk4nXR9BgeBunVL67Ul7jA+wIZOB714=;
- b=VxMODxdrrfhNPfhlB44eE9VuYbN4DwTFSqfPwuzLuZ2SlIICM9quOk6t4mdKNiu4xA
- 7zdDpDd667wShK6ixgWGkhxg5HhV1GNhJwzmO4LxjcJ9satNUNQF2li1I3dtAqfwdiZx
- n8REfkULaIg6aWkx/4dEd9iX9p2RzExwvsTpWB7GGOSTHINTgUBuq31PY6Jq3i+ujg82
- 1wqv+k0g43a5RdoPGWN5W7Ari6oguH3PW514TlTo7L1RtaIGlOoUpVMJfwFi8oavlv0n
- ZUvs+QbP0xIktcLPXO0MzutZYO+s0PdzPvUEa6cZIOOjOnnvrBOrfOe6Oq7O6glhvHU7
- 89rA==
-X-Gm-Message-State: AOAM533JdS/ztGw5ozxOKiS/GpyLEz6LTf154XTDtDg9wkxjVAbnbmFg
- R4723+ytrYtOiFK79j4wlFwZBeLGWUEUjA==
-X-Google-Smtp-Source: ABdhPJyTeWjbjqFteNmcmhWHc2ESCh4se9vJtkJWwHJo/zmwPuhCWS+/i7WfZhcztjVLdfCsief0JA==
-X-Received: by 2002:a63:574c:: with SMTP id h12mr19467486pgm.79.1612827549574; 
- Mon, 08 Feb 2021 15:39:09 -0800 (PST)
+ bh=DqDS++ASKRz2BpCakcktMBnc/QXED2AN0Q9nieRwrbQ=;
+ b=uXMl20JgH8ZmZkzA2bud4n9woWDlymi+wCz+OJspbEtJ6eudpI8NxVahVqIv111re3
+ sFdZCiED10J7u/hlQHYOluHjwRBWcqgGBhuQHN+2xzKG1Fx4BABRdMTS+1Jmu3U0b/6B
+ WU8sI06kB0ATwzx8gLVnlq949/B6jQ73TJBF15ZQ6B4RL7EHsliUzOHTvvS/e6eN3VXJ
+ liae9oBVYY7JoKj4OS+Ipqqw/mwmVUffPrPdI8VUgAAS3IRWUrBjmv6ROY7M3yHTxMh8
+ FSo6jOwPwYIe1FuXaD9e8u7prRFOlyyRSsosXDL0IUAZsN/L2UW+iRUXd92LQS0Mx/Gf
+ 9x4w==
+X-Gm-Message-State: AOAM531tglxbwmDgJV8YkFuRStyFR1rydSesgLYpGJ0sIlC02aNpprV3
+ QUG3n8F0/fuw/PCCVObOEjeHy3UeA1VBKQ==
+X-Google-Smtp-Source: ABdhPJyU6FeshSrgguVtTQHQMFQqwPXwmu6qDIyVzIq7P6/sV9AvtqDP2Hkcr9vzARm4NFjWoBJ5Fw==
+X-Received: by 2002:a63:1a1d:: with SMTP id a29mr5955497pga.236.1612827551111; 
+ Mon, 08 Feb 2021 15:39:11 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id k15sm13483489pgt.35.2021.02.08.15.39.08
+ by smtp.gmail.com with ESMTPSA id k15sm13483489pgt.35.2021.02.08.15.39.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 15:39:08 -0800 (PST)
+ Mon, 08 Feb 2021 15:39:10 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] exec: Move TranslationBlock typedef to qemu/typedefs.h
-Date: Mon,  8 Feb 2021 15:39:03 -0800
-Message-Id: <20210208233906.479571-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/4] accel/tcg: Create io_recompile_replay_branch hook
+Date: Mon,  8 Feb 2021 15:39:04 -0800
+Message-Id: <20210208233906.479571-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210208233906.479571-1-richard.henderson@linaro.org>
 References: <20210208233906.479571-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,148 +87,79 @@ Cc: alex.bennee@linaro.org, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This also means we don't need an extra declaration of
-the structure in hw/core/cpu.h.
+Create a hook in which to split out the mips and
+sh4 ifdefs from cpu_io_recompile.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/tb-context.h     | 1 -
- include/hw/core/cpu.h         | 4 +---
- include/hw/core/tcg-cpu-ops.h | 3 +--
- include/qemu/typedefs.h       | 1 +
- target/arm/internals.h        | 3 +--
- target/cris/translate.c       | 2 +-
- target/lm32/translate.c       | 2 +-
- target/moxie/translate.c      | 2 +-
- target/unicore32/translate.c  | 2 +-
- 9 files changed, 8 insertions(+), 12 deletions(-)
+ include/hw/core/tcg-cpu-ops.h | 10 ++++++++++
+ accel/tcg/translate-all.c     | 17 +++++++++++++----
+ 2 files changed, 23 insertions(+), 4 deletions(-)
 
-diff --git a/include/exec/tb-context.h b/include/exec/tb-context.h
-index ec4c13b455..cc33979113 100644
---- a/include/exec/tb-context.h
-+++ b/include/exec/tb-context.h
-@@ -26,7 +26,6 @@
- #define CODE_GEN_HTABLE_BITS     15
- #define CODE_GEN_HTABLE_SIZE     (1 << CODE_GEN_HTABLE_BITS)
- 
--typedef struct TranslationBlock TranslationBlock;
- typedef struct TBContext TBContext;
- 
- struct TBContext {
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 38d813c389..c005d3dc2d 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -74,8 +74,6 @@ typedef enum MMUAccessType {
- 
- typedef struct CPUWatchpoint CPUWatchpoint;
- 
--struct TranslationBlock;
--
- /* see tcg-cpu-ops.h */
- struct TCGCPUOps;
- 
-@@ -375,7 +373,7 @@ struct CPUState {
-     IcountDecr *icount_decr_ptr;
- 
-     /* Accessed in parallel; all accesses must be atomic */
--    struct TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
-+    TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
- 
-     struct GDBRegisterState *gdb_regs;
-     int gdb_num_regs;
 diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index ccc97d1894..ac3bb051f2 100644
+index ac3bb051f2..ddf334411f 100644
 --- a/include/hw/core/tcg-cpu-ops.h
 +++ b/include/hw/core/tcg-cpu-ops.h
-@@ -30,8 +30,7 @@ struct TCGCPUOps {
-      * If more state needs to be restored, the target must implement a
-      * function to restore all the state, and register it here.
+@@ -88,6 +88,16 @@ struct TCGCPUOps {
       */
--    void (*synchronize_from_tb)(CPUState *cpu,
--                                const struct TranslationBlock *tb);
-+    void (*synchronize_from_tb)(CPUState *cpu, const TranslationBlock *tb);
-     /** @cpu_exec_enter: Callback for cpu_exec preparation */
-     void (*cpu_exec_enter)(CPUState *cpu);
-     /** @cpu_exec_exit: Callback for cpu_exec cleanup */
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index dc39b05c30..ee60eb3de4 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -120,6 +120,7 @@ typedef struct ReservedRegion ReservedRegion;
- typedef struct SavedIOTLB SavedIOTLB;
- typedef struct SHPCDevice SHPCDevice;
- typedef struct SSIBus SSIBus;
-+typedef struct TranslationBlock TranslationBlock;
- typedef struct VirtIODevice VirtIODevice;
- typedef struct Visitor Visitor;
- typedef struct VMChangeStateEntry VMChangeStateEntry;
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 448982dd2f..7d26ce0c9d 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -172,8 +172,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu);
- void arm_translate_init(void);
+     bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
  
- #ifdef CONFIG_TCG
--void arm_cpu_synchronize_from_tb(CPUState *cs,
--                                 const struct TranslationBlock *tb);
-+void arm_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
- #endif /* CONFIG_TCG */
++    /**
++     * @io_recompile_replay_branch: Callback for cpu_io_recompile.
++     *
++     * The cpu has been stoped, and cpu_restore_state_from_tb has been
++     * called.  If the faulting instruction is in a delay slot, and the
++     * target architecture requires re-execution of the branch, then
++     * adjust the cpu state as required and return true.
++     */
++    bool (*io_recompile_replay_branch)(CPUState *cpu,
++                                       const TranslationBlock *tb);
+ #endif /* CONFIG_SOFTMMU */
+ #endif /* NEED_CPU_H */
  
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 81d4c83f22..6eb37883bd 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -60,6 +60,7 @@
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/tcg.h"
+ #include "qapi/error.h"
++#include "hw/core/tcg-cpu-ops.h"
+ #include "internal.h"
  
-diff --git a/target/cris/translate.c b/target/cris/translate.c
-index c893f877ab..65c168c0c7 100644
---- a/target/cris/translate.c
-+++ b/target/cris/translate.c
-@@ -132,7 +132,7 @@ typedef struct DisasContext {
+ /* #define DEBUG_TB_INVALIDATE */
+@@ -2420,6 +2421,7 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+     CPUArchState *env = cpu->env_ptr;
+ #endif
+     TranslationBlock *tb;
++    CPUClass *cc;
+     uint32_t n;
  
-     int delayed_branch;
+     tb = tcg_tb_lookup(retaddr);
+@@ -2429,11 +2431,18 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+     }
+     cpu_restore_state_from_tb(cpu, tb, retaddr, true);
  
--    struct TranslationBlock *tb;
-+    TranslationBlock *tb;
-     int singlestep_enabled;
- } DisasContext;
- 
-diff --git a/target/lm32/translate.c b/target/lm32/translate.c
-index 030b232d66..20c70d03f1 100644
---- a/target/lm32/translate.c
-+++ b/target/lm32/translate.c
-@@ -93,7 +93,7 @@ typedef struct DisasContext {
-     unsigned int tb_flags, synced_flags; /* tb dependent flags.  */
-     int is_jmp;
- 
--    struct TranslationBlock *tb;
-+    TranslationBlock *tb;
-     int singlestep_enabled;
- 
-     uint32_t features;
-diff --git a/target/moxie/translate.c b/target/moxie/translate.c
-index d5fb27dfb8..24a742b25e 100644
---- a/target/moxie/translate.c
-+++ b/target/moxie/translate.c
-@@ -36,7 +36,7 @@
- 
- /* This is the state at translation time.  */
- typedef struct DisasContext {
--    struct TranslationBlock *tb;
-+    TranslationBlock *tb;
-     target_ulong pc, saved_pc;
-     uint32_t opcode;
-     uint32_t fp_status;
-diff --git a/target/unicore32/translate.c b/target/unicore32/translate.c
-index 962f9877a0..370709c9ea 100644
---- a/target/unicore32/translate.c
-+++ b/target/unicore32/translate.c
-@@ -34,7 +34,7 @@ typedef struct DisasContext {
-     int condjmp;
-     /* The label that will be jumped to when the instruction is skipped.  */
-     TCGLabel *condlabel;
--    struct TranslationBlock *tb;
-+    TranslationBlock *tb;
-     int singlestep_enabled;
- #ifndef CONFIG_USER_ONLY
-     int user;
+-    /* On MIPS and SH, delay slot instructions can only be restarted if
+-       they were already the first instruction in the TB.  If this is not
+-       the first instruction in a TB then re-execute the preceding
+-       branch.  */
++    /*
++     * Some guests must re-execute the branch when re-executing a delay
++     * slot instruction.  When this is the case, adjust icount and N
++     * to account for the re-execution of the branch.
++     */
+     n = 1;
++    cc = CPU_GET_CLASS(cpu);
++    if (cc->tcg_ops->io_recompile_replay_branch &&
++        cc->tcg_ops->io_recompile_replay_branch(cpu, tb)) {
++        cpu_neg(cpu)->icount_decr.u16.low++;
++        n = 2;
++    }
+ #if defined(TARGET_MIPS)
+     if ((env->hflags & MIPS_HFLAG_BMASK) != 0
+         && env->active_tc.PC != tb->pc) {
 -- 
 2.25.1
 
