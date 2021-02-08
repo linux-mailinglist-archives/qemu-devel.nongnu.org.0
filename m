@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C903130C6
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 12:27:10 +0100 (CET)
-Received: from localhost ([::1]:41244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95AC31309F
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 12:22:22 +0100 (CET)
+Received: from localhost ([::1]:37808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l94hB-0007N7-79
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 06:27:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59102)
+	id 1l94cX-0005hk-MG
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 06:22:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8ziE-0002Pu-RV; Mon, 08 Feb 2021 01:07:54 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55027 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8ziC-0006te-8B; Mon, 08 Feb 2021 01:07:54 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwY63J3Kz9sWH; Mon,  8 Feb 2021 17:07:38 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612764458;
- bh=aAac4u8eAT095LojHu2zV6djlFRQd15K3tYUapECTxg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=K/pNWE7ToBQ+mRufAu4v2QvsP67JFGhhMEuRaemfWuiAd0UPwJgLoPwawYII4MMwz
- 8jNcbnlKH7CJYuebDsTCHrzrtTEfyFvq+df06V4Ua32KHEpsTuYHuP/qOl+hGYi0Mo
- 1cNGYPx1pjBFkNyZzb/iHimaQoNKrPKhNwgaaqh0=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: pair@us.ibm.com, qemu-devel@nongnu.org, peter.maydell@linaro.org,
- dgilbert@redhat.com, brijesh.singh@amd.com, pasic@linux.ibm.com
-Subject: [PULL v9 10/13] spapr: Add PEF based confidential guest support
-Date: Mon,  8 Feb 2021 17:07:32 +1100
-Message-Id: <20210208060735.39838-11-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210208060735.39838-1-david@gibson.dropbear.id.au>
-References: <20210208060735.39838-1-david@gibson.dropbear.id.au>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l90GB-0003fl-5S; Mon, 08 Feb 2021 01:43:01 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l90Fi-0000XL-O5; Mon, 08 Feb 2021 01:42:46 -0500
+Received: by mail-ed1-x536.google.com with SMTP id s11so16809410edd.5;
+ Sun, 07 Feb 2021 22:41:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=vfyGIVBLh46WHUXmpy8/GIwWAOX2AIpZ5UzYaoUuAEQ=;
+ b=Ks2PXtH4rkJPalqPrzzIO3fnv80Bm6CS/cHkqZOmocsU/OQTL1NsOUbU4rY2yO7g9+
+ tuPsayX/rOts3PyTOifReRr2J/3NsnqJjHHHTLaqsXW3itq24z4WQnV8aztGumx66ifK
+ OA1UZDwKiKikPay2w3yLnuUziPXtyXwk0Zew8s6Xal9VMdjMj15iMTkV/W3ZlVVgE6AX
+ t5GZMzaddl8LqOlSWlyNVGYrU7I+MwpZXeGITLiCg0UUkEzKaCf69J+XzM1QL/8IgN9y
+ /y5efwUVSYsPUA8CssGOq5NPuA8LmTFceITbsDLSe3wYl9+GjMgnm2qjiS9cFnrX7Daf
+ I0BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=vfyGIVBLh46WHUXmpy8/GIwWAOX2AIpZ5UzYaoUuAEQ=;
+ b=ZtA6YW7/xnU1jbjdr7IByEMZueU9BxLePbPEtrI8N8+WbPkwhjNze5v/NbeidTRu8R
+ Ls4V9dKMtlosiLe/N7X5wg6kxA8hoJHprf0ptn2JyTo+aY4uOcw4aI4d20ISGnzEniKg
+ yhNnj5O/UJ+ZSAwsTWYM/TA+hHhimkNuglUW4vw+rnqe9swOSocW1wqPabd0v89vxY1L
+ 8nYrnevmGSScXkQGUofMbLAbuuusGQlgKIn+2VNHIlTHUopnNgZZJRa+SUaywM4TD8Xj
+ bDxVfumSMQKMH81Ej4eHwpa/fpfx3Qubg9xvr6NkGFCGXGhdt91ZY+txFaDLMovexps7
+ q0iA==
+X-Gm-Message-State: AOAM530vyUjakh5rzF7yq4pZDgp8wbvdAHpj4MzIV+YkultCkTa/km15
+ o6f5PR8bk6WbwH/awSoz/KA=
+X-Google-Smtp-Source: ABdhPJy0lZBHtVESecesvXy1CvlEW/39/dx4sADNHV5ezd1y9J6buK2bW06iAcqiy36KCbxlb2IaAw==
+X-Received: by 2002:aa7:d98f:: with SMTP id u15mr15806198eds.267.1612766476719; 
+ Sun, 07 Feb 2021 22:41:16 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id b4sm3222734edh.40.2021.02.07.22.41.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 07 Feb 2021 22:41:16 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
+To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PATCH] hw/net: fsl_etsec: Do not reject short frames
+Date: Mon,  8 Feb 2021 14:41:05 +0800
+Message-Id: <1612766465-7639-1-git-send-email-bin.meng@windriver.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,364 +77,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, kvm@vger.kernel.org,
- david@redhat.com, jun.nakajima@intel.com, mtosatti@redhat.com,
- richard.henderson@linaro.org, mdroth@linux.vnet.ibm.com,
- Greg Kurz <groug@kaod.org>, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- frankja@linux.ibm.com, mst@redhat.com, pragyansri.pathi@intel.com,
- andi.kleen@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some upcoming POWER machines have a system called PEF (Protected
-Execution Facility) which uses a small ultravisor to allow guests to
-run in a way that they can't be eavesdropped by the hypervisor.  The
-effect is roughly similar to AMD SEV, although the mechanisms are
-quite different.
+As of today both slirp and tap networking do not pad short frames
+(e.g.: an ARP packet) to the minimum frame size of 60 bytes.
 
-Most of the work of this is done between the guest, KVM and the
-ultravisor, with little need for involvement by qemu.  However qemu
-does need to tell KVM to allow secure VMs.
+If eTSEC is programmed to reject short frames, ARP requests will be
+dropped, preventing the guest from becoming visible on the network.
 
-Because the availability of secure mode is a guest visible difference
-which depends on having the right hardware and firmware, we don't
-enable this by default.  In order to run a secure guest you need to
-create a "pef-guest" object and set the confidential-guest-support
-property to point to it.
+The same issue was reported on e1000 and vmxenet3 before, see:
 
-Note that this just *allows* secure guests, the architecture of PEF is
-such that the guest still needs to talk to the ultravisor to enter
-secure mode.  Qemu has no direct way of knowing if the guest is in
-secure mode, and certainly can't know until well after machine
-creation time.
+commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
+commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
 
-To start a PEF-capable guest, use the command line options:
-    -object pef-guest,id=pef0 -machine confidential-guest-support=pef0
+Ideally this should be fixed on the slirp/tap networking side to
+pad short frames to the minimum frame length, but I am not sure
+whether that's doable.
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+This commit changes to codes to ignore the RCTRL_RSF setting and
+still allow receiving the short frame. The log message is updated
+to mention the reject short frames functionality is unimplemented.
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
- docs/confidential-guest-support.txt |   3 +
- docs/papr-pef.txt                   |  30 +++++++
- hw/ppc/meson.build                  |   1 +
- hw/ppc/pef.c                        | 133 ++++++++++++++++++++++++++++
- hw/ppc/spapr.c                      |   8 +-
- include/hw/ppc/pef.h                |  17 ++++
- target/ppc/kvm.c                    |  18 ----
- target/ppc/kvm_ppc.h                |   6 --
- 8 files changed, 191 insertions(+), 25 deletions(-)
- create mode 100644 docs/papr-pef.txt
- create mode 100644 hw/ppc/pef.c
- create mode 100644 include/hw/ppc/pef.h
 
-diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-index bd439ac800..4da4c91bd3 100644
---- a/docs/confidential-guest-support.txt
-+++ b/docs/confidential-guest-support.txt
-@@ -40,4 +40,7 @@ Currently supported confidential guest mechanisms are:
- AMD Secure Encrypted Virtualization (SEV)
-     docs/amd-memory-encryption.txt
- 
-+POWER Protected Execution Facility (PEF)
-+    docs/papr-pef.txt
-+
- Other mechanisms may be supported in future.
-diff --git a/docs/papr-pef.txt b/docs/papr-pef.txt
-new file mode 100644
-index 0000000000..72550e9bf8
---- /dev/null
-+++ b/docs/papr-pef.txt
-@@ -0,0 +1,30 @@
-+POWER (PAPR) Protected Execution Facility (PEF)
-+===============================================
-+
-+Protected Execution Facility (PEF), also known as Secure Guest support
-+is a feature found on IBM POWER9 and POWER10 processors.
-+
-+If a suitable firmware including an Ultravisor is installed, it adds
-+an extra memory protection mode to the CPU.  The ultravisor manages a
-+pool of secure memory which cannot be accessed by the hypervisor.
-+
-+When this feature is enabled in QEMU, a guest can use ultracalls to
-+enter "secure mode".  This transfers most of its memory to secure
-+memory, where it cannot be eavesdropped by a compromised hypervisor.
-+
-+Launching
-+---------
-+
-+To launch a guest which will be permitted to enter PEF secure mode:
-+
-+# ${QEMU} \
-+    -object pef-guest,id=pef0 \
-+    -machine confidential-guest-support=pef0 \
-+    ...
-+
-+Live Migration
-+----------------
-+
-+Live migration is not yet implemented for PEF guests.  For
-+consistency, we currently prevent migration if the PEF feature is
-+enabled, whether or not the guest has actually entered secure mode.
-diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-index ffa2ec37fa..218631c883 100644
---- a/hw/ppc/meson.build
-+++ b/hw/ppc/meson.build
-@@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-   'spapr_nvdimm.c',
-   'spapr_rtas_ddw.c',
-   'spapr_numa.c',
-+  'pef.c',
- ))
- ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
- ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
-diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-new file mode 100644
-index 0000000000..f9fd1f2a71
---- /dev/null
-+++ b/hw/ppc/pef.c
-@@ -0,0 +1,133 @@
-+/*
-+ * PEF (Protected Execution Facility) for POWER support
-+ *
-+ * Copyright Red Hat.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "qapi/error.h"
-+#include "qom/object_interfaces.h"
-+#include "sysemu/kvm.h"
-+#include "migration/blocker.h"
-+#include "exec/confidential-guest-support.h"
-+#include "hw/ppc/pef.h"
-+
-+#define TYPE_PEF_GUEST "pef-guest"
-+OBJECT_DECLARE_SIMPLE_TYPE(PefGuest, PEF_GUEST)
-+
-+typedef struct PefGuest PefGuest;
-+typedef struct PefGuestClass PefGuestClass;
-+
-+struct PefGuestClass {
-+    ConfidentialGuestSupportClass parent_class;
-+};
-+
-+/**
-+ * PefGuest:
-+ *
-+ * The PefGuest object is used for creating and managing a PEF
-+ * guest.
-+ *
-+ * # $QEMU \
-+ *         -object pef-guest,id=pef0 \
-+ *         -machine ...,confidential-guest-support=pef0
-+ */
-+struct PefGuest {
-+    ConfidentialGuestSupport parent_obj;
-+};
-+
-+static int kvmppc_svm_init(Error **errp)
-+{
-+#ifdef CONFIG_KVM
-+    if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
-+        error_setg(errp,
-+                   "KVM implementation does not support Secure VMs (is an ultravisor running?)");
-+        return -1;
-+    } else {
-+        int ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_PPC_SECURE_GUEST, 0, 1);
-+
-+        if (ret < 0) {
-+            error_setg(errp,
-+                       "Error enabling PEF with KVM");
-+            return -1;
-+        }
-+    }
-+
-+    return 0;
-+#else
-+    g_assert_not_reached();
-+#endif
-+}
-+
-+/*
-+ * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
-+ * that don't support this ioctl.
-+ */
-+static int kvmppc_svm_off(Error **errp)
-+{
-+#ifdef CONFIG_KVM
-+    int rc;
-+
-+    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
-+    if (rc && rc != -ENOTTY) {
-+        error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
-+        return rc;
-+    }
-+    return 0;
-+#else
-+    g_assert_not_reached();
-+#endif
-+}
-+
-+int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!object_dynamic_cast(OBJECT(cgs), TYPE_PEF_GUEST)) {
-+        return 0;
-+    }
-+
-+    if (!kvm_enabled()) {
-+        error_setg(errp, "PEF requires KVM");
-+        return -1;
-+    }
-+
-+    return kvmppc_svm_init(errp);
-+}
-+
-+int pef_kvm_reset(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!object_dynamic_cast(OBJECT(cgs), TYPE_PEF_GUEST)) {
-+        return 0;
-+    }
-+
-+    /*
-+     * If we don't have KVM we should never have been able to
-+     * initialize PEF, so we should never get this far
-+     */
-+    assert(kvm_enabled());
-+
-+    return kvmppc_svm_off(errp);
-+}
-+
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(PefGuest,
-+                                   pef_guest,
-+                                   PEF_GUEST,
-+                                   CONFIDENTIAL_GUEST_SUPPORT,
-+                                   { TYPE_USER_CREATABLE },
-+                                   { NULL })
-+
-+static void pef_guest_class_init(ObjectClass *oc, void *data)
-+{
-+}
-+
-+static void pef_guest_init(Object *obj)
-+{
-+}
-+
-+static void pef_guest_finalize(Object *obj)
-+{
-+}
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 6c47466fc2..612356e9ec 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -83,6 +83,7 @@
- #include "hw/ppc/spapr_tpm_proxy.h"
- #include "hw/ppc/spapr_nvdimm.h"
- #include "hw/ppc/spapr_numa.h"
-+#include "hw/ppc/pef.h"
- 
- #include "monitor/monitor.h"
- 
-@@ -1574,7 +1575,7 @@ static void spapr_machine_reset(MachineState *machine)
-     void *fdt;
-     int rc;
- 
--    kvmppc_svm_off(&error_fatal);
-+    pef_kvm_reset(machine->cgs, &error_fatal);
-     spapr_caps_apply(spapr);
- 
-     first_ppc_cpu = POWERPC_CPU(first_cpu);
-@@ -2658,6 +2659,11 @@ static void spapr_machine_init(MachineState *machine)
-     char *filename;
-     Error *resize_hpt_err = NULL;
- 
-+    /*
-+     * if Secure VM (PEF) support is configured, then initialize it
-+     */
-+    pef_kvm_init(machine->cgs, &error_fatal);
-+
-     msi_nonbroken = true;
- 
-     QLIST_INIT(&spapr->phbs);
-diff --git a/include/hw/ppc/pef.h b/include/hw/ppc/pef.h
-new file mode 100644
-index 0000000000..707dbe524c
---- /dev/null
-+++ b/include/hw/ppc/pef.h
-@@ -0,0 +1,17 @@
-+/*
-+ * PEF (Protected Execution Facility) for POWER support
-+ *
-+ * Copyright Red Hat.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef HW_PPC_PEF_H
-+#define HW_PPC_PEF_H
-+
-+int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-+int pef_kvm_reset(ConfidentialGuestSupport *cgs, Error **errp);
-+
-+#endif /* HW_PPC_PEF_H */
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index daf690a678..0c5056dd5b 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2929,21 +2929,3 @@ void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int64_t tb_offset)
-         kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &tb_offset);
+ hw/net/fsl_etsec/rings.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
+index 121415a..503b4d3 100644
+--- a/hw/net/fsl_etsec/rings.c
++++ b/hw/net/fsl_etsec/rings.c
+@@ -502,10 +502,17 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uint8_t *buf, size_t size)
+         return -1;
      }
- }
--
--/*
-- * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
-- * that don't support this ioctl.
-- */
--void kvmppc_svm_off(Error **errp)
--{
--    int rc;
--
--    if (!kvm_enabled()) {
--        return;
--    }
--
--    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
--    if (rc && rc != -ENOTTY) {
--        error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
--    }
--}
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 73ce2bc951..989f61ace0 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -39,7 +39,6 @@ int kvmppc_booke_watchdog_enable(PowerPCCPU *cpu);
- target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
-                                      bool radix, bool gtse,
-                                      uint64_t proc_tbl);
--void kvmppc_svm_off(Error **errp);
- #ifndef CONFIG_USER_ONLY
- bool kvmppc_spapr_use_multitce(void);
- int kvmppc_spapr_enable_inkernel_multitce(void);
-@@ -216,11 +215,6 @@ static inline target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
-     return 0;
- }
  
--static inline void kvmppc_svm_off(Error **errp)
--{
--    return;
--}
--
- static inline void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu,
-                                              unsigned int online)
- {
++    /*
++     * Both slirp and tap networking do not pad short frames
++     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
++     *
++     * If eTSEC is programmed to reject short frames, ARP requests
++     * will be dropped, preventing the guest from becoming visible
++     * on the network.
++     */
+     if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
+         /* CRC is not in the packet yet, so short frame is below 60 bytes */
+-        RING_DEBUG("%s: Drop short frame\n", __func__);
+-        return -1;
++        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
+     }
+ 
+     rx_init_frame(etsec, buf, size);
 -- 
-2.29.2
+2.7.4
 
 
