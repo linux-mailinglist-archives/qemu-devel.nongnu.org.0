@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D248A314357
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:57:48 +0100 (CET)
-Received: from localhost ([::1]:36212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B2831435B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:59:33 +0100 (CET)
+Received: from localhost ([::1]:45028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9FTX-0000un-UO
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:57:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50258)
+	id 1l9FVE-0004Rw-TA
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:59:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCJ-0002sf-PU
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:43 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37648)
+ id 1l9BCL-0002vz-00
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:45 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCG-00063j-KW
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:41 -0500
-Received: by mail-wm1-x329.google.com with SMTP id m1so60505wml.2
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:40 -0800 (PST)
+ id 1l9BCJ-00064Q-GQ
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:44 -0500
+Received: by mail-wr1-x429.google.com with SMTP id z6so18322748wrq.10
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N868ZEyZ6u5XOq6H/Pyk+nswe7j/Yy+s5xT76V+knOs=;
- b=JX5JK7AERWMd439EyMMsilXq/aYnO4/CLjt1hbNI3Z4b8nVOKjfVzmJFlUHmYMFXkE
- taH+/xegOR9CaDW6Q1/u4g1uxV3aAUb1lL8IpRHwJ1f7iRfvotm+Ch97s4v8xRG1YlCJ
- ybQLQgQlTDHyMRdaH3i+P0k4gmahZuJbIxyIIV3vJtEnMs8wJ+fu+vwWOp9rH6RDrrlS
- zOvUD/PLIHzaXxg4pAqaVgFqsiAJwwhcmC8WvoCEHBJ/r2FYR0t0hypFzWXbivfbBxa+
- bPFCwbDD5KBtJchTyfiYmd6xtRsRtSTR2I9UkhwYwwlWfOvwzI2AADLdgutsbIZ9iafo
- lJ+w==
+ bh=ZmniK0yzO+id8G0haBxNriDaxYyBXhcth1WQMA0kwrs=;
+ b=CCrcVeLOh4kGQ9osxUe4OttGTZh/eGQnEu3yVoZQ+NmuFPyJfDyNmaOpPJ1LznO5uD
+ Q/vhRbrubHH4sTC8xtVChJANLHNyy01dMUWBENBJrLp3+FOuBd6o2MqkNfdAByHJfsb/
+ leM2xJ4qh8PVBCE4ToOpuo7oz36V7iGnVMRKXzhTEmCub5r2dtCHUGnXoiV5/OBaLrk9
+ enyv5N2OkK153pyR+0LtioqwbxZ3tZbFfcAO93jS2uJspFau5TJsgM6LDqwrky+MLpAT
+ Pe48HI+/1tbiBXW8J5U0OriHT2XvyGOIxBHjFf5gb6vaF4urvkA5Le+2owZjIzkTGudL
+ ii0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=N868ZEyZ6u5XOq6H/Pyk+nswe7j/Yy+s5xT76V+knOs=;
- b=Taj3gH0VWnTAxuZDylWOzPOjy2XVIx45pqvuXx8IeB/t9MJHMV3cZcQlZJAvdx+a41
- cqav0LGWYdN/xG5mSTfJ+R4ouHR2cJE8nk4Fs4y+LXCmzcGyNcguFFccOhN5/ww3lPgw
- hecq/NvC0PE0f9slCuvAag1UekW0XdkSlzVSdDwwnPT8K+yniFEWpoapVEd0CV20qem8
- Nn79pVi+szR+3Q1+9oik7haDngZoDQysk3hgCsNI/9aa0l55I5+x8hec+RUm/Bg3htg7
- bOI+xQYKAyxXyfDGFouV1fPcgoWHJqD963rqr/K00tJa8mk8nuC9eD78ycQUTQOdPkjQ
- Nd2Q==
-X-Gm-Message-State: AOAM531eMLMQUPa6Qv/JjxR0IUSbOknQbtZK6yi/KZnUKy2kfvf9nHmQ
- SZSmOH60HQqgodPX/7Y6UwjTxMclN11+lg==
-X-Google-Smtp-Source: ABdhPJzbYDCQu17d4qV3/zm29W/ERTntURi51mlluyz8l7okv8sbrSbbK9ad4+vJYnv+4ha1fmeI6Q==
-X-Received: by 2002:a1c:b6c5:: with SMTP id g188mr63698wmf.27.1612808619392;
- Mon, 08 Feb 2021 10:23:39 -0800 (PST)
+ bh=ZmniK0yzO+id8G0haBxNriDaxYyBXhcth1WQMA0kwrs=;
+ b=Y7VexnQqlvBtYwfhjOBQbKq2yVCnanGhxW6XeV8oNHRKBO+YOIVAHfBBh0sR5x0hDL
+ +KWiH5n6XkcmhaEPi5mHM6KiOA2yihk4py8aRLiW+Ezm9moSiUsQ+BlVj9TGX6nCphQE
+ YCD+bDeQ9rDhLncO380MA5DhYO24E7EIf5qaB2qhXsVYEqY6R4q5FZOwCQXcs5UKdrgo
+ QJNOChoNktEOyuCNh6CscNSbGsXdMj63qAEikiMQxs74+VIxjDzBl3949tENDp2Cl4eS
+ dhpjneCqSeqvKvUSCIJMBWx26Fq0zAVqWO1HHgA00LsKcFCDq67BwQabqJVBAWryWobO
+ 7wQQ==
+X-Gm-Message-State: AOAM532+3OMd/ntFe3Kl2ZtUeV/pXwCJPgkxE0mhVVNRKRhIuBNzwqHC
+ bidjIQEQ2Fj4aIUShon5wNk0VZsJZvBIgg==
+X-Google-Smtp-Source: ABdhPJxYqYoD1o+oE3oc0QmZHk4bOILMT1lYKU1JxGMg9P/teXkaJjezRsqizkKtMCVu4hUmaGfJ0Q==
+X-Received: by 2002:a5d:58ec:: with SMTP id f12mr20727541wrd.134.1612808620243; 
+ Mon, 08 Feb 2021 10:23:40 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.23.38
+ x22sm19670wmc.25.2021.02.08.10.23.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:23:38 -0800 (PST)
+ Mon, 08 Feb 2021 10:23:39 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/46] docs/fuzz: add some information about OSS-Fuzz
-Date: Mon,  8 Feb 2021 19:22:51 +0100
-Message-Id: <20210208182331.58897-7-pbonzini@redhat.com>
+Subject: [PULL 07/46] fuzz: add virtio-9p configurations for fuzzing
+Date: Mon,  8 Feb 2021 19:22:52 +0100
+Message-Id: <20210208182331.58897-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,54 +90,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
+virtio-9p devices are often used to expose a virtual-filesystem to the
+guest. There have been some bugs reported in this device, such as
+CVE-2018-19364, and CVE-2021-20181. We should fuzz this device
+
+This patch adds two virtio-9p configurations:
+ * One with the widely used -fsdev local driver. This driver leaks some
+   state in the form of files/directories created in the shared dir.
+ * One with the synth driver. While it is not used in the real world, this
+   driver won't leak leak state between fuzz inputs.
+
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20210117230924.449676-3-alxndr@bu.edu>
+Message-Id: <20210117230924.449676-4-alxndr@bu.edu>
 ---
- docs/devel/fuzzing.rst | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ tests/qtest/fuzz/generic_fuzz_configs.h | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
-index 5f5200c843..97797c4f8c 100644
---- a/docs/devel/fuzzing.rst
-+++ b/docs/devel/fuzzing.rst
-@@ -180,6 +180,36 @@ To ensure that these env variables have been configured correctly, we can use::
+diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+index 51e69c6e42..5d599765c4 100644
+--- a/tests/qtest/fuzz/generic_fuzz_configs.h
++++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+@@ -19,6 +19,16 @@ typedef struct generic_fuzz_config {
+     gchar* (*argfunc)(void); /* Result must be freeable by g_free() */
+ } generic_fuzz_config;
  
- The output should contain a complete list of matched MemoryRegions.
- 
-+OSS-Fuzz
-+--------
-+QEMU is continuously fuzzed on `OSS-Fuzz` __(https://github.com/google/oss-fuzz).
-+By default, the OSS-Fuzz build will try to fuzz every fuzz-target. Since the
-+generic-fuzz target requires additional information provided in environment
-+variables, we pre-define some generic-fuzz configs in
-+``tests/qtest/fuzz/generic_fuzz_configs.h``. Each config must specify:
++static inline gchar *generic_fuzzer_virtio_9p_args(void){
++    char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
++    g_assert_nonnull(mkdtemp(tmpdir));
 +
-+- ``.name``: To identify the fuzzer config
++    return g_strdup_printf("-machine q35 -nodefaults "
++    "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
++    "-fsdev local,id=hshare,path=%s,security_model=mapped-xattr,"
++    "writeout=immediate,fmode=0600,dmode=0700", tmpdir);
++}
 +
-+- ``.args`` OR ``.argfunc``: A string or pointer to a function returning a
-+  string.  These strings are used to specify the ``QEMU_FUZZ_ARGS``
-+  environment variable.  ``argfunc`` is useful when the config relies on e.g.
-+  a dynamically created temp directory, or a free tcp/udp port.
-+
-+- ``.objects``: A string that specifies the ``QEMU_FUZZ_OBJECTS`` environment
-+  variable.
-+
-+To fuzz additional devices/device configuration on OSS-Fuzz, send patches for
-+either a new device-specific fuzzer or a new generic-fuzz config.
-+
-+Build details:
-+
-+- The Dockerfile that sets up the environment for building QEMU's
-+  fuzzers on OSS-Fuzz can be fund in the OSS-Fuzz repository
-+  __(https://github.com/google/oss-fuzz/blob/master/projects/qemu/Dockerfile)
-+
-+- The script responsible for building the fuzzers can be found in the
-+  QEMU source tree at ``scripts/oss-fuzz/build.sh``
-+
- Implementation Details / Fuzzer Lifecycle
- -----------------------------------------
- 
+ const generic_fuzz_config predefined_configs[] = {
+     {
+         .name = "virtio-net-pci-slirp",
+@@ -60,6 +70,16 @@ const generic_fuzz_config predefined_configs[] = {
+         .name = "virtio-mouse",
+         .args = "-machine q35 -nodefaults -device virtio-mouse",
+         .objects = "virtio*",
++    },{
++        .name = "virtio-9p",
++        .argfunc = generic_fuzzer_virtio_9p_args,
++        .objects = "virtio*",
++    },{
++        .name = "virtio-9p-synth",
++        .args = "-machine q35 -nodefaults "
++        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
++        "-fsdev synth,id=hshare",
++        .objects = "virtio*",
+     },{
+         .name = "e1000",
+         .args = "-M q35 -nodefaults "
 -- 
 2.29.2
 
