@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A243140F7
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:54:33 +0100 (CET)
-Received: from localhost ([::1]:47662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524C1314113
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:58:01 +0100 (CET)
+Received: from localhost ([::1]:54916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9DYG-0004Vg-Uu
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:54:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59316)
+	id 1l9Dbc-0007eN-3m
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:58:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l97ez-000404-ML
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:37:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26961)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l97f0-00040R-7x
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:37:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l97eg-0003Cr-QG
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:36:58 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l97ep-0003FO-8b
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:37:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612794998;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1612795013;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8YDbr1OVIzdlI2be1ZYiVJT1nMTemjBE/i/Shj5GGRQ=;
- b=AmmkvlWgPWpdgncK8E2dhEe271p05x4XutTAitTpOU3xO0xo0ERaGzfnEk+sz9wLZD7+1O
- m4HahI0DsA+Qz6kcVZr5D3Auv4p3HuJleOs8jOxbvaYZNY5wmKd0ekaic/Z0n6cRr9R21u
- PEuar5OO2zqLQd2+AMELvxs8EGkngmk=
+ bh=Og0bf40V5z/6NwlcZDfD5vqAhvqwOQd2e9DyW4eX2Ww=;
+ b=MWw435jPtb8lGTXKJEvHnTz7xhtGwMopC4XyN7ZAEyVocieRua7SWX2wnxZOicjfqNjNIk
+ KE0wg430ApHwtiTePvDuUdH/IdcXubKoLoT0K80b9Y1S//nopPDlijmVsQrpxo3Fq/RGUs
+ J7SO60U+ZcU7glWHMfLIe9qQQd/b7DQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-UFHRrPOYPr6erYt3N13aCw-1; Mon, 08 Feb 2021 09:36:36 -0500
-X-MC-Unique: UFHRrPOYPr6erYt3N13aCw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-301-maIdpotxOGqkMxe04Ual3A-1; Mon, 08 Feb 2021 09:36:50 -0500
+X-MC-Unique: maIdpotxOGqkMxe04Ual3A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 088BF1005501;
- Mon,  8 Feb 2021 14:36:35 +0000 (UTC)
-Received: from redhat.com (ovpn-115-97.ams2.redhat.com [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9F9D6085D;
- Mon,  8 Feb 2021 14:36:32 +0000 (UTC)
-Date: Mon, 8 Feb 2021 14:36:29 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 00/33] migration: capture error reports into Error object
-Message-ID: <20210208143629.GK1141037@redhat.com>
-References: <20210204171907.901471-1-berrange@redhat.com>
- <20210204182249.GO3039@work-vm>
- <20210204190927.GB903389@redhat.com>
- <20210208132903.GH3032@work-vm>
- <20210208134206.GH1141037@redhat.com>
- <20210208142941.GJ3032@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2637619357A7
+ for <qemu-devel@nongnu.org>; Mon,  8 Feb 2021 14:36:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C57995D9DE;
+ Mon,  8 Feb 2021 14:36:48 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 52C28113865F; Mon,  8 Feb 2021 15:36:47 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v5 09/15] qapi/introspect.py: create a typed 'Annotated'
+ data strutcure
+References: <20210204003207.2856909-1-jsnow@redhat.com>
+ <20210204003207.2856909-10-jsnow@redhat.com>
+Date: Mon, 08 Feb 2021 15:36:47 +0100
+In-Reply-To: <20210204003207.2856909-10-jsnow@redhat.com> (John Snow's message
+ of "Wed, 3 Feb 2021 19:32:01 -0500")
+Message-ID: <87blcu4oe8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210208142941.GJ3032@work-vm>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -86,195 +81,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 08, 2021 at 02:29:41PM +0000, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > On Mon, Feb 08, 2021 at 01:29:03PM +0000, Dr. David Alan Gilbert wrote:
-> > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > > On Thu, Feb 04, 2021 at 06:22:49PM +0000, Dr. David Alan Gilbert wrote:
-> > > > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > > > > Due to its long term heritage most of the migration code just invokes
-> > > > > > 'error_report' when problems hit. This was fine for HMP, since the
-> > > > > > messages get redirected from stderr, into the HMP console. It is not
-> > > > > > OK for QMP because the errors will not be fed back to the QMP client.
-> > > > > > 
-> > > > > > This wasn't a terrible real world problem with QMP so far because
-> > > > > > live migration happens in the background, so at least on the target side
-> > > > > > there is not a QMP command that needs to capture the incoming migration.
-> > > > > > It is a problem on the source side but it doesn't hit frequently as the
-> > > > > > source side has fewer failure scenarios. None the less on both sides it
-> > > > > > would be desirable if 'query-migrate' can report errors correctly.
-> > > > > > With the introduction of the load-snapshot QMP commands, the need for
-> > > > > > error reporting becomes more pressing.
-> > > > > > 
-> > > > > > Wiring up good error reporting is a large and difficult job, which
-> > > > > > this series does NOT complete. The focus here has been on converting
-> > > > > > all methods in savevm.c which have an 'int' return value capable of
-> > > > > > reporting errors. This covers most of the infrastructure for controlling
-> > > > > > the migration state serialization / protocol.
-> > > > > > 
-> > > > > > The remaining part that is missing error reporting are the callbacks in
-> > > > > > the VMStateDescription struct which can return failure codes, but have
-> > > > > > no "Error **errp" parameter. Thinking about how this might be dealt with
-> > > > > > in future, a big bang conversion is likely non-viable. We'll probably
-> > > > > > want to introduce a duplicate set of callbacks with the "Error **errp"
-> > > > > > parameter and convert impls in batches, eventually removing the
-> > > > > > original callbacks. I don't intend todo that myself in the immediate
-> > > > > > future.
-> > > > > > 
-> > > > > > IOW, this patch series probably solves 50% of the problem, but we
-> > > > > > still do need the rest to get ideal error reporting.
-> > > > > > 
-> > > > > > In doing this savevm conversion I noticed a bunch of places which
-> > > > > > see and then ignore errors. I only fixed one or two of them which
-> > > > > > were clearly dubious. Other places in savevm.c where it seemed it
-> > > > > > was probably ok to ignore errors, I've left using error_report()
-> > > > > > on the basis that those are really warnings. Perhaps they could
-> > > > > > be changed to warn_report() instead.
-> > > > > > 
-> > > > > > There are alot of patches here, but I felt it was easier to review
-> > > > > > for correctness if I converted 1 function at a time. The series
-> > > > > > does not neccessarily have to be reviewed/appied in 1 go.
-> > > > > 
-> > > > > After this series, what do my errors look like, and where do they end
-> > > > > up?
-> > > > > Do I get my nice backtrace shwoing that device failed, then that was
-> > > > > part of that one...
-> > > > 
-> > > > It hasn't modified any of the VMStateDescription callbacks so any
-> > > > of the per-device logic that was printing errors will still be using
-> > > > error_report to the console as before.
-> > > > 
-> > > > The errors that have changed (at this stage) are only the higher
-> > > > level ones that are in the generic part of the code. Where those
-> > > > errors mentioned a device name/ID they still do.
-> > > > 
-> > > > In some of the parts I've modified there will have been multiple
-> > > > error_reports collapsed into one error_setg() but the ones that
-> > > > are eliminated are high level generic messages with no useful
-> > > > info, so I don't think loosing those is a problem per-se.
-> > > > 
-> > > > The example that I tested was the case where we load a snapshot
-> > > > under a different config that we saved it with. This is the scenario
-> > > > that gave the non-deterministic ordering in the iotest you disabled
-> > > > from my previous series.
-> > > > 
-> > > > In that case, we changed from:
-> > > > 
-> > > >   qemu-system-x86_64: Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
-> > > >   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Error -22 while loading VM state"}]}
-> > > > 
-> > > > To
-> > > > 
-> > > >   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices"}]}
-> > > > 
-> > > > From a HMP loadvm POV, this means instead of seeing
-> > > > 
-> > > >   (hmp)  loadvm foo
-> > > >   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
-> > > >   Error -22 while loading VM state
-> > > > 
-> > > > You will only see the detailed error message
-> > > > 
-> > > >   (hmp)  loadvm foo
-> > > >   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
-> > > > 
-> > > > In this case I think loosing the "Error -22 while loading VM state"
-> > > > is fine, as it didn't add value IMHO.
-> > > > 
-> > > > 
-> > > > If we get around to converting the VMStateDescription callbacks to
-> > > > take an error object, then I think we'll possibly need to stack the
-> > > > error message from the callback, with the higher level message.
-> > > > 
-> > > > Do you have any familiar/good examples of error message stacking I
-> > > > can look at ?  I should be able to say whether they would be impacted
-> > > > by this series or not - if they are, then I hopefully only threw away
-> > > > the fairly useless high level messages, like the "Error -22" message
-> > > > above.
-> > > 
-> > > Can you try migrating:
-> > >   ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng,disable-modern=true
-> > > to
-> > >   ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng
-> > > 
-> > > what I currently get is:
-> > > qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x6 read: 0 device: 10 cmask: 10 wmask: 0 w1cmask:0
-> > > qemu-system-x86_64: Failed to load PCIDevice:config
-> > > qemu-system-x86_64: Failed to load virtio-rng:virtio
-> > > qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:04.0/virtio-rng'
-> > > qemu-system-x86_64: load of migration failed: Invalid argument
-> > 
-> > After my patches the very last line is gone.
-> > 
-> > So, still reporting using  error_report() is the first 3:
-> > 
-> >  qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x6 read: 0 device: 10 cmask: 10 wmask: 0 w1cmask:0
-> >  qemu-system-x86_64: Failed to load PCIDevice:config
-> >  qemu-system-x86_64: Failed to load virtio-rng:virtio
-> 
-> So those are still ending up in the stderr/log ?
+John Snow <jsnow@redhat.com> writes:
 
-yes.
+> Presently, we use a tuple to attach a dict containing annotations
+> (comments and compile-time conditionals) to a tree node. This is
+> undesirable because dicts are difficult to strongly type; promoting it
+> to a real class allows us to name the values and types of the
+> annotations we are expecting.
+>
+> In terms of typing, the Annotated<T> type serves as a generic container
+> where the annotated node's type is preserved, allowing for greater
+> specificity than we'd be able to provide without a generic.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/introspect.py | 77 ++++++++++++++++++++++----------------
+>  1 file changed, 44 insertions(+), 33 deletions(-)
+>
+> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+> index 8e019b4a26a..b9427aba449 100644
+> --- a/scripts/qapi/introspect.py
+> +++ b/scripts/qapi/introspect.py
+> @@ -13,8 +13,12 @@
+>  from typing import (
+>      Any,
+>      Dict,
+> +    Generic,
+> +    Iterable,
+>      List,
+>      Optional,
+> +    Tuple,
+> +    TypeVar,
+>      Union,
+>  )
+>  
+> @@ -51,15 +55,25 @@
+>  _scalar = Union[str, bool, None]
+>  _nonscalar = Union[Dict[str, _stub], List[_stub]]
+>  _value = Union[_scalar, _nonscalar]
+> -# TreeValue = TODO, in a forthcoming commit.
+> +TreeValue = Union[_value, 'Annotated[_value]']
+>  
+>  
+> -def _make_tree(obj, ifcond, comment=None):
+> -    extra = {
+> -        'if': ifcond,
+> -        'comment': comment
+> -    }
+> -    return (obj, extra)
+> +_NodeT = TypeVar('_NodeT', bound=_value)
+> +
+> +
+> +class Annotated(Generic[_NodeT]):
 
-> > Then reported in process_incoming_migration_co() using the message
-> > populated in the Error object, using error_report_err():
-> > 
-> >  qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:04.0/virtio-rng'
-> 
-> Does that mean we've not got that error associated with the others?  It
-> could be a pain where we've got multiple devices (e.g. NICs or storage)
-> and need to realise which one is failing.
+My gut feeling is "generic type is overkill for this purpose".  Let's go
+with it anyway, because
 
-In the case of migration, this message will still get put into stderr
-with the others.
+1. It's not wrong.
 
-In the case of HMP "loadvm", this message will also still get into
-stderr with the others.
+2. I don't have enough experience with Python type hints for reliable
+gut feelings.
 
-In the case of QMP "load-snapshot", this message will get reported
-back to the app via the "query-jobs" error field, and not appear on
-stderr.  Obviously long term it would be preferrable if we can get
-all the other mesages chained up into the Error object too, so we
-get the full set in one place.
+3. I plan to overhaul the C generation part relatively soon (after your
+work has landed, don't worry), and I can try to make it simpler then.
 
-> 
-> > Finally, this is no longer reported:
-> > 
-> >  qemu-system-x86_64: load of migration failed: Invalid argument
-> > 
-> > So in this case we've not lost any useful information
-> 
-> You occasionally get other things other than Invalid argument; in
-> particular you get EIO; it can help you determine if the source killed
-> the migration connection first.
+> +    """
+> +    Annotated generally contains a SchemaInfo-like type (as a dict),
+> +    But it also used to wrap comments/ifconds around scalar leaf values,
+> +    for the benefit of features and enums.
+> +    """
+> +    # TODO: Remove after Python 3.7 adds @dataclass:
+> +    # pylint: disable=too-few-public-methods
+> +    def __init__(self, value: _NodeT, ifcond: Iterable[str],
+> +                 comment: Optional[str] = None):
+> +        self.value = value
+> +        self.comment: Optional[str] = comment
+> +        self.ifcond: Tuple[str, ...] = tuple(ifcond)
+>  
+>  
+>  def _tree_to_qlit(obj, level=0, dict_value=False):
+> @@ -67,24 +81,20 @@ def _tree_to_qlit(obj, level=0, dict_value=False):
+>      def indent(level):
+>          return level * 4 * ' '
+>  
+> -    if isinstance(obj, tuple):
+> -        ifobj, extra = obj
+> -        ifcond = extra.get('if')
+> -        comment = extra.get('comment')
+> -
+> +    if isinstance(obj, Annotated):
+>          # NB: _tree_to_qlit is called recursively on the values of a key:value
+>          # pair; those values can't be decorated with comments or conditionals.
+>          msg = "dict values cannot have attached comments or if-conditionals."
+>          assert not dict_value, msg
+>  
+>          ret = ''
+> -        if comment:
+> -            ret += indent(level) + '/* %s */\n' % comment
+> -        if ifcond:
+> -            ret += gen_if(ifcond)
+> -        ret += _tree_to_qlit(ifobj, level)
+> -        if ifcond:
+> -            ret += '\n' + gen_endif(ifcond)
+> +        if obj.comment:
+> +            ret += indent(level) + '/* %s */\n' % obj.comment
+> +        if obj.ifcond:
+> +            ret += gen_if(obj.ifcond)
+> +        ret += _tree_to_qlit(obj.value, level)
+> +        if obj.ifcond:
+> +            ret += '\n' + gen_endif(obj.ifcond)
+>          return ret
+>  
+>      ret = ''
+> @@ -201,7 +211,7 @@ def _use_type(self, typ):
+>  
+>      @staticmethod
+>      def _gen_features(features):
+> -        return [_make_tree(f.name, f.ifcond) for f in features]
+> +        return [Annotated(f.name, f.ifcond) for f in features]
+>  
+>      def _gen_tree(self, name, mtype, obj, ifcond, features):
+>          comment: Optional[str] = None
+> @@ -215,7 +225,7 @@ def _gen_tree(self, name, mtype, obj, ifcond, features):
+>          obj['meta-type'] = mtype
+>          if features:
+>              obj['features'] = self._gen_features(features)
+> -        self._trees.append(_make_tree(obj, ifcond, comment))
+> +        self._trees.append(Annotated(obj, ifcond, comment))
+>  
+>      def _gen_member(self, member):
+>          obj = {'name': member.name, 'type': self._use_type(member.type)}
+> @@ -223,7 +233,7 @@ def _gen_member(self, member):
+>              obj['default'] = None
+>          if member.features:
+>              obj['features'] = self._gen_features(member.features)
+> -        return _make_tree(obj, member.ifcond)
+> +        return Annotated(obj, member.ifcond)
+>  
+>      def _gen_variants(self, tag_name, variants):
+>          return {'tag': tag_name,
+> @@ -231,16 +241,17 @@ def _gen_variants(self, tag_name, variants):
+>  
+>      def _gen_variant(self, variant):
+>          obj = {'case': variant.name, 'type': self._use_type(variant.type)}
+> -        return _make_tree(obj, variant.ifcond)
+> +        return Annotated(obj, variant.ifcond)
+>  
+>      def visit_builtin_type(self, name, info, json_type):
+>          self._gen_tree(name, 'builtin', {'json-type': json_type}, [], None)
+>  
+>      def visit_enum_type(self, name, info, ifcond, features, members, prefix):
+> -        self._gen_tree(name, 'enum',
+> -                       {'values': [_make_tree(m.name, m.ifcond, None)
+> -                                   for m in members]},
+> -                       ifcond, features)
+> +        self._gen_tree(
+> +            name, 'enum',
+> +            {'values': [Annotated(m.name, m.ifcond) for m in members]},
+> +            ifcond, features
+> +        )
+>  
+>      def visit_array_type(self, name, info, ifcond, element_type):
+>          element = self._use_type(element_type)
+> @@ -257,12 +268,12 @@ def visit_object_type_flat(self, name, info, ifcond, features,
+>          self._gen_tree(name, 'object', obj, ifcond, features)
+>  
+>      def visit_alternate_type(self, name, info, ifcond, features, variants):
+> -        self._gen_tree(name, 'alternate',
+> -                       {'members': [
+> -                           _make_tree({'type': self._use_type(m.type)},
+> -                                      m.ifcond, None)
+> -                           for m in variants.variants]},
+> -                       ifcond, features)
+> +        self._gen_tree(
+> +            name, 'alternate',
+> +            {'members': [Annotated({'type': self._use_type(m.type)}, m.ifcond)
+> +                         for m in variants.variants]},
 
-All the places which checked qemu_file_get_error() and reported the
-errno, should still be turned into Error objects, so I believe we
-should get the EIO scenario reports still.
+Slightly more readable, I think:
 
-> 
-> Dave
-> 
-> > Regards,
-> > Daniel
-> > -- 
-> > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> > |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+               {'members': [Annotated({'type': self._use_type(m.type)}, 
+                                      m.ifcond)
+                            for m in variants.variants]},
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> +            ifcond, features
+> +        )
+>  
+>      def visit_command(self, name, info, ifcond, features,
+>                        arg_type, ret_type, gen, success_response, boxed,
 
 
