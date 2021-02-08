@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3D7312B2F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 08:39:48 +0100 (CET)
-Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56FE312B61
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 09:02:46 +0100 (CET)
+Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9192-0006CN-UI
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 02:39:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59118)
+	id 1l91VM-0002gE-Eu
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 03:02:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8ziF-0002TH-W4; Mon, 08 Feb 2021 01:07:56 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:59447)
+ id 1l8zgP-0007hE-Nd; Mon, 08 Feb 2021 01:06:01 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51367 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8ziD-0006w0-Hu; Mon, 08 Feb 2021 01:07:55 -0500
+ id 1l8zgL-0005mo-NI; Mon, 08 Feb 2021 01:06:01 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwY71Wxrz9sWb; Mon,  8 Feb 2021 17:07:39 +1100 (AEDT)
+ id 4DYwVs0Tvmz9sVs; Mon,  8 Feb 2021 17:05:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612764459;
- bh=GIE3uji1EOtZhp/GWt1+qTzLlocuzrn5OQvsiMW1YSk=;
+ d=gibson.dropbear.id.au; s=201602; t=1612764341;
+ bh=uMV7Stmyuv13sOhlodiLYMsOXgTeJ6kZaiH7Z9qlkfI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FKc+ubzECQkuhPZEmv+YYCwItC6l8J7R71HVacwP2BS+GG3fdCn8gXQHem6IBJ87X
- GshBFtUWAWqTd5TFLaFzE7C2piJn/eXjlI47Er/GVf2/X0EkpdPaTeTy4fCHGmeQTW
- pPssPlkoKFNKbavJqDmvTdxCoRu+Kqi2loonlB20=
+ b=dUeovss7hC4U+8JILXsXFPv3T/Z89gVRJlc9gZzLIGfEk3ZB2wJxr1mmDuAqbN6Va
+ ma30jsPcZXwrO96/9IlU849t6FgcJQnOWyrGDLQ5YECGcI4suC0kAq3m0KZabhs1zu
+ FG+AuC7xJkbrJuYb4+Cr/eBDKxXiJN6y5w3AmpUc=
 From: David Gibson <david@gibson.dropbear.id.au>
-To: pair@us.ibm.com, qemu-devel@nongnu.org, peter.maydell@linaro.org,
- dgilbert@redhat.com, brijesh.singh@amd.com, pasic@linux.ibm.com
-Subject: [PULL v9 13/13] s390: Recognize confidential-guest-support option
-Date: Mon,  8 Feb 2021 17:07:35 +1100
-Message-Id: <20210208060735.39838-14-david@gibson.dropbear.id.au>
+To: pasic@linux.ibm.com, dgilbert@redhat.com, pair@us.ibm.com,
+ qemu-devel@nongnu.org, brijesh.singh@amd.com
+Subject: [PULL v9 01/13] qom: Allow optional sugar props
+Date: Mon,  8 Feb 2021 17:05:26 +1100
+Message-Id: <20210208060538.39276-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210208060735.39838-1-david@gibson.dropbear.id.au>
-References: <20210208060735.39838-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20210208060538.39276-1-david@gibson.dropbear.id.au>
+References: <20210208060538.39276-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,227 +58,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, kvm@vger.kernel.org,
- david@redhat.com, jun.nakajima@intel.com, mtosatti@redhat.com,
- richard.henderson@linaro.org, mdroth@linux.vnet.ibm.com,
- Greg Kurz <groug@kaod.org>, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- frankja@linux.ibm.com, mst@redhat.com, pragyansri.pathi@intel.com,
- andi.kleen@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: mtosatti@redhat.com, kvm@vger.kernel.org, mst@redhat.com,
+ frankja@linux.ibm.com, pragyansri.pathi@intel.com,
+ David Hildenbrand <david@redhat.com>, mdroth@linux.vnet.ibm.com,
+ borntraeger@de.ibm.com, andi.kleen@intel.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, ehabkost@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ cohuck@redhat.com, qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least some s390 cpu models support "Protected Virtualization" (PV),
-a mechanism to protect guests from eavesdropping by a compromised
-hypervisor.
+From: Greg Kurz <groug@kaod.org>
 
-This is similar in function to other mechanisms like AMD's SEV and
-POWER's PEF, which are controlled by the "confidential-guest-support"
-machine option.  s390 is a slightly special case, because we already
-supported PV, simply by using a CPU model with the required feature
-(S390_FEAT_UNPACK).
+Global properties have an @optional field, which allows to apply a given
+property to a given type even if one of its subclasses doesn't support
+it. This is especially used in the compat code when dealing with the
+"disable-modern" and "disable-legacy" properties and the "virtio-pci"
+type.
 
-To integrate this with the option used by other platforms, we
-implement the following compromise:
+Allow object_register_sugar_prop() to set this field as well.
 
- - When the confidential-guest-support option is set, s390 will
-   recognize it, verify that the CPU can support PV (failing if not)
-   and set virtio default options necessary for encrypted or protected
-   guests, as on other platforms.  i.e. if confidential-guest-support
-   is set, we will either create a guest capable of entering PV mode,
-   or fail outright.
-
- - If confidential-guest-support is not set, guests might still be
-   able to enter PV mode, if the CPU has the right model.  This may be
-   a little surprising, but shouldn't actually be harmful.
-
-To start a guest supporting Protected Virtualization using the new
-option use the command line arguments:
-    -object s390-pv-guest,id=pv0 -machine confidential-guest-support=pv0
-
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <159738953558.377274.16617742952571083440.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- docs/confidential-guest-support.txt |  3 ++
- docs/system/s390x/protvirt.rst      | 19 ++++++---
- hw/s390x/pv.c                       | 62 +++++++++++++++++++++++++++++
- hw/s390x/s390-virtio-ccw.c          |  3 ++
- include/hw/s390x/pv.h               | 17 ++++++++
- 5 files changed, 98 insertions(+), 6 deletions(-)
+ include/qom/object.h |  3 ++-
+ qom/object.c         |  4 +++-
+ softmmu/rtc.c        |  3 ++-
+ softmmu/vl.c         | 17 +++++++++++------
+ 4 files changed, 18 insertions(+), 9 deletions(-)
 
-diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-index 4da4c91bd3..71d07ba57a 100644
---- a/docs/confidential-guest-support.txt
-+++ b/docs/confidential-guest-support.txt
-@@ -43,4 +43,7 @@ AMD Secure Encrypted Virtualization (SEV)
- POWER Protected Execution Facility (PEF)
-     docs/papr-pef.txt
+diff --git a/include/qom/object.h b/include/qom/object.h
+index d378f13a11..6721cd312e 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -638,7 +638,8 @@ bool object_apply_global_props(Object *obj, const GPtrArray *props,
+                                Error **errp);
+ void object_set_machine_compat_props(GPtrArray *compat_props);
+ void object_set_accelerator_compat_props(GPtrArray *compat_props);
+-void object_register_sugar_prop(const char *driver, const char *prop, const char *value);
++void object_register_sugar_prop(const char *driver, const char *prop,
++                                const char *value, bool optional);
+ void object_apply_compat_props(Object *obj);
  
-+s390x Protected Virtualization (PV)
-+    docs/system/s390x/protvirt.rst
-+
- Other mechanisms may be supported in future.
-diff --git a/docs/system/s390x/protvirt.rst b/docs/system/s390x/protvirt.rst
-index 712974ad87..0f481043d9 100644
---- a/docs/system/s390x/protvirt.rst
-+++ b/docs/system/s390x/protvirt.rst
-@@ -22,15 +22,22 @@ If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
- will indicate that KVM can support PVMs on that LPAR.
- 
- 
--QEMU Settings
---------------
-+Running a Protected Virtual Machine
-+-----------------------------------
- 
--To indicate to the VM that it can transition into protected mode, the
-+To run a PVM you will need to select a CPU model which includes the
- `Unpack facility` (stfle bit 161 represented by the feature
--`unpack`/`S390_FEAT_UNPACK`) needs to be part of the cpu model of
--the VM.
-+`unpack`/`S390_FEAT_UNPACK`), and add these options to the command line::
-+
-+    -object s390-pv-guest,id=pv0 \
-+    -machine confidential-guest-support=pv0
-+
-+Adding these options will:
-+
-+* Ensure the `unpack` facility is available
-+* Enable the IOMMU by default for all I/O devices
-+* Initialize the PV mechanism
- 
--All I/O devices need to use the IOMMU.
- Passthrough (vfio) devices are currently not supported.
- 
- Host huge page backings are not supported. However guests can use huge
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index ab3a2482aa..93eccfc05d 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -14,8 +14,11 @@
- #include <linux/kvm.h>
- 
- #include "cpu.h"
-+#include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-+#include "qom/object_interfaces.h"
-+#include "exec/confidential-guest-support.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
- 
-@@ -111,3 +114,62 @@ void s390_pv_inject_reset_error(CPUState *cs)
-     /* Report that we are unable to enter protected mode */
-     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
+ /**
+diff --git a/qom/object.c b/qom/object.c
+index 2fa0119647..491823db4a 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -442,7 +442,8 @@ static GPtrArray *object_compat_props[3];
+  * other than "-global".  These are generally used for syntactic
+  * sugar and legacy command line options.
+  */
+-void object_register_sugar_prop(const char *driver, const char *prop, const char *value)
++void object_register_sugar_prop(const char *driver, const char *prop,
++                                const char *value, bool optional)
+ {
+     GlobalProperty *g;
+     if (!object_compat_props[2]) {
+@@ -452,6 +453,7 @@ void object_register_sugar_prop(const char *driver, const char *prop, const char
+     g->driver = g_strdup(driver);
+     g->property = g_strdup(prop);
+     g->value = g_strdup(value);
++    g->optional = optional;
+     g_ptr_array_add(object_compat_props[2], g);
  }
-+
-+#define TYPE_S390_PV_GUEST "s390-pv-guest"
-+OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
-+
-+/**
-+ * S390PVGuest:
-+ *
-+ * The S390PVGuest object is basically a dummy used to tell the
-+ * confidential guest support system to use s390's PV mechanism.
-+ *
-+ * # $QEMU \
-+ *         -object s390-pv-guest,id=pv0 \
-+ *         -machine ...,confidential-guest-support=pv0
-+ */
-+struct S390PVGuest {
-+    ConfidentialGuestSupport parent_obj;
-+};
-+
-+typedef struct S390PVGuestClass S390PVGuestClass;
-+
-+struct S390PVGuestClass {
-+    ConfidentialGuestSupportClass parent_class;
-+};
-+
-+int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
-+        return 0;
-+    }
-+
-+    if (!s390_has_feat(S390_FEAT_UNPACK)) {
-+        error_setg(errp,
-+                   "CPU model does not support Protected Virtualization");
-+        return -1;
-+    }
-+
-+    cgs->ready = true;
-+
-+    return 0;
-+}
-+
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(S390PVGuest,
-+                                   s390_pv_guest,
-+                                   S390_PV_GUEST,
-+                                   CONFIDENTIAL_GUEST_SUPPORT,
-+                                   { TYPE_USER_CREATABLE },
-+                                   { NULL })
-+
-+static void s390_pv_guest_class_init(ObjectClass *oc, void *data)
-+{
-+}
-+
-+static void s390_pv_guest_init(Object *obj)
-+{
-+}
-+
-+static void s390_pv_guest_finalize(Object *obj)
-+{
-+}
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index a2d9a79c84..2972b607f3 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -250,6 +250,9 @@ static void ccw_init(MachineState *machine)
-     /* init CPUs (incl. CPU model) early so s390_has_feature() works */
-     s390_init_cpus(machine);
  
-+    /* Need CPU model to be determined before we can set up PV */
-+    s390_pv_init(machine->cgs, &error_fatal);
-+
-     s390_flic_init();
+diff --git a/softmmu/rtc.c b/softmmu/rtc.c
+index e1e15ef613..5632684fc9 100644
+--- a/softmmu/rtc.c
++++ b/softmmu/rtc.c
+@@ -179,7 +179,8 @@ void configure_rtc(QemuOpts *opts)
+         if (!strcmp(value, "slew")) {
+             object_register_sugar_prop("mc146818rtc",
+                                        "lost_tick_policy",
+-                                       "slew");
++                                       "slew",
++                                       false);
+         } else if (!strcmp(value, "none")) {
+             /* discard is default */
+         } else {
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 2bf94ece9c..0d934844ff 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1663,16 +1663,20 @@ static int machine_set_property(void *opaque,
+         return 0;
+     }
+     if (g_str_equal(qom_name, "igd-passthru")) {
+-        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
++        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value,
++                                   false);
+         return 0;
+     }
+     if (g_str_equal(qom_name, "kvm-shadow-mem")) {
+-        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value);
++        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value,
++                                   false);
+         return 0;
+     }
+     if (g_str_equal(qom_name, "kernel-irqchip")) {
+-        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value);
+-        object_register_sugar_prop(ACCEL_CLASS_NAME("whpx"), qom_name, value);
++        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value,
++                                   false);
++        object_register_sugar_prop(ACCEL_CLASS_NAME("whpx"), qom_name, value,
++                                   false);
+         return 0;
+     }
  
-     /* init the SIGP facility */
-diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-index aee758bc2d..1f1f545bfc 100644
---- a/include/hw/s390x/pv.h
-+++ b/include/hw/s390x/pv.h
-@@ -12,6 +12,9 @@
- #ifndef HW_S390_PV_H
- #define HW_S390_PV_H
+@@ -2298,9 +2302,10 @@ static void qemu_process_sugar_options(void)
  
-+#include "qapi/error.h"
-+#include "sysemu/kvm.h"
-+
- #ifdef CONFIG_KVM
- #include "cpu.h"
- #include "hw/s390x/s390-virtio-ccw.h"
-@@ -55,4 +58,18 @@ static inline void s390_pv_unshare(void) {}
- static inline void s390_pv_inject_reset_error(CPUState *cs) {};
- #endif /* CONFIG_KVM */
+         val = g_strdup_printf("%d",
+                  (uint32_t) qemu_opt_get_number(qemu_find_opts_singleton("smp-opts"), "cpus", 1));
+-        object_register_sugar_prop("memory-backend", "prealloc-threads", val);
++        object_register_sugar_prop("memory-backend", "prealloc-threads", val,
++                                   false);
+         g_free(val);
+-        object_register_sugar_prop("memory-backend", "prealloc", "on");
++        object_register_sugar_prop("memory-backend", "prealloc", "on", false);
+     }
  
-+int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-+static inline int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!cgs) {
-+        return 0;
-+    }
-+    if (kvm_enabled()) {
-+        return s390_pv_kvm_init(cgs, errp);
-+    }
-+
-+    error_setg(errp, "Protected Virtualization requires KVM");
-+    return -1;
-+}
-+
- #endif /* HW_S390_PV_H */
+     if (watchdog) {
 -- 
 2.29.2
 
