@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BCC313CF3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:15:43 +0100 (CET)
-Received: from localhost ([::1]:46782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FA9313CE1
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:13:31 +0100 (CET)
+Received: from localhost ([::1]:40356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9B4Y-0000BL-MF
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:15:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46144)
+	id 1l9B2Q-0005wh-Bn
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:13:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l94o9-0003gg-Kn
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:34:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46224)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l94o5-0003pG-K3
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:34:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612784056;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dGL20/XApOzyNW6bXzRJK7s2Zwuq0ng7REh76DiXbvk=;
- b=MvIk6afnzTeZwOkP+glEcj70H0ad+HEmHOWyJG2h1gniXPOObUFSJhj89EQcrg67rQskDV
- ZBHPLUpgSxzZsHkxKO+o5SsNkl2kM2STIulu7RZunrpvFEyG2ulgDwPgGSFugZRM0dNCjy
- tyJB/FxaAeLvKsDYhjjDJAbPn1xuyhY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-_DtHIfTLM827lCZEAqqZUA-1; Mon, 08 Feb 2021 06:34:13 -0500
-X-MC-Unique: _DtHIfTLM827lCZEAqqZUA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD140801965;
- Mon,  8 Feb 2021 11:34:11 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-117.ams2.redhat.com [10.36.112.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9285919C71;
- Mon,  8 Feb 2021 11:34:10 +0000 (UTC)
-Subject: Re: getting the console output for s390 cdrom-test?
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <CAFEAcA8=vG-2Vzrdark8VC5NANe5Fb3qGTpSFk8X94KvXszTbA@mail.gmail.com>
- <c98d4f43-5a29-afcc-fe7d-a3d92063df3a@redhat.com>
- <CAFEAcA8q1ewJ4F-pijt81Qc_rO0xNpy6jJY2DrW0ggTzg27aEQ@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <5213f033-19dc-bc40-bfd7-10b8c676539b@redhat.com>
-Date: Mon, 8 Feb 2021 12:34:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l94om-0003zg-3t
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:35:04 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l94oM-0003t8-9s
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:34:58 -0500
+Received: by mail-wm1-x333.google.com with SMTP id i9so12914587wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 03:34:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CHdKYbfqw8tBUMjEoa6fcai93fEo3YHu7NQBB8/0DzU=;
+ b=qJfwMtA5KTr+aIG3EjYPWGILv1xRJfukFKj5IgN2MbG2Lv6SeXe3lhPYs+wzQWHjl+
+ SOJWJsfM0XkQhBFhETKQsOkEcTsLLiH8aotP9kbTGWeKeROfzxQeayCQN8ul85NBWV23
+ hXD/yAGIBVSHkdnxl/SlwszzKHx7e5li1j3MVUIrOYINAbwV1LAOuWYq/8aFELsT1S9y
+ Kkv30i8NK33vUZ8jdqnEMs7RLTvsFKUtZDhfAguBUPhe9+QHe5cHqalubTBM78gN1n/a
+ gT4nMEUcuk05DXlg8S/69zj3UTfLRcJHdaVxsqqZAXtnmFDYrfyaDs/NUOLNC4HK22up
+ QW3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CHdKYbfqw8tBUMjEoa6fcai93fEo3YHu7NQBB8/0DzU=;
+ b=CDfz9BeBXAgXQe+ENt4TZl3dFOZlvR2NQUt6th7mY5q4PTvZwYPcimJ+Ip/fN3RC0+
+ rzTExIzK2uHtDW0bWMj1qKvcbgG8+jg1l4uPb2AzS5vh2WX3aoZVMx0A4NB325P+Ltz8
+ avNIsaQS6qwYCYK+L2H5tfgJsykt9TJ8iY99a1DW4S7InLeCqhbokUR15/uBfRhsKATP
+ O/oTmXrlu4oHZNleXplvzCKhi7p9Rfl5ulC2unoCPOC9olg+FSAPIQxzcoqB5TgCLAgA
+ YYnwsDVlzEavVoSnzHdKuF3dtuMLBylde82Y1D80VYZCtQjrnzqFyIaHjRnQfZas+rMG
+ qqSA==
+X-Gm-Message-State: AOAM532fow53W/mbZOt74Q32Bdpsw5RbhonRHun+gIz46LKJ937ZdaFX
+ gEw1xVdH4zqv42VagHsGz717vqm+GClb6A==
+X-Google-Smtp-Source: ABdhPJwK+GVV+dtJQhEll3sxvel7rx8cng2+uQ1EKJQK4VFq0lDbWOTkll1iHywr+/zCHiVypRqg7A==
+X-Received: by 2002:a1c:2ed4:: with SMTP id u203mr14351566wmu.45.1612784071621; 
+ Mon, 08 Feb 2021 03:34:31 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id a21sm16818134wmb.5.2021.02.08.03.34.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Feb 2021 03:34:31 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/5] Drop float32/float64 accessors used by gdbstub code
+Date: Mon,  8 Feb 2021 11:34:23 +0000
+Message-Id: <20210208113428.7181-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8q1ewJ4F-pijt81Qc_rO0xNpy6jJY2DrW0ggTzg27aEQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,67 +79,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, Eric Farman <farman@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/02/2021 11.27, Peter Maydell wrote:
-> On Thu, 4 Feb 2021 at 16:08, Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 22/01/2021 21.32, Peter Maydell wrote:
->>> Hi; I've been looking at why the s390 cdrom test has an intermittent
->>> failure on my aarch64 box. Looking at some TCG debug log output
->>> I think what is happening is that sometimes execution diverges from
->>> a successful run inside virtio_scsi_setup() and we end up failing
->>> a vs_assert(), which triggers a "Guest crashed on cpu 0: disabled-wait"
->>> which then makes the qtest hang until its timeout.
->>>
->>> I think that vs_assert() ought to be printing some information
->>> to the console about which assert fails when it happens, but
->>> how do I need to tweak the qtest to get it to capture this
->>> console log somewhere?
->>
->>    Hi!
->>
->> Sorry for the late reply ... did you get any further with this already?
-> 
-> No, I've been mostly working on other stuff. Thanks for the instructions
-> on how to capture stdio. This is what a success looks like:
-> 
-> LOADPARM=[        ]
-> Using virtio-scsi.
-> Warning: Could not locate a usable virtio-scsi device
-> Using virtio-blk.
-> Using guessed DASD geometry.
-> Using ECKD scheme (block size  4096), CDL
-> No zIPL section in IPL2 record.
-> zIPL load failed.
-> Using virtio-blk.
-> ISO boot image size verified
-> 
-> And this is a failure:
-> 
-> LOADPARM=[        ]
-> Using virtio-scsi.
-> target: 0x0000000000000094
-> 
-> ! SCSI cannot report LUNs: response VS RESP=09 !
+We used to make a distinction between 'float64'/'float32' types and
+the 'uint64_t'/'uint32_t' types, requiring special conversion
+operations to go between them.  We've now dropped this distinction as
+unnecessary, and the 'float*' types remain primarily for
+documentation purposes when used in places like the function
+prototypes of TCG helper functions.
 
-Looks like the SCSI controller returned VIRTIO_SCSI_S_FAILURE instead of the 
-expected VIRTIO_SCSI_S_BAD_TARGET here (see virtio_scsi_locate_device() in 
-pc-bios/s390-ccw/virtio-scsi.c).
+This means that there's no need for special gdb_get_float64() and
+gdb_get_float32() functions to write float64 or float32 values to the
+GDB protocol buffer; we can just use gdb_get_reg64() and
+gdb_get_reg32().
 
-The question is: How could that happen? If I get hw/scsi/virtio-scsi.c 
-right, this is only set by virtio_scsi_fail_cmd_req(), i.e. it only happens 
-if virtio_scsi_parse_req() returned -ENOTSUP ... which indicates that there 
-was something wrong with the VirtIOSCSIReq request?
+Similarly, for reading a value out of the GDB buffer into a float64
+or float32 we can use ldq_p() or ldl_p() and need not use ldfq_p()
+or ldfl_p().
 
-Could you maybe try to add some debug printfs to virtio_scsi_parse_req() in 
-hw/scsi/virtio-scsi.c and/or to scsi_report_luns() / vs_run() in 
-pc-bios/s390-ccw/virtio-scsi.c to see whether there is something obviously 
-wrong in the request?
+This patchseries drops the use of the gdb_get_float* and ldf*
+functions from the three targets that were using them, and then
+removes the now-unused functions from gdbstub.h and bswap.h.
 
-  Thomas
+thanks
+-- PMM
+
+Peter Maydell (5):
+  target/sh4: Drop use of gdb_get_float32() and ldfl_p()
+  target/m68k: Drop use of gdb_get_float64() and ldfq_p()
+  target/ppc: Drop use of gdb_get_float64() and ldfq_p()
+  gdbstub: Remove unused gdb_get_float32() and gdb_get_float64()
+  bswap.h: Remove unused float-access functions
+
+ docs/devel/loads-stores.rst     | 14 +++-----
+ include/exec/cpu-all.h          |  8 -----
+ include/exec/gdbstub.h          | 20 -----------
+ include/qemu/bswap.h            | 60 ---------------------------------
+ target/m68k/helper.c            |  5 ++-
+ target/ppc/gdbstub.c            |  8 ++---
+ target/sh4/gdbstub.c            |  8 ++---
+ target/ppc/translate_init.c.inc |  4 +--
+ 8 files changed, 17 insertions(+), 110 deletions(-)
+
+-- 
+2.20.1
 
 
