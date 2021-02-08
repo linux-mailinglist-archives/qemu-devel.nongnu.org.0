@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC243140C6
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:45:59 +0100 (CET)
-Received: from localhost ([::1]:51466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8E63140A4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:39:21 +0100 (CET)
+Received: from localhost ([::1]:34752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9DPy-0002F4-3x
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:45:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51812)
+	id 1l9DJY-00037S-KG
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:39:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l974P-0005aW-IX
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46648)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l974K-0005Yo-8l
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9742-0001b0-V3
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:16 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9741-0001ay-TP
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612792732;
+ s=mimecast20190719; t=1612792731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QWrusQf7vms/Kn07LD+g6+lC5FHvfnFhI3dW9a1AHS4=;
- b=dpiEt2QPKJuWUHfqec4uo13CEOt3rx7oCv6vytXauS/IsTF3MDbe1UY2W/a75wpEGfkVlq
- LPltfXUzupTDiKUeHbWX97MqgATDfHnhvPkkmklfL5X54Bn6mfD884NO5I6vzHX9D53uVH
- hOUxv3Acg42YJCSH2mzIHjVeYzBxZ8Y=
+ bh=K+zZxFJBxSuX2L1RklS9OZOEZLEKu47kVzsHNkiWi1A=;
+ b=BJK0onBBS2zx+D3PFWKgH3ZDX6LcnZWJLDui5kmkfWOEMOJMuLpu2oa76hF9EFs/vbNzL4
+ vRDB9zstfdL+XplUpNH8ERqf3SxtFqdgh/OXLM6NeNyRL0kAnbcoUWRYMPy87ZkFefD9b9
+ Z+uGFB+lKX8u25vfgiAEVTmSBtbyqdM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-UwF47ELhOgWkBtOEoNSJxQ-1; Mon, 08 Feb 2021 08:58:49 -0500
-X-MC-Unique: UwF47ELhOgWkBtOEoNSJxQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-372-Vtzb6BXuMJWTy1goZdToZw-1; Mon, 08 Feb 2021 08:58:49 -0500
+X-MC-Unique: Vtzb6BXuMJWTy1goZdToZw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1357685B665;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 123C979EC1;
  Mon,  8 Feb 2021 13:58:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
  [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C1A061007612;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C2B5060C5B;
  Mon,  8 Feb 2021 13:58:47 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4D5CA113861E; Mon,  8 Feb 2021 14:58:46 +0100 (CET)
+ id 53CBF1138468; Mon,  8 Feb 2021 14:58:46 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/16] qapi/commands: assert arg_type is not None
-Date: Mon,  8 Feb 2021 14:58:31 +0100
-Message-Id: <20210208135846.3707170-2-armbru@redhat.com>
+Subject: [PULL 03/16] qapi/main: handle theoretical None-return from re.match()
+Date: Mon,  8 Feb 2021 14:58:33 +0100
+Message-Id: <20210208135846.3707170-4-armbru@redhat.com>
 In-Reply-To: <20210208135846.3707170-1-armbru@redhat.com>
 References: <20210208135846.3707170-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,74 +85,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-When boxed is True, expr.py asserts that we must have
-arguments. Ultimately, this should mean that if boxed is True that
-arg_type should be defined. Mypy cannot infer this, and does not support
-'stateful' type inference, e.g.:
-
-```
-if x:
-    assert y is not None
-
-...
-
-if x:
-    y.etc()
-```
-
-does not work, because mypy does not statefully remember the conditional
-assertion in the second block. Help mypy out by creating a new local
-that it can track more easily.
+Mypy cannot understand that this match can never be None, so help it
+along.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210201193747.2169670-2-jsnow@redhat.com>
+Message-Id: <20210201193747.2169670-4-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/commands.py | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ scripts/qapi/main.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 50978090b4..71744f48a3 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -126,6 +126,9 @@ def gen_marshal(name: str,
-                 boxed: bool,
-                 ret_type: Optional[QAPISchemaType]) -> str:
-     have_args = boxed or (arg_type and not arg_type.is_empty())
-+    if have_args:
-+        assert arg_type is not None
-+        arg_type_c_name = arg_type.c_name()
+diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+index 42517210b8..703e7ed1ed 100644
+--- a/scripts/qapi/main.py
++++ b/scripts/qapi/main.py
+@@ -23,6 +23,8 @@ from .visit import gen_visit
  
-     ret = mcgen('''
- 
-@@ -147,7 +150,7 @@ def gen_marshal(name: str,
-         ret += mcgen('''
-     %(c_name)s arg = {0};
- ''',
--                     c_name=arg_type.c_name())
-+                     c_name=arg_type_c_name)
- 
-     ret += mcgen('''
- 
-@@ -163,7 +166,7 @@ def gen_marshal(name: str,
-         ok = visit_check_struct(v, errp);
-     }
- ''',
--                     c_arg_type=arg_type.c_name())
-+                     c_arg_type=arg_type_c_name)
-     else:
-         ret += mcgen('''
-     ok = visit_check_struct(v, errp);
-@@ -193,7 +196,7 @@ out:
-         ret += mcgen('''
-     visit_type_%(c_arg_type)s_members(v, &arg, NULL);
- ''',
--                     c_arg_type=arg_type.c_name())
-+                     c_arg_type=arg_type_c_name)
- 
-     ret += mcgen('''
-     visit_end_struct(v, NULL);
+ def invalid_prefix_char(prefix: str) -> Optional[str]:
+     match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
++    # match cannot be None, but mypy cannot infer that.
++    assert match is not None
+     if match.end() != len(prefix):
+         return prefix[match.end()]
+     return None
 -- 
 2.26.2
 
