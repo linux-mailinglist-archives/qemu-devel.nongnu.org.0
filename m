@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A9231403A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:19:40 +0100 (CET)
-Received: from localhost ([::1]:33418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AE8313FE6
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:06:26 +0100 (CET)
+Received: from localhost ([::1]:59160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9D0V-0006YQ-FA
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:19:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51762)
+	id 1l9Cnh-0001A7-GN
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:06:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l974K-0005Yn-8s
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58970)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l98QZ-0008Vo-T4
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 10:26:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9742-0001c2-NF
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:12 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l98QX-00033E-Mw
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 10:26:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612792732;
+ s=mimecast20190719; t=1612797972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cKxhboqo+JBnPy5oOLXcx7d3/EZRWUQPg1AlFPmx5yY=;
- b=UG0vTS2iDMtX0fbvKt9PDXK5omPnZUxFaEdV+g65YIIryDgzXmJf0I61CU+1W6Psph8Az+
- Y+Brh7cf1puiGriHVZvG4Vp8sAhBniig5e29AfQ7nwYm6gD3fdRwn1iJsZDoXlqXLC9Cjq
- 5Y643qKXVBEiD6T4ZWA0hh2IUG4mws8=
+ bh=XgskE0O4p/0ReIWk6vDFHl2VCYG6oWVWM96U5bsdAI4=;
+ b=WRvO15tk7WxDjqWZHrozfFQPA/OODHbfc7Z7IBIroKNwZRs+U7TdJuOYclcT0L4FqwD5ij
+ WpD2M+c25gRXjxRBGnk4F9h1YbsUW3Wa3WeJRrrWEe1+l9dDNPoVvXxQmYLlIGSbtpCYmT
+ vOsMqUUpn2qKW5lsSghR2BK8s4FBdcM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-pW-HoDyxO5OiAPVzfHsqZA-1; Mon, 08 Feb 2021 08:58:50 -0500
-X-MC-Unique: pW-HoDyxO5OiAPVzfHsqZA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-379-GzjtAc5CODybjPIt4VC5KA-1; Mon, 08 Feb 2021 10:26:02 -0500
+X-MC-Unique: GzjtAc5CODybjPIt4VC5KA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB0FA85B663;
- Mon,  8 Feb 2021 13:58:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
- [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CDDE5D9DE;
- Mon,  8 Feb 2021 13:58:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7D28B1132922; Mon,  8 Feb 2021 14:58:46 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/16] qapi/gen: Support switching to another module temporarily
-Date: Mon,  8 Feb 2021 14:58:42 +0100
-Message-Id: <20210208135846.3707170-13-armbru@redhat.com>
-In-Reply-To: <20210208135846.3707170-1-armbru@redhat.com>
-References: <20210208135846.3707170-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D5DC80196E;
+ Mon,  8 Feb 2021 15:26:01 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC3F21002388;
+ Mon,  8 Feb 2021 15:26:00 +0000 (UTC)
+Subject: Re: [PATCH] docs/devel/testing.rst: Update outdated Avocado URLs
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201010080741.2932406-1-philmd@redhat.com>
+ <f835ae44-ba70-05cb-59b1-97f43f1f1942@redhat.com>
+ <CAP+75-XPgqwyDmOtR+thBd9Od4hSavb1qA=4JCcO2jQTTG4eiw@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <200f5c1f-9d4f-12d6-4ca7-b576812b0922@redhat.com>
+Date: Mon, 8 Feb 2021 10:26:00 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAP+75-XPgqwyDmOtR+thBd9Od4hSavb1qA=4JCcO2jQTTG4eiw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,37 +82,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210201193747.2169670-13-jsnow@redhat.com>
-[Commit message tweaked]
----
- scripts/qapi/gen.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 2/8/21 7:59 AM, Philippe Mathieu-Daudé wrote:
+> On Fri, Feb 5, 2021 at 12:53 AM John Snow <jsnow@redhat.com> wrote:
+>>
+>> On 10/10/20 4:07 AM, Philippe Mathieu-Daudé wrote:
+>>> Avocado documentation referred returns 404 error.
+>>> Update the broken links.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>>    docs/devel/testing.rst | 4 ++--
+>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+>>> index bd64c1bdcdd..23a1697d9f4 100644
+>>> --- a/docs/devel/testing.rst
+>>> +++ b/docs/devel/testing.rst
+>>> @@ -696,7 +696,7 @@ To manually install Avocado and its dependencies, run:
+>>>
+>>>    Alternatively, follow the instructions on this link:
+>>>
+>>> -  http://avocado-framework.readthedocs.io/en/latest/GetStartedGuide.html#installing-avocado
+>>> +  https://avocado-framework.readthedocs.io/en/latest/guides/user/chapters/installing.html
+>>>
+>>>    Overview
+>>>    --------
+>>> @@ -879,7 +879,7 @@ Parameter reference
+>>>    To understand how Avocado parameters are accessed by tests, and how
+>>>    they can be passed to tests, please refer to::
+>>>
+>>> -  http://avocado-framework.readthedocs.io/en/latest/WritingTests.html#accessing-test-parameters
+>>> +  https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#accessing-test-parameters
+>>>
+>>>    Parameter values can be easily seen in the log files, and will look
+>>>    like the following:
+>>>
+>>
+>> Do you know if there's a way we can augment sphinx to check link status
+>> once in a while?
+> 
+> No, but good idea! Why not ask on the list, IIRC danpb mentioned something
+> similar in another thread.
+> 
+>> If there's a callback where we can get sphinx to call a python function
+>> for every URL it finds, we can use response = requests.head(url) and
+>> check response.status_code to make sure it's 200 OK.
+>>
 
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index b2bb9d12ff..a0a5df333e 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -290,6 +290,13 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
-         self._module[name] = (genc, genh)
-         self._current_module = name
- 
-+    @contextmanager
-+    def _temp_module(self, name: str) -> Iterator[None]:
-+        old_module = self._current_module
-+        self._current_module = name
-+        yield
-+        self._current_module = old_module
-+
-     def write(self, output_dir: str, opt_builtins: bool = False) -> None:
-         for name in self._module:
-             if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
--- 
-2.26.2
+OK, at Phil's nudge: Does anyone know if there's a Sphinx callback for 
+URL processing? We could probably write a test that we could enable 
+every-so-often.
+
+I am thinking there might be some benefit to a test suite that we only 
+run once-in-a-while during release candidate phases, and this could be 
+one of them.
+
+>> --js
+>>
+> 
 
 
