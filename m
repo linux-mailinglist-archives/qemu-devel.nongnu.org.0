@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA11F31296D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 04:36:55 +0100 (CET)
-Received: from localhost ([::1]:48778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DF5312961
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 04:33:35 +0100 (CET)
+Received: from localhost ([::1]:40154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8xM6-0003U8-Ul
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 22:36:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60224)
+	id 1l8xIs-0008JP-8Q
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 22:33:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8wdx-0008BP-FP
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:51:17 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:34104)
+ id 1l8wdw-000882-2V
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:51:16 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:40792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8wdr-0001Kt-Pn
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:51:17 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id my11so8654212pjb.1
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:51:11 -0800 (PST)
+ id 1l8wds-0001L9-J4
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:51:15 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id z9so7941049pjl.5
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:51:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7/qGIn8tY1yMvYr3HTJwBYjhBdPYnfUp7IIb+uD8MPE=;
- b=bjiYBztQTUVuJVgmRbwFzHGkMkegM4rbeem7hj8LI05QiVpi63LTqRJghswFKpoS0O
- R+18wnehO1yi9DLPnAElB6vPMOXsBlBR+KSwxakX69+8wqapvdunLgX1B4yx9+G7O3Vc
- UiQ39h2LoGERsgnscSyhPBL6QZ9JqZ9ruxTQHajxvZ6hE4f2/t0am7LVjxIh9naozAGz
- y0diQMXPVlFB26cxMtoJlzkOTD9SwneP6zGOBeGmdYnCsy5YCbQOSeNgJgMwjoGWvWpP
- mnE7vmy3qtXCvhXigQj+iK45ew9BHQC/Vm1PDsMuxQp90NK9FrDIEb7urdsOkNbLM/8s
- U8Tg==
+ bh=tOejMFEZHng6bBACn2TuiVEmLJjm8uvgxq1XNTxWECo=;
+ b=XpfnbkiB9jhF6t4u6b8wwGHpt2hBdF6a5p+qRa0cxdtegDTD+Uw0qovZYb+NM2QL0T
+ 4NQcwkQi9kRqQ/rFBtdknEZlMG+R9c/9HXyI98EQRgpXhaLgiUKX7NUr5Z5/RXhSL1aB
+ Bb9NLbjje3uurZm0WmiN7Mw9KFvvHZihH0UqZozDgd/IEMzp2NlWfCuSxs10bQJLl+7t
+ 9yC6KG7TrDuAIbHmCYC2lZmP2bPwiGfEacREigBtmUhUdRu224X89MiN64V5Wyjpj0uU
+ YMsKa1mcUQ0H8yaGZbpnZdpsmF/pQ8KPizj3QVEMuvynfzM7QhPqlUeS2PVxfNqtJ4nO
+ qnYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7/qGIn8tY1yMvYr3HTJwBYjhBdPYnfUp7IIb+uD8MPE=;
- b=FBV+IW1WIGnqX16Y8tiFa9MQHcVUaKz16m7nup7/Vw4BUG3KEw43hs/dB7cnJtDwAu
- Act/vsKmvliRhxFpwB32lqWDnaMr5Dvd2Z0AjrxwziEquPnaulyKZzWXl+ob4ymfE9ba
- sANFuqso1PtO03J2SgkH7WG6VM3hXCsZhtTfxxHO+7+9GTLONYBPM2ojTILKIUVWjkrT
- 58gw7cte7O1zMWjL0Krl0zlMrNGC6fC5lKQGOqCiiOPDz33Oh+8LGVF9O+TaWQVXwT/9
- cetS8PXNu7XZxE2/IcLKSlfxiUq3oYOl4FckFl3ADDvW/Hz8156wfWU1NEoL4TGvSu2G
- DPmA==
-X-Gm-Message-State: AOAM53248Cc/hATv9WwTCeBDfDfSSh1Y1jzlLKZ8OfvHHon95kQbv8/+
- 9ie8QuDO7Rqrnue80bI0QI+YBNRmsCttZQ==
-X-Google-Smtp-Source: ABdhPJzqxofvU4CVjTWrh4R6lF3wABxkYSXHjxmqVE+yXDhd4dQdd4713ZThphXsah7Hj2tF0Cb2Dw==
-X-Received: by 2002:a17:902:6b43:b029:df:fb48:aece with SMTP id
- g3-20020a1709026b43b02900dffb48aecemr14439188plt.59.1612752670398; 
- Sun, 07 Feb 2021 18:51:10 -0800 (PST)
+ bh=tOejMFEZHng6bBACn2TuiVEmLJjm8uvgxq1XNTxWECo=;
+ b=h8Kn2kZVqac/odjuvQeb+wsXb5PqV79rFMbRbcdRo0MgRTWiDoNT0+q29C98eTeSnu
+ giduuigyxkajqp7WkrUwDZ68zfsYA2WWFBWXcJV2DIufYrnCCFCwLKgf3DlAWNmX07RT
+ nnPa8htl/UlnnuT5UfxSO3yevTLQMvg4b7qW20UMQOHspbt1G6Bd1JiZx0zeNFg4wCgq
+ DK+Dhz7sEkVzwAYwTOJ0rLH3VW8jqdmIwRTTHLKTHW9XrkUW3p/590PlaLgGoYcQ7hpk
+ ugXONHhvl3WVgDwJ4nH/O2fe7YErwZbORgoJlGkLAsIzGvtBPGPNw5axSFmdriwOm1TD
+ 23PQ==
+X-Gm-Message-State: AOAM5305SoyRFhLRLXvG0+7Ss/FNdu4qQrdloRUPnQqnUYQtcCrR5DLw
+ NTytUsdXzQmtP55e05nUaaDBa+EuXdf6Rg==
+X-Google-Smtp-Source: ABdhPJzHIf8pl0/S16uTM9BCJX0YGRr6PW8+0ryLfdj+xNVyrExeLKXw7jTC5MmHBXW4uMjr/mNooA==
+X-Received: by 2002:a17:90b:33c4:: with SMTP id
+ lk4mr15515615pjb.157.1612752671312; 
+ Sun, 07 Feb 2021 18:51:11 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id p12sm10308690pju.35.2021.02.07.18.51.09
+ by smtp.gmail.com with ESMTPSA id p12sm10308690pju.35.2021.02.07.18.51.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 18:51:09 -0800 (PST)
+ Sun, 07 Feb 2021 18:51:10 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/16] tcg/s390x: Implement tcg_out_mov for vector types
-Date: Sun,  7 Feb 2021 18:50:51 -0800
-Message-Id: <20210208025101.271726-7-richard.henderson@linaro.org>
+Subject: [PATCH v2 07/16] tcg/s390x: Implement tcg_out_dup*_vec
+Date: Sun,  7 Feb 2021 18:50:52 -0800
+Message-Id: <20210208025101.271726-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210208025101.271726-1-richard.henderson@linaro.org>
 References: <20210208025101.271726-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,108 +90,180 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.c.inc | 72 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 68 insertions(+), 4 deletions(-)
+ tcg/s390x/tcg-target.c.inc | 122 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 119 insertions(+), 3 deletions(-)
 
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index df10ee0feb..fdf7475b2d 100644
+index fdf7475b2d..01118d9993 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -265,6 +265,11 @@ typedef enum S390Opcode {
+@@ -265,13 +265,20 @@ typedef enum S390Opcode {
      RX_STC      = 0x42,
      RX_STH      = 0x40,
  
-+    VRRa_VLR    = 0xe756,
++    VRIa_VGBM   = 0xe744,
++    VRIa_VREPI  = 0xe745,
++    VRIb_VGM    = 0xe746,
++    VRIc_VREP   = 0xe74d,
 +
-+    VRSb_VLVG   = 0xe722,
-+    VRSc_VLGV   = 0xe721,
-+
+     VRRa_VLR    = 0xe756,
++    VRRf_VLVGP  = 0xe762,
+ 
+     VRSb_VLVG   = 0xe722,
+     VRSc_VLGV   = 0xe721,
+ 
      VRX_VL      = 0xe706,
      VRX_VLLEZ   = 0xe704,
++    VRX_VLREP   = 0xe705,
      VRX_VST     = 0xe70e,
-@@ -546,6 +551,39 @@ static int RXB(TCGReg v1, TCGReg v2, TCGReg v3, TCGReg v4)
+     VRX_VSTEF   = 0xe70b,
+     VRX_VSTEG   = 0xe70a,
+@@ -551,6 +558,34 @@ static int RXB(TCGReg v1, TCGReg v2, TCGReg v3, TCGReg v4)
           | ((v4 & 16) << (4 - 3));
  }
  
-+static void tcg_out_insn_VRRa(TCGContext *s, S390Opcode op,
-+                              TCGReg v1, TCGReg v2, int m3)
++static void tcg_out_insn_VRIa(TCGContext *s, S390Opcode op,
++                              TCGReg v1, uint16_t i2, int m3)
 +{
 +    tcg_debug_assert(v1 >= TCG_REG_V0 && v1 <= TCG_REG_V31);
-+    tcg_debug_assert(v2 >= TCG_REG_V0 && v2 <= TCG_REG_V31);
-+    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4) | (v2 & 15));
-+    tcg_out32(s, (op & 0x00ff) | RXB(v1, v2, 0, 0) | (m3 << 12));
++    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4));
++    tcg_out16(s, i2);
++    tcg_out16(s, (op & 0x00ff) | RXB(v1, 0, 0, 0) | (m3 << 12));
 +}
 +
-+static void tcg_out_insn_VRSb(TCGContext *s, S390Opcode op, TCGReg v1,
-+                              intptr_t d2, TCGReg b2, TCGReg r3, int m4)
++static void tcg_out_insn_VRIb(TCGContext *s, S390Opcode op,
++                              TCGReg v1, uint8_t i2, uint8_t i3, int m4)
 +{
 +    tcg_debug_assert(v1 >= TCG_REG_V0 && v1 <= TCG_REG_V31);
-+    tcg_debug_assert(d2 >= 0 && d2 <= 0xfff);
-+    tcg_debug_assert(b2 <= TCG_REG_R15);
-+    tcg_debug_assert(r3 <= TCG_REG_R15);
-+    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4) | r3);
-+    tcg_out16(s, b2 << 12 | d2);
++    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4));
++    tcg_out16(s, (i2 << 8) | (i3 & 0xff));
 +    tcg_out16(s, (op & 0x00ff) | RXB(v1, 0, 0, 0) | (m4 << 12));
 +}
 +
-+static void tcg_out_insn_VRSc(TCGContext *s, S390Opcode op, TCGReg r1,
-+                              intptr_t d2, TCGReg b2, TCGReg v3, int m4)
++static void tcg_out_insn_VRIc(TCGContext *s, S390Opcode op,
++                              TCGReg v1, uint16_t i2, TCGReg v3, int m4)
 +{
-+    tcg_debug_assert(r1 <= TCG_REG_R15);
-+    tcg_debug_assert(d2 >= 0 && d2 <= 0xfff);
-+    tcg_debug_assert(b2 <= TCG_REG_R15);
++    tcg_debug_assert(v1 >= TCG_REG_V0 && v1 <= TCG_REG_V31);
 +    tcg_debug_assert(v3 >= TCG_REG_V0 && v3 <= TCG_REG_V31);
-+    tcg_out16(s, (op & 0xff00) | (r1 << 4) | (v3 & 15));
-+    tcg_out16(s, b2 << 12 | d2);
-+    tcg_out16(s, (op & 0x00ff) | RXB(0, 0, v3, 0) | (m4 << 12));
++    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4) | (v3 & 15));
++    tcg_out16(s, i2);
++    tcg_out16(s, (op & 0x00ff) | RXB(v1, 0, v3, 0) | (m4 << 12));
 +}
 +
- static void tcg_out_insn_VRX(TCGContext *s, S390Opcode op, TCGReg v1,
-                              TCGReg b2, TCGReg x2, intptr_t d2, int m3)
+ static void tcg_out_insn_VRRa(TCGContext *s, S390Opcode op,
+                               TCGReg v1, TCGReg v2, int m3)
  {
-@@ -579,12 +617,38 @@ static void tcg_out_sh32(TCGContext* s, S390Opcode op, TCGReg dest,
+@@ -560,6 +595,17 @@ static void tcg_out_insn_VRRa(TCGContext *s, S390Opcode op,
+     tcg_out32(s, (op & 0x00ff) | RXB(v1, v2, 0, 0) | (m3 << 12));
+ }
  
- static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg dst, TCGReg src)
- {
--    if (src != dst) {
--        if (type == TCG_TYPE_I32) {
-+    if (src == dst) {
-+        return true;
-+    }
-+    switch (type) {
-+    case TCG_TYPE_I32:
-+        if (likely(dst < 16 && src < 16)) {
-             tcg_out_insn(s, RR, LR, dst, src);
--        } else {
--            tcg_out_insn(s, RRE, LGR, dst, src);
-+            break;
-         }
-+        /* fallthru */
++static void tcg_out_insn_VRRf(TCGContext *s, S390Opcode op,
++                              TCGReg v1, TCGReg r2, TCGReg r3)
++{
++    tcg_debug_assert(v1 >= TCG_REG_V0 && v1 <= TCG_REG_V31);
++    tcg_debug_assert(r2 <= TCG_REG_R15);
++    tcg_debug_assert(r3 <= TCG_REG_R15);
++    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4) | r2);
++    tcg_out16(s, r3 << 12);
++    tcg_out16(s, (op & 0x00ff) | RXB(v1, 0, 0, 0));
++}
 +
-+    case TCG_TYPE_I64:
-+        if (likely(dst < 16)) {
-+            if (likely(src < 16)) {
-+                tcg_out_insn(s, RRE, LGR, dst, src);
+ static void tcg_out_insn_VRSb(TCGContext *s, S390Opcode op, TCGReg v1,
+                               intptr_t d2, TCGReg b2, TCGReg r3, int m4)
+ {
+@@ -2466,19 +2512,89 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+ static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+                             TCGReg dst, TCGReg src)
+ {
+-    g_assert_not_reached();
++    if (src < 16) {
++        /* Replicate general register into two MO_64. */
++        tcg_out_insn(s, VRRf, VLVGP, dst, src, src);
++        if (vece == MO_64) {
++            return true;
++        }
++    }
++
++    /*
++     * Recall that the "standard" integer, within a vector, is the
++     * rightmost element of the leftmost doubleword, a-la VLLEZ.
++     */
++    tcg_out_insn(s, VRIc, VREP, dst, (8 >> vece) - 1, src, vece);
++    return true;
+ }
+ 
+ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
+                              TCGReg dst, TCGReg base, intptr_t offset)
+ {
+-    g_assert_not_reached();
++    tcg_out_vrx_mem(s, VRX_VLREP, dst, base, TCG_REG_NONE, offset, vece);
++    return true;
+ }
+ 
+ static void tcg_out_dupi_vec(TCGContext *s, TCGType type, unsigned vece,
+                              TCGReg dst, int64_t val)
+ {
+-    g_assert_not_reached();
++    int i, mask, msb, lsb;
++
++    /* Look for int16_t elements.  */
++    if (vece <= MO_16 ||
++        (vece == MO_32 ? (int32_t)val : val) == (int16_t)val) {
++        tcg_out_insn(s, VRIa, VREPI, dst, val, vece);
++        return;
++    }
++
++    /* Look for bit masks.  */
++    if (vece == MO_32) {
++        if (risbg_mask((int32_t)val)) {
++            /* Handle wraparound by swapping msb and lsb.  */
++            if ((val & 0x80000001u) == 0x80000001u) {
++                msb = 32 - ctz32(~val);
++                lsb = clz32(~val) - 1;
 +            } else {
-+                tcg_out_insn(s, VRSc, VLGV, dst, 0, 0, src, 3);
++                msb = clz32(val);
++                lsb = 31 - ctz32(val);
 +            }
-+            break;
-+        } else if (src < 16) {
-+            tcg_out_insn(s, VRSb, VLVG, dst, 0, 0, src, 3);
++            tcg_out_insn(s, VRIb, VGM, dst, lsb, msb, MO_32);
++            return;
++        }
++    } else {
++        if (risbg_mask(val)) {
++            /* Handle wraparound by swapping msb and lsb.  */
++            if ((val & 0x8000000000000001ull) == 0x8000000000000001ull) {
++                /* Handle wraparound by swapping msb and lsb.  */
++                msb = 64 - ctz64(~val);
++                lsb = clz64(~val) - 1;
++            } else {
++                msb = clz64(val);
++                lsb = 63 - ctz64(val);
++            }
++            tcg_out_insn(s, VRIb, VGM, dst, lsb, msb, MO_64);
++            return;
++        }
++    }
++
++    /* Look for all bytes 0x00 or 0xff.  */
++    for (i = mask = 0; i < 8; i++) {
++        uint8_t byte = val >> (i * 8);
++        if (byte == 0xff) {
++            mask |= 1 << i;
++        } else if (byte != 0) {
 +            break;
 +        }
-+        /* fallthru */
++    }
++    if (i == 8) {
++        tcg_out_insn(s, VRIa, VGBM, dst, mask * 0x0101, 0);
++        return;
++    }
 +
-+    case TCG_TYPE_V64:
-+    case TCG_TYPE_V128:
-+        tcg_out_insn(s, VRRa, VLR, dst, src, 0);
-+        break;
-+
-+    default:
-+        g_assert_not_reached();
-     }
-     return true;
++    /* Otherwise, stuff it in the constant pool.  */
++    tcg_out_insn(s, RIL, LARL, TCG_TMP0, 0);
++    new_pool_label(s, val, R_390_PC32DBL, s->code_ptr - 2, 2);
++    tcg_out_insn(s, VRX, VLREP, dst, TCG_TMP0, TCG_REG_NONE, 0, MO_64);
  }
+ 
+ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
 -- 
 2.25.1
 
