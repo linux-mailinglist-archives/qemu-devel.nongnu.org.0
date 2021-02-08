@@ -2,86 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A46314216
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:43:40 +0100 (CET)
-Received: from localhost ([::1]:41198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A1D3141F2
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:37:11 +0100 (CET)
+Received: from localhost ([::1]:53902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9EJn-0003XP-OK
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:43:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42120)
+	id 1l9EDW-0005Se-So
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:37:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9Ad0-0003IE-Ja; Mon, 08 Feb 2021 12:47:17 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:54249)
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l9Ahj-0007qr-RZ
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:52:07 -0500
+Received: from zangief.bwidawsk.net ([107.170.211.233]:37312
+ helo=mail.bwidawsk.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9Acw-0000ag-9f; Mon, 08 Feb 2021 12:47:13 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id BA599B15;
- Mon,  8 Feb 2021 12:47:06 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 08 Feb 2021 12:47:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=PQKVleHvRb2BDlWS6oNg8I+sgdG
- vfKEtBOEDWQbRrAA=; b=MN6H/eamKfvkFL5N5XNDMDjQlvBG9JeIaOoG9RMKo18
- fp7oNlPkig9Y8HE9YVYUJ28A0a74ekfj6ZPAFIRVo1QL7/BUL4CmiHlHEdSv40x7
- 7LqRUKWCIq8aJjhsi4Vtw/j4jJrcVuKLsNuKfwkwspBzSSQ2cevDJbe6oiiP6MPL
- RuFmImp9FXnGj54Mk+JX8Ze8utJS8ZAgUfygdh4yb8Pe48gkjp+DHDWaCzmPP4iM
- EgnYJvjtPgk7KqXW4wJ4AoHstUzjaFhw3Jynj8qrI6d3SzClHwqBYyOYU0Wzr7oq
- lZLfIRIBsYwhqLXIC5EFpSmC/m7u24QqD+uKa4KMNSg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=PQKVle
- HvRb2BDlWS6oNg8I+sgdGvfKEtBOEDWQbRrAA=; b=RJzrr4QpYJdnR9pHoRIT4r
- tXzsV5ogpB/04SHs7nQ/zUGDHKBRxLwdbY9LJhDst6LDVFhPaDL/viDbX2WuP7FG
- DTu1Fwt6lFCLWtP9I7bCbG6Jdh6hy0IYvxVCsx+QxOkwNZkkMWCpC1+pxtIio9MD
- cxvvraw0UOn+tU1lcDP4o6n093EAgnHV8aKn1m0XH8WmDRPwoOJ3HqO48d7tEQ28
- egIimv0ZLWL7/e+V0xsVaE5ZVXrGAAH9BdkBMD32g7Nil53+zoN9b2ioK5zP4je6
- 9GZLxrkzRn1tf/B+V18PssUQa5xPf220qksjVYRngWC5bY4b19Uqg3ou974Sx9PA
- ==
-X-ME-Sender: <xms:GXkhYPQrQqH-ZqTkdTaYXvL2r_wuZdT0BXQ_BxIYIqfjHKU0OmfOGA>
- <xme:GXkhYAwLkIHf6auKuUBny3dEU9csFpr3UOXm910orGBXBlypkd9TOZ4qjVH1qtjGL
- fXLcKtUR_7jpb6PUS8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheefgddutdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:GXkhYE3UsSJsEvRTSnmkfbRsNnC_0S6NA3kRkd6bvmNbzeUWyv_Rkw>
- <xmx:GXkhYPD-U0xHq6QIsqjajnGt6s8JBT8zTFsSvI-G8Lt6wKDzx8OcXw>
- <xmx:GXkhYIjwUlgulf1yYjn_BKLf2l9zdGeaqSGySxj1_ZwfNaH_A7bc5w>
- <xmx:GnkhYEhwgnl1HrYhJXNLi6FVpwcPEUQ8-Krw7Lf_mHmjo_Ew8ZPk_w>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B655F1080063;
- Mon,  8 Feb 2021 12:47:03 -0500 (EST)
-Date: Mon, 8 Feb 2021 18:47:01 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 0/2] hw/block/nvme: add support for telemetry log pages
-Message-ID: <YCF5FbyRyyieFhiz@apples.localdomain>
-References: <20210208141012.377500-1-its@irrelevant.dk>
- <20210208154008.GB16360@redsun51.ssa.fujisawa.hgst.com>
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l9Ahi-0002Di-7E
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:52:07 -0500
+Received: by mail.bwidawsk.net (Postfix, from userid 5001)
+ id 41F1C123439; Mon,  8 Feb 2021 09:52:02 -0800 (PST)
+Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
+ [73.37.61.164])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ by mail.bwidawsk.net (Postfix) with ESMTPSA id 5F4EA122C69;
+ Mon,  8 Feb 2021 09:51:55 -0800 (PST)
+Date: Mon, 8 Feb 2021 09:51:53 -0800
+From: Ben Widawsky <ben@bwidawsk.net>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [RFC PATCH v1 01/01] PCIe DOE for PCIe and CXL 2.0
+Message-ID: <20210208175153.o5rtag2diyn4ztqq@mail.bwidawsk.net>
+References: <4F370DAB-1EFE-490B-B93F-312AC5081057@avery-design.com>
+ <20210205160954.00006728@Huawei.com>
+ <20210205171936.nx62hs4z4vr5g2er@intel.com>
+ <20210205184942.00002233@Huawei.com>
+ <593ADBD3-9A16-4875-AF5B-57E346A3460A@avery-design.com>
+ <20210208105551.00005c12@Huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TJpPJLSvnQm2TD6s"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210208154008.GB16360@redsun51.ssa.fujisawa.hgst.com>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210208105551.00005c12@Huawei.com>
+Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
+ helo=mail.bwidawsk.net
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,48 +62,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: mst@redhat.com, vishal.l.verma@intel.com, jgroves@micron.com,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, armbru@redhat.com, imammedo@redhat.com,
+ david@redhat.com, ira.weiny@intel.com, dan.j.williams@intel.com,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 21-02-08 10:55:51, Jonathan Cameron wrote:
+> ...
+> 
+> > 
+> > >   
+> > >>   
+> > >>>> 
+> > >>>> Just like you we feel what's most important is to have DOE supported so that
+> > >>>> UEFI and Linux kernel and drivers can progress.  We're also contributing to
+> > >>>> writing compliance tests for the CXL Compliance Software Development WG.    
+> > >>> 
+> > >>> Great.    
+> > >> 
+> > >> Is anyone doing the kernel enabling for it?  
+> > > 
+> > > Planning to look at this but plenty of other things on my todo list if someone
+> > > else gets to it first.
+> > > 
+> > > Generic DOE support should be straight forward (the infrastructure).
+> > > Parsing CDAT also straight forward.
+> > > Doing something with the results is hard unless we just provide an interface for
+> > > userspace to query them for a given device - or dump the table
+> > > (I think we do want to be able to that). 
+> > > 
+> > > What I'm really not sure on is how to handle NUMA domains that are created late
+> > > in the kernel boot sequence.  The  ACPI flow is set up with the assumption
+> > > that we can get them from SRAT very early in boot. Need to figure out how to
+> > > work around that. (e.g. preallocate a bunch of spare nodes for example though that's
+> > > ugly).  Note IIRC the kernel doesn't do runtime update of any of the ACPI
+> > > performance parameters yet (_SLI, _HMA) so there probably isn't any infrastructure
+> > > that we can reuse.
+> > > 
+> > > There is also the firmware based enumeration and description option (OS not necessarily
+> > > aware of CXL) in which this is all up to EDK2 and the kernel gets it all presented
+> > > as standard tables.  
+> > 
+> > Do we know who’s on this as part of the EDK2 development?  It would be great if they could
+> > address the SRAT/HMAT generation from reading CDAT.  EDK2 does address CXL 1.1 now.
+> 
+> No idea who, if anyone, is looking at this currently.  Perhaps ask on the EDK2 list?
+> 
+> Jonathan
+> 
 
---TJpPJLSvnQm2TD6s
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I did ping the folks at #edk2 in OFTC a few months back and got basically no
+response. Mailing list might be best though.
 
-On Feb  9 00:40, Keith Busch wrote:
-> On Mon, Feb 08, 2021 at 03:10:10PM +0100, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > This adds support for the telemetry log pages and fixes up the
-> > controller IEEE OUI.
->=20
-> Patch 1 is fine.
->=20
-> I don't see the point for patch 2. We don't need an empty implementation
-> for every optional spec feature just because it's there. The features
-> we do implement ought to provide something useful, yeah?
-
-Alright, point taken :)
-
---TJpPJLSvnQm2TD6s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAheRQACgkQTeGvMW1P
-DelpOgf9GrfATJdZV7nfweIEx7Jb5Lm6HCNC30+Dn18NlYyGnEhVs3PDuoKnO2Tk
-jWYq4yOAAy8s56KrmaCYqb4nX3LuvaHZYz/XkJQsrveOuDxsqMvpIMYLqQqyHXJ1
-W4zQRxfqDPWwv03QmTfgI2sjBq4P9PzNs858d9K80ASG4X2lR7KxzvO3lUl+XoL0
-xoxajUlrUUx+KwyFA3Twyw5TfJe3pVenn+Dq2dmRX6iP3V2UMwrSG3w3QEhQcoWM
-luRFRkIEc8MqfpZAKkcZr3eurnETy8b0TZSK4dYO5g/n4a9HROZWVbEJB9rRn1GM
-f3lsO6cDLLwdFJh/sNvoMZ6wZz4HsA==
-=xl8P
------END PGP SIGNATURE-----
-
---TJpPJLSvnQm2TD6s--
+> > 
+> > > 
+> > > As you can perhaps tell from my half done reviews, this week disappeared in
+> > > other things so bit of catch up for me to do next week.
+> > > 
+> > > Thanks,
+> > > 
+> > > Joanthan
+> > > 
+> ...
+> 
 
