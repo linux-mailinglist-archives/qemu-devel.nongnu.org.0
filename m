@@ -2,73 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D403139A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 17:39:28 +0100 (CET)
-Received: from localhost ([::1]:58144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FD13139A4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 17:39:43 +0100 (CET)
+Received: from localhost ([::1]:58314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l99ZP-0003hx-Ut
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 11:39:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47174)
+	id 1l99Zd-0003nN-2P
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 11:39:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l92pw-00083v-DJ
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:28:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l92pb-0006fD-UW
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:27:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612776455;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=trq91t2iwhKj5MKyzu2frHbq1Ivu63QHEGl6wBLhlxQ=;
- b=PWvpmcKIW9KUAzL3mHkgXFugUWoNZQajbq46jXpzD+MRiVueVS35sUPJuehiueCywKjlCD
- caTGl5oRmXUD50Gurzvv3jbJqpGRF9PzQhGySoiuatzk86zhgMLEGItGZbAEDkjyAv+Dvi
- 7IEL8WwtsVlF+NiSVo5ShEtF0WODqlQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-M5_tzgIePsevslFrTvA4XQ-1; Mon, 08 Feb 2021 04:27:33 -0500
-X-MC-Unique: M5_tzgIePsevslFrTvA4XQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC4ECBBEE5;
- Mon,  8 Feb 2021 09:27:31 +0000 (UTC)
-Received: from localhost (ovpn-115-54.ams2.redhat.com [10.36.115.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC2125D9D5;
- Mon,  8 Feb 2021 09:27:24 +0000 (UTC)
-Date: Mon, 8 Feb 2021 09:27:23 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PULL v3 00/27] Block patches
-Message-ID: <20210208092723.GA18298@stefanha-x1.localdomain>
-References: <20210205164459.432714-1-stefanha@redhat.com>
- <CAFEAcA-dQtOaXB-eHEbiF0Z7jF-wSHt0LwW8Bk+BU2B66+=Cyw@mail.gmail.com>
- <CAFEAcA8sOgF9Czy+GUBti7W-C9ZtW9PB+1YxG7mqAXKr5mV18g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l92wo-0000Qh-WE; Mon, 08 Feb 2021 04:35:19 -0500
+Received: from mail-eopbgr80139.outbound.protection.outlook.com
+ ([40.107.8.139]:25056 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l92wO-0007xz-En; Mon, 08 Feb 2021 04:34:57 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KtlaDgLTzSqPiw/RT0bnWKRiwAPSHCWA/cZlI4Ey1WNrZQbiXpmIoNQ+70QjZYzXbXxSovVMh4xNOYNcOSSXj1bezfXh2MbeukiYR5YYknZPNAJ2nlFpimyWRkCYVE5Eob060i/U/76fd7RQgwDffEAFO9eNcVW+lkNkOZt1KbDqR5I0rXOovwfuKG+ARiIHg8XcBjQwiEGyyxAy6+S5W1S8RsIzpx3/z96USMqUY/Hhudz6mpGV9yXvqnYGdIaLcp0j8zL6W5lTzC54IBYtkBkT0z+P2cIr3/+lrcCxIkRs9gP37x0l5JahiasW6aVG/tcqf2G+ZI1rpU/nuASW5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HuA7f1vivmBzOmfdzYIy8JbernY94rnNY3eWKKJCw3o=;
+ b=EskCGsiaOqLZxHLE5EwlK20yUQuHNhq7sNfwHS2O8hKxdFqpvtOhRa/4YnKSfEUO+MIuO9gNiM/qPkngiH1lku5DH/3DVR5iFagaX2UDkSj0qli9gZlU/EdLE0tMtrFUtCCTElD+LJSZmXzMG9RB8DWzIKRpyIa0UoOl2RWHIiXyCRz4MUdYwulYAg6VCM/3la28uhbksPX1O2kLDO8qHjoPaadzH0wi5TcRDw6Mgyp+F67Z1elMhZfVi9vwgryduppTmdQhVkOjrEMOKGJfcCqHj7+UBz8LU3za8uvVjxGLJJ3VHbYIOpGpzzZB4+lfsAy5b1HzQo/vaFeXCM+vVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HuA7f1vivmBzOmfdzYIy8JbernY94rnNY3eWKKJCw3o=;
+ b=F7HumeQx7rwzXLItgt97wWJWJGsOxWW2NasF3NnvQQzkZMkM2Zebnk6YTFjCQtHGUri8r8oFFThj6pxgnKgEV84i2Ytm3fyxg0iryV2vlVZZ+cR6MHZLhiAPVbSUf/xUCnlWN1hUhIYBDYYTAXWzy8v02qT0j5B1WmCbhcjNKnE=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3895.eurprd08.prod.outlook.com (2603:10a6:20b:81::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.25; Mon, 8 Feb
+ 2021 09:34:21 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%9]) with mapi id 15.20.3825.030; Mon, 8 Feb 2021
+ 09:34:21 +0000
+Subject: Re: [PATCH v2 28/36] block: add bdrv_set_backing_noperm() transaction
+ action
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, mreitz@redhat.com, den@openvz.org
+References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+ <20201127144522.29991-29-vsementsov@virtuozzo.com>
+ <20210205162639.GF7072@merkur.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <2103686a-4dfd-11f5-92ab-10b3f6686d29@virtuozzo.com>
+Date: Mon, 8 Feb 2021 12:34:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+In-Reply-To: <20210205162639.GF7072@merkur.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.199]
+X-ClientProxiedBy: AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:17c::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8sOgF9Czy+GUBti7W-C9ZtW9PB+1YxG7mqAXKr5mV18g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Kj7319i9nmIyA2yE"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.199) by
+ AM0PR10CA0022.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.19 via Frontend
+ Transport; Mon, 8 Feb 2021 09:34:21 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 46486424-a476-4e9e-15d6-08d8cc14b6fb
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3895:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB38954A33427000616F7ABC03C18F9@AM6PR08MB3895.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vh6WzSO43VPfHJA1PINUB6BYc5T7XewGPb94Mdl1tQ2rrBOiSp4NFd66OgYFJdrAsl6WVuBVsHffQyBD2E4wmnIouXS0v1P7GfZyD7jZiIGu4Gtet3jty+g4Q9A7XKwjWUn+X6zuMBd+P98b0bhm+T8SNCVFTivdQtsZF/kgf6Q7z2GxIK1mBuy5K6g/oybJtceSvde0+G1Me2LCRvYgEuIb/BjR772bsnmFd9NeMWPnj1KHP1UE2ziRa2B8nV2hP+p0aW8VnKzvrgnfcVxJZjatNqhGMBpTX5HwUjjIv9HNhhUM+9PPVvVED2UNYWuLbZtJ5y+X3ftztF7auGlyXOhQfnWD4m6dZ2y6/UWDK6cTTyaR5XVWKEAzOmgq9J/IX6wytmowHFk8+gkSrA9GE+GvgPwq7FPYYLaV25aShefyUlmcP3lD2aT5+VMQSL2H87+0hPcZT/uNGE9Jqg/laiuYdEBbT1WrLLexqgO6njZQJ63zi1vq97bhnwsCiyNOmo8NArmmGpo9A2nGikVl96bTBApK+gmsAPx2Z5biNAOk3ECnmqUQIg3YPTxYSIsiHtpseuRScwvVmAyDIjonRBJOX6BivhAbpZ7NDSfex00=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(39840400004)(376002)(136003)(346002)(8936002)(26005)(16576012)(6916009)(186003)(2616005)(16526019)(4326008)(36756003)(316002)(86362001)(66946007)(83380400001)(31696002)(956004)(66476007)(2906002)(66556008)(31686004)(478600001)(5660300002)(8676002)(52116002)(6486002)(107886003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?L2pBM1dkZlVaWHhGYXFPamcwQ1pOZnhJdEx4WC9zaEY2SzJuV0d2cm5mL1E2?=
+ =?utf-8?B?YWZCVFJteldHc3hWT1hXTm9EMnozYkNXN1hzczYxU2lvOEtjdXBIVXFjWHhX?=
+ =?utf-8?B?Ky9KZ25VSDZUb0JtQURlSUdNMkIwUUNTVEpoYys3SE9EU2srbjRKaVRBbWlP?=
+ =?utf-8?B?Ym1xRlZLWTdXbHRveFVWNkJnSGxPMnlvUE9xTkxsVHcrTnB1SFh3T0RRZ0J2?=
+ =?utf-8?B?NWM4UnlPejFHL3BKeUZKVy9DOHdyVEpuOXJoMk5yVzNZRk9XRlVqVDZvUTFy?=
+ =?utf-8?B?U3JCVHU0MWplVDBnNlkrMW1ESVkvS3dJbEFmUlNwazFBeXpkVWhWNnMvZmlQ?=
+ =?utf-8?B?Tk8rMERvMWpaZjRHdEY3bkRXREJId3k1bWxaTllIWVNpRUZPSDJ5OER1am5G?=
+ =?utf-8?B?QXlFNU1MbWZzTkZWcEQ3TGhKV2hHWUZwR1hHUm5RREZDZElSOE1LU2NONUNp?=
+ =?utf-8?B?YkVVUWhYTkNJdUZ5NExycHRjVUQ1L0ZkbDlXZWxKSUxwZTB6R1NFeGNHYk1M?=
+ =?utf-8?B?MVNzZGFJVFRyRCt4SXJkK0tVajJqY1c1OXRZbWNsb2t6dHl0TUR3VGtkbmpZ?=
+ =?utf-8?B?M0J0MWVRMlVMRW1nVUtvNXpGZkx0NGl0LzVnajZwazBPWXMySVZkZ2w1TnNJ?=
+ =?utf-8?B?aWxKNmd3eS9Uei85QmlmOVF3ZUc1VnI4WUtINldIN3NOdTJXVmJEazd3QkhI?=
+ =?utf-8?B?UTBFM0VPbTJjQm1XRWpUckpsalVyaVU1OEJ2ZHd6TmM0MmhTMUZycmIvZWla?=
+ =?utf-8?B?T0d5R2lEeXpzZFlTZDREV3JrZ1h6UW5XMENtY3loWCtHT1lEbDRHdTNNQ1cz?=
+ =?utf-8?B?clh3MExJQVQxd01JSjlERnM4R2l3Q093V05lVWU1a3dQWXZKOVhyeGJnWE53?=
+ =?utf-8?B?VzBZbTJyM3Z3dCtvSjh5eHNnY0FrRWtqUTUzMUEra0RqTzM0M2o2YndBa0hH?=
+ =?utf-8?B?aGVlNmF5bTRGK2hCR1NoSTJVV0diNFlQOWpEUzl6dmhSRHF5Y0pCMmEwUnAz?=
+ =?utf-8?B?bDgyYVQyMTdFR05JaTFHOFBTUldDZW5ieGc4RkEyeFZ0V2c4RTE0WDJSQlZT?=
+ =?utf-8?B?Z09pTFZoTzVDUEtISWJ6TVVyODZhTGVhVDVGT241ZUIyR3BBUWRHK250anNr?=
+ =?utf-8?B?MDU2cFZpWndzeEhrNzJwYTJoZVI0d1Nzb1FqZklRN2JxYUZiaFFmQk9sUG9m?=
+ =?utf-8?B?WkRmYnA5UzlTbW1PUjNqdnBTTFB6UEtvWjIvNEZiNTlZQkN2d3FmZFpwcHB1?=
+ =?utf-8?B?dEdMTVZOelhDc0tSQWt3Tnl3Vnk3MDZpS051a1VnZHJ0cWNQb3pjZEpyQkND?=
+ =?utf-8?B?WHZqeVFhK3FvbDZQQ1VSUXVreWFFaDkyME5yWFBFeU5rbVQvNms2a1BnZnRz?=
+ =?utf-8?B?N21rVGIwK21kTW9EVndWK1daaEprR0QrSm5VMnZuVEZ1R1BwR2M2Q0pPcU15?=
+ =?utf-8?B?MjdOWUxoZVc3NDl2MkFXQU5lL0V6V1BBa1dPcy9Wd2hnRTl1bld2YWtnMTQx?=
+ =?utf-8?B?ekl3ckt5eTR0UVlVQmlPT2dPa1IxT3IxbGQrV0VxK0JpcjBMdWU1dW9BNkxB?=
+ =?utf-8?B?elgwdUh5SXFqMXN2YldXK3NLNlM3QXhnNTNWWmI0SEJkZC9NcXM1cnEvR2xU?=
+ =?utf-8?B?MzI5WWFjS2FrcCtodHJKU1pMWEdjdkkwb3ZsNUdqY0VqajlNTEpJZGczWU9s?=
+ =?utf-8?B?SmhUaW1XLzEwdEZsbjdzL1RjTkpCajRXc1JSNTdOQkhRQ1MrcG9SRjVyODg5?=
+ =?utf-8?Q?IOKF1rMUz6ij6y24l1VjJahIiAqXTnB8VpfNmXC?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46486424-a476-4e9e-15d6-08d8cc14b6fb
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2021 09:34:21.7949 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m4LnSi3Mv7UOBmYsJvVHGBQmRSwVTRKl3Jv187lSUWf6n+CgIN5awth2zwWBzlXwFxdlGZvgCV9Q5A2vCR+IwL/D3UUtDp5zArWUw7B+G6Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3895
+Received-SPF: pass client-ip=40.107.8.139;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,139 +148,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
- Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Kj7319i9nmIyA2yE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+05.02.2021 19:26, Kevin Wolf wrote:
+> Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> Split out no-perm part of bdrv_set_backing_hd() as a separate
+>> transaction action. Note the in case of existing BdrvChild we reuse it,
+>> not recreate, just to do less actions.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+>>   /*
+>>    * Sets the bs->backing link of a BDS. A new reference is created; callers
+>>    * which don't need their own reference any more must call bdrv_unref().
+>>    */
+>> -void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+>> -                         Error **errp)
+>> +static int bdrv_set_backing_noperm(BlockDriverState *bs,
+>> +                                   BlockDriverState *backing_bs,
+>> +                                   GSList **tran, Error **errp)
+>>   {
+>> -    bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
+>> -        bdrv_inherits_from_recursive(backing_hd, bs);
+>> +    int ret = 0;
+>> +    bool update_inherits_from = bdrv_chain_contains(bs, backing_bs) &&
+>> +        bdrv_inherits_from_recursive(backing_bs, bs);
+>> +    GSList *attach_tran = NULL;
+>> +    BdrvSetBackingNoPermState *s;
+>>   
+>>       if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
+>> -        return;
+>> +        return -EPERM;
+>>       }
+>>   
+>> -    if (backing_hd) {
+>> -        bdrv_ref(backing_hd);
+>> +    if (bs->backing && backing_bs) {
+>> +        bdrv_replace_child_safe(bs->backing, backing_bs, tran);
+> 
+> The old code with separate bdrv_unref_child() and then
+> bdrv_attach_child() tried to make the AioContests of bs and backing_bs
+> compatible by moving one of the nodes if necessary.
+> 
+> bdrv_replace_child_safe() doesn't seem to do that, but it only asserts
+> that both nodes are already in the same context.
+> 
+> I see that iotest 245 doesn't crash, which I think it should if this
+> were broken, but where does the switch happen now?
 
-On Sat, Feb 06, 2021 at 05:03:20PM +0000, Peter Maydell wrote:
-> On Fri, 5 Feb 2021 at 22:53, Peter Maydell <peter.maydell@linaro.org> wro=
-te:
-> >
-> > On Fri, 5 Feb 2021 at 16:45, Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
-> > >
-> > > The following changes since commit e2c5093c993ef646e4e28f7aa78429853b=
-cc06ac:
-> > >
-> > >   iotests: 30: drop from auto group (and effectively from make check)=
- (2021-02-05 15:16:13 +0000)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
-> > >
-> > > for you to fetch changes up to b07011f375bda3319cf72eee7cb18d31007838=
-7b:
-> > >
-> > >   docs: fix Parallels Image "dirty bitmap" section (2021-02-05 16:36:=
-36 +0000)
-> > >
-> > > ----------------------------------------------------------------
-> > > Pull request
-> > >
-> > > v3:
-> > >  * Replace {0} array initialization with {} to make clang happy [Pete=
-r]
-> > >
-> > > ----------------------------------------------------------------
-> >
-> >
-> > Fails 'make check' on s390x host:
->=20
-> I gave this a rerun to check it was reproducible (it is) and realised
-> I missed what looks like an important line in the log. As usual,
-> trying to disentangle which lines of a parallel make check correspond
-> to the failure is pretty tricky, but the lines
->  Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
->=20
-> are probably the proximate causes of the assertion failures.
->=20
-> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> QTEST_QEMU_IMG=3D./qemu-img
-> G_TEST_DBUS_DAEMON=3D/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
-> QTEST_QEMU_BINARY=3D./qemu-system-rx tests/qtest/qos-test --tap -k
-> PASS 45 qtest-rx/qmp-cmd-test /rx/qmp/query-memory-size-summary
-> SKIP
-> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> QTEST_QEMU_IMG=3D./qemu-img
-> G_TEST_DBUS_DAEMON=3D/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
-> QTEST_QEMU_BINARY=3D./qemu-system-s390x tests/qtest/pxe-test --tap -k
-> PASS 46 qtest-rx/qmp-cmd-test /rx/qmp/query-memory-devices
-> Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
-> PASS 47 qtest-rx/qmp-cmd-test /rx/qmp/query-replay
-> PASS 48 qtest-rx/qmp-cmd-test /rx/qmp/query-yank
-> PASS 49 qtest-rx/qmp-cmd-test /rx/qmp/query-name
-> PASS 50 qtest-rx/qmp-cmd-test /rx/qmp/query-iothreads
-> PASS 51 qtest-rx/qmp-cmd-test /rx/qmp/query-fdsets
-> PASS 52 qtest-rx/qmp-cmd-test /rx/qmp/query-command-line-options
-> PASS 53 qtest-rx/qmp-cmd-test /rx/qmp/query-acpi-ospm-status
-> PASS 54 qtest-rx/qmp-cmd-test /rx/qmp/object-add-failure-modes
-> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> QTEST_QEMU_IMG=3D./qemu-img
-> G_TEST_DBUS_DAEMON=3D/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
-> QTEST_QEMU_BINARY=3D./qemu-system-s390x tests/qtest/test-netfilter --tap
-> -k
-> Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
-> socket_accept failed: Resource temporarily unavailable
-> socket_accept failed: Resource temporarily unavailable
-> **
-> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
-> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
-> **
-> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
-> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
-> ../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
-> signal 6 (Aborted) (core dumped)
-> ../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
-> signal 6 (Aborted) (core dumped)
-> ERROR qtest-s390x/pxe-test - Bail out!
-> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
-> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
-> ERROR qtest-s390x/test-netfilter - Bail out!
-> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
-> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
-> Makefile.mtest:3113: recipe for target 'run-test-387' failed
-> make: *** [run-test-387] Error 1
-> make: *** Waiting for unfinished jobs....
-> Makefile.mtest:3121: recipe for target 'run-test-388' failed
+Hmm. Seems on path "if (bs->backing && backing_bs) {" we really miss aio context handling. Probably 245 doesn't check this branch? Or if leaves different aio contexts in one subtree..
 
-Hi Elena and Jag,
-Please take a look at this QOM failure. I guess remote-pcihost is being
-built but pcie-host-bridge is missing from the s390x-softmmu target.
 
-Thanks,
-Stefan
-
---Kj7319i9nmIyA2yE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAhA/kACgkQnKSrs4Gr
-c8itkgf/VmddG13wSAXZ3TWjcueija39LCWYoPpju6F1dgld3iPZLXuPRV6WagCo
-PAPfT21VNI8NFtKevuVtRuyIv8EVIKd/TIw8RrMhLl/kyHeXrKMf2M5FGd/ZdVME
-Rswxrj5e8qmhf8O5uMaE9EF7+P/yYCsZuIWmJJI0Z5svBN94m9WNEM3bmtJrvKft
-GR2IhmJkHwf11oAL/0yIP7nVTZqGOlPz3OyWMUtlbupNe8omkNEybvg+G/6G+3yK
-vlRtkil7mDUnvlxdCKq21kfCZWirSxJmM2LHHfiEwf4K3tbTnJiK5whAd8eNmZ5q
-GzkZQJm7abVN9mbFB9S12CiqfWuEzA==
-=hqjG
------END PGP SIGNATURE-----
-
---Kj7319i9nmIyA2yE--
-
+-- 
+Best regards,
+Vladimir
 
