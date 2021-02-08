@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCB5314370
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:05:20 +0100 (CET)
-Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4547031437D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:08:25 +0100 (CET)
+Received: from localhost ([::1]:42224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Fap-0003Pn-DU
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:05:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50500)
+	id 1l9Fdo-0006lx-38
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:08:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCT-0003HM-80
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:53 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36569)
+ id 1l9BCV-0003OW-R5
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:55 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCR-0006AL-GP
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:53 -0500
-Received: by mail-wm1-x331.google.com with SMTP id i9so69577wmq.1
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:51 -0800 (PST)
+ id 1l9BCU-0006CN-9Y
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:55 -0500
+Received: by mail-wr1-x433.google.com with SMTP id g10so18424996wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fdH7HJcBmEgUBu/EmlvYnMP4ZoHFqPuIpDZypVoA0WI=;
- b=qUV1H97y1G9j00CS03vpYUVH+0oXCebgfwJq5Qal6U36EM7tyfDYcsYcZC6HnHZtpv
- A8CPA0EGSZpkaZXKA46/KvehD87TKTIzpTCx+FM3RNu1KOfKhZP+qkxeOZ/OF4QgI6jT
- XHVKgE3s+OOpucWvo94S19E+tDdDiWoymgHhTl8reC1X1jU1s89uT21IpAY1fzLvDGHP
- q+rw3t1xu3AZ7Og10f+DuvLSUwLJc2tOmVwOR+STEgncA3KsYWvWdkyZW83iSJVsKxqH
- fbcqordtVu8+RfI1UBJGlBqgZH1GGM7PUwlNX/TNOdTpRGu8YYajrIqhw7PWvlCoC0fn
- 2dbQ==
+ bh=UN3/q0FStBl08Q7zutbVrS9Xuny8p3wSkBzZmAj2ntI=;
+ b=ZDDQP73f/ctZLPfUYbR0v5zxB5MjodWpL1Yy5V99739zsyjpYfs0zR20C7rsvXVOkU
+ 48JAUFrWi1f3eCQex2FFjPb78pcbGCDO0v13pN5XVsgPE1tWxGZQHTCK4KHkzVjYYBGf
+ o0yLG9wdPoHLXn38KaQCFurwVzOLL181Nhl9hQlReJVUSEFOAaE+ecRpACBTvXFpEn81
+ SE6L8OjRibt1O279ZMU77aZn9Yx+0e1OCShRob3+aTBNwQPFJoKsl6/GHUu/gZJYkBB1
+ 8Kz55v9nBZAlyI3i1uWaOdhEGJmGTSqI3GnjSBTO+uTYyUIE8VLeUgjQTf0y7kANu9D/
+ Q0aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fdH7HJcBmEgUBu/EmlvYnMP4ZoHFqPuIpDZypVoA0WI=;
- b=kEdq2OTXdXzOaqYUVb39d/+X8B8l2M2BX2TaZ//Fl1DKYawus+FwwVdXOy8uNgMB0G
- aW8nxCmby5EQYrF/SLkM0BaRB825oPNPBl3Df7WEqWDTJzMmhtkod4eBjXavrbH93ZWu
- 6zQOmCzIG+S5FhFmxmbtvAbLnuta3jGOEN7OPpqbduoidQR4H8ha4htHtne7Q9p495RW
- DT8ZmUwQAGRs6Z9MaU6r6TlZHfLKjy0QtTlW8Vqk8HSMWC07GZfFJ/Zi4Rnd2VC+YdOe
- 2S3xl48oFK961UWSP42jQ7KQkgk9g0OvddkBISwMu0fDVENwhKkEHbqcTmVosksis1Yf
- DoSw==
-X-Gm-Message-State: AOAM533ejLyaCVZspnGVEFbPdF5nld5hbf3HMmmyux1q2dNSRm2lYW/x
- gn3Fz90l6LT/+Tfy9kaXPUThpYZmyE13hg==
-X-Google-Smtp-Source: ABdhPJxtR3iBp8lixG0c2cmxbVLsEEsONdeDgzTzRsjDlck3X6fRU3aJYOFF2YKSvP8jLmzTK02tOg==
-X-Received: by 2002:a05:600c:2252:: with SMTP id
- a18mr30921wmm.167.1612808630132; 
- Mon, 08 Feb 2021 10:23:50 -0800 (PST)
+ bh=UN3/q0FStBl08Q7zutbVrS9Xuny8p3wSkBzZmAj2ntI=;
+ b=Jv1PVhsFQiLnG8UEKor4tlfLjFRgpE0dkkRy3BORo64rL0H+s7Py6MWuoj5153rmZE
+ AdHXvaqTplMHKbd40ZtnIFel1Zuw2YR7A02vFqvGT8tXKpaqfg2Kp1Zh/Y98NQDtHrnn
+ tQu4dmpc6NPiV7rRoggq1lAPMqgShSHcD4FPB9rm3gReuSWM/xZV64s92Adyd9IuMj7z
+ BwVi2MoIhXj5Wk0dgLuNb/gNKfongwf/loahRutD+z0/Pd0l39HPeXdWdMYey2D/r0jZ
+ 9XoHKZc+woZL1ojqSOyYbbyBsTy+ecC6KvwbYuzMCcNhNQkeUvddrslUnWPQE4ajDYoh
+ tgmw==
+X-Gm-Message-State: AOAM531x5zygBAQmX4q/mWji9t5W01ehCP/Pt5XDAZG23EaHO9Rjucs1
+ UXhwnxQxUL9wpuTH2CGPKLi2TxtDXjcwkg==
+X-Google-Smtp-Source: ABdhPJwzqdBV3upp4NL5Xo3Imc2ToUnTjKbkIdXp3nUo7bfq0rJgKi7wuGumDEXnPPYTqQoQmv1SYw==
+X-Received: by 2002:a05:6000:11c5:: with SMTP id
+ i5mr21467735wrx.302.1612808633017; 
+ Mon, 08 Feb 2021 10:23:53 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.23.49 for <qemu-devel@nongnu.org>
+ x22sm19670wmc.25.2021.02.08.10.23.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:23:49 -0800 (PST)
+ Mon, 08 Feb 2021 10:23:52 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/46] target/i86: implement PKS
-Date: Mon,  8 Feb 2021 19:23:03 +0100
-Message-Id: <20210208182331.58897-19-pbonzini@redhat.com>
+Subject: [PULL 21/46] meson: Warn when TCI is selected but TCG backend is
+ available
+Date: Mon,  8 Feb 2021 19:23:06 +0100
+Message-Id: <20210208182331.58897-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,252 +87,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Daniel=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Protection Keys for Supervisor-mode pages is a simple extension of
-the PKU feature that QEMU already implements.  For supervisor-mode
-pages, protection key restrictions come from a new MSR.  The MSR
-has no XSAVE state associated to it.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-PKS is only respected in long mode.  However, in principle it is
-possible to set the MSR even outside long mode, and in fact
-even the XSAVE state for PKRU could be set outside long mode
-using XRSTOR.  So do not limit the migration subsections for
-PKRU and PKRS to long mode.
+Some new users get confused with 'TCG' and 'TCI', and enable TCI
+support expecting to enable TCG.
 
+Emit a warning when native TCG backend is available on the
+host architecture, mentioning this is a suboptimal configuration.
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Suggested-by: Daniel Berrangé <berrange@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20210125144530.2837481-5-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c             |  4 ++--
- target/i386/cpu.h             |  5 +++++
- target/i386/helper.c          |  3 +++
- target/i386/machine.c         | 24 ++++++++++++++++++++----
- target/i386/tcg/excp_helper.c | 32 ++++++++++++++++++++------------
- target/i386/tcg/misc_helper.c | 14 ++++++++++++++
- 6 files changed, 64 insertions(+), 18 deletions(-)
+ meson.build | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ff25ad6f6c..0b0d65c21c 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -667,7 +667,7 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           CPUID_7_0_EBX_RDSEED */
- #define TCG_7_0_ECX_FEATURES (CPUID_7_0_ECX_PKU | \
-           /* CPUID_7_0_ECX_OSPKE is dynamic */ \
--          CPUID_7_0_ECX_LA57)
-+          CPUID_7_0_ECX_LA57 | CPUID_7_0_ECX_PKS)
- #define TCG_7_0_EDX_FEATURES 0
- #define TCG_7_1_EAX_FEATURES 0
- #define TCG_APM_FEATURES 0
-@@ -964,7 +964,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "la57", NULL, NULL, NULL,
-             NULL, NULL, "rdpid", NULL,
-             NULL, "cldemote", NULL, "movdiri",
--            "movdir64b", NULL, NULL, NULL,
-+            "movdir64b", NULL, NULL, "pks",
-         },
-         .cpuid = {
-             .eax = 7,
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index b39ec505de..cc5a26f35b 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -247,6 +247,7 @@ typedef enum X86Seg {
- #define CR4_SMEP_MASK   (1U << 20)
- #define CR4_SMAP_MASK   (1U << 21)
- #define CR4_PKE_MASK   (1U << 22)
-+#define CR4_PKS_MASK   (1U << 24)
- 
- #define DR6_BD          (1 << 13)
- #define DR6_BS          (1 << 14)
-@@ -357,6 +358,7 @@ typedef enum X86Seg {
- 
- #define MSR_IA32_TSX_CTRL		0x122
- #define MSR_IA32_TSCDEADLINE            0x6e0
-+#define MSR_IA32_PKRS                   0x6e1
- 
- #define FEATURE_CONTROL_LOCKED                    (1<<0)
- #define FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX (1<<2)
-@@ -772,6 +774,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_ECX_MOVDIRI           (1U << 27)
- /* Move 64 Bytes as Direct Store Instruction */
- #define CPUID_7_0_ECX_MOVDIR64B         (1U << 28)
-+/* Protection Keys for Supervisor-mode Pages */
-+#define CPUID_7_0_ECX_PKS               (1U << 31)
- 
- /* AVX512 Neural Network Instructions */
- #define CPUID_7_0_EDX_AVX512_4VNNIW     (1U << 2)
-@@ -1487,6 +1491,7 @@ typedef struct CPUX86State {
-     uint64_t msr_smi_count;
- 
-     uint32_t pkru;
-+    uint32_t pkrs;
-     uint32_t tsx_ctrl;
- 
-     uint64_t spec_ctrl;
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 6bb0c53182..618ad1c409 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -194,6 +194,9 @@ void cpu_x86_update_cr4(CPUX86State *env, uint32_t new_cr4)
-     if (!(env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_PKU)) {
-         new_cr4 &= ~CR4_PKE_MASK;
-     }
-+    if (!(env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_PKS)) {
-+        new_cr4 &= ~CR4_PKS_MASK;
-+    }
- 
-     env->cr[4] = new_cr4;
-     env->hflags = hflags;
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 1614e8c2f8..3768a753af 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -980,7 +980,6 @@ static const VMStateDescription vmstate_umwait = {
-     }
- };
- 
--#ifdef TARGET_X86_64
- static bool pkru_needed(void *opaque)
- {
-     X86CPU *cpu = opaque;
-@@ -999,7 +998,25 @@ static const VMStateDescription vmstate_pkru = {
-         VMSTATE_END_OF_LIST()
-     }
- };
--#endif
-+
-+static bool pkrs_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->pkrs != 0;
-+}
-+
-+static const VMStateDescription vmstate_pkrs = {
-+    .name = "cpu/pkrs",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = pkrs_needed,
-+    .fields = (VMStateField[]){
-+        VMSTATE_UINT32(env.pkrs, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
- 
- static bool tsc_khz_needed(void *opaque)
- {
-@@ -1480,9 +1497,8 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_umwait,
-         &vmstate_tsc_khz,
-         &vmstate_msr_smi_count,
--#ifdef TARGET_X86_64
-         &vmstate_pkru,
--#endif
-+        &vmstate_pkrs,
-         &vmstate_spec_ctrl,
-         &vmstate_mcg_ext_ctl,
-         &vmstate_msr_intel_pt,
-diff --git a/target/i386/tcg/excp_helper.c b/target/i386/tcg/excp_helper.c
-index a0f44431fe..b7d6259e4a 100644
---- a/target/i386/tcg/excp_helper.c
-+++ b/target/i386/tcg/excp_helper.c
-@@ -361,6 +361,7 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
-     uint64_t rsvd_mask = PG_HI_RSVD_MASK;
-     uint32_t page_offset;
-     target_ulong vaddr;
-+    uint32_t pkr;
- 
-     is_user = mmu_idx == MMU_USER_IDX;
- #if defined(DEBUG_MMU)
-@@ -588,21 +589,28 @@ do_check_protect_pse36:
-          !((env->cr[4] & CR4_SMEP_MASK) && (ptep & PG_USER_MASK)))) {
-         prot |= PAGE_EXEC;
-     }
--    if ((env->cr[4] & CR4_PKE_MASK) && (env->hflags & HF_LMA_MASK) &&
--        (ptep & PG_USER_MASK) && env->pkru) {
-+
-+    if (!(env->hflags & HF_LMA_MASK)) {
-+        pkr = 0;
-+    } else if (ptep & PG_USER_MASK) {
-+        pkr = env->cr[4] & CR4_PKE_MASK ? env->pkru : 0;
-+    } else {
-+        pkr = env->cr[4] & CR4_PKS_MASK ? env->pkrs : 0;
-+    }
-+    if (pkr) {
-         uint32_t pk = (pte & PG_PKRU_MASK) >> PG_PKRU_BIT;
--        uint32_t pkru_ad = (env->pkru >> pk * 2) & 1;
--        uint32_t pkru_wd = (env->pkru >> pk * 2) & 2;
--        uint32_t pkru_prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--
--        if (pkru_ad) {
--            pkru_prot &= ~(PAGE_READ | PAGE_WRITE);
--        } else if (pkru_wd && (is_user || env->cr[0] & CR0_WP_MASK)) {
--            pkru_prot &= ~PAGE_WRITE;
-+        uint32_t pkr_ad = (pkr >> pk * 2) & 1;
-+        uint32_t pkr_wd = (pkr >> pk * 2) & 2;
-+        uint32_t pkr_prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+
-+        if (pkr_ad) {
-+            pkr_prot &= ~(PAGE_READ | PAGE_WRITE);
-+        } else if (pkr_wd && (is_user || env->cr[0] & CR0_WP_MASK)) {
-+            pkr_prot &= ~PAGE_WRITE;
-         }
- 
--        prot &= pkru_prot;
--        if ((pkru_prot & (1 << is_write1)) == 0) {
-+        prot &= pkr_prot;
-+        if ((pkr_prot & (1 << is_write1)) == 0) {
-             assert(is_write1 != 2);
-             error_code |= PG_ERROR_PK_MASK;
-             goto do_fault_protect;
-diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
-index 0bd6c95749..f02e4fd400 100644
---- a/target/i386/tcg/misc_helper.c
-+++ b/target/i386/tcg/misc_helper.c
-@@ -244,6 +244,7 @@ void helper_rdmsr(CPUX86State *env)
- void helper_wrmsr(CPUX86State *env)
- {
-     uint64_t val;
-+    CPUState *cs = env_cpu(env);
- 
-     cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 1, GETPC());
- 
-@@ -296,6 +297,13 @@ void helper_wrmsr(CPUX86State *env)
-     case MSR_PAT:
-         env->pat = val;
-         break;
-+    case MSR_IA32_PKRS:
-+        if (val & 0xFFFFFFFF00000000ull) {
-+            goto error;
-+        }
-+        env->pkrs = val;
-+        tlb_flush(cs);
-+        break;
-     case MSR_VM_HSAVE_PA:
-         env->vm_hsave = val;
-         break;
-@@ -399,6 +407,9 @@ void helper_wrmsr(CPUX86State *env)
-         /* XXX: exception? */
-         break;
-     }
-+    return;
-+error:
-+    raise_exception_err_ra(env, EXCP0D_GPF, 0, GETPC());
- }
- 
- void helper_rdmsr(CPUX86State *env)
-@@ -430,6 +441,9 @@ void helper_rdmsr(CPUX86State *env)
-     case MSR_PAT:
-         val = env->pat;
-         break;
-+    case MSR_IA32_PKRS:
-+        val = env->pkrs;
-+        break;
-     case MSR_VM_HSAVE_PA:
-         val = env->vm_hsave;
-         break;
+diff --git a/meson.build b/meson.build
+index 3a13ba3307..4cc3ebb827 100644
+--- a/meson.build
++++ b/meson.build
+@@ -231,6 +231,13 @@ if not get_option('tcg').disabled()
+     else
+       error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
+     endif
++  elif get_option('tcg_interpreter')
++    warning('Use of the TCG interpretor is not recommended on this host')
++    warning('architecture. There is a native TCG execution backend available')
++    warning('which provides substantially better performance and reliability.')
++    warning('It is strongly recommended to remove the --enable-tcg-interpreter')
++    warning('configuration option on this architecture to use the native')
++    warning('backend.')
+   endif
+   if get_option('tcg_interpreter')
+     tcg_arch = 'tci'
 -- 
 2.29.2
 
