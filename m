@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BA93138E8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 17:09:22 +0100 (CET)
-Received: from localhost ([::1]:34742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A63B831392E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 17:22:02 +0100 (CET)
+Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l996H-0007KX-Ca
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 11:09:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45134)
+	id 1l99IW-0004B2-Fu
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 11:22:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l94k6-0001d4-0i
+ id 1l94k6-0001d9-4L
  for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:30:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51238)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53252)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l94jr-0002FQ-Jz
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:30:04 -0500
+ id 1l94jt-0002GS-WD
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:30:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612783793;
+ s=mimecast20190719; t=1612783796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pKN/6mhZxJuaALzAGSZX4YBfiVSNJSmIaYCbzbvtIT8=;
- b=ZgnYCJz6PMOSRd7MSBPZRmdKDxq4ACfAG0WyLgXeNcdy2HwuyczZMcFo64fxEdLznoF4w+
- KFzR1xFVehKD30tGdSD9buSkrjSeyY8r0mlsV0qrGO9znR5/a9vCkedKYVDV21zuahlM5p
- JdqOcm0ebkO78PewCt322Etjzr7Lc7o=
+ bh=TFm5Ym9lRFuRYCfOAFW0tWn/PAoPK/Ezau01U7EEF/k=;
+ b=iiQ5suyQc0ikg/L45IeNRGneaX3pyOVqfABSDBFFjio4ctmtwG7ZbPY1Qqi7hGz5+clac7
+ qO9QK8gwSjFDEtihr6nYmhhv5nEKvuung7WJ8D93PjhchOFZxLml5lgw/SDIPwYuzC947u
+ Drf84ENWWG60Q+e1oIJgusUgjKbxKsc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-XOd0PZeDMeKI1gY7RzDDLQ-1; Mon, 08 Feb 2021 06:29:51 -0500
-X-MC-Unique: XOd0PZeDMeKI1gY7RzDDLQ-1
+ us-mta-279-9RDdCoGSPmKn7OFDpQZ3Tw-1; Mon, 08 Feb 2021 06:29:54 -0500
+X-MC-Unique: 9RDdCoGSPmKn7OFDpQZ3Tw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CEE61005501;
- Mon,  8 Feb 2021 11:29:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF373801965;
+ Mon,  8 Feb 2021 11:29:52 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-22.ams2.redhat.com
  [10.36.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 61D811002388;
- Mon,  8 Feb 2021 11:29:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A34D71002388;
+ Mon,  8 Feb 2021 11:29:50 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
  gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
  wainersm@redhat.com, s.reiter@proxmox.com
-Subject: [PULL 05/27] migration: introduce UFFD-WP low-level interface helpers
-Date: Mon,  8 Feb 2021 11:28:56 +0000
-Message-Id: <20210208112918.185058-6-dgilbert@redhat.com>
+Subject: [PULL 06/27] migration: support UFFD write fault processing in
+ ram_save_iterate()
+Date: Mon,  8 Feb 2021 11:28:57 +0000
+Message-Id: <20210208112918.185058-7-dgilbert@redhat.com>
 In-Reply-To: <20210208112918.185058-1-dgilbert@redhat.com>
 References: <20210208112918.185058-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -86,458 +87,470 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 
-Glue code to the userfaultfd kernel implementation.
-Querying feature support, createing file descriptor, feature control,
-memory region registration, IOCTLs on registered registered regions.
+In this particular implementation the same single migration
+thread is responsible for both normal linear dirty page
+migration and procesing UFFD page fault events.
+
+Processing write faults includes reading UFFD file descriptor,
+finding respective RAM block and saving faulting page to
+the migration stream. After page has been saved, write protection
+can be removed. Since asynchronous version of qemu_put_buffer()
+is expected to be used to save pages, we also have to flush
+migraion stream prior to un-protecting saved memory range.
+
+Write protection is being removed for any previously protected
+memory chunk that has hit the migration stream. That's valid
+for pages from linear page scan along with write fault pages.
 
 Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210129101407.103458-3-andrey.gruzdev@virtuozzo.com>
+Acked-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20210129101407.103458-4-andrey.gruzdev@virtuozzo.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  Fixed up range.start casting for 32bit
+  fixup pagefault.address cast for 32bit
 ---
- include/exec/memory.h      |   1 +
- include/qemu/userfaultfd.h |  35 ++++
- util/meson.build           |   1 +
- util/trace-events          |   9 +
- util/userfaultfd.c         | 345 +++++++++++++++++++++++++++++++++++++
- 5 files changed, 391 insertions(+)
- create mode 100644 include/qemu/userfaultfd.h
- create mode 100644 util/userfaultfd.c
+ include/exec/memory.h  |   7 +
+ migration/ram.c        | 324 +++++++++++++++++++++++++++++++++++++----
+ migration/ram.h        |   2 +
+ migration/trace-events |   2 +
+ 4 files changed, 306 insertions(+), 29 deletions(-)
 
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index c6ce74fb79..37096217e7 100644
+index 37096217e7..e58c09f130 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -149,6 +149,7 @@ typedef struct IOMMUTLBEvent {
- /* RAM is a persistent kind memory */
+@@ -150,6 +150,13 @@ typedef struct IOMMUTLBEvent {
  #define RAM_PMEM (1 << 5)
  
+ 
++/*
++ * UFFDIO_WRITEPROTECT is used on this RAMBlock to
++ * support 'write-tracking' migration type.
++ * Implies ram_state->ram_wt_enabled.
++ */
++#define RAM_UF_WRITEPROTECT (1 << 6)
 +
  static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
                                         IOMMUNotifierFlag flags,
                                         hwaddr start, hwaddr end,
-diff --git a/include/qemu/userfaultfd.h b/include/qemu/userfaultfd.h
-new file mode 100644
-index 0000000000..6b74f92792
---- /dev/null
-+++ b/include/qemu/userfaultfd.h
-@@ -0,0 +1,35 @@
-+/*
-+ * Linux UFFD-WP support
-+ *
-+ * Copyright Virtuozzo GmbH, 2020
-+ *
-+ * Authors:
-+ *  Andrey Gruzdev   <andrey.gruzdev@virtuozzo.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ */
+diff --git a/migration/ram.c b/migration/ram.c
+index ae8de17153..26adb55aa9 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -56,6 +56,11 @@
+ #include "savevm.h"
+ #include "qemu/iov.h"
+ #include "multifd.h"
++#include "sysemu/runstate.h"
 +
-+#ifndef USERFAULTFD_H
-+#define USERFAULTFD_H
-+
-+#include "qemu/osdep.h"
-+#include "exec/hwaddr.h"
-+#include <linux/userfaultfd.h>
-+
-+int uffd_query_features(uint64_t *features);
-+int uffd_create_fd(uint64_t features, bool non_blocking);
-+void uffd_close_fd(int uffd_fd);
-+int uffd_register_memory(int uffd_fd, void *addr, uint64_t length,
-+        uint64_t mode, uint64_t *ioctls);
-+int uffd_unregister_memory(int uffd_fd, void *addr, uint64_t length);
-+int uffd_change_protection(int uffd_fd, void *addr, uint64_t length,
-+        bool wp, bool dont_wake);
-+int uffd_copy_page(int uffd_fd, void *dst_addr, void *src_addr,
-+        uint64_t length, bool dont_wake);
-+int uffd_zero_page(int uffd_fd, void *addr, uint64_t length, bool dont_wake);
-+int uffd_wakeup(int uffd_fd, void *addr, uint64_t length);
-+int uffd_read_events(int uffd_fd, struct uffd_msg *msgs, int count);
-+bool uffd_poll_events(int uffd_fd, int tmo);
-+
-+#endif /* USERFAULTFD_H */
-diff --git a/util/meson.build b/util/meson.build
-index 3eccdbe596..984fba965f 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -52,6 +52,7 @@ if have_system
-   util_ss.add(files('crc-ccitt.c'))
-   util_ss.add(when: 'CONFIG_GIO', if_true: [files('dbus.c'), gio])
-   util_ss.add(files('yank.c'))
-+  util_ss.add(when: 'CONFIG_LINUX', if_true: files('userfaultfd.c'))
- endif
- 
- if have_block
-diff --git a/util/trace-events b/util/trace-events
-index 61e0d4bcdf..bac0924899 100644
---- a/util/trace-events
-+++ b/util/trace-events
-@@ -91,3 +91,12 @@ qemu_vfio_pci_read_config(void *buf, int ofs, int size, uint64_t region_ofs, uin
- qemu_vfio_pci_write_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "write cfg ptr %p ofs 0x%x size 0x%x (region addr 0x%"PRIx64" size 0x%"PRIx64")"
- qemu_vfio_region_info(const char *desc, uint64_t region_ofs, uint64_t region_size, uint32_t cap_offset) "region '%s' addr 0x%"PRIx64" size 0x%"PRIx64" cap_ofs 0x%"PRIx32
- qemu_vfio_pci_map_bar(int index, uint64_t region_ofs, uint64_t region_size, int ofs, void *host) "map region bar#%d addr 0x%"PRIx64" size 0x%"PRIx64" ofs 0x%x host %p"
-+
-+#userfaultfd.c
-+uffd_query_features_nosys(int err) "errno: %i"
-+uffd_query_features_api_failed(int err) "errno: %i"
-+uffd_create_fd_nosys(int err) "errno: %i"
-+uffd_create_fd_api_failed(int err) "errno: %i"
-+uffd_create_fd_api_noioctl(uint64_t ioctl_req, uint64_t ioctl_supp) "ioctl_req: 0x%" PRIx64 "ioctl_supp: 0x%" PRIx64
-+uffd_register_memory_failed(void *addr, uint64_t length, uint64_t mode, int err) "addr: %p length: %" PRIu64 " mode: 0x%" PRIx64 " errno: %i"
-+uffd_unregister_memory_failed(void *addr, uint64_t length, int err) "addr: %p length: %" PRIu64 " errno: %i"
-diff --git a/util/userfaultfd.c b/util/userfaultfd.c
-new file mode 100644
-index 0000000000..f1cd6af2b1
---- /dev/null
-+++ b/util/userfaultfd.c
-@@ -0,0 +1,345 @@
-+/*
-+ * Linux UFFD-WP support
-+ *
-+ * Copyright Virtuozzo GmbH, 2020
-+ *
-+ * Authors:
-+ *  Andrey Gruzdev   <andrey.gruzdev@virtuozzo.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/bitops.h"
-+#include "qemu/error-report.h"
++#if defined(__linux__)
 +#include "qemu/userfaultfd.h"
-+#include "trace.h"
-+#include <poll.h>
-+#include <sys/syscall.h>
-+#include <sys/ioctl.h>
-+
++#endif /* defined(__linux__) */
+ 
+ /***********************************************************/
+ /* ram save/restore */
+@@ -298,6 +303,8 @@ struct RAMSrcPageRequest {
+ struct RAMState {
+     /* QEMUFile used for this migration */
+     QEMUFile *f;
++    /* UFFD file descriptor, used in 'write-tracking' migration */
++    int uffdio_fd;
+     /* Last block that we have visited searching for dirty pages */
+     RAMBlock *last_seen_block;
+     /* Last block from where we have sent data */
+@@ -1434,6 +1441,269 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+     return block;
+ }
+ 
++#if defined(__linux__)
 +/**
-+ * uffd_query_features: query UFFD features
++ * poll_fault_page: try to get next UFFD write fault page and, if pending fault
++ *   is found, return RAM block pointer and page offset
 + *
-+ * Returns: 0 on success, negative value in case of an error
++ * Returns pointer to the RAMBlock containing faulting page,
++ *   NULL if no write faults are pending
 + *
-+ * @features: parameter to receive 'uffdio_api.features'
++ * @rs: current RAM state
++ * @offset: page offset from the beginning of the block
 + */
-+int uffd_query_features(uint64_t *features)
++static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
 +{
-+    int uffd_fd;
-+    struct uffdio_api api_struct = { 0 };
-+    int ret = -1;
++    struct uffd_msg uffd_msg;
++    void *page_address;
++    RAMBlock *bs;
++    int res;
 +
-+    uffd_fd = syscall(__NR_userfaultfd, O_CLOEXEC);
-+    if (uffd_fd < 0) {
-+        trace_uffd_query_features_nosys(errno);
-+        return -1;
++    if (!migrate_background_snapshot()) {
++        return NULL;
 +    }
 +
-+    api_struct.api = UFFD_API;
-+    api_struct.features = 0;
-+
-+    if (ioctl(uffd_fd, UFFDIO_API, &api_struct)) {
-+        trace_uffd_query_features_api_failed(errno);
-+        goto out;
++    res = uffd_read_events(rs->uffdio_fd, &uffd_msg, 1);
++    if (res <= 0) {
++        return NULL;
 +    }
-+    *features = api_struct.features;
-+    ret = 0;
 +
-+out:
-+    close(uffd_fd);
-+    return ret;
++    page_address = (void *)(uintptr_t) uffd_msg.arg.pagefault.address;
++    bs = qemu_ram_block_from_host(page_address, false, offset);
++    assert(bs && (bs->flags & RAM_UF_WRITEPROTECT) != 0);
++    return bs;
 +}
 +
 +/**
-+ * uffd_create_fd: create UFFD file descriptor
++ * ram_save_release_protection: release UFFD write protection after
++ *   a range of pages has been saved
 + *
-+ * Returns non-negative file descriptor or negative value in case of an error
++ * @rs: current RAM state
++ * @pss: page-search-status structure
++ * @start_page: index of the first page in the range relative to pss->block
 + *
-+ * @features: UFFD features to request
-+ * @non_blocking: create UFFD file descriptor for non-blocking operation
++ * Returns 0 on success, negative value in case of an error
++*/
++static int ram_save_release_protection(RAMState *rs, PageSearchStatus *pss,
++        unsigned long start_page)
++{
++    int res = 0;
++
++    /* Check if page is from UFFD-managed region. */
++    if (pss->block->flags & RAM_UF_WRITEPROTECT) {
++        void *page_address = pss->block->host + (start_page << TARGET_PAGE_BITS);
++        uint64_t run_length = (pss->page - start_page + 1) << TARGET_PAGE_BITS;
++
++        /* Flush async buffers before un-protect. */
++        qemu_fflush(rs->f);
++        /* Un-protect memory range. */
++        res = uffd_change_protection(rs->uffdio_fd, page_address, run_length,
++                false, false);
++    }
++
++    return res;
++}
++
++/* ram_write_tracking_available: check if kernel supports required UFFD features
++ *
++ * Returns true if supports, false otherwise
 + */
-+int uffd_create_fd(uint64_t features, bool non_blocking)
++bool ram_write_tracking_available(void)
++{
++    uint64_t uffd_features;
++    int res;
++
++    res = uffd_query_features(&uffd_features);
++    return (res == 0 &&
++            (uffd_features & UFFD_FEATURE_PAGEFAULT_FLAG_WP) != 0);
++}
++
++/* ram_write_tracking_compatible: check if guest configuration is
++ *   compatible with 'write-tracking'
++ *
++ * Returns true if compatible, false otherwise
++ */
++bool ram_write_tracking_compatible(void)
++{
++    const uint64_t uffd_ioctls_mask = BIT(_UFFDIO_WRITEPROTECT);
++    int uffd_fd;
++    RAMBlock *bs;
++    bool ret = false;
++
++    /* Open UFFD file descriptor */
++    uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, false);
++    if (uffd_fd < 0) {
++        return false;
++    }
++
++    RCU_READ_LOCK_GUARD();
++
++    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
++        uint64_t uffd_ioctls;
++
++        /* Nothing to do with read-only and MMIO-writable regions */
++        if (bs->mr->readonly || bs->mr->rom_device) {
++            continue;
++        }
++        /* Try to register block memory via UFFD-IO to track writes */
++        if (uffd_register_memory(uffd_fd, bs->host, bs->max_length,
++                UFFDIO_REGISTER_MODE_WP, &uffd_ioctls)) {
++            goto out;
++        }
++        if ((uffd_ioctls & uffd_ioctls_mask) != uffd_ioctls_mask) {
++            goto out;
++        }
++    }
++    ret = true;
++
++out:
++    uffd_close_fd(uffd_fd);
++    return ret;
++}
++
++/*
++ * ram_write_tracking_start: start UFFD-WP memory tracking
++ *
++ * Returns 0 for success or negative value in case of error
++ */
++int ram_write_tracking_start(void)
 +{
 +    int uffd_fd;
-+    int flags;
-+    struct uffdio_api api_struct = { 0 };
-+    uint64_t ioctl_mask = BIT(_UFFDIO_REGISTER) | BIT(_UFFDIO_UNREGISTER);
++    RAMState *rs = ram_state;
++    RAMBlock *bs;
 +
-+    flags = O_CLOEXEC | (non_blocking ? O_NONBLOCK : 0);
-+    uffd_fd = syscall(__NR_userfaultfd, flags);
++    /* Open UFFD file descriptor */
++    uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, true);
 +    if (uffd_fd < 0) {
-+        trace_uffd_create_fd_nosys(errno);
-+        return -1;
++        return uffd_fd;
++    }
++    rs->uffdio_fd = uffd_fd;
++
++    RCU_READ_LOCK_GUARD();
++
++    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
++        /* Nothing to do with read-only and MMIO-writable regions */
++        if (bs->mr->readonly || bs->mr->rom_device) {
++            continue;
++        }
++
++        /* Register block memory with UFFD to track writes */
++        if (uffd_register_memory(rs->uffdio_fd, bs->host,
++                bs->max_length, UFFDIO_REGISTER_MODE_WP, NULL)) {
++            goto fail;
++        }
++        /* Apply UFFD write protection to the block memory range */
++        if (uffd_change_protection(rs->uffdio_fd, bs->host,
++                bs->max_length, true, false)) {
++            goto fail;
++        }
++        bs->flags |= RAM_UF_WRITEPROTECT;
++        memory_region_ref(bs->mr);
++
++        trace_ram_write_tracking_ramblock_start(bs->idstr, bs->page_size,
++                bs->host, bs->max_length);
 +    }
 +
-+    api_struct.api = UFFD_API;
-+    api_struct.features = features;
-+    if (ioctl(uffd_fd, UFFDIO_API, &api_struct)) {
-+        trace_uffd_create_fd_api_failed(errno);
-+        goto fail;
-+    }
-+    if ((api_struct.ioctls & ioctl_mask) != ioctl_mask) {
-+        trace_uffd_create_fd_api_noioctl(ioctl_mask, api_struct.ioctls);
-+        goto fail;
-+    }
-+
-+    return uffd_fd;
++    return 0;
 +
 +fail:
-+    close(uffd_fd);
++    error_report("ram_write_tracking_start() failed: restoring initial memory state");
++
++    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
++        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
++            continue;
++        }
++        /*
++         * In case some memory block failed to be write-protected
++         * remove protection and unregister all succeeded RAM blocks
++         */
++        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
++        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
++        /* Cleanup flags and remove reference */
++        bs->flags &= ~RAM_UF_WRITEPROTECT;
++        memory_region_unref(bs->mr);
++    }
++
++    uffd_close_fd(uffd_fd);
++    rs->uffdio_fd = -1;
 +    return -1;
 +}
 +
 +/**
-+ * uffd_close_fd: close UFFD file descriptor
-+ *
-+ * @uffd_fd: UFFD file descriptor
++ * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
 + */
-+void uffd_close_fd(int uffd_fd)
++void ram_write_tracking_stop(void)
 +{
-+    assert(uffd_fd >= 0);
-+    close(uffd_fd);
++    RAMState *rs = ram_state;
++    RAMBlock *bs;
++
++    RCU_READ_LOCK_GUARD();
++
++    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
++        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
++            continue;
++        }
++        /* Remove protection and unregister all affected RAM blocks */
++        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
++        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
++
++        trace_ram_write_tracking_ramblock_stop(bs->idstr, bs->page_size,
++                bs->host, bs->max_length);
++
++        /* Cleanup flags and remove reference */
++        bs->flags &= ~RAM_UF_WRITEPROTECT;
++        memory_region_unref(bs->mr);
++    }
++
++    /* Finally close UFFD file descriptor */
++    uffd_close_fd(rs->uffdio_fd);
++    rs->uffdio_fd = -1;
 +}
 +
-+/**
-+ * uffd_register_memory: register memory range via UFFD-IO
-+ *
-+ * Returns 0 in case of success, negative value in case of an error
-+ *
-+ * @uffd_fd: UFFD file descriptor
-+ * @addr: base address of memory range
-+ * @length: length of memory range
-+ * @mode: UFFD register mode (UFFDIO_REGISTER_MODE_MISSING, ...)
-+ * @ioctls: optional pointer to receive supported IOCTL mask
-+ */
-+int uffd_register_memory(int uffd_fd, void *addr, uint64_t length,
-+        uint64_t mode, uint64_t *ioctls)
++#else
++/* No target OS support, stubs just fail or ignore */
++
++static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
 +{
-+    struct uffdio_register uffd_register;
++    (void) rs;
++    (void) offset;
 +
-+    uffd_register.range.start = (uintptr_t) addr;
-+    uffd_register.range.len = length;
-+    uffd_register.mode = mode;
++    return NULL;
++}
 +
-+    if (ioctl(uffd_fd, UFFDIO_REGISTER, &uffd_register)) {
-+        trace_uffd_register_memory_failed(addr, length, mode, errno);
-+        return -1;
-+    }
-+    if (ioctls) {
-+        *ioctls = uffd_register.ioctls;
-+    }
++static int ram_save_release_protection(RAMState *rs, PageSearchStatus *pss,
++        unsigned long start_page)
++{
++    (void) rs;
++    (void) pss;
++    (void) start_page;
 +
 +    return 0;
 +}
 +
-+/**
-+ * uffd_unregister_memory: un-register memory range with UFFD-IO
-+ *
-+ * Returns 0 in case of success, negative value in case of an error
-+ *
-+ * @uffd_fd: UFFD file descriptor
-+ * @addr: base address of memory range
-+ * @length: length of memory range
-+ */
-+int uffd_unregister_memory(int uffd_fd, void *addr, uint64_t length)
++bool ram_write_tracking_available(void)
 +{
-+    struct uffdio_range uffd_range;
-+
-+    uffd_range.start = (uintptr_t) addr;
-+    uffd_range.len = length;
-+
-+    if (ioctl(uffd_fd, UFFDIO_UNREGISTER, &uffd_range)) {
-+        trace_uffd_unregister_memory_failed(addr, length, errno);
-+        return -1;
-+    }
-+
-+    return 0;
++    return false;
 +}
 +
-+/**
-+ * uffd_change_protection: protect/un-protect memory range for writes via UFFD-IO
-+ *
-+ * Returns 0 on success, negative value in case of error
-+ *
-+ * @uffd_fd: UFFD file descriptor
-+ * @addr: base address of memory range
-+ * @length: length of memory range
-+ * @wp: write-protect/unprotect
-+ * @dont_wake: do not wake threads waiting on wr-protected page
-+ */
-+int uffd_change_protection(int uffd_fd, void *addr, uint64_t length,
-+        bool wp, bool dont_wake)
++bool ram_write_tracking_compatible(void)
 +{
-+    struct uffdio_writeprotect uffd_writeprotect;
-+
-+    uffd_writeprotect.range.start = (uintptr_t) addr;
-+    uffd_writeprotect.range.len = length;
-+    if (!wp && dont_wake) {
-+        /* DONTWAKE is meaningful only on protection release */
-+        uffd_writeprotect.mode = UFFDIO_WRITEPROTECT_MODE_DONTWAKE;
-+    } else {
-+        uffd_writeprotect.mode = (wp ? UFFDIO_WRITEPROTECT_MODE_WP : 0);
-+    }
-+
-+    if (ioctl(uffd_fd, UFFDIO_WRITEPROTECT, &uffd_writeprotect)) {
-+        error_report("uffd_change_protection() failed: addr=%p len=%" PRIu64
-+                " mode=%" PRIx64 " errno=%i", addr, length,
-+                (uint64_t) uffd_writeprotect.mode, errno);
-+        return -1;
-+    }
-+
-+    return 0;
++    assert(0);
++    return false;
 +}
 +
-+/**
-+ * uffd_copy_page: copy range of pages to destination via UFFD-IO
-+ *
-+ * Copy range of source pages to the destination to resolve
-+ * missing page fault somewhere in the destination range.
-+ *
-+ * Returns 0 on success, negative value in case of an error
-+ *
-+ * @uffd_fd: UFFD file descriptor
-+ * @dst_addr: destination base address
-+ * @src_addr: source base address
-+ * @length: length of the range to copy
-+ * @dont_wake: do not wake threads waiting on missing page
-+ */
-+int uffd_copy_page(int uffd_fd, void *dst_addr, void *src_addr,
-+        uint64_t length, bool dont_wake)
++int ram_write_tracking_start(void)
 +{
-+    struct uffdio_copy uffd_copy;
-+
-+    uffd_copy.dst = (uintptr_t) dst_addr;
-+    uffd_copy.src = (uintptr_t) src_addr;
-+    uffd_copy.len = length;
-+    uffd_copy.mode = dont_wake ? UFFDIO_COPY_MODE_DONTWAKE : 0;
-+
-+    if (ioctl(uffd_fd, UFFDIO_COPY, &uffd_copy)) {
-+        error_report("uffd_copy_page() failed: dst_addr=%p src_addr=%p length=%" PRIu64
-+                " mode=%" PRIx64 " errno=%i", dst_addr, src_addr,
-+                length, (uint64_t) uffd_copy.mode, errno);
-+        return -1;
-+    }
-+
-+    return 0;
++    assert(0);
++    return -1;
 +}
 +
-+/**
-+ * uffd_zero_page: fill range of pages with zeroes via UFFD-IO
-+ *
-+ * Fill range pages with zeroes to resolve missing page fault within the range.
-+ *
-+ * Returns 0 on success, negative value in case of an error
-+ *
-+ * @uffd_fd: UFFD file descriptor
-+ * @addr: base address
-+ * @length: length of the range to fill with zeroes
-+ * @dont_wake: do not wake threads waiting on missing page
-+ */
-+int uffd_zero_page(int uffd_fd, void *addr, uint64_t length, bool dont_wake)
++void ram_write_tracking_stop(void)
 +{
-+    struct uffdio_zeropage uffd_zeropage;
-+
-+    uffd_zeropage.range.start = (uintptr_t) addr;
-+    uffd_zeropage.range.len = length;
-+    uffd_zeropage.mode = dont_wake ? UFFDIO_ZEROPAGE_MODE_DONTWAKE : 0;
-+
-+    if (ioctl(uffd_fd, UFFDIO_ZEROPAGE, &uffd_zeropage)) {
-+        error_report("uffd_zero_page() failed: addr=%p length=%" PRIu64
-+                " mode=%" PRIx64 " errno=%i", addr, length,
-+                (uint64_t) uffd_zeropage.mode, errno);
-+        return -1;
-+    }
-+
-+    return 0;
++    assert(0);
 +}
++#endif /* defined(__linux__) */
 +
-+/**
-+ * uffd_wakeup: wake up threads waiting on page UFFD-managed page fault resolution
-+ *
-+ * Wake up threads waiting on any page/pages from the designated range.
-+ * The main use case is when during some period, page faults are resolved
-+ * via UFFD-IO IOCTLs with MODE_DONTWAKE flag set, then after that all waits
-+ * for the whole memory range are satisfied in a single call to uffd_wakeup().
-+ *
-+ * Returns 0 on success, negative value in case of an error
-+ *
-+ * @uffd_fd: UFFD file descriptor
-+ * @addr: base address
-+ * @length: length of the range
-+ */
-+int uffd_wakeup(int uffd_fd, void *addr, uint64_t length)
-+{
-+    struct uffdio_range uffd_range;
-+
-+    uffd_range.start = (uintptr_t) addr;
-+    uffd_range.len = length;
-+
-+    if (ioctl(uffd_fd, UFFDIO_WAKE, &uffd_range)) {
-+        error_report("uffd_wakeup() failed: addr=%p length=%" PRIu64 " errno=%i",
-+                addr, length, errno);
-+        return -1;
+ /**
+  * get_queued_page: unqueue a page from the postcopy requests
+  *
+@@ -1473,6 +1743,14 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
+ 
+     } while (block && !dirty);
+ 
++    if (!block) {
++        /*
++         * Poll write faults too if background snapshot is enabled; that's
++         * when we have vcpus got blocked by the write protected pages.
++         */
++        block = poll_fault_page(rs, &offset);
 +    }
 +
-+    return 0;
-+}
-+
-+/**
-+ * uffd_read_events: read pending UFFD events
-+ *
-+ * Returns number of fetched messages, 0 if non is available or
-+ * negative value in case of an error
-+ *
-+ * @uffd_fd: UFFD file descriptor
-+ * @msgs: pointer to message buffer
-+ * @count: number of messages that can fit in the buffer
-+ */
-+int uffd_read_events(int uffd_fd, struct uffd_msg *msgs, int count)
-+{
-+    ssize_t res;
-+    do {
-+        res = read(uffd_fd, msgs, count * sizeof(struct uffd_msg));
-+    } while (res < 0 && errno == EINTR);
-+
-+    if ((res < 0 && errno == EAGAIN)) {
-+        return 0;
-+    }
-+    if (res < 0) {
-+        error_report("uffd_read_events() failed: errno=%i", errno);
-+        return -1;
-+    }
-+
-+    return (int) (res / sizeof(struct uffd_msg));
-+}
-+
-+/**
-+ * uffd_poll_events: poll UFFD file descriptor for read
-+ *
-+ * Returns true if events are available for read, false otherwise
-+ *
-+ * @uffd_fd: UFFD file descriptor
-+ * @tmo: timeout value
-+ */
-+bool uffd_poll_events(int uffd_fd, int tmo)
-+{
+     if (block) {
+         /*
+          * As soon as we start servicing pages out of order, then we have
+@@ -1715,6 +1993,8 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+     int tmppages, pages = 0;
+     size_t pagesize_bits =
+         qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
++    unsigned long start_page = pss->page;
 +    int res;
-+    struct pollfd poll_fd = { .fd = uffd_fd, .events = POLLIN, .revents = 0 };
+ 
+     if (ramblock_is_ignored(pss->block)) {
+         error_report("block %s should not be migrated !", pss->block->idstr);
+@@ -1740,10 +2020,11 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+     } while ((pss->page & (pagesize_bits - 1)) &&
+              offset_in_ramblock(pss->block,
+                                 ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
+-
+     /* The offset we leave with is the last one we looked at */
+     pss->page--;
+-    return pages;
 +
-+    do {
-+        res = poll(&poll_fd, 1, tmo);
-+    } while (res < 0 && errno == EINTR);
-+
-+    if (res == 0) {
-+        return false;
++    res = ram_save_release_protection(rs, pss, start_page);
++    return (res < 0 ? res : pages);
+ }
+ 
+ /**
+@@ -1880,10 +2161,13 @@ static void ram_save_cleanup(void *opaque)
+     RAMState **rsp = opaque;
+     RAMBlock *block;
+ 
+-    /* caller have hold iothread lock or is in a bh, so there is
+-     * no writing race against the migration bitmap
+-     */
+-    memory_global_dirty_log_stop();
++    /* We don't use dirty log with background snapshots */
++    if (!migrate_background_snapshot()) {
++        /* caller have hold iothread lock or is in a bh, so there is
++         * no writing race against the migration bitmap
++         */
++        memory_global_dirty_log_stop();
 +    }
-+    if (res < 0) {
-+        error_report("uffd_poll_events() failed: errno=%i", errno);
-+        return false;
-+    }
-+
-+    return (poll_fd.revents & POLLIN) != 0;
-+}
+ 
+     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+         g_free(block->clear_bmap);
+@@ -2343,8 +2627,11 @@ static void ram_init_bitmaps(RAMState *rs)
+ 
+     WITH_RCU_READ_LOCK_GUARD() {
+         ram_list_init_bitmaps();
+-        memory_global_dirty_log_start();
+-        migration_bitmap_sync_precopy(rs);
++        /* We don't use dirty log with background snapshots */
++        if (!migrate_background_snapshot()) {
++            memory_global_dirty_log_start();
++            migration_bitmap_sync_precopy(rs);
++        }
+     }
+     qemu_mutex_unlock_ramlist();
+     qemu_mutex_unlock_iothread();
+@@ -3788,27 +4075,6 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
+     return 0;
+ }
+ 
+-/* ram_write_tracking_available: check if kernel supports required UFFD features
+- *
+- * Returns true if supports, false otherwise
+- */
+-bool ram_write_tracking_available(void)
+-{
+-    /* TODO: implement */
+-    return false;
+-}
+-
+-/* ram_write_tracking_compatible: check if guest configuration is
+- *   compatible with 'write-tracking'
+- *
+- * Returns true if compatible, false otherwise
+- */
+-bool ram_write_tracking_compatible(void)
+-{
+-    /* TODO: implement */
+-    return false;
+-}
+-
+ static SaveVMHandlers savevm_ram_handlers = {
+     .save_setup = ram_save_setup,
+     .save_live_iterate = ram_save_iterate,
+diff --git a/migration/ram.h b/migration/ram.h
+index 1a9ff90304..c25540cb93 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -82,5 +82,7 @@ void colo_incoming_start_dirty_log(void);
+ /* Background snapshot */
+ bool ram_write_tracking_available(void);
+ bool ram_write_tracking_compatible(void);
++int ram_write_tracking_start(void);
++void ram_write_tracking_stop(void);
+ 
+ #endif
+diff --git a/migration/trace-events b/migration/trace-events
+index 75de5004ac..668c562fed 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -111,6 +111,8 @@ save_xbzrle_page_skipping(void) ""
+ save_xbzrle_page_overflow(void) ""
+ ram_save_iterate_big_wait(uint64_t milliconds, int iterations) "big wait: %" PRIu64 " milliseconds, %d iterations"
+ ram_load_complete(int ret, uint64_t seq_iter) "exit_code %d seq iteration %" PRIu64
++ram_write_tracking_ramblock_start(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
++ram_write_tracking_ramblock_stop(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
+ 
+ # multifd.c
+ multifd_new_send_channel_async(uint8_t id) "channel %d"
 -- 
 2.29.2
 
