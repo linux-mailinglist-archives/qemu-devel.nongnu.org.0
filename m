@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74059312A8C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 07:11:14 +0100 (CET)
-Received: from localhost ([::1]:53160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F27312AA8
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 07:22:58 +0100 (CET)
+Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8zlR-0004xS-Ho
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 01:11:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58560)
+	id 1l8zwn-0008Kp-Fe
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 01:22:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgO-0007dq-FL; Mon, 08 Feb 2021 01:06:00 -0500
-Received: from ozlabs.org ([203.11.71.1]:52453)
+ id 1l8zgO-0007dE-7h; Mon, 08 Feb 2021 01:06:00 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:43701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgL-0005la-LC; Mon, 08 Feb 2021 01:06:00 -0500
+ id 1l8zgL-0005ns-L4; Mon, 08 Feb 2021 01:05:59 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwVr4Cc0z9sVS; Mon,  8 Feb 2021 17:05:40 +1100 (AEDT)
+ id 4DYwVs2m9Jz9sVn; Mon,  8 Feb 2021 17:05:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612764340;
- bh=QsTd9JlyiVYrs3pv84qEB+xJRgsi2LtjtpT0TDKtuCg=;
- h=From:To:Cc:Subject:Date:From;
- b=OkZ8kOWhiRzNTSlbk96N5V6YyrAkfrnsPyO6AVfgo4D8FL7SjfzWepIR3H0kG2h6N
- koiG2mKdSB2S5F4TyJ0PDPLa/hL49eWeW5vj86/kdGfNQAIZYrRB2Dq5+gz1yyOOCc
- oCjPm5wtaB0Vs5OGh694y/1PJZfXCLC/t0WXkQnY=
+ d=gibson.dropbear.id.au; s=201602; t=1612764341;
+ bh=cnlEO+w/k8AwHUX8N63/06xxXcU3DOPo90IV/45n4iQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=JgBirXVDLEBl7hnrWO70ZQ7qO+CYPp7szfnpV3uVC3Zidj0zlsKj/7ThjKH14T+NJ
+ xwr9XM/KvVdsdPNKOsDrh6KmcwBKW9T4wmN52YQ7VEYVLLKVP15FXGAHUVgg7XgqPj
+ djQEVYKevCZbOVncliguSwUATyobbyjjFmTti6n0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: pasic@linux.ibm.com, dgilbert@redhat.com, pair@us.ibm.com,
  qemu-devel@nongnu.org, brijesh.singh@amd.com
-Subject: [PULL v9 00/13] Cgs patches
-Date: Mon,  8 Feb 2021 17:05:25 +1100
-Message-Id: <20210208060538.39276-1-david@gibson.dropbear.id.au>
+Subject: [PULL v9 04/13] confidential guest support: Move side effect out of
+ machine_set_memory_encryption()
+Date: Mon,  8 Feb 2021 17:05:29 +1100
+Message-Id: <20210208060538.39276-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210208060538.39276-1-david@gibson.dropbear.id.au>
+References: <20210208060538.39276-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -68,154 +70,62 @@ Cc: Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5b19cb63d9dfda41b412373b8c9fe14641bcab60=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210205' =
-in=3D=0D
-to staging (2021-02-05 22:59:12 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/dgibson/qemu.git tags/cgs-pull-request=0D
-=0D
-for you to fetch changes up to 651615d92d244a6dfd7c81ab97bd3369fbe41d06:=0D
-=0D
-  s390: Recognize confidential-guest-support option (2021-02-08 16:57:38 +1=
-10=3D=0D
-0)=0D
-=0D
-----------------------------------------------------------------=0D
-Generalize memory encryption models=0D
-=0D
-A number of hardware platforms are implementing mechanisms whereby the=0D
-hypervisor does not have unfettered access to guest memory, in order=0D
-to mitigate the security impact of a compromised hypervisor.=0D
-=0D
-AMD's SEV implements this with in-cpu memory encryption, and Intel has=0D
-its own memory encryption mechanism.  POWER has an upcoming mechanism=0D
-to accomplish this in a different way, using a new memory protection=0D
-level plus a small trusted ultravisor.  s390 also has a protected=0D
-execution environment.=0D
-=0D
-The current code (committed or draft) for these features has each=0D
-platform's version configured entirely differently.  That doesn't seem=0D
-ideal for users, or particularly for management layers.=0D
-=0D
-AMD SEV introduces a notionally generic machine option=0D
-"machine-encryption", but it doesn't actually cover any cases other=0D
-than SEV.=0D
-=0D
-This series is a proposal to at least partially unify configuration=0D
-for these mechanisms, by renaming and generalizing AMD's=0D
-"memory-encryption" property.  It is replaced by a=0D
-"confidential-guest-support" property pointing to a platform specific=0D
-object which configures and manages the specific details.=0D
-=0D
-Note to Ram Pai: the documentation I've included for PEF is very=0D
-minimal.  If you could send a patch expanding on that, it would be=0D
-very helpful.=0D
-=0D
-Changes since v8:=0D
- * Rebase=0D
- * Fixed some cosmetic typos=0D
-Changes since v7:=0D
- * Tweaked and clarified meaning of the 'ready' flag=0D
- * Polished the interface to the PEF internals=0D
- * Shifted initialization for s390 PV later (I hope I've finally got=0D
-   this after apply_cpu_model() where it needs to be)=0D
-Changes since v6:=0D
- * Moved to using OBJECT_DECLARE_TYPE and OBJECT_DEFINE_TYPE macros=0D
- * Assorted minor fixes=0D
-Changes since v5:=0D
- * Renamed from "securable guest memory" to "confidential guest=0D
-   support"=0D
- * Simpler reworking of x86 boot time flash encryption=0D
- * Added a bunch of documentation=0D
- * Fixed some compile errors on POWER=0D
-Changes since v4:=0D
- * Renamed from "host trust limitation" to "securable guest memory",=0D
-   which I think is marginally more descriptive=0D
- * Re-organized initialization, because the previous model called at=0D
-   kvm_init didn't work for s390=0D
- * Assorted fixes to the s390 implementation; rudimentary testing=0D
-   (gitlab CI) only=0D
-Changes since v3:=0D
- * Rebased=0D
- * Added first cut at handling of s390 protected virtualization=0D
-Changes since RFCv2:=0D
- * Rebased=0D
- * Removed preliminary SEV cleanups (they've been merged)=0D
- * Changed name to "host trust limitation"=0D
- * Added migration blocker to the PEF code (based on SEV's version)=0D
-Changes since RFCv1:=0D
- * Rebased=0D
- * Fixed some errors pointed out by Dave Gilbert=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-David Gibson (12):=0D
-  confidential guest support: Introduce new confidential guest support=0D
-    class=0D
-  sev: Remove false abstraction of flash encryption=0D
-  confidential guest support: Move side effect out of=0D
-    machine_set_memory_encryption()=0D
-  confidential guest support: Rework the "memory-encryption" property=0D
-  sev: Add Error ** to sev_kvm_init()=0D
-  confidential guest support: Introduce cgs "ready" flag=0D
-  confidential guest support: Move SEV initialization into arch specific=0D
-    code=0D
-  confidential guest support: Update documentation=0D
-  spapr: Add PEF based confidential guest support=0D
-  spapr: PEF: prevent migration=0D
-  confidential guest support: Alter virtio default properties for=0D
-    protected guests=0D
-  s390: Recognize confidential-guest-support option=0D
-=0D
-Greg Kurz (1):=0D
-  qom: Allow optional sugar props=0D
-=0D
- accel/kvm/kvm-all.c                       |  38 ------=0D
- accel/kvm/sev-stub.c                      |  10 +-=0D
- accel/stubs/kvm-stub.c                    |  10 --=0D
- backends/confidential-guest-support.c     |  33 +++++=0D
- backends/meson.build                      |   1 +=0D
- docs/amd-memory-encryption.txt            |   2 +-=0D
- docs/confidential-guest-support.txt       |  49 ++++++++=0D
- docs/papr-pef.txt                         |  30 +++++=0D
- docs/system/s390x/protvirt.rst            |  19 ++-=0D
- hw/core/machine.c                         |  63 ++++++++--=0D
- hw/i386/pc_sysfw.c                        |  17 +--=0D
- hw/ppc/meson.build                        |   1 +=0D
- hw/ppc/pef.c                              | 140 ++++++++++++++++++++++=0D
- hw/ppc/spapr.c                            |   8 +-=0D
- hw/s390x/pv.c                             |  62 ++++++++++=0D
- hw/s390x/s390-virtio-ccw.c                |   3 +=0D
- include/exec/confidential-guest-support.h |  62 ++++++++++=0D
- include/hw/boards.h                       |   2 +-=0D
- include/hw/ppc/pef.h                      |  17 +++=0D
- include/hw/s390x/pv.h                     |  17 +++=0D
- include/qemu/typedefs.h                   |   1 +=0D
- include/qom/object.h                      |   3 +-=0D
- include/sysemu/kvm.h                      |  16 ---=0D
- include/sysemu/sev.h                      |   4 +-=0D
- qom/object.c                              |   4 +-=0D
- softmmu/rtc.c                             |   3 +-=0D
- softmmu/vl.c                              |  27 ++++-=0D
- target/i386/kvm/kvm.c                     |  20 ++++=0D
- target/i386/sev-stub.c                    |   5 +=0D
- target/i386/sev.c                         |  95 ++++++---------=0D
- target/ppc/kvm.c                          |  18 ---=0D
- target/ppc/kvm_ppc.h                      |   6 -=0D
- 32 files changed, 595 insertions(+), 191 deletions(-)=0D
- create mode 100644 backends/confidential-guest-support.c=0D
- create mode 100644 docs/confidential-guest-support.txt=0D
- create mode 100644 docs/papr-pef.txt=0D
- create mode 100644 hw/ppc/pef.c=0D
- create mode 100644 include/exec/confidential-guest-support.h=0D
- create mode 100644 include/hw/ppc/pef.h=0D
-=0D
---=3D20=0D
-2.29.2=0D
-=0D
+When the "memory-encryption" property is set, we also disable KSM
+merging for the guest, since it won't accomplish anything.
+
+We want that, but doing it in the property set function itself is
+thereoretically incorrect, in the unlikely event of some configuration
+environment that set the property then cleared it again before
+constructing the guest.
+
+More importantly, it makes some other cleanups we want more difficult.
+So, instead move this logic to machine_run_board_init() conditional on
+the final value of the property.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/core/machine.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 5d6163ab70..919067b5c9 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -437,14 +437,6 @@ static void machine_set_memory_encryption(Object *obj, const char *value,
+ 
+     g_free(ms->memory_encryption);
+     ms->memory_encryption = g_strdup(value);
+-
+-    /*
+-     * With memory encryption, the host can't see the real contents of RAM,
+-     * so there's no point in it trying to merge areas.
+-     */
+-    if (value) {
+-        machine_set_mem_merge(obj, false, errp);
+-    }
+ }
+ 
+ static bool machine_get_nvdimm(Object *obj, Error **errp)
+@@ -1166,6 +1158,15 @@ void machine_run_board_init(MachineState *machine)
+                     cc->deprecation_note);
+     }
+ 
++    if (machine->memory_encryption) {
++        /*
++         * With memory encryption, the host can't see the real
++         * contents of RAM, so there's no point in it trying to merge
++         * areas.
++         */
++        machine_set_mem_merge(OBJECT(machine), false, &error_abort);
++    }
++
+     machine_class->init(machine);
+     phase_advance(PHASE_MACHINE_INITIALIZED);
+ }
+-- 
+2.29.2
+
 
