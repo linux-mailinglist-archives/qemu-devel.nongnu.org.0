@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BE2314215
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:42:19 +0100 (CET)
-Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A93331420C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:40:56 +0100 (CET)
+Received: from localhost ([::1]:37728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9EIT-0003LL-Vp
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:42:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47266)
+	id 1l9EH9-00021x-7C
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:40:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l98v1-0004eK-OB
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 10:57:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21759)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l98v0-0007Ly-1a
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 10:57:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612799860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hLfmRGZzqUnKLp3+HADDVLKOB26kYTlAk9vHCc9frz0=;
- b=bKy7R9GyNyqV59i9iZ/GJ0o1GdHrX0C3i49kR36nRP1aJ79BzFC26MNsh6546An0NasOqy
- iohRNvtNE/IYLOilAt+4Shh22ph1IYBvxRz4GxG+kDuhOUfC419tLG+eFGmygxj8A821My
- VUiXeAzW/meI94RZdr/gDU3m2amc+v4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-bjIvtbSfN16PKr-i-QiwiQ-1; Mon, 08 Feb 2021 10:57:38 -0500
-X-MC-Unique: bjIvtbSfN16PKr-i-QiwiQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9487085B673
- for <qemu-devel@nongnu.org>; Mon,  8 Feb 2021 15:57:37 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DACDA19C59;
- Mon,  8 Feb 2021 15:57:36 +0000 (UTC)
-Subject: Re: [PATCH v5 14/15] qapi/introspect.py: Add docstring to
- _tree_to_qlit
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210204003207.2856909-1-jsnow@redhat.com>
- <20210204003207.2856909-15-jsnow@redhat.com>
- <878s7y36na.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <d0e5c184-ed0f-63ca-7d70-53ad1632205a@redhat.com>
-Date: Mon, 8 Feb 2021 10:57:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l999C-0001sv-DU
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:12:23 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35667)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9997-0004Vp-2a
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:12:22 -0500
+Received: by mail-ej1-x634.google.com with SMTP id a9so25713945ejr.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 08:12:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=N6OhmQe5dU6Kegl0uzjaOeOFtObGxivtc0eBxTdIrP8=;
+ b=YgxD6XxGvmZ2FR5O6LVcYWA0FCCt1Y1W4zuebLoygPg9fUon9n99AyqGHhC8xg1mN3
+ IpQ/1qGak6CmI1smix4kkJdoRFcx9ONm92jgC5g5+Po8JLT5mDZKWXBDD7Ss5EjpPeax
+ y9XsBdEpXXh/pitGhE/Fafch4i8CGdgHzgCXzrKlM+Sd8ctIXaxQbV54ko43uqW/t0W3
+ v+hvwUVgFaCz/S42JWRASQRvjgD82LeIKdEpYG5AxQzNYJEptDN5YodDvyq0lWDrMh0O
+ aDb8qsO9yQSCKtodqCONnSkBq86ySLrkhZEVoefcqAycD9EffpS6MatS49P5xjqGcGM3
+ w+iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=N6OhmQe5dU6Kegl0uzjaOeOFtObGxivtc0eBxTdIrP8=;
+ b=Jj/na9R+r0McS1dEPm7w8VICMDDd+wDx85vXySXcTTPObYOwam0f4IQuwz5aK8Jpfh
+ OxsQW1iDGVO3oH4DqT5x70Nkqbxg4k75ln+8/+skEZBry116hWQpBXtBZwpX1N8CrwZO
+ xv+LDRTledHDAmChjiTe3/MTPSDWTcVNwi6pjrXjBLywuUt/h7MafTfH+6qCNjU4/sWh
+ 4C5Py7WDzPBHh8L1GlG6/SE1NPND09hOAkpP/wOi1UEyvBWka4LUD+doKOu7FaVXd7q4
+ WcJOk/zCXkoy0XzNyoFwKhG0vQ2iuLK6GuNR/6pvhBY5/8PRTXtzMw6oZVP5q9Q+t4GC
+ lUyA==
+X-Gm-Message-State: AOAM532KuIsD3oUTlMOWDnn0sUWRH+k1Z38blJ20xN55GvdebuJn6ENf
+ BuFjGOxA0/PK/jFmH34Rf5Xd6UKHBqIqCSXlW5Tq8w==
+X-Google-Smtp-Source: ABdhPJxrnifjxjiRPNwnKjAHH5rAwyqRMYu/CZR23dyMc6HpGY+8AzQsTjEpsEcydSKG6SULbSKwlT20SlBAVvvnmwQ=
+X-Received: by 2002:a17:906:1d51:: with SMTP id
+ o17mr17613176ejh.85.1612800732687; 
+ Mon, 08 Feb 2021 08:12:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <878s7y36na.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210208123821.19818-1-alex.bennee@linaro.org>
+In-Reply-To: <20210208123821.19818-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Feb 2021 16:12:01 +0000
+Message-ID: <CAFEAcA-686CdbiMRi9pxVHsXmg=-i7CirXMGrcagRvQrGNmSqQ@mail.gmail.com>
+Subject: Re: [PULL 00/16] testing, gdbstub and doc tweaks
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,45 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/21 10:45 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/introspect.py | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
->> index 2a39726f40a..2b338abe2cf 100644
->> --- a/scripts/qapi/introspect.py
->> +++ b/scripts/qapi/introspect.py
->> @@ -97,6 +97,14 @@ def __init__(self, value: _NodeT, ifcond: Iterable[str],
->>   def _tree_to_qlit(obj: TreeValue,
->>                     level: int = 0,
->>                     dict_value: bool = False) -> str:
->> +    """
->> +    Convert the type tree into a QLIT C string, recursively.
->> +
->> +    :param obj: The value to convert.
->> +    :param level: The indentation level for this particular value.
->> +    :param dict_value: True when the value being processed belongs to a
->> +                       dict key; which suppresses the output indent.
->> +    """
->>   
->>       def indent(level: int) -> str:
->>           return level * 4 * ' '
-> 
-> Might want to mention @obj may not be Annotated when dict_value=True.
-> Not a demand.
-> 
+On Mon, 8 Feb 2021 at 12:38, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> The following changes since commit 5b19cb63d9dfda41b412373b8c9fe14641bcab=
+60:
+>
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210205=
+' into staging (2021-02-05 22:59:12 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-testing-gdbstub-docs-0802=
+21-1
+>
+> for you to fetch changes up to d994cc54498e8952113110b07a76dbfecd46a909:
+>
+>   docs/system: document an example booting the versatilepb machine (2021-=
+02-08 10:55:20 +0000)
+>
+> ----------------------------------------------------------------
+> Testing, gdbstub and doc tweaks:
+>
+>   - increase timeout on replay kernel acceptance test
+>   - fixes for binfmt_misc docker images
+>   - better gdb version detection
+>   - don't silently skip gdb tests
+>   - fix for gdbstub auxv handling
+>   - cleaner handling of check-tcg on tcg disabled builds
+>   - expand vexpress/versitile docs with examples
+>
 
-No, that's a good point.
+Applied, thanks.
 
---js
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
+-- PMM
 
