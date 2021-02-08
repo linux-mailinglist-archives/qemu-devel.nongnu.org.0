@@ -2,127 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CFF313AEF
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:30:55 +0100 (CET)
-Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE833313ABE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:23:03 +0100 (CET)
+Received: from localhost ([::1]:42948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9ANA-0000Ii-Eg
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:30:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44470)
+	id 1l9AFa-0007xD-5G
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:23:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <info@dantalion.nl>)
- id 1l92fF-0006wD-2E; Mon, 08 Feb 2021 04:17:06 -0500
-Received: from s02.spamexperts.axc.nl ([185.182.56.112]:41269)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <info@dantalion.nl>)
- id 1l92ex-0004ES-Nj; Mon, 08 Feb 2021 04:16:52 -0500
-Received: from vserver22.axc.nl ([185.182.56.82])
- by s02.spamexperts.axc.nl with esmtps (TLSv1.2:AES128-GCM-SHA256:128)
- (Exim 4.92) (envelope-from <info@dantalion.nl>)
- id 1l92eR-0005fB-Th; Mon, 08 Feb 2021 10:16:14 +0100
-Received: from mail.axc.nl ([185.182.56.42])
- by vserver22.axc.nl with esmtp (Exim 4.94)
- (envelope-from <info@dantalion.nl>)
- id 1l92eN-006Ywg-VD; Mon, 08 Feb 2021 10:16:08 +0100
-Subject: Re: [PATCH] hw/block/nvme: improve invalid zasl value reporting
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
-References: <20210208082532.308435-1-its@irrelevant.dk>
-From: "info@dantalion.nl" <info@dantalion.nl>
-Autocrypt: addr=info@dantalion.nl; prefer-encrypt=mutual; keydata=
- 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 4W8=
-Message-ID: <75433660-5650-8598-2143-4158113acb8e@dantalion.nl>
-Date: Mon, 8 Feb 2021 10:15:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l93R4-0003MM-DC; Mon, 08 Feb 2021 05:06:27 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44702)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l93Qr-0005hg-ND; Mon, 08 Feb 2021 05:06:16 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id g6so3345032wrs.11;
+ Mon, 08 Feb 2021 02:06:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hj87a0gAimsxHUhF/y0RBMNy5DEZgbtxKEol6ONkxb0=;
+ b=Kgyyj4pmemWXVytJqbyzbHwXgmQGZVwOmmpCGlauPuuuVvH31AI2xhDqAxqaKuCs9j
+ DsGvHIn4EbKQno0lHh+X8UTxqJr7m+m+m+JoayGjMQzCJVTQ42aTG34NgE8XNM+lOU66
+ ZgGj7XkpwT7IVDPmvQpmyoF4pHa39yAFKH9itTIUsEUeGagow0LO7zEq4jMyohW6qLdr
+ 5bOG0nAUydjj6Lg3ajZYPCleLjpvBq/g2uhjh3DWAUKoYLSH5zvJHmt0bdTysISgUB8H
+ CgHuf7UgRJbpQSApMgKJXlokC31TzI0O/wHjUIxhqc/+xFLK0vAOw9xBYeBzJvLef5Ki
+ XVKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hj87a0gAimsxHUhF/y0RBMNy5DEZgbtxKEol6ONkxb0=;
+ b=cPm1vXS5jcJTOHpviUt+FpVsMUydZrIQyKprPO88WZsVz1X6cEdwREM0phpXa4kRiC
+ k30WwcPuCTZh4flt8Q4Z55BnkGSsCS4qFCu2c/5HdTLdNnUGmwSNgsXngJ1WUsAvcIbL
+ 9w8Ut8j4wBt2yWPjKmK981grNcqeQBG8aFYBZWj+AxOL4giSj+3fcg7ZSO4BuIaLfEM1
+ i2xox0LqlStWlWNMo+AcHsWD6zaVXSwYeEW+9KmGNkVeyI2Htqys+3AATmB+JIfW2bsJ
+ +x5aX2M4F/jL8fmcT4dV7grmV2eNs7qdtKa292kSea1Fp8RwChOeKmlf/rSPxo1skkS/
+ OCvw==
+X-Gm-Message-State: AOAM533jdPOaC3xz5zAmYFMUQZNJSS+ZbFXPXl/0T+y5E3WViHbUr8Th
+ 7LmnRhflPdBSKUGpdPea6+o=
+X-Google-Smtp-Source: ABdhPJwM8ImT6BQiocjTX8iG7AJEwtBPl3r8wBQs73G69mxyhFI23m7gwFxJy6I2X96baxKv/sSILQ==
+X-Received: by 2002:adf:ecd2:: with SMTP id s18mr19246493wro.311.1612778764620; 
+ Mon, 08 Feb 2021 02:06:04 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id s23sm19525813wmc.35.2021.02.08.02.06.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 02:06:03 -0800 (PST)
+Subject: Re: [PATCH 1/3] hw/sd: sd: Fix address check in sd_erase()
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20210128064312.16085-1-bmeng.cn@gmail.com>
+ <20210128064312.16085-2-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ed12dfd2-8842-bbde-b0fc-2e2162f4078d@amsat.org>
+Date: Mon, 8 Feb 2021 11:06:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210208082532.308435-1-its@irrelevant.dk>
+In-Reply-To: <20210128064312.16085-2-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-PrimaryMX: Accepted email from trusted host. Hint: This skips spam scanning so
- make sure other host is not vulnerable
-SPFCheck: Server passes SPF test, -30 Spam score
-X-Relay-Host: 185.182.56.42
-X-Spam-Score: -0.0 (/)
-SpamTally: Final spam score: -240
-X-AuthUser: 
-X-Originating-IP: 185.182.56.82
-X-SpamExperts-Domain: vserver22.axc.nl
-X-SpamExperts-Username: 185.182.56.82
-Authentication-Results: spamexperts.axc.nl;
- auth=pass smtp.auth=185.182.56.82@vserver22.axc.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.24)
-X-Recommended-Action: accept
-X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT+xFyn7UpOfXpFArqGBGHkFPUtbdvnXkggZ
- 3YnVId/Y5jcf0yeVQAvfjHznO7+bT5ztiSaqv/sNYOK695xQdppmCLjLBn1wYuSvIF4e3KzZojG5
- C63/N5EDq8oyzDJb6EZvqSw8mtxiGkHxbIBNrJOO1waTp18hu7Ap15ORuodK5a8YId92UViWHoTV
- eB80IoKJB1fUujzIKNJ/JN+YYUAQCvS7vfsvzznj4MbZ8N8ZbRT7VrVXjxWkjZezb/t4RauhSW0b
- rGCDkk6BtWuMI8QceR0PkgL7XdLriKeF2GnmQiyqiLHsymdThTN4a9AzcO/ZZ4m5d73AalZr0AeA
- NfGnABYpWiD6jthR3LhrYx1EZAFV4q2y7iY8tzbZxli25wTUzDXlSdVlFk6WFLkAI2e44a51G/uF
- LRsk3N5pINuR0KWXYl6o5wPR17y6MMUdaD1eou7UrY5IH3nSH48f4DFOYJLx+ShSuLRnWIuhjHu1
- M9vrQQT37tVBF8TuA2zDxdadd1WxHO/mLVgwAb47uaavm9UcoHzDPg3KdwIGKsV+GwO5pbaJSnle
- SF++QBmW0+JLz719Fo7MPwmpyNqirHCp+dSXORr4Pw0tJTUf0N+OPxAOEG9YXRA3MZxvhadh2za2
- BP//e9fyD640rR6vrC7b+n+PFurydWF88IP8h3QaHmqgloBO0Md+1AP7gSewVgGviDjv91eo0UZ8
- 9SN0jhflhJ1rNafcM+7I2umwHVcAVfRgA/iFSrQy26BCg+0MdOxStsE0VwD00QB/QYj1k74hheuH
- d5yCytEkfKKmadwSLa9WJmbhekdrgcJsDlHBdajlsWJoA/N4L72OMz//UQUP9eDSb8uPZeTInj9W
- 8KDQChWTHgrkPgnGuCbpAOtSc3EoxDzJIuXQrgflh/+BZ7ff1Bwskv/At6tTSrKiQ8hxBJNDFbIp
- BHHN4xcCmG9gY4NQYZXwkeIbH6wm+OdzDu9CwUUm4fxMxlMrTnPOUGl8HglOZNtk23EZmAz5KWqj
- j+Nc9aUV1oY4fX3W5eOCNA390RBmR5wlnpqJqFgl67SEGGmjt+WmIH2jK0JKToDuuwlwABIGM6BK
- zOKSxLno7T+WNabv730Q+kyQtJfaoIHIcEpoEhF42+g7svTRzRl28U5U60QcMUqZkpwHRYq5y4an
- IrxWNHPOt+2oZfQ4kqp7qD4t5H5Z+gqo56Hj7YyFwss0ljctp4B0nbKdQK2TrOR+
-X-Report-Abuse-To: spam@s01.spamexperts.axc.nl
-Received-SPF: pass client-ip=185.182.56.112; envelope-from=info@dantalion.nl;
- helo=s02.spamexperts.axc.nl
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL=0.141, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 08 Feb 2021 09:34:48 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,23 +87,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08-02-2021 09:25, Klaus Jensen wrote:
-> The Zone Append Size Limit (ZASL) must be at least 4096 bytes, so
-> improve the user experience by adding an early parameter check in
-> nvme_check_constraints.
+On 1/28/21 7:43 AM, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> For high capacity memory cards, the erase start address and end
+> address are multiplied by 512, but the address check is still
+> based on the original block number in sd->erase_{start, end}.
 
-I have confirmed this and it works for me, I don't think I am actually
-qualified or understand QEMUs source well enough to sign this off but
-just wanted to let you know.
+Oops, good catch.
 
-Thanks for the quick updates.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Kind regards,
-Corne
+> 
+> Fixes: 1bd6fd8ed593 ("hw/sd/sdcard: Do not attempt to erase out of range addresses")
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+>  hw/sd/sd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
