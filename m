@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E612131451A
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:52:44 +0100 (CET)
-Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FF631451B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:54:09 +0100 (CET)
+Received: from localhost ([::1]:56918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9HGl-0001fz-H5
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:52:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45990)
+	id 1l9HI8-0002yJ-A7
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:54:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l9ETc-0000y9-Mr
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:53:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33042)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l9ETV-000318-Cq
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:53:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612821219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FfhW7EPbhov6L+YhDdt9yz2BfX1fs1kBQIQ4s/t/ZYQ=;
- b=CdV0z3thDLazdvhfDbQ/WYz9WVlDtnL1u+CrlI77a0WTB0L1KGbHYsh1mUr+k8fPL6VSm2
- rEnNq5LuLe460wfOasDEPxePWonGK2y8ifdLJ9KBTncB0rFaEg1hrLDq4WUHV2KrvOjWR1
- D/O4pW8S5FUWFnz17h1blCArOv+/RP8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-XrdkkEK7OGi85o79Ku1Niw-1; Mon, 08 Feb 2021 16:53:38 -0500
-X-MC-Unique: XrdkkEK7OGi85o79Ku1Niw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 354E91935780;
- Mon,  8 Feb 2021 21:53:37 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78B571975E;
- Mon,  8 Feb 2021 21:53:33 +0000 (UTC)
-Subject: Re: [PATCH v4 11/14] qapi/introspect.py: add type hint annotations
-From: John Snow <jsnow@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210202174651.2274166-1-jsnow@redhat.com>
- <20210202174651.2274166-12-jsnow@redhat.com>
- <87r1lxqj2e.fsf@dusky.pond.sub.org>
- <ee95f545-7c43-0587-642b-e70589b4a0e6@redhat.com>
- <87tuqq1vii.fsf@dusky.pond.sub.org>
- <a1d1c67e-8066-3154-1117-6c86c6f8d9b6@redhat.com>
-Message-ID: <c12457a3-7279-bd1a-7c5b-932aa8d4e299@redhat.com>
-Date: Mon, 8 Feb 2021 16:53:33 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <a1d1c67e-8066-3154-1117-6c86c6f8d9b6@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1l9EYr-0006gg-7S
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:13 -0500
+Received: from mga02.intel.com ([134.134.136.20]:59480)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1l9EYp-0005DL-N8
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:12 -0500
+IronPort-SDR: zLM0oB6zN1AWX2MqjGCaQBs+FVLDU7Igvgn7NW+qw0pVu6SsTO5kOgLdVeVhBVwwBtNsyMZFm5
+ brgl+YDzlWNA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="168911422"
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="168911422"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2021 13:59:05 -0800
+IronPort-SDR: +/NB0bfhmQ6OfwJ6puWKZ6FhtMdTM1caX2pKUBTfPixYceQKM1A/tpV+oNKVqEc90UvgAqLyK9
+ ekOUCOAn2Ydw==
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="487608577"
+Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2021 13:59:04 -0800
+From: isaku.yamahata@gmail.com
+To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
+ marcel.apfelbaum@gmail.com, philmd@redhat.com
+Subject: [PATCH v2 2/9] qtest: update
+ tests/qtest/bios-tables-test-allowed-diff.h
+Date: Mon,  8 Feb 2021 13:57:21 -0800
+Message-Id: <ec80955a1c7a9263bdb12b2117f3460e23ef7b09.1612821109.git.isaku.yamahata@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1612821108.git.isaku.yamahata@intel.com>
+References: <cover.1612821108.git.isaku.yamahata@intel.com>
+In-Reply-To: <cover.1612821108.git.isaku.yamahata@intel.com>
+References: <cover.1612821108.git.isaku.yamahata@intel.com>
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=isaku.yamahata@intel.com; helo=mga02.intel.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NML_ADSP_CUSTOM_MED=0.9,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,57 +66,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Isaku Yamahata <isaku.yamahata@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/21 4:39 PM, John Snow wrote:
->>
->> I'm once again terminally confused about when to use _lower_case and
->> when to use CamelCase for such variables.
->>
-> 
-> That's my fault for not using them consistently.
-> 
-> Generally:
-> 
-> TitleCase: Classes, Real Type Names :tm:
-> lowercase: instance names (and certain built-in types like str/bool/int)
-> UPPERCASE: "Constants". This is an extremely loose idea in Python.
-> 
-> I use the "_" prefix for any of the above categories to indicate 
-> something not intended to be used outside of the current scope. These 
-> types won't be accessible outside the module by default.
-> 
-> TypeVars I use "T", "U", "V", etc unless I bind them to another type; 
-> then I use e.g. NodeT instead.
-> 
-> When it comes to things like type aliases, I believe I instinctively 
-> used lowercase because I am not creating a new Real Type and wanted some 
-> visual distinction from a real class name. (aliases created in this way 
-> cannot be used with isinstance and hold no significance to mypy.)
-> 
-> That's why I used _stub, _scalar, _nonscalar, and _value for those types 
-> there. Then I disregarded my own convention and used TreeValue; perhaps 
-> that ought to be tree_value for consistency as it's not a Real Type :tm:
-> 
-> ...but then we have the SchemaInfo type aliases, which I named using the 
-> same type name as they use in QAPI to help paint the association (and 
-> pick up 'git grep' searchers.)
-> 
-> Not fantastically consistent, sorry. Feel free to express a preference, 
-> I clearly don't have a universally applied one.
-> 
-> (Current leaning: rename TreeValue to tree_value, but leave everything 
-> else as it is.)
+From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Addendum: pylint wants any non-underscored type alias to be treated like 
-a class name, as CamelCase.
+The following tests will modify acpi tables.
+prepare qtests to allow acpi table change.
+add new tables for new tests.
+- tests/data/acpi/q35/DSDT.nosmm
+- tests/data/acpi/q35/FACP.nosmm
+- tests/data/acpi/q35/DSDT.nohpet
 
-I guess it just exempts underscore prefixed things. So, it does have to 
-stay "TreeValue".
+Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+---
+ tests/data/acpi/q35/DSDT.nohpet             |  0
+ tests/data/acpi/q35/DSDT.nosmm              |  0
+ tests/data/acpi/q35/FACP.nosmm              |  0
+ tests/qtest/bios-tables-test-allowed-diff.h | 13 +++++++++++++
+ 4 files changed, 13 insertions(+)
+ create mode 100644 tests/data/acpi/q35/DSDT.nohpet
+ create mode 100644 tests/data/acpi/q35/DSDT.nosmm
+ create mode 100644 tests/data/acpi/q35/FACP.nosmm
 
---js
+diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/DSDT.nosmm b/tests/data/acpi/q35/DSDT.nosmm
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/FACP.nosmm b/tests/data/acpi/q35/FACP.nosmm
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..b79ac495c2 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,14 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.tis",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.nosmm",
++"tests/data/acpi/q35/FACP.nosmm",
++"tests/data/acpi/q35/DSDT.nohpet",
+-- 
+2.17.1
 
 
