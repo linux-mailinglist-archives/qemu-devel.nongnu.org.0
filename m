@@ -2,67 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72EFB313BA1
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:54:40 +0100 (CET)
-Received: from localhost ([::1]:47886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC47313B20
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:40:52 +0100 (CET)
+Received: from localhost ([::1]:43806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9AkB-0001Zc-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:54:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40780)
+	id 1l9AWo-0004I4-Pu
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:40:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l94S2-0003ra-Vt
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:11:30 -0500
-Received: from indium.canonical.com ([91.189.90.7]:36008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l94Rm-0004OR-SQ
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:11:30 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l94Ri-0005nl-8A
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 11:11:10 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 12E872E813C
- for <qemu-devel@nongnu.org>; Mon,  8 Feb 2021 11:11:10 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94QA-0003Ze-37
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:09:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94Pp-00042e-K0
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:09:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612782549;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p2E/w24+Tw7l/RQDOGvg4ZkGl5rFr/ner1e4XVyXJFs=;
+ b=Y2/DvjObMbQpj5f3VzL36KUtvU/mmpheYpcqI86twiHozDPDF3B+IrfWScgFvYFRB+/EOy
+ 9uoMSPU9rAXcZVtlV8kQB7vKHW47U6Q4EXBPd3My4mx/3Cy1DOiewqlV9vjXFeVv0Tbr1E
+ +lctddAjjOhJ28FkH6SkKT3v+0mDE38=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-OFVO8hClMnqhd467Cg1xzg-1; Mon, 08 Feb 2021 06:09:06 -0500
+X-MC-Unique: OFVO8hClMnqhd467Cg1xzg-1
+Received: by mail-wm1-f69.google.com with SMTP id u138so3356143wmu.8
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 03:09:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=p2E/w24+Tw7l/RQDOGvg4ZkGl5rFr/ner1e4XVyXJFs=;
+ b=cqD/i7sIsLuwfquPZ7yLlav3UezmMHQ+6W4o8Et0h7FUAU4Ezsl6CLcaF8nz/P4L1n
+ FDD6s/o01eRcOb6dnNONf5eOB/gZ7W5q7o1Y4QqoDjI2U6I5t1Sh+EFazDrXw92GNsxp
+ CbmHqoaw0Jf7RRKJftv7ld/YiUS9aE6lj5rBgurKw3oiXPZrQb3TMInBy3SF/lnxRNLy
+ 1wo3UmGg9oLkiK9icLyovBiTlWsAXAPP3tjR5pS3hfQSU6P3q6l4mOsXieZ0NcMNt+X3
+ I1fo0B1rDGfZHhtXL7Ej171IIJbQl/lMtF8YBWTUdqeGD3LCf/x19zVtaURkbg9EYc+h
+ G0Uw==
+X-Gm-Message-State: AOAM533R+TVi/qaQ/jHsfHUZx7xqBbUcaUdWbpuHOz/prqRJERBN8DrV
+ pZ2n/NaQbMx4zHbisukxWcW8ziMG4WvPLnER0dFFRvuoMFAPw2nWqjJ3XJ8M6SGdAdr7AwH4wdW
+ oeZ3jw+PmQ2VtjkE=
+X-Received: by 2002:a5d:4c4f:: with SMTP id n15mr19528231wrt.124.1612782544606; 
+ Mon, 08 Feb 2021 03:09:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw3bdTfr4x7LA7qS0onhDlzf4UMmKaAqJFxgC73Zm8ZcUhHGquiL9TNfe+2my5bQNduevOpTw==
+X-Received: by 2002:a5d:4c4f:: with SMTP id n15mr19528214wrt.124.1612782544448; 
+ Mon, 08 Feb 2021 03:09:04 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id t2sm14635355wru.53.2021.02.08.03.09.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 03:09:03 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] net/slirp.c: Refactor address parsing
+To: Doug Evans <dje@google.com>, qemu-devel@nongnu.org
+References: <20210203213729.1940893-1-dje@google.com>
+ <20210203213729.1940893-2-dje@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <fc97283f-51ca-2a2d-d8ae-1345b990e52c@redhat.com>
+Date: Mon, 8 Feb 2021 12:09:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 08 Feb 2021 11:00:48 -0000
-From: Sven <1910696@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: qemu readconfig spice
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: edacval sven-koehler
-X-Launchpad-Bug-Reporter: Edvinas Valatka (edacval)
-X-Launchpad-Bug-Modifier: Sven (sven-koehler)
-References: <161009834109.3567.5030676858811031897.malonedeb@wampee.canonical.com>
-Message-Id: <161278204884.2483.10035126817811641383.malone@gac.canonical.com>
-Subject: [Bug 1910696] Re: Qemu fails to start with error " There is no option
- group 'spice'"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
-X-Launchpad-Hash: c8081a66c5ba4c105900ca89d9e071e7e7244f0a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210203213729.1940893-2-dje@google.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,60 +98,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1910696 <1910696@bugs.launchpad.net>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Due to this bug, I cannot start LXD virtual machines on Arch Linux
-anymore.
+Hi Doug,
 
-$ lxc start debian10vm
-Error: Failed to run: forklimits limit=3Dmemlock:unlimited:unlimited -- /us=
-r/bin/qemu-system-x86_64 -S -name debian10vm -uuid e265f257-85ca-445f-be5c-=
-0170dca5955d -daemonize -cpu host -nographic -serial chardev:console -nodef=
-aults -no-reboot -no-user-config -sandbox on,obsolete=3Ddeny,elevateprivile=
-ges=3Dallow,spawn=3Ddeny,resourcecontrol=3Ddeny -readconfig /var/log/lxd/de=
-bian10vm/qemu.conf -pidfile /var/log/lxd/debian10vm/qemu.pid -D /var/log/lx=
-d/debian10vm/qemu.log -chroot /var/lib/lxd/virtual-machines/debian10vm -smb=
-ios type=3D2,manufacturer=3DCanonical Ltd.,product=3DLXD -runas nobody: qem=
-u-system-x86_64:/var/log/lxd/debian10vm/qemu.conf:27: There is no option gr=
-oup 'spice'
-qemu-system-x86_64: -readconfig /var/log/lxd/debian10vm/qemu.conf: read con=
-fig /var/log/lxd/debian10vm/qemu.conf: Invalid argument
-: Process exited with a non-zero value
-Try `lxc info --show-log debian10vm` for more info
+On 2/3/21 10:37 PM, dje--- via wrote:
+> ... in preparation for adding ipv6 host forwarding support.
 
--- =
+Please duplicate subject line, else this commit description as it
+doesn't make sense.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1910696
+> ---
+>  net/slirp.c | 200 +++++++++++++++++++++++++++++++++-------------------
+>  slirp       |   2 +-
+>  2 files changed, 130 insertions(+), 72 deletions(-)
+> 
+...
 
-Title:
-  Qemu fails to start with error " There is no option group 'spice'"
+> diff --git a/slirp b/slirp
+> index 8f43a99191..358c0827d4 160000
+> --- a/slirp
+> +++ b/slirp
+> @@ -1 +1 @@
+> -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
+> +Subproject commit 358c0827d49778f016312bfb4167fe639900681f
+> 
 
-Status in QEMU:
-  New
+When updating submodules, please describe changes (usually -
+when possible - a previous commit updating the submodule is
+preferred).
 
-Bug description:
-  After upgrade from 5.1.0 to 5.2.0, qemu fails on start with error:
-  `
-  /usr/bin/qemu-system-x86_64 -S -name trinti -uuid f8ad2ff6-8808-4f42-8f0b=
--9e23acd20f84 -daemonize -cpu host -nographic -serial chardev:console -node=
-faults -no-reboot -no-user-config -sandbox on,obsolete=3Ddeny,elevateprivil=
-eges=3Dallow,spawn=3Ddeny,resourcecontrol=3Ddeny -readconfig /var/log/lxd/t=
-rinti/qemu.conf -pidfile /var/log/lxd/trinti/qemu.pid -D /var/log/lxd/trint=
-i/qemu.log -chroot /var/lib/lxd/virtual-machines/trinti -smbios type=3D2,ma=
-nufacturer=3DCanonical Ltd.,product=3DLXD -runas nobody: =
+I can not apply your patch using either
+https://git.qemu.org/git/libslirp.git or
+https://gitlab.freedesktop.org/slirp/libslirp.git:
 
-  qemu-system-x86_64:/var/log/lxd/trinti/qemu.conf:27: There is no option g=
-roup 'spice'
-  qemu-system-x86_64: -readconfig /var/log/lxd/trinti/qemu.conf: read confi=
-g /var/log/lxd/trinti/qemu.conf: Invalid argument
-  `
-  Bisected to first bad commit: https://github.com/qemu/qemu/commit/cbe5fa1=
-1789035c43fd2108ac6f45848954954b5
+fatal: bad object 358c0827d49778f016312bfb4167fe639900681f
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1910696/+subscriptions
 
