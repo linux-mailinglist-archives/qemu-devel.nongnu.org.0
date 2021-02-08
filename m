@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E720C3128FE
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 03:40:24 +0100 (CET)
-Received: from localhost ([::1]:57230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65243128FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 03:40:37 +0100 (CET)
+Received: from localhost ([::1]:57368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8wTJ-0002kg-W3
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 21:40:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57598)
+	id 1l8wTc-0002o2-Qy
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 21:40:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8wR4-00010T-Mv
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:37:58 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:39197)
+ id 1l8wR6-00010e-Lk
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:38:00 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:42322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8wR2-0005fK-Sk
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:37:58 -0500
-Received: by mail-pl1-x633.google.com with SMTP id k22so2648667pll.6
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:37:56 -0800 (PST)
+ id 1l8wR3-0005gB-MP
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:38:00 -0500
+Received: by mail-pl1-x631.google.com with SMTP id s15so7010339plr.9
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:37:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VZcop2dyPgWWGcD7xRsCRlsZbHSTwB0QnG6bpKYY9lk=;
- b=XzNpmEgmoLk7p8Fcy9l694GHAJQVtK6c/F1cp17VfN8DoEDx/rVrJyMKDXJbDKftPQ
- zeoJU8pQW/Igdf9pHUmp4b+UpM72s23HZkXVXUiaxqDFyOHh9WNdSpk/KqD7/pUheU4e
- 5DS2NS/OA7ZZKWLZMJTF6iRJkfMeegUQv/QWUBEduOp3z5vhMKS9p8ZJwltvDU0tyZ0x
- +5zbl6o42ItnwOxsE6oMQoiV7UEh5xFeaHjR+jCvnc5NvzNUSADzbDzRj/yO3F/ogW1n
- WKJnfXpEp8j9MqQ7Edmnu2gdgp6ND09ytZ166hkPaixFj0UruqqBcoJzDeiCTVUjuaTQ
- dwLw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=06H8W/q0v8WI5yMb4Dgc4NhHzAw8roTrWJkM0Lw1UXA=;
+ b=Ifk6btvJv/vvkD9V1CnOdmEiAIpE7+ILWRn41HqaD1WH2XW21yCuyBSFJDBzJBqh5j
+ 00I1CDs1c8iemez7ANp3M+wvB/6XVgwGsAYvIIiddHyBBABt96IbmFzZwmLLs/HV0TYP
+ 2YNXvUEwP6Qk57RoHozMcBwl+3VjA5KPpJTvTAvOZE9s2J9Kg06nNgOXsuUFu54pY98M
+ /+spc/NhBrDKiCfMNPNWCxOrhxu6iReq1hjtgF5qKzLU25Xu+Qfb01wItc/jmAfXIunS
+ nIuRzVCsvFc4pgJ3JvhQnZ/r1gD3cFDlkaDmCcvwnrz2c9aMBWlxM3S3srK7qolz4KSE
+ YqZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VZcop2dyPgWWGcD7xRsCRlsZbHSTwB0QnG6bpKYY9lk=;
- b=qUhJlLtYbrSiid+tR0Sx1ChgG//iLs1QUhRKV5SWLikDks1szWhj7r/IhsdvWAeHVH
- R++exWtqcTHj4c3ADc1fHSWssWpf/+nIrv4Xa0YHZUYqvorcDnW1oV9YpYAWssTc4py4
- yiSPgXVG9ifg39Q6eIxeVDBCVTsFwzfhXPhsAtikEKqtfm35J0Fw2EG96V1xxtTyLQB3
- S6NsnoFqMOKuG7mmf8HwPjs9xnq2YgHQzNJb4wfqXtLadRFGxlGrr2YpQCAUAIFN5O0q
- 1Qkks0qOFTBe7efCHrj4og/79GKfU5n7fRTW43bHKLuJIBFVQJ0Cf0ZGj0h2A4fvy4Me
- m+fA==
-X-Gm-Message-State: AOAM530SRkfgnnN9lyrvvCX8Mm/IfDBono7qNtWApZyaSZtyLBtHQ9Jv
- 0I6S+nTZASiNmYlvZ+VHrEDT9/TvodVSJg==
-X-Google-Smtp-Source: ABdhPJzHpWtuABlP2EDmIVL7Fd/Or/CZWYU8XXhfLgBGdGMgpPhAUuKhXtnTwCt1DnSzaiDmL+s70A==
-X-Received: by 2002:a17:90a:9905:: with SMTP id
- b5mr14434460pjp.195.1612751875151; 
- Sun, 07 Feb 2021 18:37:55 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=06H8W/q0v8WI5yMb4Dgc4NhHzAw8roTrWJkM0Lw1UXA=;
+ b=Df2UvuiHyKCavgO9rpFDDz9n/P9ZnvN4Bu2/E8E52kN76LCMjFPWdG+D+F7fyBMhwI
+ ebn3ouFxm4pDy7oFic5YuE0kJYcImu49wiW8QRLOtQKjUNQ0qGSfbSvoYepbVKTQsoI/
+ 6OdTfeD5UiIpuAxV6TWwn+MQVlwhKIa0o3gL0rzJxkohQPTcRzyr0XxV0SKI4Dyv687s
+ JUJxyi5TAL2IqniJvcyjlSPS1xEPPo2oZFEi+MO0oNl1mBF+WpEaS50bAj9CGXeeRpow
+ /hBD2RAUsRDsEyK45F2LNwCvb0M+xbZriffAQpx6aJ/j8dfJEsnSc4aZ+bRjYBUqpRQY
+ 8V7Q==
+X-Gm-Message-State: AOAM5304ZWX5y0nAbofJLc8RFCirvCul6nQ4uO/RPP6qa85mosnnbgPp
+ ygetihnfKe1pnvClp4wckGs4U6whpub+2A==
+X-Google-Smtp-Source: ABdhPJxlbqHh/DBmPqUPFsis7rPukv6s9ISHtUwEVKUZZEvrtKXQRA8iW2zWHL6mxxlRAU/IdY86gA==
+X-Received: by 2002:a17:90b:350b:: with SMTP id
+ ls11mr14676243pjb.166.1612751876427; 
+ Sun, 07 Feb 2021 18:37:56 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id j17sm16158689pfh.183.2021.02.07.18.37.53
+ by smtp.gmail.com with ESMTPSA id j17sm16158689pfh.183.2021.02.07.18.37.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 18:37:54 -0800 (PST)
+ Sun, 07 Feb 2021 18:37:55 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/70] TCI fixes and cleanups
-Date: Sun,  7 Feb 2021 18:36:42 -0800
-Message-Id: <20210208023752.270606-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 01/70] gdbstub: Fix handle_query_xfer_auxv
+Date: Sun,  7 Feb 2021 18:36:43 -0800
+Message-Id: <20210208023752.270606-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210208023752.270606-1-richard.henderson@linaro.org>
+References: <20210208023752.270606-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,113 +88,64 @@ Cc: sw@weilnetz.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes since v2:
-  * 20-something patches are now upstream.
-  * Increase testing timeout for tci.
-  * Gitlab testing for tci w/ 32-bit host.
+The main problem was that we were treating a guest address
+as a host address with a mere cast.
 
+Use the correct interface for accessing guest memory.  Do not
+allow offset == auxv_len, which would result in an empty packet.
 
-r~
+Fixes: 51c623b0de1 ("gdbstub: add support to Xfer:auxv:read: packet")
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ gdbstub.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-
-Richard Henderson (70):
-  gdbstub: Fix handle_query_xfer_auxv
-  tcg: Split out tcg_raise_tb_overflow
-  tcg: Manage splitwx in tc_ptr_to_region_tree by hand
-  tcg/tci: Merge identical cases in generation
-  tcg/tci: Remove tci_read_r8
-  tcg/tci: Remove tci_read_r8s
-  tcg/tci: Remove tci_read_r16
-  tcg/tci: Remove tci_read_r16s
-  tcg/tci: Remove tci_read_r32
-  tcg/tci: Remove tci_read_r32s
-  tcg/tci: Reduce use of tci_read_r64
-  tcg/tci: Merge basic arithmetic operations
-  tcg/tci: Merge extension operations
-  tcg/tci: Remove ifdefs for TCG_TARGET_HAS_ext32[us]_i64
-  tcg/tci: Merge bswap operations
-  tcg/tci: Merge mov, not and neg operations
-  tcg/tci: Rename tci_read_r to tci_read_rval
-  tcg/tci: Split out tci_args_rrs
-  tcg/tci: Split out tci_args_rr
-  tcg/tci: Split out tci_args_rrr
-  tcg/tci: Split out tci_args_rrrc
-  tcg/tci: Split out tci_args_l
-  tcg/tci: Split out tci_args_rrrrrc
-  tcg/tci: Split out tci_args_rrcl and tci_args_rrrrcl
-  tcg/tci: Split out tci_args_ri and tci_args_rI
-  tcg/tci: Reuse tci_args_l for calls.
-  tcg/tci: Reuse tci_args_l for exit_tb
-  tcg/tci: Reuse tci_args_l for goto_tb
-  tcg/tci: Split out tci_args_rrrrrr
-  tcg/tci: Split out tci_args_rrrr
-  tcg/tci: Clean up deposit operations
-  tcg/tci: Reduce qemu_ld/st TCGMemOpIdx operand to 32-bits
-  tcg/tci: Split out tci_args_{rrm,rrrm,rrrrm}
-  tcg/tci: Hoist op_size checking into tci_args_*
-  tcg/tci: Remove tci_disas
-  tcg/tci: Implement the disassembler properly
-  tcg: Build ffi data structures for helpers
-  tcg/tci: Use ffi for calls
-  tcg/tci: Improve tcg_target_call_clobber_regs
-  tcg/tci: Move call-return regs to end of tcg_target_reg_alloc_order
-  tcg/tci: Push opcode emit into each case
-  tcg/tci: Split out tcg_out_op_rrs
-  tcg/tci: Split out tcg_out_op_l
-  tcg/tci: Split out tcg_out_op_p
-  tcg/tci: Split out tcg_out_op_rr
-  tcg/tci: Split out tcg_out_op_rrr
-  tcg/tci: Split out tcg_out_op_rrrc
-  tcg/tci: Split out tcg_out_op_rrrrrc
-  tcg/tci: Split out tcg_out_op_rrrbb
-  tcg/tci: Split out tcg_out_op_rrcl
-  tcg/tci: Split out tcg_out_op_rrrrrr
-  tcg/tci: Split out tcg_out_op_rrrr
-  tcg/tci: Split out tcg_out_op_rrrrcl
-  tcg/tci: Split out tcg_out_op_{rrm,rrrm,rrrrm}
-  tcg/tci: Split out tcg_out_op_v
-  tcg/tci: Split out tcg_out_op_np
-  tcg/tci: Split out tcg_out_op_r[iI]
-  tcg/tci: Reserve r13 for a temporary
-  tcg/tci: Emit setcond before brcond
-  tcg/tci: Remove tci_write_reg
-  tcg/tci: Change encoding to uint32_t units
-  tcg/tci: Implement goto_ptr
-  tcg/tci: Implement movcond
-  tcg/tci: Implement andc, orc, eqv, nand, nor
-  tcg/tci: Implement extract, sextract
-  tcg/tci: Implement clz, ctz, ctpop
-  tcg/tci: Implement mulu2, muls2
-  tcg/tci: Implement add2, sub2
-  tests/tcg: Increase timeout for TCI
-  gitlab: Enable cross-i386 builds of TCI
-
- configure                                     |    3 +
- meson.build                                   |    9 +-
- include/exec/helper-ffi.h                     |  115 ++
- include/exec/helper-tcg.h                     |   24 +-
- include/tcg/tcg-opc.h                         |    6 +-
- include/tcg/tcg.h                             |    1 +
- target/hppa/helper.h                          |    2 +
- target/i386/ops_sse_header.h                  |    6 +
- target/m68k/helper.h                          |    1 +
- target/ppc/helper.h                           |    3 +
- tcg/tci/tcg-target-con-set.h                  |    2 +-
- tcg/tci/tcg-target.h                          |   81 +-
- disas/tci.c                                   |   61 -
- gdbstub.c                                     |   17 +-
- tcg/tcg.c                                     |  117 +-
- tcg/tci.c                                     | 1536 ++++++++++-------
- tcg/tci/tcg-target.c.inc                      |  926 +++++-----
- .gitlab-ci.d/crossbuilds.yml                  |   17 +-
- tcg/tci/README                                |   20 +-
- .../dockerfiles/fedora-i386-cross.docker      |    1 +
- tests/docker/dockerfiles/fedora.docker        |    1 +
- tests/tcg/Makefile.target                     |    6 +-
- 22 files changed, 1727 insertions(+), 1228 deletions(-)
- create mode 100644 include/exec/helper-ffi.h
- delete mode 100644 disas/tci.c
-
+diff --git a/gdbstub.c b/gdbstub.c
+index c7ca7e9f88..759bb00bcf 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -2245,7 +2245,6 @@ static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_ctx)
+ {
+     TaskState *ts;
+     unsigned long offset, len, saved_auxv, auxv_len;
+-    const char *mem;
+ 
+     if (gdb_ctx->num_params < 2) {
+         put_packet("E22");
+@@ -2257,8 +2256,8 @@ static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_ctx)
+     ts = gdbserver_state.c_cpu->opaque;
+     saved_auxv = ts->info->saved_auxv;
+     auxv_len = ts->info->auxv_len;
+-    mem = (const char *)(saved_auxv + offset);
+-    if (offset > auxv_len) {
++
++    if (offset >= auxv_len) {
+         put_packet("E00");
+         return;
+     }
+@@ -2269,12 +2268,20 @@ static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_ctx)
+ 
+     if (len < auxv_len - offset) {
+         g_string_assign(gdbserver_state.str_buf, "m");
+-        memtox(gdbserver_state.str_buf, mem, len);
+     } else {
+         g_string_assign(gdbserver_state.str_buf, "l");
+-        memtox(gdbserver_state.str_buf, mem, auxv_len - offset);
++        len = auxv_len - offset;
+     }
+ 
++    g_byte_array_set_size(gdbserver_state.mem_buf, len);
++    if (target_memory_rw_debug(gdbserver_state.g_cpu, saved_auxv + offset,
++                               gdbserver_state.mem_buf->data, len, false)) {
++        put_packet("E14");
++        return;
++    }
++
++    memtox(gdbserver_state.str_buf,
++           (const char *)gdbserver_state.mem_buf->data, len);
+     put_packet_binary(gdbserver_state.str_buf->str,
+                       gdbserver_state.str_buf->len, true);
+ }
 -- 
 2.25.1
 
