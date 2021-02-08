@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855E9313B6C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:49:34 +0100 (CET)
-Received: from localhost ([::1]:34644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2227313B8A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:53:27 +0100 (CET)
+Received: from localhost ([::1]:44522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9AfF-0004OT-IT
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:49:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34832)
+	id 1l9Aj0-00009n-Lh
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:53:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l95uX-0004M0-Iw
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:45:03 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34992)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l965Q-000609-Hd
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:56:20 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l95uQ-0000eW-9y
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:45:01 -0500
-Received: by mail-wr1-x431.google.com with SMTP id l12so16970290wry.2
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 04:44:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9659-0003mS-Ce
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:56:10 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id q2so14796418eds.11
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 04:55:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6bc9E/qj8MVrG1lrbbnDCW0cq4qlP1ZjoNfCdUMbKio=;
- b=fLQ61n/+ea7zzB/PphMljhmU63cmAiwMCJDFiLca2nKvdJPeFMxQlEmdpnNCvobsSS
- ekKH8ye+Ft5X88617gJxZIkmBVjqjEyIilTMx7icOnxMrcyMYqi/R75Zr7HHrUw+Zcw7
- hSpdANhvu+r20WxVJjjeOgGs2Q4xN13Y9krbp95Oi1SFQulS4wZP/RrCTVhRuXSobM9x
- 8bMVq7xMzbPsOv/6aaF2bMlGS0muBGAk/tXKV7qAFtTnhcI/jpxwECDlhZQhibxKFAzv
- fwFSUtWB6RFKDLH3C5Lxzt9XuY0u72/Df9c21XwGCX33QZQLkSHMFO9sXfkoeYr2gGN5
- T6ZA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IQ4/ibB41KJlFFX8EImRDjjcdxSC1Q2P+X/Q9BR6KCs=;
+ b=o5sflZh1gEQSvC2zIz8CAC0muIDXr9+72uPYYG3WqE4V8XDUoHpYR6RBuRh1xjgTvh
+ EIxyla+d9nJT6/V0kcUkgUkVCeozBU4hqzI+ugFOmMxuxXJOB0nk/C5oWaqEKM6PtzRt
+ zyggfP71+vffrQ9ARWL82OwSX3VhK2sFOmai/TVGxD2g++PyfoQL5cOh/FaLFHOYHQez
+ L1iQckEsD/1wo1gOGeYXhER3in/Wx4COae7HsdNIgR1Dx3oOQb1CrTWXweyVUCBfhN/A
+ UjT4UOVklwfolfxcOOyl/BbFAP6R+vzikEXk+HgQjQKb4VvhBmPrA70ppWnZDRY0lT/W
+ iwLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6bc9E/qj8MVrG1lrbbnDCW0cq4qlP1ZjoNfCdUMbKio=;
- b=cB9VC1hP03scwcWP+M6ZJY5WQnfpW46SEBkgOK1PDgSakGMcyWJb+fmfOXmLbqn1gh
- 5SpmByaFJE8jLBPC84LovXDXrVynqSGR7EKfJL/0bwlXD3T9zcrYDgkJOWAE5GcKfym4
- UlJniy9tmxr3IXlcWiB/6La99aXmUmREgQp9dOmV+m+cvP9Jw7z1Wr5U+CfuApLMhV+a
- yPv3hQvfnCq3pxH+cbrh698XJLQ3LeIcidisJAG2tgGTjZEZ4qMM4DhPC61+zJznQrpv
- 5k+gKdPESoGNHxLcoGj4MUsaiOZJzDe/qHmsF7SlXq1a0jlMsOism8K7NGkmxAgDgQom
- mwYw==
-X-Gm-Message-State: AOAM5326tL/57ynEqB8qqvuWRBmjhW4kqYKIssez8I12P6evANz6qCd8
- WTgjDIlukoBHolkp77gNowIdY/nmfTa4BsC0
-X-Google-Smtp-Source: ABdhPJyeVKvpQwhiccuH7/wmEk9sCXbrY45cT05PcEPhvQz97Vefx1HUIOGf99pY+i4hTQjVjbqgtQ==
-X-Received: by 2002:a05:6000:1547:: with SMTP id
- 7mr19956836wry.301.1612788292622; 
- Mon, 08 Feb 2021 04:44:52 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c11sm27764528wrs.28.2021.02.08.04.44.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 04:44:50 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2737B1FF9E;
- Mon,  8 Feb 2021 12:38:23 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 15/16] docs/system: document an example vexpress-a15 invocation
-Date: Mon,  8 Feb 2021 12:38:20 +0000
-Message-Id: <20210208123821.19818-16-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210208123821.19818-1-alex.bennee@linaro.org>
-References: <20210208123821.19818-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IQ4/ibB41KJlFFX8EImRDjjcdxSC1Q2P+X/Q9BR6KCs=;
+ b=KWRZEb9+OsLMbOZxBL5llSNcIR1GtV6aEp8m2y3+UR+kvxw9F7RQ+urJo5O7svtMOX
+ D1kRiAw4Dy6wGLxU1sRpAl8U8XBgclWLRlfo73FCb1xqFsyHyPrLnVdxQrOQf8TrFPfU
+ nueJaKUB+KKdtyzni09I/fOaeqod/FIS6CoX4Zb35Ujzbwpj5aX0xBrqfhNlI3LOPM2E
+ C1P/rdcTO1Dva6Jm5ArUz0/6kFYrm6UaQ9ozhy8EGhnAYYfTRs3FrUSxIJSwr/z40W+m
+ uHm7ECXIYR1PpSoqfQRAYOsYLFJ9V08Z4oy94C+hvNCzTU3Ckd6FOIlStCdCHNpfdTis
+ c7cg==
+X-Gm-Message-State: AOAM530yCeGdy2hTxYKsLO6B8A9ijOjf4H7awF/o/z7l3FjE6DjVGUDn
+ 5ewq1rMh4NXTLPJjDsVJu7dhjKSkOIFxSKO1bjxzVQ==
+X-Google-Smtp-Source: ABdhPJzSTSvVIFWFJt449gVy8yJO27TBo+K3Ru2TKqkIqcIo/I9cd0Ij6p1xITbwuT/IgUVuIKPoN07mQEAhMea76w0=
+X-Received: by 2002:a50:9e01:: with SMTP id z1mr15439882ede.44.1612788957117; 
+ Mon, 08 Feb 2021 04:55:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+References: <db793d463822491bc581fa3204f733adb649faa6.camel@gmail.com>
+In-Reply-To: <db793d463822491bc581fa3204f733adb649faa6.camel@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Feb 2021 12:55:45 +0000
+Message-ID: <CAFEAcA99Hmp0+tLd7NFRg34dXUARRbBXF75HAcXpfaARtDpwFQ@mail.gmail.com>
+Subject: Re: [PATCH v2] arm: xlnx-versal: fix virtio-mmio base address
+ assignment
+To: schspa <schspa@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,58 +77,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anders Roxell <anders.roxell@linaro.org>,
- "open list:Versatile Express" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The wiki and the web are curiously absent of the right runes to boot a
-vexpress model so I had to work from first principles to work it out.
-Use the more modern -drive notation so alternative backends can be
-used (unlike the hardwired -sd mode).
+On Fri, 5 Feb 2021 at 02:20, schspa <schspa@gmail.com> wrote:
+>
+>
+> At the moment the following QEMU command line triggers an assertion
+> failure On xlnx-versal SOC:
+>   qemu-system-aarch64 \
+>       -machine xlnx-versal-virt -nographic -smp 2 -m 128 \
+>       -fsdev local,id=shareid,path=${HOME}/work,security_model=none \
+>       -device virtio-9p-device,fsdev=shareid,mount_tag=share \
+>       -fsdev local,id=shareid1,path=${HOME}/Music,security_model=none \
+>       -device virtio-9p-device,fsdev=shareid1,mount_tag=share1
+>
+>   qemu-system-aarch64: ../migration/savevm.c:860:
+>   vmstate_register_with_alias_id:
+>   Assertion `!se->compat || se->instance_id == 0' failed.
+>
+> This problem was fixed on arm virt platform in commit f58b39d2d5b
+> ("virtio-mmio: format transport base address in BusClass.get_dev_path")
+>
+> It works perfectly on arm virt platform. but there is still there on
+> xlnx-versal SOC.
+>
+> The main difference between arm virt and xlnx-versal is they use
+> different way to create virtio-mmio qdev. on arm virt, it calls
+> sysbus_create_simple("virtio-mmio", base, pic[irq]); which will call
+> sysbus_mmio_map internally and assign base address to subsys device
+> mmio correctly. but xlnx-versal's implements won't do this.
+>
+> However, xlnx-versal can't switch to sysbus_create_simple() to create
+> virtio-mmio device. It's because xlnx-versal's cpu use
+> VersalVirt.soc.fpd.apu.mr as it's memory. which is subregion of
+> system_memory. sysbus_create_simple will add virtio to system_memory,
+> which can't be accessed by cpu.
+>
+> Besides, xlnx-versal can't add sysbus_mmio_map api call too, because
+> this will add memory region to system_memory, and it can't be added
+> to VersalVirt.soc.fpd.apu.mr again.
+>
+> We can solve this by simply assign mmio[0].addr directly. makes
+> virtio_mmio_bus_get_dev_path to produce correct unique device path.
+>
+> Signed-off-by: schspa <schspa@gmail.com>
+> ---
+>  hw/arm/xlnx-versal-virt.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+> index 8482cd6196..87b92ec6c3 100644
+> --- a/hw/arm/xlnx-versal-virt.c
+> +++ b/hw/arm/xlnx-versal-virt.c
+> @@ -490,6 +490,7 @@ static void create_virtio_regions(VersalVirt *s)
+>          object_property_add_child(OBJECT(&s->soc), name, OBJECT(dev));
+>          sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>          sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic_irq);
+> +        SYS_BUS_DEVICE(dev)->mmio[0].addr = base;
+>          mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
+>          memory_region_add_subregion(&s->soc.mr_ps, base, mr);
+>          g_free(name);
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Anders Roxell <anders.roxell@linaro.org>
-Message-Id: <20210202134001.25738-15-alex.bennee@linaro.org>
+This is definitely not the right way to fix this problem.
+The 'addr' field in a MemoryRegion is a part of its internal
+implementation. It is not used solely as a mechanism for setting
+the virtio-mmio bus name, and it will break things if you just
+reach in and mess with it.
 
-diff --git a/docs/system/arm/vexpress.rst b/docs/system/arm/vexpress.rst
-index 7f1bcbef07..3e3839e923 100644
---- a/docs/system/arm/vexpress.rst
-+++ b/docs/system/arm/vexpress.rst
-@@ -58,3 +58,31 @@ Other differences between the hardware and the QEMU model:
-   ``vexpress-a15``, and have IRQs from 40 upwards. If a dtb is
-   provided on the command line then QEMU will edit it to include
-   suitable entries describing these transports for the guest.
-+
-+Booting a Linux kernel
-+----------------------
-+
-+Building a current Linux kernel with ``multi_v7_defconfig`` should be
-+enough to get something running. Nowadays an out-of-tree build is
-+recommended (and also useful if you build a lot of different targets).
-+In the following example $BLD points to the build directory and $SRC
-+points to the root of the Linux source tree. You can drop $SRC if you
-+are running from there.
-+
-+.. code-block:: bash
-+
-+  $ make O=$BLD -C $SRC ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- multi_v7_defconfig
-+  $ make O=$BLD -C $SRC ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-+
-+By default you will want to boot your rootfs off the sdcard interface.
-+Your rootfs will need to be padded to the right size. With a suitable
-+DTB you could also add devices to the virtio-mmio bus.
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -cpu cortex-a15 -smp 4 -m 4096 \
-+      -machine type=vexpress-a15 -serial mon:stdio \
-+      -drive if=sd,driver=file,filename=armel-rootfs.ext4 \
-+      -kernel zImage  \
-+      -dtb vexpress-v2p-ca15-tc1.dtb \
-+      -append "console=ttyAMA0 root=/dev/mmcblk0 ro"
--- 
-2.20.1
+The right fix here is going to involve improving
+virtio_mmio_bus_get_dev_path() (which also should not be
+just reaching into the internals of MemoryRegion structs!)
+so that it can cope with setups where the MR of the transport
+is not directly placed into the system memory. I think that
+probably involves calling memory_region_find() and then
+looking at the .offset_within_address_space field of the
+returned MemoryRegionSection, but that would need testing to
+confirm that it returns the same results for the non-xilinx
+cases that the current code does, and that it also returns
+sensible values for xilinx.
 
+thanks
+-- PMM
 
