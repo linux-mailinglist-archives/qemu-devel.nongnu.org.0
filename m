@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2847831396F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 17:30:07 +0100 (CET)
-Received: from localhost ([::1]:50526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D403139A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 17:39:28 +0100 (CET)
+Received: from localhost ([::1]:58144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l99QL-0007zb-Tg
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 11:30:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45226)
+	id 1l99ZP-0003hx-Ut
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 11:39:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l94kG-0001jc-5M
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:30:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26550)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l92pw-00083v-DJ
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:28:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l94jz-0002Hx-W8
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:30:18 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l92pb-0006fD-UW
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:27:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612783801;
+ s=mimecast20190719; t=1612776455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6nfrvNfSCyKfA/BX2b5QmFJgrDmLnqzA9oepRR5UN3I=;
- b=Eo3pKyVCSWKbMqEhXSQPi3WBarKWtaa6GJ+XaPr3L7NCRPIqwFGi4wRj4Jvj88E7iHIw2J
- StAzg9dBdjl8gyOCOKdryP6suPCdeT0ApX1VJxli1dM/CMpQfy8yeK8YYzeCo0Q/gtLqJ+
- lLhP4ponyyKt9E8fR0KWAxA+VX7tYQc=
+ bh=trq91t2iwhKj5MKyzu2frHbq1Ivu63QHEGl6wBLhlxQ=;
+ b=PWvpmcKIW9KUAzL3mHkgXFugUWoNZQajbq46jXpzD+MRiVueVS35sUPJuehiueCywKjlCD
+ caTGl5oRmXUD50Gurzvv3jbJqpGRF9PzQhGySoiuatzk86zhgMLEGItGZbAEDkjyAv+Dvi
+ 7IEL8WwtsVlF+NiSVo5ShEtF0WODqlQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-Zthuv6xRPqOZpQeBGO8D-A-1; Mon, 08 Feb 2021 06:29:56 -0500
-X-MC-Unique: Zthuv6xRPqOZpQeBGO8D-A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-477-M5_tzgIePsevslFrTvA4XQ-1; Mon, 08 Feb 2021 04:27:33 -0500
+X-MC-Unique: M5_tzgIePsevslFrTvA4XQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9FB5192AB83;
- Mon,  8 Feb 2021 11:29:55 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-115-22.ams2.redhat.com
- [10.36.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A249101E243;
- Mon,  8 Feb 2021 11:29:53 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
- gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
- wainersm@redhat.com, s.reiter@proxmox.com
-Subject: [PULL 07/27] migration: implementation of background snapshot thread
-Date: Mon,  8 Feb 2021 11:28:58 +0000
-Message-Id: <20210208112918.185058-8-dgilbert@redhat.com>
-In-Reply-To: <20210208112918.185058-1-dgilbert@redhat.com>
-References: <20210208112918.185058-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC4ECBBEE5;
+ Mon,  8 Feb 2021 09:27:31 +0000 (UTC)
+Received: from localhost (ovpn-115-54.ams2.redhat.com [10.36.115.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC2125D9D5;
+ Mon,  8 Feb 2021 09:27:24 +0000 (UTC)
+Date: Mon, 8 Feb 2021 09:27:23 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PULL v3 00/27] Block patches
+Message-ID: <20210208092723.GA18298@stefanha-x1.localdomain>
+References: <20210205164459.432714-1-stefanha@redhat.com>
+ <CAFEAcA-dQtOaXB-eHEbiF0Z7jF-wSHt0LwW8Bk+BU2B66+=Cyw@mail.gmail.com>
+ <CAFEAcA8sOgF9Czy+GUBti7W-C9ZtW9PB+1YxG7mqAXKr5mV18g@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <CAFEAcA8sOgF9Czy+GUBti7W-C9ZtW9PB+1YxG7mqAXKr5mV18g@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Kj7319i9nmIyA2yE"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URG_BIZ=0.573 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,373 +81,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
+ Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+--Kj7319i9nmIyA2yE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Introducing implementation of 'background' snapshot thread
-which in overall follows the logic of precopy migration
-while internally utilizes completely different mechanism
-to 'freeze' vmstate at the start of snapshot creation.
+On Sat, Feb 06, 2021 at 05:03:20PM +0000, Peter Maydell wrote:
+> On Fri, 5 Feb 2021 at 22:53, Peter Maydell <peter.maydell@linaro.org> wro=
+te:
+> >
+> > On Fri, 5 Feb 2021 at 16:45, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> > >
+> > > The following changes since commit e2c5093c993ef646e4e28f7aa78429853b=
+cc06ac:
+> > >
+> > >   iotests: 30: drop from auto group (and effectively from make check)=
+ (2021-02-05 15:16:13 +0000)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> > >
+> > > for you to fetch changes up to b07011f375bda3319cf72eee7cb18d31007838=
+7b:
+> > >
+> > >   docs: fix Parallels Image "dirty bitmap" section (2021-02-05 16:36:=
+36 +0000)
+> > >
+> > > ----------------------------------------------------------------
+> > > Pull request
+> > >
+> > > v3:
+> > >  * Replace {0} array initialization with {} to make clang happy [Pete=
+r]
+> > >
+> > > ----------------------------------------------------------------
+> >
+> >
+> > Fails 'make check' on s390x host:
+>=20
+> I gave this a rerun to check it was reproducible (it is) and realised
+> I missed what looks like an important line in the log. As usual,
+> trying to disentangle which lines of a parallel make check correspond
+> to the failure is pretty tricky, but the lines
+>  Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
+>=20
+> are probably the proximate causes of the assertion failures.
+>=20
+> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> QTEST_QEMU_IMG=3D./qemu-img
+> G_TEST_DBUS_DAEMON=3D/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
+> QTEST_QEMU_BINARY=3D./qemu-system-rx tests/qtest/qos-test --tap -k
+> PASS 45 qtest-rx/qmp-cmd-test /rx/qmp/query-memory-size-summary
+> SKIP
+> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> QTEST_QEMU_IMG=3D./qemu-img
+> G_TEST_DBUS_DAEMON=3D/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
+> QTEST_QEMU_BINARY=3D./qemu-system-s390x tests/qtest/pxe-test --tap -k
+> PASS 46 qtest-rx/qmp-cmd-test /rx/qmp/query-memory-devices
+> Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
+> PASS 47 qtest-rx/qmp-cmd-test /rx/qmp/query-replay
+> PASS 48 qtest-rx/qmp-cmd-test /rx/qmp/query-yank
+> PASS 49 qtest-rx/qmp-cmd-test /rx/qmp/query-name
+> PASS 50 qtest-rx/qmp-cmd-test /rx/qmp/query-iothreads
+> PASS 51 qtest-rx/qmp-cmd-test /rx/qmp/query-fdsets
+> PASS 52 qtest-rx/qmp-cmd-test /rx/qmp/query-command-line-options
+> PASS 53 qtest-rx/qmp-cmd-test /rx/qmp/query-acpi-ospm-status
+> PASS 54 qtest-rx/qmp-cmd-test /rx/qmp/object-add-failure-modes
+> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> QTEST_QEMU_IMG=3D./qemu-img
+> G_TEST_DBUS_DAEMON=3D/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
+> QTEST_QEMU_BINARY=3D./qemu-system-s390x tests/qtest/test-netfilter --tap
+> -k
+> Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
+> socket_accept failed: Resource temporarily unavailable
+> socket_accept failed: Resource temporarily unavailable
+> **
+> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
+> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> **
+> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
+> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> ../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
+> signal 6 (Aborted) (core dumped)
+> ../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
+> signal 6 (Aborted) (core dumped)
+> ERROR qtest-s390x/pxe-test - Bail out!
+> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
+> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> ERROR qtest-s390x/test-netfilter - Bail out!
+> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
+> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> Makefile.mtest:3113: recipe for target 'run-test-387' failed
+> make: *** [run-test-387] Error 1
+> make: *** Waiting for unfinished jobs....
+> Makefile.mtest:3121: recipe for target 'run-test-388' failed
 
-This mechanism is based on userfault_fd with wr-protection
-support and is Linux-specific.
+Hi Elena and Jag,
+Please take a look at this QOM failure. I guess remote-pcihost is being
+built but pcie-host-bridge is missing from the s390x-softmmu target.
 
-Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Acked-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20210129101407.103458-5-andrey.gruzdev@virtuozzo.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/migration.c | 255 +++++++++++++++++++++++++++++++++++++++++-
- migration/migration.h |   3 +
- migration/savevm.c    |   1 -
- migration/savevm.h    |   2 +
- 4 files changed, 258 insertions(+), 3 deletions(-)
+Thanks,
+Stefan
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 2262f348af..ecb4115d68 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2000,6 +2000,7 @@ void migrate_init(MigrationState *s)
-      * locks.
-      */
-     s->cleanup_bh = 0;
-+    s->vm_start_bh = 0;
-     s->to_dst_file = NULL;
-     s->state = MIGRATION_STATUS_NONE;
-     s->rp_state.from_dst_file = NULL;
-@@ -3217,6 +3218,50 @@ fail:
-                       MIGRATION_STATUS_FAILED);
- }
- 
-+/**
-+ * bg_migration_completion: Used by bg_migration_thread when after all the
-+ *   RAM has been saved. The caller 'breaks' the loop when this returns.
-+ *
-+ * @s: Current migration state
-+ */
-+static void bg_migration_completion(MigrationState *s)
-+{
-+    int current_active_state = s->state;
-+
-+    /*
-+     * Stop tracking RAM writes - un-protect memory, un-register UFFD
-+     * memory ranges, flush kernel wait queues and wake up threads
-+     * waiting for write fault to be resolved.
-+     */
-+    ram_write_tracking_stop();
-+
-+    if (s->state == MIGRATION_STATUS_ACTIVE) {
-+        /*
-+         * By this moment we have RAM content saved into the migration stream.
-+         * The next step is to flush the non-RAM content (device state)
-+         * right after the ram content. The device state has been stored into
-+         * the temporary buffer before RAM saving started.
-+         */
-+        qemu_put_buffer(s->to_dst_file, s->bioc->data, s->bioc->usage);
-+        qemu_fflush(s->to_dst_file);
-+    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
-+        goto fail;
-+    }
-+
-+    if (qemu_file_get_error(s->to_dst_file)) {
-+        trace_migration_completion_file_err();
-+        goto fail;
-+    }
-+
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_COMPLETED);
-+    return;
-+
-+fail:
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_FAILED);
-+}
-+
- bool migrate_colo_enabled(void)
- {
-     MigrationState *s = migrate_get_current();
-@@ -3557,6 +3602,47 @@ static void migration_iteration_finish(MigrationState *s)
-     qemu_mutex_unlock_iothread();
- }
- 
-+static void bg_migration_iteration_finish(MigrationState *s)
-+{
-+    qemu_mutex_lock_iothread();
-+    switch (s->state) {
-+    case MIGRATION_STATUS_COMPLETED:
-+        migration_calculate_complete(s);
-+        break;
-+
-+    case MIGRATION_STATUS_ACTIVE:
-+    case MIGRATION_STATUS_FAILED:
-+    case MIGRATION_STATUS_CANCELLED:
-+    case MIGRATION_STATUS_CANCELLING:
-+        break;
-+
-+    default:
-+        /* Should not reach here, but if so, forgive the VM. */
-+        error_report("%s: Unknown ending state %d", __func__, s->state);
-+        break;
-+    }
-+
-+    migrate_fd_cleanup_schedule(s);
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+/*
-+ * Return true if continue to the next iteration directly, false
-+ * otherwise.
-+ */
-+static MigIterateState bg_migration_iteration_run(MigrationState *s)
-+{
-+    int res;
-+
-+    res = qemu_savevm_state_iterate(s->to_dst_file, false);
-+    if (res > 0) {
-+        bg_migration_completion(s);
-+        return MIG_ITERATE_BREAK;
-+    }
-+
-+    return MIG_ITERATE_RESUME;
-+}
-+
- void migration_make_urgent_request(void)
- {
-     qemu_sem_post(&migrate_get_current()->rate_limit_sem);
-@@ -3704,6 +3790,165 @@ static void *migration_thread(void *opaque)
-     return NULL;
- }
- 
-+static void bg_migration_vm_start_bh(void *opaque)
-+{
-+    MigrationState *s = opaque;
-+
-+    qemu_bh_delete(s->vm_start_bh);
-+    s->vm_start_bh = NULL;
-+
-+    vm_start();
-+    s->downtime = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) - s->downtime_start;
-+}
-+
-+/**
-+ * Background snapshot thread, based on live migration code.
-+ * This is an alternative implementation of live migration mechanism
-+ * introduced specifically to support background snapshots.
-+ *
-+ * It takes advantage of userfault_fd write protection mechanism introduced
-+ * in v5.7 kernel. Compared to existing dirty page logging migration much
-+ * lesser stream traffic is produced resulting in smaller snapshot images,
-+ * simply cause of no page duplicates can get into the stream.
-+ *
-+ * Another key point is that generated vmstate stream reflects machine state
-+ * 'frozen' at the beginning of snapshot creation compared to dirty page logging
-+ * mechanism, which effectively results in that saved snapshot is the state of VM
-+ * at the end of the process.
-+ */
-+static void *bg_migration_thread(void *opaque)
-+{
-+    MigrationState *s = opaque;
-+    int64_t setup_start;
-+    MigThrError thr_error;
-+    QEMUFile *fb;
-+    bool early_fail = true;
-+
-+    rcu_register_thread();
-+    object_ref(OBJECT(s));
-+
-+    qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
-+
-+    setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-+    /*
-+     * We want to save vmstate for the moment when migration has been
-+     * initiated but also we want to save RAM content while VM is running.
-+     * The RAM content should appear first in the vmstate. So, we first
-+     * stash the non-RAM part of the vmstate to the temporary buffer,
-+     * then write RAM part of the vmstate to the migration stream
-+     * with vCPUs running and, finally, write stashed non-RAM part of
-+     * the vmstate from the buffer to the migration stream.
-+     */
-+    s->bioc = qio_channel_buffer_new(128 * 1024);
-+    qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
-+    fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
-+    object_unref(OBJECT(s->bioc));
-+
-+    update_iteration_initial_status(s);
-+
-+    qemu_savevm_state_header(s->to_dst_file);
-+    qemu_savevm_state_setup(s->to_dst_file);
-+
-+    if (qemu_savevm_state_guest_unplug_pending()) {
-+        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-+                          MIGRATION_STATUS_WAIT_UNPLUG);
-+
-+        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
-+               qemu_savevm_state_guest_unplug_pending()) {
-+            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
-+        }
-+
-+        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
-+                          MIGRATION_STATUS_ACTIVE);
-+    } else {
-+        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-+                MIGRATION_STATUS_ACTIVE);
-+    }
-+    s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
-+
-+    trace_migration_thread_setup_complete();
-+    s->downtime_start = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+
-+    qemu_mutex_lock_iothread();
-+
-+    /*
-+     * If VM is currently in suspended state, then, to make a valid runstate
-+     * transition in vm_stop_force_state() we need to wakeup it up.
-+     */
-+    qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, NULL);
-+    s->vm_was_running = runstate_is_running();
-+
-+    if (global_state_store()) {
-+        goto fail;
-+    }
-+    /* Forcibly stop VM before saving state of vCPUs and devices */
-+    if (vm_stop_force_state(RUN_STATE_PAUSED)) {
-+        goto fail;
-+    }
-+    /*
-+     * Put vCPUs in sync with shadow context structures, then
-+     * save their state to channel-buffer along with devices.
-+     */
-+    cpu_synchronize_all_states();
-+    if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
-+        goto fail;
-+    }
-+    /* Now initialize UFFD context and start tracking RAM writes */
-+    if (ram_write_tracking_start()) {
-+        goto fail;
-+    }
-+    early_fail = false;
-+
-+    /*
-+     * Start VM from BH handler to avoid write-fault lock here.
-+     * UFFD-WP protection for the whole RAM is already enabled so
-+     * calling VM state change notifiers from vm_start() would initiate
-+     * writes to virtio VQs memory which is in write-protected region.
-+     */
-+    s->vm_start_bh = qemu_bh_new(bg_migration_vm_start_bh, s);
-+    qemu_bh_schedule(s->vm_start_bh);
-+
-+    qemu_mutex_unlock_iothread();
-+
-+    while (migration_is_active(s)) {
-+        MigIterateState iter_state = bg_migration_iteration_run(s);
-+        if (iter_state == MIG_ITERATE_SKIP) {
-+            continue;
-+        } else if (iter_state == MIG_ITERATE_BREAK) {
-+            break;
-+        }
-+
-+        /*
-+         * Try to detect any kind of failures, and see whether we
-+         * should stop the migration now.
-+         */
-+        thr_error = migration_detect_error(s);
-+        if (thr_error == MIG_THR_ERR_FATAL) {
-+            /* Stop migration */
-+            break;
-+        }
-+
-+        migration_update_counters(s, qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
-+    }
-+
-+    trace_migration_thread_after_loop();
-+
-+fail:
-+    if (early_fail) {
-+        migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
-+                MIGRATION_STATUS_FAILED);
-+        qemu_mutex_unlock_iothread();
-+    }
-+
-+    bg_migration_iteration_finish(s);
-+
-+    qemu_fclose(fb);
-+    object_unref(OBJECT(s));
-+    rcu_unregister_thread();
-+
-+    return NULL;
-+}
-+
- void migrate_fd_connect(MigrationState *s, Error *error_in)
- {
-     Error *local_err = NULL;
-@@ -3767,8 +4012,14 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
-         migrate_fd_cleanup(s);
-         return;
-     }
--    qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
--                       QEMU_THREAD_JOINABLE);
-+
-+    if (migrate_background_snapshot()) {
-+        qemu_thread_create(&s->thread, "bg_snapshot",
-+                bg_migration_thread, s, QEMU_THREAD_JOINABLE);
-+    } else {
-+        qemu_thread_create(&s->thread, "live_migration",
-+                migration_thread, s, QEMU_THREAD_JOINABLE);
-+    }
-     s->migration_thread_running = true;
- }
- 
-diff --git a/migration/migration.h b/migration/migration.h
-index f40338cfbf..0723955cd7 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -20,6 +20,7 @@
- #include "qemu/thread.h"
- #include "qemu/coroutine_int.h"
- #include "io/channel.h"
-+#include "io/channel-buffer.h"
- #include "net/announce.h"
- #include "qom/object.h"
- 
-@@ -147,8 +148,10 @@ struct MigrationState {
- 
-     /*< public >*/
-     QemuThread thread;
-+    QEMUBH *vm_start_bh;
-     QEMUBH *cleanup_bh;
-     QEMUFile *to_dst_file;
-+    QIOChannelBuffer *bioc;
-     /*
-      * Protects to_dst_file pointer.  We need to make sure we won't
-      * yield or hang during the critical section, since this lock will
-diff --git a/migration/savevm.c b/migration/savevm.c
-index d1e6aaed60..d5bf53388f 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1378,7 +1378,6 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
-     return 0;
- }
- 
--static
- int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-                                                     bool in_postcopy,
-                                                     bool inactivate_disks)
-diff --git a/migration/savevm.h b/migration/savevm.h
-index ba64a7e271..aaee2528ed 100644
---- a/migration/savevm.h
-+++ b/migration/savevm.h
-@@ -64,5 +64,7 @@ int qemu_loadvm_state(QEMUFile *f);
- void qemu_loadvm_state_cleanup(void);
- int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
- int qemu_load_device_state(QEMUFile *f);
-+int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-+        bool in_postcopy, bool inactivate_disks);
- 
- #endif
--- 
-2.29.2
+--Kj7319i9nmIyA2yE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAhA/kACgkQnKSrs4Gr
+c8itkgf/VmddG13wSAXZ3TWjcueija39LCWYoPpju6F1dgld3iPZLXuPRV6WagCo
+PAPfT21VNI8NFtKevuVtRuyIv8EVIKd/TIw8RrMhLl/kyHeXrKMf2M5FGd/ZdVME
+Rswxrj5e8qmhf8O5uMaE9EF7+P/yYCsZuIWmJJI0Z5svBN94m9WNEM3bmtJrvKft
+GR2IhmJkHwf11oAL/0yIP7nVTZqGOlPz3OyWMUtlbupNe8omkNEybvg+G/6G+3yK
+vlRtkil7mDUnvlxdCKq21kfCZWirSxJmM2LHHfiEwf4K3tbTnJiK5whAd8eNmZ5q
+GzkZQJm7abVN9mbFB9S12CiqfWuEzA==
+=hqjG
+-----END PGP SIGNATURE-----
+
+--Kj7319i9nmIyA2yE--
 
 
