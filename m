@@ -2,62 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A35313D16
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:19:38 +0100 (CET)
-Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6433C313D67
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:26:09 +0100 (CET)
+Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9B8L-0004vm-UV
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:19:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49412)
+	id 1l9BEe-0004Ic-G1
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:26:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1l950L-000251-11; Mon, 08 Feb 2021 06:46:57 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1l9508-0008W0-VC; Mon, 08 Feb 2021 06:46:56 -0500
-Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4DZ42g56JjzY6rK;
- Mon,  8 Feb 2021 19:45:15 +0800 (CST)
-Received: from dggemm754-chm.china.huawei.com (10.1.198.60) by
- DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 8 Feb 2021 19:46:30 +0800
-Received: from dggeme770-chm.china.huawei.com (10.3.19.116) by
- dggemm754-chm.china.huawei.com (10.1.198.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2106.2; Mon, 8 Feb 2021 19:46:30 +0800
-Received: from dggeme770-chm.china.huawei.com ([10.8.68.58]) by
- dggeme770-chm.china.huawei.com ([10.8.68.58]) with mapi id 15.01.2106.006;
- Mon, 8 Feb 2021 19:46:30 +0800
-From: gaojinhao <gaojinhao@huawei.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: RE: [PATCH v3 3/3] vmstate: Fix memory leak in vmstate_handle_alloc()
-Thread-Topic: [PATCH v3 3/3] vmstate: Fix memory leak in vmstate_handle_alloc()
-Thread-Index: AQHW41SL6tbGdhjV5kaXhVPvQdcug6pNxDsAgACTigA=
-Date: Mon, 8 Feb 2021 11:46:29 +0000
-Message-ID: <7562293f0ee140b9b2a20b170c657207@huawei.com>
-References: <20201231061020.828-1-gaojinhao@huawei.com>
- <20201231061020.828-4-gaojinhao@huawei.com> <20210105111818.GA2945@work-vm>
- <20210208105232.GA3033@work-vm>
-In-Reply-To: <20210208105232.GA3033@work-vm>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.187.50]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l95AS-0008K7-K2
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:57:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22039)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l95AH-0004Bd-Rt
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:57:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612785431;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n0jG5tSEr7CjgGVuNBklNLdLDaBRlyfHAZSjQr5GaA8=;
+ b=IkADLvCyP7KwC4Y0cNTIXXU9n6CpLV7CTlkDDnoPPK2TYybxMLaO2uRgb8+feBQQidqB0j
+ ixbADayObXej+2o2VpYsnyTe3NdfX3rOozVfKKI9C4mZk6BliR/OAS7fRxfOhBxNN/xCcb
+ o1IGm4fEQYzc0lJCSRRNMFlum2Dqzwc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-a7b6eHKtPg2IUq9CoHgKWg-1; Mon, 08 Feb 2021 06:57:07 -0500
+X-MC-Unique: a7b6eHKtPg2IUq9CoHgKWg-1
+Received: by mail-wr1-f72.google.com with SMTP id d7so12942953wri.23
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 03:57:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=n0jG5tSEr7CjgGVuNBklNLdLDaBRlyfHAZSjQr5GaA8=;
+ b=qLVto0mAC7HjqgJNH3uP9hNquvvE73pyhZmx8m/da/esPv0gS9imj/Ax9Nmuyu0Jv/
+ 21K1O0ueM9DPRHD/yzuuq798kws9OlJHBC3I5aFISWgNtbW3J6IS5NP+NOc8Dij/jLBP
+ Bv9x0zA9/sMIIl87yKVuykw0+OmGU8oOFI/cUoD7nepWQ1Qk5d+PIdkxBmyluBo6Ogx3
+ iPqj0OSAtJrQ+JohUtGV4WQBsWAOg4WS7P1loZW2A0UOcdvnzF4JEQgG8RIUmp+7I8SB
+ EFKL7lZg28VpY1VDBF9vJPIIebVLh0SI5o0cl5U34U3VbyGNeUVILAY1ZqYCnp/gEpnN
+ bGkQ==
+X-Gm-Message-State: AOAM5321J2pnbYUoiAix5cBcv7n2ojxfCtR1MVnUZpRnALzuqD67DlZi
+ UmgwxJ4pZ3Kn7D5HNnFPUag30hcuCbkCUk/KWfFFH2yEHPUD4BCWCzAfBgabjRzFt/oEQMRhB7k
+ ztRFVScmRpWCKlOA=
+X-Received: by 2002:a05:6000:1a8c:: with SMTP id
+ f12mr19208013wry.173.1612785426653; 
+ Mon, 08 Feb 2021 03:57:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyg0mMtH9TZOMYnFe+7j+6H3UzRlmGs9PQypyXyLqOA5FKFAXCzwgrn+9T+8r6C/S6kcNqM+g==
+X-Received: by 2002:a05:6000:1a8c:: with SMTP id
+ f12mr19207992wry.173.1612785426487; 
+ Mon, 08 Feb 2021 03:57:06 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id w12sm11735670wmi.4.2021.02.08.03.57.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 03:57:05 -0800 (PST)
+Subject: Re: [PATCH 0/5] Drop float32/float64 accessors used by gdbstub code
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210208113428.7181-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <865e5df2-e4d8-de39-30e7-2f77c0d85eed@redhat.com>
+Date: Mon, 8 Feb 2021 12:57:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=gaojinhao@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210208113428.7181-1-peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,72 +99,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
- =?gb2312?B?TWFyYy1BbmRyqKYgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- zhukeqian <zhukeqian1@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGksIERhdmUsDQpJIHdpbGwgY2hlY2sgdGhlIGNvZGUgYWJvdXQgdm1zdGF0ZV9zcGFwcl90Y2Vf
-dGFibGUgdG8gZmlndXJlIG91dCB0aGUgcHJvYmxlbSBvZiBzZWcgZmF1bHQuDQpUaGFuayB5b3Ug
-Zm9yIHlvdXIgY2hlY2suDQoNCkppbmhhbyBHYW8NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCkZyb206IERyLiBEYXZpZCBBbGFuIEdpbGJlcnQgW21haWx0bzpkZ2lsYmVydEByZWRoYXQu
-Y29tXSANClNlbnQ6IDIwMjHE6jLUwjjI1SAxODo1Mw0KVG86IGdhb2ppbmhhbyA8Z2FvamluaGFv
-QGh1YXdlaS5jb20+DQpDYzogcWVtdS1wcGNAbm9uZ251Lm9yZzsgcWVtdS1kZXZlbEBub25nbnUu
-b3JnOyBNaWNoYWVsIFMgLiBUc2lya2luIDxtc3RAcmVkaGF0LmNvbT47IERhdmlkIEdpYnNvbiA8
-ZGF2aWRAZ2lic29uLmRyb3BiZWFyLmlkLmF1PjsgR3JlZyBLdXJ6IDxncm91Z0BrYW9kLm9yZz47
-IE1hcmMtQW5kcqimIEx1cmVhdSA8bWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tPjsgU3RlZmFu
-IEJlcmdlciA8c3RlZmFuYkBsaW51eC52bmV0LmlibS5jb20+OyBKYXNvbiBXYW5nIDxqYXNvd2Fu
-Z0ByZWRoYXQuY29tPjsgSnVhbiBRdWludGVsYSA8cXVpbnRlbGFAcmVkaGF0LmNvbT47IFdhbmdo
-YWliaW4gKEQpIDx3YW5naGFpYmluLndhbmdAaHVhd2VpLmNvbT47IHpodWtlcWlhbiA8emh1a2Vx
-aWFuMUBodWF3ZWkuY29tPg0KU3ViamVjdDogUmU6IFtQQVRDSCB2MyAzLzNdIHZtc3RhdGU6IEZp
-eCBtZW1vcnkgbGVhayBpbiB2bXN0YXRlX2hhbmRsZV9hbGxvYygpDQoNCiogRHIuIERhdmlkIEFs
-YW4gR2lsYmVydCAoZGdpbGJlcnRAcmVkaGF0LmNvbSkgd3JvdGU6DQo+ICogSmluaGFvIEdhbyAo
-Z2FvamluaGFvQGh1YXdlaS5jb20pIHdyb3RlOg0KPiA+IFNvbWUgbWVtb3J5IGFsbG9jYXRlZCBm
-b3IgZmllbGRzIGhhdmluZyBhIGZsYWcgb2YgVk1TX0FMTE9DIGluIA0KPiA+IFNhdmVTdGF0ZSBt
-YXkgbm90IGZyZWUgYmVmb3JlIFZNIGxvYWQgdm1zZCBpbiBtaWdyYXRpb24uIFNvIHdlIA0KPiA+
-IHByZS1mcmVlIG1lbW9yeSBiZWZvcmUgYWxsb2NhdGlvbiBpbiB2bXN0YXRlX2hhbmRsZV9hbGxv
-YygpIHRvIGF2b2lkIG1lbWxlYWtzLg0KPiA+IA0KPiA+IFJlcG9ydGVkLWJ5OiBFdWxlciBSb2Jv
-dCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKaW5oYW8gR2Fv
-IDxnYW9qaW5oYW9AaHVhd2VpLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBNaWNoYWVsIFMuIFRz
-aXJraW4gPG1zdEByZWRoYXQuY29tPg0KPiANCj4gWWVzLCBJIHRoaW5rIHRoYXQncyBPSzsgaXQn
-cyBhY3R1YWxseSBwcmV0dHkgcmFyZSBmb3IgdGhpcyB0byBoYXBwZW47IA0KPiBub3JtYWxseSBp
-bndhcmRzIG1pZ3JhdGlvbnMgZWl0aGVyIHN1Y2NlZWQgb3IgZmFpbCBhbmQgZXhpdDsgZG9pbmcg
-DQo+IG11bHRpcGxlIGxvYWRzIGZyb20gc25hcHNob3RzIGlzIHZhbGlkIGFuZCBJIGd1ZXNzIENP
-TE8gaGl0cyB0aGlzIGFzIHdlbGwuDQo+IA0KPiBSZXZpZXdlZC1ieTogRHIuIERhdmlkIEFsYW4g
-R2lsYmVydCA8ZGdpbGJlcnRAcmVkaGF0LmNvbT4NCg0KSSdtIGhhdmluZyB0byB1bnF1ZXVlIHRo
-aXMgYmVjYXVzZSBpdCdzIHRyaWdnZXJpbmcgYSBzZWcgZmF1bHQgb24gUG93ZXIgaW4gaW90ZXN0
-IDI2NyAoanVzdCBydW4gbWFrZSBjaGVjaykuDQoNCiMyICAweDAwMDAwMDAxMTZkMGQ0YzggaW4g
-dm1zdGF0ZV9oYW5kbGVfYWxsb2MgKG9wYXF1ZT08b3B0aW1pemVkIG91dD4sIGZpZWxkPTB4MTE3
-OTllMGM4IDxfX2NvbXBvdW5kX2xpdGVyYWwuMSszMTI+LCBwdHI9MHgxMDAxZjhmMTRiMCkgYXQg
-Li4vcWVtdS9taWdyYXRpb24vdm1zdGF0ZS5jOjczDQojMyAgMHgwMDAwMDAwMTE2ZDBkNGM4IGlu
-IHZtc3RhdGVfbG9hZF9zdGF0ZSAoZj0weDEwMDFmNmQwMDAwLCB2bXNkPTB4MTE3OTI4NzMwIDx2
-bXN0YXRlX3NwYXByX3RjZV90YWJsZT4sIG9wYXF1ZT0weDEwMDFmOGYxNDAwLCB2ZXJzaW9uX2lk
-PTxvcHRpbWl6ZWQgb3V0PikgYXQgLi4vcWVtdS9taWdyYXRpb24vdm1zdGF0ZS5jOjEyMg0KIzQg
-IDB4MDAwMDAwMDExNmZiNGE0YyBpbiB2bXN0YXRlX2xvYWQgKGY9MHgxMDAxZjZkMDAwMCwgc2U9
-MHgxMDAxZmM3YmM0MCkgYXQgLi4vcWVtdS9taWdyYXRpb24vc2F2ZXZtLmM6OTEwDQojNSAgMHgw
-MDAwMDAwMTE2ZmI1MDEwIGluIHFlbXVfbG9hZHZtX3NlY3Rpb25fc3RhcnRfZnVsbCAoZj1mQGVu
-dHJ5PTB4MTAwMWY2ZDAwMDAsIG1pcz08b3B0aW1pemVkIG91dD4pIGF0IC4uL3FlbXUvbWlncmF0
-aW9uL3NhdmV2bS5jOjI0MzMNCg0KSXQncyB0aGUgbWlnX25iX3RhYmxlIHRoYXQgUG93ZXIgaXMg
-ZG9pbmcgc29tZSBzcGVjaWFsIGhhbmRsaW5nIHdpdGg7IHNvIGl0IG5lZWRzIHNvbWUgbW9yZSBj
-aGVja2luZyBiZWZvcmUgd2UgY2FuIGZpeCB0aGlzLg0KDQpEYXZlDQoNCj4gPiAtLS0NCj4gPiAg
-bWlncmF0aW9uL3Ztc3RhdGUuYyB8IDEgKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKykNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvbWlncmF0aW9uL3Ztc3RhdGUuYyBiL21pZ3Jh
-dGlvbi92bXN0YXRlLmMgaW5kZXggDQo+ID4gZTlkMmFlZjY2Yi4uODczZjc2NzM5ZiAxMDA2NDQN
-Cj4gPiAtLS0gYS9taWdyYXRpb24vdm1zdGF0ZS5jDQo+ID4gKysrIGIvbWlncmF0aW9uL3Ztc3Rh
-dGUuYw0KPiA+IEBAIC03MCw2ICs3MCw3IEBAIHN0YXRpYyB2b2lkIHZtc3RhdGVfaGFuZGxlX2Fs
-bG9jKHZvaWQgKnB0ciwgY29uc3QgVk1TdGF0ZUZpZWxkICpmaWVsZCwNCj4gPiAgICAgICAgICBn
-c2l6ZSBzaXplID0gdm1zdGF0ZV9zaXplKG9wYXF1ZSwgZmllbGQpOw0KPiA+ICAgICAgICAgIHNp
-emUgKj0gdm1zdGF0ZV9uX2VsZW1zKG9wYXF1ZSwgZmllbGQpOw0KPiA+ICAgICAgICAgIGlmIChz
-aXplKSB7DQo+ID4gKyAgICAgICAgICAgIGdfZnJlZSgqKHZvaWQgKiopcHRyKTsNCj4gPiAgICAg
-ICAgICAgICAgKih2b2lkICoqKXB0ciA9IGdfbWFsbG9jKHNpemUpOw0KPiA+ICAgICAgICAgIH0N
-Cj4gPiAgICAgIH0NCj4gPiAtLQ0KPiA+IDIuMjMuMA0KPiA+IA0KPiAtLQ0KPiBEci4gRGF2aWQg
-QWxhbiBHaWxiZXJ0IC8gZGdpbGJlcnRAcmVkaGF0LmNvbSAvIE1hbmNoZXN0ZXIsIFVLDQotLQ0K
-RHIuIERhdmlkIEFsYW4gR2lsYmVydCAvIGRnaWxiZXJ0QHJlZGhhdC5jb20gLyBNYW5jaGVzdGVy
-LCBVSw0KDQo=
+On 2/8/21 12:34 PM, Peter Maydell wrote:
+> We used to make a distinction between 'float64'/'float32' types and
+> the 'uint64_t'/'uint32_t' types, requiring special conversion
+> operations to go between them.  We've now dropped this distinction as
+> unnecessary, and the 'float*' types remain primarily for
+> documentation purposes when used in places like the function
+> prototypes of TCG helper functions.
+> 
+> This means that there's no need for special gdb_get_float64() and
+> gdb_get_float32() functions to write float64 or float32 values to the
+> GDB protocol buffer; we can just use gdb_get_reg64() and
+> gdb_get_reg32().
+> 
+> Similarly, for reading a value out of the GDB buffer into a float64
+> or float32 we can use ldq_p() or ldl_p() and need not use ldfq_p()
+> or ldfl_p().
+> 
+> This patchseries drops the use of the gdb_get_float* and ldf*
+> functions from the three targets that were using them, and then
+> removes the now-unused functions from gdbstub.h and bswap.h.
+> 
+> thanks
+> -- PMM
+> 
+> Peter Maydell (5):
+>   target/sh4: Drop use of gdb_get_float32() and ldfl_p()
+>   target/m68k: Drop use of gdb_get_float64() and ldfq_p()
+>   target/ppc: Drop use of gdb_get_float64() and ldfq_p()
+>   gdbstub: Remove unused gdb_get_float32() and gdb_get_float64()
+>   bswap.h: Remove unused float-access functions
+> 
+>  docs/devel/loads-stores.rst     | 14 +++-----
+>  include/exec/cpu-all.h          |  8 -----
+>  include/exec/gdbstub.h          | 20 -----------
+>  include/qemu/bswap.h            | 60 ---------------------------------
+>  target/m68k/helper.c            |  5 ++-
+>  target/ppc/gdbstub.c            |  8 ++---
+>  target/sh4/gdbstub.c            |  8 ++---
+>  target/ppc/translate_init.c.inc |  4 +--
+>  8 files changed, 17 insertions(+), 110 deletions(-)
+
+Series:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Thanks for the cleanup!
+
 
