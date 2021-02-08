@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2DA313EEB
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:28:43 +0100 (CET)
-Received: from localhost ([::1]:50570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD58313E71
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:06:06 +0100 (CET)
+Received: from localhost ([::1]:36370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9CDC-00069R-Jj
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:28:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47582)
+	id 1l9BrJ-0004lJ-Jh
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:06:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96k5-00037o-SA
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:38:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96jn-00053q-3q
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:38:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612791475;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tQ7gcwIJyEjX0zd59lKnvbrHOtNccVSpuCuwvlX+x68=;
- b=Ajh7fkJAyEuGrS7dAlQIEYGsk4GqHW4njE8UvliRylDPLtAZJWYW5fzBlqj76v4a+sQuhW
- jidLV3C3wCs50W0XWlqhcLpG1Nq85CGn4BOfPd8UsKgDiVe0FNxcQVcJcJT2dURgLxmyqJ
- dTXp2CU5o/ziZJx07Eot48Z2YLxnxQQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-pAXBqkxKPSyDgzYm1hj6Bg-1; Mon, 08 Feb 2021 08:37:52 -0500
-X-MC-Unique: pAXBqkxKPSyDgzYm1hj6Bg-1
-Received: by mail-wm1-f70.google.com with SMTP id u138so3607265wmu.8
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 05:37:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l97G4-0007LV-5m; Mon, 08 Feb 2021 09:11:23 -0500
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:34125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l97Fi-0004TB-6m; Mon, 08 Feb 2021 09:11:11 -0500
+Received: by mail-yb1-xb2d.google.com with SMTP id d184so3368578ybf.1;
+ Mon, 08 Feb 2021 06:10:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+NZVrLQiR9rMMA5raR/lycz7gXFOlEhREhf0TIHPsh8=;
+ b=lsRdNtvKDAoJVGRCzka/7BxPGZzzhgr7yPyIZKtoRlvUEsKNTnIpt62MVlc1IfKCE4
+ Yhbr2VM3ON/skM8HGEoFCgD5sQmHMB/Mcop8J0GzGw7iUZO3wW5Jq3B6j0G06kOci/ru
+ jvDk0iE0PD9LuvWTjSe/4QLWtfK7Trh9zxj6QE8D08+9Vkgn/81xnY671zFybPTy2EW8
+ YzzSyNb3lvZB5Uhvkdpo1tRQR58xAlk8G2x9+gusFI2MWIiimibRDA6bCmeR+BHuTymb
+ +hkDovqcKFN4I86ek13XVTy/J7WMcwiAJKSFATtgk24EJwW/iZOVCXS1z74nM/DnUew+
+ Czgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tQ7gcwIJyEjX0zd59lKnvbrHOtNccVSpuCuwvlX+x68=;
- b=HvwRulPVIACbfPGpODcGDQcNL7BdUON50ebHcLF9TB/C5SN/SQJk06coQif/viJb1o
- gzI76W8TOKAOlgX0OVVAv9iLK6Ls6KD4SDuAorwg4Daxc9tmUUmxLLdRGU6Oj87FL4Mq
- R42xOQCr1+F4P05U5BDDPtUP3gLZzp0Xs2tICdS4kSLZKsAnD8YW4TSElBZHSSBr9mCQ
- TxJCxsRZLhD+IZkmztSlbhIwf15SnlblgrtbpL9ng+SaXkiy2VrrNu+TI16TG1/gaKHX
- l6QnLoltOfN9GSUfrH826wZSdcto5x+MEqbRroruzNsDLsrxW9S3YWNths/96tu//V+Y
- disg==
-X-Gm-Message-State: AOAM533LHM+nam3twQS1jMh1MuZV28EBMuXnI/wnUdu3JlwqaLmWpNUR
- QXpqTaHMdMd6MipZSWd0HmubHYI5JxO+X3n5aM5shID730C0/bT+NZ1UJ+GA8QS+OxMU+SVFOx9
- GksvmRxDInqJqthM86Z8ZfRPbRUz8xOLlYzfrTE0/DdbCZqlBLbt1d4Ew6wHxr1Nl
-X-Received: by 2002:a1c:bcc3:: with SMTP id m186mr7642798wmf.165.1612791470889; 
- Mon, 08 Feb 2021 05:37:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyoLovhfKM44tbrkJ7pK9KWK+o5YraYN1AYYaEu+dXfImgiwVVZxhVAZ7cuN8yOdA7PLvZWTA==
-X-Received: by 2002:a1c:bcc3:: with SMTP id m186mr7642773wmf.165.1612791470584; 
- Mon, 08 Feb 2021 05:37:50 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id z4sm28610257wrw.38.2021.02.08.05.37.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 05:37:49 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 07/18] tests/acceptance: Add a test for the virtex-ml507 ppc
- machine
-Date: Mon,  8 Feb 2021 14:37:00 +0100
-Message-Id: <20210208133711.2596075-8-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210208133711.2596075-1-philmd@redhat.com>
-References: <20210208133711.2596075-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+NZVrLQiR9rMMA5raR/lycz7gXFOlEhREhf0TIHPsh8=;
+ b=mzYHqYX+5gln+WaRTohVguG+FLIcxCib8fLltgd4JUQNVnPRYcYk5U7fVpmVVqF2WP
+ KIBJsWPeKxY6ewM+vrbqWDwWRoHuOK+4Li8lXCiDddcC+DersMlMos3g264fOfNNoDbW
+ sUJaqwIYqG+APTG6Ej7ZuHGiQFiryJMVfFXBu+mErYHkaVFtodE10a32Y6RIlWrq0MRz
+ U/rUkIwS6YPCFginyYXFEyT1nf0zsMruwidjj9r6GFCBfPhczLATJ56NQ54J9e1XaP4Z
+ 7SAupREMWlzXSLCjO8VZIUtSY/OdUIxAfBOTUuEROJyNkHkgEa9ARxa3X/tcMBY5TaQs
+ UnLQ==
+X-Gm-Message-State: AOAM531RnDkhDzgqjXrE3BpcYjvo3u903AcS0XxjFtcM+3kCG6Ops3oC
+ 6cCSeXYgKCZlCgMxposevkk91SMshrFKdMJMDuA=
+X-Google-Smtp-Source: ABdhPJwHIIebY9gBMipCaPT5xVbNV90zL93vxDQPxEl2UNCLC6Oz8cVC+Wdxewpm9+ox8R3YK85+LrCfbcUWZ6eyW4I=
+X-Received: by 2002:a5b:5ce:: with SMTP id w14mr24860877ybp.314.1612793455443; 
+ Mon, 08 Feb 2021 06:10:55 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <1612761924-68000-1-git-send-email-bmeng.cn@gmail.com>
+ <1612761924-68000-3-git-send-email-bmeng.cn@gmail.com>
+ <20210208124425.GI477672@toto>
+In-Reply-To: <20210208124425.GI477672@toto>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 8 Feb 2021 22:10:43 +0800
+Message-ID: <CAEUhbmV=QLCuk5_bymrVNPO_vEU=R1A3urAaqhnNAgSGpiTsGw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/ssi: xilinx_spips: Implement basic QSPI DMA
+ support
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,58 +77,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ francisco.iglesias@xilinx.com, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Hi Edgar,
 
-The "And a hippo new year" image from the QEMU advent calendar 2020
-can be used to test the virtex-ml507 ppc machine.
+On Mon, Feb 8, 2021 at 8:44 PM Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> On Mon, Feb 08, 2021 at 01:25:24PM +0800, Bin Meng wrote:
+> > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> >
+> > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+> > is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+> > crash. This is observed when testing VxWorks 7.
+> >
+> > Add a basic implementation of QSPI DMA functionality.
+> >
+> > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
+> + Francisco
+>
+> Hi,
+>
+> Like Peter commented on the previous version, the DMA unit is actully separate.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20210112164045.98565-4-thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- tests/acceptance/machine_ppc.py | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Is it really separate? In the Xilinx ZynqMP datasheet, it's an
+integrated DMA unit dedicated for QSPI usage. IIUC, other modules on
+the ZynqMP SoC cannot use it to do any DMA transfer. To me this is no
+different like a DMA engine in a ethernet controller.
 
-diff --git a/tests/acceptance/machine_ppc.py b/tests/acceptance/machine_ppc.py
-index 71025d296c5..a836e2496f1 100644
---- a/tests/acceptance/machine_ppc.py
-+++ b/tests/acceptance/machine_ppc.py
-@@ -49,3 +49,21 @@ def test_ppc_mpc8544ds(self):
-         self.vm.launch()
-         wait_for_console_pattern(self, 'QEMU advent calendar 2020',
-                                  self.panic_message)
-+
-+    def test_ppc_virtex_ml507(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=machine:virtex-ml507
-+        """
-+        tar_url = ('https://www.qemu-advent-calendar.org'
-+                   '/2020/download/hippo.tar.gz')
-+        tar_hash = '306b95bfe7d147f125aa176a877e266db8ef914a'
-+        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-+        archive.extract(file_path, self.workdir)
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', self.workdir + '/hippo/hippo.linux',
-+                         '-dtb', self.workdir + '/hippo/virtex440-ml507.dtb',
-+                         '-m', '512')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'QEMU advent calendar 2020',
-+                                 self.panic_message)
--- 
-2.26.2
+> This module is better modelled by pushing data through the Stream framework
+> into the DMA. The DMA model is not upstream but can be found here:
+> https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
+>
 
+What's the benefit of modeling it using the stream framework?
+
+> Feel free to send a patch to upstream with that model (perhaps changing
+> the filename to something more suitable, e.g xlnx-csu-stream-dma.c).
+> You can use --author="Edgar E. Iglesias <edgar.iglesias@xilinx.com>".
+>
+
+Please, upstream all work Xilinx has done on QEMU. If you think the
+DMA support should really be using the Xilinx one, please do the
+upstream work as we are not familiar with that implementation.
+
+Currently we are having a hard time testing the upstream QEMU Xilinx
+QSPI model with either U-Boot or Linux. We cannot boot anything with
+upstream QEMU with the Xilinx ZynqMP model with the limited
+information from the internet. Instructions are needed. I also
+suggested to Francisco in another thread that the QEMU target guide
+for ZynqMP should be added to provide such information.
+
+> The DMA should be mapped to 0xFF0F0800 and IRQ 15.
+>
+> CC:d Francisco, he's going to publish some smoke-tests for this.
+>
+
+Regards,
+Bin
 
