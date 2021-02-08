@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFC03138A4
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:56:41 +0100 (CET)
-Received: from localhost ([::1]:55084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E25631383D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:43:06 +0100 (CET)
+Received: from localhost ([::1]:44232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l98tz-0003At-Vw
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:56:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
+	id 1l98gr-0005J8-6d
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:43:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l92jU-0007Pi-2N
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:21:27 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:41461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l92j1-0005Db-NX
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:21:13 -0500
-Received: by mail-ed1-x529.google.com with SMTP id s5so17206179edw.8
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 01:20:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BQO2IDIsOtI+x6NP4JOQZVMLHTrwCzxd0NGnNahlZoM=;
- b=uwbqyfMCL64qh41lgvbZkWXvgO4a0Tss9ebsStFnpuHCNUKm2bafBPKBQsAGigf8d/
- SkVXUe1KKVWgYxnppEWEgnmhN2oqN56BK60+897CKLfuxT06SGdrX0mD9qbiOlP2NqU8
- kRvuwaGntWwJIvN1130a7AcQn1OAdcshfgEUMzpKb6xXU6kYX3PL4ry+AZaROazXDsS9
- jD8rbHb/9N9naxi+zBf59qOHn23YGjaT1ECXoTdK0fpFnoE2LIBOxCpm+ZFoFX20A9zK
- PLdGb5RtwQvbRzpEo9jEZjA1wGTCbvJkwEN5CRoZ7JwR+ojtDBvCQizncskkcq01+nuA
- G9bg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94cA-0006xh-TE
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:22:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94c1-0007xV-GS
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:21:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612783305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ea72i7wW+BLjL2iNsYcJmAtd6sRCSBqncZSd7+flZPc=;
+ b=VbFYfoNNPhph4lxQmntfpTRYABQloRzeD1F+HmFNwDREZ0PWXC2tYrN/9fVw2WPzlOeBLx
+ pmCIv30AUx8/JYnB1R1GFb12ClJ4junyvr0HCTzf6XzXsUMLo4Oh9lSxb0+JgV3Z0T5Izd
+ ACDghNMjteGYIDX5h5Vf2D+tpNUZ/Pk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-dInOi2atPUuD6i4Ry85bmg-1; Mon, 08 Feb 2021 06:21:42 -0500
+X-MC-Unique: dInOi2atPUuD6i4Ry85bmg-1
+Received: by mail-wr1-f69.google.com with SMTP id c1so12908275wrx.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 03:21:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BQO2IDIsOtI+x6NP4JOQZVMLHTrwCzxd0NGnNahlZoM=;
- b=oVTDvcX7EwgX2632OH0wJbMtiXmF3TyUBwjOCpbRM14AmWIn1PLFl+QKOLgKJc9ZsF
- FHvK2Zb+maoLNf6+7Fu/u0+NrfNFySfc63VIOPpLgfD2so3sHpoaQJNEOYgvKbv75HfU
- IImZeq0Pjyq0q3sdd8eeHhlmq9t0AXHssjx1RGKvryiO7pGzLVdjtv/W6UHtf7cBNCBQ
- BYiu19a/cNhxyZhvtF0e7iQI73YuO1jOoaxFfY8DKNOl8ZGUVgiJmMEuRGtHG2djjzgK
- Pl++ZfaWoj/FWw0lUX7Ou3qrMB8V9/lUgtWzVNl+y5YJYkZTsSxNQzgUSsyLePYiLOMV
- fMaA==
-X-Gm-Message-State: AOAM531Eup+xSi6sycg45zJ67s/QgdSRbHW3SjC6XJ8HLv6uT4uKGg8G
- hN8mJsE9SLqekWs6Y9XTcjA4QjGiIrXJZfz2kqSwqg==
-X-Google-Smtp-Source: ABdhPJyFcKgBllkgalGm9/iCpbpQQT/aiRKuLe+Nr4KJ6ffiklqVQtRKRY/8eX7acJWnkAe5bMB1Xjj+hxN1sGdXL2Y=
-X-Received: by 2002:a50:d307:: with SMTP id g7mr15307075edh.204.1612776043410; 
- Mon, 08 Feb 2021 01:20:43 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ea72i7wW+BLjL2iNsYcJmAtd6sRCSBqncZSd7+flZPc=;
+ b=C6hfT/MUBtlIJHueC0qJITnVPmVQOu/hNWxQBYv53ay/GogzUN2lk+V/i6TtMUIi8l
+ CPiKePoyz9AwHGDS3/eBEe+MAzLyUBx0+1uZkpikhPeJkWZQ9XIp4dJfq+UVXWmwC84t
+ 5jC03ZUDxzcLB+PbEOwU3/7QAcP0KdW9hx9k0+dna6a2Z8ULDAeaaV6XYT846HAxGyLt
+ yBnhFYxTzqesu7RLOPfGdonmmH4aIUsEPwtTq+gKJSQ+aYVd77ozVRf6X2jLXQwUiIiX
+ cFwaGgX27yYRkKXcJmi7mEsx0PvD1dcKk9K9i6Jew/KR1FETDNxf24Y8IqqasCmCXvh+
+ +1rw==
+X-Gm-Message-State: AOAM5329inKMCrS1d/vH33HkS/bnXvEOPT7nZzkwn/DKQ9AiDge7DW15
+ 12TQu7Ca0lAc53KkGAIJfTuAAx0ABirnEn0Lh/yGiEwgNn0bJ1Slzb+ialsvIybxVClaabtDQpL
+ F99SXSpW4cxKeAtA=
+X-Received: by 2002:a1c:7910:: with SMTP id l16mr14500068wme.34.1612783300948; 
+ Mon, 08 Feb 2021 03:21:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx71EG5mgDCrK1ogT8W+8kKuNrvrxnpaLZUyZW7J9vCHnpX4sNZFrPsV0cQFfBh03hD0gmESw==
+X-Received: by 2002:a1c:7910:: with SMTP id l16mr14500037wme.34.1612783300734; 
+ Mon, 08 Feb 2021 03:21:40 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id x13sm14722107wmc.27.2021.02.08.03.21.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 03:21:39 -0800 (PST)
+Subject: Re: [PATCH 09/22] tests/acceptance/virtiofs_submounts.py: required
+ space between IP and port
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <20210203172357.1422425-10-crosa@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c2e92e2b-842e-641e-a6a7-395599d651be@redhat.com>
+Date: Mon, 8 Feb 2021 12:21:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210204014509.882821-1-richard.henderson@linaro.org>
- <20210204014509.882821-64-richard.henderson@linaro.org>
- <9d107cb2-ee8c-2a89-e004-9996a647a060@weilnetz.de>
- <9f552075-1783-dc8b-f338-23e12a138ffd@linaro.org>
- <CAFEAcA9TtuWaFo3cg_Qhxkg8gRqBNBkuHkSAJ-Lbxzbp23iR+w@mail.gmail.com>
- <69d3bc09-aeb8-6a40-157e-bf0dc19c0035@linaro.org>
-In-Reply-To: <69d3bc09-aeb8-6a40-157e-bf0dc19c0035@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Feb 2021 09:20:32 +0000
-Message-ID: <CAFEAcA_=DZTRNvQsqT4dki1GTyAhL0RmhPoHG+OBw=W0yct0sg@mail.gmail.com>
-Subject: Re: [PATCH v2 63/93] tcg/tci: Use ffi for calls
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210203172357.1422425-10-crosa@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,72 +99,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 7 Feb 2021 at 20:12, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/7/21 11:52 AM, Peter Maydell wrote:
-> > On Sun, 7 Feb 2021 at 17:41, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> On 2/7/21 8:25 AM, Stefan Weil wrote:
-> >>>> +#include "qemu-common.h"
-> >>>> +#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
-> >>>> +#include "exec/cpu_ldst.h"
-> >>>> +#include "tcg/tcg-op.h"
-> >>>> +#include "qemu/compiler.h"
-> >>>> +#include <ffi.h>
-> >>>> +
-> >>>
-> >>>
-> >>> ffi.h is not found on macOS with Homebrew.
-> >>>
-> >>> This can be fixed by using pkg-config to find the right compiler (and maybe
-> >>> also linker) flags:
-> >>>
-> >>> % pkg-config --cflags libffi
-> >>> -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ffi
-> >>> % pkg-config --libs libffi
-> >>> -lffi
-> >>
-> >>
-> >> Which is exactly what I do in the previous patch:
-> >>
-> >>
-> >>> +++ b/meson.build
-> >>> @@ -1901,7 +1901,14 @@ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
-> >>>    'tcg/tcg-op.c',
-> >>>    'tcg/tcg.c',
-> >>>  ))
-> >>> -specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
-> >>> +
-> >>> +if get_option('tcg_interpreter')
-> >>> +  libffi = dependency('libffi', version: '>=3.0',
-> >>> +                      static: enable_static, method: 'pkg-config',
-> >>> +                      required: true)
-> >>> +  specific_ss.add(libffi)
-> >>> +  specific_ss.add(files('tcg/tci.c'))
-> >>> +endif
-> >>
-> >> Did you need a PKG_CONFIG_LIBDIR set for homebrew?
-> >
-> > Is this the "meson doesn't actually add the cflags everywhere it should"
-> > bug again ?
->
-> I guess so.  I realized after sending this reply that PKG_CONFIG_LIBDIR can't
-> be the answer, since the original configure should have failed if pkg-config
-> didn't find ffi.
->
-> Was there a resolution to said meson bug?
+On 2/3/21 6:23 PM, Cleber Rosa wrote:
+> AFAICT, there should not be a situation where IP and port do not have
+> at least one whitespace character separating them.
+> 
+> This may be true for other '\s*' patterns in the same regex too.
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  tests/acceptance/virtiofs_submounts.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-There's a workaround involving adding the library to the dependencies
-list in the right places -- commit 3eacf70bb5a83e4 did this for gnutls.
-Paolo may be able to help further.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-thanks
--- PMM
 
