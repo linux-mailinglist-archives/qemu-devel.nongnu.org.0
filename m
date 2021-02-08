@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CCD313D87
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:32:03 +0100 (CET)
-Received: from localhost ([::1]:32974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B518B313DA4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:36:44 +0100 (CET)
+Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9BKM-00023I-Lw
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:32:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51444)
+	id 1l9BOs-0007D4-J0
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:36:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9730-0005PF-2j
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:57:51 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:33476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l972g-0001Mx-IA
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:57:45 -0500
-Received: by mail-ej1-x636.google.com with SMTP id sa23so24886389ejb.0
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 05:57:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w9NiabmO5CzJfZ/zFcfyiUkofT/HxE6L7y1PJoRvMxw=;
- b=t7MWugstWbRds/zCmvRBYaIIW87Cd0IQ/TzBq3iMS22suu71NdpCGPsBJ3EPgQUCAX
- CaYF+dsjXzqANiNUTErmMK5PwROOCfx5VpXz/CaxADLdw2ipxLX5LN61D6Xr7szVH4tF
- QZdwFZdfJsovk319dhPZoPedGodA3lE1std1Frfu7lFlSwp580RGa8K3Zr+L5f6TXBKc
- QrvPe6DzEUkE3X7uRJX+XQrdPDdIldjaH+/2+0fJQUL/DQVf+CUIFWOjN78t6hcJYM+1
- 8H9iRbtV8G8TBfH6HMThNKHXildLRGgvo8nocIcosLszbFyT+kuGDLp+LPqPlmYUpyEr
- tfwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w9NiabmO5CzJfZ/zFcfyiUkofT/HxE6L7y1PJoRvMxw=;
- b=jWBRm3eWAP23Gnj8PjgAVoh6HOtFazEVS+Twh6ZwEpNN+N9C4nXFWxuzCh5sJ3qpqh
- r4gKkJ3q2lozhCADk1RmlzwAO/QL2izOlsZSSdCZEDA0fg7eCKgXUWKEAdGqJL5rm0+5
- HUlLckudDRsdxx9fVix3pkjXv9rsjTlZ8koifhwJTIL0Bb9a8ZXo6IY1BTbx8X4yIZdl
- xDT0K9GUK2DYeTYhoDy0zDTe7aGhrgrPlGhFNpa9RTP+BcH8GDOULOSg6Ux6XXZWZp+J
- vMUzyn8qVPBx3heEaLkYAucuk5gCV1eiWvJLgkRqpPssrsUnj12nZrVgIAsg5ruIFGxZ
- 3enA==
-X-Gm-Message-State: AOAM530vzhKfu64DCyGQAYh5HHqXiUXlwhqwl83Rg/6B/39L1A8J5K4X
- LpoyXupIUNdr/1UO1RkgzqlgKzkccM43ulGf3bkG7w==
-X-Google-Smtp-Source: ABdhPJz37Pkn56qiXLFanBZkODMoEg2hT1p5t8mPVxa8MJWXyQHihM+PkZYAQztUXvrS27bERNZ/rIrmt6rtygy/Qvs=
-X-Received: by 2002:a17:907:98c3:: with SMTP id
- kd3mr17152203ejc.482.1612792639269; 
- Mon, 08 Feb 2021 05:57:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l974P-0005ag-LB
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9742-0001cw-OI
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612792734;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=csUV8I8SWb0ruDZPQgjB6Ey2CibyQJ2OLFYrR8KhqbA=;
+ b=HGW1QDvW4wAfV1pmCFcBHffsmuQ5xWh50yFl7x4eIZaWR+Kr26+s46TlmQaECX71GJqY31
+ qSG23oxHLjBG967+Qeqa1eq8BUjpgglAwHYmqv+U3HNIo19TzNm7KKN62NMZchtaPv+rBv
+ EeQYonDnBtESzv7sLlAgbLuOIylSlYI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-570-V9NRWYelPl2bVWROKQCeOg-1; Mon, 08 Feb 2021 08:58:50 -0500
+X-MC-Unique: V9NRWYelPl2bVWROKQCeOg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0179107ACC7;
+ Mon,  8 Feb 2021 13:58:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8840C10016F0;
+ Mon,  8 Feb 2021 13:58:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5A57F1132E9A; Mon,  8 Feb 2021 14:58:46 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 05/16] qapi: centralize is_[user|system|builtin]_module methods
+Date: Mon,  8 Feb 2021 14:58:35 +0100
+Message-Id: <20210208135846.3707170-6-armbru@redhat.com>
+In-Reply-To: <20210208135846.3707170-1-armbru@redhat.com>
+References: <20210208135846.3707170-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20210203190010.759771-1-richard.henderson@linaro.org>
- <20210203190010.759771-20-richard.henderson@linaro.org>
-In-Reply-To: <20210203190010.759771-20-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Feb 2021 13:57:08 +0000
-Message-ID: <CAFEAcA9e7XhcLma7tz6hfn6fbukZXbKt1yw-DEemV6vQ=SxQow@mail.gmail.com>
-Subject: Re: [PATCH v5 19/31] linux-user: Handle tags in lock_user/unlock_user
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,80 +79,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Feb 2021 at 19:00, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Resolve the untagged address once, using thread_cpu.
-> Tidy the DEBUG_REMAP code using glib routines.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/uaccess.c | 29 +++++++++++++++--------------
->  1 file changed, 15 insertions(+), 14 deletions(-)
->
-> diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
-> index 30d01f8b30..c696913016 100644
-> --- a/linux-user/uaccess.c
-> +++ b/linux-user/uaccess.c
-> @@ -6,36 +6,37 @@
->
->  void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy)
->  {
-> +    void *host_addr;
-> +
-> +    guest_addr = cpu_untagged_addr(thread_cpu, guest_addr);
->      if (!access_ok_untagged(type, guest_addr, len)) {
->          return NULL;
->      }
-> +    host_addr = g2h_untagged(guest_addr);
->  #ifdef DEBUG_REMAP
-> -    {
-> -        void *addr;
-> -        addr = g_malloc(len);
-> -        if (copy) {
-> -            memcpy(addr, g2h(guest_addr), len);
-> -        } else {
-> -            memset(addr, 0, len);
-> -        }
-> -        return addr;
-> +    if (copy) {
-> +        host_addr = g_memdup(host_addr, len);
-> +    } else {
-> +        host_addr = g_malloc0(len);
->      }
-> -#else
-> -    return g2h_untagged(guest_addr);
->  #endif
-> +    return host_addr;
->  }
->
->  #ifdef DEBUG_REMAP
->  void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len);
->  {
-> +    void *host_ptr_conv;
-> +
->      if (!host_ptr) {
->          return;
->      }
-> -    if (host_ptr == g2h_untagged(guest_addr)) {
-> +    host_ptr_conv = g2h(thread_cpu, guest_addr);
-> +    if (host_ptr == host_ptr_conv) {
->          return;
->      }
-> -    if (len > 0) {
-> -        memcpy(g2h_untagged(guest_addr), host_ptr, len);
-> +    if (len != 0) {
-> +        memcpy(host_ptr_conv, host_ptr, len);
->      }
+From: John Snow <jsnow@redhat.com>
 
-Why the change from checking >0 to checking !=0 ? I'd rather not
-have to go through and audit all the callsites to confirm none
-of them pass a "length-or-negative-errno" value here...
+Define what a module is and define what kind of a module it is once and
+for all, in one place.
 
-thanks
--- PMM
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20210201193747.2169670-6-jsnow@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/qapi/gen.py    | 25 +++++++++++--------------
+ scripts/qapi/schema.py | 31 +++++++++++++++++++++++++++++--
+ 2 files changed, 40 insertions(+), 16 deletions(-)
+
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index 3d81b90ab7..2aec6d3436 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -31,7 +31,11 @@ from .common import (
+     guardstart,
+     mcgen,
+ )
+-from .schema import QAPISchemaObjectType, QAPISchemaVisitor
++from .schema import (
++    QAPISchemaModule,
++    QAPISchemaObjectType,
++    QAPISchemaVisitor,
++)
+ from .source import QAPISourceInfo
+ 
+ 
+@@ -246,21 +250,14 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
+         self._main_module: Optional[str] = None
+ 
+     @staticmethod
+-    def _is_user_module(name: Optional[str]) -> bool:
+-        return bool(name and not name.startswith('./'))
+-
+-    @staticmethod
+-    def _is_builtin_module(name: Optional[str]) -> bool:
+-        return not name
+-
+-    def _module_dirname(self, name: Optional[str]) -> str:
+-        if self._is_user_module(name):
++    def _module_dirname(name: Optional[str]) -> str:
++        if QAPISchemaModule.is_user_module(name):
+             return os.path.dirname(name)
+         return ''
+ 
+     def _module_basename(self, what: str, name: Optional[str]) -> str:
+-        ret = '' if self._is_builtin_module(name) else self._prefix
+-        if self._is_user_module(name):
++        ret = '' if QAPISchemaModule.is_builtin_module(name) else self._prefix
++        if QAPISchemaModule.is_user_module(name):
+             basename = os.path.basename(name)
+             ret += what
+             if name != self._main_module:
+@@ -282,7 +279,7 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
+         self._genc, self._genh = self._module[name]
+ 
+     def _add_user_module(self, name: str, blurb: str) -> None:
+-        assert self._is_user_module(name)
++        assert QAPISchemaModule.is_user_module(name)
+         if self._main_module is None:
+             self._main_module = name
+         self._add_module(name, blurb)
+@@ -292,7 +289,7 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
+ 
+     def write(self, output_dir: str, opt_builtins: bool = False) -> None:
+         for name in self._module:
+-            if self._is_builtin_module(name) and not opt_builtins:
++            if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
+                 continue
+             (genc, genh) = self._module[name]
+             genc.write(output_dir)
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 720449feee..e80d9320ed 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -141,6 +141,33 @@ class QAPISchemaModule:
+         self.name = name
+         self._entity_list = []
+ 
++    @staticmethod
++    def is_system_module(name: Optional[str]) -> bool:
++        """
++        System modules are internally defined modules.
++
++        Their names start with the "./" prefix.
++        """
++        return name is None or name.startswith('./')
++
++    @classmethod
++    def is_user_module(cls, name: Optional[str]) -> bool:
++        """
++        User modules are those defined by the user in qapi JSON files.
++
++        They do not start with the "./" prefix.
++        """
++        return not cls.is_system_module(name)
++
++    @staticmethod
++    def is_builtin_module(name: Optional[str]) -> bool:
++        """
++        The built-in module is a single System module for the built-in types.
++
++        It is presently always the value 'None'.
++        """
++        return name is None
++
+     def add_entity(self, ent):
+         self._entity_list.append(ent)
+ 
+@@ -871,8 +898,8 @@ class QAPISchema:
+         return typ
+ 
+     def _module_name(self, fname):
+-        if fname is None:
+-            return None
++        if QAPISchemaModule.is_system_module(fname):
++            return fname
+         return os.path.relpath(fname, self._schema_dir)
+ 
+     def _make_module(self, fname):
+-- 
+2.26.2
+
 
