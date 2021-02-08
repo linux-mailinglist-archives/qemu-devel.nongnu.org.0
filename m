@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A8131297D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 04:41:59 +0100 (CET)
-Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10C631295D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 04:31:51 +0100 (CET)
+Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8xR0-0001gQ-MG
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 22:41:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58562)
+	id 1l8xHC-0005kV-Mq
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 22:31:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8wSk-00034u-Ii
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:39:42 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:55243)
+ id 1l8wSs-0003Jr-2i
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:39:50 -0500
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:38458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8wSi-0006E6-Oe
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:39:42 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id gb24so934678pjb.4
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:39:40 -0800 (PST)
+ id 1l8wSq-0006Gn-A2
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:39:49 -0500
+Received: by mail-pf1-x429.google.com with SMTP id d26so7525204pfn.5
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:39:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lLuTVZMheh+w94V9lSybCso+88KsI23VfpQyYgw6vik=;
- b=LKRfmQ6qvJR312Tp5KhXnnlnYoyvf4v91Fe8arlt6ok5omrVDkZTl0w8OAJnUeONv5
- I5cXEI+4bWpL+W1kKHXJszPnl7XwLsLlGWmQOz5Xj4k2cZfYLpaM+oWTMiiQ4tGmD6sR
- nkvcIb9gHHknOqlw3XW05pr0vKGR1bPPDJjNsuy06XMmKSFqjRXsLQRAo4ewV8naFivg
- nKWVr8bvvNX/zs4h96sOU2rDnfV2hbCxJd7OcrlQhfxeSXOpWR+ZArmfjXUEUZLgyHS4
- 2OCYG7nFpU7m9HYONP/W+Vceynd8rrTFYzExiw8O7CCn+oIwNbQHyj9VQPbvBET/AHaA
- K7KA==
+ bh=wEpSveRBqQxH9QCIh+2wXIVlcJM9/sJDV4z9gEqJssk=;
+ b=RgdofgZ2++BadXux44Uy10k/X2YD042pBdjkPDajA06TSut4D4DGD9IUAkDl4N4+R0
+ ciuVUbwr7P1EvYiEDucq6+dX5v8a2riM44BIKYWVqMu3GAMhIiz9sVamFUknkSOsiajA
+ TC2CjQpxJyVRcRhfIEaO7eYcGK1C0g6xytMYPiWJUCIvm4kQGl6Fm4ruSOKZkecth1Vu
+ 50fkpAahL5AbbB4iqSwHVm1Fv9psNSs8u5HFgNqxFuaUt/RHT+Xw0tajeSJWcQelw24g
+ hX9C0J5xRarcne37EplNGNUyR9CH6yJCPDGFN22PZ0MkmUsmQJDdcyaKp5poi3Hq3YPO
+ nENg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lLuTVZMheh+w94V9lSybCso+88KsI23VfpQyYgw6vik=;
- b=FhiKJRLP2cHYw6xXhdudYfK5fOPpUzVyspXpcxP5ZlBgpzLr1epVG3MqwIsr2kbezn
- LTPwGXmgxnd+95I5wEiUC4NH1Fres8ztZ89+v2yH2ox0nj9mbET7EYLHxq7qF0FS0Pme
- WhJNYlf4y74sQ+dMzchPC5QpMzz5eMXdYbBkZe7aXYPAX3V8KynHmRaz1RM35bCQbZSD
- AQ+FBH8isbdM1if+i5ZofEGW/O2Y5gz4lgjaXbUQ+5eT+LQkBPDiFK4DGlKeQb7dOE2a
- YtYAV7MrWU1XckUURtAGgWtbo5VbKsIqCFmnbYE2C+47kLWv8t1qLPWwPeNi/2KQVc1y
- Dwrw==
-X-Gm-Message-State: AOAM531pPrxx0tHMHtZAhnl+YwuVEvdtynX6by7cNnRu+LZW0Ku+onDj
- 6TFxUrGB/ls7MK1IX7W7Ocz4z3nZif/wUQ==
-X-Google-Smtp-Source: ABdhPJxlTru1X5czcaKutWxosbabcReZIleXknUHmERg17+J1rQixRnXHkLaagq7c89+zAcv//EMBw==
-X-Received: by 2002:a17:902:bb87:b029:e1:d1f:2736 with SMTP id
- m7-20020a170902bb87b02900e10d1f2736mr14231919pls.1.1612751979458; 
- Sun, 07 Feb 2021 18:39:39 -0800 (PST)
+ bh=wEpSveRBqQxH9QCIh+2wXIVlcJM9/sJDV4z9gEqJssk=;
+ b=t+DeEB3Ews5RmwSHBG5NEU3Mr7Uq+/gpkvwXOJSUmnF4PrNq9Eqw02Y43kVcI+MoEj
+ NEkMPt+brkI1J0eH7Q6Sm8Qyuq21lsulhEfbWVzDX6hxUJZB6/MDqqTd6uXKjXCJZlc9
+ /ANdys2RhsssyE0szCS2qcr2Icc4Y5bH5BiSHKIKtaaAG3PAXAyq7oVWRcBHBB+NVV3A
+ N8ek86ag7TY5WGwLGJYdJUqC0yIXWpSzXJ56EQNR45AQLGMqZEPHB4RADTmCh5Kmp17o
+ TYuor5b2pT3gwiex6Zxo/jYXcNGHxG55HYbXrTnu2RmU6hZRgVlwi+LdZzZBkR14tAC8
+ N0ng==
+X-Gm-Message-State: AOAM533hOdS+n/U2qfWiw1EwoGybMiZG1yPiRXVURqMnjG70RK4DS5hu
+ t4dBEsJ3D1063S90QUB7Dencl5bv25WHYQ==
+X-Google-Smtp-Source: ABdhPJxU2YtsSvb2fPsIP0C9XYiNpq7HyCyjYO+F37enGOend2US457A1mUR+V2f0cckcoHSwsqZoQ==
+X-Received: by 2002:a62:d446:0:b029:1d2:8347:9db9 with SMTP id
+ u6-20020a62d4460000b02901d283479db9mr15846816pfl.22.1612751987062; 
+ Sun, 07 Feb 2021 18:39:47 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id 74sm650954pfw.53.2021.02.07.18.39.38
+ by smtp.gmail.com with ESMTPSA id 74sm650954pfw.53.2021.02.07.18.39.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 18:39:38 -0800 (PST)
+ Sun, 07 Feb 2021 18:39:46 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 63/70] tcg/tci: Implement movcond
-Date: Sun,  7 Feb 2021 18:37:45 -0800
-Message-Id: <20210208023752.270606-64-richard.henderson@linaro.org>
+Subject: [PATCH v3 70/70] gitlab: Enable cross-i386 builds of TCI
+Date: Sun,  7 Feb 2021 18:37:52 -0800
+Message-Id: <20210208023752.270606-71-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210208023752.270606-1-richard.henderson@linaro.org>
 References: <20210208023752.270606-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,149 +88,77 @@ Cc: sw@weilnetz.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When this opcode is not available in the backend, tcg middle-end
-will expand this as a series of 5 opcodes.  So implementing this
-saves bytecode space.
+We're currently only testing TCI with a 64-bit host -- also test
+with a 32-bit host.  Enable a selection of softmmu and user-only
+targets, 32-bit LE, 64-bit LE, 32-bit BE, as there are ifdefs for each.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci/tcg-target.h     |  4 ++--
- tcg/tci.c                | 16 +++++++++++++++-
- tcg/tci/tcg-target.c.inc | 10 +++++++---
- 3 files changed, 24 insertions(+), 6 deletions(-)
+ .gitlab-ci.d/crossbuilds.yml                    | 17 ++++++++++++++---
+ .../docker/dockerfiles/fedora-i386-cross.docker |  1 +
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 17911d3297..f53773a555 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -82,7 +82,7 @@
- #define TCG_TARGET_HAS_not_i32          1
- #define TCG_TARGET_HAS_orc_i32          0
- #define TCG_TARGET_HAS_rot_i32          1
--#define TCG_TARGET_HAS_movcond_i32      0
-+#define TCG_TARGET_HAS_movcond_i32      1
- #define TCG_TARGET_HAS_muls2_i32        0
- #define TCG_TARGET_HAS_muluh_i32        0
- #define TCG_TARGET_HAS_mulsh_i32        0
-@@ -119,7 +119,7 @@
- #define TCG_TARGET_HAS_not_i64          1
- #define TCG_TARGET_HAS_orc_i64          0
- #define TCG_TARGET_HAS_rot_i64          1
--#define TCG_TARGET_HAS_movcond_i64      0
-+#define TCG_TARGET_HAS_movcond_i64      1
- #define TCG_TARGET_HAS_muls2_i64        0
- #define TCG_TARGET_HAS_add2_i32         0
- #define TCG_TARGET_HAS_sub2_i32         0
-diff --git a/tcg/tci.c b/tcg/tci.c
-index a6e30d31a9..2a39f8f5a0 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -169,6 +169,7 @@ static void tci_args_rrrr(uint32_t insn,
-     *r2 = extract32(insn, 16, 4);
-     *r3 = extract32(insn, 20, 4);
- }
-+#endif
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 66547b6683..99300f786b 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -6,7 +6,8 @@
+     - mkdir build
+     - cd build
+     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+-      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-user
++      ../configure --enable-werror $QEMU_CONFIGURE_OPTS $ACCEL_CONFIGURE_OPTS
++        --disable-user
+         --target-list-exclude="arm-softmmu cris-softmmu i386-softmmu
+           microblaze-softmmu mips-softmmu mipsel-softmmu mips64-softmmu
+           ppc-softmmu sh4-softmmu xtensa-softmmu"
+@@ -27,7 +28,7 @@
+     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+       ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-tools
+         --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
+-    - make -j$(expr $(nproc) + 1) all check-build
++    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
  
- static void tci_args_rrrrrc(uint32_t insn, TCGReg *r0, TCGReg *r1,
-                             TCGReg *r2, TCGReg *r3, TCGReg *r4, TCGCond *c5)
-@@ -181,6 +182,7 @@ static void tci_args_rrrrrc(uint32_t insn, TCGReg *r0, TCGReg *r1,
-     *c5 = extract32(insn, 28, 4);
- }
+ .cross_user_build_job:
+   stage: build
+@@ -36,7 +37,8 @@
+     - mkdir build
+     - cd build
+     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+-      ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-system
++      ../configure --enable-werror $QEMU_CONFIGURE_OPTS $ACCEL_CONFIGURE_OPTS
++        --disable-system
+     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
  
-+#if TCG_TARGET_REG_BITS == 32
- static void tci_args_rrrrrr(uint32_t insn, TCGReg *r0, TCGReg *r1,
-                             TCGReg *r2, TCGReg *r3, TCGReg *r4, TCGReg *r5)
- {
-@@ -431,6 +433,11 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             tci_args_rrrc(insn, &r0, &r1, &r2, &condition);
-             regs[r0] = tci_compare32(regs[r1], regs[r2], condition);
-             break;
-+        case INDEX_op_movcond_i32:
-+            tci_args_rrrrrc(insn, &r0, &r1, &r2, &r3, &r4, &condition);
-+            tmp32 = tci_compare32(regs[r1], regs[r2], condition);
-+            regs[r0] = regs[tmp32 ? r3 : r4];
-+            break;
- #if TCG_TARGET_REG_BITS == 32
-         case INDEX_op_setcond2_i32:
-             tci_args_rrrrrc(insn, &r0, &r1, &r2, &r3, &r4, &condition);
-@@ -443,6 +450,11 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             tci_args_rrrc(insn, &r0, &r1, &r2, &condition);
-             regs[r0] = tci_compare64(regs[r1], regs[r2], condition);
-             break;
-+        case INDEX_op_movcond_i64:
-+            tci_args_rrrrrc(insn, &r0, &r1, &r2, &r3, &r4, &condition);
-+            tmp32 = tci_compare64(regs[r1], regs[r2], condition);
-+            regs[r0] = regs[tmp32 ? r3 : r4];
-+            break;
- #endif
-         CASE_32_64(mov)
-             tci_args_rr(insn, &r0, &r1);
-@@ -1148,7 +1160,8 @@ int print_insn_tci(bfd_vma addr, disassemble_info *info)
-                            op_name, str_r(r0), str_r(r1), str_r(r2), pos, len);
-         break;
+ cross-armel-system:
+@@ -81,6 +83,15 @@ cross-i386-user:
+     IMAGE: fedora-i386-cross
+     MAKE_CHECK_ARGS: check
  
--#if TCG_TARGET_REG_BITS == 32
-+    case INDEX_op_movcond_i32:
-+    case INDEX_op_movcond_i64:
-     case INDEX_op_setcond2_i32:
-         tci_args_rrrrrc(insn, &r0, &r1, &r2, &r3, &r4, &c);
-         info->fprintf_func(info->stream, "%-12s  %s,%s,%s,%s,%s,%s",
-@@ -1156,6 +1169,7 @@ int print_insn_tci(bfd_vma addr, disassemble_info *info)
-                            str_r(r3), str_r(r4), str_c(c));
-         break;
- 
-+#if TCG_TARGET_REG_BITS == 32
-     case INDEX_op_mulu2_i32:
-         tci_args_rrrr(insn, &r0, &r1, &r2, &r3);
-         info->fprintf_func(info->stream, "%-12s  %s,%s,%s,%s",
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index db29bc6e54..a0c458a60a 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -133,9 +133,12 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-         return C_O0_I4(r, r, r, r);
-     case INDEX_op_mulu2_i32:
-         return C_O2_I2(r, r, r, r);
-+#endif
++cross-i386-tci:
++  extends: .cross_accel_build_job
++  timeout: 60m
++  variables:
++    IMAGE: fedora-i386-cross
++    ACCEL: tcg-interpreter
++    ACCEL_CONFIGURE_OPTS: --target-list=i386-softmmu,i386-linux-user,aarch64-softmmu,aarch64-linux-user,ppc-softmmu,ppc-linux-user
++    MAKE_CHECK_ARGS: check
 +
-+    case INDEX_op_movcond_i32:
-+    case INDEX_op_movcond_i64:
-     case INDEX_op_setcond2_i32:
-         return C_O1_I4(r, r, r, r, r);
--#endif
- 
-     case INDEX_op_qemu_ld_i32:
-         return (TARGET_LONG_BITS <= TCG_TARGET_REG_BITS
-@@ -419,6 +422,7 @@ static void tcg_out_op_rrrr(TCGContext *s, TCGOpcode op,
-     insn = deposit32(insn, 20, 4, r3);
-     tcg_out32(s, insn);
- }
-+#endif
- 
- static void tcg_out_op_rrrrrc(TCGContext *s, TCGOpcode op,
-                               TCGReg r0, TCGReg r1, TCGReg r2,
-@@ -436,6 +440,7 @@ static void tcg_out_op_rrrrrc(TCGContext *s, TCGOpcode op,
-     tcg_out32(s, insn);
- }
- 
-+#if TCG_TARGET_REG_BITS == 32
- static void tcg_out_op_rrrrrr(TCGContext *s, TCGOpcode op,
-                               TCGReg r0, TCGReg r1, TCGReg r2,
-                               TCGReg r3, TCGReg r4, TCGReg r5)
-@@ -591,12 +596,11 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-         tcg_out_op_rrrc(s, opc, args[0], args[1], args[2], args[3]);
-         break;
- 
--#if TCG_TARGET_REG_BITS == 32
-+    CASE_32_64(movcond)
-     case INDEX_op_setcond2_i32:
-         tcg_out_op_rrrrrc(s, opc, args[0], args[1], args[2],
-                           args[3], args[4], args[5]);
-         break;
--#endif
- 
-     CASE_32_64(ld8u)
-     CASE_32_64(ld8s)
+ cross-mips-system:
+   extends: .cross_system_build_job
+   variables:
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+index a6e411291b..aa66314c65 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+@@ -5,6 +5,7 @@ ENV PACKAGES \
+     findutils \
+     gcc \
+     git \
++    libffi-devel.i686 \
+     libtasn1-devel.i686 \
+     libzstd-devel.i686 \
+     make \
 -- 
 2.25.1
 
