@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3367A313F13
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:34:07 +0100 (CET)
-Received: from localhost ([::1]:35814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8F1313F41
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:39:51 +0100 (CET)
+Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9CIQ-0003FK-8b
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:34:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32842)
+	id 1l9CNy-00073e-9n
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:39:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l97nw-00061E-Mq; Mon, 08 Feb 2021 09:46:22 -0500
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:39963)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l97sW-0006sT-E3
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:51:04 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l97nn-00065F-LN; Mon, 08 Feb 2021 09:46:19 -0500
-Received: by mail-yb1-xb2c.google.com with SMTP id i71so14794274ybg.7;
- Mon, 08 Feb 2021 06:45:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=imDRYnZAzNCT9pBp9Ie6odVJ++x+poW2F27CZWJK/20=;
- b=TMRd44mpI4Ewt42B5PYBWwSGUDQxNOSwBZlF3AebmQ5ve27OKfjWdKlNTRGb54CXjY
- kLHYgVSOZAJ91ju/ysbPSM3x0WVJG/hHrgEAaKPn723b4Ix3UaIDIqG9YxXFDwXwq/St
- c0CiwchcE9/+AfpGKBCgdJBDBxfFA/4KnSzTk4Un7NF84JyM9+yx4VWrIal3oURFOj31
- CqX/5P6N2w0B7CZTZeHIU2x3tTmKc0ROgb1voPoSPoadgr/kH9WDqtIEnGz+7uLVjqMB
- cRHRnOu7rKz5KksVYR8bMgNgxxTYhJQhlwyOV+Ez5TwZVWNzdZpu9hpItcaAcbDU8mIs
- t8Rg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l97sN-0007RZ-Rn
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:51:03 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id l12so17496620wry.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 06:50:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3OjIIaYJOgJTaqyNNEmkAsPCnZ25uA8+JKC4fYqCwqk=;
+ b=olyRjW9P/U1iYRFy0DsCcWfcH/yL3knboaFhzt3rVAAXFeAHsJXK2JgGzV9VL7XTUy
+ sZCD85yu9OyeQcdcdkcKUosUt+YExVSddyIt+sJ+3c3QBytAFONSpaeeSVb8mw5twToO
+ NkUubrMWuC4Gt3kXQ3LDykXxLX3WPxwA02N3wtjtfN6zaPeZIGJzU5fna+M/Up4eJlTk
+ hBMCl6dM7rXuC3KQMscba9X+R+pXcSuQCcOk+gxjzKVR0YlvJ9PIX6z79Dv82+oyYK42
+ nP3zIdVJBJ+mVAQ65vU/wmeFvTbDFlm0vdtNb2Mr9t4U8sXLMF8DxUTzJhb7Is2Zfv1G
+ 7nOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=imDRYnZAzNCT9pBp9Ie6odVJ++x+poW2F27CZWJK/20=;
- b=eiqZweKIdM5eT7/Pmr92JDemyMJkOfWC//LauLtbh5uaFaAdymK5m8A5P7e1bnVvQp
- DccXXIe5TaqA9Z4EYhQcgqepcuGvreHtAJ7QI5PebgXjNa2C2MHOohwp5MVWBasfVsfz
- rJTCQzLls+jJ6jFH6Qr30DH/nSbS78i5hhaUzl5zIXSfAy/K+Mf6ivOWXS6mR7SMuU30
- lIbrm2Xi8t3c7ZKur72XGUz2DhzTRrynPdV8IT4VZguNii2kjgs8gba4Z1+AM8WrY5jq
- +HsTaC4rSNPqiPtYty7C8x3bAsBaFlHznHHsfQsUf1kb2N5qwst/0uvqwvtXaYw1kYxH
- +2Cw==
-X-Gm-Message-State: AOAM531LXV0P+THRXTFj3I0rIhRQSohLbu1T9IVCLYmldWB5nWYUZqYA
- m13qrzTDBqn82CiSaK5gALat0D4hvrtxCFA4loU=
-X-Google-Smtp-Source: ABdhPJzT4XJ2kPiZ+g2rBWPrwdLLcVmaTXCvi/guNRueIO6yZ1aDIWjkCRO47oJ6hfEW90n1i+JXgvDjTCYUA3eHOVo=
-X-Received: by 2002:a25:7d01:: with SMTP id y1mr26879364ybc.152.1612795559313; 
- Mon, 08 Feb 2021 06:45:59 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=3OjIIaYJOgJTaqyNNEmkAsPCnZ25uA8+JKC4fYqCwqk=;
+ b=EFhVqcXmA+2dP0n11vSZbAauN5rEVZi5P4DdkUlf/JTeO5ZsLHxe1bIkjE8VZRab0P
+ 7jWqCWnuE1fBbqSAED6U8zIHZ+zQyiNSbWk/nxUTyEFofJDLaK8Ca+su8Z+n6iFfv9Uo
+ KVbakzGxJXTy5lwQpu2cFHYIYcf0RRIxOCYesuv5YXVJDk5ZEs3gj5w92z4ht1en1WTI
+ WDigNK+a/4mSOIbebM+zChulKtWTfra0Vkdwv6M35/7b7CXUzARz36CjGJkWwAFPrwG4
+ I0xye7OjkVWGPqmRk4xyaNWcW669nrIUcumUNVZY7ylWFI3ebYl2MuifwVqtr6rtyvRU
+ kyMA==
+X-Gm-Message-State: AOAM531cpVmAdagz6siN3PCVpomLDPk1OzCx0frY/PRKXEejKdlq1NXD
+ PuwcOgz+CiNyTMJpwJGvkf/3Yg==
+X-Google-Smtp-Source: ABdhPJzfje3YiI0XflS4r5tABl9ki+cYIStyuyJv/Bj4WhcO84VnM1fnUUZUeJNvGLhfcfo3NRG/iQ==
+X-Received: by 2002:adf:cd8f:: with SMTP id q15mr2498993wrj.386.1612795852988; 
+ Mon, 08 Feb 2021 06:50:52 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 16sm15967986wmi.43.2021.02.08.06.50.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Feb 2021 06:50:51 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1777E1FF7E;
+ Mon,  8 Feb 2021 14:50:51 +0000 (GMT)
+References: <20210207232310.2505283-1-f4bug@amsat.org>
+ <20210207232310.2505283-6-f4bug@amsat.org> <87im73aqsq.fsf@linaro.org>
+ <83c71866-2e28-2edb-d79d-f4f96bb765a1@amsat.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH v2 5/6] accel/tcg: Refactor debugging
+ tlb_assert_iotlb_entry_for_ptr_present()
+Date: Mon, 08 Feb 2021 14:48:20 +0000
+In-reply-to: <83c71866-2e28-2edb-d79d-f4f96bb765a1@amsat.org>
+Message-ID: <871rdqbol0.fsf@linaro.org>
 MIME-Version: 1.0
-References: <1612761924-68000-1-git-send-email-bmeng.cn@gmail.com>
- <1612761924-68000-3-git-send-email-bmeng.cn@gmail.com>
- <20210208124425.GI477672@toto>
- <CAEUhbmV=QLCuk5_bymrVNPO_vEU=R1A3urAaqhnNAgSGpiTsGw@mail.gmail.com>
- <CAJy5ezooJ21SAFhR2Pf=1aAwBkPEUivbCawZy-geCx+g36EP2Q@mail.gmail.com>
-In-Reply-To: <CAJy5ezooJ21SAFhR2Pf=1aAwBkPEUivbCawZy-geCx+g36EP2Q@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 8 Feb 2021 22:45:47 +0800
-Message-ID: <CAEUhbmVZr0pAW86kYjiXryN3cOaPc2LmrH9=fqLQUUdJrKX4Cw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hw/ssi: xilinx_spips: Implement basic QSPI DMA
- support
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,69 +90,162 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- francisco.iglesias@xilinx.com, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-riscv@nongnu.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Edgar,
 
-On Mon, Feb 8, 2021 at 10:34 PM Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
->
->
->
-> On Mon, 8 Feb 2021, 15:10 Bin Meng, <bmeng.cn@gmail.com> wrote:
->>
->> Hi Edgar,
->>
->> On Mon, Feb 8, 2021 at 8:44 PM Edgar E. Iglesias
->> <edgar.iglesias@gmail.com> wrote:
->> >
->> > On Mon, Feb 08, 2021 at 01:25:24PM +0800, Bin Meng wrote:
->> > > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->> > >
->> > > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
->> > > is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
->> > > crash. This is observed when testing VxWorks 7.
->> > >
->> > > Add a basic implementation of QSPI DMA functionality.
->> > >
->> > > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> >
->> > + Francisco
->> >
->> > Hi,
->> >
->> > Like Peter commented on the previous version, the DMA unit is actully separate.
->>
->> Is it really separate? In the Xilinx ZynqMP datasheet, it's an
->> integrated DMA unit dedicated for QSPI usage. IIUC, other modules on
->> the ZynqMP SoC cannot use it to do any DMA transfer. To me this is no
->> different like a DMA engine in a ethernet controller.
->
->
-> Yes, it's a separate module.
->
->>
->> > This module is better modelled by pushing data through the Stream framework
->> > into the DMA. The DMA model is not upstream but can be found here:
->> > https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
->> >
->>
->> What's the benefit of modeling it using the stream framework?
->
->
->
-> Because it matches real hw and this particular dma exists in various instances, not only in qspi. We don't want duplicate implementations of the same dma.
->
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-Would you please share more details, like what other peripherals are
-using this same DMA model?
+> On 2/8/21 9:42 AM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+>>=20
+>>> Refactor debug code as tlb_assert_iotlb_entry_for_ptr_present() helper.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>> ---
+>>> What this code does is out of my league, but refactoring it allow
+>>> keeping tlb_addr_write() local to accel/tcg/cputlb.c in the next
+>>> patch.
+>>=20
+>> The assertion that the table entry is current is just a simple
+>> housekeeping one. The details of how the MTE implementation uses
+>> (abuses?) the iotlb entries requires a closer reading of the code.
+>>=20
+>>> ---
+>>>  include/exec/exec-all.h |  9 +++++++++
+>>>  accel/tcg/cputlb.c      | 14 ++++++++++++++
+>>>  target/arm/mte_helper.c | 11 ++---------
+>>>  target/arm/sve_helper.c | 10 ++--------
+>>>  4 files changed, 27 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+>>> index f933c74c446..c5e8e355b7f 100644
+>>> --- a/include/exec/exec-all.h
+>>> +++ b/include/exec/exec-all.h
+>>> @@ -296,6 +296,15 @@ void tlb_set_page_with_attrs(CPUState *cpu, target=
+_ulong vaddr,
+>>>  void tlb_set_page(CPUState *cpu, target_ulong vaddr,
+>>>                    hwaddr paddr, int prot,
+>>>                    int mmu_idx, target_ulong size);
+>>> +
+>>> +/*
+>>> + * Find the iotlbentry for ptr.  This *must* be present in the TLB
+>>> + * because we just found the mapping.
+>>> + */
+>>> +void tlb_assert_iotlb_entry_for_ptr_present(CPUArchState *env, int ptr=
+_mmu_idx,
+>>> +                                            uint64_t ptr,
+>>> +                                            MMUAccessType ptr_access,
+>>> +                                            uintptr_t index);
+>>=20
+>> Probably worth making this an empty inline for the non CONFIG_DEBUG_TCG
+>> case so we can eliminate the call to an empty function.
+>
+> But then we can't make tlb_addr_write() static (next patch) and
+> we still have to include "tcg/tcg.h" for the TCG_OVERSIZED_GUEST
+> definition...
 
-Regards,
-Bin
+Hmm - yeah. I'm not keen on turning something into a function call when
+the compiler should have all the information it needs with it. On the
+other hand maybe we don't care for a debug assert.
+
+Richard WDYT?
+
+>
+>>=20
+>>>  #else
+>>>  static inline void tlb_init(CPUState *cpu)
+>>>  {
+>>> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+>>> index 8a7b779270a..a6247da34a0 100644
+>>> --- a/accel/tcg/cputlb.c
+>>> +++ b/accel/tcg/cputlb.c
+>>> @@ -429,6 +429,20 @@ void tlb_flush_all_cpus_synced(CPUState *src_cpu)
+>>>      tlb_flush_by_mmuidx_all_cpus_synced(src_cpu, ALL_MMUIDX_BITS);
+>>>  }
+>>>=20=20
+>>> +void tlb_assert_iotlb_entry_for_ptr_present(CPUArchState *env, int ptr=
+_mmu_idx,
+>>> +                                            uint64_t ptr,
+>>> +                                            MMUAccessType ptr_access,
+>>> +                                            uintptr_t index)
+>>> +{
+>>> +#ifdef CONFIG_DEBUG_TCG
+>>> +    CPUTLBEntry *entry =3D tlb_entry(env, ptr_mmu_idx, ptr);
+>>> +    target_ulong comparator =3D (ptr_access =3D=3D MMU_DATA_LOAD
+>>> +                               ? entry->addr_read
+>>> +                               : tlb_addr_write(entry));
+>>> +    g_assert(tlb_hit(comparator, ptr));
+>>> +#endif
+>>> +}
+>>> +
+>>>  static bool tlb_hit_page_mask_anyprot(CPUTLBEntry *tlb_entry,
+>>>                                        target_ulong page, target_ulong =
+mask)
+>>>  {
+>>> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+>>> index 6cea9d1b506..f47d3b4570e 100644
+>>> --- a/target/arm/mte_helper.c
+>>> +++ b/target/arm/mte_helper.c
+>>> @@ -111,15 +111,8 @@ static uint8_t *allocation_tag_mem(CPUARMState *en=
+v, int ptr_mmu_idx,
+>>>       * matching tlb entry + iotlb entry.
+>>>       */
+>>>      index =3D tlb_index(env, ptr_mmu_idx, ptr);
+>>> -# ifdef CONFIG_DEBUG_TCG
+>>> -    {
+>>> -        CPUTLBEntry *entry =3D tlb_entry(env, ptr_mmu_idx, ptr);
+>>> -        target_ulong comparator =3D (ptr_access =3D=3D MMU_DATA_LOAD
+>>> -                                   ? entry->addr_read
+>>> -                                   : tlb_addr_write(entry));
+>>> -        g_assert(tlb_hit(comparator, ptr));
+>>> -    }
+>>> -# endif
+>>> +    tlb_assert_iotlb_entry_for_ptr_present(env, ptr_mmu_idx, ptr,
+>>> +                                           ptr_access, index);
+>>>      iotlbentry =3D &env_tlb(env)->d[ptr_mmu_idx].iotlb[index];
+>>>=20=20
+>>>      /* If the virtual page MemAttr !=3D Tagged, access unchecked. */
+>>> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+>>> index c8cdf7618eb..a5708da0f2f 100644
+>>> --- a/target/arm/sve_helper.c
+>>> +++ b/target/arm/sve_helper.c
+>>> @@ -4089,14 +4089,8 @@ static bool sve_probe_page(SVEHostPage *info, bo=
+ol nofault,
+>>>      {
+>>>          uintptr_t index =3D tlb_index(env, mmu_idx, addr);
+>>>=20=20
+>>> -# ifdef CONFIG_DEBUG_TCG
+>>> -        CPUTLBEntry *entry =3D tlb_entry(env, mmu_idx, addr);
+>>> -        target_ulong comparator =3D (access_type =3D=3D MMU_DATA_LOAD
+>>> -                                   ? entry->addr_read
+>>> -                                   : tlb_addr_write(entry));
+>>> -        g_assert(tlb_hit(comparator, addr));
+>>> -# endif
+>>> -
+>>> +        tlb_assert_iotlb_entry_for_ptr_present(env, mmu_idx, addr,
+>>> +                                               access_type, index);
+>>>          CPUIOTLBEntry *iotlbentry =3D &env_tlb(env)->d[mmu_idx].iotlb[=
+index];
+>>>          info->attrs =3D iotlbentry->attrs;
+>>>      }
+>>=20
+>> with the inline fix:
+>>=20
+>> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
 
