@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58B1314424
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:41:50 +0100 (CET)
-Received: from localhost ([::1]:56602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737C93144AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:12:55 +0100 (CET)
+Received: from localhost ([::1]:54824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9GA9-0006ja-S6
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:41:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44188)
+	id 1l9GeE-00088R-Bq
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:12:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9G7m-00056Z-P7
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 18:39:22 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:45100)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9Cdl-00025H-Tw
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 14:56:09 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9G7f-00011I-9x
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 18:39:21 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id o21so9877012pgn.12
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 15:39:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9Cde-00024M-U8
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 14:56:08 -0500
+Received: by mail-ej1-x635.google.com with SMTP id jj19so27194521ejc.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 11:56:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eL4WqFDBuNtlcGfpllQU5OAqdTK3sQa+xgiSdwASR9g=;
- b=mKokqLWpckqZtMQ+8XiqgwyOgeBd5uyfFW1HD/NErNsLvZdkMYY2JD+qI/QGq7o7tv
- 7/vzBNIi9+Za6ZlU+HwnmclCbzhGPW8bfMYmc3MghQYAucvsjJ1pwato145aPTT21wyv
- iUat8hv48V2lWt7nwZRlLoqanRh1gPFwAzkaos/W4Y4FUqMxENx1XEHGefpeh1FzZOOk
- h/VwaTH0ncDW/O3nvUh2zcbYT76+LNWrzP7I9tUlF6VEmgJMXdUTNM6F09fxJUYBOsm1
- MKWk7K2uKReGtvG/ETlxQ01pHf7lVC3LTZyNslQaaFKXMmwwt4Q0jk/hk+wE/70zdiR0
- 1nQQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ktXrJZk9F1oPuPCHKsEyaf8kydPZDRE+zL4ywdoUOn0=;
+ b=QoATW9NzrLu6Mi7kyVuMYO5DgpKgw82Zmq3uTlihlJju07dnkqOWiym5SJ52hgr2sz
+ 4327WGuehBWq44eNuHSDO7jbi9lMnTHF6i/CHLyJW00ysMT1usTw11Lj/PIKdqi509YY
+ eGQm8+K6m7uYROHrodzyj0DCR5fjRSypcDYn8b9OU/IPu2ASS0CemkVw+zKlxW00LER3
+ b3R323Pv0SbpAuVdQi3GOwcBLpvfdBh+T36//V2gGnNRVuwhdGWANEl0ofLslF7EOP0j
+ ECqkgFPZsydVyUH65xKKoOdV6y0HrL/ERV+fwtjsdgddIG2RT11f5DVBPAocj4oFqikx
+ TDtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eL4WqFDBuNtlcGfpllQU5OAqdTK3sQa+xgiSdwASR9g=;
- b=ZAyQCHATAeazobMlvKoHvRWTI6kOfsKhnDeeE97ocxco2F5kB2wg0aEKVicAEaXl7R
- 6jUi8btDpDrEwRiFE2HHBh7eQrxbHpYhOMJkGit5QPnxbuNI0fsqh1h89eQGOChF6sjf
- pNrmSr4VPGbMFFquxdCrz/Sm4MiSMUJUwinjWjU5UL75jrHFKeKbusXjv9KE7GkiJ+63
- 0ZZekImkxjXZms1KtdZAWkpTI+AHRJmOKWxXgQc+6+hb1gdbfJ5XlYYRCooFmfJemOwp
- e5yprTYP1sC9nmNcr+TF8tFzryBladb43uSZrq0kNaErlkHaStt/+glk686cHVdb1yJv
- 0oNA==
-X-Gm-Message-State: AOAM5308tprr03jLuHreP8j28Ucy9T3TKq7H9G+/ahZ8QDvfiQfNvXB7
- MC6UcsCiusGZkm3AC3zldPFYXsBlEJCL0A==
-X-Google-Smtp-Source: ABdhPJy4/Z5nfjdnchwdDLJpNVv/qkLRiMp09zM2HO8hGFsfRECHCUO/RUW0KKc0cYd2Uvwz1ensUA==
-X-Received: by 2002:a05:6a00:22d6:b029:1cb:35ac:d8e0 with SMTP id
- f22-20020a056a0022d6b02901cb35acd8e0mr19392584pfj.17.1612827553355; 
- Mon, 08 Feb 2021 15:39:13 -0800 (PST)
-Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
- [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id k15sm13483489pgt.35.2021.02.08.15.39.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 15:39:12 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] target/sh4: Create superh_io_recompile_replay_branch
-Date: Mon,  8 Feb 2021 15:39:06 -0800
-Message-Id: <20210208233906.479571-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210208233906.479571-1-richard.henderson@linaro.org>
-References: <20210208233906.479571-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ktXrJZk9F1oPuPCHKsEyaf8kydPZDRE+zL4ywdoUOn0=;
+ b=fDvZ2BlMM66rG0SnJLiZjimrj5Xesf5UHseoXYk7XVaxZXoHi6ux4wDI7xfVirfafM
+ 31sM0Sg+MgtYN9PdKM5ZB0Nw0IhrB9AZFynHh4T2r5XdirM0u7bVWbtG58CvxGs2tKFA
+ n8HBpnl5kl1X/5KvqduRtQ6CT6YuUMgqn1qfnlxXFYjBE9Dqo5JVWaq+HjvteP+5bWle
+ Adj36KVRQDOWNtvDEF/54KDo98ne4yeJKnmg87mgO2bKogdyrnVAKvFF5S7OZk1YJpHM
+ obslebBqO2sJKHFrI1WjIgDuqcjtN02INUzAffR/W2xkfrLbxqTtn+Ttbd3WHCOgs2ey
+ ayaQ==
+X-Gm-Message-State: AOAM531a7kaYEycpDbvRrBbWo8O/iJL47oP1ss/it3xe/GY68T3XZZRK
+ QySYcN+k3t6vE3K52Tkt3jx+QHPCGSeg4OpzY7iUpQ==
+X-Google-Smtp-Source: ABdhPJyohxzMV/uDxZssz/i0xzAgKknTji0id5rfWT8ll7bbFBSkzmGH0lI1sM/ZUCw70DlbINkQB5TStL4h5DCFF7U=
+X-Received: by 2002:a17:906:3a89:: with SMTP id
+ y9mr18528261ejd.4.1612814160352; 
+ Mon, 08 Feb 2021 11:56:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+References: <20210208024625.271018-1-richard.henderson@linaro.org>
+ <20210208024625.271018-13-richard.henderson@linaro.org>
+In-Reply-To: <20210208024625.271018-13-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Feb 2021 19:55:49 +0000
+Message-ID: <CAFEAcA-iapdprn+tN1T31XisEMa6k1WgkLnobSMCru0mRUOhDw@mail.gmail.com>
+Subject: Re: [PATCH v2 12/15] tcg/arm: Implement TCG_TARGET_HAS_bitsel_vec
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,88 +78,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, cfontana@suse.de,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the code from accel/tcg/translate-all.c to target/sh4/cpu.c.
+On Mon, 8 Feb 2021 at 04:02, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> NEON has 3 instructions implementing this 4 argument operation,
+> with each insn overlapping a different logical input onto the
+> destination register.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> @@ -2899,6 +2904,18 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+>          }
+>          return;
+>
+> +    case INDEX_op_bitsel_vec:
+> +        a3 = args[3];
+> +        if (a0 == a3) {
+> +            tcg_out_vreg3(s, INSN_VBIT, q, 0, a0, a2, a1);
+> +        } else if (a0 == a2) {
+> +            tcg_out_vreg3(s, INSN_VBIF, q, 0, a0, a3, a1);
+> +        } else {
+> +            tcg_out_mov(s, type, a0, a1);
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- accel/tcg/translate-all.c | 12 ------------
- target/sh4/cpu.c          | 18 ++++++++++++++++++
- 2 files changed, 18 insertions(+), 12 deletions(-)
+Side note: aarch64 tcg guards this tcg_out_mov with "if (a0 != a1)",
+which if I understand correctly is superfluous and could be removed.
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 470657b02a..b8ad95aa1b 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2417,9 +2417,6 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
-  */
- void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
- {
--#if defined(TARGET_SH4)
--    CPUArchState *env = cpu->env_ptr;
--#endif
-     TranslationBlock *tb;
-     CPUClass *cc;
-     uint32_t n;
-@@ -2443,15 +2440,6 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-         cpu_neg(cpu)->icount_decr.u16.low++;
-         n = 2;
-     }
--#if defined(TARGET_SH4)
--    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
--        && env->pc != tb->pc) {
--        env->pc -= 2;
--        cpu_neg(cpu)->icount_decr.u16.low++;
--        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
--        n = 2;
--    }
--#endif
- 
-     /* Generate a new TB executing the I/O insn.  */
-     cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index a78d283bc8..ac65c88f1f 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -43,6 +43,23 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
-     cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
- }
- 
-+#ifndef CONFIG_USER_ONLY
-+static bool superh_io_recompile_replay_branch(CPUState *cs,
-+                                              const TranslationBlock *tb)
-+{
-+    SuperHCPU *cpu = SUPERH_CPU(cs);
-+    CPUSH4State *env = &cpu->env;
-+
-+    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
-+        && env->pc != tb->pc) {
-+        env->pc -= 2;
-+        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
-+        return true;
-+    }
-+    return false;
-+}
-+#endif
-+
- static bool superh_cpu_has_work(CPUState *cs)
- {
-     return cs->interrupt_request & CPU_INTERRUPT_HARD;
-@@ -217,6 +234,7 @@ static struct TCGCPUOps superh_tcg_ops = {
- #ifndef CONFIG_USER_ONLY
-     .do_interrupt = superh_cpu_do_interrupt,
-     .do_unaligned_access = superh_cpu_do_unaligned_access,
-+    .io_recompile_replay_branch = superh_io_recompile_replay_branch,
- #endif /* !CONFIG_USER_ONLY */
- };
- 
--- 
-2.25.1
+> +            tcg_out_vreg3(s, INSN_VBSL, q, 0, a0, a2, a3);
+> +        }
+> +        return;
+> +
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
