@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF1A3142C7
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:23:27 +0100 (CET)
-Received: from localhost ([::1]:55316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6203142B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:19:07 +0100 (CET)
+Received: from localhost ([::1]:46774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9EwI-0003QV-RY
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:23:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50714)
+	id 1l9Es6-0008BK-2w
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:19:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCf-0003aI-42
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:05 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:51504)
+ id 1l9BCe-0003a5-VN
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:04 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCd-0006GP-90
+ id 1l9BCd-0006Gb-8W
  for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:04 -0500
-Received: by mail-wm1-x330.google.com with SMTP id t142so60677wmt.1
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:59 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id v15so18373805wrx.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:24:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9zWdC2+7ESQ0VUa3YczOXMruS8QmkVmg52KY1iiEtVQ=;
- b=okw/rVd6onE/CUcxPjVKfsr40f7U34xqm/3RENsmjAeMX/nn5C5aR8y1mMPEQH6Rbx
- fBajPpE+zMGXBef5fWvfILY9nkJuTOyAfc2cgnaNvuEXxCU8FhMmnNVHIL5Gm9MdCqtk
- 0cIYvJC+P0Reo6pSA9SWD1x1MsxT0AxA7MDjEIrmLC0+qP3vswe7AuYWjUHTxrsp/Bn4
- jshRHDf+P5gYSt+SrdXTAcAJX1lRg/lY2R6P9ZvBwzuxJeiMZnvbOFQiGCGJA4JxxdFo
- LJoSwf3q1hsJDNolodcLJU5H/V+IjDANiDVreaALPN/ZX/B+E/aCWR7A11RZnMSqUi/G
- gOMw==
+ bh=QcUQysKIzSM/Au103fYACCSBXfd/a9CnayLthJR5WoQ=;
+ b=sZ5ItwIW1sUrBz78PLnW+9jsu1kCjbXWHeW5D15Ze7XhyWY670vAVasxiQYiseX/7m
+ djZpiJQ1nWnMorioPJnibX6126Xe8iWbVy3dxfe3kjOOsqujs/c9oNegSkBYRMWbivmp
+ 4XUP2jlB70R5dLfT42+kWkSBa6vOwHFSvgmAHmiJxN93pz2V6c+zWzKN/qyjCKB+gDuD
+ x41XlOGsrOctIF9ylpG2gho2T0INvBHBA0CkcBPTIgRlurMpbSDeEGKYxaCM7NtGQcN/
+ me/zPMKiCJV1nGtJt6aadVYiSMJnlRXpEN5HP07BG1HCvArnowSzafvvJwQtDVMNrc3G
+ 37HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9zWdC2+7ESQ0VUa3YczOXMruS8QmkVmg52KY1iiEtVQ=;
- b=gyEzsOrHtNZbz/y+PPtRPsV4uxatPSlZgUw4JtP95O1lJNY2KOvDhVm94DUqpbL0YC
- AYumoBlardAfTuwU2GSY5Z8MWJjoTVtmeUORaCONnPA1teksnNvzZITSXr7v07rgYXYX
- xhIIt8rieCvdRAGiH73uMFQo5dKTqKdiePJjld4gb3PZAl19pQAzSc3cuM32512UG8MM
- b4JVDU15kdESfx8RUclwY073Vky5L8m23wI+I//eYnpEBPv5poa2TkLVTrno3FO8g/wf
- ePqH4SuR+MHukK016Gt0AEj1eznVWu+kTQ5HDjtBGm1+DjgrIinrSTYcB2TEnrHpZk7P
- vYiA==
-X-Gm-Message-State: AOAM53124LgB5xJmjjCFQWI+3Vz07hE+wlMOuc8oNW/H/UFrb/ZFS0AH
- 0nSHZQ/4IscmpifXsH0Tp0C0y/aoSLE1Nw==
-X-Google-Smtp-Source: ABdhPJz351JP21iufSwecB/TXtHKuqwfku2QbvK05XYa8qQzTWJ67+DkTVtp2futLpdFtPTv0edVUw==
-X-Received: by 2002:a1c:dcd7:: with SMTP id t206mr85820wmg.108.1612808638339; 
- Mon, 08 Feb 2021 10:23:58 -0800 (PST)
+ bh=QcUQysKIzSM/Au103fYACCSBXfd/a9CnayLthJR5WoQ=;
+ b=KMnSuDVDNj7sciiWK4W5KIn4z20Aa+mRWnpuLBl6xrGZKwPzVty2OGGk2nOIa0DixT
+ E7wv8tLtbtISeCrQdCHAO/LN2CBfSVqZjduu+mCCXMSuO6ymdIPCW17N3PAHyDURSo0p
+ sg+uFqegOjIFtxg0arfc51Z6Gs/qHlIv4YlPAKKwJ7LIyJS/dfpDlZ1eBa9dWN4UPeFx
+ gSMOFUdctpi6TaIgtKvst0GANwcUAHf47HpHtZ0UvYP6RKM/XLfV91m2yodkLb2Eg9B7
+ XMB5G3798tI66dv0MMBkWJLfhsEqmuCX7fieypB6nvswtwQ46BDVp9np157tvhRKbPrd
+ LeCA==
+X-Gm-Message-State: AOAM530fFYXlNI6gQjkFvwvxQkciUvoWCVssMtA9K1WfIT5ZogKHN0Tx
+ y0rLRSxpAcUKxNXW+fVIZBDb5jHjCvA79w==
+X-Google-Smtp-Source: ABdhPJxulR1piCpbEfCRG32mIz5baXV7RfwbAmqS9ola3+TNcm3UyzJ1rhdQKND60GFwSEX7P93L2A==
+X-Received: by 2002:a5d:5185:: with SMTP id k5mr21725162wrv.40.1612808640169; 
+ Mon, 08 Feb 2021 10:24:00 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.23.57
+ x22sm19670wmc.25.2021.02.08.10.23.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:23:57 -0800 (PST)
+ Mon, 08 Feb 2021 10:23:59 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/46] meson: Restrict emulation code
-Date: Mon,  8 Feb 2021 19:23:12 +0100
-Message-Id: <20210208182331.58897-28-pbonzini@redhat.com>
+Subject: [PULL 29/46] qapi/meson: Remove QMP from user-mode emulation
+Date: Mon,  8 Feb 2021 19:23:14 +0100
+Message-Id: <20210208182331.58897-30-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,40 +93,64 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210122204441.2145197-9-philmd@redhat.com>
+Message-Id: <20210122204441.2145197-11-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ qapi/meson.build  | 10 +++++++---
+ tests/meson.build |  7 ++++++-
+ 2 files changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index d6eb880b89..e3ef660670 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1867,16 +1867,18 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
- 
--decodetree = generator(find_program('scripts/decodetree.py'),
--                       output: 'decode-@BASENAME@.c.inc',
--                       arguments: ['@INPUT@', '@EXTRA_ARGS@', '-o', '@OUTPUT@'])
-+if have_system or have_user
-+  decodetree = generator(find_program('scripts/decodetree.py'),
-+                         output: 'decode-@BASENAME@.c.inc',
-+                         arguments: ['@INPUT@', '@EXTRA_ARGS@', '-o', '@OUTPUT@'])
-+  subdir('libdecnumber')
-+  subdir('target')
+diff --git a/qapi/meson.build b/qapi/meson.build
+index 2839871b47..b301a46f04 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -4,14 +4,18 @@ util_ss.add(files(
+   'qapi-dealloc-visitor.c',
+   'qapi-util.c',
+   'qapi-visit-core.c',
+-  'qmp-dispatch.c',
+-  'qmp-event.c',
+-  'qmp-registry.c',
+   'qobject-input-visitor.c',
+   'qobject-output-visitor.c',
+   'string-input-visitor.c',
+   'string-output-visitor.c',
+ ))
++if have_system or have_tools
++  util_ss.add(files(
++    'qmp-dispatch.c',
++    'qmp-event.c',
++    'qmp-registry.c',
++  ))
 +endif
  
- subdir('audio')
- subdir('io')
- subdir('chardev')
- subdir('fsdev')
--subdir('libdecnumber')
--subdir('target')
- subdir('dump')
+ qapi_all_modules = [
+   'acpi',
+diff --git a/tests/meson.build b/tests/meson.build
+index 6f1ff926d2..7d7da6a636 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -86,7 +86,6 @@ tests = {
+   'test-qobject-input-visitor': [testqapi],
+   'test-string-input-visitor': [testqapi],
+   'test-string-output-visitor': [testqapi],
+-  'test-qmp-event': [testqapi],
+   'test-opts-visitor': [testqapi],
+   'test-visitor-serialization': [testqapi],
+   'test-bitmap': [],
+@@ -117,6 +116,12 @@ tests = {
+   'test-qapi-util': [],
+ }
  
- if have_block
++if have_system or have_tools
++  tests += {
++    'test-qmp-event': [testqapi],
++  }
++endif
++
+ test_deps = {
+   'test-qht-par': qht_bench,
+ }
 -- 
 2.29.2
 
