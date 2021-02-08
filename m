@@ -2,51 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A564731446A
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:00:10 +0100 (CET)
-Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02462314471
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:02:20 +0100 (CET)
+Received: from localhost ([::1]:52780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9GRt-0001dB-P0
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:00:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47304)
+	id 1l9GTz-0003jA-OM
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:02:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1l9EYw-0006qw-D1
+ id 1l9EYw-0006rG-IR
  for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:19 -0500
-Received: from mga02.intel.com ([134.134.136.20]:59480)
+Received: from mga02.intel.com ([134.134.136.20]:59487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1l9EYu-0005DL-9R
+ id 1l9EYu-0005HW-Np
  for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:18 -0500
-IronPort-SDR: HTXVzKdyeA2nCT/MvcctWL0wANQdolDPUV9n0+OVzir7MBPwNufUG2+XP4u/WXarqnwlOuAcD8
- 4WksXC1/XlLw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="168911429"
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="168911429"
+IronPort-SDR: ot3wzsNFpEtzV3YKJW7obKUe+4L6osBOBYXMIY2qBagTpUnL76QAstprjRqY3DeRA3Nx9sJhSS
+ xeBM8Rjvbkug==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="168911430"
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="168911430"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2021 13:59:05 -0800
-IronPort-SDR: i7rp+8hcjmQmpxjEzPiX1+cUCy7vZ17vgtCOQv4dTghBRiULCLckt0nRnQ2IigQoP7sBvIiYAh
- ZzxRVaUjM4Mg==
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="487608593"
+IronPort-SDR: SCDwBlEGdymRAU8iR1ZkpEOpT4HtFRJuAA54SvnQXBKBJ+D5vqsk0z5S+7W5unwOnnGn5wY+7O
+ BbBCQ9RrvVDg==
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="487608596"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Feb 2021 13:59:05 -0800
 From: isaku.yamahata@gmail.com
 To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
  marcel.apfelbaum@gmail.com, philmd@redhat.com
-Subject: [PATCH v2 7/9] i386: acpi: Don't build HPET ACPI entry if HPET is
- disabled
-Date: Mon,  8 Feb 2021 13:57:26 -0800
-Message-Id: <4d380b7f97149f82da91f967a419ff3f3a2bc1a4.1612821109.git.isaku.yamahata@intel.com>
+Subject: [PATCH v2 8/9] acpi: add test case for -no-hpet
+Date: Mon,  8 Feb 2021 13:57:27 -0800
+Message-Id: <dcf1a84717c17305c16fac87618e7f13facd3bc6.1612821109.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1612821108.git.isaku.yamahata@intel.com>
 References: <cover.1612821108.git.isaku.yamahata@intel.com>
 In-Reply-To: <cover.1612821108.git.isaku.yamahata@intel.com>
 References: <cover.1612821108.git.isaku.yamahata@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.20;
  envelope-from=isaku.yamahata@intel.com; helo=mga02.intel.com
 X-Spam_score_int: -17
@@ -69,99 +65,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sean Christopherson <sean.j.christopherson@intel.com>
+Cc: Isaku Yamahata <isaku.yamahata@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sean Christopherson <sean.j.christopherson@intel.com>
+From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Omit HPET AML if the HPET is disabled, QEMU is not emulating it and the
-guest may get confused by seeing HPET in the ACPI tables without a
-"physical" device present.
-
-The change of DSDT when -no-hpet is as follows.
-
-@@ -141,47 +141,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS "
-         }
-     }
-
--    Scope (_SB)
--    {
--        Device (HPET)
--        {
--            Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
--            Name (_UID, Zero)  // _UID: Unique ID
--            OperationRegion (HPTM, SystemMemory, 0xFED00000, 0x0400)
--            Field (HPTM, DWordAcc, Lock, Preserve)
--            {
--                VEND,   32,
--                PRD,    32
--            }
--
--            Method (_STA, 0, NotSerialized)  // _STA: Status
--            {
--                Local0 = VEND /* \_SB_.HPET.VEND */
--                Local1 = PRD /* \_SB_.HPET.PRD_ */
--                Local0 >>= 0x10
--                If (((Local0 == Zero) || (Local0 == 0xFFFF)))
--                {
--                    Return (Zero)
--                }
--
--                If (((Local1 == Zero) || (Local1 > 0x05F5E100)))
--                {
--                    Return (Zero)
--                }
--
--                Return (0x0F)
--            }
--
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                Memory32Fixed (ReadOnly,
--                    0xFED00000,         // Address Base
--                    0x00000400,         // Address Length
--                    )
--            })
--        }
--    }
--
-     Scope (_SB.PCI0)
-     {
-         Device (ISA)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- hw/i386/acpi-build.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tests/qtest/bios-tables-test.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index bcb1f65c1d..73ec0b6d32 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1405,7 +1405,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         aml_append(sb_scope, dev);
-         aml_append(dsdt, sb_scope);
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 096d15db68..72c8765baf 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -980,6 +980,17 @@ static void test_acpi_q35_tcg_nosmm(void)
+     free_test_data(&data);
+ }
  
--        build_hpet_aml(dsdt);
-+        if (misc->has_hpet) {
-+            build_hpet_aml(dsdt);
-+        }
-         build_piix4_isa_bridge(dsdt);
-         build_isa_devices_aml(dsdt);
-         if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-@@ -1450,7 +1452,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
- 
-         aml_append(dsdt, sb_scope);
- 
--        build_hpet_aml(dsdt);
-+        if (misc->has_hpet) {
-+            build_hpet_aml(dsdt);
-+        }
-         build_q35_isa_bridge(dsdt);
-         build_isa_devices_aml(dsdt);
-         build_q35_pci0_int(dsdt);
++static void test_acpi_q35_tcg_nohpet(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_Q35;
++    data.variant = ".nohpet";
++    test_acpi_one(" -no-hpet", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_piix4_tcg_numamem(void)
+ {
+     test_data data;
+@@ -1337,6 +1348,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/piix4/numamem", test_acpi_piix4_tcg_numamem);
+         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
+         qtest_add_func("acpi/q35/nosmm", test_acpi_q35_tcg_nosmm);
++        qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
+         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
 -- 
 2.17.1
 
