@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062763141EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:35:57 +0100 (CET)
-Received: from localhost ([::1]:49746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C07E3141E6
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:34:36 +0100 (CET)
+Received: from localhost ([::1]:43254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9ECK-0003g2-2h
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:35:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35964)
+	id 1l9EB0-00012y-S2
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:34:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9ADF-0008Co-QQ
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:20:37 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45476)
+ id 1l9Aa5-0000Sw-U6
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:44:13 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:33222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9ADE-0008Lw-5H
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:20:37 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id t5so19276486eds.12
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 09:20:32 -0800 (PST)
+ id 1l9AZx-0007nn-NN
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:44:13 -0500
+Received: by mail-ed1-x531.google.com with SMTP id c6so19520954ede.0
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 09:44:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pb/FL2gxWBCn2MPXFktPxv2/ivGctJtsLMBYhS0Dm94=;
- b=H+entsgEpURvMANRiqnahqZBb6cKtmVjYvpXHSpORHbEr1x3BP3uN010Ac8tP0aEtt
- Zv+LYya6FRVjW3WiRz6ETIydELo8LbbnIfeoTWGjQ+0lkHxxQ0tOT7ibT5jLzn9eU2QU
- s2P036jNqoIjIpoSa9uVUjx4wBrysOIeEK6Yv4VRdl+P5M5PEMdBOrQIxN2+JcRrG6uu
- PHKHum6fEMZGSrupI6ZGwo49EJ+7adW27r0bnc5XjdPpci1Mq1omqxQAKyVB9Yvoke1x
- szev8WSTHJc+pSyGLXqYxGZRUzmL7/R484lYpXNqiueOjodk4sNs/nNBrfbpu93SzTY3
- 1Tlw==
+ :cc; bh=86SXquzZ2n5uqLm3OZjLFku3Fa48aY+clsQOqJVpbGc=;
+ b=gN1s0q/tijlnlTGIWB0kO68wN80VxbmFwYLxYIi42PgCzjsAMrMdOuorVf3F49ETef
+ KGjJu/mDXmqN0b4OkY5/1fxgHg5NQ1x51dR8saeXtUK9t8WhvhKmp81X16BKN9P/wpwO
+ uiuzaWtkHMNf/dRXyiVnPb9KfAyc9pWowZOlSNThSxLZCaRucyA4b0jE420n53zqymXu
+ hmi5iPrfsCi2TrMAuL0MNp3Z+Ufj6Kgq8cHMQfqR9B/1W31wBT0nDg9DjPAXGDMCJY3q
+ jzqTfk20v9khaeZNPZ26Ke3SLp75ddvyRs82VuWL3DP10x7omQIvgjjifsjB81K8GpwR
+ 6BMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pb/FL2gxWBCn2MPXFktPxv2/ivGctJtsLMBYhS0Dm94=;
- b=jYGc2q9J/IoZe8umswocDIHVYsbrQNfyGDHse/Hm4U9ZcAsv+g700I644+CqqkMut6
- n8OavW7RebKGw2EVwYbMqpjxQQZ7jC1W5ZmqpTuSu8k1/e556NgNj7olF59Zrl5v8bZe
- +rQUlYzwsM5wMg2Nje12DgUqxtufbXMf6l4YqidoAAA5fQSENyihPR+Dgt9O+tTwu9Mp
- aRbSuGsCZXWCZZoYDNgHDlaXDI8nmecsBujPOFDGLKGd1JwBc3xu942NDvwpH0bOK9SD
- YztyrUBQxkch2gsb0fcbAlgAOQ+och7a5GdYr6xZrTILaVyYz0drTheZjfHL1QrY//Q9
- gwTg==
-X-Gm-Message-State: AOAM530MvFd15mXdkNmrgmB0qcsLc0hvzYuufsYaV7eVxGqJi1DwcZSi
- dmw+DUWa2iE0vD9nF5eNw1aBLT+XFjPPebhmXMlxgo9BH/c=
-X-Google-Smtp-Source: ABdhPJwL2+vQq0tvuCVapQaaN/kLhnRus4ZRRDtL6N41i4T4eHLVMH+lpZsAsVsNjxaJHnCYZ4MjGRdWRVahwd47FFU=
-X-Received: by 2002:a50:d307:: with SMTP id g7mr17203050edh.204.1612804831401; 
- Mon, 08 Feb 2021 09:20:31 -0800 (PST)
+ bh=86SXquzZ2n5uqLm3OZjLFku3Fa48aY+clsQOqJVpbGc=;
+ b=VMRiiRNewtA1gleGPn4z67BkyZXva2Uhzdr4GnWpqDcxJLPq1GhY985BDY9yfKqdVs
+ CCygX16xWGj87z2tbViXcgw16L7/st/iNQBEgB/LzEu/hOsENMeO21lvHGRh6RaaL12C
+ fppiDBWuaimTWFiQHkBFIsmH83Rky/l/8KI1z0heo4Iop7n1hHtqrBKgSWn8RloBVvre
+ GuJcPEK2fS2VMmUGMXk8fXGCu0+gR3IkGGEy3xV3UyrMD+9EA72hxsErhLM06YDUNkhy
+ vlahPqaw/Xsij47lh4Jsa+8gWSij9vuUfxi1Gzv39rbaxuS71VgpYFdUOzdI7dMo0XM0
+ HXzg==
+X-Gm-Message-State: AOAM532dREKFPx4nh3IGdf/t9+nvkDAkThkuAxBg7dSRNGPo3oE6W188
+ +WUMfJzqP62JUxkez8JxEKGfkpSkQK1FgscwA7e8Xg==
+X-Google-Smtp-Source: ABdhPJzlPGJT64unwscHtP3pkp6o0pQTy8yCe4uTF85MyS6DR5P90jtF+DhOo7kr4MJ2W2Pp4R4El4o7EWfCN0SZUHI=
+X-Received: by 2002:a05:6402:3514:: with SMTP id
+ b20mr17874475edd.100.1612806243538; 
+ Mon, 08 Feb 2021 09:44:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20210202232838.1641382-1-dje@google.com>
- <20210202232838.1641382-3-dje@google.com>
-In-Reply-To: <20210202232838.1641382-3-dje@google.com>
+References: <20210208024625.271018-1-richard.henderson@linaro.org>
+ <20210208024625.271018-2-richard.henderson@linaro.org>
+In-Reply-To: <20210208024625.271018-2-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Feb 2021 17:20:20 +0000
-Message-ID: <CAFEAcA9uHP+2_DiV8qPYM_HkCewWu9bORce=K+7Lz=HWDjBvpg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] hw/arm: Add npcm7xx emc model
-To: Doug Evans <dje@google.com>
+Date: Mon, 8 Feb 2021 17:43:52 +0000
+Message-ID: <CAFEAcA_eGWkMi63w90tKr5siAmkpw3OC2NpGUjWM-A7CKSxVbg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] tcg: Change parameters for tcg_target_const_match
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,25 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Avi Fishman <avi.fishman@nuvoton.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Feb 2021 at 23:29, Doug Evans <dje@google.com> wrote:
+On Mon, 8 Feb 2021 at 03:31, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> This is a 10/100 ethernet device that has several features.
-> Only the ones needed by the Linux driver have been implemented.
-> See npcm7xx_emc.c for a list of unimplemented features.
+> Change the return value to bool, because that's what is should
+> have been from the start.  Pass the ct mask instead of the whole
+> TCGArgConstraint, as that's the only part that's relevant.
 >
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Avi Fishman <avi.fishman@nuvoton.com>
-> Signed-off-by: Doug Evans <dje@google.com>
+> Change the value argument to int64_t.  We will need the extra
+> width for 32-bit hosts wanting to match vector constants.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  docs/system/arm/nuvoton.rst |  3 ++-
->  hw/arm/npcm7xx.c            | 50 +++++++++++++++++++++++++++++++++++--
->  include/hw/arm/npcm7xx.h    |  2 ++
->  3 files changed, 52 insertions(+), 3 deletions(-)
+>  tcg/tcg.c                    | 5 ++---
+>  tcg/aarch64/tcg-target.c.inc | 5 +----
+>  tcg/arm/tcg-target.c.inc     | 5 +----
+>  tcg/i386/tcg-target.c.inc    | 4 +---
+>  tcg/mips/tcg-target.c.inc    | 5 +----
+>  tcg/ppc/tcg-target.c.inc     | 4 +---
+>  tcg/riscv/tcg-target.c.inc   | 4 +---
+>  tcg/s390/tcg-target.c.inc    | 5 +----
+>  tcg/sparc/tcg-target.c.inc   | 5 +----
+>  tcg/tci/tcg-target.c.inc     | 6 ++----
+>  10 files changed, 12 insertions(+), 36 deletions(-)
+>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
