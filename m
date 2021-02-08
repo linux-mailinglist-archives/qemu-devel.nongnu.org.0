@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E7F3137A0
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:29:26 +0100 (CET)
-Received: from localhost ([::1]:32884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB0C31377D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:28:17 +0100 (CET)
+Received: from localhost ([::1]:60222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l98Td-0008Ld-Hd
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:29:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45642)
+	id 1l98SW-0007qc-M5
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:28:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l90Uw-0005CS-F0
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 01:58:20 -0500
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:35656)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l91FL-0003Ce-MZ
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 02:46:17 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l90Ua-0003xp-0H
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 01:58:10 -0500
-Received: by mail-io1-xd2d.google.com with SMTP id f2so1969374ioq.2
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 22:57:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RzKZuoyEuNW82NcVhGHHTiOVySuGgC0h+4EIBJuvWAA=;
- b=ApmOQnUBQtN8W8NkpFFYcWgIAEuQdvVSz7hB0ouVRpiurcllSAQQGqDX7xO5DUvR7U
- ocV69CFnJFk0FVcdJlh8epGW4RwHdW+/Ku5fl/1BGu8exk/MUrZDzcHpROcfTGmrtY5z
- AvNyYBAwxS0H2rDq0qM6IF2wMa9uma+f6lnQlV1vlKHjVKqFfE+N/mFn1OWcE+J86M9p
- irPaBNhA63TeYNsCcOrNUNuX/arQuZCGbklqe8DVnKqo2cbwIN3D9PRkmHy9JxzwipYK
- yGlNQ1n9jtoBkVPfCZ62m1+kkIA/rNW665Vis19ZhX8SYFu2HdSi/12JQtcZWTu+Sbyp
- 1KgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RzKZuoyEuNW82NcVhGHHTiOVySuGgC0h+4EIBJuvWAA=;
- b=ZLhZJ5JYh4yspJEnCEYSq1HbwAZlBVsvuKrvbOcSsC8B/ixSGjo20BnemCCmU0XKL6
- AIwe0eCV64CMbr3JnhIR1A+CoTilXyyAnV77asrv2fPmj5zZ0CN+mlwMrIOw3dTWgogY
- HvfDh1hsSsHktNFI7JOV4/tEb3iZx/CjzjEfXmXxxvOeQwB46psfL6LbZGfGCjn7y3JG
- D5pE9kyBRTstIvNY58BCz/JzCDfgdx8HAyU6igz3RUxUrce5gsWU5058egpRpV5fQVGp
- PNyqN8ld3SEBNWrA+RGQyvaWe7TF/vyIRpr3ErpIdQ2SRybSzIV9D464SVrYsm6bD2l7
- qvlQ==
-X-Gm-Message-State: AOAM531RiiHifj0tqt93zjBYHEf/r1INZETsrOkE8Dq3byVr6S4mS5MT
- PB1/gU0NH9g+02B812k7yc4L9gsz5j8N2ID+jI9E87lhEPvSNNtk6PlplsFLxTGrTIUPtpmn1Os
- ddA0efUlle6ER2b+CaIkhMkEFK3AbKFJntGo08jwEeOMw2cxDZYZ909hNK+p7tErq19nTZH8=
-X-Google-Smtp-Source: ABdhPJzE0Hrq484IjWXCmFWSFiuY7RxfrSGb3lEJxT8rRROAYohX6pIUxkV3Rc99Rf4G1x8Tub/MYw==
-X-Received: by 2002:a05:6602:1541:: with SMTP id
- h1mr13659630iow.171.1612767428349; 
- Sun, 07 Feb 2021 22:57:08 -0800 (PST)
-Received: from cube.nuviainc.com (c-174-52-16-57.hsd1.ut.comcast.net.
- [174.52.16.57])
- by smtp.gmail.com with ESMTPSA id c19sm8335904ile.17.2021.02.07.22.57.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 22:57:07 -0800 (PST)
-From: Rebecca Cran <rebecca@nuviainc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/4] target/arm: Set ID_PFR0.DIT to 1 for "max" 32-bit CPU
-Date: Sun,  7 Feb 2021 23:57:00 -0700
-Message-Id: <20210208065700.19454-5-rebecca@nuviainc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210208065700.19454-1-rebecca@nuviainc.com>
-References: <20210208065700.19454-1-rebecca@nuviainc.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l91Ev-00071G-86
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 02:46:01 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l91Er-0002ap-TU
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 07:45:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CEDAE2E8138
+ for <qemu-devel@nongnu.org>; Mon,  8 Feb 2021 07:45:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=rebecca@nuviainc.com; helo=mail-io1-xd2d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Feb 2021 07:39:00 -0000
+From: Toolybird <1914986@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: toolybird
+X-Launchpad-Bug-Reporter: Toolybird (toolybird)
+X-Launchpad-Bug-Modifier: Toolybird (toolybird)
+Message-Id: <161276994082.12973.16246708530563261197.malonedeb@soybean.canonical.com>
+Subject: [Bug 1914986] [NEW] KVM internal error. Suberror: 1 - OVMF / Audio
+ related
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: 9f4b9265466819bc57b60a84aef44a0669576e96
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,36 +69,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Rebecca Cran <rebecca@nuviainc.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Reply-To: Bug 1914986 <1914986@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable FEAT_DIT for the "max" 32-bit CPU.
+Public bug reported:
 
-Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+This is latest release QEMU-5.2.0 on Arch Linux running kernel 5.10.13,
+latest OVMF etc.
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 8ddb2556f8cf..5cf6c056c50f 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2202,6 +2202,10 @@ static void arm_max_initfn(Object *obj)
-         t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-         t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
-         cpu->isar.id_mmfr4 = t;
-+
-+        t = cpu->isar.id_pfr0;
-+        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
-+        cpu->isar.id_pfr0 = t;
-     }
- #endif
- }
--- 
-2.26.2
+I'm seeing the following crash when loading an audio driver from the
+OpenCore[1] project in the UEFI shell:
 
+KVM internal error. Suberror: 1
+emulation failure
+RAX=3D0000000000000000 RBX=3D0000000000000000 RCX=3D0000000000000000 RDX=3D=
+0000000000000000
+RSI=3D0000000000000000 RDI=3D000000007e423628 RBP=3D000000007fee6a90 RSP=3D=
+000000007fee6a08
+R8 =3D0000000000000000 R9 =3D0000000000000080 R10=3D0000000000000000 R11=3D=
+0000000000000000
+R12=3D000000007eeaf828 R13=3D0000000000000000 R14=3D0000000000000000 R15=3D=
+000000007fee6a67
+RIP=3D00000000000b0000 RFL=3D00000246 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SMM=
+=3D0 HLT=3D0
+ES =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+CS =3D0038 0000000000000000 ffffffff 00a09b00 DPL=3D0 CS64 [-RA]
+SS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+DS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+FS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+GS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
+TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
+GDT=3D     000000007f9ee698 00000047
+IDT=3D     000000007f27a018 00000fff
+CR0=3D80010033 CR2=3D0000000000000000 CR3=3D000000007fc01000 CR4=3D00000668
+DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=3D=
+0000000000000000 =
+
+DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+EFER=3D0000000000000d00
+Code=3D00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 <ff> ff =
+ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff =
+ff ff ff
+
+
+Here's the QEMU command line I'm using:
+
+qemu-system-x86_64 \
+-machine q35,accel=3Dkvm \
+-cpu host,+topoext,+invtsc \
+-smp 4,sockets=3D1,cores=3D2 \
+-m 4096 \
+-drive file=3D/usr/share/edk2-ovmf/x64/OVMF_CODE.fd,if=3Dpflash,format=3Dra=
+w,readonly=3Don \
+-drive file=3DOVMF_VARS.fd,if=3Dpflash,format=3Draw \
+-usb -device usb-tablet -device usb-kbd \
+-drive file=3DOpenCore-0.6.6.img,format=3Draw \
+-device ich9-intel-hda,bus=3Dpcie.0,addr=3D0x1b \
+-device hda-micro,audiodev=3Dhda \
+-audiodev pa,id=3Dhda,server=3D/run/user/1000/pulse/native
+
+The driver loads fine when using the "no connect" switch. eg:
+
+Shell> load -nc fs0:\efi\oc\drivers\audiodxe.efi
+Shell> Image 'fs0:\EFI\OC\Drivers\AudioDxe.efi' loaded at 7E3C7000 - Success
+
+However, the crash occurs when loading normally.
+
+Any ideas? Thanks.
+
+[1]: https://github.com/acidanthera/OpenCorePkg/releases
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914986
+
+Title:
+  KVM internal error. Suberror: 1  -  OVMF / Audio related
+
+Status in QEMU:
+  New
+
+Bug description:
+  This is latest release QEMU-5.2.0 on Arch Linux running kernel
+  5.10.13, latest OVMF etc.
+
+  I'm seeing the following crash when loading an audio driver from the
+  OpenCore[1] project in the UEFI shell:
+
+  KVM internal error. Suberror: 1
+  emulation failure
+  RAX=3D0000000000000000 RBX=3D0000000000000000 RCX=3D0000000000000000 RDX=
+=3D0000000000000000
+  RSI=3D0000000000000000 RDI=3D000000007e423628 RBP=3D000000007fee6a90 RSP=
+=3D000000007fee6a08
+  R8 =3D0000000000000000 R9 =3D0000000000000080 R10=3D0000000000000000 R11=
+=3D0000000000000000
+  R12=3D000000007eeaf828 R13=3D0000000000000000 R14=3D0000000000000000 R15=
+=3D000000007fee6a67
+  RIP=3D00000000000b0000 RFL=3D00000246 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SM=
+M=3D0 HLT=3D0
+  ES =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  CS =3D0038 0000000000000000 ffffffff 00a09b00 DPL=3D0 CS64 [-RA]
+  SS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  DS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  FS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  GS =3D0030 0000000000000000 ffffffff 00c09300 DPL=3D0 DS   [-WA]
+  LDT=3D0000 0000000000000000 0000ffff 00008200 DPL=3D0 LDT
+  TR =3D0000 0000000000000000 0000ffff 00008b00 DPL=3D0 TSS64-busy
+  GDT=3D     000000007f9ee698 00000047
+  IDT=3D     000000007f27a018 00000fff
+  CR0=3D80010033 CR2=3D0000000000000000 CR3=3D000000007fc01000 CR4=3D000006=
+68
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000 =
+
+  DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+  EFER=3D0000000000000d00
+  Code=3D00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 <ff> f=
+f ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff f=
+f ff ff ff
+
+  =
+
+  Here's the QEMU command line I'm using:
+
+  qemu-system-x86_64 \
+  -machine q35,accel=3Dkvm \
+  -cpu host,+topoext,+invtsc \
+  -smp 4,sockets=3D1,cores=3D2 \
+  -m 4096 \
+  -drive file=3D/usr/share/edk2-ovmf/x64/OVMF_CODE.fd,if=3Dpflash,format=3D=
+raw,readonly=3Don \
+  -drive file=3DOVMF_VARS.fd,if=3Dpflash,format=3Draw \
+  -usb -device usb-tablet -device usb-kbd \
+  -drive file=3DOpenCore-0.6.6.img,format=3Draw \
+  -device ich9-intel-hda,bus=3Dpcie.0,addr=3D0x1b \
+  -device hda-micro,audiodev=3Dhda \
+  -audiodev pa,id=3Dhda,server=3D/run/user/1000/pulse/native
+
+  The driver loads fine when using the "no connect" switch. eg:
+
+  Shell> load -nc fs0:\efi\oc\drivers\audiodxe.efi
+  Shell> Image 'fs0:\EFI\OC\Drivers\AudioDxe.efi' loaded at 7E3C7000 - Succ=
+ess
+
+  However, the crash occurs when loading normally.
+
+  Any ideas? Thanks.
+
+  [1]: https://github.com/acidanthera/OpenCorePkg/releases
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914986/+subscriptions
 
