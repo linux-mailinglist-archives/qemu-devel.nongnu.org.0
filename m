@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F065931344D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 15:04:00 +0100 (CET)
-Received: from localhost ([::1]:54308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B403135A1
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 15:51:05 +0100 (CET)
+Received: from localhost ([::1]:39070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l978s-00031I-0T
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 09:03:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37924)
+	id 1l97sV-0004xy-MF
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 09:51:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l92ED-00047Q-MK
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 03:49:12 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35943)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l90Ha-0003pT-9b; Mon, 08 Feb 2021 01:44:26 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:42312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l92Dm-00074g-Sz
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 03:48:58 -0500
-Received: by mail-wr1-x433.google.com with SMTP id u14so16117121wri.3
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 00:48:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ib/WMUU6le7YHu6cgh+/bOmwNxz6LnCOXsegbw1ypc4=;
- b=q63EbRPiEIvSv+eccMlVvtodPx9Nf9RgavB/wG6ke6VhNOk0xmkl9WH+jgN4sjzYEz
- rSLT+wGDeCY+I3cCarE+eYfdZurQs4i/QhDeWLyM3084KqJSlE2sBIuqDqpnUCVPD9sB
- xfnvH4TL+vG7SWCwMU24r6d3ZCyUzf/BOifk6cglSM/Y6Gl749rKuIKyX06U2HeF40hZ
- sLBwnCIWlUYAB6R1mCGgdBDRyftDYHd82OdXiH2PEJUMZgiR81x2GCm9n0sCAxnBtyuG
- n8289+brGc9rd58SfvF6cu3SmX6fmOzaZlxhqLBqb8np6pCnMa0SYVgSszqMp4J2pP3X
- tX6g==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l90HX-0000tK-5K; Mon, 08 Feb 2021 01:44:25 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id z22so16747581edb.9;
+ Sun, 07 Feb 2021 22:43:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=QtNuY0KCojVjT0I/t46B3F2x/WpcH9nSiaFuf68AXEQ=;
+ b=c3RpnRjxGl6xDctrmeTPOCHvX7yIKW2/rL9J6oo5wn3NtWwjGYl/co/FXYpkTvROgF
+ roXGzSzXm9d8b5uf3n11XYgFS+UM0x3nWDareOa6Wjis31B8jmSCIUED2o3KgBOAJmjN
+ bJr0CkZFCPC9G2n01DOQ1mFqajmIG730ZKXlM4Zt2mYDv3wqhGWhCcy7FPZFV2KSWwXP
+ aGi0JKn/jjQL26G2CKQM6dm4hgeUz3pcf54tUAarX75Q/Oyg11hDd2o4KPnnYcVoWoSB
+ cKJjsd+6vtEMoyUstWfviiWaaZnZ5fUtkHt/w+GrzKnXZt4x5emAZVW5OZDtE+60HLMn
+ aTbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ib/WMUU6le7YHu6cgh+/bOmwNxz6LnCOXsegbw1ypc4=;
- b=mCjCr1ZCfFh7MT/OMoUnhMjuq5AFFSLrWe1OJNl0DR4FTCBGAyTGtdZdPkxZ7wDJKG
- vP7HXmdefADxwrZ5y39S2QXGbYgB2DW7aOAMilHJJTgXpum293Ptq5SD0Vosrw/KifPe
- XkzAqAxqfCJzp4VAHfYAgFogF8H25BOEMf21mFXGLq/L0PdF7WFdvOh5mtUCiBYYJltY
- Ky+e5ecJTzWcBaCcfUNi3g8SkWCLIP2dcpPT6dzx0GYk6D3baFzRfTrh/wmihQJcjF4I
- p7jdhAghnbQF1KYjy/9ELctDCxsoRh0YU5Mv6aehQe1y6KrE/koNXHvA832w2oaOYfsp
- rfdw==
-X-Gm-Message-State: AOAM5300EZ7Zqb7gdcfDGkUtmWKY6LMqznXMTDOMGYarJh/dtJZMvafi
- 6qySVjnStve27nRpinsh3mJeCw==
-X-Google-Smtp-Source: ABdhPJxjv3j/FmzxQZt378MrdXLAixEbC5XednK2m4ZcKjgAKTe3OLaTGWeGsnbCIzIlazlImmkmOg==
-X-Received: by 2002:adf:ea51:: with SMTP id j17mr19562474wrn.382.1612774103948; 
- Mon, 08 Feb 2021 00:48:23 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e4sm27559080wrw.96.2021.02.08.00.48.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 00:48:22 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BE51B1FF7E;
- Mon,  8 Feb 2021 08:48:21 +0000 (GMT)
-References: <20210207232310.2505283-1-f4bug@amsat.org>
- <20210207232310.2505283-6-f4bug@amsat.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v2 5/6] accel/tcg: Refactor debugging
- tlb_assert_iotlb_entry_for_ptr_present()
-Date: Mon, 08 Feb 2021 08:42:57 +0000
-In-reply-to: <20210207232310.2505283-6-f4bug@amsat.org>
-Message-ID: <87im73aqsq.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=QtNuY0KCojVjT0I/t46B3F2x/WpcH9nSiaFuf68AXEQ=;
+ b=Mrhtng9/viRhN+ic+FQ2o3Q0vKmcYdc+A5Yn7SQEt/WUnXxDWxu3DPChqXsTTT6PL9
+ Yutge7zYDIfx57YqCaeMuEfAGV9mkavnR5P6siQ9o3dHO71HBK4pXMk9IMgXqjILmC/5
+ qeh0MTlihflSjj2zK4Gc2onpn9iaLVSOexC99BvbwAbG60C+kZQboryeeuv+PxraLjF2
+ UAKMKAWdroPn0CpUc1IP4r0HILnGtD39m1Db1Iba73fgBF9DYwdPb6xO8SOzd/DFgH9V
+ 0mNumMC73QEFuHgc1+GbU2O94sAxlJu6tFR4a7kKzro6jJjY1sHEG/MUAM8OmC3289oD
+ NY6g==
+X-Gm-Message-State: AOAM532ZsYV25ACgERYgb58dRHZ/Cmk5msRmjFnlAsp0apkgJJUKVham
+ oYSSoTuxnVH8LiV7kDWG/VU=
+X-Google-Smtp-Source: ABdhPJyN9KInvyXsgNTSx8ZleI9sSOXNscYmeJXY9KgXgXEfDJmeywq+9TkSTOT3114tmYLVuyAZGA==
+X-Received: by 2002:a05:6402:1155:: with SMTP id
+ g21mr15589842edw.279.1612766585504; 
+ Sun, 07 Feb 2021 22:43:05 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id n2sm8366752ejl.1.2021.02.07.22.43.01
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 07 Feb 2021 22:43:04 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PATCH RESEND] hw/net: fsl_etsec: Do not reject short frames
+Date: Mon,  8 Feb 2021 14:42:56 +0800
+Message-Id: <1612766576-7792-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,145 +77,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-riscv@nongnu.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Bin Meng <bin.meng@windriver.com>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+As of today both slirp and tap networking do not pad short frames
+(e.g.: an ARP packet) to the minimum frame size of 60 bytes.
 
-> Refactor debug code as tlb_assert_iotlb_entry_for_ptr_present() helper.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> What this code does is out of my league, but refactoring it allow
-> keeping tlb_addr_write() local to accel/tcg/cputlb.c in the next
-> patch.
+If eTSEC is programmed to reject short frames, ARP requests will be
+dropped, preventing the guest from becoming visible on the network.
 
-The assertion that the table entry is current is just a simple
-housekeeping one. The details of how the MTE implementation uses
-(abuses?) the iotlb entries requires a closer reading of the code.
+The same issue was reported on e1000 and vmxenet3 before, see:
 
-> ---
->  include/exec/exec-all.h |  9 +++++++++
->  accel/tcg/cputlb.c      | 14 ++++++++++++++
->  target/arm/mte_helper.c | 11 ++---------
->  target/arm/sve_helper.c | 10 ++--------
->  4 files changed, 27 insertions(+), 17 deletions(-)
->
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index f933c74c446..c5e8e355b7f 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -296,6 +296,15 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_u=
-long vaddr,
->  void tlb_set_page(CPUState *cpu, target_ulong vaddr,
->                    hwaddr paddr, int prot,
->                    int mmu_idx, target_ulong size);
-> +
-> +/*
-> + * Find the iotlbentry for ptr.  This *must* be present in the TLB
-> + * because we just found the mapping.
-> + */
-> +void tlb_assert_iotlb_entry_for_ptr_present(CPUArchState *env, int ptr_m=
-mu_idx,
-> +                                            uint64_t ptr,
-> +                                            MMUAccessType ptr_access,
-> +                                            uintptr_t index);
+commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
+commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
 
-Probably worth making this an empty inline for the non CONFIG_DEBUG_TCG
-case so we can eliminate the call to an empty function.
+Ideally this should be fixed on the slirp/tap networking side to
+pad short frames to the minimum frame length, but I am not sure
+whether that's doable.
 
->  #else
->  static inline void tlb_init(CPUState *cpu)
->  {
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index 8a7b779270a..a6247da34a0 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -429,6 +429,20 @@ void tlb_flush_all_cpus_synced(CPUState *src_cpu)
->      tlb_flush_by_mmuidx_all_cpus_synced(src_cpu, ALL_MMUIDX_BITS);
->  }
->=20=20
-> +void tlb_assert_iotlb_entry_for_ptr_present(CPUArchState *env, int ptr_m=
-mu_idx,
-> +                                            uint64_t ptr,
-> +                                            MMUAccessType ptr_access,
-> +                                            uintptr_t index)
-> +{
-> +#ifdef CONFIG_DEBUG_TCG
-> +    CPUTLBEntry *entry =3D tlb_entry(env, ptr_mmu_idx, ptr);
-> +    target_ulong comparator =3D (ptr_access =3D=3D MMU_DATA_LOAD
-> +                               ? entry->addr_read
-> +                               : tlb_addr_write(entry));
-> +    g_assert(tlb_hit(comparator, ptr));
-> +#endif
-> +}
-> +
->  static bool tlb_hit_page_mask_anyprot(CPUTLBEntry *tlb_entry,
->                                        target_ulong page, target_ulong ma=
-sk)
->  {
-> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-> index 6cea9d1b506..f47d3b4570e 100644
-> --- a/target/arm/mte_helper.c
-> +++ b/target/arm/mte_helper.c
-> @@ -111,15 +111,8 @@ static uint8_t *allocation_tag_mem(CPUARMState *env,=
- int ptr_mmu_idx,
->       * matching tlb entry + iotlb entry.
->       */
->      index =3D tlb_index(env, ptr_mmu_idx, ptr);
-> -# ifdef CONFIG_DEBUG_TCG
-> -    {
-> -        CPUTLBEntry *entry =3D tlb_entry(env, ptr_mmu_idx, ptr);
-> -        target_ulong comparator =3D (ptr_access =3D=3D MMU_DATA_LOAD
-> -                                   ? entry->addr_read
-> -                                   : tlb_addr_write(entry));
-> -        g_assert(tlb_hit(comparator, ptr));
-> -    }
-> -# endif
-> +    tlb_assert_iotlb_entry_for_ptr_present(env, ptr_mmu_idx, ptr,
-> +                                           ptr_access, index);
->      iotlbentry =3D &env_tlb(env)->d[ptr_mmu_idx].iotlb[index];
->=20=20
->      /* If the virtual page MemAttr !=3D Tagged, access unchecked. */
-> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-> index c8cdf7618eb..a5708da0f2f 100644
-> --- a/target/arm/sve_helper.c
-> +++ b/target/arm/sve_helper.c
-> @@ -4089,14 +4089,8 @@ static bool sve_probe_page(SVEHostPage *info, bool=
- nofault,
->      {
->          uintptr_t index =3D tlb_index(env, mmu_idx, addr);
->=20=20
-> -# ifdef CONFIG_DEBUG_TCG
-> -        CPUTLBEntry *entry =3D tlb_entry(env, mmu_idx, addr);
-> -        target_ulong comparator =3D (access_type =3D=3D MMU_DATA_LOAD
-> -                                   ? entry->addr_read
-> -                                   : tlb_addr_write(entry));
-> -        g_assert(tlb_hit(comparator, addr));
-> -# endif
-> -
-> +        tlb_assert_iotlb_entry_for_ptr_present(env, mmu_idx, addr,
-> +                                               access_type, index);
->          CPUIOTLBEntry *iotlbentry =3D &env_tlb(env)->d[mmu_idx].iotlb[in=
-dex];
->          info->attrs =3D iotlbentry->attrs;
->      }
+This commit changes to codes to ignore the RCTRL_RSF setting and
+still allow receiving the short frame. The log message is updated
+to mention the reject short frames functionality is unimplemented.
 
-with the inline fix:
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+RESEND using correct email address
 
---=20
-Alex Benn=C3=A9e
+ hw/net/fsl_etsec/rings.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
+index 121415a..503b4d3 100644
+--- a/hw/net/fsl_etsec/rings.c
++++ b/hw/net/fsl_etsec/rings.c
+@@ -502,10 +502,17 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uint8_t *buf, size_t size)
+         return -1;
+     }
+ 
++    /*
++     * Both slirp and tap networking do not pad short frames
++     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
++     *
++     * If eTSEC is programmed to reject short frames, ARP requests
++     * will be dropped, preventing the guest from becoming visible
++     * on the network.
++     */
+     if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
+         /* CRC is not in the packet yet, so short frame is below 60 bytes */
+-        RING_DEBUG("%s: Drop short frame\n", __func__);
+-        return -1;
++        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
+     }
+ 
+     rx_init_frame(etsec, buf, size);
+-- 
+2.7.4
+
 
