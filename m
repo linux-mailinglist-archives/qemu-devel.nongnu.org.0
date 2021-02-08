@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF0431433F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:53:57 +0100 (CET)
-Received: from localhost ([::1]:52262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC6C314304
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:31:05 +0100 (CET)
+Received: from localhost ([::1]:42282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9FPo-0004F4-JX
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:53:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50834)
+	id 1l9F3g-0001Pn-4a
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:31:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCj-0003ep-S5; Mon, 08 Feb 2021 13:24:10 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37097)
+ id 1l9BCj-0003ej-JW
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:10 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCi-0006KD-3I; Mon, 08 Feb 2021 13:24:09 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id v15so18374129wrx.4;
- Mon, 08 Feb 2021 10:24:06 -0800 (PST)
+ id 1l9BCi-0006KW-0u
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:09 -0500
+Received: by mail-wm1-x331.google.com with SMTP id o24so43576wmh.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:24:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vmTUdRsIp15lM+Myl5to/SGJeQnIreHQ3aMV8OYa0uU=;
- b=K3nnvrapD2u5QnP9aOIDCODsW/wAGkjPD9+NsRO/KM9NtOENuM2HT9qr/JwLruULP5
- 707DvRrabBcgk1KnB+s5mSv9LXeXBnrWlLfXX/CdIL7P+r9zsAnOHhsRn2UPnYOdoNt9
- 2rhBsMaNFpCEGeUxb2eTs+urH1Gpl7y40H3r3p+dfKQ8h+l4ihz5xQAJhjaPLFz/XE/W
- eZXwmY8f1U7lEEoOaH5B/fvw1tMJ5YKGqZx6T51Ry0JoRZ8VpIKo5PQQKccrntQ0opuJ
- o+hqSNrZ6HvtjlEXxWlJSqRL/L1xsMqJ5RcSZCsoNi/hqLJjJMgtbP+G/pVD0ZEoLXD7
- DSoQ==
+ bh=cN1ZcZPR2RGrOQpA8sK4oqGTYEHRS4ZzRRQsbqTSWis=;
+ b=OcFGOQ5pHzNDFIIbsee46MvK5f2nF/yFcxQ453WF8falY8uh84CG5/ZtQ6LEWwLCiv
+ +T2Zh+uB5J1m4pP1IdqJdcleWyb1a5y6NzE1DENir+cB+UNzDnmIgla9FShKImny5h+9
+ iC4KoOckj9ymKO7jquxMm8W2F4ArffPL0zchgB122zjgy5q0bxjZCADpbMQbfI+JA+RS
+ mMFcgn6vSjZk5VjSJfqLOJ2Chw4drHGJkvf1DdxzyX/0dqRkR9gaqSPvENrSgEyOE0eA
+ bNvkiXaSSZhCPwUYBkNEYj2n2AkLS5AMFtnB/VfFPBxL6EpvwZMMctMqKk4q7hp8uICd
+ QYzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vmTUdRsIp15lM+Myl5to/SGJeQnIreHQ3aMV8OYa0uU=;
- b=WMRArMbT1pvmwo9Gd7oY70SNhrN6a6CZYii7lGqGhh19dMaa597uQvBPpiHLUWeZcR
- BcDrNeppVHPhRH6KGaWSj9XNNggd1peqSx+hND0rkQ1ivrd08jYfdDrFx64vG+RnJLvi
- LgZK9MVG8F70WwuF/XXLfQAloPaqHlRXpjz8cSkrz9OMns/S5DNLhab/6dTWRai+SEfs
- nogO97m5JN0fp4C009F5XwxbwcGPi1srKRaWJkqDyWHxMTm+fOZT63aLB8WmIhTViCbj
- K+SsvJoww55qeKWf0BQkcmqEHN+nmt5bgZs591CXXfw4bhF4Iv0ISq5OnBsECsvRHiJx
- s9Iw==
-X-Gm-Message-State: AOAM533rdNib9F9XDjKtmL3cUotnQblswvsIxlDE2ijFxbhEW8bTBNRX
- XXTmKg4l+snHF4IdRqLKNfvaf/OFVbNBvA==
-X-Google-Smtp-Source: ABdhPJx1o8lUysCrrNlgmSlR3ig3ng7Y9Ehaodaab+1E7/KZSW+lI+TBb9oDYDJC8vgS13a3oC21Yw==
-X-Received: by 2002:adf:ab10:: with SMTP id q16mr3368287wrc.376.1612808645128; 
- Mon, 08 Feb 2021 10:24:05 -0800 (PST)
+ bh=cN1ZcZPR2RGrOQpA8sK4oqGTYEHRS4ZzRRQsbqTSWis=;
+ b=R4zAFZIM/Fh8wS+ycry5nUVUzKIsSOsiSkP4EYbWpbH+eSkBfxuAxjDZbb0bzksokF
+ aKbc6WToMlMIwUujHWPhFzA6SaGbfvd2or2cm5GZBZsPoZo8RvjsBM8oflnOyZIfKGno
+ oPYHA2T5x1ITyxqtZ5hMxzSBcuqO+d7gY+7sHfcMqekd76sz1A0WX2b4wpiTWKtRpAqz
+ R+ypZedmFMV1eW3hYm+Tjz/9yIXJsM8to5haPLBkDKSw+dbh3JvpsY4jieDwOCLCNV0/
+ jixJX9oHV/pKDf0aFYT381GarMAwnHW9QMPfAoE56PCYEgvL32XJxJcnDwkHs2dMr8k6
+ XeNg==
+X-Gm-Message-State: AOAM5328G5XdsJByUhV7quW7GaXXPRa9Noeiv9JzoWVrs3BMOBS6NA1N
+ kixEG5XiYVRzBGB4h6ifT2WGzzUWIDwjCw==
+X-Google-Smtp-Source: ABdhPJyf5i5jTekJeH2QHw6zJTNBolH4NvRUScT2vuSdEb3P013PneRJccSzKBGFYYwzK3VCd2pcFg==
+X-Received: by 2002:a1c:f706:: with SMTP id v6mr49532wmh.85.1612808646765;
+ Mon, 08 Feb 2021 10:24:06 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.24.04
+ x22sm19670wmc.25.2021.02.08.10.24.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:24:04 -0800 (PST)
+ Mon, 08 Feb 2021 10:24:06 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/46] pc-bios/descriptors: fix paths in json files
-Date: Mon,  8 Feb 2021 19:23:19 +0100
-Message-Id: <20210208182331.58897-35-pbonzini@redhat.com>
+Subject: [PULL 36/46] cpu-throttle: Remove timer_mod() from cpu_throttle_set()
+Date: Mon,  8 Feb 2021 19:23:21 +0100
+Message-Id: <20210208182331.58897-37-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,54 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Jannik=20Gl=C3=BCckert?= <jannik.glueckert@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-stable@nongnu.org, Sergei Trofimovich <slyfox@gentoo.org>
+Cc: Utkarsh Tripathi <utkarsh.tripathi@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sergei Trofimovich <slyfox@gentoo.org>
+From: Utkarsh Tripathi <utkarsh.tripathi@nutanix.com>
 
-Before the change /usr/share/qemu/firmware/50-edk2-x86_64-secure.json
-contained the relative path:
-            "filename": "share/qemu/edk2-x86_64-secure-code.fd",
-            "filename": "share/qemu/edk2-i386-vars.fd",
+During migrations, after each iteration, cpu_throttle_set() is called,
+which irrespective of input, re-arms the timer according to value of
+new_throttle_pct. This causes cpu_throttle_thread() to be delayed in
+getting scheduled and consqeuntly lets guest run for more time than what
+the throttle value should allow. This leads to spikes in guest throughput
+at high cpu-throttle percentage whenever cpu_throttle_set() is called.
 
-After then change the paths are absolute:
-            "filename": "/usr/share/qemu/edk2-x86_64-secure-code.fd",
-            "filename": "/usr/share/qemu/edk2-i386-vars.fd",
+A solution would be not to modify the timer immediately in
+cpu_throttle_set(), instead, only modify throttle_percentage so that the
+throttle would automatically adjust to the required percentage when
+cpu_throttle_timer_tick() is invoked.
 
-The regression appeared in qemu-5.2.0 (seems to be related
-to meson port).
+Manually tested the patch using following configuration:
 
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-CC: "Philippe Mathieu-Daudé" <philmd@redhat.com>
-Bug: https://bugs.gentoo.org/766743
-Bug: https://bugs.launchpad.net/qemu/+bug/1913012
-Signed-off-by: Jannik Glückert <jannik.glueckert@gmail.com>
-Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
-Message-Id: <20210131143434.2513363-1-slyfox@gentoo.org>
-Cc: qemu-stable@nongnu.org
+Guest:
+Centos7 (3.10.0-123.el7.x86_64)
+Total Memory - 64GB , CPUs - 16
+Tool used - stress (1.0.4)
+Workload - stress --vm 32 --vm-bytes 1G --vm-keep
+
+Migration Parameters:
+Network Bandwidth - 500MBPS
+cpu-throttle-initial - 99
+
+Results:
+With timer_mod(): fails to converge, continues indefinitely
+Without timer_mod(): converges in 249 sec
+
+Signed-off-by: Utkarsh Tripathi <utkarsh.tripathi@nutanix.com>
+Message-Id: <1609420384-119407-1-git-send-email-utkarsh.tripathi@nutanix.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- pc-bios/descriptors/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ softmmu/cpu-throttle.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/meson.build
-index ac6ec66b00..29efa16d99 100644
---- a/pc-bios/descriptors/meson.build
-+++ b/pc-bios/descriptors/meson.build
-@@ -9,7 +9,7 @@ if install_edk2_blobs
-   ]
-     configure_file(input: files(f),
-                    output: f,
--                   configuration: {'DATADIR': qemu_datadir},
-+                   configuration: {'DATADIR': get_option('prefix') / qemu_datadir},
-                    install: get_option('install_blobs'),
-                    install_dir: qemu_datadir / 'firmware')
-   endforeach
+diff --git a/softmmu/cpu-throttle.c b/softmmu/cpu-throttle.c
+index 2ec4b8e0bc..8c2144ab95 100644
+--- a/softmmu/cpu-throttle.c
++++ b/softmmu/cpu-throttle.c
+@@ -90,14 +90,21 @@ static void cpu_throttle_timer_tick(void *opaque)
+ 
+ void cpu_throttle_set(int new_throttle_pct)
+ {
++    /*
++     * boolean to store whether throttle is already active or not,
++     * before modifying throttle_percentage
++     */
++    bool throttle_active = cpu_throttle_active();
++
+     /* Ensure throttle percentage is within valid range */
+     new_throttle_pct = MIN(new_throttle_pct, CPU_THROTTLE_PCT_MAX);
+     new_throttle_pct = MAX(new_throttle_pct, CPU_THROTTLE_PCT_MIN);
+ 
+     qatomic_set(&throttle_percentage, new_throttle_pct);
+ 
+-    timer_mod(throttle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL_RT) +
+-                                       CPU_THROTTLE_TIMESLICE_NS);
++    if (!throttle_active) {
++        cpu_throttle_timer_tick(NULL);
++    }
+ }
+ 
+ void cpu_throttle_stop(void)
 -- 
 2.29.2
 
