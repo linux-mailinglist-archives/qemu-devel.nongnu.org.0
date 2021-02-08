@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A963140BE
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:44:46 +0100 (CET)
-Received: from localhost ([::1]:49392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7811C3140DC
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:48:51 +0100 (CET)
+Received: from localhost ([::1]:58788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9DOn-0001E9-7d
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:44:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56136)
+	id 1l9DSi-0005k0-VL
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:48:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l97PG-0000HX-Pg; Mon, 08 Feb 2021 09:20:52 -0500
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:34211)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l97PC-0006sK-JD; Mon, 08 Feb 2021 09:20:50 -0500
-Received: by mail-yb1-xb2c.google.com with SMTP id d184so3399599ybf.1;
- Mon, 08 Feb 2021 06:20:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6p9usCBS5d23b+ZoLvnsrTeZeGzHSQarppTQHFE1osc=;
- b=ERxITJrxZXC2giflJbDczLsPcpQ29s3NKT6woFYVrCc3+mNhPU7xMdZdmIFBfXH0E7
- bSo+WpRTf5KRQdcX2ipaNL5huzUm5z1gvwsInTZ3YUNwj8PrZ0AotA2l5Y3xeaJVAQYt
- RjWil2WQgWTIvg+mVbsXIoDuVTy7vIM0Guj6vtcGwZhqVKT+l7SL09ysq2UjkmgCBAiQ
- FOCfUN0cJkEpIaUEXdN1XVmlPSSVCsGveUaIQr8K+523R6UCE/UBMGv+fBTeTG5yfC4T
- ySzOMIfD3BEXyhgGSeDdQke3HUbxLbWk0LoKCnGx4cephS4vTFyU/8vfP8DoU24TVLJk
- 3yhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6p9usCBS5d23b+ZoLvnsrTeZeGzHSQarppTQHFE1osc=;
- b=p/9/6Cs3nCRYTgaKQIRWcb80p1ELd94Lxjan8A87H5zLo75YpS378mFrsKfUveKL5a
- orOZ8pYaC8DQ7pd/PpPLHHIs6cil9yCeE0oYeUZ3iliB/UGJNrHqOl9TcNRXNo5EaN43
- Ur84HvkpZ20Xf30LDPl+IGv/wWWfEJe2Y+uDYeGoiw1VNIBbyXLe3mbJbiHRaTXQX2yV
- 9tP54FsKxC1bUtSF13NqQn0bbND/SPCV5zx9iRxTk3RDl0Y9ZnzjqcFVJwLGLuIQepgP
- IzT3M6xvj3dtDZY7t5bryA3ab+GDtbWDiawCnGnHtg+lG6x3W3nqMcFuQ1ck3CMINgKf
- JHAQ==
-X-Gm-Message-State: AOAM533U5mLOlCyMH4bZaP0Jtlix2SpKLxiR3cPUBO3+FT22C81eB/ix
- h+wjqbfMyNW0ra3uGW9nY2FRuaXti+sN1+f1728=
-X-Google-Smtp-Source: ABdhPJw2R7J5XgCdXjZi8qgdJRBPxODhQ9bPFs/ZKW2jgR04osYv4FTOJXhSQ6S4TJB0l4jFV00rMe5+wDWk8nmd8sk=
-X-Received: by 2002:a25:3bc5:: with SMTP id
- i188mr25792589yba.332.1612794043774; 
- Mon, 08 Feb 2021 06:20:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l97Re-0000dJ-Q6
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:23:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59985)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l97RR-0007ZA-QZ
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:23:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612794181;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o7zE2QaiNgYk3fGJN6QxqJNP61X2mV6Qi6nRX32k3nE=;
+ b=HRVPo5XvNXGFKBmhb0OT4nDSUvoptq1I3APzLtGJ6KuI0dMkOSJivYD1K5WE91dRSptKgh
+ cEVqGKxavkAnIGgiAYixWQevweKii4pFydI8tZl17KGn7DjuJ/FXanJVUM0HqgtrGDBTZe
+ zglr7/3ErMcUF9HGSdruyoe4EL1WWKA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-uCGQmh5NOeaZIEWdGbalqA-1; Mon, 08 Feb 2021 09:22:57 -0500
+X-MC-Unique: uCGQmh5NOeaZIEWdGbalqA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E192A91282;
+ Mon,  8 Feb 2021 14:22:55 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF75C60C5B;
+ Mon,  8 Feb 2021 14:22:54 +0000 (UTC)
+Subject: Re: [PATCH 1/9] tests/qtest/arm-cpu-features: Remove Cortex-A15 check
+To: Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20210205144345.2068758-1-f4bug@amsat.org>
+ <20210205144345.2068758-2-f4bug@amsat.org>
+ <20210205145938.dvjk7jsfatgm56cy@kamzik.brq.redhat.com>
+ <83662416-8eb6-eab9-fe90-c70daad29e44@amsat.org>
+ <20210205153357.q73y2xo6oazheyma@kamzik.brq.redhat.com>
+ <7173ad26-fc28-171e-b159-4b777fbaeb3a@amsat.org>
+ <20210206104048.wavdqfi3zps377yf@kamzik.brq.redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <b8f61ba3-e4d4-a81c-a8f9-baafe8fab901@redhat.com>
+Date: Mon, 8 Feb 2021 09:22:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210128063035.15674-1-bmeng.cn@gmail.com>
- <20210128063035.15674-10-bmeng.cn@gmail.com>
- <16fb545a-d793-6447-d52f-f504aecc988f@amsat.org>
-In-Reply-To: <16fb545a-d793-6447-d52f-f504aecc988f@amsat.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 8 Feb 2021 22:20:32 +0800
-Message-ID: <CAEUhbmW3vU2wkNL70QF__Sh3n-ZXdbuwb=fA-fUT+Ai-ptz1sQ@mail.gmail.com>
-Subject: Re: [PATCH v4 9/9] hw/sd: ssi-sd: Handle the rest commands with R1b
- response type
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210206104048.wavdqfi3zps377yf@kamzik.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,68 +87,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+On 2/6/21 5:40 AM, Andrew Jones wrote:
+>> BTW is there some easy way to dump QMP traffic on stdio?
+> You can use scripts/qmp/qmp-shell to manually test stuff.
+> 
+> Thanks,
+> drew
+> 
 
-On Mon, Feb 8, 2021 at 10:08 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 1/28/21 7:30 AM, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > Besides CMD12, the following command's reponse type is R1b:
-> >
-> > - SET_WRITE_PROT (CMD28)
-> > - CLR_WRITE_PROT (CMD29)
-> > - ERASE (CMD38)
-> >
-> > Reuse the same s->stopping to indicate a R1b reponse is needed.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >
-> > ---
-> >
-> > Changes in v4:
-> > - new patch: handle the rest commands with R1b response type
-> >
-> >  hw/sd/ssi-sd.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-> > index 907d681d19..97ee58e20c 100644
-> > --- a/hw/sd/ssi-sd.c
-> > +++ b/hw/sd/ssi-sd.c
-> > @@ -194,6 +194,12 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev=
-, uint32_t val)
-> >                  /* CMD13 returns a 2-byte statuse work. Other commands
-> >                     only return the first byte.  */
-> >                  s->arglen =3D (s->cmd =3D=3D 13) ? 2 : 1;
-> > +
-> > +                /* handle R1b */
-> > +                if (s->cmd =3D=3D 28 || s->cmd =3D=3D 29 || s->cmd =3D=
-=3D 38) {
->
-> Why not also check CMD13 for completeness?
->
+If you enable debug logging in python too, it'll print to STDERR. This 
+may or may not be useful depending on how the library is getting used 
+and by whom.
 
-I am not sure I got your point. CMD13 does not respond with R1b but R2.
+(For iotests, you used to be able to engage this mode by passing -d. I 
+don't know if the new test runner has changed this behavior. I'm sure 
+avocado has something similar, somewhere, too.)
 
-> Otherwise:
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> > +                    s->stopping =3D 1;
-> > +                }
-> > +
-> >                  cardstatus =3D ldl_be_p(longresp);
-> >                  status =3D 0;
-> >                  if (((cardstatus >> 9) & 0xf) < 4)
-> >
+Otherwise, the runes are something like:
 
-Regards,
-Bin
+```
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+```
+
+but this only works once per process; the iotests entry point already 
+has a call like this. To override it:
+
+```
+import logging
+
+logging.getLogger().setLevel(logging.DEBUG)
+```
+
+There are other, more complex incantations; you can read 
+https://docs.python.org/3/howto/logging.html if you'd like; the logger 
+we care about is "QMP" (for QMP instances created without a 'nickname') 
+and "QMP.{nickname}" for ones that were. So you can do this:
+
+logging.getLogger("QMP").setLevel(logging.DEBUG)
+
+but you might need to adjust other settings to get it to appear on 
+STDERR (I don't remember), like setting handler propagation settings and 
+so on.
+
+--js
+
 
