@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B403135A1
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 15:51:05 +0100 (CET)
-Received: from localhost ([::1]:39070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B28D313551
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 15:38:08 +0100 (CET)
+Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l97sV-0004xy-MF
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 09:51:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40574)
+	id 1l97fy-0001I4-MO
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 09:38:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l90Ha-0003pT-9b; Mon, 08 Feb 2021 01:44:26 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:42312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l90HX-0000tK-5K; Mon, 08 Feb 2021 01:44:25 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id z22so16747581edb.9;
- Sun, 07 Feb 2021 22:43:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=QtNuY0KCojVjT0I/t46B3F2x/WpcH9nSiaFuf68AXEQ=;
- b=c3RpnRjxGl6xDctrmeTPOCHvX7yIKW2/rL9J6oo5wn3NtWwjGYl/co/FXYpkTvROgF
- roXGzSzXm9d8b5uf3n11XYgFS+UM0x3nWDareOa6Wjis31B8jmSCIUED2o3KgBOAJmjN
- bJr0CkZFCPC9G2n01DOQ1mFqajmIG730ZKXlM4Zt2mYDv3wqhGWhCcy7FPZFV2KSWwXP
- aGi0JKn/jjQL26G2CKQM6dm4hgeUz3pcf54tUAarX75Q/Oyg11hDd2o4KPnnYcVoWoSB
- cKJjsd+6vtEMoyUstWfviiWaaZnZ5fUtkHt/w+GrzKnXZt4x5emAZVW5OZDtE+60HLMn
- aTbg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l92Se-0005Tq-DX
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:04:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l92SE-0001iR-M6
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:03:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612775000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oEpAGaAlWpUPsiGWyHmZvyW881ytgzfA+TjPnCI2T8A=;
+ b=AFwMA3Tr/+wCrTH9atgAZf7AKX2gg+beh6zJlJ4qV1i2Ho8Nzx3+UY5Rtqy/AQMUSa3HFo
+ BjzWbq3S9hsDDXzkfJZtcG0UsPFtL+Nfxk/eJ+lE/fuVncfgid8PkJPWo/XW6sMg64O46L
+ Q3MVC0ary+t9D/dwUoOgQ4sCkD6GOho=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-d3oCLRFHPPmH8K9WM9aEEw-1; Mon, 08 Feb 2021 04:03:18 -0500
+X-MC-Unique: d3oCLRFHPPmH8K9WM9aEEw-1
+Received: by mail-wr1-f70.google.com with SMTP id j8so12472984wrx.17
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 01:03:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=QtNuY0KCojVjT0I/t46B3F2x/WpcH9nSiaFuf68AXEQ=;
- b=Mrhtng9/viRhN+ic+FQ2o3Q0vKmcYdc+A5Yn7SQEt/WUnXxDWxu3DPChqXsTTT6PL9
- Yutge7zYDIfx57YqCaeMuEfAGV9mkavnR5P6siQ9o3dHO71HBK4pXMk9IMgXqjILmC/5
- qeh0MTlihflSjj2zK4Gc2onpn9iaLVSOexC99BvbwAbG60C+kZQboryeeuv+PxraLjF2
- UAKMKAWdroPn0CpUc1IP4r0HILnGtD39m1Db1Iba73fgBF9DYwdPb6xO8SOzd/DFgH9V
- 0mNumMC73QEFuHgc1+GbU2O94sAxlJu6tFR4a7kKzro6jJjY1sHEG/MUAM8OmC3289oD
- NY6g==
-X-Gm-Message-State: AOAM532ZsYV25ACgERYgb58dRHZ/Cmk5msRmjFnlAsp0apkgJJUKVham
- oYSSoTuxnVH8LiV7kDWG/VU=
-X-Google-Smtp-Source: ABdhPJyN9KInvyXsgNTSx8ZleI9sSOXNscYmeJXY9KgXgXEfDJmeywq+9TkSTOT3114tmYLVuyAZGA==
-X-Received: by 2002:a05:6402:1155:: with SMTP id
- g21mr15589842edw.279.1612766585504; 
- Sun, 07 Feb 2021 22:43:05 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id n2sm8366752ejl.1.2021.02.07.22.43.01
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 07 Feb 2021 22:43:04 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PATCH RESEND] hw/net: fsl_etsec: Do not reject short frames
-Date: Mon,  8 Feb 2021 14:42:56 +0800
-Message-Id: <1612766576-7792-1-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oEpAGaAlWpUPsiGWyHmZvyW881ytgzfA+TjPnCI2T8A=;
+ b=lu+JilgGmJOnorR9qwH7YUP8ZQZHycf9cjg80X1+0XVJ23t9ZxarbW4o4gIHzBoVbI
+ zEFqMyss3lS2t7ImTXJP9U0zKCxxFK8IRCh5ddnPOJCUZDoKxxDOFjtmr5h6KfkHF8Wz
+ moaTOntlOa/IjIfchiG5Cb+gVvXvQHkRfZgzU/KfHC6lgoyxz41gOUK7r7W4x4i4EiqV
+ F+KVaSp7LSKKz/dWqlMwFKefCqfPJLy4fbCpi5juo3Aoeg0wCMmqXDlM2hLhUfmpLZ6Q
+ wbXp/Sgg9BMxP0GNDZiNTTU/Da6XL8xBbkMx2uNosLjxeQSYayQLuz8/HthaB0b7BOCh
+ psDw==
+X-Gm-Message-State: AOAM530/r0DWobnYcZD58Y/jUIHxC5ZbQLwc8BjovlXeBxN+TRM1qVdN
+ 4dKKtZmCtCowwgJjp8qZc+IO3TyB2URQL8tCQmW6wVi4iBbvBZQG9N9WMITtbhKOyPV6VaAvUrH
+ CiJFYWrmm16LpPJ8=
+X-Received: by 2002:a1c:2e83:: with SMTP id u125mr13119891wmu.13.1612774997604; 
+ Mon, 08 Feb 2021 01:03:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzHTJKo2OUTWTl1QmZGdH7B8o/sMSpVhM5d0HKbDexFSiB4tOpVU4PewNUVlITk2Jk8ZWX5DA==
+X-Received: by 2002:a1c:2e83:: with SMTP id u125mr13119874wmu.13.1612774997388; 
+ Mon, 08 Feb 2021 01:03:17 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id w15sm26630365wrp.15.2021.02.08.01.03.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 01:03:16 -0800 (PST)
+Subject: Re: [PATCH] hw/block/nvme: fix Close Zone
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Keith Busch <kbusch@kernel.org>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210208003256.9280-1-dmitry.fomichev@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <435eb631-e53d-a47a-6c27-68d12496fe00@redhat.com>
+Date: Mon, 8 Feb 2021 10:03:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <20210208003256.9280-1-dmitry.fomichev@wdc.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,65 +100,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Niklas Cassel <niklas.cassel@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Hi Dmitry, Klaus.
 
-As of today both slirp and tap networking do not pad short frames
-(e.g.: an ARP packet) to the minimum frame size of 60 bytes.
+On 2/8/21 1:32 AM, Dmitry Fomichev wrote:
+> Implicitly and Explicitly Open zones can be closed by Close Zone
+> management function. This got broken by a recent commit and now such
+> commands fail with Invalid Zone State Transition status.
+> 
+> Modify nvm_zrm_close() function to make Close Zone work correctly.
+> 
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> Fixes: 053b5a302c3("hw/block/nvme: refactor zone resource management")
 
-If eTSEC is programmed to reject short frames, ARP requests will be
-dropped, preventing the guest from becoming visible on the network.
+'053b5a302c3': unknown revision or path not in the working tree.
 
-The same issue was reported on e1000 and vmxenet3 before, see:
+If you point at an unmerged commit, why not fix it directly
+before merging?
 
-commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
-
-Ideally this should be fixed on the slirp/tap networking side to
-pad short frames to the minimum frame length, but I am not sure
-whether that's doable.
-
-This commit changes to codes to ignore the RCTRL_RSF setting and
-still allow receiving the short frame. The log message is updated
-to mention the reject short frames functionality is unimplemented.
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
----
-
-RESEND using correct email address
-
- hw/net/fsl_etsec/rings.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
-index 121415a..503b4d3 100644
---- a/hw/net/fsl_etsec/rings.c
-+++ b/hw/net/fsl_etsec/rings.c
-@@ -502,10 +502,17 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uint8_t *buf, size_t size)
-         return -1;
-     }
- 
-+    /*
-+     * Both slirp and tap networking do not pad short frames
-+     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
-+     *
-+     * If eTSEC is programmed to reject short frames, ARP requests
-+     * will be dropped, preventing the guest from becoming visible
-+     * on the network.
-+     */
-     if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
-         /* CRC is not in the packet yet, so short frame is below 60 bytes */
--        RING_DEBUG("%s: Drop short frame\n", __func__);
--        return -1;
-+        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
-     }
- 
-     rx_init_frame(etsec, buf, size);
--- 
-2.7.4
+> ---
+>  hw/block/nvme.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 6b84e34843..c2f0c88fbf 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1308,14 +1308,13 @@ static uint16_t nvme_zrm_finish(NvmeNamespace *ns, NvmeZone *zone)
+>  static uint16_t nvme_zrm_close(NvmeNamespace *ns, NvmeZone *zone)
+>  {
+>      switch (nvme_get_zone_state(zone)) {
+> -    case NVME_ZONE_STATE_CLOSED:
+> -        return NVME_SUCCESS;
+> -
+>      case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+>      case NVME_ZONE_STATE_IMPLICITLY_OPEN:
+>          nvme_aor_dec_open(ns);
+>          nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
+>          /* fall through */
+> +    case NVME_ZONE_STATE_CLOSED:
+> +        return NVME_SUCCESS;
+>  
+>      default:
+>          return NVME_ZONE_INVAL_TRANSITION;
+> 
 
 
