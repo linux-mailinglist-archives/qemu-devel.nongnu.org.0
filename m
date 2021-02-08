@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B862F314464
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:58:43 +0100 (CET)
-Received: from localhost ([::1]:39882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF01314475
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:03:41 +0100 (CET)
+Received: from localhost ([::1]:57606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9GQU-0006fE-Kb
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:58:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32772)
+	id 1l9GVI-0005gy-IP
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:03:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9Bmy-0002yb-Hg; Mon, 08 Feb 2021 14:01:36 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45107)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9Bmk-0004rX-Gg; Mon, 08 Feb 2021 14:01:34 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id E3AE85800F0;
- Mon,  8 Feb 2021 14:01:19 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 08 Feb 2021 14:01:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=OIiTNIH7SyEyGYRZ2nw9PUbZabc
- ASsCo87Us79Lhk1M=; b=t9dByYtd6n3IuHGuByLnTely+5idC/ri62lpIvz0zsY
- DTIVyBsdxOYWM+PxiZ9yCx+rH/FacHGwhN+x+aLMI7GJP24QHL8HLBr1WT37jG+N
- b+A178Z/2IAiqIV62Jye6Pf30B6yvrjEkRRhqsr95iyoxvXgnRlqHu+onSVHP5Vx
- A2FP7eKzs6LuThZlgYXk3y3mKbdM2Cdb1EhfAnYZP3dlcxQpY+ewMhuNx5gDIbvr
- NWSkayA1KRuDNqmqfxGMGpmAZoHbicBqqsa5iHofWYs03I58QBHqqvX58lhS3OQz
- FaL4zggsOkgE+jnIUsQO+vU+Koe9+/qJL0KhaDTDuIw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=OIiTNI
- H7SyEyGYRZ2nw9PUbZabcASsCo87Us79Lhk1M=; b=vTcPUaVn434Etr/w6JgI4O
- 3bkE05f2gLWPoefKRW4ZDMkMEH17ouG8/ktHw4AZIS+8F1dCyuVC/Yd/0qsaeUGj
- EqYsu63CLi2UFaml7CfYXKU484mhpFGClNgC1/ec/9/F+2ZnBsytjinI3q9NpsSM
- 46pixmx25F3eaIdoS6aFFBTtO6vi5jiWh0IlcH8MVSrq1T/VS2ZGpKtqpR4w7FNJ
- bvFnv6PTDzKdbOQ2r+YHxlI9kV7smNcca1FWW6p2g5KEndl0CSGJbA+H8yOgfzjf
- fHSijQXbotm+3LC360MY1i1cE02AjNoA62KTurRN7WWd6z1B/gbpXhjUw62eIuUA
- ==
-X-ME-Sender: <xms:foohYDQf62th5ygXIcH7jsGqEeoxKCxOOdcXjFrsX5HQP1gwCM9gUQ>
- <xme:foohYEuCinWEznjn-KT8z0MXp6WfgK1tbg3me58d0VjxaYm87LObbD-OuerUSTZw6
- rftBc5M427O85OltZ0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheefgdduvddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuueffiefhgffgteehjeeiveeludfhteffhfehiefgheetjeeitedvtdegvdeh
- tdenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:foohYFvRUUWl5MaESvmmOrsD9VMwcKmMvPoaKRip2JOgNkWJbVUE-Q>
- <xmx:foohYKzSfLGrIE9_Ww2kOY53sOTXKQwQz4DyZzs3b5iMVGSyudaNyA>
- <xmx:foohYLhE-yTx_A4uMO94VMT28Tn2-PGvDbTiLRvnL61x1Dk_og5Bkw>
- <xmx:f4ohYAoD0Aw7WmIa3NtFeMKXCKM1-z1qZHtOZdUpRVsy69mmCTzzNQ>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 468CC1080068;
- Mon,  8 Feb 2021 14:01:17 -0500 (EST)
-Date: Mon, 8 Feb 2021 20:01:14 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/2] hw/block/nvme: use locally assigned QEMU IEEE OUI
-Message-ID: <YCGKeroQWGoXKMTL@apples.localdomain>
-References: <20210208141012.377500-1-its@irrelevant.dk>
- <20210208141012.377500-2-its@irrelevant.dk>
- <d8538da5-ee8c-909c-bf1b-c8dc042bf243@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9CK8-0005oI-BA
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 14:35:52 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:34508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9CK5-0002P1-IU
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 14:35:52 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id df22so20203424edb.1
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 11:35:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vPlXFGmPdIy35/5fNAZyKIL3EFKfteeebY872mdceq4=;
+ b=hO195erXbTIV+66O9nu1nhxXkEvRCM7SLaTavcrLR+lqnOBoxDWO4tZYnsVztcjLyY
+ n3Us30cLW/MQLsky1C8Vf2KEekXdzX8UgmgEOugUw4RH3UL1xJ9rt0TeiF+FTmTTpcxm
+ Wfyuaf+iJysERRR6aoPNvCYs26s+w6Qa/ryLY2Ebmbceq3zLzcanMUiQApmascjS2/Og
+ zfyrR5hwVpCdgAbWgsBXERbVpEziDfNsh5ShiBv7Ehgj7OlDxYgYWaQQbd3zlAEDYE4N
+ qWgHLGGscYEvDSt/qlMPOPSy99i8J0dpOXsyIK5Nat2o3rI5b7KDlw8kd75EFZHSl2qB
+ 4z0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vPlXFGmPdIy35/5fNAZyKIL3EFKfteeebY872mdceq4=;
+ b=N87Tt3AQwguVWhv2HBi719M7P0chXxOArAZMhuEDSZGVJ7WDp/+Zqit7WmZoaCHQmK
+ lt0lW7+TF2EuE/zRYv0gH8rSOg48CuYADU+i/bG4M2oYFkPqCIx3cnY5Ac0svBlCIiIv
+ Pz1w45eNJ3f9jx+zmIXURH2Cv4GODzRBMTiU203apFe5rkQpRMGdF6WAulz2Q/MCEzCz
+ thoP1P7/3Rq0flEQw4flm5L8TAX5GF8uJPEdQqI2qT9+wbc8h6Z3JuvBvWoc0NJS0KDa
+ FLSW3Uu+rZXBz/eGzUafxs+tfDkCZjLEVWBxILywYbpcWdz17rbYbvT/Umki2wv1CRwt
+ +pug==
+X-Gm-Message-State: AOAM531bZ/LWE0m13GMGYCYP/LZJn9p8h558/+e/OEOp8u44mkUQj6ik
+ uatEZsn/iAifQ9O0edqPf3DR29pDHnhMwUkkW/7AVA==
+X-Google-Smtp-Source: ABdhPJx8/IXSJql7UTYqMjcdvrI4PfLKouwJGLLP6R7UBZT9IshunWxKCqrfgyYKjlpMFZjFVnXkrhF3eHnmG1dBC5Y=
+X-Received: by 2002:a50:d307:: with SMTP id g7mr17830788edh.204.1612812946829; 
+ Mon, 08 Feb 2021 11:35:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VgXWs2J0CcZuKxMu"
-Content-Disposition: inline
-In-Reply-To: <d8538da5-ee8c-909c-bf1b-c8dc042bf243@redhat.com>
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
- helo=new3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210208024625.271018-1-richard.henderson@linaro.org>
+ <20210208024625.271018-9-richard.henderson@linaro.org>
+In-Reply-To: <20210208024625.271018-9-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Feb 2021 19:35:35 +0000
+Message-ID: <CAFEAcA-cMCjFFLgLS9-W68RLiNkiOASC+Jmnum2LF3Vd234LZA@mail.gmail.com>
+Subject: Re: [PATCH v2 08/15] tcg/arm: Implement TCG_TARGET_HAS_shi_vec
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,75 +77,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 8 Feb 2021 at 03:57, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This consists of the three immediate shifts: shli, shri, sari.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/arm/tcg-target.h     |  2 +-
+>  tcg/arm/tcg-target.c.inc | 27 +++++++++++++++++++++++++++
+>  2 files changed, 28 insertions(+), 1 deletion(-)
 
---VgXWs2J0CcZuKxMu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-On Feb  8 19:56, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 2/8/21 3:10 PM, Klaus Jensen wrote:
-> > From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> >=20
-> > Commit 6eb7a071292a ("hw/block/nvme: change controller pci id") changed
-> > the controller to use a Red Hat assigned PCI Device and Vendor ID, but
-> > did not change the IEEE OUI away from the Intel IEEE OUI.
-> >=20
-> > Fix that and use the locally assigned QEMU IEEE OUI instead.
-> >=20
-> > Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > ---
-> >  hw/block/nvme.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index c2f0c88fbf39..547a3073ef1b 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -4686,8 +4686,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice=
- *pci_dev)
-> > =20
-> >      id->rab =3D 6;
-> >      id->ieee[0] =3D 0x00;
-> > -    id->ieee[1] =3D 0x02;
-> > -    id->ieee[2] =3D 0xb3;
-> > +    id->ieee[1] =3D 0x54;
-> > +    id->ieee[2] =3D 0x52;
->=20
-> Shouldn't this be conditional on 'use-intel-id'?
->=20
-
-It definitely should! Thanks!
-
-> >      id->mdts =3D n->params.mdts;
-> >      id->ver =3D cpu_to_le32(NVME_SPEC_VER);
-> >      id->oacs =3D cpu_to_le16(0);
-> >=20
->=20
-
---VgXWs2J0CcZuKxMu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAhinkACgkQTeGvMW1P
-Deks2AgAnGr3vTf8tESFatHbuUN4u7zfMBIs63aR8hvnuLJlZ0I0Ofb2ItNd/w2/
-5v72f79pTN4j3g4w5qvWDGeHFPJeo7luXRd4wYNUW3xGENuq2hMUpGKebLNQChEn
-YCG3+2pvih3Zx9nUcWck7MvhMMR17lnmzz7rr948cJZ4gtSDHFqnCzW7gwLGRVJ9
-vD5IudWnDHOVOHG5b+msgH8VvMniJkc/KROkcwpJ+nA9WbJyWa6dmifsx7m6ZmU6
-7GHkv+84wvyMveBaYUtSKeHRiTL+sOli5UrKVbbHsidonul/1RkHvZRmGeAu3WvB
-4h0AZJ+BSuWWb3CectYXcZOC4qa0dQ==
-=ZtBL
------END PGP SIGNATURE-----
-
---VgXWs2J0CcZuKxMu--
+thanks
+-- PMM
 
