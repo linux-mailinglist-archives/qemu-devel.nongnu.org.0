@@ -2,84 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D0D313A87
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:13:11 +0100 (CET)
-Received: from localhost ([::1]:35620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CFF313AEF
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:30:55 +0100 (CET)
+Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9A61-000495-Tz
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:13:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54350)
+	id 1l9ANA-0000Ii-Eg
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:30:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
- id 1l8zBc-0004HS-OA; Mon, 08 Feb 2021 00:34:12 -0500
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:34267)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
- id 1l8zBb-0000Ue-3d; Mon, 08 Feb 2021 00:34:12 -0500
-Received: by mail-io1-xd2d.google.com with SMTP id f67so11952147ioa.1;
- Sun, 07 Feb 2021 21:34:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=0Zp9BGGGXruyxeRvmMHs7JPbCXW8UY65W1DhaFEhqdc=;
- b=ItlMcX4WIK6IOZi7GelENDDJ+2AARxDid+F+WYHrWOLjQ5ZC3uO6le13GJmQNgZ0a8
- tqCrz0hhZWf1X4VMVMIJ7HDy/rkLlXL8kuDNwBrTeKn2dvczCzOyW3qnLknpfhOeI4Hx
- DTjGeT4YCKdeoX5TDnpjZ24jV1mIho4tpggDWiQvopnugW7kGlfLevXGp5zBy0j/5Q7D
- y/aDdUA59bp3bNVzN1w0tr7iFPp6GRPHzaXqMyN3PT72UEBlc7zpeblhs+zxdQxBGoBY
- CmcUVc7nNPgM2haVt5FbUaiWLbQWiCPBEbHJFitXSOFwY1lwKjQPEYJ7htgTU5m6IAHn
- IRAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=0Zp9BGGGXruyxeRvmMHs7JPbCXW8UY65W1DhaFEhqdc=;
- b=g2H8FnIb5zgfl5F+t5hGPIFchMtWG03WVotlAJJtsmONPn79vQ6tEBqeYOLvYTQSqS
- /xzxpDaSbjlHFjgDva+JHUzgzgwJy9WHxHTIF4mWllSAONOL7PF4Tc68fw7lMe/vtWit
- XG9Hk9LEtqq2mLB0oIKHcguUN/cKtVTjoAcJTKySKdbbmkMdq4/NTEpXo/pzh0LgjpdY
- pq03S6217KqP6Keqw/afMQFBZrHkEAJ0X8XCzDWhNGqX/8kvaQZgNL5+QgV3wporUa9N
- x5bt+5m5Mbd1LEkJdk8T/QQXhtTi5dQr7WRrQ7of4JaI2216XgaSC491CIO8yN5p+nZP
- DwZQ==
-X-Gm-Message-State: AOAM532js+vdGAJ4HVvBCc51xEwZzv4vtWwzuzOsYOIhENRfXkBhwKbo
- pFabIaGFyJTEzrTYttjS9Lc=
-X-Google-Smtp-Source: ABdhPJxvYxk7XDXP0N8Mq9lfjm4gUW/YF9kG3DQhztqGGJVbEl3UUqJoY7mTOVoT8alliaUbCCcvGw==
-X-Received: by 2002:a5d:8e06:: with SMTP id e6mr14249853iod.210.1612762449319; 
- Sun, 07 Feb 2021 21:34:09 -0800 (PST)
-Received: from [127.0.0.1] (ec2-3-14-82-192.us-east-2.compute.amazonaws.com.
- [3.14.82.192])
- by smtp.gmail.com with ESMTPSA id b1sm1939234iob.42.2021.02.07.21.34.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 21:34:08 -0800 (PST)
-Message-ID: <0b4b2fcdb148bf35cbffbd9cd40ce1b88f883f0c.camel@gmail.com>
-Subject: Re: [PATCH] arm: xlnx-versal: fix virtio-mmio base address assignment
-From: schspa <schspa@gmail.com>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>, Laszlo Ersek <lersek@redhat.com>
-Date: Mon, 08 Feb 2021 13:34:02 +0800
-In-Reply-To: <20210205140807.GH477672@toto>
-References: <3362132240927a23ecca7b9d8cfd6e4130509eea.camel@gmail.com>
- <dbcfce3c-3140-01b7-06ca-497cf7fdace7@amsat.org>
- <6f6a803af5941346050d84e77fcaa52e0175a8a7.camel@gmail.com>
- <f4862169-28cc-82a9-32fb-da56b000cf54@amsat.org>
- <CAFEAcA9JkTEOhmoFjWYfR5d7ANhKnc9URk89Xe36q7qMVxkMmg@mail.gmail.com>
- <aa8ccb78-c977-20fa-a814-4223b678d9c4@amsat.org>
- <CAFEAcA-+dS5r5LvW5DTEH2vBrm1S2rs7sjjh2V7zjtD6ut0wBw@mail.gmail.com>
- <20210205140807.GH477672@toto>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3 
+ (Exim 4.90_1) (envelope-from <info@dantalion.nl>)
+ id 1l92fF-0006wD-2E; Mon, 08 Feb 2021 04:17:06 -0500
+Received: from s02.spamexperts.axc.nl ([185.182.56.112]:41269)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <info@dantalion.nl>)
+ id 1l92ex-0004ES-Nj; Mon, 08 Feb 2021 04:16:52 -0500
+Received: from vserver22.axc.nl ([185.182.56.82])
+ by s02.spamexperts.axc.nl with esmtps (TLSv1.2:AES128-GCM-SHA256:128)
+ (Exim 4.92) (envelope-from <info@dantalion.nl>)
+ id 1l92eR-0005fB-Th; Mon, 08 Feb 2021 10:16:14 +0100
+Received: from mail.axc.nl ([185.182.56.42])
+ by vserver22.axc.nl with esmtp (Exim 4.94)
+ (envelope-from <info@dantalion.nl>)
+ id 1l92eN-006Ywg-VD; Mon, 08 Feb 2021 10:16:08 +0100
+Subject: Re: [PATCH] hw/block/nvme: improve invalid zasl value reporting
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+References: <20210208082532.308435-1-its@irrelevant.dk>
+From: "info@dantalion.nl" <info@dantalion.nl>
+Autocrypt: addr=info@dantalion.nl; prefer-encrypt=mutual; keydata=
+ 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 4W8=
+Message-ID: <75433660-5650-8598-2143-4158113acb8e@dantalion.nl>
+Date: Mon, 8 Feb 2021 10:15:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=schspa@gmail.com; helo=mail-io1-xd2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210208082532.308435-1-its@irrelevant.dk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+PrimaryMX: Accepted email from trusted host. Hint: This skips spam scanning so
+ make sure other host is not vulnerable
+SPFCheck: Server passes SPF test, -30 Spam score
+X-Relay-Host: 185.182.56.42
+X-Spam-Score: -0.0 (/)
+SpamTally: Final spam score: -240
+X-AuthUser: 
+X-Originating-IP: 185.182.56.82
+X-SpamExperts-Domain: vserver22.axc.nl
+X-SpamExperts-Username: 185.182.56.82
+Authentication-Results: spamexperts.axc.nl;
+ auth=pass smtp.auth=185.182.56.82@vserver22.axc.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.24)
+X-Recommended-Action: accept
+X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT+xFyn7UpOfXpFArqGBGHkFPUtbdvnXkggZ
+ 3YnVId/Y5jcf0yeVQAvfjHznO7+bT5ztiSaqv/sNYOK695xQdppmCLjLBn1wYuSvIF4e3KzZojG5
+ C63/N5EDq8oyzDJb6EZvqSw8mtxiGkHxbIBNrJOO1waTp18hu7Ap15ORuodK5a8YId92UViWHoTV
+ eB80IoKJB1fUujzIKNJ/JN+YYUAQCvS7vfsvzznj4MbZ8N8ZbRT7VrVXjxWkjZezb/t4RauhSW0b
+ rGCDkk6BtWuMI8QceR0PkgL7XdLriKeF2GnmQiyqiLHsymdThTN4a9AzcO/ZZ4m5d73AalZr0AeA
+ NfGnABYpWiD6jthR3LhrYx1EZAFV4q2y7iY8tzbZxli25wTUzDXlSdVlFk6WFLkAI2e44a51G/uF
+ LRsk3N5pINuR0KWXYl6o5wPR17y6MMUdaD1eou7UrY5IH3nSH48f4DFOYJLx+ShSuLRnWIuhjHu1
+ M9vrQQT37tVBF8TuA2zDxdadd1WxHO/mLVgwAb47uaavm9UcoHzDPg3KdwIGKsV+GwO5pbaJSnle
+ SF++QBmW0+JLz719Fo7MPwmpyNqirHCp+dSXORr4Pw0tJTUf0N+OPxAOEG9YXRA3MZxvhadh2za2
+ BP//e9fyD640rR6vrC7b+n+PFurydWF88IP8h3QaHmqgloBO0Md+1AP7gSewVgGviDjv91eo0UZ8
+ 9SN0jhflhJ1rNafcM+7I2umwHVcAVfRgA/iFSrQy26BCg+0MdOxStsE0VwD00QB/QYj1k74hheuH
+ d5yCytEkfKKmadwSLa9WJmbhekdrgcJsDlHBdajlsWJoA/N4L72OMz//UQUP9eDSb8uPZeTInj9W
+ 8KDQChWTHgrkPgnGuCbpAOtSc3EoxDzJIuXQrgflh/+BZ7ff1Bwskv/At6tTSrKiQ8hxBJNDFbIp
+ BHHN4xcCmG9gY4NQYZXwkeIbH6wm+OdzDu9CwUUm4fxMxlMrTnPOUGl8HglOZNtk23EZmAz5KWqj
+ j+Nc9aUV1oY4fX3W5eOCNA390RBmR5wlnpqJqFgl67SEGGmjt+WmIH2jK0JKToDuuwlwABIGM6BK
+ zOKSxLno7T+WNabv730Q+kyQtJfaoIHIcEpoEhF42+g7svTRzRl28U5U60QcMUqZkpwHRYq5y4an
+ IrxWNHPOt+2oZfQ4kqp7qD4t5H5Z+gqo56Hj7YyFwss0ljctp4B0nbKdQK2TrOR+
+X-Report-Abuse-To: spam@s01.spamexperts.axc.nl
+Received-SPF: pass client-ip=185.182.56.112; envelope-from=info@dantalion.nl;
+ helo=s02.spamexperts.axc.nl
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL=0.141, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 08 Feb 2021 09:34:42 -0500
+X-Mailman-Approved-At: Mon, 08 Feb 2021 09:34:48 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,43 +134,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Kevin Zhao <kevin.zhao@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-02-05 at 15:08 +0100, Edgar E. Iglesias wrote:
-> Thanks, that matches how I thought things should work.
-> 
-> I wonder if virtio_mmio_bus_get_dev_path() really should be peeking
-> into
-> Sysbus internals mmio[].addr?
-> 
-I think mmio[].addr needs to be given a meaningful value even if we
-don't use it.
+On 08-02-2021 09:25, Klaus Jensen wrote:
+> The Zone Append Size Limit (ZASL) must be at least 4096 bytes, so
+> improve the user experience by adding an early parameter check in
+> nvme_check_constraints.
 
-> Sysbus mmio[].addr looks like a candidate for removal if we ever get
-> rid
-> of the default system_memory...
-> 
-> I don't have any good suggestions how to fix this. I guess we could
-> wrap
-> memory_region_add_subregion() with a sysbus version of it that sets
-> mmio[].addr but that seems like a step backwards to me.
-> Perhaps there's a way fix this in virtio_mmio_bus_get_dev_path()?
+I have confirmed this and it works for me, I don't think I am actually
+qualified or understand QEMUs source well enough to sign this off but
+just wanted to let you know.
 
-I think we can change virtio_mmio_bus_get_dev_path() with the following
-methods.
+Thanks for the quick updates.
 
-1. modify TYPE_VIRTIO_MMIO:
-   add a prop to specify a unique device_path for virtio_mmio TypeInfo.
-2. modify TYPE_VIRTIO_MMIO_BUS
-   add a global static instance count to generate a unique device path.
-
--- 
-schspa <schspa@gmail.com>
-
+Kind regards,
+Corne
 
