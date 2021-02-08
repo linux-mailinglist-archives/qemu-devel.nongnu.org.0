@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EE3313852
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:44:15 +0100 (CET)
-Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFC03138A4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:56:41 +0100 (CET)
+Received: from localhost ([::1]:55084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l98hy-0005vk-Jl
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:44:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44388)
+	id 1l98tz-0003At-Vw
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:56:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l92ex-0006vC-I6
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:16:48 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34529)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l92jU-0007Pi-2N
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:21:27 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:41461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l92eo-0004Er-4D
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:16:37 -0500
-Received: by mail-wr1-x432.google.com with SMTP id g10so16217972wrx.1
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 01:16:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HT+FSxCcCHvoAX4vCs+7KSGDR3k885dWpose2DGZgIY=;
- b=nsF/K4SSDNPZBSlbr9v6j/xOzUF4NHIO28RRvcvP1CXpYuCbjSBrEQdeoEtEuV/GvP
- srvlc83IbNI8ohBEswXodzaOdGhoWXqJ4+6FCwgaG+z6Gn3klf+KCzYpzZMHEjhAJIRo
- ZLDugZI4mL7rj4Nf0hlmkCYregWD4MW5BmCAzv4pFTkLzsB2zwdTRWeJuPZq8xI5FsiA
- qgLrVGVi7UGK1w7nm+bYqtel5kRLBjF4WLD0YCs51RLPcpiJej+Sz+SxNcRLCsuLJ4E0
- XdM32mTKpcSoKRS0MnX4g55qABeYgBh3yw3ry645FN+T6V5DtvcsTiUNnSTN0vfOgZVB
- KYZA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l92j1-0005Db-NX
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:21:13 -0500
+Received: by mail-ed1-x529.google.com with SMTP id s5so17206179edw.8
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 01:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BQO2IDIsOtI+x6NP4JOQZVMLHTrwCzxd0NGnNahlZoM=;
+ b=uwbqyfMCL64qh41lgvbZkWXvgO4a0Tss9ebsStFnpuHCNUKm2bafBPKBQsAGigf8d/
+ SkVXUe1KKVWgYxnppEWEgnmhN2oqN56BK60+897CKLfuxT06SGdrX0mD9qbiOlP2NqU8
+ kRvuwaGntWwJIvN1130a7AcQn1OAdcshfgEUMzpKb6xXU6kYX3PL4ry+AZaROazXDsS9
+ jD8rbHb/9N9naxi+zBf59qOHn23YGjaT1ECXoTdK0fpFnoE2LIBOxCpm+ZFoFX20A9zK
+ PLdGb5RtwQvbRzpEo9jEZjA1wGTCbvJkwEN5CRoZ7JwR+ojtDBvCQizncskkcq01+nuA
+ G9bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HT+FSxCcCHvoAX4vCs+7KSGDR3k885dWpose2DGZgIY=;
- b=llvHfB9nvv5EWzdRFY8qmOt/LIJ9HzsDaqk7UaErFppsa5WvMbw9Soq5auHI17RBeX
- LXPDYJ9uSTiKwCs/iy7AXu7BlaqSNyE6pORyUavJ51GzgDswxO+3Pbcpzm6tb79vS7v7
- XlLGKYrv6L00tOxB9qvNFNzObbujjcrMpOZmb7QQ01k6C8LpPVfDWv2MqvIGvSOOrRKI
- MaizE63KC8l6gAUpPZ/5DvLpE9ed8M1i9bvHOKE9vGilwopGuoiPrMPq3FEsRbZsZwyG
- V43t/4FzNx/WgI8QNIAIM1dbb+UfGJVJDJ/mieVbSzzieJKVUuxl7zIEBGniQkn0sZLD
- GIVA==
-X-Gm-Message-State: AOAM532UnDL9Nqz0gccj3L46NwkJr4g5rV+JQLoHO2khjtyQYGQa4Jxx
- EnvKWfEn7zQ+e+ZpOMYmUy8=
-X-Google-Smtp-Source: ABdhPJx2njMfmL4rDn0UYsJEDn04qQBXxSHMv+8yanVyAaCJeYy8BUu7yncq6FRt2CU/7R2qcqAkdQ==
-X-Received: by 2002:a05:6000:186f:: with SMTP id
- d15mr18849153wri.237.1612775780912; 
- Mon, 08 Feb 2021 01:16:20 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id p1sm1768601wru.86.2021.02.08.01.16.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 01:16:20 -0800 (PST)
-Subject: Re: [PATCH v2] travis-ci: Disable C++ on Aarch64 container
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210206200537.2249362-1-f4bug@amsat.org>
- <29f38036-9acd-abf4-1a75-5a4ac54273a6@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4304f273-2320-e302-f8ca-b72fb69061b5@amsat.org>
-Date: Mon, 8 Feb 2021 10:16:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BQO2IDIsOtI+x6NP4JOQZVMLHTrwCzxd0NGnNahlZoM=;
+ b=oVTDvcX7EwgX2632OH0wJbMtiXmF3TyUBwjOCpbRM14AmWIn1PLFl+QKOLgKJc9ZsF
+ FHvK2Zb+maoLNf6+7Fu/u0+NrfNFySfc63VIOPpLgfD2so3sHpoaQJNEOYgvKbv75HfU
+ IImZeq0Pjyq0q3sdd8eeHhlmq9t0AXHssjx1RGKvryiO7pGzLVdjtv/W6UHtf7cBNCBQ
+ BYiu19a/cNhxyZhvtF0e7iQI73YuO1jOoaxFfY8DKNOl8ZGUVgiJmMEuRGtHG2djjzgK
+ Pl++ZfaWoj/FWw0lUX7Ou3qrMB8V9/lUgtWzVNl+y5YJYkZTsSxNQzgUSsyLePYiLOMV
+ fMaA==
+X-Gm-Message-State: AOAM531Eup+xSi6sycg45zJ67s/QgdSRbHW3SjC6XJ8HLv6uT4uKGg8G
+ hN8mJsE9SLqekWs6Y9XTcjA4QjGiIrXJZfz2kqSwqg==
+X-Google-Smtp-Source: ABdhPJyFcKgBllkgalGm9/iCpbpQQT/aiRKuLe+Nr4KJ6ffiklqVQtRKRY/8eX7acJWnkAe5bMB1Xjj+hxN1sGdXL2Y=
+X-Received: by 2002:a50:d307:: with SMTP id g7mr15307075edh.204.1612776043410; 
+ Mon, 08 Feb 2021 01:20:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <29f38036-9acd-abf4-1a75-5a4ac54273a6@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+References: <20210204014509.882821-1-richard.henderson@linaro.org>
+ <20210204014509.882821-64-richard.henderson@linaro.org>
+ <9d107cb2-ee8c-2a89-e004-9996a647a060@weilnetz.de>
+ <9f552075-1783-dc8b-f338-23e12a138ffd@linaro.org>
+ <CAFEAcA9TtuWaFo3cg_Qhxkg8gRqBNBkuHkSAJ-Lbxzbp23iR+w@mail.gmail.com>
+ <69d3bc09-aeb8-6a40-157e-bf0dc19c0035@linaro.org>
+In-Reply-To: <69d3bc09-aeb8-6a40-157e-bf0dc19c0035@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Feb 2021 09:20:32 +0000
+Message-ID: <CAFEAcA_=DZTRNvQsqT4dki1GTyAhL0RmhPoHG+OBw=W0yct0sg@mail.gmail.com>
+Subject: Re: [PATCH v2 63/93] tcg/tci: Use ffi for calls
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,50 +81,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
+On Sun, 7 Feb 2021 at 20:12, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 2/7/21 11:52 AM, Peter Maydell wrote:
+> > On Sun, 7 Feb 2021 at 17:41, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> On 2/7/21 8:25 AM, Stefan Weil wrote:
+> >>>> +#include "qemu-common.h"
+> >>>> +#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
+> >>>> +#include "exec/cpu_ldst.h"
+> >>>> +#include "tcg/tcg-op.h"
+> >>>> +#include "qemu/compiler.h"
+> >>>> +#include <ffi.h>
+> >>>> +
+> >>>
+> >>>
+> >>> ffi.h is not found on macOS with Homebrew.
+> >>>
+> >>> This can be fixed by using pkg-config to find the right compiler (and maybe
+> >>> also linker) flags:
+> >>>
+> >>> % pkg-config --cflags libffi
+> >>> -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ffi
+> >>> % pkg-config --libs libffi
+> >>> -lffi
+> >>
+> >>
+> >> Which is exactly what I do in the previous patch:
+> >>
+> >>
+> >>> +++ b/meson.build
+> >>> @@ -1901,7 +1901,14 @@ specific_ss.add(when: 'CONFIG_TCG', if_true: files(
+> >>>    'tcg/tcg-op.c',
+> >>>    'tcg/tcg.c',
+> >>>  ))
+> >>> -specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('tcg/tci.c'))
+> >>> +
+> >>> +if get_option('tcg_interpreter')
+> >>> +  libffi = dependency('libffi', version: '>=3.0',
+> >>> +                      static: enable_static, method: 'pkg-config',
+> >>> +                      required: true)
+> >>> +  specific_ss.add(libffi)
+> >>> +  specific_ss.add(files('tcg/tci.c'))
+> >>> +endif
+> >>
+> >> Did you need a PKG_CONFIG_LIBDIR set for homebrew?
+> >
+> > Is this the "meson doesn't actually add the cflags everywhere it should"
+> > bug again ?
+>
+> I guess so.  I realized after sending this reply that PKG_CONFIG_LIBDIR can't
+> be the answer, since the original configure should have failed if pkg-config
+> didn't find ffi.
+>
+> Was there a resolution to said meson bug?
 
-On 2/8/21 6:54 AM, Thomas Huth wrote:
-> On 06/02/2021 21.05, Philippe Mathieu-Daudé wrote:
->> Travis-CI seems to have enforced memory limit on containers,
->> and the 'GCC check-tcg' job started to fail [*]:
->>
->>    [2041/3679] Compiling C++ object libcommon.fa.p/disas_nanomips.cpp.o
->>    FAILED: libcommon.fa.p/disas_nanomips.cpp.o
->>    {standard input}: Assembler messages:
->>    {standard input}:577781: Warning: end of file not at end of a line;
->> newline inserted
->>    {standard input}:577882: Error: unknown pseudo-op: `.lvl35769'
->>    {standard input}: Error: open CFI at the end of file; missing
->> .cfi_endproc directive
->>    c++: fatal error: Killed signal terminated program cc1plus
->>    compilation terminated.
-> 
-> If disabling C++ "fixes" the issue, ok ...
-> Otherwise, we should maybe rather limit the amount of parallel jobs
-> there instead? (i.e. compiling with "make -j1" in the worst case?)
+There's a workaround involving adding the library to the dependencies
+list in the right places -- commit 3eacf70bb5a83e4 did this for gnutls.
+Paolo may be able to help further.
 
-I exhausted my Travis-CI credits (frankly I don't plan to pay for it
-with my own money). If the project expects developers to use Travis-CI,
-we should think at some way to buy credits and give them to developers
-on demand? [Cc'ing Stefan]
-
-I tried to do my best to reproduce by limiting the amount of RAM, but
-I don't know how to replicate Travis-CI hardware speed to match the 1h
-time limit (the AArch64 hardware I have access to is certainly
-different).
-
-I'm happy with any patch (directly removing this job if it is not cared
-of?) as long it silences the failure reports we get on IRC on each
-merge.
-
-Regards,
-
-Phil.
+thanks
+-- PMM
 
