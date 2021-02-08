@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3042E313FF1
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:09:07 +0100 (CET)
-Received: from localhost ([::1]:36910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC5D31405E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:25:19 +0100 (CET)
+Received: from localhost ([::1]:44230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9CqI-0003o6-7t
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:09:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50482)
+	id 1l9D5y-00034n-Dg
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:25:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l96yP-0004te-T1; Mon, 08 Feb 2021 08:53:07 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l96yF-0000Kp-6X; Mon, 08 Feb 2021 08:52:57 -0500
-Received: by mail-wr1-x430.google.com with SMTP id n6so4393971wrv.8;
- Mon, 08 Feb 2021 05:52:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RO1fjUbPuaoEr7p6+/bv1uAV/ae5IRUpPRFbET0L9rM=;
- b=Zw+zqYLVHWb/tdInaOgxyIQEeBFiWq8kpg6G8cPmDh/G8CLsn6soPtQbY2TYi0FJPJ
- v/Muybyo9zHn3nQHE60ADe3pebZA3XFv6sV6tdSc3pF/cLWWEj8pKDAq15ZxOdXj/A10
- 8wDVqIiJWRm+RZVyU1Hw5pMPcmolu6SWlNjVX1tgvcO0R8WztXZ4N4+rIYD5vPUuf5My
- wTzvlWMyt6WjY1aRJaCh8hbqfMapSK/5ptybQ8bS+i947x1XS1E13OP3aPi3DXlIbMoX
- R7whh5UcOMgquEabRUQ355+jWPMcNyR35IZKMnMUk6lih2VmUh/X9vnFVaPxseSuDNPs
- aMLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RO1fjUbPuaoEr7p6+/bv1uAV/ae5IRUpPRFbET0L9rM=;
- b=A/f02tqOM6OyYqjy72jDjwmN7vmU5zxcVtDJybd51QrYwpQipNg29XXcNRfNkzmWN5
- YCATruqHl7YZBuH9gFIVgHrrXaqNfyDsOmi8baTDOVDc4vQY8vwseWdGgEdQgnUF86MD
- dfizFwVlv90T5A5gLoo+VNeKo/mWfGEicGOUGKCru+I3O/3M0nvEmkOMEx/zkqiGPn3Q
- WGDJMxv14zdHVzyiMPrK8zrP76aaBdhiIgDiMVMQELFJB6nLe5EH8lrU5EWsDXM2t2di
- 8eJR888pHpphGOqkBkD+bGA8CMQT88dNrGi8QnMJYhVwUxn+Z0Cl7+fBO027p2S55CEb
- oHfA==
-X-Gm-Message-State: AOAM5310x8uSEyVcTmwxmXH05WCzrOZ/YA0XMsjag4R+VIkAWO4C3cLd
- h4NruFT7DZGqhrPGbh0ALUE=
-X-Google-Smtp-Source: ABdhPJyWJe2lgkK058CdMWRHq9VZQGyidshG36Fqs0fj0VRgGWq3Ku1z1XGTWDf+3/1AnvaoCaXAfQ==
-X-Received: by 2002:a5d:5051:: with SMTP id h17mr20663485wrt.164.1612792369192; 
- Mon, 08 Feb 2021 05:52:49 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id z15sm11933382wmi.38.2021.02.08.05.52.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 05:52:48 -0800 (PST)
-Subject: Re: [RFC PATCH v2 5/6] accel/tcg: Refactor debugging
- tlb_assert_iotlb_entry_for_ptr_present()
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210207232310.2505283-1-f4bug@amsat.org>
- <20210207232310.2505283-6-f4bug@amsat.org> <87im73aqsq.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <83c71866-2e28-2edb-d79d-f4f96bb765a1@amsat.org>
-Date: Mon, 8 Feb 2021 14:52:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l974K-0005Yk-7x
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37039)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9740-0001an-Eq
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612792731;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/RvZrvnDMHUlRGQ+ENzhnd2EpYB2eLB1lwm8K7HKqwU=;
+ b=Q9PwZetcx6VTr4vvbPQi/mfKGt2LluUbR9HdT+aFYzmJsJ3eWjKqbj76ptYpm0xki+zvV6
+ 95oGuyChYMqI8dKlksXCGpyG+M4GvFE34Z3N63jz5tDiCBQzi5Y0ptv32tk2cfiR+VJ8Z1
+ sNCk98jN6QGE8sMNeqDF4DAuaT2DRZM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-372-nr1L58osOOycJTHoPgxL-A-1; Mon, 08 Feb 2021 08:58:49 -0500
+X-MC-Unique: nr1L58osOOycJTHoPgxL-A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1216380196E;
+ Mon,  8 Feb 2021 13:58:48 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE6E860918;
+ Mon,  8 Feb 2021 13:58:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4B09C113865F; Mon,  8 Feb 2021 14:58:46 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/16] QAPI patches patches for 2021-02-08
+Date: Mon,  8 Feb 2021 14:58:30 +0100
+Message-Id: <20210208135846.3707170-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87im73aqsq.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,142 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-riscv@nongnu.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/21 9:42 AM, Alex Bennée wrote:
-> 
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> 
->> Refactor debug code as tlb_assert_iotlb_entry_for_ptr_present() helper.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> What this code does is out of my league, but refactoring it allow
->> keeping tlb_addr_write() local to accel/tcg/cputlb.c in the next
->> patch.
-> 
-> The assertion that the table entry is current is just a simple
-> housekeeping one. The details of how the MTE implementation uses
-> (abuses?) the iotlb entries requires a closer reading of the code.
-> 
->> ---
->>  include/exec/exec-all.h |  9 +++++++++
->>  accel/tcg/cputlb.c      | 14 ++++++++++++++
->>  target/arm/mte_helper.c | 11 ++---------
->>  target/arm/sve_helper.c | 10 ++--------
->>  4 files changed, 27 insertions(+), 17 deletions(-)
->>
->> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
->> index f933c74c446..c5e8e355b7f 100644
->> --- a/include/exec/exec-all.h
->> +++ b/include/exec/exec-all.h
->> @@ -296,6 +296,15 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
->>  void tlb_set_page(CPUState *cpu, target_ulong vaddr,
->>                    hwaddr paddr, int prot,
->>                    int mmu_idx, target_ulong size);
->> +
->> +/*
->> + * Find the iotlbentry for ptr.  This *must* be present in the TLB
->> + * because we just found the mapping.
->> + */
->> +void tlb_assert_iotlb_entry_for_ptr_present(CPUArchState *env, int ptr_mmu_idx,
->> +                                            uint64_t ptr,
->> +                                            MMUAccessType ptr_access,
->> +                                            uintptr_t index);
-> 
-> Probably worth making this an empty inline for the non CONFIG_DEBUG_TCG
-> case so we can eliminate the call to an empty function.
+The following changes since commit 6f0e9c26dbae9ac18b89d359791008fe3432ca91:
 
-But then we can't make tlb_addr_write() static (next patch) and
-we still have to include "tcg/tcg.h" for the TCG_OVERSIZED_GUEST
-definition...
+  Merge remote-tracking branch 'remotes/dg-gitlab/tags/cgs-pull-request' into staging (2021-02-08 11:11:26 +0000)
 
-> 
->>  #else
->>  static inline void tlb_init(CPUState *cpu)
->>  {
->> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
->> index 8a7b779270a..a6247da34a0 100644
->> --- a/accel/tcg/cputlb.c
->> +++ b/accel/tcg/cputlb.c
->> @@ -429,6 +429,20 @@ void tlb_flush_all_cpus_synced(CPUState *src_cpu)
->>      tlb_flush_by_mmuidx_all_cpus_synced(src_cpu, ALL_MMUIDX_BITS);
->>  }
->>  
->> +void tlb_assert_iotlb_entry_for_ptr_present(CPUArchState *env, int ptr_mmu_idx,
->> +                                            uint64_t ptr,
->> +                                            MMUAccessType ptr_access,
->> +                                            uintptr_t index)
->> +{
->> +#ifdef CONFIG_DEBUG_TCG
->> +    CPUTLBEntry *entry = tlb_entry(env, ptr_mmu_idx, ptr);
->> +    target_ulong comparator = (ptr_access == MMU_DATA_LOAD
->> +                               ? entry->addr_read
->> +                               : tlb_addr_write(entry));
->> +    g_assert(tlb_hit(comparator, ptr));
->> +#endif
->> +}
->> +
->>  static bool tlb_hit_page_mask_anyprot(CPUTLBEntry *tlb_entry,
->>                                        target_ulong page, target_ulong mask)
->>  {
->> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
->> index 6cea9d1b506..f47d3b4570e 100644
->> --- a/target/arm/mte_helper.c
->> +++ b/target/arm/mte_helper.c
->> @@ -111,15 +111,8 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
->>       * matching tlb entry + iotlb entry.
->>       */
->>      index = tlb_index(env, ptr_mmu_idx, ptr);
->> -# ifdef CONFIG_DEBUG_TCG
->> -    {
->> -        CPUTLBEntry *entry = tlb_entry(env, ptr_mmu_idx, ptr);
->> -        target_ulong comparator = (ptr_access == MMU_DATA_LOAD
->> -                                   ? entry->addr_read
->> -                                   : tlb_addr_write(entry));
->> -        g_assert(tlb_hit(comparator, ptr));
->> -    }
->> -# endif
->> +    tlb_assert_iotlb_entry_for_ptr_present(env, ptr_mmu_idx, ptr,
->> +                                           ptr_access, index);
->>      iotlbentry = &env_tlb(env)->d[ptr_mmu_idx].iotlb[index];
->>  
->>      /* If the virtual page MemAttr != Tagged, access unchecked. */
->> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
->> index c8cdf7618eb..a5708da0f2f 100644
->> --- a/target/arm/sve_helper.c
->> +++ b/target/arm/sve_helper.c
->> @@ -4089,14 +4089,8 @@ static bool sve_probe_page(SVEHostPage *info, bool nofault,
->>      {
->>          uintptr_t index = tlb_index(env, mmu_idx, addr);
->>  
->> -# ifdef CONFIG_DEBUG_TCG
->> -        CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
->> -        target_ulong comparator = (access_type == MMU_DATA_LOAD
->> -                                   ? entry->addr_read
->> -                                   : tlb_addr_write(entry));
->> -        g_assert(tlb_hit(comparator, addr));
->> -# endif
->> -
->> +        tlb_assert_iotlb_entry_for_ptr_present(env, mmu_idx, addr,
->> +                                               access_type, index);
->>          CPUIOTLBEntry *iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
->>          info->attrs = iotlbentry->attrs;
->>      }
-> 
-> with the inline fix:
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> 
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-02-08
+
+for you to fetch changes up to c51172667b64abc570640f141ca3bf7109fbbd17:
+
+  qapi: enable strict-optional checks (2021-02-08 14:15:58 +0100)
+
+----------------------------------------------------------------
+QAPI patches patches for 2021-02-08
+
+----------------------------------------------------------------
+John Snow (11):
+      qapi/commands: assert arg_type is not None
+      qapi/events: fix visit_event typing
+      qapi/main: handle theoretical None-return from re.match()
+      qapi/gen: inline _wrap_ifcond into end_if()
+      qapi: centralize is_[user|system|builtin]_module methods
+      qapi: use explicitly internal module names
+      qapi: use './builtin' as the built-in module name
+      qapi: centralize the built-in module name definition
+      qapi/gen: write _genc/_genh access shims
+      qapi: type 'info' as Optional[QAPISourceInfo]
+      qapi: enable strict-optional checks
+
+Markus Armbruster (5):
+      qapi/gen: Replace ._begin_system_module()
+      qapi/gen: Combine ._add_[user|system]_module
+      qapi/gen: Support switching to another module temporarily
+      qapi/commands: Simplify command registry generation
+      qapi/gen: Drop support for QAPIGen without a file name
+
+ scripts/qapi/commands.py                 | 62 ++++++++++-----------
+ scripts/qapi/events.py                   | 16 +++---
+ scripts/qapi/gen.py                      | 94 +++++++++++++++++---------------
+ scripts/qapi/main.py                     |  2 +
+ scripts/qapi/mypy.ini                    |  1 -
+ scripts/qapi/schema.py                   | 42 ++++++++++++--
+ scripts/qapi/types.py                    |  4 +-
+ scripts/qapi/visit.py                    |  6 +-
+ tests/qapi-schema/comments.out           |  2 +-
+ tests/qapi-schema/doc-good.out           |  2 +-
+ tests/qapi-schema/empty.out              |  2 +-
+ tests/qapi-schema/event-case.out         |  2 +-
+ tests/qapi-schema/include-repetition.out |  2 +-
+ tests/qapi-schema/include-simple.out     |  2 +-
+ tests/qapi-schema/indented-expr.out      |  2 +-
+ tests/qapi-schema/qapi-schema-test.out   |  2 +-
+ 16 files changed, 139 insertions(+), 104 deletions(-)
+
+-- 
+2.26.2
+
 
