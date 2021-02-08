@@ -2,90 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF93313CFB
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:17:03 +0100 (CET)
-Received: from localhost ([::1]:49036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A35313D16
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:19:38 +0100 (CET)
+Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9B5q-0001A7-3F
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:17:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
+	id 1l9B8L-0004vm-UV
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:19:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94pi-0004cV-H8
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:35:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38992)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94pb-0004Qi-FP
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:35:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612784150;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eixVpDe0fuguaGwK+nQy9Jgbpu1b2m4y1O75upKaMZ0=;
- b=a/GsAKFjJHV0lZyUWm7KuiE/70EfZj7rpPAKlnkJQ7N6ZSDcouA2Qxx2s9YWq+EFlz53Q1
- sjmkErgNyU7/ppTOALC1IggVcsrpenpylnkieyeqib9GD6U+tUlPylS6jFL3Jz/yWnryI6
- 1+gHclf4SVuRckT9u3x6Guxubw9qCMw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-UfBovN-ZOsO0qCyhF63VaA-1; Mon, 08 Feb 2021 06:35:49 -0500
-X-MC-Unique: UfBovN-ZOsO0qCyhF63VaA-1
-Received: by mail-wr1-f71.google.com with SMTP id c1so12927423wrx.2
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 03:35:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eixVpDe0fuguaGwK+nQy9Jgbpu1b2m4y1O75upKaMZ0=;
- b=QXN5fZ+7kDDMbxf3qgMddzMCQgraPmFl9VD7mSaK9IydGlHzlgDnTrQALQE7MJE2Er
- rXRufL4D3uwjahN3rWLTGXcoA4WHE3JlmJyFw8u42LDrvyycWiLEfjtx67YejINxIDhX
- vZ69cQn27gQxFZgt808tsE8K6J78cH3y5xiRzHPRLtKOIFTFUMyx+msrAzS+x9nrGPKg
- OEppkwvPT8v6+8+rsHf/9G8E2xjpV/3eka8YAUj8k9eRifdQCjAhHKTQ3Zk6XXs87MvG
- vCcQY5scwarxzAf5ipobUTjoqwWWoYVNkYlMVYyY/5zmN5ZR5yQ/JA/cyukisGddR8X+
- gQeQ==
-X-Gm-Message-State: AOAM531PrNTlpla8E8dpT6zlzQmF/41CAS2rQJuSt9WOusd2XWCKVrJC
- TJEHamGE4gI6OShpfdOZyEoIjX2NgeuIqCG/189oLo+2OdFeeajpDckf/XREhTcQBYHuN7lifOQ
- ri/2nYp81Ir3qYjw=
-X-Received: by 2002:adf:fd87:: with SMTP id d7mr11929563wrr.361.1612784147983; 
- Mon, 08 Feb 2021 03:35:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzib5LyIa4xb2wAcFmQ+mmshMDV8pkWRPNTbmwCfo2igw1mYzI5NJ69PQxZxaC3aTIwDQiPKA==
-X-Received: by 2002:adf:fd87:: with SMTP id d7mr11929534wrr.361.1612784147800; 
- Mon, 08 Feb 2021 03:35:47 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id r13sm22277381wmh.9.2021.02.08.03.35.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 03:35:47 -0800 (PST)
-Subject: Re: [PATCH 00/22] Acceptance Test: introduce base class for Linux
- based tests
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210203172357.1422425-1-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <02bcee13-64fa-e14a-98ad-e8426a26d7d2@redhat.com>
-Date: Mon, 8 Feb 2021 12:35:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <20210203172357.1422425-1-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
+ id 1l950L-000251-11; Mon, 08 Feb 2021 06:46:57 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
+ id 1l9508-0008W0-VC; Mon, 08 Feb 2021 06:46:56 -0500
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4DZ42g56JjzY6rK;
+ Mon,  8 Feb 2021 19:45:15 +0800 (CST)
+Received: from dggemm754-chm.china.huawei.com (10.1.198.60) by
+ DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Mon, 8 Feb 2021 19:46:30 +0800
+Received: from dggeme770-chm.china.huawei.com (10.3.19.116) by
+ dggemm754-chm.china.huawei.com (10.1.198.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2106.2; Mon, 8 Feb 2021 19:46:30 +0800
+Received: from dggeme770-chm.china.huawei.com ([10.8.68.58]) by
+ dggeme770-chm.china.huawei.com ([10.8.68.58]) with mapi id 15.01.2106.006;
+ Mon, 8 Feb 2021 19:46:30 +0800
+From: gaojinhao <gaojinhao@huawei.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: RE: [PATCH v3 3/3] vmstate: Fix memory leak in vmstate_handle_alloc()
+Thread-Topic: [PATCH v3 3/3] vmstate: Fix memory leak in vmstate_handle_alloc()
+Thread-Index: AQHW41SL6tbGdhjV5kaXhVPvQdcug6pNxDsAgACTigA=
+Date: Mon, 8 Feb 2021 11:46:29 +0000
+Message-ID: <7562293f0ee140b9b2a20b170c657207@huawei.com>
+References: <20201231061020.828-1-gaojinhao@huawei.com>
+ <20201231061020.828-4-gaojinhao@huawei.com> <20210105111818.GA2945@work-vm>
+ <20210208105232.GA3033@work-vm>
+In-Reply-To: <20210208105232.GA3033@work-vm>
+Accept-Language: zh-CN, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.187.50]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=gaojinhao@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,71 +70,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ =?gb2312?B?TWFyYy1BbmRyqKYgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ zhukeqian <zhukeqian1@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/21 6:23 PM, Cleber Rosa wrote:
-> This introduces a base class for tests that need to interact with a
-> Linux guest.  It generalizes the "boot_linux.py" code, already been
-> used by the "virtiofs_submounts.py" and also SSH related code being
-> used by that and "linux_ssh_mips_malta.py".
-> 
-> While at it, a number of fixes on hopeful improvements to those tests
-> were added.
-> 
-> Cleber Rosa (22):
->   tests/acceptance/boot_linux.py: fix typo on cloudinit error message
->   tests/acceptance/boot_linux.py: rename misleading cloudinit method
->   Acceptance Tests: remove unnecessary tag from documentation example
->   tests/acceptance/virtiofs_submounts.py: use workdir property
->   tests/acceptance/virtiofs_submounts.py: do not ask for ssh key
->     password
->   tests/acceptance/virtiofs_submounts.py: use a virtio-net device
->     instead
->   tests/acceptance/virtiofs_submounts.py: evaluate string not length
->   tests/acceptance/virtiofs_submounts.py: standardize port as integer
->   tests/acceptance/virtiofs_submounts.py: required space between IP and
->     port
->   Python: add utility function for retrieving port redirection
->   tests/acceptance/linux_ssh_mips_malta.py: standardize port as integer
->   Acceptance tests: clarify ssh connection failure reason
->   tests/acceptance/virtiofs_submounts.py: add missing accel tag
->   Acceptance Tests: introduce LinuxTest base class
->   Acceptance Tests: move useful ssh methods to base class
->   Acceptance Tests: introduce method for requiring an accelerator
->   Acceptance Tests: fix population of public key in cloudinit image
->   Acceptance Tests: set up existing ssh keys by default
->   Acceptance Tests: add port redirection for ssh by default
->   Acceptance Tests: add basic documentation on LinuxTest base class
->   Acceptance Tests: introduce CPU hotplug test
->   [NOTFORMERGE] Bump Avocado version to latest master
-> 
->  docs/devel/testing.rst                    |  29 +++-
->  python/qemu/utils.py                      |  35 +++++
->  tests/acceptance/avocado_qemu/__init__.py | 176 ++++++++++++++++++++++
->  tests/acceptance/boot_linux.py            | 128 ++--------------
->  tests/acceptance/hotplug_cpu.py           |  38 +++++
->  tests/acceptance/info_usernet.py          |  29 ++++
->  tests/acceptance/linux_ssh_mips_malta.py  |  44 +-----
->  tests/acceptance/virtiofs_submounts.py    |  73 +--------
->  tests/requirements.txt                    |   2 +-
->  tests/vm/basevm.py                        |   7 +-
->  10 files changed, 334 insertions(+), 227 deletions(-)
->  create mode 100644 python/qemu/utils.py
->  create mode 100644 tests/acceptance/hotplug_cpu.py
->  create mode 100644 tests/acceptance/info_usernet.py
-
-Patches 1-6, 8-9 & 12 queued.
-
+SGksIERhdmUsDQpJIHdpbGwgY2hlY2sgdGhlIGNvZGUgYWJvdXQgdm1zdGF0ZV9zcGFwcl90Y2Vf
+dGFibGUgdG8gZmlndXJlIG91dCB0aGUgcHJvYmxlbSBvZiBzZWcgZmF1bHQuDQpUaGFuayB5b3Ug
+Zm9yIHlvdXIgY2hlY2suDQoNCkppbmhhbyBHYW8NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
+LS0NCkZyb206IERyLiBEYXZpZCBBbGFuIEdpbGJlcnQgW21haWx0bzpkZ2lsYmVydEByZWRoYXQu
+Y29tXSANClNlbnQ6IDIwMjHE6jLUwjjI1SAxODo1Mw0KVG86IGdhb2ppbmhhbyA8Z2FvamluaGFv
+QGh1YXdlaS5jb20+DQpDYzogcWVtdS1wcGNAbm9uZ251Lm9yZzsgcWVtdS1kZXZlbEBub25nbnUu
+b3JnOyBNaWNoYWVsIFMgLiBUc2lya2luIDxtc3RAcmVkaGF0LmNvbT47IERhdmlkIEdpYnNvbiA8
+ZGF2aWRAZ2lic29uLmRyb3BiZWFyLmlkLmF1PjsgR3JlZyBLdXJ6IDxncm91Z0BrYW9kLm9yZz47
+IE1hcmMtQW5kcqimIEx1cmVhdSA8bWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tPjsgU3RlZmFu
+IEJlcmdlciA8c3RlZmFuYkBsaW51eC52bmV0LmlibS5jb20+OyBKYXNvbiBXYW5nIDxqYXNvd2Fu
+Z0ByZWRoYXQuY29tPjsgSnVhbiBRdWludGVsYSA8cXVpbnRlbGFAcmVkaGF0LmNvbT47IFdhbmdo
+YWliaW4gKEQpIDx3YW5naGFpYmluLndhbmdAaHVhd2VpLmNvbT47IHpodWtlcWlhbiA8emh1a2Vx
+aWFuMUBodWF3ZWkuY29tPg0KU3ViamVjdDogUmU6IFtQQVRDSCB2MyAzLzNdIHZtc3RhdGU6IEZp
+eCBtZW1vcnkgbGVhayBpbiB2bXN0YXRlX2hhbmRsZV9hbGxvYygpDQoNCiogRHIuIERhdmlkIEFs
+YW4gR2lsYmVydCAoZGdpbGJlcnRAcmVkaGF0LmNvbSkgd3JvdGU6DQo+ICogSmluaGFvIEdhbyAo
+Z2FvamluaGFvQGh1YXdlaS5jb20pIHdyb3RlOg0KPiA+IFNvbWUgbWVtb3J5IGFsbG9jYXRlZCBm
+b3IgZmllbGRzIGhhdmluZyBhIGZsYWcgb2YgVk1TX0FMTE9DIGluIA0KPiA+IFNhdmVTdGF0ZSBt
+YXkgbm90IGZyZWUgYmVmb3JlIFZNIGxvYWQgdm1zZCBpbiBtaWdyYXRpb24uIFNvIHdlIA0KPiA+
+IHByZS1mcmVlIG1lbW9yeSBiZWZvcmUgYWxsb2NhdGlvbiBpbiB2bXN0YXRlX2hhbmRsZV9hbGxv
+YygpIHRvIGF2b2lkIG1lbWxlYWtzLg0KPiA+IA0KPiA+IFJlcG9ydGVkLWJ5OiBFdWxlciBSb2Jv
+dCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKaW5oYW8gR2Fv
+IDxnYW9qaW5oYW9AaHVhd2VpLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBNaWNoYWVsIFMuIFRz
+aXJraW4gPG1zdEByZWRoYXQuY29tPg0KPiANCj4gWWVzLCBJIHRoaW5rIHRoYXQncyBPSzsgaXQn
+cyBhY3R1YWxseSBwcmV0dHkgcmFyZSBmb3IgdGhpcyB0byBoYXBwZW47IA0KPiBub3JtYWxseSBp
+bndhcmRzIG1pZ3JhdGlvbnMgZWl0aGVyIHN1Y2NlZWQgb3IgZmFpbCBhbmQgZXhpdDsgZG9pbmcg
+DQo+IG11bHRpcGxlIGxvYWRzIGZyb20gc25hcHNob3RzIGlzIHZhbGlkIGFuZCBJIGd1ZXNzIENP
+TE8gaGl0cyB0aGlzIGFzIHdlbGwuDQo+IA0KPiBSZXZpZXdlZC1ieTogRHIuIERhdmlkIEFsYW4g
+R2lsYmVydCA8ZGdpbGJlcnRAcmVkaGF0LmNvbT4NCg0KSSdtIGhhdmluZyB0byB1bnF1ZXVlIHRo
+aXMgYmVjYXVzZSBpdCdzIHRyaWdnZXJpbmcgYSBzZWcgZmF1bHQgb24gUG93ZXIgaW4gaW90ZXN0
+IDI2NyAoanVzdCBydW4gbWFrZSBjaGVjaykuDQoNCiMyICAweDAwMDAwMDAxMTZkMGQ0YzggaW4g
+dm1zdGF0ZV9oYW5kbGVfYWxsb2MgKG9wYXF1ZT08b3B0aW1pemVkIG91dD4sIGZpZWxkPTB4MTE3
+OTllMGM4IDxfX2NvbXBvdW5kX2xpdGVyYWwuMSszMTI+LCBwdHI9MHgxMDAxZjhmMTRiMCkgYXQg
+Li4vcWVtdS9taWdyYXRpb24vdm1zdGF0ZS5jOjczDQojMyAgMHgwMDAwMDAwMTE2ZDBkNGM4IGlu
+IHZtc3RhdGVfbG9hZF9zdGF0ZSAoZj0weDEwMDFmNmQwMDAwLCB2bXNkPTB4MTE3OTI4NzMwIDx2
+bXN0YXRlX3NwYXByX3RjZV90YWJsZT4sIG9wYXF1ZT0weDEwMDFmOGYxNDAwLCB2ZXJzaW9uX2lk
+PTxvcHRpbWl6ZWQgb3V0PikgYXQgLi4vcWVtdS9taWdyYXRpb24vdm1zdGF0ZS5jOjEyMg0KIzQg
+IDB4MDAwMDAwMDExNmZiNGE0YyBpbiB2bXN0YXRlX2xvYWQgKGY9MHgxMDAxZjZkMDAwMCwgc2U9
+MHgxMDAxZmM3YmM0MCkgYXQgLi4vcWVtdS9taWdyYXRpb24vc2F2ZXZtLmM6OTEwDQojNSAgMHgw
+MDAwMDAwMTE2ZmI1MDEwIGluIHFlbXVfbG9hZHZtX3NlY3Rpb25fc3RhcnRfZnVsbCAoZj1mQGVu
+dHJ5PTB4MTAwMWY2ZDAwMDAsIG1pcz08b3B0aW1pemVkIG91dD4pIGF0IC4uL3FlbXUvbWlncmF0
+aW9uL3NhdmV2bS5jOjI0MzMNCg0KSXQncyB0aGUgbWlnX25iX3RhYmxlIHRoYXQgUG93ZXIgaXMg
+ZG9pbmcgc29tZSBzcGVjaWFsIGhhbmRsaW5nIHdpdGg7IHNvIGl0IG5lZWRzIHNvbWUgbW9yZSBj
+aGVja2luZyBiZWZvcmUgd2UgY2FuIGZpeCB0aGlzLg0KDQpEYXZlDQoNCj4gPiAtLS0NCj4gPiAg
+bWlncmF0aW9uL3Ztc3RhdGUuYyB8IDEgKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKykNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvbWlncmF0aW9uL3Ztc3RhdGUuYyBiL21pZ3Jh
+dGlvbi92bXN0YXRlLmMgaW5kZXggDQo+ID4gZTlkMmFlZjY2Yi4uODczZjc2NzM5ZiAxMDA2NDQN
+Cj4gPiAtLS0gYS9taWdyYXRpb24vdm1zdGF0ZS5jDQo+ID4gKysrIGIvbWlncmF0aW9uL3Ztc3Rh
+dGUuYw0KPiA+IEBAIC03MCw2ICs3MCw3IEBAIHN0YXRpYyB2b2lkIHZtc3RhdGVfaGFuZGxlX2Fs
+bG9jKHZvaWQgKnB0ciwgY29uc3QgVk1TdGF0ZUZpZWxkICpmaWVsZCwNCj4gPiAgICAgICAgICBn
+c2l6ZSBzaXplID0gdm1zdGF0ZV9zaXplKG9wYXF1ZSwgZmllbGQpOw0KPiA+ICAgICAgICAgIHNp
+emUgKj0gdm1zdGF0ZV9uX2VsZW1zKG9wYXF1ZSwgZmllbGQpOw0KPiA+ICAgICAgICAgIGlmIChz
+aXplKSB7DQo+ID4gKyAgICAgICAgICAgIGdfZnJlZSgqKHZvaWQgKiopcHRyKTsNCj4gPiAgICAg
+ICAgICAgICAgKih2b2lkICoqKXB0ciA9IGdfbWFsbG9jKHNpemUpOw0KPiA+ICAgICAgICAgIH0N
+Cj4gPiAgICAgIH0NCj4gPiAtLQ0KPiA+IDIuMjMuMA0KPiA+IA0KPiAtLQ0KPiBEci4gRGF2aWQg
+QWxhbiBHaWxiZXJ0IC8gZGdpbGJlcnRAcmVkaGF0LmNvbSAvIE1hbmNoZXN0ZXIsIFVLDQotLQ0K
+RHIuIERhdmlkIEFsYW4gR2lsYmVydCAvIGRnaWxiZXJ0QHJlZGhhdC5jb20gLyBNYW5jaGVzdGVy
+LCBVSw0KDQo=
 
