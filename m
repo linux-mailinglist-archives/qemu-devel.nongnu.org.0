@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5DE314365
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:02:28 +0100 (CET)
-Received: from localhost ([::1]:51888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 361AD314385
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:12:20 +0100 (CET)
+Received: from localhost ([::1]:53312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9FY3-0007Ja-6o
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:02:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60420)
+	id 1l9Fhb-0003H1-Ag
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:12:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9BkF-0000sE-0x
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:58:48 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:41092)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l9BlD-0001cZ-Pf
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:59:48 -0500
+Received: from mail-vk1-xa29.google.com ([2607:f8b0:4864:20::a29]:44149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9BkB-0003vV-Vf
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:58:45 -0500
-Received: by mail-pl1-x635.google.com with SMTP id a16so8318351plh.8
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:58:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cabQhU6vq19TXzTwT9OysY8bv1jSOwE/09QSMXdb//0=;
- b=uHs2aHbALnkGrJz7mDKcZSDHw6zCi+JLvw6mUcapYV1iE1zygABu8wKzIpx2t+rTDM
- cigw1kyMoBgDCZ9SbO01Ppw+ff8kATGbZO+5J/V1ccB8vmtsIG+gUKCEh9S/7DMsMWAJ
- IRzMeSsXQ4FugUxB6tqwUSyohRh7UQDsLZEzK01yWi+IGp82rhLBiHVoKhuUGIkN5DPC
- m7xjAbNRqSMaW2UZf1S2NqV9PEOWZNm0e3y4L79eeJnADg9pUGzwfBRcwAvNJB8Ph85t
- 2Kri4gGeMR/VPcOWi1kjpAeH+EGBNZCKAt/nBM3Aosi2Ptnhpc85ZXlHzdVTGlfTWcQf
- njjw==
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l9Bl7-0004Iz-H0
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:59:46 -0500
+Received: by mail-vk1-xa29.google.com with SMTP id k1so3372163vkb.11
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:59:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Of2VEG1RuJXyTHNuieaZghUQDCqJ3O2Jukiu+Y1mZp4=;
+ b=s1ytNWDbqXRXwaqQIdi5K3VNhOGPcAMAQpXqs/LwTmkY611SUUzg7NT5NcLgIwqVdm
+ NembCu/A+1cy/8iL1ZCJohelC2W8UqE0C+1WigE87SyWfc7qGqLPRH1npU11iT5UFqdJ
+ rriazB8rlcCzj42QGyJDA8QPUDOw9SK5lDx6CMTJdih04YQ+HkzQgkoSYehBra681K3S
+ YfXko0Vxnsi3JEkWNKO/QTANGmYVsRKgMhFBWMqWr4I8036dTJedmsRazLZ7PGskgQdU
+ qXeHwx02W8T9W/GxFTgzgwLuevLhgoMY4Ro53NaYbS+FSAOEGHv0Jaep8vq2KSRznpYy
+ n89A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cabQhU6vq19TXzTwT9OysY8bv1jSOwE/09QSMXdb//0=;
- b=UAL29i51JuhxG9CA+ttKTagW3u7vuNW7Jqr6cmW3ftbpBxrLSd9C32KTg7Du/FA1JB
- OGJlWdeAjtE68cG+U2AkUe1SUKVDRsXQdU0h9ogU9Q9d58dDGX9ROARP/ok+rjjt4gvT
- 3LjbKmM2U0jFrX0OZ+u2PLmLEbDEJljAZBOo+SFr6w/KP3Eyx0+YXLAQmACKY2qag8Xj
- A4orRbQRp4q0yR/alOXDFGyt9bmntPk+QDrUe6HCtinwErbUfsvFe/ePN/VDEBDFRHbS
- LfS8OYM95uUXFgLGHQE06iBhBQEos6WorhvRkEULY5Fg2gQycv4Y3m5nITsyNMzljoiq
- KKeA==
-X-Gm-Message-State: AOAM533x+pAdL0Zqsdnc0TciIPP5Vz87k0oltG0is+O4OUJxDr5UziHX
- dRGYeVBo3vQoJPjpRumQ2W+VkVMGmPjJmw==
-X-Google-Smtp-Source: ABdhPJyujv6pT0uwYayUuA/kmo7ztazdbVk14uvTUlKHuQOVecDjrw6f6NdehPCNB/YsVmXWMfA81w==
-X-Received: by 2002:a17:902:e5cf:b029:e2:5300:b1b8 with SMTP id
- u15-20020a170902e5cfb02900e25300b1b8mr17340727plf.69.1612810721060; 
- Mon, 08 Feb 2021 10:58:41 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- d1sm2871072pgl.17.2021.02.08.10.58.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 10:58:40 -0800 (PST)
-Subject: Re: [PATCH v2 02/15] tcg/arm: Add host vector framework
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210208024625.271018-1-richard.henderson@linaro.org>
- <20210208024625.271018-3-richard.henderson@linaro.org>
- <CAFEAcA9bfj0X1Pb6_Em2hX7OkgmobFf=SGWQe=cXHaCO8n5jCQ@mail.gmail.com>
- <CAFEAcA9C+DG33fu-=zNN+6M9qc_bh6Lc=jx0ttNLg-tQWQtrxA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8f830dcb-2769-ca7d-460f-6095a5a47c1b@linaro.org>
-Date: Mon, 8 Feb 2021 10:58:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Of2VEG1RuJXyTHNuieaZghUQDCqJ3O2Jukiu+Y1mZp4=;
+ b=SM1dGUsAcMPOyfTqF5M48Vr8kQ7gvm4VZx+XsHjJeEFkYAwTesHOpQZdn+ySiSjk92
+ aBP1bBGq5I+F6zqQzlFjahztjzSYSK60HRbzKBVbW08rqUOuwqzTSctgkch1lwPZGbMC
+ pYj/AeRSbo5Ki68mg/ANenJbDi70yaIKQ1Llw3wB3gYftrxTRr7j/Q5gEPndhgYyGp9u
+ Zq+sEIv2jyaLtvPmScJ9ANhJLfGrVxt/whHQvil0nL0g6qaQJ/l7qopFD3MWeTxCwL6P
+ ivMJQruDIfTyst07TQnxDPMQEfu4XtJSsdq6KMRLISGDklPNPtUL8D367QO72CELoTpD
+ aNBQ==
+X-Gm-Message-State: AOAM531gIcoPoX4VC7Kb+1tdujVQ5BrwAEiwZau9x/J/Pihp7AgreN9d
+ 4kWLAGTzYIMqlJvdSubfpqIPAMgkBXyAAGdd2pIT0A==
+X-Google-Smtp-Source: ABdhPJzewBvGmgW11X13UE2lpE/7xZjVlSLFMUTN+2rcN9H0FTKWtGieTAy6rOl91OIJqpWKFBlA2cMTDtzhGr70tAA=
+X-Received: by 2002:ac5:cb0f:: with SMTP id r15mr11216619vkl.18.1612810778269; 
+ Mon, 08 Feb 2021 10:59:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9C+DG33fu-=zNN+6M9qc_bh6Lc=jx0ttNLg-tQWQtrxA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210203213729.1940893-1-dje@google.com>
+ <20210203213729.1940893-2-dje@google.com>
+ <fc97283f-51ca-2a2d-d8ae-1345b990e52c@redhat.com>
+In-Reply-To: <fc97283f-51ca-2a2d-d8ae-1345b990e52c@redhat.com>
+From: Doug Evans <dje@google.com>
+Date: Mon, 8 Feb 2021 10:59:01 -0800
+Message-ID: <CADPb22TSNA-KQmUO0hSGLtWr0tc7H5++gKBAqnpTP-5iarisMA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] net/slirp.c: Refactor address parsing
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+Content-Type: multipart/alternative; boundary="00000000000087c82805bad7c583"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a29;
+ envelope-from=dje@google.com; helo=mail-vk1-xa29.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,28 +79,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/21 10:28 AM, Peter Maydell wrote:
-> On Mon, 8 Feb 2021 at 17:53, Peter Maydell <peter.maydell@linaro.org> wrote:
->> The AAPCS says that q4-q7 are preserved across calls.
-> 
-> Speaking of which, doesn't that mean we also need to
-> save and restore q4-q7 in tcg_target_qemu_prologue()
-> if we might be generating neon insns? (It doesn't look like
-> aarch64's prologue does this, which seems like a bug.)
+--00000000000087c82805bad7c583
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I just put them on the reserved list so that they don't get used.
+On Mon, Feb 8, 2021 at 3:09 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om>
+wrote:
 
->     tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_V8);
-...
->     tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_V15);
+> Hi Doug,
+>
+> On 2/3/21 10:37 PM, dje--- via wrote:
+> > ... in preparation for adding ipv6 host forwarding support.
+>
+> Please duplicate subject line, else this commit description as it
+> doesn't make sense.
+>
 
-We have way more vector registers than TCG will currently use, and we have to
-assume all helpers can modify env->memory, so avoiding the call-saved ones is best.
+
+Hmmm. Is this a bug in git format-patch/send-email?
+
+I agree the current behaviour is suboptimal ... Perhaps there's an option
+I'm not adding?
+Or does one manually work around this?
 
 
-r~
+> ---
+> >  net/slirp.c | 200 +++++++++++++++++++++++++++++++++-------------------
+> >  slirp       |   2 +-
+> >  2 files changed, 130 insertions(+), 72 deletions(-)
+> >
+> ...
+>
+> > diff --git a/slirp b/slirp
+> > index 8f43a99191..358c0827d4 160000
+> > --- a/slirp
+> > +++ b/slirp
+> > @@ -1 +1 @@
+> > -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
+> > +Subproject commit 358c0827d49778f016312bfb4167fe639900681f
+> >
+>
+> When updating submodules, please describe changes (usually -
+> when possible - a previous commit updating the submodule is
+> preferred).
+>
+> I can not apply your patch using either
+> https://git.qemu.org/git/libslirp.git or
+> https://gitlab.freedesktop.org/slirp/libslirp.git:
+>
+> fatal: bad object 358c0827d49778f016312bfb4167fe639900681f
+>
+
+
+I think that's expected until the patch has been merged from libslirp into
+qemu 's tree.
+Samuel, how do qemu patches involving libslirp changes usually work?
+Should I have held off submitting the qemu patch until the libslirp
+prerequisite has been added to qemu's tree,
+or maybe I should include the libslirp patch so that people can at least
+apply it (with a caveat saying the patch is already in libslirp.git) until
+it's added to the qemu tree?
+
+--00000000000087c82805bad7c583
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Mon, Feb 8, 2021 at 3:09 AM Philippe Mathieu-Daud=C3=A9 &l=
+t;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br>=
+</div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">Hi Doug,<br>
+<br>
+On 2/3/21 10:37 PM, dje--- via wrote:<br>
+&gt; ... in preparation for adding ipv6 host forwarding support.<br>
+<br>
+Please duplicate subject line, else this commit description as it<br>
+doesn&#39;t make sense.<br></blockquote><div><br></div><div><br></div><div =
+class=3D"gmail_default" style=3D"font-size:small">Hmmm. Is this a bug in gi=
+t format-patch/send-email?</div><div class=3D"gmail_default" style=3D"font-=
+size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small=
+">I agree the current behaviour is suboptimal ... Perhaps there&#39;s an op=
+tion I&#39;m not adding?</div><div class=3D"gmail_default" style=3D"font-si=
+ze:small">Or does one manually work around this?</div><div class=3D"gmail_d=
+efault" style=3D"font-size:small"><br></div><div class=3D"gmail_default" st=
+yle=3D"font-size:small"><br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+&gt; ---<br>
+&gt;=C2=A0 net/slirp.c | 200 +++++++++++++++++++++++++++++++++-------------=
+------<br>
+&gt;=C2=A0 slirp=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+&gt;=C2=A0 2 files changed, 130 insertions(+), 72 deletions(-)<br>
+&gt; <br>
+...<br>
+<br>
+&gt; diff --git a/slirp b/slirp<br>
+&gt; index 8f43a99191..358c0827d4 160000<br>
+&gt; --- a/slirp<br>
+&gt; +++ b/slirp<br>
+&gt; @@ -1 +1 @@<br>
+&gt; -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece<br>
+&gt; +Subproject commit 358c0827d49778f016312bfb4167fe639900681f<br>
+&gt; <br>
+<br>
+When updating submodules, please describe changes (usually -<br>
+when possible - a previous commit updating the submodule is<br>
+preferred).<br>
+<br>
+I can not apply your patch using either<br>
+<a href=3D"https://git.qemu.org/git/libslirp.git" rel=3D"noreferrer" target=
+=3D"_blank">https://git.qemu.org/git/libslirp.git</a> or<br>
+<a href=3D"https://gitlab.freedesktop.org/slirp/libslirp.git" rel=3D"norefe=
+rrer" target=3D"_blank">https://gitlab.freedesktop.org/slirp/libslirp.git</=
+a>:<br>
+<br>
+fatal: bad object 358c0827d49778f016312bfb4167fe639900681f<br></blockquote>=
+<div><br></div><div><br></div><div class=3D"gmail_default" style=3D"font-si=
+ze:small">I think that&#39;s expected until the patch has been merged from =
+libslirp=C2=A0into qemu &#39;s tree.</div><div class=3D"gmail_default" styl=
+e=3D"font-size:small">Samuel, how do qemu patches involving libslirp=C2=A0c=
+hanges usually work?</div><div class=3D"gmail_default" style=3D"font-size:s=
+mall">Should I have held off submitting the qemu patch until the libslirp p=
+rerequisite has been added to qemu&#39;s tree,</div><div class=3D"gmail_def=
+ault" style=3D"font-size:small">or maybe I should include the libslirp=C2=
+=A0patch so that people can at least apply it (with a caveat saying the pat=
+ch is already in libslirp.git) until it&#39;s added to the qemu tree?</div>=
+<div class=3D"gmail_default" style=3D"font-size:small"></div></div></div>
+
+--00000000000087c82805bad7c583--
 
