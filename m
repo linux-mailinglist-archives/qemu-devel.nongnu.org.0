@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40003314282
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:04:39 +0100 (CET)
-Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701C4314289
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:07:55 +0100 (CET)
+Received: from localhost ([::1]:48946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Ee6-0001QG-8L
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:04:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50400)
+	id 1l9EhG-0005Ne-8W
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:07:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCP-00037y-HE
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:49 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36563)
+ id 1l9BCQ-00039t-CW
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:50 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCO-00067N-0U
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:49 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id i9so69391wmq.1
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:47 -0800 (PST)
+ id 1l9BCO-00068K-Qj
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:50 -0500
+Received: by mail-wr1-x431.google.com with SMTP id b3so18382209wrj.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=C8pY6ef/gvyMoBxKzaS6s9owrZc+gVZ4zdWQxqRNCqM=;
- b=Lg5aVtxd+pXASqhBnzwMTpz7NHTCV+QDuZ+AZSn0FXBgQlxaXHKuMc0Aw9B+NeoDK7
- aPhuVijsp1MAQ5SbcU6AMYdEEdB7rnNI9wik/f8gev0AKa4p4mHFRoZGl4HOMBWacpVd
- YPTTHCRPIznShJD5//MSW2Hm9fBSLn8trROf1r60OZi7I7+ZrrmHik2P6ZRG5bdpdwJ2
- NM7BEHmFx6Gz+ywVtPmcfrc31e+ZRi4/kV8V17q5Ht/c60vwMxLtfdu7WyCGTveX7uTL
- P8d6xrwABut0hM6v3QagwxiGFdh7Dm/didBL5nvb8VqVOsh6xZUh3CH+RveXv2zp1ypJ
- PnwA==
+ bh=+gYBA8EOP9voo6st9l/tKav/btWR7A0x68POX4fuYnY=;
+ b=KSFRiRzSCcTb7KhJzJZ746g1L0bHQMoEO2I2fcSPp5kXxxMnNfOZExDWEC4GHtsoOu
+ zrM1Pt+Dk+D4Lw0sfXPHCMA/O74FzrpXVY8PKi302hIAF6Mz/5DkOJV+UfjzWlUQcuuc
+ EPMg6z1XlRm+m7H+lIP1A8dZIrfPnXfXfbWX3TU6Hs4De0qAQuu/bD5plr5PrqZOAw3p
+ mv3zMopdi873m1ugly6kRWtJBGhAAYLRMYZwqYV4ri7Rfx2X5NBf/lS/8fbFyHChhV9h
+ wFwbG1FVDsw4iEb0C8xGq9b5OfUs4pfaKEoV+msq9W8fxB9jvg3GfLfvjLLzADhy64Ld
+ Pi2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=C8pY6ef/gvyMoBxKzaS6s9owrZc+gVZ4zdWQxqRNCqM=;
- b=Tg1KlGjq9O2cfokNxvoGZ3pj/OmSdRsvLvWgr6NnioXciCiYOwiPrjqPJUXH1oi3ov
- yHX/iFucsqrtYZ6KDWvofu0Ov9Fn6B4F5deY/vPcWM8YHhLk0Kxfl81+oHZCd7m+oeoO
- dxZReUBe4T945KvZuPxiHDtT1mGcYgLFC/PPOdzWx4UpY12t25DFu88Mz7u3F1OF4A0R
- 51byMCY+DJ7lqElfYwjjOJGGkli+x1mZUr3sK18qeTNds8rDoCgf9g6Bh391WAKcn/bZ
- SeaO4Y8s5D1a7N+KrXtzrVJDKF7MqyBZRj6f7DM8JE+QNNPyt6V7vPH1slDRpefJ2DVf
- KDPg==
-X-Gm-Message-State: AOAM532VQ/ydADRq4RChazFHM+vlaSnonwfJ6vHJXq4KOYiz9fiWgt5Z
- I4dpbwL8dXnIWiC4rXrYgCifz+6KS8qDwg==
-X-Google-Smtp-Source: ABdhPJztnVW1YIFUlQFbLYkn8D7QetBtNxbEQUuqnViR/6cedBjLYXYbiClAKTpMIZZY6TnjDek+Gg==
-X-Received: by 2002:a7b:c5cc:: with SMTP id n12mr40617wmk.123.1612808626648;
- Mon, 08 Feb 2021 10:23:46 -0800 (PST)
+ bh=+gYBA8EOP9voo6st9l/tKav/btWR7A0x68POX4fuYnY=;
+ b=o9VHbZ+eqktNDimkjMIKZ9wrciTmcwYy9/dkWTC77kNdS9EykQuXrwF68AdxjC+FUd
+ FIpUvWr9zk+VxQtoQ7SmJDMiUeCay5OJP8u+MbsSD16Rfcu/rfGF/NJQscYNUfzj53v3
+ ediF8BItkqkuXVRld4lzGn5+3sRjcvbfQ173APToI75DtpeAsHMsAsVTjJ2l7xDQtVyV
+ JrJ6OnnXx/5Gjln1eRgPRLk3NHgb/W6lGpJyAWCvhqb15I9cxgLhRAtwwgJly/etvXz4
+ Q24aTBVp8FLmlypG+/pCzyhpbRTw7XaMUw9jdyfI0Q3XWlHZisg2kaACCVGzRo0gIhJq
+ lwQg==
+X-Gm-Message-State: AOAM533j59eJ5pNGQ5rCZvToqDcoIg3yXg2NRO8XL7WZB4eiJBsoPO33
+ Sgqfc3r/CfoVFMhwxlhBQqWwghywOeOEeg==
+X-Google-Smtp-Source: ABdhPJyNdbgmQv1yK+MpgE7dMpqmNKLUBg3VaA8FGQlJP8YwlrVY3D7+2TBJvbJWOAAOw8V+mthAXQ==
+X-Received: by 2002:adf:a196:: with SMTP id u22mr2669895wru.416.1612808627580; 
+ Mon, 08 Feb 2021 10:23:47 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.23.45
+ x22sm19670wmc.25.2021.02.08.10.23.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:23:46 -0800 (PST)
+ Mon, 08 Feb 2021 10:23:47 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/46] docs: don't install corresponding man page if guest
- agent is disabled
-Date: Mon,  8 Feb 2021 19:22:59 +0100
-Message-Id: <20210208182331.58897-15-pbonzini@redhat.com>
+Subject: [PULL 15/46] virtio-scsi: don't uninitialize queues that we didn't
+ initialize
+Date: Mon,  8 Feb 2021 19:23:00 +0100
+Message-Id: <20210208182331.58897-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,41 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Reiter <s.reiter@proxmox.com>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Reiter <s.reiter@proxmox.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-No sense outputting the qemu-ga and qemu-ga-ref man pages when the guest
-agent binary itself is disabled. This mirrors behaviour from before the
-meson switch.
+Count number of queues that we initialized and only deinitialize these that we
+initialized successfully.
 
-Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-Message-Id: <20210128145801.14384-1-s.reiter@proxmox.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-Id: <20201217150040.906961-3-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/meson.build | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/scsi/virtio-scsi-dataplane.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/docs/meson.build b/docs/meson.build
-index bb14eaebd3..f84306ba7e 100644
---- a/docs/meson.build
-+++ b/docs/meson.build
-@@ -46,9 +46,11 @@ if build_docs
-                           meson.source_root() / 'docs/sphinx/qmp_lexer.py',
-                           qapi_gen_depends ]
- 
-+  have_ga = have_tools and config_host.has_key('CONFIG_GUEST_AGENT')
+diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-dataplane.c
+index b995bab3a2..2c83a0ab1f 100644
+--- a/hw/scsi/virtio-scsi-dataplane.c
++++ b/hw/scsi/virtio-scsi-dataplane.c
+@@ -126,6 +126,7 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+ {
+     int i;
+     int rc;
++    int vq_init_count = 0;
+     BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
+     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(vdev);
+@@ -153,17 +154,22 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+     if (rc) {
+         goto fail_vrings;
+     }
 +
-   man_pages = {
--        'qemu-ga.8': (have_tools ? 'man8' : ''),
--        'qemu-ga-ref.7': 'man7',
-+        'qemu-ga.8': (have_ga ? 'man8' : ''),
-+        'qemu-ga-ref.7': (have_ga ? 'man7' : ''),
-         'qemu-qmp-ref.7': 'man7',
-         'qemu-storage-daemon-qmp-ref.7': (have_tools ? 'man7' : ''),
-         'qemu-img.1': (have_tools ? 'man1' : ''),
++    vq_init_count++;
+     rc = virtio_scsi_vring_init(s, vs->event_vq, 1,
+                                 virtio_scsi_data_plane_handle_event);
+     if (rc) {
+         goto fail_vrings;
+     }
++
++    vq_init_count++;
+     for (i = 0; i < vs->conf.num_queues; i++) {
+         rc = virtio_scsi_vring_init(s, vs->cmd_vqs[i], i + 2,
+                                     virtio_scsi_data_plane_handle_cmd);
+         if (rc) {
+             goto fail_vrings;
+         }
++        vq_init_count++;
+     }
+ 
+     s->dataplane_starting = false;
+@@ -174,7 +180,7 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+ fail_vrings:
+     aio_wait_bh_oneshot(s->ctx, virtio_scsi_dataplane_stop_bh, s);
+     aio_context_release(s->ctx);
+-    for (i = 0; i < vs->conf.num_queues + 2; i++) {
++    for (i = 0; i < vq_init_count; i++) {
+         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
+         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
+     }
 -- 
 2.29.2
 
