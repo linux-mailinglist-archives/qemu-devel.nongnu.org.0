@@ -2,73 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A38A3142AF
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:15:07 +0100 (CET)
-Received: from localhost ([::1]:39260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243963142B6
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:17:20 +0100 (CET)
+Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9EoE-0004zQ-Cy
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:15:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36482)
+	id 1l9EqN-0006rA-5J
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:17:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9AFs-00012i-8d
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:23:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28163)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9AFl-0000i4-7I
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:23:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612804992;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZhePwkTVj7n4UyEBCTvBEUOn8cDrgaI2rc1MzJ5vPwg=;
- b=GU4gzwh5lhDIJIvjRdOgLwr8So93FSqptabUcY0xNttEF97OKJIS9uH3kagDjtVTz5dJHQ
- 8uIesjQWVH0C4MrbHLIIOYYcHC0gbjcZRiQ2DUFmgJiWFRAba7ui/LoBbMAHI1LNr1mqHZ
- /enzKZpWl0QYqcm3Zq0UVrjNw631C/M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-xjpAdOY4PO-7-4U-Pi5Q1Q-1; Mon, 08 Feb 2021 12:23:07 -0500
-X-MC-Unique: xjpAdOY4PO-7-4U-Pi5Q1Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66C42107ACC7;
- Mon,  8 Feb 2021 17:23:06 +0000 (UTC)
-Received: from redhat.com (ovpn-115-97.ams2.redhat.com [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EC2F1ABE1;
- Mon,  8 Feb 2021 17:23:00 +0000 (UTC)
-Date: Mon, 8 Feb 2021 17:22:56 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/3] fix build failures from incorrectly skipped
- container build jobs
-Message-ID: <20210208172256.GM1141037@redhat.com>
-References: <20210208163339.1159514-1-berrange@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20210208163339.1159514-1-berrange@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1l9AS7-0000oL-EL
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:35:59 -0500
+Received: from mail-dm6nam11on2085.outbound.protection.outlook.com
+ ([40.107.223.85]:22369 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1l9AS3-0004te-BF
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:35:59 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LVNP4tl6t6DLbYLcpSP/jYwKaOKKFQXCHqtePT9hfgnO9i1NI3o0xxLy2MjclqETEmfUzTzOmtwgTBj0lO5i/9WpeIyfc/HltTa4wMHLxisDLyIys2bNn10QWmq+qUIVa/R4evRG+rYM0kkX2JzXvgYEz+6NIVycjNk5ioyRGtv9+hbn/hGvdQE4ikEE7NtP8ZUV0VFjoZtQt+UNt4EV8ucqpJCTFB3YIFDazIqMXFTT8C1+apfn2fccknjfLICL9MjkDZXZiPKFA52cx2nTzsNhwkf3G0hN6Y8F3CN36b2R3f0UkmHqn3lRL3BJNuMppZ2yGq3C+2wLWLKxTSzlpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kq8DSiVPMgTRArBwiItzjhQPJKxYqBKKjkS62CpYT6k=;
+ b=eVOdiJzhTua4vJMiDRQ61lCZ8pDrCVomKQYym20X6Wz+lJPkS8Fz1PscJjCGnuJN2OIbuUz4hvPIsEeh124ITpFlp6/bamWXVAUhQ6/5h+iwPhKr1MeSYALE1GhQmZUGlSL6vgk7N0umaBEwJX04iT9t6IQZZwMvluj41qzTVZwPOPyal2sArGs5o7/4P2s9e4O8xh+1pT+aJP9QnKIULKUcvJE5qPmw4wstWZaBYIZWntzkwuA2+wt0QhFXfUcIUaZ8bk6/9TxuqTo1YItzhOfKDN+GWipu/KNysCGLafaAczVJiLVYOamlt4wjDIoQl/TYb4qaGfZJCCzDHLT1hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kq8DSiVPMgTRArBwiItzjhQPJKxYqBKKjkS62CpYT6k=;
+ b=naNhZKHjLKjDE87MGjjfUcIQmdztXUKZrjf4GLmGnQIJxBNdroHOTdb7YLMBLMdQlbBPaChQc4ToBNewjJGzOdoM2G9PGETa0vYjtSRvON9OOdqYCVeA+Smj9sOAvxXNQNKscuqi9SOV+kmjuxO4H6PIQvVexGhOLkstLJZrfec=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM5PR12MB1867.namprd12.prod.outlook.com (2603:10b6:3:10d::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.23; Mon, 8 Feb 2021 17:35:49 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::c9b6:a9ce:b253:db70]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::c9b6:a9ce:b253:db70%6]) with mapi id 15.20.3825.030; Mon, 8 Feb 2021
+ 17:35:49 +0000
+Subject: Re: [PATCH v6 0/6] Qemu SEV-ES guest support
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, "James E . J . Bottomley" <jejb@linux.ibm.com>
+References: <cover.1611682609.git.thomas.lendacky@amd.com>
+ <9cfe8d87-c440-6ce8-7b1c-beb46e17c173@redhat.com>
+ <6fe16992-a122-5338-4060-6d585ca7183f@amd.com>
+ <f4e12261-c3e3-8934-5fd7-79fd30eccfe5@redhat.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <405f8f00-9c80-3f63-bcb1-c6e0cf6439bf@amd.com>
+Date: Mon, 8 Feb 2021 11:35:45 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <f4e12261-c3e3-8934-5fd7-79fd30eccfe5@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-Originating-IP: [67.79.209.213]
+X-ClientProxiedBy: SN6PR2101CA0011.namprd21.prod.outlook.com
+ (2603:10b6:805:106::21) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from office-linux.texastahm.com (67.79.209.213) by
+ SN6PR2101CA0011.namprd21.prod.outlook.com (2603:10b6:805:106::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.0 via Frontend
+ Transport; Mon, 8 Feb 2021 17:35:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 658cd661-a88d-43cb-2e11-08d8cc57f912
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1867:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1867C09BE2BBB07902A887F6EC8F9@DM5PR12MB1867.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:751;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9k9gu+Oq8ACgC0nIZYiPR9xMza3kwzoxUAP/4ql1Kuoa+esaJAmb3W2lUmCFdqSwZ8eB0uF3v/RJ8rgQIGIPYk0j05RoT4x2W2aNtqNOda8iWjsTGi0qu4HxQ79G2jDJWzmM4u6rbeXW0MFframHJ1z6EMRwEDDJ34B7H/XE88WHjFK3+AIn3XkxMjANkbv7Dy29iXSlpNqChlBpXXa1KUGsE5su8e4Ttu729iNWQblBRxyCh0LXO0/RKd+Mt8h/zTHy/J/SXMMZZyOhUyaDZ3ZsJTgXI1npNxfeM54iEu8PDx+shN+tbPlm+yiIp5/yI2Qx56x9soP9qfk01w7tN0jVOOjWtLMQ9AH4wKF8K6340Ef/OVGA7G7k+3G1zvPDzvLoVEwlGb3KOABQ38H1FjtU8kocT1bnS7S9AD0YTsq+w4AKJVmyVDVqWd57mRR7r5oKYlXDTtrzn6rA5gKxuqYQqzbYiwht+kVy5EtCsL4ZcoDslf0CuTBXHiOvY1jrL5UIhYZN5i/uSJFvBlqZFO1Gnrw9CqcXmTjNybm/HoHzdq3q13TzoPK2q5653t1UOh2shYkO582PTCWYOeVXOKBQc/FhZSv0zhP+chl6K0uYoNjDl2+tcxbsQM0L/5iGaA94q/ZSb3A71qGSl4DNChaMQbqSpKrHPbhd+GkLHveJZGp6NSSc/0/PhIdKwh8c
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(396003)(39860400002)(376002)(366004)(83380400001)(316002)(110136005)(86362001)(54906003)(5660300002)(8676002)(6506007)(31686004)(53546011)(31696002)(6486002)(4326008)(478600001)(66556008)(66476007)(16526019)(66946007)(26005)(186003)(966005)(2906002)(52116002)(8936002)(2616005)(956004)(45080400002)(7416002)(6512007)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZFY1Q0tiS0UxRUxBRkhSR0lzMFIyWnU3aGhXWEJHSHBPTXgrcnNXRExYV2Vx?=
+ =?utf-8?B?dHhBbU91TlV4dE9lRFFBN2RTbTdmOElMaVoxdFBBcGd5QnRyWEQxTFR2ejg1?=
+ =?utf-8?B?MkhhUDQxSW9uaStlSGdia0F6c2Izb0kwU085RHlZeDdYdWhoWE5peStMck90?=
+ =?utf-8?B?eW1jVXdwMlhHWDdZN3FnMTlNSG9Kd2RLdU9WejFvMnhnc2lJMFdJTHRoZzRJ?=
+ =?utf-8?B?UVVMdmpPa1Y1RVNUT0ZZckpiYWMzRTVDNUpsMGxnYW1lWGVkdFlDcFY4QnlK?=
+ =?utf-8?B?bGZ1eFIwcmw2Q2hrSWMvOXdYVDZaTjI2aFJIa0NRTDVVc0RLUTVxY0loU1Nm?=
+ =?utf-8?B?VHFvemRTUXA1cjhMQ3VlMmo2N0xjSXcwTTJtcFozZ0dRazdIWHpJREJkTEMw?=
+ =?utf-8?B?OHRvS3F1MDVDOUNDaTJtdURIM0pXT2JxMmw4MnhjdjlRZWd5NjZXcFpQNUNr?=
+ =?utf-8?B?S0RxS2lHa1JRVzRVTlRPd1ZPdWtvUjVJRlFtTWhQcEVXU0xZa1NRRDVGN2NM?=
+ =?utf-8?B?OGhadFdaNWJZWlF4WDJURFRmaXNCaFp2am45ekdmeEVQQi9NVlhScXBCZWda?=
+ =?utf-8?B?WEFpbWR1REJjeW1BWGpqaFZRS2M4aGJNUFlyeXNNbVpZOUhJejk1SFZTRHVn?=
+ =?utf-8?B?Q0kzTmYvS0hkZzRIN3hBSWRsSktiL2w2TjkwLzFrWlE0UC85VklISDZMU2Q3?=
+ =?utf-8?B?eG9SUnZkUEhqVVhwTko4U2kyc2VRc2VXcHRFMWRvT2JoMXllYkFaMlh3bUpM?=
+ =?utf-8?B?RmlsM0R3Q3lNaDFxMkdObldlWWtPK2FQWWNYajl3amxNNFp2VXRQSFN0SlNi?=
+ =?utf-8?B?dUhQMXBaNVB4R2o2VFdKemR4bXR2dGdhTDhzUFlhemxJaDBySWRhUmZqTUk3?=
+ =?utf-8?B?TnpLL2VReVY0Z045MXlxTG9qa1hjdER0ZnhNYk8xc0dsQm0xZWtPQVh6anVT?=
+ =?utf-8?B?bTJyeWtsSDVNMlc2TW5jeS9DMm9lZW1iV3A1Yk1CazhoUC9YVlZpYjUwYVRx?=
+ =?utf-8?B?YXFnTU5DcFZDUS9UbmdJa2dtUnZrY3hieERnZU5DNTNtMmVhdFFaVGZqMmJ3?=
+ =?utf-8?B?U1NwRWV1YUFaMDJOVTYzc202VTBTNUhDUHZsV3BwYkpzLzFBNUpnZlhDMmVy?=
+ =?utf-8?B?aU1uYURUTldrc0xsbTZIK1BxWFpKZ0Q2Q0h1bnd6TVc0M1dDNWsreS9zcDBT?=
+ =?utf-8?B?eHZtMm9mUnZoeEdlNHQxRnNoZTVFVmVyaWZoOGlEeWFXVE11TFoxZ1hjUG9a?=
+ =?utf-8?B?VEFsbGlNZ21MWjZNdStybllWKzNDZE1NaER2ODdKS3NaclpMN1R2L1pUK2lm?=
+ =?utf-8?B?dnMxdld3U1dwendoSWpwZDIrQjFLMEl4UVNKRVJFNHhRU0dwR0pjZEJtYmZ4?=
+ =?utf-8?B?R2RXd2Q5ZndTRkxQQnprVUhCbGc5alJuays3UGtIb0R3WU5qMW1OSFNUbHVt?=
+ =?utf-8?B?ZllWV2FteWZnQk1zN2graGp6K0RUM2hZcUFjY3ppam82UTlaVXpNOXZOcGsy?=
+ =?utf-8?B?cjAvOVVhVDVWQ2kwd09mMENwQTdkK1d2WjNxYk9lbHUvOEVUaDlsZWRhMnZm?=
+ =?utf-8?B?SmdCZjgvU1ZRYlRSeVkrbGd6dnl3cEFhNzhVbDI3MjFFUGg5NkhEaDRsTWYz?=
+ =?utf-8?B?Q3lWWnBPR3RoQWdTZ213NEMydkpwYUlvV0RtejhIR09zOC8ydThkUVBLdUkx?=
+ =?utf-8?B?K0xESUJVbTRhUkp4aGFPOVY2QzdPWXh3MXhPL1h5SEg2a1NJT0h4UHJ2SnR6?=
+ =?utf-8?Q?yAUBuxl6K6my8NibM3y5goiQodYrHo5eyUxUMPv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 658cd661-a88d-43cb-2e11-08d8cc57f912
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2021 17:35:48.9502 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TVJMsQlkLrPukiF16N4eUzv+JBGXTb0gwWPcsNkznEMty2EjyCyiJQLSwYEbOUdaAQHFWjuy5ewXIZD3mPzFFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1867
+Received-SPF: softfail client-ip=40.107.223.85;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,47 +149,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Jiri Slaby <jslaby@suse.cz>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 08, 2021 at 04:33:36PM +0000, Daniel P. Berrangé wrote:
-> This series fixes a problem with our gitlab CI rules that cause
-> container builds to be skipped. See the commit description in the
-> first patch for the details on this problem.
+On 2/8/21 10:31 AM, Paolo Bonzini wrote:
+> On 08/02/21 16:48, Tom Lendacky wrote:
+>>>>
+>>>
+>>> Queued, thanks.
+>>
+>> It looks like David Gibson's patches for the memory encryption rework 
+>> went into the main tree before mine. So, I think I'm going to have to 
+>> rework my patches. Let me look into it.
 > 
-> The overall result of this series though is a small increase in overall
-> pipeline time.
+> I was going to ask you to check out my own rebase, but it hadn't finished 
+> CI yet.  Please take a look at branch sev-next at 
+> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.com%2Fbonzini%2Fqemu&amp;data=04%7C01%7Cthomas.lendacky%40amd.com%7C0fd806ab779a47c04fb508d8cc4eef45%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637483986711396809%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=kxzVD%2FwGNrU0zIhZjxyA0XCDtyycPW%2FROsvs3BrlkJE%3D&amp;reserved=0 
+> (commit 15acccb1b769aa3854bfd875d3d17945703e3f2a, ignore the PPC failure).
+
+Everything looked good from a review perspective and AP booting worked 
+without a hitch, which was the main area effected.
+
+Thanks for taking care of it!
+Tom
+
 > 
-> Previously
+> Paolo
 > 
->  - When container jobs are skipped: approx 1hr 5 mins
->  - When container jobs are run, cached by docker: approx 1hr 15 mins
->  - When container jobs are run, not cached by docker: approx 1hr 30 mins
-> 
-> With this series applied the first scenario no longer exists, so
-> all piplines are either 1hr 15 or 1hr 30 depending on whether the
-> container phase is skipped.
-
-I mean to say the biggest problem I see is the cross-win64-system
-job. This consumes 1 hour 5 minutes all on its own. It is at least
-15 minutes longer that every other job AFAICT. So no matter how
-well we parallelize stuff, 1 hr 5 is a hard lower limit on pipeline
-duration right now.
-
-We might want to consider how to split the win64 job or cut down
-what it does in some way ?
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
 
