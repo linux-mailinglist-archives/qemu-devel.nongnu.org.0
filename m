@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4547031437D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:08:25 +0100 (CET)
-Received: from localhost ([::1]:42224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08EFA314381
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:11:06 +0100 (CET)
+Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Fdo-0006lx-38
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:08:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50546)
+	id 1l9FgP-0001Oq-1u
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:11:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCV-0003OW-R5
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:55 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34087)
+ id 1l9BCd-0003WF-It
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:03 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCU-0006CN-9Y
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:55 -0500
-Received: by mail-wr1-x433.google.com with SMTP id g10so18424996wrx.1
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:53 -0800 (PST)
+ id 1l9BCX-0006El-Oe
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:58 -0500
+Received: by mail-wr1-x433.google.com with SMTP id r21so2150206wrr.9
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UN3/q0FStBl08Q7zutbVrS9Xuny8p3wSkBzZmAj2ntI=;
- b=ZDDQP73f/ctZLPfUYbR0v5zxB5MjodWpL1Yy5V99739zsyjpYfs0zR20C7rsvXVOkU
- 48JAUFrWi1f3eCQex2FFjPb78pcbGCDO0v13pN5XVsgPE1tWxGZQHTCK4KHkzVjYYBGf
- o0yLG9wdPoHLXn38KaQCFurwVzOLL181Nhl9hQlReJVUSEFOAaE+ecRpACBTvXFpEn81
- SE6L8OjRibt1O279ZMU77aZn9Yx+0e1OCShRob3+aTBNwQPFJoKsl6/GHUu/gZJYkBB1
- 8Kz55v9nBZAlyI3i1uWaOdhEGJmGTSqI3GnjSBTO+uTYyUIE8VLeUgjQTf0y7kANu9D/
- Q0aw==
+ bh=BLWzLjUfsLqLzWMs+J77xBL5O0bPOMZrdfzCWZyojPE=;
+ b=cvEcn73BcvDO44LSKAHov81EzuSKHnNe8WCKC1urwKltApGAbNKxhd/6/tYCBgaxGH
+ w002uHfHJS2AAGiREghCAC+QAEzwhfR8izQ54xn0aAso8jwY6/CogfZ07gtzks3f3GWX
+ OasW7tiqTzEaEnIq3yAEhDN7JcqPwR004ZaYEom3J6GjfaEQkGDY4A7CLBi/0n4GCsTI
+ /Gdpk92g7SxUU/0RM8WQ9TNUye7STapHTkYB8F+D1n74NXn9Zl0dYB27EgmNqQfWwYnY
+ AYtHERKmsIDPOe5DVJXlZSY7a1KSuxREOjIedtXY1eWxlyDLyQSlV7d1gt3mYldta1+j
+ 6glA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UN3/q0FStBl08Q7zutbVrS9Xuny8p3wSkBzZmAj2ntI=;
- b=Jv1PVhsFQiLnG8UEKor4tlfLjFRgpE0dkkRy3BORo64rL0H+s7Py6MWuoj5153rmZE
- AdHXvaqTplMHKbd40ZtnIFel1Zuw2YR7A02vFqvGT8tXKpaqfg2Kp1Zh/Y98NQDtHrnn
- tQu4dmpc6NPiV7rRoggq1lAPMqgShSHcD4FPB9rm3gReuSWM/xZV64s92Adyd9IuMj7z
- BwVi2MoIhXj5Wk0dgLuNb/gNKfongwf/loahRutD+z0/Pd0l39HPeXdWdMYey2D/r0jZ
- 9XoHKZc+woZL1ojqSOyYbbyBsTy+ecC6KvwbYuzMCcNhNQkeUvddrslUnWPQE4ajDYoh
- tgmw==
-X-Gm-Message-State: AOAM531x5zygBAQmX4q/mWji9t5W01ehCP/Pt5XDAZG23EaHO9Rjucs1
- UXhwnxQxUL9wpuTH2CGPKLi2TxtDXjcwkg==
-X-Google-Smtp-Source: ABdhPJwzqdBV3upp4NL5Xo3Imc2ToUnTjKbkIdXp3nUo7bfq0rJgKi7wuGumDEXnPPYTqQoQmv1SYw==
-X-Received: by 2002:a05:6000:11c5:: with SMTP id
- i5mr21467735wrx.302.1612808633017; 
- Mon, 08 Feb 2021 10:23:53 -0800 (PST)
+ bh=BLWzLjUfsLqLzWMs+J77xBL5O0bPOMZrdfzCWZyojPE=;
+ b=S05VzLUxm9WGPSHSPMthpkdPBLIdsdXa3XcizH6EOTDUnoPdPYXQtRCfl4KIgNkvNO
+ D/NMRZtQXJSPKR87qKkKh7EYYs4GR/VPnpZVTVIUznfT8FSfcw8xhJA0QHiXw+K4QfVK
+ /kZNE67l5ORTS3BGG5n9aApi6ykCUwPRhclPC0KX3+Ilw9rVh8x2duX8SSiqnd2bCYvy
+ k6Nl06bDzTCmK8LrMf0fItL8qqDHGr/h8bIvpNZGM8fRc86w2bRT0UzIVd+SAp339jjt
+ VOcTSQF3CcG81f20o74YHA7FfB6eRXaSnr9+FgZPxouzMZWbIcztqEgINj3k5Vb3n2GK
+ 6qFQ==
+X-Gm-Message-State: AOAM533pZpqkyvKR5ZHaN/2l1fRwaWolXDMeBBUrqKjlUjT+7Mc2hqTt
+ X91Q1GUIBtC9EZIPL+EVhFh30QvvxBgleA==
+X-Google-Smtp-Source: ABdhPJxG3E7qxDDWdYi7TfPHSEDIaelrs+PEeRmCGBoKSk/Ez5sj0VkzYWJXEl0JPhND6JgBy208sg==
+X-Received: by 2002:a5d:640c:: with SMTP id z12mr21210233wru.342.1612808636548; 
+ Mon, 08 Feb 2021 10:23:56 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.23.52
+ x22sm19670wmc.25.2021.02.08.10.23.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:23:52 -0800 (PST)
+ Mon, 08 Feb 2021 10:23:56 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/46] meson: Warn when TCI is selected but TCG backend is
- available
-Date: Mon,  8 Feb 2021 19:23:06 +0100
-Message-Id: <20210208182331.58897-22-pbonzini@redhat.com>
+Subject: [PULL 25/46] meson: Merge trace_events_subdirs array
+Date: Mon,  8 Feb 2021 19:23:10 +0100
+Message-Id: <20210208182331.58897-26-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
@@ -87,48 +85,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Some new users get confused with 'TCG' and 'TCI', and enable TCI
-support expecting to enable TCG.
+The trace_events_subdirs array is split in two different
+locations, merge it as one.
 
-Emit a warning when native TCG backend is available on the
-host architecture, mentioning this is a suboptimal configuration.
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Suggested-by: Daniel Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210125144530.2837481-5-philmd@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Message-Id: <20210122204441.2145197-7-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meson.build | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 3a13ba3307..4cc3ebb827 100644
+index 0ca73d0102..da21812064 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -231,6 +231,13 @@ if not get_option('tcg').disabled()
-     else
-       error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
-     endif
-+  elif get_option('tcg_interpreter')
-+    warning('Use of the TCG interpretor is not recommended on this host')
-+    warning('architecture. There is a native TCG execution backend available')
-+    warning('which provides substantially better performance and reliability.')
-+    warning('It is strongly recommended to remove the --enable-tcg-interpreter')
-+    warning('configuration option on this architecture to use the native')
-+    warning('backend.')
-   endif
-   if get_option('tcg_interpreter')
-     tcg_arch = 'tci'
+@@ -1744,7 +1744,20 @@ trace_events_subdirs = [
+   'accel/kvm',
+   'accel/tcg',
+   'crypto',
++  'hw/core',
++  'qapi',
++  'qom',
+   'monitor',
++  'target/arm',
++  'target/hppa',
++  'target/i386',
++  'target/i386/kvm',
++  'target/mips',
++  'target/ppc',
++  'target/riscv',
++  'target/s390x',
++  'target/sparc',
++  'util',
+ ]
+ if have_user
+   trace_events_subdirs += [ 'linux-user' ]
+@@ -1817,21 +1830,6 @@ if have_system
+     'ui',
+   ]
+ endif
+-trace_events_subdirs += [
+-  'hw/core',
+-  'qapi',
+-  'qom',
+-  'target/arm',
+-  'target/hppa',
+-  'target/i386',
+-  'target/i386/kvm',
+-  'target/mips',
+-  'target/ppc',
+-  'target/riscv',
+-  'target/s390x',
+-  'target/sparc',
+-  'util',
+-]
+ 
+ vhost_user = not_found
+ if 'CONFIG_VHOST_USER' in config_host
 -- 
 2.29.2
 
