@@ -2,51 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B02314442
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:47:59 +0100 (CET)
-Received: from localhost ([::1]:45634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B862F314464
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:58:43 +0100 (CET)
+Received: from localhost ([::1]:39882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9GG7-0005bF-0p
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:47:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57006)
+	id 1l9GQU-0006fE-Kb
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:58:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1l9BXY-0008LW-Sl; Mon, 08 Feb 2021 13:45:40 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:46559)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1l9BXN-0006o4-KE; Mon, 08 Feb 2021 13:45:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=PgM0mMAqMJNtmF60oidG6olTXXxwlo5tWPQ7kz8W8CY=; 
- b=aIXSA4dtwRzqfSbXeQ3vyol4WnxhRPR5m7VNvd+jhDn7XYfOEFSRGOYzmLC2bd2NZJuuVn7VVUTCMB/XgvqOv9jcx0Tj2EjYAuSIXb0BiaCRJubdE8x2qUNc/KeflDaz0qW6XoiKWv8CmcCJWZJwB/xdBzL7TlxNZJWC5nViKlb7w8nwBFiT0btBJPl7LilePw7T3RL3fzMtsaBhz/zuB8EfU2iu/iPNca0871qguB+CmjrDiNznYGJL558cZ/xOiqb059S2rppV1z5tCLLfA/YjAQCVErkt8wrvWCgEthpgJlf+HpaspciFwAI328QNnaSkmvJNjJw5Evq5mt6VLQ==;
-Received: from [213.94.25.37] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1l9BWw-000567-MB; Mon, 08 Feb 2021 19:45:02 +0100
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1l9BWj-000087-Ni; Mon, 08 Feb 2021 19:44:49 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 4/4] iotests: Test reopening multiple devices at the
- same time
-Date: Mon,  8 Feb 2021 19:44:44 +0100
-Message-Id: <8c976fdb937c8c07b3b9829e6b4e6760d62a130b.1612809837.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1612809837.git.berto@igalia.com>
-References: <cover.1612809837.git.berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9Bmy-0002yb-Hg; Mon, 08 Feb 2021 14:01:36 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45107)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9Bmk-0004rX-Gg; Mon, 08 Feb 2021 14:01:34 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E3AE85800F0;
+ Mon,  8 Feb 2021 14:01:19 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 08 Feb 2021 14:01:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=OIiTNIH7SyEyGYRZ2nw9PUbZabc
+ ASsCo87Us79Lhk1M=; b=t9dByYtd6n3IuHGuByLnTely+5idC/ri62lpIvz0zsY
+ DTIVyBsdxOYWM+PxiZ9yCx+rH/FacHGwhN+x+aLMI7GJP24QHL8HLBr1WT37jG+N
+ b+A178Z/2IAiqIV62Jye6Pf30B6yvrjEkRRhqsr95iyoxvXgnRlqHu+onSVHP5Vx
+ A2FP7eKzs6LuThZlgYXk3y3mKbdM2Cdb1EhfAnYZP3dlcxQpY+ewMhuNx5gDIbvr
+ NWSkayA1KRuDNqmqfxGMGpmAZoHbicBqqsa5iHofWYs03I58QBHqqvX58lhS3OQz
+ FaL4zggsOkgE+jnIUsQO+vU+Koe9+/qJL0KhaDTDuIw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=OIiTNI
+ H7SyEyGYRZ2nw9PUbZabcASsCo87Us79Lhk1M=; b=vTcPUaVn434Etr/w6JgI4O
+ 3bkE05f2gLWPoefKRW4ZDMkMEH17ouG8/ktHw4AZIS+8F1dCyuVC/Yd/0qsaeUGj
+ EqYsu63CLi2UFaml7CfYXKU484mhpFGClNgC1/ec/9/F+2ZnBsytjinI3q9NpsSM
+ 46pixmx25F3eaIdoS6aFFBTtO6vi5jiWh0IlcH8MVSrq1T/VS2ZGpKtqpR4w7FNJ
+ bvFnv6PTDzKdbOQ2r+YHxlI9kV7smNcca1FWW6p2g5KEndl0CSGJbA+H8yOgfzjf
+ fHSijQXbotm+3LC360MY1i1cE02AjNoA62KTurRN7WWd6z1B/gbpXhjUw62eIuUA
+ ==
+X-ME-Sender: <xms:foohYDQf62th5ygXIcH7jsGqEeoxKCxOOdcXjFrsX5HQP1gwCM9gUQ>
+ <xme:foohYEuCinWEznjn-KT8z0MXp6WfgK1tbg3me58d0VjxaYm87LObbD-OuerUSTZw6
+ rftBc5M427O85OltZ0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheefgdduvddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuueffiefhgffgteehjeeiveeludfhteffhfehiefgheetjeeitedvtdegvdeh
+ tdenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:foohYFvRUUWl5MaESvmmOrsD9VMwcKmMvPoaKRip2JOgNkWJbVUE-Q>
+ <xmx:foohYKzSfLGrIE9_Ww2kOY53sOTXKQwQz4DyZzs3b5iMVGSyudaNyA>
+ <xmx:foohYLhE-yTx_A4uMO94VMT28Tn2-PGvDbTiLRvnL61x1Dk_og5Bkw>
+ <xmx:f4ohYAoD0Aw7WmIa3NtFeMKXCKM1-z1qZHtOZdUpRVsy69mmCTzzNQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 468CC1080068;
+ Mon,  8 Feb 2021 14:01:17 -0500 (EST)
+Date: Mon, 8 Feb 2021 20:01:14 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/2] hw/block/nvme: use locally assigned QEMU IEEE OUI
+Message-ID: <YCGKeroQWGoXKMTL@apples.localdomain>
+References: <20210208141012.377500-1-its@irrelevant.dk>
+ <20210208141012.377500-2-its@irrelevant.dk>
+ <d8538da5-ee8c-909c-bf1b-c8dc042bf243@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="VgXWs2J0CcZuKxMu"
+Content-Disposition: inline
+In-Reply-To: <d8538da5-ee8c-909c-bf1b-c8dc042bf243@redhat.com>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,86 +95,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- tests/qemu-iotests/245     | 40 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/245.out |  4 ++--
- 2 files changed, 42 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index 850c9f070b..d18dbbe638 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -574,6 +574,46 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.reopen(opts, {'file': 'hd1-file'})
-         self.run_qemu_io("hd", "read  -P 0xa1 0 10k")
- 
-+    def test_swap_files(self):
-+        opts0 = hd_opts(0)
-+        opts2 = hd_opts(2)
-+
-+        # Add hd0 and hd2 (none of them with backing files)
-+        result = self.vm.qmp('blockdev-add', conv_keys = False, **opts0)
-+        self.assert_qmp(result, 'return', {})
-+        result = self.vm.qmp('blockdev-add', conv_keys = False, **opts2)
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Write different data to both block devices
-+        self.run_qemu_io("hd0", "write -P 0xa0 0 1k")
-+        self.run_qemu_io("hd2", "write -P 0xa2 0 1k")
-+
-+        # Check that the data reads correctly
-+        self.run_qemu_io("hd0", "read  -P 0xa0 0 1k")
-+        self.run_qemu_io("hd2", "read  -P 0xa2 0 1k")
-+
-+        # It's not possible to make a block device use an image that
-+        # is already being used by the other device.
-+        self.reopen(opts0, {'file': 'hd2-file'},
-+                    "Conflicts with use by hd0 as 'file', which does not allow 'write, resize' on hd2-file")
-+        self.reopen(opts2, {'file': 'hd0-file'},
-+                    "Conflicts with use by hd2 as 'file', which does not allow 'write, resize' on hd0-file")
-+
-+        # But we can swap the images if we reopen both devices at the
-+        # same time
-+        opts0['file'] = 'hd2-file'
-+        opts2['file'] = 'hd0-file'
-+        self.reopenMultiple([opts0, opts2])
-+        self.run_qemu_io("hd0", "read  -P 0xa2 0 1k")
-+        self.run_qemu_io("hd2", "read  -P 0xa0 0 1k")
-+
-+        # And we can of course come back to the original state
-+        opts0['file'] = 'hd0-file'
-+        opts2['file'] = 'hd2-file'
-+        self.reopenMultiple([opts0, opts2])
-+        self.run_qemu_io("hd0", "read  -P 0xa0 0 1k")
-+        self.run_qemu_io("hd2", "read  -P 0xa2 0 1k")
-+
-     def test_insert_throttle_filter(self):
-         hd0_opts = hd_opts(0)
-         result = self.vm.qmp('blockdev-add', conv_keys = False, **hd0_opts)
-diff --git a/tests/qemu-iotests/245.out b/tests/qemu-iotests/245.out
-index 537a2b5b63..1f9debbd61 100644
---- a/tests/qemu-iotests/245.out
-+++ b/tests/qemu-iotests/245.out
-@@ -10,8 +10,8 @@
- {"return": {}}
- {"data": {"id": "stream0", "type": "stream"}, "event": "BLOCK_JOB_PENDING", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
- {"data": {"device": "stream0", "len": 3145728, "offset": 3145728, "speed": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--.......................
-+........................
- ----------------------------------------------------------------------
--Ran 23 tests
-+Ran 24 tests
- 
- OK
--- 
-2.20.1
+--VgXWs2J0CcZuKxMu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Feb  8 19:56, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 2/8/21 3:10 PM, Klaus Jensen wrote:
+> > From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> >=20
+> > Commit 6eb7a071292a ("hw/block/nvme: change controller pci id") changed
+> > the controller to use a Red Hat assigned PCI Device and Vendor ID, but
+> > did not change the IEEE OUI away from the Intel IEEE OUI.
+> >=20
+> > Fix that and use the locally assigned QEMU IEEE OUI instead.
+> >=20
+> > Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >  hw/block/nvme.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > index c2f0c88fbf39..547a3073ef1b 100644
+> > --- a/hw/block/nvme.c
+> > +++ b/hw/block/nvme.c
+> > @@ -4686,8 +4686,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice=
+ *pci_dev)
+> > =20
+> >      id->rab =3D 6;
+> >      id->ieee[0] =3D 0x00;
+> > -    id->ieee[1] =3D 0x02;
+> > -    id->ieee[2] =3D 0xb3;
+> > +    id->ieee[1] =3D 0x54;
+> > +    id->ieee[2] =3D 0x52;
+>=20
+> Shouldn't this be conditional on 'use-intel-id'?
+>=20
+
+It definitely should! Thanks!
+
+> >      id->mdts =3D n->params.mdts;
+> >      id->ver =3D cpu_to_le32(NVME_SPEC_VER);
+> >      id->oacs =3D cpu_to_le16(0);
+> >=20
+>=20
+
+--VgXWs2J0CcZuKxMu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAhinkACgkQTeGvMW1P
+Deks2AgAnGr3vTf8tESFatHbuUN4u7zfMBIs63aR8hvnuLJlZ0I0Ofb2ItNd/w2/
+5v72f79pTN4j3g4w5qvWDGeHFPJeo7luXRd4wYNUW3xGENuq2hMUpGKebLNQChEn
+YCG3+2pvih3Zx9nUcWck7MvhMMR17lnmzz7rr948cJZ4gtSDHFqnCzW7gwLGRVJ9
+vD5IudWnDHOVOHG5b+msgH8VvMniJkc/KROkcwpJ+nA9WbJyWa6dmifsx7m6ZmU6
+7GHkv+84wvyMveBaYUtSKeHRiTL+sOli5UrKVbbHsidonul/1RkHvZRmGeAu3WvB
+4h0AZJ+BSuWWb3CectYXcZOC4qa0dQ==
+=ZtBL
+-----END PGP SIGNATURE-----
+
+--VgXWs2J0CcZuKxMu--
 
