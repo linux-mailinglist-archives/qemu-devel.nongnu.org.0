@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A389A31289E
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 01:34:09 +0100 (CET)
-Received: from localhost ([::1]:58084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF56B3128ED
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 03:28:43 +0100 (CET)
+Received: from localhost ([::1]:49406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8uVE-0004RE-7c
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 19:34:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40884)
+	id 1l8wI6-0006en-FK
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 21:28:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=666759579=dmitry.fomichev@wdc.com>)
- id 1l8uUB-00040S-VU
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 19:33:04 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:8356)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=666759579=dmitry.fomichev@wdc.com>)
- id 1l8uU9-0007OD-2H
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 19:33:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1612744381; x=1644280381;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=g3ic4KYpGtQcIpdwwdUA3ZxxG4KRcwIjvY4Or50Gmdk=;
- b=YYWb1a5ssNlYCQuxUqqVE/O05T40nD7dYQmnVoh5aIBAZxVbFGyrnDAS
- NKp31HknLMgGJgqdMU639mapBnEFH+OnTwzOt9sJc1607lIdhrtJ2OwqA
- ZckZ/zmFb90XX/Z2ftRU5bW9CPUmot9h0+Fpo6tQEFcrQVzghxu4CaZat
- s/OBqvgqi07tUF3PbVNQKcscNdSS+j67bfGDgWDxg/qHvDyEN57R/O4xD
- AAZ7hGlzyv1+yLQXzNk9hMk0gKmPJfqiMEUQAgpX32lu3SVKeXzEyTpG3
- ZP7S65Qs2dT5fhpKCCgJHbgKRXAv6qMDe5vJz2XJSTRFwQDrYS97pLYUE g==;
-IronPort-SDR: 4hT3IaOov4Fpw4OtkdQC8pkn7dokeXzqW4SvG8w3qCUNZanbd1/z53DFq9mzzEFTW6hpxxkhN4
- +EAJjFI8J6sg7CEo6U+zlkMEiLET+jf56PidIoy/7Vk2y1OMAHu4E/ovyd5B3XDx2PqUk8qDY6
- Eja0rfW9UHWHHOeHw2AA9t8tTwq71RNNbIYPv7UiDQZFTQcTdMfJPTNHCYXbb4ZLs4daTHwohV
- RMCQcB5ItKN6xSu1YIEPS2IgW3uCCXK2DAByjc6pU33rsftqFrjQoqZr1lS7RE1wB9QtvFiqgz
- th8=
-X-IronPort-AV: E=Sophos;i="5.81,160,1610380800"; d="scan'208";a="160573801"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Feb 2021 08:32:58 +0800
-IronPort-SDR: gI2mnpdzRF0hbfHneWaBo8KkXGMddBespByKlcnIp8RUf/MbAbX7+CUicH9ygsXz9kF1ZAtcUy
- BHbW4D6lX9dS+FLtiVMAkUHZVEevWWBjLPwtBFUhlcwwJplsguyHEj2WPMgCzscp78s+BHpBIZ
- Es3suCtKYzSZNi9ET+NwD1yMssw+vF2UH1iRAWITXDxlaTtHFuKkMQMQ+eYByEIFDyninZOcTN
- fYwWDJg4qF3YCC0nyXirpD+uxtDwj25tB1rbQCAaKssJz1qSv6apIKEIjjv8yqsQo4Ov9gD5eT
- TCjX1fhdYhkHRx6qTfoPUb9G
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2021 16:16:51 -0800
-IronPort-SDR: 3AqBEDdEIwXGCL8A/jWT7hmBz71g84io/EVLpdrWNtS0hBhqjIJ4v6NrCFuYt+VeBXGJgVu8ka
- +DrzjTr1f7V0zzJs4T8rlxsj+CYIXcSYvZ2s3HJDW3K9y4NsK1tvuV0p8qvjbQCVz1lWJVtO78
- D5jFIcwdzBjVkTIA4V8LEEwATsbWnhoMS8YL9xs2NgLPmuhSMptLpvwbHWlG4Oqrzz1DbPDJxA
- 2g36QEv3q/7vUKGNeT9LnjNop0mTbWKCqhbVuEYIjZq+j3J7n7/tTUQFsR1MWNO9txudwQSqk3
- Ae4=
-WDCIronportException: Internal
-Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Feb 2021 16:32:56 -0800
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-To: Klaus Jensen <k.jensen@samsung.com>, Keith Busch <kbusch@kernel.org>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-devel@nongnu.org
-Subject: [PATCH] hw/block/nvme: fix Close Zone
-Date: Mon,  8 Feb 2021 09:32:56 +0900
-Message-Id: <20210208003256.9280-1-dmitry.fomichev@wdc.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1l8wFy-0005p9-2O
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:26:30 -0500
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:40994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1l8wFw-0001p3-5P
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:26:29 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id v193so8698996oie.8
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:26:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Z8TnCfwWB/Pn8o25/tZeClrimo0fAJ4HqfwCy/f3Ohs=;
+ b=Hf2BpnKYRi/QcjJh+45ADuhIe+rcNeFNYazvHsJGhaC7T38NSdtz1umLQzEq0tvruZ
+ ir9ZA0Kql2MUgC8pAtMkO6vJmW+vC98ihhjgGlji45eArBBVdV+QaKSSNO7CI0V6VGDT
+ hI94XOmThBLtWa/xQV/fVKwTRHfvRgxvgIUOwOix/dU3rCJ4He2aOf1K9gWJSdMGb2Zv
+ 6bsDNyoJzeIt4bgNvpSFaFVcXUkm+4+G8oMzgokx3t485SsaRfIluY8qZLExbl5LvtbE
+ Uhgi/5VvYrnLPx2ddxdDgINImCGX9n12R8nSvvmkVTQiBrkU79PQuwR+hmQ9PsiCnwNR
+ yfzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Z8TnCfwWB/Pn8o25/tZeClrimo0fAJ4HqfwCy/f3Ohs=;
+ b=s7ALahfAfddaCAJzbkgM6o5+BLeERHzkWBIXuUDA+IS6szjmxejsntay5K5hh2vQca
+ TolCu76P1hENfvHv9Q19eHf0eEEPg8Zb7JDVMw4YSxiacCOmsf8bq893S6G44pmAQUFP
+ 0nK3UKbs2M6l1grChL8KSR01waxFYkFUlF/ujAiHp3wwMC81EbUonSXoRg7AtzOlz7AN
+ 6E/bF+i2uLme+06ZxCq/SGb607PBq2DuYU0qCpsxSFRaMg+JXomwPLTSNFY3xEFOjroY
+ Wj9n1S+eAKZ7QBv70XDR0EMykyshj6D8Fm9pWVjLQnnguT4raAkxY1hdK/rxKhDqa7UD
+ /e5Q==
+X-Gm-Message-State: AOAM530s722Kbx4ge/6OolBnviiP+oxfu0DIQ8TsPn0xGqKseVRPsjs3
+ DIj2OkEJi2mw+x6dSs0UuXgGbrZgBWzIXuRUub0=
+X-Google-Smtp-Source: ABdhPJyr6sCXxNW7RrROqgVO/WlsdTuAatzFC3wjNOatVo4SgdQXYDDhAoNIt/8s3a5vVsEp2J1Cd6rVwHc6/Pp9SVA=
+X-Received: by 2002:aca:bf0a:: with SMTP id p10mr6642185oif.97.1612751186435; 
+ Sun, 07 Feb 2021 18:26:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=666759579=dmitry.fomichev@wdc.com; helo=esa6.hgst.iphmx.com
+References: <20210202132103.1096654-1-ppandit@redhat.com>
+In-Reply-To: <20210202132103.1096654-1-ppandit@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Mon, 8 Feb 2021 10:25:50 +0800
+Message-ID: <CAKXe6S+keMat80m59NL+Sfdq9idwwjwECVGOrahErEQ7apD-bw@mail.gmail.com>
+Subject: Re: [PATCH] scsi: mptsas: dequeue request object in case of an error
+ (CVE-2021-3392)
+To: P J P <ppandit@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,45 +77,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Niklas Cassel <niklas.cassel@wdc.com>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Cheolwoo Myung <cwmyung@snu.ac.kr>, QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implicitly and Explicitly Open zones can be closed by Close Zone
-management function. This got broken by a recent commit and now such
-commands fail with Invalid Zone State Transition status.
+P J P <ppandit@redhat.com> =E4=BA=8E2021=E5=B9=B42=E6=9C=882=E6=97=A5=E5=91=
+=A8=E4=BA=8C =E4=B8=8B=E5=8D=889:23=E5=86=99=E9=81=93=EF=BC=9A
+>
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+>
+> While processing SCSI i/o requests in mptsas_process_scsi_io_request(),
+> the Megaraid emulator appends new MPTSASRequest object 'req' to
+> the 's->pending' queue. In case of an error, this same object gets
+> dequeued in mptsas_free_request() only if SCSIRequest object
+> 'req->sreq' is initialised. This may lead to a use-after-free issue.
+> Unconditionally dequeue 'req' object from 's->pending' to avoid it.
+>
+> Fixes: CVE-2021-3392
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1914236
+> Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 
-Modify nvm_zrm_close() function to make Close Zone work correctly.
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Fixes: 053b5a302c3("hw/block/nvme: refactor zone resource management")
----
- hw/block/nvme.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 6b84e34843..c2f0c88fbf 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1308,14 +1308,13 @@ static uint16_t nvme_zrm_finish(NvmeNamespace *ns, NvmeZone *zone)
- static uint16_t nvme_zrm_close(NvmeNamespace *ns, NvmeZone *zone)
- {
-     switch (nvme_get_zone_state(zone)) {
--    case NVME_ZONE_STATE_CLOSED:
--        return NVME_SUCCESS;
--
-     case NVME_ZONE_STATE_EXPLICITLY_OPEN:
-     case NVME_ZONE_STATE_IMPLICITLY_OPEN:
-         nvme_aor_dec_open(ns);
-         nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
-         /* fall through */
-+    case NVME_ZONE_STATE_CLOSED:
-+        return NVME_SUCCESS;
- 
-     default:
-         return NVME_ZONE_INVAL_TRANSITION;
--- 
-2.28.0
-
+> ---
+>  hw/scsi/mptsas.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
+> index f86616544b..adff5b0bf2 100644
+> --- a/hw/scsi/mptsas.c
+> +++ b/hw/scsi/mptsas.c
+> @@ -257,8 +257,8 @@ static void mptsas_free_request(MPTSASRequest *req)
+>          req->sreq->hba_private =3D NULL;
+>          scsi_req_unref(req->sreq);
+>          req->sreq =3D NULL;
+> -        QTAILQ_REMOVE(&s->pending, req, next);
+>      }
+> +    QTAILQ_REMOVE(&s->pending, req, next);
+>      qemu_sglist_destroy(&req->qsg);
+>      g_free(req);
+>  }
+> --
+> 2.29.2
+>
+>
 
