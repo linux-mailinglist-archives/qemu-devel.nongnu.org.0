@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445423144AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:12:57 +0100 (CET)
-Received: from localhost ([::1]:55136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAAFA3144BE
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:16:39 +0100 (CET)
+Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9GeG-0008Fy-AG
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:12:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59420)
+	id 1l9Ghq-0003XU-JC
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:16:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l9FMS-0008Px-Rt; Mon, 08 Feb 2021 17:50:30 -0500
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:38081)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l9FRh-0007Vs-Nt
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 17:55:53 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:42355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l9FMN-0002dF-6B; Mon, 08 Feb 2021 17:50:28 -0500
-Received: by mail-io1-xd2e.google.com with SMTP id f6so16820605ioz.5;
- Mon, 08 Feb 2021 14:50:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FysIOZ87icjobs3JgrfyO/HazpJvePqT83hifnbpYkw=;
- b=j/SbgdgcwuRBvjsu1KkFEdDh3vAEZ1xtBvz9ltjxXHvl0dHjF3naMqFEqtTSAleePD
- G4E97aha6R8wOCzyUZHL/lLtgJXH5PngppT6RR0Up1jOGe9ClLCQc0LKHdeMkBYJAq2G
- e3UoivNBH4nhgHjEo0Xovd7GalM9HBByTUUDtPJ+CFIOUROZFU0cxYBFGmnD5SzZBHkR
- XkNHSzVBz6IB61V3DdB+sEopb/p5B9dq2jo6K+QVk16plzejddggPgfRj28q0Zjpovf6
- E3z4E1uEG2kMYmlUdKNVqwoww1Mam8SYXaB5fPa6Kx9TTSGZBwSvGt+ie4JnkXqho3eR
- b+CQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l9FRU-00055s-77
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 17:55:53 -0500
+Received: by mail-pl1-x629.google.com with SMTP id s15so8642826plr.9
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 14:55:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZdGGrAtZVLla4GELYj0h5AVplpCzZFevF2hgLtzP6LY=;
+ b=ZpwsljxYvthOfCR5MJy6eoSXitdnTNlX+jEDTpFfpVm3ieF/SIU++/qDYpHt6fuG0S
+ TK58cz/c5llqFRAn0bwyvYA0vq1KR5LE5oY8+C3p3Qib5oO0Zu01EcoXqH7ABly8oxgm
+ xSDRX89J9XX2UnMGlvgM3Y5RoAFMXwLeDmKm8h0XHCL2QP5YphqmrqVrnNYGs8HlHOlB
+ BoUnlv9KxdygrldK6C3/O9Z5vV2eWOQ2nGI9CcYmD0ZkLXckYMyPzs68oMxhc96HUG1E
+ uWPzEhYutTgnGCicasjInikDjpf/ii5IR9WCN/A2gUCIgiW//xFng8gkapU7aGnG6HWW
+ 5sMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FysIOZ87icjobs3JgrfyO/HazpJvePqT83hifnbpYkw=;
- b=JxsAYWkw/eYx8x2qgrGxCv0YEnNmhCXGF8whF91xvca41LeFEOd/Aemd7khnL1shxI
- opd5SujJkbPBbf1dRrnwWBYeN9Cskypt6mYAeEfy5VfKKeLsc52Y7DOLIvXA/g7v/yGu
- eXVhReijaGd7/SClTYuSk+nV5RwqUOCZsAMkX1vsU5mjR+YjDHG2N7Km8YC3A3/ViN2B
- N88E0ScN4FR6EFtsQ/srrhRRBNAKQ2WyRKVATK14R6wuUQ/FpXR7pVy7wBb9O8rXJkZm
- tnuEGTzfyw6inqyHLQT+3NvXWYVArNIKAkG/mKWFZ0fa5clZDPOoGTC+SqKWGCinP9XE
- yzlQ==
-X-Gm-Message-State: AOAM530kx4VLFirtjm6PVY4sMs8gM93A5hc2M/cUyNT96LePJGH7eSbu
- JlwCGzFLWEHVhe1sZAeEpcu4PS0h8aihejnzpjGtIJacCoM5jg==
-X-Google-Smtp-Source: ABdhPJwMox4BQ+UJqTJqI8oiIHZvWPioL6g7X8zzKBcXLtCzkFak30ULsdjVaxJMTc/EIvOZDloswHbBy0k4Umyjgk0=
-X-Received: by 2002:a6b:7d42:: with SMTP id d2mr17454292ioq.176.1612824619751; 
- Mon, 08 Feb 2021 14:50:19 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZdGGrAtZVLla4GELYj0h5AVplpCzZFevF2hgLtzP6LY=;
+ b=aNt5stl9m3XVN8uKNC72YEO+7m4+zauucneEkZBNDrCW5r1JbokYbdXxpS8QuLQo18
+ Ll4k5r3sZzoqP+sFQYlSzFiaPIpNUvN6UwcciM2fjbXLnIkE1GqocI6afPCfqWekTHUn
+ e6lCDXXKwstgWxHEfN50cnkOdaPasGNMfTju5s10j+FFAeGYVPihDbC1FC9NsDAgTt8n
+ VH6xHUmm+Q9E9BI/YN0zpqnM73ZjzwSkdfxMNOV5V7FVA9VLLyzOiCGdUbUIXpDw1ogS
+ iYZaACd4IsEn2I6bqCC7Os90pxl6nUftFsrpt9mPRvZ7MNIgXroamrhUDQA8cHq7DGAu
+ yOCg==
+X-Gm-Message-State: AOAM532hkFGDd1LO8XeqBSMCbx4Frqulz57LThxv+Puyty91IHdT1Dqb
+ khIHGhVCqvMopcWZIYDfyOWzzl2g5ayuGw==
+X-Google-Smtp-Source: ABdhPJyK7UhKhy7XSNiiClAwV0kdBUsQrjxeQ3O7BPIgd8njRJ/ZD3WsYX8rrnhXDsydAl/FhC7aFw==
+X-Received: by 2002:a17:90b:2312:: with SMTP id
+ mt18mr1060830pjb.81.1612824936034; 
+ Mon, 08 Feb 2021 14:55:36 -0800 (PST)
+Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
+ by smtp.gmail.com with ESMTPSA id
+ me5sm303280pjb.19.2021.02.08.14.55.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 14:55:35 -0800 (PST)
+Subject: Re: [PATCH v2 63/93] tcg/tci: Use ffi for calls
+To: Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210204014509.882821-1-richard.henderson@linaro.org>
+ <20210204014509.882821-64-richard.henderson@linaro.org>
+ <9d107cb2-ee8c-2a89-e004-9996a647a060@weilnetz.de>
+ <9f552075-1783-dc8b-f338-23e12a138ffd@linaro.org>
+ <CAFEAcA9TtuWaFo3cg_Qhxkg8gRqBNBkuHkSAJ-Lbxzbp23iR+w@mail.gmail.com>
+ <69d3bc09-aeb8-6a40-157e-bf0dc19c0035@linaro.org>
+ <CAFEAcA_=DZTRNvQsqT4dki1GTyAhL0RmhPoHG+OBw=W0yct0sg@mail.gmail.com>
+ <2a61b461-c460-3b25-edd8-30e52b2eb578@redhat.com>
+ <02ea197e-7ad0-0d85-78d7-c58f4aeceddc@weilnetz.de>
+ <61a56eac-8afc-fa52-1681-21607b5294fd@linaro.org>
+ <9f4e07d9-be5c-8bf4-f54a-424a844e8e7e@weilnetz.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4ad3bbc7-20ef-974c-668e-260dfb81ee8b@linaro.org>
+Date: Mon, 8 Feb 2021 14:55:33 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <d2511f50-8b72-8a3b-9127-75b3ed98c584@msx.tu-dresden.de>
-In-Reply-To: <d2511f50-8b72-8a3b-9127-75b3ed98c584@msx.tu-dresden.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 8 Feb 2021 14:49:47 -0800
-Message-ID: <CAKmqyKOVvaVV-WHhm7dwWyO9zSomvTRA5bXJjf=4aRqqjD96rg@mail.gmail.com>
-Subject: Re: Emulating sd card with hifive_u risc-v machine
-To: Pascal Scholz <s6899329@msx.tu-dresden.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <9f4e07d9-be5c-8bf4-f54a-424a844e8e7e@weilnetz.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,84 +98,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 8, 2021 at 12:00 PM Pascal Scholz
-<s6899329@msx.tu-dresden.de> wrote:
->
-> Hi all,
->
-> I'm hoping that I addressed the right mailing lists.
+On 2/8/21 11:04 AM, Stefan Weil wrote:
+> 
+> Am 08.02.21 um 18:39 schrieb Richard Henderson:
+>> On 2/8/21 5:07 AM, Stefan Weil wrote:
+>>> Richard, this commit is also the one which breaks qemu-system-i386 on sparc64
+>>> for me:
+>> You'll have to give me more details than that, because qemu-system-i386 works
+>> for me on a niagara5 w/ debian sid.
+> 
+> 
+> I am testing on a similar Debian system (debian-ports unstable), but with a
+> Niagara3 cpu:
+> 
+> Linux gcc102.fsffrance.org 5.10.0-3-sparc64-smp #1 SMP Debian 5.10.12-1
+> (2021-01-30) sparc64 GNU/Linux
+> 
+> gcc (Debian 10.2.1-6) 10.2.1 20210110
+> 
+> $ cat /proc/cpuinfo
+> cpu        : UltraSparc T3 (Niagara3)
+> fpu        : UltraSparc T3 integrated FPU
+> pmu        : niagara3
+> prom        : OBP 4.34.6.c 2017/03/22 13:55
+> type        : sun4v
+> ncpus probed    : 256
+> ncpus active    : 256
+> D$ parity tl1    : 0
+> I$ parity tl1    : 0
+> cpucaps        :
+> flush,stbar,swap,muldiv,v9,blkinit,n2,mul32,div32,v8plus,popc,vis,vis2,ASIBlkInit,fmaf,vis3,hpc
+> 
 
-Hello Pascal,
+Ok, I've reproduced something on a T3 (gcc102.fsffrance.org).
+Running the same code side-by-side vs the T5, I get different results.
 
-Yep, this is the right place :)
+I'll see if I can track down the difference, since they're both running the
+same base os.
 
->
-> I'm working a bit with qemu's risc-v emulation. My current goal is to
-> simulate a complete boot process for the SiFive Unleashed Board (SU 540
-> SoC)[1]. I've created the correspondig OpenSBI and U-Boot images, being
-> the -bios and the -kernel images. It's possible for me to boot up to the
-> U-Boot prompt. From this prompt I now want to boot an system image
-> located on an emulated sd card.
->
-> However I now fail to get a working sd card within qemu for the device
-> sifive_u. For example i tried the following command:
->
-> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
-> build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
-> ../../u-boot/u-boot.bin -device sdhci-pci -device sd-card,drive=sdX
-> -drive id=sdX,if=none,format=raw,file=path/to/image.elf
->
-> This results in Qemu telling me: -device sdhci-pci: No 'PCI' bus found
-> for device 'sdhci-pci'.
->
-> Using the machine "virt" the command above works.
->
-> The thing i tried was:
->
-> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
-> opensbi/build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
-> ../u-boot/u-boot.bin -sd path/to/image.elf
->
-> Resulting in: machine type does not support if=sd,bus=0,unit=0
->
->
-> Even if the machine gets stuck at some point when booting, Qemu has no
-> problem starting the VM if I use "-M virt" instead of "-M sifive_u". At
-> this point i think, that the machine "sifive_u" doesn't support sd
-> cards? Is this guess right or is there anything left I can try? After
 
-Correct. There is no SD card support for the SiFive U in QEMU.
-
-You actually just reminded me though that someone has sent patches to
-add support and I need to review them.
-
-You can find the patches here:
-https://patchew.org/QEMU/20210126060007.12904-1-bmeng.cn@gmail.com/
-which should work when applied to QEMU.
-
-If you do get a chance to test the patches it would be great if you
-can let me know what works/doesn't work for you.
-
-Alistair
-
-> all I'm a bit confused, because there seems to be a block device "sd0"
-> when I try to start the machine "sifive_u" without any additional
-> device/drive arguments. I would really appreciate if someone would tell
-> me, what I'm doing wrong.
->
-> Thanks in advance and stay healthy!
->
-> Best regards
->
-> Pascal
->
->
-> [1] https://www.sifive.com/boards/hifive-unleashed
->
->
+r~
 
