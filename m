@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA9C313DEE
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:45:12 +0100 (CET)
-Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D1BC313E32
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:56:54 +0100 (CET)
+Received: from localhost ([::1]:47884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9BX5-0006tr-Ae
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:45:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53538)
+	id 1l9BiN-0004p0-9K
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:56:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l97Dg-0006zc-UY; Mon, 08 Feb 2021 09:08:55 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38020)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l97DY-00041g-35; Mon, 08 Feb 2021 09:08:48 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id y134so5021404wmd.3;
- Mon, 08 Feb 2021 06:08:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=x82Bni9D1JiqH28xkubjjjhDeBG9fnV0G57GB7wIZnA=;
- b=Gl4BhX5cNMZhuwgPLwMSL8Vh1dETQV8mkxF4hITpVN5A7sfz2nCkaLBLBYjPzJ8OMT
- 3DWs3GSQzlo3xE/QbQJ95ChxMjEci/A4qtApdLcGoaFqVqnhFywKdWJ1YLdiCBjiMca8
- gJKQQYnKSLy+WwqqevZBcRy2DvMlR3m2VdDsNZCjawTss3sf23/S+1UqoN4vqa0csFVy
- csmMwYtIecDTBu6eHzfhb8558ceKN8IcjJ0yDa32OZ54I8mlv0FaCctPcohP6lkqNDbH
- 8BT/YviCYDig3D6Py07N7LSwFa/bZjnDvW6KPXIPSJUU9Su+EHmfVWfWFVbjMSlk/ZNp
- SpkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x82Bni9D1JiqH28xkubjjjhDeBG9fnV0G57GB7wIZnA=;
- b=iLJqGVczkRJwofdypicOeqma9oKyWzCERg2zP9pCwV0biEDyff1w3kEcwD/Hyk29PI
- 03GN9LIlPxCbX0yG6FDMZiU+XI28eymHFCv4uxl2VFsKbjtWNFDnFM2rH8uXu9IYgqxM
- GsLaJARvNVLLJd/XPGNWx3UrYdYINNyKETcR2ipeQdGi8y5wd1IkG4exUY3jk56uu862
- AqVWN7nPBZN1/KXjOlQIza84JkgJr/NxkDCzrr5GlZpxiLR3+byPRfRBJzR0ChCp3Vpb
- SWpX5/tb90fAiier3+DFDkXhfDRgQEYuwzOY+V89doGjmb9/hZvV2/d4qHF3Xo6zrD4/
- 8A/g==
-X-Gm-Message-State: AOAM531q9V8bwFU7m402JNULmr7hqW+Bec10zO/9pMjYUysA6RMTAXz/
- mlNa++MsVnoJbX8NrGygDEs=
-X-Google-Smtp-Source: ABdhPJyPlJPQJRaVIsnxFI7kxg81Im4vM356DL0ppuEL8+FdGWUxJiJ9jgoQGeha+K6iR1rJJ9DvRA==
-X-Received: by 2002:a1c:6802:: with SMTP id d2mr14448077wmc.32.1612793321575; 
- Mon, 08 Feb 2021 06:08:41 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id v1sm20820831wmj.31.2021.02.08.06.08.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 06:08:40 -0800 (PST)
-Subject: Re: [PATCH v4 9/9] hw/sd: ssi-sd: Handle the rest commands with R1b
- response type
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20210128063035.15674-1-bmeng.cn@gmail.com>
- <20210128063035.15674-10-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <16fb545a-d793-6447-d52f-f504aecc988f@amsat.org>
-Date: Mon, 8 Feb 2021 15:08:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l97Fd-0007Gw-UG; Mon, 08 Feb 2021 09:10:55 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:33037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l97FG-0004Mu-Th; Mon, 08 Feb 2021 09:10:43 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 6FAE077A;
+ Mon,  8 Feb 2021 09:10:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 08 Feb 2021 09:10:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=W954tiRCw9pM1
+ PT1Dy+UJjO/MbMtxPrIqixuCSP63EU=; b=pC+af+COyROlG6wC/IVEjdC8Vlxx0
+ 6GLbX/ciDati5XGSHbsT+F5mU7gJOGjGDjAh9dgRZcaKHr8KrC5ofCtzhuGzPZiS
+ KIUtdjPJRSTp/cVzhnGZ5vRElVroo1ncalskSYrPmDZJf4va7ITB0FxuRsOkC60Q
+ e/zgZckhpkZ/HCmty4d3Nn/raHXJCIXs5zXNuqnHUKyl8CcWiTM+/DdGJ1EwMyY8
+ 5XZEC9WprpUFxWNamwCDwShWS/kOmiA8axlwdCk2MvPFTWu1V8rACU5isToKg2vm
+ unUTfBSPd2WSrpa8ay/mMxAiGFsNjj1H481HqRkaVj8w0EtiHMAuBmZUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=W954tiRCw9pM1PT1Dy+UJjO/MbMtxPrIqixuCSP63EU=; b=GkDroK0L
+ MTQ/2uQe/kpUvklDey2PKEGePmjmxhe+0iZjtBdAUOihfq5ckNm8aW1PrsCKdkrF
+ P2BfKq0V/QgO0NUCEUsvY2X2ZQ5XW4Bq9hsdc3HiGWRwBrKMwFViEsKVC9aqy69c
+ lC8uXcxna/nXTb3O7Bd1thk/qNsxSlqQkH/rUKNCx/Mqq4WbzoNd9VNksjpzE/T1
+ XnBo9ZjIrD5O/xn8nKn7hDYsU497vNaMw+GdRtSzL6tnmdRvoiRXFzavsU2jKVPz
+ BOJS0gGUU5ly/d4RKEU34ytvKYVBwBsmydCcHQhtIJx3kn8P8rnKM7UOYc+4Pe2O
+ Nzb3Tk3T4I+jOQ==
+X-ME-Sender: <xms:SkYhYJQWdvIgC45weW6hbHKXTUutoc03uQTsqSg11bIgABDa4QiW9w>
+ <xme:SkYhYCsWduWfiGs-GHeH991U76G4gwxI3ltqLek4uSGzuCLOOPblXEXlryiCGmmq1
+ wQZUcLg6ERKYNpidlA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheefgdeitdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:SkYhYLsH-yX_nRrkCl-rwomEZmeGq1qvoZ3UtXesN_7GG9JxN9xPeA>
+ <xmx:SkYhYIw548DwzzSlwt_gJUnDIeb_AC9Qa16rdbTN1gsi_HyvPX7A7w>
+ <xmx:SkYhYBhSgsoOSn3EfX2HXh4F7xAS9Rl6SfOvH7MI16fwx6xqviFr5Q>
+ <xmx:S0YhYF1GmLxqaBV-mNB10JJTnQL1x8QThlUjbP1MGad1PuhWt4NVqA>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D04B1240057;
+ Mon,  8 Feb 2021 09:10:16 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] hw/block/nvme: use locally assigned QEMU IEEE OUI
+Date: Mon,  8 Feb 2021 15:10:11 +0100
+Message-Id: <20210208141012.377500-2-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210208141012.377500-1-its@irrelevant.dk>
+References: <20210208141012.377500-1-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20210128063035.15674-10-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,53 +92,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/21 7:30 AM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> Besides CMD12, the following command's reponse type is R1b:
-> 
-> - SET_WRITE_PROT (CMD28)
-> - CLR_WRITE_PROT (CMD29)
-> - ERASE (CMD38)
-> 
-> Reuse the same s->stopping to indicate a R1b reponse is needed.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> 
-> ---
-> 
-> Changes in v4:
-> - new patch: handle the rest commands with R1b response type
-> 
->  hw/sd/ssi-sd.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-> index 907d681d19..97ee58e20c 100644
-> --- a/hw/sd/ssi-sd.c
-> +++ b/hw/sd/ssi-sd.c
-> @@ -194,6 +194,12 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
->                  /* CMD13 returns a 2-byte statuse work. Other commands
->                     only return the first byte.  */
->                  s->arglen = (s->cmd == 13) ? 2 : 1;
-> +
-> +                /* handle R1b */
-> +                if (s->cmd == 28 || s->cmd == 29 || s->cmd == 38) {
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Why not also check CMD13 for completeness?
+Commit 6eb7a071292a ("hw/block/nvme: change controller pci id") changed
+the controller to use a Red Hat assigned PCI Device and Vendor ID, but
+did not change the IEEE OUI away from the Intel IEEE OUI.
 
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fix that and use the locally assigned QEMU IEEE OUI instead.
 
-> +                    s->stopping = 1;
-> +                }
-> +
->                  cardstatus = ldl_be_p(longresp);
->                  status = 0;
->                  if (((cardstatus >> 9) & 0xf) < 4)
-> 
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index c2f0c88fbf39..547a3073ef1b 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -4686,8 +4686,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+ 
+     id->rab = 6;
+     id->ieee[0] = 0x00;
+-    id->ieee[1] = 0x02;
+-    id->ieee[2] = 0xb3;
++    id->ieee[1] = 0x54;
++    id->ieee[2] = 0x52;
+     id->mdts = n->params.mdts;
+     id->ver = cpu_to_le32(NVME_SPEC_VER);
+     id->oacs = cpu_to_le16(0);
+-- 
+2.30.0
+
 
