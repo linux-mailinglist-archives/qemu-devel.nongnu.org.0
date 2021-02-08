@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3A6314326
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:44:24 +0100 (CET)
-Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9919931431F
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:41:01 +0100 (CET)
+Received: from localhost ([::1]:40566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9FGZ-00086V-Mq
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:44:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
+	id 1l9FDI-0004Fi-Ky
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:41:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCw-0003rw-Es
+ id 1l9BCw-0003rv-Dj
  for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:22 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40455)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCs-0006Og-Ae
+ id 1l9BCs-0006Op-Ct
  for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:22 -0500
-Received: by mail-wm1-x333.google.com with SMTP id o24so43993wmh.5
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:24:17 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id v14so2807878wro.7
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:24:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zRe5TX+f+L3jUgrUwCLZinuCJxOTVhrSWj3PptppQT8=;
- b=TMcKqt0vxF11AbCa7nWxm3nsSkW+1Mck1XV/UYPwOwdC3sMWdUaiqrVu1K83ydTY9G
- 0NJy2f4AD9zYX218pxnjMwpsHho9dPWCHChnHQu1LAf2lGtj+GftT38F6uGi2jA92GKn
- VrSmQKiqdSlLYYgkwzJXUhmKmyKBTSMrlHC/X3dwJwvA8BRT0PJXSc/6UdJXTKY5Jj4I
- cWtwK/8MzzcrSCBa2gnarK0dIk8ShMW9/IcONfxRDkL0oGVuauqMgN8N891ZC4LTgOqc
- OIwGj8b18YVI2vE530TVeAuIbORfxnpeKzq3WYcFZncdKWy24rx+2sWqtp2yiLiDxbMX
- Yk3A==
+ bh=HPHe7Vt+jCNPgmVLFMhvQHjgRggFRCcm+DPxxH2tOSs=;
+ b=akffWxT0/TmOGPNPAuB/Ton5N/3lGdYCBuK3Lcys4M2ZTPsj+z4aiSZ7sOGareFIhn
+ ubb0Xb7Ou3qlAxbiDQ6BQaUYQjMwjkHLMjIjj6zjkVaRFOoHZjs5LVWtGoPLQfcAbYbi
+ xbrtWcAeg4VyOzJ+PGtK82K6wwZoA6+HyoaUd+Y1xqEz3TzymWq9nP6RvYTDBP4Sgqw6
+ U2matbRKL+pCuF1NXQdHUpgxk+FHNVBLEmW2KZkcfpBEXvvmzg4oNPFRIZsZe5t62eEl
+ EiY25PuBrPObcVD+Ovs/QiwZNPa6R7ilZIknK63ST8xAO82lT7SZ+fUHpJyFV3qkh6iM
+ 9k7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zRe5TX+f+L3jUgrUwCLZinuCJxOTVhrSWj3PptppQT8=;
- b=lt5MTk+2BR/38n+eq88Io/Mooiiezg/ktAKnay/vb3kQcelCuzBK0+JE/KUhwovLhY
- /b5NG8mjfSyZAST49sbzZVC0aDlUnsAn+PirXWGJCZwSx4wu6mJ4/BJ9JjNPCiUcvQz1
- 7kIfJK8+3n2Ngx0EKVlBQWdmEi1XDXV+mfapjWUqSX4Wj/WIqWYf4NbOXsWLshVXoe6G
- ZKcVRk9YFjYgaZbSztUBuc9iJluqs00orkTEoirR+e4lMr2fL8dj9pyOMefXD5h0m8YY
- XwKo/49g7HlRwXxZW7p16qEL+IHSve8KyfI7/xosMvgDRQZQYPCTjcQWh6wFKspgZbsZ
- jwcw==
-X-Gm-Message-State: AOAM5320i7dJmJLZ9NvT57uR1sy0XlOSvZkxf6QgsucrrRRv2MoNe1RY
- kepONEaQorTN9PwNis6ZlLLhSy72ci+WTQ==
-X-Google-Smtp-Source: ABdhPJwE9eP2oW51x0aQmeMLyArOAlkY2aJUx2OISNs5ltC6Iq5JejbzrhUvAadZ6gFLC6Qxr8rj1A==
-X-Received: by 2002:a7b:c451:: with SMTP id l17mr76341wmi.158.1612808656159;
- Mon, 08 Feb 2021 10:24:16 -0800 (PST)
+ bh=HPHe7Vt+jCNPgmVLFMhvQHjgRggFRCcm+DPxxH2tOSs=;
+ b=rYhc8mOG8hi0JiJiEOcVc8ZEdV7eReupNKj1vA9YQfijg55EOnr+2jl9Ws4XZAab5s
+ nrfncFif0g0pFANxmxA1HPpVkh6smc44sqU2A4c4DctQ4UyCbOn7gc6tIVhh4j8VAlXL
+ vbouD/cB6EAl6zCWSWlt+mBZPcAMAR2/VI3HEXX3cFFHM49RluKMudIW/kp/yaeDD766
+ e55sXsYDeka7zzbVZtB751uGS46s+HEEy3HlYJ/jSZYZYooyj3n8XTYrClhEAQqk7syN
+ PEflWh3onZA4QcIIZ1Jt5dGFtDaZlABpIajUiZ5W4+KhMmSf31uYecJLev5su/baQzqQ
+ wmcA==
+X-Gm-Message-State: AOAM5316QU1MJtQtWJ8a6hEOhMVdt3hbWW5Y3JGqNw22rSlrEolrxv+2
+ AOn4Sxw2S5Bx+aU7ModZjDG/8j95ndo1VQ==
+X-Google-Smtp-Source: ABdhPJxHPaSD9u2qt5goF6fUTxd181xom5QCnkOfDUAJYWjFQWa1bKE/gmLdCJS1vUjWCNv681rvgA==
+X-Received: by 2002:a5d:5185:: with SMTP id k5mr21726709wrv.40.1612808657163; 
+ Mon, 08 Feb 2021 10:24:17 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.24.15
+ x22sm19670wmc.25.2021.02.08.10.24.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:24:15 -0800 (PST)
+ Mon, 08 Feb 2021 10:24:16 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 45/46] target/i386: Add support for save/load IA32_PKRS MSR
-Date: Mon,  8 Feb 2021 19:23:30 +0100
-Message-Id: <20210208182331.58897-46-pbonzini@redhat.com>
+Subject: [PULL 46/46] target/i386: Expose VMX entry/exit load pkrs control bits
+Date: Mon,  8 Feb 2021 19:23:31 +0100
+Message-Id: <20210208182331.58897-47-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,73 +90,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 
-PKS introduces MSR IA32_PKRS(0x6e1) to manage the supervisor protection
-key rights. Page access and writes can be managed via the MSR update
-without TLB flushes when permissions change.
-
-Add the support to save/load IA32_PKRS MSR in guest.
+Expose the VMX exit/entry load pkrs control bits in
+VMX_TRUE_EXIT_CTLS/VMX_TRUE_ENTRY_CTLS MSRs to guest, which supports the
+PKS in nested VM.
 
 Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
-Message-Id: <20210205083325.13880-2-chenyi.qiang@intel.com>
+Message-Id: <20210205083325.13880-3-chenyi.qiang@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm/kvm.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ target/i386/cpu.c | 4 ++--
+ target/i386/cpu.h | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 4788139128..e97f841757 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -113,6 +113,7 @@ static bool has_msr_vmx_vmfunc;
- static bool has_msr_ucode_rev;
- static bool has_msr_vmx_procbased_ctls2;
- static bool has_msr_perf_capabs;
-+static bool has_msr_pkrs;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 0b0d65c21c..9c3d2d60b7 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1215,7 +1215,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "vmx-exit-save-efer", "vmx-exit-load-efer",
+                 "vmx-exit-save-preemption-timer", "vmx-exit-clear-bndcfgs",
+             NULL, "vmx-exit-clear-rtit-ctl", NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, "vmx-exit-load-pkrs", NULL, NULL,
+         },
+         .msr = {
+             .index = MSR_IA32_VMX_TRUE_EXIT_CTLS,
+@@ -1230,7 +1230,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             NULL, "vmx-entry-ia32e-mode", NULL, NULL,
+             NULL, "vmx-entry-load-perf-global-ctrl", "vmx-entry-load-pat", "vmx-entry-load-efer",
+             "vmx-entry-load-bndcfgs", NULL, "vmx-entry-load-rtit-ctl", NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, NULL, "vmx-entry-load-pkrs", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+         },
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index cc5a26f35b..8d599bb5b8 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -973,6 +973,7 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define VMX_VM_EXIT_CLEAR_BNDCFGS                   0x00800000
+ #define VMX_VM_EXIT_PT_CONCEAL_PIP                  0x01000000
+ #define VMX_VM_EXIT_CLEAR_IA32_RTIT_CTL             0x02000000
++#define VMX_VM_EXIT_LOAD_IA32_PKRS                  0x20000000
  
- static uint32_t has_architectural_pmu_version;
- static uint32_t num_architectural_pmu_gp_counters;
-@@ -2087,6 +2088,9 @@ static int kvm_get_supported_msrs(KVMState *s)
-             case MSR_IA32_VMX_PROCBASED_CTLS2:
-                 has_msr_vmx_procbased_ctls2 = true;
-                 break;
-+            case MSR_IA32_PKRS:
-+                has_msr_pkrs = true;
-+                break;
-             }
-         }
-     }
-@@ -2814,6 +2818,9 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-     if (has_msr_smi_count) {
-         kvm_msr_entry_add(cpu, MSR_SMI_COUNT, env->msr_smi_count);
-     }
-+    if (has_msr_pkrs) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_PKRS, env->pkrs);
-+    }
-     if (has_msr_bndcfgs) {
-         kvm_msr_entry_add(cpu, MSR_IA32_BNDCFGS, env->msr_bndcfgs);
-     }
-@@ -3205,6 +3212,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-     if (has_msr_feature_control) {
-         kvm_msr_entry_add(cpu, MSR_IA32_FEATURE_CONTROL, 0);
-     }
-+    if (has_msr_pkrs) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_PKRS, 0);
-+    }
-     if (has_msr_bndcfgs) {
-         kvm_msr_entry_add(cpu, MSR_IA32_BNDCFGS, 0);
-     }
-@@ -3475,6 +3485,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-         case MSR_IA32_UMWAIT_CONTROL:
-             env->umwait = msrs[i].data;
-             break;
-+        case MSR_IA32_PKRS:
-+            env->pkrs = msrs[i].data;
-+            break;
-         default:
-             if (msrs[i].index >= MSR_MC0_CTL &&
-                 msrs[i].index < MSR_MC0_CTL + (env->mcg_cap & 0xff) * 4) {
+ #define VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS            0x00000004
+ #define VMX_VM_ENTRY_IA32E_MODE                     0x00000200
+@@ -984,6 +985,7 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define VMX_VM_ENTRY_LOAD_BNDCFGS                   0x00010000
+ #define VMX_VM_ENTRY_PT_CONCEAL_PIP                 0x00020000
+ #define VMX_VM_ENTRY_LOAD_IA32_RTIT_CTL             0x00040000
++#define VMX_VM_ENTRY_LOAD_IA32_PKRS                 0x00400000
+ 
+ /* Supported Hyper-V Enlightenments */
+ #define HYPERV_FEAT_RELAXED             0
 -- 
 2.29.2
-
 
 
