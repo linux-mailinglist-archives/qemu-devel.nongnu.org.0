@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B48312933
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 04:11:17 +0100 (CET)
-Received: from localhost ([::1]:49068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6015331293A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 04:15:28 +0100 (CET)
+Received: from localhost ([::1]:60422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8wxI-0002Km-5D
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 22:11:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
+	id 1l8x1L-00075i-Dd
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 22:15:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8wSN-0002K2-40
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:39:19 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:34079)
+ id 1l8wSO-0002M8-0B
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:39:20 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:40507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l8wSL-00066E-6L
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:39:18 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id my11so8641020pjb.1
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:39:16 -0800 (PST)
+ id 1l8wSM-00066X-CJ
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 21:39:19 -0500
+Received: by mail-pf1-x430.google.com with SMTP id u143so2537821pfc.7
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 18:39:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r51gde6XQroUTuOp18Wacrk/m6aRKZagEOpI8SD7K0E=;
- b=dL9Sz56GmvCh0ykbabuFLxwWpg3bjxPMOavmmuyS362ydKtriIKUgxFZ4pfgs81/KW
- KGS0a+98/SIRfEAo8AP0p3SSskKwe8QK7SNO26ESUaoM0STcrilgM+9dvvSQ9G96LtK/
- 2oc9M1KKAaIdP0JzEtrifNKtGfiZlYy5IWm92bp3t2QHkpe+jHrKQBPNPxrcFWt6ouzm
- DgOvWiIAd5f9TIt4eMVYPiSGtv4WgEgMhGFVTjenfNOMmZ+mHudXbjb33uwlxXLsJ12s
- dh6+YWyV1LIkmBJgAYEZ4kVUB8a510bIPRuGFUE5OYp7UKxyqZ4sCl+2L0VQdIMgbgnR
- KH1w==
+ bh=EsUj7sq9+NLQtwJZ+3yHUWsYmpE8j3VuEo3uruSYCgE=;
+ b=I3RV6yxDpiEVIMpvKFvk2sYBjgHDvIWhj2ujjU57XlxVfOcqzedb7zos3gtfXB4gU0
+ moYbWN22Fov2ee5dvKyzvv/Zgt+bVzCXhcINuyTUD9UHjTa5IzmTeKCy2t2i4+ML1sDl
+ 9l38JFaOs4CR55chaTqF5L8Y+NfCuBaKKpD4x5cz+y8JZqPqVDLxHurPJc8ED08sQ7eq
+ 3GBHG2GhckiAgQAXCNMR6d+rF0ovXHTDoj+v9FJNayC+xVUQEW+sVnXcrZ6XqBCzMRZB
+ Rs0itDtNth72GkT2XwBEA1lsfO6eWTslrjnt0guOR9lnQku0kF+tuGFM4sBXqrzpG4+j
+ cLsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r51gde6XQroUTuOp18Wacrk/m6aRKZagEOpI8SD7K0E=;
- b=eIhiqkeH5Ckjg3jmf2BDaX9j6G6Qa0hEol0i0xPDMxllVZYOkHLiIbL/zoB3gxhZtf
- hqBsYkg/RfxJOZVt9Jrra+toPhAfhZtnHq7DYS8qjJs3FuGE48HXeVGnLOmyerY0I0Sk
- CPCKzko+4UsOJz+0V66oYrJsC+OHSJ3xG7UFmc7f8mv2bkweDfZ5q6T4z52f2vVcemP7
- YDmcYmtFCLrNDh/0B0r0le5WIBYR3RKN6ayQczJvAaEqSst9UzBUr79vb1pmlpMVlq7l
- 5GTR6SQjR10GwoQuXbioZrZXQA6dUvdaxaWWRYm8I3nXG6fmoW7Ktpd6hAiNVfqfCtR7
- NfxQ==
-X-Gm-Message-State: AOAM532VHS47XR09OHmpGK1XZsPX0RVKqRn9YxMgm6YFUy03d+0eiRrK
- Th5qheJX5rynSOh9gc06UhQMFs9djsUtNg==
-X-Google-Smtp-Source: ABdhPJwZG0K0yuqueI5Bl74O5ZRzY8BRfLKx95J1vx4FoeIcV4P9P2bXhvr0xj81dh2WlLspglPPYw==
-X-Received: by 2002:a17:902:be0d:b029:e1:4ab:8fd2 with SMTP id
- r13-20020a170902be0db02900e104ab8fd2mr14672967pls.6.1612751955897; 
- Sun, 07 Feb 2021 18:39:15 -0800 (PST)
+ bh=EsUj7sq9+NLQtwJZ+3yHUWsYmpE8j3VuEo3uruSYCgE=;
+ b=FPk89TcArZGVHGyh/9Dm6X1vB/d5z5sX26+dCp7m9m2d2G/dH8fK64LiJ543+SK8xI
+ 2sMuMp0hEru1AQw5NBD8Pqkfm3+N7j0BNm+bi3ztCC7jqm7/1MtS8PkzJD4Yok10U5Jq
+ PYUjf5TVCJK/iXpRox0SEFTb6pUz1LAWb2DPkB5zh5eKWut1lKRTUbYYOhbFm1ficrok
+ Ma4zyOqT1BZVIarikFojuZMBxZIMn8SuqO4/lG3KlYYS7tAkdZ3sDIuJSK95DQDq/r6M
+ 8ndRYOLhh8dZgamHYW4ZOIRxgjZxmslwah7Z3MaR7ELy7lbN2rhTAzin0qTlKrPxyxWg
+ OfQg==
+X-Gm-Message-State: AOAM533rXsokADi1k7+Q+m7lAD/2LKBl+LQI2BnzpTR6/pAyvW/dEHkT
+ o2RbmAo7oPB/rmk0DHcBvMD8znDQ3yAu0A==
+X-Google-Smtp-Source: ABdhPJxL5WVE9Y/x2q83hYKWzRNu0hXsUzDp2IVz5tKvE28OrF/TACbRBNu0wp0AVrkxKYd/6IZBSw==
+X-Received: by 2002:aa7:93ac:0:b029:1dd:9d:2587 with SMTP id
+ x12-20020aa793ac0000b02901dd009d2587mr3578196pff.48.1612751957092; 
+ Sun, 07 Feb 2021 18:39:17 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id 74sm650954pfw.53.2021.02.07.18.39.14
+ by smtp.gmail.com with ESMTPSA id 74sm650954pfw.53.2021.02.07.18.39.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 18:39:15 -0800 (PST)
+ Sun, 07 Feb 2021 18:39:16 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 42/70] tcg/tci: Split out tcg_out_op_rrs
-Date: Sun,  7 Feb 2021 18:37:24 -0800
-Message-Id: <20210208023752.270606-43-richard.henderson@linaro.org>
+Subject: [PATCH v3 43/70] tcg/tci: Split out tcg_out_op_l
+Date: Sun,  7 Feb 2021 18:37:25 -0800
+Message-Id: <20210208023752.270606-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210208023752.270606-1-richard.henderson@linaro.org>
 References: <20210208023752.270606-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,128 +90,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci/tcg-target.c.inc | 84 +++++++++++++++++++---------------------
- 1 file changed, 39 insertions(+), 45 deletions(-)
+ tcg/tci/tcg-target.c.inc | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 050d514853..707f801099 100644
+index 707f801099..1e3f2c4049 100644
 --- a/tcg/tci/tcg-target.c.inc
 +++ b/tcg/tci/tcg-target.c.inc
-@@ -283,32 +283,38 @@ static void stack_bounds_check(TCGReg base, target_long offset)
+@@ -283,6 +283,16 @@ static void stack_bounds_check(TCGReg base, target_long offset)
      }
  }
  
--static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
--                       intptr_t arg2)
-+static void tcg_out_op_rrs(TCGContext *s, TCGOpcode op,
-+                           TCGReg r0, TCGReg r1, intptr_t i2)
- {
-     uint8_t *old_code_ptr = s->code_ptr;
- 
--    stack_bounds_check(arg1, arg2);
--    if (type == TCG_TYPE_I32) {
--        tcg_out_op_t(s, INDEX_op_ld_i32);
--        tcg_out_r(s, ret);
--        tcg_out_r(s, arg1);
--        tcg_out32(s, arg2);
--    } else {
--        tcg_debug_assert(type == TCG_TYPE_I64);
--#if TCG_TARGET_REG_BITS == 64
--        tcg_out_op_t(s, INDEX_op_ld_i64);
--        tcg_out_r(s, ret);
--        tcg_out_r(s, arg1);
--        tcg_debug_assert(arg2 == (int32_t)arg2);
--        tcg_out32(s, arg2);
--#else
--        TODO();
--#endif
--    }
-+    tcg_out_op_t(s, op);
-+    tcg_out_r(s, r0);
-+    tcg_out_r(s, r1);
-+    tcg_debug_assert(i2 == (int32_t)i2);
-+    tcg_out32(s, i2);
-+
-     old_code_ptr[1] = s->code_ptr - old_code_ptr;
- }
- 
-+static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg val, TCGReg base,
-+                       intptr_t offset)
++static void tcg_out_op_l(TCGContext *s, TCGOpcode op, TCGLabel *l0)
 +{
-+    stack_bounds_check(base, offset);
-+    switch (type) {
-+    case TCG_TYPE_I32:
-+        tcg_out_op_rrs(s, INDEX_op_ld_i32, val, base, offset);
-+        break;
-+#if TCG_TARGET_REG_BITS == 64
-+    case TCG_TYPE_I64:
-+        tcg_out_op_rrs(s, INDEX_op_ld_i64, val, base, offset);
-+        break;
-+#endif
-+    default:
-+        g_assert_not_reached();
-+    }
++    uint8_t *old_code_ptr = s->code_ptr;
++
++    tcg_out_op_t(s, op);
++    tci_out_label(s, l0);
++
++    old_code_ptr[1] = s->code_ptr - old_code_ptr;
 +}
 +
- static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
+ static void tcg_out_op_rrs(TCGContext *s, TCGOpcode op,
+                            TCGReg r0, TCGReg r1, intptr_t i2)
  {
-     uint8_t *old_code_ptr = s->code_ptr;
-@@ -444,12 +450,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-     CASE_64(st32)
-     CASE_64(st)
-         stack_bounds_check(args[1], args[2]);
--        tcg_out_op_t(s, opc);
--        tcg_out_r(s, args[0]);
--        tcg_out_r(s, args[1]);
--        tcg_debug_assert(args[2] == (int32_t)args[2]);
--        tcg_out32(s, args[2]);
--        old_code_ptr[1] = s->code_ptr - old_code_ptr;
-+        tcg_out_op_rrs(s, opc, args[0], args[1], args[2]);
+@@ -408,9 +418,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
          break;
  
-     CASE_32_64(add)
-@@ -597,29 +598,22 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-     }
- }
+     case INDEX_op_br:
+-        tcg_out_op_t(s, opc);
+-        tci_out_label(s, arg_label(args[0]));
+-        old_code_ptr[1] = s->code_ptr - old_code_ptr;
++        tcg_out_op_l(s, opc, arg_label(args[0]));
+         break;
  
--static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg, TCGReg arg1,
--                       intptr_t arg2)
-+static void tcg_out_st(TCGContext *s, TCGType type, TCGReg val, TCGReg base,
-+                       intptr_t offset)
- {
--    uint8_t *old_code_ptr = s->code_ptr;
--
--    stack_bounds_check(arg1, arg2);
--    if (type == TCG_TYPE_I32) {
--        tcg_out_op_t(s, INDEX_op_st_i32);
--        tcg_out_r(s, arg);
--        tcg_out_r(s, arg1);
--        tcg_out32(s, arg2);
--    } else {
--        tcg_debug_assert(type == TCG_TYPE_I64);
-+    stack_bounds_check(base, offset);
-+    switch (type) {
-+    case TCG_TYPE_I32:
-+        tcg_out_op_rrs(s, INDEX_op_st_i32, val, base, offset);
-+        break;
- #if TCG_TARGET_REG_BITS == 64
--        tcg_out_op_t(s, INDEX_op_st_i64);
--        tcg_out_r(s, arg);
--        tcg_out_r(s, arg1);
--        tcg_out32(s, arg2);
--#else
--        TODO();
-+    case TCG_TYPE_I64:
-+        tcg_out_op_rrs(s, INDEX_op_st_i64, val, base, offset);
-+        break;
- #endif
-+    default:
-+        g_assert_not_reached();
-     }
--    old_code_ptr[1] = s->code_ptr - old_code_ptr;
- }
- 
- static inline bool tcg_out_sti(TCGContext *s, TCGType type, TCGArg val,
+     CASE_32_64(setcond)
 -- 
 2.25.1
 
