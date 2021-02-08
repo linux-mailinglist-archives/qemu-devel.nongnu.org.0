@@ -2,83 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89FE314455
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:54:34 +0100 (CET)
-Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2518F31444F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:53:03 +0100 (CET)
+Received: from localhost ([::1]:32926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9GMT-0004tJ-W3
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:54:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39210)
+	id 1l9GKz-0003o9-QD
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:53:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9EAL-00010W-HT
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:33:55 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9EAJ-00021e-5y
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:33:53 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id g6so5954583wrs.11
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 13:33:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=aD9xfsq10PxtBx/j0KaHMDd4rUf7FkiAgK3pGOSDjXs=;
- b=Vm669/ED+6DOfUpWTPEi3qycx+rSU7Q1lEjwGsuIEQxEjmJ6oWFC5Og1LtgOsmqrXa
- yalduZrXY0ptAgAev2OLtqKWNzlu/kzvHwQM7x0jChTwSHK21i3/WxbsAkH8GyrXS3CC
- kVkip3+Bpb4eX62iQGeZsANjgHcn22JurHKke3bSuEGpgswXx6SsorKgOUHboInT9zzn
- aw6KmKrQ4o5n1galmEI/q+D+OBFi22aTEEkZ89NSfFHPWUOap2KcMI454NxnkX61a5Ir
- au4OfnIx6NQkBjvabJOAkH+GAHAsVJ60/IeeoSyNwFpfajxRubKf67GDtvgfm9Axz7On
- CASg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=aD9xfsq10PxtBx/j0KaHMDd4rUf7FkiAgK3pGOSDjXs=;
- b=Yz6cUM/rrjAXG0i3QmqUmaKfHzrU8lYq5ND4p+8d6Z2GJn0Wfm/GQ3ranrD9uW4GLE
- SCrTJeDfCTSLw9zxZXxESvDAWflKJEHzuQ0NXAf1kqXg46d3sEfkUsHuSdUakSMWBDr9
- g3dlkS6OxMoxC58joAJwcr6NxbOVf+M/bwSFhbqCWUWBpeqCPFfX7KwBPUvQFp5i4xoV
- PaCLQEHZ/wxXa05QfFF0uhFE5LTRaJi/nzGfGP+5W8BUJfdJ6b27FC7bsH5SBum7AwEZ
- 7YcgMsA6t3N7Of/hl+hTeLky9HHIySysbHRg2XK/csPRycbDNEgI8FAfCLaqPxcicTnV
- csHQ==
-X-Gm-Message-State: AOAM532Rqle2v9qGVxz5xQkDFOcjWu9AwlMIFQvTbvsMd+D6QldgbISE
- rGSYkbu6uorJnrZOVcJEf6twuw==
-X-Google-Smtp-Source: ABdhPJz7shjYwraP5TO0HiYv9bPodayQ0iPjpP4LcjPQlVS8YntwVbfv1FU8ZSoyl+WXiAzwVzcpbg==
-X-Received: by 2002:adf:e642:: with SMTP id b2mr22048278wrn.221.1612820029386; 
- Mon, 08 Feb 2021 13:33:49 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n193sm816420wmb.0.2021.02.08.13.33.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 13:33:48 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6DC911FF7E;
- Mon,  8 Feb 2021 21:33:47 +0000 (GMT)
-References: <20210205164459.432714-1-stefanha@redhat.com>
- <CAFEAcA-dQtOaXB-eHEbiF0Z7jF-wSHt0LwW8Bk+BU2B66+=Cyw@mail.gmail.com>
- <CAFEAcA8sOgF9Czy+GUBti7W-C9ZtW9PB+1YxG7mqAXKr5mV18g@mail.gmail.com>
- <20210208092723.GA18298@stefanha-x1.localdomain>
- <f14383aa-8213-83af-1411-de965180ea8b@redhat.com>
- <E45E85B2-F585-415F-B2FF-35A9C34855E8@oracle.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PULL v3 00/27] Block patches
-Date: Mon, 08 Feb 2021 21:29:11 +0000
-In-reply-to: <E45E85B2-F585-415F-B2FF-35A9C34855E8@oracle.com>
-Message-ID: <87v9b29rd0.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1l9EYp-0006db-AL
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:11 -0500
+Received: from mga01.intel.com ([192.55.52.88]:31136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1l9EYm-0005DE-Pt
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 16:59:10 -0500
+IronPort-SDR: kRFNWwBPExUM5o8gRqwf9B/OR2eEJHOROFvOLRW6MvEPBy9mZ2XKFmhrILFZrBmkgGSbF8cb7B
+ 54iOSvi6hv1Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="200852825"
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="200852825"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2021 13:59:04 -0800
+IronPort-SDR: QOE4QLUkqZ4BTE3v2dh0ZG/Jz1oNjLnj2u8LRV6dnqy6swRnVGktGAu6Dqc/MZGPFUt448zbL2
+ k7M8+cGwP11A==
+X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; d="scan'208";a="374688713"
+Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2021 13:59:04 -0800
+From: isaku.yamahata@gmail.com
+To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
+ marcel.apfelbaum@gmail.com, philmd@redhat.com
+Subject: [PATCH v2 0/9] ACPI related fixes
+Date: Mon,  8 Feb 2021 13:57:19 -0800
+Message-Id: <cover.1612821108.git.isaku.yamahata@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.88;
+ envelope-from=isaku.yamahata@intel.com; helo=mga01.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NML_ADSP_CUSTOM_MED=0.9,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,75 +64,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, John
- Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang?= =?utf-8?Q?=C3=A9?= <berrange@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Isaku Yamahata <isaku.yamahata@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Jag Raman <jag.raman@oracle.com> writes:
+Miscellaneous bug fixes related to ACPI to play nice with guest BIOSes/OSes
+by conforming to ACPI spec better.
 
->> On Feb 8, 2021, at 5:02 AM, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->>=20
->> On 2/8/21 10:27 AM, Stefan Hajnoczi wrote:
->>> On Sat, Feb 06, 2021 at 05:03:20PM +0000, Peter Maydell wrote:
->>>> On Fri, 5 Feb 2021 at 22:53, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->>>>>=20
->>>>> On Fri, 5 Feb 2021 at 16:45, Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-<snip>
->>>=20
->>> Hi Elena and Jag,
->>> Please take a look at this QOM failure. I guess remote-pcihost is being
->>> built but pcie-host-bridge is missing from the s390x-softmmu target.
->
-> Hi All,
->
-> Thank you for letting us know about this build issue! We are working on r=
-esolving it.
->
-> We would like to ensure that the next version we send doesn=E2=80=99t cau=
-se too many
-> problems like this. Should the Travis/GitLab CI have caught this problem?
->
-> We ran the following tests before sending the patches out for review:
-> - =E2=80=9Cmake docker=E2=80=9D
+Changes from v1:
+- fixed style issue with fixes to checkpatch.pl
+- fixed make check breakage
+- added ACPI table tests
+- update comment message to include acpi table diff
 
-On it's own it won't do much. You could go with:
+Isaku Yamahata (8):
+  checkpatch: don't emit warning on newly created acpi data files
+  qtest: update tests/qtest/bios-tables-test-allowed-diff.h
+  acpi/core: always set SCI_EN when SMM isn't supported
+  acpi: set fadt.smi_cmd to zero when SMM is not supported
+  acpi: add test case for smm unsupported -machine smm=off
+  hw/i386: declare ACPI mother board resource for MMCONFIG region
+  acpi: add test case for -no-hpet
+  qtest/acpi/bios-tables-test: update acpi tables
 
-  make docker-test-build@debian-s390-cross
+Sean Christopherson (1):
+  i386: acpi: Don't build HPET ACPI entry if HPET is disabled
 
-You can't run make check for most cross builds but you can at least run
-the builds themselves:
+ hw/acpi/core.c                    |  11 +-
+ hw/acpi/ich9.c                    |   2 +-
+ hw/acpi/piix4.c                   |   3 +-
+ hw/i386/acpi-build.c              | 192 +++++++++++++++++++++++++++++-
+ hw/isa/vt82c686.c                 |   2 +-
+ include/hw/acpi/acpi.h            |   4 +-
+ scripts/checkpatch.pl             |   4 +-
+ tests/data/acpi/q35/DSDT          | Bin 7801 -> 8083 bytes
+ tests/data/acpi/q35/DSDT.acpihmat | Bin 9126 -> 9408 bytes
+ tests/data/acpi/q35/DSDT.bridge   | Bin 7819 -> 8101 bytes
+ tests/data/acpi/q35/DSDT.cphp     | Bin 8265 -> 8547 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9455 -> 9737 bytes
+ tests/data/acpi/q35/DSDT.ipmibt   | Bin 7876 -> 8158 bytes
+ tests/data/acpi/q35/DSDT.memhp    | Bin 9160 -> 9442 bytes
+ tests/data/acpi/q35/DSDT.mmio64   | Bin 8932 -> 9214 bytes
+ tests/data/acpi/q35/DSDT.nohpet   | Bin 0 -> 7941 bytes
+ tests/data/acpi/q35/DSDT.nosmm    | Bin 0 -> 8083 bytes
+ tests/data/acpi/q35/DSDT.numamem  | Bin 7807 -> 8089 bytes
+ tests/data/acpi/q35/DSDT.tis      | Bin 8407 -> 8689 bytes
+ tests/data/acpi/q35/FACP.nosmm    | Bin 0 -> 244 bytes
+ tests/qtest/bios-tables-test.c    |  24 ++++
+ 21 files changed, 231 insertions(+), 11 deletions(-)
+ create mode 100644 tests/data/acpi/q35/DSDT.nohpet
+ create mode 100644 tests/data/acpi/q35/DSDT.nosmm
+ create mode 100644 tests/data/acpi/q35/FACP.nosmm
 
-  make docker-test-build
+-- 
+2.17.1
 
-should run the test build on all capable images. docker-all-tests should
-be all possible tests.
-
-> - Travis CI (will use GitLab going forward)
-> - Tests in the =E2=80=9Ctests/acceptance=E2=80=9D folder.
->
-> Is there any other tests we could run before sending the next
-> revision?
-
-Manually running: make check-block=20
-
->
-> Thank you very much!
-
-
---=20
-Alex Benn=C3=A9e
 
