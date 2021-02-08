@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF19313E98
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:14:08 +0100 (CET)
-Received: from localhost ([::1]:45812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53924313E74
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:06:29 +0100 (CET)
+Received: from localhost ([::1]:37320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Bz5-0000jz-FR
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:14:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33372)
+	id 1l9Brg-0005CQ-Cy
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:06:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l95pE-0003fx-EY
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:39:39 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42565)
+ id 1l95p2-0003eO-KO
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:39:28 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l95oi-0007kk-9g
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:39:22 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id r21so669687wrr.9
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 04:38:44 -0800 (PST)
+ id 1l95oa-0007kv-E1
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:39:09 -0500
+Received: by mail-wr1-x435.google.com with SMTP id h12so633107wrw.6
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 04:38:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NRda7hohv+ORS/AyN1sYb9iTKw761l7PAGPzaaV6iHY=;
- b=yMc8TcunZRgGeRtGNmhWgxR56Jp0jPpdaqo8kGLH1Zf/pId7wXkAQqfmMaKcDsKEAJ
- v4LOeoXqCGwZyyAUPkrjCAJwwYXM5PvYTZzCqCBXwwZ4Wxms1/UzlAO2Nfo8vB5vv7AW
- tAJLFkUpTKQMquR0m4j020eRejweGzqALAGVoOvMlfyoz7b7JDuL3oWSOswY3fwVXTTu
- D5QPbQbrifAjoUvZ0HJdt9TPZCmHUuVEJjsWQFOL7XbUVtCj47JPYfpJ16mhza6fJv7i
- pN+rZs83IjM9KJANvw6NZYZZCBWxnclDRUv0Nni777lcvafPmW+DKZ9mINF6uQ2D/kQb
- /nDA==
+ bh=fITS/ZIRcyY4uQvc1wHO8nnou5g7xUQ3JpD0PLMi4/A=;
+ b=MHpV/F1e3taQvaVt2aNvhdTx5HWpgcuR3C8AF/6Mlq7sq5DnOX+2bggoMTLvpDHB0N
+ SjiY5PF2doV1Z/ojPhp0VcT5LiTX3mycVzh0pXsVEJngJZ6QeZx7+ZALUYbAofMTM5w9
+ 3btaEzqte6LNAf5rNgWEFmN/naA0df+Halm5PngEb8fJ6KiOs8e0nmNdyFkwNyWJ6s+P
+ ig2cq6/VlCx5SEA/BXnnsAnrRvC4j0reulGDO4TupbNwu3g7IlMNghgnqHwby7kdXN6e
+ uPZ6td9o090GDqYKUL0JJQf0v5W3N/80b/dKZec6V+vVwQMh+RfRC42yzHMnAq7Cr/wQ
+ egqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NRda7hohv+ORS/AyN1sYb9iTKw761l7PAGPzaaV6iHY=;
- b=FD5zX5JZKn8/k2mz5UIIk7UxECqI5gu1CBa5aNFWJrl/jetcOQJcB0J/9YryfoseCw
- lDeLhRuQO2sTLBkMzeZMekj+J3DklcloDk9sYDc3eD1f+omoS3GUDWvRj2B3vcdWQlsF
- r4Cw0dxtOywoPzAPzEEK3EayqPo+H6qn8DRRB5LXlb2F9fHZX7XItSioyfDenQ5cedpT
- ZAbFDAkLuBJ85FYgKYR5mQ8+tigSRGd/fjOipgBRZ/2VYZoDJ/0QZqAYozOAvfBlSLNp
- NXc6udMq59WmDqRjSYdaTQ4LP9WAJ/+tjQL6MLFWGi8U3EoP3td01/Sq+43gyVpZDAWy
- N9lQ==
-X-Gm-Message-State: AOAM533qMjtql+PSl8UFyuAW7ubH0n3/Zl6q1Lx7z8JlpDHzJY8dMq/m
- vVc/MlitQoRirjMoP/YcKzJjLQ==
-X-Google-Smtp-Source: ABdhPJyA2vmeGabSOdoyZTAUOJyW2ebbOKnGb9hGy3lryUiQRsAZcajA6ynoVr2TjNs9SOfeb/cQBQ==
-X-Received: by 2002:a5d:4383:: with SMTP id i3mr19822242wrq.293.1612787923465; 
- Mon, 08 Feb 2021 04:38:43 -0800 (PST)
+ bh=fITS/ZIRcyY4uQvc1wHO8nnou5g7xUQ3JpD0PLMi4/A=;
+ b=J1nJ88sJCc5ESDkoRL8DVm7a3whdxko8rlMrcX+s7wFnrm1OTC6Vy7re/F5ntf7yTj
+ QzryEo+kiJk2YFZ47Cm7Gx7071TfDhF4gzhb5YTWNPloVlmoUG1+hJ0AWTeC9vdA1t+T
+ veRs3MRBqdnrIs7GDleG55cRqP31uzfJzqlqccvGF0lwSFQIHn2jEjKxrWeG1OwbMynt
+ WcA87BoOPSCjFw+B0evuqyESe4eejCHurvX/oxwlMWxpeS3xNtOcZRHtgpbKSbo5JJv6
+ Gsz3S8aayHcnnBxBsvg2IaHO7+XJGGM0J4F89KZdUgUqjnRNi+Bnd+5TwZUcxAgxovE9
+ xfkA==
+X-Gm-Message-State: AOAM531X8Siu0yfFnLycx/qjnngHehtU1Zo2PJN7q9/yicTzomA7Ng4u
+ ZVxqy7t02XmnnExwD/RWWe4Olb26NbhEyyHv
+X-Google-Smtp-Source: ABdhPJxA0CbMS8ALe0z3hOlQ4rAtJOvSWXGV4ZBriCrfrldj2+O57MoLQckP2J7yVQ0DGXH9YIIvww==
+X-Received: by 2002:a5d:518d:: with SMTP id k13mr11961029wrv.158.1612787925302; 
+ Mon, 08 Feb 2021 04:38:45 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k15sm20168078wmj.6.2021.02.08.04.38.28
+ by smtp.gmail.com with ESMTPSA id r1sm28306828wrl.95.2021.02.08.04.38.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 08 Feb 2021 04:38:33 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BB9F31FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id D33571FF9B;
  Mon,  8 Feb 2021 12:38:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 11/16] gdbstub: Fix handle_query_xfer_auxv
-Date: Mon,  8 Feb 2021 12:38:16 +0000
-Message-Id: <20210208123821.19818-12-alex.bennee@linaro.org>
+Subject: [PULL 12/16] tests/tcg: Replace /bin/true by true (required on macOS)
+Date: Mon,  8 Feb 2021 12:38:17 +0000
+Message-Id: <20210208123821.19818-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210208123821.19818-1-alex.bennee@linaro.org>
 References: <20210208123821.19818-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,72 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Stefan Weil <sw@weilnetz.de>
 
-The main problem was that we were treating a guest address
-as a host address with a mere cast.
+/bin/true is missing on macOS, but simply "true" is available as a shell builtin.
 
-Use the correct interface for accessing guest memory.  Do not
-allow offset == auxv_len, which would result in an empty packet.
-
-Fixes: 51c623b0de1 ("gdbstub: add support to Xfer:auxv:read: packet")
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210128201831.534033-1-richard.henderson@linaro.org>
-Message-Id: <20210202134001.25738-11-alex.bennee@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210128135627.2067003-1-sw@weilnetz.de>
+Message-Id: <20210202134001.25738-12-alex.bennee@linaro.org>
 
-diff --git a/gdbstub.c b/gdbstub.c
-index c7ca7e9f88..759bb00bcf 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -2245,7 +2245,6 @@ static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_ctx)
- {
-     TaskState *ts;
-     unsigned long offset, len, saved_auxv, auxv_len;
--    const char *mem;
+diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
+index c096c611a2..a56564660c 100644
+--- a/tests/tcg/Makefile.qemu
++++ b/tests/tcg/Makefile.qemu
+@@ -90,11 +90,11 @@ run-guest-tests: guest-tests
  
-     if (gdb_ctx->num_params < 2) {
-         put_packet("E22");
-@@ -2257,8 +2256,8 @@ static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_ctx)
-     ts = gdbserver_state.c_cpu->opaque;
-     saved_auxv = ts->info->saved_auxv;
-     auxv_len = ts->info->auxv_len;
--    mem = (const char *)(saved_auxv + offset);
--    if (offset > auxv_len) {
-+
-+    if (offset >= auxv_len) {
-         put_packet("E00");
-         return;
-     }
-@@ -2269,12 +2268,20 @@ static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_ctx)
+ else
+ guest-tests:
+-	$(call quiet-command, /bin/true, "BUILD", \
++	$(call quiet-command, true, "BUILD", \
+ 		"$(TARGET) guest-tests SKIPPED")
  
-     if (len < auxv_len - offset) {
-         g_string_assign(gdbserver_state.str_buf, "m");
--        memtox(gdbserver_state.str_buf, mem, len);
-     } else {
-         g_string_assign(gdbserver_state.str_buf, "l");
--        memtox(gdbserver_state.str_buf, mem, auxv_len - offset);
-+        len = auxv_len - offset;
-+    }
-+
-+    g_byte_array_set_size(gdbserver_state.mem_buf, len);
-+    if (target_memory_rw_debug(gdbserver_state.g_cpu, saved_auxv + offset,
-+                               gdbserver_state.mem_buf->data, len, false)) {
-+        put_packet("E14");
-+        return;
-     }
+ run-guest-tests:
+-	$(call quiet-command, /bin/true, "RUN", \
++	$(call quiet-command, true, "RUN", \
+ 		"tests for $(TARGET) SKIPPED")
+ endif
  
-+    memtox(gdbserver_state.str_buf,
-+           (const char *)gdbserver_state.mem_buf->data, len);
-     put_packet_binary(gdbserver_state.str_buf->str,
-                       gdbserver_state.str_buf->len, true);
- }
 -- 
 2.20.1
 
