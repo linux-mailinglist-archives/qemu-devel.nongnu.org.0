@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B47C313662
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:10:41 +0100 (CET)
-Received: from localhost ([::1]:48778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6269C31379E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:29:25 +0100 (CET)
+Received: from localhost ([::1]:32850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l98BS-0002FL-2I
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:10:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52820)
+	id 1l98TZ-0008Kx-9Y
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:29:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l93IO-0002ZC-CE
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:57:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l93I6-0003wU-TK
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:57:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612778227;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=nEzxkeQyeZVEE1J5rR969PtYCGsCfILrthKiUHLGMsA=;
- b=Ds2vVHD/O0/1pvKUCYG00zt9EIpYb3HFWm2AJocnF0cHMUB6OjlCPxdJbQgKIVgqGCtHrx
- T0hmPI776oU6iJ70sM2tC6AQW9YMdn5sTn54UvvDd+RI1drnYvXEEK7TTOApumfzqdWahQ
- 85OL/BO4itpGta8UhC5BliKjiHTNPBg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-OOb9MrV4OWqDp4NRRe0yKQ-1; Mon, 08 Feb 2021 04:57:05 -0500
-X-MC-Unique: OOb9MrV4OWqDp4NRRe0yKQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 555071005501;
- Mon,  8 Feb 2021 09:57:04 +0000 (UTC)
-Received: from redhat.com (ovpn-115-97.ams2.redhat.com [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 39D5F5D9DC;
- Mon,  8 Feb 2021 09:56:57 +0000 (UTC)
-Date: Mon, 8 Feb 2021 09:56:54 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Andrew Melnychenko <andrew@daynix.com>
-Subject: Re: [RFC PATCH v4 5/7] virtio-net: Added eBPF RSS to virtio-net.
-Message-ID: <20210208095654.GC1141037@redhat.com>
-References: <20210204170951.91805-1-andrew@daynix.com>
- <20210204170951.91805-6-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l93Lq-0002rU-9i
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 05:01:12 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l93LP-0004P2-6h
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 05:00:53 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id jj19so23635638ejc.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 02:00:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CTfLLalfLGT1L809WxY3rB0l35OmZLNoIkqzZXMwvdc=;
+ b=WRjPmWvImZYJPctaNtG9sU0huupgpSVtIBtotMiex403r1h5/pMprofHljOZNlBc2P
+ SA/mOjA0iiwDn2l5IeTLB924wcvDsiEq3y0IM0acNjiy4XBfl6z8K2y8IQbxPoc61eOF
+ WGF7gwieD7Op611yMQPPgaLFYgDmj8y4W0+oPCXsBy9o8qbx+SUMHqqshP0cSeMA6CQO
+ dNGo5tFd4AhXZo6wgzx0CHuVF7b6He37TX0kZxA5QGgVkXUmGOIEG9gJJXeVzduwOUa8
+ 1Xetl3duzz5TIFsKldlg3JstMPRY8D+p43Mxs8rIV1aXkhSDUVnzxDbm4e0SwFO9LjBS
+ rTsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CTfLLalfLGT1L809WxY3rB0l35OmZLNoIkqzZXMwvdc=;
+ b=riFQWYTT5PJX4ep5Ps0s/f40Jkk1gAkXTsPlWnVvaOlJkH7N9qknngoADPR40e0PBP
+ 7Ttp/4ABJV0A0gH9exDuX8RPbQYUt+U+ZDtLDyFKfI44F2mXDAaqHJTW+4v1ke8omwS4
+ 3ci6JsDv+JOJRQhctk7OGKRLItdAqWch/pM7W5XVe2NfzWsd0AQbcWZRo9WQN/V1hbtA
+ vG4HOOb9fy5THXXTofnJHZSTIXMABZ/vR0wZmUHPx1CdoWCfe/W2DWk0nywD2Iapc5Mn
+ RX3Dm8lYDFiGp7qx4UsVpBc4AgWO2UxsQQYWeTjLxNS+4O8qze90WchaS+M8op01aAix
+ HUmw==
+X-Gm-Message-State: AOAM530rAc2bgrW4vZmjf2MeWHiH1GMwTaJN9C65i8E29sRxf2lMHFza
+ RV3mxvUybKR/xfI3jGmmGpwgOVA7PjoOslwa+bgjkg==
+X-Google-Smtp-Source: ABdhPJwG4uOQRPTiyXooXr9LRJd1hBDXI9lWm7l75Vj92ebeJvheGw3g9G5+Rx1Br6VFPx4zKkmJHebCcZ7HlVEbanw=
+X-Received: by 2002:a17:906:3a89:: with SMTP id
+ y9mr16043918ejd.4.1612778427956; 
+ Mon, 08 Feb 2021 02:00:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210204170951.91805-6-andrew@daynix.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20201022120830.5938-1-peter.maydell@linaro.org>
+ <d258bc62-1a17-aeed-13ac-b61297e01a04@amsat.org>
+ <CAFEAcA_T=HyjZWSXUpP1-07rwUsUsQs0rLOjQKNsm-cUAo1FEA@mail.gmail.com>
+ <3431522a-982a-7780-5ef7-c6261aad4c69@amsat.org>
+In-Reply-To: <3431522a-982a-7780-5ef7-c6261aad4c69@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Feb 2021 10:00:16 +0000
+Message-ID: <CAFEAcA-wf7yvyPyOzA8k7juFvW0tYZJXFZ6bm-zwAWQwJyfQ+w@mail.gmail.com>
+Subject: Re: [PATCH] migration: Drop unused VMSTATE_FLOAT64 support
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,239 +82,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: yan@daynix.com, yuri.benditovich@daynix.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 04, 2021 at 07:09:49PM +0200, Andrew Melnychenko wrote:
-> From: Andrew <andrew@daynix.com>
-> 
-> When RSS is enabled the device tries to load the eBPF program
-> to select RX virtqueue in the TUN. If eBPF can be loaded
-> the RSS will function also with vhost (works with kernel 5.8 and later).
-> Software RSS is used as a fallback with vhost=off when eBPF can't be loaded
-> or when hash population requested by the guest.
-> 
-> Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> ---
->  hw/net/vhost_net.c             |   2 +
->  hw/net/virtio-net.c            | 129 ++++++++++++++++++++++++++++++++-
->  include/hw/virtio/virtio-net.h |   4 +
->  net/vhost-vdpa.c               |   2 +
->  4 files changed, 133 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index 24d555e764..16124f99c3 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -71,6 +71,8 @@ static const int user_feature_bits[] = {
->      VIRTIO_NET_F_MTU,
->      VIRTIO_F_IOMMU_PLATFORM,
->      VIRTIO_F_RING_PACKED,
-> +    VIRTIO_NET_F_RSS,
-> +    VIRTIO_NET_F_HASH_REPORT,
->  
->      /* This bit implies RARP isn't sent by QEMU out of band */
->      VIRTIO_NET_F_GUEST_ANNOUNCE,
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 5150f295e8..322d035f8c 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -691,6 +691,19 @@ static void virtio_net_set_queues(VirtIONet *n)
->  
->  static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
->  
-> +static uint64_t fix_ebpf_vhost_features(uint64_t features)
-> +{
-> +    /* If vhost=on & CONFIG_EBPF doesn't set - disable RSS feature */
-> +    uint64_t ret = features;
-> +#ifndef CONFIG_EBPF
-> +    virtio_clear_feature(&ret, VIRTIO_NET_F_RSS);
-> +#endif
-> +    /* for now, there is no solution for populating the hash from eBPF */
-> +    virtio_clear_feature(&ret, VIRTIO_NET_F_HASH_REPORT);
+On Mon, 8 Feb 2021 at 09:32, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> +Eduardo/Richard.
+>
+> On 2/7/21 8:43 PM, Peter Maydell wrote:
+> > On Sun, 7 Feb 2021 at 17:10, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+> >>
+> >> On 10/22/20 2:08 PM, Peter Maydell wrote:
+> >>> Commit ef96e3ae9698d6 in January 2019 removed the last user of the
+> >>> VMSTATE_FLOAT64* macros. These were used by targets which defined
+> >>> their floating point register file as an array of 'float64'.
+> >>
+> >> Similar candidate: VMSTATE_CPUDOUBLE_ARRAY()
+> >
+> > Isn't that still used by target/sparc ?
+>
+> Sorry, I meant CPU_DoubleU could be a similar to the removal of float64
+> in commit ef96e3ae969 ("target/ppc: move FP and VMX registers into
+> aligned vsr register array"), so we can remove VMSTATE_CPUDOUBLE_ARRAY()
+> later.
+>
+> But I could be wrong and this is a legit use, as CPU_DoubleU contains
+> either a float64 or a uint64_t.
 
-How is this made safe from the POV of live migration ?
+CPU_DoubleU and friends are there to provide host-endian-independent
+access to the different parts of a larger-than-word-size value (which is
+why they're defined in bswap.h). They happen to use 'float64 d' as one
+of the union subtypes as well as 'uint64_t ll', because they pre-date
+the decision that we shouldn't really care about the distinction
+between float64 and uint64_t except for documentation purposes in
+helper function prototypes. But the core reason they're present is
+to provide conversion between 'd' or 'll' and ('upper', 'lower').
 
-The existing code below unconditionally cleared both features.
+There is some cleanup that could be done of these types now that we
+don't try to distinguish float64 and uint64_t:
 
-This code is not clearing _RSS if EBPF is merely enabled at
-compile time.
+(1) CPU_FloatU is now entirely unnecessary, and uses like this (alpha):
 
-This would seem to break live migration compatibility on upgrade
-if moving from a QEMU without EBPF to one with EBPF. Or the reverse
-is worse if moving from new to old QEMU we loose the RSS feature.
+static inline uint64_t float32_to_s(float32 fa)
+{
+    CPU_FloatU a;
+    a.f =3D fa;
+    return float32_to_s_int(a.l);
+}
 
-This needs to be conditional on an explicit command line property
-that the user sets.
+could just be written:
 
-> +
-> +    return ret;
-> +}
-> +
->  static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
->                                          Error **errp)
->  {
-> @@ -725,9 +738,9 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
->          return features;
->      }
->  
-> -    virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
-> -    virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
-> -    features = vhost_net_get_features(get_vhost_net(nc->peer), features);
-> +    features = fix_ebpf_vhost_features(
-> +            vhost_net_get_features(get_vhost_net(nc->peer), features));
-> +
->      vdev->backend_features = features;
->  
->      if (n->mtu_bypass_backend &&
-> @@ -1151,12 +1164,79 @@ static int virtio_net_handle_announce(VirtIONet *n, uint8_t cmd,
->      }
->  }
->  
-> +static void virtio_net_detach_epbf_rss(VirtIONet *n);
-> +
->  static void virtio_net_disable_rss(VirtIONet *n)
->  {
->      if (n->rss_data.enabled) {
->          trace_virtio_net_rss_disable();
->      }
->      n->rss_data.enabled = false;
-> +
-> +    virtio_net_detach_epbf_rss(n);
-> +}
-> +
-> +static bool virtio_net_attach_ebpf_to_backend(NICState *nic, int prog_fd)
-> +{
-> +    NetClientState *nc = qemu_get_peer(qemu_get_queue(nic), 0);
-> +    if (nc == NULL || nc->info->set_steering_ebpf == NULL) {
-> +        return false;
-> +    }
-> +
-> +    return nc->info->set_steering_ebpf(nc, prog_fd);
-> +}
-> +
-> +static void rss_data_to_rss_config(struct VirtioNetRssData *data,
-> +                                   struct EBPFRSSConfig *config)
-> +{
-> +    config->redirect = data->redirect;
-> +    config->populate_hash = data->populate_hash;
-> +    config->hash_types = data->hash_types;
-> +    config->indirections_len = data->indirections_len;
-> +    config->default_queue = data->default_queue;
-> +}
-> +
-> +static bool virtio_net_attach_epbf_rss(VirtIONet *n)
-> +{
-> +    struct EBPFRSSConfig config = {};
-> +
-> +    if (!ebpf_rss_is_loaded(&n->ebpf_rss)) {
-> +        return false;
-> +    }
-> +
-> +    rss_data_to_rss_config(&n->rss_data, &config);
-> +
-> +    if (!ebpf_rss_set_all(&n->ebpf_rss, &config,
-> +                          n->rss_data.indirections_table, n->rss_data.key)) {
-> +        return false;
-> +    }
-> +
-> +    if (!virtio_net_attach_ebpf_to_backend(n->nic, n->ebpf_rss.program_fd)) {
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
-> +static void virtio_net_detach_epbf_rss(VirtIONet *n)
-> +{
-> +    virtio_net_attach_ebpf_to_backend(n->nic, -1);
-> +}
-> +
-> +static bool virtio_net_load_ebpf(VirtIONet *n)
-> +{
-> +    if (!virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
-> +        /* backend does't support steering ebpf */
-> +        return false;
-> +    }
-> +
-> +    return ebpf_rss_load(&n->ebpf_rss);
-> +}
-> +
-> +static void virtio_net_unload_ebpf(VirtIONet *n)
-> +{
-> +    virtio_net_attach_ebpf_to_backend(n->nic, -1);
-> +    ebpf_rss_unload(&n->ebpf_rss);
->  }
->  
->  static uint16_t virtio_net_handle_rss(VirtIONet *n,
-> @@ -1271,6 +1351,25 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
->          goto error;
->      }
->      n->rss_data.enabled = true;
-> +
-> +    if (!n->rss_data.populate_hash) {
-> +        if (!virtio_net_attach_epbf_rss(n)) {
-> +            /* EBPF must be loaded for vhost */
-> +            if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
-> +                warn_report("Can't load eBPF RSS for vhost");
-> +                goto error;
-> +            }
-> +            /* fallback to software RSS */
-> +            warn_report("Can't load eBPF RSS - fallback to software RSS");
-> +            n->rss_data.enabled_software_rss = true;
-> +        }
-> +    } else {
-> +        /* use software RSS for hash populating */
-> +        /* and detach eBPF if was loaded before */
-> +        virtio_net_detach_epbf_rss(n);
-> +        n->rss_data.enabled_software_rss = true;
-> +    }
-> +
->      trace_virtio_net_rss_enable(n->rss_data.hash_types,
->                                  n->rss_data.indirections_len,
->                                  temp.b);
-> @@ -1656,7 +1755,7 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
->          return -1;
->      }
->  
-> -    if (!no_rss && n->rss_data.enabled) {
-> +    if (!no_rss && n->rss_data.enabled && n->rss_data.enabled_software_rss) {
->          int index = virtio_net_process_rss(nc, buf, size);
->          if (index >= 0) {
->              NetClientState *nc2 = qemu_get_subqueue(n->nic, index);
-> @@ -2760,6 +2859,18 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
->      }
->  
->      if (n->rss_data.enabled) {
-> +        n->rss_data.enabled_software_rss = n->rss_data.populate_hash;
-> +        if (!n->rss_data.populate_hash) {
-> +            if (!virtio_net_attach_epbf_rss(n)) {
-> +                if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
-> +                    error_report("Can't post-load eBPF RSS for vhost");
+static inline uint64_t float32_to_s(float32 fa)
+{
+    return float32_to_s_int(fa);
+}
 
-This appears to be reporting a fatal error but then carrying on as
-normal, which feels like a bad idea to me.
+(and then rename float32_to_s_int() to float32_to_s() and drop
+the wrapper entirely)
 
-> +                } else {
-> +                    warn_report("Can't post-load eBPF RSS - fallback to software RSS");
-> +                    n->rss_data.enabled_software_rss = true;
-> +                }
-> +            }
-> +        }
-> +
->          trace_virtio_net_rss_enable(n->rss_data.hash_types,
->                                      n->rss_data.indirections_len,
->                                      sizeof(n->rss_data.key));
+(2) Where CPU_DoubleU is being used only for transitions between 'd'
+and 'll', like this (ppc):
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+uint64_t helper_frsp(CPUPPCState *env, uint64_t arg)
+{
+    CPU_DoubleU farg;
+    float32 f32;
 
+    farg.ll =3D arg;
+
+    if (unlikely(float64_is_signaling_nan(farg.d, &env->fp_status))) {
+        float_invalid_op_vxsnan(env, GETPC());
+    }
+    f32 =3D float64_to_float32(farg.d, &env->fp_status);
+    farg.d =3D float32_to_float64(f32, &env->fp_status);
+
+    return farg.ll;
+}
+
+we can drop the use of CPU_DoubleU and just pass 'arg'
+directly where 'farg.d' was being passed, and similarly
+just return the result of float32_to_float64() without
+passing it through the union.
+
+But at least some uses of these types will remain after that, I think.
+(We could look again at what those remaining uses are after the
+first round of cleanup and whether there are better ways to write
+that code; personally I find these unions a bit ugly and wouldn't be
+sorry to see them go away.)
+
+thanks
+-- PMM
 
