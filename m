@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3F8313DBD
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:40:55 +0100 (CET)
-Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA9C313DEE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:45:12 +0100 (CET)
+Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9BSw-0002yA-Jw
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:40:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51838)
+	id 1l9BX5-0006tr-Ae
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:45:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l974Q-0005c2-BK
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9743-0001d3-7c
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:59:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612792734;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oy8o2Yg213v5wQfG4LS4hCBKJj0a2TMGUUY09jDMGCA=;
- b=AAo2owxR6Tal0g9FY8eixTKuE+Pvj8oV8CjS6ht1avwB0gJytXUOYDKtL+vnmr2rFVb0QW
- Ki9aNBv/hpCU7j5iLEH++OGiNoL9L6xgQ/v7G26lTEvTm3N3haI0z7G4WfQURKtlUGlkUt
- s47kCnf2psfHNPVkJ2ZUZYe8BN+xB3Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-fUthpsTeOEqBkhwJUXGWUw-1; Mon, 08 Feb 2021 08:58:52 -0500
-X-MC-Unique: fUthpsTeOEqBkhwJUXGWUw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 868C985B66D;
- Mon,  8 Feb 2021 13:58:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
- [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 32FD65D9DC;
- Mon,  8 Feb 2021 13:58:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8B5881141D22; Mon,  8 Feb 2021 14:58:46 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 15/16] qapi: type 'info' as Optional[QAPISourceInfo]
-Date: Mon,  8 Feb 2021 14:58:45 +0100
-Message-Id: <20210208135846.3707170-16-armbru@redhat.com>
-In-Reply-To: <20210208135846.3707170-1-armbru@redhat.com>
-References: <20210208135846.3707170-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l97Dg-0006zc-UY; Mon, 08 Feb 2021 09:08:55 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38020)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l97DY-00041g-35; Mon, 08 Feb 2021 09:08:48 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id y134so5021404wmd.3;
+ Mon, 08 Feb 2021 06:08:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=x82Bni9D1JiqH28xkubjjjhDeBG9fnV0G57GB7wIZnA=;
+ b=Gl4BhX5cNMZhuwgPLwMSL8Vh1dETQV8mkxF4hITpVN5A7sfz2nCkaLBLBYjPzJ8OMT
+ 3DWs3GSQzlo3xE/QbQJ95ChxMjEci/A4qtApdLcGoaFqVqnhFywKdWJ1YLdiCBjiMca8
+ gJKQQYnKSLy+WwqqevZBcRy2DvMlR3m2VdDsNZCjawTss3sf23/S+1UqoN4vqa0csFVy
+ csmMwYtIecDTBu6eHzfhb8558ceKN8IcjJ0yDa32OZ54I8mlv0FaCctPcohP6lkqNDbH
+ 8BT/YviCYDig3D6Py07N7LSwFa/bZjnDvW6KPXIPSJUU9Su+EHmfVWfWFVbjMSlk/ZNp
+ SpkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=x82Bni9D1JiqH28xkubjjjhDeBG9fnV0G57GB7wIZnA=;
+ b=iLJqGVczkRJwofdypicOeqma9oKyWzCERg2zP9pCwV0biEDyff1w3kEcwD/Hyk29PI
+ 03GN9LIlPxCbX0yG6FDMZiU+XI28eymHFCv4uxl2VFsKbjtWNFDnFM2rH8uXu9IYgqxM
+ GsLaJARvNVLLJd/XPGNWx3UrYdYINNyKETcR2ipeQdGi8y5wd1IkG4exUY3jk56uu862
+ AqVWN7nPBZN1/KXjOlQIza84JkgJr/NxkDCzrr5GlZpxiLR3+byPRfRBJzR0ChCp3Vpb
+ SWpX5/tb90fAiier3+DFDkXhfDRgQEYuwzOY+V89doGjmb9/hZvV2/d4qHF3Xo6zrD4/
+ 8A/g==
+X-Gm-Message-State: AOAM531q9V8bwFU7m402JNULmr7hqW+Bec10zO/9pMjYUysA6RMTAXz/
+ mlNa++MsVnoJbX8NrGygDEs=
+X-Google-Smtp-Source: ABdhPJyPlJPQJRaVIsnxFI7kxg81Im4vM356DL0ppuEL8+FdGWUxJiJ9jgoQGeha+K6iR1rJJ9DvRA==
+X-Received: by 2002:a1c:6802:: with SMTP id d2mr14448077wmc.32.1612793321575; 
+ Mon, 08 Feb 2021 06:08:41 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id v1sm20820831wmj.31.2021.02.08.06.08.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 06:08:40 -0800 (PST)
+Subject: Re: [PATCH v4 9/9] hw/sd: ssi-sd: Handle the rest commands with R1b
+ response type
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20210128063035.15674-1-bmeng.cn@gmail.com>
+ <20210128063035.15674-10-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <16fb545a-d793-6447-d52f-f504aecc988f@amsat.org>
+Date: Mon, 8 Feb 2021 15:08:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210128063035.15674-10-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,110 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+On 1/28/21 7:30 AM, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> Besides CMD12, the following command's reponse type is R1b:
+> 
+> - SET_WRITE_PROT (CMD28)
+> - CLR_WRITE_PROT (CMD29)
+> - ERASE (CMD38)
+> 
+> Reuse the same s->stopping to indicate a R1b reponse is needed.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> 
+> ---
+> 
+> Changes in v4:
+> - new patch: handle the rest commands with R1b response type
+> 
+>  hw/sd/ssi-sd.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+> index 907d681d19..97ee58e20c 100644
+> --- a/hw/sd/ssi-sd.c
+> +++ b/hw/sd/ssi-sd.c
+> @@ -194,6 +194,12 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+>                  /* CMD13 returns a 2-byte statuse work. Other commands
+>                     only return the first byte.  */
+>                  s->arglen = (s->cmd == 13) ? 2 : 1;
+> +
+> +                /* handle R1b */
+> +                if (s->cmd == 28 || s->cmd == 29 || s->cmd == 38) {
 
-For everything typed so far, type this parameter as
-Optional[QAPISourceInfo].
+Why not also check CMD13 for completeness?
 
-In the most generic case, QAPISchemaEntity's info field may be None to
-represent types that come from built-in definitions. Although some
-Entity types may not currently have any built-in definitions, it is not
-easily possible to constrain the type except on an ad-hoc basis using
-assertions.
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-It's easier and simpler, then, to just say it's always an Optional type.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210201193747.2169670-16-jsnow@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- scripts/qapi/commands.py | 2 +-
- scripts/qapi/events.py   | 2 +-
- scripts/qapi/gen.py      | 2 +-
- scripts/qapi/types.py    | 2 +-
- scripts/qapi/visit.py    | 4 ++--
- 5 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 13a9dcaf89..54af519f44 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -296,7 +296,7 @@ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds)
- 
-     def visit_command(self,
-                       name: str,
--                      info: QAPISourceInfo,
-+                      info: Optional[QAPISourceInfo],
-                       ifcond: List[str],
-                       features: List[QAPISchemaFeature],
-                       arg_type: Optional[QAPISchemaObjectType],
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 079c666ec6..8c57deb2b8 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -213,7 +213,7 @@ void %(event_emit)s(%(event_enum)s event, QDict *qdict);
- 
-     def visit_event(self,
-                     name: str,
--                    info: QAPISourceInfo,
-+                    info: Optional[QAPISourceInfo],
-                     ifcond: List[str],
-                     features: List[QAPISchemaFeature],
-                     arg_type: Optional[QAPISchemaObjectType],
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index ac3d3e687e..63549cc8d4 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -325,7 +325,7 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
-             self._add_module(name, self._user_blurb)
-             self._begin_user_module(name)
- 
--    def visit_include(self, name: str, info: QAPISourceInfo) -> None:
-+    def visit_include(self, name: str, info: Optional[QAPISourceInfo]) -> None:
-         relname = os.path.relpath(self._module_filename(self._what, name),
-                                   os.path.dirname(self._genh.fname))
-         self._genh.preamble_add(mcgen('''
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index dbf58c0b91..2bdd626847 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -350,7 +350,7 @@ class QAPISchemaGenTypeVisitor(QAPISchemaModularCVisitor):
- 
-     def visit_alternate_type(self,
-                              name: str,
--                             info: QAPISourceInfo,
-+                             info: Optional[QAPISourceInfo],
-                              ifcond: List[str],
-                              features: List[QAPISchemaFeature],
-                              variants: QAPISchemaVariants) -> None:
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 568ba35592..22e62df901 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -336,7 +336,7 @@ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
- 
-     def visit_enum_type(self,
-                         name: str,
--                        info: QAPISourceInfo,
-+                        info: Optional[QAPISourceInfo],
-                         ifcond: List[str],
-                         features: List[QAPISchemaFeature],
-                         members: List[QAPISchemaEnumMember],
-@@ -378,7 +378,7 @@ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
- 
-     def visit_alternate_type(self,
-                              name: str,
--                             info: QAPISourceInfo,
-+                             info: Optional[QAPISourceInfo],
-                              ifcond: List[str],
-                              features: List[QAPISchemaFeature],
-                              variants: QAPISchemaVariants) -> None:
--- 
-2.26.2
-
+> +                    s->stopping = 1;
+> +                }
+> +
+>                  cardstatus = ldl_be_p(longresp);
+>                  status = 0;
+>                  if (((cardstatus >> 9) & 0xf) < 4)
+> 
 
