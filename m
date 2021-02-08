@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C69D313103
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 12:38:39 +0100 (CET)
-Received: from localhost ([::1]:51494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A221D3130FC
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 12:36:59 +0100 (CET)
+Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l94sH-0004P4-Od
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 06:38:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59010)
+	id 1l94qg-0003Rt-OI
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 06:36:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zi7-0002AM-Rh; Mon, 08 Feb 2021 01:07:47 -0500
-Received: from ozlabs.org ([203.11.71.1]:48085)
+ id 1l8zi6-00026W-69; Mon, 08 Feb 2021 01:07:46 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:32903 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zi4-0006p6-BV; Mon, 08 Feb 2021 01:07:47 -0500
+ id 1l8zi4-0006pE-FM; Mon, 08 Feb 2021 01:07:45 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwY53vNhz9sVR; Mon,  8 Feb 2021 17:07:37 +1100 (AEDT)
+ id 4DYwY55y60z9sVn; Mon,  8 Feb 2021 17:07:37 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1612764457;
- bh=wapW+hFPonrY5NcNhJL2s94tGKTRKw27BwqVT6c2VhM=;
+ bh=cnlEO+w/k8AwHUX8N63/06xxXcU3DOPo90IV/45n4iQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i1RocBBq1R86WqdILxuvkgYAkJ4HsGF/3nHPHlQX7m/qy0w3ar0POYAYeiuHvD6T7
- 30HVZ4mTeo3B5x+Eikqhz69iKwtcpteFwpBfXXDJzMUdiYili5zYzXM1XSPz4lVfjF
- t+DkyKmp6e9pP5qxsmZo1kZo/VAvMFdBRJ8Wl3aI=
+ b=W8ceGQJj8z7kVA9nRtUV9t1pPWi8NU874YIXAXvsWhp19DLPzS9OVg9Xex51W+8QT
+ /8Ee4CylX1dXTbj7irRceP1MNdp9X5cAsJgnyiv7xttoI6xkbZ1tw70eUONHrACMPS
+ Sfhb+bMKezzgXv2AauR3qgOsv4WxyYet1EI9MeCA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: pair@us.ibm.com, qemu-devel@nongnu.org, peter.maydell@linaro.org,
  dgilbert@redhat.com, brijesh.singh@amd.com, pasic@linux.ibm.com
-Subject: [PULL v9 02/13] confidential guest support: Introduce new
- confidential guest support class
-Date: Mon,  8 Feb 2021 17:07:24 +1100
-Message-Id: <20210208060735.39838-3-david@gibson.dropbear.id.au>
+Subject: [PULL v9 04/13] confidential guest support: Move side effect out of
+ machine_set_memory_encryption()
+Date: Mon,  8 Feb 2021 17:07:26 +1100
+Message-Id: <20210208060735.39838-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208060735.39838-1-david@gibson.dropbear.id.au>
 References: <20210208060735.39838-1-david@gibson.dropbear.id.au>
@@ -69,171 +69,61 @@ Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several architectures have mechanisms which are designed to protect
-guest memory from interference or eavesdropping by a compromised
-hypervisor.  AMD SEV does this with in-chip memory encryption and
-Intel's TDX can do similar things.  POWER's Protected Execution
-Framework (PEF) accomplishes a similar goal using an ultravisor and
-new memory protection features, instead of encryption.
+When the "memory-encryption" property is set, we also disable KSM
+merging for the guest, since it won't accomplish anything.
 
-To (partially) unify handling for these, this introduces a new
-ConfidentialGuestSupport QOM base class.  "Confidential" is kind of vague,
-but "confidential computing" seems to be the buzzword about these schemes,
-and "secure" or "protected" are often used in connection to unrelated
-things (such as hypervisor-from-guest or guest-from-guest security).
+We want that, but doing it in the property set function itself is
+thereoretically incorrect, in the unlikely event of some configuration
+environment that set the property then cleared it again before
+constructing the guest.
 
-The "support" in the name is significant because in at least some of the
-cases it requires the guest to take specific actions in order to protect
-itself from hypervisor eavesdropping.
+More importantly, it makes some other cleanups we want more difficult.
+So, instead move this logic to machine_run_board_init() conditional on
+the final value of the property.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- backends/confidential-guest-support.c     | 33 ++++++++++++++++++++
- backends/meson.build                      |  1 +
- include/exec/confidential-guest-support.h | 38 +++++++++++++++++++++++
- include/qemu/typedefs.h                   |  1 +
- target/i386/sev.c                         |  5 +--
- 5 files changed, 76 insertions(+), 2 deletions(-)
- create mode 100644 backends/confidential-guest-support.c
- create mode 100644 include/exec/confidential-guest-support.h
+ hw/core/machine.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/backends/confidential-guest-support.c b/backends/confidential-guest-support.c
-new file mode 100644
-index 0000000000..052fde8db0
---- /dev/null
-+++ b/backends/confidential-guest-support.c
-@@ -0,0 +1,33 @@
-+/*
-+ * QEMU Confidential Guest support
-+ *
-+ * Copyright Red Hat.
-+ *
-+ * Authors:
-+ *  David Gibson <david@gibson.dropbear.id.au>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "exec/confidential-guest-support.h"
-+
-+OBJECT_DEFINE_ABSTRACT_TYPE(ConfidentialGuestSupport,
-+                            confidential_guest_support,
-+                            CONFIDENTIAL_GUEST_SUPPORT,
-+                            OBJECT)
-+
-+static void confidential_guest_support_class_init(ObjectClass *oc, void *data)
-+{
-+}
-+
-+static void confidential_guest_support_init(Object *obj)
-+{
-+}
-+
-+static void confidential_guest_support_finalize(Object *obj)
-+{
-+}
-diff --git a/backends/meson.build b/backends/meson.build
-index 484456ece7..d4221831fc 100644
---- a/backends/meson.build
-+++ b/backends/meson.build
-@@ -6,6 +6,7 @@ softmmu_ss.add([files(
-   'rng-builtin.c',
-   'rng-egd.c',
-   'rng.c',
-+  'confidential-guest-support.c',
- ), numa])
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 5d6163ab70..919067b5c9 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -437,14 +437,6 @@ static void machine_set_memory_encryption(Object *obj, const char *value,
  
- softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
-diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
-new file mode 100644
-index 0000000000..3db6380e63
---- /dev/null
-+++ b/include/exec/confidential-guest-support.h
-@@ -0,0 +1,38 @@
-+/*
-+ * QEMU Confidential Guest support
-+ *   This interface describes the common pieces between various
-+ *   schemes for protecting guest memory or other state against a
-+ *   compromised hypervisor.  This includes memory encryption (AMD's
-+ *   SEV and Intel's MKTME) or special protection modes (PEF on POWER,
-+ *   or PV on s390x).
-+ *
-+ * Copyright Red Hat.
-+ *
-+ * Authors:
-+ *  David Gibson <david@gibson.dropbear.id.au>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ *
-+ */
-+#ifndef QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-+#define QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-+
-+#ifndef CONFIG_USER_ONLY
-+
-+#include "qom/object.h"
-+
-+#define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
-+OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
-+
-+struct ConfidentialGuestSupport {
-+    Object parent;
-+};
-+
-+typedef struct ConfidentialGuestSupportClass {
-+    ObjectClass parent;
-+} ConfidentialGuestSupportClass;
-+
-+#endif /* !CONFIG_USER_ONLY */
-+
-+#endif /* QEMU_CONFIDENTIAL_GUEST_SUPPORT_H */
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index 68deb74ef6..dc39b05c30 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -37,6 +37,7 @@ typedef struct Chardev Chardev;
- typedef struct Clock Clock;
- typedef struct CompatProperty CompatProperty;
- typedef struct CoMutex CoMutex;
-+typedef struct ConfidentialGuestSupport ConfidentialGuestSupport;
- typedef struct CPUAddressSpace CPUAddressSpace;
- typedef struct CPUState CPUState;
- typedef struct DeviceListener DeviceListener;
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 1546606811..b738dc45b6 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -31,6 +31,7 @@
- #include "qom/object.h"
- #include "exec/address-spaces.h"
- #include "monitor/monitor.h"
-+#include "exec/confidential-guest-support.h"
+     g_free(ms->memory_encryption);
+     ms->memory_encryption = g_strdup(value);
+-
+-    /*
+-     * With memory encryption, the host can't see the real contents of RAM,
+-     * so there's no point in it trying to merge areas.
+-     */
+-    if (value) {
+-        machine_set_mem_merge(obj, false, errp);
+-    }
+ }
  
- #define TYPE_SEV_GUEST "sev-guest"
- OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
-@@ -47,7 +48,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
-  *         -machine ...,memory-encryption=sev0
-  */
- struct SevGuestState {
--    Object parent_obj;
-+    ConfidentialGuestSupport parent_obj;
+ static bool machine_get_nvdimm(Object *obj, Error **errp)
+@@ -1166,6 +1158,15 @@ void machine_run_board_init(MachineState *machine)
+                     cc->deprecation_note);
+     }
  
-     /* configuration parameters */
-     char *sev_device;
-@@ -322,7 +323,7 @@ sev_guest_instance_init(Object *obj)
- 
- /* sev guest info */
- static const TypeInfo sev_guest_info = {
--    .parent = TYPE_OBJECT,
-+    .parent = TYPE_CONFIDENTIAL_GUEST_SUPPORT,
-     .name = TYPE_SEV_GUEST,
-     .instance_size = sizeof(SevGuestState),
-     .instance_finalize = sev_guest_finalize,
++    if (machine->memory_encryption) {
++        /*
++         * With memory encryption, the host can't see the real
++         * contents of RAM, so there's no point in it trying to merge
++         * areas.
++         */
++        machine_set_mem_merge(OBJECT(machine), false, &error_abort);
++    }
++
+     machine_class->init(machine);
+     phase_advance(PHASE_MACHINE_INITIALIZED);
+ }
 -- 
 2.29.2
 
