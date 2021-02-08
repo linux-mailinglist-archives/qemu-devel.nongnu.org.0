@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56FE312B61
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 09:02:46 +0100 (CET)
-Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E014A312B91
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 09:20:34 +0100 (CET)
+Received: from localhost ([::1]:38874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l91VM-0002gE-Eu
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 03:02:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
+	id 1l91mU-0006MD-JR
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 03:20:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgP-0007hE-Nd; Mon, 08 Feb 2021 01:06:01 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:51367 helo=ozlabs.org)
+ id 1l8zgT-0007nG-VF; Mon, 08 Feb 2021 01:06:06 -0500
+Received: from ozlabs.org ([203.11.71.1]:56559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgL-0005mo-NI; Mon, 08 Feb 2021 01:06:01 -0500
+ id 1l8zgS-00061X-1o; Mon, 08 Feb 2021 01:06:05 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwVs0Tvmz9sVs; Mon,  8 Feb 2021 17:05:40 +1100 (AEDT)
+ id 4DYwVs4vGhz9sW3; Mon,  8 Feb 2021 17:05:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1612764341;
- bh=uMV7Stmyuv13sOhlodiLYMsOXgTeJ6kZaiH7Z9qlkfI=;
+ bh=bpg8O2zL5MdjoFw9vYkyKLGdob6Mhf9Zggqku1TuXHY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dUeovss7hC4U+8JILXsXFPv3T/Z89gVRJlc9gZzLIGfEk3ZB2wJxr1mmDuAqbN6Va
- ma30jsPcZXwrO96/9IlU849t6FgcJQnOWyrGDLQ5YECGcI4suC0kAq3m0KZabhs1zu
- FG+AuC7xJkbrJuYb4+Cr/eBDKxXiJN6y5w3AmpUc=
+ b=o/SGkHivcwOCLiCFkJUYM9QQLERqA4X0mTiv3rHRNDAeKZ97eZB3yprHHRBweRwZ3
+ cXsfNwnVbZbn2Q0ZDQGn4y10nFMmcxCaYSppbZN0mHVYb9Up5hCsiFgkaIohNgk5zE
+ NfwIkWnCZeM60RKaSjcTfVcvdPdeBWit+emqNfX4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: pasic@linux.ibm.com, dgilbert@redhat.com, pair@us.ibm.com,
  qemu-devel@nongnu.org, brijesh.singh@amd.com
-Subject: [PULL v9 01/13] qom: Allow optional sugar props
-Date: Mon,  8 Feb 2021 17:05:26 +1100
-Message-Id: <20210208060538.39276-2-david@gibson.dropbear.id.au>
+Subject: [PULL v9 06/13] sev: Add Error ** to sev_kvm_init()
+Date: Mon,  8 Feb 2021 17:05:31 +1100
+Message-Id: <20210208060538.39276-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208060538.39276-1-david@gibson.dropbear.id.au>
 References: <20210208060538.39276-1-david@gibson.dropbear.id.au>
@@ -72,121 +72,140 @@ Cc: mtosatti@redhat.com, kvm@vger.kernel.org, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+This allows failures to be reported richly and idiomatically.
 
-Global properties have an @optional field, which allows to apply a given
-property to a given type even if one of its subclasses doesn't support
-it. This is especially used in the compat code when dealing with the
-"disable-modern" and "disable-legacy" properties and the "virtio-pci"
-type.
-
-Allow object_register_sugar_prop() to set this field as well.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159738953558.377274.16617742952571083440.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- include/qom/object.h |  3 ++-
- qom/object.c         |  4 +++-
- softmmu/rtc.c        |  3 ++-
- softmmu/vl.c         | 17 +++++++++++------
- 4 files changed, 18 insertions(+), 9 deletions(-)
+ accel/kvm/kvm-all.c  |  4 +++-
+ accel/kvm/sev-stub.c |  2 +-
+ include/sysemu/sev.h |  2 +-
+ target/i386/sev.c    | 31 +++++++++++++++----------------
+ 4 files changed, 20 insertions(+), 19 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index d378f13a11..6721cd312e 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -638,7 +638,8 @@ bool object_apply_global_props(Object *obj, const GPtrArray *props,
-                                Error **errp);
- void object_set_machine_compat_props(GPtrArray *compat_props);
- void object_set_accelerator_compat_props(GPtrArray *compat_props);
--void object_register_sugar_prop(const char *driver, const char *prop, const char *value);
-+void object_register_sugar_prop(const char *driver, const char *prop,
-+                                const char *value, bool optional);
- void object_apply_compat_props(Object *obj);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 88a6b8c19e..226e1556f9 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2185,9 +2185,11 @@ static int kvm_init(MachineState *ms)
+      * encryption context.
+      */
+     if (ms->cgs) {
++        Error *local_err = NULL;
+         /* FIXME handle mechanisms other than SEV */
+-        ret = sev_kvm_init(ms->cgs);
++        ret = sev_kvm_init(ms->cgs, &local_err);
+         if (ret < 0) {
++            error_report_err(local_err);
+             goto err;
+         }
+     }
+diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
+index 3d4787ae4a..512e205f7f 100644
+--- a/accel/kvm/sev-stub.c
++++ b/accel/kvm/sev-stub.c
+@@ -15,7 +15,7 @@
+ #include "qemu-common.h"
+ #include "sysemu/sev.h"
  
- /**
-diff --git a/qom/object.c b/qom/object.c
-index 2fa0119647..491823db4a 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -442,7 +442,8 @@ static GPtrArray *object_compat_props[3];
-  * other than "-global".  These are generally used for syntactic
-  * sugar and legacy command line options.
-  */
--void object_register_sugar_prop(const char *driver, const char *prop, const char *value)
-+void object_register_sugar_prop(const char *driver, const char *prop,
-+                                const char *value, bool optional)
+-int sev_kvm_init(ConfidentialGuestSupport *cgs)
++int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
  {
-     GlobalProperty *g;
-     if (!object_compat_props[2]) {
-@@ -452,6 +453,7 @@ void object_register_sugar_prop(const char *driver, const char *prop, const char
-     g->driver = g_strdup(driver);
-     g->property = g_strdup(prop);
-     g->value = g_strdup(value);
-+    g->optional = optional;
-     g_ptr_array_add(object_compat_props[2], g);
+     /* SEV can't be selected if it's not compiled */
+     g_assert_not_reached();
+diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+index 3b5b1aacf1..5c5a13c6ca 100644
+--- a/include/sysemu/sev.h
++++ b/include/sysemu/sev.h
+@@ -16,7 +16,7 @@
+ 
+ #include "sysemu/kvm.h"
+ 
+-int sev_kvm_init(ConfidentialGuestSupport *cgs);
++int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+ int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
+ int sev_inject_launch_secret(const char *hdr, const char *secret,
+                              uint64_t gpa, Error **errp);
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index fa962d533c..590cb31fa8 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -662,7 +662,7 @@ sev_vm_state_change(void *opaque, int running, RunState state)
+     }
  }
  
-diff --git a/softmmu/rtc.c b/softmmu/rtc.c
-index e1e15ef613..5632684fc9 100644
---- a/softmmu/rtc.c
-+++ b/softmmu/rtc.c
-@@ -179,7 +179,8 @@ void configure_rtc(QemuOpts *opts)
-         if (!strcmp(value, "slew")) {
-             object_register_sugar_prop("mc146818rtc",
-                                        "lost_tick_policy",
--                                       "slew");
-+                                       "slew",
-+                                       false);
-         } else if (!strcmp(value, "none")) {
-             /* discard is default */
-         } else {
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 2bf94ece9c..0d934844ff 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1663,16 +1663,20 @@ static int machine_set_property(void *opaque,
-         return 0;
-     }
-     if (g_str_equal(qom_name, "igd-passthru")) {
--        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value,
-+                                   false);
-         return 0;
-     }
-     if (g_str_equal(qom_name, "kvm-shadow-mem")) {
--        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value);
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value,
-+                                   false);
-         return 0;
-     }
-     if (g_str_equal(qom_name, "kernel-irqchip")) {
--        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value);
--        object_register_sugar_prop(ACCEL_CLASS_NAME("whpx"), qom_name, value);
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value,
-+                                   false);
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("whpx"), qom_name, value,
-+                                   false);
-         return 0;
+-int sev_kvm_init(ConfidentialGuestSupport *cgs)
++int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+ {
+     SevGuestState *sev = SEV_GUEST(cgs);
+     char *devname;
+@@ -684,14 +684,14 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs)
+     host_cbitpos = ebx & 0x3f;
+ 
+     if (host_cbitpos != sev->cbitpos) {
+-        error_report("%s: cbitpos check failed, host '%d' requested '%d'",
+-                     __func__, host_cbitpos, sev->cbitpos);
++        error_setg(errp, "%s: cbitpos check failed, host '%d' requested '%d'",
++                   __func__, host_cbitpos, sev->cbitpos);
+         goto err;
      }
  
-@@ -2298,9 +2302,10 @@ static void qemu_process_sugar_options(void)
- 
-         val = g_strdup_printf("%d",
-                  (uint32_t) qemu_opt_get_number(qemu_find_opts_singleton("smp-opts"), "cpus", 1));
--        object_register_sugar_prop("memory-backend", "prealloc-threads", val);
-+        object_register_sugar_prop("memory-backend", "prealloc-threads", val,
-+                                   false);
-         g_free(val);
--        object_register_sugar_prop("memory-backend", "prealloc", "on");
-+        object_register_sugar_prop("memory-backend", "prealloc", "on", false);
+     if (sev->reduced_phys_bits < 1) {
+-        error_report("%s: reduced_phys_bits check failed, it should be >=1,"
+-                     " requested '%d'", __func__, sev->reduced_phys_bits);
++        error_setg(errp, "%s: reduced_phys_bits check failed, it should be >=1,"
++                   " requested '%d'", __func__, sev->reduced_phys_bits);
+         goto err;
      }
  
-     if (watchdog) {
+@@ -700,20 +700,19 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs)
+     devname = object_property_get_str(OBJECT(sev), "sev-device", NULL);
+     sev->sev_fd = open(devname, O_RDWR);
+     if (sev->sev_fd < 0) {
+-        error_report("%s: Failed to open %s '%s'", __func__,
+-                     devname, strerror(errno));
+-    }
+-    g_free(devname);
+-    if (sev->sev_fd < 0) {
++        error_setg(errp, "%s: Failed to open %s '%s'", __func__,
++                   devname, strerror(errno));
++        g_free(devname);
+         goto err;
+     }
++    g_free(devname);
+ 
+     ret = sev_platform_ioctl(sev->sev_fd, SEV_PLATFORM_STATUS, &status,
+                              &fw_error);
+     if (ret) {
+-        error_report("%s: failed to get platform status ret=%d "
+-                     "fw_error='%d: %s'", __func__, ret, fw_error,
+-                     fw_error_to_str(fw_error));
++        error_setg(errp, "%s: failed to get platform status ret=%d "
++                   "fw_error='%d: %s'", __func__, ret, fw_error,
++                   fw_error_to_str(fw_error));
+         goto err;
+     }
+     sev->build_id = status.build;
+@@ -723,14 +722,14 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs)
+     trace_kvm_sev_init();
+     ret = sev_ioctl(sev->sev_fd, KVM_SEV_INIT, NULL, &fw_error);
+     if (ret) {
+-        error_report("%s: failed to initialize ret=%d fw_error=%d '%s'",
+-                     __func__, ret, fw_error, fw_error_to_str(fw_error));
++        error_setg(errp, "%s: failed to initialize ret=%d fw_error=%d '%s'",
++                   __func__, ret, fw_error, fw_error_to_str(fw_error));
+         goto err;
+     }
+ 
+     ret = sev_launch_start(sev);
+     if (ret) {
+-        error_report("%s: failed to create encryption context", __func__);
++        error_setg(errp, "%s: failed to create encryption context", __func__);
+         goto err;
+     }
+ 
 -- 
 2.29.2
 
