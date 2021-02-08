@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE671312B10
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 08:24:06 +0100 (CET)
-Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3D7312B2F
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 08:39:48 +0100 (CET)
+Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l90tx-0001jy-OT
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 02:24:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58594)
+	id 1l9192-0006CN-UI
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 02:39:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgR-0007iR-3D; Mon, 08 Feb 2021 01:06:03 -0500
-Received: from ozlabs.org ([203.11.71.1]:49139)
+ id 1l8ziF-0002TH-W4; Mon, 08 Feb 2021 01:07:56 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:59447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgL-0005mV-MT; Mon, 08 Feb 2021 01:06:01 -0500
+ id 1l8ziD-0006w0-Hu; Mon, 08 Feb 2021 01:07:55 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwVr634Sz9sVR; Mon,  8 Feb 2021 17:05:40 +1100 (AEDT)
+ id 4DYwY71Wxrz9sWb; Mon,  8 Feb 2021 17:07:39 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612764340;
- bh=dPygv7llvoj8h64O+mDHWIuB5T3bGaHKRTCLlQX+7HU=;
+ d=gibson.dropbear.id.au; s=201602; t=1612764459;
+ bh=GIE3uji1EOtZhp/GWt1+qTzLlocuzrn5OQvsiMW1YSk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MifS9C/boyjmJIilaYQO+n4AlkAsjig1A0A1Yr9J1V0mChdmmLxhl9gxWkD/jvjBj
- 6/2hkq7LnwasP20UoZ3dfQZ8G25Jpvu+kh9wDNAk5SnDnKRh4keu3iIAo53cBy2FBy
- JehBnmdQ2kFS00ov3SwKFDac0ko+1EO98AODnElc=
+ b=FKc+ubzECQkuhPZEmv+YYCwItC6l8J7R71HVacwP2BS+GG3fdCn8gXQHem6IBJ87X
+ GshBFtUWAWqTd5TFLaFzE7C2piJn/eXjlI47Er/GVf2/X0EkpdPaTeTy4fCHGmeQTW
+ pPssPlkoKFNKbavJqDmvTdxCoRu+Kqi2loonlB20=
 From: David Gibson <david@gibson.dropbear.id.au>
-To: pasic@linux.ibm.com, dgilbert@redhat.com, pair@us.ibm.com,
- qemu-devel@nongnu.org, brijesh.singh@amd.com
-Subject: [PULL v9 03/13] sev: Remove false abstraction of flash encryption
-Date: Mon,  8 Feb 2021 17:05:28 +1100
-Message-Id: <20210208060538.39276-4-david@gibson.dropbear.id.au>
+To: pair@us.ibm.com, qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ dgilbert@redhat.com, brijesh.singh@amd.com, pasic@linux.ibm.com
+Subject: [PULL v9 13/13] s390: Recognize confidential-guest-support option
+Date: Mon,  8 Feb 2021 17:07:35 +1100
+Message-Id: <20210208060735.39838-14-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210208060538.39276-1-david@gibson.dropbear.id.au>
-References: <20210208060538.39276-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20210208060735.39838-1-david@gibson.dropbear.id.au>
+References: <20210208060735.39838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,310 +57,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- ehabkost@redhat.com, kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, mdroth@linux.vnet.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, pragyansri.pathi@intel.com, jun.nakajima@intel.com,
- andi.kleen@intel.com, pbonzini@redhat.com,
- David Hildenbrand <david@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, frankja@linux.ibm.com
+Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, kvm@vger.kernel.org,
+ david@redhat.com, jun.nakajima@intel.com, mtosatti@redhat.com,
+ richard.henderson@linaro.org, mdroth@linux.vnet.ibm.com,
+ Greg Kurz <groug@kaod.org>, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ frankja@linux.ibm.com, mst@redhat.com, pragyansri.pathi@intel.com,
+ andi.kleen@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When AMD's SEV memory encryption is in use, flash memory banks (which are
-initialed by pc_system_flash_map()) need to be encrypted with the guest's
-key, so that the guest can read them.
+At least some s390 cpu models support "Protected Virtualization" (PV),
+a mechanism to protect guests from eavesdropping by a compromised
+hypervisor.
 
-That's abstracted via the kvm_memcrypt_encrypt_data() callback in the KVM
-state.. except, that it doesn't really abstract much at all.
+This is similar in function to other mechanisms like AMD's SEV and
+POWER's PEF, which are controlled by the "confidential-guest-support"
+machine option.  s390 is a slightly special case, because we already
+supported PV, simply by using a CPU model with the required feature
+(S390_FEAT_UNPACK).
 
-For starters, the only call site is in code specific to the 'pc'
-family of machine types, so it's obviously specific to those and to
-x86 to begin with.  But it makes a bunch of further assumptions that
-need not be true about an arbitrary confidential guest system based on
-memory encryption, let alone one based on other mechanisms:
+To integrate this with the option used by other platforms, we
+implement the following compromise:
 
- * it assumes that the flash memory is defined to be encrypted with the
-   guest key, rather than being shared with hypervisor
- * it assumes that that hypervisor has some mechanism to encrypt data into
-   the guest, even though it can't decrypt it out, since that's the whole
-   point
- * the interface assumes that this encrypt can be done in place, which
-   implies that the hypervisor can write into a confidential guests's
-   memory, even if what it writes isn't meaningful
+ - When the confidential-guest-support option is set, s390 will
+   recognize it, verify that the CPU can support PV (failing if not)
+   and set virtio default options necessary for encrypted or protected
+   guests, as on other platforms.  i.e. if confidential-guest-support
+   is set, we will either create a guest capable of entering PV mode,
+   or fail outright.
 
-So really, this "abstraction" is actually pretty specific to the way SEV
-works.  So, this patch removes it and instead has the PC flash
-initialization code call into a SEV specific callback.
+ - If confidential-guest-support is not set, guests might still be
+   able to enter PV mode, if the CPU has the right model.  This may be
+   a little surprising, but shouldn't actually be harmful.
+
+To start a guest supporting Protected Virtualization using the new
+option use the command line arguments:
+    -object s390-pv-guest,id=pv0 -machine confidential-guest-support=pv0
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- accel/kvm/kvm-all.c    | 31 ++-----------------------------
- accel/kvm/sev-stub.c   |  9 ++-------
- accel/stubs/kvm-stub.c | 10 ----------
- hw/i386/pc_sysfw.c     | 17 ++++++-----------
- include/sysemu/kvm.h   | 16 ----------------
- include/sysemu/sev.h   |  4 ++--
- target/i386/sev-stub.c |  5 +++++
- target/i386/sev.c      | 24 ++++++++++++++----------
- 8 files changed, 31 insertions(+), 85 deletions(-)
+ docs/confidential-guest-support.txt |  3 ++
+ docs/system/s390x/protvirt.rst      | 19 ++++++---
+ hw/s390x/pv.c                       | 62 +++++++++++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c          |  3 ++
+ include/hw/s390x/pv.h               | 17 ++++++++
+ 5 files changed, 98 insertions(+), 6 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 5164d838b9..3526e88b6c 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -123,10 +123,6 @@ struct KVMState
-     KVMMemoryListener memory_listener;
-     QLIST_HEAD(, KVMParkedVcpu) kvm_parked_vcpus;
+diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
+index 4da4c91bd3..71d07ba57a 100644
+--- a/docs/confidential-guest-support.txt
++++ b/docs/confidential-guest-support.txt
+@@ -43,4 +43,7 @@ AMD Secure Encrypted Virtualization (SEV)
+ POWER Protected Execution Facility (PEF)
+     docs/papr-pef.txt
  
--    /* memory encryption */
--    void *memcrypt_handle;
--    int (*memcrypt_encrypt_data)(void *handle, uint8_t *ptr, uint64_t len);
--
-     /* For "info mtree -f" to tell if an MR is registered in KVM */
-     int nr_as;
-     struct KVMAs {
-@@ -225,26 +221,6 @@ int kvm_get_max_memslots(void)
-     return s->nr_slots;
- }
++s390x Protected Virtualization (PV)
++    docs/system/s390x/protvirt.rst
++
+ Other mechanisms may be supported in future.
+diff --git a/docs/system/s390x/protvirt.rst b/docs/system/s390x/protvirt.rst
+index 712974ad87..0f481043d9 100644
+--- a/docs/system/s390x/protvirt.rst
++++ b/docs/system/s390x/protvirt.rst
+@@ -22,15 +22,22 @@ If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
+ will indicate that KVM can support PVMs on that LPAR.
  
--bool kvm_memcrypt_enabled(void)
--{
--    if (kvm_state && kvm_state->memcrypt_handle) {
--        return true;
--    }
--
--    return false;
--}
--
--int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
--{
--    if (kvm_state->memcrypt_handle &&
--        kvm_state->memcrypt_encrypt_data) {
--        return kvm_state->memcrypt_encrypt_data(kvm_state->memcrypt_handle,
--                                              ptr, len);
--    }
--
--    return 1;
--}
--
- /* Called with KVMMemoryListener.slots_lock held */
- static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
- {
-@@ -2209,13 +2185,10 @@ static int kvm_init(MachineState *ms)
-      * encryption context.
-      */
-     if (ms->memory_encryption) {
--        kvm_state->memcrypt_handle = sev_guest_init(ms->memory_encryption);
--        if (!kvm_state->memcrypt_handle) {
--            ret = -1;
-+        ret = sev_guest_init(ms->memory_encryption);
-+        if (ret < 0) {
-             goto err;
-         }
--
--        kvm_state->memcrypt_encrypt_data = sev_encrypt_data;
-     }
  
-     ret = kvm_arch_init(ms, s);
-diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
-index 4f97452585..5db9ab8f00 100644
---- a/accel/kvm/sev-stub.c
-+++ b/accel/kvm/sev-stub.c
-@@ -15,12 +15,7 @@
- #include "qemu-common.h"
- #include "sysemu/sev.h"
+-QEMU Settings
+--------------
++Running a Protected Virtual Machine
++-----------------------------------
  
--int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
-+int sev_guest_init(const char *id)
- {
--    abort();
--}
--
--void *sev_guest_init(const char *id)
--{
--    return NULL;
-+    return -1;
- }
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 680e099463..0f17acfac0 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -81,16 +81,6 @@ int kvm_on_sigbus(int code, void *addr)
-     return 1;
- }
+-To indicate to the VM that it can transition into protected mode, the
++To run a PVM you will need to select a CPU model which includes the
+ `Unpack facility` (stfle bit 161 represented by the feature
+-`unpack`/`S390_FEAT_UNPACK`) needs to be part of the cpu model of
+-the VM.
++`unpack`/`S390_FEAT_UNPACK`), and add these options to the command line::
++
++    -object s390-pv-guest,id=pv0 \
++    -machine confidential-guest-support=pv0
++
++Adding these options will:
++
++* Ensure the `unpack` facility is available
++* Enable the IOMMU by default for all I/O devices
++* Initialize the PV mechanism
  
--bool kvm_memcrypt_enabled(void)
--{
--    return false;
--}
--
--int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
--{
--  return 1;
--}
--
- #ifndef CONFIG_USER_ONLY
- int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
- {
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index 92e90ff013..11172214f1 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -38,6 +38,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/block/flash.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/sev.h"
+-All I/O devices need to use the IOMMU.
+ Passthrough (vfio) devices are currently not supported.
  
- #define FLASH_SECTOR_SIZE 4096
+ Host huge page backings are not supported. However guests can use huge
+diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+index ab3a2482aa..93eccfc05d 100644
+--- a/hw/s390x/pv.c
++++ b/hw/s390x/pv.c
+@@ -14,8 +14,11 @@
+ #include <linux/kvm.h>
  
-@@ -147,7 +148,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
-     PFlashCFI01 *system_flash;
-     MemoryRegion *flash_mem;
-     void *flash_ptr;
--    int ret, flash_size;
-+    int flash_size;
- 
-     assert(PC_MACHINE_GET_CLASS(pcms)->pci_enabled);
- 
-@@ -191,16 +192,10 @@ static void pc_system_flash_map(PCMachineState *pcms,
-             flash_mem = pflash_cfi01_get_memory(system_flash);
-             pc_isa_bios_init(rom_memory, flash_mem, size);
- 
--            /* Encrypt the pflash boot ROM */
--            if (kvm_memcrypt_enabled()) {
--                flash_ptr = memory_region_get_ram_ptr(flash_mem);
--                flash_size = memory_region_size(flash_mem);
--                ret = kvm_memcrypt_encrypt_data(flash_ptr, flash_size);
--                if (ret) {
--                    error_report("failed to encrypt pflash rom");
--                    exit(1);
--                }
--            }
-+            /* Encrypt the pflash boot ROM, if necessary */
-+            flash_ptr = memory_region_get_ram_ptr(flash_mem);
-+            flash_size = memory_region_size(flash_mem);
-+            sev_encrypt_flash(flash_ptr, flash_size, &error_fatal);
-         }
-     }
- }
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 739682f3c3..c5546bdecc 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -233,22 +233,6 @@ int kvm_has_intx_set_mask(void);
-  */
- bool kvm_arm_supports_user_irq(void);
- 
--/**
-- * kvm_memcrypt_enabled - return boolean indicating whether memory encryption
-- *                        is enabled
-- * Returns: 1 memory encryption is enabled
-- *          0 memory encryption is disabled
-- */
--bool kvm_memcrypt_enabled(void);
--
--/**
-- * kvm_memcrypt_encrypt_data: encrypt the memory range
-- *
-- * Return: 1 failed to encrypt the range
-- *         0 succesfully encrypted memory region
-- */
--int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len);
--
- 
- #ifdef NEED_CPU_H
  #include "cpu.h"
-diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
-index 7ab6e3e31d..7335e59867 100644
---- a/include/sysemu/sev.h
-+++ b/include/sysemu/sev.h
-@@ -16,8 +16,8 @@
- 
++#include "qapi/error.h"
+ #include "qemu/error-report.h"
  #include "sysemu/kvm.h"
++#include "qom/object_interfaces.h"
++#include "exec/confidential-guest-support.h"
+ #include "hw/s390x/ipl.h"
+ #include "hw/s390x/pv.h"
  
--void *sev_guest_init(const char *id);
--int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len);
-+int sev_guest_init(const char *id);
-+int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
- int sev_inject_launch_secret(const char *hdr, const char *secret,
-                              uint64_t gpa, Error **errp);
- #endif
-diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-index c1fecc2101..1ac1fd5b94 100644
---- a/target/i386/sev-stub.c
-+++ b/target/i386/sev-stub.c
-@@ -54,3 +54,8 @@ int sev_inject_launch_secret(const char *hdr, const char *secret,
- {
-     return 1;
+@@ -111,3 +114,62 @@ void s390_pv_inject_reset_error(CPUState *cs)
+     /* Report that we are unable to enter protected mode */
+     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
  }
 +
-+int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp)
++#define TYPE_S390_PV_GUEST "s390-pv-guest"
++OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
++
++/**
++ * S390PVGuest:
++ *
++ * The S390PVGuest object is basically a dummy used to tell the
++ * confidential guest support system to use s390's PV mechanism.
++ *
++ * # $QEMU \
++ *         -object s390-pv-guest,id=pv0 \
++ *         -machine ...,confidential-guest-support=pv0
++ */
++struct S390PVGuest {
++    ConfidentialGuestSupport parent_obj;
++};
++
++typedef struct S390PVGuestClass S390PVGuestClass;
++
++struct S390PVGuestClass {
++    ConfidentialGuestSupportClass parent_class;
++};
++
++int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
 +{
-+    return 0;
-+}
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index b738dc45b6..8d4e1ea262 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -682,7 +682,7 @@ sev_vm_state_change(void *opaque, int running, RunState state)
-     }
- }
- 
--void *
-+int
- sev_guest_init(const char *id)
- {
-     SevGuestState *sev;
-@@ -695,7 +695,7 @@ sev_guest_init(const char *id)
-     ret = ram_block_discard_disable(true);
-     if (ret) {
-         error_report("%s: cannot disable RAM discard", __func__);
--        return NULL;
-+        return -1;
-     }
- 
-     sev = lookup_sev_guest_info(id);
-@@ -766,23 +766,27 @@ sev_guest_init(const char *id)
-     qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
-     qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
- 
--    return sev;
-+    return 0;
- err:
-     sev_guest = NULL;
-     ram_block_discard_disable(false);
--    return NULL;
-+    return -1;
- }
- 
- int
--sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
-+sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp)
- {
--    SevGuestState *sev = handle;
--
--    assert(sev);
-+    if (!sev_guest) {
++    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
 +        return 0;
 +    }
++
++    if (!s390_has_feat(S390_FEAT_UNPACK)) {
++        error_setg(errp,
++                   "CPU model does not support Protected Virtualization");
++        return -1;
++    }
++
++    cgs->ready = true;
++
++    return 0;
++}
++
++OBJECT_DEFINE_TYPE_WITH_INTERFACES(S390PVGuest,
++                                   s390_pv_guest,
++                                   S390_PV_GUEST,
++                                   CONFIDENTIAL_GUEST_SUPPORT,
++                                   { TYPE_USER_CREATABLE },
++                                   { NULL })
++
++static void s390_pv_guest_class_init(ObjectClass *oc, void *data)
++{
++}
++
++static void s390_pv_guest_init(Object *obj)
++{
++}
++
++static void s390_pv_guest_finalize(Object *obj)
++{
++}
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index a2d9a79c84..2972b607f3 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -250,6 +250,9 @@ static void ccw_init(MachineState *machine)
+     /* init CPUs (incl. CPU model) early so s390_has_feature() works */
+     s390_init_cpus(machine);
  
-     /* if SEV is in update state then encrypt the data else do nothing */
--    if (sev_check_state(sev, SEV_STATE_LAUNCH_UPDATE)) {
--        return sev_launch_update_data(sev, ptr, len);
-+    if (sev_check_state(sev_guest, SEV_STATE_LAUNCH_UPDATE)) {
-+        int ret = sev_launch_update_data(sev_guest, ptr, len);
-+        if (ret < 0) {
-+            error_setg(errp, "failed to encrypt pflash rom");
-+            return ret;
-+        }
-     }
++    /* Need CPU model to be determined before we can set up PV */
++    s390_pv_init(machine->cgs, &error_fatal);
++
+     s390_flic_init();
  
-     return 0;
+     /* init the SIGP facility */
+diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+index aee758bc2d..1f1f545bfc 100644
+--- a/include/hw/s390x/pv.h
++++ b/include/hw/s390x/pv.h
+@@ -12,6 +12,9 @@
+ #ifndef HW_S390_PV_H
+ #define HW_S390_PV_H
+ 
++#include "qapi/error.h"
++#include "sysemu/kvm.h"
++
+ #ifdef CONFIG_KVM
+ #include "cpu.h"
+ #include "hw/s390x/s390-virtio-ccw.h"
+@@ -55,4 +58,18 @@ static inline void s390_pv_unshare(void) {}
+ static inline void s390_pv_inject_reset_error(CPUState *cs) {};
+ #endif /* CONFIG_KVM */
+ 
++int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
++static inline int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
++{
++    if (!cgs) {
++        return 0;
++    }
++    if (kvm_enabled()) {
++        return s390_pv_kvm_init(cgs, errp);
++    }
++
++    error_setg(errp, "Protected Virtualization requires KVM");
++    return -1;
++}
++
+ #endif /* HW_S390_PV_H */
 -- 
 2.29.2
 
