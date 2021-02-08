@@ -2,53 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C321E313FDD
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:04:24 +0100 (CET)
-Received: from localhost ([::1]:56604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8CC313FF6
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:10:03 +0100 (CET)
+Received: from localhost ([::1]:39424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Cli-0008Ul-Jl
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:04:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49310)
+	id 1l9CrB-0004r8-IB
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:10:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pascal.scholz@tu-dresden.de>)
- id 1l96tF-0004KL-Tl; Mon, 08 Feb 2021 08:47:47 -0500
-Received: from mailout6.zih.tu-dresden.de ([141.30.67.75]:56811)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pascal.scholz@tu-dresden.de>)
- id 1l96st-0007NF-Bi; Mon, 08 Feb 2021 08:47:41 -0500
-Received: from [172.26.34.105] (helo=msx.tu-dresden.de)
- by mailout6.zih.tu-dresden.de with esmtps (TLSv1.2:AES256-SHA256:256)
- (Exim 4.84_2) (envelope-from <pascal.scholz@tu-dresden.de>)
- id 1l96sp-0003sZ-UI; Mon, 08 Feb 2021 14:47:20 +0100
-Received: from [192.168.178.68] (91.47.37.16) by
- MSX-L105.msx.ad.zih.tu-dresden.de (172.26.34.105) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 8 Feb 2021 14:47:03 +0100
-To: <qemu-devel@nongnu.org>
-From: Pascal Scholz <s6899329@msx.tu-dresden.de>
-Subject: Emulating sd card with hifive_u risc-v machine
-Message-ID: <d2511f50-8b72-8a3b-9127-75b3ed98c584@msx.tu-dresden.de>
-Date: Mon, 8 Feb 2021 14:47:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l96uz-0004SZ-9W
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:49:35 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:38324)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l96ui-0007lO-Md
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:49:29 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id s11so18150902edd.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 05:49:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FqCpWRCKFTIjIvrnhk2aqBk60y7WA/3PAmrs3DYY24U=;
+ b=N9TtvdWDEDjLP8c0ZY0rQ5AdJ3m+JcptSPhHUx5sqZTCYnst4tjRgMlyDFTudK/YKz
+ WJOF59RBXqUo640cM/G5pY9k+/PBctBJIFKEBK6SEMDmNzzdHHxmpz1Zax8Ld+SR0km9
+ p2F/x4KjJuJKwsIlqrtAXiZpa0zRbLJuV3+3W+eD6hBooaBfc41SrQC/jgEcvqxthpXB
+ 3dHtRc491nuH8aolbH+41k7pRff4cW7wIBg13fGeLnqjx+1TqOBBqAqRZTA6Teke833n
+ rB7/imOFoDj9Hxbk0daFH7+Q3IlUZt09DT5t6iGRfw0ar2xS75EhDWaFyGi8pYYH6ZHm
+ dBfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FqCpWRCKFTIjIvrnhk2aqBk60y7WA/3PAmrs3DYY24U=;
+ b=JlQvbRGhrKlhfZtJ6Sp41zoXswrvGhNy8QhXYC1GRIvfwlfYEZGJthSU6dd+36JF4o
+ zURAZb2ttfKSQew42jOzn/pA+CoNF9GrwSX5VEQdfOS9GAfWODqJ3yAEKVC2MxMIEXek
+ itxQVs+cRfpfKq48+rRMTspHkg6998PEm6z93m2oHUVWO+ZpbWdP86MbCgAFhooC3FqT
+ qfRNbLnGlAsWYav+IVmf7hO4ux2sWft1D2r58/VPx83nVms9sIk6YvvSa54B1SX74fen
+ wGXCfGH4BUmVRIL5pc9AtcPdoj2RRSFuYjuOlCVseOsFqJ+DZOSMaTwvDu/WkbzbQEEQ
+ 5doQ==
+X-Gm-Message-State: AOAM532TWH2be1hPNhlIzdZsp+26C7U24DIzCMULzifnsWJCtiCuecba
+ HYzmNHBUyOLGDGYcvNskNnv0WYjSGgTd2iFRN/GK7A==
+X-Google-Smtp-Source: ABdhPJwuPxokBxnLQxe2HyXShFSLhqIQwuZNTsUs5v7RSdXXLojKGa7VbaZCpSYf7EbxfAu5hYDUf454FDMf5OswCOo=
+X-Received: by 2002:a05:6402:5107:: with SMTP id
+ m7mr17125673edd.52.1612792143545; 
+ Mon, 08 Feb 2021 05:49:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: MSX-L101.msx.ad.zih.tu-dresden.de (172.26.34.101) To
- MSX-L105.msx.ad.zih.tu-dresden.de (172.26.34.105)
-X-PMWin-Version: 4.0.4, Antivirus-Engine: 3.79.0, Antivirus-Data: 5.81
-X-TUD-Virus-Scanned: mailout6.zih.tu-dresden.de
-X-TUD-Spam-Mout: yes
-Received-SPF: none client-ip=141.30.67.75;
- envelope-from=pascal.scholz@tu-dresden.de; helo=mailout6.zih.tu-dresden.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210203190010.759771-1-richard.henderson@linaro.org>
+ <20210203190010.759771-16-richard.henderson@linaro.org>
+In-Reply-To: <20210203190010.759771-16-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Feb 2021 13:48:52 +0000
+Message-ID: <CAFEAcA8+oaMWc=poXvvcve8iUKfsg4vNSM9cStPFYWAQa-2KBA@mail.gmail.com>
+Subject: Re: [PATCH v5 15/31] exec: Rename guest_{addr,
+ range}_valid to *_untagged
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 08 Feb 2021 09:34:47 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,59 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+On Wed, 3 Feb 2021 at 19:00, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The places that use these are better off using untagged
+> addresses, so do not provide a tagged versions.  Rename
+> to make it clear about the address type.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/exec/cpu_ldst.h |  4 ++--
+>  linux-user/qemu.h       |  4 ++--
+>  accel/tcg/user-exec.c   |  9 ++++++---
+>  linux-user/mmap.c       | 12 ++++++------
+>  linux-user/syscall.c    |  2 +-
+>  5 files changed, 17 insertions(+), 14 deletions(-)
+>
 
-I'm hoping that I addressed the right mailing lists.
+> @@ -211,13 +212,15 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>          g_assert_not_reached();
+>      }
+>
+> -    if (!guest_addr_valid(addr) || page_check_range(addr, 1, flags) < 0) {
+> +    addr = cpu_untagged_addr(env_cpu(env), addr_tagged);
 
-I'm working a bit with qemu's risc-v emulation. My current goal is to 
-simulate a complete boot process for the SiFive Unleashed Board (SU 540 
-SoC)[1]. I've created the correspondig OpenSBI and U-Boot images, being 
-the -bios and the -kernel images. It's possible for me to boot up to the 
-U-Boot prompt. From this prompt I now want to boot an system image 
-located on an emulated sd card.
+This change isn't part of a simple function-rename and should
+presumably be in a different patch?
 
-However I now fail to get a working sd card within qemu for the device 
-sifive_u. For example i tried the following command:
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios 
-build/platform/sifive/fu540/firmware/fw_jump.bin -kernel 
-../../u-boot/u-boot.bin -device sdhci-pci -device sd-card,drive=sdX 
--drive id=sdX,if=none,format=raw,file=path/to/image.elf
-
-This results in Qemu telling me: -device sdhci-pci: No 'PCI' bus found 
-for device 'sdhci-pci'.
-
-Using the machine "virt" the command above works.
-
-The thing i tried was:
-
-qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios 
-opensbi/build/platform/sifive/fu540/firmware/fw_jump.bin -kernel 
-../u-boot/u-boot.bin -sd path/to/image.elf
-
-Resulting in: machine type does not support if=sd,bus=0,unit=0
-
-
-Even if the machine gets stuck at some point when booting, Qemu has no 
-problem starting the VM if I use "-M virt" instead of "-M sifive_u". At 
-this point i think, that the machine "sifive_u" doesn't support sd 
-cards? Is this guess right or is there anything left I can try? After 
-all I'm a bit confused, because there seems to be a block device "sd0" 
-when I try to start the machine "sifive_u" without any additional 
-device/drive arguments. I would really appreciate if someone would tell 
-me, what I'm doing wrong.
-
-Thanks in advance and stay healthy!
-
-Best regards
-
-Pascal
-
-
-[1] https://www.sifive.com/boards/hifive-unleashed
-
+thanks
+-- PMM
 
