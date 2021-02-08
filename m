@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8F1313F41
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:39:51 +0100 (CET)
-Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E74313FAC
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:57:11 +0100 (CET)
+Received: from localhost ([::1]:41470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9CNy-00073e-9n
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:39:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33496)
+	id 1l9Cek-00020v-TJ
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:57:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l97sW-0006sT-E3
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:51:04 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35307)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l98Ie-0006Ks-TY; Mon, 08 Feb 2021 10:18:06 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l97sN-0007RZ-Rn
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:51:03 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id l12so17496620wry.2
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 06:50:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=3OjIIaYJOgJTaqyNNEmkAsPCnZ25uA8+JKC4fYqCwqk=;
- b=olyRjW9P/U1iYRFy0DsCcWfcH/yL3knboaFhzt3rVAAXFeAHsJXK2JgGzV9VL7XTUy
- sZCD85yu9OyeQcdcdkcKUosUt+YExVSddyIt+sJ+3c3QBytAFONSpaeeSVb8mw5twToO
- NkUubrMWuC4Gt3kXQ3LDykXxLX3WPxwA02N3wtjtfN6zaPeZIGJzU5fna+M/Up4eJlTk
- hBMCl6dM7rXuC3KQMscba9X+R+pXcSuQCcOk+gxjzKVR0YlvJ9PIX6z79Dv82+oyYK42
- nP3zIdVJBJ+mVAQ65vU/wmeFvTbDFlm0vdtNb2Mr9t4U8sXLMF8DxUTzJhb7Is2Zfv1G
- 7nOQ==
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l98IZ-00009h-59; Mon, 08 Feb 2021 10:18:04 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id t5so18519839eds.12;
+ Mon, 08 Feb 2021 07:17:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w7voTdSrdIvUZbkDbt8ve6u7eVgmZyr3khG4QbJpEGo=;
+ b=b0Iooh595bziyS8Ro2/egRtiB2gudwhJlpS2xDv6w6w3R9pzuPUVZmLRTUaGk40tn5
+ fLQye+AaemQ5vKTgQg39etzvrq703HD06XeebtyMXhstqdp8NpdvhNifwkPpnyFchLUl
+ Asbp+6yl9Me9YZyRjulDEcKU9ZuVh2ycv4AJh4PtQNgwyFxBByUCOJh2bMu9qk9fcFuh
+ F93qoGufljkqEtV4ZO3feEqNIOHAAeUZs8scrfp+dV7pSsgTDNEogKCCV8DgCdbZL9pN
+ xGsTwo3IewlYtXvgteCN84PgajjV1IQcKZuSXqbrL/UxdUJ0Apljc+98j52CUIH0Tki1
+ 0Q1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=3OjIIaYJOgJTaqyNNEmkAsPCnZ25uA8+JKC4fYqCwqk=;
- b=EFhVqcXmA+2dP0n11vSZbAauN5rEVZi5P4DdkUlf/JTeO5ZsLHxe1bIkjE8VZRab0P
- 7jWqCWnuE1fBbqSAED6U8zIHZ+zQyiNSbWk/nxUTyEFofJDLaK8Ca+su8Z+n6iFfv9Uo
- KVbakzGxJXTy5lwQpu2cFHYIYcf0RRIxOCYesuv5YXVJDk5ZEs3gj5w92z4ht1en1WTI
- WDigNK+a/4mSOIbebM+zChulKtWTfra0Vkdwv6M35/7b7CXUzARz36CjGJkWwAFPrwG4
- I0xye7OjkVWGPqmRk4xyaNWcW669nrIUcumUNVZY7ylWFI3ebYl2MuifwVqtr6rtyvRU
- kyMA==
-X-Gm-Message-State: AOAM531cpVmAdagz6siN3PCVpomLDPk1OzCx0frY/PRKXEejKdlq1NXD
- PuwcOgz+CiNyTMJpwJGvkf/3Yg==
-X-Google-Smtp-Source: ABdhPJzfje3YiI0XflS4r5tABl9ki+cYIStyuyJv/Bj4WhcO84VnM1fnUUZUeJNvGLhfcfo3NRG/iQ==
-X-Received: by 2002:adf:cd8f:: with SMTP id q15mr2498993wrj.386.1612795852988; 
- Mon, 08 Feb 2021 06:50:52 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 16sm15967986wmi.43.2021.02.08.06.50.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 06:50:51 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1777E1FF7E;
- Mon,  8 Feb 2021 14:50:51 +0000 (GMT)
-References: <20210207232310.2505283-1-f4bug@amsat.org>
- <20210207232310.2505283-6-f4bug@amsat.org> <87im73aqsq.fsf@linaro.org>
- <83c71866-2e28-2edb-d79d-f4f96bb765a1@amsat.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v2 5/6] accel/tcg: Refactor debugging
- tlb_assert_iotlb_entry_for_ptr_present()
-Date: Mon, 08 Feb 2021 14:48:20 +0000
-In-reply-to: <83c71866-2e28-2edb-d79d-f4f96bb765a1@amsat.org>
-Message-ID: <871rdqbol0.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w7voTdSrdIvUZbkDbt8ve6u7eVgmZyr3khG4QbJpEGo=;
+ b=IaQLXwef8lvNAoDYRvVN0xI9UZO8tjDnfZnEdJTzgS0LrfigDruvitKFZLv+v+SeY6
+ HB4cUM316sN6MWVVzfJzY1v4OUY0kDJJdg4dsZKbwO3y6TezEHoD1YAf5N/PaEx2XcYa
+ YXHhf/fqIv00d05p+G4QJ4BN59NWkHEbxdW85Sx+V9oh8V2c/YsRTrITJBsxXgfV8GXT
+ lPvG8GcSYDjMtP56CSRIlV+HgGLh2MM/XlTzH6t354x9FJYchbLVO8kKblEaFiuVlS0G
+ BKUZNQCC5/GFnMPedn70U6MLnk2oLrNC8vk+VkDIJUf1tONDiDu5aArR4QyVa9IFWmFk
+ Ou4g==
+X-Gm-Message-State: AOAM533u2nUvwmWG2KXmXKuCpAj27Ub7vnJpRNRrdy+ESiPTtkFqaOc/
+ 6jKuWLOCTjBf/lMlWRWXrHJSyjQekwJbDA+c8Kk=
+X-Google-Smtp-Source: ABdhPJyolJvMbDpW+HRkuiDlMCINh6c0QxqUbJ86aJn9gxU+dJE8maADfTCPdW5MWwQwPBnZn9WTtz0hXaNs4eQqq8E=
+X-Received: by 2002:aa7:cb8f:: with SMTP id r15mr17787819edt.130.1612797477438; 
+ Mon, 08 Feb 2021 07:17:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+References: <1612761924-68000-1-git-send-email-bmeng.cn@gmail.com>
+ <1612761924-68000-3-git-send-email-bmeng.cn@gmail.com>
+ <20210208124425.GI477672@toto>
+ <CAEUhbmV=QLCuk5_bymrVNPO_vEU=R1A3urAaqhnNAgSGpiTsGw@mail.gmail.com>
+ <CAJy5ezooJ21SAFhR2Pf=1aAwBkPEUivbCawZy-geCx+g36EP2Q@mail.gmail.com>
+ <CAEUhbmVZr0pAW86kYjiXryN3cOaPc2LmrH9=fqLQUUdJrKX4Cw@mail.gmail.com>
+In-Reply-To: <CAEUhbmVZr0pAW86kYjiXryN3cOaPc2LmrH9=fqLQUUdJrKX4Cw@mail.gmail.com>
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Date: Mon, 8 Feb 2021 16:17:46 +0100
+Message-ID: <CAJy5ezqPC365CAjzMmAfSyKw9uL+ur48bD4=WmMQWHA+_fCE=A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/ssi: xilinx_spips: Implement basic QSPI DMA
+ support
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000bcca0c05bad4ac01"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,162 +81,178 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-riscv@nongnu.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000bcca0c05bad4ac01
+Content-Type: text/plain; charset="UTF-8"
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+On Mon, Feb 8, 2021 at 3:45 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-> On 2/8/21 9:42 AM, Alex Benn=C3=A9e wrote:
->>=20
->> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
->>=20
->>> Refactor debug code as tlb_assert_iotlb_entry_for_ptr_present() helper.
->>>
->>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>> ---
->>> What this code does is out of my league, but refactoring it allow
->>> keeping tlb_addr_write() local to accel/tcg/cputlb.c in the next
->>> patch.
->>=20
->> The assertion that the table entry is current is just a simple
->> housekeeping one. The details of how the MTE implementation uses
->> (abuses?) the iotlb entries requires a closer reading of the code.
->>=20
->>> ---
->>>  include/exec/exec-all.h |  9 +++++++++
->>>  accel/tcg/cputlb.c      | 14 ++++++++++++++
->>>  target/arm/mte_helper.c | 11 ++---------
->>>  target/arm/sve_helper.c | 10 ++--------
->>>  4 files changed, 27 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
->>> index f933c74c446..c5e8e355b7f 100644
->>> --- a/include/exec/exec-all.h
->>> +++ b/include/exec/exec-all.h
->>> @@ -296,6 +296,15 @@ void tlb_set_page_with_attrs(CPUState *cpu, target=
-_ulong vaddr,
->>>  void tlb_set_page(CPUState *cpu, target_ulong vaddr,
->>>                    hwaddr paddr, int prot,
->>>                    int mmu_idx, target_ulong size);
->>> +
->>> +/*
->>> + * Find the iotlbentry for ptr.  This *must* be present in the TLB
->>> + * because we just found the mapping.
->>> + */
->>> +void tlb_assert_iotlb_entry_for_ptr_present(CPUArchState *env, int ptr=
-_mmu_idx,
->>> +                                            uint64_t ptr,
->>> +                                            MMUAccessType ptr_access,
->>> +                                            uintptr_t index);
->>=20
->> Probably worth making this an empty inline for the non CONFIG_DEBUG_TCG
->> case so we can eliminate the call to an empty function.
+> Hi Edgar,
 >
-> But then we can't make tlb_addr_write() static (next patch) and
-> we still have to include "tcg/tcg.h" for the TCG_OVERSIZED_GUEST
-> definition...
-
-Hmm - yeah. I'm not keen on turning something into a function call when
-the compiler should have all the information it needs with it. On the
-other hand maybe we don't care for a debug assert.
-
-Richard WDYT?
-
+> On Mon, Feb 8, 2021 at 10:34 PM Edgar E. Iglesias
+> <edgar.iglesias@gmail.com> wrote:
+> >
+> >
+> >
+> > On Mon, 8 Feb 2021, 15:10 Bin Meng, <bmeng.cn@gmail.com> wrote:
+> >>
+> >> Hi Edgar,
+> >>
+> >> On Mon, Feb 8, 2021 at 8:44 PM Edgar E. Iglesias
+> >> <edgar.iglesias@gmail.com> wrote:
+> >> >
+> >> > On Mon, Feb 08, 2021 at 01:25:24PM +0800, Bin Meng wrote:
+> >> > > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> >> > >
+> >> > > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+> >> > > is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+> >> > > crash. This is observed when testing VxWorks 7.
+> >> > >
+> >> > > Add a basic implementation of QSPI DMA functionality.
+> >> > >
+> >> > > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> >> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >> >
+> >> > + Francisco
+> >> >
+> >> > Hi,
+> >> >
+> >> > Like Peter commented on the previous version, the DMA unit is actully
+> separate.
+> >>
+> >> Is it really separate? In the Xilinx ZynqMP datasheet, it's an
+> >> integrated DMA unit dedicated for QSPI usage. IIUC, other modules on
+> >> the ZynqMP SoC cannot use it to do any DMA transfer. To me this is no
+> >> different like a DMA engine in a ethernet controller.
+> >
+> >
+> > Yes, it's a separate module.
+> >
+> >>
+> >> > This module is better modelled by pushing data through the Stream
+> framework
+> >> > into the DMA. The DMA model is not upstream but can be found here:
+> >> > https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
+> >> >
+> >>
+> >> What's the benefit of modeling it using the stream framework?
+> >
+> >
+> >
+> > Because it matches real hw and this particular dma exists in various
+> instances, not only in qspi. We don't want duplicate implementations of the
+> same dma.
+> >
 >
->>=20
->>>  #else
->>>  static inline void tlb_init(CPUState *cpu)
->>>  {
->>> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
->>> index 8a7b779270a..a6247da34a0 100644
->>> --- a/accel/tcg/cputlb.c
->>> +++ b/accel/tcg/cputlb.c
->>> @@ -429,6 +429,20 @@ void tlb_flush_all_cpus_synced(CPUState *src_cpu)
->>>      tlb_flush_by_mmuidx_all_cpus_synced(src_cpu, ALL_MMUIDX_BITS);
->>>  }
->>>=20=20
->>> +void tlb_assert_iotlb_entry_for_ptr_present(CPUArchState *env, int ptr=
-_mmu_idx,
->>> +                                            uint64_t ptr,
->>> +                                            MMUAccessType ptr_access,
->>> +                                            uintptr_t index)
->>> +{
->>> +#ifdef CONFIG_DEBUG_TCG
->>> +    CPUTLBEntry *entry =3D tlb_entry(env, ptr_mmu_idx, ptr);
->>> +    target_ulong comparator =3D (ptr_access =3D=3D MMU_DATA_LOAD
->>> +                               ? entry->addr_read
->>> +                               : tlb_addr_write(entry));
->>> +    g_assert(tlb_hit(comparator, ptr));
->>> +#endif
->>> +}
->>> +
->>>  static bool tlb_hit_page_mask_anyprot(CPUTLBEntry *tlb_entry,
->>>                                        target_ulong page, target_ulong =
-mask)
->>>  {
->>> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
->>> index 6cea9d1b506..f47d3b4570e 100644
->>> --- a/target/arm/mte_helper.c
->>> +++ b/target/arm/mte_helper.c
->>> @@ -111,15 +111,8 @@ static uint8_t *allocation_tag_mem(CPUARMState *en=
-v, int ptr_mmu_idx,
->>>       * matching tlb entry + iotlb entry.
->>>       */
->>>      index =3D tlb_index(env, ptr_mmu_idx, ptr);
->>> -# ifdef CONFIG_DEBUG_TCG
->>> -    {
->>> -        CPUTLBEntry *entry =3D tlb_entry(env, ptr_mmu_idx, ptr);
->>> -        target_ulong comparator =3D (ptr_access =3D=3D MMU_DATA_LOAD
->>> -                                   ? entry->addr_read
->>> -                                   : tlb_addr_write(entry));
->>> -        g_assert(tlb_hit(comparator, ptr));
->>> -    }
->>> -# endif
->>> +    tlb_assert_iotlb_entry_for_ptr_present(env, ptr_mmu_idx, ptr,
->>> +                                           ptr_access, index);
->>>      iotlbentry =3D &env_tlb(env)->d[ptr_mmu_idx].iotlb[index];
->>>=20=20
->>>      /* If the virtual page MemAttr !=3D Tagged, access unchecked. */
->>> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
->>> index c8cdf7618eb..a5708da0f2f 100644
->>> --- a/target/arm/sve_helper.c
->>> +++ b/target/arm/sve_helper.c
->>> @@ -4089,14 +4089,8 @@ static bool sve_probe_page(SVEHostPage *info, bo=
-ol nofault,
->>>      {
->>>          uintptr_t index =3D tlb_index(env, mmu_idx, addr);
->>>=20=20
->>> -# ifdef CONFIG_DEBUG_TCG
->>> -        CPUTLBEntry *entry =3D tlb_entry(env, mmu_idx, addr);
->>> -        target_ulong comparator =3D (access_type =3D=3D MMU_DATA_LOAD
->>> -                                   ? entry->addr_read
->>> -                                   : tlb_addr_write(entry));
->>> -        g_assert(tlb_hit(comparator, addr));
->>> -# endif
->>> -
->>> +        tlb_assert_iotlb_entry_for_ptr_present(env, mmu_idx, addr,
->>> +                                               access_type, index);
->>>          CPUIOTLBEntry *iotlbentry =3D &env_tlb(env)->d[mmu_idx].iotlb[=
-index];
->>>          info->attrs =3D iotlbentry->attrs;
->>>      }
->>=20
->> with the inline fix:
->>=20
->> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>=20
+> Would you please share more details, like what other peripherals are
+> using this same DMA model?
+>
+>
+It's used by the Crypto blocks (SHA, AES) and by the bitstream programming
+blocks on the ZynqMP.
+In Versal there's the same plus some additional uses of this DMA...
 
+Best regards,
+Edgar
 
---=20
-Alex Benn=C3=A9e
+--000000000000bcca0c05bad4ac01
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 8, 2021 at 3:45 PM Bin Me=
+ng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Edgar,<br=
+>
+<br>
+On Mon, Feb 8, 2021 at 10:34 PM Edgar E. Iglesias<br>
+&lt;<a href=3D"mailto:edgar.iglesias@gmail.com" target=3D"_blank">edgar.igl=
+esias@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Mon, 8 Feb 2021, 15:10 Bin Meng, &lt;<a href=3D"mailto:bmeng.cn@gma=
+il.com" target=3D"_blank">bmeng.cn@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Hi Edgar,<br>
+&gt;&gt;<br>
+&gt;&gt; On Mon, Feb 8, 2021 at 8:44 PM Edgar E. Iglesias<br>
+&gt;&gt; &lt;<a href=3D"mailto:edgar.iglesias@gmail.com" target=3D"_blank">=
+edgar.iglesias@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; On Mon, Feb 08, 2021 at 01:25:24PM +0800, Bin Meng wrote:<br>
+&gt;&gt; &gt; &gt; From: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@wi=
+ndriver.com" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; ZynqMP QSPI supports SPI transfer using DMA mode, but cu=
+rrently this<br>
+&gt;&gt; &gt; &gt; is unimplemented. When QSPI is programmed to use DMA mod=
+e, QEMU will<br>
+&gt;&gt; &gt; &gt; crash. This is observed when testing VxWorks 7.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; Add a basic implementation of QSPI DMA functionality.<br=
+>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou=
+.cheng@windriver.com" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<=
+br>
+&gt;&gt; &gt; &gt; Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@w=
+indriver.com" target=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; + Francisco<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Hi,<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Like Peter commented on the previous version, the DMA unit is=
+ actully separate.<br>
+&gt;&gt;<br>
+&gt;&gt; Is it really separate? In the Xilinx ZynqMP datasheet, it&#39;s an=
+<br>
+&gt;&gt; integrated DMA unit dedicated for QSPI usage. IIUC, other modules =
+on<br>
+&gt;&gt; the ZynqMP SoC cannot use it to do any DMA transfer. To me this is=
+ no<br>
+&gt;&gt; different like a DMA engine in a ethernet controller.<br>
+&gt;<br>
+&gt;<br>
+&gt; Yes, it&#39;s a separate module.<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; This module is better modelled by pushing data through the St=
+ream framework<br>
+&gt;&gt; &gt; into the DMA. The DMA model is not upstream but can be found =
+here:<br>
+&gt;&gt; &gt; <a href=3D"https://github.com/Xilinx/qemu/blob/master/hw/dma/=
+csu_stream_dma.c" rel=3D"noreferrer" target=3D"_blank">https://github.com/X=
+ilinx/qemu/blob/master/hw/dma/csu_stream_dma.c</a><br>
+&gt;&gt; &gt;<br>
+&gt;&gt;<br>
+&gt;&gt; What&#39;s the benefit of modeling it using the stream framework?<=
+br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; Because it matches real hw and this particular dma exists in various i=
+nstances, not only in qspi. We don&#39;t want duplicate implementations of =
+the same dma.<br>
+&gt;<br>
+<br>
+Would you please share more details, like what other peripherals are<br>
+using this same DMA model?<br>
+<br></blockquote></div><div class=3D"gmail_quote"><br></div><div class=3D"g=
+mail_quote">It&#39;s used by the Crypto blocks (SHA, AES) and by the bitstr=
+eam programming blocks on the ZynqMP.</div><div class=3D"gmail_quote">In Ve=
+rsal there&#39;s the same plus some additional uses of this DMA...</div><di=
+v class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Best regards,<=
+/div><div class=3D"gmail_quote">Edgar<br></div><div class=3D"gmail_quote"><=
+br></div></div>
+
+--000000000000bcca0c05bad4ac01--
 
