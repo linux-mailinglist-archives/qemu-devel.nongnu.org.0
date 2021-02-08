@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC6C314304
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:31:05 +0100 (CET)
-Received: from localhost ([::1]:42282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596CE314306
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:31:51 +0100 (CET)
+Received: from localhost ([::1]:43794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9F3g-0001Pn-4a
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:31:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50828)
+	id 1l9F4Q-00021X-DR
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:31:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCj-0003ej-JW
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:10 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40452)
+ id 1l9BCp-0003hp-GK
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:18 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCi-0006KW-0u
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:09 -0500
-Received: by mail-wm1-x331.google.com with SMTP id o24so43576wmh.5
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:24:07 -0800 (PST)
+ id 1l9BCk-0006Lu-H6
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:11 -0500
+Received: by mail-wr1-x434.google.com with SMTP id u14so18423646wri.3
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:24:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cN1ZcZPR2RGrOQpA8sK4oqGTYEHRS4ZzRRQsbqTSWis=;
- b=OcFGOQ5pHzNDFIIbsee46MvK5f2nF/yFcxQ453WF8falY8uh84CG5/ZtQ6LEWwLCiv
- +T2Zh+uB5J1m4pP1IdqJdcleWyb1a5y6NzE1DENir+cB+UNzDnmIgla9FShKImny5h+9
- iC4KoOckj9ymKO7jquxMm8W2F4ArffPL0zchgB122zjgy5q0bxjZCADpbMQbfI+JA+RS
- mMFcgn6vSjZk5VjSJfqLOJ2Chw4drHGJkvf1DdxzyX/0dqRkR9gaqSPvENrSgEyOE0eA
- bNvkiXaSSZhCPwUYBkNEYj2n2AkLS5AMFtnB/VfFPBxL6EpvwZMMctMqKk4q7hp8uICd
- QYzw==
+ bh=jJ6Cu/Beow+uQH9ge+yS//OEx9qNhN8s7bcO3l6ph2s=;
+ b=l4wC/xsKiPVD5fsJAxarWAJXjWI+HINbfz0QYI0mK2Ly8O5OKovL/NM03zOpGC75B0
+ skidZMBNillj8tWJugHmdCfalPWSuUSYHHs+M6pWnqXYY5hb7HN0gHKDtdlkskXfmjvc
+ 2VdwDHZNbOils1UgNbufMFsTbSGFxlECrAmS0rm9pMfxiiIXU3e1yRcoPCQ6GHDs3gtl
+ Uroy/b7wYuzB29PW3A/15YkeOPqaEcd8tNZT6fjcEIycFesl5bMr1gkWr3TAX4uPfhxt
+ AvOGOJtPWhgEdfWYoxQthaOtWUNqh+K3I8f662tBma5s8WAAv75lpeeSFwQz7wTDSlgC
+ bEag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cN1ZcZPR2RGrOQpA8sK4oqGTYEHRS4ZzRRQsbqTSWis=;
- b=R4zAFZIM/Fh8wS+ycry5nUVUzKIsSOsiSkP4EYbWpbH+eSkBfxuAxjDZbb0bzksokF
- aKbc6WToMlMIwUujHWPhFzA6SaGbfvd2or2cm5GZBZsPoZo8RvjsBM8oflnOyZIfKGno
- oPYHA2T5x1ITyxqtZ5hMxzSBcuqO+d7gY+7sHfcMqekd76sz1A0WX2b4wpiTWKtRpAqz
- R+ypZedmFMV1eW3hYm+Tjz/9yIXJsM8to5haPLBkDKSw+dbh3JvpsY4jieDwOCLCNV0/
- jixJX9oHV/pKDf0aFYT381GarMAwnHW9QMPfAoE56PCYEgvL32XJxJcnDwkHs2dMr8k6
- XeNg==
-X-Gm-Message-State: AOAM5328G5XdsJByUhV7quW7GaXXPRa9Noeiv9JzoWVrs3BMOBS6NA1N
- kixEG5XiYVRzBGB4h6ifT2WGzzUWIDwjCw==
-X-Google-Smtp-Source: ABdhPJyf5i5jTekJeH2QHw6zJTNBolH4NvRUScT2vuSdEb3P013PneRJccSzKBGFYYwzK3VCd2pcFg==
-X-Received: by 2002:a1c:f706:: with SMTP id v6mr49532wmh.85.1612808646765;
- Mon, 08 Feb 2021 10:24:06 -0800 (PST)
+ bh=jJ6Cu/Beow+uQH9ge+yS//OEx9qNhN8s7bcO3l6ph2s=;
+ b=SiCA6UIi9VXgsSe7CEjOEt7DVpnK/YKHSvWnDPC4r6Cv5fbkHMA3VIv4oG0Imncr14
+ NK3jdD91dNuJROvScXvVrzf1cm5aj/drVojPtJkOdwkAZ7Zimz35bKd+f9U8Jpt+27EP
+ JV7pjBXDI9GquVco3ZNpsu/wqT7T+e/Qgifs7RREz4+myf1hSFrJeFZZe4hadfYK6LPa
+ RaH3OcRMkMRKC5rzYDBwrLAurO53S1EKHj88DuVWji76uMfNBfUQ6dti6F51WCNQMH0J
+ lwsgcxRAmj//k3Z4CQU2099byVkwSgY/TUsVSPZmefpBpQlssF8U7RM/9xEqmu4O9O+a
+ 6hSQ==
+X-Gm-Message-State: AOAM5321JsF0y5Z51UhYTsYW1fisXRU/wqav1/x5BprE9QqUPACe8mPt
+ XkCytvpx6S4p4coJ0UZsaTmn4elscF0dKg==
+X-Google-Smtp-Source: ABdhPJzPoE1Z4mloz/1dqiDNV3XwBZbld3vIemxYIYHdGGY992ShLRuMlRPK8QAehkj0dtpnX+D/YQ==
+X-Received: by 2002:a5d:5549:: with SMTP id g9mr22431632wrw.244.1612808649199; 
+ Mon, 08 Feb 2021 10:24:09 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.24.05
+ x22sm19670wmc.25.2021.02.08.10.24.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:24:06 -0800 (PST)
+ Mon, 08 Feb 2021 10:24:08 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/46] cpu-throttle: Remove timer_mod() from cpu_throttle_set()
-Date: Mon,  8 Feb 2021 19:23:21 +0100
-Message-Id: <20210208182331.58897-37-pbonzini@redhat.com>
+Subject: [PULL 38/46] pci-host: designware: add pcie-msi read method
+Date: Mon,  8 Feb 2021 19:23:23 +0100
+Message-Id: <20210208182331.58897-39-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,75 +84,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Utkarsh Tripathi <utkarsh.tripathi@nutanix.com>
+Cc: Lei Sun <slei.casper@gmail.com>, Li Qiang <liq3ea@gmail.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Utkarsh Tripathi <utkarsh.tripathi@nutanix.com>
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-During migrations, after each iteration, cpu_throttle_set() is called,
-which irrespective of input, re-arms the timer according to value of
-new_throttle_pct. This causes cpu_throttle_thread() to be delayed in
-getting scheduled and consqeuntly lets guest run for more time than what
-the throttle value should allow. This leads to spikes in guest throughput
-at high cpu-throttle percentage whenever cpu_throttle_set() is called.
+Add pcie-msi mmio read method to avoid NULL pointer dereference
+issue.
 
-A solution would be not to modify the timer immediately in
-cpu_throttle_set(), instead, only modify throttle_percentage so that the
-throttle would automatically adjust to the required percentage when
-cpu_throttle_timer_tick() is invoked.
-
-Manually tested the patch using following configuration:
-
-Guest:
-Centos7 (3.10.0-123.el7.x86_64)
-Total Memory - 64GB , CPUs - 16
-Tool used - stress (1.0.4)
-Workload - stress --vm 32 --vm-bytes 1G --vm-keep
-
-Migration Parameters:
-Network Bandwidth - 500MBPS
-cpu-throttle-initial - 99
-
-Results:
-With timer_mod(): fails to converge, continues indefinitely
-Without timer_mod(): converges in 249 sec
-
-Signed-off-by: Utkarsh Tripathi <utkarsh.tripathi@nutanix.com>
-Message-Id: <1609420384-119407-1-git-send-email-utkarsh.tripathi@nutanix.com>
+Reported-by: Lei Sun <slei.casper@gmail.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Message-Id: <20200811114133.672647-3-ppandit@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/cpu-throttle.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ hw/pci-host/designware.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/softmmu/cpu-throttle.c b/softmmu/cpu-throttle.c
-index 2ec4b8e0bc..8c2144ab95 100644
---- a/softmmu/cpu-throttle.c
-+++ b/softmmu/cpu-throttle.c
-@@ -90,14 +90,21 @@ static void cpu_throttle_timer_tick(void *opaque)
- 
- void cpu_throttle_set(int new_throttle_pct)
- {
-+    /*
-+     * boolean to store whether throttle is already active or not,
-+     * before modifying throttle_percentage
-+     */
-+    bool throttle_active = cpu_throttle_active();
-+
-     /* Ensure throttle percentage is within valid range */
-     new_throttle_pct = MIN(new_throttle_pct, CPU_THROTTLE_PCT_MAX);
-     new_throttle_pct = MAX(new_throttle_pct, CPU_THROTTLE_PCT_MIN);
- 
-     qatomic_set(&throttle_percentage, new_throttle_pct);
- 
--    timer_mod(throttle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL_RT) +
--                                       CPU_THROTTLE_TIMESLICE_NS);
-+    if (!throttle_active) {
-+        cpu_throttle_timer_tick(NULL);
-+    }
+diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
+index f9fb97a3e3..bde3a343a2 100644
+--- a/hw/pci-host/designware.c
++++ b/hw/pci-host/designware.c
+@@ -21,6 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
++#include "qemu/log.h"
+ #include "hw/pci/msi.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pci_host.h"
+@@ -63,6 +64,23 @@ designware_pcie_root_to_host(DesignwarePCIERoot *root)
+     return DESIGNWARE_PCIE_HOST(bus->parent);
  }
  
- void cpu_throttle_stop(void)
++static uint64_t designware_pcie_root_msi_read(void *opaque, hwaddr addr,
++                                              unsigned size)
++{
++    /*
++     * Attempts to read from the MSI address are undefined in
++     * the PCI specifications. For this hardware, the datasheet
++     * specifies that a read from the magic address is simply not
++     * intercepted by the MSI controller, and will go out to the
++     * AHB/AXI bus like any other PCI-device-initiated DMA read.
++     * This is not trivial to implement in QEMU, so since
++     * well-behaved guests won't ever ask a PCI device to DMA from
++     * this address we just log the missing functionality.
++     */
++    qemu_log_mask(LOG_UNIMP, "%s not implemented\n", __func__);
++    return 0;
++}
++
+ static void designware_pcie_root_msi_write(void *opaque, hwaddr addr,
+                                            uint64_t val, unsigned len)
+ {
+@@ -77,6 +95,7 @@ static void designware_pcie_root_msi_write(void *opaque, hwaddr addr,
+ }
+ 
+ static const MemoryRegionOps designware_pci_host_msi_ops = {
++    .read = designware_pcie_root_msi_read,
+     .write = designware_pcie_root_msi_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .valid = {
 -- 
 2.29.2
 
