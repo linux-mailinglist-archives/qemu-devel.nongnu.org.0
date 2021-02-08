@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F27312AA8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 07:22:58 +0100 (CET)
-Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D65C312A99
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 07:14:48 +0100 (CET)
+Received: from localhost ([::1]:60746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8zwn-0008Kp-Fe
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 01:22:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58558)
+	id 1l8zot-0008Qp-Ip
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 01:14:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgO-0007dE-7h; Mon, 08 Feb 2021 01:06:00 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:43701)
+ id 1l8zgW-0007tp-51; Mon, 08 Feb 2021 01:06:08 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46997 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgL-0005ns-L4; Mon, 08 Feb 2021 01:05:59 -0500
+ id 1l8zgU-000639-27; Mon, 08 Feb 2021 01:06:07 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwVs2m9Jz9sVn; Mon,  8 Feb 2021 17:05:40 +1100 (AEDT)
+ id 4DYwVt2mp3z9sWQ; Mon,  8 Feb 2021 17:05:42 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612764341;
- bh=cnlEO+w/k8AwHUX8N63/06xxXcU3DOPo90IV/45n4iQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1612764342;
+ bh=rGrCUIDaja9zftftkqQIdjL/kYsYIfZR7xVO077v4wc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JgBirXVDLEBl7hnrWO70ZQ7qO+CYPp7szfnpV3uVC3Zidj0zlsKj/7ThjKH14T+NJ
- xwr9XM/KvVdsdPNKOsDrh6KmcwBKW9T4wmN52YQ7VEYVLLKVP15FXGAHUVgg7XgqPj
- djQEVYKevCZbOVncliguSwUATyobbyjjFmTti6n0=
+ b=AnWxRqvviaZUD7kIPhNWbtRxAjt3/WWEuf/bycf9gmjR+im/2Q/fmjha6oBz3eFKH
+ jXrnF5HF1pYPnGWacmtFIbn5ZPDs3q+4injHA5V96M6yTeuAg/eDjinTf/43lJ/0RA
+ txThkvKcyUNZjKOkpMptkHlBVCO8QMaGNEiBfiys=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: pasic@linux.ibm.com, dgilbert@redhat.com, pair@us.ibm.com,
  qemu-devel@nongnu.org, brijesh.singh@amd.com
-Subject: [PULL v9 04/13] confidential guest support: Move side effect out of
- machine_set_memory_encryption()
-Date: Mon,  8 Feb 2021 17:05:29 +1100
-Message-Id: <20210208060538.39276-5-david@gibson.dropbear.id.au>
+Subject: [PULL v9 12/13] confidential guest support: Alter virtio default
+ properties for protected guests
+Date: Mon,  8 Feb 2021 17:05:37 +1100
+Message-Id: <20210208060538.39276-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208060538.39276-1-david@gibson.dropbear.id.au>
 References: <20210208060538.39276-1-david@gibson.dropbear.id.au>
@@ -70,61 +70,55 @@ Cc: Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the "memory-encryption" property is set, we also disable KSM
-merging for the guest, since it won't accomplish anything.
+The default behaviour for virtio devices is not to use the platforms normal
+DMA paths, but instead to use the fact that it's running in a hypervisor
+to directly access guest memory.  That doesn't work if the guest's memory
+is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
 
-We want that, but doing it in the property set function itself is
-thereoretically incorrect, in the unlikely event of some configuration
-environment that set the property then cleared it again before
-constructing the guest.
-
-More importantly, it makes some other cleanups we want more difficult.
-So, instead move this logic to machine_run_board_init() conditional on
-the final value of the property.
+So, if a confidential guest mechanism is enabled, then apply the
+iommu_platform=on option so it will go through normal DMA mechanisms.
+Those will presumably have some way of marking memory as shared with
+the hypervisor or hardware so that DMA will work.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/core/machine.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ hw/core/machine.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 5d6163ab70..919067b5c9 100644
+index f45a795478..970046f438 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -437,14 +437,6 @@ static void machine_set_memory_encryption(Object *obj, const char *value,
+@@ -33,6 +33,8 @@
+ #include "migration/global_state.h"
+ #include "migration/vmstate.h"
+ #include "exec/confidential-guest-support.h"
++#include "hw/virtio/virtio.h"
++#include "hw/virtio/virtio-pci.h"
  
-     g_free(ms->memory_encryption);
-     ms->memory_encryption = g_strdup(value);
--
--    /*
--     * With memory encryption, the host can't see the real contents of RAM,
--     * so there's no point in it trying to merge areas.
--     */
--    if (value) {
--        machine_set_mem_merge(obj, false, errp);
--    }
- }
- 
- static bool machine_get_nvdimm(Object *obj, Error **errp)
-@@ -1166,6 +1158,15 @@ void machine_run_board_init(MachineState *machine)
-                     cc->deprecation_note);
+ GlobalProperty hw_compat_5_2[] = {};
+ const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+@@ -1196,6 +1198,17 @@ void machine_run_board_init(MachineState *machine)
+          * areas.
+          */
+         machine_set_mem_merge(OBJECT(machine), false, &error_abort);
++
++        /*
++         * Virtio devices can't count on directly accessing guest
++         * memory, so they need iommu_platform=on to use normal DMA
++         * mechanisms.  That requires also disabling legacy virtio
++         * support for those virtio pci devices which allow it.
++         */
++        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy",
++                                   "on", true);
++        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform",
++                                   "on", false);
      }
  
-+    if (machine->memory_encryption) {
-+        /*
-+         * With memory encryption, the host can't see the real
-+         * contents of RAM, so there's no point in it trying to merge
-+         * areas.
-+         */
-+        machine_set_mem_merge(OBJECT(machine), false, &error_abort);
-+    }
-+
      machine_class->init(machine);
-     phase_advance(PHASE_MACHINE_INITIALIZED);
- }
 -- 
 2.29.2
 
