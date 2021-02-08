@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA523141CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:31:32 +0100 (CET)
-Received: from localhost ([::1]:60614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBF73141E3
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:34:09 +0100 (CET)
+Received: from localhost ([::1]:40900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9E81-0004tR-UU
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:31:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
+	id 1l9EAa-0008Sv-8e
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:34:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9A7M-0005dp-Fy
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:14:32 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:33985)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l99sf-0001mm-Sp
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:59:24 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id hs11so26069266ejc.1
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 08:59:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7lrcl0AGTHCZpOqWVGnqUjlPHsFDdL9A6NivSCkJQ5o=;
- b=xlPnt9T6YXChNdFuhdi6LWM6RsfHp2EhmFIUazAj4avI5tjbj7Oz3VMmrThLFxxXUc
- bO5GKmIE+JMcBYjyLoanSKKnaY8ql8lKgjoU8oZga3ZxtFbK3VbzCkM+FYaqtcKxurrN
- 9B5F2+ggjAaIW3uGWYkLmt0XadxGq7OINvmX4L+kmjzEyPeIv+5AngyXBn7Ba5a9E8a8
- bc07lnqBKINgA0ahGnQ30J+8SUXujKpdgYR1TIa9pyqdDh/kpZKp+MG4fNzO3l06kWgg
- 97AsP5DlmGzSehEjklhnV5a1FIv7XOmtbLUyLxIBcsKeFtFJdqQl34DTI17jFvfkoRCC
- Kv9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7lrcl0AGTHCZpOqWVGnqUjlPHsFDdL9A6NivSCkJQ5o=;
- b=iAwId7sNYnRdWykIm3WuJnFNdzHPDZLjFHQedH/WX2uOTxIBLw2ezx0lQIQxXi7BwV
- g1w68rjiBKoMDHm/iBGhgA77JWAbvp3LerDL0VxGa9gioj+1Dy4efPqu2XcjTS4tg53h
- uSCV3HtFE0ZsMCzu7GbAYfqCJP05yfVOUxIhMOSD1mDCOQs+QUqwubhVrxzshO86ZOSe
- TGzTqTO4BOG9o46UmdCJnj/0GyVRfvg987eqSZbAL2MELJpwOJZqGsxQSwLeHo9jBQ0W
- 9Vy1lGkqbXDguwQFkbGqjcfpJrPqBu6o73qEJznJUUPE16nOXxoz2aY4vlgKAu3VEazP
- Km5w==
-X-Gm-Message-State: AOAM532mbGE+1Pupj/WxbgyNF40bLH0GsYM3vb96cpPrfFAg8Km7lJzz
- +zup3uWhdTshkTY2bFilQWLCwRZ4C4lJoFBEa/V/Fg==
-X-Google-Smtp-Source: ABdhPJxnIe3wQ+VQIeU7qJ6faqOAv4pqI8BktNOe8I1JRvbhW7MwO5Q2R8tch565B4pQYMCvfxBjkGBfKwIxwA3PTiQ=
-X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr18434619ejd.250.1612803557895; 
- Mon, 08 Feb 2021 08:59:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l9AAt-00074z-Iu
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:18:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l9AAm-0007Xw-MV
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:18:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612804681;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pIpEG75TOTc09s5XQ0xCsjCO8Fs8Yu8QuUEmdX+uidc=;
+ b=LZjaI/E5jxrEVagR77u+eV8wQM/D74y6Cm+MJQ8+/9d28rvL/TioVAp6s61KJfCdIY+bDe
+ j5ieSs7JjIem0NWzki/VVenWLpUawkjzQzKtd/GVWWUMc3mp+iYuUqLIAlmsVn+nodb2Fp
+ 9C4YL5MRw3a9nE8li4yIzYSLP7KJ84o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-WdglnWVFNfep96zZ5h7N4A-1; Mon, 08 Feb 2021 12:17:59 -0500
+X-MC-Unique: WdglnWVFNfep96zZ5h7N4A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 750A2108C28F;
+ Mon,  8 Feb 2021 17:17:49 +0000 (UTC)
+Received: from gondolin (ovpn-113-28.ams2.redhat.com [10.36.113.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2B4660C05;
+ Mon,  8 Feb 2021 17:17:47 +0000 (UTC)
+Date: Mon, 8 Feb 2021 18:17:45 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Yuval Shaia <yuval.shaia.ml@gmail.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH RFC] pvrdma: wean code off pvrdma_ring.h kernel header
+Message-ID: <20210208181745.1ac08f12.cohuck@redhat.com>
+In-Reply-To: <20210129162719.7438dea2.cohuck@redhat.com>
+References: <20210122180029.575284-1-cohuck@redhat.com>
+ <20210129162719.7438dea2.cohuck@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20210129005845.416272-1-wuhaotsh@google.com>
- <20210129005845.416272-7-wuhaotsh@google.com>
-In-Reply-To: <20210129005845.416272-7-wuhaotsh@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Feb 2021 16:59:06 +0000
-Message-ID: <CAFEAcA-8q2DZpdbeiMhrxtAMkzx1_1BqcGTk8HfxX_6F_FOUfQ@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] hw/i2c: Implement NPCM7XX SMBus Module FIFO Mode
-To: Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,80 +79,385 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, Patrick Venture <venture@google.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- Doug Evans <dje@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Jan 2021 at 01:04, Hao Wu <wuhaotsh@google.com> wrote:
->
-> This patch implements the FIFO mode of the SMBus module. In FIFO, the
-> user transmits or receives at most 16 bytes at a time. The FIFO mode
-> allows the module to transmit large amount of data faster than single
-> byte mode.
->
-> Reviewed-by: Doug Evans<dje@google.com>
-> Reviewed-by: Tyrong Ting<kfting@nuvoton.com>
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Corey Minyard <cminyard@mvista.com>
-> Ack-by: Corey Minyard <cminyard@mvista.com>
-> ---
->  hw/i2c/npcm7xx_smbus.c           | 342 +++++++++++++++++++++++++++++--
->  hw/i2c/trace-events              |   1 +
->  include/hw/i2c/npcm7xx_smbus.h   |  25 +++
->  tests/qtest/npcm7xx_smbus-test.c | 149 +++++++++++++-
->  4 files changed, 501 insertions(+), 16 deletions(-)
->
-> diff --git a/hw/i2c/npcm7xx_smbus.c b/hw/i2c/npcm7xx_smbus.c
-> index c72b6e446f..be3253d251 100644
-> --- a/hw/i2c/npcm7xx_smbus.c
-> +++ b/hw/i2c/npcm7xx_smbus.c
-> @@ -27,7 +27,7 @@
->  #include "trace.h"
->
->  #define NPCM7XX_SMBUS_VERSION 1
-> -#define NPCM7XX_SMBUS_FIFO_EN 0
-> +#define NPCM7XX_SMBUS_FIFO_EN 1
+On Fri, 29 Jan 2021 16:27:19 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-Why has this define changed ?
+> On Fri, 22 Jan 2021 19:00:29 +0100
+> Cornelia Huck <cohuck@redhat.com> wrote:
+> 
+> > The pvrdma code relies on the pvrdma_ring.h kernel header for some
+> > basic ring buffer handling. The content of that header isn't very
+> > exciting, but contains some (q)atomic_*() invocations that (a)
+> > cause manual massaging when doing a headers update, and (b) are
+> > an indication that we probably should not be importing that header
+> > at all.
+> > 
+> > Let's reimplement the ring buffer handling directly in the pvrdma
+> > code instead. This arguably also improves readability of the code.
+> > 
+> > Importing the header can now be dropped.
+> > 
+> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> > ---
+> > 
+> > Compile-tested only, needs both testing and more eyeballs :)  
+> 
+> Friendly ping :)
+> 
+> Suggestions for a test setup to do some sanity checks (that does not
+> require special hardware) also welcome.
 
->  #define NPCM7XX_SMBUS_ENABLED(s)    ((s)->ctl2 & NPCM7XX_SMBCTL2_ENABLE)
-> +#define NPCM7XX_SMBUS_FIFO_ENABLED(s) (NPCM7XX_SMBUS_FIFO_EN && \
-> +        (s)->fif_ctl & NPCM7XX_SMBFIF_CTL_FIFO_EN)
+Can I interest anyone in this? I'd be happy doing sanity tests myself,
+but I have a hard time figuring out even where to start...
 
-...and why are we testing something that's always 1 ?
-Is NPCM7XX_SMBUS_FIFO_EN supposed to be a debug "turn this feature off"
-switch for QEMU developers? If, so it would be helpful to give it a name
-that doesn't look like it's defining a bit value for the hardware
-and adding a comment saying what it does.
+> 
+> > 
+> > ---
+> >  hw/rdma/vmw/pvrdma.h                          |   5 +-
+> >  hw/rdma/vmw/pvrdma_cmd.c                      |   6 +-
+> >  hw/rdma/vmw/pvrdma_dev_ring.c                 |  41 ++++---
+> >  hw/rdma/vmw/pvrdma_dev_ring.h                 |   9 +-
+> >  hw/rdma/vmw/pvrdma_main.c                     |   4 +-
+> >  .../infiniband/hw/vmw_pvrdma/pvrdma_ring.h    | 114 ------------------
+> >  scripts/update-linux-headers.sh               |   3 +-
+> >  7 files changed, 38 insertions(+), 144 deletions(-)
+> >  delete mode 100644 include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
+> > 
+> > diff --git a/hw/rdma/vmw/pvrdma.h b/hw/rdma/vmw/pvrdma.h
+> > index 1d36a76f1e3b..d08965d3e2d5 100644
+> > --- a/hw/rdma/vmw/pvrdma.h
+> > +++ b/hw/rdma/vmw/pvrdma.h
+> > @@ -26,7 +26,6 @@
+> >  #include "../rdma_backend_defs.h"
+> >  #include "../rdma_rm_defs.h"
+> >  
+> > -#include "standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h"
+> >  #include "standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h"
+> >  #include "pvrdma_dev_ring.h"
+> >  #include "qom/object.h"
+> > @@ -64,10 +63,10 @@ typedef struct DSRInfo {
+> >      union pvrdma_cmd_req *req;
+> >      union pvrdma_cmd_resp *rsp;
+> >  
+> > -    struct pvrdma_ring *async_ring_state;
+> > +    PvrdmaRingState *async_ring_state;
+> >      PvrdmaRing async;
+> >  
+> > -    struct pvrdma_ring *cq_ring_state;
+> > +    PvrdmaRingState *cq_ring_state;
+> >      PvrdmaRing cq;
+> >  } DSRInfo;
+> >  
+> > diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
+> > index 692125ac2681..f59879e2574e 100644
+> > --- a/hw/rdma/vmw/pvrdma_cmd.c
+> > +++ b/hw/rdma/vmw/pvrdma_cmd.c
+> > @@ -262,7 +262,7 @@ static int create_cq_ring(PCIDevice *pci_dev , PvrdmaRing **ring,
+> >      r = g_malloc(sizeof(*r));
+> >      *ring = r;
+> >  
+> > -    r->ring_state = (struct pvrdma_ring *)
+> > +    r->ring_state = (PvrdmaRingState *)
+> >          rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
+> >  
+> >      if (!r->ring_state) {
+> > @@ -398,7 +398,7 @@ static int create_qp_rings(PCIDevice *pci_dev, uint64_t pdir_dma,
+> >      *rings = sr;
+> >  
+> >      /* Create send ring */
+> > -    sr->ring_state = (struct pvrdma_ring *)
+> > +    sr->ring_state = (PvrdmaRingState *)
+> >          rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
+> >      if (!sr->ring_state) {
+> >          rdma_error_report("Failed to map to QP ring state");
+> > @@ -639,7 +639,7 @@ static int create_srq_ring(PCIDevice *pci_dev, PvrdmaRing **ring,
+> >      r = g_malloc(sizeof(*r));
+> >      *ring = r;
+> >  
+> > -    r->ring_state = (struct pvrdma_ring *)
+> > +    r->ring_state = (PvrdmaRingState *)
+> >              rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
+> >      if (!r->ring_state) {
+> >          rdma_error_report("Failed to map tp SRQ ring state");
+> > diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
+> > index f0bcde74b06a..074ac59b84db 100644
+> > --- a/hw/rdma/vmw/pvrdma_dev_ring.c
+> > +++ b/hw/rdma/vmw/pvrdma_dev_ring.c
+> > @@ -22,11 +22,10 @@
+> >  #include "trace.h"
+> >  
+> >  #include "../rdma_utils.h"
+> > -#include "standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h"
+> >  #include "pvrdma_dev_ring.h"
+> >  
+> >  int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
+> > -                     struct pvrdma_ring *ring_state, uint32_t max_elems,
+> > +                     PvrdmaRingState *ring_state, uint32_t max_elems,
+> >                       size_t elem_sz, dma_addr_t *tbl, uint32_t npages)
+> >  {
+> >      int i;
+> > @@ -73,48 +72,54 @@ out:
+> >  
+> >  void *pvrdma_ring_next_elem_read(PvrdmaRing *ring)
+> >  {
+> > -    int e;
+> > -    unsigned int idx = 0, offset;
+> > +    unsigned int idx, offset;
+> > +    const uint32_t tail = qatomic_read(&ring->ring_state->prod_tail);
+> > +    const uint32_t head = qatomic_read(&ring->ring_state->cons_head);
+> >  
+> > -    e = pvrdma_idx_ring_has_data(ring->ring_state, ring->max_elems, &idx);
+> > -    if (e <= 0) {
+> > +    if (tail & ~((ring->max_elems << 1) - 1) ||
+> > +        head & ~((ring->max_elems << 1) - 1) ||
+> > +        tail == head) {
+> >          trace_pvrdma_ring_next_elem_read_no_data(ring->name);
+> >          return NULL;
+> >      }
+> >  
+> > +    idx = head & (ring->max_elems - 1);
+> >      offset = idx * ring->elem_sz;
+> >      return ring->pages[offset / TARGET_PAGE_SIZE] + (offset % TARGET_PAGE_SIZE);
+> >  }
+> >  
+> >  void pvrdma_ring_read_inc(PvrdmaRing *ring)
+> >  {
+> > -    pvrdma_idx_ring_inc(&ring->ring_state->cons_head, ring->max_elems);
+> > +    uint32_t idx = qatomic_read(&ring->ring_state->cons_head);
+> > +
+> > +    idx = (idx + 1) & ((ring->max_elems << 1) - 1);
+> > +    qatomic_set(&ring->ring_state->cons_head, idx);
+> >  }
+> >  
+> >  void *pvrdma_ring_next_elem_write(PvrdmaRing *ring)
+> >  {
+> > -    int idx;
+> > -    unsigned int offset, tail;
+> > +    unsigned int idx, offset;
+> > +    const uint32_t tail = qatomic_read(&ring->ring_state->prod_tail);
+> > +    const uint32_t head = qatomic_read(&ring->ring_state->cons_head);
+> >  
+> > -    idx = pvrdma_idx_ring_has_space(ring->ring_state, ring->max_elems, &tail);
+> > -    if (idx <= 0) {
+> > +    if (tail & ~((ring->max_elems << 1) - 1) ||
+> > +        head & ~((ring->max_elems << 1) - 1) ||
+> > +        tail == (head ^ ring->max_elems)) {
+> >          rdma_error_report("CQ is full");
+> >          return NULL;
+> >      }
+> >  
+> > -    idx = pvrdma_idx(&ring->ring_state->prod_tail, ring->max_elems);
+> > -    if (idx < 0 || tail != idx) {
+> > -        rdma_error_report("Invalid idx %d", idx);
+> > -        return NULL;
+> > -    }
+> > -
+> > +    idx = tail & (ring->max_elems - 1);
+> >      offset = idx * ring->elem_sz;
+> >      return ring->pages[offset / TARGET_PAGE_SIZE] + (offset % TARGET_PAGE_SIZE);
+> >  }
+> >  
+> >  void pvrdma_ring_write_inc(PvrdmaRing *ring)
+> >  {
+> > -    pvrdma_idx_ring_inc(&ring->ring_state->prod_tail, ring->max_elems);
+> > +    uint32_t idx = qatomic_read(&ring->ring_state->prod_tail);
+> > +
+> > +    idx = (idx + 1) & ((ring->max_elems << 1) - 1);
+> > +    qatomic_set(&ring->ring_state->prod_tail, idx);
+> >  }
+> >  
+> >  void pvrdma_ring_free(PvrdmaRing *ring)
+> > diff --git a/hw/rdma/vmw/pvrdma_dev_ring.h b/hw/rdma/vmw/pvrdma_dev_ring.h
+> > index 5f2a0cf9b9fa..d231588ce004 100644
+> > --- a/hw/rdma/vmw/pvrdma_dev_ring.h
+> > +++ b/hw/rdma/vmw/pvrdma_dev_ring.h
+> > @@ -19,18 +19,23 @@
+> >  
+> >  #define MAX_RING_NAME_SZ 32
+> >  
+> > +typedef struct PvrdmaRingState {
+> > +    int prod_tail; /* producer tail */
+> > +    int cons_head; /* consumer head */
+> > +} PvrdmaRingState;
+> > +
+> >  typedef struct PvrdmaRing {
+> >      char name[MAX_RING_NAME_SZ];
+> >      PCIDevice *dev;
+> >      uint32_t max_elems;
+> >      size_t elem_sz;
+> > -    struct pvrdma_ring *ring_state; /* used only for unmap */
+> > +    PvrdmaRingState *ring_state; /* used only for unmap */
+> >      int npages;
+> >      void **pages;
+> >  } PvrdmaRing;
+> >  
+> >  int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
+> > -                     struct pvrdma_ring *ring_state, uint32_t max_elems,
+> > +                     PvrdmaRingState *ring_state, uint32_t max_elems,
+> >                       size_t elem_sz, dma_addr_t *tbl, uint32_t npages);
+> >  void *pvrdma_ring_next_elem_read(PvrdmaRing *ring);
+> >  void pvrdma_ring_read_inc(PvrdmaRing *ring);
+> > diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> > index 85935703322f..84ae8024fcfd 100644
+> > --- a/hw/rdma/vmw/pvrdma_main.c
+> > +++ b/hw/rdma/vmw/pvrdma_main.c
+> > @@ -85,7 +85,7 @@ static void free_dev_ring(PCIDevice *pci_dev, PvrdmaRing *ring,
+> >      rdma_pci_dma_unmap(pci_dev, ring_state, TARGET_PAGE_SIZE);
+> >  }
+> >  
+> > -static int init_dev_ring(PvrdmaRing *ring, struct pvrdma_ring **ring_state,
+> > +static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingState **ring_state,
+> >                           const char *name, PCIDevice *pci_dev,
+> >                           dma_addr_t dir_addr, uint32_t num_pages)
+> >  {
+> > @@ -114,7 +114,7 @@ static int init_dev_ring(PvrdmaRing *ring, struct pvrdma_ring **ring_state,
+> >      /* RX ring is the second */
+> >      (*ring_state)++;
+> >      rc = pvrdma_ring_init(ring, name, pci_dev,
+> > -                          (struct pvrdma_ring *)*ring_state,
+> > +                          (PvrdmaRingState *)*ring_state,
+> >                            (num_pages - 1) * TARGET_PAGE_SIZE /
+> >                            sizeof(struct pvrdma_cqne),
+> >                            sizeof(struct pvrdma_cqne),
+> > diff --git a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
+> > deleted file mode 100644
+> > index 7b4062a1a107..000000000000
+> > --- a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
+> > +++ /dev/null
+> > @@ -1,114 +0,0 @@
+> > -/*
+> > - * Copyright (c) 2012-2016 VMware, Inc.  All rights reserved.
+> > - *
+> > - * This program is free software; you can redistribute it and/or
+> > - * modify it under the terms of EITHER the GNU General Public License
+> > - * version 2 as published by the Free Software Foundation or the BSD
+> > - * 2-Clause License. This program is distributed in the hope that it
+> > - * will be useful, but WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED
+> > - * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+> > - * See the GNU General Public License version 2 for more details at
+> > - * http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html.
+> > - *
+> > - * You should have received a copy of the GNU General Public License
+> > - * along with this program available in the file COPYING in the main
+> > - * directory of this source tree.
+> > - *
+> > - * The BSD 2-Clause License
+> > - *
+> > - *     Redistribution and use in source and binary forms, with or
+> > - *     without modification, are permitted provided that the following
+> > - *     conditions are met:
+> > - *
+> > - *      - Redistributions of source code must retain the above
+> > - *        copyright notice, this list of conditions and the following
+> > - *        disclaimer.
+> > - *
+> > - *      - Redistributions in binary form must reproduce the above
+> > - *        copyright notice, this list of conditions and the following
+> > - *        disclaimer in the documentation and/or other materials
+> > - *        provided with the distribution.
+> > - *
+> > - * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+> > - * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+> > - * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+> > - * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+> > - * COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+> > - * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+> > - * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+> > - * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+> > - * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+> > - * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+> > - * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+> > - * OF THE POSSIBILITY OF SUCH DAMAGE.
+> > - */
+> > -
+> > -#ifndef __PVRDMA_RING_H__
+> > -#define __PVRDMA_RING_H__
+> > -
+> > -#include "standard-headers/linux/types.h"
+> > -
+> > -#define PVRDMA_INVALID_IDX	-1	/* Invalid index. */
+> > -
+> > -struct pvrdma_ring {
+> > -	int prod_tail;	/* Producer tail. */
+> > -	int cons_head;	/* Consumer head. */
+> > -};
+> > -
+> > -struct pvrdma_ring_state {
+> > -	struct pvrdma_ring tx;	/* Tx ring. */
+> > -	struct pvrdma_ring rx;	/* Rx ring. */
+> > -};
+> > -
+> > -static inline int pvrdma_idx_valid(uint32_t idx, uint32_t max_elems)
+> > -{
+> > -	/* Generates fewer instructions than a less-than. */
+> > -	return (idx & ~((max_elems << 1) - 1)) == 0;
+> > -}
+> > -
+> > -static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
+> > -{
+> > -	const unsigned int idx = qatomic_read(var);
+> > -
+> > -	if (pvrdma_idx_valid(idx, max_elems))
+> > -		return idx & (max_elems - 1);
+> > -	return PVRDMA_INVALID_IDX;
+> > -}
+> > -
+> > -static inline void pvrdma_idx_ring_inc(int *var, uint32_t max_elems)
+> > -{
+> > -	uint32_t idx = qatomic_read(var) + 1;	/* Increment. */
+> > -
+> > -	idx &= (max_elems << 1) - 1;		/* Modulo size, flip gen. */
+> > -	qatomic_set(var, idx);
+> > -}
+> > -
+> > -static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
+> > -					      uint32_t max_elems, uint32_t *out_tail)
+> > -{
+> > -	const uint32_t tail = qatomic_read(&r->prod_tail);
+> > -	const uint32_t head = qatomic_read(&r->cons_head);
+> > -
+> > -	if (pvrdma_idx_valid(tail, max_elems) &&
+> > -	    pvrdma_idx_valid(head, max_elems)) {
+> > -		*out_tail = tail & (max_elems - 1);
+> > -		return tail != (head ^ max_elems);
+> > -	}
+> > -	return PVRDMA_INVALID_IDX;
+> > -}
+> > -
+> > -static inline int32_t pvrdma_idx_ring_has_data(const struct pvrdma_ring *r,
+> > -					     uint32_t max_elems, uint32_t *out_head)
+> > -{
+> > -	const uint32_t tail = qatomic_read(&r->prod_tail);
+> > -	const uint32_t head = qatomic_read(&r->cons_head);
+> > -
+> > -	if (pvrdma_idx_valid(tail, max_elems) &&
+> > -	    pvrdma_idx_valid(head, max_elems)) {
+> > -		*out_head = head & (max_elems - 1);
+> > -		return tail != head;
+> > -	}
+> > -	return PVRDMA_INVALID_IDX;
+> > -}
+> > -
+> > -#endif /* __PVRDMA_RING_H__ */
+> > diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+> > index fa6f2b6272b7..1050e361694f 100755
+> > --- a/scripts/update-linux-headers.sh
+> > +++ b/scripts/update-linux-headers.sh
+> > @@ -215,8 +215,7 @@ sed  -e '1h;2,$H;$!d;g'  -e 's/[^};]*pvrdma[^(| ]*([^)]*);//g' \
+> >      "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_verbs.h" > \
+> >      "$tmp_pvrdma_verbs";
+> >  
+> > -for i in "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h" \
+> > -         "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h" \
+> > +for i in "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h" \
+> >           "$tmp_pvrdma_verbs"; do \
+> >      cp_portable "$i" \
+> >           "$output/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/"  
+> 
 
-> @@ -754,6 +1059,17 @@ static const VMStateDescription vmstate_npcm7xx_smbus = {
->          VMSTATE_UINT8_ARRAY(addr, NPCM7xxSMBusState, NPCM7XX_SMBUS_NR_ADDRS),
->          VMSTATE_UINT8(scllt, NPCM7xxSMBusState),
->          VMSTATE_UINT8(sclht, NPCM7xxSMBusState),
-> +        VMSTATE_UINT8(fif_ctl, NPCM7xxSMBusState),
-> +        VMSTATE_UINT8(fif_cts, NPCM7xxSMBusState),
-> +        VMSTATE_UINT8(fair_per, NPCM7xxSMBusState),
-> +        VMSTATE_UINT8(txf_ctl, NPCM7xxSMBusState),
-> +        VMSTATE_UINT8(t_out, NPCM7xxSMBusState),
-> +        VMSTATE_UINT8(txf_sts, NPCM7xxSMBusState),
-> +        VMSTATE_UINT8(rxf_sts, NPCM7xxSMBusState),
-> +        VMSTATE_UINT8(rxf_ctl, NPCM7xxSMBusState),
-> +        VMSTATE_UINT8_ARRAY(rx_fifo, NPCM7xxSMBusState,
-> +                            NPCM7XX_SMBUS_FIFO_SIZE),
-> +        VMSTATE_UINT8(rx_cur, NPCM7xxSMBusState),
->          VMSTATE_END_OF_LIST(),
->      },
->  };
-
-It's OK to add fields to the vmstate without bumping the version
-number in this special case, because we only just added the device
-a few commits earlier in the series, but it's worth specifically
-saying that in the commit message.
-
-thanks
--- PMM
 
