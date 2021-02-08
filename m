@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E25631383D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:43:06 +0100 (CET)
-Received: from localhost ([::1]:44232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4941E313886
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:52:37 +0100 (CET)
+Received: from localhost ([::1]:51220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l98gr-0005J8-6d
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:43:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
+	id 1l98q4-0001HH-CP
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:52:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94cA-0006xh-TE
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:22:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28898)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94iX-00014q-4r
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:28:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94c1-0007xV-GS
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:21:58 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l94iS-0001ms-RE
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:28:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612783305;
+ s=mimecast20190719; t=1612783708;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ea72i7wW+BLjL2iNsYcJmAtd6sRCSBqncZSd7+flZPc=;
- b=VbFYfoNNPhph4lxQmntfpTRYABQloRzeD1F+HmFNwDREZ0PWXC2tYrN/9fVw2WPzlOeBLx
- pmCIv30AUx8/JYnB1R1GFb12ClJ4junyvr0HCTzf6XzXsUMLo4Oh9lSxb0+JgV3Z0T5Izd
- ACDghNMjteGYIDX5h5Vf2D+tpNUZ/Pk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-dInOi2atPUuD6i4Ry85bmg-1; Mon, 08 Feb 2021 06:21:42 -0500
-X-MC-Unique: dInOi2atPUuD6i4Ry85bmg-1
-Received: by mail-wr1-f69.google.com with SMTP id c1so12908275wrx.2
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 03:21:41 -0800 (PST)
+ bh=weFFdNIa01FEVV/DarPgXQAfYZYJuVzfEf+PRPpHbPY=;
+ b=PTFCAOWxtDwkN248Tk2WRWI/GmpXJB4pPkTgVZQ8MYFgmPkxoVqOGcoBPHBZsUDy89GiS/
+ J6GmrGpjY3fRepg1mL1QyUg/qhwTVDlqapHVL1+aD9qi8w2Jzom4IifclAN+kElN5h5Lox
+ e/0QYjglJDXCA1Bg92ayYvx2ZaXQDMg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-iLSYEjv7MkKm7BnBdYAxPA-1; Mon, 08 Feb 2021 06:28:26 -0500
+X-MC-Unique: iLSYEjv7MkKm7BnBdYAxPA-1
+Received: by mail-wr1-f72.google.com with SMTP id c9so2209267wrq.18
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 03:28:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ea72i7wW+BLjL2iNsYcJmAtd6sRCSBqncZSd7+flZPc=;
- b=C6hfT/MUBtlIJHueC0qJITnVPmVQOu/hNWxQBYv53ay/GogzUN2lk+V/i6TtMUIi8l
- CPiKePoyz9AwHGDS3/eBEe+MAzLyUBx0+1uZkpikhPeJkWZQ9XIp4dJfq+UVXWmwC84t
- 5jC03ZUDxzcLB+PbEOwU3/7QAcP0KdW9hx9k0+dna6a2Z8ULDAeaaV6XYT846HAxGyLt
- yBnhFYxTzqesu7RLOPfGdonmmH4aIUsEPwtTq+gKJSQ+aYVd77ozVRf6X2jLXQwUiIiX
- cFwaGgX27yYRkKXcJmi7mEsx0PvD1dcKk9K9i6Jew/KR1FETDNxf24Y8IqqasCmCXvh+
- +1rw==
-X-Gm-Message-State: AOAM5329inKMCrS1d/vH33HkS/bnXvEOPT7nZzkwn/DKQ9AiDge7DW15
- 12TQu7Ca0lAc53KkGAIJfTuAAx0ABirnEn0Lh/yGiEwgNn0bJ1Slzb+ialsvIybxVClaabtDQpL
- F99SXSpW4cxKeAtA=
-X-Received: by 2002:a1c:7910:: with SMTP id l16mr14500068wme.34.1612783300948; 
- Mon, 08 Feb 2021 03:21:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx71EG5mgDCrK1ogT8W+8kKuNrvrxnpaLZUyZW7J9vCHnpX4sNZFrPsV0cQFfBh03hD0gmESw==
-X-Received: by 2002:a1c:7910:: with SMTP id l16mr14500037wme.34.1612783300734; 
- Mon, 08 Feb 2021 03:21:40 -0800 (PST)
+ bh=weFFdNIa01FEVV/DarPgXQAfYZYJuVzfEf+PRPpHbPY=;
+ b=fwOo4vJLaogsNwpEGADme30dER4nx9n+f/lMHax5kU/Q3D6rOe70d2sBsw8a4u29lQ
+ foyf5mIbbJK8mKQySA6A7hyERz3z2aP3kqYX9bFpyU8p2Cf/7Rd+U9tccMUuMcizna5o
+ SImY4RptyiWYqjerShnzFtwAjelMTiuTMTXC2WZli+RkglCaHecdbJu2SKZ3+nIf2WIv
+ 8ErPzW2RoNHEFqyFVHUUgz3DZbj0HornK684+njZkLynnD32EHIF1m4wPWExEUTcizQL
+ SGSyQq9L4/HMod3UeVeUU3K07n/ymD0H1RgJHZUf6+ZBkHR5cCAwf8bVfwvb7GqOAnLu
+ fw/w==
+X-Gm-Message-State: AOAM533E8Y3LQm9TbHYd3xTqwL8LUPxQrdBfSehRLoXA2ySSR/8c82AB
+ qYj5G2eLYGMBRfzbgLfjKRQb9DqH1SH4iSTDzkJsMPOu3XKN3ZF4/QiSIClNrJ3IaIFiLtKXNyo
+ nlgZNh0KOeVNzKR8=
+X-Received: by 2002:adf:f2d1:: with SMTP id d17mr19910797wrp.110.1612783705223; 
+ Mon, 08 Feb 2021 03:28:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyoCpDSVZ19pdc58RFTRzqVw9ufFUHYxdh25dG1alXFcVqFEtIiNh+Ex/F/LMyU0aHmZsyTWA==
+X-Received: by 2002:adf:f2d1:: with SMTP id d17mr19910767wrp.110.1612783705057; 
+ Mon, 08 Feb 2021 03:28:25 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id x13sm14722107wmc.27.2021.02.08.03.21.39
+ by smtp.gmail.com with ESMTPSA id l10sm29048558wro.4.2021.02.08.03.28.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 03:21:39 -0800 (PST)
-Subject: Re: [PATCH 09/22] tests/acceptance/virtiofs_submounts.py: required
- space between IP and port
+ Mon, 08 Feb 2021 03:28:24 -0800 (PST)
+Subject: Re: [PATCH 13/22] tests/acceptance/virtiofs_submounts.py: add missing
+ accel tag
 To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
 References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-10-crosa@redhat.com>
+ <20210203172357.1422425-14-crosa@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c2e92e2b-842e-641e-a6a7-395599d651be@redhat.com>
-Date: Mon, 8 Feb 2021 12:21:38 +0100
+Message-ID: <b80bb329-8de1-7fd4-98cc-c2bd327c5725@redhat.com>
+Date: Mon, 8 Feb 2021 12:28:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210203172357.1422425-10-crosa@redhat.com>
+In-Reply-To: <20210203172357.1422425-14-crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
@@ -114,16 +114,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/3/21 6:23 PM, Cleber Rosa wrote:
-> AFAICT, there should not be a situation where IP and port do not have
-> at least one whitespace character separating them.
-> 
-> This may be true for other '\s*' patterns in the same regex too.
-> 
+> Which is useful to select tests that depend/use a particular feature.
+
+Is that a question?
+
+Why keep this last in your series?
+
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/virtiofs_submounts.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>  tests/acceptance/virtiofs_submounts.py | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
+> index c998b297ee..1e745f15a2 100644
+> --- a/tests/acceptance/virtiofs_submounts.py
+> +++ b/tests/acceptance/virtiofs_submounts.py
+> @@ -75,6 +75,7 @@ def has_cmds(*cmds):
+>  class VirtiofsSubmountsTest(BootLinux):
+>      """
+>      :avocado: tags=arch:x86_64
+> +    :avocado: tags=accel:kvm
+>      """
+>  
+>      def ssh_connect(self, username, keyfile):
+> 
 
 
