@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D768E313EE5
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:27:56 +0100 (CET)
-Received: from localhost ([::1]:48486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91CC313EAD
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:17:49 +0100 (CET)
+Received: from localhost ([::1]:51528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9CCR-0005JR-Us
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:27:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36036)
+	id 1l9C2e-0003F3-T4
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:17:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l960b-0005JA-62
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:51:19 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40238)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l960O-0002Lq-Rm
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:51:12 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A8841ACBA;
- Mon,  8 Feb 2021 12:50:55 +0000 (UTC)
-Subject: Re: [PATCH v16 21/23] accel: introduce new accessor functions
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210204163931.7358-1-cfontana@suse.de>
- <20210204163931.7358-22-cfontana@suse.de>
- <2bb1cba6-e1a0-80a7-4c05-fb221f4f8230@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <16c471e4-06a9-92bf-2d6f-0da0b0fc5a50@suse.de>
-Date: Mon, 8 Feb 2021 13:50:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l96An-0006uT-ES
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:01:55 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l96AR-0005HA-DS
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:01:39 -0500
+Received: by mail-ej1-x636.google.com with SMTP id i8so24444804ejc.7
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 05:00:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZoanlxQLe4ZKiCr1+9Kb8ho+Q/7NBrIvc7EePg54NpU=;
+ b=bt6VEuPPaaZ5BZtbHRtRpCfKashhk+7g0DcfgSG9l4ySvfh1OlnCAqofKWVT4jdi7k
+ rYEKAEcyL8RAYp3LhVDnwXKO3bgRXMyhrq93ksoIeoRKe4hUyMwVt0tl11a2zpgIr50z
+ omUP7iRr6JPLpikkjh6R0IdX8pmoNJEZHq4tj2TUmdWzXQuqN0WpUId2cIft4JtMKC9m
+ 0jjJSxgCjLF+yDIZioH0L8VuwN2PMWCdDCwqg1rqFZ4Ibx5t/RnF/wJURtDv+2cAMnCj
+ GgUvL3G5aXlHZJBX5o7P2eOtL7cdKotsWfUIaZfoQhuvbZ+yHG6zhSkdkIWZsc3TAzg2
+ LgmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZoanlxQLe4ZKiCr1+9Kb8ho+Q/7NBrIvc7EePg54NpU=;
+ b=jzuTHs6d0SK37QhZPhCZZdh0nlJokJG1nDE25sE4jv9a6kOCvMKqIvdU85WcPsQRWL
+ bT/bMSC6kAwjf4nI6Ak8BgrDmXSpih01YBrXR3WAkX/Tlrd4w5DsDe2Al9hzBTnPjyGQ
+ SlL75IA/CuTMIbr2KUZRdE+hPGDNtE3Fcp8iOadSV+UkVBaBSPLnI0l/7I4XgX6IBBW6
+ Q0Q1LTGSFksCO4ZmUcQEz9aSyv0JcSSHy6O/FYuZ10bWWYxdBO3LvAx3yriUZ6D91fSO
+ hryn9ZYrLm0A3lUBDSIncvTgSSar7iX57jhRmEGYNK2PlEvG8jk4n0HK+RqN3h+OSbOk
+ +3gQ==
+X-Gm-Message-State: AOAM532QIE5k5srbQzsmqaNG8NsP3RztDnLFIemQ/FQbuwU/rKJCryMi
+ SzvNga80RTRXnoorQJc3tqofRadHoPd/8SEV3EArsg==
+X-Google-Smtp-Source: ABdhPJyRx4zlNtL65uNnanRCs/0JswwwTtORaIrdpPFQZwm+gy4qtm1pUNmy0THjA68AckAkbgJb7jzUJsn1B7V4Kbg=
+X-Received: by 2002:a17:907:98c3:: with SMTP id
+ kd3mr16908125ejc.482.1612789246831; 
+ Mon, 08 Feb 2021 05:00:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <2bb1cba6-e1a0-80a7-4c05-fb221f4f8230@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210208060538.39276-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20210208060538.39276-1-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Feb 2021 13:00:35 +0000
+Message-ID: <CAFEAcA-wRzKJSqh1fVUUkcTsVZCnceoAoe5W+BaCOzcrJVH0YA@mail.gmail.com>
+Subject: Re: [PULL v9 00/13] Cgs patches
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,47 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, kvm-devel <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Janosch Frank <frankja@linux.ibm.com>, pragyansri.pathi@intel.com,
+ David Hildenbrand <david@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, andi.kleen@intel.com,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>, jun.nakajima@intel.com,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/21 9:14 PM, Richard Henderson wrote:
-> On 2/4/21 6:39 AM, Claudio Fontana wrote:
->> @@ -6725,10 +6722,8 @@ static void x86_cpu_initfn(Object *obj)
->>          x86_cpu_load_model(cpu, xcc->model);
->>      }
->>  
->> -    /* if required, do the accelerator-specific cpu initialization */
->> -    if (cc->accel_cpu) {
->> -        cc->accel_cpu->cpu_instance_init(CPU(obj));
->> -    }
->> +    /* if required, do accelerator-specific cpu initializations */
->> +    accel_cpu_instance_init(CPU(obj));
->>  }
-> 
-> Why is this only done for x86?
-> 
-> 
-> r~
-> 
-
-It makes sense to include the other architectures.
-
-As the next step I would like to apply this to ARM, but to me it makes sense to first complete Philippe's series,
-which reshuffles things so that TCG-only / KVM-only builds are both possible and error-free:
-
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg777627.html
-
-Thanks,
-
-Claudio
+On Mon, 8 Feb 2021 at 06:11, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> The following changes since commit 5b19cb63d9dfda41b412373b8c9fe14641bcab60:
+>
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210205' in=
+> to staging (2021-02-05 22:59:12 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/dgibson/qemu.git tags/cgs-pull-request
+>
+> for you to fetch changes up to 651615d92d244a6dfd7c81ab97bd3369fbe41d06:
+>
+>   s390: Recognize confidential-guest-support option (2021-02-08 16:57:38 +110=
+> 0)
+>
+> ----------------------------------------------------------------
+> Generalize memory encryption models
 
 
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-
-
-
+-- PMM
 
