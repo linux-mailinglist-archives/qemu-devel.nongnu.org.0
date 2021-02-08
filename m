@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0CA314530
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 02:01:32 +0100 (CET)
-Received: from localhost ([::1]:39938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256FF314533
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 02:03:11 +0100 (CET)
+Received: from localhost ([::1]:43210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9HPC-0007po-5V
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 20:01:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53736)
+	id 1l9HQs-0000vn-6n
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 20:03:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9F0b-0007sk-U4
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 17:27:53 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:54930)
+ id 1l9F71-0006ez-0D
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 17:34:31 -0500
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:44291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9F0X-0000Rs-ER
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 17:27:53 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id gb24so402156pjb.4
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 14:27:47 -0800 (PST)
+ id 1l9F6z-0003ex-4l
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 17:34:30 -0500
+Received: by mail-pg1-x529.google.com with SMTP id j5so2391375pgb.11
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 14:34:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=x4/AFSMXCRttZnb+XcJyMrvdoP6y4aaZvWKIPPl9Iy4=;
- b=a0ABdZhthBZPSA2Fj67f/z4E15VVViwZPg7Hv1bXTv07qRu/wQvYpl57olYu3/q2Su
- VMivtsOvW69cp3nEQz1VjzBgsZefwak5o1K+OK/mO1oTvhs2/8PiSLxbiuMm7lXAJfUT
- r6qt8Y+Ld4lQg00+6t/lU8GnDDz9SKezFqxUheRHsf/n5uqTwKkqBYQ4wzPvIDXF2Z3K
- S//U+6Bb7I8Y0XjjXS9X4YIX5DGEDZdn8fBsl7HZOKiar7koOlV6tstTS20UhnPgsw9Y
- y3Jvx9EYEl/uZN2fZGkVDbjvYNPxFG8aS5cgqMN37GinHHCbUSXOAY7S1MDbSk5zOQDQ
- aiNA==
+ bh=B3ycbnVqO5qmpQR0+kxdOZc1+K23PTet73ziktMTo8g=;
+ b=jVvZMz3iWPboc5tLiQD9LbEE1VzgDrQX6vbfMNuBs2e2yxRUVoTgr4KzI0Oazc7nwS
+ gbsJZWk0cNGF52uK1aNymTCoDzeE0JTI36Nyl9cNjjezOrxfw4uEBnzthHV/fjDMYvJj
+ qQ1SlTWBS1N4PdZEsM7NZo8rR5+Qb7JczyXme5jZgLkRga38eIR39L22qVkOFqqtP7Ee
+ NjzjN5cujGqgRL4dlACK8uNudHOOofiyO//dvZqOsUIL9Uu2AFe+WNPWVXIZBPbmqIa7
+ 6z0RyykNiU3eniI0qjyCfKYZBqchHqxBQv26QqkzxWAAQZ2kCyORzNgOy2qvyA9NJ63d
+ 7RuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=x4/AFSMXCRttZnb+XcJyMrvdoP6y4aaZvWKIPPl9Iy4=;
- b=Od2PHwEnqNZSJmKxF4nelnzBUelhm0cLGsfG2qJckLhVBaJ/GH+7XshbWVI2tanm0/
- L6iE8i6B44Bx3D5+9E52IgpgSWtHvE2mBsqFOFAFt0ow+6AggLd2G9OnKkBdDxvdXOa5
- B0Ej+SpvA4pD+WGIrE5zFCm6SZqxldJ4Gxdu3OMM2WWul5dMOBy2LfzzRq9OjdJ6JQrJ
- DHml+sHViZle9T+OUq1aWa3s5FNQCadv2yAj/lrKXEH/4xytvekdzZIH8XFwpkyKB6Pv
- 54rsSR+F7k5I3l7c7Xup72LZqWCBkOTUCar8TVa+JO6+O7i+oS/KndOnMjwqvun8SdKU
- n1Hw==
-X-Gm-Message-State: AOAM531Mcg1LYyp6dFfV4Ks/36YX6DUePntf7P3J2wrstpvtTzlIgDsu
- cr68wpWEV8C3J36c561J2aohYMC9Q1nSEQ==
-X-Google-Smtp-Source: ABdhPJzOZznt2E5tI0avK2e+etbc9Id1cvxGUkJ+oZysOdx0ne5xqCBXKkKh0dvrFuXpsNFIOcmUCA==
-X-Received: by 2002:a17:90b:3753:: with SMTP id
- ne19mr970736pjb.72.1612823266462; 
- Mon, 08 Feb 2021 14:27:46 -0800 (PST)
+ bh=B3ycbnVqO5qmpQR0+kxdOZc1+K23PTet73ziktMTo8g=;
+ b=A+KPYcX9RPSe95iy+CJq4l21q9jaRew6giPRXu1ZGl2HdVoCrZMzYJpK6+JSiZtmdo
+ 7GvLiGw8l516cHZcusNnohUTSAtN9xvN/EweiMWpj15ipQiHpVpoa2AoJZqTEFHwglSm
+ nrpz136wzjpdQH5sa9q6sAoOoAdrnHSP+IOO4TMKKaj55ouaIHUQwQTtkUfN4bVJPZvv
+ WZykilMeMrRUWu8g8SGlS4KfarvfBoQCJciOtJxYQxjmpVhbJJmJowyuKvbLJpz6/1Tr
+ /Ro6uUccuxbSz2C1EenggywDRQeC31yRU3Dc7tAztkADMKIXqFobHz3gSK/vTygaeBxh
+ n+sA==
+X-Gm-Message-State: AOAM532TryPQhmk9L9pYo6C6sL55xDIaZLuuWNKCqLnpwrWATpg6KfU0
+ CHkUuAlC8eyFU6obhD6jrlO/VA==
+X-Google-Smtp-Source: ABdhPJxrc0yntA8EvrHBZp80AedKIhBtVd/LCkesfnJRwyzPW15LWX4o3kvC5kXXwI5b+oLhZP9lPg==
+X-Received: by 2002:a63:c84a:: with SMTP id l10mr19111782pgi.159.1612823667575; 
+ Mon, 08 Feb 2021 14:34:27 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- x190sm5404903pfx.166.2021.02.08.14.27.45
+ r15sm20717845pgh.39.2021.02.08.14.34.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 14:27:45 -0800 (PST)
-Subject: Re: [PATCH v2 13/15] tcg/arm: Implement TCG_TARGET_HAS_shv_vec
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210208024625.271018-1-richard.henderson@linaro.org>
- <20210208024625.271018-14-richard.henderson@linaro.org>
- <CAFEAcA-Yh-QB2m3y=OTyH+F7E1YkPBXvyiZYdj1=8pOJpjG9mw@mail.gmail.com>
+ Mon, 08 Feb 2021 14:34:26 -0800 (PST)
+Subject: Re: [RFC PATCH v2 5/6] accel/tcg: Refactor debugging
+ tlb_assert_iotlb_entry_for_ptr_present()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210207232310.2505283-1-f4bug@amsat.org>
+ <20210207232310.2505283-6-f4bug@amsat.org> <87im73aqsq.fsf@linaro.org>
+ <83c71866-2e28-2edb-d79d-f4f96bb765a1@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a77ade66-b34c-9995-ec30-967ebc757a76@linaro.org>
-Date: Mon, 8 Feb 2021 14:27:43 -0800
+Message-ID: <e79856a7-f437-df71-f557-b2ace11ffb3e@linaro.org>
+Date: Mon, 8 Feb 2021 14:34:24 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-Yh-QB2m3y=OTyH+F7E1YkPBXvyiZYdj1=8pOJpjG9mw@mail.gmail.com>
+In-Reply-To: <83c71866-2e28-2edb-d79d-f4f96bb765a1@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -90,54 +91,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-riscv@nongnu.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/21 12:50 PM, Peter Maydell wrote:
-> On Mon, 8 Feb 2021 at 03:28, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+On 2/8/21 5:52 AM, Philippe Mathieu-Daudé wrote:
+> On 2/8/21 9:42 AM, Alex Bennée wrote:
 >>
->> The three vector shift by vector operations are all implemented via
->> expansion.  Therefore do not actually set TCG_TARGET_HAS_shv_vec,
->> as none of shlv_vec, shrv_vec, sarv_vec may actually appear in the
->> instruction stream, and therefore also do not appear in tcg_target_op_def.
+>> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
 >>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  tcg/arm/tcg-target.opc.h |  3 ++
->>  tcg/arm/tcg-target.c.inc | 61 +++++++++++++++++++++++++++++++++++++++-
->>  2 files changed, 63 insertions(+), 1 deletion(-)
+>>> Refactor debug code as tlb_assert_iotlb_entry_for_ptr_present() helper.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>> What this code does is out of my league, but refactoring it allow
+>>> keeping tlb_addr_write() local to accel/tcg/cputlb.c in the next
+>>> patch.
+>>
+>> The assertion that the table entry is current is just a simple
+>> housekeeping one. The details of how the MTE implementation uses
+>> (abuses?) the iotlb entries requires a closer reading of the code.
+>>
+>>> ---
+>>>  include/exec/exec-all.h |  9 +++++++++
+>>>  accel/tcg/cputlb.c      | 14 ++++++++++++++
+>>>  target/arm/mte_helper.c | 11 ++---------
+>>>  target/arm/sve_helper.c | 10 ++--------
+>>>  4 files changed, 27 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+>>> index f933c74c446..c5e8e355b7f 100644
+>>> --- a/include/exec/exec-all.h
+>>> +++ b/include/exec/exec-all.h
+>>> @@ -296,6 +296,15 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+>>>  void tlb_set_page(CPUState *cpu, target_ulong vaddr,
+>>>                    hwaddr paddr, int prot,
+>>>                    int mmu_idx, target_ulong size);
+>>> +
+>>> +/*
+>>> + * Find the iotlbentry for ptr.  This *must* be present in the TLB
+>>> + * because we just found the mapping.
+>>> + */
+>>> +void tlb_assert_iotlb_entry_for_ptr_present(CPUArchState *env, int ptr_mmu_idx,
+>>> +                                            uint64_t ptr,
+>>> +                                            MMUAccessType ptr_access,
+>>> +                                            uintptr_t index);
+>>
+>> Probably worth making this an empty inline for the non CONFIG_DEBUG_TCG
+>> case so we can eliminate the call to an empty function.
 > 
->> +    switch (opc) {
->> +    case INDEX_op_shlv_vec:
->> +        /*
->> +         * Merely propagate shlv_vec to arm_ushl_vec.
->> +         * In this way we don't set TCG_TARGET_HAS_shv_vec
->> +         * because everything is done via expansion.
->> +         */
->> +        v2 = temp_tcgv_vec(arg_temp(a2));
->> +        vec_gen_3(INDEX_op_arm_ushl_vec, type, vece, tcgv_vec_arg(v0),
->> +                  tcgv_vec_arg(v1), tcgv_vec_arg(v2));
->> +        break;
-> 
-> tcg/aarch64 seems to set TCG_TARGET_HAS_shv_vec and
-> only do the right-shifts via expand_op. Is there a difference
-> between the two that means Neon has to do it this way, or is it
-> just a "works either way" thing?
+> But then we can't make tlb_addr_write() static (next patch) and
+> we still have to include "tcg/tcg.h" for the TCG_OVERSIZED_GUEST
+> definition...
 
-It's a works either way thing.
+Certainly you can, though it's not especially pretty:
+
+#ifdef CONFIG_DEBUG_TCG
+void tlb_assert_iotlb_entry_for_ptr_present
+      (CPUArchState *env, int ptr_mmu_idx,
+       uint64_t ptr, MMUAccessType ptr_access,
+       uintptr_t index);
+#else
+static inline void
+tlb_assert_iotlb_entry_for_ptr_present
+      (CPUArchState *env, int ptr_mmu_idx,
+       uint64_t ptr, MMUAccessType ptr_access,
+       uintptr_t index)
+{ }
+#endif
 
 
 r~
-
-> 
->> +
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> thanks
-> -- PMM
-> 
-
 
