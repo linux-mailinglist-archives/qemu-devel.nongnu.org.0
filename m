@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDAB313A01
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 17:49:10 +0100 (CET)
-Received: from localhost ([::1]:39398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D0D313A87
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:13:11 +0100 (CET)
+Received: from localhost ([::1]:35620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l99in-0008Ng-Q3
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 11:49:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45538)
+	id 1l9A61-000495-Tz
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:13:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l94lB-000232-C2
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:31:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l94kr-0002Zg-H3
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:31:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612783856;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JBf3eWgiLWA6nL1pLM/+sbON6jwD7Wcx8WkvDMmbEqM=;
- b=KdFNnwcIPcLLB5VjsGoAkYfIY/uwO6UtxEIxIq0I31OBHvtoEZmyEdceIgU15BDXPM/z9p
- JYRXBgI6HsMnP0MhCP3HOzXnsL/7qs7gcfpXxmNO45kA895yIrZhmt5qdvtS9WVuCFmB5r
- lJrHeBuqwDw347wS8O3u0d+yfO65OLE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-HBZ_na2WOOONRqTs49VKxQ-1; Mon, 08 Feb 2021 06:30:51 -0500
-X-MC-Unique: HBZ_na2WOOONRqTs49VKxQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25A0C801981;
- Mon,  8 Feb 2021 11:30:50 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-115-22.ams2.redhat.com
- [10.36.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 49802101E243;
- Mon,  8 Feb 2021 11:30:45 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, andrey.gruzdev@virtuozzo.com, berrange@redhat.com,
- gaojinhao@huawei.com, armbru@redhat.com, mst@redhat.com, philmd@redhat.com,
- wainersm@redhat.com, s.reiter@proxmox.com
-Subject: [PULL 21/27] migration: control whether snapshots are ovewritten
-Date: Mon,  8 Feb 2021 11:29:12 +0000
-Message-Id: <20210208112918.185058-22-dgilbert@redhat.com>
-In-Reply-To: <20210208112918.185058-1-dgilbert@redhat.com>
-References: <20210208112918.185058-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1l8zBc-0004HS-OA; Mon, 08 Feb 2021 00:34:12 -0500
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:34267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1l8zBb-0000Ue-3d; Mon, 08 Feb 2021 00:34:12 -0500
+Received: by mail-io1-xd2d.google.com with SMTP id f67so11952147ioa.1;
+ Sun, 07 Feb 2021 21:34:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=0Zp9BGGGXruyxeRvmMHs7JPbCXW8UY65W1DhaFEhqdc=;
+ b=ItlMcX4WIK6IOZi7GelENDDJ+2AARxDid+F+WYHrWOLjQ5ZC3uO6le13GJmQNgZ0a8
+ tqCrz0hhZWf1X4VMVMIJ7HDy/rkLlXL8kuDNwBrTeKn2dvczCzOyW3qnLknpfhOeI4Hx
+ DTjGeT4YCKdeoX5TDnpjZ24jV1mIho4tpggDWiQvopnugW7kGlfLevXGp5zBy0j/5Q7D
+ y/aDdUA59bp3bNVzN1w0tr7iFPp6GRPHzaXqMyN3PT72UEBlc7zpeblhs+zxdQxBGoBY
+ CmcUVc7nNPgM2haVt5FbUaiWLbQWiCPBEbHJFitXSOFwY1lwKjQPEYJ7htgTU5m6IAHn
+ IRAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=0Zp9BGGGXruyxeRvmMHs7JPbCXW8UY65W1DhaFEhqdc=;
+ b=g2H8FnIb5zgfl5F+t5hGPIFchMtWG03WVotlAJJtsmONPn79vQ6tEBqeYOLvYTQSqS
+ /xzxpDaSbjlHFjgDva+JHUzgzgwJy9WHxHTIF4mWllSAONOL7PF4Tc68fw7lMe/vtWit
+ XG9Hk9LEtqq2mLB0oIKHcguUN/cKtVTjoAcJTKySKdbbmkMdq4/NTEpXo/pzh0LgjpdY
+ pq03S6217KqP6Keqw/afMQFBZrHkEAJ0X8XCzDWhNGqX/8kvaQZgNL5+QgV3wporUa9N
+ x5bt+5m5Mbd1LEkJdk8T/QQXhtTi5dQr7WRrQ7of4JaI2216XgaSC491CIO8yN5p+nZP
+ DwZQ==
+X-Gm-Message-State: AOAM532js+vdGAJ4HVvBCc51xEwZzv4vtWwzuzOsYOIhENRfXkBhwKbo
+ pFabIaGFyJTEzrTYttjS9Lc=
+X-Google-Smtp-Source: ABdhPJxvYxk7XDXP0N8Mq9lfjm4gUW/YF9kG3DQhztqGGJVbEl3UUqJoY7mTOVoT8alliaUbCCcvGw==
+X-Received: by 2002:a5d:8e06:: with SMTP id e6mr14249853iod.210.1612762449319; 
+ Sun, 07 Feb 2021 21:34:09 -0800 (PST)
+Received: from [127.0.0.1] (ec2-3-14-82-192.us-east-2.compute.amazonaws.com.
+ [3.14.82.192])
+ by smtp.gmail.com with ESMTPSA id b1sm1939234iob.42.2021.02.07.21.34.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 07 Feb 2021 21:34:08 -0800 (PST)
+Message-ID: <0b4b2fcdb148bf35cbffbd9cd40ce1b88f883f0c.camel@gmail.com>
+Subject: Re: [PATCH] arm: xlnx-versal: fix virtio-mmio base address assignment
+From: schspa <schspa@gmail.com>
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Laszlo Ersek <lersek@redhat.com>
+Date: Mon, 08 Feb 2021 13:34:02 +0800
+In-Reply-To: <20210205140807.GH477672@toto>
+References: <3362132240927a23ecca7b9d8cfd6e4130509eea.camel@gmail.com>
+ <dbcfce3c-3140-01b7-06ca-497cf7fdace7@amsat.org>
+ <6f6a803af5941346050d84e77fcaa52e0175a8a7.camel@gmail.com>
+ <f4862169-28cc-82a9-32fb-da56b000cf54@amsat.org>
+ <CAFEAcA9JkTEOhmoFjWYfR5d7ANhKnc9URk89Xe36q7qMVxkMmg@mail.gmail.com>
+ <aa8ccb78-c977-20fa-a814-4223b678d9c4@amsat.org>
+ <CAFEAcA-+dS5r5LvW5DTEH2vBrm1S2rs7sjjh2V7zjtD6ut0wBw@mail.gmail.com>
+ <20210205140807.GH477672@toto>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3 
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=schspa@gmail.com; helo=mail-io1-xd2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 08 Feb 2021 09:34:42 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,122 +91,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Kevin Zhao <kevin.zhao@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+On Fri, 2021-02-05 at 15:08 +0100, Edgar E. Iglesias wrote:
+> Thanks, that matches how I thought things should work.
+> 
+> I wonder if virtio_mmio_bus_get_dev_path() really should be peeking
+> into
+> Sysbus internals mmio[].addr?
+> 
+I think mmio[].addr needs to be given a meaningful value even if we
+don't use it.
 
-The traditional HMP "savevm" command will overwrite an existing snapshot
-if it already exists with the requested name. This new flag allows this
-to be controlled allowing for safer behaviour with a future QMP command.
+> Sysbus mmio[].addr looks like a candidate for removal if we ever get
+> rid
+> of the default system_memory...
+> 
+> I don't have any good suggestions how to fix this. I guess we could
+> wrap
+> memory_region_add_subregion() with a sysbus version of it that sets
+> mmio[].addr but that seems like a step backwards to me.
+> Perhaps there's a way fix this in virtio_mmio_bus_get_dev_path()?
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210204124834.774401-8-berrange@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- include/migration/snapshot.h |  3 ++-
- migration/savevm.c           | 19 ++++++++++++++++---
- monitor/hmp-cmds.c           |  2 +-
- replay/replay-debugging.c    |  2 +-
- replay/replay-snapshot.c     |  2 +-
- 5 files changed, 21 insertions(+), 7 deletions(-)
+I think we can change virtio_mmio_bus_get_dev_path() with the following
+methods.
 
-diff --git a/include/migration/snapshot.h b/include/migration/snapshot.h
-index d7d210820c..d8c22d343c 100644
---- a/include/migration/snapshot.h
-+++ b/include/migration/snapshot.h
-@@ -18,11 +18,12 @@
- /**
-  * save_snapshot: Save an internal snapshot.
-  * @name: name of internal snapshot
-+ * @overwrite: replace existing snapshot with @name
-  * @errp: pointer to error object
-  * On success, return %true.
-  * On failure, store an error through @errp and return %false.
-  */
--bool save_snapshot(const char *name, Error **errp);
-+bool save_snapshot(const char *name, bool overwrite, Error **errp);
- 
- /**
-  * load_snapshot: Load an internal snapshot.
-diff --git a/migration/savevm.c b/migration/savevm.c
-index a2a842d067..0ae8e4798c 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2764,7 +2764,7 @@ int qemu_load_device_state(QEMUFile *f)
-     return 0;
- }
- 
--bool save_snapshot(const char *name, Error **errp)
-+bool save_snapshot(const char *name, bool overwrite, Error **errp)
- {
-     BlockDriverState *bs;
-     QEMUSnapshotInfo sn1, *sn = &sn1;
-@@ -2792,8 +2792,21 @@ bool save_snapshot(const char *name, Error **errp)
- 
-     /* Delete old snapshots of the same name */
-     if (name) {
--        if (bdrv_all_delete_snapshot(name, false, NULL, errp) < 0) {
--            return false;
-+        if (overwrite) {
-+            if (bdrv_all_delete_snapshot(name, false, NULL, errp) < 0) {
-+                return false;
-+            }
-+        } else {
-+            ret2 = bdrv_all_has_snapshot(name, false, NULL, errp);
-+            if (ret2 < 0) {
-+                return false;
-+            }
-+            if (ret2 == 1) {
-+                error_setg(errp,
-+                           "Snapshot '%s' already exists in one or more devices",
-+                           name);
-+                return false;
-+            }
-         }
-     }
- 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index f795261f77..1fff33f14a 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1149,7 +1149,7 @@ void hmp_savevm(Monitor *mon, const QDict *qdict)
- {
-     Error *err = NULL;
- 
--    save_snapshot(qdict_get_try_str(qdict, "name"), &err);
-+    save_snapshot(qdict_get_try_str(qdict, "name"), true, &err);
-     hmp_handle_error(mon, err);
- }
- 
-diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
-index 098ef8e0f5..0ae6785b3b 100644
---- a/replay/replay-debugging.c
-+++ b/replay/replay-debugging.c
-@@ -327,7 +327,7 @@ void replay_gdb_attached(void)
-      */
-     if (replay_mode == REPLAY_MODE_PLAY
-         && !replay_snapshot) {
--        if (!save_snapshot("start_debugging", NULL)) {
-+        if (!save_snapshot("start_debugging", true, NULL)) {
-             /* Can't create the snapshot. Continue conventional debugging. */
-         }
-     }
-diff --git a/replay/replay-snapshot.c b/replay/replay-snapshot.c
-index b289365937..31c5a8702b 100644
---- a/replay/replay-snapshot.c
-+++ b/replay/replay-snapshot.c
-@@ -77,7 +77,7 @@ void replay_vmstate_init(void)
- 
-     if (replay_snapshot) {
-         if (replay_mode == REPLAY_MODE_RECORD) {
--            if (!save_snapshot(replay_snapshot, &err)) {
-+            if (!save_snapshot(replay_snapshot, true, &err)) {
-                 error_report_err(err);
-                 error_report("Could not create snapshot for icount record");
-                 exit(1);
+1. modify TYPE_VIRTIO_MMIO:
+   add a prop to specify a unique device_path for virtio_mmio TypeInfo.
+2. modify TYPE_VIRTIO_MMIO_BUS
+   add a global static instance count to generate a unique device path.
+
 -- 
-2.29.2
+schspa <schspa@gmail.com>
 
 
