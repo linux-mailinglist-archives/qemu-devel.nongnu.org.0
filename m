@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62232313F75
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:48:26 +0100 (CET)
-Received: from localhost ([::1]:58606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3393313F03
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:31:33 +0100 (CET)
+Received: from localhost ([::1]:57056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9CWH-0005MN-43
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:48:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47500)
+	id 1l9CFw-0000Hw-DD
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:31:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l94uV-0007GK-R6
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:40:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24101)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l963o-0005mB-BI
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:54:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l94uM-0006Ax-0F
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:40:53 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l963g-0003Ez-L7
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:54:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612784442;
+ s=mimecast20190719; t=1612788857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CQIagMiXjoclfNjUnWVkdnHA3CVN8Pg04lD9F1rUqiA=;
- b=ed4pKpVkh+r0iMEM3nhsqgXrvciVNMcfeB4FRBGBwXqBG6UvTK4hOjbK/pt1CBrFXGMYOy
- kvp/DO02rWnE+qp8QY1LDvP4VgGLpKi8T293M392yrEINRA6TIgGN+CMwkNdXMdoLfTOd3
- Of8TxZ2thSur5pMtjeAAqYrGKuLXLPs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-jGdI3pRCP_GdGqXjNXs4Fg-1; Mon, 08 Feb 2021 06:40:39 -0500
-X-MC-Unique: jGdI3pRCP_GdGqXjNXs4Fg-1
-Received: by mail-wm1-f71.google.com with SMTP id y9so8369538wmi.8
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 03:40:38 -0800 (PST)
+ bh=zhvsvCpbGl9246nn8gV+UTTkif0J5S0NQr5Jgyt3L3Y=;
+ b=GXPsXZsKSucqyEQWE4E5YtFK1BzF5ncHxj+xnKok48i2uDQxRmrSLuh1DhmyUnhmQ0hZSi
+ XmStbouhlfxIiVxheSrVB6ItBQboCwUrfSkEgZglVW1khL1lUyPG9ULAy4GAoU5R+l/Rcf
+ 5JL6sAtGoPP5T2tI0So8ihmZd/NnfZs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-01tUlmI2PKa-MoP7epv3tQ-1; Mon, 08 Feb 2021 07:54:14 -0500
+X-MC-Unique: 01tUlmI2PKa-MoP7epv3tQ-1
+Received: by mail-wr1-f71.google.com with SMTP id e11so257630wro.19
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 04:54:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CQIagMiXjoclfNjUnWVkdnHA3CVN8Pg04lD9F1rUqiA=;
- b=L8zNFQlvTbk23Mb4z43ow97+5lZUvZ2OsG/iX4ujlFIZEiIB6Y0vcGyAl0hJh9pq13
- jHGAe8qj5YGKfrdn/M1wmNzaYzEBRewTo2tk32E+UhRWlCW2Cl8Gy8ba+fbB3pH57Rir
- dBLTK7gMvNovI+6kuqtnlLwDr943+cllr7pxaP1jF6dtOPeUjEzOeSTsBF2FcbiRwf5B
- Nk0ortvwa12BbZmruMkTgleafPmJk4jHz8zDUhXKnql0pGQdYXbBtRsFg+70HPU+uGTE
- hTjzQfprFIeqh3f/uFnmmTR/krrRxTSML5RPNao4xkc/9JYG5lPvPKrbcLZaUAeC4BMC
- kNPw==
-X-Gm-Message-State: AOAM5307aekHLLCcdyE1BkQI6h/12w0Ljk8j2n9mCMYmfBPQkkg2Pmwr
- H68yJJgJ3Ytino6YewSuAeKHBnQ5aD7TlaYCwWN7o0rOFJ1ECWExt+bW1jmtgDPprTGifNdc41q
- Z4p5o0RB+tVIjRZU=
-X-Received: by 2002:a5d:6b87:: with SMTP id n7mr6650342wrx.222.1612784436539; 
- Mon, 08 Feb 2021 03:40:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJycxs7vGb1Hf0QsOqMVMvKFeT1LlLNeY1jFRr+HMMPINoxa3u9+FZJbVv8TMfPC9TgfGWUNQw==
-X-Received: by 2002:a5d:6b87:: with SMTP id n7mr6650323wrx.222.1612784436378; 
- Mon, 08 Feb 2021 03:40:36 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id x15sm11430781wro.66.2021.02.08.03.40.35
+ bh=zhvsvCpbGl9246nn8gV+UTTkif0J5S0NQr5Jgyt3L3Y=;
+ b=JRmRo/YxbR8YPtY509Qrc8o/MMt4tK2msR9AE//ofqGBxfeBmUd+yE7iTrdekNkqBd
+ yntd4D9cr1QFJdDbah6XZCACPASiXxnXBbysDmbYBcQBPMOZsNH/ijZrnGfqvg6g/dCK
+ 9YQGwNlQIltKXWzsIzshLSBkyan9mDL/33jOc+IxVIg1lPoOidg+K8ReYvBxj2zCs31x
+ QHfSuqmuz8nFKmWfm13ngylTBQ7Lw5XiED/qfT0hwBNUYL/aIEWPG65QXxMvDkF+2Ded
+ Ei70uF5tNUUcPyF4CSqNOU4E8R9aDVpxI/IWkPjHu69pNyXekTrEYkvYtrcERT7PwxXK
+ y8Ew==
+X-Gm-Message-State: AOAM532AavRuRJSCwXPdU0QWRVSrlwT1xt1moRRY1k9GtK3MJEJ7DGD/
+ EgC7gmXYetA4frqOix8HncMXJgyQ70Y9FsjjRhyMSUJUs+qO+qMYQ+SvQphrBzbmS1Vz7BNgLb+
+ lumA3WmNbjv6EEXlW4fPAxE5/sD0gmBAhA+9sIJC2Vq7Luzy32uHbMObs8W7asX6e
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr14477126wmr.179.1612788853406; 
+ Mon, 08 Feb 2021 04:54:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwVCqFx0Cvquv3UOBS8S8nQSJ4WVcTJ2r/cQjKVX8Lt4jENgaScQ/O4uQ5c6Kz5FJCMO3qUUg==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr14477099wmr.179.1612788853189; 
+ Mon, 08 Feb 2021 04:54:13 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id b19sm20103858wmj.22.2021.02.08.04.54.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 03:40:35 -0800 (PST)
-Subject: Re: [PATCH] scsi: mptsas: dequeue request object in case of an error
- (CVE-2021-3392)
-To: P J P <ppandit@redhat.com>
-References: <20210202132103.1096654-1-ppandit@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5d72e28a-c6fc-6cb3-d491-84d7dfed01b8@redhat.com>
-Date: Mon, 8 Feb 2021 12:40:34 +0100
+ Mon, 08 Feb 2021 04:54:12 -0800 (PST)
+Subject: Re: [PATCH v16 21/23] accel: introduce new accessor functions
+To: Claudio Fontana <cfontana@suse.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210204163931.7358-1-cfontana@suse.de>
+ <20210204163931.7358-22-cfontana@suse.de>
+ <2bb1cba6-e1a0-80a7-4c05-fb221f4f8230@linaro.org>
+ <16c471e4-06a9-92bf-2d6f-0da0b0fc5a50@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <055de896-2354-ebce-baed-11c801e53964@redhat.com>
+Date: Mon, 8 Feb 2021 13:54:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210202132103.1096654-1-ppandit@redhat.com>
+In-Reply-To: <16c471e4-06a9-92bf-2d6f-0da0b0fc5a50@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -100,48 +104,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Cheolwoo Myung <cwmyung@snu.ac.kr>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/02/21 14:21, P J P wrote:
-> From: Prasad J Pandit <pjp@fedoraproject.org>
+On 2/8/21 1:50 PM, Claudio Fontana wrote:
+> On 2/5/21 9:14 PM, Richard Henderson wrote:
+>> On 2/4/21 6:39 AM, Claudio Fontana wrote:
+>>> @@ -6725,10 +6722,8 @@ static void x86_cpu_initfn(Object *obj)
+>>>          x86_cpu_load_model(cpu, xcc->model);
+>>>      }
+>>>  
+>>> -    /* if required, do the accelerator-specific cpu initialization */
+>>> -    if (cc->accel_cpu) {
+>>> -        cc->accel_cpu->cpu_instance_init(CPU(obj));
+>>> -    }
+>>> +    /* if required, do accelerator-specific cpu initializations */
+>>> +    accel_cpu_instance_init(CPU(obj));
+>>>  }
+>>
+>> Why is this only done for x86?
+>>
+>>
+>> r~
+>>
 > 
-> While processing SCSI i/o requests in mptsas_process_scsi_io_request(),
-> the Megaraid emulator appends new MPTSASRequest object 'req' to
-> the 's->pending' queue. In case of an error, this same object gets
-> dequeued in mptsas_free_request() only if SCSIRequest object
-> 'req->sreq' is initialised. This may lead to a use-after-free issue.
-> Unconditionally dequeue 'req' object from 's->pending' to avoid it.
+> It makes sense to include the other architectures.
 > 
-> Fixes: CVE-2021-3392
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1914236
-> Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->   hw/scsi/mptsas.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> As the next step I would like to apply this to ARM, but to me it makes sense to first complete Philippe's series,
+> which reshuffles things so that TCG-only / KVM-only builds are both possible and error-free:
 > 
-> diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-> index f86616544b..adff5b0bf2 100644
-> --- a/hw/scsi/mptsas.c
-> +++ b/hw/scsi/mptsas.c
-> @@ -257,8 +257,8 @@ static void mptsas_free_request(MPTSASRequest *req)
->           req->sreq->hba_private = NULL;
->           scsi_req_unref(req->sreq);
->           req->sreq = NULL;
-> -        QTAILQ_REMOVE(&s->pending, req, next);
->       }
-> +    QTAILQ_REMOVE(&s->pending, req, next);
->       qemu_sglist_destroy(&req->qsg);
->       g_free(req);
->   }
-> 
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg777627.html
 
-s->pending is not used for anything, it can just be removed.
-
-Paolo
+TBH this series is very unlikely to be merged before yours,
+so go ahead... (eventually you can cherry-pick what you need
+from it).
 
 
