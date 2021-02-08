@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449ED3130C5
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C903130C6
 	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 12:27:10 +0100 (CET)
-Received: from localhost ([::1]:41134 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:41244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l94gy-0007Jg-1z
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 06:26:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
+	id 1l94hB-0007N7-79
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 06:27:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zi4-000223-Gb; Mon, 08 Feb 2021 01:07:44 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52643 helo=ozlabs.org)
+ id 1l8ziE-0002Pu-RV; Mon, 08 Feb 2021 01:07:54 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55027 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zi2-0006pW-AM; Mon, 08 Feb 2021 01:07:44 -0500
+ id 1l8ziC-0006te-8B; Mon, 08 Feb 2021 01:07:54 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwY56pRmz9sW3; Mon,  8 Feb 2021 17:07:37 +1100 (AEDT)
+ id 4DYwY63J3Kz9sWH; Mon,  8 Feb 2021 17:07:38 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612764457;
- bh=dPygv7llvoj8h64O+mDHWIuB5T3bGaHKRTCLlQX+7HU=;
+ d=gibson.dropbear.id.au; s=201602; t=1612764458;
+ bh=aAac4u8eAT095LojHu2zV6djlFRQd15K3tYUapECTxg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VmzsSUG/7My5DnVOeRR6sUcq5ERIIKIRKQToX4LpahMEA4GvgEMJOTs+Y+b9jLPiO
- /HseT4RidrbNpxWSwzGobGQxWtpLTSXdWaijjSgHKlBzeRtHR3Wwi47fDKy9nipt9q
- /NbZWm/+ll4BLiWLTzlDYXV41lRY1cBPMUrO8jSs=
+ b=K/pNWE7ToBQ+mRufAu4v2QvsP67JFGhhMEuRaemfWuiAd0UPwJgLoPwawYII4MMwz
+ 8jNcbnlKH7CJYuebDsTCHrzrtTEfyFvq+df06V4Ua32KHEpsTuYHuP/qOl+hGYi0Mo
+ 1cNGYPx1pjBFkNyZzb/iHimaQoNKrPKhNwgaaqh0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: pair@us.ibm.com, qemu-devel@nongnu.org, peter.maydell@linaro.org,
  dgilbert@redhat.com, brijesh.singh@amd.com, pasic@linux.ibm.com
-Subject: [PULL v9 03/13] sev: Remove false abstraction of flash encryption
-Date: Mon,  8 Feb 2021 17:07:25 +1100
-Message-Id: <20210208060735.39838-4-david@gibson.dropbear.id.au>
+Subject: [PULL v9 10/13] spapr: Add PEF based confidential guest support
+Date: Mon,  8 Feb 2021 17:07:32 +1100
+Message-Id: <20210208060735.39838-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208060735.39838-1-david@gibson.dropbear.id.au>
 References: <20210208060735.39838-1-david@gibson.dropbear.id.au>
@@ -68,298 +68,352 @@ Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When AMD's SEV memory encryption is in use, flash memory banks (which are
-initialed by pc_system_flash_map()) need to be encrypted with the guest's
-key, so that the guest can read them.
+Some upcoming POWER machines have a system called PEF (Protected
+Execution Facility) which uses a small ultravisor to allow guests to
+run in a way that they can't be eavesdropped by the hypervisor.  The
+effect is roughly similar to AMD SEV, although the mechanisms are
+quite different.
 
-That's abstracted via the kvm_memcrypt_encrypt_data() callback in the KVM
-state.. except, that it doesn't really abstract much at all.
+Most of the work of this is done between the guest, KVM and the
+ultravisor, with little need for involvement by qemu.  However qemu
+does need to tell KVM to allow secure VMs.
 
-For starters, the only call site is in code specific to the 'pc'
-family of machine types, so it's obviously specific to those and to
-x86 to begin with.  But it makes a bunch of further assumptions that
-need not be true about an arbitrary confidential guest system based on
-memory encryption, let alone one based on other mechanisms:
+Because the availability of secure mode is a guest visible difference
+which depends on having the right hardware and firmware, we don't
+enable this by default.  In order to run a secure guest you need to
+create a "pef-guest" object and set the confidential-guest-support
+property to point to it.
 
- * it assumes that the flash memory is defined to be encrypted with the
-   guest key, rather than being shared with hypervisor
- * it assumes that that hypervisor has some mechanism to encrypt data into
-   the guest, even though it can't decrypt it out, since that's the whole
-   point
- * the interface assumes that this encrypt can be done in place, which
-   implies that the hypervisor can write into a confidential guests's
-   memory, even if what it writes isn't meaningful
+Note that this just *allows* secure guests, the architecture of PEF is
+such that the guest still needs to talk to the ultravisor to enter
+secure mode.  Qemu has no direct way of knowing if the guest is in
+secure mode, and certainly can't know until well after machine
+creation time.
 
-So really, this "abstraction" is actually pretty specific to the way SEV
-works.  So, this patch removes it and instead has the PC flash
-initialization code call into a SEV specific callback.
+To start a PEF-capable guest, use the command line options:
+    -object pef-guest,id=pef0 -machine confidential-guest-support=pef0
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- accel/kvm/kvm-all.c    | 31 ++-----------------------------
- accel/kvm/sev-stub.c   |  9 ++-------
- accel/stubs/kvm-stub.c | 10 ----------
- hw/i386/pc_sysfw.c     | 17 ++++++-----------
- include/sysemu/kvm.h   | 16 ----------------
- include/sysemu/sev.h   |  4 ++--
- target/i386/sev-stub.c |  5 +++++
- target/i386/sev.c      | 24 ++++++++++++++----------
- 8 files changed, 31 insertions(+), 85 deletions(-)
+ docs/confidential-guest-support.txt |   3 +
+ docs/papr-pef.txt                   |  30 +++++++
+ hw/ppc/meson.build                  |   1 +
+ hw/ppc/pef.c                        | 133 ++++++++++++++++++++++++++++
+ hw/ppc/spapr.c                      |   8 +-
+ include/hw/ppc/pef.h                |  17 ++++
+ target/ppc/kvm.c                    |  18 ----
+ target/ppc/kvm_ppc.h                |   6 --
+ 8 files changed, 191 insertions(+), 25 deletions(-)
+ create mode 100644 docs/papr-pef.txt
+ create mode 100644 hw/ppc/pef.c
+ create mode 100644 include/hw/ppc/pef.h
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 5164d838b9..3526e88b6c 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -123,10 +123,6 @@ struct KVMState
-     KVMMemoryListener memory_listener;
-     QLIST_HEAD(, KVMParkedVcpu) kvm_parked_vcpus;
+diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
+index bd439ac800..4da4c91bd3 100644
+--- a/docs/confidential-guest-support.txt
++++ b/docs/confidential-guest-support.txt
+@@ -40,4 +40,7 @@ Currently supported confidential guest mechanisms are:
+ AMD Secure Encrypted Virtualization (SEV)
+     docs/amd-memory-encryption.txt
  
--    /* memory encryption */
--    void *memcrypt_handle;
--    int (*memcrypt_encrypt_data)(void *handle, uint8_t *ptr, uint64_t len);
--
-     /* For "info mtree -f" to tell if an MR is registered in KVM */
-     int nr_as;
-     struct KVMAs {
-@@ -225,26 +221,6 @@ int kvm_get_max_memslots(void)
-     return s->nr_slots;
- }
- 
--bool kvm_memcrypt_enabled(void)
--{
--    if (kvm_state && kvm_state->memcrypt_handle) {
--        return true;
--    }
--
--    return false;
--}
--
--int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
--{
--    if (kvm_state->memcrypt_handle &&
--        kvm_state->memcrypt_encrypt_data) {
--        return kvm_state->memcrypt_encrypt_data(kvm_state->memcrypt_handle,
--                                              ptr, len);
--    }
--
--    return 1;
--}
--
- /* Called with KVMMemoryListener.slots_lock held */
- static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
- {
-@@ -2209,13 +2185,10 @@ static int kvm_init(MachineState *ms)
-      * encryption context.
-      */
-     if (ms->memory_encryption) {
--        kvm_state->memcrypt_handle = sev_guest_init(ms->memory_encryption);
--        if (!kvm_state->memcrypt_handle) {
--            ret = -1;
-+        ret = sev_guest_init(ms->memory_encryption);
-+        if (ret < 0) {
-             goto err;
-         }
--
--        kvm_state->memcrypt_encrypt_data = sev_encrypt_data;
-     }
- 
-     ret = kvm_arch_init(ms, s);
-diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
-index 4f97452585..5db9ab8f00 100644
---- a/accel/kvm/sev-stub.c
-+++ b/accel/kvm/sev-stub.c
-@@ -15,12 +15,7 @@
- #include "qemu-common.h"
- #include "sysemu/sev.h"
- 
--int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
-+int sev_guest_init(const char *id)
- {
--    abort();
--}
--
--void *sev_guest_init(const char *id)
--{
--    return NULL;
-+    return -1;
- }
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 680e099463..0f17acfac0 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -81,16 +81,6 @@ int kvm_on_sigbus(int code, void *addr)
-     return 1;
- }
- 
--bool kvm_memcrypt_enabled(void)
--{
--    return false;
--}
--
--int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
--{
--  return 1;
--}
--
- #ifndef CONFIG_USER_ONLY
- int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
- {
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index 92e90ff013..11172214f1 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -38,6 +38,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/block/flash.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/sev.h"
- 
- #define FLASH_SECTOR_SIZE 4096
- 
-@@ -147,7 +148,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
-     PFlashCFI01 *system_flash;
-     MemoryRegion *flash_mem;
-     void *flash_ptr;
--    int ret, flash_size;
-+    int flash_size;
- 
-     assert(PC_MACHINE_GET_CLASS(pcms)->pci_enabled);
- 
-@@ -191,16 +192,10 @@ static void pc_system_flash_map(PCMachineState *pcms,
-             flash_mem = pflash_cfi01_get_memory(system_flash);
-             pc_isa_bios_init(rom_memory, flash_mem, size);
- 
--            /* Encrypt the pflash boot ROM */
--            if (kvm_memcrypt_enabled()) {
--                flash_ptr = memory_region_get_ram_ptr(flash_mem);
--                flash_size = memory_region_size(flash_mem);
--                ret = kvm_memcrypt_encrypt_data(flash_ptr, flash_size);
--                if (ret) {
--                    error_report("failed to encrypt pflash rom");
--                    exit(1);
--                }
--            }
-+            /* Encrypt the pflash boot ROM, if necessary */
-+            flash_ptr = memory_region_get_ram_ptr(flash_mem);
-+            flash_size = memory_region_size(flash_mem);
-+            sev_encrypt_flash(flash_ptr, flash_size, &error_fatal);
-         }
-     }
- }
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 739682f3c3..c5546bdecc 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -233,22 +233,6 @@ int kvm_has_intx_set_mask(void);
-  */
- bool kvm_arm_supports_user_irq(void);
- 
--/**
-- * kvm_memcrypt_enabled - return boolean indicating whether memory encryption
-- *                        is enabled
-- * Returns: 1 memory encryption is enabled
-- *          0 memory encryption is disabled
-- */
--bool kvm_memcrypt_enabled(void);
--
--/**
-- * kvm_memcrypt_encrypt_data: encrypt the memory range
-- *
-- * Return: 1 failed to encrypt the range
-- *         0 succesfully encrypted memory region
-- */
--int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len);
--
- 
- #ifdef NEED_CPU_H
- #include "cpu.h"
-diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
-index 7ab6e3e31d..7335e59867 100644
---- a/include/sysemu/sev.h
-+++ b/include/sysemu/sev.h
-@@ -16,8 +16,8 @@
- 
- #include "sysemu/kvm.h"
- 
--void *sev_guest_init(const char *id);
--int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len);
-+int sev_guest_init(const char *id);
-+int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
- int sev_inject_launch_secret(const char *hdr, const char *secret,
-                              uint64_t gpa, Error **errp);
- #endif
-diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-index c1fecc2101..1ac1fd5b94 100644
---- a/target/i386/sev-stub.c
-+++ b/target/i386/sev-stub.c
-@@ -54,3 +54,8 @@ int sev_inject_launch_secret(const char *hdr, const char *secret,
- {
-     return 1;
- }
++POWER Protected Execution Facility (PEF)
++    docs/papr-pef.txt
 +
-+int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp)
+ Other mechanisms may be supported in future.
+diff --git a/docs/papr-pef.txt b/docs/papr-pef.txt
+new file mode 100644
+index 0000000000..72550e9bf8
+--- /dev/null
++++ b/docs/papr-pef.txt
+@@ -0,0 +1,30 @@
++POWER (PAPR) Protected Execution Facility (PEF)
++===============================================
++
++Protected Execution Facility (PEF), also known as Secure Guest support
++is a feature found on IBM POWER9 and POWER10 processors.
++
++If a suitable firmware including an Ultravisor is installed, it adds
++an extra memory protection mode to the CPU.  The ultravisor manages a
++pool of secure memory which cannot be accessed by the hypervisor.
++
++When this feature is enabled in QEMU, a guest can use ultracalls to
++enter "secure mode".  This transfers most of its memory to secure
++memory, where it cannot be eavesdropped by a compromised hypervisor.
++
++Launching
++---------
++
++To launch a guest which will be permitted to enter PEF secure mode:
++
++# ${QEMU} \
++    -object pef-guest,id=pef0 \
++    -machine confidential-guest-support=pef0 \
++    ...
++
++Live Migration
++----------------
++
++Live migration is not yet implemented for PEF guests.  For
++consistency, we currently prevent migration if the PEF feature is
++enabled, whether or not the guest has actually entered secure mode.
+diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+index ffa2ec37fa..218631c883 100644
+--- a/hw/ppc/meson.build
++++ b/hw/ppc/meson.build
+@@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
+   'spapr_nvdimm.c',
+   'spapr_rtas_ddw.c',
+   'spapr_numa.c',
++  'pef.c',
+ ))
+ ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
+ ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
+diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
+new file mode 100644
+index 0000000000..f9fd1f2a71
+--- /dev/null
++++ b/hw/ppc/pef.c
+@@ -0,0 +1,133 @@
++/*
++ * PEF (Protected Execution Facility) for POWER support
++ *
++ * Copyright Red Hat.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++
++#include "qapi/error.h"
++#include "qom/object_interfaces.h"
++#include "sysemu/kvm.h"
++#include "migration/blocker.h"
++#include "exec/confidential-guest-support.h"
++#include "hw/ppc/pef.h"
++
++#define TYPE_PEF_GUEST "pef-guest"
++OBJECT_DECLARE_SIMPLE_TYPE(PefGuest, PEF_GUEST)
++
++typedef struct PefGuest PefGuest;
++typedef struct PefGuestClass PefGuestClass;
++
++struct PefGuestClass {
++    ConfidentialGuestSupportClass parent_class;
++};
++
++/**
++ * PefGuest:
++ *
++ * The PefGuest object is used for creating and managing a PEF
++ * guest.
++ *
++ * # $QEMU \
++ *         -object pef-guest,id=pef0 \
++ *         -machine ...,confidential-guest-support=pef0
++ */
++struct PefGuest {
++    ConfidentialGuestSupport parent_obj;
++};
++
++static int kvmppc_svm_init(Error **errp)
 +{
-+    return 0;
-+}
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index b738dc45b6..8d4e1ea262 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -682,7 +682,7 @@ sev_vm_state_change(void *opaque, int running, RunState state)
-     }
- }
- 
--void *
-+int
- sev_guest_init(const char *id)
- {
-     SevGuestState *sev;
-@@ -695,7 +695,7 @@ sev_guest_init(const char *id)
-     ret = ram_block_discard_disable(true);
-     if (ret) {
-         error_report("%s: cannot disable RAM discard", __func__);
--        return NULL;
++#ifdef CONFIG_KVM
++    if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
++        error_setg(errp,
++                   "KVM implementation does not support Secure VMs (is an ultravisor running?)");
 +        return -1;
-     }
- 
-     sev = lookup_sev_guest_info(id);
-@@ -766,23 +766,27 @@ sev_guest_init(const char *id)
-     qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
-     qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
- 
--    return sev;
++    } else {
++        int ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_PPC_SECURE_GUEST, 0, 1);
++
++        if (ret < 0) {
++            error_setg(errp,
++                       "Error enabling PEF with KVM");
++            return -1;
++        }
++    }
++
 +    return 0;
- err:
-     sev_guest = NULL;
-     ram_block_discard_disable(false);
--    return NULL;
-+    return -1;
- }
- 
- int
--sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
-+sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp)
- {
--    SevGuestState *sev = handle;
--
--    assert(sev);
-+    if (!sev_guest) {
++#else
++    g_assert_not_reached();
++#endif
++}
++
++/*
++ * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
++ * that don't support this ioctl.
++ */
++static int kvmppc_svm_off(Error **errp)
++{
++#ifdef CONFIG_KVM
++    int rc;
++
++    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
++    if (rc && rc != -ENOTTY) {
++        error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
++        return rc;
++    }
++    return 0;
++#else
++    g_assert_not_reached();
++#endif
++}
++
++int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
++{
++    if (!object_dynamic_cast(OBJECT(cgs), TYPE_PEF_GUEST)) {
 +        return 0;
 +    }
++
++    if (!kvm_enabled()) {
++        error_setg(errp, "PEF requires KVM");
++        return -1;
++    }
++
++    return kvmppc_svm_init(errp);
++}
++
++int pef_kvm_reset(ConfidentialGuestSupport *cgs, Error **errp)
++{
++    if (!object_dynamic_cast(OBJECT(cgs), TYPE_PEF_GUEST)) {
++        return 0;
++    }
++
++    /*
++     * If we don't have KVM we should never have been able to
++     * initialize PEF, so we should never get this far
++     */
++    assert(kvm_enabled());
++
++    return kvmppc_svm_off(errp);
++}
++
++OBJECT_DEFINE_TYPE_WITH_INTERFACES(PefGuest,
++                                   pef_guest,
++                                   PEF_GUEST,
++                                   CONFIDENTIAL_GUEST_SUPPORT,
++                                   { TYPE_USER_CREATABLE },
++                                   { NULL })
++
++static void pef_guest_class_init(ObjectClass *oc, void *data)
++{
++}
++
++static void pef_guest_init(Object *obj)
++{
++}
++
++static void pef_guest_finalize(Object *obj)
++{
++}
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 6c47466fc2..612356e9ec 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -83,6 +83,7 @@
+ #include "hw/ppc/spapr_tpm_proxy.h"
+ #include "hw/ppc/spapr_nvdimm.h"
+ #include "hw/ppc/spapr_numa.h"
++#include "hw/ppc/pef.h"
  
-     /* if SEV is in update state then encrypt the data else do nothing */
--    if (sev_check_state(sev, SEV_STATE_LAUNCH_UPDATE)) {
--        return sev_launch_update_data(sev, ptr, len);
-+    if (sev_check_state(sev_guest, SEV_STATE_LAUNCH_UPDATE)) {
-+        int ret = sev_launch_update_data(sev_guest, ptr, len);
-+        if (ret < 0) {
-+            error_setg(errp, "failed to encrypt pflash rom");
-+            return ret;
-+        }
+ #include "monitor/monitor.h"
+ 
+@@ -1574,7 +1575,7 @@ static void spapr_machine_reset(MachineState *machine)
+     void *fdt;
+     int rc;
+ 
+-    kvmppc_svm_off(&error_fatal);
++    pef_kvm_reset(machine->cgs, &error_fatal);
+     spapr_caps_apply(spapr);
+ 
+     first_ppc_cpu = POWERPC_CPU(first_cpu);
+@@ -2658,6 +2659,11 @@ static void spapr_machine_init(MachineState *machine)
+     char *filename;
+     Error *resize_hpt_err = NULL;
+ 
++    /*
++     * if Secure VM (PEF) support is configured, then initialize it
++     */
++    pef_kvm_init(machine->cgs, &error_fatal);
++
+     msi_nonbroken = true;
+ 
+     QLIST_INIT(&spapr->phbs);
+diff --git a/include/hw/ppc/pef.h b/include/hw/ppc/pef.h
+new file mode 100644
+index 0000000000..707dbe524c
+--- /dev/null
++++ b/include/hw/ppc/pef.h
+@@ -0,0 +1,17 @@
++/*
++ * PEF (Protected Execution Facility) for POWER support
++ *
++ * Copyright Red Hat.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef HW_PPC_PEF_H
++#define HW_PPC_PEF_H
++
++int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
++int pef_kvm_reset(ConfidentialGuestSupport *cgs, Error **errp);
++
++#endif /* HW_PPC_PEF_H */
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index daf690a678..0c5056dd5b 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -2929,21 +2929,3 @@ void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int64_t tb_offset)
+         kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &tb_offset);
      }
- 
+ }
+-
+-/*
+- * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
+- * that don't support this ioctl.
+- */
+-void kvmppc_svm_off(Error **errp)
+-{
+-    int rc;
+-
+-    if (!kvm_enabled()) {
+-        return;
+-    }
+-
+-    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
+-    if (rc && rc != -ENOTTY) {
+-        error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
+-    }
+-}
+diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+index 73ce2bc951..989f61ace0 100644
+--- a/target/ppc/kvm_ppc.h
++++ b/target/ppc/kvm_ppc.h
+@@ -39,7 +39,6 @@ int kvmppc_booke_watchdog_enable(PowerPCCPU *cpu);
+ target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
+                                      bool radix, bool gtse,
+                                      uint64_t proc_tbl);
+-void kvmppc_svm_off(Error **errp);
+ #ifndef CONFIG_USER_ONLY
+ bool kvmppc_spapr_use_multitce(void);
+ int kvmppc_spapr_enable_inkernel_multitce(void);
+@@ -216,11 +215,6 @@ static inline target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
      return 0;
+ }
+ 
+-static inline void kvmppc_svm_off(Error **errp)
+-{
+-    return;
+-}
+-
+ static inline void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu,
+                                              unsigned int online)
+ {
 -- 
 2.29.2
 
