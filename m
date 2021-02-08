@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3920B3140B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:44:00 +0100 (CET)
-Received: from localhost ([::1]:46752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA073140F4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:53:30 +0100 (CET)
+Received: from localhost ([::1]:39868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9DO3-0008S4-96
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:43:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52346)
+	id 1l9DXF-0001Go-H2
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:53:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l976U-0005wO-7r; Mon, 08 Feb 2021 09:01:40 -0500
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:44948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9764-00022f-Vv; Mon, 08 Feb 2021 09:01:21 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id r2so14628420ybk.11;
- Mon, 08 Feb 2021 06:00:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BEow9kOhlyZmc9TnY1pT8xOyDA+zAAmV+0ASk6jKlyk=;
- b=AGRuQV8GlSFtzrVSmYl2gS8iaGkF05dr2Q3sI9X9xsUZyz3BfncUTbGqU3ZrQVVlTB
- 4THjOG2rg/thVo/hFPsdHXlUya9LwCRw4df8zL9yIxfe97otYVdk1hERx7Cd7ngoTgxO
- 06nqqP/1whX3Hu+LzyXlPGUCyIGNyLHrd8N2jfmh3XuOABwdVdRZjOVkuNOw/lT4sbjA
- MYjRjQQRU1wqFarkZfRed+CkJtbfZAhebsczd7JJ+PlrGBfxUVFhtwwas60RJ9WzjNrN
- ZB6Y3I4H4hFipNFPixYHOviGiSZjNa9uIuNXad+66laJqEC1CoPAQAMrGak2dBtJKKUR
- rLgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BEow9kOhlyZmc9TnY1pT8xOyDA+zAAmV+0ASk6jKlyk=;
- b=pYU5LsI0VuWZVOqN6uabJVGV2rmGkO2wqP6uJxGp/WFhaqrHz75Y0MDof7r3RSVXvS
- aDU2keqeiZ4fN7oQvmQsYyNUhkfrnYHHD/cyv39+ABG023MWSQfqxnVZM0cZo6JdhdGg
- 4oL1UHY9Usmykv3TzfJwTfKvN8y9JYQKFfUlvuJ2pz6qM3kU7kRdVcxVl4AbsKxUwOXr
- GNYfZUg6QQIH4qIeS0hICkycNBFLSRb3zThAjbwnm/oIA5zR1VDZHAhR5YWM1KjjEHzD
- 4PZ7oKNFe4QWaDskW4ELrQ6bgNvlGRvCJQU1Bd6Ppe81udOjiAN+vD5C5XyVnMgoBVof
- itiQ==
-X-Gm-Message-State: AOAM530sGBD5iWn00RjFE6y+BDfWcsh+gp1Tu8MbpJCX1TFUgUeNE3T4
- 0SuAfTVRwsdwjj7jJySgWbqcJ7nJJ+HJ8WyOUAo=
-X-Google-Smtp-Source: ABdhPJyx6qJyHOSxMV3Af2fKQnvlBwpB6yrXvnKATcXjPXatVxrBV5OgvCvkqpChdAfLtmYbU1Ns12rYgAgUvVhhkFs=
-X-Received: by 2002:a25:d08d:: with SMTP id h135mr2069620ybg.122.1612792855951; 
- Mon, 08 Feb 2021 06:00:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l97FZ-0007Gu-Vq; Mon, 08 Feb 2021 09:10:52 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:45529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l97FA-0004N1-9i; Mon, 08 Feb 2021 09:10:41 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id EDFF545C;
+ Mon,  8 Feb 2021 09:10:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 08 Feb 2021 09:10:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=EzR1v0Er/laZY
+ oa4ce2ovHvM21lXv+BPTE55Z8/HZn4=; b=XwfUaHZWJ5ICqsnvIxAefVi5CWBDN
+ foIU8/QOF/P9r8nL/RALjURTkb57Z67qqT7Bx/40tMnFdQdmU3mw3zHGOL+Uakp/
+ 9RWv9+0GJjiCepS/bUi21zY1pUu1RkikqxeCWT7YN4eEo5YOyOxZPsHut5c0CfIf
+ pTUgdZVlNbT5IncYyd6cuJObiwlJtz4uGcB1X4yhr8nVBdX9PQ0MvKY94DRtKOIM
+ /FCHWWlABslOuTozCab3XRQXM74hjfwoQATnf7jrQFFyFr9/ZzdS04C+gDWMz8WA
+ LgMjuc1962RFGJu89RtbxrOBTc4t1MliD9U9c2SRHRkIyWYDdipDMc0SA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=EzR1v0Er/laZYoa4ce2ovHvM21lXv+BPTE55Z8/HZn4=; b=ccqMaa6G
+ I2UbpnT1HGtOz3SOQnNKqFI3MNrD0N8q3vLl8nNa8eQ0dl4uQKGhfpkBBy5Pz9XG
+ Vj1h6rzpjcgo6CUzuskKdphoNtbqOpclGj1NSCtvo86YLyJizMIV562WZThWBSAD
+ EAx7Wo1llPyk5CgdtJAIyQaf/XXC6xxUHDbC/nZImsj7ut4H+DrqkGptt1b0m1ZD
+ Z3oVRgSDpA0CcnBXbAoX9DOAiW/3mEaWrMtg6mem351E+N8NWNJsxjRWtwSsX1ar
+ QFm8M1QfhcWauzE2w8UG4DFTDAIqAzdLLkYIPvUqOB+Xt8Ww6EEH06hQaENSeGB0
+ 3RQnkT2oIkXpbg==
+X-ME-Sender: <xms:S0YhYOt8Cl7TTS0Sv202OjFnIY1L1de6aps75GwnsN9MHfQ4BDRWZg>
+ <xme:S0YhYNEE60Qrze26gJlxiMue07uWMEMoxQj00Wgl-HXQuFecP36Mb_P0vAf3WWcBN
+ aKLBu9Ad5ygYR_f_kk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheefgdeitdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:S0YhYJzK4t61rMRc5NbC9ADqQEk5pW9FvvrH3mTI-CvoMMJQbME9mA>
+ <xmx:S0YhYMh05uzRrI3H8PNQZ0FhHqUaE5Xy_RsyMqVHYt1uhHTdPsMWVA>
+ <xmx:S0YhYMzsNezdqcbP3EBsSf3ct49ztUSrcprCjMxP7L2plZDSPULSZg>
+ <xmx:S0YhYHyJzo2yX0cLIJuJM75xI2Ka2JSCo39_taKp3azOpCImbuYBFQ>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 48F5F240064;
+ Mon,  8 Feb 2021 09:10:18 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 2/2] hw/block/nvme: add nvme telemetry log support
+Date: Mon,  8 Feb 2021 15:10:12 +0100
+Message-Id: <20210208141012.377500-3-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210208141012.377500-1-its@irrelevant.dk>
+References: <20210208141012.377500-1-its@irrelevant.dk>
 MIME-Version: 1.0
-References: <20210129085124.21525-1-bmeng.cn@gmail.com>
- <9336f3ec-b500-052b-a8f8-e1b8ec2905b6@amsat.org>
- <CAEUhbmWE5i_n1gC+UPdJPC9EsyTXkuPjoH78phSyoizwbf1P3w@mail.gmail.com>
- <cb3f68a5-6ed8-26a4-310a-fd8dbc5d8eaa@amsat.org>
- <CAEUhbmWP50LZZaoE8a3mEbYH5XUgqLSNrcAy5oCmH9NMzuTXZg@mail.gmail.com>
-In-Reply-To: <CAEUhbmWP50LZZaoE8a3mEbYH5XUgqLSNrcAy5oCmH9NMzuTXZg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 8 Feb 2021 22:00:44 +0800
-Message-ID: <CAEUhbmWr4o0AgmKiknkd9W9SEjfNVCcF8g_pw3G2=u6WDqgDuw@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd: sd: Bypass the RCA check for CMD13 in SPI mode
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,76 +92,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 8, 2021 at 9:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Philippe,
->
-> On Mon, Feb 8, 2021 at 9:08 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
-> >
-> > On 1/30/21 11:20 AM, Bin Meng wrote:
-> > > Hi Philippe,
-> > >
-> > > On Fri, Jan 29, 2021 at 10:11 PM Philippe Mathieu-Daud=C3=A9 <f4bug@a=
-msat.org> wrote:
-> > >>
-> > >> Hi Bin,
-> > >>
-> > >> On 1/29/21 9:51 AM, Bin Meng wrote:
-> > >>> From: Bin Meng <bin.meng@windriver.com>
-> > >>>
-> > >>> Unlike SD mode, when SD card is working in SPI mode, the argument
-> > >>> of CMD13 is stuff bits. Hence we should bypass the RCA check.
-> > >>
-> > >> Is this for detecting events by polling? From spec v8:
-> > >>
-> > >>   5.7.5 Event Indication Method
-> > >>   5.7.5.1 FX_EVENT (Bit06 of Card Status)
-> > >>
-> > >>     An event indication method is introduced from Version 4.20.
-> > >>     Card may use Bit06 of R1 (R1b) response of any SD command
-> > >>     to indicate event generation.
-> > >>
-> > >>   F.2 Concept of Event Detection Method
-> > >>   F.2.2 Host Implementation to use Event Detection Method
-> > >>
-> > >
-> > > I think you looked at the wrong place. See spec v8
-> > >
-> > > chapter 7.3.1.3 Detailed Command Description
-> > >
-> > > "The card shall ignore stuff bits and reserved bits in an argument"
-> > >
-> > > and Table 7-3 Commands and Arguments
-> > >
-> > > CMD13 Argument [31:0] stuff bits
-> >
-> > Indeed. Adding this information in the commit description makes
-> > things obvious ;)
->
-> I thought that's already obvious. If you search for "stuff bits" or
-> "CMD13" in the spec, you will get the information.
->
-> >
-> > The SPI responses are not well implemented, in this case (CMD13)
-> > it is incorrect, we should return a 2-byte R2. Your patch
-> > correctly skip the RCA check, but we still invalid data.
->
-> This is already handled in ssi-sd.c in SPI mode. As for the SD mode,
-> that should be a separate patch instead of mixing two fixes into one.
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Sigh, I should have checked the spec before I replied.
+This adds basic support for Telemetry Host Initiated and Controller
+Initiated log pages. The controller does not record any telemetry but
+provides the log pages.
 
-The CMD13 response for SD card is R1. Only SPI mode is R2. As I
-mentioned SPI mode R2 is already handled in ssi-sd.c, so there is
-nothing wrong here.
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ include/block/nvme.h  | 23 ++++++++++++++++++++---
+ hw/block/nvme.c       | 33 ++++++++++++++++++++++++++++++++-
+ hw/block/trace-events |  1 +
+ 3 files changed, 53 insertions(+), 4 deletions(-)
 
-Regards,
-Bin
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index f82b5ffc2c1d..95ffe4412679 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -922,6 +922,19 @@ typedef struct NvmeEffectsLog {
+     uint8_t     resv[2048];
+ } NvmeEffectsLog;
+ 
++typedef struct NvmeTelemetry {
++    uint8_t     lid;
++    uint8_t     rsvd1[4];
++    uint8_t     ieee[3];
++    uint16_t    tda1lb;
++    uint16_t    tda2lb;
++    uint16_t    tda3lb;
++    uint8_t     rsvd14[368];
++    uint8_t     tda;
++    uint8_t     tdgn;
++    uint8_t     ri[128];
++} NvmeTelemetry;
++
+ enum {
+     NVME_CMD_EFF_CSUPP      = 1 << 0,
+     NVME_CMD_EFF_LBCC       = 1 << 1,
+@@ -937,6 +950,8 @@ enum NvmeLogIdentifier {
+     NVME_LOG_SMART_INFO     = 0x02,
+     NVME_LOG_FW_SLOT_INFO   = 0x03,
+     NVME_LOG_CMD_EFFECTS    = 0x05,
++    NVME_LOG_TEL_HOST_INIT  = 0x07,
++    NVME_LOG_TEL_CTRL_INIT  = 0x08,
+ };
+ 
+ typedef struct QEMU_PACKED NvmePSD {
+@@ -1067,9 +1082,10 @@ enum NvmeIdCtrlFrmw {
+ };
+ 
+ enum NvmeIdCtrlLpa {
+-    NVME_LPA_NS_SMART = 1 << 0,
+-    NVME_LPA_CSE      = 1 << 1,
+-    NVME_LPA_EXTENDED = 1 << 2,
++    NVME_LPA_NS_SMART   = 1 << 0,
++    NVME_LPA_CSE        = 1 << 1,
++    NVME_LPA_EXTENDED   = 1 << 2,
++    NVME_LPA_TELEMETRY  = 1 << 3,
+ };
+ 
+ enum NvmeIdCtrlCmic {
+@@ -1395,5 +1411,6 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSglDescriptor) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) != 4);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeZoneDescr) != 64);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeTelemetry) != 512);
+ }
+ #endif
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 547a3073ef1b..01b92a6f66c8 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -2908,6 +2908,33 @@ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint8_t csi, uint32_t buf_len,
+                     DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
++static uint16_t nvme_telemetry(NvmeCtrl *n, uint8_t lid, uint32_t buf_len,
++                               uint64_t off, NvmeRequest *req)
++{
++    NvmeTelemetry telemetry = {
++        .lid     = lid,
++        .ieee[0] = 0x00,
++        .ieee[1] = 0x54,
++        .ieee[2] = 0x52,
++    };
++
++    uint32_t trans_len;
++
++    if (buf_len & 0x1ff || off & 0x1ff) {
++        trace_pci_nvme_telemetry_log_invalid(buf_len, off);
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    if (off >= sizeof(telemetry)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    trans_len = MIN(sizeof(telemetry) - off, buf_len);
++
++    return nvme_dma(n, (uint8_t *)&telemetry + off, trans_len,
++                    DMA_DIRECTION_FROM_DEVICE, req);
++}
++
+ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeCmd *cmd = &req->cmd;
+@@ -2954,6 +2981,9 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_fw_log_info(n, len, off, req);
+     case NVME_LOG_CMD_EFFECTS:
+         return nvme_cmd_effects(n, csi, len, off, req);
++    case NVME_LOG_TEL_HOST_INIT:
++    case NVME_LOG_TEL_CTRL_INIT:
++        return nvme_telemetry(n, lid, len, off, req);
+     default:
+         trace_pci_nvme_err_invalid_log_page(nvme_cid(req), lid);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -4707,7 +4737,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->acl = 3;
+     id->aerl = n->params.aerl;
+     id->frmw = (NVME_NUM_FW_SLOTS << 1) | NVME_FRMW_SLOT1_RO;
+-    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_CSE | NVME_LPA_EXTENDED;
++    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_CSE | NVME_LPA_EXTENDED |
++        NVME_LPA_TELEMETRY;
+ 
+     /* recommended default value (~70 C) */
+     id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index b6e972d733a6..500d991a0a14 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -110,6 +110,7 @@ pci_nvme_set_descriptor_extension(uint64_t slba, uint32_t zone_idx) "set zone de
+ pci_nvme_zd_extension_set(uint32_t zone_idx) "set descriptor extension for zone_idx=%"PRIu32""
+ pci_nvme_clear_ns_close(uint32_t state, uint64_t slba) "zone state=%"PRIu32", slba=%"PRIu64" transitioned to Closed state"
+ pci_nvme_clear_ns_reset(uint32_t state, uint64_t slba) "zone state=%"PRIu32", slba=%"PRIu64" transitioned to Empty state"
++pci_nvme_telemetry_log_invalid(size_t len, uint64_t offset) "len %zu offset %"PRIu64""
+ 
+ # nvme traces for error conditions
+ pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
+-- 
+2.30.0
+
 
