@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CB6314298
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:10:59 +0100 (CET)
-Received: from localhost ([::1]:57222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33BC13142AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:14:50 +0100 (CET)
+Received: from localhost ([::1]:37704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9EkE-0000cE-OV
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:10:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50530)
+	id 1l9Enx-0004Mw-7b
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:14:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCU-0003MA-Tu
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:54 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43499)
+ id 1l9BCW-0003Qw-ND
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:56 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCT-0006CC-Bj
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:54 -0500
-Received: by mail-wr1-x431.google.com with SMTP id z6so18323541wrq.10
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:53 -0800 (PST)
+ id 1l9BCV-0006D7-8d
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:56 -0500
+Received: by mail-wr1-x431.google.com with SMTP id v15so18373467wrx.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FB792gMakZ0hTlgIYeDNLYESrKnUaofy8ukq0Ox5nFg=;
- b=jvfLLk50IXK/jiyJiG0Ig29V+tZKRfZEtrC3IG86aaDkmpayVC5XWB1ZsitB8ktLGx
- 2j976yAbpTtm+pnRkTX+Uec8Um4DReB6d2IMt0HdrvZTp9r+Bhl5PFo07yP4FCt670+U
- F060czCyVsEhx4Bxj9WvE8A9u48pk6u1yYrhENhfi5Nk/ln/AWLPL0d6s1ORFp4Jyn2b
- udKsyPKOLm2N96tNVIi0IOGL3jzKWBaaJjeg4h+DDZCkrQW+UuBzC8fKY/acWRSNpTzE
- UTTu5MU2Mi3brrA2GlsWux4ifH4aYCvyRQininO1PEdoQ5SABS4mYH5R/uJ0qTla6Pz3
- dlqg==
+ bh=0WilWvWorACj3g5EAvXIIkMK139ofJdUm71cXfooZT8=;
+ b=AoLpOVHmvB4O6NXU+MgHDlliLbYV6+tl3E6q2rKctCPl+G2H/ExisdnXbn2tBOUQE7
+ E06VDtZF4IvLueu8bTVaUbRHw6Azc02peA2KzWrHhD3SVItd1O/gcptfdMJt2ax7za0C
+ FyGXgKXUulEOIxdbvlY0MhTWNZ9oRqSbv5bDqmVkJU0kqJ6lusHchkvsnc5NnN8TYP1e
+ Y02FewUsCtiYUX2w7X80tdsIWaM5G+dNgtvBc7WA9i2B1KNWUyX/hseYeRpHvIced/Nh
+ mTfnNfA2jMsr4TSFRdXo6FutiReEKq0SJ3kZ+XVK9ZkS5dqjniHYR5dX9VPP0kAr6sjI
+ zeUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FB792gMakZ0hTlgIYeDNLYESrKnUaofy8ukq0Ox5nFg=;
- b=JJkRhlLTHiW+jEiHPs4yIsS6bcNCqAZk6Tr99dnZYbpc4/PlV2iDfmsRSStz+XSLGd
- XKebXDxg9xI3aW0VOdBtLzJlu3y+fEcTUj8TYZlAkthbi9mKISakrSP8zwn2+uJ2xYvx
- o9xMz1SqkHT7mxr9jQb7hoPrBrrFY1O0xTLND2zHlaY+OmtLoCUKIAtpSuoeTBgIpOYL
- /U73rBbz1Lp9GWM/vtW9VRfggtR6ZkRFjbiupL8UwIpfWkO7/kiH1+SXzu3GLyMLzPbl
- fhqU2qY69ByQvgaDEyFDvRM8bvAsQc80W/Q/l4dx3YjnS4+MsJqvdn7cC+ocEswawWB1
- fAxQ==
-X-Gm-Message-State: AOAM531F9tmMb6jD2QctPLQqTVYeTTer4swW7Z6ZcQPKvRk/jCRlMFdE
- W0+fht5mgusiZdI93lrymvRUnxnw037yQQ==
-X-Google-Smtp-Source: ABdhPJwjMstddpKSFGcxjVbblH8HQjgdC876tWc2Z70A/Y9yxuKL+/GpZusvPkLPyrPomaL11z0ngw==
-X-Received: by 2002:adf:ab10:: with SMTP id q16mr3367162wrc.376.1612808632189; 
- Mon, 08 Feb 2021 10:23:52 -0800 (PST)
+ bh=0WilWvWorACj3g5EAvXIIkMK139ofJdUm71cXfooZT8=;
+ b=RfU3les/h5X99jgWK9ebD6oqjfaLHQR4+NlWHInMS7c4EE5plrTY2jMOwal+22CVdG
+ g3fVc0WJmMV4zo/S2rThGpUk2AVbPXPD7owF836nBmMVGw1wqHfMAczFMyGHGhTFPLQi
+ fwJjWVGis6pxOqKXNQknml9FiNHRT1O13YRrlOu6Xb5Wwj3XAYiBRlMYdiu8IiL1mXw8
+ Gf0MutWPknTk5ZWWLWfi7eb+r+ZU3np2X5LKcJe7tVRh3HQ0n4++0L0o12zSxG8Nrm0b
+ aN7OuyEtHjFIcEffcXgVTXhfWOhawiRvGTXsBE422Wgymd1HWdMiFWU7dyVNLyQWmern
+ xn5w==
+X-Gm-Message-State: AOAM533BXI/l261IwE80R1bdMgdvrZYWshsxuGRqsiIRKgEP4AIJok9t
+ eg8KFIPgNWQYWfO7k3xjrHmE5iTOzB0GAw==
+X-Google-Smtp-Source: ABdhPJw11OwpzcLDqTE30YMNpvrI5o7vpXvR8D2UVJdMUfzxWrGwQfcJ3q39ZsN/DDsRcQNQDC3XGw==
+X-Received: by 2002:a5d:5549:: with SMTP id g9mr22430200wrw.244.1612808634035; 
+ Mon, 08 Feb 2021 10:23:54 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.23.51
+ x22sm19670wmc.25.2021.02.08.10.23.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:23:51 -0800 (PST)
+ Mon, 08 Feb 2021 10:23:53 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/46] meson: Explicit TCG backend used
-Date: Mon,  8 Feb 2021 19:23:05 +0100
-Message-Id: <20210208182331.58897-21-pbonzini@redhat.com>
+Subject: [PULL 22/46] tests/meson: Only build softfloat objects if TCG is
+ selected
+Date: Mon,  8 Feb 2021 19:23:07 +0100
+Message-Id: <20210208182331.58897-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
@@ -85,51 +86,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210125144530.2837481-4-philmd@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210122204441.2145197-3-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tests/meson.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 5bd22f431a..3a13ba3307 100644
---- a/meson.build
-+++ b/meson.build
-@@ -227,7 +227,7 @@ tcg_arch = config_host['ARCH']
+diff --git a/tests/meson.build b/tests/meson.build
+index 29ebaba48d..6f1ff926d2 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -276,7 +276,9 @@ test('decodetree', sh,
+      workdir: meson.current_source_dir() / 'decode',
+      suite: 'decodetree')
+ 
+-subdir('fp')
++if 'CONFIG_TCG' in config_all
++  subdir('fp')
++endif
+ 
  if not get_option('tcg').disabled()
-   if cpu not in supported_cpus
-     if get_option('tcg_interpreter')
--      warning('Unsupported CPU @0@, will use TCG with TCI (experimental)'.format(cpu))
-+      warning('Unsupported CPU @0@, will use TCG with TCI (experimental and slow)'.format(cpu))
-     else
-       error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
-     endif
-@@ -2509,8 +2509,12 @@ if have_system
- endif
- summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
- if config_all.has_key('CONFIG_TCG')
-+  if get_option('tcg_interpreter')
-+    summary_info += {'TCG backend':   'TCI (TCG with bytecode interpreter, experimental and slow)'}
-+  else
-+    summary_info += {'TCG backend':   'native (@0@)'.format(cpu)}
-+  endif
-   summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
--  summary_info += {'TCG interpreter':   tcg_arch == 'tci'}
- endif
- summary_info += {'target list':       ' '.join(target_dirs)}
- if have_system
+   if 'CONFIG_PLUGIN' in config_host
 -- 
 2.29.2
 
