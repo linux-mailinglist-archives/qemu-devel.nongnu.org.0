@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B422313EEC
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:28:59 +0100 (CET)
-Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA08313EC5
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:22:15 +0100 (CET)
+Received: from localhost ([::1]:60326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9CDS-0006Ym-5Y
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:28:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47412)
+	id 1l9C6w-00070s-K5
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:22:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96jO-00032h-Pv
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:37:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59725)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96jn-00035G-A4
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:38:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96jI-0004zk-Kq
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:37:34 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l96jR-00050T-Nr
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:37:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612791448;
+ s=mimecast20190719; t=1612791454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gKSefXopzRxtb9v5Y5RO90UGTU966dCGUeKM2oJe9pM=;
- b=CkwvFHEegGmrwqzGkFoCzCRgW/vMJ6sLqZ8Aw5+J/G2Gk+fJQwI3AX6U2C58nUT3NGW1q8
- BWgf+WpwX3AGt0Tvj5JEmsYsePqCDyfjEVnd004dInIWJO0Fwk9ggeWLgJQWXcIm5Amfhu
- aJPC3utVpgvZSf2Ed8+ef5vjFZhj2nY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-enNia-EHOh23aPjpv4DZ5A-1; Mon, 08 Feb 2021 08:37:26 -0500
-X-MC-Unique: enNia-EHOh23aPjpv4DZ5A-1
-Received: by mail-wm1-f69.google.com with SMTP id q24so8658941wmc.1
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 05:37:26 -0800 (PST)
+ bh=jITNoidllkoIIPBuiQV1gJNrrM15qrzDl0Q/+b51jBA=;
+ b=UBLAZnMbhxeg/dWf7nOG4yXU/ZsIdw+pqM0xgPWr2BknFz6noxN6wxE0KNA9EYvLg08ahP
+ OHQgpt/4NgSLwNLofZNeF7ausZESSSKkQALGg67dvPcwG+JLjH3miIsLxqCK9+ouh4aqaK
+ raghRVh8t8F1OW+0hFty082LhSnSusw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-476-k_giI1PjPOKyekrkKWqrtw-1; Mon, 08 Feb 2021 08:37:31 -0500
+X-MC-Unique: k_giI1PjPOKyekrkKWqrtw-1
+Received: by mail-wm1-f71.google.com with SMTP id o18so6402244wmq.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 05:37:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gKSefXopzRxtb9v5Y5RO90UGTU966dCGUeKM2oJe9pM=;
- b=sBTyuX0tejYWIb7fPiIDO4P8aIwr8Ur1+YEAue4rmKg0x+zrlAvhBkbm9Cbyn8zet5
- lCrZ+ouKi8kHzrC2Yj7tBu+bmikI9Unwq3EgsLrsd9mBp5Qgxqh4m6ogoQbQpCqgewhg
- atM71gy8hdIJPlp0og/juDHQXjAT2dUL/3vhosurs7vplCghMC9/5YntdjUZ1ROdIyrM
- qc6/i9YCpyRw1JNDRhOtou1Wl0JjMGmT5hNYiblb/j3CD/maRqbPL/A/yRhLuA2w2F6d
- Xcq0rgWBrJcp4w/6J/0utHWjmA7SfMMOAEDfDo2572vdAJqTiv0s0CeZb8TjG03B/a6q
- geMg==
-X-Gm-Message-State: AOAM533OD0uVVThKBPgJHuygPdntFuMEtmow6LicfGPA3v/ehVISQJK+
- f8tHC5udIFbet8VCuW9kYpRZgZP64Bu7TLIGlpbcV+bPw8enHc63C8Mps6FDYKTwyNySOiz3cZ2
- h5zW83d+pylFYoeAfufp6T8nMgkl7Nz35q8bk6ekx1PGjLCuNu84K+tKo3yDovuJ6
-X-Received: by 2002:adf:e809:: with SMTP id o9mr6519385wrm.137.1612791445112; 
- Mon, 08 Feb 2021 05:37:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxbCUE/71sl4ykxHJeD//6I9Vz+CgigCrvPW/h/UvdPj1abvsMHm6Nq/+mV4gi6k9VorznBpg==
-X-Received: by 2002:adf:e809:: with SMTP id o9mr6519356wrm.137.1612791444771; 
- Mon, 08 Feb 2021 05:37:24 -0800 (PST)
+ bh=jITNoidllkoIIPBuiQV1gJNrrM15qrzDl0Q/+b51jBA=;
+ b=OwlPp7WCF3awjtWwzuDjHLScVmJxdRCdanCJSmHhX38fg7mn6iZsGSEYJOpuLutWVy
+ Ps0F4oOE8NGP9TIP4Qyum050hU7heMnAomYBvGESBooAOdEbsfW8LwtfPh8qg0a4aWa5
+ H9/daexjEzFY0HmiwR0kMdjnVdhiGm2C9kuMCMXqfqfK7+P6EtPtnATrEYiHBBG5s2oA
+ E7QVUbKVW0o5H3fyxKW2rPsjqf/wuKknrrUV/TZqJKnO4ci62xMKQtFxyyyGrvvTuTAL
+ Jw/ppm1rkjdgSYZzmbjLLFS3ofhmeYhvpSS/4CBPnlK31q8bPoKKFCMjR5p5KGXCfFwe
+ yk6Q==
+X-Gm-Message-State: AOAM5319Jfg3WAoEH6cwqfbRI2INOBj2duEDZBzkupmggaNpGoIiuLK5
+ J3akeq2BsldwPUpMPmkRQBkXe0Zc0Y2abBaRiPYOHxu/DLXsV4cTcS7p2YXPXAUFxJZRoNzm3js
+ OV2om9zHvClwHPEN0cPjwBSiL04tiYv4linikZH6F4TVDznalmqSydMCKXOU5NhMC
+X-Received: by 2002:a5d:47a2:: with SMTP id 2mr19863845wrb.393.1612791450122; 
+ Mon, 08 Feb 2021 05:37:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzOr09k8z7hT2JXJvkdxsrUeG7Zw/0T64qb5hXdp0SOn9dF79fy3bcNpU04uOdaLkgXeK267Q==
+X-Received: by 2002:a5d:47a2:: with SMTP id 2mr19863821wrb.393.1612791449921; 
+ Mon, 08 Feb 2021 05:37:29 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s6sm21016927wmh.2.2021.02.08.05.37.23
+ by smtp.gmail.com with ESMTPSA id o18sm12706252wmp.19.2021.02.08.05.37.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 05:37:24 -0800 (PST)
+ Mon, 08 Feb 2021 05:37:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/18] tests/acceptance: Introduce tesseract_ocr() helper
-Date: Mon,  8 Feb 2021 14:36:55 +0100
-Message-Id: <20210208133711.2596075-3-philmd@redhat.com>
+Subject: [PULL 03/18] tests/acceptance: Extract
+ do_test_arm_orangepi_armbian_uboot() method
+Date: Mon,  8 Feb 2021 14:36:56 +0100
+Message-Id: <20210208133711.2596075-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210208133711.2596075-1-philmd@redhat.com>
 References: <20210208133711.2596075-1-philmd@redhat.com>
@@ -72,14 +73,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,110 +94,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We are going to reuse the tesseract OCR code.
-Create a new tesseract_ocr() helper and use it.
+As we want to reuse the same U-Boot test for multiple
+Armbian releases, extract the common part as
+do_test_arm_orangepi_armbian_uboot().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201021105035.2477784-5-f4bug@amsat.org>
+Tested-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Message-Id: <20201023131808.3198005-4-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/acceptance/machine_m68k_nextcube.py | 21 +++++----------------
- tests/acceptance/tesseract_utils.py       | 18 ++++++++++++++++++
- 2 files changed, 23 insertions(+), 16 deletions(-)
+ tests/acceptance/boot_linux_console.py | 45 ++++++++++++++------------
+ 1 file changed, 24 insertions(+), 21 deletions(-)
 
-diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptance/machine_m68k_nextcube.py
-index 3c7400c43e4..09e2745cc52 100644
---- a/tests/acceptance/machine_m68k_nextcube.py
-+++ b/tests/acceptance/machine_m68k_nextcube.py
-@@ -7,13 +7,11 @@
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index fb41bb7144b..46835e49dfb 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -802,27 +802,7 @@ def test_arm_orangepi_sd(self):
+         # Wait for VM to shut down gracefully
+         self.vm.wait()
  
- import os
- import time
--import logging
- 
- from avocado_qemu import Test
- from avocado import skipUnless
--from avocado.utils import process
- 
--from tesseract_utils import tesseract_available
-+from tesseract_utils import tesseract_available, tesseract_ocr
- 
- PIL_AVAILABLE = True
- try:
-@@ -61,12 +59,8 @@ def test_bootrom_framebuffer_size(self):
-     def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
-         screenshot_path = os.path.join(self.workdir, "dump.ppm")
-         self.check_bootrom_framebuffer(screenshot_path)
+-    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
+-                'Test artifacts fetched from unreliable dl.armbian.com')
+-    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
+-    @skipUnless(P7ZIP_AVAILABLE, '7z not installed')
+-    def test_arm_orangepi_bionic(self):
+-        """
+-        :avocado: tags=arch:arm
+-        :avocado: tags=machine:orangepi-pc
+-        :avocado: tags=device:sd
+-        """
 -
--        console_logger = logging.getLogger('console')
--        text = process.run("tesseract %s stdout" % screenshot_path).stdout_text
--        for line in text.split('\n'):
--            if len(line):
--                console_logger.debug(line)
-+        lines = tesseract_ocr(screenshot_path, tesseract_version=3)
-+        text = '\n'.join(lines)
-         self.assertIn('Backplane', text)
-         self.assertIn('Ethernet address', text)
- 
-@@ -77,13 +71,8 @@ def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
-     def test_bootrom_framebuffer_ocr_with_tesseract_v4(self):
-         screenshot_path = os.path.join(self.workdir, "dump.ppm")
-         self.check_bootrom_framebuffer(screenshot_path)
+-        # This test download a 196MB compressed image and expand it to 1GB
+-        image_url = ('https://dl.armbian.com/orangepipc/archive/'
+-                     'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z')
+-        image_hash = '196a8ffb72b0123d92cea4a070894813d305c71e'
+-        image_path_7z = self.fetch_asset(image_url, asset_hash=image_hash)
+-        image_name = 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
+-        image_path = os.path.join(self.workdir, image_name)
+-        process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
+-        image_pow2ceil_expand(image_path)
 -
--        console_logger = logging.getLogger('console')
--        proc = process.run("tesseract --oem 1 %s stdout" % screenshot_path)
--        text = proc.stdout_text
--        for line in text.split('\n'):
--            if len(line):
--                console_logger.debug(line)
-+        lines = tesseract_ocr(screenshot_path, tesseract_version=4)
-+        text = '\n'.join(lines)
-         self.assertIn('Testing the FPU, SCC', text)
-         self.assertIn('System test failed. Error code', text)
-         self.assertIn('Boot command', text)
-diff --git a/tests/acceptance/tesseract_utils.py b/tests/acceptance/tesseract_utils.py
-index acd6e8c2faa..72cd9ab7989 100644
---- a/tests/acceptance/tesseract_utils.py
-+++ b/tests/acceptance/tesseract_utils.py
-@@ -6,7 +6,9 @@
- # later. See the COPYING file in the top-level directory.
++    def do_test_arm_orangepi_uboot_armbian(self, image_path):
+         self.vm.set_console()
+         self.vm.add_args('-drive', 'file=' + image_path + ',if=sd,format=raw',
+                          '-nic', 'user',
+@@ -848,6 +828,29 @@ def test_arm_orangepi_bionic(self):
+                                       'to <orangepipc>')
+         self.wait_for_console_pattern('Starting Load Kernel Modules...')
  
- import re
-+import logging
- 
-+from avocado.utils import process
- from avocado.utils.path import find_command, CmdNotFoundError
- 
- def tesseract_available(expected_version):
-@@ -26,3 +28,19 @@ def tesseract_available(expected_version):
-         return False
-     # now this is guaranteed to be a digit
-     return int(match.groups()[0]) == expected_version
++    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
++                'Test artifacts fetched from unreliable apt.armbian.com')
++    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
++    @skipUnless(P7ZIP_AVAILABLE, '7z not installed')
++    def test_arm_orangepi_bionic_19_11(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:orangepi-pc
++        :avocado: tags=device:sd
++        """
 +
++        # This test download a 196MB compressed image and expand it to 1GB
++        image_url = ('https://dl.armbian.com/orangepipc/archive/'
++                     'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z')
++        image_hash = '196a8ffb72b0123d92cea4a070894813d305c71e'
++        image_path_7z = self.fetch_asset(image_url, asset_hash=image_hash)
++        image_name = 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
++        image_path = os.path.join(self.workdir, image_name)
++        process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
++        image_pow2ceil_expand(image_path)
 +
-+def tesseract_ocr(image_path, tesseract_args='', tesseract_version=3):
-+    console_logger = logging.getLogger('tesseract')
-+    console_logger.debug(image_path)
-+    if tesseract_version == 4:
-+        tesseract_args += ' --oem 1'
-+    proc = process.run("tesseract {} {} stdout".format(tesseract_args,
-+                                                       image_path))
-+    lines = []
-+    for line in proc.stdout_text.split('\n'):
-+        sline = line.strip()
-+        if len(sline):
-+            console_logger.debug(sline)
-+            lines += [sline]
-+    return lines
++        self.do_test_arm_orangepi_uboot_armbian(image_path)
++
+     @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
+     def test_arm_orangepi_uboot_netbsd9(self):
+         """
 -- 
 2.26.2
 
