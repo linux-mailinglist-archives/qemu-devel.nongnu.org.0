@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52725312983
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 04:46:20 +0100 (CET)
-Received: from localhost ([::1]:48114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C448E31298C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 04:52:42 +0100 (CET)
+Received: from localhost ([::1]:42020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l8xVD-0006Ux-8Y
-	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 22:46:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35654)
+	id 1l8xbN-0007ei-RH
+	for lists+qemu-devel@lfdr.de; Sun, 07 Feb 2021 22:52:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1l8x6I-0007jw-KH
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 22:20:34 -0500
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:39894)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
- id 1l8x6E-0001jm-De
- for qemu-devel@nongnu.org; Sun, 07 Feb 2021 22:20:34 -0500
-Received: by mail-il1-x131.google.com with SMTP id d6so11465893ilo.6
- for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 19:20:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=E8zwyqjjxJulzipec2YkM3SoTdlEFmhkzHgrzxKzdEs=;
- b=SkGZIlbMN8tKuqjTMYzRNgWDk5au8iErybhksXcW6HIw435lJC6WGXh61mnsqHcHnk
- t/D99BOROAHQmP8qKk6myuXP87CHJ8uLsZYXTuns/ylEB3c0g/lAvRmxy237V7zcnRAf
- 3py60I1t68fFs7wsuV74s284hLUHOe5ZSw8YJ88BkZZlpPGO2H/Wbx86spEvQanXxVAy
- dMDAnx9QiwmU2tU2pN1pwOLHNsrfvhwek8sD20W3XvuJIqFQtDoeBQQzz/WnH4JJ9nY2
- LUQ45WBcbbqyu+0iBBFjcpz/VKoJDsCCvqVGyvxNlGSwZSSTozNcyX38srOhcutquj7Y
- jNHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=E8zwyqjjxJulzipec2YkM3SoTdlEFmhkzHgrzxKzdEs=;
- b=k1h+D7tH82R0PtBZ+lId43Oc59vJH9mbfBwcEmyFBfK/0aaHy2KH0spy5HJjyfMFCR
- EvXy0agU6R06BPz34n3HYeC4p+xNnSUUOcGt1kYzoBMNlCgAiIMzadkO96rcVGLQAcye
- Pw8YGR4897NHq7DCYwSebDjk6O6c9qsh+a+WQh4oA7vXDsoskLT+2eJKuKTmbybmvf//
- EwxSl/jxja/X/uCnNKfNZqyl9cvW+dHg2NskN+M4TfCO/XNMxNtTppAQrSJmZDF/XCOi
- ZXneuRme2wLxhjweOlchm2s4nzSyxWdj3wYdmNxcWWonAA1iBrWF/AaaB13VHQem1Swo
- BxVQ==
-X-Gm-Message-State: AOAM53054Pi4JR/da+jy1gH5JZJrxOOkYszwZhomnUonTPRo/w5kZpYp
- VmtTtuJrSJKIAzCRnta3UauDdaerOnPSHrQ=
-X-Google-Smtp-Source: ABdhPJxrqUS15UxO3RyD3f+13HKVGArszYH2gctFNWW1R97GgfRrnkKuPYXjwoHnE6Y8wcmwJgv/QQ==
-X-Received: by 2002:a05:6e02:1608:: with SMTP id
- t8mr13992323ilu.79.1612754429418; 
- Sun, 07 Feb 2021 19:20:29 -0800 (PST)
-Received: from localhost.localdomain ([147.75.106.138])
- by smtp.gmail.com with ESMTPSA id o8sm8022965ilu.55.2021.02.07.19.20.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Feb 2021 19:20:29 -0800 (PST)
-From: Haibo Xu <haibo.xu@linaro.org>
-To: drjones@redhat.com,
-	richard.henderson@linaro.org
-Subject: [RFC PATCH 4/5] Add migration support for KVM guest with MTE
-Date: Mon,  8 Feb 2021 03:20:05 +0000
-Message-Id: <25a922038d256e47f3eb99683c5e3bd9c34753ac.1612747873.git.haibo.xu@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1612747873.git.haibo.xu@linaro.org>
-References: <cover.1612747873.git.haibo.xu@linaro.org>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l8x7O-0000mY-10
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 22:21:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54276)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l8x7M-00027B-6X
+ for qemu-devel@nongnu.org; Sun, 07 Feb 2021 22:21:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612754499;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qv69JfbfJKwrqwV6uPjgBAsQVMspL9CgKmtOZFZjKR4=;
+ b=X0DerF8CncJ0PxJcXzZkX4gP0LDCYRSy6EPDwZm6jO8UyYWaTjaT8psfLyTgUt5PZyb+ao
+ Ma3GoRxfc9ewR7kuj4zVzGKim+DJtIxPNr0N/9f6qpWebv3xmLAfShLa2WOrHLA5uZjNOL
+ muxwd3hDdChY5axd8vSkLgA6Ahck6DY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-HQfcsMARNom4KA0sYOpp3w-1; Sun, 07 Feb 2021 22:21:37 -0500
+X-MC-Unique: HQfcsMARNom4KA0sYOpp3w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FE8E192AB78;
+ Mon,  8 Feb 2021 03:21:36 +0000 (UTC)
+Received: from [10.72.13.185] (ovpn-13-185.pek2.redhat.com [10.72.13.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 128806F98A;
+ Mon,  8 Feb 2021 03:21:24 +0000 (UTC)
+Subject: Re: [PATCH] vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support
+To: Peter Xu <peterx@redhat.com>, Auger Eric <eric.auger@redhat.com>
+References: <20210204191228.187550-1-peterx@redhat.com>
+ <2382a93d-41c1-24fd-144f-87ee18171bc9@redhat.com>
+ <213acf9a-d1c0-3a1d-4846-877d90fadc03@redhat.com>
+ <20210205153107.GX6468@xz-x1>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <a28ba439-758e-4b5b-86d9-5008b220b106@redhat.com>
+Date: Mon, 8 Feb 2021 11:21:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210205153107.GX6468@xz-x1>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=haibo.xu@linaro.org; helo=mail-il1-x131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,215 +85,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
- qemu-devel@nongnu.org, Haibo Xu <haibo.xu@linaro.org>
+Cc: Jean-Philippe Brucker <Jean-Philippe.Brucker@arm.com>,
+ Eugenio Perez Martin <eperezma@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To make it easier to keep the page tags sync with
-the page data, tags for one page are appended to
-the data during ram save iteration.
 
-This patch only add the pre-copy migration support.
-Post-copy and compress as well as zero page saving
-are not supported yet.
+On 2021/2/5 下午11:31, Peter Xu wrote:
+> On Fri, Feb 05, 2021 at 09:33:29AM +0100, Auger Eric wrote:
+>> Hi,
+>>
+>> On 2/5/21 4:16 AM, Jason Wang wrote:
+>>> On 2021/2/5 上午3:12, Peter Xu wrote:
+>>>> Previous work on dev-iotlb message broke vhost on either SMMU
+>>>
+>>> Have a quick git grep and it looks to me v3 support ATS and have command
+>>> for device iotlb (ATC) invalidation.
+>>
+>> Yes I will do that. Should not be a big deal.
+> Great, thanks.
+>
+>>>
+>>>> or virtio-iommu
+>>>> since dev-iotlb (or PCIe ATS)
+>>>
+>>> We may need to add this in the future.
+>> added Jean-Philippe in CC
+> So that's the part I'm unsure about..  Since everybody is cced so maybe good
+> time to ask. :)
+>
+> The thing is I'm still not clear on whether dev-iotlb is useful for a full
+> emulation environment and how that should differ from a normal iotlb, since
+> after all normal iotlb will be attached with device information too.
 
-Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
----
- include/hw/arm/virt.h    |  2 +
- include/migration/misc.h |  1 +
- migration/ram.c          | 86 +++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 88 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 36fcb29641..6182b3e1d1 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -165,6 +165,8 @@ struct VirtMachineState {
-     DeviceState *acpi_dev;
-     Notifier powerdown_notifier;
-     PCIBus *bus;
-+    /* migrate memory tags */
-+    NotifierWithReturn precopy_notifier;
- };
- 
- #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM : VIRT_PCIE_ECAM)
-diff --git a/include/migration/misc.h b/include/migration/misc.h
-index bccc1b6b44..005133f471 100644
---- a/include/migration/misc.h
-+++ b/include/migration/misc.h
-@@ -38,6 +38,7 @@ void precopy_add_notifier(NotifierWithReturn *n);
- void precopy_remove_notifier(NotifierWithReturn *n);
- int precopy_notify(PrecopyNotifyReason reason, Error **errp);
- void precopy_enable_free_page_optimization(void);
-+void precopy_enable_metadata_migration(void);
- 
- void ram_mig_init(void);
- void qemu_guest_free_page_hint(void *addr, size_t len);
-diff --git a/migration/ram.c b/migration/ram.c
-index 7811cde643..32f764680d 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -53,9 +53,11 @@
- #include "block.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/cpu-throttle.h"
-+#include "sysemu/kvm.h"
- #include "savevm.h"
- #include "qemu/iov.h"
- #include "multifd.h"
-+#include "kvm_arm.h"
- 
- /***********************************************************/
- /* ram save/restore */
-@@ -75,6 +77,9 @@
- #define RAM_SAVE_FLAG_XBZRLE   0x40
- /* 0x80 is reserved in migration.h start with 0x100 next */
- #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
-+#define RAM_SAVE_FLAG_MTE              0x200
-+
-+#define MTE_GRANULE_SIZE   (16)
- 
- static inline bool is_zero_range(uint8_t *p, uint64_t size)
- {
-@@ -310,6 +315,8 @@ struct RAMState {
-     bool ram_bulk_stage;
-     /* The free page optimization is enabled */
-     bool fpo_enabled;
-+    /* The RAM meta data(e.t memory tag) is enabled */
-+    bool metadata_enabled;
-     /* How many times we have dirty too many pages */
-     int dirty_rate_high_cnt;
-     /* these variables are used for bitmap sync */
-@@ -387,6 +394,15 @@ void precopy_enable_free_page_optimization(void)
-     ram_state->fpo_enabled = true;
- }
- 
-+void precopy_enable_metadata_migration(void)
-+{
-+    if (!ram_state) {
-+        return;
-+    }
-+
-+    ram_state->metadata_enabled = true;
-+}
-+
- uint64_t ram_bytes_remaining(void)
- {
-     return ram_state ? (ram_state->migration_dirty_pages * TARGET_PAGE_SIZE) :
-@@ -1127,6 +1143,61 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
-     return true;
- }
- 
-+static int save_normal_page_mte_tags(QEMUFile *f, uint8_t *addr)
-+{
-+    uint8_t *tag_buf = NULL;
-+    uint64_t ipa;
-+    int size = TARGET_PAGE_SIZE / MTE_GRANULE_SIZE;
-+
-+    if (kvm_physical_memory_addr_from_host(kvm_state, addr, &ipa)) {
-+        /* Buffer for the page tags(one byte per tag) */
-+        tag_buf = g_try_malloc0(size);
-+        if (!tag_buf) {
-+            error_report("%s: Error allocating MTE tag_buf", __func__);
-+            return 0;
-+        }
-+
-+        if (kvm_arm_mte_get_tags(ipa, TARGET_PAGE_SIZE, tag_buf) < 0) {
-+            error_report("%s: Can't get MTE tags from guest", __func__);
-+            g_free(tag_buf);
-+            return 0;
-+        }
-+
-+        qemu_put_buffer(f, tag_buf, size);
-+
-+        g_free(tag_buf);
-+
-+        return size;
-+    }
-+
-+    return 0;
-+}
-+
-+static void load_normal_page_mte_tags(QEMUFile *f, uint8_t *addr)
-+{
-+    uint8_t *tag_buf = NULL;
-+    uint64_t ipa;
-+    int size = TARGET_PAGE_SIZE / MTE_GRANULE_SIZE;
-+
-+    if (kvm_physical_memory_addr_from_host(kvm_state, addr, &ipa)) {
-+        /* Buffer for the page tags(one byte per tag) */
-+        tag_buf = g_try_malloc0(size);
-+        if (!tag_buf) {
-+            error_report("%s: Error allocating MTE tag_buf", __func__);
-+            return;
-+        }
-+
-+        qemu_get_buffer(f, tag_buf, size);
-+        if (kvm_arm_mte_set_tags(ipa, TARGET_PAGE_SIZE, tag_buf) < 0) {
-+            error_report("%s: Can't set MTE tags to guest", __func__);
-+        }
-+
-+        g_free(tag_buf);
-+    }
-+
-+    return;
-+}
-+
- /*
-  * directly send the page to the stream
-  *
-@@ -1141,6 +1212,10 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
- static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
-                             uint8_t *buf, bool async)
- {
-+    if (rs->metadata_enabled) {
-+        offset |= RAM_SAVE_FLAG_MTE;
-+    }
-+
-     ram_counters.transferred += save_page_header(rs, rs->f, block,
-                                                  offset | RAM_SAVE_FLAG_PAGE);
-     if (async) {
-@@ -1152,6 +1227,11 @@ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
-     }
-     ram_counters.transferred += TARGET_PAGE_SIZE;
-     ram_counters.normal++;
-+
-+    if (rs->metadata_enabled) {
-+        ram_counters.transferred += save_normal_page_mte_tags(rs->f, buf);
-+    }
-+
-     return 1;
- }
- 
-@@ -1905,6 +1985,7 @@ static void ram_state_reset(RAMState *rs)
-     rs->last_version = ram_list.version;
-     rs->ram_bulk_stage = true;
-     rs->fpo_enabled = false;
-+    rs->metadata_enabled = false;
- }
- 
- #define MAX_WAIT 50 /* ms, half buffered_file limit */
-@@ -3492,7 +3573,7 @@ static int ram_load_precopy(QEMUFile *f)
-             trace_ram_load_loop(block->idstr, (uint64_t)addr, flags, host);
-         }
- 
--        switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
-+        switch (flags & ~(RAM_SAVE_FLAG_CONTINUE | RAM_SAVE_FLAG_MTE)) {
-         case RAM_SAVE_FLAG_MEM_SIZE:
-             /* Synchronize RAM block list */
-             total_ram_bytes = addr;
-@@ -3562,6 +3643,9 @@ static int ram_load_precopy(QEMUFile *f)
- 
-         case RAM_SAVE_FLAG_PAGE:
-             qemu_get_buffer(f, host, TARGET_PAGE_SIZE);
-+            if (flags & RAM_SAVE_FLAG_MTE) {
-+                load_normal_page_mte_tags(f, host);
-+            }
-             break;
- 
-         case RAM_SAVE_FLAG_COMPRESS_PAGE:
--- 
-2.17.1
+I think vhost is a good example with device IOTLB? It solves the issue 
+exactly the bottleneck of a centralized IOTLB when everything is cached 
+in the vhost.
+
+
+>
+> For real hardwares, they make sense because they ask for two things: iotlb is
+> for IOMMU, but dev-iotlb is for the device cache.  For emulation environment
+> (virtio-iommu is the case) do we really need that complexity?
+
+
+I think the answer is yes it virtio-iommu is the only choice for some 
+platform/archs.
+
+
+>
+> Note that even if there're assigned devices under virtio-iommu in the future,
+> we can still isolate that and iiuc we can easily convert an iotlb (from
+> virtio-iommu) into a hardware IOMMU dev-iotlb no matter what type of IOMMU is
+> underneath the vIOMMU.
+
+
+Looks like another topic (e.g if we need to expose ATS to guest for 
+assigned device)?
+
+
+>
+>>>
+>>>> is not yet supported for those archs.
+>>>
+>>> Rethink about this, it looks to me the point is that we should make
+>>> vhost work when ATS is disabled like what ATS spec defined:
+>>>
+>>> """
+>>>
+>>> ATS is enabled through a new Capability and associated configuration
+>>> structure.  To enable 15 ATS, software must detect this Capability and
+>>> enable the Function to issue ATS TLP.  If a Function is not enabled, the
+>>> Function is required not to issue ATS Translation Requests and is
+>>> required to issue all DMA Read and Write Requests with the TLP AT field
+>>> set to “untranslated.”
+>>>
+>>> """
+>>>
+>>> Maybe we can add this in the commit log.
+> I saw Michael was super fast on handling this patch and already got it in a
+> pull, so I may not directly post a new version.  But I'll add it if I'll post a
+> new version.
+>
+> [...]
+
+
+Right.
+
+
+>
+>>> Patch looks good. I wonder whether we should fix intel when ATS is
+>>> disabled.
+>> good point
+> I'm not sure I remember it right, but we seem to have similar discussion
+> previously on "what if the user didn't specify ats=on" - I think at that time
+> the conclusion was that we ignore the failure since that's not a valid
+> configuration for qemu.
+
+
+Yes, but I think I was wrong at that time.
+
+
+>
+> But I agree it would be nicer to be able to fallback.
+
+
+So see my reply quoted from ATS spec. My understanding is that the 
+device should behave correctly if ATS is disabled.
+
+
+>
+> The other issue I'm worried is (I think I mentioned it somewhere, but just to
+> double confirm): I'd like to make sure SMMU and virtio-iommu are the only IOMMU
+> platform that will use vhost.
+
+
+For upstream, it won't be easy :)
+
+
+>    Otherwise IIUC we need to fix those vIOMMUs too.
+
+
+Right, last time I check AMD IOMMU emulation, it simply trigger device 
+IOTLB invalidation during IOTLB invalidation which looks wrong.
+
+Thanks
+
+
+>
+> Thanks,
+>
 
 
