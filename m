@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592EE3142A4
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:12:41 +0100 (CET)
-Received: from localhost ([::1]:33014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B312531429D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:11:34 +0100 (CET)
+Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Els-0002Q6-DD
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:12:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
+	id 1l9Ekn-0001F0-PI
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:11:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9AAq-00073L-M8
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:18:10 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9AAi-0007Vn-HY
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:18:08 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id i8so26092191ejc.7
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 09:17:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JyS40VXubOLOnczGYxqiphHswKI5LfC0arHVwMH5gjY=;
- b=FOIWA+TRigBW6GQf+KawMcexOX3xru5JDZt04SMvCVy/W3gHAwyaV65lkPhnC6XB4d
- xMBth/8C5oSFqecZI1MR6yW+8AEhRQcO6aBNxnCr9C5/XYdyxdjkOmUllL4rvE5lHeNi
- kseHo13nJ35uK6WVO51od+895qLqYdGu4XdMD8+a/Ag4etXvD8YdR6tCVq8OisETQqH5
- bUd9LpMShzZ/zAO6blKRiRZSJeHrZVAemUoj7/eWUy5pzeu6Nkg1BoHlV1+c93tCBZkN
- 5dN8oEp3UKqUCUOFRlJ+imQ6/yYijiG/GhKzYSeTK4z0nKxttpiCfn/onvtoHPWo3Pik
- vn3g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9ADa-0008OJ-MD
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:21:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33319)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9ADZ-0008R1-73
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 12:20:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612804856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c/lbiSlEfcTzGhqyN46TBgAhg5DuLQbpImwPelklz58=;
+ b=QK89Aq6h/+e2nSb8n6UDCPYRn9D0XXNwyJk/Tev2HN0Ymc1XuTWrmkFIm3pWHOzyUQ3g+w
+ RaK4Bc2BjvzOPsi5/viCf5efBMF9Gjx8VE/ae9YU0piOfuk3rpHpw/ZfR3ae95TJOtv1LM
+ RB3htvY0tuEnu/aJCUo340BOTqOIJaM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-dddG-tvYMcqzcxkTqKhXIQ-1; Mon, 08 Feb 2021 12:20:54 -0500
+X-MC-Unique: dddG-tvYMcqzcxkTqKhXIQ-1
+Received: by mail-wm1-f72.google.com with SMTP id t128so5927991wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 09:20:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JyS40VXubOLOnczGYxqiphHswKI5LfC0arHVwMH5gjY=;
- b=bDQokyHEW/NeKS3xe3Ul/6nzA44fsdKPErdimzvbUWP46GoKPlT7pMQP1yTvBEH+Ol
- xyuOq4K1FxtCtPOqrfJrOEOCE3LZETOroNHD8lslCo1sDPjCXL15T4dM+u2UNRH4fNQp
- whOctxgEHvKG5fMh9FJ03FC4VRKCBZsIB7CfDrtEkc2O5BpXMl84UwjcQVzQMJ6ydLKU
- 1XZ6GP9M0HmpKw5AhzU0udvaQHEp/gKhFaAj6JGOFdIJkUmteuAdNX4LM42aQmEF90VV
- DJgZ7hPeSLju1Fp//VYYg0k36t/LD0ehKj5MTbalMSBxSxJ9C8Z9azwqu3+gY/M0ZSJ6
- 9I2A==
-X-Gm-Message-State: AOAM530BLzUY+Is5cj8RPIf3TTpmnZpmG3GRYYEvDIeh/KBtq0VwCyyc
- 5PdqxhX2slnyov++iM5fbixAe0CMGNkj5AJEWF6LEA==
-X-Google-Smtp-Source: ABdhPJycSmwXl5IxMe3vej4WAAWyhPCL0eF/rSRaRZXSBAXfDxXclstoksiip18OlAm6Rp/U2YkEx2XQYfYDsVm5m8I=
-X-Received: by 2002:a17:906:3a89:: with SMTP id
- y9mr17810246ejd.4.1612804675654; 
- Mon, 08 Feb 2021 09:17:55 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=c/lbiSlEfcTzGhqyN46TBgAhg5DuLQbpImwPelklz58=;
+ b=lP92i2bqU7tJoIcm5fgbtPsbuBn5chP5w8ZC00PB4zWdQfonuBfRXkJDJsIzl5exaV
+ 20JD/WTLgjy04bP8KZIVfrz8q78ltdpY+YsDBqaM2tQOX88OLpVjL6OnV60L4PrgoBCf
+ PQ7UlhinpnEFRdlk3aLgo8IN2gAEL0NJaS21wW3wDOprA2aDCtbqfr9LXUFDpXVfhXeL
+ scV3hZkHGVC+QsvRjbXWVP9J0dSBwffrfblcWo2ATZ8SWjDj1kR519tyrbH/CUTFrm/m
+ cV/AvH2Awl9AaKyBmk9WBoWjm3s9vZJ0RXBEoA0o7+Tz0eMMbZooWUEBQ7dk8VCZi6Ra
+ Yi8g==
+X-Gm-Message-State: AOAM530mprzHnCEFyUiDIraI1xXIK5WSokFbTjlk57aD7goJoDVgoe2W
+ bK0rzrEVtHnRWEw4kklUT5CxGNkJA16xhuOGsUrOXQKoal6H1x6AU9q0rmfHdC4T0I4NRUSdv5m
+ czGY2k75HwBCMy+w=
+X-Received: by 2002:a05:600c:4a09:: with SMTP id
+ c9mr13404265wmp.91.1612804834809; 
+ Mon, 08 Feb 2021 09:20:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxaBEdM+RPvVJDxDidGbVOLHdGXiQHEBvJ6GFyZzNuzjQyEzGmKNGE4eezhwM21n6kDCodrKA==
+X-Received: by 2002:a1c:545d:: with SMTP id p29mr14919743wmi.54.1612804823086; 
+ Mon, 08 Feb 2021 09:20:23 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id h13sm15741137wrv.20.2021.02.08.09.20.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 09:20:10 -0800 (PST)
+Subject: Re: [PATCH 3/3] gitlab: fix inconsistent indentation
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210208163339.1159514-1-berrange@redhat.com>
+ <20210208163339.1159514-4-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d749b66c-7072-bc60-b205-db299236ffbf@redhat.com>
+Date: Mon, 8 Feb 2021 18:20:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210202232838.1641382-1-dje@google.com>
- <20210202232838.1641382-2-dje@google.com>
-In-Reply-To: <20210202232838.1641382-2-dje@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Feb 2021 17:17:44 +0000
-Message-ID: <CAFEAcA_O7eNxk2hsDxj2=-zHEXP3K4fdVHs8nWqcH3ZaMMKM3g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] hw/net: Add npcm7xx emc model
-To: Doug Evans <dje@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210208163339.1159514-4-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,137 +100,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Avi Fishman <avi.fishman@nuvoton.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Feb 2021 at 23:29, Doug Evans <dje@google.com> wrote:
->
-> This is a 10/100 ethernet device that has several features.
-> Only the ones needed by the Linux driver have been implemented.
-> See npcm7xx_emc.c for a list of unimplemented features.
->
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Avi Fishman <avi.fishman@nuvoton.com>
-> Signed-off-by: Doug Evans <dje@google.com>
+On 2/8/21 5:33 PM, Daniel P. Berrangé wrote:
+> The standard is to use 2 space indent, not 3.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  hw/net/meson.build           |   1 +
->  hw/net/npcm7xx_emc.c         | 852 +++++++++++++++++++++++++++++++++++
->  hw/net/trace-events          |  17 +
->  include/hw/net/npcm7xx_emc.h | 286 ++++++++++++
->  4 files changed, 1156 insertions(+)
->  create mode 100644 hw/net/npcm7xx_emc.c
->  create mode 100644 include/hw/net/npcm7xx_emc.h
+>  .gitlab-ci.yml | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 
-> +static void emc_reset(NPCM7xxEMCState *emc)
-> +{
-> +    trace_npcm7xx_emc_reset(emc->emc_num);
-> +
-> +    memset(&emc->regs[0], 0, sizeof(emc->regs));
-> +
-> +    /* These regs have non-zero reset values. */
-> +    emc->regs[REG_TXDLSA] = 0xfffffffc;
-> +    emc->regs[REG_RXDLSA] = 0xfffffffc;
-> +    emc->regs[REG_MIIDA] = 0x00900000;
-> +    emc->regs[REG_FFTCR] = 0x0101;
-> +    emc->regs[REG_DMARFC] = 0x0800;
-> +    emc->regs[REG_MPCNT] = 0x7fff;
-> +
-> +    emc->tx_active = false;
-> +    emc->rx_active = false;
-> +
-> +    qemu_set_irq(emc->tx_irq, 0);
-> +    qemu_set_irq(emc->rx_irq, 0);
-> +}
-> +
-> +static void npcm7xx_emc_reset(DeviceState *dev)
-> +{
-> +    NPCM7xxEMCState *emc = NPCM7XX_EMC(dev);
-> +    emc_reset(emc);
-> +}
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-You can't call qemu_set_irq() from a DeviceState::reset method.
-Usually it's OK just not to try to set the outbound IRQs and
-to assume that the device you're connected to has reset to the
-state where its inbound IRQ line is not asserted. If you really
-need to set the irq line then you need to switch to 3-phase
-reset (some of the other npcm7xx devices do this). But I
-suspect that just moving the qemu_set_irq() calls to
-emc_soft_reset() would be enough.
-
-> +
-> +static void emc_soft_reset(NPCM7xxEMCState *emc)
-> +{
-> +    /*
-> +     * The docs say at least MCMDR.{LBK,OPMOD} bits are not changed during a
-> +     * soft reset, but does not go into further detail. For now, KISS.
-> +     */
-> +    uint32_t mcmdr = emc->regs[REG_MCMDR];
-> +    emc_reset(emc);
-> +    emc->regs[REG_MCMDR] =
-> +        mcmdr & (REG_MCMDR_LBK | REG_MCMDR_OPMOD);
-> + }
-
-
-> +static void emc_try_send_next_packet(NPCM7xxEMCState *emc)
-> +{
-> +    uint32_t desc_addr = TX_DESC_NTXDSA(emc->regs[REG_CTXDSA]);
-> +    NPCM7xxEMCTxDesc tx_desc;
-> +    if (emc_read_tx_desc(desc_addr, &tx_desc)) {
-> +        /* Error reading descriptor, already reported. */
-> +        emc_halt_tx(emc, REG_MISTA_TXBERR);
-> +        emc_update_tx_irq(emc);
-> +        return;
-> +    }
-> +
-> +    /* Nothing we can do if we don't own the descriptor. */
-> +    if (!(tx_desc.flags & TX_DESC_FLAG_OWNER_MASK)) {
-> +        trace_npcm7xx_emc_cpu_owned_desc(desc_addr);
-> +        emc_halt_tx(emc, REG_MISTA_TDU);
-> +        emc_update_tx_irq(emc);
-> +        return;
-> +     }
-> +
-> +    /* Give the descriptor back regardless of what happens. */
-> +    tx_desc.flags &= ~TX_DESC_FLAG_OWNER_MASK;
-> +    tx_desc.status_and_length &= 0xffff;
-> +
-> +    /* Working buffer for sending out packets. Most packets fit in this. */
-> +#define TX_BUFFER_SIZE 2048
-> +    uint8_t tx_send_buffer[TX_BUFFER_SIZE];
-
-Don't put local variable declarations in the middle of functions,
-please. Coding style says they should be at the start of a
-block (so, here, the start of the function). It looks like you've
-got middle-of-function declarations in several places in other
-functions too, so could you fix them all up please?
-
-> +
-> +    /*
-> +     * Despite the h/w documentation saying the tx buffer is word aligned,
-> +     * the linux driver does not word align the buffer. There is value in not
-> +     * aligning the buffer: See the description of NET_IP_ALIGN in linux
-> +     * kernel sources.
-> +     */
-> +    uint32_t next_buf_addr = tx_desc.txbsa;
-> +    emc->regs[REG_CTXBSA] = next_buf_addr;
-> +    uint32_t length = TX_DESC_PKT_LEN(tx_desc.status_and_length);
-> +    uint8_t *buf = &tx_send_buffer[0];
-> +    uint8_t *malloced_buf = NULL;
-
-Optional, but you might consider using g_autofree for
-malloced_buf, which would let the compiler deal with
-g_free()ing it for you on all the function exit paths.
-
-> +
-> +    if (length > sizeof(tx_send_buffer)) {
-> +        malloced_buf = g_malloc(length);
-> +        buf = malloced_buf;
-> +    }
-
-Otherwise the patch looks OK I think.
-
-thanks
--- PMM
 
