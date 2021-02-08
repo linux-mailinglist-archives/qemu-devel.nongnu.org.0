@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67769312F2A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 11:37:46 +0100 (CET)
-Received: from localhost ([::1]:51978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2F6312F53
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 11:44:59 +0100 (CET)
+Received: from localhost ([::1]:55038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l93vM-0003zc-Rf
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 05:37:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58704)
+	id 1l942N-0006x9-0Y
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 05:44:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgX-0007xj-Dm; Mon, 08 Feb 2021 01:06:09 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37505 helo=ozlabs.org)
+ id 1l904Z-0002T4-CL; Mon, 08 Feb 2021 01:31:08 -0500
+Received: from ozlabs.org ([203.11.71.1]:33317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l8zgU-000636-25; Mon, 08 Feb 2021 01:06:09 -0500
+ id 1l904K-0006fN-G7; Mon, 08 Feb 2021 01:30:52 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DYwVt1lxVz9sWL; Mon,  8 Feb 2021 17:05:41 +1100 (AEDT)
+ id 4DYx3S6jMPz9sVJ; Mon,  8 Feb 2021 17:30:28 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612764342;
- bh=aAac4u8eAT095LojHu2zV6djlFRQd15K3tYUapECTxg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XYDBgui6iodDeonCEWscS0Jgqx/ytHJmSXEj+H8oC97o5aB1bU+I4tzGn6eOyRSCU
- qWDhbotH1wqknfiS9HPzOyIkfd+pB10JRopBLeiysG82i5jWB/RY85+e6wyN2dwVBV
- IiMR3OSf8fIfQBubHjaQxg7Zc4acV94i+Ln9lLh8=
+ d=gibson.dropbear.id.au; s=201602; t=1612765828;
+ bh=yL5gkUEvSXGorxow2WTHl8Hrb3FyQ7YteuQogpgaLIw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MkEuGJwa5VmSmfgszyeo4voy+DgreILWhW+FtVGU910ilAbQJJPHIZ+xucm88LguF
+ ChjqI2ncDjvfI12rnfepmbUh6DeMiiNU4r0RdoI6EnK60Q1surybtpyroVsUnkAwhX
+ +VSpwBIVukqvmWvadN+47LLPnm1t7eDyNQFEjIC4=
+Date: Mon, 8 Feb 2021 17:30:23 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: pasic@linux.ibm.com, dgilbert@redhat.com, pair@us.ibm.com,
- qemu-devel@nongnu.org, brijesh.singh@amd.com
-Subject: [PULL v9 10/13] spapr: Add PEF based confidential guest support
-Date: Mon,  8 Feb 2021 17:05:35 +1100
-Message-Id: <20210208060538.39276-11-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210208060538.39276-1-david@gibson.dropbear.id.au>
-References: <20210208060538.39276-1-david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 6/6] spapr: Model DR connectors as simple objects
+Message-ID: <20210208063023.GB40668@yekko.fritz.box>
+References: <20201218103400.689660-1-groug@kaod.org>
+ <20201218103400.689660-7-groug@kaod.org>
+ <20201228082839.GL6952@yekko.fritz.box>
+ <20210106191536.4d4c4991@bahia.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0eh6TmSyL6TZE2Uz"
+Content-Disposition: inline
+In-Reply-To: <20210106191536.4d4c4991@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,365 +60,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- ehabkost@redhat.com, kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, mdroth@linux.vnet.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, pragyansri.pathi@intel.com, jun.nakajima@intel.com,
- andi.kleen@intel.com, pbonzini@redhat.com,
- David Hildenbrand <david@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, frankja@linux.ibm.com
+Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some upcoming POWER machines have a system called PEF (Protected
-Execution Facility) which uses a small ultravisor to allow guests to
-run in a way that they can't be eavesdropped by the hypervisor.  The
-effect is roughly similar to AMD SEV, although the mechanisms are
-quite different.
 
-Most of the work of this is done between the guest, KVM and the
-ultravisor, with little need for involvement by qemu.  However qemu
-does need to tell KVM to allow secure VMs.
+--0eh6TmSyL6TZE2Uz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Because the availability of secure mode is a guest visible difference
-which depends on having the right hardware and firmware, we don't
-enable this by default.  In order to run a secure guest you need to
-create a "pef-guest" object and set the confidential-guest-support
-property to point to it.
+On Wed, Jan 06, 2021 at 07:15:36PM +0100, Greg Kurz wrote:
+> On Mon, 28 Dec 2020 19:28:39 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Fri, Dec 18, 2020 at 11:34:00AM +0100, Greg Kurz wrote:
+> > > Modeling DR connectors as individual devices raises some
+> > > concerns, as already discussed a year ago in this thread:
+> > >=20
+> > > https://patchew.org/QEMU/20191017205953.13122-1-cheloha@linux.vnet.ib=
+m.com/
+> > >=20
+> > > First, high maxmem settings creates too many DRC devices.
+> > > This causes scalability issues. It severely increase boot
+> > > time because the multiple traversals of the DRC list that
+> > > are performed during machine setup are quadratic operations.
+> > > This is directly related to the fact that DRCs are modeled
+> > > as individual devices and added to the composition tree.
+> > >=20
+> > > Second, DR connectors are really an internal concept of
+> > > PAPR. They aren't something that the user or management
+> > > layer can manipulate in any way. We already don't allow
+> > > their creation with device_add by clearing user_creatable.
+> > >=20
+> > > DR connectors don't even need to be modeled as actual
+> > > devices since they don't sit in a bus. They just need
+> > > to be associated to an 'owner' object and to have the
+> > > equivalent of realize/unrealize functions.
+> > >=20
+> > > Downgrade them to be simple objects. Convert the existing
+> > > realize() and unrealize() to be methods of the DR connector
+> > > base class. Also have the base class to inherit from the
+> > > vmstate_if interface directly. The get_id() hook simply
+> > > returns NULL, just as device_vmstate_if_get_id() does for
+> > > devices that don't sit in a bus. The DR connector is no
+> > > longer made a child object. This means that it must be
+> > > explicitely freed when no longer needed. This is only
+> > > required for PHBs and PCI bridges actually : have them to
+> > > free the DRC with spapr_dr_connector_free() instead of
+> > > object_unparent().
+> > >=20
+> > > No longer add the DRCs to the QOM composition tree. Track
+> > > them with a glib hash table using the global DRC index as
+> > > the key instead. This makes traversal a linear operation.
+> >=20
+> > I have some reservations about this one.  The main thing is that
+> > attaching migration state to something that's not a device seems a bit
+> > odd to me.  AFAICT exactly one other non-device implements
+> > TYPE_VMSTATE_IF, and what it does isn't very clear to me.
+> >=20
+>=20
+> Even with your proposal below, the current SpaprDrc type, which is
+> used all over the place, will stop being a TYPE_DEVICE but we still
+> need to support migration with existing machine types for which DRC
+> are devices.
 
-Note that this just *allows* secure guests, the architecture of PEF is
-such that the guest still needs to talk to the ultravisor to enter
-secure mode.  Qemu has no direct way of knowing if the guest is in
-secure mode, and certainly can't know until well after machine
-creation time.
+Ah... that's a good point.
 
-To start a PEF-capable guest, use the command line options:
-    -object pef-guest,id=pef0 -machine confidential-guest-support=pef0
+> Implementing TYPE_VMSTATE_IF is essentially a hack that
+> allows to do that without keeping the current TYPE_DEVICE based
+> implementation around.
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
----
- docs/confidential-guest-support.txt |   3 +
- docs/papr-pef.txt                   |  30 +++++++
- hw/ppc/meson.build                  |   1 +
- hw/ppc/pef.c                        | 133 ++++++++++++++++++++++++++++
- hw/ppc/spapr.c                      |   8 +-
- include/hw/ppc/pef.h                |  17 ++++
- target/ppc/kvm.c                    |  18 ----
- target/ppc/kvm_ppc.h                |   6 --
- 8 files changed, 191 insertions(+), 25 deletions(-)
- create mode 100644 docs/papr-pef.txt
- create mode 100644 hw/ppc/pef.c
- create mode 100644 include/hw/ppc/pef.h
+Ok, that makes things clearer.
 
-diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-index bd439ac800..4da4c91bd3 100644
---- a/docs/confidential-guest-support.txt
-+++ b/docs/confidential-guest-support.txt
-@@ -40,4 +40,7 @@ Currently supported confidential guest mechanisms are:
- AMD Secure Encrypted Virtualization (SEV)
-     docs/amd-memory-encryption.txt
- 
-+POWER Protected Execution Facility (PEF)
-+    docs/papr-pef.txt
-+
- Other mechanisms may be supported in future.
-diff --git a/docs/papr-pef.txt b/docs/papr-pef.txt
-new file mode 100644
-index 0000000000..72550e9bf8
---- /dev/null
-+++ b/docs/papr-pef.txt
-@@ -0,0 +1,30 @@
-+POWER (PAPR) Protected Execution Facility (PEF)
-+===============================================
-+
-+Protected Execution Facility (PEF), also known as Secure Guest support
-+is a feature found on IBM POWER9 and POWER10 processors.
-+
-+If a suitable firmware including an Ultravisor is installed, it adds
-+an extra memory protection mode to the CPU.  The ultravisor manages a
-+pool of secure memory which cannot be accessed by the hypervisor.
-+
-+When this feature is enabled in QEMU, a guest can use ultracalls to
-+enter "secure mode".  This transfers most of its memory to secure
-+memory, where it cannot be eavesdropped by a compromised hypervisor.
-+
-+Launching
-+---------
-+
-+To launch a guest which will be permitted to enter PEF secure mode:
-+
-+# ${QEMU} \
-+    -object pef-guest,id=pef0 \
-+    -machine confidential-guest-support=pef0 \
-+    ...
-+
-+Live Migration
-+----------------
-+
-+Live migration is not yet implemented for PEF guests.  For
-+consistency, we currently prevent migration if the PEF feature is
-+enabled, whether or not the guest has actually entered secure mode.
-diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-index ffa2ec37fa..218631c883 100644
---- a/hw/ppc/meson.build
-+++ b/hw/ppc/meson.build
-@@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-   'spapr_nvdimm.c',
-   'spapr_rtas_ddw.c',
-   'spapr_numa.c',
-+  'pef.c',
- ))
- ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
- ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
-diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-new file mode 100644
-index 0000000000..f9fd1f2a71
---- /dev/null
-+++ b/hw/ppc/pef.c
-@@ -0,0 +1,133 @@
-+/*
-+ * PEF (Protected Execution Facility) for POWER support
-+ *
-+ * Copyright Red Hat.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "qapi/error.h"
-+#include "qom/object_interfaces.h"
-+#include "sysemu/kvm.h"
-+#include "migration/blocker.h"
-+#include "exec/confidential-guest-support.h"
-+#include "hw/ppc/pef.h"
-+
-+#define TYPE_PEF_GUEST "pef-guest"
-+OBJECT_DECLARE_SIMPLE_TYPE(PefGuest, PEF_GUEST)
-+
-+typedef struct PefGuest PefGuest;
-+typedef struct PefGuestClass PefGuestClass;
-+
-+struct PefGuestClass {
-+    ConfidentialGuestSupportClass parent_class;
-+};
-+
-+/**
-+ * PefGuest:
-+ *
-+ * The PefGuest object is used for creating and managing a PEF
-+ * guest.
-+ *
-+ * # $QEMU \
-+ *         -object pef-guest,id=pef0 \
-+ *         -machine ...,confidential-guest-support=pef0
-+ */
-+struct PefGuest {
-+    ConfidentialGuestSupport parent_obj;
-+};
-+
-+static int kvmppc_svm_init(Error **errp)
-+{
-+#ifdef CONFIG_KVM
-+    if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
-+        error_setg(errp,
-+                   "KVM implementation does not support Secure VMs (is an ultravisor running?)");
-+        return -1;
-+    } else {
-+        int ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_PPC_SECURE_GUEST, 0, 1);
-+
-+        if (ret < 0) {
-+            error_setg(errp,
-+                       "Error enabling PEF with KVM");
-+            return -1;
-+        }
-+    }
-+
-+    return 0;
-+#else
-+    g_assert_not_reached();
-+#endif
-+}
-+
-+/*
-+ * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
-+ * that don't support this ioctl.
-+ */
-+static int kvmppc_svm_off(Error **errp)
-+{
-+#ifdef CONFIG_KVM
-+    int rc;
-+
-+    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
-+    if (rc && rc != -ENOTTY) {
-+        error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
-+        return rc;
-+    }
-+    return 0;
-+#else
-+    g_assert_not_reached();
-+#endif
-+}
-+
-+int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!object_dynamic_cast(OBJECT(cgs), TYPE_PEF_GUEST)) {
-+        return 0;
-+    }
-+
-+    if (!kvm_enabled()) {
-+        error_setg(errp, "PEF requires KVM");
-+        return -1;
-+    }
-+
-+    return kvmppc_svm_init(errp);
-+}
-+
-+int pef_kvm_reset(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!object_dynamic_cast(OBJECT(cgs), TYPE_PEF_GUEST)) {
-+        return 0;
-+    }
-+
-+    /*
-+     * If we don't have KVM we should never have been able to
-+     * initialize PEF, so we should never get this far
-+     */
-+    assert(kvm_enabled());
-+
-+    return kvmppc_svm_off(errp);
-+}
-+
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(PefGuest,
-+                                   pef_guest,
-+                                   PEF_GUEST,
-+                                   CONFIDENTIAL_GUEST_SUPPORT,
-+                                   { TYPE_USER_CREATABLE },
-+                                   { NULL })
-+
-+static void pef_guest_class_init(ObjectClass *oc, void *data)
-+{
-+}
-+
-+static void pef_guest_init(Object *obj)
-+{
-+}
-+
-+static void pef_guest_finalize(Object *obj)
-+{
-+}
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 6c47466fc2..612356e9ec 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -83,6 +83,7 @@
- #include "hw/ppc/spapr_tpm_proxy.h"
- #include "hw/ppc/spapr_nvdimm.h"
- #include "hw/ppc/spapr_numa.h"
-+#include "hw/ppc/pef.h"
- 
- #include "monitor/monitor.h"
- 
-@@ -1574,7 +1575,7 @@ static void spapr_machine_reset(MachineState *machine)
-     void *fdt;
-     int rc;
- 
--    kvmppc_svm_off(&error_fatal);
-+    pef_kvm_reset(machine->cgs, &error_fatal);
-     spapr_caps_apply(spapr);
- 
-     first_ppc_cpu = POWERPC_CPU(first_cpu);
-@@ -2658,6 +2659,11 @@ static void spapr_machine_init(MachineState *machine)
-     char *filename;
-     Error *resize_hpt_err = NULL;
- 
-+    /*
-+     * if Secure VM (PEF) support is configured, then initialize it
-+     */
-+    pef_kvm_init(machine->cgs, &error_fatal);
-+
-     msi_nonbroken = true;
- 
-     QLIST_INIT(&spapr->phbs);
-diff --git a/include/hw/ppc/pef.h b/include/hw/ppc/pef.h
-new file mode 100644
-index 0000000000..707dbe524c
---- /dev/null
-+++ b/include/hw/ppc/pef.h
-@@ -0,0 +1,17 @@
-+/*
-+ * PEF (Protected Execution Facility) for POWER support
-+ *
-+ * Copyright Red Hat.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef HW_PPC_PEF_H
-+#define HW_PPC_PEF_H
-+
-+int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-+int pef_kvm_reset(ConfidentialGuestSupport *cgs, Error **errp);
-+
-+#endif /* HW_PPC_PEF_H */
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index daf690a678..0c5056dd5b 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2929,21 +2929,3 @@ void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int64_t tb_offset)
-         kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &tb_offset);
-     }
- }
--
--/*
-- * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
-- * that don't support this ioctl.
-- */
--void kvmppc_svm_off(Error **errp)
--{
--    int rc;
--
--    if (!kvm_enabled()) {
--        return;
--    }
--
--    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
--    if (rc && rc != -ENOTTY) {
--        error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
--    }
--}
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 73ce2bc951..989f61ace0 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -39,7 +39,6 @@ int kvmppc_booke_watchdog_enable(PowerPCCPU *cpu);
- target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
-                                      bool radix, bool gtse,
-                                      uint64_t proc_tbl);
--void kvmppc_svm_off(Error **errp);
- #ifndef CONFIG_USER_ONLY
- bool kvmppc_spapr_use_multitce(void);
- int kvmppc_spapr_enable_inkernel_multitce(void);
-@@ -216,11 +215,6 @@ static inline target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
-     return 0;
- }
- 
--static inline void kvmppc_svm_off(Error **errp)
--{
--    return;
--}
--
- static inline void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu,
-                                              unsigned int online)
- {
--- 
-2.29.2
+> > As I might have mentioned to you I had a different idea for how to
+> > address this problem: still use a TYPE_DEVICE, but have it manage a
+> > whole array of DRCs as one unit, rather than just a single one.
+> > Specifically I was thinking:
+> >=20
+> > * one array per PCI bus (DRCs for each function on the bus)
+> > * one array for each block of memory (so one for base memory, one for
+> >   each DIMM)
+> > * one array for all the cpus
+> > * one array for all the PHBs
+> >=20
+> > It has some disadvantages compared to your scheme: it still leaves
+> > (less) devices which can't be user managed, which is a bit ugly.  On
+> > the other hand, each of those arrays can reasonably be dense, so we
+> > can use direct indexing rather than a hash table, which is a bit
+> > nicer.
+> >=20
+> > Thoughts?
+> >=20
+>=20
+> I find it a bit overkill to introduce a new TYPE_DEVICE (let's
+> call it a DRC manager) for something that:
+> - doesn't sit on a bus
+> - can't be user managed
+> - isn't directly represented to the guest as a full node
+>   in the DT unlike all other devices, but just as indexes
+>   in some properties of actual DR capable devices.
+>=20
+> Given that the DRC index space is global and this is what
+> the guest passes to DR RTAS calls, we can't do direct
+> indexing, strictly speaking. We need at least some logic
+> to dispatch operations on individual DRC states to the
+> appropriate DRC manager. This logic belongs to the machine
+> IMHO.
+>=20
+> This shouldn't be too complex for CPUs and PHBs since they
+> sit directly under the machine and have 1:1 relation with
+> the attached device. It just boils down to instantiate
+> some DRC managers during machine init:
+>=20
+> - range [ 0x10000000 ... 0x10000000 + ${max_cpus} [
+>   for CPUs
+> - range [ 0x20000000 ... 0x20000000 + 31 [
+>   for PHBs
+>=20
+> For memory, the code currently generates DRC indexes in the range:
+>=20
+> [ 0x80000000 ... 0x80000000 + ${base_ram_size}/256M ... ${max_ram_size}/2=
+56M [
+>=20
+> ie. it doesn't generate DRC indexes for the base memory AFAICT. Also
+> each DIMM can be of arbitrary size, ie. consume an arbitrary amount
+> of DRC indexes. So the machine would instantiate SPAPR_MAX_RAM_SLOTS (32)
+> DRC managers, each capable of managing the full set of LMB DRCs, just
+> in case ? Likely a lot of zeroes with high maxmem settings but I guess
+> we can live with it.
 
+Actually, I was thinking of just a single manager for all the
+(pluggable) LMB DRCs, a single manager for all CPU DRCs, a single
+manager for all PHB DRCs and one per bus for PCI DRCs.  I'm not
+assuming a 1:1 correspondance between manager and user side hotplug
+operations.
+
+Although... actually the "manager" could be an interface rather than
+an object, in which case the DRC manager would be the machine for
+LMBs, CPUs, and PHBs and the parent bus for each PCI slot.
+
+> PCI busses would need some extra care though since the machine
+> doesn't know about them. This would require to be able to
+> register/unregister DRC managers for SPAPR_DR_CONNECTOR_TYPE_PCI
+> indexes, so that the dispatching logic know about the ranges
+> they cover (PHB internals).
+
+Right, but that wouldn't really be any different from the dynamic
+creation of DRCs we do add_drcs() / remove_drcs() right now, except
+that it would create /destroy one object instead of a bunch.
+
+> And finally comes migration : I cannot think of a way to generate
+> the VMState sections used by existing machine types out of a set
+> of arrays of integers... We could keep the current implementation
+> around and use it with older machine types, but this certainly
+> looks terrible from a maintenance perspective. Did you have any
+> suggestion to handle that ?
+
+Ugh, yeah.. that could be difficult.
+
+> I seem to remember that one of the motivation to have arrays
+> of DRCs is to avoid the inflation of VMState sections that
+> we currently get with high maxmem settings, and it is considered
+> preferable to stream sparse arrays. This could be achieved by
+> building these arrays out of the global DRC hash table in a machine
+> pre-save handler and migrate them in a subsection for the default
+> machine type. Older machine types would continue with the current
+> VMState sections thanks to the TYPE_VMSTATE_IF hack.
+>=20
+> Does this seem a reasonable trade-off to be able to support
+> older and newer machine types with the same implementation ?
+
+Hrm, maybe, yeah.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--0eh6TmSyL6TZE2Uz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAg2n8ACgkQbDjKyiDZ
+s5JoZA/+Id0itRx+jasNSZOSmgNl5qOM8qkN80/JLGOhPaVqudGE84NtwRS2y4WD
+BTnM/DiHFKjWL172HgCOVBXaMTOP+m0YujMwL9UKvLwRc3ujw8y1F/CqXPdmeov1
+srVoKcY/45DW34rt06RliBxBMCaqd+2t8THRcgTmVgLzu2Qbnb4G9N67JHQDEYLc
+tgMvsPBR2uccKA276449HMWg7ZX3wJsOiA32hC2Fg21BPYyVfInQO9IgkoTIvJVi
+StaHY3bP/moPZFjeRIH31F8AF7aGKywh4scBLbZ6nvfUZDHQnOJKJVBnswF9B+/e
+fMaZnzbbN13HEbFo+qEHfS/mrpZ1V2qmEhW3fm9OUeoKGmS0zwazGz7T60+Mib7f
+w2cJgJ06E8BH7R1yhkw7BvHOMiEbpOOlwshvqvheuaaMNvQlAvL0GU/CNlSSZqRQ
+KRW44WIlzen1+tms4DbCP8YZUxWMgvyIAMGUaF7veYi5pxh++U53BBEp2p6qZJjw
+cniAzhFHSapkzHR5oQqV1mkAN5R44uTSrfyDTQ9XQxAU4TkPVwGJicmJwwPPi5Vc
+dGJQ2cO+gH+V6LtK8BZm9rotv5OGp6iH0TEZtEw+Yttb8nf+/lza2qHLmkOO0QNZ
+zEPkBlEEjtQDwb47yxoU3Nw3BnASkFO9ejxZ0DX+oeCGz6uMgyM=
+=PGnx
+-----END PGP SIGNATURE-----
+
+--0eh6TmSyL6TZE2Uz--
 
