@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B28D313551
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 15:38:08 +0100 (CET)
-Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3C43136AE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 16:15:25 +0100 (CET)
+Received: from localhost ([::1]:52404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l97fy-0001I4-MO
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 09:38:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41172)
+	id 1l98G1-0003xz-0V
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 10:15:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l92Se-0005Tq-DX
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:04:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l92SE-0001iR-M6
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 04:03:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612775000;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oEpAGaAlWpUPsiGWyHmZvyW881ytgzfA+TjPnCI2T8A=;
- b=AFwMA3Tr/+wCrTH9atgAZf7AKX2gg+beh6zJlJ4qV1i2Ho8Nzx3+UY5Rtqy/AQMUSa3HFo
- BjzWbq3S9hsDDXzkfJZtcG0UsPFtL+Nfxk/eJ+lE/fuVncfgid8PkJPWo/XW6sMg64O46L
- Q3MVC0ary+t9D/dwUoOgQ4sCkD6GOho=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-d3oCLRFHPPmH8K9WM9aEEw-1; Mon, 08 Feb 2021 04:03:18 -0500
-X-MC-Unique: d3oCLRFHPPmH8K9WM9aEEw-1
-Received: by mail-wr1-f70.google.com with SMTP id j8so12472984wrx.17
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 01:03:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1l90Us-0005C6-6Z
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 01:58:16 -0500
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:34777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1l90UQ-0003xZ-0l
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 01:57:59 -0500
+Received: by mail-io1-xd31.google.com with SMTP id f67so12103193ioa.1
+ for <qemu-devel@nongnu.org>; Sun, 07 Feb 2021 22:57:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Uvwq/YN8u5pObjxC65tOZ2S//OAZBWD2Zjjr6qZSwlg=;
+ b=i/+jHsfz07pxGGD3iV9YN6SbHZgujCMhMh/M5dDcotF69Lf7IGTs9AvBWa5VVUHDx7
+ zW846vc1E01fTXG4BwvfftOvDYIbp1LTe/a7ndmMgT6wH+FPvZI2jsSr1QhfVeZVcrH1
+ x2+tNWrQdR5H+oKyKtoEcO/mWo7DSBsNwNZNqZaOoXvVCpOx6qeB1K/Yj812W5EaubOn
+ lsksxCSA1GCv7XN6JCsKhcTQxbJbEhcBOxLGbbrGHt/wPMVWxpiHV2s4A/Gj1pdEFAby
+ C/ECi0Kr2/cxIy4tiU2YI9sw/CFC7sFz4ecILIZDY/HvwD3OzCZ8h0k+YCSFKchVL9j+
+ BkwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oEpAGaAlWpUPsiGWyHmZvyW881ytgzfA+TjPnCI2T8A=;
- b=lu+JilgGmJOnorR9qwH7YUP8ZQZHycf9cjg80X1+0XVJ23t9ZxarbW4o4gIHzBoVbI
- zEFqMyss3lS2t7ImTXJP9U0zKCxxFK8IRCh5ddnPOJCUZDoKxxDOFjtmr5h6KfkHF8Wz
- moaTOntlOa/IjIfchiG5Cb+gVvXvQHkRfZgzU/KfHC6lgoyxz41gOUK7r7W4x4i4EiqV
- F+KVaSp7LSKKz/dWqlMwFKefCqfPJLy4fbCpi5juo3Aoeg0wCMmqXDlM2hLhUfmpLZ6Q
- wbXp/Sgg9BMxP0GNDZiNTTU/Da6XL8xBbkMx2uNosLjxeQSYayQLuz8/HthaB0b7BOCh
- psDw==
-X-Gm-Message-State: AOAM530/r0DWobnYcZD58Y/jUIHxC5ZbQLwc8BjovlXeBxN+TRM1qVdN
- 4dKKtZmCtCowwgJjp8qZc+IO3TyB2URQL8tCQmW6wVi4iBbvBZQG9N9WMITtbhKOyPV6VaAvUrH
- CiJFYWrmm16LpPJ8=
-X-Received: by 2002:a1c:2e83:: with SMTP id u125mr13119891wmu.13.1612774997604; 
- Mon, 08 Feb 2021 01:03:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzHTJKo2OUTWTl1QmZGdH7B8o/sMSpVhM5d0HKbDexFSiB4tOpVU4PewNUVlITk2Jk8ZWX5DA==
-X-Received: by 2002:a1c:2e83:: with SMTP id u125mr13119874wmu.13.1612774997388; 
- Mon, 08 Feb 2021 01:03:17 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id w15sm26630365wrp.15.2021.02.08.01.03.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 01:03:16 -0800 (PST)
-Subject: Re: [PATCH] hw/block/nvme: fix Close Zone
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>, Keith Busch <kbusch@kernel.org>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210208003256.9280-1-dmitry.fomichev@wdc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <435eb631-e53d-a47a-6c27-68d12496fe00@redhat.com>
-Date: Mon, 8 Feb 2021 10:03:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Uvwq/YN8u5pObjxC65tOZ2S//OAZBWD2Zjjr6qZSwlg=;
+ b=fC+6tcHmZQiWgsObHT3NwXmLCMiv7mLFFEmXdqW0Dzvohi0F+vDth8VWA08Ve4wsYs
+ r2P+9hm48z9C498UM2edVrHUgfHjcYDsfFi/O3wSssdGbq7A+j20l1CBDDszMy43amL0
+ 1zc1kt4O/G7sVqxaDuHgGJtlaZuioYN2tlJlCnWNA9kKYgjpipyWdcsSvr2FNvALwOeC
+ 3NA32udczLUYz6QzvM5VJkPbVJxvPnqfle8/wPvXsRIvoH2YF6BzCiRo5sFWPpYlN0QA
+ QZKXuM6k0o20SYrZeUr+2aHYV3KpFSQy741hh76I53wOoCfdwFGr8XnmI5L7cNrfZ7pp
+ xevQ==
+X-Gm-Message-State: AOAM5328SvXAixiar3pD5gMnDq+7DgF5Bh1MrfqtBz2KQ9OcIsmVSKKX
+ eEdsFKrXcJDDKVfADAV8gZ//nZyp2YusOC/uiPnCWp6OqFMgEvk4k4YJ6uuzqVsxBo2ssjpWauA
+ 2r+Tq+S9sDeWMxpLJ84R3rswdCQB4hV+T1Fze4iHRgYBouUwdEKDzO1dOuyJ18a2FO5LM+ZA=
+X-Google-Smtp-Source: ABdhPJxHcgfDbG7isD+tfoFGpf4zI89UsvcG7fImEhPCbqEnuClDR7MJQn0odD0Ej1yYAzmMqKDbQQ==
+X-Received: by 2002:a6b:fc16:: with SMTP id r22mr13510234ioh.102.1612767424468; 
+ Sun, 07 Feb 2021 22:57:04 -0800 (PST)
+Received: from cube.nuviainc.com (c-174-52-16-57.hsd1.ut.comcast.net.
+ [174.52.16.57])
+ by smtp.gmail.com with ESMTPSA id c19sm8335904ile.17.2021.02.07.22.57.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 07 Feb 2021 22:57:03 -0800 (PST)
+From: Rebecca Cran <rebecca@nuviainc.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 1/4] target/arm: Add support for FEAT_DIT,
+ Data Independent Timing
+Date: Sun,  7 Feb 2021 23:56:57 -0700
+Message-Id: <20210208065700.19454-2-rebecca@nuviainc.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210208065700.19454-1-rebecca@nuviainc.com>
+References: <20210208065700.19454-1-rebecca@nuviainc.com>
 MIME-Version: 1.0
-In-Reply-To: <20210208003256.9280-1-dmitry.fomichev@wdc.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=rebecca@nuviainc.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,52 +85,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Rebecca Cran <rebecca@nuviainc.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Dmitry, Klaus.
+Add support for FEAT_DIT. DIT (Data Independent Timing) is a required
+feature for ARMv8.4. Since virtual machine execution is largely
+nondeterministic and TCG is outside of the security domain, it's
+implemented as a NOP.
 
-On 2/8/21 1:32 AM, Dmitry Fomichev wrote:
-> Implicitly and Explicitly Open zones can be closed by Close Zone
-> management function. This got broken by a recent commit and now such
-> commands fail with Invalid Zone State Transition status.
-> 
-> Modify nvm_zrm_close() function to make Close Zone work correctly.
-> 
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> Fixes: 053b5a302c3("hw/block/nvme: refactor zone resource management")
+Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu.h           | 12 +++++++++++
+ target/arm/helper.c        | 22 ++++++++++++++++++++
+ target/arm/internals.h     |  6 ++++++
+ target/arm/translate-a64.c | 12 +++++++++++
+ 4 files changed, 52 insertions(+)
 
-'053b5a302c3': unknown revision or path not in the working tree.
-
-If you point at an unmerged commit, why not fix it directly
-before merging?
-
-> ---
->  hw/block/nvme.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 6b84e34843..c2f0c88fbf 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -1308,14 +1308,13 @@ static uint16_t nvme_zrm_finish(NvmeNamespace *ns, NvmeZone *zone)
->  static uint16_t nvme_zrm_close(NvmeNamespace *ns, NvmeZone *zone)
->  {
->      switch (nvme_get_zone_state(zone)) {
-> -    case NVME_ZONE_STATE_CLOSED:
-> -        return NVME_SUCCESS;
-> -
->      case NVME_ZONE_STATE_EXPLICITLY_OPEN:
->      case NVME_ZONE_STATE_IMPLICITLY_OPEN:
->          nvme_aor_dec_open(ns);
->          nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
->          /* fall through */
-> +    case NVME_ZONE_STATE_CLOSED:
-> +        return NVME_SUCCESS;
->  
->      default:
->          return NVME_ZONE_INVAL_TRANSITION;
-> 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index d080239863c0..2e5853928474 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1243,6 +1243,7 @@ void pmu_init(ARMCPU *cpu);
+ #define CPSR_IT_2_7 (0xfc00U)
+ #define CPSR_GE (0xfU << 16)
+ #define CPSR_IL (1U << 20)
++#define CPSR_DIT (1U << 21)
+ #define CPSR_PAN (1U << 22)
+ #define CPSR_J (1U << 24)
+ #define CPSR_IT_0_1 (3U << 25)
+@@ -1310,6 +1311,7 @@ void pmu_init(ARMCPU *cpu);
+ #define PSTATE_SS (1U << 21)
+ #define PSTATE_PAN (1U << 22)
+ #define PSTATE_UAO (1U << 23)
++#define PSTATE_DIT (1U << 24)
+ #define PSTATE_TCO (1U << 25)
+ #define PSTATE_V (1U << 28)
+ #define PSTATE_C (1U << 29)
+@@ -3876,6 +3878,11 @@ static inline bool isar_feature_aa32_tts2uxn(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_mmfr4, ID_MMFR4, XNX) != 0;
+ }
+ 
++static inline bool isar_feature_aa32_dit(const ARMISARegisters *id)
++{
++    return FIELD_EX32(id->id_pfr0, ID_PFR0, DIT) != 0;
++}
++
+ /*
+  * 64-bit feature tests via id registers.
+  */
+@@ -4120,6 +4127,11 @@ static inline bool isar_feature_aa64_tts2uxn(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, XNX) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_dit(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, DIT) != 0;
++}
++
+ /*
+  * Feature tests for "does this exist in either 32-bit or 64-bit?"
+  */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 1a64bd748ce5..ce6965b50d42 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -4419,6 +4419,24 @@ static const ARMCPRegInfo uao_reginfo = {
+     .readfn = aa64_uao_read, .writefn = aa64_uao_write
+ };
+ 
++static uint64_t aa64_dit_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    return env->pstate & PSTATE_DIT;
++}
++
++static void aa64_dit_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                           uint64_t value)
++{
++    env->pstate = (env->pstate & ~PSTATE_DIT) | (value & PSTATE_DIT);
++}
++
++static const ARMCPRegInfo dit_reginfo = {
++    .name = "DIT", .state = ARM_CP_STATE_AA64,
++    .opc0 = 3, .opc1 = 3, .crn = 4, .crm = 2, .opc2 = 5,
++    .type = ARM_CP_NO_RAW, .access = PL0_RW,
++    .readfn = aa64_dit_read, .writefn = aa64_dit_write
++};
++
+ static CPAccessResult aa64_cacheop_poc_access(CPUARMState *env,
+                                               const ARMCPRegInfo *ri,
+                                               bool isread)
+@@ -8212,6 +8230,10 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         define_one_arm_cp_reg(cpu, &uao_reginfo);
+     }
+ 
++    if (cpu_isar_feature(aa64_dit, cpu)) {
++        define_one_arm_cp_reg(cpu, &dit_reginfo);
++    }
++
+     if (arm_feature(env, ARM_FEATURE_EL2) && cpu_isar_feature(aa64_vh, cpu)) {
+         define_arm_cp_regs(cpu, vhe_reginfo);
+     }
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 448982dd2f9f..b251fe44506b 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1228,6 +1228,9 @@ static inline uint32_t aarch32_cpsr_valid_mask(uint64_t features,
+     if (isar_feature_aa32_pan(id)) {
+         valid |= CPSR_PAN;
+     }
++    if (isar_feature_aa32_dit(id)) {
++        valid |= CPSR_DIT;
++    }
+ 
+     return valid;
+ }
+@@ -1246,6 +1249,9 @@ static inline uint32_t aarch64_pstate_valid_mask(const ARMISARegisters *id)
+     if (isar_feature_aa64_uao(id)) {
+         valid |= PSTATE_UAO;
+     }
++    if (isar_feature_aa64_dit(id)) {
++        valid |= PSTATE_DIT;
++    }
+     if (isar_feature_aa64_mte(id)) {
+         valid |= PSTATE_TCO;
+     }
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index ffc060e5d70c..1c4b8d02f3b8 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1700,6 +1700,18 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
+         tcg_temp_free_i32(t1);
+         break;
+ 
++    case 0x1a: /* DIT */
++        if (!dc_isar_feature(aa64_dit, s)) {
++            goto do_unallocated;
++        }
++        if (crm & 1) {
++            set_pstate_bits(PSTATE_DIT);
++        } else {
++            clear_pstate_bits(PSTATE_DIT);
++        }
++        /* There's no need to rebuild hflags because DIT is a nop */
++        break;
++
+     case 0x1e: /* DAIFSet */
+         t1 = tcg_const_i32(crm);
+         gen_helper_msr_i_daifset(cpu_env, t1);
+-- 
+2.26.2
 
 
