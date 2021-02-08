@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807C2314274
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:59:36 +0100 (CET)
-Received: from localhost ([::1]:58676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D298314278
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:00:24 +0100 (CET)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9EZD-0005f1-JL
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:59:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50326)
+	id 1l9EZx-0005ty-OJ
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:00:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCM-00030H-GH
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:46 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36569)
+ id 1l9BCO-00034h-E6
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:48 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCK-00065I-VN
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:46 -0500
-Received: by mail-wm1-x332.google.com with SMTP id i9so69258wmq.1
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:44 -0800 (PST)
+ id 1l9BCN-00066b-0W
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:23:48 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id b3so18382099wrj.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:23:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m9+H1ATH2dCIeCzK/A3SmO1reDOgs5mxyLkmqSTIPAs=;
- b=Iy9p7ZnjQbPB9vzFsfjxrjzVsugphMDlhEj8SHKAPY19oCCObSYixweP5YNNCnCPSj
- 8yuZ9Q8FU0NxDuK7bJb0x5nI3DWdoRekF7JQVUYi45xYreNbzqT2tRL8eN08xqiPBVqa
- lMq4dV8Qz47nI8KD3zUPPm0aA1j9Fz+oQpqjTBhopkz0C+Q3CF8lg5ujbvP7+YEOXyzF
- qNtTzaDGyrx78Omioxffn/6g1/BI4OFdH0szkJKRXF8pT7eX2/F0TquEivTepS4S2Y+a
- DxxJqoZvPn1vcV1iJo+FAkKE7i7AG7aWYUG1kyBX80Ogew5WlvQdEfbp81+aK3k0shb2
- Ksbg==
+ bh=WW9FjE01j//RL/qhn41ULN+iS845r2HT2fAeuJfLQAw=;
+ b=gbed6NQ1Af+p/c/1vSg6J0npdPCXfPbpF+0b5ZrLj1ygEUtqklW1VGT5xBcETEO/2f
+ erOd3ZzcrR/S741BFH4bzYYkLupSOUU0Hf0tZK1QZXKxByaTDHNSpzotOjszWtu0D9On
+ Y4gGXxkfCQQfCkuoZ7Bga91Uir/NhkPfdeq0VXikLmcBL0GPnur35BAv/98XzS/kZH3s
+ HKsLm9nGeBfmt9vI3BKRIvrqkXZn0PJqZy45PGYztuPxtLNNQzHOrW7KdvuCX7TcA1f4
+ t4fSbMtvVblbsqtc24gL8cxTdZKeYUySEmN0LoT0Rg7V9yIyChfLImlbSeTJhiLcwrKM
+ r76A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=m9+H1ATH2dCIeCzK/A3SmO1reDOgs5mxyLkmqSTIPAs=;
- b=BYeVW6ofxSZcRgx5F6GXXaMpXlLF2aRXD7OYPioCcurHOhzK0tL++S9ubYXfB+H4ZY
- ZzwURJ4qpzcPymzPMyYfRZgfRSwsnu8V3g3gULw8AL3EecQaWOwOXfv6nl0J7RrKYkGa
- aPJWM6yqgynvwOVIvzefmkNEQPAuxQ0omUE5/KKnfDr2erlnzkHx5Hsuy+rHjeRR6LKC
- mC8x3hAI+5glTPTBOu2ItBhnwuC+8p0XETONJ3tAgK+hx9VK8gNTy74QgQW6XrdUtujr
- 8WQIdSMi0hGTSaEwR+ibU+5KuCWGOudatbSwuUzxwCTBMvR0m2tmRQrZeZ7wfIcZnKTg
- G7VA==
-X-Gm-Message-State: AOAM532I0HsIYDev56YOku6jKqDMVIE7sfZCdL5I1GmCX7jdqFHXncXB
- Kdo/5sVJTfe6aRYLx3YVEbkhlk/RStp5cQ==
-X-Google-Smtp-Source: ABdhPJyzz7qTmyEbVPxIFFHKUc30busAR2sQ3ua6FtwPcDqdW+bqmpI3FX44lUxToPjC4PjKZXw8Cg==
-X-Received: by 2002:a7b:c753:: with SMTP id w19mr58715wmk.41.1612808623752;
- Mon, 08 Feb 2021 10:23:43 -0800 (PST)
+ bh=WW9FjE01j//RL/qhn41ULN+iS845r2HT2fAeuJfLQAw=;
+ b=awm64/9IlavvAwrdd4uNGhYZP2kIeKhF0wg/TshRHMQJFvKAl98aVCL5f0gOv4Cifw
+ aFE6CZ2LnPSCXBb3kmcryS2gnXrbv3gd/PbBR+qX4IEuBm3P8xlFGlS9JLPlkZfQYqBa
+ H5WeZwSp3yqMUW3eH0HvFZ8GFITKGn2BoFXzqGMLpLJ/2oiaa2rkhI9J48Qdt+vwSUBg
+ xGcM10aQ2uDCqiNLBm9UaXvkxE2F96lTXFvZoj0I+pW+EUdd5v0KTnTKsaZ0tTboLhMn
+ RS7zMIe7i3lfh72Hq+TOoHGXx/QTg1MDUtzz3txeeDNj4B4r+psWfLE6dbDFn22KhLuB
+ BLVw==
+X-Gm-Message-State: AOAM5316IQ0Sy5xDQvmash6zxSqZ+jSlktuxqh3uOnLlMVo428EP5zT9
+ RCagtvsQW6kDHVhbRQIb8hviXog4oWs+Mg==
+X-Google-Smtp-Source: ABdhPJwCQjgrgwfEOSTcXT4KiV2CaYQwW9PcmYYPm5DUTvyyjxURMvhWBlITgBQcAFgHreRXVmqqzg==
+X-Received: by 2002:adf:ea02:: with SMTP id q2mr21506413wrm.25.1612808625750; 
+ Mon, 08 Feb 2021 10:23:45 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.23.42 for <qemu-devel@nongnu.org>
+ x22sm19670wmc.25.2021.02.08.10.23.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:23:43 -0800 (PST)
+ Mon, 08 Feb 2021 10:23:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/46] meson: honor --enable-rbd if cc.links test fails
-Date: Mon,  8 Feb 2021 19:22:56 +0100
-Message-Id: <20210208182331.58897-12-pbonzini@redhat.com>
+Subject: [PULL 13/46] fuzz: fix wrong index in clear_bits
+Date: Mon,  8 Feb 2021 19:22:58 +0100
+Message-Id: <20210208182331.58897-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,53 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Qiuhao Li <Qiuhao.Li@outlook.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the link test failed, compilation proceeded with RBD disabled,
-even if --enable-rbd was used on the configure command line.
-Fix that.
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
 
+Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+Message-Id: <SYCPR01MB3502E9F6EB06DEDCD484F738FCBA9@SYCPR01MB3502.ausprd01.prod.outlook.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ scripts/oss-fuzz/minimize_qtest_trace.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 6d6537d74a..5bd22f431a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -690,15 +690,21 @@ if not get_option('rbd').auto() or have_block
-   librbd = cc.find_library('rbd', has_headers: ['rbd/librbd.h'],
-                            required: get_option('rbd'),
-                            kwargs: static_kwargs)
--  if librados.found() and librbd.found() and cc.links('''
--    #include <stdio.h>
--    #include <rbd/librbd.h>
--    int main(void) {
--      rados_t cluster;
--      rados_create(&cluster, NULL);
--      return 0;
--    }''', dependencies: [librbd, librados])
--    rbd = declare_dependency(dependencies: [librbd, librados])
-+  if librados.found() and librbd.found()
-+    if cc.links('''
-+      #include <stdio.h>
-+      #include <rbd/librbd.h>
-+      int main(void) {
-+        rados_t cluster;
-+        rados_create(&cluster, NULL);
-+        return 0;
-+      }''', dependencies: [librbd, librados])
-+      rbd = declare_dependency(dependencies: [librbd, librados])
-+    elif get_option('rbd').enabled()
-+      error('could not link librados')
-+    else
-+      warning('could not link librados, disabling')
-+    endif
-   endif
- endif
+diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
+index 4cba96dee2..20825768c2 100755
+--- a/scripts/oss-fuzz/minimize_qtest_trace.py
++++ b/scripts/oss-fuzz/minimize_qtest_trace.py
+@@ -261,7 +261,7 @@ def clear_bits(newtrace, outpath):
+                 data_try = hex(int("".join(data_bin_list), 2))
+                 # It seems qtest only accepts padded hex-values.
+                 if len(data_try) % 2 == 1:
+-                    data_try = data_try[:2] + "0" + data_try[2:-1]
++                    data_try = data_try[:2] + "0" + data_try[2:]
  
+                 newtrace[i] = "{prefix} {data_try}\n".format(
+                         prefix=prefix,
 -- 
 2.29.2
 
