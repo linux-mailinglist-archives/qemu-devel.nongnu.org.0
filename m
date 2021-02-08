@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0403144BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:15:47 +0100 (CET)
-Received: from localhost ([::1]:34808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237443144C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 01:19:44 +0100 (CET)
+Received: from localhost ([::1]:45344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Ggz-00033n-7X
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:15:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44062)
+	id 1l9Gko-0007fO-SD
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 19:19:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1l9Cgf-0005Xv-95
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 14:59:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33854)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l9D2c-00015c-Jk
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 15:21:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1l9Cgc-0003Ip-LO
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 14:59:09 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l9D2X-0004TW-PE
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 15:21:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612814344;
+ s=mimecast20190719; t=1612815701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F3DDdZ5Vmk0PtFK9Qq7JAZqJejBRqnX6cSP7oY7KLdU=;
- b=XueoM0WKO1tVGrV9pI2He5qCH4d+P66UoTHWd6Ry9hh4sIB5BIGMac9y0nLV8ki458nlxT
- qHW2QgRnYNK3MEd1f5bDQL6j+CLtqO5/CcB7j+r5fjDg+/1UfmeQAF+Au8s4Qypo/+f/8B
- kv1Au8vM9Lvyqhi3T+WM1r0QdvPRo8k=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-BM4NTqTVPoKmEKCMKxLXGg-1; Mon, 08 Feb 2021 14:59:02 -0500
-X-MC-Unique: BM4NTqTVPoKmEKCMKxLXGg-1
-Received: by mail-ed1-f69.google.com with SMTP id u24so12056353eds.13
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 11:59:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=F3DDdZ5Vmk0PtFK9Qq7JAZqJejBRqnX6cSP7oY7KLdU=;
- b=PszgfLuIJQbL85eybicI/gB/yO66LAgVqug/U4KW8F63tnWoyijCF3hWUbIqjhL+X9
- PbMae/Ogp3goYix1Xd2R3H/umbOAuV3ZlmR3F6VQLWv2iFgLxLGX0d1xpMg8FDJJ4h8l
- Xs56CnAYkb5B2oRwAg7HeH5EX6VTMIN0G4SEB8tVoL9CIVmOqUH8wha7/tGEtmhtQg6t
- jZFAa8JpeG30CE+3LYTSRTSXyNeU9KpF2n7VQC/W3yt3yQCxdIjMVJDwN11jOt9JYWUg
- f3V3OPeG6FoTiXtnGiN8QGRqFrs5yHUY9BuDP2H28TNN5eb7auNrHGsMh7/HjYjwNjjP
- Zzow==
-X-Gm-Message-State: AOAM533RTTMzQzVF6sMxJYPFAWD3/YyUqLY6JUsnls/C/JVJhKceDKrc
- WnfIcokWPY/LXK3eukw7AjuusDTYCc66mSj+3AMeVuTZ7ArrTAAPyCfU45SMt1R4R/0d3kqgEUl
- JuChhO7JzjpFpvAa+DoM5GuRW2Qg4Hdo=
-X-Received: by 2002:a05:6402:34c5:: with SMTP id
- w5mr19025212edc.65.1612814340776; 
- Mon, 08 Feb 2021 11:59:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy3RJNQDoaza+yKDeFh7oleD9u9BwQr0pOVd8242a3EL3ErTNCMhC8bGQnCwfNjssjvVL8pWa0eyNo78awy1mw=
-X-Received: by 2002:a05:6402:34c5:: with SMTP id
- w5mr19025183edc.65.1612814340478; 
- Mon, 08 Feb 2021 11:59:00 -0800 (PST)
+ bh=+Ynvlnq2ps4MqvkhgVIU/8eJE8pSb0z4+saeJwIBLyc=;
+ b=bFdF3mi0LFjW75JiruY3Cxdc9NuUuTurQbe7bjiwgjFgKx1hJXcAq2dzo9cpqdx6i0EB0O
+ dJaCialQcqmWF7vhGf6LLJwtlTXec6Cq1cbm9GdLPTvifxELNqc9mFB9I2dyaQ46rra0Yp
+ nOz+tc3CbhaFom2kiwLOCwo6PlqYaZ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-eB2MnLHFPnSUr8oYZKObww-1; Mon, 08 Feb 2021 15:21:38 -0500
+X-MC-Unique: eB2MnLHFPnSUr8oYZKObww-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47490100A8E8;
+ Mon,  8 Feb 2021 20:21:36 +0000 (UTC)
+Received: from localhost (ovpn-112-12.ams2.redhat.com [10.36.112.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6400A60C04;
+ Mon,  8 Feb 2021 20:21:27 +0000 (UTC)
+Date: Mon, 8 Feb 2021 20:21:26 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PULL v3 00/27] Block patches
+Message-ID: <20210208202126.GA12348@stefanha-x1.localdomain>
+References: <20210205164459.432714-1-stefanha@redhat.com>
+ <CAFEAcA-dQtOaXB-eHEbiF0Z7jF-wSHt0LwW8Bk+BU2B66+=Cyw@mail.gmail.com>
+ <CAFEAcA8sOgF9Czy+GUBti7W-C9ZtW9PB+1YxG7mqAXKr5mV18g@mail.gmail.com>
+ <20210208092723.GA18298@stefanha-x1.localdomain>
+ <f14383aa-8213-83af-1411-de965180ea8b@redhat.com>
 MIME-Version: 1.0
-References: <20210208193450.2689517-1-f4bug@amsat.org>
-In-Reply-To: <20210208193450.2689517-1-f4bug@amsat.org>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Mon, 8 Feb 2021 20:58:49 +0100
-Message-ID: <CAA8xKjUPrQkqdJR46Pa4U2ymBDL=KZHvVC9-CzQOR3OqOp8hPg@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd/sdhci: Do not modify BlockSizeRegister if
- transaction in progress
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+In-Reply-To: <f14383aa-8213-83af-1411-de965180ea8b@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mcascell@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+HP7ph2BbKc20aGI"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -92,157 +82,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Li Qiang <liq3ea@163.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Prasad J Pandit <ppandit@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 8, 2021 at 8:35 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> Per the "SD Host Controller Simplified Specification Version 2.00"
-> spec. 'Table 2-4 : Block Size Register':
->
->   Transfer Block Size [...] can be accessed only if no
->   transaction is executing (i.e., after a transaction has stopped).
->   Read operations during transfers may return an invalid value,
->   and write operations shall be ignored.
->
-> Transactions will update 'data_count', so do not modify 'blksize'
-> and 'blkcnt' when 'data_count' is used. This fixes:
->
-> $ cat << EOF | qemu-system-x86_64 -qtest stdio -monitor none \
->                -nographic -serial none -M pc-q35-5.0 \
->                -device sdhci-pci,sd-spec-version=3D3 \
->                -device sd-card,drive=3Dmydrive \
->                -drive if=3Dsd,index=3D0,file=3Dnull-co://,format=3Draw,id=
-=3Dmydrive
->   outl 0xcf8 0x80001810
->   outl 0xcfc 0xe1068000
->   outl 0xcf8 0x80001814
->   outl 0xcf8 0x80001804
->   outw 0xcfc 0x7
->   outl 0xcf8 0x8000fa20
->   write 0xe106802c 0x1 0x0f
->   write 0xe1068004 0xc 0x2801d10101fffffbff28a384
->   write 0xe106800c 0x1f 0x9dacbbcad9e8f7061524334251606f7e8d9cabbac9d8e7f=
-60514233241505f
->   write 0xe1068003 0x28 0x80d000251480d000252280d000253080d000253e80d0002=
-54c80d000255a80d000256880d0002576
->   write 0xe1068003 0x1 0xfe
->   EOF
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->   =3D=3D2686219=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on add=
-ress 0x61500003bb00 at pc 0x55ab469f456c bp 0x7ffee71be330 sp 0x7ffee71bdae=
-0
->   WRITE of size 4 at 0x61500003bb00 thread T0
->       #0 0x55ab469f456b in __asan_memcpy (qemu-system-i386+0x1cea56b)
->       #1 0x55ab483dc396 in stl_he_p include/qemu/bswap.h:353:5
->       #2 0x55ab483af5e4 in stn_he_p include/qemu/bswap.h:546:1
->       #3 0x55ab483aeb4b in flatview_read_continue softmmu/physmem.c:2839:=
-13
->       #4 0x55ab483b0705 in flatview_read softmmu/physmem.c:2877:12
->       #5 0x55ab483b028e in address_space_read_full softmmu/physmem.c:2890=
-:18
->       #6 0x55ab483b1294 in address_space_rw softmmu/physmem.c:2918:16
->       #7 0x55ab479374a2 in dma_memory_rw_relaxed include/sysemu/dma.h:88:=
-12
->       #8 0x55ab47936f50 in dma_memory_rw include/sysemu/dma.h:127:12
->       #9 0x55ab4793665f in dma_memory_read include/sysemu/dma.h:145:12
->       #10 0x55ab4792f176 in sdhci_sdma_transfer_multi_blocks hw/sd/sdhci.=
-c:639:13
->       #11 0x55ab4793dc9d in sdhci_write hw/sd/sdhci.c:1129:17
->       #12 0x55ab483f8db8 in memory_region_write_accessor softmmu/memory.c=
-:491:5
->       #13 0x55ab483f868a in access_with_adjusted_size softmmu/memory.c:55=
-2:18
->       #14 0x55ab483f6da5 in memory_region_dispatch_write softmmu/memory.c=
-:1501:16
->       #15 0x55ab483c3b11 in flatview_write_continue softmmu/physmem.c:277=
-4:23
->       #16 0x55ab483b0eb6 in flatview_write softmmu/physmem.c:2814:14
->       #17 0x55ab483b0a3e in address_space_write softmmu/physmem.c:2906:18
->       #18 0x55ab48465c56 in qtest_process_command softmmu/qtest.c:654:9
->
->   0x61500003bb00 is located 0 bytes to the right of 512-byte region [0x61=
-500003b900,0x61500003bb00)
->   allocated by thread T0 here:
->       #0 0x55ab469f58a7 in calloc (qemu-system-i386+0x1ceb8a7)
->       #1 0x7f21d678f9b0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x589b0)
->       #2 0x55ab479530ed in sdhci_pci_realize hw/sd/sdhci-pci.c:36:5
->       #3 0x55ab476f102a in pci_qdev_realize hw/pci/pci.c:2108:9
->       #4 0x55ab48baaad2 in device_set_realized hw/core/qdev.c:761:13
->
->   SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-system-i386+0x1ce=
-a56b) in __asan_memcpy
->   Shadow bytes around the buggy address:
->     0x0c2a7ffff710: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c2a7ffff720: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     0x0c2a7ffff730: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     0x0c2a7ffff740: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     0x0c2a7ffff750: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->   =3D>0x0c2a7ffff760:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c2a7ffff770: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->     0x0c2a7ffff780: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->     0x0c2a7ffff790: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->     0x0c2a7ffff7a0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->     0x0c2a7ffff7b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->   Shadow byte legend (one shadow byte represents 8 application bytes):
->     Addressable:           00
->     Heap left redzone:       fa
->     Freed heap region:       fd
->   =3D=3D2686219=3D=3DABORTING
->
-> Fixes: CVE-2020-17380
-> Fixes: CVE-2020-25085
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
-> Cc: Alexander Bulekov <alxndr@bu.edu>
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Prasad J Pandit <ppandit@redhat.com>
-> Cc: Bandan Das <bsd@redhat.com>
->
-> RFC because missing Reported-by tags, launchpad/bugzilla links and
-> qtest reproducer. Sending for review meanwhile.
-> ---
->  hw/sd/sdhci.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-> index 8ffa53999d8..7ac7d9af9e4 100644
-> --- a/hw/sd/sdhci.c
-> +++ b/hw/sd/sdhci.c
-> @@ -1133,6 +1133,12 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t =
-val, unsigned size)
->          }
->          break;
->      case SDHC_BLKSIZE:
-> +        if (s->data_count) {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "%s: Can not update blksize when"
-> +                          " transaction is executing\n", __func__);
-> +            break;
-> +        }
->          if (!TRANSFERRING_DATA(s->prnsts)) {
->              MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
->              MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
-> --
-> 2.26.2
->
+--+HP7ph2BbKc20aGI
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For the above CVEs:
-Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
+On Mon, Feb 08, 2021 at 11:02:57AM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 2/8/21 10:27 AM, Stefan Hajnoczi wrote:
+> > On Sat, Feb 06, 2021 at 05:03:20PM +0000, Peter Maydell wrote:
+> >> On Fri, 5 Feb 2021 at 22:53, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+> >>>
+> >>> On Fri, 5 Feb 2021 at 16:45, Stefan Hajnoczi <stefanha@redhat.com> wr=
+ote:
+> >>>>
+> >>>> The following changes since commit e2c5093c993ef646e4e28f7aa78429853=
+bcc06ac:
+> >>>>
+> >>>>   iotests: 30: drop from auto group (and effectively from make check=
+) (2021-02-05 15:16:13 +0000)
+> >>>>
+> >>>> are available in the Git repository at:
+> >>>>
+> >>>>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> >>>>
+> >>>> for you to fetch changes up to b07011f375bda3319cf72eee7cb18d3100783=
+87b:
+> >>>>
+> >>>>   docs: fix Parallels Image "dirty bitmap" section (2021-02-05 16:36=
+:36 +0000)
+> >>>>
+> >>>> ----------------------------------------------------------------
+> >>>> Pull request
+> >>>>
+> >>>> v3:
+> >>>>  * Replace {0} array initialization with {} to make clang happy [Pet=
+er]
+> >>>>
+> >>>> ----------------------------------------------------------------
+> >>>
+> >>>
+> >>> Fails 'make check' on s390x host:
+> >>
+> >> I gave this a rerun to check it was reproducible (it is) and realised
+> >> I missed what looks like an important line in the log. As usual,
+> >> trying to disentangle which lines of a parallel make check correspond
+> >> to the failure is pretty tricky, but the lines
+> >>  Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
+> >>
+> >> are probably the proximate causes of the assertion failures.
+> >>
+> >> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> >> QTEST_QEMU_IMG=3D./qemu-img
+> >> G_TEST_DBUS_DAEMON=3D/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
+> >> QTEST_QEMU_BINARY=3D./qemu-system-rx tests/qtest/qos-test --tap -k
+> >> PASS 45 qtest-rx/qmp-cmd-test /rx/qmp/query-memory-size-summary
+> >> SKIP
+> >> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> >> QTEST_QEMU_IMG=3D./qemu-img
+> >> G_TEST_DBUS_DAEMON=3D/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
+> >> QTEST_QEMU_BINARY=3D./qemu-system-s390x tests/qtest/pxe-test --tap -k
+> >> PASS 46 qtest-rx/qmp-cmd-test /rx/qmp/query-memory-devices
+> >> Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
+> >> PASS 47 qtest-rx/qmp-cmd-test /rx/qmp/query-replay
+> >> PASS 48 qtest-rx/qmp-cmd-test /rx/qmp/query-yank
+> >> PASS 49 qtest-rx/qmp-cmd-test /rx/qmp/query-name
+> >> PASS 50 qtest-rx/qmp-cmd-test /rx/qmp/query-iothreads
+> >> PASS 51 qtest-rx/qmp-cmd-test /rx/qmp/query-fdsets
+> >> PASS 52 qtest-rx/qmp-cmd-test /rx/qmp/query-command-line-options
+> >> PASS 53 qtest-rx/qmp-cmd-test /rx/qmp/query-acpi-ospm-status
+> >> PASS 54 qtest-rx/qmp-cmd-test /rx/qmp/object-add-failure-modes
+> >> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> >> QTEST_QEMU_IMG=3D./qemu-img
+> >> G_TEST_DBUS_DAEMON=3D/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
+> >> QTEST_QEMU_BINARY=3D./qemu-system-s390x tests/qtest/test-netfilter --t=
+ap
+> >> -k
+> >> Type 'remote-pcihost' is missing its parent 'pcie-host-bridge'
+> >> socket_accept failed: Resource temporarily unavailable
+> >> socket_accept failed: Resource temporarily unavailable
+> >> **
+> >> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshak=
+e:
+> >> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> >> **
+> >> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshak=
+e:
+> >> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> >> ../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
+> >> signal 6 (Aborted) (core dumped)
+> >> ../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
+> >> signal 6 (Aborted) (core dumped)
+> >> ERROR qtest-s390x/pxe-test - Bail out!
+> >> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshak=
+e:
+> >> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> >> ERROR qtest-s390x/test-netfilter - Bail out!
+> >> ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshak=
+e:
+> >> assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> >> Makefile.mtest:3113: recipe for target 'run-test-387' failed
+> >> make: *** [run-test-387] Error 1
+> >> make: *** Waiting for unfinished jobs....
+> >> Makefile.mtest:3121: recipe for target 'run-test-388' failed
+> >=20
+> > Hi Elena and Jag,
+> > Please take a look at this QOM failure. I guess remote-pcihost is being
+> > built but pcie-host-bridge is missing from the s390x-softmmu target.
+>=20
+> Fix suggested here:
+> https://www.mail-archive.com/qemu-block@nongnu.org/msg80536.html
+>=20
+> But beside the fix what would be better is to restrict this feature
+> where it makes sense (we are having hard time building/testing all
+> features, better enable new ones where they are used).
+>=20
+> Would it be enough to enable this feature on X86 hosts/targets for
+> mainstream CI?
 
-Thanks a lot,
---=20
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+Trying to check if I understand correctly:
+
+Instead of writing configure/meson rules that enable the feature
+whenever the dependencies are satisfied (KVM and PCI), explicitly enable
+it on x86 targets only. The rationale is that it's not being used and
+hasn't been tested on non-x86 targets, so it's not really supported
+there yet.
+
+?
+
+I think that approach makes sense too. We just need to make a clear
+distinction in the configure/meson rules which conditionals are true
+dependencies and which indicate support. In other words x86 isn't
+actually a dependency, it's just a condition expressing that the
+architecture is supported and others aren't yet. That way people will be
+able to modify the logic in the future without accidentally dropping a
+true dependency condition, etc.
+
+Stefan
+
+--+HP7ph2BbKc20aGI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAhnUYACgkQnKSrs4Gr
+c8jMqQgAlXac/Pjlx7/IlObZbkriCaYPr30a15zshLJjok4IhDBBbEtOiLn8Qjo/
+0PstOYoGWc74ruq5gvCKMBTTzW4E8laaH9itfrBTd+5Nfl/cBonf7tn45p4skcMX
+fVfiaB6o6o7wXvLjfENljfgLXg2FMOgxDa8LLOorXMlezQz4ir//Lg2Z3Bfq/if5
+YPQnbevnVGv9h00K+6FmQpobraSPV+FfrhhwVfEvfmDvTdkiISy0fkvE8DycSc/W
+K6bl8DbW3ipovs7SAuScp2isstmaqBruJibZfNsksWTTU4bCeBJOf8W7LzPw58rh
+AVq9hIjsbqbzNRXkNmI/MCYKWyYy6g==
+=mqqP
+-----END PGP SIGNATURE-----
+
+--+HP7ph2BbKc20aGI--
 
 
