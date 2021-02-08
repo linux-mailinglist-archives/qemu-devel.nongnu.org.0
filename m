@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7281D31438D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:14:20 +0100 (CET)
-Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24B131439C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:20:42 +0100 (CET)
+Received: from localhost ([::1]:45488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9FjX-000584-Gs
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:14:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50710)
+	id 1l9Fpi-0003gT-0N
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:20:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCe-0003a4-Vu
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:05 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51505)
+ id 1l9BCh-0003cy-SA
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:08 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCd-0006Gf-9G
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:04 -0500
-Received: by mail-wm1-x331.google.com with SMTP id t142so60737wmt.1
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:24:01 -0800 (PST)
+ id 1l9BCe-0006Hw-9b
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:07 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id m13so18331151wro.12
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:24:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=huvW24PZNK/dw5M5AF0YaNslMI2dHZzb2WGv43aBMTs=;
- b=UZmNxhgTu2tB4gZoOH6I6MHEws3BNOZOKgEu4HDvFYBHuPuD4Ay4y8lvxC56ewqDQw
- nPV8U0g2Jy4MfTY4pvULKVWXTmywckKy2Pc0Ep1WwwUQlk7BVh+5gI7/ZJXNRDFy62aY
- AURLkDgtEzs4rLAJvzqgBNOiiRLhoU8r6F7zglPUQ+Tqll4rFEdQ+NR+i7a+MTf/+zok
- 7W+XxyUfmU4aJ0Bdwn007ATRP61cipNA2S8pQuBUfJghfwzV+eeuY8+Nz7ITVZHOwnPb
- bt7FPo77foHgB1Fboh0LvF+tCw7JidEWcSZO+hM1Wm3cZocoF19Uwtip+WpISKqIjNK1
- K7Ew==
+ bh=ccxdfDtgZG2LHcT+ExTuqyHNL4jkGWnYIqOyRcBF9z8=;
+ b=KUae6ZLinsYhIdLKTOgIMKeeGubCh5DUtkmZ+3if/SXegdO/9uisf4R8HimT6TOBm+
+ 0880kLc9SDzP/alunMACCWcG/cvKoLBMfW+mQMmMGb6JUKaCnVtJqoDut28WfaPZ1s00
+ P85CYlLjCZlj+hlEGrdmpCgODcPYx46GMPey4pEKA65Xyi9b/7ee4b9jlAqSqU4i5BhX
+ vVDWHKQWOE8UV4kh00Y9CW/Kp76h2CumTwnxf1mdGv1notxpdbVQ96nS9uXOQW6+CC7P
+ 9jNmtEC6W3PvYYrkjnIsYIT+SBCNCQMeX27p2Ag53r78gso16R1HdjtqaoT+AubkNrga
+ i+mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=huvW24PZNK/dw5M5AF0YaNslMI2dHZzb2WGv43aBMTs=;
- b=goXuHeWP3dCuUx/VNNGFVLY+YYNjW8eDmHTYjgglI7DvH+8A92vh4gsCX6OKNjeH4D
- TaUl2dABqtip8QxC/Dvh4ePK5OysxCJSm7RGm/Rw6m9VWTvsgS0wpW1bkPFR/SKYD5K5
- WNH0/ifpSP47T52+9yH0W9vTHtang+Cbqv1zthSnAn+bCkR91wkohKi9yafY+T8L7HL6
- 1mHBqq9Z8D+IDfb83Ax8yS9X6qwaC0F93VmgINwic+LcTugm82AI9PbXTIp4l+6subUX
- KirB3kNT9L48JQVmBtrtvguGbQzuXaT1BPmQmXR8awgbsMCJVLm6GVJIUuHlhe2brXSO
- RmIg==
-X-Gm-Message-State: AOAM530ZgP9gR7OMaeM0tWKUFIxjf7oQ33CnKm/UiD0FFdVSLP3nHaqr
- KkmcaNLarVQxjgIaP4pkDjxTD30gpblHWw==
-X-Google-Smtp-Source: ABdhPJyy28dseU1HuDoWb6wRwZuk4WDpFxZ7P3J9Kwz/65O1OdbRlsJKDkA/0bORlNFDm9EhN/B0MQ==
-X-Received: by 2002:a1c:31c2:: with SMTP id x185mr96226wmx.44.1612808640977;
- Mon, 08 Feb 2021 10:24:00 -0800 (PST)
+ bh=ccxdfDtgZG2LHcT+ExTuqyHNL4jkGWnYIqOyRcBF9z8=;
+ b=Bi29ryz5/+FzMQIJq9PFHppQzpfWKylrFuWTW+4JnP7NZAZL1aPYdWX2cPkgLz5t8Z
+ +vjmfzz2riNolyJyflLvOcRRVMkD42y206HdUbkJH/dOMdVuGYD9M8r22YOFjgM3bmh3
+ kl77mKIW2266XAH4TqcsTgzYDl6f032tGRA/aoOgxZL3m3wI6M4k1vPXlqSr2kGeiS7g
+ GtNutzLRr+Psts+jUNpPhi1VpkrR4KjV8MOrvHVDk7KCp3Def5lt2HjpOeZT4N8vgjRe
+ rx/i4t4DLRk19vKzNSu6Ynolyk08+5jB0j42BXFuZ4OFW3ECKCPGDpEL4MZI5PbiPl51
+ aaLg==
+X-Gm-Message-State: AOAM532CTKuaLtOibku52/weZyIIvPaiUZK8sRK8B9XxPIjeulT/EcVM
+ 1jTUbEzku+LZGIOQHXxypQ0MxDUaPG9O9w==
+X-Google-Smtp-Source: ABdhPJwXYz1pdsVZV1yusdHhV5tSUnF6YwrqECLf9JE9Iv0USoGwoGiC/lkdUJ3QLcJ/wW4PpN2zYA==
+X-Received: by 2002:adf:ea02:: with SMTP id q2mr21508012wrm.25.1612808642941; 
+ Mon, 08 Feb 2021 10:24:02 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.24.00
+ x22sm19670wmc.25.2021.02.08.10.24.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:24:00 -0800 (PST)
+ Mon, 08 Feb 2021 10:24:02 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/46] qapi/meson: Restrict system-mode specific modules
-Date: Mon,  8 Feb 2021 19:23:15 +0100
-Message-Id: <20210208182331.58897-31-pbonzini@redhat.com>
+Subject: [PULL 32/46] accel/kvm/kvm-all: Fix wrong return code handling in
+ dirty log code
+Date: Mon,  8 Feb 2021 19:23:17 +0100
+Message-Id: <20210208182331.58897-33-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
 References: <20210208182331.58897-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,62 +86,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210122204441.2145197-12-philmd@redhat.com>
+The kvm_vm_ioctl() wrapper already returns -errno if the ioctl itself
+returned -1, so the callers of kvm_vm_ioctl() should not check for -1
+but for a value < 0 instead.
+
+This problem has been fixed once already in commit b533f658a98325d0e4
+but that commit missed that the ENOENT error code is not fatal for
+this ioctl, so the commit has been reverted in commit 50212d6346f33d6e
+since the problem occurred close to a pending release at that point
+in time. The plan was to fix it properly after the release, but it
+seems like this has been forgotten. So let's do it now finally instead.
+
+Resolves: https://bugs.launchpad.net/qemu/+bug/1294227
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210129084354.42928-1-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qapi/meson.build | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ accel/kvm/kvm-all.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/qapi/meson.build b/qapi/meson.build
-index b301a46f04..7aca8d5048 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -18,8 +18,6 @@ if have_system or have_tools
- endif
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index e72a19aaf8..47516913b7 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -644,16 +644,19 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
  
- qapi_all_modules = [
--  'acpi',
--  'audio',
-   'authz',
-   'block',
-   'block-core',
-@@ -39,14 +37,10 @@ qapi_all_modules = [
-   'misc-target',
-   'net',
-   'pragma',
--  'pci',
-   'qom',
--  'rdma',
-   'replay',
--  'rocker',
-   'run-state',
-   'sockets',
--  'tpm',
-   'trace',
-   'transaction',
-   'ui',
-@@ -54,7 +48,13 @@ qapi_all_modules = [
- ]
- if have_system
-   qapi_all_modules += [
-+    'acpi',
-+    'audio',
-     'qdev',
-+    'pci',
-+    'rdma',
-+    'rocker',
-+    'tpm',
-   ]
- endif
+         d.dirty_bitmap = mem->dirty_bmap;
+         d.slot = mem->slot | (kml->as_id << 16);
+-        if (kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d) == -1) {
+-            DPRINTF("ioctl failed %d\n", errno);
+-            ret = -1;
++        ret = kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d);
++        if (ret == -ENOENT) {
++            /* kernel does not have dirty bitmap in this slot */
++            ret = 0;
++        } else if (ret < 0) {
++            error_report("ioctl KVM_GET_DIRTY_LOG failed: %d", errno);
+             goto out;
++        } else {
++            subsection.offset_within_region += slot_offset;
++            subsection.size = int128_make64(slot_size);
++            kvm_get_dirty_pages_log_range(&subsection, d.dirty_bitmap);
+         }
  
+-        subsection.offset_within_region += slot_offset;
+-        subsection.size = int128_make64(slot_size);
+-        kvm_get_dirty_pages_log_range(&subsection, d.dirty_bitmap);
+-
+         slot_offset += slot_size;
+         start_addr += slot_size;
+         size -= slot_size;
+@@ -750,8 +753,8 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+     d.num_pages = bmap_npages;
+     d.slot = mem->slot | (as_id << 16);
+ 
+-    if (kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d) == -1) {
+-        ret = -errno;
++    ret = kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d);
++    if (ret < 0 && ret != -ENOENT) {
+         error_report("%s: KVM_CLEAR_DIRTY_LOG failed, slot=%d, "
+                      "start=0x%"PRIx64", size=0x%"PRIx32", errno=%d",
+                      __func__, d.slot, (uint64_t)d.first_page,
 -- 
 2.29.2
 
