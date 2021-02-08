@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6D7314331
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:51:04 +0100 (CET)
-Received: from localhost ([::1]:41082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A8131433E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 23:53:21 +0100 (CET)
+Received: from localhost ([::1]:49670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9FN1-0007xp-2I
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:51:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44222)
+	id 1l9FPE-000398-3p
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 17:53:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1l9ChN-0006f7-1u
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 14:59:53 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:33389)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9Cjx-0008D0-BI
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 15:02:35 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:39963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1l9ChK-0003dU-PB
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 14:59:52 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id g84so3129566oib.0
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 11:59:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9Cjt-0004my-V1
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 15:02:33 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id i8so27184460ejc.7
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 12:02:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fRKahTa0cAuGbe7+6eE0PJ1L2BwpvGQJ5MBsypJqbPo=;
- b=DWG6306KdZRQ9JzljrElKclwU8+l3lqlp0armPa/ljL1y87s/bgW6b4Sr+nSd5ppTj
- 9604lTJ/6Cym/aAZzSGumGrQKWKRcai1BHAMyVB6dAYpJKMEX7QzylQEKfklZ1VvexTm
- nI1so9RWaPehjsErzqN+XRqguuqZewrB5cuYrdM/MkQJzm+GIpiayJznuWjh9dpArTN0
- qWZpXrJwT6bduUqzJfze7fS+CH/quKx1R30qPmR+c75uPdqgHu9qkun72DAo1ykaWlwp
- ogSsZCmAZOkmtx9WP2z8T7H9htGWqZioGx442P6vl+j/aB4vs/CiThKUTafaYjLhDxa+
- 0fSw==
+ :cc; bh=dezqfKpJGZXxheIZiJmMGeG3q2AI51nfkr4jhj6cBXc=;
+ b=TvI8kMGYg6hNsd548O0Ez4tgttYoinGow8rfQdn8Ld6372H6A7pkOQKUMmVGSBBUXa
+ E1fFt/o0YQFcLeMCYqEKRlOOLvq3Im+I/yGdxq0aSlFSDr4ED3R53Rl/+3FpnugOivUp
+ 2+XzRUYVIc3eIjHHcJFAKVRshgi7aF9lll87aWERGBDsME9GSqznQKBjg63phbuL0ChZ
+ n1kr5zq9uDzTEUPGgkXPvWLNrTa+oYAERilieFpsuO+ga/8jDqJjTP1AhDcSlzlD+RBJ
+ xvOXcFtwRyKRinXzuikL0yGoAFB9Z7J4DGgITNqD6X6HWrHmrXNjpz2smQGKI/nbOwgS
+ lJjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fRKahTa0cAuGbe7+6eE0PJ1L2BwpvGQJ5MBsypJqbPo=;
- b=rAyyCbLuSNIXo1TEB/qKjMJyqTOAB6HsEze/cjknQ6z25El6xfnXioIXdChTt9UMC7
- Z3/zDPnOPcG8MJKQK3CtRcS83KHp/b0IiDAsk842CyYtVrOnO2dsHE7RO4pfdRMsDIuM
- oxqii9YGddqM7YwvqGwn7MrGHrSFi2f4PVgg7y53Vb1JFjLcbByoOZ2a4We1bTgQVvTs
- SLGXLOZCvvd3ikPnS27sIK4uZFhVd4hYzzjO2WEK56NJzVXavXAsGTaEL97a/3uQ6XNC
- mkJKClpsKF0Z9upJ5wqbDTCs98n98oHVeZJ2SSqt6KWNCDLNhi+O5CbL3kkPO/xp6DDT
- qBJA==
-X-Gm-Message-State: AOAM530MYT/kDYm1Gaw6V8hBpPTBWyylNMAOXIUsi0+rSAxTrC1q5VLn
- JV2VH2+tAmgWH+u0reNEZQdl+rkdl4iy0a7gUZRB+w==
-X-Google-Smtp-Source: ABdhPJyjnWXisBm773WulCQI9EhdRmBgWu+BKQ6nQ6PqtP2UB8FAouYqVNMc07Su4RmzsBi6dms8abDZ+tSjMii4zdI=
-X-Received: by 2002:a54:4886:: with SMTP id r6mr291053oic.54.1612814389579;
- Mon, 08 Feb 2021 11:59:49 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=dezqfKpJGZXxheIZiJmMGeG3q2AI51nfkr4jhj6cBXc=;
+ b=uhRkjta8uR7wAeKZNrPCPV/rV9KKvqb/ExRHZYJUmNscjML10d0gKpBHdBx8f6rOxr
+ UJMghMWmkUV+ZaXx5JMIMTrCgFMNmq9gAWQV+sbN27BO8zDeyXh4LMONTVlEb5cT1J6l
+ GOtzb/KwncNynAqA0JYBket+uo2oRrD6G8MlBk4AT4VLR1zL0qYb8otHqEzdnIc7oFC8
+ m+SXDUC4IXP7Fcq4k5/PLsP27OPJ87B+zd+ChbCga645hwymW5rD+f9erVSKycnh/iHQ
+ xtVR7JhuTgB0aNY9DIbwRBiVGnqMEtwcHkqGtF5Z3VZFM2P+rstY1k1imzjyNrizhbmL
+ PpVw==
+X-Gm-Message-State: AOAM533CeviPfnpXVB/c54yu3k3r+3ac9KqlU9Ot6HTc+UW8E293WMSN
+ OGYFSOdPLZxG1Mk9bTh4LouDIuhGri1tRxNGBXD1lw==
+X-Google-Smtp-Source: ABdhPJyBr1q7DWiYISspQaHb5ybdDIVkTBBUoqDo0RP5CR6ySajtaG/gcBSuJqPweDCPVnXxjz42i7beIJO7ztUNSrI=
+X-Received: by 2002:a17:906:3a89:: with SMTP id
+ y9mr18556975ejd.4.1612814547233; 
+ Mon, 08 Feb 2021 12:02:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20210204202915.15925-1-yuri.benditovich@daynix.com>
- <20210204202915.15925-4-yuri.benditovich@daynix.com>
- <1f0f901c-8ad0-60a4-383f-851fc0f093ff@redhat.com>
-In-Reply-To: <1f0f901c-8ad0-60a4-383f-851fc0f093ff@redhat.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Mon, 8 Feb 2021 21:59:38 +0200
-Message-ID: <CAOEp5Oco51MuLDEsxFrLtVpOWa1r7vrwLstAkJozfbt+AbVauQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] virtio-net: graceful fallback to vhost=off for tap
- netdev
-To: Jason Wang <jasowang@redhat.com>
+References: <20210208112918.185058-1-dgilbert@redhat.com>
+In-Reply-To: <20210208112918.185058-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Feb 2021 20:02:16 +0000
+Message-ID: <CAFEAcA-ZxYAFWJV4XY33Fh7r2fQbWM_Zb8bm_W_R4WoeDZebfw@mail.gmail.com>
+Subject: Re: [PULL 00/27] migration queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::22f;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-oi1-x22f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,201 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, qemu-devel@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: gaojinhao@huawei.com, "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, s.reiter@proxmox.com,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ andrey.gruzdev@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 8, 2021 at 6:11 AM Jason Wang <jasowang@redhat.com> wrote:
+On Mon, 8 Feb 2021 at 17:46, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
 >
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >
-> On 2021/2/5 =E4=B8=8A=E5=8D=884:29, Yuri Benditovich wrote:
-> > Currently virtio-net silently clears features if they are
-> > not supported by respective vhost. This may create migration
-> > problems in future if vhost features on the source and destination
-> > are different. Implement graceful fallback to no-vhost mode
-> > when some acked features contradict with vhost. The decision is
-> > taken on set_features call and the vhost will be disabled
-> > till next reset (or migration).
-> > Such fallback is currently enabled only for TAP netdev.
-> >
-> > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> > ---
-> >   hw/net/virtio-net.c | 58 ++++++++++++++++++++++++++++++++++++++------=
--
-> >   1 file changed, 50 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index 5150f295e8..b353060e63 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -515,6 +515,15 @@ static RxFilterInfo *virtio_net_query_rxfilter(Net=
-ClientState *nc)
-> >       return info;
-> >   }
-> >
-> > +static void virtio_net_allow_vhost(VirtIONet *n, bool allow)
-> > +{
-> > +    int i;
-> > +    for (i =3D 0; i < n->max_queues; i++) {
-> > +        NetClientState *nc =3D qemu_get_subqueue(n->nic, i)->peer;
-> > +        nc->vhost_net_disabled =3D !allow;
-> > +    }
-> > +}
-> > +
-> >   static void virtio_net_reset(VirtIODevice *vdev)
-> >   {
-> >       VirtIONet *n =3D VIRTIO_NET(vdev);
-> > @@ -552,6 +561,7 @@ static void virtio_net_reset(VirtIODevice *vdev)
-> >               assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
-> >           }
-> >       }
-> > +    virtio_net_allow_vhost(n, true);
-> >   }
-> >
-> >   static void peer_test_vnet_hdr(VirtIONet *n)
-> > @@ -689,6 +699,15 @@ static void virtio_net_set_queues(VirtIONet *n)
-> >       }
-> >   }
-> >
-> > +static bool can_disable_vhost(VirtIONet *n)
-> > +{
-> > +    NetClientState *peer =3D qemu_get_queue(n->nic)->peer;
-> > +    if (!get_vhost_net(peer)) {
-> > +        return false;
-> > +    }
-> > +    return !peer || peer->info->type =3D=3D NET_CLIENT_DRIVER_TAP;
-> > +}
-> > +
-> >   static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
-> >
-> >   static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t =
-features,
-> > @@ -725,14 +744,14 @@ static uint64_t virtio_net_get_features(VirtIODev=
-ice *vdev, uint64_t features,
-> >           return features;
-> >       }
-> >
-> > -    virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
-> > -    virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
-> > -    features =3D vhost_net_get_features(get_vhost_net(nc->peer), featu=
-res);
-> > -    vdev->backend_features =3D features;
-> > +    vdev->backend_features =3D vhost_net_get_features(get_vhost_net(nc=
-->peer), features);
-> >
-> > -    if (n->mtu_bypass_backend &&
-> > -            (n->host_features & 1ULL << VIRTIO_NET_F_MTU)) {
-> > -        features |=3D (1ULL << VIRTIO_NET_F_MTU);
-> > +    if (!can_disable_vhost(n)) {
-> > +        features =3D vdev->backend_features;
-> > +        if (n->mtu_bypass_backend &&
-> > +                (n->host_features & 1ULL << VIRTIO_NET_F_MTU)) {
-> > +            features |=3D (1ULL << VIRTIO_NET_F_MTU);
-> > +        }
-> >       }
-> >
-> >       return features;
-> > @@ -872,10 +891,25 @@ static void failover_add_primary(VirtIONet *n, Er=
-ror **errp)
-> >       error_propagate(errp, err);
-> >   }
-> >
-> > +static bool check_vhost_features(VirtIONet *n, uint64_t features)
-> > +{
-> > +    NetClientState *nc =3D qemu_get_queue(n->nic);
-> > +    uint64_t filtered;
-> > +    if (n->rss_data.redirect) {
-> > +        return false;
-> > +    }
-> > +    filtered =3D vhost_net_get_features(get_vhost_net(nc->peer), featu=
-res);
-> > +    if (filtered !=3D features) {
-> > +        return false;
-> > +    }
-> > +    return true;
-> > +}
-> > +
-> >   static void virtio_net_set_features(VirtIODevice *vdev, uint64_t feat=
-ures)
-> >   {
-> >       VirtIONet *n =3D VIRTIO_NET(vdev);
-> >       Error *err =3D NULL;
-> > +    bool disable_vhost =3D false;
-> >       int i;
-> >
-> >       if (n->mtu_bypass_backend &&
-> > @@ -894,13 +928,21 @@ static void virtio_net_set_features(VirtIODevice =
-*vdev, uint64_t features)
-> >                                                     VIRTIO_F_VERSION_1)=
-,
-> >                                  virtio_has_feature(features,
-> >                                                     VIRTIO_NET_F_HASH_R=
-EPORT));
-> > -
-> >       n->rsc4_enabled =3D virtio_has_feature(features, VIRTIO_NET_F_RSC=
-_EXT) &&
-> >           virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO4);
-> >       n->rsc6_enabled =3D virtio_has_feature(features, VIRTIO_NET_F_RSC=
-_EXT) &&
-> >           virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO6);
-> >       n->rss_data.redirect =3D virtio_has_feature(features, VIRTIO_NET_=
-F_RSS);
-> >
-> > +    if (can_disable_vhost(n)) {
-> > +        disable_vhost =3D !check_vhost_features(n, features);
-> > +    }
-> > +    if (disable_vhost) {
-> > +        warn_report("Some of requested features aren't supported by vh=
-ost, "
-> > +                    "vhost is turned off till next reset");
-> > +        virtio_net_allow_vhost(n, false);
-> > +    }
+> The following changes since commit 2766043345748626490e04d69b7a9493c0294cfc:
 >
+>   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20210207' into staging (2021-02-08 09:23:53 +0000)
 >
-> This looks more complicated than I expected. See
-> virtio_net_vhost_status() we had a fallback there:
+> are available in the Git repository at:
 >
->          r =3D vhost_net_start(vdev, n->nic->ncs, queues);
->          if (r < 0) {
->              error_report("unable to start vhost net: %d: "
->                           "falling back on userspace virtio", -r);
->              n->vhost_started =3D 0;
->          }
+>   git://github.com/dagrh/qemu.git tags/pull-migration-20210208a
 >
-> I wonder if we can simply depends on this (which is proved to be work
-> for the past years) by not clearing dev->acked_features like:
+> for you to fetch changes up to e846b746502e94ce5cb148201ebdaa9c0f658741:
 >
-> if (!can_disable_vhost(n)) {
->      features =3D vhost_net_get_features(get_vhost_net(nc->peer), feature=
-s);
-> } else {
->      vdev->backend_features =3D features;
-> }
+>   migration: only check page size match if RAM postcopy is enabled (2021-02-08 11:19:52 +0000)
 >
-> Then we probably don't need other tricks.
+> ----------------------------------------------------------------
+> Migration pull 2021-02-08
+>
+> v2
+>   Dropped vmstate: Fix memory leak in vmstate_handle_alloc
+>     Broke on Power
+>   Added migration: only check page size match if RAM postcopy is enabled
+>
 
-Of course we can.
-But I would prefer to make things more clear, i.e. make
-get_vhost_net() always return a meaningful result, even (as an
-example) in procedures called from set_feature() after the
-vhost_disabled is set.
-Otherwise people can rely on get_vhost_net() and call its methods
-which potentially can do something that we do not expect.
-In some places in the code (also in future) we'll need to check not
-only get_vhost_net() but also is_vhost_disabled. IMO, not too elegant,
-but possible.
-Of course, being a decision maker, you can request to do it simpler
-and do not maintain a consistent result of get_vhost_net().
-But then please tell it explicitly.
 
->
-> Thanks
->
->
-> > +
-> >       if (n->has_vnet_hdr) {
-> >           n->curr_guest_offloads =3D
-> >               virtio_net_guest_offloads_by_features(features);
->
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
