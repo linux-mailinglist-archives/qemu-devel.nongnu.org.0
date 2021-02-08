@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6433C313D67
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:26:09 +0100 (CET)
-Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D45313D82
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 19:31:01 +0100 (CET)
+Received: from localhost ([::1]:56618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9BEe-0004Ic-G1
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:26:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51748)
+	id 1l9BJM-0008SB-I0
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 13:31:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l95AS-0008K7-K2
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:57:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22039)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l95AH-0004Bd-Rt
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 06:57:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612785431;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n0jG5tSEr7CjgGVuNBklNLdLDaBRlyfHAZSjQr5GaA8=;
- b=IkADLvCyP7KwC4Y0cNTIXXU9n6CpLV7CTlkDDnoPPK2TYybxMLaO2uRgb8+feBQQidqB0j
- ixbADayObXej+2o2VpYsnyTe3NdfX3rOozVfKKI9C4mZk6BliR/OAS7fRxfOhBxNN/xCcb
- o1IGm4fEQYzc0lJCSRRNMFlum2Dqzwc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-a7b6eHKtPg2IUq9CoHgKWg-1; Mon, 08 Feb 2021 06:57:07 -0500
-X-MC-Unique: a7b6eHKtPg2IUq9CoHgKWg-1
-Received: by mail-wr1-f72.google.com with SMTP id d7so12942953wri.23
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 03:57:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l95pA-0003fq-RP
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:39:32 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42572)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l95oh-0007jq-Ho
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 07:39:16 -0500
+Received: by mail-wr1-x436.google.com with SMTP id r21so669451wrr.9
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 04:38:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=d8SAynJQad14L3Py3XDAFmtolIKvB3ca7JcHt4TgWgo=;
+ b=FtiiTcn+tp0rl6Lf/BbR88impAXsCEEV48lXn6oB8GcCKTcPsRgHa8kNLxW84NSuiV
+ 9+jp/A7ByhcceNuC7caxclfTZVhoDuueH3RBiPwpxgf67YiNSc4PoCdoHkafngOfCSHy
+ 5z36ZBxM5TLVpqRRqDnLCwuk2RUqJq+YAYTvDj89fEq8UhN3mtlFajSf0IdaCn4YrWMw
+ 3/5tZYiz0dOGC1i3p92UxCoiggJ5B6TZQbwPvCGr08CZCqmnpWfAnxmLPNNBUWAmepnu
+ urNv7/LP8yZnvEZc2geA6vH51B8WJHDsnOqXkl1Z4jiftpCLJjnnoEdH5+X8mGj9lLl4
+ Aafw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=n0jG5tSEr7CjgGVuNBklNLdLDaBRlyfHAZSjQr5GaA8=;
- b=qLVto0mAC7HjqgJNH3uP9hNquvvE73pyhZmx8m/da/esPv0gS9imj/Ax9Nmuyu0Jv/
- 21K1O0ueM9DPRHD/yzuuq798kws9OlJHBC3I5aFISWgNtbW3J6IS5NP+NOc8Dij/jLBP
- Bv9x0zA9/sMIIl87yKVuykw0+OmGU8oOFI/cUoD7nepWQ1Qk5d+PIdkxBmyluBo6Ogx3
- iPqj0OSAtJrQ+JohUtGV4WQBsWAOg4WS7P1loZW2A0UOcdvnzF4JEQgG8RIUmp+7I8SB
- EFKL7lZg28VpY1VDBF9vJPIIebVLh0SI5o0cl5U34U3VbyGNeUVILAY1ZqYCnp/gEpnN
- bGkQ==
-X-Gm-Message-State: AOAM5321J2pnbYUoiAix5cBcv7n2ojxfCtR1MVnUZpRnALzuqD67DlZi
- UmgwxJ4pZ3Kn7D5HNnFPUag30hcuCbkCUk/KWfFFH2yEHPUD4BCWCzAfBgabjRzFt/oEQMRhB7k
- ztRFVScmRpWCKlOA=
-X-Received: by 2002:a05:6000:1a8c:: with SMTP id
- f12mr19208013wry.173.1612785426653; 
- Mon, 08 Feb 2021 03:57:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyg0mMtH9TZOMYnFe+7j+6H3UzRlmGs9PQypyXyLqOA5FKFAXCzwgrn+9T+8r6C/S6kcNqM+g==
-X-Received: by 2002:a05:6000:1a8c:: with SMTP id
- f12mr19207992wry.173.1612785426487; 
- Mon, 08 Feb 2021 03:57:06 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id w12sm11735670wmi.4.2021.02.08.03.57.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Feb 2021 03:57:05 -0800 (PST)
-Subject: Re: [PATCH 0/5] Drop float32/float64 accessors used by gdbstub code
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210208113428.7181-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <865e5df2-e4d8-de39-30e7-2f77c0d85eed@redhat.com>
-Date: Mon, 8 Feb 2021 12:57:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=d8SAynJQad14L3Py3XDAFmtolIKvB3ca7JcHt4TgWgo=;
+ b=jLd/uYJEX8FowLgWuuOcnHtdnqzl5T1rfZZAsXKxcQumCq+txLmNqWD0olKFMCn/GP
+ c1g3lDRHXSawbAmiE0V1TviwfGzLJJc0kBq3dQWX1OVBtJ3rRaW1rRdis2vAtIYjBGqy
+ CnYdlZ4A8OYdB2P2jeRPA1qFvrpYdz2BQmiawxx0wKWwecvVpKOoKPbb5WsDIHstruL7
+ YY2/SUHOoXPQq0v2MxMfH92zHl0b4WZEhIjd8Dyf+FJMRDu/VfJWghMtiuJAw07xLhKY
+ o63n9w0mjnRUcS3uHkOsEwPygcWVHmZFj1ZrLeXSMTATl5jQ8Ssa5WK8PqRxDFZQhMAq
+ eUfQ==
+X-Gm-Message-State: AOAM53379gNCsNwnbyD0eDFXQpOY0CaqnMR/crCQdFWWA278mZYdG116
+ t9Dq3O6YzEgQNvt76IGlAg1bUA==
+X-Google-Smtp-Source: ABdhPJwQ/xxsbteBDC78JcWRydwHCzG51cHYHNxVB5az7ZD13+D9Meu+crp6c0YiFFjIpq+XBW2RDA==
+X-Received: by 2002:adf:bc45:: with SMTP id a5mr11741218wrh.290.1612787920142; 
+ Mon, 08 Feb 2021 04:38:40 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e16sm3769174wrt.36.2021.02.08.04.38.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Feb 2021 04:38:30 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6169F1FF93;
+ Mon,  8 Feb 2021 12:38:22 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 07/16] tests/docker: add a docker-exec-copy-test
+Date: Mon,  8 Feb 2021 12:38:12 +0000
+Message-Id: <20210208123821.19818-8-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210208123821.19818-1-alex.bennee@linaro.org>
+References: <20210208123821.19818-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210208113428.7181-1-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,58 +86,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/21 12:34 PM, Peter Maydell wrote:
-> We used to make a distinction between 'float64'/'float32' types and
-> the 'uint64_t'/'uint32_t' types, requiring special conversion
-> operations to go between them.  We've now dropped this distinction as
-> unnecessary, and the 'float*' types remain primarily for
-> documentation purposes when used in places like the function
-> prototypes of TCG helper functions.
-> 
-> This means that there's no need for special gdb_get_float64() and
-> gdb_get_float32() functions to write float64 or float32 values to the
-> GDB protocol buffer; we can just use gdb_get_reg64() and
-> gdb_get_reg32().
-> 
-> Similarly, for reading a value out of the GDB buffer into a float64
-> or float32 we can use ldq_p() or ldl_p() and need not use ldfq_p()
-> or ldfl_p().
-> 
-> This patchseries drops the use of the gdb_get_float* and ldf*
-> functions from the three targets that were using them, and then
-> removes the now-unused functions from gdbstub.h and bswap.h.
-> 
-> thanks
-> -- PMM
-> 
-> Peter Maydell (5):
->   target/sh4: Drop use of gdb_get_float32() and ldfl_p()
->   target/m68k: Drop use of gdb_get_float64() and ldfq_p()
->   target/ppc: Drop use of gdb_get_float64() and ldfq_p()
->   gdbstub: Remove unused gdb_get_float32() and gdb_get_float64()
->   bswap.h: Remove unused float-access functions
-> 
->  docs/devel/loads-stores.rst     | 14 +++-----
->  include/exec/cpu-all.h          |  8 -----
->  include/exec/gdbstub.h          | 20 -----------
->  include/qemu/bswap.h            | 60 ---------------------------------
->  target/m68k/helper.c            |  5 ++-
->  target/ppc/gdbstub.c            |  8 ++---
->  target/sh4/gdbstub.c            |  8 ++---
->  target/ppc/translate_init.c.inc |  4 +--
->  8 files changed, 17 insertions(+), 110 deletions(-)
+This provides test machinery for checking the QEMU copying logic works
+properly. It takes considerably less time to run than starting a
+debootstrap only for it to fail later. I considered adding a remove
+command to docker.py but figured that might be gold plating given the
+relative size of the containers compared to the ones with actual stuff
+in them.
 
-Series:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210202134001.25738-7-alex.bennee@linaro.org>
 
-Thanks for the cleanup!
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index a5c1e4a615..93b29ad823 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -11,7 +11,7 @@ HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
+ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ # we don't run tests on intermediate images (used as base by another image)
+-DOCKER_PARTIAL_IMAGES := debian10 debian11 debian-bootstrap
++DOCKER_PARTIAL_IMAGES := debian10 debian11 debian-bootstrap empty
+ DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+ # Use a global constant ccache directory to speed up repetitive builds
+@@ -92,6 +92,24 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
+ 			{ echo "You will need to build $(EXECUTABLE)"; exit 1;},\
+ 			"CHECK", "debian-$* exists"))
+ 
++# These are test targets
++USER_TCG_TARGETS=$(patsubst %-linux-user,qemu-%,$(filter %-linux-user,$(TARGET_DIRS)))
++EXEC_COPY_TESTS=$(patsubst %,docker-exec-copy-test-%, $(USER_TCG_TARGETS))
++
++$(EXEC_COPY_TESTS): docker-exec-copy-test-%: $(DOCKER_FILES_DIR)/empty.docker
++	$(call quiet-command,							\
++		$(DOCKER_SCRIPT) build -t qemu/exec-copy-test-$* -f $< 		\
++			$(if $V,,--quiet) --no-cache 				\
++			--include-executable=$*					\
++			--skip-binfmt,						\
++			"TEST","copy $* to container")
++	$(call quiet-command,							\
++		$(DOCKER_SCRIPT) run qemu/exec-copy-test-$* 			\
++			/$* -version > tests/docker-exec-copy-test-$*.out,	\
++			"TEST","check $* works in container")
++
++docker-exec-copy-test: $(EXEC_COPY_TESTS)
++
+ endif
+ 
+ # Enforce dependencies for composite images
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 39da3fefcf..d28df4c140 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -438,6 +438,9 @@ class BuildCommand(SubCommand):
+                             help="""Specify a binary that will be copied to the
+                             container together with all its dependent
+                             libraries""")
++        parser.add_argument("--skip-binfmt",
++                            action="store_true",
++                            help="""Skip binfmt entry check (used for testing)""")
+         parser.add_argument("--extra-files", nargs='*',
+                             help="""Specify files that will be copied in the
+                             Docker image, fulfilling the ADD directive from the
+@@ -466,7 +469,9 @@ class BuildCommand(SubCommand):
+             docker_dir = tempfile.mkdtemp(prefix="docker_build")
+ 
+             # Validate binfmt_misc will work
+-            if args.include_executable:
++            if args.skip_binfmt:
++                qpath = args.include_executable
++            elif args.include_executable:
+                 qpath, enabled = _check_binfmt_misc(args.include_executable)
+                 if not enabled:
+                     return 1
+diff --git a/tests/docker/dockerfiles/empty.docker b/tests/docker/dockerfiles/empty.docker
+new file mode 100644
+index 0000000000..9ba980f1a8
+--- /dev/null
++++ b/tests/docker/dockerfiles/empty.docker
+@@ -0,0 +1,8 @@
++#
++# Empty Dockerfile
++#
++
++FROM scratch
++
++# Add everything from the context into the container
++ADD . /
+-- 
+2.20.1
 
 
