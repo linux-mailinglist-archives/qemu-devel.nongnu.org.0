@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C62B31317A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 12:55:47 +0100 (CET)
-Received: from localhost ([::1]:44036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF233131D1
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 13:09:26 +0100 (CET)
+Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l958s-0005iL-9F
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 06:55:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48160)
+	id 1l95M5-0004o9-GX
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 07:09:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l90dQ-0005zB-9X
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 02:07:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42789)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l90d2-0005lS-2e
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 02:06:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612767960;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+aGVgCiXudTFwfe5TjcdJKr4isbMJbfLUne003pWQrw=;
- b=H2lZenqBi4rJuf9qF887c8hNO57Q3Ko0qEjSEB1ssB1qXoss5FXSYsZlduE8L3vQ7aU3Ay
- 6a8xNOlJIhPJCngXaD4r6KlPfISrRTO89V3TOdE8/Mpn+BfM2TbmF65BgUpJeO4buEMqkt
- /T116JJTSOaPAo9G8kH/EHJhu7TZMk4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-HIU-zF8sOjmEMlTnhv1EWg-1; Mon, 08 Feb 2021 02:05:58 -0500
-X-MC-Unique: HIU-zF8sOjmEMlTnhv1EWg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20C73804023;
- Mon,  8 Feb 2021 07:05:57 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-117.ams2.redhat.com [10.36.112.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2BDC10016F7;
- Mon,  8 Feb 2021 07:05:45 +0000 (UTC)
-Subject: Re: [PATCH 2/4] hw/block/fdc: Remove the check_media_rate property
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210203171832.483176-1-thuth@redhat.com>
- <20210203171832.483176-3-thuth@redhat.com>
- <125f27d8-8987-99f7-321e-86e7365d5a07@redhat.com>
- <fb4a2611-49f0-1292-a3c2-478666dfa65c@redhat.com>
- <96906059-731d-1e48-5b60-98ed4df9c037@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <3b57740e-ad39-3e56-6262-7994376f74a9@redhat.com>
-Date: Mon, 8 Feb 2021 08:05:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l8zl6-0005MQ-Tm
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 01:10:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55482)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l8zl3-0008Fy-QB
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 01:10:52 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l8zl1-0005zJ-HS
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 06:10:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7EE622E813A
+ for <qemu-devel@nongnu.org>; Mon,  8 Feb 2021 06:10:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <96906059-731d-1e48-5b60-98ed4df9c037@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Feb 2021 05:58:29 -0000
+From: Thomas Huth <1861946@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: plopezr
+X-Launchpad-Bug-Reporter: Pedro Pablo Lopez Rodriguez (plopezr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158086314699.19555.9540843580021637812.malonedeb@gac.canonical.com>
+Message-Id: <161276391137.25392.10972509505886424159.launchpad@wampee.canonical.com>
+Subject: [Bug 1861946] Re: qemu-4.2.0 qemu-system-i386 not receive scancode 86
+ of spanish keyboard (ascii chars '<' & '>')
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: 8ca1ed72e4468939c6d95d583ba057c8bb25db9d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,129 +71,283 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Bug 1861946 <1861946@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/02/2021 21.15, John Snow wrote:
-> On 2/5/21 1:37 AM, Thomas Huth wrote:
->> On 05/02/2021 01.40, John Snow wrote:
->>> On 2/3/21 12:18 PM, Thomas Huth wrote:
->>>> This was only required for the pc-1.0 and earlier machine types.
->>>> Now that these have been removed, we can also drop the corresponding
->>>> code from the FDC device.
->>>>
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>   hw/block/fdc.c             | 17 ++---------------
->>>>   tests/qemu-iotests/172.out | 35 -----------------------------------
->>>>   2 files changed, 2 insertions(+), 50 deletions(-)
->>>>
->>>> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
->>>> index 292ea87805..198940e737 100644
->>>> --- a/hw/block/fdc.c
->>>> +++ b/hw/block/fdc.c
->>>> @@ -874,7 +874,6 @@ struct FDCtrl {
->>>>           FloppyDriveType type;
->>>>       } qdev_for_drives[MAX_FD];
->>>>       int reset_sensei;
->>>> -    uint32_t check_media_rate;
->>>
->>> I am a bit of a dunce when it comes to the compatibility properties... 
->>> does this mess with the migration format?
->>>
->>> I guess it doesn't, since it's not in the VMSTATE declaration.
->>>
->>> Hmmmm, alright.
->>
->> I think that should be fine, yes.
->>
->>>>       FloppyDriveType fallback; /* type=auto failure fallback */
->>>>       /* Timers state */
->>>>       uint8_t timer0;
->>>> @@ -1021,18 +1020,10 @@ static const VMStateDescription 
->>>> vmstate_fdrive_media_changed = {
->>>>       }
->>>>   };
->>>> -static bool fdrive_media_rate_needed(void *opaque)
->>>> -{
->>>> -    FDrive *drive = opaque;
->>>> -
->>>> -    return drive->fdctrl->check_media_rate;
->>>> -}
->>>> -
->>>>   static const VMStateDescription vmstate_fdrive_media_rate = {
->>>>       .name = "fdrive/media_rate",
->>>>       .version_id = 1,
->>>>       .minimum_version_id = 1,
->>>> -    .needed = fdrive_media_rate_needed,
->>>>       .fields = (VMStateField[]) {
->>>>           VMSTATE_UINT8(media_rate, FDrive),
->>>>           VMSTATE_END_OF_LIST()
->>>> @@ -1689,8 +1680,7 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, 
->>>> int direction)
->>>>       /* Check the data rate. If the programmed data rate does not match
->>>>        * the currently inserted medium, the operation has to fail. */
->>>> -    if (fdctrl->check_media_rate &&
->>>> -        (fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
->>>> +    if ((fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
->>>>           FLOPPY_DPRINTF("data rate mismatch (fdc=%d, media=%d)\n",
->>>>                          fdctrl->dsr & FD_DSR_DRATEMASK, 
->>>> cur_drv->media_rate);
->>>>           fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_MA, 0x00);
->>>> @@ -2489,8 +2479,7 @@ static void fdctrl_result_timer(void *opaque)
->>>>           cur_drv->sect = (cur_drv->sect % cur_drv->last_sect) + 1;
->>>>       }
->>>>       /* READ_ID can't automatically succeed! */
->>>> -    if (fdctrl->check_media_rate &&
->>>> -        (fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
->>>> +    if ((fdctrl->dsr & FD_DSR_DRATEMASK) != cur_drv->media_rate) {
->>>>           FLOPPY_DPRINTF("read id rate mismatch (fdc=%d, media=%d)\n",
->>>>                          fdctrl->dsr & FD_DSR_DRATEMASK, 
->>>> cur_drv->media_rate);
->>>>           fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_MA, 0x00);
->>>> @@ -2895,8 +2884,6 @@ static Property isa_fdc_properties[] = {
->>>>       DEFINE_PROP_UINT32("dma", FDCtrlISABus, dma, 2),
->>>>       DEFINE_PROP_DRIVE("driveA", FDCtrlISABus, 
->>>> state.qdev_for_drives[0].blk),
->>>>       DEFINE_PROP_DRIVE("driveB", FDCtrlISABus, 
->>>> state.qdev_for_drives[1].blk),
->>>> -    DEFINE_PROP_BIT("check_media_rate", FDCtrlISABus, 
->>>> state.check_media_rate,
->>>> -                    0, true),
->>>
->>> Could you theoretically set this via QOM commands in QMP, and claim that 
->>> this is a break in behavior?
->>>
->>> Though, it's ENTIRELY undocumented, so ... it's probably fine, I think. 
->>> Probably. (Please soothe my troubled mind.)
->>
->> A user actually could mess with this property even on the command line, 
->> e.g. by using:
->>
->>   qemu-system-x86_64 -global isa-fdc.check_media_rate=false
->>
->> ... but, as you said, it's completely undocumented, the property is really 
->> just there for the internal use of machine type compatibility. We've done 
->> such clean-ups in the past already, see e.g. c6026998eef382d7ad76 or 
->> 2a4dbaf1c0db2453ab78f, so I think this should be fine. But if you 
->> disagree, I could replace this by a patch that adds this property to the 
->> list of deprecated features instead, so we could at least remove it after 
->> it has been deprecated for two releases?
->>
-> 
-> I don't think it's necessary, personally -- just wanted to make sure I knew 
-> the exact stakes here.
-> 
-> Reviewed-by: John Snow <jsnow@redhat.com>
-> Acked-by: John Snow <jsnow@redhat.com>
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-Thanks! ... since the first patch has already been merged through Michael's 
-tree, could you then please take this patch here through your floppy / block 
-branch, John? Or maybe it could also go via qemu-trivial?
+-- =
 
-  Thomas
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861946
 
+Title:
+  qemu-4.2.0 qemu-system-i386 not receive scancode 86 of spanish
+  keyboard  (ascii chars '<' & '>')
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Hello.
+
+  I am using qemu-4.2.0 for Windows 64 downloaded from https://qemu.weilnet=
+z.de/w64/,
+  and I use qemu-system-i386.exe for run Minix 3.1.2a:
+
+    C:\Program Files\qemu> qemu-system-i386 minix3hd.qcow
+
+  All is Ok except the keyboard (spanish).
+
+  Actually the Spanish keyboard has always worked well until the version
+  qemu-2.11.0 included. But after that version and until the current
+  version the Spanish keyboard has worked with some very annoying bugs.
+
+  The bugs that I encountered in the current version 4.2.0 on Windows
+  are:
+
+  1) Scancode 86 (ascii '<') is not received from the Spanish keyboard.
+
+  2) Scancode 41 should be interpreted as 39 (41 -> 39).
+
+  3) in the same way:
+  12 -> 53
+  13 -> 27
+  26 -> 12
+  27 -> 13
+  43 -> 41
+  53 -> 43
+
+  4) Finally and very important in Spain is that scancode 39 should
+  produce the national characters '=C3=B1' and '=C3=91'
+
+  I have checked the scancodes sent by running a floppy disk image with
+  a boot sector that echoed the scancodes sent by pressing the different
+  keys, so the errors are not due in any case to the operating system,
+  but to the virtual machine or at most to the BIOS.
+
+  In Minix 3.1.2a I tried to alleviate the errors by modifying the
+  keymap: /usr/lib/keymaps/spanish.map. I have managed to solve all the
+  errors except the one corresponding to scancode 86 (ascii '<') since
+  when the key is pressed on the Spanish keyboard the scancode 86 is not
+  sent.
+
+  I accompany the modified keymap: https://github.com/Stichting-MINIX-
+  Research-Foundation/minix/blob/R3.1.2/drivers/tty/keymaps/spanish.src
+  for it could be clarifying in any way.
+
+  Thank you very much for qemu and the new version 4.2.0. Apart from
+  these small details, all the improvements that have been included are
+  greatly appreciated.
+
+  Greetings. Pedro Pablo.
+
+  ------------------------- spanish.src (modified #if 0 #else #endif)
+  -------------------------
+
+  /* Keymap for Spanish MF-2 keyboard. */
+  /* Modified by Javier Garcia Martin jawa@inf.deusto.es */
+
+  u16_t keymap[NR_SCAN_CODES * MAP_COLS] =3D {
+
+  /* scan-code		!Shift	Shift	Alt	AltGr	Alt+Sh	Ctrl	*/
+  /* =
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+
+  */
+  /* 00 - none	*/	0,	0,	0,	0,	0,	0,	=
+
+  /* 01 - ESC	*/	C('['),	C('['),	CA('['),C('['),	C('['),	C('['),
+  /* 02 - '1'	*/	'1',	'!',	A('1'),	'|',	'!',	C('A'),
+  /* 03 - '2'	*/	'2',	'"',	A('2'),	'@',	'"',	C('@'),
+  /* 04 - '3'	*/	'3',	0372,	A('3'),	'#',	0372,	C('C'),
+  /* 05 - '4'	*/	'4',	'$',	A('4'),	'4',	'$',	C('D'),
+  /* 06 - '5'	*/	'5',	'%',	A('5'),	'5',	'%',	C('E'),
+  /* 07 - '6'	*/	'6',	'&',	A('6'),	0252,	'&',	C('F'),
+  /* 08 - '7'	*/	'7',	'/',	A('7'),	'{',	'/',	C('G'),
+  /* 09 - '8'	*/	'8',	'(',	A('8'),	'(',	'(',	C('H'),
+  /* 10 - '9'	*/	'9',	')',	A('9'),	')',	')',	C('I'),
+  /* 11 - '0'	*/	'0',	'=3D',	A('0'),	'=3D',	'=3D',	C('@'),
+  #if 0
+  /* 12 - '-'	*/	'\'',	'?',	A('\''),'?',	'?',	C('_'),     /* deber=C3=ADa s=
+er como la (53) */
+  #else =
+
+  /* 53 - '/'	*/	'-',	'_',	A('-'), '-',	'_',	C('@'),  =
+
+  #endif
+  #if 0
+  /* 13 - '=3D'	*/	0255,	0250,	A(0255),0250,	0250,	C('@'),     /* deberia s=
+er como la (27) */
+  #else
+  /* 27 - ']'	*/	'+',	'*',	A('+'),	']',	'*',	C(']'),     =
+
+  #endif
+  /* 14 - BS	*/	C('H'),	C('H'),	CA('H'),C('H'),	C('H'),	0177,	=
+
+  /* 15 - TAB	*/	C('I'),	C('I'),	CA('I'),C('I'),	C('I'),	C('I'),
+  /* 16 - 'q'	*/	L('q'),	'Q',	A('q'),	'q',	'Q',	C('Q'),
+  /* 17 - 'w'	*/	L('w'),	'W',	A('w'),	'w',	'W',	C('W'),
+  /* 18 - 'e'	*/	L('e'),	'E',	A('e'),	'e',	'E',	C('E'),
+  /* 19 - 'r'	*/	L('r'),	'R',	A('r'),	'r',	'R',	C('R'),
+  /* 20 - 't'	*/	L('t'),	'T',	A('t'),	't',	'T',	C('T'),
+  /* 21 - 'y'	*/	L('y'),	'Y',	A('y'),	'y',	'Y',	C('Y'),
+  /* 22 - 'u'	*/	L('u'),	'U',	A('u'),	'u',	'U',	C('U'),
+  /* 23 - 'i'	*/	L('i'),	'I',	A('i'),	'i',	'I',	C('I'),
+  /* 24 - 'o'	*/	L('o'),	'O',	A('o'),	'o',	'O',	C('O'),
+  /* 25 - 'p'	*/	L('p'),	'P',	A('p'),	'p',	'P',	C('P'),
+  #if 0
+  /* 26 - '['	*/	'`',	'^',	A('`'),'[',	'^',	C('['),         /* deber=C3=ADa=
+ ser como la (12) */
+  #else =
+
+  /* 12 - '-'	*/	'\'',	'?',	A('\''),'?',	'?',	C('_'),     =
+
+  #endif
+  #if 0
+  /* 27 - ']'	*/	'+',	'*',	A('+'),	']',	'*',	C(']'),     /* deberia ser com=
+o la (13) */
+  #else
+  /* 13 - '=3D'	*/	0255,	0250,	A(0255),0250,	0250,	C('@'),
+  #endif
+  /* 28 - CR/LF	*/	C('M'),	C('M'),	CA('M'),C('M'),	C('M'),	C('J'),
+  /* 29 - Ctrl	*/	CTRL,	CTRL,	CTRL,	CTRL,	CTRL,	CTRL,
+  /* 30 - 'a'	*/	L('a'),	'A',	A('a'),	'a',	'A',	C('A'),
+  /* 31 - 's'	*/	L('s'),	'S',	A('s'),	's',	'S',	C('S'),
+  /* 32 - 'd'	*/	L('d'),	'D',	A('d'),	'd',	'D',	C('D'),
+  /* 33 - 'f'	*/	L('f'),	'F',	A('f'),	'f',	'F',	C('F'),
+  /* 34 - 'g'	*/	L('g'),	'G',	A('g'),	'g',	'G',	C('G'),
+  /* 35 - 'h'	*/	L('h'),	'H',	A('h'),	'h',	'H',	C('H'),
+  /* 36 - 'j'	*/	L('j'),	'J',	A('j'),	'j',	'J',	C('J'),
+  /* 37 - 'k'	*/	L('k'),	'K',	A('k'),	'k',	'K',	C('K'),
+  /* 38 - 'l'	*/	L('l'),	'L',	A('l'),	'l',	'L',	C('L'),
+  #if 0
+  /* 39 - ';'	*/	L(0244),0245,	A(0244),0244,	0245,	C('@'),     /* deberia s=
+er como la (26) */
+  #else =
+
+  /* 26 - '['	*/	'`',	'^',	A('`'),'[',	'^',	C('['),         =
+
+  #endif
+  /* 40 - '\''	*/	'\'',	'"',	A('\''),'{',	'"',	C('@'), =
+
+  #if 0
+  /* 41 - '`'	*/	0247,	0246,	A(0247),'\\',	0246,	C('@'),     /* deberia ser=
+ como la (=C3=B1=C3=91) */
+  #else
+  /* 39 - ';'	*/	L(0244),0245,	A(0244),0244,	0245,	C('@'),  =
+
+  #endif
+  /* 42 - l. SHIFT*/	SHIFT,	SHIFT,	SHIFT,	SHIFT,	SHIFT,	SHIFT,
+  #if 0
+  /* 43 - '\\'	*/	L(0207),0200,	A(0207),'}',	0200,	C('@'),     /* deberia s=
+er como la (41) */
+  #elif 0
+  /* 41 - '`'	*/	0247,	0246,	A(0247),'\\',	0246,	C('@'), =
+
+  #else
+  /* 41 - '`'	*/	'<',	'>',	A('<'),  '\\',	0246,	C('@'),     /* a=C3=B1adimo=
+s < y > */
+  #endif
+  /* 44 - 'z'	*/	L('z'),	'Z',	A('z'),	'z',	'Z',	C('Z'),
+  /* 45 - 'x'	*/	L('x'),	'X',	A('x'),	'x',	'X',	C('X'),
+  /* 46 - 'c'	*/	L('c'),	'C',	A('c'),	'c',	'C',	C('C'),
+  /* 47 - 'v'	*/	L('v'),	'V',	A('v'),	'v',	'V',	C('V'),
+  /* 48 - 'b'	*/	L('b'),	'B',	A('b'),	'b',	'B',	C('B'),
+  /* 49 - 'n'	*/	L('n'),	'N',	A('n'),	'n',	'N',	C('N'),
+  /* 50 - 'm'	*/	L('m'),	'M',	A('m'),	'm',	'M',	C('M'),
+  /* 51 - ','	*/	',',	';',	A(','),	',',	';',	C('@'),
+  /* 52 - '.'	*/	'.',	':',	A('.'),	'.',	':',	C('@'),
+  #if 0
+  /* 53 - '/'	*/	'-',	'_',	A('-'), '-',	'_',	C('@'),     /* deberia ser com=
+o la (43) */
+  #else
+  /* 43 - '\\'	*/	L(0207),0200,	A(0207),'}',	0200,	C('@'), =
+
+  #endif
+  /* 54 - r. SHIFT*/	SHIFT,	SHIFT,	SHIFT,	SHIFT,	SHIFT,	SHIFT,
+  /* 55 - '*'	*/	'*',	'*',	A('*'),	'*',	'*',	C('M'),
+  /* 56 - ALT	*/	ALT,	ALT,	ALT,	ALT,	ALT,	ALT,
+  /* 57 - ' '	*/	' ',	' ',	A(' '),	' ',	' ',	C('@'),
+  /* 58 - CapsLck	*/	CALOCK,	CALOCK,	CALOCK,	CALOCK,	CALOCK,	CALOCK,
+  /* 59 - F1	*/	F1,	SF1,	AF1,	AF1,	ASF1,	CF1,
+  /* 60 - F2	*/	F2,	SF2,	AF2,	AF2,	ASF2,	CF2,
+  /* 61 - F3	*/	F3,	SF3,	AF3,	AF3,	ASF3,	CF3,
+  /* 62 - F4	*/	F4,	SF4,	AF4,	AF4,	ASF4,	CF4,
+  /* 63 - F5	*/	F5,	SF5,	AF5,	AF5,	ASF5,	CF5,
+  /* 64 - F6	*/	F6,	SF6,	AF6,	AF6,	ASF6,	CF6,
+  /* 65 - F7	*/	F7,	SF7,	AF7,	AF7,	ASF7,	CF7,
+  /* 66 - F8	*/	F8,	SF8,	AF8,	AF8,	ASF8,	CF8,
+  /* 67 - F9	*/	F9,	SF9,	AF9,	AF9,	ASF9,	CF9,
+  /* 68 - F10	*/	F10,	SF10,	AF10,	AF10,	ASF10,	CF10,
+  /* 69 - NumLock	*/	NLOCK,	NLOCK,	NLOCK,	NLOCK,	NLOCK,	NLOCK,
+  /* 70 - ScrLock */	SLOCK,	SLOCK,	SLOCK,	SLOCK,	SLOCK,	SLOCK,
+  /* 71 - Home	*/	HOME,	'7',	AHOME,	AHOME,	'7',	CHOME,	=
+
+  /* 72 - CurUp	*/	UP,	'8',	AUP,	AUP,	'8',	CUP,
+  /* 73 - PgUp	*/	PGUP,	'9',	APGUP,	APGUP,	'9',	CPGUP,
+  /* 74 - '-'	*/	NMIN,	'-',	ANMIN,	ANMIN,	'-',	CNMIN,
+  /* 75 - Left	*/	LEFT,	'4',	ALEFT,	ALEFT,	'4',	CLEFT,
+  /* 76 - MID	*/	MID,	'5',	AMID,	AMID,	'5',	CMID,
+  /* 77 - Right	*/	RIGHT,	'6',	ARIGHT,	ARIGHT,	'6',	CRIGHT,
+  /* 78 - '+'	*/	PLUS,	'+',	APLUS,	APLUS,	'+',	CPLUS,
+  /* 79 - End	*/	END,	'1',	AEND,	AEND,	'1',	CEND,
+  /* 80 - Down	*/	DOWN,	'2',	ADOWN,	ADOWN,	'2',	CDOWN,
+  /* 81 - PgDown	*/	PGDN,	'3',	APGDN,	APGDN,	'3',	CPGDN,
+  /* 82 - Insert	*/	INSRT,	'0',	AINSRT,	AINSRT,	'0',	CINSRT,
+  /* 83 - Delete	*/	0177,	'.',	A(0177),0177,	'.',	0177,
+  /* 84 - Enter	*/	C('M'),	C('M'),	CA('M'),C('M'),	C('M'),	C('J'),
+  /* 85 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 86 - ???	*/	'<',	'>',	A('<'),	'<',	'>',	C('@'),
+  /* 87 - F11	*/	F11,	SF11,	AF11,	AF11,	ASF11,	CF11,
+  /* 88 - F12	*/	F12,	SF12,	AF12,	AF12,	ASF12,	CF12,
+  /* 89 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 90 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 91 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 92 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 93 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 94 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 95 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 96 - EXT_KEY	*/	EXTKEY,	EXTKEY,	EXTKEY,	EXTKEY,	EXTKEY,	EXTKEY,
+  /* 97 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 98 - ???	*/	0,	0,	0,	0,	0,	0,
+  /* 99 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*100 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*101 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*102 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*103 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*104 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*105 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*106 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*107 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*108 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*109 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*110 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*111 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*112 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*113 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*114 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*115 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*116 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*117 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*118 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*119 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*120 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*121 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*122 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*123 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*124 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*125 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*126 - ???	*/	0,	0,	0,	0,	0,	0,
+  /*127 - ???	*/	0,	0,	0,	0,	0,	0
+  };
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861946/+subscriptions
 
