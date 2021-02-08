@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DBF313E87
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:09:57 +0100 (CET)
-Received: from localhost ([::1]:40896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F7B313EAC
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 20:17:17 +0100 (CET)
+Received: from localhost ([::1]:50314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Buu-0006kZ-Sg
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:09:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45362)
+	id 1l9C28-0002ey-91
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 14:17:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l96bh-0001h2-OT
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:29:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25126)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l96bQ-00035r-Co
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:29:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612790954;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zWwmQgi4Xo1pS8VdLm8x47vIZ/NON2WwreEWHvly72E=;
- b=LdNjE4ogJ8/jVJckuqK9clYKaoNRgcM/sjCYhClcEKO/iug7JuTTyaqEhEk7EjgRcdizek
- sb0WfsS3etfNHTzu1dd/P6Ja8nNNrESIHzv+nvcrqG7fKrTjZqyRLoubHp/Q+IP4jk9b2N
- weBK+kvIVXyMJYUCyMf4Ve5iTZXDFSQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-bSIbrsssNMGTMac_r727gQ-1; Mon, 08 Feb 2021 08:29:08 -0500
-X-MC-Unique: bSIbrsssNMGTMac_r727gQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DCB78F50A;
- Mon,  8 Feb 2021 13:29:07 +0000 (UTC)
-Received: from work-vm (ovpn-115-22.ams2.redhat.com [10.36.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2135563B8C;
- Mon,  8 Feb 2021 13:29:05 +0000 (UTC)
-Date: Mon, 8 Feb 2021 13:29:03 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 00/33] migration: capture error reports into Error object
-Message-ID: <20210208132903.GH3032@work-vm>
-References: <20210204171907.901471-1-berrange@redhat.com>
- <20210204182249.GO3039@work-vm>
- <20210204190927.GB903389@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l96gB-0002Vw-7d
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:34:18 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l96g0-0004Cp-2m
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 08:34:12 -0500
+Received: by mail-wr1-x436.google.com with SMTP id v14so1567352wro.7
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 05:34:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=8xQ8NTAa1qNwkvm959+RaRdezYg5tTtejQG8BM6rY8c=;
+ b=qADVBe6r0nuTF785wOt/B+tX/y3cwHXBk8BMELxcxh2dD9lurIAvHvlHf2zetOWkpS
+ aVocqOelZJw05G6mT3mHm5Tyqk483jFsLIFQOXjt+bG7ZW891omqzA/R2/cnDsfei4vS
+ bHxJHuPx3aWCz2hcWwn9c3yYs8ZbB+KqJ+bWHe0NYYDBWWtetP3f5RpB1zBz0W9DVZtq
+ RNlmnu7G2rX74N8BS4h8b/OrNjEOiRKpG68qFco666A+REOnvVaLUgqs9j0ArgS0kd9U
+ jhyHf0wjAzpr423NTpITRM/bk9h+R6UqfpJ+NE2+yMV42gPGNkecw9/ydgjnHP9/M+/1
+ HMTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=8xQ8NTAa1qNwkvm959+RaRdezYg5tTtejQG8BM6rY8c=;
+ b=K0SPDPwDMJSol9xZVqJo63zlp4FPhmKDoilRPJ7RBDWEoQtiO9b+QjC9zQH3q6LzAW
+ r+YqD27q8BvRBXmX+qsc0IsdlP0pA3fw7Ho8j8LwIwBcXs4pGMg8jyn+n08AuNnUX+oi
+ 3UDo7YQ6bGX8pF2qcgrqJNHZ3WXJB17vgi5sZSQBWqKlBdgW+c1Q55DrWJ/KI0Koe0Wq
+ c7GgsSlubK7NGkKiv+o/cHaXCNGfcli1YAfuImdIXsAqTFovG8Gtfz1FtQD7qYdYyaUJ
+ vShKObhGRsc7RQTseBP7hbUWTxc5HVsNB4aV22/39mrJePDWjyVwwvmAy4vP2ilJ0sZf
+ 3raA==
+X-Gm-Message-State: AOAM533ywhHmM8qYSk1QotyFZddDBDGvBmGheXjickgU/ziNA6GOnd90
+ toJIcS/Mi9hI4vaIfa2pAMZ/Qg==
+X-Google-Smtp-Source: ABdhPJxA5S0OgfcYpCV9jiJ15s6rQrDkxTbVOZkrB615sjvp5rZTJFbuUIMxhWh/1GN3Fni8jcXsiA==
+X-Received: by 2002:a5d:6148:: with SMTP id y8mr11108644wrt.238.1612791241249; 
+ Mon, 08 Feb 2021 05:34:01 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r1sm28562911wrl.95.2021.02.08.05.34.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Feb 2021 05:34:00 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 851C81FF7E;
+ Mon,  8 Feb 2021 13:33:59 +0000 (GMT)
+References: <20210208113729.25170-1-peter.maydell@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] MAINTAINERS: Add gdbstub.h to the "GDB stub" section
+Date: Mon, 08 Feb 2021 13:33:38 +0000
+In-reply-to: <20210208113729.25170-1-peter.maydell@linaro.org>
+Message-ID: <87czxabs54.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210204190927.GB903389@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,136 +86,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ Philippe =?utf-8?Q?Mat?= =?utf-8?Q?hieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Thu, Feb 04, 2021 at 06:22:49PM +0000, Dr. David Alan Gilbert wrote:
-> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > Due to its long term heritage most of the migration code just invokes
-> > > 'error_report' when problems hit. This was fine for HMP, since the
-> > > messages get redirected from stderr, into the HMP console. It is not
-> > > OK for QMP because the errors will not be fed back to the QMP client.
-> > > 
-> > > This wasn't a terrible real world problem with QMP so far because
-> > > live migration happens in the background, so at least on the target side
-> > > there is not a QMP command that needs to capture the incoming migration.
-> > > It is a problem on the source side but it doesn't hit frequently as the
-> > > source side has fewer failure scenarios. None the less on both sides it
-> > > would be desirable if 'query-migrate' can report errors correctly.
-> > > With the introduction of the load-snapshot QMP commands, the need for
-> > > error reporting becomes more pressing.
-> > > 
-> > > Wiring up good error reporting is a large and difficult job, which
-> > > this series does NOT complete. The focus here has been on converting
-> > > all methods in savevm.c which have an 'int' return value capable of
-> > > reporting errors. This covers most of the infrastructure for controlling
-> > > the migration state serialization / protocol.
-> > > 
-> > > The remaining part that is missing error reporting are the callbacks in
-> > > the VMStateDescription struct which can return failure codes, but have
-> > > no "Error **errp" parameter. Thinking about how this might be dealt with
-> > > in future, a big bang conversion is likely non-viable. We'll probably
-> > > want to introduce a duplicate set of callbacks with the "Error **errp"
-> > > parameter and convert impls in batches, eventually removing the
-> > > original callbacks. I don't intend todo that myself in the immediate
-> > > future.
-> > > 
-> > > IOW, this patch series probably solves 50% of the problem, but we
-> > > still do need the rest to get ideal error reporting.
-> > > 
-> > > In doing this savevm conversion I noticed a bunch of places which
-> > > see and then ignore errors. I only fixed one or two of them which
-> > > were clearly dubious. Other places in savevm.c where it seemed it
-> > > was probably ok to ignore errors, I've left using error_report()
-> > > on the basis that those are really warnings. Perhaps they could
-> > > be changed to warn_report() instead.
-> > > 
-> > > There are alot of patches here, but I felt it was easier to review
-> > > for correctness if I converted 1 function at a time. The series
-> > > does not neccessarily have to be reviewed/appied in 1 go.
-> > 
-> > After this series, what do my errors look like, and where do they end
-> > up?
-> > Do I get my nice backtrace shwoing that device failed, then that was
-> > part of that one...
-> 
-> It hasn't modified any of the VMStateDescription callbacks so any
-> of the per-device logic that was printing errors will still be using
-> error_report to the console as before.
-> 
-> The errors that have changed (at this stage) are only the higher
-> level ones that are in the generic part of the code. Where those
-> errors mentioned a device name/ID they still do.
-> 
-> In some of the parts I've modified there will have been multiple
-> error_reports collapsed into one error_setg() but the ones that
-> are eliminated are high level generic messages with no useful
-> info, so I don't think loosing those is a problem per-se.
-> 
-> The example that I tested was the case where we load a snapshot
-> under a different config that we saved it with. This is the scenario
-> that gave the non-deterministic ordering in the iotest you disabled
-> from my previous series.
-> 
-> In that case, we changed from:
-> 
->   qemu-system-x86_64: Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
->   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Error -22 while loading VM state"}]}
-> 
-> To
-> 
->   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices"}]}
-> 
-> From a HMP loadvm POV, this means instead of seeing
-> 
->   (hmp)  loadvm foo
->   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
->   Error -22 while loading VM state
-> 
-> You will only see the detailed error message
-> 
->   (hmp)  loadvm foo
->   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
-> 
-> In this case I think loosing the "Error -22 while loading VM state"
-> is fine, as it didn't add value IMHO.
-> 
-> 
-> If we get around to converting the VMStateDescription callbacks to
-> take an error object, then I think we'll possibly need to stack the
-> error message from the callback, with the higher level message.
-> 
-> Do you have any familiar/good examples of error message stacking I
-> can look at ?  I should be able to say whether they would be impacted
-> by this series or not - if they are, then I hopefully only threw away
-> the fairly useless high level messages, like the "Error -22" message
-> above.
 
-Can you try migrating:
-  ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng,disable-modern=true
-to
-  ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-what I currently get is:
-qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x6 read: 0 device: 10 cmask: 10 wmask: 0 w1cmask:0
-qemu-system-x86_64: Failed to load PCIDevice:config
-qemu-system-x86_64: Failed to load virtio-rng:virtio
-qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:04.0/virtio-rng'
-qemu-system-x86_64: load of migration failed: Invalid argument
+> The F: patterns in the "GDB stub" section forgot gdbstub.h; add it.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Noticed this because my recent patchset which touched gdbstub.h
+> didn't cause check-maintainers to add the gdb stub maintainers
+> automatically.
 
-Dave
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Do you want me to pull these into my tree (with your other set)?
 
+--=20
+Alex Benn=C3=A9e
 
