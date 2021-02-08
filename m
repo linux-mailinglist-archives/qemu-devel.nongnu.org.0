@@ -2,77 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79AE3143C5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:29:42 +0100 (CET)
-Received: from localhost ([::1]:45190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6A8314376
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 00:06:50 +0100 (CET)
+Received: from localhost ([::1]:37842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9FyP-0006yO-Tt
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:29:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50928)
+	id 1l9FcI-0004mp-1U
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 18:06:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCt-0003jR-Jp
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:19 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l9BCp-0006Nb-9x
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:24:16 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id u14so18423752wri.3
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:24:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=I2Aph69adGLflQzOi00r3lbWRxRLJVNf2GcXimWPXvU=;
- b=NDaD1VG6ilh1S+I8WCxrGpQQMaii2+qUXEE2DdKTMicN9jIMvZ2LKw14g3VL0swj2/
- lytrgeStxTcGFc9H81CcPQ1fp3Xlu7uh1BFiC0x6ZzCTEcAfd9MwuX7YsI6HVRRiOtQx
- Jneu5GdIkH47vl5WUVqOUciGOceZGj9K1FTMaoQXr6vBzQBcaOQqX9KW16tNsqfKeqha
- XvMFiIKpqUh9fZYtVq99JLkvsm2AsVNBtmn6csvClLZI9h67fhSCXbqFElGe8Il9p9jh
- 6Nxf6bIhwwc+HdytOWVL1nA5NQWhiKi01tYj3lMThjooiRFgS8CSFZdSLVEciTQyGB5+
- Yegw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9BiY-0007tE-Kj
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:57:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9BiU-0003F1-9C
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 13:57:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612810616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J7ylG+4QEZaX5nK1N0z60ilKxTlAz/EHUZFZJZGjI5c=;
+ b=WFHnOaEuVjvJ5QzbQcOsCZuz7P5DnYPbKo4hvrfVro/2q4wwydDztLTWDtSht9p1PK3nrQ
+ rnPwuvFwqpM/JhShRamwYFcRzGY+7lgcp7yZIp3WwxsLc9epqfyjMAtzSsOLiAn+BXFm4t
+ DoALWvM3xxjlQFXurGZqitcBJfHSDmA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-j9O9MwwVOT6rEW5AYzFAAw-1; Mon, 08 Feb 2021 13:56:55 -0500
+X-MC-Unique: j9O9MwwVOT6rEW5AYzFAAw-1
+Received: by mail-wr1-f71.google.com with SMTP id w16so1124101wrl.15
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 10:56:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=I2Aph69adGLflQzOi00r3lbWRxRLJVNf2GcXimWPXvU=;
- b=EoVPF50v/YCIvY57gU5y2kTNSdzI/Ku+m1jvx9QGxVTtd7zCSnZtkwoa5fXBwMKvjT
- kQq+s6diEQ6nvag3AH/or+dRxLR7nDofT5bMkkeKd3bapbvzrgYbThSESsVAlk8FKU9t
- idZrguFGr7UmQFhNkv4kAkWThCIZo6LQHDgrGjqEvZv6SKRdQeZlR3ovVLMdjFEhuo/W
- rf8HfSZmQQjKPffSTM4g46ZDBZYSS94SyprqrPw73hBsgt2AK8ZPr3LXfsWEepDXllfy
- 5G+9AV7jI45eEiam6wZJcews6vUOfF6wfxNA/01+mEruyFjUArz9e9NKYMgrwUwxb0mj
- 8rzA==
-X-Gm-Message-State: AOAM533tQJsP/rGsBp6SEjuCre1rYMs+TvOiEvc/jKtrgBzxP0nTYikh
- rFHd/k12mhLYa42Zba5QqAB3UVOCMymixA==
-X-Google-Smtp-Source: ABdhPJwZN8zLSBj5SGcZYcsa0/lwTSGBQ/F8XohP0fNFg9Pp3gdNI/IwNZP8/a/n+2lE3US9bfyzsw==
-X-Received: by 2002:a05:6000:1806:: with SMTP id
- m6mr12811676wrh.320.1612808651363; 
- Mon, 08 Feb 2021 10:24:11 -0800 (PST)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- x22sm19670wmc.25.2021.02.08.10.24.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 10:24:10 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 40/46] prep: add ppc-parity write method
-Date: Mon,  8 Feb 2021 19:23:25 +0100
-Message-Id: <20210208182331.58897-41-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
-References: <20210208182331.58897-1-pbonzini@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=J7ylG+4QEZaX5nK1N0z60ilKxTlAz/EHUZFZJZGjI5c=;
+ b=lfaGqIYBtaCAy4GsH9klHDHbEpfzqVqL/DKIhF1riIDDs+0rQ0wqIVRS2PCgDblWrq
+ e3U1Vh9VzeKTAQEz2TOQ30sgC25j6kS1Q+6mXxbJUWJLtVSOrmOJj3fLH+bSetCmxw6Z
+ B44U+zmyxUGKvwYAfJKpzZ66YokhM6Yw1xtYiDw8brnMzwbmh4iw+9DirFKwqR+rvLLt
+ sb7/yg33xyOAo6fKilKaGu0G9/GMxL6YTzdSU5vXASvKfmqrUEB5boMEo5bhBe81SJpe
+ d0R5SM9fGj0a11a5bGmdYNMMebhPuE4dfFBRK5/MYY1CXKWEntqheB8pzInwLQWCEnyD
+ 4xkg==
+X-Gm-Message-State: AOAM532BdnEkYWchmi+JYUhrEfK3c6XhY6bNODJRDNrhTG/50+X2yrJe
+ ZCcejkENUYYXwb/YwQtUFNLPxG6KxGBT/PGMDbHgleW9v6zyFtkP/xqrS9z/jCMRTLFxvqp8knc
+ gvmqH+x21Ljn9XFU=
+X-Received: by 2002:a7b:c842:: with SMTP id c2mr208660wml.100.1612810613805;
+ Mon, 08 Feb 2021 10:56:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxrhvIDS74Ygz9pKkVsPaTYEKbmJ35ff3OIhweUhtqSTkVS0dbbe7szogmtQ0kSbWvp3Wf94g==
+X-Received: by 2002:a7b:c842:: with SMTP id c2mr208640wml.100.1612810613605;
+ Mon, 08 Feb 2021 10:56:53 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id z18sm31738794wro.91.2021.02.08.10.56.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Feb 2021 10:56:52 -0800 (PST)
+Subject: Re: [PATCH 1/2] hw/block/nvme: use locally assigned QEMU IEEE OUI
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+References: <20210208141012.377500-1-its@irrelevant.dk>
+ <20210208141012.377500-2-its@irrelevant.dk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d8538da5-ee8c-909c-bf1b-c8dc042bf243@redhat.com>
+Date: Mon, 8 Feb 2021 19:56:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210208141012.377500-2-its@irrelevant.dk>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,57 +98,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lei Sun <slei.casper@gmail.com>, Li Qiang <liq3ea@gmail.com>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+On 2/8/21 3:10 PM, Klaus Jensen wrote:
+> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> 
+> Commit 6eb7a071292a ("hw/block/nvme: change controller pci id") changed
+> the controller to use a Red Hat assigned PCI Device and Vendor ID, but
+> did not change the IEEE OUI away from the Intel IEEE OUI.
+> 
+> Fix that and use the locally assigned QEMU IEEE OUI instead.
+> 
+> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index c2f0c88fbf39..547a3073ef1b 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -4686,8 +4686,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+>  
+>      id->rab = 6;
+>      id->ieee[0] = 0x00;
+> -    id->ieee[1] = 0x02;
+> -    id->ieee[2] = 0xb3;
+> +    id->ieee[1] = 0x54;
+> +    id->ieee[2] = 0x52;
 
-Add ppc-parity mmio write method to avoid NULL pointer dereference
-issue.
+Shouldn't this be conditional on 'use-intel-id'?
 
-Reported-by: Lei Sun <slei.casper@gmail.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <20200811114133.672647-5-ppandit@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/ppc/prep_systemio.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/hw/ppc/prep_systemio.c b/hw/ppc/prep_systemio.c
-index 4e48ef245c..b2bd783248 100644
---- a/hw/ppc/prep_systemio.c
-+++ b/hw/ppc/prep_systemio.c
-@@ -23,6 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/isa/isa.h"
- #include "hw/qdev-properties.h"
-@@ -235,8 +236,15 @@ static uint64_t ppc_parity_error_readl(void *opaque, hwaddr addr,
-     return val;
- }
- 
-+static void ppc_parity_error_writel(void *opaque, hwaddr addr,
-+                                    uint64_t data, unsigned size)
-+{
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid access\n", __func__);
-+}
-+
- static const MemoryRegionOps ppc_parity_error_ops = {
-     .read = ppc_parity_error_readl,
-+    .write = ppc_parity_error_writel,
-     .valid = {
-         .min_access_size = 4,
-         .max_access_size = 4,
--- 
-2.29.2
-
+>      id->mdts = n->params.mdts;
+>      id->ver = cpu_to_le32(NVME_SPEC_VER);
+>      id->oacs = cpu_to_le16(0);
+> 
 
 
