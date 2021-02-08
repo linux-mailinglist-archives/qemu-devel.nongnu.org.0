@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9318313B0D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:38:08 +0100 (CET)
-Received: from localhost ([::1]:37868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A09E313B26
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 18:42:12 +0100 (CET)
+Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9AUB-0001kG-Ey
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:38:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34426)
+	id 1l9AY7-0005Xq-BP
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 12:42:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l940p-0008JJ-9Z
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 05:43:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28854)
+ id 1l94AK-0001bD-D8
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 05:53:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l940i-0006CP-ED
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 05:43:20 -0500
+ id 1l949z-0000UW-Ht
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 05:53:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612780993;
+ s=mimecast20190719; t=1612781567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RGjJOjRS/8H+1Q9LB43dWEb2a/S340PM9a1nVFh7T80=;
- b=Hm4N3MrDOC92SuyUIZ17Pw2uZxywS83BslSd0FCDSPt99PQpJsEcNsj03dv3geYefnJH12
- RxawISe9aWkUq3O1tSai+teF5QVnOD0CpXA+auY1Izzh9yCFFU5jOXUr7qJ8ppWIMVk1JQ
- CQ68wHHaDWeoRqoZmYlSz+ncBsoo+xY=
+ bh=6OXDdQ4c5EZdpIofaJRtdaDaBD4ON4b9UYk/e3ZDmaY=;
+ b=XoePkCxUn61ErR8OcgzlJqmNrY1ZJCy1zEgeBFQp/8n1BS5flpNdTdsLso8um5LoVdQLWp
+ OExQKNQHVCqhthq0kcd7VLhebIUQYpXDPdbG5DZDsmeVsbTJBwR85KU7uwlZiRjmocH4od
+ eMXvrpfXox+lUme2ImiBlhCIy+ROKn0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-8hNRKfl0OVud6AlGl38d0g-1; Mon, 08 Feb 2021 05:43:11 -0500
-X-MC-Unique: 8hNRKfl0OVud6AlGl38d0g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-360-kLJvd9QeMWKBrCV_ie58kA-1; Mon, 08 Feb 2021 05:52:45 -0500
+X-MC-Unique: kLJvd9QeMWKBrCV_ie58kA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38682C7403;
- Mon,  8 Feb 2021 10:43:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58F6A107ACC7;
+ Mon,  8 Feb 2021 10:52:44 +0000 (UTC)
 Received: from work-vm (ovpn-115-22.ams2.redhat.com [10.36.115.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DFAB679F5;
- Mon,  8 Feb 2021 10:42:58 +0000 (UTC)
-Date: Mon, 8 Feb 2021 10:42:56 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A36B65B4B5;
+ Mon,  8 Feb 2021 10:52:35 +0000 (UTC)
+Date: Mon, 8 Feb 2021 10:52:32 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/27] migration queue
-Message-ID: <20210208104256.GF3032@work-vm>
-References: <20210204163959.377618-1-dgilbert@redhat.com>
- <CAFEAcA--Orfsp_V6PDMW4GcKsZYBJ7rW4V4QsU+ia6BUVdXXug@mail.gmail.com>
+To: Jinhao Gao <gaojinhao@huawei.com>
+Subject: Re: [PATCH v3 3/3] vmstate: Fix memory leak in vmstate_handle_alloc()
+Message-ID: <20210208105232.GA3033@work-vm>
+References: <20201231061020.828-1-gaojinhao@huawei.com>
+ <20201231061020.828-4-gaojinhao@huawei.com>
+ <20210105111818.GA2945@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA--Orfsp_V6PDMW4GcKsZYBJ7rW4V4QsU+ia6BUVdXXug@mail.gmail.com>
+In-Reply-To: <20210105111818.GA2945@work-vm>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,204 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gaojinhao@huawei.com, "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- andrey.gruzdev@virtuozzo.com
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ qemu-ppc@nongnu.org, wanghaibin.wang@huawei.com,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ zhukeqian1@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Thu, 4 Feb 2021 at 17:16, Dr. David Alan Gilbert (git)
-> <dgilbert@redhat.com> wrote:
-> >
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >
-> > The following changes since commit 1ba089f2255bfdb071be3ce6ac6c3069e8012179:
-> >
-> >   Merge remote-tracking branch 'remotes/armbru/tags/pull-qmp-2021-02-04' into staging (2021-02-04 14:15:35 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://github.com/dagrh/qemu.git tags/pull-migration-20210204a
-> >
-> > for you to fetch changes up to ef74d46576a9e5aff96f285b74150f341a525688:
-> >
-> >   migration: introduce snapshot-{save, load, delete} QMP commands (2021-02-04 16:29:03 +0000)
-> >
-> > ----------------------------------------------------------------
-> > Migration pull 2020-02-04
-> >
-> >  New snapshot features:
-> >    a) Andrey's RAM snapshot feature using userfault-wp
-> >    b) Dan's native-QMP snapshots
-> >
-> > Cleanups:
-> >    c) Jinhao's memory leeak fixes
-> >    d) Wainer's maybe unitialized fix
-> >    e) Markus's parameter fixes
-> >
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> * Jinhao Gao (gaojinhao@huawei.com) wrote:
+> > Some memory allocated for fields having a flag of VMS_ALLOC in SaveState
+> > may not free before VM load vmsd in migration. So we pre-free memory before
+> > allocation in vmstate_handle_alloc() to avoid memleaks.
+> > 
+> > Reported-by: Euler Robot <euler.robot@huawei.com>
+> > Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > 
-> Fails iotest 267 on ppc64 host:
->   TEST   iotest-qcow2: 267 [fail]
+> Yes, I think that's OK; it's actually pretty rare for this to happen;
+> normally inwards migrations either succeed or fail and exit; doing
+> multiple loads from snapshots is valid and I guess COLO hits this as well.
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-OK, found it - I'll work up a new pull.
+I'm having to unqueue this because it's triggering a seg fault on Power
+in iotest 267 (just run make check).
+
+#2  0x0000000116d0d4c8 in vmstate_handle_alloc (opaque=<optimized out>, field=0x11799e0c8 <__compound_literal.1+312>, ptr=0x1001f8f14b0) at ../qemu/migration/vmstate.c:73
+#3  0x0000000116d0d4c8 in vmstate_load_state (f=0x1001f6d0000, vmsd=0x117928730 <vmstate_spapr_tce_table>, opaque=0x1001f8f1400, version_id=<optimized out>) at ../qemu/migration/vmstate.c:122
+#4  0x0000000116fb4a4c in vmstate_load (f=0x1001f6d0000, se=0x1001fc7bc40) at ../qemu/migration/savevm.c:910
+#5  0x0000000116fb5010 in qemu_loadvm_section_start_full (f=f@entry=0x1001f6d0000, mis=<optimized out>) at ../qemu/migration/savevm.c:2433
+
+It's the mig_nb_table that Power is doing some special
+handling with; so it needs some more checking before
+we can fix this.
 
 Dave
 
-> QEMU          --
-> "/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-system-ppc64"
-> -nodefaults -display none -accel q
-> test
-> QEMU_IMG      -- "/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-img"
-> QEMU_IO       --
-> "/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-io" --cache
-> writeback --aio threads -f qcow2
-> QEMU_NBD      -- "/home/pm215/qemu/build/all/tests/qemu-iotests/../../qemu-nbd"
-> IMGFMT        -- qcow2
-> IMGPROTO      -- file
-> PLATFORM      -- Linux/ppc64 gcc1-power7.osuosl.org 3.10.0-862.14.4.el7.ppc64
-> TEST_DIR      -- /home/pm215/qemu/build/all/tests/qemu-iotests/scratch
-> SOCK_DIR      -- /tmp/tmpea7m6_b4
-> SOCKET_SCM_HELPER --
-> /home/pm215/qemu/build/all/tests/qemu-iotests/socket_scm_helper
-> --- /home/pm215/qemu/tests/qemu-iotests/267.out
-> +++ 267.out.bad
-> @@ -36,7 +36,9 @@
->  ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->  --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->  (qemu) loadvm snap0
-> -(qemu) quit
-> +./common.rc: line 163: 24600 Segmentation fault      ( if [ -n
-> "${QEMU_NEED_PID}" ]; then
-> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-> "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
-> 
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->  Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none -device
-> virtio-blk,drive=none0
-> @@ -47,7 +49,9 @@
->  ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->  --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->  (qemu) loadvm snap0
-> -(qemu) quit
-> +./common.rc: line 163: 24653 Segmentation fault      ( if [ -n
-> "${QEMU_NEED_PID}" ]; then
-> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-> "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
-> 
-> 
->  === -drive if=virtio ===
-> @@ -72,7 +76,9 @@
->  ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->  --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->  (qemu) loadvm snap0
-> -(qemu) quit
-> +./common.rc: line 163: 24760 Segmentation fault      ( if [ -n
-> "${QEMU_NEED_PID}" ]; then
-> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-> "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
-> 
-> 
->  === Simple -blockdev ===
-> @@ -97,7 +103,9 @@
->  ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->  --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->  (qemu) loadvm snap0
-> -(qemu) quit
-> +./common.rc: line 163: 24866 Segmentation fault      ( if [ -n
-> "${QEMU_NEED_PID}" ]; then
-> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-> "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
-> 
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
->  Testing: -blockdev
-> driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file -blockdev
-> driver=raw,file=file,node-name=raw -blockdev
-> driver=IMGFMT,file=raw,node-name=fmt
-> @@ -108,7 +116,9 @@
->  ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->  --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->  (qemu) loadvm snap0
-> -(qemu) quit
-> +./common.rc: line 163: 24919 Segmentation fault      ( if [ -n
-> "${QEMU_NEED_PID}" ]; then
-> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-> "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
-> 
-> 
->  === -blockdev with a filter on top ===
-> @@ -122,7 +132,9 @@
->  ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->  --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->  (qemu) loadvm snap0
-> -(qemu) quit
-> +./common.rc: line 163: 24972 Segmentation fault      ( if [ -n
-> "${QEMU_NEED_PID}" ]; then
-> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-> "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
-> 
-> 
->  === -blockdev with a backing file ===
-> @@ -137,7 +149,9 @@
->  ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->  --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->  (qemu) loadvm snap0
-> -(qemu) quit
-> +./common.rc: line 163: 25056 Segmentation fault      ( if [ -n
-> "${QEMU_NEED_PID}" ]; then
-> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-> "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
-> 
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
-> backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
->  Testing: -blockdev
-> driver=file,filename=TEST_DIR/t.IMGFMT.base,node-name=backing-file
-> -blockdev driver=IMGFMT,file=backing-file,node-name=backing-fmt
-> -blockdev driver=file,filename=TEST_DIR/t.IMGFMT,node-name=file
-> -blockdev driver=IMGFMT,file=file,backing=backing-fmt,node-name=fmt
-> @@ -148,7 +162,9 @@
->  ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->  --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->  (qemu) loadvm snap0
-> -(qemu) quit
-> +./common.rc: line 163: 25109 Segmentation fault      ( if [ -n
-> "${QEMU_NEED_PID}" ]; then
-> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-> "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
-> 
->  Internal snapshots on overlay:
->  Snapshot list:
-> @@ -169,7 +185,9 @@
->  ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->  --        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->  (qemu) loadvm snap0
-> -(qemu) quit
-> +./common.rc: line 163: 25179 Segmentation fault      ( if [ -n
-> "${QEMU_NEED_PID}" ]; then
-> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
-> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec
-> "${VALGRIND_LOGFILE}" "$QEMU_PROG" $QEMU_OPTIONS "$@" )
-> 
->  Internal snapshots on overlay:
->  Snapshot list:
->   TEST   iotest-qcow2: 268
-> 
-> 
-> thanks
-> -- PMM
-> 
+> > ---
+> >  migration/vmstate.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/migration/vmstate.c b/migration/vmstate.c
+> > index e9d2aef66b..873f76739f 100644
+> > --- a/migration/vmstate.c
+> > +++ b/migration/vmstate.c
+> > @@ -70,6 +70,7 @@ static void vmstate_handle_alloc(void *ptr, const VMStateField *field,
+> >          gsize size = vmstate_size(opaque, field);
+> >          size *= vmstate_n_elems(opaque, field);
+> >          if (size) {
+> > +            g_free(*(void **)ptr);
+> >              *(void **)ptr = g_malloc(size);
+> >          }
+> >      }
+> > -- 
+> > 2.23.0
+> > 
+> -- 
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
