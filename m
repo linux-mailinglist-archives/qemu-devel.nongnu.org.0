@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C076314119
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:59:28 +0100 (CET)
-Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5219C31408A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:33:52 +0100 (CET)
+Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Dd1-0001Fz-IS
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:59:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37478)
+	id 1l9DEF-0006iA-BF
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:33:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l988r-0002tq-0c; Mon, 08 Feb 2021 10:07:57 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:35751)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l997w-0001P8-EG
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:11:06 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l988j-0004wA-LT; Mon, 08 Feb 2021 10:07:56 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id t25so10406612pga.2;
- Mon, 08 Feb 2021 07:07:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=gs0QBd+kP/lqMhbfgZIIrJZ7OkKGPVIb5Qdhb1YhrW4=;
- b=nDoTYtEeE0NRR5ZtGfaLia4BHY0T3kHrsRYKckuJb3NpQnIKR9YzXVMQQmagbaK+3N
- VxMAqCZgY0gmnLkvi+3INxoc3oUtdWPFtEqZo82zBOwqEZe3xcsc/euo1ytUiSGctFC6
- q8VYvPNPzYhkMvH4itUgpT9YYLRJaPBBBhT1i5xtdUtfZtRue2pU+hp8xIWzhgK7F1dv
- Q2F5ElFHS0rSPjiEK8y45A7V3LRH4GcznpG1815jW7y2XcGwDvqn9mDVZ1X00nG5Tcs5
- DxvIi6jHVWB+O0xus5iPqhCMemMG/qw4OBvHuFJDU4iZ7vyClwymoqEhT+tbpGyMS8Hd
- l3iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=gs0QBd+kP/lqMhbfgZIIrJZ7OkKGPVIb5Qdhb1YhrW4=;
- b=bpzLPJiNKARKZBZOZJMsPbnz+APmmIHAfY9qE/8r2ETwHus/AkAsfC23RIuC8DmgsQ
- C1PHCxRegrbHXqGhjxUTUGeuEJERi4+k1DZrhtjOm770kHyYF7MwqGr3VYEwXjOdv9Ls
- uSNbu98aUzCx7sD5G7cpjbnr6PmzJV2PR/XV5vsSDNKGQp312RKCC/lSpSF7HD0BZaNu
- vx8+F6iedr2RJ8Qp6oZmtjwoohaxcy8IqeMMmnvHBO/JwRCyXZOvSBmEMEkLwnUZfATk
- KuHF1FYsnvMYVprxZqRM2NLhM9cliDlv0CcBMoojFiw2kBxj5QW9sMsfehrkgqD4rCjT
- M/rQ==
-X-Gm-Message-State: AOAM532SxYEHfiZEeR0d1/h6jxTVT5l4owkYhpT0e5k2eMA7P+J4ff2F
- qnOcCdzNQH8e9+i7W2lEhZ8=
-X-Google-Smtp-Source: ABdhPJy0uzSvKR72U1LGQc9nFzXamOzq1Y/GaY9O2woMf5wIwm4ZCuDKE9N6+turLlmBGVCFv2Q4Ow==
-X-Received: by 2002:a63:4561:: with SMTP id u33mr15037565pgk.277.1612796861017; 
- Mon, 08 Feb 2021 07:07:41 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id bk12sm9994307pjb.1.2021.02.08.07.07.40
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 08 Feb 2021 07:07:40 -0800 (PST)
-Date: Tue, 9 Feb 2021 00:07:38 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH RFC v2 1/8] hw/block/nvme: remove redundant len member in
- compare context
-Message-ID: <20210208150738.GB8941@localhost.localdomain>
-References: <20210207214940.281889-1-its@irrelevant.dk>
- <20210207214940.281889-2-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l997i-0004D6-48
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:11:03 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l997g-0006vy-Am
+ for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 16:10:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4E0DD2E8042
+ for <qemu-devel@nongnu.org>; Mon,  8 Feb 2021 16:10:48 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210207214940.281889-2-its@irrelevant.dk>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Feb 2021 16:03:55 -0000
+From: John Arbuckle <1913505@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: balaton-4 mark-cave-ayland mishari pmaydell
+ programmingkidx th-huth
+X-Launchpad-Bug-Reporter: Mishari Muqbil (mishari)
+X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
+References: <161180131265.32409.4817508561083668447.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161280023603.5117.371955189926859474.malone@chaenomeles.canonical.com>
+Subject: [Bug 1913505] Re: Windows XP slow on Apple M1
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: f0bfea94aee6ef839d81411b03df5029e3824732
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,21 +70,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+Reply-To: Bug 1913505 <1913505@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-02-07 22:49:33, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> The 'len' member of the nvme_compare_ctx struct is redundant since the
-> same information is available in the 'iov' member.
-> 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+I installed QEMU thru home-brew. When I tried to run it I saw this error
+message: "Could not allocate dynamic translator buffer".
 
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913505
+
+Title:
+  Windows XP slow on Apple M1
+
+Status in QEMU:
+  New
+
+Bug description:
+  Qemu installed by using brew install qemu -s on M1
+
+  QEMU emulator version 5.2.0
+  XP image from: https://archive.org/details/WinXPProSP3x86
+
+  Commands run:
+  $ qemu-img create -f qcow2 xpsp3.img 10G
+  $ qemu-system-i386 -m 512 -hda xpsp3.img -cdrom WinXPProSP3x86/en_windows=
+_xp_professional_with_service_pack_3_x86_cd_vl_x14-73974.iso -boot d
+
+  It's taken 3 days now with qemu running at around 94% CPU and
+  installation hasn't finished. The mouse pointer moves and occasionally
+  changes between the pointer and hourglass so it doesn't seem to have
+  frozen.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913505/+subscriptions
 
