@@ -2,138 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0047A3141F3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:37:19 +0100 (CET)
-Received: from localhost ([::1]:54394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F10B3141E4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 22:34:29 +0100 (CET)
+Received: from localhost ([::1]:42964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9EDf-0005f2-2e
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:37:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48412)
+	id 1l9EAu-0000vo-C5
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 16:34:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1l990h-0006XN-10
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:03:35 -0500
-Received: from mail-eopbgr770070.outbound.protection.outlook.com
- ([40.107.77.70]:17083 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1l98s7-0003Ru-28
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 10:54:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1l990c-0001PX-N9
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 11:03:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GEjOQjIGrF0+rxnIK2Y5xjVfwV94YSoVBksjV3oizK8EOiheus42GyTHpwLeMEbgiZOAv9/9GhAHDlvZ7IjlrDkQPDeRjLEW1gG2GU2C3e1jWBmZ78OTfqculnLvLokhRwLlnl6iq9/oo0XLyxuV99Tr2LdXAx/BG5gGxNOHcnftjioDo5Oqf7kDUVwEl9eedoWQWWj2YK80M3JeqMb1dD3Pknodo1S/sdqXrh27Bp6BsjRO+GoHAfbvVZX5mK/dKnL8aPhOJLKK6kKs81Rh6fKZmca4burUdWesMnRnAvi0AB65uR3NYTYZ/jmnU+d4+8y7VIegkkpQsdCHmAbRIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cAt3GbftgS9N14UX6b6LVPjqUeoyczQH16sadv2TVJk=;
- b=b9rrjiXiGhcBooKSYcweWN7761c7brqt57dlwsl4Wi5NoFGvOS0OjVIB6QsOFtyAEs51vknJGf04+vxRRQM8c1tdVLWVu2NeOu3ttbKDCsPGLV1pVjE5vswyy7PH+MJw0uHvHtNDESiVVyXERHz0/PB6BaVtgFj+Ne7GcSnmwP5mN8RS0jyPxb5ZLQb/S8ShuEjs0UpsJfaHkEeBStWyBMOGfd0deimy1ubTth3iL8ccqA7bUxPYsSbWM2BRzFVCKQbneqTf/iDsv92NSaLC9dY3VpKLyoZPBU4hThtWJVpjtLeUkj3DLBP/cIWwRm3FZct90s5HBKlpMavAb77FYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cAt3GbftgS9N14UX6b6LVPjqUeoyczQH16sadv2TVJk=;
- b=S8io1sh3ujD2cozAHvMap7kVXFTGhBQLl0pxVJsOxr+2tZ2lN3tlWIy8yOwGP4KSpOH2Dx0LXzaniqf5yoAJ+/ZZap4m7w0665tyzMVF8KaELY4nHbH4SaeQUN+msGwK5UEoJAlwo3sriM85cTht1LuILhKNxzsyNNSLULQVNtk=
-Authentication-Results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
- DM6PR12MB4353.namprd12.prod.outlook.com (2603:10b6:5:2a6::12) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.20; Mon, 8 Feb 2021 15:48:25 +0000
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::c9b6:a9ce:b253:db70]) by DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::c9b6:a9ce:b253:db70%6]) with mapi id 15.20.3825.030; Mon, 8 Feb 2021
- 15:48:25 +0000
-Subject: Re: [PATCH v6 0/6] Qemu SEV-ES guest support
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-References: <cover.1611682609.git.thomas.lendacky@amd.com>
- <9cfe8d87-c440-6ce8-7b1c-beb46e17c173@redhat.com>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <6fe16992-a122-5338-4060-6d585ca7183f@amd.com>
-Date: Mon, 8 Feb 2021 09:48:22 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <9cfe8d87-c440-6ce8-7b1c-beb46e17c173@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [67.79.209.213]
-X-ClientProxiedBy: SN7PR04CA0090.namprd04.prod.outlook.com
- (2603:10b6:806:121::35) To DM5PR12MB1355.namprd12.prod.outlook.com
- (2603:10b6:3:6e::7)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1l98s5-00062b-H7
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 10:54:42 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EA97A64DCC;
+ Mon,  8 Feb 2021 15:54:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612799679;
+ bh=O2skBSuLNPDYERU/eq1mfqb59JBoNejXE0JZW8ydH+g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sU150IeYcinYOa06nr2HBTqjMi1URXilrWaxMeB47wnYEVXn0kBcRwaZINkfz43ZY
+ wsAax0Fckq94HEDXkgy99t/e/YPxjL8HsVCiDVfWLq33V71mqDuUc7tB6aq8IqAkDs
+ AQL86+s6Zf38ePavwcIbylVcc4QO+vIA7xykTguA+yEkCqXRlDmEF/RiOz6uXZ6VRu
+ C1+Tt5HFSV8ReMi0QvpyTQrNxrDHQYIjDPR3CVctNCiKur+yX7WWJzZQ4LTxX+CrnP
+ OWh07MwQefJmX9UEHEqJUXRD++UBbjFQVxt28Pv32i5uE0jkk9Ii3FnvKSjYIJ8TY7
+ MF8CRdHsLbOBw==
+Date: Tue, 9 Feb 2021 00:54:36 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH] hw/block/nvme: fix Close Zone
+Message-ID: <20210208155436.GD16360@redsun51.ssa.fujisawa.hgst.com>
+References: <20210208003256.9280-1-dmitry.fomichev@wdc.com>
+ <CGME20210208090325eucas1p1e86d183879827f4a8dfbed6d96051418@eucas1p1.samsung.com>
+ <435eb631-e53d-a47a-6c27-68d12496fe00@redhat.com>
+ <YCECcyQx8oUVfNvM@apples.localdomain>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from office-linux.texastahm.com (67.79.209.213) by
- SN7PR04CA0090.namprd04.prod.outlook.com (2603:10b6:806:121::35) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17 via Frontend
- Transport; Mon, 8 Feb 2021 15:48:23 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5a03b5ed-cd6d-41fd-04da-08d8cc48f84d
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4353:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB435384B122A95BA0CAE212A7EC8F9@DM6PR12MB4353.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7L0vCuFg766O0aZawlAjNq1tOCOFg/+wKo1NejusHhE0GsNBi4NnCDX5zlAa2G66J4FnLLLgh6TFlXRhxM4dR2kacieBg6s57kc8wSHmx7hjGk4NA7ojjDlEqkfbOv9ps156I6CT4ScINMLqFLraYZ+NfGGqZ87ovqaAwewV+nuzJNrVxYeWzaHJTyAFHQUQAxLiZoAygHh7F9DRmK0hkEeS9+3V1dXbEPkseBx+VJJZ3dIk5uwZKt4zwcG1fRJlV6TqN2KOK5aKVeLt/rimBknxTRn9kMEILqhL4k3LDP8VkRaZEVIgCAZGXVw1XMQzSjYdiaA10/9PjCWmbptIAYm0x7I569TpoBX1TdanXcq477Wcc99ZqYfiyMqWxHMZbWMYeejOa5mNKNrHCUpPNGg3GjrAm49T3EvXes3XDKM6NhXhRLRM3aiPqDbIHYpWEi4MYm3LE40nsGIGqd20OfDl20vomD0gYnGOXIgYMgAgVkfu6kkgvAfPBBL23v/dOfhB7QasQrW1KGbvpJg8RUymf5f0A4mAio2HFpDfJl5hiNi3wFa9MqISpRAvCQEip99748umMpiYgO7VJ9xSrRy18MD+5gUm1Rk4I7Gg5W4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(346002)(396003)(136003)(39860400002)(8936002)(6512007)(66556008)(26005)(478600001)(16526019)(36756003)(86362001)(54906003)(66476007)(186003)(31686004)(8676002)(53546011)(7416002)(2616005)(31696002)(4326008)(6506007)(66946007)(52116002)(4744005)(316002)(5660300002)(956004)(6486002)(2906002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VFFPbnpuVmkyNFVKWkEyTngzbEc1L3hiRVFTREtsLzVMSkliZVNPNUhjY2RU?=
- =?utf-8?B?ZzdHbnh0aGU4S0tYeEdLSjBJd2RiaHpmRVlocVkwcEpiMHBCMkZiUXo4akRH?=
- =?utf-8?B?WDRaTS9meS8vMTJkQlRZZ2U4ZDhKUlVtK3FWVlBzdU9BVnl6WnNLMWFkT0xu?=
- =?utf-8?B?YWVtOEdGQ1g2Rzd0UkFlb1UvNXRjSkJEZ3c3QndETllHbXorVjBCUE81WjBr?=
- =?utf-8?B?VHdBRjBQSDFzWXBHWFdOSmZseTFOQ09jOG1pRlZta3BML0hTL1J1cjFPbEg4?=
- =?utf-8?B?K2NlWU8zYVE1ZjVqa1lXMUVCOVg3L1ZHUHhHNlZ4ck1hWjk2bVNVUjA2b3ZH?=
- =?utf-8?B?NktlYU53VlZJMjhidzM2cnQycDJac0tLei9kODVTR2R4bldwZHI3WHBNRXdo?=
- =?utf-8?B?ejdMZWNMMjVxU0hlTXJXS3dnZHV0SkRIRVc3OVFCZlp4cFZYclFTckpXbDNl?=
- =?utf-8?B?N0N6R0FSb3hFbW04MWt1THRZQWNsVDgybjc4ZncxbXFDZGhNNG1jbmlsQ2Zl?=
- =?utf-8?B?STczSklWb3FOdnVxd0NUZ1BnaEhwZlIraDg0M0hrM1I2ZUpkcWVBd0lkeWFU?=
- =?utf-8?B?a0o5Y2QvK1V6NGJxYStWR0RlbnFWVmxseGNhbFJIN2hWUjdaeUI3bFVpSnJJ?=
- =?utf-8?B?NkNrVlB4aWlwVmxUa1V1c29zZTBhN2E1NGJkYVRad01wZUlHMTNYeGozNlJV?=
- =?utf-8?B?cTRyZzRmVE9QQ3pOeklJL3c2YkM0U3pMcENBME1RMFNmVEJLQy9SMjFlM0h5?=
- =?utf-8?B?eUdSYytJTWFTeHByMFBKdVNpUE80NjhBWlhhR3Qwbk5YQUlwUXJHR1VFaWN5?=
- =?utf-8?B?MG5LUFpoS09pamQ5L3ZMNmwrcnRraVk0NkwxcWQwNDNYcXY2UUZSdS9JNHg3?=
- =?utf-8?B?OE1uU0FtQ05hNXFzOFZaY3FMS084M1VKZ1E1QkF5VEVIZjdiMExNeEwvckw2?=
- =?utf-8?B?dWd4Q0FNZXYrQnJWZUVLMTlya2VFUFNJMTZTeHVWd3FqeGlSd2s3MFlTNnZJ?=
- =?utf-8?B?N2RJUmhtelVrZHJNOFRKV1dzZ1hQZ255SVlDWjl0N3VtWndXK0Z5ZzZjcHM2?=
- =?utf-8?B?WExpQUxjeDcwV1RKVEcvZU11NFhIT1hpYjlvNE9FY0lEcXhhVXJISmhRT1Rs?=
- =?utf-8?B?eDhZOTFLd1NSUC90R04xL1QvaFUySVNuLzBEem9OUTNGS0t1aHVKU3R3dkVw?=
- =?utf-8?B?WnJaNC9FYVo4ckcvbDk0bnMvT3lpZjdRTld5ckljQ3ZURzhjcTBCOHhXRDRk?=
- =?utf-8?B?ZmdhSlRscC9xdnUxdDB3a3F4REp0d1YwNzNzYVBzRXRvR0doSVZUem1jV2tC?=
- =?utf-8?B?VXF4ZU5FVmYxdW1zeHVPRGhmWlF6YTN3QU5DeWw2bVZiTCsvWGZUSG1pVTFw?=
- =?utf-8?B?c1FCaWxjMTcxYkNSektZZTVHUVAxY0R5RmZHcDFGcEtIY2xlcUVjOW9FdUdY?=
- =?utf-8?B?a3RlT0lYUnJNTXNqMHRPSjBzWWpJbUFYNTFtdjQ3dXB6cGpPNWdXUVA3dS9U?=
- =?utf-8?B?N0x5aEt6TDJ3Q1F3aDV0WHZOYXlWNURIUk8vNUFaMjRmNUFaQXBrak5kMkJ1?=
- =?utf-8?B?SXVHcWNsSjhRaWxLbzFqNnR4aE94bVpEYTZCU1RMVFl2dmxFTENYdjdvUGw2?=
- =?utf-8?B?Vy9oWjcxek1oM0NLT3lmQjd5d3UvT3MzdVpMOWw1TFVzSWdIUUlFVW95QlAx?=
- =?utf-8?B?bldzLzBaTzkwaWk2aC9UZTVVSnZEb3E1Q3lQcldpRnlSTkgwVWZHdkswZlhw?=
- =?utf-8?Q?eRJp6WR7qCiw0dHgmwORjlMqrmxnG4YWUnVFMKH?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a03b5ed-cd6d-41fd-04da-08d8cc48f84d
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2021 15:48:25.0792 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dmGfvWXfSCFG5OwaUc8KBOYmQKmdfWXPRubLl518+spn9cDlbkSZYcvCwuJWepS05G2gXMmEkmFguyXx32BnzA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4353
-Received-SPF: softfail client-ip=40.107.77.70;
- envelope-from=Thomas.Lendacky@amd.com;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YCECcyQx8oUVfNvM@apples.localdomain>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -76
+X-Spam_score: -7.7
+X-Spam_bar: -------
+X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -147,40 +65,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Jiri Slaby <jslaby@suse.cz>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/21 4:59 AM, Paolo Bonzini wrote:
-> On 26/01/21 18:36, Tom Lendacky wrote:
->> From: Tom Lendacky <thomas.lendacky@amd.com>
->>
->> This patch series provides support for launching an SEV-ES guest.
->>
-
-...
-
->>
+On Mon, Feb 08, 2021 at 10:20:51AM +0100, Klaus Jensen wrote:
+> On Feb  8 10:03, Philippe Mathieu-Daudé wrote:
+> > Hi Dmitry, Klaus.
+> > 
+> > On 2/8/21 1:32 AM, Dmitry Fomichev wrote:
+> > > Implicitly and Explicitly Open zones can be closed by Close Zone
+> > > management function. This got broken by a recent commit and now such
+> > > commands fail with Invalid Zone State Transition status.
+> > > 
+> > > Modify nvm_zrm_close() function to make Close Zone work correctly.
+> > > 
+> > > Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> > > Fixes: 053b5a302c3("hw/block/nvme: refactor zone resource management")
+> > 
+> > '053b5a302c3': unknown revision or path not in the working tree.
+> > 
+> > If you point at an unmerged commit, why not fix it directly
+> > before merging?
+> > 
 > 
-> Queued, thanks.
-
-It looks like David Gibson's patches for the memory encryption rework went 
-into the main tree before mine. So, I think I'm going to have to rework my 
-patches. Let me look into it.
-
-Thanks,
-Tom
-
+> Dmitry, you OK with me squashing this fix and appending
 > 
-> Paolo
+>     [dmitry: fix broken Close Zone]
+>     Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 > 
+> to the commit message?
+
+IMO, we should avoid the habit of rebasing and force pushes on staging
+trees once they're public.
 
