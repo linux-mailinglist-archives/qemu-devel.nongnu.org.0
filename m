@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7811C3140DC
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:48:51 +0100 (CET)
-Received: from localhost ([::1]:58788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB033140EE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Feb 2021 21:51:36 +0100 (CET)
+Received: from localhost ([::1]:39594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9DSi-0005k0-VL
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:48:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56710)
+	id 1l9DVP-00016r-M8
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 15:51:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l97Re-0000dJ-Q6
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:23:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59985)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l97RR-0007ZA-QZ
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 09:23:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612794181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o7zE2QaiNgYk3fGJN6QxqJNP61X2mV6Qi6nRX32k3nE=;
- b=HRVPo5XvNXGFKBmhb0OT4nDSUvoptq1I3APzLtGJ6KuI0dMkOSJivYD1K5WE91dRSptKgh
- cEVqGKxavkAnIGgiAYixWQevweKii4pFydI8tZl17KGn7DjuJ/FXanJVUM0HqgtrGDBTZe
- zglr7/3ErMcUF9HGSdruyoe4EL1WWKA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-uCGQmh5NOeaZIEWdGbalqA-1; Mon, 08 Feb 2021 09:22:57 -0500
-X-MC-Unique: uCGQmh5NOeaZIEWdGbalqA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E192A91282;
- Mon,  8 Feb 2021 14:22:55 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF75C60C5B;
- Mon,  8 Feb 2021 14:22:54 +0000 (UTC)
-Subject: Re: [PATCH 1/9] tests/qtest/arm-cpu-features: Remove Cortex-A15 check
-To: Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20210205144345.2068758-1-f4bug@amsat.org>
- <20210205144345.2068758-2-f4bug@amsat.org>
- <20210205145938.dvjk7jsfatgm56cy@kamzik.brq.redhat.com>
- <83662416-8eb6-eab9-fe90-c70daad29e44@amsat.org>
- <20210205153357.q73y2xo6oazheyma@kamzik.brq.redhat.com>
- <7173ad26-fc28-171e-b159-4b777fbaeb3a@amsat.org>
- <20210206104048.wavdqfi3zps377yf@kamzik.brq.redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <b8f61ba3-e4d4-a81c-a8f9-baafe8fab901@redhat.com>
-Date: Mon, 8 Feb 2021 09:22:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l97cd-0003RM-Pg; Mon, 08 Feb 2021 09:34:46 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45751)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l97cV-0002VH-2U; Mon, 08 Feb 2021 09:34:39 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id t5so18295366eds.12;
+ Mon, 08 Feb 2021 06:34:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ml0YDQs56tKj5scJg+obSM9rxRigcfMgWYL0EMd/6L8=;
+ b=s71P9FvWdXO6bwowgAbJCg7+OOycmxOL6n5cdZT51yJ9b4qZaeLN9jp1e4/GOa83Vn
+ LkRHwRIzc+NuRLvyGmBcY3/atFUdNAdo/45KUi8CoE2//ia1a7AbFeRnUAwA3v+OaGyG
+ LnI2cbFxteehoNp+foVjg4PgFM2jLGk024usVSBSHcgBUT0f9k/OhRK5fKT22xyXfbdj
+ XaxJbPBF1Fqn80dUjgeUE8c8+zEzRYyA/0GSrj1FGIIKn3df8S96V67ypEl0GjxB2zdm
+ sv30RPav9LkR9jUdaZgESYq6eHX3Udj+olqGjo7pE/kRH4BvkxlP/HsgCZXbTeWWEhj9
+ g/jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ml0YDQs56tKj5scJg+obSM9rxRigcfMgWYL0EMd/6L8=;
+ b=mv6yqpmdNrmLgxu93C2xT5dpPxPIQBP7axOfkCWziP3mxJkHHAR1SziEwkwJ34yQGZ
+ DHfKg/0PH4qgP5+IgZdW3cKJQkqRThIpLPjU3FFawwK8gxbjtXejjQeQN0fxJVBR9LPD
+ tuW/d6Rtnc6OemgmAeqzf1/jLSTgf2pRZ+cPnp5oWvNudZGUAYQmoPB4A2bXuDVpELBF
+ IP/S0VOU825+vD5Aywqk3eLs8LXmm03oRY8o+iSz4eSlfl/6oVqgERKGH//ANlZOZQU9
+ lpN9iumutnVwsRlHHG787dDKwV9jjHUmuIFEUzxJOlwth9dUYOGt1mFNYvTUvThP6pmN
+ 6weA==
+X-Gm-Message-State: AOAM5331OYFYS0OS6tHvZIoiJx4cNuQwohoYVS3AsGdrRSJSFfpjo/mK
+ zWDlZUvEIwuAhfeefP0LuUyEqkgLWQKiOmSxNO8=
+X-Google-Smtp-Source: ABdhPJyz4j5ePOKbcNSQhrDPmrgsxo95wmd/cJeJaPGQzn6FMctJjHKr3NaCFSoly55ZrzIYR5y7jy2zwPvcXFQ6aYU=
+X-Received: by 2002:a50:9dc9:: with SMTP id l9mr17349328edk.377.1612794864223; 
+ Mon, 08 Feb 2021 06:34:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210206104048.wavdqfi3zps377yf@kamzik.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <1612761924-68000-1-git-send-email-bmeng.cn@gmail.com>
+ <1612761924-68000-3-git-send-email-bmeng.cn@gmail.com>
+ <20210208124425.GI477672@toto>
+ <CAEUhbmV=QLCuk5_bymrVNPO_vEU=R1A3urAaqhnNAgSGpiTsGw@mail.gmail.com>
+In-Reply-To: <CAEUhbmV=QLCuk5_bymrVNPO_vEU=R1A3urAaqhnNAgSGpiTsGw@mail.gmail.com>
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Date: Mon, 8 Feb 2021 15:34:13 +0100
+Message-ID: <CAJy5ezooJ21SAFhR2Pf=1aAwBkPEUivbCawZy-geCx+g36EP2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/ssi: xilinx_spips: Implement basic QSPI DMA
+ support
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000fa48b605bad41087"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,57 +78,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ francisco.iglesias@xilinx.com, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/6/21 5:40 AM, Andrew Jones wrote:
->> BTW is there some easy way to dump QMP traffic on stdio?
-> You can use scripts/qmp/qmp-shell to manually test stuff.
-> 
-> Thanks,
-> drew
-> 
+--000000000000fa48b605bad41087
+Content-Type: text/plain; charset="UTF-8"
 
-If you enable debug logging in python too, it'll print to STDERR. This 
-may or may not be useful depending on how the library is getting used 
-and by whom.
+On Mon, 8 Feb 2021, 15:10 Bin Meng, <bmeng.cn@gmail.com> wrote:
 
-(For iotests, you used to be able to engage this mode by passing -d. I 
-don't know if the new test runner has changed this behavior. I'm sure 
-avocado has something similar, somewhere, too.)
+> Hi Edgar,
+>
+> On Mon, Feb 8, 2021 at 8:44 PM Edgar E. Iglesias
+> <edgar.iglesias@gmail.com> wrote:
+> >
+> > On Mon, Feb 08, 2021 at 01:25:24PM +0800, Bin Meng wrote:
+> > > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > >
+> > > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+> > > is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+> > > crash. This is observed when testing VxWorks 7.
+> > >
+> > > Add a basic implementation of QSPI DMA functionality.
+> > >
+> > > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >
+> > + Francisco
+> >
+> > Hi,
+> >
+> > Like Peter commented on the previous version, the DMA unit is actully
+> separate.
+>
+> Is it really separate? In the Xilinx ZynqMP datasheet, it's an
+> integrated DMA unit dedicated for QSPI usage. IIUC, other modules on
+> the ZynqMP SoC cannot use it to do any DMA transfer. To me this is no
+> different like a DMA engine in a ethernet controller.
+>
 
-Otherwise, the runes are something like:
+Yes, it's a separate module.
 
-```
-import logging
 
-logging.basicConfig(level=logging.DEBUG)
-```
+> > This module is better modelled by pushing data through the Stream
+> framework
+> > into the DMA. The DMA model is not upstream but can be found here:
+> > https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
+> >
+>
+> What's the benefit of modeling it using the stream framework?
+>
 
-but this only works once per process; the iotests entry point already 
-has a call like this. To override it:
 
-```
-import logging
+Because it matches real hw and this particular dma exists in various
+instances, not only in qspi. We don't want duplicate implementations of the
+same dma.
 
-logging.getLogger().setLevel(logging.DEBUG)
-```
+Cheers,
+Edgar
 
-There are other, more complex incantations; you can read 
-https://docs.python.org/3/howto/logging.html if you'd like; the logger 
-we care about is "QMP" (for QMP instances created without a 'nickname') 
-and "QMP.{nickname}" for ones that were. So you can do this:
 
-logging.getLogger("QMP").setLevel(logging.DEBUG)
+> > Feel free to send a patch to upstream with that model (perhaps changing
+> > the filename to something more suitable, e.g xlnx-csu-stream-dma.c).
+> > You can use --author="Edgar E. Iglesias <edgar.iglesias@xilinx.com>".
+> >
+>
+> Please, upstream all work Xilinx has done on QEMU. If you think the
+> DMA support should really be using the Xilinx one, please do the
+> upstream work as we are not familiar with that implementation.
+>
+> Currently we are having a hard time testing the upstream QEMU Xilinx
+> QSPI model with either U-Boot or Linux. We cannot boot anything with
+> upstream QEMU with the Xilinx ZynqMP model with the limited
+> information from the internet. Instructions are needed. I also
+> suggested to Francisco in another thread that the QEMU target guide
+> for ZynqMP should be added to provide such information.
+>
+> > The DMA should be mapped to 0xFF0F0800 and IRQ 15.
+> >
+> > CC:d Francisco, he's going to publish some smoke-tests for this.
+> >
+>
+> Regards,
+> Bin
+>
 
-but you might need to adjust other settings to get it to appear on 
-STDERR (I don't remember), like setting handler propagation settings and 
-so on.
+--000000000000fa48b605bad41087
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---js
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Mon, 8 Feb 2021, 15:10 Bin Meng, &lt;<a href=3D"mai=
+lto:bmeng.cn@gmail.com" target=3D"_blank" rel=3D"noreferrer">bmeng.cn@gmail=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Edgar,<br>
+<br>
+On Mon, Feb 8, 2021 at 8:44 PM Edgar E. Iglesias<br>
+&lt;<a href=3D"mailto:edgar.iglesias@gmail.com" rel=3D"noreferrer noreferre=
+r" target=3D"_blank">edgar.iglesias@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Mon, Feb 08, 2021 at 01:25:24PM +0800, Bin Meng wrote:<br>
+&gt; &gt; From: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.c=
+om" rel=3D"noreferrer noreferrer" target=3D"_blank">xuzhou.cheng@windriver.=
+com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; ZynqMP QSPI supports SPI transfer using DMA mode, but currently t=
+his<br>
+&gt; &gt; is unimplemented. When QSPI is programmed to use DMA mode, QEMU w=
+ill<br>
+&gt; &gt; crash. This is observed when testing VxWorks 7.<br>
+&gt; &gt;<br>
+&gt; &gt; Add a basic implementation of QSPI DMA functionality.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@wi=
+ndriver.com" rel=3D"noreferrer noreferrer" target=3D"_blank">xuzhou.cheng@w=
+indriver.com</a>&gt;<br>
+&gt; &gt; Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.=
+com" rel=3D"noreferrer noreferrer" target=3D"_blank">bin.meng@windriver.com=
+</a>&gt;<br>
+&gt;<br>
+&gt; + Francisco<br>
+&gt;<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; Like Peter commented on the previous version, the DMA unit is actully =
+separate.<br>
+<br>
+Is it really separate? In the Xilinx ZynqMP datasheet, it&#39;s an<br>
+integrated DMA unit dedicated for QSPI usage. IIUC, other modules on<br>
+the ZynqMP SoC cannot use it to do any DMA transfer. To me this is no<br>
+different like a DMA engine in a ethernet controller.<br></blockquote></div=
+></div><div dir=3D"auto"><br></div><div dir=3D"auto">Yes, it&#39;s a separa=
+te module.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; This module is better modelled by pushing data through the Stream fram=
+ework<br>
+&gt; into the DMA. The DMA model is not upstream but can be found here:<br>
+&gt; <a href=3D"https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_strea=
+m_dma.c" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https:/=
+/github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c</a><br>
+&gt;<br>
+<br>
+What&#39;s the benefit of modeling it using the stream framework?<br></bloc=
+kquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div>=
+<div dir=3D"auto">Because it matches real hw and this particular dma exists=
+ in various instances, not only in qspi. We don&#39;t want duplicate implem=
+entations of the same dma.=C2=A0</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Cheers,=C2=A0</div><div dir=3D"auto">Edgar</div><div dir=3D"auto"=
+><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+<br>
+&gt; Feel free to send a patch to upstream with that model (perhaps changin=
+g<br>
+&gt; the filename to something more suitable, e.g xlnx-csu-stream-dma.c).<b=
+r>
+&gt; You can use --author=3D&quot;Edgar E. Iglesias &lt;<a href=3D"mailto:e=
+dgar.iglesias@xilinx.com" rel=3D"noreferrer noreferrer" target=3D"_blank">e=
+dgar.iglesias@xilinx.com</a>&gt;&quot;.<br>
+&gt;<br>
+<br>
+Please, upstream all work Xilinx has done on QEMU. If you think the<br>
+DMA support should really be using the Xilinx one, please do the<br>
+upstream work as we are not familiar with that implementation.<br>
+<br>
+Currently we are having a hard time testing the upstream QEMU Xilinx<br>
+QSPI model with either U-Boot or Linux. We cannot boot anything with<br>
+upstream QEMU with the Xilinx ZynqMP model with the limited<br>
+information from the internet. Instructions are needed. I also<br>
+suggested to Francisco in another thread that the QEMU target guide<br>
+for ZynqMP should be added to provide such information.<br>
+<br>
+&gt; The DMA should be mapped to 0xFF0F0800 and IRQ 15.<br>
+&gt;<br>
+&gt; CC:d Francisco, he&#39;s going to publish some smoke-tests for this.<b=
+r>
+&gt;<br>
+<br>
+Regards,<br>
+Bin<br>
+</blockquote></div></div></div>
 
+--000000000000fa48b605bad41087--
 
