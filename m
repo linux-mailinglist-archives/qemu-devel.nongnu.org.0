@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152A33155ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:29:41 +0100 (CET)
-Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9F03155EF
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:29:53 +0100 (CET)
+Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Xlc-0004Gu-4D
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:29:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43174)
+	id 1l9Xlo-0004nN-I5
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:29:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9Xju-0002g0-7E
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:27:54 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37630)
+ id 1l9Xk3-0002zF-Cy
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:28:03 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9Xjs-0007kx-Gh
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:27:53 -0500
-Received: by mail-wm1-x332.google.com with SMTP id m1so4453225wml.2
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:27:52 -0800 (PST)
+ id 1l9Xk1-0007pj-QR
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:28:03 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id f16so4146092wmq.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:28:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5R1e9GR/GLdG/klE7zT/bf5QWdvO/X/18117WqldYxM=;
- b=RoJZ/WvdabsZhnP+eFDDeN06q5haBA+jhMcuds1lNfJtSohU23h7LTRERw8rEaobyR
- abpnJF92kWFpa81KL1zToZDq8zD5gVmm9Ox/SG+keQ5NyVrGBMdW6+0SFROsnkCgrm7r
- B7358U923TlOsI6esJ+BFGPKwqMtOWMDndNFNBJjVtZUJ+BtSRaCQ0cEiGRWx6OHaHeE
- h71lGRaiileLRlJuwn53obQbELqWAdUtPEaWKHF30eNyJqwb5J3+bhYA3cmtkjjwYJbd
- 6V4TNx8lCFvAdpQi1oPVDHswoSZULsjp5jfL6djYLR9ecZsyy8iZoiYibGIah1gLZoBX
- USfA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SJ+CxGQUMbX25NLlEOpaUwde946vo4PY/BH+Jix+NZA=;
+ b=igdrfzzyPKB/xTgeqROmTYO/dqzrtm+VcHLHBpoiogjflHT8kfTC6fhnjjsZ1WChsN
+ rfY//jscd/f7ox7U6TyResYLdYyqYe429CEXbFnwG8vDegxfoYIixdu3TVH2lui6rD4l
+ 4CQC9u3IGqqepiXEZQY9bMF0Rpm3cLAW1sU2cgkIOVWviwsnohnrDFw5TMAG4KvqMkZQ
+ dD8FvvqIUdifgjP2+njzEjCzVmBZIS0M+rcB8sG3lYL8J5gIeQAe/n5zxn0EB7EWDcGU
+ v41+WW/Cbf3W7Ljb7/l3fIA01gj7YQOfE6UciwuzWepAemGrPavYpALcG3BCq0k8Xc0V
+ rvzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5R1e9GR/GLdG/klE7zT/bf5QWdvO/X/18117WqldYxM=;
- b=OCWLfBh9HaEgyXJWvV1tyEyydcTxx1egPnqAkWhhjEX/Ec5vi6Iue1VhZXpppXK0S5
- UWJNvdwcebFsVxPhrJbdbLzxtED9z4gwYTd+UzrmiK0Gb2a3CFXq2/ln9K02iVOu1noQ
- BS1S/JUlC39VtmHjhWStxUT8Y1t3wvxSbszXITBnR9rBya0JWfApiD9dKED5q9qTFEmx
- GdKF4B/oiefxXT9fKfsfYopDksyk7zOF6MM8yTmekbmn7ToBItOUaknkWfPyAbf4NDp5
- B8FkEsGLvsfe6F1UW2mcph/3em75XLBlWX5EhVft+HhURxoy1NAK95jzjHO8jd4th6zR
- SPQQ==
-X-Gm-Message-State: AOAM533+iy0hqBKj9bpf/OcEhq07CSe0ttel2RcCamwyhhUD3DPUWlw6
- mM1VCcht1uWV/n3X6Cc4LuISHg==
-X-Google-Smtp-Source: ABdhPJzI2s6m5LxbswVt0VPJOFQgQYlxbAVLVMKos1b/B8Pkcl5zV+Oc/Lsw04sWTNtXxbUjzKQpbA==
-X-Received: by 2002:a05:600c:216:: with SMTP id
- 22mr4545410wmi.111.1612895270881; 
- Tue, 09 Feb 2021 10:27:50 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SJ+CxGQUMbX25NLlEOpaUwde946vo4PY/BH+Jix+NZA=;
+ b=cGJPVMcFlIdMr8oQD0vDKfX6DHAPe/gYpvGg+8AaiLLzxQ/rRBqjB7hYBvPcGupTBM
+ nk7TQTPq0Kh8SusCqb9TbPvbiGHop+HhTGQRVfJ+zKorPq3o3bU16Tzf6k9fF/0YgQrd
+ EsC6SrZltfSoDE2ASccgUowr1BWe0s5C0nFb5DUEkafKK4T8fqPEyLynGczYvIJ50HUd
+ 5epuMcJEjwpU6sedfvi5dlady4RD4LgY6GF3G5wiopGaFup2T53oucwZ1anreybgo6Ga
+ ntEmxgVg4DiHJBm7Y2KR+erjFaKbcYo2a1SWUsqHF3T6pUk/tphd72SZHqTd6bE9mf7F
+ zaMg==
+X-Gm-Message-State: AOAM530i5SDFZUOo9vU41WmdzR+Br3XtLWZEEB1ktlsxQixvQaMmpVdS
+ D8VrZa3XxGUgPTJCGk6DNcbXY/EJf8PxVq9n
+X-Google-Smtp-Source: ABdhPJznXJuodcfQb6g9XHTJAbht1T1G/+ockUgzHF5jwOxjhDE8RwKwkO1edSUfc1cKnvldoCvaQw==
+X-Received: by 2002:a7b:ce8c:: with SMTP id q12mr4606297wmj.127.1612895280527; 
+ Tue, 09 Feb 2021 10:28:00 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w4sm37707841wrt.69.2021.02.09.10.27.49
+ by smtp.gmail.com with ESMTPSA id z15sm5296124wmi.38.2021.02.09.10.27.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 10:27:49 -0800 (PST)
+ Tue, 09 Feb 2021 10:27:57 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2EB881FF7E;
- Tue,  9 Feb 2021 18:27:49 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 585B21FF96;
+ Tue,  9 Feb 2021 18:27:51 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 00/12] fix plugins double counting with mmio,
- cleanup CF_ flags
-Date: Tue,  9 Feb 2021 18:27:36 +0000
-Message-Id: <20210209182749.31323-1-alex.bennee@linaro.org>
+Subject: [PATCH  v1 09/12] accel/tcg: re-factor non-RAM execution code
+Date: Tue,  9 Feb 2021 18:27:45 +0000
+Message-Id: <20210209182749.31323-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210209182749.31323-1-alex.bennee@linaro.org>
+References: <20210209182749.31323-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,65 +86,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kuhn.chenqun@huawei.com, aaron@os.amperecomputing.com, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- robhenry@microsoft.com
+Cc: Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+There is no real need to use CF_NOCACHE here. As long as the TB isn't
+linked to other TBs or included in the QHT or jump cache then it will
+only get executed once.
 
-Aaron reported an issue with TCG plugins when interacting with the
-cpu_io_recompile code during icount. The ultimate fix was to avoid
-instrumenting the re-executed block but along the way we clean-up a
-bunch of the code by getting rid of CF_NOCACHE. I've also included
-Richard's recently posted recompile hook cleanups at the start of the
-series because it makes the improves the diffstat by pushing more arch
-specific black magic to the targets. In fact without the additional
-tests this removes more code than it adds ;-)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ accel/tcg/translate-all.c | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-I've added some acceptance tests to detect the failure mode as well as
-manually testing with a test Peter had lying around that exercises the
-trixy "executing out of MMIO" code path which I've touched.
-
-Please test and review.
-
-Alex Bennée (8):
-  tests/plugin: expand insn test to detect duplicate instructions
-  tests/acceptance: add a new set of tests to exercise plugins
-  accel/tcg: actually cache our partial icount TB
-  accel/tcg: cache single instruction TB on pending replay exception
-  accel/tcg: re-factor non-RAM execution code
-  accel/tcg: remove CF_NOCACHE and special cases
-  accel/tcg: allow plugin instrumentation to be disable via cflags
-  tests/acceptance: add a new tests to detect counting errors
-
-Richard Henderson (4):
-  exec: Move TranslationBlock typedef to qemu/typedefs.h
-  accel/tcg: Create io_recompile_replay_branch hook
-  target/mips: Create mips_io_recompile_replay_branch
-  target/sh4: Create superh_io_recompile_replay_branch
-
- include/exec/exec-all.h         |   6 +-
- include/exec/tb-context.h       |   1 -
- include/hw/core/cpu.h           |   4 +-
- include/hw/core/tcg-cpu-ops.h   |  13 +++-
- include/qemu/typedefs.h         |   1 +
- target/arm/internals.h          |   3 +-
- accel/tcg/cpu-exec.c            |  62 ++++-----------
- accel/tcg/translate-all.c       | 128 +++++++++++-------------------
- accel/tcg/translator.c          |   2 +-
- target/cris/translate.c         |   2 +-
- target/lm32/translate.c         |   2 +-
- target/mips/cpu.c               |  18 +++++
- target/moxie/translate.c        |   2 +-
- target/sh4/cpu.c                |  18 +++++
- target/unicore32/translate.c    |   2 +-
- tests/plugin/insn.c             |  12 ++-
- tests/acceptance/tcg_plugins.py | 134 ++++++++++++++++++++++++++++++++
- 17 files changed, 263 insertions(+), 147 deletions(-)
- create mode 100644 tests/acceptance/tcg_plugins.py
-
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index b8ad95aa1b..b2c5003829 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1778,7 +1778,7 @@ static inline void tb_page_add(PageDesc *p, TranslationBlock *tb,
+ #endif
+ }
+ 
+-/* add a new TB and link it to the physical page tables. phys_page2 is
++/* Add a new TB and link it to the physical page tables. phys_page2 is
+  * (-1) to indicate that only one page contains the TB.
+  *
+  * Called with mmap_lock held for user-mode emulation.
+@@ -1797,17 +1797,6 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+ 
+     assert_memory_lock();
+ 
+-    if (phys_pc == -1) {
+-        /*
+-         * If the TB is not associated with a physical RAM page then
+-         * it must be a temporary one-insn TB, and we have nothing to do
+-         * except fill in the page_addr[] fields.
+-         */
+-        assert(tb->cflags & CF_NOCACHE);
+-        tb->page_addr[0] = tb->page_addr[1] = -1;
+-        return tb;
+-    }
+-
+     /*
+      * Add the TB to the page list, acquiring first the pages's locks.
+      * We keep the locks held until after inserting the TB in the hash table,
+@@ -1880,9 +1869,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     phys_pc = get_page_addr_code(env, pc);
+ 
+     if (phys_pc == -1) {
+-        /* Generate a temporary TB with 1 insn in it */
+-        cflags &= ~CF_COUNT_MASK;
+-        cflags |= CF_NOCACHE | 1;
++        /* Generate a one-shot TB with 1 insn in it */
++        cflags = (cflags & ~CF_COUNT_MASK) | 1;
+     }
+ 
+     cflags &= ~CF_CLUSTER_MASK;
+@@ -2096,6 +2084,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+         tb_reset_jump(tb, 1);
+     }
+ 
++    /*
++     * If the TB is not associated with a physical RAM page then
++     * it must be a temporary one-insn TB, and we have nothing to do
++     * except fill in the page_addr[] fields. Return early before
++     * attempting to link to other TBs or add to the lookup table.
++     */
++    if (phys_pc == -1) {
++        tb->page_addr[0] = tb->page_addr[1] = -1;
++        return tb;
++    }
++
+     /* check next page if needed */
+     virt_page2 = (pc + tb->size - 1) & TARGET_PAGE_MASK;
+     phys_page2 = -1;
 -- 
 2.20.1
 
