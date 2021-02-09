@@ -2,134 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57531315654
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:52:58 +0100 (CET)
-Received: from localhost ([::1]:56434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2E0315658
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:54:51 +0100 (CET)
+Received: from localhost ([::1]:35148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Y89-0003Pj-Ed
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:52:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
+	id 1l9Y9y-0006Is-Pz
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:54:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l9XyD-0001rO-42; Tue, 09 Feb 2021 13:42:41 -0500
-Received: from mail-eopbgr10099.outbound.protection.outlook.com
- ([40.107.1.99]:10542 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l9Xy8-0003dp-I0; Tue, 09 Feb 2021 13:42:39 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CPuCzgaKqNr8Zg/pYSB8OyBtJTOyOQzKtNsIrwk47McqXaCmbw+CncjHWfiCG+nE2QvdVlkY4rYNNuqmauWuYFuT3MDvebNXoctUNfmjAYf6ZCtsMoOpJRqxHQfAoHDg/BOIu99JmsZlg4KdZaOFl5+6tktyrAhJFAz299kDnucV20TGUwAtg1dUXcmNNbEh6GqEAw6h/OC/+9WYZ9e+hsgRnzueNhlyyPhFdl1eLZOIuhPCn52cUGyKyXnNjDGm1AFwyftRihFKA9pOIDa1IxwGqaQYv+fxiIysnDik97M/pyO+/+o8iS3GatnJDLC3vDRJyCZi2AP6kdV8RuNk9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RRkNWY4l4WpPr8jYjPGYTxui+Jmh69FvJXoug84JbGg=;
- b=dV5HbRlFyDcX2ZZCDw9LTnCS5mxQxr3XCSC61EAjvnGDXEdAjceomNG4Xwkwckm8KPvNNOIWeWlmrC0LDn6PaXpRlsYlqnkbNtq6s+COym8X32TuSJYtggTgDCf/STN2cnPNi6MyXnDn/98UUACbvNP7758pnd9XUiI3y0t0mIVNQS39D64rnCBr92J2K2Nr+5M9+V2Dm4JCbQBMGl1SlvILU8itPP1S6dOb9rTbhEH5LQFMgJbQVz7hg5RKZyxrht64P0uv6uCAobecaBHulJMeDfZYsHPJ8MAHIH7lduCyvpNkhM6E10RYSP2WJZIILmse2A3yerCMbPAXY314WA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RRkNWY4l4WpPr8jYjPGYTxui+Jmh69FvJXoug84JbGg=;
- b=Sp9AckyS+rG7jZkzOIeVF68VsdCMpu3uikk749kWNurzqP1T1z359CDr3BxGmBqhbn31Rg+InuzHGHplhzXdewlrBnsYj/IM5u3prUlmskiCMf+26EgrqO5cAOkTP/qbt0F5xQAt/Me5dXTFxpGAst+i8u15DRBtrKGUJdLwz8k=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3159.eurprd08.prod.outlook.com (2603:10a6:209:46::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.23; Tue, 9 Feb
- 2021 18:42:31 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%9]) with mapi id 15.20.3846.025; Tue, 9 Feb 2021
- 18:42:31 +0000
-Subject: Re: [PATCH] iotests/210: Fix reference output
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Eric Blake <eblake@redhat.com>
-References: <20210209181923.497688-1-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <db571ea7-ba88-bf3f-0e62-a9468a7f5d09@virtuozzo.com>
-Date: Tue, 9 Feb 2021 21:42:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-In-Reply-To: <20210209181923.497688-1-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.215]
-X-ClientProxiedBy: AM3PR07CA0141.eurprd07.prod.outlook.com
- (2603:10a6:207:8::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l9Y1Q-0004iO-Hc
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:46:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l9Y1K-0004a6-Mm
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:46:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612896353;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=70ek4UoAXxp5EGw3jVZ43NiweMqVgn7jDKN09/RA2xM=;
+ b=Jjv7xxYaC57fM/qyXDVFwsf8B/uxOOBp0+8QpeRHCX0TQ5ksSGLlZBiGfOhhYyZV62o1o6
+ w+eNDyeyW7B+1DOl9m4Bo2oOjVQ8VhqgFCmKdUfSMOShC1wE5cjlAWHQJmHdEyZ/fVFf4R
+ K8XPoQTD1tYNiNdljHEmAgvg2XMM/8Q=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-sPAUyfkmMWebG9M1X5yhBg-1; Tue, 09 Feb 2021 13:45:51 -0500
+X-MC-Unique: sPAUyfkmMWebG9M1X5yhBg-1
+Received: by mail-pl1-f198.google.com with SMTP id o8so10134955pls.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:45:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=70ek4UoAXxp5EGw3jVZ43NiweMqVgn7jDKN09/RA2xM=;
+ b=gZtFWe1Sw+/PtTkus6Z9J4Vg6c607Kwrg72Jg748cw45JHxPp0LoR4jmWt76UBZp7G
+ QZGu3hjwcry7m/7ccDr+WVn/PdRwrXS3mPnb2Q42GkUwoG22C3UmsY/FAUVROvjUnvrb
+ Lvv3uyg8tLUwQPR3cUQnarUTeGgLwxwLtPl3kZPJueXODbdJKolR2IAh04zHDaipcRme
+ ApZgA7tNzS6jm4SP+XyvqXISy9ofe2N/9ysYmLDp0Y18Okpa+tBqnZc84nVdr39dKVfJ
+ N1yzNhrkYQ5YqJttH9U/YNJWTvbesruqHXnNHoxYtSdfubDLm6tz40Pb0LzCYR04P/aJ
+ Gtxw==
+X-Gm-Message-State: AOAM5331X7EBNQNKiSxGJIfKk487ecePlQ9NMJvRgfwJHOs5cLPPSLWa
+ BYtmVMCyDMUcIU5pITIa9aC3GJSjMhaZo75PJ9YY6OVzSErT8yRAqXpNLFhsBJUx4X+G0OX6FQB
+ 1efFYhOwkHV4tdOl0TI0L1eqjNBnKOmU=
+X-Received: by 2002:a65:4201:: with SMTP id c1mr23103623pgq.10.1612896350390; 
+ Tue, 09 Feb 2021 10:45:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz4v2ypVe2idThm7aq/1PUiOlmx430sn+S2IWUGcLPvrOMx5Ad6W96AphxPsm4smY+IB7XsZUwBw0ew9H73ZGE=
+X-Received: by 2002:a65:4201:: with SMTP id c1mr23103610pgq.10.1612896350186; 
+ Tue, 09 Feb 2021 10:45:50 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.215) by
- AM3PR07CA0141.eurprd07.prod.outlook.com (2603:10a6:207:8::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3846.11 via Frontend Transport; Tue, 9 Feb 2021 18:42:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef89eb88-d062-4eac-eef6-08d8cd2a7581
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3159:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3159FBB8C96E5B76FC43ABABC18E9@AM6PR08MB3159.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +BfZTRyJ+ToTQKx8LCrvsi0fXS1vs1TuaOE4E92cQAQPsHGILTNCovvph0sdkgTeq/jzM3BuUFyLqF+LBrKJGN8KwqL20Et1JbB+0wRLoVZrPQAw3hTE7HQ+05obUlENk5jGMS3SxNbBHTzcAcRGaVdASHmq/4C/n5lCnZiqLDz7FVDYJAK4NZOB7KjeRj3HqFjuuKBnAJaJ5cYkd4Z3aVf99pu5B5y64NEEUM0++k1g+CQ84T3KHql7y4F5sCky1RNgLhe4ZH6QLnaWtOA8dyzbOcz0aBUeVmXmYNxzeP8z7G8bF0nK94OJe7PYNjANVGxrhnnmBVFLtdtjkTDmpB0BaN3/JH5uhmZTfeawvR6dex8YHWNijnOlnNifj4svpPbHNIJEo/qKEq3oe0y+JR05uxFLllQ/x9ksR+z7pgy2mz2PsDMwrDGlf2pibVv45fBY6bprrEiBetiB/ckJo206xaodlmZj5qc1je4KyZCNvek9qalOBO6SvgtCw4Ehjf/Sp7AEVHuVQk16bQexoHIl54Vg0m7lvlJNJxzT9C/feL8EQ4Y7KtA/1Dusvg+HVAlPIqPijEGwqG33Fn8G6g79gurydwlFYzEcb1RxWIY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(86362001)(31686004)(2616005)(956004)(4326008)(8936002)(52116002)(5660300002)(2906002)(66556008)(66476007)(83380400001)(31696002)(16576012)(8676002)(26005)(54906003)(16526019)(186003)(498600001)(66946007)(6486002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MkRJdWExeVpiVG1vMy81WEo4WDRyUXpXa2hTeWI4TWJER0VZaCtjVnRSUXNy?=
- =?utf-8?B?aWJUVUZ6Tnl3bHU4eDdDekIxWUdxOU1admdFamlnTmNzT1h1ZjU0R2VNTDhn?=
- =?utf-8?B?bTB5VFp5bnkrMk9UcHNwcG51MkZiOVZtZDlwVGRXM3dqZWl1WTdMK1FzZFZC?=
- =?utf-8?B?aGdnU0hvYXUybWtUMEFDSmE1dE9zTFZ5V0tTRDRXMG9iRENvS1VRTXhOc3gr?=
- =?utf-8?B?KzBwY0QrSmUxdmNibjJhSDFCVEFSaHVTNzY3S2FtQ3VmN3YxcEZBdTZvdEVR?=
- =?utf-8?B?WEZTNzRkUjluOUJ0VE9EZ28wLzBKU29KQ2d1d2tOWTBSZVMweDVDUGVZcEk0?=
- =?utf-8?B?YmExQTU3Qmx0Qkcza1RTNGRvQmdjaFVBQ1d0VXpic1JHKzgvbndMSVJWdk5W?=
- =?utf-8?B?U0dQUktjM1AyYVZISDBtZ3V4NzdOdldtY0tMb1ZnNGsydXg5eWRxYk1TS1Rl?=
- =?utf-8?B?YlBMKzFReE81ZlM4VjN5S3hha2ppUFc2eWZCRTBZZGhYanBlNis5Ry9iSlVa?=
- =?utf-8?B?bW5jR2RBbGZlWmhLeDN2RWJNaHc1R0tEMVBuZlJsQklQSEhxWFFMUGlzdnZP?=
- =?utf-8?B?SWgrYzAyRkViYUM3cXJBbDc0bWY0WU9OYUtCeDY0d0R1VW5Qb0ZXMzBPZzJp?=
- =?utf-8?B?K2trSkZGbXlVcEJTSWRGdENWaFFtMG9MNTk3c2QyTUd6SnRaN0xPTWVheEdk?=
- =?utf-8?B?SkcxUUpMRkxWNWdIcDU4aCs2VlJ3TDFjMU5mMDlmcWR4NDgxN3ZNUkV5U1Rz?=
- =?utf-8?B?d2ppR3ZUcTF3akh0ZDlxWWJndURrcWoyclJwcTYxTnQySVQwcFFQYkRxK2JN?=
- =?utf-8?B?UmNnK1R1d0RQUmlLazYrQmd5ZDZPNTdHaCtvS3loY0QvYUlnb2pJZmNRakJM?=
- =?utf-8?B?czhLdlRyd2JEZWFsUURHNklCS1c2RGdOcjBZOU9YMy80Nnk0eWowbGJsWUxK?=
- =?utf-8?B?UkUzd0RlNFlSeW5BVjRJVnBTNm1KMWFNcExZL0xyRFlxeEQzdUUwbkFIL3Nz?=
- =?utf-8?B?U0tNWXJnYkhUeWNXejRTYjdSOHA4bHVReUU1QkxDVFc4RkIvalhMSDZVWW5r?=
- =?utf-8?B?elVQU2JzNVJzQThmZDV4SkRWc2FrVmNmWGc1NFQxNnhIanNUUXgwWXM1Yytk?=
- =?utf-8?B?VEx0ZEVJVy9XZ0ZtN2xhMFAvZDZibDI0SHNGNEhYbTI4RjZJSGIrcXE2ak5V?=
- =?utf-8?B?V0pvdlN1eS9aNDM0VXYzTE5aQ2Q0S0MxVkJNVCtoeTVMWUFsa1MvU3c2Qis2?=
- =?utf-8?B?dWl2Tmhnc0MrL2hYTUdrWnVlb0JiYS9Qb0VjOHg4QTZpYUhINXBnd3RQSTBG?=
- =?utf-8?B?bGhybkhXVWdSSEcrNHo0dmw0NUVmNEE5Wkw3UGxTa2lvZTlOaHZ0M1NhTVIv?=
- =?utf-8?B?N0JidVIwSWhjOGEzaTVEa2x0eHZwMjB5WnI1cEVJVDRaVi81WFhUNWpGR0ZU?=
- =?utf-8?B?b2VwekVVZXozUjFzMTlSM2dvT21vQ2orcVBjWXY3K0F3b1F6N0twS1Vjdklq?=
- =?utf-8?B?YlpRclovdUE0L2FFTmYxRjk4YWdjdXpLNUM1K1BUcE1YR2tHMy91TDZVRVpH?=
- =?utf-8?B?Y3cvSllQTnZNYjBqZkF3ZEpCQXlUOUQrN0ZvSi9CbDRvUW9Jd1ovMUhGa2tQ?=
- =?utf-8?B?R3YvcUxpWXpKNVVDcnZUR3RxbTloclVrOS91Mk5FcUJNM1RiM2c5OFdpWHE5?=
- =?utf-8?B?Nm9pRzA4R010aVJmdVUrdG5CTmhnNDREYVprS3hXM0RVWDhobHZ4NFhHQVRt?=
- =?utf-8?Q?nFVmRBIQByfQKpQsaD6m56Cn6s9dvookcjmbuV3?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef89eb88-d062-4eac-eef6-08d8cd2a7581
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2021 18:42:31.7611 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l9QLT8qK/obFBlWlDEAhY4nK3FQuEjZW7+gg0StrFzS3e3EZQz/vf+cWNyGHIT5ofSYROeYlLRqhcxpr343doDLz1Vrl508TYJo5gf7TrmU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3159
-Received-SPF: pass client-ip=40.107.1.99;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+References: <20210209174541.150011-1-pbonzini@redhat.com>
+ <9825c4c6-ae01-57ee-6616-86eba1d3b04d@linaro.org>
+In-Reply-To: <9825c4c6-ae01-57ee-6616-86eba1d3b04d@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Tue, 9 Feb 2021 19:45:38 +0100
+Message-ID: <CABgObfbj_6SBUc=3ujDNT+TiGuL4_BoVYD77-Gh9YRyiOGHvtQ@mail.gmail.com>
+Subject: Re: [PATCH] meson: adjust timeouts for some slower tests
+To: Richard Henderson <richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000000352e805baebb2d5"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -143,47 +89,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "P. Berrange, Daniel" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-09.02.2021 21:19, Max Reitz wrote:
-> Commit 69b55e03f has changed an error message, adjust the reference
-> output to account for it.
-> 
-> Fixes: 69b55e03f7e65a36eb954d0b7d4698b258df2708
->         ("block: refactor bdrv_check_request: add errp")
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+--0000000000000352e805baebb2d5
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Il mar 9 feb 2021, 18:54 Richard Henderson <richard.henderson@linaro.org>
+ha scritto:
 
-> ---
-> Fun fact: The branch name "fix-210-v1" was already taken for
-> 8ba9c4d9b088d66aebfcb019f61ddc36fba2db88, which was only two months
-> ago.  Ah, well. :)
-
-Me again :( Hmm. I should definitely start running iotests with -luks, not only my favorite -raw, -qcow2, -nbd. Sorry.
-
-> ---
->   tests/qemu-iotests/210.out | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qemu-iotests/210.out b/tests/qemu-iotests/210.out
-> index dc1a3c9786..2e9fc596eb 100644
-> --- a/tests/qemu-iotests/210.out
-> +++ b/tests/qemu-iotests/210.out
-> @@ -182,7 +182,7 @@ Job failed: The requested file size is too large
->   === Resize image with invalid sizes ===
->   
->   {"execute": "block_resize", "arguments": {"node-name": "node1", "size": 9223372036854775296}}
-> -{"error": {"class": "GenericError", "desc": "Required too big image size, it must be not greater than 9223372035781033984"}}
-> +{"error": {"class": "GenericError", "desc": "offset(9223372036854775296) exceeds maximum(9223372035781033984)"}}
->   {"execute": "block_resize", "arguments": {"node-name": "node1", "size": 9223372036854775808}}
->   {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'size', expected: integer"}}
->   {"execute": "block_resize", "arguments": {"node-name": "node1", "size": 18446744073709551104}}
-> 
+> >           env: qtest_env,
+> >           args: ['--tap', '-k'],
+> >           protocol: 'tap',
+> > +         timeout: 30 * slow_qtests.get(test_name, 1),
+>
+> Why scale here, rather than putting the real time in the dict?
 
 
--- 
-Best regards,
-Vladimir
+Sure. In retrospect that isn't really useful.
+
+Paolo
+
+  Is there some
+> other scaling going on that I can't see?
+>
+>
+> r~
+>
+> >           suite: ['qtest', 'qtest-' + target_base])
+> >    endforeach
+> >  endforeach
+> >
+>
+>
+
+--0000000000000352e805baebb2d5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il mar 9 feb 2021, 18:54 Richard Henderson &lt;<a href=
+=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&g=
+t; ha scritto:</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env: qtest_env,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0args: [&#39;--tap&#39;, &#39;-=
+k&#39;],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0protocol: &#39;tap&#39;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0timeout: 30 * slow_qtests.get(test_=
+name, 1),<br>
+<br>
+Why scale here, rather than putting the real time in the dict?</blockquote>=
+</div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Sure. In retrospe=
+ct that isn&#39;t really useful.</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div cla=
+ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">=C2=A0 Is there some<br>
+other scaling going on that I can&#39;t see?<br>
+<br>
+<br>
+r~<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0suite: [&#39;qtest&#39;, &#39;=
+qtest-&#39; + target_base])<br>
+&gt;=C2=A0 =C2=A0 endforeach<br>
+&gt;=C2=A0 endforeach<br>
+&gt; <br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000000352e805baebb2d5--
+
 
