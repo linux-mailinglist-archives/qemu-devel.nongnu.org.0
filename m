@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F140314AF5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 10:00:00 +0100 (CET)
-Received: from localhost ([::1]:41342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34658314AF3
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:59:24 +0100 (CET)
+Received: from localhost ([::1]:40002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9OsJ-0002FV-9F
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:59:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47910)
+	id 1l9Orj-0001jA-4g
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:59:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NWL-0005mA-3b; Tue, 09 Feb 2021 02:33:13 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:44445)
+ id 1l9NWM-0005nG-1c; Tue, 09 Feb 2021 02:33:14 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:34623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NWJ-00060q-7R; Tue, 09 Feb 2021 02:33:12 -0500
+ id 1l9NWK-00061n-E8; Tue, 09 Feb 2021 02:33:13 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id EB250CCB;
- Tue,  9 Feb 2021 02:32:45 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 96AA3D19;
+ Tue,  9 Feb 2021 02:32:47 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:46 -0500
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=GRHAgtYF+OuPg
- t1vzaDi3gDgCfTt/KuTQlFSyyDK3fk=; b=tJsexsKDMeVpppCW0cXK+WfR353C/
- UGpuBBL4M+Q45rk453JtSXYhh2hsDcyhJtgQj0nwuNlxuw5vb3LPOVIGiK2i93Nr
- 3dmDtN3ZsSMxFPcQi/zOTphIEWLiKARIhxA1m7OOiT6jJFBvcoE6ERo7UgXBOVRL
- GF5vLXVG7c2q/XM07t+IK45ziQLNwHpr73OpRjdk2VugGz+5gx+Z7t2thUDq9GwO
- awGRbXCFQGcD85BwRP+m5V8NgV12FgEdAymM+/slsXB45/DUS4YL16LcMTwjfTnt
- h+rcRcrNwaZJ5nTxlegS4T5BiDVtr6gcL7fJq/Lca9N5yQx/wiCuwkoEQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=ncHfXVMWhdSC2
+ EEp34EajxJLCXOOn4hYeS63Y9ypO14=; b=gRQPtmcWusuzzrs0LNIY7Hibb6jao
+ 2sIgxVvEMTjqakbvCRItiw/WqrcDHaIn089bEHFzs2B75Y1MXPdDVvE4bxcA+lwU
+ 88EBuZ6Yiv2tuseITce7MMxQe/9bUDo54zYgyfSiK9qU14IMqwBauETg0KNuaP4V
+ 8DBDp+fh0bWB74EbHQbQG1W79YwxCWxBVnUGdVlD4QkrGtKJU/M+KX4n2gfq3dOB
+ EHJVSDH3DSlXXcux/SnU8sBD0KvZNVPt5HhMnsSGp6Wv9Ux1ThTpfXklejl0cK+R
+ tieCQ/MBZQUX2CqZ1eRlDkCvD5ML1ERVtEUdtCxCoZZdbFtR4Cyj5sagQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=GRHAgtYF+OuPgt1vzaDi3gDgCfTt/KuTQlFSyyDK3fk=; b=mNl1VrUn
- D1pm33dfrfRakUu/ZFxwuZGwCBj8qiMYWzn6YCYNDkp2SdTByFDO4V3g+wxnSamB
- 3ldEsxPTIFQK+BkzOHt+yobLjZdUtc+ZUAEq4NQUjBOqCwwuNQEfUr7wdEhOsy9x
- bauXXTd1DUuMgJV2Q8r8qBe/aH7UrQXNCdXbQf9Xg0NV6JpnCYkuv6LOx7Z5bbwW
- 0EOw2HGsAMbblTNcsQi1B8HzkQHALO/qd1t3bAwIU6KlNQAEwdFlv9uoGTycs3WZ
- txblJHrRYPhjqosY6iy78gBaqFVWOMPIbSmn3ASLoAb97zbIiYvCyOAcYY37g9pc
- g8nINY3p8QaVcQ==
-X-ME-Sender: <xms:nToiYPGPPJjEu4J8TtiQtpvZzjsqPre8g5Isbl8zAd9QK4SXYJPmsg>
- <xme:nToiYGYvlT2z4fm0GiuL2TPGIzYjrpOMfPE9fnzg7yHBMp7Iw20PfwZmQ815M0_FW
- 3CyawNrF1vR_lSf09s>
+ fm2; bh=ncHfXVMWhdSC2EEp34EajxJLCXOOn4hYeS63Y9ypO14=; b=hKeeNcvV
+ d+DwOUXYxxMmLRywhd6pb1RTlS1c0cCCTUTPLwBiV3+7y+n1s8mXRyA5kBdVB7Tf
+ GsOKxH98YPgPDcFeSFXCWr+/deG04f6o/kSKgck51IBaZ/DJp7oDY/mEkA+VBX0x
+ 3vw2GOBhBjWwX5M3AX4ZKyIuSQZmvFQfcnImNvqBuW3EBcECVz3WJEDtgTwRHUXm
+ F6fJGPK+AUHDjsdNRgtjQaL/o0u19ZPSSni7STuDSxJ257m33RpfICU8kKArMhDE
+ mFhCe4GbKIMmQHEXtW2shLq9a+QPO2VDXPfYv6V9ZSVeZ2Se0/X+EpCmHY48ezvm
+ NrDEyCXIE5gF8A==
+X-ME-Sender: <xms:nzoiYM8SrUNDhhmBkBo4IyMaSLbhSYjujJpMRILIY4uGuaN1mry8Eg>
+ <xme:nzoiYEsYYXBPhGB0BgYkojpRKu8vcx4sBYUB7xAuCAYW0TQkhz6LHB72CpVWCZnOx
+ HdMMCvFqagFqV_zaDo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggdduuddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvvd
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvie
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:nToiYBAu_dpM93ietMaLSsDxKsq0C7rKO9ukHRaTaZjoZslNFiE3zQ>
- <xmx:nToiYOn3V5rxFDf-_-kQy2zJRvNTOxWpSivTWCExxrPx9Kdmg2luOg>
- <xmx:nToiYCyiiOz7ddPIbGINAz330wk1jpOA-jh7WMBh0xZISbZHgLYhbQ>
- <xmx:nToiYMo5GTLWleltylSw3M_-RcDtu_sScyLcrBZDIT97R6scRMPoCPJca4s>
+X-ME-Proxy: <xmx:nzoiYCASr3udc9Jgelwxlvxk57gcCn8fzHM_UZ9ZoZAU6KGLyvAj1w>
+ <xmx:nzoiYMfjNq5VCvCdxG3vT16rj9KvgRPtaNZyKD_KoViOSwxPW_gMlg>
+ <xmx:nzoiYBOKu0eFMu79Ncaktv04Hz0JBVQ5dPcDH410satSgw32mcblQw>
+ <xmx:nzoiYKjCxjPm91OhJkJb9LIXGqYXsGaptJ3YIjZu6DsHzlrl1meOMph5Xgk>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1B97C1080067;
- Tue,  9 Feb 2021 02:32:44 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B9DAE1080057;
+ Tue,  9 Feb 2021 02:32:45 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 53/56] hw/block/nvme: align with existing style
-Date: Tue,  9 Feb 2021 08:30:58 +0100
-Message-Id: <20210209073101.548811-54-its@irrelevant.dk>
+Subject: [PULL 54/56] hw/block/nvme: fix wrong parameter name 'cross_read'
+Date: Tue,  9 Feb 2021 08:30:59 +0100
+Message-Id: <20210209073101.548811-55-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210209073101.548811-1-its@irrelevant.dk>
 References: <20210209073101.548811-1-its@irrelevant.dk>
@@ -94,118 +94,35 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+From: Minwoo Im <minwoo.im.dev@gmail.com>
 
-Change status checks to align with the existing style and remove the
-explicit check against NVME_SUCCESS.
+The actual parameter name is 'cross_read' rather than 'cross_zone_read'.
 
-Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index c99a3fbf3461..2335739bdb17 100644
+index 2335739bdb17..e562d7467b3b 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1198,7 +1198,7 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n, NvmeNamespace *ns,
-         status = nvme_check_zone_state_for_write(zone);
-     }
- 
--    if (status != NVME_SUCCESS) {
-+    if (status) {
-         trace_pci_nvme_err_zone_write_not_ok(slba, nlb, status);
-     } else {
-         assert(nvme_wp_is_valid(zone));
-@@ -1253,7 +1253,7 @@ static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
-     uint16_t status;
- 
-     status = nvme_check_zone_state_for_read(zone);
--    if (status != NVME_SUCCESS) {
-+    if (status) {
-         ;
-     } else if (unlikely(end > bndry)) {
-         if (!ns->params.cross_zone_read) {
-@@ -1266,7 +1266,7 @@ static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
-             do {
-                 zone++;
-                 status = nvme_check_zone_state_for_read(zone);
--                if (status != NVME_SUCCESS) {
-+                if (status) {
-                     break;
-                 }
-             } while (end > nvme_zone_rd_boundary(ns, zone));
-@@ -1677,7 +1677,7 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
- 
-     if (ns->params.zoned) {
-         status = nvme_check_zone_read(ns, slba, nlb);
--        if (status != NVME_SUCCESS) {
-+        if (status) {
-             trace_pci_nvme_err_zone_read_not_ok(slba, nlb, status);
-             goto invalid;
-         }
-@@ -1748,12 +1748,12 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-         zone = nvme_get_zone_by_slba(ns, slba);
- 
-         status = nvme_check_zone_write(n, ns, zone, slba, nlb, append);
--        if (status != NVME_SUCCESS) {
-+        if (status) {
-             goto invalid;
-         }
- 
-         status = nvme_auto_open_zone(ns, zone);
--        if (status != NVME_SUCCESS) {
-+        if (status) {
-             goto invalid;
-         }
- 
-@@ -1852,14 +1852,14 @@ static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
-     switch (state) {
-     case NVME_ZONE_STATE_EMPTY:
-         status = nvme_aor_check(ns, 1, 0);
--        if (status != NVME_SUCCESS) {
-+        if (status) {
-             return status;
-         }
-         nvme_aor_inc_active(ns);
-         /* fall through */
-     case NVME_ZONE_STATE_CLOSED:
-         status = nvme_aor_check(ns, 0, 1);
--        if (status != NVME_SUCCESS) {
-+        if (status) {
-             if (state == NVME_ZONE_STATE_EMPTY) {
-                 nvme_aor_dec_active(ns);
-             }
-@@ -1972,7 +1972,7 @@ static uint16_t nvme_set_zd_ext(NvmeNamespace *ns, NvmeZone *zone)
- 
-     if (state == NVME_ZONE_STATE_EMPTY) {
-         status = nvme_aor_check(ns, 1, 0);
--        if (status != NVME_SUCCESS) {
-+        if (status) {
-             return status;
-         }
-         nvme_aor_inc_active(ns);
-@@ -3301,7 +3301,7 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
- 
-     ret = nvme_dma(n, (uint8_t *)&timestamp, sizeof(timestamp),
-                    DMA_DIRECTION_TO_DEVICE, req);
--    if (ret != NVME_SUCCESS) {
-+    if (ret) {
-         return ret;
-     }
+@@ -81,7 +81,7 @@
+  *         The default value means there is no limit to the number of
+  *         concurrently open zones.
+  *
+- *     zoned.cross_zone_read=<enable RAZB, default: false>
++ *     zoned.cross_read=<enable RAZB, default: false>
+  *         Setting this property to true enables Read Across Zone Boundaries.
+  */
  
 -- 
 2.30.0
