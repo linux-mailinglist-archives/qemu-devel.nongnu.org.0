@@ -2,56 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56123315484
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 17:59:27 +0100 (CET)
-Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870D43154A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 18:06:50 +0100 (CET)
+Received: from localhost ([::1]:55348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9WMH-0006ZA-4z
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 11:59:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43604)
+	id 1l9WTM-0003GD-0F
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 12:06:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l9WIO-0003TP-GQ
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 11:55:24 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:31565)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l9WI7-0000pt-8k
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 11:55:24 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6E1FC74632F;
- Tue,  9 Feb 2021 17:55:05 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id AB6737462FD; Tue,  9 Feb 2021 17:55:04 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id AA0C67462D6;
- Tue,  9 Feb 2021 17:55:04 +0100 (CET)
-Date: Tue, 9 Feb 2021 17:55:04 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 08/13] vt82c686: Move creation of ISA devices to the
- ISA bridge
-In-Reply-To: <alpine.LMD.2.03.2102012101480.9444@eik.bme.hu>
-Message-ID: <7088e295-bc69-3d6b-acde-c66e9c82124@eik.bme.hu>
-References: <cover.1610223396.git.balaton@eik.bme.hu>
- <bf9400cc8e4ddd3129aa5678de4d3cf38384805f.1610223397.git.balaton@eik.bme.hu>
- <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
- <5c5ce8b9-f5c4-c58d-6f8a-76c47ad8db4d@eik.bme.hu>
- <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
- <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
- <alpine.LMD.2.03.2102012101480.9444@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9WOL-0000aw-9Y
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:01:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9WOI-0003e6-Bw
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:01:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612890088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=C8Xffz0J0Y47gvusmVO0935zMBbfmfZkBD6TpcslbUE=;
+ b=R14LnRcPf0pggHJZa5IX2qach2pl0JA8H9+gb/24P7jzsLft2OhxExxvQbkykKfQ7v0O3f
+ 12q6O7UPtbSVUdihTD8n/k4knccB83NYxzyoF/oRl5idrZLnAqMafE9slh9R3/1EkZlJA0
+ eZs/5hcYeg283x+vqjbr0Hny2+D/baE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549-uzTLiRpaO_aLuSqjlHBhsw-1; Tue, 09 Feb 2021 12:01:25 -0500
+X-MC-Unique: uzTLiRpaO_aLuSqjlHBhsw-1
+Received: by mail-ej1-f71.google.com with SMTP id bx12so16528296ejc.15
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 09:01:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C8Xffz0J0Y47gvusmVO0935zMBbfmfZkBD6TpcslbUE=;
+ b=o68lO4tD8qKnPYMf5p4xPn8uNA7rRW4pQdAD8hbG82s7FCfIBmlC0Km+OMdjpTS89R
+ eMMAefKRBcGHOmzGxWdWIDCgPyy10sbcHrSHVceB4nB1lC1tC+6YyeoVmUWlJbBVmplZ
+ KChi59a1rYS7c5bA+jQUdUcjBZmfMagw+y9JcnwNxy6jLFkmKqewivxAAoLPGpugH8V1
+ 6sxbWBPTw6fF4hedVuEg1OUomTMp1cZODyqt9eZ/XYDRCX8BKyEgQiU/fLT4KyuWlofn
+ +2yrRf6KdHi/FGMFNQDgFoO0Y2tIqDHe81iW3dETDyz7wuRr05PA+x1HKRJVHeDzSaJ7
+ b9Hw==
+X-Gm-Message-State: AOAM532wWBPVgwXEpOWXmrECji9l4jDVBNMIWFtYf2mYBEQi4UdhPEtu
+ DI1oumULjoKSQxhQ/VeJ0HfVhaRL/wcebyCiEOn4ObCRhpNKf89EOkG08Ql+75tpQj9K+siIPY+
+ f0CupEC/X0nJlcVEoYwnbbc6HwSmGi1bJsCbil41maWtIUME26dMpSXczhIhviqW6
+X-Received: by 2002:a17:906:f6c7:: with SMTP id
+ jo7mr24093828ejb.178.1612890084218; 
+ Tue, 09 Feb 2021 09:01:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy7L/oKF6hCoEpdvC17xHchOJH18yqL/k+koXeETx2sLfzxz5bkz4boGwzxKbYxcRXXjizpSA==
+X-Received: by 2002:a17:906:f6c7:: with SMTP id
+ jo7mr24093799ejb.178.1612890083789; 
+ Tue, 09 Feb 2021 09:01:23 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id p16sm10976880eja.109.2021.02.09.09.01.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 09:01:23 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] block/null: Use 'read-zeroes' mode by default
+Date: Tue,  9 Feb 2021 18:01:21 +0100
+Message-Id: <20210209170121.3310151-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1495457781-1612889704=:24435"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,155 +92,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The null-co driver is meant for (performance) testing.
+By default, read operation does nothing, the provided buffer
+is not filled with zero values and its content is unchanged.
 
---3866299591-1495457781-1612889704=:24435
-Content-Type: text/plain; charset=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
+This can confuse security experts. For example, using the default
+null-co driver, buf[] is uninitialized, the blk_pread() call
+succeeds and we then access uninitialized memory:
 
-On Mon, 1 Feb 2021, BALATON Zoltan wrote:
-> On Sun, 10 Jan 2021, BALATON Zoltan wrote:
->> On Sun, 10 Jan 2021, Philippe Mathieu-DaudÈ wrote:
->>> +PCI experts
->>> 
->>> On 1/10/21 1:43 AM, BALATON Zoltan wrote:
->>>> On Sun, 10 Jan 2021, Philippe Mathieu-DaudÈ wrote:
->>>>> Hi Zoltan,
->>>>> 
->>>>> On 1/9/21 9:16 PM, BALATON Zoltan wrote:
->>>>>> Currently the ISA devices that are part of the VIA south bridge,
->>>>>> superio chip are wired up by board code. Move creation of these ISA
->>>>>> devices to the VIA ISA bridge model so that board code does not need
->>>>>> to access ISA bus. This also allows vt82c686b-superio to be made
->>>>>> internal to vt82c686 which allows implementing its configuration via
->>>>>> registers in subseqent commits.
->>>>> 
->>>>> Is this patch dependent of the VT82C686B_PM changes
->>>>> or can it be applied before them?
->>>> 
->>>> I don't know but why would that be better? I thought it's clearer to
->>>> clean up pm related parts first before moving more stuff to this file so
->>>> that's why this patch comes after (and also because that's the order I
->>>> did it).
->>> 
->>> Not any better, but easier for me to get your patches integrated,
->>> as I'm reviewing your patches slowly. Finding other reviewers
->>> would certainly help.
->> 
->> No problem, I'll wait for your review. Merging parts of the series does not 
->> help much because the whole series is needed for vt8231 which is 
->> prerequisite for pegasos2 so eventually all of these are needed so it does 
->> not matter if this one patch gets in earlier or later.
->> 
->> Not sure who could help with review. Maybe Jiaxun or Huacai as this is used 
->> by fuloong2e so they might be interested and could have info on this chip. 
->> Most of these patches just cleaning up the vt82c686b and adding some 
->> missing features so these can be reused by the vt8231 model in last 3 
->> patches (which is very similar to 686b only some reg addresses and ids seem 
->> to be different for what we are concerned).
->
-> Ping? There are still a few patches needing review:
->
-> http://patchwork.ozlabs.org/project/qemu-devel/list/?series=223512
->
-> Jiaxun, Hiacai, or anybody else could you please help reviewing or testing if 
-> this works with fuloong2e?
+  static int guess_disk_lchs(BlockBackend *blk,
+                             int *pcylinders, int *pheads,
+                             int *psectors)
+  {
+      uint8_t buf[BDRV_SECTOR_SIZE];
+      ...
 
-Ping^2
+      if (blk_pread(blk, 0, buf, BDRV_SECTOR_SIZE) < 0) {
+          return -1;
+      }
+      /* test msdos magic */
+      if (buf[510] != 0x55 || buf[511] != 0xaa) {
+          return -1;
+      }
 
-> Thank you,
-> BALATON Zoltan
->
->>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>>> ---
->>>>>> †hw/isa/vt82c686.c†† | 20 ++++++++++++++++++++
->>>>>> †hw/mips/fuloong2e.c | 29 +++++------------------------
->>>>>> †2 files changed, 25 insertions(+), 24 deletions(-)
->>>>>> 
->>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>>>>> index 58c0bba1d0..5df9be8ff4 100644
->>>>>> --- a/hw/isa/vt82c686.c
->>>>>> +++ b/hw/isa/vt82c686.c
->>>>>> @@ -16,6 +16,11 @@
->>>>>> †#include "hw/qdev-properties.h"
->>>>>> †#include "hw/isa/isa.h"
->>>>>> †#include "hw/isa/superio.h"
->>>>>> +#include "hw/intc/i8259.h"
->>>>>> +#include "hw/irq.h"
->>>>>> +#include "hw/dma/i8257.h"
->>>>>> +#include "hw/timer/i8254.h"
->>>>>> +#include "hw/rtc/mc146818rtc.h"
->>>>>> †#include "migration/vmstate.h"
->>>>>> †#include "hw/isa/apm.h"
->>>>>> †#include "hw/acpi/acpi.h"
->>>>>> @@ -307,9 +312,16 @@ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState,
->>>>>> VT82C686B_ISA)
->>>>>> 
->>>>>> †struct VT82C686BISAState {
->>>>>> †††† PCIDevice dev;
->>>>>> +††† qemu_irq cpu_intr;
->>>>>> †††† SuperIOConfig superio_cfg;
->>>>>> †};
->>>>>> 
->>>>>> +static void via_isa_request_i8259_irq(void *opaque, int irq, int 
->>>>>> level)
->>>>>> +{
->>>>>> +††† VT82C686BISAState *s = opaque;
->>>>>> +††† qemu_set_irq(s->cpu_intr, level);
->>>>>> +}
->>>>>> +
->>>>>> †static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
->>>>>> ††††††††††††††††††††††††††††††††††† uint32_t val, int len)
->>>>>> †{
->>>>>> @@ -365,10 +377,18 @@ static void vt82c686b_realize(PCIDevice *d,
->>>>>> Error **errp)
->>>>>> †††† VT82C686BISAState *s = VT82C686B_ISA(d);
->>>>>> †††† DeviceState *dev = DEVICE(d);
->>>>>> †††† ISABus *isa_bus;
->>>>>> +††† qemu_irq *isa_irq;
->>>>>> †††† int i;
->>>>>> 
->>>>>> +††† qdev_init_gpio_out(dev, &s->cpu_intr, 1);
->>>>> 
->>>>> Why not use the SysBus API?
->>>> 
->>>> How? This is a PCIDevice not a SysBusDevice.
->>> 
->>> Indeed :)
->>> 
->>>>>> +††† isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
->>>>>> †††† isa_bus = isa_bus_new(dev, get_system_memory(),
->>>>>> pci_address_space_io(d),
->>>>>> †††††††††††††††††††††††††† &error_fatal);
->>>>> 
->>>>> Isn't it get_system_memory() -> pci_address_space(d)?
->>>> 
->>>> I don't really know. Most other places that create an isa bus seem to
->>>> also use get_system_memory(), only piix4 uses pci_address_space(dev) so
->>>> I thought if those others are OK this should be too.
->>> 
->>> I'm not a PCI expert but my understanding is PCI device functions are
->>> restricted to the PCI bus address space. The host bridge may map this
->>> space within the host.
->>> 
->>> QEMU might be using get_system_memory() because for some host bridge
->>> the mapping is not implemented so it was easier this way?
->> 
->> Maybe, also one less indirection which if not really needed is a good thing 
->> for performance so unless it's found to be needed to use another address 
->> space here I'm happy with this as it matches what other similar devices do 
->> and it seems to work. Maybe a separate address space is only really needed 
->> if we have an iommu?
->> 
->> Regards,
->> BALATON Zoltan
---3866299591-1495457781-1612889704=:24435--
+We could audit all the uninitialized buffers and the
+bdrv_co_preadv() handlers, but it is simpler to change the
+default of this testing driver. Performance tests will have
+to adapt and use 'null-co,read-zeroes=on'.
+
+Suggested-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud√© <philmd@redhat.com>
+---
+RFC maybe a stricter approach is required?
+---
+ block/null.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/block/null.c b/block/null.c
+index cc9b1d4ea72..f9658fd70ac 100644
+--- a/block/null.c
++++ b/block/null.c
+@@ -93,7 +93,7 @@ static int null_file_open(BlockDriverState *bs, QDict *options, int flags,
+         error_setg(errp, "latency-ns is invalid");
+         ret = -EINVAL;
+     }
+-    s->read_zeroes = qemu_opt_get_bool(opts, NULL_OPT_ZEROES, false);
++    s->read_zeroes = qemu_opt_get_bool(opts, NULL_OPT_ZEROES, true);
+     qemu_opts_del(opts);
+     bs->supported_write_flags = BDRV_REQ_FUA;
+     return ret;
+-- 
+2.26.2
+
 
