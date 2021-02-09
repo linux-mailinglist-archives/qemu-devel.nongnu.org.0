@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4780A31518D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:28:35 +0100 (CET)
-Received: from localhost ([::1]:49932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C2E315183
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:26:42 +0100 (CET)
+Received: from localhost ([::1]:45432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9U0I-0004BY-CF
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:28:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43644)
+	id 1l9TyT-0002IU-5G
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:26:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9Tc4-0004vS-FU
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:03:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9Tbx-0001dy-0s
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:03:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612879404;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wMqRnvVBAIUl679RTywkJe7iPD36vokFh6MNh04rUWY=;
- b=BTGZZWpgHSBodhTkRPIbS28x9izGoleV15nzix7c2l93qR2QlBMvG8cV4/pKB0uKhBk0+S
- cB8wesSCWPTWck0ueKy4eW0MT3VLk/r/q7a7Tmq4570q71w4uIAzU18UZGSWbA3ry5XdRN
- Fye3VVjxq7adTOVQQYfa0EcMjBuy3RU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-HNsAgvlROyGfC_dy4_9p1Q-1; Tue, 09 Feb 2021 09:03:15 -0500
-X-MC-Unique: HNsAgvlROyGfC_dy4_9p1Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A487B801981;
- Tue,  9 Feb 2021 14:03:14 +0000 (UTC)
-Received: from redhat.com (ovpn-115-66.ams2.redhat.com [10.36.115.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 859221820E;
- Tue,  9 Feb 2021 14:03:08 +0000 (UTC)
-Date: Tue, 9 Feb 2021 14:03:05 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/2] travis: remove travis configuration and all
- references to Travis CI
-Message-ID: <20210209140305.GK1166421@redhat.com>
-References: <20210209135011.1224992-1-berrange@redhat.com>
- <20210209135011.1224992-3-berrange@redhat.com>
- <4e8492ab-9c10-d698-077a-9299b1a5b260@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l9Twx-0001LM-LG
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:25:08 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l9Tws-00029z-H5
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:25:07 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l9Twp-0004IO-JF
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 14:24:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8541C2E8141
+ for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 14:24:59 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <4e8492ab-9c10-d698-077a-9299b1a5b260@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Feb 2021 14:10:50 -0000
+From: Thomas Huth <304636@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Won't Fix; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anthony-codemonkey bryce kirkland n1-notch-1
+ plopezr riku-voipio simon-mungewell th-huth
+X-Launchpad-Bug-Reporter: mungewell (simon-mungewell)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20081203025459.23099.79789.malonedeb@gangotri.canonical.com>
+Message-Id: <161287985051.32649.84804766016914672.malone@gac.canonical.com>
+Subject: [Bug 304636] Re: -hda FAT:. limited to 504MBytes
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
+X-Launchpad-Hash: bbaad0d386f3f373f10f4e86353fb5243d915f3c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,112 +73,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 304636 <304636@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 09, 2021 at 02:58:46PM +0100, Philippe Mathieu-Daudé wrote:
-> On 2/9/21 2:50 PM, Daniel P. Berrangé wrote:
-> > The Travis CI system QEMU has been using has removed the unlimited free
-> > usage model, replacing it with a one-time only grant of CI minutes that
-> > is not renewed. The QEMU CI jobs quickly exhaust maintainer's free CI
-> > credits, leaving them unable to test with Travis. This is not a
-> > sustainable situation, so we have no choice by to discontinue use of
-> > Travis. GitLab CI is now the primary target, with Cirrus CI filling
-> > in some platform gaps where needed.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  .travis.yml                        | 439 -----------------------------
-> >  MAINTAINERS                        |   3 -
-> >  configure                          |   1 -
-> >  contrib/gitdm/filetypes.txt        |   2 +-
-> >  scripts/travis/coverage-summary.sh |  27 --
-> >  tests/docker/docker.py             |   2 +-
-> >  tests/qemu-iotests/079             |   2 +-
-> >  tests/test-util-filemonitor.c      |  11 -
-> >  8 files changed, 3 insertions(+), 484 deletions(-)
-> >  delete mode 100644 .travis.yml
-> >  delete mode 100755 scripts/travis/coverage-summary.sh
-> ...
-> 
-> > diff --git a/configure b/configure
-> > index 7c496d81fc..058a7c7967 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -4872,7 +4872,6 @@ fi
-> >  ########################################
-> >  # See if __attribute__((alias)) is supported.
-> >  # This false for Xcode 9, but has been remedied for Xcode 10.
-> 
-> Not related to this patch, but I don't think Xcode 9 is supported
-> anymore.
-> 
-> > -# Unfortunately, travis uses Xcode 9 by default.
-> >  
-> >  attralias=no
-> >  cat > $TMPC << EOF
-> 
-> > diff --git a/scripts/travis/coverage-summary.sh b/scripts/travis/coverage-summary.sh
-> > deleted file mode 100755
-> > index d7086cf9ca..0000000000
-> > --- a/scripts/travis/coverage-summary.sh
-> > +++ /dev/null
-> > @@ -1,27 +0,0 @@
-> > -#!/bin/sh
-> > -#
-> > -# Author: Alex Bennée <alex.bennee@linaro.org>
-> > -#
-> > -# Summerise the state of code coverage with gcovr and tweak the output
-> > -# to be more sane on Travis hosts. As we expect to be executed on a
-> > -# throw away CI instance we do spam temp files all over the shop. You
-> > -# most likely don't want to execute this script but just call gcovr
-> > -# directly. See also "make coverage-report"
-> > -#
-> > -# This code is licensed under the GPL version 2 or later.  See
-> > -# the COPYING file in the top-level directory.
-> > -
-> > -# first generate the coverage report
-> > -gcovr -p -o raw-report.txt
-> > -
-> > -# strip the full-path and line markers
-> > -sed s@$PWD\/@@ raw-report.txt | sed s/[0-9]\*[,-]//g > simplified.txt
-> > -
-> > -# reflow lines that got split
-> > -awk '/.[ch]$/ { printf("%s", $0); next } 1' simplified.txt > rejoined.txt
-> > -
-> > -# columnify
-> > -column -t rejoined.txt > final.txt
-> > -
-> > -# and dump, stripping out 0% coverage
-> > -grep -v "0%" final.txt
-> 
-> This script can be run on other CI.
-> 
-> Keeping scripts/travis/coverage-summary.sh (moved to
-> scripts/ci/coverage-summary.sh):
+Pedro,
+please also note that vvfat driver is general in a bad state and more or le=
+ss completely unmaintaind. I can only strongly recommend to *not* use it in=
+ production. If you have to share files between guest and host, please use =
+something more modern like virtio-fs (or maybe virtio-9p) instead.
 
-I notice that the "gcovr" program used here should be able to output
-an XML document in a format that is supported by GitLab, which can
-then pretty-display the results.
+-- =
 
-If we do that, perhaps we won't ned this coverage-summary script
-for post-processing the text output format ?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/304636
 
-I guess we need to make sure  gcovr is actually installed in all
-our dockerfiles used by gitlab.
+Title:
+  -hda FAT:. limited to 504MBytes
 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
+Status in QEMU:
+  Confirmed
+Status in qemu package in Ubuntu:
+  Won't Fix
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Bug description:
+  Binary package hint: qemu
 
+  The size of the virtual FAT file system (for sharing a particular directo=
+ry with Guest OS) is hard-coded to be limited to 504MBytes, in block-vvfat.c
+  --
+  /* 504MB disk*/
+  bs->cyls=3D1024; bs->heads=3D16; bs->secs=3D63;
+  --
+
+  If the directory contents exceeds this is stops with an assert
+  --
+  qemu: block-vvfat.c:97: array_get: Assertion `index < array->next' failed.
+  Aborted
+  --
+
+  Also the FAT16 mode (default) only uses 8KByte cluster sizes which preven=
+ts the above being increased. 16KByte and 32KByte sectors can be selected w=
+ith the following patch
+  --
+  --- block-vvfat.c_orig  2008-12-02 12:37:28.000000000 -0700
+  +++ block-vvfat.c       2008-12-02 19:50:35.000000000 -0700
+  @@ -1042,6 +1042,12 @@
+          s->fat_type =3D 32;
+       } else if (strstr(dirname, ":16:")) {
+          s->fat_type =3D 16;
+  +    } else if (strstr(dirname, ":16-16K:")) {
+  +       s->fat_type =3D 16;
+  +       s->sectors_per_cluster=3D0x20;
+  +    } else if (strstr(dirname, ":16-32K:")) {
+  +       s->fat_type =3D 16;
+  +       s->sectors_per_cluster=3D0x40;
+       } else if (strstr(dirname, ":12:")) {
+          s->fat_type =3D 12;
+          s->sector_count=3D2880;
+  --
+
+  Cheers,
+  Mungewell
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/304636/+subscriptions
 
