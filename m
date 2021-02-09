@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFF6314D17
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 11:33:59 +0100 (CET)
-Received: from localhost ([::1]:37846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83329314D19
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 11:34:19 +0100 (CET)
+Received: from localhost ([::1]:38796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9QLG-0003RI-V0
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 05:33:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56746)
+	id 1l9QLa-0003po-I8
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 05:34:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l9QK9-0002cD-1k; Tue, 09 Feb 2021 05:32:49 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:41358 helo=mta-01.yadro.com)
+ id 1l9QKR-0002wb-9U; Tue, 09 Feb 2021 05:33:07 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:41414 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l9QK7-0004XF-2d; Tue, 09 Feb 2021 05:32:48 -0500
+ id 1l9QKP-0004ee-Nt; Tue, 09 Feb 2021 05:33:07 -0500
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 315F5412E7;
- Tue,  9 Feb 2021 10:32:44 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id ACF6A411FB;
+ Tue,  9 Feb 2021 10:33:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  in-reply-to:content-disposition:content-type:content-type
  :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1612866756;
- x=1614681157; bh=mMH9oc68+P8caVXKBQPjpOf4ecYesSWz8JCBY4Ce4f0=; b=
- cu1IoEiI8vQ6lOBfs89+qfznkIA4qKc6XCUuOAm3xXPzyZj/u0hl5SyA6hIbO4Cm
- EnUkcpqzdG8JmgjSQbExFGPQnFOwDYA7tGihAcwPTYrK56uszySntHAlg7GrDgue
- tjEaAgBzqg7RSsDx/pD7nDgc4lNw15iWKcvlW3rJBlA=
+ :date:date:received:received:received; s=mta-01; t=1612866782;
+ x=1614681183; bh=Z1rX4ofjHHi6YocKMEYxlryyHtoT1Jr0DSWwPD6M6uI=; b=
+ k3PLkx4iSOFLm8N+kXdvO7rDx/qsKJp2P7eH7fcJeN2MIGECO7hYCLm10oZxYJFj
+ HYormNVL4z8TThd3raJkHIa1U7wbZcM31kgcXlxSsxBytc46nLbRy39/IeUBDuZM
+ g39GOBDxqV19L+5JTYNf2AD7hNcBwlu0FbjhZUMPuBk=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id N7kiAKMR0C_u; Tue,  9 Feb 2021 13:32:36 +0300 (MSK)
+ with ESMTP id LhqGGvzIZVIp; Tue,  9 Feb 2021 13:33:02 +0300 (MSK)
 Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
  [172.17.100.103])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 817E541281;
- Tue,  9 Feb 2021 13:32:35 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 89EC44128C;
+ Tue,  9 Feb 2021 13:33:02 +0300 (MSK)
 Received: from localhost (172.17.128.60) by T-EXCH-03.corp.yadro.com
  (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 9 Feb
- 2021 13:32:35 +0300
-Date: Tue, 9 Feb 2021 13:32:34 +0300
+ 2021 13:33:02 +0300
+Date: Tue, 9 Feb 2021 13:33:01 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <yaroshchuk2000@gmail.com>
-Subject: Re: [PATCH v3] target/i386/hvf: add vmware-cpuid-freq cpu feature
-Message-ID: <YCJkwsLxtWuIwqU0@SPB-NB-133.local>
-References: <20210114194703.134333-1-yaroshchuk2000@gmail.com>
- <20210122150518.3551-1-yaroshchuk2000@gmail.com>
+Subject: Re: [PATCH] target/i386/hvf: add rdmsr 35H MSR_CORE_THREAD_COUNT
+Message-ID: <YCJk3dGc2xnJdFXG@SPB-NB-133.local>
+References: <20210113205323.33310-1-yaroshchuk2000@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20210122150518.3551-1-yaroshchuk2000@gmail.com>
+In-Reply-To: <20210113205323.33310-1-yaroshchuk2000@gmail.com>
 X-Originating-IP: [172.17.128.60]
 X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
  T-EXCH-03.corp.yadro.com (172.17.100.103)
@@ -76,35 +75,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, pbonzini@redhat.com, qemu-devel@nongnu.org,
- dirty@apple.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 06:05:18PM +0300, yaroshchuk2000@gmail.com wrote:
+On Wed, Jan 13, 2021 at 11:53:23PM +0300, yaroshchuk2000@gmail.com wrote:
 > From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 > 
-> For `-accel hvf` cpu_x86_cpuid() is wrapped with hvf_cpu_x86_cpuid() to
-> add paravirtualization cpuid leaf 0x40000010
-> https://lkml.org/lkml/2008/10/1/246
+> Some guests (ex. Darwin-XNU) can attemp to read this MSR to retrieve and
+> validate CPU topology comparing it to ACPI MADT content
 > 
-> Leaf 0x40000010, Timing Information:
-> EAX: (Virtual) TSC frequency in kHz.
-> EBX: (Virtual) Bus (local apic timer) frequency in kHz.
-> ECX, EDX: RESERVED (Per above, reserved fields are set to zero).
+> MSR description from Intel Manual:
+> 35H: MSR_CORE_THREAD_COUNT: Configured State of Enabled Processor Core
+>   Count and Logical Processor Count
 > 
-> On macOS TSC and APIC Bus frequencies can be readed by sysctl call with
-> names `machdep.tsc.frequency` and `hw.busfrequency`
+> Bits 15:0 THREAD_COUNT The number of logical processors that are
+>   currently enabled in the physical package
 > 
-> This options is required for Darwin-XNU guest to be synchronized with
-> host
+> Bits 31:16 Core_COUNT The number of processor cores that are currently
+>   enabled in the physical package
 > 
-> Leaf 0x40000000 not exposes HVF leaving hypervisor signature empty
+> Bits 63:32 Reserved
 > 
 > Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 > ---
->  target/i386/hvf/hvf.c | 96 ++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 95 insertions(+), 1 deletion(-)
+>  target/i386/cpu.h         | 2 ++
+>  target/i386/hvf/x86_emu.c | 5 +++++
+>  2 files changed, 7 insertions(+)
 > 
 
 Queued, thanks!
