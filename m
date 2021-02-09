@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48BD315570
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 18:56:35 +0100 (CET)
-Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1B131557F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 18:59:50 +0100 (CET)
+Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9XFa-0000V9-8Z
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 12:56:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33474)
+	id 1l9XIj-0002B5-SC
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 12:59:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9XDf-0007fG-Ke
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:54:35 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:54925)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9XDc-0005nG-MY
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:54:35 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id gb24so1994595pjb.4
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 09:54:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mHXATDP/bEwCEsHOGumYcFFMET6+KXxcSYsI24iX2nw=;
- b=pxyAKsJHb1rJsyJugEiOqN+NDn3t3AbyAstae2Wxd3oB6yqMmEAE65agXvr79zbna2
- sc7zaZcHdC4OUGCIPFd+DAivuJ6FLk/BSCtX0ZgG+9OrEJ/68FkbCoPbyc6C1AhBbHBk
- l8oImI8+/tVhike9xsQyJzJVMxQR9kAZQYx+EPbuy+TLlGI1VjiZVoAum17MafRoadp9
- J6UvN2OShusr4K+HK4WMShFcnTSk51lXrTmEEJyXmUJ+YwB2Cj3iKI4xyU/QUDR7e7yc
- YGZitWbqNcfPax2ORGRat50Yg2wlBmOg2WfPVrpdJAkPl8Cka1FxoQH3p5XMICdH1fio
- Oj4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mHXATDP/bEwCEsHOGumYcFFMET6+KXxcSYsI24iX2nw=;
- b=LXRzNb1Z0AcSUiVgHwq3XaGlV+eb5fCyYYXJbI9L30VUoOgork096dQMRvpNySvmd/
- U4PQRPNHx1VXO00xYWUprhbxJza/81BsTTuwb1gMNp/40SC+BTZDIzZAPCn9A+2ySXjB
- dkHWUCcM+Cw4ba1Ygzf8mWUfcHmMBawWhaXqWdaLnkpiKIx00o2L67IaUW2szhOURqYo
- ugSD8nd9Qcf0bzehx+ZCpb4D8RpTrEw2nmTCKsFTORpMhI8nNcZnklF0OYZ+6tZUjZD7
- JJGjbyZMlUycfl7YET+lC9Ul8s02yuMNYUsSrwwxfFrD6jnKu28czchu0JPV6B1du5aa
- Gsqg==
-X-Gm-Message-State: AOAM533x0xlFzqZQfaOe23NM10BFH91pSlf3zwruO1LTTArG/5DrGjcE
- vdvI/Ta56LWB0TY/MJG1gJ1k5w==
-X-Google-Smtp-Source: ABdhPJy7IH6+Qei+KN/RR6/NZdUE4ASC9GlroouzoHLfFFOb8ngeaG5NNeW9U1+ggAuXSjDeJa34mQ==
-X-Received: by 2002:a17:903:4095:b029:e2:fb7d:8b13 with SMTP id
- z21-20020a1709034095b02900e2fb7d8b13mr2120724plc.68.1612893268838; 
- Tue, 09 Feb 2021 09:54:28 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- g6sm2032393pfi.15.2021.02.09.09.54.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Feb 2021 09:54:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l9XHl-0001ji-Gc
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:58:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40452)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l9XHg-0007Fg-OS
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:58:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612893523;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=QsuKbq3s/6Vb7Vi5ihlfCQrIBTI+B6z6MXFPAfim048=;
+ b=A8T6KkS9esKWuWlcjD5z+EBzQiTNppwIB7yPdcNpRshr5xty8NQYvTn0oakQHKBkMmpwZm
+ tyMemjJzI5jXSiAI8Mwk8rsvvut0hg7GeomrKYLNBedGwucurM1W8hPwsAKw79PgXXAMZ0
+ sjaAAuskHyK6DDDoOtpFif/xxX6ISaY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-LGImB1h9NCyQR6bFn0ig6Q-1; Tue, 09 Feb 2021 12:58:38 -0500
+X-MC-Unique: LGImB1h9NCyQR6bFn0ig6Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91411107ACF9
+ for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 17:58:37 +0000 (UTC)
+Received: from redhat.com (ovpn-115-66.ams2.redhat.com [10.36.115.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A6CE519C59;
+ Tue,  9 Feb 2021 17:58:36 +0000 (UTC)
+Date: Tue, 9 Feb 2021 17:58:34 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
 Subject: Re: [PATCH] meson: adjust timeouts for some slower tests
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Message-ID: <20210209175834.GW1166421@redhat.com>
 References: <20210209174541.150011-1-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9825c4c6-ae01-57ee-6616-86eba1d3b04d@linaro.org>
-Date: Tue, 9 Feb 2021 09:54:26 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
 MIME-Version: 1.0
 In-Reply-To: <20210209174541.150011-1-pbonzini@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,11 +78,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/9/21 9:45 AM, Paolo Bonzini wrote:
+On Tue, Feb 09, 2021 at 06:45:41PM +0100, Paolo Bonzini wrote:
 > Adjust the timeouts for the longest running tests.  These are the
 > times that I measured and the corresponding timeouts.  For generic
 > qtests, the target that reported the longest runtime is included.
@@ -100,7 +91,18 @@ On 2/9/21 9:45 AM, Paolo Bonzini wrote:
 > unit tests:
 >     test-crypto-tlscredsx509        13.15s   60s
 >     test-crypto-tlssession          14.12s   60s
-> 
+
+The default meson timeout is 30 seconds which is enough for these
+tests. Of course larger timeouts give more headroom.
+
+If running on particularly slow environemnt (eg under TCG)
+then it would be expecte dto instead use "meson --timeout-multiplier=10"
+to make everything have more headroom.
+
+So I wonder what threshold we need the extra headroom above
+30 seconds in the default config ?
+
+
 > qtests:
 >     ide-test                        13.65s   60s
 >     npcm7xx_watchdog_timer-test     15.02s   60s
@@ -167,9 +169,6 @@ On 2/9/21 9:45 AM, Paolo Bonzini wrote:
 > +  'qom-test' : 6,
 > +  'test-hmp' : 3,
 > +]
-
-Mismatched brace?
-
 >  qtests_generic = [
 >    'cdrom-test',
 >    'device-introspect-test',
@@ -178,16 +177,19 @@ Mismatched brace?
 >           args: ['--tap', '-k'],
 >           protocol: 'tap',
 > +         timeout: 30 * slow_qtests.get(test_name, 1),
-
-Why scale here, rather than putting the real time in the dict?  Is there some
-other scaling going on that I can't see?
-
-
-r~
-
 >           suite: ['qtest', 'qtest-' + target_base])
 >    endforeach
 >  endforeach
+> -- 
+> 2.29.2
 > 
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
