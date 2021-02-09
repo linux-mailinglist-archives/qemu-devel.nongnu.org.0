@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C1A31478A
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 05:31:52 +0100 (CET)
-Received: from localhost ([::1]:38948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E684A3147E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 06:09:11 +0100 (CET)
+Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Kgp-0000YO-7b
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 23:31:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46190)
+	id 1l9LGw-0002pA-Dv
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 00:09:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9Kev-00081K-Un
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 23:29:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9Keu-0003uL-8r
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 23:29:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l9Kes-0002yI-8s
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 04:29:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 386E62E8138
- for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 04:29:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l9LFy-000209-Tw; Tue, 09 Feb 2021 00:08:11 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:33831 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l9LFv-00017R-RQ; Tue, 09 Feb 2021 00:08:10 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DZW9s3tgJz9sVb; Tue,  9 Feb 2021 16:08:01 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1612847281;
+ bh=ZdwYROD92OZJxUYg+wqtrOw1FZZUz+ghaFFtNxxOVF0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kFJxtwzdwquJ1WiCD4a4wHesuCJhrdbc9pPR+QIgQ7W5DqNWDPKQgT5jUzygXdIR0
+ HqPB1usZkEtLdodNFeR30hoPMgyl+DX2PC1T6Fh8vPSLF4fFmQB3LEDAkShaajAkpd
+ kLQyhDLr8F87pnAhy7auLFCRudAj6LV4hTwFP2jI=
+Date: Tue, 9 Feb 2021 13:02:41 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v2] hw/net: fsl_etsec: Reverse the RCTRL.RSF logic
+Message-ID: <20210209020241.GC40668@yekko.fritz.box>
+References: <1612833761-43234-1-git-send-email-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Feb 2021 04:17:19 -0000
-From: Launchpad Bug Tracker <1598612@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor jschwart th-huth
-X-Launchpad-Bug-Reporter: Julius Schwartzenberg (jschwart)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160703192444.23593.70037.malonedeb@gac.canonical.com>
-Message-Id: <161284424008.15411.2587810104494698139.malone@loganberry.canonical.com>
-Subject: [Bug 1598612] Re: Windows for Workgroups 3.11 installer crashes with
- a general protection fault
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
-X-Launchpad-Hash: dc6fa4e01961600797dcd2f0c3967eab13e8eab2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="s9fJI615cBHmzTOP"
+Content-Disposition: inline
+In-Reply-To: <1612833761-43234-1-git-send-email-bmeng.cn@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,55 +58,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1598612 <1598612@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+--s9fJI615cBHmzTOP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Tue, Feb 09, 2021 at 09:22:41AM +0800, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+>=20
+> Per MPC8548ERM [1] chapter 14.5.3.4.1:
+>=20
+> When RCTRL.RSF is 1, frames less than 64 bytes are accepted upon
+> a DA match. But currently QEMU does the opposite.
+>=20
+> When RCTRL.RSF is 0, short frames are silently dropped, however
+> we cannot drop such frames in QEMU as of today, due to both slirp
+> and tap networking do not pad short frames (e.g.: an ARP packet)
+> to the minimum frame size of 60 bytes.
+>=20
+> If eTSEC is programmed to reject short frames, ARP requests will be
+> dropped, preventing the guest from becoming visible on the network.
+>=20
+> The same issue was reported on e1000 and vmxenet3 before, see:
+>=20
+> commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
+> commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes=
+)")
+>=20
+> Ideally this should be fixed on the slirp/tap networking side to
+> pad short frames to the minimum frame length, but I am not sure
+> whether that's doable.
+>=20
+> This commit reverses the RCTRL.RSF testing logic to match the spec.
+> The log message is updated to mention the reject short frames
+> functionality is unimplemented.
+>=20
+> [1] https://www.nxp.com/docs/en/reference-manual/MPC8548ERM.pdf
+>=20
+> Fixes: eb1e7c3e5146 ("Add Enhanced Three-Speed Ethernet Controller (eTSEC=
+)")
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1598612
+Applied to ppc-for-6.0.
 
-Title:
-  Windows for Workgroups 3.11 installer crashes with a general
-  protection fault
+Thanks for the excellent commit message with the links to the relevant
+documentation.
 
-Status in QEMU:
-  Expired
+>=20
+> ---
+>=20
+> Changes in v2:
+> - rewrite the commit message and reverse the RCTRL.RSF test logic
+>=20
+>  hw/net/fsl_etsec/rings.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
+> index 121415a..f89aa7f 100644
+> --- a/hw/net/fsl_etsec/rings.c
+> +++ b/hw/net/fsl_etsec/rings.c
+> @@ -502,10 +502,17 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uin=
+t8_t *buf, size_t size)
+>          return -1;
+>      }
+> =20
+> -    if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
+> +    /*
+> +     * Both slirp and tap networking do not pad short frames
+> +     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
+> +     *
+> +     * If eTSEC is programmed to reject short frames, ARP requests
+> +     * will be dropped, preventing the guest from becoming visible
+> +     * on the network.
+> +     */
+> +    if (!(etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
+>          /* CRC is not in the packet yet, so short frame is below 60 byte=
+s */
+> -        RING_DEBUG("%s: Drop short frame\n", __func__);
+> -        return -1;
+> +        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
+>      }
+> =20
+>      rx_init_frame(etsec, buf, size);
 
-Bug description:
-  I used only disk images from here:
-  http://ia801606.us.archive.org/zipview.php?zip=3D/22/items/IBM_PC_Compati=
-bles_TOSEC_2012_04_23/IBM_PC_Compatibles_TOSEC_2012_04_23.zip
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-  When I try to install Windows for Workgroups 3.11 on either PC DOS
-  2000 or MS-DOS 6.22, the installer crashes after entering the
-  graphical part with two dialogs containing:
+--s9fJI615cBHmzTOP
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  Application Error
-  WINSETUP caused a General Protection Fault in module <unknown>0EDF:7011WI=
-NSETUP will close.
+-----BEGIN PGP SIGNATURE-----
 
-  Application Error
-  WINSETUP caused a General Protection Fault in module USER.EXE at 0001:40B=
-6.
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAh7T8ACgkQbDjKyiDZ
+s5IKOg//avGB4xsPpLPEkXctCRXUexFAa6UZRLaaKpIM7APdkpFKTDSrVm8aJRnh
+thD6I3pfzek3bheVw9DlyHTsCb2ugb1uSr+NrFqn7d+CjKVhxi/y5q6VCyrMmE13
+eH/7rIPsm1XGaKakg7e/ISTwnw99pO8/nCovtTTpPFkTIXvFUF10I9loK4y99rjF
+rT4h5DvQ6oE4N96cyGCVfsbbNrrWpS6XEwknUFMfzcQj0HSbUu4sfsjC6jbOQzUA
+23FxWz29bCLXC64D9PBtdchHhGo8jeJkGIptEscsta2EPu+APrLXdK8QaQD1Iy3b
+GdvfTsy0ITtkhLZiFWSJLbxzfwtCyp7yncQZzDVQR6r0imgBad9qRtkrd80FfOMs
+Bc6bTrkn6Z94ZMCft72zEIMapcVvwl+v40leioT0dMJT7PKuh0FXk49+fu3xuvhs
+s5M7dG/rXR2hNcPlhfMHb2BUPm55U3Pap9n0CLPrRCPql8QUKmY+mqlBrR2a1VUT
+lQO/TjU9ctGduCMRFkH3Ux0QWBtszI6rmHAec2syhCs47g1vpCFEuniu+XkCgBsQ
+6KSUVlzXOh04R+9Fuy8IIBxAHKstBkRR1/CcIFotcw5YUCopYvXAGSAmFlMSY1Am
+5KoGOnbvmtoqyNaY0Yy1IkRKBmkuNz9Rcs0JxQUGJgbwWR9QccI=
+=pE1g
+-----END PGP SIGNATURE-----
 
-  And then:
-  Standard Mode: Bad Fault in MS-DOS Extender.
-  Fault: 000D Stack Dump: 0000 0000 0070
-  Raw fault frame: EC=3D0000 IP=3D5EF7 CS=3D037F FL=3D3087 SP=3DFFEE SS=3D0=
-2DF
-
-  This happens both with and without KVM. I tested with QEMU from Ubuntu
-  14.04 and 16.04 and recent GIT
-  (ef8757f1fe8095a256ee617e4dbac69d3b33ae94).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1598612/+subscriptions
+--s9fJI615cBHmzTOP--
 
