@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C7F314A61
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:36:42 +0100 (CET)
-Received: from localhost ([::1]:47086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC86314A56
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:33:22 +0100 (CET)
+Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9OVl-0006aA-JU
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:36:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47570)
+	id 1l9OSX-0003lW-4a
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:33:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NVz-0005UY-G6; Tue, 09 Feb 2021 02:32:51 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:45391)
+ id 1l9NVz-0005U8-9l; Tue, 09 Feb 2021 02:32:51 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:39671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NVp-0005oB-32; Tue, 09 Feb 2021 02:32:51 -0500
+ id 1l9NVp-0005oA-3r; Tue, 09 Feb 2021 02:32:51 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 3A19CB76;
- Tue,  9 Feb 2021 02:32:08 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id C5D22C18;
+ Tue,  9 Feb 2021 02:32:09 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:08 -0500
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=mdUz6xUssgtkW
- /6nDJBshwOO9SX08i0jnYuE96Ljb3I=; b=kOmrEXDSOgSiZKAz1Z0NA1Rzc8jTd
- WU99a7p82PxfCBCKO6AJcGzGgsqTs2Of4CAS1cK+m9e+hbZ8PabIOD3ffoSCBTWB
- XZi5x9bZJtKuHD1mfjhzG7VBwygh9YElD2FOoFaYN6Yud4dNVzFIVo8XynyGXC2n
- dW1FdeK20O33jx1VAhmQdGzsfnklzoTFi9kGWd1TGKVkD27HHxIfHTu2hLNwEBD7
- WBpXCoseU+BRDwXJ61F4qhanJzqDTtDIM18cHbBOwPQuwCKy1FQyxgnsZYa+uWI9
- UwzHu2coD7cK4q+G7d6dsBGhwDFqW/gXEF0cJ2JjBOEQsEhLkvytdQiGw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=KNXtMkkWvFtMy
+ AmmS36ABNVZu3UV2AC5DlGj7Ivf8fQ=; b=I7Y8X30vuSdVI2/onsnGTB6YHLnql
+ 9YIi6M/F3cciBtodVfRE1a6KtsGqibpW2swRes++/WN8OO2Go7999aEahDnMUSrI
+ 78TA4Oa7rVg4+CuuUHVzez9Uh5jtaBWjJjrWJMn23eVIQm4892x3KiB39aV7sxrt
+ 9dPLgnGIOCWEu2+aU7K3fEEoAbnPFQf3HiAJsDUn8GmIOLwK/yT+vaBhZikKNsik
+ a2dckhVLJmla+zposjz+wiFwGTNNdPDoIz+Ksd1Y4hz/yMIIbnexxbvK9d+kOBjR
+ JUiGe7229+DTJXb6k7TzJJvVuYLy/r6FaWfXsevoN4LjfL+3Kj+0KTpTw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=mdUz6xUssgtkW/6nDJBshwOO9SX08i0jnYuE96Ljb3I=; b=YuiEswfy
- EF3x4rF1egIK2lLhq0dxAb7L1Scz+S8/vyckep/zIK6jUIXHnBoI+OJd/h4CX8gK
- bTTgcBqY1LXDvz4kqiHWFfklcmGN0NiJ6ZwBVEAKcE3hAtByUbZvfIMUxHxIuuIE
- 1VK9y2Dj1v88ARPGvhuCXx38GAQrSVj+H1aNSUcPXUq4YPJh0U/rHwk62TaP30Un
- JzD15fOQo5GWSL7Z0TwPQ/Ma6UDA1THhCga8sFQR/hcT7eKWSIxaFEHo2r1ZXMaO
- 989P+kYDOSBcK2wsqN88S8ywAq0TqDmoZoJQvIcgVvcfJiVgUJxb0Nhtpl2qtd9n
- cg4w1wouUFa3Aw==
-X-ME-Sender: <xms:dzoiYCOY9UvrcunhIcAjx4xQFfYrfYDJLtjgRD4a2pSDxlXRdhqWOQ>
- <xme:dzoiYA9Ve-A2Ke_BfEHJI0T9lv8j61qsaM0cPELlaTtzp-mEP6C7aUShA7YkCbu04
- fpl8MyR3SD358Uyr8o>
+ fm2; bh=KNXtMkkWvFtMyAmmS36ABNVZu3UV2AC5DlGj7Ivf8fQ=; b=oT5rYzUR
+ 2/vSkIBS9nFxnP57iYb+kfw+sn46PoX1tVRKfoGE3TdJL4NBIWLBt+63GOFoUo3E
+ 3kaIxlGh3fVehUSWets5n2upLjuJFdtceu98N9ufZ0P35Z59Ms1h5/x1onqCQ/Lp
+ sKU36Uava2A7qT3vZpLbiW1lxW2XW/YhmbBsH8Jw4iD82dtyCITPhsoR3mHlYqkz
+ X4RcvYGAonJalN/hzPP2JrK9YfeX3Zch97/pOekLBXnvfpinPXV3nxAD4QXC2R7q
+ UCIfB9699x3WwqOgXAcAsFtOiuOWevnHCaplaLuS+BFZ+DFfPOedU/UxvumMxYg7
+ 6xBH1P9W4SnO8w==
+X-ME-Sender: <xms:eToiYNMcOwOCaLs2QCjtG_DuqQb5i1UZ3CMwtvEUTq7613LoHk_uFA>
+ <xme:eToiYP_zilBRv3gBGeJs0GfkuNSXqxFqFTtg7LzbetQyg0f0QqTPZUNZU9pYxQ6Zy
+ j7r9BmZU-x8qscWAe8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggdduuddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,21 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggdduuddtucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:dzoiYJQJI8Z-EX2RgxQHtTE4BDoFQvM6K3R2LCm5UVJkc5l3pZgoXQ>
- <xmx:dzoiYCt42UjgxwsnG6y8eOLZ6_Lwlei_KwePz5UU36PBcjtvcWr4CA>
- <xmx:dzoiYKeQdrStHMwa8pvhQnCE_3ub3HpNhw-9wIatc9pz7_0Mv6dv1A>
- <xmx:dzoiYBx_t6MWd2ipKKzW1rtx3p4Eg-dT4b_c8BlgtomEWCjGwdIkciwDv-E>
+X-ME-Proxy: <xmx:eToiYMRV1Srstdokd0Rh5fZAK3QCfeSg8v6tDaZm-G_QWUuQ3wnxVg>
+ <xmx:eToiYJsIdzXqdwAMlsQrGAUwQyRjldrPJH4_rnUZ2vzRfli6VE0MiA>
+ <xmx:eToiYFewkUrWKdN27JnG_XuzQSvO71ak2uL2LOh5XDKXnxNSJrDvXw>
+ <xmx:eToiYEw3VR_jxxGd9tgQmLAmtmbJJSGujXw0185D1y8Xw_E4QYNs55GQ-hI>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 64FD11080057;
- Tue,  9 Feb 2021 02:32:06 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id ED07C108005B;
+ Tue,  9 Feb 2021 02:32:07 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 29/56] hw/block/nvme: remove unused argument in
- nvme_ns_init_zoned
-Date: Tue,  9 Feb 2021 08:30:34 +0100
-Message-Id: <20210209073101.548811-30-its@irrelevant.dk>
+Subject: [PULL 30/56] hw/block/nvme: open code for volatile write cache
+Date: Tue,  9 Feb 2021 08:30:35 +0100
+Message-Id: <20210209073101.548811-31-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210209073101.548811-1-its@irrelevant.dk>
 References: <20210209073101.548811-1-its@irrelevant.dk>
@@ -104,36 +103,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 
-nvme_ns_init_zoned() has no use for given NvmeCtrl object.
+Volatile Write Cache(VWC) feature is set in nvme_ns_setup() in the
+initial time.  This feature is related to block device backed,  but this
+feature is controlled in controller level via Set/Get Features command.
+
+This patch removed dependency between nvme and nvme-ns to manage the VWC
+flag value.  Also, it open coded the Get Features for VWC to check all
+namespaces attached to the controller, and if false detected, return
+directly false.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+[k.jensen: report write cache preset if present on ANY namespace]
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme-ns.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/block/nvme.h    |  1 -
+ hw/block/nvme-ns.c |  4 ----
+ hw/block/nvme.c    | 15 ++++++++++++---
+ 3 files changed, 12 insertions(+), 8 deletions(-)
 
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 65540b650e1d..347c149e7905 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -121,7 +121,6 @@ typedef struct NvmeFeatureVal {
+         uint16_t temp_thresh_low;
+     };
+     uint32_t    async_config;
+-    uint32_t    vwc;
+ } NvmeFeatureVal;
+ 
+ typedef struct NvmeCtrl {
 diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 9be170abb78d..d35c2925ecb8 100644
+index d35c2925ecb8..7a5a77983798 100644
 --- a/hw/block/nvme-ns.c
 +++ b/hw/block/nvme-ns.c
-@@ -205,7 +205,7 @@ static void nvme_ns_zoned_init_state(NvmeNamespace *ns)
+@@ -90,10 +90,6 @@ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+         return -1;
      }
+ 
+-    if (blk_enable_write_cache(ns->blkconf.blk)) {
+-        n->features.vwc = 0x1;
+-    }
+-
+     return 0;
  }
  
--static void nvme_ns_init_zoned(NvmeCtrl *n, NvmeNamespace *ns, int lba_index)
-+static void nvme_ns_init_zoned(NvmeNamespace *ns, int lba_index)
- {
-     NvmeIdNsZoned *id_ns_z;
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 35f39ecd9559..0b002cb2beab 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -3097,6 +3097,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+     NvmeGetFeatureSelect sel = NVME_GETFEAT_SELECT(dw10);
+     uint16_t iv;
+     NvmeNamespace *ns;
++    int i;
  
-@@ -322,7 +322,7 @@ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-         if (nvme_ns_zoned_check_calc_geometry(ns, errp) != 0) {
-             return -1;
-         }
--        nvme_ns_init_zoned(n, ns, 0);
-+        nvme_ns_init_zoned(ns, 0);
-     }
- 
-     if (nvme_register_namespace(n, ns, errp)) {
+     static const uint32_t nvme_feature_default[NVME_FID_MAX] = {
+         [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
+@@ -3172,7 +3173,17 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+         result = ns->features.err_rec;
+         goto out;
+     case NVME_VOLATILE_WRITE_CACHE:
+-        result = n->features.vwc;
++        for (i = 1; i <= n->num_namespaces; i++) {
++            ns = nvme_ns(n, i);
++            if (!ns) {
++                continue;
++            }
++
++            result = blk_enable_write_cache(ns->blkconf.blk);
++            if (result) {
++                break;
++            }
++        }
+         trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
+         goto out;
+     case NVME_ASYNCHRONOUS_EVENT_CONF:
+@@ -3335,8 +3346,6 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+         ns->features.err_rec = dw11;
+         break;
+     case NVME_VOLATILE_WRITE_CACHE:
+-        n->features.vwc = dw11 & 0x1;
+-
+         for (i = 1; i <= n->num_namespaces; i++) {
+             ns = nvme_ns(n, i);
+             if (!ns) {
 -- 
 2.30.0
 
