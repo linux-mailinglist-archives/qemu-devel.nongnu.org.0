@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB8F3155FA
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:34:56 +0100 (CET)
-Received: from localhost ([::1]:45688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7ED315604
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:37:09 +0100 (CET)
+Received: from localhost ([::1]:51532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Xqh-0001Xj-Pi
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:34:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43362)
+	id 1l9Xsq-00043p-F4
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:37:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9Xk5-00033u-90
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:28:05 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41951)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9Xn5-00079D-4S
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:31:15 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9Xk3-0007pv-II
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:28:04 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id n6so10386851wrv.8
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:28:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=a7e1FwTBjDma5YBYDcW8fs7cDFozA2L932geu4P/T6s=;
- b=tdVD6HkTknlvSqlFhHboH6AzQ1hVbJTfi1C/deNM96ggpcc5O+cTB+W2mkN74vHBer
- twQIiUFfQwZqRT+/gHS2CbZWwj0wx+7EQijv0LhDIQY2SioYdWDPyPOtwhv6NBwVKf/G
- 5IwL+WdFegkAl8mygWiRkCgT0feLEqkNWhpHjTYBXZCo1EMjbRJYeUGf1qG1uQXiWoza
- CrugkjL9wmf4iK4BvIFKb2b4Lz6YSb3qcxNYAj4fnmFUOqFHHetZaPKRBen+Dwem6EWk
- oP5nhNwa6I/lA9HSzGAxqW24DWZNL0MZN4mfTchsv3kbP3BJM1h15FpoTi9hc6irRn4s
- sCeg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9Xn2-0000Gj-Pe
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:31:10 -0500
+Received: by mail-ed1-x529.google.com with SMTP id q2so25151673edi.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:31:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=j9MxuWEcaN1Y/HgLrW3kDnHFLpw8WAdczmF6p7ffszc=;
+ b=AmMZXEpVY95Tnd+njwRS383LdQgPHSpx4afhZvvpH1vVxWqCVjUQDDg+pgmkCMu3lU
+ PSNCL6VaXUG7FnMuyNoJ0nms2drAFHadVgP4NHGOSwnnVstueWTNdNJZxuKN6TM0o+EJ
+ 6of6SFLHVr/Gp2U2FtElxwOVDwsLqFQxqeu0OxsUS6aG5x3Wr4Xoxn/rZLT1SkZCsVJ8
+ tMwlkraB1q1sEf1RbLA5JnlM/De1xjqW9+orDLob4DMCXCAEQOKIZYQYh7P5MOwA6HOs
+ H9MRyZjpqjUuk/sXZGMJslN/LS1TBvrThh/LVB+/49dRomgwpz/cFHyPVIUmulK0E6vM
+ thXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=a7e1FwTBjDma5YBYDcW8fs7cDFozA2L932geu4P/T6s=;
- b=LMrjKooDNPcVLMs6ITlGC1dDlQ6AWxBx3RX7c7NIygD/RLOEKusNJmj5elaa2IjOdD
- 8/w/mljhrERpugfHvN0xxgVl9KdU0e1LqIR1hLrnFEOwtLTEv/dj6jHXlH3hlec76qVc
- NUPHJuKa2/Aoy1xT2my4F6/aOayFj3eDgkVFlmaTpuMfBn5RLnUBMWg6SotnWxD6sXr/
- rAzoynn5QV4sotnnvp/Busb7S9yO6Lu6MTL2iR+O3g+DfgcAkhNSMJM4JLngLw+8vJAV
- XDT4aXE49/u93jaoIlVxMU1CHqB9AD8rslPeKvUC5u1HkLN9iOr7kWHGWXeB8JRMEdG9
- MjRQ==
-X-Gm-Message-State: AOAM530FBEVadO7qeIZuGDh1hKpvozOdn4hbakqccQrahuEd/JlhjTiF
- j/t/8RsdUNzsCaDkJghiC6WENA==
-X-Google-Smtp-Source: ABdhPJxqQghwiX/e6wCIB2e1++ViPqGD1PvLHQHCOqEoHgvc4joznKEzPmj+8aCioxM4zisGy+WmFw==
-X-Received: by 2002:a5d:6947:: with SMTP id r7mr26916368wrw.150.1612895282211; 
- Tue, 09 Feb 2021 10:28:02 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i8sm40854951wry.90.2021.02.09.10.27.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 10:27:57 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0D9FE1FF9A;
- Tue,  9 Feb 2021 18:27:52 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 12/12] tests/acceptance: add a new tests to detect counting
- errors
-Date: Tue,  9 Feb 2021 18:27:48 +0000
-Message-Id: <20210209182749.31323-13-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210209182749.31323-1-alex.bennee@linaro.org>
-References: <20210209182749.31323-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=j9MxuWEcaN1Y/HgLrW3kDnHFLpw8WAdczmF6p7ffszc=;
+ b=pcdSARDX/IarBzlzUq7riy+HDOJ8WY5+DTpUBq64K1Q8ppK1iy9I3SVvNw8H+jIVDT
+ k/zHKcIGFRtNGYTFragZyxchoRb5ROlGCHbEx2Qb5swh8GYf2crCWvjYB90llovhkPtK
+ DFPjhVZwZaWqNerwI1i2bS/BUQbm+Zb0mad3gqD3h3bIZA/JZqwhV/zz56RIhIMR5TDf
+ PtUjvUjcoYdqsyI14KqQmS3v2J8GS4dw+v4VjQItAACTNlsNrNg7P5LEcqJUwAEN7HcG
+ NX8PExjLTMn0tj2VhjWm6rMGHnPDoPuhWWTEV0/0B+y2WZIRhuamkyh6lv8d6QKGo86A
+ /E0Q==
+X-Gm-Message-State: AOAM531JDQzpCoJOVVzgCIXPqGpspUsW4yszdvBCJCIMSRzAYsgFFOfb
+ halKt87U9/3uBjOkE6YYPaY=
+X-Google-Smtp-Source: ABdhPJwbnn/7v6YAANQ7F9Po/5SQ1aSV1ScMJ6i0jHO6JipiRW1SKC/5xbP8pNajbf67CwW5+u7NqA==
+X-Received: by 2002:a05:6402:6cc:: with SMTP id
+ n12mr22620040edy.69.1612895464933; 
+ Tue, 09 Feb 2021 10:31:04 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id t11sm12064029edd.1.2021.02.09.10.31.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Feb 2021 10:31:04 -0800 (PST)
+Subject: Re: [PATCH 0/4] linux-user: Support o32 ABI with 64-bit MIPS CPUs
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Laurent Vivier <laurent@vivier.eu>
+References: <20201119161710.1985083-1-f4bug@amsat.org>
+ <1800efb3-fd88-8bfe-7347-85c2fc8d656e@amsat.org>
+Message-ID: <d44f948f-1f1e-a759-1526-9d45f1d89bca@amsat.org>
+Date: Tue, 9 Feb 2021 19:31:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <1800efb3-fd88-8bfe-7347-85c2fc8d656e@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,63 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- robhenry@microsoft.com, aaron@os.amperecomputing.com, cota@braap.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, kuhn.chenqun@huawei.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The insn plugin has a simple heuristic to detect if an instruction is
-detected running twice in a row. Check the plugin log after the run
-and pass accordingly.
+ping?
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/acceptance/tcg_plugins.py | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/tests/acceptance/tcg_plugins.py b/tests/acceptance/tcg_plugins.py
-index b512979769..acab599505 100644
---- a/tests/acceptance/tcg_plugins.py
-+++ b/tests/acceptance/tcg_plugins.py
-@@ -101,3 +101,34 @@ class PluginKernelNormal(PluginKernelBase):
-             else:
-                 logger.debug("Failed to find instruction count")
-                 self.fail
-+
-+    def test_aarch64_virt_insn_icount(self):
-+        """
-+        :avocado: tags=accel:tcg
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=machine:virt
-+        :avocado: tags=cpu:cortex-a57
-+        """
-+        kernel_path = self._grab_aarch64_kernel()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyAMA0')
-+        console_pattern = 'Kernel panic - not syncing: VFS:'
-+
-+        plugin_log = tempfile.NamedTemporaryFile(mode="r+t", prefix="plugin",
-+                                                 suffix=".log", delete=False)
-+
-+        self.run_vm(kernel_path, kernel_command_line,
-+                    "tests/plugin/libinsn.so", plugin_log.name,
-+                    console_pattern,
-+                    args=('-cpu', 'cortex-a53', '-icount', 'shift=1'))
-+
-+        logger = logging.getLogger()
-+
-+        with plugin_log as lf, \
-+             mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
-+            m = re.search(br"detected repeat execution @ (?P<addr>0x[0-9A-Fa-f]+)", s)
-+            if m is not None and "addr" in m.groupdict():
-+                logger.debug("detected repeat instructions")
-+                self.fail("detected repeated instructions")
-+            else:
-+                logger.debug("no repeats detected: %s", m)
--- 
-2.20.1
-
+On 12/13/20 4:14 PM, Philippe Mathieu-Daudé wrote:
+> Hi Laurent,
+> 
+> On 11/19/20 5:17 PM, Philippe Mathieu-Daudé wrote:
+>> This series allow building linux-user emulator to run ELF
+>> binaries built for the MIPS o32 ABI on 64-bit CPUs (binaries
+>> produced by Sony Linux Toolkit for Playstation 2 for the
+>> R5900 CPU).
+>>
+>> The new QEMU binary is named 'qemu-mips64o32'.
+>>
+>> The binfmt config isn't correct, as it matches mipsel/mipsn32el.
+>> I missed to understand how mipsel (o32) and mipsn32el (n32) are
+>> differentiated.
+>>
+> 
+>> Philippe Mathieu-Daudé (4):
+>>   linux-user/mips64: Restore setup_frame() for o32 ABI
+>>   linux-user/mips64: Support o32 ABI syscalls
+> 
+> Until we figure out the issue raised by Maciej in patch 3,
+> can you review/queue patches 1 and 2 which are independent
+> of the outcome?
+> 
+> Thanks,
+> 
+> Phil.
+> 
 
