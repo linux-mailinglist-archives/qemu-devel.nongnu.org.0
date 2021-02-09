@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F493151CA
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:37:42 +0100 (CET)
-Received: from localhost ([::1]:59660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0DD3151C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:37:34 +0100 (CET)
+Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9U97-0008VQ-AW
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:37:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51470)
+	id 1l9U8z-0008Kk-UW
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:37:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9U4b-0006ZO-Io; Tue, 09 Feb 2021 09:33:01 -0500
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:40440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9U4Z-0005kZ-Lh; Tue, 09 Feb 2021 09:33:01 -0500
-Received: by mail-yb1-xb30.google.com with SMTP id i71so18361414ybg.7;
- Tue, 09 Feb 2021 06:32:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m6rCiAK3q7f9D9jfXidnhgVKLoErnW0pIAN2PJufOas=;
- b=n6AhL8GDWSZqqwZvj96FpAGufO6U93f1VHJmdV7Gr1JgY40zqjGX7W5piwMpSPP7+L
- EjiKMalqJ9qhKOdfXkw839L2zK2an21FTihFE3Zdf3O87yA6FEDXb/Eu7593+YglTxMZ
- Ss08xblR/mnMvzGnQ98+Www+TjLSt+Iw661cnFnpYboRll1fWZzIay+e4rSMh7+187LH
- UtEGC4m+N9HSyj7Ts2jFGRZTfDpSjfPXdUtX0sxJY1BjjBi9Pff7CgzpL49EEvGTmg0d
- ZzO4RziJUyiZQOAufubs8IBWZ2UC/ydPjgDEaIFkSLF4azfJVCfX0jiUWm0d0iZR1akc
- l+eA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l9U67-0007Ne-8k
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:34:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l9U5z-0006SI-Tk
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:34:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612881267;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7GLnpWB0NSBoNRdDidrygmhY1yLVekvkBV4sw47p6kE=;
+ b=MuPcYS8LoaAiXyygU0E8mvTjstRqsJpqYfEClaVVhfuXnYqzP73kQ8TZgwch2vkNpMM3n4
+ /OrOjHbR+zf5SPfHPTXiysxU52zNIc6L+A7ncO4Ba9fTGJ2C7THfE2yr9Nvr1OXau+o5OH
+ 4/9pWeLLdN8JGSpC4mL9LEGsIl+VnUM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-R3_-u7v5MceDYLcUQpKRrg-1; Tue, 09 Feb 2021 09:34:25 -0500
+X-MC-Unique: R3_-u7v5MceDYLcUQpKRrg-1
+Received: by mail-wr1-f70.google.com with SMTP id j8so17147140wrx.17
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 06:34:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m6rCiAK3q7f9D9jfXidnhgVKLoErnW0pIAN2PJufOas=;
- b=NRRq3L7UtmTE4ZG0tLQru/TjipSNk6fJcVuvk/1F7HDM00txHvLC3pVWg8mqQOiVZ0
- CR5bXL71XfQH5AdP8M+bXU4PaT9sAbR2d0cUlsF6jwZlD9ACWaoFDOeCoUuo/FPZzjqj
- EnreRR1yKoMMYOdKWJxEIdwvQLL0UPF3+yhy2786Vl1/DjNl06ZjMmug2CLPBNa5/yOC
- B2T2Fe+peJGLOp2foj4oApQmftVFlkemYC+XdtTyaCsRPsORVpwK/NBjbjHGuaCTsKyO
- lCP/ciBE4TDSf0tEdGej+RsacZYqUVvgvx9t2jQQ9l27kk7JWUjntJbAWuRX8FiK3hSA
- 9uGQ==
-X-Gm-Message-State: AOAM530x8RFxq6WBhzSN3e2fCCUN/wqTCthhOGdQYJvyit4Hzh2c+XWM
- VZiienMZX/8sjYexhKSNe8y51tjX9XZYJphhJ6E=
-X-Google-Smtp-Source: ABdhPJwg85pZ8N3r8aTue7XJZMP1JDP5IS9vgG/OxJM+yQKPtwhVVsLiWWARdmSEL+WwHcJ2Gl/42hFPUHjEbofnWKc=
-X-Received: by 2002:a25:7d01:: with SMTP id y1mr34173545ybc.152.1612881178277; 
- Tue, 09 Feb 2021 06:32:58 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7GLnpWB0NSBoNRdDidrygmhY1yLVekvkBV4sw47p6kE=;
+ b=Ss1W3WfEvfqeSJ/gfVySLKYGcZgsNStD3T46HlZKPVrvujR4fJuiL1vJu0Fi4X3L79
+ h21PiJP88zV2US8URDqvYo0kz5qSo7X1F4M7qY2HewPSF12RdNjjQVtKnznF4N+lDjgT
+ DQ911tkIDVPnXRRJ52OvqSESqfr/9ETziJXtOKJrQGS1IkC2478bTDHjWBvZMPazEMKH
+ fJkD59Zvk6QDMzkwaDajMITxpg+x+v8eaT+Z/ka3i9kSRJ6Fpaf9W+DxTn0dVZxlycWX
+ qtYeqynVS7w7a+SmXBm5NS49dXHxgcqhZLF80rGF7rg/ttSyIf/PRpg2XYbiRe1XpKLe
+ t6qw==
+X-Gm-Message-State: AOAM531eHO7rRy3Y34VWranCzifxpdRdraG1DCFRgFTkvpADnGht+HZD
+ FYfhPnCvBpsVDI6+U3b00djCYUXGtoH+uQTu4XTuQlQ9xnrrCJv9LNQJ8pMbB4NQZBRCyQqp72R
+ 5U8XGKOJO+v810HU=
+X-Received: by 2002:a5d:50d2:: with SMTP id f18mr26937616wrt.338.1612881264011; 
+ Tue, 09 Feb 2021 06:34:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzJsy6TH67kM1KjbHxLNT7qrKEIH3+mxSAEzuqsjF5X+Mf+ZnBiMoqU7ibd4KmPtNddcpuJxA==
+X-Received: by 2002:a5d:50d2:: with SMTP id f18mr26937598wrt.338.1612881263792; 
+ Tue, 09 Feb 2021 06:34:23 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id r1sm35915528wrl.95.2021.02.09.06.34.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 06:34:23 -0800 (PST)
+Date: Tue, 9 Feb 2021 09:34:20 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+Subject: Re: [PATCH 0/3] virtio-net: graceful drop of vhost for TAP
+Message-ID: <20210209093201-mutt-send-email-mst@kernel.org>
+References: <20210204202915.15925-1-yuri.benditovich@daynix.com>
 MIME-Version: 1.0
-References: <20210128063035.15674-1-bmeng.cn@gmail.com>
- <CAEUhbmXofQq9AerwBQfjDZkwp0kA9w+y+x_F0LUWZ6ArP+9H=g@mail.gmail.com>
-In-Reply-To: <CAEUhbmXofQq9AerwBQfjDZkwp0kA9w+y+x_F0LUWZ6ArP+9H=g@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 9 Feb 2021 22:32:47 +0800
-Message-ID: <CAEUhbmXb58yxg1TAgq0vdH=QE-o0qCTjYghX2XZag-S1cWB=Eg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/9] hw/sd: Support block read/write in SPI mode
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Qemu-block <qemu-block@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210204202915.15925-1-yuri.benditovich@daynix.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,45 +90,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: yan@daynix.com, jasowang@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+On Thu, Feb 04, 2021 at 10:29:12PM +0200, Yuri Benditovich wrote:
+> This set of patches introduces graceful switch from tap-vhost to
+> tap-no-vhost depending on guest features. Before that the features
+> that vhost does not support were silently cleared in get_features.
+> This creates potential problem of migration from the machine where
+> some of virtio-net features are supported by the vhost kernel to the
+> machine where they are not supported (packed ring as an example).
 
-On Thu, Feb 4, 2021 at 2:02 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Thu, Jan 28, 2021 at 2:30 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > This includes the previously v3 series [1], and one single patch [2].
-> >
-> > Compared to v3, this fixed the following issue in patch [v3,6/6]:
-> > - Keep the card state to SSI_SD_CMD instead of SSI_SD_RESPONSE after
-> >   receiving the STOP_TRAN token per the spec
-> >
-> > All software tested so far (U-Boot/Linux/VxWorks) do work without
-> > the fix, but it is better to comform with the spec.
-> >
-> > In addition to [2], one more issue was exposed when testing with
-> > VxWorks driver related to STOP_TRANSMISSION (CMD12) response.
-> >
-> > [1] http://patchwork.ozlabs.org/project/qemu-devel/list/?series=226136
-> > [2] http://patchwork.ozlabs.org/project/qemu-devel/patch/1611636214-52427-1-git-send-email-bmeng.cn@gmail.com/
-> >
-> > Changes in v4:
-> > - Keep the card state to SSI_SD_CMD instead of SSI_SD_RESPONSE after
-> >   receiving the STOP_TRAN token per the spec
-> > - new patch: fix STOP_TRANSMISSION (CMD12) response
-> > - new patch: handle the rest commands with R1b response type
-> >
->
-> Ping?
+I still worry that adding new features will silently disable vhost for people.
+Can we limit the change to when a VM is migrated in?
 
-Will a PR be sent soon to include this series so that the SiFive SPI
-series can follow?
 
-Regards,
-Bin
+
+> Instead of silent masking of the features virtio-net gracefully
+> disables the vhost at set_features if some features acked by the
+> guest contradict with kernel vhost capabilities.
+> 
+> This set of patches also makes get_vhost_net() call (that used
+> everywhere) to always return actual result, i.e. initially it
+> returns non-NULL value and from the moment the vhost was disabled
+> the call will return NULL. Such a way we avoid any unexpected
+> calls to vhost functions.
+> Yuri Benditovich (3):
+>   vhost-net: add VIRTIO_NET_F_HASH_REPORT to the list of kernel features
+>   net: add ability to hide (disable) vhost_net
+>   virtio-net: graceful fallback to vhost=off for tap netdev
+> 
+>  hw/net/vhost_net.c  |  5 +++-
+>  hw/net/virtio-net.c | 58 ++++++++++++++++++++++++++++++++++++++-------
+>  include/net/net.h   |  1 +
+>  3 files changed, 55 insertions(+), 9 deletions(-)
+> 
+> -- 
+> 2.17.1
+
 
