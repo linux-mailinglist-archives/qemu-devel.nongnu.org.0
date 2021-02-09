@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD485314729
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 04:46:51 +0100 (CET)
-Received: from localhost ([::1]:57162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0248314731
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 04:48:20 +0100 (CET)
+Received: from localhost ([::1]:59318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9JzG-0001p9-Uz
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 22:46:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39712)
+	id 1l9K0i-0002kZ-2F
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 22:48:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l9Jxo-0001O3-W8
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 22:45:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46644)
+ id 1l9Jzt-0002KU-TC
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 22:47:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l9Jxl-0003LV-Dx
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 22:45:20 -0500
+ id 1l9Jzr-0004Tz-5T
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 22:47:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612842316;
+ s=mimecast20190719; t=1612842445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xBTf3FjFdUMeawaxUiFXlKO+Je85xoDu7QaLiU7M1YM=;
- b=XcU86XI2hRRp8QnhskPTlp34uGxI3snve4V6mOehLZYB8sEKQiRSuDaZXzgU/Mc+VPlUKc
- zP2+hcJOGvl+K31OCkVWqA1STyluRCgsJQMbaKNKKgehC7JwpIKv+gABx8lqfT4b5sKaHh
- yDVp3FlI1EEvlMyEy6IUmZQNdFsaf4U=
+ bh=A68AA78MabJ7FZ5jcerUX3ISnij6Lu128JhZyJPD4wg=;
+ b=T1AYEO1kQu1ilU2MOcGmMFTAOvExPF0rU7UZy8TQRrF0Db0Q0x8bBkY/NLz/8v5wokHUaW
+ /rV9wiT66391A6m42TL6PIJKzZHvT+3mNQjc7Bz+tq23AXFzWV8PaL5NYDS+vvfYOE52Ps
+ XS6OVchylM1cDPcvgf0SPTMT2m25UFI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-7WSaeBfYNg-7LgEjyj9HUA-1; Mon, 08 Feb 2021 22:45:14 -0500
-X-MC-Unique: 7WSaeBfYNg-7LgEjyj9HUA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-46-NuVGy7_KOk68QAeVhXPnkw-1; Mon, 08 Feb 2021 22:47:23 -0500
+X-MC-Unique: NuVGy7_KOk68QAeVhXPnkw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDE2285B6C1;
- Tue,  9 Feb 2021 03:45:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 155EB85B6C9;
+ Tue,  9 Feb 2021 03:47:22 +0000 (UTC)
 Received: from [10.72.13.32] (ovpn-13-32.pek2.redhat.com [10.72.13.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C5D35D734;
- Tue,  9 Feb 2021 03:45:04 +0000 (UTC)
-Subject: Re: [PATCH 3/3] virtio-net: graceful fallback to vhost=off for tap
- netdev
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20210204202915.15925-1-yuri.benditovich@daynix.com>
- <20210204202915.15925-4-yuri.benditovich@daynix.com>
- <1f0f901c-8ad0-60a4-383f-851fc0f093ff@redhat.com>
- <CAOEp5Oco51MuLDEsxFrLtVpOWa1r7vrwLstAkJozfbt+AbVauQ@mail.gmail.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5C2A6F97E;
+ Tue,  9 Feb 2021 03:47:16 +0000 (UTC)
+Subject: Re: [PATCH RFC] pvrdma: wean code off pvrdma_ring.h kernel header
+To: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20210122180029.575284-1-cohuck@redhat.com>
+ <20210129162719.7438dea2.cohuck@redhat.com>
+ <20210208181745.1ac08f12.cohuck@redhat.com>
+ <29651c01-6e9d-c7ef-def8-96dc75b00a3a@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <c5a1113b-8c26-a48f-b4af-fcceb9bad77c@redhat.com>
-Date: Tue, 9 Feb 2021 11:45:03 +0800
+Message-ID: <a8e4d6ee-cc78-75d8-d626-705477dfd134@redhat.com>
+Date: Tue, 9 Feb 2021 11:47:15 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5Oco51MuLDEsxFrLtVpOWa1r7vrwLstAkJozfbt+AbVauQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <29651c01-6e9d-c7ef-def8-96dc75b00a3a@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -64,15 +65,14 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,225 +86,416 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, qemu-devel@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2021/2/9 上午3:59, Yuri Benditovich wrote:
-> On Mon, Feb 8, 2021 at 6:11 AM Jason Wang <jasowang@redhat.com> wrote:
+On 2021/2/9 上午1:28, Paolo Bonzini wrote:
+> On 08/02/21 18:17, Cornelia Huck wrote:
+>> On Fri, 29 Jan 2021 16:27:19 +0100
+>> Cornelia Huck <cohuck@redhat.com> wrote:
 >>
->> On 2021/2/5 上午4:29, Yuri Benditovich wrote:
->>> Currently virtio-net silently clears features if they are
->>> not supported by respective vhost. This may create migration
->>> problems in future if vhost features on the source and destination
->>> are different. Implement graceful fallback to no-vhost mode
->>> when some acked features contradict with vhost. The decision is
->>> taken on set_features call and the vhost will be disabled
->>> till next reset (or migration).
->>> Such fallback is currently enabled only for TAP netdev.
+>>> On Fri, 22 Jan 2021 19:00:29 +0100
+>>> Cornelia Huck <cohuck@redhat.com> wrote:
 >>>
->>> Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
->>> ---
->>>    hw/net/virtio-net.c | 58 ++++++++++++++++++++++++++++++++++++++-------
->>>    1 file changed, 50 insertions(+), 8 deletions(-)
+>>>> The pvrdma code relies on the pvrdma_ring.h kernel header for some
+>>>> basic ring buffer handling. The content of that header isn't very
+>>>> exciting, but contains some (q)atomic_*() invocations that (a)
+>>>> cause manual massaging when doing a headers update, and (b) are
+>>>> an indication that we probably should not be importing that header
+>>>> at all.
+>>>>
+>>>> Let's reimplement the ring buffer handling directly in the pvrdma
+>>>> code instead. This arguably also improves readability of the code.
+>>>>
+>>>> Importing the header can now be dropped.
+>>>>
+>>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>>>> ---
+>>>>
+>>>> Compile-tested only, needs both testing and more eyeballs :)
 >>>
->>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->>> index 5150f295e8..b353060e63 100644
->>> --- a/hw/net/virtio-net.c
->>> +++ b/hw/net/virtio-net.c
->>> @@ -515,6 +515,15 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
->>>        return info;
->>>    }
+>>> Friendly ping :)
 >>>
->>> +static void virtio_net_allow_vhost(VirtIONet *n, bool allow)
->>> +{
->>> +    int i;
->>> +    for (i = 0; i < n->max_queues; i++) {
->>> +        NetClientState *nc = qemu_get_subqueue(n->nic, i)->peer;
->>> +        nc->vhost_net_disabled = !allow;
->>> +    }
->>> +}
->>> +
->>>    static void virtio_net_reset(VirtIODevice *vdev)
->>>    {
->>>        VirtIONet *n = VIRTIO_NET(vdev);
->>> @@ -552,6 +561,7 @@ static void virtio_net_reset(VirtIODevice *vdev)
->>>                assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
->>>            }
->>>        }
->>> +    virtio_net_allow_vhost(n, true);
->>>    }
->>>
->>>    static void peer_test_vnet_hdr(VirtIONet *n)
->>> @@ -689,6 +699,15 @@ static void virtio_net_set_queues(VirtIONet *n)
->>>        }
->>>    }
->>>
->>> +static bool can_disable_vhost(VirtIONet *n)
->>> +{
->>> +    NetClientState *peer = qemu_get_queue(n->nic)->peer;
->>> +    if (!get_vhost_net(peer)) {
->>> +        return false;
->>> +    }
->>> +    return !peer || peer->info->type == NET_CLIENT_DRIVER_TAP;
->>> +}
->>> +
->>>    static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
->>>
->>>    static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
->>> @@ -725,14 +744,14 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
->>>            return features;
->>>        }
->>>
->>> -    virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
->>> -    virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
->>> -    features = vhost_net_get_features(get_vhost_net(nc->peer), features);
->>> -    vdev->backend_features = features;
->>> +    vdev->backend_features = vhost_net_get_features(get_vhost_net(nc->peer), features);
->>>
->>> -    if (n->mtu_bypass_backend &&
->>> -            (n->host_features & 1ULL << VIRTIO_NET_F_MTU)) {
->>> -        features |= (1ULL << VIRTIO_NET_F_MTU);
->>> +    if (!can_disable_vhost(n)) {
->>> +        features = vdev->backend_features;
->>> +        if (n->mtu_bypass_backend &&
->>> +                (n->host_features & 1ULL << VIRTIO_NET_F_MTU)) {
->>> +            features |= (1ULL << VIRTIO_NET_F_MTU);
->>> +        }
->>>        }
->>>
->>>        return features;
->>> @@ -872,10 +891,25 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
->>>        error_propagate(errp, err);
->>>    }
->>>
->>> +static bool check_vhost_features(VirtIONet *n, uint64_t features)
->>> +{
->>> +    NetClientState *nc = qemu_get_queue(n->nic);
->>> +    uint64_t filtered;
->>> +    if (n->rss_data.redirect) {
->>> +        return false;
->>> +    }
->>> +    filtered = vhost_net_get_features(get_vhost_net(nc->peer), features);
->>> +    if (filtered != features) {
->>> +        return false;
->>> +    }
->>> +    return true;
->>> +}
->>> +
->>>    static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
->>>    {
->>>        VirtIONet *n = VIRTIO_NET(vdev);
->>>        Error *err = NULL;
->>> +    bool disable_vhost = false;
->>>        int i;
->>>
->>>        if (n->mtu_bypass_backend &&
->>> @@ -894,13 +928,21 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
->>>                                                      VIRTIO_F_VERSION_1),
->>>                                   virtio_has_feature(features,
->>>                                                      VIRTIO_NET_F_HASH_REPORT));
->>> -
->>>        n->rsc4_enabled = virtio_has_feature(features, VIRTIO_NET_F_RSC_EXT) &&
->>>            virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO4);
->>>        n->rsc6_enabled = virtio_has_feature(features, VIRTIO_NET_F_RSC_EXT) &&
->>>            virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO6);
->>>        n->rss_data.redirect = virtio_has_feature(features, VIRTIO_NET_F_RSS);
->>>
->>> +    if (can_disable_vhost(n)) {
->>> +        disable_vhost = !check_vhost_features(n, features);
->>> +    }
->>> +    if (disable_vhost) {
->>> +        warn_report("Some of requested features aren't supported by vhost, "
->>> +                    "vhost is turned off till next reset");
->>> +        virtio_net_allow_vhost(n, false);
->>> +    }
+>>> Suggestions for a test setup to do some sanity checks (that does not
+>>> require special hardware) also welcome.
 >>
->> This looks more complicated than I expected. See
->> virtio_net_vhost_status() we had a fallback there:
->>
->>           r = vhost_net_start(vdev, n->nic->ncs, queues);
->>           if (r < 0) {
->>               error_report("unable to start vhost net: %d: "
->>                            "falling back on userspace virtio", -r);
->>               n->vhost_started = 0;
->>           }
->>
->> I wonder if we can simply depends on this (which is proved to be work
->> for the past years) by not clearing dev->acked_features like:
->>
->> if (!can_disable_vhost(n)) {
->>       features = vhost_net_get_features(get_vhost_net(nc->peer), features);
->> } else {
->>       vdev->backend_features = features;
->> }
->>
->> Then we probably don't need other tricks.
-> Of course we can.
-> But I would prefer to make things more clear, i.e. make
-> get_vhost_net() always return a meaningful result, even (as an
-> example) in procedures called from set_feature() after the
-> vhost_disabled is set.
-> Otherwise people can rely on get_vhost_net() and call its methods
-> which potentially can do something that we do not expect.
-> In some places in the code (also in future) we'll need to check not
-> only get_vhost_net() but also is_vhost_disabled. IMO, not too elegant,
-> but possible.
+>> Can I interest anyone in this? I'd be happy doing sanity tests myself,
+>> but I have a hard time figuring out even where to start...
+>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+>
+> Jason, Michael, are you going to pick this up?
+>
+> Paolo
 
 
-I see.
-
-
-> Of course, being a decision maker, you can request to do it simpler
-> and do not maintain a consistent result of get_vhost_net().
-> But then please tell it explicitly.
-
-
-So the reason that I prefer the above simple checks is that we've 
-already had two falling backs points in virtio_net_vhost_status():
-
-1) for vnet_hdr_swap:
-
-         if (n->needs_vnet_hdr_swap) {
-             error_report("backend does not support %s vnet headers; "
-                          "falling back on userspace virtio",
-                          virtio_is_big_endian(vdev) ? "BE" : "LE");
-             return;
-         }
-
-2) for all of the other cases:
-
-         n->vhost_started = 1;
-         r = vhost_net_start(vdev, n->nic->ncs, queues);
-         if (r < 0) {
-             error_report("unable to start vhost net: %d: "
-                          "falling back on userspace virtio", -r);
-             n->vhost_started = 0;
-         }
-
-So it's better to have a consistent way:
-
-1) Introduce the variable disable_vhost as you suggest
-
-or
-
-2) falling back by checking the return status of vhost_net_start()
-
-In this case, 2) looks much more easier than convert all the falling 
-backs to 1).
+I will queue this.
 
 Thanks
 
 
 >
->> Thanks
+>>>
+>>>>
+>>>> ---
+>>>>   hw/rdma/vmw/pvrdma.h                          |   5 +-
+>>>>   hw/rdma/vmw/pvrdma_cmd.c                      |   6 +-
+>>>>   hw/rdma/vmw/pvrdma_dev_ring.c                 |  41 ++++---
+>>>>   hw/rdma/vmw/pvrdma_dev_ring.h                 |   9 +-
+>>>>   hw/rdma/vmw/pvrdma_main.c                     |   4 +-
+>>>>   .../infiniband/hw/vmw_pvrdma/pvrdma_ring.h    | 114 
+>>>> ------------------
+>>>>   scripts/update-linux-headers.sh               |   3 +-
+>>>>   7 files changed, 38 insertions(+), 144 deletions(-)
+>>>>   delete mode 100644 
+>>>> include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h 
+>>>>
+>>>>
+>>>> diff --git a/hw/rdma/vmw/pvrdma.h b/hw/rdma/vmw/pvrdma.h
+>>>> index 1d36a76f1e3b..d08965d3e2d5 100644
+>>>> --- a/hw/rdma/vmw/pvrdma.h
+>>>> +++ b/hw/rdma/vmw/pvrdma.h
+>>>> @@ -26,7 +26,6 @@
+>>>>   #include "../rdma_backend_defs.h"
+>>>>   #include "../rdma_rm_defs.h"
+>>>>   -#include 
+>>>> "standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h"
+>>>>   #include 
+>>>> "standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h"
+>>>>   #include "pvrdma_dev_ring.h"
+>>>>   #include "qom/object.h"
+>>>> @@ -64,10 +63,10 @@ typedef struct DSRInfo {
+>>>>       union pvrdma_cmd_req *req;
+>>>>       union pvrdma_cmd_resp *rsp;
+>>>>   -    struct pvrdma_ring *async_ring_state;
+>>>> +    PvrdmaRingState *async_ring_state;
+>>>>       PvrdmaRing async;
+>>>>   -    struct pvrdma_ring *cq_ring_state;
+>>>> +    PvrdmaRingState *cq_ring_state;
+>>>>       PvrdmaRing cq;
+>>>>   } DSRInfo;
+>>>>   diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
+>>>> index 692125ac2681..f59879e2574e 100644
+>>>> --- a/hw/rdma/vmw/pvrdma_cmd.c
+>>>> +++ b/hw/rdma/vmw/pvrdma_cmd.c
+>>>> @@ -262,7 +262,7 @@ static int create_cq_ring(PCIDevice *pci_dev , 
+>>>> PvrdmaRing **ring,
+>>>>       r = g_malloc(sizeof(*r));
+>>>>       *ring = r;
+>>>>   -    r->ring_state = (struct pvrdma_ring *)
+>>>> +    r->ring_state = (PvrdmaRingState *)
+>>>>           rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
+>>>>         if (!r->ring_state) {
+>>>> @@ -398,7 +398,7 @@ static int create_qp_rings(PCIDevice *pci_dev, 
+>>>> uint64_t pdir_dma,
+>>>>       *rings = sr;
+>>>>         /* Create send ring */
+>>>> -    sr->ring_state = (struct pvrdma_ring *)
+>>>> +    sr->ring_state = (PvrdmaRingState *)
+>>>>           rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
+>>>>       if (!sr->ring_state) {
+>>>>           rdma_error_report("Failed to map to QP ring state");
+>>>> @@ -639,7 +639,7 @@ static int create_srq_ring(PCIDevice *pci_dev, 
+>>>> PvrdmaRing **ring,
+>>>>       r = g_malloc(sizeof(*r));
+>>>>       *ring = r;
+>>>>   -    r->ring_state = (struct pvrdma_ring *)
+>>>> +    r->ring_state = (PvrdmaRingState *)
+>>>>               rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
+>>>>       if (!r->ring_state) {
+>>>>           rdma_error_report("Failed to map tp SRQ ring state");
+>>>> diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c 
+>>>> b/hw/rdma/vmw/pvrdma_dev_ring.c
+>>>> index f0bcde74b06a..074ac59b84db 100644
+>>>> --- a/hw/rdma/vmw/pvrdma_dev_ring.c
+>>>> +++ b/hw/rdma/vmw/pvrdma_dev_ring.c
+>>>> @@ -22,11 +22,10 @@
+>>>>   #include "trace.h"
+>>>>     #include "../rdma_utils.h"
+>>>> -#include 
+>>>> "standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h"
+>>>>   #include "pvrdma_dev_ring.h"
+>>>>     int pvrdma_ring_init(PvrdmaRing *ring, const char *name, 
+>>>> PCIDevice *dev,
+>>>> -                     struct pvrdma_ring *ring_state, uint32_t 
+>>>> max_elems,
+>>>> +                     PvrdmaRingState *ring_state, uint32_t max_elems,
+>>>>                        size_t elem_sz, dma_addr_t *tbl, uint32_t 
+>>>> npages)
+>>>>   {
+>>>>       int i;
+>>>> @@ -73,48 +72,54 @@ out:
+>>>>     void *pvrdma_ring_next_elem_read(PvrdmaRing *ring)
+>>>>   {
+>>>> -    int e;
+>>>> -    unsigned int idx = 0, offset;
+>>>> +    unsigned int idx, offset;
+>>>> +    const uint32_t tail = qatomic_read(&ring->ring_state->prod_tail);
+>>>> +    const uint32_t head = qatomic_read(&ring->ring_state->cons_head);
+>>>>   -    e = pvrdma_idx_ring_has_data(ring->ring_state, 
+>>>> ring->max_elems, &idx);
+>>>> -    if (e <= 0) {
+>>>> +    if (tail & ~((ring->max_elems << 1) - 1) ||
+>>>> +        head & ~((ring->max_elems << 1) - 1) ||
+>>>> +        tail == head) {
+>>>> trace_pvrdma_ring_next_elem_read_no_data(ring->name);
+>>>>           return NULL;
+>>>>       }
+>>>>   +    idx = head & (ring->max_elems - 1);
+>>>>       offset = idx * ring->elem_sz;
+>>>>       return ring->pages[offset / TARGET_PAGE_SIZE] + (offset % 
+>>>> TARGET_PAGE_SIZE);
+>>>>   }
+>>>>     void pvrdma_ring_read_inc(PvrdmaRing *ring)
+>>>>   {
+>>>> - pvrdma_idx_ring_inc(&ring->ring_state->cons_head, ring->max_elems);
+>>>> +    uint32_t idx = qatomic_read(&ring->ring_state->cons_head);
+>>>> +
+>>>> +    idx = (idx + 1) & ((ring->max_elems << 1) - 1);
+>>>> +    qatomic_set(&ring->ring_state->cons_head, idx);
+>>>>   }
+>>>>     void *pvrdma_ring_next_elem_write(PvrdmaRing *ring)
+>>>>   {
+>>>> -    int idx;
+>>>> -    unsigned int offset, tail;
+>>>> +    unsigned int idx, offset;
+>>>> +    const uint32_t tail = qatomic_read(&ring->ring_state->prod_tail);
+>>>> +    const uint32_t head = qatomic_read(&ring->ring_state->cons_head);
+>>>>   -    idx = pvrdma_idx_ring_has_space(ring->ring_state, 
+>>>> ring->max_elems, &tail);
+>>>> -    if (idx <= 0) {
+>>>> +    if (tail & ~((ring->max_elems << 1) - 1) ||
+>>>> +        head & ~((ring->max_elems << 1) - 1) ||
+>>>> +        tail == (head ^ ring->max_elems)) {
+>>>>           rdma_error_report("CQ is full");
+>>>>           return NULL;
+>>>>       }
+>>>>   -    idx = pvrdma_idx(&ring->ring_state->prod_tail, 
+>>>> ring->max_elems);
+>>>> -    if (idx < 0 || tail != idx) {
+>>>> -        rdma_error_report("Invalid idx %d", idx);
+>>>> -        return NULL;
+>>>> -    }
+>>>> -
+>>>> +    idx = tail & (ring->max_elems - 1);
+>>>>       offset = idx * ring->elem_sz;
+>>>>       return ring->pages[offset / TARGET_PAGE_SIZE] + (offset % 
+>>>> TARGET_PAGE_SIZE);
+>>>>   }
+>>>>     void pvrdma_ring_write_inc(PvrdmaRing *ring)
+>>>>   {
+>>>> - pvrdma_idx_ring_inc(&ring->ring_state->prod_tail, ring->max_elems);
+>>>> +    uint32_t idx = qatomic_read(&ring->ring_state->prod_tail);
+>>>> +
+>>>> +    idx = (idx + 1) & ((ring->max_elems << 1) - 1);
+>>>> +    qatomic_set(&ring->ring_state->prod_tail, idx);
+>>>>   }
+>>>>     void pvrdma_ring_free(PvrdmaRing *ring)
+>>>> diff --git a/hw/rdma/vmw/pvrdma_dev_ring.h 
+>>>> b/hw/rdma/vmw/pvrdma_dev_ring.h
+>>>> index 5f2a0cf9b9fa..d231588ce004 100644
+>>>> --- a/hw/rdma/vmw/pvrdma_dev_ring.h
+>>>> +++ b/hw/rdma/vmw/pvrdma_dev_ring.h
+>>>> @@ -19,18 +19,23 @@
+>>>>     #define MAX_RING_NAME_SZ 32
+>>>>   +typedef struct PvrdmaRingState {
+>>>> +    int prod_tail; /* producer tail */
+>>>> +    int cons_head; /* consumer head */
+>>>> +} PvrdmaRingState;
+>>>> +
+>>>>   typedef struct PvrdmaRing {
+>>>>       char name[MAX_RING_NAME_SZ];
+>>>>       PCIDevice *dev;
+>>>>       uint32_t max_elems;
+>>>>       size_t elem_sz;
+>>>> -    struct pvrdma_ring *ring_state; /* used only for unmap */
+>>>> +    PvrdmaRingState *ring_state; /* used only for unmap */
+>>>>       int npages;
+>>>>       void **pages;
+>>>>   } PvrdmaRing;
+>>>>     int pvrdma_ring_init(PvrdmaRing *ring, const char *name, 
+>>>> PCIDevice *dev,
+>>>> -                     struct pvrdma_ring *ring_state, uint32_t 
+>>>> max_elems,
+>>>> +                     PvrdmaRingState *ring_state, uint32_t max_elems,
+>>>>                        size_t elem_sz, dma_addr_t *tbl, uint32_t 
+>>>> npages);
+>>>>   void *pvrdma_ring_next_elem_read(PvrdmaRing *ring);
+>>>>   void pvrdma_ring_read_inc(PvrdmaRing *ring);
+>>>> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+>>>> index 85935703322f..84ae8024fcfd 100644
+>>>> --- a/hw/rdma/vmw/pvrdma_main.c
+>>>> +++ b/hw/rdma/vmw/pvrdma_main.c
+>>>> @@ -85,7 +85,7 @@ static void free_dev_ring(PCIDevice *pci_dev, 
+>>>> PvrdmaRing *ring,
+>>>>       rdma_pci_dma_unmap(pci_dev, ring_state, TARGET_PAGE_SIZE);
+>>>>   }
+>>>>   -static int init_dev_ring(PvrdmaRing *ring, struct pvrdma_ring 
+>>>> **ring_state,
+>>>> +static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingState 
+>>>> **ring_state,
+>>>>                            const char *name, PCIDevice *pci_dev,
+>>>>                            dma_addr_t dir_addr, uint32_t num_pages)
+>>>>   {
+>>>> @@ -114,7 +114,7 @@ static int init_dev_ring(PvrdmaRing *ring, 
+>>>> struct pvrdma_ring **ring_state,
+>>>>       /* RX ring is the second */
+>>>>       (*ring_state)++;
+>>>>       rc = pvrdma_ring_init(ring, name, pci_dev,
+>>>> -                          (struct pvrdma_ring *)*ring_state,
+>>>> +                          (PvrdmaRingState *)*ring_state,
+>>>>                             (num_pages - 1) * TARGET_PAGE_SIZE /
+>>>>                             sizeof(struct pvrdma_cqne),
+>>>>                             sizeof(struct pvrdma_cqne),
+>>>> diff --git 
+>>>> a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h 
+>>>> b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h 
+>>>>
+>>>> deleted file mode 100644
+>>>> index 7b4062a1a107..000000000000
+>>>> --- 
+>>>> a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
+>>>> +++ /dev/null
+>>>> @@ -1,114 +0,0 @@
+>>>> -/*
+>>>> - * Copyright (c) 2012-2016 VMware, Inc.  All rights reserved.
+>>>> - *
+>>>> - * This program is free software; you can redistribute it and/or
+>>>> - * modify it under the terms of EITHER the GNU General Public License
+>>>> - * version 2 as published by the Free Software Foundation or the BSD
+>>>> - * 2-Clause License. This program is distributed in the hope that it
+>>>> - * will be useful, but WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED
+>>>> - * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+>>>> - * See the GNU General Public License version 2 for more details at
+>>>> - * http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html.
+>>>> - *
+>>>> - * You should have received a copy of the GNU General Public License
+>>>> - * along with this program available in the file COPYING in the main
+>>>> - * directory of this source tree.
+>>>> - *
+>>>> - * The BSD 2-Clause License
+>>>> - *
+>>>> - *     Redistribution and use in source and binary forms, with or
+>>>> - *     without modification, are permitted provided that the 
+>>>> following
+>>>> - *     conditions are met:
+>>>> - *
+>>>> - *      - Redistributions of source code must retain the above
+>>>> - *        copyright notice, this list of conditions and the following
+>>>> - *        disclaimer.
+>>>> - *
+>>>> - *      - Redistributions in binary form must reproduce the above
+>>>> - *        copyright notice, this list of conditions and the following
+>>>> - *        disclaimer in the documentation and/or other materials
+>>>> - *        provided with the distribution.
+>>>> - *
+>>>> - * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+>>>> CONTRIBUTORS
+>>>> - * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+>>>> - * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+>>>> - * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+>>>> - * COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+>>>> - * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+>>>> - * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+>>>> - * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+>>>> - * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+>>>> CONTRACT,
+>>>> - * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+>>>> - * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+>>>> ADVISED
+>>>> - * OF THE POSSIBILITY OF SUCH DAMAGE.
+>>>> - */
+>>>> -
+>>>> -#ifndef __PVRDMA_RING_H__
+>>>> -#define __PVRDMA_RING_H__
+>>>> -
+>>>> -#include "standard-headers/linux/types.h"
+>>>> -
+>>>> -#define PVRDMA_INVALID_IDX    -1    /* Invalid index. */
+>>>> -
+>>>> -struct pvrdma_ring {
+>>>> -    int prod_tail;    /* Producer tail. */
+>>>> -    int cons_head;    /* Consumer head. */
+>>>> -};
+>>>> -
+>>>> -struct pvrdma_ring_state {
+>>>> -    struct pvrdma_ring tx;    /* Tx ring. */
+>>>> -    struct pvrdma_ring rx;    /* Rx ring. */
+>>>> -};
+>>>> -
+>>>> -static inline int pvrdma_idx_valid(uint32_t idx, uint32_t max_elems)
+>>>> -{
+>>>> -    /* Generates fewer instructions than a less-than. */
+>>>> -    return (idx & ~((max_elems << 1) - 1)) == 0;
+>>>> -}
+>>>> -
+>>>> -static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
+>>>> -{
+>>>> -    const unsigned int idx = qatomic_read(var);
+>>>> -
+>>>> -    if (pvrdma_idx_valid(idx, max_elems))
+>>>> -        return idx & (max_elems - 1);
+>>>> -    return PVRDMA_INVALID_IDX;
+>>>> -}
+>>>> -
+>>>> -static inline void pvrdma_idx_ring_inc(int *var, uint32_t max_elems)
+>>>> -{
+>>>> -    uint32_t idx = qatomic_read(var) + 1;    /* Increment. */
+>>>> -
+>>>> -    idx &= (max_elems << 1) - 1;        /* Modulo size, flip gen. */
+>>>> -    qatomic_set(var, idx);
+>>>> -}
+>>>> -
+>>>> -static inline int32_t pvrdma_idx_ring_has_space(const struct 
+>>>> pvrdma_ring *r,
+>>>> -                          uint32_t max_elems, uint32_t *out_tail)
+>>>> -{
+>>>> -    const uint32_t tail = qatomic_read(&r->prod_tail);
+>>>> -    const uint32_t head = qatomic_read(&r->cons_head);
+>>>> -
+>>>> -    if (pvrdma_idx_valid(tail, max_elems) &&
+>>>> -        pvrdma_idx_valid(head, max_elems)) {
+>>>> -        *out_tail = tail & (max_elems - 1);
+>>>> -        return tail != (head ^ max_elems);
+>>>> -    }
+>>>> -    return PVRDMA_INVALID_IDX;
+>>>> -}
+>>>> -
+>>>> -static inline int32_t pvrdma_idx_ring_has_data(const struct 
+>>>> pvrdma_ring *r,
+>>>> -                         uint32_t max_elems, uint32_t *out_head)
+>>>> -{
+>>>> -    const uint32_t tail = qatomic_read(&r->prod_tail);
+>>>> -    const uint32_t head = qatomic_read(&r->cons_head);
+>>>> -
+>>>> -    if (pvrdma_idx_valid(tail, max_elems) &&
+>>>> -        pvrdma_idx_valid(head, max_elems)) {
+>>>> -        *out_head = head & (max_elems - 1);
+>>>> -        return tail != head;
+>>>> -    }
+>>>> -    return PVRDMA_INVALID_IDX;
+>>>> -}
+>>>> -
+>>>> -#endif /* __PVRDMA_RING_H__ */
+>>>> diff --git a/scripts/update-linux-headers.sh 
+>>>> b/scripts/update-linux-headers.sh
+>>>> index fa6f2b6272b7..1050e361694f 100755
+>>>> --- a/scripts/update-linux-headers.sh
+>>>> +++ b/scripts/update-linux-headers.sh
+>>>> @@ -215,8 +215,7 @@ sed  -e '1h;2,$H;$!d;g'  -e 's/[^};]*pvrdma[^(| 
+>>>> ]*([^)]*);//g' \
+>>>> "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_verbs.h" > \
+>>>>       "$tmp_pvrdma_verbs";
+>>>>   -for i in "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h" \
+>>>> - "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h" \
+>>>> +for i in "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h" \
+>>>>            "$tmp_pvrdma_verbs"; do \
+>>>>       cp_portable "$i" \
+>>>> "$output/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/"
+>>>
 >>
->>
->>> +
->>>        if (n->has_vnet_hdr) {
->>>            n->curr_guest_offloads =
->>>                virtio_net_guest_offloads_by_features(features);
+>
 
 
