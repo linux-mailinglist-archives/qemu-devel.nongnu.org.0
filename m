@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F563154EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 18:23:01 +0100 (CET)
-Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4476A31550F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 18:29:16 +0100 (CET)
+Received: from localhost ([::1]:43214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Wj6-00054j-PO
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 12:23:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50948)
+	id 1l9Wp9-0000ky-9g
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 12:29:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9Wdv-0008Ns-4r
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:17:42 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9Wdo-00022E-3L
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:17:38 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id t5so24757215eds.12
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 09:17:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cM2Y1h9GUdKJSjge9tewzMt/ubc0DGEUW4JkwUpzGGk=;
- b=ZWw/bnlvh2d1sg9AiD/xzntDN36JdVWQlk9hpos7tafvdPJ5TcOl2KaQE4NtZ6HT7J
- ViTCLQNnBZsoX+OUq6A5Ueq9Uwb/R2txcglKCAefNipx2BbmLIJavoCfBKASsc8OyJNT
- 9htCfqodtvuS4WLN70Ndf0SRDKm4HmGoOk3tSbmBy4QhfyBOOYoGnXnuc24NY2j9CMsq
- Ab0wNnsR9AWB8UsxU8WZT6db3kZBQFu01l16uJq8Tfv89gctTn6+xGpURxW9WP9eZjvC
- K4aLW3tSlSI4oCpzTubp0OLSx4f0DcjpUVmxIECEx/4w+Sg++B9vR2nHlLS73M88yI2N
- 4t/w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9Wfn-0002OM-Df
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:19:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38092)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9Wfj-0003Ib-PG
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:19:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612891170;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7urXYhpk9sbVwN9nQ7RzBSuT4loP9hPftS7t0v944q4=;
+ b=N41OQSX1uJuJ604leEQQnw9rGKTTcEzP4cNl4eAc1RNydTBBgEubhjRc92bHcgpC3MP3w8
+ 5vYP+RFoBe9dc+DgnoyQ5CAm+j20g5IELxh2WwRTq9MhWBuS5RN7bTiGAFINqnvj0Tz4El
+ oFdeCc3e0IYkYusHuRjhaDaC6Tq4jp4=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-otIFZHwDMCqXC7ewd3W6SQ-1; Tue, 09 Feb 2021 12:19:28 -0500
+X-MC-Unique: otIFZHwDMCqXC7ewd3W6SQ-1
+Received: by mail-ej1-f72.google.com with SMTP id m4so16279233ejc.14
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 09:19:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cM2Y1h9GUdKJSjge9tewzMt/ubc0DGEUW4JkwUpzGGk=;
- b=RwagSxyXXB367yP+T20mvXase0xoBdEdHdjBQXFTWDWvP6ExiRwTXL64eb9GZQ35qY
- RBeT2aZ06nJ5n71cL+S7/76d5gHhCzGGmEcbY2ASrgKxxHINt8Arhw4HQsqTwbLjhIs1
- 9qTHL5WIYdA55xHBsJ7+bNa1CrMPgW+yrihPInMVQWzmHDBClfQ14Nu96tDEVGS9JgOH
- K50JPe90ly/9trIZ03CAJRes5CdXE335ujpOF+Za8m7JuOzgXNj6mJbvvvCDdRrq332L
- tFZ8YQV3SGMuUe5wd011ToBEn+hm58SfaGALwfjXJrGUHolPwme/M0EGE9NJQRJfAiuG
- teaQ==
-X-Gm-Message-State: AOAM531sZ1yvd52op3/r01obX4+Lm+q+DXJjPceUmNOykB9OnlETdY8j
- 7vfhsTqEzs3nA7/Ty1U8nfaxI80QJMNKaloYnn021A==
-X-Google-Smtp-Source: ABdhPJzugIsveP1FQWseJG4/lX+j7xhH1fAkbth066eQRjFfaIuXAYV8q/30fPore4atQizAriRE7OinU3URfhgRzfA=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr23967838edd.52.1612891050252; 
- Tue, 09 Feb 2021 09:17:30 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7urXYhpk9sbVwN9nQ7RzBSuT4loP9hPftS7t0v944q4=;
+ b=cNzVuNZlrOXLKVPAAjxqvFcGeq09zyZqYlkmOqhK9UQzcwqo/Kt0mURuXpG2bLjAqq
+ rRPzwD2eNiql4fNifoaLVpwavGCpQBiBYb/pMkkl4qzdaf4j7CyJ3KSja1uIlFGrz2/U
+ rxmzPex9Y/pF0Pftvxz3b6j15inGuj64LJ+r6L22GrXR3NW3cEN/lBnx/TLATS7H+5qH
+ c6PhvMcOd2rhhU+yhKMToK6Z9l2cP4UJKORujW5Q7G23IYD5yaRwtWwuAbm36cUHeJUb
+ k8sEBOAM2ofywpyTOz2j3UTXfR15QzrF4PGfztd7Krvw6ep7fq9vZ0Ju49Ue/HVzuY2M
+ k4KA==
+X-Gm-Message-State: AOAM533Gocj3RpCE1sT75CzzxnCdLgGJTPZ7gCwsaGULHLGazYuZLl+o
+ TpqB30DxwZmtlqlAqPEa8HDnwBgh5aKDTHz5eCzrxwsd/MlcgyU+TjptvpryuxhAQox3ldcvgmi
+ +4PrjOloNZeOA8Ok=
+X-Received: by 2002:a05:6402:3069:: with SMTP id
+ bs9mr22678591edb.151.1612891167604; 
+ Tue, 09 Feb 2021 09:19:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJylg93utsPXmQDDZrFhy2e/QMV+3ekVBDYHJe6cNU4w63hEI0WiCY7DQ+MJjab6u+xUxuBCwA==
+X-Received: by 2002:a05:6402:3069:: with SMTP id
+ bs9mr22678570edb.151.1612891167478; 
+ Tue, 09 Feb 2021 09:19:27 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id o6sm268506ejx.78.2021.02.09.09.19.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Feb 2021 09:19:26 -0800 (PST)
+Subject: Re: [RFC PATCH] block/null: Use 'read-zeroes' mode by default
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20210209170121.3310151-1-philmd@redhat.com>
+ <8abd4d2a-8afc-5386-e888-1a4302b25514@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a82d922e-956a-4c0f-9b25-7abc326ff870@redhat.com>
+Date: Tue, 9 Feb 2021 18:19:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <CAFEAcA8=vG-2Vzrdark8VC5NANe5Fb3qGTpSFk8X94KvXszTbA@mail.gmail.com>
- <c98d4f43-5a29-afcc-fe7d-a3d92063df3a@redhat.com>
- <CAFEAcA8q1ewJ4F-pijt81Qc_rO0xNpy6jJY2DrW0ggTzg27aEQ@mail.gmail.com>
- <5213f033-19dc-bc40-bfd7-10b8c676539b@redhat.com>
- <CAFEAcA-va8hY3tHrhK_UV0bniF=VhietM2Y8ovZt57wWkg8f_w@mail.gmail.com>
- <CAFEAcA_JLx6NAd_YPzKy6iXWqP_c1jkW42bscK+Q=zKN4xAbzQ@mail.gmail.com>
- <20210209181009.7f2cb328.cohuck@redhat.com>
-In-Reply-To: <20210209181009.7f2cb328.cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Feb 2021 17:17:19 +0000
-Message-ID: <CAFEAcA_u7eKMyKKLf1sdMOgW7OPRt9hXiv5aDkfyfJcOfM6XFA@mail.gmail.com>
-Subject: Re: getting the console output for s390 cdrom-test?
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <8abd4d2a-8afc-5386-e888-1a4302b25514@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,57 +100,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Farman <farman@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Feb 2021 at 17:10, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> On Tue, 9 Feb 2021 14:58:53 +0000
-> Peter Maydell <peter.maydell@linaro.org> wrote:
-> > This change significantly reduces the frequency with which I see
-> > the hang; but it doesn't get rid of it altogether. Also I couldn't
-> > really figure out from the virtio spec exactly where barriers
-> > were required: I think I would need to read the whole thing in
-> > more detail rather than trying to fish out the information by
-> > just reading small pieces of it.
->
-> The Linux virtio-ccw code uses 'weak barriers', i.e. the heavy bcr15
-> should not be needed. We might well miss other (lightweight) barriers
-> in other parts of the code part, though.
+On 2/9/21 6:11 PM, Eric Blake wrote:
+> On 2/9/21 11:01 AM, Philippe Mathieu-Daudé wrote:
+>> The null-co driver is meant for (performance) testing.
+>> By default, read operation does nothing, the provided buffer
+>> is not filled with zero values and its content is unchanged.
+>>
+>> This can confuse security experts. For example, using the default
+>> null-co driver, buf[] is uninitialized, the blk_pread() call
+>> succeeds and we then access uninitialized memory:
+>>
+>>   static int guess_disk_lchs(BlockBackend *blk,
+>>                              int *pcylinders, int *pheads,
+>>                              int *psectors)
+>>   {
+>>       uint8_t buf[BDRV_SECTOR_SIZE];
+>>       ...
+>>
+>>       if (blk_pread(blk, 0, buf, BDRV_SECTOR_SIZE) < 0) {
+>>           return -1;
+>>       }
+>>       /* test msdos magic */
+>>       if (buf[510] != 0x55 || buf[511] != 0xaa) {
+>>           return -1;
+>>       }
+>>
+>> We could audit all the uninitialized buffers and the
+>> bdrv_co_preadv() handlers, but it is simpler to change the
+>> default of this testing driver. Performance tests will have
+>> to adapt and use 'null-co,read-zeroes=on'.
+> 
+> Wouldn't this rather be read-zeroes=off when doing performance testing?
 
-Is that the version the Linux kernel has as
-  /* Fast-BCR without checkpoint synchronization */
-  #define __ASM_BARRIER "bcr 14,0\n"
+Oops, yes ;)
 
-?
+> 
+>>
+>> Suggested-by: Max Reitz <mreitz@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> RFC maybe a stricter approach is required?
+> 
+> Since the null driver is only for testing in the first place, opting in
+> to speed over security seems like a reasonable tradeoff.  But I consider
+> the patch incomplete without an audit of the iotests that will want to
+> use explicit read-zeroes=off.
 
-> > But some of the ordering of
-> > operations the spec describes doesn't match how the s390-ccw
-> > BIOS code is doing it at all (eg the spec says that when feeding
-> > a batch of descriptors to the device the driver isn't supposed to
-> > update the flags on the first descriptor until it's finished
-> > writing all of the descriptors, but the code doesn't seem to
-> > try to do that). So I think the code could use an overhaul from
-> > somebody with a better understanding of virtio than me...
->
-> Yeah, the bios virtio code could probably use some love.
->
-> I'm wondering how much memory ordering on the host platform influences
-> things. I doubt many people try to run an s390x guest on an aarch64
-> host...
+Correct. I don't know about each iotest but I can send a patch with
+explicit option, so review would be trivial.
 
-Yes, you won't see this bug unless you're running QEMU on a
-host that's pretty enthusiastic about reordering memory
-transactions (and you'd never have seen it at all back when
-we ran the iothread actions synchronously with the emulated
-CPU, which we probably did back in 2013 when the s390-ccw
-virtio code was written...) I haven't tested other aarch64
-hosts but I would be unsurprised to find that whether you
-could repro it and how frequently depended on the particular
-h/w implementation.
+Thanks,
 
-thanks
--- PMM
+Phil.
+
 
