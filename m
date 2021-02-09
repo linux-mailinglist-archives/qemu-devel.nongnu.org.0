@@ -2,59 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858AE315063
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 14:38:33 +0100 (CET)
-Received: from localhost ([::1]:48452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E463315083
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 14:42:10 +0100 (CET)
+Received: from localhost ([::1]:51222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9TDs-0007Gy-LU
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 08:38:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37624)
+	id 1l9THN-0000aw-7d
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 08:42:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l9TCX-0006OW-Vg
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:37:09 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:47365)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l9TCS-0007kM-NJ
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:37:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=PfVCxfK4e1hH1UX4uZsYEoADiL4z3P+h+/YpvyIN7yI=; b=UkonFoJIFqUKDnLu2L43uBbreF
- ZfuyiQGp1oikfY5079U2ZqqO/dk6U7e4mIc7+3RG4eg39Z6ifDzRBJ7VWlM+YjkpyFxcgED5SNTfn
- HnGohVFxuyt763+gcdjdPpyjYl6o70Pap9SHXGFUCKVAC3fbEA2BcxcF7pCOiB8UOyK5nuHwaL4VL
- s1LKPkY6Lp7GGAHEiId+ZVH0BVCbJH//uZZjQmJWGllXpctqs4VhBsPZhxgVi8xHbEYSngL8YP+D6
- JKdoZ0Ge/LFFx+J1ge2ltBbR2hhu39/R3pAdGiDtFAyt5kgRpd03bSEAeRr1GTk+4t0rkL7hzipM4
- eCw6m9h5L3oc+v71+394/IVv4IoJY6Xgz/KHmushYpWcOF4yEqNfd6/wc01MvBPZAEQVx9g4Ualo9
- g0fPCLDwpRLaUlBNSScfMq8kggIaWZXW8q1LjkGTyesphydhfZGgsjUNVZe/qVhTnhe+IbV7JUUTY
- JK6MSIC5yOrZ4yAdg6rLzY0RU8L94PUiV8842nbVzT6CAyQy9vJxCBr8klYL4kOTlrUH/r5mmbR72
- Y1PV16QJaYUKuYiPYzuzl/v+5cSYA/SSLzqQozr9jY2OHt4fh0jeQqSbuQeNzKblM/Rl8dutZB1LO
- FQLxhqZzVNG/cMkL/Wj52ORNBkY2TmEVBPKjCD3bg=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 2/5] libqos/qgraph_internal: add qos_printf() and
- qos_printf_literal()
-Date: Tue, 09 Feb 2021 14:36:59 +0100
-Message-ID: <2332542.Y7J5JqHEnN@silver>
-In-Reply-To: <834a4045-1e13-95d7-a6fb-0fb47d14b2d7@redhat.com>
-References: <cover.1611704181.git.qemu_oss@crudebyte.com>
- <653a5ef61c5e7d160e4d6294e542c57ea324cee4.1611704181.git.qemu_oss@crudebyte.com>
- <834a4045-1e13-95d7-a6fb-0fb47d14b2d7@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9TGZ-00008R-Lc
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:41:19 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9TGY-00013L-3V
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:41:19 -0500
+Received: by mail-ej1-x629.google.com with SMTP id i8so31435614ejc.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 05:41:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wW8IG+zWhekbva2yfXK2WeLV4Dpsg1rrJ4uaJwpFXjc=;
+ b=LPk7B3jTHSdoz2el5wYFz95hj6bb1AwjQzGzm2892jyUmTVUH6e81OPiEolhYuU46V
+ el383SDkM5Xe55qTrUYoLxeKHr92cxUAcSBH0l9O4qXmNkbmid2oHuXtYgc+/W9hSYZi
+ 4NhC6Cg8GZtECbNEFhzyOvmfQdyawlVVh9arnj/MQVbXGwsUgQbeKSz5Hl91cRSUPa1V
+ XnCZnbfra6UIljhXyXobEPt8FbJ0iyniKarv1z4+fxkEWOhebfZfmiB32AfCS02uJxhc
+ N63zBXnPjMiITIrVWqpfEZPKH2BNENP8uoDXCwxkWfrmx4Jj2h9nMrDicTkCrRPz1XSY
+ QQkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wW8IG+zWhekbva2yfXK2WeLV4Dpsg1rrJ4uaJwpFXjc=;
+ b=CY3Ew6rU4+cU1oJHIa6iO9vIX2Xl9kZsEREq5n8StlTvVTk+2J4Hjg82YZJAd12isF
+ UpZ5nsN8zXCSInvOqPWTkqAwMdT4yxwhm0s1HDI8Hu2exuSOA7rmvBAR0kN43rk+qFes
+ gWvvDImk+q07ABLbqHDVsNSXuqMTbTRHueKNHYKRORWPOdHK7LZ+vs+/Adeg0LZOcDL0
+ 2kCHo24bkWZ6qUx1XCiHJJD5PcTmRqDEp3dqKM0jUzKqLNomDGlIm4VkGaZhlThCPsWY
+ cKskcCzYA8aeetp6LLTFMTB3xPXBmZk4prMgI1TZlMUiSScC/kOglnMiXWWZ2jhjVlkN
+ A3JA==
+X-Gm-Message-State: AOAM530uP0fCkHcqaOnxLLa5fPkah1/suiOiRUm+OKXgol4EJFHVyfiJ
+ vbLwZlM5CFaGkGeeHyserPDmYdsOYqK9rqGLeqJqUg==
+X-Google-Smtp-Source: ABdhPJx67+MY1llyrX4dTgVgpTCsU1qOV83+HooJpsacElKloCS4daMn1yacrGZQoI3eeS6J+x1ZScWgGOCdPbnmUps=
+X-Received: by 2002:a17:906:1d51:: with SMTP id
+ o17mr22323869ejh.85.1612878075997; 
+ Tue, 09 Feb 2021 05:41:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+References: <20210207121239.2288530-1-f4bug@amsat.org>
+ <ebdddd92-cb51-e8b9-dfc0-fbce35015eb3@redhat.com>
+ <CAAdtpL5YO=A-V06+7Wyhn5XnavGCUAqqcD8XpU2cVpE4AV-W3w@mail.gmail.com>
+In-Reply-To: <CAAdtpL5YO=A-V06+7Wyhn5XnavGCUAqqcD8XpU2cVpE4AV-W3w@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Feb 2021 13:41:05 +0000
+Message-ID: <CAFEAcA-m0MKhMr05mX7HyJZ8DuK7D2YzCFnTyG4B32=-r-5mpA@mail.gmail.com>
+Subject: Re: [PATCH v3] travis-ci: Disable C++ optional objects on AArch64
+ container
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,59 +82,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 28. Januar 2021 11:13:27 CET Thomas Huth wrote:
-> On 27/01/2021 00.04, Christian Schoenebeck wrote:
-> > These two are macros wrapping regular printf() call. They are intended
-> > to be used instead of calling printf() directly in order to avoid
-> > breaking TAP output format.
-> > 
-> > TAP output format is enabled by using --tap command line argument.
-> > Starting with glib 2.62 it is enabled by default.
-> > 
-> > Unfortunately there is currently no public glib API available to check
-> > whether TAP output format is enabled. For that reason qos_printf()
-> > simply always prepends a '#' character for now.
-> > 
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> > 
-> >   tests/qtest/libqos/qgraph_internal.h | 11 +++++++++++
-> >   1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/tests/qtest/libqos/qgraph_internal.h
-> > b/tests/qtest/libqos/qgraph_internal.h index 974985dce9..c0025f5ab9
-> > 100644
-> > --- a/tests/qtest/libqos/qgraph_internal.h
-> > +++ b/tests/qtest/libqos/qgraph_internal.h
-> > @@ -255,4 +255,15 @@ void qos_delete_cmd_line(const char *name);
-> > 
-> >    */
-> >   
-> >   void qos_graph_node_set_availability(const char *node, bool av);
-> > 
-> > +/*
-> > + * Prepends a '#' character in front for not breaking TAP output format.
-> > + */
-> > +#define qos_printf(...) printf("# " __VA_ARGS__)
-> > +
-> > +/*
-> > + * Intended for printing something literally, i.e. for appending text as
-> > is + * to a line already been started by qos_printf() before.
-> > + */
-> > +#define qos_printf_literal printf
-> 
-> I'd maybe rather name it qos_printf_append ... but that's just a matter of
-> taste.
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+On Tue, 9 Feb 2021 at 13:32, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+> Migration of this job is pending of Cleber's possibility to add an AArch6=
+4
+> runner to Gitlab-CI, right? Then we need someone to support and maintain
+> the hardware... I don't think anybody volunteered.
 
-PING
+We have the hardware already. Effectively Alex is maintaining it...
 
-Best regards,
-Christian Schoenebeck
-
-
+thanks
+-- PMM
 
