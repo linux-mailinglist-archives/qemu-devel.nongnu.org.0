@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100D4314AF0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:57:54 +0100 (CET)
-Received: from localhost ([::1]:39174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434CA314B08
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 10:06:15 +0100 (CET)
+Received: from localhost ([::1]:53048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9OqH-0001OG-3j
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:57:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49406)
+	id 1l9OyL-00076T-Mm
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 04:06:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l9Ndj-0002R3-8t
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 02:40:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37976)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l9Ndg-0000nw-Ni
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 02:40:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612856446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6x4u+opDx/MW3/qsSJsU9W6czMaXHqtZSx8UCL80p2Q=;
- b=OGFzZWIOdahK2wscYEdp8gocRutsn6AODriHoTeic2aNIhT2zWlnsF4OKKfA7R/duj2moI
- n39o1S4N4VfFeIa1cqiXub1zsbr2Bq1CDPvlRWAHxNyegxaV21crB7e6S6iDC7C5RrLTpz
- H4otMRotXale2NNU0IHXRJY4PTdSGhU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-4Fs5i3gdPtO5SMqFC_vSPw-1; Tue, 09 Feb 2021 02:40:44 -0500
-X-MC-Unique: 4Fs5i3gdPtO5SMqFC_vSPw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F18491270;
- Tue,  9 Feb 2021 07:40:43 +0000 (UTC)
-Received: from gondolin (ovpn-112-148.ams2.redhat.com [10.36.112.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 423A661F49;
- Tue,  9 Feb 2021 07:40:39 +0000 (UTC)
-Date: Tue, 9 Feb 2021 08:40:36 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH RFC] pvrdma: wean code off pvrdma_ring.h kernel header
-Message-ID: <20210209084036.582311ad.cohuck@redhat.com>
-In-Reply-To: <20210208132844-mutt-send-email-mst@kernel.org>
-References: <20210122180029.575284-1-cohuck@redhat.com>
- <20210208132844-mutt-send-email-mst@kernel.org>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9NWM-0005oR-Uu; Tue, 09 Feb 2021 02:33:15 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:59115)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9NWI-00060P-Un; Tue, 09 Feb 2021 02:33:14 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id BAFF5CB5;
+ Tue,  9 Feb 2021 02:32:42 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=MDlLmwqQgXfbB
+ 6lJjkEn5ID52fqS8kpZUp5qp6uhoG0=; b=rQewXbKj8fwyFqMYHCSrekdG+/wUA
+ +08tyLLAFNjj3mdjOvJhNXoqB6m38F0zM08haYaCYVvXjKX4b7ynlVMEUTKWhQDj
+ bbbL4fWn2qRNDiNmmsb1xsiEi+sdZ+K6jjYAcyi/vjRgvLx7KzCAb1fGrYLggPp4
+ A+PmT8kpzTSCfv1CejWZJCTqeTswW6p61vVF5z7N4W3sxeGuQwNVqyf6kl/12RDp
+ Adm33Xig0C+fZGiPJsYYkRDsel57q0Cc4ufe8n44eIGJ1Q3ghDoxIgnBlldRBbL5
+ Kske+rbENdSBdAyXs8SG6LMgujyo5IXa1Z8C1IHJNpux7NXaC1A1ezqIw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=MDlLmwqQgXfbB6lJjkEn5ID52fqS8kpZUp5qp6uhoG0=; b=IXs0V8vX
+ zklqcxkFTHO3xRA0yWW+B07TcF+O6xrsO/CCYgF0V7KGrwyI3MRPbyzAOcgN0Tzx
+ VmtYLW9TZD3xZNgXoeR8FnHvsSvkwOiyaX5We5HkFaSIdcQCGZQWeYeoYTUl3NhX
+ gUnAsp1QoxDH0eZbkJNx4DMx0cyaxod40/VHY1OdDVWCGe0nYbil73v3/TaOYRKe
+ iGMj93hNgn10mMZDJsXSM/Lgqx2AbeaIWV2gE5BpCBXfu4DuzReqWY1dtwmzbQgc
+ LzWUra73wpEEnWLMllru/VI9kVy5fPDXfKNtOP2/angD8C/tSJdo4OAiNv06wZXh
+ 4YjZe9nhe45+yw==
+X-ME-Sender: <xms:mjoiYI9B6CndwNcef515VJs9Ndv566rU69_jT56gy0y1CsrVtZMAKw>
+ <xme:mjoiYIJbcKYdPukB8kEfv9v85o8sQX_uMLryFbwTOJKB8WqcxEAQO6VQNgmfoZjBF
+ jinukVDJGWqyrNFaEw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggdduuddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvvd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:mjoiYLbKYxw6LctVAQueFCMviTprHAP7zI2DkDR-de8BTHfy-CsXhw>
+ <xmx:mjoiYCJXL1uPzopkHmH2aCOM0P3ERhkzqoLTPHw3V3c8C1dq9wfcYg>
+ <xmx:mjoiYBAhKpXc0gIUfj57WA1-NHmB01EIh8g1-fKRIliM7i9u8MMfUg>
+ <xmx:mjoiYDzO5VpGQAzg5tJZY9_Lr3kUrkS-xpVw7R0lxvrsphceDNdG1XUsZmo>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 061C8108005F;
+ Tue,  9 Feb 2021 02:32:40 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 51/56] hw/block/nvme: fix set feature for error recovery
+Date: Tue,  9 Feb 2021 08:30:56 +0100
+Message-Id: <20210209073101.548811-52-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210209073101.548811-1-its@irrelevant.dk>
+References: <20210209073101.548811-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.26; envelope-from=its@irrelevant.dk;
+ helo=wnew1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,50 +93,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Feb 2021 13:29:53 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-> On Fri, Jan 22, 2021 at 07:00:29PM +0100, Cornelia Huck wrote:
-> > The pvrdma code relies on the pvrdma_ring.h kernel header for some
-> > basic ring buffer handling. The content of that header isn't very
-> > exciting, but contains some (q)atomic_*() invocations that (a)
-> > cause manual massaging when doing a headers update, and (b) are
-> > an indication that we probably should not be importing that header
-> > at all.
-> > 
-> > Let's reimplement the ring buffer handling directly in the pvrdma
-> > code instead. This arguably also improves readability of the code.
-> > 
-> > Importing the header can now be dropped.
-> > 
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>  
-> 
-> Given it's a single struct that we need, this is a good fix.
-> How about adding a comment explaining where it came from,
-> just in case rdma guys decide to export this in uapi properly?
+Only enable DULBE if the namespace supports it.
 
-> > diff --git a/hw/rdma/vmw/pvrdma_dev_ring.h b/hw/rdma/vmw/pvrdma_dev_ring.h
-> > index 5f2a0cf9b9fa..d231588ce004 100644
-> > --- a/hw/rdma/vmw/pvrdma_dev_ring.h
-> > +++ b/hw/rdma/vmw/pvrdma_dev_ring.h
-> > @@ -19,18 +19,23 @@
-> >  
-> >  #define MAX_RING_NAME_SZ 32
-> >  
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-/* struct pvrdma_ring from drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h */
-
-> > +typedef struct PvrdmaRingState {
-> > +    int prod_tail; /* producer tail */
-> > +    int cons_head; /* consumer head */
-> > +} PvrdmaRingState;
-> > +
-
-I guess this can be folded in?
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 40784bd908fb..b3d072c8b2bb 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -3396,7 +3396,9 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+         }
+ 
+         assert(ns);
+-        ns->features.err_rec = dw11;
++        if (NVME_ID_NS_NSFEAT_DULBE(ns->id_ns.nsfeat))  {
++            ns->features.err_rec = dw11;
++        }
+         break;
+     case NVME_VOLATILE_WRITE_CACHE:
+         for (i = 1; i <= n->num_namespaces; i++) {
+-- 
+2.30.0
 
 
