@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCCF314D2E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 11:36:33 +0100 (CET)
-Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679E1314D75
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 11:50:12 +0100 (CET)
+Received: from localhost ([::1]:51398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9QNk-0005jF-U9
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 05:36:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57176)
+	id 1l9Qax-0001JX-DE
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 05:50:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9QMD-000504-Ka
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 05:34:57 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:34560)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9QMC-0005R1-4u
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 05:34:57 -0500
-Received: by mail-ej1-x633.google.com with SMTP id hs11so30508859ejc.1
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 02:34:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=iWIoga2rAheDo3uR/3PscI62+8jQ+somKc63+qovdqU=;
- b=ItI7jfxSpOHNNQfddxUBJutbXIFHnnoBRhAKufG06DwKZt1PRNp0aXpXeD4KRsnqjc
- U4JzNCRrh1gf5bZ48tA/eh3XxXfJs89c6VxDHn4sMDlDMeL376SCPJb2Tbz3kHBt9yIX
- sUjwYE8b1u7JcbZdLi81w4qRMIliqDaJ92TtbkYiIOO5J7GfcIo3RP5pudo+sBquz70S
- SFjLEI/XAXVyFpmmS1OVZiKE5+hFLlef1OGVx2s5X5mmw/dt7VXv7SvqrpX+E3yluKjE
- G8kcx9iAITz23ZPTkAAWPTXg95mNZZ7KmzAbEW9Uq2M3DyIW/RbNAKfQVsM2CxXP27QR
- LuDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iWIoga2rAheDo3uR/3PscI62+8jQ+somKc63+qovdqU=;
- b=ns1ed+lQu/HJf9Ld2gJUxBZHrt3t970QzfPXmf3bp3hXu1a2J2h7NLZgcCX4BagtCf
- s/oXPNU8OW+ZGkLx5n0D2EO+czgulUuGGowyTvWOti8mSi2CM75meMmYXCAeVTonUmLd
- ruxSXL88IZ+vjcqrxyZthsBNCr5WyMcOScdtO2718hDKrFbY7/DmE7PAjylIn7M+Y6J4
- 8h9hhMYf/pciZCaHlVSkjg5YmTvXmv9wvuDcIZVMpTtXaZjW/bFtgnhwPEg4mTImP3gi
- DjwsvTneSkIh+uiOa6ehOUUZofllFwd4RMD9MbzLEJ+rYlfik6EHyC+g7ZmJTn4nCuJC
- 2LQQ==
-X-Gm-Message-State: AOAM532+jTHnNo68tFdThLq0xhYO4IoEb/LsH5ZjD/lUkWTYnFiwautr
- 0mfvBZXi3jimuDfDQofyqESoZFx39q8dyni4merDzw==
-X-Google-Smtp-Source: ABdhPJxG9iMxYhElEFeJbahNsNVayn1vKoUqJyB1TyL0RvdjALBpCwUyu0swVsbmMSPOHoCqEhvlviNT3sOZ0lWBXAI=
-X-Received: by 2002:a17:907:98c3:: with SMTP id
- kd3mr21768519ejc.482.1612866894091; 
- Tue, 09 Feb 2021 02:34:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9QWR-0007T5-Gp; Tue, 09 Feb 2021 05:45:31 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:53563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9QWO-0001Wo-91; Tue, 09 Feb 2021 05:45:31 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 75AB4D5A;
+ Tue,  9 Feb 2021 05:45:25 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 05:45:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=lxPwnkdET6TIJ4qQ7aDGz/o1tZ
+ 12544k9/UnW+iviss=; b=drKvXrMpl4qZ9VnujC0VleMBg6q9b7axT7xRO6ZuC+
+ gj+cwEdrET8wfrLIwpsRA0i2sEve+aEG+lUggmWo+/ofsPJR5eEQnf8Oy+gVtzqC
+ M8d+/uM60cP+GbuZwvY0dRSUjVpY0YKAvnzsAXPbjW1MF3/mR+ECQwVW64pnG+2G
+ +QDrJmNrgaho4DW626Lay0ZSRy1ApLWWpBaYnJv/DvWlXRYRKE3oNnC3dlIHmk37
+ X52B1Z6VOy5HvCQZO5mtApiUrB6vUjL43uB/xX+MIYRLIZu8Zu8Ixs0aSP4AX5f8
+ t4U61UPUc32iq+3PU4GV9dISjENatqJHiy5Oh25cQe0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=lxPwnkdET6TIJ4qQ7
+ aDGz/o1tZ12544k9/UnW+iviss=; b=Q3jv1Jp7xS3PcfstkgO/zBKT02pYzMdbB
+ dg6AVy2T9AtCiRj8KqPQXjFktNf6EPSEGG7GMQCt7mG1hn8oIpHUohBjvPhqPya4
+ XpdkFKkZG+fMr+3tIDBFQv1O4dang0pJPmc+AFpDXcvWT+DQgsEPmATp7DDw5869
+ GBiOpnoAOrRlt+2xFwKysWdWBrZ5Vl9eKS89LN2X7Y0OslETCaddqKBAGltzNtIe
+ hAcIXyi+9BaGA/L5JBZhXXmx8JuliIuNzeNkCH6sklVh3Dyk6N5qMyu9/bj4nfED
+ 1i/KcZf+8EPIjrU9EC9TQ+NEx1OHzytLkzuCaVPnR/Op/wAqWDJAg==
+X-ME-Sender: <xms:xGciYN50RtMR4KppHb5dFVk-qxRYfafIZaZUGl_I2lK37bhRi9nA-A>
+ <xme:xGciYK5SncptM8qcfP3AKjSCgYLHBzjPsFFxnF61dqfF4qF2aIH0Qt35m3QiDlYFE
+ 26ZJcOGEnopClaw4Is>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheehgddvtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushculfgv
+ nhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnh
+ epfeevledvieekudeuffetgeegfeehvdffffejueeuleduhedvgeejveejhfdtteehnecu
+ kfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:xGciYEfgDLHDEz_fPxhyjCymo16WjX7O7058g69jUJWcP1blpBea2Q>
+ <xmx:xGciYGK0Uoxh3r7c_s4Xxbmbm7yJ7NLVHnHSqi6ATljHBR98nnASfQ>
+ <xmx:xGciYBKe4o_4kHUBEPOaWxew1iVIEjy5GG5hVWUFKw2hONc-oL-0Bg>
+ <xmx:xWciYPiXa-0oaQndvatWEEsqLmDUWa0nQvHZ0S7zpr6DV15Cb13Jog>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1A6881080057;
+ Tue,  9 Feb 2021 05:45:23 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] hw/block/nvme: use locally assigned QEMU IEEE OUI
+Date: Tue,  9 Feb 2021 11:45:20 +0100
+Message-Id: <20210209104520.579084-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-References: <20210208113729.25170-1-peter.maydell@linaro.org>
- <87czxabs54.fsf@linaro.org>
-In-Reply-To: <87czxabs54.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Feb 2021 10:34:43 +0000
-Message-ID: <CAFEAcA-=KymVWUsSMn3WBNkmeeiAqj8fUE03BDpcKFo5mDgSoA@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add gdbstub.h to the "GDB stub" section
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,32 +89,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Feb 2021 at 13:34, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > The F: patterns in the "GDB stub" section forgot gdbstub.h; add it.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > Noticed this because my recent patchset which touched gdbstub.h
-> > didn't cause check-maintainers to add the gdb stub maintainers
-> > automatically.
->
-> Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> Do you want me to pull these into my tree (with your other set)?
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Yeah, that's probably best I guess.
+Commit 6eb7a071292a ("hw/block/nvme: change controller pci id") changed
+the controller to use a Red Hat assigned PCI Device and Vendor ID, but
+did not change the IEEE OUI away from the Intel IEEE OUI.
 
-thanks
--- PMM
+Fix that and use the locally assigned QEMU IEEE OUI instead if the
+`use-intel-id` parameter is not explicitly set. Also reverse the Intel
+IEEE OUI bytes.
+
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+
+v2: drop telemetry and add a check on the use_intel_id parameter.
+
+ hw/block/nvme.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index c2f0c88fbf39..870e9d8e1c17 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -4685,9 +4685,17 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->cntlid = cpu_to_le16(n->cntlid);
+ 
+     id->rab = 6;
+-    id->ieee[0] = 0x00;
+-    id->ieee[1] = 0x02;
+-    id->ieee[2] = 0xb3;
++
++    if (n->params.use_intel_id) {
++        id->ieee[0] = 0xb3;
++        id->ieee[1] = 0x02;
++        id->ieee[2] = 0x00;
++    } else {
++        id->ieee[0] = 0x00;
++        id->ieee[1] = 0x54;
++        id->ieee[2] = 0x52;
++    }
++
+     id->mdts = n->params.mdts;
+     id->ver = cpu_to_le32(NVME_SPEC_VER);
+     id->oacs = cpu_to_le16(0);
+-- 
+2.30.0
+
 
