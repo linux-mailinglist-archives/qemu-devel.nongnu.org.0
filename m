@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C33B315770
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 21:07:47 +0100 (CET)
-Received: from localhost ([::1]:55664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D4A31574E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 21:01:19 +0100 (CET)
+Received: from localhost ([::1]:42676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9ZIX-0001zc-V2
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 15:07:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57652)
+	id 1l9ZCH-0004dX-84
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 15:01:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l9Yjx-0005B2-IW
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:32:01 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56898
+ id 1l9YkS-0005hy-Hw
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:32:32 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56950
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l9Yjv-0002WR-MY
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:32:01 -0500
+ id 1l9YkL-0002jE-OJ
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:32:32 -0500
 Received: from host109-153-84-1.range109-153.btcentralplus.com ([109.153.84.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l9Yk4-0007pt-Po; Tue, 09 Feb 2021 19:32:12 +0000
+ id 1l9YkU-0007pt-GN; Tue, 09 Feb 2021 19:32:38 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Tue,  9 Feb 2021 19:29:53 +0000
-Message-Id: <20210209193018.31339-18-mark.cave-ayland@ilande.co.uk>
+Date: Tue,  9 Feb 2021 19:29:58 +0000
+Message-Id: <20210209193018.31339-23-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
 References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 17/42] esp: move pdma_len and TC logic into
+Subject: [PATCH v2 22/42] esp: move PDMA length adjustments into
  esp_pdma_read()/esp_pdma_write()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
@@ -64,123 +64,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Here the updates to async_len and ti_size are moved into the corresponding
+esp_pdma_read()/esp_pdma_write() function to eliminate the reference to
+pdma_cur in do_dma_pdma_cb().
+
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 50 ++++++++++++++++++++++++++++++++------------------
- 1 file changed, 32 insertions(+), 18 deletions(-)
+ hw/scsi/esp.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index cfeba2feb0..7134c0aff4 100644
+index 91f65a5d9b..691a2f4bdc 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -153,22 +153,45 @@ static uint8_t *get_pdma_buf(ESPState *s)
- 
- static uint8_t esp_pdma_read(ESPState *s)
- {
-+    uint32_t dmalen = esp_get_tc(s);
-+    uint8_t val;
-+
-+    if (dmalen == 0 || s->pdma_len == 0) {
-+        return 0;
-+    }
-+
-     switch (s->pdma_origin) {
-     case PDMA:
--        return s->pdma_buf[s->pdma_cur++];
-+        val = s->pdma_buf[s->pdma_cur++];
-+        break;
-     case TI:
--        return s->ti_buf[s->pdma_cur++];
-+        val = s->ti_buf[s->pdma_cur++];
-+        break;
-     case CMD:
--        return s->cmdbuf[s->pdma_cur++];
-+        val = s->cmdbuf[s->pdma_cur++];
-+        break;
+@@ -153,12 +153,18 @@ static uint8_t esp_pdma_read(ESPState *s)
+         s->pdma_cur++;
+         break;
      case ASYNC:
--        return s->async_buf[s->pdma_cur++];
-+        val = s->async_buf[s->pdma_cur++];
-+        break;
+-        val = s->async_buf[s->pdma_cur++];
++        val = s->async_buf[0];
++        if (s->async_len > 0) {
++            s->async_len--;
++            s->async_buf++;
++        }
++        s->pdma_cur++;
+         break;
      default:
          g_assert_not_reached();
      }
-+
-+    s->pdma_len--;
-+    dmalen--;
-+    esp_set_tc(s, dmalen);
-+
-+    return val;
- }
  
- static void esp_pdma_write(ESPState *s, uint8_t val)
- {
-+    uint32_t dmalen = esp_get_tc(s);
-+
-+    if (dmalen == 0 || s->pdma_len == 0) {
-+        return;
-+    }
-+
-     switch (s->pdma_origin) {
-     case PDMA:
-         s->pdma_buf[s->pdma_cur++] = val;
-@@ -185,6 +208,10 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
++    s->ti_size--;
+     s->pdma_len--;
+     dmalen--;
+     esp_set_tc(s, dmalen);
+@@ -183,12 +189,18 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
+         s->pdma_cur++;
+         break;
+     case ASYNC:
+-        s->async_buf[s->pdma_cur++] = val;
++        s->async_buf[0] = val;
++        if (s->async_len > 0) {
++            s->async_len--;
++            s->async_buf++;
++        }
++        s->pdma_cur++;
+         break;
      default:
          g_assert_not_reached();
      }
-+
-+    s->pdma_len--;
-+    dmalen--;
-+    esp_set_tc(s, dmalen);
- }
  
- static int get_cmd_cb(ESPState *s)
-@@ -945,27 +972,18 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
++    s->ti_size++;
+     s->pdma_len--;
+     dmalen--;
+     esp_set_tc(s, dmalen);
+@@ -427,7 +439,6 @@ static void esp_dma_done(ESPState *s)
+ static void do_dma_pdma_cb(ESPState *s)
  {
-     SysBusESPState *sysbus = opaque;
-     ESPState *s = ESP(&sysbus->esp);
--    uint32_t dmalen = esp_get_tc(s);
+     int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
+-    int len = s->pdma_cur;
  
-     trace_esp_pdma_write(size);
- 
--    if (dmalen == 0 || s->pdma_len == 0) {
--        return;
+     if (s->do_cmd) {
+         s->ti_size = 0;
+@@ -436,13 +447,6 @@ static void do_dma_pdma_cb(ESPState *s)
+         do_cmd(s);
+         return;
+     }
+-    s->async_buf += len;
+-    s->async_len -= len;
+-    if (to_device) {
+-        s->ti_size += len;
+-    } else {
+-        s->ti_size -= len;
 -    }
-     switch (size) {
-     case 1:
-         esp_pdma_write(s, val);
--        s->pdma_len--;
--        dmalen--;
-         break;
-     case 2:
-         esp_pdma_write(s, val >> 8);
-         esp_pdma_write(s, val);
--        s->pdma_len -= 2;
--        dmalen -= 2;
-         break;
-     }
--    esp_set_tc(s, dmalen);
-     if (s->pdma_len == 0 && s->pdma_cb) {
-         esp_lower_drq(s);
-         s->pdma_cb(s);
-@@ -989,17 +1007,13 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
-     switch (size) {
-     case 1:
-         val = esp_pdma_read(s);
--        s->pdma_len--;
--        dmalen--;
-         break;
-     case 2:
-         val = esp_pdma_read(s);
-         val = (val << 8) | esp_pdma_read(s);
--        s->pdma_len -= 2;
--        dmalen -= 2;
-         break;
-     }
--    esp_set_tc(s, dmalen);
-+    dmalen = esp_get_tc(s);
-     if (dmalen == 0 || (s->pdma_len == 0 && s->pdma_cb)) {
-         esp_lower_drq(s);
-         s->pdma_cb(s);
+     if (s->async_len == 0) {
+         scsi_req_continue(s->current_req);
+         /*
 -- 
 2.20.1
 
