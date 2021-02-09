@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E684A3147E7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 06:09:11 +0100 (CET)
-Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C1F31485F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 06:51:57 +0100 (CET)
+Received: from localhost ([::1]:38672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9LGw-0002pA-Dv
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 00:09:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51888)
+	id 1l9LwK-0008HL-E4
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 00:51:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9LFy-000209-Tw; Tue, 09 Feb 2021 00:08:11 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:33831 helo=ozlabs.org)
+ id 1l9Luh-0007Ta-ME; Tue, 09 Feb 2021 00:50:16 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:48781 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9LFv-00017R-RQ; Tue, 09 Feb 2021 00:08:10 -0500
+ id 1l9Lue-0001eJ-U4; Tue, 09 Feb 2021 00:50:15 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DZW9s3tgJz9sVb; Tue,  9 Feb 2021 16:08:01 +1100 (AEDT)
+ id 4DZX6R1vx4z9sVb; Tue,  9 Feb 2021 16:50:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612847281;
- bh=ZdwYROD92OZJxUYg+wqtrOw1FZZUz+ghaFFtNxxOVF0=;
+ d=gibson.dropbear.id.au; s=201602; t=1612849807;
+ bh=XZ275/00ERClkwhX7qJi8XtsZUxbnREpejVQ0Fo01AU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kFJxtwzdwquJ1WiCD4a4wHesuCJhrdbc9pPR+QIgQ7W5DqNWDPKQgT5jUzygXdIR0
- HqPB1usZkEtLdodNFeR30hoPMgyl+DX2PC1T6Fh8vPSLF4fFmQB3LEDAkShaajAkpd
- kLQyhDLr8F87pnAhy7auLFCRudAj6LV4hTwFP2jI=
-Date: Tue, 9 Feb 2021 13:02:41 +1100
+ b=nDNwk4rCf2Jm1te2pdK8EssI5Zx0v1dhmn/rhN7mws+dCcDqTI7Q8lXonzItwn/ZF
+ SVHY/XM6F3rjUTBignRRNuJr7eNOrDEixwyuBWuDlaCPh5kSMXDC+fG6q8i516otHI
+ 6UMhoZ16M5XNS9gkQFn/ZNet9J3eSf7JHD9Ri5Xc=
+Date: Tue, 9 Feb 2021 16:10:05 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v2] hw/net: fsl_etsec: Reverse the RCTRL.RSF logic
-Message-ID: <20210209020241.GC40668@yekko.fritz.box>
-References: <1612833761-43234-1-git-send-email-bmeng.cn@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 3/5] target/ppc: Drop use of gdb_get_float64() and ldfq_p()
+Message-ID: <20210209051005.GE40668@yekko.fritz.box>
+References: <20210208113428.7181-1-peter.maydell@linaro.org>
+ <20210208113428.7181-4-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="s9fJI615cBHmzTOP"
+ protocol="application/pgp-signature"; boundary="7LkOrbQMr4cezO2T"
 Content-Disposition: inline
-In-Reply-To: <1612833761-43234-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <20210208113428.7181-4-peter.maydell@linaro.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,95 +58,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---s9fJI615cBHmzTOP
+--7LkOrbQMr4cezO2T
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 09, 2021 at 09:22:41AM +0800, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+On Mon, Feb 08, 2021 at 11:34:26AM +0000, Peter Maydell wrote:
+> We used to make a distinction between 'float64'/'float32' types and
+> the 'uint64_t'/'uint32_t' types, requiring special conversion
+> operations to go between them.  We've now dropped this distinction as
+> unnecessary, and the 'float*' types remain primarily for
+> documentation purposes when used in places like the function
+> prototypes of TCG helper functions.
 >=20
-> Per MPC8548ERM [1] chapter 14.5.3.4.1:
+> This means that there's no need for a special gdb_get_float64()
+> function to write a float64 value to the GDB protocol buffer; we can
+> just use gdb_get_reg64().
 >=20
-> When RCTRL.RSF is 1, frames less than 64 bytes are accepted upon
-> a DA match. But currently QEMU does the opposite.
+> Similarly, for reading a value out of the GDB buffer into a float64
+> we can use ldq_p() and need not use ldfq_p().
 >=20
-> When RCTRL.RSF is 0, short frames are silently dropped, however
-> we cannot drop such frames in QEMU as of today, due to both slirp
-> and tap networking do not pad short frames (e.g.: an ARP packet)
-> to the minimum frame size of 60 bytes.
->=20
-> If eTSEC is programmed to reject short frames, ARP requests will be
-> dropped, preventing the guest from becoming visible on the network.
->=20
-> The same issue was reported on e1000 and vmxenet3 before, see:
->=20
-> commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-> commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes=
-)")
->=20
-> Ideally this should be fixed on the slirp/tap networking side to
-> pad short frames to the minimum frame length, but I am not sure
-> whether that's doable.
->=20
-> This commit reverses the RCTRL.RSF testing logic to match the spec.
-> The log message is updated to mention the reject short frames
-> functionality is unimplemented.
->=20
-> [1] https://www.nxp.com/docs/en/reference-manual/MPC8548ERM.pdf
->=20
-> Fixes: eb1e7c3e5146 ("Add Enhanced Three-Speed Ethernet Controller (eTSEC=
-)")
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Applied to ppc-for-6.0.
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-Thanks for the excellent commit message with the links to the relevant
-documentation.
-
->=20
 > ---
+>  target/ppc/gdbstub.c            | 8 ++++----
+>  target/ppc/translate_init.c.inc | 4 ++--
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 >=20
-> Changes in v2:
-> - rewrite the commit message and reverse the RCTRL.RSF test logic
->=20
->  hw/net/fsl_etsec/rings.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
-> index 121415a..f89aa7f 100644
-> --- a/hw/net/fsl_etsec/rings.c
-> +++ b/hw/net/fsl_etsec/rings.c
-> @@ -502,10 +502,17 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uin=
-t8_t *buf, size_t size)
->          return -1;
+> diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+> index 01459dd31d2..c28319fb974 100644
+> --- a/target/ppc/gdbstub.c
+> +++ b/target/ppc/gdbstub.c
+> @@ -130,7 +130,7 @@ int ppc_cpu_gdb_read_register(CPUState *cs, GByteArra=
+y *buf, int n)
+>          gdb_get_regl(buf, env->gpr[n]);
+>      } else if (n < 64) {
+>          /* fprs */
+> -        gdb_get_float64(buf, *cpu_fpr_ptr(env, n - 32));
+> +        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n - 32));
+>      } else {
+>          switch (n) {
+>          case 64:
+> @@ -184,7 +184,7 @@ int ppc_cpu_gdb_read_register_apple(CPUState *cs, GBy=
+teArray *buf, int n)
+>          gdb_get_reg64(buf, env->gpr[n]);
+>      } else if (n < 64) {
+>          /* fprs */
+> -        gdb_get_float64(buf, *cpu_fpr_ptr(env, n - 32));
+> +        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n - 32));
+>      } else if (n < 96) {
+>          /* Altivec */
+>          gdb_get_reg64(buf, n - 64);
+> @@ -241,7 +241,7 @@ int ppc_cpu_gdb_write_register(CPUState *cs, uint8_t =
+*mem_buf, int n)
+>          env->gpr[n] =3D ldtul_p(mem_buf);
+>      } else if (n < 64) {
+>          /* fprs */
+> -        *cpu_fpr_ptr(env, n - 32) =3D ldfq_p(mem_buf);
+> +        *cpu_fpr_ptr(env, n - 32) =3D ldq_p(mem_buf);
+>      } else {
+>          switch (n) {
+>          case 64:
+> @@ -291,7 +291,7 @@ int ppc_cpu_gdb_write_register_apple(CPUState *cs, ui=
+nt8_t *mem_buf, int n)
+>          env->gpr[n] =3D ldq_p(mem_buf);
+>      } else if (n < 64) {
+>          /* fprs */
+> -        *cpu_fpr_ptr(env, n - 32) =3D ldfq_p(mem_buf);
+> +        *cpu_fpr_ptr(env, n - 32) =3D ldq_p(mem_buf);
+>      } else {
+>          switch (n) {
+>          case 64 + 32:
+> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.=
+c.inc
+> index 9867d0a6e4a..7bd111d905e 100644
+> --- a/target/ppc/translate_init.c.inc
+> +++ b/target/ppc/translate_init.c.inc
+> @@ -9907,7 +9907,7 @@ static int gdb_get_float_reg(CPUPPCState *env, GByt=
+eArray *buf, int n)
+>  {
+>      uint8_t *mem_buf;
+>      if (n < 32) {
+> -        gdb_get_float64(buf, *cpu_fpr_ptr(env, n));
+> +        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
+>          mem_buf =3D gdb_get_reg_ptr(buf, 8);
+>          ppc_maybe_bswap_register(env, mem_buf, 8);
+>          return 8;
+> @@ -9925,7 +9925,7 @@ static int gdb_set_float_reg(CPUPPCState *env, uint=
+8_t *mem_buf, int n)
+>  {
+>      if (n < 32) {
+>          ppc_maybe_bswap_register(env, mem_buf, 8);
+> -        *cpu_fpr_ptr(env, n) =3D ldfq_p(mem_buf);
+> +        *cpu_fpr_ptr(env, n) =3D ldq_p(mem_buf);
+>          return 8;
 >      }
-> =20
-> -    if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
-> +    /*
-> +     * Both slirp and tap networking do not pad short frames
-> +     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
-> +     *
-> +     * If eTSEC is programmed to reject short frames, ARP requests
-> +     * will be dropped, preventing the guest from becoming visible
-> +     * on the network.
-> +     */
-> +    if (!(etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
->          /* CRC is not in the packet yet, so short frame is below 60 byte=
-s */
-> -        RING_DEBUG("%s: Drop short frame\n", __func__);
-> -        return -1;
-> +        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
->      }
-> =20
->      rx_init_frame(etsec, buf, size);
+>      if (n =3D=3D 32) {
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -154,25 +173,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---s9fJI615cBHmzTOP
+--7LkOrbQMr4cezO2T
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAh7T8ACgkQbDjKyiDZ
-s5IKOg//avGB4xsPpLPEkXctCRXUexFAa6UZRLaaKpIM7APdkpFKTDSrVm8aJRnh
-thD6I3pfzek3bheVw9DlyHTsCb2ugb1uSr+NrFqn7d+CjKVhxi/y5q6VCyrMmE13
-eH/7rIPsm1XGaKakg7e/ISTwnw99pO8/nCovtTTpPFkTIXvFUF10I9loK4y99rjF
-rT4h5DvQ6oE4N96cyGCVfsbbNrrWpS6XEwknUFMfzcQj0HSbUu4sfsjC6jbOQzUA
-23FxWz29bCLXC64D9PBtdchHhGo8jeJkGIptEscsta2EPu+APrLXdK8QaQD1Iy3b
-GdvfTsy0ITtkhLZiFWSJLbxzfwtCyp7yncQZzDVQR6r0imgBad9qRtkrd80FfOMs
-Bc6bTrkn6Z94ZMCft72zEIMapcVvwl+v40leioT0dMJT7PKuh0FXk49+fu3xuvhs
-s5M7dG/rXR2hNcPlhfMHb2BUPm55U3Pap9n0CLPrRCPql8QUKmY+mqlBrR2a1VUT
-lQO/TjU9ctGduCMRFkH3Ux0QWBtszI6rmHAec2syhCs47g1vpCFEuniu+XkCgBsQ
-6KSUVlzXOh04R+9Fuy8IIBxAHKstBkRR1/CcIFotcw5YUCopYvXAGSAmFlMSY1Am
-5KoGOnbvmtoqyNaY0Yy1IkRKBmkuNz9Rcs0JxQUGJgbwWR9QccI=
-=pE1g
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAiGSsACgkQbDjKyiDZ
+s5L8nQ/8DY1ptm7WvMR2mTa5TEj4wU3i6zB2P8FHupYTBz2tgHgPfdUzhmy5cHnb
+r/6omfgeKNRtxrhdcbmH4XY1N+7TlO3b9N8UPDbgXRb3Kle1ETKizatzAbUxSU/h
+glc2yzi97PPa0851jdVR/oZ9zYWsEntHGXbo70OLMzXvNtMswV5ogx3ITVT2CCpW
+fj46WoY9Xfp8F+pm+scm/UszGE00FiPKB6vV92MBpdYJQrVxy9YOGmJOc7WizKHE
+g6NfrYWhP5j+F7C6kyWfsnw3k1ehU9qnXwC87eDGw5reM6Fyfn7ycxDU8+b+iTB0
+oQSIOg2VbFipV48cG8ZtN6/E5brOuftbHSOfmSkrWO51HMAh9WghFe0IIbuEZm1R
+os48eykgDrweLbLay9ZWMqTgWO9UXit/vhnwDADqxTBW504ZRTkyPJrgQnOl2y79
+jdLrhqFCcJU5ACMBVwaaoJAUoZyRyuFHdlwisYTRbiT51jU3ZpdzbhAsXFCBuZtj
+kblci2YXwsfU7FIrJCylg4MLfQ/5L0dxwcnC/OzJEdJ8bGzYWVmK4KLY8D3/BVrl
+bn2n8Rq0pBu0o/V7I9beXfOAmJp5znCZgo8/qobklVscdYRbdcDOcMoUNmCg5HYl
+lUT6xD9plMc7iSBg38nguqlPwAdZMBShvZjpxXoHJwYSCPVjl3k=
+=MUb0
 -----END PGP SIGNATURE-----
 
---s9fJI615cBHmzTOP--
+--7LkOrbQMr4cezO2T--
 
