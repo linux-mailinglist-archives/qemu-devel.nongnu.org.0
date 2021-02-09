@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDE0315824
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 22:00:47 +0100 (CET)
-Received: from localhost ([::1]:49484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 649A0315823
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 22:00:13 +0100 (CET)
+Received: from localhost ([::1]:49348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9a7p-0000ZF-2c
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 16:00:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49496)
+	id 1l9a7H-0000Vi-JE
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 16:00:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9ZxC-0000RQ-Nx
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 15:49:46 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41099)
+ id 1l9a2o-0005ek-B9
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 15:55:34 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9ZxA-0001aO-AE
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 15:49:46 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id n6so10878023wrv.8
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 12:49:43 -0800 (PST)
+ id 1l9a2m-0004XJ-O4
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 15:55:34 -0500
+Received: by mail-wr1-x434.google.com with SMTP id u14so23769865wri.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 12:55:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=8N5zSnX4ucBbGwyOemLoQgGCWjnAzEDwJu0H3nwl/YY=;
- b=eJ28As8HT2FKGxAy8sr2T13XC3uiZHNakOOyHH3uvgX1zUfN1YdvuMDZ0c3adKo/sB
- x5ov8UwvrEM0PqYfU0GMQdjqpVW2G7WweTPHvWBQFJMRZHapXGKx5LzvwcDOfEmsTuUN
- F0bbpEOsx6EOqdsTmpxVZmAxpvlOXBLt5I+n99zq9QdxfeoAopdpLJHwJDoYFZDbXCqH
- PHKhPHIb7piV2sXfszcwcmE8Szt+NE+FoVEB4InvapINnV024QPlng0a4hINWK9tMYUZ
- fHAOUCYyUuU2Io+kWodcbjVlvpSjHc84Qi/V9UJr+y3asKjJUioMCu9wl91rm+OpTPX7
- qxsA==
+ bh=HTsxfAUwNTOGp4bf8zPCXfLFChQlEFdi8dKs6UEV3Xc=;
+ b=CC42WIQivHtIv5QgpGG1WRS8Rc3y9W9bydTAmi3yfDM4YgVKgx82T9QfnE1thYtiLm
+ U8soHzQCpZkCNwRiUO7856c/QZICVt8QTuuvz9q4B3jRMK/4J9VM2K4DEVk/zHSkNU44
+ G790zn5MS9GU+noeCEDVOo4mhYPVgsmOKqPD0xkUh/PeZ+HEzQ9hyBBwUxuXJlOZhV45
+ L8vAQcf9js9RZJLdSCdplWiV7sz9Tc61wTv0aK/4WeRjy+g9CqUEEg+tPXCi1zP+k/FO
+ YHR6f1FwcZXwpr85uCMjuBkDx5Vfj6DFzcTSlp0dpSlsU36QvCHhgZs7Q6L6wBM6aJFr
+ KMwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=8N5zSnX4ucBbGwyOemLoQgGCWjnAzEDwJu0H3nwl/YY=;
- b=qoFBZOO32v80C69423Pl/C8xf5RsCWf7AgKoyxBqOJ2fZEHxK+E7mPfVHjYGcm0rmG
- Jb4U38u9PQ6wgvnQ69z0xS0rukVT5ogxK9mvATsophf+fjSgM0p1/oFwBPpD/cmu+9YW
- 386LEpe1OrQGB4t1ckxE3cM+ocq+E3WGN9/5Xwdcd9wId3wPvn+/FIAcHmllOFemIONd
- +wt0MoocrFGOo54ns6WusFffj8yMR7awq4eBYCGzNsCg6oSWK7xqjaSiEp9V49goQSXe
- eHp1vKCb+mVqagnBo805dUn6KLCZvbtQ55XyDNYexSStTt1JJ9ng8gl0euxENFrC5z8p
- hDSg==
-X-Gm-Message-State: AOAM531GWJoV/2Ql4U6vD5lk8yCLyhxQs1+YRnOjfAG637spm0VDrspJ
- 8iGbLclAZuv6hDKU7liNG2T9GcPJhZKQv+3b
-X-Google-Smtp-Source: ABdhPJxtUGV1fccQPe1i8fot1NGmhTNsAueptQtCAncni2N2xLC+/9taB3iPwtS5bYaEtk6T8RL04w==
-X-Received: by 2002:a5d:518a:: with SMTP id k10mr19459937wrv.214.1612903782557; 
- Tue, 09 Feb 2021 12:49:42 -0800 (PST)
+ bh=HTsxfAUwNTOGp4bf8zPCXfLFChQlEFdi8dKs6UEV3Xc=;
+ b=WeIvTSNPNuS+d/IwTJyd2j8Zz7SCWtTwv4DTU3ZU+zLn9pkw67jH16cB87UZdCWxcU
+ aJn1XKh62UYZHjpv/yFqKeUIIuo2syjVvBam1V9tj9zFAbW2q++dyXmOFGjMD/hcr+/a
+ fv5ETRr81TDqV91XWBTFOB/5pTY7AlDokscHH8Oxnrv/PtLZQyHCsbB8rJt07uX33Lox
+ UiJMGYzv/89EaoW4ENHUFisNAGoafcc8SBqHvuNGDzka0veGvlEpNGyIepB3s22TYUFP
+ 1ZcNwqdpjPedtWnDAVCeTwkTc3nVyKnObqC1A+14EcG5K3kLKCbntdf9CaZxEx0YABRH
+ Y3zg==
+X-Gm-Message-State: AOAM5315W6pr/TUA0WJnrDzb8Oh0O37iI6vy32Bja0qzwimSjj8+UNWN
+ vruQLHl7acmG8ogQxg+p9lepEw==
+X-Google-Smtp-Source: ABdhPJwr74Gbu1lw54o0oaZQU+O0Y84YFVkMtDea52/y7JHnFsxf7BfeerRWXp+mnQs6e1bkp52cCQ==
+X-Received: by 2002:a5d:6847:: with SMTP id o7mr3122wrw.216.1612904131186;
+ Tue, 09 Feb 2021 12:55:31 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y11sm36766112wrh.16.2021.02.09.12.49.40
+ by smtp.gmail.com with ESMTPSA id j17sm5992517wmc.28.2021.02.09.12.55.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 12:49:41 -0800 (PST)
+ Tue, 09 Feb 2021 12:55:30 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5A0831FF7E;
- Tue,  9 Feb 2021 20:49:40 +0000 (GMT)
-References: <20210209182749.31323-1-alex.bennee@linaro.org>
- <20210209182749.31323-8-alex.bennee@linaro.org>
- <c5f00dee-fd56-5a7b-64f4-5ae873180246@linaro.org>
+ by zen.linaroharston (Postfix) with ESMTP id 790871FF7E;
+ Tue,  9 Feb 2021 20:55:29 +0000 (GMT)
+References: <20210208113428.7181-1-peter.maydell@linaro.org>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v1 07/12] accel/tcg: actually cache our partial icount TB
-Date: Tue, 09 Feb 2021 20:49:25 +0000
-In-reply-to: <c5f00dee-fd56-5a7b-64f4-5ae873180246@linaro.org>
-Message-ID: <87wnvh7yqj.fsf@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 0/5] Drop float32/float64 accessors used by gdbstub code
+Date: Tue, 09 Feb 2021 20:55:23 +0000
+In-reply-to: <20210208113428.7181-1-peter.maydell@linaro.org>
+Message-ID: <87tuql7ygu.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,31 +86,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, robhenry@microsoft.com, aaron@os.amperecomputing.com,
- cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Philippe =?utf-8?Q?Mat?= =?utf-8?Q?hieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On 2/9/21 10:27 AM, Alex Benn=C3=A9e wrote:
->>      /* Refill decrementer and continue execution.  */
->> -    insns_left =3D MIN(0xffff, cpu->icount_budget);
->> +    insns_left =3D MIN(CF_COUNT_MASK, cpu->icount_budget);
-> ...
->> +        g_assert(insns_left < CF_COUNT_MASK);
+> We used to make a distinction between 'float64'/'float32' types and
+> the 'uint64_t'/'uint32_t' types, requiring special conversion
+> operations to go between them.  We've now dropped this distinction as
+> unnecessary, and the 'float*' types remain primarily for
+> documentation purposes when used in places like the function
+> prototypes of TCG helper functions.
 >
-> Why both the MIN and the assert?
-
-Lack of faith in MIN I guess ;-)
-
-I'll drop the assert.
-
+> This means that there's no need for special gdb_get_float64() and
+> gdb_get_float32() functions to write float64 or float32 values to the
+> GDB protocol buffer; we can just use gdb_get_reg64() and
+> gdb_get_reg32().
 >
+> Similarly, for reading a value out of the GDB buffer into a float64
+> or float32 we can use ldq_p() or ldl_p() and need not use ldfq_p()
+> or ldfl_p().
 >
-> r~
+> This patchseries drops the use of the gdb_get_float* and ldf*
+> functions from the three targets that were using them, and then
+> removes the now-unused functions from gdbstub.h and bswap.h.
 
+Queued to gdbstub/next, thanks.
 
 --=20
 Alex Benn=C3=A9e
