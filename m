@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732933145AA
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 02:34:21 +0100 (CET)
-Received: from localhost ([::1]:42960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915833145B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 02:40:56 +0100 (CET)
+Received: from localhost ([::1]:46038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Hv2-0006dQ-IL
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 20:34:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44388)
+	id 1l9I1P-0008SK-N7
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 20:40:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1l9Htw-0006BI-PL
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 20:33:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1l9Hth-0003xx-3T
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 20:33:12 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 359CD64EB6
- for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 01:32:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612834373;
- bh=lYqM7/lEWVHAKYtC3FaKyuSyTQEiG+A88HRLRq2L/eY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ZBQ6ukWtHuipcG3zvrgoT6W4JhM+d6BXfLBdOcB7uPi3OJWrDO8tqXSZ+6hCrvlfW
- kMGwvRMBjFmnfwOqkS4NR+hlgwtkUb+7nY7PiC/Wr0teXmbh2ZoZ63DhqEOR2rvNwP
- erzQOKDSqoIjrCnNiaat4IIG1v+0uOxBoxBGh5tPiYIYjFd22TakELSQEelUr8skmT
- kf46yE/KdtgqcYesUo2c1RidCZbRbEkvAc12afBtuzekGylXPXfCtzvvi7fQ+CSPUn
- AOmnfTATRufNEIb7kWy3HUAx8raHTowzGKRDVWvm306I1Ms29Hp8CxcUXQ+gE+WPX7
- rPQQ5C4ZEJ1ew==
-Received: by mail-il1-f170.google.com with SMTP id o7so10163308ils.2
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 17:32:53 -0800 (PST)
-X-Gm-Message-State: AOAM5309QoJWmHny3Cd6m+3D5fgTM2qyARUTJJQ5r8t3KGyWER4OkSue
- YxD1dpnNJ2zAvTtbzwVQtBNyfueOFVSd51dquY0=
-X-Google-Smtp-Source: ABdhPJwsXfKFk8CbiylVGFHiRMWVw3cJyeC9NSfIWn2FvOnYn7fRHjTkyF40vscRMrbwzWdqsuWk/u83ImQBGqzQLa4=
-X-Received: by 2002:a92:1e12:: with SMTP id e18mr17946547ile.270.1612834372505; 
- Mon, 08 Feb 2021 17:32:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l9Hzx-0007uR-GW; Mon, 08 Feb 2021 20:39:25 -0500
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:44878)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l9Hzt-0007HC-Tl; Mon, 08 Feb 2021 20:39:25 -0500
+Received: by mail-io1-xd29.google.com with SMTP id j5so17096326iog.11;
+ Mon, 08 Feb 2021 17:39:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/7SuJuW8jbl3LTbLSE1jWr6ZednKVTd3E8TeXP+hA5o=;
+ b=tT8ytM1fOK40Ez7tL4Pu+PWvTCWBIsQv/5OkY9RFcXfeayXP/QyuzvknwJQ9Z32Bx3
+ F+U4tgkj7DJ3k1bu39dgTAXjllFSsqlxThOfIaGYo/q40SAi/4w2gSDZZ0fwKm2OV9lX
+ xalQxgSeBNv85OQ9qlrDsaCkQ9l5Nz9TOZWvDymU07dbC6IiJz+Hb/n5A4lFLUe8h1pN
+ Z/4kn2fItDIsFp9el7qY3FYHi9TiSI4SGNymmf7J7pt7r4YCt8yfPlIsdkDLqVE6mqYO
+ RfSX/rXNi/BRft+KqhXuP7I2P1kmRsnOEBJSXAoydjn4qmUs0uakvepZ0cDTgqTAor71
+ dq/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/7SuJuW8jbl3LTbLSE1jWr6ZednKVTd3E8TeXP+hA5o=;
+ b=HorLMW2oi7u+WdN+xiyfjBw/51jK7Es5EuF3vYXGSneDpm5V4yWn7eKPmKhdXaORXJ
+ sOG+Yh2ojB17qg7tkNLG1m0/NCP73lh+GrTaPEqSaCx3bchUz9nFVS4i/wSaPT/IryLI
+ TXDb3jDwN5k7/cFKlR1pU/si9vLndB33fBZxreg/qQp5E6j3LJdhZihMzg1uYePFgP/g
+ vTV+h20bMvzlycyKNKfbFzCxGM1K3P1exZvNTCAEaEcBbX/7ycnLPLQhL96mLi5JB61l
+ ViasgLYkSFVIimk6dz9SEculmDL/uHTfw2jDt8d5IIzsMU57w/aU7UexGDEftpSINgo8
+ KLhA==
+X-Gm-Message-State: AOAM533qLjAsmfRxemB/iEzL98SNhaUw3fEefs3e7I/Jih+H5R+qqch+
+ PbG/eyhGQNcXDMlRP8VvOD/Eikf4aZbb0z6C2N8=
+X-Google-Smtp-Source: ABdhPJwPSA9Hgd+fHLBqAJpHy46DFpDyNaP6GyqWHuOffUM52Rx3wm5zllRFhp+1caRzV5mqChiLL2wtgCtEqAHU57Y=
+X-Received: by 2002:a02:5148:: with SMTP id s69mr20862794jaa.8.1612834760209; 
+ Mon, 08 Feb 2021 17:39:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20210203123425.GA9574@alpha.franken.de>
- <a2a2cfe3-5618-43b1-a6a4-cc768fc1b9fb@www.fastmail.com>
- <20210207193952.GA21929@alpha.franken.de>
- <59a9a55c-2866-413f-89e3-b11e274c2d34@www.fastmail.com>
-In-Reply-To: <59a9a55c-2866-413f-89e3-b11e274c2d34@www.fastmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 9 Feb 2021 09:32:40 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6jkQBmr7+_GzUSAUhN035kCzNxoS30H_PdOpKzJO1JWA@mail.gmail.com>
-Message-ID: <CAAhV-H6jkQBmr7+_GzUSAUhN035kCzNxoS30H_PdOpKzJO1JWA@mail.gmail.com>
-Subject: Re: KVM Guest
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20210126060007.12904-1-bmeng.cn@gmail.com>
+ <20210126060007.12904-4-bmeng.cn@gmail.com>
+In-Reply-To: <20210126060007.12904-4-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 8 Feb 2021 17:38:47 -0800
+Message-ID: <CAKmqyKNKch28LStwAV_AmVnu2RA5TGTfbsmcpPWx6GqHpWAtEg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/9] hw/ssi: Add SiFive SPI controller support
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,56 +76,496 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "linux-mips@vger.kernel.org,
- " <linux-mips@vger.kernel.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think it can be removed.
+On Mon, Jan 25, 2021 at 10:03 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> This adds the SiFive SPI controller model for the FU540 SoC.
+> The direct memory-mapped SPI flash mode is unsupported.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Huacai
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Tue, Feb 9, 2021 at 12:40 AM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+Alistair
+
 >
+> ---
 >
+> Changes in v3:
+> - Simplify flush txfifo logic
 >
-> On Mon, Feb 8, 2021, at 3:39 AM, Thomas Bogendoerfer wrote:
-> > On Wed, Feb 03, 2021 at 08:52:34PM +0800, Jiaxun Yang wrote:
-> > >
-> > >
-> > > On Wed, Feb 3, 2021, at 8:34 PM, Thomas Bogendoerfer wrote:
-> > > > Hi,
-> > > >
-> > > > Does kvm guest kernel still work ? I'm playing with current mips-next
-> > > > and starting a kvm guest kernel inside an emulated malta system also
-> > > > running a mips-next kernel. The kvm guest kernel starts, but hangs
-> > > > in calibrate_delay (at least that's what info registers in qemu monitor
-> > > > suggests). Ayn ideas ?
-> > >
-> > > The current KVM guest kernel is actually a Trap-and-emul guest kernel.
-> > > VZ based KVM uses the same binary with the host one, so does TCG.
-> > >
-> > > TE KVM is current unmaintained. I'll try to get a malta and do some test.
-> >
-> > hmm, so it looks broken, is unmaintained, how about removing it ?
+> Changes in v2:
+> - Log guest error when trying to write reserved registers
+> - Log guest error when trying to access out-of-bounds registers
+> - log guest error when writing to reserved bits for chip select
+>   registers and watermark registers
+> - Log unimplemented warning when trying to write direct-map flash
+>   interface registers
+> - Add test tx fifo full logic in sifive_spi_read(), hence remove
+>   setting the tx fifo full flag in sifive_spi_write().
+> - Populate register with their default value
 >
-> Probably. I got remote access of a CoreLV malta but no luck to boot kernel as well.
+>  include/hw/ssi/sifive_spi.h |  47 +++++
+>  hw/ssi/sifive_spi.c         | 358 ++++++++++++++++++++++++++++++++++++
+>  hw/ssi/Kconfig              |   4 +
+>  hw/ssi/meson.build          |   1 +
+>  4 files changed, 410 insertions(+)
+>  create mode 100644 include/hw/ssi/sifive_spi.h
+>  create mode 100644 hw/ssi/sifive_spi.c
 >
-> + Huacai as KVM/MIPS Maintainer.
-> + Philippe as QEMU/MIPS Maintainer.
-> + qemu-devel for wider audience.
+> diff --git a/include/hw/ssi/sifive_spi.h b/include/hw/ssi/sifive_spi.h
+> new file mode 100644
+> index 0000000000..47d0d6a47c
+> --- /dev/null
+> +++ b/include/hw/ssi/sifive_spi.h
+> @@ -0,0 +1,47 @@
+> +/*
+> + * QEMU model of the SiFive SPI Controller
+> + *
+> + * Copyright (c) 2021 Wind River Systems, Inc.
+> + *
+> + * Author:
+> + *   Bin Meng <bin.meng@windriver.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef HW_SIFIVE_SPI_H
+> +#define HW_SIFIVE_SPI_H
+> +
+> +#define SIFIVE_SPI_REG_NUM  (0x78 / 4)
+> +
+> +#define TYPE_SIFIVE_SPI "sifive.spi"
+> +#define SIFIVE_SPI(obj) OBJECT_CHECK(SiFiveSPIState, (obj), TYPE_SIFIVE_SPI)
+> +
+> +typedef struct SiFiveSPIState {
+> +    SysBusDevice parent_obj;
+> +
+> +    MemoryRegion mmio;
+> +    qemu_irq irq;
+> +
+> +    uint32_t num_cs;
+> +    qemu_irq *cs_lines;
+> +
+> +    SSIBus *spi;
+> +
+> +    Fifo8 tx_fifo;
+> +    Fifo8 rx_fifo;
+> +
+> +    uint32_t regs[SIFIVE_SPI_REG_NUM];
+> +} SiFiveSPIState;
+> +
+> +#endif /* HW_SIFIVE_SPI_H */
+> diff --git a/hw/ssi/sifive_spi.c b/hw/ssi/sifive_spi.c
+> new file mode 100644
+> index 0000000000..0c9ebca3c8
+> --- /dev/null
+> +++ b/hw/ssi/sifive_spi.c
+> @@ -0,0 +1,358 @@
+> +/*
+> + * QEMU model of the SiFive SPI Controller
+> + *
+> + * Copyright (c) 2021 Wind River Systems, Inc.
+> + *
+> + * Author:
+> + *   Bin Meng <bin.meng@windriver.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/irq.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/ssi/ssi.h"
+> +#include "sysemu/sysemu.h"
+> +#include "qemu/fifo8.h"
+> +#include "qemu/log.h"
+> +#include "qemu/module.h"
+> +#include "hw/ssi/sifive_spi.h"
+> +
+> +#define R_SCKDIV        (0x00 / 4)
+> +#define R_SCKMODE       (0x04 / 4)
+> +#define R_CSID          (0x10 / 4)
+> +#define R_CSDEF         (0x14 / 4)
+> +#define R_CSMODE        (0x18 / 4)
+> +#define R_DELAY0        (0x28 / 4)
+> +#define R_DELAY1        (0x2C / 4)
+> +#define R_FMT           (0x40 / 4)
+> +#define R_TXDATA        (0x48 / 4)
+> +#define R_RXDATA        (0x4C / 4)
+> +#define R_TXMARK        (0x50 / 4)
+> +#define R_RXMARK        (0x54 / 4)
+> +#define R_FCTRL         (0x60 / 4)
+> +#define R_FFMT          (0x64 / 4)
+> +#define R_IE            (0x70 / 4)
+> +#define R_IP            (0x74 / 4)
+> +
+> +#define FMT_DIR         (1 << 3)
+> +
+> +#define TXDATA_FULL     (1 << 31)
+> +#define RXDATA_EMPTY    (1 << 31)
+> +
+> +#define IE_TXWM         (1 << 0)
+> +#define IE_RXWM         (1 << 1)
+> +
+> +#define IP_TXWM         (1 << 0)
+> +#define IP_RXWM         (1 << 1)
+> +
+> +#define FIFO_CAPACITY   8
+> +
+> +static void sifive_spi_txfifo_reset(SiFiveSPIState *s)
+> +{
+> +    fifo8_reset(&s->tx_fifo);
+> +
+> +    s->regs[R_TXDATA] &= ~TXDATA_FULL;
+> +    s->regs[R_IP] &= ~IP_TXWM;
+> +}
+> +
+> +static void sifive_spi_rxfifo_reset(SiFiveSPIState *s)
+> +{
+> +    fifo8_reset(&s->rx_fifo);
+> +
+> +    s->regs[R_RXDATA] |= RXDATA_EMPTY;
+> +    s->regs[R_IP] &= ~IP_RXWM;
+> +}
+> +
+> +static void sifive_spi_update_cs(SiFiveSPIState *s)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < s->num_cs; i++) {
+> +        if (s->regs[R_CSDEF] & (1 << i)) {
+> +            qemu_set_irq(s->cs_lines[i], !(s->regs[R_CSMODE]));
+> +        }
+> +    }
+> +}
+> +
+> +static void sifive_spi_update_irq(SiFiveSPIState *s)
+> +{
+> +    int level;
+> +
+> +    if (fifo8_num_used(&s->tx_fifo) < s->regs[R_TXMARK]) {
+> +        s->regs[R_IP] |= IP_TXWM;
+> +    } else {
+> +        s->regs[R_IP] &= ~IP_TXWM;
+> +    }
+> +
+> +    if (fifo8_num_used(&s->rx_fifo) > s->regs[R_RXMARK]) {
+> +        s->regs[R_IP] |= IP_RXWM;
+> +    } else {
+> +        s->regs[R_IP] &= ~IP_RXWM;
+> +    }
+> +
+> +    level = s->regs[R_IP] & s->regs[R_IE] ? 1 : 0;
+> +    qemu_set_irq(s->irq, level);
+> +}
+> +
+> +static void sifive_spi_reset(DeviceState *d)
+> +{
+> +    SiFiveSPIState *s = SIFIVE_SPI(d);
+> +
+> +    memset(s->regs, 0, sizeof(s->regs));
+> +
+> +    /* The reset value is high for all implemented CS pins */
+> +    s->regs[R_CSDEF] = (1 << s->num_cs) - 1;
+> +
+> +    /* Populate register with their default value */
+> +    s->regs[R_SCKDIV] = 0x03;
+> +    s->regs[R_DELAY0] = 0x1001;
+> +    s->regs[R_DELAY1] = 0x01;
+> +
+> +    sifive_spi_txfifo_reset(s);
+> +    sifive_spi_rxfifo_reset(s);
+> +
+> +    sifive_spi_update_cs(s);
+> +    sifive_spi_update_irq(s);
+> +}
+> +
+> +static void sifive_spi_flush_txfifo(SiFiveSPIState *s)
+> +{
+> +    uint8_t tx;
+> +    uint8_t rx;
+> +
+> +    while (!fifo8_is_empty(&s->tx_fifo)) {
+> +        tx = fifo8_pop(&s->tx_fifo);
+> +        rx = ssi_transfer(s->spi, tx);
+> +
+> +        if (!fifo8_is_full(&s->rx_fifo)) {
+> +            if (!(s->regs[R_FMT] & FMT_DIR)) {
+> +                fifo8_push(&s->rx_fifo, rx);
+> +            }
+> +        }
+> +    }
+> +}
+> +
+> +static bool sifive_spi_is_bad_reg(hwaddr addr, bool allow_reserved)
+> +{
+> +    bool bad;
+> +
+> +    switch (addr) {
+> +    /* reserved offsets */
+> +    case 0x08:
+> +    case 0x0C:
+> +    case 0x1C:
+> +    case 0x20:
+> +    case 0x24:
+> +    case 0x30:
+> +    case 0x34:
+> +    case 0x38:
+> +    case 0x3C:
+> +    case 0x44:
+> +    case 0x58:
+> +    case 0x5C:
+> +    case 0x68:
+> +    case 0x6C:
+> +        bad = allow_reserved ? false : true;
+> +        break;
+> +    default:
+> +        bad = false;
+> +    }
+> +
+> +    if (addr >= (SIFIVE_SPI_REG_NUM << 2)) {
+> +        bad = true;
+> +    }
+> +
+> +    return bad;
+> +}
+> +
+> +static uint64_t sifive_spi_read(void *opaque, hwaddr addr, unsigned int size)
+> +{
+> +    SiFiveSPIState *s = opaque;
+> +    uint32_t r;
+> +
+> +    if (sifive_spi_is_bad_reg(addr, true)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad read at address 0x%"
+> +                      HWADDR_PRIx "\n", __func__, addr);
+> +        return 0;
+> +    }
+> +
+> +    addr >>= 2;
+> +    switch (addr) {
+> +    case R_TXDATA:
+> +        if (fifo8_is_full(&s->tx_fifo)) {
+> +            return TXDATA_FULL;
+> +        }
+> +        r = 0;
+> +        break;
+> +
+> +    case R_RXDATA:
+> +        if (fifo8_is_empty(&s->rx_fifo)) {
+> +            return RXDATA_EMPTY;
+> +        }
+> +        r = fifo8_pop(&s->rx_fifo);
+> +        break;
+> +
+> +    default:
+> +        r = s->regs[addr];
+> +        break;
+> +    }
+> +
+> +    sifive_spi_update_irq(s);
+> +
+> +    return r;
+> +}
+> +
+> +static void sifive_spi_write(void *opaque, hwaddr addr,
+> +                             uint64_t val64, unsigned int size)
+> +{
+> +    SiFiveSPIState *s = opaque;
+> +    uint32_t value = val64;
+> +
+> +    if (sifive_spi_is_bad_reg(addr, false)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad write at addr=0x%"
+> +                      HWADDR_PRIx " value=0x%x\n", __func__, addr, value);
+> +        return;
+> +    }
+> +
+> +    addr >>= 2;
+> +    switch (addr) {
+> +    case R_CSID:
+> +        if (value >= s->num_cs) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid csid %d\n",
+> +                          __func__, value);
+> +        } else {
+> +            s->regs[R_CSID] = value;
+> +            sifive_spi_update_cs(s);
+> +        }
+> +        break;
+> +
+> +    case R_CSDEF:
+> +        if (value >= (1 << s->num_cs)) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid csdef %x\n",
+> +                          __func__, value);
+> +        } else {
+> +            s->regs[R_CSDEF] = value;
+> +        }
+> +        break;
+> +
+> +    case R_CSMODE:
+> +        if (value > 3) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid csmode %x\n",
+> +                          __func__, value);
+> +        } else {
+> +            s->regs[R_CSMODE] = value;
+> +            sifive_spi_update_cs(s);
+> +        }
+> +        break;
+> +
+> +    case R_TXDATA:
+> +        if (!fifo8_is_full(&s->tx_fifo)) {
+> +            fifo8_push(&s->tx_fifo, (uint8_t)value);
+> +            sifive_spi_flush_txfifo(s);
+> +        }
+> +        break;
+> +
+> +    case R_RXDATA:
+> +    case R_IP:
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: invalid write to read-only reigster 0x%"
+> +                      HWADDR_PRIx " with 0x%x\n", __func__, addr << 2, value);
+> +        break;
+> +
+> +    case R_TXMARK:
+> +    case R_RXMARK:
+> +        if (value >= FIFO_CAPACITY) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid watermark %d\n",
+> +                          __func__, value);
+> +        } else {
+> +            s->regs[addr] = value;
+> +        }
+> +        break;
+> +
+> +    case R_FCTRL:
+> +    case R_FFMT:
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "%s: direct-map flash interface unimplemented\n",
+> +                      __func__);
+> +        break;
+> +
+> +    default:
+> +        s->regs[addr] = value;
+> +        break;
+> +    }
+> +
+> +    sifive_spi_update_irq(s);
+> +}
+> +
+> +static const MemoryRegionOps sifive_spi_ops = {
+> +    .read = sifive_spi_read,
+> +    .write = sifive_spi_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 4
+> +    }
+> +};
+> +
+> +static void sifive_spi_realize(DeviceState *dev, Error **errp)
+> +{
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +    SiFiveSPIState *s = SIFIVE_SPI(dev);
+> +    int i;
+> +
+> +    s->spi = ssi_create_bus(dev, "spi");
+> +    sysbus_init_irq(sbd, &s->irq);
+> +
+> +    s->cs_lines = g_new0(qemu_irq, s->num_cs);
+> +    for (i = 0; i < s->num_cs; i++) {
+> +        sysbus_init_irq(sbd, &s->cs_lines[i]);
+> +    }
+> +
+> +    memory_region_init_io(&s->mmio, OBJECT(s), &sifive_spi_ops, s,
+> +                          TYPE_SIFIVE_SPI, 0x1000);
+> +    sysbus_init_mmio(sbd, &s->mmio);
+> +
+> +    fifo8_create(&s->tx_fifo, FIFO_CAPACITY);
+> +    fifo8_create(&s->rx_fifo, FIFO_CAPACITY);
+> +}
+> +
+> +static Property sifive_spi_properties[] = {
+> +    DEFINE_PROP_UINT32("num-cs", SiFiveSPIState, num_cs, 1),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void sifive_spi_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    device_class_set_props(dc, sifive_spi_properties);
+> +    dc->reset = sifive_spi_reset;
+> +    dc->realize = sifive_spi_realize;
+> +}
+> +
+> +static const TypeInfo sifive_spi_info = {
+> +    .name           = TYPE_SIFIVE_SPI,
+> +    .parent         = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size  = sizeof(SiFiveSPIState),
+> +    .class_init     = sifive_spi_class_init,
+> +};
+> +
+> +static void sifive_spi_register_types(void)
+> +{
+> +    type_register_static(&sifive_spi_info);
+> +}
+> +
+> +type_init(sifive_spi_register_types)
+> diff --git a/hw/ssi/Kconfig b/hw/ssi/Kconfig
+> index 9e54a0c8dd..7d90a02181 100644
+> --- a/hw/ssi/Kconfig
+> +++ b/hw/ssi/Kconfig
+> @@ -2,6 +2,10 @@ config PL022
+>      bool
+>      select SSI
 >
-> If nobody intended to maintain it probably it's time to remove it.
+> +config SIFIVE_SPI
+> +    bool
+> +    select SSI
+> +
+>  config SSI
+>      bool
 >
-> >
-> > Thomas.
-> >
-> > --
-> > Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-> > good idea.                                                [ RFC1925, 2.3 ]
-> >
->
+> diff --git a/hw/ssi/meson.build b/hw/ssi/meson.build
+> index dee00c0da6..3d6bc82ab1 100644
+> --- a/hw/ssi/meson.build
+> +++ b/hw/ssi/meson.build
+> @@ -2,6 +2,7 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_smc.c'))
+>  softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('mss-spi.c'))
+>  softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_fiu.c'))
+>  softmmu_ss.add(when: 'CONFIG_PL022', if_true: files('pl022.c'))
+> +softmmu_ss.add(when: 'CONFIG_SIFIVE_SPI', if_true: files('sifive_spi.c'))
+>  softmmu_ss.add(when: 'CONFIG_SSI', if_true: files('ssi.c'))
+>  softmmu_ss.add(when: 'CONFIG_STM32F2XX_SPI', if_true: files('stm32f2xx_spi.c'))
+>  softmmu_ss.add(when: 'CONFIG_XILINX_SPI', if_true: files('xilinx_spi.c'))
 > --
-> - Jiaxun
+> 2.25.1
+>
+>
 
