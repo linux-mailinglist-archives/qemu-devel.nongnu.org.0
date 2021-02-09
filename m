@@ -2,77 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89688315783
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 21:12:37 +0100 (CET)
-Received: from localhost ([::1]:38412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB4331578A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 21:15:09 +0100 (CET)
+Received: from localhost ([::1]:47884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9ZNE-0006zD-A8
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 15:12:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36136)
+	id 1l9ZPg-0002ZZ-Vg
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 15:15:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l9Z80-0000kC-Iu
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:56:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58261)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l9ZKL-0004us-5S
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 15:09:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l9Z7v-0004K6-F6
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:56:52 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l9ZKI-0000v9-4W
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 15:09:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612900606;
+ s=mimecast20190719; t=1612901372;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZwScqzzH5lzE2KRj8K2H8bwqXJdMRYovuB+co1jT1mc=;
- b=aMDbFsJfjWJj5SYxi3XDZoC7gBz+gQnyiLA+Cbu6v0WORb2WQU+rO4JShzr3ahIPYQCuzV
- vuVos5dmjmj++9SAaltjXzW7VbiJJ5DiWyoefEeEqLwJ6x2dokC4KX6l0aL2S1tabM5+4+
- PmAYf/l8bfI2dgShg4cjKhwQUKFc9Os=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-pMfOMLpYOI60woonCTqx4A-1; Tue, 09 Feb 2021 14:56:42 -0500
-X-MC-Unique: pMfOMLpYOI60woonCTqx4A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72AB810066EF;
- Tue,  9 Feb 2021 19:56:40 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AA655D9D0;
- Tue,  9 Feb 2021 19:56:23 +0000 (UTC)
-Subject: Re: [PATCH 15/22] Acceptance Tests: move useful ssh methods to base
- class
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-16-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <7b988d30-894d-d115-231d-a9f8193f7f32@redhat.com>
-Date: Tue, 9 Feb 2021 16:56:20 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=COZSIQAgq5rPDxvNlpbqepsSGa3+cf8IR2IQ4Gi8PxI=;
+ b=T+0X23Ii5MU3sJcH98VM6gGuWeCB3snxqHSZkFf4ntVwm2++pXgjHXFDNHlpq/OWJgbsp1
+ 0IbR/x6qiQn51tOBA40uFd3PvEADs001V5/JbSwgZpEFsp/usgtYfljMcBcSf3EHW4Wgy/
+ Iu0XDO8aiUDV89YP8bgWmXJz8kJAlwA=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-7ebwKJRuNe--hk_A6XG_GQ-1; Tue, 09 Feb 2021 15:09:30 -0500
+X-MC-Unique: 7ebwKJRuNe--hk_A6XG_GQ-1
+Received: by mail-qt1-f200.google.com with SMTP id d11so629684qth.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 12:09:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=COZSIQAgq5rPDxvNlpbqepsSGa3+cf8IR2IQ4Gi8PxI=;
+ b=AokSQfxd00W3HXBJxKSYLIpLz23Q5CR8+x0a2E3HsXdGymbaBSh6F3ixosLR1keLhE
+ Pn9gMdNJtoHmlH1KbRhUYeuDsJN9JK/uSNzTbZ0AkReyGQu3saywdKE57a42Ft9Adp9f
+ z2qxzQHmzduM5Cq9A1iwsIJJJ/IIl/9a4cuQbBIDyb2XYpMTrjhsCilocVnMSp3buuYl
+ lVpcDM14QzMp3zA3IpDDA1PDF8P+ouvQJBuZqXKo1T2hxhIYOdVrv5XBI3/AovjMGI4F
+ bNMbPJxWYBevJ8MZmXmrL1KQVrx7FI6NEpck9BEKmjHCDNtTSnTnkxAlRdAyzv9UuxNp
+ 5LTA==
+X-Gm-Message-State: AOAM5317odOzKEwa+BvOwvuT3YwM7h/5gqCSkfeFyMy1cZwGmMFqKzK+
+ NPl1Z0tGKlEMwk/QwiOHfbjsPckC5Vb56JSj5QcT/fAdjkzFOwUH23WcHj9wlXfq6ghnLSYRk5k
+ NrWT7E/rce8OIXCc=
+X-Received: by 2002:a0c:e98f:: with SMTP id z15mr10915589qvn.25.1612901370430; 
+ Tue, 09 Feb 2021 12:09:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxiv5+QwkeG1GE9baiP5gXDpwl/VkJjz9sCK3FDpHCLI6NxjJqhv5myNnO3772mBlAwuWvGZA==
+X-Received: by 2002:a0c:e98f:: with SMTP id z15mr10915577qvn.25.1612901370197; 
+ Tue, 09 Feb 2021 12:09:30 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-20-174-93-89-182.dsl.bell.ca. [174.93.89.182])
+ by smtp.gmail.com with ESMTPSA id s14sm4932349qtq.97.2021.02.09.12.09.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 12:09:29 -0800 (PST)
+Date: Tue, 9 Feb 2021 15:09:28 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <20210209200928.GB103365@xz-x1>
+References: <20210121152458.193248-1-andrey.gruzdev@virtuozzo.com>
+ <a88cb0b2-86a1-04b4-3ed1-d032850040df@redhat.com>
+ <5d01402e-273a-53cf-b78b-b4b7f50340bc@virtuozzo.com>
+ <0e155a86-6cae-8ce4-676c-a06ee87b6f43@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210203172357.1422425-16-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <0e155a86-6cae-8ce4-676c-a06ee87b6f43@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,249 +98,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>, Eric Auger <eauger@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Den Lunev <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, David, Andrey,
 
-On 2/3/21 2:23 PM, Cleber Rosa wrote:
-> Both the virtiofs submounts and the linux ssh mips malta tests
-> contains useful methods related to ssh that deserve to be made
-> available to other tests.  Let's move them to the base LinuxTest
-> class.
->
-> The method that helps with setting up an ssh connection will now
-> support both key and password based authentication, defaulting to key
-> based.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->   tests/acceptance/avocado_qemu/__init__.py | 49 ++++++++++++++++++++++-
->   tests/acceptance/linux_ssh_mips_malta.py  | 38 ++----------------
->   tests/acceptance/virtiofs_submounts.py    | 36 -----------------
->   3 files changed, 51 insertions(+), 72 deletions(-)
+On Tue, Feb 09, 2021 at 08:06:58PM +0100, David Hildenbrand wrote:
+> > > Hi,
+> > > 
+> > > just stumbled over this, quick question:
+> > > 
+> > > I recently played with UFFD_WP and notices that write protection is
+> > > only effective on pages/ranges that have already pages populated (IOW:
+> > > !pte_none() in the kernel).
+> > > 
+> > > In case memory was never populated (or was discarded using e.g.,
+> > > madvice(DONTNEED)), write-protection will be skipped silently and you
+> > > won't get WP events for applicable pages.
+> > > 
+> > > So if someone writes to a yet unpoupulated page ("zero"), you won't
+> > > get WP events.
+> > > 
+> > > I can spot that you do a single uffd_change_protection() on the whole
+> > > RAMBlock.
+> > > 
+> > > How are you handling that scenario, or why don't you have to handle
+> > > that scenario?
 
+Good catch..  Indeed I overlooked that as well when reviewing the code.
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> > > 
+> > Hi David,
+> > 
+> > I really wonder if such a problem exists.. If we are talking about a
+> 
+> I immediately ran into this issue with my simplest test cases. :)
+> 
+> > write to an unpopulated page, we should get first page fault on
+> > non-present page and populate it with protection bits from respective vma.
+> > For UFFD_WP vma's  page will be populated non-writable. So we'll get
+> > another page fault on present but read-only page and go to handle_userfault.
 
+The problem is even if the page is read-only, it does not yet have the uffd-wp
+bit set, so it won't really trigger the handle_userfault() path.
 
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index b06692a59d..f0649e5011 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -10,6 +10,7 @@
->   
->   import logging
->   import os
-> +import re
->   import sys
->   import uuid
->   import tempfile
-> @@ -19,6 +20,7 @@ import avocado
->   from avocado.utils import cloudinit
->   from avocado.utils import datadrainer
->   from avocado.utils import network
-> +from avocado.utils import ssh
->   from avocado.utils import vmimage
->   from avocado.utils.path import find_command
->   
-> @@ -40,6 +42,8 @@ else:
->   sys.path.append(os.path.join(SOURCE_DIR, 'python'))
->   
->   from qemu.machine import QEMUMachine
-> +from qemu.utils import get_info_usernet_hostfwd_port
-> +
->   
->   def is_readable_executable_file(path):
->       return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
-> @@ -215,7 +219,50 @@ class Test(avocado.Test):
->                           cancel_on_missing=cancel_on_missing)
->   
->   
-> -class LinuxTest(Test):
-> +class LinuxSSHMixIn:
-> +    """Contains utility methods for interacting with a guest via SSH."""
-> +
-> +    def ssh_connect(self, username, credential, credential_is_key=True):
-> +        self.ssh_logger = logging.getLogger('ssh')
-> +        res = self.vm.command('human-monitor-command',
-> +                              command_line='info usernet')
-> +        port = get_info_usernet_hostfwd_port(res)
-> +        self.assertIsNotNone(port)
-> +        self.assertGreater(port, 0)
-> +        self.log.debug('sshd listening on port: %d', port)
-> +        if credential_is_key:
-> +            self.ssh_session = ssh.Session('127.0.0.1', port=port,
-> +                                           user=username, key=credential)
-> +        else:
-> +            self.ssh_session = ssh.Session('127.0.0.1', port=port,
-> +                                           user=username, password=credential)
-> +        for i in range(10):
-> +            try:
-> +                self.ssh_session.connect()
-> +                return
-> +            except:
-> +                time.sleep(4)
-> +                pass
-> +        self.fail('ssh connection timeout')
-> +
-> +    def ssh_command(self, command):
-> +        self.ssh_logger.info(command)
-> +        result = self.ssh_session.cmd(command)
-> +        stdout_lines = [line.rstrip() for line
-> +                        in result.stdout_text.splitlines()]
-> +        for line in stdout_lines:
-> +            self.ssh_logger.info(line)
-> +        stderr_lines = [line.rstrip() for line
-> +                        in result.stderr_text.splitlines()]
-> +        for line in stderr_lines:
-> +            self.ssh_logger.warning(line)
-> +
-> +        self.assertEqual(result.exit_status, 0,
-> +                         f'Guest command failed: {command}')
-> +        return stdout_lines, stderr_lines
-> +
-> +
-> +class LinuxTest(Test, LinuxSSHMixIn):
->       """Facilitates having a cloud-image Linux based available.
->   
->       For tests that indend to interact with guests, this is a better choice
-> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-> index 1742235758..3f590a081f 100644
-> --- a/tests/acceptance/linux_ssh_mips_malta.py
-> +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> @@ -12,7 +12,7 @@ import logging
->   import time
->   
->   from avocado import skipUnless
-> -from avocado_qemu import Test
-> +from avocado_qemu import Test, LinuxSSHMixIn
->   from avocado_qemu import wait_for_console_pattern
->   from avocado.utils import process
->   from avocado.utils import archive
-> @@ -21,7 +21,7 @@ from avocado.utils import ssh
->   from qemu.utils import get_info_usernet_hostfwd_port
->   
->   
-> -class LinuxSSH(Test):
-> +class LinuxSSH(Test, LinuxSSHMixIn):
->   
->       timeout = 150 # Not for 'configure --enable-debug --enable-debug-tcg'
->   
-> @@ -72,41 +72,9 @@ class LinuxSSH(Test):
->       def setUp(self):
->           super(LinuxSSH, self).setUp()
->   
-> -    def ssh_connect(self, username, password):
-> -        self.ssh_logger = logging.getLogger('ssh')
-> -        res = self.vm.command('human-monitor-command',
-> -                              command_line='info usernet')
-> -        port = get_info_usernet_hostfwd_port(res)
-> -        if not port:
-> -            self.cancel("Failed to retrieve SSH port")
-> -        self.log.debug("sshd listening on port: %d", port)
-> -        self.ssh_session = ssh.Session(self.VM_IP, port=port,
-> -                                       user=username, password=password)
-> -        for i in range(10):
-> -            try:
-> -                self.ssh_session.connect()
-> -                return
-> -            except:
-> -                time.sleep(4)
-> -                pass
-> -        self.fail("ssh connection timeout")
-> -
->       def ssh_disconnect_vm(self):
->           self.ssh_session.quit()
->   
-> -    def ssh_command(self, command, is_root=True):
-> -        self.ssh_logger.info(command)
-> -        result = self.ssh_session.cmd(command)
-> -        stdout_lines = [line.rstrip() for line
-> -                        in result.stdout_text.splitlines()]
-> -        for line in stdout_lines:
-> -            self.ssh_logger.info(line)
-> -        stderr_lines = [line.rstrip() for line
-> -                        in result.stderr_text.splitlines()]
-> -        for line in stderr_lines:
-> -            self.ssh_logger.warning(line)
-> -        return stdout_lines, stderr_lines
-> -
->       def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_path):
->           image_url, image_hash = self.get_image_info(endianess)
->           image_path = self.fetch_asset(image_url, asset_hash=image_hash)
-> @@ -127,7 +95,7 @@ class LinuxSSH(Test):
->           wait_for_console_pattern(self, console_pattern, 'Oops')
->           self.log.info('sshd ready')
->   
-> -        self.ssh_connect('root', 'root')
-> +        self.ssh_connect('root', 'root', False)
->   
->       def shutdown_via_ssh(self):
->           self.ssh_command('poweroff')
-> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
-> index 25ea54b6ff..d0fc103f72 100644
-> --- a/tests/acceptance/virtiofs_submounts.py
-> +++ b/tests/acceptance/virtiofs_submounts.py
-> @@ -10,7 +10,6 @@ from avocado_qemu import wait_for_console_pattern
->   from avocado.utils import ssh
->   
->   from qemu.accel import kvm_available
-> -from qemu.utils import get_info_usernet_hostfwd_port
->   
->   
->   def run_cmd(args):
-> @@ -76,41 +75,6 @@ class VirtiofsSubmountsTest(LinuxTest):
->       :avocado: tags=accel:kvm
->       """
->   
-> -    def ssh_connect(self, username, keyfile):
-> -        self.ssh_logger = logging.getLogger('ssh')
-> -        res = self.vm.command('human-monitor-command',
-> -                              command_line='info usernet')
-> -        port = get_info_usernet_hostfwd_port(res)
-> -        self.assertIsNotNone(port)
-> -        self.assertGreater(port, 0)
-> -        self.log.debug('sshd listening on port: %d', port)
-> -        self.ssh_session = ssh.Session('127.0.0.1', port=port,
-> -                                       user=username, key=keyfile)
-> -        for i in range(10):
-> -            try:
-> -                self.ssh_session.connect()
-> -                return
-> -            except:
-> -                time.sleep(4)
-> -                pass
-> -        self.fail('ssh connection timeout')
-> -
-> -    def ssh_command(self, command):
-> -        self.ssh_logger.info(command)
-> -        result = self.ssh_session.cmd(command)
-> -        stdout_lines = [line.rstrip() for line
-> -                        in result.stdout_text.splitlines()]
-> -        for line in stdout_lines:
-> -            self.ssh_logger.info(line)
-> -        stderr_lines = [line.rstrip() for line
-> -                        in result.stderr_text.splitlines()]
-> -        for line in stderr_lines:
-> -            self.ssh_logger.warning(line)
-> -
-> -        self.assertEqual(result.exit_status, 0,
-> -                         f'Guest command failed: {command}')
-> -        return stdout_lines, stderr_lines
-> -
->       def run(self, args, ignore_error=False):
->           stdout, stderr, ret = run_cmd(args)
->   
+> You might have to register also for MISSING faults and place zero pages.
+
+So I think what's missing for live snapshot is indeed to register with both
+missing & wp mode.
+
+Then we'll receive two messages: For wp, we do like before.  For missing, we do
+UFFDIO_ZEROCOPY and at the same time dump this page as a zero page.
+
+I bet live snapshot didn't encounter this issue simply because normal live
+snapshots would still work, especially when there's the guest OS. Say, the
+worst case is we could have migrated some zero pages with some random data
+filled in along with the snapshot, however all these pages were zero pages and
+not used by the guest OS after all, then when we load a snapshot we won't
+easily notice either..
+
+Thanks,
+
+-- 
+Peter Xu
 
 
