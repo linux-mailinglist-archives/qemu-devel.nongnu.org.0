@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981D131569A
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 20:17:43 +0100 (CET)
-Received: from localhost ([::1]:39912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89ABA3156B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 20:26:49 +0100 (CET)
+Received: from localhost ([::1]:33806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9YW6-000428-JV
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 14:17:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52678)
+	id 1l9Yeu-0005iS-Fa
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 14:26:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l9YLv-0004oU-6w
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:07:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l9YLt-0002j5-6P
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:07:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612897628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xFn11qytX+o2kA2GZDLsPXGne2EH90J6j+onP/MyXQA=;
- b=hO3mWxV8DE4Z8Rn5zss+1p1KGtSEmWXQav87T1+U2eURHu2cT6Y6k60MSD9F3c+4cFiDEC
- 4KDZuySBGNvINrqyHLoNZEGg/MHc6w6spnPO6XEzIyWrVwWFu1jM/vOcU/Rmv5pBH910/E
- Ku/Mwrq9t25r7ZrUwYB0AEpvWmK6LxE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-kze17vCkNtO6AW8ggzqFKg-1; Tue, 09 Feb 2021 14:07:05 -0500
-X-MC-Unique: kze17vCkNtO6AW8ggzqFKg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23EFF79EC0;
- Tue,  9 Feb 2021 19:07:04 +0000 (UTC)
-Received: from [10.36.113.141] (ovpn-113-141.ams2.redhat.com [10.36.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D53B19C78;
- Tue,  9 Feb 2021 19:06:59 +0000 (UTC)
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20210121152458.193248-1-andrey.gruzdev@virtuozzo.com>
- <a88cb0b2-86a1-04b4-3ed1-d032850040df@redhat.com>
- <5d01402e-273a-53cf-b78b-b4b7f50340bc@virtuozzo.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-Message-ID: <0e155a86-6cae-8ce4-676c-a06ee87b6f43@redhat.com>
-Date: Tue, 9 Feb 2021 20:06:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <yamahata.qemudev@gmail.com>)
+ id 1l9YbW-0003lW-KM
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:23:18 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:42215)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yamahata.qemudev@gmail.com>)
+ id 1l9YbU-0007Fn-RD
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:23:18 -0500
+Received: by mail-pf1-x431.google.com with SMTP id w18so12517322pfu.9
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 11:23:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=WY040tlX3HjZ3O0s7/IW4T7O1s0Mp7iroHNDokX1jR8=;
+ b=n9rK1PLt3F5xr74VIh74tvRSpW9DQ43vSc8SNW8+9NDKp005L13AEY55RuwT7YOwrX
+ CI6xZvk5K9Hc3MineJqjkqEBhEmsJzcwxFqz4bN+0Tu3wqly6rUO71eO1jDinHXyPNfq
+ nHqkELW1eKQ1yqW672t+e2XEU1hJCOhH5UyNytZFpqzmTzo5kDHqY+Q//H7URFO1jTFE
+ v55aXR8phf8GibOWnM1tPaEGhtPlFr+25SRWH2LYcy2kPZhxNBVcMTkH/c24AqTN02Ex
+ KsRQNTOV8DVUVhLg4lBesF/LNGkdcUBXrkXY8GJLxY1kZGYcO52/Cefh1/+lJWJCIHvS
+ UgnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=WY040tlX3HjZ3O0s7/IW4T7O1s0Mp7iroHNDokX1jR8=;
+ b=IHha7KOoehqLz0mWZP7R9RjAap6Uq3ewYZ4fFq+9OGS42r+kHegZJ66QnMgV+72G8C
+ 7Lwg/6esh29vkt/NXcA2VzUXSZPAEIKt46HP89diYzPOVKSWw6HIaawvmPV4iebGUPD1
+ Z8UOROGm6yTNkeLHdlVFQBMzEixzC1N4mTTR7/u4EQyObWBIBulkFiHWR0aKLN7HNAFs
+ m6SyiA2rRsZIKuvcfyOlNS0QcGxeiauerWnEWaKIN1P7PTxpwlRB5qIsZXmBHqyQg3kU
+ 7yKG/kCeyq3LhzucQgY4bjO5c4dSuCq9v2l0xlCr/P0zMO3Nzaz+jFmygXtm2eW/Okad
+ IZwA==
+X-Gm-Message-State: AOAM5329CWhTGRr5mVWv50fQlJ/PBFLrpdgAjpsWZGAM3fxtjRl9H6hL
+ T2mj+feeIBUZzPQgNIBeOfQ=
+X-Google-Smtp-Source: ABdhPJwyEvOT0N3PMzw/tExwaHXrKP9DFTATTip4f2rnOKJoJE/J8opardzb5AtJKmiN6yJEev1Fwg==
+X-Received: by 2002:a63:1f45:: with SMTP id q5mr23046708pgm.414.1612898594859; 
+ Tue, 09 Feb 2021 11:23:14 -0800 (PST)
+Received: from localhost ([2601:647:4600:11e1:d2fd:ba5d:619c:c25d])
+ by smtp.gmail.com with ESMTPSA id q196sm11303492pfc.162.2021.02.09.11.23.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 11:23:14 -0800 (PST)
+From: Isaku Yamahata <yamahata.qemudev@gmail.com>
+X-Google-Original-From: Isaku Yamahata <isaku.yamahata@gmail.com>
+Date: Tue, 9 Feb 2021 11:23:05 -0800
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v2 3/9] acpi/core: always set SCI_EN when SMM isn't
+ supported
+Message-ID: <20210209192305.GA28049@private.email.ne.jp>
+References: <cover.1612821108.git.isaku.yamahata@intel.com>
+ <b21a1b211ad4dc99aaf5f19d803f96dfa88b3fb1.1612821109.git.isaku.yamahata@intel.com>
+ <20210209160514.0e015448@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5d01402e-273a-53cf-b78b-b4b7f50340bc@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="------------9FA5D4C22DA60D09B05CC585"
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210209160514.0e015448@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=yamahata.qemudev@gmail.com; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,224 +87,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Isaku Yamahata <isaku.yamahata@intel.com>, philmd@redhat.com,
+ qemu-devel@nongnu.org, isaku.yamahata@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------9FA5D4C22DA60D09B05CC585
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Tue, Feb 09, 2021 at 04:05:14PM +0100,
+Igor Mammedov <imammedo@redhat.com> wrote:
 
->> Hi,
->>
->> just stumbled over this, quick question:
->>
->> I recently played with UFFD_WP and notices that write protection is
->> only effective on pages/ranges that have already pages populated (IOW:
->> !pte_none() in the kernel).
->>
->> In case memory was never populated (or was discarded using e.g.,
->> madvice(DONTNEED)), write-protection will be skipped silently and you
->> won't get WP events for applicable pages.
->>
->> So if someone writes to a yet unpoupulated page ("zero"), you won't
->> get WP events.
->>
->> I can spot that you do a single uffd_change_protection() on the whole
->> RAMBlock.
->>
->> How are you handling that scenario, or why don't you have to handle
->> that scenario?
->>
-> Hi David,
+> On Mon,  8 Feb 2021 13:57:22 -0800
+> isaku.yamahata@gmail.com wrote:
 > 
-> I really wonder if such a problem exists.. If we are talking about a
+> > From: Isaku Yamahata <isaku.yamahata@intel.com>
+> > 
+> > If SMM is not supported, ACPI fixed hardware doesn't support
+> > legacy-mode. ACPI-only platform. Where SCI_EN in PM1_CNT register is
+> > always set.
+> > The bit tells OS legacy mode(SCI_EN cleared) or ACPI mode(SCI_EN set).
+> 
+> does it break some specific software?
 
-I immediately ran into this issue with my simplest test cases. :)
-
-> write to an unpopulated page, we should get first page fault on
-> non-present page and populate it with protection bits from respective vma.
-> For UFFD_WP vma's  page will be populated non-writable. So we'll get
-> another page fault on present but read-only page and go to handle_userfault.
-
-See the attached test program. Triggers for me on 5.11.0-rc6+ and 
-5.9.13-200.fc33
-
-gcc -lpthread uffdio_wp.c -o uffdio_wp
-./uffdio_wp
-WP did not fire
-
-Uncomment the placement of the zeropage just before registering to make 
-the WP actually trigger. If there is no PTE, there is nothing to protect.
+With the next patch (setting fadt.smi_cmd = 0 when smm isn't supported),
+guest Linux tries to switch to ACPI mode, finds smi_cmd = 0, and then
+fails to initialize acpi subsystem.
+will update the commit message in next respin.
 
 
-And it makes sense: How should the fault handler know which ranges you 
-wp-ed, if there is no place to store that information (the PTEs!). The 
-VMA cannot tell that story, it only knows that someone registered 
-UFFD_WP to selectively wp some parts.
+> > ACPI spec 4.8.10.1 PM1 Event Grouping
+> > PM1 Eanble Registers
+> > > For ACPI-only platforms (where SCI_EN is always set)  
+> > 
+> > Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+> it changes guest ABI for old machine types but it seems to me that
+> it's harmless (in typical use-cases backward and forward migrated
+> guest should work fine).
+> 
+> The only thing that is broken is transitioning to legacy mode
+> when guest was started on old QEMU and then migrated to the new one
+> where disable op will be NOP and qemu always stays in ACPI mode
+> (so guest will hang while it waits for transition to happen).
 
-You might have to register also for MISSING faults and place zero pages.
+The patch affects guests only when SMM isn't supported.
+Concretely
+- user explicitly specified to disable smm by -machine smm=off
+or
+- underlying kvm doesn't have KVM_CAP_X86_SMM (smm=auto: default)
+Please refer to x86_machine_is_smm_enabled().
+Also Libvirt checks if guest bios requires SMI and enables smm even
+when user disabling SMM. qemuFirmwareEnableFeatures()
 
--- 
+If smm is disabled and legacy-mode is enabled without this patch,
+SMI won't be injected to guest anyway. Thus guest breaks already.
+
+
+> Can you test this scenario with various guest OSes (old/new/MS Windows)
+> to check if it won't break them.
+
+Unless -machine smm=off is explicitly passed, this patch won't break
+guests. And such case is rare as I described above.
+My motivation for this patch series is preparation for TDX which disallows
+SMM mode and SMI injection.
+
+
+> if we are to be conservative, we need to disable this compliance fix
+> on old machine types.
+
+I'm fine with adding one more knob to be on safe side.
+-machine smm=off is such knob, though.
+
 Thanks,
-
-David / dhildenb
-
---------------9FA5D4C22DA60D09B05CC585
-Content-Type: text/x-csrc; charset=UTF-8;
- name="uffdio_wp.c"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="uffdio_wp.c"
-
-#include <string.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <sys/types.h>
-#include <stdio.h>
-#include <pthread.h>
-#include <errno.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <poll.h>
-#include <linux/userfaultfd.h>
-#include <sys/mman.h>
-#include <sys/syscall.h>
-#include <sys/ioctl.h>
-
-static int page_size;
-volatile bool wp_fired;
-
-static void *fault_handler_thread(void *arg)
-{
-    const long uffd =3D (long) arg;
-    struct pollfd pollfd =3D {
-        .fd =3D uffd,
-        .events =3D POLLIN,
-    };
-    int ret;
-
-    while (true) {
-        struct uffdio_writeprotect wp;
-        struct uffd_msg msg;
-        ssize_t nread;
-
-        if (poll(&pollfd, 1, -1) =3D=3D -1) {
-            fprintf(stderr, "POLL failed: %s\n", strerror(errno));
-            exit(-1);
-        }
-        if (read(uffd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-            fprintf(stderr, "READ failed\n");
-            exit(-1);
-        }
-        if (msg.event =3D=3D UFFD_EVENT_REMOVE) {
-            continue;
-        }
-        if (msg.event !=3D UFFD_EVENT_PAGEFAULT) {
-            fprintf(stderr, "Not UFFD_EVENT_PAGEFAULT\n");
-            exit(-1);
-        }
-
-        wp_fired =3D true;
-
-        /* Simply unprotect and wake */
-        wp.range.start =3D msg.arg.pagefault.address;
-        wp.range.len =3D page_size;
-        wp.mode =3D 0;
-        if (ioctl(uffd, UFFDIO_WRITEPROTECT, &wp) =3D=3D -1) {
-            fprintf(stderr, "UFFDIO_WRITEPROTECT failed: %s\n", strerror(er=
-rno));
-            exit(-1);
-        }
-    }
-}
-
-int main(void)
-{
-    struct uffdio_writeprotect wp;
-    struct uffdio_zeropage zeropage;
-    struct uffdio_register reg;
-    struct uffdio_api api =3D {
-        .api =3D UFFD_API,
-        .features =3D UFFD_FEATURE_EVENT_REMOVE,
-    };
-    pthread_t fault, discard;
-    long uffd;
-    char *area;
-
-    page_size =3D sysconf(_SC_PAGE_SIZE);
-
-    uffd =3D syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
-    if (uffd =3D=3D -1) {
-        fprintf(stderr, "Could not create uffd: %s\n", strerror(errno));
-        exit(-1);
-    }
-    if (ioctl(uffd, UFFDIO_API, &api) =3D=3D -1) {
-        fprintf(stderr, "UFFDIO_API failed: %s\n", strerror(errno));
-        exit(-1);
-    }
-
-    area =3D mmap(NULL, page_size, PROT_READ | PROT_WRITE,
-                MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-    if (area =3D=3D MAP_FAILED) {
-        fprintf(stderr, "Could not allocate memory");
-        exit(-1);
-    }
-
-    /* make sure the area is empty */
-    if (madvise(area, page_size, MADV_DONTNEED)) {
-        fprintf(stderr, "MADV_DONTNEED failed:%s\n", strerror(errno));
-        exit(-1);
-    }
-
-    /* register a WP handler */
-    reg.range.start =3D (uint64_t) area;
-    reg.range.len =3D page_size,
-    reg.mode =3D UFFDIO_REGISTER_MODE_WP;
-    if (ioctl(uffd, UFFDIO_REGISTER, &reg) =3D=3D -1) {
-        fprintf(stderr, "UFFDIO_REGISTER failed: %s\n", strerror(errno));
-        exit(-1);
-    }
-
-    /*
-     * comment this out to make the wp actually fire
-    zeropage.range =3D reg.range;
-    zeropage.mode =3D UFFDIO_ZEROPAGE_MODE_DONTWAKE;
-    if (ioctl(uffd, UFFDIO_ZEROPAGE, &zeropage) =3D=3D -1) {
-        fprintf(stderr, "UFFDIO_ZEROPAGE failed: %s\n", strerror(errno));
-        exit(-1);
-    }
-    */
-
-    /* protect the page */
-    wp.range =3D reg.range;
-    wp.mode =3D UFFDIO_WRITEPROTECT_MODE_WP;
-    if (ioctl(uffd, UFFDIO_WRITEPROTECT, &wp) =3D=3D -1) {
-        fprintf(stderr, "UFFDIO_WRITEPROTECT failed: %s\n", strerror(errno)=
-);
-        exit(-1);
-    }
-
-    if (pthread_create(&fault, NULL, fault_handler_thread,
-                       (void *) uffd)) {
-        fprintf(stderr, "Could not create fault handing thread");
-        exit(-1);
-    }
-
-    *area =3D 0;
-    if (wp_fired) {
-        printf("WP fired\n");
-        return 0;
-    }
-    printf("WP did not fire\n");
-    return -1;
-}
-
-
---------------9FA5D4C22DA60D09B05CC585--
-
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
 
