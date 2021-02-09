@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474A231478E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 05:33:48 +0100 (CET)
-Received: from localhost ([::1]:42926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D6F314789
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 05:31:50 +0100 (CET)
+Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Kih-0002DO-D3
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 23:33:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46212)
+	id 1l9Kgn-0000WV-HK
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 23:31:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9Kex-00081g-A4
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 23:29:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59536)
+ id 1l9Kew-00081O-4m
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 23:29:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9Kev-0003v0-3K
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 23:29:55 -0500
+ id 1l9Keu-0003uf-GX
+ for qemu-devel@nongnu.org; Mon, 08 Feb 2021 23:29:53 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l9Ket-0002yX-JN
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 04:29:51 +0000
+ id 1l9Kes-0002yZ-US
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 04:29:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 88DDF2E8143
- for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 04:29:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DD5012E813C
+ for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 04:29:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Feb 2021 04:17:18 -0000
-From: Launchpad Bug Tracker <1597138@bugs.launchpad.net>
+Date: Tue, 09 Feb 2021 04:17:19 -0000
+From: Launchpad Bug Tracker <1598029@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor sgbarber th-huth
-X-Launchpad-Bug-Reporter: Shannon Barber (sgbarber)
+X-Launchpad-Bug-Commenters: citypw janitor th-huth
+X-Launchpad-Bug-Reporter: Shawn the R0ck (citypw)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160628234609.30466.21966.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161284423843.15411.4744584237572319292.malone@loganberry.canonical.com>
-Subject: [Bug 1597138] Re: Deadlock on Windows 10 pop-up
+References: <20160701073419.23556.57565.malonedeb@gac.canonical.com>
+Message-Id: <161284423926.15411.11008809554634964890.malone@loganberry.canonical.com>
+Subject: [Bug 1598029] Re: failed to boot a customized kernel if emulating
+ Broadwell/Skylake
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
-X-Launchpad-Hash: e5448ad81b417bcad1675b89844d40fab427cd5f
+X-Launchpad-Hash: 6996e7d20ce26aadcf70a4b250756738870917eb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1597138 <1597138@bugs.launchpad.net>
+Reply-To: Bug 1598029 <1598029@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,32 +84,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1597138
+https://bugs.launchpad.net/bugs/1598029
 
 Title:
-  Deadlock on Windows 10 pop-up
+  failed to boot a customized kernel if emulating Broadwell/Skylake
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I was able to install and can log in but whenever a pop-up is attempted t=
-he VM appears to deadlock.
-  I can still kill -9 the process and recover but the VM and the QEmu conso=
-le both hang with no error output.
+  Hardware: X86-64, Intel(R) Core(TM) i7-6500U( Skylake)
+  OS: Linux Mint 18
+  Host Kernel: 4.5.7 + PaX/Grsecurity
+  Qemu: QEMU emulator version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.2)
 
-  At first I thought it was UAC but renaming a file causes a pop-up and tha=
-t also deadlocks.
-  I rebuilt QEmu 2.6.0 with debug info and did a thread back-trace once the=
- deadlock occurs.
-  See the attachment for the trace.
+  [Reproduction Steps]
+  1, Install a Debian 8 in the guest
+  2, Install a customized kernel( using same config to Debian 8)
+  3, Reboot:
+  qemu-system-x86_64 -hda debian8-test.img -boot d  -m 2048 -enable-kvm -us=
+b -usbdevice tablet -net nic -net tap,ifname=3Dtap0,script=3Dno -cpu Broadw=
+ell -smp 2
 
-  I am attempting to setup GPU pass-thru with a GTX 970 but this
-  deadlock occurs with -vga std (and no GPU pass-thru) as well.
+  or
 
-  (I cannot install or start Windows 7 but I am told this is a known
-  bug.)
+  qemu-system-x86_64 -hda debian8-test.img -boot d  -m 2048 -enable-kvm
+  -usb -usbdevice tablet -net nic -net tap,ifname=3Dtap0,script=3Dno -cpu
+  host -smp 2
+
+  [Actual Result]  =
+
+  kernel panic or can't login in the system
+
+  [Workaround]
+  qemu-system-x86_64 -hda debian8-test.img -boot d  -m 2048 -enable-kvm -us=
+b -usbdevice tablet -net nic -net tap,ifname=3Dtap0,script=3Dno -cpu Haswel=
+l -smp 2
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1597138/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1598029/+subscriptions
 
