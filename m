@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B10A3155F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:33:47 +0100 (CET)
-Received: from localhost ([::1]:42760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB8F3155FA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:34:56 +0100 (CET)
+Received: from localhost ([::1]:45688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Xpa-0000EG-BK
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:33:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43384)
+	id 1l9Xqh-0001Xj-Pi
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:34:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9Xk6-00038l-Vl
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:28:07 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39818)
+ id 1l9Xk5-00033u-90
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:28:05 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9Xk4-0007qk-MM
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:28:06 -0500
-Received: by mail-wr1-x431.google.com with SMTP id h12so6941456wrw.6
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:28:04 -0800 (PST)
+ id 1l9Xk3-0007pv-II
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:28:04 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id n6so10386851wrv.8
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:28:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ejLSBmEQiH4mLxCrVBrlwMdu2X7JBwiJC91YTaurGZo=;
- b=v4Xmtq1gJdLVt3rca/xSQKRIVOBb3Y3fQ2RPC5hYgNysb+D7mDKuL5cbb8EHSSHwC6
- i8L4E/XO7bD8NHpCVwg1I91wukMQItLHncmQ1je4LfmVfnP4ajENSenjBvkglcGQrGyS
- L9h1WUXgaoI9tSHHnNEp2DbKu75C3YK9Nnx+aFzyXD4N9mcn6OkLjD4O+NLbFMUCMaMI
- 3We6TVc/KDr0K/mZn9LecgsyqCMswqShvT5G3Sc2aES16qItEkjCh17wssHX/RxVB5Wc
- OGmI6yfxKjp1cc5/abLt8o/BMJjbB4xG5czwWoUlV4QImiHJdYi+LZVErrC1bqB1wExq
- ZO3Q==
+ bh=a7e1FwTBjDma5YBYDcW8fs7cDFozA2L932geu4P/T6s=;
+ b=tdVD6HkTknlvSqlFhHboH6AzQ1hVbJTfi1C/deNM96ggpcc5O+cTB+W2mkN74vHBer
+ twQIiUFfQwZqRT+/gHS2CbZWwj0wx+7EQijv0LhDIQY2SioYdWDPyPOtwhv6NBwVKf/G
+ 5IwL+WdFegkAl8mygWiRkCgT0feLEqkNWhpHjTYBXZCo1EMjbRJYeUGf1qG1uQXiWoza
+ CrugkjL9wmf4iK4BvIFKb2b4Lz6YSb3qcxNYAj4fnmFUOqFHHetZaPKRBen+Dwem6EWk
+ oP5nhNwa6I/lA9HSzGAxqW24DWZNL0MZN4mfTchsv3kbP3BJM1h15FpoTi9hc6irRn4s
+ sCeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ejLSBmEQiH4mLxCrVBrlwMdu2X7JBwiJC91YTaurGZo=;
- b=UaNZy0F1EzBeni0mPk9h1F923CFmIuPk+AHyWyxnjeiZbzcZg5Gzr06KvvUZX3cLyM
- ejKisHVAHDt6v0zdE9LGUS9OytB+JAmIhX5xgJHD4pveRNDN+kFgTJ/s+txTZAusbMRc
- qRQFs3IeYDi0KXI8HRSjkEMo8IvlN3d5ZdnP+Q6fPqpAZkBpSC/7qrInn3XO1SkwUEVg
- Rz3FPlX3YETHzTt/81W7msHMh3Sw5b0KavFzkiwgmiYwFDmE9h3qkdgqmukUn6yiXtqc
- B0uE03isHzJ/dHyoiRm5EkEH+7yaujqOIGX4XPhhxvemWfugaMjnISq4IgPhw9BMS4qy
- SD6w==
-X-Gm-Message-State: AOAM533Pwt0fcd00FVKlos6lSqi9a/7SjIXV5m7ffD+3oeVWAb96P4z+
- 5+T0Z1NnRpA8AHc7m50Urd0ZPQ==
-X-Google-Smtp-Source: ABdhPJw9CH28g3a0LXcl6kJba93mm+NOA5lVAnY+oIRbY2OU/T6txORT0wUdGXREFSFLNTAyWUzK+A==
-X-Received: by 2002:adf:f68e:: with SMTP id v14mr26750428wrp.273.1612895283368; 
- Tue, 09 Feb 2021 10:28:03 -0800 (PST)
+ bh=a7e1FwTBjDma5YBYDcW8fs7cDFozA2L932geu4P/T6s=;
+ b=LMrjKooDNPcVLMs6ITlGC1dDlQ6AWxBx3RX7c7NIygD/RLOEKusNJmj5elaa2IjOdD
+ 8/w/mljhrERpugfHvN0xxgVl9KdU0e1LqIR1hLrnFEOwtLTEv/dj6jHXlH3hlec76qVc
+ NUPHJuKa2/Aoy1xT2my4F6/aOayFj3eDgkVFlmaTpuMfBn5RLnUBMWg6SotnWxD6sXr/
+ rAzoynn5QV4sotnnvp/Busb7S9yO6Lu6MTL2iR+O3g+DfgcAkhNSMJM4JLngLw+8vJAV
+ XDT4aXE49/u93jaoIlVxMU1CHqB9AD8rslPeKvUC5u1HkLN9iOr7kWHGWXeB8JRMEdG9
+ MjRQ==
+X-Gm-Message-State: AOAM530FBEVadO7qeIZuGDh1hKpvozOdn4hbakqccQrahuEd/JlhjTiF
+ j/t/8RsdUNzsCaDkJghiC6WENA==
+X-Google-Smtp-Source: ABdhPJxqQghwiX/e6wCIB2e1++ViPqGD1PvLHQHCOqEoHgvc4joznKEzPmj+8aCioxM4zisGy+WmFw==
+X-Received: by 2002:a5d:6947:: with SMTP id r7mr26916368wrw.150.1612895282211; 
+ Tue, 09 Feb 2021 10:28:02 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c22sm180528wrb.91.2021.02.09.10.27.56
+ by smtp.gmail.com with ESMTPSA id i8sm40854951wry.90.2021.02.09.10.27.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 09 Feb 2021 10:27:57 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D236A1FF99;
- Tue,  9 Feb 2021 18:27:51 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 0D9FE1FF9A;
+ Tue,  9 Feb 2021 18:27:52 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 11/12] accel/tcg: allow plugin instrumentation to be
- disable via cflags
-Date: Tue,  9 Feb 2021 18:27:47 +0000
-Message-Id: <20210209182749.31323-12-alex.bennee@linaro.org>
+Subject: [PATCH v1 12/12] tests/acceptance: add a new tests to detect counting
+ errors
+Date: Tue,  9 Feb 2021 18:27:48 +0000
+Message-Id: <20210209182749.31323-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210209182749.31323-1-alex.bennee@linaro.org>
 References: <20210209182749.31323-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,105 +87,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ robhenry@microsoft.com, aaron@os.amperecomputing.com, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, kuhn.chenqun@huawei.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When icount is enabled and we recompile an MMIO access we end up
-double counting the instruction execution. To avoid this we introduce
-the CF_NOINSTR cflag which disables instrumentation for the next TB.
-As this is part of the hashed compile flags we will only execute the
-generated TB while coming out of a cpu_io_recompile.
+The insn plugin has a simple heuristic to detect if an instruction is
+detected running twice in a row. Check the plugin log after the run
+and pass accordingly.
 
-While we are at it delete the old TODO. We might as well keep the
-translation handy as it's likely you will repeatedly hit it on each
-MMIO access.
-
-Reported-by: Aaron Lindsay <aaron@os.amperecomputing.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/exec/exec-all.h   |  3 ++-
- accel/tcg/translate-all.c | 17 ++++++++---------
- accel/tcg/translator.c    |  2 +-
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ tests/acceptance/tcg_plugins.py | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index e08179de34..ebf015e22d 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -454,6 +454,7 @@ struct TranslationBlock {
-     uint32_t cflags;    /* compile flags */
- #define CF_COUNT_MASK  0x00007fff
- #define CF_LAST_IO     0x00008000 /* Last insn may be an IO access.  */
-+#define CF_NOINSTR     0x00010000 /* Disable instrumentation of TB */
- #define CF_USE_ICOUNT  0x00020000
- #define CF_INVALID     0x00040000 /* TB is stale. Set with @jmp_lock held */
- #define CF_PARALLEL    0x00080000 /* Generate code for a parallel context */
-@@ -461,7 +462,7 @@ struct TranslationBlock {
- #define CF_CLUSTER_SHIFT 24
- /* cflags' mask for hashing/comparison */
- #define CF_HASH_MASK   \
--    (CF_COUNT_MASK | CF_LAST_IO | CF_USE_ICOUNT | CF_PARALLEL | CF_CLUSTER_MASK)
-+    (CF_COUNT_MASK | CF_LAST_IO | CF_NOINSTR | CF_USE_ICOUNT | CF_PARALLEL | CF_CLUSTER_MASK)
- 
-     /* Per-vCPU dynamic tracing state used to generate this TB */
-     uint32_t trace_vcpu_dstate;
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 27b3042f1d..3dee698457 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2398,7 +2398,8 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
- }
- 
- #ifndef CONFIG_USER_ONLY
--/* in deterministic execution mode, instructions doing device I/Os
-+/*
-+ * In deterministic execution mode, instructions doing device I/Os
-  * must be at the end of the TB.
-  *
-  * Called by softmmu_template.h, with iothread mutex not held.
-@@ -2429,19 +2430,17 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-         n = 2;
-     }
- 
--    /* Generate a new TB executing the I/O insn.  */
--    cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
-+    /*
-+     * Exit the loop and potentially generate a new TB executing the
-+     * just the I/O insns. We also disable instrumentation so we don't
-+     * double count the instruction.
-+     */
-+    cpu->cflags_next_tb = curr_cflags() | CF_NOINSTR | CF_LAST_IO | n;
- 
-     qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
-                            "cpu_io_recompile: rewound execution of TB to "
-                            TARGET_FMT_lx "\n", tb->pc);
- 
--    /* TODO: If env->pc != tb->pc (i.e. the faulting instruction was not
--     * the first in the TB) then we end up generating a whole new TB and
--     *  repeating the fault, which is horribly inefficient.
--     *  Better would be to execute just this insn uncached, or generate a
--     *  second new TB.
--     */
-     cpu_loop_exit_noexc(cpu);
- }
- 
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index a49a794065..14d1ea795d 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -58,7 +58,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-     ops->tb_start(db, cpu);
-     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
- 
--    plugin_enabled = plugin_gen_tb_start(cpu, tb);
-+    plugin_enabled = !(tb_cflags(db->tb) & CF_NOINSTR) && plugin_gen_tb_start(cpu, tb);
- 
-     while (true) {
-         db->num_insns++;
+diff --git a/tests/acceptance/tcg_plugins.py b/tests/acceptance/tcg_plugins.py
+index b512979769..acab599505 100644
+--- a/tests/acceptance/tcg_plugins.py
++++ b/tests/acceptance/tcg_plugins.py
+@@ -101,3 +101,34 @@ class PluginKernelNormal(PluginKernelBase):
+             else:
+                 logger.debug("Failed to find instruction count")
+                 self.fail
++
++    def test_aarch64_virt_insn_icount(self):
++        """
++        :avocado: tags=accel:tcg
++        :avocado: tags=arch:aarch64
++        :avocado: tags=machine:virt
++        :avocado: tags=cpu:cortex-a57
++        """
++        kernel_path = self._grab_aarch64_kernel()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyAMA0')
++        console_pattern = 'Kernel panic - not syncing: VFS:'
++
++        plugin_log = tempfile.NamedTemporaryFile(mode="r+t", prefix="plugin",
++                                                 suffix=".log", delete=False)
++
++        self.run_vm(kernel_path, kernel_command_line,
++                    "tests/plugin/libinsn.so", plugin_log.name,
++                    console_pattern,
++                    args=('-cpu', 'cortex-a53', '-icount', 'shift=1'))
++
++        logger = logging.getLogger()
++
++        with plugin_log as lf, \
++             mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
++            m = re.search(br"detected repeat execution @ (?P<addr>0x[0-9A-Fa-f]+)", s)
++            if m is not None and "addr" in m.groupdict():
++                logger.debug("detected repeat instructions")
++                self.fail("detected repeated instructions")
++            else:
++                logger.debug("no repeats detected: %s", m)
 -- 
 2.20.1
 
