@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC809315262
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 16:08:39 +0100 (CET)
-Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BCEB31526D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 16:13:45 +0100 (CET)
+Received: from localhost ([::1]:44222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Ud5-0003x6-2u
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 10:08:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32874)
+	id 1l9Ui0-0005Hp-Ar
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 10:13:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l9Ua5-0001ns-4F
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 10:05:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44852)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l9Ugp-0004pq-Of
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 10:12:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l9Ua2-0002bW-Nc
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 10:05:32 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l9Ugm-0005Zi-Va
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 10:12:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612883126;
+ s=mimecast20190719; t=1612883546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5lEQ1xC/ZaqFTe1Hbb1J7/VO8wd2af7TchJuweJoFpA=;
- b=RsHh284g4Zaf7tAKuNvwI+vznIgnbiDUVkvVqmkxsEs5J25D6wGZZ14ov8ungdXFMUrqN9
- rtz8ro8veBMYMaNSG98KT8XH3xiM84FVEhMfQEHRzBtn3iRF0NwGUiWUhxhONBOUZm2y/4
- cgQvanV9WMG1A+sTwAQ/JevgFxAet1o=
+ bh=v3fOYCGcr4Oc/yhXSnraEdijpVHpyk9BgaojzYDAc44=;
+ b=BSYGaGeLoOiVELZcLXVvxIx90nFLpNVKga1UVcbXNaIr/hku8gYwJZAY6PDIdiv19arBHz
+ GIo04ahwRX7UcvmBN7IBJzDEHReRL9rRD2XjNes3mAs/W9U6tdWPCNm2rV8RpjOD9qgjnu
+ /MpgrSmACZENz1/CRvsXrESGokr9qSo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-DAmjgHBwPaKk4uP5gxMrNQ-1; Tue, 09 Feb 2021 10:05:22 -0500
-X-MC-Unique: DAmjgHBwPaKk4uP5gxMrNQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-210-fdfZ7u3iMlmMptPVSXxNOw-1; Tue, 09 Feb 2021 10:12:24 -0500
+X-MC-Unique: fdfZ7u3iMlmMptPVSXxNOw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 461EA192D787;
- Tue,  9 Feb 2021 15:05:21 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7FF4177C0;
- Tue,  9 Feb 2021 15:05:16 +0000 (UTC)
-Date: Tue, 9 Feb 2021 16:05:14 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: isaku.yamahata@gmail.com
-Subject: Re: [PATCH v2 3/9] acpi/core: always set SCI_EN when SMM isn't
- supported
-Message-ID: <20210209160514.0e015448@redhat.com>
-In-Reply-To: <b21a1b211ad4dc99aaf5f19d803f96dfa88b3fb1.1612821109.git.isaku.yamahata@intel.com>
-References: <cover.1612821108.git.isaku.yamahata@intel.com>
- <b21a1b211ad4dc99aaf5f19d803f96dfa88b3fb1.1612821109.git.isaku.yamahata@intel.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3548EC1A1;
+ Tue,  9 Feb 2021 15:12:23 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-161.ams2.redhat.com
+ [10.36.112.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 876C25D736;
+ Tue,  9 Feb 2021 15:12:23 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 035BA18000A0; Tue,  9 Feb 2021 16:12:22 +0100 (CET)
+Date: Tue, 9 Feb 2021 16:12:21 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+Subject: Re: USB pass through into Mac OS 9.x with qemu-system-ppc
+Message-ID: <20210209151221.dxiiydxgxsqu3gmu@sirius.home.kraxel.org>
+References: <CABLmASF7YP3qfcuhAQsm8J28e8omZstBf7E5Eir=8MyqnvPLRQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <CABLmASF7YP3qfcuhAQsm8J28e8omZstBf7E5Eir=8MyqnvPLRQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -80,154 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>, philmd@redhat.com,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  8 Feb 2021 13:57:22 -0800
-isaku.yamahata@gmail.com wrote:
+  Hi,
 
-> From: Isaku Yamahata <isaku.yamahata@intel.com>
-> 
-> If SMM is not supported, ACPI fixed hardware doesn't support
-> legacy-mode. ACPI-only platform. Where SCI_EN in PM1_CNT register is
-> always set.
-> The bit tells OS legacy mode(SCI_EN cleared) or ACPI mode(SCI_EN set).
+> A noticeable issue when comparing the pcap files seems to be at Fedora pcap
+> frame 8 and Mac OS 9.2 pcap frame 28 (configuration descriptor). It seems
+> the Mac OS side is missing 5 bytes and hence the packet is malformed.
+> (A run with Mac OS 9.0 as guest showed that this guest only missed 1 byte
+> in the response.)
 
-does it break some specific software?
+That is normal.  Note that the configuration descriptor is requested
+twice:  Once with a buffer large enough to see the wTotalLength field.
+and then again with a buffer large enough for the whole descriptor.
 
-> ACPI spec 4.8.10.1 PM1 Event Grouping
-> PM1 Eanble Registers
-> > For ACPI-only platforms (where SCI_EN is always set)  
-> 
-> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-it changes guest ABI for old machine types but it seems to me that
-it's harmless (in typical use-cases backward and forward migrated
-guest should work fine).
+> Also visible in the Mac OS pcap file at frame 53 is that it seems a setup
+> package is contained in an URB that is not suited for it.
 
-The only thing that is broken is transitioning to legacy mode
-when guest was started on old QEMU and then migrated to the new one
-where disable op will be NOP and qemu always stays in ACPI mode
-(so guest will hang while it waits for transition to happen).
+Looks more like a bug in the qemu pcap code, probably have to set some
+flag to indicate the setup section doesn't contain valid data instead
+of just leaving it all blank.
 
-Can you test this scenario with various guest OSes (old/new/MS Windows)
-to check if it won't break them.
+Frame 55 is probably the problematic one.  Look at the timestamps.  The
+device seems to not answer, then after a while macos seems to try reset
+the device.
 
-if we are to be conservative, we need to disable this compliance fix
-on old machine types.
+Also the fedora trace has the bulk transfer data so wireshark can decode
+usb-storage commands and the scsi command wrapped inside.  That is not
+the case in the macos trace.  Not sure whenever that is another bug in
+the pcap code.  It could also indicate the bug in the ohci emulation
+which in turn causes macos fail ...
 
-other than that patch looks good to me.
+> Qemu-system-ppc is started like this for the Mac OS guest:
+> ./qemu-system-ppc \
+> -M mac99,via=pmu \
+> -m 512 \
+> -boot c \
+> -serial stdio \
+> -L pc-bios \
+> -drive file=/home/hsp/Mac-disks/9.2.img,format=raw,media=disk \
+> -device usb-host,vendorid=0x058f,productid=0x6387,pcap=macos92.pcap
 
-> ---
->  hw/acpi/core.c         | 11 ++++++++++-
->  hw/acpi/ich9.c         |  2 +-
->  hw/acpi/piix4.c        |  3 ++-
->  hw/isa/vt82c686.c      |  2 +-
->  include/hw/acpi/acpi.h |  4 +++-
->  5 files changed, 17 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-> index 7170bff657..1e004d0078 100644
-> --- a/hw/acpi/core.c
-> +++ b/hw/acpi/core.c
-> @@ -579,6 +579,10 @@ void acpi_pm1_cnt_update(ACPIREGS *ar,
->                           bool sci_enable, bool sci_disable)
->  {
->      /* ACPI specs 3.0, 4.7.2.5 */
-> +    if (ar->pm1.cnt.acpi_only) {
-> +        return;
-> +    }
-> +
->      if (sci_enable) {
->          ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
->      } else if (sci_disable) {
-> @@ -608,11 +612,13 @@ static const MemoryRegionOps acpi_pm_cnt_ops = {
->  };
->  
->  void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
-> -                       bool disable_s3, bool disable_s4, uint8_t s4_val)
-> +                       bool disable_s3, bool disable_s4, uint8_t s4_val,
-> +                       bool acpi_only)
->  {
->      FWCfgState *fw_cfg;
->  
->      ar->pm1.cnt.s4_val = s4_val;
-> +    ar->pm1.cnt.acpi_only = acpi_only;
->      ar->wakeup.notify = acpi_notify_wakeup;
->      qemu_register_wakeup_notifier(&ar->wakeup);
->  
-> @@ -638,6 +644,9 @@ void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
->  void acpi_pm1_cnt_reset(ACPIREGS *ar)
->  {
->      ar->pm1.cnt.cnt = 0;
-> +    if (ar->pm1.cnt.acpi_only) {
-> +        ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
-> +    }
->  }
->  
->  /* ACPI GPE */
-> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> index 5ff4e01c36..1a34d7f621 100644
-> --- a/hw/acpi/ich9.c
-> +++ b/hw/acpi/ich9.c
-> @@ -282,7 +282,7 @@ void ich9_pm_init(PCIDevice *lpc_pci, ICH9LPCPMRegs *pm,
->      acpi_pm_tmr_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
->      acpi_pm1_evt_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
->      acpi_pm1_cnt_init(&pm->acpi_regs, &pm->io, pm->disable_s3, pm->disable_s4,
-> -                      pm->s4_val);
-> +                      pm->s4_val, !smm_enabled);
->  
->      acpi_gpe_init(&pm->acpi_regs, ICH9_PMIO_GPE0_LEN);
->      memory_region_init_io(&pm->io_gpe, OBJECT(lpc_pci), &ich9_gpe_ops, pm,
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 669be5bbf6..0cddf91de5 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -496,7 +496,8 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
->  
->      acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
->      acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
-> -    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val);
-> +    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val,
-> +                      !s->smm_enabled);
->      acpi_gpe_init(&s->ar, GPE_LEN);
->  
->      s->powerdown_notifier.notify = piix4_pm_powerdown_req;
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index a6f5a0843d..071b64b497 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -240,7 +240,7 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
->  
->      acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
->      acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
-> -    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
-> +    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2, false);
->  }
->  
->  static Property via_pm_properties[] = {
-> diff --git a/include/hw/acpi/acpi.h b/include/hw/acpi/acpi.h
-> index 22b0b65bb2..9e8a76f2e2 100644
-> --- a/include/hw/acpi/acpi.h
-> +++ b/include/hw/acpi/acpi.h
-> @@ -128,6 +128,7 @@ struct ACPIPM1CNT {
->      MemoryRegion io;
->      uint16_t cnt;
->      uint8_t s4_val;
-> +    bool acpi_only;
->  };
->  
->  struct ACPIGPE {
-> @@ -163,7 +164,8 @@ void acpi_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
->  
->  /* PM1a_CNT: piix and ich9 don't implement PM1b CNT. */
->  void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
-> -                       bool disable_s3, bool disable_s4, uint8_t s4_val);
-> +                       bool disable_s3, bool disable_s4, uint8_t s4_val,
-> +                       bool acpi_only);
->  void acpi_pm1_cnt_update(ACPIREGS *ar,
->                           bool sci_enable, bool sci_disable);
->  void acpi_pm1_cnt_reset(ACPIREGS *ar);
+Does an emulated usb stick work with macos?
+
+take care,
+  Gerd
 
 
