@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201953155EE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:29:45 +0100 (CET)
-Received: from localhost ([::1]:33200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854503155F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:33:23 +0100 (CET)
+Received: from localhost ([::1]:41478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Xlg-0004QH-53
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:29:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43222)
+	id 1l9XpC-000889-Ed
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:33:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9Xjw-0002js-BT
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l9Xjw-0002kR-Ma
  for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:27:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49488)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9Xjs-0007lF-SH
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33176)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l9Xju-0007lS-JW
  for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:27:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612895271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=838YWj3IfRwG1KIIJFapU2hmQMRinOjvsiyN4wtj3+o=;
- b=WGu2jGwCPVNwO95ipozLQ7n9X9RJnjuFy7XQizwGCEyr9j52gkA3h0KRkAXt1GidU0Pzhs
- GE+1MHkhsucQ5nXTkuAlyGUMndz04Zb8hfUWPWBlt66QT/j34cXscs4xX89nsJ216oU8fc
- McmpPQ+gts8JStj4H6F+seKZ2AO9MFQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-dx9DjOImPe6-GxDXhIL7OA-1; Tue, 09 Feb 2021 13:27:49 -0500
-X-MC-Unique: dx9DjOImPe6-GxDXhIL7OA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3465F107ACF4;
- Tue,  9 Feb 2021 18:27:48 +0000 (UTC)
-Received: from localhost (ovpn-113-208.ams2.redhat.com [10.36.113.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F20C5D9C0;
- Tue,  9 Feb 2021 18:27:47 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] iotests: Fix unsupported_imgopts for refcount_bits
-Date: Tue,  9 Feb 2021 19:27:45 +0100
-Message-Id: <20210209182745.501662-1-mreitz@redhat.com>
+Received: by mail-wr1-x42c.google.com with SMTP id 7so23274571wrz.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:27:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TPpkuVowT3XsKdUIr+oG7/FvD0rzuMPKtWzVkORBqZU=;
+ b=iALTTT+AvLXMnAdpbzE1niXlnHVH7Se0qef9oAy4hwM1Y125fB1x+7HzTmJs/Uo+ZU
+ 1c6tKu3gw5y9s/M1E8R2kaxEd2IGBXMWEsd8XCrqjDcn3/cIjhCCSlab0kt/b3kdv2rE
+ q4Uugo5v403szdPslyO/oWo64H8tFAr5SlkuGpNouf5dsrVFKqYP6L+rF+tMIFLhAsYl
+ n103RCPvGHLkySjfV1Xs9aBQUkRNoMshwTWGEy0yjf5rOsVWTfKZdxEnQ3tzB3W2e03g
+ x5w9VM6r0geLknxOzeowafSqij6MciMwNSO3bX0kd89eOF8Ab2yWvd2rdHAkv/n6/Q5p
+ b7ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TPpkuVowT3XsKdUIr+oG7/FvD0rzuMPKtWzVkORBqZU=;
+ b=WFp4+R3NP0L/xpyvkXGTyYgn8FpBi5goE+WWxhk+lUcHbHADJfad77oE5YRBi6Gf9b
+ KDRsMmZjEAtnnQTq4g39eQRyzMZcHMmA8X1RLF66WBzzPsSB9iycqMuhOGGZVd0FAyJz
+ /VeMgoG1lnYeMPRXxoGS4m2Mn6/tSDjR0DWUW1/HqKVY8J9VEML86cCzxhceqKliF3iy
+ E7OB5kq/u6S6j3EQMhY6whh4G236IODJicfUaCwPZujqViv1QUX3Zo6UXGaLcdvV4vxx
+ PqbJNJNOu6EIvuMNPZZ3SVemyHAXCqQ+YO8uFLfG4RgZNZp4t1yAtHuqiT2hyV8OUK4m
+ D3aA==
+X-Gm-Message-State: AOAM530nYEIHifU2HGfNBQnDXZw++pwVKOCBQ1vJE2cUL+KvMhSXXP1b
+ mIPaYi6P/GmkMinfoYWlDDVxZQ==
+X-Google-Smtp-Source: ABdhPJyKQjP4iYfGhdMmmaaa/NLv1sZLgRQ87hKWScONmeKXp8+zO4N/Vz5JKdvdLnARDARbypfXjw==
+X-Received: by 2002:a5d:54ce:: with SMTP id x14mr18133736wrv.182.1612895272952; 
+ Tue, 09 Feb 2021 10:27:52 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h14sm4976510wmq.39.2021.02.09.10.27.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 10:27:50 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 979EC1FF87;
+ Tue,  9 Feb 2021 18:27:49 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 01/12] exec: Move TranslationBlock typedef to
+ qemu/typedefs.h
+Date: Tue,  9 Feb 2021 18:27:37 +0000
+Message-Id: <20210209182749.31323-2-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210209182749.31323-1-alex.bennee@linaro.org>
+References: <20210209182749.31323-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,249 +87,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Michael Walle <michael@walle.cc>, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Many _unsupported_imgopts lines for refcount_bits values use something
-like "refcount_bits=1[^0-9]" to forbid everything but "refcount_bits=1"
-(e.g. "refcount_bits=16" is allowed).
+From: Richard Henderson <richard.henderson@linaro.org>
 
-That does not work when $IMGOPTS does not have any entry past the
-refcount_bits option, which now became apparent with the "check" script
-rewrite.
+This also means we don't need an extra declaration of
+the structure in hw/core/cpu.h.
 
-Use \b instead of [^0-9] to check for a word boundary, which is what we
-really want.
-
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210208233906.479571-2-richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
-Reproducible with:
-$ ./check -qcow2 -o refcount_bits=1
-(The tests touched here should be skipped)
+ include/exec/tb-context.h     | 1 -
+ include/hw/core/cpu.h         | 4 +---
+ include/hw/core/tcg-cpu-ops.h | 3 +--
+ include/qemu/typedefs.h       | 1 +
+ target/arm/internals.h        | 3 +--
+ target/cris/translate.c       | 2 +-
+ target/lm32/translate.c       | 2 +-
+ target/moxie/translate.c      | 2 +-
+ target/unicore32/translate.c  | 2 +-
+ 9 files changed, 8 insertions(+), 12 deletions(-)
 
-I don't know whether \b is portable.  I hope it is.
-(This is why I CC-ed you, Eric.)
-
-Then again, it appears that nobody ever runs the iotests with
-refcount_bits=1 but me, and I do that on Linux.  So even if it isn't
-portable, it shouldn't be an issue in practice... O:)
----
- tests/qemu-iotests/007 | 2 +-
- tests/qemu-iotests/015 | 2 +-
- tests/qemu-iotests/029 | 2 +-
- tests/qemu-iotests/058 | 2 +-
- tests/qemu-iotests/062 | 2 +-
- tests/qemu-iotests/066 | 2 +-
- tests/qemu-iotests/068 | 2 +-
- tests/qemu-iotests/080 | 2 +-
- tests/qemu-iotests/103 | 2 +-
- tests/qemu-iotests/201 | 2 +-
- tests/qemu-iotests/214 | 2 +-
- tests/qemu-iotests/217 | 2 +-
- tests/qemu-iotests/267 | 2 +-
- tests/qemu-iotests/271 | 3 ++-
- tests/qemu-iotests/286 | 2 +-
- 15 files changed, 16 insertions(+), 15 deletions(-)
-
-diff --git a/tests/qemu-iotests/007 b/tests/qemu-iotests/007
-index 936d3f14fb..a014f50a6b 100755
---- a/tests/qemu-iotests/007
-+++ b/tests/qemu-iotests/007
-@@ -44,7 +44,7 @@ _supported_proto generic
- # refcount_bits must be at least 4 so we can create ten internal snapshots
- # (1 bit supports none, 2 bits support two, 4 bits support 14);
- # snapshot are generally impossible with external data files
--_unsupported_imgopts 'refcount_bits=\(1\|2\)[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=\(1\|2\)\b' data_file
+diff --git a/include/exec/tb-context.h b/include/exec/tb-context.h
+index ec4c13b455..cc33979113 100644
+--- a/include/exec/tb-context.h
++++ b/include/exec/tb-context.h
+@@ -26,7 +26,6 @@
+ #define CODE_GEN_HTABLE_BITS     15
+ #define CODE_GEN_HTABLE_SIZE     (1 << CODE_GEN_HTABLE_BITS)
  
- echo
- echo "creating image"
-diff --git a/tests/qemu-iotests/015 b/tests/qemu-iotests/015
-index 40c23235a6..24e28643e4 100755
---- a/tests/qemu-iotests/015
-+++ b/tests/qemu-iotests/015
-@@ -43,7 +43,7 @@ _supported_fmt qcow2
- _supported_proto generic
- # Internal snapshots are (currently) impossible with refcount_bits=1,
- # and generally impossible with external data files
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=1\b' data_file
+-typedef struct TranslationBlock TranslationBlock;
+ typedef struct TBContext TBContext;
  
- echo
- echo "creating image"
-diff --git a/tests/qemu-iotests/029 b/tests/qemu-iotests/029
-index bd71dd2f22..9b345060e5 100755
---- a/tests/qemu-iotests/029
-+++ b/tests/qemu-iotests/029
-@@ -44,7 +44,7 @@ _supported_fmt qcow2
- _supported_proto generic
- # Internal snapshots are (currently) impossible with refcount_bits=1,
- # and generally impossible with external data files
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=1\b' data_file
+ struct TBContext {
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 38d813c389..c005d3dc2d 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -74,8 +74,6 @@ typedef enum MMUAccessType {
  
- offset_size=24
- offset_l1_size=36
-diff --git a/tests/qemu-iotests/058 b/tests/qemu-iotests/058
-index ce35ff4ee0..0b0303fcd5 100755
---- a/tests/qemu-iotests/058
-+++ b/tests/qemu-iotests/058
-@@ -59,7 +59,7 @@ _supported_os Linux
- _require_command QEMU_NBD
- # Internal snapshots are (currently) impossible with refcount_bits=1,
- # and generally impossible with external data files
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=1\b' data_file
+ typedef struct CPUWatchpoint CPUWatchpoint;
  
- nbd_snapshot_img="nbd:unix:$nbd_unix_socket"
+-struct TranslationBlock;
+-
+ /* see tcg-cpu-ops.h */
+ struct TCGCPUOps;
  
-diff --git a/tests/qemu-iotests/062 b/tests/qemu-iotests/062
-index 321252298d..d7307f24ac 100755
---- a/tests/qemu-iotests/062
-+++ b/tests/qemu-iotests/062
-@@ -42,7 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2
- _supported_proto generic
- # We need zero clusters and snapshots
--_unsupported_imgopts 'compat=0.10' 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'compat=0.10' 'refcount_bits=1\b' data_file
+@@ -375,7 +373,7 @@ struct CPUState {
+     IcountDecr *icount_decr_ptr;
  
- IMG_SIZE=64M
+     /* Accessed in parallel; all accesses must be atomic */
+-    struct TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
++    TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
  
-diff --git a/tests/qemu-iotests/066 b/tests/qemu-iotests/066
-index a780ed7ab5..ec9dab2025 100755
---- a/tests/qemu-iotests/066
-+++ b/tests/qemu-iotests/066
-@@ -43,7 +43,7 @@ _supported_proto generic
- # We need zero clusters and snapshots
- # (TODO: Consider splitting the snapshot part into a separate test
- #        file, so this one runs with refcount_bits=1 and data_file)
--_unsupported_imgopts 'compat=0.10' 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'compat=0.10' 'refcount_bits=1\b' data_file
+     struct GDBRegisterState *gdb_regs;
+     int gdb_num_regs;
+diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+index ccc97d1894..ac3bb051f2 100644
+--- a/include/hw/core/tcg-cpu-ops.h
++++ b/include/hw/core/tcg-cpu-ops.h
+@@ -30,8 +30,7 @@ struct TCGCPUOps {
+      * If more state needs to be restored, the target must implement a
+      * function to restore all the state, and register it here.
+      */
+-    void (*synchronize_from_tb)(CPUState *cpu,
+-                                const struct TranslationBlock *tb);
++    void (*synchronize_from_tb)(CPUState *cpu, const TranslationBlock *tb);
+     /** @cpu_exec_enter: Callback for cpu_exec preparation */
+     void (*cpu_exec_enter)(CPUState *cpu);
+     /** @cpu_exec_exit: Callback for cpu_exec cleanup */
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index dc39b05c30..ee60eb3de4 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -120,6 +120,7 @@ typedef struct ReservedRegion ReservedRegion;
+ typedef struct SavedIOTLB SavedIOTLB;
+ typedef struct SHPCDevice SHPCDevice;
+ typedef struct SSIBus SSIBus;
++typedef struct TranslationBlock TranslationBlock;
+ typedef struct VirtIODevice VirtIODevice;
+ typedef struct Visitor Visitor;
+ typedef struct VMChangeStateEntry VMChangeStateEntry;
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 448982dd2f..7d26ce0c9d 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -172,8 +172,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu);
+ void arm_translate_init(void);
  
- # Intentionally create an unaligned image
- IMG_SIZE=$((64 * 1024 * 1024 + 512))
-diff --git a/tests/qemu-iotests/068 b/tests/qemu-iotests/068
-index 03e03508a6..39a04a6ab6 100755
---- a/tests/qemu-iotests/068
-+++ b/tests/qemu-iotests/068
-@@ -42,7 +42,7 @@ _supported_fmt qcow2
- _supported_proto generic
- # Internal snapshots are (currently) impossible with refcount_bits=1,
- # and generally impossible with external data files
--_unsupported_imgopts 'compat=0.10' 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'compat=0.10' 'refcount_bits=1\b' data_file
- 
- IMG_SIZE=128K
- 
-diff --git a/tests/qemu-iotests/080 b/tests/qemu-iotests/080
-index 3306500683..a7cf938204 100755
---- a/tests/qemu-iotests/080
-+++ b/tests/qemu-iotests/080
-@@ -44,7 +44,7 @@ _supported_os Linux
- # - Internal snapshots are (currently) impossible with refcount_bits=1,
- #   and generally impossible with external data files
- # - This is generally a test for compat=1.1 images
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file 'compat=0.10'
-+_unsupported_imgopts 'refcount_bits=1\b' data_file 'compat=0.10'
- 
- header_size=112
- 
-diff --git a/tests/qemu-iotests/103 b/tests/qemu-iotests/103
-index 726f8313ef..6276369052 100755
---- a/tests/qemu-iotests/103
-+++ b/tests/qemu-iotests/103
-@@ -41,7 +41,7 @@ _supported_fmt qcow2
- _supported_proto file nfs fuse
- # Internal snapshots are (currently) impossible with refcount_bits=1,
- # and generally impossible with external data files
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=1\b' data_file
- 
- IMG_SIZE=64K
- 
-diff --git a/tests/qemu-iotests/201 b/tests/qemu-iotests/201
-index 1b8eb51d8f..723d792adb 100755
---- a/tests/qemu-iotests/201
-+++ b/tests/qemu-iotests/201
-@@ -46,7 +46,7 @@ _supported_os Linux
- 
- # Internal snapshots are (currently) impossible with refcount_bits=1,
- # and generally impossible with external data files
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=1\b' data_file
- 
- size=64M
- _make_test_img $size
-diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
-index 0889089d81..e57e477f7c 100755
---- a/tests/qemu-iotests/214
-+++ b/tests/qemu-iotests/214
-@@ -41,7 +41,7 @@ _supported_proto file fuse
- # Repairing the corrupted image requires qemu-img check to store a
- # refcount up to 3, which requires at least two refcount bits.
- # External data files do not support compressed clusters.
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=1\b' data_file
+ #ifdef CONFIG_TCG
+-void arm_cpu_synchronize_from_tb(CPUState *cs,
+-                                 const struct TranslationBlock *tb);
++void arm_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
+ #endif /* CONFIG_TCG */
  
  
- echo
-diff --git a/tests/qemu-iotests/217 b/tests/qemu-iotests/217
-index e693f326a3..8b5df8d6bc 100755
---- a/tests/qemu-iotests/217
-+++ b/tests/qemu-iotests/217
-@@ -42,7 +42,7 @@ _supported_proto file fuse
- # This test needs clusters with at least a refcount of 2 so that
- # OFLAG_COPIED is not set.  refcount_bits=1 is therefore unsupported.
- # (As are external data files.)
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=1\b' data_file
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index c893f877ab..65c168c0c7 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -132,7 +132,7 @@ typedef struct DisasContext {
  
- echo
- echo '=== Simulating an I/O error during snapshot deletion ==='
-diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
-index 2e2afdad9c..eb42b1ec02 100755
---- a/tests/qemu-iotests/267
-+++ b/tests/qemu-iotests/267
-@@ -45,7 +45,7 @@ _require_drivers copy-on-read
+     int delayed_branch;
  
- # Internal snapshots are (currently) impossible with refcount_bits=1,
- # and generally impossible with external data files
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=1\b' data_file
+-    struct TranslationBlock *tb;
++    TranslationBlock *tb;
+     int singlestep_enabled;
+ } DisasContext;
  
- _require_devices virtio-blk
+diff --git a/target/lm32/translate.c b/target/lm32/translate.c
+index 030b232d66..20c70d03f1 100644
+--- a/target/lm32/translate.c
++++ b/target/lm32/translate.c
+@@ -93,7 +93,7 @@ typedef struct DisasContext {
+     unsigned int tb_flags, synced_flags; /* tb dependent flags.  */
+     int is_jmp;
  
-diff --git a/tests/qemu-iotests/271 b/tests/qemu-iotests/271
-index 599b849cc6..251afa0923 100755
---- a/tests/qemu-iotests/271
-+++ b/tests/qemu-iotests/271
-@@ -43,7 +43,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2
- _supported_proto file nfs
- _supported_os Linux
--_unsupported_imgopts extended_l2 compat=0.10 cluster_size data_file refcount_bits=1[^0-9]
-+_unsupported_imgopts extended_l2 compat=0.10 cluster_size data_file \
-+    'refcount_bits=1\b'
+-    struct TranslationBlock *tb;
++    TranslationBlock *tb;
+     int singlestep_enabled;
  
- l2_offset=$((0x40000))
+     uint32_t features;
+diff --git a/target/moxie/translate.c b/target/moxie/translate.c
+index d5fb27dfb8..24a742b25e 100644
+--- a/target/moxie/translate.c
++++ b/target/moxie/translate.c
+@@ -36,7 +36,7 @@
  
-diff --git a/tests/qemu-iotests/286 b/tests/qemu-iotests/286
-index 120a8375b7..76b3f80fa9 100755
---- a/tests/qemu-iotests/286
-+++ b/tests/qemu-iotests/286
-@@ -39,7 +39,7 @@ _supported_fmt qcow2
- _supported_proto file fuse
- # Internal snapshots are (currently) impossible with refcount_bits=1,
- # and generally impossible with external data files
--_unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
-+_unsupported_imgopts 'refcount_bits=1\b' data_file
- 
- _make_test_img 64M
- 
+ /* This is the state at translation time.  */
+ typedef struct DisasContext {
+-    struct TranslationBlock *tb;
++    TranslationBlock *tb;
+     target_ulong pc, saved_pc;
+     uint32_t opcode;
+     uint32_t fp_status;
+diff --git a/target/unicore32/translate.c b/target/unicore32/translate.c
+index 962f9877a0..370709c9ea 100644
+--- a/target/unicore32/translate.c
++++ b/target/unicore32/translate.c
+@@ -34,7 +34,7 @@ typedef struct DisasContext {
+     int condjmp;
+     /* The label that will be jumped to when the instruction is skipped.  */
+     TCGLabel *condlabel;
+-    struct TranslationBlock *tb;
++    TranslationBlock *tb;
+     int singlestep_enabled;
+ #ifndef CONFIG_USER_ONLY
+     int user;
 -- 
-2.29.2
+2.20.1
 
 
