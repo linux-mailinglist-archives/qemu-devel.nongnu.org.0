@@ -2,82 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0DD3151C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:37:34 +0100 (CET)
-Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46193151D5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:40:05 +0100 (CET)
+Received: from localhost ([::1]:34992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9U8z-0008Kk-UW
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:37:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51964)
+	id 1l9UBR-0001b3-1J
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:40:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l9U67-0007Ne-8k
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:34:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l9U5z-0006SI-Tk
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:34:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612881267;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7GLnpWB0NSBoNRdDidrygmhY1yLVekvkBV4sw47p6kE=;
- b=MuPcYS8LoaAiXyygU0E8mvTjstRqsJpqYfEClaVVhfuXnYqzP73kQ8TZgwch2vkNpMM3n4
- /OrOjHbR+zf5SPfHPTXiysxU52zNIc6L+A7ncO4Ba9fTGJ2C7THfE2yr9Nvr1OXau+o5OH
- 4/9pWeLLdN8JGSpC4mL9LEGsIl+VnUM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-R3_-u7v5MceDYLcUQpKRrg-1; Tue, 09 Feb 2021 09:34:25 -0500
-X-MC-Unique: R3_-u7v5MceDYLcUQpKRrg-1
-Received: by mail-wr1-f70.google.com with SMTP id j8so17147140wrx.17
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 06:34:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7GLnpWB0NSBoNRdDidrygmhY1yLVekvkBV4sw47p6kE=;
- b=Ss1W3WfEvfqeSJ/gfVySLKYGcZgsNStD3T46HlZKPVrvujR4fJuiL1vJu0Fi4X3L79
- h21PiJP88zV2US8URDqvYo0kz5qSo7X1F4M7qY2HewPSF12RdNjjQVtKnznF4N+lDjgT
- DQ911tkIDVPnXRRJ52OvqSESqfr/9ETziJXtOKJrQGS1IkC2478bTDHjWBvZMPazEMKH
- fJkD59Zvk6QDMzkwaDajMITxpg+x+v8eaT+Z/ka3i9kSRJ6Fpaf9W+DxTn0dVZxlycWX
- qtYeqynVS7w7a+SmXBm5NS49dXHxgcqhZLF80rGF7rg/ttSyIf/PRpg2XYbiRe1XpKLe
- t6qw==
-X-Gm-Message-State: AOAM531eHO7rRy3Y34VWranCzifxpdRdraG1DCFRgFTkvpADnGht+HZD
- FYfhPnCvBpsVDI6+U3b00djCYUXGtoH+uQTu4XTuQlQ9xnrrCJv9LNQJ8pMbB4NQZBRCyQqp72R
- 5U8XGKOJO+v810HU=
-X-Received: by 2002:a5d:50d2:: with SMTP id f18mr26937616wrt.338.1612881264011; 
- Tue, 09 Feb 2021 06:34:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzJsy6TH67kM1KjbHxLNT7qrKEIH3+mxSAEzuqsjF5X+Mf+ZnBiMoqU7ibd4KmPtNddcpuJxA==
-X-Received: by 2002:a5d:50d2:: with SMTP id f18mr26937598wrt.338.1612881263792; 
- Tue, 09 Feb 2021 06:34:23 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id r1sm35915528wrl.95.2021.02.09.06.34.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 06:34:23 -0800 (PST)
-Date: Tue, 9 Feb 2021 09:34:20 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH 0/3] virtio-net: graceful drop of vhost for TAP
-Message-ID: <20210209093201-mutt-send-email-mst@kernel.org>
-References: <20210204202915.15925-1-yuri.benditovich@daynix.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1l9U7Q-0008A7-If; Tue, 09 Feb 2021 09:36:00 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:42369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1l9U7N-00077B-QC; Tue, 09 Feb 2021 09:35:55 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 119EYtVw020540
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 9 Feb 2021 09:34:59 -0500
+Date: Tue, 9 Feb 2021 09:34:55 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH] hw/sd/sdhci: Do not modify BlockSizeRegister if
+ transaction in progress
+Message-ID: <20210209143455.pqowqq6sywxfnbok@mozz.bu.edu>
+References: <20210208193450.2689517-1-f4bug@amsat.org>
+ <CAEUhbmUECh5oZueWZPNWc-ZAkF6XExhrT28R0wfCWDx1Vpeo+g@mail.gmail.com>
+ <d806c94d-8d52-5401-93eb-c8698728ee52@amsat.org>
+ <CAEUhbmV=azYzfDvM8m-WiKQzio3Z0TGsctRmQEzPp7tDHbx4eA@mail.gmail.com>
+ <CAEUhbmVJ1-2yBCZ+g1xfoSatTOtbpGNdmo=PW_cjqKsPDETHEQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210204202915.15925-1-yuri.benditovich@daynix.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEUhbmVJ1-2yBCZ+g1xfoSatTOtbpGNdmo=PW_cjqKsPDETHEQ@mail.gmail.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,43 +60,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, jasowang@redhat.com, qemu-devel@nongnu.org
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ Li Qiang <liq3ea@163.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bandan Das <bsd@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Prasad J Pandit <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 04, 2021 at 10:29:12PM +0200, Yuri Benditovich wrote:
-> This set of patches introduces graceful switch from tap-vhost to
-> tap-no-vhost depending on guest features. Before that the features
-> that vhost does not support were silently cleared in get_features.
-> This creates potential problem of migration from the machine where
-> some of virtio-net features are supported by the vhost kernel to the
-> machine where they are not supported (packed ring as an example).
-
-I still worry that adding new features will silently disable vhost for people.
-Can we limit the change to when a VM is migrated in?
-
-
-
-> Instead of silent masking of the features virtio-net gracefully
-> disables the vhost at set_features if some features acked by the
-> guest contradict with kernel vhost capabilities.
+On 210209 1745, Bin Meng wrote:
+> Oops, hitting "send" by mistake ...
 > 
-> This set of patches also makes get_vhost_net() call (that used
-> everywhere) to always return actual result, i.e. initially it
-> returns non-NULL value and from the moment the vhost was disabled
-> the call will return NULL. Such a way we avoid any unexpected
-> calls to vhost functions.
-> Yuri Benditovich (3):
->   vhost-net: add VIRTIO_NET_F_HASH_REPORT to the list of kernel features
->   net: add ability to hide (disable) vhost_net
->   virtio-net: graceful fallback to vhost=off for tap netdev
+> On Tue, Feb 9, 2021 at 5:42 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi Philippe,
+> >
+> > On Tue, Feb 9, 2021 at 5:38 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+> > >
+> > > On 2/9/21 9:28 AM, Bin Meng wrote:
+> > > > Hi Philippe,
+> > > >
+> > > > On Tue, Feb 9, 2021 at 3:34 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+> > > >>
+> > > >> Per the "SD Host Controller Simplified Specification Version 2.00"
+> > > >> spec. 'Table 2-4 : Block Size Register':
+> > > >>
+> > > >>   Transfer Block Size [...] can be accessed only if no
+> > > >>   transaction is executing (i.e., after a transaction has stopped).
+> > > >>   Read operations during transfers may return an invalid value,
+> > > >>   and write operations shall be ignored.
+> > > >>
+> > > >> Transactions will update 'data_count', so do not modify 'blksize'
+> > > >> and 'blkcnt' when 'data_count' is used. This fixes:
+> > > >>
+> > > >> $ cat << EOF | qemu-system-x86_64 -qtest stdio -monitor none \
+> > > >>                -nographic -serial none -M pc-q35-5.0 \
+> > > >>                -device sdhci-pci,sd-spec-version=3 \
+> > > >>                -device sd-card,drive=mydrive \
+> > > >>                -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive
+> > > >>   outl 0xcf8 0x80001810
+> > > >>   outl 0xcfc 0xe1068000
+> > > >>   outl 0xcf8 0x80001814
+> > > >
+> > > > Is this command needed?
+> > >
+> > > My guess is this makes the northbridge somehow map the device PCI space.
+> > >
+> > > Probably not needed in machines where SDHCI is MMIO mapped.
+> >
+> > I think this is not needed. Writing only the CFG_ADDR
 > 
->  hw/net/vhost_net.c  |  5 +++-
->  hw/net/virtio-net.c | 58 ++++++++++++++++++++++++++++++++++++++-------
->  include/net/net.h   |  1 +
->  3 files changed, 55 insertions(+), 9 deletions(-)
+> I think this is not needed. Writing only the CFG_ADDR without wring
+> CFG_DATA does not take any effect.
 > 
-> -- 
-> 2.17.1
 
+Ran it through scripts/oss-fuzz/minimize_qtest_trace.py , though that's
+probably not very useful now:
+
+cat << EOF | qemu-system-x86_64 -qtest stdio -monitor none \
+             -nographic -serial none -M pc-q35-5.0 \
+             -device sdhci-pci,sd-spec-version=3 \
+             -device sd-card,drive=mydrive \
+             -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive
+outl 0xcf8 0x80001810
+outl 0xcfc 0xe1068000
+outl 0xcf8 0x80001804
+outw 0xcfc 0x7
+write 0xe106802c 0x1 0x0f
+write 0xe1068004 0x1 0x20
+write 0xe1068005 0x1 0x01
+write 0xe1068007 0x1 0x01
+write 0xe106800c 0x1 0x33
+write 0xe106800e 0x1 0x20
+write 0xe106800f 0x1 0x0
+write 0xe106800c 0x1 0x0
+write 0xe106802a 0x1 0x11
+write 0xe1068003 0x1 0x0
+write 0xe1068005 0x1 0x00
+write 0xe106800c 0x1 0x22
+write 0xe106802a 0x1 0x12
+write 0xe1068003 0x1 0x10
+EOF
+
+> >
+> > >
+> > > >
+> > > >>   outl 0xcf8 0x80001804
+> > > >>   outw 0xcfc 0x7
+> > > >>   outl 0xcf8 0x8000fa20
+> > > >
+> > > > and this one?
+> > >
+> > > Ditto.
+> > >
+> > > >
+> > > >>   write 0xe106802c 0x1 0x0f
+> > > >>   write 0xe1068004 0xc 0x2801d10101fffffbff28a384
+> > > >
+> > > > Are these fuzzy data?
+> > >
+> > > Yes, I didn't try to understand what this does, as often
+> > > non-sense operations. But this is what would craft a malicious
+> > > attacker.
+> > >
+> > > >
+> > > >>   write 0xe106800c 0x1f 0x9dacbbcad9e8f7061524334251606f7e8d9cabbac9d8e7f60514233241505f
+> > > >>   write 0xe1068003 0x28 0x80d000251480d000252280d000253080d000253e80d000254c80d000255a80d000256880d0002576
+> > > >>   write 0xe1068003 0x1 0xfe
+> > > >>   EOF
+> > > >>   =================================================================
+> > > >>   ==2686219==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61500003bb00 at pc 0x55ab469f456c bp 0x7ffee71be330 sp 0x7ffee71bdae0
+> > > >>   WRITE of size 4 at 0x61500003bb00 thread T0
+> > > >>       #0 0x55ab469f456b in __asan_memcpy (qemu-system-i386+0x1cea56b)
+> > > >>       #1 0x55ab483dc396 in stl_he_p include/qemu/bswap.h:353:5
+> > > >>       #2 0x55ab483af5e4 in stn_he_p include/qemu/bswap.h:546:1
+> > > >>       #3 0x55ab483aeb4b in flatview_read_continue softmmu/physmem.c:2839:13
+> > > >>       #4 0x55ab483b0705 in flatview_read softmmu/physmem.c:2877:12
+> > > >>       #5 0x55ab483b028e in address_space_read_full softmmu/physmem.c:2890:18
+> > > >>       #6 0x55ab483b1294 in address_space_rw softmmu/physmem.c:2918:16
+> > > >>       #7 0x55ab479374a2 in dma_memory_rw_relaxed include/sysemu/dma.h:88:12
+> > > >>       #8 0x55ab47936f50 in dma_memory_rw include/sysemu/dma.h:127:12
+> > > >>       #9 0x55ab4793665f in dma_memory_read include/sysemu/dma.h:145:12
+> > > >>       #10 0x55ab4792f176 in sdhci_sdma_transfer_multi_blocks hw/sd/sdhci.c:639:13
+> > > >>       #11 0x55ab4793dc9d in sdhci_write hw/sd/sdhci.c:1129:17
+> > > >>       #12 0x55ab483f8db8 in memory_region_write_accessor softmmu/memory.c:491:5
+> > > >>       #13 0x55ab483f868a in access_with_adjusted_size softmmu/memory.c:552:18
+> > > >>       #14 0x55ab483f6da5 in memory_region_dispatch_write softmmu/memory.c:1501:16
+> > > >>       #15 0x55ab483c3b11 in flatview_write_continue softmmu/physmem.c:2774:23
+> > > >>       #16 0x55ab483b0eb6 in flatview_write softmmu/physmem.c:2814:14
+> > > >>       #17 0x55ab483b0a3e in address_space_write softmmu/physmem.c:2906:18
+> > > >>       #18 0x55ab48465c56 in qtest_process_command softmmu/qtest.c:654:9
+> > > >>
+> > > >>   0x61500003bb00 is located 0 bytes to the right of 512-byte region [0x61500003b900,0x61500003bb00)
+> > > >>   allocated by thread T0 here:
+> > > >>       #0 0x55ab469f58a7 in calloc (qemu-system-i386+0x1ceb8a7)
+> > > >>       #1 0x7f21d678f9b0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x589b0)
+> > > >>       #2 0x55ab479530ed in sdhci_pci_realize hw/sd/sdhci-pci.c:36:5
+> > > >>       #3 0x55ab476f102a in pci_qdev_realize hw/pci/pci.c:2108:9
+> > > >>       #4 0x55ab48baaad2 in device_set_realized hw/core/qdev.c:761:13
+> > > >>
+> > > >>   SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-system-i386+0x1cea56b) in __asan_memcpy
+> > > >>   Shadow bytes around the buggy address:
+> > > >>     0x0c2a7ffff710: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+> > > >>     0x0c2a7ffff720: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > >>     0x0c2a7ffff730: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > >>     0x0c2a7ffff740: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > >>     0x0c2a7ffff750: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > >>   =>0x0c2a7ffff760:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+> > > >>     0x0c2a7ffff770: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+> > > >>     0x0c2a7ffff780: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+> > > >>     0x0c2a7ffff790: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+> > > >>     0x0c2a7ffff7a0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+> > > >>     0x0c2a7ffff7b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+> > > >>   Shadow byte legend (one shadow byte represents 8 application bytes):
+> > > >>     Addressable:           00
+> > > >>     Heap left redzone:       fa
+> > > >>     Freed heap region:       fd
+> > > >>   ==2686219==ABORTING
+> > > >>
+> > > >> Fixes: CVE-2020-17380
+> > > >> Fixes: CVE-2020-25085
+> > > >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > > >> ---
+> > > >> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
+> > > >> Cc: Alexander Bulekov <alxndr@bu.edu>
+> > > >> Cc: Alistair Francis <alistair.francis@wdc.com>
+> > > >> Cc: Prasad J Pandit <ppandit@redhat.com>
+> > > >> Cc: Bandan Das <bsd@redhat.com>
+> > > >>
+> > > >> RFC because missing Reported-by tags, launchpad/bugzilla links and
+> > > >> qtest reproducer. Sending for review meanwhile.
+> > > >> ---
+> > > >>  hw/sd/sdhci.c | 6 ++++++
+> > > >>  1 file changed, 6 insertions(+)
+> > > >>
+> > > >> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+> > > >> index 8ffa53999d8..7ac7d9af9e4 100644
+> > > >> --- a/hw/sd/sdhci.c
+> > > >> +++ b/hw/sd/sdhci.c
+> > > >> @@ -1133,6 +1133,12 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+> > > >>          }
+> > > >>          break;
+> > > >>      case SDHC_BLKSIZE:
+> > > >> +        if (s->data_count) {
+> > > >> +            qemu_log_mask(LOG_GUEST_ERROR,
+> > > >> +                          "%s: Can not update blksize when"
+> > > >> +                          " transaction is executing\n", __func__);
+> > > >> +            break;
+> > > >> +        }
+> > > >>          if (!TRANSFERRING_DATA(s->prnsts)) {
+> > > >
+> > > > I am not sure I get the whole picture here.
+> > >
+> > > The problem is out of bound access on fifo_buffer.
+> > >
+> > > > Isn't write to s->blksize and s->blkcnt already protected in this if
+> > > > () statement?
+> 
+> I tried to follow the CVE link from
+> https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-25085 which
+> gave me:
+> https://bugs.launchpad.net/qemu/+bug/1892960
+> 
+> The above page says this CVE is already fixed, so I am lost.
+> 
+> > >
+> > > I tried this code but it didn't work:
+> > >
+> > > -- >8 --
+> > > diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+> > > index 8ffa53999d8..182641ae98a 100644
+> > > --- a/hw/sd/sdhci.c
+> > > +++ b/hw/sd/sdhci.c
+> > > @@ -584,6 +584,11 @@ static void
+> > > sdhci_sdma_transfer_multi_blocks(SDHCIState *s)
+> > >      uint32_t boundary_chk = 1 << (((s->blksize & ~BLOCK_SIZE_MASK) >>
+> > > 12) + 12);
+> > >      uint32_t boundary_count = boundary_chk - (s->sdmasysad % boundary_chk);
+> > >
+> > > +    if (TRANSFERRING_DATA(s->prnsts)) {
+> > > +        qemu_log_mask(LOG_GUEST_ERROR,
+> > > +                      "%s: Transfer already in progress", __func__);
+> > > +        return;
+> > > +    }
+> > >      if (!(s->trnmod & SDHC_TRNS_BLK_CNT_EN) || !s->blkcnt) {
+> > >          qemu_log_mask(LOG_UNIMP, "infinite transfer is not supported\n");
+> > >          return;
+> > > ---
+> > >
+> > > Do you think we need both?
+> > >
+> > > Maybe we miss to set a bit in s->prnsts somewhere...
+> 
+> Probably, but I need to take a further look.
+> 
+> Regards,
+> Bin
 
