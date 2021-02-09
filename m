@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BB8314AAB
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:47:07 +0100 (CET)
-Received: from localhost ([::1]:41314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACFB314AD9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:55:59 +0100 (CET)
+Received: from localhost ([::1]:59884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Ofq-0007Xj-Q4
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:47:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47902)
+	id 1l9OoQ-0006jv-Nq
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:55:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NWK-0005ln-KX; Tue, 09 Feb 2021 02:33:12 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:45015)
+ id 1l9NWN-0005pT-OF; Tue, 09 Feb 2021 02:33:15 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:37355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NWI-00060O-UZ; Tue, 09 Feb 2021 02:33:12 -0500
+ id 1l9NWJ-00060p-9P; Tue, 09 Feb 2021 02:33:15 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 46322CC6;
- Tue,  9 Feb 2021 02:32:41 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 5DBF7CDC;
+ Tue,  9 Feb 2021 02:32:44 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:42 -0500
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=Oz3/PVphhEItC
- X6yIcX+5zKBd/hZPa12wC8aRkpZNfU=; b=zQzWNXx/jFmiygN5H6BN8rm/VNj63
- ctfptf1xSCZ9KeuwZITZWw7afVBMdV4DbkTI50oRfzQ2Iq5qHO3QGOSHytnw/TnX
- S3RZ1gjRFxHqxLv08pmFMfoLwrMMcQiD/Xhbh8bnGjT7kxZxR9CVu1GnkloEJe2V
- Z1mHbNVUXF1oP6fTUSZgH6ff1RKzQYzVZDoHV+hcXpEAtRmY8XuChz+HMnby+I5g
- GBAURo9ls+LTD4VUK8/YfHz/r6We0RCHi400ezGtu+rsrPCjqrYzx+krO5DkUAdx
- izu2mY+tGHYZVdehhswwNs/dip3N1w5Ig6I6a5JneEqzAuvIjFEuEZ2aQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=ckfr3OuwiggXh
+ dx+yEtpCspa7vk8ZRKFH0JCBhTOqRE=; b=jW67KuQA/AjDUO0yWDzuPUJy61Zlz
+ t5TsNkTT8C1hu8CZGASNNkrfjp0kAAONrBFXUuU2miBWTw6yQXAsmG3MFENq+/0O
+ KcUra7zT9e8/f8Lbdy8MXGsmPjabmIX/ksliDw/i0u/l8Ws+hHLGBQH7OBd4oXGP
+ Ifp182UWvziS2ATU3hdHWKC7hE733OOIybdGHpZhHesdTihYILXzDdRauVvRRdun
+ qKEKb/PDvtUxTuyOmqlZpkkZf9Jl83Q34xMjg6HHVoKS07L0sXLuFtIvZdcqN13t
+ puZ7k2ueRhfJgDKymhbzAbK/4DPBrMu+VlkpOkyXWHBJM5YTMHsIULrZQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=Oz3/PVphhEItCX6yIcX+5zKBd/hZPa12wC8aRkpZNfU=; b=VNoobTl3
- /mihoQ+LAxinsJ0h2kHju0AMt67Qdx7NlegSpC7UOLCLb7QRFH33PcNGJhBdFYsJ
- px0sC0bzGGOk26oqVZBgA9GR49Q3DmseR2KVWyfB66jMlkkfQd2jHOWlOKqwVuAp
- DA2/XEfCUzmEYgVDLeFCi6LXd4yyu8vl+eJhqmFENQC4DnU2prSuA/Nuc18T2od/
- PjDKLSscGlFSNavhxJq97lRfCLd3x/Bf29qRpRcJ5TNF+vKMq5iP6/zE0HDxfgb/
- KrkXa95DMDL3Gc3vfpdKXAB2jnvqOzz2ZNj/3eyIOUG6FOwYaNfj1WKesroMuvqt
- U9eXMURgHx2CUw==
-X-ME-Sender: <xms:mDoiYODsJ2LDdpueebSQ49-qqQr5Sg1znwfMpB6MUlkKsj6krRDpaw>
- <xme:mDoiYIg3R5BcUm7MyjcqZ9f4JaMoXecK8tywQmhGMIOq0hu3gxEMeKldxbby_4Tp-
- nVQrzp2RdSvsGI7FII>
+ fm2; bh=ckfr3OuwiggXhdx+yEtpCspa7vk8ZRKFH0JCBhTOqRE=; b=FY15x56e
+ vDviieWun9FfhanYe9kI2C/v4eyOuX2kdJ8V6w/zmNvgOWp59AaAxt4K2jDI/rHR
+ 4JGhAnr8IVwiQbMkNIOZOtZ5N8iz5Pj2GcIztI/EjlH7AQJ8tO01cjoYkJCFRpuA
+ bN61D+2p2mKIzWBT8QX3dJG6b7w9iNwnG/dNJQ4U/4R8iwRNlkslmct17tibvN88
+ xsi7d8fJ7PW+5ugm9IhayXI0Oh4NumXquc06N+tT4SIcK0Xb1BOI400xOc8F0aYl
+ rkZLP6fmXxl4RJU4SpL83rADN6gnKqWfEt1Q8DBkh97YZjSkHN6Hu/ZfkLBaVvl5
+ RhW/5jubbPKPBQ==
+X-ME-Sender: <xms:mzoiYHkqxbmR5CH0oSOT2Wny16rDr9b_czpYEoX7UNkC0pnYRB7VHg>
+ <xme:mzoiYK3nnZrFNXsu3pxsJCKUhxB379KLKHGiYjfb8HIhnEAXwqbIv2AtnyIZNOZxG
+ JppWYfNkH8VZ0reOd0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggdduuddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,20 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggdduuddtucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvvd
  enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:mDoiYBkt94LRnFXtSbr8zXQeYP7mwc_3b267-wdaUS819x7zHQN-6A>
- <xmx:mDoiYMwVslu1nTnhKpG6aRe8h_KGPzpruK5gglrJhqCKDpSWvQinBg>
- <xmx:mDoiYDRUvEaUsKaBlqKBvYZXxZqyJFuETmU2i67VAhMmGuiShFM_8w>
- <xmx:mDoiYOGNHzbO_jdckQvwgOxqfxDRiliuy9BEwxPy3WX_qV6KEH1gFlkm6RQ>
+X-ME-Proxy: <xmx:mzoiYNpqPUT-WKNlmFGH2GNXse6AV4KYpJFz1pyfElbTfJ0ZbNA5QA>
+ <xmx:mzoiYPnGAQ6pLTuu58_7HN4RlgwkxM1LL00bytjNJUukVHJQoxL7Vw>
+ <xmx:mzoiYF0yVSd6hRM-m8az3y1DDzVmuSMuKY9M9JGb59JY6GK9-peWMw>
+ <xmx:nDoiYOK95DDAFrNZgTTiy-_NRF_xlf-2ogWLQcP--G9xY5HQb5WSVUww1aM>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 737B71080057;
- Tue,  9 Feb 2021 02:32:39 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 89FB41080057;
+ Tue,  9 Feb 2021 02:32:42 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 50/56] hw/block/nvme: error if drive less than a zone size
-Date: Tue,  9 Feb 2021 08:30:55 +0100
-Message-Id: <20210209073101.548811-51-its@irrelevant.dk>
+Subject: [PULL 52/56] hw/block/nvme: fix set feature save field check
+Date: Tue,  9 Feb 2021 08:30:57 +0100
+Message-Id: <20210209073101.548811-53-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210209073101.548811-1-its@irrelevant.dk>
 References: <20210209073101.548811-1-its@irrelevant.dk>
@@ -95,46 +95,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
  Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Minwoo Im <minwoo.im.dev@gmail.com>
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-If a user assigns a backing device with less capacity than the size of a
-single zone, the namespace capacity will be reported as zero and the
-kernel will silently fail to allocate the namespace.
+Currently, no features are saveable, so the current check is not wrong,
+but add a check against the feature capabilities to make sure this will
+not regress if saveable features are added later.
 
-This patch errors out in case that the backing device cannot accomodate
-at least a single zone.
-
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-[k.jensen: small fixup in the error and commit message]
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme-ns.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 3f52acb89c95..dfed71a950fa 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -134,6 +134,13 @@ static int nvme_ns_zoned_check_calc_geometry(NvmeNamespace *ns, Error **errp)
-     ns->num_zones = ns->size / lbasz / ns->zone_size;
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index b3d072c8b2bb..c99a3fbf3461 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -3324,7 +3324,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
  
-     /* Do a few more sanity checks of ZNS properties */
-+    if (!ns->num_zones) {
-+        error_setg(errp,
-+                   "insufficient drive capacity, must be at least the size "
-+                   "of one zone (%"PRIu64"B)", zone_size);
-+        return -1;
-+    }
-+
-     if (ns->params.max_open_zones > ns->num_zones) {
-         error_setg(errp,
-                    "max_open_zones value %u exceeds the number of zones %u",
+     trace_pci_nvme_setfeat(nvme_cid(req), nsid, fid, save, dw11);
+ 
+-    if (save) {
++    if (save && !(nvme_feature_cap[fid] & NVME_FEAT_CAP_SAVE)) {
+         return NVME_FID_NOT_SAVEABLE | NVME_DNR;
+     }
+ 
 -- 
 2.30.0
 
