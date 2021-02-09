@@ -2,78 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81FD314926
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 07:56:34 +0100 (CET)
-Received: from localhost ([::1]:43068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1587E31495E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 08:18:15 +0100 (CET)
+Received: from localhost ([::1]:48284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Mwr-0007oQ-Br
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 01:56:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40138)
+	id 1l9NHp-0002Tx-JP
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 02:18:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l9Mvm-0007Pa-Fa
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 01:55:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l9Mvi-0007S1-QB
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 01:55:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612853721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NJMimx48HKtRECD3FoOQLlAvYss4s6v6rfZ9xZ7h0hc=;
- b=ZPglxuBefS3FfNErGH6SuBvoULQpUS8LAvFGuaJGcKmDAUBq23p2YkMg0PFzdknneY4XjK
- X51kLeQ9HpurlSHzMI38bZ0U7mRd5xmfBwIrpCRH73Hz9q/YnFtY03riuYJ9VNVJPepq8T
- qavKeH6saWctsucxDkgvkLoUd51FE5M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-ZU7adVqTPuSMYDeclHNevg-1; Tue, 09 Feb 2021 01:55:19 -0500
-X-MC-Unique: ZU7adVqTPuSMYDeclHNevg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4ED7D427C1;
- Tue,  9 Feb 2021 06:55:18 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-130.ams2.redhat.com [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1EBB19C66;
- Tue,  9 Feb 2021 06:55:12 +0000 (UTC)
-Subject: Re: [PATCH 0/3] fix build failures from incorrectly skipped container
- build jobs
-To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20210208163339.1159514-1-berrange@redhat.com>
- <20210208172256.GM1141037@redhat.com>
- <cb8195b9-c8fc-9900-346a-fce0aba9eb83@amsat.org>
- <20210208181235.GN1141037@redhat.com>
- <11f66664-0879-51a7-31a3-3796f05a0b52@weilnetz.de>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b4da2153-1167-5128-ff2d-065b9b538152@redhat.com>
-Date: Tue, 9 Feb 2021 07:55:11 +0100
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l9NFq-0001we-LQ; Tue, 09 Feb 2021 02:16:10 -0500
+Received: from mail-eopbgr150105.outbound.protection.outlook.com
+ ([40.107.15.105]:57312 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l9NFj-0007qs-SK; Tue, 09 Feb 2021 02:16:10 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AidNNzo7WsFEfX/PCgA4pTaTU2KXRr5On6LR/5kLDCDl4ZCpJwDUAGOH1p2oAVXVPdioe8mSRhywm0BKSwrw6WBFk16I3Zhj0RpkkJOgC0QWnZAUAw6650rskEmCHONdsXXXPKjxC/U+FwIWUm7AahbeY4rZaU0HqKQ4mBUFNu0xlfG7HpWgL7+kuy8dDs8VDkkyFXsUKMjc5HQxheJFmphCJYi2+A8eySjvZiLnPRdSwKnPRbrH+LlmJkti3wyR0pzs6L2wxCx927qIaTnksVpV2kFfbgr2d9FYqw/cxDPmx+Ri2qO7ggltuH3ZCGezgtWWs1dqc6P0GmBTSzI9+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7v2KwnFlKi/wZnuu3JkCt8DwGFkQemssGYZ2NJWV8Mc=;
+ b=eQQ4gAusR5R/RAKyWUIuHQcCOfNfB5OFu/4M7+XbmKd59HkX2+kGnZ6a1Jx4dkyUtBK1ZjROW/P6sAfwwctABoVl4r2oLmP7qcwUgCTxHrAEOTaiuNBuxafU3wONCJOHx1smTurcijiCacHMJQnfUsDKMK79P9iWcpFGonomrlHc0A2yEd4JmlICwaujQiU5sMvK28mxPP0Pcwsi/AAJGKhALqCzIx9R8STfrm2PWQt9DQbohR7Il2yaiAlQnMDBBqlhdeIOzDSi+SwpwnPT4vhR+zlQTqVqcVhr/yitffARjZH1/FqyZYvvDar9mLvs2a6Y7gO5WMj48roEqqQDEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7v2KwnFlKi/wZnuu3JkCt8DwGFkQemssGYZ2NJWV8Mc=;
+ b=JbKGjGOriF7/jCN+MY6DEqvNKIRg7sNvHBcivqmE1Ys8uziMx8JktfvWuF96htDv6Hgg7OlIwBftj/JUWU5DTqzeCu+WbOsV6kdZTRp+HknNcf5m4CEgpvAq9S3Kadu1ES4tah8qawfr63oWMvodkWHvyHL9025v7PX1JyyJdqg=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6470.eurprd08.prod.outlook.com (2603:10a6:20b:33a::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25; Tue, 9 Feb
+ 2021 07:15:59 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%9]) with mapi id 15.20.3846.025; Tue, 9 Feb 2021
+ 07:15:59 +0000
+Subject: Re: [RFC PATCH v2 0/4] Allow changing bs->file on reopen
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
+References: <cover.1612809837.git.berto@igalia.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <271ef73e-dbc0-93bc-a7d4-1d80e063146d@virtuozzo.com>
+Date: Tue, 9 Feb 2021 10:15:56 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <11f66664-0879-51a7-31a3-3796f05a0b52@weilnetz.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <cover.1612809837.git.berto@igalia.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.215]
+X-ClientProxiedBy: AM9P193CA0011.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21e::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.215) by
+ AM9P193CA0011.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.21 via Frontend Transport; Tue, 9 Feb 2021 07:15:58 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 27d7fd1e-ea8e-48ed-214d-08d8ccca8cd5
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6470:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB64701A20D94CD27D5D27079AC18E9@AS8PR08MB6470.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VHzpqSVAyeCUdU9AFtu99nw+jie6sv+Ic59SqacbjaWibs3k4Kf6dz6LSIyyP8OrXO2XirR5s8to5MeYM2eRIx5dV7ymTJGojqcrNItant5Wk/kRZruiZOmCsNeTFCee0fjkiuHrIJ81Ez9MaPlfsYwN83hBCyY90iyKTY302OYq0XNH2vZNJkc62yBrgARexoDw5KQUvViaO6zTzfHXi0DGVHdoUQyphrfoFd0va7FtaKiIA0e6nckOIKizt2iDbHZ24Uvx3PJ2GQGV0csj3j2IDzNuAd4qhXeGVcHj2bBA7QD4FTYGa/zqXAvORuVsTvI2Ykfa4ZrYK/sD7gySDGQQygdVGvbIW6THF7QPpdhnE3s37B42IG1d+FMlMp59vEaV6Cr+e5tMg2kdw4gdhpByr52aWfLfE5xJEZeFb7qxKFFvL4NZp9MwWSguCfN/32nloSQb3sHpqk17zDSIKZSmyYJa6/FqKW9Sb2/W35XeI+8ZDahh63YuAWQw2iwUEGVMHLFoscmKB/fNBsNl3d4FEhapAY2TZ67Kc3RR90sQFRCHjuY81uIfHd+jZt63DcxJgx31hQjhVg+dmhJapMiq4vGNkCAspPQ0MVKJveyhhW1nH/Pako5jK1Bif7stbtnGW2Sb3Cd7UiuuM+SawS1/3cq6zof3dYCnGeavvDfD/FWYJbgzxz7GZdbB1Js4
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39830400003)(2616005)(956004)(16526019)(36756003)(186003)(52116002)(26005)(4326008)(478600001)(5660300002)(966005)(2906002)(316002)(16576012)(6486002)(54906003)(66556008)(66476007)(8676002)(8936002)(66946007)(31696002)(86362001)(31686004)(83380400001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TkVCbERMK0h5QU1PbUtkR0tXTENsOWJtRStKTjNLRE5kY2U4Q2Eza01BaFVC?=
+ =?utf-8?B?amNvLzlSNjR5c1doNmFzZDBIakVMK1k4NU5IUmFRaW4reFJaQis5djRtd2dO?=
+ =?utf-8?B?NjBtV09WRmhJVUlQVitOS29HdjdiMGhHbUYxVlljbkJMN1pQVUJ5bElUblZD?=
+ =?utf-8?B?NmRzN3JZcXZiU3hVVi9zRTd2ckNZTC9rVGdUeStqM0xNanB3NGJYMTQybmM3?=
+ =?utf-8?B?UVNnOXJ6SnJWVExPSk9raU1MZEZxMlRVQ21haFdFTXY2VGFnV3ZFUWJIbE14?=
+ =?utf-8?B?NG5wL00yVDJwUDdTVzFMbUlVcXRkMjFtVGJjakxpL0hlbjEvcFR4bG9paVVB?=
+ =?utf-8?B?MGFJbk0zbzdLc01tUnQ1MDZHVVE3d3dyMVlNNGJ0Tm5YdUJaNU9qOW5Gbmlw?=
+ =?utf-8?B?MmU5dEJ6K0kxOVMrbld2ZFB2NmRZdFJhb3hMQXZPUm83bHRQbFUxVVZJNW1w?=
+ =?utf-8?B?b05qV2pyUnNWV25PV0JVQlVYcVZzVFZOc2tKQnE2K3dRc0NhT3NMc3BEZ3p2?=
+ =?utf-8?B?QzVPQXY5YS9ZMUpUb3lFMFJJS2dsdUdvTHk3SjlNM3JjeFgxR0p3Y3QzUVAw?=
+ =?utf-8?B?OHNpZ1d5dkduU0VHb3VwaXB6cnZ1YW50TkdFT0RGdFRrOVFYcE0xdGhTUDhq?=
+ =?utf-8?B?cit2YlBYQlpDTWdMUFMwNFZPUTR6SUZEMUE2aDI5bzFJK3hpRHdFVnRtdlJI?=
+ =?utf-8?B?MjhJMStQaEc2VkZCRkorb1kxbDFnUmtGSGpmMEFFdHBOUDUvcWdGVGRCRlRB?=
+ =?utf-8?B?SklaeWh1anRRTUpFMnIwL2x5eUd1cGVaZG92YWdVcWk2U2QvdjB6WDEwblM5?=
+ =?utf-8?B?TDRLSEEvTHVIMTY4em1iWVEzZEFUQ0I0R3dYVysyTVRNN1hqRzhYZStBN0Zy?=
+ =?utf-8?B?c0R3bjQybnIwVUR1dWx3bnU0ek42N1IvR3VwTG9xM1NvYlEza1ppbnMrUFBN?=
+ =?utf-8?B?QkRUaW5GZjRMV0VVZ0hZNW9NYVgzWEk2cVFYRjlIK3VWZitXSG5jWTNqUktu?=
+ =?utf-8?B?QUUzcGoyQWNza0hUTFFLenNGNzZvbVNvV25yOU1qai81YlZUZTZxLzdEVWlM?=
+ =?utf-8?B?TWR3Vk9UK2l2bDFZYUpUR2FnUlVReDMzYTJXdnMyK2xmL1Fsd3Q0dnVPNW5X?=
+ =?utf-8?B?L3RDOG1SS3lpSGw1dkJJbW5peDlBb2xTNnRoS3d4WGdjRHRtQ0l0Y1oyY0RR?=
+ =?utf-8?B?RjFZOU9PcHBlVlVsM0gzZnI1c09kUWFHdmo3K1VZOFgyd1huWTZmc2t5dzlO?=
+ =?utf-8?B?VU52SUZPbXhpQWZrK1JnQ0Q3QlVIMHBjZml3aTlaeTFFa1R3dFY4UkNPdGN4?=
+ =?utf-8?B?N212UldvMC96V2ttSi95aHlSV21HeFE0UjhjK2NMcHE1SVVuL2ZUcEpIVjJr?=
+ =?utf-8?B?Uy9TTTYzNzN0UjlpR3JmaHJmY2ttZDA0czVYWW03eDBFcUtmcERQM2ZmUkM2?=
+ =?utf-8?B?bzZJNVNJQnF3SzNIWlFaaDI3N3ZLMTdiQmpxSjhXR0JWZDRDbmhFd28wYXZr?=
+ =?utf-8?B?NjlPYjVldVVwQWdsSk1ScWdMRGdaWXpXYzBNZi9qTCtKRG40aGF1Qm5KdlFX?=
+ =?utf-8?B?NDRBQ05pcmFodmFsQzl5WVlsaFlVbCtIdVZoNE4xdjZkQWxvMkdjTk5qOXh5?=
+ =?utf-8?B?RHN2YngxM3hUYlBUN2tqUDRIbTFPcVNRWUJqbG01dk9Ka2YvUVpjYmdUWlEy?=
+ =?utf-8?B?LzZFZ1FYak1ISVhWYTAza3d6Y0ViNzZtT1NjdElDTnlUZUNEMXBKbnU2UVRo?=
+ =?utf-8?Q?Xg6snlpBvVTnrZ7vXoFGAL+x12z5VrUAvCXxHGs?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27d7fd1e-ea8e-48ed-214d-08d8ccca8cd5
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2021 07:15:59.3911 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V0CHmEHHAJCndLfzu1pi27FOelBHuT4yqpJLYh9XNT7VEpjQsPe8azDbtOYFNFyhGAyBlRM/XtY0BbjoO55TPGjlN5kW819Sf/TAx/t6k/M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6470
+Received-SPF: pass client-ip=40.107.15.105;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,81 +143,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/02/2021 07.01, Stefan Weil wrote:
-> Am 08.02.21 um 19:12 schrieb Daniel P. Berrangé:
+08.02.2021 21:44, Alberto Garcia wrote:
+> Hi,
 > 
->> On Mon, Feb 08, 2021 at 07:08:39PM +0100, Philippe Mathieu-Daudé wrote:
->>> On 2/8/21 6:22 PM, Daniel P. Berrangé wrote:
->>>> On Mon, Feb 08, 2021 at 04:33:36PM +0000, Daniel P. Berrangé wrote:
->>>>> This series fixes a problem with our gitlab CI rules that cause
->>>>> container builds to be skipped. See the commit description in the
->>>>> first patch for the details on this problem.
->>>>>
->>>>> The overall result of this series though is a small increase in overall
->>>>> pipeline time.
->>>>>
->>>>> Previously
->>>>>
->>>>>   - When container jobs are skipped: approx 1hr 5 mins
->>>>>   - When container jobs are run, cached by docker: approx 1hr 15 mins
->>>>>   - When container jobs are run, not cached by docker: approx 1hr 30 mins
->>>>>
->>>>> With this series applied the first scenario no longer exists, so
->>>>> all piplines are either 1hr 15 or 1hr 30 depending on whether the
->>>>> container phase is skipped.
->>>> I mean to say the biggest problem I see is the cross-win64-system
->>>> job. This consumes 1 hour 5 minutes all on its own. It is at least
->>>> 15 minutes longer that every other job AFAICT. So no matter how
->>>> well we parallelize stuff, 1 hr 5 is a hard lower limit on pipeline
->>>> duration right now.
->>>>
->>>> We might want to consider how to split the win64 job or cut down
->>>> what it does in some way ?
->>> When the win64 build was added (on Debian), it was to mostly to cover
->>> the WHPX. Later we moved mingw jobs to Fedora. I just checked and
->>> WHPX is no more built, and nobody complained, so it is not relevant
->>> anymore.
->>>
->>> I don't mind much what you do with the Gitlab win64 job, as this config
->>> is better covered on Cirrus. I'd like to keep the win32 job because it
->>> has been useful to catch 32-bit issues.
->> I'm not suggesting we remove it. Most developers won't setup Cirrus CI,
->> so will only run GitLab CI jobs.  IME it is good to have both win32
->> and win64 coverage because things do break differently on them - especially
->> if you use bad printf format strings that are not independant of host
->> word size
+> this series allows changing bs->file using x-blockdev-reopen. Read
+> here for more details:
 > 
+>     https://lists.gnu.org/archive/html/qemu-block/2021-01/msg00437.html
 > 
-> I would not say that something is not relevant just because nobody 
-> complains. Nobody would miss any CI if everything were always fine. So 
-> people would miss WHPX CI as soon as there are changes (which happen 
-> infrequently) and something breaks. WHPX should be covered by the w64 build, 
-> and as many as possible other features where I currently see a "NO" in the 
-> configure output as well.
-
-Yes, I agree, we should add WHPX there again. Could somebody please check 
-whether the headers are already available in the latest Fedora? Then we 
-might simply switch the container to use the latest version of Fedora instead.
-
-Otherwise we should install the headers manually there, like we did in 
-commit d3dd34a1e5e134 for the now-removed Debian container.
-
-> Nevertheless I don't think that each CI job must run frequently. Each run 
-> not only costs time, but also energy, and contributes to our climate change.
+> Version 2 of the series introduces a very significant change:
+> x-blockdev-reopen now receives a list of BlockdevOptions instead of
+> just one, so it is possible to reopen multiple block devices using a
+> single transaction.
 > 
-> I think that for the win32 and win64 jobs it would be sufficient to run them 
-> weekly, maybe even alternating if that is possible.
+> This is still an RFC, I haven't updated the documentation and the
+> structure of the patches will probably change in the future, but I'd
+> like to know your opinion about the approach.
+> 
+> These patches apply on top of Vladimir's branch:
+> 
+> git: https://src.openvz.org/scm/~vsementsov/qemu.git
+> tag: up-block-topologic-perm-v2
 
-Maybe it would be sufficient to run those jobs only on tags (so that they 
-get checked for pull requests) and on the master and staging branch?
+Patchew understands "Based-on: MESSAGE_ID" tag, so, you can add:
 
-  Thomas
+Based-on: <20201127144522.29991-1-vsementsov@virtuozzo.com>
 
+> 
+> Regards,
+> 
+> Berto
+> 
+> Alberto Garcia (4):
+>    block: Allow changing bs->file on reopen
+>    iotests: Update 245 to support replacing files with x-blockdev-reopen
+>    block: Support multiple reopening with x-blockdev-reopen
+>    iotests: Test reopening multiple devices at the same time
+> 
+>   qapi/block-core.json       |   2 +-
+>   include/block/block.h      |   2 +
+>   block.c                    |  81 +++++++++++++++++++++--
+>   blockdev.c                 |  85 +++++++++++++-----------
+>   tests/qemu-iotests/155     |   9 ++-
+>   tests/qemu-iotests/165     |   4 +-
+>   tests/qemu-iotests/245     | 128 ++++++++++++++++++++++++++++++++-----
+>   tests/qemu-iotests/245.out |   4 +-
+>   tests/qemu-iotests/248     |   2 +-
+>   tests/qemu-iotests/248.out |   2 +-
+>   tests/qemu-iotests/298     |   4 +-
+>   11 files changed, 254 insertions(+), 69 deletions(-)
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
