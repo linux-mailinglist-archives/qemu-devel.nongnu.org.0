@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD244314C0E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 10:50:15 +0100 (CET)
-Received: from localhost ([::1]:54290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA2E314C29
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 10:55:14 +0100 (CET)
+Received: from localhost ([::1]:57278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Pew-0001iC-Ts
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 04:50:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47564)
+	id 1l9Pjl-0003Ju-WD
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 04:55:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9PdJ-00006N-Qn
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 04:48:33 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:46102)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9PdH-0002xr-MO
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 04:48:33 -0500
-Received: by mail-ej1-x635.google.com with SMTP id w2so30181445ejk.13
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 01:48:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UV3Ald51C/URpeClH96E0RwyCJdqlNWKHu5uQ9juGKQ=;
- b=Jqd1sojaBOKY3589jwy4psmOeemVevOETApFA5qDwej322SGZaDn+4e8Se96fOL43j
- YRF0H9rJo4RGHaj9ONeMs55lbYJ7KShBlpZcxAsAN8WXGIP0T4mJ8WMbJ7vvvNKuMT0m
- /B4O3e3inANV4SrAsj2mMfRJ2j36YHiiKnfHrVrMmh3setxT9A9eM3dkGrRz8WL8IakI
- 5hs8ePUFDh39cmVDhNx0x5INQeonfnykF1MyM42exCcBI8h7+xtxqTjjrEZ7For+uEGL
- jKuya90Cb9np6IThMbcvdiL+LfryCHYnNyCzn82q+X4bXYysR28T8YG0cfLgtMat1YzN
- gJxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UV3Ald51C/URpeClH96E0RwyCJdqlNWKHu5uQ9juGKQ=;
- b=dewtLB2urEkTENmUsCGhXTuZgIISCTTU3yvESbWhb6An3NHzur+ampuqROnk4wmmHB
- c2/EfrQqzXOeFhjq7b01f599rdQN33cksTF4jmslZyVkVH28JX1zv9u4yFoJIJ+rv6TU
- OrSktY9JcbyoD9v5gAAR04tbocA47vaTXveJSph0I1cTk4b0F821exNkpWdpVk1Zn58q
- mexTNXe05F7bP9Bn8ATd4s8i6XDugHPw1iiCgslR5NEOTZVq6MA0iF/790xRAYIwAZ1i
- kkQYxk1M5YRQXvcTS3oz60cOyOkPmZljItscoj8i/HBNJ4YzH8XFqGqtWudkQnjIHFAg
- mTtQ==
-X-Gm-Message-State: AOAM5333ZK01lK3gq62CWqv34v22ls04x1DfS0Bp77y82MzTfEb1I4K/
- WQtZgNYBUIjQ68Fm6OY4+2/tkaBnuMLnb2SWY01y2g==
-X-Google-Smtp-Source: ABdhPJyUBtlPY6eIhshRbeUpDBQiQgSTDcJ8VS98GeZXhuKe/xxriH+hUurs6ncjVYusVRkjvjClJ3QUWS7FO4dpHq4=
-X-Received: by 2002:a17:906:2e4f:: with SMTP id
- r15mr21547469eji.407.1612864109852; 
- Tue, 09 Feb 2021 01:48:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l9PiU-0002t0-2x
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 04:53:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l9PiR-0005HZ-IU
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 04:53:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612864430;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y6vnNGn+4PY7DHP/uyubPPOz0yjOlDfubVx4yApwIiQ=;
+ b=KoTXUNB9a7ged/iB8NLW3mymMGQ/ubW8u7jvECkoTXuO3hdgWhOj8L47pUWiF2KYbsV1c0
+ CUufvWIN4Fa2W/8+M6M3GiUkB0CC4nw1UMB/WaBeHpGxM7aB/XVfByg23IoMrIXEg+W3xC
+ ue5NT85tMA/C7kD2eLozuYW1gWGRDVE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450--38ulYqVN4e4zzBU9XEQSw-1; Tue, 09 Feb 2021 04:53:39 -0500
+X-MC-Unique: -38ulYqVN4e4zzBU9XEQSw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BD051020C23;
+ Tue,  9 Feb 2021 09:53:38 +0000 (UTC)
+Received: from redhat.com (ovpn-115-66.ams2.redhat.com [10.36.115.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 34BB11A878;
+ Tue,  9 Feb 2021 09:53:32 +0000 (UTC)
+Date: Tue, 9 Feb 2021 09:53:29 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH 0/3] fix build failures from incorrectly skipped
+ container build jobs
+Message-ID: <20210209095329.GB1166421@redhat.com>
+References: <20210208163339.1159514-1-berrange@redhat.com>
+ <20210208172256.GM1141037@redhat.com>
+ <cb8195b9-c8fc-9900-346a-fce0aba9eb83@amsat.org>
+ <20210208181235.GN1141037@redhat.com>
+ <11f66664-0879-51a7-31a3-3796f05a0b52@weilnetz.de>
 MIME-Version: 1.0
-References: <1612833761-43234-1-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1612833761-43234-1-git-send-email-bmeng.cn@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Feb 2021 09:48:18 +0000
-Message-ID: <CAFEAcA-yPsHpq+q7osCKTGGJ7LiHdMWFxuxJN9Gyey5dJvjWcw@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/net: fsl_etsec: Reverse the RCTRL.RSF logic
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <11f66664-0879-51a7-31a3-3796f05a0b52@weilnetz.de>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,82 +86,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Yonggang Luo <luoyonggang@gmail.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Feb 2021 at 01:22, Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> Per MPC8548ERM [1] chapter 14.5.3.4.1:
->
-> When RCTRL.RSF is 1, frames less than 64 bytes are accepted upon
-> a DA match. But currently QEMU does the opposite.
->
-> When RCTRL.RSF is 0, short frames are silently dropped, however
-> we cannot drop such frames in QEMU as of today, due to both slirp
-> and tap networking do not pad short frames (e.g.: an ARP packet)
-> to the minimum frame size of 60 bytes.
->
-> If eTSEC is programmed to reject short frames, ARP requests will be
-> dropped, preventing the guest from becoming visible on the network.
->
-> The same issue was reported on e1000 and vmxenet3 before, see:
->
-> commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-> commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
->
-> Ideally this should be fixed on the slirp/tap networking side to
-> pad short frames to the minimum frame length, but I am not sure
-> whether that's doable.
->
-> This commit reverses the RCTRL.RSF testing logic to match the spec.
-> The log message is updated to mention the reject short frames
-> functionality is unimplemented.
->
-> [1] https://www.nxp.com/docs/en/reference-manual/MPC8548ERM.pdf
->
-> Fixes: eb1e7c3e5146 ("Add Enhanced Three-Speed Ethernet Controller (eTSEC)")
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On Tue, Feb 09, 2021 at 07:01:49AM +0100, Stefan Weil wrote:
+> Am 08.02.21 um 19:12 schrieb Daniel P. Berrangé:
+> 
+> > On Mon, Feb 08, 2021 at 07:08:39PM +0100, Philippe Mathieu-Daudé wrote:
+> > > On 2/8/21 6:22 PM, Daniel P. Berrangé wrote:
+> > > > On Mon, Feb 08, 2021 at 04:33:36PM +0000, Daniel P. Berrangé wrote:
+> > > > > This series fixes a problem with our gitlab CI rules that cause
+> > > > > container builds to be skipped. See the commit description in the
+> > > > > first patch for the details on this problem.
+> > > > > 
+> > > > > The overall result of this series though is a small increase in overall
+> > > > > pipeline time.
+> > > > > 
+> > > > > Previously
+> > > > > 
+> > > > >   - When container jobs are skipped: approx 1hr 5 mins
+> > > > >   - When container jobs are run, cached by docker: approx 1hr 15 mins
+> > > > >   - When container jobs are run, not cached by docker: approx 1hr 30 mins
+> > > > > 
+> > > > > With this series applied the first scenario no longer exists, so
+> > > > > all piplines are either 1hr 15 or 1hr 30 depending on whether the
+> > > > > container phase is skipped.
+> > > > I mean to say the biggest problem I see is the cross-win64-system
+> > > > job. This consumes 1 hour 5 minutes all on its own. It is at least
+> > > > 15 minutes longer that every other job AFAICT. So no matter how
+> > > > well we parallelize stuff, 1 hr 5 is a hard lower limit on pipeline
+> > > > duration right now.
+> > > > 
+> > > > We might want to consider how to split the win64 job or cut down
+> > > > what it does in some way ?
+> > > When the win64 build was added (on Debian), it was to mostly to cover
+> > > the WHPX. Later we moved mingw jobs to Fedora. I just checked and
+> > > WHPX is no more built, and nobody complained, so it is not relevant
+> > > anymore.
+> > > 
+> > > I don't mind much what you do with the Gitlab win64 job, as this config
+> > > is better covered on Cirrus. I'd like to keep the win32 job because it
+> > > has been useful to catch 32-bit issues.
+> > I'm not suggesting we remove it. Most developers won't setup Cirrus CI,
+> > so will only run GitLab CI jobs.  IME it is good to have both win32
+> > and win64 coverage because things do break differently on them - especially
+> > if you use bad printf format strings that are not independant of host
+> > word size
+> 
+> 
+> I would not say that something is not relevant just because nobody
+> complains. Nobody would miss any CI if everything were always fine. So
+> people would miss WHPX CI as soon as there are changes (which happen
+> infrequently) and something breaks. WHPX should be covered by the w64 build,
+> and as many as possible other features where I currently see a "NO" in the
+> configure output as well.
+> 
+> Nevertheless I don't think that each CI job must run frequently. Each run
+> not only costs time, but also energy, and contributes to our climate change.
+> 
+> I think that for the win32 and win64 jobs it would be sufficient to run them
+> weekly, maybe even alternating if that is possible.
 
+I think that would be a major step backwards. Not only do we need these
+jobs to be gating for merges into git master to prevent regressions getting
+merged, but we want want to stop contributors and subsystem maintainers
+sending broken patch series.  Not running them every time will loose these
+protections.
 
-> -    if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
-> +    /*
-> +     * Both slirp and tap networking do not pad short frames
-> +     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
-> +     *
-> +     * If eTSEC is programmed to reject short frames, ARP requests
-> +     * will be dropped, preventing the guest from becoming visible
-> +     * on the network.
-> +     */
-> +    if (!(etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
->          /* CRC is not in the packet yet, so short frame is below 60 bytes */
-> -        RING_DEBUG("%s: Drop short frame\n", __func__);
-> -        return -1;
-> +        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
->      }
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-This change is doing two things at once.
-
-One of them is an entirely uncontroversial bug fix: we
-got the sense of the RCTRL_RSF test the wrong way round.
-
-The other is different: it is working around a bug elsewhere in QEMU.
-
-If there's a problem with packets that should not be short
-frames being presented to ethernet devices as short frames,
-please fix that bug at the source. I don't think we should
-take any more device-model workarounds for it. We have lots
-and lots of ethernet device models: it will be much more
-effort to try to fix them all one by one as people encounter
-this bug than it would be to just fix the code that's creating
-bogus short frames.
-
-David, could you drop this from your queue, please ?
-
-thanks
--- PMM
 
