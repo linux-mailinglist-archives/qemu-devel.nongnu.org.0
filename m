@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870D43154A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 18:06:50 +0100 (CET)
-Received: from localhost ([::1]:55348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE653154B2
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 18:10:07 +0100 (CET)
+Received: from localhost ([::1]:36622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9WTM-0003GD-0F
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 12:06:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
+	id 1l9WWc-0007Yu-4K
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 12:10:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9WOL-0000aw-9Y
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:01:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37226)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9WOI-0003e6-Bw
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:01:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612890088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=C8Xffz0J0Y47gvusmVO0935zMBbfmfZkBD6TpcslbUE=;
- b=R14LnRcPf0pggHJZa5IX2qach2pl0JA8H9+gb/24P7jzsLft2OhxExxvQbkykKfQ7v0O3f
- 12q6O7UPtbSVUdihTD8n/k4knccB83NYxzyoF/oRl5idrZLnAqMafE9slh9R3/1EkZlJA0
- eZs/5hcYeg283x+vqjbr0Hny2+D/baE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-uzTLiRpaO_aLuSqjlHBhsw-1; Tue, 09 Feb 2021 12:01:25 -0500
-X-MC-Unique: uzTLiRpaO_aLuSqjlHBhsw-1
-Received: by mail-ej1-f71.google.com with SMTP id bx12so16528296ejc.15
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 09:01:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9WSe-0003uG-RN
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:06:00 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:43479)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9WSb-000549-Qy
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 12:06:00 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id s26so18979394edt.10
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 09:05:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5OCeOB2Pz9RoBRF6rrH2VE2yAQyN9LwRoqv0hHAvqc4=;
+ b=SsJvzoGpixOAGBvukb3id6nuaxmDHVFKKnkQURbaj5QX0LpQE+l0Rs85SgNWoAKWwo
+ TChtdRB7pScV0lKb3UOSUfh3Pj76GyoyH8O/69dE3jh4Nwhl1466kxNQHUbo8D8Oc+20
+ D4AGlLwrgsBnCLK9ptKB/4b9nMk5/UPNBzNdlXMYUXWzMCSB6WPogUSXrFDRlx6n0qEY
+ oHsikXIdOgesMWuBEpCxZA6UYAhLBwEBzBl0NqK41ZZpodqgmW/0dyL+SoIweQE3MDbL
+ PO1JLZohRVNeHeANCCYMbDdr+52Uf4R/x6ozyd6w0/sLkBkvlA7gH8KstDmPuhRYpO9A
+ 0hQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=C8Xffz0J0Y47gvusmVO0935zMBbfmfZkBD6TpcslbUE=;
- b=o68lO4tD8qKnPYMf5p4xPn8uNA7rRW4pQdAD8hbG82s7FCfIBmlC0Km+OMdjpTS89R
- eMMAefKRBcGHOmzGxWdWIDCgPyy10sbcHrSHVceB4nB1lC1tC+6YyeoVmUWlJbBVmplZ
- KChi59a1rYS7c5bA+jQUdUcjBZmfMagw+y9JcnwNxy6jLFkmKqewivxAAoLPGpugH8V1
- 6sxbWBPTw6fF4hedVuEg1OUomTMp1cZODyqt9eZ/XYDRCX8BKyEgQiU/fLT4KyuWlofn
- +2yrRf6KdHi/FGMFNQDgFoO0Y2tIqDHe81iW3dETDyz7wuRr05PA+x1HKRJVHeDzSaJ7
- b9Hw==
-X-Gm-Message-State: AOAM532wWBPVgwXEpOWXmrECji9l4jDVBNMIWFtYf2mYBEQi4UdhPEtu
- DI1oumULjoKSQxhQ/VeJ0HfVhaRL/wcebyCiEOn4ObCRhpNKf89EOkG08Ql+75tpQj9K+siIPY+
- f0CupEC/X0nJlcVEoYwnbbc6HwSmGi1bJsCbil41maWtIUME26dMpSXczhIhviqW6
-X-Received: by 2002:a17:906:f6c7:: with SMTP id
- jo7mr24093828ejb.178.1612890084218; 
- Tue, 09 Feb 2021 09:01:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy7L/oKF6hCoEpdvC17xHchOJH18yqL/k+koXeETx2sLfzxz5bkz4boGwzxKbYxcRXXjizpSA==
-X-Received: by 2002:a17:906:f6c7:: with SMTP id
- jo7mr24093799ejb.178.1612890083789; 
- Tue, 09 Feb 2021 09:01:23 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id p16sm10976880eja.109.2021.02.09.09.01.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 09:01:23 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] block/null: Use 'read-zeroes' mode by default
-Date: Tue,  9 Feb 2021 18:01:21 +0100
-Message-Id: <20210209170121.3310151-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5OCeOB2Pz9RoBRF6rrH2VE2yAQyN9LwRoqv0hHAvqc4=;
+ b=GVGfKHGxXsolyQB9Ux9mXkdi5cIIielpfjohQHSTD+0aq3Xm3pXKPlusTia1lKNjvL
+ bjwOJ7OOYKUBufWJkU8Dp4ObwTya17X0u1TmeAD9Tg64nUpJ+GLVZn4kNCcbflqh/YnT
+ HRFsWNWhYan67f96smwVzAY+PBF/V0LKzQSbkPWHBv/zKtX7w7Vj99LKLJNse2mVJtls
+ u7i+O/qblK6hHhRw15Gexc++m0qor3g3NaC8K5Yq+BfX8RnxizmJZl3yb7Ig7Hfk89yg
+ OKkquQViRr4OOSLQ6c5f02qcd1MgeKlGHm56OZN0DNEC5PsyqdwZT2RmslA/2RFocrIo
+ GbOw==
+X-Gm-Message-State: AOAM531nh3Qtg1iP+Q3uf5RAruVUFDMXnDXdXD0O29/LuZXcrw7Z1UOa
+ asFKkv8cvOrppckxYg0B744AlSXL24Cb3oQJSCjLLg==
+X-Google-Smtp-Source: ABdhPJzAQqrSLMbaVY0dr5zSF4F0z+xPNgOtIq7mO+qIdwcnfazqF1o8Ry3hM8NszzYt7EtG0GnnPlDRNQGqauBt5WU=
+X-Received: by 2002:a05:6402:541:: with SMTP id
+ i1mr15274302edx.36.1612890355993; 
+ Tue, 09 Feb 2021 09:05:55 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210208233906.479571-1-richard.henderson@linaro.org>
+ <20210208233906.479571-3-richard.henderson@linaro.org>
+In-Reply-To: <20210208233906.479571-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Feb 2021 17:05:44 +0000
+Message-ID: <CAFEAcA9bW7GPT7sz0GVDdYeV3ttxYL+UPUiNjHRt81r+BQRFtg@mail.gmail.com>
+Subject: Re: [PATCH 2/4] accel/tcg: Create io_recompile_replay_branch hook
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,63 +78,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The null-co driver is meant for (performance) testing.
-By default, read operation does nothing, the provided buffer
-is not filled with zero values and its content is unchanged.
+On Tue, 9 Feb 2021 at 00:29, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Create a hook in which to split out the mips and
+> sh4 ifdefs from cpu_io_recompile.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/hw/core/tcg-cpu-ops.h | 10 ++++++++++
+>  accel/tcg/translate-all.c     | 17 +++++++++++++----
+>  2 files changed, 23 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+> index ac3bb051f2..ddf334411f 100644
+> --- a/include/hw/core/tcg-cpu-ops.h
+> +++ b/include/hw/core/tcg-cpu-ops.h
+> @@ -88,6 +88,16 @@ struct TCGCPUOps {
+>       */
+>      bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
+>
+> +    /**
+> +     * @io_recompile_replay_branch: Callback for cpu_io_recompile.
+> +     *
+> +     * The cpu has been stoped, and cpu_restore_state_from_tb has been
 
-This can confuse security experts. For example, using the default
-null-co driver, buf[] is uninitialized, the blk_pread() call
-succeeds and we then access uninitialized memory:
+"stopped"
 
-  static int guess_disk_lchs(BlockBackend *blk,
-                             int *pcylinders, int *pheads,
-                             int *psectors)
-  {
-      uint8_t buf[BDRV_SECTOR_SIZE];
-      ...
+> +     * called.  If the faulting instruction is in a delay slot, and the
+> +     * target architecture requires re-execution of the branch, then
+> +     * adjust the cpu state as required and return true.
+> +     */
+> +    bool (*io_recompile_replay_branch)(CPUState *cpu,
+> +                                       const TranslationBlock *tb);
+>  #endif /* CONFIG_SOFTMMU */
 
-      if (blk_pread(blk, 0, buf, BDRV_SECTOR_SIZE) < 0) {
-          return -1;
-      }
-      /* test msdos magic */
-      if (buf[510] != 0x55 || buf[511] != 0xaa) {
-          return -1;
-      }
-
-We could audit all the uninitialized buffers and the
-bdrv_co_preadv() handlers, but it is simpler to change the
-default of this testing driver. Performance tests will have
-to adapt and use 'null-co,read-zeroes=on'.
-
-Suggested-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-RFC maybe a stricter approach is required?
----
- block/null.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/block/null.c b/block/null.c
-index cc9b1d4ea72..f9658fd70ac 100644
---- a/block/null.c
-+++ b/block/null.c
-@@ -93,7 +93,7 @@ static int null_file_open(BlockDriverState *bs, QDict *options, int flags,
-         error_setg(errp, "latency-ns is invalid");
-         ret = -EINVAL;
-     }
--    s->read_zeroes = qemu_opt_get_bool(opts, NULL_OPT_ZEROES, false);
-+    s->read_zeroes = qemu_opt_get_bool(opts, NULL_OPT_ZEROES, true);
-     qemu_opts_del(opts);
-     bs->supported_write_flags = BDRV_REQ_FUA;
-     return ret;
--- 
-2.26.2
-
+thanks
+-- PMM
 
