@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB74315727
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 20:49:48 +0100 (CET)
-Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130033156EE
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 20:40:11 +0100 (CET)
+Received: from localhost ([::1]:40242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Z19-0008Pj-Iz
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 14:49:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57178)
+	id 1l9Yrq-0004kf-1b
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 14:40:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l9Yin-0003k6-NM
+ id 1l9Yio-0003k7-PD
  for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:30:50 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56736
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56744
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l9Yid-00020c-1g
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:30:44 -0500
+ id 1l9Yie-00020l-8p
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:30:49 -0500
 Received: from host109-153-84-1.range109-153.btcentralplus.com ([109.153.84.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l9Yir-0007pt-4J; Tue, 09 Feb 2021 19:30:58 +0000
+ id 1l9Yix-0007pt-03; Tue, 09 Feb 2021 19:31:03 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Tue,  9 Feb 2021 19:29:37 +0000
-Message-Id: <20210209193018.31339-2-mark.cave-ayland@ilande.co.uk>
+Date: Tue,  9 Feb 2021 19:29:38 +0000
+Message-Id: <20210209193018.31339-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
 References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 01/42] esp: checkpatch fixes
+Subject: [PATCH v2 02/42] esp: rename existing ESP QOM type to SYSBUS_ESP
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,147 +63,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/scsi/esp.c | 52 ++++++++++++++++++++++++++++++---------------------
- 1 file changed, 31 insertions(+), 21 deletions(-)
+The existing ESP QOM type currently represents a sysbus device with an embedded
+ESP state. Rename the type to SYSBUS_ESP accordingly.
 
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/dma/sparc32_dma.c  | 4 ++--
+ hw/m68k/q800.c        | 4 ++--
+ hw/mips/jazz.c        | 4 ++--
+ hw/scsi/esp.c         | 8 ++++----
+ hw/sparc/sun4m.c      | 2 +-
+ include/hw/scsi/esp.h | 4 ++--
+ 6 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
+index b643b413c5..03bc500878 100644
+--- a/hw/dma/sparc32_dma.c
++++ b/hw/dma/sparc32_dma.c
+@@ -295,13 +295,13 @@ static void sparc32_espdma_device_init(Object *obj)
+     memory_region_init_io(&s->iomem, OBJECT(s), &dma_mem_ops, s,
+                           "espdma-mmio", DMA_SIZE);
+ 
+-    object_initialize_child(obj, "esp", &es->esp, TYPE_ESP);
++    object_initialize_child(obj, "esp", &es->esp, TYPE_SYSBUS_ESP);
+ }
+ 
+ static void sparc32_espdma_device_realize(DeviceState *dev, Error **errp)
+ {
+     ESPDMADeviceState *es = SPARC32_ESPDMA_DEVICE(dev);
+-    SysBusESPState *sysbus = ESP(&es->esp);
++    SysBusESPState *sysbus = SYSBUS_ESP(&es->esp);
+     ESPState *esp = &sysbus->esp;
+ 
+     esp->dma_memory_read = espdma_memory_read;
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 2af0e2532e..af54d509ff 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -356,8 +356,8 @@ static void q800_init(MachineState *machine)
+ 
+     /* SCSI */
+ 
+-    dev = qdev_new(TYPE_ESP);
+-    sysbus_esp = ESP(dev);
++    dev = qdev_new(TYPE_SYSBUS_ESP);
++    sysbus_esp = SYSBUS_ESP(dev);
+     esp = &sysbus_esp->esp;
+     esp->dma_memory_read = NULL;
+     esp->dma_memory_write = NULL;
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 83c8086062..1a0888a0fd 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -328,8 +328,8 @@ static void mips_jazz_init(MachineState *machine,
+     }
+ 
+     /* SCSI adapter */
+-    dev = qdev_new(TYPE_ESP);
+-    sysbus_esp = ESP(dev);
++    dev = qdev_new(TYPE_SYSBUS_ESP);
++    sysbus_esp = SYSBUS_ESP(dev);
+     esp = &sysbus_esp->esp;
+     esp->dma_memory_read = rc4030_dma_read;
+     esp->dma_memory_write = rc4030_dma_write;
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index b84e0fe33e..7073166ad1 100644
+index 7073166ad1..aa38acc660 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -241,8 +241,9 @@ static void handle_satn(ESPState *s)
-     }
-     s->pdma_cb = satn_pdma_cb;
-     len = get_cmd(s, buf, sizeof(buf));
--    if (len)
-+    if (len) {
-         do_cmd(s, buf);
-+    }
+@@ -939,7 +939,7 @@ static const struct SCSIBusInfo esp_scsi_info = {
+ 
+ static void sysbus_esp_gpio_demux(void *opaque, int irq, int level)
+ {
+-    SysBusESPState *sysbus = ESP(opaque);
++    SysBusESPState *sysbus = SYSBUS_ESP(opaque);
+     ESPState *s = &sysbus->esp;
+ 
+     switch (irq) {
+@@ -955,7 +955,7 @@ static void sysbus_esp_gpio_demux(void *opaque, int irq, int level)
+ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-    SysBusESPState *sysbus = ESP(dev);
++    SysBusESPState *sysbus = SYSBUS_ESP(dev);
+     ESPState *s = &sysbus->esp;
+ 
+     sysbus_init_irq(sbd, &s->irq);
+@@ -977,7 +977,7 @@ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
+ 
+ static void sysbus_esp_hard_reset(DeviceState *dev)
+ {
+-    SysBusESPState *sysbus = ESP(dev);
++    SysBusESPState *sysbus = SYSBUS_ESP(dev);
+     esp_hard_reset(&sysbus->esp);
  }
  
- static void s_without_satn_pdma_cb(ESPState *s)
-@@ -398,8 +399,8 @@ static void esp_do_dma(ESPState *s)
-          * handle_ti_cmd() with do_cmd != NULL (see the assert())
-          */
-         trace_esp_do_dma(s->cmdlen, len);
--        assert (s->cmdlen <= sizeof(s->cmdbuf) &&
--                len <= sizeof(s->cmdbuf) - s->cmdlen);
-+        assert(s->cmdlen <= sizeof(s->cmdbuf) &&
-+               len <= sizeof(s->cmdbuf) - s->cmdlen);
-         if (s->dma_memory_read) {
-             s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
-         } else {
-@@ -445,15 +446,18 @@ static void esp_do_dma(ESPState *s)
-     s->dma_left -= len;
-     s->async_buf += len;
-     s->async_len -= len;
--    if (to_device)
-+    if (to_device) {
-         s->ti_size += len;
--    else
-+    } else {
-         s->ti_size -= len;
-+    }
-     if (s->async_len == 0) {
-         scsi_req_continue(s->current_req);
--        /* If there is still data to be read from the device then
--           complete the DMA operation immediately.  Otherwise defer
--           until the scsi layer has completed.  */
-+        /*
-+         * If there is still data to be read from the device then
-+         * complete the DMA operation immediately.  Otherwise defer
-+         * until the scsi layer has completed.
-+         */
-         if (to_device || s->dma_left != 0 || s->ti_size == 0) {
-             return;
-         }
-@@ -491,7 +495,8 @@ void esp_command_complete(SCSIRequest *req, uint32_t status,
-     ESPState *s = req->hba_private;
- 
-     if (s->rregs[ESP_RSTAT] & STAT_INT) {
--        /* Defer handling command complete until the previous
-+        /*
-+         * Defer handling command complete until the previous
-          * interrupt has been handled.
-          */
-         trace_esp_command_complete_deferred();
-@@ -513,8 +518,10 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
-     if (s->dma_left) {
-         esp_do_dma(s);
-     } else if (s->dma_counter != 0 && s->ti_size <= 0) {
--        /* If this was the last part of a DMA transfer then the
--           completion interrupt is deferred to here.  */
-+        /*
-+         * If this was the last part of a DMA transfer then the
-+         * completion interrupt is deferred to here.
-+         */
-         esp_dma_done(s);
-     }
+@@ -1002,7 +1002,7 @@ static void sysbus_esp_class_init(ObjectClass *klass, void *data)
  }
-@@ -531,17 +538,18 @@ static void handle_ti(ESPState *s)
-     dmalen = s->rregs[ESP_TCLO];
-     dmalen |= s->rregs[ESP_TCMID] << 8;
-     dmalen |= s->rregs[ESP_TCHI] << 16;
--    if (dmalen==0) {
--      dmalen=0x10000;
-+    if (dmalen == 0) {
-+        dmalen = 0x10000;
-     }
-     s->dma_counter = dmalen;
  
--    if (s->do_cmd)
-+    if (s->do_cmd) {
-         minlen = (dmalen < ESP_CMDBUF_SZ) ? dmalen : ESP_CMDBUF_SZ;
--    else if (s->ti_size < 0)
-+    } else if (s->ti_size < 0) {
-         minlen = (dmalen < -s->ti_size) ? dmalen : -s->ti_size;
--    else
-+    } else {
-         minlen = (dmalen < s->ti_size) ? dmalen : s->ti_size;
-+    }
-     trace_esp_handle_ti(minlen);
-     if (s->dma) {
-         s->dma_left = minlen;
-@@ -606,8 +614,10 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
-         }
-         break;
-     case ESP_RINTR:
--        /* Clear sequence step, interrupt register and all status bits
--           except TC */
-+        /*
-+         * Clear sequence step, interrupt register and all status bits
-+         * except TC
-+         */
-         old_val = s->rregs[ESP_RINTR];
-         s->rregs[ESP_RINTR] = 0;
-         s->rregs[ESP_RSTAT] &= ~STAT_TC;
-@@ -665,13 +675,13 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
-         } else {
-             s->dma = 0;
-         }
--        switch(val & CMD_CMD) {
-+        switch (val & CMD_CMD) {
-         case CMD_NOP:
-             trace_esp_mem_writeb_cmd_nop(val);
-             break;
-         case CMD_FLUSH:
-             trace_esp_mem_writeb_cmd_flush(val);
--            //s->ti_size = 0;
-+            /*s->ti_size = 0;*/
-             s->rregs[ESP_RINTR] = INTR_FC;
-             s->rregs[ESP_RSEQ] = 0;
-             s->rregs[ESP_RFLAGS] = 0;
-@@ -787,7 +797,7 @@ static const VMStateDescription vmstate_esp_pdma = {
+ static const TypeInfo sysbus_esp_info = {
+-    .name          = TYPE_ESP,
++    .name          = TYPE_SYSBUS_ESP,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(SysBusESPState),
+     .class_init    = sysbus_esp_class_init,
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 38ca1e33c7..312e2afaf9 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -334,7 +334,7 @@ static void *sparc32_dma_init(hwaddr dma_base,
+                                    OBJECT(dma), "espdma"));
+     sysbus_connect_irq(SYS_BUS_DEVICE(espdma), 0, espdma_irq);
+ 
+-    esp = ESP(object_resolve_path_component(OBJECT(espdma), "esp"));
++    esp = SYSBUS_ESP(object_resolve_path_component(OBJECT(espdma), "esp"));
+ 
+     ledma = SPARC32_LEDMA_DEVICE(object_resolve_path_component(
+                                  OBJECT(dma), "ledma"));
+diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+index 60cc3047a5..9694825e71 100644
+--- a/include/hw/scsi/esp.h
++++ b/include/hw/scsi/esp.h
+@@ -65,8 +65,8 @@ struct ESPState {
+     void (*pdma_cb)(ESPState *s);
  };
  
- const VMStateDescription vmstate_esp = {
--    .name ="esp",
-+    .name = "esp",
-     .version_id = 4,
-     .minimum_version_id = 3,
-     .fields = (VMStateField[]) {
+-#define TYPE_ESP "esp"
+-OBJECT_DECLARE_SIMPLE_TYPE(SysBusESPState, ESP)
++#define TYPE_SYSBUS_ESP "sysbus-esp"
++OBJECT_DECLARE_SIMPLE_TYPE(SysBusESPState, SYSBUS_ESP)
+ 
+ struct SysBusESPState {
+     /*< private >*/
 -- 
 2.20.1
 
