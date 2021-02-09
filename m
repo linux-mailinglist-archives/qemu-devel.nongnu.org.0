@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EEA314E9C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 13:05:09 +0100 (CET)
-Received: from localhost ([::1]:34756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF07314F40
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 13:42:05 +0100 (CET)
+Received: from localhost ([::1]:50132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9RlU-0005ZO-46
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 07:05:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46630)
+	id 1l9SLE-00062Y-7a
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 07:42:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9RkC-0005AH-2X
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:03:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44221)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l9SGz-0004pQ-JY
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:37:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9Rk8-0001Df-T8
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:03:47 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l9SGw-00079x-Ps
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:37:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612872223;
+ s=mimecast20190719; t=1612874256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E9XFYU0Coai33xg41OEHsabC79W5unfp59IZUMACZrA=;
- b=E2+60IXTTqrLLuwwFey29Ga29R2bHjyWHU2wE69zF5lrKDmBplcwDwYvg/k6YQf7Mq6j5z
- DMG0qhqNBHh+TMPWROFHXQ66TbVPLI4SsODvwPGhdwmsl1rly+93jFUplNR4Z16eTNzmBU
- ep/h0nB6PjbqepjyjTzQV37z6ueGAxk=
+ bh=4rvgdZDX9w6qfsZu3s/3KgUMPaEuxvIbUpK2Qc7kiKM=;
+ b=UQGukW9efRQEIci+pLgp1+uOUI+PBzs0nmf3d1pjJS6pJAETTDR2o8te1/7slgYjT1aJQr
+ z1vR6A+YC4NbFot2FIGcLD1rV+NPZgujki/R0+jDnPaD8Xbbzzg0vKAeZ8MF0p0YRSBKcF
+ 0vEg8gL1gtAdqeWsSWPY1+dAEgzxiaE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-8IqpA1ayNRaQbffFl5mszg-1; Tue, 09 Feb 2021 07:03:41 -0500
-X-MC-Unique: 8IqpA1ayNRaQbffFl5mszg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-281-IrYPNdrYPiG3i3OTPjDxfA-1; Tue, 09 Feb 2021 07:37:33 -0500
+X-MC-Unique: IrYPNdrYPiG3i3OTPjDxfA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25EB28030B7;
- Tue,  9 Feb 2021 12:03:40 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-208.ams2.redhat.com
- [10.36.113.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 263DB19C59;
- Tue,  9 Feb 2021 12:03:29 +0000 (UTC)
-Subject: Re: [PATCH 07/22] tests/acceptance/virtiofs_submounts.py: evaluate
- string not length
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-8-crosa@redhat.com> <8735ycq80u.fsf@linaro.org>
- <2c1a58b2-e023-4aca-16c7-c850f6069657@redhat.com> <87k0rha2mu.fsf@linaro.org>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <2bacef90-7533-d439-cf7d-8fba51e64c1a@redhat.com>
-Date: Tue, 9 Feb 2021 13:03:28 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67C74192CC41;
+ Tue,  9 Feb 2021 12:37:32 +0000 (UTC)
+Received: from [10.36.113.141] (ovpn-113-141.ams2.redhat.com [10.36.113.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE9605D6D7;
+ Tue,  9 Feb 2021 12:37:27 +0000 (UTC)
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20210121152458.193248-1-andrey.gruzdev@virtuozzo.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <a88cb0b2-86a1-04b4-3ed1-d032850040df@redhat.com>
+Date: Tue, 9 Feb 2021 13:37:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <87k0rha2mu.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210121152458.193248-1-andrey.gruzdev@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,117 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Eric Auger <eauger@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.02.21 12:24, Alex Bennée wrote:
+On 21.01.21 16:24, andrey.gruzdev--- via wrote:
+> This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+> implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
 > 
-> Max Reitz <mreitz@redhat.com> writes:
+> Currently the only way to make (external) live VM snapshot is using existing
+> dirty page logging migration mechanism. The main problem is that it tends to
+> produce a lot of page duplicates while running VM goes on updating already
+> saved pages. That leads to the fact that vmstate image size is commonly several
+> times bigger then non-zero part of virtual machine's RSS. Time required to
+> converge RAM migration and the size of snapshot image severely depend on the
+> guest memory write rate, sometimes resulting in unacceptably long snapshot
+> creation time and huge image size.
 > 
->> On 04.02.21 14:23, Alex Bennée wrote:
->>>
->>> Cleber Rosa <crosa@redhat.com> writes:
->>>
->>>> If the vmlinuz variable is set to anything that evaluates to True,
->>>> then the respective arguments should be set.  If the variable contains
->>>> an empty string, than it will evaluate to False, and the extra
->>>> arguments will not be set.
->>>>
->>>> This keeps the same logic, but improves readability a bit.
->>>>
->>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->>>> ---
->>>>    tests/acceptance/virtiofs_submounts.py | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
->>>> index f1b49f03bb..f25a386a19 100644
->>>> --- a/tests/acceptance/virtiofs_submounts.py
->>>> +++ b/tests/acceptance/virtiofs_submounts.py
->>>> @@ -241,7 +241,7 @@ class VirtiofsSubmountsTest(BootLinux):
->>>>    
->>>>            super(VirtiofsSubmountsTest, self).setUp(pubkey)
->>>>    
->>>> -        if len(vmlinuz) > 0:
->>>> +        if vmlinuz:
->>>>                self.vm.add_args('-kernel', vmlinuz,
->>>>                                 '-append', 'console=ttyS0 root=/dev/sda1')
->>>
->>> And this is were I gave up because I can't see how to run the test:
->>>
->>>     ./tests/venv/bin/avocado run ./tests/acceptance/virtiofs_submounts.py
->>>     JOB ID     : b3d9bfcfcd603189a471bec7d770fca3b50a81ee
->>>     JOB LOG    : /home/alex/avocado/job-results/job-2021-02-04T13.21-b3d9bfc/job.log
->>>      (1/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.test_pre_virtiofsd_set_up: CANCEL: vmlinuz parameter not set; you must point it to a Linux kernel binary to test (to run this test with the on-image kernel, set it to an empty string) (0.00 s)
->>>      (2/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.test_pre_launch_set_up: CANCEL: vmlinuz parameter not set; you must point it to a Linux kernel binary to test (to run this test with the on-image kernel, set it to an empty string) (0.00 s)
->>>      (3/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.test_post_launch_set_up: CANCEL: vmlinuz parameter not set; you must point it to a Linux kernel binary
->>>     to test (to run this test with the on-image kernel, set it to an empty string) (0.00 s)
->>>      (4/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.test_post_mount_set_up: CANCEL: vmlinuz parameter not set; you must point it to a Linux kernel binary to test (to run this test with the on-image kernel, set it to an empty string) (0.00 s)
->>>      (5/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest.test_two_runs: CANCEL: vmlinuz parameter not set; you must point it to a Linux kernel binary to test (to run this test with the on-image kernel, set it to an empty string) (0.00 s)
->>>     RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 5
->>>     JOB TIME   : 0.56 s
->>>
->>> Given the test seems to make assumptions about an environment being
->>> setup for it I think we need some documentation somewhere about what
->>> those pre-requisites are.
->>
->> I find the cancel message pretty clear, but then again it was me who
->> wrote it...
->>
->> Either you point the vmlinuz parameter to some Linux kernel you built
->> yourself, or you set it to the empty string to just use the kernel
->> that’s part of the image.  Setting Avocado parameters is done via -p,
->> i.e. “-p key=value”.  So in this case
->> “-p vmlinuz=/path/to/linux/build/arch/x86/boot/bzImage”, or
->> “-p vmlinuz=''”.
->>
->> Ideally, vmlinuz='' would be the default, but there’s a problem with
->> that: I submitted this test along with the patches that added the
->> required feature to the Linux kernel, so at that point that feature was
->> not part of Linux.  That’s why you generally have to point it to a Linux
->> kernel binary you built yourself that has this feature (5.10 does).
+> This series propose a way to solve the aforementioned problems. This is done
+> by using different RAM migration mechanism based on UFFD write protection
+> management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+> guest RAM content using write-protection and iteratively release protection
+> for memory ranges that have already been saved to the migration stream.
+> At the same time we read in pending UFFD write fault events and save those
+> pages out-of-order with higher priority.
 > 
-> This is where it deviates from the rest of the check-acceptance tests.
-> Generally I don't have to worry about finding the right image myself.
 
-Yes, but there’s nothing I can do apart from just not having the test as 
-part of qemu, which I don’t find better than to just cancel it when not 
-run with the necessary parameters.
+Hi,
 
-Or, well, I could let the test download and compile the Linux sources, 
-but I don’t think that’s a viable alternative.
+just stumbled over this, quick question:
 
-> At the least it would be worth pointing to a part of our docs on how
-> to build such an image.
+I recently played with UFFD_WP and notices that write protection is only 
+effective on pages/ranges that have already pages populated (IOW: 
+!pte_none() in the kernel).
 
-Well, I could perhaps come up with a comprehensive kernel configuration 
-that works, but I really don’t think that’s valuable for people who just 
-want to run the acceptance tests and don’t care about this test in 
-particular.  I just don’t think they’re actually going to build a Linux 
-kernel just for it.
+In case memory was never populated (or was discarded using e.g., 
+madvice(DONTNEED)), write-protection will be skipped silently and you 
+won't get WP events for applicable pages.
 
-(Alternatively, I could just build a Linux kernel here on my machine, 
-upload the binary and point to it somewhere, e.g. in the cancel message. 
-  That would be OK for me, and perhaps something I could imagine someone 
-might actually use.)
+So if someone writes to a yet unpoupulated page ("zero"), you won't get 
+WP events.
 
-I’d rather just wait until the test image contains a kernel that’s 
-sufficiently new (should be the case once Fedora 34 is out), so we can 
-make -p vmlinuz='' the default.  Until then I personally find it 
-completely reasonable to have this test just be cancelled.
+I can spot that you do a single uffd_change_protection() on the whole 
+RAMBlock.
 
-Max
+How are you handling that scenario, or why don't you have to handle that 
+scenario?
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
