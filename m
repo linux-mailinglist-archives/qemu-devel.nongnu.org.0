@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67718314A15
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:16:54 +0100 (CET)
-Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89DA314A14
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:16:29 +0100 (CET)
+Received: from localhost ([::1]:46878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9OCb-00039G-A9
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:16:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47190)
+	id 1l9OCC-0002sC-Me
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:16:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NVT-0005Gn-5g; Tue, 09 Feb 2021 02:32:20 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:49349)
+ id 1l9NVZ-0005Kb-PA; Tue, 09 Feb 2021 02:32:25 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:49875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NVO-0005fT-DJ; Tue, 09 Feb 2021 02:32:18 -0500
+ id 1l9NVO-0005g8-R1; Tue, 09 Feb 2021 02:32:25 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 13769B01;
- Tue,  9 Feb 2021 02:31:51 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id B2E158D5;
+ Tue,  9 Feb 2021 02:31:52 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:31:51 -0500
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:31:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=UNDxczs0C1ZWb
- 01g/jq1sidjDxrksrgS4cQPSRKxUa8=; b=TKD1zOjW0khMiVEqwg5zu/79Cynf2
- jAoSpQYTeEjTdWQ+2y8QaZkLRvB5H7Q+QTlLI/DB64xV138z/Q9kgBFyjeImOv+c
- qOaPHgZ5HOsfvaEHWpH9tL8jyQ9wSof+QgDOINNDL0EoLsd3X/GPkLhbqiU1AMPA
- 2U5YfWKoq0oYemxfYy+pPzK2xXa3/YD4schYz5YenL8b4idZJ3NE9my/Pg2DW/zX
- Z0tY4JFmqHRk27Gq3ZTsWRKpdeuhmADNQzLWGwZrHZcDQfzK8JogEfzaycm5dUBf
- X65aE9I4N9tpBEAeTK8ShKvbSslpDILyfAO14Qkfxeqy071RtwwIQ4OCw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=FkAOklgvx6ECL
+ z6oD59Ws+EbnvjN4zGERbX2dqXYSxw=; b=lII2GryLN/F7AewOsFH1KWRrP+dHx
+ i+R1V8bzZ11Fzr8LP33FWPWRjqIILnAF1wOYE4iiKjCOdUbaqi5rENubsGSyMrkp
+ 2N7qcmjdc7/1q9iVaouRQ0C7xNOusI3TbTl0X5aN8gHMGDTPRSE11YQd2VJ1dDFW
+ VpAkBdCHPJLExmmgtracAjA9cAI129veHRMR4VEsgN0cWKuvkJpD/bRxIJDLHEk2
+ hjaW73qcH9tlT5RfcuQAnnWT/Y0tUgSQ1NqMmpneAxRHDXbNFv2VNpSkD8im869g
+ HEKjdXBHMYqrVB6Pk1gqm6kqfym9/K7MVMKQnO0zzsJpZICCJQQbrV18Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=UNDxczs0C1ZWb01g/jq1sidjDxrksrgS4cQPSRKxUa8=; b=fck//Tkw
- InuXtkw1kxmiDtXsdLxNqfO3nm7Ro6i+EPuHmRyb60ufiWCWYvOSUHlB8aS/ziQp
- ETpxoEtdUYofQOUOtP1EL7MvApoEESikb30PzIkfjdtL6pDtaVq21YU1q0IXVTbi
- 2K/2mcTuJ+ss6fNOMOxr9SZBB/fOoRFfhZGU/BtflT7lMHIdjWcKdepvE358BoL4
- gbOVDkz4PewZMsyw1r6PKs4/NSUKYFqs28Xd4TMy+suAS5+e4rrppOEqw+l3UcBw
- H7nsy7HrbmyWwUJoXI2Ejd81Wz0zucqkR6DlT3qatzH39sleKT/3xx/bAX7ZQDcC
- dbITelj2w5GQkQ==
-X-ME-Sender: <xms:ZjoiYNfX74nq8Zknu9UkSoSbDx6R8nJTxEJMAy1NW1nzSju4AJ6K3Q>
- <xme:ZjoiYLMsNOt7u0-Em3ahJMaLRVrn6PT1GYtjL4RPeWyFJUFigaedzh3CjzdCjg5tv
- HpciD428k_oG84x2vg>
+ fm2; bh=FkAOklgvx6ECLz6oD59Ws+EbnvjN4zGERbX2dqXYSxw=; b=mdQ7FkZN
+ K3fCPGv3zLnQBaCUfGWpUXIASBd7uydJB8YMRwORZJTvO0sgBmzlzjpk7NXZz9LB
+ OJimw3lUPFLKwETRKOyyjfOpr3ZXB5biFh48Va9tLARaSWzM/crRbZbE7MVu9Idq
+ 7t/5Ie7aYOPhoI7SgFzIf7ic724PsJyh1oTzv8yckxYsbKJEoSWuEBws/1v/30zv
+ e0X49+Dp1Zan9mgPXHKzrrY8wgmPIAzCWFamMmfnlXLOByTDhLRfjIQETvdgMMCA
+ afvMhMyQ2ILoJEGHcTMt2il0uCxqcz0VSJ8IfDsRzxttryfvVMrLj4NFtSubOw+o
+ 7VytLbamPYz58Q==
+X-ME-Sender: <xms:aDoiYEMg_ao_MHQ4eP52UQcCcNlaW9fEZG2d2u_YjSSekxbn8rtK9w>
+ <xme:aDoiYK8KfVhOI3o4gKeihHO1Vkg3udOefSO2lhc75l4MAoJZuBz0JM5nuFaK_YIdS
+ Ohwoq9ELL1xVS0iqnM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggddutdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedufe
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ZjoiYGgyxGsRWkBHxWu1YxKeueBoJBCTIEYC_t1_4VfLO1R4BnceVw>
- <xmx:ZjoiYG9SlhTk5S72gnvtHEdpnchhu2Uzdohsqk2icZ6KnSX32NHFHw>
- <xmx:ZjoiYJuXqE7Kc4f0r6iH4-52lNv3RMiGgVCC_KM-_UkIHkIRCt4nFQ>
- <xmx:ZjoiYKlGoKyd5Uv0KICzyiwvYHhGO6180Zmgn0MuCEO43TfigMvwiNFJmco>
+ gvrhhnpeeggeettdeufefhvefgudehjeevgeekkeetuefhieegveduleegfedvveegjeeg
+ ueenucffohhmrghinhepnhhvmhgvgihprhgvshhsrdhorhhgnecukfhppeektddrudeije
+ drleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+ rhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:aDoiYLQei5djwaPNTiGCvZVlpCxLOviOW9-t647XD4LwS6U6RuU6DQ>
+ <xmx:aDoiYMs2pS4tVV-l10YaukSCggkc-HPJIvtK3VjWZepQEHfrcexB6A>
+ <xmx:aDoiYMd6-hTsGlYyu-X-d3PRMVnQ7OorKRpX9kdOnvWdh3hME_W1NA>
+ <xmx:aDoiYE6gcTOhDgtZtYuNVjDGhxUT25elVAjrttclltlOysmwRGUJiYhe5Mc>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0A0B8108005B;
- Tue,  9 Feb 2021 02:31:48 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id C21521080057;
+ Tue,  9 Feb 2021 02:31:50 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 18/56] hw/block/nvme: Support Zone Descriptor Extensions
-Date: Tue,  9 Feb 2021 08:30:23 +0100
-Message-Id: <20210209073101.548811-19-its@irrelevant.dk>
+Subject: [PULL 19/56] hw/block/nvme: Document zoned parameters in usage text
+Date: Tue,  9 Feb 2021 08:30:24 +0100
+Message-Id: <20210209073101.548811-20-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210209073101.548811-1-its@irrelevant.dk>
 References: <20210209073101.548811-1-its@irrelevant.dk>
@@ -97,258 +98,100 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Niklas Cassel <Niklas.Cassel@wdc.com>,
  Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
  Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Hans Holmberg <hans.holmberg@wdc.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 
-Zone Descriptor Extension is a label that can be assigned to a zone.
-It can be set to an Empty zone and it stays assigned until the zone
-is reset.
+Added brief descriptions of the new device properties that are
+now available to users to configure features of Zoned Namespace
+Command Set in the emulator.
 
-This commit adds a new optional module property,
-"zoned.descr_ext_size". Its value must be a multiple of 64 bytes.
-If this value is non-zero, it becomes possible to assign extensions
-of that size to any Empty zones. The default value for this property
-is 0, therefore setting extensions is disabled by default.
+This patch is for documentation only, no functionality change.
 
-Signed-off-by: Hans Holmberg <hans.holmberg@wdc.com>
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 Reviewed-by: Niklas Cassel <Niklas.Cassel@wdc.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme-ns.h    |  8 +++++++
- hw/block/nvme-ns.c    | 25 ++++++++++++++++++--
- hw/block/nvme.c       | 53 +++++++++++++++++++++++++++++++++++++++++--
- hw/block/trace-events |  2 ++
- 4 files changed, 84 insertions(+), 4 deletions(-)
+ hw/block/nvme.c | 43 ++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 5 deletions(-)
 
-diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-index 7e1fd26909ba..f8f3c28c360b 100644
---- a/hw/block/nvme-ns.h
-+++ b/hw/block/nvme-ns.h
-@@ -35,6 +35,7 @@ typedef struct NvmeNamespaceParams {
-     uint64_t zone_cap_bs;
-     uint32_t max_active_zones;
-     uint32_t max_open_zones;
-+    uint32_t zd_extension_size;
- } NvmeNamespaceParams;
- 
- typedef struct NvmeNamespace {
-@@ -56,6 +57,7 @@ typedef struct NvmeNamespace {
-     uint64_t        zone_size;
-     uint64_t        zone_capacity;
-     uint32_t        zone_size_log2;
-+    uint8_t         *zd_extensions;
-     int32_t         nr_open_zones;
-     int32_t         nr_active_zones;
- 
-@@ -129,6 +131,12 @@ static inline bool nvme_wp_is_valid(NvmeZone *zone)
-            st != NVME_ZONE_STATE_OFFLINE;
- }
- 
-+static inline uint8_t *nvme_get_zd_extension(NvmeNamespace *ns,
-+                                             uint32_t zone_idx)
-+{
-+    return &ns->zd_extensions[zone_idx * ns->params.zd_extension_size];
-+}
-+
- static inline void nvme_aor_inc_open(NvmeNamespace *ns)
- {
-     assert(ns->nr_open_zones >= 0);
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index c55afc1920a3..838b15c064f5 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -150,6 +150,18 @@ static int nvme_ns_zoned_check_calc_geometry(NvmeNamespace *ns, Error **errp)
-         return -1;
-     }
- 
-+    if (ns->params.zd_extension_size) {
-+        if (ns->params.zd_extension_size & 0x3f) {
-+            error_setg(errp,
-+                "zone descriptor extension size must be a multiple of 64B");
-+            return -1;
-+        }
-+        if ((ns->params.zd_extension_size >> 6) > 0xff) {
-+            error_setg(errp, "zone descriptor extension size is too large");
-+            return -1;
-+        }
-+    }
-+
-     return 0;
- }
- 
-@@ -161,6 +173,10 @@ static void nvme_ns_zoned_init_state(NvmeNamespace *ns)
-     int i;
- 
-     ns->zone_array = g_new0(NvmeZone, ns->num_zones);
-+    if (ns->params.zd_extension_size) {
-+        ns->zd_extensions = g_malloc0(ns->params.zd_extension_size *
-+                                      ns->num_zones);
-+    }
- 
-     QTAILQ_INIT(&ns->exp_open_zones);
-     QTAILQ_INIT(&ns->imp_open_zones);
-@@ -203,7 +219,8 @@ static void nvme_ns_init_zoned(NvmeCtrl *n, NvmeNamespace *ns, int lba_index)
-     id_ns_z->ozcs = ns->params.cross_zone_read ? 0x01 : 0x00;
- 
-     id_ns_z->lbafe[lba_index].zsze = cpu_to_le64(ns->zone_size);
--    id_ns_z->lbafe[lba_index].zdes = 0;
-+    id_ns_z->lbafe[lba_index].zdes =
-+        ns->params.zd_extension_size >> 6; /* Units of 64B */
- 
-     ns->csi = NVME_CSI_ZONED;
-     ns->id_ns.nsze = cpu_to_le64(ns->num_zones * ns->zone_size);
-@@ -219,7 +236,8 @@ static void nvme_clear_zone(NvmeNamespace *ns, NvmeZone *zone)
- 
-     zone->w_ptr = zone->d.wp;
-     state = nvme_get_zone_state(zone);
--    if (zone->d.wp != zone->d.zslba) {
-+    if (zone->d.wp != zone->d.zslba ||
-+        (zone->d.za & NVME_ZA_ZD_EXT_VALID)) {
-         if (state != NVME_ZONE_STATE_CLOSED) {
-             trace_pci_nvme_clear_ns_close(state, zone->d.zslba);
-             nvme_set_zone_state(zone, NVME_ZONE_STATE_CLOSED);
-@@ -315,6 +333,7 @@ void nvme_ns_cleanup(NvmeNamespace *ns)
-     if (ns->params.zoned) {
-         g_free(ns->id_ns_zoned);
-         g_free(ns->zone_array);
-+        g_free(ns->zd_extensions);
-     }
- }
- 
-@@ -347,6 +366,8 @@ static Property nvme_ns_props[] = {
-                        params.max_active_zones, 0),
-     DEFINE_PROP_UINT32("zoned.max_open", NvmeNamespace,
-                        params.max_open_zones, 0),
-+    DEFINE_PROP_UINT32("zoned.descr_ext_size", NvmeNamespace,
-+                       params.zd_extension_size, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index c07dbcd2a809..4bcc7660736b 100644
+index 4bcc7660736b..f4f1487afeb1 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1823,6 +1823,25 @@ static uint16_t nvme_offline_zone(NvmeNamespace *ns, NvmeZone *zone,
-     }
- }
+@@ -9,7 +9,7 @@
+  */
  
-+static uint16_t nvme_set_zd_ext(NvmeNamespace *ns, NvmeZone *zone)
-+{
-+    uint16_t status;
-+    uint8_t state = nvme_get_zone_state(zone);
-+
-+    if (state == NVME_ZONE_STATE_EMPTY) {
-+        status = nvme_aor_check(ns, 1, 0);
-+        if (status != NVME_SUCCESS) {
-+            return status;
-+        }
-+        nvme_aor_inc_active(ns);
-+        zone->d.za |= NVME_ZA_ZD_EXT_VALID;
-+        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
-+        return NVME_SUCCESS;
-+    }
-+
-+    return NVME_ZONE_INVAL_TRANSITION;
-+}
-+
- static uint16_t nvme_bulk_proc_zone(NvmeNamespace *ns, NvmeZone *zone,
-                                     enum NvmeZoneProcessingMask proc_mask,
-                                     op_handler_t op_hndlr)
-@@ -1921,6 +1940,7 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
-     NvmeCmd *cmd = (NvmeCmd *)&req->cmd;
-     NvmeNamespace *ns = req->ns;
-     NvmeZone *zone;
-+    uint8_t *zd_ext;
-     uint32_t dw13 = le32_to_cpu(cmd->cdw13);
-     uint64_t slba = 0;
-     uint32_t zone_idx = 0;
-@@ -1993,7 +2013,22 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
+ /**
+- * Reference Specs: http://www.nvmexpress.org, 1.2, 1.1, 1.0e
++ * Reference Specs: http://www.nvmexpress.org, 1.4, 1.3, 1.2, 1.1, 1.0e
+  *
+  *  https://nvmexpress.org/developers/nvme-specification/
+  */
+@@ -22,8 +22,9 @@
+  *              [pmrdev=<mem_backend_file_id>,] \
+  *              max_ioqpairs=<N[optional]>, \
+  *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
+- *              mdts=<N[optional]>
+- *      -device nvme-ns,drive=<drive_id>,bus=bus_name,nsid=<nsid>
++ *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]> \
++ *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
++ *              zoned=<true|false[optional]>
+  *
+  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
+  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
+@@ -41,14 +42,46 @@
+  * ~~~~~~~~~~~~~~~~~~~~~~
+  * - `aerl`
+  *   The Asynchronous Event Request Limit (AERL). Indicates the maximum number
+- *   of concurrently outstanding Asynchronous Event Request commands suppoert
++ *   of concurrently outstanding Asynchronous Event Request commands support
+  *   by the controller. This is a 0's based value.
+  *
+  * - `aer_max_queued`
+  *   This is the maximum number of events that the device will enqueue for
+- *   completion when there are no oustanding AERs. When the maximum number of
++ *   completion when there are no outstanding AERs. When the maximum number of
+  *   enqueued events are reached, subsequent events will be dropped.
+  *
++ * - `zoned.append_size_limit`
++ *   The maximum I/O size in bytes that is allowed in Zone Append command.
++ *   The default is 128KiB. Since internally this this value is maintained as
++ *   ZASL = log2(<maximum append size> / <page size>), some values assigned
++ *   to this property may be rounded down and result in a lower maximum ZA
++ *   data size being in effect. By setting this property to 0, users can make
++ *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
++ *
++ * Setting `zoned` to true selects Zoned Command Set at the namespace.
++ * In this case, the following namespace properties are available to configure
++ * zoned operation:
++ *     zoned.zone_size=<zone size in bytes, default: 128MiB>
++ *         The number may be followed by K, M, G as in kilo-, mega- or giga-.
++ *
++ *     zoned.zone_capacity=<zone capacity in bytes, default: zone size>
++ *         The value 0 (default) forces zone capacity to be the same as zone
++ *         size. The value of this property may not exceed zone size.
++ *
++ *     zoned.descr_ext_size=<zone descriptor extension size, default 0>
++ *         This value needs to be specified in 64B units. If it is zero,
++ *         namespace(s) will not support zone descriptor extensions.
++ *
++ *     zoned.max_active=<Maximum Active Resources (zones), default: 0>
++ *         The default value means there is no limit to the number of
++ *         concurrently active zones.
++ *
++ *     zoned.max_open=<Maximum Open Resources (zones), default: 0>
++ *         The default value means there is no limit to the number of
++ *         concurrently open zones.
++ *
++ *     zoned.cross_zone_read=<enable RAZB, default: false>
++ *         Setting this property to true enables Read Across Zone Boundaries.
+  */
  
-     case NVME_ZONE_ACTION_SET_ZD_EXT:
-         trace_pci_nvme_set_descriptor_extension(slba, zone_idx);
--        return NVME_INVALID_FIELD | NVME_DNR;
-+        if (all || !ns->params.zd_extension_size) {
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
-+        zd_ext = nvme_get_zd_extension(ns, zone_idx);
-+        status = nvme_dma(n, zd_ext, ns->params.zd_extension_size,
-+                          DMA_DIRECTION_TO_DEVICE, req);
-+        if (status) {
-+            trace_pci_nvme_err_zd_extension_map_error(zone_idx);
-+            return status;
-+        }
-+
-+        status = nvme_set_zd_ext(ns, zone);
-+        if (status == NVME_SUCCESS) {
-+            trace_pci_nvme_zd_extension_set(zone_idx);
-+            return status;
-+        }
-         break;
- 
-     default:
-@@ -2063,7 +2098,10 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
-     }
- 
-     zra = dw13 & 0xff;
--    if (zra != NVME_ZONE_REPORT) {
-+    if (zra != NVME_ZONE_REPORT && zra != NVME_ZONE_REPORT_EXTENDED) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+    if (zra == NVME_ZONE_REPORT_EXTENDED && !ns->params.zd_extension_size) {
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
- 
-@@ -2085,6 +2123,9 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
-     partial = (dw13 >> 16) & 0x01;
- 
-     zone_entry_sz = sizeof(NvmeZoneDescr);
-+    if (zra == NVME_ZONE_REPORT_EXTENDED) {
-+        zone_entry_sz += ns->params.zd_extension_size;
-+    }
- 
-     max_zones = (data_size - sizeof(NvmeZoneReportHeader)) / zone_entry_sz;
-     buf = g_malloc0(data_size);
-@@ -2120,6 +2161,14 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
-                 z->wp = cpu_to_le64(~0ULL);
-             }
- 
-+            if (zra == NVME_ZONE_REPORT_EXTENDED) {
-+                if (zone->d.za & NVME_ZA_ZD_EXT_VALID) {
-+                    memcpy(buf_p, nvme_get_zd_extension(ns, zone_idx),
-+                           ns->params.zd_extension_size);
-+                }
-+                buf_p += ns->params.zd_extension_size;
-+            }
-+
-             max_zones--;
-         }
-     }
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index bbc10bc7371a..a455979e5911 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -101,6 +101,7 @@ pci_nvme_finish_zone(uint64_t slba, uint32_t zone_idx, int all) "finish zone, sl
- pci_nvme_reset_zone(uint64_t slba, uint32_t zone_idx, int all) "reset zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_offline_zone(uint64_t slba, uint32_t zone_idx, int all) "offline zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_set_descriptor_extension(uint64_t slba, uint32_t zone_idx) "set zone descriptor extension, slba=%"PRIu64", idx=%"PRIu32""
-+pci_nvme_zd_extension_set(uint32_t zone_idx) "set descriptor extension for zone_idx=%"PRIu32""
- pci_nvme_clear_ns_close(uint32_t state, uint64_t slba) "zone state=%"PRIu32", slba=%"PRIu64" transitioned to Closed state"
- pci_nvme_clear_ns_reset(uint32_t state, uint64_t slba) "zone state=%"PRIu32", slba=%"PRIu64" transitioned to Empty state"
- 
-@@ -130,6 +131,7 @@ pci_nvme_err_zone_read_not_ok(uint64_t slba, uint32_t nlb, uint16_t status) "slb
- pci_nvme_err_append_too_large(uint64_t slba, uint32_t nlb, uint8_t zasl) "slba=%"PRIu64", nlb=%"PRIu32", zasl=%"PRIu8""
- pci_nvme_err_insuff_active_res(uint32_t max_active) "max_active=%"PRIu32" zone limit exceeded"
- pci_nvme_err_insuff_open_res(uint32_t max_open) "max_open=%"PRIu32" zone limit exceeded"
-+pci_nvme_err_zd_extension_map_error(uint32_t zone_idx) "can't map descriptor extension for zone_idx=%"PRIu32""
- pci_nvme_err_invalid_iocsci(uint32_t idx) "unsupported command set combination index %"PRIu32""
- pci_nvme_err_invalid_del_sq(uint16_t qid) "invalid submission queue deletion, sid=%"PRIu16""
- pci_nvme_err_invalid_create_sq_cqid(uint16_t cqid) "failed creating submission queue, invalid cqid=%"PRIu16""
+ #include "qemu/osdep.h"
 -- 
 2.30.0
 
