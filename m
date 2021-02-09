@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEAC3155B6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:18:01 +0100 (CET)
-Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5A73155AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 19:13:45 +0100 (CET)
+Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9XaK-0001gS-If
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:18:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39198)
+	id 1l9XWC-0007mu-7Y
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 13:13:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9XWy-00005y-Jh
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:14:32 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:56190)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9XWt-0003g3-2c
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:14:32 -0500
-Received: by mail-wm1-x331.google.com with SMTP id f16so4110350wmq.5
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:14:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=OqHRYOU/pAYo4Hq1UhAFwBeBxI3srspUOreZsPV1U/Y=;
- b=uySgjH/xw1cO7XIMnc6jBEEabFm5b6oBx1D1XRA7yer7Ji/uJwprhmPh92lt0IK7Ct
- llf8Af42HYgBArNicOwbVATj2hcAQSEEC2Ddlygoe3sIecGEJ+vhwA7jk9bbcOHhsBFi
- uyreWDp33WNgLvV8QUSSLS74FY9M3ltdrEV9mQ+1zFi1otJ/jLlNkoZlIJbQgnpDau0o
- rKd75oeB97ZVd37+czl5U/QTjieqO8SEdhKNwo+hMF4dpJI7JM0jwYoHF2eB3DKcxlUk
- Az5oJyK5/5HSZVv5feseUtqCw4ahOXmkD6Lil3Pkm6EtYMQrugt+EUlNc20uJakgqiTN
- HpwQ==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l9XUz-0006p8-Qt
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:12:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28505)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l9XUu-0002zz-H0
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 13:12:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612894342;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zYWlGRsAr7HYmUXa3CSZ6lw+Y4vvVRZ5Jo22TMSc+Mk=;
+ b=Sj9jhqojcKVXXr/OQX6eIdiKAU15jZ3GOjDh9h8x8WJlNjW/wMp4/MZsSSqMapx9BfW9cJ
+ q7CMqAyzhFLMk7hdgmF0WKWKjSe3f3bz2DOy4F/dPZ5C4TdrP3KiCV4pdXCbcZMWMhzyjq
+ JmPtvM8EKOrisSnAYGJjG1f1a71RjNY=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-lJKGEk00Prm6E8ROSdRZhw-1; Tue, 09 Feb 2021 13:12:18 -0500
+X-MC-Unique: lJKGEk00Prm6E8ROSdRZhw-1
+Received: by mail-qv1-f72.google.com with SMTP id j13so13750594qvy.19
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 10:12:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=OqHRYOU/pAYo4Hq1UhAFwBeBxI3srspUOreZsPV1U/Y=;
- b=dfaHnNXFDkzhIG1GvZG+HCRVfjk4TFaTVWcCNGsp6gBnapTTFWWUkqDp9YZwY6tQM4
- AV993b/F6jpTKb7gYngKLei15nLCpDHW6opEKJofSEiEfcCpGjb0gGodV4UsBOz1dzCc
- Am9zevk9cylmW26+zHRY67WxyMr1jPlxcaltXurUVt0sYlJFEn4L5pEWlOzV5SkGNjZx
- VLnkZsyfsWKBXMC9K+WjxfNbc6L+zucmexv+bd4nB+F642mHywUPLKKio2FBlqL7NJ3R
- ehYRsKaJhSUGN06/v+auMLx10DDIG60SAEiZTTHl76SEdZQlxlweOzNDU5nIV22ovVHg
- KdYg==
-X-Gm-Message-State: AOAM531/sD6rneKL3sa1Ee1M26ecQOti746VG4AnHBS+pIE7WN7Mw9Fk
- 2uryLXZAphob3FN0zzcjJOL7Jg==
-X-Google-Smtp-Source: ABdhPJw75s7FNupLlhOghOaK+BaoZGE7idJsSY12LwqgieSmerghvs1xxl/kegq1yf3Oi19MUPUThA==
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr4221460wmc.24.1612894465323; 
- Tue, 09 Feb 2021 10:14:25 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f7sm23345876wrm.92.2021.02.09.10.14.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 10:14:23 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 18BD41FF7E;
- Tue,  9 Feb 2021 18:14:23 +0000 (GMT)
-References: <20210207121239.2288530-1-f4bug@amsat.org>
- <ebdddd92-cb51-e8b9-dfc0-fbce35015eb3@redhat.com>
- <CAAdtpL5YO=A-V06+7Wyhn5XnavGCUAqqcD8XpU2cVpE4AV-W3w@mail.gmail.com>
- <CAFEAcA-m0MKhMr05mX7HyJZ8DuK7D2YzCFnTyG4B32=-r-5mpA@mail.gmail.com>
- <622e8281-eeda-2620-d388-69d9d6853788@amsat.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3] travis-ci: Disable C++ optional objects on AArch64
- container
-Date: Tue, 09 Feb 2021 18:09:38 +0000
-In-reply-to: <622e8281-eeda-2620-d388-69d9d6853788@amsat.org>
-Message-ID: <878s7x9khs.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zYWlGRsAr7HYmUXa3CSZ6lw+Y4vvVRZ5Jo22TMSc+Mk=;
+ b=iVBN1/F6s1PmRTwBRZsntYFBGomyZbMZ+q0Om1PowbVKrIWIA4yzsabb4lxrj26Bz8
+ 6ipXLP0eArYU8CVfQYAm0+ridXUwBm/9kZprDEwy0+pU3UbWu4368rNJgni51KboBp8C
+ /a69y2WtLDhfx1VJ/I6rdQo/zPvC4OBOJw/lhpWPW9PcYDV9jVDa8aYd/jma6qq3o1+K
+ aZwo6Q/wyi/B3ZguxXeyXDLuG/oMmo5+yQyQz8uy9mlBWXG4Mt2bLO+T4+tLN5G2gHe3
+ wFesgp6Z3TPoZbAB7QzqFuFx++tQjgDMIxnLikl/IOZKV0FC4Ylrz/0vQ+vthhnu3prl
+ jrOA==
+X-Gm-Message-State: AOAM531B0iJNQYB3+QyiqnZAQTFRS3RppOgwdRMRK67YFqHjaVkuzTdA
+ G/AFp8iQmnB/E4QIEQhKB+IqfDDN5bOjJhmGD1NEu2BemaRx9Y3jtq8PGrSrKY3EJ13yo/nYve0
+ Se6BXg9Pc4lJx1x3JVISSTn1LejQRSKg=
+X-Received: by 2002:a05:620a:12d5:: with SMTP id
+ e21mr22864793qkl.131.1612894337971; 
+ Tue, 09 Feb 2021 10:12:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxS+MSzX3J0pROFe7AhfnUs9liqj3eqyl9AcQ1UZrAUuWRjzRSQNfw6HBzesLUXvNHfB0PiecTiheSd4BX4C4U=
+X-Received: by 2002:a05:620a:12d5:: with SMTP id
+ e21mr22864770qkl.131.1612894337657; 
+ Tue, 09 Feb 2021 10:12:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210209153757.1653598-1-eperezma@redhat.com>
+ <20210209153757.1653598-2-eperezma@redhat.com>
+ <14b2637e-9610-356e-ad18-27a9a8b82508@redhat.com>
+In-Reply-To: <14b2637e-9610-356e-ad18-27a9a8b82508@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 9 Feb 2021 19:11:41 +0100
+Message-ID: <CAJaqyWd+NuY3B94HX8J_EzFf4sxeZnFCcw=aXfT-KZ7nfmL6DQ@mail.gmail.com>
+Subject: Re: [RFC v2 1/7] vhost: Delete trailing dot in errpr_setg argument
+To: Eric Blake <eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,68 +93,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org
- Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Rob Miller <rob.miller@broadcom.com>, Parav Pandit <parav@mellanox.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ virtualization@lists.linux-foundation.org, Michael Lilja <ml@napatech.com>,
+ Jim Harford <jim.harford@broadcom.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> On 2/9/21 2:41 PM, Peter Maydell wrote:
->> On Tue, 9 Feb 2021 at 13:32, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->>> Migration of this job is pending of Cleber's possibility to add an AArc=
-h64
->>> runner to Gitlab-CI, right? Then we need someone to support and maintain
->>> the hardware... I don't think anybody volunteered.
->>=20
->> We have the hardware already. Effectively Alex is maintaining it...
+On Tue, Feb 9, 2021 at 5:25 PM Eric Blake <eblake@redhat.com> wrote:
 >
-> I missed to read if Alex volunteered for this task but am certainly
-> happy if he is :) Although this should be documented somewhere (who
-> to contact if the AArch64 runner starts to fail?).
-
-I'm listed on:
-
-  https://wiki.qemu.org/AdminContacts
-
-and have the root keys. I had given Cleber access to get the runners up
-and running which I thought they were:
-
-  3291365 ?        Ssl    8:41 /usr/bin/gitlab-runner run --working-directo=
-ry /home/gitlab-runner --config /etc/gitlab-runner/config.toml --service gi=
-tlab-runner --user gitlab-runner
-
-I'm not sure what else is needed on the HW side, it's just waiting for
-the gitlab bits to be plumbed in.
-
-I should mention the HW is due to be upgraded in the next few weeks but
-I don't expect the upgrade to affect the way we plan to use the machine.
-
-> Assuming Cleber's runner script is merged and working on the AArch64
-> runner, then we need to figure how contributors can use it.
-> Assuming this runner will be registered under the QEMU organization
-> namespace in Gitlab, then contributors would have to open a Merge
-> Request to trigger the CI jobs (similarly to when you push to the
-> /staging branch). Then we would cancel the MR. We can ask contributors
-> to cancel their MR once testing done.
+> On 2/9/21 9:37 AM, Eugenio P=C3=A9rez wrote:
+> > As error_setg points
 >
-> Midway could be having maintainers opening such MR?
+> Incomplete sentence?
 >
-> I have no idea, just asking questions to see if other have ideas or
-> see the big picture here.
+> Missing Signed-off-by.
 >
-> Regards,
->
-> Phil.
 
+Sorry, I should have paid more attention.
 
---=20
-Alex Benn=C3=A9e
+Maybe it is better to send this though qemu-trivial, so it does not
+mess with this series?
+
+Thanks!
+
+> > ---
+> >  hw/virtio/vhost.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> > index 6e17d631f7..1c5b442081 100644
+> > --- a/hw/virtio/vhost.c
+> > +++ b/hw/virtio/vhost.c
+> > @@ -1358,7 +1358,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *=
+opaque,
+> >      if (hdev->migration_blocker =3D=3D NULL) {
+> >          if (!(hdev->features & (0x1ULL << VHOST_F_LOG_ALL))) {
+> >              error_setg(&hdev->migration_blocker,
+> > -                       "Migration disabled: vhost lacks VHOST_F_LOG_AL=
+L feature.");
+> > +                       "Migration disabled: vhost lacks VHOST_F_LOG_AL=
+L feature");
+> >          } else if (vhost_dev_log_is_shared(hdev) && !qemu_memfd_alloc_=
+check()) {
+> >              error_setg(&hdev->migration_blocker,
+> >                         "Migration disabled: failed to allocate shared =
+memory");
+> >
+>
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
+>
+
 
