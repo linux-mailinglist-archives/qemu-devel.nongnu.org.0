@@ -2,95 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202DD315170
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:22:41 +0100 (CET)
-Received: from localhost ([::1]:36084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1775531516A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:20:51 +0100 (CET)
+Received: from localhost ([::1]:58874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9TuZ-0006ii-Ru
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:22:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46770)
+	id 1l9Tso-0004Mn-1C
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:20:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9ToC-0000V2-15
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:16:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37846)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l9Tp4-0001eq-KH
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:16:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l9To9-0006xQ-EF
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:16:03 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l9Tp1-0007P4-Uj
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:16:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612880160;
+ s=mimecast20190719; t=1612880215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qp3Wl9lSJ5WsVFFBaxBDakrqsSrGMeFnKtzi+ZQ0Psc=;
- b=d1Iumzu6HunCP18SuMqjpAI31tdis9S9Q5dAIj8bTWfQxASclXIcTta93YUO1GfrnZOhm9
- Rof9UtlPpqUFMWJ0thNzoADRktn9YnuLFmroRWIlydULotI0jcgKuAnSz1RDmi1uPvWwpe
- oALIp3RN7d4BgkTnS2W7OWc40M9urS0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-4TkZJ1QaOrq_w2fLZPPpQw-1; Tue, 09 Feb 2021 09:15:57 -0500
-X-MC-Unique: 4TkZJ1QaOrq_w2fLZPPpQw-1
-Received: by mail-ed1-f72.google.com with SMTP id g6so18201235edy.9
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 06:15:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qp3Wl9lSJ5WsVFFBaxBDakrqsSrGMeFnKtzi+ZQ0Psc=;
- b=taa5z2QmT594pN5vKvG0wYGmUiMo1/PkGAsd4lrIeZ+p68VQP2Cblsl059zmLF0102
- A2TUBVskgqMFwDf5DIVENN8rX3byWasaEk4VbouEaT61PM55eC5IR79C271o62Y7Q/TN
- K694VgalowC6S5rBm4McvaB+eIvcz3V7rRbjZ7lvFQR2YV5iXo90jrPsOZ/cu/Ulh52l
- Lfvu0juR2dv2Kh7Daq8paK2Hg5rSR+8GQWqonDUIPdGCKMMEF8pD80nCy5GJGZ8JjOpJ
- GNozWQxh4BZ4oo8ZA+N6qkWzsuUosCwL1N3vMcpPNyk07D30xv1Z0aWTsE5DuxINLI/a
- Izzw==
-X-Gm-Message-State: AOAM530o+7h2+dH3cUj/z0J1GpHoYw2AYXmOmm0Vutw6YjXIW4yzY/Lg
- cPfKIkfDmYRxFD929dIUJiSNypyiMwlMU8nIUTJz3DXmfr4gMcrE5PRMT29n0CRGlpelCMPeEDT
- ArrwZmCyzp7PLcGg=
-X-Received: by 2002:a17:906:755:: with SMTP id
- z21mr23200806ejb.514.1612880155718; 
- Tue, 09 Feb 2021 06:15:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzIKeEJM5+gsB5MQWLoVUSnsZuCaIumSLqq2pkoxl9PyKqXb+RbDms2RuVz2ulD9eotw34ERA==
-X-Received: by 2002:a17:906:755:: with SMTP id
- z21mr23200765ejb.514.1612880155277; 
- Tue, 09 Feb 2021 06:15:55 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id n6sm10553738ejy.123.2021.02.09.06.15.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Feb 2021 06:15:54 -0800 (PST)
-Subject: Re: [PATCH 2/2] travis: remove travis configuration and all
- references to Travis CI
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210209135011.1224992-1-berrange@redhat.com>
- <20210209135011.1224992-3-berrange@redhat.com>
- <4e8492ab-9c10-d698-077a-9299b1a5b260@redhat.com>
- <20210209140305.GK1166421@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8f9a2aab-08e0-d45c-edbd-8a39d610ce66@redhat.com>
-Date: Tue, 9 Feb 2021 15:15:52 +0100
+ bh=QzFwCp3lQGjD/FiBJ9VjG6VkDI+YgFFFkyoOVlSzfeE=;
+ b=DYCYkYJLuBXN4hGtgkI+OzAdeueVeDkSiSfnDKPkumqk7X2DYu1PY0ePxubw7wxSdc2G8R
+ FcdG62z4WCxQLOZHfyn7BaKVESLp1irQstVQgQ3vNld9e0432AmG4TX5/6iV0yzUnYA79P
+ BCcVx3LIwteSOy+NkpXkkpiq7LZq0vM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-IpMYh4gYPmuxPU7BW7pBGQ-1; Tue, 09 Feb 2021 09:16:53 -0500
+X-MC-Unique: IpMYh4gYPmuxPU7BW7pBGQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48F4580196E;
+ Tue,  9 Feb 2021 14:16:52 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-114-56.ams2.redhat.com [10.36.114.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B1CD10016F5;
+ Tue,  9 Feb 2021 14:16:46 +0000 (UTC)
+Subject: Re: [PATCH v3] travis-ci: Disable C++ optional objects on AArch64
+ container
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+References: <20210207121239.2288530-1-f4bug@amsat.org>
+ <ebdddd92-cb51-e8b9-dfc0-fbce35015eb3@redhat.com>
+ <CAAdtpL5YO=A-V06+7Wyhn5XnavGCUAqqcD8XpU2cVpE4AV-W3w@mail.gmail.com>
+ <CAFEAcA-m0MKhMr05mX7HyJZ8DuK7D2YzCFnTyG4B32=-r-5mpA@mail.gmail.com>
+ <622e8281-eeda-2620-d388-69d9d6853788@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <21da6a3f-d2ce-91ff-6e9a-588af13c3369@redhat.com>
+Date: Tue, 9 Feb 2021 15:16:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210209140305.GK1166421@redhat.com>
+In-Reply-To: <622e8281-eeda-2620-d388-69d9d6853788@amsat.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,116 +88,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/9/21 3:03 PM, Daniel P. Berrangé wrote:
-> On Tue, Feb 09, 2021 at 02:58:46PM +0100, Philippe Mathieu-Daudé wrote:
->> On 2/9/21 2:50 PM, Daniel P. Berrangé wrote:
->>> The Travis CI system QEMU has been using has removed the unlimited free
->>> usage model, replacing it with a one-time only grant of CI minutes that
->>> is not renewed. The QEMU CI jobs quickly exhaust maintainer's free CI
->>> credits, leaving them unable to test with Travis. This is not a
->>> sustainable situation, so we have no choice by to discontinue use of
->>> Travis. GitLab CI is now the primary target, with Cirrus CI filling
->>> in some platform gaps where needed.
->>>
->>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>> ---
->>>  .travis.yml                        | 439 -----------------------------
->>>  MAINTAINERS                        |   3 -
->>>  configure                          |   1 -
->>>  contrib/gitdm/filetypes.txt        |   2 +-
->>>  scripts/travis/coverage-summary.sh |  27 --
->>>  tests/docker/docker.py             |   2 +-
->>>  tests/qemu-iotests/079             |   2 +-
->>>  tests/test-util-filemonitor.c      |  11 -
->>>  8 files changed, 3 insertions(+), 484 deletions(-)
->>>  delete mode 100644 .travis.yml
->>>  delete mode 100755 scripts/travis/coverage-summary.sh
->> ...
+On 09/02/2021 15.12, Philippe Mathieu-Daudé wrote:
+> On 2/9/21 2:41 PM, Peter Maydell wrote:
+>> On Tue, 9 Feb 2021 at 13:32, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>> Migration of this job is pending of Cleber's possibility to add an AArch64
+>>> runner to Gitlab-CI, right? Then we need someone to support and maintain
+>>> the hardware... I don't think anybody volunteered.
 >>
->>> diff --git a/configure b/configure
->>> index 7c496d81fc..058a7c7967 100755
->>> --- a/configure
->>> +++ b/configure
->>> @@ -4872,7 +4872,6 @@ fi
->>>  ########################################
->>>  # See if __attribute__((alias)) is supported.
->>>  # This false for Xcode 9, but has been remedied for Xcode 10.
->>
->> Not related to this patch, but I don't think Xcode 9 is supported
->> anymore.
->>
->>> -# Unfortunately, travis uses Xcode 9 by default.
->>>  
->>>  attralias=no
->>>  cat > $TMPC << EOF
->>
->>> diff --git a/scripts/travis/coverage-summary.sh b/scripts/travis/coverage-summary.sh
->>> deleted file mode 100755
->>> index d7086cf9ca..0000000000
->>> --- a/scripts/travis/coverage-summary.sh
->>> +++ /dev/null
->>> @@ -1,27 +0,0 @@
->>> -#!/bin/sh
->>> -#
->>> -# Author: Alex Bennée <alex.bennee@linaro.org>
->>> -#
->>> -# Summerise the state of code coverage with gcovr and tweak the output
->>> -# to be more sane on Travis hosts. As we expect to be executed on a
->>> -# throw away CI instance we do spam temp files all over the shop. You
->>> -# most likely don't want to execute this script but just call gcovr
->>> -# directly. See also "make coverage-report"
->>> -#
->>> -# This code is licensed under the GPL version 2 or later.  See
->>> -# the COPYING file in the top-level directory.
->>> -
->>> -# first generate the coverage report
->>> -gcovr -p -o raw-report.txt
->>> -
->>> -# strip the full-path and line markers
->>> -sed s@$PWD\/@@ raw-report.txt | sed s/[0-9]\*[,-]//g > simplified.txt
->>> -
->>> -# reflow lines that got split
->>> -awk '/.[ch]$/ { printf("%s", $0); next } 1' simplified.txt > rejoined.txt
->>> -
->>> -# columnify
->>> -column -t rejoined.txt > final.txt
->>> -
->>> -# and dump, stripping out 0% coverage
->>> -grep -v "0%" final.txt
->>
->> This script can be run on other CI.
->>
->> Keeping scripts/travis/coverage-summary.sh (moved to
->> scripts/ci/coverage-summary.sh):
+>> We have the hardware already. Effectively Alex is maintaining it...
 > 
-> I notice that the "gcovr" program used here should be able to output
-> an XML document in a format that is supported by GitLab, which can
-> then pretty-display the results.
-
-Good idea.
-
-> If we do that, perhaps we won't ned this coverage-summary script
-> for post-processing the text output format ?
-
-This indeed requires further testing. I'd worry about that later.
-
-I'll let Alex see how he wants to deal with that, we can still
-add the script back later.
-
-> I guess we need to make sure  gcovr is actually installed in all
-> our dockerfiles used by gitlab.
+> I missed to read if Alex volunteered for this task but am certainly
+> happy if he is :) Although this should be documented somewhere (who
+> to contact if the AArch64 runner starts to fail?).
 > 
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>
-> 
-> Regards,
-> Daniel
-> 
+> Assuming Cleber's runner script is merged and working on the AArch64
+> runner, then we need to figure how contributors can use it.
+> Assuming this runner will be registered under the QEMU organization
+> namespace in Gitlab, then contributors would have to open a Merge
+> Request to trigger the CI jobs (similarly to when you push to the
+> /staging branch). Then we would cancel the MR. We can ask contributors
+> to cancel their MR once testing done.
+
+I'm not sure, but if I got that right, opening a MR will only trigger a CI 
+run on side of the requester, not of the target project? For example, when I 
+look at:
+
+  https://gitlab.com/libvirt/libvirt/-/merge_requests/65
+
+the pipeline that is shown there ran on side of the requester, not on side 
+of the libvirt project?
+
+  Thomas
 
 
