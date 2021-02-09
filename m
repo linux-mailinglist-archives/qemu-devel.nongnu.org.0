@@ -2,59 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887DE3157AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 21:26:43 +0100 (CET)
-Received: from localhost ([::1]:45566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC4E3157AF
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 21:26:55 +0100 (CET)
+Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Zas-0005bX-2C
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 15:26:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60380)
+	id 1l9Zb4-00061D-3E
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 15:26:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l9Yte-0000Xv-N5; Tue, 09 Feb 2021 14:42:02 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:47559)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l9Ytc-0006gY-Ok; Tue, 09 Feb 2021 14:42:02 -0500
-Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M76jv-1lH0bb2IKF-008bZF; Tue, 09 Feb 2021 20:41:48 +0100
-Subject: Re: [PATCH 2/5] target/m68k: Drop use of gdb_get_float64() and
- ldfq_p()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210208113428.7181-1-peter.maydell@linaro.org>
- <20210208113428.7181-3-peter.maydell@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <bdd455a3-0c07-4762-0e39-7dc8ce17a7d1@vivier.eu>
-Date: Tue, 9 Feb 2021 20:41:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l9Yyb-0006LR-Py
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:47:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43573)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l9YyY-0000Jc-MY
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:47:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612900024;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kmuGJWTTn51jD+ZLduwgQrnva6H6TDX1ZuYHq1PmDSc=;
+ b=A9pGFWJtFVoQ+BAHGy+wBVKl6Qhwzzz644fztgnfVQLQ55snksvS08onkWcFEy7+CoDPut
+ KTmtx6gWLfDVQ/4hNHGDZcWjxZPQbInAR0HUqZtBUZ5b6vVGZs8CICzggOU1OCVbidWW3N
+ MAgApbTtXLl7UVJtBjXlj8p/VnDvdK4=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-zPFWOhp_PN6AciHdCBp-vg-1; Tue, 09 Feb 2021 14:47:01 -0500
+X-MC-Unique: zPFWOhp_PN6AciHdCBp-vg-1
+Received: by mail-qk1-f200.google.com with SMTP id r15so7386670qke.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 11:47:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kmuGJWTTn51jD+ZLduwgQrnva6H6TDX1ZuYHq1PmDSc=;
+ b=ofWUh/CR+LIRFPeeeFXN+xUDFnwE1FstQQGYdvFmrMxRHv7j0H4Z2Q1CQhi8m5Hg9l
+ Oljsuw7AYbykVIxdThcL2gvJmJ1Can9H7tp1G6EXQkm4pEUWvOwiPMyOZ8+qY+gFzRhp
+ xsGjuE8BLe0s0quxwWn5gL1IgiO2LJ30kv8vVg6x6irYGsy/ZdA5x7VkHw/FHmEmcYSj
+ u/8i/v8Aoi3Nk43OloX0QLQzQ920mfOdam19rqieQuNO56cyTaUgNRJJn6evKkrHngGr
+ UPkD2RYaEdyM2nht7VJa9lY0y5wYdAffx6tk6Bw63OtQE3IvTsXh/7kIG+ChC0GgV1yl
+ l/+w==
+X-Gm-Message-State: AOAM531EgZpZ9lJGn5Tk1X6liRsmabbhJ/U1H6fFhrz0xXt5TgQs06T4
+ +bMSNLBZOGrw5r9boVWAVXkvEhdd4hazhKTuLJTUIsnKH8ocxOZe9SsEnrVsPfwLfGMSXkFVHdl
+ 7vOltLUGGFIi5BW0=
+X-Received: by 2002:a37:41d2:: with SMTP id o201mr6049711qka.204.1612900021034; 
+ Tue, 09 Feb 2021 11:47:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwgjZvmTt1QrZUbtFy0fRSNB1jLl4a2ACUa9s3D/HG9jEV3BJtt97+UPWvRmqmv1dI/yRj3XA==
+X-Received: by 2002:a37:41d2:: with SMTP id o201mr6049693qka.204.1612900020734; 
+ Tue, 09 Feb 2021 11:47:00 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-20-174-93-89-182.dsl.bell.ca. [174.93.89.182])
+ by smtp.gmail.com with ESMTPSA id y26sm18654750qth.53.2021.02.09.11.46.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 11:47:00 -0800 (PST)
+Date: Tue, 9 Feb 2021 14:46:58 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH] vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support
+Message-ID: <20210209194658.GA103365@xz-x1>
+References: <20210204191228.187550-1-peterx@redhat.com>
+ <2382a93d-41c1-24fd-144f-87ee18171bc9@redhat.com>
+ <213acf9a-d1c0-3a1d-4846-877d90fadc03@redhat.com>
+ <20210205153107.GX6468@xz-x1>
+ <a28ba439-758e-4b5b-86d9-5008b220b106@redhat.com>
+ <20210208183721.GB68242@xz-x1>
+ <a5e3c11e-fa31-3013-1e7e-3b2d6193bd7b@redhat.com>
+ <6ddf3db5-552a-4984-5f52-836178e5f486@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210208113428.7181-3-peter.maydell@linaro.org>
+In-Reply-To: <6ddf3db5-552a-4984-5f52-836178e5f486@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YREzwe9+kP9/yePkyxI3Fn5wkjAE80WCD6V6F+GdJ4mKmxxATAE
- vZt5kMlPes63wssLpq6hn2Q3KpUu2OjTgQ3TBDHz+G3BKq+Nl8chI4Em7SrV992KYxcdklm
- oPXmPjYxUhViqj5wWktApc90sd7YNbrj/dBr+i+7WfDmX8IApw623oFeFnCi34Ke8h1azd2
- vvy4U6PN8L+doWP7j0skA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TccrxrGNa+4=:ot5CrOTgQDDqtWscyL+ljQ
- K2RmdFZBmxAkusjQ+tDWqS2tL5557VjuFlSF85Qy2vbBmUw5GcXBwR6MEuddVwEb8mGoSKBkE
- DxH6B2GD5NthrDlUc3K3l73oVkll3B+MfOiSA4UrgaXdEuvkDd/Gv2IO+ZvWOJLbkcD6Jdu4l
- aiFfni9fbwWnHRc4iho//Gk6S/xNb8L4+Vn65z/sXjZGRKIQBpIAz66CfHovHo8LF/rA/h5/f
- kQ+X5zPzmpi39XfMQOgc1B9N3J3ewFBYH6C2qLppYD365VJGEGesFxjNVmYvxZ5UgwaCsR3jt
- MDbWsr2U0SMdXDFdnId0KF1CM8VXYyvTRxP4GjInVvQxw5vT5lqmbpCLfzqM3NW+MCC6KBfYV
- Av66arhOqucrjF1F2nryB/a1lFs8nGgjxRJCm3tg6+2LJkuy1aLUH+cllL72fNO459WtiSclc
- RsEo53oIpQ==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,58 +98,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Jean-Philippe Brucker <Jean-Philippe.Brucker@arm.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Eugenio Perez Martin <eperezma@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/02/2021 à 12:34, Peter Maydell a écrit :
-> We used to make a distinction between 'float64'/'float32' types and
-> the 'uint64_t'/'uint32_t' types, requiring special conversion
-> operations to go between them.  We've now dropped this distinction as
-> unnecessary, and the 'float*' types remain primarily for
-> documentation purposes when used in places like the function
-> prototypes of TCG helper functions.
-> 
-> This means that there's no need for a special gdb_get_float64()
-> function to write a float64 value to the GDB protocol buffer; we can
-> just use gdb_get_reg64().
-> 
-> Similarly, for reading a value out of the GDB buffer into a float64
-> we can use ldq_p() and need not use ldfq_p().
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/m68k/helper.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-> index 3ff57657958..09f0391d508 100644
-> --- a/target/m68k/helper.c
-> +++ b/target/m68k/helper.c
-> @@ -72,8 +72,7 @@ static int cf_fpu_gdb_get_reg(CPUM68KState *env, GByteArray *mem_buf, int n)
->  {
->      if (n < 8) {
->          float_status s;
-> -        return gdb_get_float64(mem_buf,
-> -                               floatx80_to_float64(env->fregs[n].d, &s));
-> +        return gdb_get_reg64(mem_buf, floatx80_to_float64(env->fregs[n].d, &s));
->      }
->      switch (n) {
->      case 8: /* fpcontrol */
-> @@ -90,7 +89,7 @@ static int cf_fpu_gdb_set_reg(CPUM68KState *env, uint8_t *mem_buf, int n)
->  {
->      if (n < 8) {
->          float_status s;
-> -        env->fregs[n].d = float64_to_floatx80(ldfq_p(mem_buf), &s);
-> +        env->fregs[n].d = float64_to_floatx80(ldq_p(mem_buf), &s);
->          return 8;
->      }
->      switch (n) {
-> 
+On Tue, Feb 09, 2021 at 06:15:11PM +0100, Auger Eric wrote:
+> I just noted that the vhost fix now breaks virtio-iommu/vfio integration
+> because VFIO registers IOMMU_NOTIFIER_ALL which includes the DEV-IOTLB
+> that is now rejected by virtio-iommu virtio_iommu_notify_flag_changed().
+> Is it safe to replace IOMMU_NOTIFIER_ALL by IOMMU_NOTIFIER_IOTLB_EVENTS
+> in vfio_listener_region_add (hw/vfio/common.c) or shall we also do the
+> 2-step registration? After your confirmation, I can send the patch.
 
-Acked-by: Laurent Vivier <laurent@vivier.eu>
+Thanks for noticing this, Eric.  Indeed there're a bunch of things that we'd
+overlooked.
+
+I think IOMMU_NOTIFIER_IOTLB_EVENTS should suffice with vfio.
+
+If you post that patch, would you mind post a similar fix for PPC too which
+will need the two-step thing?  Assuming they can be in the same series to fix
+the breakage of that same patch.
+
+CC Alex and David Gibson.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
