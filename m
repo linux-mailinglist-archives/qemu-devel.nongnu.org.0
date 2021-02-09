@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51689315688
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 20:11:14 +0100 (CET)
-Received: from localhost ([::1]:57058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB8C3156A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 20:19:21 +0100 (CET)
+Received: from localhost ([::1]:45664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9YPp-0007cE-CX
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 14:11:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52526)
+	id 1l9YXg-0006eW-BY
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 14:19:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l9YLE-0004Cj-BU
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:06:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60350)
+ id 1l9YLX-0004M8-BV
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:06:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l9YL4-0002TD-I0
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:06:27 -0500
+ id 1l9YLS-0002cp-MC
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:06:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612897576;
+ s=mimecast20190719; t=1612897600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QncF93T67Su1/OODXxjr7IkgXv6iMGq4WvY5yBFhbHw=;
- b=YMfO6W2srd1bHtFBecb4I1N6jAhOs6O0AUuLVhpgz93gdPoKf0cmrTCiIIgCdarfmma599
- K3RNH+rCic//jZtD50mQEuoizROieCiO0jdcAa9dJXoqGwrjejTaMdvH92+dE4vYbb1HxV
- f8chXHOrPVrzi+EmQY4TvxbprdmSD1A=
+ bh=2+PKRjRL0uQkeqx2q2kSSEHpKI8DjUcO+q9RzQ70mTY=;
+ b=VI7+sZTey3Hpke4jtOpGr36vGbTg7q3kmBPQB9O5bEkTlWsp5Ek4yn18GOs/SmlK3mN68h
+ yH1PEWEVElapgf14EUte7bOVke0IPGADEoCFZFlm4q3wtB1hc9kqbxOXx/B+Eadj/U24FF
+ dhAtImsxrG31DeZIrKkvxwMor3kTCzo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-oWJPJWn_OKqwcpqIwNml-Q-1; Tue, 09 Feb 2021 14:06:14 -0500
-X-MC-Unique: oWJPJWn_OKqwcpqIwNml-Q-1
+ us-mta-363-yKKwSIX9PVSL4YVCWRh5tQ-1; Tue, 09 Feb 2021 14:06:37 -0500
+X-MC-Unique: yKKwSIX9PVSL4YVCWRh5tQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BEB9107ACE3
- for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 19:06:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9E45801988
+ for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 19:06:36 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-66.ams2.redhat.com
  [10.36.112.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4323A60C4D;
- Tue,  9 Feb 2021 19:06:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D08EF60C04;
+ Tue,  9 Feb 2021 19:06:20 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, vgoyal@redhat.com, stefanha@redhat.com,
  virtio-fs@redhat.com, marcandre.lureau@redhat.com, mst@redhat.com
-Subject: [PATCH 20/24] DAX/unmap virtiofsd: route unmappable write to slave
- command
-Date: Tue,  9 Feb 2021 19:02:20 +0000
-Message-Id: <20210209190224.62827-21-dgilbert@redhat.com>
+Subject: [PATCH 23/24] vhost-user-fs: Implement drop CAP_FSETID functionality
+Date: Tue,  9 Feb 2021 19:02:23 +0000
+Message-Id: <20210209190224.62827-24-dgilbert@redhat.com>
 In-Reply-To: <20210209190224.62827-1-dgilbert@redhat.com>
 References: <20210209190224.62827-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -84,120 +83,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-When a fuse_buf_copy is performed on an element with FUSE_BUF_PHYS_ADDR
-route it to a fuse_virtio_write request that does a slave command to
-perform the write.
+As part of slave_io message, slave can ask to do I/O on an fd. Additionally
+slave can ask for dropping CAP_FSETID (if master has it) before doing I/O.
+Implement functionality to drop CAP_FSETID and gain it back after the
+operation.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+This also creates a dependency on libcap-ng.
+
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/buffer.c         | 14 +++++++++++---
- tools/virtiofsd/fuse_common.h    |  6 +++++-
- tools/virtiofsd/fuse_lowlevel.h  |  3 ---
- tools/virtiofsd/passthrough_ll.c |  2 +-
- 4 files changed, 17 insertions(+), 8 deletions(-)
+ hw/virtio/meson.build     |  1 +
+ hw/virtio/vhost-user-fs.c | 92 ++++++++++++++++++++++++++++++++++++++-
+ meson.build               |  6 +++
+ 3 files changed, 97 insertions(+), 2 deletions(-)
 
-diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
-index 1a050aa441..8135d52d2a 100644
---- a/tools/virtiofsd/buffer.c
-+++ b/tools/virtiofsd/buffer.c
-@@ -200,13 +200,20 @@ static ssize_t fuse_buf_fd_to_fd(const struct fuse_buf *dst, size_t dst_off,
-     return copied;
- }
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index fbff9bc9d4..bdcdc82e13 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -18,6 +18,7 @@ virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
+ virtio_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VIRTIO_PCI'], if_true: files('virtio-crypto-pci.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs.c'))
++virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: libcap_ng)
+ virtio_ss.add(when: ['CONFIG_VHOST_USER_FS', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-fs-pci.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock.c', 'vhost-vsock-common.c'))
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index 61e891c82d..0d6ec27edd 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -13,6 +13,8 @@
  
--static ssize_t fuse_buf_copy_one(const struct fuse_buf *dst, size_t dst_off,
-+static ssize_t fuse_buf_copy_one(fuse_req_t req,
-+                                 const struct fuse_buf *dst, size_t dst_off,
-                                  const struct fuse_buf *src, size_t src_off,
-                                  size_t len)
- {
-     int src_is_fd = src->flags & FUSE_BUF_IS_FD;
-     int dst_is_fd = dst->flags & FUSE_BUF_IS_FD;
-+    int src_is_phys = src->flags & FUSE_BUF_PHYS_ADDR;
-+    int dst_is_phys = src->flags & FUSE_BUF_PHYS_ADDR;
+ #include "qemu/osdep.h"
+ #include <sys/ioctl.h>
++#include <cap-ng.h>
++#include <sys/syscall.h>
+ #include "standard-headers/linux/virtio_fs.h"
+ #include "qapi/error.h"
+ #include "hw/qdev-properties.h"
+@@ -36,6 +38,84 @@
+ #define DAX_WINDOW_PROT PROT_NONE
+ #endif
  
-+    if (src_is_phys && !src_is_fd && dst_is_fd) {
-+        return fuse_virtio_write(req, dst, dst_off, src, src_off, len);
++/*
++ * Helpers for dropping and regaining effective capabilities. Returns 0
++ * on success, error otherwise
++ */
++static int drop_effective_cap(const char *cap_name, bool *cap_dropped)
++{
++    int cap, ret;
++
++    cap = capng_name_to_capability(cap_name);
++    if (cap < 0) {
++        ret = -errno;
++        error_report("capng_name_to_capability(%s) failed:%s", cap_name,
++                     strerror(errno));
++        goto out;
 +    }
-+    assert(!src_is_phys && !dst_is_phys);
-     if (!src_is_fd && !dst_is_fd) {
-         char *dstmem = (char *)dst->mem + dst_off;
-         char *srcmem = (char *)src->mem + src_off;
-@@ -259,7 +266,8 @@ static int fuse_bufvec_advance(struct fuse_bufvec *bufv, size_t len)
-     return 1;
- }
- 
--ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct fuse_bufvec *srcv)
-+ssize_t fuse_buf_copy(fuse_req_t req, struct fuse_bufvec *dstv,
-+                      struct fuse_bufvec *srcv)
++
++    if (capng_get_caps_process()) {
++        ret = -errno;
++        error_report("capng_get_caps_process() failed:%s", strerror(errno));
++        goto out;
++    }
++
++    /* We dont have this capability in effective set already. */
++    if (!capng_have_capability(CAPNG_EFFECTIVE, cap)) {
++        ret = 0;
++        goto out;
++    }
++
++    if (capng_update(CAPNG_DROP, CAPNG_EFFECTIVE, cap)) {
++        ret = -errno;
++        error_report("capng_update(DROP,) failed");
++        goto out;
++    }
++    if (capng_apply(CAPNG_SELECT_CAPS)) {
++        ret = -errno;
++        error_report("drop:capng_apply() failed");
++        goto out;
++    }
++
++    ret = 0;
++    if (cap_dropped) {
++        *cap_dropped = true;
++    }
++
++out:
++    return ret;
++}
++
++static int gain_effective_cap(const char *cap_name)
++{
++    int cap;
++    int ret = 0;
++
++    cap = capng_name_to_capability(cap_name);
++    if (cap < 0) {
++        ret = -errno;
++        error_report("capng_name_to_capability(%s) failed:%s", cap_name,
++                     strerror(errno));
++        goto out;
++    }
++
++    if (capng_update(CAPNG_ADD, CAPNG_EFFECTIVE, cap)) {
++        ret = -errno;
++        error_report("capng_update(ADD,) failed");
++        goto out;
++    }
++
++    if (capng_apply(CAPNG_SELECT_CAPS)) {
++        ret = -errno;
++        error_report("gain:capng_apply() failed");
++        goto out;
++    }
++    ret = 0;
++
++out:
++    return ret;
++}
++
+ uint64_t vhost_user_fs_slave_map(struct vhost_dev *dev, VhostUserFSSlaveMsg *sm,
+                                  int fd)
  {
-     size_t copied = 0, i;
+@@ -170,6 +250,7 @@ uint64_t vhost_user_fs_slave_io(struct vhost_dev *dev, VhostUserFSSlaveMsg *sm,
+     unsigned int i;
+     int res = 0;
+     size_t done = 0;
++    bool cap_fsetid_dropped = false;
  
-@@ -301,7 +309,7 @@ ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct fuse_bufvec *srcv)
-         dst_len = dst->size - dstv->off;
-         len = min_size(src_len, dst_len);
- 
--        res = fuse_buf_copy_one(dst, dstv->off, src, srcv->off, len);
-+        res = fuse_buf_copy_one(req, dst, dstv->off, src, srcv->off, len);
-         if (res < 0) {
-             if (!copied) {
-                 return res;
-diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-index ed9280de91..05d56883dd 100644
---- a/tools/virtiofsd/fuse_common.h
-+++ b/tools/virtiofsd/fuse_common.h
-@@ -495,6 +495,8 @@ struct fuse_conn_info {
- struct fuse_session;
- struct fuse_pollhandle;
- struct fuse_conn_info_opts;
-+struct fuse_req;
-+typedef struct fuse_req *fuse_req_t;
- 
- /**
-  * This function parses several command-line options that can be used
-@@ -713,11 +715,13 @@ size_t fuse_buf_size(const struct fuse_bufvec *bufv);
- /**
-  * Copy data from one buffer vector to another
-  *
-+ * @param req The request this copy is part of
-  * @param dst destination buffer vector
-  * @param src source buffer vector
-  * @return actual number of bytes copied or -errno on error
-  */
--ssize_t fuse_buf_copy(struct fuse_bufvec *dst, struct fuse_bufvec *src);
-+ssize_t fuse_buf_copy(fuse_req_t req,
-+                      struct fuse_bufvec *dst, struct fuse_bufvec *src);
- 
- /**
-  * Memory buffer iterator
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-index af928b262f..b36140c565 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -42,9 +42,6 @@
- /** Inode number type */
- typedef uint64_t fuse_ino_t;
- 
--/** Request pointer type */
--typedef struct fuse_req *fuse_req_t;
--
- /**
-  * Session
-  *
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 21ddb434ae..5baf4f1d50 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2135,7 +2135,7 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
-         }
+     if (fd < 0) {
+         error_report("Bad fd for map");
+@@ -177,8 +258,10 @@ uint64_t vhost_user_fs_slave_io(struct vhost_dev *dev, VhostUserFSSlaveMsg *sm,
      }
  
--    res = fuse_buf_copy(&out_buf, in_buf);
-+    res = fuse_buf_copy(req, &out_buf, in_buf);
+     if (sm->gen_flags & VHOST_USER_FS_GENFLAG_DROP_FSETID) {
+-        error_report("Dropping CAP_FSETID is not supported");
+-        return (uint64_t)-ENOTSUP;
++        res = drop_effective_cap("FSETID", &cap_fsetid_dropped);
++        if (res != 0) {
++            return (uint64_t)res;
++        }
+     }
+ 
+     for (i = 0; i < VHOST_USER_FS_SLAVE_ENTRIES && !res; i++) {
+@@ -237,6 +320,11 @@ uint64_t vhost_user_fs_slave_io(struct vhost_dev *dev, VhostUserFSSlaveMsg *sm,
+     }
+     close(fd);
+ 
++    if (cap_fsetid_dropped) {
++        if (gain_effective_cap("FSETID")) {
++            error_report("Failed to gain CAP_FSETID");
++        }
++    }
+     trace_vhost_user_fs_slave_io_exit(res, done);
      if (res < 0) {
-         fuse_reply_err(req, -res);
-     } else {
+         return (uint64_t)res;
+diff --git a/meson.build b/meson.build
+index 2d8b433ff0..99a7fbacc1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1060,6 +1060,12 @@ elif get_option('virtfs').disabled()
+   have_virtfs = false
+ endif
+ 
++if config_host.has_key('CONFIG_VHOST_USER_FS')
++  if not libcap_ng.found()
++    error('vhost-user-fs requires libcap-ng-devel')
++  endif
++endif
++
+ config_host_data.set_quoted('CONFIG_BINDIR', get_option('prefix') / get_option('bindir'))
+ config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
+ config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_confdir)
 -- 
 2.29.2
 
