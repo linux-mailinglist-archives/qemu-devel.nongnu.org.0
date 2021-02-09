@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27643149A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 08:44:34 +0100 (CET)
-Received: from localhost ([::1]:37734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EA4314994
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 08:38:27 +0100 (CET)
+Received: from localhost ([::1]:58056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9NhJ-000307-Gq
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 02:44:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46840)
+	id 1l9NbO-0007sW-3X
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 02:38:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NUk-0004sh-Ip; Tue, 09 Feb 2021 02:31:34 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:37271)
+ id 1l9NUn-0004wc-V0; Tue, 09 Feb 2021 02:31:37 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:51453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NUi-0005Uk-Lv; Tue, 09 Feb 2021 02:31:34 -0500
+ id 1l9NUl-0005XM-KE; Tue, 09 Feb 2021 02:31:37 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 50588C10;
- Tue,  9 Feb 2021 02:31:30 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 81E4E31C;
+ Tue,  9 Feb 2021 02:31:33 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:31:31 -0500
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:31:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=yr+ODXq0ar8Wm
- PLirTI08uQrB++W1cT3xbvsWymg0no=; b=1Ov3Ue3h5VMk0D9R3/sTQoqeOgVbb
- GYfABsSOE07gE05mCWat9xGwRzSdUfxk51MQlmkZqUl0nVrvoGTE2BrOjfzJ7syH
- kqsXX+KRqqcDfwwldtATaDXAdrszghzRMOTUrXzpltq1ho6qYO7ui6u4v7nWQ7s2
- fQU4CZx37uaBvMZb+bdtR+BcUew/NKoXMcqUaWtKvioXeT6ivi7OCQE/Aey3EbTF
- CB2HCO4adQU0wOWIlhYgQdiqxjLrGNtFyPorJ/4ybESWBP2wxnxYjOt9M0hmnCAi
- IbqoPjwzFodGEQanOl6bx4LlOgSIvgd9EakgBVNeOG6DHH9vaVqQOeZ7g==
+ :mime-version:content-transfer-encoding; s=fm2; bh=XrRMME8E6KFnM
+ 4mUx+Xts4NxEBUdQkaA6OVYUEUi+EM=; b=sUpRHadPqwlb9+8RWvSJDHVA3k2+Z
+ dZbotcwwLyoc2SIvFKpqg36n9nbVxujkmz4rBXOCtEMuOqzRjhtWK6bjmjWdXn76
+ EiAa8taqsvg2AHNNkTpgdtHNylNKdh2Haj0aU9l20rUv2Xk8QZJ8JuKDs2ZKJQZ7
+ Rs1PsJVrHXHm84nk5//QgAmvjwmvp4dw2yYb75YYiCS1H/pl8KyCU+0/6qIhpylW
+ U6Fd+S2rZzYWdFngjo4jyfMDn+tqboc4eeXuyxOs55LiGQUAai6eaSPfWgF3fLNQ
+ UFbP+8ljQeXLjWn/eGYrRN/rI7GHTf/1/xUTAcRzepF0JtygaR75GOA3Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=yr+ODXq0ar8WmPLirTI08uQrB++W1cT3xbvsWymg0no=; b=Bg4ERhJW
- yC07IVj3q4VYxZ3GeC9Ks264R4q+SMJyLREH/xaL5gCpjmBBoVHmrwEwZ4ClLpX8
- c5pa6nnJdFyWHbINL4EBgIXfK3bLrKCLJFkP+EzKkTgrNEMnTPn/68ZXvUgkfiJo
- ZKsJjOQxXHJIyb0ivJHJJNV70M2U52znxfCE0+2AWpiJuCWANDwmV9fx6oBl2lJh
- fUVapW1tyTndWAhppGTw5bkUyQ5vFnmr7OqqcCi1UkfNLNLK62sFhyT4giQ+1Ztw
- Vmj2PmDi5zAoqWkh//E7MMcD/aXwS79Py3osWLFhVm0/7jexwInVscOqcz7+5hga
- m7Z+w0kuZctG1g==
-X-ME-Sender: <xms:UToiYN5d46RtuIAe2EoR-C3eyiiS3rfaN0oHpqt6XW2CvHAU9f0low>
- <xme:UToiYK6Hws9q-XLd0V61_96SvaJcnGU959dJTQ6sFFqDUB3xjH3M7UxD-T3IBQwkV
- NC-RkFeX7nxxH7O1jo>
+ fm2; bh=XrRMME8E6KFnM4mUx+Xts4NxEBUdQkaA6OVYUEUi+EM=; b=EVvmun2l
+ o4xUjwXxmtnL+si3bGe+we4kT0g4KTdfL80js5OclA8tvqsVs8kQJ9g5d6BVG/lm
+ 4xkE2pZF1OqxGI+/DpLgOvcAzuCkyxr58zEh508uVfEH6KPkZ0RCYpQlxEkr1ady
+ 55XzYh29xACkzoB/AmLi0msQ2N+XX1Z3kFdxMNM78m/aY04JCfBJ9OUZxTlnyfs5
+ UBDtNPl2K7ua4CBNKaFJrROWgYlG1KdLUL6iLEgk0hLatzHdEGDBi2xCEMgQJX0x
+ Z1K36cSguEgqbpGCN+YnL7Hq6Ke5L5rxNt4wAy3tk2EV5ORQwnU2eLx+yso9SM5B
+ f+E+AGYTukJVcg==
+X-ME-Sender: <xms:VDoiYFPUZdtqsYuc1l_0a7uVxjfH5zsgUaIeUGlhR75K5bCtpGNtCA>
+ <xme:VDoiYH8VmOW46LtMXtIaEFOrzA3HE6Xe38py1k7hcZxd_2lh1IL5QGd2WaBXtQPRC
+ 8dKCa_-2J98bmeSI7Y>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggddutdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,20 +53,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggddutdelucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeehne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:UToiYEdxgivYc3l-YDcyoMpaaB1jkznhyCkdbHKqKzlOnuvsTt06jQ>
- <xmx:UToiYGJxp_zmCMMEks9xn7fyAWkGYjXinbgOpd7lhR9mqMr9dYyyOg>
- <xmx:UToiYBIXxcFdxt7Jzmbw9q3KZ0gXaUcJSg3bv7-gaXXikaCgzXFfVQ>
- <xmx:UToiYKWu47I0kRF-vrgKFKa9tkFS-zSqGU1bjXc0J--BT_6OagFaqy_5s2o>
+X-ME-Proxy: <xmx:VDoiYESZhU-048UtDS-FEqRhu8uAzK287pVR2iTEsSdq8ldvh8YL7A>
+ <xmx:VDoiYBvGKGu5XhNMKFLrOjJqAit1-9Dz3wWTuMda9g-Hv669TEXbxQ>
+ <xmx:VDoiYNdfgImV57M1pThta2DPe_3Ciiv-zE_1TvrAXkTlS5TQmJDEIw>
+ <xmx:VToiYMxanWaK1wbngTH-jRWW_ZzwD6celMCty4f3WAbqIT20mhnuEKfheDM>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5F8351080057;
- Tue,  9 Feb 2021 02:31:28 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 92CA41080057;
+ Tue,  9 Feb 2021 02:31:31 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 06/56] hw/block/nvme: add compare command
-Date: Tue,  9 Feb 2021 08:30:11 +0100
-Message-Id: <20210209073101.548811-7-its@irrelevant.dk>
+Subject: [PULL 08/56] hw/block/nvme: Process controller reset and shutdown
+ differently
+Date: Tue,  9 Feb 2021 08:30:13 +0100
+Message-Id: <20210209073101.548811-9-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210209073101.548811-1-its@irrelevant.dk>
 References: <20210209073101.548811-1-its@irrelevant.dk>
@@ -94,176 +95,121 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Minwoo Im <minwoo.im.dev@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+ qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 
-Add the Compare command.
+Controller reset ans subsystem shutdown are handled very much the same
+in the current code, but some of the steps should be different in these
+two cases.
 
-This implementation uses a bounce buffer to read in the data from
-storage and then compare with the host supplied buffer.
+Introduce two new functions, nvme_reset_ctrl() and nvme_shutdown_ctrl(),
+to separate some portions of the code from nvme_clear_ctrl(). The steps
+that are made different between reset and shutdown are that BAR.CC is not
+reset to zero upon the shutdown and namespace data is flushed to
+backing storage as a part of shutdown handling, but not upon reset.
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-[k.jensen: rebased]
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Suggested-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c       | 101 +++++++++++++++++++++++++++++++++++++++++-
- hw/block/trace-events |   2 +
- 2 files changed, 102 insertions(+), 1 deletion(-)
+ hw/block/nvme-ns.h |  2 +-
+ hw/block/nvme-ns.c |  2 +-
+ hw/block/nvme.c    | 24 ++++++++++++++++++------
+ 3 files changed, 20 insertions(+), 8 deletions(-)
 
+diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+index 44bf6271b744..ed3d7e65d597 100644
+--- a/hw/block/nvme-ns.h
++++ b/hw/block/nvme-ns.h
+@@ -73,6 +73,6 @@ typedef struct NvmeCtrl NvmeCtrl;
+ 
+ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp);
+ void nvme_ns_drain(NvmeNamespace *ns);
+-void nvme_ns_flush(NvmeNamespace *ns);
++void nvme_ns_shutdown(NvmeNamespace *ns);
+ 
+ #endif /* NVME_NS_H */
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index 37f95951a6b8..a0de53e71878 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -129,7 +129,7 @@ void nvme_ns_drain(NvmeNamespace *ns)
+     blk_drain(ns->blkconf.blk);
+ }
+ 
+-void nvme_ns_flush(NvmeNamespace *ns)
++void nvme_ns_shutdown(NvmeNamespace *ns)
+ {
+     blk_flush(ns->blkconf.blk);
+ }
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index f019d43788ac..b9313fdc4762 100644
+index de52487aaf06..f54c5c6ea44d 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -999,6 +999,51 @@ static void nvme_aio_discard_cb(void *opaque, int ret)
-     nvme_enqueue_req_completion(nvme_cq(req), req);
- }
- 
-+struct nvme_compare_ctx {
-+    QEMUIOVector iov;
-+    uint8_t *bounce;
-+    size_t len;
-+};
-+
-+static void nvme_compare_cb(void *opaque, int ret)
-+{
-+    NvmeRequest *req = opaque;
-+    NvmeNamespace *ns = req->ns;
-+    struct nvme_compare_ctx *ctx = req->opaque;
-+    g_autofree uint8_t *buf = NULL;
-+    uint16_t status;
-+
-+    trace_pci_nvme_compare_cb(nvme_cid(req));
-+
-+    if (!ret) {
-+        block_acct_done(blk_get_stats(ns->blkconf.blk), &req->acct);
-+    } else {
-+        block_acct_failed(blk_get_stats(ns->blkconf.blk), &req->acct);
-+        nvme_aio_err(req, ret);
-+        goto out;
-+    }
-+
-+    buf = g_malloc(ctx->len);
-+
-+    status = nvme_dma(nvme_ctrl(req), buf, ctx->len, DMA_DIRECTION_TO_DEVICE,
-+                      req);
-+    if (status) {
-+        req->status = status;
-+        goto out;
-+    }
-+
-+    if (memcmp(buf, ctx->bounce, ctx->len)) {
-+        req->status = NVME_CMP_FAILURE;
-+    }
-+
-+out:
-+    qemu_iovec_destroy(&ctx->iov);
-+    g_free(ctx->bounce);
-+    g_free(ctx);
-+
-+    nvme_enqueue_req_completion(nvme_cq(req), req);
+@@ -2295,6 +2295,20 @@ static void nvme_clear_ctrl(NvmeCtrl *n)
+     n->aer_queued = 0;
+     n->outstanding_aers = 0;
+     n->qs_created = false;
 +}
 +
- static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeNamespace *ns = req->ns;
-@@ -1072,6 +1117,57 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
-     return status;
- }
- 
-+static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
++static void nvme_ctrl_reset(NvmeCtrl *n)
 +{
-+    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-+    NvmeNamespace *ns = req->ns;
-+    BlockBackend *blk = ns->blkconf.blk;
-+    uint64_t slba = le64_to_cpu(rw->slba);
-+    uint32_t nlb = le16_to_cpu(rw->nlb) + 1;
-+    size_t len = nvme_l2b(ns, nlb);
-+    int64_t offset = nvme_l2b(ns, slba);
-+    uint8_t *bounce = NULL;
-+    struct nvme_compare_ctx *ctx = NULL;
-+    uint16_t status;
-+
-+    trace_pci_nvme_compare(nvme_cid(req), nvme_nsid(ns), slba, nlb);
-+
-+    status = nvme_check_mdts(n, len);
-+    if (status) {
-+        trace_pci_nvme_err_mdts(nvme_cid(req), len);
-+        return status;
-+    }
-+
-+    status = nvme_check_bounds(ns, slba, nlb);
-+    if (status) {
-+        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-+        return status;
-+    }
-+
-+    if (NVME_ERR_REC_DULBE(ns->features.err_rec)) {
-+        status = nvme_check_dulbe(ns, slba, nlb);
-+        if (status) {
-+            return status;
-+        }
-+    }
-+
-+    bounce = g_malloc(len);
-+
-+    ctx = g_new(struct nvme_compare_ctx, 1);
-+    ctx->bounce = bounce;
-+    ctx->len = len;
-+
-+    req->opaque = ctx;
-+
-+    qemu_iovec_init(&ctx->iov, 1);
-+    qemu_iovec_add(&ctx->iov, bounce, len);
-+
-+    block_acct_start(blk_get_stats(blk), &req->acct, len, BLOCK_ACCT_READ);
-+    blk_aio_preadv(blk, offset, &ctx->iov, 0, nvme_compare_cb, req);
-+
-+    return NVME_NO_COMPLETE;
++    nvme_clear_ctrl(n);
++    n->bar.cc = 0;
 +}
 +
- static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
- {
-     block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
-@@ -1201,6 +1297,8 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     case NVME_CMD_WRITE:
-     case NVME_CMD_READ:
-         return nvme_rw(n, req);
-+    case NVME_CMD_COMPARE:
-+        return nvme_compare(n, req);
-     case NVME_CMD_DSM:
-         return nvme_dsm(n, req);
-     default:
-@@ -2925,7 +3023,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->cqes = (0x4 << 4) | 0x4;
-     id->nn = cpu_to_le32(n->num_namespaces);
-     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
--                           NVME_ONCS_FEATURES | NVME_ONCS_DSM);
-+                           NVME_ONCS_FEATURES | NVME_ONCS_DSM |
-+                           NVME_ONCS_COMPARE);
++static void nvme_ctrl_shutdown(NvmeCtrl *n)
++{
++    NvmeNamespace *ns;
++    int i;
++
++    nvme_clear_ctrl(n);
  
-     id->vwc = 0x1;
-     id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 1ffe0b3f76b5..68a4c8ed35e0 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -46,6 +46,8 @@ pci_nvme_write_zeroes(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb)
- pci_nvme_block_status(int64_t offset, int64_t bytes, int64_t pnum, int ret, bool zeroed) "offset %"PRId64" bytes %"PRId64" pnum %"PRId64" ret 0x%x zeroed %d"
- pci_nvme_dsm(uint16_t cid, uint32_t nsid, uint32_t nr, uint32_t attr) "cid %"PRIu16" nsid %"PRIu32" nr %"PRIu32" attr 0x%"PRIx32""
- pci_nvme_dsm_deallocate(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
-+pci_nvme_compare(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba 0x%"PRIx64" nlb %"PRIu32""
-+pci_nvme_compare_cb(uint16_t cid) "cid %"PRIu16""
- pci_nvme_aio_discard_cb(uint16_t cid) "cid %"PRIu16""
- pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize, uint16_t qflags) "create submission queue, addr=0x%"PRIx64", sqid=%"PRIu16", cqid=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16""
- pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size, uint16_t qflags, int ien) "create completion queue, addr=0x%"PRIx64", cqid=%"PRIu16", vector=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16", ien=%d"
+     for (i = 1; i <= n->num_namespaces; i++) {
+         ns = nvme_ns(n, i);
+@@ -2302,10 +2316,8 @@ static void nvme_clear_ctrl(NvmeCtrl *n)
+             continue;
+         }
+ 
+-        nvme_ns_flush(ns);
++        nvme_ns_shutdown(ns);
+     }
+-
+-    n->bar.cc = 0;
+ }
+ 
+ static int nvme_start_ctrl(NvmeCtrl *n)
+@@ -2472,12 +2484,12 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+             }
+         } else if (!NVME_CC_EN(data) && NVME_CC_EN(n->bar.cc)) {
+             trace_pci_nvme_mmio_stopped();
+-            nvme_clear_ctrl(n);
++            nvme_ctrl_reset(n);
+             n->bar.csts &= ~NVME_CSTS_READY;
+         }
+         if (NVME_CC_SHN(data) && !(NVME_CC_SHN(n->bar.cc))) {
+             trace_pci_nvme_mmio_shutdown_set();
+-            nvme_clear_ctrl(n);
++            nvme_ctrl_shutdown(n);
+             n->bar.cc = data;
+             n->bar.csts |= NVME_CSTS_SHST_COMPLETE;
+         } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(n->bar.cc)) {
+@@ -3088,7 +3100,7 @@ static void nvme_exit(PCIDevice *pci_dev)
+ {
+     NvmeCtrl *n = NVME(pci_dev);
+ 
+-    nvme_clear_ctrl(n);
++    nvme_ctrl_shutdown(n);
+     g_free(n->cq);
+     g_free(n->sq);
+     g_free(n->aer_reqs);
 -- 
 2.30.0
 
