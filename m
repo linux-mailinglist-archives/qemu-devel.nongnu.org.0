@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E597831525C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 16:07:41 +0100 (CET)
-Received: from localhost ([::1]:38624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC809315262
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 16:08:39 +0100 (CET)
+Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Uc8-0002d0-Vh
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 10:07:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60944)
+	id 1l9Ud5-0003x6-2u
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 10:08:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l9UZJ-0001Fh-8d
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 10:04:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29217)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l9Ua5-0001ns-4F
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 10:05:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l9UZD-0002Lg-Ch
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 10:04:43 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l9Ua2-0002bW-Nc
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 10:05:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612883078;
+ s=mimecast20190719; t=1612883126;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sx+ycVewHnpilQyDSHUPAKNMZOHzS/Kc532RYF+bC0E=;
- b=CU8m0Z+7yYZxHn7GGohCohpUnoz+5NGiVNxQ6PF6j0Zh5hA3pzlSP1VZexgwFs5eJ6nxTx
- c33LauYR/NlKlFI/5vDODZc5+lJ/ZDhQ7dESrWMwJY06OOP2wrjOmoyDcv3zhdGpeVyK9M
- XAvL19IJLKpVj87NKkPEY1qZMiDXffI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-IBWN8xmFOTWdVb4PORzzYw-1; Tue, 09 Feb 2021 10:04:34 -0500
-X-MC-Unique: IBWN8xmFOTWdVb4PORzzYw-1
-Received: by mail-wr1-f70.google.com with SMTP id l10so17599625wry.16
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 07:04:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Sx+ycVewHnpilQyDSHUPAKNMZOHzS/Kc532RYF+bC0E=;
- b=SblLbq+PgjmRY6dx3s9ARvGVEhOYct37tojROWBiEbTb/tXHe1I7BFzzhzN2kE0x96
- trwwegjLNs1gpuobTr2K6Q7wBCo99//wrzPhypB8ZHbaWG2g7yQmt5DeRHo+ORqzSJu7
- Tt0iqH96KWOsuUDHjlp7hhsVYdfSG8IbY/r4sGmBnWXDh7M022aP7eltSCJfjkEvo1sA
- MlBWxwZ+RUxim+nSy6rA+Uz6iOg6sAv5zEjg5pq5ihZEMwsMVtHApjvRTJglyvAubpPH
- KJ9ekY2RPsbDxghciF2t/SzWaPv0pR5aH0J4dMCtW4mTQRYizOf4VS4azZEsou3PMzaa
- DKqw==
-X-Gm-Message-State: AOAM5315aeT6T+Q1B5lEgM5DthFjJJkPd1Wn46iGfCUZRoO95H/KQVma
- XkC5/raNTTNgG3p2BVXagJ5kipz80+T4lh3PpAyUU7Rd3C7W6w8+pIgB1ZhyI+dEwKFpWIZj5VD
- 5Qr3GeBPY3776HzU=
-X-Received: by 2002:a05:600c:4857:: with SMTP id
- j23mr3907839wmo.31.1612883073423; 
- Tue, 09 Feb 2021 07:04:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyQ4AlC9a/K5tK6acVjk0gZb05g5z6uKU/ZT07hvhe3+yR7ShrySzIr56JKksks42k7rn3jRw==
-X-Received: by 2002:a05:600c:4857:: with SMTP id
- j23mr3907809wmo.31.1612883073178; 
- Tue, 09 Feb 2021 07:04:33 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id x18sm5123538wmi.8.2021.02.09.07.04.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 07:04:32 -0800 (PST)
-Date: Tue, 9 Feb 2021 10:04:30 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 0/3] virtio-net: graceful drop of vhost for TAP
-Message-ID: <20210209095553-mutt-send-email-mst@kernel.org>
-References: <20210204202915.15925-1-yuri.benditovich@daynix.com>
- <20210209093201-mutt-send-email-mst@kernel.org>
- <20210209145105.GP1166421@redhat.com>
+ bh=5lEQ1xC/ZaqFTe1Hbb1J7/VO8wd2af7TchJuweJoFpA=;
+ b=RsHh284g4Zaf7tAKuNvwI+vznIgnbiDUVkvVqmkxsEs5J25D6wGZZ14ov8ungdXFMUrqN9
+ rtz8ro8veBMYMaNSG98KT8XH3xiM84FVEhMfQEHRzBtn3iRF0NwGUiWUhxhONBOUZm2y/4
+ cgQvanV9WMG1A+sTwAQ/JevgFxAet1o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-DAmjgHBwPaKk4uP5gxMrNQ-1; Tue, 09 Feb 2021 10:05:22 -0500
+X-MC-Unique: DAmjgHBwPaKk4uP5gxMrNQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 461EA192D787;
+ Tue,  9 Feb 2021 15:05:21 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7FF4177C0;
+ Tue,  9 Feb 2021 15:05:16 +0000 (UTC)
+Date: Tue, 9 Feb 2021 16:05:14 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: isaku.yamahata@gmail.com
+Subject: Re: [PATCH v2 3/9] acpi/core: always set SCI_EN when SMM isn't
+ supported
+Message-ID: <20210209160514.0e015448@redhat.com>
+In-Reply-To: <b21a1b211ad4dc99aaf5f19d803f96dfa88b3fb1.1612821109.git.isaku.yamahata@intel.com>
+References: <cover.1612821108.git.isaku.yamahata@intel.com>
+ <b21a1b211ad4dc99aaf5f19d803f96dfa88b3fb1.1612821109.git.isaku.yamahata@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210209145105.GP1166421@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,68 +80,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, Yuri Benditovich <yuri.benditovich@daynix.com>,
- jasowang@redhat.com, qemu-devel@nongnu.org
+Cc: Isaku Yamahata <isaku.yamahata@intel.com>, philmd@redhat.com,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 09, 2021 at 02:51:05PM +0000, Daniel P. Berrangé wrote:
-> On Tue, Feb 09, 2021 at 09:34:20AM -0500, Michael S. Tsirkin wrote:
-> > On Thu, Feb 04, 2021 at 10:29:12PM +0200, Yuri Benditovich wrote:
-> > > This set of patches introduces graceful switch from tap-vhost to
-> > > tap-no-vhost depending on guest features. Before that the features
-> > > that vhost does not support were silently cleared in get_features.
-> > > This creates potential problem of migration from the machine where
-> > > some of virtio-net features are supported by the vhost kernel to the
-> > > machine where they are not supported (packed ring as an example).
-> > 
-> > I still worry that adding new features will silently disable vhost for people.
-> > Can we limit the change to when a VM is migrated in?
+On Mon,  8 Feb 2021 13:57:22 -0800
+isaku.yamahata@gmail.com wrote:
+
+> From: Isaku Yamahata <isaku.yamahata@intel.com>
 > 
-> Some management applications expect bi-directional live migration to
-> work, so taking specific actions on incoming migration only feels
-> dangerous. 
+> If SMM is not supported, ACPI fixed hardware doesn't support
+> legacy-mode. ACPI-only platform. Where SCI_EN in PM1_CNT register is
+> always set.
+> The bit tells OS legacy mode(SCI_EN cleared) or ACPI mode(SCI_EN set).
 
-Could you be more specific?
+does it break some specific software?
 
-Bi-directional migration is currently broken
-when migrating new kernel->old kernel.
-
-This seems to be the motivation for this patch, though I wish
-it was spelled out more explicitly.
-
-People don't complain much, but I'm fine with fixing that
-with a userspace fallback.
-
-
-I'd rather not force the fallback on others though: vhost is generally
-specified explicitly by user while features are generally set
-automatically, so this patch will make us override what user specified,
-not nice.
-
-
-> IMHO if the features we're adding cannot be expected to exist in
-> host kernels in general, then the feature should defualt to off
-> and require explicit user config to enable.
-> Downstream distros which can guarantee newer kernels can flip the
-> default in their custom machine types if they desire.
+> ACPI spec 4.8.10.1 PM1 Event Grouping
+> PM1 Eanble Registers
+> > For ACPI-only platforms (where SCI_EN is always set)  
 > 
-> Regards,
-> Daniel
+> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+it changes guest ABI for old machine types but it seems to me that
+it's harmless (in typical use-cases backward and forward migrated
+guest should work fine).
 
-Unfortunately that will basically mean we are stuck with no new features
-for years. We did what this patch is trying to change for years now, in
-particular KVM also seems to happily disable CPU features not supported
-by kernel so I wonder why we can't keep doing it, with tweaks for some
-corner cases.
+The only thing that is broken is transitioning to legacy mode
+when guest was started on old QEMU and then migrated to the new one
+where disable op will be NOP and qemu always stays in ACPI mode
+(so guest will hang while it waits for transition to happen).
 
-userspace and kernel not being in 100% sync wrt features is not
-a corner case though, and switching backends seems like too big
-a hammer.
+Can you test this scenario with various guest OSes (old/new/MS Windows)
+to check if it won't break them.
 
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+if we are to be conservative, we need to disable this compliance fix
+on old machine types.
+
+other than that patch looks good to me.
+
+> ---
+>  hw/acpi/core.c         | 11 ++++++++++-
+>  hw/acpi/ich9.c         |  2 +-
+>  hw/acpi/piix4.c        |  3 ++-
+>  hw/isa/vt82c686.c      |  2 +-
+>  include/hw/acpi/acpi.h |  4 +++-
+>  5 files changed, 17 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+> index 7170bff657..1e004d0078 100644
+> --- a/hw/acpi/core.c
+> +++ b/hw/acpi/core.c
+> @@ -579,6 +579,10 @@ void acpi_pm1_cnt_update(ACPIREGS *ar,
+>                           bool sci_enable, bool sci_disable)
+>  {
+>      /* ACPI specs 3.0, 4.7.2.5 */
+> +    if (ar->pm1.cnt.acpi_only) {
+> +        return;
+> +    }
+> +
+>      if (sci_enable) {
+>          ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
+>      } else if (sci_disable) {
+> @@ -608,11 +612,13 @@ static const MemoryRegionOps acpi_pm_cnt_ops = {
+>  };
+>  
+>  void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
+> -                       bool disable_s3, bool disable_s4, uint8_t s4_val)
+> +                       bool disable_s3, bool disable_s4, uint8_t s4_val,
+> +                       bool acpi_only)
+>  {
+>      FWCfgState *fw_cfg;
+>  
+>      ar->pm1.cnt.s4_val = s4_val;
+> +    ar->pm1.cnt.acpi_only = acpi_only;
+>      ar->wakeup.notify = acpi_notify_wakeup;
+>      qemu_register_wakeup_notifier(&ar->wakeup);
+>  
+> @@ -638,6 +644,9 @@ void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
+>  void acpi_pm1_cnt_reset(ACPIREGS *ar)
+>  {
+>      ar->pm1.cnt.cnt = 0;
+> +    if (ar->pm1.cnt.acpi_only) {
+> +        ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
+> +    }
+>  }
+>  
+>  /* ACPI GPE */
+> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> index 5ff4e01c36..1a34d7f621 100644
+> --- a/hw/acpi/ich9.c
+> +++ b/hw/acpi/ich9.c
+> @@ -282,7 +282,7 @@ void ich9_pm_init(PCIDevice *lpc_pci, ICH9LPCPMRegs *pm,
+>      acpi_pm_tmr_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
+>      acpi_pm1_evt_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
+>      acpi_pm1_cnt_init(&pm->acpi_regs, &pm->io, pm->disable_s3, pm->disable_s4,
+> -                      pm->s4_val);
+> +                      pm->s4_val, !smm_enabled);
+>  
+>      acpi_gpe_init(&pm->acpi_regs, ICH9_PMIO_GPE0_LEN);
+>      memory_region_init_io(&pm->io_gpe, OBJECT(lpc_pci), &ich9_gpe_ops, pm,
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index 669be5bbf6..0cddf91de5 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -496,7 +496,8 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
+>  
+>      acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
+>      acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
+> -    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val);
+> +    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val,
+> +                      !s->smm_enabled);
+>      acpi_gpe_init(&s->ar, GPE_LEN);
+>  
+>      s->powerdown_notifier.notify = piix4_pm_powerdown_req;
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index a6f5a0843d..071b64b497 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -240,7 +240,7 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+>  
+>      acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
+>      acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
+> -    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
+> +    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2, false);
+>  }
+>  
+>  static Property via_pm_properties[] = {
+> diff --git a/include/hw/acpi/acpi.h b/include/hw/acpi/acpi.h
+> index 22b0b65bb2..9e8a76f2e2 100644
+> --- a/include/hw/acpi/acpi.h
+> +++ b/include/hw/acpi/acpi.h
+> @@ -128,6 +128,7 @@ struct ACPIPM1CNT {
+>      MemoryRegion io;
+>      uint16_t cnt;
+>      uint8_t s4_val;
+> +    bool acpi_only;
+>  };
+>  
+>  struct ACPIGPE {
+> @@ -163,7 +164,8 @@ void acpi_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
+>  
+>  /* PM1a_CNT: piix and ich9 don't implement PM1b CNT. */
+>  void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
+> -                       bool disable_s3, bool disable_s4, uint8_t s4_val);
+> +                       bool disable_s3, bool disable_s4, uint8_t s4_val,
+> +                       bool acpi_only);
+>  void acpi_pm1_cnt_update(ACPIREGS *ar,
+>                           bool sci_enable, bool sci_disable);
+>  void acpi_pm1_cnt_reset(ACPIREGS *ar);
 
 
