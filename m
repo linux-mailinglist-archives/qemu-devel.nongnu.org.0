@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4619C314F97
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 13:59:03 +0100 (CET)
-Received: from localhost ([::1]:36502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA27315014
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 14:23:44 +0100 (CET)
+Received: from localhost ([::1]:51180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Sbe-0004bA-Ax
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 07:59:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56290)
+	id 1l9SzW-0004O6-PW
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 08:23:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9Sa7-0003iv-Ku
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:57:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40222)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9Sa2-0006mB-Kp
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:57:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612875439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=l14VMiB6c/BjemUCRxmVCpDKN09KPp4ACDu5DXvfjIw=;
- b=PUwLZDVOivJn1V5QIcdtLzGesXZgV7W0FRZzy5qF8Mr+OVH3RZpUU88P6tIXsUjHHsJ7Xk
- 5uWevZHU/rGqXz0O/8a9V9O6/ifNLFUy/M4SEdH3jY0JDa1Ee9I5c3CyTT/32syFgyLmmH
- K+AduXIQ6OWRTI0P0jH67kSgEMcIQ0s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-3Uae16YCMmKa5OlHDpgs_A-1; Tue, 09 Feb 2021 07:57:17 -0500
-X-MC-Unique: 3Uae16YCMmKa5OlHDpgs_A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBDFB8030B7
- for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 12:57:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
- [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 886667770C;
- Tue,  9 Feb 2021 12:57:16 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1CD1F113865F; Tue,  9 Feb 2021 13:57:15 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 2/6] qapi: Remember alias definitions in
- qobject-input-visitor
-References: <20201112172850.401925-1-kwolf@redhat.com>
- <20201112172850.401925-3-kwolf@redhat.com>
-Date: Tue, 09 Feb 2021 13:57:15 +0100
-In-Reply-To: <20201112172850.401925-3-kwolf@redhat.com> (Kevin Wolf's message
- of "Thu, 12 Nov 2020 18:28:46 +0100")
-Message-ID: <87sg65pff8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9Swl-0002kE-Ql
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:20:51 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46005)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9Swf-0000gt-Ie
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:20:51 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id m13so21650287wro.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 05:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d86tePBRdT/Wa66ZnpeoY9R7MMLota3OwO1BIOPVBhg=;
+ b=hWKpRV7F4fEO7pN+Ux32P9blPOhoeQWp5DYWryg166oFUR3+tZpcQ1uOeuC1M+nlUv
+ R3dU3KuurRi1fJkdJLnB9/f5DFs/QRNPn5YKIPzyoXgejCHLHkue8f2WfXnhnXW6Qs/2
+ CgBQyz1/l7h+QiX1mt6Hp6O3OIuHse9tM4ec+Fsha3orLQdicepUTG/R+VwHuZc3kbhR
+ OJMU7gGNEj0sAWtEgVwmGz1sMPwrjbgfVt6W0gr6mwGqsbKxhaaLMBz12dzxz1H3epbB
+ dcT3S06ptlSsaju39JXUOUTUdZcKgtGfBpIQntKDxbeAOjTgoCpHaAn5yI2Q7abN7eT2
+ 2K4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d86tePBRdT/Wa66ZnpeoY9R7MMLota3OwO1BIOPVBhg=;
+ b=CHMuZjXz/hLzkDPv4B1GXIlFu0wTRcKkBBrzet9xtmFdkz98p27el5emOVYBovA5GB
+ NecQu3sEWj/g+Vb773bjXWW7bDLYGOaU775o5M5kWMaBw/Du/gR+0gPX0q3Zo3WTVaRt
+ 37PkoYdnzgFal82FHUdUmyhQXL5i7TCRJ8zgjy9eRymCoLL1PZnkMu1cUAERRVBeho8U
+ A6sv5094mi2BielXcY+90EgsObhYyiLIRP+m1TIgMaSxH7cp0Dp1VK3HufEDUY2/5dcz
+ 6rQ6w7ZquBChLyDLPFGBJ7SAhdClw6yBzqd2WbQAsJ99xa2nxyJ4fO/CRBmV1dIfx8R2
+ Tk5w==
+X-Gm-Message-State: AOAM532tXsYPcFwOuw8h6AsBRn1AoIUCWgXs/JxqJuAFFUc/VVkGUCKC
+ Yazv73kdW7kwN0OHBhKwXI6JDw==
+X-Google-Smtp-Source: ABdhPJx3J/L9XemB7YB9JMKIdQ1St34/M+uAyziTP9WJQTwqvCzWoZrc4HrFL2LbBPNltyNbHz5sfg==
+X-Received: by 2002:adf:f549:: with SMTP id j9mr15987994wrp.347.1612876842933; 
+ Tue, 09 Feb 2021 05:20:42 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y11sm34752472wrh.16.2021.02.09.05.20.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 05:20:42 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] New APIs for the Clock framework
+Date: Tue,  9 Feb 2021 13:20:36 +0000
+Message-Id: <20210209132040.5091-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,220 +81,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Tyrone Ting <kfting@nuvoton.com>, Luc Michel <luc@lmichel.fr>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let me look at the actual code now Kevin reduced my confusion about the
-interface and the data structures.
+Hi; this patchset proposes a couple of new APIs for Clock, which I
+found I needed/wanted for a work-in-progress patchset.
 
-Kevin Wolf <kwolf@redhat.com> writes:
+In this v2, the only change from the RFC series is that as Luc
+suggested I have made the clock-callback registration mechanisms
+all take a new parameter specifying the mask of events which
+the callback should be invoked for. (This is instead of calling
+all callbacks on all events and requiring them to look at their
+'events' argument to see if they should ignore the call.)
 
-> This makes qobject-input-visitor remember the currently valid aliases in
-> each StackObject. It doesn't actually allow using the aliases yet.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  qapi/qobject-input-visitor.c | 115 +++++++++++++++++++++++++++++++++++
->  1 file changed, 115 insertions(+)
->
-> diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-> index 23843b242e..a00ac32682 100644
-> --- a/qapi/qobject-input-visitor.c
-> +++ b/qapi/qobject-input-visitor.c
-> @@ -29,6 +29,29 @@
->  #include "qemu/cutils.h"
->  #include "qemu/option.h"
->  
-> +typedef struct InputVisitorAlias {
-> +   /* Alias name. NULL for any (wildcard alias). */
-> +    const char *alias;
-> +
-> +    /*
-> +     * NULL terminated array representing a path.
-> +     * Must contain at least one non-NULL element if alias is not NULL.
-> +     */
-> +    const char **src;
-> +
-> +    /* StackObject in which the alias should be looked for */
-> +    struct StackObject *alias_so;
-> +
-> +    /*
-> +     * The alias remains valid as long as the containing StackObject has
-> +     * StackObject.alias_scope_nesting >= InputVisitorAlias.scope_nesting
-> +     * or until the whole StackObject is removed.
-> +     */
-> +    int scope_nesting;
-> +
-> +    QSLIST_ENTRY(InputVisitorAlias) next;
-> +} InputVisitorAlias;
-> +
->  typedef struct StackObject {
->      const char *name;            /* Name of @obj in its parent, if any */
->      QObject *obj;                /* QDict or QList being visited */
-> @@ -38,6 +61,9 @@ typedef struct StackObject {
->      const QListEntry *entry;    /* If @obj is QList: unvisited tail */
->      unsigned index;             /* If @obj is QList: list index of @entry */
->  
-> +    QSLIST_HEAD(, InputVisitorAlias) aliases;
-> +    int alias_scope_nesting;    /* Increase on scope start, decrease on end */
-> +
->      QSLIST_ENTRY(StackObject) node; /* parent */
->  } StackObject;
->  
-> @@ -203,6 +229,38 @@ static const char *qobject_input_get_keyval(QObjectInputVisitor *qiv,
->      return qstring_get_str(qstr);
->  }
->  
-> +/*
-> + * Propagates aliases from the parent StackObject @src to its direct
-> + * child StackObject @dst, which is representing the child struct @name.
+If people prefer I can keep hold of these patches until I have
+the board-support series that makes use of them ready to post;
+but I think if we're happy with the new APIs we could reasonably
+put them in to the tree sooner (especially since patch 1 means
+updates to all input Clock users).
 
-@name must equal dst->name, I think.  Drop the parameter?
 
-> + *
-> + * Every alias whose source path begins with @name and which still
-> + * applies in @dst (i.e. it is either a wildcard alias or has at least
-> + * one more source path element) is propagated to @dst with the first
+The problem the first two patches are trying to solve is that I found
+that I wanted the old value of the Clock's period when my device got a
+notification about a frequency/period change. The current
+ClockCallback API calls you after the period has changed, so the Clock
+is already using the new period. I wanted this because my timer device
+has a register that's basically a free-running up-counter; the value
+of that counter can be calculated with:
 
-I'm not sure I get the parenthesis.  Perhaps the code will enlighten me.
+  s->ticks_then + clock_ns_to_ticks(s->clk, now - s->ns_then);
 
-> + * element (i.e. @name) removed from the source path.
-> + */
-> +static void propagate_aliases(StackObject *dst, StackObject *src,
-> +                              const char *name)
-> +{
-> +    InputVisitorAlias *a;
-> +
-> +    QSLIST_FOREACH(a, &src->aliases, next) {
-> +        if (!a->src[0] || strcmp(a->src[0], name)) {
-> +            continue;
-> +        }
+where (ns_then, ticks_then) are a tuple of a QEMU_CLOCK_VIRTUAL time
+and the tick count at that point. Whenever the clock frequency changes
+we calculate a new (ns_then, ticks_then) to use as the baseline for
+future counter value reads, but in order to do that we must calculate
+ticks_then using the *old* clock period.
 
-We only look at the aliases that apply to @dst or below.  They do only
-when ->src[0] equals dst->name.  Makes sense.
+My solution to this is to add a ClockEvent argument to the callback
+function, which is an enum:
 
-> +        if (a->src[1] || !a->alias) {
+  ClockPreUpdate : callback called before period change
+  ClockUpdate : callback called after period change
 
-If a->src[1], the alias applies below @dst, not to @dst.  To get it to
-the place where it applies, we first need to propagate to @dst.
+When a callback function is registered a mask of event values tells
+the framework which events the callback should be called for.
 
-Else, the alias applies to @dst.  If !a->alias, we're looking at a
-wildcard alias, i.e. all members of the object described by @dst are
-aliased.  Why do we need to propagate only wildcard aliases to @dst?
+The problem the third patch addresses is that we don't have a function
+for "tell me how many times this clock would tick in this length of
+time". clock_ns_to_ticks() does the inverse of the clock_ticks_to_ns()
+that we already have. Two points in particular where comment would be
+useful:
 
-> +            InputVisitorAlias *alias = g_new(InputVisitorAlias, 1);
-> +
-> +            *alias = (InputVisitorAlias) {
-> +                .alias      = a->alias,
-> +                .alias_so   = a->alias_so,
-> +                .src        = &a->src[1],
-> +            };
-> +
-> +            QSLIST_INSERT_HEAD(&dst->aliases, alias, next);
-> +        }
-> +    }
-> +}
-> +
->  static const QListEntry *qobject_input_push(QObjectInputVisitor *qiv,
->                                              const char *name,
->                                              QObject *obj, void *qapi)
-> @@ -226,6 +284,9 @@ static const QListEntry *qobject_input_push(QObjectInputVisitor *qiv,
->              g_hash_table_insert(h, (void *)qdict_entry_key(entry), NULL);
->          }
->          tos->h = h;
-> +        if (!QSLIST_EMPTY(&qiv->stack)) {
-> +            propagate_aliases(tos, QSLIST_FIRST(&qiv->stack), name);
-> +        }
+ * I chose to make the overflow case (where a clock has a very short
+   period and the specified length of time is very long, so the clock
+   would tick more than UINT64_MAX times) just let the value wrap
+   around, on the basis that usually this is being used to calculate a
+   guest register value that's in a 64 bit or 32 bit register, and so
+   wrap-around is the right behaviour.  But I'm not 100% set on this
+   if somebody has a better idea.
 
-What if QSLIST_EMPTY(&qiv->stack) and tos->aliases contains aliases that
-apply deeper?
+ * The calculation needs to do a 96-bit / 64 bit => 64 bit division,
+   for which the best thing we have is divu128(). This is particularly
+   painful on 32-bit hosts. I don't suppose there's anything clever we
+   can do to make this better ?
 
->      } else {
->          assert(qlist);
->          tos->entry = qlist_first(qlist);
-> @@ -257,10 +318,17 @@ static bool qobject_input_check_struct(Visitor *v, Error **errp)
->  
->  static void qobject_input_stack_object_free(StackObject *tos)
->  {
-> +    InputVisitorAlias *a;
-> +
->      if (tos->h) {
->          g_hash_table_unref(tos->h);
->      }
->  
-> +    while ((a = QSLIST_FIRST(&tos->aliases))) {
-> +        QSLIST_REMOVE_HEAD(&tos->aliases, next);
-> +        g_free(a);
-> +    }
-> +
->      g_free(tos);
->  }
->  
-> @@ -274,6 +342,50 @@ static void qobject_input_pop(Visitor *v, void **obj)
->      qobject_input_stack_object_free(tos);
->  }
->  
-> +static void qobject_input_start_alias_scope(Visitor *v)
-> +{
-> +    QObjectInputVisitor *qiv = to_qiv(v);
-> +    StackObject *tos = QSLIST_FIRST(&qiv->stack);
-> +
-> +    tos->alias_scope_nesting++;
-> +}
-> +
-> +static void qobject_input_end_alias_scope(Visitor *v)
-> +{
-> +    QObjectInputVisitor *qiv = to_qiv(v);
-> +    StackObject *tos = QSLIST_FIRST(&qiv->stack);
-> +    InputVisitorAlias *a, *next;
-> +
-> +    assert(tos->alias_scope_nesting > 0);
-> +    tos->alias_scope_nesting--;
-> +
-> +    QSLIST_FOREACH_SAFE(a, &tos->aliases, next, next) {
-> +        if (a->scope_nesting > tos->alias_scope_nesting) {
-> +            QSLIST_REMOVE(&tos->aliases, a, InputVisitorAlias, next);
-> +            g_free(a);
-> +        }
-> +    }
-> +}
-> +
-> +static void qobject_input_define_alias(Visitor *v, const char *alias_name,
-> +                                       const char **source)
-> +{
-> +    QObjectInputVisitor *qiv = to_qiv(v);
-> +    StackObject *tos = QSLIST_FIRST(&qiv->stack);
-> +    InputVisitorAlias *alias = g_new(InputVisitorAlias, 1);
-> +
-> +    /* The source path can only be empty for wildcard aliases */
-> +    assert(source[0] || !alias_name);
+Patch 4 just uses clock_ns_to_ticks() in the one place in the
+current codebase where we're currently using clock_ticks_to_ns()
+and manual calculation.
 
-Possibly related: the "What does .alias = NULL, .src[] empty mean?" we
-discussed previously.
+thanks
+-- PMM
 
-> +
-> +    *alias = (InputVisitorAlias) {
-> +        .alias      = alias_name,
-> +        .alias_so   = tos,
-> +        .src        = source,
-> +    };
-> +
-> +    QSLIST_INSERT_HEAD(&tos->aliases, alias, next);
-> +}
-> +
->  static bool qobject_input_start_struct(Visitor *v, const char *name, void **obj,
->                                         size_t size, Error **errp)
->  {
-> @@ -696,6 +808,9 @@ static QObjectInputVisitor *qobject_input_visitor_base_new(QObject *obj)
->      v->visitor.end_list = qobject_input_end_list;
->      v->visitor.start_alternate = qobject_input_start_alternate;
->      v->visitor.optional = qobject_input_optional;
-> +    v->visitor.define_alias = qobject_input_define_alias;
-> +    v->visitor.start_alias_scope = qobject_input_start_alias_scope;
-> +    v->visitor.end_alias_scope = qobject_input_end_alias_scope;
->      v->visitor.free = qobject_input_free;
->  
->      v->root = qobject_ref(obj);
+Peter Maydell (4):
+  clock: Add ClockEvent parameter to callbacks
+  clock: Add ClockPreUpdate callback event type
+  clock: Add clock_ns_to_ticks() function
+  hw/timer/npcm7xx_timer: Use new clock_ns_to_ticks()
+
+ docs/devel/clocks.rst            | 71 ++++++++++++++++++++++++++++----
+ include/hw/clock.h               | 63 +++++++++++++++++++++++++++-
+ include/hw/qdev-clock.h          | 17 +++++---
+ hw/adc/npcm7xx_adc.c             |  2 +-
+ hw/arm/armsse.c                  |  9 ++--
+ hw/char/cadence_uart.c           |  4 +-
+ hw/char/ibex_uart.c              |  4 +-
+ hw/char/pl011.c                  |  5 ++-
+ hw/core/clock.c                  | 23 +++++++++--
+ hw/core/qdev-clock.c             |  8 ++--
+ hw/mips/cps.c                    |  2 +-
+ hw/misc/bcm2835_cprman.c         | 23 +++++++----
+ hw/misc/npcm7xx_clk.c            | 26 ++++++++++--
+ hw/misc/npcm7xx_pwm.c            |  2 +-
+ hw/misc/zynq_slcr.c              |  5 ++-
+ hw/timer/cmsdk-apb-dualtimer.c   |  5 ++-
+ hw/timer/cmsdk-apb-timer.c       |  4 +-
+ hw/timer/npcm7xx_timer.c         |  6 +--
+ hw/watchdog/cmsdk-apb-watchdog.c |  5 ++-
+ target/mips/cpu.c                |  2 +-
+ 20 files changed, 226 insertions(+), 60 deletions(-)
+
+-- 
+2.20.1
 
 
