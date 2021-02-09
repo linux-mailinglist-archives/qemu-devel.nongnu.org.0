@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 533D6314B56
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 10:21:51 +0100 (CET)
-Received: from localhost ([::1]:41498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CCC314B10
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 10:11:25 +0100 (CET)
+Received: from localhost ([::1]:41052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9PDS-0000pP-Cs
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 04:21:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59752)
+	id 1l9P3M-0005bX-Ok
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 04:11:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1l9OWr-0000mb-9j
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 03:37:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25434)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1l9OWo-0006kD-90
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 03:37:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612859864;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QK1iJb9DxweX1KP/ll7ANmOKj89f925kVcSGmPjCXqE=;
- b=AdVNzy+GdOT0FwW7mYupjvCh0ilVnNrcZuY5jf51RfortIvV50YT7gr9N8Q9R75mtNAQXl
- IxQOkwwyWOam9fmxEiaxZqOrSg9AuI1T27xg57o+bx/BvCyJGTJn10a2NxwIycmR9iAAcw
- MSmG3+rUl6zMWdc7T6O9sEGMDncglNQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-TmFTnyXDNZ6-zX0WZCsnCg-1; Tue, 09 Feb 2021 03:37:40 -0500
-X-MC-Unique: TmFTnyXDNZ6-zX0WZCsnCg-1
-Received: by mail-ed1-f69.google.com with SMTP id i13so16677682edq.19
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 00:37:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9Ow6-00078v-54; Tue, 09 Feb 2021 04:03:54 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:44690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9Ovr-0000ZT-63; Tue, 09 Feb 2021 04:03:53 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id w1so29990795ejf.11;
+ Tue, 09 Feb 2021 01:03:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JCIiBSYHagxC/fBqwlJWxobyinW0byYmnh/jHNtho7Y=;
+ b=qnvgqNODn/MjC+ieAK08YJe5jFOGd/cX3+G7hXhCcnSOdT2jQir6lryb/+uZOpb12X
+ 2IhNOIWhkTfu52/hWPUcBlO7qtnYDG7JqrABgFtEA0QN/5w8H+ro/EPGQYA4T2Girjai
+ EP1sK/KFWvfIYQR3ptxx7BvH8Pc3HIIRQHIeo535hIPuwS7GIvUjk/emko7eYPt4tnMq
+ BS0Tnc4aZl6bOAnfVWnC7fh7BMp2I9OnFyrASVuVVkfYZqoKdyiPE2rvwTIooFMxxomK
+ jAGOe5cSt70QN0bnYtpY/HtwNdbnau5tIL/py+i4zOXaOJeWooFgg3cGOFJF2GYky5lz
+ EL/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QK1iJb9DxweX1KP/ll7ANmOKj89f925kVcSGmPjCXqE=;
- b=Lh8DBxSqs47AAPmCZQ9XI/66zcgzYHzx9URxaOgFvD6JD8hZcKlOLxpfanQJlkN/xT
- sAgfLLY+4NMh6lAZo4qdvK1RohrixT0nEd1r+PbX/nfG/5XI1eGuaUabGfT8tcBHf5WI
- Atjnj0rcV6X+i74r2PiuBBdsBnGKLqdFq8lyL0xfqJqkcsjX8mEBDrz1SjK55yMzPKw+
- 3s/COuFX1Z1M+0jWJXnvA9WN3+S2hczLwOZZ46zeYbvLrk4ZyJVyPuc1NaU1ze2FtGV/
- neCDK9HDDbDPQjfFS/zFf8HvKGS8zlP9EyMNIgNkD58pIk32y1ak8UuUTkYLA0vmvnl1
- S5xA==
-X-Gm-Message-State: AOAM530jhHDNUiP/JMNdwffu9yEGQdirYStn/3SsPmxDjg5WBsgFDSCn
- yKYxtgWmz81p06aRPBmgB+Z+GwF+RrKUPqQ7al1CJXWsFhE3zg2SgQmv28vTSBKjx2mVwhhxSAt
- OMd6qYisdn9sqbcnQ7WyTF03QBxAssXk=
-X-Received: by 2002:a05:6402:1013:: with SMTP id
- c19mr11312684edu.86.1612859859563; 
- Tue, 09 Feb 2021 00:37:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz50c1Kp7OFNCxXg88PwtwpB1aHll8ItKxpH45QpLKlwL00RvigI8xGzBoeupW9CFR1u+qiOx3jpAK6v5B6cWM=
-X-Received: by 2002:a05:6402:1013:: with SMTP id
- c19mr11312663edu.86.1612859859403; 
- Tue, 09 Feb 2021 00:37:39 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JCIiBSYHagxC/fBqwlJWxobyinW0byYmnh/jHNtho7Y=;
+ b=qwhRC2F7oAlGdDtFwI9Kltju2lYbwIO2f2wPGPfEGdYNIP2mLw+HT7NGSMAY2Fqg2K
+ ViBnXFhsVkAYsPnJmP1r5ekycNIXN9R2lV+urtpExyVa8HlGG2tuEhh1xBxFZePleR22
+ 4XcSfkw81fXU395uymoqpLzuqJgU0hmNfbqNqF3idAjlVBAEZII6aouCjJh34z2F3dMD
+ rspVJ24et0YN5gXaZbv/UvO28fuDL6fyKy8np2hl45f43RiWjrOq9rzBvcWrj6OexWQw
+ Ub2VtiS0aJ6mtbsWHv0pqSbFuelIrCKw/WjEbeBb3IMG9VzrgDq6vW8lGkVLTtIx28S1
+ lxjQ==
+X-Gm-Message-State: AOAM533232uZkSU9u2PZm8wdYj8PtvZRTVLBsZjN+4+g+mUsgXiAV59/
+ T9yt5xTo0zk8OfSFGggeKVY=
+X-Google-Smtp-Source: ABdhPJxk6smrvIEShybT5yfndmuVlr2rzkmB21B7//wLcL4vNOE/iomfXayVEhysp+07L5d8fFeysQ==
+X-Received: by 2002:a17:906:b001:: with SMTP id
+ v1mr21210807ejy.217.1612861416865; 
+ Tue, 09 Feb 2021 01:03:36 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id q2sm11095282edv.93.2021.02.09.01.03.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Feb 2021 01:03:36 -0800 (PST)
+Subject: Re: [PATCH v1 1/1] MAINTAINERS: Add a SiFIve machine section
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
+ <alistair.francis@wdc.com>, QEMU Trivial <qemu-trivial@nongnu.org>
+References: <6bc077e5ae4a9512c8adf81ae194718f2f17c402.1612836645.git.alistair.francis@wdc.com>
+ <CAEUhbmW5TzWVQFOv3PM6ZwY34cSPRjvfzN3sWxP+_6SDcJ93ZA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <81d9407d-94b3-724c-d64f-0829553abfdc@amsat.org>
+Date: Tue, 9 Feb 2021 10:03:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210208193450.2689517-1-f4bug@amsat.org>
- <CAA8xKjUPrQkqdJR46Pa4U2ymBDL=KZHvVC9-CzQOR3OqOp8hPg@mail.gmail.com>
- <CAAdtpL4_aLOz0FQihjXh1J9yQkkcW_VKM+pfwkKZ3KceykiN+w@mail.gmail.com>
-In-Reply-To: <CAAdtpL4_aLOz0FQihjXh1J9yQkkcW_VKM+pfwkKZ3KceykiN+w@mail.gmail.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Tue, 9 Feb 2021 09:37:28 +0100
-Message-ID: <CAA8xKjVG9TTfJq34UBgWdRr_kB8+wP1+=mGQmRSAQ4HVvN6bvA@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd/sdhci: Do not modify BlockSizeRegister if
- transaction in progress
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAEUhbmW5TzWVQFOv3PM6ZwY34cSPRjvfzN3sWxP+_6SDcJ93ZA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,70 +88,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:Block layer core" <qemu-block@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Li Qiang <liq3ea@163.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Prasad J Pandit <ppandit@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 8, 2021 at 9:26 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> On Mon, Feb 8, 2021 at 8:59 PM Mauro Matteo Cascella
-> <mcascell@redhat.com> wrote:
-> > On Mon, Feb 8, 2021 at 8:35 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
-.org> wrote:
-> > >
-> > > Per the "SD Host Controller Simplified Specification Version 2.00"
-> > > spec. 'Table 2-4 : Block Size Register':
-> > >
-> > >   Transfer Block Size [...] can be accessed only if no
-> > >   transaction is executing (i.e., after a transaction has stopped).
-> > >   Read operations during transfers may return an invalid value,
-> > >   and write operations shall be ignored.
-> > >
-> ...
-> > >
-> > > Fixes: CVE-2020-17380
-> > > Fixes: CVE-2020-25085
-> > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > ---
-> > > Cc: Mauro Matteo Cascella <mcascell@redhat.com>
-> > > Cc: Alexander Bulekov <alxndr@bu.edu>
-> > > Cc: Alistair Francis <alistair.francis@wdc.com>
-> > > Cc: Prasad J Pandit <ppandit@redhat.com>
-> > > Cc: Bandan Das <bsd@redhat.com>
-> > >
-> > > RFC because missing Reported-by tags, launchpad/bugzilla links and
-> > > qtest reproducer. Sending for review meanwhile.
-> ...
-> > For the above CVEs:
-> > Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
->
-> Thanks Mauro for testing. Do you know what tags I should add for the cred=
-its?
->
-> Phil.
->
+On 2/9/21 3:14 AM, Bin Meng wrote:
+> On Tue, Feb 9, 2021 at 10:11 AM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+> 
+> nits: SiFIve => SiFive in the title
 
-I think the credit should go to Alexander for reporting [1] as well as
-people from Ruhr-University Bochum for CVE-2020-25085 (I don't know
-about their emails, though):
-
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Reported-by: Sergej Schumilo (Ruhr-University Bochum)
-Reported-by: Cornelius Aschermann (Ruhr-University Bochum)
-Reported-by: Simon Wrner (Ruhr-University Bochum)
-
-[1] https://bugs.launchpad.net/qemu/+bug/1892960
-
-
-
---
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
