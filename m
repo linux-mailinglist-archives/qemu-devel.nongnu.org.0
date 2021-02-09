@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC3931461D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 03:19:37 +0100 (CET)
-Received: from localhost ([::1]:56300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29082314662
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 03:32:59 +0100 (CET)
+Received: from localhost ([::1]:34608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Icq-00018v-BY
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 21:19:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52724)
+	id 1l9Ipl-0004Ha-Nk
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 21:32:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1l9Iam-0008EE-3N
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 21:17:28 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:39775)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9Inj-0003AB-BB; Mon, 08 Feb 2021 21:30:51 -0500
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:42672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1l9Iai-0007Md-Cx
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 21:17:27 -0500
-Received: by mail-pl1-x634.google.com with SMTP id k22so4511903pll.6
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 18:17:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=9pc03DQGAdCda1V76fue2s2mvBcTa4KEcdXh4cdyP/E=;
- b=P3hg1ZEyRj+px17w/UrdHcxTiyxH/W6aM7z3ixKjkZjtcgQhEivJhLOfTbqawE40tm
- Rs98eRqbN4EcIGDs+XDSo6JZbUZ8YEhsXb6GVea7uUpDKpXT0s0RL9VQz3yuEQgg9cL8
- FX7AbDEJKI5JJNxkQNXocJu49JfxW/Z6NfUlaRIofPNBpBE0TG+tHme3aFNz80TIV0I6
- 34fvSPNQeWir+x7OUwK+cQAt+DISr+268TpijbzjeOuEAWddx/HiMPGtgShgNYpjN51L
- knO1DrKKeS7gaO7nRyn0s+AsbQjONMO3ngqALBz0sYv3bOAXg/o+A6j9ns/iwifpptC8
- MxkQ==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9Inh-0004ZO-Ji; Mon, 08 Feb 2021 21:30:51 -0500
+Received: by mail-yb1-xb29.google.com with SMTP id b187so16663035ybg.9;
+ Mon, 08 Feb 2021 18:30:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=whUhywCRSO8xmFomhniK907UoqTw68Kowc8+zndhjtI=;
+ b=aWHhwo+tAWSTpnV2DjGhbpazopm/bc/GhmPdd3njquGunhcehnBMDwvF6CEbWeOs4c
+ a7gmJfU8yU45DecSX7c9HS6YOSegeNwTF1qQuTyPIdweDBR49/6RGuQywdin9+pfRdwh
+ kZ4HFnecMBGZ1e0g6zK9hgzgMoR7JLfdvT4gmtcOPcCNU2nRmUYd52uN+zoTX6cxzqQP
+ XxlytZu+QYK+t33z4i9HZytwys1vlEDg4w06i6OpeWeHRtNf0WAvKjX0U6JoIcTVxFYl
+ W2W8ovKXxebcqHBEx75Dlq5n+4wpgfbbAV6c62HfnpuwdIFGrz72364a6EAfTIGXBNwu
+ ynlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=9pc03DQGAdCda1V76fue2s2mvBcTa4KEcdXh4cdyP/E=;
- b=XcLcumbBU/Z+GgrWU2mY4ymS6pQMMElC2Oa2MW87nD7LhEqd8hOgpx0Hfjp2wYqMQl
- VvgbIqWpX5BBjKO586AZlrkzLH7ibk4xgL5ycG3JnTq7A5nNCR6AbVK/9RQI1ksRHpzg
- 0Xssmk4aYrkejDTWZp+mLgk4PkXLG+Yij+9X9sDbIg2UmxG1eIhz/xXDaOTnDgf8k0+X
- kDCtf/i55kO0PABJGMlxg47NlGTmf+tmMLevWOIwqj/E1ysftemsVZbd/iPstaGSBsQQ
- /RkWEir+0wo5TjFCvafxDvPffMu4b8e+YYBHEjAYR3HwHL2yLd3f/QRcIKTQkHBZLKb/
- CAkw==
-X-Gm-Message-State: AOAM533HaVeOLeVijfhFiiDrFtLeK2TNEZhIzK5woesYjOmdl7jerrGd
- pV8I6RhdNtf0W4WM8ykvW4nwiXZIL2wglO0y
-X-Google-Smtp-Source: ABdhPJyYM1Yrh3kHnNdfm3F8Cj/nxD3iudfpr/p3bMAqm89j3A+A2U39PTiFeiEdlIkK9Yit0tsQOw==
-X-Received: by 2002:a17:902:7c98:b029:e1:8840:8abd with SMTP id
- y24-20020a1709027c98b02900e188408abdmr18474491pll.12.1612837042095; 
- Mon, 08 Feb 2021 18:17:22 -0800 (PST)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
- [76.210.143.223])
- by smtp.gmail.com with ESMTPSA id ob6sm502645pjb.30.2021.02.08.18.17.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Feb 2021 18:17:21 -0800 (PST)
-Date: Mon, 08 Feb 2021 18:17:21 -0800 (PST)
-X-Google-Original-Date: Mon, 08 Feb 2021 18:17:19 PST (-0800)
-Subject: Re: [PATCH v1 1/1] MAINTAINERS: Add a SiFIve machine section
-In-Reply-To: <6bc077e5ae4a9512c8adf81ae194718f2f17c402.1612836645.git.alistair.francis@wdc.com>
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-afc75aae-45c8-4c36-ae23-fc22dd426ca8@penguin>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=palmer@dabbelt.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=whUhywCRSO8xmFomhniK907UoqTw68Kowc8+zndhjtI=;
+ b=EOrVBLb8khYszTPR4an4ea0RpcHaWFg9OR1yvv7eA6ZpcVRSnRL1wn8uEc6WFXzbgw
+ yONstgPba+Mbc48el7a0X+RU3fl6yRbkP3vlTGyBS62qH46lcviseeLaGBG9TEneX/pG
+ DyVqeFocycvl8daYOG7zv+OGHbYH6zaUSdJ8d45bcZhhSNIfg1wuKh1eOUWhVzmnuM/T
+ 90G0KdwIUkOXi4pU7aVey0FGjJfeS1o7xYF42xJb5iTWp8lFGhCKQL7rNwPbbcvc8l4R
+ jur4ZaRtNCsp0+AfVK6IeXecW7K6STBGNbEJtx/r3HFQWuB+c5j0O2NENDmujTJGhW+e
+ 7hlQ==
+X-Gm-Message-State: AOAM53195NjrxH7kvy0AGEz3AHUXTLEBvRq8lGrz27Dvj0SCFAQwe1nL
+ QlcQibekPQSFJSgf03WhlB6lnXcBP6Wuxengpkc=
+X-Google-Smtp-Source: ABdhPJwB7DxNi2qUYhF/EMQoCWVy22Ac8uk/Q+uNNyYl4DQKVNMu4t9p8AJ9zOZl11C64yXUmievXgebEKns04obtow=
+X-Received: by 2002:a5b:5ce:: with SMTP id w14mr28711179ybp.314.1612837848016; 
+ Mon, 08 Feb 2021 18:30:48 -0800 (PST)
+MIME-Version: 1.0
+References: <1612761924-68000-1-git-send-email-bmeng.cn@gmail.com>
+ <1612761924-68000-3-git-send-email-bmeng.cn@gmail.com>
+ <20210208124425.GI477672@toto>
+ <CAEUhbmV=QLCuk5_bymrVNPO_vEU=R1A3urAaqhnNAgSGpiTsGw@mail.gmail.com>
+ <CAJy5ezooJ21SAFhR2Pf=1aAwBkPEUivbCawZy-geCx+g36EP2Q@mail.gmail.com>
+ <CAEUhbmVZr0pAW86kYjiXryN3cOaPc2LmrH9=fqLQUUdJrKX4Cw@mail.gmail.com>
+ <CAJy5ezqPC365CAjzMmAfSyKw9uL+ur48bD4=WmMQWHA+_fCE=A@mail.gmail.com>
+In-Reply-To: <CAJy5ezqPC365CAjzMmAfSyKw9uL+ur48bD4=WmMQWHA+_fCE=A@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 9 Feb 2021 10:30:36 +0800
+Message-ID: <CAEUhbmUfwOwkcLhW9X0R46rAX3R7ygu2osgCqmuY0cne706MtQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/ssi: xilinx_spips: Implement basic QSPI DMA
+ support
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,45 +81,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, bmeng.cn@gmail.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, alistair23@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"SiFive", not "SiFIve", in the subject.
+Hi Edgar,
 
-On Mon, 08 Feb 2021 18:11:27 PST (-0800), Alistair Francis wrote:
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Acked-by: Bin Meng <bin.meng@windriver.com>
-> ---
->  MAINTAINERS | 9 +++++++++
->  1 file changed, 9 insertions(+)
+On Mon, Feb 8, 2021 at 11:17 PM Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8d8b0bf966..c347d49bd2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1359,6 +1359,15 @@ F: include/hw/misc/mchp_pfsoc_dmc.h
->  F: include/hw/misc/mchp_pfsoc_ioscb.h
->  F: include/hw/misc/mchp_pfsoc_sysreg.h
 >
-> +SiFive Machines
-> +M: Alistair Francis <Alistair.Francis@wdc.com>
-> +M: Bin Meng <bin.meng@windriver.com>
-> +M: Palmer Dabbelt <palmer@dabbelt.com>
-> +L: qemu-riscv@nongnu.org
-> +S: Supported
-> +F: hw/*/*sifive*.c
-> +F: include/hw/*/*sifive*.h
-> +
->  RX Machines
->  -----------
->  rx-gdbsim
+>
+> On Mon, Feb 8, 2021 at 3:45 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>
+>> Hi Edgar,
+>>
+>> On Mon, Feb 8, 2021 at 10:34 PM Edgar E. Iglesias
+>> <edgar.iglesias@gmail.com> wrote:
+>> >
+>> >
+>> >
+>> > On Mon, 8 Feb 2021, 15:10 Bin Meng, <bmeng.cn@gmail.com> wrote:
+>> >>
+>> >> Hi Edgar,
+>> >>
+>> >> On Mon, Feb 8, 2021 at 8:44 PM Edgar E. Iglesias
+>> >> <edgar.iglesias@gmail.com> wrote:
+>> >> >
+>> >> > On Mon, Feb 08, 2021 at 01:25:24PM +0800, Bin Meng wrote:
+>> >> > > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>> >> > >
+>> >> > > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+>> >> > > is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+>> >> > > crash. This is observed when testing VxWorks 7.
+>> >> > >
+>> >> > > Add a basic implementation of QSPI DMA functionality.
+>> >> > >
+>> >> > > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>> >> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>> >> >
+>> >> > + Francisco
+>> >> >
+>> >> > Hi,
+>> >> >
+>> >> > Like Peter commented on the previous version, the DMA unit is actully separate.
+>> >>
+>> >> Is it really separate? In the Xilinx ZynqMP datasheet, it's an
+>> >> integrated DMA unit dedicated for QSPI usage. IIUC, other modules on
+>> >> the ZynqMP SoC cannot use it to do any DMA transfer. To me this is no
+>> >> different like a DMA engine in a ethernet controller.
+>> >
+>> >
+>> > Yes, it's a separate module.
+>> >
+>> >>
+>> >> > This module is better modelled by pushing data through the Stream framework
+>> >> > into the DMA. The DMA model is not upstream but can be found here:
+>> >> > https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
+>> >> >
+>> >>
+>> >> What's the benefit of modeling it using the stream framework?
+>> >
+>> >
+>> >
+>> > Because it matches real hw and this particular dma exists in various instances, not only in qspi. We don't want duplicate implementations of the same dma.
+>> >
+>>
+>> Would you please share more details, like what other peripherals are
+>> using this same DMA model?
+>>
+>
+> It's used by the Crypto blocks (SHA, AES) and by the bitstream programming blocks on the ZynqMP.
+> In Versal there's the same plus some additional uses of this DMA...
 
-Aside from that
+Sigh, it's not obvious from the ZynqMP datasheet. Indeed the crypto
+blocks seem to be using the same IP that QSPI uses for its DMA mode.
+With that additional information, I agree modeling the DMA as a
+separate model makes sense.
 
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Will investigate the Xilinx fork, and report back.
 
-Thanks!
+Regards,
+Bin
 
