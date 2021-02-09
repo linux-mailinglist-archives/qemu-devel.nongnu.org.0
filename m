@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DF8314E4B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 12:43:34 +0100 (CET)
-Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A16314E45
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 12:32:57 +0100 (CET)
+Received: from localhost ([::1]:53272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9RQb-0002TG-9G
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 06:43:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42994)
+	id 1l9RGK-0007p6-Bd
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 06:32:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9RPj-00023L-JW
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 06:42:39 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33017)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9RE7-000738-20; Tue, 09 Feb 2021 06:30:39 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:33621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9RPh-0008P1-Py
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 06:42:39 -0500
-Received: by mail-wr1-x434.google.com with SMTP id 7so21279347wrz.0
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 03:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=jWLJYFpwAWH8DnDTuPVs2PpN1HOWQSt03oxbY5Fnzy8=;
- b=nRRb2wp0LRtdVePk3CMlFDZUEocHd9ohSR1gePyzmq7LWM6voCdm024RRtYWdgB4/Y
- 7Ryo+TyWcaTaOag2qkQOSlpuODdl8SMjOHB4LwUyzUGCcPOu+ouRaHvTkkFYLrYQ8Her
- YxziHIT7h7BC743QX3+ogGbNKBFO+7IHXCG7MExec8C3F2WCum2LxSqhynDZS0sjc8jc
- L2V6I2yujRixUGVU9IuztP8lnC7b4B5V4MLkM89oIuFyVpK4yi/MT3n5igjiNDhoJX+3
- xVye+6JF8pAScQQpmdJi2bbWl+nx7WsuVTbDiLr2/WkAKqLO5qLkc+bFxChmgs+IJo3H
- yNkA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9RE5-0003C5-4H; Tue, 09 Feb 2021 06:30:38 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id sa23so30761560ejb.0;
+ Tue, 09 Feb 2021 03:30:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=K1aKW2+Xo1s4zj6zjrXZK3biPYdKRQYWY2YgWKd3x7s=;
+ b=AEzzGfjuPpy/Div1NZq+vrT5w5YtUIZTpdOCbNf2+cyfpSOTz7SUjkOQwDEVnu93Hi
+ zfEfeMMXIBsqh7Xz/FkWKBh2/gqpoOJgO7kMsyKMGQPoIfuQY63IciMLr33nEqfuChP0
+ GEazW3yYfrCDOaOczY5Gnylb4Pa6N3fezMtx/f663NRCnHbeLtHlQZFBoEodqEg+vR71
+ q49jId4165n8qOjBy88c39q6HKtTXUyVqjqXCja75osbGJl4I4b3ej0PL9zQoY4Qh0q4
+ Obr/fsuVnRMiZ4vbteDzyDRA9bpXR0rS4tn8GV7cCwywwfTj7ssy4gH60OWi/u0Lxoo9
+ DyLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=jWLJYFpwAWH8DnDTuPVs2PpN1HOWQSt03oxbY5Fnzy8=;
- b=owIlFNTMb27BTTFzVHDR7b4V0ZJ1fqtjGI8Grw/FgCjiGL5lM5zXvPOjiMEzAPD1s+
- P+tr3Qw+Md6MM95yn6+KDfY9Dj8JyDuZ77KOwO2Za9W4cWp+16RxdLtbDsFqwVDdP5ry
- QKc+djTl1XyrfSm5bGulV5pZ+26fAWuRGm+QynhCAAHcvjEwxDBtdN4JL+lzPhNqAQaJ
- 7us5oGCURzTSIA6EHUS/eQjnMRVHe9uqi6bummRufIi5sAAx0zhGV3+qTfY0U70d4Oq6
- ijqIYoNpdtf04COb28TS5846IYXjFyLLgTzfMwuMR+7i9ZuJnFfnefwj5ugVf07E48Ol
- Ms4A==
-X-Gm-Message-State: AOAM5323OwNzzaY/7M6WaBtrriZjl6qIPuK5hxvuLa7oeukOTqZh3xaa
- I1Ja2Q+svV71eMG8Xuqx/e2n2A==
-X-Google-Smtp-Source: ABdhPJz7QqB2DUdDnKPJJnxwuBu8u/1SJ9pAxVq9EwBUV8c5OWC5a07X1mnCk4WJap0VS2UmkcPMNw==
-X-Received: by 2002:adf:fd87:: with SMTP id d7mr17773098wrr.361.1612870955838; 
- Tue, 09 Feb 2021 03:42:35 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a9sm20832398wrn.60.2021.02.09.03.42.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 03:42:34 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E23B21FF7E;
- Tue,  9 Feb 2021 11:42:33 +0000 (GMT)
-References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-8-crosa@redhat.com> <8735ycq80u.fsf@linaro.org>
- <2c1a58b2-e023-4aca-16c7-c850f6069657@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH 07/22] tests/acceptance/virtiofs_submounts.py: evaluate
- string not length
-Date: Tue, 09 Feb 2021 11:24:09 +0000
-In-reply-to: <2c1a58b2-e023-4aca-16c7-c850f6069657@redhat.com>
-Message-ID: <87k0rha2mu.fsf@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=K1aKW2+Xo1s4zj6zjrXZK3biPYdKRQYWY2YgWKd3x7s=;
+ b=JBypDASVTB9rKx3ttJE9zKdpCQUHTYTOG8qVj0NiO9yhiwVSpf4OllxRoXagJ1i3o/
+ 3hT5F+B88mqKOU+QQKOA8C6r5o5PXs9KhwQPK8FQ6ovWXFJdUJKgDdfS1m3gOH5gz8Vd
+ oUzaqGeEBvox8pAJG5pQYhcaBYepwwPLp3EW/Q1M+5XG3ZIlcs3I5k3BG3FJIEfLdo0u
+ ou1AN+ynzobHpTn8NpKTbz4iTi9fDqu/EbORs37iMUhYXCAXGsJluimNcrMjKHGIAK8V
+ JHEXJ5jYnl3v4yOuEWYs7bPsfmdKzR5pe/58YqW1l5MrbWSTd3ePh/Qq0LkEIb7++a3u
+ j8FA==
+X-Gm-Message-State: AOAM533q8R1LzZTRKntHGNUrxxRxNgs2cgnlSW9Bq6XpBt7o8o3ff6Xo
+ XnBBXXT/HiKJdTNOSRwW9g8=
+X-Google-Smtp-Source: ABdhPJwBxOqNdi6cXqDRIzn22Rt7JXEKuwr6j5Y+ReqZ/oeBYz46IEYuHtc5ZsbcU31p5axzN566PQ==
+X-Received: by 2002:a17:906:c0d7:: with SMTP id
+ bn23mr21605996ejb.94.1612870234296; 
+ Tue, 09 Feb 2021 03:30:34 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id cf25sm4693475ejb.71.2021.02.09.03.30.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Feb 2021 03:30:33 -0800 (PST)
+Subject: Re: [PATCH] Raspberry PI GPIO interrupt support
+To: Davide Berardi <berardi.dav@gmail.com>, qemu-devel@nongnu.org
+References: <20210209110252.GA14409@carpenter.lan>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <355f1271-09c9-715a-a909-c0f05060dfe5@amsat.org>
+Date: Tue, 9 Feb 2021 12:30:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210209110252.GA14409@carpenter.lan>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,125 +87,256 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Eric Auger <eauger@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Davide,
+On 2/9/21 12:02 PM, Davide Berardi wrote:
+> The bcm2835 GPIOs now generate interrupts.
+> This modification enables QTEST clients to trigger interrupt-based
+> interfaces.
 
-Max Reitz <mreitz@redhat.com> writes:
+Thanks for your patch!
 
-> On 04.02.21 14:23, Alex Benn=C3=A9e wrote:
->>=20
->> Cleber Rosa <crosa@redhat.com> writes:
->>=20
->>> If the vmlinuz variable is set to anything that evaluates to True,
->>> then the respective arguments should be set.  If the variable contains
->>> an empty string, than it will evaluate to False, and the extra
->>> arguments will not be set.
->>>
->>> This keeps the same logic, but improves readability a bit.
->>>
->>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->>> ---
->>>   tests/acceptance/virtiofs_submounts.py | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/=
-virtiofs_submounts.py
->>> index f1b49f03bb..f25a386a19 100644
->>> --- a/tests/acceptance/virtiofs_submounts.py
->>> +++ b/tests/acceptance/virtiofs_submounts.py
->>> @@ -241,7 +241,7 @@ class VirtiofsSubmountsTest(BootLinux):
->>>=20=20=20
->>>           super(VirtiofsSubmountsTest, self).setUp(pubkey)
->>>=20=20=20
->>> -        if len(vmlinuz) > 0:
->>> +        if vmlinuz:
->>>               self.vm.add_args('-kernel', vmlinuz,
->>>                                '-append', 'console=3DttyS0 root=3D/dev/=
-sda1')
->>=20
->> And this is were I gave up because I can't see how to run the test:
->>=20
->>    ./tests/venv/bin/avocado run ./tests/acceptance/virtiofs_submounts.py
->>    JOB ID     : b3d9bfcfcd603189a471bec7d770fca3b50a81ee
->>    JOB LOG    : /home/alex/avocado/job-results/job-2021-02-04T13.21-b3d9=
-bfc/job.log
->>     (1/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest=
-.test_pre_virtiofsd_set_up: CANCEL: vmlinuz parameter not set; you must poi=
-nt it to a Linux kernel binary to test (to run this test with the on-image =
-kernel, set it to an empty string) (0.00 s)
->>     (2/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest=
-.test_pre_launch_set_up: CANCEL: vmlinuz parameter not set; you must point =
-it to a Linux kernel binary to test (to run this test with the on-image ker=
-nel, set it to an empty string) (0.00 s)
->>     (3/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest=
-.test_post_launch_set_up: CANCEL: vmlinuz parameter not set; you must point=
- it to a Linux kernel binary
->>    to test (to run this test with the on-image kernel, set it to an empt=
-y string) (0.00 s)
->>     (4/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest=
-.test_post_mount_set_up: CANCEL: vmlinuz parameter not set; you must point =
-it to a Linux kernel binary to test (to run this test with the on-image ker=
-nel, set it to an empty string) (0.00 s)
->>     (5/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsTest=
-.test_two_runs: CANCEL: vmlinuz parameter not set; you must point it to a L=
-inux kernel binary to test (to run this test with the on-image kernel, set =
-it to an empty string) (0.00 s)
->>    RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
-0 | CANCEL 5
->>    JOB TIME   : 0.56 s
->>=20
->> Given the test seems to make assumptions about an environment being
->> setup for it I think we need some documentation somewhere about what
->> those pre-requisites are.
->
-> I find the cancel message pretty clear, but then again it was me who=20
-> wrote it...
->
-> Either you point the vmlinuz parameter to some Linux kernel you built=20
-> yourself, or you set it to the empty string to just use the kernel=20
-> that=E2=80=99s part of the image.  Setting Avocado parameters is done via=
- -p,=20
-> i.e. =E2=80=9C-p key=3Dvalue=E2=80=9D.  So in this case
-> =E2=80=9C-p vmlinuz=3D/path/to/linux/build/arch/x86/boot/bzImage=E2=80=9D=
-, or
-> =E2=80=9C-p vmlinuz=3D''=E2=80=9D.
->
-> Ideally, vmlinuz=3D'' would be the default, but there=E2=80=99s a problem=
- with=20
-> that: I submitted this test along with the patches that added the=20
-> required feature to the Linux kernel, so at that point that feature was=20
-> not part of Linux.  That=E2=80=99s why you generally have to point it to =
-a Linux=20
-> kernel binary you built yourself that has this feature (5.10 does).
+Can you provide QTEST client example? Even better would be a qtest!
 
-This is where it deviates from the rest of the check-acceptance tests.
-Generally I don't have to worry about finding the right image myself. At
-the least it would be worth pointing to a part of our docs on how to
-build such an image.
+> 
+> Signed-off-by: Davide Berardi <berardi.dav@gmail.com>
+> ---
+>   hw/arm/bcm2835_peripherals.c   |   2 +
+>   hw/gpio/bcm2835_gpio.c         | 105 +++++++++++++++++++++++++++++++++
+>   hw/intc/bcm2835_ic.c           |   2 -
+>   include/hw/gpio/bcm2835_gpio.h |  12 ++++
+>   4 files changed, 119 insertions(+), 2 deletions(-)
+...
 
-> Using vmlinuz=3D'' you can test it with the kernel that is part of the=20
-> cloud image.  Once that kernel is sufficiently new (i.e., >=3D5.10), we=20
-> can make that the default.
+I wonder how you generated your patch, it doesn't apply:
 
-Good.
+Applying: Raspberry PI GPIO interrupt support
+error: patch failed: hw/arm/bcm2835_peripherals.c:114
+error: hw/arm/bcm2835_peripherals.c: patch does not apply
+error: patch failed: hw/gpio/bcm2835_gpio.c:7
+error: hw/gpio/bcm2835_gpio.c: patch does not apply
+error: patch failed: hw/intc/bcm2835_ic.c:57
+error: hw/intc/bcm2835_ic.c: patch does not apply
+error: patch failed: include/hw/gpio/bcm2835_gpio.h:7
+error: include/hw/gpio/bcm2835_gpio.h: patch does not apply
+Patch failed at 0001 Raspberry PI GPIO interrupt support
 
->
-> Max
+You can find the guidelines here:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Submitting_your_Patches
 
+>   +static inline int get_bit_2_u32(const uint32_t idx,
+> +                                const uint32_t v1, const uint32_t v2)
+> +{
+> +    uint64_t v = v1 | ((uint64_t)v2) << 32;
+> +    return !!(v & (1 << idx));
+> +}
+> +
+> +static int ren_detect(BCM2835GpioState *s, int index)
+> +{
+> +    if (index >= 0 && index < 54) {
+> +        return get_bit_2_u32(index, s->ren0, s->ren1);
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int fen_detect(BCM2835GpioState *s, int index)
+> +{
+> +    if (index >= 0 && index < 54) {
+> +        return get_bit_2_u32(index, s->fen0, s->fen1);
+> +    }
+> +    return 0;
+> +}
 
---=20
-Alex Benn=C3=A9e
+I suppose you can simplify by using 'uint64_t fen' and ren,
+and the extract64() method from "qemu/bitops.h".
+
+> @@ -137,6 +178,15 @@ static void gpclr(BCM2835GpioState *s,
+>       for (i = 0; i < count; i++) {
+>           if ((changes & cur) && (gpfsel_is_out(s, start + i))) {
+>               qemu_set_irq(s->out[start + i], 0);
+> +        } else if ((changes & cur) && fen_detect(s, start + i)) {
+> +            /* If this is an input we must check falling edge */
+> +            int irqline = 0;
+> +            if (i > 27)
+> +                irqline = 1;
+> +            if (i > 45)
+> +              irqline = 2;
+
+Please respect QEMU's CODING_STYLE.rst.
+
+Matter of taste, this seems easier to follow:
+
+  int irqline;
+
+  if (i > 45) {
+    irqline = 2;
+  } else if > 27
+    irqline = 1;
+  } else {
+    irqline = 0;
+  }
+
+> +
+> +            qemu_set_irq(s->irq[irqline], 1);
+>           }
+>           cur <<= 1;
+>       }
+> @@ -144,6 +194,34 @@ static void gpclr(BCM2835GpioState *s,
+>       *lev &= ~val;
+>   }
+>   +static int gpio_from_value(uint64_t value, int bank)
+> +{
+> +    int i;
+> +    for (i = 0 ; i < 32; ++i)
+> +        if (value & (1 << i))
+
+Please use extract32().
+
+> +           return i + (32 * bank);
+> +    return 0;
+> +}
+> +
+> +static void eds_clear(BCM2835GpioState *s, uint64_t value, int bank)
+> +{
+> +    int gpio = 0;
+> +    int irqline = 0;
+> +    if (bank) {
+> +        s->eds0 &= ~value;
+> +    } else {
+> +        s->eds1 &= (~value & 0x3f);
+> +    }
+
+Similarly, using 'uint64_t eds' should simplify this.
+
+> +    gpio = gpio_from_value(value, bank);
+> +
+> +    if (gpio > 27)
+> +       irqline = 1;
+> +    if (gpio > 45)
+> +       irqline = 2;
+> +
+> +    qemu_set_irq(s->irq[irqline], 0);
+> +}
+> +
+>   static uint64_t bcm2835_gpio_read(void *opaque, hwaddr offset,
+>           unsigned size)
+>   {
+> @@ -170,11 +248,17 @@ static uint64_t bcm2835_gpio_read(void *opaque,
+> hwaddr offset,
+>       case GPLEV1:
+>           return s->lev1;
+>       case GPEDS0:
+> +        return s->eds0;
+>       case GPEDS1:
+> +        return s->eds1;
+
+Using 'uint64_t eds' this becomes:
+
+  case GPEDS0:
+  case GPEDS1:
+      return extract64(s->eds, offset == GPEDS1 ? 0 : 32, 32);
+
+>   @@ -318,6 +415,14 @@ static void bcm2835_gpio_realize(DeviceState
+> *dev, Error **errp)
+>         obj = object_property_get_link(OBJECT(dev), "sdbus-sdhost",
+> &error_abort);
+>       s->sdbus_sdhost = SD_BUS(obj);
+> +
+> +    obj = object_property_get_link(OBJECT(dev), "ic", &error_abort);
+> +    s->ic = BCM2835_IC(obj);
+> +
+> +    for (i = 0 ; i < 3; ++i) {
+
+Please replace this magic 3 by a definition, maybe
+BCM2835_EXTERNAL_IRQ_COUNT?
+
+> +        s->irq[i] = qdev_get_gpio_in_named(DEVICE(obj),
+> +                                           BCM2835_IC_GPU_IRQ, i + 49);
+> +    }
+>   }
+>     static void bcm2835_gpio_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/intc/bcm2835_ic.c b/hw/intc/bcm2835_ic.c
+> index 9000d995e8..b381dc6603 100644
+> --- a/hw/intc/bcm2835_ic.c
+> +++ b/hw/intc/bcm2835_ic.c
+> @@ -57,7 +57,6 @@ static void bcm2835_ic_update(BCM2835ICState *s)
+>   static void bcm2835_ic_set_gpu_irq(void *opaque, int irq, int level)
+>   {
+>       BCM2835ICState *s = opaque;
+> -
+
+Spurious change.
+
+>       assert(irq >= 0 && irq < 64);
+>       trace_bcm2835_ic_set_gpu_irq(irq, level);
+>       s->gpu_irq_level = deposit64(s->gpu_irq_level, irq, 1, level != 0);
+> @@ -67,7 +66,6 @@ static void bcm2835_ic_set_gpu_irq(void *opaque, int
+> irq, int level)
+>   static void bcm2835_ic_set_arm_irq(void *opaque, int irq, int level)
+>   {
+>       BCM2835ICState *s = opaque;
+> -
+
+Ditto.
+
+>       assert(irq >= 0 && irq < 8);
+>       trace_bcm2835_ic_set_cpu_irq(irq, level);
+>       s->arm_irq_level = deposit32(s->arm_irq_level, irq, 1, level != 0);
+> diff --git a/include/hw/gpio/bcm2835_gpio.h
+> b/include/hw/gpio/bcm2835_gpio.h
+> index 1c53a05090..cad3e987d3 100644
+> --- a/include/hw/gpio/bcm2835_gpio.h
+> +++ b/include/hw/gpio/bcm2835_gpio.h
+> @@ -7,6 +7,9 @@
+>    *  Clement Deschamps <clement.deschamps@antfield.fr>
+>    *  Luc Michel <luc.michel@antfield.fr>
+>    *
+> + * GPIO External support
+> + *  Davide Berardi <berardi.dav@gmail.com>
+> + *
+>    * This work is licensed under the terms of the GNU GPL, version 2 or
+> later.
+>    * See the COPYING file in the top-level directory.
+>    */
+> @@ -17,6 +20,7 @@
+>   #include "hw/sd/sd.h"
+>   #include "hw/sysbus.h"
+>   #include "qom/object.h"
+> +#include "hw/intc/bcm2835_ic.h"
+
+Here would go:
+
+#define BCM2835_EXTERNAL_IRQ_COUNT 3
+
+>     struct BCM2835GpioState {
+>       SysBusDevice parent_obj;
+> @@ -27,11 +31,19 @@ struct BCM2835GpioState {
+>       SDBus sdbus;
+>       SDBus *sdbus_sdhci;
+>       SDBus *sdbus_sdhost;
+> +    BCM2835ICState *ic;
+>         uint8_t fsel[54];
+>       uint32_t lev0, lev1;
+> +    /* Event detection */
+> +    uint32_t eds0, eds1;
+> +    /* Edge selector */
+> +    uint32_t ren0, ren1;
+> +    uint32_t fen0, fen1;
+> +
+>       uint8_t sd_fsel;
+>       qemu_irq out[54];
+> +    qemu_irq irq[3];
+
+and here 3 -> BCM2835_EXTERNAL_IRQ_COUNT.
+
+>   };
+>     #define TYPE_BCM2835_GPIO "bcm2835_gpio"
+
+Regards,
+
+Phil.
 
