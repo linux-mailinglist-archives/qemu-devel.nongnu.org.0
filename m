@@ -2,135 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1587E31495E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 08:18:15 +0100 (CET)
-Received: from localhost ([::1]:48284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0986D314991
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 08:38:02 +0100 (CET)
+Received: from localhost ([::1]:57164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9NHp-0002Tx-JP
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 02:18:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44124)
+	id 1l9Nay-0007Qr-Ug
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 02:38:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l9NFq-0001we-LQ; Tue, 09 Feb 2021 02:16:10 -0500
-Received: from mail-eopbgr150105.outbound.protection.outlook.com
- ([40.107.15.105]:57312 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9NUe-0004nm-Pv; Tue, 09 Feb 2021 02:31:28 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:36007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l9NFj-0007qs-SK; Tue, 09 Feb 2021 02:16:10 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AidNNzo7WsFEfX/PCgA4pTaTU2KXRr5On6LR/5kLDCDl4ZCpJwDUAGOH1p2oAVXVPdioe8mSRhywm0BKSwrw6WBFk16I3Zhj0RpkkJOgC0QWnZAUAw6650rskEmCHONdsXXXPKjxC/U+FwIWUm7AahbeY4rZaU0HqKQ4mBUFNu0xlfG7HpWgL7+kuy8dDs8VDkkyFXsUKMjc5HQxheJFmphCJYi2+A8eySjvZiLnPRdSwKnPRbrH+LlmJkti3wyR0pzs6L2wxCx927qIaTnksVpV2kFfbgr2d9FYqw/cxDPmx+Ri2qO7ggltuH3ZCGezgtWWs1dqc6P0GmBTSzI9+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7v2KwnFlKi/wZnuu3JkCt8DwGFkQemssGYZ2NJWV8Mc=;
- b=eQQ4gAusR5R/RAKyWUIuHQcCOfNfB5OFu/4M7+XbmKd59HkX2+kGnZ6a1Jx4dkyUtBK1ZjROW/P6sAfwwctABoVl4r2oLmP7qcwUgCTxHrAEOTaiuNBuxafU3wONCJOHx1smTurcijiCacHMJQnfUsDKMK79P9iWcpFGonomrlHc0A2yEd4JmlICwaujQiU5sMvK28mxPP0Pcwsi/AAJGKhALqCzIx9R8STfrm2PWQt9DQbohR7Il2yaiAlQnMDBBqlhdeIOzDSi+SwpwnPT4vhR+zlQTqVqcVhr/yitffARjZH1/FqyZYvvDar9mLvs2a6Y7gO5WMj48roEqqQDEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7v2KwnFlKi/wZnuu3JkCt8DwGFkQemssGYZ2NJWV8Mc=;
- b=JbKGjGOriF7/jCN+MY6DEqvNKIRg7sNvHBcivqmE1Ys8uziMx8JktfvWuF96htDv6Hgg7OlIwBftj/JUWU5DTqzeCu+WbOsV6kdZTRp+HknNcf5m4CEgpvAq9S3Kadu1ES4tah8qawfr63oWMvodkWHvyHL9025v7PX1JyyJdqg=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6470.eurprd08.prod.outlook.com (2603:10a6:20b:33a::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25; Tue, 9 Feb
- 2021 07:15:59 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%9]) with mapi id 15.20.3846.025; Tue, 9 Feb 2021
- 07:15:59 +0000
-Subject: Re: [RFC PATCH v2 0/4] Allow changing bs->file on reopen
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>
-References: <cover.1612809837.git.berto@igalia.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <271ef73e-dbc0-93bc-a7d4-1d80e063146d@virtuozzo.com>
-Date: Tue, 9 Feb 2021 10:15:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-In-Reply-To: <cover.1612809837.git.berto@igalia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.215]
-X-ClientProxiedBy: AM9P193CA0011.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:20b:21e::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9NUc-0005QP-JP; Tue, 09 Feb 2021 02:31:28 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 425C299C;
+ Tue,  9 Feb 2021 02:31:22 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:31:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding; s=fm2; bh=F0QbxQANs+Bui1C/Dkl75Vl/O9
+ 2YWJKA3Sbd1Cv6o3s=; b=Hzm2MSePxrMshbDMZl5TQd6QR8xW4TTAUs6FNAFaNB
+ bUp2pkFLHbnl9iaa548dcwaf1EY/hpREZenrYIHwGoB5JZ8H5++bFOhogLoVQEQE
+ TSyDKjs3DlweKqaYJKZ2cgWqFMfqPk3Z+oLn87CFDgFvkc+j8MUjaHPgkIXsSDHa
+ kB+B61vi0UhyqmKHooZClxPl9/+7GzeG7xEdk8qzrQuVm6QY23VB4d69f6IL4FIZ
+ q1g/b9mcG9oLTvaJ9J9BzwnPAzlIHOeDeIK/eb/D0wgnowhHlNmcKjjWU8MFP1Qw
+ b2/tss4oMFDWQv/7YVyzzwuYAgT3d4SGimXIuJ/wAFaw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=F0QbxQ
+ ANs+Bui1C/Dkl75Vl/O92YWJKA3Sbd1Cv6o3s=; b=BH9y9N8pKQxnl9Apj+ac1Z
+ OSYzdfrJ2Klg5OLG67DvFD8j+/JXA9+WB2iJKdNcf4ev6ifcxWV14q8T9FJSYyaI
+ wDoeR5uGe0NdhuKets7b9pHm/a2WLTOtG1bZdgXrBZwqDb6cgDIdsevYOdCPGzHX
+ r8/pGWifuf/WUzp6TO/omOazFrVfwHVm4glAPFDpFGD5OZHbBh1vA/r+RPaIBlPc
+ QxT28ezL4p9emHw77EFY36G72U3K9TOqtYbRSQwm+l8g0wM9Df06i/xGaKYW2D6M
+ qcNxVw1QTh5bUn5DesXPNfhNHy83dmTV+x+CCDr25Aw7YIpyKG+0kfOuNh9VKldw
+ ==
+X-ME-Sender: <xms:SDoiYI_4XuXnLJ6xBQ9Kc0k4izvZFL3AIOSw-VDlml9VTvQjP4TkeA>
+ <xme:SDoiYAtrimpy-GTHurYC97Pq6p1OAcwlpdvwEUB8kjiUHBAxrGML-I9Dt4UnQtEsE
+ lbz0S_J41ws6nPbcAI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggddutdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffogggtgfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepvdfhueejueejkedvudeftdetvddtgffhteelgeeluddvveetuefhfeekfeeuhefg
+ necuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecukfhppeektddrudeijedrle
+ ekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:SDoiYODNn-gAJ5y_L8dxb_WfiIKsLTol4ouMbB9Kl0Lj9mtBXfqRdg>
+ <xmx:SDoiYIdUZe50FcNBWFPlOUnD7eQvTbmfKCt_hLko00bcBZb9fHcYMg>
+ <xmx:SDoiYNMLzsUdLmggE_iDWLngxt98MKq54L0fVYtoGoY_iBvYuWR_Rw>
+ <xmx:SToiYAfOYLW5mTgM-j4mVw-evFh-OBkAlTyC085kWuFBLDo8ZWApsA>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 760A6108005B;
+ Tue,  9 Feb 2021 02:31:19 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/56] emulated nvme patches
+Date: Tue,  9 Feb 2021 08:30:05 +0100
+Message-Id: <20210209073101.548811-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.215) by
- AM9P193CA0011.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.21 via Frontend Transport; Tue, 9 Feb 2021 07:15:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 27d7fd1e-ea8e-48ed-214d-08d8ccca8cd5
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6470:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB64701A20D94CD27D5D27079AC18E9@AS8PR08MB6470.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VHzpqSVAyeCUdU9AFtu99nw+jie6sv+Ic59SqacbjaWibs3k4Kf6dz6LSIyyP8OrXO2XirR5s8to5MeYM2eRIx5dV7ymTJGojqcrNItant5Wk/kRZruiZOmCsNeTFCee0fjkiuHrIJ81Ez9MaPlfsYwN83hBCyY90iyKTY302OYq0XNH2vZNJkc62yBrgARexoDw5KQUvViaO6zTzfHXi0DGVHdoUQyphrfoFd0va7FtaKiIA0e6nckOIKizt2iDbHZ24Uvx3PJ2GQGV0csj3j2IDzNuAd4qhXeGVcHj2bBA7QD4FTYGa/zqXAvORuVsTvI2Ykfa4ZrYK/sD7gySDGQQygdVGvbIW6THF7QPpdhnE3s37B42IG1d+FMlMp59vEaV6Cr+e5tMg2kdw4gdhpByr52aWfLfE5xJEZeFb7qxKFFvL4NZp9MwWSguCfN/32nloSQb3sHpqk17zDSIKZSmyYJa6/FqKW9Sb2/W35XeI+8ZDahh63YuAWQw2iwUEGVMHLFoscmKB/fNBsNl3d4FEhapAY2TZ67Kc3RR90sQFRCHjuY81uIfHd+jZt63DcxJgx31hQjhVg+dmhJapMiq4vGNkCAspPQ0MVKJveyhhW1nH/Pako5jK1Bif7stbtnGW2Sb3Cd7UiuuM+SawS1/3cq6zof3dYCnGeavvDfD/FWYJbgzxz7GZdbB1Js4
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39830400003)(2616005)(956004)(16526019)(36756003)(186003)(52116002)(26005)(4326008)(478600001)(5660300002)(966005)(2906002)(316002)(16576012)(6486002)(54906003)(66556008)(66476007)(8676002)(8936002)(66946007)(31696002)(86362001)(31686004)(83380400001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TkVCbERMK0h5QU1PbUtkR0tXTENsOWJtRStKTjNLRE5kY2U4Q2Eza01BaFVC?=
- =?utf-8?B?amNvLzlSNjR5c1doNmFzZDBIakVMK1k4NU5IUmFRaW4reFJaQis5djRtd2dO?=
- =?utf-8?B?NjBtV09WRmhJVUlQVitOS29HdjdiMGhHbUYxVlljbkJMN1pQVUJ5bElUblZD?=
- =?utf-8?B?NmRzN3JZcXZiU3hVVi9zRTd2ckNZTC9rVGdUeStqM0xNanB3NGJYMTQybmM3?=
- =?utf-8?B?UVNnOXJ6SnJWVExPSk9raU1MZEZxMlRVQ21haFdFTXY2VGFnV3ZFUWJIbE14?=
- =?utf-8?B?NG5wL00yVDJwUDdTVzFMbUlVcXRkMjFtVGJjakxpL0hlbjEvcFR4bG9paVVB?=
- =?utf-8?B?MGFJbk0zbzdLc01tUnQ1MDZHVVE3d3dyMVlNNGJ0Tm5YdUJaNU9qOW5Gbmlw?=
- =?utf-8?B?MmU5dEJ6K0kxOVMrbld2ZFB2NmRZdFJhb3hMQXZPUm83bHRQbFUxVVZJNW1w?=
- =?utf-8?B?b05qV2pyUnNWV25PV0JVQlVYcVZzVFZOc2tKQnE2K3dRc0NhT3NMc3BEZ3p2?=
- =?utf-8?B?QzVPQXY5YS9ZMUpUb3lFMFJJS2dsdUdvTHk3SjlNM3JjeFgxR0p3Y3QzUVAw?=
- =?utf-8?B?OHNpZ1d5dkduU0VHb3VwaXB6cnZ1YW50TkdFT0RGdFRrOVFYcE0xdGhTUDhq?=
- =?utf-8?B?cit2YlBYQlpDTWdMUFMwNFZPUTR6SUZEMUE2aDI5bzFJK3hpRHdFVnRtdlJI?=
- =?utf-8?B?MjhJMStQaEc2VkZCRkorb1kxbDFnUmtGSGpmMEFFdHBOUDUvcWdGVGRCRlRB?=
- =?utf-8?B?SklaeWh1anRRTUpFMnIwL2x5eUd1cGVaZG92YWdVcWk2U2QvdjB6WDEwblM5?=
- =?utf-8?B?TDRLSEEvTHVIMTY4em1iWVEzZEFUQ0I0R3dYVysyTVRNN1hqRzhYZStBN0Zy?=
- =?utf-8?B?c0R3bjQybnIwVUR1dWx3bnU0ek42N1IvR3VwTG9xM1NvYlEza1ppbnMrUFBN?=
- =?utf-8?B?QkRUaW5GZjRMV0VVZ0hZNW9NYVgzWEk2cVFYRjlIK3VWZitXSG5jWTNqUktu?=
- =?utf-8?B?QUUzcGoyQWNza0hUTFFLenNGNzZvbVNvV25yOU1qai81YlZUZTZxLzdEVWlM?=
- =?utf-8?B?TWR3Vk9UK2l2bDFZYUpUR2FnUlVReDMzYTJXdnMyK2xmL1Fsd3Q0dnVPNW5X?=
- =?utf-8?B?L3RDOG1SS3lpSGw1dkJJbW5peDlBb2xTNnRoS3d4WGdjRHRtQ0l0Y1oyY0RR?=
- =?utf-8?B?RjFZOU9PcHBlVlVsM0gzZnI1c09kUWFHdmo3K1VZOFgyd1huWTZmc2t5dzlO?=
- =?utf-8?B?VU52SUZPbXhpQWZrK1JnQ0Q3QlVIMHBjZml3aTlaeTFFa1R3dFY4UkNPdGN4?=
- =?utf-8?B?N212UldvMC96V2ttSi95aHlSV21HeFE0UjhjK2NMcHE1SVVuL2ZUcEpIVjJr?=
- =?utf-8?B?Uy9TTTYzNzN0UjlpR3JmaHJmY2ttZDA0czVYWW03eDBFcUtmcERQM2ZmUkM2?=
- =?utf-8?B?bzZJNVNJQnF3SzNIWlFaaDI3N3ZLMTdiQmpxSjhXR0JWZDRDbmhFd28wYXZr?=
- =?utf-8?B?NjlPYjVldVVwQWdsSk1ScWdMRGdaWXpXYzBNZi9qTCtKRG40aGF1Qm5KdlFX?=
- =?utf-8?B?NDRBQ05pcmFodmFsQzl5WVlsaFlVbCtIdVZoNE4xdjZkQWxvMkdjTk5qOXh5?=
- =?utf-8?B?RHN2YngxM3hUYlBUN2tqUDRIbTFPcVNRWUJqbG01dk9Ka2YvUVpjYmdUWlEy?=
- =?utf-8?B?LzZFZ1FYak1ISVhWYTAza3d6Y0ViNzZtT1NjdElDTnlUZUNEMXBKbnU2UVRo?=
- =?utf-8?Q?Xg6snlpBvVTnrZ7vXoFGAL+x12z5VrUAvCXxHGs?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27d7fd1e-ea8e-48ed-214d-08d8ccca8cd5
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2021 07:15:59.3911 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V0CHmEHHAJCndLfzu1pi27FOelBHuT4yqpJLYh9XNT7VEpjQsPe8azDbtOYFNFyhGAyBlRM/XtY0BbjoO55TPGjlN5kW819Sf/TAx/t6k/M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6470
-Received-SPF: pass client-ip=40.107.15.105;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -143,62 +93,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-08.02.2021 21:44, Alberto Garcia wrote:
-> Hi,
-> 
-> this series allows changing bs->file using x-blockdev-reopen. Read
-> here for more details:
-> 
->     https://lists.gnu.org/archive/html/qemu-block/2021-01/msg00437.html
-> 
-> Version 2 of the series introduces a very significant change:
-> x-blockdev-reopen now receives a list of BlockdevOptions instead of
-> just one, so it is possible to reopen multiple block devices using a
-> single transaction.
-> 
-> This is still an RFC, I haven't updated the documentation and the
-> structure of the patches will probably change in the future, but I'd
-> like to know your opinion about the approach.
-> 
-> These patches apply on top of Vladimir's branch:
-> 
-> git: https://src.openvz.org/scm/~vsementsov/qemu.git
-> tag: up-block-topologic-perm-v2
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Patchew understands "Based-on: MESSAGE_ID" tag, so, you can add:
-
-Based-on: <20201127144522.29991-1-vsementsov@virtuozzo.com>
-
-> 
-> Regards,
-> 
-> Berto
-> 
-> Alberto Garcia (4):
->    block: Allow changing bs->file on reopen
->    iotests: Update 245 to support replacing files with x-blockdev-reopen
->    block: Support multiple reopening with x-blockdev-reopen
->    iotests: Test reopening multiple devices at the same time
-> 
->   qapi/block-core.json       |   2 +-
->   include/block/block.h      |   2 +
->   block.c                    |  81 +++++++++++++++++++++--
->   blockdev.c                 |  85 +++++++++++++-----------
->   tests/qemu-iotests/155     |   9 ++-
->   tests/qemu-iotests/165     |   4 +-
->   tests/qemu-iotests/245     | 128 ++++++++++++++++++++++++++++++++-----
->   tests/qemu-iotests/245.out |   4 +-
->   tests/qemu-iotests/248     |   2 +-
->   tests/qemu-iotests/248.out |   2 +-
->   tests/qemu-iotests/298     |   4 +-
->   11 files changed, 254 insertions(+), 69 deletions(-)
-> 
-
-
--- 
-Best regards,
-Vladimir
+The following changes since commit 4f799257b323e1238a900fd0c71c2057863e0308=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-02-08' i=
+nto staging (2021-02-08 16:12:21 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request=0D
+=0D
+for you to fetch changes up to 3e22762edc74be3e1ecafc361351a9640d114978:=0D
+=0D
+  hw/block/nvme: refactor the logic for zone write checks (2021-02-08 21:15=
+:54 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+Emulated NVMe device updates=0D
+=0D
+  * deallocate or unwritten logical block error feature (me)=0D
+  * dataset management command (me)=0D
+  * compare command (Gollu Appalanaidu)=0D
+  * namespace types (Niklas Cassel)=0D
+  * zoned namespaces (Dmitry Fomichev)=0D
+  * smart critical warning toggle (Zhenwei Pi)=0D
+  * allow cmb and pmr to coexist (Andrzej Jakowski, me)=0D
+  * pmr rds/wds support (Naveen Nagar)=0D
+  * cmb v1.4 logic (Padmakar Kalghatgi)=0D
+=0D
+And a lot of smaller fixes from Gollu Appalanaidu, Minwoo Im and me.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Andrzej Jakowski (1):=0D
+  hw/block/nvme: indicate CMB support through controller capabilities=0D
+    register=0D
+=0D
+Dmitry Fomichev (11):=0D
+  hw/block/nvme: Process controller reset and shutdown differently=0D
+  hw/block/nvme: Generate namespace UUIDs=0D
+  hw/block/nvme: Separate read and write handlers=0D
+  hw/block/nvme: Combine nvme_write_zeroes() and nvme_write()=0D
+  hw/block/nvme: Add Commands Supported and Effects log=0D
+  nvme: Make ZNS-related definitions=0D
+  hw/block/nvme: Support Zoned Namespace Command Set=0D
+  hw/block/nvme: Introduce max active and open zone limits=0D
+  hw/block/nvme: Support Zone Descriptor Extensions=0D
+  hw/block/nvme: Document zoned parameters in usage text=0D
+  hw/block/nvme: Correct error status for unaligned ZA=0D
+=0D
+Gollu Appalanaidu (4):=0D
+  hw/block/nvme: add compare command=0D
+  hw/block/nvme: fix set feature for error recovery=0D
+  hw/block/nvme: fix set feature save field check=0D
+  hw/block/nvme: align with existing style=0D
+=0D
+Klaus Jensen (26):=0D
+  hw/block/nvme: remove superfluous NvmeCtrl parameter=0D
+  hw/block/nvme: pull aio error handling=0D
+  hw/block/nvme: add dulbe support=0D
+  nvme: add namespace I/O optimization fields to shared header=0D
+  hw/block/nvme: add the dataset management command=0D
+  hw/block/nvme: fix bad clearing of CAP=0D
+  hw/block/nvme: fix for non-msix machines=0D
+  hw/block/nvme: conditionally enable DULBE for zoned namespaces=0D
+  hw/block/nvme: fix shutdown/reset logic=0D
+  hw/block/nvme: merge implicitly/explicitly opened processing masks=0D
+  hw/block/nvme: enum style fix=0D
+  hw/block/nvme: zero out zones on reset=0D
+  hw/block/nvme: add missing string representations for commands=0D
+  hw/block/nvme: remove unnecessary check for append=0D
+  hw/block/nvme: fix zone write finalize=0D
+  hw/block/nvme: add size to mmio read/write trace events=0D
+  hw/block/nvme: fix 64 bit register hi/lo split writes=0D
+  hw/block/nvme: move msix table and pba to BAR 0=0D
+  hw/block/nvme: allow cmb and pmr to coexist=0D
+  hw/block/nvme: rename PMR/CMB shift/mask fields=0D
+  hw/block/nvme: remove redundant zeroing of PMR registers=0D
+  hw/block/nvme: disable PMR at boot up=0D
+  hw/block/nvme: bump to v1.4=0D
+  hw/block/nvme: lift cmb restrictions=0D
+  hw/block/nvme: fix zone boundary check for append=0D
+  hw/block/nvme: refactor the logic for zone write checks=0D
+=0D
+Minwoo Im (7):=0D
+  hw/block/nvme: remove unused argument in nvme_ns_init_zoned=0D
+  hw/block/nvme: open code for volatile write cache=0D
+  hw/block/nvme: remove unused argument in nvme_ns_init_blk=0D
+  hw/block/nvme: split setup and register for namespace=0D
+  hw/block/nvme: remove unused argument in nvme_ns_setup=0D
+  hw/block/nvme: error if drive less than a zone size=0D
+  hw/block/nvme: fix wrong parameter name 'cross_read'=0D
+=0D
+Naveen Nagar (1):=0D
+  hw/block/nvme: add PMR RDS/WDS support=0D
+=0D
+Niklas Cassel (2):=0D
+  hw/block/nvme: Add support for Namespace Types=0D
+  hw/block/nvme: Support allocated CNS command variants=0D
+=0D
+Padmakar Kalghatgi (1):=0D
+  hw/block/nvme: move cmb logic to v1.4=0D
+=0D
+Zhenwei Pi (3):=0D
+  nvme: introduce bit 5 for critical warning=0D
+  hw/block/nvme: add smart_critical_warning property=0D
+  hw/block/nvme: trigger async event during injecting smart warning=0D
+=0D
+ hw/block/nvme-ns.h    |  112 +-=0D
+ hw/block/nvme.h       |   31 +-=0D
+ include/block/nvme.h  |  340 +++++-=0D
+ hw/block/nvme-ns.c    |  290 ++++-=0D
+ hw/block/nvme.c       | 2333 ++++++++++++++++++++++++++++++++++++-----=0D
+ hw/block/trace-events |   50 +-=0D
+ 6 files changed, 2823 insertions(+), 333 deletions(-)=0D
+=0D
+-- =0D
+2.30.0=0D
+=0D
 
