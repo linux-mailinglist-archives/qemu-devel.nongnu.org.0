@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B375314A0D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:13:08 +0100 (CET)
-Received: from localhost ([::1]:43276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692B7314A21
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:19:19 +0100 (CET)
+Received: from localhost ([::1]:51592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9O8w-00014d-Rw
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:13:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47390)
+	id 1l9OEw-0004u3-8h
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:19:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NVr-0005R3-RY; Tue, 09 Feb 2021 02:32:49 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:42419)
+ id 1l9NVx-0005Rz-No; Tue, 09 Feb 2021 02:32:49 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:34551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NVi-0005mP-BQ; Tue, 09 Feb 2021 02:32:43 -0500
+ id 1l9NVn-0005ns-8B; Tue, 09 Feb 2021 02:32:49 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 902BEC44;
- Tue,  9 Feb 2021 02:32:03 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id A9F2CC55;
+ Tue,  9 Feb 2021 02:32:06 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:04 -0500
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=T6zZGzpk8/9R3
- A4FKDcENctUZjgPVemx2SGj+KWaA/E=; b=k3JNnjHCBS0XDkGuBNZQ3IhVqguDx
- y4ll5yACbnxjpqmCOL9W7nU6xqcuYpheuygUGxcZS0oMFgqgY5KNLu1804tKnBXK
- gwCTgHkGLZ3ltksbKMFCdtZ05trRvfmdgOKmeBNhq6/2S3lEqN3llRlcpQEAEOmf
- yKuXjEBkV8e/ylJV+avoyW7b48fsj5iFakfIWiMsjDV04X4dmYhoqJxoaeyr0o8Q
- eNbGoea8RRviB79VRhGIiYW0xXiJQaVxuvJahzKSVD9MiGdV2hg/81jAQUz+ZJPt
- bxnA0PS6zpRgyzkS4Qqy4fSl4U1FpT4VM7LAB9txct3oeckDyY6an77XQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=6+pcpx4pBI8uk
+ rSuy2ttlmHr1kb4cFh+LVOroKS83zE=; b=09wOn0iXWivdrcP2Zc4aQnGsJwEe+
+ YOlCKaAPkEgJ13zU1cpScRR9oGjOPvG41o9EmmNZ//q4+hyXefGkXRn557NtSryN
+ ok3cfLpaHdx/XULOhLj4hbe8bARsgBcdclw56ro1IKF0vlMPL2yRRy/PQWzYiDxL
+ ZWcxt9jA9BcDnHi6GXFuKgw3xlM9jr9vU/ghUWvx1gXbDK8qrPp4bFbWwhds0SO1
+ 0QnvAURibEAflKnT/7yzRuDTjCj5KB2sy76MAToPK/iUbTc4PWi8Aj9BcCSvb9vt
+ 7ruQ13sq2XS5KCRR3HKT0Xh13fsACXfMsDten3nSwMQFQAilSaLaiiBcw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=T6zZGzpk8/9R3A4FKDcENctUZjgPVemx2SGj+KWaA/E=; b=MDOvQob3
- RYPUe4rtGYEixB7o/sVVjzY/Gc+HxgFaj5xkIWoIUCWhWVauhORImaFLXM543k8s
- 2f40BzA8tu0f0NIjrzbdFZPxbitBwUzqjGnHhQzjnm2VmsfQhqA+9+6ZgY0MMJHW
- v1mpjFbmenAf3aluVdNzxi6ilB5TQBFgFsCA/cgSEFNrHExHKvI9/9auVGcTns0d
- PwrwNDiV5RV3JST+/z5TuPCgqANj+f6ydS7nDYLDZtBTF/FNAXQLQIiFSCimM+Wl
- vCloUCHQA9Jab0riR//vuLG+KlFoel2Ow/0eRRckvlCROJ+itrvjRsO9dBAVaK3K
- aG79VCyd7pzWPA==
-X-ME-Sender: <xms:czoiYH586T0uBu8PSvWvJso5TIK1qcatLFzT60k_hrFPnFAz1OnScw>
- <xme:czoiYM5RYXLRezHR38Nse4hHjtdww2XHG0cYfoGwj5I3xsPw80sqrECAm8mnIs3In
- VEEI8IS-nr7DCVDRF0>
+ fm2; bh=6+pcpx4pBI8ukrSuy2ttlmHr1kb4cFh+LVOroKS83zE=; b=fyBPr/oX
+ rvqJaVqFF+cY2LTHW94um8rvRsXIkg6aRlKZVH2MGUqYpymIk051ANUzooa6NQXD
+ MY4KLv3cJMA+bywkrqcZf3EhHG4FuIZOBbQ7N4XHsVEtwxkoi0TNp4/Uul009HPC
+ DATrCZhCc6uNyXp2T/HIFj0CKkKywVatLvPZCHKLH9+cnhH75UIpJi9g7BwMQWrf
+ cLCYumy8ON0TJkl4Xkhs4kwE6fGmii+H2EtPMOg/saCF7cBSIbrx5Wn+YGI4gaul
+ PL1QMFQcaGB/Y2y3jf/Mh7utTVFoTOsrXwoQ8/JJdH66ki8Q1yffyOkWyEIyP1bs
+ dOt6h5LoHrPxpg==
+X-ME-Sender: <xms:djoiYJE2Oy1IqdfJuPgVDXZuHVJ_kvvZfHGKGaEswhWRbOlAKrAiuQ>
+ <xme:djoiYOWd3shM2AjYRuGpzRStfuJGsHOtVWQVc7oHtGPeI-y7zWqmcvEu1DMZ9O-cj
+ ivQ4Y_rQJFNhctg_0s>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggdduuddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:czoiYOdANyhprMkbtd75XYJiOISzMMQLW8Ui_38i29qKHjnBZf1CmQ>
- <xmx:czoiYIKYrS-GzAh5lVQvcB0-RKfuPhOEYlAwN1R9elX1LIcZpNMncA>
- <xmx:czoiYLJ_CtSEb1YtgdR3gbhpDrM4CQeYeEYgexqR9w9MKcyyNo85Sw>
- <xmx:czoiYC8x5OR2wKVTLnM_YhpGVpjXZsjJR1z7pEKm2MBLnz3BNx2FRYNrlqs>
+X-ME-Proxy: <xmx:djoiYLJQIaVZyqXaVhmNRtByb7M4WyKAPzd7Z96JZYP08WJhtq_f4A>
+ <xmx:djoiYPGzqkKWxZUTYBG1KlHfnpKr8zZXuT7qZNWgi5lhWLY0_qd3dA>
+ <xmx:djoiYPXnyNwmrIjv1Zncb8xEfwpngQyEFyCwTMvpQGq87sSlROx87A>
+ <xmx:djoiYLrJbbihdDLk3U-yPijwagtGdHoxxh4skVWm8P6-cwep7Dl1dxDSPCs>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B561F108005F;
- Tue,  9 Feb 2021 02:32:01 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id D336D108005F;
+ Tue,  9 Feb 2021 02:32:04 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 26/56] hw/block/nvme: add missing string representations for
- commands
-Date: Tue,  9 Feb 2021 08:30:31 +0100
-Message-Id: <20210209073101.548811-27-its@irrelevant.dk>
+Subject: [PULL 28/56] hw/block/nvme: Correct error status for unaligned ZA
+Date: Tue,  9 Feb 2021 08:30:33 +0100
+Message-Id: <20210209073101.548811-29-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210209073101.548811-1-its@irrelevant.dk>
 References: <20210209073101.548811-1-its@irrelevant.dk>
@@ -102,34 +101,34 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 
-Add missing string representations for a couple of new commands.
+TP 4053 says (in section 2.3.1.1) -
+... if a Zone Append command specifies a ZSLBA that is not the lowest
+logical block address in that zone, then the controller shall abort
+that command with a status code of Invalid Field In Command.
 
+In the code, Zone Invalid Write is returned instead, fix this.
+
+Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Tested-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index b7fbcca39d9f..65540b650e1d 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -64,8 +64,12 @@ static inline const char *nvme_io_opc_str(uint8_t opc)
-     case NVME_CMD_FLUSH:            return "NVME_NVM_CMD_FLUSH";
-     case NVME_CMD_WRITE:            return "NVME_NVM_CMD_WRITE";
-     case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
-+    case NVME_CMD_COMPARE:          return "NVME_NVM_CMD_COMPARE";
-     case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
-     case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
-+    case NVME_CMD_ZONE_MGMT_SEND:   return "NVME_ZONED_CMD_MGMT_SEND";
-+    case NVME_CMD_ZONE_MGMT_RECV:   return "NVME_ZONED_CMD_MGMT_RECV";
-+    case NVME_CMD_ZONE_APPEND:      return "NVME_ZONED_CMD_ZONE_APPEND";
-     default:                        return "NVME_NVM_CMD_UNKNOWN";
-     }
- }
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index c73afdf8054f..35f39ecd9559 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1150,7 +1150,7 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n, NvmeNamespace *ns,
+         if (append) {
+             if (unlikely(slba != zone->d.zslba)) {
+                 trace_pci_nvme_err_append_not_at_start(slba, zone->d.zslba);
+-                status = NVME_ZONE_INVALID_WRITE;
++                status = NVME_INVALID_FIELD;
+             }
+             if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
+                 trace_pci_nvme_err_append_too_large(slba, nlb, n->zasl);
 -- 
 2.30.0
 
