@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F6E3156DA
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 20:35:12 +0100 (CET)
-Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8084931572E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 20:51:56 +0100 (CET)
+Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Yn1-0006kZ-CN
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 14:35:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57496)
+	id 1l9Z3C-0002Ip-VM
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 14:51:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l9Yjd-0004wL-D5
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:31:41 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56870
+ id 1l9Yjk-00052J-1N
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:31:49 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56880
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l9Yjb-0002SN-Qu
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:31:41 -0500
+ id 1l9Yjf-0002To-8M
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:31:47 -0500
 Received: from host109-153-84-1.range109-153.btcentralplus.com ([109.153.84.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l9Yju-0007pt-JD; Tue, 09 Feb 2021 19:32:03 +0000
+ id 1l9Yjz-0007pt-Ho; Tue, 09 Feb 2021 19:32:06 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Tue,  9 Feb 2021 19:29:50 +0000
-Message-Id: <20210209193018.31339-15-mark.cave-ayland@ilande.co.uk>
+Date: Tue,  9 Feb 2021 19:29:51 +0000
+Message-Id: <20210209193018.31339-16-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
 References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 14/42] esp: remove minlen restriction in handle_ti
+Subject: [PATCH v2 15/42] esp: introduce esp_pdma_read() and esp_pdma_write()
+ functions
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -63,45 +64,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The limiting of DMA transfers to the maximum size of the available data is already
-handled by esp_do_dma() and do_dma_pdma_cb().
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ hw/scsi/esp.c | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index fcc99f5fe4..e7cf36f4b8 100644
+index e7cf36f4b8..b0cba889a9 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -553,7 +553,7 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
+@@ -151,6 +151,20 @@ static uint8_t *get_pdma_buf(ESPState *s)
+     return NULL;
+ }
  
- static void handle_ti(ESPState *s)
++static uint8_t esp_pdma_read(ESPState *s)
++{
++    uint8_t *buf = get_pdma_buf(s);
++
++    return buf[s->pdma_cur++];
++}
++
++static void esp_pdma_write(ESPState *s, uint8_t val)
++{
++    uint8_t *buf = get_pdma_buf(s);
++
++    buf[s->pdma_cur++] = val;
++}
++
+ static int get_cmd_cb(ESPState *s)
  {
--    uint32_t dmalen, minlen;
-+    uint32_t dmalen;
+     int target;
+@@ -910,7 +924,6 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
+     SysBusESPState *sysbus = opaque;
+     ESPState *s = ESP(&sysbus->esp);
+     uint32_t dmalen = esp_get_tc(s);
+-    uint8_t *buf = get_pdma_buf(s);
  
-     if (s->dma && !s->dma_enabled) {
-         s->dma_cb = handle_ti;
-@@ -561,16 +561,8 @@ static void handle_ti(ESPState *s)
+     trace_esp_pdma_write(size);
+ 
+@@ -919,13 +932,13 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
      }
+     switch (size) {
+     case 1:
+-        buf[s->pdma_cur++] = val;
++        esp_pdma_write(s, val);
+         s->pdma_len--;
+         dmalen--;
+         break;
+     case 2:
+-        buf[s->pdma_cur++] = val >> 8;
+-        buf[s->pdma_cur++] = val;
++        esp_pdma_write(s, val >> 8);
++        esp_pdma_write(s, val);
+         s->pdma_len -= 2;
+         dmalen -= 2;
+         break;
+@@ -944,7 +957,6 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
+     SysBusESPState *sysbus = opaque;
+     ESPState *s = ESP(&sysbus->esp);
+     uint32_t dmalen = esp_get_tc(s);
+-    uint8_t *buf = get_pdma_buf(s);
+     uint64_t val = 0;
  
-     dmalen = esp_get_tc(s);
--
--    if (s->do_cmd) {
--        minlen = (dmalen < ESP_CMDBUF_SZ) ? dmalen : ESP_CMDBUF_SZ;
--    } else if (s->ti_size < 0) {
--        minlen = (dmalen < -s->ti_size) ? dmalen : -s->ti_size;
--    } else {
--        minlen = (dmalen < s->ti_size) ? dmalen : s->ti_size;
--    }
--    trace_esp_handle_ti(minlen);
-     if (s->dma) {
-+        trace_esp_handle_ti(dmalen);
-         s->rregs[ESP_RSTAT] &= ~STAT_TC;
-         esp_do_dma(s);
-     } else if (s->do_cmd) {
+     trace_esp_pdma_read(size);
+@@ -954,13 +966,13 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
+     }
+     switch (size) {
+     case 1:
+-        val = buf[s->pdma_cur++];
++        val = esp_pdma_read(s);
+         s->pdma_len--;
+         dmalen--;
+         break;
+     case 2:
+-        val = buf[s->pdma_cur++];
+-        val = (val << 8) | buf[s->pdma_cur++];
++        val = esp_pdma_read(s);
++        val = (val << 8) | esp_pdma_read(s);
+         s->pdma_len -= 2;
+         dmalen -= 2;
+         break;
 -- 
 2.20.1
 
