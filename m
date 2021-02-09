@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89DA314A14
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:16:29 +0100 (CET)
-Received: from localhost ([::1]:46878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E7D314A31
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:23:49 +0100 (CET)
+Received: from localhost ([::1]:56004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9OCC-0002sC-Me
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:16:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
+	id 1l9OJI-0006kn-Me
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:23:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NVZ-0005Kb-PA; Tue, 09 Feb 2021 02:32:25 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:49875)
+ id 1l9NVa-0005LW-H7; Tue, 09 Feb 2021 02:32:26 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:56107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NVO-0005g8-R1; Tue, 09 Feb 2021 02:32:25 -0500
+ id 1l9NVQ-0005gs-I7; Tue, 09 Feb 2021 02:32:26 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id B2E158D5;
- Tue,  9 Feb 2021 02:31:52 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 65057B84;
+ Tue,  9 Feb 2021 02:31:54 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:31:53 -0500
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:31:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=FkAOklgvx6ECL
- z6oD59Ws+EbnvjN4zGERbX2dqXYSxw=; b=lII2GryLN/F7AewOsFH1KWRrP+dHx
- i+R1V8bzZ11Fzr8LP33FWPWRjqIILnAF1wOYE4iiKjCOdUbaqi5rENubsGSyMrkp
- 2N7qcmjdc7/1q9iVaouRQ0C7xNOusI3TbTl0X5aN8gHMGDTPRSE11YQd2VJ1dDFW
- VpAkBdCHPJLExmmgtracAjA9cAI129veHRMR4VEsgN0cWKuvkJpD/bRxIJDLHEk2
- hjaW73qcH9tlT5RfcuQAnnWT/Y0tUgSQ1NqMmpneAxRHDXbNFv2VNpSkD8im869g
- HEKjdXBHMYqrVB6Pk1gqm6kqfym9/K7MVMKQnO0zzsJpZICCJQQbrV18Q==
+ :mime-version:content-type:content-transfer-encoding; s=fm2; bh=
+ C1yeJ/9DI7MimzbaBn0LzaoECYwt+2qxlZU5ncanqSQ=; b=OjWbaw0DsmvhbYy1
+ cpGKWzNsk/Awh9Dd3oHibBKY6TpKqLGHuN1aRTShovvaW7EkBMLbmWTKRA1HG6Az
+ APZhVX8jQW08Tg2bomotow+Bm85OTmqRselNRsWgJj6TcGjqEbbN83BZECAaCfGD
+ AWmH4KWeuZtUL2BKO7W+Ti7/deNuqponpXPaBxJb7JL0GkWEeHT/1zVb4h8O1bgh
+ 0EuixIH3zbE7p2kyy2aiuPvvh9tkyd9r1/8GtZvk1yNZmzNve3SlbyX6wOUTHWdh
+ BRgauh+8MQ/0K54iWolD8F6cN0Bkpq+SWWQL+c7cxzR0xCtVxO9USKmE5nw8nCrT
+ 26ZG+A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=FkAOklgvx6ECLz6oD59Ws+EbnvjN4zGERbX2dqXYSxw=; b=mdQ7FkZN
- K3fCPGv3zLnQBaCUfGWpUXIASBd7uydJB8YMRwORZJTvO0sgBmzlzjpk7NXZz9LB
- OJimw3lUPFLKwETRKOyyjfOpr3ZXB5biFh48Va9tLARaSWzM/crRbZbE7MVu9Idq
- 7t/5Ie7aYOPhoI7SgFzIf7ic724PsJyh1oTzv8yckxYsbKJEoSWuEBws/1v/30zv
- e0X49+Dp1Zan9mgPXHKzrrY8wgmPIAzCWFamMmfnlXLOByTDhLRfjIQETvdgMMCA
- afvMhMyQ2ILoJEGHcTMt2il0uCxqcz0VSJ8IfDsRzxttryfvVMrLj4NFtSubOw+o
- 7VytLbamPYz58Q==
-X-ME-Sender: <xms:aDoiYEMg_ao_MHQ4eP52UQcCcNlaW9fEZG2d2u_YjSSekxbn8rtK9w>
- <xme:aDoiYK8KfVhOI3o4gKeihHO1Vkg3udOefSO2lhc75l4MAoJZuBz0JM5nuFaK_YIdS
- Ohwoq9ELL1xVS0iqnM>
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=C1yeJ/9DI7MimzbaBn0LzaoECYwt+2qxlZU5ncanq
+ SQ=; b=MDbSnnnIVLDj6/AXp0jX/Dagq4AV1bcvc8PRbAYy40z8fDJXXqQOSlru9
+ fb6kzgT2iXL9DVh3w1rRCDVvvOmkpTHBHTZ994exTEWc4sD9kfFxfG3MVyqMy7U5
+ FycT0nNBHRVx/reRQFbJBouIy5s82hm0JAqowtuoyayCGpGiZFeJj8eDorFZ6bXK
+ env/eusdPgmley+zPk6mfwTAdJwReS+9hkaP7knHbwnekCnK38QyxRMGj18kwn1l
+ YMd+gDs30XSHtRRdMgT0FoDoTDZtkQD705shmM56Vcl6Ew4hZl+AVSkZVHggUXVa
+ dJE5BBINFWOZRevaU9adSZVNzZN2w==
+X-ME-Sender: <xms:aToiYNVMIRudGNuvRQLK2wkFeOyStQ8Bf1r0pjvGUGbabAB9CYVXFw>
+ <xme:aToiYA0dDzfljyoI9NPCfFpOC97T4KSf64eVY5JYSw0Cx1yASEYuSu7jOOSq3rD22
+ 5SoQef4oOGfl-OxdSM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggddutdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeggeettdeufefhvefgudehjeevgeekkeetuefhieegveduleegfedvveegjeeg
- ueenucffohhmrghinhepnhhvmhgvgihprhgvshhsrdhorhhgnecukfhppeektddrudeije
- drleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
- rhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:aDoiYLQei5djwaPNTiGCvZVlpCxLOviOW9-t647XD4LwS6U6RuU6DQ>
- <xmx:aDoiYMs2pS4tVV-l10YaukSCggkc-HPJIvtK3VjWZepQEHfrcexB6A>
- <xmx:aDoiYMd6-hTsGlYyu-X-d3PRMVnQ7OorKRpX9kdOnvWdh3hME_W1NA>
- <xmx:aDoiYE6gcTOhDgtZtYuNVjDGhxUT25elVAjrttclltlOysmwRGUJiYhe5Mc>
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueevgfeuvdfhgefffedugeehudelheetieekuefhtdejhfejgeegieekueeh
+ ledunecuffhomhgrihhnpehquggvvhdrihgunecukfhppeektddrudeijedrleekrddule
+ dtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihht
+ shesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:aToiYC2QT_zHfPvmEHctthAmUNRAmBGrsXoXgpnQUod9uh0ovVdJ4g>
+ <xmx:aToiYL9MRkPIM5q73yAv4BrEKq4TptcMS16MVs4Dh8O8ZnDmMh_0KA>
+ <xmx:aToiYH3Ihzo8Pwg69vLiLLvmnivH6Ut7qH0mhir9cdGKCQpVYpPgUw>
+ <xmx:ajoiYOGHmSfG2nccVAgYTR8e-DRHROp8cGfwj45EFGE3wUm6Gs1Ca7LtabU>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id C21521080057;
- Tue,  9 Feb 2021 02:31:50 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6D1F61080063;
+ Tue,  9 Feb 2021 02:31:52 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 19/56] hw/block/nvme: Document zoned parameters in usage text
-Date: Tue,  9 Feb 2021 08:30:24 +0100
-Message-Id: <20210209073101.548811-20-its@irrelevant.dk>
+Subject: [PULL 20/56] hw/block/nvme: fix for non-msix machines
+Date: Tue,  9 Feb 2021 08:30:25 +0100
+Message-Id: <20210209073101.548811-21-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210209073101.548811-1-its@irrelevant.dk>
 References: <20210209073101.548811-1-its@irrelevant.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.26; envelope-from=its@irrelevant.dk;
  helo=wnew1-smtp.messagingengine.com
@@ -95,103 +97,111 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Niklas Cassel <Niklas.Cassel@wdc.com>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Added brief descriptions of the new device properties that are
-now available to users to configure features of Zoned Namespace
-Command Set in the emulator.
+Commit 1c0c2163aa08 ("hw/block/nvme: verify msix_init_exclusive_bar()
+return value") had the unintended effect of breaking support on
+several platforms not supporting MSI-X.
 
-This patch is for documentation only, no functionality change.
+Still check for errors, but only report that MSI-X is unsupported
+instead of bailing out.
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reviewed-by: Niklas Cassel <Niklas.Cassel@wdc.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Fixes: 1c0c2163aa08 ("hw/block/nvme: verify msix_init_exclusive_bar() return value")
+Fixes: fbf2e5375e33 ("hw/block/nvme: Verify msix_vector_use() returned value")
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 43 ++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 38 insertions(+), 5 deletions(-)
+ hw/block/nvme.c | 31 ++++++++++++++++++++++---------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 4bcc7660736b..f4f1487afeb1 100644
+index f4f1487afeb1..b0b7abf3312e 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -9,7 +9,7 @@
-  */
+@@ -2590,7 +2590,9 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+ {
+     n->cq[cq->cqid] = NULL;
+     timer_free(cq->timer);
+-    msix_vector_unuse(&n->parent_obj, cq->vector);
++    if (msix_enabled(&n->parent_obj)) {
++        msix_vector_unuse(&n->parent_obj, cq->vector);
++    }
+     if (cq->cqid) {
+         g_free(cq);
+     }
+@@ -2624,8 +2626,10 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+ {
+     int ret;
  
- /**
-- * Reference Specs: http://www.nvmexpress.org, 1.2, 1.1, 1.0e
-+ * Reference Specs: http://www.nvmexpress.org, 1.4, 1.3, 1.2, 1.1, 1.0e
-  *
-  *  https://nvmexpress.org/developers/nvme-specification/
-  */
-@@ -22,8 +22,9 @@
-  *              [pmrdev=<mem_backend_file_id>,] \
-  *              max_ioqpairs=<N[optional]>, \
-  *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
-- *              mdts=<N[optional]>
-- *      -device nvme-ns,drive=<drive_id>,bus=bus_name,nsid=<nsid>
-+ *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]> \
-+ *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
-+ *              zoned=<true|false[optional]>
-  *
-  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-@@ -41,14 +42,46 @@
-  * ~~~~~~~~~~~~~~~~~~~~~~
-  * - `aerl`
-  *   The Asynchronous Event Request Limit (AERL). Indicates the maximum number
-- *   of concurrently outstanding Asynchronous Event Request commands suppoert
-+ *   of concurrently outstanding Asynchronous Event Request commands support
-  *   by the controller. This is a 0's based value.
-  *
-  * - `aer_max_queued`
-  *   This is the maximum number of events that the device will enqueue for
-- *   completion when there are no oustanding AERs. When the maximum number of
-+ *   completion when there are no outstanding AERs. When the maximum number of
-  *   enqueued events are reached, subsequent events will be dropped.
-  *
-+ * - `zoned.append_size_limit`
-+ *   The maximum I/O size in bytes that is allowed in Zone Append command.
-+ *   The default is 128KiB. Since internally this this value is maintained as
-+ *   ZASL = log2(<maximum append size> / <page size>), some values assigned
-+ *   to this property may be rounded down and result in a lower maximum ZA
-+ *   data size being in effect. By setting this property to 0, users can make
-+ *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
-+ *
-+ * Setting `zoned` to true selects Zoned Command Set at the namespace.
-+ * In this case, the following namespace properties are available to configure
-+ * zoned operation:
-+ *     zoned.zone_size=<zone size in bytes, default: 128MiB>
-+ *         The number may be followed by K, M, G as in kilo-, mega- or giga-.
-+ *
-+ *     zoned.zone_capacity=<zone capacity in bytes, default: zone size>
-+ *         The value 0 (default) forces zone capacity to be the same as zone
-+ *         size. The value of this property may not exceed zone size.
-+ *
-+ *     zoned.descr_ext_size=<zone descriptor extension size, default 0>
-+ *         This value needs to be specified in 64B units. If it is zero,
-+ *         namespace(s) will not support zone descriptor extensions.
-+ *
-+ *     zoned.max_active=<Maximum Active Resources (zones), default: 0>
-+ *         The default value means there is no limit to the number of
-+ *         concurrently active zones.
-+ *
-+ *     zoned.max_open=<Maximum Open Resources (zones), default: 0>
-+ *         The default value means there is no limit to the number of
-+ *         concurrently open zones.
-+ *
-+ *     zoned.cross_zone_read=<enable RAZB, default: false>
-+ *         Setting this property to true enables Read Across Zone Boundaries.
-  */
+-    ret = msix_vector_use(&n->parent_obj, vector);
+-    assert(ret == 0);
++    if (msix_enabled(&n->parent_obj)) {
++        ret = msix_vector_use(&n->parent_obj, vector);
++        assert(ret == 0);
++    }
+     cq->ctrl = n;
+     cq->cqid = cqid;
+     cq->size = size;
+@@ -4161,9 +4165,12 @@ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
+                      PCI_BASE_ADDRESS_MEM_PREFETCH, &n->pmrdev->mr);
+ }
  
- #include "qemu/osdep.h"
+-static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
++static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+ {
+     uint8_t *pci_conf = pci_dev->config;
++    int ret;
++
++    Error *err = NULL;
+ 
+     pci_conf[PCI_INTERRUPT_PIN] = 1;
+     pci_config_set_prog_interface(pci_conf, 0x2);
+@@ -4183,8 +4190,14 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+                           n->reg_size);
+     pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
+                      PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
+-    if (msix_init_exclusive_bar(pci_dev, n->params.msix_qsize, 4, errp)) {
+-        return;
++    ret = msix_init_exclusive_bar(pci_dev, n->params.msix_qsize, 4, &err);
++    if (ret < 0) {
++        if (ret == -ENOTSUP) {
++            warn_report_err(err);
++        } else {
++            error_propagate(errp, err);
++            return ret;
++        }
+     }
+ 
+     if (n->params.cmb_size_mb) {
+@@ -4192,6 +4205,8 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+     } else if (n->pmrdev) {
+         nvme_init_pmr(n, pci_dev);
+     }
++
++    return 0;
+ }
+ 
+ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+@@ -4280,9 +4295,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+                         &pci_dev->qdev, n->parent_obj.qdev.id);
+ 
+     nvme_init_state(n);
+-    nvme_init_pci(n, pci_dev, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (nvme_init_pci(n, pci_dev, errp)) {
+         return;
+     }
+ 
 -- 
 2.30.0
 
