@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06574315015
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 14:23:52 +0100 (CET)
-Received: from localhost ([::1]:51440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E05315020
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 14:27:28 +0100 (CET)
+Received: from localhost ([::1]:60588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Szf-0004UU-1n
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 08:23:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
+	id 1l9T39-0008QA-Nz
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 08:27:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9Swp-0002mJ-U6
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:20:55 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:55070)
+ id 1l9T0P-0006rj-PV
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:24:37 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:36086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l9Swj-0000lw-Bz
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:20:55 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id w4so3097428wmi.4
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 05:20:48 -0800 (PST)
+ id 1l9T0M-00025p-MH
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:24:37 -0500
+Received: by mail-ej1-x632.google.com with SMTP id lg21so31388585ejb.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 05:24:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RQnHSU5URki5Eoi1GvfEMafAg4qrSv6IwWbelkI4His=;
- b=eekVPp/C9p6r8Vv1bvidh5JjtT5UYSt+vsgApr3nfh84RAaSvnD/6OKfx3K+tcCuCR
- riuYCYES6FN+KlUeWd83JvS/tlphQg1PkS38P3epX/v/0GBcxhHKxwfMtsiigjF6aq2+
- lbSRL4Pe8v+tiAopoakCQKbNveVHmaSx6Uj5rUXIcxIucOJyBzbFWh3adDJnHWRXHqNM
- 1Up7NyRhMsMXmPewbucxS7K0Uuac2p5i1ttMOFqpqBWPTlHKI0SAvEq8iF/97cHi+h+c
- WTwWof2XitOZhCetL6ccuau3YcbooBsqPDMTmD/f6T/sbHbs+OwmNnNCHxSeXchVcOJq
- G2Yw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2in+IWQD+rdh2SLim7ww73U482++9rK4snIjHqzDI2g=;
+ b=ZAYVQtZ/rGn9jMKtHtJ4itgmUVBDTNMacP5EmdoeBABbguCj7a/G/SzFKi7QmsCCzg
+ 0/xnjwKCv7A2awSN75+aQKivpmjPxCaZWs6/VrSRj6lqNbiRb5Ufgb0Y98+KS1MuRJWO
+ n4TQPJp4nJVf6sARzx5PsyRrzNaXmNPEIB8XtJgy4GYHfzelsQnnspSTK95xTUYPIvom
+ TDCYUFH/vBCR9nbRG2U979xvhK2Thc9QgGuXi++Wanuzg1TmA1uKtptw7JTjr8BzMRXN
+ Ij1e8kWDZtTRLEwRQGEU4dGh0Qxo+WZFj7/z5ZpIInr2jvmN6+ebV10YNULxZUIUKSV5
+ 5LnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RQnHSU5URki5Eoi1GvfEMafAg4qrSv6IwWbelkI4His=;
- b=DYQFcntspE307xO2YsLeSmvqmOa+hvcXqvbiUCSsIsORjY7oRC8F9tLihTjGFqz31E
- eh571K1GUP7dg1PT/uDVRozVPn81AG6rbzYGyv0mDLQLPaNouCno8pPAnjpjGmceLpkg
- LUaYyNXR/iw25yijJ6D9iuaiFeukk7OV1Q3Doq+Dl9n4TdN9dw5QMl76nN7QARchGSmT
- a+41uXHyFniQ7yEQWYR4mxNysA2tGYmypSGeX0BWyRSclKNMYDMJbBbSC/4689GHST/4
- Ikpu4XdZdvupzHBrRt8p4GcLbPzDyreNc2L1AVoNwNDZsaBwnuVwqZoZB7ljBCNwxq20
- tNyQ==
-X-Gm-Message-State: AOAM533WGRfxJ+2+606B6/BIezvXbbXa4omVouqcfU0Nm0Gozj12s9AE
- tQMJzGlgWcPoAZioW3n01Zhd+w==
-X-Google-Smtp-Source: ABdhPJytVUwz6gtklifhSQuu0z5ZSOjp5w5MFnrIR3N+idNQhCEHAeCMVr+g/HRyzzwNkyWswYk8iw==
-X-Received: by 2002:a1c:1d8b:: with SMTP id d133mr3431989wmd.172.1612876847751; 
- Tue, 09 Feb 2021 05:20:47 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y11sm34752472wrh.16.2021.02.09.05.20.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 05:20:47 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] hw/timer/npcm7xx_timer: Use new clock_ns_to_ticks()
-Date: Tue,  9 Feb 2021 13:20:40 +0000
-Message-Id: <20210209132040.5091-5-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210209132040.5091-1-peter.maydell@linaro.org>
-References: <20210209132040.5091-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2in+IWQD+rdh2SLim7ww73U482++9rK4snIjHqzDI2g=;
+ b=mvnsfFT3tq/KehZeUrIqYUwjF0/Jd1w9nEXLlqU4nkITQP/odkMVxZnNWOiw2F2YXv
+ 0M9A/JYJc3lx0bYiS/oTrD3WrsVh3ny/4b1Y/R23NkAFBhdIyRWrP/lMAolviku9n9I8
+ YGkCcygMOccuJcMrdlh8dO5QRf05sE89u8BYSfjzzpnybUcQV1tw1qAC7WQe0SdgE+8h
+ OAewPj12ZKMJwgWoGmn+DfNfTzo/CVCgoz41pu74smJdjayrlzsZv23imwHedtO2fFpm
+ +Pi0DietkqrN6WMLmEA7zzg+R64ChGrpIlRSZP7b3qabGrwqG5hBMdMge7MUcJ62t94P
+ 7yEQ==
+X-Gm-Message-State: AOAM532S8kkhv8RVpsh/CmiXMUsPA3/6PYvo+VDa+vfvt+1gbdGNNoZe
+ Z1obsot2ABQ+7Gi6Rr4vCgPvKoxrAr4Mbk6BG11qUw==
+X-Google-Smtp-Source: ABdhPJx8Q+7lD0DKp9tSPbGCmMeYzFFqcOe0zvPx/EseOC8vOsKazo7ouPLlgedF63TgdINVhhWd1uonP4TS2h9TAmg=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr23036310ejd.250.1612877072818; 
+ Tue, 09 Feb 2021 05:24:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+References: <20210208182331.58897-1-pbonzini@redhat.com>
+In-Reply-To: <20210208182331.58897-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Feb 2021 13:24:21 +0000
+Message-ID: <CAFEAcA-CM1NyiFvMOOWeWnOwQ1UjA99scS31twXi7Vus8L6FFg@mail.gmail.com>
+Subject: Re: [PULL 00/46] Misc patches for 2021-02-08
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,37 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Tyrone Ting <kfting@nuvoton.com>, Luc Michel <luc@lmichel.fr>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Havard Skinnemoen <hskinnemoen@google.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the new clock_ns_to_ticks() function in npcm7xx_timer where
-appropriate.
+On Mon, 8 Feb 2021 at 22:50, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 6f0e9c26dbae9ac18b89d359791008fe3432ca91:
+>
+>   Merge remote-tracking branch 'remotes/dg-gitlab/tags/cgs-pull-request' into staging (2021-02-08 11:11:26 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 52a44ad2b92ba4cd81c2b271cd5e4a2d820e91fc:
+>
+>   target/i386: Expose VMX entry/exit load pkrs control bits (2021-02-08 15:15:32 +0100)
+>
+> ----------------------------------------------------------------
+> * Fuzzing improvements (Qiuhao, Alexander)
+> * i386: Fix BMI decoding for instructions with the 0x66 prefix (David)
+> * initial attempt at fixing event_notifier emulation (Maxim)
+> * i386: PKS emulation, fix for "qemu-system-i386 -cpu host" (myself)
+> * meson: RBD test fixes (myself)
+> * meson: TCI warnings (Philippe)
+> * Leaner build for --disable-guest-agent, --disable-system and
+>   --disable-tools (Philippe, Stefan)
+> * --enable-tcg-interpreter fix (Richard)
+> * i386: SVM feature bits (Wei)
+> * KVM bugfix (Thomas H.)
+> * Add missing MemoryRegionOps callbacks (PJP)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/timer/npcm7xx_timer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/timer/npcm7xx_timer.c b/hw/timer/npcm7xx_timer.c
-index 4efdf135b82..32f5e021f85 100644
---- a/hw/timer/npcm7xx_timer.c
-+++ b/hw/timer/npcm7xx_timer.c
-@@ -138,8 +138,8 @@ static int64_t npcm7xx_timer_count_to_ns(NPCM7xxTimer *t, uint32_t count)
- /* Convert a time interval in nanoseconds to a timer cycle count. */
- static uint32_t npcm7xx_timer_ns_to_count(NPCM7xxTimer *t, int64_t ns)
- {
--    return ns / clock_ticks_to_ns(t->ctrl->clock,
--                                  npcm7xx_tcsr_prescaler(t->tcsr));
-+    return clock_ns_to_ticks(t->ctrl->clock, ns) /
-+        npcm7xx_tcsr_prescaler(t->tcsr);
- }
- 
- static uint32_t npcm7xx_watchdog_timer_prescaler(const NPCM7xxWatchdogTimer *t)
--- 
-2.20.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
