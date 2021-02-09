@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1FA31457F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 02:18:21 +0100 (CET)
-Received: from localhost ([::1]:59360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF1A314590
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 02:24:11 +0100 (CET)
+Received: from localhost ([::1]:37764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9HfW-0000IY-I0
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 20:18:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
+	id 1l9HlC-0003ay-Ii
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 20:24:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l9GzM-00084i-BU
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 19:34:44 -0500
-Resent-Date: Mon, 08 Feb 2021 19:34:44 -0500
-Resent-Message-Id: <E1l9GzM-00084i-BU@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21395)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l9GzH-0002Pc-8R
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 19:34:44 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1612830870; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=NlzYoM17iX94OxOuz2QPWoPX0/3URZyaezgx+wQ+HzCKuskKJoR71jqjEdCxI/5giV3KhP5UZUhdwXbTHRP7fg9jE73C96Pys8S/nO5B7ChfMllCrba1+tFNhuOdK1H4RANCOCBCV5a63CEJHoGjgZHq0ntsNzK5om6hKYghN8Q=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1612830870;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=xVvyN/vH+wzWGNdcuMVu7+E7MLlSBYWCPPUU4faK9x8=; 
- b=iCoqE3YAwlDv08TPY39lxli1I2hGjcNjc4Ge+C6c0tvQ24uHpYLD+Ty+ttEracWoSqzHieV4OLxtFxfbw/7qwY5ZsVKa1v00u1YguWI1DDzHi4IYMTLrwJqZLaD/J+109215Ll7UrdVoZtZmQrWG3VpienEFlLnFh969uOe5rZQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1612830866921878.8791537979979;
- Mon, 8 Feb 2021 16:34:26 -0800 (PST)
-In-Reply-To: <20210208233225.2084469-1-vivek.kasireddy@intel.com>
-Subject: Re: [RFC 0/1] vhost-vdmabuf: Add virtio based Dmabuf device
-Message-ID: <161283086562.22934.407779999089253163@c667a6b167f6>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vivek.kasireddy@intel.com
-Date: Mon, 8 Feb 2021 16:34:26 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9Hk5-00038A-Jv; Mon, 08 Feb 2021 20:23:03 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:39390)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9Hk1-0007qK-I3; Mon, 08 Feb 2021 20:23:01 -0500
+Received: by mail-ej1-x633.google.com with SMTP id p20so28753937ejb.6;
+ Mon, 08 Feb 2021 17:22:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=lj6uPPP+pjUnJIqIb/sUXhKH4snLqv5hUA8CC0Ep8/w=;
+ b=FFChucfSherVfe91Lh+SyVeDuiJWIOwxXwE1iZh8sTzzIDCGzI/TnDBnIquPVjEOS2
+ 5lzPe4KEole5zSFGjntV8LAi/dUlFG69TBclFKBMhpP2gtk9uxz3uD9z710Iq6bANF9q
+ tI+3TSQZk4ajrJR4fOvu8YS7Dap2cPnSAqnhKzF3IiaxPq+qv4POsme5XxkbaV/HIX3S
+ Mf3yWLJJyVMWzgfnmJxFaa9uvcGGE0WfGzStsAZIAYfdjRJAWjYzRPCwlPhlEhnBgKZ2
+ 6C4/OG1Fr53iVDvN4QR7afH4HMR2rja7xNCi1K6hhoQJIlswY3uNAZ0pAXBzKuK092jH
+ /DoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=lj6uPPP+pjUnJIqIb/sUXhKH4snLqv5hUA8CC0Ep8/w=;
+ b=L3rnwqHoWlXM9NEVwkYoOOfogba7IqwsiVl9vy++kqaqm1G/WBvHcjcsLmvWe4Q9rK
+ K3dxIu6t+3j+UwdX0txnD08PR3DvuK6TOZnZ4S87hMGHDELJ1za+0xLYACg7R7YOkmrB
+ AWn/jHTk4FN7z3Mfpr3p52fcZZ8LMgLBBPYxI+L5sZCbLSxa7erbRMyN1DlJCWa28mZM
+ 2hio6eCOQmNhVsjNuBP89HCH/mmoaUEsBxCk3g7/gwiivZIhZqDcaU2g+9L+GY7R81tY
+ BLw7z3gL9UNDfuy7pAxBX0XeJlOJBeMPts+XTtCzJA+tzdBLIa8/FviMvpkSQN99/gFu
+ hldw==
+X-Gm-Message-State: AOAM532WrX36VYzSrtM3afXRiQJnxvWVbW/2t614QhpmSSZT+8n77ojB
+ +mnNLjM3Q/O0LWgahYcUVEo=
+X-Google-Smtp-Source: ABdhPJyaCLuBTCeeX3Ri88AszUzjuOXW3ZPrrapRMqTyAS/kSGugnlj6QkR57dVgNR43GZ8vvMuCpg==
+X-Received: by 2002:a17:906:b284:: with SMTP id
+ q4mr19454307ejz.507.1612833775566; 
+ Mon, 08 Feb 2021 17:22:55 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id hb24sm8406408ejb.16.2021.02.08.17.22.51
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 08 Feb 2021 17:22:55 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PATCH v2] hw/net: fsl_etsec: Reverse the RCTRL.RSF logic
+Date: Tue,  9 Feb 2021 09:22:41 +0800
+Message-Id: <1612833761-43234-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,106 +78,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: dongwon.kim@intel.com, kraxel@redhat.com, qemu-devel@nongnu.org,
- vivek.kasireddy@intel.com
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIwODIzMzIyNS4yMDg0
-NDY5LTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMjA4MjMz
-MjI1LjIwODQ0NjktMS12aXZlay5rYXNpcmVkZHlAaW50ZWwuY29tClN1YmplY3Q6IFtSRkMgMC8x
-XSB2aG9zdC12ZG1hYnVmOiBBZGQgdmlydGlvIGJhc2VkIERtYWJ1ZiBkZXZpY2UKCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
-dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
-bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
-ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2
-NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJv
-amVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAyMDgyMzMyMjUuMjA4
-NDQ2OS0xLXZpdmVrLmthc2lyZWRkeUBpbnRlbC5jb20gLT4gcGF0Y2hldy8yMDIxMDIwODIzMzIy
-NS4yMDg0NDY5LTEtdml2ZWsua2FzaXJlZGR5QGludGVsLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBi
-cmFuY2ggJ3Rlc3QnCjE4MzVlMzMgdmhvc3QtdmRtYWJ1ZjogQWRkIHZpcnRpbyBiYXNlZCBEbWFi
-dWYgZGV2aWNlCgo9PT0gT1VUUFVUIEJFR0lOID09PQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3Ig
-ZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxMDY6IApu
-ZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IGRvIG5vdCBpbml0aWFsaXNlIHN0YXRpY3MgdG8g
-MCBvciBOVUxMCiMxNTU6IEZJTEU6IGh3L3ZpcnRpby92aG9zdC12ZG1hYnVmLmM6NDU6CitzdGF0
-aWMgYm9vbCBoYXZlX2V2ZW50ID0gZmFsc2U7CgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiMyODc6IEZJTEU6IGh3L3ZpcnRpby92aG9zdC12ZG1hYnVmLmM6MTc3Ogor
-XkkgICAgcmV0dXJuOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMK
-IzI4ODogRklMRTogaHcvdmlydGlvL3Zob3N0LXZkbWFidWYuYzoxNzg6CiteSX0kCgpFUlJPUjog
-Y29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzOTc6IEZJTEU6IGh3L3ZpcnRpby92
-aG9zdC12ZG1hYnVmLmM6Mjg3OgorXklyZXR1cm4gTlVMTDskCgpFUlJPUjogY29kZSBpbmRlbnQg
-c2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0MTU6IEZJTEU6IGh3L3ZpcnRpby92aG9zdC12ZG1hYnVm
-LmM6MzA1OgorXkleSV5JXkleSSAgICBWRE1BQlVGRGlzcGxheSAqZHB5LCQKCkVSUk9SOiBicmFj
-ZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzQyNTog
-RklMRTogaHcvdmlydGlvL3Zob3N0LXZkbWFidWYuYzozMTU6CisgICAgaWYgKGlvY3RsKGZkLCBW
-SVJUSU9fVkRNQUJVRl9JT0NUTF9SRUxFQVNFLCAmbXNnKSkKWy4uLl0KCkVSUk9SOiBicmFjZXMg
-e30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzQ1NjogRklM
-RTogaHcvdmlydGlvL3Zob3N0LXZkbWFidWYuYzozNDY6CisgICAgaWYgKCFoYXZlX2V2ZW50KQpb
-Li4uXQoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzUzMTogRklMRTogaHcvdmlydGlvL3Zo
-b3N0LXZkbWFidWYuYzo0MjE6CisgICAgJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZl
-ciB1c2UgdGFicwojNzA1OiBGSUxFOiBpbmNsdWRlL2h3L3ZpcnRpby92aG9zdC12ZG1hYnVmLmg6
-MzE6CiteSV9fdTY0IGlkOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRh
-YnMKIzcwNjogRklMRTogaW5jbHVkZS9ody92aXJ0aW8vdmhvc3QtdmRtYWJ1Zi5oOjMyOgorXkkv
-KiA4QiBsb25nIFJhbmRvbSBudW1iZXIgKi8kCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiM3MDc6IEZJTEU6IGluY2x1ZGUvaHcvdmlydGlvL3Zob3N0LXZkbWFidWYu
-aDozMzoKK15JaW50IHJuZ19rZXlbMl07JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZl
-ciB1c2UgdGFicwojNzExOiBGSUxFOiBpbmNsdWRlL2h3L3ZpcnRpby92aG9zdC12ZG1hYnVmLmg6
-Mzc6CiteSS8qIGJ1Zl9pZCBvZiBuZXcgYnVmICovJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3Vs
-ZCBuZXZlciB1c2UgdGFicwojNzEyOiBGSUxFOiBpbmNsdWRlL2h3L3ZpcnRpby92aG9zdC12ZG1h
-YnVmLmg6Mzg6CiteSXZpcnRpb192ZG1hYnVmX2J1Zl9pZF90IGJ1Zl9pZDskCgpFUlJPUjogY29k
-ZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM3MTM6IEZJTEU6IGluY2x1ZGUvaHcvdmly
-dGlvL3Zob3N0LXZkbWFidWYuaDozOToKK15JLyogc2l6ZSBvZiBwcml2YXRlIGRhdGEgKi8kCgpF
-UlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM3MTQ6IEZJTEU6IGluY2x1
-ZGUvaHcvdmlydGlvL3Zob3N0LXZkbWFidWYuaDo0MDoKK15JaW50IHNpemU7JAoKRVJST1I6IGNv
-ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNzE4OiBGSUxFOiBpbmNsdWRlL2h3L3Zp
-cnRpby92aG9zdC12ZG1hYnVmLmg6NDQ6CiteSXN0cnVjdCB2aXJ0aW9fdmRtYWJ1Zl9lX2hkciBo
-ZHI7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNzE5OiBGSUxF
-OiBpbmNsdWRlL2h3L3ZpcnRpby92aG9zdC12ZG1hYnVmLmg6NDU6CiteSS8qIHB0ciB0byBwcml2
-YXRlIGRhdGEgKi8kCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM3
-MjA6IEZJTEU6IGluY2x1ZGUvaHcvdmlydGlvL3Zob3N0LXZkbWFidWYuaDo0NjoKK15Jdm9pZCAq
-ZGF0YTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM3Mjg6IEZJ
-TEU6IGluY2x1ZGUvaHcvdmlydGlvL3Zob3N0LXZkbWFidWYuaDo1NDoKK15JLyogSU4gcGFyYW1l
-dGVycyAqLyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzcyOTog
-RklMRTogaW5jbHVkZS9ody92aXJ0aW8vdmhvc3QtdmRtYWJ1Zi5oOjU1OgorXkkvKiB2ZG1hYnVm
-IGlkIHRvIGJlIGltcG9ydGVkICovJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1
-c2UgdGFicwojNzMwOiBGSUxFOiBpbmNsdWRlL2h3L3ZpcnRpby92aG9zdC12ZG1hYnVmLmg6NTY6
-CiteSXZpcnRpb192ZG1hYnVmX2J1Zl9pZF90IGJ1Zl9pZDskCgpFUlJPUjogY29kZSBpbmRlbnQg
-c2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM3MzE6IEZJTEU6IGluY2x1ZGUvaHcvdmlydGlvL3Zob3N0
-LXZkbWFidWYuaDo1NzoKK15JLyogZmxhZ3MgKi8kCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxk
-IG5ldmVyIHVzZSB0YWJzCiM3MzI6IEZJTEU6IGluY2x1ZGUvaHcvdmlydGlvL3Zob3N0LXZkbWFi
-dWYuaDo1ODoKK15JaW50IGZsYWdzOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIg
-dXNlIHRhYnMKIzczMzogRklMRTogaW5jbHVkZS9ody92aXJ0aW8vdmhvc3QtdmRtYWJ1Zi5oOjU5
-OgorXkkvKiBPVVQgcGFyYW1ldGVycyAqLyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2
-ZXIgdXNlIHRhYnMKIzczNDogRklMRTogaW5jbHVkZS9ody92aXJ0aW8vdmhvc3QtdmRtYWJ1Zi5o
-OjYwOgorXkkvKiBleHBvcnRlZCBkbWEgYnVmIGZkICovJAoKRVJST1I6IGNvZGUgaW5kZW50IHNo
-b3VsZCBuZXZlciB1c2UgdGFicwojNzM1OiBGSUxFOiBpbmNsdWRlL2h3L3ZpcnRpby92aG9zdC12
-ZG1hYnVmLmg6NjE6CiteSWludCBmZDskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVy
-IHVzZSB0YWJzCiM3NDE6IEZJTEU6IGluY2x1ZGUvaHcvdmlydGlvL3Zob3N0LXZkbWFidWYuaDo2
-NzoKK15JLyogSU4gcGFyYW1ldGVycyAqLyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2
-ZXIgdXNlIHRhYnMKIzc0MjogRklMRTogaW5jbHVkZS9ody92aXJ0aW8vdmhvc3QtdmRtYWJ1Zi5o
-OjY4OgorXkkvKiBETUEgYnVmIGZkIHRvIGJlIGV4cG9ydGVkICovJAoKRVJST1I6IGNvZGUgaW5k
-ZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNzQzOiBGSUxFOiBpbmNsdWRlL2h3L3ZpcnRpby92
-aG9zdC12ZG1hYnVmLmg6Njk6CiteSWludCBmZDskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxk
-IG5ldmVyIHVzZSB0YWJzCiM3NDQ6IEZJTEU6IGluY2x1ZGUvaHcvdmlydGlvL3Zob3N0LXZkbWFi
-dWYuaDo3MDoKK15JLyogZXhwb3J0ZWQgZG1hIGJ1ZiBpZCAqLyQKCkVSUk9SOiBjb2RlIGluZGVu
-dCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzc0NTogRklMRTogaW5jbHVkZS9ody92aXJ0aW8vdmhv
-c3QtdmRtYWJ1Zi5oOjcxOgorXkl2aXJ0aW9fdmRtYWJ1Zl9idWZfaWRfdCBidWZfaWQ7JAoKRVJS
-T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNzQ2OiBGSUxFOiBpbmNsdWRl
-L2h3L3ZpcnRpby92aG9zdC12ZG1hYnVmLmg6NzI6CiteSWludCBzel9wcml2OyQKCkVSUk9SOiBj
-b2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzc0NzogRklMRTogaW5jbHVkZS9ody92
-aXJ0aW8vdmhvc3QtdmRtYWJ1Zi5oOjczOgorXkljaGFyICpwcml2OyQKCnRvdGFsOiAzMyBlcnJv
-cnMsIDEgd2FybmluZ3MsIDcxOCBsaW5lcyBjaGVja2VkCgpDb21taXQgMTgzNWUzMzBkNjc3ICh2
-aG9zdC12ZG1hYnVmOiBBZGQgdmlydGlvIGJhc2VkIERtYWJ1ZiBkZXZpY2UpIGhhcyBzdHlsZSBw
-cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
-IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
-aW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3
-aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
-Lm9yZy9sb2dzLzIwMjEwMjA4MjMzMjI1LjIwODQ0NjktMS12aXZlay5rYXNpcmVkZHlAaW50ZWwu
-Y29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
-IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
-c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+From: Bin Meng <bin.meng@windriver.com>
+
+Per MPC8548ERM [1] chapter 14.5.3.4.1:
+
+When RCTRL.RSF is 1, frames less than 64 bytes are accepted upon
+a DA match. But currently QEMU does the opposite.
+
+When RCTRL.RSF is 0, short frames are silently dropped, however
+we cannot drop such frames in QEMU as of today, due to both slirp
+and tap networking do not pad short frames (e.g.: an ARP packet)
+to the minimum frame size of 60 bytes.
+
+If eTSEC is programmed to reject short frames, ARP requests will be
+dropped, preventing the guest from becoming visible on the network.
+
+The same issue was reported on e1000 and vmxenet3 before, see:
+
+commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
+commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
+
+Ideally this should be fixed on the slirp/tap networking side to
+pad short frames to the minimum frame length, but I am not sure
+whether that's doable.
+
+This commit reverses the RCTRL.RSF testing logic to match the spec.
+The log message is updated to mention the reject short frames
+functionality is unimplemented.
+
+[1] https://www.nxp.com/docs/en/reference-manual/MPC8548ERM.pdf
+
+Fixes: eb1e7c3e5146 ("Add Enhanced Three-Speed Ethernet Controller (eTSEC)")
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+
+---
+
+Changes in v2:
+- rewrite the commit message and reverse the RCTRL.RSF test logic
+
+ hw/net/fsl_etsec/rings.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
+index 121415a..f89aa7f 100644
+--- a/hw/net/fsl_etsec/rings.c
++++ b/hw/net/fsl_etsec/rings.c
+@@ -502,10 +502,17 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uint8_t *buf, size_t size)
+         return -1;
+     }
+ 
+-    if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
++    /*
++     * Both slirp and tap networking do not pad short frames
++     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
++     *
++     * If eTSEC is programmed to reject short frames, ARP requests
++     * will be dropped, preventing the guest from becoming visible
++     * on the network.
++     */
++    if (!(etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
+         /* CRC is not in the packet yet, so short frame is below 60 bytes */
+-        RING_DEBUG("%s: Drop short frame\n", __func__);
+-        return -1;
++        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
+     }
+ 
+     rx_init_frame(etsec, buf, size);
+-- 
+2.7.4
+
 
