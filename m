@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C93131579D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 21:21:27 +0100 (CET)
-Received: from localhost ([::1]:36022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3F73157A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 21:23:03 +0100 (CET)
+Received: from localhost ([::1]:38156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9ZVm-00017A-Ch
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 15:21:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58538)
+	id 1l9ZXK-0002B1-UM
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 15:23:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l9YnK-0008BN-Nj
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:35:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31358)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l9YoI-00011j-Hq
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:36:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l9YnF-0003xf-CX
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:35:30 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l9YoG-0004QW-V6
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 14:36:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612899319;
+ s=mimecast20190719; t=1612899388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bORJykuGBhsST7wBwdAM14uT4G1IpSB4cczan/02uzg=;
- b=O/768be9Kv7b33Easl3CWuHSSUpv9FlA+yq54NJKn6PEwcj00KQPtjChrkm1RvzkGbLOpb
- YA9r+yZ93qKZR4LzRqZ57BtMg4qroC1pI3db/3+qpdki6nwWbPTxIDreuzq9wTy7BfzAhb
- 8Ev/WS5Y2QHXQkjBC5/ce/+AZrWn9ek=
+ bh=TIeTtphxEuxrOMdsCvY9zXjyjZGBoOR0AItBPuWSLnI=;
+ b=coDp/TxHD/TLCguL9DIXS9yoNJl1O3lqZyYly/whzSlqeRSLqX/fviNZZYBZZtTBmwsUoP
+ c3nL0KYaKNysYLSlxWmZoHnq310t7g8v+jbY5AgJwSI+Tiru2tdgduFztWQJcU9BdJ1Yny
+ ec6lpECa+/1cQ+q/WiaewuLuoxlnZzs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-H_bLQHLXPK6lTA_6kuCIRA-1; Tue, 09 Feb 2021 14:35:17 -0500
-X-MC-Unique: H_bLQHLXPK6lTA_6kuCIRA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-589-1EZYO0mkNwWWOlsyt7xliw-1; Tue, 09 Feb 2021 14:36:26 -0500
+X-MC-Unique: 1EZYO0mkNwWWOlsyt7xliw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A1A8803651
- for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 19:35:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CD40107ACE6
+ for <qemu-devel@nongnu.org>; Tue,  9 Feb 2021 19:36:25 +0000 (UTC)
 Received: from [10.3.114.150] (ovpn-114-150.phx2.redhat.com [10.3.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC29C17AE2;
- Tue,  9 Feb 2021 19:35:12 +0000 (UTC)
-Subject: Re: [PATCH 1/2] trace: fix "-trace file=..."
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 18AEA6064B;
+ Tue,  9 Feb 2021 19:36:22 +0000 (UTC)
+Subject: Re: [PATCH 2/2] trace: skip qemu_set_log_filename if no "-D" option
+ was passed
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20210209145759.141231-1-pbonzini@redhat.com>
- <20210209145759.141231-2-pbonzini@redhat.com>
+ <20210209145759.141231-3-pbonzini@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <28558ba6-21a8-0ee5-6e55-d0af04962d90@redhat.com>
-Date: Tue, 9 Feb 2021 13:35:12 -0600
+Message-ID: <3b2e07c7-cb9e-dba9-0573-d8aa22720f14@redhat.com>
+Date: Tue, 9 Feb 2021 13:36:21 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210209145759.141231-2-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210209145759.141231-3-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,26 +88,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/9/21 8:57 AM, Paolo Bonzini wrote:
-> Because trace_opt_parse always deletes the options it has parsed,
-> trace_init_file's call to qemu_find_opts_singleton always
-> creates an empty -trace option group.  Therefore, the subsequent
-> qemu_opt_get(opts, "file") always returns NULL.
+> When the "simple" backend is not active but the "log" backend is,
+> both "-trace file=" and "-D" will result in a call to
+> qemu_set_log_filename.  Unfortunately, QEMU was also calling
+> qemu_set_log_filename if "-D" was not passed, so the "-trace
+> file=" option had no effect and the tracepoints went back to
+> stderr.
 > 
-> To fix this, save the last "-trace file=..." option in a global
-> variable and use it later in trace_init_file.
+> Fortunately we can just skip qemu_set_log_filename in that case,
+> because the log backend will initialize itself just fine as soon
+> as qemu_set_log is called, also in qemu_process_early_options.
 > 
-> This is similar to what was done before commit 92eecfff32 ("trace:
-> remove argument from trace_init_file", 2020-11-11), except contained
-> within trace/control.c and without memory leaks.
-> 
-> Fixes: 92eecfff32 ("trace: remove argument from trace_init_file", 2020-11-11)
 > Cc: stefanha@redhat.com
-> Reported-by: armbru@redhat.com
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  trace/control.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
+>  softmmu/vl.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index b219ce1f35..e67f91dd37 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2367,7 +2367,9 @@ static void qemu_process_early_options(void)
+>      trace_init_file();
+>  
+>      /* Open the logfile at this point and set the log mask if necessary.  */
+> -    qemu_set_log_filename(log_file, &error_fatal);
+> +    if (log_file) {
+> +        qemu_set_log_filename(log_file, &error_fatal);
+> +    }
+>      if (log_mask) {
+>          int mask;
+>          mask = qemu_str_to_log_mask(log_mask);
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
