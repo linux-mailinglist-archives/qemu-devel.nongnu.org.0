@@ -2,90 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D952315133
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:05:59 +0100 (CET)
-Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B8A31513B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:09:31 +0100 (CET)
+Received: from localhost ([::1]:58876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9TeQ-0004sq-Ir
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:05:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42214)
+	id 1l9Thq-0000bH-3r
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:09:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l9TW1-00018D-30
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:57:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34350)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l9TVv-0007sI-AU
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:57:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612879029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MRkNP/Tcc6NRzXM9tyoxaYmBzBGgJ0Ca+ow7KiYvp44=;
- b=TbD6rgvNJUNBwf1Ejz7LKubQLz4NLi4IL8tqjS8s9K9SjVavHDCXmoMIvaSEf5Lq4DSGLS
- F9ZsUYLkwi5r4AoguDpZc1096BlEXUMl0KwzjWASkf1iBzj8ITDLidolKPG6mRtoDeJ+12
- KzCvM0vKAlRSpV2wLqb+TxSVNfpqSG8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-GP9z0JwWNRS3LdAj8havKg-1; Tue, 09 Feb 2021 08:57:07 -0500
-X-MC-Unique: GP9z0JwWNRS3LdAj8havKg-1
-Received: by mail-wm1-f69.google.com with SMTP id p8so2836265wmq.7
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 05:57:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MRkNP/Tcc6NRzXM9tyoxaYmBzBGgJ0Ca+ow7KiYvp44=;
- b=BxcY/l/FSyubEYWid0OKnmMg+ecHZWcohQVcJ1uNwIpLTq44hr5LdQ2WjJ5MSwdXGT
- 5t7GCRhG4ftr9ryk2ZmKvTZxqYbInmqjk8rz+vi4PBFGJ+bWmTvIw9tL6bqcXGBEarMf
- FqoROJSjzd4k8Vh4+67johDk8UI1iRRZMnH7i8zTsC/J9XKQTgbNWGeAyhCg52z05lAm
- YJrXUwqQtGmy/5vrG6AnoPkyvwx3OKZRjignvFEAGrlHBT7YaT3pYqN5Gsjf55pwsizC
- M8V/ciuOQ+fsv5mZTHHQbnwd31eshsyC50C6wPH97mrtWSZUIL1WRbXFuYwujP9u8ktn
- k0TA==
-X-Gm-Message-State: AOAM533Zm9r35tOhuYqOpCQWrFG9Oj/RZmzZETR/f2nuOCP9JTzOkQEr
- +s4AAXLynOXeKM4WtkB1TagjSh8KdAX+GlXZv6UR35JRqf5SuXZuxRUM3CQTDbqwRrRz3xquaZ5
- wWJVi2si+AdWCbiE=
-X-Received: by 2002:a1c:f60b:: with SMTP id w11mr3521339wmc.3.1612879026070;
- Tue, 09 Feb 2021 05:57:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz9xkHBnKbkInxYBYbKEWYQFIS5S+7+u7kyrd47kM2L/CHJXuRFHcKCPZEB59AefdvMs459CA==
-X-Received: by 2002:a1c:f60b:: with SMTP id w11mr3521318wmc.3.1612879025801;
- Tue, 09 Feb 2021 05:57:05 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id d10sm35927351wrn.88.2021.02.09.05.57.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Feb 2021 05:57:04 -0800 (PST)
-Subject: Re: [PATCH 0/5] enhance debugging with qtest framework
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-References: <cover.1611704181.git.qemu_oss@crudebyte.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <98e50576-19f0-85c3-1798-aa3a03a90408@redhat.com>
-Date: Tue, 9 Feb 2021 14:57:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l9TWE-0001X8-DX
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:57:30 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:56134 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l9TWC-0007we-Ds
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 08:57:30 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 666E64127C;
+ Tue,  9 Feb 2021 13:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-transfer-encoding:content-type:content-type:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1612879045; x=
+ 1614693446; bh=k15TqA+AJX/b0dHb+C2/0Phd/unzcf1lrhXV/y0lMD4=; b=B
+ hV/whRV2ZwbHVoQut0jtA0Nq24u2SbPsFKcBIXtLZz01yb1HaqwhnWYQAp67oroZ
+ mu6DK2VUofbWeuEhHIzm2RPbSaxcizKViYPiOOVtOZc8wsqbKQUZdSQDIMCm6Y6X
+ LiVrESya2m3t/QjA1FLemCUG/usE1iOPhqSY6pLA+w=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id XNIPrjq_70PR; Tue,  9 Feb 2021 16:57:25 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 03ACB41279;
+ Tue,  9 Feb 2021 16:57:25 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 9 Feb
+ 2021 16:57:24 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL hvf 0/5] HVF updates for 2021-02-09
+Date: Tue, 9 Feb 2021 16:57:17 +0300
+Message-ID: <20210209135722.4891-1-r.bolshakov@yadro.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1611704181.git.qemu_oss@crudebyte.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,56 +76,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/01/21 00:36, Christian Schoenebeck wrote:
-> This series is a follow-up of the following previous series:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02251.html
-> The 9p patches of the previous series have already been merged.
-> 
-> This series consists of 2 parts:
-> 
-> 1. libqos patch 1 removes a limitation of the qtest/libqos subsystem:
->     support for more than one device using the same (official) QEMU device
->     name.
-> 
->     Like discussed in the previous series, if nobody finds this patch useful
->     then just ignore it. I needed it in the previou series before but
->     eventually decided for a different approach and personally don't need it
->     in near future.
-> 
-> 2. Patches 2 to 5 enhance debugging issues with the qtest framework. I would
->     appreciate if they got merged, because I still find them useful while
->     working on new test cases.
-> 
-> Changes of these patches from derived series:
-> 
->    * Squashed previous patches 1 & 2 -> [patch 1].
-> 
->    * Dropped ANSI color escape sequences [patch 3].
-> 
->    * Squashed previous patches 4 & 5 -> [patch 3].
-> 
->    * Extended commit log to provide more details about purpose [patch 4].
-> 
-> Christian Schoenebeck (5):
->    libqos/qgraph: add qos_node_create_driver_named()
->    libqos/qgraph_internal: add qos_printf() and qos_printf_literal()
->    tests/qtest/qos-test: dump qos graph if verbose
->    tests/qtest/qos-test: dump environment variables if verbose
->    tests/qtest/qos-test: dump QEMU command if verbose
-> 
->   tests/qtest/libqos/qgraph.c          | 99 +++++++++++++++++++++++++++-
->   tests/qtest/libqos/qgraph.h          | 36 ++++++++++
->   tests/qtest/libqos/qgraph_internal.h | 12 ++++
->   tests/qtest/qos-test.c               | 15 ++++-
->   4 files changed, 158 insertions(+), 4 deletions(-)
-> 
+Hi Paolo,
 
-Queued, thanks.
+Please apply the PR to i386 queue (not for master). It contains bug
+fixes, cleanups and improvements for HVF accel:
+ - Added support of older HW (Hill)
+ - Fixed OSXSAVE reporting in CPUID (Alex)
+ - Improved Darwin-XNU support (Vladislav)
+ - dead code removed (Alex)
 
-Paolo
+Test results: https://gitlab.com/roolebo/qemu/-/pipelines/253575182
+The patches don't introduce regressions in kvm-unit-tests.
+
+The following changes since commit d0dddab40e472ba62b5f43f11cc7dba085dabe71:
+
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-02-05 15:27:02 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/roolebo/qemu.git tags/hvf-queue-20210209
+
+for you to fetch changes up to db7884ccdde5425584bec758f72ed658b6549f8a:
+
+  hvf: Fetch cr4 before evaluating CPUID(1) (2021-02-09 12:25:09 +0300)
+
+Thanks,
+Roman
+
+----------------------------------------------------------------
+Alexander Graf (2):
+      hvf: x86: Remove unused definitions
+      hvf: Fetch cr4 before evaluating CPUID(1)
+
+Hill Ma (1):
+      hvf: Guard xgetbv call
+
+Vladislav Yaroshchuk (2):
+      target/i386/hvf: add vmware-cpuid-freq cpu feature
+      target/i386/hvf: add rdmsr 35H MSR_CORE_THREAD_COUNT
+
+ target/i386/cpu.h           |   1 +
+ target/i386/hvf/hvf-i386.h  |  16 -------
+ target/i386/hvf/hvf.c       | 100 +++++++++++++++++++++++++++++++++++++++++++-
+ target/i386/hvf/x86_cpuid.c |  34 +++++++++------
+ target/i386/hvf/x86_emu.c   |   5 +++
+ 5 files changed, 127 insertions(+), 29 deletions(-)
+
+-- 
+2.30.0
 
 
