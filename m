@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D88F314DCF
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 12:07:38 +0100 (CET)
-Received: from localhost ([::1]:37858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D468314DF7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 12:14:02 +0100 (CET)
+Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Qrp-0008Ff-3Y
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 06:07:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35006)
+	id 1l9Qy1-0002Ve-G4
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 06:14:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9Qo4-000552-W0; Tue, 09 Feb 2021 06:03:45 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:33955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9Qo2-0000qh-Er; Tue, 09 Feb 2021 06:03:44 -0500
-Received: by mail-ej1-x631.google.com with SMTP id hs11so30632829ejc.1;
- Tue, 09 Feb 2021 03:03:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=40XcWvxQ9GdgvYjf8pb4BYvkYtk5bHpgR+Jmi9iBo70=;
- b=TcUwp3NInQal6eB2mNpkVnINbOixT8N6SXBsSVur0LbpNL6208VR8WZsI7KOZaMN/n
- tDk714mNbKPWpOI9TylgaSldqAoXJCrPScPLToN/4TBZVA2MSPYUaOvTJg4X/q/wXGEE
- l+ihAw+h/3zv+wHX2Gv8liibYEMgkF5TsP78nVnlP0j8fuzzkK2hWMzOzv1LFHXJ3neE
- WwSG6ztP02UJl3w3v4DNMIAdaBFofqvHGkJerYoAhYZl66xUiC/QsFntojlDc1Ci+xLp
- juSqA17eTULY84Xe392Pz3zmnKOgxNKBJ6VfE22ABFdYCqUjIlPo/kZNKnygabwL04+V
- +CuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=40XcWvxQ9GdgvYjf8pb4BYvkYtk5bHpgR+Jmi9iBo70=;
- b=F/VW5vRqxVAJw7597C497/TQKwo+fMs1Ii62iUaF7lWsuR+iZCy1aZcijzyGfFcrCu
- czzaOXMO3YPY/EPrRk+welC0CRXjMX2ksx4XwMl94LVWwYI/b8pmBIosE740TdWQmZKJ
- 3akYij0EPRTazKIf9ZxQKMW0ZPDyhotHbqOs7qCEu7gSpdum4pZHuoAmv+CMz16AiIC2
- fZNQmVaLWgcBpIvQxdeun3+yLj/MmIY8///dR2QxwAmBR/NO+u+r6QQX7XmDNUfGscuJ
- B+Tp+aQ6q+8uoA0W1VxzJSFUyhWNVbOGaGj6dl5ZdLaVeLPC0fkYWIpQ3Sm1v2psgW3e
- zXQw==
-X-Gm-Message-State: AOAM5335JrPDRzRqHCTYvS34BTuNPTUApLRvgAcyjHSD6BSuFp2+8pvs
- B+xAbhU3W5ZZwSluLFbfur+kn3AAH2Q=
-X-Google-Smtp-Source: ABdhPJw+9s9gpMdipmgyoYAlALRdXkOIy0NYmRcjpTPoFLeFlcKocHtQzI/nzALDqSaOb5AXYO4+pg==
-X-Received: by 2002:a17:906:cc50:: with SMTP id
- mm16mr21639243ejb.366.1612868620006; 
- Tue, 09 Feb 2021 03:03:40 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id c6sm11682639edx.62.2021.02.09.03.03.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Feb 2021 03:03:39 -0800 (PST)
-Subject: Re: [PATCH] hw/sd: sdhci: Do not transfer any data when command fails
-To: Bin Meng <bmeng.cn@gmail.com>, Mauro Matteo Cascella
- <mcascell@redhat.com>, Li Qiang <liq3ea@163.com>,
- Alexander Bulekov <alxndr@bu.edu>,
- Alistair Francis <alistair.francis@wdc.com>,
- Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>
-References: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <17554c01-db8f-5676-3b9a-891eb48845cb@amsat.org>
-Date: Tue, 9 Feb 2021 12:03:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9Qsl-0000m0-Uv; Tue, 09 Feb 2021 06:08:36 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:44317)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9Qsj-0002l3-O5; Tue, 09 Feb 2021 06:08:35 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 1DD4A89D;
+ Tue,  9 Feb 2021 06:08:31 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 06:08:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding; s=fm2; bh=MBWHZgLeeCINLILEUviiTpBt+m
+ LZOyfszKJaVssdvKU=; b=k2ZJG2AACC3IELJ00j27LcSHbnj0RJRPeor1KnXGDf
+ 2+YMnmKbXa/AvltbMTKkDKnxmEuW+5gdm3F+Wa+LpLDnqPoApBSt1O1sOyfdYVH4
+ lnO6ltymIhyrFkmj6XYQQYObFGSheFeVjCczrFSuMUc81e0xF2VySVwR+sMMiwUR
+ zH2xWOoGpJJMKHkVkPPoFEpInM5C8QJ/eV4SkyhM7nCXFosyi9bMXqQMrtmyhBrJ
+ a74DaTP+Yy+ADXGgcFJT4Dq4ZAvoszwHReAtuu/MY6y/rl/nXdIFn7UdB/uBxVCK
+ S6PJA3NSllNFIhOdQ7lU4FZrtm3GuceujwB/H1S6/JeA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=MBWHZg
+ LeeCINLILEUviiTpBt+mLZOyfszKJaVssdvKU=; b=WqQiHKsw5ap9wX+5btClai
+ 2t2kL7C2655Lm3utKumHdaUM1lxn2JqwPHlVymvxL6fYCybpGyS1vf3Y+U6Yp49H
+ wDXyWOk5/CH2fwEW9f0ABZjz0u7McPcHxY3incM9o1nLdk4AFpXxp8/SmABcjVtQ
+ fx7QL50tUDWmLZg6ekC4Aq1zTjrooO0EkttSFJtUpC2hFVoRKkv4H2qYWHkPnRYm
+ 5CKUrbGtAesJ+N9TEUPoEriUD6o0DT9aJoI/aGbblCSU+pmJlW+dRpN0nW6KV0nT
+ bKqQnchJKgpZnUs8/Y+HrbzdVvoTgC/MR3LLdfPjf2b43OB5AlHkue/oWX21l1Xw
+ ==
+X-ME-Sender: <xms:LW0iYEiyy6MOfyIjIDMfk2nE7HmXAihf9-AbAYIEbXE1_qZnR5cSwA>
+ <xme:LW0iYNC0PdKql7nnrfJh1pi4Cc8P-zPSL675XcVV6BtjL3E3bHOh0goEEDdPVFztb
+ TOjkhuiDl1rVPl_p1c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheehgddvhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofggtgfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpeefudehfedugffhuddttefffeeluedttdetgfduleduuddugfeuhfelueeuuefggfen
+ ucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:LW0iYME02fuagzshdRr8vPMFL7C1X-YzNiEtm4P_GOXya84imPtdIw>
+ <xmx:LW0iYFRIsKXF2Q2MyII07POGTG8kpJIfI0tHDbTrf8m0FKsE6nhzug>
+ <xmx:LW0iYBwIvq6yQxCEHRnxbunCamwbAtx9OYPhnPoQMgteSA21mqtwTw>
+ <xmx:Lm0iYDtYqknlocT3WX_KmYgY-ytIlLJbrqXvUcoLtUudxKO50HmmxA>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id C34F424005B;
+ Tue,  9 Feb 2021 06:08:28 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] hw/nvme: move nvme emulation out of hw/block
+Date: Tue,  9 Feb 2021 12:08:24 +0100
+Message-Id: <20210209110826.585987-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,29 +91,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/9/21 11:54 AM, Bin Meng wrote:
-> At the end of sdhci_send_command(), it starts a data transfer if
-> the command register indicates a data is associated. However the
-> data transfer should only be initiated when the command execution
-> has succeeded.
-> 
-> Cc: qemu-stable@nongnu.org
-> Fixes: CVE-2020-17380
-> Fixes: CVE-2020-25085
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Reported-by: Sergej Schumilo (Ruhr-University Bochum)
-> Reported-by: Cornelius Aschermann (Ruhr-University Bochum)
-> Reported-by: Simon Wrner (Ruhr-University Bochum)
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
-> 
->  hw/sd/sdhci.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+With the introduction of the nvme-subsystem device we are really=0D
+cluttering up the hw/block directory.=0D
+=0D
+As suggested by Philippe previously, move the nvme emulation to hw/nvme.=0D
+=0D
+Klaus Jensen (2):=0D
+  hw/nvme: move nvme emulation out of hw/block=0D
+  hw/nvme: move device-scoped functions=0D
+=0D
+ meson.build                               |   1 +=0D
+ hw/block/nvme-ns.h                        | 193 --------------------=0D
+ hw/block/nvme-subsys.h                    |  32 ----=0D
+ hw/{block =3D> nvme}/nvme.h                 | 206 +++++++++++++++-------=0D
+ hw/nvme/trace.h                           |   1 +=0D
+ hw/{block/nvme.c =3D> nvme/ctrl.c}          |  91 +++++++++-=0D
+ hw/{block/nvme-ns.c =3D> nvme/ns.c}         |   8 +-=0D
+ hw/{block/nvme-subsys.c =3D> nvme/subsys.c} |   2 +-=0D
+ MAINTAINERS                               |   2 +-=0D
+ hw/Kconfig                                |   1 +=0D
+ hw/block/Kconfig                          |   5 -=0D
+ hw/block/meson.build                      |   1 -=0D
+ hw/block/trace-events                     | 180 -------------------=0D
+ hw/meson.build                            |   1 +=0D
+ hw/nvme/Kconfig                           |   4 +=0D
+ hw/nvme/meson.build                       |   1 +=0D
+ hw/nvme/trace-events                      | 178 +++++++++++++++++++=0D
+ 17 files changed, 431 insertions(+), 476 deletions(-)=0D
+ delete mode 100644 hw/block/nvme-ns.h=0D
+ delete mode 100644 hw/block/nvme-subsys.h=0D
+ rename hw/{block =3D> nvme}/nvme.h (51%)=0D
+ create mode 100644 hw/nvme/trace.h=0D
+ rename hw/{block/nvme.c =3D> nvme/ctrl.c} (97%)=0D
+ rename hw/{block/nvme-ns.c =3D> nvme/ns.c} (98%)=0D
+ rename hw/{block/nvme-subsys.c =3D> nvme/subsys.c} (98%)=0D
+ create mode 100644 hw/nvme/Kconfig=0D
+ create mode 100644 hw/nvme/meson.build=0D
+ create mode 100644 hw/nvme/trace-events=0D
+=0D
+-- =0D
+2.30.0=0D
+=0D
 
