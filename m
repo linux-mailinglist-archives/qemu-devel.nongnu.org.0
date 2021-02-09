@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957F0315167
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:19:39 +0100 (CET)
-Received: from localhost ([::1]:56246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F82315169
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 15:20:02 +0100 (CET)
+Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Tre-0003G7-DL
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:19:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45894)
+	id 1l9Ts1-0003cM-5p
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 09:20:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9Tkr-0005DG-Si
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:12:37 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:36552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9Tko-0005KS-VY
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:12:37 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id l12so23821838edt.3
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 06:12:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=M2YLU1p3qUsY2p4IfyfgtuMn3AYjNz3yJ/ic5TMW9zs=;
- b=HyVap2+OwL67fC/upWOpU27sPraJfKhYtdcjyvPA31i7iWy93ooMkoh22YsWm5n7Kg
- p9j96NHCeS2ali1w2EyfoM2kb364zXdqJt9SRqwyLknU8Ao732TdSiiPAXFFwRW+tLyl
- I7r0IJe/6AXtj1AjOhdu+ki76tySr2yUoXzlbDCUEFwZ/PObP4hkaVaCIk3dCyidRXNg
- 0ePgJPWwFkuCc+UoYhiifSJzL4Y+4WWo5jfWl+rJ3iloEeDkTxvl6twG1QH4GvgtBo1I
- sXww+9eCXGBsD/BTrXnNU1i4838njSvMJvYnfrG02ivM8DpaSfF1Ez8ouX0Owlfz5IQ0
- Ajfw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l9Tl7-0005OP-EX
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:12:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29231)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l9Tl4-0005Qn-6E
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 09:12:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612879967;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cd1FRsJ26IPj+6593J2G2QHgURgAjr3q1PTUo9bgGpI=;
+ b=LG/XueXDstYYBYOprocZMBAg6IiiM9aPcXIqw4AV5wb3Ip1NOcEylg61E5YNSWc+1qMZcl
+ KIs0J+f6s+4sCtZdHzqZQZVXRWwNy2JTcHfZYfO4hAVynyXMUNckfyT2KuVjlSsrIq+PCb
+ CYrS2kS3XKHvzXEWxdxSgm/DUypSl2c=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-8oNFV9fTMDi_qEQMg-6t_g-1; Tue, 09 Feb 2021 09:12:44 -0500
+X-MC-Unique: 8oNFV9fTMDi_qEQMg-6t_g-1
+Received: by mail-wm1-f70.google.com with SMTP id p8so2895367wmq.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 06:12:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=M2YLU1p3qUsY2p4IfyfgtuMn3AYjNz3yJ/ic5TMW9zs=;
- b=K6wYFR1Ef5oSozxnacHEUDgTn+5nmNfqGnlKIUpUlu4yibiqkneO+q5FdazTaC/vEm
- aQIv3X+uZiVYsvzKusVLRImv7vj5djVEahHEJypd4zGskV81ezikO9aYM8ODgDkgafmE
- 4hi9Dh2xQBrpEC6cPdVFNNd0odtehDu8Nt/a0OPH2iUopJ58TNrYD5BiGbgzxmRVzT1g
- 24d4gOzgRzCc7gg15diRciSZ0MNfYQAeS24qmjoxlj2tsR6DHHIA24tFMTgSJ0399/5n
- 3ovZWGboCLjvBsUmwZmdthgtXKRRMVWg9dTFobhq0bwgY7vcpwmU920JFZv2Q0FHhmd6
- tcTg==
-X-Gm-Message-State: AOAM532Ka8+m8qamTNDyTM2ibZp2En4PCkdZ2ipGljRSMwFB9Ocf/fS0
- RGAE4XJVPYwA76hxW7yth5yokBpq204=
-X-Google-Smtp-Source: ABdhPJxyTE2tqAHHGuZ4p/lt3RTBLQvDoBPCSgEm8kKqfmuBUXZfu/1bIrPlmuLjCZC7Uk+UKXgSnA==
-X-Received: by 2002:a05:6402:4252:: with SMTP id
- g18mr23401952edb.231.1612879952856; 
- Tue, 09 Feb 2021 06:12:32 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id hr3sm10332461ejc.41.2021.02.09.06.12.30
+ bh=cd1FRsJ26IPj+6593J2G2QHgURgAjr3q1PTUo9bgGpI=;
+ b=GLEA5mwQ8iA5D0FXSFG2xl7/mm3BtDsB5G3Odth5FOq9HTXXxwsdfP/X2rGEN5d8zD
+ 8JDF8iUJxVjraFoAeagFpZziuoyr8OTTDiRZfqMEu78KrNGDm/78GAW6m+SVo5BPeqBn
+ bxVt7J0jA6d2ed0cxJ9T38VVD7Vne7XkA7zL5VmgNmGH10Iko3Um/CzkRWY2LjwHydKF
+ ioQ6oqxjBk+7qWDIGonT/qlxVWbFC/feNU7jiLJP5D9+SlhA7T1Qh9CDWYaq+IMMqwt8
+ o/jVTPCXOi4v8DNSkl4ehLK07Pp365v9gBKWuNeHSxts0/Ah56YlfKuwhfBP5cqd/e0n
+ rc+Q==
+X-Gm-Message-State: AOAM530hGfZyTbYNI85Bf0UrovDBA5cUSjgHBoFelSnQpHyE4j1rmCNk
+ Kp6dG9asO0ZZP4ocMq5i/dB/8Q3CFzv3WDboTEVdjl7ceMFY0+BySZf5UcwGB/2bm70UbR9Gw8X
+ h4ZXnMvmZLSlGY9vaaGvjhxX3tjhobHUBFAbNZIBUdN7m1mavsGo3p4wOIuqqktMOU3U=
+X-Received: by 2002:adf:b1cd:: with SMTP id r13mr16432139wra.157.1612879962380; 
+ Tue, 09 Feb 2021 06:12:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxjP+Ll/Su06CMHx++eDv6WezCXS0ymqFz2A30P47SXdQ8zytOqV6pMSkQIZzHvfOqrcu3HcQ==
+X-Received: by 2002:adf:b1cd:: with SMTP id r13mr16432120wra.157.1612879962213; 
+ Tue, 09 Feb 2021 06:12:42 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id 64sm25461332wrc.50.2021.02.09.06.12.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Feb 2021 06:12:32 -0800 (PST)
-Subject: Re: [PATCH v3] travis-ci: Disable C++ optional objects on AArch64
- container
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>
-References: <20210207121239.2288530-1-f4bug@amsat.org>
- <ebdddd92-cb51-e8b9-dfc0-fbce35015eb3@redhat.com>
- <CAAdtpL5YO=A-V06+7Wyhn5XnavGCUAqqcD8XpU2cVpE4AV-W3w@mail.gmail.com>
- <CAFEAcA-m0MKhMr05mX7HyJZ8DuK7D2YzCFnTyG4B32=-r-5mpA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <622e8281-eeda-2620-d388-69d9d6853788@amsat.org>
-Date: Tue, 9 Feb 2021 15:12:30 +0100
+ Tue, 09 Feb 2021 06:12:41 -0800 (PST)
+Subject: Re: [PULL hvf 0/5] HVF updates for 2021-02-09
+To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+References: <20210209135722.4891-1-r.bolshakov@yadro.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6debac88-9e17-8abb-1d8a-4b6225c73ee1@redhat.com>
+Date: Tue, 9 Feb 2021 15:12:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-m0MKhMr05mX7HyJZ8DuK7D2YzCFnTyG4B32=-r-5mpA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210209135722.4891-1-r.bolshakov@yadro.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,41 +99,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/9/21 2:41 PM, Peter Maydell wrote:
-> On Tue, 9 Feb 2021 at 13:32, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->> Migration of this job is pending of Cleber's possibility to add an AArch64
->> runner to Gitlab-CI, right? Then we need someone to support and maintain
->> the hardware... I don't think anybody volunteered.
+On 09/02/21 14:57, Roman Bolshakov wrote:
+> Hi Paolo,
 > 
-> We have the hardware already. Effectively Alex is maintaining it...
+> Please apply the PR to i386 queue (not for master). It contains bug
+> fixes, cleanups and improvements for HVF accel:
+>   - Added support of older HW (Hill)
+>   - Fixed OSXSAVE reporting in CPUID (Alex)
+>   - Improved Darwin-XNU support (Vladislav)
+>   - dead code removed (Alex)
+> 
+> Test results: https://gitlab.com/roolebo/qemu/-/pipelines/253575182
+> The patches don't introduce regressions in kvm-unit-tests.
+> 
+> The following changes since commit d0dddab40e472ba62b5f43f11cc7dba085dabe71:
+> 
+>    Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-02-05 15:27:02 +0000)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/roolebo/qemu.git tags/hvf-queue-20210209
+> 
+> for you to fetch changes up to db7884ccdde5425584bec758f72ed658b6549f8a:
+> 
+>    hvf: Fetch cr4 before evaluating CPUID(1) (2021-02-09 12:25:09 +0300)
+> 
+> Thanks,
+> Roman
+> 
+> ----------------------------------------------------------------
+> Alexander Graf (2):
+>        hvf: x86: Remove unused definitions
+>        hvf: Fetch cr4 before evaluating CPUID(1)
+> 
+> Hill Ma (1):
+>        hvf: Guard xgetbv call
+> 
+> Vladislav Yaroshchuk (2):
+>        target/i386/hvf: add vmware-cpuid-freq cpu feature
+>        target/i386/hvf: add rdmsr 35H MSR_CORE_THREAD_COUNT
+> 
+>   target/i386/cpu.h           |   1 +
+>   target/i386/hvf/hvf-i386.h  |  16 -------
+>   target/i386/hvf/hvf.c       | 100 +++++++++++++++++++++++++++++++++++++++++++-
+>   target/i386/hvf/x86_cpuid.c |  34 +++++++++------
+>   target/i386/hvf/x86_emu.c   |   5 +++
+>   5 files changed, 127 insertions(+), 29 deletions(-)
+> 
 
-I missed to read if Alex volunteered for this task but am certainly
-happy if he is :) Although this should be documented somewhere (who
-to contact if the AArch64 runner starts to fail?).
+Queued, thanks!
 
-Assuming Cleber's runner script is merged and working on the AArch64
-runner, then we need to figure how contributors can use it.
-Assuming this runner will be registered under the QEMU organization
-namespace in Gitlab, then contributors would have to open a Merge
-Request to trigger the CI jobs (similarly to when you push to the
-/staging branch). Then we would cancel the MR. We can ask contributors
-to cancel their MR once testing done.
+Paolo
 
-Midway could be having maintainers opening such MR?
-
-I have no idea, just asking questions to see if other have ideas or
-see the big picture here.
-
-Regards,
-
-Phil.
 
