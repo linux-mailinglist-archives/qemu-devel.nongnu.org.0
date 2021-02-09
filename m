@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51506314CAC
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 11:16:18 +0100 (CET)
-Received: from localhost ([::1]:55996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0200B314CD2
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 11:23:13 +0100 (CET)
+Received: from localhost ([::1]:58950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Q49-0006gj-5j
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 05:16:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53108)
+	id 1l9QAp-0008Fp-P9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 05:23:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l9Q2i-00068K-I3
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 05:14:48 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:39962 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l9Q2f-0005bc-Fh
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 05:14:48 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 49FEE4127A;
- Tue,  9 Feb 2021 10:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1612865682;
- x=1614680083; bh=q4ZrxU62cnlCnrc/QsqKjiP07C7Xc70G5xxr2lWZoZI=; b=
- HlzGnt/rEYUlqYa27btpllLY28IPLD/7GmbLxcnZIc9qIssN61w6D8QebVXCgOJ5
- JCdsLYQPMu+UeAEfAryAwopATzF/fS6dZOkBaJeBu1AzGeGVQzGwI5JB0KMgUJ3W
- 5tKwhRTs81lUAYXN3TzXJpJjfYNK/k/K5SVsXnor14s=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hmRTws_yFqr6; Tue,  9 Feb 2021 13:14:42 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 9BDEB411D9;
- Tue,  9 Feb 2021 13:14:41 +0300 (MSK)
-Received: from localhost (172.17.128.60) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 9 Feb
- 2021 13:14:41 +0300
-Date: Tue, 9 Feb 2021 13:14:40 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH] hvf: Fetch cr4 before evaluating CPUID(1)
-Message-ID: <YCJgkHDFbWOeJxOf@SPB-NB-133.local>
-References: <20210123004129.6364-1-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9Q90-0007o8-01
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 05:21:18 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:42132)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9Q8v-0008PS-V1
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 05:21:17 -0500
+Received: by mail-ed1-x536.google.com with SMTP id z22so22688156edb.9
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 02:21:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vfg3KjsEYc+Td454tujL34fxkbWXJ3Jf0iIS+RP+QBY=;
+ b=hRFGX4eDIjsMi1ORTqzd/I3+sbUSEYMMpGUIQ4mNtNm+/MB6KVvAh5APA2KjSkCoVj
+ Oq84lv3sbZKMn3L9Ssa/dzP63vUIG5Ws42RtcqPtpAWmMGJc8K7iBauwYRejXMB3eM7G
+ hj73VIpVg1gahn6+Y6T8n8m4HEYAgp0HTCrseG11UAlWpS8eLn8PrhPK4L/wZh50se1W
+ X/oHGqdDCgJG8d5dbxqGnq9bcdnFg4oxn8IrtJJ8ff8v2budUKqSuFKbC6WGZbI1EUNy
+ H0bP9EcUOwEQg9HpE0t9Bc/nL3VIN5rcMhuPAbmXr45rp4ijz3b7sr71ykiUKDGSOJcm
+ Rq9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vfg3KjsEYc+Td454tujL34fxkbWXJ3Jf0iIS+RP+QBY=;
+ b=l0n1ruli59dqyipGBnkZ7Hs/mkv1hC3uVWTUmVAYo5hBaIDZT00DlIhk1FrX5GjEU2
+ ul8QYRhKc8MFotIOB+0StyqgFAPZvPyprO2YHXL5/HGx4179HjB5px9ONoQfufJ33vCZ
+ FznWA1psVDI1/Tu9A6WOysc/CsWv28YyIyAA99feuvKXyxu77gTDYetJ8vlIDVeUejNj
+ /nGUz4USu4+VgIlewf1S/wRn6j/36zwnAJRMbXq/m9f1Xhg5gq/bLRE26atDH2gIPqJX
+ re0HfOPD4q4uBeRFrQQfh7KhuJiAHR+Z5gXYegLro7WjwVEpYXUz5pGHHT5OBArCSO8d
+ dkPw==
+X-Gm-Message-State: AOAM532sXY3oGdkJou93YluBlrmLjJ1UzWQSdfugnc/dynS7CI7Ub6Nk
+ NKBxBMcmDcBRgqGEgib3EyuZk/4UazNcZTpMMRMIkQ==
+X-Google-Smtp-Source: ABdhPJzomJ7n5g5BpzOf4269+CkfeT/S2VZ1FX2ZU+DYutwW/DgauRfn5cdXxU6thTu7WTYoBZmgflZX7HA01fHU6RU=
+X-Received: by 2002:a05:6402:5107:: with SMTP id
+ m7mr21862749edd.52.1612866070855; 
+ Tue, 09 Feb 2021 02:21:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20210123004129.6364-1-agraf@csgraf.de>
-X-Originating-IP: [172.17.128.60]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
+References: <20210129130330.30820-1-peter.maydell@linaro.org>
+ <87y2gbsrc7.fsf@linaro.org>
+In-Reply-To: <87y2gbsrc7.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Feb 2021 10:20:59 +0000
+Message-ID: <CAFEAcA-+D3Mr4MSknngBSh8erJvCNJe9XxnkggvvG4QSV1xMAA@mail.gmail.com>
+Subject: Re: [PATCH] accel/tcg: Add URL of clang bug to comment about our
+ workaround
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,53 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Asad Ali <asad@osaro.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jan 23, 2021 at 01:41:29AM +0100, Alexander Graf wrote:
-> The CPUID function 1 has a bit called OSXSAVE which tells user space the
-> status of the CR4.OSXSAVE bit. Our generic CPUID function injects that bit
-> based on the status of CR4.
-> 
-> With Hypervisor.framework, we do not synchronize full CPU state often enough
-> for this function to see the CR4 update before guest user space asks for it.
-> 
-> To be on the save side, let's just always synchronize it when we receive a
-> CPUID(1) request. That way we can set the bit with real confidence.
-> 
-> Reported-by: Asad Ali <asad@osaro.com>
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> ---
->  target/i386/hvf/hvf.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-> index 08b4adecd9..f660b829ac 100644
-> --- a/target/i386/hvf/hvf.c
-> +++ b/target/i386/hvf/hvf.c
-> @@ -426,6 +426,10 @@ int hvf_vcpu_exec(CPUState *cpu)
->              uint32_t rcx = (uint32_t)rreg(cpu->hvf->fd, HV_X86_RCX);
->              uint32_t rdx = (uint32_t)rreg(cpu->hvf->fd, HV_X86_RDX);
->  
-> +            if (rax == 1) {
-> +                /* CPUID1.ecx.OSXSAVE needs to know CR4 */
-> +                env->cr[4] = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR4);
-> +            }
->              cpu_x86_cpuid(env, rax, rcx, &rax, &rbx, &rcx, &rdx);
->  
->              wreg(cpu->hvf->fd, HV_X86_RAX, rax);
-> -- 
-> 2.24.3 (Apple Git-128)
-> 
+On Fri, 29 Jan 2021 at 15:19, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > In cpu_exec() we have a longstanding workaround for compilers which
+> > do not correctly implement the part of the sigsetjmp()/siglongjmp()
+> > spec which requires that local variables which are not changed
+> > between the setjmp and the longjmp retain their value.
+> >
+> > I recently ran across the upstream clang bug report for this; add a
+> > link to it to the comment describing the workaround, and generally
+> > expand the comment, so that we have a reasonable chance in future of
+> > understanding why it's there and determining when we can remove it,
+> > assuming clang eventually fixes the bug.
+> >
+> > Remove the /* buggy compiler */ comments on the #else and #endif:
+> > they don't add anything to understanding and are somewhat misleading
+> > since they're sandwiching the code path for *non*-buggy compilers.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-The fix is based off hvf-arm patch series and doesn't build on
-master branch because of "cpu->hvf->fd" has to be "cpu->hvf_fd".
-I've corrected the issue and resolved conflicts with another patch in
-hvf-queue. So, it's been queued.
+Thanks. I'll put this in via target-arm.next unless somebody
+has a preference for it going in via some other tree ?
 
-Thanks,
-Roman
+-- PMM
 
