@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3045F314F6D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 13:49:15 +0100 (CET)
-Received: from localhost ([::1]:55540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43018314F99
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 13:59:14 +0100 (CET)
+Received: from localhost ([::1]:37074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9SS9-0000Ev-SZ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 07:49:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54506)
+	id 1l9Sbp-0004rB-B2
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 07:59:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l9SQE-00083L-S8
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:47:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47458)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l9SQ9-0002P7-03
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:47:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612874826;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1lD3OOtwveZkMklralxwCKzRwawfSy+ZkDGR5RFgQAw=;
- b=H/If+Bpr2XUqUSOrTLa2hLRz8hTh3VU9JqT12yhFiJp9SitMUoH4ByW5hx1e5G/E33l1LG
- algdbTvc7ocs5laf13ZOUHZNB2rEefs9+ljkdJMo15D/D2Q/ImBAqMEfMHwXpTiXwXZ0Zl
- 77A0oA6lPegZRdqvsOlA5eKxBMbhuJo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-RQ05Fxd5ME6lfPDwkcjIrw-1; Tue, 09 Feb 2021 07:47:04 -0500
-X-MC-Unique: RQ05Fxd5ME6lfPDwkcjIrw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C307E801975;
- Tue,  9 Feb 2021 12:47:03 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 906AC1002382;
- Tue,  9 Feb 2021 12:46:58 +0000 (UTC)
-Date: Tue, 9 Feb 2021 13:46:57 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: isaku.yamahata@gmail.com
-Subject: Re: [PATCH v2 2/9] qtest: update
- tests/qtest/bios-tables-test-allowed-diff.h
-Message-ID: <20210209134657.0b6e5230@redhat.com>
-In-Reply-To: <ec80955a1c7a9263bdb12b2117f3460e23ef7b09.1612821109.git.isaku.yamahata@intel.com>
-References: <cover.1612821108.git.isaku.yamahata@intel.com>
- <ec80955a1c7a9263bdb12b2117f3460e23ef7b09.1612821109.git.isaku.yamahata@intel.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l9SZN-0002y0-PQ
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:56:41 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54078)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l9SZL-0006Us-As
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 07:56:41 -0500
+Received: by mail-wm1-x333.google.com with SMTP id j11so3010106wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 04:56:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=r0W2Y/uDXSGO5ikdHmAoWYwEPDCLJnhFHf6L3oFbLTw=;
+ b=luATaAJQkRTYgCNiSfXPyfcbzs+QPCmHyytRYBh2VahZd7HFCh4qZLDbU+irjY6NN0
+ Z5/791vNf0IZvLNDnv1Cur2syrD4wvefbh0zVB1Fq6dnXSWfXSX/OV/ZbPSRzZzm4Ye1
+ G+qvmCu+1WfFgcTvxELNGTVaTktOvqYw1NJ07oXW524JTAFaB40OFXeLAUGd2ldo+6n0
+ oV/EmKFQCsi/B16Y4qoRwdwQJKCYxcKC0zfd6l90LnFU+jJwYLSMUgMEUR3HsSJDZP+6
+ WTRbe7dKmSNdPawie+WVlpcbMM42GS9h6pJmcaFsXa3kW3woY/x4uxGHI0hJpFvXrPx/
+ Yetg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=r0W2Y/uDXSGO5ikdHmAoWYwEPDCLJnhFHf6L3oFbLTw=;
+ b=U6gm2lL5nJ+j7oVwg/VIswMx2pu15KzyNS0ujL+ZeGVMHvOc4iH7zPZxosHIBui7Vc
+ 9iXaj0GeGG8n0SKlh6GFLIn4NfqkFNAawa6OKiciX9pXv3q/mSlUXb5w/n6ONunaM6iN
+ THlFZ2d6oRMJYLMGkjxnwWYOYbsMfiyfY3CrQeGnLxKX9LIZxFMJZ0pRb7iZOxA7MK9T
+ Vm0jy5VFFr1kJoVooWJi9tYSfFxQXa0GCD+kI39b/i1loFEVsxSQLlnAKYB11EWTaJe5
+ FX7q/0rNZe12DelOUJoF+pq6+0yehyMuYpTuG/ZLeJyXHxaC61ZYcxz4a9F0wT4cKym7
+ YUMQ==
+X-Gm-Message-State: AOAM5317B65kiZevPZmhXKbXbZsr8Z3yMBL09JbiB+Ssm2A6ZwINFEBl
+ eaMOt+UhVKuQBkqX86OYbrqeSw==
+X-Google-Smtp-Source: ABdhPJzhJP/0rNtbvq+V7Je2Q4aRx/bVwCTElKvj3VFHKspmBC1lf6COUA54alfbSudYE4TJybxm+Q==
+X-Received: by 2002:a1c:b6c5:: with SMTP id g188mr3335782wmf.27.1612875397643; 
+ Tue, 09 Feb 2021 04:56:37 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n11sm8187777wrt.34.2021.02.09.04.56.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 04:56:36 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 969A51FF7E;
+ Tue,  9 Feb 2021 12:56:35 +0000 (GMT)
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <20210203172357.1422425-8-crosa@redhat.com> <8735ycq80u.fsf@linaro.org>
+ <2c1a58b2-e023-4aca-16c7-c850f6069657@redhat.com>
+ <87k0rha2mu.fsf@linaro.org>
+ <2bacef90-7533-d439-cf7d-8fba51e64c1a@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 07/22] tests/acceptance/virtiofs_submounts.py: evaluate
+ string not length
+Date: Tue, 09 Feb 2021 12:52:21 +0000
+In-reply-to: <2bacef90-7533-d439-cf7d-8fba51e64c1a@redhat.com>
+Message-ID: <87h7ml9z7g.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,64 +91,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>, philmd@redhat.com,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Eric Auger <eauger@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  8 Feb 2021 13:57:21 -0800
-isaku.yamahata@gmail.com wrote:
 
-> From: Isaku Yamahata <isaku.yamahata@intel.com>
-> 
-> The following tests will modify acpi tables.
-> prepare qtests to allow acpi table change.
-> add new tables for new tests.
-> - tests/data/acpi/q35/DSDT.nosmm
-> - tests/data/acpi/q35/FACP.nosmm
-> - tests/data/acpi/q35/DSDT.nohpet
-> 
-> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+Max Reitz <mreitz@redhat.com> writes:
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+> On 09.02.21 12:24, Alex Benn=C3=A9e wrote:
+>>=20
+>> Max Reitz <mreitz@redhat.com> writes:
+>>=20
+>>> On 04.02.21 14:23, Alex Benn=C3=A9e wrote:
+>>>>
+>>>> Cleber Rosa <crosa@redhat.com> writes:
+>>>>
+>>>>> If the vmlinuz variable is set to anything that evaluates to True,
+>>>>> then the respective arguments should be set.  If the variable contains
+>>>>> an empty string, than it will evaluate to False, and the extra
+>>>>> arguments will not be set.
+>>>>>
+>>>>> This keeps the same logic, but improves readability a bit.
+>>>>>
+>>>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+>>>>> ---
+>>>>>    tests/acceptance/virtiofs_submounts.py | 2 +-
+>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptanc=
+e/virtiofs_submounts.py
+>>>>> index f1b49f03bb..f25a386a19 100644
+>>>>> --- a/tests/acceptance/virtiofs_submounts.py
+>>>>> +++ b/tests/acceptance/virtiofs_submounts.py
+>>>>> @@ -241,7 +241,7 @@ class VirtiofsSubmountsTest(BootLinux):
+>>>>>=20=20=20=20
+>>>>>            super(VirtiofsSubmountsTest, self).setUp(pubkey)
+>>>>>=20=20=20=20
+>>>>> -        if len(vmlinuz) > 0:
+>>>>> +        if vmlinuz:
+>>>>>                self.vm.add_args('-kernel', vmlinuz,
+>>>>>                                 '-append', 'console=3DttyS0 root=3D/d=
+ev/sda1')
+>>>>
+>>>> And this is were I gave up because I can't see how to run the test:
+>>>>
+>>>>     ./tests/venv/bin/avocado run ./tests/acceptance/virtiofs_submounts=
+.py
+>>>>     JOB ID     : b3d9bfcfcd603189a471bec7d770fca3b50a81ee
+>>>>     JOB LOG    : /home/alex/avocado/job-results/job-2021-02-04T13.21-b=
+3d9bfc/job.log
+>>>>      (1/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsT=
+est.test_pre_virtiofsd_set_up: CANCEL: vmlinuz parameter not set; you must =
+point it to a Linux kernel binary to test (to run this test with the on-ima=
+ge kernel, set it to an empty string) (0.00 s)
+>>>>      (2/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsT=
+est.test_pre_launch_set_up: CANCEL: vmlinuz parameter not set; you must poi=
+nt it to a Linux kernel binary to test (to run this test with the on-image =
+kernel, set it to an empty string) (0.00 s)
+>>>>      (3/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsT=
+est.test_post_launch_set_up: CANCEL: vmlinuz parameter not set; you must po=
+int it to a Linux kernel binary
+>>>>     to test (to run this test with the on-image kernel, set it to an e=
+mpty string) (0.00 s)
+>>>>      (4/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsT=
+est.test_post_mount_set_up: CANCEL: vmlinuz parameter not set; you must poi=
+nt it to a Linux kernel binary to test (to run this test with the on-image =
+kernel, set it to an empty string) (0.00 s)
+>>>>      (5/5) ./tests/acceptance/virtiofs_submounts.py:VirtiofsSubmountsT=
+est.test_two_runs: CANCEL: vmlinuz parameter not set; you must point it to =
+a Linux kernel binary to test (to run this test with the on-image kernel, s=
+et it to an empty string) (0.00 s)
+>>>>     RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRU=
+PT 0 | CANCEL 5
+>>>>     JOB TIME   : 0.56 s
+>>>>
+>>>> Given the test seems to make assumptions about an environment being
+>>>> setup for it I think we need some documentation somewhere about what
+>>>> those pre-requisites are.
+>>>
+>>> I find the cancel message pretty clear, but then again it was me who
+>>> wrote it...
+>>>
+>>> Either you point the vmlinuz parameter to some Linux kernel you built
+>>> yourself, or you set it to the empty string to just use the kernel
+>>> that=E2=80=99s part of the image.  Setting Avocado parameters is done v=
+ia -p,
+>>> i.e. =E2=80=9C-p key=3Dvalue=E2=80=9D.  So in this case
+>>> =E2=80=9C-p vmlinuz=3D/path/to/linux/build/arch/x86/boot/bzImage=E2=80=
+=9D, or
+>>> =E2=80=9C-p vmlinuz=3D''=E2=80=9D.
+>>>
+>>> Ideally, vmlinuz=3D'' would be the default, but there=E2=80=99s a probl=
+em with
+>>> that: I submitted this test along with the patches that added the
+>>> required feature to the Linux kernel, so at that point that feature was
+>>> not part of Linux.  That=E2=80=99s why you generally have to point it t=
+o a Linux
+>>> kernel binary you built yourself that has this feature (5.10 does).
+>>=20
+>> This is where it deviates from the rest of the check-acceptance tests.
+>> Generally I don't have to worry about finding the right image myself.
+>
+> Yes, but there=E2=80=99s nothing I can do apart from just not having the =
+test as=20
+> part of qemu, which I don=E2=80=99t find better than to just cancel it wh=
+en not=20
+> run with the necessary parameters.
 
-> ---
->  tests/data/acpi/q35/DSDT.nohpet             |  0
->  tests/data/acpi/q35/DSDT.nosmm              |  0
->  tests/data/acpi/q35/FACP.nosmm              |  0
->  tests/qtest/bios-tables-test-allowed-diff.h | 13 +++++++++++++
->  4 files changed, 13 insertions(+)
->  create mode 100644 tests/data/acpi/q35/DSDT.nohpet
->  create mode 100644 tests/data/acpi/q35/DSDT.nosmm
->  create mode 100644 tests/data/acpi/q35/FACP.nosmm
-> 
-> diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/data/acpi/q35/DSDT.nosmm b/tests/data/acpi/q35/DSDT.nosmm
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/data/acpi/q35/FACP.nosmm b/tests/data/acpi/q35/FACP.nosmm
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..b79ac495c2 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,14 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/q35/DSDT",
-> +"tests/data/acpi/q35/DSDT.tis",
-> +"tests/data/acpi/q35/DSDT.bridge",
-> +"tests/data/acpi/q35/DSDT.ipmibt",
-> +"tests/data/acpi/q35/DSDT.cphp",
-> +"tests/data/acpi/q35/DSDT.memhp",
-> +"tests/data/acpi/q35/DSDT.numamem",
-> +"tests/data/acpi/q35/DSDT.dimmpxm",
-> +"tests/data/acpi/q35/DSDT.acpihmat",
-> +"tests/data/acpi/q35/DSDT.mmio64",
-> +"tests/data/acpi/q35/DSDT.nosmm",
-> +"tests/data/acpi/q35/FACP.nosmm",
-> +"tests/data/acpi/q35/DSDT.nohpet",
+No I agree having the tests is useful.
 
+>
+> Or, well, I could let the test download and compile the Linux sources,=20
+> but I don=E2=80=99t think that=E2=80=99s a viable alternative.
+
+There has been discussion before but I agree it's not viable given the
+compile times for such things.
+
+>> At the least it would be worth pointing to a part of our docs on how
+>> to build such an image.
+>
+> Well, I could perhaps come up with a comprehensive kernel configuration=20
+> that works, but I really don=E2=80=99t think that=E2=80=99s valuable for =
+people who just=20
+> want to run the acceptance tests and don=E2=80=99t care about this test i=
+n=20
+> particular.  I just don=E2=80=99t think they=E2=80=99re actually going to=
+ build a Linux=20
+> kernel just for it.
+
+Sure - but I was trying to review the series and as part of my review I
+generally like to run the things I review. Hence why I stopped as I
+couldn't get things running.
+
+> (Alternatively, I could just build a Linux kernel here on my machine,=20
+> upload the binary and point to it somewhere, e.g. in the cancel message.=
+=20
+>   That would be OK for me, and perhaps something I could imagine someone=
+=20
+> might actually use.)
+
+I've actually done this with some Xen patches I'm working on at the
+moment. I'll probably decorate the test with:
+
+  @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
+
+with a comment explaining what's waiting to be upstreamed. Once there
+are upstream binaries I plan on transitioning the test to those.
+
+> I=E2=80=99d rather just wait until the test image contains a kernel that=
+=E2=80=99s=20
+> sufficiently new (should be the case once Fedora 34 is out), so we can=20
+> make -p vmlinuz=3D'' the default.  Until then I personally find it=20
+> completely reasonable to have this test just be cancelled.
+>
+> Max
+
+
+--=20
+Alex Benn=C3=A9e
 
