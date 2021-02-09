@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9ECF314611
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 03:09:51 +0100 (CET)
-Received: from localhost ([::1]:43564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A787314613
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 03:13:26 +0100 (CET)
+Received: from localhost ([::1]:46804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9ITO-0003cL-Kp
-	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 21:09:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49884)
+	id 1l9IWr-0005UO-4f
+	for lists+qemu-devel@lfdr.de; Mon, 08 Feb 2021 21:13:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1l9IPQ-00034S-HO
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 21:05:45 -0500
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:36890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1l9IPO-0002Ma-HD
- for qemu-devel@nongnu.org; Mon, 08 Feb 2021 21:05:44 -0500
-Received: by mail-qk1-x72f.google.com with SMTP id s77so16651737qke.4
- for <qemu-devel@nongnu.org>; Mon, 08 Feb 2021 18:05:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=tE4AaJ79bXZsnypkrW56VkvHHK9wYgmzCZNGXh1RZr0=;
- b=nZO36TbNtQ+/AGwuAcGyDuLnwR/M67N+jY73oc/YN4VBSfg/s9USRE+JqgI9nO9EJv
- xfp2gC2rZukzzvK7d/MnqtzwEW79bzrZkY74aVE4fumbhmhFTwlQ7oARwgfCnsbdC1PX
- tX27fw3OuJr/WXQH3fuySa92LfRtX2uMlQ5h8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=tE4AaJ79bXZsnypkrW56VkvHHK9wYgmzCZNGXh1RZr0=;
- b=Vui21zND9YIPhnLSNNV6PJa7LAcARXCVVi1CVOUPg2K6WuxMeIyou0dJSiLn8cqfne
- rIKvuda+0bKaOUaaRpcnb5eSbHPjUeLg93GH1DHGtM1tuGktxj1hrOJqr1duVf9EHgM+
- DlAsZV0J6f72ov/DaTNk4j9zCNNrPNjP/678+nQY3ANjEsXcKObQ0w7gWop8W2BzgjY6
- mgkLQD3AbqXMK3qpzAlH/R1Hx4f6wgqiK34pNcHgATU5Uc2SWcMRzFYLID2c+JyHDBDT
- BNVpXwWD7KXg8b4d8g6tRRqpjn3UGgjKjm+iZ0pab/oJ598zZAcIsFjbQSCpvE8Ss8gn
- M22w==
-X-Gm-Message-State: AOAM531F0+iJD+WbAqeFza6czMJcFpTzdDB2FeLZGN1bWQh6p63dXQ1Y
- oie3tjqdR8SzUNq4vcg/3abE2B0qENzuH31+nhM=
-X-Google-Smtp-Source: ABdhPJzfgte87VCIFYZGRmeHaYrIjGTJbEOyPusQ/pSqYf3+HgjeqCFpuoS03O2nMy0AaR5o4pRYMqIOD/TgrzaKyac=
-X-Received: by 2002:ae9:e314:: with SMTP id v20mr10192083qkf.66.1612836341318; 
- Mon, 08 Feb 2021 18:05:41 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <prvs=667b40a3b=alistair.francis@wdc.com>)
+ id 1l9IVF-0004q8-Rg; Mon, 08 Feb 2021 21:11:45 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13209)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=667b40a3b=alistair.francis@wdc.com>)
+ id 1l9IVC-0004q8-M3; Mon, 08 Feb 2021 21:11:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1612837580; x=1644373580;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=be+p1+1tPCPjFu5957n73qyTdlQbqYCeV9NRPv04YOg=;
+ b=WTtOXBQaLzdpsny4XZAEI0nAOq0+7jRHetRdEkn6nfR13SEmmcg3CxmI
+ YpvA23QPwNSruJ2S9hi5RDmpmBSOkKo4jf3+B9llhSmR5s+05rMMCnMJH
+ qt27OjuJQUqurJIsX5CbFatVLV6eOzbKMZp4IW3Mzz5RANzPKtLwys0BV
+ SZ31DiAs5Ipo8x+43/BsxvYuIj/SJNcNEytXA6ccO4fzbDx9/8jBee4Wy
+ JiI5WJEMWRcgtM86uQ2LFHCLI16bh74U3zExDfh30ggPSjf/cc+QZFCkX
+ 1VUM1ZMNjH3YrSu5smrlF5UUdIYT3imykWZBPIK/grA4CWcR073I7/0lp Q==;
+IronPort-SDR: C3MuEofHVaUNNSj5mDdwheYaQkhr/2yOdu+lUdDOHxo1GR7dVToIWUOMGQWrQju2sLTlguDnjc
+ XP5NIydRQa7XUQBO1gfvYzw4OSYADV91zfuB76OCEA5VZS02Lui6vKcOKkdY7YkVnN0xtJuVJ2
+ l63VQxsimpI5xPO4cXJSDb44GImTFnaIHZGgjf1LHgJdn2/s7ARcbUaIlNBs2nCE3hhJjTUbD3
+ pHIj+UH5PGgncfqHJoqCp5pEA6GnhabapjMqm86LNPrR/oTvWUtjfM1X5wTimxltLxClhdMA3O
+ fiU=
+X-IronPort-AV: E=Sophos;i="5.81,163,1610380800"; d="scan'208";a="263605823"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Feb 2021 10:26:16 +0800
+IronPort-SDR: hjB19rv9yJ3JNZ3y4Wl0MIuIHrwTmXjFcm9rRSVj1nkHR+wfAnM4mdqp3yWHDYQCLUD/4uFfwn
+ LM7FiLW74i2PKRn1b9cGEn3en6NJe5gGyVMuuNWeyKxqrGfA2Ppr6b8EQUX4w/n3GqQBBZBLjT
+ YqI4envtJKjo1o2FMtLuAecAVcfAerYV4kv59qx0a0l+mztoeG5mlKx/5hj3jM+3GaplpoNQMC
+ KO7V0ovbFpbfoZ0ka1ieg2++vVlH3Rpz/LIF6B+B6BqZfRjliloQ/IRU/MGWZM8M+47U3nLAOt
+ Xgo7RKrT4MASNqHD+nJ4Ub5q
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2021 17:55:27 -0800
+IronPort-SDR: qM79qve4QzL6KrqsbEyzImNBo5OJJkyy+jlkOaaN9FxjA+URuEACSPM8FND0yH0MmpbWbbb0cj
+ 97lAevIPHOpgM8kR2/CUeKtAFDXxAuOVp09PP/fafgMDRW0FUpsDbzPE+M4b3142Hc4rPYq45i
+ AupSy5K4n14QYN4qOWDYAzL6U/wzFo3d/8LWDbRTlGdFErX6079bKLHJSCBdAh+5cHBvPRn0Mi
+ h/w8XHDwwVBjFr0hiGHl4ijlF4C6MXcjxdTowqdJ97+JJAY1YjG6h5QF9Emwql6gYi+qkzHft/
+ yGk=
+WDCIronportException: Internal
+Received: from ilb000836.ad.shared (HELO alistair-risc6-laptop.hgst.com)
+ ([10.86.63.217])
+ by uls-op-cesaip01.wdc.com with ESMTP; 08 Feb 2021 18:11:39 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 1/1] MAINTAINERS: Add a SiFIve machine section
+Date: Mon,  8 Feb 2021 18:11:27 -0800
+Message-Id: <6bc077e5ae4a9512c8adf81ae194718f2f17c402.1612836645.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 9 Feb 2021 02:05:30 +0000
-Message-ID: <CACPK8Xc4y+i9MmrB9rmrXjprAmvM+fgr9s83=bZE7X0hkwFGOA@mail.gmail.com>
-Subject: Booting nuvoton qemu machine with -kernel
-To: wuhaotsh@google.com, dje@google.com, 
- Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=joel.stan@gmail.com; helo=mail-qk1-x72f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=667b40a3b=alistair.francis@wdc.com;
+ helo=esa2.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,35 +88,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello nuvoton qemu people,
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Bin Meng <bin.meng@windriver.com>
+---
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-I was attempting to use the npcm750-evb machine to boot test some
-Linux kernel changes, by running the kernel directly without a
-filesystem (and therefore not running the bootrom or u-boot). I do
-this with the Aspeed machines quite often, and it's really useful.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8d8b0bf966..c347d49bd2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1359,6 +1359,15 @@ F: include/hw/misc/mchp_pfsoc_dmc.h
+ F: include/hw/misc/mchp_pfsoc_ioscb.h
+ F: include/hw/misc/mchp_pfsoc_sysreg.h
+ 
++SiFive Machines
++M: Alistair Francis <Alistair.Francis@wdc.com>
++M: Bin Meng <bin.meng@windriver.com>
++M: Palmer Dabbelt <palmer@dabbelt.com>
++L: qemu-riscv@nongnu.org
++S: Supported
++F: hw/*/*sifive*.c
++F: include/hw/*/*sifive*.h
++
+ RX Machines
+ -----------
+ rx-gdbsim
+-- 
+2.30.0
 
-The machine appeared to hang; attaching gdb showed it jumping around
-various addresses but nothing that matched up with the symbols in my
-vmlinux.
-
-To reproduce grab these two files:
-
-wget https://builds.tuxbuild.com/1oDtoGMge0cGKE1uoNPpnSSnqwi/zImage
-wget https://builds.tuxbuild.com/1oDuLU3E0keoRISk6R06PYBeW2G/dtbs/nuvoton-npcm750-evb.dtb
-
-My command line looked like this:
-
- qemu-system-arm -M npcm750-evb  -nographic -kernel zImage -dtb
-nuvoton-npcm750-evb.dtb
-
-Is this something you've tested? Is there something I'm missing?
-
-Cheers,
-
-Joel
 
