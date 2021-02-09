@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2439E314C73
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 11:05:57 +0100 (CET)
-Received: from localhost ([::1]:43248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B993314C77
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 11:07:39 +0100 (CET)
+Received: from localhost ([::1]:46312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9Pu7-00019U-Cm
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 05:05:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49542)
+	id 1l9Pvm-0002T6-H9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 05:07:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9PnE-0006KY-Sv
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 04:58:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56885)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9Pn8-0007IX-7S
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 04:58:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612864720;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fb8YhzeDku8C5a2jgWTco5kD1DC6mCRmhnir/O/3FgQ=;
- b=BLLRWA6QsEPEgJsnrbwSBP4daVxE5DORc6Ji2p0Pd+U2RP+UtIyyFc9yJ502Hy1DFhQwYz
- dqURYN6HwchI+WpoH9ll9IUpXAmZMDlqcDqs/vPmgg5/qQT2cJYz8j8uBviUnyt0BnOIsw
- u/MvoLDXU78HWw+hWFaZzEiMrypp9IE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-b_F0nlWJOj6TRX9xJSctVg-1; Tue, 09 Feb 2021 04:58:38 -0500
-X-MC-Unique: b_F0nlWJOj6TRX9xJSctVg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 797C5102CC41;
- Tue,  9 Feb 2021 09:58:37 +0000 (UTC)
-Received: from redhat.com (ovpn-115-66.ams2.redhat.com [10.36.115.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E39A52CE01;
- Tue,  9 Feb 2021 09:58:32 +0000 (UTC)
-Date: Tue, 9 Feb 2021 09:58:29 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/3] gitlab: always build container images
-Message-ID: <20210209095829.GC1166421@redhat.com>
-References: <20210208163339.1159514-1-berrange@redhat.com>
- <20210208163339.1159514-2-berrange@redhat.com>
- <a0dd7611-6b35-0a4f-4522-58c8c4add6d5@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9PtF-0001Mp-MR
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 05:05:01 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9Pt0-0001GA-EN
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 05:05:01 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id i8so30268550ejc.7
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 02:04:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/8Amys/1Fq7+1GJjiEQjzi+HCU0iKIhG4JaXd/UVJ7Y=;
+ b=J9VyxBMR5oEWwR1Cfc+qbCgfsxmOOUSgPUeVdStt2QOfHD9I6pxDPh4c7D1N1ng5EZ
+ vOFqAgdFODuX8/cU9EtOEdj1ORYTf30sBxKe9c1TW2CQhJ9iZc3BXNwXdy4Py1Oot3hK
+ EQUga6m3S2GKMCGKWJo/xs+w+k3dixMJEzHQZvwvw01BRm5c+mVIpJkCXcRHdxw2ppgm
+ B3Zibqg765DxP5tnzJL1Ths8NOslo+UjPPSRkmJqHTKoWe0NbaRw9sv5soC0NKVARHyL
+ O1IQ2DzyfK1VWDiBgNJ35jcRRi05Srxrlid3+UmADvI4zzZFGtWi/X7afJhDiXw0c/m3
+ 5q0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/8Amys/1Fq7+1GJjiEQjzi+HCU0iKIhG4JaXd/UVJ7Y=;
+ b=pTaD/lD5glj5KjqPZHRa25loCJA3KuVw90po0ifXM7NfWkrlRjD2P86pV6OUmbBbpX
+ 82UJuBFxgjNGk5eZKsxb2E5+gv6wbrkxVZqlYJrTuIUHLx5kFTEodw0wI0UfxfIRyJCO
+ /X/JealLGvF279z6ILzgNkFPhzF67EhhmELdF8foLsBcwJi2/H9hcwlDjJZJ2YTrdVXr
+ CxDdQIwXIGkezcYz6Rf5GaPgdg2n8fEQkzs0VUg9+xMMQqjd+ekhFSPcCqsiIuGBvLum
+ 5BWVG0LoJQDZ0BTabqf+eIq/fxWjsyoB4a3GmBTYUP9Rk5tbdjUSckMBcqVE8XnTwvTy
+ 5wjQ==
+X-Gm-Message-State: AOAM530c9wAkAH4xpxJiI59xJA1OGnm9Av3KL1Bj/HmDN6OeV0OIfnjD
+ C52A/Ix3yrZUbhdyoYgV3M4h7PrlIkJGJuabu1IwCg==
+X-Google-Smtp-Source: ABdhPJy4L67HQ9LMQwIc9Q31MD+owCJXpmTH+AF3lf0avFwLKsOT2tBtnv7STm+kCzjhiOG/Xtg+ef1Uyw+3JDeWFm8=
+X-Received: by 2002:a17:906:184e:: with SMTP id
+ w14mr12978841eje.56.1612865083264; 
+ Tue, 09 Feb 2021 02:04:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a0dd7611-6b35-0a4f-4522-58c8c4add6d5@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210208133711.2596075-1-philmd@redhat.com>
+ <CAFEAcA-mrzsrOiNw3Fjes=AAg=X3xXh40DZ5fMO=+dA6YUonaQ@mail.gmail.com>
+ <45a65770-787f-1e47-12a0-0c828b2ed140@redhat.com>
+In-Reply-To: <45a65770-787f-1e47-12a0-0c828b2ed140@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Feb 2021 10:04:32 +0000
+Message-ID: <CAFEAcA95zb3Rg9M8LFFKd7TqRO5=NQF8cEtROKeWpn2t=k0NMQ@mail.gmail.com>
+Subject: Re: [PULL 00/18] Integration testing patches for 2021-02-08
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,82 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 09, 2021 at 07:37:51AM +0100, Thomas Huth wrote:
-> On 08/02/2021 17.33, Daniel P. Berrangé wrote:
-> [...]
-> > For example, consider pushing 5 commits, one of which contains a
-> > dockerfile change. This will trigger a CI pipeline for the
-> > containers. Now consider you do some more work on the branch and push 3
-> > further commits, so you now have a branch of 8 commits. For the second
-> > push GitLab will only look at the 3 most recent commits, the other 5
-> > were already present. Thus GitLab will not realize that the branch has
-> > dockerfile changes that need to trigger the container build.
-> > 
-> > This can cause real world problems:
-> > 
-> >   - Push 5 commits to branch "foo", including a dockerfile change
-> > 
-> >      => rebuilds the container images with content from "foo"
-> >      => build jobs runs against containers from "foo"
-> > 
-> >   - Refresh your master branch with latest upstream master
-> > 
-> >      => rebuilds the container images with content from "master"
-> >      => build jobs runs against containers from "master"
-> > 
-> >   - Push 3 more commits to branch "foo", with no dockerfile change
-> > 
-> >      => no container rebuild triggers
-> >      => build jobs runs against containers from "master"
-> > 
-> > The "changes" conditional in gitlab is OK, *provided* your build
-> > jobs are not relying on any external state from previous builds.
-> > 
-> > This is NOT the case in QEMU, because we are building container
-> > images and these are cached. This is a scenario in which the
-> > "changes" conditional is not usuable.
-> > 
-> > The only other way to avoid this problem would be to use the git
-> > branch name as the container image tag, instead of always using
-> > "latest".
-> I'm basically fine with your patch, but let me ask one more thing: Won't we
-> still have the problem if the user pushes to different branches
-> simultaneously? E.g. the user pushes to "foo" with changes to dockerfiles,
-> containers start to get rebuild, then pushes to master without waiting for
-> the previous CI to finish, then the containers get rebuild from the "master"
-> job without the local changes to the dockerfiles. Then in the "foo" CI
-> pipelines the following jobs might run with the containers that have been
-> built by the "master" job...
+On Mon, 8 Feb 2021 at 20:21, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+> wrote:
+>
+> On 2/8/21 9:06 PM, Peter Maydell wrote:
+> > On Mon, 8 Feb 2021 at 19:58, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com> wrote:
+> >>
+> >> The following changes since commit 5b19cb63d9dfda41b412373b8c9fe14641b=
+cab60:
+> >>
+> >>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210=
+205' into staging (2021-02-05 22:59:12 +0000)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>   https://gitlab.com/philmd/qemu.git tags/integration-testing-20210208
+> >>
+> >> for you to fetch changes up to fce8a00839564bf620b6c2957ed924197e54a12=
+7:
+> >>
+> >>   Acceptance Tests: remove unnecessary tag from documentation example =
+(2021-02-08 14:31:03 +0100)
+> >>
+> >> ----------------------------------------------------------------
+> >> Integration testing patches
+> >>
+> >> Tests added:
+> >> - Armbian 20.08 on Orange Pi PC (Philippe)
+> >> - MPC8544ds machine (Thomas)
+> >> - Virtex-ml507 ppc machine (Thomas)
+> >> - Re-enable the microblaze test (Thomas)
+> >>
+> >> Various fixes and documentation improvements from Cleber.
+> >> ----------------------------------------------------------------
+> >
+> > gpg thinks the key you signed this with has expired. I tried
+> > refreshing from the keyserver to see if the expiry date had
+> > been updated, but it doesn't seem so ?
+>
+> Oops sorry. I signed the same tag with my other key (because
+> re-signing this one is not straight forward).
+>
+> Do you mind retrying?
 
-Yes,  this is the issue I describe in the cover letter.
 
-> So if we really want to get it bulletproof, do we have to use the git branch
-> name as the container image tag?
+Applied, thanks.
 
-That is possible, but I'm somewhat loathe to do that, as it means the
-container registry in developers forks will accumulate a growing list
-of image tags. I know gitlab will force expire once it gets beyond a
-certain number of tags, but it still felt pretty wasteful of space
-to create so many tags.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-Having said that, maybe this is not actually wasteful if we always
-use the "master" as a cache for docker, then the "new" images we
-build on each branch will just re-use existing docker layers and
-thus not add to disk usage. We'd only see extra usage if the branch
-contained changes to dockerfiles.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
