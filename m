@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A888B314A6D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:37:43 +0100 (CET)
-Received: from localhost ([::1]:49856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F9C314A6C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Feb 2021 09:37:20 +0100 (CET)
+Received: from localhost ([::1]:48892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9OWk-0007kp-L0
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:37:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47652)
+	id 1l9OWN-0007Le-17
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 03:37:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NW2-0005YI-Vr; Tue, 09 Feb 2021 02:32:55 -0500
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:38045)
+ id 1l9NW0-0005Vm-8P; Tue, 09 Feb 2021 02:32:52 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:58343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9NVt-0005p7-SJ; Tue, 09 Feb 2021 02:32:54 -0500
+ id 1l9NVu-0005q6-Sf; Tue, 09 Feb 2021 02:32:52 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id DA7A0C5E;
- Tue,  9 Feb 2021 02:32:12 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 5E108C70;
+ Tue,  9 Feb 2021 02:32:14 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:13 -0500
+ by compute4.internal (MEProxy); Tue, 09 Feb 2021 02:32:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=bhsi3zYelLifs
- JpMQZeO7ts7xRKlkR7EGK4bKUDiTH0=; b=QnJJK4w4UgObl6aFu13hcrkdmkIL+
- 4XwHvcc7hEi9DJ6hpPkEUVfoNJWU/GTG70u1gcK1H4+G7Qg4lMM9VDz4mjXb5wxx
- DeKb1n8IGkZ1vld//nhimp6i3nGjOVha9rc0bgauYb+/aT+LOwv3bNJn5ThQpKzl
- /1JyUG+UyCFOMObbr3SKboLP/iugHe5N3yKpEqyWAitOHJhPOLvoGrp+zc7wb8mZ
- 4ZLPnyGF5wYWH+fnL7HeW7Bkrs3sWITmaMTvofOIwlh7Z5SJh+diL4u60SV/PPd4
- 3T4Z635/FG/PfYuwDnQ0n5LF276rxKYOThxry0BL2iODuEGjVQTku55pA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=1VkdxomJdJSKG
+ CyFYeWPb35Qo5v9C6WZSGh8yxACdSg=; b=MvlDZz1dd85cjAJRS5lKfEv8NyBnY
+ 1AikZfKAZpmlUNGdbGluc3zcGaXEL9B9ulMPEiiZ9uhcuQYTahs2b2yfIF/aa9oT
+ BOKR7Hj4vCCYqTuoSp/ILG0Cd7shnTgjsUfoIWvg0QxHQvGX/wEvT8/CTjki1Jld
+ GXh68G6gNCA4JGGvS3Hs0m5MI5odLklzJXlN5A906ertST2x5jJgY3vKw4WIouCb
+ sNgB7U4l/wwH3xQeram8zIc9eMTF2QsZJ4mAw7THvAhEccAA1XrRWUwL9vgJBTtT
+ t4xhPH+s5bVE1OOgE/sIL4Y5PXNHqIjnOUGW+JPNBu9bxVIj+8xvSx0Xg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=bhsi3zYelLifsJpMQZeO7ts7xRKlkR7EGK4bKUDiTH0=; b=fCIDoxW/
- lvoka/YdYo6j/zQXU8gb2InjFOcAXsQSe6AYwGmjg71OS6yRgJaKr7QN7+JBk22Y
- sFYt3kHYd+ukmRQobOj8bYjKYpsYwHONQXcEwQWEVrm0Uc1Q2xg23vkJfE+r3Nky
- ObvWbaxtIN50x618gwwwX8rZJ3UuQOdYdaSpYo3rAMpgbA7NCKg5AIz77nnA98pj
- tp7eBPx6n3VylF+wH5bJ3feGAqAmFzdadCscAZI4mDvnwpddv/qTzl1mek5nGm4O
- DBIdIPf0ym3PsfqQUs7dP2ilkOeHWvQKOmxDnwuOgsbUJWMML2lBTmzWFgkqj8j4
- EfJDKLW6/PE6Jw==
-X-ME-Sender: <xms:fDoiYDOGrFi2XQhzX0iWTaAsQKb8YNhzpp4lAGaDF3sXXH7zF_nR3w>
- <xme:fDoiYN8RAfswUv6IhDTpJuuVsHq6i4CKblA-9Ab05jV4o_2qCxiEPX5BgvVDTQjI8
- zKSwBBaHrYGTNuU5uU>
+ fm2; bh=1VkdxomJdJSKGCyFYeWPb35Qo5v9C6WZSGh8yxACdSg=; b=CKuvfe+x
+ oBgSvsFc/UASzKJeCVoco/+cLcP1ku20yP9xlRP0ncLoA72Lnq3Zt0TCaN6rsdbB
+ J3zaJh3dI9NIYmDLfG5codbasK+1NLOuZDS9cap/zGq2PkwOLRJNl2WX9sX9CUil
+ 1BfZGzKhBB1HFkdohuTGfGqJUIkD2ltXbqEh+KcPFIQuUDww7GTiEgFQ3aK8nxxG
+ dwA0U8jrVWOQ/UCI++jqRb8JwFNkfXQMQkFSvbZJ7dZ5duHVbokIydMIuatI5ii4
+ DyJoDmXmsoNO+24T8bUwdEUL5Ymm6nCYFqVwFVWyTq0xDus/V+pOvUPKeu6aq6Gu
+ yWtN9ZxSq+2/4Q==
+X-ME-Sender: <xms:fToiYIsFBn8OowBlo22_sPialKB_-Xit_AIlXdRqMopRuTHwWpruSg>
+ <xme:fToiYFdapWza8SrwFSK5RNKpswzunHe9vGRJLSONWZpm1Z920Mzx2sELzTkP-o7dm
+ e-AGn3DZVRPssNe140>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggdduuddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,20 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeggdduuddtucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeeine
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:fDoiYCROd6hRMjvqwXt4pFjDu5mWLgA6MC5Yu8zQvH1m7yznFLTBcA>
- <xmx:fDoiYHsJFHFEOImTNbk7AeMJzQl2nRiR3y6d8eLZXIWv3zbFDurbUA>
- <xmx:fDoiYLdPtMmUuVmc1pOXO3c1xDqGsuFY8xflIKuGD3IhuQqLq5suPA>
- <xmx:fDoiYKwH5tRkiB_gAQ7Wc_xgVMfQNcnSFSBL7oQyU99ZUdDUgz5mQVd90oM>
+X-ME-Proxy: <xmx:fToiYDz5JYMlWaBJptz-Td-xdbP6UrSAqyumIB0zM6pC5ZvEXW_fcw>
+ <xmx:fToiYLNySgVEvEqdWkb4nCO7IFtQjOvRlBhnhO39vLwaLV7iO9g9IQ>
+ <xmx:fToiYI9sB1cya0GFfp5W2kztyvoYoK3SDdCEoC8fkLW8FJljDQ26qg>
+ <xmx:fjoiYMSodT_rMnXzaUp6OQkVOAh0RLJ5iJE3mzjZ8h7pXfuhPPoT0cJdc94>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 114C3108005B;
- Tue,  9 Feb 2021 02:32:10 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 988DF1080057;
+ Tue,  9 Feb 2021 02:32:12 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 32/56] hw/block/nvme: split setup and register for namespace
-Date: Tue,  9 Feb 2021 08:30:37 +0100
-Message-Id: <20210209073101.548811-33-its@irrelevant.dk>
+Subject: [PULL 33/56] hw/block/nvme: remove unused argument in nvme_ns_setup
+Date: Tue,  9 Feb 2021 08:30:38 +0100
+Message-Id: <20210209073101.548811-34-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210209073101.548811-1-its@irrelevant.dk>
 References: <20210209073101.548811-1-its@irrelevant.dk>
@@ -103,55 +103,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 
-In NVMe, namespace is being attached to process I/O.  We register NVMe
-namespace to a controller via nvme_register_namespace() during
-nvme_ns_setup().  This is main reason of receiving NvmeCtrl object
-instance to this function to map the namespace to a controller.
-
-To make namespace instance more independent, it should be split into two
-parts: setup and register.  This patch split them into two differnt
-parts, and finally nvme_ns_setup() does not have nothing to do with
-NvmeCtrl instance at all.
-
-This patch is a former patch to introduce NVMe subsystem scheme to the
-existing design especially for multi-path.  In that case, it should be
-split into two to make namespace independent from a controller.
+nvme_ns_setup() finally does not have nothing to do with NvmeCtrl
+instance.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme-ns.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ hw/block/nvme-ns.h | 2 +-
+ hw/block/nvme-ns.c | 4 ++--
+ hw/block/nvme.c    | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+index a0baa5f6d44c..293ac990e3f6 100644
+--- a/hw/block/nvme-ns.h
++++ b/hw/block/nvme-ns.h
+@@ -174,7 +174,7 @@ static inline void nvme_aor_dec_active(NvmeNamespace *ns)
+     assert(ns->nr_active_zones >= 0);
+ }
+ 
+-int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp);
++int nvme_ns_setup(NvmeNamespace *ns, Error **errp);
+ void nvme_ns_drain(NvmeNamespace *ns);
+ void nvme_ns_shutdown(NvmeNamespace *ns);
+ void nvme_ns_cleanup(NvmeNamespace *ns);
 diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 17e876e6bc44..ce79ad4a5319 100644
+index ce79ad4a5319..3f52acb89c95 100644
 --- a/hw/block/nvme-ns.c
 +++ b/hw/block/nvme-ns.c
-@@ -321,10 +321,6 @@ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-         nvme_ns_init_zoned(ns, 0);
-     }
- 
--    if (nvme_register_namespace(n, ns, errp)) {
--        return -1;
--    }
--
+@@ -301,7 +301,7 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
      return 0;
  }
  
-@@ -362,6 +358,13 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+-int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
++int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
+ {
+     if (nvme_ns_check_constraints(ns, errp)) {
+         return -1;
+@@ -353,7 +353,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+     NvmeCtrl *n = NVME(s->parent);
+     Error *local_err = NULL;
+ 
+-    if (nvme_ns_setup(n, ns, &local_err)) {
++    if (nvme_ns_setup(ns, &local_err)) {
+         error_propagate_prepend(errp, local_err,
                                  "could not setup namespace: ");
          return;
-     }
-+
-+    if (nvme_register_namespace(n, ns, errp)) {
-+        error_propagate_prepend(errp, local_err,
-+                                "could not register namespace: ");
-+        return;
-+    }
-+
- }
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 0b002cb2beab..30bd70fd5b07 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -4377,7 +4377,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         ns = &n->namespace;
+         ns->params.nsid = 1;
  
- static Property nvme_ns_props[] = {
+-        if (nvme_ns_setup(n, ns, errp)) {
++        if (nvme_ns_setup(ns, errp)) {
+             return;
+         }
+     }
 -- 
 2.30.0
 
