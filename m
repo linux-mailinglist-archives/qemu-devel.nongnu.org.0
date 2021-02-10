@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD57316886
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 14:59:23 +0100 (CET)
-Received: from localhost ([::1]:40012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3543168A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 15:04:27 +0100 (CET)
+Received: from localhost ([::1]:45998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9q1Z-0001C7-3w
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 08:59:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34254)
+	id 1l9q6U-0003yM-BJ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 09:04:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l9q0Z-0000kL-UA
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:58:19 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:33064 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l9q0Y-0005lB-2j
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:58:19 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id F20424127C;
- Wed, 10 Feb 2021 13:58:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-transfer-encoding:content-disposition
- :content-type:content-type:mime-version:references:message-id
- :subject:subject:from:from:date:date:received:received:received;
- s=mta-01; t=1612965494; x=1614779895; bh=81YJnfdCHX72E6R2MznQD+
- sKaFru3owMbDmjkKbMIGY=; b=OcCgIvFmXnGXGEqL9CitHwO8duwmnygUsMt09r
- E2ik5jQpEOr5jJ3AwBhk2VBYuIYw20EJkfpYa5ffVFzc4npgZUozeP3x0OfTvp5B
- GuWmZtnrvVBTW/QZn6sLm4J2S8BywNUITle4vzQLrubbh6iHZTuVTcqOcX07fbb6
- C+lIA=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QFe5E22QyN5s; Wed, 10 Feb 2021 16:58:14 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l9q1q-0001re-GK
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:59:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l9q1n-0006K7-9X
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:59:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612965571;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dBTAuA5s3qIh9Ebfpq7J4yTahr4QnKY2rwusJKpKkts=;
+ b=XX/VErviGoHFyFkjgvRC03ajQBDM0H9WAKpcEiquczccg+biDOZtH57wiMfferGQZRutwZ
+ J/vymBvYUTklwSMFBh4CS6abwVXv0aMBhppcU2DPR8MDuwYV94SOVUshkmveqLvtPgGygP
+ QFmx86tEIHszoZjyOnZ4HvAlBskKXLo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-K5FwM9vmMGu4CSojRR5XQQ-1; Wed, 10 Feb 2021 08:59:29 -0500
+X-MC-Unique: K5FwM9vmMGu4CSojRR5XQQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id C2A1C404AD;
- Wed, 10 Feb 2021 16:58:13 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 10
- Feb 2021 16:58:13 +0300
-Date: Wed, 10 Feb 2021 16:58:12 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v16 01/23] cpu: Introduce TCGCpuOperations struct
-Message-ID: <20210210135812.gz5fwn6jadbictit@SPB-NB-133.local>
-References: <20210204163931.7358-1-cfontana@suse.de>
- <20210204163931.7358-2-cfontana@suse.de>
- <20210210122151.bgxtonwy4lvtajj3@SPB-NB-133.local>
- <20210210123255.GA1420762@habkost.net>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA2CD801965;
+ Wed, 10 Feb 2021 13:59:28 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-33.ams2.redhat.com [10.36.115.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AAB360622;
+ Wed, 10 Feb 2021 13:59:27 +0000 (UTC)
+Date: Wed, 10 Feb 2021 14:59:25 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH] iotests/210: Fix reference output
+Message-ID: <20210210135925.GC5144@merkur.fritz.box>
+References: <20210209181923.497688-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+In-Reply-To: <20210209181923.497688-1-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210210123255.GA1420762@habkost.net>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,86 +75,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 10, 2021 at 07:32:55AM -0500, Eduardo Habkost wrote:
-> On Wed, Feb 10, 2021 at 03:21:51PM +0300, Roman Bolshakov wrote:
-> > On Thu, Feb 04, 2021 at 05:39:09PM +0100, Claudio Fontana wrote:
-> > > From: Eduardo Habkost <ehabkost@redhat.com>
-> > > 
-> > > The TCG-specific CPU methods will be moved to a separate struct,
-> > > to make it easier to move accel-specific code outside generic CPU
-> > > code in the future.  Start by moving tcg_initialize().
-> > > 
-> > > The new CPUClass.tcg_opts field may eventually become a pointer,
-> > > but keep it an embedded struct for now, to make code conversion
-> > > easier.
-> > > 
-> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > > 
-> > > [claudio: move TCGCpuOperations inside include/hw/core/cpu.h]
-> > > 
-> > > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> > > ---
-> [...]
-> > > diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-> > > index b3fd6643e8..d66f0351a9 100644
-> > > --- a/target/alpha/cpu.c
-> > > +++ b/target/alpha/cpu.c
-> > > @@ -231,7 +231,7 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
-> > >      dc->vmsd = &vmstate_alpha_cpu;
-> > >  #endif
-> > >      cc->disas_set_info = alpha_cpu_disas_set_info;
-> > > -    cc->tcg_initialize = alpha_translate_init;
-> > > +    cc->tcg_ops.initialize = alpha_translate_init;
-> > 
-> > Hi,
-> > 
-> > Would it be cleaner if the file had:
-> > 
-> > static
-> > TcgCpuOperations alpha_tcg_ops = {
-> >     .initialize = alpha_translate_init,
-> > };
-> > 
-> > CPUClass definition would be:
-> > struct CPUClass {
-> >   ...
-> >   TCGCpuOperations *tcg_ops;
-> >   ...
-> > }
-> > 
-> > And class init would be:
-> > 
-> > cc->tcg_ops = &alpha_tcg_ops;
+Am 09.02.2021 um 19:19 hat Max Reitz geschrieben:
+> Commit 69b55e03f has changed an error message, adjust the reference
+> output to account for it.
 > 
-> That's exactly what's done by:
-> 
->   Subject: [PATCH v16 15/23] cpu: tcg_ops: move to tcg-cpu-ops.h, keep a pointer in CPUClass
->   https://lore.kernel.org/qemu-devel/20210204163931.7358-16-cfontana@suse.de/
-> 
+> Fixes: 69b55e03f7e65a36eb954d0b7d4698b258df2708
+>        ("block: refactor bdrv_check_request: add errp")
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 
-Great, thanks!
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
--Roman
+> diff --git a/tests/qemu-iotests/210.out b/tests/qemu-iotests/210.out
+> index dc1a3c9786..2e9fc596eb 100644
+> --- a/tests/qemu-iotests/210.out
+> +++ b/tests/qemu-iotests/210.out
+> @@ -182,7 +182,7 @@ Job failed: The requested file size is too large
+>  === Resize image with invalid sizes ===
+>  
+>  {"execute": "block_resize", "arguments": {"node-name": "node1", "size": 9223372036854775296}}
+> -{"error": {"class": "GenericError", "desc": "Required too big image size, it must be not greater than 9223372035781033984"}}
+> +{"error": {"class": "GenericError", "desc": "offset(9223372036854775296) exceeds maximum(9223372035781033984)"}}
 
-> > 
-> > And you would grow arch_tcg_ops as you convert them?
-> > I'm sorry if I missed similar comment and it was already discussed.
-> > 
-> > Regards,
-> > Roman
-> > 
-> 
-> -- 
-> Eduardo
-> 
+This doesn't exactly feel like an improved error message...
+
+Kevin
+
 
