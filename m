@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA49316FA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 20:07:39 +0100 (CET)
-Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAF1316F7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 20:04:01 +0100 (CET)
+Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9upu-0006Hj-DR
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 14:07:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47168)
+	id 1l9umN-0004bD-AN
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 14:03:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9uoC-0005RY-Oc
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:05:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49932)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l9ukg-00046r-M6
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:02:17 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:45084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9uo7-0004rG-I6
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:05:52 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l9uo6-0005y3-5Q
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 19:05:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 269782E8074
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 19:05:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l9uke-0003Nd-GD
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:02:14 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id b8so1713316plh.12
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 11:02:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WTyd5Siaj2+GtN+nhGIsMjM1WMLt66awV2Ljp3YtNWc=;
+ b=caP8mHraYa0EGreHq/mYdLbalcyaU1XOoZgF94pLxOqqdfsN/vl0wCp7WMkg/7O7Dx
+ 20/BSBjqmbjwKPCG2XntntPW2y9U5EpQCa17PU2v6hRc1uTTiKVqSxWHBZ5+BrjOrfLf
+ SkHf2IaSxZT/YNRd98y50eu+J6qXa9k/+ibf42vLNHLUDU/EhApLLr3Wz9QX9X6xrYAp
+ fQs++RmWReAFOmc6fKfSaZw/hHJvGF/IDLXvCF70IXiGNfOTz3dRM7Ycx/qug8RYEOzy
+ XFVCuWbw3AxHUCFoTyWN0Hhd3TLrpny505etVoA9xC1P/HrS2xBOOAVDeRJCOY79I612
+ ADpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WTyd5Siaj2+GtN+nhGIsMjM1WMLt66awV2Ljp3YtNWc=;
+ b=b/dPpBfw5hNnkolLjbV6wLffenjRnMlg39cZl/EngmxlprjYh2OEL11Dr/EdiPX3Wa
+ gKXGeXo1Uc5g1HS3fsXTy0U6q5VVYpC8+5oJ6ONsMVe4s4z8ZdyH7YHEuphVs5NkI0/f
+ nM3AzEKvoCUJUVD2Ge0U0jrSkGfTH+DRT6rMFZbxmjUrHZmfZxyS/KP2yQ/FlAty9Ix1
+ szu0toZMtOEzkkJJrM5MJub6eXfgqV1vL/LxriyeJDtv637coMNu6481W7t8Eebvb6bF
+ FCfuBSwaN5AOCcqmhnEmc31NGOhcVGhu+leDV+zwgX4qFtCWASnSrQiB312J15Jj35q7
+ TkOA==
+X-Gm-Message-State: AOAM531ovBhcyjGtlpvH52yxaXSUd0OVv6xnoKT/EQLt8JjH9fYSrB22
+ 12VNrX0TXkJZpSuoUHuEVFwsJg==
+X-Google-Smtp-Source: ABdhPJydQShIgVOyFYrBp7/lrZmwr3i0a+feEGQ/cPZatyFXb58EHHa49tjWBVz7+SOH73yJhoAGrQ==
+X-Received: by 2002:a17:902:6b45:b029:e0:7a3:a8c with SMTP id
+ g5-20020a1709026b45b02900e007a30a8cmr4411858plt.1.1612983730363; 
+ Wed, 10 Feb 2021 11:02:10 -0800 (PST)
+Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
+ by smtp.gmail.com with ESMTPSA id
+ b17sm3010726pfb.75.2021.02.10.11.02.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Feb 2021 11:02:09 -0800 (PST)
+Subject: Re: [PATCH 0/1] tricore: fixed faulty conditions for extr and imask
+To: David Brenken <david.brenken@efs-auto.org>, qemu-devel@nongnu.org
+References: <20210210082650.5516-1-david.brenken@efs-auto.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c2854d29-8926-ae13-fbf7-77197728ae96@linaro.org>
+Date: Wed, 10 Feb 2021 11:02:07 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 10 Feb 2021 19:00:27 -0000
-From: John Arbuckle <1914294@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: programmingkidx
-X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
-X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
-References: <161229965531.12871.15940133447161704311.malonedeb@soybean.canonical.com>
-Message-Id: <161298362720.17875.17754016963946540105.malone@wampee.canonical.com>
-Subject: [Bug 1914294] Re: Windows XP displays black screen when smp option is
- used
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
-X-Launchpad-Hash: 58fda6f8bca6a7c4607f97b1001c8c6d90480eec
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210210082650.5516-1-david.brenken@efs-auto.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.211,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,42 +88,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914294 <1914294@bugs.launchpad.net>
+Cc: kbastian@mail.uni-paderborn.de,
+ Andreas Konopik <andreas.konopik@efs-auto.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I restarted QEMU without the '-smp 2' option and Windows XP started
-working again. The only problem is the host CPU usage will stay at 100%
-even with the guest CPU load being close to 0%. The only way to fix this
-problem that I know currently is to reinstall Windows XP.
+On 2/10/21 12:26 AM, David Brenken wrote:
+> From: Andreas Konopik <andreas.konopik@efs-auto.de>
+> 
+> Hello together,
+> 
+> we have fixed a few conditions leading to incorrect intermediate code
+> generation. RCPW_IMASK, RRPW_EXTR, RRPW_EXTR_U and RRPW_IMASK invoke
+> undefined behavior for "pos + width > 32", which is also checked in
+> tcg_gen_extract_tl(). RRRW_EXTR_U invokes undefined behavior for
+> "width == 0", hence we removed that condition.
 
--- =
+This is incorrect, because "undefined behavior" should not include a qemu abort.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914294
+You could raise a guest exception, you could treat the faulty instruction as a
+nop, you could truncate the inputs to avoid the abort, you could write
+0xdeadbeef to the destination.
 
-Title:
-  Windows XP displays black screen when smp option is used
+Or you could fix the couple of faulty conditions and leave the rest of the code
+as-is.
 
-Status in QEMU:
-  New
 
-Bug description:
-  When I use Windows XP with the -smp option, the screen goes black. The
-  only thing I can see is a cursor. I have tried -smp 2, -smp cores=3D4,
-  and -smp cores=3D2.
-
-  My info:
-
-  Host:
-  M1 Mac
-  Mac OS 11.1
-  QEMU 5.2 at cf7ca7d5b9faca13f1f8e3ea92cfb2f741eb0c0e.
-
-  Guest:
-  32-bit Windows XP SP3 build 2600.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914294/+subscriptions
+r~
 
