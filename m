@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595C7315C0D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 02:19:40 +0100 (CET)
-Received: from localhost ([::1]:42922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96507315C06
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 02:19:27 +0100 (CET)
+Received: from localhost ([::1]:42408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9eAN-0000m1-F5
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 20:19:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42634)
+	id 1l9eA9-0000VG-T3
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 20:19:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9e7q-0007fu-FU; Tue, 09 Feb 2021 20:17:02 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42283 helo=ozlabs.org)
+ id 1l9e7q-0007fy-SC; Tue, 09 Feb 2021 20:17:02 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41361 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9e7m-0000Ze-6u; Tue, 09 Feb 2021 20:17:02 -0500
+ id 1l9e7m-0000Zd-ER; Tue, 09 Feb 2021 20:17:02 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Db20V1MH8z9sVF; Wed, 10 Feb 2021 12:16:42 +1100 (AEDT)
+ id 4Db20V3ngFz9sBy; Wed, 10 Feb 2021 12:16:42 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1612919802;
- bh=IP8mMo4SIBPh0jDbVLUSwlACt+lMWVrDvVK53Cx7kS8=;
+ bh=S4j+gd5ClRCrdhUtYbSO2tscXPJ/RrUPrt37W7O6d4s=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sdqw9gGh1EX9QXd2E2La47CYsbnoZA2DCVhvLoeCemuULh/G7lgn5+/dyak4yvYlV
- za7nVlItZtfGOsLFjFY+ErK3yiisqDv1sMAEJBM9uDvRUmktnc5NOzKRWUkAJlmJjc
- lIUapoYtFwucTULj9J9yRuFFcOBrBI9txu9i7WKQ=
-Date: Wed, 10 Feb 2021 11:05:13 +1100
+ b=pZZLgPHu0wzV0Y9mS3NAKIU2X8DGINbNMg0PmeoZENiiiN5PmwPPDgpoRK//WvwB2
+ ogIl5BVTNAwK8WLnAT/Bose5zefiwLYG2GQMwQXD+jsgPAsQohQ+BT3ujBrm0N3X3T
+ hIknhrCQ/nzPU7IzNWu6NAeiX6gSNPxda5z/2aUQ=
+Date: Wed, 10 Feb 2021 11:11:51 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH 2/2] spapr_iommu: Fix vhost integration regression
-Message-ID: <20210210000513.GA4450@yekko.fritz.box>
-References: <20210209213233.40985-1-eric.auger@redhat.com>
- <20210209213233.40985-3-eric.auger@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2] hw/net: fsl_etsec: Reverse the RCTRL.RSF logic
+Message-ID: <20210210001151.GC4450@yekko.fritz.box>
+References: <1612833761-43234-1-git-send-email-bmeng.cn@gmail.com>
+ <CAFEAcA-yPsHpq+q7osCKTGGJ7LiHdMWFxuxJN9Gyey5dJvjWcw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+ protocol="application/pgp-signature"; boundary="WplhKdTI2c8ulnbP"
 Content-Disposition: inline
-In-Reply-To: <20210209213233.40985-3-eric.auger@redhat.com>
+In-Reply-To: <CAFEAcA-yPsHpq+q7osCKTGGJ7LiHdMWFxuxJN9Gyey5dJvjWcw@mail.gmail.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -58,59 +58,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mst@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, peterx@redhat.com, groug@kaod.org, eperezma@redhat.com,
- alex.williamson@redhat.com, qemu-arm@nongnu.org, jean-philippe@linaro.org,
- eric.auger.pro@gmail.com
+Cc: Jason Wang <jasowang@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Greg Kurz <groug@kaod.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---IJpNTDwzlM2Ie8A6
+--WplhKdTI2c8ulnbP
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 09, 2021 at 10:32:33PM +0100, Eric Auger wrote:
-> Previous work on dev-iotlb message broke spapr_iommu/vhost integration
-> as it did for SMMU and virtio-iommu. The spapr_iommu currently
-> only sends IOMMU_NOTIFIER_UNMAP notifications. Since commit
-> 958ec334bca3 ("vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support"=
-),
-> VHOST first tries to register IOMMU_NOTIFIER_DEVIOTLB_UNMAP notifier
-> and if it fails, falls back to legacy IOMMU_NOTIFIER_UNMAP. So
-> spapr_iommu must fail on the IOMMU_NOTIFIER_DEVIOTLB_UNMAP
-> registration.
+On Tue, Feb 09, 2021 at 09:48:18AM +0000, Peter Maydell wrote:
+> On Tue, 9 Feb 2021 at 01:22, Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > Per MPC8548ERM [1] chapter 14.5.3.4.1:
+> >
+> > When RCTRL.RSF is 1, frames less than 64 bytes are accepted upon
+> > a DA match. But currently QEMU does the opposite.
+> >
+> > When RCTRL.RSF is 0, short frames are silently dropped, however
+> > we cannot drop such frames in QEMU as of today, due to both slirp
+> > and tap networking do not pad short frames (e.g.: an ARP packet)
+> > to the minimum frame size of 60 bytes.
+> >
+> > If eTSEC is programmed to reject short frames, ARP requests will be
+> > dropped, preventing the guest from becoming visible on the network.
+> >
+> > The same issue was reported on e1000 and vmxenet3 before, see:
+> >
+> > commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes=
+)")
+> > commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 byt=
+es)")
+> >
+> > Ideally this should be fixed on the slirp/tap networking side to
+> > pad short frames to the minimum frame length, but I am not sure
+> > whether that's doable.
+> >
+> > This commit reverses the RCTRL.RSF testing logic to match the spec.
+> > The log message is updated to mention the reject short frames
+> > functionality is unimplemented.
+> >
+> > [1] https://www.nxp.com/docs/en/reference-manual/MPC8548ERM.pdf
+> >
+> > Fixes: eb1e7c3e5146 ("Add Enhanced Three-Speed Ethernet Controller (eTS=
+EC)")
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 >=20
-> Reported-by: Peter Xu <peterx@redhat.com>
-> Fixes: b68ba1ca57677acf870d5ab10579e6105c1f5338
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  hw/ppc/spapr_iommu.c | 5 +++++
->  1 file changed, 5 insertions(+)
 >=20
-> diff --git a/hw/ppc/spapr_iommu.c b/hw/ppc/spapr_iommu.c
-> index 30352df00e..24537ffcbd 100644
-> --- a/hw/ppc/spapr_iommu.c
-> +++ b/hw/ppc/spapr_iommu.c
-> @@ -212,6 +212,11 @@ static int spapr_tce_notify_flag_changed(IOMMUMemory=
-Region *iommu,
->  {
->      struct SpaprTceTable *tbl =3D container_of(iommu, SpaprTceTable, iom=
-mu);
-> =20
-> +    if (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
-> +        error_setg(errp, "spart_tce does not support dev-iotlb yet");
-> +        return -EINVAL;
-> +    }
-> +
->      if (old =3D=3D IOMMU_NOTIFIER_NONE && new !=3D IOMMU_NOTIFIER_NONE) {
->          spapr_tce_set_need_vfio(tbl, true);
->      } else if (old !=3D IOMMU_NOTIFIER_NONE && new =3D=3D IOMMU_NOTIFIER=
-_NONE) {
+> > -    if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
+> > +    /*
+> > +     * Both slirp and tap networking do not pad short frames
+> > +     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
+> > +     *
+> > +     * If eTSEC is programmed to reject short frames, ARP requests
+> > +     * will be dropped, preventing the guest from becoming visible
+> > +     * on the network.
+> > +     */
+> > +    if (!(etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
+> >          /* CRC is not in the packet yet, so short frame is below 60 by=
+tes */
+> > -        RING_DEBUG("%s: Drop short frame\n", __func__);
+> > -        return -1;
+> > +        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
+> >      }
+>=20
+> This change is doing two things at once.
+
+Oops, I missed that.
+
+> One of them is an entirely uncontroversial bug fix: we
+> got the sense of the RCTRL_RSF test the wrong way round.
+>=20
+> The other is different: it is working around a bug elsewhere in QEMU.
+>=20
+> If there's a problem with packets that should not be short
+> frames being presented to ethernet devices as short frames,
+> please fix that bug at the source. I don't think we should
+> take any more device-model workarounds for it. We have lots
+> and lots of ethernet device models: it will be much more
+> effort to try to fix them all one by one as people encounter
+> this bug than it would be to just fix the code that's creating
+> bogus short frames.
+>=20
+> David, could you drop this from your queue, please ?
+
+Done.
+
+>=20
+> thanks
+> -- PMM
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -118,25 +160,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---IJpNTDwzlM2Ie8A6
+--WplhKdTI2c8ulnbP
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAjIzcACgkQbDjKyiDZ
-s5LGtg//bzh8C6Krz0m+Q0uYq8Yf5opN+pXTZ7B3TBkhoRxLjURvUkbTdF0FE+oW
-SP+G2Ssll7d+d5fz9o+cxij42QeCkySmSEoIUKKYhJAgXGQZwdz796wrE70JMbsm
-57N6CTC+WuFCGLR1JrfDwqCIGlkmpWc5N6tE+zq2EeHCXp9C9FEMfooYlOkd25TL
-UJuJaDpXV057wh6veRx1pTZ3XY79+dAUNC9d8KznC1sFmNluBmTRlHfyPG+a6lir
-3OjNS48yvFfFmhuiIDpZvqyMKTF2CytFRoBynTSaF+9zVdCFp9swtPUXbVStD05s
-OBZc9GcPUfs+UdoJh19eo33JyqUD6XhDDn3k8zfKl7hHSizGNxhMkEXiyyMv3DQR
-SAsKauA6S2fpbJh/rd0frs7Xh5qeGYDoT1NgGxUPojVOZiwTNRPrVE3iG3gTuv6i
-OwdY8zFEd0he9SSlWEbV7h7jaPQLmtqFdG9CD3NgBMmG+hMkRepAG5r2TymogY6Q
-R5niIzWiNgsGEJAW7L9lwCOESQhOw7UGcuT0pT1VV48vY53/Yi/ihB+bprKgpIKK
-mWwBkS7dnq1DuK3w7mmKdrsD1u6uVCsTzDW/sg2ckYYeMBcbbQIbDKvWs8pyovmX
-uO9LD5nMRqCqKsB96Lk0ng1O7ZrT8SBYj/kVEXPhjFXg/F1/Hr4=
-=9igK
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAjJMcACgkQbDjKyiDZ
+s5IA3g//TQXz2kBgRhIAgx9KAcM6NAJmDTUFBJ+mQjoV5romM5G4bIl42BQLARnm
+ksBIljjiT1BhlFgamwvRdZcIbJPwCuElVottaow1mT+xFbEnGY/ehUcx8scQ6oSO
+ik60LjFBiOqHlG2uHa6m4Dxth6BVHthCMW/k9PYgIdx4d0d6ey05Y6h8Ojwdcpvq
+IJpCm3qDGbyijdjBd9QDyl55dDsykt3LTF5Sitx8qtzw83UM6xcFimpQB8wFPmPk
+DqGjAiiAOccMf1tMq2VpaTISMCuQvPsYwMyGMWfcDOw0d4glsPCjmQDTsWhAyy2E
+6XCEDgtE0Mg6vryPC1nRMxxQR75sIZAiZUtqJ7824RfKd+qTj7yYD18D31zXo2+Q
+S6dOz0Xsr3KRuw+Pq6AjYnC5lMXb/c9wlseD/pu2UpS3gm9r/y8Ne4bQN5X7ah0n
+dOAiu2OkUf0FT0oX0ZPsQGqWLTUL2xhaYMUdZTwyyJHSI2Kje8RT1Bq7kODSyVQK
+/u2xtRufGdcjlD+3hBGu7SmorjxMi6bx6+nmjtCmE/8uzHYiEN73kVVnzSn3ZVR7
+yc6HudydyUzsn1JfjOukMahdMRHbTEg5WqfqzwxwxZ21GdiZ13YqLFFbukc0t4NU
+OXkWmH9uNTYRql050vGVzOsCKG70cJ1gsrzOay4aZuchiyYGlso=
+=HX0k
 -----END PGP SIGNATURE-----
 
---IJpNTDwzlM2Ie8A6--
+--WplhKdTI2c8ulnbP--
 
