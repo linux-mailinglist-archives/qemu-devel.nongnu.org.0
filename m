@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D6D3165C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 12:55:38 +0100 (CET)
-Received: from localhost ([::1]:33274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353183165C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 12:56:27 +0100 (CET)
+Received: from localhost ([::1]:35518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9o5p-0006jh-2u
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 06:55:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33888)
+	id 1l9o6c-0007e4-AK
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 06:56:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9o4T-00068s-9J
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:54:13 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:36949)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l9o5G-0006gG-2P; Wed, 10 Feb 2021 06:55:02 -0500
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:42680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9o4R-0004X6-Ov
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:54:13 -0500
-Received: by mail-ej1-x631.google.com with SMTP id jj19so3641830ejc.4
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 03:54:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l9o5E-0004nZ-9o; Wed, 10 Feb 2021 06:55:01 -0500
+Received: by mail-lf1-x133.google.com with SMTP id f23so2355401lfk.9;
+ Wed, 10 Feb 2021 03:54:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZpBT6naGguf2v3CEHsLdsw0YNsnSUEqIQIMNWACrUgc=;
- b=R8C+2EUBpSZJpyNIk7c2qj5pyL0Itmc8LiSiy8Fa+tj8ghOD+42kwm97Kja30YOjmT
- jdIS9g2Ys7wXOEUONnSxkx+OISc4NYTiRjeJIfDiOvpIVZIUYkqt0Kvf5rvzRJareJxP
- CR947Q/e+/SmQJ+rLHOf7eXWpsJjT6S7s31LbdMydgne3wP/ua5s5INIeAkj/LGEDwBd
- OsOiqjXLGoq6r5iDESmxL9J+rH28tTZ3iLQ14O+Gs8Rb+0FtbP1ZXp18RIYZr6gmeAPI
- qPdU/jJ7Xlxo571ymP5ZtEVikXYbsixpqvsMTHxDo9DBC/bQCETwzRv9jl8tFyk0f0Xh
- YkPg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QIzABhLDJ5Q0Ngs3M8y9FymRO6TSDU6K0+h95jO2/Fk=;
+ b=bdmKM/rHjNurSB4QyBJIQFRRufejPNJxWd34uwnD8kc3DLG6AZnGOT5oa/eB58tRQD
+ uWdSdcE+lKyyhtSH/UfO8QhtsNw0HW0RgnR7VO3BvpAYb1f/9h+cJJenZ75Yh6VY3jG9
+ ImfQXKdfybHmNRjNSV3sr8gtizBm1n0VBfI9XktF9mBaaV4sp6snDRb0V5vhIqUF7Hn7
+ MpottabbJtZ63VO4z4NYkhkLRHPhf3KIV/sucxtV5wW4xiF4yMCHCtDjBMBRwiL1/6VX
+ nI3BsB6nv4aDt4RoqGRMiJdtw0jnuqASUUEmsIzm2sS+QeOqIl5l7Gemb2zaxAwiRyuR
+ jnbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZpBT6naGguf2v3CEHsLdsw0YNsnSUEqIQIMNWACrUgc=;
- b=ag+j6xwv9/et4NBtbuuLlE9TeuPtLJowNNRDaf6pHr8LdFj2FVt1ILiNA6jHsE8i5F
- kVz+1qCT4ubLF0bRZELO8No/UJlQEtwDylCgbeI73CoIAYRRirufqEge3Q4gv/SFh1b+
- h/DJvwbSnp3SE8faL1MprWgFZGvbnotLh9AxCIlLPGEkLI4VPr/IVCDqmU4lCMj8ZyFn
- DG2cbUz1BRhtSD65f/Lt+URDnu+/DXyqM/NbYp2nh+w3s56dYSd3yHr3S9fb7ZDwGDyV
- IoMlkQsFkk9czJUgee/+AWYR5Up2UD6IimXIFLZb6mv/B/yemz6pVY/Zyes5UlbAlNFk
- fhaw==
-X-Gm-Message-State: AOAM533/qh97JnxgXaoFASJ9zqj5qeIIms487ZqVMhzw09Fb2I/YjOzK
- y6WoqxYLdVlZ+v6lXtyHTBo=
-X-Google-Smtp-Source: ABdhPJzPg5f6fYDXpCANCpcwDHT/Tnr3QuUoWd0+Y2KFkk2b8H/0mW3icLFL8oGGF6CnIvf7fPT+8Q==
-X-Received: by 2002:a17:906:7d4f:: with SMTP id
- l15mr2505200ejp.95.1612958050044; 
- Wed, 10 Feb 2021 03:54:10 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a15sm813432edv.95.2021.02.10.03.54.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Feb 2021 03:54:09 -0800 (PST)
-Subject: Re: [PULL 16/21] hw/timer: Refactor NPCM7XX Timer to use CLK clock
-To: Hao Wu <wuhaotsh@google.com>
-References: <20210112165750.30475-1-peter.maydell@linaro.org>
- <20210112165750.30475-17-peter.maydell@linaro.org>
- <d1811f65-b08e-57c6-d0a7-5c498f8eb3ff@amsat.org>
- <CAGcCb13FAMS6q0jPfc4uJS+03HtO1OO7z3c5UQ_41=rUiBPSKg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a20af976-b428-06ae-4d55-ca81f977065b@amsat.org>
-Date: Wed, 10 Feb 2021 12:54:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QIzABhLDJ5Q0Ngs3M8y9FymRO6TSDU6K0+h95jO2/Fk=;
+ b=qUkYstGPuN3Kf8rUCw4YVayJVcYZZm0Fl71icJeRLyAsARTzZynvGeNUMlIun6q/eW
+ jiYDLB97nxZuO3lP86fWwQ7N10yH5pyP+jQQ1y+M1PbUsVpTLkXSnszyRN++Q+Jrz8sD
+ nzWGllZ5BXSqhYNkn9Py6sLIT4ObKFGPjgkIR3kMGR49YKJftgHm+cxdI5HQvlrRZ2d7
+ 4u7uLsvoNtVqY21Hvm7oLEeJWSqYyi/be6zC8RQnpKYBA2ym//HhYt7pvGrgcMGKtO0J
+ TwD7x4Pxb0I2QQxclZjgy7Bh7QFGj00cRGuI7ZjauaGn/Z5RqRrPjhPX2XnAP8FEqf2j
+ uM3w==
+X-Gm-Message-State: AOAM5309zqFf8cg9Cyhvoufnldju4DTCavhzcwF8pJkf3zAOxQnBGhMJ
+ C20YqBn8ylhJ+O5+rjlL6p0=
+X-Google-Smtp-Source: ABdhPJyU0L+VCZwvkMotjtUzTq/zW/YRGH9VsYul3OAVUgjWGDQS7GmU4Y26spIZQ5P9TvdBUEntYA==
+X-Received: by 2002:ac2:539b:: with SMTP id g27mr1556105lfh.580.1612958098351; 
+ Wed, 10 Feb 2021 03:54:58 -0800 (PST)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id r26sm293246lfi.295.2021.02.10.03.54.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Feb 2021 03:54:58 -0800 (PST)
+Date: Wed, 10 Feb 2021 12:54:57 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v3 2/5] hw/arm: xlnx-zynqmp: Clean up coding convention
+ issues
+Message-ID: <20210210115457.GO477672@toto>
+References: <1612951813-50542-1-git-send-email-bmeng.cn@gmail.com>
+ <1612951813-50542-3-git-send-email-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAGcCb13FAMS6q0jPfc4uJS+03HtO1OO7z3c5UQ_41=rUiBPSKg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1612951813-50542-3-git-send-email-bmeng.cn@gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,66 +82,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Tyrone Ting <kfting@nuvoton.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Havard Skinnemoen <hskinnemoen@google.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, Francisco Iglesias <francisco.iglesias@xilinx.com>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/21 11:37 PM, Hao Wu wrote:
-> I don't see this error. It could be some error in the clock that the
-> timer module does not get a correct clock input.
-> How do you reproduce this?
+On Wed, Feb 10, 2021 at 06:10:10PM +0800, Bin Meng wrote:
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> 
+> There are some coding convention warnings in xlnx-zynqmp.c and
+> xlnx-zynqmp.h, as reported by:
+> 
+>   $ ./scripts/checkpatch.pl include/hw/arm/xlnx-zynqmp.h
+>   $ ./scripts/checkpatch.pl hw/arm/xlnx-zynqmp.c
+> 
+> Let's clean them up.
+> 
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> 
+> ---
+> 
+> Changes in v3:
+> - new patch: xlnx-zynqmp: Clean up coding convention issues
+> 
+>  include/hw/arm/xlnx-zynqmp.h |  3 ++-
+>  hw/arm/xlnx-zynqmp.c         | 11 +++++++----
+>  2 files changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+> index 6f45387..be15cc8 100644
+> --- a/include/hw/arm/xlnx-zynqmp.h
+> +++ b/include/hw/arm/xlnx-zynqmp.h
+> @@ -60,7 +60,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+>  
+>  #define XLNX_ZYNQMP_GIC_REGIONS 6
+>  
+> -/* ZynqMP maps the ARM GIC regions (GICC, GICD ...) at consecutive 64k offsets
+> +/*
+> + * ZynqMP maps the ARM GIC regions (GICC, GICD ...) at consecutive 64k offsets
+>   * and under-decodes the 64k region. This mirrors the 4k regions to every 4k
+>   * aligned address in the 64k region. To implement each GIC region needs a
+>   * number of memory region aliases.
+> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+> index 8818472..76b94a5 100644
+> --- a/hw/arm/xlnx-zynqmp.c
+> +++ b/hw/arm/xlnx-zynqmp.c
+> @@ -301,11 +301,13 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>  
+>      ram_size = memory_region_size(s->ddr_ram);
+>  
+> -    /* Create the DDR Memory Regions. User friendly checks should happen at
+> +    /*
+> +     * Create the DDR Memory Regions. User friendly checks should happen at
+>       * the board level
+>       */
+>      if (ram_size > XLNX_ZYNQMP_MAX_LOW_RAM_SIZE) {
+> -        /* The RAM size is above the maximum available for the low DDR.
+> +        /*
+> +         * The RAM size is above the maximum available for the low DDR.
+>           * Create the high DDR memory region as well.
+>           */
+>          assert(ram_size <= XLNX_ZYNQMP_MAX_RAM_SIZE);
+> @@ -351,7 +353,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>  
+>      qdev_realize(DEVICE(&s->apu_cluster), NULL, &error_fatal);
+>  
+> -    /* Realize APUs before realizing the GIC. KVM requires this.  */
+> +    /* Realize APUs before realizing the GIC. KVM requires this. */
 
-I got it only once, can not reproduce, but it happened on our CI too:
-https://gitlab.com/qemu-project/qemu/-/jobs/1006073367#L4430
+This doesn't look like a checkpatch fix...
 
-> 
-> On Thu, Feb 4, 2021 at 1:39 AM Philippe Mathieu-Daudé <f4bug@amsat.org
-> <mailto:f4bug@amsat.org>> wrote:
-> 
->     Hi,
-> 
->     On Tue, Jan 12, 2021 at 6:20 PM Peter Maydell
->     <peter.maydell@linaro.org <mailto:peter.maydell@linaro.org>>
->     wrote:
->     >
->     > From: Hao Wu <wuhaotsh@google.com <mailto:wuhaotsh@google.com>>
->     >
->     > This patch makes NPCM7XX Timer to use a the timer clock generated
->     by the
->     > CLK module instead of the magic number TIMER_REF_HZ.
->     >
->     > Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com
->     <mailto:hskinnemoen@google.com>>
->     > Reviewed-by: Tyrone Ting <kfting@nuvoton.com
->     <mailto:kfting@nuvoton.com>>
->     > Signed-off-by: Hao Wu <wuhaotsh@google.com
->     <mailto:wuhaotsh@google.com>>
->     > Message-id: 20210108190945.949196-3-wuhaotsh@google.com
->     <mailto:20210108190945.949196-3-wuhaotsh@google.com>
->     > Reviewed-by: Peter Maydell <peter.maydell@linaro.org
->     <mailto:peter.maydell@linaro.org>>
->     > Signed-off-by: Peter Maydell <peter.maydell@linaro.org
->     <mailto:peter.maydell@linaro.org>>
->     > ---
->     >  include/hw/misc/npcm7xx_clk.h    |  6 -----
->     >  include/hw/timer/npcm7xx_timer.h |  1 +
->     >  hw/arm/npcm7xx.c                 |  5 ++++
->     >  hw/timer/npcm7xx_timer.c         | 39
->     +++++++++++++++-----------------
->     >  4 files changed, 24 insertions(+), 27 deletions(-)
-> 
->     Is that a spurious error (building with Clang)?
-> 
->     Running test qtest-arm/npcm7xx_timer-test
->     ERROR:../tests/qtest/npcm7xx_timer-test.c:475:test_periodic_interrupt:
->     assertion failed (tim_read(td, TISR) == tim_timer_bit(td)): (0x00000000
->     == 0x00000004)
->     ERROR:../tests/qtest/npcm7xx_timer-test.c:476:test_periodic_interrupt:
->     'qtest_get_irq(global_qtest, tim_timer_irq(td))' should be TRUE
->     FAIL 155 qtest-arm/npcm7xx_timer-test
->     /arm/npcm7xx_timer/tim[2]/timer[2]/periodic_interrupt
->     make: *** [Makefile.mtest:1033: run-test-127] Error 1
+
+
+
+>      for (i = 0; i < num_apus; i++) {
+>          const char *name;
+>  
+> @@ -526,7 +528,8 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>          SysBusDevice *sbd = SYS_BUS_DEVICE(&s->sdhci[i]);
+>          Object *sdhci = OBJECT(&s->sdhci[i]);
+>  
+> -        /* Compatible with:
+> +        /*
+> +         * Compatible with:
+>           * - SD Host Controller Specification Version 3.00
+>           * - SDIO Specification Version 3.0
+>           * - eMMC Specification Version 4.51
+> -- 
+> 2.7.4
 > 
 
