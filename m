@@ -2,49 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97031315F82
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:34:14 +0100 (CET)
-Received: from localhost ([::1]:50558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36ADD315F98
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:39:58 +0100 (CET)
+Received: from localhost ([::1]:33874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9j4n-000352-DC
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:34:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43524)
+	id 1l9jAK-00086V-Tv
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:39:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ipB-0001pC-VU; Wed, 10 Feb 2021 01:18:06 -0500
-Received: from ozlabs.org ([203.11.71.1]:58655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ipA-0000RP-23; Wed, 10 Feb 2021 01:18:05 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Db8gq1f0rz9sWY; Wed, 10 Feb 2021 17:17:42 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612937863;
- bh=RYUEzEzrJ2xfcxGHKwvhXCnhllTzQI/NcsA5f6qpXRI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LU/7hL5Jfuf98myJNTILDNplnImrdmWYZqnU3nADCO/rrRL/2NtONczoXFLp9ktWK
- dFrAsoCroCI8P84fFsGGSW3B4WxXGYCJq+lJaqVyvAQE5TQk50pe4z2OJYWLSvGZtl
- /Db13V6bTcDxF7UK1f2YxwtaQr91ej1jaVe2gN4o=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org,
-	groug@kaod.org
-Subject: [PULL 19/19] target/ppc: Add E500 L2CSR0 write helper
-Date: Wed, 10 Feb 2021 17:17:35 +1100
-Message-Id: <20210210061735.304384-20-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210210061735.304384-1-david@gibson.dropbear.id.au>
-References: <20210210061735.304384-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l9irW-0005Tm-PG
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 01:20:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22770)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l9irO-0001ja-E9
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 01:20:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612938018;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lxoJfqDwevnyafq9qyP3nT2TjeO1BooYOaVHz34vWxw=;
+ b=Y1EW3wi11/kq92FbM3bWURjYTdQQ0KBhMnVUeDSUvmTBYcCEwGZJbV4eMNCOrnw1lTrcb3
+ 5zu0UztkhMfPNL2/7lAm2z4D/lG50le5WqJ3JohUG9lXqPan38yyhYGgwOFLKmwPlEBQqq
+ tuOwCEGhH3DmT++erCKlsZrqrXIUGp8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-LxfQ2iDfP7q7Vv1i2sTo2A-1; Wed, 10 Feb 2021 01:20:08 -0500
+X-MC-Unique: LxfQ2iDfP7q7Vv1i2sTo2A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B48E2192AB78;
+ Wed, 10 Feb 2021 06:20:07 +0000 (UTC)
+Received: from [10.72.12.223] (ovpn-12-223.pek2.redhat.com [10.72.12.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F38819C66;
+ Wed, 10 Feb 2021 06:20:00 +0000 (UTC)
+Subject: Re: [PATCH 0/3] virtio-net: graceful drop of vhost for TAP
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210204202915.15925-1-yuri.benditovich@daynix.com>
+ <20210209093201-mutt-send-email-mst@kernel.org>
+ <20210209145105.GP1166421@redhat.com>
+ <20210209095553-mutt-send-email-mst@kernel.org>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <0890bb17-9677-ff1d-bd08-c9be791e1c81@redhat.com>
+Date: Wed, 10 Feb 2021 14:19:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210209095553-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,97 +86,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: yan@daynix.com, Yuri Benditovich <yuri.benditovich@daynix.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
 
-Per EREF 2.0 [1] chapter 3.11.2:
+On 2021/2/9 下午11:04, Michael S. Tsirkin wrote:
+> On Tue, Feb 09, 2021 at 02:51:05PM +0000, Daniel P. Berrangé wrote:
+>> On Tue, Feb 09, 2021 at 09:34:20AM -0500, Michael S. Tsirkin wrote:
+>>> On Thu, Feb 04, 2021 at 10:29:12PM +0200, Yuri Benditovich wrote:
+>>>> This set of patches introduces graceful switch from tap-vhost to
+>>>> tap-no-vhost depending on guest features. Before that the features
+>>>> that vhost does not support were silently cleared in get_features.
+>>>> This creates potential problem of migration from the machine where
+>>>> some of virtio-net features are supported by the vhost kernel to the
+>>>> machine where they are not supported (packed ring as an example).
+>>> I still worry that adding new features will silently disable vhost for people.
+>>> Can we limit the change to when a VM is migrated in?
+>> Some management applications expect bi-directional live migration to
+>> work, so taking specific actions on incoming migration only feels
+>> dangerous.
+> Could you be more specific?
+>
+> Bi-directional migration is currently broken
+> when migrating new kernel->old kernel.
+>
+> This seems to be the motivation for this patch, though I wish
+> it was spelled out more explicitly.
+>
+> People don't complain much, but I'm fine with fixing that
+> with a userspace fallback.
+>
+>
+> I'd rather not force the fallback on others though: vhost is generally
+> specified explicitly by user while features are generally set
+> automatically, so this patch will make us override what user specified,
+> not nice.
+>
+>
+>> IMHO if the features we're adding cannot be expected to exist in
+>> host kernels in general, then the feature should defualt to off
+>> and require explicit user config to enable.
+>> Downstream distros which can guarantee newer kernels can flip the
+>> default in their custom machine types if they desire.
+>>
+>> Regards,
+>> Daniel
+> Unfortunately that will basically mean we are stuck with no new features
+> for years. We did what this patch is trying to change for years now, in
+> particular KVM also seems to happily disable CPU features not supported
+> by kernel so I wonder why we can't keep doing it, with tweaks for some
+> corner cases.
 
-The following bits in L2CSR0 (exists in the e500mc/e5500/e6500 core):
 
-- L2FI  (L2 cache flash invalidate)
-- L2FL  (L2 cache flush)
-- L2LFC (L2 cache lock flash clear)
+It's probably not the corner case.
 
-when set, a cache operation is initiated by hardware, and these bits
-will be cleared when the operation is complete.
+So my understanding is when a feature is turned on via command line, it 
+should not be cleared silently otherwise we may break migration for sure.
 
-Since we don't model cache in QEMU, let's add a write helper to emulate
-the cache operations completing instantly.
+E.g when packed=on is specified, we should disable vhost instead of 
+clear it from the device.
 
-[1] https://www.nxp.com/files-static/32bit/doc/ref_manual/EREFRM.pdf
+Thanks
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Message-Id: <1612925152-20913-1-git-send-email-bmeng.cn@gmail.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- target/ppc/cpu.h                |  6 ++++++
- target/ppc/translate_init.c.inc | 16 ++++++++++++++++
- 2 files changed, 22 insertions(+)
-
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index cb00210288..e73416da68 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1919,6 +1919,7 @@ typedef PowerPCCPU ArchCPU;
- #define SPR_750FX_HID2        (0x3F8)
- #define SPR_Exxx_L1FINV0      (0x3F8)
- #define SPR_L2CR              (0x3F9)
-+#define SPR_Exxx_L2CSR0       (0x3F9)
- #define SPR_L3CR              (0x3FA)
- #define SPR_750_TDCH          (0x3FA)
- #define SPR_IABR2             (0x3FA)
-@@ -1974,6 +1975,11 @@ typedef PowerPCCPU ArchCPU;
- #define   L1CSR1_ICFI   0x00000002  /* Instruction Cache Flash Invalidate */
- #define   L1CSR1_ICE    0x00000001  /* Instruction Cache Enable */
- 
-+/* E500 L2CSR0 */
-+#define E500_L2CSR0_L2FI    (1 << 21)   /* L2 cache flash invalidate */
-+#define E500_L2CSR0_L2FL    (1 << 11)   /* L2 cache flush */
-+#define E500_L2CSR0_L2LFC   (1 << 10)   /* L2 cache lock flash clear */
-+
- /* HID0 bits */
- #define HID0_DEEPNAP        (1 << 24)           /* pre-2.06 */
- #define HID0_DOZE           (1 << 23)           /* pre-2.06 */
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 9867d0a6e4..3ec45cbc19 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -1735,6 +1735,16 @@ static void spr_write_e500_l1csr1(DisasContext *ctx, int sprn, int gprn)
-     tcg_temp_free(t0);
- }
- 
-+static void spr_write_e500_l2csr0(DisasContext *ctx, int sprn, int gprn)
-+{
-+    TCGv t0 = tcg_temp_new();
-+
-+    tcg_gen_andi_tl(t0, cpu_gpr[gprn],
-+                    ~(E500_L2CSR0_L2FI | E500_L2CSR0_L2FL | E500_L2CSR0_L2LFC));
-+    gen_store_spr(sprn, t0);
-+    tcg_temp_free(t0);
-+}
-+
- static void spr_write_booke206_mmucsr0(DisasContext *ctx, int sprn, int gprn)
- {
-     gen_helper_booke206_tlbflush(cpu_env, cpu_gpr[gprn]);
-@@ -5029,6 +5039,12 @@ static void init_proc_e500(CPUPPCState *env, int version)
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  &spr_read_generic, &spr_write_e500_l1csr1,
-                  0x00000000);
-+    if (version != fsl_e500v1 && version != fsl_e500v2) {
-+        spr_register(env, SPR_Exxx_L2CSR0, "L2CSR0",
-+                     SPR_NOACCESS, SPR_NOACCESS,
-+                     &spr_read_generic, &spr_write_e500_l2csr0,
-+                     0x00000000);
-+    }
-     spr_register(env, SPR_BOOKE_MCSRR0, "MCSRR0",
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  &spr_read_generic, &spr_write_generic,
--- 
-2.29.2
+>
+> userspace and kernel not being in 100% sync wrt features is not
+> a corner case though, and switching backends seems like too big
+> a hammer.
+>
+>> -- 
+>> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+>> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+>> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>
 
 
