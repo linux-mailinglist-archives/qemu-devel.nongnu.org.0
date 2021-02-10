@@ -2,49 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1EE315DE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 04:43:47 +0100 (CET)
-Received: from localhost ([::1]:35356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2987315E08
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 05:07:28 +0100 (CET)
+Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9gPq-0006l3-2K
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 22:43:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50560)
+	id 1l9gml-0001h7-D9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 23:07:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9gOo-0006F7-4a; Tue, 09 Feb 2021 22:42:42 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55203 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9gOl-0001k5-KN; Tue, 09 Feb 2021 22:42:41 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Db5Dn2PfQz9sBy; Wed, 10 Feb 2021 14:42:33 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612928553;
- bh=rXIgiojFMZn42cW11KiChdTQEiLTLVidHMwwb+AE0FQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SZSG6IxRrzKwUC2GN2q/hdytHKUKINoovHxSL/RnhDnFYJNs11SorX9/kkd8H/U7L
- qK+ZaVkmyU9dHIaTJmcOth5XyQDkvir7Kb9olZiCZ8BoiH3XoKg9VClTpruALx5X2y
- tpw53Sl8W55mWaXeObSCmk7Z9jmR+wdhsqRzdJBM=
-Date: Wed, 10 Feb 2021 14:38:40 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v3] hw/net: fsl_etsec: Reverse the RCTRL.RSF logic
-Message-ID: <20210210033840.GH4450@yekko.fritz.box>
-References: <1612923021-19746-1-git-send-email-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l9glI-0001H9-J9
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 23:05:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l9glF-0006e7-DP
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 23:05:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612929951;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+eeJUlvc0pnXLjpnDCtbkfnnf8iLNikSvzBpTdlDUiw=;
+ b=OyIMwAuOZTrkl/YAseaEhwZv1AI4dAyY12ihn6znIYBdKsGKfLTLbLuaYIcIwlhxVhWqZ4
+ 5k8PazjYysBfEdCqUxf/TzRyntCgg6IX3/CX2Tp4/ljQozXfWnTv2V4z0tRVgF8QpbY8Ky
+ JBhFqldZ/zTBbs6z4CvGq7xKN+eJed8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-zTih6tZoOXCF8TKIDHza2g-1; Tue, 09 Feb 2021 23:05:49 -0500
+X-MC-Unique: zTih6tZoOXCF8TKIDHza2g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 343C5107ACE6;
+ Wed, 10 Feb 2021 04:05:48 +0000 (UTC)
+Received: from [10.72.12.223] (ovpn-12-223.pek2.redhat.com [10.72.12.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1592060C4D;
+ Wed, 10 Feb 2021 04:05:34 +0000 (UTC)
+Subject: Re: [PATCH] vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support
+To: Peter Xu <peterx@redhat.com>, "Tian, Kevin" <kevin.tian@intel.com>
+References: <20210204191228.187550-1-peterx@redhat.com>
+ <2382a93d-41c1-24fd-144f-87ee18171bc9@redhat.com>
+ <213acf9a-d1c0-3a1d-4846-877d90fadc03@redhat.com>
+ <20210205153107.GX6468@xz-x1>
+ <MWHPR11MB1886DACA066190C94FD2C27F8CB09@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <20210207144715.GG3195@xz-x1>
+ <MWHPR11MB1886766DF6F20BC4153918C08C8F9@MWHPR11MB1886.namprd11.prod.outlook.com>
+ <20210208182607.GA68242@xz-x1>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <5cfe00bd-7cc3-c1f7-8dfd-3781a289357a@redhat.com>
+Date: Wed, 10 Feb 2021 12:05:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="K1n7F7fSdjvFAEnM"
-Content-Disposition: inline
-In-Reply-To: <1612923021-19746-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210208182607.GA68242@xz-x1>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,102 +89,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: Jean-Philippe Brucker <Jean-Philippe.Brucker@arm.com>,
+ Auger Eric <eric.auger@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Eugenio Perez Martin <eperezma@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---K1n7F7fSdjvFAEnM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2021/2/9 上午2:26, Peter Xu wrote:
+> Kevin,
+>
+> On Mon, Feb 08, 2021 at 07:03:08AM +0000, Tian, Kevin wrote:
+>> It really depends on the definition of dev-iotlb in this context. To me the
+>> fact that virtio-iommu needs to notify the kernel for updating split cache
+>> is already sort of dev-iotlb semantics, regardless of whether it's delivered
+>> through a iotlb message or dev-iotlb message in a specific implementation. 😊
+> Yeah maybe it turns out that we'll just need to implement dev-iotlb for
+> virtio-iommu.
 
-On Wed, Feb 10, 2021 at 10:10:21AM +0800, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
->=20
-> Per MPC8548ERM [1] chapter 14.5.3.4.1:
->=20
-> When RCTRL.RSF is 1, frames less than 64 bytes are accepted upon
-> a DA match. But currently QEMU does the opposite. This commit
-> reverses the RCTRL.RSF testing logic to match the manual.
->=20
-> Due to the reverse of the logic, certain guests may potentially
-> break if they don't program eTSEC to have RCTRL.RSF bit set.
-> When RCTRL.RSF is 0, short frames are silently dropped, however
-> as of today both slirp and tap networking do not pad short frames
-> (e.g.: an ARP packet) to the minimum frame size of 60 bytes. So
-> ARP requests will be dropped, preventing the guest from becoming
-> visible on the network.
->=20
-> The same issue was reported on e1000 and vmxenet3 before, see:
->=20
-> commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-> commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes=
-)")
->=20
-> [1] https://www.nxp.com/docs/en/reference-manual/MPC8548ERM.pdf
->=20
-> Fixes: eb1e7c3e5146 ("Add Enhanced Three-Speed Ethernet Controller (eTSEC=
-)")
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Applied to ppc-for-6.0.
+Note that on top of device-IOTLB, device may choose to implement an 
+IOMMU which support #PF. In this case, dev-iotlb semantic is not a must. 
+(Or it can co-operate with things like ATS if driver wants)
 
->=20
-> ---
->=20
-> Changes in v3:
-> - remove the slirp/tap networking workaround and only do the reverse
->=20
-> Changes in v2:
-> - rewrite the commit message and reverse the RCTRL.RSF test logic
->=20
->  hw/net/fsl_etsec/rings.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
-> index 121415a..fe055d3 100644
-> --- a/hw/net/fsl_etsec/rings.c
-> +++ b/hw/net/fsl_etsec/rings.c
-> @@ -502,7 +502,7 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uint8=
-_t *buf, size_t size)
->          return -1;
->      }
-> =20
-> -    if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
-> +    if (!(etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
->          /* CRC is not in the packet yet, so short frame is below 60 byte=
-s */
->          RING_DEBUG("%s: Drop short frame\n", __func__);
->          return -1;
+Virtio will probably provide this feature in the future.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Thanks
 
---K1n7F7fSdjvFAEnM
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+>
+> I am completely fine with that and I'm never against it. :) I was throwing out
+> a pure question only, because I don't know the answer.
+>
+> My question was majorly based on the fact that dev-iotlb and iotlb messages
+> really look the same; it's not obvious then whether it would always matter a
+> lot when in a full emulation environment.
+>
+> One example is current vhost - vhost previously would work without dev-iotlb
+> (ats=on) because trapping UNMAP would work too for vhost to work.  It's also
+> simply because at least for VT-d the driver needs to send both one dev-iotlb
+> and one (probably same) iotlb message for a single page invalidation.  The
+> dev-iotlb won't help a lot in full emulation here but instead it slows thing
+> down a little bit (QEMU has full knowledge as long as it receives either of the
+> message).
+>
+> Thanks,
+>
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAjVT4ACgkQbDjKyiDZ
-s5JXeRAAkwZAXIyUeWG7Tp5iYRtae2/JVFFCU1Sh69E0i1RDba3g5KY5CApayf3v
-8275S+2zliiySLey8uAtyYn6YHcmkkXSObcp47rlcEEcutaVLgXAsw15+EmeZWVW
-2CvUcGxEQ1ymofkZPWIBYw3OcD290rUB1NfR7ha2lbIHggJB9+/VfiKmIpuHuOs/
-trdTzsrjnZup82zzJRAzW2K/QmFyv6s9R7AeCXk8XIVjbZBlkmYUaXOEnZhDSzbj
-bo0Yk82FHSbKDslipvMXc899dBVxGL0Tk7BWEgvf9s6CMWDRk2xXX+wUjEOnyTSY
-TBbO4zJW8CcTJq0QbuYblN4vVY3FMPZtOLkPpTy7UqerjGGP/6/icz+eMuT+4FJJ
-FSILoP0smh5b1Lb0FU81m3Joxi/NQQyCLXHyiMf0yulzGyYwhng+5ENMfycCTPOs
-/RREFcAK8hunB+bvG/Gqy+ENN2xJU7rp4C7IPtOV8brfUwqDVgnCP+a/9j5XjUwl
-T2BUapVYhTnDoAai3BFtN4mbiJkcl0bvR8PcKej/7H8luf+nArSFumm23jblHrhf
-yf6thfYy05QvN18OnTaH+5Dhxvxz208+2ae7oeP6TVQ3vZUY5ccMXA0r8huzfU+f
-TDKDf9qkWu3lctPWOBO7tzuhTqpVn/n2Az3hefCSDa9Dkk2ibzY=
-=J/4D
------END PGP SIGNATURE-----
-
---K1n7F7fSdjvFAEnM--
 
