@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD203162B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:51:16 +0100 (CET)
-Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF343162C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:54:04 +0100 (CET)
+Received: from localhost ([::1]:40552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9m9T-0006o2-F6
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:51:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56972)
+	id 1l9mCB-0002wB-7y
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:54:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9lqA-0006Xz-18
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:31:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26936)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9m9p-0000ee-Sr
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:51:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9lq8-0007tv-A1
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:31:17 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9m9m-0001Vq-H2
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:51:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612949475;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hj6tCe93OnjY4bfMYyXdaUQki3iPBLUzLQD13cHCyfs=;
- b=OHldoaR7ZtVoTHT2zbHgRtWEVK+0RqQLDMmEQdVoFHzxvB5p0u8kIIDV5Hds2l2+hllPWC
- CVgBCKmdlMmoTNvesm32E6Ibc/rRHiBKz90CZdq0o83Am3qPml7PZ9u3oV8kkfRMWLLxSF
- Zweh7OnfouWHP+awj90t3h2X+GLSekM=
+ s=mimecast20190719; t=1612950692;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=eENynDJNps9kDCIJFPnyq/XCtSPyPmheRK5nRG4nsSE=;
+ b=AM4jfRKZEgcdYqIJFuTBKeAR9i0tN1CV1F7amf/+WEa3EFNKd67rvH00CJX6fYdiZ7J2cA
+ b8N7eA3qiA8hcmIZ6UK9P9kNxlVWtw1Li0M3fivWdXy8f6nDJ1iCE22a5KbmMWKkC11D8E
+ KjTEAFVtcXOpviWYyW8Cd617DcjGyTg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-8l3EYGvnOOSRsXHEP41H1g-1; Wed, 10 Feb 2021 04:31:12 -0500
-X-MC-Unique: 8l3EYGvnOOSRsXHEP41H1g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-69-czISM5FXN4WpngEoPoVZVg-1; Wed, 10 Feb 2021 04:51:31 -0500
+X-MC-Unique: czISM5FXN4WpngEoPoVZVg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AD091934102;
- Wed, 10 Feb 2021 09:31:11 +0000 (UTC)
-Received: from redhat.com (ovpn-115-94.ams2.redhat.com [10.36.115.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBEDA5C3F8;
- Wed, 10 Feb 2021 09:31:07 +0000 (UTC)
-Date: Wed, 10 Feb 2021 09:31:02 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Doug Evans <dje@google.com>
-Subject: Re: [PATCH v3 0/3]
-Message-ID: <20210210093102.GB1240644@redhat.com>
-References: <20210203233539.1990032-1-dje@google.com>
- <20210204100349.GF549438@redhat.com>
- <CADPb22THtnaRgz3MAa+=U+dgZeZR4+FDO_SvpfsqKbnSJRnOmA@mail.gmail.com>
- <CADPb22Q2k0EpEG6=h=Riswitpha0okeEeoP9Use3yfYtV7t6ZA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54F29193578B;
+ Wed, 10 Feb 2021 09:51:30 +0000 (UTC)
+Received: from localhost (ovpn-114-231.ams2.redhat.com [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E786B5D9CD;
+ Wed, 10 Feb 2021 09:51:29 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests: Consistent $IMGOPTS boundary matching
+Date: Wed, 10 Feb 2021 10:51:28 +0100
+Message-Id: <20210210095128.22732-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CADPb22Q2k0EpEG6=h=Riswitpha0okeEeoP9Use3yfYtV7t6ZA@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,54 +73,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 09, 2021 at 06:16:57PM -0800, Doug Evans wrote:
-> On Thu, Feb 4, 2021 at 10:25 AM Doug Evans <dje@google.com> wrote:
-> 
-> > On Thu, Feb 4, 2021 at 2:03 AM Daniel P. Berrangé <berrange@redhat.com>
-> > wrote:
-> >
-> >> On Wed, Feb 03, 2021 at 03:35:36PM -0800, dje--- via wrote:
-> >> > Add support for ipv6 host forwarding
-> >> >
-> >> > This patchset takes the original patch from Maxim,
-> >> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
-> >> > and updates it.
-> >> >
-> >> > New option: -ipv6-hostfwd
-> >> >
-> >> > New commands: ipv6_hostfwd_add, ipv6_hostfwd_remove
-> >> >
-> >> > These are the ipv6 equivalents of their ipv4 counterparts.
-> >>
-> >> Before I noticed this v3, I send a reply to your v2 sugesting
-> >> that we don't need to add any new commands/options. We can
-> >> use existing inet_parse() helper function to parse the address
-> >> info and transparently support IPv4/6 in the existing commands
-> >> and options. This matches normal practice elsewhere in QEMU
-> >> for IP dual stack.
-> >>
-> >
-> > I'm all for this, fwiw.
-> >
-> 
-> 
-> I should say I'm all for not adding new commands/options.
-> Looking at inet_parse() it cannot be used as-is.
-> The question then becomes: Will refactoring it buy enough?
+To disallow certain refcount_bits values, some _unsupported_imgopts
+invocations look like "refcount_bits=1[^0-9]", i.e. they match an
+integer boundary with [^0-9].  This expression does not match the end of
+the string, though, so it breaks down when refcount_bits is the last
+option (which it tends to be after the rewrite of the check script in
+Python).
 
-What's the problem your hitting with inet_parse ?
+Those invocations could use \b or \> instead, but those are not
+portable.  They could use something like \([^0-9]\|$\), but that would
+be cumbersome.  To make it simple and keep the existing invocations
+working, just let _unsupported_imgopts match the regex against $IMGOPTS
+plus a trailing space.
 
-Regards,
-Daniel
+Suggested-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+Supersedes "iotests: Fix unsupported_imgopts for refcount_bits", and can
+be reproduced in the same way:
+
+$ ./check -qcow2 -o refcount_bits=1 7 15 29 58 62 66 68 80
+
+(those tests should be skipped)
+---
+ tests/qemu-iotests/common.rc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 77c37e8312..65cdba5723 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -885,7 +885,9 @@ _unsupported_imgopts()
+ {
+     for bad_opt
+     do
+-        if echo "$IMGOPTS" | grep -q 2>/dev/null "$bad_opt"
++        # Add a space so tests can match for whitespace that marks the
++        # end of an option (\b or \> are not portable)
++        if echo "$IMGOPTS " | grep -q 2>/dev/null "$bad_opt"
+         then
+             _notrun "not suitable for image option: $bad_opt"
+         fi
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.29.2
 
 
