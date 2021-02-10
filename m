@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67FF316A5A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 16:38:02 +0100 (CET)
-Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609B9316A51
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 16:35:37 +0100 (CET)
+Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9rZ3-0006Ts-Sg
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 10:38:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54078)
+	id 1l9rWi-0002lu-Dk
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 10:35:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l9rQi-00043z-PA
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:29:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54600)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l9rQk-00048Q-NH
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:29:26 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l9rQd-0008WU-0V
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:29:24 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l9rQd-00004x-Hh
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:29:26 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C2837AC97;
- Wed, 10 Feb 2021 15:29:07 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 50E64B133;
+ Wed, 10 Feb 2021 15:29:08 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC v17 12/14] i386: separate fpu_helper into user and softmmu parts
-Date: Wed, 10 Feb 2021 16:28:57 +0100
-Message-Id: <20210210152859.25920-13-cfontana@suse.de>
+Subject: [RFC v17 13/14] i386: slit svm_helper into softmmu and stub-only user
+Date: Wed, 10 Feb 2021 16:28:58 +0100
+Message-Id: <20210210152859.25920-14-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210210152859.25920-1-cfontana@suse.de>
 References: <20210210152859.25920-1-cfontana@suse.de>
@@ -64,129 +64,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/i386/cpu.h                            |  3 +
- target/i386/tcg/fpu_helper.c                 | 58 +----------------
- target/i386/tcg/softmmu/fpu_helper_softmmu.c | 67 ++++++++++++++++++++
- target/i386/tcg/user/fpu_helper_user.c       | 49 ++++++++++++++
- target/i386/tcg/softmmu/meson.build          |  1 +
- target/i386/tcg/user/meson.build             |  1 +
- 6 files changed, 123 insertions(+), 56 deletions(-)
- create mode 100644 target/i386/tcg/softmmu/fpu_helper_softmmu.c
- create mode 100644 target/i386/tcg/user/fpu_helper_user.c
+ target/i386/tcg/{ => softmmu}/svm_helper.c | 62 +-----------------
+ target/i386/tcg/user/svm_helper_user.c     | 76 ++++++++++++++++++++++
+ target/i386/tcg/meson.build                |  1 -
+ target/i386/tcg/softmmu/meson.build        |  1 +
+ target/i386/tcg/user/meson.build           |  1 +
+ 5 files changed, 80 insertions(+), 61 deletions(-)
+ rename target/i386/tcg/{ => softmmu}/svm_helper.c (96%)
+ create mode 100644 target/i386/tcg/user/svm_helper_user.c
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index a4f9bbef55..afcf34e40b 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1811,7 +1811,10 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env);
- int cpu_get_pic_interrupt(CPUX86State *s);
- /* MSDOS compatibility mode FPU exception support */
- void x86_register_ferr_irq(qemu_irq irq);
-+bool fpu_check_raise_ferr_irq(CPUX86State *s);
- void cpu_set_ignne(void);
-+void cpu_clear_ignne(void);
-+
- /* mpx_helper.c */
- void cpu_sync_bndcs_hflags(CPUX86State *env);
+diff --git a/target/i386/tcg/svm_helper.c b/target/i386/tcg/softmmu/svm_helper.c
+similarity index 96%
+rename from target/i386/tcg/svm_helper.c
+rename to target/i386/tcg/softmmu/svm_helper.c
+index 097bb9b83d..a2c9819330 100644
+--- a/target/i386/tcg/svm_helper.c
++++ b/target/i386/tcg/softmmu/svm_helper.c
+@@ -1,5 +1,5 @@
+ /*
+- *  x86 SVM helpers
++ *  x86 SVM helpers (softmmu-only)
+  *
+  *  Copyright (c) 2003 Fabrice Bellard
+  *
+@@ -22,66 +22,10 @@
+ #include "exec/helper-proto.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+-#include "helper-tcg.h"
++#include "tcg/helper-tcg.h"
  
-diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index 60ed93520a..c4196d4ff0 100644
---- a/target/i386/tcg/fpu_helper.c
-+++ b/target/i386/tcg/fpu_helper.c
-@@ -75,36 +75,6 @@
- #define floatx80_ln2_d make_floatx80(0x3ffe, 0xb17217f7d1cf79abLL)
- #define floatx80_pi_d make_floatx80(0x4000, 0xc90fdaa22168c234LL)
- 
--#if !defined(CONFIG_USER_ONLY)
--static qemu_irq ferr_irq;
--
--void x86_register_ferr_irq(qemu_irq irq)
--{
--    ferr_irq = irq;
--}
--
--static void cpu_clear_ignne(void)
--{
--    CPUX86State *env = &X86_CPU(first_cpu)->env;
--    env->hflags2 &= ~HF2_IGNNE_MASK;
--}
--
--void cpu_set_ignne(void)
--{
--    CPUX86State *env = &X86_CPU(first_cpu)->env;
--    env->hflags2 |= HF2_IGNNE_MASK;
--    /*
--     * We get here in response to a write to port F0h.  The chipset should
--     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
--     * cleared, because FERR# and FP_IRQ are two separate pins on real
--     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
--     * do directly what the chipset would do, i.e. deassert FP_IRQ.
--     */
--    qemu_irq_lower(ferr_irq);
--}
--#endif
--
--
- static inline void fpush(CPUX86State *env)
- {
-     env->fpstt = (env->fpstt - 1) & 7;
-@@ -203,8 +173,8 @@ static void fpu_raise_exception(CPUX86State *env, uintptr_t retaddr)
-         raise_exception_ra(env, EXCP10_COPR, retaddr);
-     }
- #if !defined(CONFIG_USER_ONLY)
--    else if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
--        qemu_irq_raise(ferr_irq);
-+    else {
-+        (void)fpu_check_raise_ferr_irq(env);
-     }
- #endif
- }
-@@ -2501,18 +2471,6 @@ void helper_frstor(CPUX86State *env, target_ulong ptr, int data32)
-     }
- }
+ /* Secure Virtual Machine helpers */
  
 -#if defined(CONFIG_USER_ONLY)
--void cpu_x86_fsave(CPUX86State *env, target_ulong ptr, int data32)
+-
+-void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
 -{
--    helper_fsave(env, ptr, data32);
 -}
 -
--void cpu_x86_frstor(CPUX86State *env, target_ulong ptr, int data32)
+-void helper_vmmcall(CPUX86State *env)
 -{
--    helper_frstor(env, ptr, data32);
--}
--#endif
--
- #define XO(X)  offsetof(X86XSaveArea, X)
- 
- static void do_xsave_fpu(CPUX86State *env, target_ulong ptr, uintptr_t ra)
-@@ -2780,18 +2738,6 @@ void helper_fxrstor(CPUX86State *env, target_ulong ptr)
-     }
- }
- 
--#if defined(CONFIG_USER_ONLY)
--void cpu_x86_fxsave(CPUX86State *env, target_ulong ptr)
--{
--    helper_fxsave(env, ptr);
 -}
 -
--void cpu_x86_fxrstor(CPUX86State *env, target_ulong ptr)
+-void helper_vmload(CPUX86State *env, int aflag)
 -{
--    helper_fxrstor(env, ptr);
 -}
--#endif
 -
- void helper_xrstor(CPUX86State *env, target_ulong ptr, uint64_t rfbm)
+-void helper_vmsave(CPUX86State *env, int aflag)
+-{
+-}
+-
+-void helper_stgi(CPUX86State *env)
+-{
+-}
+-
+-void helper_clgi(CPUX86State *env)
+-{
+-}
+-
+-void helper_skinit(CPUX86State *env)
+-{
+-}
+-
+-void helper_invlpga(CPUX86State *env, int aflag)
+-{
+-}
+-
+-void cpu_vmexit(CPUX86State *nenv, uint32_t exit_code, uint64_t exit_info_1,
+-                uintptr_t retaddr)
+-{
+-    assert(0);
+-}
+-
+-void helper_svm_check_intercept_param(CPUX86State *env, uint32_t type,
+-                                      uint64_t param)
+-{
+-}
+-
+-void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
+-                                   uint64_t param, uintptr_t retaddr)
+-{
+-}
+-
+-void helper_svm_check_io(CPUX86State *env, uint32_t port, uint32_t param,
+-                         uint32_t next_eip_addend)
+-{
+-}
+-#else
+-
+ static inline void svm_save_seg(CPUX86State *env, hwaddr addr,
+                                 const SegmentCache *sc)
  {
-     uintptr_t ra = GETPC();
-diff --git a/target/i386/tcg/softmmu/fpu_helper_softmmu.c b/target/i386/tcg/softmmu/fpu_helper_softmmu.c
+@@ -797,5 +741,3 @@ void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1)
+        host's code segment or non-canonical (in the case of long mode), a
+        #GP fault is delivered inside the host. */
+ }
+-
+-#endif
+diff --git a/target/i386/tcg/user/svm_helper_user.c b/target/i386/tcg/user/svm_helper_user.c
 new file mode 100644
-index 0000000000..c3c78f4e28
+index 0000000000..97528b56ad
 --- /dev/null
-+++ b/target/i386/tcg/softmmu/fpu_helper_softmmu.c
-@@ -0,0 +1,67 @@
++++ b/target/i386/tcg/user/svm_helper_user.c
+@@ -0,0 +1,76 @@
 +/*
-+ *  x86 FPU, MMX/3DNow!/SSE/SSE2/SSE3/SSSE3/SSE4/PNI helpers (softmmu code)
++ *  x86 SVM helpers (user-mode)
 + *
 + *  Copyright (c) 2003 Fabrice Bellard
 + *
@@ -205,127 +187,93 @@ index 0000000000..c3c78f4e28
 + */
 +
 +#include "qemu/osdep.h"
-+#include <math.h>
 +#include "cpu.h"
 +#include "exec/helper-proto.h"
-+#include "qemu/host-utils.h"
-+#include "exec/exec-all.h"
-+#include "exec/cpu_ldst.h"
-+#include "fpu/softfloat.h"
-+#include "fpu/softfloat-macros.h"
 +#include "tcg/helper-tcg.h"
 +
-+#include "hw/irq.h"
-+
-+static qemu_irq ferr_irq;
-+
-+void x86_register_ferr_irq(qemu_irq irq)
++void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
 +{
-+    ferr_irq = irq;
 +}
 +
-+bool fpu_check_raise_ferr_irq(CPUX86State *env)
++void helper_vmmcall(CPUX86State *env)
 +{
-+    if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
-+        qemu_irq_raise(ferr_irq);
-+        return true;
-+    }
-+    return false;
 +}
 +
-+void cpu_clear_ignne(void)
++void helper_vmload(CPUX86State *env, int aflag)
 +{
-+    CPUX86State *env = &X86_CPU(first_cpu)->env;
-+    env->hflags2 &= ~HF2_IGNNE_MASK;
 +}
 +
-+void cpu_set_ignne(void)
++void helper_vmsave(CPUX86State *env, int aflag)
 +{
-+    CPUX86State *env = &X86_CPU(first_cpu)->env;
-+    env->hflags2 |= HF2_IGNNE_MASK;
-+    /*
-+     * We get here in response to a write to port F0h.  The chipset should
-+     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
-+     * cleared, because FERR# and FP_IRQ are two separate pins on real
-+     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
-+     * do directly what the chipset would do, i.e. deassert FP_IRQ.
-+     */
-+    qemu_irq_lower(ferr_irq);
-+}
-diff --git a/target/i386/tcg/user/fpu_helper_user.c b/target/i386/tcg/user/fpu_helper_user.c
-new file mode 100644
-index 0000000000..7c0782ebca
---- /dev/null
-+++ b/target/i386/tcg/user/fpu_helper_user.c
-@@ -0,0 +1,49 @@
-+/*
-+ *  x86 FPU, MMX/3DNow!/SSE/SSE2/SSE3/SSSE3/SSE4/PNI helpers (user-mode)
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <math.h>
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
-+#include "qemu/host-utils.h"
-+#include "exec/exec-all.h"
-+#include "exec/cpu_ldst.h"
-+#include "fpu/softfloat.h"
-+#include "fpu/softfloat-macros.h"
-+#include "tcg/helper-tcg.h"
-+
-+void cpu_x86_fsave(CPUX86State *env, target_ulong ptr, int data32)
-+{
-+    helper_fsave(env, ptr, data32);
 +}
 +
-+void cpu_x86_frstor(CPUX86State *env, target_ulong ptr, int data32)
++void helper_stgi(CPUX86State *env)
 +{
-+    helper_frstor(env, ptr, data32);
 +}
 +
-+void cpu_x86_fxsave(CPUX86State *env, target_ulong ptr)
++void helper_clgi(CPUX86State *env)
 +{
-+    helper_fxsave(env, ptr);
 +}
 +
-+void cpu_x86_fxrstor(CPUX86State *env, target_ulong ptr)
++void helper_skinit(CPUX86State *env)
 +{
-+    helper_fxrstor(env, ptr);
 +}
++
++void helper_invlpga(CPUX86State *env, int aflag)
++{
++}
++
++void cpu_vmexit(CPUX86State *nenv, uint32_t exit_code, uint64_t exit_info_1,
++                uintptr_t retaddr)
++{
++    assert(0);
++}
++
++void helper_svm_check_intercept_param(CPUX86State *env, uint32_t type,
++                                      uint64_t param)
++{
++}
++
++void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
++                                   uint64_t param, uintptr_t retaddr)
++{
++}
++
++void helper_svm_check_io(CPUX86State *env, uint32_t port, uint32_t param,
++                         uint32_t next_eip_addend)
++{
++}
+diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
+index ec5daa1edc..6fbac2f240 100644
+--- a/target/i386/tcg/meson.build
++++ b/target/i386/tcg/meson.build
+@@ -8,7 +8,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'misc_helper.c',
+   'mpx_helper.c',
+   'seg_helper.c',
+-  'svm_helper.c',
+   'tcg-cpu.c',
+   'translate.c'), if_false: files('tcg-stub.c'))
+ 
 diff --git a/target/i386/tcg/softmmu/meson.build b/target/i386/tcg/softmmu/meson.build
-index 50b830419d..63576e5833 100644
+index 63576e5833..ded71d8103 100644
 --- a/target/i386/tcg/softmmu/meson.build
 +++ b/target/i386/tcg/softmmu/meson.build
-@@ -4,4 +4,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
-   'excp_helper_softmmu.c',
+@@ -5,4 +5,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
    'bpt_helper_softmmu.c',
    'misc_helper_softmmu.c',
-+  'fpu_helper_softmmu.c',
+   'fpu_helper_softmmu.c',
++  'svm_helper.c',
  ))
 diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
-index 0fa9a48ee3..e0fb69e601 100644
+index e0fb69e601..cf7025c63c 100644
 --- a/target/i386/tcg/user/meson.build
 +++ b/target/i386/tcg/user/meson.build
-@@ -4,4 +4,5 @@ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
-   'excp_helper_user.c',
+@@ -5,4 +5,5 @@ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
    'bpt_helper_user.c',
    'misc_helper_user.c',
-+  'fpu_helper_user.c',
+   'fpu_helper_user.c',
++  'svm_helper_user.c',
  ))
 -- 
 2.26.2
