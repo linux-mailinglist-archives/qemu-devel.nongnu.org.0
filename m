@@ -2,163 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69609316B2E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:28:35 +0100 (CET)
-Received: from localhost ([::1]:54246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACDB316B56
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:34:07 +0100 (CET)
+Received: from localhost ([::1]:57616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9sLx-000123-Vd
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:28:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39140)
+	id 1l9sRK-0002a3-D4
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:34:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venu.busireddy@oracle.com>)
- id 1l9sJk-0000Xr-8C; Wed, 10 Feb 2021 11:26:16 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:51390)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venu.busireddy@oracle.com>)
- id 1l9sJb-0004GS-0n; Wed, 10 Feb 2021 11:26:15 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11AGEZZd066895;
- Wed, 10 Feb 2021 16:25:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=13SH5MlOVluhHPvrEAKBUd6WK+nQdgLBJkouaZW2Shk=;
- b=RM76rVfdlUdmOFTSxmMmgztgOMNzvUhiCfPqstP3JLyL3LUbOGC49wsesHfCbWJ/Q3O/
- MkrwNwU9o9jPC+zFU/B2vIyPR0by0DazTYO6H1cRUxuIGUKpul/mBU3aXmrhZy/1qQ60
- /U1G2TT8gV8hKcY7g1o7noRKGSYD6UPXEa15cbhwhv3gug1TuLtDeG0PSH2fQQtugVJG
- abTb5bkQJ+nV1qbb46FrC5UDFQmoqnMPSigAJFRTu8Mzq7+T5HUY3KEPPpvz6mnTq3ej
- 5JuXMvRnMty5gmrhhH6CYmy4SqIVdx4ZjA1X/3QVSGDBOtn5kMkdgp88ZeBCtuMsPxTq fg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 36hjhqv3ff-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 Feb 2021 16:25:39 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11AGFVLk009288;
- Wed, 10 Feb 2021 16:25:38 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam08lp2040.outbound.protection.outlook.com [104.47.74.40])
- by aserp3020.oracle.com with ESMTP id 36j512v1vm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 Feb 2021 16:25:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TTe3VQF1XDVpLTkp3HnK96eg2Cyn2LIZdt3NsnFoi+4nyzAKRsJ++sNeXv6W6gYijmwny6ggdEyUFpg1yKr/phVyJeqDjlc6PoHK6K+4wiOXQwm1S9WmSQa9jVM613kD7mQZGRtiHgt/AfV/lxSeWEJuIfuwFP2fAKAcXbEegzmJV2Bnwrxz0FZs63tPRkrBKyZZJBxWQbLIEhjUoZ61Iu4alr0UQwJYgG3cqRmHgJ40bPlB/1VMPkvZ4WQAF8PMn0uryaFxIA/dLJmbzhf9BKiQa02+vnF/csYLKidYqCs6v/0ZQdpL/W2iooeNrdZ9UPCewbKwzoy/VSZPtmwkxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13SH5MlOVluhHPvrEAKBUd6WK+nQdgLBJkouaZW2Shk=;
- b=OY0jCo2Y9O060OEnmRwW6oNDl0vGvEPOqkoTxGcl4JqEHvD2YAe55p6TNX4VLAlvI7pRhzfqP9MaPN7ncjxdm3JHCc6eEENxej/YengucYglurLLioVUAeLfRWxHTa51HIlo3DvS8GWe7pkWVSxuXbQmKsiiwe0UtEpa565624D140Q04gdExoNkv4o/NNTpBlVFX4+PHwMbvzC2b4Oo3qAGPb5HZ8PqsZLueJ+4RLT7pHt/NrTUGD/9rtca71hzt9WV5CY8YWzLMhskkDZi6dpZ8eF1T/uin/63zyasMvZC19cFnjlv2MMpXl9czAFdMHFpzUCUMY9oN3xMNVZ3lQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13SH5MlOVluhHPvrEAKBUd6WK+nQdgLBJkouaZW2Shk=;
- b=ZhxzMnZ92lzty6eEQm3kzAmWOlSBA6pCalptMYaBcGD6xEffBRGyitqyK5ziw6L6GNiVDPpKSfnsiPbUsgtg0h9S6UtPtPJ5PARA36oYabK36tADLgGqkFWC+8qKP6mzZY0h+zJ1M7r6E1QIvxaMHYD/du+u1lGN889yrZkwhXc=
-Authentication-Results: gibson.dropbear.id.au; dkim=none (message not signed)
- header.d=none; gibson.dropbear.id.au;
- dmarc=none action=none header.from=oracle.com;
-Received: from DM5PR10MB2044.namprd10.prod.outlook.com (2603:10b6:3:110::17)
- by DM5PR1001MB2297.namprd10.prod.outlook.com (2603:10b6:4:31::35) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16; Wed, 10 Feb
- 2021 16:25:36 +0000
-Received: from DM5PR10MB2044.namprd10.prod.outlook.com
- ([fe80::3c1b:996a:6c0f:5bbe]) by DM5PR10MB2044.namprd10.prod.outlook.com
- ([fe80::3c1b:996a:6c0f:5bbe%6]) with mapi id 15.20.3846.027; Wed, 10 Feb 2021
- 16:25:36 +0000
-Date: Wed, 10 Feb 2021 10:25:30 -0600
-From: Venu Busireddy <venu.busireddy@oracle.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v8 07/13] confidential guest support: Introduce cgs
- "ready" flag
-Message-ID: <20210210162530.GA84305@dt>
-References: <20210202041315.196530-1-david@gibson.dropbear.id.au>
- <20210202041315.196530-8-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210202041315.196530-8-david@gibson.dropbear.id.au>
-X-Originating-IP: [137.254.7.171]
-X-ClientProxiedBy: SJ0PR13CA0203.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::28) To DM5PR10MB2044.namprd10.prod.outlook.com
- (2603:10b6:3:110::17)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l9sP4-0001tO-0O
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:31:47 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37068)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l9sP0-0005mz-3n
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:31:45 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id v15so3288205wrx.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 08:31:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=yAXB4vHcwKWOLXOre6WCWMza+EilXkMjyCw5fZHBYVs=;
+ b=N3d8Xa3/+Lu2KFqx8m6AjKZemvNZYHxqmB6twYOXZh0raTVPCSFXpLx36xlfkgFLdZ
+ 2j1ubiA3C1/BTNx2cL5RSMJLNEEakLKcX58FsrSOoCHgp+zhPAVHBRLoMJ1wbrr9wjCP
+ b4BB6aucC8zVOLdKJW1Mxz5dpP6AGIWuUX/lefkMoPY4bFlRn0Vyaq0PCXTm6kWKyMVd
+ lSr4RVm26TdUM3qbVmdRIWrAA8HsAH306HWLk4lz29URQpoRL0uSsXZvQJI6QWXFR1pB
+ UK556zLEvxpozZY2cMaWtw2z5hRiuNg1GmQrXB61cbOFDOaJtUkir3Bz+BaaNy1gDtfJ
+ xtHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=yAXB4vHcwKWOLXOre6WCWMza+EilXkMjyCw5fZHBYVs=;
+ b=UhDrvwfXEfHSI8vmgb9C+ZssBfTEgpDKoYGic9Afy5wFVuatpdeAifroa4aeg8vzz+
+ /nk8AD9FO0i+gTG2d397e58QuyyFqp4xE4q0wqcO2WDUYavkyJmbQaHdCe1hrTghGR3b
+ louKcxFG4Vr5A/hKOJWQVskda0RYqK/73SQ2dYGWZqLsGz+70UZiy6DLkPbJhpxtMtNq
+ bu3abTznDcNMVJU/JjbEjSN4evlSQzlLVpy0gjKo1dxKfh9VwzFjPKJMYPDFay+NRUPD
+ nL3f4P+k8tBWE5L49cZHi5gs31ASVMckkC+oLF8ia4pJfGmEMRoCLfNkwy5e5a7pEfwQ
+ LHJg==
+X-Gm-Message-State: AOAM530T+Wf0zkwhWPSzHfaVRyeANA/5kr06y2ZnJT0I9imPgjP8tAh0
+ HAjl0LYTkQ5YUhz/mTGoFcREtQ==
+X-Google-Smtp-Source: ABdhPJzhHBDvm8t/3gXtOgWqI2FELc0ldhh8xvGLo/iB0ZMz3h3iy0Fg+DhRUmJ2M/rb4KJOWxEv0w==
+X-Received: by 2002:a5d:5708:: with SMTP id a8mr1120795wrv.294.1612974699705; 
+ Wed, 10 Feb 2021 08:31:39 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x18sm3125267wmi.8.2021.02.10.08.31.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Feb 2021 08:31:38 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D77061FF7E;
+ Wed, 10 Feb 2021 16:31:36 +0000 (GMT)
+References: <20210210152859.25920-1-cfontana@suse.de>
+ <20210210152859.25920-11-cfontana@suse.de>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v17 10/14] i386: split tcg btp_helper into softmmu and
+ user parts
+Date: Wed, 10 Feb 2021 16:28:56 +0000
+In-reply-to: <20210210152859.25920-11-cfontana@suse.de>
+Message-ID: <87blcrx4t3.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from dt (137.254.7.171) by SJ0PR13CA0203.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.11 via Frontend
- Transport; Wed, 10 Feb 2021 16:25:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a46a51cb-02ae-493a-42c8-08d8cde07f26
-X-MS-TrafficTypeDiagnostic: DM5PR1001MB2297:
-X-Microsoft-Antispam-PRVS: <DM5PR1001MB2297BBCE61785C882047E991E68D9@DM5PR1001MB2297.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hdbyVt8mllxoMTMwA4hURd6ztFjr9DYdYhuTbNYX2pniMrDcZiXmNxj3BS6epKIy5xeIsEQ7xGLFLYjZwaI/f5/yC2bCdfoyZqcagVhWIPuMzjNcRWCghAfD0tyL/ZBZU+eqvTluSbIRQjUCA6OVHClrKjElH2IiQIqTsoIuP1N7nv9d4cHifcaP5/gSEVqzy4BsVXayb8Bws5eYY2JGk5lInwA5zVHiLr48El9LnQvr3g/ttbsPPHQjRz5wwgLzbYYj5vM1f2UmcjjCNyD344sTzN6iaOfNszP7pGDn5BImAtk5yprOe9TwiYd1jGcs0IvxUTyuWa95ao4LMWycd+Fpu300lNLh8UJUTP2RCJC81Krm8nj4QP9lF7plslQuSXrEgpw3MsOIfEoThryEN19ZNwPCcKdiCoLSVjwomIe6QWYdtqiEbYMRv5Hg9zFnXAsaqPpQEzQ2NxbVX2aSeTqiwAsXJNq74unHFzXTqjIIlE9+45oV03tKfhtqETWMWRLu6XaNJreS0ao1xveLpA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR10MB2044.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(376002)(39860400002)(136003)(366004)(396003)(4326008)(8676002)(2906002)(66556008)(54906003)(66476007)(44832011)(53546011)(33656002)(9576002)(83380400001)(956004)(1076003)(52116002)(478600001)(6496006)(5660300002)(26005)(33716001)(86362001)(8936002)(6916009)(9686003)(66946007)(316002)(55016002)(186003)(16526019)(7416002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?2KtsNofj/iQY7a/034qdCAR+Xdp+JYS4/qvhwbb/AoOl6GUDrmAbK5mFbbGF?=
- =?us-ascii?Q?uRnGDsLrNuPodaImibDuZkdAj9+nv6zxevLXSlX5TYfX8ExYM/4kHIS6gulx?=
- =?us-ascii?Q?HosBMtLks6Mcn03mQ19wEnl5RaAJQ+nCxz6xboVHD6e+UEtuWtVtIz59oR3M?=
- =?us-ascii?Q?WstgOZZgntZP8PNvqoMELj0dA0MmBESU+oN0wu5bhPm+xoxmbVEkjbWUCVUl?=
- =?us-ascii?Q?KEdCWPX3C9F8cNoj/PIaheXZUfbxnmdDgwJ+qnB7uMXypAJVl5JYZXDmsQP0?=
- =?us-ascii?Q?lyCuNtr5rOUOzhUhUoY93MLERwPOrrbsM2blzwaPY5KhtKiqVJ3pFBgxaPJA?=
- =?us-ascii?Q?zuNlP8fCL8REAC7NIYUz/Hvwg3tPCRHJmOSnThUAZAikYke5C51cLGQlRSsn?=
- =?us-ascii?Q?CM61E3G1KO6fefh8DT2WzBYPoX/CS4RqicBjxrt/B/ktchtqerwHc3LsEU80?=
- =?us-ascii?Q?vEHWHDZ0YKsL51khaxTbn2DDXnBzlRAhlbNrlecaqgholCupD8SQn1bHhAiR?=
- =?us-ascii?Q?DHxV09zrSel1d2bdSSiZI3GV+IzkgZ6Yn3sVWROJppiSQ4bdoILlN0w/Fn1T?=
- =?us-ascii?Q?RUtqGlMaB7cmz455n/6Ss76HOVOHagVMcJFDyiKQvHrbzSilHn4cjJ9zrndq?=
- =?us-ascii?Q?dLEQcRD/HR4lsRwkaof9JL3UpNOwUkgLfLMhFzOeH1kWL9ZTfLQlKERXra+W?=
- =?us-ascii?Q?/z+w5E9BEbTo78o3YJ+Gp1206Tpm9JlWSrTB5d1ZmenBeKyJ5UA0/86qsULy?=
- =?us-ascii?Q?0ZY1NiUfsjA1tS0kOgg9WAvCeCYRjGyxJGpVfRechbtfVgFA9LSVgW69RNX5?=
- =?us-ascii?Q?p4wE9K5eIregK/nczH/wzvG+lYwJcddufA6BghyfZ1dLKn1NPtEIl15cjhQz?=
- =?us-ascii?Q?HetN9vlzbVILWrFDn40MYATnxzVGqO7Ts5tgLSlkngZ1XDQw7GOJa7JWD4yd?=
- =?us-ascii?Q?oOR23pwUwZ91Z+dgXtdD+u8JSXSdYm/5mucLWEQyNJVOjhcG/2sRRLr9XLhJ?=
- =?us-ascii?Q?x3wWHZFPXl/4M5NQ5nkUlQ8TVZAbFhAsTilj1P4AF5uVXgY0YukBgXXaZ7Mq?=
- =?us-ascii?Q?naJYhL+fA5JmX/vZjvCAqOv6b4yk/8eDHLgy4iJ9sp/Dzabb/hwyXOwN+nvw?=
- =?us-ascii?Q?KF+LP9uAoqbXtF0vJq0QXV2nRXlKqlhTHCUcNHHK1a7MtugyoHXEGF/n/7+S?=
- =?us-ascii?Q?OEKe+Orz9ddiW/SrhKTw1YvnzIm2KGGGijhqhn8uH5GEROWWdE2u+mTKkRK7?=
- =?us-ascii?Q?DtqSGmbataAh6zaZKEGZCtNmwUGh34z3uED0royQVCqVK8qyYPajUw58Xojl?=
- =?us-ascii?Q?0b++8qFeGMGTnDyqrbDMFDbL?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a46a51cb-02ae-493a-42c8-08d8cde07f26
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR10MB2044.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2021 16:25:36.4886 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EZ9/3gklRc6jVsf3e6aUIGLUQg0YkWDBBXVcZLbTV9dmj1oxx0dcLz1qGbT2Hwz1JTq0ZB7lRdijNwoEUGiH0MwFzdDaVlcWpj+LO0yiO7A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1001MB2297
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9891
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 phishscore=0 spamscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102100152
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9891
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- impostorscore=0
- priorityscore=1501 bulkscore=0 suspectscore=0 mlxscore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1011 spamscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102100152
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=venu.busireddy@oracle.com; helo=userp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -171,131 +88,729 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, mtosatti@redhat.com, brijesh.singh@amd.com,
- kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
- mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- pragyansri.pathi@intel.com, andi.kleen@intel.com, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
- dgilbert@redhat.com, Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org,
- jun.nakajima@intel.com, berrange@redhat.com, Cornelia Huck <cohuck@redhat.com>,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021-02-02 15:13:09 +1100, David Gibson wrote:
-> The platform specific details of mechanisms for implementing
-> confidential guest support may require setup at various points during
-> initialization.  Thus, it's not really feasible to have a single cgs
-> initialization hook, but instead each mechanism needs its own
-> initialization calls in arch or machine specific code.
-> 
-> However, to make it harder to have a bug where a mechanism isn't
-> properly initialized under some circumstances, we want to have a
-> common place, late in boot, where we verify that cgs has been
-> initialized if it was requested.
-> 
-> This patch introduces a ready flag to the ConfidentialGuestSupport
-> base type to accomplish this, which we verify in
-> qemu_machine_creation_done().
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+
+Claudio Fontana <cfontana@suse.de> writes:
+
+s/btp/bpt/ in subject line...
+
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > ---
->  include/exec/confidential-guest-support.h | 24 +++++++++++++++++++++++
->  softmmu/vl.c                              | 10 ++++++++++
->  target/i386/sev.c                         |  2 ++
->  3 files changed, 36 insertions(+)
-> 
-> diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
-> index 3db6380e63..5dcf602047 100644
-> --- a/include/exec/confidential-guest-support.h
-> +++ b/include/exec/confidential-guest-support.h
-> @@ -27,6 +27,30 @@ OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
->  
->  struct ConfidentialGuestSupport {
->      Object parent;
+>  target/i386/tcg/helper-tcg.h                 |   3 +
+>  target/i386/tcg/bpt_helper.c                 | 275 -----------------
+>  target/i386/tcg/softmmu/bpt_helper_softmmu.c | 293 +++++++++++++++++++
+>  target/i386/tcg/user/bpt_helper_user.c       |  33 +++
+
+So I'm not sure about totally mirroring the file names in softmmu/user
+subdirs. I can see it makes sense in some cases where there are genuine
+functional differences between the two. However for everything that
+exists only for one mode we might as well throw the stubs into one file.
+Maybe target/tcg/user/stubs.c in this case?
+
+>  target/i386/tcg/softmmu/meson.build          |   1 +
+>  target/i386/tcg/user/meson.build             |   1 +
+>  6 files changed, 331 insertions(+), 275 deletions(-)
+>  create mode 100644 target/i386/tcg/softmmu/bpt_helper_softmmu.c
+>  create mode 100644 target/i386/tcg/user/bpt_helper_user.c
+>
+> diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
+> index c133c63555..b420b3356d 100644
+> --- a/target/i386/tcg/helper-tcg.h
+> +++ b/target/i386/tcg/helper-tcg.h
+> @@ -92,4 +92,7 @@ void do_interrupt_x86_hardirq(CPUX86State *env, int int=
+no, int is_hw);
+>  /* smm_helper.c */
+>  void do_smm_enter(X86CPU *cpu);
+>=20=20
+> +/* bpt_helper.c */
+> +bool check_hw_breakpoints(CPUX86State *env, bool force_dr6_update);
 > +
-> +    /*
-> +     * ready: flag set by CGS initialization code once it's ready to
-> +     *        start executing instructions in a potentially-secure
-> +     *        guest
-> +     *
-> +     * The definition here is a bit fuzzy, because this is essentially
-> +     * part of a self-sanity-check, rather than a strict mechanism.
-> +     *
-> +     * It's not fasible to have a single point in the common machine
-
-Just a nit pick.
-
-s/fasible/feasible/
-
-> +     * init path to configure confidential guest support, because
-> +     * different mechanisms have different interdependencies requiring
-> +     * initialization in different places, often in arch or machine
-> +     * type specific code.  It's also usually not possible to check
-> +     * for invalid configurations until that initialization code.
-> +     * That means it would be very easy to have a bug allowing CGS
-> +     * init to be bypassed entirely in certain configurations.
-> +     *
-> +     * Silently ignoring a requested security feature would be bad, so
-> +     * to avoid that we check late in init that this 'ready' flag is
-> +     * set if CGS was requested.  If the CGS init hasn't happened, and
-> +     * so 'ready' is not set, we'll abort.
-> +     */
-> +    bool ready;
->  };
->  
->  typedef struct ConfidentialGuestSupportClass {
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 1b464e3474..1869ed54a9 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -101,6 +101,7 @@
->  #include "qemu/plugin.h"
->  #include "qemu/queue.h"
->  #include "sysemu/arch_init.h"
-> +#include "exec/confidential-guest-support.h"
->  
->  #include "ui/qemu-spice.h"
->  #include "qapi/string-input-visitor.h"
-> @@ -2497,6 +2498,8 @@ static void qemu_create_cli_devices(void)
->  
->  static void qemu_machine_creation_done(void)
+>  #endif /* I386_HELPER_TCG_H */
+> diff --git a/target/i386/tcg/bpt_helper.c b/target/i386/tcg/bpt_helper.c
+> index 979230ac12..2433991f07 100644
+> --- a/target/i386/tcg/bpt_helper.c
+> +++ b/target/i386/tcg/bpt_helper.c
+> @@ -23,219 +23,6 @@
+>  #include "exec/helper-proto.h"
+>  #include "helper-tcg.h"
+>=20=20
+> -
+> -#ifndef CONFIG_USER_ONLY
+> -static inline bool hw_local_breakpoint_enabled(unsigned long dr7, int in=
+dex)
+> -{
+> -    return (dr7 >> (index * 2)) & 1;
+> -}
+> -
+> -static inline bool hw_global_breakpoint_enabled(unsigned long dr7, int i=
+ndex)
+> -{
+> -    return (dr7 >> (index * 2)) & 2;
+> -
+> -}
+> -static inline bool hw_breakpoint_enabled(unsigned long dr7, int index)
+> -{
+> -    return hw_global_breakpoint_enabled(dr7, index) ||
+> -           hw_local_breakpoint_enabled(dr7, index);
+> -}
+> -
+> -static inline int hw_breakpoint_type(unsigned long dr7, int index)
+> -{
+> -    return (dr7 >> (DR7_TYPE_SHIFT + (index * 4))) & 3;
+> -}
+> -
+> -static inline int hw_breakpoint_len(unsigned long dr7, int index)
+> -{
+> -    int len =3D ((dr7 >> (DR7_LEN_SHIFT + (index * 4))) & 3);
+> -    return (len =3D=3D 2) ? 8 : len + 1;
+> -}
+> -
+> -static int hw_breakpoint_insert(CPUX86State *env, int index)
+> -{
+> -    CPUState *cs =3D env_cpu(env);
+> -    target_ulong dr7 =3D env->dr[7];
+> -    target_ulong drN =3D env->dr[index];
+> -    int err =3D 0;
+> -
+> -    switch (hw_breakpoint_type(dr7, index)) {
+> -    case DR7_TYPE_BP_INST:
+> -        if (hw_breakpoint_enabled(dr7, index)) {
+> -            err =3D cpu_breakpoint_insert(cs, drN, BP_CPU,
+> -                                        &env->cpu_breakpoint[index]);
+> -        }
+> -        break;
+> -
+> -    case DR7_TYPE_IO_RW:
+> -        /* Notice when we should enable calls to bpt_io.  */
+> -        return hw_breakpoint_enabled(env->dr[7], index)
+> -               ? HF_IOBPT_MASK : 0;
+> -
+> -    case DR7_TYPE_DATA_WR:
+> -        if (hw_breakpoint_enabled(dr7, index)) {
+> -            err =3D cpu_watchpoint_insert(cs, drN,
+> -                                        hw_breakpoint_len(dr7, index),
+> -                                        BP_CPU | BP_MEM_WRITE,
+> -                                        &env->cpu_watchpoint[index]);
+> -        }
+> -        break;
+> -
+> -    case DR7_TYPE_DATA_RW:
+> -        if (hw_breakpoint_enabled(dr7, index)) {
+> -            err =3D cpu_watchpoint_insert(cs, drN,
+> -                                        hw_breakpoint_len(dr7, index),
+> -                                        BP_CPU | BP_MEM_ACCESS,
+> -                                        &env->cpu_watchpoint[index]);
+> -        }
+> -        break;
+> -    }
+> -    if (err) {
+> -        env->cpu_breakpoint[index] =3D NULL;
+> -    }
+> -    return 0;
+> -}
+> -
+> -static void hw_breakpoint_remove(CPUX86State *env, int index)
+> -{
+> -    CPUState *cs =3D env_cpu(env);
+> -
+> -    switch (hw_breakpoint_type(env->dr[7], index)) {
+> -    case DR7_TYPE_BP_INST:
+> -        if (env->cpu_breakpoint[index]) {
+> -            cpu_breakpoint_remove_by_ref(cs, env->cpu_breakpoint[index]);
+> -            env->cpu_breakpoint[index] =3D NULL;
+> -        }
+> -        break;
+> -
+> -    case DR7_TYPE_DATA_WR:
+> -    case DR7_TYPE_DATA_RW:
+> -        if (env->cpu_breakpoint[index]) {
+> -            cpu_watchpoint_remove_by_ref(cs, env->cpu_watchpoint[index]);
+> -            env->cpu_breakpoint[index] =3D NULL;
+> -        }
+> -        break;
+> -
+> -    case DR7_TYPE_IO_RW:
+> -        /* HF_IOBPT_MASK cleared elsewhere.  */
+> -        break;
+> -    }
+> -}
+> -
+> -void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7)
+> -{
+> -    target_ulong old_dr7 =3D env->dr[7];
+> -    int iobpt =3D 0;
+> -    int i;
+> -
+> -    new_dr7 |=3D DR7_FIXED_1;
+> -
+> -    /* If nothing is changing except the global/local enable bits,
+> -       then we can make the change more efficient.  */
+> -    if (((old_dr7 ^ new_dr7) & ~0xff) =3D=3D 0) {
+> -        /* Fold the global and local enable bits together into the
+> -           global fields, then xor to show which registers have
+> -           changed collective enable state.  */
+> -        int mod =3D ((old_dr7 | old_dr7 * 2) ^ (new_dr7 | new_dr7 * 2)) =
+& 0xff;
+> -
+> -        for (i =3D 0; i < DR7_MAX_BP; i++) {
+> -            if ((mod & (2 << i * 2)) && !hw_breakpoint_enabled(new_dr7, =
+i)) {
+> -                hw_breakpoint_remove(env, i);
+> -            }
+> -        }
+> -        env->dr[7] =3D new_dr7;
+> -        for (i =3D 0; i < DR7_MAX_BP; i++) {
+> -            if (mod & (2 << i * 2) && hw_breakpoint_enabled(new_dr7, i))=
+ {
+> -                iobpt |=3D hw_breakpoint_insert(env, i);
+> -            } else if (hw_breakpoint_type(new_dr7, i) =3D=3D DR7_TYPE_IO=
+_RW
+> -                       && hw_breakpoint_enabled(new_dr7, i)) {
+> -                iobpt |=3D HF_IOBPT_MASK;
+> -            }
+> -        }
+> -    } else {
+> -        for (i =3D 0; i < DR7_MAX_BP; i++) {
+> -            hw_breakpoint_remove(env, i);
+> -        }
+> -        env->dr[7] =3D new_dr7;
+> -        for (i =3D 0; i < DR7_MAX_BP; i++) {
+> -            iobpt |=3D hw_breakpoint_insert(env, i);
+> -        }
+> -    }
+> -
+> -    env->hflags =3D (env->hflags & ~HF_IOBPT_MASK) | iobpt;
+> -}
+> -
+> -static bool check_hw_breakpoints(CPUX86State *env, bool force_dr6_update)
+> -{
+> -    target_ulong dr6;
+> -    int reg;
+> -    bool hit_enabled =3D false;
+> -
+> -    dr6 =3D env->dr[6] & ~0xf;
+> -    for (reg =3D 0; reg < DR7_MAX_BP; reg++) {
+> -        bool bp_match =3D false;
+> -        bool wp_match =3D false;
+> -
+> -        switch (hw_breakpoint_type(env->dr[7], reg)) {
+> -        case DR7_TYPE_BP_INST:
+> -            if (env->dr[reg] =3D=3D env->eip) {
+> -                bp_match =3D true;
+> -            }
+> -            break;
+> -        case DR7_TYPE_DATA_WR:
+> -        case DR7_TYPE_DATA_RW:
+> -            if (env->cpu_watchpoint[reg] &&
+> -                env->cpu_watchpoint[reg]->flags & BP_WATCHPOINT_HIT) {
+> -                wp_match =3D true;
+> -            }
+> -            break;
+> -        case DR7_TYPE_IO_RW:
+> -            break;
+> -        }
+> -        if (bp_match || wp_match) {
+> -            dr6 |=3D 1 << reg;
+> -            if (hw_breakpoint_enabled(env->dr[7], reg)) {
+> -                hit_enabled =3D true;
+> -            }
+> -        }
+> -    }
+> -
+> -    if (hit_enabled || force_dr6_update) {
+> -        env->dr[6] =3D dr6;
+> -    }
+> -
+> -    return hit_enabled;
+> -}
+> -
+> -void breakpoint_handler(CPUState *cs)
+> -{
+> -    X86CPU *cpu =3D X86_CPU(cs);
+> -    CPUX86State *env =3D &cpu->env;
+> -    CPUBreakpoint *bp;
+> -
+> -    if (cs->watchpoint_hit) {
+> -        if (cs->watchpoint_hit->flags & BP_CPU) {
+> -            cs->watchpoint_hit =3D NULL;
+> -            if (check_hw_breakpoints(env, false)) {
+> -                raise_exception(env, EXCP01_DB);
+> -            } else {
+> -                cpu_loop_exit_noexc(cs);
+> -            }
+> -        }
+> -    } else {
+> -        QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
+> -            if (bp->pc =3D=3D env->eip) {
+> -                if (bp->flags & BP_CPU) {
+> -                    check_hw_breakpoints(env, true);
+> -                    raise_exception(env, EXCP01_DB);
+> -                }
+> -                break;
+> -            }
+> -        }
+> -    }
+> -}
+> -#endif
+> -
+>  void helper_single_step(CPUX86State *env)
 >  {
-> +    MachineState *machine = MACHINE(qdev_get_machine());
+>  #ifndef CONFIG_USER_ONLY
+> @@ -252,41 +39,6 @@ void helper_rechecking_single_step(CPUX86State *env)
+>      }
+>  }
+>=20=20
+> -void helper_set_dr(CPUX86State *env, int reg, target_ulong t0)
+> -{
+> -#ifndef CONFIG_USER_ONLY
+> -    switch (reg) {
+> -    case 0: case 1: case 2: case 3:
+> -        if (hw_breakpoint_enabled(env->dr[7], reg)
+> -            && hw_breakpoint_type(env->dr[7], reg) !=3D DR7_TYPE_IO_RW) {
+> -            hw_breakpoint_remove(env, reg);
+> -            env->dr[reg] =3D t0;
+> -            hw_breakpoint_insert(env, reg);
+> -        } else {
+> -            env->dr[reg] =3D t0;
+> -        }
+> -        return;
+> -    case 4:
+> -        if (env->cr[4] & CR4_DE_MASK) {
+> -            break;
+> -        }
+> -        /* fallthru */
+> -    case 6:
+> -        env->dr[6] =3D t0 | DR6_FIXED_1;
+> -        return;
+> -    case 5:
+> -        if (env->cr[4] & CR4_DE_MASK) {
+> -            break;
+> -        }
+> -        /* fallthru */
+> -    case 7:
+> -        cpu_x86_update_dr7(env, t0);
+> -        return;
+> -    }
+> -    raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
+> -#endif
+> -}
+> -
+>  target_ulong helper_get_dr(CPUX86State *env, int reg)
+>  {
+>      switch (reg) {
+> @@ -307,30 +59,3 @@ target_ulong helper_get_dr(CPUX86State *env, int reg)
+>      }
+>      raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
+>  }
+> -
+> -/* Check if Port I/O is trapped by a breakpoint.  */
+> -void helper_bpt_io(CPUX86State *env, uint32_t port,
+> -                   uint32_t size, target_ulong next_eip)
+> -{
+> -#ifndef CONFIG_USER_ONLY
+> -    target_ulong dr7 =3D env->dr[7];
+> -    int i, hit =3D 0;
+> -
+> -    for (i =3D 0; i < DR7_MAX_BP; ++i) {
+> -        if (hw_breakpoint_type(dr7, i) =3D=3D DR7_TYPE_IO_RW
+> -            && hw_breakpoint_enabled(dr7, i)) {
+> -            int bpt_len =3D hw_breakpoint_len(dr7, i);
+> -            if (port + size - 1 >=3D env->dr[i]
+> -                && port <=3D env->dr[i] + bpt_len - 1) {
+> -                hit |=3D 1 << i;
+> -            }
+> -        }
+> -    }
+> -
+> -    if (hit) {
+> -        env->dr[6] =3D (env->dr[6] & ~0xf) | hit;
+> -        env->eip =3D next_eip;
+> -        raise_exception(env, EXCP01_DB);
+> -    }
+> -#endif
+> -}
+> diff --git a/target/i386/tcg/softmmu/bpt_helper_softmmu.c b/target/i386/t=
+cg/softmmu/bpt_helper_softmmu.c
+> new file mode 100644
+> index 0000000000..1f3dd09cad
+> --- /dev/null
+> +++ b/target/i386/tcg/softmmu/bpt_helper_softmmu.c
+> @@ -0,0 +1,293 @@
+> +/*
+> + *  i386 breakpoint helpers - softmmu-only code
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+> + */
 > +
->      /* Did we create any drives that we failed to create a device for? */
->      drive_check_orphaned();
->  
-> @@ -2516,6 +2519,13 @@ static void qemu_machine_creation_done(void)
->  
->      qdev_machine_creation_done();
->  
-> +    if (machine->cgs) {
-> +        /*
-> +         * Verify that Confidential Guest Support has actually been initialized
-> +         */
-> +        assert(machine->cgs->ready);
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "exec/exec-all.h"
+> +#include "exec/helper-proto.h"
+> +#include "tcg/helper-tcg.h"
+> +
+> +
+> +static inline bool hw_local_breakpoint_enabled(unsigned long dr7, int in=
+dex)
+> +{
+> +    return (dr7 >> (index * 2)) & 1;
+> +}
+> +
+> +static inline bool hw_global_breakpoint_enabled(unsigned long dr7, int i=
+ndex)
+> +{
+> +    return (dr7 >> (index * 2)) & 2;
+> +
+> +}
+> +static inline bool hw_breakpoint_enabled(unsigned long dr7, int index)
+> +{
+> +    return hw_global_breakpoint_enabled(dr7, index) ||
+> +           hw_local_breakpoint_enabled(dr7, index);
+> +}
+> +
+> +static inline int hw_breakpoint_type(unsigned long dr7, int index)
+> +{
+> +    return (dr7 >> (DR7_TYPE_SHIFT + (index * 4))) & 3;
+> +}
+> +
+> +static inline int hw_breakpoint_len(unsigned long dr7, int index)
+> +{
+> +    int len =3D ((dr7 >> (DR7_LEN_SHIFT + (index * 4))) & 3);
+> +    return (len =3D=3D 2) ? 8 : len + 1;
+> +}
+> +
+> +static int hw_breakpoint_insert(CPUX86State *env, int index)
+> +{
+> +    CPUState *cs =3D env_cpu(env);
+> +    target_ulong dr7 =3D env->dr[7];
+> +    target_ulong drN =3D env->dr[index];
+> +    int err =3D 0;
+> +
+> +    switch (hw_breakpoint_type(dr7, index)) {
+> +    case DR7_TYPE_BP_INST:
+> +        if (hw_breakpoint_enabled(dr7, index)) {
+> +            err =3D cpu_breakpoint_insert(cs, drN, BP_CPU,
+> +                                        &env->cpu_breakpoint[index]);
+> +        }
+> +        break;
+> +
+> +    case DR7_TYPE_IO_RW:
+> +        /* Notice when we should enable calls to bpt_io.  */
+> +        return hw_breakpoint_enabled(env->dr[7], index)
+> +               ? HF_IOBPT_MASK : 0;
+> +
+> +    case DR7_TYPE_DATA_WR:
+> +        if (hw_breakpoint_enabled(dr7, index)) {
+> +            err =3D cpu_watchpoint_insert(cs, drN,
+> +                                        hw_breakpoint_len(dr7, index),
+> +                                        BP_CPU | BP_MEM_WRITE,
+> +                                        &env->cpu_watchpoint[index]);
+> +        }
+> +        break;
+> +
+> +    case DR7_TYPE_DATA_RW:
+> +        if (hw_breakpoint_enabled(dr7, index)) {
+> +            err =3D cpu_watchpoint_insert(cs, drN,
+> +                                        hw_breakpoint_len(dr7, index),
+> +                                        BP_CPU | BP_MEM_ACCESS,
+> +                                        &env->cpu_watchpoint[index]);
+> +        }
+> +        break;
+> +    }
+> +    if (err) {
+> +        env->cpu_breakpoint[index] =3D NULL;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static void hw_breakpoint_remove(CPUX86State *env, int index)
+> +{
+> +    CPUState *cs =3D env_cpu(env);
+> +
+> +    switch (hw_breakpoint_type(env->dr[7], index)) {
+> +    case DR7_TYPE_BP_INST:
+> +        if (env->cpu_breakpoint[index]) {
+> +            cpu_breakpoint_remove_by_ref(cs, env->cpu_breakpoint[index]);
+> +            env->cpu_breakpoint[index] =3D NULL;
+> +        }
+> +        break;
+> +
+> +    case DR7_TYPE_DATA_WR:
+> +    case DR7_TYPE_DATA_RW:
+> +        if (env->cpu_breakpoint[index]) {
+> +            cpu_watchpoint_remove_by_ref(cs, env->cpu_watchpoint[index]);
+> +            env->cpu_breakpoint[index] =3D NULL;
+> +        }
+> +        break;
+> +
+> +    case DR7_TYPE_IO_RW:
+> +        /* HF_IOBPT_MASK cleared elsewhere.  */
+> +        break;
+> +    }
+> +}
+> +
+> +void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7)
+> +{
+> +    target_ulong old_dr7 =3D env->dr[7];
+> +    int iobpt =3D 0;
+> +    int i;
+> +
+> +    new_dr7 |=3D DR7_FIXED_1;
+> +
+> +    /* If nothing is changing except the global/local enable bits,
+> +       then we can make the change more efficient.  */
+> +    if (((old_dr7 ^ new_dr7) & ~0xff) =3D=3D 0) {
+> +        /* Fold the global and local enable bits together into the
+> +           global fields, then xor to show which registers have
+> +           changed collective enable state.  */
+> +        int mod =3D ((old_dr7 | old_dr7 * 2) ^ (new_dr7 | new_dr7 * 2)) =
+& 0xff;
+> +
+> +        for (i =3D 0; i < DR7_MAX_BP; i++) {
+> +            if ((mod & (2 << i * 2)) && !hw_breakpoint_enabled(new_dr7, =
+i)) {
+> +                hw_breakpoint_remove(env, i);
+> +            }
+> +        }
+> +        env->dr[7] =3D new_dr7;
+> +        for (i =3D 0; i < DR7_MAX_BP; i++) {
+> +            if (mod & (2 << i * 2) && hw_breakpoint_enabled(new_dr7, i))=
+ {
+> +                iobpt |=3D hw_breakpoint_insert(env, i);
+> +            } else if (hw_breakpoint_type(new_dr7, i) =3D=3D DR7_TYPE_IO=
+_RW
+> +                       && hw_breakpoint_enabled(new_dr7, i)) {
+> +                iobpt |=3D HF_IOBPT_MASK;
+> +            }
+> +        }
+> +    } else {
+> +        for (i =3D 0; i < DR7_MAX_BP; i++) {
+> +            hw_breakpoint_remove(env, i);
+> +        }
+> +        env->dr[7] =3D new_dr7;
+> +        for (i =3D 0; i < DR7_MAX_BP; i++) {
+> +            iobpt |=3D hw_breakpoint_insert(env, i);
+> +        }
 > +    }
 > +
->      if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
->          exit(1);
->      }
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 590cb31fa8..f9e9b5d8ae 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -737,6 +737,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->      qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
->      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
->  
-> +    cgs->ready = true;
+> +    env->hflags =3D (env->hflags & ~HF_IOBPT_MASK) | iobpt;
+> +}
 > +
->      return 0;
->  err:
->      sev_guest = NULL;
-> -- 
-> 2.29.2
+> +bool check_hw_breakpoints(CPUX86State *env, bool force_dr6_update)
+> +{
+> +    target_ulong dr6;
+> +    int reg;
+> +    bool hit_enabled =3D false;
+> +
+> +    dr6 =3D env->dr[6] & ~0xf;
+> +    for (reg =3D 0; reg < DR7_MAX_BP; reg++) {
+> +        bool bp_match =3D false;
+> +        bool wp_match =3D false;
+> +
+> +        switch (hw_breakpoint_type(env->dr[7], reg)) {
+> +        case DR7_TYPE_BP_INST:
+> +            if (env->dr[reg] =3D=3D env->eip) {
+> +                bp_match =3D true;
+> +            }
+> +            break;
+> +        case DR7_TYPE_DATA_WR:
+> +        case DR7_TYPE_DATA_RW:
+> +            if (env->cpu_watchpoint[reg] &&
+> +                env->cpu_watchpoint[reg]->flags & BP_WATCHPOINT_HIT) {
+> +                wp_match =3D true;
+> +            }
+> +            break;
+> +        case DR7_TYPE_IO_RW:
+> +            break;
+> +        }
+> +        if (bp_match || wp_match) {
+> +            dr6 |=3D 1 << reg;
+> +            if (hw_breakpoint_enabled(env->dr[7], reg)) {
+> +                hit_enabled =3D true;
+> +            }
+> +        }
+> +    }
+> +
+> +    if (hit_enabled || force_dr6_update) {
+> +        env->dr[6] =3D dr6;
+> +    }
+> +
+> +    return hit_enabled;
+> +}
+> +
+> +void breakpoint_handler(CPUState *cs)
+> +{
+> +    X86CPU *cpu =3D X86_CPU(cs);
+> +    CPUX86State *env =3D &cpu->env;
+> +    CPUBreakpoint *bp;
+> +
+> +    if (cs->watchpoint_hit) {
+> +        if (cs->watchpoint_hit->flags & BP_CPU) {
+> +            cs->watchpoint_hit =3D NULL;
+> +            if (check_hw_breakpoints(env, false)) {
+> +                raise_exception(env, EXCP01_DB);
+> +            } else {
+> +                cpu_loop_exit_noexc(cs);
+> +            }
+> +        }
+> +    } else {
+> +        QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
+> +            if (bp->pc =3D=3D env->eip) {
+> +                if (bp->flags & BP_CPU) {
+> +                    check_hw_breakpoints(env, true);
+> +                    raise_exception(env, EXCP01_DB);
+> +                }
+> +                break;
+> +            }
+> +        }
+> +    }
+> +}
+> +
+> +void helper_set_dr(CPUX86State *env, int reg, target_ulong t0)
+> +{
+> +    switch (reg) {
+> +    case 0: case 1: case 2: case 3:
+> +        if (hw_breakpoint_enabled(env->dr[7], reg)
+> +            && hw_breakpoint_type(env->dr[7], reg) !=3D DR7_TYPE_IO_RW) {
+> +            hw_breakpoint_remove(env, reg);
+> +            env->dr[reg] =3D t0;
+> +            hw_breakpoint_insert(env, reg);
+> +        } else {
+> +            env->dr[reg] =3D t0;
+> +        }
+> +        return;
+> +    case 4:
+> +        if (env->cr[4] & CR4_DE_MASK) {
+> +            break;
+> +        }
+> +        /* fallthru */
+> +    case 6:
+> +        env->dr[6] =3D t0 | DR6_FIXED_1;
+> +        return;
+> +    case 5:
+> +        if (env->cr[4] & CR4_DE_MASK) {
+> +            break;
+> +        }
+> +        /* fallthru */
+> +    case 7:
+> +        cpu_x86_update_dr7(env, t0);
+> +        return;
+> +    }
+> +    raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
+> +}
+> +
+> +/* Check if Port I/O is trapped by a breakpoint.  */
+> +void helper_bpt_io(CPUX86State *env, uint32_t port,
+> +                   uint32_t size, target_ulong next_eip)
+> +{
+> +    target_ulong dr7 =3D env->dr[7];
+> +    int i, hit =3D 0;
+> +
+> +    for (i =3D 0; i < DR7_MAX_BP; ++i) {
+> +        if (hw_breakpoint_type(dr7, i) =3D=3D DR7_TYPE_IO_RW
+> +            && hw_breakpoint_enabled(dr7, i)) {
+> +            int bpt_len =3D hw_breakpoint_len(dr7, i);
+> +            if (port + size - 1 >=3D env->dr[i]
+> +                && port <=3D env->dr[i] + bpt_len - 1) {
+> +                hit |=3D 1 << i;
+> +            }
+> +        }
+> +    }
+> +
+> +    if (hit) {
+> +        env->dr[6] =3D (env->dr[6] & ~0xf) | hit;
+> +        env->eip =3D next_eip;
+> +        raise_exception(env, EXCP01_DB);
+> +    }
+> +}
+> diff --git a/target/i386/tcg/user/bpt_helper_user.c b/target/i386/tcg/use=
+r/bpt_helper_user.c
+> new file mode 100644
+> index 0000000000..2a31ddb0bf
+> --- /dev/null
+> +++ b/target/i386/tcg/user/bpt_helper_user.c
+> @@ -0,0 +1,33 @@
+> +/*
+> + *  i386 breakpoint helpers - user-mode code
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "exec/exec-all.h"
+> +#include "exec/helper-proto.h"
+> +#include "tcg/helper-tcg.h"
+> +
+> +void helper_set_dr(CPUX86State *env, int reg, target_ulong t0)
+> +{
+> +}
+> +
+> +void helper_bpt_io(CPUX86State *env, uint32_t port,
+> +                   uint32_t size, target_ulong next_eip)
+> +{
+> +}
+> diff --git a/target/i386/tcg/softmmu/meson.build b/target/i386/tcg/softmm=
+u/meson.build
+> index e1ab2e4b43..d004ecea62 100644
+> --- a/target/i386/tcg/softmmu/meson.build
+> +++ b/target/i386/tcg/softmmu/meson.build
+> @@ -2,4 +2,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'=
+], if_true: files(
+>    'tcg-cpu-softmmu.c',
+>    'smm_helper.c',
+>    'excp_helper_softmmu.c',
+> +  'bpt_helper_softmmu.c',
+>  ))
+> diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meso=
+n.build
+> index e1eddd19bb..317f101b28 100644
+> --- a/target/i386/tcg/user/meson.build
+> +++ b/target/i386/tcg/user/meson.build
+> @@ -2,4 +2,5 @@ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY']=
+, if_true: files(
+>    'tcg-cpu-user.c',
+>    'smm_helper_user.c',
+>    'excp_helper_user.c',
+> +  'bpt_helper_user.c',
+>  ))
+
+
+--=20
+Alex Benn=C3=A9e
 
