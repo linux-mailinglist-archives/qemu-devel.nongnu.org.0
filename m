@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B9131739C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:46:37 +0100 (CET)
-Received: from localhost ([::1]:33876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8A63173A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:49:37 +0100 (CET)
+Received: from localhost ([::1]:39708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9yFo-0003y1-Hk
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:46:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34140)
+	id 1l9yIi-0006RP-5H
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:49:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9y6t-0005au-MI
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:37:24 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:36063)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9y8r-0007Be-M8
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:39:25 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9y6s-0004sC-6A
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:37:23 -0500
-Received: by mail-ej1-x635.google.com with SMTP id lg21so7013704ejb.3
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:37:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VETjWwPS1A0Get4RuQ1eTncopjKiXuUN2mgob0OtEE4=;
- b=nG5goGunGKn4ytPDqPgum6L6/i5gwrzPoLBSfieTBBxcu+mqi+MFGhdLxdDDobxkhw
- 8g/xXuAOENk1YDl+APgVfHxcq9yA2ezfDbXZkkUQO8yeoUcr0tOmbAPQR3/d/Srs1Pv8
- xDjkGvX0NwOf6YZT8FlOvXiXV5gKlNK6Chg/kbwf/5/h3O6XuYkVf8+weKEHzJnZeXn2
- 8KwbrkR5Izjdne0oaOaigxXOUJeHZ/R00yX8f6zACG+Kp2qhPjJa6dF2BBC6QBAucsjn
- lfgs/EW5asMk387aDn0C+IY4+UkvJeRaH95sOXCukd1sFM6v7xBHFOcNRFu10p8SsN7V
- m65g==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9y8o-0005Vq-Vn
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:39:25 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id p20so7006490ejb.6
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:39:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=STrixqFRgVyXehg02W0+bymMaMD6F3+Iupunf7V2Lz4=;
+ b=fRDePXRW//Q/u+ViZXNKlVMkOBtBEGvxryRXW1uU6y2DalP6dkzDMLk5XCCkKB7T15
+ yiMcJuzqyQ8lb8zxlFPhzf9S9fcXJ57bN/ejFT+SNbffFeu3f1Q2lsnpAEPGFewTqH5f
+ pPdRZlcDcN3U5u2CIwWFcKB1uvoXMHhNKj9LPfZwmphTsVqXerV5GdFnA7ce56xqdIQU
+ NjfS8TdMBVtTwTe0XyYvQDcW6XGVBTFXpb7hEsB+tlTiSNQUQbqGsIFXPQevn/de+/a0
+ k8L85U/U1h9cHorzrt0VJO7k+SA0t60A24XMa5T1aDLwzHoyH3atdn/JSraEWNd1ZUSr
+ BjDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VETjWwPS1A0Get4RuQ1eTncopjKiXuUN2mgob0OtEE4=;
- b=DHt5QM22wXF+r6yCofB+udVhqnlw3qt5YRNv4edkJaKjDFp5fMjv5GHiqTpQQ0/BCX
- qog6FIxU7xNce9TiRJNXRpdlxsVtEPBGZTLj6HrqL1BVwHRGHbz8VRfMNVbMHApOIjxe
- LvO6ptInlLc1n9VJv8S8t21A6rXFUqiUyOLsuyjAqYRGrGgnWOrVSaGGA9l52OcJCSRS
- Mf7wbaP64yi24ubuJPH6mHgbRncdN8nzFHjykqpEKbt0XRVX+Z5sqER6EEkYtGQOkD0n
- 3SeCNQgH0PdyX2cPPm+nn46PevJtcKSU9cGrW3BzPocfSqRsu3GDSPfulBEkUMB+GgeZ
- rMpA==
-X-Gm-Message-State: AOAM532SGqTkKxT54dNRw9uB8gAs0udpICwwNqiD/D8KowHS3mEiiGOJ
- R2VA586so29vAmyQLCaXEl8=
-X-Google-Smtp-Source: ABdhPJxBRoBArOmlMnmQMFd4yHxPoGAkO40by7L35QoVv86lJCLoKQV3/29f+WYPHWO/vIzQTjDmoQ==
-X-Received: by 2002:a17:906:503:: with SMTP id
- j3mr5201304eja.172.1612996640097; 
- Wed, 10 Feb 2021 14:37:20 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id v9sm2303471ejd.92.2021.02.10.14.37.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Feb 2021 14:37:19 -0800 (PST)
-Subject: Re: [PATCH v2 12/42] esp: remove dma_counter from ESPState
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-13-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <67c9e0e2-e5b4-780d-3bd1-8d01f07fd822@amsat.org>
-Date: Wed, 10 Feb 2021 23:37:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=STrixqFRgVyXehg02W0+bymMaMD6F3+Iupunf7V2Lz4=;
+ b=Cn9/fDWjVAJc3H6Bb9iuIzQpFXPyn8QBOaSRbzobkoQI9XYhYnLOteL4SYAV/ZjcgD
+ YCRirkw4QHxfAH0oIzy9pvMlPzVEXXKP7/AuwU1JTV26KpgQOfg1wA05v4UMKtU3jluu
+ u3iPaAofaIHu7QLIbPcU30qjVybJepne6+uilR5Euh2ePl3mesN9PepiXOpw+ZeKncp3
+ o3xnmDDOUAErfKGGSJVkqBJSV47Bg7kHqIIQh268yUj9eFryrCdPxHEC0mwd9i6Pvvkg
+ zcM8Zqfclbel6rOzD3GaCwvlNhUhFDWOxNIYvzvXkLu657t5xAstqSSIqoC4EcIkp/WK
+ 7mvg==
+X-Gm-Message-State: AOAM531xw50E/FZCOrfXKv8PjjtWB60fU5ALHM69ar+rflJ+P/HIUXiW
+ MnjM9ZTicjOZjkKA71PhAOocmtIP7iYrGcUIBkIEOw==
+X-Google-Smtp-Source: ABdhPJy1WI5y8zOVidSyOG+TnxCRDJ68gEZX8VB7eIRxQSzsNufYpfcHoZNR4GgnTbs8AwONvmHma1hKp+RRUlVSTSU=
+X-Received: by 2002:a17:906:1d51:: with SMTP id
+ o17mr5216629ejh.85.1612996761210; 
+ Wed, 10 Feb 2021 14:39:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-13-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.211,
+References: <20210120224444.71840-1-agraf@csgraf.de>
+ <20210120224444.71840-8-agraf@csgraf.de>
+ <CAFEAcA_-4GYk_+jdczWE720-VH1CLcS+1jVB2LzG=bBBJc8w-g@mail.gmail.com>
+ <298dcf49-1a99-9406-275f-b05c8befd13b@csgraf.de>
+In-Reply-To: <298dcf49-1a99-9406-275f-b05c8befd13b@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 10 Feb 2021 22:39:09 +0000
+Message-ID: <CAFEAcA_ze+J7geayqgaV274anQubqiv56qan7wo8EkxZ14Nydw@mail.gmail.com>
+Subject: Re: [PATCH v6 07/11] hvf: Add Apple Silicon support
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,20 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
-> The value of dma_counter is set once at the start of the transfer and remains
-> the same until the transfer is complete. This allows the check in esp_transfer_data
-> to be simplified since dma_left will always be non-zero until the transfer is
-> completed.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/scsi/esp.c         | 4 +---
->  include/hw/scsi/esp.h | 3 ---
->  2 files changed, 1 insertion(+), 6 deletions(-)
+On Wed, 10 Feb 2021 at 22:21, Alexander Graf <agraf@csgraf.de> wrote:
+>
+>
+> On 28.01.21 16:52, Peter Maydell wrote:
+> > On Wed, 20 Jan 2021 at 22:44, Alexander Graf <agraf@csgraf.de> wrote:
+> >> +            break;
+> >> +        case EC_AA64_SMC:
+> >> +            cpu_synchronize_state(cpu);
+> >> +            if (arm_is_psci_call(arm_cpu, EXCP_SMC)) {
+> >> +                arm_handle_psci_call(arm_cpu);
+> > Have you checked that all the PSCI code really can cope
+> > with being called from a non-TCG accelerator? (As an example
+> > the CPU_SUSPEND implementation calls the TCG wfi helper...)
+>
+>
+> I have not explicitly tried it, but I don't see why the TCG
+> implementation of wfi should in principle break with hvf.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Because the TCG implementation of wfi is "set some state fields
+and then longjump out to the TCG exec_cpu code-execution loop",
+and hvf doesn't use that loop.
+
+> >> +            } else {
+> >> +                DPRINTF("unknown SMC! %016llx", env->xregs[0]);
+> >> +                env->xregs[0] = -1;
+> > This should inject an UNDEF exception into the guest. (Compare
+> > the pre_smc helper in target/arm/op_helper.c for TCG.)
+>
+>
+> That would break Windows, which is one of the main use cases for hvf
+> support in QEMU.
+
+Why is Windows making bogus SMC calls ?
+
+thanks
+-- PMM
 
