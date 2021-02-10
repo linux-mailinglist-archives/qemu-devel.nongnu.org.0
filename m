@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF1683173B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:53:38 +0100 (CET)
-Received: from localhost ([::1]:45504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BA73173E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 00:05:05 +0100 (CET)
+Received: from localhost ([::1]:60820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9yMb-0000Yv-To
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:53:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37592)
+	id 1l9yXg-0007SS-2V
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 18:05:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9yKd-000885-7K
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:51:35 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34206)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l9xy2-0006ZS-Qd; Wed, 10 Feb 2021 17:28:14 -0500
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:44694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9yKb-0001qG-L4
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:51:35 -0500
-Received: by mail-ed1-x531.google.com with SMTP id df22so4985422edb.1
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:51:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l9xxw-0001RS-T7; Wed, 10 Feb 2021 17:28:14 -0500
+Received: by mail-il1-x135.google.com with SMTP id y15so3383719ilj.11;
+ Wed, 10 Feb 2021 14:28:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=R8iv2jfaEYKd7FJEJrRj/qCV9ecguFtfufjR7tkooVE=;
- b=NjPO/i5l+jCcWvOoRzO6mkkymafDKX7RvS1gCKxoKomzGqX2zYCQv8v4Su1/WaCdmO
- ptXCpvH4LyuqbakqJYdq7aHWVb24dkUhf3G0oBFGiqdAKlrnFzzCHjZB4ElieM4S/VJ8
- THUqfrr+Mhzpn3c4G7cFW6NxtUKkGtXdjmIxAUlB0TCqNpK3C/09a7IVy77h5/vsmHf+
- E0vrVxXNHrfSsSFeviqV6G3rmJ6hSgchbddWNUSLkN+ZP66rmWNDuGt3s6HPyHdRgRgD
- q7Uu/EugL3RL05WDns6MbCKRxO+FLl8TLCrHf9uiHVgTCUG8KH/dI/CPkkT6V3FNtGgm
- wJeA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6MdXFExxjfx5Vxj2KxEtP33kycI/3o1MawdworOI6RQ=;
+ b=VLUoOeb8HTNgQNhPSANVc/h52B+AXaxLdyjzOt2DVrXwTDSh3lLRxlib4zwZ2HzGkK
+ 4Vl7c75/au1EDdskR2quUUnQ26kUVyDbadNd6nvvl5Z+FgOv1Z6x5J1NoRbVl2yH9lIG
+ 2VtczoCwUL0Et7oqwuuquGDDtwSJ2ALaQU39UFDGrvbs8NX657nuwp6S2u8HjfBFcfWZ
+ Rj2x47WY0BTlBPgvTG9KfGk4y8kDzW3a/aZvSwd6u/Ns+Y/avH81BausR0wDZlIL41ZY
+ CL1aOScvJwIsoYBTzoQXbL2a/9BUHINkIpZ5YfQiRF4EAvqVXzKRVkyhhwPFmvRWohNH
+ AZcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=R8iv2jfaEYKd7FJEJrRj/qCV9ecguFtfufjR7tkooVE=;
- b=ZSiY1B5wH0sPDyHe1TqVM6qdIi0M/oxurZtwLA5ThEtdFkDUAsx90ANeO5s8FziWf8
- 1caQ7LjkP//aNHCw3Z0Iiv5re3Lo1m4EuKd1sn/4G+/7utqhByesJ0CFdbFjrLZ4XP74
- wiO3jVWm7z4Z4gag6iStfzzjDYff/k++ahLvSCGDfVTCk3Nwa6ys8xu5+bbkGDHmB7Gk
- ixE4zGgyJkGC8T42HT/Jr1pfUg2G3Y7bTSmVHqiewDQahKFWuNTigPkexJmq3HMBtm1j
- 3Tm1nl5opvseQQ35lB0ujDu23PGTD8NByxY6GvEfuM4VV81fac4H6FEjCObly0FPMrhq
- D+cw==
-X-Gm-Message-State: AOAM533EW9z2Y+RBv4+LGj+NY6A9116IzedzrFkMDvKXWXqDz6tpQSI8
- u75W77+OaFhPsM0UmqGDOEE=
-X-Google-Smtp-Source: ABdhPJzIB9dqiKQfD4iHuqtNAYIk4imQQpwTiINRicvK8foEMb3uH4RmEcOJYDyUlbTA2JK06OMeqA==
-X-Received: by 2002:aa7:cd0a:: with SMTP id b10mr5311144edw.153.1612997491473; 
- Wed, 10 Feb 2021 14:51:31 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id u17sm2274765edr.0.2021.02.10.14.51.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Feb 2021 14:51:30 -0800 (PST)
-Subject: Re: [PATCH v2 15/42] esp: introduce esp_pdma_read() and
- esp_pdma_write() functions
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-16-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <fcaa4613-9b90-d41e-e00b-8b7e7e6081ff@amsat.org>
-Date: Wed, 10 Feb 2021 23:51:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6MdXFExxjfx5Vxj2KxEtP33kycI/3o1MawdworOI6RQ=;
+ b=Jz5OzJJtJKefzd9fAGRFOMg4MbRf+jPR6CBNewfS2ElyhMyL9KpmBBkgr1XsnDWg6S
+ BwsOE5iaXbu94245Apmwbca5wup9SgqmrNzA88Ke8EkhZLlbAuy/N7clhqXIy/yeOQVM
+ kUeKPRU4b027GnT+bFeFCK7277VuUbbyE5kFhxY5NGxaX6G+kwT8s7fH19Yzqf+2Qi7f
+ Ez046DiP4Cd7K57Vm4TLhtY+nM50M/0q4+RW+zHxv+Yo8ap4JUI8KcyKDe3Aepidm94I
+ XcGmTVEcKYvPLMhvpgj51cCO7NH2lCcijuAlr0OWG3VqKYhxIrvGJOFFB03BTrY1sctd
+ 5Cmg==
+X-Gm-Message-State: AOAM530IiovvvfBe5xERsUW9mQbV0+OO+g7gIrSfZW3zEb9xUXOFCC40
+ 2hut0zIdwZJRcCZS73BiRbTE4yg3IX+ULkniCHHq9GqJKiY=
+X-Google-Smtp-Source: ABdhPJxZcvNLr6ehZ6LzatpkzXei9ocliNnd7WSPQoGmoBE9WdKwDU67SknXlKhx5vfH/SYTx9v9/VBJeiXdNtlyg+4=
+X-Received: by 2002:a05:6e02:20e5:: with SMTP id
+ q5mr2951612ilv.131.1612996087151; 
+ Wed, 10 Feb 2021 14:28:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-16-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+References: <d2511f50-8b72-8a3b-9127-75b3ed98c584@msx.tu-dresden.de>
+ <CAKmqyKOVvaVV-WHhm7dwWyO9zSomvTRA5bXJjf=4aRqqjD96rg@mail.gmail.com>
+ <91d3712d74d3443397af042388b78865@MSX-L105.msx.ad.zih.tu-dresden.de>
+In-Reply-To: <91d3712d74d3443397af042388b78865@MSX-L105.msx.ad.zih.tu-dresden.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 10 Feb 2021 14:27:32 -0800
+Message-ID: <CAKmqyKM4zXChtns+qMMRVXE+KWc=YGRDuSVEeBTig3GHAsFGVA@mail.gmail.com>
+Subject: Re: Emulating sd card with hifive_u risc-v machine
+To: Pascal Scholz <pascal.scholz@tu-dresden.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x135.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.211,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,49 +78,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Pascal Scholz <s6899329@msx.tu-dresden.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mark,
+On Wed, Feb 10, 2021 at 12:02 PM Pascal Scholz
+<pascal.scholz@tu-dresden.de> wrote:
+>
+> Hi Alistair,
+>
+> thanks for your quick and helpful reply. :)
+>
+> I'll see, if I can try them out on the weekend and will report my results.
 
-On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/scsi/esp.c | 28 ++++++++++++++++++++--------
->  1 file changed, 20 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index e7cf36f4b8..b0cba889a9 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -151,6 +151,20 @@ static uint8_t *get_pdma_buf(ESPState *s)
->      return NULL;
->  }
->  
+Great!
 
-Can you add get_pdma_len() (similar to get_pdma_buf) and ...
+>
+> Best regards and thanks again!
 
-> +static uint8_t esp_pdma_read(ESPState *s)
-> +{
-> +    uint8_t *buf = get_pdma_buf(s);
-> +
+No worries!
 
-       assert(s->pdma_cur < get_pdma_len(s));
+Alistair
 
-> +    return buf[s->pdma_cur++];
-> +}
-> +
-> +static void esp_pdma_write(ESPState *s, uint8_t val)
-> +{
-> +    uint8_t *buf = get_pdma_buf(s);
-> +
-
-Ditto.
-
-> +    buf[s->pdma_cur++] = val;
-> +}
-
-Otherwise:
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>
+> Pascal
+>
+> On 08.02.21 23:49, Alistair Francis wrote:
+> > On Mon, Feb 8, 2021 at 12:00 PM Pascal Scholz
+> > <s6899329@msx.tu-dresden.de> wrote:
+> >> Hi all,
+> >>
+> >> I'm hoping that I addressed the right mailing lists.
+> > Hello Pascal,
+> >
+> > Yep, this is the right place :)
+> >
+> >> I'm working a bit with qemu's risc-v emulation. My current goal is to
+> >> simulate a complete boot process for the SiFive Unleashed Board (SU 540
+> >> SoC)[1]. I've created the correspondig OpenSBI and U-Boot images, being
+> >> the -bios and the -kernel images. It's possible for me to boot up to the
+> >> U-Boot prompt. From this prompt I now want to boot an system image
+> >> located on an emulated sd card.
+> >>
+> >> However I now fail to get a working sd card within qemu for the device
+> >> sifive_u. For example i tried the following command:
+> >>
+> >> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
+> >> build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
+> >> ../../u-boot/u-boot.bin -device sdhci-pci -device sd-card,drive=sdX
+> >> -drive id=sdX,if=none,format=raw,file=path/to/image.elf
+> >>
+> >> This results in Qemu telling me: -device sdhci-pci: No 'PCI' bus found
+> >> for device 'sdhci-pci'.
+> >>
+> >> Using the machine "virt" the command above works.
+> >>
+> >> The thing i tried was:
+> >>
+> >> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
+> >> opensbi/build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
+> >> ../u-boot/u-boot.bin -sd path/to/image.elf
+> >>
+> >> Resulting in: machine type does not support if=sd,bus=0,unit=0
+> >>
+> >>
+> >> Even if the machine gets stuck at some point when booting, Qemu has no
+> >> problem starting the VM if I use "-M virt" instead of "-M sifive_u". At
+> >> this point i think, that the machine "sifive_u" doesn't support sd
+> >> cards? Is this guess right or is there anything left I can try? After
+> > Correct. There is no SD card support for the SiFive U in QEMU.
+> >
+> > You actually just reminded me though that someone has sent patches to
+> > add support and I need to review them.
+> >
+> > You can find the patches here:
+> > https://patchew.org/QEMU/20210126060007.12904-1-bmeng.cn@gmail.com/
+> > which should work when applied to QEMU.
+> >
+> > If you do get a chance to test the patches it would be great if you
+> > can let me know what works/doesn't work for you.
+> >
+> > Alistair
+> >
+> >> all I'm a bit confused, because there seems to be a block device "sd0"
+> >> when I try to start the machine "sifive_u" without any additional
+> >> device/drive arguments. I would really appreciate if someone would tell
+> >> me, what I'm doing wrong.
+> >>
+> >> Thanks in advance and stay healthy!
+> >>
+> >> Best regards
+> >>
+> >> Pascal
+> >>
+> >>
+> >> [1] https://www.sifive.com/boards/hifive-unleashed
+> >>
+> >>
 
