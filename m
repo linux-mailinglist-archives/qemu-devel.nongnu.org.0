@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373D4315F7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:31:27 +0100 (CET)
-Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97031315F82
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:34:14 +0100 (CET)
+Received: from localhost ([::1]:50558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9j26-0007SP-8Z
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:31:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43516)
+	id 1l9j4n-000352-DC
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:34:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ipA-0001mA-T7; Wed, 10 Feb 2021 01:18:04 -0500
-Received: from ozlabs.org ([203.11.71.1]:54317)
+ id 1l9ipB-0001pC-VU; Wed, 10 Feb 2021 01:18:06 -0500
+Received: from ozlabs.org ([203.11.71.1]:58655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ip8-0000RH-Ov; Wed, 10 Feb 2021 01:18:04 -0500
+ id 1l9ipA-0000RP-23; Wed, 10 Feb 2021 01:18:05 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Db8gp66BVz9sWR; Wed, 10 Feb 2021 17:17:42 +1100 (AEDT)
+ id 4Db8gq1f0rz9sWY; Wed, 10 Feb 2021 17:17:42 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612937862;
- bh=Bgpe4aC+zoDeTjF042sb4U31A2n/HLVGDsuxydIAZmw=;
+ d=gibson.dropbear.id.au; s=201602; t=1612937863;
+ bh=RYUEzEzrJ2xfcxGHKwvhXCnhllTzQI/NcsA5f6qpXRI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FCHV5znx8DiQV9FvWKUN1eG++QAOQONxqyiq63Sp+3HXumTC3jcWGN06xo7pEWuvh
- gvaWBFoHGzBPylHu1kWPYmvuKIPs4aFHEJHmST9cWuncwMyUAaIJORtzRGvcUEso58
- mKO27dwTE98Qiyvn/KxSn3uphV8wQ4HGOviwQfOo=
+ b=LU/7hL5Jfuf98myJNTILDNplnImrdmWYZqnU3nADCO/rrRL/2NtONczoXFLp9ktWK
+ dFrAsoCroCI8P84fFsGGSW3B4WxXGYCJq+lJaqVyvAQE5TQk50pe4z2OJYWLSvGZtl
+ /Db13V6bTcDxF7UK1f2YxwtaQr91ej1jaVe2gN4o=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 18/19] hw/net: fsl_etsec: Reverse the RCTRL.RSF logic
-Date: Wed, 10 Feb 2021 17:17:34 +1100
-Message-Id: <20210210061735.304384-19-david@gibson.dropbear.id.au>
+Subject: [PULL 19/19] target/ppc: Add E500 L2CSR0 write helper
+Date: Wed, 10 Feb 2021 17:17:35 +1100
+Message-Id: <20210210061735.304384-20-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210210061735.304384-1-david@gibson.dropbear.id.au>
 References: <20210210061735.304384-1-david@gibson.dropbear.id.au>
@@ -64,49 +64,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Per MPC8548ERM [1] chapter 14.5.3.4.1:
+Per EREF 2.0 [1] chapter 3.11.2:
 
-When RCTRL.RSF is 1, frames less than 64 bytes are accepted upon
-a DA match. But currently QEMU does the opposite. This commit
-reverses the RCTRL.RSF testing logic to match the manual.
+The following bits in L2CSR0 (exists in the e500mc/e5500/e6500 core):
 
-Due to the reverse of the logic, certain guests may potentially
-break if they don't program eTSEC to have RCTRL.RSF bit set.
-When RCTRL.RSF is 0, short frames are silently dropped, however
-as of today both slirp and tap networking do not pad short frames
-(e.g.: an ARP packet) to the minimum frame size of 60 bytes. So
-ARP requests will be dropped, preventing the guest from becoming
-visible on the network.
+- L2FI  (L2 cache flash invalidate)
+- L2FL  (L2 cache flush)
+- L2LFC (L2 cache lock flash clear)
 
-The same issue was reported on e1000 and vmxenet3 before, see:
+when set, a cache operation is initiated by hardware, and these bits
+will be cleared when the operation is complete.
 
-commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
+Since we don't model cache in QEMU, let's add a write helper to emulate
+the cache operations completing instantly.
 
-[1] https://www.nxp.com/docs/en/reference-manual/MPC8548ERM.pdf
+[1] https://www.nxp.com/files-static/32bit/doc/ref_manual/EREFRM.pdf
 
-Fixes: eb1e7c3e5146 ("Add Enhanced Three-Speed Ethernet Controller (eTSEC)")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Message-Id: <1612923021-19746-1-git-send-email-bmeng.cn@gmail.com>
+Message-Id: <1612925152-20913-1-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/net/fsl_etsec/rings.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/cpu.h                |  6 ++++++
+ target/ppc/translate_init.c.inc | 16 ++++++++++++++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
-index 121415abfe..fe055d3381 100644
---- a/hw/net/fsl_etsec/rings.c
-+++ b/hw/net/fsl_etsec/rings.c
-@@ -502,7 +502,7 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uint8_t *buf, size_t size)
-         return -1;
-     }
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index cb00210288..e73416da68 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1919,6 +1919,7 @@ typedef PowerPCCPU ArchCPU;
+ #define SPR_750FX_HID2        (0x3F8)
+ #define SPR_Exxx_L1FINV0      (0x3F8)
+ #define SPR_L2CR              (0x3F9)
++#define SPR_Exxx_L2CSR0       (0x3F9)
+ #define SPR_L3CR              (0x3FA)
+ #define SPR_750_TDCH          (0x3FA)
+ #define SPR_IABR2             (0x3FA)
+@@ -1974,6 +1975,11 @@ typedef PowerPCCPU ArchCPU;
+ #define   L1CSR1_ICFI   0x00000002  /* Instruction Cache Flash Invalidate */
+ #define   L1CSR1_ICE    0x00000001  /* Instruction Cache Enable */
  
--    if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
-+    if (!(etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
-         /* CRC is not in the packet yet, so short frame is below 60 bytes */
-         RING_DEBUG("%s: Drop short frame\n", __func__);
-         return -1;
++/* E500 L2CSR0 */
++#define E500_L2CSR0_L2FI    (1 << 21)   /* L2 cache flash invalidate */
++#define E500_L2CSR0_L2FL    (1 << 11)   /* L2 cache flush */
++#define E500_L2CSR0_L2LFC   (1 << 10)   /* L2 cache lock flash clear */
++
+ /* HID0 bits */
+ #define HID0_DEEPNAP        (1 << 24)           /* pre-2.06 */
+ #define HID0_DOZE           (1 << 23)           /* pre-2.06 */
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index 9867d0a6e4..3ec45cbc19 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -1735,6 +1735,16 @@ static void spr_write_e500_l1csr1(DisasContext *ctx, int sprn, int gprn)
+     tcg_temp_free(t0);
+ }
+ 
++static void spr_write_e500_l2csr0(DisasContext *ctx, int sprn, int gprn)
++{
++    TCGv t0 = tcg_temp_new();
++
++    tcg_gen_andi_tl(t0, cpu_gpr[gprn],
++                    ~(E500_L2CSR0_L2FI | E500_L2CSR0_L2FL | E500_L2CSR0_L2LFC));
++    gen_store_spr(sprn, t0);
++    tcg_temp_free(t0);
++}
++
+ static void spr_write_booke206_mmucsr0(DisasContext *ctx, int sprn, int gprn)
+ {
+     gen_helper_booke206_tlbflush(cpu_env, cpu_gpr[gprn]);
+@@ -5029,6 +5039,12 @@ static void init_proc_e500(CPUPPCState *env, int version)
+                  SPR_NOACCESS, SPR_NOACCESS,
+                  &spr_read_generic, &spr_write_e500_l1csr1,
+                  0x00000000);
++    if (version != fsl_e500v1 && version != fsl_e500v2) {
++        spr_register(env, SPR_Exxx_L2CSR0, "L2CSR0",
++                     SPR_NOACCESS, SPR_NOACCESS,
++                     &spr_read_generic, &spr_write_e500_l2csr0,
++                     0x00000000);
++    }
+     spr_register(env, SPR_BOOKE_MCSRR0, "MCSRR0",
+                  SPR_NOACCESS, SPR_NOACCESS,
+                  &spr_read_generic, &spr_write_generic,
 -- 
 2.29.2
 
