@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91602316A73
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 16:46:09 +0100 (CET)
-Received: from localhost ([::1]:38884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C235316A6A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 16:43:33 +0100 (CET)
+Received: from localhost ([::1]:34376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9rgu-0005Vc-LF
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 10:46:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56704)
+	id 1l9reO-0003d2-3z
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 10:43:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9rcP-0001uU-J6
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:41:31 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39314)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9rdD-0002jx-BC
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:42:19 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9rcB-0004x6-Bs
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:41:28 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id u14so2202430wmq.4
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 07:41:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9rdB-0005PI-Or
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:42:19 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id q2so3512380eds.11
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 07:42:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N9eIXXjcqifnnBsCFRBC7A7lqfa+vtVhuDORVtIBlIs=;
- b=WxckQ2opycuYCZzJ0SqTMEKhuk+D4uaE28K6nG6A5u7GciBk9Zf9TAyuBc9p9k0Shk
- Bp+AlKoJRRL/erymZMkzggS1FGkWv/koXbOVHu7bbpV+rRQO2EdwfsgWHXgV7WxwvuOY
- hnMqtaWtGYEdjUEfHHHWnPy96qwoAPpBL5ElOoAEbBR1QFH20Gy3vu4G9inJC5qLgzGa
- CN5h7Du5BKQkb+8Kj4g8fTQFp6ATZcbwnQiiNylbeHKFmZl2p9NJYbBGJcW1qITBFAh5
- u+uqabt+Jhb7SDyVtsZaEtHILOZaOoinidfS19fTFyp2z+dOOpoQVmjzZAaFmVRoYZ8g
- bymQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PtzmDZbgIGWyp4GoZ08Mi0GTmLYg21t9oB/lKFPBdRU=;
+ b=j0K9p/5sDQQ5IsT+85k/3K+2Tnoyo1pQEPai5+wrseovPY8nbaB0H3G/NofCVlG1Uv
+ 8N+Si9VzS/UKL8JmmiI/EMLomKxbsgSQkWbXFvAJYpbo/4RQ55hjj63Tr0IdDPH4g5LN
+ WYqtpBPCnG9Y/6bGgb8jf1HJd7bJKlZi83oJMOkr7j8v+MhwSawl3vpJ24ODoAVapE25
+ Kvs17s8r1vHizp2rQxv6z1wpmj3tjnh8Zs21aEwU6FuoTE/wk5MKeSj2EhLFjDQGXyKm
+ nzEOab2/UFWmvutCxxhA9JkF5GAMxXLz2Re8fSNDWt288sHj8u/JXYoRPyG9LeFeA8vT
+ K2TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N9eIXXjcqifnnBsCFRBC7A7lqfa+vtVhuDORVtIBlIs=;
- b=gsZKe+3vTJm6dqPQ9IpQi4qknW+AC/yI//voz8R2+5nCtsZ4MeYOCu+JujIeh48WoK
- F7b8YhllikfEtTwAxJ0vSx6TMRYZBk80SaMr1+kZd1S1Mt9jlr0uIAINQYwByrsIkW2o
- gkMGuy1ddpom5sgDJO+pfnnx/zsnjDJFeUr9SmTmbubLnOWy3RmuTJFjh+xzElsst8Jv
- TY1xTJlJm3HU+mZlS35mRBBb3ZKR7SuS6wDM+8+OpZbs0U9xp9kDjX9fT0cnzw1loFV7
- 8d5AYNsnbCMydqjeFlAwp7zLMLSF2Y+jDr/MMIR19sz0RAIRkMrlc2xIsp3uIujEWg6F
- FJBA==
-X-Gm-Message-State: AOAM532vwCUfPcMVEyBIHWw+AbM40AsoH3kYVMNqYoBvB4elUmlbCnWN
- PNFwKArQ6hIM0IW8Af+OdxBFXA==
-X-Google-Smtp-Source: ABdhPJxwyBWftDbmX/g5sH6lY67ZJ/deiCGKr7tHGChwwBllwpSFxcV7Fr0PTm2kNkibdjYBf/InxQ==
-X-Received: by 2002:a1c:1fce:: with SMTP id f197mr3470458wmf.110.1612971672347; 
- Wed, 10 Feb 2021 07:41:12 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 11sm2168799wmo.46.2021.02.10.07.41.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 07:41:10 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 07A551FF7E;
- Wed, 10 Feb 2021 15:41:10 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] .shippable: remove the last bits
-Date: Wed, 10 Feb 2021 15:41:06 +0000
-Message-Id: <20210210154106.20825-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PtzmDZbgIGWyp4GoZ08Mi0GTmLYg21t9oB/lKFPBdRU=;
+ b=VG2o/AoK7bbJ6LJNKZGc/J/CN8fAOrvC2rwiT7DpGGkBKwGyghgqyLEL4/cdK1/IaE
+ z79bLPpWcv+CLbuYS4gJ+O18rmoXa19YcDBlosR5BQ2A961zNmDFOOSbapmEdtytV+Wa
+ LYo0x0OtUQoBnMktDzdP44P24bR4p0wJVYYH3XmEdVutZjue/0RKclIANuG3Q27kBU3w
+ 8PHM0bzfgtBHLSOri1g7wTlta48ErwGa28085WS4kjkwKk8R/p85nNucdld0syARMR/j
+ Bdw+iL7f6c9SlvShFDOmVrlmswNkf69zkR+4D5l+08bRWrhYBctLppsBfxE4vDRMWTH9
+ kIUg==
+X-Gm-Message-State: AOAM531Bv7aPkPOBc14FRq/gx6buB4ldI9UDy1c4730A+oAFNO7EjoJI
+ phFNLCXnwitoOMgX3HgMcI0z9Z7KXTSI/y+gwdWlXA==
+X-Google-Smtp-Source: ABdhPJynAfeK1hzlDDE0t+VJwk65rwaZg9A1waIx7Da6HFNu03fIYC9nVNJjGV38dCDcH1mqkyVrprNrvuLK6U6/oLE=
+X-Received: by 2002:a50:e80d:: with SMTP id e13mr3583296edn.251.1612971735766; 
+ Wed, 10 Feb 2021 07:42:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+References: <20210210061735.304384-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20210210061735.304384-1-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 10 Feb 2021 15:42:04 +0000
+Message-ID: <CAFEAcA9-wrLg-FmphRkPVcCY7rrqoQMj-KNbp1EAh2N-0R5y=g@mail.gmail.com>
+Subject: Re: [PULL 00/19] ppc-for-6.0 queue 20210210
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,56 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shippable is about to sunset in May 2021 [1] and we had already moved
-a chunk of the crossbuilds to GitLab. We already cross build
-mips-softmmu targets since:
+On Wed, 10 Feb 2021 at 06:17, David Gibson <david@gibson.dropbear.id.au> wr=
+ote:
+>
+> The following changes since commit 1214d55d1c41fbab3a9973a05085b8760647e4=
+11:
+>
+>   Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request'=
+ into staging (2021-02-09 13:24:37 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20210210
+>
+> for you to fetch changes up to 298091f831db1a8f360686369f9760849e90dd03:
+>
+>   target/ppc: Add E500 L2CSR0 write helper (2021-02-10 14:50:11 +1100)
+>
+> ----------------------------------------------------------------
+> ppc patch queue for 20201-02-10
+>
+> Here's the latest batch of patches for the ppc target and machine
+> types.  Highlights are:
+>  * Several fixes for E500 from Bin Meng
+>  * Fixes and cleanups for PowerNV from C=C3=A9dric Le Goater
+>  * Assorted other fixes and cleanups
+>
+> ----------------------------------------------------------------
 
-  6bcb5fc0f7 ("gitlab-ci: Add cross-compiling build tests")
 
-and x86 is very well covered.
+Applied, thanks.
 
-[1]: https://blog.shippable.com/the-next-step-in-the-evolution-of-shippable-jfrog-pipelines
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .shippable.yml | 23 -----------------------
- 1 file changed, 23 deletions(-)
- delete mode 100644 .shippable.yml
-
-diff --git a/.shippable.yml b/.shippable.yml
-deleted file mode 100644
-index 97bfa2a0f3..0000000000
---- a/.shippable.yml
-+++ /dev/null
-@@ -1,23 +0,0 @@
--language: c
--git:
--   submodules: false
--env:
--  global:
--    - LC_ALL=C
--  matrix:
--    - IMAGE=debian-amd64
--      TARGET_LIST=x86_64-softmmu,x86_64-linux-user
--    - IMAGE=debian-mips-cross
--      TARGET_LIST=mips-softmmu
--build:
--  pre_ci_boot:
--    image_name: registry.gitlab.com/qemu-project/qemu/qemu/${IMAGE}
--    image_tag: latest
--    pull: true
--    options: "-e HOME=/root"
--  ci:
--    - unset CC
--    - mkdir build
--    - cd build
--    - ../configure --disable-docs ${QEMU_CONFIGURE_OPTS} --target-list=${TARGET_LIST}
--    - make -j$(($(getconf _NPROCESSORS_ONLN) + 1))
--- 
-2.20.1
-
+-- PMM
 
