@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E552316FB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 20:10:58 +0100 (CET)
-Received: from localhost ([::1]:55586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA49316FA1
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 20:07:39 +0100 (CET)
+Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9ut7-0007wH-5q
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 14:10:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47170)
+	id 1l9upu-0006Hj-DR
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 14:07:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9uoF-0005SO-G8
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:05:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49924)
+ id 1l9uoC-0005RY-Oc
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:05:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9uo7-0004rF-RT
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:05:55 -0500
+ id 1l9uo7-0004rG-I6
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:05:52 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l9uo5-0005y3-Hh
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 19:05:45 +0000
+ id 1l9uo6-0005y3-5Q
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 19:05:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5A6C22E8134
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 19:05:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 269782E8074
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 19:05:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 10 Feb 2021 18:57:20 -0000
+Date: Wed, 10 Feb 2021 19:00:27 -0000
 From: John Arbuckle <1914294@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: programmingkidx
 X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
 X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
 References: <161229965531.12871.15940133447161704311.malonedeb@soybean.canonical.com>
-Message-Id: <161298344043.29061.15250241421818132871.malone@soybean.canonical.com>
+Message-Id: <161298362720.17875.17754016963946540105.malone@wampee.canonical.com>
 Subject: [Bug 1914294] Re: Windows XP displays black screen when smp option is
  used
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -49,7 +49,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
-X-Launchpad-Hash: fb9fda0ba0d6b670c4f566aa850afb3dc75ef363
+X-Launchpad-Hash: 58fda6f8bca6a7c4607f97b1001c8c6d90480eec
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,12 +74,10 @@ Reply-To: Bug 1914294 <1914294@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Command line to reproduce this issue: =
-
-qemu-system-i386 -m 700 -hda <Windows XP HD image file> -smp 2
-
-Last commit tested with this problem:
-1214d55d1c41fbab3a9973a05085b8760647e411
+I restarted QEMU without the '-smp 2' option and Windows XP started
+working again. The only problem is the host CPU usage will stay at 100%
+even with the guest CPU load being close to 0%. The only way to fix this
+problem that I know currently is to reinstall Windows XP.
 
 -- =
 
