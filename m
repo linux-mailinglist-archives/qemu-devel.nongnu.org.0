@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8C03173C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:57:45 +0100 (CET)
-Received: from localhost ([::1]:52248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254243173BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:55:58 +0100 (CET)
+Received: from localhost ([::1]:48490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9yQb-0003Wm-0l
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:57:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58860)
+	id 1l9yOr-0001rk-6Y
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:55:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xqS-00071Q-Dd
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:28 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53848)
+ id 1l9xqG-0006xf-0T
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:12 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xqI-0006rY-OJ
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:23 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id j11so3203819wmi.3
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:20:13 -0800 (PST)
+ id 1l9xqD-0006op-32
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:11 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id 190so3213370wmz.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:20:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HGyTKfyrMC02NQIDciJuv0x1b/kxlzbJP/1nTgEUSN0=;
- b=gR/uZKibyVFlrqalLm+DNQ7QTCzXkJqMl4ixYc8w1+ZU1CYThBDMbBUo5Bh97jxceH
- olwGv99ZTFoQxukoCi35pUBZNvvjRCzPOvLso6tcMNys0I3QIqx5zM2UmjXe0x2qQeKd
- lyba2kcKoDUN9jhFa29MbjHBwUMSL4to3qU2wwAHrp+rojFhFdVvbIOxO9lcYH1Ttc9O
- qdkjuEwok/xGKcoFXVVM/kUrbY/j/M7Zn993+zS5vcJFLQ+lATMuhMgAr/AJMyfkFop8
- /zwEjKO+oRo2QNoR6+OICuGFYi20TJ8aU3eea5IfzVp77HCUrMVkE7+Q4ZiRMhozorvs
- ZICw==
+ bh=lUQfSvO41ymeVYxkOJOoiNQ8fcoV5S/zkovOyoqGlLk=;
+ b=d2fLenfgJCtLiAxKfrMG7H3Kcg7om9NxfIh8cOE1LyPfKDGW7kcZq4drgbwvCA/oiT
+ LlAlz/IC0EYILyJwQQWg9HzWsAyv87aktJe8R+ZbIB+2T25+E9uZZYcA50n0CbfyCCGk
+ iLkTD380eH0SCp6shQpqxceAnjqZslItGh22h4CXI7BZsJDLUEScOkVLONFE2gUxVhC7
+ TS1iB/6xx2dJ/32idjgfIp0cP+YwbilQ+IdKR9g/4P/9pJKizrPYXOmuKYFFyLo2iiwl
+ p77r+774dMBApnYGmTnlMPI8vWbEBtUlwyKvs2Uu+0m9QnXj1HRxw8fveapCoZ1B+u4c
+ 19KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HGyTKfyrMC02NQIDciJuv0x1b/kxlzbJP/1nTgEUSN0=;
- b=WNbnQQdn03YIq/Ns1ySLaBsKmCQwKHiVnBUatUJkYnxXoXyC652/e+tfcyQ07fknJc
- TMIe10GX/U4Z+6lSvKDycDbMrOlN88ADsCr5rL9wOsC5YgwoYgNcWtsULgQ1QjWI1jNm
- aXGtsFqr0WgQzFRuZ1U/eKA5OkCESYIV5CvMINZ+t3JqZfFaA/Ot2ZGpuidipuAvT17D
- +rgbmXeA3ti2aP5wc+f9IfQh/ITahVCj1VvxueWlXZ2D9QqO+DkxnZnCaGYmykZlBYfG
- YX/Bd6Mxgyh1mjISfFIgz5EnxSCpklo9YMMmkTQ3+ALqrEnOHQsc7C87C9zHZMZq56FT
- HXKA==
-X-Gm-Message-State: AOAM531pm7IMGTFoQVCE6RLWaYXxoncLq9HMJx7dW1bw35GIciCi/mbB
- CTOX0aLnRQNFzjIKSi8c5mBDjg==
-X-Google-Smtp-Source: ABdhPJwBDy0Ky3RWW7bCjsfCHHKsgH3cWh6uN4fPYUmPVcRGTgpQlLnGRsgegWsvAbFZH+u+v05j2Q==
-X-Received: by 2002:a1c:f203:: with SMTP id s3mr1219378wmc.152.1612995613038; 
- Wed, 10 Feb 2021 14:20:13 -0800 (PST)
+ bh=lUQfSvO41ymeVYxkOJOoiNQ8fcoV5S/zkovOyoqGlLk=;
+ b=PViBdLm/bs9oA2DpoSB0vVG7FtVEBkA8I+AIhs14NjOo3YNh5Ll+ijVW4OK17YgRdM
+ HJjIqTTdH6VCp2TMB5M0mYkUXn2ZcfxG6gV9cmTMYjAaUgq9A4c1Xevzy5prvOJsX3pu
+ 1oJqjoQwWK/udBIo306/pQK6ZyFt9d9Jvfy6fNMmv2+TZdIxsOWrZrkkLpdr3kmrO/9a
+ c+8U2SSZ7Z2vZbMwiXLuemk3Fkcn4sklKvxyZyAAu05CuWK6GovWF6msI4yooX+r4rVB
+ Wu+HqYA/h1oTegS6RriWS6SbertxE3Jiy+O/ocizaVUDOLlXu4ZStiuLoanNNSLsoTCB
+ mrjg==
+X-Gm-Message-State: AOAM532oSs7weEwAkHcXLfpo53VHq/GjfBUWZNspzQccapbNNIBghC2b
+ ctZ0tS3t3Gfk3e3cvQr5pWsYrg==
+X-Google-Smtp-Source: ABdhPJwYKkXKHP5SfNdmBlV64nxyeWFe6q7w3PaNT31kIqoYZSaNcoB1oDGlqIDZqXQyAhw6RjWV6A==
+X-Received: by 2002:a7b:ce95:: with SMTP id q21mr1200190wmj.178.1612995607667; 
+ Wed, 10 Feb 2021 14:20:07 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 17sm4871093wmf.32.2021.02.10.14.20.05
+ by smtp.gmail.com with ESMTPSA id c62sm5227677wmd.43.2021.02.10.14.20.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 14:20:12 -0800 (PST)
+ Wed, 10 Feb 2021 14:20:04 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2AD7C1FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id 718831FFA6;
  Wed, 10 Feb 2021 22:10:55 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 16/21] accel/tcg: actually cache our partial icount TB
-Date: Wed, 10 Feb 2021 22:10:48 +0000
-Message-Id: <20210210221053.18050-17-alex.bennee@linaro.org>
+Subject: [PATCH  v2 19/21] accel/tcg: remove CF_NOCACHE and special cases
+Date: Wed, 10 Feb 2021 22:10:51 +0000
+Message-Id: <20210210221053.18050-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210210221053.18050-1-alex.bennee@linaro.org>
 References: <20210210221053.18050-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,53 +93,138 @@ Cc: Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we exit a block under icount with instructions left to execute we
-might need a shorter than normal block to take us to the next
-deterministic event. Instead of creating a throwaway block on demand
-we use the existing compile flags mechanism to ensure we fetch (or
-compile and fetch) a block with exactly the number of instructions we
-need.
+Now we no longer generate CF_NOCACHE blocks we can remove a bunch of
+the special case handling for them. While we are at it we can remove
+the unused tb->orig_tb field and save a few bytes on the TB structure.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210209182749.31323-8-alex.bennee@linaro.org>
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210209182749.31323-11-alex.bennee@linaro.org>
 ---
-v2
-  - drop pointless assert
----
- accel/tcg/cpu-exec.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ include/exec/exec-all.h   |  3 ---
+ accel/tcg/translate-all.c | 51 ++++++++++++---------------------------
+ 2 files changed, 15 insertions(+), 39 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index d9ef69121c..5b6a4fe84b 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -730,16 +730,17 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
-     /* Ensure global icount has gone forward */
-     icount_update(cpu);
-     /* Refill decrementer and continue execution.  */
--    insns_left = MIN(0xffff, cpu->icount_budget);
-+    insns_left = MIN(CF_COUNT_MASK, cpu->icount_budget);
-     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
-     cpu->icount_extra = cpu->icount_budget - insns_left;
--    if (!cpu->icount_extra && insns_left < tb->icount) {
--        /* Execute any remaining instructions, then let the main loop
--         * handle the next event.
--         */
--        if (insns_left > 0) {
--            cpu_exec_nocache(cpu, insns_left, tb, false);
--        }
-+
-+    /*
-+     * If the next tb has more instructions than we have left to
-+     * execute we need to ensure we find/generate a TB with exactly
-+     * insns_left instructions in it.
-+     */
-+    if (!cpu->icount_extra && insns_left > 0 && insns_left < tb->icount)  {
-+        cpu->cflags_next_tb = (tb->cflags & ~CF_COUNT_MASK) | insns_left;
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index f933c74c44..e08179de34 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -454,7 +454,6 @@ struct TranslationBlock {
+     uint32_t cflags;    /* compile flags */
+ #define CF_COUNT_MASK  0x00007fff
+ #define CF_LAST_IO     0x00008000 /* Last insn may be an IO access.  */
+-#define CF_NOCACHE     0x00010000 /* To be freed after execution */
+ #define CF_USE_ICOUNT  0x00020000
+ #define CF_INVALID     0x00040000 /* TB is stale. Set with @jmp_lock held */
+ #define CF_PARALLEL    0x00080000 /* Generate code for a parallel context */
+@@ -469,8 +468,6 @@ struct TranslationBlock {
+ 
+     struct tb_tc tc;
+ 
+-    /* original tb when cflags has CF_NOCACHE */
+-    struct TranslationBlock *orig_tb;
+     /* first and second physical page containing code. The lower bit
+        of the pointer tells the index in page_next[].
+        The list is protected by the TB's page('s) lock(s) */
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 7e62d8ad97..0666f9ef14 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -409,12 +409,6 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
+         TranslationBlock *tb = tcg_tb_lookup(host_pc);
+         if (tb) {
+             cpu_restore_state_from_tb(cpu, tb, host_pc, will_exit);
+-            if (tb_cflags(tb) & CF_NOCACHE) {
+-                /* one-shot translation, invalidate it immediately */
+-                tb_phys_invalidate(tb, -1);
+-                tcg_tb_remove(tb);
+-                tb_destroy(tb);
+-            }
+             return true;
+         }
      }
- #endif
- }
+@@ -1633,8 +1627,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+     phys_pc = tb->page_addr[0] + (tb->pc & ~TARGET_PAGE_MASK);
+     h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb_cflags(tb) & CF_HASH_MASK,
+                      tb->trace_vcpu_dstate);
+-    if (!(tb->cflags & CF_NOCACHE) &&
+-        !qht_remove(&tb_ctx.htable, tb, h)) {
++    if (!qht_remove(&tb_ctx.htable, tb, h)) {
+         return;
+     }
+ 
+@@ -1795,6 +1788,8 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+ {
+     PageDesc *p;
+     PageDesc *p2 = NULL;
++    void *existing_tb = NULL;
++    uint32_t h;
+ 
+     assert_memory_lock();
+ 
+@@ -1814,25 +1809,20 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+         tb->page_addr[1] = -1;
+     }
+ 
+-    if (!(tb->cflags & CF_NOCACHE)) {
+-        void *existing_tb = NULL;
+-        uint32_t h;
+-
+-        /* add in the hash table */
+-        h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb->cflags & CF_HASH_MASK,
+-                         tb->trace_vcpu_dstate);
+-        qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
++    /* add in the hash table */
++    h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb->cflags & CF_HASH_MASK,
++                     tb->trace_vcpu_dstate);
++    qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
+ 
+-        /* remove TB from the page(s) if we couldn't insert it */
+-        if (unlikely(existing_tb)) {
+-            tb_page_remove(p, tb);
+-            invalidate_page_bitmap(p);
+-            if (p2) {
+-                tb_page_remove(p2, tb);
+-                invalidate_page_bitmap(p2);
+-            }
+-            tb = existing_tb;
++    /* remove TB from the page(s) if we couldn't insert it */
++    if (unlikely(existing_tb)) {
++        tb_page_remove(p, tb);
++        invalidate_page_bitmap(p);
++        if (p2) {
++            tb_page_remove(p2, tb);
++            invalidate_page_bitmap(p2);
+         }
++        tb = existing_tb;
+     }
+ 
+     if (p2 && p2 != p) {
+@@ -1905,7 +1895,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     tb->cs_base = cs_base;
+     tb->flags = flags;
+     tb->cflags = cflags;
+-    tb->orig_tb = NULL;
+     tb->trace_vcpu_dstate = *cpu->trace_dstate;
+     tcg_ctx->tb_cflags = cflags;
+  tb_overflow:
+@@ -2444,16 +2433,6 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+     /* Generate a new TB executing the I/O insn.  */
+     cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
+ 
+-    if (tb_cflags(tb) & CF_NOCACHE) {
+-        if (tb->orig_tb) {
+-            /* Invalidate original TB if this TB was generated in
+-             * cpu_exec_nocache() */
+-            tb_phys_invalidate(tb->orig_tb, -1);
+-        }
+-        tcg_tb_remove(tb);
+-        tb_destroy(tb);
+-    }
+-
+     qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
+                            "cpu_io_recompile: rewound execution of TB to "
+                            TARGET_FMT_lx "\n", tb->pc);
 -- 
 2.20.1
 
