@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B26316826
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 14:38:59 +0100 (CET)
-Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E76316829
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 14:39:12 +0100 (CET)
+Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9phq-0000xa-Mi
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 08:38:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57686)
+	id 1l9pi3-0001I1-Df
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 08:39:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l9pgP-0000DS-L7
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:37:29 -0500
-Received: from 8.mo51.mail-out.ovh.net ([46.105.45.231]:43589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l9pgK-0005C6-M5
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:37:29 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id F2BF426585E;
- Wed, 10 Feb 2021 14:37:19 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 10 Feb
- 2021 14:37:18 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005da7a1374-f9eb-4611-b1ac-597f1db0ca3f,
- 4C52CDDF7D11E8FC19FB534918B7DCABD727043D) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: eMMC support
-To: Joel Stanley <joel@jms.id.au>
-References: <BY5PR02MB6772761F83EDC56737969C18CA210@BY5PR02MB6772.namprd02.prod.outlook.com>
- <CACPK8XexXLYrwMenkyou0Xkc8Tx+p1SNi7jbFBj6aObAKHcBwQ@mail.gmail.com>
- <6a30107a-abf1-635b-c96f-af3d63f93bc8@kaod.org>
- <6c1e1335-887e-0459-f1c7-f37daa008c4d@kaod.org>
- <d0ef7bbd-2b2b-422f-9420-29ca620db130@xilinx.com>
- <BY5PR02MB677227AB2EE184B02E1E90B8CAB69@BY5PR02MB6772.namprd02.prod.outlook.com>
- <e401d119-402e-0edd-c2bf-28950ba48ccb@kaod.org>
- <13ff3712-e187-9555-057f-3612654d25c9@kaod.org>
- <BY5PR02MB67726489BD76132422D6297ECA8E9@BY5PR02MB6772.namprd02.prod.outlook.com>
- <10976153-915c-8399-b6b3-6091ae41ec3c@kaod.org>
- <CACPK8Xec5o-+9La6AGaVZpfXXFOJ59x6iW9eEO=c016ga+az9A@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <80420e50-1567-ce59-a597-88563382b2f7@kaod.org>
-Date: Wed, 10 Feb 2021 14:37:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l9pgg-0000KG-SU
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:37:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l9pgd-0005JP-TC
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:37:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612964262;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hz+nb2CT029aNvB7Snb5YOncfBn3vFriHif9UOX29E0=;
+ b=EyhpUR1VPlx85J57oBwNbNv24W1VvtiPfeyoxLUlc6OQpY2IbbKsuhLPPiYjs2R2rw7jiL
+ YvUl+Jl4467fM9lC0kHW3FV/uNROH6twJyFuNwiyGYKIwOt07erlC6ke7xKG7irqbHVDtJ
+ KSrB6FL/fbmPxFMm9hoGF5xWTGXloTk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-MJ833CbzO8KfuK96ttjJtw-1; Wed, 10 Feb 2021 08:37:39 -0500
+X-MC-Unique: MJ833CbzO8KfuK96ttjJtw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E806100A8E8;
+ Wed, 10 Feb 2021 13:37:38 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B91EB60BE2;
+ Wed, 10 Feb 2021 13:37:33 +0000 (UTC)
+Date: Wed, 10 Feb 2021 14:37:31 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Isaku Yamahata <yamahata.qemudev@gmail.com>
+Subject: Re: [PATCH v2 6/9] hw/i386: declare ACPI mother board resource for
+ MMCONFIG region
+Message-ID: <20210210143731.45566d1e@redhat.com>
+In-Reply-To: <20210209200258.GB28049@private.email.ne.jp>
+References: <cover.1612821108.git.isaku.yamahata@intel.com>
+ <ff52a5969a6666235745d7e067f5fb500a8c70fb.1612821109.git.isaku.yamahata@intel.com>
+ <20210209165241.5ba1a953@redhat.com>
+ <20210209200258.GB28049@private.email.ne.jp>
 MIME-Version: 1.0
-In-Reply-To: <CACPK8Xec5o-+9La6AGaVZpfXXFOJ59x6iW9eEO=c016ga+az9A@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b67cc5ec-750e-422b-b16d-97789c32267a
-X-Ovh-Tracer-Id: 16253209580250237734
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrheejgdehgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghu
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo51.mail-out.ovh.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.211,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,49 +82,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sai Pavan Boddu <saipava@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
- Edgar Iglesias <edgari@xilinx.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Isaku Yamahata <isaku.yamahata@intel.com>, philmd@redhat.com,
+ qemu-devel@nongnu.org, isaku.yamahata@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/21 2:05 PM, Joel Stanley wrote:
-> On Wed, 10 Feb 2021 at 09:56, Cédric Le Goater <clg@kaod.org> wrote:
->>
->> Hello Sai Pavan,
->>
->> [ ... ]
->>
->>>>> The patchset is in the aspeed-6.0 branch :
->>>>>
->>>>>     df91d012672c Cédric Le Goater - hw/arm/aspeed: Load eMMC first boot
->>>>>                                     area as a boot rom
->>>>>     27b75a7ad322 Cédric Le Goater - hw/arm/aspeed: Add eMMC property
->>>>>     2836cf5a15a1 Joel Stanley - hw/arm/aspeed: Set boot device to emmc
->>>
->>> [Sai Pavan Boddu] I see you guys have implemented the boot area access here,
->>
->> The boot partition modeling fits our needs to boot the Aspeed machine
->> but this is very custom.
->>
->>> I was assuming, your use-case just need to access data from boot partitions.
->>> We are not implementing eMMC boot operations or Alternative bootmode right ?
->>
->> Joel could say more about it ?
-> 
-> The solution I came up with has room for improvement. There's no way
-> to tell the qemu sd device what boot partitions it should expect to
-> find, and likewise there's no way for the emulated machine to check
-> that the image is formatted in the way it expects.
-> 
-> If there was a way to add metadata to the image (through qcow2?) then
-> we could use this to define the boot partition sizes in the image, and
-> have the model use these numbers to populate CSD_EXT. It's only an
-> idea, and I don't know if qcow2 supports this kind of metadata.
+On Tue, 9 Feb 2021 12:02:58 -0800
+Isaku Yamahata <yamahata.qemudev@gmail.com> wrote:
 
-We could add a new QEMU MMC block device with a set of properties
-to describe the layout maybe ? 
+> On Tue, Feb 09, 2021 at 04:52:41PM +0100,
+> Igor Mammedov <imammedo@redhat.com> wrote:
+> 
+> > On Mon,  8 Feb 2021 13:57:25 -0800
+> > isaku.yamahata@gmail.com wrote:
+> >   
+> > > From: Isaku Yamahata <isaku.yamahata@intel.com>
+> > > 
+> > > Declare PNP0C01 device to reserve MMCONFIG region to conform to the
+> > > spec better and play nice with guest BIOSes/OSes.
+> > > 
+> > > According to PCI Firmware Specification, MMCONFIG region must be
+> > > reserved by declaring a motherboard resource.  
+> > could you point to concrete spec version/chapter where it stated.
+> > (should be part of commit message)  
+> 
+> PCI Firmware specification Revision 3.2
+> 4.1.2 MCFG Table Description
+> table 4-2 NOTE 2
+>   If the operating system does not natively comprehend reserving the MMCFG
+>   region, The MMCFG region must e reserved by firmware. ...
+>   For most systems, the mortheroard resource would appear at the root of
+>   the ACPI namespace (under \_SB)...
+>   The resource can optionally be returned in Int15 E820h or EFIGetMemoryMap
+>   as reserved memory but must always be reported through ACPI as a motherboard
+>   resource
+> 
+> Will include it in next respin.
+> 
+> >   
+> > > It's optional to reserve
+> > > the region in memory map by Int 15 E820h or EFIGetMemoryMap.  
+> >   
+> > > If guest BIOS doesn't reserve the region in memory map without the
+> > > reservation by mother board resource, guest linux abandons to use
+> > > MMCFG.  
+> > can parse this, can you rephrase and avoid double negation, please?  
+> 
+> How about this?
+> Guest Linux checks if the MMCFG region is reserved by bios memory map or
+> ACPI resource.
 
-C.
+> It failed, it falls back to legacy PCI configuraiton access.
+clarify what/how failed, pls.
+
+ 
+> > > +     * When the method of _CRS is called to determine MMCONFIG region,
+> > > +     * only port io is allowed to access PCI configuration space.
+> > > +     * It means qword access isn't allowed.
+> > > +     *
+> > > +     * Device(DRAC)
+> > > +     * {
+> > > +     *     Name(_HID, EisaId("PNP0C01"))
+> > > +     *     OperationRegion(DRR0, PCI_Config, 0x0000000000000060, 0x8)
+> > > +     *     Field(DRR0, DWordAcc, Lock, Preserve)
+> > > +     *     {
+> > > +     *         PEBL, 4,
+> > > +     *         PEBH, 4
+> > > +     *     }  
+> > 
+> > why are you trying to fetch it dynamically?
+> > what prevents you from getting MMCONFIG address in QEMU when building
+> > ACPI tables and encode _CRS statically at that time?  
+> 
+> My motivation is to prepare for TDX where ACPI tables will be part of
+> measurement. I wanted ACPI tables to remain same irrelevant of chipset
+> configuration which guest can change.
+ACPI tables are supposed to be read from QEMU after firmware configured
+PCI subsystem, including MMCONFIG.
+If configuration is changed after that MCFG table won't be correct anymore.
+Given MCFG is statically generated, I see no reason to fetch the same info
+dynamically from DSDT.
+
+PS:
+goal of having fixed ACPI tables is hard to achieve in QEMU,
+it might be possible within single QEMU version for a concrete CLI configuration,
+but any deviation from that may trigger ACPI tables change.
+
+> Thanks,
+
 
