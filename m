@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBBA316BCF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:54:50 +0100 (CET)
-Received: from localhost ([::1]:40144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F79316BBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:51:39 +0100 (CET)
+Received: from localhost ([::1]:59944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9slN-0003HA-QB
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:54:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42378)
+	id 1l9siI-0007rv-Qf
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:51:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYR-0007If-Oj
+ id 1l9sYR-0007Ih-Qb
  for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46385)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYJ-0008UE-22
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:25 -0500
+ id 1l9sYN-0008Uq-Nz
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612975277;
+ s=mimecast20190719; t=1612975279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yaByhcodYuSE+UilLnVylwNvFqTJrI/ygDJgi0H0Yqw=;
- b=h0la85YgOWDZliHLHLNlU2XkNIEhWWoeOwEtOhgAffPkPIx+YfocZgSfodvIDfc1osvLTe
- dq0J069MhLuAgYQiAwVM+P04pJg7R39RpjV8HE5FO767dfIpoi3miiXQD7HsJd4p/jYbce
- Tr3YTbooNspPzqd8u/1JdTFbYjLwFk4=
+ bh=1u9mcxYZQJ7ypVFtmUk66plC0dIbUY+DLO2gdZxDyf4=;
+ b=HDqOYDGck2pzIPRnrG+c+mrnTv2I/7QAIGgzGBHWgZhMaM7kRoaWVOvLgSmPA4bnhBy8gc
+ Q7SACmolSXOBtpGji/fVefj7IkUBDI3sR41DwwWg7C7+tCzFqhcu69hLRohseHi4pS+Coc
+ hds+nBGJdq4fpCoTHHibb1lc2JVchL4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-3PrfofEuMnCNFMXdquTY5A-1; Wed, 10 Feb 2021 11:41:15 -0500
-X-MC-Unique: 3PrfofEuMnCNFMXdquTY5A-1
+ us-mta-8-kAVlKYSZMe6NEp13Odw5aQ-1; Wed, 10 Feb 2021 11:41:17 -0500
+X-MC-Unique: kAVlKYSZMe6NEp13Odw5aQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81A4A107ACE6
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A70C1009617
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:16 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.195.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB09B5D9D0;
- Wed, 10 Feb 2021 16:41:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E728F5D9E3;
+ Wed, 10 Feb 2021 16:41:14 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v4 15/21] i386: expand Hyper-V features during CPU feature
- expansion time
-Date: Wed, 10 Feb 2021 17:40:27 +0100
-Message-Id: <20210210164033.607612-16-vkuznets@redhat.com>
+Subject: [PATCH v4 16/21] i386: track explicit 'hv-*' features
+ enablement/disablement
+Date: Wed, 10 Feb 2021 17:40:28 +0100
+Message-Id: <20210210164033.607612-17-vkuznets@redhat.com>
 In-Reply-To: <20210210164033.607612-1-vkuznets@redhat.com>
 References: <20210210164033.607612-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +59,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,102 +85,302 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
-need to expand and set the corresponding CPUID leaves early. Modify
-x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
-specific kvm_hv_get_supported_cpuid() instead of
-kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
-as Hyper-V specific CPUID leaves intersect with KVM's.
+Sometimes we'd like to know which features were explicitly enabled and which
+were explicitly disabled on the command line. E.g. it seems logical to handle
+'hv_passthrough,hv_feature=off' as "enable everything supported by the host
+except for hv_feature" but this doesn't seem to be possible with the current
+'hyperv_features' bit array. Introduce 'hv_features_on'/'hv_features_off'
+add-ons and track explicit enablement/disablement there.
 
-Note, early expansion will only happen when KVM supports system wide
-KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
+Note, it doesn't seem to be possible to fill 'hyperv_features' array during
+CPU creation time when 'hv-passthrough' is specified and we're running on
+an older kernel without KVM_CAP_SYS_HYPERV_CPUID support. To get the list
+of the supported Hyper-V features we need to actually create KVM VCPU and
+this happens much later.
+
+No functional change intended.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/cpu.c          |  4 ++++
- target/i386/kvm/kvm-stub.c |  5 +++++
- target/i386/kvm/kvm.c      | 15 ++++++++++++---
- target/i386/kvm/kvm_i386.h |  1 +
- 4 files changed, 22 insertions(+), 3 deletions(-)
+ target/i386/cpu.c | 237 ++++++++++++++++++++++++++++++++++++++++------
+ target/i386/cpu.h |   2 +
+ 2 files changed, 209 insertions(+), 30 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index f0f826997ba0..c4e8863c7ca0 100644
+index c4e8863c7ca0..e8a004c39d04 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -6396,6 +6396,10 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-     if (env->cpuid_xlevel2 == UINT32_MAX) {
-         env->cpuid_xlevel2 = env->cpuid_min_xlevel2;
-     }
-+
-+    if (kvm_enabled()) {
-+        kvm_hyperv_expand_features(cpu, errp);
-+    }
+@@ -4553,6 +4553,178 @@ static void x86_cpuid_set_tsc_freq(Object *obj, Visitor *v, const char *name,
+     cpu->env.tsc_khz = cpu->env.user_tsc_khz = value / 1000;
  }
  
- /*
-diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-index 92f49121b8fa..7f175faa3abd 100644
---- a/target/i386/kvm/kvm-stub.c
-+++ b/target/i386/kvm/kvm-stub.c
-@@ -39,3 +39,8 @@ bool kvm_hv_vpindex_settable(void)
- {
-     return false;
- }
-+
-+void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
++static bool x86_hv_feature_get(Object *obj, int feature)
 +{
-+    return;
-+}
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 47fc564747a3..30013f0d7cee 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1215,13 +1215,22 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
-  * of 'hv_passthrough' mode and fills the environment with all supported
-  * Hyper-V features.
-  */
--static void hyperv_expand_features(CPUState *cs, Error **errp)
-+void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
- {
--    X86CPU *cpu = X86_CPU(cs);
-+    CPUState *cs = CPU(cpu);
- 
-     if (!hyperv_enabled(cpu))
-         return;
- 
-+    /*
-+     * When kvm_hyperv_expand_features is called at CPU feature expansion
-+     * time per-CPU kvm_state is not available yet so we can only proceed
-+     * when KVM_CAP_SYS_HYPERV_CPUID is supported.
-+     */
-+    if (!cs->kvm_state &&
-+        !kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID))
-+        return;
++    X86CPU *cpu = X86_CPU(obj);
 +
-     if (cpu->hyperv_passthrough) {
-         cpu->hyperv_vendor_id[0] =
-             hv_cpuid_get_host(cs, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_EBX);
-@@ -1554,7 +1563,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     env->apic_bus_freq = KVM_APIC_BUS_FREQUENCY;
++    return cpu->hyperv_features & BIT(feature);
++}
++
++static void x86_hv_feature_set(Object *obj, bool value, int feature)
++{
++    X86CPU *cpu = X86_CPU(obj);
++
++    if (value) {
++        cpu->hyperv_features |= BIT(feature);
++        cpu->hyperv_features_on |= BIT(feature);
++        cpu->hyperv_features_off &= ~BIT(feature);
++    } else {
++        cpu->hyperv_features &= ~BIT(feature);
++        cpu->hyperv_features_on &= ~BIT(feature);
++        cpu->hyperv_features_off |= BIT(feature);
++    }
++}
++
++static bool x86_hv_relaxed_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_RELAXED);
++}
++
++static void x86_hv_relaxed_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_RELAXED);
++}
++
++static bool x86_hv_vapic_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_VAPIC);
++}
++
++static void x86_hv_vapic_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_VAPIC);
++}
++
++static bool x86_hv_time_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_TIME);
++}
++
++static void x86_hv_time_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_TIME);
++}
++
++static bool x86_hv_crash_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_CRASH);
++}
++
++static void x86_hv_crash_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_CRASH);
++}
++
++static bool x86_hv_reset_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_RESET);
++}
++
++static void x86_hv_reset_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_RESET);
++}
++
++static bool x86_hv_vpindex_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_VPINDEX);
++}
++
++static void x86_hv_vpindex_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_VPINDEX);
++}
++
++static bool x86_hv_runtime_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_RUNTIME);
++}
++
++static void x86_hv_runtime_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_RUNTIME);
++}
++
++static bool x86_hv_synic_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_SYNIC);
++}
++
++static void x86_hv_synic_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_SYNIC);
++}
++
++static bool x86_hv_stimer_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_STIMER);
++}
++
++static void x86_hv_stimer_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_STIMER);
++}
++
++static bool x86_hv_frequencies_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_FREQUENCIES);
++}
++
++static void x86_hv_frequencies_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_FREQUENCIES);
++}
++
++static bool x86_hv_reenlightenment_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_REENLIGHTENMENT);
++}
++
++static void x86_hv_reenlightenment_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_REENLIGHTENMENT);
++}
++
++static bool x86_hv_tlbflush_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_TLBFLUSH);
++}
++
++static void x86_hv_tlbflush_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_TLBFLUSH);
++}
++
++static bool x86_hv_evmcs_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_EVMCS);
++}
++
++static void x86_hv_evmcs_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_EVMCS);
++}
++
++static bool x86_hv_ipi_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_IPI);
++}
++
++static void x86_hv_ipi_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_IPI);
++}
++
++static bool x86_hv_stimer_direct_get(Object *obj, Error **errp)
++{
++    return x86_hv_feature_get(obj, HYPERV_FEAT_STIMER_DIRECT);
++}
++
++static void x86_hv_stimer_direct_set(Object *obj, bool value, Error **errp)
++{
++    x86_hv_feature_set(obj, value, HYPERV_FEAT_STIMER_DIRECT);
++}
++
+ /* Generic getter for "feature-words" and "filtered-features" properties */
+ static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
+                                       const char *name, void *opaque,
+@@ -7107,36 +7279,6 @@ static Property x86_cpu_properties[] = {
  
-     /* Paravirtualization CPUIDs */
--    hyperv_expand_features(cs, &local_err);
-+    kvm_hyperv_expand_features(cpu, &local_err);
-     if (local_err) {
-         error_report_err(local_err);
-         return -ENOSYS;
-diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index dc725083891c..f1176491051d 100644
---- a/target/i386/kvm/kvm_i386.h
-+++ b/target/i386/kvm/kvm_i386.h
-@@ -47,6 +47,7 @@ bool kvm_has_x2apic_api(void);
- bool kvm_has_waitpkg(void);
+     DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
+                        HYPERV_SPINLOCK_NEVER_NOTIFY),
+-    DEFINE_PROP_BIT64("hv-relaxed", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_RELAXED, 0),
+-    DEFINE_PROP_BIT64("hv-vapic", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_VAPIC, 0),
+-    DEFINE_PROP_BIT64("hv-time", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_TIME, 0),
+-    DEFINE_PROP_BIT64("hv-crash", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_CRASH, 0),
+-    DEFINE_PROP_BIT64("hv-reset", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_RESET, 0),
+-    DEFINE_PROP_BIT64("hv-vpindex", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_VPINDEX, 0),
+-    DEFINE_PROP_BIT64("hv-runtime", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_RUNTIME, 0),
+-    DEFINE_PROP_BIT64("hv-synic", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_SYNIC, 0),
+-    DEFINE_PROP_BIT64("hv-stimer", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_STIMER, 0),
+-    DEFINE_PROP_BIT64("hv-frequencies", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_FREQUENCIES, 0),
+-    DEFINE_PROP_BIT64("hv-reenlightenment", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_REENLIGHTENMENT, 0),
+-    DEFINE_PROP_BIT64("hv-tlbflush", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_TLBFLUSH, 0),
+-    DEFINE_PROP_BIT64("hv-evmcs", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_EVMCS, 0),
+-    DEFINE_PROP_BIT64("hv-ipi", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_IPI, 0),
+-    DEFINE_PROP_BIT64("hv-stimer-direct", X86CPU, hyperv_features,
+-                      HYPERV_FEAT_STIMER_DIRECT, 0),
+     DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
+                             hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
+     DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
+@@ -7283,6 +7425,41 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+                               x86_cpu_get_crash_info_qom, NULL, NULL, NULL);
+ #endif
  
- bool kvm_hv_vpindex_settable(void);
-+void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
- 
- uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
- 
++    object_class_property_add_bool(oc, "hv-relaxed",
++                                   x86_hv_relaxed_get, x86_hv_relaxed_set);
++    object_class_property_add_bool(oc, "hv-vapic",
++                                   x86_hv_vapic_get, x86_hv_vapic_set);
++    object_class_property_add_bool(oc, "hv-time",
++                                   x86_hv_time_get, x86_hv_time_set);
++    object_class_property_add_bool(oc, "hv-crash",
++                                   x86_hv_crash_get, x86_hv_crash_set);
++    object_class_property_add_bool(oc, "hv-reset",
++                                   x86_hv_reset_get, x86_hv_reset_set);
++    object_class_property_add_bool(oc, "hv-vpindex",
++                                   x86_hv_vpindex_get, x86_hv_vpindex_set);
++    object_class_property_add_bool(oc, "hv-runtime",
++                                   x86_hv_runtime_get, x86_hv_runtime_set);
++    object_class_property_add_bool(oc, "hv-synic",
++                                   x86_hv_synic_get, x86_hv_synic_set);
++    object_class_property_add_bool(oc, "hv-stimer",
++                                   x86_hv_stimer_get, x86_hv_stimer_set);
++    object_class_property_add_bool(oc, "hv-frequencies",
++                                   x86_hv_frequencies_get,
++                                   x86_hv_frequencies_set);
++    object_class_property_add_bool(oc, "hv-reenlightenment",
++                                   x86_hv_reenlightenment_get,
++                                   x86_hv_reenlightenment_set);
++    object_class_property_add_bool(oc, "hv-tlbflush",
++                                   x86_hv_tlbflush_get, x86_hv_tlbflush_set);
++    object_class_property_add_bool(oc, "hv-evmcs",
++                              x86_hv_evmcs_get,
++                              x86_hv_evmcs_set);
++    object_class_property_add_bool(oc, "hv-ipi",
++                                   x86_hv_ipi_get, x86_hv_ipi_set);
++    object_class_property_add_bool(oc, "hv-stimer-direct",
++                                   x86_hv_stimer_direct_get,
++                                   x86_hv_stimer_direct_set);
++
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         int bitnr;
+         for (bitnr = 0; bitnr < 64; bitnr++) {
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 7ea14822aab5..b4fbd46f0fc9 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1667,6 +1667,8 @@ struct X86CPU {
+     char *hyperv_vendor;
+     bool hyperv_synic_kvm_only;
+     uint64_t hyperv_features;
++    uint64_t hyperv_features_on;
++    uint64_t hyperv_features_off;
+     bool hyperv_passthrough;
+     OnOffAuto hyperv_no_nonarch_cs;
+     uint32_t hyperv_vendor_id[3];
 -- 
 2.29.2
 
