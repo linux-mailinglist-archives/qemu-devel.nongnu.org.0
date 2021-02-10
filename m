@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA7D315C28
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 02:26:26 +0100 (CET)
-Received: from localhost ([::1]:46826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01215315C64
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 02:39:15 +0100 (CET)
+Received: from localhost ([::1]:49902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9eGv-000329-AR
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 20:26:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43928)
+	id 1l9eTJ-00054f-HI
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 20:39:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l9eDp-0002SJ-FA; Tue, 09 Feb 2021 20:23:13 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1l9eDl-0002we-8g; Tue, 09 Feb 2021 20:23:13 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Db2600g1Lz7jVD;
- Wed, 10 Feb 2021 09:21:28 +0800 (CST)
-Received: from [10.174.184.155] (10.174.184.155) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 10 Feb 2021 09:22:39 +0800
-Subject: Re: [PATCH v5 0/9] block: Add retry for werror=/rerror= mechanism
-To: <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>
-References: <20210205101315.13042-1-cenjiahui@huawei.com>
-From: Jiahui Cen <cenjiahui@huawei.com>
-Message-ID: <3375c2f3-4e85-95b1-cb8b-ab77b77be1eb@huawei.com>
-Date: Wed, 10 Feb 2021 09:22:38 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9eS5-0004W3-Mo; Tue, 09 Feb 2021 20:37:57 -0500
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:44182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9eRz-0008G4-6Y; Tue, 09 Feb 2021 20:37:57 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id r2so388572ybk.11;
+ Tue, 09 Feb 2021 17:37:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FETkbte72qoeeB6GI0rKJabMhZ+yPq39YGItjst3D38=;
+ b=Ye2C850TvkO6PSLPHagppitKIv2qxbKbi/KVL5bduurRdAIN+sruafV1PFg0/a+yWm
+ 3Qtw+uw+CHIXcFFrnqUa208BAjCYZCH31LOkhwcE5yV0vCmNAKH3Dtey0k9RvvpPtopJ
+ BhoavNJ4K6p44EUJyKWQB8CAZMnGo+P81Ql5ZnVhH2aLeGjmp0ShroxhDpuhcZyW3gAq
+ 0XbVkLO8V9JiA5HaYtz6zFM06tTb+dtwcfUJkxH9/0CG4UWVE3rMhu4Ch38pUnhZtug9
+ LDuvuSILXVo6FlLPdeUgMPi+Rh4rkgvOWSBw6Q3+phTUyC/BZqbY+Q33zE0NS9ZYRD0Z
+ QztA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FETkbte72qoeeB6GI0rKJabMhZ+yPq39YGItjst3D38=;
+ b=o24MFmBqcZdQoePwRmRgMDg5R2z8LDxMnx0I+Qa/osi7EVHdrmWBylgaHnDzeqCPeQ
+ /Pm/yTQjAB7G2oj1mSJdOBNA1CMHn0W8y4AbPKgMX5XcJC+jLV8XIEvBj1BfNImQrWoZ
+ xRGIHI4FzpXa0ns5fmIClvxQGWsfbzHDaLBrs7sJu8LP0ZAotK90XZKZT6LiCEoNGbA/
+ nKZyM5NPZoTr5ZXlx+/QxWdXfZSXqvlLO3E1WskgbxsOeS8A9SjlklG17HZh5jrGkuGH
+ AkdPI3Zn8sfFkGi38AprisCA6GAD8dIhCK/5ZN6Z13Aqm61JJdRkru1ifWQ/Hy5A4Fac
+ HNOQ==
+X-Gm-Message-State: AOAM533Fxq29GNyqTVaYF/3lHP0xSW17KkB/EJAh2v9x4U/ttZUteXFl
+ OvV2oENE5Y9uAT6mnql1UH6Tqr/IbQKzDAMy6I8=
+X-Google-Smtp-Source: ABdhPJwNyHDNLn5V2Q/7mnx1nn2ZOv3+OXzo06Ip3n02AZ19qqQzvXGCXsw8nR2QVYE02PvE6WQRYO/LEYOagpAxoHE=
+X-Received: by 2002:a25:3bc5:: with SMTP id i188mr982859yba.332.1612921069899; 
+ Tue, 09 Feb 2021 17:37:49 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210205101315.13042-1-cenjiahui@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.155]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1612833761-43234-1-git-send-email-bmeng.cn@gmail.com>
+ <CAFEAcA-yPsHpq+q7osCKTGGJ7LiHdMWFxuxJN9Gyey5dJvjWcw@mail.gmail.com>
+ <20210210001151.GC4450@yekko.fritz.box>
+In-Reply-To: <20210210001151.GC4450@yekko.fritz.box>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 10 Feb 2021 09:37:38 +0800
+Message-ID: <CAEUhbmUJe2A8P5_nYvdpG0vV4of-bH9L7S8R2aDMkO2BHb-P0w@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/net: fsl_etsec: Reverse the RCTRL.RSF logic
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,75 +76,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- fangying1@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kindly ping.
-Any comments and reviews are wellcome :)
+Hi David, Peter,
 
-Thanks,
-Jiahui
+On Wed, Feb 10, 2021 at 9:16 AM David Gibson
+<david@gibson.dropbear.id.au> wrote:
+>
+> On Tue, Feb 09, 2021 at 09:48:18AM +0000, Peter Maydell wrote:
+> > On Tue, 9 Feb 2021 at 01:22, Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > From: Bin Meng <bin.meng@windriver.com>
+> > >
+> > > Per MPC8548ERM [1] chapter 14.5.3.4.1:
+> > >
+> > > When RCTRL.RSF is 1, frames less than 64 bytes are accepted upon
+> > > a DA match. But currently QEMU does the opposite.
+> > >
+> > > When RCTRL.RSF is 0, short frames are silently dropped, however
+> > > we cannot drop such frames in QEMU as of today, due to both slirp
+> > > and tap networking do not pad short frames (e.g.: an ARP packet)
+> > > to the minimum frame size of 60 bytes.
+> > >
+> > > If eTSEC is programmed to reject short frames, ARP requests will be
+> > > dropped, preventing the guest from becoming visible on the network.
+> > >
+> > > The same issue was reported on e1000 and vmxenet3 before, see:
+> > >
+> > > commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
+> > > commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
+> > >
+> > > Ideally this should be fixed on the slirp/tap networking side to
+> > > pad short frames to the minimum frame length, but I am not sure
+> > > whether that's doable.
+> > >
+> > > This commit reverses the RCTRL.RSF testing logic to match the spec.
+> > > The log message is updated to mention the reject short frames
+> > > functionality is unimplemented.
+> > >
+> > > [1] https://www.nxp.com/docs/en/reference-manual/MPC8548ERM.pdf
+> > >
+> > > Fixes: eb1e7c3e5146 ("Add Enhanced Three-Speed Ethernet Controller (eTSEC)")
+> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >
+> >
+> > > -    if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
+> > > +    /*
+> > > +     * Both slirp and tap networking do not pad short frames
+> > > +     * (e.g.: an ARP packet) to the minimum frame size of 60 bytes.
+> > > +     *
+> > > +     * If eTSEC is programmed to reject short frames, ARP requests
+> > > +     * will be dropped, preventing the guest from becoming visible
+> > > +     * on the network.
+> > > +     */
+> > > +    if (!(etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
+> > >          /* CRC is not in the packet yet, so short frame is below 60 bytes */
+> > > -        RING_DEBUG("%s: Drop short frame\n", __func__);
+> > > -        return -1;
+> > > +        RING_DEBUG("%s: Drop short frame not implemented\n", __func__);
+> > >      }
+> >
+> > This change is doing two things at once.
+>
+> Oops, I missed that.
+>
+> > One of them is an entirely uncontroversial bug fix: we
+> > got the sense of the RCTRL_RSF test the wrong way round.
+> >
+> > The other is different: it is working around a bug elsewhere in QEMU.
+> >
+> > If there's a problem with packets that should not be short
+> > frames being presented to ethernet devices as short frames,
+> > please fix that bug at the source. I don't think we should
+> > take any more device-model workarounds for it. We have lots
+> > and lots of ethernet device models: it will be much more
+> > effort to try to fix them all one by one as people encounter
+> > this bug than it would be to just fix the code that's creating
+> > bogus short frames.
+> >
+> > David, could you drop this from your queue, please ?
+>
+> Done.
 
-On 2021/2/5 18:13, Jiahui Cen wrote:
-> A VM in the cloud environment may use a virutal disk as the backend storage,
-> and there are usually filesystems on the virtual block device. When backend
-> storage is temporarily down, any I/O issued to the virtual block device
-> will cause an error. For example, an error occurred in ext4 filesystem would
-> make the filesystem readonly. In production environment, a cloud backend
-> storage can be soon recovered. For example, an IP-SAN may be down due to
-> network failure and will be online soon after network is recovered. However,
-> the error in the filesystem may not be recovered unless a device reattach
-> or system restart. Thus an I/O retry mechanism is in need to implement a
-> self-healing system.
-> 
-> This patch series propose to extend the werror=/rerror= mechanism to add
-> a 'retry' feature. It can automatically retry failed I/O requests on error
-> without sending error back to guest, and guest can get back running smoothly
-> when I/O is recovred.
-> 
-> v4->v5:
-> * Add document for 'retry' in qapi.
-> * Support werror=/rerror=retry for scsi-disk.
-> * Pause retry when draining.
-> 
-> v3->v4:
-> * Adapt to werror=/rerror= mechanism.
-> 
-> v2->v3:
-> * Add a doc to describe I/O hang.
-> 
-> v1->v2:
-> * Rebase to fix compile problems.
-> * Fix incorrect remove of rehandle list.
-> * Provide rehandle pause interface.
-> 
-> REF: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg06560.html
-> 
-> Jiahui Cen (9):
->   qapi/block-core: Add retry option for error action
->   block-backend: Introduce retry timer
->   block-backend: Add device specific retry callback
->   block-backend: Enable retry action on errors
->   block-backend: Add timeout support for retry
->   block: Add error retry param setting
->   virtio_blk: Add support for retry on errors
->   scsi-bus: Refactor the code that retries requests
->   scsi-disk: Add support for retry on errors
-> 
->  block/block-backend.c          | 68 ++++++++++++++++++++
->  blockdev.c                     | 52 +++++++++++++++
->  hw/block/block.c               | 10 +++
->  hw/block/virtio-blk.c          | 21 +++++-
->  hw/scsi/scsi-bus.c             | 16 +++--
->  hw/scsi/scsi-disk.c            | 16 +++++
->  include/hw/block/block.h       |  7 +-
->  include/hw/scsi/scsi.h         |  1 +
->  include/sysemu/block-backend.h | 10 +++
->  qapi/block-core.json           |  9 ++-
->  10 files changed, 199 insertions(+), 11 deletions(-)
-> 
+OK, I will only do the reverse then.
+
+Regards,
+Bin
 
