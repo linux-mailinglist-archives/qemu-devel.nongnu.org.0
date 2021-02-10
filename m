@@ -2,79 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAF1316F7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 20:04:01 +0100 (CET)
-Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E9E316FBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 20:11:20 +0100 (CET)
+Received: from localhost ([::1]:56178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9umN-0004bD-AN
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 14:03:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46436)
+	id 1l9utT-0008Dc-Rm
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 14:11:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9ukg-00046r-M6
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:02:17 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:45084)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9uke-0003Nd-GD
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:02:14 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id b8so1713316plh.12
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 11:02:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WTyd5Siaj2+GtN+nhGIsMjM1WMLt66awV2Ljp3YtNWc=;
- b=caP8mHraYa0EGreHq/mYdLbalcyaU1XOoZgF94pLxOqqdfsN/vl0wCp7WMkg/7O7Dx
- 20/BSBjqmbjwKPCG2XntntPW2y9U5EpQCa17PU2v6hRc1uTTiKVqSxWHBZ5+BrjOrfLf
- SkHf2IaSxZT/YNRd98y50eu+J6qXa9k/+ibf42vLNHLUDU/EhApLLr3Wz9QX9X6xrYAp
- fQs++RmWReAFOmc6fKfSaZw/hHJvGF/IDLXvCF70IXiGNfOTz3dRM7Ycx/qug8RYEOzy
- XFVCuWbw3AxHUCFoTyWN0Hhd3TLrpny505etVoA9xC1P/HrS2xBOOAVDeRJCOY79I612
- ADpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WTyd5Siaj2+GtN+nhGIsMjM1WMLt66awV2Ljp3YtNWc=;
- b=b/dPpBfw5hNnkolLjbV6wLffenjRnMlg39cZl/EngmxlprjYh2OEL11Dr/EdiPX3Wa
- gKXGeXo1Uc5g1HS3fsXTy0U6q5VVYpC8+5oJ6ONsMVe4s4z8ZdyH7YHEuphVs5NkI0/f
- nM3AzEKvoCUJUVD2Ge0U0jrSkGfTH+DRT6rMFZbxmjUrHZmfZxyS/KP2yQ/FlAty9Ix1
- szu0toZMtOEzkkJJrM5MJub6eXfgqV1vL/LxriyeJDtv637coMNu6481W7t8Eebvb6bF
- FCfuBSwaN5AOCcqmhnEmc31NGOhcVGhu+leDV+zwgX4qFtCWASnSrQiB312J15Jj35q7
- TkOA==
-X-Gm-Message-State: AOAM531ovBhcyjGtlpvH52yxaXSUd0OVv6xnoKT/EQLt8JjH9fYSrB22
- 12VNrX0TXkJZpSuoUHuEVFwsJg==
-X-Google-Smtp-Source: ABdhPJydQShIgVOyFYrBp7/lrZmwr3i0a+feEGQ/cPZatyFXb58EHHa49tjWBVz7+SOH73yJhoAGrQ==
-X-Received: by 2002:a17:902:6b45:b029:e0:7a3:a8c with SMTP id
- g5-20020a1709026b45b02900e007a30a8cmr4411858plt.1.1612983730363; 
- Wed, 10 Feb 2021 11:02:10 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- b17sm3010726pfb.75.2021.02.10.11.02.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Feb 2021 11:02:09 -0800 (PST)
-Subject: Re: [PATCH 0/1] tricore: fixed faulty conditions for extr and imask
-To: David Brenken <david.brenken@efs-auto.org>, qemu-devel@nongnu.org
-References: <20210210082650.5516-1-david.brenken@efs-auto.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c2854d29-8926-ae13-fbf7-77197728ae96@linaro.org>
-Date: Wed, 10 Feb 2021 11:02:07 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1l9uqB-0007A9-F2
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:07:55 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18988)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1l9uq9-0005lt-6w
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 14:07:55 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 11AJ2hkB093666
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:07:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=FQY6Fy5D2G8Lw48p3KYJbAIBsWJOde8hm6IkDK4AwPA=;
+ b=qyyvSUGaT9NDXZvgc+e6LylCTT+6ikTbxqbROsa0MAi5KQZQJczkOwPs8cpl6N7EXkX3
+ g5x1oZIjkDzzbUckeBSBHXwbNRHXPYschdIjwiF2hyA0gEubxgAprDSMrWHwaF4bsj64
+ QALLqd4eF6V5tBXVfbU0F5dggYzNIpHFt89fNO4ekvD23zhMHJEaH/L723QWgaeEon+L
+ RglFAZdCavOPfbYR1VwYyX+eX91QGK8S2ptGpRhnxigqfR0y3wToypNorZQjLDJbYn0I
+ 9QunnGOKcRJxV8w5nzZpysqTQr9kfQxs3UY01TAFwgJ/qPjsVXsWAIoL9tL63D7LTx8G Rw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36mmjx9pq1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:07:49 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11AJ2wvT095511
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:07:18 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36mmjx9nj2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Feb 2021 14:07:17 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11AIlGNA010440;
+ Wed, 10 Feb 2021 19:06:52 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma03wdc.us.ibm.com with ESMTP id 36hjr9g7n5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Feb 2021 19:06:52 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11AJ6phQ33554934
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 Feb 2021 19:06:51 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4CD9B78060;
+ Wed, 10 Feb 2021 19:06:51 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 569027805C;
+ Wed, 10 Feb 2021 19:06:50 +0000 (GMT)
+Received: from jarvis.int.hansenpartnership.com (unknown [9.80.218.10])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 10 Feb 2021 19:06:50 +0000 (GMT)
+Message-ID: <f46a24d33185b808801531da7d9ca6457d9a790e.camel@linux.ibm.com>
+Subject: Re: Interactive launch over QMP socket?
+From: James Bottomley <jejb@linux.ibm.com>
+To: Connor Kuehl <ckuehl@redhat.com>, qemu-devel@nongnu.org
+Date: Wed, 10 Feb 2021 11:06:49 -0800
+In-Reply-To: <ef2db65a-f9bd-5cf7-7c1a-9ba07dd4bda0@redhat.com>
+References: <47b15088-514a-8174-029d-8d9c4571960a@redhat.com>
+ <ac1a5075878d86b0a46db20cb6e579b5fec74d87.camel@linux.ibm.com>
+ <ef2db65a-f9bd-5cf7-7c1a-9ba07dd4bda0@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-In-Reply-To: <20210210082650.5516-1-david.brenken@efs-auto.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.737
+ definitions=2021-02-10_08:2021-02-10,
+ 2021-02-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ impostorscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 spamscore=0 phishscore=0 adultscore=0
+ bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102100169
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.211,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,31 +112,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbastian@mail.uni-paderborn.de,
- Andreas Konopik <andreas.konopik@efs-auto.de>
+Reply-To: jejb@linux.ibm.com
+Cc: npmccallum@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/21 12:26 AM, David Brenken wrote:
-> From: Andreas Konopik <andreas.konopik@efs-auto.de>
+On Wed, 2021-02-10 at 12:46 -0600, Connor Kuehl wrote:
+> On 2/10/21 12:14 PM, James Bottomley wrote:
+> > > I would like to add a message type to QMP which allows guest
+> > > owners to supply this data over a socket and _not_ require these
+> > > components a priori via command line arguments. In doing so, this
+> > > would allow for a 100% remote attestation process over the
+> > > socket. However, I'm not sure how to express this interactive
+> > > "waiting" for this data to become available with internal APIs
+> > > (assuming it's not supplied as a command  line argument).
+> > 
+> > Well, I never understood why qemu can't deduce the value of cbitpos
+> > ... it even errors out if you get it wrong.  However, other things
+> > like the policy and the session file have to be present at start of
+> > day. They're not things that can be passed in after qemu starts
+> > building the machine image because they need to be present to begin
+> > building it.
 > 
-> Hello together,
+> Right, I didn't mean to include cbitpos in consideration for this.
+> I'm only interested in supplying the session, policy, and certificate
+> info over the socket.
 > 
-> we have fixed a few conditions leading to incorrect intermediate code
-> generation. RCPW_IMASK, RRPW_EXTR, RRPW_EXTR_U and RRPW_IMASK invoke
-> undefined behavior for "pos + width > 32", which is also checked in
-> tcg_gen_extract_tl(). RRRW_EXTR_U invokes undefined behavior for
-> "width == 0", hence we removed that condition.
+> Shouldn't the session, policy, and certificate information only be 
+> required in time for the KVM_SEV_LAUNCH_START ioctl call? This is
+> the place I'm interested in waiting for the relevant data.
 
-This is incorrect, because "undefined behavior" should not include a qemu abort.
+Well, it could, but I see the session information as being the same as
+the image file, which is also a command line argument, so if you can do
+the image file on the command line, why not the session info as well?
 
-You could raise a guest exception, you could treat the faulty instruction as a
-nop, you could truncate the inputs to avoid the abort, you could write
-0xdeadbeef to the destination.
+The other problem is the session info is exchanged for a launch handle
+in kvm_init, which is machine_init in qemu terms.  That's called
+phenomenally early, so there's not much of kvm to pause before you do
+that.  So either qemu has to be rewritten to pause before processing
+command line arguments, and then any argument can be added over QMP, or
+the handle exchange has to occur later.
 
-Or you could fix the couple of faulty conditions and leave the rest of the code
-as-is.
+James
 
 
-r~
 
