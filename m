@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF343162C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:54:04 +0100 (CET)
-Received: from localhost ([::1]:40552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A66A3162FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:57:42 +0100 (CET)
+Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9mCB-0002wB-7y
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:54:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60862)
+	id 1l9mFh-00068K-2e
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:57:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9m9p-0000ee-Sr
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:51:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9m9m-0001Vq-H2
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:51:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612950692;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=eENynDJNps9kDCIJFPnyq/XCtSPyPmheRK5nRG4nsSE=;
- b=AM4jfRKZEgcdYqIJFuTBKeAR9i0tN1CV1F7amf/+WEa3EFNKd67rvH00CJX6fYdiZ7J2cA
- b8N7eA3qiA8hcmIZ6UK9P9kNxlVWtw1Li0M3fivWdXy8f6nDJ1iCE22a5KbmMWKkC11D8E
- KjTEAFVtcXOpviWYyW8Cd617DcjGyTg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-69-czISM5FXN4WpngEoPoVZVg-1; Wed, 10 Feb 2021 04:51:31 -0500
-X-MC-Unique: czISM5FXN4WpngEoPoVZVg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54F29193578B;
- Wed, 10 Feb 2021 09:51:30 +0000 (UTC)
-Received: from localhost (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E786B5D9CD;
- Wed, 10 Feb 2021 09:51:29 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] iotests: Consistent $IMGOPTS boundary matching
-Date: Wed, 10 Feb 2021 10:51:28 +0100
-Message-Id: <20210210095128.22732-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9mD9-0004iR-Th; Wed, 10 Feb 2021 04:55:04 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9mD2-0003QQ-AQ; Wed, 10 Feb 2021 04:55:03 -0500
+Received: by mail-ed1-x535.google.com with SMTP id s5so2153572edw.8;
+ Wed, 10 Feb 2021 01:54:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=v4qw1U6KDYBOjshkawxBVwQdC+CSvskLF9qpiBI1bac=;
+ b=EfJk2UEbC7VEW/T5nuqodA/k7ynZ1xtM1WyfXOTWN/rhrZ9HrMy2udoppHwwU5nd5r
+ XgI4K7qUtnw/ZY9TXtJb+voORJ7ngsB1WVK8ySBPqqqJ3EDYHCf0s5y61QFecrW7aI5r
+ K1fwyvivHq0IExK/+kd7Fe3rSXMQ37rDZOyttX+vvEdYhiCBkBpa3P/C7eA9SHcqTat2
+ nh1K4PcoFdjtWTHELt4lKhOCl7j689ghOFkqANwJcJaGmj3gm8oE+ApJg4I4lRuxjIY2
+ BT8fcGeMrwbvlm3rFg9ftuiBC+P2P88zsHmOnqDQdzXJOml+t9vlAftS/3wYF2+i1gQO
+ qu4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=v4qw1U6KDYBOjshkawxBVwQdC+CSvskLF9qpiBI1bac=;
+ b=dBqupTC+tXHqONEhAohKjBuFUKZ7Q0R1wWZqILEPrZnUgulXIgOTttyxPXGGzV+IBW
+ KppqOpFes3ofZxdRfITQTJDq+Hnzr/1nxgsRfKnwkHyQbncVzY2y5vS1fHnTeNSQMkxS
+ imCQjBblufU/EYfrQkGvEqakBIsXeg3NWFJcyMY3l47gCor4ps94F+BQbwxEXcx2649K
+ xioNrUW4WHdbLldyL22SG6LY03IzMkljM/H/T1JWOmCbQGjv6Xiy6kPM4bXFE5wIWivL
+ DI6xr1bb2CzyjA2Qm9X3PJ29Pvo3xqQVBhTUf+lAZUzuNs2caHzADGGtrIDnTkpnxzml
+ mHZA==
+X-Gm-Message-State: AOAM533F3jVLyEnhcqXPseaJBxvVYxH3IxpqIkDxGvFAjTI8US6c4M5I
+ WVkX6WrVp90f9z6jkV2aqwE=
+X-Google-Smtp-Source: ABdhPJw6EfELzkgOMjTie+KQpc9FE4L1uoSC/VlOWmTeFlUW+mJAlznC6TjoWC5xwR16fX+0Zdk7kQ==
+X-Received: by 2002:a05:6402:12c2:: with SMTP id
+ k2mr2409810edx.281.1612950894206; 
+ Wed, 10 Feb 2021 01:54:54 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id o4sm582755edw.78.2021.02.10.01.54.49
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 10 Feb 2021 01:54:53 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Max Reitz <mreitz@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] hw/block: nvme: Fix a build error in nvme_process_sq()
+Date: Wed, 10 Feb 2021 17:54:39 +0800
+Message-Id: <1612950879-49023-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,53 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ Minwoo Im <minwoo.im.dev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To disallow certain refcount_bits values, some _unsupported_imgopts
-invocations look like "refcount_bits=1[^0-9]", i.e. they match an
-integer boundary with [^0-9].  This expression does not match the end of
-the string, though, so it breaks down when refcount_bits is the last
-option (which it tends to be after the rewrite of the check script in
-Python).
+From: Bin Meng <bin.meng@windriver.com>
 
-Those invocations could use \b or \> instead, but those are not
-portable.  They could use something like \([^0-9]\|$\), but that would
-be cumbersome.  To make it simple and keep the existing invocations
-working, just let _unsupported_imgopts match the regex against $IMGOPTS
-plus a trailing space.
+Current QEMU HEAD nvme.c does not compile:
 
-Suggested-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+  hw/block/nvme.c: In function ‘nvme_process_sq’:
+  hw/block/nvme.c:3242:9: error: ‘result’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+         trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
+         ^
+  hw/block/nvme.c:3150:14: note: ‘result’ was declared here
+     uint32_t result;
+              ^
+
+Explicitly initialize the result to fix it.
+
+Fixes: aa5e55e3b07e ("hw/block/nvme: open code for volatile write cache")
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
-Supersedes "iotests: Fix unsupported_imgopts for refcount_bits", and can
-be reproduced in the same way:
 
-$ ./check -qcow2 -o refcount_bits=1 7 15 29 58 62 66 68 80
+ hw/block/nvme.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-(those tests should be skipped)
----
- tests/qemu-iotests/common.rc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 77c37e8312..65cdba5723 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -885,7 +885,9 @@ _unsupported_imgopts()
- {
-     for bad_opt
-     do
--        if echo "$IMGOPTS" | grep -q 2>/dev/null "$bad_opt"
-+        # Add a space so tests can match for whitespace that marks the
-+        # end of an option (\b or \> are not portable)
-+        if echo "$IMGOPTS " | grep -q 2>/dev/null "$bad_opt"
-         then
-             _notrun "not suitable for image option: $bad_opt"
-         fi
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 5ce21b7..c122ac0 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -3228,6 +3228,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+         result = ns->features.err_rec;
+         goto out;
+     case NVME_VOLATILE_WRITE_CACHE:
++        result = 0;
+         for (i = 1; i <= n->num_namespaces; i++) {
+             ns = nvme_ns(n, i);
+             if (!ns) {
 -- 
-2.29.2
+2.7.4
 
 
