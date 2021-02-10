@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260C531733D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:22:00 +0100 (CET)
-Received: from localhost ([::1]:40868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17064317325
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:18:07 +0100 (CET)
+Received: from localhost ([::1]:60938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9xrz-0006Su-6m
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:21:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56776)
+	id 1l9xoE-0002wD-3H
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:18:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xhZ-00067X-HY
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:13 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37464)
+ id 1l9xhc-0006E2-LX
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:17 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xhW-0003HN-9Y
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:12 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id m1so3299133wml.2
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:11:09 -0800 (PST)
+ id 1l9xha-0003J0-Ms
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:16 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id j11so3188553wmi.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:11:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qsAlB8eC1+WOxOlJ6bcLRTNHUdtdlZsz5JZgZPTBx5w=;
- b=m2lyRN5Reh9Dj22oLqBx3id4+wVDwzL4KB5tbf/Ly6ahdITvQxJU8Eii45iufhj1rB
- ocTYIRH+QJV8s6qZEm7w+zNtZSPCJKI1XYiWdR0VUwuvLdaR1f68IUiOmhoTaZ7n3QEa
- mM7/XjOUbmL7/anZg7aUyrPangkRfJljYIJdS1qSbtUZw++WD/9avwiZQ+eseDHzufoB
- fhGsIbCDO5e/urBMQ3d2huyZjMxo1EnVtfS3FSwkVnCanJc7wu1T3EO5+Wu/Bk3wLVHj
- AZxwta/slRfo5259d+jmhylsOiCisFB6At3AXeOmNYXMyU/H4kiMadP4Dqon5Y3FeARm
- 3PHg==
+ bh=UHNi1hWLbrIySFeJtKPpCbGfvhbQp8V4grjS5oASwHk=;
+ b=deFZY/34/EwGU8nSwmvwxsSDeSKC6R+Yq60AoViWbNYHV/a2k6O7vicy1+NkW51Rr3
+ JntNnIbJDqAK5JeB+E/nxNQ1Ph7LULEyL7IFWEAx/te6sU9UY2VHJ712+306tZMjLGpu
+ RRsOILPdnGmtFkX434qmgCw+65qaXxB8ETDRWIoev+ydIQodboShIfOIaQfDbTtYZkZH
+ lEFmb2kJm0NSXZQ/IpakJcN1CfdzM12knkV5JEmfMq6sIKCgCBYqkqxso/bQYwXTa+jC
+ qkTo9Gnl4HUtWMNuCJxbh7pFyDz6uAgfW5DyoeKWPb2kiwC7nsbGoIs1uoP6sX97xQJ7
+ BynA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qsAlB8eC1+WOxOlJ6bcLRTNHUdtdlZsz5JZgZPTBx5w=;
- b=eUanQ+aWOZ426N23wkR+Cm8bR0y5xC8WEJhQe64gxVdoL/mrR0PVwWtO7kRdXWmr0M
- 6qzVGwrdbaSOMw76CUPrSxWzzXeManIfu/moXAlDGyK47NFbBYGjosCNH0XFbhIGUNdp
- h4dm3AeVv/8wkGdzNP9rMIa3BDxRcyyWEdc5ePiYXVlqWUh/EXVzr20WkQTvW8TCQvQA
- yqEsxlBsPxHBXTkgA2F+H6ZKzq5IU4/Bn6kK+3dG1wFVRKEFbRtuTtP39wb9py2vvA7r
- 9Pe5x7crC4ABMc0aRzxWMRPfFvNgyx3oYhIg7ygOlJIhqtCdfTS8bJzYZpbxvTMA48LW
- Mkyw==
-X-Gm-Message-State: AOAM533CM+ry3Z30nT2YCryiHxMzPRzywNElodOQjWMSfZOa9XS6LsJu
- BQBiIUpSHFrisJaMyMBNfrM9D8saG0+AOYxW
-X-Google-Smtp-Source: ABdhPJwGUuzZ92zgTCJj28UWIWtKlbq7zZ2ybIQeWAzEUfX0qP2725uBCnQg+i75OtlSc+7bGctckA==
-X-Received: by 2002:a1c:f415:: with SMTP id z21mr1194592wma.114.1612995068912; 
- Wed, 10 Feb 2021 14:11:08 -0800 (PST)
+ bh=UHNi1hWLbrIySFeJtKPpCbGfvhbQp8V4grjS5oASwHk=;
+ b=q7jEezoTbsXIXtVLh30BOKw99V2sYGXbTrwaeg5WGD84cOushWcONQWARbcR0XX+w8
+ G1PnGikuMdEScEIKjRihnkhd2NAJ0t5JJF1XOaXv1IXKwEkxkRtfuziNiZG5mwJPLlPf
+ P2dibTWT9HSh/FprOlFNXX+1SKNC3sXvyddqGYQq4da6Xag+HI+hWpxEf6eYmPFNSwcp
+ BqcvSJM5kvxEnHG4ClFSts6nQG83WgOGsWacrvTkWtQv5autVFOe3VLgKQuIKC4lWlMC
+ dbepp4DxvMuM/ecHUz/d/9AwGAWQWEEZ/b2uxzPzn7tNa9ABMlM0upkg0DKBA4wM1q5c
+ EJmg==
+X-Gm-Message-State: AOAM530R/80+RCXRpCsVXh6krd94Ep4Tv7cikGpAwLnCB5VHpwDdZHvO
+ W7N+z+w8YcpPawBClHuA/VMRqA==
+X-Google-Smtp-Source: ABdhPJzFffQgc6t5zMmfLYyEX4zQHTOafX2jOk2kpBokHESQpbut0b5fSczEkPp/0Azf0BHXdmfxRg==
+X-Received: by 2002:a7b:c215:: with SMTP id x21mr1243016wmi.61.1612995073174; 
+ Wed, 10 Feb 2021 14:11:13 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z185sm5427790wmb.0.2021.02.10.14.10.55
+ by smtp.gmail.com with ESMTPSA id t126sm4989453wmf.3.2021.02.10.14.10.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 10 Feb 2021 14:10:58 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 093551FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 1F4161FF92;
  Wed, 10 Feb 2021 22:10:54 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 05/21] contrib: Fix some code style problems,
- ERROR: "foo * bar" should be "foo *bar"
-Date: Wed, 10 Feb 2021 22:10:37 +0000
-Message-Id: <20210210221053.18050-6-alex.bennee@linaro.org>
+Subject: [PATCH  v2 06/21] contrib: Add spaces around operator
+Date: Wed, 10 Feb 2021 22:10:38 +0000
+Message-Id: <20210210221053.18050-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210210221053.18050-1-alex.bennee@linaro.org>
 References: <20210210221053.18050-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,28 +97,28 @@ From: zhouyang <zhouyang789@huawei.com>
 
 I am reading contrib related code and found some style problems while
 check the code using checkpatch.pl. This commit fixs the issue below:
-ERROR: "foo * bar" should be "foo *bar"
+ERROR: spaces required around that '*'
 
 Signed-off-by: zhouyang <zhouyang789@huawei.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210118031004.1662363-3-zhouyang789@huawei.com>
+Message-Id: <20210118031004.1662363-4-zhouyang789@huawei.com>
 ---
- contrib/plugins/howvec.c | 2 +-
+ contrib/ivshmem-server/main.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/plugins/howvec.c b/contrib/plugins/howvec.c
-index 6e602aaccf..2f892da17d 100644
---- a/contrib/plugins/howvec.c
-+++ b/contrib/plugins/howvec.c
-@@ -235,7 +235,7 @@ static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
-     (*count)++;
- }
+diff --git a/contrib/ivshmem-server/main.c b/contrib/ivshmem-server/main.c
+index ee08c4ced0..224dbeb547 100644
+--- a/contrib/ivshmem-server/main.c
++++ b/contrib/ivshmem-server/main.c
+@@ -17,7 +17,7 @@
+ #define IVSHMEM_SERVER_DEFAULT_PID_FILE       "/var/run/ivshmem-server.pid"
+ #define IVSHMEM_SERVER_DEFAULT_UNIX_SOCK_PATH "/tmp/ivshmem_socket"
+ #define IVSHMEM_SERVER_DEFAULT_SHM_PATH       "ivshmem"
+-#define IVSHMEM_SERVER_DEFAULT_SHM_SIZE       (4*1024*1024)
++#define IVSHMEM_SERVER_DEFAULT_SHM_SIZE       (4 * 1024 * 1024)
+ #define IVSHMEM_SERVER_DEFAULT_N_VECTORS      1
  
--static uint64_t * find_counter(struct qemu_plugin_insn *insn)
-+static uint64_t *find_counter(struct qemu_plugin_insn *insn)
- {
-     int i;
-     uint64_t *cnt = NULL;
+ /* used to quit on signal SIGTERM */
 -- 
 2.20.1
 
