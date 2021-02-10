@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B38531736C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:35:08 +0100 (CET)
-Received: from localhost ([::1]:38856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962E1317366
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:33:18 +0100 (CET)
+Received: from localhost ([::1]:35928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9y4h-00023T-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:35:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56962)
+	id 1l9y2t-0000ky-V1
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:33:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xhp-0006MK-8o
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:30 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55736)
+ id 1l9xhl-0006Ii-45
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:26 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xhd-0003Ka-Dr
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:28 -0500
-Received: by mail-wm1-x330.google.com with SMTP id o15so1414629wmq.5
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:11:17 -0800 (PST)
+ id 1l9xhg-0003L5-Ev
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:24 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id y134so3307329wmd.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:11:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V8hRFPoVc8c8eXrlr06JCpkJWOT8xslFBNNz5Wo6GrU=;
- b=NP7/0bpwusTxvB0ZhU+x0q1nVL4wyjUhWnuD++OoZz/gHQyzI6yHJnv0F6IgHS1D5M
- mEPcBkWsV30X8fIWbpKWB59bea7gPPt7KaezQapMch5rBqnBH6Ogj/x33L5EvUBIdaNU
- NHzU48FjGCVkHkNJ0UiPO1Nzoje/OxViKYBGSh4QatSGTuDyvOU/VrGVY6IWNWfvQKre
- U29u4RQD/YxUyAV3PGg5axBgyHlCS/8QYTuEogpWYAlbHcExyhm5Xski+PHASZwLTgxc
- z2u+ErGXNaOKgvj9q9XnDWTg4e+RZleFlnCd0GRVHfWr0LWMM0YoRnwD/+OBuD1s5mZ2
- LBoA==
+ bh=maKaI/qzwTXOe899gbp1Af9qP827gN0VYDNXRtqE7f8=;
+ b=BnRJ6TMA1Fz8nSbo6qVYjZzR/6j+e3mCokFjSS18/v7JeRZUFspfyqFGl0fV4GocSI
+ FvwLegdVMCNjiTfrq7n3B7eC7kqhgxKVl0BfwCQKi/AFsSSf1yerk8mp+fVFc0jdRpyo
+ /chpAte7At3NS0x807qy+5SpuBCBlFUiFOipd9aoMAnlWgo7ADP+0pGU3U3/wrj5s2rE
+ SKOBTHM66BACAUuSDaUbHxx3AdjsAFcmir2g+F1pq+Iw0D50IX1KIdE4CkrDOLkBsyIr
+ jwSOfE91+2xIyX75wYV2SUVS5UIZvKyay0oosN1FWbSBXSwGZNxpO//4M7MW8L/C3MCQ
+ /rtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V8hRFPoVc8c8eXrlr06JCpkJWOT8xslFBNNz5Wo6GrU=;
- b=XZp0xb5enmNMeNzrT1uR1c2qnAMYEgZBmed/x9HsQNefMY8y8598ER8nM4upRmk/Fk
- AvwkFqDfa5r+HVZ9mN/np/KYSLrCOsn01DmOX5pw3DgTO+uUsKeiVJ7rzjSwmpW2/dkK
- 9yCy2QB+aDgDCJfEZvrGlCJg9qktCqtJ2QyRigUkZlMt7VAwGN0pzjYgQiYHLHo2AGEe
- wNiZVVRSwgo3dGEhxkEqRHnb7kTFaF6CN828QVFsvzA1O+gFHnCk4ubHzxaHMqenl5Bx
- xIHxRTjjL7YBcoXN1Dm+rNBIfMn9k3JEqKuWNUQPjt1U/iN7nqV695IVEJPMafhyA5zP
- LLtg==
-X-Gm-Message-State: AOAM533iU2kN1QVcFFSdWZtXvSqnkX6Ia0WzUaVnzLtaZfSY/lMlOl/Z
- w23gv3ZKxoAcyO9yadPEKegZbg==
-X-Google-Smtp-Source: ABdhPJx27FFNMbbiYzgKSgLztIOIU2v6/P2xGIK8RkZE/87vFUeTob59+N/RyMgtKgCv01Sos6nemg==
-X-Received: by 2002:a05:600c:4105:: with SMTP id
- j5mr1237592wmi.0.1612995076109; 
- Wed, 10 Feb 2021 14:11:16 -0800 (PST)
+ bh=maKaI/qzwTXOe899gbp1Af9qP827gN0VYDNXRtqE7f8=;
+ b=iQAz4vlTDP8oj453DH3qNmYEQO8YO9+iAw/tL8GTNh6oArdYLZx3u6EzcpfedSnzgj
+ gKZ1gTRQ9dSUFBCUwDKQXf58RV/29pvHiWJ8QrXb9kFFd+2NLIlMHZ3N2yEcLrje65Ce
+ pEFZtBWEPfBTVooD4IYKdt/PhuGFT9VYSkhCp0Oko4ulxrEbbIrhukdD/FwkuPeyrjc8
+ XUsJlvzVW6mfOceEHD0GetiSzeeuYR3xGhmhKpiLQAS7I0qlUSsrdHpTNVraFsgDpxEw
+ 2Q/z1yesQOedPXsXLG24HWhiNj0gHdWqSL3cHM1Qk/dQz3KY1oguQFgDIp0sBu/Ya5j6
+ DOWg==
+X-Gm-Message-State: AOAM532GYhIz1yaiSMxiY8IpSmKzePgF3ajp6PEnn2DMccNcoAWq2ndW
+ dkRYRNSOA61SjgROTCXcbsS7BA==
+X-Google-Smtp-Source: ABdhPJxRYsPFYy58IQ6r4t73WTS1IMGMgv/HyUp+bMSfQEG9YdDH6pXp6Xfpv16DQrath/FGvYC5hg==
+X-Received: by 2002:a05:600c:3506:: with SMTP id
+ h6mr1192328wmq.21.1612995079131; 
+ Wed, 10 Feb 2021 14:11:19 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u142sm5099604wmu.3.2021.02.10.14.11.00
+ by smtp.gmail.com with ESMTPSA id j17sm4537337wmc.28.2021.02.10.14.11.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 10 Feb 2021 14:11:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A2E8A1FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id BC52D1FF9B;
  Wed, 10 Feb 2021 22:10:54 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 11/21] accel/tcg: Create io_recompile_replay_branch hook
-Date: Wed, 10 Feb 2021 22:10:43 +0000
-Message-Id: <20210210221053.18050-12-alex.bennee@linaro.org>
+Subject: [PATCH v2 12/21] target/mips: Create mips_io_recompile_replay_branch
+Date: Wed, 10 Feb 2021 22:10:44 +0000
+Message-Id: <20210210221053.18050-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210210221053.18050-1-alex.bennee@linaro.org>
 References: <20210210221053.18050-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,94 +87,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
  Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Create a hook in which to split out the mips and
-sh4 ifdefs from cpu_io_recompile.
-
-[AJB: s/stoped/stopped/]
+Move the code from accel/tcg/translate-all.c to target/mips/cpu.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210208233906.479571-3-richard.henderson@linaro.org>
-Message-Id: <20210209182749.31323-3-alex.bennee@linaro.org>
+Message-Id: <20210208233906.479571-4-richard.henderson@linaro.org>
+Message-Id: <20210209182749.31323-4-alex.bennee@linaro.org>
 ---
- include/hw/core/tcg-cpu-ops.h | 10 ++++++++++
- accel/tcg/translate-all.c     | 17 +++++++++++++----
- 2 files changed, 23 insertions(+), 4 deletions(-)
+ accel/tcg/translate-all.c | 12 ++----------
+ target/mips/cpu.c         | 18 ++++++++++++++++++
+ 2 files changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index ac3bb051f2..72d791438c 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -88,6 +88,16 @@ struct TCGCPUOps {
-      */
-     bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
- 
-+    /**
-+     * @io_recompile_replay_branch: Callback for cpu_io_recompile.
-+     *
-+     * The cpu has been stopped, and cpu_restore_state_from_tb has been
-+     * called.  If the faulting instruction is in a delay slot, and the
-+     * target architecture requires re-execution of the branch, then
-+     * adjust the cpu state as required and return true.
-+     */
-+    bool (*io_recompile_replay_branch)(CPUState *cpu,
-+                                       const TranslationBlock *tb);
- #endif /* CONFIG_SOFTMMU */
- #endif /* NEED_CPU_H */
- 
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 81d4c83f22..6eb37883bd 100644
+index 6eb37883bd..470657b02a 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -60,6 +60,7 @@
- #include "sysemu/cpu-timers.h"
- #include "sysemu/tcg.h"
- #include "qapi/error.h"
-+#include "hw/core/tcg-cpu-ops.h"
- #include "internal.h"
- 
- /* #define DEBUG_TB_INVALIDATE */
-@@ -2420,6 +2421,7 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+@@ -2417,7 +2417,7 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
+  */
+ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+ {
+-#if defined(TARGET_MIPS) || defined(TARGET_SH4)
++#if defined(TARGET_SH4)
      CPUArchState *env = cpu->env_ptr;
  #endif
      TranslationBlock *tb;
-+    CPUClass *cc;
-     uint32_t n;
- 
-     tb = tcg_tb_lookup(retaddr);
-@@ -2429,11 +2431,18 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+@@ -2443,15 +2443,7 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+         cpu_neg(cpu)->icount_decr.u16.low++;
+         n = 2;
      }
-     cpu_restore_state_from_tb(cpu, tb, retaddr, true);
- 
--    /* On MIPS and SH, delay slot instructions can only be restarted if
--       they were already the first instruction in the TB.  If this is not
--       the first instruction in a TB then re-execute the preceding
--       branch.  */
-+    /*
-+     * Some guests must re-execute the branch when re-executing a delay
-+     * slot instruction.  When this is the case, adjust icount and N
-+     * to account for the re-execution of the branch.
-+     */
-     n = 1;
-+    cc = CPU_GET_CLASS(cpu);
-+    if (cc->tcg_ops->io_recompile_replay_branch &&
-+        cc->tcg_ops->io_recompile_replay_branch(cpu, tb)) {
-+        cpu_neg(cpu)->icount_decr.u16.low++;
-+        n = 2;
+-#if defined(TARGET_MIPS)
+-    if ((env->hflags & MIPS_HFLAG_BMASK) != 0
+-        && env->active_tc.PC != tb->pc) {
+-        env->active_tc.PC -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
+-        cpu_neg(cpu)->icount_decr.u16.low++;
+-        env->hflags &= ~MIPS_HFLAG_BMASK;
+-        n = 2;
+-    }
+-#elif defined(TARGET_SH4)
++#if defined(TARGET_SH4)
+     if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
+         && env->pc != tb->pc) {
+         env->pc -= 2;
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index ad163ead62..bf70c77295 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -268,6 +268,23 @@ static void mips_cpu_synchronize_from_tb(CPUState *cs,
+     env->hflags &= ~MIPS_HFLAG_BMASK;
+     env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
+ }
++
++# ifndef CONFIG_USER_ONLY
++static bool mips_io_recompile_replay_branch(CPUState *cs,
++                                            const TranslationBlock *tb)
++{
++    MIPSCPU *cpu = MIPS_CPU(cs);
++    CPUMIPSState *env = &cpu->env;
++
++    if ((env->hflags & MIPS_HFLAG_BMASK) != 0
++        && env->active_tc.PC != tb->pc) {
++        env->active_tc.PC -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
++        env->hflags &= ~MIPS_HFLAG_BMASK;
++        return true;
 +    }
- #if defined(TARGET_MIPS)
-     if ((env->hflags & MIPS_HFLAG_BMASK) != 0
-         && env->active_tc.PC != tb->pc) {
++    return false;
++}
++# endif /* !CONFIG_USER_ONLY */
+ #endif /* CONFIG_TCG */
+ 
+ static bool mips_cpu_has_work(CPUState *cs)
+@@ -679,6 +696,7 @@ static struct TCGCPUOps mips_tcg_ops = {
+     .do_interrupt = mips_cpu_do_interrupt,
+     .do_transaction_failed = mips_cpu_do_transaction_failed,
+     .do_unaligned_access = mips_cpu_do_unaligned_access,
++    .io_recompile_replay_branch = mips_io_recompile_replay_branch,
+ #endif /* !CONFIG_USER_ONLY */
+ };
+ #endif /* CONFIG_TCG */
 -- 
 2.20.1
 
