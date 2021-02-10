@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC371315D1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 03:21:21 +0100 (CET)
-Received: from localhost ([::1]:46576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55B3315D85
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 03:47:38 +0100 (CET)
+Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9f84-0003F3-G1
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 21:21:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37930)
+	id 1l9fXV-0006Fn-Fm
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 21:47:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l9f4X-0002cL-7o
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 21:17:44 -0500
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d]:42502)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9fW2-0005id-EM; Tue, 09 Feb 2021 21:46:06 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l9f4T-0000cP-I0
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 21:17:41 -0500
-Received: by mail-vs1-xe2d.google.com with SMTP id z3so332002vsn.9
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 18:17:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RxpCPM9Xcm3yHcE6FyzVylL8yaERbR2gJNJ3M8hIgKA=;
- b=q7WociAtVyuRtyowDCyGtkFpQJoq+j5i81hAjyL/RMvUUedkH5je9IN8YM4ucRecW6
- OQ620xE6RUV7ITST898Ti0RbMmTKgkZBR4czoo8Z/jgpRAOogvFE10CP6FAlLA0yTbpr
- 8VWuGP7qVAycS2fARb75Chz3uM2oeThDhs/Ug/KwDoh8S6ukRip0Dqm4aE+buIWSb0wm
- nVq0U1R9og1Ep5bH/jiu+RbrGd9vz27iH8mHVbfIz0RNBjmmDbqS8sDL/A94BZQJ4fbJ
- HLrkiSvGU9HF6lemeJ3LxxP8HGAVnQIkn7zdA/rVBJ2AO6bwIMK89l4UxskkSgp9NoTV
- d9qg==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9fVy-0002W6-H2; Tue, 09 Feb 2021 21:46:06 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id i8so1280069ejc.7;
+ Tue, 09 Feb 2021 18:46:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=f3++r5LJ1WwwMcBMfnnMLGisNcVCYzFSbnavgR/sYWc=;
+ b=B+JYuV8+h5C/eVb8HP04dOaWwS8FFQ/sYKHrqtLLY9tb65vsPfQFd1X7mBiDLEv3vJ
+ UCB2z3UwbeeFGhFHrLs1p9P4phh6/26beWirxDq8PBXBvog/5EpeyHWC8irjUz46YZ17
+ olsZyGv5TziblMp5Myav7OB0rQxZtCk9/zTi0TMb23WAhSh81QlmAYW8GsJNgqaA8Mli
+ H1dSYYr2t3VRCah7tMw7Gspsm06588VRVNL6u6NTdL4RmnLIvrF4NPUsEs15yBDhRqop
+ I0Y9r4BjYuUSTb4U4FNgn8VuavleZEMA+jZvaIXEVwm7BVH1q/GtlJcMuvoBOpe/zaMu
+ foRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RxpCPM9Xcm3yHcE6FyzVylL8yaERbR2gJNJ3M8hIgKA=;
- b=FIoMNPpMfAAgBZCyNG7ZD5eErm/HpT6h/5y3ml+Ydkc+r5YkKEup11Bc3Hl1ud7Bf9
- EphwAn1Y2ftcAbBJghcsQXmbaMTTvpxlL6ZJljBQLt4pIu/DqfWNExo1jnQ3vYkS0ym8
- d3wUkJFjpSf93ySKOiBJ5i6jVGw/dWXPHLzKc+b1pJCRg/BzHhQijJXfzZEYwMLx9LdJ
- IBolJE4g+mVw/huhTof48e/8jttNEqIZuqj+J+Hxfdq2tyebMmcKQp31C64Vc/6YOOjd
- iXJSHD0Vp+28oeVq1ra5JJgyPJCw1lsD3rmMi6obLPipgrR2h1z1ERUVvPHyAYChrdAL
- yVcw==
-X-Gm-Message-State: AOAM533QdgzcdmEf3tSNIAEr/XkotgbVswEDx1BgZBVu27SqSc/Av2+y
- 05IXQ1I2tDjt+o1IgLbW4WFCJddkgO3W9IJt4EHMPQ==
-X-Google-Smtp-Source: ABdhPJxGRDvwxBGloz6YSlc1nfxgZAtEoRG+1DiMbzW8loxcR3eTVvnbOnvMDMvJCpuQw8bBBE0d/r826ZLPp6f1Pg8=
-X-Received: by 2002:a67:e204:: with SMTP id g4mr363363vsa.29.1612923454350;
- Tue, 09 Feb 2021 18:17:34 -0800 (PST)
-MIME-Version: 1.0
-References: <20210203233539.1990032-1-dje@google.com>
- <20210204100349.GF549438@redhat.com>
- <CADPb22THtnaRgz3MAa+=U+dgZeZR4+FDO_SvpfsqKbnSJRnOmA@mail.gmail.com>
-In-Reply-To: <CADPb22THtnaRgz3MAa+=U+dgZeZR4+FDO_SvpfsqKbnSJRnOmA@mail.gmail.com>
-From: Doug Evans <dje@google.com>
-Date: Tue, 9 Feb 2021 18:16:57 -0800
-Message-ID: <CADPb22Q2k0EpEG6=h=Riswitpha0okeEeoP9Use3yfYtV7t6ZA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3]
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Content-Type: multipart/alternative; boundary="0000000000008c46b605baf2017a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
- envelope-from=dje@google.com; helo=mail-vs1-xe2d.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=f3++r5LJ1WwwMcBMfnnMLGisNcVCYzFSbnavgR/sYWc=;
+ b=ISUFl1DnVhHlc+AM92sKpAEM5jmDz/Gai4Z55kTL+e21VJHfdSXbWCUj7KUGUWXh8J
+ icPCB9Oo9kmPkJMznqfPpyt4d6aZctp7aPUjKjFVKBcQ9pkrhYAirPuZip3Aapu52+ZW
+ dv2/ojsHhc1oBdrFez1D1ydJiuO6j2p0Z1Zvpp2odHfpGoZYPLlzIURMs15JPH7tiuKE
+ o+U6H0rXT2Rg9zBntJKcC5PkRD84QY2nur9vK6jyK1pEmRQJFjK+gpYoBCPO9JhB8UJA
+ koTh2yJ9b8+4Z223uFJLDhl7gVmRy5xGFQICQpyLQxabrjto+ljOEre4FcznKaSdmDZM
+ aRlg==
+X-Gm-Message-State: AOAM5317+x8tPPM8cF0WuUkBw7XLqeSxYHzJylN8tBnUCswSn+psEh5w
+ 64YVTOmNWBFXwJ4bJullsmM=
+X-Google-Smtp-Source: ABdhPJzImtiBfxK5tVBGUAIb9a2v8fETqmYN18zsl31go+t0EStXHX7ljLmAV+NkmQ8fVPNxU439wg==
+X-Received: by 2002:a17:907:d25:: with SMTP id
+ gn37mr725126ejc.303.1612925160448; 
+ Tue, 09 Feb 2021 18:46:00 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id b17sm154405edv.56.2021.02.09.18.45.57
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Feb 2021 18:46:00 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>,
+	Greg Kurz <groug@kaod.org>
+Subject: [PATCH v2] target/ppc: Add E500 L2CSR0 write helper
+Date: Wed, 10 Feb 2021 10:45:52 +0800
+Message-Id: <1612925152-20913-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,90 +77,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008c46b605baf2017a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Bin Meng <bin.meng@windriver.com>
 
-On Thu, Feb 4, 2021 at 10:25 AM Doug Evans <dje@google.com> wrote:
+Per EREF 2.0 [1] chapter 3.11.2:
 
-> On Thu, Feb 4, 2021 at 2:03 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om>
-> wrote:
->
->> On Wed, Feb 03, 2021 at 03:35:36PM -0800, dje--- via wrote:
->> > Add support for ipv6 host forwarding
->> >
->> > This patchset takes the original patch from Maxim,
->> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
->> > and updates it.
->> >
->> > New option: -ipv6-hostfwd
->> >
->> > New commands: ipv6_hostfwd_add, ipv6_hostfwd_remove
->> >
->> > These are the ipv6 equivalents of their ipv4 counterparts.
->>
->> Before I noticed this v3, I send a reply to your v2 sugesting
->> that we don't need to add any new commands/options. We can
->> use existing inet_parse() helper function to parse the address
->> info and transparently support IPv4/6 in the existing commands
->> and options. This matches normal practice elsewhere in QEMU
->> for IP dual stack.
->>
->
-> I'm all for this, fwiw.
->
+The following bits in L2CSR0 (exists in the e500mc/e5500/e6500 core):
 
+- L2FI  (L2 cache flash invalidate)
+- L2FL  (L2 cache flush)
+- L2LFC (L2 cache lock flash clear)
 
-I should say I'm all for not adding new commands/options.
-Looking at inet_parse() it cannot be used as-is.
-The question then becomes: Will refactoring it buy enough?
+when set, a cache operation is initiated by hardware, and these bits
+will be cleared when the operation is complete.
 
---0000000000008c46b605baf2017a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Since we don't model cache in QEMU, let's add a write helper to emulate
+the cache operations completing instantly.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">On Thu, Feb 4, 2021 at 10:25 AM Doug Evans &lt;<a href=3D"mai=
-lto:dje@google.com">dje@google.com</a>&gt; wrote:<br></div></div><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr"><div dir=3D"ltr"><div style=3D"font-size:small">On Thu, Feb 4, 202=
-1 at 2:03 AM Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.=
-com" target=3D"_blank">berrange@redhat.com</a>&gt; wrote:<br></div></div><d=
-iv class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-On Wed, Feb 03, 2021 at 03:35:36PM -0800, dje--- via wrote:<br>
-&gt; Add support for ipv6 host forwarding<br>
-&gt; <br>
-&gt; This patchset takes the original patch from Maxim,<br>
-&gt; <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg56957=
-3.html" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/q=
-emu-devel@nongnu.org/msg569573.html</a><br>
-&gt; and updates it.<br>
-&gt; <br>
-&gt; New option: -ipv6-hostfwd<br>
-&gt; <br>
-&gt; New commands: ipv6_hostfwd_add, ipv6_hostfwd_remove<br>
-&gt; <br>
-&gt; These are the ipv6 equivalents of their ipv4 counterparts.<br>
-<br>
-Before I noticed this v3, I send a reply to your v2 sugesting<br>
-that we don&#39;t need to add any new commands/options. We can<br>
-use existing inet_parse() helper function to parse the address<br>
-info and transparently support IPv4/6 in the existing commands<br>
-and options. This matches normal practice elsewhere in QEMU<br>
-for IP dual stack.<br></blockquote><div><br></div><div style=3D"font-size:s=
-mall">I&#39;m all for this, fwiw.</div></div></div></blockquote><div><br></=
-div><div><br></div><div class=3D"gmail_default" style=3D"font-size:small">I=
- should say I&#39;m all for not adding new commands/options.</div><div clas=
-s=3D"gmail_default" style=3D"font-size:small">Looking at inet_parse() it ca=
-nnot be used as-is.</div><div class=3D"gmail_default" style=3D"font-size:sm=
-all">The question then becomes: Will refactoring it buy enough?</div></div>=
-</div>
+[1] https://www.nxp.com/files-static/32bit/doc/ref_manual/EREFRM.pdf
 
---0000000000008c46b605baf2017a--
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+
+---
+
+Changes in v2:
+- Add Freescale manual link and clarifications in the commit message
+
+ target/ppc/cpu.h                |  6 ++++++
+ target/ppc/translate_init.c.inc | 16 ++++++++++++++++
+ 2 files changed, 22 insertions(+)
+
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 2609e40..e77911a 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1919,6 +1919,7 @@ typedef PowerPCCPU ArchCPU;
+ #define SPR_750FX_HID2        (0x3F8)
+ #define SPR_Exxx_L1FINV0      (0x3F8)
+ #define SPR_L2CR              (0x3F9)
++#define SPR_Exxx_L2CSR0       (0x3F9)
+ #define SPR_L3CR              (0x3FA)
+ #define SPR_750_TDCH          (0x3FA)
+ #define SPR_IABR2             (0x3FA)
+@@ -1974,6 +1975,11 @@ typedef PowerPCCPU ArchCPU;
+ #define   L1CSR1_ICFI   0x00000002  /* Instruction Cache Flash Invalidate */
+ #define   L1CSR1_ICE    0x00000001  /* Instruction Cache Enable */
+ 
++/* E500 L2CSR0 */
++#define E500_L2CSR0_L2FI    (1 << 21)   /* L2 cache flash invalidate */
++#define E500_L2CSR0_L2FL    (1 << 11)   /* L2 cache flush */
++#define E500_L2CSR0_L2LFC   (1 << 10)   /* L2 cache lock flash clear */
++
+ /* HID0 bits */
+ #define HID0_DEEPNAP        (1 << 24)           /* pre-2.06 */
+ #define HID0_DOZE           (1 << 23)           /* pre-2.06 */
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index 9867d0a..3ec45cb 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -1735,6 +1735,16 @@ static void spr_write_e500_l1csr1(DisasContext *ctx, int sprn, int gprn)
+     tcg_temp_free(t0);
+ }
+ 
++static void spr_write_e500_l2csr0(DisasContext *ctx, int sprn, int gprn)
++{
++    TCGv t0 = tcg_temp_new();
++
++    tcg_gen_andi_tl(t0, cpu_gpr[gprn],
++                    ~(E500_L2CSR0_L2FI | E500_L2CSR0_L2FL | E500_L2CSR0_L2LFC));
++    gen_store_spr(sprn, t0);
++    tcg_temp_free(t0);
++}
++
+ static void spr_write_booke206_mmucsr0(DisasContext *ctx, int sprn, int gprn)
+ {
+     gen_helper_booke206_tlbflush(cpu_env, cpu_gpr[gprn]);
+@@ -5029,6 +5039,12 @@ static void init_proc_e500(CPUPPCState *env, int version)
+                  SPR_NOACCESS, SPR_NOACCESS,
+                  &spr_read_generic, &spr_write_e500_l1csr1,
+                  0x00000000);
++    if (version != fsl_e500v1 && version != fsl_e500v2) {
++        spr_register(env, SPR_Exxx_L2CSR0, "L2CSR0",
++                     SPR_NOACCESS, SPR_NOACCESS,
++                     &spr_read_generic, &spr_write_e500_l2csr0,
++                     0x00000000);
++    }
+     spr_register(env, SPR_BOOKE_MCSRR0, "MCSRR0",
+                  SPR_NOACCESS, SPR_NOACCESS,
+                  &spr_read_generic, &spr_write_generic,
+-- 
+2.7.4
+
 
