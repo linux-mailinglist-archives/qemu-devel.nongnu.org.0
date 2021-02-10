@@ -2,46 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD1C317365
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:32:32 +0100 (CET)
-Received: from localhost ([::1]:34960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE18317386
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:39:45 +0100 (CET)
+Received: from localhost ([::1]:49562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9y2B-0000Ez-2a
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:32:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59028)
+	id 1l9y9A-0006kk-GL
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:39:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1l9xrG-0007WN-Iu; Wed, 10 Feb 2021 17:21:16 -0500
-Received: from mail.csgraf.de ([85.25.223.15]:40488 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1l9xrA-0007Af-8x; Wed, 10 Feb 2021 17:21:14 -0500
-Received: from Alexanders-Mac-mini.local (unknown [188.138.100.120])
- by csgraf.de (Postfix) with UTF8SMTPSA id BC6F860803D4;
- Wed, 10 Feb 2021 23:21:00 +0100 (CET)
-Message-ID: <298dcf49-1a99-9406-275f-b05c8befd13b@csgraf.de>
-Date: Wed, 10 Feb 2021 23:20:55 +0100
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l9xv8-0003jb-QE
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:25:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l9xuz-0000Fp-OB
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:25:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612995900;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=91KhoF4p71S43HANAGrySHcTG/DantubCWzyKbBSEvQ=;
+ b=dMvZ+mgVi7geOxcwretSJ9Gc/0/1CBV8RnxaSjkmQpIWUIS2uiSQIA5T2hpwJFQXl69jYi
+ jzot1ownzavC0YjiX1iAN4K65fJbTFkz7tW66t1USJJY6j4skUx/w7lpjnW4KESaZH7HNn
+ 2NV0wkCKyQXcpfmMaCBuuyncsyIVzGM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-G_LzrzsJM6-fo7v5hXVVTw-1; Wed, 10 Feb 2021 17:24:55 -0500
+X-MC-Unique: G_LzrzsJM6-fo7v5hXVVTw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 516001966320;
+ Wed, 10 Feb 2021 22:24:54 +0000 (UTC)
+Received: from [10.3.114.150] (ovpn-114-150.phx2.redhat.com [10.3.114.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF69B1A26A;
+ Wed, 10 Feb 2021 22:24:53 +0000 (UTC)
+Subject: Re: [PATCH v3 1/2] qemu-nbd: Use SOMAXCONN for socket listen() backlog
+To: Nir Soffer <nsoffer@redhat.com>
+References: <20210209152759.209074-1-eblake@redhat.com>
+ <20210209152759.209074-2-eblake@redhat.com>
+ <CAMRbyysfzGJdnYq8uieB=7qXz8Xpno1cUF0RJnreiME0opedSA@mail.gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <35c9fb61-e007-035f-1d37-711436326823@redhat.com>
+Date: Wed, 10 Feb 2021 16:24:52 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:86.0)
- Gecko/20100101 Thunderbird/86.0
-Subject: Re: [PATCH v6 07/11] hvf: Add Apple Silicon support
+In-Reply-To: <CAMRbyysfzGJdnYq8uieB=7qXz8Xpno1cUF0RJnreiME0opedSA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210120224444.71840-1-agraf@csgraf.de>
- <20210120224444.71840-8-agraf@csgraf.de>
- <CAFEAcA_-4GYk_+jdczWE720-VH1CLcS+1jVB2LzG=bBBJc8w-g@mail.gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <CAFEAcA_-4GYk_+jdczWE720-VH1CLcS+1jVB2LzG=bBBJc8w-g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.211,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,305 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Richard Jones <rjones@redhat.com>,
+ qemu-stable@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 28.01.21 16:52, Peter Maydell wrote:
-> On Wed, 20 Jan 2021 at 22:44, Alexander Graf <agraf@csgraf.de> wrote:
->> With Apple Silicon available to the masses, it's a good time to add support
->> for driving its virtualization extensions from QEMU.
+On 2/10/21 10:58 AM, Nir Soffer wrote:
+> On Tue, Feb 9, 2021 at 5:28 PM Eric Blake <eblake@redhat.com> wrote:
 >>
->> This patch adds all necessary architecture specific code to get basic VMs
->> working. It's still pretty raw, but definitely functional.
+>> Our default of a backlog of 1 connection is rather puny; it gets in
+>> the way when we are explicitly allowing multiple clients (such as
+>> qemu-nbd -e N [--shared], or nbd-server-start with its default
+>> "max-connections":0 for unlimited), but is even a problem when we
+>> stick to qemu-nbd's default of only 1 active client but use -t
+>> [--persistent] where a second client can start using the server once
+>> the first finishes.  While the effects are less noticeable on TCP
+>> sockets (since the client can poll() to learn when the server is ready
+>> again), it is definitely observable on Unix sockets, where on Unix, a
+>> client will fail with EAGAIN and no recourse but to sleep an arbitrary
+>> amount of time before retrying if the server backlog is already full.
 >>
->> Known limitations:
+>> Since QMP nbd-server-start is always persistent, it now always
+>> requests a backlog of SOMAXCONN;
+> 
+> This makes sense since we don't limit the number of connections.
+> 
+>> meanwhile, qemu-nbd will request
+>> SOMAXCONN if persistent, otherwise its backlog should be based on the
+>> expected number of clients.
+> 
+> If --persistent is used without --shared, we allow only one concurrent
+> connection, so not clear why we need maximum backlog.
+
+We only allow one active connection, but other clients can queue up to
+also take advantage of the server once the first client disconnects.  A
+larger backlog allows those additional clients to reach the point where
+they can poll() for activity, rather than getting EAGAIN failures.
+
+> 
+> I think that separating --persistent and --shared would be easier to
+> understand and use. The backlog will always be based on shared value.
+> 
+
+>> +++ b/qemu-nbd.c
+>> @@ -964,8 +964,16 @@ int main(int argc, char **argv)
 >>
->>    - Vtimer acknowledgement is hacky
->>    - Should implement more sysregs and fault on invalid ones then
->>    - WFI handling is missing, need to marry it with vtimer
->>
->> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
->> --- a/accel/hvf/hvf-cpus.c
->> +++ b/accel/hvf/hvf-cpus.c
->> @@ -58,6 +58,10 @@
->>   #include "sysemu/runstate.h"
->>   #include "qemu/guest-random.h"
->>
->> +#ifdef __aarch64__
->> +#define HV_VM_DEFAULT NULL
->> +#endif
->>   /* Memory slots */
->>
->>   struct mac_slot {
->> @@ -328,7 +332,11 @@ static int hvf_init_vcpu(CPUState *cpu)
->>       pthread_sigmask(SIG_BLOCK, NULL, &set);
->>       sigdelset(&set, SIG_IPI);
->>
->> +#ifdef __aarch64__
->> +    r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t **)&cpu->hvf->exit, NULL);
->> +#else
->>       r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf->fd, HV_VCPU_DEFAULT);
->> +#endif
->>       cpu->vcpu_dirty = 1;
->>       assert_hvf_ok(r);
->>
->> @@ -399,8 +407,14 @@ static void hvf_start_vcpu_thread(CPUState *cpu)
->>                          cpu, QEMU_THREAD_JOINABLE);
->>   }
->>
->> +__attribute__((weak)) void hvf_kick_vcpu_thread(CPUState *cpu)
->> +{
->> +    cpus_kick_thread(cpu);
->> +}
+>>      server = qio_net_listener_new();
+>>      if (socket_activation == 0) {
+>> +        int backlog;
 >> +
->>   static const CpusAccel hvf_cpus = {
->>       .create_vcpu_thread = hvf_start_vcpu_thread,
->> +    .kick_vcpu_thread = hvf_kick_vcpu_thread,
->>
->>       .synchronize_post_reset = hvf_cpu_synchronize_post_reset,
->>       .synchronize_post_init = hvf_cpu_synchronize_post_init,
->> diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
->> index 9d3cb53e47..c2ac6c8f97 100644
->> --- a/include/sysemu/hvf_int.h
->> +++ b/include/sysemu/hvf_int.h
->> @@ -11,7 +11,12 @@
->>   #ifndef HVF_INT_H
->>   #define HVF_INT_H
->>
->> +#include "qemu/osdep.h"
-> .h files must never include osdep.h (all .c files do as their first
-> include line).
->
->> +#ifdef __aarch64__
->> +#include <Hypervisor/Hypervisor.h>
->> +#else
->>   #include <Hypervisor/hv.h>
->> +#endif
->>
->>   /* hvf_slot flags */
->>   #define HVF_SLOT_LOG (1 << 0)
->> @@ -44,7 +49,8 @@ struct HVFState {
->>   extern HVFState *hvf_state;
->>
->>   struct hvf_vcpu_state {
->> -    int fd;
->> +    uint64_t fd;
-> Why the change in the type for 'fd' ?
+>> +        if (persistent) {
+>> +            backlog = SOMAXCONN;
+> 
+> This increases the backlog, but since default shared is still 1, we will
+> not accept more than 1 connection, so not clear why SOMAXCONN
+> is better.
+
+While we aren't servicing the next client yet, we are at least allowing
+them to make it further in their connection by supporting a backlog.
 
 
-Because it is a uint64_t on ARM:
-
-typedef uint64_t hv_vcpu_t
-
-while it is "unsigned" on x86:
-
-typedef unsigned hv_vcpuid_t;
-
-
->
->> +    void *exit;
-> Can we define this as a "hv_vcpu_exit_t *" so we don't have to
-> cast it in the call to hv_vcpu_create() ?
-
-
-That will break compilation on x86, because hv_vcpu_exit_t is only 
-defined for ARM.
-
-
->
->>   };
->>
->>   void assert_hvf_ok(hv_return_t ret);
->> @@ -54,5 +60,6 @@ int hvf_arch_init_vcpu(CPUState *cpu);
->>   void hvf_arch_vcpu_destroy(CPUState *cpu);
->>   int hvf_vcpu_exec(CPUState *cpu);
->>   hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
->> +void hvf_kick_vcpu_thread(CPUState *cpu);
->>
->>   #endif
->> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
->> new file mode 100644
->> index 0000000000..8f18efe856
->> --- /dev/null
->> +++ b/target/arm/hvf/hvf.c
->> @@ -0,0 +1,618 @@
->> +/*
->> + * QEMU Hypervisor.framework support for Apple Silicon
->> +
->> + * Copyright 2020 Alexander Graf <agraf@csgraf.de>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + * See the COPYING file in the top-level directory.
->> + *
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qemu-common.h"
->> +#include "qemu/error-report.h"
->> +
->> +#include "sysemu/runstate.h"
->> +#include "sysemu/hvf.h"
->> +#include "sysemu/hvf_int.h"
->> +#include "sysemu/hw_accel.h"
->> +
->> +#include "exec/address-spaces.h"
->> +#include "hw/irq.h"
->> +#include "qemu/main-loop.h"
->> +#include "sysemu/accel.h"
->> +#include "sysemu/cpus.h"
->> +#include "target/arm/cpu.h"
->> +#include "target/arm/internals.h"
->> +
->> +#define HVF_DEBUG 0
->> +#define DPRINTF(...)                                        \
->> +    if (HVF_DEBUG) {                                        \
->> +        fprintf(stderr, "HVF %s:%d ", __func__, __LINE__);  \
->> +        fprintf(stderr, __VA_ARGS__);                       \
->> +        fprintf(stderr, "\n");                              \
->> +    }
-> No new DPRINTF macros, please. Use tracepoints.
->
->> +
->> +#define HVF_SYSREG(crn, crm, op0, op1, op2) \
->> +        ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP, crn, crm, op0, op1, op2)
->> +#define PL1_WRITE_MASK 0x4
->> +
->> +#define SYSREG(op0, op1, crn, crm, op2) \
->> +    ((op0 << 20) | (op2 << 17) | (op1 << 14) | (crn << 10) | (crm << 1))
->> +#define SYSREG_MASK           SYSREG(0x3, 0x7, 0xf, 0xf, 0x7)
->> +#define SYSREG_CNTPCT_EL0     SYSREG(3, 3, 14, 0, 1)
->> +#define SYSREG_PMCCNTR_EL0    SYSREG(3, 3, 9, 13, 0)
->> +
->> +#define WFX_IS_WFE (1 << 0)
->
->
->> +static const struct hvf_sreg_match hvf_sreg_match[] = {
->> +    { HV_SYS_REG_DBGBVR0_EL1, HVF_SYSREG(0, 0, 14, 0, 4) },
->> +    { HV_SYS_REG_DBGBCR0_EL1, HVF_SYSREG(0, 0, 14, 0, 5) },
->> +    { HV_SYS_REG_DBGWVR0_EL1, HVF_SYSREG(0, 0, 14, 0, 6) },
->> +    { HV_SYS_REG_DBGWCR0_EL1, HVF_SYSREG(0, 0, 14, 0, 7) },
-> I'm not a huge fan of this big long hardcoded list of registers.
-> Is there some way to work from either the QEMU cpregs hashtable
-> or asking the hypervisor framework about what sysregs it has?
-> (Compare the KVM approach, though I admit it has its own issues,
-> so if there's a genuinely better way to do something I'm not
-> ruling it out on principle.)
-
-
-If you can think of a way, I'm all ears. So far I could not see one? The 
-supported sysregs is an enum. I could not see any way to query hvf for a 
-list of supported ones.
-
-The enum values *seem* to be encoded the same way KVM encodes them, so 
-we could maybe get away with only an array rather than the struct list. 
-Though that's a bit fragile, as we don't have any guarantees that the 
-register encoding is static.
-
->
->> +#ifdef SYNC_NO_RAW_REGS
-> What's this ifdef for?
-
-
-There's a comment right below that explains it. I did not want to make 
-it #if 0 and wanted to ensure that we list all the enum values from the 
-header in the register list.
-
-
->
->
->> +int hvf_get_registers(CPUState *cpu)
->> +{
->> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
->> +    CPUARMState *env = &arm_cpu->env;
->> +    hv_return_t ret;
->> +    uint64_t val;
->> +    int i;
->> +
->> +    for (i = 0; i < ARRAY_SIZE(hvf_reg_match); i++) {
->> +        ret = hv_vcpu_get_reg(cpu->hvf->fd, hvf_reg_match[i].reg, &val);
->> +        *(uint64_t *)((void *)env + hvf_reg_match[i].offset) = val;
->> +        assert_hvf_ok(ret);
->> +    }
->> +
->> +    val = 0;
->> +    ret = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_FPCR, &val);
->> +    assert_hvf_ok(ret);
->> +    vfp_set_fpcr(env, val);
->> +
->> +    val = 0;
->> +    ret = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_FPSR, &val);
->> +    assert_hvf_ok(ret);
->> +    vfp_set_fpsr(env, val);
->> +
->> +    ret = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_CPSR, &val);
->> +    assert_hvf_ok(ret);
->> +    pstate_write(env, val);
->> +
->> +    for (i = 0; i < ARRAY_SIZE(hvf_sreg_match); i++) {
->> +        ret = hv_vcpu_get_sys_reg(cpu->hvf->fd, hvf_sreg_match[i].reg, &val);
->> +        assert_hvf_ok(ret);
->> +
->> +        arm_cpu->cpreg_values[i] = val;
->> +    }
->> +    write_list_to_cpustate(arm_cpu);
-> Have I missed it, or are we not syncing the FPU/vector registers?
-
-
-You're absolutely right, they're missing! I'll sync them as well...
-
-
->
->> +    return 0;
->> +}
->> +            if (iswrite) {
->> +                val = hvf_get_reg(cpu, srt);
->> +                address_space_write(&address_space_memory,
->> +                                    hvf_exit->exception.physical_address,
->> +                                    MEMTXATTRS_UNSPECIFIED, &val, len);
-> Does the hvf framework provide a way to report the external-abort
-> if address_space_write() returns something other than MEMTX_OK ?
-
-
-I'm afraid we'd have to manually jump to the interrupt vector if we want 
-to do this.
-
-
->
->> +            break;
->> +        case EC_AA64_SMC:
->> +            cpu_synchronize_state(cpu);
->> +            if (arm_is_psci_call(arm_cpu, EXCP_SMC)) {
->> +                arm_handle_psci_call(arm_cpu);
-> Have you checked that all the PSCI code really can cope
-> with being called from a non-TCG accelerator? (As an example
-> the CPU_SUSPEND implementation calls the TCG wfi helper...)
-
-
-I have not explicitly tried it, but I don't see why the TCG 
-implementation of wfi should in principle break with hvf.
-
-
->
->> +            } else {
->> +                DPRINTF("unknown SMC! %016llx", env->xregs[0]);
->> +                env->xregs[0] = -1;
-> This should inject an UNDEF exception into the guest. (Compare
-> the pre_smc helper in target/arm/op_helper.c for TCG.)
-
-
-That would break Windows, which is one of the main use cases for hvf 
-support in QEMU.
-
-
-Alex
-
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
