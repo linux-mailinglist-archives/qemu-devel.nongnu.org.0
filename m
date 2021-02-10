@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF94A315B2D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 01:32:01 +0100 (CET)
-Received: from localhost ([::1]:50614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894DB315B36
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 01:32:24 +0100 (CET)
+Received: from localhost ([::1]:50878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9dQG-0006DD-VJ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 19:32:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48960)
+	id 1l9dQd-0006JY-JG
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 19:32:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9cyq-00042O-MR
+ id 1l9cyq-00042l-QR
  for qemu-devel@nongnu.org; Tue, 09 Feb 2021 19:03:40 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:46221)
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9cyG-000892-JN
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 19:03:33 -0500
-Received: by mail-pf1-x435.google.com with SMTP id k13so82431pfh.13
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 16:03:02 -0800 (PST)
+ id 1l9cyG-00089l-Ob
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 19:03:40 -0500
+Received: by mail-pg1-x530.google.com with SMTP id t25so49560pga.2
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 16:03:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zutLObbbmGj+vDYG6xd0xYNbblW6KsHhsY9sXf6gyMM=;
- b=vH8NruvdlOxmRJYFiunIM2UFiiXpRbXRKuoqN2CmlgtPGk/tVy8XTBWKFYR28ix3kd
- Vx8PUj85zcXYYmOE+jdUgGt4IZ5Md6MRIElm3QYv6KMXspSBnX3GzPma9W0p+baMuvV9
- G1cfc5l3l8rzHJn+Nw5x/53mCyY57Rewsoc4dcHGT0GFWubosc5L8oaz6CNEnHBUqP+p
- Iv2GfuEAWN7bJBknDNuqIMBln7tWoqipjfhoX1M5FcYesdQlGgwIUXGZlfB3uKUs0HFq
- g3HNXjJnWQp8nu2G/jZ5PfMvOiXaCY3r1ebTMHcycHACSbY9rU7euMZjiLS6stfmfeLd
- 9iKA==
+ bh=Ytsx3BK2fvJBPpCQnawH3jODSdPjUh55jAri5H8usa0=;
+ b=guUDWqvc8/hfuQ1MU7oyqV4I1XFeP8Dy4wkQtThzk1Nt8y/JhFnnloPQnF1XKZSVkD
+ 2dD6Yhw7c4KzgJUF38xJWFgVyTYg4wQyI8+L5/LF/82DTmLMqOq4PFs3GcTNPCOZ89pa
+ AdovtWIx3ge5OISneOMOFyOyx4Hn38C0NxJ+COWiPpN439sfny5o1rLOBnnQ/NeijXiW
+ WYAXIA6543SgoJBsdZFR4XHv6Fjth5BJmrHEY2lYDGq26lQyZeJdPdqTf5nhLMMBVbrx
+ w4wVNzdT7SyRSvnsNe8WKdCVeyLICeVKIaylGqWdmICu3ER/F2ZbsEDu32i40zh6Dgwo
+ qdDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zutLObbbmGj+vDYG6xd0xYNbblW6KsHhsY9sXf6gyMM=;
- b=dqr+JnCN6fJ/st6kHaUFXdGcYcqDBktPtQYaKWSFLMjevmZrT9Fn8ynO5fRaJ3uOqO
- vK4rccCJEGRfR/caJtqEVpnbA/2dGTuPpEU0NkcIQbTMT69YiBjLqjR2WJ8BzATK1b8D
- 3ijOGsgCnIMWFPOZHaYIc+GClJFq/8snDUh9qEOrAZQH51LapeRsAVqqtmSP4SsZ3pEE
- /QC/bRge0TY6pOUSIWWQh9HY8oo8DhIIxywk1HuheNgL/ZzsmB0+pB1hKrswnsvMfzNa
- +WU3nCFr4NOJnZOBTQsUpkZ3E6Tb4HYDT1UGXrNfaKsygwm/zGcSx0blyieDGLpv1FTY
- SXoQ==
-X-Gm-Message-State: AOAM530xEa/nG2/KklGhYaDy/HQUU58UlHFPQSnBjX8Il4REK5OJXSrv
- OmzVOepcmSABZTCwu+0xajr5BOVSLstTOQ==
-X-Google-Smtp-Source: ABdhPJwKRQiwszLyyIwfI3FNYsSKeS/jhljPhgo+poVzjIy8ggX/ea4urZaRxo5KdCeZ2KnJf3pL3A==
-X-Received: by 2002:a63:c54c:: with SMTP id g12mr387887pgd.449.1612915382048; 
- Tue, 09 Feb 2021 16:03:02 -0800 (PST)
+ bh=Ytsx3BK2fvJBPpCQnawH3jODSdPjUh55jAri5H8usa0=;
+ b=qh7qvfwoSGI5pgqsKNMEvPXZ24ZAdLiKLrwS8pP+BznhxaRp0QbahceR+4zvcRs/Yx
+ kHJyzpQ6x6+WVV299wrMGPZYcGJJsZgEzKYhvYgZbJ54awWPK6ti7PrefKRb02DUxNce
+ YxedLmlgaWxfrHIurDcCDGWO47rE4eRTg/3aatMa42p8RZ8IA1kP0x7qZXiqmiULq1Te
+ ooYJJBi/jkEJYJUkxfT3R5vbPRnhIm61b2DbCU3XT1+vwWtufVhguVmouIandMZe4m+J
+ xG9JGKEZZ0GTzkVK5UDokbPTk18+rWRS7Nb3n158mVhlHFQxwGGG3AwZmySjMN8Ipl7i
+ Uskw==
+X-Gm-Message-State: AOAM531C9tt9zPbNw8iB9pDPZYxkyoGabl/D6bgcCFTADx+Pp5rMoY9i
+ mGGtt6VmfQcFz4X+syonr8Mo4M4KlDpmwg==
+X-Google-Smtp-Source: ABdhPJxXdWLc2/LVdOLLDolbCNxwVn2DF22dbV8UEYvsl4PjRMgjCEXSa0ElWJTYqHfs4VRFuv2Tow==
+X-Received: by 2002:a63:205f:: with SMTP id r31mr433825pgm.328.1612915383400; 
+ Tue, 09 Feb 2021 16:03:03 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id me3sm164189pjb.32.2021.02.09.16.03.01
+ by smtp.gmail.com with ESMTPSA id me3sm164189pjb.32.2021.02.09.16.03.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 16:03:01 -0800 (PST)
+ Tue, 09 Feb 2021 16:03:02 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 30/31] target/arm: Enable MTE for user-only
-Date: Tue,  9 Feb 2021 16:02:22 -0800
-Message-Id: <20210210000223.884088-31-richard.henderson@linaro.org>
+Subject: [PATCH v6 31/31] tests/tcg/aarch64: Add mte smoke tests
+Date: Tue,  9 Feb 2021 16:02:23 -0800
+Message-Id: <20210210000223.884088-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210210000223.884088-1-richard.henderson@linaro.org>
 References: <20210210000223.884088-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,35 +90,311 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ tests/tcg/aarch64/mte.h           | 60 +++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/mte-1.c         | 28 +++++++++++++++
+ tests/tcg/aarch64/mte-2.c         | 45 +++++++++++++++++++++++
+ tests/tcg/aarch64/mte-3.c         | 51 ++++++++++++++++++++++++++
+ tests/tcg/aarch64/mte-4.c         | 45 +++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |  6 ++++
+ tests/tcg/configure.sh            |  4 +++
+ 7 files changed, 239 insertions(+)
+ create mode 100644 tests/tcg/aarch64/mte.h
+ create mode 100644 tests/tcg/aarch64/mte-1.c
+ create mode 100644 tests/tcg/aarch64/mte-2.c
+ create mode 100644 tests/tcg/aarch64/mte-3.c
+ create mode 100644 tests/tcg/aarch64/mte-4.c
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 761f0c61bd..929de1071b 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -209,6 +209,21 @@ static void arm_cpu_reset(DeviceState *dev)
-          * Note that this must match useronly_clean_ptr.
-          */
-         env->cp15.tcr_el[1].raw_tcr = (1ULL << 37);
+diff --git a/tests/tcg/aarch64/mte.h b/tests/tcg/aarch64/mte.h
+new file mode 100644
+index 0000000000..141cef522c
+--- /dev/null
++++ b/tests/tcg/aarch64/mte.h
+@@ -0,0 +1,60 @@
++/*
++ * Linux kernel fallback API definitions for MTE and test helpers.
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
-+        /* Enable MTE */
-+        if (cpu_isar_feature(aa64_mte, cpu)) {
-+            /* Enable tag access, but leave TCF0 as No Effect (0). */
-+            env->cp15.sctlr_el[1] |= SCTLR_ATA0;
-+            /*
-+             * Exclude all tags, so that tag 0 is always used.
-+             * This corresponds to Linux current->thread.gcr_incl = 0.
-+             *
-+             * Set RRND, so that helper_irg() will generate a seed later.
-+             * Here in cpu_reset(), the crypto subsystem has not yet been
-+             * initialized.
-+             */
-+            env->cp15.gcr_el1 = 0x1ffff;
-+        }
- #else
-         /* Reset into the highest available EL */
-         if (arm_feature(env, ARM_FEATURE_EL3)) {
++#include <assert.h>
++#include <string.h>
++#include <stdlib.h>
++#include <stdio.h>
++#include <unistd.h>
++#include <signal.h>
++#include <sys/mman.h>
++#include <sys/prctl.h>
++
++#ifndef PR_SET_TAGGED_ADDR_CTRL
++# define PR_SET_TAGGED_ADDR_CTRL  55
++#endif
++#ifndef PR_TAGGED_ADDR_ENABLE
++# define PR_TAGGED_ADDR_ENABLE    (1UL << 0)
++#endif
++#ifndef PR_MTE_TCF_SHIFT
++# define PR_MTE_TCF_SHIFT         1
++# define PR_MTE_TCF_NONE          (0UL << PR_MTE_TCF_SHIFT)
++# define PR_MTE_TCF_SYNC          (1UL << PR_MTE_TCF_SHIFT)
++# define PR_MTE_TCF_ASYNC         (2UL << PR_MTE_TCF_SHIFT)
++# define PR_MTE_TAG_SHIFT         3
++#endif
++
++#ifndef PROT_MTE
++# define PROT_MTE 0x20
++#endif
++
++#ifndef SEGV_MTEAERR
++# define SEGV_MTEAERR    8
++# define SEGV_MTESERR    9
++#endif
++
++static void enable_mte(int tcf)
++{
++    int r = prctl(PR_SET_TAGGED_ADDR_CTRL,
++                  PR_TAGGED_ADDR_ENABLE | tcf | (0xfffe << PR_MTE_TAG_SHIFT),
++                  0, 0, 0);
++    if (r < 0) {
++        perror("PR_SET_TAGGED_ADDR_CTRL");
++        exit(2);
++    }
++}
++
++static void *alloc_mte_mem(size_t size)
++{
++    void *p = mmap(NULL, size, PROT_READ | PROT_WRITE | PROT_MTE,
++                   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++    if (p == MAP_FAILED) {
++        perror("mmap PROT_MTE");
++        exit(2);
++    }
++    return p;
++}
+diff --git a/tests/tcg/aarch64/mte-1.c b/tests/tcg/aarch64/mte-1.c
+new file mode 100644
+index 0000000000..88dcd617ad
+--- /dev/null
++++ b/tests/tcg/aarch64/mte-1.c
+@@ -0,0 +1,28 @@
++/*
++ * Memory tagging, basic pass cases.
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "mte.h"
++
++int main(int ac, char **av)
++{
++    int *p0, *p1, *p2;
++    long c;
++
++    enable_mte(PR_MTE_TCF_NONE);
++    p0 = alloc_mte_mem(sizeof(*p0));
++
++    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(1));
++    assert(p1 != p0);
++    asm("subp %0,%1,%2" : "=r"(c) : "r"(p0), "r"(p1));
++    assert(c == 0);
++
++    asm("stg %0, [%0]" : : "r"(p1));
++    asm("ldg %0, [%1]" : "=r"(p2) : "r"(p0), "0"(p0));
++    assert(p1 == p2);
++
++    return 0;
++}
+diff --git a/tests/tcg/aarch64/mte-2.c b/tests/tcg/aarch64/mte-2.c
+new file mode 100644
+index 0000000000..a62278276a
+--- /dev/null
++++ b/tests/tcg/aarch64/mte-2.c
+@@ -0,0 +1,45 @@
++/*
++ * Memory tagging, basic fail cases, synchronous signals.
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "mte.h"
++
++void pass(int sig, siginfo_t *info, void *uc)
++{
++    assert(info->si_code == SEGV_MTESERR);
++    exit(0);
++}
++
++int main(int ac, char **av)
++{
++    struct sigaction sa;
++    int *p0, *p1, *p2;
++    long excl = 1;
++
++    enable_mte(PR_MTE_TCF_SYNC);
++    p0 = alloc_mte_mem(sizeof(*p0));
++
++    /* Create two differently tagged pointers.  */
++    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(excl));
++    asm("gmi %0,%1,%0" : "+r"(excl) : "r" (p1));
++    assert(excl != 1);
++    asm("irg %0,%1,%2" : "=r"(p2) : "r"(p0), "r"(excl));
++    assert(p1 != p2);
++
++    /* Store the tag from the first pointer.  */
++    asm("stg %0, [%0]" : : "r"(p1));
++
++    *p1 = 0;
++
++    memset(&sa, 0, sizeof(sa));
++    sa.sa_sigaction = pass;
++    sa.sa_flags = SA_SIGINFO;
++    sigaction(SIGSEGV, &sa, NULL);
++
++    *p2 = 0;
++
++    abort();
++}
+diff --git a/tests/tcg/aarch64/mte-3.c b/tests/tcg/aarch64/mte-3.c
+new file mode 100644
+index 0000000000..424ea685c2
+--- /dev/null
++++ b/tests/tcg/aarch64/mte-3.c
+@@ -0,0 +1,51 @@
++/*
++ * Memory tagging, basic fail cases, asynchronous signals.
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "mte.h"
++
++void pass(int sig, siginfo_t *info, void *uc)
++{
++    assert(info->si_code == SEGV_MTEAERR);
++    exit(0);
++}
++
++int main(int ac, char **av)
++{
++    struct sigaction sa;
++    long *p0, *p1, *p2;
++    long excl = 1;
++
++    enable_mte(PR_MTE_TCF_ASYNC);
++    p0 = alloc_mte_mem(sizeof(*p0));
++
++    /* Create two differently tagged pointers.  */
++    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(excl));
++    asm("gmi %0,%1,%0" : "+r"(excl) : "r" (p1));
++    assert(excl != 1);
++    asm("irg %0,%1,%2" : "=r"(p2) : "r"(p0), "r"(excl));
++    assert(p1 != p2);
++
++    /* Store the tag from the first pointer.  */
++    asm("stg %0, [%0]" : : "r"(p1));
++
++    *p1 = 0;
++
++    memset(&sa, 0, sizeof(sa));
++    sa.sa_sigaction = pass;
++    sa.sa_flags = SA_SIGINFO;
++    sigaction(SIGSEGV, &sa, NULL);
++
++    /*
++     * Signal for async error will happen eventually.
++     * For a real kernel this should be after the next IRQ (e.g. timer).
++     * For qemu linux-user, we kick the cpu and exit at the next TB.
++     * In either case, loop until this happens (or killed by timeout).
++     * For extra sauce, yield, producing EXCP_YIELD to cpu_loop().
++     */
++    asm("str %0, [%0]; yield" : : "r"(p2));
++    while (1);
++}
+diff --git a/tests/tcg/aarch64/mte-4.c b/tests/tcg/aarch64/mte-4.c
+new file mode 100644
+index 0000000000..a8cc9f5984
+--- /dev/null
++++ b/tests/tcg/aarch64/mte-4.c
+@@ -0,0 +1,45 @@
++/*
++ * Memory tagging, re-reading tag checks.
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "mte.h"
++
++void __attribute__((noinline)) tagset(void *p, size_t size)
++{
++    size_t i;
++    for (i = 0; i < size; i += 16) {
++        asm("stg %0, [%0]" : : "r"(p + i));
++    }
++}
++
++void __attribute__((noinline)) tagcheck(void *p, size_t size)
++{
++    size_t i;
++    void *c;
++
++    for (i = 0; i < size; i += 16) {
++        asm("ldg %0, [%1]" : "=r"(c) : "r"(p + i), "0"(p));
++        assert(c == p);
++    }
++}
++
++int main(int ac, char **av)
++{
++    size_t size = getpagesize() * 4;
++    long excl = 1;
++    int *p0, *p1;
++
++    enable_mte(PR_MTE_TCF_ASYNC);
++    p0 = alloc_mte_mem(size);
++
++    /* Tag the pointer. */
++    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(excl));
++
++    tagset(p1, size);
++    tagcheck(p1, size);
++
++    return 0;
++}
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index d7d33e293c..bf53ad0087 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -35,6 +35,12 @@ endif
+ # bti-2 tests PROT_BTI, so no special compiler support required.
+ AARCH64_TESTS += bti-2
+ 
++# MTE Tests
++ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_MTE),)
++AARCH64_TESTS += mte-1 mte-2 mte-3 mte-4
++mte-%: CFLAGS += -march=armv8.5-a+memtag
++endif
++
+ # Semihosting smoke test for linux-user
+ AARCH64_TESTS += semihosting
+ run-semihosting: semihosting
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index e1b70e25f2..ba8ac9a93e 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -244,6 +244,10 @@ for target in $target_list; do
+                -mbranch-protection=standard -o $TMPE $TMPC; then
+                 echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
+             fi
++            if do_compiler "$target_compiler" $target_compiler_cflags \
++               -march=armv8.5-a+memtag -o $TMPE $TMPC; then
++                echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
++            fi
+         ;;
+     esac
+ 
 -- 
 2.25.1
 
