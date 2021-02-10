@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54AE3171CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 21:57:53 +0100 (CET)
-Received: from localhost ([::1]:35514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DC43171DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 22:04:18 +0100 (CET)
+Received: from localhost ([::1]:40422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9wYa-0004wG-UL
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 15:57:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41092)
+	id 1l9wem-0007Jq-M9
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 16:04:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1l9wWe-0003zX-OF
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 15:55:52 -0500
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:45632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1l9wWY-00068w-OF
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 15:55:50 -0500
-Received: by mail-lj1-x22c.google.com with SMTP id e18so4665645lja.12
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 12:55:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s1lGjsNfUq9Ohq2/mS4GFN1kqv3VrP0aJyYgwP7pWSk=;
- b=HiUqUQI3451kc+mpETpUuESRGvp2Qe+106bk1NN0X2w44+y3t+a2z4bI88orjoA2hV
- BhqZ7n20kyl2jFtjAMjHUGMgVjOWdzHZeI50kTvf/zAUP4JUkBIvrrG2UwElfE0Md6i/
- YxdAu3vDxppeuRy7lkugNYaN+6nOtXXRO9v/yl7uH3LSgvzgYvT/MEOqKLa8wOVAh23+
- jgno2w6EOFXC5NDAOdoRyAsbPdA7BLbz5uGAJPV6wCzNH78oI1+RP1KckN1tpX9BtfDu
- B/8Q6xlwy/fe3XVcibHN1c90WGccRXJcHZku9d23/WdOkIcgx1cO1PGb/5VLvzOBCtCO
- lTcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s1lGjsNfUq9Ohq2/mS4GFN1kqv3VrP0aJyYgwP7pWSk=;
- b=nAsj5mT4QOzmgNeqZaM2qRIRADeUEXQizaOSqQprPy08i5w+Dn0Prih8yOPunnVElf
- zLbgY8amKTQ5+0vZqbwhY9Mpc7IorQvXvCzfQyOeCNPG9sv18OPxtzgpaJO9Vknr11U0
- 7PM5iPzCNxf+JjG3yIGU17P/6lSFA8N6f2TKI11+UsibqMr4I4YG1Idgg4hrQuqeFy5e
- 5x/SVSOLtK4h7isNHfzKasYpDnNqMh2YBs4IOzGoYI3/eqJ3L0cm5IwmqBYnlLUsNHqj
- EsmidyCMlhjotdYabX3e/DUHvb1r5/9GE5xJAuVsgJ7SZIdHxQDlgS9mRVEsv58yWfbn
- 9JjQ==
-X-Gm-Message-State: AOAM533PoDPrzGh65HpPqcgPTHiGQzOxv7kl6u9Rb3S2HP+mmM6qP3Dj
- W6OZ+kR1/T3or1z9Xmt3UzvH15+YUQ8yVTabL84q6A==
-X-Google-Smtp-Source: ABdhPJwDtLl2urDuPAXsZ4h0M76dxTARjXRyi+h0xMGIr0xfAzFMf0yEVl1di5fOP7KVrrv6Ufk9e/BQgm4PyjPrfbk=
-X-Received: by 2002:a2e:b605:: with SMTP id r5mr2890285ljn.367.1612990544755; 
- Wed, 10 Feb 2021 12:55:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9wX1-0004UQ-2H; Wed, 10 Feb 2021 15:56:15 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:54515)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9wWz-0006Ig-Jk; Wed, 10 Feb 2021 15:56:14 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id C0A105C01B9;
+ Wed, 10 Feb 2021 15:56:11 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 10 Feb 2021 15:56:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=GokTOU8lAhjm/lFKNL21gwX/1dF
+ ecWCh+6bxhAkpL58=; b=gVI3Z7P9F9bbJbTCITM5PSZ6EmlOuEoJE00VwQ62gS0
+ SP0QPcNRMYOwiN216uWyFnGAJAYO1ShV8O/BOphkFOiNRoRnnWHoJunbmox3B9pj
+ 7aYrDidut8FhELWF/ulr102lw8EsAFag3xOpqPm4uZ3a8G9DCjEl4VpfmalPPVAp
+ BZlkmNcg1CNm6a+5nBu9Q51vOF2Ntu8h01umQ6aizi+DhmjAiqr8Zl+8YMopHTNH
+ JlwyVZKiOVdXweDfIAxsSBpkOPQu1KSk3O9mlV7F+QYoW8nMFv34IVMLKmcrbOAa
+ 1OtNGGxoDgj3WJ6L+RTOhbCFdQKJYmwvFJtzqQBSP5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GokTOU
+ 8lAhjm/lFKNL21gwX/1dFecWCh+6bxhAkpL58=; b=TGNnktK+WHnuAuYFa5Gwjo
+ 3KSZIClNZsqLKMADcT9fVXE5YclpHyOV867wgC3r/y9vauJsY6YiG3FSXifldYa3
+ C/g3j41m1L4JYfsIQVurIKAC0LxBQIXArxQ6VqQJlb/anybXZ7sMoq4WO+VSozbC
+ 3J2kVYUGs6xVEejyXgF7OuPbeLgXg6vHIQcHj5Nm1s42hl71IjVWOouN5MszbWfg
+ MMCj3t39cXpAcjQUg21cX7hlueI1pOL0vxjaBPO6Jbu0ZmkdC+mS8keoIOYZPr7y
+ z3HKNWVua0TKiStOEFR2DS/B0fftxUfz8qDMXgwSfY3eKHwvDqmf5QXkiIe8zDIw
+ ==
+X-ME-Sender: <xms:aEgkYOzcDUqpmg_brh998QcFX02x-qv6kOqddv8xfo3u6ZglZRqW7w>
+ <xme:aEgkYKOZaLZ_EEv8aE_LK93xEikaBSGqH2jMX3dZxQGH0CKt7kve6JH3BtZoxoLX8
+ xkN7xrugPG5cP9dl3Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheejgddufeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:aEgkYNPR-kEu3-3Wjty88W7EU5rg90ehk3QRqlca8I0Qc6wSOvwBvQ>
+ <xmx:aEgkYMTVfZrtcvMeAeGofUtdIphTz5rvEwhosdoYhTcHudB4XnByRw>
+ <xmx:aEgkYPAlUe0WpZ28qIis0brExG6cJIrAt6QhtQSXIYc9omi6qO7fNg>
+ <xmx:a0gkYBFyvILhwZwHkVN33E08GfAm9zGOWkPuJVhcUyzWXwQIhsESjQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 169C21080064;
+ Wed, 10 Feb 2021 15:56:06 -0500 (EST)
+Date: Wed, 10 Feb 2021 21:56:05 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/block/nvme: improve invalid zasl value reporting
+Message-ID: <YCRIZblbiTqwmw+P@apples.localdomain>
+References: <20210208082532.308435-1-its@irrelevant.dk>
 MIME-Version: 1.0
-References: <20210209132040.5091-1-peter.maydell@linaro.org>
- <20210209132040.5091-3-peter.maydell@linaro.org>
-In-Reply-To: <20210209132040.5091-3-peter.maydell@linaro.org>
-From: Hao Wu <wuhaotsh@google.com>
-Date: Wed, 10 Feb 2021 12:55:32 -0800
-Message-ID: <CAGcCb11DCYZHsWCubfr6iRD85h-h4bZJvN3h4tFgUOa1S66MVA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] clock: Add ClockPreUpdate callback event type
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
- Tyrone Ting <kfting@nuvoton.com>, Luc Michel <luc@lmichel.fr>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Havard Skinnemoen <hskinnemoen@google.com>
-Content-Type: multipart/alternative; boundary="000000000000727b1a05bb01a0db"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
- envelope-from=wuhaotsh@google.com; helo=mail-lj1-x22c.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mViZ5GneWlMw3a30"
+Content-Disposition: inline
+In-Reply-To: <20210208082532.308435-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,175 +93,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ "info@dantalion.nl" <info@dantalion.nl>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000727b1a05bb01a0db
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 9, 2021 at 5:21 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> Add a new callback event type ClockPreUpdate, which is called on
-> period changes before the period is updated.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-
-> ---
->  docs/devel/clocks.rst | 9 ++++++++-
->  include/hw/clock.h    | 1 +
->  hw/core/clock.c       | 3 +++
->  3 files changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-> index cd344e3fe5d..f0391e76b4f 100644
-> --- a/docs/devel/clocks.rst
-> +++ b/docs/devel/clocks.rst
-> @@ -181,7 +181,14 @@ events.
->
->  The events currently supported are:
->
-> - * ``ClockUpdate`` : called after the input clock's period has changed
-> + * ``ClockPreUpdate`` : called when the input clock's period is about to
-> +   update. This is useful if the device needs to do some action for
-> +   which it needs to know the old value of the clock period. During
-> +   this callback, Clock API functions like ``clock_get()`` or
-> +   ``clock_ticks_to_ns()`` will use the old period.
-> + * ``ClockUpdate`` : called after the input clock's period has changed.
-> +   During this callback, Clock API functions like ``clock_ticks_to_ns()``
-> +   will use the new period.
->
->  Note that a clock only has one callback: it is not possible to register
->  different functions for different events. You must register a single
-> diff --git a/include/hw/clock.h b/include/hw/clock.h
-> index 5c73b4e7ae9..d7a6673c29e 100644
-> --- a/include/hw/clock.h
-> +++ b/include/hw/clock.h
-> @@ -30,6 +30,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(Clock, CLOCK)
->   */
->  typedef enum ClockEvent {
->      ClockUpdate = 1, /* Clock period has just updated */
-> +    ClockPreUpdate = 2, /* Clock period is about to update */
->  } ClockEvent;
->
->  typedef void ClockCallback(void *opaque, ClockEvent event);
-> diff --git a/hw/core/clock.c b/hw/core/clock.c
-> index 71dc1f4de65..2c86091d8a3 100644
-> --- a/hw/core/clock.c
-> +++ b/hw/core/clock.c
-> @@ -80,6 +80,9 @@ static void clock_propagate_period(Clock *clk, bool
-> call_callbacks)
->
->      QLIST_FOREACH(child, &clk->children, sibling) {
->          if (child->period != clk->period) {
-> +            if (call_callbacks) {
-> +                clock_call_callback(child, ClockPreUpdate);
-> +            }
->              child->period = clk->period;
->              trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
->                                 CLOCK_PERIOD_TO_HZ(clk->period),
-> --
-> 2.20.1
->
->
->
-
---000000000000727b1a05bb01a0db
-Content-Type: text/html; charset="UTF-8"
+--mViZ5GneWlMw3a30
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 9, 2021 at 5:21 AM Peter =
-Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linar=
-o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Add a new callback event type ClockPreUpdate, which is called on<br>
-period changes before the period is updated.<br>
-<br>
-Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org=
-" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br></blockquote><div>R=
-eviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com">wuhaotsh@goog=
-le.com</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
----<br>
-=C2=A0docs/devel/clocks.rst | 9 ++++++++-<br>
-=C2=A0include/hw/clock.h=C2=A0 =C2=A0 | 1 +<br>
-=C2=A0hw/core/clock.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 3 +++<br>
-=C2=A03 files changed, 12 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst<br>
-index cd344e3fe5d..f0391e76b4f 100644<br>
---- a/docs/devel/clocks.rst<br>
-+++ b/docs/devel/clocks.rst<br>
-@@ -181,7 +181,14 @@ events.<br>
-<br>
-=C2=A0The events currently supported are:<br>
-<br>
-- * ``ClockUpdate`` : called after the input clock&#39;s period has changed=
-<br>
-+ * ``ClockPreUpdate`` : called when the input clock&#39;s period is about =
-to<br>
-+=C2=A0 =C2=A0update. This is useful if the device needs to do some action =
-for<br>
-+=C2=A0 =C2=A0which it needs to know the old value of the clock period. Dur=
-ing<br>
-+=C2=A0 =C2=A0this callback, Clock API functions like ``clock_get()`` or<br=
->
-+=C2=A0 =C2=A0``clock_ticks_to_ns()`` will use the old period.<br>
-+ * ``ClockUpdate`` : called after the input clock&#39;s period has changed=
-.<br>
-+=C2=A0 =C2=A0During this callback, Clock API functions like ``clock_ticks_=
-to_ns()``<br>
-+=C2=A0 =C2=A0will use the new period.<br>
-<br>
-=C2=A0Note that a clock only has one callback: it is not possible to regist=
-er<br>
-=C2=A0different functions for different events. You must register a single<=
-br>
-diff --git a/include/hw/clock.h b/include/hw/clock.h<br>
-index 5c73b4e7ae9..d7a6673c29e 100644<br>
---- a/include/hw/clock.h<br>
-+++ b/include/hw/clock.h<br>
-@@ -30,6 +30,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(Clock, CLOCK)<br>
-=C2=A0 */<br>
-=C2=A0typedef enum ClockEvent {<br>
-=C2=A0 =C2=A0 =C2=A0ClockUpdate =3D 1, /* Clock period has just updated */<=
-br>
-+=C2=A0 =C2=A0 ClockPreUpdate =3D 2, /* Clock period is about to update */<=
-br>
-=C2=A0} ClockEvent;<br>
-<br>
-=C2=A0typedef void ClockCallback(void *opaque, ClockEvent event);<br>
-diff --git a/hw/core/clock.c b/hw/core/clock.c<br>
-index 71dc1f4de65..2c86091d8a3 100644<br>
---- a/hw/core/clock.c<br>
-+++ b/hw/core/clock.c<br>
-@@ -80,6 +80,9 @@ static void clock_propagate_period(Clock *clk, bool call_=
-callbacks)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0QLIST_FOREACH(child, &amp;clk-&gt;children, sibling) {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (child-&gt;period !=3D clk-&gt;period)=
- {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (call_callbacks) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock_call_callbac=
-k(child, ClockPreUpdate);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0child-&gt;period =3D clk-&g=
-t;period;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_clock_update(CLOCK_PA=
-TH(child), CLOCK_PATH(clk),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CLOCK_PERIOD_TO_HZ(clk-&gt;period),<=
-br>
--- <br>
-2.20.1<br>
-<br>
-<br>
-</blockquote></div></div>
+On Feb  8 09:25, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> The Zone Append Size Limit (ZASL) must be at least 4096 bytes, so
+> improve the user experience by adding an early parameter check in
+> nvme_check_constraints.
+>=20
+> When ZASL is still too small due to the host configuring the device for
+> an even larger page size, convert the trace point in nvme_start_ctrl to
+> an NVME_GUEST_ERR such that this is logged by QEMU instead of only
+> traced.
+>=20
 
---000000000000727b1a05bb01a0db--
+Thanks for the review; applied to nvme-next!
+
+--mViZ5GneWlMw3a30
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAkSGQACgkQTeGvMW1P
+Deno6wf/Q0DyIRm4UPFy6Q8Ohtzxy9OsfRRmw8/+yz+l07eiA5nkaWHwVu4lT7oT
+42ta0h60tDRx5Faq6c/tNjZuWVVxByyQYUrKVTZREtBCQe7lbPx1JecTl+XvDo61
+qkj52b4kCf9e2t/DArT7Zb/gr7e59IUgvuXuugBGqybfFuSepGfSRIpjVOImxD9C
+zPeDxYIyvlaBjBQEqktIJ1Ip+BfKBKFCgvpifN+8lDcC2DjyrO76PiQF7K1h4Oxc
+GAtISt+h5++jAIKlvjAsnVR0glWuilWwxdHTubKs5LBYg4u0w2E8OIXVyn3sgFmI
+rf9W4T9rmAqZTaGuUzZJBm4pWpPDvA==
+=Mjep
+-----END PGP SIGNATURE-----
+
+--mViZ5GneWlMw3a30--
 
