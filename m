@@ -2,73 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35633162BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:52:35 +0100 (CET)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C3E31628A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:42:48 +0100 (CET)
+Received: from localhost ([::1]:44418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9mAk-0000eR-VI
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:52:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57122)
+	id 1l9m1H-0000Z7-Ek
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:42:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l9lqX-0006dR-1A
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:31:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l9lqU-00085G-0G
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:31:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612949496;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R2Qvy19eJdC+602G2SjjJETx98iWAlmXaIyusGU/mUY=;
- b=CgL1okXHeJQe6Sn3B5ZJ9Nly8jPbrINzAb634YuXq+6Jn9rzQGFlYXHyvLojrgJV7zd1S/
- JqrXD1tuDKipHq++EzcvzbTMEyXZ6bJaAUeT0fLJDvlt+vCRICp+uAYFguR55oe4P0m6jq
- XAJM5cXmnUKZWfPXvjKZP27g1QbbH9E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-wdwXLipcP1yq9-jb8W4dtA-1; Wed, 10 Feb 2021 04:31:34 -0500
-X-MC-Unique: wdwXLipcP1yq9-jb8W4dtA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C5E280402E;
- Wed, 10 Feb 2021 09:31:32 +0000 (UTC)
-Received: from localhost (ovpn-115-120.ams2.redhat.com [10.36.115.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 004515D9CD;
- Wed, 10 Feb 2021 09:31:22 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL v4 26/27] multi-process: perform device reset in the remote
- process
-Date: Wed, 10 Feb 2021 09:26:27 +0000
-Message-Id: <20210210092628.193785-27-stefanha@redhat.com>
-In-Reply-To: <20210210092628.193785-1-stefanha@redhat.com>
-References: <20210210092628.193785-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1l9lpM-0005wi-Bz
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:30:28 -0500
+Received: from doohan.uni-paderborn.de ([2001:638:502:c003::16]:40790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1l9lp7-0007OL-6p
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:30:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
+ :Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=QkLgEZyHbFP6NgtSdyn1vV5V5ewLBxEOkgaLaO2o0ic=; b=cMAH2E/w8DfJr5oNDZgp3zw10s
+ WqMU5+irQPbpI/g0sjCtXTDY+ZjdltDZaDio5JuWhNklEJdH5lQinlDZxUmzFIoblkt/etzIkzmRJ
+ JLT6zqhUYFHFjB0XVmPGZDozQCF9IsZcHxUsZwK5dvZIrCUs0m9H99IwUvaWIxMAYSiI=;
+X-Envelope-From: <kbastian@mail.uni-paderborn.de>
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: peter.maydell@linaro.org
+Subject: [PULL 0/1] tricore queue
+Date: Wed, 10 Feb 2021 10:29:54 +0100
+Message-Id: <20210210092955.124757-1-kbastian@mail.uni-paderborn.de>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2021.2.10.92117, AntiVirus-Engine: 5.80.0,
+ AntiVirus-Data: 2021.2.8.5800000
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=28586788, da=100558469,
+ mc=462, sc=4, hc=458, sp=0, fso=28586788, re=0, sd=0, hd=0
+X-IMT-Spam-Score: 0.0 ()
+X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
+Received-SPF: pass client-ip=2001:638:502:c003::16;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=doohan.uni-paderborn.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,90 +64,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
- thuth@redhat.com, Jagannathan Raman <jag.raman@oracle.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: kbastian@mail.upb.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogRWxlbmEgVWZpbXRzZXZhIDxlbGVuYS51ZmltdHNldmFAb3JhY2xlLmNvbT4KClBlcmZv
-cm0gZGV2aWNlIHJlc2V0IGluIHRoZSByZW1vdGUgcHJvY2VzcyB3aGVuIFFFTVUgcGVyZm9ybXMK
-ZGV2aWNlIHJlc2V0LiBUaGlzIGlzIHJlcXVpcmVkIHRvIHJlc2V0IHRoZSBpbnRlcm5hbCBzdGF0
-ZQoobGlrZSByZWdpc3RlcnMsIGV0Yy4uLikgb2YgZW11bGF0ZWQgZGV2aWNlcwoKU2lnbmVkLW9m
-Zi1ieTogRWxlbmEgVWZpbXRzZXZhIDxlbGVuYS51ZmltdHNldmFAb3JhY2xlLmNvbT4KU2lnbmVk
-LW9mZi1ieTogSm9obiBHIEpvaG5zb24gPGpvaG4uZy5qb2huc29uQG9yYWNsZS5jb20+ClNpZ25l
-ZC1vZmYtYnk6IEphZ2FubmF0aGFuIFJhbWFuIDxqYWcucmFtYW5Ab3JhY2xlLmNvbT4KUmV2aWV3
-ZWQtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KTWVzc2FnZS1pZDog
-N2NiMjIwYTUxZjU2NWRjMDgxN2JkNzZlMmY1NDBlODljMmQyYjg1MC4xNjExOTM4MzE5LmdpdC5q
-YWcucmFtYW5Ab3JhY2xlLmNvbQpTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZh
-bmhhQHJlZGhhdC5jb20+Ci0tLQogaW5jbHVkZS9ody9yZW1vdGUvbXBxZW11LWxpbmsuaCB8ICAx
-ICsKIGh3L3JlbW90ZS9tZXNzYWdlLmMgICAgICAgICAgICAgfCAyMiArKysrKysrKysrKysrKysr
-KysrKysrCiBody9yZW1vdGUvcHJveHkuYyAgICAgICAgICAgICAgIHwgMTkgKysrKysrKysrKysr
-KysrKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEv
-aW5jbHVkZS9ody9yZW1vdGUvbXBxZW11LWxpbmsuaCBiL2luY2x1ZGUvaHcvcmVtb3RlL21wcWVt
-dS1saW5rLmgKaW5kZXggNzFkMjA2ZjAwZS4uNGVjMDkxNTg4NSAxMDA2NDQKLS0tIGEvaW5jbHVk
-ZS9ody9yZW1vdGUvbXBxZW11LWxpbmsuaAorKysgYi9pbmNsdWRlL2h3L3JlbW90ZS9tcHFlbXUt
-bGluay5oCkBAIC00MCw2ICs0MCw3IEBAIHR5cGVkZWYgZW51bSB7CiAgICAgTVBRRU1VX0NNRF9C
-QVJfV1JJVEUsCiAgICAgTVBRRU1VX0NNRF9CQVJfUkVBRCwKICAgICBNUFFFTVVfQ01EX1NFVF9J
-UlFGRCwKKyAgICBNUFFFTVVfQ01EX0RFVklDRV9SRVNFVCwKICAgICBNUFFFTVVfQ01EX01BWCwK
-IH0gTVBRZW11Q21kOwogCmRpZmYgLS1naXQgYS9ody9yZW1vdGUvbWVzc2FnZS5jIGIvaHcvcmVt
-b3RlL21lc3NhZ2UuYwppbmRleCBhZGFiMDQwY2ExLi4xMWQ3Mjk4NDVjIDEwMDY0NAotLS0gYS9o
-dy9yZW1vdGUvbWVzc2FnZS5jCisrKyBiL2h3L3JlbW90ZS9tZXNzYWdlLmMKQEAgLTE5LDYgKzE5
-LDcgQEAKICNpbmNsdWRlICJleGVjL21lbWF0dHJzLmgiCiAjaW5jbHVkZSAiaHcvcmVtb3RlL21l
-bW9yeS5oIgogI2luY2x1ZGUgImh3L3JlbW90ZS9pb2h1Yi5oIgorI2luY2x1ZGUgInN5c2VtdS9y
-ZXNldC5oIgogCiBzdGF0aWMgdm9pZCBwcm9jZXNzX2NvbmZpZ193cml0ZShRSU9DaGFubmVsICpp
-b2MsIFBDSURldmljZSAqZGV2LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTVBR
-ZW11TXNnICptc2csIEVycm9yICoqZXJycCk7CkBAIC0yNiw2ICsyNyw4IEBAIHN0YXRpYyB2b2lk
-IHByb2Nlc3NfY29uZmlnX3JlYWQoUUlPQ2hhbm5lbCAqaW9jLCBQQ0lEZXZpY2UgKmRldiwKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTVBRZW11TXNnICptc2csIEVycm9yICoqZXJy
-cCk7CiBzdGF0aWMgdm9pZCBwcm9jZXNzX2Jhcl93cml0ZShRSU9DaGFubmVsICppb2MsIE1QUWVt
-dU1zZyAqbXNnLCBFcnJvciAqKmVycnApOwogc3RhdGljIHZvaWQgcHJvY2Vzc19iYXJfcmVhZChR
-SU9DaGFubmVsICppb2MsIE1QUWVtdU1zZyAqbXNnLCBFcnJvciAqKmVycnApOworc3RhdGljIHZv
-aWQgcHJvY2Vzc19kZXZpY2VfcmVzZXRfbXNnKFFJT0NoYW5uZWwgKmlvYywgUENJRGV2aWNlICpk
-ZXYsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRXJyb3IgKiplcnJwKTsK
-IAogdm9pZCBjb3JvdXRpbmVfZm4gbXBxZW11X3JlbW90ZV9tc2dfbG9vcF9jbyh2b2lkICpkYXRh
-KQogewpAQCAtNjksNiArNzIsOSBAQCB2b2lkIGNvcm91dGluZV9mbiBtcHFlbXVfcmVtb3RlX21z
-Z19sb29wX2NvKHZvaWQgKmRhdGEpCiAgICAgICAgIGNhc2UgTVBRRU1VX0NNRF9TRVRfSVJRRkQ6
-CiAgICAgICAgICAgICBwcm9jZXNzX3NldF9pcnFmZF9tc2cocGNpX2RldiwgJm1zZyk7CiAgICAg
-ICAgICAgICBicmVhazsKKyAgICAgICAgY2FzZSBNUFFFTVVfQ01EX0RFVklDRV9SRVNFVDoKKyAg
-ICAgICAgICAgIHByb2Nlc3NfZGV2aWNlX3Jlc2V0X21zZyhjb20tPmlvYywgcGNpX2RldiwgJmxv
-Y2FsX2Vycik7CisgICAgICAgICAgICBicmVhazsKICAgICAgICAgZGVmYXVsdDoKICAgICAgICAg
-ICAgIGVycm9yX3NldGcoJmxvY2FsX2VyciwKICAgICAgICAgICAgICAgICAgICAgICAgIlVua25v
-d24gY29tbWFuZCAoJWQpIHJlY2VpdmVkIGZvciBkZXZpY2UgJXMiCkBAIC0yMDYsMyArMjEyLDE5
-IEBAIGZhaWw6CiAgICAgICAgICAgICAgICAgICAgICAgZ2V0cGlkKCkpOwogICAgIH0KIH0KKwor
-c3RhdGljIHZvaWQgcHJvY2Vzc19kZXZpY2VfcmVzZXRfbXNnKFFJT0NoYW5uZWwgKmlvYywgUENJ
-RGV2aWNlICpkZXYsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRXJyb3Ig
-KiplcnJwKQoreworICAgIERldmljZUNsYXNzICpkYyA9IERFVklDRV9HRVRfQ0xBU1MoZGV2KTsK
-KyAgICBEZXZpY2VTdGF0ZSAqcyA9IERFVklDRShkZXYpOworICAgIE1QUWVtdU1zZyByZXQgPSB7
-IDAgfTsKKworICAgIGlmIChkYy0+cmVzZXQpIHsKKyAgICAgICAgZGMtPnJlc2V0KHMpOworICAg
-IH0KKworICAgIHJldC5jbWQgPSBNUFFFTVVfQ01EX1JFVDsKKworICAgIG1wcWVtdV9tc2dfc2Vu
-ZCgmcmV0LCBpb2MsIGVycnApOworfQpkaWZmIC0tZ2l0IGEvaHcvcmVtb3RlL3Byb3h5LmMgYi9o
-dy9yZW1vdGUvcHJveHkuYwppbmRleCBhMDgyNzA5ODgxLi40ZmE0YmUwNzlkIDEwMDY0NAotLS0g
-YS9ody9yZW1vdGUvcHJveHkuYworKysgYi9ody9yZW1vdGUvcHJveHkuYwpAQCAtMjYsNiArMjYs
-NyBAQAogI2luY2x1ZGUgInV0aWwvZXZlbnRfbm90aWZpZXItcG9zaXguYyIKIAogc3RhdGljIHZv
-aWQgcHJvYmVfcGNpX2luZm8oUENJRGV2aWNlICpkZXYsIEVycm9yICoqZXJycCk7CitzdGF0aWMg
-dm9pZCBwcm94eV9kZXZpY2VfcmVzZXQoRGV2aWNlU3RhdGUgKmRldik7CiAKIHN0YXRpYyB2b2lk
-IHByb3h5X2ludHhfdXBkYXRlKFBDSURldmljZSAqcGNpX2RldikKIHsKQEAgLTIwMiw2ICsyMDMs
-OCBAQCBzdGF0aWMgdm9pZCBwY2lfcHJveHlfZGV2X2NsYXNzX2luaXQoT2JqZWN0Q2xhc3MgKmts
-YXNzLCB2b2lkICpkYXRhKQogICAgIGstPmNvbmZpZ19yZWFkID0gcGNpX3Byb3h5X3JlYWRfY29u
-ZmlnOwogICAgIGstPmNvbmZpZ193cml0ZSA9IHBjaV9wcm94eV93cml0ZV9jb25maWc7CiAKKyAg
-ICBkYy0+cmVzZXQgPSBwcm94eV9kZXZpY2VfcmVzZXQ7CisKICAgICBkZXZpY2VfY2xhc3Nfc2V0
-X3Byb3BzKGRjLCBwcm94eV9wcm9wZXJ0aWVzKTsKIH0KIApAQCAtMzU4LDMgKzM2MSwxOSBAQCBz
-dGF0aWMgdm9pZCBwcm9iZV9wY2lfaW5mbyhQQ0lEZXZpY2UgKmRldiwgRXJyb3IgKiplcnJwKQog
-ICAgICAgICB9CiAgICAgfQogfQorCitzdGF0aWMgdm9pZCBwcm94eV9kZXZpY2VfcmVzZXQoRGV2
-aWNlU3RhdGUgKmRldikKK3sKKyAgICBQQ0lQcm94eURldiAqcGRldiA9IFBDSV9QUk9YWV9ERVYo
-ZGV2KTsKKyAgICBNUFFlbXVNc2cgbXNnID0geyAwIH07CisgICAgRXJyb3IgKmxvY2FsX2VyciA9
-IE5VTEw7CisKKyAgICBtc2cuY21kID0gTVBRRU1VX0NNRF9ERVZJQ0VfUkVTRVQ7CisgICAgbXNn
-LnNpemUgPSAwOworCisgICAgbXBxZW11X21zZ19zZW5kX2FuZF9hd2FpdF9yZXBseSgmbXNnLCBw
-ZGV2LCAmbG9jYWxfZXJyKTsKKyAgICBpZiAobG9jYWxfZXJyKSB7CisgICAgICAgIGVycm9yX3Jl
-cG9ydF9lcnIobG9jYWxfZXJyKTsKKyAgICB9CisKK30KLS0gCjIuMjkuMgoK
+The following changes since commit 1214d55d1c41fbab3a9973a05085b8760647e411:
 
+  Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' into staging (2021-02-09 13:24:37 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/bkoppelmann/qemu.git tags/pull-tricore-20210210
+
+for you to fetch changes up to 52be63523e80bc92b8192a1e445fe499650085ac:
+
+  tricore: added triboard with tc27x_soc (2021-02-10 10:26:38 +0100)
+
+----------------------------------------------------------------
+added triboard with tc27x_soc
+
+----------------------------------------------------------------
+Andreas Konopik (1):
+      tricore: added triboard with tc27x_soc
+
+ default-configs/devices/tricore-softmmu.mak |   2 +-
+ hw/tricore/Kconfig                          |   8 +
+ hw/tricore/meson.build                      |   2 +
+ hw/tricore/tc27x_soc.c                      | 246 ++++++++++++++++++++++++++++
+ hw/tricore/triboard.c                       |  98 +++++++++++
+ include/hw/tricore/tc27x_soc.h              | 129 +++++++++++++++
+ include/hw/tricore/triboard.h               |  50 ++++++
+ 7 files changed, 534 insertions(+), 1 deletion(-)
+ create mode 100644 hw/tricore/tc27x_soc.c
+ create mode 100644 hw/tricore/triboard.c
+ create mode 100644 include/hw/tricore/tc27x_soc.h
+ create mode 100644 include/hw/tricore/triboard.h
 
