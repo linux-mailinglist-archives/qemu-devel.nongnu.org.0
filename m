@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51770317394
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:45:26 +0100 (CET)
-Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8973173A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:48:27 +0100 (CET)
+Received: from localhost ([::1]:37322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9yEf-0002bz-75
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:45:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56980)
+	id 1l9yHa-0005PG-Ai
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:48:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xhy-0006Zh-7Y
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:38 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:55736)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9xo5-0003tw-Do
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:17:57 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xhm-0003M6-GT
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:37 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id o15so1414910wmq.5
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:11:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l9xo2-0005zK-GV
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:17:57 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id sa23so6971548ejb.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:17:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NvekATJKlJ7jP2wzTkI6nrkZoiKtJSAd7gzRekefiEE=;
- b=KWTu4zS8VKFWwdJG3b+CSTJ8Q7Q698lsmJqTBHinWpWiHyRr2t3X4gtYWcI2mCkXIC
- H6Gs3WGIlhn2KacRtbeTZ7KYAZ0q8htqc1D4MOyJPcsv5PijhaOJgWHfDl8qAkc1cvSv
- aP/Fiq9aabTWkqfYcLxxA+NE0eCm8KWXP/vUPTB3dvB0BnVmSTURrYPjo8r1sRrvhcUs
- FL4KRd5nriJulmynKavQvwcxM0mi7ug1UJ5mDZ/Rwo5IrxYSZ/3xqPnQWaSZO9M7AURk
- 51hcfY1IG5SJ5MW0CTREsqv61w0EImWmr/N4TedBcxXbUZayzGIo0FjDvy2n1zaQ7XCh
- KXhQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/8re+nLzeAe9plhqUGOee0qJAMbzRcxGYHdwPlK01gM=;
+ b=UPG6ZFVQlVgZ0B8tF0LjmHNK3+cdx1r8DCpCjhxsOIQmJ+bCjGvM1Sh9JtU73NvpI/
+ Zi6JCjPu4fcvIqnm04yidWDa9TXqqbnWF+AS3Zd5NHr5MW/CG/bLar58Ej8yhunPc9iP
+ wLkAyTm4kuH5GcytTzUkoH4YvEAiTsi3wTJNEehoQ5Z8fY+KT/bAjgaFAU/XABZKWO5T
+ xeCM+dvy4dtnwBDvqQUcrb0tB/Z5d93zQn9CJ04Xdc9JuQVXosb7OrOaajzCX/iifAp7
+ 6Kq/KnC5tPTxhOmJqlDT99t+9GFNy4FqDCKISn9Sx6iO50uDduve6cuXyPJu7vqc+FoQ
+ Mv7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NvekATJKlJ7jP2wzTkI6nrkZoiKtJSAd7gzRekefiEE=;
- b=N3bCrvJlEMQCpTMOwYTG9uQgnb7DEGEJmKwrLYroHATotfGDDIFZ++OflZHrufDRQx
- 30OPDmNIahLp2GalEC3d+7vHzLbCQQlnwpdhbUSKT/AKmTQPl+KoepsL86mn5UKluwhF
- cS12bKwFdzpWk3MufchouC8KY2Shop8YwouobOgG6zMUuAyZRN+J++CjNLsfKjXblmcq
- CSSRRuU3n6SFud12MK/rE0uQnCNeG4KNxnYxQ0iSAjzOzgpyzPt16y+sDgf98ELvq17V
- H5n8hjSThXr5+F5UzAnljqpngJAvE2lpUNnCHyD7XEVjU/YiZlMKc5LXH3XfSOWsdtkM
- QzZg==
-X-Gm-Message-State: AOAM530wn0KFlMVS8XDUHWmU3YhnwXSm1B14GTm6/y6WpoL7v8myG1B4
- ceeWGrzVRL4mXqfeY2TUU/9cWw==
-X-Google-Smtp-Source: ABdhPJxm4d9id4m5cvO6ZEc5K9Tg8OTfUETDyHUOMUTkhYiBefKRVUoVpGIBbxu6fUkdL6QxNjuDag==
-X-Received: by 2002:a05:600c:2246:: with SMTP id
- a6mr1195632wmm.170.1612995084836; 
- Wed, 10 Feb 2021 14:11:24 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x125sm5179811wmx.6.2021.02.10.14.11.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 14:11:15 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A44181FFAA;
- Wed, 10 Feb 2021 22:10:55 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/21] tests/acceptance: add a new tests to detect counting
- errors
-Date: Wed, 10 Feb 2021 22:10:53 +0000
-Message-Id: <20210210221053.18050-22-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210210221053.18050-1-alex.bennee@linaro.org>
-References: <20210210221053.18050-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/8re+nLzeAe9plhqUGOee0qJAMbzRcxGYHdwPlK01gM=;
+ b=hE2Cl8b5nxnyisYt+Lw3Ct00igKIwWq66nFwgRPkIzOcy8YC5zxc9rXTfCH9M4rxnG
+ ykEwLB7fU9E6CfbcVR6S2KRNxcjku1Kuxe3evMSwkhrp67gfso6ZC7Ihhq28idWZUPGX
+ drAoi0OTSMFSw3R0qFKyhp1duAci+wVIQxyKlVozQ41EHEOkINs6kRS7dcMEUrHeh76+
+ SQ1b2pAbQeZDjaBiesJbRyXCGPJy5N0A1OwYwSHMT7AzIorDf70MKfP/ZPKqjQCfxZce
+ 9AFIrChK3kU0f2ITwm3YgaZD44k9+HDz7iNGT7GRnfa5UPOvYrzojx32wGC3lbOP7OjY
+ Uhnw==
+X-Gm-Message-State: AOAM530AN6ww4AXd/p2XIJxj87LiAXCt6hQ7jp3Re6W9/28+nP827B/L
+ n0OVP1/5eZYvbdkdT9FnVyHs+c+9FfSoqw/YcvU9Tg==
+X-Google-Smtp-Source: ABdhPJwrs+kiQWzFlcEXouZxmXR4CVmwXWxs6AUE3GpyWahVifi3/Y2yh5pJiej7toqEJJ6qCmPIhbSA4nwUmqmNbi0=
+X-Received: by 2002:a17:906:2e4f:: with SMTP id
+ r15mr5143050eji.407.1612995471903; 
+ Wed, 10 Feb 2021 14:17:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+References: <20210120224444.71840-1-agraf@csgraf.de>
+ <20210120224444.71840-10-agraf@csgraf.de>
+ <CAFEAcA_KFzEERYJ9d8YbPjhCv1rt9O9w567xP=ECqixLie5nmQ@mail.gmail.com>
+ <CAMn1gO4p4CDH7qVhNnTpOeo_q98iYBHgS2LLSe26q-3SQJX1Xg@mail.gmail.com>
+In-Reply-To: <CAMn1gO4p4CDH7qVhNnTpOeo_q98iYBHgS2LLSe26q-3SQJX1Xg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 10 Feb 2021 22:17:40 +0000
+Message-ID: <CAFEAcA_zNdgAO-1eif_TO7cBD1uB09pbGnbjEhUz+RDX+k9vVA@mail.gmail.com>
+Subject: Re: [PATCH v6 09/11] arm/hvf: Add a WFI handler
+To: Peter Collingbourne <pcc@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,65 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, kuhn.chenqun@huawei.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The insn plugin has a simple heuristic to detect if an instruction is
-detected running twice in a row. Check the plugin log after the run
-and pass accordingly.
+On Wed, 10 Feb 2021 at 20:25, Peter Collingbourne <pcc@google.com> wrote:
+>
+> On Thu, Jan 28, 2021 at 8:25 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Wed, 20 Jan 2021 at 22:44, Alexander Graf <agraf@csgraf.de> wrote:
+> > > +                if (!seconds && nanos < 2000000) {
+> > > +                    break;
+> > > +                }
+> > > +
+> > > +                struct timespec ts = { seconds, nanos };
+> > > +                hvf_wait_for_ipi(cpu, &ts);
+> > > +            }
+> >
+> > Why doesn't the timer timeout manifest as an IPI ? (Put another way,
+> > why is the timer interrupt special?)
+>
+> Timer timeouts result in an IPI (via HV_EXIT_REASON_VTIMER_ACTIVATED)
+> if they become due while in hv_vcpu_run(). But at this point we are
+> not in hv_vcpu_run() (due to the aforementioned difference in wait
+> behavior between x86 and ARM) so we need to "manually" wait for the
+> timer to become due, re-enter the guest, let it exit with
+> HV_EXIT_REASON_VTIMER_ACTIVATED and then trigger the IPI.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210209182749.31323-13-alex.bennee@linaro.org>
----
- tests/acceptance/tcg_plugins.py | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+But WFI doesn't just wait for a timer interrupt, it waits for
+any interrupt. So it doesn't seem right that the timer interrupt
+in particular is being handled specially here.
 
-diff --git a/tests/acceptance/tcg_plugins.py b/tests/acceptance/tcg_plugins.py
-index b512979769..acab599505 100644
---- a/tests/acceptance/tcg_plugins.py
-+++ b/tests/acceptance/tcg_plugins.py
-@@ -101,3 +101,34 @@ class PluginKernelNormal(PluginKernelBase):
-             else:
-                 logger.debug("Failed to find instruction count")
-                 self.fail
-+
-+    def test_aarch64_virt_insn_icount(self):
-+        """
-+        :avocado: tags=accel:tcg
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=machine:virt
-+        :avocado: tags=cpu:cortex-a57
-+        """
-+        kernel_path = self._grab_aarch64_kernel()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyAMA0')
-+        console_pattern = 'Kernel panic - not syncing: VFS:'
-+
-+        plugin_log = tempfile.NamedTemporaryFile(mode="r+t", prefix="plugin",
-+                                                 suffix=".log", delete=False)
-+
-+        self.run_vm(kernel_path, kernel_command_line,
-+                    "tests/plugin/libinsn.so", plugin_log.name,
-+                    console_pattern,
-+                    args=('-cpu', 'cortex-a53', '-icount', 'shift=1'))
-+
-+        logger = logging.getLogger()
-+
-+        with plugin_log as lf, \
-+             mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
-+            m = re.search(br"detected repeat execution @ (?P<addr>0x[0-9A-Fa-f]+)", s)
-+            if m is not None and "addr" in m.groupdict():
-+                logger.debug("detected repeat instructions")
-+                self.fail("detected repeated instructions")
-+            else:
-+                logger.debug("no repeats detected: %s", m)
--- 
-2.20.1
-
+thanks
+-- PMM
 
