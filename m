@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEAD3166F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 13:43:29 +0100 (CET)
-Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36423166B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 13:31:52 +0100 (CET)
+Received: from localhost ([::1]:34710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9oq9-0000ho-36
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 07:43:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
+	id 1l9oet-0003si-RM
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 07:31:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9onm-0008D6-Ma
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:41:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9ong-00077R-D4
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:41:02 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l9onc-0002L5-Km
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 12:40:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8D73A2E8134
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 12:40:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l9oct-0003RE-UX
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:29:47 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l9ocr-0002il-40
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:29:47 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BBAA1AEB9;
+ Wed, 10 Feb 2021 12:29:43 +0000 (UTC)
+Subject: Re: [PATCH v16 01/23] cpu: Introduce TCGCpuOperations struct
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+References: <20210204163931.7358-1-cfontana@suse.de>
+ <20210204163931.7358-2-cfontana@suse.de>
+ <20210210122151.bgxtonwy4lvtajj3@SPB-NB-133.local>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <fd96fedd-e9ca-136a-2a77-58393ad47dea@suse.de>
+Date: Wed, 10 Feb 2021 13:29:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 10 Feb 2021 12:26:51 -0000
-From: Chris Pinnock <1914117@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrispinnock th-huth
-X-Launchpad-Bug-Reporter: Chris Pinnock (chrispinnock)
-X-Launchpad-Bug-Modifier: Chris Pinnock (chrispinnock)
-References: <161221293549.4659.2173832767419505412.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161296001139.3776.14628330548979112254.malone@chaenomeles.canonical.com>
-Subject: [Bug 1914117] Re: Short files returned via FTP on Qemu with various
- architectures and OSes
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
-X-Launchpad-Hash: 080ea11b35597f76d6fea134a1aaec80fb1cc0d6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210210122151.bgxtonwy4lvtajj3@SPB-NB-133.local>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.211,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,58 +56,513 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914117 <1914117@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ok - one of my friends has written a test program. we will provide a
-writeup tomorrow, but basically towards the end of a stream both HUP &
-PRI are getting set on a poll call (on Mac) which means the code above
-would be invoked - on other platforms these aren't see. Better
-explanation & more details to follow tomorrow.
+On 2/10/21 1:21 PM, Roman Bolshakov wrote:
+> On Thu, Feb 04, 2021 at 05:39:09PM +0100, Claudio Fontana wrote:
+>> From: Eduardo Habkost <ehabkost@redhat.com>
+>>
+>> The TCG-specific CPU methods will be moved to a separate struct,
+>> to make it easier to move accel-specific code outside generic CPU
+>> code in the future.  Start by moving tcg_initialize().
+>>
+>> The new CPUClass.tcg_opts field may eventually become a pointer,
+>> but keep it an embedded struct for now, to make code conversion
+>> easier.
+>>
+>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>>
+>> [claudio: move TCGCpuOperations inside include/hw/core/cpu.h]
+>>
+>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>> ---
+>>  include/hw/core/cpu.h           | 16 +++++++++++++++-
+>>  cpu.c                           |  6 +++++-
+>>  target/alpha/cpu.c              |  2 +-
+>>  target/arm/cpu.c                |  2 +-
+>>  target/avr/cpu.c                |  2 +-
+>>  target/cris/cpu.c               | 12 ++++++------
+>>  target/hppa/cpu.c               |  2 +-
+>>  target/i386/tcg/tcg-cpu.c       |  2 +-
+>>  target/lm32/cpu.c               |  2 +-
+>>  target/m68k/cpu.c               |  2 +-
+>>  target/microblaze/cpu.c         |  2 +-
+>>  target/mips/cpu.c               |  2 +-
+>>  target/moxie/cpu.c              |  2 +-
+>>  target/nios2/cpu.c              |  2 +-
+>>  target/openrisc/cpu.c           |  2 +-
+>>  target/riscv/cpu.c              |  2 +-
+>>  target/rx/cpu.c                 |  2 +-
+>>  target/s390x/cpu.c              |  2 +-
+>>  target/sh4/cpu.c                |  2 +-
+>>  target/sparc/cpu.c              |  2 +-
+>>  target/tilegx/cpu.c             |  2 +-
+>>  target/tricore/cpu.c            |  2 +-
+>>  target/unicore32/cpu.c          |  2 +-
+>>  target/xtensa/cpu.c             |  2 +-
+>>  target/ppc/translate_init.c.inc |  2 +-
+>>  25 files changed, 48 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+>> index 140fa32a5e..26b89fd7a4 100644
+>> --- a/include/hw/core/cpu.h
+>> +++ b/include/hw/core/cpu.h
+>> @@ -76,6 +76,19 @@ typedef struct CPUWatchpoint CPUWatchpoint;
+>>  
+>>  struct TranslationBlock;
+>>  
+>> +/**
+>> + * struct TcgCpuOperations: TCG operations specific to a CPU class
+>> + */
+>> +typedef struct TcgCpuOperations {
+>> +    /**
+>> +     * @initialize: Initalize TCG state
+>> +     *
+>> +     * Called when the first CPU is realized.
+>> +     */
+>> +    void (*initialize)(void);
+>> +
+>> +} TcgCpuOperations;
+>> +
+>>  /**
+>>   * CPUClass:
+>>   * @class_by_name: Callback to map -cpu command line model name to an
+>> @@ -222,12 +235,13 @@ struct CPUClass {
+>>  
+>>      void (*disas_set_info)(CPUState *cpu, disassemble_info *info);
+>>      vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr addr, int len);
+>> -    void (*tcg_initialize)(void);
+>>  
+>>      const char *deprecation_note;
+>>      /* Keep non-pointer data at the end to minimize holes.  */
+>>      int gdb_num_core_regs;
+>>      bool gdb_stop_before_watchpoint;
+>> +
+>> +    TcgCpuOperations tcg_ops;
+>>  };
+>>  
+>>  /*
+>> diff --git a/cpu.c b/cpu.c
+>> index 0b245cda2e..79a2bf12b3 100644
+>> --- a/cpu.c
+>> +++ b/cpu.c
+>> @@ -159,14 +159,18 @@ void cpu_exec_initfn(CPUState *cpu)
+>>  void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+>>  {
+>>      CPUClass *cc = CPU_GET_CLASS(cpu);
+>> +#ifdef CONFIG_TCG
+>>      static bool tcg_target_initialized;
+>> +#endif /* CONFIG_TCG */
+>>  
+>>      cpu_list_add(cpu);
+>>  
+>> +#ifdef CONFIG_TCG
+>>      if (tcg_enabled() && !tcg_target_initialized) {
+>>          tcg_target_initialized = true;
+>> -        cc->tcg_initialize();
+>> +        cc->tcg_ops.initialize();
+>>      }
+>> +#endif /* CONFIG_TCG */
+>>      tlb_init(cpu);
+>>  
+>>      qemu_plugin_vcpu_init_hook(cpu);
+>> diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+>> index b3fd6643e8..d66f0351a9 100644
+>> --- a/target/alpha/cpu.c
+>> +++ b/target/alpha/cpu.c
+>> @@ -231,7 +231,7 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
+>>      dc->vmsd = &vmstate_alpha_cpu;
+>>  #endif
+>>      cc->disas_set_info = alpha_cpu_disas_set_info;
+>> -    cc->tcg_initialize = alpha_translate_init;
+>> +    cc->tcg_ops.initialize = alpha_translate_init;
+> 
+> Hi,
+> 
+> Would it be cleaner if the file had:
+> 
+> static
+> TcgCpuOperations alpha_tcg_ops = {
+>     .initialize = alpha_translate_init,
+> };
+> 
+> CPUClass definition would be:
+> struct CPUClass {
+>   ...
+>   TCGCpuOperations *tcg_ops;
+>   ...
+> }
+> 
+> And class init would be:
+> 
+> cc->tcg_ops = &alpha_tcg_ops;
+> 
+> And you would grow arch_tcg_ops as you convert them?
+> I'm sorry if I missed similar comment and it was already discussed.
+> 
+> Regards,
+> Roman
+> 
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914117
+Hi Roman,
 
-Title:
-  Short files returned via FTP on Qemu with various architectures and
-  OSes
+yes, this is what the series ends up doing as the last tcg-ops patch.
+This changed from a nice-to-have to a necessity for multiple reasons, you can read the comments in v15 and earlier to see how they evolved.
 
-Status in QEMU:
-  New
+So all is good (hopefully), this part is already in master, let me know of any problems,
+in the meantime I am continuing to enrich the series (will add some user/softmmu split and then point at arm)
 
-Bug description:
-  =
+Ciao,
 
-  Qemu 5.2 on Mac OS X Big Sur.
+Claudio
 
-  I originally thought that it might be caused by the home-brew version of =
-Qemu, but this evening I have removed the brew edition and compiled from sc=
-ratch (using Ninja & Xcode compiler). =
 
-  Still getting the same problem,.
+>>  
+>>      cc->gdb_num_core_regs = 67;
+>>  }
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index 40142ac141..fa4d4ba4eb 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -2276,7 +2276,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->gdb_stop_before_watchpoint = true;
+>>      cc->disas_set_info = arm_disas_set_info;
+>>  #ifdef CONFIG_TCG
+>> -    cc->tcg_initialize = arm_translate_init;
+>> +    cc->tcg_ops.initialize = arm_translate_init;
+>>      cc->tlb_fill = arm_cpu_tlb_fill;
+>>      cc->debug_excp_handler = arm_debug_excp_handler;
+>>      cc->debug_check_watchpoint = arm_debug_check_watchpoint;
+>> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+>> index 6f3d5a9e4a..fb66695fbb 100644
+>> --- a/target/avr/cpu.c
+>> +++ b/target/avr/cpu.c
+>> @@ -207,7 +207,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->tlb_fill = avr_cpu_tlb_fill;
+>>      cc->vmsd = &vms_avr_cpu;
+>>      cc->disas_set_info = avr_cpu_disas_set_info;
+>> -    cc->tcg_initialize = avr_cpu_tcg_init;
+>> +    cc->tcg_ops.initialize = avr_cpu_tcg_init;
+>>      cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
+>>      cc->gdb_read_register = avr_cpu_gdb_read_register;
+>>      cc->gdb_write_register = avr_cpu_gdb_write_register;
+>> diff --git a/target/cris/cpu.c b/target/cris/cpu.c
+>> index cff6b9eabf..4328f8e6c9 100644
+>> --- a/target/cris/cpu.c
+>> +++ b/target/cris/cpu.c
+>> @@ -201,7 +201,7 @@ static void crisv8_cpu_class_init(ObjectClass *oc, void *data)
+>>      ccc->vr = 8;
+>>      cc->do_interrupt = crisv10_cpu_do_interrupt;
+>>      cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+>> -    cc->tcg_initialize = cris_initialize_crisv10_tcg;
+>> +    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
+>>  }
+>>  
+>>  static void crisv9_cpu_class_init(ObjectClass *oc, void *data)
+>> @@ -212,7 +212,7 @@ static void crisv9_cpu_class_init(ObjectClass *oc, void *data)
+>>      ccc->vr = 9;
+>>      cc->do_interrupt = crisv10_cpu_do_interrupt;
+>>      cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+>> -    cc->tcg_initialize = cris_initialize_crisv10_tcg;
+>> +    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
+>>  }
+>>  
+>>  static void crisv10_cpu_class_init(ObjectClass *oc, void *data)
+>> @@ -223,7 +223,7 @@ static void crisv10_cpu_class_init(ObjectClass *oc, void *data)
+>>      ccc->vr = 10;
+>>      cc->do_interrupt = crisv10_cpu_do_interrupt;
+>>      cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+>> -    cc->tcg_initialize = cris_initialize_crisv10_tcg;
+>> +    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
+>>  }
+>>  
+>>  static void crisv11_cpu_class_init(ObjectClass *oc, void *data)
+>> @@ -234,7 +234,7 @@ static void crisv11_cpu_class_init(ObjectClass *oc, void *data)
+>>      ccc->vr = 11;
+>>      cc->do_interrupt = crisv10_cpu_do_interrupt;
+>>      cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+>> -    cc->tcg_initialize = cris_initialize_crisv10_tcg;
+>> +    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
+>>  }
+>>  
+>>  static void crisv17_cpu_class_init(ObjectClass *oc, void *data)
+>> @@ -245,7 +245,7 @@ static void crisv17_cpu_class_init(ObjectClass *oc, void *data)
+>>      ccc->vr = 17;
+>>      cc->do_interrupt = crisv10_cpu_do_interrupt;
+>>      cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+>> -    cc->tcg_initialize = cris_initialize_crisv10_tcg;
+>> +    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
+>>  }
+>>  
+>>  static void crisv32_cpu_class_init(ObjectClass *oc, void *data)
+>> @@ -284,7 +284,7 @@ static void cris_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->gdb_stop_before_watchpoint = true;
+>>  
+>>      cc->disas_set_info = cris_disas_set_info;
+>> -    cc->tcg_initialize = cris_initialize_tcg;
+>> +    cc->tcg_ops.initialize = cris_initialize_tcg;
+>>  }
+>>  
+>>  #define DEFINE_CRIS_CPU_TYPE(cpu_model, initfn) \
+>> diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+>> index e28f047d10..80e3081631 100644
+>> --- a/target/hppa/cpu.c
+>> +++ b/target/hppa/cpu.c
+>> @@ -154,7 +154,7 @@ static void hppa_cpu_class_init(ObjectClass *oc, void *data)
+>>  #endif
+>>      cc->do_unaligned_access = hppa_cpu_do_unaligned_access;
+>>      cc->disas_set_info = hppa_cpu_disas_set_info;
+>> -    cc->tcg_initialize = hppa_translate_init;
+>> +    cc->tcg_ops.initialize = hppa_translate_init;
+>>  
+>>      cc->gdb_num_core_regs = 128;
+>>  }
+>> diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+>> index 4fa013720e..d90502a0cc 100644
+>> --- a/target/i386/tcg/tcg-cpu.c
+>> +++ b/target/i386/tcg/tcg-cpu.c
+>> @@ -64,7 +64,7 @@ void tcg_cpu_common_class_init(CPUClass *cc)
+>>      cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
+>>      cc->cpu_exec_enter = x86_cpu_exec_enter;
+>>      cc->cpu_exec_exit = x86_cpu_exec_exit;
+>> -    cc->tcg_initialize = tcg_x86_init;
+>> +    cc->tcg_ops.initialize = tcg_x86_init;
+>>      cc->tlb_fill = x86_cpu_tlb_fill;
+>>  #ifndef CONFIG_USER_ONLY
+>>      cc->debug_excp_handler = breakpoint_handler;
+>> diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
+>> index c50ad5fa15..ef795b81a4 100644
+>> --- a/target/lm32/cpu.c
+>> +++ b/target/lm32/cpu.c
+>> @@ -237,7 +237,7 @@ static void lm32_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->gdb_stop_before_watchpoint = true;
+>>      cc->debug_excp_handler = lm32_debug_excp_handler;
+>>      cc->disas_set_info = lm32_cpu_disas_set_info;
+>> -    cc->tcg_initialize = lm32_translate_init;
+>> +    cc->tcg_ops.initialize = lm32_translate_init;
+>>  }
+>>  
+>>  #define DEFINE_LM32_CPU_TYPE(cpu_model, initfn) \
+>> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+>> index b811a0bdde..3604ece49b 100644
+>> --- a/target/m68k/cpu.c
+>> +++ b/target/m68k/cpu.c
+>> @@ -478,7 +478,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
+>>      dc->vmsd = &vmstate_m68k_cpu;
+>>  #endif
+>>      cc->disas_set_info = m68k_cpu_disas_set_info;
+>> -    cc->tcg_initialize = m68k_tcg_init;
+>> +    cc->tcg_ops.initialize = m68k_tcg_init;
+>>  
+>>      cc->gdb_num_core_regs = 18;
+>>  }
+>> diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+>> index d5e8bfe11f..f2978ca726 100644
+>> --- a/target/microblaze/cpu.c
+>> +++ b/target/microblaze/cpu.c
+>> @@ -382,7 +382,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->gdb_num_core_regs = 32 + 27;
+>>  
+>>      cc->disas_set_info = mb_disas_set_info;
+>> -    cc->tcg_initialize = mb_tcg_init;
+>> +    cc->tcg_ops.initialize = mb_tcg_init;
+>>  }
+>>  
+>>  static const TypeInfo mb_cpu_type_info = {
+>> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+>> index 4c4548233c..b96c3d5969 100644
+>> --- a/target/mips/cpu.c
+>> +++ b/target/mips/cpu.c
+>> @@ -689,7 +689,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+>>  #endif
+>>      cc->disas_set_info = mips_cpu_disas_set_info;
+>>  #ifdef CONFIG_TCG
+>> -    cc->tcg_initialize = mips_tcg_init;
+>> +    cc->tcg_ops.initialize = mips_tcg_init;
+>>      cc->tlb_fill = mips_cpu_tlb_fill;
+>>  #endif
+>>  
+>> diff --git a/target/moxie/cpu.c b/target/moxie/cpu.c
+>> index 6e0443ccb7..224cfc8361 100644
+>> --- a/target/moxie/cpu.c
+>> +++ b/target/moxie/cpu.c
+>> @@ -116,7 +116,7 @@ static void moxie_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->vmsd = &vmstate_moxie_cpu;
+>>  #endif
+>>      cc->disas_set_info = moxie_cpu_disas_set_info;
+>> -    cc->tcg_initialize = moxie_translate_init;
+>> +    cc->tcg_ops.initialize = moxie_translate_init;
+>>  }
+>>  
+>>  static void moxielite_initfn(Object *obj)
+>> diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+>> index 58688e1623..c28eb05ef0 100644
+>> --- a/target/nios2/cpu.c
+>> +++ b/target/nios2/cpu.c
+>> @@ -234,7 +234,7 @@ static void nios2_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->gdb_read_register = nios2_cpu_gdb_read_register;
+>>      cc->gdb_write_register = nios2_cpu_gdb_write_register;
+>>      cc->gdb_num_core_regs = 49;
+>> -    cc->tcg_initialize = nios2_tcg_init;
+>> +    cc->tcg_ops.initialize = nios2_tcg_init;
+>>  }
+>>  
+>>  static const TypeInfo nios2_cpu_type_info = {
+>> diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+>> index b0bdfbe4fe..a957f59e2e 100644
+>> --- a/target/openrisc/cpu.c
+>> +++ b/target/openrisc/cpu.c
+>> @@ -198,7 +198,7 @@ static void openrisc_cpu_class_init(ObjectClass *oc, void *data)
+>>      dc->vmsd = &vmstate_openrisc_cpu;
+>>  #endif
+>>      cc->gdb_num_core_regs = 32 + 3;
+>> -    cc->tcg_initialize = openrisc_translate_init;
+>> +    cc->tcg_ops.initialize = openrisc_translate_init;
+>>      cc->disas_set_info = openrisc_disas_set_info;
+>>  }
+>>  
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 27788021eb..567f6790a9 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -618,7 +618,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+>>      cc->gdb_arch_name = riscv_gdb_arch_name;
+>>      cc->gdb_get_dynamic_xml = riscv_gdb_get_dynamic_xml;
+>>  #ifdef CONFIG_TCG
+>> -    cc->tcg_initialize = riscv_translate_init;
+>> +    cc->tcg_ops.initialize = riscv_translate_init;
+>>      cc->tlb_fill = riscv_cpu_tlb_fill;
+>>  #endif
+>>      device_class_set_props(dc, riscv_cpu_properties);
+>> diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+>> index 2bb14144a7..cdcab49c8a 100644
+>> --- a/target/rx/cpu.c
+>> +++ b/target/rx/cpu.c
+>> @@ -195,7 +195,7 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
+>>      cc->gdb_write_register = rx_cpu_gdb_write_register;
+>>      cc->get_phys_page_debug = rx_cpu_get_phys_page_debug;
+>>      cc->disas_set_info = rx_cpu_disas_set_info;
+>> -    cc->tcg_initialize = rx_translate_init;
+>> +    cc->tcg_ops.initialize = rx_translate_init;
+>>      cc->tlb_fill = rx_cpu_tlb_fill;
+>>  
+>>      cc->gdb_num_core_regs = 26;
+>> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+>> index 7da70afbf2..890781e74c 100644
+>> --- a/target/s390x/cpu.c
+>> +++ b/target/s390x/cpu.c
+>> @@ -515,7 +515,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
+>>  #endif
+>>      cc->disas_set_info = s390_cpu_disas_set_info;
+>>  #ifdef CONFIG_TCG
+>> -    cc->tcg_initialize = s390x_translate_init;
+>> +    cc->tcg_ops.initialize = s390x_translate_init;
+>>      cc->tlb_fill = s390_cpu_tlb_fill;
+>>  #endif
+>>  
+>> diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+>> index 1e0f05a15b..b86753cda5 100644
+>> --- a/target/sh4/cpu.c
+>> +++ b/target/sh4/cpu.c
+>> @@ -232,7 +232,7 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->get_phys_page_debug = superh_cpu_get_phys_page_debug;
+>>  #endif
+>>      cc->disas_set_info = superh_cpu_disas_set_info;
+>> -    cc->tcg_initialize = sh4_translate_init;
+>> +    cc->tcg_ops.initialize = sh4_translate_init;
+>>  
+>>      cc->gdb_num_core_regs = 59;
+>>  
+>> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+>> index 6f14e370ed..3ab71e9d00 100644
+>> --- a/target/sparc/cpu.c
+>> +++ b/target/sparc/cpu.c
+>> @@ -881,7 +881,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->vmsd = &vmstate_sparc_cpu;
+>>  #endif
+>>      cc->disas_set_info = cpu_sparc_disas_set_info;
+>> -    cc->tcg_initialize = sparc_tcg_init;
+>> +    cc->tcg_ops.initialize = sparc_tcg_init;
+>>  
+>>  #if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+>>      cc->gdb_num_core_regs = 86;
+>> diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
+>> index 1fee87c094..cd24d0eb9d 100644
+>> --- a/target/tilegx/cpu.c
+>> +++ b/target/tilegx/cpu.c
+>> @@ -153,7 +153,7 @@ static void tilegx_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->set_pc = tilegx_cpu_set_pc;
+>>      cc->tlb_fill = tilegx_cpu_tlb_fill;
+>>      cc->gdb_num_core_regs = 0;
+>> -    cc->tcg_initialize = tilegx_tcg_init;
+>> +    cc->tcg_ops.initialize = tilegx_tcg_init;
+>>  }
+>>  
+>>  static const TypeInfo tilegx_cpu_type_info = {
+>> diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
+>> index 4bff1d4718..bf135af40f 100644
+>> --- a/target/tricore/cpu.c
+>> +++ b/target/tricore/cpu.c
+>> @@ -164,7 +164,7 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
+>>      cc->set_pc = tricore_cpu_set_pc;
+>>      cc->synchronize_from_tb = tricore_cpu_synchronize_from_tb;
+>>      cc->get_phys_page_debug = tricore_cpu_get_phys_page_debug;
+>> -    cc->tcg_initialize = tricore_tcg_init;
+>> +    cc->tcg_ops.initialize = tricore_tcg_init;
+>>      cc->tlb_fill = tricore_cpu_tlb_fill;
+>>  }
+>>  
+>> diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
+>> index b27fb9689f..226bf4226e 100644
+>> --- a/target/unicore32/cpu.c
+>> +++ b/target/unicore32/cpu.c
+>> @@ -137,7 +137,7 @@ static void uc32_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->set_pc = uc32_cpu_set_pc;
+>>      cc->tlb_fill = uc32_cpu_tlb_fill;
+>>      cc->get_phys_page_debug = uc32_cpu_get_phys_page_debug;
+>> -    cc->tcg_initialize = uc32_translate_init;
+>> +    cc->tcg_ops.initialize = uc32_translate_init;
+>>      dc->vmsd = &vmstate_uc32_cpu;
+>>  }
+>>  
+>> diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+>> index 88a32268a1..5a6f5bf88b 100644
+>> --- a/target/xtensa/cpu.c
+>> +++ b/target/xtensa/cpu.c
+>> @@ -209,7 +209,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
+>>  #endif
+>>      cc->debug_excp_handler = xtensa_breakpoint_handler;
+>>      cc->disas_set_info = xtensa_cpu_disas_set_info;
+>> -    cc->tcg_initialize = xtensa_translate_init;
+>> +    cc->tcg_ops.initialize = xtensa_translate_init;
+>>      dc->vmsd = &vmstate_xtensa_cpu;
+>>  }
+>>  
+>> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+>> index 3c05a17343..189f27cd1c 100644
+>> --- a/target/ppc/translate_init.c.inc
+>> +++ b/target/ppc/translate_init.c.inc
+>> @@ -10878,7 +10878,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+>>      cc->virtio_is_big_endian = ppc_cpu_is_big_endian;
+>>  #endif
+>>  #ifdef CONFIG_TCG
+>> -    cc->tcg_initialize = ppc_translate_init;
+>> +    cc->tcg_ops.initialize = ppc_translate_init;
+>>      cc->tlb_fill = ppc_cpu_tlb_fill;
+>>  #endif
+>>  #ifndef CONFIG_USER_ONLY
+>> -- 
+>> 2.26.2
+>>
 
-  On the following architectures: =
-
-  arm64, amd64 and sometimes i386 running NetBSD host OS; =
-
-  i386 running OpenBSD host OS:
-
-  I have seen a consistent problem with FTP returning short files. The
-  file will be a couple of bytes too short. I do not believe this is a
-  problem with the OS. Downloading the perl source code from CPAN does
-  not work properly, nor does downloading bind from isc. I've tried this
-  on different architectures as above.
-
-  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
-  gut feel is there is something not right on the Mac OS version of Qemu
-  or a bug in 5.2 - obviously in the network layer somewhere. If you
-  have anything you want me to try, please let me know - happy to help
-  get a resolution.)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
 
