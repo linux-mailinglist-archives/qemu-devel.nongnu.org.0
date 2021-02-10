@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38478316C81
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:24:10 +0100 (CET)
-Received: from localhost ([::1]:53054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4AE316C3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:14:02 +0100 (CET)
+Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9tDl-0001I0-9k
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:24:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47182)
+	id 1l9t3x-0007zn-M5
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:14:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l9suC-0006ge-Oj
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 12:03:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45308)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9t1Z-0005xv-Rr
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 12:11:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l9su7-0005xw-Qa
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 12:03:55 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9t1Y-0008Q5-Am
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 12:11:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612976629;
+ s=mimecast20190719; t=1612977091;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4ajLml0cFkdNQ2lAUJlMZbFc5EJsRDMwdZLLJUxj5r4=;
- b=ikjhQV+9vBFRZgk//0GMGM5sDyDM3y85sn1GglNV3Yi18G1uDY9D6Mi4B7kmiVds9v2973
- mdA8g2krGjm/vwBBgHloSY43ToaZaGUH3INzfkhKJdjzx3m6BOzc1cMi07R2eDVEO11yyV
- c/wSn65G82aLlsEP0NhYvUDdDkT/CO8=
+ bh=fqMRV90bejTUZecD7yvX4QHHnKeQZdvAp7froGO4xF0=;
+ b=ZCaZ+ImUlQmNtT+jl7RpoTo+lRFjUI6oOmCaqRNCEsT+PeAyHOUAUutiEkBKaDQatb6GVN
+ 2Tyl6dy/CcId2DcQlfR+R6KmMis2wW/1dxvFxoNNkBe/9D2E0/izi+qm+j2NTC1CZH5EA7
+ mGzM60YPDfhRb1TtYIog3MHSjBlA6Lo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-fCtUTkscN26j5GKIEOhdgg-1; Wed, 10 Feb 2021 12:03:47 -0500
-X-MC-Unique: fCtUTkscN26j5GKIEOhdgg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-269-1Ffu36lQOCi1BfN-Y0ZkVQ-1; Wed, 10 Feb 2021 12:11:26 -0500
+X-MC-Unique: 1Ffu36lQOCi1BfN-Y0ZkVQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02B4C104ED6A;
- Wed, 10 Feb 2021 17:03:46 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79DCC18AA1;
- Wed, 10 Feb 2021 17:03:45 +0000 (UTC)
-Subject: Re: Interested in contributing to QEMU
-To: "Niteesh G. S." <niteesh.gs@gmail.com>, qemu-devel@nongnu.org
-References: <CAN6ztm-jdqqz=RteqcnSPObqatS8yiA9_QYVu_Csuvz3HjFCsQ@mail.gmail.com>
- <8962e94a-80d4-6272-3b4e-f81dfa43ad37@redhat.com>
- <CAN6ztm93eFZdtN6CTreoM-s-kF7m8f6oxpOWyez2V=3sTaOSUw@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <9965cb74-96aa-cc4d-01bb-aa7ff6fd8db5@redhat.com>
-Date: Wed, 10 Feb 2021 12:03:44 -0500
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9570EAFA9C;
+ Wed, 10 Feb 2021 17:11:25 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-231.ams2.redhat.com
+ [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A871619C4;
+ Wed, 10 Feb 2021 17:11:23 +0000 (UTC)
+Subject: Re: [PATCH 3/7] block/qcow2: use compressed write cache
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210129165030.640169-1-vsementsov@virtuozzo.com>
+ <20210129165030.640169-4-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <446ebfd5-ac72-dc18-fde3-6cc7ffa73176@redhat.com>
+Date: Wed, 10 Feb 2021 18:11:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAN6ztm93eFZdtN6CTreoM-s-kF7m8f6oxpOWyez2V=3sTaOSUw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210129165030.640169-4-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,213 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/9/21 8:57 AM, Niteesh G. S. wrote:
-> Hello John,
-> On Mon, Feb 8, 2021 at 8:44 PM John Snow <jsnow@redhat.com 
-> <mailto:jsnow@redhat.com>> wrote:
->     On 2/7/21 12:01 PM, Niteesh G. S. wrote:
-
-[...]
-
+On 29.01.21 17:50, Vladimir Sementsov-Ogievskiy wrote:
+> Introduce a new option: compressed-cache-size, with default to 64
+> clusters (to be not less than 64 default max-workers for backup job).
 > 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   qapi/block-core.json   |  8 +++-
+>   block/qcow2.h          |  4 ++
+>   block/qcow2-refcount.c | 13 +++++++
+>   block/qcow2.c          | 87 ++++++++++++++++++++++++++++++++++++++++--
+>   4 files changed, 108 insertions(+), 4 deletions(-)
 > 
-> Which one in your opinion will yield a faster response, Mailing list or IRC?
-> My problem with IRC is, I don't have an IRC bouncer set up so I miss
-> some conversations. Which one is simpler to use? There are many options
-> available. Is there something that will not require me to host a server?
-> 
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 9f555d5c1d..e0be6657f3 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -3202,6 +3202,11 @@
+>   #             an image, the data file name is loaded from the image
+>   #             file. (since 4.0)
+>   #
+> +# @compressed-cache-size: The maximum size of compressed write cache in
+> +#                         bytes. If positive must be not less than
+> +#                         cluster size. 0 disables the feature. Default
+> +#                         is 64 * cluster_size. (since 6.0)
 
-Indeed one of the problems with IRC :)
+Do we need this, really?  If you don’t use compression, the cache won’t 
+use any memory, right?  Do you plan on using this option?
 
-IRC can be faster if you happen to join at the right time, when people 
-are around and paying attention. We generally conduct interviews and 
-meetings for GSoC/Outreachy at scheduled times on IRC.
+I’d just set it to a sane default.
 
-If you don't get an answer fairly quickly on IRC, send a mail. If you'd 
-like to chat more interactively than mail allows, try and ask for an 
-explicit time for someone to meet with you on IRC.
+OTOH, “a sane default” poses two questions, namely whether 64 * 
+cluster_size is reasonable – with subclusters, the cluster size may be 
+rather high, so 64 * cluster_size may well be like 128 MB.  Are 64 
+clusters really necessary for a reasonable performance?
 
->     See the end of this mail for instructions on how to join, if you
->     need them.
-> 
-> I am already part of the QEMU IRC channel. But thanks for these 
-> instructions.
-> 
+Second, I think I could live with a rather high default if clusters are 
+flushed as soon as they are full.  OTOH, as I briefly touched on, in 
+practice, I suppose compressed images are just written to constantly, so 
+even if clusters are flushed as soon as they are full, the cache will 
+still remain full all the time.
 
-Sorry, I wasn't sure! I try to be aware that IRC is increasingly a thing 
-that only weird old coots use :p
 
-[...]
+Different topic: Why is the cache disableable?  I thought there are no 
+downsides?
 
-> 
-> 
-> Thank you so much for the detailed answer. This helped a lot.
-> After reading the docs and messing around with simple commands.
-> I am confused about few things.
-> 
-> 1) What is the difference between QMPShell and HMPShell? My understanding
-> after going through code and doco is both talk to QEMU using QMP and 
-> basically
-> do the same thing but HMPShell is a subset of QMP shell which is 
-> more human-friendly
-> compared to QMPShell. Is that right?
-> 
+(Not being able to disable it would make the code simpler, hence me asking.)
 
-"It's complicated ..."
-
-HMP shell is an older protocol that QEMU has that is meant to be more 
-human-friendly, yes. Many of its commands are implemented in terms of 
-QMP commands, but not all of them. It isn't right to call it a "subset".
-
-QMP was introduced to create an API that was more machine-friendly than 
-HMP, but we didn't finish porting everything from HMP to QMP, for a few 
-reasons.
-
-(1) HMP does not have any backwards compatibility promises; this makes 
-it more appealing for various debugging commands and alpha/beta versions 
-of commands. QMP is meant to have fairly strict backwards compatibility 
-and a reliable API.
-
-(2) QMP is designed as a control channel and not a data transfer 
-channel, so some commands that may transmit large amounts of data or 
-take indeterminate amounts of time have remained stuck in HMP without a 
-proper QMP equivalent.
-
-Naturally, you can use QMP to issue HMP-only commands if you want. There 
-are a few uses of this in ./tests/qemu-iotests to do various "unsafe" 
-things.
-
-Daniel Berrange is working on porting "savevm" from HMP to QMP as one of 
-our last holdouts that isn't just debugging/query stuff.
-
-Whether or not we want to sunset HMP long-term is, AFAIK, an unresolved 
-question. There are obvious uses for a user-friendly shell. Part of the 
-qmp-shell revamp project is to investigate the viability of a 
-user-friendly shell backed only by QMP, where the "friendly" bits are 
-outside of QEMU proper and not subject to backwards compatibility promises.
-
-> 2) When I press <CTRL-A> - C in QEMU I get a monitor prompt, after
-> reading the man page I go to know that I can use telnet or socat to control
-> as well. Is this another interface to QEMU which uses QMP?
-> 
-
-I'm not sure I know what this keypress does! If you see a prompt, 
-though, it's HMP. Type "help" and send a newline.
-
-The QMP protocol is described somewhere in /docs/ like I pointed out in 
-my reply. You should get a greeting and you should be able to post a qmp 
-capabilities handshake and get a reply.
-
->     4) Understanding my project
-> 
->     If you're still interested in my project, I'd recommend trying out
->     qmp-shell against a running QEMU instance and issuing a few basic,
->     boring commands ("query-status" is a good candidate) and seeing how
->     that
->     works.
-> 
->     Then, I'd take a look at some of the other projects I mentioned
->     (mitmproxy, irssi) to get a sense of what the work is here. This is
->     largely a UI/API programming task, and there's real work to do on the
->     AQMP library, but it's probably closer to the surface than the deep
->     technical internals of QEMU.
-> 
->     It might be a good introductory project that helps you get a better
->     overview of the internals of QEMU if you're interested in more
->     hardware-related aspects, but it still requires you have at least some
->     interested in UI programming and API design.
-> 
->     Phil's project might involve hardware specifics quite a bit more than
->     mine, while still teaching you some overview of QMP as a necessity of
->     the project.
-> 
-> TBH UI and Async are both quite new to me, I have only done CLI
-> stuff since there isn't much UI in low-level dev. I also wanted to try 
-> out async
-> dev at a serious scale but never got an opportunity to do so. My rationale
-> behind choosing Phil's project is it would let me learn about the hardware
-> emulation and more importantly the visualization stuff using QEMU. But since
-> your project involves also async stuff I would love to work on your 
-> project if
-> you allow me to ;).
-> 
-
-Yup, understood.
-
->     If you remain interested after the above, I can point you towards some
->     more concrete tasks that need doing for you to get a fairly concrete
->     sense of what the project entails.
-> 
-> Please, If you have any small tasks pending, I would like to work on them.
-> 
-
-OK: I think I need to be careful about "issuing" work to someone who 
-isn't (yet) accepted into the program -- I shouldn't misrepresent this 
-arrangement -- but I can give you some more research tips that may help 
-you find your footing.
-
-We can work on getting to know QMP a bit better; it sounds like it'd be 
-relevant for both projects.
-
-Try using '-qmp qmp.sock,server,nowait' when you boot up QEMU and then 
-open the qmp.sock file with socat and try messing with it.
-
-Try going to ./qapi/ in the source tree and "git grep event" to find 
-some event definitions. try grepping for that event name in the QEMU 
-tree at large and try to work out how QEMU emits these events.
-
-Try *adding* an event somewhere in ./qapi/ and modifying QEMU to emit 
-this event. Try using rlwrap and socat to connect to this QMP socket and 
-verify that your event is being sent over the wire. Depending on where 
-you add the event, it may be helpful to start QEMU in a paused state and 
-issue a resume command from QMP to make sure you have time to connect to 
-the socket.
-
-For more hardware-oriented avenues of exploration, I'd encourage 
-reaching out to phil, who seems to have a knack for finding weird 
-embedded devices to babysit :)
-
-> 
->      > I would like to work on these projects even outside of GSoC if
->     someone
->      > is ready to
->      > mentor in their free time :).
->      >
-> 
-> Thanks,
-> Niteesh.
-> 
->     Feel free to join #qemu-gsoc on irc.oftc.net <http://irc.oftc.net>.
->     If you've not joined an
->     IRC channel before, it's kind of like a prehistoric slack channel.
-> 
->     Linux GUI: xchat, hexchat
->     Linux TUI: irssi, WeeChat
-> 
->     OSX GUI: LimeChat, Colloquy (I've never used either)
->     OSX TUI: irssi and weechat should be available via ports (Not tried.)
-> 
->     Windows GUI: mIRC, XChat
-> 
-> 
->     I'm jsnow on OFTC. You can use my nickname at the start of a message
->     ("jsnow: Hello, this is Niteesh from the mailing list") and it will
->     show
->     me a notification -- but the hours I am paying attention to IRC are
->     around 10AM - 7PM EST. (15:00 - 00:00 GMT)
-> 
->     I can be around later by request (00:00 - 05:00 GMT) if you give me
->     some
->     advance notice.
-> 
->      > Thanks
->      > Niteesh.
->      >
->      >
-> 
+Max
 
 
