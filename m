@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC04316AAB
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:04:37 +0100 (CET)
-Received: from localhost ([::1]:53906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E945A316ACC
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:12:29 +0100 (CET)
+Received: from localhost ([::1]:34722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9ryl-0004ik-Vz
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:04:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
+	id 1l9s6O-0000vm-Uc
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:12:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1l9rxe-0003wk-PM
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:03:27 -0500
-Received: from foss.arm.com ([217.140.110.172]:60838)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1l9rxa-0005lG-9t
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:03:25 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E0BA113E;
- Wed, 10 Feb 2021 08:03:16 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE5D83F73B;
- Wed, 10 Feb 2021 08:03:13 -0800 (PST)
-Subject: Re: [RFC PATCH v8 5/5] KVM: arm64: ioctl to fetch/store tags in a
- guest
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210205135803.48321-1-steven.price@arm.com>
- <20210205135803.48321-6-steven.price@arm.com>
- <CAFEAcA99kV_d6ev9wC4ySiyoD7Cp=HCD0v2bBhGSOU-KrzkqaQ@mail.gmail.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <1e09d70a-1443-c7bd-2d16-f50bc3993a83@arm.com>
-Date: Wed, 10 Feb 2021 16:03:34 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA99kV_d6ev9wC4ySiyoD7Cp=HCD0v2bBhGSOU-KrzkqaQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.211,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l9s3q-0007dt-JR; Wed, 10 Feb 2021 11:09:50 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l9s3o-0000Ap-Qf; Wed, 10 Feb 2021 11:09:50 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id t11so1514397pgu.8;
+ Wed, 10 Feb 2021 08:09:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=PNRArwPYGIO8NpJsY8cyou3J0Bjk1ZVE3WuTsMX6f58=;
+ b=bRjXzGhLll+l/VD7dPK4AtMLugeGZaM//S+KtsHq02TR3bitzhnY59cSimifWDYBMa
+ lybTyfjJNFcT3J0cEkkGTQVRUVomwjn+FI4ksOVtave+2xCxBMi0dyco//s0OXj42rNX
+ yDUBy9c7Y252qCuiVTHeAr8h5uGuVMAEtwhv9Asd7Ta8PlJ+WUCeb0R/nem8qQiLy1w9
+ MUK5JzgxeImWpQ1q6DDa2y/W8+/UiE/NdjfNgAK2s+sNeaxnZSX0LStgtyj/XB5z+YOF
+ 6EHq+AdpSyTRVU5nemHUmlZ/WRfPYxvr/HZ9i17hYMunQSW9N21qn2ufaB1YnD2BbZ+V
+ S3Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=PNRArwPYGIO8NpJsY8cyou3J0Bjk1ZVE3WuTsMX6f58=;
+ b=joNXREf6VwzTYImNJCwJda85neyn2W6dqv+xFQmEYKsGNmdEN4lSnl/rS5dzgyQPYs
+ N/dqUMnh4BXA0JebPamtCddr3g+zul5yKhp3a0pM/NwiAOYw0DCB81x4R/RG3GWCb2dU
+ 9rrA4HXgKWu+gxrVeq3+jhsMEJQO3DkM7a6fC4C3nSrTs4GYj6twzA7atQrx8Le8izsc
+ Gq3MvjS6RaRBhKKSwKriMrLg352bUl7F6XpiAFuvcl3X/2TY6xWvGzeRgRALZVEB2sxD
+ TF6Mrj9tEhJono5BRt5kDe0eBm4Ag95rlz4NMI7NDaITczvtmJoG5d2AWmfoegtB+bIC
+ NkhA==
+X-Gm-Message-State: AOAM53315/A2XihXKye9FEmBAhHtlZn+kV0Hsd7lYmQ066GjuFHRKqNo
+ ZlF4vvcDXFSGmFit1NsQHrWIRuZOn/D9bg==
+X-Google-Smtp-Source: ABdhPJxHt82Q9XxlnY45tvmdctYYcpqlXq4WDK7RQjOopv3J8LsWq7QFpx9/qqbC+yR2QnZ8xOwIwQ==
+X-Received: by 2002:a63:d506:: with SMTP id c6mr3716246pgg.77.1612973386665;
+ Wed, 10 Feb 2021 08:09:46 -0800 (PST)
+Received: from localhost.localdomain ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id 25sm2761195pfj.120.2021.02.10.08.09.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Feb 2021 08:09:45 -0800 (PST)
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Subject: [PATCH V2 0/6] hw/block/nvme: support namespace attachment
+Date: Thu, 11 Feb 2021 01:09:30 +0900
+Message-Id: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,49 +75,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- arm-mail-list <linux-arm-kernel@lists.infradead.org>,
- Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm <kvmarm@lists.cs.columbia.edu>,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/02/2021 17:31, Peter Maydell wrote:
-> On Fri, 5 Feb 2021 at 13:58, Steven Price <steven.price@arm.com> wrote:
->>
->> The VMM may not wish to have it's own mapping of guest memory mapped
->> with PROT_MTE because this causes problems if the VMM has tag checking
->> enabled (the guest controls the tags in physical RAM and it's unlikely
->> the tags are correct for the VMM).
->>
->> Instead add a new ioctl which allows the VMM to easily read/write the
->> tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
->> while the VMM can still read/write the tags for the purpose of
->> migration.
->>
->> Signed-off-by: Steven Price <steven.price@arm.com>
->> ---
->>   arch/arm64/include/uapi/asm/kvm.h | 13 +++++++
->>   arch/arm64/kvm/arm.c              | 57 +++++++++++++++++++++++++++++++
->>   include/uapi/linux/kvm.h          |  1 +
->>   3 files changed, 71 insertions(+)
-> 
-> Missing the update to the docs in Documentation/virtual/kvm/api.txt :-)
+Hello,
 
-Good point - although I was secretly hoping to get some feedback on the 
-concepts before writing the documentation! But I guess the documentation 
-will help with the review. I'll include some in the next posting.
+This series supports namespace attachment: attach and detach.  This is
+the second version series with a fix a bug on choosing a controller to
+attach for a namespace in the attach command handler.
 
-Thanks,
+Since V1:
+  - Fix to take 'ctrl' which is given from the command rather than 'n'.
+    (Klaus)
+  - Add a [7/7] patch to support CNS 12h Identify command (Namespace
+    Attached Controller list).
 
-Steve
+This series has been tested with the following: (!CONFIG_NVME_MULTIPATH)
+
+  -device nvme-subsys,id=subsys0 \
+  -device nvme,serial=foo,id=nvme0,subsys=subsys0 \
+  -device nvme,serial=bar,id=nvme1,subsys=subsys0 \
+  -device nvme-ns,id=ns1,drive=drv0,nsid=1,subsys=subsys0,zoned=false \
+  -device nvme-ns,id=ns2,drive=drv1,nsid=2,subsys=subsys0,zoned=true \
+  -device nvme-ns,id=ns3,drive=drv2,nsid=3,subsys=subsys0,detached=true,zoned=false \
+  -device nvme-ns,id=ns4,drive=drv3,nsid=4,subsys=subsys0,detached=true,zoned=true \
+
+  root@vm:~/work# nvme list
+  Node                  SN                   Model                                    Namespace Usage                      Format           FW Rev
+  --------------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+  /dev/nvme0n1          foo                  QEMU NVMe Ctrl                           1         268.44  MB / 268.44  MB    512   B +  0 B   1.0
+  /dev/nvme0n2          foo                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0
+  /dev/nvme1n1          bar                  QEMU NVMe Ctrl                           1         268.44  MB / 268.44  MB    512   B +  0 B   1.0
+  /dev/nvme1n2          bar                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0
+  root@vm:~/work# nvme attach-ns /dev/nvme0 --namespace-id=3 --controllers=0,1
+  attach-ns: Success, nsid:3
+  root@vm:~/work# echo 1 > /sys/class/nvme/nvme0/rescan_controller 
+  root@vm:~/work# echo 1 > /sys/class/nvme/nvme1/rescan_controller 
+  root@vm:~/work# nvme list
+  Node                  SN                   Model                                    Namespace Usage                      Format           FW Rev  
+  --------------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+  /dev/nvme0n1          foo                  QEMU NVMe Ctrl                           1         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme0n2          foo                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme0n3          foo                  QEMU NVMe Ctrl                           3         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n1          bar                  QEMU NVMe Ctrl                           1         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n2          bar                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n3          bar                  QEMU NVMe Ctrl                           3         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  root@vm:~/work# nvme detach-ns /dev/nvme0 --namespace-id=3 --controllers=0
+  detach-ns: Success, nsid:3
+  root@vm:~/work# echo 1 > /sys/class/nvme/nvme0/rescan_controller 
+  root@vm:~/work# nvme list
+  Node                  SN                   Model                                    Namespace Usage                      Format           FW Rev  
+  --------------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+  /dev/nvme0n1          foo                  QEMU NVMe Ctrl                           1         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme0n2          foo                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n1          bar                  QEMU NVMe Ctrl                           1         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n2          bar                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n3          bar                  QEMU NVMe Ctrl                           3         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  root@vm:~/work# nvme detach-ns /dev/nvme0 --namespace-id=1 --controllers=1
+  detach-ns: Success, nsid:1
+  root@vm:~/work# echo 1 > /sys/class/nvme/nvme1/rescan_controller 
+  root@vm:~/work# nvme list
+  Node                  SN                   Model                                    Namespace Usage                      Format           FW Rev  
+  --------------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+  /dev/nvme0n1          foo                  QEMU NVMe Ctrl                           1         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme0n2          foo                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n2          bar                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n3          bar                  QEMU NVMe Ctrl                           3         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  root@vm:~/work# nvme attach-ns /dev/nvme0 --namespace-id=1 --controllers=1
+  attach-ns: Success, nsid:1
+  root@vm:~/work# echo 1 > /sys/class/nvme/nvme1/rescan_controller 
+  root@vm:~/work# nvme list
+  Node                  SN                   Model                                    Namespace Usage                      Format           FW Rev  
+  --------------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+  /dev/nvme0n1          foo                  QEMU NVMe Ctrl                           1         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme0n2          foo                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n1          bar                  QEMU NVMe Ctrl                           1         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n2          bar                  QEMU NVMe Ctrl                           2         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+  /dev/nvme1n3          bar                  QEMU NVMe Ctrl                           3         268.44  MB / 268.44  MB    512   B +  0 B   1.0     
+
+Minwoo Im (7):
+  hw/block/nvme: support namespace detach
+  hw/block/nvme: fix namespaces array to 1-based
+  hw/block/nvme: fix allocated namespace list to 256
+  hw/block/nvme: support allocated namespace type
+  hw/block/nvme: refactor nvme_select_ns_iocs
+  hw/block/nvme: support namespace attachment command
+  hw/block/nvme: support Identify NS Attached Controller List
+
+ hw/block/nvme-ns.c     |   1 +
+ hw/block/nvme-ns.h     |   1 +
+ hw/block/nvme-subsys.h |  28 ++++-
+ hw/block/nvme.c        | 241 +++++++++++++++++++++++++++++++++++------
+ hw/block/nvme.h        |  33 ++++++
+ hw/block/trace-events  |   3 +
+ include/block/nvme.h   |   6 +
+ 7 files changed, 278 insertions(+), 35 deletions(-)
+
+-- 
+2.17.1
+
 
