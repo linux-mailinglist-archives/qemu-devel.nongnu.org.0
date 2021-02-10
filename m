@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46BFF3164FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 12:19:32 +0100 (CET)
-Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B20E231650F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 12:21:56 +0100 (CET)
+Received: from localhost ([::1]:46690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9nWt-0002IX-BD
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 06:19:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53402)
+	id 1l9nZB-0004Ky-Im
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 06:21:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9nV8-0000n9-Ik; Wed, 10 Feb 2021 06:17:42 -0500
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:39542)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9nWa-0002cV-1a
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:19:12 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:33460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9nV7-0006C3-1s; Wed, 10 Feb 2021 06:17:42 -0500
-Received: by mail-yb1-xb35.google.com with SMTP id k4so1613494ybp.6;
- Wed, 10 Feb 2021 03:17:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9nWQ-0006gL-4Z
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:19:11 -0500
+Received: by mail-ej1-x636.google.com with SMTP id sa23so3484133ejb.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 03:19:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5jtPwVBo2chsjfP5ZJtqmC8Me4uPu4eCBX5F4YMR3zM=;
- b=ZCYOVZY6g0agc3kL5UZy3Z0ltAbIbgfKwGglcAasHriGyTpvKafnTAtYoL2dri1Zlq
- SxSI6yPgujKLDstX12PYZBklqgNm5R/tlDzyABBxqr+ujEwlADBvRouKhh7LsdvZVBYq
- rIS5Tq+m1MLETlc24EajBRsffFnRZw+n/mcRo5nk637WBStrzMnMZREwLpUVjfHgtbT+
- LIxUYPmnTjvEAUEmh8q094HtMe/bcCeN3AhcKELVTRktKqplN9B48k2soFbwMukdPWnn
- qNv11HGmjezXQ/J8KaQkwjzl0mI+ra7pA1DUg+QFBn8I3S1xMjCX/0MHZm5MdVRTacJq
- kEtg==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=n0DsEyQDuhTZ1rDB+sDoF82Io2GWg84RUZPdol2Q/EQ=;
+ b=fCfqpXhOjgCtWppvRfPHRLOVK7ZOZk23+u6GSlF36fHNtVziRBlPxnGYzTvIrtV9Wm
+ /eMAQTERGb4xCtmy201bPNn9tHpnYkvCbEI9Kaj5gk0zVY5c2zRDdc1bFtEewJuS5MNu
+ N5FSWPp4xc9ZTLUoU8aqEiDyaysQvQDN3MkioZpZUshUQVrdImrstD/aF77bnY0IF0pd
+ CfGmfLRbA2gC5R6X6yXUrkH4gJV1zugMytedBsxTqc+ihJg/rjb0pQonPJixDHgiP3qi
+ JI9SmWVa1IVEpKMS3b4K6mrz4dn856tkN0DI9Ru77mcL7/LR/sc2ugUSJUAbPEtCeC9Q
+ O9Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5jtPwVBo2chsjfP5ZJtqmC8Me4uPu4eCBX5F4YMR3zM=;
- b=RUAEArr6ieRnpu+8PNNpbtbKA0hJjL2Y+Bp0AEw1mbE/3EEK1jS7LHW3DGLOtYIgdS
- BUOCFa0QgqTWoCZrsL+AdCnqJR6+nm6YATxjrU0eV2ex9ymVvVfCI/tXgoXyyrDKg1YD
- rtb3MyQRbWQiJgWpcztn903uh+U2eOgo3YAMDoC48xMKuJxkiDXOo2GBbjTmzkgMGWue
- uY7XR1SDSPMHH0rA082SRUH+L6gOzcV3oCcjNxF/8QuiVT7FuuSlgHQVjrh2DLoukOU0
- viP5J8eKaNwZm7UejbeAQcTENfR40TNGa7Ah7bGnH7SUjEtKMPHOI5ss6aVi0QhHvyEP
- /T+Q==
-X-Gm-Message-State: AOAM531sv2E6nnUaOLfTo3hYAW5oo2RmpltNs3qoyzhzCHtpmhMj8/6c
- +iPMqiDdhL5c0qSwwVUq3RaAW44I7w+/yb4G6sE=
-X-Google-Smtp-Source: ABdhPJzQ+2PeyEKWx+H7Gt0z3wx5uh78gzD+M5unl7r3uueYYOJTs0b3YPjffGDOhxdhzo1D1RVr5+HeSG/Rg5Wovx0=
-X-Received: by 2002:a25:8712:: with SMTP id a18mr3498020ybl.306.1612955859750; 
- Wed, 10 Feb 2021 03:17:39 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=n0DsEyQDuhTZ1rDB+sDoF82Io2GWg84RUZPdol2Q/EQ=;
+ b=aCJulNLm9bmK2MAiwJkkOdHodwaV9RTaVLVuW7/LC3VLns3m44+pGJ3YtA1zx+cJZd
+ fkngKNFN5351tbRQcJPlE2oebBoRVo/cpiDT4AWEg5HzqfG7XjjyR7R9sESq6QNiXtim
+ gMpdvbliegCozE53Oscbkkb3ZaRaRm87VKbuopOlOegrM64h35RmJWF8SuFEQLlMJ9G9
+ GjIt+OU/nu4a21abQ5aGJtPO0srmadp4e3UPmrDvYOIO3qsq8V1hyEJgeaOwfsC2tqlN
+ FMEab6pIJ/XVKjTcAA9puXpFhjh2LHMfOG5xUmuUSrfGuDagp9huMo3mQIHrQc5sPmrN
+ bwNg==
+X-Gm-Message-State: AOAM533NYq6yOyPhuiDoga2++PAsl81OOBxVVFi49kDLc0ThaBFRCjn9
+ DzMl0+Mt5TyuB/Wcyz90WwOxJO0/gKA=
+X-Google-Smtp-Source: ABdhPJxEg2E2zCpy6g6T6WzI4+uUh5tsRvAz9K56bb7xvUTzu7yzjDOTPX4Sbw+APi3zl15B/WDSeA==
+X-Received: by 2002:a17:907:35d1:: with SMTP id
+ ap17mr2528596ejc.79.1612955939458; 
+ Wed, 10 Feb 2021 03:18:59 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id c6sm751083edx.62.2021.02.10.03.18.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Feb 2021 03:18:58 -0800 (PST)
+Subject: Re: [PULL 0/1] tricore queue
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ peter.maydell@linaro.org
+References: <20210210092955.124757-1-kbastian@mail.uni-paderborn.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <94b43ee3-2b41-aa58-fbc9-b6cc99f766d1@amsat.org>
+Date: Wed, 10 Feb 2021 12:18:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <1612952597-62595-1-git-send-email-bmeng.cn@gmail.com>
- <299d3bdc-268c-eccc-66be-6605b23a2c92@redhat.com>
- <efffe227-472d-698d-d8f7-cc0bbd1800c0@redhat.com>
-In-Reply-To: <efffe227-472d-698d-d8f7-cc0bbd1800c0@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 10 Feb 2021 19:17:28 +0800
-Message-ID: <CAEUhbmVKr_dwhc=Gd-6YjGgLh+cV=dkCR4qWZc=O7ge5g1RKtw@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/block: nvme: Fix a build error in nvme_get_feature()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210210092955.124757-1-kbastian@mail.uni-paderborn.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,50 +89,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: kbastian@mail.upb.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+Hi Bastian,
 
-On Wed, Feb 10, 2021 at 7:15 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 2/10/21 12:12 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Hi Bin,
-> >
-> > On 2/10/21 11:23 AM, Bin Meng wrote:
-> >> From: Bin Meng <bin.meng@windriver.com>
-> >>
-> >> Current QEMU HEAD nvme.c does not compile:
-> >>
-> >>   hw/block/nvme.c:3242:9: error: =E2=80=98result=E2=80=99 may be used =
-uninitialized in this function [-Werror=3Dmaybe-uninitialized]
-> >>          trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled=
-");
-> >>          ^
-> >>   hw/block/nvme.c:3150:14: note: =E2=80=98result=E2=80=99 was declared=
- here
-> >>      uint32_t result;
-> >>               ^
-> >
-> > Why isn't this catched by our CI? What is your host OS? Fedora 33?
->
-> Just noticed v1 and Peter's explanation:
-> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03528.html
->
-> Can you amend "default GCC 5.4 on a Ubuntu 16.04 host" information
-> please?
->
+On 2/10/21 10:29 AM, Bastian Koppelmann wrote:
+> The following changes since commit 1214d55d1c41fbab3a9973a05085b8760647e411:
+> 
+>   Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' into staging (2021-02-09 13:24:37 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://github.com/bkoppelmann/qemu.git tags/pull-tricore-20210210
+> 
+> for you to fetch changes up to 52be63523e80bc92b8192a1e445fe499650085ac:
+> 
+>   tricore: added triboard with tc27x_soc (2021-02-10 10:26:38 +0100)
+> 
+> ----------------------------------------------------------------
+> added triboard with tc27x_soc
 
-Sure.
+What about this series?
 
-Regards,
-Bin
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg776774.html
+
+> 
+> ----------------------------------------------------------------
+> Andreas Konopik (1):
+>       tricore: added triboard with tc27x_soc
+> 
+>  default-configs/devices/tricore-softmmu.mak |   2 +-
+>  hw/tricore/Kconfig                          |   8 +
+>  hw/tricore/meson.build                      |   2 +
+>  hw/tricore/tc27x_soc.c                      | 246 ++++++++++++++++++++++++++++
+>  hw/tricore/triboard.c                       |  98 +++++++++++
+>  include/hw/tricore/tc27x_soc.h              | 129 +++++++++++++++
+>  include/hw/tricore/triboard.h               |  50 ++++++
+>  7 files changed, 534 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/tricore/tc27x_soc.c
+>  create mode 100644 hw/tricore/triboard.c
+>  create mode 100644 include/hw/tricore/tc27x_soc.h
+>  create mode 100644 include/hw/tricore/triboard.h
+> 
+
 
