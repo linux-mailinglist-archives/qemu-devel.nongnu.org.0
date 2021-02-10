@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94984316CD4
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:34:21 +0100 (CET)
-Received: from localhost ([::1]:50792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1DD316CDE
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:35:42 +0100 (CET)
+Received: from localhost ([::1]:53710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9tNc-000450-K5
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:34:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53494)
+	id 1l9tOu-0005SG-TE
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:35:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l9tGm-0005X2-4H
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 12:27:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57937)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l9tGg-0004FW-7d
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 12:27:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612978028;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EB5PCb4AvxpQOsw2yjrjuWP9OFyUUkwvq3aRTnhFnNY=;
- b=GQj0qRLkcy09qSrk8irKnhWBcnYzTFz4CjrM/iO2S/iOhMXbXWAZP1aEjZ3zQSGIT/FHf7
- 0pbBc3e0VyZpt6CgvGMZ/XrtNvek0JbnBRXCh/kh/eyrBvLzx1XTJZDDCMwuTWC1gmg1f9
- K9q8BLoLSODPNfgcwTKCYIFTfAkviu0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-5BKfWhqUM16kUuTxBRks6A-1; Wed, 10 Feb 2021 12:27:04 -0500
-X-MC-Unique: 5BKfWhqUM16kUuTxBRks6A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25626107ACE4;
- Wed, 10 Feb 2021 17:27:03 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-33.ams2.redhat.com [10.36.115.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F48718AA1;
- Wed, 10 Feb 2021 17:26:59 +0000 (UTC)
-Date: Wed, 10 Feb 2021 18:26:57 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: [RFC PATCH v2 0/4] Allow changing bs->file on reopen
-Message-ID: <20210210172657.GJ5144@merkur.fritz.box>
-References: <cover.1612809837.git.berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l9tHa-0006kC-QU
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 12:28:06 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:33709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l9tHW-0004Uu-BW
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 12:28:06 -0500
+Received: by mail-wm1-x333.google.com with SMTP id a16so4154933wmm.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 09:28:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fTOzNZghVoYBw/AbWPKlEY9hNlgw1YSGWz++TP6+PhU=;
+ b=LNcB+CmsEYl2fxrAr6NNHtLtKzBFaLUBOapEKj2wHFy9RA7kLT7OU5cxNH2INvWr1D
+ oiWtibao/6SPONY8c52jG+PF8TEvL1AqC//dWTt9KpXuzrT/sI+cQ0Ro0HsFZAieJTSe
+ LwOljArpLCuxn0nc3eW3NppCk1CR3chnflKPgZsR44i/KaEKyzUQe+Sz3cEZEXVMwTDs
+ hXNw9WDNv6CqM4yAcFpE3cggvUEA5cKfbxeush0IOUXk7/y4d32CPQpjMH+PZ8H546CX
+ 43vkHar86vRJwT8ELuDCzCla7Kwbcah4fpKsse7qHRCcx3pdXtkgjrBXl3Um2XV1tMKC
+ A/Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fTOzNZghVoYBw/AbWPKlEY9hNlgw1YSGWz++TP6+PhU=;
+ b=J1zGPQELBvTaT7r6Ph3xfnmC9K6BtGG4WkP9fQIdUD8GHKTjbt5txQfWlxTQJYcGjP
+ BIuIjxSIH7lpLxgG4YpFIW5c5EX+LGqek3A9ZaDw6OuCrs5zGdphMr2CxI6c+7UpxCS7
+ mPBskc9UdwydYVRZ7eh5/77TUPqm9UjkccBz1tAgTJlqlszlak2aWSSzZGdJ6okHfsh3
+ XWW/SKh4Ftpiq21oIGdVAI0FxCboMj9t/EC47qiJnWTD6cMaE54mgyDS7UCdJ94X/6Wp
+ SXlnOAkLEQbU3dMhzJU75RtWcumz14u2zRD1XBfWuIwwBeNuqh8DouJ7NBZfmqDnADm9
+ 2Xxw==
+X-Gm-Message-State: AOAM530IVkUJEgbnuMQ6I1h9vSmVTZfc2hzrjkZRbaLZXKkSznhJZShF
+ EmJOQHnOoDQpZchXzmisYAVeEQ==
+X-Google-Smtp-Source: ABdhPJwRuLsc7n96tzvLIJ5hHBPK7kd1C1r1Cyh3t7Bb6rjjHrC3T9MBHDJ0W+W+paQU7kPH8JFB4g==
+X-Received: by 2002:a7b:c14b:: with SMTP id z11mr3817984wmi.97.1612978079913; 
+ Wed, 10 Feb 2021 09:27:59 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k11sm4169226wrl.84.2021.02.10.09.27.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Feb 2021 09:27:58 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1F8B21FF7E;
+ Wed, 10 Feb 2021 17:27:58 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] accel/tcg/plugin-gen: fix the call signature for inline
+ callbacks
+Date: Wed, 10 Feb 2021 17:27:51 +0000
+Message-Id: <20210210172751.11669-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1612809837.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,38 +85,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, pkrempa@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Emilio G . Cota" <cota@braap.org>, richard.henderson@linaro.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 08.02.2021 um 19:44 hat Alberto Garcia geschrieben:
-> Hi,
-> 
-> this series allows changing bs->file using x-blockdev-reopen. Read
-> here for more details:
-> 
->    https://lists.gnu.org/archive/html/qemu-block/2021-01/msg00437.html
-> 
-> Version 2 of the series introduces a very significant change:
-> x-blockdev-reopen now receives a list of BlockdevOptions instead of
-> just one, so it is possible to reopen multiple block devices using a
-> single transaction.
+A recent change to the handling of constants in TCG changed the
+pattern of ops emitted for a constant add. We no longer emit a mov and
+the constant can be applied directly to the TCG_op_add arguments. This
+was causing SEGVs when running the insn plugin with arg=inline. Fix
+this by updating copy_add_i64 to do the right thing while also adding
+a comment at the top of the append section as an aide memoir if
+something like this happens again.
 
-Adding Peter to Cc for this one.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Emilio G. Cota <cota@braap.org>
+---
+ accel/tcg/plugin-gen.c | 32 +++++++++++---------------------
+ 1 file changed, 11 insertions(+), 21 deletions(-)
 
-> This is still an RFC, I haven't updated the documentation and the
-> structure of the patches will probably change in the future, but I'd
-> like to know your opinion about the approach.
-
-I like the direction where this is going.
-
-You have a test case for adding a throttling filter. Can we also remove
-it again or is there still a problem with that? I seem to remember that
-that was a bit trickier, though I'm not sure what it was. Was it that we
-can't have the throttle node without a file, so it would possibly still
-have permission conflicts?
-
-Kevin
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index e5dc9d0ca9..8a1bb801e0 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -320,22 +320,6 @@ static TCGOp *copy_const_ptr(TCGOp **begin_op, TCGOp *op, void *ptr)
+     return op;
+ }
+ 
+-static TCGOp *copy_const_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
+-{
+-    if (TCG_TARGET_REG_BITS == 32) {
+-        /* 2x mov_i32 */
+-        op = copy_op(begin_op, op, INDEX_op_mov_i32);
+-        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v));
+-        op = copy_op(begin_op, op, INDEX_op_mov_i32);
+-        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v >> 32));
+-    } else {
+-        /* mov_i64 */
+-        op = copy_op(begin_op, op, INDEX_op_mov_i64);
+-        op->args[1] = tcgv_i64_arg(tcg_constant_i64(v));
+-    }
+-    return op;
+-}
+-
+ static TCGOp *copy_extu_tl_i64(TCGOp **begin_op, TCGOp *op)
+ {
+     if (TARGET_LONG_BITS == 32) {
+@@ -374,14 +358,17 @@ static TCGOp *copy_st_i64(TCGOp **begin_op, TCGOp *op)
+     return op;
+ }
+ 
+-static TCGOp *copy_add_i64(TCGOp **begin_op, TCGOp *op)
++static TCGOp *copy_add_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
+ {
+     if (TCG_TARGET_REG_BITS == 32) {
+         /* all 32-bit backends must implement add2_i32 */
+         g_assert(TCG_TARGET_HAS_add2_i32);
+         op = copy_op(begin_op, op, INDEX_op_add2_i32);
++        op->args[4] = tcgv_i32_arg(tcg_constant_i32(v));
++        op->args[5] = tcgv_i32_arg(tcg_constant_i32(v >> 32));
+     } else {
+         op = copy_op(begin_op, op, INDEX_op_add_i64);
++        op->args[2] = tcgv_i64_arg(tcg_constant_i64(v));
+     }
+     return op;
+ }
+@@ -431,6 +418,12 @@ static TCGOp *copy_call(TCGOp **begin_op, TCGOp *op, void *empty_func,
+     return op;
+ }
+ 
++/*
++ * When we append/replace ops here we are sensitive to changing patterns of
++ * TCGOps generated by the tcg_gen_FOO calls when we generated the
++ * empty callbacks. This will assert very quickly in a debug build as
++ * we assert the ops we are replacing are the correct ones.
++ */
+ static TCGOp *append_udata_cb(const struct qemu_plugin_dyn_cb *cb,
+                               TCGOp *begin_op, TCGOp *op, int *cb_idx)
+ {
+@@ -462,11 +455,8 @@ static TCGOp *append_inline_cb(const struct qemu_plugin_dyn_cb *cb,
+     /* ld_i64 */
+     op = copy_ld_i64(&begin_op, op);
+ 
+-    /* const_i64 */
+-    op = copy_const_i64(&begin_op, op, cb->inline_insn.imm);
+-
+     /* add_i64 */
+-    op = copy_add_i64(&begin_op, op);
++    op = copy_add_i64(&begin_op, op, cb->inline_insn.imm);
+ 
+     /* st_i64 */
+     op = copy_st_i64(&begin_op, op);
+-- 
+2.20.1
 
 
