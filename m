@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D99A31738D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:41:57 +0100 (CET)
-Received: from localhost ([::1]:53980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F333173B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:53:00 +0100 (CET)
+Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9yBI-0000Lh-9Z
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:41:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56976)
+	id 1l9yLz-0000EC-QQ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:52:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xhq-0006MZ-Vx
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:32 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37469)
+ id 1l9xqD-0006w2-Na
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:09 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xhk-0003Ln-Fc
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:28 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id m1so3299517wml.2
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:11:23 -0800 (PST)
+ id 1l9xqA-0006oI-DX
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:09 -0500
+Received: by mail-wm1-x330.google.com with SMTP id w4so3205138wmi.4
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:20:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=C092gDUqg+6i3/7PDEneZh7D36z03pG1+b/EutVVLjE=;
- b=rcl0EaxV/R0yqpKO0l1CQpHyWAzbi0k7XsPOnGO9M+bMLWx/4hU7noUOPg+OVShvlh
- zU8Q3b5xUCLKeb3SUzlp5zR/+UkhfwI09duyevVlQsvc+B559FfYY9rLoFY/yGcdtnsp
- 5WOVWTEHMf2U9W0/RXQQFI7qjdMmxtjbEMnLkU9IoKPbDC2PgparevAgNk0WgGH7qMFi
- HTxTqWiKpLRcczaNdZJbqQFuPzRFSga7hUARPKTCn0T87e1q3sIDb7sN7L1t8Gpi3pHo
- EgMM3qNWc0NCmCG7/21zxRo0upULMQRvXyG90mQ2slqWIMjeCR14rC9FhjWp4omCyufW
- 7uZA==
+ bh=j4XmWVEBX2ENQRRduA5gKPU5AX0OB2Qj1ZjmkgHICaE=;
+ b=fa6NFK/B+UnoWsiE/5MwVW2nbwy14i6XChQfMDtKBl/B1grK17ouQUx9SpYU12Aqit
+ UU8dDvjIfrZGxX0fcBDVAdV/qAwWasvnxNkrFqkNYRckV9Jmlx/5XMiDODyCxOYte9Pf
+ dr6r8D2qHzmxpLdCJrLdEF/U6PYsocIjzBTv20XMm8hVURCF/HM/xuKlPfsQ6ZwkDAAc
+ HOa/5YynFMSs9PTp+IndKQDcVSv1knnbg08Z+IKTfpU96Nk2dcy8wgTE4VhpfyFf44fb
+ o2EwG4TLfJsIf4BisEHKpybzi3lCQNhNw7kzM+ZAtU/Q4H3Q/aPQEEOVzvNFSXLgS/Wk
+ 2aGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=C092gDUqg+6i3/7PDEneZh7D36z03pG1+b/EutVVLjE=;
- b=RM9fnoliq0HSK1cdPlcKAgVyXYFpawDwTkik3SRjGu+4uUCygNV3Zg5jEqeMLnUiHW
- bGO4Buz2R7ug6ggFDk/M8qby032q77Px0nSzOOYob1aIPhjapYQTrHpeEx4VVLGmCJth
- iL2eb3ANjww5pehmM7gZVCt8mfVw1aAO/+iLuDvQCIyDzssrutusUQK6xxeFSI0lznQK
- NXrC2I8pio8Br+QQiTLwpoDH4uplTFa43BT0PPpUxZUZ9QNgJucQZ5SezHB6HZk69q01
- ti/pPgEmXXjj7niNvcqA7UDbz4+ID71yFHVRIWeWUEdvNJ/m/f9EdXChOsl1/hZAYDLj
- jmGw==
-X-Gm-Message-State: AOAM532FfuL+QkThD4TEbWFtd6kPvVO66aOMARKASPQaLPn5QvgAHf/0
- lgktpAz/3YHHl52VyX19Xjf9pQ==
-X-Google-Smtp-Source: ABdhPJw32QAHLahOPHHS7QWaiKH4TYNQZzdSlwyBFBZU6mBMMLv/kfuNBYafLfvPx9mcsjHWU3/HxQ==
-X-Received: by 2002:a1c:6289:: with SMTP id w131mr1273386wmb.0.1612995082212; 
- Wed, 10 Feb 2021 14:11:22 -0800 (PST)
+ bh=j4XmWVEBX2ENQRRduA5gKPU5AX0OB2Qj1ZjmkgHICaE=;
+ b=QQ/huGELzLY3ahgOqtBWbe3R37MblahT312ju9/lwkLVSvNOiB5EJKu/d9GV6VTR6P
+ G7a9eOiIPTVUYwiDDSKDfBjw5/J2YlmZClWnn4nOYfYoKCQUM7SFcwQwMVyruWZvaylx
+ flI7bCHRANxYpu22/eQJkvECVPadz97M5rZZ0REOAw6ZZBa3JneEaz8+VGZe+m8cY3n5
+ trVxzxYTL5KAAG4/QQLDIUZy33A3aGN8LhD5g4jCDYeDxlMqR1AMV8Ty8ZkMvq/We1Qs
+ RKJPhBQ+KUxbUWfepBn2yfiPkFmNuGjH/AXURND4kiNtS9i+wiudHgR+NyJnl4LHTIOZ
+ JduQ==
+X-Gm-Message-State: AOAM5325PpQlZ1rh0XRbahBkMSfbuMBWljZwY2D2ziXEqxmdcZ4XSRCr
+ fi5v+fYp0rsyG5kAcJoiyUridQ==
+X-Google-Smtp-Source: ABdhPJz1jj45n1Fg1lpol9+hw5S4VqPh5Youuzip+n6bEgyy92RhM/4qrG0MzzUit/ovqgrfC+DxZA==
+X-Received: by 2002:a1c:c904:: with SMTP id f4mr1270608wmb.14.1612995604850;
+ Wed, 10 Feb 2021 14:20:04 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w4sm4502230wmc.13.2021.02.10.14.11.03
+ by smtp.gmail.com with ESMTPSA id o83sm5038838wme.37.2021.02.10.14.20.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 14:11:13 -0800 (PST)
+ Wed, 10 Feb 2021 14:20:04 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D420D1FF9C;
- Wed, 10 Feb 2021 22:10:54 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 1376C1FF9E;
+ Wed, 10 Feb 2021 22:10:55 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/21] target/sh4: Create superh_io_recompile_replay_branch
-Date: Wed, 10 Feb 2021 22:10:45 +0000
-Message-Id: <20210210221053.18050-14-alex.bennee@linaro.org>
+Subject: [PATCH v2 15/21] tests/acceptance: add a new set of tests to exercise
+ plugins
+Date: Wed, 10 Feb 2021 22:10:47 +0000
+Message-Id: <20210210221053.18050-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210210221053.18050-1-alex.bennee@linaro.org>
 References: <20210210221053.18050-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,94 +87,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, kuhn.chenqun@huawei.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+This is just a simple test to count the instructions executed by a
+kernel. However a later test will detect a failure condition when
+icount is enabled.
 
-Move the code from accel/tcg/translate-all.c to target/sh4/cpu.c.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210208233906.479571-5-richard.henderson@linaro.org>
-Message-Id: <20210209182749.31323-5-alex.bennee@linaro.org>
+Message-Id: <20210209182749.31323-7-alex.bennee@linaro.org>
 ---
- accel/tcg/translate-all.c | 12 ------------
- target/sh4/cpu.c          | 18 ++++++++++++++++++
- 2 files changed, 18 insertions(+), 12 deletions(-)
+ tests/acceptance/tcg_plugins.py | 103 ++++++++++++++++++++++++++++++++
+ 1 file changed, 103 insertions(+)
+ create mode 100644 tests/acceptance/tcg_plugins.py
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 470657b02a..b8ad95aa1b 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2417,9 +2417,6 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
-  */
- void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
- {
--#if defined(TARGET_SH4)
--    CPUArchState *env = cpu->env_ptr;
--#endif
-     TranslationBlock *tb;
-     CPUClass *cc;
-     uint32_t n;
-@@ -2443,15 +2440,6 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-         cpu_neg(cpu)->icount_decr.u16.low++;
-         n = 2;
-     }
--#if defined(TARGET_SH4)
--    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
--        && env->pc != tb->pc) {
--        env->pc -= 2;
--        cpu_neg(cpu)->icount_decr.u16.low++;
--        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
--        n = 2;
--    }
--#endif
- 
-     /* Generate a new TB executing the I/O insn.  */
-     cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index a78d283bc8..ac65c88f1f 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -43,6 +43,23 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
-     cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
- }
- 
-+#ifndef CONFIG_USER_ONLY
-+static bool superh_io_recompile_replay_branch(CPUState *cs,
-+                                              const TranslationBlock *tb)
-+{
-+    SuperHCPU *cpu = SUPERH_CPU(cs);
-+    CPUSH4State *env = &cpu->env;
+diff --git a/tests/acceptance/tcg_plugins.py b/tests/acceptance/tcg_plugins.py
+new file mode 100644
+index 0000000000..b512979769
+--- /dev/null
++++ b/tests/acceptance/tcg_plugins.py
+@@ -0,0 +1,103 @@
++# TCG Plugins tests
++#
++# These are a little more involved than the basic tests run by check-tcg.
++#
++# Copyright (c) 2021 Linaro
++#
++# Author:
++#  Alex Bennée <alex.bennee@linaro.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
 +
-+    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
-+        && env->pc != tb->pc) {
-+        env->pc -= 2;
-+        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
-+        return true;
-+    }
-+    return false;
-+}
-+#endif
++import logging
++import time
++import tempfile
++import mmap
++import re
 +
- static bool superh_cpu_has_work(CPUState *cs)
- {
-     return cs->interrupt_request & CPU_INTERRUPT_HARD;
-@@ -217,6 +234,7 @@ static struct TCGCPUOps superh_tcg_ops = {
- #ifndef CONFIG_USER_ONLY
-     .do_interrupt = superh_cpu_do_interrupt,
-     .do_unaligned_access = superh_cpu_do_unaligned_access,
-+    .io_recompile_replay_branch = superh_io_recompile_replay_branch,
- #endif /* !CONFIG_USER_ONLY */
- };
- 
++from boot_linux_console import LinuxKernelTest
++
++
++class PluginKernelBase(LinuxKernelTest):
++    """
++    Boots a Linux kernel with a TCG plugin enabled.
++    """
++
++    timeout = 120
++    KERNEL_COMMON_COMMAND_LINE = 'printk.time=1 panic=-1 '
++
++    def run_vm(self, kernel_path, kernel_command_line,
++               plugin, plugin_log, console_pattern, args):
++
++        logger = logging.getLogger('plugin')
++        start_time = time.time()
++        vm = self.get_vm()
++        vm.set_console()
++        vm.add_args('-kernel', kernel_path,
++                    '-append', kernel_command_line,
++                    '-plugin', plugin,
++                    '-d', 'plugin',
++                    '-D', plugin_log,
++                    '-net', 'none',
++                    '-no-reboot')
++        if args:
++            vm.add_args(*args)
++
++        try:
++            vm.launch()
++        except:
++            # fails if plugins not enabled
++            self.cancel("TCG Plugins not enabled")
++
++        self.wait_for_console_pattern(console_pattern, vm)
++        elapsed = time.time() - start_time
++        logger.info('elapsed time %.2f sec' % elapsed)
++        # ensure logs are flushed
++        vm.shutdown()
++        return elapsed
++
++
++class PluginKernelNormal(PluginKernelBase):
++
++    def _grab_aarch64_kernel(self):
++        kernel_url = ('http://security.debian.org/'
++                      'debian-security/pool/updates/main/l/linux-signed-arm64/'
++                      'linux-image-4.19.0-12-arm64_4.19.152-1_arm64.deb')
++        kernel_sha1 = '2036c2792f80ac9c4ccaae742b2e0a28385b6010'
++        kernel_deb = self.fetch_asset(kernel_url, asset_hash=kernel_sha1)
++        kernel_path = self.extract_from_deb(kernel_deb,
++                                            "/boot/vmlinuz-4.19.0-12-arm64")
++        return kernel_path
++
++    def test_aarch64_virt_insn(self):
++        """
++        :avocado: tags=accel:tcg
++        :avocado: tags=arch:aarch64
++        :avocado: tags=machine:virt
++        :avocado: tags=cpu:cortex-a57
++        """
++        kernel_path = self._grab_aarch64_kernel()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyAMA0')
++        console_pattern = 'Kernel panic - not syncing: VFS:'
++
++        plugin_log = tempfile.NamedTemporaryFile(mode="r+t", prefix="plugin",
++                                                 suffix=".log")
++
++        self.run_vm(kernel_path, kernel_command_line,
++                    "tests/plugin/libinsn.so", plugin_log.name,
++                    console_pattern,
++                    args=('-cpu', 'cortex-a53'))
++
++        logger = logging.getLogger()
++
++        with plugin_log as lf, \
++             mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
++
++            m = re.search(br"insns: (?P<count>\d+)", s)
++            if "count" in m.groupdict():
++                logger.debug("reported %d instructions",
++                             int(m.group("count")))
++            else:
++                logger.debug("Failed to find instruction count")
++                self.fail
 -- 
 2.20.1
 
