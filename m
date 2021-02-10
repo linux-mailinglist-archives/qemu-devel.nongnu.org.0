@@ -2,86 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93887317187
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 21:42:18 +0100 (CET)
-Received: from localhost ([::1]:47960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710FD31719F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 21:46:14 +0100 (CET)
+Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9wJV-0005JX-IC
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 15:42:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37884)
+	id 1l9wNJ-0007X2-IK
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 15:46:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9wEd-0003xG-Ty; Wed, 10 Feb 2021 15:37:16 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:56167)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l9wEc-0007IL-1Q; Wed, 10 Feb 2021 15:37:15 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 5A3045C010F;
- Wed, 10 Feb 2021 15:37:12 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 10 Feb 2021 15:37:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=7xvake67O9MAI0LIV+gK3sfrIFG
- +9Tx3Cm4b7j+czIc=; b=ckM7k8vXJewl3LDPiYTTllVUflRqzG8RprR3wPSqNvS
- NkInQW4HOOa3TSm+I9c9q1IOmJZr3aAl6tFzBhJjUiAhIz0W83scHgMc6J3O6SU5
- JMsC7boG95gkzoLSrGBbTw/XJzXXkbfltkOx1Y48KhwiUoGx4PCvQO4vV2rjiYKF
- 75iwJbUhNq2uPo+iqlS+Sks1SAye6UfaNIpnZjDoQinXdplBL+L9k7jDlHPU7v7W
- 2bAW1wFh1BFRUVWvS4DZoxGtMN2fWEnGu6hsQZ9i0s9dkqcaSZzyJo6OzCjFcki+
- BxhayY+x6XytUCZ9FhjAuFj/xlBTbFG3yzO/x+PkqaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=7xvake
- 67O9MAI0LIV+gK3sfrIFG+9Tx3Cm4b7j+czIc=; b=I9vCE3J0gzWNggKD0p/OZ9
- zvWkmTjl7IBypxee/joK3MBRhNYSH+4vBf9bBZ0ebrmMP2b37fCIRgWjl1FsdKOu
- 5HKwArVXiBHg802t02SyxSMUxv8cDPob9SoObZzyG3JtV2vyb5KRALrY21pVRuGy
- RMhIfZsxzPy1UJ2CV1UmTU2/6GFTOJP4/XGxQTyxe0IOC/e08KW4sC4kDelMZP6N
- RmjWzHVbIFZg3mEec64Z/oIcTR3UGY1Ilcpok/BfLmvzkJRPEHzlcmhVbM7nGo0x
- ZUQwF7sKqQgPd/PcK0lI4+ZlGyNBsBmRQlPQx034v5SOuRr+UlL8wGIy/7K30yTQ
- ==
-X-ME-Sender: <xms:90MkYMVtRd_9AT34l1CfVQZSF-JMUhshD-NSbSIvCtPWA3qo-JjbHA>
- <xme:90MkYAnXwMBqD3JxndGj7iOyyJOGBdOu6TGl3rg_o6HolzWjbFQMAQvFuf_38egqe
- WvREn3xN8joCXB_vYs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheejgddufeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:90MkYAb9-VTXnTlFuT3GYNMWuf-GXFBu5CGGLKpKoJ17OkeP4JeIKQ>
- <xmx:90MkYLWLL4IPgy6hJqpjRKEPiIemN4-ON3EWJ2gjfvrcmHgD0AWFug>
- <xmx:90MkYGne4iK5kaHWz8e6mcs1C7QxRhSX_n9M4WIPfnmUFEsjXoiZtg>
- <xmx:-EMkYNs-zK2RldE-OVXM-TESHOQNlO73JfmVoP4sgAbYRP_EH2DB_Q>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id C80EC240062;
- Wed, 10 Feb 2021 15:37:10 -0500 (EST)
-Date: Wed, 10 Feb 2021 21:37:08 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [RFC PATCH 2/3] hw/block/nvme: support command retry delay
-Message-ID: <YCRD9Ojsx0f9y0Ds@apples.localdomain>
-References: <20210210195252.19339-1-minwoo.im.dev@gmail.com>
- <20210210195252.19339-3-minwoo.im.dev@gmail.com>
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1l9wHC-00055J-1B
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 15:39:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44982)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1l9wH4-0008LP-Lu
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 15:39:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612989584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EGCbOKTbkmZdTnKdvAPBrBTXJnvVm+PHTJ7LJoUFhy4=;
+ b=Z94VQW0RFf5S8D24dHt1uSH6p8xWi7ueJ33rD80n1m8jGyupiZCayZAkq7gQwGmoPjeVh7
+ tyU+DQMKFrHnaETJQb+f2hBCnQ6AlJFCVUd9U2DgjTKQQOo11P/F1Gz29W3OmoN3y3RQeK
+ ZUFFCzk+uRBFe8WJhzOJdqL9nY61TtA=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-95-L0FLuQnnM9qxr2P8NOcKFg-1; Wed, 10 Feb 2021 15:39:40 -0500
+X-MC-Unique: L0FLuQnnM9qxr2P8NOcKFg-1
+Received: by mail-ot1-f71.google.com with SMTP id t12so1638636otj.14
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 12:39:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EGCbOKTbkmZdTnKdvAPBrBTXJnvVm+PHTJ7LJoUFhy4=;
+ b=WQeD3QDNyxHUukUA/v1BMQcxCug7f8E+mEdoY+7vSeISDjEOhgtdQQcJh4FglKbtDU
+ mf8iahX2TWzuJ3VhQGKFMeF0ZwXVCf5DutJGqHb11tXXfi9gKINCtlz5BrSLTFo6b7bc
+ cyuLX3DGDp/SrrqABW4REntkli2BMlNloQW8oLrqMWeIEh2mZZ6+mElRR8C4DYEXoiZt
+ GMNmyoz5HyT35u69qloGx7TyQIfLuFz5OFFZMIdP332O9DlxZk/VCuA084twuHSyxQSf
+ ZawSsZw8eQmrGn4ai/awBxWn6pWF8la+T3iRlVD0/o5O6ffX6/0l2X/Z1vr6QyuCdx1Q
+ L3/w==
+X-Gm-Message-State: AOAM532caGNWwvZzd9m1vjYNP1okGrhJ+JSf6DApy4QLAD5DC/4gaUWI
+ nrZSvz3MJb/jVlpFNqKd0mpCmGzeHLvcnctD4rNYJcY0jQLCCCro6knGwzkkAEnCRDXEN5s+MMH
+ jPrn74+9rtAkQcac=
+X-Received: by 2002:a05:6808:4ce:: with SMTP id
+ a14mr567631oie.49.1612989579770; 
+ Wed, 10 Feb 2021 12:39:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyp+8uZnbmYhLRmSfSximwRLljykfFaM32x1/EV541VvnQSztNGB2tUEP+q4kT++BZdgC3FzA==
+X-Received: by 2002:a05:6808:4ce:: with SMTP id
+ a14mr567619oie.49.1612989579571; 
+ Wed, 10 Feb 2021 12:39:39 -0800 (PST)
+Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id
+ b14sm577432ooj.26.2021.02.10.12.39.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Feb 2021 12:39:39 -0800 (PST)
+Subject: Re: Interactive launch over QMP socket?
+To: jejb@linux.ibm.com, qemu-devel@nongnu.org
+References: <47b15088-514a-8174-029d-8d9c4571960a@redhat.com>
+ <ac1a5075878d86b0a46db20cb6e579b5fec74d87.camel@linux.ibm.com>
+ <ef2db65a-f9bd-5cf7-7c1a-9ba07dd4bda0@redhat.com>
+ <f46a24d33185b808801531da7d9ca6457d9a790e.camel@linux.ibm.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <a06cf1b7-85fe-caeb-67e8-1e67f828f5db@redhat.com>
+Date: Wed, 10 Feb 2021 14:39:38 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GQkm0vbEGz6Ny3Lr"
-Content-Disposition: inline
-In-Reply-To: <20210210195252.19339-3-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <f46a24d33185b808801531da7d9ca6457d9a790e.camel@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,57 +102,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Keith Busch <kbusch@kernel.org>, Max Reitz <mreitz@redhat.com>
+Cc: npmccallum@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/10/21 1:06 PM, James Bottomley wrote:
+> On Wed, 2021-02-10 at 12:46 -0600, Connor Kuehl wrote:
+>> Right, I didn't mean to include cbitpos in consideration for this.
+>> I'm only interested in supplying the session, policy, and certificate
+>> info over the socket.
+>>
+>> Shouldn't the session, policy, and certificate information only be
+>> required in time for the KVM_SEV_LAUNCH_START ioctl call? This is
+>> the place I'm interested in waiting for the relevant data.
+> 
+> Well, it could, but I see the session information as being the same as
+> the image file, which is also a command line argument, so if you can do
+> the image file on the command line, why not the session info as well?
 
---GQkm0vbEGz6Ny3Lr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It would be interesting to allow remote delivery of the initial image as 
+well because for purposes of attestation I would argue that the guest 
+owner should have as much of the locus of control as possible. However, 
+because the guest image is unlikely to change between launches/guests, 
+it's probably more helpful to deliver it to the host, let it cache it, 
+and supply that via a command line argument. I'm mainly interested in 
+the session blob, policy, and certificate for now though.
 
-On Feb 11 04:52, Minwoo Im wrote:
-> Set CRDT1(Command Retry Delay Time 1) in the Identify controller data
-> structure to milliseconds units of 100ms by the given value of
-> 'cmd-retry-delay' parameter which is newly added.  If
-> cmd-retry-delay=3D1000, it will be set CRDT1 to 10.  This patch only
-> considers the CRDT1 without CRDT2 and 3 for the simplicity.
->=20
-> This patch also introduced set/get feature command handler for Host
-> Behavior feature (16h).  In this feature, ACRE(Advanced Command Retry
-> Enable) will be set by the host based on the Identify controller data
-> structure, especially by CRDTs.
->=20
-> If 'cmd-retry-delay' is not given, the default value will be -1 which is
-> CRDT will not be configured at all and ACRE will not be supported.  In
-> this case, we just set NVME_DNR to the error CQ entry just like we used
-> to.  If it's given to positive value, then ACRE will be supported by the
-> device.
->=20
-> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-> ---
+I don't see a similar value in caching a session blob or policy because 
+it is trivial to generate these and put them in a JSON object and send 
+them on demand. I think that chopping up part of the attestation 
+process, setting it aside, and having to figure out how to deliver it to 
+the host where the QEMU process will launch creates an impedance 
+mismatch. Usability impedance mismatches tend to motivate the creation 
+of one or more automation/translation layers to automate that "glue" away.
 
-LGTM.
+Extending QMP to allow end-to-end attestation via QEMU removes the need 
+for that glue and improves interoperability with other client 
+implementations who care about attestation. Providers would just need to 
+point out the QMP endpoint for guest owners. It lends itself to a more 
+"atomic" transaction-like attestation experience overall.
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> The other problem is the session info is exchanged for a launch handle
+> in kvm_init, which is machine_init in qemu terms.  That's called
+> phenomenally early, so there's not much of kvm to pause before you do
+> that.  So either qemu has to be rewritten to pause before processing
+> command line arguments, and then any argument can be added over QMP, or
+> the handle exchange has to occur later.
 
---GQkm0vbEGz6Ny3Lr
-Content-Type: application/pgp-signature; name="signature.asc"
+Ah, I see, thank you.
 
------BEGIN PGP SIGNATURE-----
+Connor
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAkQ/MACgkQTeGvMW1P
-DekMTwf/ZGOVvYSO9WVKPMAygySS+tHajxd+7xRsqPbF0waWYBWn0HfORP4OFhI2
-Fmm2giT3tIvYhyZv1HoSkbJBYvzogLUup7THOmf87GqpxG5HTcjaTp/jhQvVL7Nu
-u0fMMurlqUzh+IbCChaK2Qk/Vk7Wwmi46oaTEcNCSb7lGZ/2ib4bngKOdH2GGyAQ
-YRB3/McUwv6xTG1C6mAnjPd7TXJHa48GDSuZ3ac/Z7s9nfgDzH/SBpUjR0Elu+QF
-FtdZuR2KmNGPfGpdEZ2uyouMKcpGy/ILaI0XF9H0tVctfSJ1AkkmItO3gx9gji1s
-fZXvmmbQ76zeuIrBkV/FBuqvPXUfUw==
-=lUzv
------END PGP SIGNATURE-----
+> James
+> 
+> 
 
---GQkm0vbEGz6Ny3Lr--
 
