@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704D1316BFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:01:55 +0100 (CET)
-Received: from localhost ([::1]:54122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8564316C07
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:04:40 +0100 (CET)
+Received: from localhost ([::1]:34348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9ssE-0001JW-Fr
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:01:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
+	id 1l9sut-00066S-SN
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:04:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYZ-0007PZ-4c
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYR-0008Vm-Io
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612975286;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1+pMs6qYjHqm8UjfJLma0Z1tkMqnmcp9Y730qatau+c=;
- b=fTPsO7h0T96BzxBIzeGhF18hP8OgGEN7Q6yHOiiUl2fpkpB2MUEdeWSz/fcr2I0vdy4nt0
- HTLIIbWkNmwaTcCfxEwGLhMKoZxmL/w8ziyIK89yTK+CS64KC9O7bmO76adkSfuvNXBfZQ
- MuEFl+xGBqfw0c90kw11wxKLYdKBsug=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-wEIEAY-oMN6TF2IxfcBEMQ-1; Wed, 10 Feb 2021 11:41:24 -0500
-X-MC-Unique: wEIEAY-oMN6TF2IxfcBEMQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13343107ACE3
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:24 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.195.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88CF25D9E8;
- Wed, 10 Feb 2021 16:41:22 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org,
-	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v4 20/21] i386: provide simple 'hv-default=on' option
-Date: Wed, 10 Feb 2021 17:40:32 +0100
-Message-Id: <20210210164033.607612-21-vkuznets@redhat.com>
-In-Reply-To: <20210210164033.607612-1-vkuznets@redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
+ (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
+ id 1l9saP-0001Lm-7y; Wed, 10 Feb 2021 11:43:29 -0500
+Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:47050)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
+ id 1l9saJ-0000aT-En; Wed, 10 Feb 2021 11:43:28 -0500
+Received: by mail-qv1-xf2e.google.com with SMTP id a1so1114027qvd.13;
+ Wed, 10 Feb 2021 08:43:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=CQTHclXXT2MdT0EtLh2oWz4NzLm/Rq1unz169pZoWwQ=;
+ b=eE5NziAVu9A6G1iCxp/y+ZDAHhB8Onyf9v3YB3il64uLSLmLnQSKGF0dp38eHedwLS
+ 5eaS4bh4tbEnSf1neQq8CWLfpoWVQpSM8v8DsrVbuwH2CPL8SjfSgeKMXeE26k3QbcS+
+ EjzD1U5lxlR0hjygIsu8vF+FIEh8RYKJ0XHqPtrFa0BPE5/SIygzy+gsgR4+l3Q49TQo
+ xec2HxqPqQhDjsZAC3Ezbl08Ese/xPJLYo22OgvX9/DI73KutuFXqHeJARiJqDVq0ZMI
+ QRj2zumLbtglI1GLrkrOmPfrg8M8ZF7M7cR3W/fFBDYE35fDgoYigBvNG/0K5BM52Ju6
+ Qopw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CQTHclXXT2MdT0EtLh2oWz4NzLm/Rq1unz169pZoWwQ=;
+ b=BaSwfdXNZf1cbHzgXUu68GruNRZtraBWPzb5y3XFWYhXwBM/4G3enZos/2Tc6pxYA+
+ l5qhBS4sQgsQtZXiNNNyg8Ye5obFfCDwJH4ljQPyOECxd1GX6X4vpl0LpRdcYGJfVXjR
+ AnehFP1E+6wX69QmCohXigl1PpuTfThIpfqTBXGnzRegpR4ma7GqYvtVmm6sHJC1QUvE
+ KOI3yW4PtaiEJlJ8l3g5l2DnMdDesJH/xbDM1CSNooVKBLc6KIkEuyEkelyia2QMEygP
+ Z8zICmLy4D/hoKpUEQSUfeesXNzO4roaiemJMXVW3N6rLObrUPIOX7ZrB1VYpqtOnAAX
+ 4KDg==
+X-Gm-Message-State: AOAM530yXyvWvyIAKZ1KNklxDkePrRfyC7w0dab6osyJHBoivLehSpNg
+ sugRo2EkPhek6t76u9brZA==
+X-Google-Smtp-Source: ABdhPJzl1zIilLuA73RXiZAFOLqKPmK4O31i5qepEJFixcwZGRfAJVYgWQ9eVJS70VBaGXQO0pqxrw==
+X-Received: by 2002:a0c:d403:: with SMTP id t3mr3660718qvh.4.1612975398325;
+ Wed, 10 Feb 2021 08:43:18 -0800 (PST)
+Received: from gabell
+ (209-6-122-159.s2973.c3-0.arl-cbr1.sbo-arl.ma.cable.rcncustomer.com.
+ [209.6.122.159])
+ by smtp.gmail.com with ESMTPSA id m5sm1769150qkk.120.2021.02.10.08.43.16
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 10 Feb 2021 08:43:16 -0800 (PST)
+Date: Wed, 10 Feb 2021 11:43:14 -0500
+From: Masayoshi Mizuma <msys.mizuma@gmail.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 1/2] file-posix: Use OFD lock only if the filesystem
+ supports the lock
+Message-ID: <20210210164314.4lgw6ovozchsrk6i@gabell>
+References: <20201106040102.13892-1-msys.mizuma@gmail.com>
+ <20201118154247.GB11988@merkur.fritz.box>
+ <20201118191036.yk4rju2hk4vpkhfl@gabell>
+ <20201118194837.b54rp2qpbvuelosx@gabell>
+ <20201119104442.GB4530@merkur.fritz.box>
+ <20201119235650.62vcbycc5fc4oxec@gabell>
+ <20201120154228.GC5599@merkur.fritz.box>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201120154228.GC5599@merkur.fritz.box>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
+ envelope-from=msys.mizuma@gmail.com; helo=mail-qv1-xf2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,155 +89,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-requires listing all currently supported enlightenments ("hv-*" CPU
-features) explicitly. We do have 'hv-passthrough' mode enabling
-everything but it can't be used in production as it prevents migration.
+On Fri, Nov 20, 2020 at 04:42:28PM +0100, Kevin Wolf wrote:
+> Am 20.11.2020 um 00:56 hat Masayoshi Mizuma geschrieben:
+> > On Thu, Nov 19, 2020 at 11:44:42AM +0100, Kevin Wolf wrote:
+> > > Am 18.11.2020 um 20:48 hat Masayoshi Mizuma geschrieben:
+> > > > On Wed, Nov 18, 2020 at 02:10:36PM -0500, Masayoshi Mizuma wrote:
+> > > > > On Wed, Nov 18, 2020 at 04:42:47PM +0100, Kevin Wolf wrote:
+> > > > > > The logic looks fine to me, at least assuming that EINVAL is really what
+> > > > > > we will consistently get from the kernel if OFD locks are not supported.
+> > > > > > Is this documented anywhere? The fcntl manpage doesn't seem to mention
+> > > > > > this case.
+> > > > 
+> > > > The man page of fcntl(2) says:
+> > > > 
+> > > >        EINVAL The value specified in cmd is not recognized by this kernel.
+> > > > 
+> > > > So I think EINVAL is good enough to check whether the filesystem supports
+> > > > OFD locks or not...
+> > > 
+> > > A kernel not knowing the cmd at all is a somewhat different case (and
+> > > certainly a different code path) than a filesystem not supporting it.
+> > > 
+> > > I just had a look at the kernel code, and to me it seems that the
+> > > difference between POSIX locks and OFD locks is handled entirely in
+> > > filesystem independent code. A filesystem driver would in theory have
+> > > ways to distinguish both, but I don't see any driver in the kernel tree
+> > > that actually does this (and there is probably little reason for a
+> > > driver to do so).
+> > > 
+> > > So now I wonder what filesystem you are using? I'm curious what I
+> > > missed.
+> > 
+> > I'm using a proprietary filesystem, which isn't in the linux kernel.
+> > The filesystem supports posix lock only, doesn't support OFD lock...
+> 
+> Do you know why that proprietary filesystem driver makes a difference
+> between POSIX locks and OFD locks? The main difference between both
+> types is when they are released automatically, and this is handled by
+> generic kernel code and not the filesystem driver.
+> 
+> From a filesystem perspective, I don't see any reason to even
+> distuingish. So unless there are good reasons for making the
+> distinction, I'm currently inclined to view this as a filesystem
+> driver bug.
+> 
+> It makes handling this case hard because when the case isn't even
+> supposed to exist, of course there won't be a defined error code.
 
-Introduce a simple 'hv-default=on' CPU flag enabling all currently supported
-Hyper-V enlightenments. Later, when new enlightenments get implemented,
-compat_props mechanism will be used to disable them for legacy machine types,
-this will keep 'hv-default=on' configurations migratable.
+Hi Kevin,
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- docs/hyperv.txt   | 16 ++++++++++++---
- target/i386/cpu.c | 52 +++++++++++++++++++++++++++++++++++++++++++++++
- target/i386/cpu.h |  3 +++
- 3 files changed, 68 insertions(+), 3 deletions(-)
+The filesystem team found a locking issue in the filesystem.
+Your comments were very helpful! I really appriciate it.
 
-diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index 5df00da54fc4..a54c066cab09 100644
---- a/docs/hyperv.txt
-+++ b/docs/hyperv.txt
-@@ -17,10 +17,20 @@ compatible hypervisor and use Hyper-V specific features.
- 
- 2. Setup
- =========
--No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
--QEMU, individual enlightenments can be enabled through CPU flags, e.g:
-+All currently supported Hyper-V enlightenments can be enabled by specifying
-+'hv-default=on' CPU flag:
- 
--  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
-+  qemu-system-x86_64 --enable-kvm --cpu host,hv-default ...
-+
-+Alternatively, it is possible to do fine-grained enablement through CPU flags,
-+e.g:
-+
-+  qemu-system-x86_64 --enable-kvm --cpu host,hv-relaxed,hv-vpindex,hv-time ...
-+
-+It is also possible to disable individual enlightenments from the default list,
-+this can be used for debugging purposes:
-+
-+  qemu-system-x86_64 --enable-kvm --cpu host,hv-default=on,hv-evmcs=off ...
- 
- Sometimes there are dependencies between enlightenments, QEMU is supposed to
- check that the supplied configuration is sane.
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index f8df2caed779..013aa60272d8 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4736,6 +4736,12 @@ static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(obj);
- 
-+    if (cpu->hyperv_default) {
-+        error_setg(errp,
-+                   "'hv-default' and 'hv-paththrough' are mutually exclusive");
-+        return;
-+    }
-+
-     cpu->hyperv_passthrough = value;
- 
-     /* hv-passthrough overrides everything with what's supported by the host */
-@@ -4748,6 +4754,33 @@ static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
-     return;
- }
- 
-+static bool x86_hv_default_get(Object *obj, Error **errp)
-+{
-+    X86CPU *cpu = X86_CPU(obj);
-+
-+    return cpu->hyperv_default;
-+}
-+
-+static void x86_hv_default_set(Object *obj, bool value, Error **errp)
-+{
-+    X86CPU *cpu = X86_CPU(obj);
-+
-+    if (cpu->hyperv_passthrough) {
-+        error_setg(errp,
-+                   "'hv-default' and 'hv-paththrough' are mutually exclusive");
-+        return;
-+    }
-+
-+    cpu->hyperv_default = value;
-+
-+    /* hv-default overrides everything with the default set */
-+    if (value) {
-+        cpu->hyperv_features = cpu->hyperv_default_features;
-+        cpu->hyperv_features_on = 0;
-+        cpu->hyperv_features_off = 0;
-+    }
-+}
-+
- /* Generic getter for "feature-words" and "filtered-features" properties */
- static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
-                                       const char *name, void *opaque,
-@@ -7152,6 +7185,21 @@ static void x86_cpu_initfn(Object *obj)
-     if (xcc->model) {
-         x86_cpu_load_model(cpu, xcc->model);
-     }
-+
-+    /* Hyper-V features enabled with 'hv-default=on' */
-+    cpu->hyperv_default_features = BIT(HYPERV_FEAT_RELAXED) |
-+        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-+        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-+        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-+        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-+        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-+        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_IPI) |
-+        BIT(HYPERV_FEAT_STIMER_DIRECT);
-+
-+    /* Enlightened VMCS is only available on Intel/VMX */
-+    if (kvm_hv_evmcs_available()) {
-+        cpu->hyperv_default_features |= BIT(HYPERV_FEAT_EVMCS);
-+    }
- }
- 
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
-@@ -7486,6 +7534,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-                                    x86_hv_passthrough_get,
-                                    x86_hv_passthrough_set);
- 
-+    object_class_property_add_bool(oc, "hv-default",
-+                              x86_hv_default_get,
-+                              x86_hv_default_set);
-+
-     for (w = 0; w < FEATURE_WORDS; w++) {
-         int bitnr;
-         for (bitnr = 0; bitnr < 64; bitnr++) {
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index b4fbd46f0fc9..59350e70fb51 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1670,6 +1670,9 @@ struct X86CPU {
-     uint64_t hyperv_features_on;
-     uint64_t hyperv_features_off;
-     bool hyperv_passthrough;
-+    /* 'hv-default' enablement */
-+    uint64_t hyperv_default_features;
-+    bool hyperv_default;
-     OnOffAuto hyperv_no_nonarch_cs;
-     uint32_t hyperv_vendor_id[3];
-     uint32_t hyperv_interface_id[4];
--- 
-2.29.2
-
+Thanks,
+Masa
 
