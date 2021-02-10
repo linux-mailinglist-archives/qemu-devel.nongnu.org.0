@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFD43165E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 13:03:08 +0100 (CET)
-Received: from localhost ([::1]:38664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC03C316633
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 13:13:12 +0100 (CET)
+Received: from localhost ([::1]:45160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9oD5-0000lV-L8
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 07:03:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35482)
+	id 1l9oMp-0003wF-Sa
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 07:13:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1l9oAi-0000FX-7p
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:00:41 -0500
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:58020)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1l9oAa-0007El-Ed
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:00:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=yvhqaX1DnC46EFV0UNl7yqMkFgR5mbc6TOGLDSi4YKY=; b=ZuU3CiVPwI/6OsqXeAXxHHT0OW
- bGVV0Q/SOOmwaZJjTw67DGEonwBfNj4ynPQkO+HN5F5ylKtELo9iSguDW3sd94zEcgR9wRDH8ZppK
- yCcC0PC6anw3ScOJpicOwMUr72qnrAmd/YDh850Ocl4qxV21P9GfLzIZmBpuQ5MortHA=;
-Date: Wed, 10 Feb 2021 13:00:25 +0100
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 1/3] target/tricore: Replace magic value by MMU_DATA_LOAD
- definition
-Message-ID: <20210210120025.57b7yhxbacsmhds6@schnipp-desktop>
-References: <20210127224255.3505711-1-f4bug@amsat.org>
- <20210127224255.3505711-2-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l9oKh-0002za-Db
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:10:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l9oKf-00039d-BH
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:10:59 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l9oKd-0007UR-QU
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 12:10:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C75DB2E805B
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 12:10:55 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210127224255.3505711-2-f4bug@amsat.org>
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2021.2.10.115117, AntiVirus-Engine: 5.80.0,
- AntiVirus-Data: 2021.2.8.5800000
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=28595810, da=100567491,
- mc=466, sc=4, hc=462, sp=0, fso=28595810, re=0, sd=0, hd=0
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
-Received-SPF: pass client-ip=2001:638:502:c003::15;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 10 Feb 2021 12:03:22 -0000
+From: Roman Bolshakov <1913505@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: macos tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: balaton-4 mark-cave-ayland mishari pmaydell
+ programmingkidx roolebo th-huth
+X-Launchpad-Bug-Reporter: Mishari Muqbil (mishari)
+X-Launchpad-Bug-Modifier: Roman Bolshakov (roolebo)
+References: <161180131265.32409.4817508561083668447.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161295860286.17549.968728907197872561.malone@wampee.canonical.com>
+Subject: [Bug 1913505] Re: Windows XP slow on Apple M1
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
+X-Launchpad-Hash: 2ef4a8e7a8b82743d42b4d8626129fe8acd08088
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,22 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andreas Konopik <andreas.konopik@efs-auto.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Joe Komlodi <komlodi@xilinx.com>, David Brenken <david.brenken@efs-auto.org>
+Reply-To: Bug 1913505 <1913505@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 27, 2021 at 11:42:53PM +0100, Philippe Mathieu-Daudé wrote:
-> cpu_get_phys_page_debug() uses 'DATA LOAD' MMU access type.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/tricore/helper.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+@John please build from master and apply the patch
+https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03527.html
 
-Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+** Tags added: macos tcg
 
-Cheers,
-Bastian
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913505
+
+Title:
+  Windows XP slow on Apple M1
+
+Status in QEMU:
+  New
+
+Bug description:
+  Qemu installed by using brew install qemu -s on M1
+
+  QEMU emulator version 5.2.0
+  XP image from: https://archive.org/details/WinXPProSP3x86
+
+  Commands run:
+  $ qemu-img create -f qcow2 xpsp3.img 10G
+  $ qemu-system-i386 -m 512 -hda xpsp3.img -cdrom WinXPProSP3x86/en_windows=
+_xp_professional_with_service_pack_3_x86_cd_vl_x14-73974.iso -boot d
+
+  It's taken 3 days now with qemu running at around 94% CPU and
+  installation hasn't finished. The mouse pointer moves and occasionally
+  changes between the pointer and hourglass so it doesn't seem to have
+  frozen.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913505/+subscriptions
 
