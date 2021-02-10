@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7273D3169E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 16:17:03 +0100 (CET)
-Received: from localhost ([::1]:39994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E73F316A32
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 16:30:31 +0100 (CET)
+Received: from localhost ([::1]:51938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9rEk-0007QY-2W
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 10:17:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51086)
+	id 1l9rRm-0004a1-Do
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 10:30:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l9rD5-0006i2-Bp
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:15:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l9rD2-0002kj-Fi
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:15:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612970113;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dltgvfFPdZQcvsTGsv0GNDmx0ZIQAC2Ok//fX5xk0Bc=;
- b=IYjiZPAaqPl23LL9Nf+eKFobmxjTmo7oiYT1nApQHPEp1op+UaYlM59uhJuv2ZtSCu91uj
- jVN4TTvpvH9/2UOHWXbJlOKfiOIEKl0Za4qZ1oqbliWyAQW1aRDZGREb+RafSdEAVQhlPS
- vfMPglCTP6E9Gyt3x2SKUS0x0XXc7lI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-aMXTG7UMNhuKYPVA7eEnmw-1; Wed, 10 Feb 2021 10:15:11 -0500
-X-MC-Unique: aMXTG7UMNhuKYPVA7eEnmw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E66F11005501;
- Wed, 10 Feb 2021 15:15:09 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD20D10013D7;
- Wed, 10 Feb 2021 15:15:09 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
- (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 791E14E58E;
- Wed, 10 Feb 2021 15:15:09 +0000 (UTC)
-Date: Wed, 10 Feb 2021 10:15:09 -0500 (EST)
-From: Cleber Rosa <crosa@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Message-ID: <1935839985.36186507.1612970109135.JavaMail.zimbra@redhat.com>
-In-Reply-To: <CAJSP0QW7WqH1mmni84nn+id63nHLDNXd_nUDRaXKEifa2Jp=sQ@mail.gmail.com>
-References: <CAJSP0QVZuh8H-U1vtFMhasqSsSy3OA4jmRvwZrQEAx3=1dcb+w@mail.gmail.com>
- <LO2P123MB2605DA330913C7D2DA311EF1C8D10@LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM>
- <CAJSP0QW7WqH1mmni84nn+id63nHLDNXd_nUDRaXKEifa2Jp=sQ@mail.gmail.com>
-Subject: Re: QEMU hosting
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l9rPp-0003IE-H9; Wed, 10 Feb 2021 10:28:29 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:41522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l9rPd-00088d-LQ; Wed, 10 Feb 2021 10:28:29 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id t11so1439719pgu.8;
+ Wed, 10 Feb 2021 07:28:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=XVO+gZPYWCUPdud1eL8byZpduAMHl5L0/nfE5Pp63d0=;
+ b=JMFpVF8nlJTk4J4RiKq7bBnJFnvEOc3iDE3wL2dblkcXb2PZvJ6ucwP0il6J5HoINr
+ xP6yZmSRT/lGbl/RXlk5SnWSjAg5LyLsjlC9iYeCRr+jO4IfahMp3lbcYFueG94JXAkF
+ F+j46dqw/tEh/O9KvjmdpwD39GAC42jCj3qWHlUkh1oH2I5Gpp37nOT9hkV5sHvNpDqP
+ eQimof2OZT9OSge/wY5iE9/SgG6iYobCLJQJkLh4QYxtFJxjCwNiSixxJA0cpftXFttr
+ pFcpQpHNuuXLrcVDkwI+WRYBmlSkApSIaHfjJugHf1u+cpwpkklN5VZnONqVw4WKikQP
+ 7TuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=XVO+gZPYWCUPdud1eL8byZpduAMHl5L0/nfE5Pp63d0=;
+ b=In+pevgmgx0bBdX4o+UziHzQk3J3BQNyrDgLFA44D8TjjLB76VmvbXbGk4JRWCNV1G
+ CZnW5sAJXDNhUOtUb5cHlBh9A/rWmCA5M+3VYsL+joV+bljo2XcN18jZiSrQC18q8d0w
+ l2uUnWJ0jUGQCFVr2c90k1LpHJsZSFBP5j+rJBaJbByzXqHLtv7dpfXJXOlj03C0T4N+
+ Oi2Rw56IfS683rU/1Cx7CYn/XZft0p5a2OjEqWCWMhyrETM0PpN+x6bq2nEWg/inekVt
+ BYmQ6rgezrKF+iCfeA9kYLQEpmDuRGW0g1T3QDtfNrkermn3SeTuqD2IshtVqmZzYR70
+ Sc+Q==
+X-Gm-Message-State: AOAM5300om9diTqDcJj0tO6nOVopJHdoXhbpjFC5HOl2OwhG5KV1jiU+
+ aPnhWJ05XIi+evDYDwS5mw4=
+X-Google-Smtp-Source: ABdhPJxMEo/x31b0sCYe/ZYHBfZloczaXzSqBhru+ho5uRLedILW6uRqQz9F0VonN95QWp2lNoJJQQ==
+X-Received: by 2002:a63:df11:: with SMTP id u17mr3543254pgg.345.1612970895844; 
+ Wed, 10 Feb 2021 07:28:15 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id z4sm2679130pgv.73.2021.02.10.07.28.14
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 10 Feb 2021 07:28:15 -0800 (PST)
+Date: Thu, 11 Feb 2021 00:28:13 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 2/2] hw/block/nvme: add write uncorrectable command
+Message-ID: <20210210152813.GC2325@localhost.localdomain>
+References: <20210210070646.730110-1-its@irrelevant.dk>
+ <20210210070646.730110-3-its@irrelevant.dk>
+ <20210210111432.GC9664@localhost.localdomain>
+ <YCPGki8xxU/chdJP@apples.localdomain>
 MIME-Version: 1.0
-X-Originating-IP: [10.10.116.89, 10.4.195.1]
-Thread-Topic: QEMU hosting
-Thread-Index: u8GtoNCVGAVPAjt/lKqmdiKN4fFoyg==
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+In-Reply-To: <YCPGki8xxU/chdJP@apples.localdomain>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,49 +84,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fosshost <admin@fosshost.org>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <cleber@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
------ Original Message -----
-> From: "Stefan Hajnoczi" <stefanha@gmail.com>
-> To: "Fosshost" <admin@fosshost.org>
-> Cc: "qemu-devel" <qemu-devel@nongnu.org>, "Cleber Rosa" <cleber@redhat.com>
-> Sent: Wednesday, February 10, 2021 9:28:29 AM
-> Subject: Re: QEMU hosting
-> 
-> On Tue, Jan 5, 2021 at 6:55 PM Fosshost <admin@fosshost.org> wrote:
-> 
-> > If you would like to apply, you can do so at https://fosshost.org/apply
-> >
-
-Hi Stefan,
-
-I've made an application for one x86 virtual machine on behalf of the QEMU
-project.  It's not clear to me if the VMs, in addition to being powered by
-KVM according to the docs, if they offer (nested) KVM.
-
-That would be an improvement from what we get from the GitLab shared runners.
-
-Thomas,
-
-Would you be able to tell if nested KVM is available for the x86 VMs?
-
-Thanks,
-- Cleber.
-
-> > Feel free to join our IRC channel on freenode #fosshost if you have any
-> > questions regarding our work and service
-> 
-> Hi Thomas,
-> Thanks for the reply! I have forwarded the information to Cleber Rosa,
-> who is working on QEMU's CI system.
-> 
-> Stefan
+> > It might be nitpick, 'nlb' would easily represent the value which is
+> > defined itself in the spec which is zero-based.  Can we have this like:
+> > 
+> > 	uint32_t nlb = le16_to_cpu(rw->nlb);
+> > 
+> > 	bitmap_clear(ns->uncorrectable, slba, nlb + 1);
+> > 
 > 
 > 
+> I do not disagree, but the `uint32_t nlb = le16_to_cpu(rw->nlb) + 1;`
+> pattern is already used in several places.
 
+Oh yes, Now I just saw some places.  Then, please take my review tag for
+this patch.
+
+Thanks!
 
