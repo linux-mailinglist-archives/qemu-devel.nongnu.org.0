@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC7C3161EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:19:04 +0100 (CET)
-Received: from localhost ([::1]:34102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C95631622D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:28:54 +0100 (CET)
+Received: from localhost ([::1]:38492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9leJ-0000IZ-A6
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:19:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54488)
+	id 1l9lnp-0002j3-05
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:28:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9lcr-0008HN-H3
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:17:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30243)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l9llr-0001ad-Oo
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:26:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l9lcm-0000Ie-V3
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:17:32 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l9llp-0005KT-BN
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:26:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612948646;
+ s=mimecast20190719; t=1612949208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xqYp6lqGThoREDwNNcQPf9bfAvFhqWpJbjSetatX/6I=;
- b=Wx82gIrdKf0dVxnK3rVYLw+TGrCAue1oeyO5+32K0MOahw50mXnXcqnmIzmxo/PuFOrCDA
- 0scd56MJcaggas+PUylENbib4d596geFlEW8/kmuH+vO2P6doTVbntOGbaCDWXCOosf/bq
- /n+pV5y8K1W/o07H/SBBMQw03S56vZI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YwiqWrV+AKtdaEaeous7P24Upwpa8pkP5Fu/467IhCQ=;
+ b=Tbh4K0E9vTNJMZ8iHXjbfovw+FSTzm6QgqP/vbpfLM8U+VAbfSuzD4VSRbeB6g/Yak3Wy5
+ VCrLIRJ/LR//gBOOCqfCj72Fj5R4lK/PTUdTGCh6itCFUP1Cei93XtBNtxHLuv16CLQQv9
+ qpOFIxwNj+GhlHyFN5n9taWCz4XsTQI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-e4bVry1FM7OWNSbDsIneDQ-1; Wed, 10 Feb 2021 04:17:24 -0500
-X-MC-Unique: e4bVry1FM7OWNSbDsIneDQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-257-R7s-V7WhPBOzqiQLSlTalA-1; Wed, 10 Feb 2021 04:26:42 -0500
+X-MC-Unique: R7s-V7WhPBOzqiQLSlTalA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B903835E20
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 09:17:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
- [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 27AFD5D9D0;
- Wed, 10 Feb 2021 09:17:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 93C4D113865F; Wed, 10 Feb 2021 10:17:21 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 5/6] qapi: Add support for aliases
-References: <20201112172850.401925-1-kwolf@redhat.com>
- <20201112172850.401925-6-kwolf@redhat.com>
-Date: Wed, 10 Feb 2021 10:17:21 +0100
-In-Reply-To: <20201112172850.401925-6-kwolf@redhat.com> (Kevin Wolf's message
- of "Thu, 12 Nov 2020 18:28:49 +0100")
-Message-ID: <8735y45ljy.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EEDC1934100;
+ Wed, 10 Feb 2021 09:26:40 +0000 (UTC)
+Received: from localhost (ovpn-115-120.ams2.redhat.com [10.36.115.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E31BB70959;
+ Wed, 10 Feb 2021 09:26:29 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL v4 00/27] Block patches
+Date: Wed, 10 Feb 2021 09:26:01 +0000
+Message-Id: <20210210092628.193785-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,215 +76,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
+ thuth@redhat.com, Jagannathan Raman <jag.raman@oracle.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
-
-> Introduce alias definitions for object types (structs and unions). This
-> allows using the same QAPI type and visitor for many syntax variations
-> that exist in the external representation, like between QMP and the
-> command line. It also provides a new tool for evolving the schema while
-> maintaining backwards compatibility during a deprecation period.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  docs/devel/qapi-code-gen.txt           | 37 +++++++++++++++++++++++---
->  docs/sphinx/qapidoc.py                 |  2 +-
->  scripts/qapi/expr.py                   | 34 +++++++++++++++++++++--
->  scripts/qapi/schema.py                 | 27 +++++++++++++++----
->  scripts/qapi/types.py                  |  4 ++-
->  scripts/qapi/visit.py                  | 33 ++++++++++++++++++++---
->  tests/qapi-schema/test-qapi.py         |  7 ++++-
->  tests/qapi-schema/double-type.err      |  2 +-
->  tests/qapi-schema/unknown-expr-key.err |  2 +-
->  9 files changed, 130 insertions(+), 18 deletions(-)
->
-> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-> index 6906a06ad2..6da14d5275 100644
-> --- a/docs/devel/qapi-code-gen.txt
-> +++ b/docs/devel/qapi-code-gen.txt
-> @@ -231,7 +231,8 @@ Syntax:
->                 'data': MEMBERS,
->                 '*base': STRING,
->                 '*if': COND,
-> -               '*features': FEATURES }
-> +               '*features': FEATURES,
-> +               '*aliases': ALIASES }
->      MEMBERS = { MEMBER, ... }
->      MEMBER = STRING : TYPE-REF
->             | STRING : { 'type': TYPE-REF,
-
-Missing: a forward reference, like we have for 'if' and 'features'.
-Here's the obvious one:
-
-   The optional 'if' member specifies a conditional.  See "Configuring
-   the schema" below for more on this.
-
-   The optional 'features' member specifies features.  See "Features"
-   below for more on this.
-
-  +The optional 'aliases' member specifies aliases.  See "Aliases" below
-  +for more on this.
-
-> @@ -286,13 +287,15 @@ Syntax:
->      UNION = { 'union': STRING,
->                'data': BRANCHES,
->                '*if': COND,
-> -              '*features': FEATURES }
-> +              '*features': FEATURES,
-> +              '*aliases': ALIASES }
->            | { 'union': STRING,
->                'data': BRANCHES,
->                'base': ( MEMBERS | STRING ),
->                'discriminator': STRING,
->                '*if': COND,
-> -              '*features': FEATURES }
-> +              '*features': FEATURES,
-> +              '*aliases': ALIASES }
->      BRANCHES = { BRANCH, ... }
->      BRANCH = STRING : TYPE-REF
->             | STRING : { 'type': TYPE-REF, '*if': COND }
-
-Likewise.
-
-> @@ -837,6 +840,34 @@ shows a conditional entity only when the condition is satisfied in
->  this particular build.
->  
->  
-> +=== Aliases ===
-> +
-> +Object types, including structs and unions, can contain alias
-> +definitions.
-> +
-> +Aliases define alternative member names that may be used in the
-> +external representation to provide a value for a member in the same
-> +object or in a nested object.
-
-"or one if its sub-objects"?  Not sure which is better.
-
-> +
-> +Syntax:
-> +    ALIAS = { '*alias': STRING,
-> +              'source': [ STRING, ... ] }
-
-You used non-terminal ALIASES above.  Please define it here.
-
-I have doubts about the name 'alias'.  The alias is the complete thing,
-and 'alias' is just one property of the complete thing.  I think 'name'
-would be better.  Further evidence: below, you write "If 'alias' is
-present" and "If 'alias' is not present".  I think both read better with
-'name' instead of 'alias'.
-
-> +
-> +'source' is a list of member names representing the path to an object
-> +member, starting from the type where the alias definition is
-> +specified.
-
-May 'source' be empty?  More on that below.
-
-"where the definition is specified" feels a bit awkward, and "path"
-slightly hand-wavy.  Let me try induction:
-
-   'source' is a list of member names.  The first name is resolved in
-   the same object.  Each subsequent member is resolved in the object
-   named by the preceding member.
-
-Differently awkward, I guess.
-
->              It may refer to another alias name.  It is allowed to use
-> +a path that doesn't necessarily match an existing member in every
-> +variant or even at all; in this case, the alias remains unused.
-
-Aha!  Knowing this would've saved me some trouble in reviewing code.
-
-I wrote on PATCH 1:
-
-    I think updating the big comment in visitor.h for aliases would help.
-    Let's postpone it until I've seen the rest of the series.
-
-We can cover unused aliases right there.  Whether they also need to go
-into contracts we'll see.
-
-What if only a *prefix* of 'source' matches?  E.g.
-
-    'source': ['eins', 'zwei', 'drei']
-
-and we have an object-valued member 'eins' (match), which has a member
-'zwei' (match), which is *not* an object.  Is that an error?  Is it
-caught?
-
-> +
-> +If 'alias' is present, then the single member referred to by 'source'
-> +is made accessible with the name given in 'alias' in the type where
-> +the alias definition is specified.
-
-'source' may not be empty here.  Correct?
-
-If yes, please spell it out.
-
-Double-checking I got it...  Say we have
-
-    'alias': 'foo',
-    'source': ['bar', 'baz']
-
-where 'bar' is an object with a member 'baz'.
-
-Then input "foo": FOOVAL gets interpreted like "bar": {"baz": FOOVAL}.
-
-If input also contains "bar", we merge.  Duplicates are an error.
-
-This is the case even when 'baz' is an object.  If you want to alias
-member 'foo' of 'baz', you have to say
-
-    'alias': 'foo',
-    'source': ['bar', 'baz', 'foo']
-
-Correct?
-
-> +
-> +If 'alias' is not present, then all members in the object referred to
-> +by 'source' are made accessible in the type where the alias definition
-> +is specified with the same name as they have in 'source'.
-
-'source' may not be empty here, either.  Correct?
-
-If yes, please spell it out, and make sure the code catches it.
-
-What if it resolve to a non-object?  Is that an error?  Is it caught?
-
-Continuing the double-checking...  Say we have
-
-    # alias missing
-    'source': ['gnu']
-
-where 'gnu' is an object with a member 'gnat'.
-
-Input "gnat": GNATVAL gets interpreted like "gnu": {"gnat": GNATVAL}.
-
-Correct?
-
-The document could use examples.  Feel free to steal mine.
-
-I think we should talk about 'alias' first, and only then about
-'source'.  It matches their order in the schema, and also matches how I
-think about aliases, namely "this name actually means that".  Here,
-"this name" is 'alias', and "that" is 'source'.
-
-> +
-> +
-
-Don't get deceived by my comments; this is a pretty good start.
-
-I wish I had studied this part before PATCH 1.
-
->  === Documentation comments ===
->  
->  A multi-line comment that starts and ends with a '##' line is a
-
-I intend to look at the remainder shortly.
-
-[...]
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCAxMjE0ZDU1ZDFjNDFmYmFiM2E5OTcz
+YTA1MDg1Yjg3NjA2NDdlNDExOg0KDQogIE1lcmdlIHJlbW90ZS10cmFja2luZyBicmFuY2ggJ3Jl
+bW90ZXMvbnZtZS90YWdzL252bWUtbmV4dC1wdWxsLXJlcXVlc3QnIGludG8gc3RhZ2luZyAoMjAy
+MS0wMi0wOSAxMzoyNDozNyArMDAwMCkNCg0KYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9z
+aXRvcnkgYXQ6DQoNCiAgaHR0cHM6Ly9naXRsYWIuY29tL3N0ZWZhbmhhL3FlbXUuZ2l0IHRhZ3Mv
+YmxvY2stcHVsbC1yZXF1ZXN0DQoNCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byBlYjg0
+N2M0MjI5NjQ5Nzk3ODk0MmY3MzhjZDQxZGMyOWEzNWE0OWIyOg0KDQogIGRvY3M6IGZpeCBQYXJh
+bGxlbHMgSW1hZ2UgImRpcnR5IGJpdG1hcCIgc2VjdGlvbiAoMjAyMS0wMi0xMCAwOToyMzoyOCAr
+MDAwMCkNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLQ0KUHVsbCByZXF1ZXN0DQoNCnY0Og0KICogQWRkIFBDSV9FWFBSRVNT
+IEtjb25maWcgZGVwZW5kZW5jeSB0byBmaXggczM5MHggaW4gIm11bHRpLXByb2Nlc3M6IHNldHVw
+IFBDSQ0KICAgaG9zdCBicmlkZ2UgZm9yIHJlbW90ZSBkZXZpY2UiIFtQaGlsaXBwZSBhbmQgVGhv
+bWFzXQ0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tDQoNCkRlbmlzIFYuIEx1bmV2ICgxKToNCiAgZG9jczogZml4IFBhcmFs
+bGVscyBJbWFnZSAiZGlydHkgYml0bWFwIiBzZWN0aW9uDQoNCkVsZW5hIFVmaW10c2V2YSAoOCk6
+DQogIG11bHRpLXByb2Nlc3M6IGFkZCBjb25maWd1cmUgYW5kIHVzYWdlIGluZm9ybWF0aW9uDQog
+IGlvOiBhZGQgcWlvX2NoYW5uZWxfd3JpdGV2X2Z1bGxfYWxsIGhlbHBlcg0KICBpbzogYWRkIHFp
+b19jaGFubmVsX3JlYWR2X2Z1bGxfYWxsX2VvZiAmIHFpb19jaGFubmVsX3JlYWR2X2Z1bGxfYWxs
+DQogICAgaGVscGVycw0KICBtdWx0aS1wcm9jZXNzOiBkZWZpbmUgTVBRZW11TXNnIGZvcm1hdCBh
+bmQgdHJhbnNtaXNzaW9uIGZ1bmN0aW9ucw0KICBtdWx0aS1wcm9jZXNzOiBpbnRyb2R1Y2UgcHJv
+eHkgb2JqZWN0DQogIG11bHRpLXByb2Nlc3M6IGFkZCBwcm94eSBjb21tdW5pY2F0aW9uIGZ1bmN0
+aW9ucw0KICBtdWx0aS1wcm9jZXNzOiBGb3J3YXJkIFBDSSBjb25maWcgc3BhY2UgYWNjZXNlcyB0
+byB0aGUgcmVtb3RlIHByb2Nlc3MNCiAgbXVsdGktcHJvY2VzczogcGVyZm9ybSBkZXZpY2UgcmVz
+ZXQgaW4gdGhlIHJlbW90ZSBwcm9jZXNzDQoNCkphZ2FubmF0aGFuIFJhbWFuICgxMSk6DQogIG1l
+bW9yeTogYWxsb2MgUkFNIGZyb20gZmlsZSBhdCBvZmZzZXQNCiAgbXVsdGktcHJvY2VzczogQWRk
+IGNvbmZpZyBvcHRpb24gZm9yIG11bHRpLXByb2Nlc3MgUUVNVQ0KICBtdWx0aS1wcm9jZXNzOiBz
+ZXR1cCBQQ0kgaG9zdCBicmlkZ2UgZm9yIHJlbW90ZSBkZXZpY2UNCiAgbXVsdGktcHJvY2Vzczog
+c2V0dXAgYSBtYWNoaW5lIG9iamVjdCBmb3IgcmVtb3RlIGRldmljZSBwcm9jZXNzDQogIG11bHRp
+LXByb2Nlc3M6IEluaXRpYWxpemUgbWVzc2FnZSBoYW5kbGVyIGluIHJlbW90ZSBkZXZpY2UNCiAg
+bXVsdGktcHJvY2VzczogQXNzb2NpYXRlIGZkIG9mIGEgUENJRGV2aWNlIHdpdGggaXRzIG9iamVj
+dA0KICBtdWx0aS1wcm9jZXNzOiBzZXR1cCBtZW1vcnkgbWFuYWdlciBmb3IgcmVtb3RlIGRldmlj
+ZQ0KICBtdWx0aS1wcm9jZXNzOiBQQ0kgQkFSIHJlYWQvd3JpdGUgaGFuZGxpbmcgZm9yIHByb3h5
+ICYgcmVtb3RlDQogICAgZW5kcG9pbnRzDQogIG11bHRpLXByb2Nlc3M6IFN5bmNocm9uaXplIHJl
+bW90ZSBtZW1vcnkNCiAgbXVsdGktcHJvY2VzczogY3JlYXRlIElPSFVCIG9iamVjdCB0byBoYW5k
+bGUgaXJxDQogIG11bHRpLXByb2Nlc3M6IFJldHJpZXZlIFBDSSBpbmZvIGZyb20gcmVtb3RlIHBy
+b2Nlc3MNCg0KSm9obiBHIEpvaG5zb24gKDEpOg0KICBtdWx0aS1wcm9jZXNzOiBhZGQgdGhlIGNv
+bmNlcHQgZGVzY3JpcHRpb24gdG8NCiAgICBkb2NzL2RldmVsL3FlbXUtbXVsdGlwcm9jZXNzDQoN
+ClN0ZWZhbiBIYWpub2N6aSAoNik6DQogIC5naXRodWI6IHBvaW50IFJlcG8gTG9ja2Rvd24gYm90
+IHRvIEdpdExhYiByZXBvDQogIGdpdG1vZHVsZXM6IHVzZSBHaXRMYWIgcmVwb3MgaW5zdGVhZCBv
+ZiBxZW11Lm9yZw0KICBnaXRsYWItY2k6IHJlbW92ZSByZWR1bmRhbnQgR2l0TGFiIHJlcG8gVVJM
+IGNvbW1hbmQNCiAgZG9jczogdXBkYXRlIFJFQURNRSB0byB1c2UgR2l0TGFiIHJlcG8gVVJMcw0K
+ICBwYy1iaW9zOiB1cGRhdGUgbWlycm9yIFVSTHMgdG8gR2l0TGFiDQogIGdldF9tYWludGFpbmVy
+OiB1cGRhdGUgcmVwbyBVUkwgdG8gR2l0TGFiDQoNCiBNQUlOVEFJTkVSUyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICB8ICAyNCArDQogUkVBRE1FLnJzdCAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfCAgIDQgKy0NCiBkb2NzL2RldmVsL2luZGV4LnJzdCAgICAgICAgICAgICAg
+ICAgICAgICB8ICAgMSArDQogZG9jcy9kZXZlbC9tdWx0aS1wcm9jZXNzLnJzdCAgICAgICAgICAg
+ICAgfCA5NjYgKysrKysrKysrKysrKysrKysrKysrKw0KIGRvY3Mvc3lzdGVtL2luZGV4LnJzdCAg
+ICAgICAgICAgICAgICAgICAgIHwgICAxICsNCiBkb2NzL3N5c3RlbS9tdWx0aS1wcm9jZXNzLnJz
+dCAgICAgICAgICAgICB8ICA2NCArKw0KIGRvY3MvaW50ZXJvcC9wYXJhbGxlbHMudHh0ICAgICAg
+ICAgICAgICAgIHwgICAyICstDQogY29uZmlndXJlICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgMTAgKw0KIG1lc29uLmJ1aWxkICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgICA1ICstDQogaHcvcmVtb3RlL3RyYWNlLmggICAgICAgICAgICAgICAgICAgICAgICAgfCAg
+IDEgKw0KIGluY2x1ZGUvZXhlYy9tZW1vcnkuaCAgICAgICAgICAgICAgICAgICAgIHwgICAyICsN
+CiBpbmNsdWRlL2V4ZWMvcmFtX2FkZHIuaCAgICAgICAgICAgICAgICAgICB8ICAgNCArLQ0KIGlu
+Y2x1ZGUvaHcvcGNpLWhvc3QvcmVtb3RlLmggICAgICAgICAgICAgIHwgIDMwICsNCiBpbmNsdWRl
+L2h3L3BjaS9wY2lfaWRzLmggICAgICAgICAgICAgICAgICB8ICAgMyArDQogaW5jbHVkZS9ody9y
+ZW1vdGUvaW9odWIuaCAgICAgICAgICAgICAgICAgfCAgNDIgKw0KIGluY2x1ZGUvaHcvcmVtb3Rl
+L21hY2hpbmUuaCAgICAgICAgICAgICAgIHwgIDM4ICsNCiBpbmNsdWRlL2h3L3JlbW90ZS9tZW1v
+cnkuaCAgICAgICAgICAgICAgICB8ICAxOSArDQogaW5jbHVkZS9ody9yZW1vdGUvbXBxZW11LWxp
+bmsuaCAgICAgICAgICAgfCAgOTkgKysrDQogaW5jbHVkZS9ody9yZW1vdGUvcHJveHktbWVtb3J5
+LWxpc3RlbmVyLmggfCAgMjggKw0KIGluY2x1ZGUvaHcvcmVtb3RlL3Byb3h5LmggICAgICAgICAg
+ICAgICAgIHwgIDQ4ICsrDQogaW5jbHVkZS9pby9jaGFubmVsLmggICAgICAgICAgICAgICAgICAg
+ICAgfCAgNzggKysNCiBpbmNsdWRlL3FlbXUvbW1hcC1hbGxvYy5oICAgICAgICAgICAgICAgICB8
+ICAgNCArLQ0KIGluY2x1ZGUvc3lzZW11L2lvdGhyZWFkLmggICAgICAgICAgICAgICAgIHwgICA2
+ICsNCiBiYWNrZW5kcy9ob3N0bWVtLW1lbWZkLmMgICAgICAgICAgICAgICAgICB8ICAgMiArLQ0K
+IGh3L21pc2MvaXZzaG1lbS5jICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAzICstDQogaHcv
+cGNpLWhvc3QvcmVtb3RlLmMgICAgICAgICAgICAgICAgICAgICAgfCAgNzUgKysNCiBody9yZW1v
+dGUvaW9odWIuYyAgICAgICAgICAgICAgICAgICAgICAgICB8IDExOSArKysNCiBody9yZW1vdGUv
+bWFjaGluZS5jICAgICAgICAgICAgICAgICAgICAgICB8ICA4MCArKw0KIGh3L3JlbW90ZS9tZW1v
+cnkuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgIDY1ICsrDQogaHcvcmVtb3RlL21lc3NhZ2Uu
+YyAgICAgICAgICAgICAgICAgICAgICAgfCAyMzAgKysrKysrDQogaHcvcmVtb3RlL21wcWVtdS1s
+aW5rLmMgICAgICAgICAgICAgICAgICAgfCAyNjcgKysrKysrDQogaHcvcmVtb3RlL3Byb3h5LW1l
+bW9yeS1saXN0ZW5lci5jICAgICAgICAgfCAyMjcgKysrKysNCiBody9yZW1vdGUvcHJveHkuYyAg
+ICAgICAgICAgICAgICAgICAgICAgICB8IDM3OSArKysrKysrKysNCiBody9yZW1vdGUvcmVtb3Rl
+LW9iai5jICAgICAgICAgICAgICAgICAgICB8IDIwMyArKysrKw0KIGlvL2NoYW5uZWwuYyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgMTE2ICsrLQ0KIGlvdGhyZWFkLmMgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgICA2ICsNCiBzb2Z0bW11L21lbW9yeS5jICAgICAgICAg
+ICAgICAgICAgICAgICAgICB8ICAgMyArLQ0KIHNvZnRtbXUvcGh5c21lbS5jICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgIDEyICstDQogdXRpbC9tbWFwLWFsbG9jLmMgICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAgIDggKy0NCiB1dGlsL29zbGliLXBvc2l4LmMgICAgICAgICAgICAgICAgICAg
+ICAgICB8ICAgMiArLQ0KIC5naXRodWIvbG9ja2Rvd24ueW1sICAgICAgICAgICAgICAgICAgICAg
+IHwgICA4ICstDQogLmdpdGxhYi1jaS55bWwgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAg
+IDEgLQ0KIC5naXRtb2R1bGVzICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDQ0ICst
+DQogS2NvbmZpZy5ob3N0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDQgKw0KIGh3
+L0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAxICsNCiBody9tZXNv
+bi5idWlsZCAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQogaHcvcGNpLWhvc3Qv
+S2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgfCAgIDMgKw0KIGh3L3BjaS1ob3N0L21lc29u
+LmJ1aWxkICAgICAgICAgICAgICAgICAgIHwgICAxICsNCiBody9yZW1vdGUvS2NvbmZpZyAgICAg
+ICAgICAgICAgICAgICAgICAgICB8ICAgNCArDQogaHcvcmVtb3RlL21lc29uLmJ1aWxkICAgICAg
+ICAgICAgICAgICAgICAgfCAgMTMgKw0KIGh3L3JlbW90ZS90cmFjZS1ldmVudHMgICAgICAgICAg
+ICAgICAgICAgIHwgICA0ICsNCiBwYy1iaW9zL1JFQURNRSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8ICAgNCArLQ0KIHNjcmlwdHMvZ2V0X21haW50YWluZXIucGwgICAgICAgICAgICAgICAg
+IHwgICAyICstDQogNTMgZmlsZXMgY2hhbmdlZCwgMzI5NiBpbnNlcnRpb25zKCspLCA3MCBkZWxl
+dGlvbnMoLSkNCiBjcmVhdGUgbW9kZSAxMDA2NDQgZG9jcy9kZXZlbC9tdWx0aS1wcm9jZXNzLnJz
+dA0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBkb2NzL3N5c3RlbS9tdWx0aS1wcm9jZXNzLnJzdA0KIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBody9yZW1vdGUvdHJhY2UuaA0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBp
+bmNsdWRlL2h3L3BjaS1ob3N0L3JlbW90ZS5oDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUv
+aHcvcmVtb3RlL2lvaHViLmgNCiBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9ody9yZW1vdGUv
+bWFjaGluZS5oDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvaHcvcmVtb3RlL21lbW9yeS5o
+DQogY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvaHcvcmVtb3RlL21wcWVtdS1saW5rLmgNCiBj
+cmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9ody9yZW1vdGUvcHJveHktbWVtb3J5LWxpc3RlbmVy
+LmgNCiBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9ody9yZW1vdGUvcHJveHkuaA0KIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBody9wY2ktaG9zdC9yZW1vdGUuYw0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBo
+dy9yZW1vdGUvaW9odWIuYw0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBody9yZW1vdGUvbWFjaGluZS5j
+DQogY3JlYXRlIG1vZGUgMTAwNjQ0IGh3L3JlbW90ZS9tZW1vcnkuYw0KIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBody9yZW1vdGUvbWVzc2FnZS5jDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGh3L3JlbW90ZS9t
+cHFlbXUtbGluay5jDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGh3L3JlbW90ZS9wcm94eS1tZW1vcnkt
+bGlzdGVuZXIuYw0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBody9yZW1vdGUvcHJveHkuYw0KIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBody9yZW1vdGUvcmVtb3RlLW9iai5jDQogY3JlYXRlIG1vZGUgMTAwNjQ0
+IGh3L3JlbW90ZS9LY29uZmlnDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGh3L3JlbW90ZS9tZXNvbi5i
+dWlsZA0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBody9yZW1vdGUvdHJhY2UtZXZlbnRzDQoNCi0tIA0K
+Mi4yOS4yDQoNCg==
 
 
