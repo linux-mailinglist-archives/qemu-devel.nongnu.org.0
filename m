@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBF93172DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:07:17 +0100 (CET)
-Received: from localhost ([::1]:37882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AD63172E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:08:05 +0100 (CET)
+Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9xdk-0001PG-1c
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:07:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54732)
+	id 1l9xeW-0002eb-HO
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:08:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1l9xag-0000Fo-OS
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:04:06 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:43637)
+ (Exim 4.90_1) (envelope-from
+ <3dlgkYAgKCr81zmftyxmlttlqj.htrvjrz-ij0jqstslsz.twl@flex--wuhaotsh.bounces.google.com>)
+ id 1l9xbb-0000lY-AS
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:05:03 -0500
+Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a]:34590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1l9xae-0000S4-C5
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:04:06 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id n10so2137908pgl.10
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:04:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=KJsYDsWLZUI3GFwAbKlkAHI4n6RJgRzp40rX1kvPzGY=;
- b=n+roNjoFTbvgnjT6me3HWSLPDmrW/92khVyQxqhSDUTh9A62o2VmkgrLyA2g47WYcN
- LFYZBAeNlq5kFSOpVsVWx2gQuAlt8cdenUFQwHHXsHjE0xOAxT5G09APilYGIWpNujvO
- 8FXfejDqyvfJe0IlWKb8CYHw6CIn5QHK9pv4fGLgv7ChzZ5VuRzEQX+OsKUxsHkHBmbg
- pvsBV/preEqZQsw//6r1F709ORuSE5VdJAgYEX1blogCshauvxm62QR9gQgaSEZDy0OL
- vkdPIf5E9iH6TmTaHg49a/vD375pxJwvP8JPtjb0NLbAEdCYU4msoD+zgn9ndUZCiUvj
- ltLQ==
+ (Exim 4.90_1) (envelope-from
+ <3dlgkYAgKCr81zmftyxmlttlqj.htrvjrz-ij0jqstslsz.twl@flex--wuhaotsh.bounces.google.com>)
+ id 1l9xbF-0000j8-4q
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:04:58 -0500
+Received: by mail-pg1-x54a.google.com with SMTP id o11so2720644pgn.1
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:04:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=2IsBkrOmO2LpeVhzut2Dk8QiICKrVg3gpFNLnyKo2x4=;
+ b=plSyZvgq3Wxxf+0zS/Xh7FLs7dn+17vZ1hXUQEZdOb14CRxZbOfzeGwW1uRLuhgRzo
+ nXUha/qt5Q22EHTgPp1s9xmOyMunbEusiyfP+MLytk8vPOrmCQiVCPob51cKyH+voMkn
+ 7PNC/i0gndg9rzjFcHRzAcMH2sPrgEF5a2LmwuPWdEy0FLNrbhH2Z+j7tnCvEMJMaHup
+ VOLbZgMypxkEVYyHnw6sdxChN+SeCgjG5b7uKYl6CrkSExZMqUz7x/ogmJpA8l+avnwR
+ 71nRRxCtzui20Z/6fCf2ibqlNIkqLGh4m+bp+33MrlLHILb84oFkBdhZawKM+z37GdlU
+ AoKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=KJsYDsWLZUI3GFwAbKlkAHI4n6RJgRzp40rX1kvPzGY=;
- b=HM2WgW2mTg2d7xLGEION/mccN/ZKPxU59/GCP/Fm5q9D4Arkme/9BvwkJUdvuTHU7+
- OERuQKkTgCB4LEs0VlZRDdvqMyzyi9VVALLPV1M8Bx4DyELjAXFIYqlt+ijr4yOyz4LZ
- OdZY1gCs4pTvgOAYrO9PLn73nApUgX21W+8mokt6hsXIhSuipJwIQMkEmSwOU14ShWnS
- sDntl15TqhntFn0lQ5Xb9cLutjAoCG6nBCJK528ltgZGCt1XVxsMsdQb6VnZf2gVDCwn
- ifRexoeXo00BeoTj42KHLsvgwA7NObvP5fdcN/C4oVfvDLBxM7FhTbtLQIJF6kEkhVTM
- Ealw==
-X-Gm-Message-State: AOAM530OT1rTXqI+feaJo6wkblo28dx3L9tdOrDJtKCuqgT2+yInFree
- 3+fwC4Gh0N0xIXKt22Ojgao=
-X-Google-Smtp-Source: ABdhPJxpQDLQahla5RmmX2cgH5mc8AKpBwd337UNLnrmQI3XBi/PVFxcjvKbJhm2WlUiKZEoLEryNQ==
-X-Received: by 2002:a62:528c:0:b029:19e:4a39:d9ea with SMTP id
- g134-20020a62528c0000b029019e4a39d9eamr5053285pfb.20.1612994642463; 
- Wed, 10 Feb 2021 14:04:02 -0800 (PST)
-Received: from localhost ([2601:647:4600:11e1:d2fd:ba5d:619c:c25d])
- by smtp.gmail.com with ESMTPSA id t17sm3470411pfc.43.2021.02.10.14.04.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 14:04:01 -0800 (PST)
-Date: Wed, 10 Feb 2021 14:03:53 -0800
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 6/9] hw/i386: declare ACPI mother board resource for
- MMCONFIG region
-Message-ID: <20210210220353.GB8034@private.email.ne.jp>
-References: <cover.1612821108.git.isaku.yamahata@intel.com>
- <ff52a5969a6666235745d7e067f5fb500a8c70fb.1612821109.git.isaku.yamahata@intel.com>
- <20210209165241.5ba1a953@redhat.com>
- <20210209200258.GB28049@private.email.ne.jp>
- <20210210143731.45566d1e@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210210143731.45566d1e@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=2IsBkrOmO2LpeVhzut2Dk8QiICKrVg3gpFNLnyKo2x4=;
+ b=DQdGZzbKp6LWoAt/6zMTkR4hT1rzBhRslu9hbz3oVX+pH73qJGN1ctp/DqPKbYxPLW
+ B4EN5y9Z+GPUf+tGZxitmB9jrFR+Hj7t5zL8i28s8ONbBtWFebmtJwFuYdfB8o8zDTN4
+ Kkty+YwNHP2dKjCLiqgxcOAJdXnP2yLuX9QwL7evVIBf+FYRpL0qDD7yiiWL54fvnHo5
+ aFh1pU81zm7hjkyMPYmPTLFA25TDxULcAIfsMvIywLYXJCVdBhEYH0iTGqR78TYoMbec
+ 1Ubd1jwcFh2AUEN/G/qAvoK9Gxm+oMoKob1C/GGP5tuCr/l6eftKA4j+FrVoLSKP15gF
+ Gk7w==
+X-Gm-Message-State: AOAM5329V8B/a5IPoT/x+rJlDulVO3qDMm48U9HRXRj8rD6hUAnPa+FM
+ 8tK9jMAeEHJRe/JOo6odxfO0NIga/Azcag==
+X-Google-Smtp-Source: ABdhPJz6pB4YYDohTy+ZVBI9Q5QjGuWVFNPN06v1v3Qet2pU9bqbCGLjI91F9iNjrsE21hKdyYxaSX5JJEIF1Q==
+X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:10:7f:e700:c0a8:4e])
+ (user=wuhaotsh job=sendgmr) by 2002:a17:902:464:b029:e2:ebb4:9251 with SMTP
+ id 91-20020a1709020464b02900e2ebb49251mr4861698ple.29.1612994678979; Wed, 10
+ Feb 2021 14:04:38 -0800 (PST)
+Date: Wed, 10 Feb 2021 14:04:21 -0800
+Message-Id: <20210210220426.3577804-1-wuhaotsh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
+Subject: [PATCH v3 0/5] hw/i2c: Add NPCM7XX SMBus Device
+To: peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
+ kfting@nuvoton.com, wuhaotsh@google.com, hskinnemoen@google.com, 
+ venture@google.com, dje@google.com, cminyard@mvista.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
+ envelope-from=3dlgkYAgKCr81zmftyxmlttlqj.htrvjrz-ij0jqstslsz.twl@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pg1-x54a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,106 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>, mst@redhat.com,
- qemu-devel@nongnu.org, Isaku Yamahata <yamahata.qemudev@gmail.com>,
- philmd@redhat.com, isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Hao Wu <wuhaotsh@google.com>
+From:  Hao Wu via <qemu-devel@nongnu.org>
 
-On Wed, Feb 10, 2021 at 02:37:31PM +0100,
-Igor Mammedov <imammedo@redhat.com> wrote:
+This patch set implements the System manager bus (SMBus) module in NPCM7XX
+SoC. Basically, it emulates the data transactions of the module, not the
+SDA/SCL levels. We have also added a QTest which contains read and write
+operations for both single-byte and FIFO mode, and added basic I2C devices
+for npcm750-evb and quanta-gsj boards.
 
-> On Tue, 9 Feb 2021 12:02:58 -0800
-> Isaku Yamahata <yamahata.qemudev@gmail.com> wrote:
-> 
-> > On Tue, Feb 09, 2021 at 04:52:41PM +0100,
-> > Igor Mammedov <imammedo@redhat.com> wrote:
-> > 
-> > > On Mon,  8 Feb 2021 13:57:25 -0800
-> > > isaku.yamahata@gmail.com wrote:
-> > >   
-> > > > From: Isaku Yamahata <isaku.yamahata@intel.com>
-> > > > 
-> > > > Declare PNP0C01 device to reserve MMCONFIG region to conform to the
-> > > > spec better and play nice with guest BIOSes/OSes.
-> > > > 
-> > > > According to PCI Firmware Specification, MMCONFIG region must be
-> > > > reserved by declaring a motherboard resource.  
-> > > could you point to concrete spec version/chapter where it stated.
-> > > (should be part of commit message)  
-> > 
-> > PCI Firmware specification Revision 3.2
-> > 4.1.2 MCFG Table Description
-> > table 4-2 NOTE 2
-> >   If the operating system does not natively comprehend reserving the MMCFG
-> >   region, The MMCFG region must e reserved by firmware. ...
-> >   For most systems, the mortheroard resource would appear at the root of
-> >   the ACPI namespace (under \_SB)...
-> >   The resource can optionally be returned in Int15 E820h or EFIGetMemoryMap
-> >   as reserved memory but must always be reported through ACPI as a motherboard
-> >   resource
-> > 
-> > Will include it in next respin.
-> > 
-> > >   
-> > > > It's optional to reserve
-> > > > the region in memory map by Int 15 E820h or EFIGetMemoryMap.  
-> > >   
-> > > > If guest BIOS doesn't reserve the region in memory map without the
-> > > > reservation by mother board resource, guest linux abandons to use
-> > > > MMCFG.  
-> > > can parse this, can you rephrase and avoid double negation, please?  
-> > 
-> > How about this?
-> > Guest Linux checks if the MMCFG region is reserved by bios memory map or
-> > ACPI resource.
-> 
-> > It failed, it falls back to legacy PCI configuraiton access.
-> clarify what/how failed, pls.
+Changes since v2:
+- Remove first patch (GPIO) since it's already applied to target-arm.next
+- Rename NPCM7XX_SMBUS_FIFO_EN to NPCM7XX_SMBUS_VERSION_FIFO_SUPPORTED
+  to indicate it's a register field of the VERSION reg.
+- Add select AT24C in hw/arm/Kconfig.
+- Minor additional commit messages and comments to clarify things.
 
-It should be "If it's not reserved".
+Changes since v1:
+- Fix errors for i2c device addresses for temperature sensors in GSJ machine
+- Use at24c device to emulate GSJ EEPROM. It supports more than 256 bytes.
+- Fill in VMState in npcm7xx_smbus.c
+- Change commit message in patch 3 and 4
+- Fix order in npcm7xx.c IRQ list
+- Add a few extra comments to make things clearer
 
+Hao Wu (5):
+  hw/i2c: Implement NPCM7XX SMBus Module Single Mode
+  hw/arm: Add I2C sensors for NPCM750 eval board
+  hw/arm: Add I2C sensors and EEPROM for GSJ machine
+  hw/i2c: Add a QTest for NPCM7XX SMBus Device
+  hw/i2c: Implement NPCM7XX SMBus Module FIFO Mode
 
-> > > > +     * When the method of _CRS is called to determine MMCONFIG region,
-> > > > +     * only port io is allowed to access PCI configuration space.
-> > > > +     * It means qword access isn't allowed.
-> > > > +     *
-> > > > +     * Device(DRAC)
-> > > > +     * {
-> > > > +     *     Name(_HID, EisaId("PNP0C01"))
-> > > > +     *     OperationRegion(DRR0, PCI_Config, 0x0000000000000060, 0x8)
-> > > > +     *     Field(DRR0, DWordAcc, Lock, Preserve)
-> > > > +     *     {
-> > > > +     *         PEBL, 4,
-> > > > +     *         PEBH, 4
-> > > > +     *     }  
-> > > 
-> > > why are you trying to fetch it dynamically?
-> > > what prevents you from getting MMCONFIG address in QEMU when building
-> > > ACPI tables and encode _CRS statically at that time?  
-> > 
-> > My motivation is to prepare for TDX where ACPI tables will be part of
-> > measurement. I wanted ACPI tables to remain same irrelevant of chipset
-> > configuration which guest can change.
-> ACPI tables are supposed to be read from QEMU after firmware configured
-> PCI subsystem, including MMCONFIG.
-> If configuration is changed after that MCFG table won't be correct anymore.
-> Given MCFG is statically generated, I see no reason to fetch the same info
-> dynamically from DSDT.
+ docs/system/arm/nuvoton.rst      |    2 +-
+ hw/arm/Kconfig                   |    1 +
+ hw/arm/npcm7xx.c                 |   68 +-
+ hw/arm/npcm7xx_boards.c          |   46 ++
+ hw/i2c/meson.build               |    1 +
+ hw/i2c/npcm7xx_smbus.c           | 1099 ++++++++++++++++++++++++++++++
+ hw/i2c/trace-events              |   12 +
+ include/hw/arm/npcm7xx.h         |    2 +
+ include/hw/i2c/npcm7xx_smbus.h   |  113 +++
+ tests/qtest/meson.build          |    1 +
+ tests/qtest/npcm7xx_smbus-test.c |  495 ++++++++++++++
+ 11 files changed, 1823 insertions(+), 17 deletions(-)
+ create mode 100644 hw/i2c/npcm7xx_smbus.c
+ create mode 100644 include/hw/i2c/npcm7xx_smbus.h
+ create mode 100644 tests/qtest/npcm7xx_smbus-test.c
 
-Ok, given that other part of ACPI table generation code,
-I'll switch to use MMCONFIG address in qemu.
-
-
-> PS:
-> goal of having fixed ACPI tables is hard to achieve in QEMU,
-> it might be possible within single QEMU version for a concrete CLI configuration,
-> but any deviation from that may trigger ACPI tables change.
-> 
-> > Thanks,
-> 
-
-Thanks,
 -- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+2.30.0.478.g8a0d178c01-goog
+
 
