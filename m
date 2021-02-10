@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60D3316918
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 15:27:27 +0100 (CET)
-Received: from localhost ([::1]:43294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1419331692B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 15:30:53 +0100 (CET)
+Received: from localhost ([::1]:45754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9qSk-0008Sa-F9
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 09:27:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
+	id 1l9qW4-0001FY-4t
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 09:30:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l9qQb-0007rC-If
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:25:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l9qQZ-0007X1-TD
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:25:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612967110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jG+UDUJWH2GZEASc7UVBgMtaehnb8WyPb/BeJIp0uMA=;
- b=PosC1wwlv49uXTZpW78ZKvtUGpNJuDh7HQ/AmtQRZoSTqpE6hRvrhFEz+N3aKmpbLoQ/MQ
- lwScye+6jpTpRUqzWWP0j45ja6UjTEatIfaIM/MxBMnWNdKlDOiudpcNyJBczqvwbrvC1M
- mVBmjymJgPEfgWulk+ZzgoR0pVo7mf8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-MagqsxttOTa9eaK_kL24kQ-1; Wed, 10 Feb 2021 09:25:08 -0500
-X-MC-Unique: MagqsxttOTa9eaK_kL24kQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14B1A835E25;
- Wed, 10 Feb 2021 14:25:07 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DBEE862688;
- Wed, 10 Feb 2021 14:25:01 +0000 (UTC)
-Date: Wed, 10 Feb 2021 15:24:59 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Wang Xingang <wangxingang5@huawei.com>
-Subject: Re: [PATCH 2/3] acpi/gpex: Fix cca attribute check for pxb device
-Message-ID: <20210210152459.39b08d34@redhat.com>
-In-Reply-To: <1612490205-48788-3-git-send-email-wangxingang5@huawei.com>
-References: <1612490205-48788-1-git-send-email-wangxingang5@huawei.com>
- <1612490205-48788-3-git-send-email-wangxingang5@huawei.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1l9qU2-0000iz-1B
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:28:46 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:51373)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1l9qTz-0000MT-VY
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:28:45 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id fa16so1206036pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 06:28:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uX9HssvXOWTZuSig99aF5iObbgsJRwJshahAN4nMwQA=;
+ b=RB3j5G4e3esTqEudfmK71k2lpSiW/XJpR17QWGxbPFmEAVWiCKD7VxcJdJ8aeA4L1y
+ jxGh3ZLd4L8yOJIl/VeQP2S1rgyXlzEszKuN0NWXKyEd9bBJff9wnwBPDNm09tUw+28C
+ ZKugwNgVZmKki8MnYnLHraFoFdlkHOcmM0hlN5l7zk8zWdSCGbccknH4jFCOcQV/uR18
+ fFkGRMnmZggGktqrG3D+sQpheeICF59nZ9Ro0P2wn1ZoeD2j8LvpyzRquICdGVDZqhQ7
+ xOIHClHNVaNhZDqFmMeoPOClPetlg0YpQTm8OWnce+gTHhQ/sScCp85fAgHE9q6YDqVe
+ JPnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uX9HssvXOWTZuSig99aF5iObbgsJRwJshahAN4nMwQA=;
+ b=G6I8Ug9LKgqi2pMopCIb9qmDN/5Je+Dne40rQNdkmHEte9CmSg+mEfAkVLtIMZv9Fs
+ O6srK/NUvEEN5k88O/ACEP2IQ66Fv0qKRJaYhUUtqvbknvZobfzguhU+tEtbNiMQ66rD
+ 01QQO1ZAcHlUEFiDqMOLw5G2LjUagUwJsUQNcnrb0sMjcsdWK6iZWd2Kgx+n0mCqinuX
+ 4EtY9gyokakk1b54H026zj4OGd9ICr41Y1V2Oi8FtPYfLmdvISY/gz2hii2cJfSYJSAa
+ PsZRxT9y37uq0aXnsoVxciQrjxdeuSi3LGK/AIcA49mCyPdc8MoMYmousOioY7SCVRUS
+ fdaw==
+X-Gm-Message-State: AOAM5317EskfYgjYJ4HovvfQgon669R7GIMYM2dlBKNn44u/6em+3Cnh
+ PX08lkk0kmewmhrMVX/UBWGNuk0I2frr6SIQJ9E=
+X-Google-Smtp-Source: ABdhPJxgl+VXH09UqwZ3QnuzhV0q4yOIEU2iZaDaltcL+dAdEu+tyJeci2kjz4b56P1J/Kz68E07S5KfM7tZgj6RlhA=
+X-Received: by 2002:a17:902:8643:b029:da:d5f9:28f6 with SMTP id
+ y3-20020a1709028643b02900dad5f928f6mr3296511plt.8.1612967320634; Wed, 10 Feb
+ 2021 06:28:40 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAJSP0QVZuh8H-U1vtFMhasqSsSy3OA4jmRvwZrQEAx3=1dcb+w@mail.gmail.com>
+ <LO2P123MB2605DA330913C7D2DA311EF1C8D10@LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM>
+In-Reply-To: <LO2P123MB2605DA330913C7D2DA311EF1C8D10@LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 10 Feb 2021 14:28:29 +0000
+Message-ID: <CAJSP0QW7WqH1mmni84nn+id63nHLDNXd_nUDRaXKEifa2Jp=sQ@mail.gmail.com>
+Subject: Re: QEMU hosting
+To: Fosshost <admin@fosshost.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=stefanha@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,45 +78,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, Peter Maydell <peter.maydell@linaro.org>,
- cenjiahui@huawei.com, mst@redhat.com, Drew <drjones@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <cleber@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Feb 2021 01:56:44 +0000
-Wang Xingang <wangxingang5@huawei.com> wrote:
+On Tue, Jan 5, 2021 at 6:55 PM Fosshost <admin@fosshost.org> wrote:
 
-> From: Xingang Wang <wangxingang5@huawei.com>
-> 
-> When check DMA support for device attached to pxb,
-> the cache coherency attribute need to be set.
-> This add _CCA attribute for pxb DSDT.
-> 
-> Fixes: 6f9765fbad ("acpi/gpex: Build tables for pxb")
-> 
-> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
-> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+> If you would like to apply, you can do so at https://fosshost.org/apply
+>
+> Feel free to join our IRC channel on freenode #fosshost if you have any questions regarding our work and service
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Hi Thomas,
+Thanks for the reply! I have forwarded the information to Cleber Rosa,
+who is working on QEMU's CI system.
 
-I'm not sure about if ARM side if fine with the change, CCed.
-
-> ---
->  hw/pci-host/gpex-acpi.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
-> index 446912d771..0f01f13a6e 100644
-> --- a/hw/pci-host/gpex-acpi.c
-> +++ b/hw/pci-host/gpex-acpi.c
-> @@ -175,6 +175,7 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
->              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
->              aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
->              aml_append(dev, aml_name_decl("_STR", aml_unicode("pxb Device")));
-> +            aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
->              if (numa_node != NUMA_NODE_UNASSIGNED) {
->                  aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
->              }
-
+Stefan
 
