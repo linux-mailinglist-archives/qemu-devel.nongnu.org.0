@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC4A316946
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 15:41:07 +0100 (CET)
-Received: from localhost ([::1]:58952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8C131695F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 15:46:53 +0100 (CET)
+Received: from localhost ([::1]:35438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9qfy-0007Av-PS
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 09:41:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42294)
+	id 1l9qlX-000148-OE
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 09:46:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l9qdt-0006DI-1J
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:38:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l9qdq-0004iv-SD
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:38:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612967934;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lVQpVgwYEBPnUZRgurTdJ8uSWYXuiIi7ky6CuTEyw7Y=;
- b=ZeafESWs2VWqi6gALD5yxWBrS5XtlyF76HHtD9eX/ygauE5pCOFAo52A7RPcBzJ4ImkimY
- XugUTQjBLXKuOFmrkgodXkL15ArlxW6P7aewHXFKUtw0g3fdPBlMQDFERVr+ijOeFaLFLG
- ItEpTMClQ3y7Fmzp7aeyZk75cw2GM60=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-z6vL9kKWM9iELmQjWQ3LHw-1; Wed, 10 Feb 2021 09:38:52 -0500
-X-MC-Unique: z6vL9kKWM9iELmQjWQ3LHw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE1E5801962;
- Wed, 10 Feb 2021 14:38:50 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-33.ams2.redhat.com [10.36.115.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8326360C0F;
- Wed, 10 Feb 2021 14:38:49 +0000 (UTC)
-Date: Wed, 10 Feb 2021 15:38:47 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 30/36] block: bdrv_reopen_multiple: refresh
- permissions on updated graph
-Message-ID: <20210210143847.GE5144@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-31-vsementsov@virtuozzo.com>
- <20210205175706.GI7072@merkur.fritz.box>
- <88b2a88e-e5dd-9ce6-a11c-20ba2c4befa9@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9qjS-0000YM-0c
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:44:42 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:43444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l9qjQ-00076F-GI
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:44:41 -0500
+Received: by mail-ej1-x634.google.com with SMTP id y9so4629751ejp.10
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 06:44:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TPYe7jLSjQSDnzDZ5r2w5LMuy+nWIlWIt5/5RNTP1fY=;
+ b=DmQPLMzBfJSoc9Oi79gSmne5Sy0Ox2529U18xTJKUi6EOWXxXVfbOBXIWLJRDtZbpd
+ KUPtVnip81Cf9r8EKFqW5hbtwE8YZSvkeDegam1IYqQmrxQG5KI2i2dhlg24DwytW+Q6
+ q0q51kIcmTIiOm1VOijSYUGh91Q9OWK9avpavRDBnvwRsS2OE3fbKhDm5f3nNnpn/zns
+ SXP2HxDtiI7c8QE7K69mbeSAbiI7laaPQ2hYrbTwSbcX8P01R0KwJ/SECFfSJ0f/lkBq
+ pq651GUj/vGW8BulVC2X+KYQssDcaY0cdhDEiwPJtil8j9bzZaF4MqYdRptNkq8kYmdH
+ cdtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TPYe7jLSjQSDnzDZ5r2w5LMuy+nWIlWIt5/5RNTP1fY=;
+ b=FT4BtZva42bSPrgwuYFp9VqXfrnVMOeaTf6kAgFTrgzKyDzr9UN4noy/Z/F2hCo6jH
+ wpHnMeDhydLAmNc0JQilRWoi3PPyO6hbjcvZe2PiewejqOHmin+dn/oGaequ47dwdJC0
+ VnvACu/br872IGcKpJi3SE8zOBCYlGefs/Azavoq/tPScCLhn4OfsIeRylgtvIYR6yJh
+ N8lfeoTryWBqbw6H14voaLaCWfiXdMRmW+8PWPPHDyPZ28ek5ec56DUs8QqeVfOzvlOu
+ nYAf/NxlPbY/oafkdJOcx5aTWwcHCJaeQNPhhigMsup23bdj1Jy+9PlGtxg1YP8qSu3C
+ IQTQ==
+X-Gm-Message-State: AOAM530y4z0stquOdhYrhz07Ji5Vn9rz2Ej4A1Q4OFJvnIlJ2xNlQQwN
+ cjgwRq/GpU/87Cv6/7RXmDN4sE6JKxQ=
+X-Google-Smtp-Source: ABdhPJy3VW5YDDwacmvXrlU7YVtUaHqm9PQXcaeAVMtSZGZqx8FtfYkYmVMTxoUe1K5s/yzT/G30Ug==
+X-Received: by 2002:a17:906:4bc2:: with SMTP id
+ x2mr3331503ejv.143.1612968278131; 
+ Wed, 10 Feb 2021 06:44:38 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id kv24sm1343109ejc.117.2021.02.10.06.44.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Feb 2021 06:44:37 -0800 (PST)
+Subject: Re: [PULL 0/1] tricore queue
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+References: <20210210092955.124757-1-kbastian@mail.uni-paderborn.de>
+ <94b43ee3-2b41-aa58-fbc9-b6cc99f766d1@amsat.org>
+ <20210210121811.dpokh232b6kteo6y@schnipp-desktop>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <18ef8a11-3136-e0a8-1449-a667143520c0@amsat.org>
+Date: Wed, 10 Feb 2021 15:44:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <88b2a88e-e5dd-9ce6-a11c-20ba2c4befa9@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210210121811.dpokh232b6kteo6y@schnipp-desktop>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.211,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,34 +91,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: peter.maydell@linaro.org, kbastian@mail.upb.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 08.02.2021 um 12:21 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > Come to think of it, the AioContext handling is probably wrong already
-> > before your series. reopen_commit for one node could move the whole tree
-> > to a different context and then the later nodes would all be processed
-> > while holding the wrong lock.
+On 2/10/21 1:18 PM, Bastian Koppelmann wrote:
+> Hi Peter,
 > 
-> Probably proper way is to acquire all involved aio contexts as I do in
-> 29 and update aio-context updating functions to work in such
-> conditions(all aio contexts are already acquired by caller).
+> On Wed, Feb 10, 2021 at 12:18:57PM +0100, Philippe Mathieu-Daudé wrote:
+>> Hi Bastian,
+>>
+>> On 2/10/21 10:29 AM, Bastian Koppelmann wrote:
+>>> The following changes since commit 1214d55d1c41fbab3a9973a05085b8760647e411:
+>>>
+>>>   Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' into staging (2021-02-09 13:24:37 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   https://github.com/bkoppelmann/qemu.git tags/pull-tricore-20210210
+>>>
+>>> for you to fetch changes up to 52be63523e80bc92b8192a1e445fe499650085ac:
+>>>
+>>>   tricore: added triboard with tc27x_soc (2021-02-10 10:26:38 +0100)
+>>>
+>>> ----------------------------------------------------------------
+>>> added triboard with tc27x_soc
+>>
+>> What about this series?
+>>
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg776774.html
+> 
+> The patch of this PR was in my queue for a long time so this was the first thing I did. 
+> I missed Philippes series and just reviewed it now. I also saw 
+> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03467.html. I'll review
+> that as well and then respin.
 
-Whoops, what I gave was kind of a non-answer...
-
-So essentially the reason for the locking rules of changing the
-AioContext is that they drain the node first and drain imposes the
-locking rule that the AioContext for the node to be drained must be
-locked, and all other AioContexts must be unlocked.
-
-The reason why drain imposes the rule is that we run AIO_WAIT_WHILE() in
-one thread and we may need the event loops in other threads to make
-progress until the while condition can eventually become false. If other
-threads can't make progress because their lock is taken, we'll see
-deadlocks sooner or later.
-
-Kevin
-
+Thank you Bastian!
 
