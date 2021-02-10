@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A052D315F83
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:34:14 +0100 (CET)
-Received: from localhost ([::1]:50648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3779315F85
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:34:55 +0100 (CET)
+Received: from localhost ([::1]:53080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9j4n-00037I-FD
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:34:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
+	id 1l9j5S-00048q-Pn
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:34:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ipW-0002Mq-6u; Wed, 10 Feb 2021 01:18:26 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41221 helo=ozlabs.org)
+ id 1l9ipY-0002OQ-EM; Wed, 10 Feb 2021 01:18:28 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35129 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ipS-0000Qw-D6; Wed, 10 Feb 2021 01:18:24 -0500
+ id 1l9ipU-0000RN-23; Wed, 10 Feb 2021 01:18:28 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Db8gp4pFjz9sWT; Wed, 10 Feb 2021 17:17:41 +1100 (AEDT)
+ id 4Db8gq0L1Yz9sWg; Wed, 10 Feb 2021 17:17:42 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612937862;
- bh=Cr8LHwMdzb7wCN4crSb9SDT6HTZRvDC2lvwVU/PSrTw=;
+ d=gibson.dropbear.id.au; s=201602; t=1612937863;
+ bh=UeYSz0mf0MAchzxsL+q7zeJPqhuh6UMU7D7JXGGsX+E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JZkSIBDpLBXWEP0HmJrEtzEe7/48lwy4xJoEwx0k7jozC7L3QU9a8Z/FrqnIfHREL
- qB3l7Mu0N4I6dXKkHheuEnQ/zAoPEBDrfz/K06F6OOuXuSgbk9wSuSmOVx7ZYKmJdP
- iXLFDI3FLMinBiNWnm6bTTAA9310w3qr9I+SyCEw=
+ b=owjCm9Bb+WqMcLophuf3RE2MFTwd0wh7KNEg4gU+5uHRiLsZOI/b7oVww5C5tuxvp
+ ckzVyRm6Wh00ULgRwZxneg5yPbj0fWRgQNBVaDiWtrw/lpE/bx5zmpINX/ETyKV2H4
+ PkXnBv1pk5ATFVzPGRppbJL+ksToOf9Hc0z183V0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 15/19] ppc/pnv: Set default RAM size to 1 GB
-Date: Wed, 10 Feb 2021 17:17:31 +1100
-Message-Id: <20210210061735.304384-16-david@gibson.dropbear.id.au>
+Subject: [PULL 17/19] hw/ppc: e500: Fill in correct <clock-frequency> for the
+ serial nodes
+Date: Wed, 10 Feb 2021 17:17:33 +1100
+Message-Id: <20210210061735.304384-18-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210210061735.304384-1-david@gibson.dropbear.id.au>
 References: <20210210061735.304384-1-david@gibson.dropbear.id.au>
@@ -58,91 +59,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Bin Meng <bin.meng@windriver.com>
 
-The memory layout of the PowerNV machine is defined as :
+At present the <clock-frequency> property of the serial node is
+populated with value zero. U-Boot's ns16550 driver is not happy
+about this, so let's fill in a meaningful value.
 
-  #define KERNEL_LOAD_BASE	((void *)0x20000000)
-  #define KERNEL_LOAD_SIZE	0x08000000
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-  #define INITRAMFS_LOAD_BASE	KERNEL_LOAD_BASE + KERNEL_LOAD_SIZE
-  #define INITRAMFS_LOAD_SIZE	0x08000000
-
-  #define SKIBOOT_BASE		0x30000000
-  #define SKIBOOT_SIZE		0x01c10000
-
-  #define CPU_STACKS_BASE	(SKIBOOT_BASE + SKIBOOT_SIZE)
-  #define STACK_SHIFT		15
-  #define STACK_SIZE		(1 << STACK_SHIFT)
-
-The overall size of the CPU stacks is (max PIR + 1) * 32K and the
-machine easily reaches 800MB of minimum required RAM.
-
-Any value below will result in a skiboot crash :
-
-    [    0.034949905,3] MEM: Partial overlap detected between regions:
-    [    0.034959039,3] MEM: ibm,firmware-stacks [0x31c10000-0x3a450000] (new)
-    [    0.034968576,3] MEM: ibm,firmware-allocs-memory@0 [0x31c10000-0x38400000]
-    [    0.034980367,3] Out of memory adding skiboot reserved areas
-    [    0.035074945,3] ***********************************************
-    [    0.035093627,3] < assert failed at core/mem_region.c:1129 >
-    [    0.035104247,3]     .
-    [    0.035108025,3]      .
-    [    0.035111651,3]       .
-    [    0.035115231,3]         OO__)
-    [    0.035119198,3]        <"__/
-    [    0.035122980,3]         ^ ^
-
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210129111719.790692-1-clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <1612362288-22216-2-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ hw/ppc/e500.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 50810df838..77af846cdf 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -21,6 +21,7 @@
- #include "qemu-common.h"
- #include "qemu/datadir.h"
- #include "qemu/units.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "sysemu/qtest.h"
- #include "sysemu/sysemu.h"
-@@ -725,8 +726,11 @@ static void pnv_init(MachineState *machine)
-     DeviceState *dev;
- 
-     /* allocate RAM */
--    if (machine->ram_size < (1 * GiB)) {
--        warn_report("skiboot may not work with < 1GB of RAM");
-+    if (machine->ram_size < mc->default_ram_size) {
-+        char *sz = size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be bigger than %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-     }
-     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
- 
-@@ -1994,7 +1998,7 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
-      * RAM defaults to less than 2048 for 32-bit hosts, and large
-      * enough to fit the maximum initrd size at it's load address
-      */
--    mc->default_ram_size = INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
-+    mc->default_ram_size = 1 * GiB;
-     mc->default_ram_id = "pnv.ram";
-     ispc->print_info = pnv_pic_print_info;
-     nc->nmi_monitor_handler = pnv_nmi;
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index c795276668..01517a6c6c 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -126,7 +126,7 @@ static void dt_serial_create(void *fdt, unsigned long long offset,
+     qemu_fdt_setprop_string(fdt, ser, "compatible", "ns16550");
+     qemu_fdt_setprop_cells(fdt, ser, "reg", offset, 0x100);
+     qemu_fdt_setprop_cell(fdt, ser, "cell-index", idx);
+-    qemu_fdt_setprop_cell(fdt, ser, "clock-frequency", 0);
++    qemu_fdt_setprop_cell(fdt, ser, "clock-frequency", PLATFORM_CLK_FREQ_HZ);
+     qemu_fdt_setprop_cells(fdt, ser, "interrupts", 42, 2);
+     qemu_fdt_setprop_phandle(fdt, ser, "interrupt-parent", mpic);
+     qemu_fdt_setprop_string(fdt, "/aliases", alias, ser);
 -- 
 2.29.2
 
