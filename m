@@ -2,94 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433AF316F28
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 19:48:57 +0100 (CET)
-Received: from localhost ([::1]:36810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC1B316F54
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 19:57:47 +0100 (CET)
+Received: from localhost ([::1]:42560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9uXn-0007md-P4
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 13:48:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43186)
+	id 1l9ugM-00027m-31
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 13:57:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1l9uVx-0007JG-Ds
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 13:47:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1l9uVo-0005iM-1Z
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 13:47:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612982810;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SwcL9PZMbg9z2uTi+mMYcC9LGdJl5elvlNiYMxW5g6I=;
- b=cUq0eQo4znMKziJh9Ie3oCE+W8odLStEer3TbZW7acmGqp117bGT465o5n/thzXIoQ8Poo
- wL/xygUPVk5qazab46IjAJ7jbeZieBIg10VTPEDh+AEAiGBW+nwddeJ/U5XeH99LJ2HeQX
- welrigAayN7TurvJLVnUcvhaQRQbyEA=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-JVhLpFt4Oh2eqvUN7Gy4bw-1; Wed, 10 Feb 2021 13:46:48 -0500
-X-MC-Unique: JVhLpFt4Oh2eqvUN7Gy4bw-1
-Received: by mail-ot1-f69.google.com with SMTP id m7so1493063ots.4
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 10:46:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SwcL9PZMbg9z2uTi+mMYcC9LGdJl5elvlNiYMxW5g6I=;
- b=GD+Glgyq4SJCgOWEYedDUHMsSDumAaXVm403LXFPnL6P2yXYjJYfhiRnmakW9er40i
- R0pJQ2BbTInwROKz8AoPZR/U7M1LxXY5ZMVsPTRZjJ89BaqeKjKv8nibpxyNTq0Bzd+l
- GZqrazycRfmOT3MjE0R2DLwiEemFJPBa995dtXFYg9842k7n06F22+g+pIidccFtezxt
- A/ZVPNefk6jiWMc359WgnKAsorBYQTGkwOTz25jSYQ4jmZjuakZ3lfBnoPzSb72sSpFR
- AZlaj24bE/J5CwfTDfFN+JwXjDxWRTVF9xTPSpnOEgK1msjaDHSJCBh9s/igdNLOPCwX
- QfMA==
-X-Gm-Message-State: AOAM531aQPBR+GHMr0rFy8o6bJnB7FeMrQzyx7l92xTPxWbVTJVsGD5h
- 0Aq5cQYV8B1C5yjgc/o296L86EkPzOwo+V6kjqz8RaHIoD1n/q4PAJLchXFlAtQlMvexeWbrNGg
- HnC3GQIQ5pzoIrf8=
-X-Received: by 2002:a54:400b:: with SMTP id x11mr240494oie.71.1612982807533;
- Wed, 10 Feb 2021 10:46:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzmI3YLn1CbQoBWqexk9qOh4FqvWIpDmD457Kj0/8kA1GwOvIFE6WkYo+SXVhQBkuyyA0Azow==
-X-Received: by 2002:a54:400b:: with SMTP id x11mr240477oie.71.1612982807314;
- Wed, 10 Feb 2021 10:46:47 -0800 (PST)
-Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id
- e84sm613004oib.43.2021.02.10.10.46.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Feb 2021 10:46:47 -0800 (PST)
-Subject: Re: Interactive launch over QMP socket?
-To: jejb@linux.ibm.com, qemu-devel@nongnu.org
-References: <47b15088-514a-8174-029d-8d9c4571960a@redhat.com>
- <ac1a5075878d86b0a46db20cb6e579b5fec74d87.camel@linux.ibm.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <ef2db65a-f9bd-5cf7-7c1a-9ba07dd4bda0@redhat.com>
-Date: Wed, 10 Feb 2021 12:46:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l9ueV-0001dV-A0
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 13:55:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l9ueL-0000h0-NY
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 13:55:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l9ueJ-00051E-NI
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 18:55:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id ADFF82E8054
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 18:55:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <ac1a5075878d86b0a46db20cb6e579b5fec74d87.camel@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 10 Feb 2021 18:50:03 -0000
+From: John Arbuckle <1914667@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: programmingkidx
+X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
+X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
+References: <161248158218.12871.10682279346002918371.malonedeb@soybean.canonical.com>
+Message-Id: <161298300381.17804.14796067585700164735.malone@wampee.canonical.com>
+Subject: [Bug 1914667] Re: High cpu usage when guest is idle on
+ qemu-system-i386
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
+X-Launchpad-Hash: 976ab6c85493e32bda97edfd12c3b3c9f63643ca
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -98,40 +70,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: npmccallum@redhat.com, dgilbert@redhat.com
+Reply-To: Bug 1914667 <1914667@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/21 12:14 PM, James Bottomley wrote:
->> I would like to add a message type to QMP which allows guest owners
->> to supply this data over a socket and _not_ require these components
->> a priori via command line arguments. In doing so, this would allow
->> for a 100% remote attestation process over the socket. However, I'm
->> not sure how to express this interactive "waiting" for this data to
->> become available with internal APIs (assuming it's not supplied as a
->> command  line argument).
-> 
-> Well, I never understood why qemu can't deduce the value of cbitpos ...
-> it even errors out if you get it wrong.  However, other things like the
-> policy and the session file have to be present at start of day.
-> They're not things that can be passed in after qemu starts building the
-> machine image because they need to be present to begin building it.
+After updating QEMU to 1214d55d1c41fbab3a9973a05085b8760647e411, I
+reinstalled Windows XP and the host CPU usage at idle was normal. My
+guess is that I picked a bad commit to reinstall Windows XP.
 
-Right, I didn't mean to include cbitpos in consideration for this. I'm 
-only interested in supplying the session, policy, and certificate info 
-over the socket.
+I tried using "-smp 4". Windows XP started up to a black screen. When I
+restarted the problem with high CPU usage at idle was back. I did not
+use the "-smp 4" option after restarting.
 
-Shouldn't the session, policy, and certificate information only be 
-required in time for the KVM_SEV_LAUNCH_START ioctl call? This is the 
-place I'm interested in waiting for the relevant data.
+When I first specified the '-smp 4' option I saw Windows install
+something then have the computer restarted.
 
-> The patch for remote attestation (which was only recently added to the
-> PSP protocol) is here:
-> 
-> https://lore.kernel.org/kvm/20210105163943.30510-1-brijesh.singh@amd.com/
+-- =
 
-Thank you! I didn't see this, I'll read up on it.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914667
 
-Connor
+Title:
+  High cpu usage when guest is idle on qemu-system-i386
 
+Status in QEMU:
+  New
+
+Bug description:
+  When running Windows XP in qemu-system-i386, the cpu usage of QEMU is
+  about 100% even when the guest CPU usage is close to 2%. The host cpu
+  usage should be low when the guest cpu usage is low.
+
+  Command: qemu-system-i386 -hda <Windows XP HD image>
+
+  Using this command also shows around 100% host CPU usage:
+  qemu-system-i386 -m 700 -hda <Windows XP HD image> -usb -device usb-audio=
+ -net nic,model=3Drtl8139 -net user -hdb mountable.img -soundhw pcspk
+
+  Using the Penryn CPU option also saw this problem:
+  qemu-system-i386 -hda <Windows XP HD image> -m 700 -cpu Penryn-v1
+
+  Using "-cpu pentium2" saw the same high host cpu usage.
+
+  =
+
+  My Info:
+  M1 MacBook Air
+  Mac OS 11.1
+  qemu-system-i386 version 5.2 (1ba089f2255bfdb071be3ce6ac6c3069e8012179)
+  Windows XP SP3 Build 2600
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914667/+subscriptions
 
