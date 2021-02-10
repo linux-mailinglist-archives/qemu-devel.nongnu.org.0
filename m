@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E76316829
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 14:39:12 +0100 (CET)
-Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A97316833
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 14:42:08 +0100 (CET)
+Received: from localhost ([::1]:54768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9pi3-0001I1-Df
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 08:39:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57740)
+	id 1l9pkt-0002st-D7
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 08:42:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l9pgg-0000KG-SU
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:37:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58780)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1l9pjz-0002L1-8S
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:41:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l9pgd-0005JP-TC
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:37:46 -0500
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1l9pjx-0006qw-C1
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 08:41:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612964262;
+ s=mimecast20190719; t=1612964467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hz+nb2CT029aNvB7Snb5YOncfBn3vFriHif9UOX29E0=;
- b=EyhpUR1VPlx85J57oBwNbNv24W1VvtiPfeyoxLUlc6OQpY2IbbKsuhLPPiYjs2R2rw7jiL
- YvUl+Jl4467fM9lC0kHW3FV/uNROH6twJyFuNwiyGYKIwOt07erlC6ke7xKG7irqbHVDtJ
- KSrB6FL/fbmPxFMm9hoGF5xWTGXloTk=
+ bh=jLMdw15nIwOnAF4HMNEySx4jD6vBmZw6kMB/pmJMusk=;
+ b=KH0WfzQN96eKPbDtMqqCdFj6cnYDK3zDoxQd4DZ3qmiKTrFkCX30wQH+aylyOm5QOxf9M1
+ KgKyt9IXR1nVos3cNRPxzqZCqARZNQv2PpDh0KnqoRVPNpg+M2TGpn2vfyqgiirxzQ48QV
+ V9DMZrbh2JfrE7v1htHqBm6YriHu/Yw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-MJ833CbzO8KfuK96ttjJtw-1; Wed, 10 Feb 2021 08:37:39 -0500
-X-MC-Unique: MJ833CbzO8KfuK96ttjJtw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-270-SmfahjSkP2Kl5jmCLVo11w-1; Wed, 10 Feb 2021 08:41:05 -0500
+X-MC-Unique: SmfahjSkP2Kl5jmCLVo11w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E806100A8E8;
- Wed, 10 Feb 2021 13:37:38 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B91EB60BE2;
- Wed, 10 Feb 2021 13:37:33 +0000 (UTC)
-Date: Wed, 10 Feb 2021 14:37:31 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Isaku Yamahata <yamahata.qemudev@gmail.com>
-Subject: Re: [PATCH v2 6/9] hw/i386: declare ACPI mother board resource for
- MMCONFIG region
-Message-ID: <20210210143731.45566d1e@redhat.com>
-In-Reply-To: <20210209200258.GB28049@private.email.ne.jp>
-References: <cover.1612821108.git.isaku.yamahata@intel.com>
- <ff52a5969a6666235745d7e067f5fb500a8c70fb.1612821109.git.isaku.yamahata@intel.com>
- <20210209165241.5ba1a953@redhat.com>
- <20210209200258.GB28049@private.email.ne.jp>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35672192AB9D;
+ Wed, 10 Feb 2021 13:41:04 +0000 (UTC)
+Received: from [10.36.112.23] (ovpn-112-23.ams2.redhat.com [10.36.112.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91E9E60657;
+ Wed, 10 Feb 2021 13:40:25 +0000 (UTC)
+Subject: Re: [PATCH 0/2] failover: trivial cleanup and fix
+To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210206123955.2196514-1-lvivier@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <a0997558-cdb7-fbd3-4a65-95c9840faefc@redhat.com>
+Date: Wed, 10 Feb 2021 14:40:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210206123955.2196514-1-lvivier@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,92 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>, philmd@redhat.com,
- qemu-devel@nongnu.org, isaku.yamahata@gmail.com, mst@redhat.com
+Cc: qemu-trivial@nongnu.org, jfreimann@redhat.com,
+ Laurent Vivier <laurent@vivier.eu>, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Feb 2021 12:02:58 -0800
-Isaku Yamahata <yamahata.qemudev@gmail.com> wrote:
+On 06/02/2021 13:39, Laurent Vivier wrote:
+> The first patch removes a duplicate assignment to allow_unplug_during_migrati=
+> on,
+> and simplify the code.
+> 
+> The second patch fixes a dangling object in failover_add_primary() that preve=
+> nts
+> to cleanup the internal structure after the object has been unplugged.
+> 
+> Laurent Vivier (2):
+>   pci: cleanup failover sanity check
+>   virtio-net: add missing object_unref()
 
-> On Tue, Feb 09, 2021 at 04:52:41PM +0100,
-> Igor Mammedov <imammedo@redhat.com> wrote:
-> 
-> > On Mon,  8 Feb 2021 13:57:25 -0800
-> > isaku.yamahata@gmail.com wrote:
-> >   
-> > > From: Isaku Yamahata <isaku.yamahata@intel.com>
-> > > 
-> > > Declare PNP0C01 device to reserve MMCONFIG region to conform to the
-> > > spec better and play nice with guest BIOSes/OSes.
-> > > 
-> > > According to PCI Firmware Specification, MMCONFIG region must be
-> > > reserved by declaring a motherboard resource.  
-> > could you point to concrete spec version/chapter where it stated.
-> > (should be part of commit message)  
-> 
-> PCI Firmware specification Revision 3.2
-> 4.1.2 MCFG Table Description
-> table 4-2 NOTE 2
->   If the operating system does not natively comprehend reserving the MMCFG
->   region, The MMCFG region must e reserved by firmware. ...
->   For most systems, the mortheroard resource would appear at the root of
->   the ACPI namespace (under \_SB)...
->   The resource can optionally be returned in Int15 E820h or EFIGetMemoryMap
->   as reserved memory but must always be reported through ACPI as a motherboard
->   resource
-> 
-> Will include it in next respin.
-> 
-> >   
-> > > It's optional to reserve
-> > > the region in memory map by Int 15 E820h or EFIGetMemoryMap.  
-> >   
-> > > If guest BIOS doesn't reserve the region in memory map without the
-> > > reservation by mother board resource, guest linux abandons to use
-> > > MMCFG.  
-> > can parse this, can you rephrase and avoid double negation, please?  
-> 
-> How about this?
-> Guest Linux checks if the MMCFG region is reserved by bios memory map or
-> ACPI resource.
+I can collect these two patches via the trivial branch if there will be no PR for virtio
+or PCI soon.
 
-> It failed, it falls back to legacy PCI configuraiton access.
-clarify what/how failed, pls.
+Michael?
 
- 
-> > > +     * When the method of _CRS is called to determine MMCONFIG region,
-> > > +     * only port io is allowed to access PCI configuration space.
-> > > +     * It means qword access isn't allowed.
-> > > +     *
-> > > +     * Device(DRAC)
-> > > +     * {
-> > > +     *     Name(_HID, EisaId("PNP0C01"))
-> > > +     *     OperationRegion(DRR0, PCI_Config, 0x0000000000000060, 0x8)
-> > > +     *     Field(DRR0, DWordAcc, Lock, Preserve)
-> > > +     *     {
-> > > +     *         PEBL, 4,
-> > > +     *         PEBH, 4
-> > > +     *     }  
-> > 
-> > why are you trying to fetch it dynamically?
-> > what prevents you from getting MMCONFIG address in QEMU when building
-> > ACPI tables and encode _CRS statically at that time?  
-> 
-> My motivation is to prepare for TDX where ACPI tables will be part of
-> measurement. I wanted ACPI tables to remain same irrelevant of chipset
-> configuration which guest can change.
-ACPI tables are supposed to be read from QEMU after firmware configured
-PCI subsystem, including MMCONFIG.
-If configuration is changed after that MCFG table won't be correct anymore.
-Given MCFG is statically generated, I see no reason to fetch the same info
-dynamically from DSDT.
-
-PS:
-goal of having fixed ACPI tables is hard to achieve in QEMU,
-it might be possible within single QEMU version for a concrete CLI configuration,
-but any deviation from that may trigger ACPI tables change.
-
-> Thanks,
+Thanks,
+Laurent
 
 
