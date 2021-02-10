@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F268D316353
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 11:10:07 +0100 (CET)
-Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68266316327
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 11:06:03 +0100 (CET)
+Received: from localhost ([::1]:35166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9mRj-0007tv-2l
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 05:10:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35114)
+	id 1l9mNk-0004WW-Ly
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 05:06:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9mIw-00012e-SX
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 05:01:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9mIq-0006Zz-Iu
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 05:01:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612951255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ggHjaMOLKYI+ttg8lA9v4QXB588bjR5HDa0me1TEEUg=;
- b=EFpptVTX8SHbrhGiuYy4BQ3e8XEk4Jy25jeRS4rubpzoZhd7PBfvTUrBaccbZ/QpqspA9G
- Xw5ifTKi4XHJHgXydLNrycZwRpdV0DccSL/3GhERprzqMPIV8GjuhIuIr+/I44/FnBQI5Y
- XuMA1QuaTU4wYmczjmqBV1LODr9xlSo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-OeRD6x5aOjW2518GDKx_nA-1; Wed, 10 Feb 2021 05:00:53 -0500
-X-MC-Unique: OeRD6x5aOjW2518GDKx_nA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CF0B100A8E8;
- Wed, 10 Feb 2021 10:00:52 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-231.ams2.redhat.com
- [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8123C5D9CD;
- Wed, 10 Feb 2021 10:00:45 +0000 (UTC)
-Subject: Re: [PATCH 0/7] qcow2: compressed write cache
-To: "Denis V. Lunev" <den@openvz.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210129165030.640169-1-vsementsov@virtuozzo.com>
- <745c4617-01bc-c888-b6da-95a705cf0c1e@redhat.com>
- <0669a5e8-bcff-ffb1-23b0-0af9ce20ad27@virtuozzo.com>
- <476836f5-09d8-976d-bc3c-afb05befddbd@redhat.com>
- <6a379fe0-cf87-bc5e-ae53-473599ea10c4@openvz.org>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <d5120443-33fc-c182-b96d-d5fc3eed3e7d@redhat.com>
-Date: Wed, 10 Feb 2021 11:00:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l9mMK-0003al-Do; Wed, 10 Feb 2021 05:04:32 -0500
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:35518)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1l9mMG-0008TH-K4; Wed, 10 Feb 2021 05:04:32 -0500
+Received: by mail-lj1-x231.google.com with SMTP id a17so2043140ljq.2;
+ Wed, 10 Feb 2021 02:04:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=G7GwhJERZajw60iemLfcKQOoxmLOGrUm1082hHt/4RA=;
+ b=gHQ7Ux0uqBw7J3KwJMmEceu8JQ7K6toAbwEjeB7dugtN8DZI4L1RAajftSeH8zQJbv
+ SjRYn4URCb70MTwprVL1AdnPc7vBBc9qlfljGLmHqkOBCBW1/QJOhiWVKxSTeJ3LP6bZ
+ vmGLKXQKHOd4+apvzsCLfvPUN9GTP5qm8ey/HKvF3CdoXYnzfz3tV8bqBMSaAZCP+772
+ lhGsX4KAugbZ777CMg4sNEgEV6RHTz1fX63qsB9bpAD9G+rDKEg4jHhYJ/VXcoWlx6o7
+ Psx6er0mStKWTZ/8FKAyjwVVwbrNtx9up39cJ9lCpDvKZ8TFIW779k6mD8spPvHU7Iaj
+ BnCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=G7GwhJERZajw60iemLfcKQOoxmLOGrUm1082hHt/4RA=;
+ b=aLM0wvOU0RQyI+FYZmPEPPoquqvQ74x0s99EqF+VD/oLYLEKtX9EYyo/lW9j93Rj+8
+ 1JFpVDdJ1NwifEiwA7lRWH+VZW3cD5ofyl+m6sVGQgRHa/8Q/G5XD+Nr5jH6l+NC1nvf
+ +UE/By8YaE9SchZp7m0b0eFgL/OskfZhiytfVkQDqnj0RpiZOBHLLebml1iBVP+S8wXV
+ 6zpIKWUnFw3hjbW0yecu7fE56gfg8Vxh3ZCdU20vXOYR/A9+LCFf1Yfq8FfxY37cYbws
+ E49e5q4JyFeGSwKudkTH/FjANJ1k1vM9aQwXt8YdHJ4N0x1sFHjGBTwu0gbBs9v3MGa0
+ CsWw==
+X-Gm-Message-State: AOAM533mrASHJ5f/yyAa/d8ameaUPvLoViAJscjZYgLbiN/PKpuCzOw1
+ a2C3kDe8sibYq2TIV6JR1kE=
+X-Google-Smtp-Source: ABdhPJzOC4UONclbZB2aMz6QeAC1c2UjyEKD/X7XHk2KkOICQMdEXucki7pmubv+3YR6GhudJfKY2Q==
+X-Received: by 2002:a2e:984a:: with SMTP id e10mr1415385ljj.160.1612951466042; 
+ Wed, 10 Feb 2021 02:04:26 -0800 (PST)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id t27sm369693ljo.93.2021.02.10.02.04.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Feb 2021 02:04:25 -0800 (PST)
+Date: Wed, 10 Feb 2021 11:04:24 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/ssi: xilinx_spips: Implement basic QSPI DMA
+ support
+Message-ID: <20210210100424.GJ477672@toto>
+References: <1612761924-68000-1-git-send-email-bmeng.cn@gmail.com>
+ <1612761924-68000-3-git-send-email-bmeng.cn@gmail.com>
+ <20210208124425.GI477672@toto>
+ <CAEUhbmV=QLCuk5_bymrVNPO_vEU=R1A3urAaqhnNAgSGpiTsGw@mail.gmail.com>
+ <CAJy5ezooJ21SAFhR2Pf=1aAwBkPEUivbCawZy-geCx+g36EP2Q@mail.gmail.com>
+ <CAEUhbmVZr0pAW86kYjiXryN3cOaPc2LmrH9=fqLQUUdJrKX4Cw@mail.gmail.com>
+ <CAJy5ezqPC365CAjzMmAfSyKw9uL+ur48bD4=WmMQWHA+_fCE=A@mail.gmail.com>
+ <CAEUhbmUfwOwkcLhW9X0R46rAX3R7ygu2osgCqmuY0cne706MtQ@mail.gmail.com>
+ <CAEUhbmXuEa4J45fi0yjpC81uP5DZ0DuZxjpFbffNqWUAjr_v9g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <6a379fe0-cf87-bc5e-ae53-473599ea10c4@openvz.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEUhbmXuEa4J45fi0yjpC81uP5DZ0DuZxjpFbffNqWUAjr_v9g@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x231.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,192 +89,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.02.21 17:52, Denis V. Lunev wrote:
-> On 2/9/21 5:47 PM, Max Reitz wrote:
->> On 09.02.21 15:10, Vladimir Sementsov-Ogievskiy wrote:
->>> 09.02.2021 16:25, Max Reitz wrote:
->>>> On 29.01.21 17:50, Vladimir Sementsov-Ogievskiy wrote:
->>>>> Hi all!
->>>>>
->>>>> I know, I have several series waiting for a resend, but I had to
->>>>> switch
->>>>> to another task spawned from our customer's bug.
->>>>>
->>>>> Original problem: we use O_DIRECT for all vm images in our product,
->>>>> it's
->>>>> the policy. The only exclusion is backup target qcow2 image for
->>>>> compressed backup, because compressed backup is extremely slow with
->>>>> O_DIRECT (due to unaligned writes). Customer complains that backup
->>>>> produces a lot of pagecache.
->>>>>
->>>>> So we can either implement some internal cache or use fadvise somehow.
->>>>> Backup has several async workes, which writes simultaneously, so in
->>>>> both
->>>>> ways we have to track host cluster filling (before dropping the cache
->>>>> corresponding to the cluster).  So, if we have to track anyway, let's
->>>>> try to implement the cache.
->>>>
->>>> I wanted to be excited here, because that sounds like it would be
->>>> very easy to implement caching.  Like, just keep the cluster at
->>>> free_byte_offset cached until the cluster it points to changes, then
->>>> flush the cluster.
->>>
->>> The problem is that chunks are written asynchronously.. That's why
->>> this all is not so easy.
->>>
->>>>
->>>> But then I see like 900 new lines of code, and I’m much less excited...
->>>>
->>>>> Idea is simple: cache small unaligned write and flush the cluster when
->>>>> filled.
->>>>>
->>>>> Performance result is very good (results in a table is time of
->>>>> compressed backup of 1000M disk filled with ones in seconds):
->>>>
->>>> “Filled with ones” really is an edge case, though.
->>>
->>> Yes, I think, all clusters are compressed to rather small chunks :)
->>>
->>>>
->>>>> ---------------  -----------  -----------
->>>>>                    backup(old)  backup(new)
->>>>> ssd:hdd(direct)  3e+02        4.4
->>>>>                                   -99%
->>>>> ssd:hdd(cached)  5.7          5.4
->>>>>                                   -5%
->>>>> ---------------  -----------  -----------
->>>>>
->>>>> So, we have benefit even for cached mode! And the fastest thing is
->>>>> O_DIRECT with new implemented cache. So, I suggest to enable the new
->>>>> cache by default (which is done by the series).
->>>>
->>>> First, I’m not sure how O_DIRECT really is relevant, because I don’t
->>>> really see the point for writing compressed images.
->>>
->>> compressed backup is a point
->>
->> (Perhaps irrelevant, but just to be clear:) I meant the point of using
->> O_DIRECT, which one can decide to not use for backup targets (as you
->> have done already).
->>
->>>> Second, I find it a bit cheating if you say there is a huge
->>>> improvement for the no-cache case, when actually, well, you just
->>>> added a cache.  So the no-cache case just became faster because
->>>> there is a cache now.
->>>
->>> Still, performance comparison is relevant to show that O_DIRECT as is
->>> unusable for compressed backup.
->>
->> (Again, perhaps irrelevant, but:) Yes, but my first point was exactly
->> whether O_DIRECT is even relevant for writing compressed images.
->>
->>>> Well, I suppose I could follow that if O_DIRECT doesn’t make much
->>>> sense for compressed images, qemu’s format drivers are free to
->>>> introduce some caching (because technically the cache.direct option
->>>> only applies to the protocol driver) for collecting compressed writes.
->>>
->>> Yes I thought in this way, enabling the cache by default.
->>>
->>>> That conclusion makes both of my complaints kind of moot.
->>>>
->>>> *shrug*
->>>>
->>>> Third, what is the real-world impact on the page cache?  You
->>>> described that that’s the reason why you need the cache in qemu,
->>>> because otherwise the page cache is polluted too much.  How much is
->>>> the difference really?  (I don’t know how good the compression ratio
->>>> is for real-world images.)
->>>
->>> Hm. I don't know the ratio.. Customer reported that most of RAM is
->>> polluted by Qemu's cache, and we use O_DIRECT for everything except
->>> for target of compressed backup.. Still the pollution may relate to
->>> several backups and of course it is simple enough to drop the cache
->>> after each backup. But I think that even one backup of 16T disk may
->>> pollute RAM enough.
->>
->> Oh, sorry, I just realized I had a brain fart there.  I was referring
->> to whether this series improves the page cache pollution.  But
->> obviously it will if it allows you to re-enable O_DIRECT.
->>
->>>> Related to that, I remember a long time ago we had some discussion
->>>> about letting qemu-img convert set a special cache mode for the
->>>> target image that would make Linux drop everything before the last
->>>> offset written (i.e., I suppose fadvise() with
->>>> POSIX_FADV_SEQUENTIAL).  You discard that idea based on the fact
->>>> that implementing a cache in qemu would be simple, but it isn’t,
->>>> really.  What would the impact of POSIX_FADV_SEQUENTIAL be?  (One
->>>> advantage of using that would be that we could reuse it for
->>>> non-compressed images that are written by backup or qemu-img convert.)
->>>
->>> The problem is that writes are async. And therefore, not sequential.
->>
->> In theory, yes, but all compressed writes still goes through
->> qcow2_alloc_bytes() right before submitting the write, so I wonder
->> whether in practice the writes aren’t usually sufficiently sequential
->> to make POSIX_FADV_SEQUENTIAL work fine.
->>
->>> So
->>> I have to track the writes and wait until the whole cluster is
->>> filled. It's simple use fadvise as an option to my cache: instead of
->>> caching data and write when cluster is filled we can instead mark
->>> cluster POSIX_FADV_DONTNEED.
->>>
->>>>
->>>> (I don’t remember why that qemu-img discussion died back then.)
->>>>
->>>>
->>>> Fourth, regarding the code, would it be simpler if it were a pure
->>>> write cache?  I.e., on read, everything is flushed, so we don’t have
->>>> to deal with that.  I don’t think there are many valid cases where a
->>>> compressed image is both written to and read from at the same time.
->>>> (Just asking, because I’d really want this code to be simpler.  I
->>>> can imagine that reading from the cache is the least bit of
->>>> complexity, but perhaps...)
->>>>
->>>
->>> Hm. I really didn't want to support reads, and do it only to make it
->>> possible to enable the cache by default.. Still read function is
->>> really simple, and I don't think that dropping it will simplify the
->>> code significantly.
->>
->> That’s too bad.
->>
->> So the only question I have left is what POSIX_FADV_SEQUENTIAL
->> actually would do in practice.
->>
->> (But even then, the premise just doesn’t motivate me sufficiently yet...)
->>
-> POSIX_FADV_SEQUENTIAL influences the amount of the read-ahead
-> only.
+On Wed, Feb 10, 2021 at 05:08:01PM +0800, Bin Meng wrote:
+> On Tue, Feb 9, 2021 at 10:30 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi Edgar,
+> >
+> > On Mon, Feb 8, 2021 at 11:17 PM Edgar E. Iglesias
+> > <edgar.iglesias@gmail.com> wrote:
+> > >
+> > >
+> > >
+> > > On Mon, Feb 8, 2021 at 3:45 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >>
+> > >> Hi Edgar,
+> > >>
+> > >> On Mon, Feb 8, 2021 at 10:34 PM Edgar E. Iglesias
+> > >> <edgar.iglesias@gmail.com> wrote:
+> > >> >
+> > >> >
+> > >> >
+> > >> > On Mon, 8 Feb 2021, 15:10 Bin Meng, <bmeng.cn@gmail.com> wrote:
+> > >> >>
+> > >> >> Hi Edgar,
+> > >> >>
+> > >> >> On Mon, Feb 8, 2021 at 8:44 PM Edgar E. Iglesias
+> > >> >> <edgar.iglesias@gmail.com> wrote:
+> > >> >> >
+> > >> >> > On Mon, Feb 08, 2021 at 01:25:24PM +0800, Bin Meng wrote:
+> > >> >> > > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > >> >> > >
+> > >> >> > > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+> > >> >> > > is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+> > >> >> > > crash. This is observed when testing VxWorks 7.
+> > >> >> > >
+> > >> >> > > Add a basic implementation of QSPI DMA functionality.
+> > >> >> > >
+> > >> >> > > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > >> >> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > >> >> >
+> > >> >> > + Francisco
+> > >> >> >
+> > >> >> > Hi,
+> > >> >> >
+> > >> >> > Like Peter commented on the previous version, the DMA unit is actully separate.
+> > >> >>
+> > >> >> Is it really separate? In the Xilinx ZynqMP datasheet, it's an
+> > >> >> integrated DMA unit dedicated for QSPI usage. IIUC, other modules on
+> > >> >> the ZynqMP SoC cannot use it to do any DMA transfer. To me this is no
+> > >> >> different like a DMA engine in a ethernet controller.
+> > >> >
+> > >> >
+> > >> > Yes, it's a separate module.
+> > >> >
+> > >> >>
+> > >> >> > This module is better modelled by pushing data through the Stream framework
+> > >> >> > into the DMA. The DMA model is not upstream but can be found here:
+> > >> >> > https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
+> > >> >> >
+> > >> >>
+> > >> >> What's the benefit of modeling it using the stream framework?
+> > >> >
+> > >> >
+> > >> >
+> > >> > Because it matches real hw and this particular dma exists in various instances, not only in qspi. We don't want duplicate implementations of the same dma.
+> > >> >
+> > >>
+> > >> Would you please share more details, like what other peripherals are
+> > >> using this same DMA model?
+> > >>
+> > >
+> > > It's used by the Crypto blocks (SHA, AES) and by the bitstream programming blocks on the ZynqMP.
+> > > In Versal there's the same plus some additional uses of this DMA...
+> >
+> > Sigh, it's not obvious from the ZynqMP datasheet. Indeed the crypto
+> > blocks seem to be using the same IP that QSPI uses for its DMA mode.
+> > With that additional information, I agree modeling the DMA as a
+> > separate model makes sense.
+> >
+> > Will investigate the Xilinx fork, and report back.
 > 
-> int generic_fadvise(struct file *file, loff_t offset, loff_t len, int
-> advice)
-> {
-> .....
->      case POSIX_FADV_NORMAL:
->          file->f_ra.ra_pages = bdi->ra_pages;
->          spin_lock(&file->f_lock);
->          file->f_mode &= ~FMODE_RANDOM;
->          spin_unlock(&file->f_lock);
->          break;
->      case POSIX_FADV_SEQUENTIAL:
->          file->f_ra.ra_pages = bdi->ra_pages * 2;
->          spin_lock(&file->f_lock);
->          file->f_mode &= ~FMODE_RANDOM;
->          spin_unlock(&file->f_lock);
->          break;
+> Unfortunately the Xilinx fork of QEMU does not boot VxWorks. It looks
+> like the fork has quite a lot of difference from the upstream QEMU.
+> For example, the fork has a new machine name for ZynqMP which does not
+> exist in the upstream. It seems quite a lot has not been upstreamed
+> yet, sigh.
 > 
-> thus the only difference from the usual NORMAL mode would be
-> doubled amount of read-ahead pages.
+> The CSU DMA model in the Xilinx fork seems to be quite complicated and
+> has lots of functionalities. However right now our goal is to
+> implement a minimum model that could be used to work with the GQSPI
+> model to make the QSPI DMA functionality work.
+> We implemented a basic CSU DMA model based on the Xilinx fork, and
+> will send it as v3 soon.
+>
 
-:/
+We've prepared a patch with the QSPI DMA support using the complete
+DMA model. We'll send that out soon. It's better if you base your
+work on that.
 
-Thanks for looking it up.
-
-Max
-
+Cheers,
+Edgar
 
