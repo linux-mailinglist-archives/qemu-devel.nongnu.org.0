@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38AA931697D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 15:54:00 +0100 (CET)
-Received: from localhost ([::1]:42652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA286316987
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 15:56:57 +0100 (CET)
+Received: from localhost ([::1]:47200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9qsR-0004O4-7a
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 09:53:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
+	id 1l9qvI-0006NK-O0
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 09:56:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l9qqC-000346-Na
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:51:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29668)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l9qtf-0005rU-UI
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:55:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l9qq3-0001Pw-2u
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:51:35 -0500
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l9qtb-0002pw-9J
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 09:55:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612968689;
+ s=mimecast20190719; t=1612968909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pvj7Q3Zsk9cAanb2ksyLIvTb/jbe1OIA11gqOjCxQt8=;
- b=EOxV4s6LQwbnS/e8fhmzE3YLDmgxY82cZoF3xZNuP8gOrZnsxcr9ArvZmfVPJHPMBrUeKt
- tTK00WLgM8g5HC/VSM+cDxROWXxI4PLmpo5LvJdiZMhvjPnDhqTHEXptD+IezqBaqGDY23
- iuD1ICzrCc9BWh7a9depmOrD3ITMFdk=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+udZjA1UY3OqeCZ80mbbgAGzN4Wh0uK8gDwRxo/IVkQ=;
+ b=SKRXwrAlxMIJE6yh3XPXXBQG3EXV88wOP9pqaJgoMf6S7EtPOynQ+99jBFgoaPB38ievJK
+ tHPLrHWwA5L2XzKeXNolQ5LTFsts52UNSgZDrmdjhbxYi7HKr5NC5WsTYqlDZlui+QrkqE
+ htCyMNm2ijY8KLzZgWZxpQ41eCne38Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-to-fGzK9OiuWoK_BuWN-7Q-1; Wed, 10 Feb 2021 09:51:27 -0500
-X-MC-Unique: to-fGzK9OiuWoK_BuWN-7Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-329-jB2t9vJkPlmtYnxL_2a7Jg-1; Wed, 10 Feb 2021 09:55:07 -0500
+X-MC-Unique: jB2t9vJkPlmtYnxL_2a7Jg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CE83801962;
- Wed, 10 Feb 2021 14:51:26 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-33.ams2.redhat.com [10.36.115.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B23319CB0;
- Wed, 10 Feb 2021 14:51:24 +0000 (UTC)
-Date: Wed, 10 Feb 2021 15:51:22 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 34/36] block: refactor bdrv_child_set_perm_safe()
- transaction action
-Message-ID: <20210210145122.GF5144@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-35-vsementsov@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF6A979EC0;
+ Wed, 10 Feb 2021 14:55:05 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.74.9.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DD89D1A838;
+ Wed, 10 Feb 2021 14:55:02 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: [PATCH] net: e1000: check transmit descriptor field values
+Date: Wed, 10 Feb 2021 20:22:58 +0530
+Message-Id: <20210210145258.143131-1-ppandit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201127144522.29991-35-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,64 +75,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Alexander Bulekov <alxndr@bu.edu>, Cheolwoo Myung <cwmyung@snu.ac.kr>,
+ Ruhr-University Bochum <bugs-syssec@rub.de>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Old interfaces dropped, nobody directly calls
-> bdrv_child_set_perm_abort() and bdrv_child_set_perm_commit(), so we can
-> use personal state structure for the action and stop exploiting
-> BdrvChild structure. Also, drop "_safe" suffix which is redundant now.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-> diff --git a/block.c b/block.c
-> index 3093d20db8..1fde22e4f4 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -2070,59 +2070,40 @@ static GSList *bdrv_topological_dfs(GSList *list, GHashTable *found,
->      return g_slist_prepend(list, bs);
->  }
->  
-> -static void bdrv_child_set_perm_commit(void *opaque)
-> -{
-> -    BdrvChild *c = opaque;
-> -
-> -    c->has_backup_perm = false;
-> -}
-> +typedef struct BdrvChildSetPermState {
-> +    BdrvChild *child;
-> +    uint64_t old_perm;
-> +    uint64_t old_shared_perm;
-> +} BdrvChildSetPermState;
->  
->  static void bdrv_child_set_perm_abort(void *opaque)
->  {
-> -    BdrvChild *c = opaque;
-> -    /*
-> -     * We may have child->has_backup_perm unset at this point, as in case of
-> -     * _check_ stage of permission update failure we may _check_ not the whole
-> -     * subtree.  Still, _abort_ is called on the whole subtree anyway.
-> -     */
-> -    if (c->has_backup_perm) {
-> -        c->perm = c->backup_perm;
-> -        c->shared_perm = c->backup_shared_perm;
-> -        c->has_backup_perm = false;
-> -    }
-> +    BdrvChildSetPermState *s = opaque;
-> +
-> +    s->child->perm = s->old_perm;
-> +    s->child->shared_perm = s->old_shared_perm;
->  }
+While processing transmit (tx) descriptors in process_tx_desc()
+various descriptor fields are not checked properly. This may lead
+to infinite loop like issue. Add checks to avoid them.
 
-Ah, so this patch actually implements what I had asked for somewhere at
-the start of the series.
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
+Reported-by: Ruhr-University Bochum <bugs-syssec@rub.de>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ hw/net/e1000.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Don't bother changing it earlier then. As long as it's in the same
-series, this is fine.
-
-Kevin
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index d8da2f6528..15949a3d64 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -667,9 +667,11 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
+ 
+     addr = le64_to_cpu(dp->buffer_addr);
+     if (tp->cptse) {
++        assert(tp->tso_props.hdr_len);
+         msh = tp->tso_props.hdr_len + tp->tso_props.mss;
+         do {
+             bytes = split_size;
++            assert(msh > tp->size);
+             if (tp->size + bytes > msh)
+                 bytes = msh - tp->size;
+ 
+@@ -681,22 +683,26 @@ process_tx_desc(E1000State *s, struct e1000_tx_desc *dp)
+                 memmove(tp->header, tp->data, tp->tso_props.hdr_len);
+             }
+             tp->size = sz;
++            assert(tp->size);   /* sz may get truncated */
+             addr += bytes;
+             if (sz == msh) {
+                 xmit_seg(s);
+                 memmove(tp->data, tp->header, tp->tso_props.hdr_len);
+                 tp->size = tp->tso_props.hdr_len;
+             }
++            assert(split_size >= bytes);
+             split_size -= bytes;
+         } while (bytes && split_size);
+     } else {
+         split_size = MIN(sizeof(tp->data) - tp->size, split_size);
++        assert(tp->size && split_size);
+         pci_dma_read(d, addr, tp->data + tp->size, split_size);
+         tp->size += split_size;
+     }
+ 
+     if (!(txd_lower & E1000_TXD_CMD_EOP))
+         return;
++    assert(tp->size && tp->tso_props.hdr_len);
+     if (!(tp->cptse && tp->size < tp->tso_props.hdr_len)) {
+         xmit_seg(s);
+     }
+-- 
+2.29.2
 
 
