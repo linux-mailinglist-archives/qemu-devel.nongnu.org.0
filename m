@@ -2,67 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B4C6316ABA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:08:07 +0100 (CET)
-Received: from localhost ([::1]:57252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC04316AAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:04:37 +0100 (CET)
+Received: from localhost ([::1]:53906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9s2A-0006gu-FA
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:08:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34868)
+	id 1l9ryl-0004ik-Vz
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:04:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9s10-000613-Kj
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:06:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l9s0v-0007Oa-JN
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:06:54 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l9s0r-0000Sc-94
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:06:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 297192E8148
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:06:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1l9rxe-0003wk-PM
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:03:27 -0500
+Received: from foss.arm.com ([217.140.110.172]:60838)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1l9rxa-0005lG-9t
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:03:25 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E0BA113E;
+ Wed, 10 Feb 2021 08:03:16 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE5D83F73B;
+ Wed, 10 Feb 2021 08:03:13 -0800 (PST)
+Subject: Re: [RFC PATCH v8 5/5] KVM: arm64: ioctl to fetch/store tags in a
+ guest
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210205135803.48321-1-steven.price@arm.com>
+ <20210205135803.48321-6-steven.price@arm.com>
+ <CAFEAcA99kV_d6ev9wC4ySiyoD7Cp=HCD0v2bBhGSOU-KrzkqaQ@mail.gmail.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <1e09d70a-1443-c7bd-2d16-f50bc3993a83@arm.com>
+Date: Wed, 10 Feb 2021 16:03:34 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 10 Feb 2021 15:58:46 -0000
-From: John Arbuckle <1913505@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: macos tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: balaton-4 mark-cave-ayland mishari pmaydell
- programmingkidx roolebo th-huth
-X-Launchpad-Bug-Reporter: Mishari Muqbil (mishari)
-X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
-References: <161180131265.32409.4817508561083668447.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161297272692.17465.9137612471059439064.malone@wampee.canonical.com>
-Subject: [Bug 1913505] Re: Windows XP slow on Apple M1
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
-X-Launchpad-Hash: 5e877844905ba402c443833406b2bd556b2a0e8b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA99kV_d6ev9wC4ySiyoD7Cp=HCD0v2bBhGSOU-KrzkqaQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.211,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,44 +60,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913505 <1913505@bugs.launchpad.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ arm-mail-list <linux-arm-kernel@lists.infradead.org>,
+ Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm <kvmarm@lists.cs.columbia.edu>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tried the patch.
-Start up time does not appear to be improved.
-I used both qemu-system-i386 and qemu-system-x86_64 with the same results.
-To compare notes I tried Windows 7. It starts up much faster than Windows X=
-P.
+On 08/02/2021 17:31, Peter Maydell wrote:
+> On Fri, 5 Feb 2021 at 13:58, Steven Price <steven.price@arm.com> wrote:
+>>
+>> The VMM may not wish to have it's own mapping of guest memory mapped
+>> with PROT_MTE because this causes problems if the VMM has tag checking
+>> enabled (the guest controls the tags in physical RAM and it's unlikely
+>> the tags are correct for the VMM).
+>>
+>> Instead add a new ioctl which allows the VMM to easily read/write the
+>> tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
+>> while the VMM can still read/write the tags for the purpose of
+>> migration.
+>>
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+>> ---
+>>   arch/arm64/include/uapi/asm/kvm.h | 13 +++++++
+>>   arch/arm64/kvm/arm.c              | 57 +++++++++++++++++++++++++++++++
+>>   include/uapi/linux/kvm.h          |  1 +
+>>   3 files changed, 71 insertions(+)
+> 
+> Missing the update to the docs in Documentation/virtual/kvm/api.txt :-)
 
--- =
+Good point - although I was secretly hoping to get some feedback on the 
+concepts before writing the documentation! But I guess the documentation 
+will help with the review. I'll include some in the next posting.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913505
+Thanks,
 
-Title:
-  Windows XP slow on Apple M1
-
-Status in QEMU:
-  New
-
-Bug description:
-  Qemu installed by using brew install qemu -s on M1
-
-  QEMU emulator version 5.2.0
-  XP image from: https://archive.org/details/WinXPProSP3x86
-
-  Commands run:
-  $ qemu-img create -f qcow2 xpsp3.img 10G
-  $ qemu-system-i386 -m 512 -hda xpsp3.img -cdrom WinXPProSP3x86/en_windows=
-_xp_professional_with_service_pack_3_x86_cd_vl_x14-73974.iso -boot d
-
-  It's taken 3 days now with qemu running at around 94% CPU and
-  installation hasn't finished. The mouse pointer moves and occasionally
-  changes between the pointer and hourglass so it doesn't seem to have
-  frozen.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913505/+subscriptions
+Steve
 
