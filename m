@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF63316A23
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 16:28:25 +0100 (CET)
-Received: from localhost ([::1]:47904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7273D3169E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 16:17:03 +0100 (CET)
+Received: from localhost ([::1]:39994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9rPj-0002rt-Np
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 10:28:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53608)
+	id 1l9rEk-0007QY-2W
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 10:17:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9rOy-0002T6-Dg
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:27:36 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:33067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9rOw-0007qe-1P
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:27:36 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id a16so3946997wmm.0
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 07:27:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=0HxX8Wi6EERTBtGktCimgjhRoUOqB89blJJoTGyYKRY=;
- b=UePKtEFHkw3n4uTjAjzb4NBkLs+1UqeKUXwNlkQiixBw8BBY+YMEZbAsyqiethGtSy
- cf06CgvQrLhT85kUbEiYGCYtOOBnfcnPfLYQADQF/CimUCNwKsCud71DBIK9ynXZjef9
- uF7HgubSq44s8icZ8YLsLzbJwTF0CZGD2ACeQHwiMIBp7nHkCkLJD2sKewCz6NTM7gs1
- jaafVyiTWBw19aU24P7lLgXPls3mWC0x7P+LQBGHF3yEBmvd5E51QrTPgMNJo+9GyPFQ
- s1sMQJ7lw3Kx0NHCrBgPq4IcU02D1HJ78NtHzLfUYwWNQWH3svRqm7hyTKmpT3T2y/+I
- iSMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=0HxX8Wi6EERTBtGktCimgjhRoUOqB89blJJoTGyYKRY=;
- b=P8TP/neBY5bCEnpHRKn9gS5V4MP+zM0piipFFhygQUvl18+2/qRxpo9nhNjbBvLjy3
- oSdAkRsBdG8WyYZ3rFeCrnUvXQWfnNBGDhAWxiiWiOmOzRr8KQTFINjO/tgKfh4eLwZw
- DdXfPf3h4nGJrjswdAAc9e4DGACL8EDozpXbKtD07GrHOJ10wBOGpxct7wXUhObV2yRJ
- 9dFW6j8pa1CxNghDo6bwIkWDKdXwjuUdCxcnfG+YGl/t6dcQMDPc6FU9ORvu+1ym5mi4
- rzjcAoCamG2G3rv5CoITef0/5S8lyFjLKk19xdGfcqA4mn1SOY0buHbGyUTfw7fWrn/3
- lLXw==
-X-Gm-Message-State: AOAM532ID8zyYh1j6XsOdVE/rUDDCPOzVCyxi/cm6yCa/deCd6GcHh7D
- +Lp0iW9WSaBLm7/EWE9l9+UlMQ==
-X-Google-Smtp-Source: ABdhPJzpLMMONpF9QzSuR5LeqN2V/1q6lMc37dx+0D96RAsmxyMX6NvINrBZROegOUtir/v7Wb4zBQ==
-X-Received: by 2002:a05:600c:8a2:: with SMTP id
- l34mr3476870wmp.4.1612970851932; 
- Wed, 10 Feb 2021 07:27:31 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g1sm3570798wrq.30.2021.02.10.07.27.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 07:27:28 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B6D821FF7E;
- Wed, 10 Feb 2021 15:27:27 +0000 (GMT)
-References: <20201001163429.1348-1-luoyonggang@gmail.com>
- <87pn5v1tag.fsf@linaro.org>
- <CAE2XoE9CgA3MvV9MJnM8bx6JQ0+DU69mqSD0jOFLCvAu5kwwcg@mail.gmail.com>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: luoyonggang@gmail.com
-Subject: Re: [PATCH v3 0/6] Enable plugin support on msys2/mingw
-Date: Wed, 10 Feb 2021 15:10:17 +0000
-In-reply-to: <CAE2XoE9CgA3MvV9MJnM8bx6JQ0+DU69mqSD0jOFLCvAu5kwwcg@mail.gmail.com>
-Message-ID: <87eehovt7k.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l9rD5-0006i2-Bp
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:15:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1l9rD2-0002kj-Fi
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 10:15:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612970113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dltgvfFPdZQcvsTGsv0GNDmx0ZIQAC2Ok//fX5xk0Bc=;
+ b=IYjiZPAaqPl23LL9Nf+eKFobmxjTmo7oiYT1nApQHPEp1op+UaYlM59uhJuv2ZtSCu91uj
+ jVN4TTvpvH9/2UOHWXbJlOKfiOIEKl0Za4qZ1oqbliWyAQW1aRDZGREb+RafSdEAVQhlPS
+ vfMPglCTP6E9Gyt3x2SKUS0x0XXc7lI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-aMXTG7UMNhuKYPVA7eEnmw-1; Wed, 10 Feb 2021 10:15:11 -0500
+X-MC-Unique: aMXTG7UMNhuKYPVA7eEnmw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E66F11005501;
+ Wed, 10 Feb 2021 15:15:09 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DD20D10013D7;
+ Wed, 10 Feb 2021 15:15:09 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+ (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 791E14E58E;
+ Wed, 10 Feb 2021 15:15:09 +0000 (UTC)
+Date: Wed, 10 Feb 2021 10:15:09 -0500 (EST)
+From: Cleber Rosa <crosa@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Message-ID: <1935839985.36186507.1612970109135.JavaMail.zimbra@redhat.com>
+In-Reply-To: <CAJSP0QW7WqH1mmni84nn+id63nHLDNXd_nUDRaXKEifa2Jp=sQ@mail.gmail.com>
+References: <CAJSP0QVZuh8H-U1vtFMhasqSsSy3OA4jmRvwZrQEAx3=1dcb+w@mail.gmail.com>
+ <LO2P123MB2605DA330913C7D2DA311EF1C8D10@LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM>
+ <CAJSP0QW7WqH1mmni84nn+id63nHLDNXd_nUDRaXKEifa2Jp=sQ@mail.gmail.com>
+Subject: Re: QEMU hosting
 MIME-Version: 1.0
+X-Originating-IP: [10.10.116.89, 10.4.195.1]
+Thread-Topic: QEMU hosting
+Thread-Index: u8GtoNCVGAVPAjt/lKqmdiKN4fFoyg==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,69 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Emilio G . Cota" <cota@braap.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>
+Cc: Fosshost <admin@fosshost.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <cleber@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-=E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> writes:
 
-> Hi alex, when does plugins/next getting PR
+----- Original Message -----
+> From: "Stefan Hajnoczi" <stefanha@gmail.com>
+> To: "Fosshost" <admin@fosshost.org>
+> Cc: "qemu-devel" <qemu-devel@nongnu.org>, "Cleber Rosa" <cleber@redhat.com>
+> Sent: Wednesday, February 10, 2021 9:28:29 AM
+> Subject: Re: QEMU hosting
+> 
+> On Tue, Jan 5, 2021 at 6:55 PM Fosshost <admin@fosshost.org> wrote:
+> 
+> > If you would like to apply, you can do so at https://fosshost.org/apply
+> >
 
-Sorry for the delay. I should be cooking up a pre-PR series this week
-once the recent icount/io_recompile fix has been tested and reviewed.
-You can see the current state of the tree here:
+Hi Stefan,
 
-  https://github.com/stsquad/qemu/tree/plugins/next
+I've made an application for one x86 virtual machine on behalf of the QEMU
+project.  It's not clear to me if the VMs, in addition to being powered by
+KVM according to the docs, if they offer (nested) KVM.
 
-I'm afraid I've dropped the ball on your plugin patches... I can't seem
-to find the v5 series referenced.
+That would be an improvement from what we get from the GitLab shared runners.
 
->
-> On Tue, Oct 6, 2020 at 7:35 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->
->>
->> Yonggang Luo <luoyonggang@gmail.com> writes:
->>
->> > V2-V3
->> > Split following patches out
->> >
->> > V1-V2
->> > 1. Fixes review comments
->> > 2. Increase QEMU_PLUGIN_VERSION to 1 for compat  QEMU_PLUGIN_VERSION 0
->> > 3. Revise the loader to support for version 0 and 1
->> > 4. By export function qemu_plugin_initialize in plugin, and call it in
->> loader=3D
->> > , so
->> >   we have no need call it in every plugin. And also provide a standard
->> implem=3D
->> > entation,
->> >   anyway, use can also override it.
->> >
->> > Add this feature on msys2/mingw by using glib provided cross-platform
->> dlsym f=3D
->> > unctional.
->>
->> I've grabbed the first two fixes into plugins/next for now. Aside from
->> fixing the review comments I'd like to have an indication that the
->> proposed change to the API linking doesn't adversely affect the
->> performance of the plugins.
->>
->> It might be worth enabling a --enable-plugins build for mingw gitlab as
->> Cirrus
->> seems a bit broken at the moment.
->>
->> Thanks,
->>
->>
->> --
->> Alex Benn=C3=A9e
->>
+Thomas,
 
+Would you be able to tell if nested KVM is available for the x86 VMs?
 
---=20
-Alex Benn=C3=A9e
+Thanks,
+- Cleber.
+
+> > Feel free to join our IRC channel on freenode #fosshost if you have any
+> > questions regarding our work and service
+> 
+> Hi Thomas,
+> Thanks for the reply! I have forwarded the information to Cleber Rosa,
+> who is working on QEMU's CI system.
+> 
+> Stefan
+> 
+> 
+
 
