@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A66A3162FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:57:42 +0100 (CET)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64A6316305
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 10:58:59 +0100 (CET)
+Received: from localhost ([::1]:51350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9mFh-00068K-2e
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:57:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33314)
+	id 1l9mGx-0007hy-0A
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 04:58:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9mD9-0004iR-Th; Wed, 10 Feb 2021 04:55:04 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9mD2-0003QQ-AQ; Wed, 10 Feb 2021 04:55:03 -0500
-Received: by mail-ed1-x535.google.com with SMTP id s5so2153572edw.8;
- Wed, 10 Feb 2021 01:54:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=v4qw1U6KDYBOjshkawxBVwQdC+CSvskLF9qpiBI1bac=;
- b=EfJk2UEbC7VEW/T5nuqodA/k7ynZ1xtM1WyfXOTWN/rhrZ9HrMy2udoppHwwU5nd5r
- XgI4K7qUtnw/ZY9TXtJb+voORJ7ngsB1WVK8ySBPqqqJ3EDYHCf0s5y61QFecrW7aI5r
- K1fwyvivHq0IExK/+kd7Fe3rSXMQ37rDZOyttX+vvEdYhiCBkBpa3P/C7eA9SHcqTat2
- nh1K4PcoFdjtWTHELt4lKhOCl7j689ghOFkqANwJcJaGmj3gm8oE+ApJg4I4lRuxjIY2
- BT8fcGeMrwbvlm3rFg9ftuiBC+P2P88zsHmOnqDQdzXJOml+t9vlAftS/3wYF2+i1gQO
- qu4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=v4qw1U6KDYBOjshkawxBVwQdC+CSvskLF9qpiBI1bac=;
- b=dBqupTC+tXHqONEhAohKjBuFUKZ7Q0R1wWZqILEPrZnUgulXIgOTttyxPXGGzV+IBW
- KppqOpFes3ofZxdRfITQTJDq+Hnzr/1nxgsRfKnwkHyQbncVzY2y5vS1fHnTeNSQMkxS
- imCQjBblufU/EYfrQkGvEqakBIsXeg3NWFJcyMY3l47gCor4ps94F+BQbwxEXcx2649K
- xioNrUW4WHdbLldyL22SG6LY03IzMkljM/H/T1JWOmCbQGjv6Xiy6kPM4bXFE5wIWivL
- DI6xr1bb2CzyjA2Qm9X3PJ29Pvo3xqQVBhTUf+lAZUzuNs2caHzADGGtrIDnTkpnxzml
- mHZA==
-X-Gm-Message-State: AOAM533F3jVLyEnhcqXPseaJBxvVYxH3IxpqIkDxGvFAjTI8US6c4M5I
- WVkX6WrVp90f9z6jkV2aqwE=
-X-Google-Smtp-Source: ABdhPJw6EfELzkgOMjTie+KQpc9FE4L1uoSC/VlOWmTeFlUW+mJAlznC6TjoWC5xwR16fX+0Zdk7kQ==
-X-Received: by 2002:a05:6402:12c2:: with SMTP id
- k2mr2409810edx.281.1612950894206; 
- Wed, 10 Feb 2021 01:54:54 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id o4sm582755edw.78.2021.02.10.01.54.49
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 10 Feb 2021 01:54:53 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Max Reitz <mreitz@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH] hw/block: nvme: Fix a build error in nvme_process_sq()
-Date: Wed, 10 Feb 2021 17:54:39 +0800
-Message-Id: <1612950879-49023-1-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l9mF7-0006Ib-8G
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:57:05 -0500
+Received: from 6.mo52.mail-out.ovh.net ([188.165.49.222]:52859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l9mF4-0004SJ-N0
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:57:04 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.128])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 5B2BA240D73;
+ Wed, 10 Feb 2021 10:56:50 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 10 Feb
+ 2021 10:56:49 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00281d5e481-453c-4496-87d1-b0e2cfc3153b,
+ 4C52CDDF7D11E8FC19FB534918B7DCABD727043D) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: eMMC support
+To: Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+References: <BY5PR02MB6772761F83EDC56737969C18CA210@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <CACPK8XexXLYrwMenkyou0Xkc8Tx+p1SNi7jbFBj6aObAKHcBwQ@mail.gmail.com>
+ <6a30107a-abf1-635b-c96f-af3d63f93bc8@kaod.org>
+ <6c1e1335-887e-0459-f1c7-f37daa008c4d@kaod.org>
+ <d0ef7bbd-2b2b-422f-9420-29ca620db130@xilinx.com>
+ <BY5PR02MB677227AB2EE184B02E1E90B8CAB69@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <e401d119-402e-0edd-c2bf-28950ba48ccb@kaod.org>
+ <13ff3712-e187-9555-057f-3612654d25c9@kaod.org>
+ <BY5PR02MB67726489BD76132422D6297ECA8E9@BY5PR02MB6772.namprd02.prod.outlook.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <10976153-915c-8399-b6b3-6091ae41ec3c@kaod.org>
+Date: Wed, 10 Feb 2021 10:56:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <BY5PR02MB67726489BD76132422D6297ECA8E9@BY5PR02MB6772.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: c829fabc-b5f2-4b45-8862-d41e77a1b0c0
+X-Ovh-Tracer-Id: 12529577117191932710
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrheejgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehsrghiphgrvhgrseigihhlihhngidrtghomh
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo52.mail-out.ovh.net
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.265,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,45 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Minwoo Im <minwoo.im.dev@gmail.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Hello Sai Pavan,
 
-Current QEMU HEAD nvme.c does not compile:
+[ ... ] 
 
-  hw/block/nvme.c: In function ‘nvme_process_sq’:
-  hw/block/nvme.c:3242:9: error: ‘result’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-         trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
-         ^
-  hw/block/nvme.c:3150:14: note: ‘result’ was declared here
-     uint32_t result;
-              ^
+>>> The patchset is in the aspeed-6.0 branch :
+>>>
+>>>     df91d012672c Cédric Le Goater - hw/arm/aspeed: Load eMMC first boot
+>>>                                     area as a boot rom
+>>>     27b75a7ad322 Cédric Le Goater - hw/arm/aspeed: Add eMMC property
+>>>     2836cf5a15a1 Joel Stanley - hw/arm/aspeed: Set boot device to emmc
+>
+> [Sai Pavan Boddu] I see you guys have implemented the boot area access here,
 
-Explicitly initialize the result to fix it.
+The boot partition modeling fits our needs to boot the Aspeed machine 
+but this is very custom. 
 
-Fixes: aa5e55e3b07e ("hw/block/nvme: open code for volatile write cache")
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
----
+> I was assuming, your use-case just need to access data from boot partitions.
+> We are not implementing eMMC boot operations or Alternative bootmode right ?
 
- hw/block/nvme.c | 1 +
- 1 file changed, 1 insertion(+)
+Joel could say more about it ? 
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 5ce21b7..c122ac0 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -3228,6 +3228,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-         result = ns->features.err_rec;
-         goto out;
-     case NVME_VOLATILE_WRITE_CACHE:
-+        result = 0;
-         for (i = 1; i <= n->num_namespaces; i++) {
-             ns = nvme_ns(n, i);
-             if (!ns) {
--- 
-2.7.4
+> And also is it good to calculate the address offset once when partition 
+> access bits are set, rather than doing it for every read/write ?
 
+Yes and no. It would add state to the sd object.
+
+Thanks,
+
+C.
 
