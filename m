@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A318316B01
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:19:21 +0100 (CET)
-Received: from localhost ([::1]:49794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BB9316AD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:13:31 +0100 (CET)
+Received: from localhost ([::1]:36884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9sD2-0007Jx-Cd
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:19:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35676)
+	id 1l9s7O-0001nv-LG
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:13:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l9s46-0007lp-Dt; Wed, 10 Feb 2021 11:10:07 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:41732)
+ id 1l9s49-0007m0-Am; Wed, 10 Feb 2021 11:10:09 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:40750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l9s43-0000F6-BW; Wed, 10 Feb 2021 11:10:06 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id q20so1546243pfu.8;
- Wed, 10 Feb 2021 08:10:02 -0800 (PST)
+ id 1l9s46-0000FL-Db; Wed, 10 Feb 2021 11:10:09 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id u143so1546169pfc.7;
+ Wed, 10 Feb 2021 08:10:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pmXG5CH1mG2B5j7cScejmkchXlZv3ukCFFPjvF0PVB8=;
- b=QC0bw2tejIznxV6SJpNQC4PPPcMOir10thewShBKzoeLf5HtiwyEreyokus/6ttHa0
- E7kDUpYJinE3tTA3wYVPN+Sx2L8KIHOKkw9/sJhJ3ZtSpMgGq3Q1mZdOJ9XbfJd/kHf4
- xFzWx19MnM+ITIpId1aslLVp4Wg7RTMQ2LJfle0LgTDRogtL1IVZwN6+7bQeZHFsH/IB
- hCZcSH4ybWjkyTMQ6FGiQ/Wj7rRcoddDopcCVD+Gg+/KZ6pGHSYJL8RWR2pAMOv0L9nm
- hkpQbVYaURcd0oD1tBU0fm4m/2wENP7J3Czbe9LNPzjYpKkWgLL8N/iDbYIQMzUgcsxB
- M0fw==
+ bh=++uTf666R3wKZnxlt4XChne+EiWFypgm0bWWXtcnXnU=;
+ b=Qw15K1VDwLLP3lAZU+d0tFHzHAGDbMzzT0JZRiJCcAgTKhfPnISubH6OlBxicZxvmo
+ RYyrnQqb8fdMz67xj0a63+bzzI0lGukI3lAtNmTrcrX24n7rQ1zLUHt5g9xlYc5Ta3xa
+ 6xIIGhCZcHVn/TlUjtJ3+ZJfCN79KVB3pSwEDeuQM3OLiyoao3Ysv5SJLe6dt/AifgkR
+ TTyIy2vLGkhSwvvf9bYCYhQy8pWE2BVajaH2s7U97QkDBogDn3xXSkqx9aJkfgGsnnjZ
+ UjUewi8k1VzIoprDP9DbICzQtJNmKoj0gRqNDVlZhdqHE8E0Cjc/ztpV6vdS3QY53Wc2
+ L6dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=pmXG5CH1mG2B5j7cScejmkchXlZv3ukCFFPjvF0PVB8=;
- b=arMv7wf6PIH+CkIp7kpQWZ5uwEd7fT26+S74h3FRqtBUvAz2U8vPlTfeD0x66Elefl
- r4y1znyXPJ+H/0TZslRCC4rbSnibcmC4iCn0vCSA2lkPVbaHF78cYcxu75TOjAMVQOCY
- xuSpbujlhNYGTK8TtE2mD7BUKUMUBVasr1mNd35dGPXBxGDJNiUDovTKGmCUQPTwrJb8
- WNCo5U4EvFbxP+lvCkQejy9HcUUEJEOpN1SyjRUO12L6hkve7c8Mt0Qc34xQID/Uh6dk
- PFvCx3cl0sWEFBEFTnriHNVRBXKKt1//b3zfNwSrERh4WGzqqajFe0c9CDBTt5qEIGi6
- N3hw==
-X-Gm-Message-State: AOAM530WiSv5m+f8xNF4C9sR4cXLKMZaaLrGOtn8kDfMt07KLaa7Hfw/
- CzpBBqkNbQt3HAtnmMOVqlX2Fl/e0vCiWA==
-X-Google-Smtp-Source: ABdhPJx4B5tRpyRZ3C9hxlGi3mePBDzwTs0CElTI95wF8vjjKT1ZJG1+PAZqw5ASB/BnBJZoUlqS7w==
-X-Received: by 2002:a63:175e:: with SMTP id 30mr3604219pgx.227.1612973401120; 
- Wed, 10 Feb 2021 08:10:01 -0800 (PST)
+ bh=++uTf666R3wKZnxlt4XChne+EiWFypgm0bWWXtcnXnU=;
+ b=UzLY6DXHVPECT0Twfs2HISrfLTGK2qpuYQdRVrlIQb7iEJUyYdTYyF3gy1UzqCfVCP
+ y3eOA2CfdPRAgwPZNBG4VWTW1Tkh7FDlk+rE682o9b9XXUDyGhj901ABhlAY5Obw3qYm
+ TCJeuFLwmCR40rV7LpdBJms8nAiNXjRkj7gCXrz2Axclle9+f46BBGkoZ/EvX7LERNRj
+ p4Y0zcE1eV0Fcwrz5qRjsjYcSy0EW33o08pOxUI94+6ewcS9Ae7cF/SAVl60vDEUd/I9
+ sy81IaiYK/FYzhXnV41OM7IACGKkIBmKH75N48NID4E6P1MqU+lXXKN6bWHwCFJ+i9Wz
+ r8QQ==
+X-Gm-Message-State: AOAM531CY8ox3smJcTpk8eC3h+/DZSTius7U1QAobZkoHjnmnnU3Ss00
+ GnwkviBpVBlHM+DanKJAzr0aZqhing9ChA==
+X-Google-Smtp-Source: ABdhPJy4wo0nT96OUiIMZNnWPA7XI6u8uO6KE3ZTB+uXiQPRZin7IcxO9KKvY70IzqqpSaCqwdsW9w==
+X-Received: by 2002:a63:1241:: with SMTP id 1mr3707076pgs.350.1612973403509;
+ Wed, 10 Feb 2021 08:10:03 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id 25sm2761195pfj.120.2021.02.10.08.09.58
+ by smtp.gmail.com with ESMTPSA id 25sm2761195pfj.120.2021.02.10.08.10.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 08:10:00 -0800 (PST)
+ Wed, 10 Feb 2021 08:10:03 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH V2 6/7] hw/block/nvme: support namespace attachment command
-Date: Thu, 11 Feb 2021 01:09:36 +0900
-Message-Id: <20210210160937.1100-7-minwoo.im.dev@gmail.com>
+Subject: [PATCH V2 7/7] hw/block/nvme: support Identify NS Attached Controller
+ List
+Date: Thu, 11 Feb 2021 01:09:37 +0900
+Message-Id: <20210210160937.1100-8-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
 References: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,185 +85,106 @@ Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch supports Namespace Attachment command for the pre-defined
-nvme-ns device nodes.  Of course, attach/detach namespace should only be
-supported in case 'subsys' is given.  This is because if we detach a
-namespace from a controller, somebody needs to manage the detached, but
-allocated namespace in the NVMe subsystem.
+Support Identify command for Namespace attached controller list.  This
+command handler will traverse the controller instances in the given
+subsystem to figure out whether the specified nsid is attached to the
+controllers or not.
+
+The 4096bytes Identify data will return with the first entry (16bits)
+indicating the number of the controller id entries.  So, the data can
+hold up to 2047 entries for the controller ids.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- hw/block/nvme-subsys.h | 10 +++++++
- hw/block/nvme.c        | 59 ++++++++++++++++++++++++++++++++++++++++++
- hw/block/nvme.h        |  5 ++++
- hw/block/trace-events  |  2 ++
- include/block/nvme.h   |  5 ++++
- 5 files changed, 81 insertions(+)
+ hw/block/nvme.c       | 42 ++++++++++++++++++++++++++++++++++++++++++
+ hw/block/trace-events |  1 +
+ include/block/nvme.h  |  1 +
+ 3 files changed, 44 insertions(+)
 
-diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
-index 14627f9ccb41..ef4bec928eae 100644
---- a/hw/block/nvme-subsys.h
-+++ b/hw/block/nvme-subsys.h
-@@ -30,6 +30,16 @@ typedef struct NvmeSubsystem {
- int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
- int nvme_subsys_register_ns(NvmeNamespace *ns, Error **errp);
- 
-+static inline NvmeCtrl *nvme_subsys_ctrl(NvmeSubsystem *subsys,
-+        uint32_t cntlid)
-+{
-+    if (!subsys) {
-+        return NULL;
-+    }
-+
-+    return subsys->ctrls[cntlid];
-+}
-+
- /*
-  * Return allocated namespace of the specified nsid in the subsystem.
-  */
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 697368a6ae0c..71bcd66f1956 100644
+index 71bcd66f1956..da60335def9f 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -183,6 +183,7 @@ static const uint32_t nvme_cse_acs[256] = {
-     [NVME_ADM_CMD_SET_FEATURES]     = NVME_CMD_EFF_CSUPP,
-     [NVME_ADM_CMD_GET_FEATURES]     = NVME_CMD_EFF_CSUPP,
-     [NVME_ADM_CMD_ASYNC_EV_REQ]     = NVME_CMD_EFF_CSUPP,
-+    [NVME_ADM_CMD_NS_ATTACHMENT]    = NVME_CMD_EFF_CSUPP,
- };
- 
- static const uint32_t nvme_cse_iocs_none[256];
-@@ -3766,6 +3767,62 @@ static uint16_t nvme_aer(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_NO_COMPLETE;
+@@ -3157,6 +3157,46 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
+     return NVME_INVALID_CMD_SET | NVME_DNR;
  }
  
-+static void __nvme_select_ns_iocs(NvmeCtrl *n, NvmeNamespace *ns);
-+static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
++static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
 +{
++    NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
++    uint16_t min_id = le16_to_cpu(c->ctrlid);
++    uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
++    uint16_t *ids = &list[1];
 +    NvmeNamespace *ns;
 +    NvmeCtrl *ctrl;
-+    uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
-+    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-+    uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
-+    bool attach = !(dw10 & 0xf);
-+    uint16_t *nr_ids = &list[0];
-+    uint16_t *ids = &list[1];
-+    uint16_t ret;
-+    int i;
++    int cntlid, nr_ids = 0;
 +
-+    trace_pci_nvme_ns_attachment(nvme_cid(req), dw10 & 0xf);
++    trace_pci_nvme_identify_ns_attached_list(min_id);
 +
-+    ns = nvme_subsys_ns(n->subsys, nsid);
++    if (c->nsid == NVME_NSID_BROADCAST) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    ns = nvme_subsys_ns(n->subsys, c->nsid);
 +    if (!ns) {
 +        return NVME_INVALID_FIELD | NVME_DNR;
 +    }
 +
-+    ret = nvme_dma(n, (uint8_t *)list, 4096,
-+                   DMA_DIRECTION_TO_DEVICE, req);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    if (!*nr_ids) {
-+        return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
-+    }
-+
-+    for (i = 0; i < *nr_ids; i++) {
-+        ctrl = nvme_subsys_ctrl(n->subsys, ids[i]);
++    for (cntlid = min_id; cntlid < ARRAY_SIZE(n->subsys->ctrls); cntlid++) {
++        ctrl = nvme_subsys_ctrl(n->subsys, cntlid);
 +        if (!ctrl) {
-+            return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
++            continue;
 +        }
 +
-+        if (attach) {
-+            if (nvme_ns_is_attached(ctrl, ns)) {
-+                return NVME_NS_ALREADY_ATTACHED | NVME_DNR;
-+            }
-+
-+            nvme_ns_attach(ctrl, ns);
-+            __nvme_select_ns_iocs(ctrl, ns);
-+        } else {
-+            if (!nvme_ns_is_attached(ctrl, ns)) {
-+                return NVME_NS_NOT_ATTACHED | NVME_DNR;
-+            }
-+
-+            nvme_ns_detach(ctrl, ns);
++        if (!nvme_ns_is_attached(ctrl, ns)) {
++            continue;
 +        }
++
++        ids[nr_ids++] = cntlid;
 +    }
 +
-+    return NVME_SUCCESS;
++    list[0] = nr_ids;
++
++    return nvme_dma(n, (uint8_t *)list, sizeof(list),
++                    DMA_DIRECTION_FROM_DEVICE, req);
 +}
 +
- static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
+         bool active)
  {
-     trace_pci_nvme_admin_cmd(nvme_cid(req), nvme_sqid(req), req->cmd.opcode,
-@@ -3797,6 +3854,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
-         return nvme_get_feature(n, req);
-     case NVME_ADM_CMD_ASYNC_EV_REQ:
-         return nvme_aer(n, req);
-+    case NVME_ADM_CMD_NS_ATTACHMENT:
-+        return nvme_ns_attachment(n, req);
-     default:
-         assert(false);
-     }
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 1c7796b20996..5a1ab857d166 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -222,6 +222,11 @@ static inline void nvme_ns_attach(NvmeCtrl *n, NvmeNamespace *ns)
-     n->namespaces[nvme_nsid(ns) - 1] = ns;
- }
- 
-+static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
-+{
-+    n->namespaces[nvme_nsid(ns) - 1] = NULL;
-+}
-+
- static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
- {
-     NvmeSQueue *sq = req->sq;
+@@ -3356,6 +3396,8 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_identify_ns(n, req, true);
+     case NVME_ID_CNS_NS_PRESENT:
+         return nvme_identify_ns(n, req, false);
++    case NVME_ID_CNS_NS_ATTACHED_CTRL_LIST:
++        return nvme_identify_ns_attached_list(n, req);
+     case NVME_ID_CNS_CS_NS:
+         return nvme_identify_ns_csi(n, req, true);
+     case NVME_ID_CNS_CS_NS_PRESENT:
 diff --git a/hw/block/trace-events b/hw/block/trace-events
-index b6e972d733a6..bf67fe7873d2 100644
+index bf67fe7873d2..2d88d96c2165 100644
 --- a/hw/block/trace-events
 +++ b/hw/block/trace-events
-@@ -80,6 +80,8 @@ pci_nvme_aer(uint16_t cid) "cid %"PRIu16""
- pci_nvme_aer_aerl_exceeded(void) "aerl exceeded"
- pci_nvme_aer_masked(uint8_t type, uint8_t mask) "type 0x%"PRIx8" mask 0x%"PRIx8""
- pci_nvme_aer_post_cqe(uint8_t typ, uint8_t info, uint8_t log_page) "type 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
-+pci_nvme_ns_attachment(uint16_t cid, uint8_t sel) "cid %"PRIu16", sel=0x%"PRIx8""
-+pci_nvme_ns_attachment_attach(uint16_t cntlid, uint32_t nsid) "cntlid=0x%"PRIx16", nsid=0x%"PRIx32""
- pci_nvme_enqueue_event(uint8_t typ, uint8_t info, uint8_t log_page) "type 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
- pci_nvme_enqueue_event_noqueue(int queued) "queued %d"
- pci_nvme_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
+@@ -62,6 +62,7 @@ pci_nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
+ pci_nvme_identify_ctrl(void) "identify controller"
+ pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
+ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
++pci_nvme_identify_ns_attached_list(uint16_t cntid) "cntid=%"PRIu16""
+ pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=%"PRIu32", csi=0x%"PRIx8""
+ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=%"PRIu16", csi=0x%"PRIx8""
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index f82b5ffc2c1d..4b016f954fee 100644
+index 4b016f954fee..fb82d8682e9f 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -566,6 +566,7 @@ enum NvmeAdminCommands {
-     NVME_ADM_CMD_ASYNC_EV_REQ   = 0x0c,
-     NVME_ADM_CMD_ACTIVATE_FW    = 0x10,
-     NVME_ADM_CMD_DOWNLOAD_FW    = 0x11,
-+    NVME_ADM_CMD_NS_ATTACHMENT  = 0x15,
-     NVME_ADM_CMD_FORMAT_NVM     = 0x80,
-     NVME_ADM_CMD_SECURITY_SEND  = 0x81,
-     NVME_ADM_CMD_SECURITY_RECV  = 0x82,
-@@ -836,6 +837,9 @@ enum NvmeStatusCodes {
-     NVME_FEAT_NOT_CHANGEABLE    = 0x010e,
-     NVME_FEAT_NOT_NS_SPEC       = 0x010f,
-     NVME_FW_REQ_SUSYSTEM_RESET  = 0x0110,
-+    NVME_NS_ALREADY_ATTACHED    = 0x0118,
-+    NVME_NS_NOT_ATTACHED        = 0x011A,
-+    NVME_NS_CTRL_LIST_INVALID   = 0x011C,
-     NVME_CONFLICTING_ATTRS      = 0x0180,
-     NVME_INVALID_PROT_INFO      = 0x0181,
-     NVME_WRITE_TO_RO            = 0x0182,
-@@ -951,6 +955,7 @@ typedef struct QEMU_PACKED NvmePSD {
-     uint8_t     resv[16];
- } NvmePSD;
- 
-+#define NVME_CONTROLLER_LIST_SIZE 2048
- #define NVME_IDENTIFY_DATA_SIZE 4096
- 
- enum NvmeIdCns {
+@@ -968,6 +968,7 @@ enum NvmeIdCns {
+     NVME_ID_CNS_CS_NS_ACTIVE_LIST     = 0x07,
+     NVME_ID_CNS_NS_PRESENT_LIST       = 0x10,
+     NVME_ID_CNS_NS_PRESENT            = 0x11,
++    NVME_ID_CNS_NS_ATTACHED_CTRL_LIST = 0x12,
+     NVME_ID_CNS_CS_NS_PRESENT_LIST    = 0x1a,
+     NVME_ID_CNS_CS_NS_PRESENT         = 0x1b,
+     NVME_ID_CNS_IO_COMMAND_SET        = 0x1c,
 -- 
 2.17.1
 
