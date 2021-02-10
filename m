@@ -2,73 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353183165C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 12:56:27 +0100 (CET)
-Received: from localhost ([::1]:35518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFD43165E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 13:03:08 +0100 (CET)
+Received: from localhost ([::1]:38664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9o6c-0007e4-AK
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 06:56:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34156)
+	id 1l9oD5-0000lV-L8
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 07:03:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1l9o5G-0006gG-2P; Wed, 10 Feb 2021 06:55:02 -0500
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:42680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1l9o5E-0004nZ-9o; Wed, 10 Feb 2021 06:55:01 -0500
-Received: by mail-lf1-x133.google.com with SMTP id f23so2355401lfk.9;
- Wed, 10 Feb 2021 03:54:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=QIzABhLDJ5Q0Ngs3M8y9FymRO6TSDU6K0+h95jO2/Fk=;
- b=bdmKM/rHjNurSB4QyBJIQFRRufejPNJxWd34uwnD8kc3DLG6AZnGOT5oa/eB58tRQD
- uWdSdcE+lKyyhtSH/UfO8QhtsNw0HW0RgnR7VO3BvpAYb1f/9h+cJJenZ75Yh6VY3jG9
- ImfQXKdfybHmNRjNSV3sr8gtizBm1n0VBfI9XktF9mBaaV4sp6snDRb0V5vhIqUF7Hn7
- MpottabbJtZ63VO4z4NYkhkLRHPhf3KIV/sucxtV5wW4xiF4yMCHCtDjBMBRwiL1/6VX
- nI3BsB6nv4aDt4RoqGRMiJdtw0jnuqASUUEmsIzm2sS+QeOqIl5l7Gemb2zaxAwiRyuR
- jnbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QIzABhLDJ5Q0Ngs3M8y9FymRO6TSDU6K0+h95jO2/Fk=;
- b=qUkYstGPuN3Kf8rUCw4YVayJVcYZZm0Fl71icJeRLyAsARTzZynvGeNUMlIun6q/eW
- jiYDLB97nxZuO3lP86fWwQ7N10yH5pyP+jQQ1y+M1PbUsVpTLkXSnszyRN++Q+Jrz8sD
- nzWGllZ5BXSqhYNkn9Py6sLIT4ObKFGPjgkIR3kMGR49YKJftgHm+cxdI5HQvlrRZ2d7
- 4u7uLsvoNtVqY21Hvm7oLEeJWSqYyi/be6zC8RQnpKYBA2ym//HhYt7pvGrgcMGKtO0J
- TwD7x4Pxb0I2QQxclZjgy7Bh7QFGj00cRGuI7ZjauaGn/Z5RqRrPjhPX2XnAP8FEqf2j
- uM3w==
-X-Gm-Message-State: AOAM5309zqFf8cg9Cyhvoufnldju4DTCavhzcwF8pJkf3zAOxQnBGhMJ
- C20YqBn8ylhJ+O5+rjlL6p0=
-X-Google-Smtp-Source: ABdhPJyU0L+VCZwvkMotjtUzTq/zW/YRGH9VsYul3OAVUgjWGDQS7GmU4Y26spIZQ5P9TvdBUEntYA==
-X-Received: by 2002:ac2:539b:: with SMTP id g27mr1556105lfh.580.1612958098351; 
- Wed, 10 Feb 2021 03:54:58 -0800 (PST)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id r26sm293246lfi.295.2021.02.10.03.54.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 03:54:58 -0800 (PST)
-Date: Wed, 10 Feb 2021 12:54:57 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v3 2/5] hw/arm: xlnx-zynqmp: Clean up coding convention
- issues
-Message-ID: <20210210115457.GO477672@toto>
-References: <1612951813-50542-1-git-send-email-bmeng.cn@gmail.com>
- <1612951813-50542-3-git-send-email-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1l9oAi-0000FX-7p
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:00:41 -0500
+Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:58020)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1l9oAa-0007El-Ed
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:00:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=yvhqaX1DnC46EFV0UNl7yqMkFgR5mbc6TOGLDSi4YKY=; b=ZuU3CiVPwI/6OsqXeAXxHHT0OW
+ bGVV0Q/SOOmwaZJjTw67DGEonwBfNj4ynPQkO+HN5F5ylKtELo9iSguDW3sd94zEcgR9wRDH8ZppK
+ yCcC0PC6anw3ScOJpicOwMUr72qnrAmd/YDh850Ocl4qxV21P9GfLzIZmBpuQ5MortHA=;
+Date: Wed, 10 Feb 2021 13:00:25 +0100
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 1/3] target/tricore: Replace magic value by MMU_DATA_LOAD
+ definition
+Message-ID: <20210210120025.57b7yhxbacsmhds6@schnipp-desktop>
+References: <20210127224255.3505711-1-f4bug@amsat.org>
+ <20210127224255.3505711-2-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1612951813-50542-3-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210127224255.3505711-2-f4bug@amsat.org>
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2021.2.10.115117, AntiVirus-Engine: 5.80.0,
+ AntiVirus-Data: 2021.2.8.5800000
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=28595810, da=100567491,
+ mc=466, sc=4, hc=462, sp=0, fso=28595810, re=0, sd=0, hd=0
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::15;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,96 +68,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-devel@nongnu.org, Francisco Iglesias <francisco.iglesias@xilinx.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+Cc: Andreas Konopik <andreas.konopik@efs-auto.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Joe Komlodi <komlodi@xilinx.com>, David Brenken <david.brenken@efs-auto.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 10, 2021 at 06:10:10PM +0800, Bin Meng wrote:
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+On Wed, Jan 27, 2021 at 11:42:53PM +0100, Philippe Mathieu-Daudé wrote:
+> cpu_get_phys_page_debug() uses 'DATA LOAD' MMU access type.
 > 
-> There are some coding convention warnings in xlnx-zynqmp.c and
-> xlnx-zynqmp.h, as reported by:
-> 
->   $ ./scripts/checkpatch.pl include/hw/arm/xlnx-zynqmp.h
->   $ ./scripts/checkpatch.pl hw/arm/xlnx-zynqmp.c
-> 
-> Let's clean them up.
-> 
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> 
-> Changes in v3:
-> - new patch: xlnx-zynqmp: Clean up coding convention issues
-> 
->  include/hw/arm/xlnx-zynqmp.h |  3 ++-
->  hw/arm/xlnx-zynqmp.c         | 11 +++++++----
->  2 files changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index 6f45387..be15cc8 100644
-> --- a/include/hw/arm/xlnx-zynqmp.h
-> +++ b/include/hw/arm/xlnx-zynqmp.h
-> @@ -60,7 +60,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
->  
->  #define XLNX_ZYNQMP_GIC_REGIONS 6
->  
-> -/* ZynqMP maps the ARM GIC regions (GICC, GICD ...) at consecutive 64k offsets
-> +/*
-> + * ZynqMP maps the ARM GIC regions (GICC, GICD ...) at consecutive 64k offsets
->   * and under-decodes the 64k region. This mirrors the 4k regions to every 4k
->   * aligned address in the 64k region. To implement each GIC region needs a
->   * number of memory region aliases.
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index 8818472..76b94a5 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -301,11 +301,13 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->  
->      ram_size = memory_region_size(s->ddr_ram);
->  
-> -    /* Create the DDR Memory Regions. User friendly checks should happen at
-> +    /*
-> +     * Create the DDR Memory Regions. User friendly checks should happen at
->       * the board level
->       */
->      if (ram_size > XLNX_ZYNQMP_MAX_LOW_RAM_SIZE) {
-> -        /* The RAM size is above the maximum available for the low DDR.
-> +        /*
-> +         * The RAM size is above the maximum available for the low DDR.
->           * Create the high DDR memory region as well.
->           */
->          assert(ram_size <= XLNX_ZYNQMP_MAX_RAM_SIZE);
-> @@ -351,7 +353,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->  
->      qdev_realize(DEVICE(&s->apu_cluster), NULL, &error_fatal);
->  
-> -    /* Realize APUs before realizing the GIC. KVM requires this.  */
-> +    /* Realize APUs before realizing the GIC. KVM requires this. */
+>  target/tricore/helper.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-This doesn't look like a checkpatch fix...
+Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-
-
-
->      for (i = 0; i < num_apus; i++) {
->          const char *name;
->  
-> @@ -526,7 +528,8 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->          SysBusDevice *sbd = SYS_BUS_DEVICE(&s->sdhci[i]);
->          Object *sdhci = OBJECT(&s->sdhci[i]);
->  
-> -        /* Compatible with:
-> +        /*
-> +         * Compatible with:
->           * - SD Host Controller Specification Version 3.00
->           * - SDIO Specification Version 3.0
->           * - eMMC Specification Version 4.51
-> -- 
-> 2.7.4
-> 
+Cheers,
+Bastian
 
