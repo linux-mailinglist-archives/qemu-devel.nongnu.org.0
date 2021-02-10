@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD52316512
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 12:23:53 +0100 (CET)
-Received: from localhost ([::1]:51098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223FF31652D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 12:27:31 +0100 (CET)
+Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9nb6-0006Ai-Ob
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 06:23:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53856)
+	id 1l9neX-0000ap-C9
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 06:27:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9nWc-0002iQ-HR
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:19:14 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:34731)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9nWb-0006kV-3L
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:19:14 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id hs11so3479791ejc.1
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 03:19:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=00HR8q6HNTxsYtK8ciGUEkTpXK4WPC1MJ1RQBHwSBn4=;
- b=tckKX5nCheO4TCbj8haWY/5bEi5hIT3se8o+QguT+T9fce4Ue218CH5Msgt376ayIN
- 5i+TMquD7+bMfpKkm0jmfkPSPlPfn0J22R7SCoBzl4qCst4iJAANMX3usnSUBTipl+3r
- t38neewi5kBD4LPhy6hEcYaKlwyAXftzOmFn9tzAZqTRP3AZuyF59rsAKW7xUirWYRfL
- PNw/DNs6gBvw7gfrQ7Sy/5KcSN0oVJm4TT2sAdj3R7w7TIMSN/lU2En2bcTbOl76sLmT
- chNiyavJQxkeU5utq87bHFaM/jntPcUdVDoL2UtUTAw5s0KZxGkfi3fQxB+tEYGNUtJ8
- QPfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=00HR8q6HNTxsYtK8ciGUEkTpXK4WPC1MJ1RQBHwSBn4=;
- b=GHgWiMyZwtYDyP0oQYDHU09kLKLgLl9r4S7G3tn68b+Ynw3NavOfnVyw0D1CCRuWo/
- QVmb8T7V7A+OG603nWaij1fm+8ETOIkx05vFkMY0jMF852c5Pfl5dYQqMAUznFmze4yU
- 0/MHgF0ctSe+MU9a/Q2HEFp7A+6LUe55i8Fg2U6BGH9Yw19oe106woBt7lIUbi0TMN1A
- yVj71JaTIvLUW8cGJYBCtNCnvhXMyFzvPTCD0CRR+2S/o6DvTVPcMvjtPUeb5eETS0/0
- lsx8DstrnbfAKl9dSSaojrHjkFdlWn0TKU8+0kx9m/vi46RUe6OTPL8vVHK7CsRbO3QI
- xW1w==
-X-Gm-Message-State: AOAM530h4FkVO18OtX12wM+/Lc08ppA7rO84kMIWI0dldDD85JVbNy7M
- U7UBj8m27EitA/ohd2YowaY=
-X-Google-Smtp-Source: ABdhPJx6weeAKgAN/73BTMgFjbqJEJxP6AMNLtydpZJYNLzfFJ5KsU+SGCenlXS+q/uuMro9JfGl2Q==
-X-Received: by 2002:a17:907:2058:: with SMTP id
- pg24mr2386468ejb.441.1612955951538; 
- Wed, 10 Feb 2021 03:19:11 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o10sm902981eju.89.2021.02.10.03.19.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Feb 2021 03:19:10 -0800 (PST)
-Subject: Re: [PATCH 0/3] target/tricore: Pass MMUAccessType to
- get_physical_address()
-To: qemu-devel@nongnu.org
-References: <20210127224255.3505711-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3cd31df4-22f2-c167-6eed-14a2986752e4@amsat.org>
-Date: Wed, 10 Feb 2021 12:19:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l9nZy-0005Il-2U
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:22:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44208)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l9nZt-00082O-Mh
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:22:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612956157;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NVzi/OzAztI8eA/n62VEaKBtggWWiM/hB5FrsKf++HA=;
+ b=IqhZOsQYYUZ/BslAYANM9raIkv9GGq29UhD7beQ/ADkMrnohRorxDfTHR8l3Lqi3TIJGg9
+ /Z3myUruD/qcoPukvXMufZcQY2bmYtNacjaE5F/NmUB1BIuLiMzqPXWE7nfthSYX/t19md
+ EMj+XtJDv5rBIGdJV2STSBEpQB3J+VM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-uyZnEiX3Moib6XnQRHWZbw-1; Wed, 10 Feb 2021 06:22:33 -0500
+X-MC-Unique: uyZnEiX3Moib6XnQRHWZbw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89C56195D563;
+ Wed, 10 Feb 2021 11:22:31 +0000 (UTC)
+Received: from redhat.com (ovpn-115-94.ams2.redhat.com [10.36.115.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB38F1346F;
+ Wed, 10 Feb 2021 11:22:27 +0000 (UTC)
+Date: Wed, 10 Feb 2021 11:22:19 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2] hw/block: nvme: Fix a build error in nvme_get_feature()
+Message-ID: <20210210112219.GF1240644@redhat.com>
+References: <1612952597-62595-1-git-send-email-bmeng.cn@gmail.com>
+ <299d3bdc-268c-eccc-66be-6605b23a2c92@redhat.com>
+ <efffe227-472d-698d-d8f7-cc0bbd1800c0@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210127224255.3505711-1-f4bug@amsat.org>
+In-Reply-To: <efffe227-472d-698d-d8f7-cc0bbd1800c0@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.265,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,26 +83,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Brenken <david.brenken@efs-auto.org>, Joe Komlodi <komlodi@xilinx.com>,
- Andreas Konopik <andreas.konopik@efs-auto.de>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping?
+On Wed, Feb 10, 2021 at 12:15:45PM +0100, Philippe Mathieu-Daudé wrote:
+> On 2/10/21 12:12 PM, Philippe Mathieu-Daudé wrote:
+> > Hi Bin,
+> > 
+> > On 2/10/21 11:23 AM, Bin Meng wrote:
+> >> From: Bin Meng <bin.meng@windriver.com>
+> >>
+> >> Current QEMU HEAD nvme.c does not compile:
+> >>
+> >>   hw/block/nvme.c:3242:9: error: ‘result’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> >>          trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
+> >>          ^
+> >>   hw/block/nvme.c:3150:14: note: ‘result’ was declared here
+> >>      uint32_t result;
+> >>               ^
+> > 
+> > Why isn't this catched by our CI? What is your host OS? Fedora 33?
+> 
+> Just noticed v1 and Peter's explanation:
+> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03528.html
+> 
+> Can you amend "default GCC 5.4 on a Ubuntu 16.04 host" information
+> please?
 
-On 1/27/21 11:42 PM, Philippe Mathieu-Daudé wrote:
-> Taking notes while reviewing commit 671a0a1265a
-> ("use MMUAccessType instead of int in mmu_translate").
-> 
-> Philippe Mathieu-Daudé (3):
->   target/tricore: Replace magic value by MMU_DATA_LOAD definition
->   target/tricore: Pass MMUAccessType to get_physical_address()
->   target/tricore: Remove unused definitions
-> 
->  target/tricore/cpu.h    | 12 ------------
->  target/tricore/helper.c |  9 ++++-----
->  2 files changed, 4 insertions(+), 17 deletions(-)
-> 
+Well Ubuntu 16.04 hasn't been considered a supported build target for
+QEMU for a year now.
+
+https://qemu.readthedocs.io/en/latest/system/build-platforms.html#linux-os-macos-freebsd-netbsd-openbsd
+
+  "The project aims to support the most recent major version 
+   at all times. Support for the previous major version will 
+   be dropped 2 years after the new major version is released
+   or when the vendor itself drops support, whichever comes 
+   first."
+
+IOW, we only aim for QEMU to be buildable on Ubuntu LTS 20.04 and 18.04
+at this point in time.  16.04 is explicitly dropped and we will increasingly
+introduce incompatibilities with it.
+
+While this specific patch is simple, trying to keep QEMU git master
+working on 16.04 is not a goal, so I'd really suggest upgrading to
+a newer Ubuntu version at the soonest opportunity.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
