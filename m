@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75158316C1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:10:00 +0100 (CET)
-Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 704D1316BFB
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:01:55 +0100 (CET)
+Received: from localhost ([::1]:54122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9t03-0003Fh-7I
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:09:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42438)
+	id 1l9ssE-0001JW-Fr
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:01:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYZ-0007QL-Dj
+ id 1l9sYZ-0007PZ-4c
  for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26955)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYP-0008VZ-UM
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:35 -0500
+ id 1l9sYR-0008Vm-Io
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612975284;
+ s=mimecast20190719; t=1612975286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h0QvmjX98VbM0hJDAiWjHMsOGh3uS/mkzUm9fqxf+c0=;
- b=OgLG29xca1go4UsZbnkJ6znB1xGYKF8bwq4oj7SqssckipNFtnMrLT1G+xu80KBzFGvJ7/
- f1PE5sTm4xWrnwoZY8xYrk2dJepFKUQJ9JPuv8uPAqFcMZbzlNq6UVHOfx82Dx3X+Tlw46
- Vblmy4Aldle2lnDgA1TwBar/9uR/fYo=
+ bh=1+pMs6qYjHqm8UjfJLma0Z1tkMqnmcp9Y730qatau+c=;
+ b=fTPsO7h0T96BzxBIzeGhF18hP8OgGEN7Q6yHOiiUl2fpkpB2MUEdeWSz/fcr2I0vdy4nt0
+ HTLIIbWkNmwaTcCfxEwGLhMKoZxmL/w8ziyIK89yTK+CS64KC9O7bmO76adkSfuvNXBfZQ
+ MuEFl+xGBqfw0c90kw11wxKLYdKBsug=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-RRSRKQTXMtaCXFBI-2uPXQ-1; Wed, 10 Feb 2021 11:41:23 -0500
-X-MC-Unique: RRSRKQTXMtaCXFBI-2uPXQ-1
+ us-mta-382-wEIEAY-oMN6TF2IxfcBEMQ-1; Wed, 10 Feb 2021 11:41:24 -0500
+X-MC-Unique: wEIEAY-oMN6TF2IxfcBEMQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B040801962
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13343107ACE3
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:24 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.195.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 972D25D9D0;
- Wed, 10 Feb 2021 16:41:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88CF25D9E8;
+ Wed, 10 Feb 2021 16:41:22 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v4 19/21] i386: introduce kvm_hv_evmcs_available()
-Date: Wed, 10 Feb 2021 17:40:31 +0100
-Message-Id: <20210210164033.607612-20-vkuznets@redhat.com>
+Subject: [PATCH v4 20/21] i386: provide simple 'hv-default=on' option
+Date: Wed, 10 Feb 2021 17:40:32 +0100
+Message-Id: <20210210164033.607612-21-vkuznets@redhat.com>
 In-Reply-To: <20210210164033.607612-1-vkuznets@redhat.com>
 References: <20210210164033.607612-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -84,76 +84,149 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enlightened VMCS feature is hardware specific, it is only supported on
-Intel CPUs. Introduce a simple kvm_hv_evmcs_available() helper, it will
-be used to filter out 'hv_evmcs' when 'hyperv=on' option is added to
-X86MachineClass.
+Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
+requires listing all currently supported enlightenments ("hv-*" CPU
+features) explicitly. We do have 'hv-passthrough' mode enabling
+everything but it can't be used in production as it prevents migration.
+
+Introduce a simple 'hv-default=on' CPU flag enabling all currently supported
+Hyper-V enlightenments. Later, when new enlightenments get implemented,
+compat_props mechanism will be used to disable them for legacy machine types,
+this will keep 'hv-default=on' configurations migratable.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/kvm/kvm-stub.c | 5 +++++
- target/i386/kvm/kvm.c      | 8 ++++++++
- target/i386/kvm/kvm_i386.h | 1 +
- 3 files changed, 14 insertions(+)
+ docs/hyperv.txt   | 16 ++++++++++++---
+ target/i386/cpu.c | 52 +++++++++++++++++++++++++++++++++++++++++++++++
+ target/i386/cpu.h |  3 +++
+ 3 files changed, 68 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-index 7f175faa3abd..4e486f41a60a 100644
---- a/target/i386/kvm/kvm-stub.c
-+++ b/target/i386/kvm/kvm-stub.c
-@@ -44,3 +44,8 @@ void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
+diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+index 5df00da54fc4..a54c066cab09 100644
+--- a/docs/hyperv.txt
++++ b/docs/hyperv.txt
+@@ -17,10 +17,20 @@ compatible hypervisor and use Hyper-V specific features.
+ 
+ 2. Setup
+ =========
+-No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
+-QEMU, individual enlightenments can be enabled through CPU flags, e.g:
++All currently supported Hyper-V enlightenments can be enabled by specifying
++'hv-default=on' CPU flag:
+ 
+-  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
++  qemu-system-x86_64 --enable-kvm --cpu host,hv-default ...
++
++Alternatively, it is possible to do fine-grained enablement through CPU flags,
++e.g:
++
++  qemu-system-x86_64 --enable-kvm --cpu host,hv-relaxed,hv-vpindex,hv-time ...
++
++It is also possible to disable individual enlightenments from the default list,
++this can be used for debugging purposes:
++
++  qemu-system-x86_64 --enable-kvm --cpu host,hv-default=on,hv-evmcs=off ...
+ 
+ Sometimes there are dependencies between enlightenments, QEMU is supposed to
+ check that the supplied configuration is sane.
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index f8df2caed779..013aa60272d8 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4736,6 +4736,12 @@ static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
  {
+     X86CPU *cpu = X86_CPU(obj);
+ 
++    if (cpu->hyperv_default) {
++        error_setg(errp,
++                   "'hv-default' and 'hv-paththrough' are mutually exclusive");
++        return;
++    }
++
+     cpu->hyperv_passthrough = value;
+ 
+     /* hv-passthrough overrides everything with what's supported by the host */
+@@ -4748,6 +4754,33 @@ static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
      return;
  }
-+
-+bool kvm_hv_evmcs_available(void)
+ 
++static bool x86_hv_default_get(Object *obj, Error **errp)
 +{
-+    return false;
++    X86CPU *cpu = X86_CPU(obj);
++
++    return cpu->hyperv_default;
 +}
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 480908b2463a..6c26b2091d4a 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -96,6 +96,7 @@ static bool has_msr_hv_crash;
- static bool has_msr_hv_reset;
- static bool has_msr_hv_vpindex;
- static bool hv_vpindex_settable;
-+static bool hv_evmcs_available;
- static bool has_msr_hv_runtime;
- static bool has_msr_hv_synic;
- static bool has_msr_hv_stimer;
-@@ -195,6 +196,11 @@ bool kvm_hv_vpindex_settable(void)
-     return hv_vpindex_settable;
++
++static void x86_hv_default_set(Object *obj, bool value, Error **errp)
++{
++    X86CPU *cpu = X86_CPU(obj);
++
++    if (cpu->hyperv_passthrough) {
++        error_setg(errp,
++                   "'hv-default' and 'hv-paththrough' are mutually exclusive");
++        return;
++    }
++
++    cpu->hyperv_default = value;
++
++    /* hv-default overrides everything with the default set */
++    if (value) {
++        cpu->hyperv_features = cpu->hyperv_default_features;
++        cpu->hyperv_features_on = 0;
++        cpu->hyperv_features_off = 0;
++    }
++}
++
+ /* Generic getter for "feature-words" and "filtered-features" properties */
+ static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
+                                       const char *name, void *opaque,
+@@ -7152,6 +7185,21 @@ static void x86_cpu_initfn(Object *obj)
+     if (xcc->model) {
+         x86_cpu_load_model(cpu, xcc->model);
+     }
++
++    /* Hyper-V features enabled with 'hv-default=on' */
++    cpu->hyperv_default_features = BIT(HYPERV_FEAT_RELAXED) |
++        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
++        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
++        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
++        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
++        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
++        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_IPI) |
++        BIT(HYPERV_FEAT_STIMER_DIRECT);
++
++    /* Enlightened VMCS is only available on Intel/VMX */
++    if (kvm_hv_evmcs_available()) {
++        cpu->hyperv_default_features |= BIT(HYPERV_FEAT_EVMCS);
++    }
  }
  
-+bool kvm_hv_evmcs_available(void)
-+{
-+    return hv_evmcs_available;
-+}
+ static int64_t x86_cpu_get_arch_id(CPUState *cs)
+@@ -7486,6 +7534,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+                                    x86_hv_passthrough_get,
+                                    x86_hv_passthrough_set);
+ 
++    object_class_property_add_bool(oc, "hv-default",
++                              x86_hv_default_get,
++                              x86_hv_default_set);
 +
- static int kvm_get_tsc(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -2235,6 +2241,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     has_pit_state2 = kvm_check_extension(s, KVM_CAP_PIT_STATE2);
- 
-     hv_vpindex_settable = kvm_check_extension(s, KVM_CAP_HYPERV_VP_INDEX);
-+    hv_evmcs_available =
-+        kvm_check_extension(s, KVM_CAP_HYPERV_ENLIGHTENED_VMCS);
- 
-     has_exception_payload = kvm_check_extension(s, KVM_CAP_EXCEPTION_PAYLOAD);
-     if (has_exception_payload) {
-diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index f1176491051d..0fa00511be27 100644
---- a/target/i386/kvm/kvm_i386.h
-+++ b/target/i386/kvm/kvm_i386.h
-@@ -48,6 +48,7 @@ bool kvm_has_waitpkg(void);
- 
- bool kvm_hv_vpindex_settable(void);
- void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
-+bool kvm_hv_evmcs_available(void);
- 
- uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
- 
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         int bitnr;
+         for (bitnr = 0; bitnr < 64; bitnr++) {
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index b4fbd46f0fc9..59350e70fb51 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1670,6 +1670,9 @@ struct X86CPU {
+     uint64_t hyperv_features_on;
+     uint64_t hyperv_features_off;
+     bool hyperv_passthrough;
++    /* 'hv-default' enablement */
++    uint64_t hyperv_default_features;
++    bool hyperv_default;
+     OnOffAuto hyperv_no_nonarch_cs;
+     uint32_t hyperv_vendor_id[3];
+     uint32_t hyperv_interface_id[4];
 -- 
 2.29.2
 
