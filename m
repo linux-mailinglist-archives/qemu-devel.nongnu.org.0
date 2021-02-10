@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2831C315D05
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 03:17:01 +0100 (CET)
-Received: from localhost ([::1]:43866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC371315D1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 03:21:21 +0100 (CET)
+Received: from localhost ([::1]:46576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9f3s-0001Bb-6Y
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 21:17:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36170)
+	id 1l9f84-0003F3-G1
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 21:21:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9ezq-000081-Hm; Tue, 09 Feb 2021 21:12:50 -0500
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:46305)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l9f4X-0002cL-7o
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 21:17:44 -0500
+Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d]:42502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9ezl-00077U-T5; Tue, 09 Feb 2021 21:12:50 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id v123so444289yba.13;
- Tue, 09 Feb 2021 18:12:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1l9f4T-0000cP-I0
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 21:17:41 -0500
+Received: by mail-vs1-xe2d.google.com with SMTP id z3so332002vsn.9
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 18:17:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XbT+VNZqA+/oaPvb+c6x01+g/DuTAB+y6s/1SobkCx8=;
- b=C9Vmc7KGcsX4z9+fqOd5yUi8B52BDX2/6pqsE9vaPn0pik5hfUg4OfuFiWmgKjCNdE
- iqV7CzDUoBtw93dBhlUpRP66f5UlJAf5zHf5NwGZlGdrtRsic3kbnyl7iwYnqgzcVzmC
- Y5uoF0f9KnxJ7ALfOdIk4IUo2kOJJ+imEybmOnoMhVaRMV9DSuQ1nM09cpmjDYYOekq8
- 8JHOYAp1erxb9v6sWOPzmkLgL4oSfATBBuMK/bQLQmzNUovLKkkxlWUM6lCox/PR5XLZ
- oacnoxvM/+WAzRpEaD9IIhmW0+D6n4b8mb/1jj1RfXP4o9IAZHHeZy1P1evLNUSoaHsr
- tpsg==
+ :cc; bh=RxpCPM9Xcm3yHcE6FyzVylL8yaERbR2gJNJ3M8hIgKA=;
+ b=q7WociAtVyuRtyowDCyGtkFpQJoq+j5i81hAjyL/RMvUUedkH5je9IN8YM4ucRecW6
+ OQ620xE6RUV7ITST898Ti0RbMmTKgkZBR4czoo8Z/jgpRAOogvFE10CP6FAlLA0yTbpr
+ 8VWuGP7qVAycS2fARb75Chz3uM2oeThDhs/Ug/KwDoh8S6ukRip0Dqm4aE+buIWSb0wm
+ nVq0U1R9og1Ep5bH/jiu+RbrGd9vz27iH8mHVbfIz0RNBjmmDbqS8sDL/A94BZQJ4fbJ
+ HLrkiSvGU9HF6lemeJ3LxxP8HGAVnQIkn7zdA/rVBJ2AO6bwIMK89l4UxskkSgp9NoTV
+ d9qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XbT+VNZqA+/oaPvb+c6x01+g/DuTAB+y6s/1SobkCx8=;
- b=hqAc9fkLyFRt3uELIguQX67Rob8IiuNAkZCq5DUAxWdTxkvJ+apWJ2Dg80LTrBmM3Y
- k2FaJaAweNsv5eqAW8KuTrK3XPh5IuSNTFEUAO1JlsaL7cv62OMQMHvwiIQ7SjGbN9UT
- 5hTYnyp8aQjOcH7H08klmKXFXUqFqRFIWe/POYb0VeiCW6+aopBpkIGCwA4e6BaFsKru
- zm/6/ACcLPgFM6pnAjsSptA0uhQOnj/gJWb7QKdphu09lkFtRtO9sv+A1mrirPWcuCFq
- scKWEMAaCQvGm1wFvkQEbnloGbuUhnD8TibeuwMWHB1z5bzx9bKGHQ+j0c/W2WeTh0mb
- OmEw==
-X-Gm-Message-State: AOAM530pL8pLBQ+WZAgHaBB3YqnmqWVGo24NxcLABop5Mg03xJoHshQS
- gLKD23c6MiKHPCAh0YSmINwpgNlqyk8G4YFXhrV0rLRc
-X-Google-Smtp-Source: ABdhPJxor/Mk+AIG03xO+DVrDdye4nqrhNIWFwawXBXQ8G02OsNheunInzZYlJwGZrWXCNDgz5feSJ/MRimIXawhUy0=
-X-Received: by 2002:a25:3bc5:: with SMTP id i188mr1136000yba.332.1612923164011; 
- Tue, 09 Feb 2021 18:12:44 -0800 (PST)
+ bh=RxpCPM9Xcm3yHcE6FyzVylL8yaERbR2gJNJ3M8hIgKA=;
+ b=FIoMNPpMfAAgBZCyNG7ZD5eErm/HpT6h/5y3ml+Ydkc+r5YkKEup11Bc3Hl1ud7Bf9
+ EphwAn1Y2ftcAbBJghcsQXmbaMTTvpxlL6ZJljBQLt4pIu/DqfWNExo1jnQ3vYkS0ym8
+ d3wUkJFjpSf93ySKOiBJ5i6jVGw/dWXPHLzKc+b1pJCRg/BzHhQijJXfzZEYwMLx9LdJ
+ IBolJE4g+mVw/huhTof48e/8jttNEqIZuqj+J+Hxfdq2tyebMmcKQp31C64Vc/6YOOjd
+ iXJSHD0Vp+28oeVq1ra5JJgyPJCw1lsD3rmMi6obLPipgrR2h1z1ERUVvPHyAYChrdAL
+ yVcw==
+X-Gm-Message-State: AOAM533QdgzcdmEf3tSNIAEr/XkotgbVswEDx1BgZBVu27SqSc/Av2+y
+ 05IXQ1I2tDjt+o1IgLbW4WFCJddkgO3W9IJt4EHMPQ==
+X-Google-Smtp-Source: ABdhPJxGRDvwxBGloz6YSlc1nfxgZAtEoRG+1DiMbzW8loxcR3eTVvnbOnvMDMvJCpuQw8bBBE0d/r826ZLPp6f1Pg8=
+X-Received: by 2002:a67:e204:: with SMTP id g4mr363363vsa.29.1612923454350;
+ Tue, 09 Feb 2021 18:17:34 -0800 (PST)
 MIME-Version: 1.0
-References: <1612777258-23354-1-git-send-email-bmeng.cn@gmail.com>
- <20210210014159.GE4450@yekko.fritz.box>
- <CAEUhbmWeH5CDRodyYtYs-f0G-SUdksop4MRiHTocntbcWM3rmA@mail.gmail.com>
- <20210210020852.GG4450@yekko.fritz.box>
-In-Reply-To: <20210210020852.GG4450@yekko.fritz.box>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 10 Feb 2021 10:12:32 +0800
-Message-ID: <CAEUhbmVjmRw-SSe1twLC2+mr55r+e6v5z2htTHM=0o4eOPKd9g@mail.gmail.com>
-Subject: Re: [PATCH] target/ppc: Add E500 L2CSR0 write helper
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210203233539.1990032-1-dje@google.com>
+ <20210204100349.GF549438@redhat.com>
+ <CADPb22THtnaRgz3MAa+=U+dgZeZR4+FDO_SvpfsqKbnSJRnOmA@mail.gmail.com>
+In-Reply-To: <CADPb22THtnaRgz3MAa+=U+dgZeZR4+FDO_SvpfsqKbnSJRnOmA@mail.gmail.com>
+From: Doug Evans <dje@google.com>
+Date: Tue, 9 Feb 2021 18:16:57 -0800
+Message-ID: <CADPb22Q2k0EpEG6=h=Riswitpha0okeEeoP9Use3yfYtV7t6ZA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3]
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+Content-Type: multipart/alternative; boundary="0000000000008c46b605baf2017a"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
+ envelope-from=dje@google.com; helo=mail-vs1-xe2d.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,79 +79,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Greg Kurz <groug@kaod.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
+--0000000000008c46b605baf2017a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 10, 2021 at 10:09 AM David Gibson
-<david@gibson.dropbear.id.au> wrote:
->
-> On Wed, Feb 10, 2021 at 09:53:53AM +0800, Bin Meng wrote:
-> > Hi David,
-> >
-> > On Wed, Feb 10, 2021 at 9:50 AM David Gibson
-> > <david@gibson.dropbear.id.au> wrote:
-> > >
-> > > On Mon, Feb 08, 2021 at 05:40:58PM +0800, Bin Meng wrote:
-> > > > From: Bin Meng <bin.meng@windriver.com>
-> > > >
-> > > > There are several bits in L2CSR0 (exists in the e500mc/e5500/e6500
-> > > > core) that should be self-cleared when written:
-> > > >
-> > > > - L2FI  (L2 cache flash invalidate)
-> > > > - L2FL  (L2 cache flush)
-> > > > - L2LFC (L2 cache lock flash clear)
-> > > >
-> > > > Add a write helper to emulate this behavior.
-> > > >
-> > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > IIUC, these are essentially write-only bits - they have some side
-> > > effect when written on real hardware, but won't ever be read back.  Is
-> > > that correct?  Do you have a reference to hardware docs describing
-> > > this behaviour?
-> > >
-> >
-> > Please see https://www.nxp.com/files-static/32bit/doc/ref_manual/EREFRM.pdf,
-> > chapter 3.11.2
->
-> Ah, thanks.  So these actually don't operate quite how I was
-> suggesting - they are readable, and return 1 until the operation is
-> completed.
->
-> So what you're effectively doing here is simulating the cache
-> operations completing instantly - which is correct because we don't
-> model the cache.
->
-> Can you please clarify that in your commit message, including the
-> pointer to the chip doc.
+On Thu, Feb 4, 2021 at 10:25 AM Doug Evans <dje@google.com> wrote:
 
-Sure, will do in v2.
-
+> On Thu, Feb 4, 2021 at 2:03 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om>
+> wrote:
 >
-> > > I'm assuming that because we don't model the L2 cache, it's ok that
-> > > your implementation just ignores writing these bits, rather than
-> > > performing the cache operations requested?
-> >
-> > Yes, guests may read back these bits to confirm the operation is done
-> > by hardware after writing 1 to these bits.
-> >
-> > >
-> > > Is that still true for the flash clear operation?
-> >
-> > Yes.
+>> On Wed, Feb 03, 2021 at 03:35:36PM -0800, dje--- via wrote:
+>> > Add support for ipv6 host forwarding
+>> >
+>> > This patchset takes the original patch from Maxim,
+>> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
+>> > and updates it.
+>> >
+>> > New option: -ipv6-hostfwd
+>> >
+>> > New commands: ipv6_hostfwd_add, ipv6_hostfwd_remove
+>> >
+>> > These are the ipv6 equivalents of their ipv4 counterparts.
+>>
+>> Before I noticed this v3, I send a reply to your v2 sugesting
+>> that we don't need to add any new commands/options. We can
+>> use existing inet_parse() helper function to parse the address
+>> info and transparently support IPv4/6 in the existing commands
+>> and options. This matches normal practice elsewhere in QEMU
+>> for IP dual stack.
+>>
 >
-> Ah, yes, I see.  The name made me think this might be something like
-> dcbz, which has visible effects on architected state.  This is just
-> clearing cache locks, which we don't model in any case.
+> I'm all for this, fwiw.
 >
 
-Thanks for the review.
 
-Regards,
-Bin
+I should say I'm all for not adding new commands/options.
+Looking at inet_parse() it cannot be used as-is.
+The question then becomes: Will refactoring it buy enough?
+
+--0000000000008c46b605baf2017a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Thu, Feb 4, 2021 at 10:25 AM Doug Evans &lt;<a href=3D"mai=
+lto:dje@google.com">dje@google.com</a>&gt; wrote:<br></div></div><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div dir=3D"ltr"><div style=3D"font-size:small">On Thu, Feb 4, 202=
+1 at 2:03 AM Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.=
+com" target=3D"_blank">berrange@redhat.com</a>&gt; wrote:<br></div></div><d=
+iv class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+On Wed, Feb 03, 2021 at 03:35:36PM -0800, dje--- via wrote:<br>
+&gt; Add support for ipv6 host forwarding<br>
+&gt; <br>
+&gt; This patchset takes the original patch from Maxim,<br>
+&gt; <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg56957=
+3.html" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/q=
+emu-devel@nongnu.org/msg569573.html</a><br>
+&gt; and updates it.<br>
+&gt; <br>
+&gt; New option: -ipv6-hostfwd<br>
+&gt; <br>
+&gt; New commands: ipv6_hostfwd_add, ipv6_hostfwd_remove<br>
+&gt; <br>
+&gt; These are the ipv6 equivalents of their ipv4 counterparts.<br>
+<br>
+Before I noticed this v3, I send a reply to your v2 sugesting<br>
+that we don&#39;t need to add any new commands/options. We can<br>
+use existing inet_parse() helper function to parse the address<br>
+info and transparently support IPv4/6 in the existing commands<br>
+and options. This matches normal practice elsewhere in QEMU<br>
+for IP dual stack.<br></blockquote><div><br></div><div style=3D"font-size:s=
+mall">I&#39;m all for this, fwiw.</div></div></div></blockquote><div><br></=
+div><div><br></div><div class=3D"gmail_default" style=3D"font-size:small">I=
+ should say I&#39;m all for not adding new commands/options.</div><div clas=
+s=3D"gmail_default" style=3D"font-size:small">Looking at inet_parse() it ca=
+nnot be used as-is.</div><div class=3D"gmail_default" style=3D"font-size:sm=
+all">The question then becomes: Will refactoring it buy enough?</div></div>=
+</div>
+
+--0000000000008c46b605baf2017a--
 
