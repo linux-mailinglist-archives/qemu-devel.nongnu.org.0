@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D592315CF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 03:13:13 +0100 (CET)
-Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2831C315D05
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 03:17:01 +0100 (CET)
+Received: from localhost ([::1]:43866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9f0C-00088a-EL
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 21:13:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34670)
+	id 1l9f3s-0001Bb-6Y
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 21:17:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9exi-00075z-NF; Tue, 09 Feb 2021 21:10:38 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:46150)
+ id 1l9ezq-000081-Hm; Tue, 09 Feb 2021 21:12:50 -0500
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:46305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l9exg-00065q-L4; Tue, 09 Feb 2021 21:10:38 -0500
-Received: by mail-ej1-x631.google.com with SMTP id w2so1113840ejk.13;
- Tue, 09 Feb 2021 18:10:35 -0800 (PST)
+ id 1l9ezl-00077U-T5; Tue, 09 Feb 2021 21:12:50 -0500
+Received: by mail-yb1-xb2e.google.com with SMTP id v123so444289yba.13;
+ Tue, 09 Feb 2021 18:12:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=hk7SbIVq3HLAUxsoyvpqvtLNtaWG6GL+HECVB72xKF4=;
- b=mGmLCEfBQHNMlkasGFumYx1GCExceMA3zIMnuBDC4VAxBvTuUAGQVLHXnq6nrBnZ22
- JRuNHo30mDzF73VAsN37mQCRGoSaXP9BptbtJSIzVvlJda4uYa79S+ljNtoed7BvyymB
- /mApXCK7W+Y3+olIcfmMNlhOilPogBxI8AIGHo/lOUkXRSyIX6OwNF6m0lAWDKn+gm/e
- ABtHzFtT5Mx2w9rxs0Z0vNoqm4BVeYD+90vg1bH2Pe6rSiOZ3YdurnFMUuupU2GLcH3n
- le/TN+BgIvMgbQKHFmqy/Ry8DTd4kjupfbgkD7PGOXJcNLhGPYZjZh9VINATsM2XQhEA
- HI8g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XbT+VNZqA+/oaPvb+c6x01+g/DuTAB+y6s/1SobkCx8=;
+ b=C9Vmc7KGcsX4z9+fqOd5yUi8B52BDX2/6pqsE9vaPn0pik5hfUg4OfuFiWmgKjCNdE
+ iqV7CzDUoBtw93dBhlUpRP66f5UlJAf5zHf5NwGZlGdrtRsic3kbnyl7iwYnqgzcVzmC
+ Y5uoF0f9KnxJ7ALfOdIk4IUo2kOJJ+imEybmOnoMhVaRMV9DSuQ1nM09cpmjDYYOekq8
+ 8JHOYAp1erxb9v6sWOPzmkLgL4oSfATBBuMK/bQLQmzNUovLKkkxlWUM6lCox/PR5XLZ
+ oacnoxvM/+WAzRpEaD9IIhmW0+D6n4b8mb/1jj1RfXP4o9IAZHHeZy1P1evLNUSoaHsr
+ tpsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=hk7SbIVq3HLAUxsoyvpqvtLNtaWG6GL+HECVB72xKF4=;
- b=UeN2+gWi2crMLAMpCoRloGqFc2Y5BfZkKgyfFJTmE3ttvrjZDs/Ox2uvkUSbhLptuh
- sgx7mT98xFhi8KNJZ5zCg5SPBHr/pLKE4v4Eijao61zTOR0UX+TETGkVLIdc3dxp5hzs
- iY5+Xt6U4Cxpq9vA2UfvAYARM4JDrGUIeEJr2aDfjl4/4B5dPJU5OUUyxny9YJt3Jhvw
- NGbz+ZMYXA1gHXGHuRKSjtDEr6pmnQyEcFVxkm/M0Pkbg/rpNKMvMNHtP3k4hcd9NPCR
- /AHb6SjTSNyFYSMDsehH0ZdU5PYo10vpi0rx2ZZ2WR+h6xt6L4AF/ywaTL5PziG1gIu6
- K3pA==
-X-Gm-Message-State: AOAM5313sDLldkNfQrtjvf2z7+BcCkBmlMHPBUWUEe8pKUMHkwDMKnMP
- 01BGG/kKDcmsdPy6quTQ418=
-X-Google-Smtp-Source: ABdhPJwPmJRbMTJ0iRusQ41RqxnGQAaVr59jGyhk58PTnEuIBNBY2zsUGiwOzigQuSA8/nWoJNFBVQ==
-X-Received: by 2002:a17:907:9626:: with SMTP id
- gb38mr615428ejc.301.1612923034042; 
- Tue, 09 Feb 2021 18:10:34 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id ks16sm251101ejb.30.2021.02.09.18.10.29
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 09 Feb 2021 18:10:33 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XbT+VNZqA+/oaPvb+c6x01+g/DuTAB+y6s/1SobkCx8=;
+ b=hqAc9fkLyFRt3uELIguQX67Rob8IiuNAkZCq5DUAxWdTxkvJ+apWJ2Dg80LTrBmM3Y
+ k2FaJaAweNsv5eqAW8KuTrK3XPh5IuSNTFEUAO1JlsaL7cv62OMQMHvwiIQ7SjGbN9UT
+ 5hTYnyp8aQjOcH7H08klmKXFXUqFqRFIWe/POYb0VeiCW6+aopBpkIGCwA4e6BaFsKru
+ zm/6/ACcLPgFM6pnAjsSptA0uhQOnj/gJWb7QKdphu09lkFtRtO9sv+A1mrirPWcuCFq
+ scKWEMAaCQvGm1wFvkQEbnloGbuUhnD8TibeuwMWHB1z5bzx9bKGHQ+j0c/W2WeTh0mb
+ OmEw==
+X-Gm-Message-State: AOAM530pL8pLBQ+WZAgHaBB3YqnmqWVGo24NxcLABop5Mg03xJoHshQS
+ gLKD23c6MiKHPCAh0YSmINwpgNlqyk8G4YFXhrV0rLRc
+X-Google-Smtp-Source: ABdhPJxor/Mk+AIG03xO+DVrDdye4nqrhNIWFwawXBXQ8G02OsNheunInzZYlJwGZrWXCNDgz5feSJ/MRimIXawhUy0=
+X-Received: by 2002:a25:3bc5:: with SMTP id i188mr1136000yba.332.1612923164011; 
+ Tue, 09 Feb 2021 18:12:44 -0800 (PST)
+MIME-Version: 1.0
+References: <1612777258-23354-1-git-send-email-bmeng.cn@gmail.com>
+ <20210210014159.GE4450@yekko.fritz.box>
+ <CAEUhbmWeH5CDRodyYtYs-f0G-SUdksop4MRiHTocntbcWM3rmA@mail.gmail.com>
+ <20210210020852.GG4450@yekko.fritz.box>
+In-Reply-To: <20210210020852.GG4450@yekko.fritz.box>
 From: Bin Meng <bmeng.cn@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v3] hw/net: fsl_etsec: Reverse the RCTRL.RSF logic
-Date: Wed, 10 Feb 2021 10:10:21 +0800
-Message-Id: <1612923021-19746-1-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x631.google.com
+Date: Wed, 10 Feb 2021 10:12:32 +0800
+Message-ID: <CAEUhbmVjmRw-SSe1twLC2+mr55r+e6v5z2htTHM=0o4eOPKd9g@mail.gmail.com>
+Subject: Re: [PATCH] target/ppc: Add E500 L2CSR0 write helper
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,62 +77,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Greg Kurz <groug@kaod.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Hi David,
 
-Per MPC8548ERM [1] chapter 14.5.3.4.1:
+On Wed, Feb 10, 2021 at 10:09 AM David Gibson
+<david@gibson.dropbear.id.au> wrote:
+>
+> On Wed, Feb 10, 2021 at 09:53:53AM +0800, Bin Meng wrote:
+> > Hi David,
+> >
+> > On Wed, Feb 10, 2021 at 9:50 AM David Gibson
+> > <david@gibson.dropbear.id.au> wrote:
+> > >
+> > > On Mon, Feb 08, 2021 at 05:40:58PM +0800, Bin Meng wrote:
+> > > > From: Bin Meng <bin.meng@windriver.com>
+> > > >
+> > > > There are several bits in L2CSR0 (exists in the e500mc/e5500/e6500
+> > > > core) that should be self-cleared when written:
+> > > >
+> > > > - L2FI  (L2 cache flash invalidate)
+> > > > - L2FL  (L2 cache flush)
+> > > > - L2LFC (L2 cache lock flash clear)
+> > > >
+> > > > Add a write helper to emulate this behavior.
+> > > >
+> > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > >
+> > > IIUC, these are essentially write-only bits - they have some side
+> > > effect when written on real hardware, but won't ever be read back.  Is
+> > > that correct?  Do you have a reference to hardware docs describing
+> > > this behaviour?
+> > >
+> >
+> > Please see https://www.nxp.com/files-static/32bit/doc/ref_manual/EREFRM.pdf,
+> > chapter 3.11.2
+>
+> Ah, thanks.  So these actually don't operate quite how I was
+> suggesting - they are readable, and return 1 until the operation is
+> completed.
+>
+> So what you're effectively doing here is simulating the cache
+> operations completing instantly - which is correct because we don't
+> model the cache.
+>
+> Can you please clarify that in your commit message, including the
+> pointer to the chip doc.
 
-When RCTRL.RSF is 1, frames less than 64 bytes are accepted upon
-a DA match. But currently QEMU does the opposite. This commit
-reverses the RCTRL.RSF testing logic to match the manual.
+Sure, will do in v2.
 
-Due to the reverse of the logic, certain guests may potentially
-break if they don't program eTSEC to have RCTRL.RSF bit set.
-When RCTRL.RSF is 0, short frames are silently dropped, however
-as of today both slirp and tap networking do not pad short frames
-(e.g.: an ARP packet) to the minimum frame size of 60 bytes. So
-ARP requests will be dropped, preventing the guest from becoming
-visible on the network.
+>
+> > > I'm assuming that because we don't model the L2 cache, it's ok that
+> > > your implementation just ignores writing these bits, rather than
+> > > performing the cache operations requested?
+> >
+> > Yes, guests may read back these bits to confirm the operation is done
+> > by hardware after writing 1 to these bits.
+> >
+> > >
+> > > Is that still true for the flash clear operation?
+> >
+> > Yes.
+>
+> Ah, yes, I see.  The name made me think this might be something like
+> dcbz, which has visible effects on architected state.  This is just
+> clearing cache locks, which we don't model in any case.
+>
 
-The same issue was reported on e1000 and vmxenet3 before, see:
+Thanks for the review.
 
-commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
-commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
-
-[1] https://www.nxp.com/docs/en/reference-manual/MPC8548ERM.pdf
-
-Fixes: eb1e7c3e5146 ("Add Enhanced Three-Speed Ethernet Controller (eTSEC)")
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
----
-
-Changes in v3:
-- remove the slirp/tap networking workaround and only do the reverse
-
-Changes in v2:
-- rewrite the commit message and reverse the RCTRL.RSF test logic
-
- hw/net/fsl_etsec/rings.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
-index 121415a..fe055d3 100644
---- a/hw/net/fsl_etsec/rings.c
-+++ b/hw/net/fsl_etsec/rings.c
-@@ -502,7 +502,7 @@ ssize_t etsec_rx_ring_write(eTSEC *etsec, const uint8_t *buf, size_t size)
-         return -1;
-     }
- 
--    if ((etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
-+    if (!(etsec->regs[RCTRL].value & RCTRL_RSF) && (size < 60)) {
-         /* CRC is not in the packet yet, so short frame is below 60 bytes */
-         RING_DEBUG("%s: Drop short frame\n", __func__);
-         return -1;
--- 
-2.7.4
-
+Regards,
+Bin
 
