@@ -2,76 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01839316550
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 12:37:01 +0100 (CET)
-Received: from localhost ([::1]:39856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD41316564
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 12:42:17 +0100 (CET)
+Received: from localhost ([::1]:47946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9nnn-0005GF-P7
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 06:36:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57812)
+	id 1l9nsu-0000Mb-3d
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 06:42:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9nlp-0004Wu-V4
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:34:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l9nln-0004jR-0D
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 06:34:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612956893;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Y4jD9GWAIzRvwoStYd5V+JXjl55L3SpZO8bLSVs1ig=;
- b=bPG+i5y+FvAnb8q20/2sKADBWFh9slknbzQ4Zff8ntHen84b2xrAOOYCwPAH+hfMHJ7XMN
- 5OT+5mrzkcimrFbRiZ74Ab9mzqQ8B9emdOKGGGDCck8I5kBDG4GjnY/qqFVlM5I24Rf2zx
- R2IaoqPtXJKv1T9ZJLznVIa642XB4sI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-xwZVkVOHOGqvxIdp5hxHrw-1; Wed, 10 Feb 2021 06:34:51 -0500
-X-MC-Unique: xwZVkVOHOGqvxIdp5hxHrw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC732835E22;
- Wed, 10 Feb 2021 11:34:49 +0000 (UTC)
-Received: from redhat.com (ovpn-115-94.ams2.redhat.com [10.36.115.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B27019C66;
- Wed, 10 Feb 2021 11:34:45 +0000 (UTC)
-Date: Wed, 10 Feb 2021 11:34:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2] hw/block: nvme: Fix a build error in nvme_get_feature()
-Message-ID: <20210210113442.GG1240644@redhat.com>
-References: <1612952597-62595-1-git-send-email-bmeng.cn@gmail.com>
- <299d3bdc-268c-eccc-66be-6605b23a2c92@redhat.com>
- <efffe227-472d-698d-d8f7-cc0bbd1800c0@redhat.com>
- <20210210112219.GF1240644@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9noE-0006gD-6q; Wed, 10 Feb 2021 06:37:26 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:48159)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l9noA-0005if-Nf; Wed, 10 Feb 2021 06:37:26 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id D4CFBD47;
+ Wed, 10 Feb 2021 06:37:17 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 10 Feb 2021 06:37:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=qFwNz5+K/6/ef7BYIAQVwpN+VcN
+ /nLeYxoEkHNG8iFg=; b=mME2dhtAP1ja1091deJ5rtWjn5FbTy0sSxXs+DdA5V0
+ qQ1uCwzDw/dzEbckuWTuRhMgVBDJNR2auOHs5yV1AkwRNA+TvPeE6Y7aJ20y5iL0
+ jFwRFWe1TfphIsxdfJ5v3jdCpDBUDbN1mNqTYDnul6oi50yJP9dlkagZTizdbfQK
+ To5XhSPBuUW9MkuHC5vnJhu9km9v5eZD9aMqli5xYjuSy5ttz+/BMCyGVxGGSyT6
+ e59LDcws+KPqZeJ3jOnkA3zJgI6/3bqIquFb2sQpyj5xGhXI66qcwJCqvpA7K344
+ NsgOAlEw/gkDV05blktxZ8in5KkHKAzFfnz3YyEV1Tw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=qFwNz5
+ +K/6/ef7BYIAQVwpN+VcN/nLeYxoEkHNG8iFg=; b=kHNk+/xbT70fc3ApiyLn5n
+ IAWhuCwKxFl6Feg3WsD4Fjqyn1y3lRDl78ZbgY9mNX0xe2d4wp5uCPM5mr31mwz7
+ YWX5qfn7Ln5ZoH8X4qImqby1Ut3Tlx0Zr/3Auc5RRXRjbaDXJ3Eiej1BG18cKYM8
+ HKy6lXNAnc0Sf65ed3X1YNxDplEs07aNNLhiRECwDH3E+hFE0wjGC4ZVKNS2UeZx
+ 2r6Pk227u1860cYu2myF2TdXj/NvqVwECy/elIGJYR/o6emEUl7zEBYhBPtA2NuA
+ DLB+QR3U5/jgNE+KmUKHkA2lthC08ffQyWMW9HZG4SKxvOduhXQvpBgNkEGdhcCg
+ ==
+X-ME-Sender: <xms:bMUjYLCuhC-fC3hHfEduihE5UgR3ArGvcwi3xCkFbKJlATIxUazKjQ>
+ <xme:bMUjYBidpmIglY6s4lxtH1cQPRxxkvjZqGzWh_cmj8xAlMT7Hi8VUBjXTekahHwi1
+ TKUKrtdQzmhiZnrkC8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheejgdeftdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:bMUjYGnLlEvLnG_7TPnS3NxM8DQImJoXu6ut9IfonLOVN1UXKc-dOw>
+ <xmx:bMUjYNxdyrTL3wRZ7d7fh38ajMBz--j0oPB_g6MQWliEB5_BvOaFHw>
+ <xmx:bMUjYARjkVV-NqPWYceYIXS507e1pUVAH4BFnSFTeFyum-P1PagZPw>
+ <xmx:bcUjYPEfO-3FNOV8IMFxIKJyeYyRw17hnBgVbig6ZER7lQ_qmcYHiw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id AF583240062;
+ Wed, 10 Feb 2021 06:37:15 -0500 (EST)
+Date: Wed, 10 Feb 2021 12:37:13 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] hw/block: nvme: Fix a build error in nvme_process_sq()
+Message-ID: <YCPFaUxao63p/PKu@apples.localdomain>
+References: <1612950879-49023-1-git-send-email-bmeng.cn@gmail.com>
+ <CAEUhbmX5xjqTiOFzPMW0mpHxZHqaipGFb=0=Z1p5k7sEY-kSHg@mail.gmail.com>
+ <YCO0Gy6ZKY5qGZgT@apples.localdomain>
+ <CAEUhbmWB2PCYbe2Dd2Ui8C-=dE_FDjEMApDf1GkXzJe2LBQkRQ@mail.gmail.com>
+ <YCO2BMwhJE/yoNav@apples.localdomain>
+ <CAFEAcA-Pn1RPWuUaQ-g=80Zo1UYE=L+hGgQePaCaSsz3XxKvFg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210210112219.GF1240644@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KAwkMEDbwfkN5N9O"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA-Pn1RPWuUaQ-g=80Zo1UYE=L+hGgQePaCaSsz3XxKvFg@mail.gmail.com>
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,70 +98,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Klaus Jensen <its@irrelevant.dk>,
- Bin Meng <bmeng.cn@gmail.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 10, 2021 at 11:22:19AM +0000, Daniel P. Berrangé wrote:
-> On Wed, Feb 10, 2021 at 12:15:45PM +0100, Philippe Mathieu-Daudé wrote:
-> > On 2/10/21 12:12 PM, Philippe Mathieu-Daudé wrote:
-> > > Hi Bin,
-> > > 
-> > > On 2/10/21 11:23 AM, Bin Meng wrote:
-> > >> From: Bin Meng <bin.meng@windriver.com>
-> > >>
-> > >> Current QEMU HEAD nvme.c does not compile:
-> > >>
-> > >>   hw/block/nvme.c:3242:9: error: ‘result’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> > >>          trace_pci_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
-> > >>          ^
-> > >>   hw/block/nvme.c:3150:14: note: ‘result’ was declared here
-> > >>      uint32_t result;
-> > >>               ^
-> > > 
-> > > Why isn't this catched by our CI? What is your host OS? Fedora 33?
-> > 
-> > Just noticed v1 and Peter's explanation:
-> > https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03528.html
-> > 
-> > Can you amend "default GCC 5.4 on a Ubuntu 16.04 host" information
-> > please?
-> 
-> Well Ubuntu 16.04 hasn't been considered a supported build target for
-> QEMU for a year now.
-> 
-> https://qemu.readthedocs.io/en/latest/system/build-platforms.html#linux-os-macos-freebsd-netbsd-openbsd
-> 
->   "The project aims to support the most recent major version 
->    at all times. Support for the previous major version will 
->    be dropped 2 years after the new major version is released
->    or when the vendor itself drops support, whichever comes 
->    first."
-> 
-> IOW, we only aim for QEMU to be buildable on Ubuntu LTS 20.04 and 18.04
-> at this point in time.  16.04 is explicitly dropped and we will increasingly
-> introduce incompatibilities with it.
-> 
-> While this specific patch is simple, trying to keep QEMU git master
-> working on 16.04 is not a goal, so I'd really suggest upgrading to
-> a newer Ubuntu version at the soonest opportunity.
 
-In particular after 6.0 QEMU is released, we'll be dropping RHEL-7
-and then likely setting the  min required GCC to somewhere around
-6.3 which will cut off Ubuntu 16.04 upfront.
+--KAwkMEDbwfkN5N9O
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+On Feb 10 11:01, Peter Maydell wrote:
+> On Wed, 10 Feb 2021 at 10:31, Klaus Jensen <its@irrelevant.dk> wrote:
+> > On Feb 10 18:24, Bin Meng wrote:
+> > > I am using the default GCC 5.4 on a Ubuntu 16.04 host.
+> > >
+> >
+> > Alright. I'm actually not sure why newer compilers does not report this.
+> > The warning looks reasonable.
+>=20
+> It's not actually ever possible for nvme_ns() to return
+> NULL in this loop, because nvme_ns() will only return NULL
+> if it is passed an nsid value that is 0 or > n->num_namespaces,
 
+NvmeCtrl.namespaces is an array of pointers and some of those will most
+likely be NULL (those are unallocated namespaces).
+
+> and the loop conditions mean that we never do that. So
+> we can only end up using an uninitialized result if
+> n->num_namespaces is zero.
+>=20
+> Newer compilers tend to do deeper analysis (eg inlining a
+> function like nvme_ns() here and analysing on the basis of
+> what that function does), so they can identify that
+> the "if (!ns) { continue; }" codepath is never taken.
+> I haven't actually done the analysis but I'm guessing that
+> newer compilers also manage to figure out somehow that it's not
+> possible to get here with n->num_namespaces being zero.
+>=20
+> GCC 5.4 is not quite so sophisticated, so it can't tell.
+>=20
+> There does seem to be a consistent pattern in the code of
+>=20
+>         for (i =3D 1; i <=3D n->num_namespaces; i++) {
+>             ns =3D nvme_ns(n, i);
+>             if (!ns) {
+>                 continue;
+>             }
+>             [stuff]
+>         }
+>=20
+> Might be worth considering replacing the "if (!ns) { continue; }"
+> with "assert(ns);".
+>=20
+
+As mentioned above, ns may very well be NULL (an unallocated namespace).
+
+I know that "it's never the compiler". But in this case, wtf? If there
+are no allocated namespaces, then we will actually never hit the
+statement that initializes result. I just confirmed this with a
+configuration without any namespaces.
+
+The patch is good. I wonder why newer GCCs does NOT detect this. Trying
+to use `result` as the first statement in the loop also does not cause a
+warning. Only using the variable just before the loop triggers a
+warning on this.
+
+I'm more than happy to be schooled by compiler people about why the
+compiler might be more clever than me!
+
+--KAwkMEDbwfkN5N9O
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAjxWcACgkQTeGvMW1P
+DekjUAf+Mz6jXQ0l1dZtcu/lGVj2GvMW3xhHzsnQNvMf7mEkjLHDEK+ZvCTV8+dK
+e6mooWIlvNrjUt3LbGFddi3qo/u7VP8F0kCiaLlVGo6XfKZ2nzClw36oDX655VQs
+35X9d/2UMDw2hXHy0OH/0CRfc9HQt1JInUqC1K9JstspNsFd2YlGc37QL6nW3aFA
+vOSNe5JlxAIX2ZfE0lCl6/OxncFuorMVTvU5+ojl98AFo6Vj1YqgvTwEQgm4/xZn
+ROSnMBgR0VC2gP4F2SmdnE6k0kNkUrkS09DDVzn/NY63BZf2ZMBZ6UkGZXNZHIsI
+ubcni3oSx9j/8lyqgW1R4pIxndU8KA==
+=4jS5
+-----END PGP SIGNATURE-----
+
+--KAwkMEDbwfkN5N9O--
 
