@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CE8316631
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 13:12:26 +0100 (CET)
-Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EBFE31664D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 13:14:04 +0100 (CET)
+Received: from localhost ([::1]:47650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9oM5-0003H7-Ql
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 07:12:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37546)
+	id 1l9oNf-00051X-Ma
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 07:14:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1l9oKD-0002Q8-65
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:10:29 -0500
-Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:53708)
+ id 1l9oMN-000427-2X
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:12:43 -0500
+Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:54488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1l9oK4-0002tF-RW
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:10:28 -0500
+ id 1l9oMK-0003pb-SR
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 07:12:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
  Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
  Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=eImYhu+TS5/LpSns1c4q+w47ujFSfLO76t+CzpEbgfE=; b=CNHVS8WlCQWaxfnmi2GwMnEAVU
- KPerfC5Y5Blfutk1OcCcCXN0j9N8t/ws8+q2WIPuZxYVMgAMSG6bWDDgQeNdhY93+W0nTaQFNE8ek
- Vso1qh7cmzH2yo+6hrp+e3n5d7wi/WvtC5XjheGKQODe5nxj1EvjO91a2PfDXKO7uc9I=;
-Date: Wed, 10 Feb 2021 13:10:17 +0100
+ bh=c6zsYZv43LjvRmV2Pn1VD4g4u4GhvrcYCppmQJhfTzw=; b=b61belxLk20V6xZ9qNQrBlN2cj
+ PmmAXnlaO78KyBFRheG4kk53zUybgmsw6ZYexIvBCmiucybI7eUwAvY4cT7fFkWtSSJ1VeXAD5rpO
+ fouofBSU1bIEcveBoA+okX0SDE8ykFuPA4CSk7moms9bJyDaAfGprlqxXJmPlrPDf5sA=;
+Date: Wed, 10 Feb 2021 13:12:36 +0100
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 3/3] target/tricore: Remove unused definitions
-Message-ID: <20210210121017.nn3gkzs2u2dssuzg@schnipp-desktop>
+Subject: Re: [PATCH 0/3] target/tricore: Pass MMUAccessType to
+ get_physical_address()
+Message-ID: <20210210121236.fc5skykdhirc4nd4@schnipp-desktop>
 References: <20210127224255.3505711-1-f4bug@amsat.org>
- <20210127224255.3505711-4-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210127224255.3505711-4-f4bug@amsat.org>
+In-Reply-To: <20210127224255.3505711-1-f4bug@amsat.org>
 X-IMT-Spam-Score: 0.0 ()
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=28596541, da=100568222,
+ mc=469, sc=4, hc=465, sp=0, fso=28596541, re=0, sd=0, hd=0
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2021.2.10.120617, AntiVirus-Engine: 5.80.0,
- AntiVirus-Data: 2021.2.8.5800000
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=28596402, da=100568083,
- mc=468, sc=4, hc=464, sp=0, fso=28596402, re=0, sd=0, hd=0
+ AntiVirus-Data: 2021.2.8.5800002
 X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
 Received-SPF: pass client-ip=2001:638:502:c003::18;
  envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
@@ -73,16 +73,22 @@ Cc: Andreas Konopik <andreas.konopik@efs-auto.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 27, 2021 at 11:42:55PM +0100, Philippe Mathieu-Daudé wrote:
-> Remove these confusing and unused definitions.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/tricore/cpu.h | 12 ------------
->  1 file changed, 12 deletions(-)
-> 
+Hi,
 
-Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+On Wed, Jan 27, 2021 at 11:42:52PM +0100, Philippe Mathieu-Daudé wrote:
+> Taking notes while reviewing commit 671a0a1265a
+> ("use MMUAccessType instead of int in mmu_translate").
+> 
+> Philippe Mathieu-Daudé (3):
+>   target/tricore: Replace magic value by MMU_DATA_LOAD definition
+>   target/tricore: Pass MMUAccessType to get_physical_address()
+>   target/tricore: Remove unused definitions
+> 
+>  target/tricore/cpu.h    | 12 ------------
+>  target/tricore/helper.c |  9 ++++-----
+>  2 files changed, 4 insertions(+), 17 deletions(-)
+
+Thanks for the cleanup. I applied it to my tricore.next queue.
 
 Cheers,
 Bastian
