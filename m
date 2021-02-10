@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0502E315A8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 01:06:02 +0100 (CET)
-Received: from localhost ([::1]:48554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897D4315AA0
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 01:08:58 +0100 (CET)
+Received: from localhost ([::1]:57624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9d16-00057D-P0
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 19:06:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48236)
+	id 1l9d3x-0000Wy-In
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 19:08:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9cxp-0003Nf-0r
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 19:02:37 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:38890)
+ id 1l9cxx-0003Ta-Ib
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 19:02:45 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:34942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9cxj-0007y1-IE
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 19:02:36 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id m2so39691pgq.5
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 16:02:30 -0800 (PST)
+ id 1l9cxj-0007yC-Sm
+ for qemu-devel@nongnu.org; Tue, 09 Feb 2021 19:02:45 -0500
+Received: by mail-pf1-x433.google.com with SMTP id x136so113468pfc.2
+ for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 16:02:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1qHXcMeb4VFTCjSJSEVePGX+IcNMTfSnJ55HOY2nUvs=;
- b=eyt6vC1EfBsvnYCk5N+yH530rL+kPPcsrMJiDSWNeahL/WHleAYC4etP/IwhmG64Sc
- aIj2ft6ogwZzy9LyVCYPRkRl2801eRBCtJY20oDHq6CKVZIxVQH6ZqynYEIsLDu1ul6k
- TL6kuzhJMIDITSJ0syDYwykWU6HusDwfYzT8yvH4FsVkDuBufe2fsUMDSgh0x7M+ei80
- 12pqG68X8uaRTkmmfSIwoZ5FKsLn+fE4FcGgI8oGDCJTRMBE0NSoI5FJh2W8y0jHDKyC
- t4pmnalelC/xQqkrN4m74YJfm50JVybOQp2X4rHD6tBZa/OtRiK58P+fVzjar6G6/fZ8
- DaQA==
+ bh=rTJCLYbpyElUYj7N6H7CWtvtauF0jl3ZjvvIOqLSVtE=;
+ b=iHwUSitKkkqRg/cEK7QIqKtVCkLf0qdGpfvdrLaMWBIMKYIMcryRHDovoDQY1RHO0H
+ tn6rcTGRuuEPviIJefVdgV59r1CfDSfhGbFnsJKdt77/SyLD2f0gG1UnX1HelIO0Bb3G
+ 9WjrDzvPEjK32LRgdq2ttyS69t2N5LmceWZDYLUjw1ZD9iJsRx1usw9SYp1GIlZyb899
+ 26OAJFgEPxSwiJIMJqNulLfUtjHoxRPteWUnjunzdThNyUVdv6GHFAVfWwZwddwplMNu
+ 7lSJJLSOFRhUra3d63WXdqOAuRpour7fWUzuhcH0ixg1CPK32MuWRinZCujn/H/hZIRE
+ 4bGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1qHXcMeb4VFTCjSJSEVePGX+IcNMTfSnJ55HOY2nUvs=;
- b=ZOWfmO9kgrtinPLYayFHJDbLDZq7NWteRl7sCa5BakSHkNhaAUE/OuernASbK2k18x
- zoYO/qlfln9HeXQyUTGdWxo/tyqVk4lazu752wb4oBBX2xX5spJig/kYZ4B2B1GdEZcc
- DrNj8Q1oY2WET+DraDmyUJ+VVGnpefUN0FXnTfZnsXM4a6L/S8OlhLSotqc/gbr1LVoq
- HGlVWPRfzUh6wI+7Ydtb5koENUTvWbLQjGrifproeyLhuC8CjorSoCMY2FgikbOl9KMH
- Vi/GxgG11Ac6CtQQgthRTAZel5fZ31HHFK7nQ+l2hNxb8JvTyxQUmmApbW57nLnZhDtv
- qRzg==
-X-Gm-Message-State: AOAM533AnhaagO/m84n7Eum2QaUyLI9iRYldkFje60E9fiWrIqfY9m26
- 6LgCMtZyD8rWyvH4TTFoU96aj2sny58x6A==
-X-Google-Smtp-Source: ABdhPJzd5kr5IaBXTFv7r9IG0Ijr4QTQ9zDugUEopGMt075Mnj6JpGH4zAfcU6EbznYgDy67HuqtAA==
-X-Received: by 2002:a62:ce82:0:b029:1d9:1872:294b with SMTP id
- y124-20020a62ce820000b02901d91872294bmr402059pfg.36.1612915349328; 
- Tue, 09 Feb 2021 16:02:29 -0800 (PST)
+ bh=rTJCLYbpyElUYj7N6H7CWtvtauF0jl3ZjvvIOqLSVtE=;
+ b=oEPXkJsnCdBLslOaRAZqTJmXbVQQM1Z6E4KYGby8TEzuxq4F0UEMu2bojtPAGojhEv
+ kVNuZ7o3ZUupyWTfyI1FeNOHGB7wqk41MO7iNGfiuMvQ0TcFxoLY2sAIJfSVv6so+O69
+ ltJmjdcd92hyHS+mhHBEkzCrZO3bFiYS+paOa7w4PLgClfi/uh1u/4uX/+zCkv9SD/Z6
+ 2t62ykrnLkmGXTTRtP+hhiAehPvDCFLnMEQIUhiaiopArSCRAG0uV2dQ4v6ZIqeVAjbI
+ LI9oP+iT0tffL2i3FXJT8svf5JPYSpWsm0z7mm4I8yMInNVTHRIpryW0RVltEywlNcB5
+ sLPg==
+X-Gm-Message-State: AOAM530UmJtZrOJ0uUBo4iziUaUYr2tbDdF1ORqIngU0EJBcpYnRo9rx
+ I1r1DHQr5ZVmzIpvi2Odsv8hxuERYqQsVg==
+X-Google-Smtp-Source: ABdhPJzUfacau3iAnb1eRgqipHXI5wjNDouzb5MhSBANgBzyMdHWCvyDsxBiMWEn3jBy5nuh+0d07Q==
+X-Received: by 2002:a05:6a00:1a44:b029:1d6:4170:ee0b with SMTP id
+ h4-20020a056a001a44b02901d64170ee0bmr379528pfv.57.1612915350611; 
+ Tue, 09 Feb 2021 16:02:30 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id me3sm164189pjb.32.2021.02.09.16.02.28
+ by smtp.gmail.com with ESMTPSA id me3sm164189pjb.32.2021.02.09.16.02.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 16:02:28 -0800 (PST)
+ Tue, 09 Feb 2021 16:02:29 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 03/31] exec: Use uintptr_t for guest_base
-Date: Tue,  9 Feb 2021 16:01:55 -0800
-Message-Id: <20210210000223.884088-4-richard.henderson@linaro.org>
+Subject: [PATCH v6 04/31] exec: Use uintptr_t in cpu_ldst.h
+Date: Tue,  9 Feb 2021 16:01:56 -0800
+Message-Id: <20210210000223.884088-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210210000223.884088-1-richard.henderson@linaro.org>
 References: <20210210000223.884088-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,85 +94,39 @@ No functional change, since these match on all linux+bsd hosts.
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h | 2 +-
- bsd-user/main.c        | 4 ++--
- linux-user/elfload.c   | 4 ++--
- linux-user/main.c      | 4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ include/exec/cpu_ldst.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 1f47e0fe44..d6ad774c01 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -158,7 +158,7 @@ static inline void tswap64s(uint64_t *s)
- /* On some host systems the guest address space is reserved on the host.
-  * This allows the guest address space to be offset to a convenient location.
-  */
--extern unsigned long guest_base;
-+extern uintptr_t guest_base;
- extern bool have_guest_base;
- extern unsigned long reserved_va;
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index ef54cb7e1f..3f9063aade 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -70,14 +70,14 @@ typedef uint64_t abi_ptr;
+ #endif
  
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 7cc08024e3..385d35886a 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -42,7 +42,7 @@
+ /* All direct uses of g2h and h2g need to go away for usermode softmmu.  */
+-#define g2h(x) ((void *)((unsigned long)(abi_ptr)(x) + guest_base))
++#define g2h(x) ((void *)((uintptr_t)(abi_ptr)(x) + guest_base))
  
- int singlestep;
- unsigned long mmap_min_addr;
--unsigned long guest_base;
-+uintptr_t guest_base;
- bool have_guest_base;
- unsigned long reserved_va;
+ #if HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS
+ #define guest_addr_valid(x) (1)
+ #else
+ #define guest_addr_valid(x) ((x) <= GUEST_ADDR_MAX)
+ #endif
+-#define h2g_valid(x) guest_addr_valid((unsigned long)(x) - guest_base)
++#define h2g_valid(x) guest_addr_valid((uintptr_t)(x) - guest_base)
  
-@@ -970,7 +970,7 @@ int main(int argc, char **argv)
-     g_free(target_environ);
+ static inline int guest_range_valid(unsigned long start, unsigned long len)
+ {
+@@ -85,7 +85,7 @@ static inline int guest_range_valid(unsigned long start, unsigned long len)
+ }
  
-     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
--        qemu_log("guest_base  0x%lx\n", guest_base);
-+        qemu_log("guest_base  %p\n", (void *)guest_base);
-         log_page_dump("binary load");
+ #define h2g_nocheck(x) ({ \
+-    unsigned long __ret = (unsigned long)(x) - guest_base; \
++    uintptr_t __ret = (uintptr_t)(x) - guest_base; \
+     (abi_ptr)__ret; \
+ })
  
-         qemu_log("start_brk   0x" TARGET_ABI_FMT_lx "\n", info->start_brk);
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index a64050713f..29f07bb234 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2135,9 +2135,9 @@ static void pgb_have_guest_base(const char *image_name, abi_ulong guest_loaddr,
-     void *addr, *test;
- 
-     if (!QEMU_IS_ALIGNED(guest_base, align)) {
--        fprintf(stderr, "Requested guest base 0x%lx does not satisfy "
-+        fprintf(stderr, "Requested guest base %p does not satisfy "
-                 "host minimum alignment (0x%lx)\n",
--                guest_base, align);
-+                (void *)guest_base, align);
-         exit(EXIT_FAILURE);
-     }
- 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 2e3c169878..81f48ff54e 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -59,7 +59,7 @@ static const char *cpu_model;
- static const char *cpu_type;
- static const char *seed_optarg;
- unsigned long mmap_min_addr;
--unsigned long guest_base;
-+uintptr_t guest_base;
- bool have_guest_base;
- 
- /*
-@@ -824,7 +824,7 @@ int main(int argc, char **argv, char **envp)
-     g_free(target_environ);
- 
-     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
--        qemu_log("guest_base  0x%lx\n", guest_base);
-+        qemu_log("guest_base  %p\n", (void *)guest_base);
-         log_page_dump("binary load");
- 
-         qemu_log("start_brk   0x" TARGET_ABI_FMT_lx "\n", info->start_brk);
 -- 
 2.25.1
 
