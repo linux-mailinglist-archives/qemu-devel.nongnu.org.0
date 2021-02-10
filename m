@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF13316C0B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:05:52 +0100 (CET)
-Received: from localhost ([::1]:37444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75158316C1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:10:00 +0100 (CET)
+Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9sw2-0007VW-FD
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:05:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42428)
+	id 1l9t03-0003Fh-7I
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:09:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYW-0007LE-BE
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32689)
+ id 1l9sYZ-0007QL-Dj
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYO-0008VE-53
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:32 -0500
+ id 1l9sYP-0008VZ-UM
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612975280;
+ s=mimecast20190719; t=1612975284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gCzFwz5A2M5u86vlKhF3IJuBm7ZN0Qaa9eC8NVbtT9g=;
- b=P2QjyiGZlZlYkI4NIFa6iYp5xVlFzBY5xG2GIzuxfwCAaWAlS+kqviKsge5wlaBtW7Trkg
- A1NiDEJzSnbCBeeZuRutKuQx9xsrrZ+DI2fkxpCedtfouiJBn9QYTipK0YHQopuHo4AusX
- 3YmfNJTDqfAaxH4UvpXXjA2eU7ynW7M=
+ bh=h0QvmjX98VbM0hJDAiWjHMsOGh3uS/mkzUm9fqxf+c0=;
+ b=OgLG29xca1go4UsZbnkJ6znB1xGYKF8bwq4oj7SqssckipNFtnMrLT1G+xu80KBzFGvJ7/
+ f1PE5sTm4xWrnwoZY8xYrk2dJepFKUQJ9JPuv8uPAqFcMZbzlNq6UVHOfx82Dx3X+Tlw46
+ Vblmy4Aldle2lnDgA1TwBar/9uR/fYo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-MgYUTyygOf2GHhTmjWx3Ng-1; Wed, 10 Feb 2021 11:41:19 -0500
-X-MC-Unique: MgYUTyygOf2GHhTmjWx3Ng-1
+ us-mta-170-RRSRKQTXMtaCXFBI-2uPXQ-1; Wed, 10 Feb 2021 11:41:23 -0500
+X-MC-Unique: RRSRKQTXMtaCXFBI-2uPXQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 448699127C
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B040801962
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:22 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.195.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF2BD5D9D0;
- Wed, 10 Feb 2021 16:41:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 972D25D9D0;
+ Wed, 10 Feb 2021 16:41:20 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v4 17/21] i386: support 'hv-passthrough,
- hv-feature=off' on the command line
-Date: Wed, 10 Feb 2021 17:40:29 +0100
-Message-Id: <20210210164033.607612-18-vkuznets@redhat.com>
+Subject: [PATCH v4 19/21] i386: introduce kvm_hv_evmcs_available()
+Date: Wed, 10 Feb 2021 17:40:31 +0100
+Message-Id: <20210210164033.607612-20-vkuznets@redhat.com>
 In-Reply-To: <20210210164033.607612-1-vkuznets@redhat.com>
 References: <20210210164033.607612-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -85,90 +84,76 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, we support 'hv-passthrough,hv-feature=on' enablement, this
-is supposed to mean "hv-feature is mandatory, don't start without it". Add
-support for 'hv-passthrough,hv-feature=off' meaning "enable everything
-supported by the host except for hv-feature".
-
-While on it, make 'hv-passthrough' parse semantics in-line with other
-options in qemu: when specified, it overrides what was previously set with
-what's supported by the host. This can later be modified with 'hv-feature=on'/
-'hv-feature=off'.
+Enlightened VMCS feature is hardware specific, it is only supported on
+Intel CPUs. Introduce a simple kvm_hv_evmcs_available() helper, it will
+be used to filter out 'hv_evmcs' when 'hyperv=on' option is added to
+X86MachineClass.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/cpu.c     | 28 +++++++++++++++++++++++++++-
- target/i386/kvm/kvm.c |  4 ++++
- 2 files changed, 31 insertions(+), 1 deletion(-)
+ target/i386/kvm/kvm-stub.c | 5 +++++
+ target/i386/kvm/kvm.c      | 8 ++++++++
+ target/i386/kvm/kvm_i386.h | 1 +
+ 3 files changed, 14 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index e8a004c39d04..f8df2caed779 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4725,6 +4725,29 @@ static void x86_hv_stimer_direct_set(Object *obj, bool value, Error **errp)
-     x86_hv_feature_set(obj, value, HYPERV_FEAT_STIMER_DIRECT);
+diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
+index 7f175faa3abd..4e486f41a60a 100644
+--- a/target/i386/kvm/kvm-stub.c
++++ b/target/i386/kvm/kvm-stub.c
+@@ -44,3 +44,8 @@ void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
+ {
+     return;
  }
- 
-+static bool x86_hv_passthrough_get(Object *obj, Error **errp)
++
++bool kvm_hv_evmcs_available(void)
 +{
-+    X86CPU *cpu = X86_CPU(obj);
-+
-+    return cpu->hyperv_passthrough;
++    return false;
 +}
-+
-+static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
-+{
-+    X86CPU *cpu = X86_CPU(obj);
-+
-+    cpu->hyperv_passthrough = value;
-+
-+    /* hv-passthrough overrides everything with what's supported by the host */
-+    if (value) {
-+        cpu->hyperv_features = 0;
-+        cpu->hyperv_features_on = 0;
-+        cpu->hyperv_features_off = 0;
-+    }
-+
-+    return;
-+}
-+
- /* Generic getter for "feature-words" and "filtered-features" properties */
- static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
-                                       const char *name, void *opaque,
-@@ -7281,7 +7304,6 @@ static Property x86_cpu_properties[] = {
-                        HYPERV_SPINLOCK_NEVER_NOTIFY),
-     DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
-                             hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
--    DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
- 
-     DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
-     DEFINE_PROP_BOOL("enforce", X86CPU, enforce_cpuid, false),
-@@ -7460,6 +7482,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-                                    x86_hv_stimer_direct_get,
-                                    x86_hv_stimer_direct_set);
- 
-+    object_class_property_add_bool(oc, "hv-passthrough",
-+                                   x86_hv_passthrough_get,
-+                                   x86_hv_passthrough_set);
-+
-     for (w = 0; w < FEATURE_WORDS; w++) {
-         int bitnr;
-         for (bitnr = 0; bitnr < 64; bitnr++) {
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 30013f0d7cee..fca088d4d3b5 100644
+index 480908b2463a..6c26b2091d4a 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -1153,6 +1153,10 @@ static int hv_cpuid_check_and_set(CPUState *cs, int feature, Error **errp)
-         return 0;
-     }
+@@ -96,6 +96,7 @@ static bool has_msr_hv_crash;
+ static bool has_msr_hv_reset;
+ static bool has_msr_hv_vpindex;
+ static bool hv_vpindex_settable;
++static bool hv_evmcs_available;
+ static bool has_msr_hv_runtime;
+ static bool has_msr_hv_synic;
+ static bool has_msr_hv_stimer;
+@@ -195,6 +196,11 @@ bool kvm_hv_vpindex_settable(void)
+     return hv_vpindex_settable;
+ }
  
-+    if (cpu->hyperv_passthrough && (cpu->hyperv_features_off & BIT(feature))) {
-+        return 0;
-+    }
++bool kvm_hv_evmcs_available(void)
++{
++    return hv_evmcs_available;
++}
 +
-     deps = kvm_hyperv_properties[feature].dependencies;
-     while (deps) {
-         dep_feat = ctz64(deps);
+ static int kvm_get_tsc(CPUState *cs)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+@@ -2235,6 +2241,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+     has_pit_state2 = kvm_check_extension(s, KVM_CAP_PIT_STATE2);
+ 
+     hv_vpindex_settable = kvm_check_extension(s, KVM_CAP_HYPERV_VP_INDEX);
++    hv_evmcs_available =
++        kvm_check_extension(s, KVM_CAP_HYPERV_ENLIGHTENED_VMCS);
+ 
+     has_exception_payload = kvm_check_extension(s, KVM_CAP_EXCEPTION_PAYLOAD);
+     if (has_exception_payload) {
+diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+index f1176491051d..0fa00511be27 100644
+--- a/target/i386/kvm/kvm_i386.h
++++ b/target/i386/kvm/kvm_i386.h
+@@ -48,6 +48,7 @@ bool kvm_has_waitpkg(void);
+ 
+ bool kvm_hv_vpindex_settable(void);
+ void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
++bool kvm_hv_evmcs_available(void);
+ 
+ uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
+ 
 -- 
 2.29.2
 
