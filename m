@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894DB315B36
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 01:32:24 +0100 (CET)
-Received: from localhost ([::1]:50878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993F7315B67
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 01:39:23 +0100 (CET)
+Received: from localhost ([::1]:33486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9dQd-0006JY-JG
-	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 19:32:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48970)
+	id 1l9dXO-0002YE-JU
+	for lists+qemu-devel@lfdr.de; Tue, 09 Feb 2021 19:39:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9cyq-00042l-QR
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 19:03:40 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34916)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9dUx-0001Yp-1k; Tue, 09 Feb 2021 19:36:51 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:34067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l9cyG-00089l-Ob
- for qemu-devel@nongnu.org; Tue, 09 Feb 2021 19:03:40 -0500
-Received: by mail-pg1-x530.google.com with SMTP id t25so49560pga.2
- for <qemu-devel@nongnu.org>; Tue, 09 Feb 2021 16:03:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ytsx3BK2fvJBPpCQnawH3jODSdPjUh55jAri5H8usa0=;
- b=guUDWqvc8/hfuQ1MU7oyqV4I1XFeP8Dy4wkQtThzk1Nt8y/JhFnnloPQnF1XKZSVkD
- 2dD6Yhw7c4KzgJUF38xJWFgVyTYg4wQyI8+L5/LF/82DTmLMqOq4PFs3GcTNPCOZ89pa
- AdovtWIx3ge5OISneOMOFyOyx4Hn38C0NxJ+COWiPpN439sfny5o1rLOBnnQ/NeijXiW
- WYAXIA6543SgoJBsdZFR4XHv6Fjth5BJmrHEY2lYDGq26lQyZeJdPdqTf5nhLMMBVbrx
- w4wVNzdT7SyRSvnsNe8WKdCVeyLICeVKIaylGqWdmICu3ER/F2ZbsEDu32i40zh6Dgwo
- qdDw==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l9dUu-00033T-Rk; Tue, 09 Feb 2021 19:36:50 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id df22so771124edb.1;
+ Tue, 09 Feb 2021 16:36:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=i3vmn19wqWfl11muEm3IHl09DzVR499g0/uaih59mlI=;
+ b=DFomUM0blngxXikYDamuUz8bn/BZhPmTdx+m0Kht/LmJwY6ChA5kKJa+DNYCloaA3y
+ sGbAQqOwcL/SGMpKlSNASPbU/nnvdIBoxjZb+OZot0o9kr7vpuFrU8dpyykUckkR5XcL
+ ktjDxk9q8fMwGgWAUlYK2Poj+6mud/klhPvR2Ju/pdkT6UVmCW7TK9G1zxHk5wOAMNZo
+ oE3FLYd3E+HMbbJRBZ4q9VJ8t6Lbq+j7RNU85h9o7DWaZ61HmfeosfTlp4wsx2MmSIHk
+ yUg/AwdFY0AGID5h5vsapHSUmBmcK7LNG/d/Sg0lop6qaEFesSkoxggBIfJiPOsxGrQE
+ 3y+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ytsx3BK2fvJBPpCQnawH3jODSdPjUh55jAri5H8usa0=;
- b=qh7qvfwoSGI5pgqsKNMEvPXZ24ZAdLiKLrwS8pP+BznhxaRp0QbahceR+4zvcRs/Yx
- kHJyzpQ6x6+WVV299wrMGPZYcGJJsZgEzKYhvYgZbJ54awWPK6ti7PrefKRb02DUxNce
- YxedLmlgaWxfrHIurDcCDGWO47rE4eRTg/3aatMa42p8RZ8IA1kP0x7qZXiqmiULq1Te
- ooYJJBi/jkEJYJUkxfT3R5vbPRnhIm61b2DbCU3XT1+vwWtufVhguVmouIandMZe4m+J
- xG9JGKEZZ0GTzkVK5UDokbPTk18+rWRS7Nb3n158mVhlHFQxwGGG3AwZmySjMN8Ipl7i
- Uskw==
-X-Gm-Message-State: AOAM531C9tt9zPbNw8iB9pDPZYxkyoGabl/D6bgcCFTADx+Pp5rMoY9i
- mGGtt6VmfQcFz4X+syonr8Mo4M4KlDpmwg==
-X-Google-Smtp-Source: ABdhPJxXdWLc2/LVdOLLDolbCNxwVn2DF22dbV8UEYvsl4PjRMgjCEXSa0ElWJTYqHfs4VRFuv2Tow==
-X-Received: by 2002:a63:205f:: with SMTP id r31mr433825pgm.328.1612915383400; 
- Tue, 09 Feb 2021 16:03:03 -0800 (PST)
-Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
- [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id me3sm164189pjb.32.2021.02.09.16.03.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 16:03:02 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 31/31] tests/tcg/aarch64: Add mte smoke tests
-Date: Tue,  9 Feb 2021 16:02:23 -0800
-Message-Id: <20210210000223.884088-32-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210210000223.884088-1-richard.henderson@linaro.org>
-References: <20210210000223.884088-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=i3vmn19wqWfl11muEm3IHl09DzVR499g0/uaih59mlI=;
+ b=ugbQCwSTqzgMIuCFegI2uFYH7YuFDa1YMoSqcBkTsxtA+3/jB5bmrj4m8byiX4m4OU
+ xixl/dzopSr5JLHLNSXiioLH+b546XpppTeThJj86agHE2yBO3iMh3XyND6lp23SRFvP
+ zAnqc1qKw4RfzD0xKs77NgVNIhdPMvpy3D/YrBmiB7vgScEP4Jkd/Pj52CnhDasQaOZL
+ PGM3JyajnCale5Gt7eF0JNqMCYrEP0nHSf06tXGMNrQSScebWXKhgn1sQGAqJ98pfGDT
+ sY1EoVuNG11rR/wL55ZHJ/iRCBnSNOL0K5Yj7tdgbRSDyefMSJ/mHmOFQrNxSOuMra8W
+ npVw==
+X-Gm-Message-State: AOAM530Goh2UA0W0W+H/VaynaMweGw7dk6Qv7uUdvmMOPpRCyWFaKcb/
+ esGeT8YNS6Ls89rwcii21FN4/rKb3dIYK/fMal0=
+X-Google-Smtp-Source: ABdhPJzqcsOFD5qeYxmfbehiFYNtUMwFsANmYa6tU40/qWKwKo3RMFEvP1BV8BojdaPnfY9Hk3Han/d7DlnXBZXeb1w=
+X-Received: by 2002:a50:ff0d:: with SMTP id a13mr719693edu.321.1612917405058; 
+ Tue, 09 Feb 2021 16:36:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+References: <1612710687-56493-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1612710687-56493-1-git-send-email-bmeng.cn@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 10 Feb 2021 08:36:33 +0800
+Message-ID: <CAEUhbmU7M44s63gRw5dz_gMD2yEmQ+-aykWhfBC0Z6jYMTjR_w@mail.gmail.com>
+Subject: Re: [PATCH 00/26] ppc: qemu: Convert qemu-ppce500 to driver model
+To: Simon Glass <sjg@chromium.org>, Alexander Graf <agraf@csgraf.de>, 
+ Priyanka Jain <priyanka.jain@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,319 +75,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Tom Rini <trini@konsulko.com>, Heiko Schocher <hs@denx.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ Matthias Brugger <mbrugger@suse.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Stefan Roese <sr@denx.de>, Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tests/tcg/aarch64/mte.h           | 60 +++++++++++++++++++++++++++++++
- tests/tcg/aarch64/mte-1.c         | 28 +++++++++++++++
- tests/tcg/aarch64/mte-2.c         | 45 +++++++++++++++++++++++
- tests/tcg/aarch64/mte-3.c         | 51 ++++++++++++++++++++++++++
- tests/tcg/aarch64/mte-4.c         | 45 +++++++++++++++++++++++
- tests/tcg/aarch64/Makefile.target |  6 ++++
- tests/tcg/configure.sh            |  4 +++
- 7 files changed, 239 insertions(+)
- create mode 100644 tests/tcg/aarch64/mte.h
- create mode 100644 tests/tcg/aarch64/mte-1.c
- create mode 100644 tests/tcg/aarch64/mte-2.c
- create mode 100644 tests/tcg/aarch64/mte-3.c
- create mode 100644 tests/tcg/aarch64/mte-4.c
+On Sun, Feb 7, 2021 at 11:11 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> At present when building qemu-ppce500 the following warnings are seen:
+>
+> ===================== WARNING ======================
+> This board does not use CONFIG_DM. CONFIG_DM will be
+> compulsory starting with the v2020.01 release.
+> Failure to update may result in board removal.
+>   UPD     include/generated/timestamp_autogenerated.h
+> See doc/driver-model/migration.rst for more info.
+> ====================================================
+> ===================== WARNING ======================
+> This board does not use CONFIG_DM_PCI Please update
+> the board to use CONFIG_DM_PCI before the v2019.07 release.
+> Failure to update by the deadline may result in board removal.
+> See doc/driver-model/migration.rst for more info.
+> ====================================================
+> ===================== WARNING ======================
+> This board does not use CONFIG_DM_ETH (Driver Model
+> for Ethernet drivers). Please update the board to use
+> CONFIG_DM_ETH before the v2020.07 release. Failure to
+> update by the deadline may result in board removal.
+> See doc/driver-model/migration.rst for more info.
+> ====================================================
+>
+> The conversion of qemu-ppce500 board to driver model is long overdue.
+>
+> When testing the exisitng qemu-ppce500 support, PCI was found broken.
+> This is caused by 2 separate issues:
+>
+> - One issue was caused by U-Boot:
+>   Commit e002474158d1 ("pci: pci-uclass: Dynamically allocate the PCI regions")
+>   Patch #1 reverts this commit as it broken all boards that have not converted
+>   to driver model PCI.
+> - One issue was caused by QEMU:
+>   commit e6b4e5f4795b ("PPC: e500: Move CCSR and MMIO space to upper end of address space")
+>   commit cb3778a0455a ("PPC: e500 pci host: Add support for ATMUs")
+>   Patch #3-4 fixed this issue to keep in sync with latest QEMU upstream
+>
+> Patch #5-8 are minor fixes and clean-ups.
+>
+> Starting from patch#9, these are driver model conversion patches.
+>
+> Patch #11-16 are mainly related to CONFIG_ADDR_MAP, a library to support targets
+> that have non-identity virtual-physical address mappings. A new command 'addrmap'
+> is introduced to aid debugging, and a fix to arch/powerpc/asm/include/io.h is
+> made to correct the usage of CONFIG_ADDR_MAP as it can only be used in the post-
+> relocation phase. Also the initialization of this library is moved a bit earlier
+> in the post-relocation phase otherwise device drivers won't work.
+>
+> Patch #18-20 are 85xx PCI driver fixes. It adds support to controller register
+> physical address beyond 32-bit, as well as support to 64-bit bus and cpu address
+> as current upstream QEMU uses 64-bit cpu address.
+>
+> Patch #23 is minor fix to the 'virtio' command dependency.
+>
+> Patch #24 enables the VirtIO NET support as by default a VirtIO standard PCI
+> networking device is connected as an ethernet interface at PCI address 0.1.0.
+>
+> Patch #25 moves the qemu-ppce500 boards codes to board/emulation as that is the
+> place for other QEMU targets like x86, arm, riscv.
+>
+> Patch #26 adds a reST document to describe how to build and run U-Boot for the
+> QEMU ppce500 machine.
+>
+> I hope we can make this series to U-Boot v2021.04 release.
+>
+> This series is available at u-boot-x86/qemu-ppc for testing.
+>
+> This cover letter is cc'ed to QEMU mailing list for a heads-up.
+> A future patch will be sent to QEMU mailing list to bring its in-tree
+> U-Boot source codes up-to-date.
+>
+>
+> Bin Meng (26):
+>   Revert "pci: pci-uclass: Dynamically allocate the PCI regions"
+>   ppc: qemu: Update MAINTAINERS for correct email address
+>   common: fdt_support: Support special case of PCI address in
+>     fdt_read_prop()
+>   ppc: qemu: Support non-identity PCI bus address
+>   ppc: qemu: Fix CONFIG_SYS_PCI_MAP_END
+>   ppc: mpc85xx: Wrap LAW related codes with CONFIG_FSL_LAW
+>   ppc: qemu: Drop init_laws() and print_laws()
+>   ppc: qemu: Drop board_early_init_f()
+>   ppc: qemu: Enable OF_CONTROL
+>   ppc: qemu: Enable driver model
+>   include: Remove extern from addr_map.h
+>   lib: addr_map: Move address_map[] type to the header file
+>   cmd: Add a command to display the address map
+>   lib: kconfig: Mention CONFIG_ADDR_MAP limitation in the help
+>   ppc: io.h: Use addrmap_ translation APIs only in post-relocation phase
+>   common: Move initr_addr_map() to a bit earlier
+>   ppc: qemu: Switch over to use DM serial
+>   pci: mpc85xx: Wrap LAW programming with CONFIG_FSL_LAW
+>   pci: mpc85xx: Support controller register physical address beyond
+>     32-bit
+>   pci: mpc85xx: Support 64-bit bus and cpu address
+>   ppc: qemu: Switch over to use DM ETH and PCI
+>   ppc: qemu: Drop CONFIG_OF_BOARD_SETUP
+>   cmd: Fix virtio command dependency
+>   ppc: qemu: Enable VirtIO NET support
+>   ppc: qemu: Move board directory from board/freescale to
+>     board/emulation
+>   doc: Add a reST document for qemu-ppce500
+>
+>  arch/powerpc/cpu/mpc85xx/Kconfig                   |   2 +-
+>  arch/powerpc/cpu/mpc85xx/cpu.c                     |   2 +
+>  arch/powerpc/cpu/mpc85xx/cpu_init_early.c          |   2 +
+>  arch/powerpc/include/asm/io.h                      |  15 +-
+>  .../{freescale => emulation}/qemu-ppce500/Kconfig  |   2 +-
+>  board/emulation/qemu-ppce500/MAINTAINERS           |   7 +
+>  .../{freescale => emulation}/qemu-ppce500/Makefile |   0
+>  .../qemu-ppce500/qemu-ppce500.c                    | 159 ++++++---------------
+>  board/freescale/qemu-ppce500/MAINTAINERS           |   6 -
+>  cmd/Kconfig                                        |   8 ++
+>  cmd/Makefile                                       |   1 +
+>  cmd/addrmap.c                                      |  35 +++++
+>  common/board_r.c                                   |   6 +-
+>  common/fdt_support.c                               |  15 +-
+>  configs/qemu-ppce500_defconfig                     |  14 +-
+>  doc/board/emulation/index.rst                      |   1 +
+>  doc/board/emulation/qemu-ppce500.rst               |  73 ++++++++++
+>  drivers/pci/pci-uclass.c                           |  14 +-
+>  drivers/pci/pci_mpc85xx.c                          |  25 ++--
+>  include/addr_map.h                                 |  16 ++-
+>  include/configs/qemu-ppce500.h                     |  25 +---
+>  include/pci.h                                      |   4 +-
+>  lib/Kconfig                                        |   2 +
+>  lib/addr_map.c                                     |   6 +-
+>  24 files changed, 250 insertions(+), 190 deletions(-)
+>  rename board/{freescale => emulation}/qemu-ppce500/Kconfig (86%)
+>  create mode 100644 board/emulation/qemu-ppce500/MAINTAINERS
+>  rename board/{freescale => emulation}/qemu-ppce500/Makefile (100%)
+>  rename board/{freescale => emulation}/qemu-ppce500/qemu-ppce500.c (68%)
+>  delete mode 100644 board/freescale/qemu-ppce500/MAINTAINERS
+>  create mode 100644 cmd/addrmap.c
+>  create mode 100644 doc/board/emulation/qemu-ppce500.rst
+>
 
-diff --git a/tests/tcg/aarch64/mte.h b/tests/tcg/aarch64/mte.h
-new file mode 100644
-index 0000000000..141cef522c
---- /dev/null
-+++ b/tests/tcg/aarch64/mte.h
-@@ -0,0 +1,60 @@
-+/*
-+ * Linux kernel fallback API definitions for MTE and test helpers.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include <assert.h>
-+#include <string.h>
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <signal.h>
-+#include <sys/mman.h>
-+#include <sys/prctl.h>
-+
-+#ifndef PR_SET_TAGGED_ADDR_CTRL
-+# define PR_SET_TAGGED_ADDR_CTRL  55
-+#endif
-+#ifndef PR_TAGGED_ADDR_ENABLE
-+# define PR_TAGGED_ADDR_ENABLE    (1UL << 0)
-+#endif
-+#ifndef PR_MTE_TCF_SHIFT
-+# define PR_MTE_TCF_SHIFT         1
-+# define PR_MTE_TCF_NONE          (0UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_SYNC          (1UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_ASYNC         (2UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TAG_SHIFT         3
-+#endif
-+
-+#ifndef PROT_MTE
-+# define PROT_MTE 0x20
-+#endif
-+
-+#ifndef SEGV_MTEAERR
-+# define SEGV_MTEAERR    8
-+# define SEGV_MTESERR    9
-+#endif
-+
-+static void enable_mte(int tcf)
-+{
-+    int r = prctl(PR_SET_TAGGED_ADDR_CTRL,
-+                  PR_TAGGED_ADDR_ENABLE | tcf | (0xfffe << PR_MTE_TAG_SHIFT),
-+                  0, 0, 0);
-+    if (r < 0) {
-+        perror("PR_SET_TAGGED_ADDR_CTRL");
-+        exit(2);
-+    }
-+}
-+
-+static void *alloc_mte_mem(size_t size)
-+{
-+    void *p = mmap(NULL, size, PROT_READ | PROT_WRITE | PROT_MTE,
-+                   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+    if (p == MAP_FAILED) {
-+        perror("mmap PROT_MTE");
-+        exit(2);
-+    }
-+    return p;
-+}
-diff --git a/tests/tcg/aarch64/mte-1.c b/tests/tcg/aarch64/mte-1.c
-new file mode 100644
-index 0000000000..88dcd617ad
---- /dev/null
-+++ b/tests/tcg/aarch64/mte-1.c
-@@ -0,0 +1,28 @@
-+/*
-+ * Memory tagging, basic pass cases.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "mte.h"
-+
-+int main(int ac, char **av)
-+{
-+    int *p0, *p1, *p2;
-+    long c;
-+
-+    enable_mte(PR_MTE_TCF_NONE);
-+    p0 = alloc_mte_mem(sizeof(*p0));
-+
-+    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(1));
-+    assert(p1 != p0);
-+    asm("subp %0,%1,%2" : "=r"(c) : "r"(p0), "r"(p1));
-+    assert(c == 0);
-+
-+    asm("stg %0, [%0]" : : "r"(p1));
-+    asm("ldg %0, [%1]" : "=r"(p2) : "r"(p0), "0"(p0));
-+    assert(p1 == p2);
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/aarch64/mte-2.c b/tests/tcg/aarch64/mte-2.c
-new file mode 100644
-index 0000000000..a62278276a
---- /dev/null
-+++ b/tests/tcg/aarch64/mte-2.c
-@@ -0,0 +1,45 @@
-+/*
-+ * Memory tagging, basic fail cases, synchronous signals.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "mte.h"
-+
-+void pass(int sig, siginfo_t *info, void *uc)
-+{
-+    assert(info->si_code == SEGV_MTESERR);
-+    exit(0);
-+}
-+
-+int main(int ac, char **av)
-+{
-+    struct sigaction sa;
-+    int *p0, *p1, *p2;
-+    long excl = 1;
-+
-+    enable_mte(PR_MTE_TCF_SYNC);
-+    p0 = alloc_mte_mem(sizeof(*p0));
-+
-+    /* Create two differently tagged pointers.  */
-+    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(excl));
-+    asm("gmi %0,%1,%0" : "+r"(excl) : "r" (p1));
-+    assert(excl != 1);
-+    asm("irg %0,%1,%2" : "=r"(p2) : "r"(p0), "r"(excl));
-+    assert(p1 != p2);
-+
-+    /* Store the tag from the first pointer.  */
-+    asm("stg %0, [%0]" : : "r"(p1));
-+
-+    *p1 = 0;
-+
-+    memset(&sa, 0, sizeof(sa));
-+    sa.sa_sigaction = pass;
-+    sa.sa_flags = SA_SIGINFO;
-+    sigaction(SIGSEGV, &sa, NULL);
-+
-+    *p2 = 0;
-+
-+    abort();
-+}
-diff --git a/tests/tcg/aarch64/mte-3.c b/tests/tcg/aarch64/mte-3.c
-new file mode 100644
-index 0000000000..424ea685c2
---- /dev/null
-+++ b/tests/tcg/aarch64/mte-3.c
-@@ -0,0 +1,51 @@
-+/*
-+ * Memory tagging, basic fail cases, asynchronous signals.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "mte.h"
-+
-+void pass(int sig, siginfo_t *info, void *uc)
-+{
-+    assert(info->si_code == SEGV_MTEAERR);
-+    exit(0);
-+}
-+
-+int main(int ac, char **av)
-+{
-+    struct sigaction sa;
-+    long *p0, *p1, *p2;
-+    long excl = 1;
-+
-+    enable_mte(PR_MTE_TCF_ASYNC);
-+    p0 = alloc_mte_mem(sizeof(*p0));
-+
-+    /* Create two differently tagged pointers.  */
-+    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(excl));
-+    asm("gmi %0,%1,%0" : "+r"(excl) : "r" (p1));
-+    assert(excl != 1);
-+    asm("irg %0,%1,%2" : "=r"(p2) : "r"(p0), "r"(excl));
-+    assert(p1 != p2);
-+
-+    /* Store the tag from the first pointer.  */
-+    asm("stg %0, [%0]" : : "r"(p1));
-+
-+    *p1 = 0;
-+
-+    memset(&sa, 0, sizeof(sa));
-+    sa.sa_sigaction = pass;
-+    sa.sa_flags = SA_SIGINFO;
-+    sigaction(SIGSEGV, &sa, NULL);
-+
-+    /*
-+     * Signal for async error will happen eventually.
-+     * For a real kernel this should be after the next IRQ (e.g. timer).
-+     * For qemu linux-user, we kick the cpu and exit at the next TB.
-+     * In either case, loop until this happens (or killed by timeout).
-+     * For extra sauce, yield, producing EXCP_YIELD to cpu_loop().
-+     */
-+    asm("str %0, [%0]; yield" : : "r"(p2));
-+    while (1);
-+}
-diff --git a/tests/tcg/aarch64/mte-4.c b/tests/tcg/aarch64/mte-4.c
-new file mode 100644
-index 0000000000..a8cc9f5984
---- /dev/null
-+++ b/tests/tcg/aarch64/mte-4.c
-@@ -0,0 +1,45 @@
-+/*
-+ * Memory tagging, re-reading tag checks.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "mte.h"
-+
-+void __attribute__((noinline)) tagset(void *p, size_t size)
-+{
-+    size_t i;
-+    for (i = 0; i < size; i += 16) {
-+        asm("stg %0, [%0]" : : "r"(p + i));
-+    }
-+}
-+
-+void __attribute__((noinline)) tagcheck(void *p, size_t size)
-+{
-+    size_t i;
-+    void *c;
-+
-+    for (i = 0; i < size; i += 16) {
-+        asm("ldg %0, [%1]" : "=r"(c) : "r"(p + i), "0"(p));
-+        assert(c == p);
-+    }
-+}
-+
-+int main(int ac, char **av)
-+{
-+    size_t size = getpagesize() * 4;
-+    long excl = 1;
-+    int *p0, *p1;
-+
-+    enable_mte(PR_MTE_TCF_ASYNC);
-+    p0 = alloc_mte_mem(size);
-+
-+    /* Tag the pointer. */
-+    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(excl));
-+
-+    tagset(p1, size);
-+    tagcheck(p1, size);
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index d7d33e293c..bf53ad0087 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -35,6 +35,12 @@ endif
- # bti-2 tests PROT_BTI, so no special compiler support required.
- AARCH64_TESTS += bti-2
- 
-+# MTE Tests
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_MTE),)
-+AARCH64_TESTS += mte-1 mte-2 mte-3 mte-4
-+mte-%: CFLAGS += -march=armv8.5-a+memtag
-+endif
-+
- # Semihosting smoke test for linux-user
- AARCH64_TESTS += semihosting
- run-semihosting: semihosting
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index e1b70e25f2..ba8ac9a93e 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -244,6 +244,10 @@ for target in $target_list; do
-                -mbranch-protection=standard -o $TMPE $TMPC; then
-                 echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
-             fi
-+            if do_compiler "$target_compiler" $target_compiler_cflags \
-+               -march=armv8.5-a+memtag -o $TMPE $TMPC; then
-+                echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
-+            fi
-         ;;
-     esac
- 
--- 
-2.25.1
+Alex, Priyanka, do you have some time to review this series?
 
+Regards,
+Bin
 
