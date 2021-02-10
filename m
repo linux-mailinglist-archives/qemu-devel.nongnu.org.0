@@ -2,58 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DB9316321
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 11:04:07 +0100 (CET)
-Received: from localhost ([::1]:59956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B64316318
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 11:03:04 +0100 (CET)
+Received: from localhost ([::1]:57540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9mLv-00034q-1v
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 05:04:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56734)
+	id 1l9mKt-000227-Hc
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 05:03:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1l9lpQ-0005xs-3w
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:30:33 -0500
-Received: from hoth.uni-paderborn.de ([2001:638:502:c003::19]:46370)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1l9lp7-0007P9-6w
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 04:30:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
- :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=eaeP3AFuFnoThb9vdmdfo4K/jh3Kk9H+BHjObrBo91k=; b=QBD4vJkFmBV+Pw/9Vs8f6hFVG7
- ysFJBi1+6ay5nmWK8BYmITvQElrGcdlR7DvEUmTQPyzLaW2YWC/ej0Qe89LWObNTKWifGaassedlQ
- H6QObf7m0egzAgjPqyOjNJEg9k/7DACruY4cy3PjgBMy3W/qogYqnRJpLKlfWFq7wxTU=;
-X-Envelope-From: <kbastian@mail.uni-paderborn.de>
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: peter.maydell@linaro.org
-Subject: [PULL 1/1] tricore: added triboard with tc27x_soc
-Date: Wed, 10 Feb 2021 10:29:55 +0100
-Message-Id: <20210210092955.124757-2-kbastian@mail.uni-paderborn.de>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210210092955.124757-1-kbastian@mail.uni-paderborn.de>
-References: <20210210092955.124757-1-kbastian@mail.uni-paderborn.de>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9mIM-0000kl-BT
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 05:00:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40247)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l9mIH-0006FN-7U
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 05:00:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612951212;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yc+cQM2/RtefK4pJ9Rw5iGd7sVq18LmO9qUGUofCfLU=;
+ b=hGTFwBFbaOdL7KtpkGn4qqM3Ct0Pwmj0KSWLb0vqSYyAW42BqDMvXG1+UOyLGwI2ggWV26
+ z7/M74kSCoNvGZ1U3WpAaOEsh7AO/BA+SUYh058he1BrJnB3UHEkUpnSazwPtrAuqMtHfW
+ ReFfGeZy+LbkH+6DB8UFM092qAPt0Us=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-603-K5HS5BR9MbiPflhr4ShjBw-1; Wed, 10 Feb 2021 05:00:09 -0500
+X-MC-Unique: K5HS5BR9MbiPflhr4ShjBw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88666801965;
+ Wed, 10 Feb 2021 10:00:08 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-231.ams2.redhat.com
+ [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E555B60BE2;
+ Wed, 10 Feb 2021 10:00:06 +0000 (UTC)
+Subject: Re: [PATCH 0/7] qcow2: compressed write cache
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org
+References: <20210129165030.640169-1-vsementsov@virtuozzo.com>
+ <745c4617-01bc-c888-b6da-95a705cf0c1e@redhat.com>
+ <0669a5e8-bcff-ffb1-23b0-0af9ce20ad27@virtuozzo.com>
+ <476836f5-09d8-976d-bc3c-afb05befddbd@redhat.com>
+ <df5f3aac-b43f-85f8-8210-6b0b527ac343@virtuozzo.com>
+ <1b4ad0ed-e1a7-d592-cb76-8a204fbbd585@virtuozzo.com>
+ <a3f741fd-8ab7-3721-38cc-be855b538afd@openvz.org>
+ <dad2a202-430e-f430-6cfd-1c75fd3f2549@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <d7387da7-fb53-5d58-7ddf-4bf469e6526c@redhat.com>
+Date: Wed, 10 Feb 2021 11:00:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <dad2a202-430e-f430-6cfd-1c75fd3f2549@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2021.2.10.92117, AntiVirus-Engine: 5.80.0,
- AntiVirus-Data: 2021.2.8.5800000
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=28586791, da=100558472,
- mc=464, sc=4, hc=460, sp=0, fso=28586791, re=0, sd=0, hd=0
-X-IMT-Spam-Score: 0.0 ()
-X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
-Received-SPF: pass client-ip=2001:638:502:c003::19;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=hoth.uni-paderborn.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.265, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,619 +89,322 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbastian@mail.upb.de, qemu-devel@nongnu.org,
- Lars Biermanski <lars.biermanski@efs-auto.de>,
- Georg Hofstetter <georg.hofstetter@efs-auto.de>,
- David Brenken <david.brenken@efs-auto.de>,
- Robert Rasche <robert.rasche@efs-auto.de>,
- Andreas Konopik <andreas.konopik@efs-auto.de>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andreas Konopik <andreas.konopik@efs-auto.de>
+On 09.02.21 19:51, Vladimir Sementsov-Ogievskiy wrote:
+> 09.02.2021 21:41, Denis V. Lunev wrote:
+>> On 2/9/21 9:36 PM, Vladimir Sementsov-Ogievskiy wrote:
+>>> 09.02.2021 19:39, Vladimir Sementsov-Ogievskiy wrote:
+>>>> 09.02.2021 17:47, Max Reitz wrote:
+>>>>> On 09.02.21 15:10, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>> 09.02.2021 16:25, Max Reitz wrote:
+>>>>>>> On 29.01.21 17:50, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>>>> Hi all!
+>>>>>>>>
+>>>>>>>> I know, I have several series waiting for a resend, but I had to
+>>>>>>>> switch
+>>>>>>>> to another task spawned from our customer's bug.
+>>>>>>>>
+>>>>>>>> Original problem: we use O_DIRECT for all vm images in our
+>>>>>>>> product, it's
+>>>>>>>> the policy. The only exclusion is backup target qcow2 image for
+>>>>>>>> compressed backup, because compressed backup is extremely slow with
+>>>>>>>> O_DIRECT (due to unaligned writes). Customer complains that backup
+>>>>>>>> produces a lot of pagecache.
+>>>>>>>>
+>>>>>>>> So we can either implement some internal cache or use fadvise
+>>>>>>>> somehow.
+>>>>>>>> Backup has several async workes, which writes simultaneously, so
+>>>>>>>> in both
+>>>>>>>> ways we have to track host cluster filling (before dropping the
+>>>>>>>> cache
+>>>>>>>> corresponding to the cluster).  So, if we have to track anyway,
+>>>>>>>> let's
+>>>>>>>> try to implement the cache.
+>>>>>>>
+>>>>>>> I wanted to be excited here, because that sounds like it would be
+>>>>>>> very easy to implement caching.  Like, just keep the cluster at
+>>>>>>> free_byte_offset cached until the cluster it points to changes,
+>>>>>>> then flush the cluster.
+>>>>>>
+>>>>>> The problem is that chunks are written asynchronously.. That's why
+>>>>>> this all is not so easy.
+>>>>>>
+>>>>>>>
+>>>>>>> But then I see like 900 new lines of code, and I’m much less
+>>>>>>> excited...
+>>>>>>>
+>>>>>>>> Idea is simple: cache small unaligned write and flush the cluster
+>>>>>>>> when
+>>>>>>>> filled.
+>>>>>>>>
+>>>>>>>> Performance result is very good (results in a table is time of
+>>>>>>>> compressed backup of 1000M disk filled with ones in seconds):
+>>>>>>>
+>>>>>>> “Filled with ones” really is an edge case, though.
+>>>>>>
+>>>>>> Yes, I think, all clusters are compressed to rather small chunks :)
+>>>>>>
+>>>>>>>
+>>>>>>>> ---------------  -----------  -----------
+>>>>>>>>                    backup(old)  backup(new)
+>>>>>>>> ssd:hdd(direct)  3e+02        4.4
+>>>>>>>>                                   -99%
+>>>>>>>> ssd:hdd(cached)  5.7          5.4
+>>>>>>>>                                   -5%
+>>>>>>>> ---------------  -----------  -----------
+>>>>>>>>
+>>>>>>>> So, we have benefit even for cached mode! And the fastest thing is
+>>>>>>>> O_DIRECT with new implemented cache. So, I suggest to enable the 
+>>>>>>>> new
+>>>>>>>> cache by default (which is done by the series).
+>>>>>>>
+>>>>>>> First, I’m not sure how O_DIRECT really is relevant, because I
+>>>>>>> don’t really see the point for writing compressed images.
+>>>>>>
+>>>>>> compressed backup is a point
+>>>>>
+>>>>> (Perhaps irrelevant, but just to be clear:) I meant the point of
+>>>>> using O_DIRECT, which one can decide to not use for backup targets
+>>>>> (as you have done already).
+>>>>>
+>>>>>>> Second, I find it a bit cheating if you say there is a huge
+>>>>>>> improvement for the no-cache case, when actually, well, you just
+>>>>>>> added a cache.  So the no-cache case just became faster because
+>>>>>>> there is a cache now.
+>>>>>>
+>>>>>> Still, performance comparison is relevant to show that O_DIRECT as
+>>>>>> is unusable for compressed backup.
+>>>>>
+>>>>> (Again, perhaps irrelevant, but:) Yes, but my first point was
+>>>>> exactly whether O_DIRECT is even relevant for writing compressed
+>>>>> images.
+>>>>>
+>>>>>>> Well, I suppose I could follow that if O_DIRECT doesn’t make much
+>>>>>>> sense for compressed images, qemu’s format drivers are free to
+>>>>>>> introduce some caching (because technically the cache.direct
+>>>>>>> option only applies to the protocol driver) for collecting
+>>>>>>> compressed writes.
+>>>>>>
+>>>>>> Yes I thought in this way, enabling the cache by default.
+>>>>>>
+>>>>>>> That conclusion makes both of my complaints kind of moot.
+>>>>>>>
+>>>>>>> *shrug*
+>>>>>>>
+>>>>>>> Third, what is the real-world impact on the page cache?  You
+>>>>>>> described that that’s the reason why you need the cache in qemu,
+>>>>>>> because otherwise the page cache is polluted too much.  How much
+>>>>>>> is the difference really?  (I don’t know how good the compression
+>>>>>>> ratio is for real-world images.)
+>>>>>>
+>>>>>> Hm. I don't know the ratio.. Customer reported that most of RAM is
+>>>>>> polluted by Qemu's cache, and we use O_DIRECT for everything except
+>>>>>> for target of compressed backup.. Still the pollution may relate to
+>>>>>> several backups and of course it is simple enough to drop the cache
+>>>>>> after each backup. But I think that even one backup of 16T disk may
+>>>>>> pollute RAM enough.
+>>>>>
+>>>>> Oh, sorry, I just realized I had a brain fart there.  I was
+>>>>> referring to whether this series improves the page cache pollution.
+>>>>> But obviously it will if it allows you to re-enable O_DIRECT.
+>>>>>
+>>>>>>> Related to that, I remember a long time ago we had some discussion
+>>>>>>> about letting qemu-img convert set a special cache mode for the
+>>>>>>> target image that would make Linux drop everything before the last
+>>>>>>> offset written (i.e., I suppose fadvise() with
+>>>>>>> POSIX_FADV_SEQUENTIAL).  You discard that idea based on the fact
+>>>>>>> that implementing a cache in qemu would be simple, but it isn’t,
+>>>>>>> really.  What would the impact of POSIX_FADV_SEQUENTIAL be?  (One
+>>>>>>> advantage of using that would be that we could reuse it for
+>>>>>>> non-compressed images that are written by backup or qemu-img
+>>>>>>> convert.)
+>>>>>>
+>>>>>> The problem is that writes are async. And therefore, not sequential.
+>>>>>
+>>>>> In theory, yes, but all compressed writes still goes through
+>>>>> qcow2_alloc_bytes() right before submitting the write, so I wonder
+>>>>> whether in practice the writes aren’t usually sufficiently
+>>>>> sequential to make POSIX_FADV_SEQUENTIAL work fine.
+>>>>
+>>>> Yes, allocation is sequential. But writes are not.. Reasonable, I
+>>>> should at least bench it. So we should set POSIX_FADV_SEQUENTIAL for
+>>>> the whole backup target before the backup? Will try. Still, I expect
+>>>> that my cache will show better performance anyway. Actually,
+>>>> comparing cached (by pagecache) vs my cache we have 5.7 -> 4.4, i.e.
+>>>> 20% faster, which is significant (still, yes, would be good to check
+>>>> it on more real case than all-ones).
+>>>>
+>>>>>
+>>>>>> So
+>>>>>> I have to track the writes and wait until the whole cluster is
+>>>>>> filled. It's simple use fadvise as an option to my cache: instead
+>>>>>> of caching data and write when cluster is filled we can instead
+>>>>>> mark cluster POSIX_FADV_DONTNEED.
+>>>>>>
+>>>>>>>
+>>>>>>> (I don’t remember why that qemu-img discussion died back then.)
+>>>>>>>
+>>>>>>>
+>>>>>>> Fourth, regarding the code, would it be simpler if it were a pure
+>>>>>>> write cache?  I.e., on read, everything is flushed, so we don’t
+>>>>>>> have to deal with that.  I don’t think there are many valid cases
+>>>>>>> where a compressed image is both written to and read from at the
+>>>>>>> same time. (Just asking, because I’d really want this code to be
+>>>>>>> simpler.  I can imagine that reading from the cache is the least
+>>>>>>> bit of complexity, but perhaps...)
+>>>>>>>
+>>>>>>
+>>>>>> Hm. I really didn't want to support reads, and do it only to make
+>>>>>> it possible to enable the cache by default.. Still read function is
+>>>>>> really simple, and I don't think that dropping it will simplify the
+>>>>>> code significantly.
+>>>>>
+>>>>> That’s too bad.
+>>>>>
+>>>>> So the only question I have left is what POSIX_FADV_SEQUENTIAL
+>>>>> actually would do in practice.
+>>>>
+>>>> will check.
+>>>>
+>>>
+>>> Checked that if I mark the whole file by FADV_SEQUENTIAL, cache is not
+>>> removed.
+>>>
+>>> Test:
+>>> [root@kvm fadvise]# cat a.c
+>>> #define _GNU_SOURCE
+>>> #include <fcntl.h>
+>>> #include <unistd.h>
+>>> #include <stdio.h>
+>>> #include <getopt.h>
+>>> #include <string.h>
+>>> #include <stdbool.h>
+>>>
+>>> int main(int argc, char *argv[])
+>>> {
+>>>      int fd;
+>>>      int i;
+>>>      char mb[1024 * 1024];
+>>>      int open_flags = O_RDWR | O_CREAT | O_EXCL;
+>>>      int fadv_flags = 0;
+>>>      int fadv_final_flags = 0;
+>>>      int len = 1024 * 1024;
+>>>      bool do_fsync = false;
+>>>
+>>>      for (i = 1; i < argc - 1; i++) {
+>>>          const char *arg = argv[i];
+>>>
+>>>          if (!strcmp(arg, "direct")) {
+>>>              open_flags |= O_DIRECT;
+>>>          } else if (!strcmp(arg, "seq")) {
+>>>              fadv_flags = POSIX_FADV_SEQUENTIAL;
+>>>          } else if (!strcmp(arg, "dontneed")) {
+>>>              fadv_flags = POSIX_FADV_DONTNEED;
+>>>          } else if (!strcmp(arg, "final-dontneed")) {
+>>>              fadv_final_flags = POSIX_FADV_DONTNEED;
+>>>          } else if (!strcmp(arg, "fsync")) {
+>>>              do_fsync = true;
+>>>          } else {
+>>>              fprintf(stderr, "unknown: %s\n", arg);
+>>>              return 1;
+>>>          }
+>>>      }
+>>>
+>>>      fd = open(argv[argc - 1], open_flags);
+>>>
+>>>      if (fd < 0) {
+>>>          fprintf(stderr, "failed to open\n");
+>>>          return 1;
+>>>      }
+>>>
+>>>      if (fadv_flags) {
+>>>          posix_fadvise(fd, 0, 100 * 1024 * 1024, fadv_flags);
+>>>      }
+>>>      for (i = 0; i < 100; i++) {
+>>>          write(fd, mb, len);
+>>>      }
+>>>      if (fadv_final_flags) {
+>>>          posix_fadvise(fd, 0, 100 * 1024 * 1024, fadv_final_flags);
+>>>      }
+>>>      if (do_fsync) {
+>>>          fsync(fd);
+>>>      }
+>>>
+>>>      close(fd);
+>>> }
+>>>
+>>>
+>>>
+>>> [root@kvm fadvise]# gcc a.c
+>>> [root@kvm fadvise]# rm -f x; ./a.out seq x; fincore x
+>>>    RES PAGES  SIZE FILE
+>>>   100M 25600  100M x
+>>> [root@kvm fadvise]# rm -f x; ./a.out dontneed x; fincore x
+>>>    RES PAGES  SIZE FILE
+>>>   100M 25600  100M x
+>>> [root@kvm fadvise]# rm -f x; ./a.out final-dontneed x; fincore x
+>>>    RES PAGES  SIZE FILE
+>>>    36M  9216  100M x
+>>> [root@kvm fadvise]# rm -f x; ./a.out seq fsync x; fincore x
+>>>    RES PAGES  SIZE FILE
+>>>   100M 25600  100M x
+>>> [root@kvm fadvise]# rm -f x; ./a.out dontneed fsync x; fincore x
+>>>    RES PAGES  SIZE FILE
+>>>   100M 25600  100M x
+>>> [root@kvm fadvise]# rm -f x; ./a.out final-dontneed fsync x; fincore x
+>>>    RES PAGES  SIZE FILE
+>>>    36M  9216  100M x
+>>> [root@kvm fadvise]# rm -f x; ./a.out direct x; fincore x
+>>> RES PAGES SIZE FILE
+>>>   0B     0   0B x
+>>>
+>>>
+>>>
+>>> Backup-generated pagecache is a formal trash, it will be never used.
+>>> And it's bad that it can displace another good pagecache. So the best
+>>> thing for backup is direct mode + proposed cache.
 
-Signed-off-by: Andreas Konopik <andreas.konopik@efs-auto.de>
-Signed-off-by: David Brenken <david.brenken@efs-auto.de>
-Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
-Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
-Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
-Message-Id: <20201109165055.10508-2-david.brenken@efs-auto.org>
-Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
----
- default-configs/devices/tricore-softmmu.mak |   2 +-
- hw/tricore/Kconfig                          |   8 +
- hw/tricore/meson.build                      |   2 +
- hw/tricore/tc27x_soc.c                      | 246 ++++++++++++++++++++
- hw/tricore/triboard.c                       |  98 ++++++++
- include/hw/tricore/tc27x_soc.h              | 129 ++++++++++
- include/hw/tricore/triboard.h               |  50 ++++
- 7 files changed, 534 insertions(+), 1 deletion(-)
- create mode 100644 hw/tricore/tc27x_soc.c
- create mode 100644 hw/tricore/triboard.c
- create mode 100644 include/hw/tricore/tc27x_soc.h
- create mode 100644 include/hw/tricore/triboard.h
+What a shame.
 
-diff --git a/default-configs/devices/tricore-softmmu.mak b/default-configs/devices/tricore-softmmu.mak
-index c397cff38a..5cc91cebce 100644
---- a/default-configs/devices/tricore-softmmu.mak
-+++ b/default-configs/devices/tricore-softmmu.mak
-@@ -1 +1 @@
--CONFIG_TRICORE=y
-+CONFIG_TRIBOARD=y
-diff --git a/hw/tricore/Kconfig b/hw/tricore/Kconfig
-index 9313409309..506e6183c1 100644
---- a/hw/tricore/Kconfig
-+++ b/hw/tricore/Kconfig
-@@ -1,2 +1,10 @@
- config TRICORE
-     bool
-+
-+config TRIBOARD
-+    bool
-+    select TRICORE
-+    select TC27X_SOC
-+
-+config TC27X_SOC
-+    bool
-diff --git a/hw/tricore/meson.build b/hw/tricore/meson.build
-index 579aa13c78..77ff6fd137 100644
---- a/hw/tricore/meson.build
-+++ b/hw/tricore/meson.build
-@@ -1,4 +1,6 @@
- tricore_ss = ss.source_set()
- tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testboard.c'))
-+tricore_ss.add(when: 'CONFIG_TRIBOARD', if_true: files('triboard.c'))
-+tricore_ss.add(when: 'CONFIG_TC27X_SOC', if_true: files('tc27x_soc.c'))
- 
- hw_arch += {'tricore': tricore_ss}
-diff --git a/hw/tricore/tc27x_soc.c b/hw/tricore/tc27x_soc.c
-new file mode 100644
-index 0000000000..8af079e6b2
---- /dev/null
-+++ b/hw/tricore/tc27x_soc.c
-@@ -0,0 +1,246 @@
-+/*
-+ * Infineon tc27x SoC System emulation.
-+ *
-+ * Copyright (c) 2020 Andreas Konopik <andreas.konopik@efs-auto.de>
-+ * Copyright (c) 2020 David Brenken <david.brenken@efs-auto.de>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "hw/sysbus.h"
-+#include "hw/boards.h"
-+#include "hw/loader.h"
-+#include "qemu/units.h"
-+#include "hw/misc/unimp.h"
-+#include "exec/address-spaces.h"
-+#include "qemu/log.h"
-+#include "cpu.h"
-+
-+#include "hw/tricore/tc27x_soc.h"
-+#include "hw/tricore/triboard.h"
-+
-+const MemmapEntry tc27x_soc_memmap[] = {
-+    [TC27XD_DSPR2]     = { 0x50000000,            120 * KiB },
-+    [TC27XD_DCACHE2]   = { 0x5001E000,              8 * KiB },
-+    [TC27XD_DTAG2]     = { 0x500C0000,                0xC00 },
-+    [TC27XD_PSPR2]     = { 0x50100000,             32 * KiB },
-+    [TC27XD_PCACHE2]   = { 0x50108000,             16 * KiB },
-+    [TC27XD_PTAG2]     = { 0x501C0000,               0x1800 },
-+    [TC27XD_DSPR1]     = { 0x60000000,            120 * KiB },
-+    [TC27XD_DCACHE1]   = { 0x6001E000,              8 * KiB },
-+    [TC27XD_DTAG1]     = { 0x600C0000,                0xC00 },
-+    [TC27XD_PSPR1]     = { 0x60100000,             32 * KiB },
-+    [TC27XD_PCACHE1]   = { 0x60108000,             16 * KiB },
-+    [TC27XD_PTAG1]     = { 0x601C0000,               0x1800 },
-+    [TC27XD_DSPR0]     = { 0x70000000,            112 * KiB },
-+    [TC27XD_PSPR0]     = { 0x70100000,             24 * KiB },
-+    [TC27XD_PCACHE0]   = { 0x70106000,              8 * KiB },
-+    [TC27XD_PTAG0]     = { 0x701C0000,                0xC00 },
-+    [TC27XD_PFLASH0_C] = { 0x80000000,              2 * MiB },
-+    [TC27XD_PFLASH1_C] = { 0x80200000,              2 * MiB },
-+    [TC27XD_OLDA_C]    = { 0x8FE70000,             32 * KiB },
-+    [TC27XD_BROM_C]    = { 0x8FFF8000,             32 * KiB },
-+    [TC27XD_LMURAM_C]  = { 0x90000000,             32 * KiB },
-+    [TC27XD_EMEM_C]    = { 0x9F000000,              1 * MiB },
-+    [TC27XD_PFLASH0_U] = { 0xA0000000,                  0x0 },
-+    [TC27XD_PFLASH1_U] = { 0xA0200000,                  0x0 },
-+    [TC27XD_DFLASH0]   = { 0xAF000000,   1 * MiB + 16 * KiB },
-+    [TC27XD_DFLASH1]   = { 0xAF110000,             64 * KiB },
-+    [TC27XD_OLDA_U]    = { 0xAFE70000,                  0x0 },
-+    [TC27XD_BROM_U]    = { 0xAFFF8000,                  0x0 },
-+    [TC27XD_LMURAM_U]  = { 0xB0000000,                  0x0 },
-+    [TC27XD_EMEM_U]    = { 0xBF000000,                  0x0 },
-+    [TC27XD_PSPRX]     = { 0xC0000000,                  0x0 },
-+    [TC27XD_DSPRX]     = { 0xD0000000,                  0x0 },
-+};
-+
-+/*
-+ * Initialize the auxiliary ROM region @mr and map it into
-+ * the memory map at @base.
-+ */
-+static void make_rom(MemoryRegion *mr, const char *name,
-+                     hwaddr base, hwaddr size)
-+{
-+    memory_region_init_rom(mr, NULL, name, size, &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), base, mr);
-+}
-+
-+/*
-+ * Initialize the auxiliary RAM region @mr and map it into
-+ * the memory map at @base.
-+ */
-+static void make_ram(MemoryRegion *mr, const char *name,
-+                     hwaddr base, hwaddr size)
-+{
-+    memory_region_init_ram(mr, NULL, name, size, &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), base, mr);
-+}
-+
-+/*
-+ * Create an alias of an entire original MemoryRegion @orig
-+ * located at @base in the memory map.
-+ */
-+static void make_alias(MemoryRegion *mr, const char *name,
-+                           MemoryRegion *orig, hwaddr base)
-+{
-+    memory_region_init_alias(mr, NULL, name, orig, 0,
-+                             memory_region_size(orig));
-+    memory_region_add_subregion(get_system_memory(), base, mr);
-+}
-+
-+static void tc27x_soc_init_memory_mapping(DeviceState *dev_soc)
-+{
-+    TC27XSoCState *s = TC27X_SOC(dev_soc);
-+    TC27XSoCClass *sc = TC27X_SOC_GET_CLASS(s);
-+
-+    make_ram(&s->cpu0mem.dspr, "CPU0.DSPR",
-+        sc->memmap[TC27XD_DSPR0].base, sc->memmap[TC27XD_DSPR0].size);
-+    make_ram(&s->cpu0mem.pspr, "CPU0.PSPR",
-+        sc->memmap[TC27XD_PSPR0].base, sc->memmap[TC27XD_PSPR0].size);
-+    make_ram(&s->cpu1mem.dspr, "CPU1.DSPR",
-+        sc->memmap[TC27XD_DSPR1].base, sc->memmap[TC27XD_DSPR1].size);
-+    make_ram(&s->cpu1mem.pspr, "CPU1.PSPR",
-+        sc->memmap[TC27XD_PSPR1].base, sc->memmap[TC27XD_PSPR1].size);
-+    make_ram(&s->cpu2mem.dspr, "CPU2.DSPR",
-+        sc->memmap[TC27XD_DSPR2].base, sc->memmap[TC27XD_DSPR2].size);
-+    make_ram(&s->cpu2mem.pspr, "CPU2.PSPR",
-+        sc->memmap[TC27XD_PSPR2].base, sc->memmap[TC27XD_PSPR2].size);
-+
-+    /* TODO: Control Cache mapping with Memory Test Unit (MTU) */
-+    make_ram(&s->cpu2mem.dcache, "CPU2.DCACHE",
-+        sc->memmap[TC27XD_DCACHE2].base, sc->memmap[TC27XD_DCACHE2].size);
-+    make_ram(&s->cpu2mem.dtag,   "CPU2.DTAG",
-+        sc->memmap[TC27XD_DTAG2].base, sc->memmap[TC27XD_DTAG2].size);
-+    make_ram(&s->cpu2mem.pcache, "CPU2.PCACHE",
-+        sc->memmap[TC27XD_PCACHE2].base, sc->memmap[TC27XD_PCACHE2].size);
-+    make_ram(&s->cpu2mem.ptag,   "CPU2.PTAG",
-+        sc->memmap[TC27XD_PTAG2].base, sc->memmap[TC27XD_PTAG2].size);
-+
-+    make_ram(&s->cpu1mem.dcache, "CPU1.DCACHE",
-+        sc->memmap[TC27XD_DCACHE1].base, sc->memmap[TC27XD_DCACHE1].size);
-+    make_ram(&s->cpu1mem.dtag,   "CPU1.DTAG",
-+        sc->memmap[TC27XD_DTAG1].base, sc->memmap[TC27XD_DTAG1].size);
-+    make_ram(&s->cpu1mem.pcache, "CPU1.PCACHE",
-+        sc->memmap[TC27XD_PCACHE1].base, sc->memmap[TC27XD_PCACHE1].size);
-+    make_ram(&s->cpu1mem.ptag,   "CPU1.PTAG",
-+        sc->memmap[TC27XD_PTAG1].base, sc->memmap[TC27XD_PTAG1].size);
-+
-+    make_ram(&s->cpu0mem.pcache, "CPU0.PCACHE",
-+        sc->memmap[TC27XD_PCACHE0].base, sc->memmap[TC27XD_PCACHE0].size);
-+    make_ram(&s->cpu0mem.ptag,   "CPU0.PTAG",
-+        sc->memmap[TC27XD_PTAG0].base, sc->memmap[TC27XD_PTAG0].size);
-+
-+    /*
-+     * TriCore QEMU executes CPU0 only, thus it is sufficient to map
-+     * LOCAL.PSPR/LOCAL.DSPR exclusively onto PSPR0/DSPR0.
-+     */
-+    make_alias(&s->psprX, "LOCAL.PSPR", &s->cpu0mem.pspr,
-+        sc->memmap[TC27XD_PSPRX].base);
-+    make_alias(&s->dsprX, "LOCAL.DSPR", &s->cpu0mem.dspr,
-+        sc->memmap[TC27XD_DSPRX].base);
-+
-+    make_ram(&s->flashmem.pflash0_c, "PF0",
-+        sc->memmap[TC27XD_PFLASH0_C].base, sc->memmap[TC27XD_PFLASH0_C].size);
-+    make_ram(&s->flashmem.pflash1_c, "PF1",
-+        sc->memmap[TC27XD_PFLASH1_C].base, sc->memmap[TC27XD_PFLASH1_C].size);
-+    make_ram(&s->flashmem.dflash0,   "DF0",
-+        sc->memmap[TC27XD_DFLASH0].base, sc->memmap[TC27XD_DFLASH0].size);
-+    make_ram(&s->flashmem.dflash1,   "DF1",
-+        sc->memmap[TC27XD_DFLASH1].base, sc->memmap[TC27XD_DFLASH1].size);
-+    make_ram(&s->flashmem.olda_c,    "OLDA",
-+        sc->memmap[TC27XD_OLDA_C].base, sc->memmap[TC27XD_OLDA_C].size);
-+    make_rom(&s->flashmem.brom_c,    "BROM",
-+        sc->memmap[TC27XD_BROM_C].base, sc->memmap[TC27XD_BROM_C].size);
-+    make_ram(&s->flashmem.lmuram_c,  "LMURAM",
-+        sc->memmap[TC27XD_LMURAM_C].base, sc->memmap[TC27XD_LMURAM_C].size);
-+    make_ram(&s->flashmem.emem_c,    "EMEM",
-+        sc->memmap[TC27XD_EMEM_C].base, sc->memmap[TC27XD_EMEM_C].size);
-+
-+    make_alias(&s->flashmem.pflash0_u, "PF0.U",    &s->flashmem.pflash0_c,
-+        sc->memmap[TC27XD_PFLASH0_U].base);
-+    make_alias(&s->flashmem.pflash1_u, "PF1.U",    &s->flashmem.pflash1_c,
-+        sc->memmap[TC27XD_PFLASH1_U].base);
-+    make_alias(&s->flashmem.olda_u,    "OLDA.U",   &s->flashmem.olda_c,
-+        sc->memmap[TC27XD_OLDA_U].base);
-+    make_alias(&s->flashmem.brom_u,    "BROM.U",   &s->flashmem.brom_c,
-+        sc->memmap[TC27XD_BROM_U].base);
-+    make_alias(&s->flashmem.lmuram_u,  "LMURAM.U", &s->flashmem.lmuram_c,
-+        sc->memmap[TC27XD_LMURAM_U].base);
-+    make_alias(&s->flashmem.emem_u,    "EMEM.U",   &s->flashmem.emem_c,
-+        sc->memmap[TC27XD_EMEM_U].base);
-+}
-+
-+static void tc27x_soc_realize(DeviceState *dev_soc, Error **errp)
-+{
-+    TC27XSoCState *s = TC27X_SOC(dev_soc);
-+    Error *err = NULL;
-+
-+    qdev_realize(DEVICE(&s->cpu), NULL, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    tc27x_soc_init_memory_mapping(dev_soc);
-+}
-+
-+static void tc27x_soc_init(Object *obj)
-+{
-+    TC27XSoCState *s = TC27X_SOC(obj);
-+    TC27XSoCClass *sc = TC27X_SOC_GET_CLASS(s);
-+
-+    object_initialize_child(obj, "tc27x", &s->cpu, sc->cpu_type);
-+}
-+
-+static Property tc27x_soc_properties[] = {
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void tc27x_soc_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = tc27x_soc_realize;
-+    device_class_set_props(dc, tc27x_soc_properties);
-+}
-+
-+static void tc277d_soc_class_init(ObjectClass *oc, void *data)
-+{
-+    TC27XSoCClass *sc = TC27X_SOC_CLASS(oc);
-+
-+    sc->name         = "tc277d-soc";
-+    sc->cpu_type     = TRICORE_CPU_TYPE_NAME("tc27x");
-+    sc->memmap       = tc27x_soc_memmap;
-+    sc->num_cpus     = 1;
-+}
-+
-+static const TypeInfo tc27x_soc_types[] = {
-+    {
-+        .name          = "tc277d-soc",
-+        .parent        = TYPE_TC27X_SOC,
-+        .class_init    = tc277d_soc_class_init,
-+    }, {
-+        .name          = TYPE_TC27X_SOC,
-+        .parent        = TYPE_SYS_BUS_DEVICE,
-+        .instance_size = sizeof(TC27XSoCState),
-+        .instance_init = tc27x_soc_init,
-+        .class_size    = sizeof(TC27XSoCClass),
-+        .class_init    = tc27x_soc_class_init,
-+        .abstract      = true,
-+    },
-+};
-+
-+DEFINE_TYPES(tc27x_soc_types)
-diff --git a/hw/tricore/triboard.c b/hw/tricore/triboard.c
-new file mode 100644
-index 0000000000..16e2fd7e27
---- /dev/null
-+++ b/hw/tricore/triboard.c
-@@ -0,0 +1,98 @@
-+/*
-+ * Infineon TriBoard System emulation.
-+ *
-+ * Copyright (c) 2020 Andreas Konopik <andreas.konopik@efs-auto.de>
-+ * Copyright (c) 2020 David Brenken <david.brenken@efs-auto.de>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qapi/error.h"
-+#include "hw/qdev-properties.h"
-+#include "cpu.h"
-+#include "net/net.h"
-+#include "hw/boards.h"
-+#include "hw/loader.h"
-+#include "exec/address-spaces.h"
-+#include "elf.h"
-+#include "hw/tricore/tricore.h"
-+#include "qemu/error-report.h"
-+
-+#include "hw/tricore/triboard.h"
-+#include "hw/tricore/tc27x_soc.h"
-+
-+static void tricore_load_kernel(const char *kernel_filename)
-+{
-+    uint64_t entry;
-+    long kernel_size;
-+    TriCoreCPU *cpu;
-+    CPUTriCoreState *env;
-+
-+    kernel_size = load_elf(kernel_filename, NULL,
-+                           NULL, NULL, &entry, NULL,
-+                           NULL, NULL, 0,
-+                           EM_TRICORE, 1, 0);
-+    if (kernel_size <= 0) {
-+        error_report("no kernel file '%s'", kernel_filename);
-+        exit(1);
-+    }
-+    cpu = TRICORE_CPU(first_cpu);
-+    env = &cpu->env;
-+    env->PC = entry;
-+}
-+
-+
-+static void triboard_machine_init(MachineState *machine)
-+{
-+    TriBoardMachineState *ms = TRIBOARD_MACHINE(machine);
-+    TriBoardMachineClass *amc = TRIBOARD_MACHINE_GET_CLASS(machine);
-+
-+    object_initialize_child(OBJECT(machine), "soc", &ms->tc27x_soc,
-+            amc->soc_name);
-+    sysbus_realize(SYS_BUS_DEVICE(&ms->tc27x_soc), &error_fatal);
-+
-+    if (machine->kernel_filename) {
-+        tricore_load_kernel(machine->kernel_filename);
-+    }
-+}
-+
-+static void triboard_machine_tc277d_class_init(ObjectClass *oc,
-+        void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    TriBoardMachineClass *amc = TRIBOARD_MACHINE_CLASS(oc);
-+
-+    mc->init        = triboard_machine_init;
-+    mc->desc        = "Infineon AURIX TriBoard TC277 (D-Step)";
-+    mc->max_cpus    = 1;
-+    amc->soc_name   = "tc277d-soc";
-+};
-+
-+static const TypeInfo triboard_machine_types[] = {
-+    {
-+        .name           = MACHINE_TYPE_NAME("KIT_AURIX_TC277_TRB"),
-+        .parent         = TYPE_TRIBOARD_MACHINE,
-+        .class_init     = triboard_machine_tc277d_class_init,
-+    }, {
-+        .name           = TYPE_TRIBOARD_MACHINE,
-+        .parent         = TYPE_MACHINE,
-+        .instance_size  = sizeof(TriBoardMachineState),
-+        .class_size     = sizeof(TriBoardMachineClass),
-+        .abstract       = true,
-+    },
-+};
-+
-+DEFINE_TYPES(triboard_machine_types)
-diff --git a/include/hw/tricore/tc27x_soc.h b/include/hw/tricore/tc27x_soc.h
-new file mode 100644
-index 0000000000..6a7e5b54f5
---- /dev/null
-+++ b/include/hw/tricore/tc27x_soc.h
-@@ -0,0 +1,129 @@
-+/*
-+ * Infineon tc27x SoC System emulation.
-+ *
-+ * Copyright (c) 2020 Andreas Konopik <andreas.konopik@efs-auto.de>
-+ * Copyright (c) 2020 David Brenken <david.brenken@efs-auto.de>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef TC27X_SoC_H
-+#define TC27X_SoC_H
-+
-+#include "hw/sysbus.h"
-+#include "target/tricore/cpu.h"
-+#include "qom/object.h"
-+
-+#define TYPE_TC27X_SOC ("tc27x-soc")
-+OBJECT_DECLARE_TYPE(TC27XSoCState, TC27XSoCClass, TC27X_SOC)
-+
-+typedef struct TC27XSoCCPUMemState {
-+
-+    MemoryRegion dspr;
-+    MemoryRegion pspr;
-+
-+    MemoryRegion dcache;
-+    MemoryRegion dtag;
-+    MemoryRegion pcache;
-+    MemoryRegion ptag;
-+
-+} TC27XSoCCPUMemState;
-+
-+typedef struct TC27XSoCFlashMemState {
-+
-+    MemoryRegion pflash0_c;
-+    MemoryRegion pflash1_c;
-+    MemoryRegion pflash0_u;
-+    MemoryRegion pflash1_u;
-+    MemoryRegion dflash0;
-+    MemoryRegion dflash1;
-+    MemoryRegion olda_c;
-+    MemoryRegion olda_u;
-+    MemoryRegion brom_c;
-+    MemoryRegion brom_u;
-+    MemoryRegion lmuram_c;
-+    MemoryRegion lmuram_u;
-+    MemoryRegion emem_c;
-+    MemoryRegion emem_u;
-+
-+} TC27XSoCFlashMemState;
-+
-+typedef struct TC27XSoCState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+
-+    /*< public >*/
-+    TriCoreCPU cpu;
-+
-+    MemoryRegion dsprX;
-+    MemoryRegion psprX;
-+
-+    TC27XSoCCPUMemState cpu0mem;
-+    TC27XSoCCPUMemState cpu1mem;
-+    TC27XSoCCPUMemState cpu2mem;
-+
-+    TC27XSoCFlashMemState flashmem;
-+
-+} TC27XSoCState;
-+
-+typedef struct MemmapEntry {
-+    hwaddr base;
-+    hwaddr size;
-+} MemmapEntry;
-+
-+typedef struct TC27XSoCClass {
-+    DeviceClass parent_class;
-+
-+    const char *name;
-+    const char *cpu_type;
-+    const MemmapEntry *memmap;
-+    uint32_t num_cpus;
-+} TC27XSoCClass;
-+
-+enum {
-+    TC27XD_DSPR2,
-+    TC27XD_DCACHE2,
-+    TC27XD_DTAG2,
-+    TC27XD_PSPR2,
-+    TC27XD_PCACHE2,
-+    TC27XD_PTAG2,
-+    TC27XD_DSPR1,
-+    TC27XD_DCACHE1,
-+    TC27XD_DTAG1,
-+    TC27XD_PSPR1,
-+    TC27XD_PCACHE1,
-+    TC27XD_PTAG1,
-+    TC27XD_DSPR0,
-+    TC27XD_PSPR0,
-+    TC27XD_PCACHE0,
-+    TC27XD_PTAG0,
-+    TC27XD_PFLASH0_C,
-+    TC27XD_PFLASH1_C,
-+    TC27XD_OLDA_C,
-+    TC27XD_BROM_C,
-+    TC27XD_LMURAM_C,
-+    TC27XD_EMEM_C,
-+    TC27XD_PFLASH0_U,
-+    TC27XD_PFLASH1_U,
-+    TC27XD_DFLASH0,
-+    TC27XD_DFLASH1,
-+    TC27XD_OLDA_U,
-+    TC27XD_BROM_U,
-+    TC27XD_LMURAM_U,
-+    TC27XD_EMEM_U,
-+    TC27XD_PSPRX,
-+    TC27XD_DSPRX,
-+};
-+
-+#endif
-diff --git a/include/hw/tricore/triboard.h b/include/hw/tricore/triboard.h
-new file mode 100644
-index 0000000000..f3844be447
---- /dev/null
-+++ b/include/hw/tricore/triboard.h
-@@ -0,0 +1,50 @@
-+/*
-+ * Infineon TriBoard System emulation.
-+ *
-+ * Copyright (c) 2020 Andreas Konopik <andreas.konopik@efs-auto.de>
-+ * Copyright (c) 2020 David Brenken <david.brenken@efs-auto.de>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "hw/boards.h"
-+#include "hw/arm/boot.h"
-+#include "sysemu/sysemu.h"
-+#include "exec/address-spaces.h"
-+#include "qom/object.h"
-+
-+#include "hw/tricore/tc27x_soc.h"
-+
-+#define TYPE_TRIBOARD_MACHINE MACHINE_TYPE_NAME("triboard")
-+typedef struct TriBoardMachineState TriBoardMachineState;
-+typedef struct TriBoardMachineClass TriBoardMachineClass;
-+DECLARE_OBJ_CHECKERS(TriBoardMachineState, TriBoardMachineClass,
-+                     TRIBOARD_MACHINE, TYPE_TRIBOARD_MACHINE)
-+
-+
-+struct TriBoardMachineState {
-+    MachineState parent;
-+
-+    TC27XSoCState tc27x_soc;
-+};
-+
-+struct TriBoardMachineClass {
-+    MachineClass parent_obj;
-+
-+    const char *name;
-+    const char *desc;
-+    const char *soc_name;
-+};
--- 
-2.30.0
+Thanks a lot for testing.
+
+>> I think that the original intention of Max is about POSIX_FADV_DONTNEED
+>> One should call this fadvise for just fully written cluster.
+
+I had hoped that SEQUENTIAL would just work, magically.
+
+> This should work, but:
+> 
+>   - as we see from test above, POSIX_FADV_DONTNEED don't remove the 
+> whole cache (see final-dontneed)
+>   - as I said we'll have to track writes, so the cache will be the same, 
+> just instead of postponed-write operation we'll do fadvise.
+> 
+> Hmm. Still, in this way, we will not need some difficult things in my 
+> proposed cache.
+> 
+> So, it may be reasonable to at least split the big patch so that
+> 
+>   - first part brings writes / full-cluster tracking and fadvice
+> 
+>   - second part adds caching-wrties option, corresponding flush code and 
+> additional performance
+> 
+> Does it make sense?
+
+I think the fadvise solution would have been nice if it gave us 
+something magical that we could also use for normal qemu-img convert (or 
+backup) operations, but as that doesn’t seem to be the case, I don’t 
+think it makes too much sense to implement something like that.  (I 
+imagine doing fadvise also creates the need to implement new block to 
+call into file-posix and so on.)
+
+I’d propose I take some time to look at your patch as-is and then I 
+report back.
+
+Max
 
 
