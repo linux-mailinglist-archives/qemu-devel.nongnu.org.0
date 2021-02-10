@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD56315F79
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:29:21 +0100 (CET)
-Received: from localhost ([::1]:38834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B92E8315F6D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:26:20 +0100 (CET)
+Received: from localhost ([::1]:58726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9j04-00063r-N1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:29:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43428)
+	id 1l9ix7-0002NW-Vm
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:26:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ip4-0001Z7-Um; Wed, 10 Feb 2021 01:17:58 -0500
-Received: from ozlabs.org ([203.11.71.1]:47673)
+ id 1l9ip3-0001Xp-Ua; Wed, 10 Feb 2021 01:17:57 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:37781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ip1-0000Ln-0L; Wed, 10 Feb 2021 01:17:58 -0500
+ id 1l9ip1-0000Lp-4K; Wed, 10 Feb 2021 01:17:57 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Db8gl0ntwz9sW2; Wed, 10 Feb 2021 17:17:38 +1100 (AEDT)
+ id 4Db8gk5lTxz9sVt; Wed, 10 Feb 2021 17:17:38 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612937859;
- bh=m0UzTBFIlniLw6okDxCKohuffYVMR2kGQJPBn0vUYhw=;
+ d=gibson.dropbear.id.au; s=201602; t=1612937858;
+ bh=83YeZAyc50Th6MLx6RcCaZYesjOAWiu3g1qKdt728AI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Lc+MxiqQ4mCdrbXtzXBkTJREj/9JNCUFH88rGnOGkuDDh+rNhQixLq4OPGQUTpWKm
- 9HftH09HsJZm3j04f8bDWboT4XhSaBFIbJdqAL3eL3tZYfoso3DQ/JfkdNxz9lgIqT
- QspjgznTEZUa077nAB+Up86CXdmAKV1VfNUAl+pE=
+ b=GCDnEh5LsPPSgUoHhMTekQo49Zj/B0aL7h+s78qJKJX2Tag/Kfl7gG/XdN/cQo9eU
+ vc5MfYoijGtmBN1khxUEg0qyMcUdNTgbltv+qGvcFwa+kTclI8YuLht/WwH+ONRDkE
+ np0BzWZfN+394f8eHKimjae+hAuCqbuzr24qVIic=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 05/19] ppc/pnv: Add trace events for PCI event notification
-Date: Wed, 10 Feb 2021 17:17:21 +1100
-Message-Id: <20210210061735.304384-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/19] ppc/xive: Add firmware bit when dumping the ENDs
+Date: Wed, 10 Feb 2021 17:17:22 +1100
+Message-Id: <20210210061735.304384-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210210061735.304384-1-david@gibson.dropbear.id.au>
 References: <20210210061735.304384-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,84 +65,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-On POWER9 systems, PHB controllers signal the XIVE interrupt controller
-of a source interrupt notification using a store on a MMIO region. Add
-traces for such events.
+ENDs allocated by OPAL for the HW thread VPs are tagged as owned by FW.
+Dump the state in 'info pic'.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210126171059.307867-2-clg@kaod.org>
+Message-Id: <20210126171059.307867-3-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/pnv_xive.c       | 3 +++
- hw/intc/trace-events     | 3 +++
- hw/pci-host/pnv_phb4.c   | 3 +++
- hw/pci-host/trace-events | 3 +++
- 4 files changed, 12 insertions(+)
+ hw/intc/xive.c             | 3 ++-
+ include/hw/ppc/xive_regs.h | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 5f69626b3a..ad43483612 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -24,6 +24,7 @@
- #include "hw/ppc/xive_regs.h"
- #include "hw/qdev-properties.h"
- #include "hw/ppc/ppc.h"
-+#include "trace.h"
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index fa8c3d8287..eeb4e62ba9 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1294,7 +1294,7 @@ void xive_end_pic_print_info(XiveEND *end, uint32_t end_idx, Monitor *mon)
  
- #include <libfdt.h>
+     pq = xive_get_field32(END_W1_ESn, end->w1);
  
-@@ -1319,6 +1320,8 @@ static void pnv_xive_ic_hw_trigger(PnvXive *xive, hwaddr addr, uint64_t val)
-     uint8_t blk;
-     uint32_t idx;
+-    monitor_printf(mon, "  %08x %c%c %c%c%c%c%c%c%c prio:%d nvt:%02x/%04x",
++    monitor_printf(mon, "  %08x %c%c %c%c%c%c%c%c%c%c prio:%d nvt:%02x/%04x",
+                    end_idx,
+                    pq & XIVE_ESB_VAL_P ? 'P' : '-',
+                    pq & XIVE_ESB_VAL_Q ? 'Q' : '-',
+@@ -1305,6 +1305,7 @@ void xive_end_pic_print_info(XiveEND *end, uint32_t end_idx, Monitor *mon)
+                    xive_end_is_escalate(end) ? 'e' : '-',
+                    xive_end_is_uncond_escalation(end)   ? 'u' : '-',
+                    xive_end_is_silent_escalation(end)   ? 's' : '-',
++                   xive_end_is_firmware(end)   ? 'f' : '-',
+                    priority, nvt_blk, nvt_idx);
  
-+    trace_pnv_xive_ic_hw_trigger(addr, val);
-+
-     if (val & XIVE_TRIGGER_END) {
-         xive_error(xive, "IC: END trigger at @0x%"HWADDR_PRIx" data 0x%"PRIx64,
-                    addr, val);
-diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 8ed397a0d5..45ddaf48df 100644
---- a/hw/intc/trace-events
-+++ b/hw/intc/trace-events
-@@ -236,3 +236,6 @@ xive_tctx_tm_write(uint64_t offset, unsigned int size, uint64_t value) "@0x0x%"P
- xive_tctx_tm_read(uint64_t offset, unsigned int size, uint64_t value) "@0x0x%"PRIx64" sz=%d val=0x%" PRIx64
- xive_presenter_notify(uint8_t nvt_blk, uint32_t nvt_idx, uint8_t ring) "found NVT 0x%x/0x%x ring=0x%x"
- xive_end_source_read(uint8_t end_blk, uint32_t end_idx, uint64_t addr) "END 0x%x/0x%x @0x0x%"PRIx64
-+
-+# pnv_xive.c
-+pnv_xive_ic_hw_trigger(uint64_t addr, uint64_t val) "@0x%"PRIx64" val=0x%"PRIx64
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 6328e985f8..54f57c660a 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -22,6 +22,7 @@
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "qom/object.h"
-+#include "trace.h"
+     if (qaddr_base) {
+diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+index 7879692825..b7fde2354e 100644
+--- a/include/hw/ppc/xive_regs.h
++++ b/include/hw/ppc/xive_regs.h
+@@ -236,6 +236,8 @@ typedef struct XiveEND {
+     (be32_to_cpu((end)->w0) & END_W0_UNCOND_ESCALATE)
+ #define xive_end_is_silent_escalation(end)              \
+     (be32_to_cpu((end)->w0) & END_W0_SILENT_ESCALATE)
++#define xive_end_is_firmware(end)              \
++    (be32_to_cpu((end)->w0) & END_W0_FIRMWARE)
  
- #define phb_error(phb, fmt, ...)                                        \
-     qemu_log_mask(LOG_GUEST_ERROR, "phb4[%d:%d]: " fmt "\n",            \
-@@ -1257,6 +1258,8 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, uint32_t srcno)
-     uint64_t data = XIVE_TRIGGER_PQ | offset | srcno;
-     MemTxResult result;
- 
-+    trace_pnv_phb4_xive_notify(notif_port, data);
-+
-     address_space_stq_be(&address_space_memory, notif_port, data,
-                          MEMTXATTRS_UNSPECIFIED, &result);
-     if (result != MEMTX_OK) {
-diff --git a/hw/pci-host/trace-events b/hw/pci-host/trace-events
-index d19ca9aef6..7d8063ac42 100644
---- a/hw/pci-host/trace-events
-+++ b/hw/pci-host/trace-events
-@@ -20,3 +20,6 @@ unin_data_write(uint64_t addr, unsigned len, uint64_t val) "write addr 0x%"PRIx6
- unin_data_read(uint64_t addr, unsigned len, uint64_t val) "read addr 0x%"PRIx64 " len %d val 0x%"PRIx64
- unin_write(uint64_t addr, uint64_t value) "addr=0x%" PRIx64 " val=0x%"PRIx64
- unin_read(uint64_t addr, uint64_t value) "addr=0x%" PRIx64 " val=0x%"PRIx64
-+
-+# pnv_phb4.c
-+pnv_phb4_xive_notify(uint64_t notif_port, uint64_t data) "notif=@0x%"PRIx64" data=0x%"PRIx64
+ static inline uint64_t xive_end_qaddr(XiveEND *end)
+ {
 -- 
 2.29.2
 
