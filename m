@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60AB317256
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 22:28:25 +0100 (CET)
-Received: from localhost ([::1]:38968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A673172A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 22:49:36 +0100 (CET)
+Received: from localhost ([::1]:54762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9x28-0003XK-Am
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 16:28:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46536)
+	id 1l9xMc-0003on-Sy
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 16:49:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1l9x0p-0002xL-Jh
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 16:27:03 -0500
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:46320)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1l9x0W-0002Q6-SL
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 16:27:02 -0500
-Received: by mail-lj1-x233.google.com with SMTP id b16so4785465lji.13
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 13:26:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Sh50T1QuedbGY4H8ZOzSyzN00UpGyabuAQfLOyx8PYM=;
- b=nPKD+OV253uEPNUAN13t6FPcHHEDKvgu0IWEAw3S0xQUOKOAm2F6l+tNoC9btIE6iO
- 3gTNgRMpZFfcHI684c9S9vyo30LXR78MJGwG0YL40WgyR733UP4eCmLtQh24l/EmK5Gd
- jjyaqPY5yJH1EFtbZ+IOl89EiXBMys1RJ6GcpeYMdS+VO+waFQMvIoDj7uPrZw650v/E
- LKB2+C5d5+gMJc291tpa18FbcIBaEIyaTYkfvdtN3r8esRnW1nF0bWutVKtVGhGP41t5
- JF7CfgkFbyfvm5GjTe2PWIku/COLdp63MDd9nV74Gx7/di4WpycXseJVhPgf5C5oWzvc
- fmXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Sh50T1QuedbGY4H8ZOzSyzN00UpGyabuAQfLOyx8PYM=;
- b=bff0qjIKbBA7cV+Xur54TL+nFG42k7NgmwVEG3nahpyNd3AMl9+RHk0rWnySaeberc
- eoa8eTNI7ZwIjRoQ6UJR5IkBeOcbjaKNbkeZZDTnNFRA6al8QEIP1QMYRAj/dkOxtbkJ
- FKTHIotTCiyLIWM6i6e7qsg7oh8qVNM5aNOqKQGyzbD7sjbmuIIST6GBTR4KiimGMK+O
- qtjeHjR2SMCcOmmWX6urvjwT9dy/GtJsNB2fK5MnXyNUAqdA0NdwJYeJaU7wf6Tknhn8
- EdFN53GvUs7qQz5r0wbFF2BXPtKEk2DIxYBjGmEIMv1a4l7RkJiINu2xPJ0xmDm+0Ouh
- 9JGQ==
-X-Gm-Message-State: AOAM533aFeMb48EixLDFrNC0YGaiRMqnq2S1JkWSuw1n8WVoUzPYaxZ+
- xTm+I/GAGf/v6LZ8IyTny3fJHFXT/i53WuwteF7WPg==
-X-Google-Smtp-Source: ABdhPJySjZK5i8RmbIHiyr3C/lO0HkA29YM59O7apL80ziLWcoIVibYPzg752vHSRG/A64q9GVM55eg9kl0jdvRdkL0=
-X-Received: by 2002:a2e:5805:: with SMTP id m5mr117060ljb.77.1612992402709;
- Wed, 10 Feb 2021 13:26:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pascal.scholz@tu-dresden.de>)
+ id 1l9vhY-0007fJ-1W; Wed, 10 Feb 2021 15:03:04 -0500
+Received: from mailout5.zih.tu-dresden.de ([141.30.67.74]:50849)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pascal.scholz@tu-dresden.de>)
+ id 1l9vhR-0001zZ-HW; Wed, 10 Feb 2021 15:03:03 -0500
+Received: from [172.26.34.105] (helo=msx.tu-dresden.de)
+ by mailout5.zih.tu-dresden.de with esmtps (TLSv1.2:AES256-SHA256:256)
+ (Exim 4.84_2) (envelope-from <pascal.scholz@tu-dresden.de>)
+ id 1l9vhP-0001FX-KC; Wed, 10 Feb 2021 21:02:55 +0100
+Received: from [192.168.178.29] (79.249.183.98) by
+ MSX-L105.msx.ad.zih.tu-dresden.de (172.26.34.105) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 10 Feb 2021 21:02:48 +0100
+Subject: Re: Emulating sd card with hifive_u risc-v machine
+To: Alistair Francis <alistair23@gmail.com>, Pascal Scholz
+ <s6899329@msx.tu-dresden.de>
+References: <d2511f50-8b72-8a3b-9127-75b3ed98c584@msx.tu-dresden.de>
+ <CAKmqyKOVvaVV-WHhm7dwWyO9zSomvTRA5bXJjf=4aRqqjD96rg@mail.gmail.com>
+From: Pascal Scholz <pascal.scholz@tu-dresden.de>
+Date: Wed, 10 Feb 2021 21:02:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210129005845.416272-1-wuhaotsh@google.com>
- <CAFEAcA-nx02EKVZLRxDYyY6uY4jyZ5ag3uk_Cak8zZqTuF32tg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-nx02EKVZLRxDYyY6uY4jyZ5ag3uk_Cak8zZqTuF32tg@mail.gmail.com>
-From: Hao Wu <wuhaotsh@google.com>
-Date: Wed, 10 Feb 2021 13:26:30 -0800
-Message-ID: <CAGcCb101mQGaGw3h2e8t=+uYfb8fw+gUezSi55nnr1-8886=eg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] hw/i2c: Add NPCM7XX SMBus Device
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- CS20 KFTing <kfting@nuvoton.com>, 
- Havard Skinnemoen <hskinnemoen@google.com>,
- Patrick Venture <venture@google.com>, Doug Evans <dje@google.com>, 
- Corey Minyard <cminyard@mvista.com>
-Content-Type: multipart/alternative; boundary="00000000000030bf9005bb020f63"
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=wuhaotsh@google.com; helo=mail-lj1-x233.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAKmqyKOVvaVV-WHhm7dwWyO9zSomvTRA5bXJjf=4aRqqjD96rg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: MSX-L104.msx.ad.zih.tu-dresden.de (172.26.34.104) To
+ MSX-L105.msx.ad.zih.tu-dresden.de (172.26.34.105)
+X-PMWin-Version: 4.0.4, Antispam-Engine: 2.7.2, Antispam-Data:
+ 2021.2.10.193916, Antivirus-Engine: 3.79.0, Antivirus-Data: 5.81
+X-PMWin-Spam: Gauge=XXIIIIIIIII, Probability=29, Report='__SUBJ_REPLY 0,
+ __BOUNCE_CHALLENGE_SUBJ 0, __BOUNCE_NDR_SUBJ_EXEMPT 0, __SUBJ_ALPHA_END 0,
+ __TO_MALFORMED_2 0, __MULTIPLE_RCPTS_TO_X2 0, __TO_NAME 0,
+ __TO_NAME_DIFF_FROM_ACC 0, __HAS_CC_HDR 0, __MULTIPLE_RCPTS_CC_X2 0,
+ __CC_NAME 0, __CC_NAME_DIFF_FROM_ACC 0, __HAS_REFERENCES 0, __REFERENCES 0,
+ __HAS_FROM 0, __HAS_MSGID 0, __SANE_MSGID 0, __USER_AGENT 0,
+ __MOZILLA_USER_AGENT 0, __MIME_VERSION 0, __IN_REP_TO 0, __CT 0,
+ __CT_TEXT_PLAIN 0, __CTE 0, __URI_HAS_HYPHEN_USC 0, __ANY_URI 0, __URI_MAILTO
+ 0, __HTTPS_URI 0, __URI_WITH_PATH 0, __URI_ENDS_IN_SLASH 0,
+ __FRAUD_BODY_WEBMAIL 0, __CP_MEDIA_BODY 0, __CP_URI_IN_BODY 0, ECARD_WORD 0,
+ __SUBJ_ALPHA_NEGATE 0, __MULTIPLE_URI_TEXT 0, __URI_IN_BODY 0, __URI_NOT_IMG
+ 0, __MAIL_CHAIN 0, __FORWARDED_MSG 0, __BODY_NO_MAILTO 0, __NO_HTML_TAG_RAW
+ 0, BODYTEXTP_SIZE_3000_LESS 0, BODY_SIZE_2000_2999 0, __MIME_TEXT_P1 0,
+ __MIME_TEXT_ONLY 0, __RDNS_POOLED_10 0, __URI_NS 0, SXL_IP_DYNAMIC 3,
+ HTML_00_01 0.05, HTML_00_10 0.05, MULTIPLE_RCPTS 0.1, __TO_REAL_NAMES 0,
+ __CC_REAL_NAMES 0, MULTIPLE_REAL_RCPTS 0, IN_REP_TO 0, MSG_THREAD 0,
+ BODY_SIZE_5000_LESS 0, RDNS_POOLED 0, RDNS_SUSP_SPECIFIC 0, RDNS_SUSP 0,
+ __FRAUD_WEBMAIL 0, REFERENCES 0, LEGITIMATE_SIGNS 0, __MIME_TEXT_P 0,
+ __DQ_NEG_IP 0, BODY_SIZE_7000_LESS 0, SENDER_NO_AUTH 0, URI_WITH_PATH_ONLY 0, 
+ __DQ_NEG_HEUR 0'
+X-PMWin-SpamScore: 29
+Message-ID: <91d3712d74d3443397af042388b78865@MSX-L105.msx.ad.zih.tu-dresden.de>
+X-TUD-Virus-Scanned: mailout5.zih.tu-dresden.de
+X-TUD-Spam-Mout: yes
+Received-SPF: none client-ip=141.30.67.74;
+ envelope-from=pascal.scholz@tu-dresden.de; helo=mailout5.zih.tu-dresden.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
+ NICE_REPLY_A=-0.211, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 10 Feb 2021 16:45:50 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,109 +87,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000030bf9005bb020f63
-Content-Type: text/plain; charset="UTF-8"
+Hi Alistair,
 
-Thanks. I'll take patch 1 out of the next version.
+thanks for your quick and helpful reply. :)
 
-On Mon, Feb 8, 2021 at 9:01 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+I'll see, if I can try them out on the weekend and will report my results.
 
-> On Fri, 29 Jan 2021 at 01:04, Hao Wu <wuhaotsh@google.com> wrote:
-> >
-> > This patch set implements the System manager bus (SMBus) module in
-> NPCM7XX
-> > SoC. Basically, it emulates the data transactions of the module, not the
-> > SDA/SCL levels. We have also added a QTest which contains read and write
-> > operations for both single-byte and FIFO mode, and added basic I2C
-> devices
-> > for npcm750-evb and quanta-gsj boards.
-> >
-> > We also cleaned up the unimplemented GPIO devices in npcm7xx.c since they
-> > are already implemented.
-> >
-> > Changes since v1:
-> > - Fix errors for i2c device addresses for temperature sensors in GSJ
-> machine
-> > - Use at24c device to emulate GSJ EEPROM. It supports more than 256
-> bytes.
-> > - Fill in VMState in npcm7xx_smbus.c
-> > - Change commit message in patch 3 and 4
-> > - Fix order in npcm7xx.c IRQ list
-> > - Add a few extra comments to make things clearer
-> >
-> > Hao Wu (6):
-> >   hw/arm: Remove GPIO from unimplemented NPCM7XX
-> >   hw/i2c: Implement NPCM7XX SMBus Module Single Mode
-> >   hw/arm: Add I2C sensors for NPCM750 eval board
-> >   hw/arm: Add I2C sensors and EEPROM for GSJ machine
-> >   hw/i2c: Add a QTest for NPCM7XX SMBus Device
-> >   hw/i2c: Implement NPCM7XX SMBus Module FIFO Mode
+Best regards and thanks again!
+
+Pascal
+
+On 08.02.21 23:49, Alistair Francis wrote:
+> On Mon, Feb 8, 2021 at 12:00 PM Pascal Scholz
+> <s6899329@msx.tu-dresden.de> wrote:
+>> Hi all,
+>>
+>> I'm hoping that I addressed the right mailing lists.
+> Hello Pascal,
 >
-> Hi; I'm going to apply patch 1 to target-arm.next because it's not
-> really related to the others in the series. For the rest, I left
-> a couple of review comments but they're pretty minor.
+> Yep, this is the right place :)
 >
-> thanks
-> -- PMM
+>> I'm working a bit with qemu's risc-v emulation. My current goal is to
+>> simulate a complete boot process for the SiFive Unleashed Board (SU 540
+>> SoC)[1]. I've created the correspondig OpenSBI and U-Boot images, being
+>> the -bios and the -kernel images. It's possible for me to boot up to the
+>> U-Boot prompt. From this prompt I now want to boot an system image
+>> located on an emulated sd card.
+>>
+>> However I now fail to get a working sd card within qemu for the device
+>> sifive_u. For example i tried the following command:
+>>
+>> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
+>> build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
+>> ../../u-boot/u-boot.bin -device sdhci-pci -device sd-card,drive=sdX
+>> -drive id=sdX,if=none,format=raw,file=path/to/image.elf
+>>
+>> This results in Qemu telling me: -device sdhci-pci: No 'PCI' bus found
+>> for device 'sdhci-pci'.
+>>
+>> Using the machine "virt" the command above works.
+>>
+>> The thing i tried was:
+>>
+>> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
+>> opensbi/build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
+>> ../u-boot/u-boot.bin -sd path/to/image.elf
+>>
+>> Resulting in: machine type does not support if=sd,bus=0,unit=0
+>>
+>>
+>> Even if the machine gets stuck at some point when booting, Qemu has no
+>> problem starting the VM if I use "-M virt" instead of "-M sifive_u". At
+>> this point i think, that the machine "sifive_u" doesn't support sd
+>> cards? Is this guess right or is there anything left I can try? After
+> Correct. There is no SD card support for the SiFive U in QEMU.
 >
-
---00000000000030bf9005bb020f63
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thanks. I&#39;ll take patch 1 out of the next version.</di=
-v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On M=
-on, Feb 8, 2021 at 9:01 AM Peter Maydell &lt;<a href=3D"mailto:peter.maydel=
-l@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">On Fri, 29 Jan 2021 at 01:04, Hao Wu =
-&lt;<a href=3D"mailto:wuhaotsh@google.com" target=3D"_blank">wuhaotsh@googl=
-e.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This patch set implements the System manager bus (SMBus) module in NPC=
-M7XX<br>
-&gt; SoC. Basically, it emulates the data transactions of the module, not t=
-he<br>
-&gt; SDA/SCL levels. We have also added a QTest which contains read and wri=
-te<br>
-&gt; operations for both single-byte and FIFO mode, and added basic I2C dev=
-ices<br>
-&gt; for npcm750-evb and quanta-gsj boards.<br>
-&gt;<br>
-&gt; We also cleaned up the unimplemented GPIO devices in npcm7xx.c since t=
-hey<br>
-&gt; are already implemented.<br>
-&gt;<br>
-&gt; Changes since v1:<br>
-&gt; - Fix errors for i2c device addresses for temperature sensors in GSJ m=
-achine<br>
-&gt; - Use at24c device to emulate GSJ EEPROM. It supports more than 256 by=
-tes.<br>
-&gt; - Fill in VMState in npcm7xx_smbus.c<br>
-&gt; - Change commit message in patch 3 and 4<br>
-&gt; - Fix order in npcm7xx.c IRQ list<br>
-&gt; - Add a few extra comments to make things clearer<br>
-&gt;<br>
-&gt; Hao Wu (6):<br>
-&gt;=C2=A0 =C2=A0hw/arm: Remove GPIO from unimplemented NPCM7XX<br>
-&gt;=C2=A0 =C2=A0hw/i2c: Implement NPCM7XX SMBus Module Single Mode<br>
-&gt;=C2=A0 =C2=A0hw/arm: Add I2C sensors for NPCM750 eval board<br>
-&gt;=C2=A0 =C2=A0hw/arm: Add I2C sensors and EEPROM for GSJ machine<br>
-&gt;=C2=A0 =C2=A0hw/i2c: Add a QTest for NPCM7XX SMBus Device<br>
-&gt;=C2=A0 =C2=A0hw/i2c: Implement NPCM7XX SMBus Module FIFO Mode<br>
-<br>
-Hi; I&#39;m going to apply patch 1 to target-arm.next because it&#39;s not<=
-br>
-really related to the others in the series. For the rest, I left<br>
-a couple of review comments but they&#39;re pretty minor.<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div>
-
---00000000000030bf9005bb020f63--
+> You actually just reminded me though that someone has sent patches to
+> add support and I need to review them.
+>
+> You can find the patches here:
+> https://patchew.org/QEMU/20210126060007.12904-1-bmeng.cn@gmail.com/
+> which should work when applied to QEMU.
+>
+> If you do get a chance to test the patches it would be great if you
+> can let me know what works/doesn't work for you.
+>
+> Alistair
+>
+>> all I'm a bit confused, because there seems to be a block device "sd0"
+>> when I try to start the machine "sifive_u" without any additional
+>> device/drive arguments. I would really appreciate if someone would tell
+>> me, what I'm doing wrong.
+>>
+>> Thanks in advance and stay healthy!
+>>
+>> Best regards
+>>
+>> Pascal
+>>
+>>
+>> [1] https://www.sifive.com/boards/hifive-unleashed
+>>
+>>
 
