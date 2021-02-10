@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A88316C01
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:03:06 +0100 (CET)
-Received: from localhost ([::1]:57212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF13316C0B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 18:05:52 +0100 (CET)
+Received: from localhost ([::1]:37444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9stN-0002pz-S4
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:03:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42348)
+	id 1l9sw2-0007VW-FD
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 12:05:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYQ-0007IV-4l
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44003)
+ id 1l9sYW-0007LE-BE
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYJ-0008U6-23
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:24 -0500
+ id 1l9sYO-0008VE-53
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612975275;
+ s=mimecast20190719; t=1612975280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j+AV2GFi+kjWFIUo+RE5H3HntnGgd3kq3702cA43x6g=;
- b=JTHBCHNlvNTN+TDxUSkqUzkcqg7Eq8AHXqUE0ySCFoYdW01h2PDtbXOaSt+Um3t09Q+Fv9
- /vhM96kNXd/vE77yfSpFovNXhvEEDk83dmErSHGvT3fAZyig32Chq6IMtSfEeIzuEMlZ9W
- E1++TQghZbf69lJvjcJOflrhgJCErPM=
+ bh=gCzFwz5A2M5u86vlKhF3IJuBm7ZN0Qaa9eC8NVbtT9g=;
+ b=P2QjyiGZlZlYkI4NIFa6iYp5xVlFzBY5xG2GIzuxfwCAaWAlS+kqviKsge5wlaBtW7Trkg
+ A1NiDEJzSnbCBeeZuRutKuQx9xsrrZ+DI2fkxpCedtfouiJBn9QYTipK0YHQopuHo4AusX
+ 3YmfNJTDqfAaxH4UvpXXjA2eU7ynW7M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-ImeZkCV5Pg2G1Is0yVc_rQ-1; Wed, 10 Feb 2021 11:41:14 -0500
-X-MC-Unique: ImeZkCV5Pg2G1Is0yVc_rQ-1
+ us-mta-472-MgYUTyygOf2GHhTmjWx3Ng-1; Wed, 10 Feb 2021 11:41:19 -0500
+X-MC-Unique: MgYUTyygOf2GHhTmjWx3Ng-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FCA11936B65
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 448699127C
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:18 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.195.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D83975D9D0;
- Wed, 10 Feb 2021 16:41:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF2BD5D9D0;
+ Wed, 10 Feb 2021 16:41:16 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v4 14/21] i386: use global kvm_state in hyperv_enabled() check
-Date: Wed, 10 Feb 2021 17:40:26 +0100
-Message-Id: <20210210164033.607612-15-vkuznets@redhat.com>
+Subject: [PATCH v4 17/21] i386: support 'hv-passthrough,
+ hv-feature=off' on the command line
+Date: Wed, 10 Feb 2021 17:40:29 +0100
+Message-Id: <20210210164033.607612-18-vkuznets@redhat.com>
 In-Reply-To: <20210210164033.607612-1-vkuznets@redhat.com>
 References: <20210210164033.607612-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -84,29 +85,90 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no need to use vCPU-specific kvm state in hyperv_enabled() check
-and we need to do that when feature expansion happens early, before vCPU
-specific KVM state is created.
+Currently, we support 'hv-passthrough,hv-feature=on' enablement, this
+is supposed to mean "hv-feature is mandatory, don't start without it". Add
+support for 'hv-passthrough,hv-feature=off' meaning "enable everything
+supported by the host except for hv-feature".
+
+While on it, make 'hv-passthrough' parse semantics in-line with other
+options in qemu: when specified, it overrides what was previously set with
+what's supported by the host. This can later be modified with 'hv-feature=on'/
+'hv-feature=off'.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/kvm/kvm.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/i386/cpu.c     | 28 +++++++++++++++++++++++++++-
+ target/i386/kvm/kvm.c |  4 ++++
+ 2 files changed, 31 insertions(+), 1 deletion(-)
 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index e8a004c39d04..f8df2caed779 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4725,6 +4725,29 @@ static void x86_hv_stimer_direct_set(Object *obj, bool value, Error **errp)
+     x86_hv_feature_set(obj, value, HYPERV_FEAT_STIMER_DIRECT);
+ }
+ 
++static bool x86_hv_passthrough_get(Object *obj, Error **errp)
++{
++    X86CPU *cpu = X86_CPU(obj);
++
++    return cpu->hyperv_passthrough;
++}
++
++static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
++{
++    X86CPU *cpu = X86_CPU(obj);
++
++    cpu->hyperv_passthrough = value;
++
++    /* hv-passthrough overrides everything with what's supported by the host */
++    if (value) {
++        cpu->hyperv_features = 0;
++        cpu->hyperv_features_on = 0;
++        cpu->hyperv_features_off = 0;
++    }
++
++    return;
++}
++
+ /* Generic getter for "feature-words" and "filtered-features" properties */
+ static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
+                                       const char *name, void *opaque,
+@@ -7281,7 +7304,6 @@ static Property x86_cpu_properties[] = {
+                        HYPERV_SPINLOCK_NEVER_NOTIFY),
+     DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
+                             hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
+-    DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
+ 
+     DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
+     DEFINE_PROP_BOOL("enforce", X86CPU, enforce_cpuid, false),
+@@ -7460,6 +7482,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+                                    x86_hv_stimer_direct_get,
+                                    x86_hv_stimer_direct_set);
+ 
++    object_class_property_add_bool(oc, "hv-passthrough",
++                                   x86_hv_passthrough_get,
++                                   x86_hv_passthrough_set);
++
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         int bitnr;
+         for (bitnr = 0; bitnr < 64; bitnr++) {
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 48484592fc03..47fc564747a3 100644
+index 30013f0d7cee..fca088d4d3b5 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -714,8 +714,7 @@ unsigned long kvm_arch_vcpu_id(CPUState *cs)
+@@ -1153,6 +1153,10 @@ static int hv_cpuid_check_and_set(CPUState *cs, int feature, Error **errp)
+         return 0;
+     }
  
- static bool hyperv_enabled(X86CPU *cpu)
- {
--    CPUState *cs = CPU(cpu);
--    return kvm_check_extension(cs->kvm_state, KVM_CAP_HYPERV) > 0 &&
-+    return kvm_check_extension(kvm_state, KVM_CAP_HYPERV) > 0 &&
-         ((cpu->hyperv_spinlock_attempts != HYPERV_SPINLOCK_NEVER_NOTIFY) ||
-          cpu->hyperv_features || cpu->hyperv_passthrough);
- }
++    if (cpu->hyperv_passthrough && (cpu->hyperv_features_off & BIT(feature))) {
++        return 0;
++    }
++
+     deps = kvm_hyperv_properties[feature].dependencies;
+     while (deps) {
+         dep_feat = ctz64(deps);
 -- 
 2.29.2
 
