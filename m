@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB61315F80
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:33:06 +0100 (CET)
-Received: from localhost ([::1]:48084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A37315F7E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:31:37 +0100 (CET)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9j3h-0001oE-3w
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:33:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
+	id 1l9j2G-0007Z1-HK
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:31:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ip7-0001ds-Pr; Wed, 10 Feb 2021 01:18:01 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41209 helo=ozlabs.org)
+ id 1l9ipT-0002LI-Rz; Wed, 10 Feb 2021 01:18:23 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:49725 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ip3-0000MJ-S1; Wed, 10 Feb 2021 01:18:00 -0500
+ id 1l9ipR-0000Ph-Ph; Wed, 10 Feb 2021 01:18:23 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Db8gn02CZz9sW8; Wed, 10 Feb 2021 17:17:40 +1100 (AEDT)
+ id 4Db8gn4HY6z9sWC; Wed, 10 Feb 2021 17:17:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1612937861;
- bh=oocNU8v789oYIS9SmO92zGwaC6D9a+0uYy6mMHD9CgU=;
+ bh=YFmNTTNma9//FHVJBREgqMfejrkYKFN1Rpke611iBfc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WERd2x4SvvhoGyBtI4/xvyt1gwwDKPJ3v+nE4ZY3eZzw0HIS1goMQDoZTktYepy48
- K5xNoKwUiMnEAfEmPNXgts+IBmheVO6+5oi+1fRBuUs3qBSo9bIACubFVd+Bs/OTUB
- dI9qLJSGYm9qpwv1LNaeLvnYtAKqtFiHbjDlbKsg=
+ b=JiNut4kejFC8bZVbzq+LPvOthdEQ7tj0R2QTni+lpXFqc3T1KQ2ArVRsGJ9QpKUSO
+ N/+4UDNujuKt+XMU8QS0n3L2qbGqLS7Kta7rG+/UI38JJoKh4Lph46pynVd+QbonEJ
+ 5Ve5XYC5XtXsyW6R885R+2JGy/EZiBgrG3AQsM6c=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 11/19] ppc/pnv: Introduce a LPC FW memory region attribute to
- map the PNOR
-Date: Wed, 10 Feb 2021 17:17:27 +1100
-Message-Id: <20210210061735.304384-12-david@gibson.dropbear.id.au>
+Subject: [PULL 13/19] spapr_numa.c: create spapr_numa_initial_nvgpu_numa_id()
+ helper
+Date: Wed, 10 Feb 2021 17:17:29 +1100
+Message-Id: <20210210061735.304384-14-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210210061735.304384-1-david@gibson.dropbear.id.au>
 References: <20210210061735.304384-1-david@gibson.dropbear.id.au>
@@ -59,106 +59,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-This to map the PNOR from the machine init handler directly and finish
-the cleanup of the LPC model.
+We'll need to check the initial value given to spapr->gpu_numa_id when
+building the rtas DT, so put it in a helper for easier access and to
+avoid repetition.
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210126171059.307867-8-clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Tested-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20210128174213.1349181-3-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c         | 11 +++++++++++
- hw/ppc/pnv_lpc.c     |  7 -------
- include/hw/ppc/pnv.h |  1 +
- 3 files changed, 12 insertions(+), 7 deletions(-)
+ hw/ppc/spapr.c              | 11 +----------
+ hw/ppc/spapr_numa.c         | 14 ++++++++++++++
+ include/hw/ppc/spapr_numa.h |  1 +
+ 3 files changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index e500c2e243..50810df838 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -871,6 +871,14 @@ static void pnv_init(MachineState *machine)
-         pnv_ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 8a1a979257..85fe65f894 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2770,16 +2770,7 @@ static void spapr_machine_init(MachineState *machine)
+ 
      }
  
-+    /*
-+     * The PNOR is mapped on the LPC FW address space by the BMC.
-+     * Since we can not reach the remote BMC machine with LPC memops,
-+     * map it always for now.
-+     */
-+    memory_region_add_subregion(pnv->chips[0]->fw_mr, PNOR_SPI_OFFSET,
-+                                &pnv->pnor->mmio);
-+
-     /*
-      * OpenPOWER systems use a IPMI SEL Event message to notify the
-      * host to powerdown
-@@ -1150,6 +1158,7 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
-     qdev_realize(DEVICE(&chip8->lpc), NULL, &error_fatal);
-     pnv_xscom_add_subregion(chip, PNV_XSCOM_LPC_BASE, &chip8->lpc.xscom_regs);
- 
-+    chip->fw_mr = &chip8->lpc.isa_fw;
-     chip->dt_isa_nodename = g_strdup_printf("/xscom@%" PRIx64 "/isa@%x",
-                                             (uint64_t) PNV_XSCOM_BASE(chip),
-                                             PNV_XSCOM_LPC_BASE);
-@@ -1479,6 +1488,7 @@ static void pnv_chip_power9_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(get_system_memory(), PNV9_LPCM_BASE(chip),
-                                 &chip9->lpc.xscom_regs);
- 
-+    chip->fw_mr = &chip9->lpc.isa_fw;
-     chip->dt_isa_nodename = g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc@0",
-                                             (uint64_t) PNV9_LPCM_BASE(chip));
- 
-@@ -1592,6 +1602,7 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(get_system_memory(), PNV10_LPCM_BASE(chip),
-                                 &chip10->lpc.xscom_regs);
- 
-+    chip->fw_mr = &chip10->lpc.isa_fw;
-     chip->dt_isa_nodename = g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc@0",
-                                             (uint64_t) PNV10_LPCM_BASE(chip));
- }
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index 11739e397b..bcbca3db97 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
-@@ -824,7 +824,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bool use_cpld, Error **errp)
-     ISABus *isa_bus;
-     qemu_irq *irqs;
-     qemu_irq_handler handler;
--    PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
- 
-     /* let isa_bus_new() create its own bridge on SysBus otherwise
-      * devices specified on the command line won't find the bus and
-@@ -850,11 +849,5 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bool use_cpld, Error **errp)
- 
-     isa_bus_irqs(isa_bus, irqs);
- 
 -    /*
--     * TODO: Map PNOR on the LPC FW address space on demand ?
+-     * NVLink2-connected GPU RAM needs to be placed on a separate NUMA node.
+-     * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() which is
+-     * called from vPHB reset handler so we initialize the counter here.
+-     * If no NUMA is configured from the QEMU side, we start from 1 as GPU RAM
+-     * must be equally distant from any other node.
+-     * The final value of spapr->gpu_numa_id is going to be written to
+-     * max-associativity-domains in spapr_build_fdt().
 -     */
--    memory_region_add_subregion(&lpc->isa_fw, PNOR_SPI_OFFSET,
--                                &pnv->pnor->mmio);
--
-     return isa_bus;
+-    spapr->gpu_numa_id = MAX(1, machine->numa_state->num_nodes);
++    spapr->gpu_numa_id = spapr_numa_initial_nvgpu_numa_id(machine);
+ 
+     /* Init numa_assoc_array */
+     spapr_numa_associativity_init(spapr, machine);
+diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+index 261810525b..a757dd88b8 100644
+--- a/hw/ppc/spapr_numa.c
++++ b/hw/ppc/spapr_numa.c
+@@ -46,6 +46,20 @@ static bool spapr_numa_is_symmetrical(MachineState *ms)
+     return true;
  }
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index ee7eda3e01..d69cee17b2 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -58,6 +58,7 @@ struct PnvChip {
-     MemoryRegion xscom;
-     AddressSpace xscom_as;
  
-+    MemoryRegion *fw_mr;
-     gchar        *dt_isa_nodename;
- };
++/*
++ * NVLink2-connected GPU RAM needs to be placed on a separate NUMA node.
++ * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() which is
++ * called from vPHB reset handler so we initialize the counter here.
++ * If no NUMA is configured from the QEMU side, we start from 1 as GPU RAM
++ * must be equally distant from any other node.
++ * The final value of spapr->gpu_numa_id is going to be written to
++ * max-associativity-domains in spapr_build_fdt().
++ */
++unsigned int spapr_numa_initial_nvgpu_numa_id(MachineState *machine)
++{
++    return MAX(1, machine->numa_state->num_nodes);
++}
++
+ /*
+  * This function will translate the user distances into
+  * what the kernel understand as possible values: 10
+diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+index b3fd950634..6f9f02d3de 100644
+--- a/include/hw/ppc/spapr_numa.h
++++ b/include/hw/ppc/spapr_numa.h
+@@ -31,5 +31,6 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
+                             int offset, PowerPCCPU *cpu);
+ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
+                                          int offset);
++unsigned int spapr_numa_initial_nvgpu_numa_id(MachineState *machine);
  
+ #endif /* HW_SPAPR_NUMA_H */
 -- 
 2.29.2
 
