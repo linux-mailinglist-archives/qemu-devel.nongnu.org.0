@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBE0315F74
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:27:43 +0100 (CET)
-Received: from localhost ([::1]:33582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E907A315F7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 07:31:59 +0100 (CET)
+Received: from localhost ([::1]:43710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9iyU-0003kQ-78
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:27:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43510)
+	id 1l9j2c-0008Eo-V9
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 01:31:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ipA-0001l3-AX; Wed, 10 Feb 2021 01:18:04 -0500
-Received: from ozlabs.org ([203.11.71.1]:52825)
+ id 1l9ip7-0001eF-G7; Wed, 10 Feb 2021 01:18:02 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60621 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l9ip8-0000Qs-H6; Wed, 10 Feb 2021 01:18:04 -0500
+ id 1l9ip3-0000MG-QG; Wed, 10 Feb 2021 01:18:00 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Db8gp3Pcgz9sWP; Wed, 10 Feb 2021 17:17:42 +1100 (AEDT)
+ id 4Db8gm3hHjz9sB4; Wed, 10 Feb 2021 17:17:39 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1612937862;
- bh=YfNqpoUnUSQa9/sDt7KSWQ3U9HQOK7taymc4K1iA2qw=;
+ d=gibson.dropbear.id.au; s=201602; t=1612937860;
+ bh=UTUKuhobskUzKV6ia2euB5gyH/7mfxDG4U4Uk76xHas=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=blLTf1DqiQoGRGiYBdB0g0RWnK16qtm1AfGDyQo6dU7Y3KeBCTlrfZTFjSpRk9OmZ
- dVcAcSrPsyZQyelfknT711TGU02geaGeQ5jgHAVC0vvBgC6IfKd0+dAx5mroPH/8cH
- 7lCfiHmcQWexBFiVeKffH2Qiavwv+fP4S0f64AIU=
+ b=budA8wwbHo+2Xi9EoIv3d/77MvSzouo2ko4aq6kCpAS62S2ybx4n6hgGzD7bo2Fb2
+ m3T7UX6Hb5t90r3tbn5W2duvZk4usK7XrNvsN2kQiz4/oVweRg8RMyHPyFJHFieYd5
+ hz4sL7Ik7PVDTQmnHcgY3al5Hf6VlUhrP0x1sMHM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 16/19] hw/ppc: e500: Use a macro for the platform clock
- frequency
-Date: Wed, 10 Feb 2021 17:17:32 +1100
-Message-Id: <20210210061735.304384-17-david@gibson.dropbear.id.au>
+Subject: [PULL 09/19] ppc/pnv: Discard internal BMC initialization when BMC is
+ external
+Date: Wed, 10 Feb 2021 17:17:25 +1100
+Message-Id: <20210210061735.304384-10-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210210061735.304384-1-david@gibson.dropbear.id.au>
 References: <20210210061735.304384-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,59 +59,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-At present the platform clock frequency is using a magic number.
-Convert it to a macro and use it everywhere.
+The PowerNV machine can be run with an external IPMI BMC device
+connected to a remote QEMU machine acting as BMC, using these options :
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+  -chardev socket,id=ipmi0,host=localhost,port=9002,reconnect=10 \
+  -device ipmi-bmc-extern,id=bmc0,chardev=ipmi0 \
+  -device isa-ipmi-bt,bmc=bmc0,irq=10 \
+  -nodefaults
 
-Message-Id: <1612362288-22216-1-git-send-email-bmeng.cn@gmail.com>
+In that case, some aspects of the BMC initialization should be
+skipped, since they rely on the simulator interface.
+
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20210126171059.307867-6-clg@kaod.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/e500.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/ppc/pnv_bmc.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index c64b5d08bd..c795276668 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -74,6 +74,8 @@
- #define MPC8544_I2C_IRQ            43
- #define RTC_REGS_OFFSET            0x68
+diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+index 86d16b4935..b9bf5735ea 100644
+--- a/hw/ppc/pnv_bmc.c
++++ b/hw/ppc/pnv_bmc.c
+@@ -51,6 +51,11 @@ typedef struct OemSel {
+ #define SOFT_OFF        0x00
+ #define SOFT_REBOOT     0x01
  
-+#define PLATFORM_CLK_FREQ_HZ       (400 * 1000 * 1000)
++static bool pnv_bmc_is_simulator(IPMIBmc *bmc)
++{
++    return object_dynamic_cast(OBJECT(bmc), TYPE_IPMI_BMC_SIMULATOR);
++}
 +
- struct boot_info
+ static void pnv_gen_oem_sel(IPMIBmc *bmc, uint8_t reboot)
  {
-     uint32_t dt_base;
-@@ -320,8 +322,8 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
-     int fdt_size;
-     void *fdt;
-     uint8_t hypercall[16];
--    uint32_t clock_freq = 400000000;
--    uint32_t tb_freq = 400000000;
-+    uint32_t clock_freq = PLATFORM_CLK_FREQ_HZ;
-+    uint32_t tb_freq = PLATFORM_CLK_FREQ_HZ;
-     int i;
-     char compatible_sb[] = "fsl,mpc8544-immr\0simple-bus";
-     char *soc;
-@@ -890,7 +892,7 @@ void ppce500_init(MachineState *machine)
-         env->spr_cb[SPR_BOOKE_PIR].default_value = cs->cpu_index = i;
-         env->mpic_iack = pmc->ccsrbar_base + MPC8544_MPIC_REGS_OFFSET + 0xa0;
+     /* IPMI SEL Event are 16 bytes long */
+@@ -79,6 +84,10 @@ void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt)
+     const struct ipmi_sdr_compact *sdr;
+     uint16_t nextrec;
  
--        ppc_booke_timers_init(cpu, 400000000, PPC_TIMER_E500);
-+        ppc_booke_timers_init(cpu, PLATFORM_CLK_FREQ_HZ, PPC_TIMER_E500);
++    if (!pnv_bmc_is_simulator(bmc)) {
++        return;
++    }
++
+     offset = fdt_add_subnode(fdt, 0, "bmc");
+     _FDT(offset);
  
-         /* Register reset handler */
-         if (!i) {
+@@ -243,6 +252,10 @@ static const IPMINetfn hiomap_netfn = {
+ 
+ void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor)
+ {
++    if (!pnv_bmc_is_simulator(bmc)) {
++        return;
++    }
++
+     object_ref(OBJECT(pnor));
+     object_property_add_const_link(OBJECT(bmc), "pnor", OBJECT(pnor));
+ 
+@@ -286,7 +299,7 @@ static int bmc_find(Object *child, void *opaque)
+ 
+ IPMIBmc *pnv_bmc_find(Error **errp)
+ {
+-    ForeachArgs args = { TYPE_IPMI_BMC_SIMULATOR, NULL };
++    ForeachArgs args = { TYPE_IPMI_BMC, NULL };
+     int ret;
+ 
+     ret = object_child_foreach_recursive(object_get_root(), bmc_find, &args);
 -- 
 2.29.2
 
