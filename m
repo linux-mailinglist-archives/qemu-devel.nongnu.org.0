@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B117316BC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:52:30 +0100 (CET)
-Received: from localhost ([::1]:34524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBBA316BCF
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 17:54:50 +0100 (CET)
+Received: from localhost ([::1]:40144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9sj7-0000q4-9E
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:52:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42298)
+	id 1l9slN-0003HA-QB
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 11:54:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYF-0007GA-FL
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57607)
+ id 1l9sYR-0007If-Oj
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1l9sYD-0008TH-NN
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:15 -0500
+ id 1l9sYJ-0008UE-22
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 11:41:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612975273;
+ s=mimecast20190719; t=1612975277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w81onXbmpy2ZaOb2880BdziCRwKQuKadykFk94gHIII=;
- b=Hr2Bu9FmU00z3aC3SMNZ7QWZ3h3KBLuYgKbnPjkKc0K8Ln9Hij4q7MqokmC4EW/GAtOkj2
- 0M/IjPx666++L5ZfdjbN5IQUYeBYVUAdRrS80QYF8LFFFt1/qZyaUeIC8MvKay5cUs4U7m
- 0PZ2GuKNyirBSaAC35q7mCCMCjOGEWM=
+ bh=yaByhcodYuSE+UilLnVylwNvFqTJrI/ygDJgi0H0Yqw=;
+ b=h0la85YgOWDZliHLHLNlU2XkNIEhWWoeOwEtOhgAffPkPIx+YfocZgSfodvIDfc1osvLTe
+ dq0J069MhLuAgYQiAwVM+P04pJg7R39RpjV8HE5FO767dfIpoi3miiXQD7HsJd4p/jYbce
+ Tr3YTbooNspPzqd8u/1JdTFbYjLwFk4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-OW3VoD9OOvOftefSH43zFA-1; Wed, 10 Feb 2021 11:41:11 -0500
-X-MC-Unique: OW3VoD9OOvOftefSH43zFA-1
+ us-mta-421-3PrfofEuMnCNFMXdquTY5A-1; Wed, 10 Feb 2021 11:41:15 -0500
+X-MC-Unique: 3PrfofEuMnCNFMXdquTY5A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67887835E25
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81A4A107ACE6
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 16:41:14 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.195.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65B285D9D0;
- Wed, 10 Feb 2021 16:41:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB09B5D9D0;
+ Wed, 10 Feb 2021 16:41:12 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v4 13/21] i386: prefer system KVM_GET_SUPPORTED_HV_CPUID ioctl
- over vCPU's one
-Date: Wed, 10 Feb 2021 17:40:25 +0100
-Message-Id: <20210210164033.607612-14-vkuznets@redhat.com>
+Subject: [PATCH v4 15/21] i386: expand Hyper-V features during CPU feature
+ expansion time
+Date: Wed, 10 Feb 2021 17:40:27 +0100
+Message-Id: <20210210164033.607612-16-vkuznets@redhat.com>
 In-Reply-To: <20210210164033.607612-1-vkuznets@redhat.com>
 References: <20210210164033.607612-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -85,70 +85,102 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM_GET_SUPPORTED_HV_CPUID was made a system wide ioctl which can be called
-prior to creating vCPUs and we are going to use that to expand Hyper-V cpu
-features early. Use it when it is supported by KVM.
+To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
+need to expand and set the corresponding CPUID leaves early. Modify
+x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
+specific kvm_hv_get_supported_cpuid() instead of
+kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
+as Hyper-V specific CPUID leaves intersect with KVM's.
+
+Note, early expansion will only happen when KVM supports system wide
+KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/kvm/kvm.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ target/i386/cpu.c          |  4 ++++
+ target/i386/kvm/kvm-stub.c |  5 +++++
+ target/i386/kvm/kvm.c      | 15 ++++++++++++---
+ target/i386/kvm/kvm_i386.h |  1 +
+ 4 files changed, 22 insertions(+), 3 deletions(-)
 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index f0f826997ba0..c4e8863c7ca0 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6396,6 +6396,10 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+     if (env->cpuid_xlevel2 == UINT32_MAX) {
+         env->cpuid_xlevel2 = env->cpuid_min_xlevel2;
+     }
++
++    if (kvm_enabled()) {
++        kvm_hyperv_expand_features(cpu, errp);
++    }
+ }
+ 
+ /*
+diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
+index 92f49121b8fa..7f175faa3abd 100644
+--- a/target/i386/kvm/kvm-stub.c
++++ b/target/i386/kvm/kvm-stub.c
+@@ -39,3 +39,8 @@ bool kvm_hv_vpindex_settable(void)
+ {
+     return false;
+ }
++
++void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
++{
++    return;
++}
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index f4edfbb10879..48484592fc03 100644
+index 47fc564747a3..30013f0d7cee 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -927,7 +927,8 @@ static struct {
-     },
- };
- 
--static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
-+static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max,
-+                                           bool do_sys_ioctl)
+@@ -1215,13 +1215,22 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
+  * of 'hv_passthrough' mode and fills the environment with all supported
+  * Hyper-V features.
+  */
+-static void hyperv_expand_features(CPUState *cs, Error **errp)
++void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
  {
-     struct kvm_cpuid2 *cpuid;
-     int r, size;
-@@ -936,7 +937,11 @@ static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
-     cpuid = g_malloc0(size);
-     cpuid->nent = max;
+-    X86CPU *cpu = X86_CPU(cs);
++    CPUState *cs = CPU(cpu);
  
--    r = kvm_vcpu_ioctl(cs, KVM_GET_SUPPORTED_HV_CPUID, cpuid);
-+    if (do_sys_ioctl) {
-+        r = kvm_ioctl(kvm_state, KVM_GET_SUPPORTED_HV_CPUID, cpuid);
-+    } else {
-+        r = kvm_vcpu_ioctl(cs, KVM_GET_SUPPORTED_HV_CPUID, cpuid);
-+    }
-     if (r == 0 && cpuid->nent >= max) {
-         r = -E2BIG;
-     }
-@@ -963,13 +968,17 @@ static struct kvm_cpuid2 *get_supported_hv_cpuid(CPUState *cs)
-     /* 0x40000000..0x40000005, 0x4000000A, 0x40000080..0x40000080 leaves */
-     int max = 10;
-     int i;
-+    bool do_sys_ioctl;
+     if (!hyperv_enabled(cpu))
+         return;
+ 
++    /*
++     * When kvm_hyperv_expand_features is called at CPU feature expansion
++     * time per-CPU kvm_state is not available yet so we can only proceed
++     * when KVM_CAP_SYS_HYPERV_CPUID is supported.
++     */
++    if (!cs->kvm_state &&
++        !kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID))
++        return;
 +
-+    do_sys_ioctl =
-+        kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID) > 0;
+     if (cpu->hyperv_passthrough) {
+         cpu->hyperv_vendor_id[0] =
+             hv_cpuid_get_host(cs, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_EBX);
+@@ -1554,7 +1563,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     env->apic_bus_freq = KVM_APIC_BUS_FREQUENCY;
  
-     /*
-      * When the buffer is too small, KVM_GET_SUPPORTED_HV_CPUID fails with
-      * -E2BIG, however, it doesn't report back the right size. Keep increasing
-      * it and re-trying until we succeed.
-      */
--    while ((cpuid = try_get_hv_cpuid(cs, max)) == NULL) {
-+    while ((cpuid = try_get_hv_cpuid(cs, max, do_sys_ioctl)) == NULL) {
-         max++;
-     }
+     /* Paravirtualization CPUIDs */
+-    hyperv_expand_features(cs, &local_err);
++    kvm_hyperv_expand_features(cpu, &local_err);
+     if (local_err) {
+         error_report_err(local_err);
+         return -ENOSYS;
+diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+index dc725083891c..f1176491051d 100644
+--- a/target/i386/kvm/kvm_i386.h
++++ b/target/i386/kvm/kvm_i386.h
+@@ -47,6 +47,7 @@ bool kvm_has_x2apic_api(void);
+ bool kvm_has_waitpkg(void);
  
-@@ -979,7 +988,7 @@ static struct kvm_cpuid2 *get_supported_hv_cpuid(CPUState *cs)
-      * information early, just check for the capability and set the bit
-      * manually.
-      */
--    if (kvm_check_extension(cs->kvm_state,
-+    if (!do_sys_ioctl && kvm_check_extension(cs->kvm_state,
-                             KVM_CAP_HYPERV_ENLIGHTENED_VMCS) > 0) {
-         for (i = 0; i < cpuid->nent; i++) {
-             if (cpuid->entries[i].function == HV_CPUID_ENLIGHTMENT_INFO) {
+ bool kvm_hv_vpindex_settable(void);
++void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
+ 
+ uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
+ 
 -- 
 2.29.2
 
