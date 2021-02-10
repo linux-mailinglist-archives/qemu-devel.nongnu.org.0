@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2212531734A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:26:35 +0100 (CET)
-Received: from localhost ([::1]:51312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5973B31734D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:27:51 +0100 (CET)
+Received: from localhost ([::1]:54380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9xwQ-0003Px-1M
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:26:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
+	id 1l9xxe-0004tT-De
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:27:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xqD-0006uu-Ax
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:09 -0500
-Received: from mail-wm1-f52.google.com ([209.85.128.52]:40094)
+ id 1l9xqW-000735-H1
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:28 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xqB-0006oP-Ci
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:09 -0500
-Received: by mail-wm1-f52.google.com with SMTP id o24so3309081wmh.5
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:20:06 -0800 (PST)
+ id 1l9xqL-0006ri-5N
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:28 -0500
+Received: by mail-wm1-x329.google.com with SMTP id o10so4637377wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:20:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=iIGttXBi7A2QRRl9A62rr2JtZ8SZ+5Uy9wRQiTVHIjk=;
+ b=sKjMSOEnpDuClrP+bjAn3ZKUE5pTIbg4O0ig9ut0qyqzW8ENyEJ2Iq0n6ML5abHcRI
+ B42UMT8yAnL1s9izqA94FnXo9hNC2W3FClVZ9xrlyz82ZM0rj+llr//1wqExICCmiyfd
+ GwCXNK58zYA40OAMbHXuw8yhpoy9AYu9KAizciIrlezLFnRa8xNtew6N+kwVZ5Oph81j
+ zrUvqvvSlErMt9P8/zj2VHrGcB6GmSwWMcWjGrfA6y4H0bAuHJkRbkpjoTIX79TiyXdn
+ YBZvSYmj7xyB+F2pJCIy/u/zO9UUtNq9HI7Slx9RVMvA8zvzQN4PB/veUGX+8aydJjZU
+ rjHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zi1c0Q20m9EGw/QfIztoiD94DW+qzR6K9/2yw9fZmXc=;
- b=ewm8sO4qgysB3SiXiFdi3RDZCc1SKRY82XXvucpiIIG3DBtMlJ9HkovrH/GZAwm5J6
- B5DO7w7mwh5a6DIUXWqjouooUZ62Op/Yf2xhWcq687A7lJf5DziSvP7ur/kSAyyeK0sR
- xsSOZSVme4dXyxVyBvsfcaG01BdmxYMXLAiRt12LqirHG/hQxJnXhfUNysnIyVcs+Ht7
- ug35PYszpnLCvdA7S/Z6a+5pk4gudXnnlluDG4G6a1Ps5A4bqN/BuSImBfqoBx7ycvVF
- yO15V/GACRWbX8T/bwCNGafoxaexpJotub+PASVUOiwDh1OV+whjaXoupUpW37phqdTo
- Dp0w==
-X-Gm-Message-State: AOAM532d9RIeAuajMropuHnWu60oZ69EJYw243brpoV4YL/l0GK9NAea
- tz34/C3jkzYZglo7MxVUlclkIg==
-X-Google-Smtp-Source: ABdhPJzZJ3WRI8g82xIBBeot/afxddw7EyWHm3Bfq9s/LUjl7hovkctFbCn2nSHPL5GM17w5Ec3FLg==
-X-Received: by 2002:a1c:7402:: with SMTP id p2mr1230441wmc.43.1612995605733;
- Wed, 10 Feb 2021 14:20:05 -0800 (PST)
+ bh=iIGttXBi7A2QRRl9A62rr2JtZ8SZ+5Uy9wRQiTVHIjk=;
+ b=ozX407S/z3QgyKtUCSz625RrkGvNlVeqLHsb1RCy09RUMWiO99gmvqDyCgFSJcDW0+
+ NtDRy4Yop/gSFFAoPp0IL1Wx/jaovnRtZUd4fRczIvo7b2pNksDgcDzN3i+3kMfBqsus
+ P9YkbeOW3n7vysX+d2V5K6whGrQYpWYSFha28pIIY6gfW2dBMExIe8nwkDcNJf/QUG09
+ 4ZJ3PODWY9T4OaoLdYwdlmswJxCokHdDeftITwYoBiF7LmxbnfpBZ4iZ9V3FINMHxsw2
+ owiwj+ciZckwYYmwPsoKSXQBtgYaF8e5o4R5XHc4tl3nu3bYJYIuTbnpvdi5OfGp0TqI
+ zV8w==
+X-Gm-Message-State: AOAM532HR8O7OAwPKy7eOL8J9Fv76ZlAxZXgErIWwrxcO65ZdDA739Fa
+ 05I6+KUToCvZhhk2PLTd8RUivQ==
+X-Google-Smtp-Source: ABdhPJywzwnnjNnc8jtL4nSDdw8yzoZ7kmzvb3uW9Z02NIu/Ak4fS/cTsth3W+eN3ETSOnmc0faYuA==
+X-Received: by 2002:a05:600c:230c:: with SMTP id
+ 12mr1268447wmo.30.1612995613713; 
+ Wed, 10 Feb 2021 14:20:13 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m2sm4329332wml.34.2021.02.10.14.20.04
+ by smtp.gmail.com with ESMTPSA id p4sm3138111wma.36.2021.02.10.14.20.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 14:20:04 -0800 (PST)
+ Wed, 10 Feb 2021 14:20:12 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 57B311FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id 8E3E61FFA9;
  Wed, 10 Feb 2021 22:10:55 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 18/21] accel/tcg: re-factor non-RAM execution code
-Date: Wed, 10 Feb 2021 22:10:50 +0000
-Message-Id: <20210210221053.18050-19-alex.bennee@linaro.org>
+Subject: [PATCH v2 20/21] accel/tcg: allow plugin instrumentation to be
+ disable via cflags
+Date: Wed, 10 Feb 2021 22:10:52 +0000
+Message-Id: <20210210221053.18050-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210210221053.18050-1-alex.bennee@linaro.org>
 References: <20210210221053.18050-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.128.52;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-f52.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,78 +95,105 @@ Cc: Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no real need to use CF_NOCACHE here. As long as the TB isn't
-linked to other TBs or included in the QHT or jump cache then it will
-only get executed once.
+When icount is enabled and we recompile an MMIO access we end up
+double counting the instruction execution. To avoid this we introduce
+the CF_NOINSTR cflag which disables instrumentation for the next TB.
+As this is part of the hashed compile flags we will only execute the
+generated TB while coming out of a cpu_io_recompile.
 
+While we are at it delete the old TODO. We might as well keep the
+translation handy as it's likely you will repeatedly hit it on each
+MMIO access.
+
+Reported-by: Aaron Lindsay <aaron@os.amperecomputing.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210209182749.31323-10-alex.bennee@linaro.org>
----
- accel/tcg/translate-all.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210209182749.31323-12-alex.bennee@linaro.org>
 
+---
+v2
+  - squashed CH_HASHMASK to ~CF_INVALID
+---
+ include/exec/exec-all.h   |  6 +++---
+ accel/tcg/translate-all.c | 17 ++++++++---------
+ accel/tcg/translator.c    |  2 +-
+ 3 files changed, 12 insertions(+), 13 deletions(-)
+
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index e08179de34..299282cc59 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -454,14 +454,14 @@ struct TranslationBlock {
+     uint32_t cflags;    /* compile flags */
+ #define CF_COUNT_MASK  0x00007fff
+ #define CF_LAST_IO     0x00008000 /* Last insn may be an IO access.  */
++#define CF_NOINSTR     0x00010000 /* Disable instrumentation of TB */
+ #define CF_USE_ICOUNT  0x00020000
+ #define CF_INVALID     0x00040000 /* TB is stale. Set with @jmp_lock held */
+ #define CF_PARALLEL    0x00080000 /* Generate code for a parallel context */
+ #define CF_CLUSTER_MASK 0xff000000 /* Top 8 bits are cluster ID */
+ #define CF_CLUSTER_SHIFT 24
+-/* cflags' mask for hashing/comparison */
+-#define CF_HASH_MASK   \
+-    (CF_COUNT_MASK | CF_LAST_IO | CF_USE_ICOUNT | CF_PARALLEL | CF_CLUSTER_MASK)
++/* cflags' mask for hashing/comparison, basically ignore CF_INVALID */
++#define CF_HASH_MASK   (~CF_INVALID)
+ 
+     /* Per-vCPU dynamic tracing state used to generate this TB */
+     uint32_t trace_vcpu_dstate;
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index b8ad95aa1b..7e62d8ad97 100644
+index 0666f9ef14..32a3d8fe24 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -1778,7 +1778,8 @@ static inline void tb_page_add(PageDesc *p, TranslationBlock *tb,
- #endif
+@@ -2399,7 +2399,8 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
  }
  
--/* add a new TB and link it to the physical page tables. phys_page2 is
+ #ifndef CONFIG_USER_ONLY
+-/* in deterministic execution mode, instructions doing device I/Os
 +/*
-+ * Add a new TB and link it to the physical page tables. phys_page2 is
-  * (-1) to indicate that only one page contains the TB.
++ * In deterministic execution mode, instructions doing device I/Os
+  * must be at the end of the TB.
   *
-  * Called with mmap_lock held for user-mode emulation.
-@@ -1797,17 +1798,6 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
- 
-     assert_memory_lock();
- 
--    if (phys_pc == -1) {
--        /*
--         * If the TB is not associated with a physical RAM page then
--         * it must be a temporary one-insn TB, and we have nothing to do
--         * except fill in the page_addr[] fields.
--         */
--        assert(tb->cflags & CF_NOCACHE);
--        tb->page_addr[0] = tb->page_addr[1] = -1;
--        return tb;
--    }
--
-     /*
-      * Add the TB to the page list, acquiring first the pages's locks.
-      * We keep the locks held until after inserting the TB in the hash table,
-@@ -1880,9 +1870,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     phys_pc = get_page_addr_code(env, pc);
- 
-     if (phys_pc == -1) {
--        /* Generate a temporary TB with 1 insn in it */
--        cflags &= ~CF_COUNT_MASK;
--        cflags |= CF_NOCACHE | 1;
-+        /* Generate a one-shot TB with 1 insn in it */
-+        cflags = (cflags & ~CF_COUNT_MASK) | 1;
+  * Called by softmmu_template.h, with iothread mutex not held.
+@@ -2430,19 +2431,17 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+         n = 2;
      }
  
-     cflags &= ~CF_CLUSTER_MASK;
-@@ -2096,6 +2085,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-         tb_reset_jump(tb, 1);
-     }
- 
+-    /* Generate a new TB executing the I/O insn.  */
+-    cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
 +    /*
-+     * If the TB is not associated with a physical RAM page then
-+     * it must be a temporary one-insn TB, and we have nothing to do
-+     * except fill in the page_addr[] fields. Return early before
-+     * attempting to link to other TBs or add to the lookup table.
++     * Exit the loop and potentially generate a new TB executing the
++     * just the I/O insns. We also disable instrumentation so we don't
++     * double count the instruction.
 +     */
-+    if (phys_pc == -1) {
-+        tb->page_addr[0] = tb->page_addr[1] = -1;
-+        return tb;
-+    }
-+
-     /* check next page if needed */
-     virt_page2 = (pc + tb->size - 1) & TARGET_PAGE_MASK;
-     phys_page2 = -1;
++    cpu->cflags_next_tb = curr_cflags() | CF_NOINSTR | CF_LAST_IO | n;
+ 
+     qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
+                            "cpu_io_recompile: rewound execution of TB to "
+                            TARGET_FMT_lx "\n", tb->pc);
+ 
+-    /* TODO: If env->pc != tb->pc (i.e. the faulting instruction was not
+-     * the first in the TB) then we end up generating a whole new TB and
+-     *  repeating the fault, which is horribly inefficient.
+-     *  Better would be to execute just this insn uncached, or generate a
+-     *  second new TB.
+-     */
+     cpu_loop_exit_noexc(cpu);
+ }
+ 
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index a49a794065..14d1ea795d 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -58,7 +58,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     ops->tb_start(db, cpu);
+     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
+ 
+-    plugin_enabled = plugin_gen_tb_start(cpu, tb);
++    plugin_enabled = !(tb_cflags(db->tb) & CF_NOINSTR) && plugin_gen_tb_start(cpu, tb);
+ 
+     while (true) {
+         db->num_insns++;
 -- 
 2.20.1
 
