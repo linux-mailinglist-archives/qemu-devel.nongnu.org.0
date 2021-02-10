@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254243173BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:55:58 +0100 (CET)
-Received: from localhost ([::1]:48490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51770317394
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Feb 2021 23:45:26 +0100 (CET)
+Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9yOr-0001rk-6Y
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:55:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58758)
+	id 1l9yEf-0002bz-75
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 17:45:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xqG-0006xf-0T
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:12 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50660)
+ id 1l9xhy-0006Zh-7Y
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:38 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:55736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l9xqD-0006op-32
- for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:20:11 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id 190so3213370wmz.0
- for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:20:08 -0800 (PST)
+ id 1l9xhm-0003M6-GT
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 17:11:37 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id o15so1414910wmq.5
+ for <qemu-devel@nongnu.org>; Wed, 10 Feb 2021 14:11:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lUQfSvO41ymeVYxkOJOoiNQ8fcoV5S/zkovOyoqGlLk=;
- b=d2fLenfgJCtLiAxKfrMG7H3Kcg7om9NxfIh8cOE1LyPfKDGW7kcZq4drgbwvCA/oiT
- LlAlz/IC0EYILyJwQQWg9HzWsAyv87aktJe8R+ZbIB+2T25+E9uZZYcA50n0CbfyCCGk
- iLkTD380eH0SCp6shQpqxceAnjqZslItGh22h4CXI7BZsJDLUEScOkVLONFE2gUxVhC7
- TS1iB/6xx2dJ/32idjgfIp0cP+YwbilQ+IdKR9g/4P/9pJKizrPYXOmuKYFFyLo2iiwl
- p77r+774dMBApnYGmTnlMPI8vWbEBtUlwyKvs2Uu+0m9QnXj1HRxw8fveapCoZ1B+u4c
- 19KA==
+ bh=NvekATJKlJ7jP2wzTkI6nrkZoiKtJSAd7gzRekefiEE=;
+ b=KWTu4zS8VKFWwdJG3b+CSTJ8Q7Q698lsmJqTBHinWpWiHyRr2t3X4gtYWcI2mCkXIC
+ H6Gs3WGIlhn2KacRtbeTZ7KYAZ0q8htqc1D4MOyJPcsv5PijhaOJgWHfDl8qAkc1cvSv
+ aP/Fiq9aabTWkqfYcLxxA+NE0eCm8KWXP/vUPTB3dvB0BnVmSTURrYPjo8r1sRrvhcUs
+ FL4KRd5nriJulmynKavQvwcxM0mi7ug1UJ5mDZ/Rwo5IrxYSZ/3xqPnQWaSZO9M7AURk
+ 51hcfY1IG5SJ5MW0CTREsqv61w0EImWmr/N4TedBcxXbUZayzGIo0FjDvy2n1zaQ7XCh
+ KXhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lUQfSvO41ymeVYxkOJOoiNQ8fcoV5S/zkovOyoqGlLk=;
- b=PViBdLm/bs9oA2DpoSB0vVG7FtVEBkA8I+AIhs14NjOo3YNh5Ll+ijVW4OK17YgRdM
- HJjIqTTdH6VCp2TMB5M0mYkUXn2ZcfxG6gV9cmTMYjAaUgq9A4c1Xevzy5prvOJsX3pu
- 1oJqjoQwWK/udBIo306/pQK6ZyFt9d9Jvfy6fNMmv2+TZdIxsOWrZrkkLpdr3kmrO/9a
- c+8U2SSZ7Z2vZbMwiXLuemk3Fkcn4sklKvxyZyAAu05CuWK6GovWF6msI4yooX+r4rVB
- Wu+HqYA/h1oTegS6RriWS6SbertxE3Jiy+O/ocizaVUDOLlXu4ZStiuLoanNNSLsoTCB
- mrjg==
-X-Gm-Message-State: AOAM532oSs7weEwAkHcXLfpo53VHq/GjfBUWZNspzQccapbNNIBghC2b
- ctZ0tS3t3Gfk3e3cvQr5pWsYrg==
-X-Google-Smtp-Source: ABdhPJwYKkXKHP5SfNdmBlV64nxyeWFe6q7w3PaNT31kIqoYZSaNcoB1oDGlqIDZqXQyAhw6RjWV6A==
-X-Received: by 2002:a7b:ce95:: with SMTP id q21mr1200190wmj.178.1612995607667; 
- Wed, 10 Feb 2021 14:20:07 -0800 (PST)
+ bh=NvekATJKlJ7jP2wzTkI6nrkZoiKtJSAd7gzRekefiEE=;
+ b=N3bCrvJlEMQCpTMOwYTG9uQgnb7DEGEJmKwrLYroHATotfGDDIFZ++OflZHrufDRQx
+ 30OPDmNIahLp2GalEC3d+7vHzLbCQQlnwpdhbUSKT/AKmTQPl+KoepsL86mn5UKluwhF
+ cS12bKwFdzpWk3MufchouC8KY2Shop8YwouobOgG6zMUuAyZRN+J++CjNLsfKjXblmcq
+ CSSRRuU3n6SFud12MK/rE0uQnCNeG4KNxnYxQ0iSAjzOzgpyzPt16y+sDgf98ELvq17V
+ H5n8hjSThXr5+F5UzAnljqpngJAvE2lpUNnCHyD7XEVjU/YiZlMKc5LXH3XfSOWsdtkM
+ QzZg==
+X-Gm-Message-State: AOAM530wn0KFlMVS8XDUHWmU3YhnwXSm1B14GTm6/y6WpoL7v8myG1B4
+ ceeWGrzVRL4mXqfeY2TUU/9cWw==
+X-Google-Smtp-Source: ABdhPJxm4d9id4m5cvO6ZEc5K9Tg8OTfUETDyHUOMUTkhYiBefKRVUoVpGIBbxu6fUkdL6QxNjuDag==
+X-Received: by 2002:a05:600c:2246:: with SMTP id
+ a6mr1195632wmm.170.1612995084836; 
+ Wed, 10 Feb 2021 14:11:24 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c62sm5227677wmd.43.2021.02.10.14.20.04
+ by smtp.gmail.com with ESMTPSA id x125sm5179811wmx.6.2021.02.10.14.11.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Feb 2021 14:20:04 -0800 (PST)
+ Wed, 10 Feb 2021 14:11:15 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 718831FFA6;
+ by zen.linaroharston (Postfix) with ESMTP id A44181FFAA;
  Wed, 10 Feb 2021 22:10:55 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 19/21] accel/tcg: remove CF_NOCACHE and special cases
-Date: Wed, 10 Feb 2021 22:10:51 +0000
-Message-Id: <20210210221053.18050-20-alex.bennee@linaro.org>
+Subject: [PATCH v2 21/21] tests/acceptance: add a new tests to detect counting
+ errors
+Date: Wed, 10 Feb 2021 22:10:53 +0000
+Message-Id: <20210210221053.18050-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210210221053.18050-1-alex.bennee@linaro.org>
 References: <20210210221053.18050-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,145 +88,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, kuhn.chenqun@huawei.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we no longer generate CF_NOCACHE blocks we can remove a bunch of
-the special case handling for them. While we are at it we can remove
-the unused tb->orig_tb field and save a few bytes on the TB structure.
+The insn plugin has a simple heuristic to detect if an instruction is
+detected running twice in a row. Check the plugin log after the run
+and pass accordingly.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210209182749.31323-11-alex.bennee@linaro.org>
+Message-Id: <20210209182749.31323-13-alex.bennee@linaro.org>
 ---
- include/exec/exec-all.h   |  3 ---
- accel/tcg/translate-all.c | 51 ++++++++++++---------------------------
- 2 files changed, 15 insertions(+), 39 deletions(-)
+ tests/acceptance/tcg_plugins.py | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index f933c74c44..e08179de34 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -454,7 +454,6 @@ struct TranslationBlock {
-     uint32_t cflags;    /* compile flags */
- #define CF_COUNT_MASK  0x00007fff
- #define CF_LAST_IO     0x00008000 /* Last insn may be an IO access.  */
--#define CF_NOCACHE     0x00010000 /* To be freed after execution */
- #define CF_USE_ICOUNT  0x00020000
- #define CF_INVALID     0x00040000 /* TB is stale. Set with @jmp_lock held */
- #define CF_PARALLEL    0x00080000 /* Generate code for a parallel context */
-@@ -469,8 +468,6 @@ struct TranslationBlock {
- 
-     struct tb_tc tc;
- 
--    /* original tb when cflags has CF_NOCACHE */
--    struct TranslationBlock *orig_tb;
-     /* first and second physical page containing code. The lower bit
-        of the pointer tells the index in page_next[].
-        The list is protected by the TB's page('s) lock(s) */
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 7e62d8ad97..0666f9ef14 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -409,12 +409,6 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
-         TranslationBlock *tb = tcg_tb_lookup(host_pc);
-         if (tb) {
-             cpu_restore_state_from_tb(cpu, tb, host_pc, will_exit);
--            if (tb_cflags(tb) & CF_NOCACHE) {
--                /* one-shot translation, invalidate it immediately */
--                tb_phys_invalidate(tb, -1);
--                tcg_tb_remove(tb);
--                tb_destroy(tb);
--            }
-             return true;
-         }
-     }
-@@ -1633,8 +1627,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
-     phys_pc = tb->page_addr[0] + (tb->pc & ~TARGET_PAGE_MASK);
-     h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb_cflags(tb) & CF_HASH_MASK,
-                      tb->trace_vcpu_dstate);
--    if (!(tb->cflags & CF_NOCACHE) &&
--        !qht_remove(&tb_ctx.htable, tb, h)) {
-+    if (!qht_remove(&tb_ctx.htable, tb, h)) {
-         return;
-     }
- 
-@@ -1795,6 +1788,8 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
- {
-     PageDesc *p;
-     PageDesc *p2 = NULL;
-+    void *existing_tb = NULL;
-+    uint32_t h;
- 
-     assert_memory_lock();
- 
-@@ -1814,25 +1809,20 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
-         tb->page_addr[1] = -1;
-     }
- 
--    if (!(tb->cflags & CF_NOCACHE)) {
--        void *existing_tb = NULL;
--        uint32_t h;
--
--        /* add in the hash table */
--        h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb->cflags & CF_HASH_MASK,
--                         tb->trace_vcpu_dstate);
--        qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
-+    /* add in the hash table */
-+    h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb->cflags & CF_HASH_MASK,
-+                     tb->trace_vcpu_dstate);
-+    qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
- 
--        /* remove TB from the page(s) if we couldn't insert it */
--        if (unlikely(existing_tb)) {
--            tb_page_remove(p, tb);
--            invalidate_page_bitmap(p);
--            if (p2) {
--                tb_page_remove(p2, tb);
--                invalidate_page_bitmap(p2);
--            }
--            tb = existing_tb;
-+    /* remove TB from the page(s) if we couldn't insert it */
-+    if (unlikely(existing_tb)) {
-+        tb_page_remove(p, tb);
-+        invalidate_page_bitmap(p);
-+        if (p2) {
-+            tb_page_remove(p2, tb);
-+            invalidate_page_bitmap(p2);
-         }
-+        tb = existing_tb;
-     }
- 
-     if (p2 && p2 != p) {
-@@ -1905,7 +1895,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     tb->cs_base = cs_base;
-     tb->flags = flags;
-     tb->cflags = cflags;
--    tb->orig_tb = NULL;
-     tb->trace_vcpu_dstate = *cpu->trace_dstate;
-     tcg_ctx->tb_cflags = cflags;
-  tb_overflow:
-@@ -2444,16 +2433,6 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-     /* Generate a new TB executing the I/O insn.  */
-     cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
- 
--    if (tb_cflags(tb) & CF_NOCACHE) {
--        if (tb->orig_tb) {
--            /* Invalidate original TB if this TB was generated in
--             * cpu_exec_nocache() */
--            tb_phys_invalidate(tb->orig_tb, -1);
--        }
--        tcg_tb_remove(tb);
--        tb_destroy(tb);
--    }
--
-     qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
-                            "cpu_io_recompile: rewound execution of TB to "
-                            TARGET_FMT_lx "\n", tb->pc);
+diff --git a/tests/acceptance/tcg_plugins.py b/tests/acceptance/tcg_plugins.py
+index b512979769..acab599505 100644
+--- a/tests/acceptance/tcg_plugins.py
++++ b/tests/acceptance/tcg_plugins.py
+@@ -101,3 +101,34 @@ class PluginKernelNormal(PluginKernelBase):
+             else:
+                 logger.debug("Failed to find instruction count")
+                 self.fail
++
++    def test_aarch64_virt_insn_icount(self):
++        """
++        :avocado: tags=accel:tcg
++        :avocado: tags=arch:aarch64
++        :avocado: tags=machine:virt
++        :avocado: tags=cpu:cortex-a57
++        """
++        kernel_path = self._grab_aarch64_kernel()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyAMA0')
++        console_pattern = 'Kernel panic - not syncing: VFS:'
++
++        plugin_log = tempfile.NamedTemporaryFile(mode="r+t", prefix="plugin",
++                                                 suffix=".log", delete=False)
++
++        self.run_vm(kernel_path, kernel_command_line,
++                    "tests/plugin/libinsn.so", plugin_log.name,
++                    console_pattern,
++                    args=('-cpu', 'cortex-a53', '-icount', 'shift=1'))
++
++        logger = logging.getLogger()
++
++        with plugin_log as lf, \
++             mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
++            m = re.search(br"detected repeat execution @ (?P<addr>0x[0-9A-Fa-f]+)", s)
++            if m is not None and "addr" in m.groupdict():
++                logger.debug("detected repeat instructions")
++                self.fail("detected repeated instructions")
++            else:
++                logger.debug("no repeats detected: %s", m)
 -- 
 2.20.1
 
