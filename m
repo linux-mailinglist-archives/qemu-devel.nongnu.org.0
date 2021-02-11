@@ -2,79 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96605318D83
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 15:38:32 +0100 (CET)
-Received: from localhost ([::1]:42274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7DC318D86
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 15:40:12 +0100 (CET)
+Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAD71-0005iP-FY
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 09:38:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
+	id 1lAD8d-0007p9-Hk
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 09:40:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lACwA-0005Hq-M0
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:27:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40063)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lACzE-00005Q-Mt
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:30:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lACw6-0003ec-1I
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:27:17 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lACzC-00053b-IF
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:30:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613053633;
+ s=mimecast20190719; t=1613053826;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D4Z11FEsaA36rEKX69D+N+Q14103WaLLz/9eqppF61E=;
- b=A6DZUW7HbhhEMmZtQRkOdy9WgbmsMGHn6byvhCTiY69gf+sRIdJz/M/miTpK0spZYtkedf
- qylGUyucFZpjhkLVo8At3CSpVBNKuqPjuP+W7U9tY3wx+KjpZbKTu9sJUtTaUZr5316Dae
- 6m7OrRdSvjwP/ji0b9nC60aDvQDkdbU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-pHgoU4tdPXCeCBxgTdR6fg-1; Thu, 11 Feb 2021 09:27:11 -0500
-X-MC-Unique: pHgoU4tdPXCeCBxgTdR6fg-1
-Received: by mail-ej1-f69.google.com with SMTP id q11so4870579ejd.0
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 06:27:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=D4Z11FEsaA36rEKX69D+N+Q14103WaLLz/9eqppF61E=;
- b=HJ7G+4sZ1JzkOAl+eMGQYshjpenl4cMJa6PckOe2mBlG+41wlJVZUnwZ9MJ8P79EC5
- 51nwHjHmGS+1L3wOolHMOJj77rbqCGsG4qW6UGlLoyFlLQpl3VJTvDzSI/uyEUj8Ue9g
- 3agKQFKAMfL23zxDaqE4MEMjGr+Zw11FIkQgEqBaHY52MuxTigznef0AlMQJc5lbQ0Lq
- UgvXmf8WtvgnQiNiFNQ45DcZ041eygOgoiW9oCTFAItdhtkJFg1/XJ4f8Eulhijsv6T8
- DY4lCIYgn9acZkJEh7TDD5W6MmJO5iSb5WAJlH+Fg28kM4KAkRS+Y9H0Ju/z2Hg5jLli
- 0Yzw==
-X-Gm-Message-State: AOAM53141OG6M993LSTz+CnORFIg/i9SMSLWoIY7/oTm9W8IgqSrmU86
- XvHrcywnTTn3FfOKuAmatplplG3U/c679UJZsp/dUg/7XS5Ygv5gWN3CiX4uDLONcqRNwdyvfjP
- U6bAzqPvKITxHM5eI55EoYfzHKebOH45PZAMAZjkyV3G09ke5Kvy9bJ1AR6Y7Z/0A
-X-Received: by 2002:a17:906:408b:: with SMTP id
- u11mr8523596ejj.299.1613053630498; 
- Thu, 11 Feb 2021 06:27:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzxTsxge7qfxvilOLXgRfz6yd/hySRzdzhsu+1Qs/hC1oL61bxA20D36PYGirQR8/XKsUlc6w==
-X-Received: by 2002:a17:906:408b:: with SMTP id
- u11mr8523565ejj.299.1613053630258; 
- Thu, 11 Feb 2021 06:27:10 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a1sm4200072edj.6.2021.02.11.06.27.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 06:27:09 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] block/null: Enable 'read-zeroes' mode by default
-Date: Thu, 11 Feb 2021 15:26:56 +0100
-Message-Id: <20210211142656.3818078-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210211142656.3818078-1-philmd@redhat.com>
-References: <20210211142656.3818078-1-philmd@redhat.com>
+ bh=+ACRjcqMmbCkoVsPVoR+DDVWCY2OGC8Iun/yn+xG6/0=;
+ b=Ni29ZyeTUS/ljjhla3XJh4r6ELGF1rdYK1BaWiqHIXD+I+uxPd2B0UlxH5G/sW0miCOUx+
+ 2Z6j9oZLc7qOLO+MsDtjI7nDUR7kKVmtFwZYkZzPc3HBwRk2Oz41DIpWPT2ALG9+x/YIng
+ Sms0cxgo+kgGZBX21HtR50Y6/vuQiNs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393--ll2Qa-JPbyj9wOgMt9rGw-1; Thu, 11 Feb 2021 09:30:20 -0500
+X-MC-Unique: -ll2Qa-JPbyj9wOgMt9rGw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D69380132A
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 14:29:59 +0000 (UTC)
+Received: from localhost (ovpn-115-9.ams2.redhat.com [10.36.115.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DC9D68878;
+ Thu, 11 Feb 2021 14:29:49 +0000 (UTC)
+Date: Thu, 11 Feb 2021 14:29:48 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 18/24] DAX/unmap virtiofsd: Parse unmappable elements
+Message-ID: <20210211142948.GS247031@stefanha-x1.localdomain>
+References: <20210209190224.62827-1-dgilbert@redhat.com>
+ <20210209190224.62827-19-dgilbert@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210209190224.62827-19-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1Sa0i77dkqaUxqYg"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -95,67 +79,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
+Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ vgoyal@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The null-co driver is meant for (performance) testing.
-By default, read operation does nothing, the provided buffer
-is not filled with zero values and its content is unchanged.
+--1Sa0i77dkqaUxqYg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This performance 'feature' becomes an issue from a security
-perspective.  For example, using the default null-co driver,
-buf[] is uninitialized, the blk_pread() call succeeds and we
-then access uninitialized memory:
+On Tue, Feb 09, 2021 at 07:02:18PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> For some read/writes the virtio queue elements are unmappable by
+> the daemon; these are cases where the data is to be read/written
+> from non-RAM.  In viritofs's case this is typically a direct read/write
+> into an mmap'd DAX file also on virtiofs (possibly on another instance).
+>=20
+> When we receive a virtio queue element, check that we have enough
+> mappable data to handle the headers.  Make a note of the number of
+> unmappable 'in' entries (ie. for read data back to the VMM),
+> and flag the fuse_bufvec for 'out' entries with a new flag
+> FUSE_BUF_PHYS_ADDR.
 
-  static int guess_disk_lchs(BlockBackend *blk,
-                             int *pcylinders, int *pheads,
-                             int *psectors)
-  {
-      uint8_t buf[BDRV_SECTOR_SIZE];
-      ...
+Looking back at this I think vhost-user will need generic
+READ_MEMORY/WRITE_MEMORY commands. It's okay for virtio-fs to have its
+own IO command (although not strictly necessary).
 
-      if (blk_pread(blk, 0, buf, BDRV_SECTOR_SIZE) < 0) {
-          return -1;
-      }
-      /* test msdos magic */
-      if (buf[510] != 0x55 || buf[511] != 0xaa) {
-          return -1;
-      }
+With generic READ_MEMORY/WRITE_MEMORY libvhost-user and other vhost-user
+device backend implementations can handle vring descriptors that point
+into the DAX window. This can be done transparently so individual device
+implementations (net, blk, etc) don't even know when memory is copied vs
+zero-copy shared memory access.
 
-We could audit all the uninitialized buffers and the
-bdrv_co_preadv() handlers, but it is simpler to change the
-default of this testing driver. Performance tests will have
-to adapt and use 'null-co,read-zeroes=off'.
+So this approach is okay for virtio-fs but it's not a long-term solution
+for all of vhost-user. Eventually the long-term solution may be needed
+so that other VIRTIO devices that have shared memory resources work.
 
-Suggested-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- block/null.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Another bonus of READ_MEMORY/WRITE_MEMORY is that users that prefer an
+enforcing vIOMMU can disable shared memory (maybe just keep the vring
+itself mmapped).
 
-diff --git a/block/null.c b/block/null.c
-index cc9b1d4ea72..f9658fd70ac 100644
---- a/block/null.c
-+++ b/block/null.c
-@@ -93,7 +93,7 @@ static int null_file_open(BlockDriverState *bs, QDict *options, int flags,
-         error_setg(errp, "latency-ns is invalid");
-         ret = -EINVAL;
-     }
--    s->read_zeroes = qemu_opt_get_bool(opts, NULL_OPT_ZEROES, false);
-+    s->read_zeroes = qemu_opt_get_bool(opts, NULL_OPT_ZEROES, true);
-     qemu_opts_del(opts);
-     bs->supported_write_flags = BDRV_REQ_FUA;
-     return ret;
--- 
-2.26.2
+I just wanted to share this idea but don't expect it to be addressed in
+this patch series.
+
+> diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.=
+h
+> index a090040bb2..ed9280de91 100644
+> --- a/tools/virtiofsd/fuse_common.h
+> +++ b/tools/virtiofsd/fuse_common.h
+> @@ -611,6 +611,13 @@ enum fuse_buf_flags {
+>       * detected.
+>       */
+>      FUSE_BUF_FD_RETRY =3D (1 << 3),
+> +
+> +    /**
+> +     * The addresses in the iovec represent guest physical addresses
+> +     * that can't be mapped by the daemon process.
+> +     * IO must be bounced back to the VMM to do it.
+> +     */
+> +    FUSE_BUF_PHYS_ADDR =3D (1 << 4),
+
+With a vIOMMU it's an IOVA. Without a vIOMMU it's a GPA. This constant
+may need to be renamed in the future, but it is okay for now.
+
+> +    if (req->bad_in_num || req->bad_out_num) {
+> +        bool handled_unmappable =3D false;
+> +
+> +        if (out_num > 2 && out_num_readable >=3D 2 && !req->bad_in_num &=
+&
+> +            out_sg[0].iov_len =3D=3D sizeof(struct fuse_in_header) &&
+> +            ((struct fuse_in_header *)fbuf.mem)->opcode =3D=3D FUSE_WRIT=
+E &&
+> +            out_sg[1].iov_len =3D=3D sizeof(struct fuse_write_in)) {
+
+This violates the VIRTIO specification:
+
+  2.6.4.1 Device Requirements: Message Framing
+
+  The device MUST NOT make assumptions about the particular arrangement of =
+descriptors.
+
+  https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html=
+#x1-280004
+
+The driver is not obligated to submit separate iovecs. out_num =3D=3D 1 is
+valid and the device needs to process it byte-wise instead of making
+assumptions about iovec layout.
+
+--1Sa0i77dkqaUxqYg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAlP1wACgkQnKSrs4Gr
+c8j1aQgAj9HufYj+T2enSz9lW0BvzHSNOlqoJvgDEts87ezGkaA6eid5y6zf/W1V
+HxqUw+kBcd4D09UIIRJtK8FB0kdvKpO+EOzy//wy4dUEGg7lGuTmz5o8WciGnz0d
+q+wOSBQScgaReGKRP1hcGHPGomruiRYP+u0jl17u6CO5rualPuKwVfvtisEKJasc
+gtqB4gWGFJw55/fKzRSINzfoQAlTmoexbUe0OWO2OOs1sr4AVNIXOHVtQNPIKwAc
+lRrOQPpSNmoTWb48eXGlJmtui5plKAwsDgVk9BsWrwoAUzLLZOE9HJZiTWPv6a70
+XXZRGEoLu6KjgIIg5OWRPg3+ksqu0g==
+=tWZ2
+-----END PGP SIGNATURE-----
+
+--1Sa0i77dkqaUxqYg--
 
 
