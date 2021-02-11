@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C7F3193DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:05:57 +0100 (CET)
-Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B9E3193FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:10:52 +0100 (CET)
+Received: from localhost ([::1]:35764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAIDs-0003x0-Co
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:05:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51378)
+	id 1lAIId-0000qt-Am
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:10:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lAHVS-0004Tk-6w
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:20:02 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:55498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lAHVL-0004QZ-9N
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:19:57 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id cv23so3968295pjb.5
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 11:19:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/Nj2yJHPh29QMi/JmvCm2R2Y8RUz07m04f00LEAKAd0=;
- b=b4Osnyz7Ub65tEQ0A07SybKe/fWcAiiFMayX6vdtFFA10jsEFSQDNDak5zb7+AHrYC
- znoHmiuRGa8IpJJUpNE2KTkiJlbT/77nc8X7fIysCN09Qut6LpXZ3McFBPgOOVjKT2gK
- /TrHNDhv0jS55GwvU4ArEGwcNhyV8aVt25wloXxASk6saO1ar61/klNo2eFLfkWB0D6O
- eG0eln93Sf4ihT9SgOyqvP64l0nUYrJ961f+lDUYFtkNeJJL7yD7jHTMPVZXkfOZwevh
- uv27//SfTNn4RxFI3CCKFiulzxvLUXuEwGfflaR0RQkgFvSbLov2TkFgPCdfetU/ayvA
- vKwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/Nj2yJHPh29QMi/JmvCm2R2Y8RUz07m04f00LEAKAd0=;
- b=iJ7Cca3WHKltgPCmYjKI1mm7dTmzbiZo8BWFZUmFjrf+Laco0irITpQMbAANwComK0
- m4/hULBHXRJVzkNJ74C9CGeyZ7rvfIXz0sxqLA7ruVGZC8lQLEs5YagQcfE4vciax8BS
- rN3YTKlqic/s7hTkUy8Xqcw9wsurkQBb6jCr9XVzGyrDDCz4KVLDSFHLBk6+b5Ay413f
- GHdt37UaBut6mdQ1QUJSBg7dPryWJDhl/nYSdNz4YtJFebqZy73tT32YuFs3DpIQewt8
- cnVR0xFzeQspAIkPunpJ/HplKo0dzSQ92hW0dpoBO4mGUJOJLUPdyllsl+xW7jFoYkw3
- WvJg==
-X-Gm-Message-State: AOAM531AkycuCq+LqYWg7UHlR8cN5lXkbxffI2aoaNj1KphxxmtoKPGw
- YnG66nsFNRo2iCaVHlss4PpjBw==
-X-Google-Smtp-Source: ABdhPJyGXdRObcj5bDZhIUUjifJmWa0N6RMRNu1/Tb0iahfVYOgRJ7Ffy1DP4HxVF+EMzAAjOPsfkA==
-X-Received: by 2002:a17:902:4a:b029:e2:f3dc:811b with SMTP id
- 68-20020a170902004ab02900e2f3dc811bmr8762800pla.36.1613071193568; 
- Thu, 11 Feb 2021 11:19:53 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- 143sm6513071pfv.134.2021.02.11.11.19.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 11:19:52 -0800 (PST)
-Subject: Re: [PATCH v2 18/21] accel/tcg: re-factor non-RAM execution code
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210210221053.18050-1-alex.bennee@linaro.org>
- <20210210221053.18050-19-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e38c5536-3092-3788-63fa-79c8d1742ed5@linaro.org>
-Date: Thu, 11 Feb 2021 11:19:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lAHXA-0006KR-Vq
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:21:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45383)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lAHX9-0004hs-5T
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:21:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613071306;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iNVlzPIdldsfc4ntQqcTOg+kscp0sxuQYpZK5hICgig=;
+ b=iU9vglFkWShNLszwH/+LmE0PJt5k1GuGTtXWDGl66cYvXjk0XYQVfLCVHd4REI5AHd2FcS
+ n+IpJKkRGIRIn68W9tgdupthpzPuqUEsaonoikfwJkqu2JhJwYWZV2+FMHtSti5FOcDM6M
+ IOy6zOvd7cuyT4TklFftkKcl/RCO5oY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-fHY28AvENV6Ed7xceD4TSg-1; Thu, 11 Feb 2021 14:21:44 -0500
+X-MC-Unique: fHY28AvENV6Ed7xceD4TSg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE80D10082F5;
+ Thu, 11 Feb 2021 19:21:42 +0000 (UTC)
+Received: from [10.36.112.31] (ovpn-112-31.ams2.redhat.com [10.36.112.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45FB06E505;
+ Thu, 11 Feb 2021 19:21:35 +0000 (UTC)
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20210121152458.193248-1-andrey.gruzdev@virtuozzo.com>
+ <a88cb0b2-86a1-04b4-3ed1-d032850040df@redhat.com>
+ <5d01402e-273a-53cf-b78b-b4b7f50340bc@virtuozzo.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <8efe21c6-475d-2538-01c1-659f9d44491e@redhat.com>
+Date: Thu, 11 Feb 2021 20:21:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20210210221053.18050-19-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <5d01402e-273a-53cf-b78b-b4b7f50340bc@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.119,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,24 +83,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com
+Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/21 2:10 PM, Alex Bennée wrote:
-> There is no real need to use CF_NOCACHE here. As long as the TB isn't
-> linked to other TBs or included in the QHT or jump cache then it will
-> only get executed once.
+On 09.02.21 19:38, Andrey Gruzdev wrote:
+> On 09.02.2021 15:37, David Hildenbrand wrote:
+>> On 21.01.21 16:24, andrey.gruzdev--- via wrote:
+>>> This patch series is a kind of 'rethinking' of Denis Plotnikov's
+>>> ideas he's
+>>> implemented in his series '[PATCH v0 0/4] migration: add background
+>>> snapshot'.
+>>>
+>>> Currently the only way to make (external) live VM snapshot is using
+>>> existing
+>>> dirty page logging migration mechanism. The main problem is that it
+>>> tends to
+>>> produce a lot of page duplicates while running VM goes on updating
+>>> already
+>>> saved pages. That leads to the fact that vmstate image size is
+>>> commonly several
+>>> times bigger then non-zero part of virtual machine's RSS. Time
+>>> required to
+>>> converge RAM migration and the size of snapshot image severely depend
+>>> on the
+>>> guest memory write rate, sometimes resulting in unacceptably long
+>>> snapshot
+>>> creation time and huge image size.
+>>>
+>>> This series propose a way to solve the aforementioned problems. This
+>>> is done
+>>> by using different RAM migration mechanism based on UFFD write
+>>> protection
+>>> management introduced in v5.7 kernel. The migration strategy is to
+>>> 'freeze'
+>>> guest RAM content using write-protection and iteratively release
+>>> protection
+>>> for memory ranges that have already been saved to the migration stream.
+>>> At the same time we read in pending UFFD write fault events and save
+>>> those
+>>> pages out-of-order with higher priority.
+>>>
+>>
+>> Hi,
+>>
+>> just stumbled over this, quick question:
+>>
+>> I recently played with UFFD_WP and notices that write protection is
+>> only effective on pages/ranges that have already pages populated (IOW:
+>> !pte_none() in the kernel).
+>>
+>> In case memory was never populated (or was discarded using e.g.,
+>> madvice(DONTNEED)), write-protection will be skipped silently and you
+>> won't get WP events for applicable pages.
+>>
+>> So if someone writes to a yet unpoupulated page ("zero"), you won't
+>> get WP events.
+>>
+>> I can spot that you do a single uffd_change_protection() on the whole
+>> RAMBlock.
+>>
+>> How are you handling that scenario, or why don't you have to handle
+>> that scenario?
+>>
+> Hi David,
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20210209182749.31323-10-alex.bennee@linaro.org>
-> ---
->  accel/tcg/translate-all.c | 30 +++++++++++++++---------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+> I really wonder if such a problem exists.. If we are talking about a
+> write to an unpopulated page, we should get first page fault on
+> non-present page and populate it with protection bits from respective vma.
+> For UFFD_WP vma's  page will be populated non-writable. So we'll get
+> another page fault on present but read-only page and go to handle_userfault.
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi,
 
-r~
+here is another fun issue.
+
+Assume you
+
+1. Have a populated page, with some valuable content
+2. WP protected the page
+3. madvise(DONTNEED) that page
+4. Write to the page
+
+On write access, you won't get a WP event!
+
+Instead, you will get a UFFD_EVENT_REMOVE during 3. But you cannot stop 
+that event (dont wake), so you cannot simply defer as you can do with WP 
+events.
+
+
+So if the guest inflates the balloon (including balloon page migration 
+in Linux) or free-page-reporting reports a free page while snapshotting 
+is active, you won't be able to save the old content before it is zapped 
+and your snapshot misses pages with actual content.
+
+Something similar would happen with virtio-mem when unplugging blocks, 
+however, it does not discard any pages while migration is active.
+
+
+Snapshotting seems to be incompatible with concurrent discards via 
+virtio-balloon. You might want to inhibit ballooning while snapshotting 
+is active in
+
+hw/virtio/virtio-balloon.c:virtio_balloon_inhibited() just as we do for 
+postcopy.
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
