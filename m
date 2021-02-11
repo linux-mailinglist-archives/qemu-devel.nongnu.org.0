@@ -2,126 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59F531864C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 09:26:25 +0100 (CET)
-Received: from localhost ([::1]:35018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5128E31864F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 09:28:56 +0100 (CET)
+Received: from localhost ([::1]:36228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA7Iu-0006Q5-U5
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 03:26:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
+	id 1lA7LL-0006zT-7c
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 03:28:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lA76B-0002ok-Uv; Thu, 11 Feb 2021 03:13:17 -0500
-Received: from mail-dm6nam11on2060.outbound.protection.outlook.com
- ([40.107.223.60]:9056 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1lA7Fq-0004Bx-S0; Thu, 11 Feb 2021 03:23:15 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:51828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lA760-0004ae-02; Thu, 11 Feb 2021 03:13:15 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KuEvxg339yxtfldiM5TKNRqkYYT0oeTjUdLykGhc3vQA/2xlmtTJY4mhRyLgYRTUsjVaHN5nmMP6cKXZAzQREt8vV2iBnXv3PxRc6EJWLoKZsbxHxGN7OeJfY3Omu/jBAYu0cnwLH1lBNTPO8Hg0SS8VrCgtNYlWR39mvOSr8VABlEiT2CY74vgX51u4lnOmRDM6+gU5gJ1GNL3jUd0q4zNDkVcwPBgRkYbU5celNeOlXo8D3S8/FVi9k8Fau7gE5vVl3ylW64FOdX7R8o+9ZUoC+gAHPXr5EyJJaLisDiQlb3YZ/amV3URA7kT/2VFDM2ZBY4ieHruHVAk3IbDRjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nKLtoy5Cea4YOUvmMGCSoB/a1H4rcNhMKmCTZfHfQa8=;
- b=Ief1okCPpmQgyOmhhE5PRMl3KgcpQFf3O4WQAzV/spBW/a2eJpFo9oFz+LeXxbE8+xOBD6Sx5oZRryAuVAgyvjCgjGp7ZkQM5rmm44Styvpr9p0+pgOMctt83/FYujp7bPs0dnnfMjpu1eJT/P/mjyxfrhDSoM1f/gN+Yb26mZoYwOeQ2ZOmPwKJkFguY7tdd+smOowBtl1dnmD0zHGdSvr+cPCpcJa/WHnC6nIs29DbbbryITwtE5h2xVjV26ZKeIL7GhhUFuUO/BBNwKdfe2ZPExUfvGGup0qYhz4PpSj2H5Z9aR9BnEXmdweJS+L1ii/n130W36lHrmT6xa3k0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=chromium.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nKLtoy5Cea4YOUvmMGCSoB/a1H4rcNhMKmCTZfHfQa8=;
- b=atfuC7fALTZRVKBtbJYQMrt133tQS1zslT7To9ONjA8jmF1u8j1aUo2Po+AH6aMPch4L91hHdXCMpjfQ7Pctxox31jE9Y+8uwqEdN9vXQDL0yZhmKlCq5GmdqQXS/uV6UHt+asGmTA9x7TsAfcV/PcVBdglh6DStkrKV5/tJ6ZI=
-Received: from MN2PR19CA0062.namprd19.prod.outlook.com (2603:10b6:208:19b::39)
- by DM6PR02MB3993.namprd02.prod.outlook.com (2603:10b6:5:9f::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.24; Thu, 11 Feb
- 2021 08:12:59 +0000
-Received: from BL2NAM02FT016.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:19b:cafe::b3) by MN2PR19CA0062.outlook.office365.com
- (2603:10b6:208:19b::39) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25 via Frontend
- Transport; Thu, 11 Feb 2021 08:12:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- BL2NAM02FT016.mail.protection.outlook.com (10.152.77.171) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3846.25 via Frontend Transport; Thu, 11 Feb 2021 08:12:58 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Thu, 11 Feb 2021 00:12:56 -0800
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Thu, 11 Feb 2021 00:12:56 -0800
-Received: from [10.140.6.35] (port=49688 helo=xhdsaipava40.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1lA75s-0000HJ-3G; Thu, 11 Feb 2021 00:12:56 -0800
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id A454E13C06B8; Thu, 11 Feb 2021 13:48:18 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, "Max
- Reitz" <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@virtuozzo.com>, Eric Blake <eblake@redhat.com>, Joel Stanley
- <joel@jms.id.au>, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Vincent Palatin <vpalatin@chromium.org>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, "Alistair
- Francis" <alistair.francis@wdc.com>, "Edgar E. Iglesias"
- <edgar.iglesias@xilinx.com>, Luc Michel <luc.michel@greensocs.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>
-Subject: [RFC PATCH 13/15] sd: emmc: Subtract bootarea size from blk
-Date: Thu, 11 Feb 2021 13:47:24 +0530
-Message-ID: <1613031446-22154-14-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
-References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1lA7Fo-0000eA-Ok; Thu, 11 Feb 2021 03:23:14 -0500
+Received: from [172.16.11.100] (tiramisu.bar.greensocs.com [172.16.11.100])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 4B76621C36;
+ Thu, 11 Feb 2021 08:23:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1613031788;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vvgTWfNoPK0f8vjhzwUgtdHrpBO85iPgkl6dsyu939A=;
+ b=4WQcciSQCeJN9GxOnuZwxtIvG7sfLDxVTdJ+IioHKf0NcO/ajRP1BwzkW/lB65ckNl8k3Z
+ 1GADTSIm2UWDaYOKrRiQ9W/OCJLIhI7I8FQa+fYVJGDLswgZBzeUI/8yiCLq3ic1P378qx
+ JQfwzoLP7tvHmEeb/oVspcwzZCxujOE=
+Subject: Re: [PATCH v1 1/1] hw/arm: versal: Use nr_apu_cpus in favor of hard
+ coding 2
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
+References: <20210210142048.3125878-1-edgar.iglesias@gmail.com>
+ <20210210142048.3125878-2-edgar.iglesias@gmail.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <efd5d4ba-dbd9-8f87-1dd7-f0543e3e4e62@greensocs.com>
+Date: Thu, 11 Feb 2021 09:23:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0bdbc18a-68dd-42e3-187c-08d8ce64d815
-X-MS-TrafficTypeDiagnostic: DM6PR02MB3993:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB3993564F200B091410AEB0C8CA8C9@DM6PR02MB3993.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HqHDQU4R73abaAyZo19YhVFiBbKBs9ENI26jGVDtD/jne3Hy4JYsLcGWD4AxAUTHBOsFrVSoljsaU/0OaRY/t6ZWtlQmVg8vIzKtx+MOA3Z5yWu7aMUuncLA67ja1qqXHEsNOG2UCx6/TtX8d/ODq8fv3Ptsd/uB49tTI36C+fqEnkAO70zRS+2IIaJ1Q9Uq9C7Vff3tllOvKwElwpo1z5UZcCbBXs9glIhTPIKR9pB0LMkkZx78LJp+adaQ/wTQLlMvOLNKHkxj0vkU/nS1HIQo276cr81jisRZagD0Mi5hDjFu6BFXHNNMscTVIBUw7eooMaW79/cBSVW1+uD2CsVRSp+VpLPFGydSNG5rxT09UsSQXXGW8vtdUD94p3Uxr2O9BhVbUKvZqJ7N4LuN1O4vNFSQxNFnwFxpwS2mtYXIw4iWANsi3N2w/UwY05Z0gMG599BlGMoOIdxEIK9NyC40Dlvr1WGvEVlqzqhFiR7bpeI44qJ+XrbUwDy/30VHv9264BLVwAMHltKynlt2/A33qcauCqH4bHaku71y+WuM2IHI7Ib/W6x0p/2GcxXqZ27pjcTqEphopQo7FJY+eDPFgxjXUcvhEPo/3r1dvbN8Gt24vSK8HhkVDv0YWgIjXgEp+CHxDdMwx6wQH2QpA5oR9Ajruf7tDUw9swDytGxNt45d8+z4dVHubiocKq0W53QOewXhuv1+jGraNjkgqw==
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(346002)(396003)(136003)(36840700001)(46966006)(6266002)(47076005)(6666004)(4326008)(8676002)(2906002)(107886003)(7636003)(82310400003)(7416002)(356005)(54906003)(83380400001)(110136005)(70206006)(921005)(82740400003)(66574015)(336012)(36860700001)(2616005)(5660300002)(26005)(478600001)(8936002)(36906005)(316002)(70586007)(42186006)(186003)(426003)(4744005)(36756003)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2021 08:12:58.8820 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bdbc18a-68dd-42e3-187c-08d8ce64d815
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT016.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB3993
-Received-SPF: pass client-ip=40.107.223.60; envelope-from=saipava@xilinx.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210210142048.3125878-2-edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.211,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -134,38 +65,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: saipava@xilinx.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
+ komlodi@xilinx.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+On 2/10/21 3:20 PM, Edgar E. Iglesias wrote:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+> 
+> Use nr_apu_cpus in favor of hard coding 2.
+> 
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-The userdata size is derived from the file the user passes on the
-command line, but we must take into account the boot areas.
+Reviewed-by: Luc Michel <luc@lmichel.fr>
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/sd/sd.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 55c1104..a2f39c9 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -658,6 +658,11 @@ static void sd_reset(DeviceState *dev)
-     }
-     size = sect << 9;
- 
-+    if (sd->emmc) {
-+        unsigned int boot_capacity = sd->ext_csd[EXT_CSD_BOOT_MULT] << 17;
-+        size -= boot_capacity * 2;
-+    }
-+
-     sect = sd_addr_to_wpnum(size) + 1;
- 
-     sd->state = sd_idle_state;
--- 
-2.7.4
-
+> ---
+>   hw/arm/xlnx-versal.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index b0777166e8..628e77ef66 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -67,10 +67,10 @@ static void versal_create_apu_gic(Versal *s, qemu_irq *pic)
+>       gicbusdev = SYS_BUS_DEVICE(&s->fpd.apu.gic);
+>       gicdev = DEVICE(&s->fpd.apu.gic);
+>       qdev_prop_set_uint32(gicdev, "revision", 3);
+> -    qdev_prop_set_uint32(gicdev, "num-cpu", 2);
+> +    qdev_prop_set_uint32(gicdev, "num-cpu", nr_apu_cpus);
+>       qdev_prop_set_uint32(gicdev, "num-irq", XLNX_VERSAL_NR_IRQS + 32);
+>       qdev_prop_set_uint32(gicdev, "len-redist-region-count", 1);
+> -    qdev_prop_set_uint32(gicdev, "redist-region-count[0]", 2);
+> +    qdev_prop_set_uint32(gicdev, "redist-region-count[0]", nr_apu_cpus);
+>       qdev_prop_set_bit(gicdev, "has-security-extensions", true);
+>   
+>       sysbus_realize(SYS_BUS_DEVICE(&s->fpd.apu.gic), &error_fatal);
+> 
 
