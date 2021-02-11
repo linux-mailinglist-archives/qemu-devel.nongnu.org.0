@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7444931840D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 04:42:23 +0100 (CET)
-Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA88B318455
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 05:27:12 +0100 (CET)
+Received: from localhost ([::1]:46588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA2s2-0006Fs-IZ
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 22:42:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49346)
+	id 1lA3ZP-0007Lw-UJ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 23:27:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lA2q9-0005az-R3; Wed, 10 Feb 2021 22:40:25 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39410)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lA3YC-0006K2-72
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 23:25:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lA2q8-0003Lp-7g; Wed, 10 Feb 2021 22:40:25 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id d2so2593144pjs.4;
- Wed, 10 Feb 2021 19:40:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=oXD5HifBOhkdDJxxb7pep5N3bulxBVFgVULUFRlmQzA=;
- b=Hrv7retqE1TuliFp9NO70WYU79wfrJLRMihvG+kER7RsHjqtEfd85xp2bGqlDh5xqo
- Cku+DCH4j4U0WC1f8EFHRRpcAJ2y40JkQLpyoNpNn4FlRMyxZmrpmwB5eve4vvJPq0BO
- jGHC/xio6TO8rBhEIUZQKcjFxaqBH5HVFS2KjaHvmL+zW+M+hwIQJpK+2THtRUzTxOEZ
- 3kZmLXNkpOcT+7gAI/jl3uz479iQRhsdukOUY8S2R280pPAltyE80xBBjiyqzwZACPLl
- ptuTe5ftr1BdEtydKNK0bnWDY79pfusVcg0Ipi65CKkPdmUBcoKDU51S3YWZmxGsJVhW
- uIrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=oXD5HifBOhkdDJxxb7pep5N3bulxBVFgVULUFRlmQzA=;
- b=dv0GnSvXFafdkOLbBXlIwSdTKs/DnqKlMhwqQj8bCh0EsbL45t4aMZvIBAUYnWEg/R
- FgBDkDSAnKk4vuFcB2HhgOH3tBBpILP/+wIICqOB6X/YpzJJuLCFQmgrMOw5fAMNeBFG
- QJbSPPE7GhWeOLydyFMtiQMvQmH37oygrzHXp5n1AIxLXXXeDK2JbSKlhq5oykLsOByT
- CJl1CpPnV7WCBtLIIbY1lD83RTEatZJG1yjTiTedCv29f32orK9ggnHfe8qLwlJumema
- K5/1JGbgB1OWuUC2glvPKJC1JFjE+pmWzTCrf+7gTlb2iY3AjJTQnAfp/UqtzDvrW06E
- 7iuw==
-X-Gm-Message-State: AOAM5329TwTZ2qwJGcVoCJbKJsglcmeEBj9dnDKfNDCZnvkyY91ydwms
- hKx75InQBIcXkRUvpKsldwr4JaAhbWSbYQ==
-X-Google-Smtp-Source: ABdhPJyC+zPVK8n1hKimXOmAud9JQGW2cnqItvFSBccQMYriR/vsJJi0nTLXhyLs5IAnZbOOn6bkew==
-X-Received: by 2002:a17:902:7b89:b029:e1:1b46:bcec with SMTP id
- w9-20020a1709027b89b02900e11b46bcecmr5827448pll.5.1613014822209; 
- Wed, 10 Feb 2021 19:40:22 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id b18sm3748908pfb.197.2021.02.10.19.40.21
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 10 Feb 2021 19:40:21 -0800 (PST)
-Date: Thu, 11 Feb 2021 12:40:19 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [RFC PATCH 1/3] hw/block/nvme: set NVME_DNR in a single place
-Message-ID: <20210211034019.GF24885@localhost.localdomain>
-References: <20210210195252.19339-1-minwoo.im.dev@gmail.com>
- <20210210195252.19339-2-minwoo.im.dev@gmail.com>
- <YCQ/38kzPxdWDPqG@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lA3Y7-00033o-QA
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 23:25:55 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lA3Y4-0007jB-KS
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:25:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DCF272E814D
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:25:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YCQ/38kzPxdWDPqG@apples.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 11 Feb 2021 04:17:21 -0000
+From: Launchpad Bug Tracker <1906948@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: gtk gui opengl virtio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fghgfh832 janitor th-huth
+X-Launchpad-Bug-Reporter: johannes (fghgfh832)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <160719376548.16747.104851865616000042.malonedeb@wampee.canonical.com>
+Message-Id: <161301704164.8728.10529353944970304593.malone@loganberry.canonical.com>
+Subject: [Bug 1906948] Re: Enabling OpenGL for GUI doesn't work on old laptop
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
+X-Launchpad-Hash: 12ca62a77f925df89b3bfaa75c363efcc4437817
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,32 +71,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1906948 <1906948@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-02-10 21:19:43, Klaus Jensen wrote:
-> On Feb 11 04:52, Minwoo Im wrote:
-> > @@ -945,6 +945,11 @@ static void nvme_post_cqes(void *opaque)
-> >  static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
-> >  {
-> >      assert(cq->cqid == req->sq->cqid);
-> > +
-> > +    if (req->status != NVME_SUCCESS) {
-> > +        req->status |= NVME_DNR;
-> > +    }
-> 
-> There are status codes where we do not set the DNR bit (e.g. Data
-> Transfer Error, and that might be the only one actually).
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Ouch, I think I need to prepare some of switch-helper to figure out
-which one needs to be retried or not.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-> Maybe a switch such that we do not explicitly set DNR for Data Transfer
-> Error (and any other errors we identify), but only if we set it earlier
-> in the stack.
+-- =
 
-Agreed.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906948
+
+Title:
+  Enabling OpenGL for GUI doesn't work on old laptop
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  QEMU start command is:
+
+  qemu-system-x86_64 -enable-kvm -m 2G -cpu host -smp 2 -cdrom
+  ./linuxmint-20-mate-64bit.iso -boot d -vga virtio -soundhw hda
+  -display gtk,gl=3Don
+
+  =
+
+  and QEMU crashes immediately on startup and gives these error messages:
+
+  =
+
+  qemu_gl_create_compile_shader: compile vertex error
+  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
+10, 1.20, and 1.00 ES
+
+  qemu_gl_create_compile_shader: compile fragment error
+  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
+10, 1.20, and 1.00 ES
+
+  qemu_gl_create_compile_shader: compile vertex error
+  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
+10, 1.20, and 1.00 ES
+
+  qemu_gl_create_compile_shader: compile fragment error
+  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
+10, 1.20, and 1.00 ES
+
+  =
+
+  If I remove "gl=3Don" it will boot. Does this just mean that this hardwar=
+e is too old to run QEMU with OpenGL enabled in GUI, or is this a bug? =
+
+
+  Host OS is Debian 10, computer is a Lenovo laptop with Core i5-520M
+  CPU and its integrated Intel HD graphics GPU.
+
+  QEMU version is 3.1.0 from Debian repositories.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906948/+subscriptions
 
