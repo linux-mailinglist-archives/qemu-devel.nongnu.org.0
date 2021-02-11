@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A51318C11
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:31:54 +0100 (CET)
-Received: from localhost ([::1]:40422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33F5318C08
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:31:47 +0100 (CET)
+Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAC4X-0004Vf-Cr
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:31:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33452)
+	id 1lAC4Q-0004LK-PI
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:31:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABZ1-0008A1-1e
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:19 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51170)
+ id 1lABZ3-0008Ev-Vj
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:22 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABYw-0008Q4-L1
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:18 -0500
-Received: by mail-wm1-x335.google.com with SMTP id 190so5475451wmz.0
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:14 -0800 (PST)
+ id 1lABYz-0008S4-9v
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:21 -0500
+Received: by mail-wm1-x333.google.com with SMTP id n10so3779353wmq.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DCszVGUp3iayThJPWT9pda+ZcUuou8eH26qHc7GyT0A=;
- b=jtu8C/ANWsLvM4OemxJadzfYWfZS/rY26KL+zdqAsqBhFQRhhL8XrkPpFqCDd/cUqK
- KjP5jzS/h9Rwsj94Wnw1An20qfHhHfouM+H63lFxZnEKidT9KIzSv1Y6mVbnuHCa5cYL
- 4iMvHFoH2lwA8DOOY4Atp1pEiT4GyF6rB66uQbB89seHGeiLZakbVToA21SXkrLXqmZ6
- yojqLqjBGLY4wA51INtMPAfws8rVBKlt1fNONyKwXOz+txOpNiCzcPHicNAlFgtvm7op
- V32D6TF7GasdgHi4Aq2qqeaaUkFAy41WDJKVoTTI/SLJvWrolOpQtqYsEjQjmuJGfUgb
- erxA==
+ bh=efv+EhfVcvK/k/9b5RYb8iS1WEkIs2L9Rka7/t1fQqQ=;
+ b=GRBBFLaKmfGoCcbYqCC9eCt9BmTwpnCXcsPeX8swUYoKx/3wfeLq28t0aIp7DiVTeB
+ zPN01L8Vv+bfDBHjgZL3fqFhY8AF4jr5bhCKiF1x4nL5RxvmFAlUky1GT2NXPo9xQ9SN
+ jwgUSGICPl0yqKgqd0eOYY+Gh4k5mgOp+ebd1fNORNOHEnWBSau+Bjd5Zjkcpy4JOVrA
+ 1LDSfg+oWac3H1Wt/mk0t1yUvT7ySelaU5l2qKhk5oY3WpkmrSC1KjfLclCFDa2T2tiZ
+ wtuoRVzNvdALUxd2o8LlyyjZfRf3lijTvub5BG9uJEdaKgWbOU7DIfuWlev98pUBDVLp
+ NY8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DCszVGUp3iayThJPWT9pda+ZcUuou8eH26qHc7GyT0A=;
- b=hk6r09wjHax+WXwnuBYHSUKqqGmSKYWnTUqDkA6TED66Vlhgb6+X33cymkfj6YSITn
- mFIK2c3THA7+KOQg2/vNq7q2QdT22K4Q46sAkMCx63aUf0hbjDnT3abbEOS3xsqy/8ic
- fOdHFVW6gUJvvhQitv0QqXN/DXQvfRw4mbvKQjD0rXH4F90DpmgkVM++5tt/y/2IupKm
- ty9RkZ9Y5cCazLjhn/lnMnOhJmS0CBROjkGDDXNz6ckhMYyNijGe2N8dBgXEVwjSqYcd
- M0hBcYsq7dry24nPcpt3YIQ6edOZmJrKj9Mzu8mtwgfkH1SdfEeLx3UE79VPSPll1DVF
- igKg==
-X-Gm-Message-State: AOAM532Fba2x+JHjZRRY9Exwc6TT7iRvNw8OYoQYXZHUeAbfvWbnSUPP
- B5iMNWwRQYDNPY+AT7RMM6vXy0j//4ZMAQ==
-X-Google-Smtp-Source: ABdhPJz7zgP2CHNOYX8OV2+atBFhLOSlxbEnJTGtWJkZYsoi/Vwi4IxVLHnYOeH4dNRDHl/3YtPOww==
-X-Received: by 2002:a1c:720b:: with SMTP id n11mr5180014wmc.154.1613048353390; 
- Thu, 11 Feb 2021 04:59:13 -0800 (PST)
+ bh=efv+EhfVcvK/k/9b5RYb8iS1WEkIs2L9Rka7/t1fQqQ=;
+ b=WBezaCMTGEvtXS53PAKS84sCE+dI5GPmEIn1kEp4r33OUUKK+lt5YvFUTDsSVSV/P+
+ lihUKAzaxP32qBzQAKrqXaoYLWxKaKVFMVNa4Hb9OfUq613tmwnZXxoWoGKnOYIRJebK
+ u0pmYjm//oI0Xn5+OZN2H4iLMBza3mkMWhj2LH+vt+I0jvvJIHLtY+ni95CFEcFw3XtQ
+ qcl40NIpAni93ksNFIBTR/QhH7/kFyMK/d6vQVk8rLlX70lYw328VeP6eClCx300E5YT
+ 4kjTGD/qT2HMLqtcTNDf/DVchJpUd8Nmb47tD89DUYL3+PZ9Dz38rcogQXfYY3bu+K7s
+ sM6w==
+X-Gm-Message-State: AOAM531z339z8LmiZ9p9EKfqRVCqkp8D9pzRcLkI/j+xpGg33wHc6kLG
+ PRTAAVZIyL3nlqOLMvV3IyygRic/vwLfNg==
+X-Google-Smtp-Source: ABdhPJxZbL1n38DPsQAh6xbUpnntioftMWLVR3Dfak9ua7uItGU2CiUZ+nRciQ9BIAuxu9xnQ65ZgQ==
+X-Received: by 2002:a1c:7f93:: with SMTP id a141mr5181492wmd.105.1613048356016; 
+ Thu, 11 Feb 2021 04:59:16 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.12
+ by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 04:59:13 -0800 (PST)
+ Thu, 11 Feb 2021 04:59:15 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/45] exec: Improve types for guest_addr_valid
-Date: Thu, 11 Feb 2021 12:58:29 +0000
-Message-Id: <20210211125900.22777-15-peter.maydell@linaro.org>
+Subject: [PULL 18/45] linux-user: Do not use guest_addr_valid for h2g_valid
+Date: Thu, 11 Feb 2021 12:58:33 +0000
+Message-Id: <20210211125900.22777-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211125900.22777-1-peter.maydell@linaro.org>
 References: <20210211125900.22777-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,31 +88,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Return bool not int; pass abi_ulong not 'unsigned long'.
-All callers use abi_ulong already, so the change in type
-has no effect.
+This is the only use of guest_addr_valid that does not begin
+with a guest address, but a host address being transformed to
+a guest address.
+
+We will shortly adjust guest_addr_valid to handle guest memory
+tags, and the host address should not be subjected to that.
+
+Move h2g_valid adjacent to the other h2g macros.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210210000223.884088-6-richard.henderson@linaro.org
+Message-id: 20210210000223.884088-10-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/cpu_ldst.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/exec/cpu_ldst.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index 3f9063aaded..5e8878ee9b1 100644
+index 5e8878ee9b1..4e6ef3d5429 100644
 --- a/include/exec/cpu_ldst.h
 +++ b/include/exec/cpu_ldst.h
-@@ -79,7 +79,7 @@ typedef uint64_t abi_ptr;
+@@ -77,13 +77,16 @@ typedef uint64_t abi_ptr;
+ #else
+ #define guest_addr_valid(x) ((x) <= GUEST_ADDR_MAX)
  #endif
- #define h2g_valid(x) guest_addr_valid((uintptr_t)(x) - guest_base)
+-#define h2g_valid(x) guest_addr_valid((uintptr_t)(x) - guest_base)
  
--static inline int guest_range_valid(unsigned long start, unsigned long len)
-+static inline bool guest_range_valid(abi_ulong start, abi_ulong len)
+ static inline bool guest_range_valid(abi_ulong start, abi_ulong len)
  {
      return len - 1 <= GUEST_ADDR_MAX && start <= GUEST_ADDR_MAX - len + 1;
  }
+ 
++#define h2g_valid(x) \
++    (HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS || \
++     (uintptr_t)(x) - guest_base <= GUEST_ADDR_MAX)
++
+ #define h2g_nocheck(x) ({ \
+     uintptr_t __ret = (uintptr_t)(x) - guest_base; \
+     (abi_ptr)__ret; \
 -- 
 2.20.1
 
