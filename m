@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C27A318BAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:13:47 +0100 (CET)
-Received: from localhost ([::1]:55734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D20318BE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:23:10 +0100 (CET)
+Received: from localhost ([::1]:43198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lABn0-0002jU-91
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:13:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33360)
+	id 1lABw5-000144-89
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:23:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABYx-00083G-K8
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:15 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36244)
+ id 1lABYz-00085q-0v
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:17 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:32797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABYw-0008Px-0l
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:15 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id i9so5656930wmq.1
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:13 -0800 (PST)
+ id 1lABYx-0008QW-8N
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:16 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id 7so4127443wrz.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4Zl9k+RBMwhw8/WWyjo+oRnYDhbgHyVsV5EaC0rKvvc=;
- b=S/CYV782LDcyWg5f8OK3hc8hRSN1iVm4P9f+hnyTPLj2LxqL5C0R3b3q+tKdJeDS3K
- KzTMxMFl2Mf+3mbv9sJ8P7Cpd1jfauvxjgVwiJ5vKcxlOa0hwJQ0ZPgg1lHXG6fZVm3r
- xh2+m1qdgH/c2CTE+CUnXxeC64koxnJXBrcRH2iDC9fn9Wxksrgl+WxBZAZPz/8ymdoG
- Q1gQgyM4BHJb4azu9HdDMvz97uQnN4KU02cHGYQTAsNlUqc/up2k5485OlVRIdDb0PaZ
- V9qjnkPrjL368PNIKh7xUKmzC1rvRTDMLtyORY6MwkLc5XSFZpXX2FgppjXWGmvBgmF0
- oQlA==
+ bh=OnfOygHIMNXAAkLXI4Fs2xQ1ZBnGDlgl1MLlwjZp+qg=;
+ b=L2+1HmwfbKYrq8a20zuaE796fdN0RYQjB2CnkiTrFqqMBmn1b3n8EH7bEuP3d55a/e
+ q1DcRSl1wqsRNMxH2fiHKp5xv2+WF4yDvMylSuhfeE6JZFEWGNiPFyNbHsK9KDkG4HZZ
+ w4eG/6PzpgHVVtX9tgCcYUvxyIFATSRTAjzmAv5oToEgN3O5E6cqudmOuEZNAuAuF6yK
+ VbY1gPyXze84eED2YKq7BWLDr2q+jityQ8z7tPfKD8/nM9keIEQUq6aKoYXPUZUD10WO
+ so8/7zUIY5NE+CdQd4CO9q6WlJfbBUcFS2VsY190C8rL+YzFnllX6+kfIu1mAPPC5BOK
+ yeig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4Zl9k+RBMwhw8/WWyjo+oRnYDhbgHyVsV5EaC0rKvvc=;
- b=UDxuY6aaFS69Ct2kwUIkoB1cB65u2RxWRnIDKStykTLEaCaer3VcHY5l2Bk2O6EdyX
- VwZK8ugoUblZHizIb5etZGGZtjrCniVrRg6qMCQKUTc+SUL2pW0nnREYGCbvwjaSY8Dx
- RaKdOzjbxJJuXGBwPvnW2kksdijZR645VaczUAqlL/FZrNUvW0Rf23PMC5YBvxU2jY7Y
- wf0BVJZkiuFiOltFkahD/fJOfjNLbkzQq3IkOlC4DQg1G0iZ8g6rUKutE4m0gwGJureO
- QOy8zexmHlrxBu5cIDbhgpaCY35bZ8+DtPlpOWbCyvcRUBDNTxLS1YxJgXdPutaf5Yl1
- 930Q==
-X-Gm-Message-State: AOAM532oOKfy2y05EBjge+a3tRqp4hw9HhrfZk/82sa3EwKRCZ4r3Bm+
- axRbOW8s+7LCQI9H9TqF3R7QD6SxV944lw==
-X-Google-Smtp-Source: ABdhPJyVp0+rceGyyOSU2Wc/Frrrl9XMMNAIXr3Rr40J7/VUetLo5YCqKcRdDVtsogPXkBOAWDEUOQ==
-X-Received: by 2002:a1c:b7d7:: with SMTP id h206mr5128926wmf.64.1613048352752; 
- Thu, 11 Feb 2021 04:59:12 -0800 (PST)
+ bh=OnfOygHIMNXAAkLXI4Fs2xQ1ZBnGDlgl1MLlwjZp+qg=;
+ b=WQjGAyXxDTBEGAbkuw7uzHGfvGpNsJjIH2q5/YyKwltXxdZxcm25XasguBiVxWaG3l
+ xbyNDhjUJHfOrde/h00/KZr3grWOAYohyMMCgPSMaAiCwKStl+r/+oOb70mWOdeXQ+VE
+ ZD7JGv6ioRhRfhRXHGiIaoJPe715cqsH3heFLKVVIeslz3kyCtalgSHWCJ6RRp5upqG4
+ mHfWCg/3Y2D2sKAGXki22m37P8HiEUyqjmEH1+V5GorIZAPVyoKlqnIRECrAubm7UorT
+ Yn+cJG4KUKZtvIYgb74YLOBSiobPuW8jQXmbraLexjSpGzcaBAA6c0SdhKeZUyTc10+u
+ UXpw==
+X-Gm-Message-State: AOAM532HmvAS7l/XJ9M70KWqd7aPAgN4moJY9gXqNuLHqc5W5lif3EqY
+ cZQXEy2amZ/PJ7gQa1nF7tIluJKV50FaNA==
+X-Google-Smtp-Source: ABdhPJx4lYa+PjJbCccT9xQN/DvrarbBpv0PMpmiHQcQlLjwu0RY3q8kJMf6c1YkA05bHojI+Y4xLw==
+X-Received: by 2002:adf:e511:: with SMTP id j17mr5781754wrm.251.1613048354005; 
+ Thu, 11 Feb 2021 04:59:14 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.12
+ by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 04:59:12 -0800 (PST)
+ Thu, 11 Feb 2021 04:59:13 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/45] exec: Use uintptr_t in cpu_ldst.h
-Date: Thu, 11 Feb 2021 12:58:28 +0000
-Message-Id: <20210211125900.22777-14-peter.maydell@linaro.org>
+Subject: [PULL 15/45] linux-user: Check for overflow in access_ok
+Date: Thu, 11 Feb 2021 12:58:30 +0000
+Message-Id: <20210211125900.22777-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211125900.22777-1-peter.maydell@linaro.org>
 References: <20210211125900.22777-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,47 +88,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is more descriptive than 'unsigned long'.
-No functional change, since these match on all linux+bsd hosts.
+Verify that addr + size - 1 does not wrap around.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210210000223.884088-5-richard.henderson@linaro.org
+Message-id: 20210210000223.884088-7-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/cpu_ldst.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ linux-user/qemu.h | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index ef54cb7e1f8..3f9063aaded 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -70,14 +70,14 @@ typedef uint64_t abi_ptr;
- #endif
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 17aa9921657..441ba6a78bb 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -491,12 +491,19 @@ extern unsigned long guest_stack_size;
+ #define VERIFY_READ 0
+ #define VERIFY_WRITE 1 /* implies read access */
  
- /* All direct uses of g2h and h2g need to go away for usermode softmmu.  */
--#define g2h(x) ((void *)((unsigned long)(abi_ptr)(x) + guest_base))
-+#define g2h(x) ((void *)((uintptr_t)(abi_ptr)(x) + guest_base))
- 
- #if HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS
- #define guest_addr_valid(x) (1)
- #else
- #define guest_addr_valid(x) ((x) <= GUEST_ADDR_MAX)
- #endif
--#define h2g_valid(x) guest_addr_valid((unsigned long)(x) - guest_base)
-+#define h2g_valid(x) guest_addr_valid((uintptr_t)(x) - guest_base)
- 
- static inline int guest_range_valid(unsigned long start, unsigned long len)
+-static inline int access_ok(int type, abi_ulong addr, abi_ulong size)
++static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
  {
-@@ -85,7 +85,7 @@ static inline int guest_range_valid(unsigned long start, unsigned long len)
+-    return guest_addr_valid(addr) &&
+-           (size == 0 || guest_addr_valid(addr + size - 1)) &&
+-           page_check_range((target_ulong)addr, size,
+-                            (type == VERIFY_READ) ? PAGE_READ : (PAGE_READ | PAGE_WRITE)) == 0;
++    if (!guest_addr_valid(addr)) {
++        return false;
++    }
++    if (size != 0 &&
++        (addr + size - 1 < addr ||
++         !guest_addr_valid(addr + size - 1))) {
++        return false;
++    }
++    return page_check_range((target_ulong)addr, size,
++                            (type == VERIFY_READ) ? PAGE_READ :
++                            (PAGE_READ | PAGE_WRITE)) == 0;
  }
  
- #define h2g_nocheck(x) ({ \
--    unsigned long __ret = (unsigned long)(x) - guest_base; \
-+    uintptr_t __ret = (uintptr_t)(x) - guest_base; \
-     (abi_ptr)__ret; \
- })
- 
+ /* NOTE __get_user and __put_user use host pointers and don't check access.
 -- 
 2.20.1
 
