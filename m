@@ -2,49 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9037318B27
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 13:50:18 +0100 (CET)
-Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5871318B04
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 13:42:08 +0100 (CET)
+Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lABQH-000810-Ub
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 07:50:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56290)
+	id 1lABIM-0000iK-DB
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 07:42:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1lABDJ-0005Gs-Vd; Thu, 11 Feb 2021 07:36:53 -0500
-Received: from muminek.juszkiewicz.com.pl ([2001:41d0:1:43dd::1]:38580)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1lABDH-0007Zt-5U; Thu, 11 Feb 2021 07:36:52 -0500
-Received: from localhost (localhost [127.0.0.1])
- by muminek.juszkiewicz.com.pl (Postfix) with ESMTP id D49CC26026D;
- Thu, 11 Feb 2021 13:36:47 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at juszkiewicz.com.pl
-Received: from muminek.juszkiewicz.com.pl ([127.0.0.1])
- by localhost (muminek.juszkiewicz.com.pl [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XM36w5xa23ry; Thu, 11 Feb 2021 13:36:45 +0100 (CET)
-Received: from puchatek.lan (89-67-26-161.dynamic.chello.pl [89.67.26.161])
- by muminek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 567FE26026A;
- Thu, 11 Feb 2021 13:36:45 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: qemu-arm@nongnu.org
-Subject: [PATCH 2/2] sbsa-ref: add 'max' to list of allowed cpus
-Date: Thu, 11 Feb 2021 13:36:38 +0100
-Message-Id: <20210211123638.1820482-2-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210211123638.1820482-1-marcin.juszkiewicz@linaro.org>
-References: <20210211122022.1811362-1-marcin.juszkiewicz@linaro.org>
- <20210211123638.1820482-1-marcin.juszkiewicz@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lABEK-0006jR-E2
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:37:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39237)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lABEH-0007yK-R4
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:37:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613047072;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zRF+AlM0cISS5a+titYFrnfNcEc6o+NzHbzOQdBMYT0=;
+ b=B3UDXedNKLnMBDElwHgYoKBRPOt2qSro9aKTmanqIHZdJj6sZkX/d6bFmf/gKepgqXYoWa
+ 2cmArLQxW823BcmIeNQI58QVk4auVJEsjezYX81RFyyKfiGcGxgVyhUYErX/cWCqApNU3I
+ VyFdJWeo1LLFqc49+LXZ3jidS793Y3k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-y7x_MMZsPgaZ8VPd6izZ_w-1; Thu, 11 Feb 2021 07:37:50 -0500
+X-MC-Unique: y7x_MMZsPgaZ8VPd6izZ_w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78BD0801975
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 12:37:49 +0000 (UTC)
+Received: from localhost (ovpn-115-9.ams2.redhat.com [10.36.115.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1B985D9DC;
+ Thu, 11 Feb 2021 12:37:39 +0000 (UTC)
+Date: Thu, 11 Feb 2021 12:37:38 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 10/24] DAX: virtiofsd: Add setup/remove mappings fuse
+ commands
+Message-ID: <20210211123738.GK247031@stefanha-x1.localdomain>
+References: <20210209190224.62827-1-dgilbert@redhat.com>
+ <20210209190224.62827-11-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=2001:41d0:1:43dd::1;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=muminek.juszkiewicz.com.pl
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20210209190224.62827-11-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Z9t8O/5YJLB6LEUl"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,34 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>,
- =?UTF-8?q?Rados=C5=82aw=20Biernacki?= <rad@semihalf.com>,
- qemu-devel@nongnu.org
+Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ vgoyal@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let add 'max' cpu while work goes on adding newer CPU types than
-Cortex-A72. This allows us to check SVE etc support.
+--Z9t8O/5YJLB6LEUl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- hw/arm/sbsa-ref.c | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, Feb 09, 2021 at 07:02:10PM +0000, Dr. David Alan Gilbert (git) wrote:
+> +static void do_removemapping(fuse_req_t req, fuse_ino_t nodeid,
+> +                             struct fuse_mbuf_iter *iter)
+> +{
+> +    struct fuse_removemapping_in *arg;
+> +    struct fuse_removemapping_one *one;
+> +
+> +    arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
+> +    if (!arg || arg->count <= 0) {
 
-diff --git hw/arm/sbsa-ref.c hw/arm/sbsa-ref.c
-index 276243d122..88dfb2284c 100644
---- hw/arm/sbsa-ref.c
-+++ hw/arm/sbsa-ref.c
-@@ -147,6 +147,7 @@ static const int sbsa_ref_irqmap[] = {
- static const char * const valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a57"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-+    ARM_CPU_TYPE_NAME("max"),
- };
- 
- static bool cpu_type_valid(const char *cpu)
--- 
-2.29.2
+arg->count is unsigned so < is tautologous.
+
+> +        fuse_log(FUSE_LOG_ERR, "do_removemapping: invalid arg %p\n", arg);
+> +        fuse_reply_err(req, EINVAL);
+> +        return;
+> +    }
+> +
+> +    one = fuse_mbuf_iter_advance(iter, arg->count * sizeof(*one));
+
+arg->count * sizeof(*one) is an integer overflow on 32-bit hosts. I
+think we should be more defensive here since this input comes from the
+guest.
+
+--Z9t8O/5YJLB6LEUl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAlJRIACgkQnKSrs4Gr
+c8i8awf/RhrbE9cnGzWrshMc17CgNSicST+cxDf3GUa1GdIdf+/fuxm0hfXfN1D5
+zLUlrCUyTMw15HF/mWfEiT/oGt9PdOcj5S+51KCyLDEthQOVuxKomnPhR+1kvCs7
+lSqQw1Z1SiIaeb7sQirS5mpPr1jnPSkjgrbvKrzVAwQ6ZgxGT3sCJME/D/0migTA
+zxy0vzbyxp3P8sGFq2zvPb/x96KC9TTOc6koqnctXE5bQuFmlK630zEBgyFUr47b
+1bG+JwV04luqE8m8p6vwyHOXG5muidz4hvh4SWWjJuqK1dOOEvGD0ElaTU5vRcuV
+Q/B9WBCSdjQA2bZrO8YewZLj2Pi6NQ==
+=ndWR
+-----END PGP SIGNATURE-----
+
+--Z9t8O/5YJLB6LEUl--
 
 
