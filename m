@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5D9318B5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:02:44 +0100 (CET)
-Received: from localhost ([::1]:36630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB13318B85
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:07:04 +0100 (CET)
+Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lABcJ-0001kj-C0
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:02:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33288)
+	id 1lABgV-0005da-Fp
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:07:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABYu-0007xU-HZ
+ id 1lABYu-0007xv-Ry
  for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:12 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36244)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABYs-0008Nl-HJ
+ id 1lABYt-0008Nt-0J
  for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:12 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id i9so5656739wmq.1
+Received: by mail-wr1-x434.google.com with SMTP id v1so495890wrd.6
  for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=z8oR6cjhvDNb7fmg2sC9i29QfpU4+AsUPB9KwGEI9Q0=;
- b=b7zkPbj5BU+kJeBFrE6YLlanpx3LqQ2FqwK6CwQZVXrul3hpEw9GXtGjpsnWSXPgIR
- 6kEbPQ9yINGL+BosAYurmEvzy98Hv09Lb9p4jXOnZrINnHTNsKHUGbtr9N3sZllpWxyl
- Piy5w3QcZPSCCUvbF6KOW+u8L9TAMScyIcNszGpGmm8tpC5i+qKJ5anlWaFCWoDMcv31
- aYl4WiqHX1Cw0/dF/A3iHSu0NsjKlYm17Qni7qbmT5XIDjGdvv32qggYlikAcqNUDdEs
- f0hlp0fgzURxVT8oskmsItySrZDI/uA32mQhlnPEJ2o2atKm1VX03pyH4KTYHfYBLT4t
- WOlQ==
+ bh=PtDeqeyUBjOCMcS5vyrE3R/MbPIwJDRp4dT9irDCFLM=;
+ b=EeGDLSAzF//2ZQ4oPh6L0wA5onvEzim4h76ICULhGQ2cM8L+5/D7Itc6e/sDWgU/2e
+ SLQdMVHJKU9MGUZ8PiUx1onDgssebtenAtcJXTBYA5GtyhbVAGQ84vZ5oGcTPYhcIS2W
+ tImm+fTMWekzaDqXQ6OQaZQzTViNFBzd6kHmLA/Uo8rVYsBBUDS/2mEQzqA3VdlUp+6U
+ hr/J1K9urVYPGotc4DT2lci68YAYx+pnw0TRUXWak6811rImvAqF98f9HTj4ibDQT0DZ
+ pUBatMXRxGR8UJtY5AmtHkUxPa7aD44KnwPNBsmgRWlrHTdGdSudR1GREfXYiCIjZb5k
+ tt2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z8oR6cjhvDNb7fmg2sC9i29QfpU4+AsUPB9KwGEI9Q0=;
- b=etzz5NKsmSV8t4nnrZmTuEQoZHlrcHHsnO4+IznrqKyaRQ9/9pIMm2uxIksNHkVS/a
- FE//WhEVsyB2GlY6bSzii8E49Jaz+etayKdLdTlN4IxycFv8670IqdrWqKka+jvUaJkW
- v93GnKHujhwpv+mA5mr1XGs+4yTIhmKZVwzb26kK4l5c6nppHOQLne0Q3Dysdqt5Touw
- ZAfxgSqHU39yEtYCsVqP40GDpVvp+QsD+UxORb7Zd7WjLtzqh9Pp9okr8bmmQRU/5Ske
- H/5oUTTBJhniKg6ZFiKfE++zZWuRnBo09ImGhEuz3Ah6mB77cYJWeGg+fo/58O8vDXa9
- TN6A==
-X-Gm-Message-State: AOAM5333VLic0PRLl+YcIfWcmFC932gAQBlc6oUD2AcHVzZrUjzbjvAP
- tFBXojlEzcGvl3fXkc7h+I2J9gBidBeVRA==
-X-Google-Smtp-Source: ABdhPJwbhc/jN0NbzeRhJnJXPs/782/XC+/B0OQOLpgj7fRSnR3NGoO8OgBtrzzAkjLVHDMPMHN31g==
-X-Received: by 2002:a7b:c04c:: with SMTP id u12mr5132083wmc.185.1613048349152; 
+ bh=PtDeqeyUBjOCMcS5vyrE3R/MbPIwJDRp4dT9irDCFLM=;
+ b=gIAJ3WlOfmTX8+htL8Gm2/DEo8an+1L+MkrEmAnhBpsGP5cbplAbCQdzUow607f2uN
+ LhXzSKIdaR9JLrsS11Wcf9hOcFFvrfOMXOPtshe98iYAlwcEWc4Y2ZOQeqsU0lEPkrCv
+ 1xycvzbiAp2SvvnL2mZ1ScUGo4TFGVaoq4SjaTdmOc9C8G90yEs48rZ1TPR6fP0wx0SV
+ yu5HzKvNpbHRwQUr4xW51yIeuky8qNOJx4QNLzDM9w1vLi30OJYtk0b2FVpaKH7Y50St
+ HYUh2mWxKSdiYup1ijV77uBv+9zwsSr2EreITeGOxqwHgVG4vTrSBKf08mFM9gMiYkRt
+ zpYA==
+X-Gm-Message-State: AOAM53198f9hMLvPKzPr5BztGUrKzqUTmjgxNFFwk2o1FxKhFbxRarhn
+ r0rfDXSWQ7m6yxzhdIUHo9Cb8hBWLIYn6A==
+X-Google-Smtp-Source: ABdhPJzRbWuZ6dqyY5QYydHfZrmGx3uHMitsLysXliVEfuQwSyH5V5vwA1SzIQakgd5QnNoAeKXF/g==
+X-Received: by 2002:a5d:56c2:: with SMTP id m2mr689461wrw.325.1613048349812;
  Thu, 11 Feb 2021 04:59:09 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.08
+ by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 04:59:08 -0800 (PST)
+ Thu, 11 Feb 2021 04:59:09 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/45] arm: Update infocenter.arm.com URLs
-Date: Thu, 11 Feb 2021 12:58:23 +0000
-Message-Id: <20210211125900.22777-9-peter.maydell@linaro.org>
+Subject: [PULL 09/45] accel/tcg: Add URL of clang bug to comment about our
+ workaround
+Date: Thu, 11 Feb 2021 12:58:24 +0000
+Message-Id: <20210211125900.22777-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211125900.22777-1-peter.maydell@linaro.org>
 References: <20210211125900.22777-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,138 +88,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update infocenter.arm.com URLs for various pieces of Arm
-documentation to the new developer.arm.com equivalents.  (There is a
-redirection in place from the old URLs, but we might as well update
-our comments in case the redirect ever disappears in future.)
+In cpu_exec() we have a longstanding workaround for compilers which
+do not correctly implement the part of the sigsetjmp()/siglongjmp()
+spec which requires that local variables which are not changed
+between the setjmp and the longjmp retain their value.
 
-This patch covers all the URLs which are not MPS2/SSE-200/IoTKit
-related (those are dealt with in a different patch).
+I recently ran across the upstream clang bug report for this; add a
+link to it to the comment describing the workaround, and generally
+expand the comment, so that we have a reasonable chance in future of
+understanding why it's there and determining when we can remove it,
+assuming clang eventually fixes the bug.
+
+Remove the /* buggy compiler */ comments on the #else and #endif:
+they don't add anything to understanding and are somewhat misleading
+since they're sandwiching the code path for *non*-buggy compilers.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210205171456.19939-1-peter.maydell@linaro.org
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-id: 20210129130330.30820-1-peter.maydell@linaro.org
 ---
- include/hw/dma/pl080.h                 | 7 ++++---
- include/hw/misc/arm_integrator_debug.h | 2 +-
- include/hw/ssi/pl022.h                 | 5 +++--
- hw/arm/aspeed_ast2600.c                | 2 +-
- hw/arm/musca.c                         | 4 ++--
- hw/misc/arm_integrator_debug.c         | 2 +-
- hw/timer/arm_timer.c                   | 7 ++++---
- 7 files changed, 16 insertions(+), 13 deletions(-)
+ accel/tcg/cpu-exec.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/dma/pl080.h b/include/hw/dma/pl080.h
-index 1883f042701..3c9659e4381 100644
---- a/include/hw/dma/pl080.h
-+++ b/include/hw/dma/pl080.h
-@@ -10,11 +10,12 @@
-  * (at your option) any later version.
-  */
- 
--/* This is a model of the Arm PrimeCell PL080/PL081 DMA controller:
-+/*
-+ * This is a model of the Arm PrimeCell PL080/PL081 DMA controller:
-  * The PL080 TRM is:
-- * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0196g/DDI0196.pdf
-+ * https://developer.arm.com/documentation/ddi0196/latest
-  * and the PL081 TRM is:
-- * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0218e/DDI0218.pdf
-+ * https://developer.arm.com/documentation/ddi0218/latest
-  *
-  * QEMU interface:
-  * + sysbus IRQ 0: DMACINTR combined interrupt line
-diff --git a/include/hw/misc/arm_integrator_debug.h b/include/hw/misc/arm_integrator_debug.h
-index 0077dacb44d..798b0821646 100644
---- a/include/hw/misc/arm_integrator_debug.h
-+++ b/include/hw/misc/arm_integrator_debug.h
-@@ -3,7 +3,7 @@
-  *
-  * Browse the data sheet:
-  *
-- *    http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0159b/Babbfijf.html
-+ *  https://developer.arm.com/documentation/dui0159/b/peripherals-and-interfaces/debug-leds-and-dip-switch-interface
-  *
-  * Copyright (c) 2013 Alex Bennée <alex@bennee.com>
-  *
-diff --git a/include/hw/ssi/pl022.h b/include/hw/ssi/pl022.h
-index 545b52689c1..25d58db5f32 100644
---- a/include/hw/ssi/pl022.h
-+++ b/include/hw/ssi/pl022.h
-@@ -9,9 +9,10 @@
-  * (at your option) any later version.
-  */
- 
--/* This is a model of the Arm PrimeCell PL022 synchronous serial port.
-+/*
-+ * This is a model of the Arm PrimeCell PL022 synchronous serial port.
-  * The PL022 TRM is:
-- * http://infocenter.arm.com/help/topic/com.arm.doc.ddi0194h/DDI0194H_ssp_pl022_trm.pdf
-+ * https://developer.arm.com/documentation/ddi0194/latest
-  *
-  * QEMU interface:
-  * + sysbus IRQ: SSPINTR combined interrupt line
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 12e4a16d376..bf31ca351fe 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -216,7 +216,7 @@ static void aspeed_soc_ast2600_init(Object *obj)
- /*
-  * ASPEED ast2600 has 0xf as cluster ID
-  *
-- * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0388e/CIHEBGFG.html
-+ * https://developer.arm.com/documentation/ddi0388/e/the-system-control-coprocessors/summary-of-system-control-coprocessor-registers/multiprocessor-affinity-register
-  */
- static uint64_t aspeed_calc_affinity(int cpu)
- {
-diff --git a/hw/arm/musca.c b/hw/arm/musca.c
-index 945643c3cd7..7a83f7dda7d 100644
---- a/hw/arm/musca.c
-+++ b/hw/arm/musca.c
-@@ -15,8 +15,8 @@
-  * https://developer.arm.com/products/system-design/development-boards/iot-test-chips-and-boards/musca-a-test-chip-board
-  * https://developer.arm.com/products/system-design/development-boards/iot-test-chips-and-boards/musca-b-test-chip-board
-  * We model the A and B1 variants of this board, as described in the TRMs:
-- * http://infocenter.arm.com/help/topic/com.arm.doc.101107_0000_00_en/index.html
-- * http://infocenter.arm.com/help/topic/com.arm.doc.101312_0000_00_en/index.html
-+ * https://developer.arm.com/documentation/101107/latest/
-+ * https://developer.arm.com/documentation/101312/latest/
-  */
- 
- #include "qemu/osdep.h"
-diff --git a/hw/misc/arm_integrator_debug.c b/hw/misc/arm_integrator_debug.c
-index ec0d4b90d3d..9a197278290 100644
---- a/hw/misc/arm_integrator_debug.c
-+++ b/hw/misc/arm_integrator_debug.c
-@@ -6,7 +6,7 @@
-  * to this area.
-  *
-  * The real h/w is described at:
-- *  http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0159b/Babbfijf.html
-+ *  https://developer.arm.com/documentation/dui0159/b/peripherals-and-interfaces/debug-leds-and-dip-switch-interface
-  *
-  * Copyright (c) 2013 Alex Bennée <alex@bennee.com>
-  *
-diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
-index 98e70b2d262..15caff0e41c 100644
---- a/hw/timer/arm_timer.c
-+++ b/hw/timer/arm_timer.c
-@@ -185,10 +185,11 @@ static arm_timer_state *arm_timer_init(uint32_t freq)
-     return s;
- }
- 
--/* ARM PrimeCell SP804 dual timer module.
-+/*
-+ * ARM PrimeCell SP804 dual timer module.
-  * Docs at
-- * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0271d/index.html
--*/
-+ * https://developer.arm.com/documentation/ddi0271/latest/
-+ */
- 
- #define TYPE_SP804 "sp804"
- OBJECT_DECLARE_SIMPLE_TYPE(SP804State, SP804)
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index d9ef69121cb..f2819eec7da 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -773,17 +773,30 @@ int cpu_exec(CPUState *cpu)
+     /* prepare setjmp context for exception handling */
+     if (sigsetjmp(cpu->jmp_env, 0) != 0) {
+ #if defined(__clang__)
+-        /* Some compilers wrongly smash all local variables after
+-         * siglongjmp. There were bug reports for gcc 4.5.0 and clang.
++        /*
++         * Some compilers wrongly smash all local variables after
++         * siglongjmp (the spec requires that only non-volatile locals
++         * which are changed between the sigsetjmp and siglongjmp are
++         * permitted to be trashed). There were bug reports for gcc
++         * 4.5.0 and clang.  The bug is fixed in all versions of gcc
++         * that we support, but is still unfixed in clang:
++         *   https://bugs.llvm.org/show_bug.cgi?id=21183
++         *
+          * Reload essential local variables here for those compilers.
+-         * Newer versions of gcc would complain about this code (-Wclobbered). */
++         * Newer versions of gcc would complain about this code (-Wclobbered),
++         * so we only perform the workaround for clang.
++         */
+         cpu = current_cpu;
+         cc = CPU_GET_CLASS(cpu);
+-#else /* buggy compiler */
+-        /* Assert that the compiler does not smash local variables. */
++#else
++        /*
++         * Non-buggy compilers preserve these locals; assert that
++         * they have the correct value.
++         */
+         g_assert(cpu == current_cpu);
+         g_assert(cc == CPU_GET_CLASS(cpu));
+-#endif /* buggy compiler */
++#endif
++
+ #ifndef CONFIG_SOFTMMU
+         tcg_debug_assert(!have_mmap_lock());
+ #endif
 -- 
 2.20.1
 
