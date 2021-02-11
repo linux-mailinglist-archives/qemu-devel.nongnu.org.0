@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28952318E85
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 16:31:06 +0100 (CET)
-Received: from localhost ([::1]:46754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3109318EBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 16:35:04 +0100 (CET)
+Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lADvt-0001U8-5g
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 10:31:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
+	id 1lADzi-0003ZU-CT
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 10:35:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lADsJ-0007Ae-MK
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 10:27:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51094)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lADsG-0005yb-Od
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 10:27:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613057238;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5crRB6zQ62VORCnSn24N82IJwWjsT7vnm07XAlVkhnY=;
- b=Jfksmvk85uqF3nfoQKj+UGd2Be9vT5Lhyv8PtKSFh9jGgMA+2GMaazjl6WwVWLsLoWG1h4
- BoeTW0wzSx5IgfIVvUW70oFxIadkk4P4OWHV3oUw9P/GhSJll4atglcQDl6ikJykp1S9gw
- scqG9nC8no9XM9C4she/Hg3sySq/8FA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-aN50EUrpNP2-uAS5VddePQ-1; Thu, 11 Feb 2021 10:27:17 -0500
-X-MC-Unique: aN50EUrpNP2-uAS5VddePQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BEB3874980
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 15:27:16 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-229.rdu2.redhat.com [10.10.115.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA73E1B47E;
- Thu, 11 Feb 2021 15:27:01 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 81036220BCF; Thu, 11 Feb 2021 10:27:01 -0500 (EST)
-Date: Thu, 11 Feb 2021 10:27:01 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 01/24] DAX: vhost-user: Rework slave return values
-Message-ID: <20210211152701.GC5014@redhat.com>
-References: <20210209190224.62827-1-dgilbert@redhat.com>
- <20210209190224.62827-2-dgilbert@redhat.com>
- <20210211095936.GB247031@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lADmv-0003cI-6Z; Thu, 11 Feb 2021 10:21:49 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:53103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lADmt-0003k7-Nf; Thu, 11 Feb 2021 10:21:48 -0500
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id EE6E15C00A4;
+ Thu, 11 Feb 2021 10:21:46 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Thu, 11 Feb 2021 10:21:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=/qiaKh/Umj0v0
+ u+CwNpOqgCztOzHKADBAylv/jX6NO0=; b=KSwWcyF+VeaZ1APqiVZtM7rLL1pF4
+ hQRF0AUYApY6hmCUYhNxfHFUPkMSWj+mowiensG8QiQ/seAHhRJgEp5pf1gn+a6o
+ 2ycKBKHn48e1SDq51c4uqdlI1XfxjVGLMXXJ3dyImsPyBatm+qLQoEizUasccFIJ
+ FegsfIjJF/XgahTjQj4pWX+Y97RkWtWxQUj2kwdE9t252z3bXDB2mRMstiYhnOv/
+ 0tAV1P0ZfErQBUuc5Nc0Td6W5FlNGZnLnnastZbPAn3QocRWzLv9Xar4Wac2IS+Y
+ t+KcpwoR+1AlFPmJ32SxhpZfJN/Xp85xWznzSYcVD9mm7oCy/aUn19sLA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=/qiaKh/Umj0v0u+CwNpOqgCztOzHKADBAylv/jX6NO0=; b=iq8nCxv6
+ qXWksR/9bEzL+yXKXBifIUrHnT9O+Q1skbW0r89cDfMYn+DYLe1RHNHl1PVXq9Z1
+ +9S9KOHrgvtE+aQxwO6JlpiWTqhinOMc8yoTfoGjJLoFt0bptFm5L5UiOeiSEjLj
+ 6+NX/fFlQA1gphrEHXmKlhsazvD2FkmMU335lR3s9mO4A+MZTlDSCF2WKmnrAwo+
+ ldKS/PTcVY1TGJKJHYkiFWiw/JvoE4zOFfe1qlBXKPdtZ/WQrmpkH2pDv/R5wKyj
+ 0EeAEol1yK8veDSBg6Xhpj08ffJ7euPfS25uPrBVmPwRafuzo1JCIQCxUYE/hDhC
+ k1613lCsT2uHNg==
+X-ME-Sender: <xms:ikslYGKUSJ14O8aBM8xxh0DpYSHaQAXaiOE0xmnFg1UEKFBjt2sB0Q>
+ <xme:ikslYCclJ5EbJwOUFrAON2lomdQSMnA5TUFGq9FxW-c0dpEZWhESZbMmq3df3pG_U
+ lqbWqI9Pzd9eZd18XE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheelgdejgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:ikslYF2OlOb59WAuzz4IgDftG0PVubOsFjgeBFZg09L-42p2XQ95Bw>
+ <xmx:ikslYDgjtjoIRTjDMG-p-ciUc0C9NXjMGHu5wK7GgrkAfrgaekrWTA>
+ <xmx:ikslYDRXT9_nMWO3YFrFYRHmaYABtOj06RZtl9Ux-M1PsO_NyGSlrA>
+ <xmx:ikslYJ7Psv545eJsLBXprmA-KV-QGFj2iddnzqD3GCWJGCY1PRgGaA>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6DBFA240062;
+ Thu, 11 Feb 2021 10:21:45 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL v2 3/3] hw/block/nvme: fix error handling in nvme_ns_realize
+Date: Thu, 11 Feb 2021 16:21:39 +0100
+Message-Id: <20210211152139.1004257-4-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210211152139.1004257-1-its@irrelevant.dk>
+References: <20210211152139.1004257-1-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20210211095936.GB247031@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,47 +93,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, mst@redhat.com,
- "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 09:59:36AM +0000, Stefan Hajnoczi wrote:
-> On Tue, Feb 09, 2021 at 07:02:01PM +0000, Dr. David Alan Gilbert (git) wrote:
-> > +static uint64_t vhost_user_slave_handle_vring_host_notifier(
-> > +                struct vhost_dev *dev,
-> > +               VhostUserVringArea *area,
-> > +               int fd)
-> 
-> Indentation looks off. Only worth changing if you respin.
-> 
-> > @@ -1398,7 +1399,8 @@ static void slave_read(void *opaque)
-> >      struct vhost_user *u = dev->opaque;
-> >      VhostUserHeader hdr = { 0, };
-> >      VhostUserPayload payload = { 0, };
-> > -    int size, ret = 0;
-> > +    int size;
-> > +    uint64_t ret = 0;
-> >      struct iovec iov;
-> >      struct msghdr msgh;
-> >      int fd[VHOST_USER_SLAVE_MAX_FDS];
-> > @@ -1472,7 +1474,7 @@ static void slave_read(void *opaque)
-> >          break;
-> >      default:
-> >          error_report("Received unexpected msg type: %d.", hdr.request);
-> > -        ret = -EINVAL;
-> > +        ret = (uint64_t)-EINVAL;
-> 
-> The !!ret was removed below so it would have previously been true (1).
-> Now it has changed value.
-> 
-> If there is no specific reason to change the value, please keep it true
-> (1) just in case a vhost-user device backend depends on that value.
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Good catch. I guess it will be nice to send -EINVAL back but we probably
-can't change it now due to backward compatibility issue. Just in case,
-someone is relying on reading back true (instead of -EINVAL).
+nvme_ns_realize passes errp to nvme_register_namespaces, but then try to
+prepend errp with local_err.
 
-Vivek
+Just remove the local_err and use errp directly.
+
+Fixes: 15d024d4aa9b ("hw/block/nvme: split setup and register for namespace")
+Cc: Minwoo Im <minwoo.im.dev@gmail.com>
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme-ns.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index dfed71a950fa..93ac6e107a09 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -358,17 +358,12 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+     NvmeNamespace *ns = NVME_NS(dev);
+     BusState *s = qdev_get_parent_bus(dev);
+     NvmeCtrl *n = NVME(s->parent);
+-    Error *local_err = NULL;
+ 
+-    if (nvme_ns_setup(ns, &local_err)) {
+-        error_propagate_prepend(errp, local_err,
+-                                "could not setup namespace: ");
++    if (nvme_ns_setup(ns, errp)) {
+         return;
+     }
+ 
+     if (nvme_register_namespace(n, ns, errp)) {
+-        error_propagate_prepend(errp, local_err,
+-                                "could not register namespace: ");
+         return;
+     }
+ 
+-- 
+2.30.0
 
 
