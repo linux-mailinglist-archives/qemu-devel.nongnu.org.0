@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22448319571
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 22:56:42 +0100 (CET)
-Received: from localhost ([::1]:60024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A0E319577
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 22:59:28 +0100 (CET)
+Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAJx3-000258-1F
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 16:56:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57074)
+	id 1lAJzj-0005Zb-0R
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 16:59:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lAJrr-0006SV-BS
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 16:51:19 -0500
-Received: from rev.ng ([5.9.113.41]:33251)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lAJrt-0006Xl-Kk
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 16:51:21 -0500
+Received: from rev.ng ([5.9.113.41]:35527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lAJrj-00011y-Km
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 16:51:19 -0500
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lAJrl-00012i-NV
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 16:51:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=8spDaotpUtdVV+Pej9PcYQZUKTvB95PZ+CiOjPT/JT8=; b=Z29/jTHd0GwOPPWpvAaj2S+c6K
- BYbqclkVlkm+Jogx9z+0ISooJ6lx3bXOZBEodYqZ4+8cjaDVPsHm7hK7l3Zj7R3SI13Mej49kGXNd
- wVI4HGjW3syDC38smuv9TuX5Xv4FROX9YqOlew1q0xHl2qcmHUWxYP7fsUyrmpONVMW8=;
+ bh=wwMLXQPAdccnoLYeQAz55NoKrHgheLsL+MaYvgyAWIM=; b=khmKLf49XPjP0qabS5MiIEYovC
+ TMzJAgn5jiduOM7Cpn5o5+Z58wl/QhssvBXJ5T+UQAjTHCSo9d5m0IIjclVJS0e1Z9W0bbNQNDd6U
+ Gh+hEQN9XsbU2gqdZK5s+My5YOjVlc3Tlja7qVuQrCuXw9CmeBfrpF/P1cnkmmZKXBpE=;
 To: qemu-devel@nongnu.org
 Cc: tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
  Alessandro Di Federico <ale@rev.ng>
-Subject: [RFC PATCH 07/10] target/hexagon: import lexer for idef-parser
-Date: Thu, 11 Feb 2021 22:50:48 +0100
-Message-Id: <20210211215051.2102435-8-ale.qemu@rev.ng>
+Subject: [RFC PATCH 08/10] target/hexagon: import parser for idef-parser
+Date: Thu, 11 Feb 2021 22:50:49 +0100
+Message-Id: <20210211215051.2102435-9-ale.qemu@rev.ng>
 In-Reply-To: <20210211215051.2102435-1-ale.qemu@rev.ng>
 References: <20210211215051.2102435-1-ale.qemu@rev.ng>
 MIME-Version: 1.0
@@ -64,25 +64,21 @@ From: Paolo Montesel <babush@rev.ng>
 
 Signed-off-by: Alessandro Di Federico <ale@rev.ng>
 ---
- target/hexagon/idef-parser/idef-lexer.lex | 648 ++++++++++++++++++++++
- target/hexagon/idef-parser/idef-parser.h  | 245 ++++++++
- target/hexagon/meson.build                |   4 +
- 3 files changed, 897 insertions(+)
- create mode 100644 target/hexagon/idef-parser/idef-lexer.lex
- create mode 100644 target/hexagon/idef-parser/idef-parser.h
+ target/hexagon/idef-parser/idef-parser.y    | 1248 ++++++++++++
+ target/hexagon/idef-parser/parser-helpers.c | 1925 +++++++++++++++++++
+ target/hexagon/idef-parser/parser-helpers.h |  293 +++
+ target/hexagon/meson.build                  |   22 +-
+ 4 files changed, 3487 insertions(+), 1 deletion(-)
+ create mode 100644 target/hexagon/idef-parser/idef-parser.y
+ create mode 100644 target/hexagon/idef-parser/parser-helpers.c
+ create mode 100644 target/hexagon/idef-parser/parser-helpers.h
 
-diff --git a/target/hexagon/idef-parser/idef-lexer.lex b/target/hexagon/idef-parser/idef-lexer.lex
+diff --git a/target/hexagon/idef-parser/idef-parser.y b/target/hexagon/idef-parser/idef-parser.y
 new file mode 100644
-index 0000000000..b0e460b4d4
+index 0000000000..80490101ca
 --- /dev/null
-+++ b/target/hexagon/idef-parser/idef-lexer.lex
-@@ -0,0 +1,648 @@
-+%option noyywrap noinput nounput
-+%option 8bit reentrant bison-bridge
-+%option warn nodefault
-+%option header-file="idef-parser.yy.h"
-+%option bison-locations
-+
++++ b/target/hexagon/idef-parser/idef-parser.y
+@@ -0,0 +1,1248 @@
 +%{
 +/*
 + * Copyright(c) 2019-2020 rev.ng Srls. All Rights Reserved.
@@ -93,7 +89,7 @@ index 0000000000..b0e460b4d4
 + * version 2 of the License, or (at your option) any later version.
 + *
 + * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * but WITHOUT ANY WARRANTY; withOUT even the implied warranty of
 + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 + * Lesser General Public License for more details.
 + *
@@ -101,636 +97,1242 @@ index 0000000000..b0e460b4d4
 + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#include <string.h>
-+#include <stdbool.h>
-+
 +#include "idef-parser.h"
++#include "parser-helpers.h"
 +#include "idef-parser.tab.h"
++#include "idef-parser.yy.h"
 +
-+/* Keep track of scanner position for error message printout */
-+#define YY_USER_ACTION yylloc->first_column = yylloc->last_column; \
-+    for (int i = 0; yytext[i] != '\0'; i++) {   \
-+        yylloc->last_column++;                  \
-+    }
++/* Uncomment this to disable yyasserts */
++/* #define NDEBUG */
 +
-+/* Global Error Counter */
-+int error_count;
++#define ERR_LINE_CONTEXT 40
 +
 +%}
 +
-+/* Definitions */
-+DIGIT                    [0-9]
-+LOWER_ID                 [a-z]
-+UPPER_ID                 [A-Z]
-+ID                       LOWER_ID|UPPER_ID
-+INST_NAME                [A-Z]+[0-9]_([A-Za-z]|[0-9]|_)+
-+HEX_DIGIT                [0-9a-fA-F]
-+REG_ID_32                e|s|d|t|u|v|x|y
-+REG_ID_64                ee|ss|dd|tt|uu|vv|xx|yy
-+SYS_ID_32                s|d
-+SYS_ID_64                ss|dd
-+LOWER_PRE                d|s|t|u|v|e|x|x
-+ZERO_ONE                 0|1
-+IMM_ID                   r|s|S|u|U
-+VAR_ID                   [a-zA-Z_][a-zA-Z0-9_]*
-+SIGN_ID                  s|u
++%lex-param {void *scanner}
++%parse-param {void *scanner}
++%parse-param {Context *c}
++
++%define parse.error detailed
++%define parse.lac full
++%define api.pure full
++
++%locations
++
++%union {
++    char *string;
++    HexValue rvalue;
++    HexSat sat;
++    HexCast cast;
++    HexExtract extract;
++    HexMpy mpy;
++    bool is_unsigned;
++    int index;
++}
 +
 +/* Tokens */
++%start input
++
++%expect 1
++
++%token INAME DREG DIMM DPRE DEA RREG WREG FREG FIMM RPRE WPRE FPRE FWRAP FEA
++%token VAR LBR RBR LPAR RPAR LSQ RSQ SEMI COLON PLUS MINUS MUL POW DIV MOD ABS
++%token CROUND ROUND CIRCADD COUNTONES AND OR XOR NOT ASSIGN INC DEC ANDA ORA
++%token XORA PLUSPLUS LT GT ASL ASR LSR EQ NEQ LTE GTE MIN MAX ANDL ORL NOTL
++%token COMMA FOR ICIRC IF MUN FSCR FCHK SXT ZXT NEW CONSTEXT LOCNT BREV SIGN
++%token LOAD STORE CONSTLL CONSTULL PC NPC LPCFG CANC QMARK IDENTITY PART1
++%token BREV_4 BREV_8 ROTL INSBITS SETBITS EXTBITS EXTRANGE CAST4_8U SETOVF FAIL
++%token DEINTERLEAVE INTERLEAVE
++
++%token <rvalue> REG IMM PRE
++%token <index> ELSE
++%token <mpy> MPY
++%token <sat> SAT
++%token <cast> CAST DEPOSIT SETHALF
++%token <extract> EXTRACT
++%type <string> INAME
++%type <rvalue> rvalue lvalue VAR assign_statement pre
++%type <rvalue> DREG DIMM DPRE RREG RPRE FAIL
++%type <index> if_stmt IF
++%type <is_unsigned> SIGN
++
++/* Operator Precedences */
++%left MIN MAX
++%left LPAR
++%left COMMA
++%left ASSIGN
++%right CIRCADD
++%right INC DEC ANDA ORA XORA
++%left QMARK COLON
++%left ORL
++%left ANDL
++%left OR
++%left XOR ANDOR
++%left AND
++%left EQ NEQ
++%left LT GT LTE GTE
++%left ASL ASR LSR
++%right ABS
++%left MINUS PLUS
++%left POW
++%left MUL DIV MOD MPY
++%right NOT NOTL
++%left LSQ
++%left NEW
++%right CAST
++%right LOCNT BREV
++
++/* Bison Grammar */
 +%%
 +
-+[ \t\f\v]+                { /* Ignore whitespaces. */ }
-+[\n\r]+                   { /* Ignore newlines. */ }
++/* Input file containing the description of each hexagon instruction */
++input : instructions
++{
++    YYACCEPT;
++}
++;
 +
-+{INST_NAME}               { yylval->string = strdup(yytext);
-+                            return INAME; }
-+"fFLOAT"                 |
-+"fUNFLOAT"               |
-+"fDOUBLE"                |
-+"fUNDOUBLE"              |
-+"0.0"                    |
-+"0x1.0p52"               |
-+"0x1.0p-52"              { return FAIL; }
-+"R"{REG_ID_32}"V" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
-+                           yylval->rvalue.reg.id = yytext[1];
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return REG; }
-+"R"{REG_ID_32}"N" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = DOTNEW;
-+                           yylval->rvalue.reg.id = yytext[1];
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return REG; }
-+"R"{REG_ID_64}"V" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
-+                           yylval->rvalue.reg.id = yytext[1];
-+                           yylval->rvalue.reg.bit_width = 64;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return REG; }
-+"R"{REG_ID_64}"N" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = DOTNEW;
-+                           yylval->rvalue.reg.id = yytext[1];
-+                           yylval->rvalue.reg.bit_width = 64;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return REG; }
-+"MuV" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = MODIFIER;
-+                           yylval->rvalue.reg.id = 'u';
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"C"{REG_ID_32}"V" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = yytext[1];
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return REG; }
-+"C"{REG_ID_64}"V" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = yytext[1];
-+                           yylval->rvalue.reg.bit_width = 64;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return REG; }
-+{IMM_ID}"iV" {
-+                           yylval->rvalue.type = IMMEDIATE;
-+                           yylval->rvalue.is_unsigned = false;
-+                           yylval->rvalue.imm.type = VARIABLE;
-+                           yylval->rvalue.imm.id = yytext[0];
-+                           yylval->rvalue.is_dotnew = false;
-+                           return IMM; }
-+"P"{LOWER_PRE}"V" {
-+                           yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = yytext[1];
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return PRE; }
-+"P"{LOWER_PRE}"N" {
-+                           yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = yytext[1];
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return PRE; }
-+"in R"{REG_ID_32}"V" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
-+                           yylval->rvalue.reg.id = yytext[4];
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return RREG; }
-+"in R"{REG_ID_64}"V" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
-+                           yylval->rvalue.reg.id = yytext[4];
-+                           yylval->rvalue.reg.bit_width = 64;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return RREG; }
-+"in N"{REG_ID_32}"N" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = DOTNEW;
-+                           yylval->rvalue.reg.id = yytext[4];
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return RREG; }
-+"in N"{REG_ID_64}"N" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = DOTNEW;
-+                           yylval->rvalue.reg.id = yytext[4];
-+                           yylval->rvalue.reg.bit_width = 64;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return RREG; }
-+"in P"{LOWER_PRE}"V" {
-+                           yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = yytext[4];
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return RPRE; }
-+"in P"{LOWER_PRE}"N" {
-+                           yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = yytext[4];
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return RPRE; }
-+"in MuV" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = MODIFIER;
-+                           yylval->rvalue.reg.id = 'u';
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return RREG; }
-+"in C"{REG_ID_32}"V" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = yytext[4];
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return RREG; }
-+"in C"{REG_ID_64}"V" {
-+                           yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = yytext[4];
-+                           yylval->rvalue.reg.bit_width = 64;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_dotnew = false;
-+                           return RREG; }
-+"fGEN_TCG_"{INST_NAME}"(" { return FWRAP; }
-+"(unsigned int)"         { /* Skip c-style casts */ }
-+"{"                      { return LBR; }
-+"}"                      { return RBR; }
-+"["                      { return LSQ; }
-+"]"                      { return RSQ; }
-+"("                      { return LPAR; }
-+")"                      { return RPAR; }
-+"IV1DEAD()"              |
-+"fPAUSE(uiV);"           |
-+";"                      { return SEMI; }
-+":"                      { return COLON; }
-+"+"                      { return PLUS; }
-+"-"                      { return MINUS; }
-+"*"                      { return MUL; }
-+"**"                     { return POW; }
-+"/"                      { return DIV; }
-+"%"                      { return MOD; }
-+"&"                      { return AND; }
-+"|"                      { return OR; }
-+"^"                      { return XOR; }
-+"~"                      { return NOT; }
-+"="                      { return ASSIGN; }
-+"+="                     { return INC; }
-+"-="                     { return DEC; }
-+"++"                     { return PLUSPLUS; }
-+"&="                     { return ANDA; }
-+"|="                     { return ORA; }
-+"^="                     { return XORA; }
-+"<"                      { return LT; }
-+">"                      { return GT; }
-+"<<"                     { return ASL; }
-+">>"                     { return ASR; }
-+">>>"                    { return LSR; }
-+"=="                     { return EQ; }
-+"!="                     { return NEQ; }
-+"<="                     { return LTE; }
-+">="                     { return GTE; }
-+"&&"                     { return ANDL; }
-+"||"                     { return ORL; }
-+"!"                      { return NOTL; }
-+","                      { return COMMA; }
-+"else"                   { return ELSE; }
-+"for"                    { return FOR; }
-+"fREAD_IREG"             { return ICIRC; }
-+"fPART1"                 { return PART1; }
-+"if"                     { return IF; }
-+"fFRAME_SCRAMBLE"        { return FSCR; }
-+"fFRAME_UNSCRAMBLE"      { return FSCR; }
-+"fFRAMECHECK"            { return FCHK; }
-+"Constant_extended"      { return CONSTEXT; }
-+"fCL1_"{DIGIT}           { return LOCNT; }
-+"fBREV_8"                { return BREV_8; }
-+"fBREV_4"                { return BREV_4; }
-+"fbrev"                  { return BREV; }
-+"fSXTN"                  { return SXT; }
-+"fZXTN"                  { return ZXT; }
-+"fDF_MAX"                |
-+"fSF_MAX"                |
-+"fMAX"                   { return MAX; }
-+"fDF_MIN"                |
-+"fSF_MIN"                |
-+"fMIN"                   { return MIN; }
-+"fABS"                   { return ABS; }
-+"fRNDN"                  { return ROUND; }
-+"fCRND"                  { return CROUND; }
-+"fCRNDN"                 { return CROUND; }
-+"fPM_CIRI"               { return CIRCADD; }
-+"fPM_CIRR"               { return CIRCADD; }
-+"fCOUNTONES_"{DIGIT}     { return COUNTONES; }
-+"fSATN"                  { yylval->sat.set_overflow = false;
-+                           yylval->sat.is_unsigned = false;
-+                           return SAT; }
-+"fVSATN"                 { yylval->sat.set_overflow = true;
-+                           yylval->sat.is_unsigned = false;
-+                           return SAT; }
-+"fSATUN"                 { yylval->sat.set_overflow = false;
-+                           yylval->sat.is_unsigned = true;
-+                           return SAT; }
-+"fVSATUN"                { yylval->sat.set_overflow = true;
-+                           yylval->sat.is_unsigned = true;
-+                           return SAT; }
-+"fSE32_64"               { yylval->cast.bit_width = 64;
-+                           yylval->cast.is_unsigned = false;
-+                           return CAST; }
-+"fCAST4_4u"              { yylval->cast.bit_width = 32;
-+                           yylval->cast.is_unsigned = true;
-+                           return CAST; }
-+"fCAST4_8s"              { yylval->cast.bit_width = 64;
-+                           yylval->cast.is_unsigned = false;
-+                           return CAST; }
-+"fCAST4_8u"              { return CAST4_8U; }
-+"fCAST4u"                { yylval->cast.bit_width = 32;
-+                           yylval->cast.is_unsigned = true;
-+                           return CAST; }
-+"fCAST4s"                { yylval->cast.bit_width = 32;
-+                           yylval->cast.is_unsigned = false;
-+                           return CAST; }
-+"fCAST8_8u"              { yylval->cast.bit_width = 64;
-+                           yylval->cast.is_unsigned = true;
-+                           return CAST; }
-+"fCAST8u"                { yylval->cast.bit_width = 64;
-+                           yylval->cast.is_unsigned = true;
-+                           return CAST; }
-+"fCAST8s"                { yylval->cast.bit_width = 64;
-+                           yylval->cast.is_unsigned = false;
-+                           return CAST; }
-+"fGETBIT"                { yylval->extract.bit_width = 1;
-+                           yylval->extract.storage_bit_width = 1;
-+                           yylval->extract.is_unsigned = true;
-+                           return EXTRACT; }
-+"fGETBYTE"               { yylval->extract.bit_width = 8;
-+                           yylval->extract.storage_bit_width = 8;
-+                           yylval->extract.is_unsigned = false;
-+                           return EXTRACT; }
-+"fGETUBYTE"              { yylval->extract.bit_width = 8;
-+                           yylval->extract.storage_bit_width = 8;
-+                           yylval->extract.is_unsigned = true;
-+                           return EXTRACT; }
-+"fGETHALF"               { yylval->extract.bit_width = 16;
-+                           yylval->extract.storage_bit_width = 16;
-+                           yylval->extract.is_unsigned = false;
-+                           return EXTRACT; }
-+"fGETUHALF"              { yylval->extract.bit_width = 16;
-+                           yylval->extract.storage_bit_width = 16;
-+                           yylval->extract.is_unsigned = true;
-+                           return EXTRACT; }
-+"fGETWORD"               { yylval->extract.bit_width = 32;
-+                           yylval->extract.storage_bit_width = 64;
-+                           yylval->extract.is_unsigned = false;
-+                           return EXTRACT; }
-+"fGETUWORD"              { yylval->extract.bit_width = 32;
-+                           yylval->extract.storage_bit_width = 64;
-+                           yylval->extract.is_unsigned = true;
-+                           return EXTRACT; }
-+"fEXTRACTU_BITS"         { return EXTBITS; }
-+"fEXTRACTU_RANGE"        { return EXTRANGE; }
-+"fSETBIT"                { yylval->cast.bit_width = 1;
-+                           yylval->cast.is_unsigned = false;
-+                           return DEPOSIT; }
-+"fSETBYTE"               { yylval->cast.bit_width = 8;
-+                           yylval->cast.is_unsigned = false;
-+                           return DEPOSIT; }
-+"fSETHALF"               { yylval->cast.bit_width = 16;
-+                           yylval->cast.is_unsigned = false;
-+                           return SETHALF; }
-+"fSETWORD"               { yylval->cast.bit_width = 32;
-+                           yylval->cast.is_unsigned = false;
-+                           return DEPOSIT; }
-+"fINSERT_BITS"           { return INSBITS; }
-+"fSETBITS"               { return SETBITS; }
-+"fMPY8UU"                { yylval->mpy.first_bit_width = 8;
-+                           yylval->mpy.second_bit_width = 8;
-+                           yylval->mpy.first_unsigned = true;
-+                           yylval->mpy.second_unsigned = true;
-+                           return MPY; }
-+"fMPY8US"                { yylval->mpy.first_bit_width = 8;
-+                           yylval->mpy.second_bit_width = 8;
-+                           yylval->mpy.first_unsigned = true;
-+                           yylval->mpy.second_unsigned = false;
-+                           return MPY; }
-+"fMPY8SU"                { yylval->mpy.first_bit_width = 8;
-+                           yylval->mpy.second_bit_width = 8;
-+                           yylval->mpy.first_unsigned = false;
-+                           yylval->mpy.second_unsigned = true;
-+                           return MPY; }
-+"fMPY8SS"                { yylval->mpy.first_bit_width = 8;
-+                           yylval->mpy.second_bit_width = 8;
-+                           yylval->mpy.first_unsigned = false;
-+                           yylval->mpy.second_unsigned = false;
-+                           return MPY; }
-+"fMPY16UU"               { yylval->mpy.first_bit_width = 16;
-+                           yylval->mpy.second_bit_width = 16;
-+                           yylval->mpy.first_unsigned = true;
-+                           yylval->mpy.second_unsigned = true;
-+                           return MPY; }
-+"fMPY16US"               { yylval->mpy.first_bit_width = 16;
-+                           yylval->mpy.second_bit_width = 16;
-+                           yylval->mpy.first_unsigned = true;
-+                           yylval->mpy.second_unsigned = false;
-+                           return MPY; }
-+"fMPY16SU"               { yylval->mpy.first_bit_width = 16;
-+                           yylval->mpy.second_bit_width = 16;
-+                           yylval->mpy.first_unsigned = false;
-+                           yylval->mpy.second_unsigned = true;
-+                           return MPY; }
-+"fMPY16SS"               { yylval->mpy.first_bit_width = 16;
-+                           yylval->mpy.second_bit_width = 16;
-+                           yylval->mpy.first_unsigned = false;
-+                           yylval->mpy.second_unsigned = false;
-+                           return MPY; }
-+"fMPY32UU"               { yylval->mpy.first_bit_width = 32;
-+                           yylval->mpy.second_bit_width = 32;
-+                           yylval->mpy.first_unsigned = true;
-+                           yylval->mpy.second_unsigned = true;
-+                           return MPY; }
-+"fMPY32US"               { yylval->mpy.first_bit_width = 32;
-+                           yylval->mpy.second_bit_width = 32;
-+                           yylval->mpy.first_unsigned = true;
-+                           yylval->mpy.second_unsigned = false;
-+                           return MPY; }
-+"fMPY32SU"               { yylval->mpy.first_bit_width = 32;
-+                           yylval->mpy.second_bit_width = 32;
-+                           yylval->mpy.first_unsigned = false;
-+                           yylval->mpy.second_unsigned = true;
-+                           return MPY; }
-+"fSFMPY"                 |
-+"fMPY32SS"               { yylval->mpy.first_bit_width = 32;
-+                           yylval->mpy.second_bit_width = 32;
-+                           yylval->mpy.first_unsigned = false;
-+                           yylval->mpy.second_unsigned = false;
-+                           return MPY; }
-+"fMPY3216SS"             { yylval->mpy.first_bit_width = 32;
-+                           yylval->mpy.second_bit_width = 16;
-+                           yylval->mpy.first_unsigned = false;
-+                           yylval->mpy.second_unsigned = false;
-+                           return MPY; }
-+"fMPY3216SU"             { yylval->mpy.first_bit_width = 32;
-+                           yylval->mpy.second_bit_width = 16;
-+                           yylval->mpy.first_unsigned = false;
-+                           yylval->mpy.second_unsigned = true;
-+                           return MPY; }
-+"fNEWREG"                |
-+"fNEWREG_ST"             |
-+"fIMMEXT"                |
-+"fMUST_IMMEXT"           |
-+"fCAST2_2s"              |
-+"fCAST2_2u"              |
-+"fCAST4_4s"              |
-+"fCAST8_8s"              |
-+"fZE8_16"                |
-+"fSE8_16"                |
-+"fZE16_32"               |
-+"fSE16_32"               |
-+"fZE32_64"               |
-+"fPASS"                  |
-+"fECHO"                  { return IDENTITY; }
-+"(size8"[us]"_t)"        { yylval->cast.bit_width = 8;
-+                           yylval->cast.is_unsigned = ((yytext[6]) == 'u');
-+                           return CAST; }
-+"(size16"[us]"_t)"       { yylval->cast.bit_width = 16;
-+                           yylval->cast.is_unsigned = ((yytext[7]) == 'u');
-+                           return CAST; }
-+"(int)"                  { yylval->cast.bit_width = 32;
-+                           yylval->cast.is_unsigned = false;
-+                           return CAST; }
-+"?"                      { return QMARK; }
-+"fREAD_PC()"             |
-+"PC"                     { return PC; }
-+"fREAD_NPC()"            |
-+"NPC"                    { return NPC; }
-+"fGET_LPCFG"             |
-+"USR.LPCFG"              { return LPCFG; }
-+"LOAD_CANCEL(EA)"        |
-+"STORE_CANCEL(EA)"       |
-+"CANCEL"                 { return CANC; }
-+"N"{LOWER_ID}            { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
-+                           yylval->rvalue.reg.id = yytext[1];
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"N"{LOWER_ID}"N"         { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = DOTNEW;
-+                           yylval->rvalue.reg.id = yytext[1];
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+[rR]{DIGIT}+             { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
-+                           yylval->rvalue.reg.id = atoi(yytext + 1);
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"fREAD_SP()"             |
-+"SP"                     { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = SP;
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"fREAD_FP()"             |
-+"FP"                     { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = FP;
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"fREAD_LR()"             |
-+"LR"                     { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = LR;
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"GP"                     { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = GP;
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"fREAD_LC"{ZERO_ONE}     { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = LC0 + atoi(yytext + 8);
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"LC"{ZERO_ONE}           { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = LC0 + atoi(yytext + 2);
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"fREAD_SA"{ZERO_ONE}     { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = SA0 + atoi(yytext + 8);
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"SA"{ZERO_ONE}           { yylval->rvalue.type = REGISTER;
-+                           yylval->rvalue.reg.type = CONTROL;
-+                           yylval->rvalue.reg.id = SA0 + atoi(yytext + 2);
-+                           yylval->rvalue.reg.bit_width = 32;
-+                           yylval->rvalue.bit_width = 32;
-+                           return REG; }
-+"MuN"                    { return MUN; }
-+"fREAD_P0()"             { yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = '0';
-+                           yylval->rvalue.bit_width = 32;
-+                           return PRE; }
-+[pP]{DIGIT}              { yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = yytext[1];
-+                           yylval->rvalue.bit_width = 32;
-+                           return PRE; }
-+"fLSBNEW(P"{LOWER_PRE}"N)" { yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = yytext[9];
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return PRE; }
-+"fLSBNEW0"               { yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = '0';
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return PRE; }
-+"fLSBNEW1"               { yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = '1';
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return PRE; }
-+"fLSBNEW1NOT"            { yylval->rvalue.type = PREDICATE;
-+                           yylval->rvalue.pre.id = '1';
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_dotnew = true;
-+                           return PRE; }
-+"N"                      { yylval->rvalue.type = IMMEDIATE;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.imm.type = VARIABLE;
-+                           yylval->rvalue.imm.id = 'N';
-+                           return IMM; }
-+"i"                      { yylval->rvalue.type = IMMEDIATE;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.imm.type = I;
-+                           return IMM; }
-+{SIGN_ID}                { yylval->is_unsigned = (yytext[0] == 'u');
-+                           return SIGN;
-+                         }
-+"fSF_BIAS()"             { yylval->rvalue.type = IMMEDIATE;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_unsigned = false;
-+                           yylval->rvalue.imm.type = VALUE;
-+                           yylval->rvalue.imm.value = 127;
-+                           return IMM; }
-+{DIGIT}+                 { yylval->rvalue.type = IMMEDIATE;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_unsigned = false;
-+                           yylval->rvalue.imm.type = VALUE;
-+                           yylval->rvalue.imm.value = atoi(yytext);
-+                           return IMM; }
-+{DIGIT}+"LL"             { yylval->rvalue.type = IMMEDIATE;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_unsigned = false;
-+                           yylval->rvalue.imm.type = VALUE;
-+                           yylval->rvalue.imm.value = atoi(yytext);
-+                           return IMM; }
-+"0x"{HEX_DIGIT}+         { yylval->rvalue.type = IMMEDIATE;
-+                           yylval->rvalue.bit_width = 32;
-+                           yylval->rvalue.is_unsigned = false;
-+                           yylval->rvalue.imm.type = VALUE;
-+                           yylval->rvalue.imm.value = strtol(yytext, NULL, 16);
-+                           return IMM; }
-+"0x"{HEX_DIGIT}+"LL"     { yylval->rvalue.type = IMMEDIATE;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_unsigned = false;
-+                           yylval->rvalue.imm.type = VALUE;
-+                           yylval->rvalue.imm.value = strtol(yytext, NULL, 16);
-+                           return IMM; }
-+"0x"{HEX_DIGIT}+"ULL"    { yylval->rvalue.type = IMMEDIATE;
-+                           yylval->rvalue.bit_width = 64;
-+                           yylval->rvalue.is_unsigned = true;
-+                           yylval->rvalue.imm.type = VALUE;
-+                           yylval->rvalue.imm.value = strtoul(yytext, NULL, 16);
-+                           return IMM; }
-+"fCONSTLL"               { return CONSTLL; }
-+"fCONSTULL"              { return CONSTULL; }
-+"fLOAD"                  { return LOAD; }
-+"fSTORE"                 { return STORE; }
-+"fROTL"                  { return ROTL; }
-+"fSET_OVERFLOW"          { return SETOVF; }
-+"fDEINTERLEAVE"          { return DEINTERLEAVE; }
-+"fINTERLEAVE"            { return INTERLEAVE; }
-+{VAR_ID}                 { /* Variable name, we adopt the C names convention */
-+                           yylval->rvalue.type = VARID;
-+                           yylval->rvalue.var.name = strndup(yytext,
-+                                                             ALLOC_NAME_SIZE);
-+                           /* Default types are int */
-+                           yylval->rvalue.bit_width = 32;
-+                           if (yylval->rvalue.var.name == NULL) {
-+                               fprintf(stderr,
-+                                       "Error: failed to duplicate var name: "
-+                                       "\"%s\"\n",
-+                                       yytext);
-+                               error_count++;
-+                               return -1; /* invalid token */
-+                           }
-+                           return VAR; }
-+"fHINTJR(RsV)"           { /* Emit no token */ }
-+.                        { fprintf(stderr,
-+                                   "Error: unexpected token \"%s\"\n",
-+                                   yytext);
-+                           error_count++;
-+                           return -1; /* invalid token */
-+                         }
++instructions : instruction instructions
++| %empty
++;
++
++instruction : INAME
++{
++    /* Early-free if the parser failed on the previous instruction */
++    free_instruction(c);
++
++    c->total_insn++;
++    c->inst.name = $1;
++    emit_header(c);
++}
++arguments
++{
++    EMIT_SIG(c, ")");
++    EMIT_HEAD(c, "{\n");
++
++    /* Initialize declared but uninitialized registers, but only for */
++    /* non-conditional instructions */
++    for (int i = 0; i < c->inst.init_count; i++) {
++        bool is64 = c->inst.init_list[i].bit_width == 64;
++        const char *type = is64 ? "i64" : "i32";
++        if (c->inst.init_list[i].type == REGISTER) {
++            OUT(c, &@1, "tcg_gen_movi_", type,
++                "(", &(c->inst.init_list[i]), ", 0);\n");
++        } else if (c->inst.init_list[i].type == PREDICATE) {
++            OUT(c, &@1, "tcg_gen_movi_", type,
++                "(", &(c->inst.init_list[i]), ", 0);\n");
++        }
++    }
++}
++code
++{
++    if (c->inst.error_count != 0) {
++        fprintf(stderr,
++                "Parsing of instruction %s generated %d errors!\n",
++                c->inst.name,
++                c->inst.error_count);
++        EMIT(c, "assert(false && \"This instruction is not implemented!\");");
++    } else {
++        free_variables(c, &@1);
++        c->implemented_insn++;
++        fprintf(c->enabled_file, "%s\n", c->inst.name);
++        emit_footer(c);
++        commit(c);
++    }
++    free_instruction(c);
++}
++| error /* Recover gracefully after instruction compilation error */
++;
++
++arguments : LPAR RPAR
++|
++LPAR argument_list RPAR
++;
++
++argument_list : decl COMMA argument_list
++| decl
++;
++
++/* Return the modified registers list */
++code : LBR statements RBR
++{
++    c->inst.code_begin = c->input_buffer + @2.first_column;
++    c->inst.code_end = c->input_buffer + @2.last_column - 1;
++}
++|
++LBR
++{
++    /* Nop */
++}
++RBR
++;
++
++decl : REG
++{
++    emit_arg(c, &@1, &$1);
++    /* Enqueue register into initialization list */
++    yyassert(c, &@1, c->inst.init_count < INIT_LIST_LEN,
++             "init_count overflow");
++    c->inst.init_list[c->inst.init_count] = $1;
++    c->inst.init_count++;
++}
++| IMM
++{
++    EMIT_SIG(c, ", int %ciV", $1.imm.id);
++}
++| PRE
++{
++    emit_arg(c, &@1, &$1);
++    /* Enqueue predicate into initialization list */
++    c->inst.init_list[c->inst.init_count] = $1;
++    c->inst.init_count++;
++}
++| VAR
++{
++    yyassert(c, &@1, !strcmp($1.var.name, "EA"), "Unknown argument variable!");
++}
++| RREG
++{
++    emit_arg(c, &@1, &$1);
++}
++| WREG
++| FREG
++| FIMM
++| RPRE
++{
++    emit_arg(c, &@1, &$1);
++}
++| WPRE
++| FPRE
++| FEA
++;
++
++code_block : LBR statements RBR            { /* does nothing */ }
++| LBR RBR                       { /* does nothing */ }
++;
++
++/* A list of one or more statements */
++statements : statements statement         { /* does nothing */ }
++| statement                    { /* does nothing */ }
++;
++
++/* Statements can be assignment (rvalue SEMI), control or memory statements */
++statement : control_statement            { /* does nothing */ }
++| rvalue SEMI                  { rvalue_free(c, &@1, &$1); }
++| code_block                   { /* does nothing */ }
++| SEMI                         { /* does nothing */ }
++;
++
++assign_statement : lvalue ASSIGN rvalue
++{
++    @1.last_column = @3.last_column;
++    gen_assign(c, &@1, &$1, &$3);
++    $$ = $1;
++}
++| lvalue INC rvalue
++{
++    @1.last_column = @3.last_column;
++    HexValue tmp = gen_bin_op(c, &@1, ADD_OP, &$1, &$3);
++    gen_assign(c, &@1, &$1, &tmp);
++    $$ = $1;
++}
++| lvalue DEC rvalue
++{
++    @1.last_column = @3.last_column;
++    HexValue tmp = gen_bin_op(c, &@1, SUB_OP, &$1, &$3);
++    gen_assign(c, &@1, &$1, &tmp);
++    $$ = $1;
++}
++| lvalue ANDA rvalue
++{
++    @1.last_column = @3.last_column;
++    HexValue tmp = gen_bin_op(c, &@1, ANDB_OP, &$1, &$3);
++    gen_assign(c, &@1, &$1, &tmp);
++    $$ = $1;
++}
++| lvalue ORA rvalue
++{
++    @1.last_column = @3.last_column;
++    HexValue tmp = gen_bin_op(c, &@1, ORB_OP, &$1, &$3);
++    gen_assign(c, &@1, &$1, &tmp);
++    $$ = $1;
++}
++| lvalue XORA rvalue
++{
++    @1.last_column = @3.last_column;
++    HexValue tmp = gen_bin_op(c, &@1, XORB_OP, &$1, &$3);
++    gen_assign(c, &@1, &$1, &tmp);
++    $$ = $1;
++}
++| pre ASSIGN rvalue
++{
++    @1.last_column = @3.last_column;
++    bool is_direct = is_direct_predicate(&$1);
++    char pre_id[2] = " ";
++    pre_id[0] = $1.pre.id;
++    /* Extract predicate TCGv */
++    if (is_direct) {
++        $1 = gen_tmp_value(c, &@1, "0", 32);
++    }
++    $3 = rvalue_materialize(c, &@1, &$3);
++    $3 = rvalue_truncate(c, &@1, &$3);
++    /* Extract first 8 bits, and store new predicate value */
++    if ($3.type == IMMEDIATE) {
++        OUT(c, &@1, &$3, " = (", &$3, " & 0xff) << i;\n");
++        OUT(c, &@1, "tcg_gen_ori_i32(", &$1, ", ", &$1, ", ", &$3, ");\n");
++    } else {
++        OUT(c, &@1, "tcg_gen_mov_i32(", &$1, ", ", &$3, ");\n");
++        OUT(c, &@1, "tcg_gen_andi_i32(", &$1, ", ", &$1, ", 0xff);\n");
++    }
++    if (is_direct) {
++        OUT(c, &@1, "gen_log_pred_write(", pre_id, ", ", &$1, ");\n");
++        OUT(c, &@1, "ctx_log_pred_write(ctx, ", pre_id, ");\n");
++        rvalue_free(c, &@1, &$1);
++    }
++    rvalue_free(c, &@1, &$3);  /* Free temporary value */
++}
++| IMM ASSIGN rvalue
++{
++    @1.last_column = @3.last_column;
++    yyassert(c, &@1, $3.type == IMMEDIATE,
++             "Cannot assign non-immediate to immediate!");
++    yyassert(c, &@1, $1.imm.type == VARIABLE,
++             "Cannot assign to non-variable!");
++    /* Assign to the function argument */
++    OUT(c, &@1, &$1, " = ", &$3, ";\n");
++    $$ = $1;
++}
++| PC ASSIGN rvalue
++{
++    @1.last_column = @3.last_column;
++    $3 = rvalue_truncate(c, &@1, &$3);
++    $3 = rvalue_materialize(c, &@1, &$3);
++    OUT(c, &@1, "gen_write_new_pc(", &$3, ");\n");
++    rvalue_free(c, &@1, &$3); /* Free temporary value */
++}
++| LOAD LPAR IMM COMMA IMM COMMA SIGN COMMA VAR COMMA lvalue RPAR
++{
++    @1.last_column = @12.last_column;
++    /* Memop width is specified in the load macro */
++    int bit_width = ($5.imm.value > 4) ? 64 : 32;
++    const char *sign_suffix = ($5.imm.value > 4) ? "" : (($7) ? "u" : "s");
++    char size_suffix[4] = { 0 };
++    /* Create temporary variable (if not present) */
++    if ($11.type == VARID) {
++        /* TODO: this is a common pattern, the parser should be varid-aware. */
++        varid_allocate(c, &@1, &$11, bit_width, $7);
++    }
++    snprintf(size_suffix, 4, "%" PRIu64, $5.imm.value * 8);
++    if (bit_width == 32) {
++        $11 = rvalue_truncate(c, &@1, &$11);
++    } else {
++        $11 = rvalue_extend(c, &@1, &$11);
++    }
++    if ($9.type == VARID) {
++        int var_id = find_variable(c, &@1, &$9);
++        yyassert(c, &@1, var_id != -1, "Load variable must exist!\n");
++        /* We need to enforce the variable size */
++        $9.bit_width = c->inst.allocated[var_id].bit_width;
++    }
++    if ($9.bit_width != 32) {
++        $9 = rvalue_truncate(c, &@1, &$9);
++    }
++    OUT(c, &@1, "if (insn->slot == 0 && pkt->pkt_has_store_s1) {\n");
++    OUT(c, &@1, "process_store(ctx, 1);\n");
++    OUT(c, &@1, "}\n");
++    OUT(c, &@1, "tcg_gen_qemu_ld", size_suffix, sign_suffix);
++    OUT(c, &@1, "(", &$11, ", ", &$9, ", 0);\n");
++    /* If the var in $9 was truncated it is now a tmp HexValue, so free it. */
++    rvalue_free(c, &@1, &$9);
++}
++| STORE LPAR IMM COMMA IMM COMMA VAR COMMA rvalue RPAR /* Store primitive */
++{
++    @1.last_column = @10.last_column;
++    /* Memop width is specified in the store macro */
++    int mem_width = $5.imm.value;
++    /* Adjust operand bit width to memop bit width */
++    if (mem_width < 8) {
++        $9 = rvalue_truncate(c, &@1, &$9);
++    } else {
++        $9 = rvalue_extend(c, &@1, &$9);
++    }
++    if ($7.type == VARID) {
++        int var_id = find_variable(c, &@1, &$7);
++        yyassert(c, &@1, var_id != -1, "Load variable must exist!\n");
++        /* We need to enforce the variable size */
++        $7.bit_width = c->inst.allocated[var_id].bit_width;
++    }
++    if ($7.bit_width != 32) {
++        $7 = rvalue_truncate(c, &@1, &$7);
++    }
++    $9 = rvalue_materialize(c, &@1, &$9);
++    OUT(c, &@1, "gen_store", &mem_width, "(cpu_env, ", &$7, ", ", &$9);
++    OUT(c, &@1, ", ctx, insn->slot);\n");
++    rvalue_free(c, &@1, &$9);
++    /* If the var in $7 was truncated it is now a tmp HexValue, so free it. */
++    rvalue_free(c, &@1, &$7);
++}
++| LPCFG ASSIGN rvalue
++{
++    @1.last_column = @3.last_column;
++    $3 = rvalue_truncate(c, &@1, &$3);
++    $3 = rvalue_materialize(c, &@1, &$3);
++    OUT(c, &@1, "SET_USR_FIELD(USR_LPCFG, ", &$3, ");\n");
++    rvalue_free(c, &@1, &$3);
++}
++| DEPOSIT LPAR rvalue COMMA rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @8.last_column;
++    gen_deposit_op(c, &@1, &$5, &$7, &$3, &$1);
++}
++| SETHALF LPAR rvalue COMMA lvalue COMMA rvalue RPAR
++{
++    @1.last_column = @8.last_column;
++    yyassert(c, &@1, $3.type == IMMEDIATE,
++             "Deposit index must be immediate!\n");
++    if ($5.type == VARID) {
++        int var_id = find_variable(c, &@1, &$5);
++        if (var_id == -1) {
++            HexValue zero = gen_imm_value(c, &@1, 0, 64);
++            zero.is_unsigned = true;
++            $5.bit_width = 64;
++            gen_assign(c, &@1, &$5, &zero);
++        } else {
++            /* We need to enforce the variable size (default is 32) */
++            $5.bit_width = c->inst.allocated[var_id].bit_width;
++        }
++    }
++    gen_deposit_op(c, &@1, &$5, &$7, &$3, &$1);
++}
++| SETBITS LPAR rvalue COMMA rvalue COMMA rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @10.last_column;
++    yyassert(c, &@1, $3.type == IMMEDIATE &&
++             $3.imm.type == VALUE &&
++             $5.type == IMMEDIATE &&
++             $5.imm.type == VALUE,
++             "Range deposit needs immediate values!\n");
++    int i;
++    $9 = rvalue_truncate(c, &@1, &$9);
++    for (i = $5.imm.value; i <= $3.imm.value; ++i) {
++        OUT(c, &@1, "gen_set_bit(", &i, ", ", &$7, ", ", &$9, ");\n");
++    }
++    rvalue_free(c, &@1, &$3);
++    rvalue_free(c, &@1, &$5);
++    rvalue_free(c, &@1, &$7);
++    rvalue_free(c, &@1, &$9);
++}
++| INSBITS LPAR lvalue COMMA rvalue COMMA rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @10.last_column;
++    gen_rdeposit_op(c, &@1, &$3, &$9, &$7, &$5);
++}
++| IDENTITY LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    $$ = $3;
++}
++;
++
++control_statement : frame_check          { /* does nothing */ }
++| cancel_statement     { /* does nothing */ }
++| if_statement         { /* does nothing */ }
++| for_statement        { /* does nothing */ }
++| fpart1_statement     { /* does nothing */ }
++;
++
++frame_check : FCHK LPAR rvalue COMMA rvalue RPAR SEMI  {
++    /* does nothing */
++    rvalue_free(c, &@1, &$3);
++    rvalue_free(c, &@1, &$5);
++}
++;
++
++cancel_statement : CANC
++{
++    HexValue slot = gen_tmp_value(c, &@1, "insn->slot", 32);
++    OUT(c, &@1, "gen_cancel(", &slot, ");\n");
++    rvalue_free(c, &@1, &slot);
++}
++;
++
++if_statement : if_stmt
++{
++    /* Fix else label */
++    OUT(c, &@1, "gen_set_label(if_label_", &$1, ");\n");
++}
++| if_stmt ELSE
++{
++    @1.last_column = @2.last_column;
++    /* Generate label to jump if else is not verified */
++    OUT(c, &@1, "TCGLabel *if_label_", &c->inst.if_count,
++        " = gen_new_label();\n");
++    $2 = c->inst.if_count;
++    c->inst.if_count++;
++    /* Jump out of the else statement */
++    OUT(c, &@1, "tcg_gen_br(if_label_", &$2, ");\n");
++    /* Fix the else label */
++    OUT(c, &@1, "gen_set_label(if_label_", &$1, ");\n");
++}
++statement
++{
++    OUT(c, &@1, "gen_set_label(if_label_", &$2, ");\n");
++}
++;
++
++for_statement : FOR LPAR IMM ASSIGN IMM SEMI IMM LT IMM SEMI IMM PLUSPLUS RPAR
++{
++    @1.last_column = @13.last_column;
++    OUT(c, &@1, "for (int ", &$3, " = ", &$5, "; ", &$7, " < ", &$9);
++    OUT(c, &@1, "; ", &$11, "++) {\n");
++}
++code_block
++{
++    OUT(c, &@1, "}\n");
++}
++;
++
++for_statement : FOR LPAR IMM ASSIGN IMM SEMI IMM LT IMM SEMI IMM INC IMM RPAR
++{
++    @1.last_column = @14.last_column;
++    OUT(c, &@1, "for (int ", &$3, " = ", &$5, "; ", &$7, " < ", &$9);
++    OUT(c, &@1, "; ", &$11, " += ", &$13, ") {\n");
++}
++code_block
++{
++    OUT(c, &@1, "}\n");
++}
++;
++
++fpart1_statement : PART1
++{
++    OUT(c, &@1, "if (insn->part1) {\n");
++}
++LPAR statements RPAR
++{
++    @1.last_column = @3.last_column;
++    OUT(c, &@1, "return; }\n");
++}
++;
++
++if_stmt : IF
++{
++    /* Generate an end label, if false branch to that label */
++    OUT(c, &@1, "TCGLabel *if_label_", &c->inst.if_count,
++        " = gen_new_label();\n");
++}
++LPAR rvalue RPAR
++{
++    @1.last_column = @3.last_column;
++    $4 = rvalue_materialize(c, &@1, &$4);
++    const char *bit_suffix = ($4.bit_width == 64) ? "i64" : "i32";
++    OUT(c, &@1, "tcg_gen_brcondi_", bit_suffix, "(TCG_COND_EQ, ", &$4,
++        ", 0, if_label_", &c->inst.if_count, ");\n");
++    rvalue_free(c, &@1, &$4);
++    $1 = c->inst.if_count;
++    c->inst.if_count++;
++}
++statement
++{
++    $$ = $1;
++}
++;
++
++rvalue : FAIL
++{
++    @1.last_column = @1.last_column;
++    yyassert(c, &@1, false, "Encountered a FAIL token as rvalue.\n");
++}
++|
++assign_statement            { /* does nothing */ }
++| REG
++{
++    if ($1.reg.type == CONTROL) {
++        $$ = gen_read_creg(c, &@1, &$1);
++    } else {
++        $$ = $1;
++    }
++}
++| IMM
++{
++    $$ = $1;
++}
++| CONSTLL LPAR IMM RPAR
++{
++    $3.is_unsigned = false;
++    $3.bit_width = 64;
++    $$ = $3;
++}
++| CONSTULL LPAR IMM RPAR
++{
++    $3.is_unsigned = true;
++    $3.bit_width = 64;
++    $$ = $3;
++}
++| pre
++{
++    if (is_direct_predicate(&$1)) {
++        bool is_dotnew = $1.is_dotnew;
++        char predicate_id[2] = {$1.pre.id, '\0'};
++        char *pre_str = (char *) &predicate_id;
++        $1 = gen_tmp_value(c, &@1, "0", 32);
++        if (is_dotnew) {
++            OUT(c, &@1, "tcg_gen_mov_i32(", &$1, ", hex_new_pred_value[");
++            OUT(c, &@1, pre_str, "]);\n");
++        } else {
++            OUT(c, &@1, "gen_read_preg(", &$1, ", ", pre_str, ");\n");
++        }
++    }
++    $$ = $1;
++}
++| PC
++{
++    /* Read PC from the CR */
++    $$ = gen_tmp(c, &@1, 32);
++    OUT(c, &@1, "tcg_gen_mov_i32(", &$$, ", hex_gpr[HEX_REG_PC]);\n");
++}
++| NPC
++{
++    /* NPC is only read from CALLs, so we can hardcode it at translation time */
++    $$ = gen_tmp(c, &@1, 32);
++    OUT(c, &@1, "tcg_gen_movi_i32(", &$$, ", ctx->npc);\n");
++}
++| CONSTEXT
++{
++    HexValue rvalue;
++    rvalue.type = IMMEDIATE;
++    rvalue.imm.type = IMM_CONSTEXT;
++    rvalue.is_unsigned = true;
++    rvalue.is_dotnew = false;
++    rvalue.is_manual = false;
++    $$ = rvalue;
++}
++| VAR
++{
++    /* Assign correct bit width and signedness */
++    bool found = false;
++    for (int i = 0; i < c->inst.allocated_count; i++) {
++        if (!strcmp($1.var.name, c->inst.allocated[i].name)) {
++            found = true;
++            free(c->inst.allocated[i].name);
++            c->inst.allocated[i].name = $1.var.name;
++            $1.bit_width = c->inst.allocated[i].bit_width;
++            $1.is_unsigned = c->inst.allocated[i].is_unsigned;
++            break;
++        }
++    }
++    yyassert(c, &@1, found, "Undefined symbol!\n");
++    $$ = $1;
++}
++| MPY LPAR rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @6.last_column;
++    $3.is_unsigned = $1.first_unsigned;
++    $5.is_unsigned = $1.second_unsigned;
++    $3 = gen_cast_op(c, &@1, &$3, $1.first_bit_width * 2);
++    /* Handle fMPTY3216.. */
++    if ($1.first_bit_width == 32) {
++        $5 = gen_cast_op(c, &@1, &$5, 64);
++    } else {
++        $5 = gen_cast_op(c, &@1, &$5, $1.second_bit_width * 2);
++    }
++    $$ = gen_bin_op(c, &@1, MUL_OP, &$3, &$5);
++    /* Handle special cases required by the language */
++    if ($1.first_bit_width == 16 && $1.second_bit_width == 16) {
++        HexValue src_width = gen_imm_value(c, &@1, 32, 32);
++        HexValue dst_width = gen_imm_value(c, &@1, 64, 32);
++        $$ = gen_extend_op(c, &@1, &src_width, &dst_width, &$$,
++                           $1.first_unsigned && $1.second_unsigned);
++    }
++}
++| rvalue PLUS rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, ADD_OP, &$1, &$3);
++}
++| rvalue MINUS rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, SUB_OP, &$1, &$3);
++}
++| rvalue MUL rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, MUL_OP, &$1, &$3);
++}
++| rvalue POW rvalue
++{
++    @1.last_column = @3.last_column;
++    /* We assume that this is a shorthand for a shift */
++    yyassert(c, &@1, $1.type == IMMEDIATE && $1.imm.value == 2,
++             "Exponentiation is not a left shift!\n");
++    HexValue one = gen_imm_value(c, &@1, 1, 32);
++    HexValue shift = gen_bin_op(c, &@1, SUB_OP, &$3, &one);
++    $$ = gen_bin_op(c, &@1, ASL_OP, &$1, &shift);
++    rvalue_free(c, &@1, &one);
++    rvalue_free(c, &@1, &shift);
++}
++| rvalue DIV rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, DIV_OP, &$1, &$3);
++}
++| rvalue MOD rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, MOD_OP, &$1, &$3);
++}
++| rvalue ASL rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, ASL_OP, &$1, &$3);
++}
++| rvalue ASR rvalue
++{
++    @1.last_column = @3.last_column;
++    if ($1.is_unsigned) {
++        $$ = gen_bin_op(c, &@1, LSR_OP, &$1, &$3);
++    } else {
++        $$ = gen_bin_op(c, &@1, ASR_OP, &$1, &$3);
++    }
++}
++| rvalue LSR rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, LSR_OP, &$1, &$3);
++}
++| rvalue AND rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, ANDB_OP, &$1, &$3);
++}
++| rvalue OR rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, ORB_OP, &$1, &$3);
++}
++| rvalue XOR rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, XORB_OP, &$1, &$3);
++}
++| rvalue ANDL rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, ANDL_OP, &$1, &$3);
++}
++| MIN LPAR rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, MINI_OP, &$3, &$5);
++}
++| MAX LPAR rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_op(c, &@1, MAXI_OP, &$3, &$5);
++}
++| NOT rvalue
++{
++    @1.last_column = @2.last_column;
++    const char *bit_suffix = ($2.bit_width == 64) ? "i64" : "i32";
++    int bit_width = ($2.bit_width == 64) ? 64 : 32;
++    HexValue res;
++    res.is_unsigned = $2.is_unsigned;
++    res.is_dotnew = false;
++    res.is_manual = false;
++    if ($2.type == IMMEDIATE) {
++        res.type = IMMEDIATE;
++        res.imm.type = QEMU_TMP;
++        res.imm.index = c->inst.qemu_tmp_count;
++        OUT(c, &@1, "int", &bit_width, "_t ", &res, " = ~", &$2, ";\n");
++        c->inst.qemu_tmp_count++;
++    } else {
++        res = gen_tmp(c, &@1, bit_width);
++        OUT(c, &@1, "tcg_gen_not_", bit_suffix, "(", &res,
++            ", ", &$2, ");\n");
++        rvalue_free(c, &@1, &$2);
++    }
++    $$ = res;
++}
++| NOTL rvalue
++{
++    @1.last_column = @2.last_column;
++    const char *bit_suffix = ($2.bit_width == 64) ? "i64" : "i32";
++    int bit_width = ($2.bit_width == 64) ? 64 : 32;
++    HexValue res;
++    res.is_unsigned = $2.is_unsigned;
++    res.is_dotnew = false;
++    res.is_manual = false;
++    if ($2.type == IMMEDIATE) {
++        res.type = IMMEDIATE;
++        res.imm.type = QEMU_TMP;
++        res.imm.index = c->inst.qemu_tmp_count;
++        OUT(c, &@1, "int", &bit_width, "_t ", &res, " = !", &$2, ";\n");
++        c->inst.qemu_tmp_count++;
++        $$ = res;
++    } else {
++        res = gen_tmp(c, &@1, bit_width);
++        HexValue zero = gen_tmp_value(c, &@1, "0", bit_width);
++        HexValue one = gen_tmp_value(c, &@1, "0xff", bit_width);
++        OUT(c, &@1, "tcg_gen_movcond_", bit_suffix);
++        OUT(c, &@1, "(TCG_COND_EQ, ", &res, ", ", &$2, ", ", &zero);
++        OUT(c, &@1, ", ", &one, ", ", &zero, ");\n");
++        rvalue_free(c, &@1, &$2);
++        rvalue_free(c, &@1, &zero);
++        rvalue_free(c, &@1, &one);
++        $$ = res;
++    }
++}
++| SAT LPAR IMM COMMA rvalue RPAR
++{
++    @1.last_column = @6.last_column;
++    if ($1.set_overflow) {
++        yyassert(c, &@1, $3.imm.value < $5.bit_width, "To compute overflow, "
++                 "source width must be greater than saturation width!");
++    }
++    HexValue res = gen_tmp(c, &@1, $5.bit_width);
++    const char *bit_suffix = ($5.bit_width == 64) ? "i64" : "i32";
++    const char *overflow_str = ($1.set_overflow) ? "true" : "false";
++    const char *unsigned_str = ($1.is_unsigned) ? "u" : "";
++    OUT(c, &@1, "gen_sat", unsigned_str, "_", bit_suffix, "(", &res, ", ");
++    OUT(c, &@1, &$5, ", ", &$3.imm.value, ", ", overflow_str, ");\n");
++    res.is_unsigned = $1.is_unsigned;
++    rvalue_free(c, &@1, &$5);
++    $$ = res;
++}
++| CAST rvalue
++{
++    @1.last_column = @2.last_column;
++    /* Assign target signedness */
++    $2.is_unsigned = $1.is_unsigned;
++    $$ = gen_cast_op(c, &@1, &$2, $1.bit_width);
++    $$.is_unsigned = $1.is_unsigned;
++}
++| rvalue LSQ rvalue RSQ
++{
++    @1.last_column = @4.last_column;
++    HexValue one = gen_imm_value(c, &@1, 1, $3.bit_width);
++    HexValue tmp = gen_bin_op(c, &@1, ASR_OP, &$1, &$3);
++    $$ = gen_bin_op(c, &@1, ANDB_OP, &tmp, &one);
++}
++| rvalue EQ rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_cmp(c, &@1, "TCG_COND_EQ", &$1, &$3);
++}
++| rvalue NEQ rvalue
++{
++    @1.last_column = @3.last_column;
++    $$ = gen_bin_cmp(c, &@1, "TCG_COND_NE", &$1, &$3);
++}
++| rvalue LT rvalue
++{
++    @1.last_column = @3.last_column;
++    if ($1.is_unsigned || $3.is_unsigned) {
++        $$ = gen_bin_cmp(c, &@1, "TCG_COND_LTU", &$1, &$3);
++    } else {
++        $$ = gen_bin_cmp(c, &@1, "TCG_COND_LT", &$1, &$3);
++    }
++}
++| rvalue GT rvalue
++{
++    @1.last_column = @3.last_column;
++    if ($1.is_unsigned || $3.is_unsigned) {
++        $$ = gen_bin_cmp(c, &@1, "TCG_COND_GTU", &$1, &$3);
++    } else {
++        $$ = gen_bin_cmp(c, &@1, "TCG_COND_GT", &$1, &$3);
++    }
++}
++| rvalue LTE rvalue
++{
++    @1.last_column = @3.last_column;
++    if ($1.is_unsigned || $3.is_unsigned) {
++        $$ = gen_bin_cmp(c, &@1, "TCG_COND_LEU", &$1, &$3);
++    } else {
++        $$ = gen_bin_cmp(c, &@1, "TCG_COND_LE", &$1, &$3);
++    }
++}
++| rvalue GTE rvalue
++{
++    @1.last_column = @3.last_column;
++    if ($1.is_unsigned || $3.is_unsigned) {
++        $$ = gen_bin_cmp(c, &@1, "TCG_COND_GEU", &$1, &$3);
++    } else {
++        $$ = gen_bin_cmp(c, &@1, "TCG_COND_GE", &$1, &$3);
++    }
++}
++| rvalue QMARK rvalue COLON rvalue
++{
++    @1.last_column = @5.last_column;
++    bool is_64bit = ($3.bit_width == 64) || ($5.bit_width == 64);
++    int bit_width = (is_64bit) ? 64 : 32;
++    if (is_64bit) {
++        $1 = rvalue_extend(c, &@1, &$1);
++        $3 = rvalue_extend(c, &@1, &$3);
++        $5 = rvalue_extend(c, &@1, &$5);
++    } else {
++        $1 = rvalue_truncate(c, &@1, &$1);
++    }
++    $1 = rvalue_materialize(c, &@1, &$1);
++    $3 = rvalue_materialize(c, &@1, &$3);
++    $5 = rvalue_materialize(c, &@1, &$5);
++    HexValue res = gen_local_tmp(c, &@1, bit_width);
++    HexValue zero = gen_tmp_value(c, &@1, "0", bit_width);
++    OUT(c, &@1, "tcg_gen_movcond_i", &bit_width);
++    OUT(c, &@1, "(TCG_COND_NE, ", &res, ", ", &$1, ", ", &zero);
++    OUT(c, &@1, ", ", &$3, ", ", &$5, ");\n");
++    rvalue_free(c, &@1, &zero);
++    rvalue_free(c, &@1, &$1);
++    rvalue_free(c, &@1, &$3);
++    rvalue_free(c, &@1, &$5);
++    $$ = res;
++}
++| FSCR LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    HexValue key = gen_tmp(c, &@1, 64);
++    HexValue res = gen_tmp(c, &@1, 64);
++    $3 = rvalue_extend(c, &@1, &$3);
++    HexValue frame_key = gen_tmp(c, &@1, 32);
++    OUT(c, &@1, "READ_REG(", &frame_key, ", HEX_REG_FRAMEKEY);\n");
++    OUT(c, &@1, "tcg_gen_concat_i32_i64(",
++        &key, ", ", &frame_key, ", ", &frame_key, ");\n");
++    OUT(c, &@1, "tcg_gen_xor_i64(", &res, ", ", &$3, ", ", &key, ");\n");
++    rvalue_free(c, &@1, &key);
++    rvalue_free(c, &@1, &frame_key);
++    rvalue_free(c, &@1, &$3);
++    $$ = res;
++}
++| SXT LPAR rvalue COMMA IMM COMMA rvalue RPAR
++{
++    @1.last_column = @8.last_column;
++    yyassert(c, &@1, $5.type == IMMEDIATE &&
++             $5.imm.type == VALUE,
++             "SXT expects immediate values\n");
++    $5.imm.value = 64;
++    $$ = gen_extend_op(c, &@1, &$3, &$5, &$7, false);
++}
++| ZXT LPAR rvalue COMMA IMM COMMA rvalue RPAR
++{
++    @1.last_column = @8.last_column;
++    yyassert(c, &@1, $5.type == IMMEDIATE &&
++             $5.imm.type == VALUE,
++             "ZXT expects immediate values\n");
++    $$ = gen_extend_op(c, &@1, &$3, &$5, &$7, true);
++}
++| LPAR rvalue RPAR
++{
++    $$ = $2;
++}
++| ABS rvalue
++{
++    @1.last_column = @2.last_column;
++    const char *bit_suffix = ($2.bit_width == 64) ? "i64" : "i32";
++    int bit_width = ($2.bit_width == 64) ? 64 : 32;
++    HexValue res;
++    res.is_unsigned = $2.is_unsigned;
++    res.is_dotnew = false;
++    res.is_manual = false;
++    if ($2.type == IMMEDIATE) {
++        res.type = IMMEDIATE;
++        res.imm.type = QEMU_TMP;
++        res.imm.index = c->inst.qemu_tmp_count;
++        OUT(c, &@1, "int", &bit_width, "_t ", &res, " = abs(", &$2, ");\n");
++        c->inst.qemu_tmp_count++;
++        $$ = res;
++    } else {
++        res = gen_tmp(c, &@1, bit_width);
++        HexValue zero = gen_tmp_value(c, &@1, "0", bit_width);
++        OUT(c, &@1, "tcg_gen_neg_", bit_suffix, "(", &res, ", ",
++            &$2, ");\n");
++        OUT(c, &@1, "tcg_gen_movcond_i", &bit_width);
++        OUT(c, &@1, "(TCG_COND_GT, ", &res, ", ", &$2, ", ", &zero);
++        OUT(c, &@1, ", ", &$2, ", ", &res, ");\n");
++        rvalue_free(c, &@1, &zero);
++        rvalue_free(c, &@1, &$2);
++        $$ = res;
++    }
++}
++| CROUND LPAR rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @6.last_column;
++    $$ = gen_convround_n(c, &@1, &$3, &$5);
++}
++| CROUND LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    $$ = gen_convround(c, &@1, &$3);
++}
++| ROUND LPAR rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @6.last_column;
++    $$ = gen_round(c, &@1, &$3, &$5);
++}
++| MINUS rvalue
++{
++    @1.last_column = @2.last_column;
++    const char *bit_suffix = ($2.bit_width == 64) ? "i64" : "i32";
++    int bit_width = ($2.bit_width == 64) ? 64 : 32;
++    HexValue res;
++    res.is_unsigned = $2.is_unsigned;
++    res.is_dotnew = false;
++    res.is_manual = false;
++    if ($2.type == IMMEDIATE) {
++        res.type = IMMEDIATE;
++        res.imm.type = QEMU_TMP;
++        res.imm.index = c->inst.qemu_tmp_count;
++        OUT(c, &@1, "int", &bit_width, "_t ", &res, " = -", &$2, ";\n");
++        c->inst.qemu_tmp_count++;
++        $$ = res;
++    } else {
++        res = gen_tmp(c, &@1, bit_width);
++        OUT(c, &@1, "tcg_gen_neg_", bit_suffix, "(", &res, ", ",
++            &$2, ");\n");
++        rvalue_free(c, &@1, &$2);
++        $$ = res;
++    }
++}
++| ICIRC LPAR rvalue RPAR ASL IMM
++{
++    @1.last_column = @6.last_column;
++    $$ = gen_tmp(c, &@1, 32);
++    OUT(c, &@1, "gen_read_ireg(", &$$, ", ", &$3, ", ", &$6, ");\n");
++    rvalue_free(c, &@1, &$3);
++}
++| CIRCADD LPAR rvalue COMMA rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @8.last_column;
++    $$ = gen_circ_op(c, &@1, &$3, &$5, &$7);
++}
++| LOCNT LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    /* Leading ones count */
++    $$ = gen_locnt_op(c, &@1, &$3);
++}
++| COUNTONES LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    /* Ones count */
++    $$ = gen_ctpop_op(c, &@1, &$3);
++}
++| LPCFG
++{
++    $$ = gen_tmp_value(c, &@1, "0", 32);
++    OUT(c, &@1, "tcg_gen_extract_tl(", &$$, ", hex_gpr[HEX_REG_USR], ");
++    OUT(c, &@1, "reg_field_info[USR_LPCFG].offset, ");
++    OUT(c, &@1, "reg_field_info[USR_LPCFG].width);\n");
++}
++| EXTRACT LPAR rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @6.last_column;
++    $$ = gen_extract_op(c, &@1, &$5, &$3, &$1);
++}
++| EXTBITS LPAR rvalue COMMA rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @8.last_column;
++    yyassert(c, &@1, $5.type == IMMEDIATE &&
++             $5.imm.type == VALUE &&
++             $7.type == IMMEDIATE &&
++             $7.imm.type == VALUE,
++             "Range extract needs immediate values!\n");
++    $$ = gen_rextract_op(c, &@1, &$3, $7.imm.value, $5.imm.value);
++}
++| EXTRANGE LPAR rvalue COMMA rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @8.last_column;
++    yyassert(c, &@1, $5.type == IMMEDIATE &&
++             $5.imm.type == VALUE &&
++             $7.type == IMMEDIATE &&
++             $7.imm.type == VALUE,
++             "Range extract needs immediate values!\n");
++    $$ = gen_rextract_op(c,
++                         &@1,
++                         &$3,
++                         $7.imm.value,
++                         $5.imm.value - $7.imm.value + 1);
++}
++| CAST4_8U LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    $$ = rvalue_truncate(c, &@1, &$3);
++    $$.is_unsigned = true;
++    $$ = rvalue_materialize(c, &@1, &$$);
++    $$ = rvalue_extend(c, &@1, &$$);
++}
++| BREV LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    yyassert(c, &@1, $3.bit_width <= 32,
++             "fbrev not implemented for 64-bit integers!");
++    HexValue res = gen_tmp(c, &@1, $3.bit_width);
++    $3 = rvalue_materialize(c, &@1, &$3);
++    OUT(c, &@1, "gen_fbrev(", &res, ", ", &$3, ");\n");
++    rvalue_free(c, &@1, &$3);
++    $$ = res;
++}
++| BREV_4 LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    $$ = gen_fbrev_4(c, &@1, &$3);
++}
++| BREV_8 LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    $$ = gen_fbrev_8(c, &@1, &$3);
++}
++| ROTL LPAR rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @6.last_column;
++    $$ = gen_rotl(c, &@1, &$3, &$5);
++}
++| SETOVF LPAR RPAR
++{
++    @1.last_column = @3.last_column;
++    OUT(c, &@1, "gen_set_usr_fieldi(USR_OVF, 1);\n");
++}
++| SETOVF LPAR rvalue RPAR
++{
++    /* Convenience fSET_OVERFLOW with pass-through */
++    @1.last_column = @3.last_column;
++    OUT(c, &@1, "gen_set_usr_fieldi(USR_OVF, 1);\n");
++    $$ = $3;
++}
++| DEINTERLEAVE LPAR rvalue RPAR
++{
++    @1.last_column = @4.last_column;
++    $$ = gen_deinterleave(c, &@1, &$3);
++}
++| INTERLEAVE LPAR rvalue COMMA rvalue RPAR
++{
++    @1.last_column = @6.last_column;
++    $$ = gen_interleave(c, &@1, &$3, &$5);
++}
++;
++
++pre : PRE
++{
++    $$ = $1;
++}
++| pre NEW
++{
++    $$ = $1;
++    $$.is_dotnew = true;
++}
++;
++
++lvalue : FAIL
++{
++    @1.last_column = @1.last_column;
++    yyassert(c, &@1, false, "Encountered a FAIL token as lvalue.\n");
++}
++| REG
++{
++    $$ = $1;
++}
++| VAR
++{
++    $$ = $1;
++}
++;
 +
 +%%
-diff --git a/target/hexagon/idef-parser/idef-parser.h b/target/hexagon/idef-parser/idef-parser.h
++
++int main(int argc, char **argv)
++{
++    if (argc != 5) {
++        fprintf(stderr,
++                "Semantics: Hexagon ISA to tinycode generator compiler\n\n");
++        fprintf(stderr,
++                "Usage: ./semantics IDEFS EMITTER_C EMITTER_H "
++                "ENABLED_INSTRUCTIONS_LIST\n");
++        return 1;
++    }
++
++    enum {
++        ARG_INDEX_ARGV0 = 0,
++        ARG_INDEX_IDEFS,
++        ARG_INDEX_EMITTER_C,
++        ARG_INDEX_EMITTER_H,
++        ARG_INDEX_ENABLED_INSTRUCTIONS_LIST
++    };
++
++    FILE *enabled_file = fopen(argv[ARG_INDEX_ENABLED_INSTRUCTIONS_LIST], "w");
++
++    FILE *output_file = fopen(argv[ARG_INDEX_EMITTER_C], "w");
++    fputs("#include \"qemu/osdep.h\"\n", output_file);
++    fputs("#include \"qemu/log.h\"\n", output_file);
++    fputs("#include \"cpu.h\"\n", output_file);
++    fputs("#include \"internal.h\"\n", output_file);
++    fputs("#include \"tcg/tcg-op.h\"\n", output_file);
++    fputs("#include \"insn.h\"\n", output_file);
++    fputs("#include \"opcodes.h\"\n", output_file);
++    fputs("#include \"translate.h\"\n", output_file);
++    fputs("#define QEMU_GENERATE\n", output_file);
++    fputs("#include \"genptr.h\"\n", output_file);
++    fputs("#include \"tcg/tcg.h\"\n", output_file);
++    fputs("#include \"macros.h\"\n", output_file);
++    fprintf(output_file, "#include \"%s\"\n", argv[ARG_INDEX_EMITTER_H]);
++
++    FILE *defines_file = fopen(argv[ARG_INDEX_EMITTER_H], "w");
++    assert(defines_file != NULL);
++    fputs("#ifndef HEX_EMITTER_H\n", defines_file);
++    fputs("#define HEX_EMITTER_H\n", defines_file);
++    fputs("\n", defines_file);
++    fputs("#include \"insn.h\"\n\n", defines_file);
++
++    /* Parser input file */
++    Context context = { 0 };
++    context.defines_file = defines_file;
++    context.output_file = output_file;
++    context.enabled_file = enabled_file;
++    /* Initialize buffers */
++    context.out_buffer = (char *) calloc(OUT_BUF_LEN, sizeof(char));
++    context.signature_buffer = (char *) calloc(SIGNATURE_BUF_LEN, sizeof(char));
++    context.header_buffer = (char *) calloc(HEADER_BUF_LEN, sizeof(char));
++    /* Read input file */
++    FILE *input_file = fopen(argv[ARG_INDEX_IDEFS], "r");
++    fseek(input_file, 0L, SEEK_END);
++    long input_size = ftell(input_file);
++    context.input_buffer = (char *) calloc(input_size + 1, sizeof(char));
++    fseek(input_file, 0L, SEEK_SET);
++    size_t read_chars = fread(context.input_buffer,
++                              sizeof(char),
++                              input_size,
++                              input_file);
++    if (read_chars != input_size) {
++        fprintf(stderr, "Error: an error occurred while reading input file!\n");
++        return -1;
++    }
++    yylex_init(&context.scanner);
++    YY_BUFFER_STATE buffer;
++    buffer = yy_scan_string(context.input_buffer, context.scanner);
++    /* Start the parsing procedure */
++    yyparse(context.scanner, &context);
++    fprintf(stderr, "%d/%d meta instructions have been implemented!\n",
++            context.implemented_insn,
++            context.total_insn);
++    fputs("#endif " START_COMMENT " HEX_EMITTER_h " END_COMMENT "\n",
++          defines_file);
++    /* Cleanup */
++    yy_delete_buffer(buffer, context.scanner);
++    yylex_destroy(context.scanner);
++    fclose(output_file);
++    fclose(input_file);
++    fclose(defines_file);
++    fclose(enabled_file);
++    free(context.input_buffer);
++    free(context.out_buffer);
++    free(context.signature_buffer);
++
++    return 0;
++}
+diff --git a/target/hexagon/idef-parser/parser-helpers.c b/target/hexagon/idef-parser/parser-helpers.c
 new file mode 100644
-index 0000000000..d08b9c80ea
+index 0000000000..368c8b4928
 --- /dev/null
-+++ b/target/hexagon/idef-parser/idef-parser.h
-@@ -0,0 +1,245 @@
++++ b/target/hexagon/idef-parser/parser-helpers.c
+@@ -0,0 +1,1925 @@
 +/*
 + * Copyright(c) 2019-2020 rev.ng Srls. All Rights Reserved.
 + *
@@ -740,253 +1342,2257 @@ index 0000000000..d08b9c80ea
 + * version 2 of the License, or (at your option) any later version.
 + *
 + * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * but WITHOUT ANY WARRANTY; withOUT even the implied warranty of
 + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * General Public License for more details.
++ * Lesser General Public License for more details.
 + *
 + * You should have received a copy of the GNU Lesser General Public
 + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef IDEF_PARSER_H
-+#define IDEF_PARSER_H
-+
++#include <assert.h>
 +#include <inttypes.h>
-+#include <stdio.h>
++#include <stdarg.h>
 +#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
 +
-+#define TCGV_NAME_SIZE 7
-+#define MAX_WRITTEN_REGS 32
-+#define OFFSET_STR_LEN 32
-+#define ALLOC_LIST_LEN 32
-+#define ALLOC_NAME_SIZE 32
-+#define INIT_LIST_LEN 32
-+#define OUT_BUF_LEN (1024 * 1024)
-+#define SIGNATURE_BUF_LEN (128 * 1024)
-+#define HEADER_BUF_LEN (128 * 1024)
++#include "idef-parser.h"
++#include "parser-helpers.h"
++#include "idef-parser.tab.h"
++#include "idef-parser.yy.h"
 +
-+/* Variadic macros to wrap the buffer printing functions */
-+#define EMIT(c, ...)                                                 \
-+    do {                                                             \
-+        (c)->out_c += snprintf((c)->out_buffer + (c)->out_c,         \
-+                               OUT_BUF_LEN - (c)->out_c,             \
-+                               __VA_ARGS__);                         \
-+    } while (0)
++const char *COND_EQ = "TCG_COND_EQ";
++const char *COND_NE = "TCG_COND_NE";
++const char *COND_GT = "TCG_COND_GT";
++const char *COND_LT = "TCG_COND_LT";
++const char *COND_GE = "TCG_COND_GE";
++const char *COND_LE = "TCG_COND_LE";
++const char *COND_GTU = "TCG_COND_GTU";
++const char *COND_LTU = "TCG_COND_LTU";
++const char *COND_GEU = "TCG_COND_GEU";
++const char *COND_LEU = "TCG_COND_LEU";
 +
-+#define EMIT_SIG(c, ...)                                                       \
-+    do {                                                                       \
-+        (c)->signature_c += snprintf((c)->signature_buffer + (c)->signature_c, \
-+                                     SIGNATURE_BUF_LEN - (c)->signature_c,     \
-+                                     __VA_ARGS__);                             \
-+    } while (0)
++const char *creg_str[] = {"HEX_REG_SP", "HEX_REG_FP", "HEX_REG_LR",
++                          "HEX_REG_GP", "HEX_REG_LC0", "HEX_REG_LC1",
++                          "HEX_REG_SA0", "HEX_REG_SA1"};
 +
-+#define EMIT_HEAD(c, ...)                                                      \
-+    do {                                                                       \
-+        (c)->header_c += snprintf((c)->header_buffer + (c)->header_c,          \
-+                                     SIGNATURE_BUF_LEN - (c)->header_c,        \
-+                                     __VA_ARGS__);                             \
-+    } while (0)
++void yyerror(YYLTYPE *locp,
++             yyscan_t scanner __attribute__((unused)),
++             Context *c,
++             const char *s)
++{
++    const char *code_ptr = c->input_buffer;
 +
-+/**
-+ * Type of register, assigned to the HexReg.type field
-+ */
-+typedef enum {GENERAL_PURPOSE, CONTROL, MODIFIER, DOTNEW} RegType;
++    fprintf(stderr, "WARNING (%s): '%s'\n", c->inst.name, s);
 +
-+/**
-+ * Types of control registers, assigned to the HexReg.id field
-+ */
-+typedef enum {SP, FP, LR, GP, LC0, LC1, SA0, SA1} CregType;
++    fprintf(stderr, "Problematic range: ");
++    for (int i = locp->first_column; i < locp->last_column; i++) {
++        if (code_ptr[i] != '\n') {
++            fprintf(stderr, "%c", code_ptr[i]);
++        }
++    }
++    fprintf(stderr, "\n");
 +
-+/**
-+ * Identifier string of the control registers, indexed by the CregType enum
-+ */
-+extern const char *creg_str[];
++    for (int i = 0;
++         i < 80 &&
++         code_ptr[locp->first_column - 10 + i] != '\0' &&
++         code_ptr[locp->first_column - 10 + i] != '\n';
++         i++) {
++        fprintf(stderr, "%c", code_ptr[locp->first_column - 10 + i]);
++    }
++    fprintf(stderr, "\n");
++    for (int i = 0; i < 9; i++) {
++        fprintf(stderr, " ");
++    }
++    fprintf(stderr, "^");
++    for (int i = 0; i < (locp->last_column - locp->first_column) - 1; i++) {
++        fprintf(stderr, "~");
++    }
++    fprintf(stderr, "\n");
++    c->inst.error_count++;
++}
 +
-+/**
-+ * Semantic record of the REG tokens, identifying registers
-+ */
-+typedef struct HexReg {
-+    CregType id;            /**< Identifier of the register                  */
-+    RegType type;           /**< Type of the register                        */
-+    unsigned bit_width;     /**< Bit width of the reg, 32 or 64 bits         */
-+} HexReg;
++bool is_direct_predicate(HexValue *value)
++{
++    return value->pre.id >= '0' && value->pre.id <= '3';
++}
 +
-+/**
-+ * Data structure, identifying a TCGv temporary value
-+ */
-+typedef struct HexTmp {
-+    int index;              /**< Index of the TCGv temporary value    */
-+} HexTmp;
++/* Print functions */
++void str_print(Context *c, YYLTYPE *locp, char *string)
++{
++    EMIT(c, "%s", string);
++}
 +
-+/**
-+ * Enum of the possible immediated, an immediate is a value which is known
-+ * at tinycode generation time, e.g. an integer value, not a TCGv
-+ */
-+enum ImmUnionTag {I, VARIABLE, VALUE, QEMU_TMP, IMM_PC, IMM_CONSTEXT};
 +
-+/**
-+ * Semantic record of the IMM token, identifying an immediate constant
-+ */
-+typedef struct HexImm {
-+    union {
-+        char id;            /**< Identifier of the immediate                 */
-+        uint64_t value;     /**< Immediate value (for VALUE type immediates) */
-+        uint64_t index;     /**< Index of the immediate (for int temp vars)  */
-+    };
-+    enum ImmUnionTag type;  /**< Type of the immediate                      */
-+} HexImm;
++void uint64_print(Context *c, YYLTYPE *locp, uint64_t *num)
++{
++    EMIT(c, "%" PRIu64, *num);
++}
 +
-+/**
-+ * Semantic record of the PRE token, identifying a predicate
-+ */
-+typedef struct HexPre {
-+    char id;                /**< Identifier of the predicate                 */
-+} HexPre;
++void int_print(Context *c, YYLTYPE *locp, int *num)
++{
++    EMIT(c, "%d", *num);
++}
 +
-+/**
-+ * Semantic record of the SAT token, identifying the saturate operator
-+ */
-+typedef struct HexSat {
-+    bool set_overflow;      /**< Set-overflow feature for the sat operator   */
-+    bool is_unsigned;       /**< Unsigned flag for the saturate operator     */
-+} HexSat;
++void uint_print(Context *c, YYLTYPE *locp, unsigned *num)
++{
++    EMIT(c, "%u", *num);
++}
 +
-+/**
-+ * Semantic record of the CAST token, identifying the cast operator
-+ */
-+typedef struct HexCast {
-+    int bit_width;          /**< Bit width of the cast operator              */
-+    bool is_unsigned;       /**< Unsigned flag for the cast operator         */
-+} HexCast;
++void tmp_print(Context *c, YYLTYPE *locp, HexTmp *tmp)
++{
++    EMIT(c, "tmp_");
++    EMIT(c, "%d", tmp->index);
++}
 +
-+/**
-+ * Semantic record of the EXTRACT token, identifying the cast operator
-+ */
-+typedef struct HexExtract {
-+    int bit_width;          /**< Bit width of the extract operator           */
-+    int storage_bit_width;  /**< Actual bit width of the extract operator    */
-+    bool is_unsigned;       /**< Unsigned flag for the extract operator      */
-+} HexExtract;
++void pre_print(Context *c, YYLTYPE *locp, HexPre *pre, bool is_dotnew)
++{
++    char suffix = is_dotnew ? 'N' : 'V';
++    EMIT(c, "P%c%c", pre->id, suffix);
++}
 +
-+/**
-+ * Semantic record of the MPY token, identifying the fMPY multiplication
-+ * operator
-+ */
-+typedef struct HexMpy {
-+    int first_bit_width;    /**< Bit width of the first operand of fMPY op   */
-+    int second_bit_width;   /**< Bit width of the second operand of fMPY     */
-+    bool first_unsigned;    /**< Unsigned flag for the first operand of fMPY */
-+    bool second_unsigned;   /**< Unsigned flag for second operand of fMPY    */
-+} HexMpy;
++void reg_compose(Context *c, YYLTYPE *locp, HexReg *reg, char reg_id[5])
++{
++    switch (reg->type) {
++    case GENERAL_PURPOSE:
++        reg_id[0] = 'R';
++        break;
++    case CONTROL:
++        reg_id[0] = 'C';
++        break;
++    case MODIFIER:
++        reg_id[0] = 'M';
++        break;
++    case DOTNEW:
++        /* The DOTNEW case is managed by the upper level function */
++        break;
++    }
++    switch (reg->bit_width) {
++    case 32:
++        reg_id[1] = reg->id;
++        reg_id[2] = 'V';
++        break;
++    case 64:
++        reg_id[1] = reg->id;
++        reg_id[2] = reg->id;
++        reg_id[3] = 'V';
++        break;
++    default:
++        yyassert(c, locp, false, "Unhandled register bit width!\n");
++    }
++}
 +
-+/**
-+ * Semantic record of the VARID token, identifying automatic variables
-+ * of the input language
-+ */
-+typedef struct HexVar {
-+    char *name;             /**< Name of the VARID automatic variable        */
-+} HexVar;
++void reg_print(Context *c, YYLTYPE *locp, HexReg *reg)
++{
++  if (reg->type == DOTNEW) {
++    EMIT(c, "N%cN", reg->id);
++  } else {
++    char reg_id[5] = { 0 };
++    reg_compose(c, locp, reg, reg_id);
++    EMIT(c, "%s", reg_id);
++  }
++}
 +
-+/**
-+ * Data structure uniquely identifying an automatic VARID variable, used for
-+ * keeping track of declared variable, so that any variable is declared only
-+ * once, and its properties are propagated through all the subsequent instances
-+ * of that variable
-+ */
-+typedef struct Var {
-+    char *name;             /**< Name of the VARID automatic variable        */
-+    uint8_t bit_width;      /**< Bit width of the VARID automatic variable   */
-+    bool is_unsigned;       /**< Unsigned flag for the VARID automatic var   */
-+} Var;
++void imm_print(Context *c, YYLTYPE *locp, HexImm *imm)
++{
++    switch (imm->type) {
++    case I:
++        EMIT(c, "i");
++        break;
++    case VARIABLE:
++        EMIT(c, "%ciV", imm->id);
++        break;
++    case VALUE:
++        EMIT(c, "((int64_t)%" PRIu64 "ULL)", (int64_t)imm->value);
++        break;
++    case QEMU_TMP:
++        EMIT(c, "qemu_tmp_%" PRIu64, imm->index);
++        break;
++    case IMM_PC:
++        EMIT(c, "dc->pc");
++        break;
++    case IMM_CONSTEXT:
++        EMIT(c, "insn->extension_valid");
++        break;
++    default:
++        yyassert(c, locp, false, "Cannot print this expression!");
++    }
++}
 +
-+/**
-+ * Enum of the possible rvalue types, used in the HexValue.type field
-+ */
-+enum RvalueUnionTag {REGISTER, TEMP, IMMEDIATE, PREDICATE, VARID};
++void var_print(Context *c, YYLTYPE *locp, HexVar *var)
++{
++    EMIT(c, "%s", var->name);
++}
 +
-+/**
-+ * Semantic record of the rvalue token, identifying any numeric value,
-+ * immediate or register based. The rvalue tokens are combined together
-+ * through the use of several operators, to encode expressions
-+ */
-+typedef struct HexValue {
-+    union {
-+        HexReg reg;      /**< rvalue of register type                     */
-+        HexTmp tmp;      /**< rvalue of temporary type                    */
-+        HexImm imm;      /**< rvalue of immediate type                    */
-+        HexPre pre;      /**< rvalue of predicate type                    */
-+        HexVar var;      /**< rvalue of automatic variable type           */
-+    };
-+    enum RvalueUnionTag type; /**< Type of the rvalue                        */
-+    unsigned bit_width;     /**< Bit width of the rvalue                     */
-+    bool is_unsigned;       /**< Unsigned flag for the rvalue                */
-+    bool is_dotnew;         /**< rvalue of predicate type is dotnew?         */
-+    bool is_manual;         /**< Opt out of automatic freeing of params      */
-+} HexValue;
++void rvalue_out(Context *c, YYLTYPE *locp, void *pointer)
++{
++  HexValue *rvalue = (HexValue *) pointer;
++  switch (rvalue->type) {
++  case REGISTER:
++      reg_print(c, locp, &rvalue->reg);
++      break;
++  case TEMP:
++      tmp_print(c, locp, &rvalue->tmp);
++      break;
++  case IMMEDIATE:
++      imm_print(c, locp, &rvalue->imm);
++      break;
++  case VARID:
++      var_print(c, locp, &rvalue->var);
++      break;
++  case PREDICATE:
++      pre_print(c, locp, &rvalue->pre, rvalue->is_dotnew);
++      break;
++  default:
++      yyassert(c, locp, false, "Cannot print this expression!");
++  }
++}
 +
-+/**
-+ * Operator type, used for referencing the correct operator when calling the
-+ * gen_bin_op() function, which in turn will generate the correct code to
-+ * execute the operation between the two rvalues
-+ */
-+enum OpType {ADD_OP, SUB_OP, MUL_OP, DIV_OP, ASL_OP, ASR_OP, LSR_OP, ANDB_OP,
-+             ORB_OP, XORB_OP, ANDL_OP, MINI_OP, MAXI_OP, MOD_OP};
++/* Copy output code buffer */
++void commit(Context *c)
++{
++    /* Emit instruction pseudocode */
++    EMIT_SIG(c, "\n" START_COMMENT " ");
++    for (char *x = c->inst.code_begin; x < c->inst.code_end; x++) {
++        EMIT_SIG(c, "%c", *x);
++    }
++    EMIT_SIG(c, " " END_COMMENT "\n");
 +
-+/**
-+ * Data structure including instruction specific information, to be cleared
-+ * out after the compilation of each instruction
-+ */
-+typedef struct Inst {
-+    char *name;                   /**< Name of the compiled instruction      */
-+    char *code_begin;             /**< Beginning of instruction input code   */
-+    char *code_end;               /**< End of instruction input code         */
-+    int tmp_count;                /**< Index of the last declared TCGv temp  */
-+    int qemu_tmp_count;           /**< Index of the last declared int temp   */
-+    int if_count;                 /**< Index of the last declared if label   */
-+    int error_count;              /**< Number of generated errors            */
-+    Var allocated[ALLOC_LIST_LEN]; /**< Allocated VARID automatic vars       */
-+    int allocated_count;          /**< Elements contained in allocated[]     */
-+    HexValue init_list[INIT_LIST_LEN]; /**< List of initialized registers    */
-+    int init_count;               /**< Number of members of init_list        */
-+} Inst;
++    /* Commit instruction code to output file */
++    fwrite(c->signature_buffer, sizeof(char), c->signature_c, c->output_file);
++    fwrite(c->header_buffer, sizeof(char), c->header_c, c->output_file);
++    fwrite(c->out_buffer, sizeof(char), c->out_c, c->output_file);
 +
-+/**
-+ * Data structure representing the whole translation context, which in a
-+ * reentrant flex/bison parser just like ours is passed between the scanner
-+ * and the parser, holding all the necessary information to perform the
-+ * parsing, this data structure survives between the compilation of different
-+ * instructions
++    fwrite(c->signature_buffer, sizeof(char), c->signature_c, c->defines_file);
++    fprintf(c->defines_file, ";\n");
++}
++
++const char *cmp_swap(Context *c, YYLTYPE *locp, const char *type)
++{
++    if (type == COND_EQ) {
++        return COND_EQ;
++    } else if (type == COND_NE) {
++        return COND_NE;
++    } else if (type == COND_GT) {
++        return COND_LT;
++    } else if (type == COND_LT) {
++        return COND_GT;
++    } else if (type == COND_GE) {
++        return COND_LE;
++    } else if (type == COND_LE) {
++        return COND_GE;
++    } else if (type == COND_GTU) {
++        return COND_LTU;
++    } else if (type == COND_LTU) {
++        return COND_GTU;
++    } else if (type == COND_GEU) {
++        return COND_LEU;
++    } else if (type == COND_LEU) {
++        return COND_GEU;
++    } else {
++        yyassert(c, locp, false, "Unhandled comparison swap!");
++        return NULL;
++    }
++}
++
++/* Temporary values creation */
++static inline HexValue gen_tmp_impl(Context *c,
++                                    YYLTYPE *locp,
++                                    int bit_width,
++                                    bool is_local)
++{
++    HexValue rvalue;
++    rvalue.type = TEMP;
++    bit_width = (bit_width == 64) ? 64 : 32;
++    rvalue.bit_width = bit_width;
++    rvalue.is_unsigned = false;
++    rvalue.is_dotnew = false;
++    rvalue.is_manual = false;
++    rvalue.tmp.index = c->inst.tmp_count;
++    const char *suffix = is_local ? "local_" : "";
++    OUT(c, locp, "TCGv_i", &bit_width, " tmp_", &c->inst.tmp_count,
++        " = tcg_temp_", suffix, "new_i", &bit_width, "();\n");
++    c->inst.tmp_count++;
++    return rvalue;
++}
++
++HexValue gen_tmp(Context *c, YYLTYPE *locp, int bit_width)
++{
++    return gen_tmp_impl(c, locp, bit_width, false);
++}
++
++HexValue gen_local_tmp(Context *c, YYLTYPE *locp, int bit_width)
++{
++    return gen_tmp_impl(c, locp, bit_width, true);
++}
++
++HexValue gen_tmp_value(Context *c,
++                       YYLTYPE *locp,
++                       const char *value,
++                       int bit_width)
++{
++    HexValue rvalue;
++    rvalue.type = TEMP;
++    rvalue.bit_width = bit_width;
++    rvalue.is_unsigned = false;
++    rvalue.is_dotnew = false;
++    rvalue.is_manual = false;
++    rvalue.tmp.index = c->inst.tmp_count;
++    OUT(c, locp, "TCGv_i", &bit_width, " tmp_", &c->inst.tmp_count,
++        " = tcg_const_i", &bit_width, "(", value, ");\n");
++    c->inst.tmp_count++;
++    return rvalue;
++}
++
++HexValue gen_imm_value(Context *c __attribute__((unused)),
++                       YYLTYPE *locp,
++                       int value,
++                       int bit_width)
++{
++    HexValue rvalue;
++    rvalue.type = IMMEDIATE;
++    rvalue.bit_width = bit_width;
++    rvalue.is_unsigned = false;
++    rvalue.is_dotnew = false;
++    rvalue.is_manual = false;
++    rvalue.imm.type = VALUE;
++    rvalue.imm.value = value;
++    return rvalue;
++}
++
++void rvalue_free(Context *c, YYLTYPE *locp, HexValue *rvalue)
++{
++    if (rvalue->type == TEMP && !rvalue->is_manual) {
++        const char *bit_suffix = (rvalue->bit_width == 64) ? "i64" : "i32";
++        OUT(c, locp, "tcg_temp_free_", bit_suffix, "(", rvalue, ");\n");
++    }
++}
++
++static void rvalue_free_manual(Context *c, YYLTYPE *locp, HexValue *rvalue)
++{
++    rvalue->is_manual = false;
++    rvalue_free(c, locp, rvalue);
++}
++
++static void rvalue_free_ext(Context *c, YYLTYPE *locp, HexValue *rvalue,
++                            bool free_manual) {
++    if (free_manual) {
++        rvalue_free_manual(c, locp, rvalue);
++    } else {
++        rvalue_free(c, locp, rvalue);
++    }
++}
++
++HexValue rvalue_materialize(Context *c, YYLTYPE *locp, HexValue *rvalue)
++{
++    if (rvalue->type == IMMEDIATE) {
++        HexValue tmp = gen_tmp(c, locp, rvalue->bit_width);
++        tmp.is_unsigned = rvalue->is_unsigned;
++        const char *bit_suffix = (rvalue->bit_width == 64) ? "i64" : "i32";
++        OUT(c, locp, "tcg_gen_movi_", bit_suffix,
++            "(", &tmp, ", ", rvalue, ");\n");
++        rvalue_free(c, locp, rvalue);
++        return tmp;
++    }
++    return *rvalue;
++}
++
++HexValue rvalue_extend(Context *c, YYLTYPE *locp, HexValue *rvalue)
++{
++    if (rvalue->type == IMMEDIATE) {
++        HexValue res = *rvalue;
++        res.bit_width = 64;
++        return res;
++    } else {
++        if (rvalue->bit_width == 32) {
++            HexValue res = gen_tmp(c, locp, 64);
++            const char *sign_suffix = (rvalue->is_unsigned) ? "u" : "";
++            OUT(c, locp, "tcg_gen_ext", sign_suffix,
++                "_i32_i64(", &res, ", ", rvalue, ");\n");
++            rvalue_free(c, locp, rvalue);
++            return res;
++        }
++    }
++    return *rvalue;
++}
++
++HexValue rvalue_truncate(Context *c, YYLTYPE *locp, HexValue *rvalue)
++{
++    if (rvalue->type == IMMEDIATE) {
++        HexValue res = *rvalue;
++        res.bit_width = 32;
++        return res;
++    } else {
++        if (rvalue->bit_width == 64) {
++            HexValue res = gen_tmp(c, locp, 32);
++            OUT(c, locp, "tcg_gen_trunc_i64_tl(", &res, ", ", rvalue, ");\n");
++            rvalue_free(c, locp, rvalue);
++            return res;
++        }
++    }
++    return *rvalue;
++}
++
++int find_variable(Context *c, YYLTYPE *locp, HexValue *varid)
++{
++    for (int i = 0; i < c->inst.allocated_count; i++) {
++        if (!strcmp(varid->var.name, c->inst.allocated[i].name)) {
++            return i;
++        }
++    }
++    return -1;
++}
++
++void varid_allocate(Context *c,
++                    YYLTYPE *locp,
++                    HexValue *varid,
++                    int width,
++                    bool is_unsigned)
++{
++    varid->bit_width = width;
++    const char *bit_suffix = width == 64 ? "64" : "32";
++    yyassert(c, locp, c->inst.allocated_count < ALLOC_LIST_LEN,
++             "Too many automatic variables required!");
++    int index = find_variable(c, locp, varid);
++    bool found = index != -1;
++    if (found) {
++        free((char *) varid->var.name);
++        varid->var.name = c->inst.allocated[index].name;
++        varid->bit_width = c->inst.allocated[index].bit_width;
++        varid->is_unsigned = c->inst.allocated[index].is_unsigned;
++    } else {
++        EMIT_HEAD(c, "TCGv_i%s %s", bit_suffix, varid->var.name);
++        EMIT_HEAD(c, " = tcg_temp_local_new_i%s();\n", bit_suffix);
++        c->inst.allocated[c->inst.allocated_count].name = varid->var.name;
++        c->inst.allocated[c->inst.allocated_count].bit_width = width;
++        c->inst.allocated[c->inst.allocated_count].is_unsigned = is_unsigned;
++        c->inst.allocated_count++;
++    }
++}
++
++void ea_free(Context *c, YYLTYPE *locp)
++{
++    OUT(c, locp, "tcg_temp_free(EA);\n");
++}
++
++enum OpTypes {
++    IMM_IMM = 0,
++    IMM_REG = 1,
++    REG_IMM = 2,
++    REG_REG = 3,
++};
++
++HexValue gen_bin_cmp(Context *c,
++                     YYLTYPE *locp,
++                     const char *type,
++                     HexValue *op1_ptr,
++                     HexValue *op2_ptr)
++{
++    HexValue op1 = *op1_ptr;
++    HexValue op2 = *op2_ptr;
++    enum OpTypes op_types = (op1.type != IMMEDIATE) << 1
++                            | (op2.type != IMMEDIATE);
++
++    /* Find bit width of the two operands, if at least one is 64 bit use a */
++    /* 64bit operation, eventually extend 32bit operands. */
++    bool op_is64bit = op1.bit_width == 64 || op2.bit_width == 64;
++    const char *bit_suffix = op_is64bit ? "i64" : "i32";
++    int bit_width = (op_is64bit) ? 64 : 32;
++    if (op_is64bit) {
++        switch (op_types) {
++        case IMM_IMM:
++            break;
++        case IMM_REG:
++            op2 = rvalue_extend(c, locp, &op2);
++            break;
++        case REG_IMM:
++            op1 = rvalue_extend(c, locp, &op1);
++            break;
++        case REG_REG:
++            op1 = rvalue_extend(c, locp, &op1);
++            op2 = rvalue_extend(c, locp, &op2);
++            break;
++        }
++    }
++
++    HexValue res = gen_tmp(c, locp, bit_width);
++
++    switch (op_types) {
++    case IMM_IMM:
++    {
++        OUT(c, locp, "tcg_gen_movi_", bit_suffix,
++            "(", &res, ", ", &op1, " == ", &op2, ");\n");
++        break;
++    }
++    case IMM_REG:
++    {
++        HexValue swp = op2;
++        op2 = op1;
++        op1 = swp;
++        /* Swap comparison direction */
++        type = cmp_swap(c, locp, type);
++    }
++    /* fallthrough */
++    case REG_IMM:
++    {
++        OUT(c, locp, "tcg_gen_setcondi_", bit_suffix, "(");
++        OUT(c, locp, type, ", ", &res, ", ", &op1, ", ", &op2, ");\n");
++        break;
++    }
++    case REG_REG:
++    {
++        OUT(c, locp, "tcg_gen_setcond_", bit_suffix, "(");
++        OUT(c, locp, type, ", ", &res, ", ", &op1, ", ", &op2, ");\n");
++        break;
++    }
++    default:
++    {
++        fprintf(stderr, "Error in evalutating immediateness!");
++        abort();
++    }
++    }
++
++    /* Free operands */
++    rvalue_free(c, locp, &op1);
++    rvalue_free(c, locp, &op2);
++
++    return res;
++}
++
++static void gen_add_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                       const char *bit_suffix, HexValue *res,
++                       enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ", res,
++            " = ", op1, " + ", op2, ";\n");
++        break;
++    case IMM_REG:
++        OUT(c, locp, "tcg_gen_addi_", bit_suffix,
++            "(", res, ", ", op2, ", ", op1, ");\n");
++        break;
++    case REG_IMM:
++        OUT(c, locp, "tcg_gen_addi_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_add_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, op1);
++    rvalue_free(c, locp, op2);
++}
++
++static void gen_sub_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                       const char *bit_suffix, HexValue *res,
++                       enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ", res,
++            " = ", op1, " - ", op2, ";\n");
++        break;
++    case IMM_REG:
++        OUT(c, locp, "tcg_gen_subfi_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    case REG_IMM:
++        OUT(c, locp, "tcg_gen_subi_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_sub_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, op1);
++    rvalue_free(c, locp, op2);
++}
++
++static void gen_mul_op(Context *c, YYLTYPE *locp,
++                       const char *bit_suffix, HexValue *res,
++                       enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int64_t ", res, " = ", op1, " * ", op2, ";\n");
++        break;
++    case IMM_REG:
++        OUT(c, locp, "tcg_gen_muli_", bit_suffix,
++            "(", res, ", ", op2, ", (int64_t)", op1, ");\n");
++        break;
++    case REG_IMM:
++        OUT(c, locp, "tcg_gen_muli_", bit_suffix,
++            "(", res, ", ", op1, ", (int64_t)", op2, ");\n");
++        break;
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_mul_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, op1);
++    rvalue_free(c, locp, op2);
++}
++
++static void gen_div_op(Context *c, YYLTYPE *locp, HexValue *res,
++                       enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int64_t ", res, " = ", op1, " / ", op2, ";\n");
++        break;
++    case IMM_REG:
++    case REG_IMM:
++    case REG_REG:
++        OUT(c, locp, res, " = gen_helper_divu("
++            "cpu_env, ", op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, op1);
++    rvalue_free(c, locp, op2);
++}
++
++static void gen_asl_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                       bool op_is64bit, const char *bit_suffix, HexValue *res,
++                       enum OpTypes op_types, HexValue *op1_ptr,
++                       HexValue *op2_ptr)
++{
++    HexValue op1 = *op1_ptr;
++    HexValue op2 = *op2_ptr;
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ", res,
++            " = ", &op1, " << ", &op2, ";\n");
++        break;
++    case REG_IMM:
++        {
++            /* Need to work around assert(op2 < 64) in tcg_gen_shli */
++            if (op_is64bit) {
++                op2 = rvalue_extend(c, locp, &op2);
++            }
++            op2 = rvalue_materialize(c, locp, &op2);
++            const char *mask = op_is64bit ? "0xffffffffffffffc0"
++                                          : "0xffffffc0";
++            HexValue zero = gen_tmp_value(c, locp, "0", bit_width);
++            HexValue tmp = gen_tmp(c, locp, bit_width);
++            OUT(c, locp, "tcg_gen_andi_", bit_suffix,
++                "(", &tmp, ", ", &op2, ", ", mask, ");\n");
++            OUT(c, locp, "tcg_gen_movcond_i", &bit_width);
++            OUT(c, locp, "(TCG_COND_EQ, ", &tmp, ", ", &tmp, ", ", &zero);
++            OUT(c, locp, ", ", &op2, ", ", &zero, ");\n");
++            OUT(c, locp, "tcg_gen_shl_", bit_suffix,
++                "(", res, ", ", &op1, ", ", &tmp, ");\n");
++            rvalue_free(c, locp, &zero);
++            rvalue_free(c, locp, &tmp);
++        }
++        break;
++    case IMM_REG:
++        op1.bit_width = bit_width;
++        op1 = rvalue_materialize(c, locp, &op1);
++        /* Fallthrough */
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_shl_", bit_suffix,
++            "(", res, ", ", &op1, ", ", &op2, ");\n");
++        break;
++    }
++    if (op_types != IMM_IMM) {
++        /* Handle left shift by 64 which hexagon-sim expects to clear out */
++        /* register */
++        HexValue edge = gen_tmp_value(c, locp, "64", bit_width);
++        HexValue zero = gen_tmp_value(c, locp, "0", bit_width);
++        if (op_is64bit) {
++            op2 = rvalue_extend(c, locp, &op2);
++        }
++        op1 = rvalue_materialize(c, locp, &op1);
++        op2 = rvalue_materialize(c, locp, &op2);
++        OUT(c, locp, "tcg_gen_movcond_i", &bit_width);
++        if (op_types == REG_REG || op_types == IMM_REG) {
++            OUT(c, locp, "(TCG_COND_EQ, ", res, ", ", &op2, ", ", &edge);
++        } else {
++            OUT(c, locp, "(TCG_COND_EQ, ", res, ", ", &op2, ", ", &edge);
++        }
++        OUT(c, locp, ", ", &zero, ", ", res, ");\n");
++        rvalue_free(c, locp, &edge);
++        rvalue_free(c, locp, &zero);
++    }
++    rvalue_free(c, locp, &op1);
++    rvalue_free(c, locp, &op2);
++}
++
++static void gen_asr_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                       const char *bit_suffix, HexValue *res,
++                       enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ", res,
++            " = ", op1, " >> ", op2, ";\n");
++        break;
++    case REG_IMM:
++        OUT(c, locp, "tcg_gen_sari_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    case IMM_REG:
++        rvalue_materialize(c, locp, op1);
++        /* Fallthrough */
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_sar_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, op1);
++    rvalue_free(c, locp, op2);
++}
++
++static void gen_lsr_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                       const char *bit_suffix, HexValue *res,
++                       enum OpTypes op_types, HexValue *op1_ptr, HexValue *op2)
++{
++    HexValue op1 = *op1_ptr;
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ",
++            res, " = ", &op1, " >> ", op2, ";\n");
++        break;
++    case REG_IMM:
++        OUT(c, locp, "tcg_gen_shri_", bit_suffix,
++            "(", res, ", ", &op1, ", ", op2, ");\n");
++        break;
++    case IMM_REG:
++        op1 = rvalue_materialize(c, locp, &op1);
++        /* Fallthrough */
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_shr_", bit_suffix,
++            "(", res, ", ", &op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, &op1);
++    rvalue_free(c, locp, op2);
++}
++
++static void gen_andb_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                        const char *bit_suffix, HexValue *res,
++                        enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ",
++            res, " = ", op1, " & ", op2, ";\n");
++        break;
++    case IMM_REG:
++        OUT(c, locp, "tcg_gen_andi_", bit_suffix,
++            "(", res, ", ", op2, ", ", op1, ");\n");
++        break;
++    case REG_IMM:
++        OUT(c, locp, "tcg_gen_andi_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_and_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, op1);
++    rvalue_free(c, locp, op2);
++}
++
++static void gen_orb_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                       const char *bit_suffix, HexValue *res,
++                       enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ",
++            res, " = ", op1, " & ", op2, ";\n");
++        break;
++    case IMM_REG:
++        OUT(c, locp, "tcg_gen_ori_", bit_suffix,
++            "(", res, ", ", op2, ", ", op1, ");\n");
++        break;
++    case REG_IMM:
++        OUT(c, locp, "tcg_gen_ori_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_or_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, op1);
++    rvalue_free(c, locp, op2);
++}
++
++static void gen_xorb_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                        const char *bit_suffix, HexValue *res,
++                        enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ",
++            res, " = ", op1, " & ", op2, ";\n");
++        break;
++    case IMM_REG:
++        OUT(c, locp, "tcg_gen_xori_", bit_suffix,
++            "(", res, ", ", op2, ", ", op1, ");\n");
++        break;
++    case REG_IMM:
++        OUT(c, locp, "tcg_gen_xori_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_xor_", bit_suffix,
++            "(", res, ", ", op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, op1);
++    rvalue_free(c, locp, op2);
++}
++
++static void gen_andl_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                        const char *bit_suffix, HexValue *res,
++                        enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    HexValue zero, tmp1, tmp2;
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ",
++            res, " = ", op1, " && ", op2, ";\n");
++        break;
++    case IMM_REG:
++        zero = gen_tmp_value(c, locp, "0", 32);
++        tmp2 = gen_bin_cmp(c, locp, "TCG_COND_NE", op2, &zero);
++        OUT(c, locp, "tcg_gen_andi_", bit_suffix,
++            "(", res, ", ", op1, " != 0 , ", &tmp2, ");\n");
++        rvalue_free(c, locp, &tmp2);
++        break;
++    case REG_IMM:
++        zero = gen_tmp_value(c, locp, "0", 32);
++        tmp1 = gen_bin_cmp(c, locp, "TCG_COND_NE", op1, &zero);
++        OUT(c, locp, "tcg_gen_andi_", bit_suffix,
++            "(", res, ", ", &tmp1, ", ", op2, " != 0);\n");
++        rvalue_free(c, locp, &tmp1);
++        break;
++    case REG_REG:
++        zero = gen_tmp_value(c, locp, "0", 32);
++        zero.is_manual = true;
++        tmp1 = gen_bin_cmp(c, locp, "TCG_COND_NE", op1, &zero);
++        tmp2 = gen_bin_cmp(c, locp, "TCG_COND_NE", op2, &zero);
++        OUT(c, locp, "tcg_gen_and_", bit_suffix,
++            "(", res, ", ", &tmp1, ", ", &tmp2, ");\n");
++        rvalue_free_manual(c, locp, &zero);
++        rvalue_free(c, locp, &tmp1);
++        rvalue_free(c, locp, &tmp2);
++        break;
++    }
++}
++
++static void gen_mini_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                        HexValue *res, enum OpTypes op_types,
++                        HexValue *op1_ptr, HexValue *op2_ptr)
++{
++    HexValue op1 = *op1_ptr;
++    HexValue op2 = *op2_ptr;
++    const char *comparison = res->is_unsigned
++                             ? "TCG_COND_LEU"
++                             : "TCG_COND_LE";
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ", res, " = (", &op1, " <= ");
++        OUT(c, locp, &op2, ") ? ", &op1, " : ", &op2, ";\n");
++        break;
++    case IMM_REG:
++        op1.bit_width = bit_width;
++        op1 = rvalue_materialize(c, locp, &op1);
++        OUT(c, locp, "tcg_gen_movcond_i", &bit_width);
++        OUT(c, locp, "(", comparison, ", ", res, ", ", &op1, ", ", &op2);
++        OUT(c, locp, ", ", &op1, ", ", &op2, ");\n");
++        break;
++    case REG_IMM:
++        op2.bit_width = bit_width;
++        op2 = rvalue_materialize(c, locp, &op2);
++        /* Fallthrough */
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_movcond_i", &bit_width);
++        OUT(c, locp, "(", comparison, ", ", res, ", ", &op1, ", ", &op2);
++        OUT(c, locp, ", ", &op1, ", ", &op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, &op1);
++    rvalue_free(c, locp, &op2);
++}
++
++static void gen_maxi_op(Context *c, YYLTYPE *locp, unsigned bit_width,
++                        HexValue *res, enum OpTypes op_types,
++                        HexValue *op1_ptr, HexValue *op2_ptr)
++{
++    HexValue op1 = *op1_ptr;
++    HexValue op2 = *op2_ptr;
++    const char *comparison = res->is_unsigned
++                             ? "TCG_COND_LEU"
++                             : "TCG_COND_LE";
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int", &bit_width, "_t ", res, " = (", &op1, " <= ");
++        OUT(c, locp, &op2, ") ? ", &op2, " : ", &op1, ";\n");
++        break;
++    case IMM_REG:
++        op1.bit_width = bit_width;
++        op1 = rvalue_materialize(c, locp, &op1);
++        OUT(c, locp, "tcg_gen_movcond_i", &bit_width);
++        OUT(c, locp, "(", comparison, ", ", res, ", ", &op1, ", ", &op2);
++        OUT(c, locp, ", ", &op2, ", ", &op1, ");\n");
++        break;
++    case REG_IMM:
++        op2.bit_width = bit_width;
++        op2 = rvalue_materialize(c, locp, &op2);
++        /* Fallthrough */
++    case REG_REG:
++        OUT(c, locp, "tcg_gen_movcond_i", &bit_width);
++        OUT(c, locp, "(", comparison, ", ", res, ", ", &op1, ", ", &op2);
++        OUT(c, locp, ", ", &op2, ", ", &op1, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, &op1);
++    rvalue_free(c, locp, &op2);
++}
++
++static void gen_mod_op(Context *c, YYLTYPE *locp, HexValue *res,
++                       enum OpTypes op_types, HexValue *op1, HexValue *op2)
++{
++    switch (op_types) {
++    case IMM_IMM:
++        OUT(c, locp, "int64_t ", res, " = ", op1, " % ", op2, ";\n");
++        break;
++    case IMM_REG:
++    case REG_IMM:
++    case REG_REG:
++        OUT(c, locp, "gen_helper_mod(",
++            res, ", ", op1, ", ", op2, ");\n");
++        break;
++    }
++    rvalue_free(c, locp, op1);
++    rvalue_free(c, locp, op2);
++}
++
++/* Code generation functions */
++HexValue gen_bin_op(Context *c,
++                    YYLTYPE *locp,
++                    enum OpType type,
++                    HexValue *operand1,
++                    HexValue *operand2)
++{
++    /* Replicate operands to avoid side effects */
++    HexValue op1 = *operand1;
++    HexValue op2 = *operand2;
++
++    /* Enforce variables' size */
++    if (op1.type == VARID) {
++        int index = find_variable(c, locp, &op1);
++        yyassert(c, locp, index >= 0, "Variable in bin_op must exist!\n");
++        op1.bit_width = c->inst.allocated[index].bit_width;
++    }
++    if (op2.type == VARID) {
++        int index = find_variable(c, locp, &op2);
++        yyassert(c, locp, index >= 0, "Variable in bin_op must exist!\n");
++        op2.bit_width = c->inst.allocated[index].bit_width;
++    }
++
++    enum OpTypes op_types = (op1.type != IMMEDIATE) << 1
++                            | (op2.type != IMMEDIATE);
++
++    /* Find bit width of the two operands, if at least one is 64 bit use a */
++    /* 64bit operation, eventually extend 32bit operands. */
++    bool op_is64bit = op1.bit_width == 64 || op2.bit_width == 64;
++    /* Shift greater than 32 are 64 bits wide */
++    if (type == ASL_OP && op2.type == IMMEDIATE &&
++        op2.imm.type == VALUE && op2.imm.value >= 32)
++        op_is64bit = true;
++    const char *bit_suffix = op_is64bit ? "i64" : "i32";
++    int bit_width = (op_is64bit) ? 64 : 32;
++    /* Handle bit width */
++    if (op_is64bit) {
++        switch (op_types) {
++        case IMM_IMM:
++            break;
++        case IMM_REG:
++            op2 = rvalue_extend(c, locp, &op2);
++            break;
++        case REG_IMM:
++            op1 = rvalue_extend(c, locp, &op1);
++            break;
++        case REG_REG:
++            op1 = rvalue_extend(c, locp, &op1);
++            op2 = rvalue_extend(c, locp, &op2);
++            break;
++        }
++    }
++    HexValue res;
++    if (op_types != IMM_IMM) {
++        res = gen_tmp(c, locp, bit_width);
++    } else {
++        res.type = IMMEDIATE;
++        res.is_dotnew = false;
++        res.is_manual = false;
++        res.imm.type = QEMU_TMP;
++        res.imm.index = c->inst.qemu_tmp_count;
++        res.bit_width = bit_width;
++    }
++    /* Handle signedness, if both unsigned -> result is unsigned, else signed */
++    res.is_unsigned = op1.is_unsigned && op2.is_unsigned;
++
++    switch (type) {
++    case ADD_OP:
++        gen_add_op(c, locp, bit_width, bit_suffix, &res, op_types, &op1, &op2);
++        break;
++    case SUB_OP:
++        gen_sub_op(c, locp, bit_width, bit_suffix, &res, op_types, &op1, &op2);
++        break;
++    case MUL_OP:
++        gen_mul_op(c, locp, bit_suffix, &res, op_types, &op1, &op2);
++        break;
++    case DIV_OP:
++        gen_div_op(c, locp, &res, op_types, &op1, &op2);
++        break;
++    case ASL_OP:
++        gen_asl_op(c, locp, bit_width, op_is64bit, bit_suffix, &res, op_types,
++                   &op1, &op2);
++        break;
++    case ASR_OP:
++        gen_asr_op(c, locp, bit_width, bit_suffix, &res, op_types, &op1, &op2);
++        break;
++    case LSR_OP:
++        gen_lsr_op(c, locp, bit_width, bit_suffix, &res, op_types, &op1, &op2);
++        break;
++    case ANDB_OP:
++        gen_andb_op(c, locp, bit_width, bit_suffix, &res, op_types, &op1, &op2);
++        break;
++    case ORB_OP:
++        gen_orb_op(c, locp, bit_width, bit_suffix, &res, op_types, &op1, &op2);
++        break;
++    case XORB_OP:
++        gen_xorb_op(c, locp, bit_width, bit_suffix, &res, op_types, &op1, &op2);
++        break;
++    case ANDL_OP:
++        gen_andl_op(c, locp, bit_width, bit_suffix, &res, op_types, &op1, &op2);
++        break;
++    case MINI_OP:
++        gen_mini_op(c, locp, bit_width, &res, op_types, &op1, &op2);
++        break;
++    case MAXI_OP:
++        gen_maxi_op(c, locp, bit_width, &res, op_types, &op1, &op2);
++        break;
++    case MOD_OP:
++        gen_mod_op(c, locp, &res, op_types, &op1, &op2);
++        break;
++    }
++    if (op_types == IMM_IMM) {
++        c->inst.qemu_tmp_count++;
++    }
++    return res;
++}
++
++HexValue gen_cast_op(Context *c,
++                     YYLTYPE *locp,
++                     HexValue *source,
++                     unsigned target_width) {
++    if (source->bit_width == target_width) {
++        return *source;
++    } else if (source->type == IMMEDIATE) {
++        HexValue res = *source;
++        res.bit_width = target_width;
++        return res;
++    } else {
++        HexValue res = gen_tmp(c, locp, target_width);
++        /* Truncate */
++        if (source->bit_width > target_width) {
++            OUT(c, locp, "tcg_gen_trunc_i64_tl(", &res, ", ", source, ");\n");
++        } else {
++            if (source->is_unsigned) {
++                /* Extend unsigned */
++                OUT(c, locp, "tcg_gen_extu_i32_i64(",
++                    &res, ", ", source, ");\n");
++            } else {
++                /* Extend signed */
++                OUT(c, locp, "tcg_gen_ext_i32_i64(",
++                    &res, ", ", source, ");\n");
++            }
++        }
++        rvalue_free(c, locp, source);
++        return res;
++    }
++}
++
++HexValue gen_extend_op(Context *c,
++                       YYLTYPE *locp,
++                       HexValue *src_width_ptr,
++                       HexValue *dst_width_ptr,
++                       HexValue *value_ptr,
++                       bool is_unsigned) {
++    HexValue src_width = *src_width_ptr;
++    HexValue dst_width = *dst_width_ptr;
++    HexValue value = *value_ptr;
++    src_width = rvalue_extend(c, locp, &src_width);
++    value = rvalue_extend(c, locp, &value);
++    src_width = rvalue_materialize(c, locp, &src_width);
++    value = rvalue_materialize(c, locp, &value);
++
++    HexValue res = gen_tmp(c, locp, 64);
++    HexValue shift = gen_tmp_value(c, locp, "64", 64);
++    HexValue zero = gen_tmp_value(c, locp, "0", 64);
++    OUT(c, locp, "tcg_gen_sub_i64(",
++        &shift, ", ", &shift, ", ", &src_width, ");\n");
++    if (is_unsigned) {
++        HexValue mask = gen_tmp_value(c, locp, "0xffffffffffffffff", 64);
++        OUT(c, locp, "tcg_gen_shr_i64(",
++            &mask, ", ", &mask, ", ", &shift, ");\n");
++        OUT(c, locp, "tcg_gen_and_i64(",
++            &res, ", ", &value, ", ", &mask, ");\n");
++        rvalue_free(c, locp, &mask);
++    } else {
++        OUT(c, locp, "tcg_gen_shl_i64(",
++            &res, ", ", &value, ", ", &shift, ");\n");
++        OUT(c, locp, "tcg_gen_sar_i64(",
++            &res, ", ", &res, ", ", &shift, ");\n");
++    }
++    OUT(c, locp, "tcg_gen_movcond_i64(", COND_EQ, ", ", &res, ", ");
++    OUT(c, locp, &src_width, ", ", &zero, ", ", &zero, ", ", &res, ");\n");
++
++    rvalue_free(c, locp, &src_width);
++    rvalue_free(c, locp, &dst_width);
++    rvalue_free(c, locp, &value);
++    rvalue_free(c, locp, &shift);
++    rvalue_free(c, locp, &zero);
++
++    res.is_unsigned = is_unsigned;
++    return res;
++}
++
++void gen_rdeposit_op(Context *c,
++                     YYLTYPE *locp,
++                     HexValue *dest,
++                     HexValue *value,
++                     HexValue *begin,
++                     HexValue *width)
++{
++    HexValue dest_m = *dest;
++    dest_m.is_manual = true;
++
++    HexValue value_m = rvalue_extend(c, locp, value);
++    HexValue begin_m = rvalue_extend(c, locp, begin);
++    HexValue width_orig = *width;
++    width_orig.is_manual = true;
++    HexValue width_m = rvalue_extend(c, locp, &width_orig);
++    width_m = rvalue_materialize(c, locp, &width_m);
++
++    HexValue mask = gen_tmp_value(c, locp, "0xffffffffffffffffUL", 64);
++    mask.is_unsigned = true;
++    HexValue k64 = gen_tmp_value(c, locp, "64", 64);
++    k64 = gen_bin_op(c, locp, SUB_OP, &k64, &width_m);
++    mask = gen_bin_op(c, locp, LSR_OP, &mask, &k64);
++    begin_m.is_manual = true;
++    mask = gen_bin_op(c, locp, ASL_OP, &mask, &begin_m);
++    mask.is_manual = true;
++    value_m = gen_bin_op(c, locp, ASL_OP, &value_m, &begin_m);
++    value_m = gen_bin_op(c, locp, ANDB_OP, &value_m, &mask);
++
++    OUT(c, locp, "tcg_gen_not_i64(", &mask, ", ", &mask, ");\n");
++    mask.is_manual = false;
++    HexValue res = gen_bin_op(c, locp, ANDB_OP, &dest_m, &mask);
++    res = gen_bin_op(c, locp, ORB_OP, &res, &value_m);
++
++    if (dest->bit_width != res.bit_width) {
++        res = rvalue_truncate(c, locp, &res);
++    }
++
++    HexValue zero = gen_tmp_value(c, locp, "0", res.bit_width);
++    OUT(c, locp, "tcg_gen_movcond_i", &res.bit_width, "(TCG_COND_NE, ", dest);
++    OUT(c, locp, ", ", &width_orig, ", ", &zero, ", ", &res, ", ", dest,
++        ");\n");
++
++    rvalue_free(c, locp, &zero);
++    rvalue_free(c, locp, width);
++    rvalue_free(c, locp, &res);
++}
++
++void gen_deposit_op(Context *c,
++                    YYLTYPE *locp,
++                    HexValue *dest,
++                    HexValue *value,
++                    HexValue *index,
++                    HexCast *cast)
++{
++    yyassert(c, locp, index->type == IMMEDIATE,
++             "Deposit index must be immediate!\n");
++    HexValue value_m = *value;
++    int bit_width = (dest->bit_width == 64) ? 64 : 32;
++    int width = cast->bit_width;
++    /* If the destination value is 32, truncate the value, otherwise extend */
++    if (dest->bit_width != value->bit_width) {
++        if (bit_width == 32) {
++            value_m = rvalue_truncate(c, locp, &value_m);
++        } else {
++            value_m = rvalue_extend(c, locp, &value_m);
++        }
++    }
++    value_m = rvalue_materialize(c, locp, &value_m);
++    OUT(c, locp, "tcg_gen_deposit_i", &bit_width, "(", dest, ", ", dest, ", ");
++    OUT(c, locp, &value_m, ", ", index, " * ", &width, ", ", &width, ");\n");
++    rvalue_free(c, locp, index);
++    rvalue_free(c, locp, &value_m);
++}
++
++HexValue gen_rextract_op(Context *c,
++                         YYLTYPE *locp,
++                         HexValue *source,
++                         int begin,
++                         int width) {
++    int bit_width = (source->bit_width == 64) ? 64 : 32;
++    HexValue res = gen_tmp(c, locp, bit_width);
++    OUT(c, locp, "tcg_gen_extract_i", &bit_width, "(", &res);
++    OUT(c, locp, ", ", source, ", ", &begin, ", ", &width, ");\n");
++    rvalue_free(c, locp, source);
++    return res;
++}
++
++HexValue gen_extract_op(Context *c,
++                        YYLTYPE *locp,
++                        HexValue *source,
++                        HexValue *index,
++                        HexExtract *extract) {
++    yyassert(c, locp, index->type == IMMEDIATE,
++             "Extract index must be immediate!\n");
++    int bit_width = (source->bit_width == 64) ? 64 : 32;
++    const char *sign_prefix = (extract->is_unsigned) ? "" : "s";
++    int width = extract->bit_width;
++    HexValue res = gen_tmp(c, locp, bit_width);
++    res.is_unsigned = extract->is_unsigned;
++    OUT(c, locp, "tcg_gen_", sign_prefix, "extract_i", &bit_width,
++        "(", &res, ", ", source);
++    OUT(c, locp, ", ", index, " * ", &width, ", ", &width, ");\n");
++
++    /* Some extract operations have bit_width != storage_bit_width */
++    if (extract->storage_bit_width > bit_width) {
++        HexValue tmp = gen_tmp(c, locp, extract->storage_bit_width);
++        tmp.is_unsigned = extract->is_unsigned;
++        if (extract->is_unsigned) {
++            /* Extend unsigned */
++            OUT(c, locp, "tcg_gen_extu_i32_i64(",
++                &tmp, ", ", &res, ");\n");
++        } else {
++            /* Extend signed */
++            OUT(c, locp, "tcg_gen_ext_i32_i64(",
++                &tmp, ", ", &res, ");\n");
++        }
++        rvalue_free(c, locp, &res);
++        res = tmp;
++    }
++
++    rvalue_free(c, locp, source);
++    rvalue_free(c, locp, index);
++    return res;
++}
++
++HexValue gen_read_creg(Context *c, YYLTYPE *locp, HexValue *reg)
++{
++    yyassert(c, locp, reg->type == REGISTER, "reg must be a register!");
++    if (reg->reg.id < 'a') {
++        HexValue tmp = gen_tmp_value(c, locp, "0", 32);
++        const char *id = creg_str[(uint8_t)reg->reg.id];
++        OUT(c, locp, "READ_REG(", &tmp, ", ", id, ");\n");
++        rvalue_free(c, locp, reg);
++        return tmp;
++    }
++    return *reg;
++}
++
++void gen_write_creg(Context *c,
++                    YYLTYPE *locp,
++                    HexValue *reg,
++                    HexValue *value)
++{
++    yyassert(c, locp, reg->type == REGISTER, "reg must be a register!");
++    HexValue value_m = *value;
++    value_m = rvalue_truncate(c, locp, &value_m);
++    value_m = rvalue_materialize(c, locp, &value_m);
++    OUT(c,
++        locp,
++        "gen_log_reg_write(", creg_str[(uint8_t)reg->reg.id], ", ",
++        &value_m, ");\n");
++    OUT(c,
++        locp,
++        "ctx_log_reg_write(ctx, ", creg_str[(uint8_t)reg->reg.id], ");\n");
++    rvalue_free(c, locp, reg);
++    rvalue_free(c, locp, &value_m);
++}
++
++void gen_assign(Context *c,
++                YYLTYPE *locp,
++                HexValue *dest,
++                HexValue *value)
++{
++    HexValue value_m = *value;
++    if (dest->type == REGISTER &&
++        dest->reg.type == CONTROL && dest->reg.id < 'a') {
++        gen_write_creg(c, locp, dest, &value_m);
++        return;
++    }
++    /* Create (if not present) and assign to temporary variable */
++    if (dest->type == VARID) {
++        varid_allocate(c, locp, dest, value_m.bit_width, value_m.is_unsigned);
++    }
++    int bit_width = dest->bit_width == 64 ? 64 : 32;
++    if (bit_width != value_m.bit_width) {
++        if (bit_width == 64) {
++            value_m = rvalue_extend(c, locp, &value_m);
++        } else {
++            value_m = rvalue_truncate(c, locp, &value_m);
++        }
++    }
++    value_m = rvalue_materialize(c, locp, &value_m);
++    if (value_m.type == IMMEDIATE) {
++        OUT(c, locp, "tcg_gen_movi_i", &bit_width,
++            "(", dest, ", ", &value_m, ");\n");
++    } else {
++        OUT(c, locp, "tcg_gen_mov_i", &bit_width,
++            "(", dest, ", ", &value_m, ");\n");
++    }
++    rvalue_free(c, locp, &value_m);
++}
++
++HexValue gen_convround(Context *c,
++                       YYLTYPE *locp,
++                       HexValue *source)
++{
++    HexValue src = *source;
++    src.is_manual = true;
++
++    unsigned bit_width = src.bit_width;
++    const char *size = (bit_width == 32) ? "32" : "64";
++    HexValue res = gen_tmp(c, locp, bit_width);
++    HexValue mask = gen_tmp_value(c, locp, "0x3", bit_width);
++    mask.is_manual = true;
++    HexValue and = gen_bin_op(c, locp, ANDB_OP, &src, &mask);
++    HexValue one = gen_tmp_value(c, locp, "1", bit_width);
++    HexValue src_p1 = gen_bin_op(c, locp, ADD_OP, &src, &one);
++
++    OUT(c, locp, "tcg_gen_movcond_i", size, "(TCG_COND_EQ, ", &res);
++    OUT(c, locp, ", ", &and, ", ", &mask, ", ");
++    OUT(c, locp, &src_p1, ", ", &src, ");\n");
++
++    /* Free src but use the original `is_manual` value */
++    rvalue_free(c, locp, source);
++
++    /* Free the rest of the values */
++    rvalue_free_manual(c, locp, &mask);
++    rvalue_free(c, locp, &and);
++    rvalue_free(c, locp, &src_p1);
++
++    return res;
++}
++
++static HexValue gen_convround_n_a(Context *c,
++                                  YYLTYPE *locp,
++                                  HexValue *a,
++                                  HexValue *n)
++{
++    HexValue res = gen_tmp(c, locp, 64);
++    OUT(c, locp, "tcg_gen_ext_i32_i64(", &res, ", ", a, ");\n");
++    rvalue_free(c, locp, a);
++    rvalue_free(c, locp, n);
++    return res;
++}
++
++static HexValue gen_convround_n_b(Context *c,
++                                  YYLTYPE *locp,
++                                  HexValue *a,
++                                  HexValue *n)
++{
++    HexValue res = gen_tmp(c, locp, 64);
++    OUT(c, locp, "tcg_gen_ext_i32_i64(", &res, ", ", a, ");\n");
++
++    HexValue one = gen_tmp_value(c, locp, "1", 32);
++    HexValue tmp = gen_tmp(c, locp, 32);
++    HexValue tmp_64 = gen_tmp(c, locp, 64);
++
++    OUT(c, locp, "tcg_gen_shl_i32(", &tmp);
++    OUT(c, locp, ", ", &one, ", ", n, ");\n");
++    OUT(c, locp, "tcg_gen_and_i32(", &tmp);
++    OUT(c, locp, ", ", &tmp, ", ", a, ");\n");
++    OUT(c, locp, "tcg_gen_shri_i32(", &tmp);
++    OUT(c, locp, ", ", &tmp, ", 1);\n");
++    OUT(c, locp, "tcg_gen_ext_i32_i64(", &tmp_64, ", ", &tmp, ");\n");
++    OUT(c, locp, "tcg_gen_add_i64(", &res);
++    OUT(c, locp, ", ", &res, ", ", &tmp_64, ");\n");
++
++    rvalue_free(c, locp, a);
++    rvalue_free(c, locp, n);
++    rvalue_free(c, locp, &one);
++    rvalue_free(c, locp, &tmp);
++    rvalue_free(c, locp, &tmp_64);
++
++    return res;
++}
++
++static HexValue gen_convround_n_c(Context *c,
++                                  YYLTYPE *locp,
++                                  HexValue *a,
++                                  HexValue *n)
++{
++    HexValue res = gen_tmp(c, locp, 64);
++    OUT(c, locp, "tcg_gen_ext_i32_i64(", &res, ", ", a, ");\n");
++
++    HexValue one = gen_tmp_value(c, locp, "1", 32);
++    HexValue tmp = gen_tmp(c, locp, 32);
++    HexValue tmp_64 = gen_tmp(c, locp, 64);
++
++    OUT(c, locp, "tcg_gen_subi_i32(", &tmp);
++    OUT(c, locp, ", ", n, ", 1);\n");
++    OUT(c, locp, "tcg_gen_shl_i32(", &tmp);
++    OUT(c, locp, ", ", &one, ", ", &tmp, ");\n");
++    OUT(c, locp, "tcg_gen_ext_i32_i64(", &tmp_64, ", ", &tmp, ");\n");
++    OUT(c, locp, "tcg_gen_add_i64(", &res);
++    OUT(c, locp, ", ", &res, ", ", &tmp_64, ");\n");
++
++    rvalue_free(c, locp, a);
++    rvalue_free(c, locp, n);
++    rvalue_free(c, locp, &one);
++    rvalue_free(c, locp, &tmp);
++    rvalue_free(c, locp, &tmp_64);
++
++    return res;
++}
++
++HexValue gen_convround_n(Context *c,
++                         YYLTYPE *locp,
++                         HexValue *source_ptr,
++                         HexValue *bit_pos_ptr)
++{
++    /* If input is 64 bit cast it to 32 */
++    HexValue source = gen_cast_op(c, locp, source_ptr, 32);
++    HexValue bit_pos = gen_cast_op(c, locp, bit_pos_ptr, 32);
++
++    source = rvalue_materialize(c, locp, &source);
++    bit_pos = rvalue_materialize(c, locp, &bit_pos);
++
++    bool free_source_sym = !rvalue_equal(&source, source_ptr);
++    bool free_bit_pos_sym = !rvalue_equal(&bit_pos, bit_pos_ptr);
++    source.is_manual = true;
++    bit_pos.is_manual = true;
++
++    HexValue r1 = gen_convround_n_a(c, locp, &source, &bit_pos);
++    HexValue r2 = gen_convround_n_b(c, locp, &source, &bit_pos);
++    HexValue r3 = gen_convround_n_c(c, locp, &source, &bit_pos);
++
++    HexValue l_32 = gen_tmp_value(c, locp, "1", 32);
++
++    HexValue cond = gen_tmp(c, locp, 32);
++    HexValue cond_64 = gen_tmp(c, locp, 64);
++    HexValue mask = gen_tmp(c, locp, 32);
++    HexValue n_64 = gen_tmp(c, locp, 64);
++    HexValue res = gen_tmp(c, locp, 64);
++    HexValue zero = gen_tmp_value(c, locp, "0", 64);
++
++    OUT(c, locp, "tcg_gen_sub_i32(", &mask);
++    OUT(c, locp, ", ", &bit_pos, ", ", &l_32, ");\n");
++    OUT(c, locp, "tcg_gen_shl_i32(", &mask);
++    OUT(c, locp, ", ", &l_32, ", ", &mask, ");\n");
++    OUT(c, locp, "tcg_gen_sub_i32(", &mask);
++    OUT(c, locp, ", ", &mask, ", ", &l_32, ");\n");
++    OUT(c, locp, "tcg_gen_and_i32(", &cond);
++    OUT(c, locp, ", ", &source, ", ", &mask, ");\n");
++    OUT(c, locp, "tcg_gen_extu_i32_i64(", &cond_64, ", ", &cond, ");\n");
++    OUT(c, locp, "tcg_gen_ext_i32_i64(", &n_64, ", ", &bit_pos, ");\n");
++
++    OUT(c, locp, "tcg_gen_movcond_i64");
++    OUT(c, locp, "(TCG_COND_EQ, ", &res, ", ", &cond_64, ", ", &zero);
++    OUT(c, locp, ", ", &r2, ", ", &r3, ");\n");
++
++    OUT(c, locp, "tcg_gen_movcond_i64");
++    OUT(c, locp, "(TCG_COND_EQ, ", &res, ", ", &n_64, ", ", &zero);
++    OUT(c, locp, ", ", &r1, ", ", &res, ");\n");
++
++    OUT(c, locp, "tcg_gen_shr_i64(", &res);
++    OUT(c, locp, ", ", &res, ", ", &n_64, ");\n");
++
++    rvalue_free_ext(c, locp, &source, free_source_sym);
++    rvalue_free_ext(c, locp, &bit_pos, free_bit_pos_sym);
++
++    rvalue_free(c, locp, &r1);
++    rvalue_free(c, locp, &r2);
++    rvalue_free(c, locp, &r3);
++
++    rvalue_free(c, locp, &cond);
++    rvalue_free(c, locp, &cond_64);
++    rvalue_free(c, locp, &l_32);
++    rvalue_free(c, locp, &mask);
++    rvalue_free(c, locp, &n_64);
++    rvalue_free(c, locp, &zero);
++
++    res = rvalue_truncate(c, locp, &res);
++    return res;
++}
++
++HexValue gen_round(Context *c,
++                   YYLTYPE *locp,
++                   HexValue *source,
++                   HexValue *position) {
++    yyassert(c, locp, source->bit_width <= 32,
++             "fRNDN not implemented for bit widths > 32!");
++
++    HexValue src = *source;
++    HexValue pos = *position;
++
++    HexValue src_width = gen_imm_value(c, locp, src.bit_width, 32);
++    HexValue dst_width = gen_imm_value(c, locp, 64, 32);
++    HexValue a = gen_extend_op(c, locp, &src_width, &dst_width, &src, false);
++
++    src_width = gen_imm_value(c, locp, 5, 32);
++    dst_width = gen_imm_value(c, locp, 64, 32);
++    HexValue b = gen_extend_op(c, locp, &src_width, &dst_width, &pos, true);
++
++    /* Disable auto-free of values used more than once */
++    a.is_manual = true;
++    b.is_manual = true;
++
++    HexValue res = gen_tmp(c, locp, 64);
++
++    HexValue one = gen_tmp_value(c, locp, "1", 64);
++    HexValue n_m1 = gen_bin_op(c, locp, SUB_OP, &b, &one);
++    one = gen_tmp_value(c, locp, "1", 64);
++    HexValue shifted = gen_bin_op(c, locp, ASL_OP, &one, &n_m1);
++    HexValue sum = gen_bin_op(c, locp, ADD_OP, &shifted, &a);
++
++    HexValue zero = gen_tmp_value(c, locp, "0", 64);
++    OUT(c, locp, "tcg_gen_movcond_i64");
++    OUT(c, locp, "(TCG_COND_EQ, ", &res, ", ", &b, ", ", &zero);
++    OUT(c, locp, ", ", &a, ", ", &sum, ");\n");
++
++    rvalue_free_manual(c, locp, &a);
++    rvalue_free_manual(c, locp, &b);
++    rvalue_free(c, locp, &zero);
++    rvalue_free(c, locp, &sum);
++
++    return res;
++}
++
++/* Circular addressing mode with auto-increment */
++HexValue gen_circ_op(Context *c,
++                     YYLTYPE *locp,
++                     HexValue *addr,
++                     HexValue *increment,
++                     HexValue *modifier) {
++    HexValue increment_m = *increment;
++    HexValue res = gen_tmp(c, locp, addr->bit_width);
++    res.is_unsigned = addr->is_unsigned;
++    HexValue cs = gen_tmp(c, locp, 32);
++    increment_m = rvalue_materialize(c, locp, &increment_m);
++    OUT(c, locp, "READ_REG(", &cs, ", HEX_REG_CS0 + MuN);\n");
++    OUT(c,
++        locp,
++        "gen_helper_fcircadd(",
++        &res,
++        ", ",
++        addr,
++        ", ",
++        &increment_m,
++        ", ",
++        modifier);
++    OUT(c, locp, ", ", &cs, ");\n");
++    rvalue_free(c, locp, addr);
++    rvalue_free(c, locp, &increment_m);
++    rvalue_free(c, locp, modifier);
++    rvalue_free(c, locp, &cs);
++    return res;
++}
++
++HexValue gen_locnt_op(Context *c, YYLTYPE *locp, HexValue *source)
++{
++    HexValue source_m = *source;
++    const char *bit_suffix = source->bit_width == 64 ? "64" : "32";
++    HexValue res = gen_tmp(c, locp, source->bit_width == 64 ? 64 : 32);
++    res.type = TEMP;
++    source_m = rvalue_materialize(c, locp, &source_m);
++    OUT(c, locp, "tcg_gen_not_i", bit_suffix, "(",
++        &res, ", ", &source_m, ");\n");
++    OUT(c, locp, "tcg_gen_clzi_i", bit_suffix, "(", &res, ", ", &res, ", ");
++    OUT(c, locp, bit_suffix, ");\n");
++    rvalue_free(c, locp, &source_m);
++    return res;
++}
++
++HexValue gen_ctpop_op(Context *c, YYLTYPE *locp, HexValue *source)
++{
++    HexValue source_m = *source;
++    const char *bit_suffix = source_m.bit_width == 64 ? "64" : "32";
++    HexValue res = gen_tmp(c, locp, source_m.bit_width == 64 ? 64 : 32);
++    res.type = TEMP;
++    source_m = rvalue_materialize(c, locp, &source_m);
++    OUT(c, locp, "tcg_gen_ctpop_i", bit_suffix,
++        "(", &res, ", ", &source_m, ");\n");
++    rvalue_free(c, locp, &source_m);
++    return res;
++}
++
++HexValue gen_fbrev_4(Context *c, YYLTYPE *locp, HexValue *source)
++{
++    HexValue source_m = *source;
++
++    HexValue res = gen_tmp(c, locp, 32);
++    HexValue tmp1 = gen_tmp(c, locp, 32);
++    HexValue tmp2 = gen_tmp(c, locp, 32);
++
++    source_m = rvalue_materialize(c, locp, &source_m);
++    source_m = rvalue_truncate(c, locp, &source_m);
++
++    OUT(c, locp, "tcg_gen_mov_tl(", &res, ", ", &source_m, ");\n");
++    OUT(c, locp, "tcg_gen_andi_tl(", &tmp1, ", ", &res, ", 0xaaaaaaaa);\n");
++    OUT(c, locp, "tcg_gen_shri_tl(", &tmp1, ", ", &tmp1, ", 1);\n");
++    OUT(c, locp, "tcg_gen_andi_tl(", &tmp2, ", ", &res, ", 0x55555555);\n");
++    OUT(c, locp, "tcg_gen_shli_tl(", &tmp2, ", ", &tmp2, ", 1);\n");
++    OUT(c, locp, "tcg_gen_or_tl(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++    OUT(c, locp, "tcg_gen_andi_tl(", &tmp1, ", ", &res, ", 0xcccccccc);\n");
++    OUT(c, locp, "tcg_gen_shri_tl(", &tmp1, ", ", &tmp1, ", 2);\n");
++    OUT(c, locp, "tcg_gen_andi_tl(", &tmp2, ", ", &res, ", 0x33333333);\n");
++    OUT(c, locp, "tcg_gen_shli_tl(", &tmp2, ", ", &tmp2, ", 2);\n");
++    OUT(c, locp, "tcg_gen_or_tl(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++    OUT(c, locp, "tcg_gen_andi_tl(", &tmp1, ", ", &res, ", 0xf0f0f0f0);\n");
++    OUT(c, locp, "tcg_gen_shri_tl(", &tmp1, ", ", &tmp1, ", 4);\n");
++    OUT(c, locp, "tcg_gen_andi_tl(", &tmp2, ", ", &res, ", 0x0f0f0f0f);\n");
++    OUT(c, locp, "tcg_gen_shli_tl(", &tmp2, ", ", &tmp2, ", 4);\n");
++    OUT(c, locp, "tcg_gen_or_tl(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++    OUT(c, locp, "tcg_gen_andi_tl(", &tmp1, ", ", &res, ", 0xff00ff00);\n");
++    OUT(c, locp, "tcg_gen_shri_tl(", &tmp1, ", ", &tmp1, ", 8);\n");
++    OUT(c, locp, "tcg_gen_andi_tl(", &tmp2, ", ", &res, ", 0x00ff00ff);\n");
++    OUT(c, locp, "tcg_gen_shli_tl(", &tmp2, ", ", &tmp2, ", 8);\n");
++    OUT(c, locp, "tcg_gen_or_tl(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++    OUT(c, locp, "tcg_gen_shri_tl(", &tmp1, ", ", &res, ", 16);\n");
++    OUT(c, locp, "tcg_gen_shli_tl(", &tmp2, ", ", &res, ", 16);\n");
++    OUT(c, locp, "tcg_gen_or_tl(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++
++    rvalue_free(c, locp, &tmp1);
++    rvalue_free(c, locp, &tmp2);
++    rvalue_free(c, locp, &source_m);
++
++    return res;
++}
++
++HexValue gen_fbrev_8(Context *c, YYLTYPE *locp, HexValue *source)
++{
++    HexValue source_m = *source;
++
++    source_m = rvalue_extend(c, locp, &source_m);
++    source_m = rvalue_materialize(c, locp, &source_m);
++
++    HexValue res = gen_tmp(c, locp, 64);
++    HexValue tmp1 = gen_tmp(c, locp, 64);
++    HexValue tmp2 = gen_tmp(c, locp, 64);
++
++    OUT(c, locp, "tcg_gen_mov_i64(",
++        &res, ", ", &source_m, ");\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp1, ", ", &res, ", 0xaaaaaaaaaaaaaaaa);\n");
++    OUT(c, locp, "tcg_gen_shri_i64(",
++        &tmp1, ", ", &tmp1, ", 1);\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp2, ", ", &res, ", 0x5555555555555555);\n");
++    OUT(c, locp, "tcg_gen_shli_i64(",
++        &tmp2, ", ", &tmp2, ", 1);\n");
++    OUT(c, locp, "tcg_gen_or_i64(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp1, ", ", &res, ", 0xcccccccccccccccc);\n");
++    OUT(c, locp, "tcg_gen_shri_i64(",
++        &tmp1, ", ", &tmp1, ", 2);\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp2, ", ", &res, ", 0x3333333333333333);\n");
++    OUT(c, locp, "tcg_gen_shli_i64(",
++        &tmp2, ", ", &tmp2, ", 2);\n");
++    OUT(c, locp, "tcg_gen_or_i64(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp1, ", ", &res, ", 0xf0f0f0f0f0f0f0f0);\n");
++    OUT(c, locp, "tcg_gen_shri_i64(",
++        &tmp1, ", ", &tmp1, ", 4);\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp2, ", ", &res, ", 0x0f0f0f0f0f0f0f0f);\n");
++    OUT(c, locp, "tcg_gen_shli_i64(",
++        &tmp2, ", ", &tmp2, ", 4);\n");
++    OUT(c, locp, "tcg_gen_or_i64(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp1, ", ", &res, ", 0xff00ff00ff00ff00);\n");
++    OUT(c, locp, "tcg_gen_shri_i64(",
++        &tmp1, ", ", &tmp1, ", 8);\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp2, ", ", &res, ", 0x00ff00ff00ff00ff);\n");
++    OUT(c, locp, "tcg_gen_shli_i64(",
++        &tmp2, ", ", &tmp2, ", 8);\n");
++    OUT(c, locp, "tcg_gen_or_i64(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp1, ", ", &res, ", 0xffff0000ffff0000);\n");
++    OUT(c, locp, "tcg_gen_shri_i64(",
++        &tmp1, ", ", &tmp1, ", 16);\n");
++    OUT(c, locp, "tcg_gen_andi_i64(",
++        &tmp2, ", ", &res, ", 0x0000ffff0000ffff);\n");
++    OUT(c, locp, "tcg_gen_shli_i64(",
++        &tmp2, ", ", &tmp2, ", 16);\n");
++    OUT(c, locp, "tcg_gen_or_i64(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++    OUT(c, locp, "tcg_gen_shri_i64(", &tmp1, ", ", &res, ", 32);\n");
++    OUT(c, locp, "tcg_gen_shli_i64(", &tmp2, ", ", &res, ", 32);\n");
++    OUT(c, locp, "tcg_gen_or_i64(", &res, ", ", &tmp1, ", ", &tmp2, ");\n");
++
++    rvalue_free(c, locp, &tmp1);
++    rvalue_free(c, locp, &tmp2);
++    rvalue_free(c, locp, &source_m);
++
++    return res;
++}
++
++HexValue gen_rotl(Context *c, YYLTYPE *locp, HexValue *source, HexValue *n)
++{
++    const char *suffix = source->bit_width == 64 ? "i64" : "i32";
++
++    HexValue res = gen_tmp(c, locp, source->bit_width);
++    res.is_unsigned = source->is_unsigned;
++    HexValue tmp_l = gen_tmp(c, locp, source->bit_width);
++    HexValue tmp_r = gen_tmp(c, locp, source->bit_width);
++    HexValue shr = gen_tmp(c, locp, source->bit_width);
++
++    OUT(c, locp, "tcg_gen_movi_", suffix, "(",
++        &shr, ", ", &source->bit_width, ");\n");
++    OUT(c, locp, "tcg_gen_subi_", suffix, "(",
++        &shr, ", ", &shr, ", ", n, ");\n");
++    OUT(c, locp, "tcg_gen_shli_", suffix, "(",
++        &tmp_l, ", ", source, ", ", n, ");\n");
++    OUT(c, locp, "tcg_gen_shr_", suffix, "(",
++        &tmp_r, ", ", source, ", ", &shr, ");\n");
++    OUT(c, locp, "tcg_gen_or_", suffix, "(",
++        &res, ", ", &tmp_l, ", ", &tmp_r, ");\n");
++
++    rvalue_free(c, locp, source);
++    rvalue_free(c, locp, n);
++    rvalue_free(c, locp, &tmp_l);
++    rvalue_free(c, locp, &tmp_r);
++    rvalue_free(c, locp, &shr);
++
++    return res;
++}
++
++const char *INTERLEAVE_MASKS[6] = {
++    "0x5555555555555555ULL",
++    "0x3333333333333333ULL",
++    "0x0f0f0f0f0f0f0f0fULL",
++    "0x00ff00ff00ff00ffULL",
++    "0x0000ffff0000ffffULL",
++    "0x00000000ffffffffULL",
++};
++
++HexValue gen_deinterleave(Context *c, YYLTYPE *locp, HexValue *mixed)
++{
++    HexValue src = rvalue_extend(c, locp, mixed);
++
++    HexValue a = gen_tmp(c, locp, 64);
++    a.is_unsigned = true;
++    HexValue b = gen_tmp(c, locp, 64);
++    b.is_unsigned = true;
++
++    const char **masks = INTERLEAVE_MASKS;
++
++    OUT(c, locp, "tcg_gen_shri_i64(", &a, ", ", &src, ", 1);\n");
++    OUT(c, locp, "tcg_gen_andi_i64(", &a, ", ", &a, ", ", masks[0], ");\n");
++    OUT(c, locp, "tcg_gen_andi_i64(", &b, ", ", &src, ", ", masks[0], ");\n");
++
++    HexValue res = gen_tmp(c, locp, 64);
++    res.is_unsigned = true;
++
++    unsigned shift = 1;
++    for (unsigned i = 1; i < 6; ++i) {
++        OUT(c, locp, "tcg_gen_shri_i64(", &res, ", ", &b, ", ", &shift, ");\n");
++        OUT(c, locp, "tcg_gen_or_i64(", &b, ", ", &res, ", ", &b, ");\n");
++        OUT(c, locp, "tcg_gen_andi_i64(", &b, ", ", &b, ", ", masks[i], ");\n");
++        OUT(c, locp, "tcg_gen_shri_i64(", &res, ", ", &a, ", ", &shift, ");\n");
++        OUT(c, locp, "tcg_gen_or_i64(", &a, ", ", &res, ", ", &a, ");\n");
++        OUT(c, locp, "tcg_gen_andi_i64(", &a, ", ", &a, ", ", masks[i], ");\n");
++        shift <<= 1;
++    }
++
++    OUT(c, locp, "tcg_gen_shli_i64(", &a, ", ", &a, ", 32);\n");
++    OUT(c, locp, "tcg_gen_or_i64(", &res, ", ", &a, ", ", &b, ");\n");
++
++    rvalue_free(c, locp, &a);
++    rvalue_free(c, locp, &b);
++
++    return res;
++}
++
++HexValue gen_interleave(Context *c,
++                        YYLTYPE *locp,
++                        HexValue *odd,
++                        HexValue *even)
++{
++    HexValue a = rvalue_truncate(c, locp, odd);
++    a.is_unsigned = true;
++    HexValue b = rvalue_truncate(c, locp, even);
++    a.is_unsigned = true;
++
++    a = rvalue_extend(c, locp, &a);
++    b = rvalue_extend(c, locp, &b);
++
++    HexValue res = gen_tmp(c, locp, 64);
++    res.is_unsigned = true;
++
++    const char **masks = INTERLEAVE_MASKS;
++
++    unsigned shift = 16;
++    for (int i = 4; i >= 0; --i) {
++        OUT(c, locp, "tcg_gen_shli_i64(", &res, ", ", &a, ", ", &shift, ");\n");
++        OUT(c, locp, "tcg_gen_or_i64(", &a, ", ", &res, ", ", &a, ");\n");
++        OUT(c, locp, "tcg_gen_andi_i64(", &a, ", ", &a, ", ", masks[i], ");\n");
++        OUT(c, locp, "tcg_gen_shli_i64(", &res, ", ", &b, ", ", &shift, ");\n");
++        OUT(c, locp, "tcg_gen_or_i64(", &b, ", ", &res, ", ", &b, ");\n");
++        OUT(c, locp, "tcg_gen_andi_i64(", &b, ", ", &b, ", ", masks[i], ");\n");
++        shift >>= 1;
++    }
++
++    OUT(c, locp, "tcg_gen_shli_i64(", &a, ", ", &a, ", 1);\n");
++    OUT(c, locp, "tcg_gen_or_i64(", &res, ", ", &a, ", ", &b, ");\n");
++
++    rvalue_free(c, locp, &a);
++    rvalue_free(c, locp, &b);
++
++    return res;
++}
++
++bool reg_equal(HexReg *r1, HexReg *r2)
++{
++    return !memcmp(r1, r2, sizeof(HexReg));
++}
++
++bool pre_equal(HexPre *p1, HexPre *p2)
++{
++    return !memcmp(p1, p2, sizeof(HexPre));
++}
++
++bool rvalue_equal(HexValue *v1, HexValue *v2)
++{
++    if (v1->is_dotnew != v2->is_dotnew) {
++        return false;
++    } else if (v1->type == REGISTER && v2->type == REGISTER) {
++        return reg_equal(&(v1->reg), &(v2->reg));
++    } else if (v1->type == PREDICATE && v2->type == PREDICATE) {
++        return pre_equal(&(v1->pre), &(v2->pre));
++    } else {
++        return false;
++    }
++}
++
++void emit_header(Context *c)
++{
++    EMIT_SIG(c, START_COMMENT " %s " END_COMMENT "\n", c->inst.name);
++    EMIT_SIG(c, "void emit_%s(DisasContext *ctx, Insn *insn, Packet *pkt",
++             c->inst.name);
++}
++
++void emit_arg(Context *c, YYLTYPE *locp, HexValue *arg)
++{
++    switch (arg->type) {
++    case REGISTER:
++        if (arg->reg.type == DOTNEW) {
++            EMIT_SIG(c, ", TCGv N%cN", arg->reg.id);
++        } else {
++            bool is64 = (arg->bit_width == 64);
++            const char *type = is64 ? "TCGv_i64" : "TCGv_i32";
++            char reg_id[5] = { 0 };
++            reg_compose(c, locp, &(arg->reg), reg_id);
++            EMIT_SIG(c, ", %s %s", type, reg_id);
++            /* MuV register requires also MuN to provide its index */
++            if (arg->reg.type == MODIFIER) {
++                EMIT_SIG(c, ", int MuN");
++            }
++        }
++        break;
++    case PREDICATE:
++        {
++            char suffix = arg->is_dotnew ? 'N' : 'V';
++            EMIT_SIG(c, ", TCGv P%c%c", arg->pre.id, suffix);
++        }
++        break;
++    default:
++        {
++            fprintf(stderr, "emit_arg got unsupported argument!");
++            abort();
++        }
++    }
++}
++
++void emit_footer(Context *c)
++{
++    EMIT(c, "}\n");
++    EMIT(c, "\n");
++}
++
++void free_variables(Context *c, YYLTYPE *locp)
++{
++    for (unsigned i = 0; i < c->inst.allocated_count; ++i) {
++        Var *var = &c->inst.allocated[i];
++        const char *suffix = var->bit_width == 64 ? "i64" : "i32";
++        OUT(c, locp, "tcg_temp_free_", suffix, "(", var->name, ");\n");
++    }
++}
++
++void free_instruction(Context *c)
++{
++    /* Reset buffers */
++    c->signature_c = 0;
++    c->out_c = 0;
++    c->header_c = 0;
++    /* Free allocated register tracking */
++    for (int i = 0; i < c->inst.allocated_count; i++) {
++        free((char *)c->inst.allocated[i].name);
++    }
++    /* Free INAME token value */
++    free(c->inst.name);
++    /* Initialize instruction-specific portion of the context */
++    memset(&(c->inst), 0, sizeof(Inst));
++}
+diff --git a/target/hexagon/idef-parser/parser-helpers.h b/target/hexagon/idef-parser/parser-helpers.h
+new file mode 100644
+index 0000000000..36d260ecb7
+--- /dev/null
++++ b/target/hexagon/idef-parser/parser-helpers.h
+@@ -0,0 +1,293 @@
++/*
++ * Copyright(c) 2019-2020 rev.ng Srls. All Rights Reserved.
 + *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; withOUT even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
-+typedef struct Context {
-+    void *scanner;                /**< Reentrant parser state pointer        */
-+    char *input_buffer;           /**< Buffer containing the input code      */
-+    char *out_buffer;             /**< Buffer containing the output code     */
-+    int out_c;                    /**< Characters emitted into out_buffer    */
-+    char *signature_buffer;       /**< Buffer containing the signatures code */
-+    int signature_c;              /**< Characters emitted into sig..._buffer */
-+    char *header_buffer;          /**< Buffer containing the output code     */
-+    int header_c;                 /**< Characters emitted into header buffer */
-+    FILE *defines_file;           /**< FILE * of the generated header        */
-+    FILE *output_file;            /**< FILE * of the C output file           */
-+    FILE *enabled_file;           /**< FILE * of the list of enabled inst    */
-+    int total_insn;               /**< Number of instructions in input file  */
-+    int implemented_insn;         /**< Instruction compiled without errors   */
-+    Inst inst;                  /**< Parsing data of the current inst      */
-+} Context;
 +
-+#endif /* IDEF_PARSER_H */
++#ifndef PARSER_HELPERS_H
++#define PARSER_HELPERS_H
++
++#include <assert.h>
++#include <inttypes.h>
++#include <stdarg.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++
++#include "idef-parser.tab.h"
++#include "idef-parser.yy.h"
++#include "parser-helpers.h"
++#include "idef-parser.h"
++
++/* Decomment this to disable yyasserts */
++/* #define NDEBUG */
++
++#define ERR_LINE_CONTEXT 40
++
++#define START_COMMENT "/" "*"
++#define END_COMMENT "*" "/"
++
++void yyerror(YYLTYPE *locp,
++             yyscan_t scanner __attribute__((unused)),
++             Context *c,
++             const char *s);
++
++#ifndef NDEBUG
++#define yyassert(context, locp, condition, msg) \
++    if (!(condition)) { \
++        yyerror(locp, (context)->scanner, (context), (msg)); \
++    }
++#endif
++
++bool is_direct_predicate(HexValue *value);
++
++/* Print functions */
++void str_print(Context *c, YYLTYPE *locp, char *string);
++
++void uint64_print(Context *c, YYLTYPE *locp, uint64_t *num);
++
++void int_print(Context *c, YYLTYPE *locp, int *num);
++
++void uint_print(Context *c, YYLTYPE *locp, unsigned *num);
++
++void tmp_print(Context *c, YYLTYPE *locp, HexTmp *tmp);
++
++void pre_print(Context *c, YYLTYPE *locp, HexPre *pre, bool is_dotnew);
++
++void reg_compose(Context *c, YYLTYPE *locp, HexReg *reg, char reg_id[5]);
++
++void reg_print(Context *c, YYLTYPE *locp, HexReg *reg);
++
++void imm_print(Context *c, YYLTYPE *locp, HexImm *imm);
++
++void var_print(Context *c, YYLTYPE *locp, HexVar *var);
++
++void rvalue_out(Context *c, YYLTYPE *locp, void *pointer);
++
++/* Copy output code buffer into stdout */
++void commit(Context *c);
++
++#define OUT_IMPL(c, locp, x)                                            \
++    do {                                                                \
++        if (__builtin_types_compatible_p(typeof(*x), char)) {           \
++            str_print((c), (locp), (char *) x);                         \
++        } else if (__builtin_types_compatible_p(typeof(*x), uint64_t)) { \
++            uint64_print((c), (locp), (uint64_t *) x);                  \
++        } else if (__builtin_types_compatible_p(typeof(*x), int)) {     \
++            int_print((c), (locp), (int *) x);                          \
++        } else if (__builtin_types_compatible_p(typeof(*x), unsigned)) { \
++            uint_print((c), (locp), (unsigned *) x);                    \
++        } else if (__builtin_types_compatible_p(typeof(*x), HexValue)) { \
++            rvalue_out((c), (locp), (HexValue *) x);                 \
++        } else {                                                        \
++            yyassert(c, locp, false, "Unhandled print type!");          \
++        }                                                               \
++    } while (0);
++
++/* Make a FOREACH macro */
++#define FE_1(c, locp, WHAT, X) WHAT(c, locp, X)
++#define FE_2(c, locp, WHAT, X, ...) \
++    WHAT(c, locp, X)FE_1(c, locp, WHAT, __VA_ARGS__)
++#define FE_3(c, locp, WHAT, X, ...) \
++    WHAT(c, locp, X)FE_2(c, locp, WHAT, __VA_ARGS__)
++#define FE_4(c, locp, WHAT, X, ...) \
++    WHAT(c, locp, X)FE_3(c, locp, WHAT, __VA_ARGS__)
++#define FE_5(c, locp, WHAT, X, ...) \
++    WHAT(c, locp, X)FE_4(c, locp, WHAT, __VA_ARGS__)
++#define FE_6(c, locp, WHAT, X, ...) \
++    WHAT(c, locp, X)FE_5(c, locp, WHAT, __VA_ARGS__)
++#define FE_7(c, locp, WHAT, X, ...) \
++    WHAT(c, locp, X)FE_6(c, locp, WHAT, __VA_ARGS__)
++#define FE_8(c, locp, WHAT, X, ...) \
++    WHAT(c, locp, X)FE_7(c, locp, WHAT, __VA_ARGS__)
++#define FE_9(c, locp, WHAT, X, ...) \
++    WHAT(c, locp, X)FE_8(c, locp, WHAT, __VA_ARGS__)
++/* repeat as needed */
++
++#define GET_MACRO(_1, _2, _3, _4, _5, _6, _7, _8, _9, NAME, ...) NAME
++
++#define FOR_EACH(c, locp, action, ...)          \
++  do {                                          \
++    GET_MACRO(__VA_ARGS__,                      \
++              FE_9,                             \
++              FE_8,                             \
++              FE_7,                             \
++              FE_6,                             \
++              FE_5,                             \
++              FE_4,                             \
++              FE_3,                             \
++              FE_2,                             \
++              FE_1)(c, locp, action,            \
++                    __VA_ARGS__)                \
++  } while (0)
++
++#define OUT(c, locp, ...) FOR_EACH((c), (locp), OUT_IMPL, __VA_ARGS__)
++
++const char *cmp_swap(Context *c, YYLTYPE *locp, const char *type);
++
++/* Temporary values creation */
++HexValue gen_tmp(Context *c, YYLTYPE *locp, int bit_width);
++
++HexValue gen_local_tmp(Context *c, YYLTYPE *locp, int bit_width);
++
++HexValue gen_tmp_value(Context *c,
++                          YYLTYPE *locp,
++                          const char *value,
++                          int bit_width);
++
++HexValue gen_imm_value(Context *c __attribute__((unused)),
++                          YYLTYPE *locp,
++                          int value,
++                          int bit_width);
++
++void rvalue_free(Context *c, YYLTYPE *locp, HexValue *rvalue);
++
++HexValue rvalue_materialize(Context *c, YYLTYPE *locp, HexValue *rvalue);
++
++HexValue rvalue_extend(Context *c, YYLTYPE *locp, HexValue *rvalue);
++
++HexValue rvalue_truncate(Context *c, YYLTYPE *locp, HexValue *rvalue);
++
++int find_variable(Context *c, YYLTYPE *locp, HexValue *varid);
++
++void varid_allocate(Context *c,
++                    YYLTYPE *locp,
++                    HexValue *varid,
++                    int width,
++                    bool is_unsigned);
++
++void ea_free(Context *c, YYLTYPE *locp);
++
++HexValue gen_bin_cmp(Context *c,
++                     YYLTYPE *locp,
++                     const char *type,
++                     HexValue *op1_ptr,
++                     HexValue *op2_ptr);
++
++/* Code generation functions */
++HexValue gen_bin_op(Context *c,
++                       YYLTYPE *locp,
++                       enum OpType type,
++                       HexValue *operand1,
++                       HexValue *operand2);
++
++HexValue gen_cast_op(Context *c,
++                        YYLTYPE *locp,
++                        HexValue *source,
++                        unsigned target_width);
++
++HexValue gen_extend_op(Context *c,
++                          YYLTYPE *locp,
++                          HexValue *src_width_ptr,
++                          HexValue *dst_width_ptr,
++                          HexValue *value_ptr,
++                          bool is_unsigned);
++
++void gen_rdeposit_op(Context *c,
++                     YYLTYPE *locp,
++                     HexValue *dest,
++                     HexValue *value,
++                     HexValue *begin,
++                     HexValue *width);
++
++void gen_deposit_op(Context *c,
++                           YYLTYPE *locp,
++                           HexValue *dest,
++                           HexValue *value,
++                           HexValue *index,
++                           HexCast *cast);
++
++HexValue gen_rextract_op(Context *c,
++                         YYLTYPE *locp,
++                         HexValue *source,
++                         int begin,
++                         int width);
++
++HexValue gen_extract_op(Context *c,
++                           YYLTYPE *locp,
++                           HexValue *source,
++                           HexValue *index,
++                           HexExtract *extract);
++
++HexValue gen_read_creg(Context *c, YYLTYPE *locp, HexValue *reg);
++
++void gen_write_creg(Context *c,
++                           YYLTYPE *locp,
++                           HexValue *reg,
++                           HexValue *value);
++
++void gen_assign(Context *c,
++                YYLTYPE *locp,
++                HexValue *dest,
++                HexValue *value);
++
++HexValue gen_convround(Context *c,
++                          YYLTYPE *locp,
++                          HexValue *source);
++
++HexValue gen_round(Context *c,
++                   YYLTYPE *locp,
++                   HexValue *source,
++                   HexValue *position);
++
++HexValue gen_convround_n(Context *c,
++                         YYLTYPE *locp,
++                         HexValue *source_ptr,
++                         HexValue *bit_pos_ptr);
++
++/* Circular addressing mode with auto-increment */
++HexValue gen_circ_op(Context *c,
++                        YYLTYPE *locp,
++                        HexValue *addr,
++                        HexValue *increment,
++                        HexValue *modifier);
++
++HexValue gen_locnt_op(Context *c, YYLTYPE *locp, HexValue *source);
++
++HexValue gen_ctpop_op(Context *c, YYLTYPE *locp, HexValue *source);
++
++HexValue gen_fbrev_4(Context *c, YYLTYPE *locp, HexValue *source);
++
++HexValue gen_fbrev_8(Context *c, YYLTYPE *locp, HexValue *source);
++
++HexValue gen_rotl(Context *c, YYLTYPE *locp, HexValue *source, HexValue *n);
++
++HexValue gen_deinterleave(Context *c, YYLTYPE *locp, HexValue *mixed);
++
++HexValue gen_interleave(Context *c,
++                        YYLTYPE *locp,
++                        HexValue *odd,
++                        HexValue *even);
++
++
++bool reg_equal(HexReg *r1, HexReg *r2);
++
++bool pre_equal(HexPre *p1, HexPre *p2);
++
++bool rvalue_equal(HexValue *v1, HexValue *v2);
++
++void emit_header(Context *c);
++
++void emit_arg(Context *c, YYLTYPE *locp, HexValue *arg);
++
++void emit_footer(Context *c);
++
++void free_variables(Context *c, YYLTYPE *locp);
++
++void free_instruction(Context *c);
++
++#endif /* PARSER_HELPERS_h */
 diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index e2e6b64766..1a008e7e86 100644
+index 1a008e7e86..c094adff57 100644
 --- a/target/hexagon/meson.build
 +++ b/target/hexagon/meson.build
-@@ -208,4 +208,8 @@ idef_parser_input_generated_prep = custom_target(
-     command: [idef_parser_dir / 'prepare', '@INPUT@', '-I' + idef_parser_dir],
+@@ -199,7 +199,7 @@ idef_parser_input_generated = custom_target(
+     command: [prog_python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
  )
  
-+flex = generator(find_program('flex'),
-+                 output: '@PLAINNAME@.yy.c',
-+                 arguments: ['-o', '@OUTPUT@', '@INPUT@'])
+-idef_parser_input_generated_prep = custom_target(
++preprocessed_idef_parser_input_generated = custom_target(
+     'idef_parser_input.preprocessed.h.inc',
+     output: 'idef_parser_input.preprocessed.h.inc',
+     input: idef_parser_input_generated,
+@@ -212,4 +212,24 @@ flex = generator(find_program('flex'),
+                  output: '@PLAINNAME@.yy.c',
+                  arguments: ['-o', '@OUTPUT@', '@INPUT@'])
+ 
++bison = generator(find_program('bison'),
++                  output: ['@BASENAME@.tab.c', '@BASENAME@.tab.h'],
++                  arguments: ['@INPUT@', '--defines=@OUTPUT1@', '--output=@OUTPUT0@'])
++
++idef_parser = executable('idef-parser',
++                         [flex.process(idef_parser_dir / 'idef-lexer.lex'),
++                          bison.process(idef_parser_dir / 'idef-parser.y'),
++                          idef_parser_dir / 'parser-helpers.c'],
++                         include_directories: 'idef-parser')
++
++idef_generated_tcg = custom_target(
++    'idef-generated-tcg',
++    output: ['idef-generated-emitter.c.inc',
++             'idef-generated-emitter.h.inc',
++             'idef-generated-enabled-instructions'],
++    input: preprocessed_idef_parser_input_generated,
++    depend_files: [hex_common_py],
++    command: [idef_parser, '@INPUT@', '@OUTPUT0@', '@OUTPUT1@', '@OUTPUT2@'],
++)
 +
  target_arch += {'hexagon': hexagon_ss}
 -- 
