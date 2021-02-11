@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4820319343
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:42:42 +0100 (CET)
-Received: from localhost ([::1]:41970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25187319350
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:47:09 +0100 (CET)
+Received: from localhost ([::1]:51278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAHrN-0000xG-K5
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:42:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51270)
+	id 1lAHvf-0005VD-Rl
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:47:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lAHV3-0004Bm-4X
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:19:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38747)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lAHV0-0004Nh-H8
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:19:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613071171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MgXtkTTj9DVBP41oxrYxxySuD5oGRX9h4dMIvdQ06Iw=;
- b=PQhdqF2TCqCh7Su0Y0FsAYqIS/TTmdWZj3UF74fJlal1Wm+06C2E/6B+qPmQawIjhTCMSS
- PeMQWi4zEmbs23R+odOi5ePQQxKFZP/s+ig/ModSsIl83rwe9aC1GB3s6YTD/5UamC3+EV
- 9XgzM2AX7kyKNx4iQcwB53rfqs1gtGA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-_i9jXCo1OLylXUED__RHQw-1; Thu, 11 Feb 2021 14:19:29 -0500
-X-MC-Unique: _i9jXCo1OLylXUED__RHQw-1
-Received: by mail-wr1-f69.google.com with SMTP id c1so2946589wrx.2
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 11:19:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAHWx-0005wg-U1
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:21:35 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:45087)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAHWw-0004dp-4P
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:21:35 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id b9so11715391ejy.12
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 11:21:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ciCteZihh+vypElhB38QwYOFaayY7TinZ0tFmoRAY7k=;
+ b=yupCbxN17xyE62G6Xow8Xmb+CSmd63YrCqMMrNuoQ3lNTf+iYu2zW8H00q7Fyr4RLU
+ MOgovYq7MvmijHVaQvFwaLSM1/GCVFOfLUPD17uME5M6noL6bkaJg66kO9qqmQohSUsV
+ gJOT9m+DUjwZdDuzExlVCWC5RQkw8fENl2eicKjx9Ju4tyYj5IAJdJCfqP0XalcNBs+3
+ K0GYEd5Z2knm0NQyZvPj4Wx5+7gOMbtowEth4TftC60OHSPFXGta6hXuB3b0G6TVgDcp
+ VB49hkW1lOwA+Qq8HR38CvM4xAcmHgNgpqyBMUuXzQMMcs31zuteQ4I29X+DfldrXJMx
+ bAtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MgXtkTTj9DVBP41oxrYxxySuD5oGRX9h4dMIvdQ06Iw=;
- b=XDC7OpbYTx5C0sORDs/HZqO1OnSzppObhqJ6g4jZWD0cpQdSi20eHurYT/0Hp029cb
- SkIwl9Rj3PaA/qbFkChbeCMwgJGxvts4K8iSkBsk80yJtPulmU8KINgMKI+72kQ1LXZl
- 59NqFpMEHGSHLxD/gZJOG9X06y20NdMNUwWGgRrJVdMjApnXYdMBi/k+g4ucOgIwMBQL
- jj0g+U5qzP9bepH7Ii8OzorqHSfTvF3SoBXHN4ZClHfvBLYVzAmrvoCoULqDNMIpZPGZ
- PmdUeQKY9W9usRC8ebLo/fBB60sRwKSErAxII7QClCXzqjOMVD82aGO7vt+P4bB4Vh5b
- +gHg==
-X-Gm-Message-State: AOAM5300YmNpfWtAs89Jhdk6WbipH0o9zhjXBua1LDTOKVaYz4D354FD
- tSG0jomH8n8rN/UdrsVmlG2psrMgUC6RB2x/yA6M2pn5bGkRW2o49lFrlSwJfbWEQawcDWjhd7e
- FKx5Rg0BRA0rTAzY=
-X-Received: by 2002:a05:6000:1141:: with SMTP id
- d1mr7060951wrx.47.1613071168159; 
- Thu, 11 Feb 2021 11:19:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxJzhkNzr84kQbe91s62fxjmG5SvgEqeYcVDlKJ7HRB2/MHY09igQs10Bq5P4K1lz+AiN15/w==
-X-Received: by 2002:a05:6000:1141:: with SMTP id
- d1mr7060918wrx.47.1613071167848; 
- Thu, 11 Feb 2021 11:19:27 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id h13sm6479389wrv.20.2021.02.11.11.19.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 11:19:27 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] block: Explicit null-co uses 'read-zeroes=false'
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20210211142656.3818078-1-philmd@redhat.com>
- <20210211142656.3818078-2-philmd@redhat.com>
- <602836f0-848d-1840-635d-4a972e7a205f@virtuozzo.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <650c0cca-cc5d-6314-5c9d-4ec37c59b982@redhat.com>
-Date: Thu, 11 Feb 2021 20:19:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ciCteZihh+vypElhB38QwYOFaayY7TinZ0tFmoRAY7k=;
+ b=RB7e1gzuADZY88pgyika86jX8eKfVKXzWTzADQl+vcpl2eXmWT6WGbexXEACuZbVe2
+ /XCzOqW1sDzLxH8ChiQmbHX223uOXA8qIIf45U6/FuHMPobJLMrrKZo6m1OAjcSs2bMk
+ EYuFHCVucz79tf2aMWmNM3UE7+XtZ0IACDhArYW8qTghocLhgSfteedC8CRMyx8t/2eQ
+ lLxUkP99KRtaaW5bJLHBespt/0cqC7UBOztgvuoXTk9Kq50OCFIoDI5P6ptfYfbwFSp9
+ YXHoLdLMtJbVKDDN9DmLfR1cBKEM/3rojWmKWUDuNnWu24nlb2DJr21PmFFuC8AyO85+
+ Ifqw==
+X-Gm-Message-State: AOAM533kMWNKQbo4ZQUwYqnKv3MGKL5u+xxWcDvWzRGM4yYFHWFGjkj+
+ SnA3d9uqqvHWbR64jZ5N5WPG0T9UaUI/9j9Xu/6d4oEjYOk=
+X-Google-Smtp-Source: ABdhPJzKENIVVYxyYcYQFpfLRPOuiZDciYmEqvEizL4RP4na62nBLVQurODKEkmIl3smkOW6fry5tYGc70QfcXNAuRQ=
+X-Received: by 2002:a17:906:b4a:: with SMTP id
+ v10mr9641939ejg.382.1613071292330; 
+ Thu, 11 Feb 2021 11:21:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <602836f0-848d-1840-635d-4a972e7a205f@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
+ <CAFEAcA_S81bnYVcNENW9bFApAc-Ob1uKQncsGPmyFD034p2FOA@mail.gmail.com>
+ <20210211172541.GA2316309@localhost.localdomain>
+ <CAFEAcA-3M_CaNEiZHohH-RdxYP1Cn=5s+UXYTYE1e7YhoN2+tg@mail.gmail.com>
+ <20210211184710.GA2323314@localhost.localdomain>
+In-Reply-To: <20210211184710.GA2323314@localhost.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Feb 2021 19:21:20 +0000
+Message-ID: <CAFEAcA8twaP2=MGZh1OOHO8EFAVmQYM26i+QN6y26kaVfTNnwQ@mail.gmail.com>
+Subject: Re: runaway avocado
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,83 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Vladimir,
+On Thu, 11 Feb 2021 at 18:47, Cleber Rosa <crosa@redhat.com> wrote:
+> On Thu, Feb 11, 2021 at 05:37:20PM +0000, Peter Maydell wrote:
+> > I wonder if we could have avocado run all our acceptance cases
+> > under a 'ulimit -f' setting that restricts the amount of disk
+> > space they can use? That would restrict the damage that could
+> > be done by any runaways. A CPU usage limit might also be good.
 
-On 2/11/21 5:29 PM, Vladimir Sementsov-Ogievskiy wrote:
-> 11.02.2021 17:26, Philippe Mathieu-Daudé wrote:
->> We are going to switch the 'null-co' default 'read-zeroes' value
->> from FALSE to TRUE in the next commit. First explicit the FALSE
->> value when it is not set.
->>
->> Suggested-by: Eric Blake <eblake@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->> - Missing: 056 & 155. I couldn't figure out the proper syntax,
->>    any help welcomed...
->> - I'm unsure about 162, this doesn't seem to use the null-co
->>    driver but rather testing global syntax.
->> ---
->>   docs/devel/testing.rst                     | 14 +++++++-------
->>   tests/qtest/fuzz/generic_fuzz_configs.h    | 11 ++++++-----
->>   tests/test-bdrv-drain.c                    | 10 ++++++++--
->>   tests/acceptance/virtio_check_params.py    |  2 +-
->>   tests/perf/block/qcow2/convert-blockstatus |  6 +++---
->>   tests/qemu-iotests/040                     |  2 +-
->>   tests/qemu-iotests/041                     | 12 ++++++++----
->>   tests/qemu-iotests/051                     |  2 +-
->>   tests/qemu-iotests/051.out                 |  2 +-
->>   tests/qemu-iotests/051.pc.out              |  4 ++--
->>   tests/qemu-iotests/087                     |  6 ++++--
->>   tests/qemu-iotests/118                     |  2 +-
->>   tests/qemu-iotests/133                     |  2 +-
->>   tests/qemu-iotests/153                     |  8 ++++----
->>   tests/qemu-iotests/184                     |  2 ++
->>   tests/qemu-iotests/184.out                 | 10 +++++-----
->>   tests/qemu-iotests/218                     |  3 +++
->>   tests/qemu-iotests/224                     |  3 ++-
->>   tests/qemu-iotests/224.out                 |  8 ++++----
->>   tests/qemu-iotests/225                     |  2 +-
->>   tests/qemu-iotests/227                     |  4 ++--
->>   tests/qemu-iotests/227.out                 |  4 ++--
->>   tests/qemu-iotests/228                     |  2 +-
->>   tests/qemu-iotests/235                     |  1 +
->>   tests/qemu-iotests/245                     |  2 +-
->>   tests/qemu-iotests/270                     |  2 +-
->>   tests/qemu-iotests/283                     |  3 ++-
->>   tests/qemu-iotests/283.out                 |  4 ++--
->>   tests/qemu-iotests/299                     |  1 +
->>   tests/qemu-iotests/299.out                 |  2 +-
->>   tests/qemu-iotests/300                     |  4 ++--
-> 
-> Why do you think these tests will work bad with new default?
+> To me that sounds a lot like Linux cgroups.
 
-As I don't understand the tests, this was the deal with Eric :)
+...except that ulimits are a well-established mechanism that
+is straightforward, works for any user and is cross-platform
+for most Unixes, whereas cgroups are complicated, Linux specific,
+and AIUI require root access to set them up and configure them.
 
-"OK to change default if current default is explicited" then
-block maintainers could audit each case and see which one can
-safely use read-zeroes=true.
+> We can have a script setting up a cgroup as part of a
+> gitlab-ci.{yml,d} job for the jobs that will run on the non-shared
+> GitLab runners (such as the s390 and aarch64 machines owned by the
+> QEMU project).
+>
+> Does this sound like a solution?
 
-> 
-> At least everything under tests/qemu-iotests/ and tests/test-bdrv-drain
-> are not about performance
-> 
-> tests/perf/block/qcow2/convert-blockstatus is OK with new default too.
+We want a solution that works for anybody running
+"make check-acceptance" in any situation, not just for
+the CI runners.
 
-OK, I'll see who should send these patches on top with Eric & Max.
-
-Thank for your review,
-
-Phil.
-
+thanks
+-- PMM
 
