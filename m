@@ -2,59 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EEF131897C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 12:31:09 +0100 (CET)
-Received: from localhost ([::1]:53372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF86631897E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 12:33:40 +0100 (CET)
+Received: from localhost ([::1]:55506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAABg-0001J5-FT
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 06:31:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43044)
+	id 1lAAE7-0002RD-Oq
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 06:33:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lAA9k-0000WI-IG
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 06:29:08 -0500
-Resent-Date: Thu, 11 Feb 2021 06:29:08 -0500
-Resent-Message-Id: <E1lAA9k-0000WI-IG@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lAA9i-0004AI-GY
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 06:29:08 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613042932; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=gHzXbADZF9Vk+eq5IYemVV78hcBJ3IUmla6r3GESUFjrWceFX86mwcpSS4bt4eAwCVETx+4dhmqJwjHWx1Ao2x62Vzsjdb4qRRcRPev6YCRe6PwoOix5doIYvI1PwuM/TREJJhTYXoBmoigDhd832W9dR5v0ZhSzFaTjONp1ing=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1613042932;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=4wW5Yw/6u3jptFb6kefEJC7bXAiNfoEP2b/H3Xi4Pkw=; 
- b=COabkaRosKg5hPrRlomqbeRoiiISv6WFEthFEnKKaJdbd0YHw5Ynf33CZUO9UN1z8jsMTwcMh9BhXxmWDouAWA0qIJqSvwaVhYiGqHHKWlICPZY80osI8E6LQRYPrqkP+fCBzEYibFHgrHQvcIaFtZehxqQjN8i/25/q4fg+JWo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1613042929738484.58540806745145;
- Thu, 11 Feb 2021 03:28:49 -0800 (PST)
-In-Reply-To: <20210209182749.31323-1-alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 00/12] fix plugins double counting with mmio,
- cleanup CF_ flags
-Message-ID: <161304292841.26113.707783757700301339@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lAABO-0001i0-4E
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 06:30:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48606)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lAABH-0004k5-SR
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 06:30:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613043041;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w5vGO9JRVEGKmvV34gfIpVwKUE3i3j/K2h9mbksC/9A=;
+ b=d6IM2fga0pxk/IstYxkK5/UkIic122Xzjg6b4JVCLTnbVttNtAWDLCVcZr2JDtH56AuSSP
+ hEJ8Z/jsuRM/VpNM4T3ucKFszkYHke9YtBjn+Bam3O076tGZ0ClHeyg710HaP1ITgiqAig
+ /TOHRdK5dd5puOXKR9OcdvCtk4Gp9qY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-QEJGOGRINl6V9Z1NERuk3Q-1; Thu, 11 Feb 2021 06:30:40 -0500
+X-MC-Unique: QEJGOGRINl6V9Z1NERuk3Q-1
+Received: by mail-wr1-f69.google.com with SMTP id o10so2327318wru.11
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 03:30:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=w5vGO9JRVEGKmvV34gfIpVwKUE3i3j/K2h9mbksC/9A=;
+ b=Q+hIJ2DDN5Qaslgggy2dRPZ34N1O64QXHyM1LFxURZg6o/+rulhp31UkM1Kig0dCf0
+ +auHVdahd4eP2P+zUNM9DirvvVvulhQw4Gm0PxYxHGy1oj3b0tP3U3Y3Ze8Fd/sZdXWd
+ BwCI7fm55VawwESzJbz89eqpTsW7aXj1JU3QYS5a9RvrhFWwKTBhe7EAbTWNl569Jugp
+ CibNaHfu+ugkUsrw3JbkG0on2QfKeWfCGqQxlcX15aAOy0+q5qCS84kf/hNF7yZHg1+3
+ j3sWzJ1sDxW5a4ZiOOU9t6SUx0EfvvBPC3qlyPq5i8s6c2EfD0HrT8YrxwQAgX3S9jLX
+ FWqg==
+X-Gm-Message-State: AOAM532yb/p1blIGlpQ5wJUYrRGMGrVgWSQlekL/VTX/jLGXAP4D7TIh
+ oeCU9oTh4w5pKWUNhDI3b4Uuad7tzjMq4ZE7XdYKCS3r5/wxsoWiKiINl+YX0FNMu9X7mF/VsLL
+ iuSOUf+QZocQ8SGFBgd7CKsx5ubo0HZXZefm4+xUv5ZnVwjSZ8sNLlHV39EZtUvZFCas=
+X-Received: by 2002:a5d:618e:: with SMTP id j14mr3306547wru.377.1613043037580; 
+ Thu, 11 Feb 2021 03:30:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyrcGvzSQmQfjrcd6ASrRHm9ue4st/dQPKAnwwWxazz07gH5XyAc015++nUqwqEiN6qsoccdw==
+X-Received: by 2002:a5d:618e:: with SMTP id j14mr3306533wru.377.1613043037398; 
+ Thu, 11 Feb 2021 03:30:37 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id h13sm4513724wrv.20.2021.02.11.03.30.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Feb 2021 03:30:36 -0800 (PST)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210209174541.150011-1-pbonzini@redhat.com>
+ <20210209175834.GW1166421@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] meson: adjust timeouts for some slower tests
+Message-ID: <725dd339-1eee-4791-fda8-2922a5d19a44@redhat.com>
+Date: Thu, 11 Feb 2021 12:30:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Thu, 11 Feb 2021 03:28:49 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210209175834.GW1166421@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,106 +100,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, robhenry@microsoft.com, aaron@os.amperecomputing.com,
- cota@braap.org, kuhn.chenqun@huawei.com, alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIwOTE4Mjc0OS4zMTMy
-My0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDIwOTE4Mjc0OS4z
-MTMyMy0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3ViamVjdDogW1BBVENIICB2MSAwMC8xMl0g
-Zml4IHBsdWdpbnMgZG91YmxlIGNvdW50aW5nIHdpdGggbW1pbywgY2xlYW51cCBDRl8gZmxhZ3MK
-Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNl
-ID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1p
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFp
-bGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMy
-MWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3Bh
-dGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTAyMDkx
-OTAyMjQuNjI4MjctMS1kZ2lsYmVydEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAyMDkxOTAy
-MjQuNjI4MjctMS1kZ2lsYmVydEByZWRoYXQuY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNo
-ZXcvMjAyMTAyMTEwNDU0NTUuNDU2MzcxLTEtdGh1dGhAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIw
-MjEwMjExMDQ1NDU1LjQ1NjM3MS0xLXRodXRoQHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcg
-YnJhbmNoICd0ZXN0JwphOTYzN2VhIHRlc3RzL2FjY2VwdGFuY2U6IGFkZCBhIG5ldyB0ZXN0cyB0
-byBkZXRlY3QgY291bnRpbmcgZXJyb3JzCmZhMmU1YzYgYWNjZWwvdGNnOiBhbGxvdyBwbHVnaW4g
-aW5zdHJ1bWVudGF0aW9uIHRvIGJlIGRpc2FibGUgdmlhIGNmbGFncwpmZWJhNDcwIGFjY2VsL3Rj
-ZzogcmVtb3ZlIENGX05PQ0FDSEUgYW5kIHNwZWNpYWwgY2FzZXMKZWZjMmI0NSBhY2NlbC90Y2c6
-IHJlLWZhY3RvciBub24tUkFNIGV4ZWN1dGlvbiBjb2RlCjhmYTkzOWEgYWNjZWwvdGNnOiBjYWNo
-ZSBzaW5nbGUgaW5zdHJ1Y3Rpb24gVEIgb24gcGVuZGluZyByZXBsYXkgZXhjZXB0aW9uCjM5NTBh
-MzMgYWNjZWwvdGNnOiBhY3R1YWxseSBjYWNoZSBvdXIgcGFydGlhbCBpY291bnQgVEIKOTk5YTc5
-YSB0ZXN0cy9hY2NlcHRhbmNlOiBhZGQgYSBuZXcgc2V0IG9mIHRlc3RzIHRvIGV4ZXJjaXNlIHBs
-dWdpbnMKY2Q3MTQ5NyB0ZXN0cy9wbHVnaW46IGV4cGFuZCBpbnNuIHRlc3QgdG8gZGV0ZWN0IGR1
-cGxpY2F0ZSBpbnN0cnVjdGlvbnMKYmU1ZGFkOSB0YXJnZXQvc2g0OiBDcmVhdGUgc3VwZXJoX2lv
-X3JlY29tcGlsZV9yZXBsYXlfYnJhbmNoCmVlMTBjNGUgdGFyZ2V0L21pcHM6IENyZWF0ZSBtaXBz
-X2lvX3JlY29tcGlsZV9yZXBsYXlfYnJhbmNoCjY5ZWNiZGYgYWNjZWwvdGNnOiBDcmVhdGUgaW9f
-cmVjb21waWxlX3JlcGxheV9icmFuY2ggaG9vawo4MjdmZDQwIGV4ZWM6IE1vdmUgVHJhbnNsYXRp
-b25CbG9jayB0eXBlZGVmIHRvIHFlbXUvdHlwZWRlZnMuaAoKPT09IE9VVFBVVCBCRUdJTiA9PT0K
-MS8xMiBDaGVja2luZyBjb21taXQgODI3ZmQ0MDg2YzgwIChleGVjOiBNb3ZlIFRyYW5zbGF0aW9u
-QmxvY2sgdHlwZWRlZiB0byBxZW11L3R5cGVkZWZzLmgpCjIvMTIgQ2hlY2tpbmcgY29tbWl0IDY5
-ZWNiZGY2NDUxNyAoYWNjZWwvdGNnOiBDcmVhdGUgaW9fcmVjb21waWxlX3JlcGxheV9icmFuY2gg
-aG9vaykKMy8xMiBDaGVja2luZyBjb21taXQgZWUxMGM0ZThjNDA1ICh0YXJnZXQvbWlwczogQ3Jl
-YXRlIG1pcHNfaW9fcmVjb21waWxlX3JlcGxheV9icmFuY2gpCjQvMTIgQ2hlY2tpbmcgY29tbWl0
-IGJlNWRhZDlmMzMzZiAodGFyZ2V0L3NoNDogQ3JlYXRlIHN1cGVyaF9pb19yZWNvbXBpbGVfcmVw
-bGF5X2JyYW5jaCkKNS8xMiBDaGVja2luZyBjb21taXQgY2Q3MTQ5N2NiMmEyICh0ZXN0cy9wbHVn
-aW46IGV4cGFuZCBpbnNuIHRlc3QgdG8gZGV0ZWN0IGR1cGxpY2F0ZSBpbnN0cnVjdGlvbnMpCldB
-Uk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMDogRklMRTogdGVzdHMvcGx1Z2luL2lu
-c24uYzoyNzoKKyAgICAgICAgZ19hdXRvZnJlZSBnY2hhciAqb3V0ID0gZ19zdHJkdXBfcHJpbnRm
-KCJkZXRlY3RlZCByZXBlYXQgZXhlY3V0aW9uIEAgMHglIgoKdG90YWw6IDAgZXJyb3JzLCAxIHdh
-cm5pbmdzLCAyNSBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzEyIGhhcyBzdHlsZSBwcm9ibGVtcywg
-cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
-cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
-SU5FUlMuCjYvMTIgQ2hlY2tpbmcgY29tbWl0IDk5OWE3OWE0OTI2NSAodGVzdHMvYWNjZXB0YW5j
-ZTogYWRkIGEgbmV3IHNldCBvZiB0ZXN0cyB0byBleGVyY2lzZSBwbHVnaW5zKQpXQVJOSU5HOiBh
-ZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBk
-YXRpbmc/CiMxODogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fy
-bmluZ3MsIDEwMyBsaW5lcyBjaGVja2VkCgpQYXRjaCA2LzEyIGhhcyBzdHlsZSBwcm9ibGVtcywg
-cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
-cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
-SU5FUlMuCjcvMTIgQ2hlY2tpbmcgY29tbWl0IDM5NTBhMzM5MWQ4YyAoYWNjZWwvdGNnOiBhY3R1
-YWxseSBjYWNoZSBvdXIgcGFydGlhbCBpY291bnQgVEIpCjgvMTIgQ2hlY2tpbmcgY29tbWl0IDhm
-YTkzOWEzNjBjMiAoYWNjZWwvdGNnOiBjYWNoZSBzaW5nbGUgaW5zdHJ1Y3Rpb24gVEIgb24gcGVu
-ZGluZyByZXBsYXkgZXhjZXB0aW9uKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
-ODk6IEZJTEU6IGFjY2VsL3RjZy9jcHUtZXhlYy5jOjY1NDoKKyAgICAgICAgICAgICYmIChjcHUt
-PmNmbGFnc19uZXh0X3RiID09IC0xIHx8IGNwdS0+Y2ZsYWdzX25leHRfdGIgJiBDRl9VU0VfSUNP
-VU5UKQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2NSBsaW5lcyBjaGVja2VkCgpQYXRj
-aCA4LzEyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
-ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
-ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjkvMTIgQ2hlY2tpbmcgY29tbWl0IGVm
-YzJiNDU3MjJmNCAoYWNjZWwvdGNnOiByZS1mYWN0b3Igbm9uLVJBTSBleGVjdXRpb24gY29kZSkK
-V0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxp
-bmUKIzI2OiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjE3ODE6CisvKiBBZGQgYSBu
-ZXcgVEIgYW5kIGxpbmsgaXQgdG8gdGhlIHBoeXNpY2FsIHBhZ2UgdGFibGVzLiBwaHlzX3BhZ2Uy
-IGlzCgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDUzIGxpbmVzIGNoZWNrZWQKClBhdGNo
-IDkvMTIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
-IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
-LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTAvMTIgQ2hlY2tpbmcgY29tbWl0IGZl
-YmE0NzA3OWVhNCAoYWNjZWwvdGNnOiByZW1vdmUgQ0ZfTk9DQUNIRSBhbmQgc3BlY2lhbCBjYXNl
-cykKMTEvMTIgQ2hlY2tpbmcgY29tbWl0IGZhMmU1YzZmZTM0YiAoYWNjZWwvdGNnOiBhbGxvdyBw
-bHVnaW4gaW5zdHJ1bWVudGF0aW9uIHRvIGJlIGRpc2FibGUgdmlhIGNmbGFncykKV0FSTklORzog
-bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzc1OiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRvci5j
-OjYxOgorICAgIHBsdWdpbl9lbmFibGVkID0gISh0Yl9jZmxhZ3MoZGItPnRiKSAmIENGX05PSU5T
-VFIpICYmIHBsdWdpbl9nZW5fdGJfc3RhcnQoY3B1LCB0Yik7CgpFUlJPUjogbGluZSBvdmVyIDkw
-IGNoYXJhY3RlcnMKIzk2OiBGSUxFOiBpbmNsdWRlL2V4ZWMvZXhlYy1hbGwuaDo0NjU6CisgICAg
-KENGX0NPVU5UX01BU0sgfCBDRl9MQVNUX0lPIHwgQ0ZfTk9JTlNUUiB8IENGX1VTRV9JQ09VTlQg
-fCBDRl9QQVJBTExFTCB8IENGX0NMVVNURVJfTUFTSykKCnRvdGFsOiAxIGVycm9ycywgMSB3YXJu
-aW5ncywgNTcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTEvMTIgaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KCjEyLzEyIENoZWNraW5nIGNvbW1pdCBhOTYzN2VhYmMyYzggKHRlc3RzL2FjY2VwdGFu
-Y2U6IGFkZCBhIG5ldyB0ZXN0cyB0byBkZXRlY3QgY291bnRpbmcgZXJyb3JzKQpXQVJOSU5HOiBs
-aW5lIG92ZXIgODAgY2hhcmFjdGVycwojNTA6IEZJTEU6IHRlc3RzL2FjY2VwdGFuY2UvdGNnX3Bs
-dWdpbnMucHk6MTI5OgorICAgICAgICAgICAgbSA9IHJlLnNlYXJjaChiciJkZXRlY3RlZCByZXBl
-YXQgZXhlY3V0aW9uIEAgKD9QPGFkZHI+MHhbMC05QS1GYS1mXSspIiwgcykKCnRvdGFsOiAwIGVy
-cm9ycywgMSB3YXJuaW5ncywgMzQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTIvMTIgaGFzIHN0eWxl
-IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
-c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
-SCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVk
-IHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
-ZXcub3JnL2xvZ3MvMjAyMTAyMDkxODI3NDkuMzEzMjMtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3Jn
-L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
-dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
-ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 09/02/21 18:58, Daniel P. Berrangé wrote:
+> On Tue, Feb 09, 2021 at 06:45:41PM +0100, Paolo Bonzini wrote:
+>> Adjust the timeouts for the longest running tests.  These are the
+>> times that I measured and the corresponding timeouts.  For generic
+>> qtests, the target that reported the longest runtime is included.
+>>
+>> unit tests:
+>>      test-crypto-tlscredsx509        13.15s   60s
+>>      test-crypto-tlssession          14.12s   60s
+> 
+> The default meson timeout is 30 seconds which is enough for these
+> tests. Of course larger timeouts give more headroom.
+
+This was a relatively fast run, I've had them take as little as 7s and 
+as much as 25s on the same machine.  I suspect it's because the machine 
+has a very slow NFS home directory (yes those things still exist :)). 
+In general a 2x-ish headroom makes sense in case someone is doing a 
+build at the same time as a test run.
+
+By the way, with Meson 0.57 there's the possibility of specifying 
+"infinite timeout", and this could be used for the benchmarks.  Giving 
+slower tests a higher priority is also a good idea, and even though this 
+is not guaranteed in theory, Make ends up taking into account the 
+priority as well.  With these tweaks "meson test" and "make check" 
+(minus check-block of course) both clock at 2:20s, which is exactly the 
+time it takes to run the longest-running test.
+
+I will also give "meson test" a shot on the GitLab runners before 
+posting v2, and see if it needs a timeout multiplier.
+
+Paolo
+
 
