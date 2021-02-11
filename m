@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F4E6319523
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 22:27:54 +0100 (CET)
-Received: from localhost ([::1]:58430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1BB319563
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 22:50:05 +0100 (CET)
+Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAJVA-0004UB-Mi
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 16:27:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51404)
+	id 1lAJqe-0005I5-89
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 16:50:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAJT6-0003jK-3e; Thu, 11 Feb 2021 16:25:44 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:56827)
+ (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1lAHrw-0003PL-IN
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:43:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAJT3-0006te-B3; Thu, 11 Feb 2021 16:25:43 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 11BLOYZI027190
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 11 Feb 2021 16:24:37 -0500
-Date: Thu, 11 Feb 2021 16:24:34 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH] hw/sd: sdhci: Do not transfer any data when command fails
-Message-ID: <20210211212434.oydbc7ucjbowtnrh@mozz.bu.edu>
-References: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
- <20210211165351.5rr2dpzlg4eqygdn@mozz.bu.edu>
+ (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1lAHru-0007YY-Ao
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:43:16 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5BBFF64E42;
+ Thu, 11 Feb 2021 19:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613072591;
+ bh=HYQW80z4K0noHv5L7r9hyhC3nj8nYE9aI2nuZrWMx9k=;
+ h=From:To:Cc:Subject:Date:From;
+ b=u2mlhBNozwgDVQ1DKrn0/lKFUJaN9SJB1msd4qMtS3xvOixybCmlwGL1U9GHNcSwG
+ 86kT75BC15GPRgdiaLBWii2jEh90BYcZxEjpP6mlCwu1IyTgDI6xtPmso1/APxEYrZ
+ zFkjIK9hgAkIEaVYAaZIzzq4bqP3mjqGyqvYtVdWzhCQsw9yYdZL8WAJHrn5AlTOE/
+ wl+S8L2P5VtVgk1HyF+baTo6hLG7qy3/53le1Ouia71O4yOclmlJZ0K7QiDe4Wzfwx
+ Ln2ztLodkFRJi6LybVtUs9BvOW/mlWXVX2hKbVjhJ4/riqKmrVj8NVwNBu/JIbyNbV
+ DkPJb5q18xRTg==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Gabriel Somlo <somlo@cmu.edu>,
+	"Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH] qemu_fw_cfg: Make fw_cfg_rev_attr a proper kobj_attribute
+Date: Thu, 11 Feb 2021 12:42:58 -0700
+Message-Id: <20210211194258.4137998-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210211165351.5rr2dpzlg4eqygdn@mozz.bu.edu>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=nathan@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -76
+X-Spam_score: -7.7
+X-Spam_bar: -------
+X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 11 Feb 2021 16:47:42 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,410 +61,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org, Li Qiang <liq3ea@163.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Kees Cook <keescook@chromium.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org, Nathan Chancellor <nathan@kernel.org>,
+ clang-built-linux@googlegroups.com, Sami Tolvanen <samitolvanen@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210211 1154, Alexander Bulekov wrote:
-...
-> I applied this along with <20210208193450.2689517-1-f4bug@amsat.org>
-> "hw/sd/sdhci: Do not modify BlockSizeRegister if transaction in progress"
-> 
-> I ran through the entire OSS-Fuzz corpus, and could not reproduce the
-> crash.
-> 
-> Tested-by: Alexander Bulekov <alxndr@bu.edu>
-> 
-Hi Bin,
-Phil explained to me that this patch should fix the problem independent
-of 
-"hw/sd/sdhci: Do not modify BlockSizeRegister if transaction in progress"
+fw_cfg_showrev() is called by an indirect call in kobj_attr_show(),
+which violates clang's CFI checking because fw_cfg_showrev()'s second
+parameter is 'struct attribute', whereas the ->show() member of 'struct
+kobj_structure' expects the second parameter to be of type 'struct
+kobj_attribute'.
 
-With only this patch, there are still crashes. Here are three
-reproducers:
+$ cat /sys/firmware/qemu_fw_cfg/rev
+3
 
-Some of these are quite long, so here are pastebins for convenience:
-Repro 1: https://paste.debian.net/plain/1185137
-Repro 2: https://paste.debian.net/plain/1185141
-Repro 3: https://paste.debian.net/plain/1185136
+$ dmesg | grep "CFI failure"
+[   26.016832] CFI failure (target: fw_cfg_showrev+0x0/0x8):
 
-Just wget and pipe them into
- ./qemu-system-i386 -display none -machine accel=qtest -nographic \
--m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
--drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
--device sd-card,drive=mydrive -qtest stdio
+Fix this by converting fw_cfg_rev_attr to 'struct kobj_attribute' where
+this would have been caught automatically by the incompatible pointer
+types compiler warning. Update fw_cfg_showrev() accordingly.
 
-==== Repro 1 ====
-cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
--m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
--drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
--device sd-card,drive=mydrive -qtest stdio
-outl 0xcf8 0x80001010
-outl 0xcfc 0xfbefff00
-outl 0xcf8 0x80001001
-outl 0xcfc 0x06000000
-write 0xfbefff2c 0x1 0x05
-write 0xfbefff0f 0x1 0x37
-write 0xfbefff0a 0x1 0x01
-write 0xfbefff0f 0x1 0x29
-write 0xfbefff0f 0x1 0x02
-write 0xfbefff0f 0x1 0x03
-write 0xfbefff04 0x1 0x01
-write 0xfbefff05 0x1 0x01
-write 0xfbefff07 0x1 0x02
-write 0xfbefff0c 0x1 0x33
-write 0xfbefff0e 0x1 0x20
-write 0xfbefff0f 0x1 0x00
-write 0xfbefff2a 0x1 0x01
-write 0xfbefff0c 0x1 0x00
-write 0xfbefff03 0x1 0x00
-write 0xfbefff05 0x1 0x00
-write 0xfbefff2a 0x1 0x02
-write 0xfbefff0c 0x1 0x32
-write 0xfbefff01 0x1 0x01
-write 0xfbefff02 0x1 0x01
-write 0xfbefff03 0x1 0x01
-EOF
+Fixes: 75f3e8e47f38 ("firmware: introduce sysfs driver for QEMU's fw_cfg device")
+Link: https://github.com/ClangBuiltLinux/linux/issues/1299
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/firmware/qemu_fw_cfg.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-==== Stack Trace 1 ====
-==929953==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x615000031880 at pc 0x564cf01ceae7 bp 0x7ffe17361e10 sp 0x7ffe173615d8
-READ of size 520027904 at 0x615000031880 thread T0
-    #0 0x564cf01ceae6 in __asan_memcpy (/home/alxndr/Development/qemu/build/qemu-system-i386+0x2a8cae6)
-    #1 0x564cf19111a5 in flatview_write_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2781:13
-    #2 0x564cf1906beb in flatview_write /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2816:14
-    #3 0x564cf1906beb in address_space_write /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2908:18
-    #4 0x564cf096348c in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
-    #5 0x564cf096348c in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
-    #6 0x564cf096348c in dma_memory_write /home/alxndr/Development/qemu/include/sysemu/dma.h:163:12
-    #7 0x564cf096348c in sdhci_sdma_transfer_multi_blocks /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:619:13
-    #8 0x564cf097237d in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1131:17
-    #9 0x564cf154333c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
+diff --git a/drivers/firmware/qemu_fw_cfg.c b/drivers/firmware/qemu_fw_cfg.c
+index 0078260fbabe..172c751a4f6c 100644
+--- a/drivers/firmware/qemu_fw_cfg.c
++++ b/drivers/firmware/qemu_fw_cfg.c
+@@ -299,15 +299,13 @@ static int fw_cfg_do_platform_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static ssize_t fw_cfg_showrev(struct kobject *k, struct attribute *a, char *buf)
++static ssize_t fw_cfg_showrev(struct kobject *k, struct kobj_attribute *a,
++			      char *buf)
+ {
+ 	return sprintf(buf, "%u\n", fw_cfg_rev);
+ }
+ 
+-static const struct {
+-	struct attribute attr;
+-	ssize_t (*show)(struct kobject *k, struct attribute *a, char *buf);
+-} fw_cfg_rev_attr = {
++static const struct kobj_attribute fw_cfg_rev_attr = {
+ 	.attr = { .name = "rev", .mode = S_IRUSR },
+ 	.show = fw_cfg_showrev,
+ };
 
-==== Repro 2 ====
-
-cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
--m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
--drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
--device sd-card,drive=mydrive -qtest stdio
-outl 0xcf8 0x80001013
-outl 0xcfc 0x91
-outl 0xcf8 0x80001001
-outl 0xcfc 0x06000000
-write 0x9100002c 0x1 0x05
-write 0x9100000f 0x1 0x37
-write 0x9100000a 0x1 0x01
-write 0x9100000f 0x1 0x29
-write 0x9100000f 0x1 0x02
-write 0x9100000f 0x1 0x03
-write 0x0 0x1 0x01
-write 0x8 0x1 0x01
-write 0x10 0x1 0x01
-write 0x18 0x1 0x01
-write 0x20 0x1 0x01
-write 0x28 0x1 0x01
-write 0x30 0x1 0x01
-write 0x38 0x1 0x01
-write 0x40 0x1 0x01
-write 0x48 0x1 0x01
-write 0x50 0x1 0x01
-write 0x58 0x1 0x01
-write 0x60 0x1 0x01
-write 0x68 0x1 0x01
-write 0x70 0x1 0x01
-write 0x91000005 0x1 0x02
-write 0x91000007 0x1 0x20
-write 0x78 0x1 0x01
-write 0x80 0x1 0x01
-write 0x88 0x1 0x01
-write 0x90 0x1 0x01
-write 0x98 0x1 0x01
-write 0xa0 0x1 0x01
-write 0xa8 0x1 0x01
-write 0xb0 0x1 0x01
-write 0xb8 0x1 0x01
-write 0xc0 0x1 0x01
-write 0x9100000e 0x1 0x21
-write 0x91000028 0x1 0x10
-write 0x9100000c 0x1 0x01
-write 0x9100000f 0x1 0x06
-write 0xc8 0x1 0x01
-write 0xd0 0x1 0x01
-write 0xd8 0x1 0x01
-write 0xe0 0x1 0x01
-write 0xe8 0x1 0x01
-write 0xf0 0x1 0x01
-write 0xf8 0x1 0x01
-write 0x100 0x1 0x01
-write 0x108 0x1 0x01
-write 0x110 0x1 0x01
-write 0x118 0x1 0x01
-write 0x120 0x1 0x01
-write 0x128 0x1 0x01
-write 0x130 0x1 0x01
-write 0x138 0x1 0x01
-write 0x140 0x1 0x01
-write 0x148 0x1 0x01
-write 0x150 0x1 0x01
-write 0x158 0x1 0x01
-write 0x160 0x1 0x01
-write 0x168 0x1 0x01
-write 0x170 0x1 0x01
-write 0x178 0x1 0x01
-write 0x180 0x1 0x01
-write 0x188 0x1 0x01
-write 0x190 0x1 0x01
-write 0x198 0x1 0x01
-write 0x1a0 0x1 0x01
-write 0x1a8 0x1 0x01
-write 0x1b0 0x1 0x01
-write 0x91000037 0x1 0x00
-write 0x91000038 0x1 0x00
-write 0x1b8 0x1 0x01
-write 0x1c0 0x1 0x01
-write 0x1c8 0x1 0x01
-write 0x1d0 0x1 0x01
-write 0x1d8 0x1 0x01
-write 0x1e0 0x1 0x01
-write 0x1e8 0x1 0x01
-write 0x1f0 0x1 0x01
-write 0x1f8 0x1 0x01
-write 0x200 0x1 0x01
-write 0x208 0x1 0x01
-write 0x210 0x1 0x01
-write 0x218 0x1 0x01
-write 0x220 0x1 0x01
-write 0x228 0x1 0x01
-write 0x9100000d 0x1 0x00
-write 0x9100000f 0x1 0x10
-write 0x91000011 0x1 0x00
-write 0x230 0x1 0x01
-write 0x238 0x1 0x01
-write 0x240 0x1 0x01
-write 0x248 0x1 0x01
-write 0x250 0x1 0x01
-write 0x258 0x1 0x01
-write 0x260 0x1 0x01
-write 0x268 0x1 0x01
-write 0x270 0x1 0x01
-write 0x278 0x1 0x01
-write 0x280 0x1 0x01
-write 0x288 0x1 0x01
-write 0x290 0x1 0x01
-write 0x298 0x1 0x01
-write 0x2a0 0x1 0x01
-write 0x9100000a 0x2 0x0000
-write 0x9100000c 0x6 0x010000
-write 0x2a8 0x1 0x01
-write 0x2b0 0x1 0x01
-write 0x2b8 0x1 0x01
-write 0x2c0 0x1 0x01
-write 0x2c8 0x1 0x01
-write 0x2d0 0x1 0x01
-write 0x2d8 0x1 0x01
-write 0x2e0 0x1 0x01
-write 0x2e8 0x1 0x01
-write 0x2f0 0x1 0x01
-write 0x2f8 0x1 0x01
-write 0x300 0x1 0x01
-write 0x308 0x1 0x01
-write 0x310 0x1 0x01
-write 0x318 0x1 0x01
-write 0x320 0x1 0x01
-write 0x328 0x1 0x01
-write 0x330 0x1 0x01
-write 0x338 0x1 0x01
-write 0x340 0x1 0x01
-write 0x348 0x1 0x01
-write 0x350 0x1 0x01
-write 0x358 0x1 0x01
-write 0x360 0x1 0x01
-write 0x368 0x1 0x01
-write 0x370 0x1 0x01
-write 0x378 0x1 0x01
-write 0x380 0x1 0x01
-write 0x388 0x1 0x01
-write 0x390 0x1 0x01
-write 0x9100000f 0x1 0x00
-write 0x91000011 0x1 0x00
-write 0x398 0x1 0x01
-write 0x3a0 0x1 0x01
-write 0x3a8 0x1 0x01
-write 0x3b0 0x1 0x01
-write 0x3b8 0x1 0x21
-write 0x3bb 0x1 0x01
-write 0x3c0 0x1 0x21
-write 0x9100000a 0x2 0x0000
-write 0x9100000c 0x6 0x010000
-write 0x9100000a 0x2 0x00
-write 0x9100000c 0x6 0x01
-write 0x9100000a 0x2 0x0000
-write 0x9100000c 0x6 0x010000
-write 0x9100000a 0x2 0x00
-write 0x9100000c 0x6 0x010000
-write 0x91000005 0x1 0x00
-write 0x9100000c 0x1 0x00
-EOF
-
-==== Stack Trace 2 ====
-==837609==ERROR: AddressSanitizer: heap-buffer-overflow on address
-0x615000032280 at pc 0x564afb30eb6a bp 0x7ffdda140d90 sp 0x7ffdda140558
-WRITE of size 483589332 at 0x615000032280 thread T0
-#0 0x564afb30eb69 in __asan_memcpy (/home/alxndr/Development/qemu/build/qemu-fuzz-i386+0x2bccb69)
-#1 0x564afca598bd in flatview_read_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2846:13
-#2 0x564afca5b09b in flatview_read /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2879:12
-#3 0x564afca5b09b in address_space_read_full /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2892:18
-#4 0x564afbab9e9d in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
-#5 0x564afbab9e9d in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
-#6 0x564afbab9e9d in dma_memory_read /home/alxndr/Development/qemu/include/sysemu/dma.h:145:12
-#7 0x564afbab9e9d in sdhci_do_adma /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:809:21
-#8 0x564afbab2b81 in sdhci_data_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c
-#9 0x564afbac2966 in sdhci_resume_pending_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:964:5
-#10 0x564afbac2966 in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1120:9
-#11 0x564afc697c6c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
-
-
-==== Repro 3 ====
-(There is an identical one for a heap overflow through read ldl_he_p.
-Let me know if it would be useful to provide it):
-
-cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
--m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
--drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
--device sd-card,drive=mydrive -qtest stdio
-outl 0xcf8 0x80001010
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80001004
-outw 0xcfc 0x06
-write 0xe0000004 0x1 0x41
-write 0xe0000006 0x1 0x80
-write 0xe0000028 0x1 0x10
-write 0xe000002c 0x1 0x05
-write 0x0 0x1 0x21
-write 0x2 0x1 0x0a
-write 0x8 0x1 0x01
-write 0xa 0x1 0x00
-write 0x10 0x1 0x01
-write 0x12 0x1 0x00
-write 0x18 0x1 0x21
-write 0x1a 0x1 0x16
-write 0x20 0x1 0x01
-write 0x22 0x1 0x00
-write 0x28 0x1 0x01
-write 0x2a 0x1 0x00
-write 0x30 0x1 0x21
-write 0x32 0x1 0x16
-write 0x38 0x1 0x01
-write 0x3a 0x1 0x00
-write 0x40 0x1 0x01
-write 0x42 0x1 0x00
-write 0x48 0x1 0x21
-write 0x4a 0x1 0x16
-write 0x50 0x1 0x01
-write 0x52 0x1 0x00
-write 0x58 0x1 0x01
-write 0x5a 0x1 0x00
-write 0x60 0x1 0x21
-write 0x62 0x1 0x16
-write 0x68 0x1 0x01
-write 0x6a 0x1 0x00
-write 0x70 0x1 0x01
-write 0x72 0x1 0x00
-write 0x78 0x1 0x21
-write 0x80 0x1 0x21
-write 0x82 0x1 0x58
-write 0x88 0x1 0x01
-write 0x8a 0x1 0x00
-write 0x90 0x1 0x01
-write 0x92 0x1 0x00
-write 0x98 0x1 0x21
-write 0x9a 0x1 0x16
-write 0xa0 0x1 0x21
-write 0xa8 0x1 0x01
-write 0xaa 0x1 0x00
-write 0xb0 0x1 0x01
-write 0xb2 0x1 0x00
-write 0xb8 0x1 0x21
-write 0xba 0x1 0x18
-write 0xc0 0x1 0x01
-write 0xc2 0x1 0x00
-write 0xc8 0x1 0x01
-write 0xca 0x1 0x00
-write 0xd0 0x1 0x21
-write 0xd2 0x1 0x16
-write 0xd8 0x1 0x01
-write 0xda 0x1 0x00
-write 0xe0 0x1 0x01
-write 0xe2 0x1 0x00
-write 0xe8 0x1 0x21
-write 0xea 0x1 0x18
-write 0xf0 0x1 0x01
-write 0xf2 0x1 0x00
-write 0xf8 0x1 0x01
-write 0xfa 0x1 0x00
-write 0x100 0x1 0x21
-write 0x102 0x1 0x16
-write 0x108 0x1 0x01
-write 0x10a 0x1 0x00
-write 0x110 0x1 0x01
-write 0x112 0x1 0x00
-write 0x118 0x1 0x21
-write 0x11a 0x1 0x18
-write 0x120 0x1 0x01
-write 0x122 0x1 0x00
-write 0x128 0x1 0x01
-write 0x12a 0x1 0x00
-write 0x130 0x1 0x21
-write 0x132 0x1 0x16
-write 0x138 0x1 0x01
-write 0x13a 0x1 0x00
-write 0x140 0x1 0x01
-write 0x142 0x1 0x00
-write 0x148 0x1 0x21
-write 0x14a 0x1 0x18
-write 0x150 0x1 0x01
-write 0x152 0x1 0x00
-write 0x158 0x1 0x01
-write 0x15a 0x1 0x00
-write 0x160 0x1 0x21
-write 0x162 0x1 0x16
-write 0xe000000c 0x1 0x01
-write 0xe000000e 0x1 0x20
-write 0xe000000f 0x1 0x00
-write 0x168 0x1 0x21
-write 0x16d 0x1 0xff
-write 0x16e 0x1 0xff
-write 0x16f 0x1 0x1f
-write 0xe0000000 0x4 0x00
-write 0xe0000004 0x4 0x03010000
-write 0xe0000085 0x1 0x00
-write 0xe0000086 0x6 0x00
-write 0xe000008c 0x1 0x00
-write 0xe0000000 0x4 0x00
-write 0xe0000004 0x2 0x00
-write 0xe0000038 0x1 0x00
-EOF
-
-
-Stack Trace 3:
-=817509==ERROR: AddressSanitizer: heap-buffer-overflow on address
-0x615000032280 at pc 0x564afca59f2b bp 0x7ffdda140d90 sp 0x7ffdda140d88
-WRITE of size 4 at 0x615000032280 thread T0
-#0 0x564afca59f2a in stl_he_p /home/alxndr/Development/qemu/include/qemu/bswap.h:353:5
-#1 0x564afca59f2a in stn_he_p /home/alxndr/Development/qemu/include/qemu/bswap.h:546:1
-#2 0x564afca59f2a in flatview_read_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2841:13
-#3 0x564afca5b09b in flatview_read /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2879:12
-#4 0x564afca5b09b in address_space_read_full /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2892:18
-#5 0x564afbab9e9d in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
-#6 0x564afbab9e9d in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
-#7 0x564afbab9e9d in dma_memory_read /home/alxndr/Development/qemu/include/sysemu/dma.h:145:12
-#8 0x564afbab9e9d in sdhci_do_adma /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:809:21
-#9 0x564afbab2b81 in sdhci_data_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c
-#10 0x564afbac2966 in sdhci_resume_pending_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:964:5
-#11 0x564afbac2966 in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1120:9
-#12 0x564afc697c6c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
+base-commit: 92bf22614b21a2706f4993b278017e437f7785b3
+-- 
+2.30.1
 
 
