@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DFA3194C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:55:29 +0100 (CET)
-Received: from localhost ([::1]:33948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D8B3194C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:56:45 +0100 (CET)
+Received: from localhost ([::1]:37138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAIzo-0006ew-3E
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:55:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43118)
+	id 1lAJ12-00082A-8c
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:56:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAIpg-0005wD-Hp
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:45:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAIpZ-0007Rk-7a
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:45:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613076292;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9t4IkoAmXiHcfKk4F3GTc5helKS3pdW0WkOh9WuI2hA=;
- b=Nvl2XRfUeSD12IyV7TQ5DZ8NTlxGfG42M8hm0d0g9xreamPVLbBHqBVw1ZiFkK/5dwDHoJ
- 7PcOY3YJV5CA7eaY69NXrOhHNUKV70Y+pyGQHZ9HGo6TSrS+LyZqEZgqR+WdlYyLmxCdZ4
- aqRZCw5Ltd/dVWcBu+Xct7x5V+OBKZ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-4ZKmVndYN3CuOnGPlUL_Zw-1; Thu, 11 Feb 2021 15:44:48 -0500
-X-MC-Unique: 4ZKmVndYN3CuOnGPlUL_Zw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A77CF5210;
- Thu, 11 Feb 2021 20:44:47 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-114-150.phx2.redhat.com [10.3.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 097DD10013D7;
- Thu, 11 Feb 2021 20:44:46 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] utils: Deprecate inexact fractional suffix sizes
-Date: Thu, 11 Feb 2021 14:44:38 -0600
-Message-Id: <20210211204438.1184395-5-eblake@redhat.com>
-In-Reply-To: <20210211204438.1184395-1-eblake@redhat.com>
-References: <20210211204438.1184395-1-eblake@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1lAIrC-000752-Js
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:46:36 -0500
+Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:40060)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1lAIr7-0007m9-9u
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:46:33 -0500
+Received: by mail-qv1-xf29.google.com with SMTP id v19so3229755qvl.7
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 12:46:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=vrtOq5RbhehWbDJFlXey5D27ZkTX3Q+FhxSuDHB4G8Y=;
+ b=BiOE4VrzZpRqh5Jz51322CG3YP+Rx5xv6e5ZbpFFvTcXIRSO2Umlk84zg4q2o9XQY2
+ gAuKFTS4M3tekjsk4B8iKqtxaUruJHYllfn20p17DsjdpJu5h5UetBDDkNKvrAOGe3Zb
+ lFQcgjLRYf5n/22MMhsDP0jlrnquBz7ackBHpu2R1RU3uANEwl8VsJTmKTASjj6Z9RZj
+ glH8MBWJ4uoUhTAbJhAvHHaJldKNtkmjmvtLDc8F9u3YwbziKtl6uCttLG01hzJR7VjG
+ LeGwSPykD2WDipPc3nZIYWS0QGFiD7bdoXdz6atlRtPN3xgsSZ7QM4C6WmeqRaZNKwyg
+ rv6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=vrtOq5RbhehWbDJFlXey5D27ZkTX3Q+FhxSuDHB4G8Y=;
+ b=l/gFBCAfZXdbmcgX7W1fKBb3piFZKEGWUYhutnT6Uo2DfWdkVo0McfCgD/EBW9PTOf
+ LZuAJAU9u+MnObIrIWEbPHvLjmr/KAArQ2PDiI7hUnBGvqng3B3W80i8uQiJQF5vxFDB
+ H1fy1plAMArMaZGDWi8TONI8cPFyodMVWGzYN1ouaWdzRs5fFzKsJD9LlxzJRCxmBDVv
+ c1SSZ61EXqV0vJrar0bN0oGibWpW7etGc0sjtwX3dlfHIMDIJGoM5Pfmh7JFsdCfOnk4
+ +WQ70J+N0dCc2YkOynNIOwbBCQ0AnsVHiRaVxW9pqPaEeNkWCpIRBpCgYvnAqRskbeOW
+ ZJ8g==
+X-Gm-Message-State: AOAM533jr+36sTLi0tc+9sAlYnnNlbpN4Mr4KxwsyMEL55u/gfQ4lMMN
+ rjkv1LOcLJXHKfzeXhRzsAprBP0brQo=
+X-Google-Smtp-Source: ABdhPJzKYCt1HryDCCWbnhFSA8aLXS7pi02M16T5Jh13AZMwyc+U70JmNYa6YkeYRCntIU0zc/m+LQ==
+X-Received: by 2002:a05:6214:d6d:: with SMTP id
+ 13mr9754509qvs.60.1613076384210; 
+ Thu, 11 Feb 2021 12:46:24 -0800 (PST)
+Received: from [192.168.0.4] (d149-67-30-58.try.wideopenwest.com.
+ [67.149.58.30])
+ by smtp.gmail.com with ESMTPSA id u45sm4421997qte.3.2021.02.11.12.46.23
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 11 Feb 2021 12:46:23 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: USB pass through into Mac OS 9.x with qemu-system-ppc
+From: Programmingkid <programmingkidx@gmail.com>
+In-Reply-To: <mailman.2361.1612790999.21101.qemu-devel@nongnu.org>
+Date: Thu, 11 Feb 2021 15:46:22 -0500
+Content-Transfer-Encoding: 7bit
+Message-Id: <FFC6A29A-5635-4780-ADFA-665A0A2C2B58@gmail.com>
+References: <mailman.2361.1612790999.21101.qemu-devel@nongnu.org>
+To: qemu Developers <qemu-devel@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
+ envelope-from=programmingkidx@gmail.com; helo=mail-qv1-xf29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,151 +87,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berrange@redhat.com, qemu-block@nongnu.org,
- "reviewer:Incompatible changes" <libvir-list@redhat.com>, tao3.xu@intel.com,
- rjones@redhat.com, armbru@redhat.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The value '1.1k' is inexact; 1126.4 bytes is not possible, so we
-happen to truncate it to 1126.  Our use of fractional sizes is
-intended for convenience, but when a user specifies a fraction that is
-not a clean translation to binary, truncating/rounding behind their
-backs can cause confusion.  Better is to deprecate inexact values,
-which still leaves '1.5k' as valid, but alerts the user to spell out
-their values as a precise byte number in cases where they are
-currently being rounded.
 
-Note that values like '0.1G' in the testsuite need adjustment as a
-result.
 
-Since qemu_strtosz() does not have an Err** parameter, and plumbing
-that in would be a much larger task, we instead go with just directly
-emitting the deprecation warning to stderr.
+> On Feb 8, 2021, at 8:29 AM, qemu-devel-request@nongnu.org wrote:
+> 
+> Message: 15
+> Date: Mon, 8 Feb 2021 14:29:06 +0100
+> From: Howard Spoelstra <hsp.cat7@gmail.com>
+> To: qemu-devel qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann
+> 	<kraxel@redhat.com>
+> Subject: USB pass through into Mac OS 9.x with qemu-system-ppc
+> Message-ID:
+> 	<CABLmASF7YP3qfcuhAQsm8J28e8omZstBf7E5Eir=8MyqnvPLRQ@mail.gmail.com>
+> Content-Type: text/plain; charset="utf-8"
+> 
+> Hi all,
+> 
+> I'd like to report an issue when passing through an USB device into Mac OS
+> 9.2.
+> Passing through the same device into Fedora 12 ppc guest works fine. Host
+> is Fedora 33. Both guests use the OHCI controller. AFAICT Mac OS 9 only has
+> support for OHCI.
+> 
+> Pcap files for two runs are attached, as is a screenshot of Mac OS 9.2 USB
+> messages from inside the guest.
+> 
+> A noticeable issue when comparing the pcap files seems to be at Fedora pcap
+> frame 8 and Mac OS 9.2 pcap frame 28 (configuration descriptor). It seems
+> the Mac OS side is missing 5 bytes and hence the packet is malformed.
+> (A run with Mac OS 9.0 as guest showed that this guest only missed 1 byte
+> in the response.)
+> 
+> Also visible in the Mac OS pcap file at frame 53 is that it seems a setup
+> package is contained in an URB that is not suited for it.
+> 
+> Qemu-system-ppc is started like this for the Mac OS guest:
+> ./qemu-system-ppc \
+> -M mac99,via=pmu \
+> -m 512 \
+> -boot c \
+> -serial stdio \
+> -L pc-bios \
+> -drive file=/home/hsp/Mac-disks/9.2.img,format=raw,media=disk \
+> -device usb-host,vendorid=0x058f,productid=0x6387,pcap=macos92.pcap
+> 
+> Or like this for the Fedora 12 guest:
+> ./qemu-system-ppc \
+> -L pc-bios \
+> -boot c \
+> -prom-env "boot-device=hd:,\yaboot" -prom-env
+> "boot-args=conf=hd:,\yaboot.conf" \
+> -M mac99,via=pmu \
+> -m 1024 \
+> -drive file=/home/hsp/Linux-disks/fedora12.qcow2 \
+> -g 1024x768x32 \
+> -device usb-host,vendorid=0x058f,productid=0x6387,pcap=fedora12.pcap
+> 
+> Thanks for looking into this,
+> 
+> Best,
+> Howard Spoelstra
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
+Hi Howard. I suggest you make a bug report so we may track this issue.
 
----
+This is where you would file the bug: https://bugs.launchpad.net/qemu/
 
-I'm not a fan of this patch, but am proposing it for discussion purposes.
----
- docs/system/deprecated.rst | 9 +++++++++
- tests/test-cutils.c        | 6 +++---
- tests/test-keyval.c        | 4 ++--
- tests/test-qemu-opts.c     | 4 ++--
- util/cutils.c              | 9 +++++++--
- 5 files changed, 23 insertions(+), 9 deletions(-)
+I didn't know about the pcap option. It looks very useful.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 113c2e933f1b..2c9cb849eec5 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -154,6 +154,15 @@ Input parameters that take a size value should only use a size suffix
- the value is hexadecimal.  That is, '0x20M' is deprecated, and should
- be written either as '32M' or as '0x2000000'.
-
-+inexact sizes via scaled fractions (since 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Input parameters that take a size value should only use a fractional
-+size (such as '1.5M') that will result in an exact byte value.  The
-+use of inexact values (such as '1.1M') that require truncation or
-+rounding is deprecated, and you should instead consider writing your
-+unusual size in bytes (here, '1153433' or '1153434' as desired).
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-
-diff --git a/tests/test-cutils.c b/tests/test-cutils.c
-index bad3a6099389..c6c33866277b 100644
---- a/tests/test-cutils.c
-+++ b/tests/test-cutils.c
-@@ -2124,11 +2124,11 @@ static void test_qemu_strtosz_float(void)
-     g_assert_cmpint(res, ==, 1024);
-     g_assert(endptr == str + 3);
-
--    /* For convenience, we permit values that are not byte-exact */
--    str = "12.345M";
-+    /* Fractional values should still be byte-exact */
-+    str = "12.125M";
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, 0);
--    g_assert_cmpint(res, ==, (uint64_t) (12.345 * MiB));
-+    g_assert_cmpint(res, ==, (uint64_t) (12.125 * MiB));
-     g_assert(endptr == str + 7);
- }
-
-diff --git a/tests/test-keyval.c b/tests/test-keyval.c
-index e20c07cf3ea5..7a45c22942e6 100644
---- a/tests/test-keyval.c
-+++ b/tests/test-keyval.c
-@@ -525,7 +525,7 @@ static void test_keyval_visit_size(void)
-     visit_free(v);
-
-     /* Suffixes */
--    qdict = keyval_parse("sz1=8b,sz2=1.5k,sz3=2M,sz4=0.1G,sz5=16777215T",
-+    qdict = keyval_parse("sz1=8b,sz2=1.5k,sz3=2M,sz4=0.125G,sz5=16777215T",
-                          NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-@@ -537,7 +537,7 @@ static void test_keyval_visit_size(void)
-     visit_type_size(v, "sz3", &sz, &error_abort);
-     g_assert_cmphex(sz, ==, 2 * MiB);
-     visit_type_size(v, "sz4", &sz, &error_abort);
--    g_assert_cmphex(sz, ==, GiB / 10);
-+    g_assert_cmphex(sz, ==, GiB / 8);
-     visit_type_size(v, "sz5", &sz, &error_abort);
-     g_assert_cmphex(sz, ==, 16777215ULL * TiB);
-     visit_check_struct(v, &error_abort);
-diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
-index 6568e31a7229..549e994938fe 100644
---- a/tests/test-qemu-opts.c
-+++ b/tests/test-qemu-opts.c
-@@ -720,10 +720,10 @@ static void test_opts_parse_size(void)
-     g_assert_cmphex(qemu_opt_get_size(opts, "size1", 0), ==, 8);
-     g_assert_cmphex(qemu_opt_get_size(opts, "size2", 0), ==, 1536);
-     g_assert_cmphex(qemu_opt_get_size(opts, "size3", 0), ==, 2 * MiB);
--    opts = qemu_opts_parse(&opts_list_02, "size1=0.1G,size2=16777215T",
-+    opts = qemu_opts_parse(&opts_list_02, "size1=0.125G,size2=16777215T",
-                            false, &error_abort);
-     g_assert_cmpuint(opts_count(opts), ==, 2);
--    g_assert_cmphex(qemu_opt_get_size(opts, "size1", 0), ==, GiB / 10);
-+    g_assert_cmphex(qemu_opt_get_size(opts, "size1", 0), ==, GiB / 8);
-     g_assert_cmphex(qemu_opt_get_size(opts, "size2", 0), ==, 16777215ULL * TiB);
-
-     /* Beyond limit with suffix */
-diff --git a/util/cutils.c b/util/cutils.c
-index 6a8a175e0d71..1154b9de131a 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -246,12 +246,13 @@ static int64_t suffix_mul(char suffix, int64_t unit)
-  * The size parsing supports the following syntaxes
-  * - 12345 - decimal, scale determined by @default_suffix and @unit
-  * - 12345{bBkKmMgGtTpPeE} - decimal, scale determined by suffix and @unit
-- * - 12345.678{kKmMgGtTpPeE} - decimal, scale determined by suffix, and
-- *   fractional portion is truncated to byte
-+ * - 12345.678{kKmMgGtTpPeE} - decimal, scale determined by suffix, if
-+ *   fractional portion is exact
-  * - 0x7fEE - hexadecimal, unit determined by @default_suffix
-  *
-  * The following cause a deprecation warning, and may be removed in the future
-  * - 0xabc{kKmMgGtTpP} - hex with scaling suffix
-+ * - 12345.678{kKmMgGtTpPeE} - decimal with inexact fraction that caused truncation
-  *
-  * The following are intentionally not supported
-  * - octal, such as 08
-@@ -342,6 +343,10 @@ static int do_strtosz(const char *nptr, const char **end,
-         retval = -ERANGE;
-         goto out;
-     }
-+    if (mul_required && fraction * mul != (uint64_t) (fraction * mul)) {
-+        warn_report("Using a fractional size that is not an exact byte "
-+                    "multiple is deprecated: %s", nptr);
-+    }
-     *result = val * mul + (uint64_t) (fraction * mul);
-     retval = 0;
-
--- 
-2.30.1
+Thank you.
 
 
