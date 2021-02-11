@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DEB1318D21
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 15:20:14 +0100 (CET)
-Received: from localhost ([::1]:56812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC87C318D34
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 15:22:48 +0100 (CET)
+Received: from localhost ([::1]:36152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lACpJ-0003YV-Id
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 09:20:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55580)
+	id 1lACrn-0006mj-Te
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 09:22:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lACkv-0006XY-8o
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:45 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50794)
+ id 1lACl1-0006Y9-Q7
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:48 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lACkc-00074W-2J
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:37 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id 190so5704531wmz.0
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 06:15:21 -0800 (PST)
+ id 1lACkd-00074l-42
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:46 -0500
+Received: by mail-wm1-x333.google.com with SMTP id m1so5893633wml.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 06:15:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=og9KQQdUmxD32yR3FyUcwq5x901q0uWSRIkM9UH1rUs=;
- b=wL2Ok7XK8W1C9rWKvBjT9g1uX0m45O/j/RvQ3WD5ySc3MEUZz9XSjO8UTIdXE2l65K
- QMWwvHfWTWAFCKI8O0+j/9I8qrCwgrxDhj2XBbc5EoxND6oodxcloAAl24soB7aP3Zi4
- m4XDGfEQBCQ/MG4KEQji4/iy4Cn3XdKCbElP6jlAl+dZcJFTofN+nK5l14mMMZzpAmXr
- XecpoTDgfrksoRE9j8BAJIKOmNC83X8EtyNTeGkYgFLKgUc8TEGniX3A/goJHiYzgivf
- HVxRxuS2hbNmssV+dPFdvLL1BWiPA/gSXEHeu583Qt4d/Iu26j8r4HoD83wyfUpLnpyF
- RWBQ==
+ bh=ZgajD4GVdukUaJwhlU9+CkgVqEYFIUQ6PIIepWOOktw=;
+ b=mxHjQPbnAOwyIEKW8BVHA7AJCSbUZZzemaLcX4aS661Fzv+L0BYBkH+jOzElLOYRcp
+ vPRLo98OBBPOIkJyRz0jjjcymH1sAECaRy9O25jjM0V8OXucfJl/vqkpiqr2eMqgAS1/
+ DXmDNzsJHDmiTqA6JlaVzgRpS/WRGYVdTzMvVO5CePEJpvYW4RvBhwpaPYv7oVpOfWcq
+ Rz/y/BDoi4uF2W576vrIz0CsZkqCPwCfmV/KFXMC+fRtY10E4Xi+ZNCHrRZngtnXin34
+ o8Vgm1ctaVds3CplWGA4iGC9rLquXNK31mr1gz3uWJuRZorDwAlivVL70Nn902aBj80C
+ D+1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=og9KQQdUmxD32yR3FyUcwq5x901q0uWSRIkM9UH1rUs=;
- b=EsCITLU5wKjaWcVX+lLCOlNsOSrw50bVYIdQo3Bwg+kYtewR7VaReZ/OHXtmUomRK9
- HubZDPwB1P3QvHiMuZjAsP4sXafG8yQr/UyxmMnsn+p9tYq4c3qlfEanzRWfeWxhauzG
- BjXKecKtckCEdE8AOGFuvHK8P6ksNQxQbXJC4YTDH3Y8atYZVN/+snOszm5zoVtmD+Q/
- ND30AaiOQmrQ3yXrLc78kVaslF2SpVdtLk4hHck81jWFY9eyyHZ8P8250h6hnAOf2Nbi
- whfLZH2TQZr9hLeT+oomvQ/5XJNzZj9uilQ4myIsmy9aLADMVolx4zjmM+dM0LfJ8JfW
- alJA==
-X-Gm-Message-State: AOAM530ZplCM9h+f9Qi2/kyQJHfn+rOd2AcvI5iOis/W7cNLAf26A8Jc
- nROEJE+MprO0dkMeNad2UwLZVg==
-X-Google-Smtp-Source: ABdhPJzjkBdsmSYweO6HoBLsZWAbs5aLFClaSWrnXu3cduEnQ/P+mDhRk+GBPneMx+WgPxkdaB7WcA==
-X-Received: by 2002:a1c:c903:: with SMTP id f3mr5334787wmb.69.1613052920013;
+ bh=ZgajD4GVdukUaJwhlU9+CkgVqEYFIUQ6PIIepWOOktw=;
+ b=UbGPfzfWAdtctYl+4NJ/skd5pZy9qoLHVU0aKM9lJE10841wHGn4sJ4m6keCMWZXx+
+ G004/l+fMkW2z5HQOae7Zk2Wq6VMBoyJh5FTlFpvgh8B64hiKwVuRHzzqTz+WmBilmc/
+ oR+Lyr/QgCALD545hcVPkhnpDrIH/Tq/Rd9X8s2jzDUs+5TIkUscvZ02NBsYwdOsZtVj
+ O+hDsHfZNgL0EHEXr30ZOxk8cv+m+eVrJqcisWueRd46RiWNbIbqgEKRDON0UDB+AW5M
+ VwaxCoEk1rQneyRFgr4M1c2Gs+L3arDIO77LT611wxfuq7H9XoZRUvsluh2n4k9eL6EP
+ 9SOQ==
+X-Gm-Message-State: AOAM5326ynsx2P8EHOgEpBeO+WrmKUIAdPB/PXx2wo0rs36pmDDtaEyC
+ EPo4l0mFfdL1E9oG+/8fq+rbXw==
+X-Google-Smtp-Source: ABdhPJzYqV2m0DRJwhE4xeEIVsFbi9omG0+kZfJv0ok0bM/D2aThi2DT6Bdq5ySgKjIqn4kNOFIt0A==
+X-Received: by 2002:a1c:f002:: with SMTP id a2mr126412wmb.117.1613052920778;
  Thu, 11 Feb 2021 06:15:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h13sm5223291wrv.20.2021.02.11.06.15.19
+ by smtp.gmail.com with ESMTPSA id h13sm5223291wrv.20.2021.02.11.06.15.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 06:15:19 -0800 (PST)
+ Thu, 11 Feb 2021 06:15:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 3/9] hw/display/pl110: Remove use of BITS from pl110_template.h
-Date: Thu, 11 Feb 2021 14:15:09 +0000
-Message-Id: <20210211141515.8755-4-peter.maydell@linaro.org>
+Subject: [PATCH 4/9] hw/display/pxa2xx_lcd: Remove dead code for non-32-bpp
+ surfaces
+Date: Thu, 11 Feb 2021 14:15:10 +0000
+Message-Id: <20210211141515.8755-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211141515.8755-1-peter.maydell@linaro.org>
 References: <20210211141515.8755-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,235 +88,167 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BITS is always 32, so remove all uses of it from the template header,
-by dropping the trailing '32' from the draw function names and
-not constructing the name of rgb_to_pixel32() via the glue() macro.
+For a long time now the UI layer has guaranteed that the console
+surface is always 32 bits per pixel.  Remove the legacy dead code
+from the pxa2xx_lcd display device which was handling the possibility
+that the console surface was some other format.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/pl110_template.h |  20 +++----
- hw/display/pl110.c          | 113 ++++++++++++++++++------------------
- 2 files changed, 65 insertions(+), 68 deletions(-)
+ hw/display/pxa2xx_lcd.c | 79 +++++++++--------------------------------
+ 1 file changed, 17 insertions(+), 62 deletions(-)
 
-diff --git a/hw/display/pl110_template.h b/hw/display/pl110_template.h
-index 0d8471db636..877419aa817 100644
---- a/hw/display/pl110_template.h
-+++ b/hw/display/pl110_template.h
-@@ -14,18 +14,18 @@
- #endif
+diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
+index dfff9949627..786a777629f 100644
+--- a/hw/display/pxa2xx_lcd.c
++++ b/hw/display/pxa2xx_lcd.c
+@@ -45,7 +45,6 @@ struct PXA2xxLCDState {
  
- #if ORDER == 0
--#define NAME glue(glue(lblp_, BORDER), BITS)
-+#define NAME glue(lblp_, BORDER)
- #ifdef HOST_WORDS_BIGENDIAN
- #define SWAP_WORDS 1
- #endif
- #elif ORDER == 1
--#define NAME glue(glue(bbbp_, BORDER), BITS)
-+#define NAME glue(bbbp_, BORDER)
- #ifndef HOST_WORDS_BIGENDIAN
- #define SWAP_WORDS 1
- #endif
- #else
- #define SWAP_PIXELS 1
--#define NAME glue(glue(lbbp_, BORDER), BITS)
-+#define NAME glue(lbbp_, BORDER)
- #ifdef HOST_WORDS_BIGENDIAN
- #define SWAP_WORDS 1
- #endif
-@@ -174,14 +174,14 @@ static void glue(pl110_draw_line16_,NAME)(void *opaque, uint8_t *d, const uint8_
-         MSB = (data & 0x1f) << 3;
-         data >>= 5;
- #endif
--        COPY_PIXEL(d, glue(rgb_to_pixel,BITS)(r, g, b));
-+        COPY_PIXEL(d, rgb_to_pixel32(r, g, b));
-         LSB = (data & 0x1f) << 3;
-         data >>= 5;
-         g = (data & 0x3f) << 2;
-         data >>= 6;
-         MSB = (data & 0x1f) << 3;
-         data >>= 5;
--        COPY_PIXEL(d, glue(rgb_to_pixel,BITS)(r, g, b));
-+        COPY_PIXEL(d, rgb_to_pixel32(r, g, b));
- #undef MSB
- #undef LSB
-         width -= 2;
-@@ -211,7 +211,7 @@ static void glue(pl110_draw_line32_,NAME)(void *opaque, uint8_t *d, const uint8_
-         g = (data >> 16) & 0xff;
-         MSB = (data >> 8) & 0xff;
- #endif
--        COPY_PIXEL(d, glue(rgb_to_pixel,BITS)(r, g, b));
-+        COPY_PIXEL(d, rgb_to_pixel32(r, g, b));
- #undef MSB
- #undef LSB
-         width--;
-@@ -242,14 +242,14 @@ static void glue(pl110_draw_line16_555_,NAME)(void *opaque, uint8_t *d, const ui
-         data >>= 5;
-         MSB = (data & 0x1f) << 3;
-         data >>= 5;
--        COPY_PIXEL(d, glue(rgb_to_pixel,BITS)(r, g, b));
-+        COPY_PIXEL(d, rgb_to_pixel32(r, g, b));
-         LSB = (data & 0x1f) << 3;
-         data >>= 5;
-         g = (data & 0x1f) << 3;
-         data >>= 5;
-         MSB = (data & 0x1f) << 3;
-         data >>= 6;
--        COPY_PIXEL(d, glue(rgb_to_pixel,BITS)(r, g, b));
-+        COPY_PIXEL(d, rgb_to_pixel32(r, g, b));
- #undef MSB
- #undef LSB
-         width -= 2;
-@@ -280,14 +280,14 @@ static void glue(pl110_draw_line12_,NAME)(void *opaque, uint8_t *d, const uint8_
-         data >>= 4;
-         MSB = (data & 0xf) << 4;
-         data >>= 8;
--        COPY_PIXEL(d, glue(rgb_to_pixel,BITS)(r, g, b));
-+        COPY_PIXEL(d, rgb_to_pixel32(r, g, b));
-         LSB = (data & 0xf) << 4;
-         data >>= 4;
-         g = (data & 0xf) << 4;
-         data >>= 4;
-         MSB = (data & 0xf) << 4;
-         data >>= 8;
--        COPY_PIXEL(d, glue(rgb_to_pixel,BITS)(r, g, b));
-+        COPY_PIXEL(d, rgb_to_pixel32(r, g, b));
- #undef MSB
- #undef LSB
-         width -= 2;
-diff --git a/hw/display/pl110.c b/hw/display/pl110.c
-index ce300662e8b..4bf15c1da51 100644
---- a/hw/display/pl110.c
-+++ b/hw/display/pl110.c
-@@ -123,7 +123,6 @@ static const unsigned char *idregs[] = {
-     pl111_id
+     int invalidated;
+     QemuConsole *con;
+-    drawfn *line_fn[2];
+     int dest_width;
+     int xres, yres;
+     int pal_for;
+@@ -188,6 +187,9 @@ typedef struct QEMU_PACKED {
+ #define LDCMD_SOFINT	(1 << 22)
+ #define LDCMD_PAL	(1 << 26)
+ 
++#define BITS 32
++#include "pxa2xx_template.h"
++
+ /* Route internal interrupt lines to the global IC */
+ static void pxa2xx_lcdc_int_update(PXA2xxLCDState *s)
+ {
+@@ -674,14 +676,21 @@ static void pxa2xx_palette_parse(PXA2xxLCDState *s, int ch, int bpp)
+     }
+ }
+ 
++static inline drawfn pxa2xx_drawfn(PXA2xxLCDState *s)
++{
++    if (s->transp) {
++        return pxa2xx_draw_fn_32t[s->bpp];
++    } else {
++        return pxa2xx_draw_fn_32[s->bpp];
++    }
++}
++
+ static void pxa2xx_lcdc_dma0_redraw_rot0(PXA2xxLCDState *s,
+                 hwaddr addr, int *miny, int *maxy)
+ {
+     DisplaySurface *surface = qemu_console_surface(s->con);
+     int src_width, dest_width;
+-    drawfn fn = NULL;
+-    if (s->dest_width)
+-        fn = s->line_fn[s->transp][s->bpp];
++    drawfn fn = pxa2xx_drawfn(s);
+     if (!fn)
+         return;
+ 
+@@ -710,9 +719,7 @@ static void pxa2xx_lcdc_dma0_redraw_rot90(PXA2xxLCDState *s,
+ {
+     DisplaySurface *surface = qemu_console_surface(s->con);
+     int src_width, dest_width;
+-    drawfn fn = NULL;
+-    if (s->dest_width)
+-        fn = s->line_fn[s->transp][s->bpp];
++    drawfn fn = pxa2xx_drawfn(s);
+     if (!fn)
+         return;
+ 
+@@ -742,10 +749,7 @@ static void pxa2xx_lcdc_dma0_redraw_rot180(PXA2xxLCDState *s,
+ {
+     DisplaySurface *surface = qemu_console_surface(s->con);
+     int src_width, dest_width;
+-    drawfn fn = NULL;
+-    if (s->dest_width) {
+-        fn = s->line_fn[s->transp][s->bpp];
+-    }
++    drawfn fn = pxa2xx_drawfn(s);
+     if (!fn) {
+         return;
+     }
+@@ -776,10 +780,7 @@ static void pxa2xx_lcdc_dma0_redraw_rot270(PXA2xxLCDState *s,
+ {
+     DisplaySurface *surface = qemu_console_surface(s->con);
+     int src_width, dest_width;
+-    drawfn fn = NULL;
+-    if (s->dest_width) {
+-        fn = s->line_fn[s->transp][s->bpp];
+-    }
++    drawfn fn = pxa2xx_drawfn(s);
+     if (!fn) {
+         return;
+     }
+@@ -990,17 +991,6 @@ static const VMStateDescription vmstate_pxa2xx_lcdc = {
+     }
  };
  
+-#define BITS 8
+-#include "pxa2xx_template.h"
+-#define BITS 15
+-#include "pxa2xx_template.h"
+-#define BITS 16
+-#include "pxa2xx_template.h"
+-#define BITS 24
+-#include "pxa2xx_template.h"
 -#define BITS 32
- #define COPY_PIXEL(to, from) do { *(uint32_t *)to = from; to += 4; } while (0)
- 
- #undef RGB
-@@ -145,65 +144,63 @@ static const unsigned char *idregs[] = {
- #include "pl110_template.h"
- #undef BORDER
- 
--static drawfn pl110_draw_fn_32[48] = {
--    pl110_draw_line1_lblp_bgr32,
--    pl110_draw_line2_lblp_bgr32,
--    pl110_draw_line4_lblp_bgr32,
--    pl110_draw_line8_lblp_bgr32,
--    pl110_draw_line16_555_lblp_bgr32,
--    pl110_draw_line32_lblp_bgr32,
--    pl110_draw_line16_lblp_bgr32,
--    pl110_draw_line12_lblp_bgr32,
+-#include "pxa2xx_template.h"
 -
--    pl110_draw_line1_bbbp_bgr32,
--    pl110_draw_line2_bbbp_bgr32,
--    pl110_draw_line4_bbbp_bgr32,
--    pl110_draw_line8_bbbp_bgr32,
--    pl110_draw_line16_555_bbbp_bgr32,
--    pl110_draw_line32_bbbp_bgr32,
--    pl110_draw_line16_bbbp_bgr32,
--    pl110_draw_line12_bbbp_bgr32,
--
--    pl110_draw_line1_lbbp_bgr32,
--    pl110_draw_line2_lbbp_bgr32,
--    pl110_draw_line4_lbbp_bgr32,
--    pl110_draw_line8_lbbp_bgr32,
--    pl110_draw_line16_555_lbbp_bgr32,
--    pl110_draw_line32_lbbp_bgr32,
--    pl110_draw_line16_lbbp_bgr32,
--    pl110_draw_line12_lbbp_bgr32,
--
--    pl110_draw_line1_lblp_rgb32,
--    pl110_draw_line2_lblp_rgb32,
--    pl110_draw_line4_lblp_rgb32,
--    pl110_draw_line8_lblp_rgb32,
--    pl110_draw_line16_555_lblp_rgb32,
--    pl110_draw_line32_lblp_rgb32,
--    pl110_draw_line16_lblp_rgb32,
--    pl110_draw_line12_lblp_rgb32,
--
--    pl110_draw_line1_bbbp_rgb32,
--    pl110_draw_line2_bbbp_rgb32,
--    pl110_draw_line4_bbbp_rgb32,
--    pl110_draw_line8_bbbp_rgb32,
--    pl110_draw_line16_555_bbbp_rgb32,
--    pl110_draw_line32_bbbp_rgb32,
--    pl110_draw_line16_bbbp_rgb32,
--    pl110_draw_line12_bbbp_rgb32,
--
--    pl110_draw_line1_lbbp_rgb32,
--    pl110_draw_line2_lbbp_rgb32,
--    pl110_draw_line4_lbbp_rgb32,
--    pl110_draw_line8_lbbp_rgb32,
--    pl110_draw_line16_555_lbbp_rgb32,
--    pl110_draw_line32_lbbp_rgb32,
--    pl110_draw_line16_lbbp_rgb32,
--    pl110_draw_line12_lbbp_rgb32,
--};
--
--#undef BITS
- #undef COPY_PIXEL
- 
-+static drawfn pl110_draw_fn_32[48] = {
-+    pl110_draw_line1_lblp_bgr,
-+    pl110_draw_line2_lblp_bgr,
-+    pl110_draw_line4_lblp_bgr,
-+    pl110_draw_line8_lblp_bgr,
-+    pl110_draw_line16_555_lblp_bgr,
-+    pl110_draw_line32_lblp_bgr,
-+    pl110_draw_line16_lblp_bgr,
-+    pl110_draw_line12_lblp_bgr,
-+
-+    pl110_draw_line1_bbbp_bgr,
-+    pl110_draw_line2_bbbp_bgr,
-+    pl110_draw_line4_bbbp_bgr,
-+    pl110_draw_line8_bbbp_bgr,
-+    pl110_draw_line16_555_bbbp_bgr,
-+    pl110_draw_line32_bbbp_bgr,
-+    pl110_draw_line16_bbbp_bgr,
-+    pl110_draw_line12_bbbp_bgr,
-+
-+    pl110_draw_line1_lbbp_bgr,
-+    pl110_draw_line2_lbbp_bgr,
-+    pl110_draw_line4_lbbp_bgr,
-+    pl110_draw_line8_lbbp_bgr,
-+    pl110_draw_line16_555_lbbp_bgr,
-+    pl110_draw_line32_lbbp_bgr,
-+    pl110_draw_line16_lbbp_bgr,
-+    pl110_draw_line12_lbbp_bgr,
-+
-+    pl110_draw_line1_lblp_rgb,
-+    pl110_draw_line2_lblp_rgb,
-+    pl110_draw_line4_lblp_rgb,
-+    pl110_draw_line8_lblp_rgb,
-+    pl110_draw_line16_555_lblp_rgb,
-+    pl110_draw_line32_lblp_rgb,
-+    pl110_draw_line16_lblp_rgb,
-+    pl110_draw_line12_lblp_rgb,
-+
-+    pl110_draw_line1_bbbp_rgb,
-+    pl110_draw_line2_bbbp_rgb,
-+    pl110_draw_line4_bbbp_rgb,
-+    pl110_draw_line8_bbbp_rgb,
-+    pl110_draw_line16_555_bbbp_rgb,
-+    pl110_draw_line32_bbbp_rgb,
-+    pl110_draw_line16_bbbp_rgb,
-+    pl110_draw_line12_bbbp_rgb,
-+
-+    pl110_draw_line1_lbbp_rgb,
-+    pl110_draw_line2_lbbp_rgb,
-+    pl110_draw_line4_lbbp_rgb,
-+    pl110_draw_line8_lbbp_rgb,
-+    pl110_draw_line16_555_lbbp_rgb,
-+    pl110_draw_line32_lbbp_rgb,
-+    pl110_draw_line16_lbbp_rgb,
-+    pl110_draw_line12_lbbp_rgb,
-+};
- 
- static int pl110_enabled(PL110State *s)
+ static const GraphicHwOps pxa2xx_ops = {
+     .invalidate  = pxa2xx_invalidate_display,
+     .gfx_update  = pxa2xx_update_display,
+@@ -1010,7 +1000,6 @@ PXA2xxLCDState *pxa2xx_lcdc_init(MemoryRegion *sysmem,
+                                  hwaddr base, qemu_irq irq)
  {
+     PXA2xxLCDState *s;
+-    DisplaySurface *surface;
+ 
+     s = (PXA2xxLCDState *) g_malloc0(sizeof(PXA2xxLCDState));
+     s->invalidated = 1;
+@@ -1024,41 +1013,7 @@ PXA2xxLCDState *pxa2xx_lcdc_init(MemoryRegion *sysmem,
+     memory_region_add_subregion(sysmem, base, &s->iomem);
+ 
+     s->con = graphic_console_init(NULL, 0, &pxa2xx_ops, s);
+-    surface = qemu_console_surface(s->con);
+-
+-    switch (surface_bits_per_pixel(surface)) {
+-    case 0:
+-        s->dest_width = 0;
+-        break;
+-    case 8:
+-        s->line_fn[0] = pxa2xx_draw_fn_8;
+-        s->line_fn[1] = pxa2xx_draw_fn_8t;
+-        s->dest_width = 1;
+-        break;
+-    case 15:
+-        s->line_fn[0] = pxa2xx_draw_fn_15;
+-        s->line_fn[1] = pxa2xx_draw_fn_15t;
+-        s->dest_width = 2;
+-        break;
+-    case 16:
+-        s->line_fn[0] = pxa2xx_draw_fn_16;
+-        s->line_fn[1] = pxa2xx_draw_fn_16t;
+-        s->dest_width = 2;
+-        break;
+-    case 24:
+-        s->line_fn[0] = pxa2xx_draw_fn_24;
+-        s->line_fn[1] = pxa2xx_draw_fn_24t;
+-        s->dest_width = 3;
+-        break;
+-    case 32:
+-        s->line_fn[0] = pxa2xx_draw_fn_32;
+-        s->line_fn[1] = pxa2xx_draw_fn_32t;
+-        s->dest_width = 4;
+-        break;
+-    default:
+-        fprintf(stderr, "%s: Bad color depth\n", __func__);
+-        exit(1);
+-    }
++    s->dest_width = 4;
+ 
+     vmstate_register(NULL, 0, &vmstate_pxa2xx_lcdc, s);
+ 
 -- 
 2.20.1
 
