@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F126319253
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 19:34:56 +0100 (CET)
-Received: from localhost ([::1]:51106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09BA319254
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 19:34:58 +0100 (CET)
+Received: from localhost ([::1]:51018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAGnn-0005fd-2U
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 13:34:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
+	id 1lAGnl-0005dS-0R
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 13:34:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lAGlW-0003ui-6R
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lAGlW-0003v0-9y
  for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:32:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44185)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lAGlP-0002bQ-45
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:32:33 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lAGlM-0002aH-7c
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:32:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613068346;
+ s=mimecast20190719; t=1613068341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jhYvEMH/SAJ4MJUzbOU4SzXxmFGGzBYpl/nN8QMqUm8=;
- b=cRqxU1VaG1wYUmgQrY2+oaQHMX0bshE3SwBIKGJ567lnIJhgbDGrqzjEJ0gUBRTRHykaTQ
- 2XS19V8orPiVVk+ZQ/1E+82PG9lUlz2aPVOxsChKWJxTWZy8Oq3XGtq7NlJ331xEJ6ZvOG
- TGGVEvvoivZ0aijQIIrnRSN/ZgRHvMk=
+ bh=5IrKhFJawEpCqb42VfkTcjVDpy3Wp5KY19Kfv7Eetzw=;
+ b=QDuc73pfupaUKRULFg8lpoaSwl5orT+oEGfh0K2i/YFDVa34tR7v0NrKnmDfnA2B8aalm9
+ 1EGbJRYsHYRoMfSc7DoTVBwNahv6ZSQIKKzjotchFehVb8HYqSGXJK2EAnzi+PDC8HZSH2
+ AtOYKcrhBfNAguteR1ceHFVaRFvxGQs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-WznuQlasMUm49-rkNmz_6g-1; Thu, 11 Feb 2021 13:32:21 -0500
-X-MC-Unique: WznuQlasMUm49-rkNmz_6g-1
+ us-mta-168-zbC-bNnuM-SRM0AyWnGYHg-1; Thu, 11 Feb 2021 13:32:18 -0500
+X-MC-Unique: zbC-bNnuM-SRM0AyWnGYHg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 694C27BA3
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 18:31:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9EA1801990
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 18:31:38 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-113-82.ams2.redhat.com [10.36.113.82])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C7935C8AA;
- Thu, 11 Feb 2021 18:31:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2CE15C3E0;
+ Thu, 11 Feb 2021 18:31:37 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] qapi: Add support for aliases
-Date: Thu, 11 Feb 2021 19:31:17 +0100
-Message-Id: <20210211183118.422036-6-kwolf@redhat.com>
+Subject: [PATCH v2 6/6] tests/qapi-schema: Test cases for aliases
+Date: Thu, 11 Feb 2021 19:31:18 +0100
+Message-Id: <20210211183118.422036-7-kwolf@redhat.com>
 In-Reply-To: <20210211183118.422036-1-kwolf@redhat.com>
 References: <20210211183118.422036-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,501 +80,313 @@ Cc: kwolf@redhat.com, jsnow@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce alias definitions for object types (structs and unions). This
-allows using the same QAPI type and visitor for many syntax variations
-that exist in the external representation, like between QMP and the
-command line. It also provides a new tool for evolving the schema while
-maintaining backwards compatibility during a deprecation period.
-
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt           | 105 ++++++++++++++++++++++++-
- docs/sphinx/qapidoc.py                 |   2 +-
- scripts/qapi/expr.py                   |  36 ++++++++-
- scripts/qapi/schema.py                 |  30 +++++--
- scripts/qapi/types.py                  |   4 +-
- scripts/qapi/visit.py                  |  34 +++++++-
- tests/qapi-schema/test-qapi.py         |   7 +-
- tests/qapi-schema/double-type.err      |   2 +-
- tests/qapi-schema/unknown-expr-key.err |   2 +-
- 9 files changed, 203 insertions(+), 19 deletions(-)
+ tests/qapi-schema/alias-bad-type.err          |  2 ++
+ tests/qapi-schema/alias-bad-type.json         |  3 ++
+ tests/qapi-schema/alias-bad-type.out          |  0
+ tests/qapi-schema/alias-missing-source.err    |  2 ++
+ tests/qapi-schema/alias-missing-source.json   |  3 ++
+ tests/qapi-schema/alias-missing-source.out    |  0
+ tests/qapi-schema/alias-name-bad-type.err     |  2 ++
+ tests/qapi-schema/alias-name-bad-type.json    |  3 ++
+ tests/qapi-schema/alias-name-bad-type.out     |  0
+ tests/qapi-schema/alias-source-bad-type.err   |  2 ++
+ tests/qapi-schema/alias-source-bad-type.json  |  3 ++
+ tests/qapi-schema/alias-source-bad-type.out   |  0
+ .../alias-source-elem-bad-type.err            |  2 ++
+ .../alias-source-elem-bad-type.json           |  3 ++
+ .../alias-source-elem-bad-type.out            |  0
+ tests/qapi-schema/alias-source-empty.err      |  2 ++
+ tests/qapi-schema/alias-source-empty.json     |  3 ++
+ tests/qapi-schema/alias-source-empty.out      |  0
+ tests/qapi-schema/alias-unknown-key.err       |  3 ++
+ tests/qapi-schema/alias-unknown-key.json      |  3 ++
+ tests/qapi-schema/alias-unknown-key.out       |  0
+ tests/qapi-schema/aliases-bad-type.err        |  2 ++
+ tests/qapi-schema/aliases-bad-type.json       |  3 ++
+ tests/qapi-schema/aliases-bad-type.out        |  0
+ tests/qapi-schema/meson.build                 |  8 +++++
+ tests/qapi-schema/qapi-schema-test.json       | 24 +++++++++++++++
+ tests/qapi-schema/qapi-schema-test.out        | 29 +++++++++++++++++++
+ 27 files changed, 102 insertions(+)
+ create mode 100644 tests/qapi-schema/alias-bad-type.err
+ create mode 100644 tests/qapi-schema/alias-bad-type.json
+ create mode 100644 tests/qapi-schema/alias-bad-type.out
+ create mode 100644 tests/qapi-schema/alias-missing-source.err
+ create mode 100644 tests/qapi-schema/alias-missing-source.json
+ create mode 100644 tests/qapi-schema/alias-missing-source.out
+ create mode 100644 tests/qapi-schema/alias-name-bad-type.err
+ create mode 100644 tests/qapi-schema/alias-name-bad-type.json
+ create mode 100644 tests/qapi-schema/alias-name-bad-type.out
+ create mode 100644 tests/qapi-schema/alias-source-bad-type.err
+ create mode 100644 tests/qapi-schema/alias-source-bad-type.json
+ create mode 100644 tests/qapi-schema/alias-source-bad-type.out
+ create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.err
+ create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.json
+ create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.out
+ create mode 100644 tests/qapi-schema/alias-source-empty.err
+ create mode 100644 tests/qapi-schema/alias-source-empty.json
+ create mode 100644 tests/qapi-schema/alias-source-empty.out
+ create mode 100644 tests/qapi-schema/alias-unknown-key.err
+ create mode 100644 tests/qapi-schema/alias-unknown-key.json
+ create mode 100644 tests/qapi-schema/alias-unknown-key.out
+ create mode 100644 tests/qapi-schema/aliases-bad-type.err
+ create mode 100644 tests/qapi-schema/aliases-bad-type.json
+ create mode 100644 tests/qapi-schema/aliases-bad-type.out
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 6906a06ad2..247c4b8ef4 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -231,7 +231,8 @@ Syntax:
-                'data': MEMBERS,
-                '*base': STRING,
-                '*if': COND,
--               '*features': FEATURES }
-+               '*features': FEATURES,
-+               '*aliases': ALIASES }
-     MEMBERS = { MEMBER, ... }
-     MEMBER = STRING : TYPE-REF
-            | STRING : { 'type': TYPE-REF,
-@@ -279,6 +280,9 @@ the schema" below for more on this.
- The optional 'features' member specifies features.  See "Features"
- below for more on this.
+diff --git a/tests/qapi-schema/alias-bad-type.err b/tests/qapi-schema/alias-bad-type.err
+new file mode 100644
+index 0000000000..820e18ed9c
+--- /dev/null
++++ b/tests/qapi-schema/alias-bad-type.err
+@@ -0,0 +1,2 @@
++alias-bad-type.json: In struct 'AliasStruct0':
++alias-bad-type.json:1: 'aliases' members must be objects
+diff --git a/tests/qapi-schema/alias-bad-type.json b/tests/qapi-schema/alias-bad-type.json
+new file mode 100644
+index 0000000000..0aa5d206fe
+--- /dev/null
++++ b/tests/qapi-schema/alias-bad-type.json
+@@ -0,0 +1,3 @@
++{ 'struct': 'AliasStruct0',
++  'data': { 'foo': 'int' },
++  'aliases': [ 'must be an object' ] }
+diff --git a/tests/qapi-schema/alias-bad-type.out b/tests/qapi-schema/alias-bad-type.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/alias-missing-source.err b/tests/qapi-schema/alias-missing-source.err
+new file mode 100644
+index 0000000000..8b7d601fbf
+--- /dev/null
++++ b/tests/qapi-schema/alias-missing-source.err
+@@ -0,0 +1,2 @@
++alias-missing-source.json: In struct 'AliasStruct0':
++alias-missing-source.json:1: 'aliases' member misses key 'source'
+diff --git a/tests/qapi-schema/alias-missing-source.json b/tests/qapi-schema/alias-missing-source.json
+new file mode 100644
+index 0000000000..b6c91a9488
+--- /dev/null
++++ b/tests/qapi-schema/alias-missing-source.json
+@@ -0,0 +1,3 @@
++{ 'struct': 'AliasStruct0',
++  'data': { 'foo': 'int' },
++  'aliases': [ { 'name': 'bar' } ] }
+diff --git a/tests/qapi-schema/alias-missing-source.out b/tests/qapi-schema/alias-missing-source.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/alias-name-bad-type.err b/tests/qapi-schema/alias-name-bad-type.err
+new file mode 100644
+index 0000000000..489f45ff9b
+--- /dev/null
++++ b/tests/qapi-schema/alias-name-bad-type.err
+@@ -0,0 +1,2 @@
++alias-name-bad-type.json: In struct 'AliasStruct0':
++alias-name-bad-type.json:1: alias member 'name' requires a string name
+diff --git a/tests/qapi-schema/alias-name-bad-type.json b/tests/qapi-schema/alias-name-bad-type.json
+new file mode 100644
+index 0000000000..17442d5939
+--- /dev/null
++++ b/tests/qapi-schema/alias-name-bad-type.json
+@@ -0,0 +1,3 @@
++{ 'struct': 'AliasStruct0',
++  'data': { 'foo': 'int' },
++  'aliases': [ { 'name': ['bar'], 'source': ['foo'] } ] }
+diff --git a/tests/qapi-schema/alias-name-bad-type.out b/tests/qapi-schema/alias-name-bad-type.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/alias-source-bad-type.err b/tests/qapi-schema/alias-source-bad-type.err
+new file mode 100644
+index 0000000000..b1779cbb8e
+--- /dev/null
++++ b/tests/qapi-schema/alias-source-bad-type.err
+@@ -0,0 +1,2 @@
++alias-source-bad-type.json: In struct 'AliasStruct0':
++alias-source-bad-type.json:1: alias member 'source' must be an array
+diff --git a/tests/qapi-schema/alias-source-bad-type.json b/tests/qapi-schema/alias-source-bad-type.json
+new file mode 100644
+index 0000000000..d6a7430ee3
+--- /dev/null
++++ b/tests/qapi-schema/alias-source-bad-type.json
+@@ -0,0 +1,3 @@
++{ 'struct': 'AliasStruct0',
++  'data': { 'foo': 'int' },
++  'aliases': [ { 'name': 'bar', 'source': 'foo' } ] }
+diff --git a/tests/qapi-schema/alias-source-bad-type.out b/tests/qapi-schema/alias-source-bad-type.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/alias-source-elem-bad-type.err b/tests/qapi-schema/alias-source-elem-bad-type.err
+new file mode 100644
+index 0000000000..f73fbece77
+--- /dev/null
++++ b/tests/qapi-schema/alias-source-elem-bad-type.err
+@@ -0,0 +1,2 @@
++alias-source-elem-bad-type.json: In struct 'AliasStruct0':
++alias-source-elem-bad-type.json:1: member of alias member 'source' requires a string name
+diff --git a/tests/qapi-schema/alias-source-elem-bad-type.json b/tests/qapi-schema/alias-source-elem-bad-type.json
+new file mode 100644
+index 0000000000..1d08f56492
+--- /dev/null
++++ b/tests/qapi-schema/alias-source-elem-bad-type.json
+@@ -0,0 +1,3 @@
++{ 'struct': 'AliasStruct0',
++  'data': { 'foo': 'int' },
++  'aliases': [ { 'name': 'bar', 'source': ['foo', true] } ] }
+diff --git a/tests/qapi-schema/alias-source-elem-bad-type.out b/tests/qapi-schema/alias-source-elem-bad-type.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/alias-source-empty.err b/tests/qapi-schema/alias-source-empty.err
+new file mode 100644
+index 0000000000..2848e762cb
+--- /dev/null
++++ b/tests/qapi-schema/alias-source-empty.err
+@@ -0,0 +1,2 @@
++alias-source-empty.json: In struct 'AliasStruct0':
++alias-source-empty.json:1: alias member 'source' must not be empty
+diff --git a/tests/qapi-schema/alias-source-empty.json b/tests/qapi-schema/alias-source-empty.json
+new file mode 100644
+index 0000000000..74b529de4a
+--- /dev/null
++++ b/tests/qapi-schema/alias-source-empty.json
+@@ -0,0 +1,3 @@
++{ 'struct': 'AliasStruct0',
++  'data': { 'foo': 'int' },
++  'aliases': [ { 'name': 'bar', 'source': [] } ] }
+diff --git a/tests/qapi-schema/alias-source-empty.out b/tests/qapi-schema/alias-source-empty.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/alias-unknown-key.err b/tests/qapi-schema/alias-unknown-key.err
+new file mode 100644
+index 0000000000..c7b8cb9498
+--- /dev/null
++++ b/tests/qapi-schema/alias-unknown-key.err
+@@ -0,0 +1,3 @@
++alias-unknown-key.json: In struct 'AliasStruct0':
++alias-unknown-key.json:1: 'aliases' member has unknown key 'known'
++Valid keys are 'name', 'source'.
+diff --git a/tests/qapi-schema/alias-unknown-key.json b/tests/qapi-schema/alias-unknown-key.json
+new file mode 100644
+index 0000000000..cdb8fc3d07
+--- /dev/null
++++ b/tests/qapi-schema/alias-unknown-key.json
+@@ -0,0 +1,3 @@
++{ 'struct': 'AliasStruct0',
++  'data': { 'foo': 'int' },
++  'aliases': [ { 'name': 'bar', 'source': ['foo'], 'known': false } ] }
+diff --git a/tests/qapi-schema/alias-unknown-key.out b/tests/qapi-schema/alias-unknown-key.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/aliases-bad-type.err b/tests/qapi-schema/aliases-bad-type.err
+new file mode 100644
+index 0000000000..7ffe789ec0
+--- /dev/null
++++ b/tests/qapi-schema/aliases-bad-type.err
+@@ -0,0 +1,2 @@
++aliases-bad-type.json: In struct 'AliasStruct0':
++aliases-bad-type.json:1: 'aliases' must be an array
+diff --git a/tests/qapi-schema/aliases-bad-type.json b/tests/qapi-schema/aliases-bad-type.json
+new file mode 100644
+index 0000000000..4bbf6d6b20
+--- /dev/null
++++ b/tests/qapi-schema/aliases-bad-type.json
+@@ -0,0 +1,3 @@
++{ 'struct': 'AliasStruct0',
++  'data': { 'foo': 'int' },
++  'aliases': 'this must be an array' }
+diff --git a/tests/qapi-schema/aliases-bad-type.out b/tests/qapi-schema/aliases-bad-type.out
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index 304ef939bd..710cd60b61 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -3,6 +3,14 @@ test_env.set('PYTHONPATH', meson.source_root() / 'scripts')
+ test_env.set('PYTHONIOENCODING', 'utf-8')
  
-+The optional 'aliases' member specifies aliases.  See "Aliases" below
-+for more on this.
-+
+ schemas = [
++  'alias-bad-type.json',
++  'aliases-bad-type.json',
++  'alias-missing-source.json',
++  'alias-name-bad-type.json',
++  'alias-source-bad-type.json',
++  'alias-source-elem-bad-type.json',
++  'alias-source-empty.json',
++  'alias-unknown-key.json',
+   'alternate-any.json',
+   'alternate-array.json',
+   'alternate-base.json',
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index 63f92adf68..28cb0d34bf 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -325,3 +325,27 @@
  
- === Union types ===
- 
-@@ -286,13 +290,15 @@ Syntax:
-     UNION = { 'union': STRING,
-               'data': BRANCHES,
-               '*if': COND,
--              '*features': FEATURES }
-+              '*features': FEATURES,
-+              '*aliases': ALIASES }
-           | { 'union': STRING,
-               'data': BRANCHES,
-               'base': ( MEMBERS | STRING ),
-               'discriminator': STRING,
-               '*if': COND,
--              '*features': FEATURES }
-+              '*features': FEATURES,
-+              '*aliases': ALIASES }
-     BRANCHES = { BRANCH, ... }
-     BRANCH = STRING : TYPE-REF
-            | STRING : { 'type': TYPE-REF, '*if': COND }
-@@ -402,6 +408,9 @@ the schema" below for more on this.
- The optional 'features' member specifies features.  See "Features"
- below for more on this.
- 
-+The optional 'aliases' member specifies aliases.  See "Aliases" below
-+for more on this.
+ { 'event': 'TEST-EVENT-FEATURES1',
+   'features': [ 'deprecated' ] }
 +
- 
- === Alternate types ===
- 
-@@ -837,6 +846,96 @@ shows a conditional entity only when the condition is satisfied in
- this particular build.
- 
- 
-+=== Aliases ===
++# test  'aliases'
 +
-+Object types, including structs and unions, can contain alias
-+definitions.
++{ 'struct': 'AliasStruct0',
++  'data': { 'foo': 'int' },
++  'aliases': [] }
++{ 'struct': 'AliasStruct1',
++  'data': { 'foo': 'int' },
++  'aliases': [ { 'name': 'bar', 'source': ['foo'] } ] }
++{ 'struct': 'AliasStruct2',
++  'data': { 'nested': 'AliasStruct1' },
++  'aliases': [ { 'name': 'bar', 'source': ['nested', 'foo'] } ] }
++{ 'struct': 'AliasStruct3',
++  'data': { 'nested': 'AliasStruct1' },
++  'aliases': [ { 'source': ['nested'] } ] }
 +
-+Aliases define alternative member names that may be used in the
-+external representation to provide a value for a member in the same
-+object or in a nested object.
-+
-+Syntax:
-+    ALIASES = [ ALIAS, ... ]
-+    ALIAS = { '*name': STRING,
-+              'source': [ STRING, ... ] }
-+
-+If 'name' is present, then the single member referred to by 'source'
-+is made accessible with the name given in 'name' in the type where the
-+alias definition is specified.
-+
-+If 'name' is not present, then all members in the object referred to
-+by 'source' are made accessible in the type where the alias definition
-+is specified with the same name as they have in 'source'.
-+
-+'source' is a non-empty list of member names representing the path to
-+an object member. The first name is resolved in the same object.  Each
-+subsequent member is resolved in the object named by the preceding
-+member.
-+
-+Example: Alternative name for a member in the same object (the member
-+"path" may be given through its alias "filename" in the external
-+representation):
-+
-+{ 'struct': 'File',
-+  'data': { 'path': 'str' },
-+  'aliases': [ { 'name': 'filename', 'source': ['path'] } ] }
-+
-+Example: Alias for a member in a nested object:
-+
-+{ 'struct': 'A',
-+  'data': { 'zahl': 'int' } }
-+{ 'struct': 'B',
-+  'data': { 'drei': 'A' } }
-+{ 'struct': 'C',
-+  'data': { 'zwei': 'B' } }
-+{ 'struct': 'D',
-+  'data': { 'eins': 'C' },
-+  'aliases': [ { 'name': 'number',
-+                 'source': ['eins', 'zwei', 'drei', 'zahl' ] },
-+               { 'name': 'the_B',
-+                 'source': ['eins','zwei'] } ] }
-+
-+With this definition, each of the following inputs mean the same:
-+
-+* { 'eins': { 'zwei': { 'drei': { 'zahl': 42 } } } }
-+
-+* { 'the_B': { 'drei': { 'zahl': 42 } } }
-+
-+* { 'number': 42 }
-+
-+Example: Flattening a union with a wildcard alias that maps all
-+members of 'data' to the top level:
-+
-+{ 'union': 'SocketAddress',
-+  'data': {
-+    'inet': 'InetSocketAddress',
-+    'unix': 'UnixSocketAddress' },
++{ 'union': 'AliasFlatUnion',
++  'base': { 'tag': 'FeatureEnum1' },
++  'discriminator': 'tag',
++  'data': { 'eins': 'FeatureStruct1' },
++  'aliases': [ { 'name': 'bar', 'source': ['foo'] } ] }
++{ 'union': 'AliasSimpleUnion',
++  'data': { 'eins': 'AliasStruct1' },
 +  'aliases': [ { 'source': ['data'] } ] }
-+
-+Aliases are transitive: 'source' may refer to another alias name.  In
-+this case, the alias is effectively an altenative name for the source
-+of the other alias.
-+
-+Example: Giving "the_answer" on the top level provides a value for
-+"zahl" in the nested object:
-+
-+{ 'struct': 'A',
-+  'data': { 'zahl': 'int' },
-+  'aliases': [ { 'name': 'number', 'source': ['zahl'] } ] }
-+{ 'struct': 'B',
-+  'data': { 'nested': 'A' },
-+  'aliases': [ { 'name': 'the_answer',
-+                 'source': ['nested', 'number'] } ] }
-+
-+In order to accommodate unions where variants differ in structure, it
-+is allowed to use a path that doesn't necessarily match an existing
-+member in every variant or even at all; in this case, the alias
-+remains unused.  Note that the QAPI generator does not check whether
-+there is at least one branch for which an alias could match.  If a
-+source member is misspelt, the alias just won't work.
-+
-+
- === Documentation comments ===
- 
- A multi-line comment that starts and ends with a '##' line is a
-diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-index e03abcbb95..6c94c01148 100644
---- a/docs/sphinx/qapidoc.py
-+++ b/docs/sphinx/qapidoc.py
-@@ -310,7 +310,7 @@ class QAPISchemaGenRSTVisitor(QAPISchemaVisitor):
-                       + self._nodes_for_if_section(ifcond))
- 
-     def visit_object_type(self, name, info, ifcond, features,
--                          base, members, variants):
-+                          base, members, variants, aliases):
-         doc = self._cur_doc
-         if base and base.is_implicit():
-             base = None
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 2fcaaa2497..743e23ec85 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -198,6 +198,34 @@ def check_features(features, info):
-         check_if(f, info, source)
- 
- 
-+def check_aliases(aliases, info):
-+    if aliases is None:
-+        return
-+    if not isinstance(aliases, list):
-+        raise QAPISemError(info, "'aliases' must be an array")
-+    for a in aliases:
-+        if not isinstance(a, dict):
-+            raise QAPISemError(info, "'aliases' members must be objects")
-+        check_keys(a, info, "'aliases' member", ['source'], ['name'])
-+
-+        if 'name' in a:
-+            source = "alias member 'name'"
-+            check_name_is_str(a['name'], info, source)
-+            check_name_str(a['name'], info, source)
-+
-+        if not isinstance(a['source'], list):
-+            raise QAPISemError(info,
-+                "alias member 'source' must be an array")
-+        if not a['source']:
-+            raise QAPISemError(info,
-+                "alias member 'source' must not be empty")
-+
-+        source = "member of alias member 'source'"
-+        for s in a['source']:
-+            check_name_is_str(s, info, source)
-+            check_name_str(s, info, source)
-+
-+
- def check_enum(expr, info):
-     name = expr['enum']
-     members = expr['data']
-@@ -228,6 +256,7 @@ def check_struct(expr, info):
- 
-     check_type(members, info, "'data'", allow_dict=name)
-     check_type(expr.get('base'), info, "'base'")
-+    check_aliases(expr.get('aliases'), info)
- 
- 
- def check_union(expr, info):
-@@ -245,6 +274,8 @@ def check_union(expr, info):
-             raise QAPISemError(info, "'discriminator' requires 'base'")
-         check_name_is_str(discriminator, info, "'discriminator'")
- 
-+    check_aliases(expr.get('aliases'), info)
-+
-     for (key, value) in members.items():
-         source = "'data' member '%s'" % key
-         check_name_str(key, info, source)
-@@ -331,7 +362,7 @@ def check_exprs(exprs):
-         elif meta == 'union':
-             check_keys(expr, info, meta,
-                        ['union', 'data'],
--                       ['base', 'discriminator', 'if', 'features'])
-+                       ['base', 'discriminator', 'if', 'features', 'aliases'])
-             normalize_members(expr.get('base'))
-             normalize_members(expr['data'])
-             check_union(expr, info)
-@@ -342,7 +373,8 @@ def check_exprs(exprs):
-             check_alternate(expr, info)
-         elif meta == 'struct':
-             check_keys(expr, info, meta,
--                       ['struct', 'data'], ['base', 'if', 'features'])
-+                       ['struct', 'data'],
-+                       ['base', 'if', 'features', 'aliases'])
-             normalize_members(expr['data'])
-             check_struct(expr, info)
-         elif meta == 'command':
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 353e8020a2..14a2b0175b 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -118,7 +118,7 @@ class QAPISchemaVisitor:
-         pass
- 
-     def visit_object_type(self, name, info, ifcond, features,
--                          base, members, variants):
-+                          base, members, variants, aliases):
-         pass
- 
-     def visit_object_type_flat(self, name, info, ifcond, features,
-@@ -362,9 +362,19 @@ class QAPISchemaArrayType(QAPISchemaType):
-         return "%s type ['%s']" % (self.meta, self._element_type_name)
- 
- 
-+class QAPISchemaAlias:
-+    def __init__(self, name, source):
-+        assert name is None or isinstance(name, str)
-+        assert source
-+        for member in source:
-+            assert isinstance(member, str)
-+        self.name = name
-+        self.source = source
-+
-+
- class QAPISchemaObjectType(QAPISchemaType):
-     def __init__(self, name, info, doc, ifcond, features,
--                 base, local_members, variants):
-+                 base, local_members, variants, aliases=None):
-         # struct has local_members, optional base, and no variants
-         # flat union has base, variants, and no local_members
-         # simple union has local_members, variants, and no base
-@@ -382,6 +392,7 @@ class QAPISchemaObjectType(QAPISchemaType):
-         self.local_members = local_members
-         self.variants = variants
-         self.members = None
-+        self.aliases = aliases or []
- 
-     def check(self, schema):
-         # This calls another type T's .check() exactly when the C
-@@ -474,7 +485,7 @@ class QAPISchemaObjectType(QAPISchemaType):
-         super().visit(visitor)
-         visitor.visit_object_type(
-             self.name, self.info, self.ifcond, self.features,
--            self.base, self.local_members, self.variants)
-+            self.base, self.local_members, self.variants, self.aliases)
-         visitor.visit_object_type_flat(
-             self.name, self.info, self.ifcond, self.features,
-             self.members, self.variants)
-@@ -964,6 +975,12 @@ class QAPISchema:
-         return [QAPISchemaFeature(f['name'], info, f.get('if'))
-                 for f in features]
- 
-+    def _make_aliases(self, aliases):
-+        if aliases is None:
-+            return []
-+        return [QAPISchemaAlias(a.get('name'), a['source'])
-+                for a in aliases]
-+
-     def _make_enum_members(self, values, info):
-         return [QAPISchemaEnumMember(v['name'], info, v.get('if'))
-                 for v in values]
-@@ -1038,11 +1055,12 @@ class QAPISchema:
-         base = expr.get('base')
-         data = expr['data']
-         ifcond = expr.get('if')
-+        aliases = self._make_aliases(expr.get('aliases'))
-         features = self._make_features(expr.get('features'), info)
-         self._def_entity(QAPISchemaObjectType(
-             name, info, doc, ifcond, features, base,
-             self._make_members(data, info),
--            None))
-+            None, aliases))
- 
-     def _make_variant(self, case, typ, ifcond, info):
-         return QAPISchemaVariant(case, info, typ, ifcond)
-@@ -1061,6 +1079,7 @@ class QAPISchema:
-         data = expr['data']
-         base = expr.get('base')
-         ifcond = expr.get('if')
-+        aliases = self._make_aliases(expr.get('aliases'))
-         features = self._make_features(expr.get('features'), info)
-         tag_name = expr.get('discriminator')
-         tag_member = None
-@@ -1085,7 +1104,8 @@ class QAPISchema:
-             QAPISchemaObjectType(name, info, doc, ifcond, features,
-                                  base, members,
-                                  QAPISchemaVariants(
--                                     tag_name, info, tag_member, variants)))
-+                                     tag_name, info, tag_member, variants),
-+                                 aliases))
- 
-     def _def_alternate_type(self, expr, info, doc):
-         name = expr['alternate']
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 2bdd626847..c8306479f5 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -25,6 +25,7 @@ from .common import (
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import (
-     QAPISchema,
-+    QAPISchemaAlias,
-     QAPISchemaEnumMember,
-     QAPISchemaFeature,
-     QAPISchemaObjectType,
-@@ -332,7 +333,8 @@ class QAPISchemaGenTypeVisitor(QAPISchemaModularCVisitor):
-                           features: List[QAPISchemaFeature],
-                           base: Optional[QAPISchemaObjectType],
-                           members: List[QAPISchemaObjectTypeMember],
--                          variants: Optional[QAPISchemaVariants]) -> None:
-+                          variants: Optional[QAPISchemaVariants],
-+                          aliases: List[QAPISchemaAlias]) -> None:
-         # Nothing to do for the special empty builtin
-         if name == 'q_empty':
-             return
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 22e62df901..e370485f6e 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -26,6 +26,7 @@ from .common import (
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import (
-     QAPISchema,
-+    QAPISchemaAlias,
-     QAPISchemaEnumMember,
-     QAPISchemaEnumType,
-     QAPISchemaFeature,
-@@ -60,7 +61,8 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp);
- def gen_visit_object_members(name: str,
-                              base: Optional[QAPISchemaObjectType],
-                              members: List[QAPISchemaObjectTypeMember],
--                             variants: Optional[QAPISchemaVariants]) -> str:
-+                             variants: Optional[QAPISchemaVariants],
-+                             aliases: List[QAPISchemaAlias]) -> str:
-     ret = mcgen('''
- 
- bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
-@@ -68,6 +70,24 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
- ''',
-                 c_name=c_name(name))
- 
-+    if aliases:
-+        ret += mcgen('''
-+    visit_start_alias_scope(v);
-+''')
-+
-+    for a in aliases:
-+        if a.name:
-+            name = '"%s"' % a.name
-+        else:
-+            name = "NULL"
-+
-+        source = ", ".join('"%s"' % x for x in a.source)
-+
-+        ret += mcgen('''
-+    visit_define_alias(v, %(name)s, (const char * []) { %(source)s, NULL });
-+''',
-+                     name=name, source=source)
-+
-     if base:
-         ret += mcgen('''
-     if (!visit_type_%(c_type)s_members(v, (%(c_type)s *)obj, errp)) {
-@@ -133,6 +153,11 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
-     }
- ''')
- 
-+    if aliases:
-+        ret += mcgen('''
-+    visit_end_alias_scope(v);
-+''')
-+
-     ret += mcgen('''
-     return true;
- }
-@@ -361,14 +386,15 @@ class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
-                           features: List[QAPISchemaFeature],
-                           base: Optional[QAPISchemaObjectType],
-                           members: List[QAPISchemaObjectTypeMember],
--                          variants: Optional[QAPISchemaVariants]) -> None:
-+                          variants: Optional[QAPISchemaVariants],
-+                          aliases: List[QAPISchemaAlias]) -> None:
-         # Nothing to do for the special empty builtin
-         if name == 'q_empty':
-             return
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_members_decl(name))
--            self._genc.add(gen_visit_object_members(name, base,
--                                                    members, variants))
-+            self._genc.add(gen_visit_object_members(
-+                name, base, members, variants, aliases))
-             # TODO Worth changing the visitor signature, so we could
-             # directly use rather than repeat type.is_implicit()?
-             if not name.startswith('q_'):
-diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
-index e8db9d09d9..1679d1b5da 100755
---- a/tests/qapi-schema/test-qapi.py
-+++ b/tests/qapi-schema/test-qapi.py
-@@ -47,7 +47,7 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-         self._print_if(ifcond)
- 
-     def visit_object_type(self, name, info, ifcond, features,
--                          base, members, variants):
-+                          base, members, variants, aliases):
-         print('object %s' % name)
-         if base:
-             print('    base %s' % base.name)
-@@ -56,6 +56,11 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-                   % (m.name, m.type.name, m.optional))
-             self._print_if(m.ifcond, 8)
-             self._print_features(m.features, indent=8)
-+        for a in aliases:
-+            if a.name:
-+                print('    alias %s -> %s' % (a.name, '.'.join(a.source)))
-+            else:
-+                print('    alias * -> %s.*' % '.'.join(a.source))
-         self._print_variants(variants)
-         self._print_if(ifcond)
-         self._print_features(features)
-diff --git a/tests/qapi-schema/double-type.err b/tests/qapi-schema/double-type.err
-index 71fc4dbb52..5d25d7623c 100644
---- a/tests/qapi-schema/double-type.err
-+++ b/tests/qapi-schema/double-type.err
-@@ -1,3 +1,3 @@
- double-type.json: In struct 'bar':
- double-type.json:2: struct has unknown key 'command'
--Valid keys are 'base', 'data', 'features', 'if', 'struct'.
-+Valid keys are 'aliases', 'base', 'data', 'features', 'if', 'struct'.
-diff --git a/tests/qapi-schema/unknown-expr-key.err b/tests/qapi-schema/unknown-expr-key.err
-index c5f395bf79..7429d1ff03 100644
---- a/tests/qapi-schema/unknown-expr-key.err
-+++ b/tests/qapi-schema/unknown-expr-key.err
-@@ -1,3 +1,3 @@
- unknown-expr-key.json: In struct 'bar':
- unknown-expr-key.json:2: struct has unknown keys 'bogus', 'phony'
--Valid keys are 'base', 'data', 'features', 'if', 'struct'.
-+Valid keys are 'aliases', 'base', 'data', 'features', 'if', 'struct'.
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+index 3b1387d9f1..84f11e8702 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -443,6 +443,35 @@ command test-command-cond-features3 None -> None
+ event TEST-EVENT-FEATURES1 None
+     boxed=False
+     feature deprecated
++object AliasStruct0
++    member foo: int optional=False
++object AliasStruct1
++    member foo: int optional=False
++    alias bar -> foo
++object AliasStruct2
++    member nested: AliasStruct1 optional=False
++    alias bar -> nested.foo
++object AliasStruct3
++    member nested: AliasStruct1 optional=False
++    alias * -> nested.*
++object q_obj_AliasFlatUnion-base
++    member tag: FeatureEnum1 optional=False
++object AliasFlatUnion
++    base q_obj_AliasFlatUnion-base
++    alias bar -> foo
++    tag tag
++    case eins: FeatureStruct1
++    case zwei: q_empty
++    case drei: q_empty
++object q_obj_AliasStruct1-wrapper
++    member data: AliasStruct1 optional=False
++enum AliasSimpleUnionKind
++    member eins
++object AliasSimpleUnion
++    member type: AliasSimpleUnionKind optional=False
++    alias * -> data.*
++    tag type
++    case eins: q_obj_AliasStruct1-wrapper
+ module include/sub-module.json
+ include sub-sub-module.json
+ object SecondArrayRef
 -- 
 2.29.2
 
