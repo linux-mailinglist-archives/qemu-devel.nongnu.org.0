@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2965A3190E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:22:28 +0100 (CET)
-Received: from localhost ([::1]:36620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F5E3190E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:22:59 +0100 (CET)
+Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAFfe-0006H7-Vw
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:22:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54082)
+	id 1lAFgA-0007Im-8l
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:22:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lAFcJ-0004QI-0S
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:19:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40543)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lAFcC-0004lM-Pm
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:18:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613063928;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O9xKUyAUH0d0Ei+caa8ta7J/YOQYi2c2xaq3RU442cU=;
- b=USP9Pkg+8B39nyf+12dYOlAAG6a8/KcpK7lx6y9PtffX4u9cYEC06dW9gA453P3w1uoZbS
- 9mdYP4lEiKsVZfjloCEo4BhgyK7Ppa+T1wRC/smr5zz/g+ss1n8qi+OVwYe0Na7CAAHHuT
- v5eJZIsLJ6D0dTNYJezWl2GC3lURR2M=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-vj2nxfGiNF-_WcwqQhOYQA-1; Thu, 11 Feb 2021 12:18:47 -0500
-X-MC-Unique: vj2nxfGiNF-_WcwqQhOYQA-1
-Received: by mail-qt1-f199.google.com with SMTP id e3so2937619qtc.1
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 09:18:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lAFd9-0005To-QO
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:19:51 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:55427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lAFd8-0005B7-3A
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:19:51 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id o15so4456801wmq.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 09:19:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TL6W7d73N3GCIvRIjYMLyXwnB4yeGf0qOX3lyLDdBu4=;
+ b=EhrJgNj+rqe4e0/GVhKmxbOe9lxjJ5L9gjz6PiG8j0QQosmYD466hhVvdnX85G7hwU
+ Z6S/GHysPn7kLK8NIPDdtl891EDpm9PBagn2RJYeua6mDmOCslp75bzwJnr6pFkIvQos
+ UjAEUORUnOfUG6SX/aSEY5DRGnmXchX5AJ2gB/vvXHr0hxjKrVKoti7/Q2wDrKu/727f
+ +Hpsy8L9K7OaAaQiLMglrF15jw+craZ4ZnAIzVJ30rZTxvCerYpw/crrxiuuYAt6z6Mq
+ ZcJcp1ub2AFd0shcMC+tcqOJWPRAxc+aFSejPyy2kb9SmauIIOY8CzdQK6ZDCG9hk3UO
+ JmDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=O9xKUyAUH0d0Ei+caa8ta7J/YOQYi2c2xaq3RU442cU=;
- b=Q4YC2McgxV10mpJ7LUDVJXrg9AGy7yBo11JejWo/H0YIyBdfarNEfIYqZEL20EnRah
- sh9hqYN5EZrDXcY4ZaqG0HZuy1eNkhmGwLzRiTJc5wkuTC/CkvhYhIbYKuK7wtmnNf+d
- 8827R3Dw7q6HDgRE8bls0IdG0crJTvd+wNyDWc1ZXHBRkH+jWd4XDEq4qlKT6aS6H2sC
- Was5lbCGq8a/ul/3rJ1Jh5p389AXozqo/JH3Hf5XAnMXd3BFoImez+Jsi2NlFpb+6kux
- rqfeEO+Ni1pA4qCH5v1K+gFSjELyPjo6YvhqVnBjbS4ix4peFNwsN6As6j+hmJ4DEqBh
- MR9A==
-X-Gm-Message-State: AOAM53263lw/M+f64beYWGAtq3KGDLCwQRDXGzvFuZNncZK/4S1gczkx
- X62jUd6T1xiPIbScZRJPl6gwSXnhREhVbMBYQpOyL/UGjr/SuCcnrVDWNwrRsZ0Fqa6QWvm4vQh
- rgqbxlw1urNtZqKE=
-X-Received: by 2002:a37:6116:: with SMTP id v22mr6999963qkb.38.1613063926641; 
- Thu, 11 Feb 2021 09:18:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzmM51+6HhLYepjN513o66LM1cNZvo7fPJFHA5eYpEecbDhDuvZoSA4NS0keRZz26WcFn2hVw==
-X-Received: by 2002:a37:6116:: with SMTP id v22mr6999932qkb.38.1613063926356; 
- Thu, 11 Feb 2021 09:18:46 -0800 (PST)
-Received: from xz-x1
- (bras-vprn-toroon474qw-lp130-20-174-93-89-182.dsl.bell.ca. [174.93.89.182])
- by smtp.gmail.com with ESMTPSA id s14sm3882749qtq.97.2021.02.11.09.18.44
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TL6W7d73N3GCIvRIjYMLyXwnB4yeGf0qOX3lyLDdBu4=;
+ b=pYoa2wdQbOkL8w5uhUlJ+Sm++oE160PIOStW6lgyIGGweE24wO0XfTKSzpW0nAV7d5
+ CFxu2STjCU9H8gPLVLgAOHcZCuKRA7AfmqOlkBTJwAkYZBAn0nPQBCyimCJ4WMc5T0cH
+ fFB8uDYDwy1XkuteIYrg5ZWzJAYjfxBQkV95LMfzZfYSgHsuzNH/Hm8btFyLf/V2U2i5
+ cG/RtGAqRF+cEiZKgBl8t3nEe2HoUoljWSknkK2xPqxq/sxi7AxbkFfOQr6QCsv9mHST
+ EaUhYvfWBzGQmZe6erlHuTKO8E0GiwIfh2nZYPPQ4LbQagxdM5lOvXvODkn7Xtk+Sz9/
+ wlEg==
+X-Gm-Message-State: AOAM532/EfkdRLw5FlX/77Hh9jYlEbQsKFu32t5DBRWpl6DNzh5Ulfhz
+ /GRfFq86TmdP3yJ7WGGarCN2Qw==
+X-Google-Smtp-Source: ABdhPJwfc92IAQZFHyt9zLftcVjQAQ6qq5klu9mtEeWvx9NXaKZ4BhyBwZ597NnKMkWsjqRkB3sJaw==
+X-Received: by 2002:a05:600c:41d6:: with SMTP id
+ t22mr6094059wmh.74.1613063988088; 
+ Thu, 11 Feb 2021 09:19:48 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z5sm116078wrn.15.2021.02.11.09.19.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 09:18:45 -0800 (PST)
-Date: Thu, 11 Feb 2021 12:18:44 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-Message-ID: <20210211171844.GB157159@xz-x1>
-References: <20210121152458.193248-1-andrey.gruzdev@virtuozzo.com>
- <a88cb0b2-86a1-04b4-3ed1-d032850040df@redhat.com>
- <5d01402e-273a-53cf-b78b-b4b7f50340bc@virtuozzo.com>
- <0e155a86-6cae-8ce4-676c-a06ee87b6f43@redhat.com>
- <20210209200928.GB103365@xz-x1> <20210209203143.GC103365@xz-x1>
- <fa670b07-58c3-f0cc-c358-82c4cbc4deac@virtuozzo.com>
+ Thu, 11 Feb 2021 09:19:46 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0EE761FF7E;
+ Thu, 11 Feb 2021 17:19:46 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v2 0/7] Xen guest loader (to boot Xen+Kernel under TCG)
+Date: Thu, 11 Feb 2021 17:19:38 +0000
+Message-Id: <20210211171945.18313-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <fa670b07-58c3-f0cc-c358-82c4cbc4deac@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,122 +85,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Den Lunev <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: julien@xen.org, andre.przywara@arm.com, stefano.stabellini@linaro.org,
+ xen-devel@lists.xenproject.org, stefano.stabellini@xilinx.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 12:21:51PM +0300, Andrey Gruzdev wrote:
-> On 09.02.2021 23:31, Peter Xu wrote:
-> > On Tue, Feb 09, 2021 at 03:09:28PM -0500, Peter Xu wrote:
-> > > Hi, David, Andrey,
-> > > 
-> > > On Tue, Feb 09, 2021 at 08:06:58PM +0100, David Hildenbrand wrote:
-> > > > > > Hi,
-> > > > > > 
-> > > > > > just stumbled over this, quick question:
-> > > > > > 
-> > > > > > I recently played with UFFD_WP and notices that write protection is
-> > > > > > only effective on pages/ranges that have already pages populated (IOW:
-> > > > > > !pte_none() in the kernel).
-> > > > > > 
-> > > > > > In case memory was never populated (or was discarded using e.g.,
-> > > > > > madvice(DONTNEED)), write-protection will be skipped silently and you
-> > > > > > won't get WP events for applicable pages.
-> > > > > > 
-> > > > > > So if someone writes to a yet unpoupulated page ("zero"), you won't
-> > > > > > get WP events.
-> > > > > > 
-> > > > > > I can spot that you do a single uffd_change_protection() on the whole
-> > > > > > RAMBlock.
-> > > > > > 
-> > > > > > How are you handling that scenario, or why don't you have to handle
-> > > > > > that scenario?
-> > > Good catch..  Indeed I overlooked that as well when reviewing the code.
-> > > 
-> > > > > Hi David,
-> > > > > 
-> > > > > I really wonder if such a problem exists.. If we are talking about a
-> > > > I immediately ran into this issue with my simplest test cases. :)
-> > > > 
-> > > > > write to an unpopulated page, we should get first page fault on
-> > > > > non-present page and populate it with protection bits from respective vma.
-> > > > > For UFFD_WP vma's  page will be populated non-writable. So we'll get
-> > > > > another page fault on present but read-only page and go to handle_userfault.
-> > > The problem is even if the page is read-only, it does not yet have the uffd-wp
-> > > bit set, so it won't really trigger the handle_userfault() path.
-> > > 
-> > > > You might have to register also for MISSING faults and place zero pages.
-> > > So I think what's missing for live snapshot is indeed to register with both
-> > > missing & wp mode.
-> > > 
-> > > Then we'll receive two messages: For wp, we do like before.  For missing, we do
-> > > UFFDIO_ZEROCOPY and at the same time dump this page as a zero page.
-> > > 
-> > > I bet live snapshot didn't encounter this issue simply because normal live
-> > > snapshots would still work, especially when there's the guest OS. Say, the
-> > > worst case is we could have migrated some zero pages with some random data
-> > > filled in along with the snapshot, however all these pages were zero pages and
-> > > not used by the guest OS after all, then when we load a snapshot we won't
-> > > easily notice either..
-> > I'm thinking some way to verify this from live snapshot pov, and I've got an
-> > idea so I just share it out...  Maybe we need a guest application that does
-> > something like below:
-> > 
-> >    - mmap() a huge lot of memory
-> > 
-> >    - call mlockall(), so that pages will be provisioned in the guest but without
-> >      data written.  IIUC on the host these pages should be backed by missing
-> >      pages as long as guest app doesn't write.  Then...
-> > 
-> >    - the app starts to read input from user:
-> > 
-> >      - If user inputs "dirty" and enter: it'll start to dirty the whole range.
-> >        Write non-zero to the 1st byte of each page would suffice.
-> > 
-> >      - If user inputs "check" and enter: it'll read the whole memory chunk to
-> >        see whether all the pages are zero pages.  If it reads any non-zero page,
-> >        it should bail out and print error.
-> > 
-> > With the help of above program, we can do below to verify the live snapshot
-> > worked as expected on zero pages:
-> > 
-> >    - Guest: start above program, don't input yet (so waiting to read either
-> >      "dirty" or "check" command)
-> > 
-> >    - Host: start live snapshot
-> > 
-> >    - Guest: input "dirty" command, so start quickly dirtying the ram
-> > 
-> >    - Host: live snapshot completes
-> > 
-> > Then to verify the snapshot image, we do:
-> > 
-> >    - Host: load the snapshot we've got
-> > 
-> >    - Guest: (should still be in the state of waiting for cmd) this time we enter
-> >      "check"
-> > 
-> > Thanks,
-> > 
-> Hi David, Peter,
-> 
-> A little unexpected behavior, from my point of view, for UFFD write-protection.
-> So, that means that UFFD_WP protection/events works only for locked memory?
-> I'm now looking at kernel implementation, to understand..
+Hi,
 
-Not really; it definitely works for all memories that we've touched.  My
-previous exmaple wanted to let the guest app use a not-yet-allocated page.  I
-figured mlockall() might achieve that, hence I proposed such an example
-assuming that may verify the zero page issue on live snapshot.  So if my
-understanding is correct, if we run above scenario, current live snapshot might
-fail that app when we do the "check" command at last, by finding non-zero pages.
+These patches have been sitting around as part of a larger series to
+improve the support of Xen on AArch64. The second part of the work is
+currently awaiting other re-factoring and build work to go in to make
+the building of a pure-Xen capable QEMU easier. As that might take
+some time and these patches are essentially ready I thought I'd best
+push for merging them.
 
-Thanks,
+There are no fundamental changes since the last revision. I've
+addressed most of the comments although I haven't expanded the use of
+the global *fdt to other device models. I figured that work could be
+done as and when models have support for type-1 hypervisors.
+
+I have added some documentation to describe the feature and added an
+acceptance tests which checks the various versions of Xen can boot.
+The only minor wrinkle is using a custom compiled Linux kernel due to
+missing support in the distro kernels. If anyone can suggest a distro
+which is currently well supported for Xen on AArch64 I can update the
+test.
+
+The following patches still need review:
+
+ - tests/avocado: add boot_xen tests
+ - docs: add some documentation for the guest-loader
+ - docs: move generic-loader documentation into the main manual
+ - hw/core: implement a guest-loader to support static hypervisor guests
+
+Alex Bennée (7):
+  hw/board: promote fdt from ARM VirtMachineState to MachineState
+  hw/riscv: migrate fdt field to generic MachineState
+  device_tree: add qemu_fdt_setprop_string_array helper
+  hw/core: implement a guest-loader to support static hypervisor guests
+  docs: move generic-loader documentation into the main manual
+  docs: add some documentation for the guest-loader
+  tests/avocado: add boot_xen tests
+
+ docs/generic-loader.txt        |  92 ---------
+ docs/system/generic-loader.rst | 117 +++++++++++
+ docs/system/guest-loader.rst   |  54 +++++
+ docs/system/index.rst          |   2 +
+ hw/core/guest-loader.h         |  34 ++++
+ include/hw/arm/virt.h          |   1 -
+ include/hw/boards.h            |   1 +
+ include/hw/riscv/virt.h        |   1 -
+ include/sysemu/device_tree.h   |  17 ++
+ hw/arm/virt.c                  | 356 +++++++++++++++++----------------
+ hw/core/guest-loader.c         | 145 ++++++++++++++
+ hw/riscv/virt.c                |  20 +-
+ softmmu/device_tree.c          |  26 +++
+ MAINTAINERS                    |   9 +-
+ hw/core/meson.build            |   2 +
+ tests/acceptance/boot_xen.py   | 117 +++++++++++
+ 16 files changed, 718 insertions(+), 276 deletions(-)
+ delete mode 100644 docs/generic-loader.txt
+ create mode 100644 docs/system/generic-loader.rst
+ create mode 100644 docs/system/guest-loader.rst
+ create mode 100644 hw/core/guest-loader.h
+ create mode 100644 hw/core/guest-loader.c
+ create mode 100644 tests/acceptance/boot_xen.py
 
 -- 
-Peter Xu
+2.20.1
 
 
