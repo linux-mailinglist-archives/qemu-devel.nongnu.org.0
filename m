@@ -2,48 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0D33187FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:21:05 +0100 (CET)
-Received: from localhost ([::1]:48852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F313187D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:12:01 +0100 (CET)
+Received: from localhost ([::1]:33768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA95s-00083C-TU
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:21:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54880)
+	id 1lA8x6-0001P0-OK
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:12:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lA8t9-0006uy-2Q
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:07:56 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lA8t1-0003nD-3O
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:07:53 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 289C4ADE3;
- Thu, 11 Feb 2021 10:07:44 +0000 (UTC)
-Subject: Re: [RFC v17 10/14] i386: split tcg btp_helper into softmmu and user
- parts
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210210152859.25920-1-cfontana@suse.de>
- <20210210152859.25920-11-cfontana@suse.de> <87blcrx4t3.fsf@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <bffb363e-6141-9969-0c4b-f3ea31d09a28@suse.de>
-Date: Thu, 11 Feb 2021 11:07:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lA8uI-0007ke-1R
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:09:06 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:43206)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lA8uG-0004EC-Bl
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:09:05 -0500
+Received: by mail-ej1-x636.google.com with SMTP id y9so9102241ejp.10
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 02:09:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=oAv7Yr5DG5KFxleejYUuHMP8YqdV5+5CCnYY+rZo42o=;
+ b=p8Uad3ZxvcOZfPCOI4Wu46WMwbQisae3kSmG32I8/WWNxe0rcJVwKYr+X2jH5pzdM3
+ ynDBrBpRoFGBThKehL1Ve2JnnqtKI4m41K6D0rTSM4hycWQeWcdjyroDTGj9TGH/oPN7
+ 8P0naXTf0EWCi7m4WE3f0Py2h3VsTLj45+aVNeAab2DjSw73bV0AfLYpIb6bZ8EQNAfc
+ hgiug5lqwjG192diJL/uvmoOHYU4ZVzrBCACv2hETcZGd3+lvc//IWS42KjegNkVJaIh
+ IKkTpv7WsoOH/DBMZPF+RBJewylX4M8UgjKNscij17bcBu25w3OlOYOxvYbxOEaoUaKI
+ +//A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=oAv7Yr5DG5KFxleejYUuHMP8YqdV5+5CCnYY+rZo42o=;
+ b=D/4K8ESePMWwb91ghVX8llgqjDAoax3Pe9wlKue3daQBxuuCI1Vw+tZEqaOhqL9f0A
+ mPYLc2IG8/RwKzk66w1AcwDqqu3ybncfD6IYHEAcV5hnbS+sHhfi5xy1jAOkV4W5RA8v
+ Q1/cku/af3tpw6QE+qkQhGi8TAxLuDsse7UgXZoNa0z1gb2iBvmSw9srk9kf3ya6ajHL
+ K6/Tn2qd9SxhIzLRa54+Z3wvNwduGE4+CAK4sy1ICTXR5d1RYGwJgi9LZmYl5AQ1TAX2
+ 0sJhwt8jQ9zaqmvCULfdDaMuj33iSZnEweptCJDltZ/EgoByCqNnI4+xVAiw26vVotb5
+ f6hQ==
+X-Gm-Message-State: AOAM533ZV84SuHNfeU1uhHH26xna7glZRHhv+pEuir6vQtonYSxTBBhr
+ oo5TYpilLiJYp4LoMh7SfRq7ul+pPVB9OIstNfY=
+X-Google-Smtp-Source: ABdhPJxjnb9rnY5uPpFGSPXCOm/f2AsyNDBbe0z78JQiFJBGAUmbgeUqTK6qNefkTzXk+/+qnd0FA4a1jYlVKhe/Q3w=
+X-Received: by 2002:a17:906:1be9:: with SMTP id
+ t9mr7570995ejg.527.1613038141244; 
+ Thu, 11 Feb 2021 02:09:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87blcrx4t3.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.211,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <20210203172357.1422425-18-crosa@redhat.com>
+In-Reply-To: <20210203172357.1422425-18-crosa@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 11 Feb 2021 14:08:49 +0400
+Message-ID: <CAJ+F1C+dUWrcyyN8NsfxROqGELeDH6XdpAvtV8oJsBz+QV-C+g@mail.gmail.com>
+Subject: Re: [PATCH 17/22] Acceptance Tests: fix population of public key in
+ cloudinit image
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,732 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/21 5:28 PM, Alex Bennée wrote:
-> 
-> Claudio Fontana <cfontana@suse.de> writes:
-> 
-> s/btp/bpt/ in subject line...
-> 
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>  target/i386/tcg/helper-tcg.h                 |   3 +
->>  target/i386/tcg/bpt_helper.c                 | 275 -----------------
->>  target/i386/tcg/softmmu/bpt_helper_softmmu.c | 293 +++++++++++++++++++
->>  target/i386/tcg/user/bpt_helper_user.c       |  33 +++
-> 
-> So I'm not sure about totally mirroring the file names in softmmu/user
-> subdirs. I can see it makes sense in some cases where there are genuine
-> functional differences between the two. However for everything that
-> exists only for one mode we might as well throw the stubs into one file.
-> Maybe target/tcg/user/stubs.c in this case?
+On Wed, Feb 3, 2021 at 9:40 PM Cleber Rosa <crosa@redhat.com> wrote:
+>
+> Currently the path of the ssh public key is being set, but its
+> content is obviously what's needed.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
+/avocado_qemu/__init__.py
+> index 472088ae7d..8156224625 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -337,13 +337,15 @@ class LinuxTest(Test, LinuxSSHMixIn):
+>          try:
+>              cloudinit_iso =3D os.path.join(self.workdir, 'cloudinit.iso'=
+)
+>              self.phone_home_port =3D network.find_free_port()
+> +            with open(ssh_pubkey) as pubkey:
+> +                pubkey_content =3D pubkey.read()
+>              cloudinit.iso(cloudinit_iso, self.name,
+>                            username=3D'root',
+>                            password=3D'password',
+>                            # QEMU's hard coded usermode router address
+>                            phone_home_host=3D'10.0.2.2',
+>                            phone_home_port=3Dself.phone_home_port,
+> -                          authorized_key=3Dssh_pubkey)
+> +                          authorized_key=3Dpubkey_content)
+>          except Exception:
+>              self.cancel('Failed to prepare the cloudinit image')
+>          return cloudinit_iso
+> --
+> 2.25.4
+>
+>
 
 
-Hi Alex, I think you are right, repeating the _softmmu , _user seems too much.
-
-On similar things in the past Paolo mentioned that he favours simpler naming.
-
-In this case I could do for example:
-
-target/i386/tcg/seg_helper.c          - seg helper common parts
-target/i386/tcg/softmmu/seg_helper.c  - seg helper softmmu-only code
-target/i386/tcg/user/seg_helper.c     - seg helper user-only code
-
-For the parts that are just stubs really (like here bpt for user), I would like to see if I can remove them completely if possible..
-
-Overall though, I am wondering whether this kind of change (extended more to the rest of the target/ code) is an interesting approach,
-or does it make harder to work with the *_helper code, as people have to chase down more files?
-
-
-Thank you!
-
-Claudio
-
-
-
-> 
->>  target/i386/tcg/softmmu/meson.build          |   1 +
->>  target/i386/tcg/user/meson.build             |   1 +
->>  6 files changed, 331 insertions(+), 275 deletions(-)
->>  create mode 100644 target/i386/tcg/softmmu/bpt_helper_softmmu.c
->>  create mode 100644 target/i386/tcg/user/bpt_helper_user.c
->>
->> diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
->> index c133c63555..b420b3356d 100644
->> --- a/target/i386/tcg/helper-tcg.h
->> +++ b/target/i386/tcg/helper-tcg.h
->> @@ -92,4 +92,7 @@ void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw);
->>  /* smm_helper.c */
->>  void do_smm_enter(X86CPU *cpu);
->>  
->> +/* bpt_helper.c */
->> +bool check_hw_breakpoints(CPUX86State *env, bool force_dr6_update);
->> +
->>  #endif /* I386_HELPER_TCG_H */
->> diff --git a/target/i386/tcg/bpt_helper.c b/target/i386/tcg/bpt_helper.c
->> index 979230ac12..2433991f07 100644
->> --- a/target/i386/tcg/bpt_helper.c
->> +++ b/target/i386/tcg/bpt_helper.c
->> @@ -23,219 +23,6 @@
->>  #include "exec/helper-proto.h"
->>  #include "helper-tcg.h"
->>  
->> -
->> -#ifndef CONFIG_USER_ONLY
->> -static inline bool hw_local_breakpoint_enabled(unsigned long dr7, int index)
->> -{
->> -    return (dr7 >> (index * 2)) & 1;
->> -}
->> -
->> -static inline bool hw_global_breakpoint_enabled(unsigned long dr7, int index)
->> -{
->> -    return (dr7 >> (index * 2)) & 2;
->> -
->> -}
->> -static inline bool hw_breakpoint_enabled(unsigned long dr7, int index)
->> -{
->> -    return hw_global_breakpoint_enabled(dr7, index) ||
->> -           hw_local_breakpoint_enabled(dr7, index);
->> -}
->> -
->> -static inline int hw_breakpoint_type(unsigned long dr7, int index)
->> -{
->> -    return (dr7 >> (DR7_TYPE_SHIFT + (index * 4))) & 3;
->> -}
->> -
->> -static inline int hw_breakpoint_len(unsigned long dr7, int index)
->> -{
->> -    int len = ((dr7 >> (DR7_LEN_SHIFT + (index * 4))) & 3);
->> -    return (len == 2) ? 8 : len + 1;
->> -}
->> -
->> -static int hw_breakpoint_insert(CPUX86State *env, int index)
->> -{
->> -    CPUState *cs = env_cpu(env);
->> -    target_ulong dr7 = env->dr[7];
->> -    target_ulong drN = env->dr[index];
->> -    int err = 0;
->> -
->> -    switch (hw_breakpoint_type(dr7, index)) {
->> -    case DR7_TYPE_BP_INST:
->> -        if (hw_breakpoint_enabled(dr7, index)) {
->> -            err = cpu_breakpoint_insert(cs, drN, BP_CPU,
->> -                                        &env->cpu_breakpoint[index]);
->> -        }
->> -        break;
->> -
->> -    case DR7_TYPE_IO_RW:
->> -        /* Notice when we should enable calls to bpt_io.  */
->> -        return hw_breakpoint_enabled(env->dr[7], index)
->> -               ? HF_IOBPT_MASK : 0;
->> -
->> -    case DR7_TYPE_DATA_WR:
->> -        if (hw_breakpoint_enabled(dr7, index)) {
->> -            err = cpu_watchpoint_insert(cs, drN,
->> -                                        hw_breakpoint_len(dr7, index),
->> -                                        BP_CPU | BP_MEM_WRITE,
->> -                                        &env->cpu_watchpoint[index]);
->> -        }
->> -        break;
->> -
->> -    case DR7_TYPE_DATA_RW:
->> -        if (hw_breakpoint_enabled(dr7, index)) {
->> -            err = cpu_watchpoint_insert(cs, drN,
->> -                                        hw_breakpoint_len(dr7, index),
->> -                                        BP_CPU | BP_MEM_ACCESS,
->> -                                        &env->cpu_watchpoint[index]);
->> -        }
->> -        break;
->> -    }
->> -    if (err) {
->> -        env->cpu_breakpoint[index] = NULL;
->> -    }
->> -    return 0;
->> -}
->> -
->> -static void hw_breakpoint_remove(CPUX86State *env, int index)
->> -{
->> -    CPUState *cs = env_cpu(env);
->> -
->> -    switch (hw_breakpoint_type(env->dr[7], index)) {
->> -    case DR7_TYPE_BP_INST:
->> -        if (env->cpu_breakpoint[index]) {
->> -            cpu_breakpoint_remove_by_ref(cs, env->cpu_breakpoint[index]);
->> -            env->cpu_breakpoint[index] = NULL;
->> -        }
->> -        break;
->> -
->> -    case DR7_TYPE_DATA_WR:
->> -    case DR7_TYPE_DATA_RW:
->> -        if (env->cpu_breakpoint[index]) {
->> -            cpu_watchpoint_remove_by_ref(cs, env->cpu_watchpoint[index]);
->> -            env->cpu_breakpoint[index] = NULL;
->> -        }
->> -        break;
->> -
->> -    case DR7_TYPE_IO_RW:
->> -        /* HF_IOBPT_MASK cleared elsewhere.  */
->> -        break;
->> -    }
->> -}
->> -
->> -void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7)
->> -{
->> -    target_ulong old_dr7 = env->dr[7];
->> -    int iobpt = 0;
->> -    int i;
->> -
->> -    new_dr7 |= DR7_FIXED_1;
->> -
->> -    /* If nothing is changing except the global/local enable bits,
->> -       then we can make the change more efficient.  */
->> -    if (((old_dr7 ^ new_dr7) & ~0xff) == 0) {
->> -        /* Fold the global and local enable bits together into the
->> -           global fields, then xor to show which registers have
->> -           changed collective enable state.  */
->> -        int mod = ((old_dr7 | old_dr7 * 2) ^ (new_dr7 | new_dr7 * 2)) & 0xff;
->> -
->> -        for (i = 0; i < DR7_MAX_BP; i++) {
->> -            if ((mod & (2 << i * 2)) && !hw_breakpoint_enabled(new_dr7, i)) {
->> -                hw_breakpoint_remove(env, i);
->> -            }
->> -        }
->> -        env->dr[7] = new_dr7;
->> -        for (i = 0; i < DR7_MAX_BP; i++) {
->> -            if (mod & (2 << i * 2) && hw_breakpoint_enabled(new_dr7, i)) {
->> -                iobpt |= hw_breakpoint_insert(env, i);
->> -            } else if (hw_breakpoint_type(new_dr7, i) == DR7_TYPE_IO_RW
->> -                       && hw_breakpoint_enabled(new_dr7, i)) {
->> -                iobpt |= HF_IOBPT_MASK;
->> -            }
->> -        }
->> -    } else {
->> -        for (i = 0; i < DR7_MAX_BP; i++) {
->> -            hw_breakpoint_remove(env, i);
->> -        }
->> -        env->dr[7] = new_dr7;
->> -        for (i = 0; i < DR7_MAX_BP; i++) {
->> -            iobpt |= hw_breakpoint_insert(env, i);
->> -        }
->> -    }
->> -
->> -    env->hflags = (env->hflags & ~HF_IOBPT_MASK) | iobpt;
->> -}
->> -
->> -static bool check_hw_breakpoints(CPUX86State *env, bool force_dr6_update)
->> -{
->> -    target_ulong dr6;
->> -    int reg;
->> -    bool hit_enabled = false;
->> -
->> -    dr6 = env->dr[6] & ~0xf;
->> -    for (reg = 0; reg < DR7_MAX_BP; reg++) {
->> -        bool bp_match = false;
->> -        bool wp_match = false;
->> -
->> -        switch (hw_breakpoint_type(env->dr[7], reg)) {
->> -        case DR7_TYPE_BP_INST:
->> -            if (env->dr[reg] == env->eip) {
->> -                bp_match = true;
->> -            }
->> -            break;
->> -        case DR7_TYPE_DATA_WR:
->> -        case DR7_TYPE_DATA_RW:
->> -            if (env->cpu_watchpoint[reg] &&
->> -                env->cpu_watchpoint[reg]->flags & BP_WATCHPOINT_HIT) {
->> -                wp_match = true;
->> -            }
->> -            break;
->> -        case DR7_TYPE_IO_RW:
->> -            break;
->> -        }
->> -        if (bp_match || wp_match) {
->> -            dr6 |= 1 << reg;
->> -            if (hw_breakpoint_enabled(env->dr[7], reg)) {
->> -                hit_enabled = true;
->> -            }
->> -        }
->> -    }
->> -
->> -    if (hit_enabled || force_dr6_update) {
->> -        env->dr[6] = dr6;
->> -    }
->> -
->> -    return hit_enabled;
->> -}
->> -
->> -void breakpoint_handler(CPUState *cs)
->> -{
->> -    X86CPU *cpu = X86_CPU(cs);
->> -    CPUX86State *env = &cpu->env;
->> -    CPUBreakpoint *bp;
->> -
->> -    if (cs->watchpoint_hit) {
->> -        if (cs->watchpoint_hit->flags & BP_CPU) {
->> -            cs->watchpoint_hit = NULL;
->> -            if (check_hw_breakpoints(env, false)) {
->> -                raise_exception(env, EXCP01_DB);
->> -            } else {
->> -                cpu_loop_exit_noexc(cs);
->> -            }
->> -        }
->> -    } else {
->> -        QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
->> -            if (bp->pc == env->eip) {
->> -                if (bp->flags & BP_CPU) {
->> -                    check_hw_breakpoints(env, true);
->> -                    raise_exception(env, EXCP01_DB);
->> -                }
->> -                break;
->> -            }
->> -        }
->> -    }
->> -}
->> -#endif
->> -
->>  void helper_single_step(CPUX86State *env)
->>  {
->>  #ifndef CONFIG_USER_ONLY
->> @@ -252,41 +39,6 @@ void helper_rechecking_single_step(CPUX86State *env)
->>      }
->>  }
->>  
->> -void helper_set_dr(CPUX86State *env, int reg, target_ulong t0)
->> -{
->> -#ifndef CONFIG_USER_ONLY
->> -    switch (reg) {
->> -    case 0: case 1: case 2: case 3:
->> -        if (hw_breakpoint_enabled(env->dr[7], reg)
->> -            && hw_breakpoint_type(env->dr[7], reg) != DR7_TYPE_IO_RW) {
->> -            hw_breakpoint_remove(env, reg);
->> -            env->dr[reg] = t0;
->> -            hw_breakpoint_insert(env, reg);
->> -        } else {
->> -            env->dr[reg] = t0;
->> -        }
->> -        return;
->> -    case 4:
->> -        if (env->cr[4] & CR4_DE_MASK) {
->> -            break;
->> -        }
->> -        /* fallthru */
->> -    case 6:
->> -        env->dr[6] = t0 | DR6_FIXED_1;
->> -        return;
->> -    case 5:
->> -        if (env->cr[4] & CR4_DE_MASK) {
->> -            break;
->> -        }
->> -        /* fallthru */
->> -    case 7:
->> -        cpu_x86_update_dr7(env, t0);
->> -        return;
->> -    }
->> -    raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
->> -#endif
->> -}
->> -
->>  target_ulong helper_get_dr(CPUX86State *env, int reg)
->>  {
->>      switch (reg) {
->> @@ -307,30 +59,3 @@ target_ulong helper_get_dr(CPUX86State *env, int reg)
->>      }
->>      raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
->>  }
->> -
->> -/* Check if Port I/O is trapped by a breakpoint.  */
->> -void helper_bpt_io(CPUX86State *env, uint32_t port,
->> -                   uint32_t size, target_ulong next_eip)
->> -{
->> -#ifndef CONFIG_USER_ONLY
->> -    target_ulong dr7 = env->dr[7];
->> -    int i, hit = 0;
->> -
->> -    for (i = 0; i < DR7_MAX_BP; ++i) {
->> -        if (hw_breakpoint_type(dr7, i) == DR7_TYPE_IO_RW
->> -            && hw_breakpoint_enabled(dr7, i)) {
->> -            int bpt_len = hw_breakpoint_len(dr7, i);
->> -            if (port + size - 1 >= env->dr[i]
->> -                && port <= env->dr[i] + bpt_len - 1) {
->> -                hit |= 1 << i;
->> -            }
->> -        }
->> -    }
->> -
->> -    if (hit) {
->> -        env->dr[6] = (env->dr[6] & ~0xf) | hit;
->> -        env->eip = next_eip;
->> -        raise_exception(env, EXCP01_DB);
->> -    }
->> -#endif
->> -}
->> diff --git a/target/i386/tcg/softmmu/bpt_helper_softmmu.c b/target/i386/tcg/softmmu/bpt_helper_softmmu.c
->> new file mode 100644
->> index 0000000000..1f3dd09cad
->> --- /dev/null
->> +++ b/target/i386/tcg/softmmu/bpt_helper_softmmu.c
->> @@ -0,0 +1,293 @@
->> +/*
->> + *  i386 breakpoint helpers - softmmu-only code
->> + *
->> + *  Copyright (c) 2003 Fabrice Bellard
->> + *
->> + * This library is free software; you can redistribute it and/or
->> + * modify it under the terms of the GNU Lesser General Public
->> + * License as published by the Free Software Foundation; either
->> + * version 2.1 of the License, or (at your option) any later version.
->> + *
->> + * This library is distributed in the hope that it will be useful,
->> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->> + * Lesser General Public License for more details.
->> + *
->> + * You should have received a copy of the GNU Lesser General Public
->> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "cpu.h"
->> +#include "exec/exec-all.h"
->> +#include "exec/helper-proto.h"
->> +#include "tcg/helper-tcg.h"
->> +
->> +
->> +static inline bool hw_local_breakpoint_enabled(unsigned long dr7, int index)
->> +{
->> +    return (dr7 >> (index * 2)) & 1;
->> +}
->> +
->> +static inline bool hw_global_breakpoint_enabled(unsigned long dr7, int index)
->> +{
->> +    return (dr7 >> (index * 2)) & 2;
->> +
->> +}
->> +static inline bool hw_breakpoint_enabled(unsigned long dr7, int index)
->> +{
->> +    return hw_global_breakpoint_enabled(dr7, index) ||
->> +           hw_local_breakpoint_enabled(dr7, index);
->> +}
->> +
->> +static inline int hw_breakpoint_type(unsigned long dr7, int index)
->> +{
->> +    return (dr7 >> (DR7_TYPE_SHIFT + (index * 4))) & 3;
->> +}
->> +
->> +static inline int hw_breakpoint_len(unsigned long dr7, int index)
->> +{
->> +    int len = ((dr7 >> (DR7_LEN_SHIFT + (index * 4))) & 3);
->> +    return (len == 2) ? 8 : len + 1;
->> +}
->> +
->> +static int hw_breakpoint_insert(CPUX86State *env, int index)
->> +{
->> +    CPUState *cs = env_cpu(env);
->> +    target_ulong dr7 = env->dr[7];
->> +    target_ulong drN = env->dr[index];
->> +    int err = 0;
->> +
->> +    switch (hw_breakpoint_type(dr7, index)) {
->> +    case DR7_TYPE_BP_INST:
->> +        if (hw_breakpoint_enabled(dr7, index)) {
->> +            err = cpu_breakpoint_insert(cs, drN, BP_CPU,
->> +                                        &env->cpu_breakpoint[index]);
->> +        }
->> +        break;
->> +
->> +    case DR7_TYPE_IO_RW:
->> +        /* Notice when we should enable calls to bpt_io.  */
->> +        return hw_breakpoint_enabled(env->dr[7], index)
->> +               ? HF_IOBPT_MASK : 0;
->> +
->> +    case DR7_TYPE_DATA_WR:
->> +        if (hw_breakpoint_enabled(dr7, index)) {
->> +            err = cpu_watchpoint_insert(cs, drN,
->> +                                        hw_breakpoint_len(dr7, index),
->> +                                        BP_CPU | BP_MEM_WRITE,
->> +                                        &env->cpu_watchpoint[index]);
->> +        }
->> +        break;
->> +
->> +    case DR7_TYPE_DATA_RW:
->> +        if (hw_breakpoint_enabled(dr7, index)) {
->> +            err = cpu_watchpoint_insert(cs, drN,
->> +                                        hw_breakpoint_len(dr7, index),
->> +                                        BP_CPU | BP_MEM_ACCESS,
->> +                                        &env->cpu_watchpoint[index]);
->> +        }
->> +        break;
->> +    }
->> +    if (err) {
->> +        env->cpu_breakpoint[index] = NULL;
->> +    }
->> +    return 0;
->> +}
->> +
->> +static void hw_breakpoint_remove(CPUX86State *env, int index)
->> +{
->> +    CPUState *cs = env_cpu(env);
->> +
->> +    switch (hw_breakpoint_type(env->dr[7], index)) {
->> +    case DR7_TYPE_BP_INST:
->> +        if (env->cpu_breakpoint[index]) {
->> +            cpu_breakpoint_remove_by_ref(cs, env->cpu_breakpoint[index]);
->> +            env->cpu_breakpoint[index] = NULL;
->> +        }
->> +        break;
->> +
->> +    case DR7_TYPE_DATA_WR:
->> +    case DR7_TYPE_DATA_RW:
->> +        if (env->cpu_breakpoint[index]) {
->> +            cpu_watchpoint_remove_by_ref(cs, env->cpu_watchpoint[index]);
->> +            env->cpu_breakpoint[index] = NULL;
->> +        }
->> +        break;
->> +
->> +    case DR7_TYPE_IO_RW:
->> +        /* HF_IOBPT_MASK cleared elsewhere.  */
->> +        break;
->> +    }
->> +}
->> +
->> +void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7)
->> +{
->> +    target_ulong old_dr7 = env->dr[7];
->> +    int iobpt = 0;
->> +    int i;
->> +
->> +    new_dr7 |= DR7_FIXED_1;
->> +
->> +    /* If nothing is changing except the global/local enable bits,
->> +       then we can make the change more efficient.  */
->> +    if (((old_dr7 ^ new_dr7) & ~0xff) == 0) {
->> +        /* Fold the global and local enable bits together into the
->> +           global fields, then xor to show which registers have
->> +           changed collective enable state.  */
->> +        int mod = ((old_dr7 | old_dr7 * 2) ^ (new_dr7 | new_dr7 * 2)) & 0xff;
->> +
->> +        for (i = 0; i < DR7_MAX_BP; i++) {
->> +            if ((mod & (2 << i * 2)) && !hw_breakpoint_enabled(new_dr7, i)) {
->> +                hw_breakpoint_remove(env, i);
->> +            }
->> +        }
->> +        env->dr[7] = new_dr7;
->> +        for (i = 0; i < DR7_MAX_BP; i++) {
->> +            if (mod & (2 << i * 2) && hw_breakpoint_enabled(new_dr7, i)) {
->> +                iobpt |= hw_breakpoint_insert(env, i);
->> +            } else if (hw_breakpoint_type(new_dr7, i) == DR7_TYPE_IO_RW
->> +                       && hw_breakpoint_enabled(new_dr7, i)) {
->> +                iobpt |= HF_IOBPT_MASK;
->> +            }
->> +        }
->> +    } else {
->> +        for (i = 0; i < DR7_MAX_BP; i++) {
->> +            hw_breakpoint_remove(env, i);
->> +        }
->> +        env->dr[7] = new_dr7;
->> +        for (i = 0; i < DR7_MAX_BP; i++) {
->> +            iobpt |= hw_breakpoint_insert(env, i);
->> +        }
->> +    }
->> +
->> +    env->hflags = (env->hflags & ~HF_IOBPT_MASK) | iobpt;
->> +}
->> +
->> +bool check_hw_breakpoints(CPUX86State *env, bool force_dr6_update)
->> +{
->> +    target_ulong dr6;
->> +    int reg;
->> +    bool hit_enabled = false;
->> +
->> +    dr6 = env->dr[6] & ~0xf;
->> +    for (reg = 0; reg < DR7_MAX_BP; reg++) {
->> +        bool bp_match = false;
->> +        bool wp_match = false;
->> +
->> +        switch (hw_breakpoint_type(env->dr[7], reg)) {
->> +        case DR7_TYPE_BP_INST:
->> +            if (env->dr[reg] == env->eip) {
->> +                bp_match = true;
->> +            }
->> +            break;
->> +        case DR7_TYPE_DATA_WR:
->> +        case DR7_TYPE_DATA_RW:
->> +            if (env->cpu_watchpoint[reg] &&
->> +                env->cpu_watchpoint[reg]->flags & BP_WATCHPOINT_HIT) {
->> +                wp_match = true;
->> +            }
->> +            break;
->> +        case DR7_TYPE_IO_RW:
->> +            break;
->> +        }
->> +        if (bp_match || wp_match) {
->> +            dr6 |= 1 << reg;
->> +            if (hw_breakpoint_enabled(env->dr[7], reg)) {
->> +                hit_enabled = true;
->> +            }
->> +        }
->> +    }
->> +
->> +    if (hit_enabled || force_dr6_update) {
->> +        env->dr[6] = dr6;
->> +    }
->> +
->> +    return hit_enabled;
->> +}
->> +
->> +void breakpoint_handler(CPUState *cs)
->> +{
->> +    X86CPU *cpu = X86_CPU(cs);
->> +    CPUX86State *env = &cpu->env;
->> +    CPUBreakpoint *bp;
->> +
->> +    if (cs->watchpoint_hit) {
->> +        if (cs->watchpoint_hit->flags & BP_CPU) {
->> +            cs->watchpoint_hit = NULL;
->> +            if (check_hw_breakpoints(env, false)) {
->> +                raise_exception(env, EXCP01_DB);
->> +            } else {
->> +                cpu_loop_exit_noexc(cs);
->> +            }
->> +        }
->> +    } else {
->> +        QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
->> +            if (bp->pc == env->eip) {
->> +                if (bp->flags & BP_CPU) {
->> +                    check_hw_breakpoints(env, true);
->> +                    raise_exception(env, EXCP01_DB);
->> +                }
->> +                break;
->> +            }
->> +        }
->> +    }
->> +}
->> +
->> +void helper_set_dr(CPUX86State *env, int reg, target_ulong t0)
->> +{
->> +    switch (reg) {
->> +    case 0: case 1: case 2: case 3:
->> +        if (hw_breakpoint_enabled(env->dr[7], reg)
->> +            && hw_breakpoint_type(env->dr[7], reg) != DR7_TYPE_IO_RW) {
->> +            hw_breakpoint_remove(env, reg);
->> +            env->dr[reg] = t0;
->> +            hw_breakpoint_insert(env, reg);
->> +        } else {
->> +            env->dr[reg] = t0;
->> +        }
->> +        return;
->> +    case 4:
->> +        if (env->cr[4] & CR4_DE_MASK) {
->> +            break;
->> +        }
->> +        /* fallthru */
->> +    case 6:
->> +        env->dr[6] = t0 | DR6_FIXED_1;
->> +        return;
->> +    case 5:
->> +        if (env->cr[4] & CR4_DE_MASK) {
->> +            break;
->> +        }
->> +        /* fallthru */
->> +    case 7:
->> +        cpu_x86_update_dr7(env, t0);
->> +        return;
->> +    }
->> +    raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
->> +}
->> +
->> +/* Check if Port I/O is trapped by a breakpoint.  */
->> +void helper_bpt_io(CPUX86State *env, uint32_t port,
->> +                   uint32_t size, target_ulong next_eip)
->> +{
->> +    target_ulong dr7 = env->dr[7];
->> +    int i, hit = 0;
->> +
->> +    for (i = 0; i < DR7_MAX_BP; ++i) {
->> +        if (hw_breakpoint_type(dr7, i) == DR7_TYPE_IO_RW
->> +            && hw_breakpoint_enabled(dr7, i)) {
->> +            int bpt_len = hw_breakpoint_len(dr7, i);
->> +            if (port + size - 1 >= env->dr[i]
->> +                && port <= env->dr[i] + bpt_len - 1) {
->> +                hit |= 1 << i;
->> +            }
->> +        }
->> +    }
->> +
->> +    if (hit) {
->> +        env->dr[6] = (env->dr[6] & ~0xf) | hit;
->> +        env->eip = next_eip;
->> +        raise_exception(env, EXCP01_DB);
->> +    }
->> +}
->> diff --git a/target/i386/tcg/user/bpt_helper_user.c b/target/i386/tcg/user/bpt_helper_user.c
->> new file mode 100644
->> index 0000000000..2a31ddb0bf
->> --- /dev/null
->> +++ b/target/i386/tcg/user/bpt_helper_user.c
->> @@ -0,0 +1,33 @@
->> +/*
->> + *  i386 breakpoint helpers - user-mode code
->> + *
->> + *  Copyright (c) 2003 Fabrice Bellard
->> + *
->> + * This library is free software; you can redistribute it and/or
->> + * modify it under the terms of the GNU Lesser General Public
->> + * License as published by the Free Software Foundation; either
->> + * version 2.1 of the License, or (at your option) any later version.
->> + *
->> + * This library is distributed in the hope that it will be useful,
->> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->> + * Lesser General Public License for more details.
->> + *
->> + * You should have received a copy of the GNU Lesser General Public
->> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "cpu.h"
->> +#include "exec/exec-all.h"
->> +#include "exec/helper-proto.h"
->> +#include "tcg/helper-tcg.h"
->> +
->> +void helper_set_dr(CPUX86State *env, int reg, target_ulong t0)
->> +{
->> +}
->> +
->> +void helper_bpt_io(CPUX86State *env, uint32_t port,
->> +                   uint32_t size, target_ulong next_eip)
->> +{
->> +}
->> diff --git a/target/i386/tcg/softmmu/meson.build b/target/i386/tcg/softmmu/meson.build
->> index e1ab2e4b43..d004ecea62 100644
->> --- a/target/i386/tcg/softmmu/meson.build
->> +++ b/target/i386/tcg/softmmu/meson.build
->> @@ -2,4 +2,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
->>    'tcg-cpu-softmmu.c',
->>    'smm_helper.c',
->>    'excp_helper_softmmu.c',
->> +  'bpt_helper_softmmu.c',
->>  ))
->> diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
->> index e1eddd19bb..317f101b28 100644
->> --- a/target/i386/tcg/user/meson.build
->> +++ b/target/i386/tcg/user/meson.build
->> @@ -2,4 +2,5 @@ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
->>    'tcg-cpu-user.c',
->>    'smm_helper_user.c',
->>    'excp_helper_user.c',
->> +  'bpt_helper_user.c',
->>  ))
-> 
-> 
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
