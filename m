@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1237E31878C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 10:59:17 +0100 (CET)
-Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154703187A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:02:29 +0100 (CET)
+Received: from localhost ([::1]:46748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA8km-0001lS-5e
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 04:59:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52634)
+	id 1lA8ns-00037Y-6U
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:02:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lA8jC-0001FV-T2
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 04:57:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56262)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lA8lN-0002MO-Cy
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 04:59:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lA8j9-0007i0-BY
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 04:57:38 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lA8lL-0000EN-SL
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 04:59:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613037453;
+ s=mimecast20190719; t=1613037590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+U8v+/i55if/MDgWhO7Ni99HPp5bbCmU2m2Sf8BkW94=;
- b=iDF/+nojNjx5XgOR1dgPYRovew6moLmGQEfONO6nekiejGC3Lg3iN7kyvbYjBzXdLCZdN1
- SbD8a+QztHKP5lz8EkxkawNpC37bQER9GZ1r7avxZxyUcVIwYJNBHJUSZaikC6qnnLzzLG
- ff7X1czLRd8ZYhUL8VlB6uZtD7sITpk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-168uobdgPmGJFdleEiTArQ-1; Thu, 11 Feb 2021 04:57:32 -0500
-X-MC-Unique: 168uobdgPmGJFdleEiTArQ-1
-Received: by mail-wm1-f70.google.com with SMTP id z67so2947590wme.3
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 01:57:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+U8v+/i55if/MDgWhO7Ni99HPp5bbCmU2m2Sf8BkW94=;
- b=uAk99sTTbT5GBqVyGvGOKejB9URydNzt7KGYqHa8VGq1LfeKg9kn4s+obt3OaXasaf
- e4ND2QECsp+ka6nOYz4ol5z+QM07DDERrowBrKreN6iuBLN8+8X/YhSI6DdAOkLDy4Qb
- i7MKt+iO2aHMuyIxlQJ9Pzbet5RBqwed36dbgVZ7HJpQEBI9/hga1m4XOzXU91QPVjCy
- v1f+EA1Fdh1Y+tmsK5RFFkDuU0HfMtI/ywPvFj2ItY6aQrepqf3aHXw7TFbjqdbhmZy0
- VmGvz49NMaTYGa4+OW5RlHayeCp1mEHLiwZREHieQPUqOqC5Q5jZ6pO84zmysEGAZLVf
- 43AA==
-X-Gm-Message-State: AOAM530506G4S3I4WiUTy2fCxEmH6qMm29u/QNfHBKO73K0p8nkhB8nl
- 53c64Wyl6wP/tnGmxvmEDKsN+5TE+m9UuPV8llHhjsXiorq6/3XXO4d2AQdQldryHfRl3GCATo0
- mGiNk53I8gw0IcFY=
-X-Received: by 2002:a1c:1bc4:: with SMTP id b187mr4289545wmb.18.1613037450855; 
- Thu, 11 Feb 2021 01:57:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx9S1ME2eeUemr1zqkcRihMUpcGwKhqNp4x/JNvyN71PVLLUME6/QxaLRotLSUFjE23SXM3ww==
-X-Received: by 2002:a1c:1bc4:: with SMTP id b187mr4289517wmb.18.1613037450550; 
- Thu, 11 Feb 2021 01:57:30 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id w4sm8519883wmc.13.2021.02.11.01.57.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 01:57:30 -0800 (PST)
-Subject: Re: [PATCH v3 5/5] travis.yml: Move the -fsanitize=thread testing to
- the gitlab-CI
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210211045455.456371-1-thuth@redhat.com>
- <20210211045455.456371-6-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <36576511-a1e5-ec8a-2f79-7250371fd428@redhat.com>
-Date: Thu, 11 Feb 2021 10:57:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=r+iUP7yOxQ4pq6pxMuzXbrrEcpDWFvp8WBbiEXVDRts=;
+ b=IP2nuHw7wWw+lgW/cTmj7IQ6lWByT0pe7tP70P+Zwk1qaHiLEHqHbXdTbPKddejt0sxo2L
+ MZqZ6bYMuKGXtzxVUPCjvBY5+fBCQKZAw7yQyVtZhHyk1FIFOIZmHWVs86o3f7cnBBmEeZ
+ HRFp/fC96+VeWPdKEnggiCvPEQiqqEY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-AoLWBqIGMk-IXa7ZzFzmTA-1; Thu, 11 Feb 2021 04:59:48 -0500
+X-MC-Unique: AoLWBqIGMk-IXa7ZzFzmTA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D2C2801962
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 09:59:47 +0000 (UTC)
+Received: from localhost (ovpn-115-9.ams2.redhat.com [10.36.115.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF0405D6B1;
+ Thu, 11 Feb 2021 09:59:37 +0000 (UTC)
+Date: Thu, 11 Feb 2021 09:59:36 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 01/24] DAX: vhost-user: Rework slave return values
+Message-ID: <20210211095936.GB247031@stefanha-x1.localdomain>
+References: <20210209190224.62827-1-dgilbert@redhat.com>
+ <20210209190224.62827-2-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210211045455.456371-6-thuth@redhat.com>
+In-Reply-To: <20210209190224.62827-2-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5I6of5zJg18YgZEa"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.211, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,107 +79,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <wrampazz@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ vgoyal@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/21 5:54 AM, Thomas Huth wrote:
-> Use clang-10, so we can also use the --enable-tsan configure
-> option instead of only passing the flag via --extra-cflags.
+--5I6of5zJg18YgZEa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Maybe worth commenting the new job is now restricted to a subset
-of targets, but linux-user is also covered?
+On Tue, Feb 09, 2021 at 07:02:01PM +0000, Dr. David Alan Gilbert (git) wrote:
+> +static uint64_t vhost_user_slave_handle_vring_host_notifier(
+> +                struct vhost_dev *dev,
+> +               VhostUserVringArea *area,
+> +               int fd)
 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitlab-ci.yml |  9 +++++++++
->  .travis.yml    | 51 --------------------------------------------------
->  2 files changed, 9 insertions(+), 51 deletions(-)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index e878cc0847..7adb9a4cef 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -452,6 +452,15 @@ clang-user:
->        --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
->      MAKE_CHECK_ARGS: check-unit check-tcg
->  
-> +tsan-build:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: ubuntu2004
-> +    CONFIGURE_ARGS: --enable-tsan --cc=clang-10 --cxx=clang++-10 --disable-docs
-> +                    --enable-fdt=system --enable-slirp=system
-> +    TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-user
-> +    MAKE_CHECK_ARGS: bench V=1
-> +
->  # These targets are on the way out
->  build-deprecated:
->    <<: *native_build_job_definition
-> diff --git a/.travis.yml b/.travis.yml
-> index f0e2b1059c..0a4f38b9d8 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -119,57 +119,6 @@ after_script:
->  jobs:
->    include:
->  
-> -
-> -    # Using newer GCC with sanitizers
-> -    - name: "GCC9 with sanitizers (softmmu)"
-> -      dist: bionic
-> -      addons:
-> -        apt:
-> -          update: true
-> -          sources:
-> -            # PPAs for newer toolchains
-> -            - ubuntu-toolchain-r-test
-> -          packages:
-> -            # Extra toolchains
-> -            - gcc-9
-> -            - g++-9
-> -            # Build dependencies
-> -            - libaio-dev
-> -            - libattr1-dev
-> -            - libbrlapi-dev
-> -            - libcap-ng-dev
-> -            - libgnutls28-dev
-> -            - libgtk-3-dev
-> -            - libiscsi-dev
-> -            - liblttng-ust-dev
-> -            - libnfs-dev
-> -            - libncurses5-dev
-> -            - libnss3-dev
-> -            - libpixman-1-dev
-> -            - libpng-dev
-> -            - librados-dev
-> -            - libsdl2-dev
-> -            - libsdl2-image-dev
-> -            - libseccomp-dev
-> -            - libspice-protocol-dev
-> -            - libspice-server-dev
-> -            - liburcu-dev
-> -            - libusb-1.0-0-dev
-> -            - libvte-2.91-dev
-> -            - ninja-build
-> -            - sparse
-> -            - uuid-dev
-> -      language: generic
-> -      compiler: none
-> -      env:
-> -        - COMPILER_NAME=gcc CXX=g++-9 CC=gcc-9
-> -        - CONFIG="--cc=gcc-9 --cxx=g++-9 --disable-linux-user"
-> -        - TEST_CMD=""
-> -      before_script:
-> -        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-> -        - ${SRC_DIR}/configure ${CONFIG} --extra-cflags="-g3 -O0 -fsanitize=thread" || { cat config.log meson-logs/meson-log.txt && exit 1; }
-> -
-> -
->      - name: "[aarch64] GCC check-tcg"
->        arch: arm64
->        dist: focal
-> 
+Indentation looks off. Only worth changing if you respin.
+
+> @@ -1398,7 +1399,8 @@ static void slave_read(void *opaque)
+>      struct vhost_user *u = dev->opaque;
+>      VhostUserHeader hdr = { 0, };
+>      VhostUserPayload payload = { 0, };
+> -    int size, ret = 0;
+> +    int size;
+> +    uint64_t ret = 0;
+>      struct iovec iov;
+>      struct msghdr msgh;
+>      int fd[VHOST_USER_SLAVE_MAX_FDS];
+> @@ -1472,7 +1474,7 @@ static void slave_read(void *opaque)
+>          break;
+>      default:
+>          error_report("Received unexpected msg type: %d.", hdr.request);
+> -        ret = -EINVAL;
+> +        ret = (uint64_t)-EINVAL;
+
+The !!ret was removed below so it would have previously been true (1).
+Now it has changed value.
+
+If there is no specific reason to change the value, please keep it true
+(1) just in case a vhost-user device backend depends on that value.
+
+--5I6of5zJg18YgZEa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAlAAgACgkQnKSrs4Gr
+c8j1Kgf/fZt238LWQCca4Gpguk6XJFxiYj3jOx2sPqTTORynV35/etPqJfQrFOE6
+diwJ/x4F2XmowMmraAX8TQ+nTer6sRxE6CWuJfv3j/I9XIlB9g4nQY+PH8SU/DFy
+v1X2RjcWwbTWHC/xMF3abyP8kjBAuqLJ94nLf9ACPVfl2m21rLditeiZ6qPkqiOD
+Idpn3i1uO+EGLsZhbLaAYH68O7gberHE7dy8VxWEiw9EteHYybJNOX3uxPSd63M/
+LEgJOmq3Ykr1UxfjQx8jHKVc6wQmYtq2XcwcM6hyEyOUKLgrLBAaLRu6T9M6ud1h
+nMALP8DtZI/jtq/8Fluy2fm0iAFVsQ==
+=+Zqx
+-----END PGP SIGNATURE-----
+
+--5I6of5zJg18YgZEa--
 
 
