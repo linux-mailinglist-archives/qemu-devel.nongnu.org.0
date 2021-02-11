@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F01318579
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 07:58:35 +0100 (CET)
-Received: from localhost ([::1]:60852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59C7318567
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 07:53:44 +0100 (CET)
+Received: from localhost ([::1]:52976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA5vu-0007oX-54
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 01:58:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46504)
+	id 1lA5rC-00042u-Jt
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 01:53:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lA5mJ-000240-0b
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 01:48:39 -0500
-Received: from mga11.intel.com ([192.55.52.93]:48357)
+ id 1lA5mK-00028U-Si
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 01:48:40 -0500
+Received: from mga11.intel.com ([192.55.52.93]:48359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lA5mG-0008Bv-Vs
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 01:48:38 -0500
-IronPort-SDR: VylLTw0kpiO2XhKW1Y1003Cc8IGl2vZCWvjd8iPz1POf7ed1id77EZvD6n3nyuQfksb3xCTBSN
- FPw7OlTjVxUw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="178692960"
-X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; d="scan'208";a="178692960"
+ id 1lA5mI-0008Dl-Qu
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 01:48:40 -0500
+IronPort-SDR: KVcROyRskuAzPWrl7mtn72dCCtQa4oXjt70VIxJwm00vPCebaDE1vIWYS/z0SOCQ42QBYVShGB
+ juMWyMw267MQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="178692962"
+X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; 
+ d="scan'208,223";a="178692962"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2021 22:48:23 -0800
-IronPort-SDR: GhfGEZFAh+zUvNKPpn1REr1uk8jcXU9sqzBra8ol66U/nxCb3w5OVNfwhfc9ml8FPxv6ug0oSs
- c/9G3OSFPTjw==
-X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; d="scan'208";a="588716258"
+ 10 Feb 2021 22:48:24 -0800
+IronPort-SDR: Gdn1L4N7Dwe/0uVDZtgW90LhF+sPULIXtJQE2v8PM2VjgdbI9aDUCaP/p6m+Fwp53+WpwjGvUV
+ 5ijBNUZkPNug==
+X-IronPort-AV: E=Sophos;i="5.81,169,1610438400"; 
+ d="scan'208,223";a="588716269"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2021 22:48:23 -0800
+ 10 Feb 2021 22:48:24 -0800
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
  marcel.apfelbaum@gmail.com
-Subject: [PATCH v3 03/10] i386: add properoty, x-smm-compat-5,
- to keep compatibility of SMM
-Date: Wed, 10 Feb 2021 22:46:39 -0800
-Message-Id: <7b74891766ad1caccd83c28ecea0d5d4293b3860.1613025709.git.isaku.yamahata@intel.com>
+Subject: [PATCH v3 05/10] acpi: set fadt.smi_cmd to zero when SMM is not
+ supported
+Date: Wed, 10 Feb 2021 22:46:41 -0800
+Message-Id: <6f87330e3ed47928b141b6aa71e31b9c8bcbf7cd.1613025709.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1613025709.git.isaku.yamahata@intel.com>
 References: <cover.1613025709.git.isaku.yamahata@intel.com>
@@ -67,142 +69,111 @@ Cc: isaku.yamahata@intel.com, isaku.yamahata@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following patch will introduce incompatible behavior of SMM.
-Introduce a property to keep the old behavior for compatibility.
-To enable smm compat, use "-machine x-smm-compat-5=on"
+From table 5.9 SMI_CMD of ACPI spec
+> This field is reserved and must be zero on system
+> that does not support System Management mode.
 
+When smm is not enabled, set it to zero to comform to the spec.
+When -machine smm=off is passed, the change to FACP is as follows.
+
+@@ -1,46 +1,46 @@
+ /*
+  * Intel ACPI Component Architecture
+  * AML/ASL+ Disassembler version 20180105 (64-bit version)
+  * Copyright (c) 2000 - 2018 Intel Corporation
+  *
+- * Disassembly of tests/data/acpi/q35/FACP, Fri Feb  5 16:57:04 2021
++ * Disassembly of /tmp/aml-1OQYX0, Fri Feb  5 16:57:04 2021
+  *
+  * ACPI Data Table [FACP]
+  *
+  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
+  */
+
+ [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
+ [004h 0004   4]                 Table Length : 000000F4
+ [008h 0008   1]                     Revision : 03
+-[009h 0009   1]                     Checksum : 1F
++[009h 0009   1]                     Checksum : D6
+ [00Ah 0010   6]                       Oem ID : "BOCHS "
+ [010h 0016   8]                 Oem Table ID : "BXPCFACP"
+ [018h 0024   4]                 Oem Revision : 00000001
+ [01Ch 0028   4]              Asl Compiler ID : "BXPC"
+ [020h 0032   4]        Asl Compiler Revision : 00000001
+
+ [024h 0036   4]                 FACS Address : 00000000
+ [028h 0040   4]                 DSDT Address : 00000000
+ [02Ch 0044   1]                        Model : 01
+ [02Dh 0045   1]                   PM Profile : 00 [Unspecified]
+ [02Eh 0046   2]                SCI Interrupt : 0009
+-[030h 0048   4]             SMI Command Port : 000000B2
+-[034h 0052   1]            ACPI Enable Value : 02
+-[035h 0053   1]           ACPI Disable Value : 03
++[030h 0048   4]             SMI Command Port : 00000000
++[034h 0052   1]            ACPI Enable Value : 00
++[035h 0053   1]           ACPI Disable Value : 00
+ [036h 0054   1]               S4BIOS Command : 00
+ [037h 0055   1]              P-State Control : 00
+ [038h 0056   4]     PM1A Event Block Address : 00000600
+ [03Ch 0060   4]     PM1B Event Block Address : 00000000
+ [040h 0064   4]   PM1A Control Block Address : 00000604
+ [044h 0068   4]   PM1B Control Block Address : 00000000
+ [048h 0072   4]    PM2 Control Block Address : 00000000
+ [04Ch 0076   4]       PM Timer Block Address : 00000608
+ [050h 0080   4]           GPE0 Block Address : 00000620
+ [054h 0084   4]           GPE1 Block Address : 00000000
+ [058h 0088   1]       PM1 Event Block Length : 04
+ [059h 0089   1]     PM1 Control Block Length : 02
+ [05Ah 0090   1]     PM2 Control Block Length : 00
+ [05Bh 0091   1]        PM Timer Block Length : 04
+ [05Ch 0092   1]            GPE0 Block Length : 10
+ [05Dh 0093   1]            GPE1 Block Length : 00
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- hw/i386/pc_piix.c     | 10 ++++++----
- hw/i386/pc_q35.c      |  1 +
- hw/i386/x86.c         | 18 ++++++++++++++++++
- include/hw/i386/x86.h |  2 ++
- 4 files changed, 27 insertions(+), 4 deletions(-)
+ hw/i386/acpi-build.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 6188c3e97e..87269e170e 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -441,6 +441,7 @@ DEFINE_I440FX_MACHINE(v6_0, "pc-i440fx-6.0", NULL,
- static void pc_i440fx_5_2_machine_options(MachineClass *m)
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index f56d699c7f..00cc119362 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -139,6 +139,14 @@ const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio = {
+ static void init_common_fadt_data(MachineState *ms, Object *o,
+                                   AcpiFadtData *data)
  {
-     pc_i440fx_6_0_machine_options(m);
-+    m->default_machine_opts = "firmware=bios-256k.bin,x-smm-compat-5=on";
-     m->alias = NULL;
-     m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-@@ -664,7 +665,8 @@ static void pc_i440fx_2_2_machine_options(MachineClass *m)
- 
-     pc_i440fx_2_3_machine_options(m);
-     m->hw_version = "2.2.0";
--    m->default_machine_opts = "firmware=bios-256k.bin,suppress-vmdesc=on";
-+    m->default_machine_opts = "firmware=bios-256k.bin,suppress-vmdesc=on"
-+        ",x-smm-compat-5=on";
-     compat_props_add(m->compat_props, hw_compat_2_2, hw_compat_2_2_len);
-     compat_props_add(m->compat_props, pc_compat_2_2, pc_compat_2_2_len);
-     pcmc->rsdp_in_ram = false;
-@@ -727,7 +729,7 @@ static void pc_i440fx_1_7_machine_options(MachineClass *m)
- 
-     pc_i440fx_2_0_machine_options(m);
-     m->hw_version = "1.7.0";
--    m->default_machine_opts = NULL;
-+    m->default_machine_opts = "x-smm-compat-5=on";
-     m->option_rom_has_mr = true;
-     compat_props_add(m->compat_props, pc_compat_1_7, pc_compat_1_7_len);
-     pcmc->smbios_defaults = false;
-@@ -999,7 +1001,7 @@ static void xenfv_4_2_machine_options(MachineClass *m)
-     pc_i440fx_4_2_machine_options(m);
-     m->desc = "Xen Fully-virtualized PC";
-     m->max_cpus = HVM_MAX_VCPUS;
--    m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
-+    m->default_machine_opts = "accel=xen,suppress-vmdesc=on,x-smm-compat-5=on";
- }
- 
- DEFINE_PC_MACHINE(xenfv_4_2, "xenfv-4.2", pc_xen_hvm_init,
-@@ -1011,7 +1013,7 @@ static void xenfv_3_1_machine_options(MachineClass *m)
-     m->desc = "Xen Fully-virtualized PC";
-     m->alias = "xenfv";
-     m->max_cpus = HVM_MAX_VCPUS;
--    m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
-+    m->default_machine_opts = "accel=xen,suppress-vmdesc=on,x-smm-compat-5=on";
- }
- 
- DEFINE_PC_MACHINE(xenfv, "xenfv-3.1", pc_xen_hvm_init,
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 0a212443aa..14974b7255 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -358,6 +358,7 @@ DEFINE_Q35_MACHINE(v6_0, "pc-q35-6.0", NULL,
- static void pc_q35_5_2_machine_options(MachineClass *m)
- {
-     pc_q35_6_0_machine_options(m);
-+    m->default_machine_opts = "firmware=bios-256k.bin,x-smm-compat-5=on";
-     m->alias = NULL;
-     compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-     compat_props_add(m->compat_props, pc_compat_5_2, pc_compat_5_2_len);
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 6329f90ef9..00eb2253d3 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1174,6 +1174,18 @@ static void x86_machine_set_smm(Object *obj, Visitor *v, const char *name,
-     visit_type_OnOffAuto(v, name, &x86ms->smm, errp);
- }
- 
-+static bool x86_machine_get_smm_compat_5(Object *obj, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+    return  x86ms->smm_compat_5;
-+}
-+
-+static void x86_machine_set_smm_compat_5(Object *obj, bool value, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+    x86ms->smm_compat_5 = value;
-+}
-+
- bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms)
- {
-     if (x86ms->acpi == ON_OFF_AUTO_OFF) {
-@@ -1204,6 +1216,7 @@ static void x86_machine_initfn(Object *obj)
-     X86MachineState *x86ms = X86_MACHINE(obj);
- 
-     x86ms->smm = ON_OFF_AUTO_AUTO;
-+    x86ms->smm_compat_5 = false;
-     x86ms->acpi = ON_OFF_AUTO_AUTO;
-     x86ms->smp_dies = 1;
-     x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
-@@ -1228,6 +1241,11 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, X86_MACHINE_SMM,
-         "Enable SMM");
- 
-+    object_class_property_add_bool(oc, X86_MACHINE_SMM_COMPAT_5,
-+        x86_machine_get_smm_compat_5, x86_machine_set_smm_compat_5);
-+    object_class_property_set_description(oc, X86_MACHINE_SMM_COMPAT_5,
-+        "Enable SMM compatible behavior");
-+
-     object_class_property_add(oc, X86_MACHINE_ACPI, "OnOffAuto",
-         x86_machine_get_acpi, x86_machine_set_acpi,
-         NULL, NULL);
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 56080bd1fb..3dbe19a335 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -65,6 +65,7 @@ struct X86MachineState {
-     unsigned smp_dies;
- 
-     OnOffAuto smm;
-+    bool smm_compat_5;
-     OnOffAuto acpi;
- 
-     /*
-@@ -75,6 +76,7 @@ struct X86MachineState {
- };
- 
- #define X86_MACHINE_SMM              "smm"
-+#define X86_MACHINE_SMM_COMPAT_5     "x-smm-compat-5"
- #define X86_MACHINE_ACPI             "acpi"
- 
- #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
++    X86MachineState *x86ms = X86_MACHINE(ms);
++    /*
++     * Until v5, smi_cmd/acpi_enable_cmd/acpi_disable_cmd were always set
++     * irrelevant to smm_enabled, which doesn't comforms to ACPI spec.
++     * Keep guest ABI compatibility when smm_compat_5 is true.
++     */
++    bool smm_enabled = x86ms->smm_compat_5 ?
++        true : x86_machine_is_smm_enabled(x86ms);
+     uint32_t io = object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, NULL);
+     AmlAddressSpace as = AML_AS_SYSTEM_IO;
+     AcpiFadtData fadt = {
+@@ -159,12 +167,16 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+         .rtc_century = RTC_CENTURY,
+         .plvl2_lat = 0xfff /* C2 state not supported */,
+         .plvl3_lat = 0xfff /* C3 state not supported */,
+-        .smi_cmd = ACPI_PORT_SMI_CMD,
++        .smi_cmd = smm_enabled ? ACPI_PORT_SMI_CMD : 0,
+         .sci_int = object_property_get_uint(o, ACPI_PM_PROP_SCI_INT, NULL),
+         .acpi_enable_cmd =
+-            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL),
++            smm_enabled ?
++            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL) :
++            0,
+         .acpi_disable_cmd =
+-            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NULL),
++            smm_enabled ?
++            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NULL) :
++            0,
+         .pm1a_evt = { .space_id = as, .bit_width = 4 * 8, .address = io },
+         .pm1a_cnt = { .space_id = as, .bit_width = 2 * 8,
+                       .address = io + 0x04 },
 -- 
 2.17.1
 
