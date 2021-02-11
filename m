@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715B1319076
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 17:57:19 +0100 (CET)
-Received: from localhost ([::1]:51628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3453190A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:12:16 +0100 (CET)
+Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAFHK-0002QB-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 11:57:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46864)
+	id 1lAFVn-0007gn-E0
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:12:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAFEs-0000c2-O1; Thu, 11 Feb 2021 11:54:46 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:49192)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAFEq-0002jK-RC; Thu, 11 Feb 2021 11:54:46 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 11BGruhY031721
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 11 Feb 2021 11:53:59 -0500
-Date: Thu, 11 Feb 2021 11:53:56 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH] hw/sd: sdhci: Do not transfer any data when command fails
-Message-ID: <20210211165351.5rr2dpzlg4eqygdn@mozz.bu.edu>
-References: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lAFLC-0005Qt-T3
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:01:20 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54230)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lAFL5-0005e8-BY
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:01:18 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lAFKz-0001gV-1d
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 17:01:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 61F0D2E814D
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 17:01:04 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 11 Feb 2021 16:51:31 -0000
+From: ANIMESH KUMAR SINHA <1912777@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Opinion; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: animeshk th-huth
+X-Launchpad-Bug-Reporter: ANIMESH KUMAR SINHA (animeshk)
+X-Launchpad-Bug-Modifier: ANIMESH KUMAR SINHA (animeshk)
+References: <161131847021.10154.14606822070729811950.malonedeb@gac.canonical.com>
+Message-Id: <161306229164.29338.12711021018715300773.launchpad@soybean.canonical.com>
+Subject: [Bug 1912777] Re: KVM_EXIT_MMIO has increased in Qemu4.0.0 when
+ compared to Qemu 2.11.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
+X-Launchpad-Hash: 78fe8bb8e49ae0e4886749992ab7649cfcf0daed
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,75 +75,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org, Li Qiang <liq3ea@163.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Reply-To: Bug 1912777 <1912777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210209 1854, Bin Meng wrote:
-> At the end of sdhci_send_command(), it starts a data transfer if
-> the command register indicates a data is associated. However the
-> data transfer should only be initiated when the command execution
-> has succeeded.
-> 
-> Cc: qemu-stable@nongnu.org
-> Fixes: CVE-2020-17380
-> Fixes: CVE-2020-25085
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Reported-by: Sergej Schumilo (Ruhr-University Bochum)
-> Reported-by: Cornelius Aschermann (Ruhr-University Bochum)
-> Reported-by: Simon Wrner (Ruhr-University Bochum)
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+** Also affects: qemu (Ubuntu)
+   Importance: Undecided
+       Status: New
 
-I applied this along with <20210208193450.2689517-1-f4bug@amsat.org>
-"hw/sd/sdhci: Do not modify BlockSizeRegister if transaction in progress"
+-- =
 
-I ran through the entire OSS-Fuzz corpus, and could not reproduce the
-crash.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912777
 
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
+Title:
+  KVM_EXIT_MMIO has increased in Qemu4.0.0 when compared to Qemu 2.11.0
 
-Thanks
+Status in QEMU:
+  Opinion
+Status in Ubuntu:
+  New
+Status in qemu package in Ubuntu:
+  New
 
-> ---
-> 
->  hw/sd/sdhci.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-> index 8ffa539..0450110 100644
-> --- a/hw/sd/sdhci.c
-> +++ b/hw/sd/sdhci.c
-> @@ -326,6 +326,7 @@ static void sdhci_send_command(SDHCIState *s)
->      SDRequest request;
->      uint8_t response[16];
->      int rlen;
-> +    bool cmd_failure = false;
->  
->      s->errintsts = 0;
->      s->acmd12errsts = 0;
-> @@ -349,6 +350,7 @@ static void sdhci_send_command(SDHCIState *s)
->              trace_sdhci_response16(s->rspreg[3], s->rspreg[2],
->                                     s->rspreg[1], s->rspreg[0]);
->          } else {
-> +            cmd_failure = true;
->              trace_sdhci_error("timeout waiting for command response");
->              if (s->errintstsen & SDHC_EISEN_CMDTIMEOUT) {
->                  s->errintsts |= SDHC_EIS_CMDTIMEOUT;
-> @@ -369,7 +371,7 @@ static void sdhci_send_command(SDHCIState *s)
->  
->      sdhci_update_irq(s);
->  
-> -    if (s->blksize && (s->cmdreg & SDHC_CMD_DATA_PRESENT)) {
-> +    if (!cmd_failure && s->blksize && (s->cmdreg & SDHC_CMD_DATA_PRESENT)) {
->          s->data_count = 0;
->          sdhci_data_transfer(s);
->      }
-> -- 
-> 2.7.4
-> 
+Bug description:
+  I was able to generate trace dump in Qemu for kvm_run_exit event in both =
+QEMU 2.11.0 and QEMU 4.0.0
+  From the trace i noticed that the number of KVM_KXIT_MMIO calls has incre=
+ased alot and is causing delay in testcase execution.
+
+  I executed same testcase from Qemu 2.11 and Qemu4.
+  Inside Virtual machine when using qemu 2.11 testcase got completed in 11 =
+seconds
+  but the same testcase when executed on Qemu 4.0.0 got executed in 26 seco=
+nds.
+
+  I did a bit of digging and extracted the kvm_run_exit to figure out
+  whats going on.
+
+  Please find
+  Stats from Qemu2.11:
+
+  KVM_EXIT_UNKNOWN          : 0
+  KVM_EXIT_EXCEPTION        : 0
+  KVM_EXIT_IO               : 182513
+  KVM_EXIT_HYPERCALL        : 0
+  KVM_EXIT_DEBUG            : 0
+  KVM_EXIT_HLT              : 0
+  KVM_EXIT_MMIO             : 216701
+  KVM_EXIT_IRQ_WINDOW_OPEN  : 0
+  KVM_EXIT_SHUTDOWN         : 0
+  KVM_EXIT_FAIL_ENTRY       : 0
+  KVM_EXIT_INTR             : 0
+  KVM_EXIT_SET_TPR          : 0
+  KVM_EXIT_TPR_ACCESS       : 0
+  KVM_EXIT_S390_SIEIC       : 0
+  KVM_EXIT_S390_RESET       : 0
+  KVM_EXIT_DCR              : 0
+  KVM_EXIT_NMI              : 0
+  KVM_EXIT_INTERNAL_ERROR   : 0
+  KVM_EXIT_OSI              : 0
+  KVM_EXIT_PAPR_HCALL       : 0
+  KVM_EXIT_S390_UCONTROL    : 0
+  KVM_EXIT_WATCHDOG         : 0
+  KVM_EXIT_S390_TSCH        : 0
+  KVM_EXIT_EPR              : 0
+  KVM_EXIT_SYSTEM_EVENT     : 0
+  KVM_EXIT_S390_STSI        : 0
+  KVM_EXIT_IOAPIC_EOI       : 0
+  KVM_EXIT_HYPERV           : 0
+
+  KVM_RUN_EXIT              : 399214  (Total in Qemu 2.11 for a
+  testcase)
+
+  Stats For Qemu 4.0.0:
+
+  VM_EXIT_UNKNOWN           : 0
+  KVM_EXIT_EXCEPTION        : 0
+  KVM_EXIT_IO               : 163729
+  KVM_EXIT_HYPERCALL        : 0
+  KVM_EXIT_DEBUG            : 0
+  KVM_EXIT_HLT              : 0
+  KVM_EXIT_MMIO             : 1094231
+  KVM_EXIT_IRQ_WINDOW_OPEN  : 46
+  KVM_EXIT_SHUTDOWN         : 0
+  KVM_EXIT_FAIL_ENTRY       : 0
+  KVM_EXIT_INTR             : 0
+  KVM_EXIT_SET_TPR          : 0
+  KVM_EXIT_TPR_ACCESS       : 0
+  KVM_EXIT_S390_SIEIC       : 0
+  KVM_EXIT_S390_RESET       : 0
+  KVM_EXIT_DCR              : 0
+  KVM_EXIT_NMI              : 0
+  KVM_EXIT_INTERNAL_ERROR   : 0
+  KVM_EXIT_OSI              : 0
+  KVM_EXIT_PAPR_HCALL       : 0
+  KVM_EXIT_S390_UCONTROL    : 0
+  KVM_EXIT_WATCHDOG         : 0
+  KVM_EXIT_S390_TSCH        : 0
+  KVM_EXIT_EPR              : 0
+  KVM_EXIT_SYSTEM_EVENT     : 0
+  KVM_EXIT_S390_STSI        : 0
+  KVM_EXIT_IOAPIC_EOI       : 464
+  KVM_EXIT_HYPERV           : 0
+
+  KVM_RUN_EXIT              : 1258470 (Total in qemu 4.0.0 for same
+  testcase)
+
+  From above analysis i found that the number of KVM_EXIT_MMIO has
+  increased by 4.x.
+
+  Could someone from qemu community help me understand as to why the
+  MMIO exits have increased in qemu4 ?
+
+  The results i obtained are after running same testcase.
+  On Qemu2.11 testcase gets completed in : 11seconds
+  on Qemu4.11 testcase gets completed in : 26 seconds
+
+  VM Qcow2 used in Ubuntu 16.04
+  VM kernel OS is : 4.4 generic
+
+  Let me know incase more information is required .
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912777/+subscriptions
 
