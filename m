@@ -2,44 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42209318B05
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 13:42:55 +0100 (CET)
-Received: from localhost ([::1]:55364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106D3318B0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 13:46:00 +0100 (CET)
+Received: from localhost ([::1]:32802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lABJ4-0001ml-Cw
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 07:42:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55948)
+	id 1lABM6-00049f-RD
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 07:45:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1lABBa-0003OJ-4i; Thu, 11 Feb 2021 07:35:06 -0500
-Received: from mail.csgraf.de ([85.25.223.15]:41068 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1lABBX-0006o5-NC; Thu, 11 Feb 2021 07:35:05 -0500
-Received: from Alexanders-Mac-mini.local (unknown [188.138.100.120])
- by csgraf.de (Postfix) with UTF8SMTPSA id 65A406080F85;
- Thu, 11 Feb 2021 13:35:00 +0100 (CET)
-Message-ID: <280b4e29-1337-dac7-071c-1feeab182294@csgraf.de>
-Date: Thu, 11 Feb 2021 13:34:56 +0100
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1lABDM-0005KZ-D7; Thu, 11 Feb 2021 07:36:56 -0500
+Received: from muminek.juszkiewicz.com.pl ([2001:41d0:1:43dd::1]:38590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1lABDH-0007aB-9f; Thu, 11 Feb 2021 07:36:56 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTP id 7B79326026A;
+ Thu, 11 Feb 2021 13:36:48 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at juszkiewicz.com.pl
+Received: from muminek.juszkiewicz.com.pl ([127.0.0.1])
+ by localhost (muminek.juszkiewicz.com.pl [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yVlK5AhssGWo; Thu, 11 Feb 2021 13:36:45 +0100 (CET)
+Received: from puchatek.lan (89-67-26-161.dynamic.chello.pl [89.67.26.161])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTPSA id C5E7E2600B6;
+ Thu, 11 Feb 2021 13:36:44 +0100 (CET)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: qemu-arm@nongnu.org
+Subject: [PATCH 1/2] sbsa-ref: remove cortex-a53 from list of supported cpus
+Date: Thu, 11 Feb 2021 13:36:37 +0100
+Message-Id: <20210211123638.1820482-1-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210211122022.1811362-1-marcin.juszkiewicz@linaro.org>
+References: <20210211122022.1811362-1-marcin.juszkiewicz@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:86.0)
- Gecko/20100101 Thunderbird/86.0
-Subject: Re: [PATCH] hw/block/nvme: fix legacy namespace registration
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
-References: <20210211105451.937713-1-its@irrelevant.dk>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <20210211105451.937713-1-its@irrelevant.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.119,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=2001:41d0:1:43dd::1;
+ envelope-from=marcin.juszkiewicz@linaro.org; helo=muminek.juszkiewicz.com.pl
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_SOFTFAIL=0.665,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,58 +56,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>,
+ =?UTF-8?q?Rados=C5=82aw=20Biernacki?= <rad@semihalf.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cortex-A53 supports 40bits of address space. sbsa-ref's memory starts
+above this limit.
 
-On 11.02.21 11:54, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->
-> Moving namespace registration to the nvme-ns realization function had
-> the unintended side-effect of breaking legacy namespace registration.
-> Fix this.
->
-> Fixes: 15d024d4aa9b ("hw/block/nvme: split setup and register for namespace")
-> Reported-by: Alexander Graf <agraf@csgraf.de>
-> Cc: Minwoo Im <minwoo.im.dev@gmail.com>
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+---
+ hw/arm/sbsa-ref.c | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git hw/arm/sbsa-ref.c hw/arm/sbsa-ref.c
+index 9f70735153..276243d122 100644
+--- hw/arm/sbsa-ref.c
++++ hw/arm/sbsa-ref.c
+@@ -145,7 +145,6 @@ static const int sbsa_ref_irqmap[] = {
+ };
+ 
+ static const char * const valid_cpus[] = {
+-    ARM_CPU_TYPE_NAME("cortex-a53"),
+     ARM_CPU_TYPE_NAME("cortex-a57"),
+     ARM_CPU_TYPE_NAME("cortex-a72"),
+ };
+-- 
+2.29.2
 
-I can confirm that this fixes the upstream regression. Thanks a lot. 
-Please work on a way with Peter to pull this into the tree as quickly as 
-possible, so that we maintain a working master branch with NVMe.
-
-Tested-by: Alexander Graf <agraf@csgraf.de>
-
-
-Thanks!
-
-Alex
-
-
-> ---
->   hw/block/nvme.c | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 5ce21b7100b3..d36e14fe13e2 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -4507,6 +4507,12 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->           if (nvme_ns_setup(ns, errp)) {
->               return;
->           }
-> +
-> +        if (nvme_register_namespace(n, ns, errp)) {
-> +            error_propagate_prepend(errp, local_err,
-> +                                    "could not register namespace: ");
-> +            return;
-> +        }
->       }
->   }
->   
 
