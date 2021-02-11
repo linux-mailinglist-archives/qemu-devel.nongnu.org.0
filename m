@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F13318C61
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:50:08 +0100 (CET)
-Received: from localhost ([::1]:36604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04079318CC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:58:18 +0100 (CET)
+Received: from localhost ([::1]:33394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lACMB-00021P-Su
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:50:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38256)
+	id 1lACU5-0004ER-2U
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:58:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABpR-0005Xk-N2
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 08:16:18 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:38465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABpO-00075n-7c
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 08:16:17 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id bl23so10008270ejb.5
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 05:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tWxorh/X8/6luqEWfHVFvTNKWGTDatoq4XOZ0BUEycU=;
- b=bL437tQ4qAndHywaeXhJBXiiF+zQs/6+vZBEasq2WZH4OcI6QlUibykO9+iLHT5Tt1
- /6imvxxJWjvTM2+MwPXyhskSfdNhwyd03f6owDSw3AQAROgDjs+HjnUPFyELN7WBcNBC
- 5aG2c10uaoUVN94cgjYpbV8iun1POUZN2ygLZMg8nxlFFeUzwn7AJ6TnNs4c9XpVZii/
- fal98YvqxoyUEipFLplWpaET6fmymhLCkglrGu9mhLZYMFK7Gz9XRq4rWGaaN6/LOLJS
- G2NwV49Kjlr0sKBjNvGp1JEA3X+65pw2fZRRXs4TQQShPEvaFx9jmJ0rBwr8GmUmA7Ox
- 3GEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tWxorh/X8/6luqEWfHVFvTNKWGTDatoq4XOZ0BUEycU=;
- b=ITgEdm8csmJ/dpSZhJxj6z3Pc7v53QczO7FFkjhWppp2Ase359nBh9DuVgMLIcZFHG
- Ga1joULaffEIJt9xoyzhvQnQOvcy0MB+r928ROmlJy3T8w5neb7gHp1J09KGzcV/KGMz
- eCKclL0ZHFeCSAdzX1mqcDU57Zr78/BSf5ZGOsN4jdZ7LYxnYVTuFOV8Ge74PYoD3mtJ
- GqtWBDL2nJEwbDB18gqE6XxLszStgsEO23HZqoWC+uJGXfSpJmEwMYi7bIDM9l3uL35K
- SPaCwYJdt6i63OtTIIWDyojpclmGR7Pd1DGEE8QcRH5vdh8M0awIAZTHUpUEcnCyliMG
- Dxiw==
-X-Gm-Message-State: AOAM53170u7GRQN2v2m0dt0R+1AI1ex/BR9Mmv6eQPY+RRH/KGyNHBfn
- 4tIBfVCUAwyTOWmIVpb1oxKoGh0WYEaSBxno09iFLg==
-X-Google-Smtp-Source: ABdhPJz/KDj+QdgAwQCkqTOGlqSTVM9tJxQx1adRXdYbUY1V1AYTG3jsB1L7c0jsOzJrmFNe2wyRZhLEKyzkePh8aRU=
-X-Received: by 2002:a17:906:2e4f:: with SMTP id
- r15mr8489803eji.407.1613049372166; 
- Thu, 11 Feb 2021 05:16:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lAC2s-0004CK-8M
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 08:30:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53526)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lAC2q-0003xo-Cc
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 08:30:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613050207;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZLSxsDaC68a8VLJ5/p55dCqnJ+rUSp0X3QepOh4w9+w=;
+ b=YiKiEQQy1Mr35ZRCEg+CfK1bEvyJWfvVDDC4gmyke0c7ccmd/21nc2ycqaxnn3aXtm+SYY
+ mnFuQtWL8WhinM3hywefCrSMpmFrVhuSd8wTZMrFfdPKVwhr2OCQXZ225B9CvAfd7hzfFM
+ qGQTVd6zwd/9ymJW3AE5LRN+cw2Lx4k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-16IVXu6iNoaXyH3pF0IcoQ-1; Thu, 11 Feb 2021 08:30:04 -0500
+X-MC-Unique: 16IVXu6iNoaXyH3pF0IcoQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AA3580404F;
+ Thu, 11 Feb 2021 13:30:03 +0000 (UTC)
+Received: from thuth.com (ovpn-112-46.ams2.redhat.com [10.36.112.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E80E2BFE7;
+ Thu, 11 Feb 2021 13:30:02 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>,
+	qemu-devel@nongnu.org
+Subject: [PATCH] linux-user/syscall: Silence warning from the undefined
+ behavior sanitizer
+Date: Thu, 11 Feb 2021 14:29:59 +0100
+Message-Id: <20210211132959.574168-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210120224444.71840-1-agraf@csgraf.de>
- <20210120224444.71840-8-agraf@csgraf.de>
- <CAFEAcA_-4GYk_+jdczWE720-VH1CLcS+1jVB2LzG=bBBJc8w-g@mail.gmail.com>
- <298dcf49-1a99-9406-275f-b05c8befd13b@csgraf.de>
- <CAFEAcA_ze+J7geayqgaV274anQubqiv56qan7wo8EkxZ14Nydw@mail.gmail.com>
- <37018444-82a8-96c0-b5ce-da056646a1b8@csgraf.de>
-In-Reply-To: <37018444-82a8-96c0-b5ce-da056646a1b8@csgraf.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Feb 2021 13:16:00 +0000
-Message-ID: <CAFEAcA9bmV4jUubwqrQXzPXMFfNCsyw7XD34dLW6HBU7_uQvRQ@mail.gmail.com>
-Subject: Re: [PATCH v6 07/11] hvf: Add Apple Silicon support
-To: Alexander Graf <agraf@csgraf.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,73 +75,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Feb 2021 at 13:06, Alexander Graf <agraf@csgraf.de> wrote:
->
->
-> On 10.02.21 23:39, Peter Maydell wrote:
-> > On Wed, 10 Feb 2021 at 22:21, Alexander Graf <agraf@csgraf.de> wrote:
-> >>
-> >> On 28.01.21 16:52, Peter Maydell wrote:
-> >>> On Wed, 20 Jan 2021 at 22:44, Alexander Graf <agraf@csgraf.de> wrote:
-> >>>> +            break;
-> >>>> +        case EC_AA64_SMC:
-> >>>> +            cpu_synchronize_state(cpu);
-> >>>> +            if (arm_is_psci_call(arm_cpu, EXCP_SMC)) {
-> >>>> +                arm_handle_psci_call(arm_cpu);
-> >>> Have you checked that all the PSCI code really can cope
-> >>> with being called from a non-TCG accelerator? (As an example
-> >>> the CPU_SUSPEND implementation calls the TCG wfi helper...)
-> >>
-> >> I have not explicitly tried it, but I don't see why the TCG
-> >> implementation of wfi should in principle break with hvf.
-> > Because the TCG implementation of wfi is "set some state fields
-> > and then longjump out to the TCG exec_cpu code-execution loop",
-> > and hvf doesn't use that loop.
->
->
-> I can confirm that it breaks, but are you really sure about the longjmp
-> not working?
->
-> What would you prefer instead? Duplicate the PSCI implementation for HVF?
+When compiling QEMU with -fsanitize=undefined, there is a warning when
+running "make check-tcg":
 
-I would prefer that you worked through the details. In other
-words, mostly my concerns with this series are that it feels
-like it has a lot of quick-hack "this makes the guests I tested
-boot" stuff in it. Examples include this PSCI handling, the
-WFI/timer interrupt bits, the way the GIC is done, and the
-"let's ignore bogus SMC calls" below.
+  TEST    linux-test on m68k
+../linux-user/syscall.c:10499:34: runtime error: member access within
+ misaligned address 0x00008006df3c for type 'struct linux_dirent64',
+ which requires 8 byte alignment
+0x00008006df3c: note: pointer points here
+  00 00 00 00 68 03 28 00  00 00 00 00 5b 96 3e e4  61 4b 05 26 18 00 04 2e  00 00 00 00 da 3f 18 00
+              ^
 
-> >>> This should inject an UNDEF exception into the guest. (Compare
-> >>> the pre_smc helper in target/arm/op_helper.c for TCG.)
-> >>
-> >> That would break Windows, which is one of the main use cases for hvf
-> >> support in QEMU.
-> > Why is Windows making bogus SMC calls ?
->
->
-> Let me have a quick at my crystal ball ... mmmmmmhhhh ... it's a bit
-> blurry unfortunately.
->
-> I really don't think I'm the right person to answer that question :).
-> But the Windows loader does invoke weird SMC calls on boot:
+It's likely not an issue in reality, since I assume that on hosts where
+the alignment really matters (like sparc64), the Linux kernel likely
+adds the right padding. Anyway, let's use the stw_p() / stq_p() accessor
+helpers here to silence the warning and thus to allow to compile the code
+with -fsanitize=undefined, too.
 
-Does it boot under TCG ? Under KVM ?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ linux-user/syscall.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-If there's an SMC API that we ought to be implementing but aren't,
-then we should implement it consistently. If the guest is doing
-something wrong, we shouldn't put in fudges to work around that.
-Once that kind of hack gets into the codebase it is practically
-impossible to ever get rid of it.
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 34760779c8..50de535ade 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -10491,20 +10491,22 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 return -TARGET_EFAULT;
+             ret = get_errno(sys_getdents64(arg1, dirp, count));
+             if (!is_error(ret)) {
+-                struct linux_dirent64 *de;
++                char *de;
+                 int len = ret;
+                 int reclen;
+-                de = dirp;
++                de = (char *)dirp;
++                #define de64(x) offsetof(struct linux_dirent64, x)
+                 while (len > 0) {
+-                    reclen = de->d_reclen;
++                    reclen = lduw_he_p(de + de64(d_reclen));
+                     if (reclen > len)
+                         break;
+-                    de->d_reclen = tswap16(reclen);
+-                    tswap64s((uint64_t *)&de->d_ino);
+-                    tswap64s((uint64_t *)&de->d_off);
+-                    de = (struct linux_dirent64 *)((char *)de + reclen);
++                    stw_p(de + de64(d_reclen), reclen);
++                    stq_p(de + de64(d_ino), ldq_he_p(de + de64(d_ino)));
++                    stq_p(de + de64(d_off), ldq_he_p(de + de64(d_off)));
++                    de += reclen;
+                     len -= reclen;
+                 }
++                #undef de64
+             }
+             unlock_user(dirp, arg2, ret);
+         }
+-- 
+2.27.0
 
-thanks
--- PMM
 
