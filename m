@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEB9318C3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:40:53 +0100 (CET)
-Received: from localhost ([::1]:37526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91626318C16
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:32:13 +0100 (CET)
+Received: from localhost ([::1]:41696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lACDE-0007Ft-UI
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:40:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33764)
+	id 1lAC4q-00058F-Lk
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:32:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABZJ-0008O8-LJ
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:37 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41862)
+ id 1lABZM-0008Ow-0g
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:41 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABZA-00005c-9l
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:37 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id n6so4073286wrv.8
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:27 -0800 (PST)
+ id 1lABZB-00005i-8L
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:39 -0500
+Received: by mail-wr1-x435.google.com with SMTP id b3so4094182wrj.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=T4551kNNJ3EgbP/hZlRobuhumCTtrfNVFzhtY4opKq8=;
- b=ozsbo/EXSbZs3jt0vrfFdAj2DoaaoN6TMfT0vhbcWad7gIbnVjVmwjpS6DWAdxSVRv
- UmN/R/4OWQ4+UU3EWwtoCunp/QS9Dbjcm0Iq97efHLiRrOsAAu6oFCrp43Zzwd4Bg+yE
- PZLytWvxzI9KGc3BQ/+3WRKQF9E80D2NGjqSjchoFGiJOL81RKd5HSTzjHMLAH3nXkvm
- s6UbTd1trZG/o28k1mAocluTn3bSRrm1YnLuyMsK9KwxPKFDb4cRp9egXiMz2we0MmHh
- o3tw+HJMO53ERzvJVkgMl7dRTe6reXWzVPoYpFAk7fDy6Cuo25LGs19eZ1P2X5G9US/V
- aK/g==
+ bh=Td1SZqricVmJobvnC2bV9MTlMvXZFc8dAKhtITA+Nog=;
+ b=INIaVQdvx12S40AoN+MoZHO4IHLz+RenMAJAuVBEqNAnAw1jaz1/O2S1kkkuA3AQ50
+ 4YLaucptuTK02ITnbSMnYYFBH89M2scQnGpxQ9X8GxF9aNkIq2ETEVLx0BA8j4Y0AdAB
+ sXm2tLlH3/tMSNSdkNjMEleThLoZqUKjlgEKDYQQEUQtxzR0YWxhtxD3d7rEwrkMFmny
+ hQIQR+bzwh85zSoSLLyIZmRFsiTBLNm81NgiGSLvTuOGhbgant2HD8H8XFyuBPMgfN/M
+ BJEWU8VCF6tSWBrwQmqZNkFSTQka95uYL+TXXFQosvZdWiO4q34dMAccCViVERUl9bfG
+ TiHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T4551kNNJ3EgbP/hZlRobuhumCTtrfNVFzhtY4opKq8=;
- b=pZGFgBTMYZetEpSO6Ga1TJLi0ke+NH16L2fcT4tYPvPN5Qs99QS/HGuyV/nka4hFXe
- wG9D+vNOY4tHJeEskKn6ACyDdi/H49/9rE230pIHU9BGTH7nvDvC2SqMTGKs+VvDVuM/
- IkIc9QFJJJ5HuU1HPA/4EbYnPg/TvDe9/fJG/axkuKDCigD8PknsVDeJINb+3EJujTbm
- gRLrNYsoWoXfS+7PmjfiqM8OoZChOPUAUSu9SrkytOR9xu5JBmQVNjMQN1RJOAkc7pjR
- CvbpCvoGmIJ+6tPZr/LFgaR9yOE/0siEyp64XR0lttwxu9U0snMa/GO2K8Tj95LBmLX4
- 04dA==
-X-Gm-Message-State: AOAM530TROPwt/vLPve/Mg/2Q1K4nHm1lAeqS4qWtZmnsEhDcsKDe9C+
- uVAd1m3TK0etLY4dNv4m5ObzDRuzjqDPAQ==
-X-Google-Smtp-Source: ABdhPJzF/HDn9+b93CGZ5cN6Te2lCzCdv3euRCe25i4few/hm3Ck/UfqF9iqMENvt54VmVEOULhQXw==
-X-Received: by 2002:adf:808c:: with SMTP id 12mr5640005wrl.139.1613048366800; 
- Thu, 11 Feb 2021 04:59:26 -0800 (PST)
+ bh=Td1SZqricVmJobvnC2bV9MTlMvXZFc8dAKhtITA+Nog=;
+ b=C3bX9fhhpipQby5Ckc+7H3OEJH//0NcUkf6DBtAX9RMTGzOjiufwVN10nkHrD450BK
+ YFxQe7ip3kUIkF4GYPOhtvgDLAKSgUfFKzwXaw0ITPOTmzUctI0GwxSlAdUY+Zw3sU+/
+ C/fH5HnysChFVRlOI1INYsq/v0uCljpFDRKYC3rZGDGuGtm4Tn20+NNtohz0a8Tn5O7v
+ rGlKHihXbqUtXp3ZbvQfJbDF0ReZGiSv8VlLXmELLJdlLMq1aYXQIREqUXc0ydlqMQm9
+ HSi2GlHtvRh8Fxs9cic/jZMe5rgJBJfN5nNudwPdeIkaoWify3+3obSzVMGrtU5eeMRq
+ HRMQ==
+X-Gm-Message-State: AOAM533OPGqvZQ4WYtKXrrSnQLoWEJnNp9dCypscdvLFhdrdDoFzMjf1
+ pbQvD8ZQaHNlG/XKTphPe+Ab9xxiGJjdUQ==
+X-Google-Smtp-Source: ABdhPJw3aOzxG97IatOnnQNABcwvj7I075/igALUdmvV5TyLxOCWtuMEinjffaWkwQRHttYYlag4hQ==
+X-Received: by 2002:a05:6000:2aa:: with SMTP id
+ l10mr5618867wry.368.1613048367499; 
+ Thu, 11 Feb 2021 04:59:27 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 04:59:26 -0800 (PST)
+ Thu, 11 Feb 2021 04:59:27 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/45] linux-user/aarch64: Implement PR_MTE_TCF and PR_MTE_TAG
-Date: Thu, 11 Feb 2021 12:58:47 +0000
-Message-Id: <20210211125900.22777-33-peter.maydell@linaro.org>
+Subject: [PULL 33/45] linux-user/aarch64: Implement PROT_MTE
+Date: Thu, 11 Feb 2021 12:58:48 +0000
+Message-Id: <20210211125900.22777-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211125900.22777-1-peter.maydell@linaro.org>
 References: <20210211125900.22777-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,108 +89,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-These prctl fields are required for the function of MTE.
+Remember the PROT_MTE bit as PAGE_MTE/PAGE_TARGET_2.
+Otherwise this does not yet have effect.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210210000223.884088-24-richard.henderson@linaro.org
+Message-id: 20210210000223.884088-25-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/aarch64/target_syscall.h |  9 ++++++
- linux-user/syscall.c                | 43 +++++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+ include/exec/cpu-all.h    |  1 +
+ linux-user/syscall_defs.h |  1 +
+ target/arm/cpu.h          |  1 +
+ linux-user/mmap.c         | 22 ++++++++++++++--------
+ 4 files changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
-index 820601dfcc8..76f6c3391d3 100644
---- a/linux-user/aarch64/target_syscall.h
-+++ b/linux-user/aarch64/target_syscall.h
-@@ -33,5 +33,14 @@ struct target_pt_regs {
- #define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
- #define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
- # define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
-+/* MTE tag check fault modes */
-+# define TARGET_PR_MTE_TCF_SHIFT       1
-+# define TARGET_PR_MTE_TCF_NONE        (0UL << TARGET_PR_MTE_TCF_SHIFT)
-+# define TARGET_PR_MTE_TCF_SYNC        (1UL << TARGET_PR_MTE_TCF_SHIFT)
-+# define TARGET_PR_MTE_TCF_ASYNC       (2UL << TARGET_PR_MTE_TCF_SHIFT)
-+# define TARGET_PR_MTE_TCF_MASK        (3UL << TARGET_PR_MTE_TCF_SHIFT)
-+/* MTE tag inclusion mask */
-+# define TARGET_PR_MTE_TAG_SHIFT       3
-+# define TARGET_PR_MTE_TAG_MASK        (0xffffUL << TARGET_PR_MTE_TAG_SHIFT)
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index d6ad774c015..09b9be845d1 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -284,6 +284,7 @@ extern intptr_t qemu_host_page_mask;
+ #endif
+ /* Target-specific bits that will be used via page_get_flags().  */
+ #define PAGE_TARGET_1  0x0080
++#define PAGE_TARGET_2  0x0200
  
- #endif /* AARCH64_TARGET_SYSCALL_H */
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ba4da7f8a67..61bf6148e7f 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -10985,17 +10985,53 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             {
-                 abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
-                 CPUARMState *env = cpu_env;
-+                ARMCPU *cpu = env_archcpu(env);
-+
-+                if (cpu_isar_feature(aa64_mte, cpu)) {
-+                    valid_mask |= TARGET_PR_MTE_TCF_MASK;
-+                    valid_mask |= TARGET_PR_MTE_TAG_MASK;
-+                }
+ #if defined(CONFIG_USER_ONLY)
+ void page_dump(FILE *f);
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index f98c1c1c8de..46a960fccb4 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -1311,6 +1311,7 @@ struct target_winsize {
  
-                 if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
-                     return -TARGET_EINVAL;
-                 }
-                 env->tagged_addr_enable = arg2 & TARGET_PR_TAGGED_ADDR_ENABLE;
-+
-+                if (cpu_isar_feature(aa64_mte, cpu)) {
-+                    switch (arg2 & TARGET_PR_MTE_TCF_MASK) {
-+                    case TARGET_PR_MTE_TCF_NONE:
-+                    case TARGET_PR_MTE_TCF_SYNC:
-+                    case TARGET_PR_MTE_TCF_ASYNC:
-+                        break;
-+                    default:
-+                        return -EINVAL;
-+                    }
-+
-+                    /*
-+                     * Write PR_MTE_TCF to SCTLR_EL1[TCF0].
-+                     * Note that the syscall values are consistent with hw.
-+                     */
-+                    env->cp15.sctlr_el[1] =
-+                        deposit64(env->cp15.sctlr_el[1], 38, 2,
-+                                  arg2 >> TARGET_PR_MTE_TCF_SHIFT);
-+
-+                    /*
-+                     * Write PR_MTE_TAG to GCR_EL1[Exclude].
-+                     * Note that the syscall uses an include mask,
-+                     * and hardware uses an exclude mask -- invert.
-+                     */
-+                    env->cp15.gcr_el1 =
-+                        deposit64(env->cp15.gcr_el1, 0, 16,
-+                                  ~arg2 >> TARGET_PR_MTE_TAG_SHIFT);
-+                    arm_rebuild_hflags(env);
-+                }
-                 return 0;
-             }
-         case TARGET_PR_GET_TAGGED_ADDR_CTRL:
-             {
-                 abi_long ret = 0;
-                 CPUARMState *env = cpu_env;
-+                ARMCPU *cpu = env_archcpu(env);
+ #ifdef TARGET_AARCH64
+ #define TARGET_PROT_BTI         0x10
++#define TARGET_PROT_MTE         0x20
+ #endif
  
-                 if (arg2 || arg3 || arg4 || arg5) {
-                     return -TARGET_EINVAL;
-@@ -11003,6 +11039,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                 if (env->tagged_addr_enable) {
-                     ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
-                 }
-+                if (cpu_isar_feature(aa64_mte, cpu)) {
-+                    /* See above. */
-+                    ret |= (extract64(env->cp15.sctlr_el[1], 38, 2)
-+                            << TARGET_PR_MTE_TCF_SHIFT);
-+                    ret = deposit64(ret, TARGET_PR_MTE_TAG_SHIFT, 16,
-+                                    ~env->cp15.gcr_el1);
-+                }
-                 return ret;
-             }
- #endif /* AARCH64 */
+ /* Common */
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 72a0819eb8c..efa1618c4d5 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3608,6 +3608,7 @@ static inline MemTxAttrs *typecheck_memtxattrs(MemTxAttrs *x)
+  * AArch64 usage of the PAGE_TARGET_* bits for linux-user.
+  */
+ #define PAGE_BTI  PAGE_TARGET_1
++#define PAGE_MTE  PAGE_TARGET_2
+ 
+ #ifdef TARGET_TAGGED_ADDRESSES
+ /**
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 6690384752f..85e218ab1d0 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -84,18 +84,24 @@ static int validate_prot_to_pageflags(int *host_prot, int prot)
+                | (prot & PROT_EXEC ? PROT_READ : 0);
+ 
+ #ifdef TARGET_AARCH64
+-    /*
+-     * The PROT_BTI bit is only accepted if the cpu supports the feature.
+-     * Since this is the unusual case, don't bother checking unless
+-     * the bit has been requested.  If set and valid, record the bit
+-     * within QEMU's page_flags.
+-     */
+-    if (prot & TARGET_PROT_BTI) {
++    {
+         ARMCPU *cpu = ARM_CPU(thread_cpu);
+-        if (cpu_isar_feature(aa64_bti, cpu)) {
++
++        /*
++         * The PROT_BTI bit is only accepted if the cpu supports the feature.
++         * Since this is the unusual case, don't bother checking unless
++         * the bit has been requested.  If set and valid, record the bit
++         * within QEMU's page_flags.
++         */
++        if ((prot & TARGET_PROT_BTI) && cpu_isar_feature(aa64_bti, cpu)) {
+             valid |= TARGET_PROT_BTI;
+             page_flags |= PAGE_BTI;
+         }
++        /* Similarly for the PROT_MTE bit. */
++        if ((prot & TARGET_PROT_MTE) && cpu_isar_feature(aa64_mte, cpu)) {
++            valid |= TARGET_PROT_MTE;
++            page_flags |= PAGE_MTE;
++        }
+     }
+ #endif
+ 
 -- 
 2.20.1
 
