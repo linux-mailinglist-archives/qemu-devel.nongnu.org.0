@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3813192E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:16:26 +0100 (CET)
-Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3FB3192FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:22:15 +0100 (CET)
+Received: from localhost ([::1]:52638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAHRw-0007Kg-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:16:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47044)
+	id 1lAHXa-0005gJ-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:22:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHCS-0004Wu-Tf
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:00:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33045)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHCZ-0004ZC-Eh
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:00:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHCB-0005de-AB
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:00:23 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHCK-0005eI-Pe
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:00:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613070006;
+ s=mimecast20190719; t=1613070011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EjJz7UAumK2/tFUcGTP2NPNi/Sa7gDSCL6ShEgSmEhw=;
- b=IklhRV975yYetKOejMC9IfP5jkBrzcFUSkwjmin/dCmGM9T1Lzg3u4erA9aowe1IpXfxlC
- or3H2Irm5Uk0mL/ktoxgFHNq4gqXutYsNxcSrsQEulLKGLHX655xhiRRGvJSeA4Y+l8raw
- GX4xifkMK3pKv/AYLnICryr4pgI1Uak=
+ bh=3HoTK3D1x43ejkRDXMPImpDUyZvUmIeX61gFkRgJh+8=;
+ b=CZbG4++bD8wVCBTXQwf+db+OsavXqpGZw53vVAGPpjq1VsuauOsP0bQi0DI5j4b/cgtIwl
+ GYW7tCOECxxDT+PoqwkuKNZ3BADLFHi2ZX0ZmoJQ3vWtMW/2o0MdmxOtmzessC5Zhm+Vf6
+ l+RuTp9ZO5S0uL3NRcLE08zz3DnKX4w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-zY4eUN8KPmaRHldS5hMd4g-1; Thu, 11 Feb 2021 14:00:04 -0500
-X-MC-Unique: zY4eUN8KPmaRHldS5hMd4g-1
+ us-mta-45-ZT7f0H3tO5eePGDvUWz4mg-1; Thu, 11 Feb 2021 14:00:08 -0500
+X-MC-Unique: ZT7f0H3tO5eePGDvUWz4mg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD464102CB37;
- Thu, 11 Feb 2021 18:59:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10CD310BAA52;
+ Thu, 11 Feb 2021 18:59:47 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37F003828;
- Thu, 11 Feb 2021 18:59:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E6A23828;
+ Thu, 11 Feb 2021 18:59:45 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/24] python: move pylintrc into setup.cfg
-Date: Thu, 11 Feb 2021 13:58:42 -0500
-Message-Id: <20210211185856.3975616-11-jsnow@redhat.com>
+Subject: [PATCH v4 12/24] python: move flake8 config to setup.cfg
+Date: Thu, 11 Feb 2021 13:58:44 -0500
+Message-Id: <20210211185856.3975616-13-jsnow@redhat.com>
 In-Reply-To: <20210211185856.3975616-1-jsnow@redhat.com>
 References: <20210211185856.3975616-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -88,119 +88,43 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Delete the empty settings now that it's sharing a home with settings for
-other tools.
+Update the comment concerning the flake8 exception to match commit
+42c0dd12, whose commit message stated:
 
-pylint can now be run from this folder as "pylint qemu".
+A note on the flake8 exception: flake8 will warn on *any* bare except,
+but pylint's is context-aware and will suppress the warning if you
+re-raise the exception.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine/pylintrc | 58 ------------------------------------
- python/setup.cfg             | 29 ++++++++++++++++++
- 2 files changed, 29 insertions(+), 58 deletions(-)
- delete mode 100644 python/qemu/machine/pylintrc
+ python/qemu/machine/.flake8 | 2 --
+ python/setup.cfg            | 3 +++
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+ delete mode 100644 python/qemu/machine/.flake8
 
-diff --git a/python/qemu/machine/pylintrc b/python/qemu/machine/pylintrc
+diff --git a/python/qemu/machine/.flake8 b/python/qemu/machine/.flake8
 deleted file mode 100644
-index 3f69205000d..00000000000
---- a/python/qemu/machine/pylintrc
+index 45d8146f3f5..00000000000
+--- a/python/qemu/machine/.flake8
 +++ /dev/null
-@@ -1,58 +0,0 @@
--[MASTER]
--
--[MESSAGES CONTROL]
--
--# Disable the message, report, category or checker with the given id(s). You
--# can either give multiple identifiers separated by comma (,) or put this
--# option multiple times (only on the command line, not in the configuration
--# file where it should appear only once). You can also use "--disable=all" to
--# disable everything first and then reenable specific checks. For example, if
--# you want to run only the similarities checker, you can use "--disable=all
--# --enable=similarities". If you want to run only the classes checker, but have
--# no Warning level messages displayed, use "--disable=all --enable=classes
--# --disable=W".
--disable=too-many-arguments,
--        too-many-instance-attributes,
--        too-many-public-methods,
--
--[REPORTS]
--
--[REFACTORING]
--
--[MISCELLANEOUS]
--
--[LOGGING]
--
--[BASIC]
--
--# Good variable names which should always be accepted, separated by a comma.
--good-names=i,
--           j,
--           k,
--           ex,
--           Run,
--           _,
--           fd,
--           c,
--[VARIABLES]
--
--[STRING]
--
--[SPELLING]
--
--[FORMAT]
--
--[SIMILARITIES]
--
--# Ignore imports when computing similarities.
--ignore-imports=yes
--
--[TYPECHECK]
--
--[CLASSES]
--
--[IMPORTS]
--
--[DESIGN]
--
--[EXCEPTIONS]
+@@ -1,2 +0,0 @@
+-[flake8]
+-extend-ignore = E722  # Pylint handles this, but smarter.
+\ No newline at end of file
 diff --git a/python/setup.cfg b/python/setup.cfg
-index e7f8ab23815..20b24372a4a 100644
+index 20b24372a4a..9ecb2902006 100644
 --- a/python/setup.cfg
 +++ b/python/setup.cfg
-@@ -18,3 +18,32 @@ classifiers =
- [options]
+@@ -19,6 +19,9 @@ classifiers =
  python_requires = >= 3.6
  packages = find_namespace:
+ 
++[flake8]
++extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
 +
-+[pylint.messages control]
-+# Disable the message, report, category or checker with the given id(s). You
-+# can either give multiple identifiers separated by comma (,) or put this
-+# option multiple times (only on the command line, not in the configuration
-+# file where it should appear only once). You can also use "--disable=all" to
-+# disable everything first and then reenable specific checks. For example, if
-+# you want to run only the similarities checker, you can use "--disable=all
-+# --enable=similarities". If you want to run only the classes checker, but have
-+# no Warning level messages displayed, use "--disable=all --enable=classes
-+# --disable=W".
-+disable=too-many-arguments,
-+        too-many-instance-attributes,
-+        too-many-public-methods,
-+
-+[pylint.basic]
-+# Good variable names which should always be accepted, separated by a comma.
-+good-names=i,
-+           j,
-+           k,
-+           ex,
-+           Run,
-+           _,
-+           fd,
-+           c,
-+
-+[pylint.similarities]
-+# Ignore imports when computing similarities.
-+ignore-imports=yes
+ [pylint.messages control]
+ # Disable the message, report, category or checker with the given id(s). You
+ # can either give multiple identifiers separated by comma (,) or put this
 -- 
 2.29.2
 
