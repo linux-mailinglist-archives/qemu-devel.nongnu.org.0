@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE18318695
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 09:58:06 +0100 (CET)
-Received: from localhost ([::1]:53250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1334931866D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 09:48:44 +0100 (CET)
+Received: from localhost ([::1]:38514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA7nZ-0002ry-Ix
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 03:58:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40370)
+	id 1lA7eU-0004L8-VA
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 03:48:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lA7lf-0002Dg-Vy
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 03:56:08 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lA7ld-0006SK-Fx
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 03:56:07 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lA7lZ-0008Bq-Ff
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 08:56:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6E6632E8137
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 08:56:01 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lA7ZA-0002qd-T6; Thu, 11 Feb 2021 03:43:12 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:44363)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lA7Z8-00014o-SX; Thu, 11 Feb 2021 03:43:12 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 29EDC5C010F;
+ Thu, 11 Feb 2021 03:43:09 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Thu, 11 Feb 2021 03:43:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=GRqgZzHwdSa40SnYNQyYwdrOAXH
+ ZCedqPpALNydrsDc=; b=ZsZHEIdEo0pZ0txtd//aigMvysn0rFfaIjaszc2RNv7
+ 0ru169IXKhqY58CVJTKAF8QKNO788U/4TWcD3rtTb/yNLhdkQ9021xhfD932DF6g
+ TEynQ0HgV6Hnt9HTSDNzzN/u2jE4GAC1Phv5DfbguRKO+GI6ZtHoPOIZ4Irayb30
+ jxM8MBpNsxCWP1sgE8l5SYor6DN47D6m+RwhAqITAxgvVDgRONim9j8NQRs+MavM
+ gX8tz7Iw212AqUp/5PH0nGAU8tLT4B8eLalT0EinXJvkqd6RmrxanlY0D4WkuldR
+ eo7mPealyNn6ozIuEucbRZy/sIek01T57jcNonwb/Qw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GRqgZz
+ HwdSa40SnYNQyYwdrOAXHZCedqPpALNydrsDc=; b=FBFzFWXol8ESWukT8Z4iv/
+ hH8YHYCAar1LpvcGg2i1D3kpGyrusrc/v8Bx4ZrIarMAfE/2EMPLpk6jJvw8CDI/
+ KeR7ysZHyVvzywxuzK9kp73MtAO/XqFbJh1gbcysZfkqI+HAhvkfp0hlnSXeS+tE
+ dySNTvxC9Vf6FnilfBobTmTjpHhcxcR6D5xOddmXhds5/7ctV5EUpV4HAORwRMz2
+ QXt0DHcKnU3BSp4Qv3xDIcI9Yl7CEwSaIImjn8kWMOITWv32K7orG4uiUMlkeirT
+ uiXiAlw8FKknrxzF5iqzEirPsLfn4aD0Gv36CTn9lZd0KvWFdnIwiS0TOgg+mvGg
+ ==
+X-ME-Sender: <xms:HO4kYLqV5LnYe7oLfYZa6JFVET-Mrd-lApGoCBWpyaspa8Jb9hi97A>
+ <xme:HO4kYFldxkCjzgFcUKP-zb1FPLSqbHKZ9_rhtsM4vLklWXO0vvXwtfiSd8P4z6grc
+ meCIZ1ZmW2tZkuiQkw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheekgdduvdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuueffiefhgffgteehjeeiveeludfhteffhfehiefgheetjeeitedvtdegvdeh
+ tdenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:HO4kYFGqhKnaWsht2DPNAFCjLe_NPk6WSkbwse4whmpiUlqxAJp0lg>
+ <xmx:HO4kYGo32GAilpRhi0LyS71OWb6txvOL2ubLx-1mupjWSWK1hzlMXA>
+ <xmx:HO4kYJ7dj47LX_IbMXNfPmIgx5Dgh6G_ocMmHjE-gmD8jkktj_YN_Q>
+ <xmx:He4kYA0Rj0WfFBADWNBo4rx7CZhv3_8aIKdHcAteADU5xND2Sh1wHA>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 025FA108005C;
+ Thu, 11 Feb 2021 03:43:06 -0500 (EST)
+Date: Thu, 11 Feb 2021 09:43:05 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 2/2] hw/block/nvme: add write uncorrectable command
+Message-ID: <YCTuGUtwJweVQkXN@apples.localdomain>
+References: <20210210070646.730110-1-its@irrelevant.dk>
+ <20210210070646.730110-3-its@irrelevant.dk>
+ <20210211033732.GE23363@redsun51.ssa.fujisawa.hgst.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 11 Feb 2021 08:41:49 -0000
-From: Pavel Dovgalyuk <1899082@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: acceptance pc replay test x86
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: beraldoleal cleber-gnu dovgalyuk
-X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
-X-Launchpad-Bug-Modifier: Pavel Dovgalyuk (dovgalyuk)
-References: <160219062643.30310.16188463455229225461.malonedeb@gac.canonical.com>
-Message-Id: <161303290963.31872.8581901119571603728.malone@gac.canonical.com>
-Subject: [Bug 1899082] Re: ReplayKernel.test_x86_64_pc fails intermittently
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
-X-Launchpad-Hash: d1b45fe0283c0712127d3a6dcdaaf5445e7291b5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1psWlXVx49P+l8Ug"
+Content-Disposition: inline
+In-Reply-To: <20210211033732.GE23363@redsun51.ssa.fujisawa.hgst.com>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,82 +95,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1899082 <1899082@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Beraldo, thanks for the script.
-However, I can't reproduce the bug using it. I've got the newest QEMU from =
-the repository, and it never hangs in this scenario.
 
-But there are some problems in other runs with more complex tasks.
+--1psWlXVx49P+l8Ug
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Feb 11 12:37, Keith Busch wrote:
+> On Wed, Feb 10, 2021 at 08:06:46AM +0100, Klaus Jensen wrote:
+> > From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> >=20
+> > Add support for marking blocks invalid with the Write Uncorrectable
+> > command. Block status is tracked in a (non-persistent) bitmap that is
+> > checked on all reads and written to on all writes. This is potentially
+> > expensive, so keep Write Uncorrectable disabled by default.
+>=20
+> I really think attempting to emulate all these things is putting a
+> potentially unnecessary maintenance burden on this device.
+>=20
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1899082
+Even though I myself posted the Telemetry support on behalf of Gollu, I
+now agree that it would bloat the device with a "useless" feature. We
+totally accept that and in that initial form there was not a lot of bang
+for bucks.
 
-Title:
-  ReplayKernel.test_x86_64_pc fails intermittently
+This emulated feature comes at a pretty low cost in terms of code and
+complexity, but I won't argue beyond that. However, it does comes at a
+performance cost, which is why the intention was to disable it by
+default.
 
-Status in QEMU:
-  New
+> The DULBE implementation started off similiar, but I suggested it
+> leverage support out of the backing file, and I feel it ended up better
+> for it.
+>=20
 
-Bug description:
-  Even though this acceptance test is already skipped on GitLab CI, the
-  intermittent failures can be seen on other environments too.
+And thanks for pushing back against that - the solution we ended up with
+was totally superior, no doubt about that!
 
-  The record phase works fine, but during the replay phase fail to
-  finish booting the kernel (until the expected place):
+> But unlike punching and checking for holes, there's no filesystem
+> support for Write Uncorrectable in our qemu API, and that's probably
+> because this is kind of a niche feature.
 
-  16:34:47 DEBUG| [    0.034498] Last level dTLB entries: 4KB 0, 2MB 0, 4MB=
- 0, 1GB 0
-  16:34:47 DEBUG| [    0.034790] Spectre V2 : Spectre mitigation: LFENCE no=
-t serializing, switching to generic retpoline
-  16:34:47 DEBUG| [    0.035093] Spectre V2 : Mitigation: Full generic retp=
-oline
-  16:34:47 DEBUG| [    0.035347] Spectre V2 : Spectre v2 / SpectreRSB mitig=
-ation: Filling RSB on context switch
-  16:34:47 DEBUG| [    0.035667]
-  16:36:02 ERROR| =
+True. I don't see any trivial way to support this on a lower level. Even
+if we persued implementing this in the QEMU block layer I only think it
+could be supported by "integrated formats" like QCOW2 that could
+optionally include a persistent bitmap, like the dirty bitmap feature.
 
-  16:36:02 ERROR| Reproduced traceback from: /home/cleber/src/avocado/avoca=
-do/avocado/core/test.py:767
-  16:36:02 ERROR| Traceback (most recent call last):
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/replay_kernel.py", line 92, in test_x86_64_pc
-  16:36:02 ERROR|     self.run_rr(kernel_path, kernel_command_line, console=
-_pattern, shift=3D5)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/replay_kernel.py", line 73, in run_rr
-  16:36:02 ERROR|     False, shift, args, replay_path)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/replay_kernel.py", line 55, in run_vm
-  16:36:02 ERROR|     self.wait_for_console_pattern(console_pattern, vm)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/boot_linux_console.py", line 53, in wait_for_console_pattern
-  16:36:02 ERROR|     vm=3Dvm)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/avocado_qemu/__init__.py", line 130, in wait_for_console_pattern
-  16:36:02 ERROR|     _console_interaction(test, success_message, failure_m=
-essage, None, vm=3Dvm)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/avocado_qemu/__init__.py", line 82, in _console_interaction
-  16:36:02 ERROR|     msg =3D console.readline().strip()
-  16:36:02 ERROR|   File "/usr/lib64/python3.7/socket.py", line 575, in rea=
-dinto
-  16:36:02 ERROR|     def readinto(self, b):
-  16:36:02 ERROR|   File "/home/cleber/src/avocado/avocado/avocado/plugins/=
-runner.py", line 77, in sigterm_handler
-  16:36:02 ERROR|     raise RuntimeError("Test interrupted by SIGTERM")
-  16:36:02 ERROR| RuntimeError: Test interrupted by SIGTERM
-  16:36:02 ERROR| =
+> Is there a use case with a real qemu guest wanting this?
 
+Like for the extended metadata case (which also does not have a lot of
+"public" exposure, but definitely have enterprise use), our main
+motivation here was to ease testing for compliance suites and frameworks
+like SPDK. I'm honestly have no clue what so ever what a real world use
+of Write Uncorrectable would be. It's been in the spec since 1.0, so
+there must have been some reason, Is it just to align with SCSI WRITE
+LONG? I'm not SCSI expert at all, but from what I can read it looks like
+that was also intended as a feature for testing read error conditions.
 
-  On my workstation, I can replicate the failure roughly once every 50
-  runs.
+--1psWlXVx49P+l8Ug
+Content-Type: application/pgp-signature; name="signature.asc"
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1899082/+subscriptions
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAk7hcACgkQTeGvMW1P
+DenTeQgAtvKnMT5d+Wfb3yqShWyv6q2k0GvoV1Fja+NKiKfey5HUZRlnt3Q1K53v
+ZA3VXKDd6uPn/yKCpKTuZO3H/vOgWae3CZSfQhnyeHMANgoGh+GUyavTkRCotnn1
+cqRkK9FUxi7fAtmRmcDIp7pgI01Ffg7k+XSypwfV96J5Wyl7BiSyNP7lkPUwbPti
+NfxbLhMfYLVVGbOXVC3V4MGNI/JHRfeYVAgzPVhz1TRzzodCI+TxXzUQ8tZ8Anz6
+FGLS9PHSCBuKaAn29+eXz1LJo8c08XnGeD8r8dPTgMnob/6aCVrtofPZ+HlrLrxH
+bmW1KVkRJcGNbTFpChdLehzhwyK5Bw==
+=jVYp
+-----END PGP SIGNATURE-----
+
+--1psWlXVx49P+l8Ug--
 
