@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40671318D4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 15:25:59 +0100 (CET)
-Received: from localhost ([::1]:46370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD9C318D23
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 15:20:31 +0100 (CET)
+Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lACus-0002a4-Av
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 09:25:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55672)
+	id 1lACpa-0003xP-OG
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 09:20:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lACl4-0006Ze-BT
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:52 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55982)
+ id 1lACl1-0006YA-SM
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:48 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:33101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lACkf-000766-CH
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:50 -0500
-Received: by mail-wm1-x334.google.com with SMTP id o15so3915198wmq.5
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 06:15:23 -0800 (PST)
+ id 1lACkf-00076J-CV
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:47 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id a16so6025327wmm.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 06:15:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zv2u6w5q5esrZorBsQrCABmG0xarOvGvSZxOFdFbVVI=;
- b=fv742X9Nt8cveRnXPyo09PvWLstprnTaR/YEPp/wPBtMKGRishaVE//PM1xEPjFe5Q
- jf4kerKGv2lLYAiyNJVuwb3KTbc4LPuNw5+ySOBHzcpIYvF9xw3hNctd5K+Ka+xd73fI
- VOl7IhQaPvDqhcWYyANW6PHui3VC0awdEcgdCrgKCG4wq7i+RAQcK2VbtiszRDxkEVN0
- IgODshJ0AAAU7CKLe71HwNFxlitrM48m3Z03zLYXKZ6qbRMh04+gHchUsYqsPIMakr6v
- 6q7rhL39PozC0QAwjlwHNQhFWkvlCS871OeqX36lkq/5sJfN6CbL+nmI5bVbwPeUXubw
- 2RXw==
+ bh=/q6QTfiiOxA3oY14+4dd/XG0OuRlBQOoQGLBGtVV1NU=;
+ b=LTLXxVsQea7Bwumij9ZCPhZWWihDB7JxfVYdK40vFrhv8hsLJBYK2TxkzOSxROsWLg
+ eha77Qauv509mfO1/+cqyd9e3Tw0B5FSo/7n+boO6MmUC5Jfz97UUhN8sNUje2UPeLU1
+ pu/88scVSKZ5kymsbzkYwJtydNn5mwWHITtPMsNV8fo1KVJ+xvOOONuRLpkmWzFgVyIw
+ yTIZ0R3WuiN5dn30McldkH7uHrTVus2nYIUDHT3Hjhu1Y/Sc1Oo9jOoHhL9LHTekyY4M
+ XjLjBjtqWRwgD19wEZh/4BOFT49mzCR3p2U/MzFeFvPvgdPEj5VNG5+k/Rw+bLNlMIbf
+ 4dsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Zv2u6w5q5esrZorBsQrCABmG0xarOvGvSZxOFdFbVVI=;
- b=qeGi0FU0RhV5frEN7lp2sDl+9L/+ziEk0nrRuEU5QN1+RJQWl4fNT2Mjqc2dlfW5bb
- beiMj8Z/jJoZldI8FdKVZh0Kl+9NqQ+fd2Sh01Ex7ti9UIcJ3Mv782NkkMaikFZFK5So
- 5kS33q0CgrxBpjSes5O2AVC0/oOPPbbqEZuJfEe78g/6dRCw7AdYDb3TA2kpARvQV5a5
- bHl2+hjNVLFb+heXnLeqMFPd6kmBeX1B3/E6uJ3V2x3EcJhDa5ULD/J4wKHo0UIFcW8B
- NPGx48A4huSldZnC4iLdiku+S82Ah0WyzYBlRQrH7/3xycdyobSGrrGFVqJKGP2Ywqh3
- re7A==
-X-Gm-Message-State: AOAM531pCBMGhaJsVSScf+cC3wfMY1TsGyLiQcrvStAVaxjWFatQEmqb
- ynSqzizIYvGw1C51qE/cnyUoyg==
-X-Google-Smtp-Source: ABdhPJwh2fYNi8XU3zVbh4tWAZGAXRSW5fxwxyEWfVMJu/QhXuGfQHcCv5FyhQkHTC9OST/NjsbmBw==
-X-Received: by 2002:a05:600c:28d3:: with SMTP id
- h19mr5358567wmd.147.1613052922726; 
- Thu, 11 Feb 2021 06:15:22 -0800 (PST)
+ bh=/q6QTfiiOxA3oY14+4dd/XG0OuRlBQOoQGLBGtVV1NU=;
+ b=IysGjl3CxxvDp3WeBuSePH/kBXEd8JyVyWeKtCLOpUe+x7spUecrATrwn3+g4xBhM0
+ +67a5yltwHdwx9PtmKdOfdbd6MzrtB06FDZFpi1V952zK5LvVo2T8Qqakbrpt9mQ1r7k
+ 1ONBBh7T5gb8dpQwN5eUUk6MP08KUTQD/1aSz7cmr1D3YDVUCvDkHajbQbYttnbR/ESm
+ TBMsIhrGcI+PUJC8bfs4DYltVYAJ/46GYwLWjw+ZjNngDn0tRTsQ/D5rBYhEZVd0fEUd
+ ZMwKcEUGWyfGdQyVCvsPismNxG6dsbaCuFk5eIIuRsknRJbIv696fuIGsJNEkEuExZt0
+ I+vQ==
+X-Gm-Message-State: AOAM533bz2oghieAruZouEPYoaNRC9VJd7n7VBmPvh5HCaSudG0vcKft
+ UmVVE+BjDN7McYPi03G0uyQtjHVOmzDX6w==
+X-Google-Smtp-Source: ABdhPJzMN0WzZgW4ql2S4lKFhKqIVlfq6nvTja50Yi2wnboNmZH5jVf0GUtcyEe0K9rYPZKL9+922g==
+X-Received: by 2002:a1c:8096:: with SMTP id b144mr5604040wmd.169.1613052923456; 
+ Thu, 11 Feb 2021 06:15:23 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h13sm5223291wrv.20.2021.02.11.06.15.21
+ by smtp.gmail.com with ESMTPSA id h13sm5223291wrv.20.2021.02.11.06.15.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 06:15:22 -0800 (PST)
+ Thu, 11 Feb 2021 06:15:23 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 6/9] hw/display/pxa2xx: Remove use of BITS in pxa2xx_template.h
-Date: Thu, 11 Feb 2021 14:15:12 +0000
-Message-Id: <20210211141515.8755-7-peter.maydell@linaro.org>
+Subject: [PATCH 7/9] hw/display/pxa2xx: Apply brace-related coding style fixes
+ to template header
+Date: Thu, 11 Feb 2021 14:15:13 +0000
+Message-Id: <20210211141515.8755-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211141515.8755-1-peter.maydell@linaro.org>
 References: <20210211141515.8755-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,336 +88,156 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that BITS is always 32, expand out all its uses in the template
-header, including removing now-useless uses of the glue() macro.
+We're about to move code from the template header into pxa2xx_lcd.c.
+Before doing that, make coding style fixes so checkpatch doesn't
+complain about the patch which moves the code. This commit fixes
+missing braces in the SKIP_PIXEL() macro definition and in if()
+statements.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/pxa2xx_template.h | 110 ++++++++++++++---------------------
- 1 file changed, 45 insertions(+), 65 deletions(-)
+ hw/display/pxa2xx_template.h | 47 +++++++++++++++++++++---------------
+ 1 file changed, 28 insertions(+), 19 deletions(-)
 
 diff --git a/hw/display/pxa2xx_template.h b/hw/display/pxa2xx_template.h
-index c64eebc4b68..711fd9994e2 100644
+index 711fd9994e2..1c13d3ac007 100644
 --- a/hw/display/pxa2xx_template.h
 +++ b/hw/display/pxa2xx_template.h
-@@ -10,30 +10,11 @@
+@@ -9,7 +9,7 @@
+  * Framebuffer format conversion routines.
   */
  
- # define SKIP_PIXEL(to)		to += deststep
--#if BITS == 8
--# define COPY_PIXEL(to, from)  do { *to = from; SKIP_PIXEL(to); } while (0)
--#elif BITS == 15 || BITS == 16
--# define COPY_PIXEL(to, from)    \
--    do {                         \
--        *(uint16_t *) to = from; \
--        SKIP_PIXEL(to);          \
--    } while (0)
--#elif BITS == 24
--# define COPY_PIXEL(to, from)     \
--    do {                          \
--        *(uint16_t *) to = from;  \
--        *(to + 2) = (from) >> 16; \
--        SKIP_PIXEL(to);           \
--    } while (0)
--#elif BITS == 32
+-# define SKIP_PIXEL(to)		to += deststep
++# define SKIP_PIXEL(to) do { to += deststep; } while (0)
  # define COPY_PIXEL(to, from)    \
      do {                         \
          *(uint32_t *) to = from; \
-         SKIP_PIXEL(to);          \
-     } while (0)
--#else
--# error unknown bit depth
--#endif
- 
- #ifdef HOST_WORDS_BIGENDIAN
- # define SWAP_WORDS	1
-@@ -42,7 +23,7 @@
- #define FN_2(x)		FN(x + 1) FN(x)
- #define FN_4(x)		FN_2(x + 2) FN_2(x)
- 
--static void glue(pxa2xx_draw_line2_, BITS)(void *opaque,
-+static void pxa2xx_draw_line2(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t *palette = opaque;
-@@ -67,7 +48,7 @@ static void glue(pxa2xx_draw_line2_, BITS)(void *opaque,
-     }
- }
- 
--static void glue(pxa2xx_draw_line4_, BITS)(void *opaque,
-+static void pxa2xx_draw_line4(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t *palette = opaque;
-@@ -92,7 +73,7 @@ static void glue(pxa2xx_draw_line4_, BITS)(void *opaque,
-     }
- }
- 
--static void glue(pxa2xx_draw_line8_, BITS)(void *opaque,
-+static void pxa2xx_draw_line8(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t *palette = opaque;
-@@ -117,7 +98,7 @@ static void glue(pxa2xx_draw_line8_, BITS)(void *opaque,
-     }
- }
- 
--static void glue(pxa2xx_draw_line16_, BITS)(void *opaque,
-+static void pxa2xx_draw_line16(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t data;
-@@ -133,19 +114,19 @@ static void glue(pxa2xx_draw_line16_, BITS)(void *opaque,
-         data >>= 6;
+@@ -142,10 +142,11 @@ static void pxa2xx_draw_line16t(void *opaque,
+         data >>= 5;
          r = (data & 0x1f) << 3;
          data >>= 5;
--        COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+        COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-         b = (data & 0x1f) << 3;
-         data >>= 5;
-         g = (data & 0x3f) << 2;
-         data >>= 6;
-         r = (data & 0x1f) << 3;
--        COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+        COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-         width -= 2;
-         src += 4;
-     }
- }
- 
--static void glue(pxa2xx_draw_line16t_, BITS)(void *opaque,
-+static void pxa2xx_draw_line16t(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t data;
-@@ -164,7 +145,7 @@ static void glue(pxa2xx_draw_line16t_, BITS)(void *opaque,
-         if (data & 1)
+-        if (data & 1)
++        if (data & 1) {
              SKIP_PIXEL(dest);
-         else
--            COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+            COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
+-        else
++        } else {
+             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
++        }
          data >>= 1;
          b = (data & 0x1f) << 3;
          data >>= 5;
-@@ -175,13 +156,13 @@ static void glue(pxa2xx_draw_line16t_, BITS)(void *opaque,
-         if (data & 1)
+@@ -153,10 +154,11 @@ static void pxa2xx_draw_line16t(void *opaque,
+         data >>= 5;
+         r = (data & 0x1f) << 3;
+         data >>= 5;
+-        if (data & 1)
++        if (data & 1) {
              SKIP_PIXEL(dest);
-         else
--            COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+            COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
+-        else
++        } else {
+             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
++        }
          width -= 2;
          src += 4;
      }
- }
- 
--static void glue(pxa2xx_draw_line18_, BITS)(void *opaque,
-+static void pxa2xx_draw_line18(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t data;
-@@ -196,14 +177,14 @@ static void glue(pxa2xx_draw_line18_, BITS)(void *opaque,
-         g = (data & 0x3f) << 2;
+@@ -248,10 +250,11 @@ static void pxa2xx_draw_line19(void *opaque,
          data >>= 6;
          r = (data & 0x3f) << 2;
--        COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+        COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
+         data >>= 6;
+-        if (data & 1)
++        if (data & 1) {
+             SKIP_PIXEL(dest);
+-        else
++        } else {
+             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
++        }
          width -= 1;
          src += 4;
      }
- }
- 
- /* The wicked packed format */
--static void glue(pxa2xx_draw_line18p_, BITS)(void *opaque,
-+static void pxa2xx_draw_line18p(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t data[3];
-@@ -226,32 +207,32 @@ static void glue(pxa2xx_draw_line18p_, BITS)(void *opaque,
+@@ -281,10 +284,11 @@ static void pxa2xx_draw_line19p(void *opaque,
          data[0] >>= 6;
          r = (data[0] & 0x3f) << 2;
-         data[0] >>= 12;
--        COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+        COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
+         data[0] >>= 6;
+-        if (data[0] & 1)
++        if (data[0] & 1) {
+             SKIP_PIXEL(dest);
+-        else
++        } else {
+             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
++        }
+         data[0] >>= 6;
          b = (data[0] & 0x3f) << 2;
          data[0] >>= 6;
-         g = ((data[1] & 0xf) << 4) | (data[0] << 2);
+@@ -292,10 +296,11 @@ static void pxa2xx_draw_line19p(void *opaque,
          data[1] >>= 4;
          r = (data[1] & 0x3f) << 2;
-         data[1] >>= 12;
--        COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+        COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
+         data[1] >>= 6;
+-        if (data[1] & 1)
++        if (data[1] & 1) {
+             SKIP_PIXEL(dest);
+-        else
++        } else {
+             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
++        }
+         data[1] >>= 6;
          b = (data[1] & 0x3f) << 2;
          data[1] >>= 6;
-         g = (data[1] & 0x3f) << 2;
+@@ -303,10 +308,11 @@ static void pxa2xx_draw_line19p(void *opaque,
          data[1] >>= 6;
          r = ((data[2] & 0x3) << 6) | (data[1] << 2);
-         data[2] >>= 8;
--        COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+        COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
+         data[2] >>= 2;
+-        if (data[2] & 1)
++        if (data[2] & 1) {
+             SKIP_PIXEL(dest);
+-        else
++        } else {
+             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
++        }
+         data[2] >>= 6;
          b = (data[2] & 0x3f) << 2;
          data[2] >>= 6;
-         g = (data[2] & 0x3f) << 2;
+@@ -314,10 +320,11 @@ static void pxa2xx_draw_line19p(void *opaque,
          data[2] >>= 6;
          r = data[2] << 2;
--        COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+        COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
+         data[2] >>= 6;
+-        if (data[2] & 1)
++        if (data[2] & 1) {
+             SKIP_PIXEL(dest);
+-        else
++        } else {
+             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
++        }
          width -= 4;
      }
  }
- 
--static void glue(pxa2xx_draw_line19_, BITS)(void *opaque,
-+static void pxa2xx_draw_line19(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t data;
-@@ -270,14 +251,14 @@ static void glue(pxa2xx_draw_line19_, BITS)(void *opaque,
-         if (data & 1)
-             SKIP_PIXEL(dest);
-         else
--            COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+            COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-         width -= 1;
-         src += 4;
-     }
- }
- 
- /* The wicked packed format */
--static void glue(pxa2xx_draw_line19p_, BITS)(void *opaque,
-+static void pxa2xx_draw_line19p(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t data[3];
-@@ -303,7 +284,7 @@ static void glue(pxa2xx_draw_line19p_, BITS)(void *opaque,
-         if (data[0] & 1)
-             SKIP_PIXEL(dest);
-         else
--            COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+            COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-         data[0] >>= 6;
-         b = (data[0] & 0x3f) << 2;
-         data[0] >>= 6;
-@@ -314,7 +295,7 @@ static void glue(pxa2xx_draw_line19p_, BITS)(void *opaque,
-         if (data[1] & 1)
-             SKIP_PIXEL(dest);
-         else
--            COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+            COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-         data[1] >>= 6;
-         b = (data[1] & 0x3f) << 2;
-         data[1] >>= 6;
-@@ -325,7 +306,7 @@ static void glue(pxa2xx_draw_line19p_, BITS)(void *opaque,
-         if (data[2] & 1)
-             SKIP_PIXEL(dest);
-         else
--            COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+            COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-         data[2] >>= 6;
-         b = (data[2] & 0x3f) << 2;
-         data[2] >>= 6;
-@@ -336,12 +317,12 @@ static void glue(pxa2xx_draw_line19p_, BITS)(void *opaque,
-         if (data[2] & 1)
-             SKIP_PIXEL(dest);
-         else
--            COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+            COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-         width -= 4;
-     }
- }
- 
--static void glue(pxa2xx_draw_line24_, BITS)(void *opaque,
-+static void pxa2xx_draw_line24(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t data;
-@@ -356,13 +337,13 @@ static void glue(pxa2xx_draw_line24_, BITS)(void *opaque,
-         g = data & 0xff;
+@@ -359,10 +366,11 @@ static void pxa2xx_draw_line24t(void *opaque,
          data >>= 8;
          r = data & 0xff;
--        COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+        COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-         width -= 1;
-         src += 4;
-     }
- }
- 
--static void glue(pxa2xx_draw_line24t_, BITS)(void *opaque,
-+static void pxa2xx_draw_line24t(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t data;
-@@ -381,13 +362,13 @@ static void glue(pxa2xx_draw_line24t_, BITS)(void *opaque,
-         if (data & 1)
+         data >>= 8;
+-        if (data & 1)
++        if (data & 1) {
              SKIP_PIXEL(dest);
-         else
--            COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+            COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
+-        else
++        } else {
+             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
++        }
          width -= 1;
          src += 4;
      }
- }
- 
--static void glue(pxa2xx_draw_line25_, BITS)(void *opaque,
-+static void pxa2xx_draw_line25(void *opaque,
-                 uint8_t *dest, const uint8_t *src, int width, int deststep)
- {
-     uint32_t data;
-@@ -406,39 +387,38 @@ static void glue(pxa2xx_draw_line25_, BITS)(void *opaque,
-         if (data & 1)
+@@ -384,10 +392,11 @@ static void pxa2xx_draw_line25(void *opaque,
+         data >>= 8;
+         r = data & 0xff;
+         data >>= 8;
+-        if (data & 1)
++        if (data & 1) {
              SKIP_PIXEL(dest);
-         else
--            COPY_PIXEL(dest, glue(rgb_to_pixel, BITS)(r, g, b));
-+            COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
+-        else
++        } else {
+             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
++        }
          width -= 1;
          src += 4;
      }
- }
- 
- /* Overlay planes disabled, no transparency */
--static drawfn glue(pxa2xx_draw_fn_, BITS)[16] =
-+static drawfn pxa2xx_draw_fn_32[16] =
- {
-     [0 ... 0xf]       = NULL,
--    [pxa_lcdc_2bpp]   = glue(pxa2xx_draw_line2_, BITS),
--    [pxa_lcdc_4bpp]   = glue(pxa2xx_draw_line4_, BITS),
--    [pxa_lcdc_8bpp]   = glue(pxa2xx_draw_line8_, BITS),
--    [pxa_lcdc_16bpp]  = glue(pxa2xx_draw_line16_, BITS),
--    [pxa_lcdc_18bpp]  = glue(pxa2xx_draw_line18_, BITS),
--    [pxa_lcdc_18pbpp] = glue(pxa2xx_draw_line18p_, BITS),
--    [pxa_lcdc_24bpp]  = glue(pxa2xx_draw_line24_, BITS),
-+    [pxa_lcdc_2bpp]   = pxa2xx_draw_line2,
-+    [pxa_lcdc_4bpp]   = pxa2xx_draw_line4,
-+    [pxa_lcdc_8bpp]   = pxa2xx_draw_line8,
-+    [pxa_lcdc_16bpp]  = pxa2xx_draw_line16,
-+    [pxa_lcdc_18bpp]  = pxa2xx_draw_line18,
-+    [pxa_lcdc_18pbpp] = pxa2xx_draw_line18p,
-+    [pxa_lcdc_24bpp]  = pxa2xx_draw_line24,
- };
- 
- /* Overlay planes enabled, transparency used */
--static drawfn glue(glue(pxa2xx_draw_fn_, BITS), t)[16] =
-+static drawfn pxa2xx_draw_fn_32t[16] =
- {
-     [0 ... 0xf]       = NULL,
--    [pxa_lcdc_4bpp]   = glue(pxa2xx_draw_line4_, BITS),
--    [pxa_lcdc_8bpp]   = glue(pxa2xx_draw_line8_, BITS),
--    [pxa_lcdc_16bpp]  = glue(pxa2xx_draw_line16t_, BITS),
--    [pxa_lcdc_19bpp]  = glue(pxa2xx_draw_line19_, BITS),
--    [pxa_lcdc_19pbpp] = glue(pxa2xx_draw_line19p_, BITS),
--    [pxa_lcdc_24bpp]  = glue(pxa2xx_draw_line24t_, BITS),
--    [pxa_lcdc_25bpp]  = glue(pxa2xx_draw_line25_, BITS),
-+    [pxa_lcdc_4bpp]   = pxa2xx_draw_line4,
-+    [pxa_lcdc_8bpp]   = pxa2xx_draw_line8,
-+    [pxa_lcdc_16bpp]  = pxa2xx_draw_line16t,
-+    [pxa_lcdc_19bpp]  = pxa2xx_draw_line19,
-+    [pxa_lcdc_19pbpp] = pxa2xx_draw_line19p,
-+    [pxa_lcdc_24bpp]  = pxa2xx_draw_line24t,
-+    [pxa_lcdc_25bpp]  = pxa2xx_draw_line25,
- };
- 
--#undef BITS
- #undef COPY_PIXEL
- #undef SKIP_PIXEL
- 
 -- 
 2.20.1
 
