@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34628318813
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:27:27 +0100 (CET)
-Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B383F318825
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:29:32 +0100 (CET)
+Received: from localhost ([::1]:44038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA9C2-0006Cw-5k
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:27:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56302)
+	id 1lA9E3-0001TY-PA
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:29:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lA90E-0004NC-H7
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:15:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34605)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lA90B-0006uC-DM
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:15:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613038510;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bCSj8Bjllyq6zUaFjBpVuSyRpgb6DTGpP7ORWS/MbE4=;
- b=PQsAkzGbywiUBH4ijdE02vru692Ki/r0p0/QqVWi0PpgdAVgOQeA5u8ob90gIN+AQskMVX
- Fsge/M3r76Ix++t/Y8FqpLuDbbuY5h5igk9/RHDhcxALZ13fq1kK8DkZraUcIv7eUOC0s0
- qblhQ3EBaHnD9/A3Ya7fEsRylCDGLPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-cjow3BEhPhu3IBRqDilBtQ-1; Thu, 11 Feb 2021 05:15:04 -0500
-X-MC-Unique: cjow3BEhPhu3IBRqDilBtQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7FD81005501
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 10:15:02 +0000 (UTC)
-Received: from redhat.com (ovpn-114-239.ams2.redhat.com [10.36.114.239])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B35819CBF;
- Thu, 11 Feb 2021 10:14:55 +0000 (UTC)
-Date: Thu, 11 Feb 2021 10:14:52 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v4 00/19] i386: KVM: expand Hyper-V features early and
- provide simple 'hv-default=on' option
-Message-ID: <20210211101452.GC1302824@redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210165606.GM1240644@redhat.com>
- <20210210174652.GE1420762@habkost.net>
- <87ft23m2f6.fsf@vitty.brq.redhat.com>
- <20210211091430.GB1302824@redhat.com>
- <87czx7lzhk.fsf@vitty.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lA90t-0004qa-Sq
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:16:01 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:38754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lA90j-0007Iz-Kp
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:15:55 -0500
+Received: by mail-ej1-x634.google.com with SMTP id bl23so9199362ejb.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 02:15:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=W/NrdEkrajUT+xUYtZsSnwBrWIo47zHkgOLLW6QjTHI=;
+ b=IaJ/lmCDGBOFeJonbAeePLlmv4W2IRvCcrkIBl/ZU3xtC+Q0jdENteYsTTApyw/sDx
+ 1+zv9eKUy11el8v/BxSF6HlkkZFD/hD0I488JQmeE6Rk04AEGv9ECqTjyARqaXqtcJwT
+ xzJGytHdN13vQnTOwJsACWKifxED/2S8RCPFEnJayDuZ9XiUIKPAcKQ+aX4YP6N2+Eya
+ kvv5t/g83Z9WnRzyPRFY3Broqut1iVKVsxs4Tiv3Cs2xyOCJFHyblddFSm3i8W4lyxt+
+ JjOsQ61f626qx5SEfw637xlLqre9jEa+s+YC4sKcaN3I0F8wPgo4KrrbjiWZNCIxJF5j
+ xg2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=W/NrdEkrajUT+xUYtZsSnwBrWIo47zHkgOLLW6QjTHI=;
+ b=VjL23yBFxu9MxsHUnRBIEtAlPHZR66S3I5ZOct+gW6W00q+0kfrcE3FVpR/Am/px4w
+ qSP9nfQYez8pioJ6UvJW8tSuMArbFOVl1aSrvj8PNZcqJYSsVj60xXuAI8P0LbqULyLh
+ EQOIDUqjCseTT8Lm+NciwqE2I31jPihNUlREL5xMR2IgtPRqfCBqeQV6txAS3txVZFzX
+ zEwHrMATwY9ae+/OOHLMYweTw48MHTGi7/MgVS5HFXldZTs4CxMC+noolubZic0SZOFF
+ DmmSILnryvh3ITMP1p6G3GqGTd/DHixZQACmqtIZXZF0YRySlde8W1v9JyU7ADXRwVRo
+ KqRw==
+X-Gm-Message-State: AOAM532XQR2BhC3WZQx+gSuyk7fghc+yjl1Axx5lDvVDTftpQSZiYGVe
+ HIKjNWj7/OiUg+JFIovKDfADEa8HHADhEAtjAHs=
+X-Google-Smtp-Source: ABdhPJwc2PMj2bTpjafd0R5DqWeLDaNwVOtE4GpM4sH2O2G8bkTrD7QiH0IhgRHZoyz01XHbLjday6rh6zkFRUkd8+s=
+X-Received: by 2002:a17:906:3885:: with SMTP id
+ q5mr7801935ejd.105.1613038544211; 
+ Thu, 11 Feb 2021 02:15:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87czx7lzhk.fsf@vitty.brq.redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <20210203172357.1422425-19-crosa@redhat.com>
+In-Reply-To: <20210203172357.1422425-19-crosa@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 11 Feb 2021 14:15:32 +0400
+Message-ID: <CAJ+F1C+sB1+K47C-m74AX4OR0U-MgO-XXyOz4V3W2=TwE2VUQg@mail.gmail.com>
+Subject: Re: [PATCH 18/22] Acceptance Tests: set up existing ssh keys by
+ default
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,105 +81,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 10:34:15AM +0100, Vitaly Kuznetsov wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > On Thu, Feb 11, 2021 at 09:30:53AM +0100, Vitaly Kuznetsov wrote:
-> >> Eduardo Habkost <ehabkost@redhat.com> writes:
-> >> 
-> >> > On Wed, Feb 10, 2021 at 04:56:06PM +0000, Daniel P. Berrangé wrote:
-> >> >> On Wed, Feb 10, 2021 at 05:40:12PM +0100, Vitaly Kuznetsov wrote:
-> >> >> > Changes since v3:
-> >> >> > - Make 'hv-default' override 'hv-*' options which were already set 
-> >> >> >   (e.g. 'hv-feature=on,hv-default' case) [Igor]. Make 'hv-passthrough'
-> >> >> >   behave the same way.
-> >> >> > - Add "i386: be more picky about implicit 'hv-evmcs' enablement" patch to avoid
-> >> >> >   enabling 'hv-evmcs' with hv-default/hv-passthrough when guest CPU lacks VMX.
-> >> >> > - Add "i386: support 'hv-passthrough,hv-feature=off' on the command line" patch
-> >> >> >   to make 'hv-passthrough' semantics match the newly introduced 'hv-default'.
-> >> >> > - Add "i386: track explicit 'hv-*' features enablement/disablement" patch to
-> >> >> >   support the above mentioned changes.
-> >> >> > - Expand qtest to check the above mentioned improvements.
-> >> >> > 
-> >> >> > Original description:
-> >> >> > 
-> >> >> > Upper layer tools like libvirt want to figure out which Hyper-V features are
-> >> >> > supported by the underlying stack (QEMU/KVM) but currently they are unable to
-> >> >> > do so. We have a nice 'hv_passthrough' CPU flag supported by QEMU but it has
-> >> >> > no effect on e.g. QMP's 
-> >> >> > 
-> >> >> > query-cpu-model-expansion type=full model={"name":"host","props":{"hv-passthrough":true}}
-> >> >> > 
-> >> >> > command as we parse Hyper-V features after creating KVM vCPUs and not at
-> >> >> > feature expansion time. To support the use-case we first need to make 
-> >> >> > KVM_GET_SUPPORTED_HV_CPUID ioctl a system-wide ioctl as the existing
-> >> >> > vCPU version can't be used that early. This is what KVM part does. With
-> >> >> > that done, we can make early Hyper-V feature expansion (this series).
-> >> >> > 
-> >> >> > In addition, provide a simple 'hv-default' option which enables (and
-> >> >> > requires from KVM) all currently supported Hyper-V enlightenments.
-> >> >> > Unlike 'hv-passthrough' mode, this is going to be migratable.
-> >> >> 
-> >> >> How is it going to be migratable if the semantics vary depending on
-> >> >> the host kernel KVM reporting features, because different kernels
-> >> >> will expose different features ?
-> >> >
-> >> > "all currently supported" in this context means "all features
-> >> > supported when the machine type was added", not "all features
-> >> > supported by the host kernel".
-> >> 
-> >> Yes, exactly.
-> >> 
-> >> 'hv-passthrough' enables 'everything supported by the host' and this is
-> >> not migratable.
-> >> 
-> >> 'hv-default' requires a certain set of features (depending on the
-> >> machine type) so the VM won't start if the host lacks something.
-> >
-> > Ok, so I presume HV features will only be added to hv-default when we
-> > know they are available in the oldest kernel we are targetting ? Upsteam
-> > is more conservative in this respect than downstreams,  the latter can
-> > guarantee much more modern kernels.
-> >
-> 
-> Yes, it is kind of an open question when a feature gets 'promoted' to
-> 'hv-default'. Currently, the latest feature we include is
-> 'HYPERV_FEAT_STIMER_DIRECT' which dates back to Linux 5.0. It is also
-> possible to use something like
+Hi
 
-Upstream we have a clear set of targetted OS platforms:
+On Wed, Feb 3, 2021 at 10:07 PM Cleber Rosa <crosa@redhat.com> wrote:
+>
+> It's questionable wether it's necessary to create one brand new pair
 
-  https://qemu.readthedocs.io/en/latest/system/build-platforms.html
+whether
 
-This will inform what our minimum possible kernel version will be,
-which should influence when we can promote something.
+> for each test.  It's not questionable that it takes less time and
+> resources to just use the keys available at "tests/keys" that exist
+> for that exact reason.
+>
+> If a location for the public key is not given explicitly, the
+> LinuxTest will now set up the existing pair of keys as the default.
+> This removes the need for a lot of boiler plate code.
 
-Downstream's of course have their own min kernel model, so they can
-do things differently if they have their own machine types.
+boilerplate
 
-> 'hv-default,hv-stimer-direct=off,...'
-> 
-> when running on an older kernel (and this is still migratable).
+>
+> To avoid the ssh client from erroring on permission issues, a
+> directory with restricive permissions is created for the private key.
 
-At that point the mgmt app needs to know exactly what features the
-host supports, and if they know that, there's no real need to use
-hv-default in the first place. IOW, I think we need to strive to
-ensure "hv-default" is always usable on supported platforms without
-needing to know about turning off things.
+restrictive
+
+> This should still be a lot cheaper than creating a new key.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
+/avocado_qemu/__init__.py
+> index 8156224625..5f4dd6b9ec 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -11,6 +11,7 @@
+>  import logging
+>  import os
+>  import re
+> +import shutil
+>  import sys
+>  import uuid
+>  import tempfile
+> @@ -301,8 +302,21 @@ class LinuxTest(Test, LinuxSSHMixIn):
+>          self.vm.add_args('-smp', '2')
+>          self.vm.add_args('-m', '1024')
+>          self.set_up_boot()
+> +        if ssh_pubkey is None:
+> +            ssh_pubkey, self.ssh_key =3D self.set_up_existing_ssh_keys()
+>          self.set_up_cloudinit(ssh_pubkey)
+>
+> +    def set_up_existing_ssh_keys(self):
+> +        ssh_public_key =3D os.path.join(SOURCE_DIR, 'tests', 'keys', 'id=
+_rsa.pub')
+> +        source_private_key =3D os.path.join(SOURCE_DIR, 'tests', 'keys',=
+ 'id_rsa')
+> +        ssh_dir =3D os.path.join(self.workdir, '.ssh')
+> +        os.mkdir(ssh_dir, mode=3D0o700)
+> +        ssh_private_key =3D os.path.join(ssh_dir,
+> +                                       os.path.basename(source_private_k=
+ey))
+> +        shutil.copyfile(source_private_key, ssh_private_key)
+> +        os.chmod(ssh_private_key, 0o600)
+> +        return (ssh_public_key, ssh_private_key)
+> +
+>      def download_boot(self):
+>          self.log.debug('Looking for and selecting a qemu-img binary to b=
+e '
+>                         'used to create the bootable snapshot image')
+> --
+> 2.25.4
+>
+>
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
