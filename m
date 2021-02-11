@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD9C318D23
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 15:20:31 +0100 (CET)
-Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555B0318D37
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 15:24:07 +0100 (CET)
+Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lACpa-0003xP-OG
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 09:20:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55636)
+	id 1lACt4-00008K-Db
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 09:24:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lACl1-0006YA-SM
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:48 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:33101)
+ id 1lACl6-0006aJ-Dk
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:52 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:35941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lACkf-00076J-CV
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:47 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id a16so6025327wmm.0
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 06:15:24 -0800 (PST)
+ id 1lACkg-00076T-6n
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 09:15:51 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id i9so5908851wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 06:15:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/q6QTfiiOxA3oY14+4dd/XG0OuRlBQOoQGLBGtVV1NU=;
- b=LTLXxVsQea7Bwumij9ZCPhZWWihDB7JxfVYdK40vFrhv8hsLJBYK2TxkzOSxROsWLg
- eha77Qauv509mfO1/+cqyd9e3Tw0B5FSo/7n+boO6MmUC5Jfz97UUhN8sNUje2UPeLU1
- pu/88scVSKZ5kymsbzkYwJtydNn5mwWHITtPMsNV8fo1KVJ+xvOOONuRLpkmWzFgVyIw
- yTIZ0R3WuiN5dn30McldkH7uHrTVus2nYIUDHT3Hjhu1Y/Sc1Oo9jOoHhL9LHTekyY4M
- XjLjBjtqWRwgD19wEZh/4BOFT49mzCR3p2U/MzFeFvPvgdPEj5VNG5+k/Rw+bLNlMIbf
- 4dsg==
+ bh=O6dkaa6KUnyKjpOeBlod62XP865fcAhsz6ScpfQ42eo=;
+ b=ayY1H5/EYzGBhDdS7iXct/vc035qJ/xoOQa75hM+9gcJ1KKL31720poDmACQJN+YTD
+ nRyg9t1Ch6ypkqVBKHoWMs0GQcJxMwuy2wcZ4XtoR3ulYJCyX+1aipV5XoL4wDZTSPbL
+ Yh2KFABYLcgP9kK2dvrthL27sYtR8wlL9qGlmD3sgSQIAEsrN5noAxouzsXvaYF+uy8e
+ eOdOSzPR3cspV1zSPhbmc1wZnZlmnvOjDwPbzVJdEelxLE29FUSDpJrmSL1ehGDnRZWR
+ OHVzoRT5RgMYv0XdAseQmmx7ArAWzTvRNWq7a0rOkP4eUDMEWP9NfkZeQUBhnLl63i8j
+ 2dhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/q6QTfiiOxA3oY14+4dd/XG0OuRlBQOoQGLBGtVV1NU=;
- b=IysGjl3CxxvDp3WeBuSePH/kBXEd8JyVyWeKtCLOpUe+x7spUecrATrwn3+g4xBhM0
- +67a5yltwHdwx9PtmKdOfdbd6MzrtB06FDZFpi1V952zK5LvVo2T8Qqakbrpt9mQ1r7k
- 1ONBBh7T5gb8dpQwN5eUUk6MP08KUTQD/1aSz7cmr1D3YDVUCvDkHajbQbYttnbR/ESm
- TBMsIhrGcI+PUJC8bfs4DYltVYAJ/46GYwLWjw+ZjNngDn0tRTsQ/D5rBYhEZVd0fEUd
- ZMwKcEUGWyfGdQyVCvsPismNxG6dsbaCuFk5eIIuRsknRJbIv696fuIGsJNEkEuExZt0
- I+vQ==
-X-Gm-Message-State: AOAM533bz2oghieAruZouEPYoaNRC9VJd7n7VBmPvh5HCaSudG0vcKft
- UmVVE+BjDN7McYPi03G0uyQtjHVOmzDX6w==
-X-Google-Smtp-Source: ABdhPJzMN0WzZgW4ql2S4lKFhKqIVlfq6nvTja50Yi2wnboNmZH5jVf0GUtcyEe0K9rYPZKL9+922g==
-X-Received: by 2002:a1c:8096:: with SMTP id b144mr5604040wmd.169.1613052923456; 
- Thu, 11 Feb 2021 06:15:23 -0800 (PST)
+ bh=O6dkaa6KUnyKjpOeBlod62XP865fcAhsz6ScpfQ42eo=;
+ b=QrKbmUE9AXpdYgeO8pdGvCKOY2UAPBRdtAasYbCtYPlbgiiKWfuJsgkti3yej8U5IE
+ D0HjbBkErlWxnbzGR4QXQkqwvqRA7JsqbRIPNC+C6P3uOfYx7jXAJrbsAlbTS5SQ1dVT
+ wikAXjLsqB8M4wgA4rgfShEvSNdB2sfG1wDPb6HmeJGnpljjYkcYZ8dltVvbS7P9E5A7
+ isL5IaS01hyMqqbiQL4qxGsLj/QzES/V1zjPSpEi7Fgx7AYx/XAVy/OsGQgp1H4Zjq1X
+ fa9//yRbe2kQeBJ67mUUQx3uh69gxvyKD6fVm+R7lHskkFvaqozOZRssQDZtn3nVCgPl
+ Y9fQ==
+X-Gm-Message-State: AOAM530Sox8NavsN2RpZjdn1IF0ZDVkTpUcjSoTW6jE8U83NvEOGVEjf
+ Ve6v/xULI/tvdrpA3ZWUQSCCaw==
+X-Google-Smtp-Source: ABdhPJxJXy8+mWy1jkD/eKh4pZjNJn3LW8Zr42uUejam0TmK/9AdStwiksNrhOqd6EBV9hzk9J8NSw==
+X-Received: by 2002:a1c:f212:: with SMTP id s18mr5294284wmc.107.1613052924219; 
+ Thu, 11 Feb 2021 06:15:24 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h13sm5223291wrv.20.2021.02.11.06.15.22
+ by smtp.gmail.com with ESMTPSA id h13sm5223291wrv.20.2021.02.11.06.15.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 11 Feb 2021 06:15:23 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 7/9] hw/display/pxa2xx: Apply brace-related coding style fixes
- to template header
-Date: Thu, 11 Feb 2021 14:15:13 +0000
-Message-Id: <20210211141515.8755-8-peter.maydell@linaro.org>
+Subject: [PATCH 8/9] hw/display/pxa2xx: Apply whitespace-only coding style
+ fixes to template header
+Date: Thu, 11 Feb 2021 14:15:14 +0000
+Message-Id: <20210211141515.8755-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211141515.8755-1-peter.maydell@linaro.org>
 References: <20210211141515.8755-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,154 +90,203 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 We're about to move code from the template header into pxa2xx_lcd.c.
 Before doing that, make coding style fixes so checkpatch doesn't
-complain about the patch which moves the code. This commit fixes
-missing braces in the SKIP_PIXEL() macro definition and in if()
-statements.
+complain about the patch which moves the code. This commit is
+whitespace changes only:
+ * avoid hard-coded tabs
+ * fix ident on function prototypes
+ * no newline before open brace on array definitions
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/pxa2xx_template.h | 47 +++++++++++++++++++++---------------
- 1 file changed, 28 insertions(+), 19 deletions(-)
+ hw/display/pxa2xx_template.h | 66 +++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 34 deletions(-)
 
 diff --git a/hw/display/pxa2xx_template.h b/hw/display/pxa2xx_template.h
-index 711fd9994e2..1c13d3ac007 100644
+index 1c13d3ac007..d91407592d3 100644
 --- a/hw/display/pxa2xx_template.h
 +++ b/hw/display/pxa2xx_template.h
-@@ -9,7 +9,7 @@
-  * Framebuffer format conversion routines.
-  */
+@@ -17,20 +17,20 @@
+     } while (0)
  
--# define SKIP_PIXEL(to)		to += deststep
-+# define SKIP_PIXEL(to) do { to += deststep; } while (0)
- # define COPY_PIXEL(to, from)    \
-     do {                         \
-         *(uint32_t *) to = from; \
-@@ -142,10 +142,11 @@ static void pxa2xx_draw_line16t(void *opaque,
-         data >>= 5;
-         r = (data & 0x1f) << 3;
-         data >>= 5;
--        if (data & 1)
-+        if (data & 1) {
-             SKIP_PIXEL(dest);
--        else
-+        } else {
-             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-+        }
-         data >>= 1;
-         b = (data & 0x1f) << 3;
-         data >>= 5;
-@@ -153,10 +154,11 @@ static void pxa2xx_draw_line16t(void *opaque,
-         data >>= 5;
-         r = (data & 0x1f) << 3;
-         data >>= 5;
--        if (data & 1)
-+        if (data & 1) {
-             SKIP_PIXEL(dest);
--        else
-+        } else {
-             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-+        }
-         width -= 2;
-         src += 4;
-     }
-@@ -248,10 +250,11 @@ static void pxa2xx_draw_line19(void *opaque,
-         data >>= 6;
-         r = (data & 0x3f) << 2;
-         data >>= 6;
--        if (data & 1)
-+        if (data & 1) {
-             SKIP_PIXEL(dest);
--        else
-+        } else {
-             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-+        }
-         width -= 1;
-         src += 4;
-     }
-@@ -281,10 +284,11 @@ static void pxa2xx_draw_line19p(void *opaque,
-         data[0] >>= 6;
-         r = (data[0] & 0x3f) << 2;
-         data[0] >>= 6;
--        if (data[0] & 1)
-+        if (data[0] & 1) {
-             SKIP_PIXEL(dest);
--        else
-+        } else {
-             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-+        }
-         data[0] >>= 6;
-         b = (data[0] & 0x3f) << 2;
-         data[0] >>= 6;
-@@ -292,10 +296,11 @@ static void pxa2xx_draw_line19p(void *opaque,
-         data[1] >>= 4;
-         r = (data[1] & 0x3f) << 2;
-         data[1] >>= 6;
--        if (data[1] & 1)
-+        if (data[1] & 1) {
-             SKIP_PIXEL(dest);
--        else
-+        } else {
-             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-+        }
-         data[1] >>= 6;
-         b = (data[1] & 0x3f) << 2;
-         data[1] >>= 6;
-@@ -303,10 +308,11 @@ static void pxa2xx_draw_line19p(void *opaque,
-         data[1] >>= 6;
-         r = ((data[2] & 0x3) << 6) | (data[1] << 2);
-         data[2] >>= 2;
--        if (data[2] & 1)
-+        if (data[2] & 1) {
-             SKIP_PIXEL(dest);
--        else
-+        } else {
-             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-+        }
-         data[2] >>= 6;
-         b = (data[2] & 0x3f) << 2;
-         data[2] >>= 6;
-@@ -314,10 +320,11 @@ static void pxa2xx_draw_line19p(void *opaque,
-         data[2] >>= 6;
-         r = data[2] << 2;
-         data[2] >>= 6;
--        if (data[2] & 1)
-+        if (data[2] & 1) {
-             SKIP_PIXEL(dest);
--        else
-+        } else {
-             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-+        }
-         width -= 4;
+ #ifdef HOST_WORDS_BIGENDIAN
+-# define SWAP_WORDS	1
++# define SWAP_WORDS 1
+ #endif
+ 
+-#define FN_2(x)		FN(x + 1) FN(x)
+-#define FN_4(x)		FN_2(x + 2) FN_2(x)
++#define FN_2(x) FN(x + 1) FN(x)
++#define FN_4(x) FN_2(x + 2) FN_2(x)
+ 
+-static void pxa2xx_draw_line2(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line2(void *opaque, uint8_t *dest, const uint8_t *src,
++                              int width, int deststep)
+ {
+     uint32_t *palette = opaque;
+     uint32_t data;
+     while (width > 0) {
+         data = *(uint32_t *) src;
+-#define FN(x)		COPY_PIXEL(dest, palette[(data >> ((x) * 2)) & 3]);
++#define FN(x) COPY_PIXEL(dest, palette[(data >> ((x) * 2)) & 3]);
+ #ifdef SWAP_WORDS
+         FN_4(12)
+         FN_4(8)
+@@ -48,14 +48,14 @@ static void pxa2xx_draw_line2(void *opaque,
      }
  }
-@@ -359,10 +366,11 @@ static void pxa2xx_draw_line24t(void *opaque,
-         data >>= 8;
-         r = data & 0xff;
-         data >>= 8;
--        if (data & 1)
-+        if (data & 1) {
-             SKIP_PIXEL(dest);
--        else
-+        } else {
-             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-+        }
-         width -= 1;
-         src += 4;
+ 
+-static void pxa2xx_draw_line4(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line4(void *opaque, uint8_t *dest, const uint8_t *src,
++                              int width, int deststep)
+ {
+     uint32_t *palette = opaque;
+     uint32_t data;
+     while (width > 0) {
+         data = *(uint32_t *) src;
+-#define FN(x)		COPY_PIXEL(dest, palette[(data >> ((x) * 4)) & 0xf]);
++#define FN(x) COPY_PIXEL(dest, palette[(data >> ((x) * 4)) & 0xf]);
+ #ifdef SWAP_WORDS
+         FN_2(6)
+         FN_2(4)
+@@ -73,14 +73,14 @@ static void pxa2xx_draw_line4(void *opaque,
      }
-@@ -384,10 +392,11 @@ static void pxa2xx_draw_line25(void *opaque,
-         data >>= 8;
-         r = data & 0xff;
-         data >>= 8;
--        if (data & 1)
-+        if (data & 1) {
-             SKIP_PIXEL(dest);
--        else
-+        } else {
-             COPY_PIXEL(dest, rgb_to_pixel32(r, g, b));
-+        }
-         width -= 1;
-         src += 4;
+ }
+ 
+-static void pxa2xx_draw_line8(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line8(void *opaque, uint8_t *dest, const uint8_t *src,
++                              int width, int deststep)
+ {
+     uint32_t *palette = opaque;
+     uint32_t data;
+     while (width > 0) {
+         data = *(uint32_t *) src;
+-#define FN(x)		COPY_PIXEL(dest, palette[(data >> (x)) & 0xff]);
++#define FN(x) COPY_PIXEL(dest, palette[(data >> (x)) & 0xff]);
+ #ifdef SWAP_WORDS
+         FN(24)
+         FN(16)
+@@ -98,8 +98,8 @@ static void pxa2xx_draw_line8(void *opaque,
      }
+ }
+ 
+-static void pxa2xx_draw_line16(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line16(void *opaque, uint8_t *dest, const uint8_t *src,
++                               int width, int deststep)
+ {
+     uint32_t data;
+     unsigned int r, g, b;
+@@ -126,8 +126,8 @@ static void pxa2xx_draw_line16(void *opaque,
+     }
+ }
+ 
+-static void pxa2xx_draw_line16t(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line16t(void *opaque, uint8_t *dest, const uint8_t *src,
++                                int width, int deststep)
+ {
+     uint32_t data;
+     unsigned int r, g, b;
+@@ -164,8 +164,8 @@ static void pxa2xx_draw_line16t(void *opaque,
+     }
+ }
+ 
+-static void pxa2xx_draw_line18(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line18(void *opaque, uint8_t *dest, const uint8_t *src,
++                               int width, int deststep)
+ {
+     uint32_t data;
+     unsigned int r, g, b;
+@@ -186,8 +186,8 @@ static void pxa2xx_draw_line18(void *opaque,
+ }
+ 
+ /* The wicked packed format */
+-static void pxa2xx_draw_line18p(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line18p(void *opaque, uint8_t *dest, const uint8_t *src,
++                                int width, int deststep)
+ {
+     uint32_t data[3];
+     unsigned int r, g, b;
+@@ -234,8 +234,8 @@ static void pxa2xx_draw_line18p(void *opaque,
+     }
+ }
+ 
+-static void pxa2xx_draw_line19(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line19(void *opaque, uint8_t *dest, const uint8_t *src,
++                               int width, int deststep)
+ {
+     uint32_t data;
+     unsigned int r, g, b;
+@@ -261,8 +261,8 @@ static void pxa2xx_draw_line19(void *opaque,
+ }
+ 
+ /* The wicked packed format */
+-static void pxa2xx_draw_line19p(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line19p(void *opaque, uint8_t *dest, const uint8_t *src,
++                                int width, int deststep)
+ {
+     uint32_t data[3];
+     unsigned int r, g, b;
+@@ -329,8 +329,8 @@ static void pxa2xx_draw_line19p(void *opaque,
+     }
+ }
+ 
+-static void pxa2xx_draw_line24(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line24(void *opaque, uint8_t *dest, const uint8_t *src,
++                               int width, int deststep)
+ {
+     uint32_t data;
+     unsigned int r, g, b;
+@@ -350,8 +350,8 @@ static void pxa2xx_draw_line24(void *opaque,
+     }
+ }
+ 
+-static void pxa2xx_draw_line24t(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line24t(void *opaque, uint8_t *dest, const uint8_t *src,
++                                int width, int deststep)
+ {
+     uint32_t data;
+     unsigned int r, g, b;
+@@ -376,8 +376,8 @@ static void pxa2xx_draw_line24t(void *opaque,
+     }
+ }
+ 
+-static void pxa2xx_draw_line25(void *opaque,
+-                uint8_t *dest, const uint8_t *src, int width, int deststep)
++static void pxa2xx_draw_line25(void *opaque, uint8_t *dest, const uint8_t *src,
++                               int width, int deststep)
+ {
+     uint32_t data;
+     unsigned int r, g, b;
+@@ -403,8 +403,7 @@ static void pxa2xx_draw_line25(void *opaque,
+ }
+ 
+ /* Overlay planes disabled, no transparency */
+-static drawfn pxa2xx_draw_fn_32[16] =
+-{
++static drawfn pxa2xx_draw_fn_32[16] = {
+     [0 ... 0xf]       = NULL,
+     [pxa_lcdc_2bpp]   = pxa2xx_draw_line2,
+     [pxa_lcdc_4bpp]   = pxa2xx_draw_line4,
+@@ -416,8 +415,7 @@ static drawfn pxa2xx_draw_fn_32[16] =
+ };
+ 
+ /* Overlay planes enabled, transparency used */
+-static drawfn pxa2xx_draw_fn_32t[16] =
+-{
++static drawfn pxa2xx_draw_fn_32t[16] = {
+     [0 ... 0xf]       = NULL,
+     [pxa_lcdc_4bpp]   = pxa2xx_draw_line4,
+     [pxa_lcdc_8bpp]   = pxa2xx_draw_line8,
 -- 
 2.20.1
 
