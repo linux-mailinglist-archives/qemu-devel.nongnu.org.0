@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD8A3197A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 01:58:49 +0100 (CET)
-Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B253197BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 02:07:20 +0100 (CET)
+Received: from localhost ([::1]:50720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAMnI-0007DB-F4
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 19:58:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
+	id 1lAMvX-0000lN-Mz
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 20:07:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3PtIlYAMKCoEiojlttlqj.htrvjrz-ij0jqstslsz.twl@flex--dje.bounces.google.com>)
- id 1lAMl8-0006ii-Dx
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:56:35 -0500
-Received: from mail-pl1-x649.google.com ([2607:f8b0:4864:20::649]:41071)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3PtIlYAMKCoEiojlttlqj.htrvjrz-ij0jqstslsz.twl@flex--dje.bounces.google.com>)
- id 1lAMl6-0006Xl-Oa
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:56:34 -0500
-Received: by mail-pl1-x649.google.com with SMTP id p15so3937497plq.8
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 16:56:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:mime-version:message-id:date:subject:from:to:cc;
- bh=q3vLd/msSQ8Zm204pvK+UfxueYuT/NelzXnvkw/NEl0=;
- b=EH1VcB9hELHDLSxRG82UPTypkW0F6ZPtEIjnEX2abXRyFfIsp9fASJwyVk4rl2F1S5
- Vse23MEM9l1W47rvNoMFLF5P/8nN897IQ4WgxVg1GJ/OP6XWHNM9AD/iuxMiL664gYs+
- lrPZxyYsFl8/JhCP4mHHOEryqD4qsFrn+Ouchcz6N/gW9xbEbKXsRiUsLZymKeD83Lty
- UBmuqkwKMrXriBGT5ymVIrVTHDynvDmb9LASCFhVT5GTaPznXNV+JoGcD2D4K+RhA+Zs
- YGu+w0dMOrSfhG8yymMPLJa2v3DOcNjotvZfc78x4N/E08t1wHmS7sSXBhXMDToxq9h3
- LEsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:message-id:date:subject:from
- :to:cc;
- bh=q3vLd/msSQ8Zm204pvK+UfxueYuT/NelzXnvkw/NEl0=;
- b=s19aLC6zkmp3mm9M6j1lyIdCEYud/vIJUOKXtJ1EukmZLuKbEz5yot84+dqKbmUHeG
- IkYpGb++MC7WPsUe/KrTGRW0HRHcZDfBHYdxKxZrzhjLRk4SEIFw6HfOrJh1IAaR1lvz
- sJ5bqdIK7G+8BfjiYveHxTeK8IJ1QJ+aOwIfjQScAwUiHWRYBvYh9L3fsP/C4VTzhrkQ
- mW9SlND3SQY1M4y8yDxonUlAPwu8XLwCBXKRQOFvwYGAMS0gWNtQEwaJio19CYKiqFwf
- djaF9d9HsEPu9YqFHVVS/dSY36OshH3Zs9Ypk7Xes87TbxFiipMgS9iS+Thd2c5hpVHE
- LICw==
-X-Gm-Message-State: AOAM531Ds1PKUjRizNCWr1QHJXwgZdTCFVBZ6AUg0gmTw6X8kKZBTVot
- b6fiRzU4jZK0tjkvPVyU88h2xlo=
-X-Google-Smtp-Source: ABdhPJxaLaW4NihXtsyVW+s5BLnQpjDzQJ4/EZpmIrRSn2Fx3cskURO0hILL1IeheGlo8etSHxEetiE=
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lAMta-000056-49; Thu, 11 Feb 2021 20:05:22 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:48797 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lAMtW-0001mP-Mg; Thu, 11 Feb 2021 20:05:17 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DcFf01gwbz9sS8; Fri, 12 Feb 2021 12:04:56 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1613091896;
+ bh=xWgAjhN0D4vxzyZEfMWHtI8v3B2sEWgccscZkUJwXJk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AgEA7vTxBO58TMRDn6ZfvxQK7OKmBDTEEDI8Rr2Lcf001d9J1/3mRO9bU/2jD7qO9
+ 7ItV6iMF1Om6yR1l+E293+b81LXhN4+sxKZn/otYC6eKUUSb9aT2tg4h7YGeI6H/jq
+ pxNyh05Kx8S8qCmwFdmIWIv5a9czj6UMoAZics3s=
+Date: Fri, 12 Feb 2021 10:48:30 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Venu Busireddy <venu.busireddy@oracle.com>
+Subject: Re: [PATCH v8 07/13] confidential guest support: Introduce cgs
+ "ready" flag
+Message-ID: <YCXCTs9fAJV/f7z/@yekko.fritz.box>
+References: <20210202041315.196530-1-david@gibson.dropbear.id.au>
+ <20210202041315.196530-8-david@gibson.dropbear.id.au>
+ <20210210162530.GA84305@dt>
 MIME-Version: 1.0
-X-Received: from ruffy.mtv.corp.google.com
- ([2620:0:1000:1412:8f1:3dd3:20e3:9c39])
- (user=dje job=sendgmr) by 2002:a17:90a:8089:: with SMTP id
- c9mr386122pjn.25.1613091390531; Thu, 11 Feb 2021 16:56:30 -0800 (PST)
-Message-ID: <000000000000530c7105bb191b33@google.com>
-Date: Fri, 12 Feb 2021 00:56:30 +0000
-Subject: [PATCH] qom/object.c: Fix typo
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::649;
- envelope-from=3PtIlYAMKCoEiojlttlqj.htrvjrz-ij0jqstslsz.twl@flex--dje.bounces.google.com;
- helo=mail-pl1-x649.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="A3st2G4EAj1xJzch"
+Content-Disposition: inline
+In-Reply-To: <20210210162530.GA84305@dt>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,32 +60,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pair@us.ibm.com, mtosatti@redhat.com, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
+ mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ pragyansri.pathi@intel.com, andi.kleen@intel.com, thuth@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
+ dgilbert@redhat.com, Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org,
+ jun.nakajima@intel.com, berrange@redhat.com, Cornelia Huck <cohuck@redhat.com>,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Doug Evans <dje@google.com>
-From:  Doug Evans via <qemu-devel@nongnu.org>
 
-A simple typo (noticed by inspection).
 
-commit ccdffd2c10c5e4447d5e462a6ad2f351df502dee
-Author: Doug Evans <dje@google.com>
-Date:   Thu Feb 11 16:29:13 2021 -0800
+--A3st2G4EAj1xJzch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    qom/object.c: Fix typo
-    
-    Signed-off-by: Doug Evans <dje@google.com>
+On Wed, Feb 10, 2021 at 10:25:30AM -0600, Venu Busireddy wrote:
+> On 2021-02-02 15:13:09 +1100, David Gibson wrote:
+> > The platform specific details of mechanisms for implementing
+> > confidential guest support may require setup at various points during
+> > initialization.  Thus, it's not really feasible to have a single cgs
+> > initialization hook, but instead each mechanism needs its own
+> > initialization calls in arch or machine specific code.
+> >=20
+> > However, to make it harder to have a bug where a mechanism isn't
+> > properly initialized under some circumstances, we want to have a
+> > common place, late in boot, where we verify that cgs has been
+> > initialized if it was requested.
+> >=20
+> > This patch introduces a ready flag to the ConfidentialGuestSupport
+> > base type to accomplish this, which we verify in
+> > qemu_machine_creation_done().
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  include/exec/confidential-guest-support.h | 24 +++++++++++++++++++++++
+> >  softmmu/vl.c                              | 10 ++++++++++
+> >  target/i386/sev.c                         |  2 ++
+> >  3 files changed, 36 insertions(+)
+> >=20
+> > diff --git a/include/exec/confidential-guest-support.h b/include/exec/c=
+onfidential-guest-support.h
+> > index 3db6380e63..5dcf602047 100644
+> > --- a/include/exec/confidential-guest-support.h
+> > +++ b/include/exec/confidential-guest-support.h
+> > @@ -27,6 +27,30 @@ OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport,=
+ CONFIDENTIAL_GUEST_SUPPORT)
+> > =20
+> >  struct ConfidentialGuestSupport {
+> >      Object parent;
+> > +
+> > +    /*
+> > +     * ready: flag set by CGS initialization code once it's ready to
+> > +     *        start executing instructions in a potentially-secure
+> > +     *        guest
+> > +     *
+> > +     * The definition here is a bit fuzzy, because this is essentially
+> > +     * part of a self-sanity-check, rather than a strict mechanism.
+> > +     *
+> > +     * It's not fasible to have a single point in the common machine
+>=20
+> Just a nit pick.
+>=20
+> s/fasible/feasible/
 
-diff --git a/qom/object.c b/qom/object.c
-index 491823db4a..6a01d56546 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -695,7 +695,7 @@ static void object_finalize(void *data)
- 
- /* Find the minimum alignment guaranteed by the system malloc. */
- #if __STDC_VERSION__ >= 201112L
--typddef max_align_t qemu_max_align_t;
-+typedef max_align_t qemu_max_align_t;
- #else
- typedef union {
-     long l;
+Already fixed in the version that got merged.
+
+> > +     * init path to configure confidential guest support, because
+> > +     * different mechanisms have different interdependencies requiring
+> > +     * initialization in different places, often in arch or machine
+> > +     * type specific code.  It's also usually not possible to check
+> > +     * for invalid configurations until that initialization code.
+> > +     * That means it would be very easy to have a bug allowing CGS
+> > +     * init to be bypassed entirely in certain configurations.
+> > +     *
+> > +     * Silently ignoring a requested security feature would be bad, so
+> > +     * to avoid that we check late in init that this 'ready' flag is
+> > +     * set if CGS was requested.  If the CGS init hasn't happened, and
+> > +     * so 'ready' is not set, we'll abort.
+> > +     */
+> > +    bool ready;
+> >  };
+> > =20
+> >  typedef struct ConfidentialGuestSupportClass {
+> > diff --git a/softmmu/vl.c b/softmmu/vl.c
+> > index 1b464e3474..1869ed54a9 100644
+> > --- a/softmmu/vl.c
+> > +++ b/softmmu/vl.c
+> > @@ -101,6 +101,7 @@
+> >  #include "qemu/plugin.h"
+> >  #include "qemu/queue.h"
+> >  #include "sysemu/arch_init.h"
+> > +#include "exec/confidential-guest-support.h"
+> > =20
+> >  #include "ui/qemu-spice.h"
+> >  #include "qapi/string-input-visitor.h"
+> > @@ -2497,6 +2498,8 @@ static void qemu_create_cli_devices(void)
+> > =20
+> >  static void qemu_machine_creation_done(void)
+> >  {
+> > +    MachineState *machine =3D MACHINE(qdev_get_machine());
+> > +
+> >      /* Did we create any drives that we failed to create a device for?=
+ */
+> >      drive_check_orphaned();
+> > =20
+> > @@ -2516,6 +2519,13 @@ static void qemu_machine_creation_done(void)
+> > =20
+> >      qdev_machine_creation_done();
+> > =20
+> > +    if (machine->cgs) {
+> > +        /*
+> > +         * Verify that Confidential Guest Support has actually been in=
+itialized
+> > +         */
+> > +        assert(machine->cgs->ready);
+> > +    }
+> > +
+> >      if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+> >          exit(1);
+> >      }
+> > diff --git a/target/i386/sev.c b/target/i386/sev.c
+> > index 590cb31fa8..f9e9b5d8ae 100644
+> > --- a/target/i386/sev.c
+> > +++ b/target/i386/sev.c
+> > @@ -737,6 +737,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Err=
+or **errp)
+> >      qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
+> >      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
+> > =20
+> > +    cgs->ready =3D true;
+> > +
+> >      return 0;
+> >  err:
+> >      sev_guest =3D NULL;
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--A3st2G4EAj1xJzch
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAlwk4ACgkQbDjKyiDZ
+s5JaSw//aZRxhFaO72/cinMj0mNK2Y0EJlhBPY8zYeG/1ln4zC8ZWHbfwYu0cTkR
+4zm/VYydY6pUNd+pfH5qdxXoDHoHi1eHYD3Kqo7Hd9plmeJUBMj1MR70zNJ3i0jG
+NBHJG0bPxIGk17jmaBSRWwrr2n+Hfls1TryAWf+G7IpPBuQAYQs4WmfUsLlLXc1e
+z0qQM6YfRuVtlAsVz9wyzhM+WgRuWg9pczRC8iy6q9pL3EPuYphwvRwkK3kx1LoP
+nngkOeu596DDgYSF0mEUBkILStcdC0EW5bBVrSUujwFwJ0AFeFPfhiNlmeXRzFPo
+tZAOBtHmG0tkauxuFcP4bw2Y96JzVzS9ovP7a2TL6FgKUaC7ub/pCnX08d9f5Yab
+z7JKepMveRU5DzSX0Dj5Z9cMe6IfCDQM77J/h6qAFb4xYuw5uH2mbPuvhXWB3U6g
+xirFQRI3KP3iaSI1O5Yl5ODSWojYoLGFh8ukmsSSn87tEY21BlrpeIFnCgjUnySE
+u8p2/ot3j6NuulvDTJS0wFnOberL7muWUFC+/hoWVvwXep2g8TU4WeiPhg9XDKJ+
+itvCXBw+cL3SvYHbiHgHlIh6tY3wSFnbPtILpbhvAh0w+AOFsI6Kwju4cPxWwLDx
+JaHJH07cNT7efAk9J+icUR1DDIHEeBOa814YEGgzF+wXPA8nDxA=
+=qfTZ
+-----END PGP SIGNATURE-----
+
+--A3st2G4EAj1xJzch--
 
