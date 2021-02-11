@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A959A3189A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 12:38:57 +0100 (CET)
-Received: from localhost ([::1]:37324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14E03189A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 12:42:39 +0100 (CET)
+Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAAJE-0006sh-Pk
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 06:38:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44510)
+	id 1lAAMo-0008Ks-Ur
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 06:42:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAAHN-0005ge-6P
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 06:37:01 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37715)
+ id 1lAAKI-0007gd-VQ
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 06:40:02 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAAHF-0007F8-D3
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 06:36:59 -0500
-Received: by mail-ed1-x536.google.com with SMTP id q2so6608883edi.4
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 03:36:53 -0800 (PST)
+ id 1lAAKG-0008Up-FV
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 06:40:02 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id lg21so9578276ejb.3
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 03:40:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xyRTWz4qZDobwfeQvAdCQPdHz6p1m+56zbWZnrK8PDE=;
- b=d+swLS7W/iJM897yQ59PM10M+PnbYLHlvV2ctftY5dhajV0UGxkZL5+I4ObYdIBccO
- E7ri66CCw5DDT0QmuOgIS3KqfUDLRVA18h8yR3j1mbGSraZQCrfaF7Wzn0svbnnKERTt
- 6BzX5baUGIqcwxuZGDJ6V1Yg+9gq6/igfy9ltAnCw38W6F3MC74pLmpY740SAP7y2het
- 57bff6DoQkQo7B9ScPLn4j8ZU0k5dpHyjbNGSqtuQ5AyrTnPM4zy6ShK5LB9FFMLasDg
- 81CYibzLFdNAu3jdUReeIprVh+jYcP/ZIxLsBYkynKCqxoSFGG0MvT6sATMrv8gTlTAz
- Q7CA==
+ :cc:content-transfer-encoding;
+ bh=57ghFSysUM66+eyX4VVr39NE87Z0OFzTbYVug/sHOE4=;
+ b=eo/vtvZOMELpo5l3T+YQPMu5MI/VInYOUiyliueN2igFlDSV6XiwYlmC8fLK7wkmfv
+ SYK4/4RGD9gJcr1q+NlH35RjAjW+PywT9yyR18R4agvALzUp9jIiZxuu75wZVWMGvnn2
+ Px9NQpn7LHbXURB9X65oV7iG+lbxZ6Fal/TS2mv3jZ3ETjmpH6999W4GCBa6aU1WFryJ
+ uCaYI7thbM7S/0KNwCG5eigWnqnSmcQvICjclwYSqc68tsB4SBG7CcY3x+ujixLSbt5p
+ vO6SQ8ncod+TRNCJrdClWwC+SCjmk1Z/Uw+Xef9VlE+DI1MQ1Y1TYF5TuMlUdY17jgE4
+ GKmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xyRTWz4qZDobwfeQvAdCQPdHz6p1m+56zbWZnrK8PDE=;
- b=uaSheaC6HoKOhwvwMSqNuMzWAB0DeugW/FYo3Q5MkaisvFY+aGx/eZ9nzSjgrZYKDr
- gRk09n0qSHo7K+CwRJpiWlyYLWgYWha+6CJrfe9kNHB9iF9nkYIcd9Sg1ubIrrtbhq2m
- 88kOfHXZ2crOTSg62whBNWt8dMt1o2ADY7GNAyXmWHNvyPnRrjIVCx6oFp9r/cwMyx4f
- E+qOBT6743sITWzsqpkBedehk0dS+Jbd/kgveY7WIWnAW5VtO+OqIlGboma/gJrxcxiE
- 7yznIsvTZzQPzum8S5BZ7suntOvr0MxuBNW3GpN/LUM+FSEK8kY6/LOJSZoi9VJnmKxz
- Elog==
-X-Gm-Message-State: AOAM531RXacnHOd+S7RayD90TfMNMwyB3ZBCMpNFL9hMy3T/Rnfo6ni1
- KAE/2eAfQHyiaW/lytHDe6X7TKD9vdR4MNHnxx2+Yw==
-X-Google-Smtp-Source: ABdhPJyz8cKIU1rzW5zyHeuItwtoTSseTq3BHlbRNlSLlXFplMlP2rfs9foJxtG/vFMRA4fLVxLVB7o566kpPsAX6/Q=
-X-Received: by 2002:a50:e80d:: with SMTP id e13mr7758253edn.251.1613043412018; 
- Thu, 11 Feb 2021 03:36:52 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=57ghFSysUM66+eyX4VVr39NE87Z0OFzTbYVug/sHOE4=;
+ b=tKGo0ws4nHJOxhQMd/JDn475p7wbDwf8X1am/+bLJluDNH0zceU9upmfqkOsxcCVhl
+ ieDLe1WabUT0b1w6xsnkYvVgT3h2kvKBc33E47KcpYsStlcGd4wKfKoF/9HfQSIx0/Mi
+ ZSo1UfoXKb0BKMZc087o3je6ObgqC1rbnCmkLgcdmczVLOwlhD8YR99x6hTV3ZgzYExm
+ cevonSQFgz6aygCxIGzR4rJD/m0BuOzaPE6WZ6ndLsRwsuloPnJIEiC1WwMGjbcs3eCE
+ +JXf3iAZKwhvNCal8wl+4XCGs8MVxpgNdhywWjVg79pkDYZj0imeL/yEe4jrNzT2AvLo
+ 1QCw==
+X-Gm-Message-State: AOAM533pMQN3Q95a6tdcWLpa6/pVS/+XoKcj4xm3KFJLy55+p8aMo3Vw
+ FYatAQoUzRV0RkTR+RNkslrHrGXYjeHJcvKAW1ugqA==
+X-Google-Smtp-Source: ABdhPJxlUPWvuOtioOyvo78m8P3X9Ytf4OMikh2orxbF5TTiZ78TcooRA0FdijMAeQxnZy1KAtDt/x27nGIbHiMg/dY=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr8346430ejd.250.1613043598941; 
+ Thu, 11 Feb 2021 03:39:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20210210142048.3125878-1-edgar.iglesias@gmail.com>
-In-Reply-To: <20210210142048.3125878-1-edgar.iglesias@gmail.com>
+References: <20210210174122.410690-1-muellerd@fb.com>
+In-Reply-To: <20210210174122.410690-1-muellerd@fb.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Feb 2021 11:36:40 +0000
-Message-ID: <CAFEAcA-EPLtmx1-x3BJYVFzQWJqW5uznZVXYi-3JJMb5FmM3fQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/1] hw/arm: versal: Use nr_apu_cpus in favor of hard
- coding 2
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Date: Thu, 11 Feb 2021 11:39:47 +0000
+Message-ID: <CAFEAcA9Qa_+oxEK59FF0z1QdXsBchUpx6jYZRUTAnZEBVb49Zg@mail.gmail.com>
+Subject: Re: [PATCH v2] target/arm: Correctly initialize MDCR_EL2.HPMN
+To: =?UTF-8?Q?Daniel_M=C3=BCller?= <muellerd@fb.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,37 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
- Edgar Iglesias <edgar.iglesias@xilinx.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Joe Komlodi <komlodi@xilinx.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Feb 2021 at 14:20, Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
+On Wed, 10 Feb 2021 at 18:05, Daniel M=C3=BCller via <qemu-devel@nongnu.org=
+> wrote:
 >
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+> When working with performance monitoring counters, we look at
+> MDCR_EL2.HPMN as part of the check whether a counter is enabled. This
+> check fails, because MDCR_EL2.HPMN is reset to 0, meaning that no
+> counters are "enabled" for < EL2.
+> That's in violation of the Arm specification, which states that
 >
-> This is a minor clean-up making it a little easier to play around
-> with different CPU configurations.
+> > On a Warm reset, this field [MDCR_EL2.HPMN] resets to the value in
+> > PMCR_EL0.N
 >
-> Cheers,
-> Edgar
+> That's also what a comment in the code acknowledges, but the necessary
+> adjustment seems to have been forgotten when support for more counters
+> was added.
+> This change fixes the issue by setting the reset value to PMCR.N, which
+> is four.
+> ---
+>  target/arm/helper.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 >
-> Edgar E. Iglesias (1):
->   hw/arm: versal: Use nr_apu_cpus in favor of hard coding 2
+
+
 
 Applied to target-arm.next, thanks.
-PS: you don't really need a cover letter for single patches...
 
 -- PMM
 
