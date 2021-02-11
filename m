@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E273174A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 00:47:33 +0100 (CET)
-Received: from localhost ([::1]:54384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D3931828A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 01:18:18 +0100 (CET)
+Received: from localhost ([::1]:41306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l9zCm-0002rT-DH
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 18:47:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49486)
+	id 1l9zgX-0003w3-6t
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 19:18:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9zA0-0001Uu-7Q; Wed, 10 Feb 2021 18:44:40 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45419)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l9ze7-0003P5-TH
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 19:15:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l9z9y-0006it-LC; Wed, 10 Feb 2021 18:44:39 -0500
-Received: by mail-ej1-x635.google.com with SMTP id b9so7162555ejy.12;
- Wed, 10 Feb 2021 15:44:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6iKoDfP3N9J9oHS3btRDTTskYmU/q78HhUCaGjONtAQ=;
- b=rlkpv1buD3a1VYZjqrKFIW442ERAGKkWizkztuWdjHvwCVYMgVsiXGoHH02WO5yJ+I
- l58hXklfcoVfHjL0Bf0IGV8c9WX1a08e902MjoUrZJ5lFY45yZ8R9xOLHYVW2o4onYHS
- wDE4ng5ZEJsj6GBIyhx9LfcF2Y+6F+AA6UfQB1FpGJWdz8qmbJihLZjZSPk8g83PoB+A
- wDTMNC83cXjPuih2LhkWAYFcUg1Eqi4tmoHoyY8kc3SA1elZCEA/wsCdr/dDQRb44N1C
- 8zwe5TYXjiBOycpazdkGNw72WlYfaiD0A3e3N+rIAcSPj3OU/XF2OyGB6bjhl9aM9Frp
- zeCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6iKoDfP3N9J9oHS3btRDTTskYmU/q78HhUCaGjONtAQ=;
- b=rbzc+vYWrUKq01jTji3szCjtK4Rm/8kk4jhzFudc9J2oipHt69Uy99WUXRqQ9EnYre
- t0ltWRXyMcVbJYypdUN7bbVFt9eDY/JGJNJ0DAWw2lSbItCTA8Ka5Q86uM4KHvLEmBW3
- XwgM9z1VKbp4NzydppWPE4KtZkcas24rjw1onpLKTTT6OT4J5yq6wRVSNMjkSgCbxafV
- PScyiuO5UuS4rtx2MUKNd9/EchZi/lfpO/GTXTQzje59veboChkxPqj8d5+kcpLWT0w1
- G+cxz95lEh1zRFwgJ5XlidzRNtapU0M6ZM15N+JRhsquItTjOtYM7HEE2j35DFYsFqVk
- PRMg==
-X-Gm-Message-State: AOAM533RUOh/dICO77g3sDazLHBvzwgSmUe9Aq57lyUQTmUuX/FhwNBR
- Zf/i8o+xlL6kes8KU0Kb0AY=
-X-Google-Smtp-Source: ABdhPJxkfC+eHtMiX8OIXDtsTrl91dOOcXfyCu2wr+diRx8YYjlIMr+fPydqx7Af6ruYhj0fOgMnMg==
-X-Received: by 2002:a17:906:2ada:: with SMTP id
- m26mr1150414eje.330.1613000676837; 
- Wed, 10 Feb 2021 15:44:36 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id z16sm2464776ejd.102.2021.02.10.15.44.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Feb 2021 15:44:36 -0800 (PST)
-Subject: Re: [PATCH v2 4/4] hw/timer/npcm7xx_timer: Use new clock_ns_to_ticks()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210209132040.5091-1-peter.maydell@linaro.org>
- <20210209132040.5091-5-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5d976447-2501-7eaf-3c3d-fa4ab03113ce@amsat.org>
-Date: Thu, 11 Feb 2021 00:44:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l9ze1-0003hE-VQ
+ for qemu-devel@nongnu.org; Wed, 10 Feb 2021 19:15:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l9zdz-0004ba-PH
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 00:15:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B7D022E8072
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 00:15:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210209132040.5091-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.211,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 11 Feb 2021 00:09:08 -0000
+From: John Arbuckle <1914667@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: programmingkidx
+X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
+X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
+References: <161248158218.12871.10682279346002918371.malonedeb@soybean.canonical.com>
+Message-Id: <161300214864.29476.13804448389687180027.malone@soybean.canonical.com>
+Subject: [Bug 1914667] Re: High cpu usage when guest is idle on
+ qemu-system-i386
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e34ce994f03aae76d4610a97bccf86c0f2cf9f70"; Instance="production"
+X-Launchpad-Hash: c0abc32cdc2424663c43f5a5a3a023a055e546b8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,19 +70,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tyrone Ting <kfting@nuvoton.com>, Luc Michel <luc@lmichel.fr>,
- Havard Skinnemoen <hskinnemoen@google.com>
+Reply-To: Bug 1914667 <1914667@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/9/21 2:20 PM, Peter Maydell wrote:
-> Use the new clock_ns_to_ticks() function in npcm7xx_timer where
-> appropriate.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/timer/npcm7xx_timer.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+I found a way to fix the high host cpu usage issue. To fix this issue
+click on Start->All Programs->Accessories->System Tools->System Restore.
+Then pick a restore point that is set before you tried the smp option.
+After the VM restarts the high CPU usage issue will be gone :)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914667
+
+Title:
+  High cpu usage when guest is idle on qemu-system-i386
+
+Status in QEMU:
+  New
+
+Bug description:
+  When running Windows XP in qemu-system-i386, the cpu usage of QEMU is
+  about 100% even when the guest CPU usage is close to 2%. The host cpu
+  usage should be low when the guest cpu usage is low.
+
+  Command: qemu-system-i386 -hda <Windows XP HD image>
+
+  Using this command also shows around 100% host CPU usage:
+  qemu-system-i386 -m 700 -hda <Windows XP HD image> -usb -device usb-audio=
+ -net nic,model=3Drtl8139 -net user -hdb mountable.img -soundhw pcspk
+
+  Using the Penryn CPU option also saw this problem:
+  qemu-system-i386 -hda <Windows XP HD image> -m 700 -cpu Penryn-v1
+
+  Using "-cpu pentium2" saw the same high host cpu usage.
+
+  =
+
+  My Info:
+  M1 MacBook Air
+  Mac OS 11.1
+  qemu-system-i386 version 5.2 (1ba089f2255bfdb071be3ce6ac6c3069e8012179)
+  Windows XP SP3 Build 2600
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914667/+subscriptions
 
