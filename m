@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D19318C2D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:38:58 +0100 (CET)
-Received: from localhost ([::1]:58632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BC0318C3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:41:04 +0100 (CET)
+Received: from localhost ([::1]:38592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lACBN-0003no-6m
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:38:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33828)
+	id 1lACDP-0007gs-H6
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:41:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABZO-0008S4-I5
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:42 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34464)
+ id 1lABZQ-0008Ve-0I
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:44 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABZE-00006d-D3
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:42 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id g10so4124656wrx.1
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:31 -0800 (PST)
+ id 1lABZF-00007H-Jm
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:43 -0500
+Received: by mail-wr1-x431.google.com with SMTP id g10so4124694wrx.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=g2Yy6Gw+Zt5E0Xgr51AYWc0qRdU0SjlUfwyoeBPlQ/c=;
- b=RlJapo9DbgT4rlHnOoCiNNsJ1g3ckDZ9ioFGbaP0bi8eIVtS746/jqEpYAFSvha2Xo
- v8y9qdw9nlUFSZ0i8WVhgg7jB+6u4ph4p3F9dZ/vkDl98sb41NGRkoY/fi90Wgq6K4XQ
- Q9pI9N9BCpeOLj+dRTlyKcAZOrPsfdLnpoQPgJgKEJpRJfcU5QAE1Je/fNI/T4o4/hg0
- mpdZzy0ByQiZ5M8yxqWmahlCkgmdI3x1diJZgOH3ODui5qTMZKuRDfhGd/EXVc0Mp5+F
- 9hJUvsQiI5BXHU9tygMJpUSAfQ0U59Suy1RIg6j2SKlmEHe2E8Dp6btD8dwXkHUKF5Nf
- 2Kmw==
+ bh=KWSycCSx4+GuKx3YydDF8ApKFvT897T9h34Lsj16JAU=;
+ b=XcaxXpSK5sCGx8njMBxe1++Z56ssR4g+hFV3EgdGzm4YMBrxo9qrPCguCPrKrKrZem
+ /WViudHEAxyCcg4RRpM7uKOvYYNOzMo0TOFoF5gJREYgyQXabZC8cWgUIrSfO4Q9MxpR
+ Y570xkOKJJo/gmkTxQ2P35VDcjHwY8IcRdg5yMYGirh+Ju/zygzBCbdWPubG1NaAdvr7
+ tenRAcDNMW7flQkihJIwsKAmXBcTtf2ablz5ucXKms0N62FNewD9sIFhc5V1kVsB9afZ
+ hZ8R+Muw95q/2L1OEupLq7sSvXRTpKw96qzETO2z2lYcvJ1Mf32YlViqmD2uvXWid+8+
+ nEkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g2Yy6Gw+Zt5E0Xgr51AYWc0qRdU0SjlUfwyoeBPlQ/c=;
- b=LXP7+kTv/KKsih2bMMA25MWxn0hPu1dOrhPBez1U4Ry/85Ze6ppyU7d8TzrxuFPdPN
- 44qdq0fcTzkLl5gTqE15uCSj2T0leJ6PGTdtxwPdIzRVINlhEV+5dCg1nTh8oIo7WhFX
- w4R/2Cgxw34+wsI5yFfaC/6G9ZtwvHWHqtq1leGkpWWIjkk0Bja36oCjIdyB8dEWrxz1
- uqkyMpt51Mja1POkomz4Mj8/CO5SumrVhIS+pajnB1Wcd+o71GNQq8kKgsIS9+M1mIpo
- HTAdVBFxtAwPnquz/Vw1kASl3CdIKIbztcn8OgHVGhwO890rKC/NzzrsMIBEw8TNDmR5
- jhhA==
-X-Gm-Message-State: AOAM533R9apJa0MgJ6thuPPoiK93tjc4IC2rJZaPyECOYMg0n4fBbLY5
- VU58bwL8Rmolu0g1QBBfsrEMRNVmHLqp3g==
-X-Google-Smtp-Source: ABdhPJxDzQaxx2WXmBpHkGKdAswdGy4S0S3y9uINErbfW52rDKt942pzgPqnBu6UPRh+QDBEfOlqkg==
-X-Received: by 2002:a5d:4708:: with SMTP id y8mr5491816wrq.402.1613048371190; 
+ bh=KWSycCSx4+GuKx3YydDF8ApKFvT897T9h34Lsj16JAU=;
+ b=Y2kbvBLJ86QDE60zp0CiHgrRYZ1J+dmnC6wo5G9kbqg2r+tTxhWmlFsYQzngHK2K9h
+ BGVY2sr7urnXRBjfGh/s34/q+FOz501PYcqwEYi+IJorIa/FQTwACsB4prb5+QRYw4Qm
+ E/Eu6aZXa1EYixtn04F6wbpfdS6PfzuiXKSPcYKMBjklKW5XCHZsQYhB/CYQ1cUuDWcM
+ nKBAp9yT3ewWZb02PhsDwKX7A/nT8DbiAeiva63u82N3LC373WNkD69zEAij/Nf1EF/o
+ S42vbruBkXJAC3XzRPtthj0A5HqtF2zjSmr9ee+mTmhfKP/T64nfTwDLuWC/o9sQmXhC
+ N/eQ==
+X-Gm-Message-State: AOAM530TiV2wd86Lge6tmWBNBC8IQZ6SAf/9ehXhZScUTI3nImzcQ7Xj
+ omz4W4TDAuZUbbfTa8C75elIOLvd+DSTwg==
+X-Google-Smtp-Source: ABdhPJxJsa65pO/n/FouY6xX5qz2wjpQaT2VPGr+WNVHJsm9JI55ogU+jzIG0NN+BnBNUWNsrNjt1g==
+X-Received: by 2002:a5d:4ccb:: with SMTP id c11mr5400483wrt.324.1613048371853; 
  Thu, 11 Feb 2021 04:59:31 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.30
+ by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 04:59:30 -0800 (PST)
+ Thu, 11 Feb 2021 04:59:31 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/45] target/arm: Add allocation tag storage for user mode
-Date: Thu, 11 Feb 2021 12:58:53 +0000
-Message-Id: <20210211125900.22777-39-peter.maydell@linaro.org>
+Subject: [PULL 39/45] target/arm: Enable MTE for user-only
+Date: Thu, 11 Feb 2021 12:58:54 +0000
+Message-Id: <20210211125900.22777-40-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211125900.22777-1-peter.maydell@linaro.org>
 References: <20210211125900.22777-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,57 +88,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Use the now-saved PAGE_ANON and PAGE_MTE bits,
-and the per-page saved data.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210210000223.884088-30-richard.henderson@linaro.org
+Message-id: 20210210000223.884088-31-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/mte_helper.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+ target/arm/cpu.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index d55f8d1e1ed..1c569336eae 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -78,8 +78,33 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
-                                    int tag_size, uintptr_t ra)
- {
- #ifdef CONFIG_USER_ONLY
--    /* Tag storage not implemented.  */
--    return NULL;
-+    uint64_t clean_ptr = useronly_clean_ptr(ptr);
-+    int flags = page_get_flags(clean_ptr);
-+    uint8_t *tags;
-+    uintptr_t index;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 70cfcbc9181..b8bc89e71fc 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -209,6 +209,21 @@ static void arm_cpu_reset(DeviceState *dev)
+          * Note that this must match useronly_clean_ptr.
+          */
+         env->cp15.tcr_el[1].raw_tcr = (1ULL << 37);
 +
-+    if (!(flags & (ptr_access == MMU_DATA_STORE ? PAGE_WRITE : PAGE_READ))) {
-+        /* SIGSEGV */
-+        arm_cpu_tlb_fill(env_cpu(env), ptr, ptr_size, ptr_access,
-+                         ptr_mmu_idx, false, ra);
-+        g_assert_not_reached();
-+    }
-+
-+    /* Require both MAP_ANON and PROT_MTE for the page. */
-+    if (!(flags & PAGE_ANON) || !(flags & PAGE_MTE)) {
-+        return NULL;
-+    }
-+
-+    tags = page_get_target_data(clean_ptr);
-+    if (tags == NULL) {
-+        size_t alloc_size = TARGET_PAGE_SIZE >> (LOG2_TAG_GRANULE + 1);
-+        tags = page_alloc_target_data(clean_ptr, alloc_size);
-+        assert(tags != NULL);
-+    }
-+
-+    index = extract32(ptr, LOG2_TAG_GRANULE + 1,
-+                      TARGET_PAGE_BITS - LOG2_TAG_GRANULE - 1);
-+    return tags + index;
++        /* Enable MTE */
++        if (cpu_isar_feature(aa64_mte, cpu)) {
++            /* Enable tag access, but leave TCF0 as No Effect (0). */
++            env->cp15.sctlr_el[1] |= SCTLR_ATA0;
++            /*
++             * Exclude all tags, so that tag 0 is always used.
++             * This corresponds to Linux current->thread.gcr_incl = 0.
++             *
++             * Set RRND, so that helper_irg() will generate a seed later.
++             * Here in cpu_reset(), the crypto subsystem has not yet been
++             * initialized.
++             */
++            env->cp15.gcr_el1 = 0x1ffff;
++        }
  #else
-     uintptr_t index;
-     CPUIOTLBEntry *iotlbentry;
+         /* Reset into the highest available EL */
+         if (arm_feature(env, ARM_FEATURE_EL3)) {
 -- 
 2.20.1
 
