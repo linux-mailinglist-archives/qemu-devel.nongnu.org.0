@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F30831885A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:42:28 +0100 (CET)
-Received: from localhost ([::1]:42294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2F5318878
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:47:11 +0100 (CET)
+Received: from localhost ([::1]:45278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA9QX-0004wy-6Q
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:42:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32974)
+	id 1lA9V4-0006F0-F5
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:47:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lA9NM-0003V6-3t
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:39:08 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lA9NK-00085V-Dd
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:39:07 -0500
-Received: by mail-wr1-x431.google.com with SMTP id v1so78994wrd.6
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 02:39:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HCpD3+2rYytgIZh7OHwXMN3fQ4UjNU6c3wva37J5L1M=;
- b=Vg78VWfyaWczG/6rYLr7FYPKRGznqLG6yvoM2VJ2pP/fSfphPnRaPMaf2cHIxusfxK
- seuiKgucNH/1zhXFU1YTsfsOtnSn3VvbjhzKw6LLhVpDg4sFj4YL8PoRgBgazARdb8fL
- c+lxYHJU8O6D5J5OhcSrpjSrT8qVwpczDQ8dtzQQaXBY4UNm9WxZfrzb/JKeB09xBroV
- SFBZG926w7SWVRvgJqSIdYZ8j2RsYkdNlBBxUdHDILWt277V8Cy7RlhNHZZ9J8cxltNf
- Z46j83IFxyw+ua4YZMXVgxBx8d69YLOnOvY8U/LxIiwQFiOI4KSY/J/OY+9BhH4JIc18
- zA4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HCpD3+2rYytgIZh7OHwXMN3fQ4UjNU6c3wva37J5L1M=;
- b=WW+wH3uFTcQjmSCodckgFyNIzUe+ItCqEfjKJeS6kv7vyPuq4lPZGmhsMbutM45tFs
- UstD8EqWQvGKV1vwXDo7f/IdZN+DjoNXuR3gvOT4+U4VmpZ3/SyUcXzp5Bn7H6JkvTUC
- KHoF+p60/o0gf92qFt1P+ZXl+T2Sgn3m++0g7ifwJ/Gh7hETFo6pRTLD3o+ONCvoTkH/
- f5fkrxmpWQE6EIHkpGDsW5vSUgx5Ig84v3k9u9IrOumiLWjaHUBRWHBu8z41cjoAFK59
- xapFtRIurvrit3ir05v1setZTqzbpWT6hqhDcDw9PBL/4Zc5EgTK3h52UZcJUmtBvj+V
- +Rag==
-X-Gm-Message-State: AOAM531EEUBkR67PBihSHLYREaIBTvWYT1qQhnWKYJss/GpNinoCtLHN
- 71PVLGiHKP8BqUT5hvhxYL0=
-X-Google-Smtp-Source: ABdhPJwRYedNUXoDt50yzfc3QCp09uFNwo3cXeJYDkAgCCUMV8lIGwBfwoYimyOiIo0UhxVxE8Hv0w==
-X-Received: by 2002:a5d:618e:: with SMTP id j14mr3094074wru.377.1613039944777; 
- Thu, 11 Feb 2021 02:39:04 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id x10sm1872840wmg.6.2021.02.11.02.39.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 02:39:04 -0800 (PST)
-Subject: Re: [RFC v17 10/14] i386: split tcg btp_helper into softmmu and user
- parts
-To: Claudio Fontana <cfontana@suse.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20210210152859.25920-1-cfontana@suse.de>
- <20210210152859.25920-11-cfontana@suse.de> <87blcrx4t3.fsf@linaro.org>
- <bffb363e-6141-9969-0c4b-f3ea31d09a28@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <79bbf2f3-1345-8102-eab2-b5e8c2528c68@amsat.org>
-Date: Thu, 11 Feb 2021 11:39:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lA9PW-0004cP-Aa; Thu, 11 Feb 2021 05:41:24 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:39663)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lA9PS-0000Xy-1H; Thu, 11 Feb 2021 05:41:22 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7DA3458016E;
+ Thu, 11 Feb 2021 05:41:15 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Thu, 11 Feb 2021 05:41:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=EnNv7b6GDCJ7VoD1jTLAZ7I/0Tt
+ DYtigWslKDzNs+yE=; b=uPuc5wagEc0CEjHeWc5JF2xDtucmfmmIgUQ7pjK+LVA
+ IV0LJ8dOXl2gir4N6cey2aRDhpELO3xVj93BWOcIPvKaZERf73fG2Pdt+bSmHy6f
+ HKaDWCwQONGqzchHOPNB+9Or5a8GBefys+FZBYcffUbv+a0pD5bT24fSu6hj/Rx7
+ ukaIMs3won9bQuFuFq17CJXtVtmxJqT6IQspkHL1qHjRGxB6nTIEB9eeIW4pM56K
+ gN6ppc4UqWqVg5alOuYdfuyp8bIbq+syPje9bfbEHfHTuXPSKBKvIdSqJJ7Uxxf6
+ 1UUFyoXJOCKB8rjmhrScpTGGkHSVWORjqok+83EiSPw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=EnNv7b
+ 6GDCJ7VoD1jTLAZ7I/0TtDYtigWslKDzNs+yE=; b=ORtfmdgiwaRqLiPbd2coVz
+ PsiLNz3ZI2TZxds7HeH71+evqss3NhUDwMpapyuZXqEPLPuL8+QUr69BY+tyzCEH
+ Z6nmvtFeFuZfLTMVMdkF4OCUrWDpmmbPioZQbJBHUZDlZfTBelmoRUFdqHDW5+QD
+ 8VHMmLUTgr+v3/nIawPVu0xqJsuPQqUHgoxD4qUxpaj4NAzTkYVX28mEpo+5c9hs
+ CzSgV4IPhuMfLR2c/HGkITsx4FIi6+aOqd/edHa+y1h1DyrwvFbLWc/shOeBf847
+ Utbfyza6K4BbUag8TmCvObHN997wXmFCFOoWRvm8KPRTWnUpJ0NpcCr+jRAQoduQ
+ ==
+X-ME-Sender: <xms:ygklYH1L36L1bGfE1y6pCvvpMQtwhBYToVeIEZgWNHdwFLAi6jIoRw>
+ <xme:ygklYIHdQ3DdmbgRWPPTexx3Mc-xUcuI4BMGh5YPQckORGTQLGNqyKHSjgb9Fl3ux
+ TqgubF8o8QqUrUfjgA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheelgdduiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnheptddtjefgveektefghefggeeiveffueeuudfhiedvvdduveekiedttdelvdefheek
+ necuffhomhgrihhnpehnvhhmvgdrtgifnecukfhppeektddrudeijedrleekrdduledtne
+ cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtshes
+ ihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:ygklYBS3SD83lR2kYMYqq0lRh7mtvclJ4ESMMO2pITRK-PQTt0i4rw>
+ <xmx:ygklYPDgBgYV3_GuyiyyuTuKGwEX5uRUDHe5lC8EVo9r1VDHWSWG1Q>
+ <xmx:ygklYB1T8P3wPUhJ0D4_J5vyqWCy_hm5bj755LaOPZCNVCNm2TcCaA>
+ <xmx:ywklYN8hbFQG3oTUqPa-dk-5vHqzswQiy16gvhxkKBzAK5Q2qxDIyg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id CC83B24005A;
+ Thu, 11 Feb 2021 05:41:12 -0500 (EST)
+Date: Thu, 11 Feb 2021 11:41:11 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Alexander Graf <agraf@csgraf.de>
+Subject: Re: [PULL 32/56] hw/block/nvme: split setup and register for namespace
+Message-ID: <YCUJx0wcK9AKY6mu@apples.localdomain>
+References: <20210209073101.548811-1-its@irrelevant.dk>
+ <20210209073101.548811-33-its@irrelevant.dk>
+ <20c3b649-b6c1-91ef-41cd-5c820a7f81cf@csgraf.de>
 MIME-Version: 1.0
-In-Reply-To: <bffb363e-6141-9969-0c4b-f3ea31d09a28@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.211,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="RcIV/j/g56aR+Moy"
+Content-Disposition: inline
+In-Reply-To: <20c3b649-b6c1-91ef-41cd-5c820a7f81cf@csgraf.de>
+Received-SPF: pass client-ip=66.111.4.230; envelope-from=its@irrelevant.dk;
+ helo=new4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,62 +96,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/21 11:07 AM, Claudio Fontana wrote:
-> On 2/10/21 5:28 PM, Alex Bennée wrote:
->>
->> Claudio Fontana <cfontana@suse.de> writes:
->>
->> s/btp/bpt/ in subject line...
->>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>> ---
->>>  target/i386/tcg/helper-tcg.h                 |   3 +
->>>  target/i386/tcg/bpt_helper.c                 | 275 -----------------
->>>  target/i386/tcg/softmmu/bpt_helper_softmmu.c | 293 +++++++++++++++++++
->>>  target/i386/tcg/user/bpt_helper_user.c       |  33 +++
->>
->> So I'm not sure about totally mirroring the file names in softmmu/user
->> subdirs. I can see it makes sense in some cases where there are genuine
->> functional differences between the two. However for everything that
->> exists only for one mode we might as well throw the stubs into one file.
->> Maybe target/tcg/user/stubs.c in this case?
-> 
-> 
-> Hi Alex, I think you are right, repeating the _softmmu , _user seems too much.
-> 
-> On similar things in the past Paolo mentioned that he favours simpler naming.
-> 
-> In this case I could do for example:
-> 
-> target/i386/tcg/seg_helper.c          - seg helper common parts
-> target/i386/tcg/softmmu/seg_helper.c  - seg helper softmmu-only code
-> target/i386/tcg/user/seg_helper.c     - seg helper user-only code
 
-What about:
+--RcIV/j/g56aR+Moy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  target/i386/tcg/seg_helper.c          - seg helper common parts
-  target/i386/tcg/seg_helper_softmmu.c  - seg helper softmmu-only code
-  target/i386/tcg/seg_helper_user.c     - seg helper user-only code
+On Feb 11 10:53, Alexander Graf wrote:
+> Hi Klaus,
+>=20
+> On 09.02.21 08:30, Klaus Jensen wrote:
+> > From: Minwoo Im <minwoo.im.dev@gmail.com>
+> >=20
+> > In NVMe, namespace is being attached to process I/O.  We register NVMe
+> > namespace to a controller via nvme_register_namespace() during
+> > nvme_ns_setup().  This is main reason of receiving NvmeCtrl object
+> > instance to this function to map the namespace to a controller.
+> >=20
+> > To make namespace instance more independent, it should be split into two
+> > parts: setup and register.  This patch split them into two differnt
+> > parts, and finally nvme_ns_setup() does not have nothing to do with
+> > NvmeCtrl instance at all.
+> >=20
+> > This patch is a former patch to introduce NVMe subsystem scheme to the
+> > existing design especially for multi-path.  In that case, it should be
+> > split into two to make namespace independent from a controller.
+> >=20
+> > Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>=20
+>=20
+> In latest master, I can no longer access NVMe devices from edk2. Git bise=
+ct
+> pointed me to this commit.
+>=20
 
-> For the parts that are just stubs really (like here bpt for user), I would like to see if I can remove them completely if possible..
+Hi Alexander,
 
-It is probably worth spend time on this first. If the helpers are not
-needed, why do we generate the code in the first place?
+Thanks for reporting this. This patch should fix it, I'll queue it up.
 
-> 
-> Overall though, I am wondering whether this kind of change (extended more to the rest of the target/ code) is an interesting approach,
-> or does it make harder to work with the *_helper code, as people have to chase down more files?
-> 
-> 
-> Thank you!
-> 
-> Claudio
+diff --git i/hw/block/nvme.c w/hw/block/nvme.c
+index 5ce21b7100b3..d36e14fe13e2 100644
+--- i/hw/block/nvme.c
++++ w/hw/block/nvme.c
+@@ -4507,6 +4507,12 @@ static void nvme_realize(PCIDevice *pci_dev, Error *=
+*errp)
+         if (nvme_ns_setup(ns, errp)) {
+             return;
+         }
++
++        if (nvme_register_namespace(n, ns, errp)) {
++            error_propagate_prepend(errp, local_err,
++                                    "could not register namespace: ");
++            return;
++        }
+     }
+ }
+
+
+--RcIV/j/g56aR+Moy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAlCcUACgkQTeGvMW1P
+DelA+Af/fH+BV7lILIoVxEIldBtblT/MsP4IBjX7iwImZcYskO4sz0MfbGvSIKKz
+S4nnsEQuS8N2satTYtzrPq91DqE3fSG4dzDcbHc6wKaoCKtRZmWdHYQ6mcoDzi80
+z8qdecQRbRibn9dnCQ/iiX5BlCEyKcC/GsO9yH+AyDxn/BiaqcpRDEUVvSilpOHZ
+fmnNRfQpU+pAG4zy5Z7cWS1Vv9OEih36tQVWjwW+VqFXlGKDVw6VCWEDamuUD6SD
+KP9HDiaOsya3/EIbxqH0hlBt9PHGr+pAvaCzZ55f+Z15j1HvqwwWUExCRJF/bEJl
+aKLWw27e0Yo/j/TE2iUQmAvfQbexjw==
+=nE5X
+-----END PGP SIGNATURE-----
+
+--RcIV/j/g56aR+Moy--
 
