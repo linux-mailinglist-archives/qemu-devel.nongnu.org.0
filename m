@@ -2,72 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654E83187AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:05:25 +0100 (CET)
-Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C10D3187B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:06:52 +0100 (CET)
+Received: from localhost ([::1]:52832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA8qi-0004fV-Fk
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:05:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53748)
+	id 1lA8s7-0005ke-AA
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:06:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lA8oH-0003ho-FU
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:02:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25127)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lA8oF-0001ZU-FL
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:02:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613037770;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SFmn0tOW/BrgHoVL1pkec+8oBtKnv7SfT1FfZ+fezsY=;
- b=F6m1wwozqLwtYPOxDxHuxqf5al1FJuE1/gTyI5FcZmMkgVHnkm8UuHuqcq4CO6iuINDKb/
- E72UxcgeWL7WhsGwH2N5zCBbFiX9vDb2hUB1ScutjYglFy5I6ml1u3hypAoT5XoDNVGLj/
- GcK6mTF/CSFPBFvoZe1RjpCRbAkSTUM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-6BbbSHZkNq6vhrfwyIF6-A-1; Thu, 11 Feb 2021 05:02:48 -0500
-X-MC-Unique: 6BbbSHZkNq6vhrfwyIF6-A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11BC0107ACC7;
- Thu, 11 Feb 2021 10:02:47 +0000 (UTC)
-Received: from work-vm (ovpn-114-222.ams2.redhat.com [10.36.114.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 578221F42D;
- Thu, 11 Feb 2021 10:02:45 +0000 (UTC)
-Date: Thu, 11 Feb 2021 10:02:42 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [RFC PATCH 3/3] hw/block/nvme: add nvme_inject_state HMP command
-Message-ID: <YCUAwtYQNhjOmMwV@work-vm>
-References: <20210210195252.19339-1-minwoo.im.dev@gmail.com>
- <20210210195252.19339-4-minwoo.im.dev@gmail.com>
- <YCRDLk8e1A4mxbYd@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <andreas.konopik@efs-auto.de>)
+ id 1lA8oV-00042x-Dy
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:03:07 -0500
+Received: from mailin4.audi.de ([143.164.102.18]:42274)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andreas.konopik@efs-auto.de>)
+ id 1lA8oS-0001f0-BH
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:03:07 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I5fXov9EtbJIT5Dhc8HlIEaOyTtKjJ+b5YbtJCPXMMLkOZxGIosQxM7R4WcuhRcFGqX5f5OVVgMmMbpeUtMJ8OeeSuxlnXTO3vMuCOrm2Ej0DYfNItNSDMjzY4IgW9XPZLq4t4U36N9kl9RKfG4Jk6vPFieJxibWq6AeEBkuiZ8kdsw6S+W5Z0bXLxszaggQnhyvlCfZrt8oo3ovLeu34M2cZTXp9FY/AfBZvKj4pGX+IIGEWs6ZK4USRO5pJKHEHvdcoPD5qDUNP/yuyMafEzIDFEKU5dujonMeK0ZrUzYUnrUVc9VH2sZuJH/kYkr595573hsqUYgBxvdSVHFVkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vfPb77gtCqsICCXB/YRVt+XX/1/SUFAFNqy9VbK05s8=;
+ b=U5j6crB2rZcNB1iGDdnMIoZ9VJVWIRVugx4oCxhCzJmi30W3kmJw9uPYtvXY0LixZnLTf1F0MJm2NhCY8UXUCNvyBDcBjNDbuwG2ugoE8tRp+x8KaQdlqvjDll9vv+Q7mrq8sRQVjE96vimBtnXBdIhfHUcVns3llimwjhSHgd7h7oFiGFw915M8VJW2nwPZaitadWYcJECnDA19jNGVV1yIWRyKGi3mZwq1vv71guYKsg63+EAaNOS0QHjZi5ncKpYYQmKXY0d2ZuHjIIiAMFpAd0qed0gAjYLb9qug1uAdY+oBT3S2vG6N26UiL6vihrmsVz6pKCWmZXECi3Fciw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efs-auto.de; dmarc=pass action=none header.from=efs-auto.de;
+ dkim=pass header.d=efs-auto.de; arc=none
+From: "Konopik, Andreas (EFS-GH2)" <andreas.konopik@efs-auto.de>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 0/1] tricore: fixed faulty conditions for extr and imask
+Thread-Topic: [PATCH 0/1] tricore: fixed faulty conditions for extr and imask
+Thread-Index: AQHW/4aPMzX9A2VrwEuvcstc3jkzr6pRv2aAgAD6fpA=
+Date: Thu, 11 Feb 2021 10:02:44 +0000
+Message-ID: <DB8PR05MB6107809DB8A933A0178259F9B08C9@DB8PR05MB6107.eurprd05.prod.outlook.com>
+References: <20210210082650.5516-1-david.brenken@efs-auto.org>
+ <c2854d29-8926-ae13-fbf7-77197728ae96@linaro.org>
+In-Reply-To: <c2854d29-8926-ae13-fbf7-77197728ae96@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_b1c9b508-7c6e-42bd-bedf-808292653d6c_Enabled=True;
+ MSIP_Label_b1c9b508-7c6e-42bd-bedf-808292653d6c_SiteId=2882be50-2012-4d88-ac86-544124e120c8;
+ MSIP_Label_b1c9b508-7c6e-42bd-bedf-808292653d6c_Owner=andreas.konopik@efs-auto.de;
+ MSIP_Label_b1c9b508-7c6e-42bd-bedf-808292653d6c_SetDate=2021-02-11T10:02:42.7675164Z;
+ MSIP_Label_b1c9b508-7c6e-42bd-bedf-808292653d6c_Name=Internal;
+ MSIP_Label_b1c9b508-7c6e-42bd-bedf-808292653d6c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_b1c9b508-7c6e-42bd-bedf-808292653d6c_ActionId=b1aa2469-7146-430e-9020-f5b5658f078a;
+ MSIP_Label_b1c9b508-7c6e-42bd-bedf-808292653d6c_Extended_MSFT_Method=Automatic
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=efs-auto.de;
+x-originating-ip: [165.225.27.151]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: db2cc035-d3a8-49ab-1c53-08d8ce742d43
+x-ms-traffictypediagnostic: DBAPR05MB7384:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DBAPR05MB73841BC7994726D171519093B08C9@DBAPR05MB7384.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3276;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VTFpr6CQIYkGP6VtADH1TN44fkigcq+A8hCVgFpcXVQQWAd9zP7KWyEVMDP6e67meecLxVF2p0HpgxEZjruPYQAdsiM7AhlOChE/6Do+GFrRfzmi9wj8h3NpkhA4m6HclhQ6SbufEDqY6sqxKCf8fOJqT5F1964ZKVZc81DHKt5mNATzTJ1sfvdixYiMzpd0Ec5MF8+bR6qqWxSVt+jIAAlYG5jTYBUBoLgATeEHq7Vnm4el6SQVA0aiLeOAcwdBSC7ZmdKWSmACraHZVAnwmh3YTOC4g2w3jjSbxfEKXazYQc7zeMjuXN0p6BbD7wghPyMwU9QAq0Wdlxc7H7JUb4SQ6YicxXogfvurRlbF9YlVChYO/zE+uCDulQC7XaMNwRXYR5U9xiyxQVfekFP+JG133U0Y9Y49dyDZKZJWV7mGtWjSwX8pWj5xmBTg01+H3dkj1mt8ACdmRyL5bXMNBZU3wzsjQG91l5ltfqwoRy9FQEZNQiINN2gBSDHuYdfU0L91DdRrOoojLjHxL6K5yQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB8PR05MB6107.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(396003)(346002)(136003)(39860400002)(316002)(33656002)(2906002)(186003)(64756008)(7696005)(8676002)(9686003)(55016002)(26005)(8936002)(83380400001)(5660300002)(54906003)(478600001)(4326008)(66476007)(71200400001)(55236004)(53546011)(66946007)(52536014)(66556008)(76116006)(110136005)(66446008)(6506007)(86362001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?dC9iRUVlQWpGeU53bXJ2dldmb1Q1aDIvczdWOEN1N2pRRU9oSFJHcGFMbGNU?=
+ =?utf-8?B?TkcwbE53NVQybDlqSG5ZZ0dRTlNkZ0FkUHRvRnE4ck9rc2FRTlJvQnRCcS9k?=
+ =?utf-8?B?MUJNQ1Z3ekgyNUdVdEJQT3NjUWk5MHBETnRoS05FMFIxTFRoUmN6aXpDdVpa?=
+ =?utf-8?B?N0lqaGVFdzRndS8vd2d4Kzhvb3N6TFJZdmxwbGNxZy9tdzNkOUZScjlmMmMr?=
+ =?utf-8?B?YXQ4Wlh1d0xFSEh0VGw2Y0xDNmZPWklNVUxJcHlrVDFDT2RQSmhDN1VmbU9w?=
+ =?utf-8?B?bkU0azFVWGhvaVM3eGNxUFFoSHhXNHkxYlFwRldLcUI5LzNVTGJqSG5KRFRK?=
+ =?utf-8?B?N0syQmphMkk5OHlCeXdScmN4R0NUSzhMdjVsRWZZVW4vaTcyc3h6d0dMRjYv?=
+ =?utf-8?B?ZXFJUm1wR2pEdEcxK2hTOXpOeThDMS9rdlZTWW1veEc0VHF4QWZjMjBhZkk2?=
+ =?utf-8?B?N3NqSVN0S3AyaGR5K2lLcFhUck9zdm9mMEUvRG54NWdTUlhsSXJ5WGF2c1pE?=
+ =?utf-8?B?eWFNOHlkb212WEIwNldKZW5DYVBLeVRqdzJYVVBmRHA1NjhRSVJoNFhuTWpW?=
+ =?utf-8?B?Yk9QeGxZRjlTL1JMVjNUSUppN0lxVGlHd0ViWWpwd1ZIOVJvVExZOTF2T3Rv?=
+ =?utf-8?B?b1E3L0haVGR0TjJzUXVjU0NReGdrSE5CcStCd2dyLzREUUo5WWVJa3gvWFp6?=
+ =?utf-8?B?OUN4Nlgzditkb09Rb1BtNkNhTWNZMWI5SXFpZHBwNktpMUNJQ3lOYkRrNnJj?=
+ =?utf-8?B?dlNneTlxenFEY1hmeWY3Z1UzbEVrbXhydllSeVREU04wZ0FDSTEzOXdkNGRm?=
+ =?utf-8?B?aGVtWHc1T3o2MWRHalg5VDZOSmR0UDFyQXVoL3JXYXVXMUVzUndZVkozL3N1?=
+ =?utf-8?B?YTJtS2Z2U01KME5zZmVvUCtVbldTYUhjbXA0VXVVL1hoUVIxNzdWajhacERH?=
+ =?utf-8?B?SGVSWUZRSmdJb1ZrSUNqcS9kUmNJK0lnMTFvUmMySEREWTl5Q21kL0VZWW1U?=
+ =?utf-8?B?TEVWcW1hai9iVlZGTkI3aDJ3OFMrMVE0U2poVk5SWEdDcDBsa0tINWNNOXpT?=
+ =?utf-8?B?Z2xtVlh0NFBYU2dQWkdvUzZNVHh4dmF3bjJUWm9UNUVSOXVrTk83UFVZbURw?=
+ =?utf-8?B?eEorM2pWU1pBUy9JbnU5QlpaejdpNXFMSmdpakFOSS93UnZyWmVnQ3NLZmJx?=
+ =?utf-8?B?cEd6VC92c0dZMHhRUHErZ01YbzRHQVdIeHRwMGdKL0pBTnlDSy9TdnBEN1Rw?=
+ =?utf-8?B?dmVIbURPa1M4Nnl4VE5wNG1TbGo2OWRRSTIwYlVjOEFwdTFkZysyRlZaUHFL?=
+ =?utf-8?B?b3pwN3YxN01helllcEdUd1RWZVhsUVNIc3Rjd3ZsQ1kwb2NWRWVWRGxYZUtT?=
+ =?utf-8?B?ZXdmVUVTMVlUS3JJc204amxud1QveitaTm5OMFNWakN5Si8zaUFiNWR5ejFT?=
+ =?utf-8?B?bTdXeUVRTXZWak9hZENVcTllT2hmS1NzZVB3WHlDUWRZMWtFZCtDZ2QwcXFi?=
+ =?utf-8?B?MmF1VVBhNVhsb25ZeVFRVFUrd1pLWFdjbzRPNmFLK1NEWE1XMDc2Vm9ZRS9q?=
+ =?utf-8?B?RG1ZYUJmL3dITTN1VUsrbHpKdjdPWVVhbHZSSC84bzNUK1ZyWkJhZDRGZGZl?=
+ =?utf-8?B?dFNIclFONXRCYWlsZW83dW9mczZSWUFIUEo2UldVbEx4WW5yWnNkd0tQZEtw?=
+ =?utf-8?B?M3ExVzZTWVV0ZUYyZUNpdlAxWnBEVWxvS1NMczYyZHpBdU9FNHFBUGFTMFhP?=
+ =?utf-8?Q?gcEgehTFEDiK0ANs0w5+YAwkZN6d4q3vaFegKRO?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <YCRDLk8e1A4mxbYd@apples.localdomain>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR05MB6107.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db2cc035-d3a8-49ab-1c53-08d8ce742d43
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2021 10:02:44.2796 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 2882be50-2012-4d88-ac86-544124e120c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qRvR13wzm8hdCDeagRQOihBVmblc26Lb62ftgcULquy4RK4yij33+LG0GyB1XL/CB0ir3HB19ypAkoNbXA3vxEaI2d27wERCXjY2q6qGgAg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR05MB7384
+X-SGG-UMAMSID: 20210211100247Z23637mxmos07.wob.vw.vwg 1lA8oK-00069F-UF
+X-SGG-RESULT: 20210211100247Z23637mxmos07.wob.vw.vwg C1:OK E1:OK MX1:OK BL:OK
+ SPF:off CT: CM: SIP:10.186.25.210 SMF:andreas.konopik@efs-auto.de
+X-SGG-MF: andreas.konopik@efs-auto.de
+X-SGG-DKIM-Signing: 7af5e6687a8e0ef81b3da7a89c6afb54
+X-TM-AS-GCONF: 00
+Received-SPF: none client-ip=143.164.102.18;
+ envelope-from=andreas.konopik@efs-auto.de; helo=mailin4.audi.de
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, RCVD_IN_SBL_CSS=3.335,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,220 +137,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>, "Brenken,
+ David \(EFS-GH5\)" <david.brenken@efs-auto.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Klaus Jensen (its@irrelevant.dk) wrote:
-> On Feb 11 04:52, Minwoo Im wrote:
-> > nvme_inject_state command is to give a controller state to be.
-> > Human Monitor Interface(HMP) supports users to make controller to a
-> > specified state of:
-> > 
-> > 	normal:			Normal state (no injection)
-> > 	cmd-interrupted:	Commands will be interrupted internally
-> > 
-> > This patch is just a start to give dynamic command from the HMP to the
-> > QEMU NVMe device model.  If "cmd-interrupted" state is given, then the
-> > controller will return all the CQ entries with Command Interrupts status
-> > code.
-> > 
-> > Usage:
-> > 	-device nvme,id=nvme0,....
-> > 
-> > 	(qemu) nvme_inject_state nvme0 cmd-interrupted
-> > 
-> > 	<All the commands will be interrupted internally>
-> > 
-> > 	(qemu) nvme_inject_state nvme0 normal
-> > 
-> > This feature is required to test Linux kernel NVMe driver for the
-> > command retry feature.
-> > 
-> 
-> This is super cool and commands like this feel much nicer than the
-> qom-set approach that the SMART critical warning feature took.
-> 
-> But... looking at the existing commands I don't think we can "bloat" it
-> up with a device specific command like this, but I don't know the policy
-> around this.
-> 
-> If an HMP command is out, then we should be able to make do with the
-> qom-set approach just fine though.
-
-HMP is there to make life easy for Humans debugging; if it makes sense from an
-NVMe perspective for test/debug then I'm OK with it from an HMP side.
-Note that if it was for more common use than debug/test then you'd want
-to make it go via QMP and make sure it was a stable interface that was
-going to live for a longtime; but for test uses HMP is fine.
-
-Dave
-
-> > Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-> > ---
-> >  hmp-commands.hx       | 13 ++++++++++++
-> >  hw/block/nvme.c       | 49 +++++++++++++++++++++++++++++++++++++++++++
-> >  hw/block/nvme.h       |  8 +++++++
-> >  include/monitor/hmp.h |  1 +
-> >  4 files changed, 71 insertions(+)
-> > 
-> > diff --git a/hmp-commands.hx b/hmp-commands.hx
-> > index d4001f9c5dc6..ef288c567b46 100644
-> > --- a/hmp-commands.hx
-> > +++ b/hmp-commands.hx
-> > @@ -1307,6 +1307,19 @@ SRST
-> >    Inject PCIe AER error
-> >  ERST
-> >  
-> > +    {
-> > +        .name       = "nvme_inject_state",
-> > +        .args_type  = "id:s,state:s",
-> > +        .params     = "id [normal|cmd-interrupted]",
-> > +        .help       = "inject controller/namespace state",
-> > +        .cmd        = hmp_nvme_inject_state,
-> > +    },
-> > +
-> > +SRST
-> > +``nvme_inject_state``
-> > +  Inject NVMe controller/namespace state
-> > +ERST
-> > +
-> >      {
-> >          .name       = "netdev_add",
-> >          .args_type  = "netdev:O",
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index 6d3c554a0e99..42cf5bd113e6 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -123,6 +123,7 @@
-> >  #include "sysemu/sysemu.h"
-> >  #include "qapi/error.h"
-> >  #include "qapi/visitor.h"
-> > +#include "qapi/qmp/qdict.h"
-> >  #include "sysemu/hostmem.h"
-> >  #include "sysemu/block-backend.h"
-> >  #include "exec/memory.h"
-> > @@ -132,6 +133,7 @@
-> >  #include "trace.h"
-> >  #include "nvme.h"
-> >  #include "nvme-ns.h"
-> > +#include "monitor/monitor.h"
-> >  
-> >  #define NVME_MAX_IOQPAIRS 0xffff
-> >  #define NVME_DB_SIZE  4
-> > @@ -966,6 +968,14 @@ static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
-> >  {
-> >      assert(cq->cqid == req->sq->cqid);
-> >  
-> > +    /*
-> > +     * Override request status field if controller state has been injected by
-> > +     * the QMP.
-> > +     */
-> > +    if (cq->ctrl->state == NVME_STATE_CMD_INTERRUPTED) {
-> > +        req->status = NVME_COMMAND_INTERRUPTED;
-> > +    }
-> > +
-> >      if (req->status != NVME_SUCCESS) {
-> >          if (cq->ctrl->features.acre && nvme_should_retry(req)) {
-> >              if (cq->ctrl->params.cmd_retry_delay > 0) {
-> > @@ -5025,4 +5035,43 @@ static void nvme_register_types(void)
-> >      type_register_static(&nvme_bus_info);
-> >  }
-> >  
-> > +static void nvme_inject_state(NvmeCtrl *n, NvmeState state)
-> > +{
-> > +    n->state = state;
-> > +}
-> > +
-> > +static const char *nvme_states[] = {
-> > +    [NVME_STATE_NORMAL]             = "normal",
-> > +    [NVME_STATE_CMD_INTERRUPTED]    = "cmd-interrupted",
-> > +};
-> > +
-> > +void hmp_nvme_inject_state(Monitor *mon, const QDict *qdict)
-> > +{
-> > +    const char *id = qdict_get_str(qdict, "id");
-> > +    const char *state = qdict_get_str(qdict, "state");
-> > +    PCIDevice *dev;
-> > +    NvmeCtrl *n;
-> > +    int ret, i;
-> > +
-> > +    ret = pci_qdev_find_device(id, &dev);
-> > +    if (ret < 0) {
-> > +        monitor_printf(mon, "invalid device id %s\n", id);
-> > +        return;
-> > +    }
-> > +
-> > +    n = NVME(dev);
-> > +
-> > +    for (i = 0; i < ARRAY_SIZE(nvme_states); i++) {
-> > +        if (!strcmp(nvme_states[i], state)) {
-> > +            nvme_inject_state(n, i);
-> > +            monitor_printf(mon,
-> > +                           "-device nvme,id=%s: state %s injected\n",
-> > +                           id, state);
-> > +            return;
-> > +        }
-> > +    }
-> > +
-> > +    monitor_printf(mon, "invalid state %s\n", state);
-> > +}
-> > +
-> >  type_init(nvme_register_types)
-> > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> > index 37940b3ac2d2..1af1e0380d9b 100644
-> > --- a/hw/block/nvme.h
-> > +++ b/hw/block/nvme.h
-> > @@ -128,6 +128,11 @@ typedef struct NvmeFeatureVal {
-> >      uint8_t     acre;
-> >  } NvmeFeatureVal;
-> >  
-> > +typedef enum NvmeState {
-> > +    NVME_STATE_NORMAL,
-> > +    NVME_STATE_CMD_INTERRUPTED,
-> > +} NvmeState;
-> > +
-> >  typedef struct NvmeCtrl {
-> >      PCIDevice    parent_obj;
-> >      MemoryRegion bar0;
-> > @@ -185,6 +190,8 @@ typedef struct NvmeCtrl {
-> >      NvmeCQueue      admin_cq;
-> >      NvmeIdCtrl      id_ctrl;
-> >      NvmeFeatureVal  features;
-> > +
-> > +    NvmeState       state;
-> >  } NvmeCtrl;
-> >  
-> >  static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
-> > @@ -212,4 +219,5 @@ static inline NvmeCtrl *nvme_ctrl(NvmeRequest *req)
-> >  
-> >  int nvme_register_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp);
-> >  
-> > +void hmp_nvme_inject_state(Monitor *mon, const QDict *qdict);
-> >  #endif /* HW_NVME_H */
-> > diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> > index ed2913fd18e8..668384ea2e34 100644
-> > --- a/include/monitor/hmp.h
-> > +++ b/include/monitor/hmp.h
-> > @@ -79,6 +79,7 @@ void hmp_migrate(Monitor *mon, const QDict *qdict);
-> >  void hmp_device_add(Monitor *mon, const QDict *qdict);
-> >  void hmp_device_del(Monitor *mon, const QDict *qdict);
-> >  void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict);
-> > +void hmp_nvme_inject_state(Monitor *mon, const QDict *qdict);
-> >  void hmp_netdev_add(Monitor *mon, const QDict *qdict);
-> >  void hmp_netdev_del(Monitor *mon, const QDict *qdict);
-> >  void hmp_getfd(Monitor *mon, const QDict *qdict);
-> > -- 
-> > 2.17.1
-> > 
-> 
-> -- 
-> One of us - No more doubt, silence or taboo about mental illness.
-
-
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+SGkgUmljaGFyZCwNCg0KdGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrLg0KDQo+IEZyb206IFJp
+Y2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPg0KPiBTZW50OiBX
+ZWRuZXNkYXksIEZlYnJ1YXJ5IDEwLCAyMDIxIDIwOjAyDQo+IFRvOiBEYXZpZCBCcmVua2VuIDxk
+YXZpZC5icmVua2VuQGVmcy1hdXRvLm9yZz4gDQo+IE9uIDIvMTAvMjEgMTI6MjYgQU0sIERhdmlk
+IEJyZW5rZW4gd3JvdGU6DQo+ID4gRnJvbTogQW5kcmVhcyBLb25vcGlrIDxhbmRyZWFzLmtvbm9w
+aWtAZWZzLWF1dG8uZGU+DQo+ID4NCj4gPiBIZWxsbyB0b2dldGhlciwNCj4gPg0KPiA+IHdlIGhh
+dmUgZml4ZWQgYSBmZXcgY29uZGl0aW9ucyBsZWFkaW5nIHRvIGluY29ycmVjdCBpbnRlcm1lZGlh
+dGUgY29kZQ0KPiA+IGdlbmVyYXRpb24uIFJDUFdfSU1BU0ssIFJSUFdfRVhUUiwgUlJQV19FWFRS
+X1UgYW5kIFJSUFdfSU1BU0sNCj4gaW52b2tlDQo+ID4gdW5kZWZpbmVkIGJlaGF2aW9yIGZvciAi
+cG9zICsgd2lkdGggPiAzMiIsIHdoaWNoIGlzIGFsc28gY2hlY2tlZCBpbg0KPiA+IHRjZ19nZW5f
+ZXh0cmFjdF90bCgpLiBSUlJXX0VYVFJfVSBpbnZva2VzIHVuZGVmaW5lZCBiZWhhdmlvciBmb3IN
+Cj4gPiAid2lkdGggPT0gMCIsIGhlbmNlIHdlIHJlbW92ZWQgdGhhdCBjb25kaXRpb24uDQo+IA0K
+PiBUaGlzIGlzIGluY29ycmVjdCwgYmVjYXVzZSAidW5kZWZpbmVkIGJlaGF2aW9yIiBzaG91bGQg
+bm90IGluY2x1ZGUgYSBxZW11DQo+IGFib3J0Lg0KDQpJIGRpZG4ndCBub3RpY2UgdGhhdCB0aGVz
+ZSBjaGVja3MgdGVybWluYXRlZCBwcm9ncmFtIGV4ZWN1dGlvbi4NCg0KPiBZb3UgY291bGQgcmFp
+c2UgYSBndWVzdCBleGNlcHRpb24sIHlvdSBjb3VsZCB0cmVhdCB0aGUgZmF1bHR5IGluc3RydWN0
+aW9uIGFzIGENCj4gbm9wLCB5b3UgY291bGQgdHJ1bmNhdGUgdGhlIGlucHV0cyB0byBhdm9pZCB0
+aGUgYWJvcnQsIHlvdSBjb3VsZCB3cml0ZQ0KPiAweGRlYWRiZWVmIHRvIHRoZSBkZXN0aW5hdGlv
+bi4NCj4gDQo+IE9yIHlvdSBjb3VsZCBmaXggdGhlIGNvdXBsZSBvZiBmYXVsdHkgY29uZGl0aW9u
+cyBhbmQgbGVhdmUgdGhlIHJlc3Qgb2YgdGhlIGNvZGUNCj4gYXMtaXMuDQoNCldlIHdpbGwgc3Vi
+bWl0IHRoZSBwYXRjaCBmb2xsb3dpbmcgeW91ciBhZHZpY2UgYXMgc29vbiBhcyBwb3NzaWJsZS4N
+Cg0KS2luZCByZWdhcmRzLA0KDQpBbmRyZWFzDQoNCklOVEVSTkFMDQo=
 
