@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702753192FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:21:38 +0100 (CET)
-Received: from localhost ([::1]:50288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8453192BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:05:10 +0100 (CET)
+Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAHWz-00047j-H3
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:21:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46560)
+	id 1lAHH3-0007lm-2C
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:05:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHBk-0003iL-3P
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:59:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42101)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHBm-0003kL-Jj
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:59:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHBc-0005Md-0O
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:59:39 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHBe-0005NP-VU
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:59:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613069970;
+ s=mimecast20190719; t=1613069972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FhksO3g0oaWQerTlvwn5k8hAFZIhrr4ONIFnFxOv7Xs=;
- b=AzIZ63e/JfB44GglqrHaZf1CZOkT7hOMTWd/7iQa9Y8oRfZYIYTNK9eMWlP4ajt95Hjl45
- bQDeLHV9IDFSmL8X2OYhOj5yCbSuMJS/t+UfePwp6F33tp+J9ajNhu+FlrX3DDfiu8U5eA
- unH11m8TaVzUetiFjYUOsOZd71TQoU0=
+ bh=oWNsKxFKzzXOd9mXiEd+tBR3bjq/7qDGtKsNZujs1jY=;
+ b=MBeSebSPRPJHRLB4Zy7ahCytdnaO/vPy6zZ3KQhWtTZerJ3QXyPkkm/y4ct0DbSdWjp9Uv
+ Z7EFjsH8wMl80q3FnmYpaOIYFYsEOj1V8hKsZDu3Zax3NNfWpLisWzr7jdIS1ZzOa9z18M
+ lux2do4GYXsnSkIFiz+AER9rvBX/DBQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-3JqF56PrPgubn8pTI6KjWQ-1; Thu, 11 Feb 2021 13:59:28 -0500
-X-MC-Unique: 3JqF56PrPgubn8pTI6KjWQ-1
+ us-mta-602-zh3Jp2h3NGScEzuy88-DXA-1; Thu, 11 Feb 2021 13:59:31 -0500
+X-MC-Unique: zh3Jp2h3NGScEzuy88-DXA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B61E1100CCC1;
- Thu, 11 Feb 2021 18:59:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B81F818A0863;
+ Thu, 11 Feb 2021 18:59:29 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E72FF7A8FB;
- Thu, 11 Feb 2021 18:59:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB8E077711;
+ Thu, 11 Feb 2021 18:59:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/24] python/console_socket: avoid one-letter variable
-Date: Thu, 11 Feb 2021 13:58:33 -0500
-Message-Id: <20210211185856.3975616-2-jsnow@redhat.com>
+Subject: [PATCH v4 02/24] iotests/297: add --namespace-packages to mypy
+ arguments
+Date: Thu, 11 Feb 2021 13:58:34 -0500
+Message-Id: <20210211185856.3975616-3-jsnow@redhat.com>
 In-Reply-To: <20210211185856.3975616-1-jsnow@redhat.com>
 References: <20210211185856.3975616-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,34 +89,30 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes pylint warnings.
+mypy is kind of weird about how it handles imports. For legacy reasons,
+it won't load PEP 420 namespaces, because of logic implemented prior to
+that becoming a standard.
+
+So, if you plan on using any, you have to pass
+--namespace-packages. Alright, fine.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/console_socket.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/297 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-index ac21130e446..87237bebef7 100644
---- a/python/qemu/console_socket.py
-+++ b/python/qemu/console_socket.py
-@@ -46,11 +46,11 @@ def __init__(self, address: str, file: Optional[str] = None,
-             self._drain_thread = self._thread_start()
- 
-     def __repr__(self) -> str:
--        s = super().__repr__()
--        s = s.rstrip(">")
--        s = "%s,  logfile=%s, drain_thread=%s>" % (s, self._logfile,
--                                                   self._drain_thread)
--        return s
-+        tmp = super().__repr__()
-+        tmp = tmp.rstrip(">")
-+        tmp = "%s,  logfile=%s, drain_thread=%s>" % (tmp, self._logfile,
-+                                                     self._drain_thread)
-+        return tmp
- 
-     def _drain_fn(self) -> None:
-         """Drains the socket and runs while the socket is open."""
+diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+index a37910b42d9..433b7323368 100755
+--- a/tests/qemu-iotests/297
++++ b/tests/qemu-iotests/297
+@@ -95,6 +95,7 @@ def run_linters():
+                             '--warn-redundant-casts',
+                             '--warn-unused-ignores',
+                             '--no-implicit-reexport',
++                            '--namespace-packages',
+                             filename),
+                            env=env,
+                            check=False,
 -- 
 2.29.2
 
