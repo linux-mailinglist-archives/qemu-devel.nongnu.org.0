@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C662A31882C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:32:56 +0100 (CET)
-Received: from localhost ([::1]:53352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E678F31883A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:35:25 +0100 (CET)
+Received: from localhost ([::1]:60466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA9HK-0005X6-MZ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:32:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59012)
+	id 1lA9Jk-00004x-VN
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:35:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lA9Au-0006V8-0c
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:26:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54038)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lA9Ao-0002jx-6x
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:26:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613039169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=So+zZ05cnGQjH+sOy0ECYsTsoDZEfGyzP4ae/lFXyLY=;
- b=N5TSJ7YnpAHMvlI1CQMs01QZiIR6ctuTwzqw0Qjr4EQIowNegXW3Wbb8awH8Z8Y33iUG/6
- VaEELjsit0povEyYKXUsczJfawmn5SF0TGj4nbhW5TVPZr9XKfwOynhUJF86XGcmYPCWpx
- 6rbfS/q0jdJCSA6Wjh9OQ1xKchm06LQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-iUgNOIdIPVGrnDJnvIAVmQ-1; Thu, 11 Feb 2021 05:26:06 -0500
-X-MC-Unique: iUgNOIdIPVGrnDJnvIAVmQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEFDF803F47
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 10:26:05 +0000 (UTC)
-Received: from localhost (ovpn-115-9.ams2.redhat.com [10.36.115.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA6476268D;
- Thu, 11 Feb 2021 10:25:56 +0000 (UTC)
-Date: Thu, 11 Feb 2021 10:25:55 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 06/24] DAX: virtio-fs: Add cache BAR
-Message-ID: <20210211102555.GG247031@stefanha-x1.localdomain>
-References: <20210209190224.62827-1-dgilbert@redhat.com>
- <20210209190224.62827-7-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lA9D8-0000tB-FC
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:28:34 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54441)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lA9Ct-0003cH-3n
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:28:34 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id w4so5049044wmi.4
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 02:28:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=JTuBoeDybe99U2vbnSm5SMa4H+2QAEPtPeKaOPws0S4=;
+ b=dgIVnRPYaCH7a7w7HaceMwJAa1oBLXFtScich0uTNPTba4YOqDNann6Gjo2JQ7fuRf
+ 8FvfHdEsu/QedqqCS0Te4aVxiNc+sahtQIb9HnQqgBU2+MuDVc5Etp4HtfZ9darhKEWB
+ hgdWJCOHC0swYYz03aB1DYmw9n7xIgz/KvaIRjvxsfmoqrHUC8oheNZ85LwlGMl6URMU
+ RbrGUVIskvDtW4JMyGm0uWaUx86+qRMgcluWi/rOUu+B1Ia1kXAv8bg7AffdHTEZWJaO
+ KPOT4HmOxPUQkjXZDznGtJC5C7dkrz/MelkMtk9uHQSAttUvo+E3vkAe9+3FqpGxB7UU
+ X1RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=JTuBoeDybe99U2vbnSm5SMa4H+2QAEPtPeKaOPws0S4=;
+ b=oIek0BB5J8OcdLxacNXRVo4UWTDVX7qxC32RE4mudNl0Hoz3g9g6uOTSzJgLUQkW6E
+ P72e0BeX3qzeyGuVL4z0GmicLpOZTnV7fXxplr0qDF/2cMr3H9EReFf/6NtkcwoxQU9y
+ ZcE/qmp0rp7Cx+IzYKvZyq1cfUTVFOLEMKgnaMu4bngK249CBeAO1OBiwt5cuH/l0Fcs
+ snFN0JjhOEO+FNKDywRxxchFpbUJyiNyrjE9xGYPwVf70l6ebC3wR3bOM67QltQ7dMjL
+ XLCuDasP785wWZKehJKZ7/5d+Tob+WtqV278SB6q6nb6tBg2WcKxe9I6G1160ftQTl1E
+ 6dIw==
+X-Gm-Message-State: AOAM530gG3AiZVJtku/YFM3uMEaoC7LTxAigDwnNvngK5ng76EW9Bpuv
+ agKqSB7Eku2xsp66alKxSZiEQA==
+X-Google-Smtp-Source: ABdhPJz6+odUNyEmeaBWeOnqv7cALlGvQISkhvwl4gwKEWxobrRLp8w7uHMtiJlKueQmfuRHl3O3+g==
+X-Received: by 2002:a7b:ce17:: with SMTP id m23mr4266676wmc.80.1613039296525; 
+ Thu, 11 Feb 2021 02:28:16 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j4sm668575wrx.23.2021.02.11.02.28.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Feb 2021 02:28:15 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C81FF1FF7E;
+ Thu, 11 Feb 2021 10:28:14 +0000 (GMT)
+References: <20210207121239.2288530-1-f4bug@amsat.org>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3] travis-ci: Disable C++ optional objects on AArch64
+ container
+Date: Thu, 11 Feb 2021 10:28:07 +0000
+In-reply-to: <20210207121239.2288530-1-f4bug@amsat.org>
+Message-ID: <87wnveuce9.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210209190224.62827-7-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="j2AXaZ4YhVcLc+PQ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,85 +86,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- vgoyal@redhat.com, mst@redhat.com
+Cc: Fam Zheng <fam@euphon.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---j2AXaZ4YhVcLc+PQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 09, 2021 at 07:02:06PM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> @@ -46,6 +51,26 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *=
-vpci_dev, Error **errp)
->      }
-> =20
->      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-> +    cachesize =3D dev->vdev.conf.cache_size;
-> +
-> +    /*
-> +     * The bar starts with the data/DAX cache
-> +     * Others will be added later.
-> +     */
-> +    memory_region_init(&dev->cachebar, OBJECT(vpci_dev),
-> +                       "vhost-fs-pci-cachebar", cachesize);
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-s/vhost-fs/vhost-user-fs/ for consistency. Only worth changing if you
-respin.
+> Travis-CI seems to have enforced memory limit on containers,
+> and the 'GCC check-tcg' job started to fail on AArch64 [*]:
+>
+>   [2041/3679] Compiling C++ object libcommon.fa.p/disas_nanomips.cpp.o
+>   FAILED: libcommon.fa.p/disas_nanomips.cpp.o
+>   {standard input}: Assembler messages:
+>   {standard input}:577781: Warning: end of file not at end of a line; new=
+line inserted
+>   {standard input}:577882: Error: unknown pseudo-op: `.lvl35769'
+>   {standard input}: Error: open CFI at the end of file; missing .cfi_endp=
+roc directive
+>   c++: fatal error: Killed signal terminated program cc1plus
+>   compilation terminated.
+>
+> Until we have a replacement for this job on Gitlab-CI, disable
+> compilation of C++ files by forcing the c++ compiler to /bin/false
+> so Meson build system can not detect it:
+>
+>   $ ../configure --cxx=3D/bin/false
+>
+>   Compilation
+>                        C compiler: cc
+>                   Host C compiler: cc
+>                      C++ compiler: NO
+>
+> [*] https://travis-ci.org/github/qemu/qemu/jobs/757819402#L3754
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-> +    if (cachesize) {
-> +        memory_region_add_subregion(&dev->cachebar, 0, &dev->vdev.cache)=
-;
-> +        virtio_pci_add_shm_cap(vpci_dev, VIRTIO_FS_PCI_CACHE_BAR, 0, cac=
-hesize,
-> +                               VIRTIO_FS_SHMCAP_ID_CACHE);
-> +    }
-> +
-> +    /* After 'realized' so the memory region exists */
-> +    pci_register_bar(&vpci_dev->pci_dev, VIRTIO_FS_PCI_CACHE_BAR,
-> +                     PCI_BASE_ADDRESS_SPACE_MEMORY |
-> +                     PCI_BASE_ADDRESS_MEM_PREFETCH |
-> +                     PCI_BASE_ADDRESS_MEM_TYPE_64,
-> +                     &dev->cachebar);
-
-Please include a comment explainig why it's okay to use BAR 2, which is
-already used for the virtio-pci modern io bar (off by default):
-
-    /*
-     * virtio pci bar layout used by default.
-     * subclasses can re-arrange things if needed.
-     *
-     *   region 0   --  virtio legacy io bar
-     *   region 1   --  msi-x bar
-     *   region 2   --  virtio modern io bar (off by default)
-     *   region 4+5 --  virtio modern memory (64bit) bar
-     *
-     */
-
-I guess the idea is that the io bar is available since it's off by
-default. What happens if the io bar is enabled?
-
-Should this bar registration should be conditional (only when cache size
-is greater than 0)?
-
---j2AXaZ4YhVcLc+PQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAlBjMACgkQnKSrs4Gr
-c8jgpggAoNEPtR4HQ7BVPbSA4ugAaffqqeoLpyqr7Kf864GsSdgEZC7+SlSZjfxl
-vme32YgLleKLA4f0S72KtPwbdrJepO6tWAhdmzCK40NWDah+IpyM1I5rsSqDpB8y
-D2UgNh5px6RiCEiitxkAqwSLydIPEkvlH94SJUJ9wKqNiDi9DjI+81+CCMZ4FdDf
-XpcBpUU7HYvnu5BScBwwcb94dU2Dog+VcQ9q3I5FAdg2u91oW2QK14apT8xjuyo8
-0ZlHZuqcFV9jvr6pexc4XDBY8vdLa8UecG650rShNDIHC7PoZCkx1lif3yUjGE/R
-gbEG5u/6cWXrfjW7mVsuTfRww4DbqQ==
-=2swU
------END PGP SIGNATURE-----
-
---j2AXaZ4YhVcLc+PQ--
-
+Queued to testing/next, thanks.
+--=20
+Alex Benn=C3=A9e
 
