@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF083319404
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:11:05 +0100 (CET)
-Received: from localhost ([::1]:37306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB860319468
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:26:53 +0100 (CET)
+Received: from localhost ([::1]:39750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAIIr-00023A-1x
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:11:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60688)
+	id 1lAIY8-0007PE-Js
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:26:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAI8b-0000mO-4Y
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:00:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAI8O-0001rm-4J
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:00:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613073614;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=quE5iwjDmbHB9okqFKCRvnGuUTLmPrsfkYVIBjGAz0Y=;
- b=QyD4TTP3OpJrQ46jNKlAxmUQwK+EqNTRn7/L1ZtNbbX3Np5UVqpfj6k+Cs0DdYOUcp+5Md
- KY4abSMsPApWAxi+ljNcaVis0xwKRbfXtIPbMERN5Nt7+6tMxCLyUhMvSNMEGJ3ZmSvMZR
- 115Bu+G9l1Y+A8OQp9vIb0zNqUk434g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-06e9l-2JPKyu7zM_mrdw9g-1; Thu, 11 Feb 2021 15:00:11 -0500
-X-MC-Unique: 06e9l-2JPKyu7zM_mrdw9g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 395E9804023;
- Thu, 11 Feb 2021 20:00:10 +0000 (UTC)
-Received: from [10.3.114.150] (ovpn-114-150.phx2.redhat.com [10.3.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8E4F614FF;
- Thu, 11 Feb 2021 20:00:09 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20210211172242.146671-1-mreitz@redhat.com>
- <20210211172242.146671-3-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH 2/2] file-posix: Cache next hole
-Message-ID: <f86be907-ddc3-9629-1179-ccf585c013ae@redhat.com>
-Date: Thu, 11 Feb 2021 14:00:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lAIHN-0001gC-Vj
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:09:35 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lAIHI-0002zh-SE
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:09:33 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id u16so2974318wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 12:09:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=PQh9gIVfDj8WX+hoHgwWigzM3XEIIUKkUVYVGHGT9QQ=;
+ b=twy5GFlAIq2VXyJabsCfMN2QtgYCx568BaPHlGDV1Gnmcei2dAzx/tzzVPKDI/kDjb
+ EfIbQtyhVb1Qm6QNyHJaN+zDGeMEr2QtiXT5rUCL/f/Rqw45vZbt/CRcbpxoMF3JVNAC
+ csAgAVSj2IV2p/DalKaEDGRq8Uz/XMGpaURba4q07NWlQxeJY94CmnwfnsCKZSQk3aOk
+ TjQnElZPn6DTbPDd/Jsfd0HmoifK3QQGrcllji0ieUYgFX81zmz1tUZX7Px28sf1eqwi
+ YrGpy60BmDz2we3sCixvUrQH8EQU5B5BdhsFejC6EAsAcTUVoGaOMb/ZmkrZXQZuKsNl
+ +Mkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=PQh9gIVfDj8WX+hoHgwWigzM3XEIIUKkUVYVGHGT9QQ=;
+ b=O2qKcJVxds/DpME4kGRWh+jbtv4/n7El4AzpYwEAnhNwUOBoXcorcvPzGd2rSuKgij
+ SpTys7210i2r3U7Y6gYoRnosjdMr8LG8EC487YMtFnsQsHWDdsPVqB2Ll4rNMkuhA2id
+ GHRrxC80yY0b3ODtqoamaBiJlJ1vw6yp+1/LRR15KHEsI4HfgIS4yFywbqhm8yeb0y9P
+ 2dUZUqsUNskkquBsmbMt+ihW/FUS1Ub8lbfrfgxAEKwV9CwVlMOoBMuzBveiKFvxMWW7
+ +qaUdPOag/O8kDJkUPuXlpToMc1hYnexg7+Mv0iAHSKvjUN8FGRGtH5mTiBrYBdsPzwN
+ Ygrg==
+X-Gm-Message-State: AOAM532JtLxOidbsjMC/RCYAXyQzWDys6QhOspa2AWhurSQaCcuRfmx2
+ OrguH94pJFo50J1ZuQT/u/eiag==
+X-Google-Smtp-Source: ABdhPJyg8LDH0fGhDIV+ftmMeCLfU/p4LdThTCRgWQcvmtD3KSbblc3thTs1pWBvbwJbOy+qF1Qwxw==
+X-Received: by 2002:a1c:7f4a:: with SMTP id a71mr6733183wmd.92.1613074162136; 
+ Thu, 11 Feb 2021 12:09:22 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 143sm11359593wmb.47.2021.02.11.12.09.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Feb 2021 12:09:21 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C5B691FF7E;
+ Thu, 11 Feb 2021 20:09:19 +0000 (GMT)
+References: <20210210221053.18050-1-alex.bennee@linaro.org>
+ <20210210221053.18050-18-alex.bennee@linaro.org>
+ <67c46489-08b7-fce5-91c9-8416f9164456@linaro.org>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 17/21] accel/tcg: cache single instruction TB on
+ pending replay exception
+Date: Thu, 11 Feb 2021 20:00:40 +0000
+In-reply-to: <67c46489-08b7-fce5-91c9-8416f9164456@linaro.org>
+Message-ID: <87h7mis6xc.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210211172242.146671-3-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,75 +89,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, robhenry@microsoft.com,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/21 11:22 AM, Max Reitz wrote:
-> We have repeatedly received reports that SEEK_HOLE and SEEK_DATA are
-> slow on certain filesystems and/or under certain circumstances.  That is
-> why we generally try to avoid it (which is why bdrv_co_block_status()
-> has the @want_zero parameter, and which is why qcow2 has a metadata
-> preallocation detection, so we do not fall through to the protocol layer
-> to discover which blocks are zero, unless that is really necessary
-> (i.e., for metadata-preallocated images)).
-> 
-> In addition to those measures, we can also try to speed up zero
-> detection by letting file-posix cache some hole location information,
-> namely where the next hole after the most recently queried offset is.
-> This helps especially for images that are (nearly) fully allocated,
-> which is coincidentally also the case where querying for zero
-> information cannot gain us much.
-> 
-> Note that this of course only works so long as we have no concurrent
-> writers to the image, which is the case when the WRITE capability is not
-> shared.
-> 
-> Alternatively (or perhaps as an improvement in the future), we could let
-> file-posix keep track of what it knows is zero and what it knows is
-> non-zero with bitmaps, which would help images that actually have a
-> significant number of holes (where this implementation here cannot do
-> much).  But for such images, SEEK_HOLE/DATA are generally faster (they
-> do not need to seek through the whole file), and the performance lost by
-> querying the block status does not feel as bad because it is outweighed
-> by the performance that can be saved by special-cases zeroed areas, so
-> focussing on images that are (nearly) fully allocated is more important.
 
-focusing
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  block/file-posix.c | 81 +++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 80 insertions(+), 1 deletion(-)
-> 
+> On 2/10/21 2:10 PM, Alex Benn=C3=A9e wrote:
+>> Again there is no reason to jump through the nocache hoops to execute
+>> a single instruction block. We do have to add an additional wrinkle to
+>> the cpu_handle_interrupt case to ensure we let through a TB where we
+>> have specifically disabled icount for the block.
+>
+> Can you say more about this?  Because...
+>
+>>      if (unlikely(qatomic_read(&cpu->exit_request))
+>>          || (icount_enabled()
+>> +            && (cpu->cflags_next_tb =3D=3D -1 || cpu->cflags_next_tb & =
+CF_USE_ICOUNT)
+>>              && cpu_neg(cpu)->icount_decr.u16.low + cpu->icount_extra =
+=3D=3D 0)) {
+>
+> ... this does not appear to match.  You're checking that icount has been
+> explicitly *enabled*?
 
->  static int find_allocation(BlockDriverState *bs, off_t start,
->                             off_t *data, off_t *hole)
->  {
-> -#if defined SEEK_HOLE && defined SEEK_DATA
->      BDRVRawState *s = bs->opaque;
-> +
-> +    if (s->next_zero_offset_valid) {
-> +        if (start >= s->next_zero_offset_from && start < s->next_zero_offset) {
-> +            *data = start;
-> +            *hole = s->next_zero_offset;
-> +            return 0;
-> +        }
-> +    }
-> +
-> +#if defined SEEK_HOLE && defined SEEK_DATA
+If icount has been enabled and we are using the default cflags or
+enabled and we have the explicit CF_ICOUNT. The replay exception leg
+explicitly disables icount because otherwise we'd never actually execute
+the block because we have a budget of 0 cycles left. Previously we ran
+that block at the exception handling point - now we fall through and
+have to make sure we don't trigger an IRQ.
 
-Why move the #if? If SEEK_HOLE is not defined, s->next_zero_offset_valid
-should never be set, because we'll treat the entire image as data.  But
-at the same time, it doesn't hurt, so doesn't stop my review.
+> Or am I reading the logic backward and only if icount is
+> enabled will we take EXCP_INTERRUPT?
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Or I guess we have an exit_request which hasn't been handled yet but
+there is no EXCP_ pending.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+>
+>
+> r~
 
+
+--=20
+Alex Benn=C3=A9e
 
