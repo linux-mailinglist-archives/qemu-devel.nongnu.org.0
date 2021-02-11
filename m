@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62956319137
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:39:15 +0100 (CET)
-Received: from localhost ([::1]:45788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5306231910E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:32:03 +0100 (CET)
+Received: from localhost ([::1]:55314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAFvu-00078B-2s
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:39:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55572)
+	id 1lAFow-0006pj-AO
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:32:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lAFgw-0000qk-PX
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:23:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55457)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAFj0-0002mm-MG
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:25:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lAFgu-0006qr-SJ
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:23:46 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAFiy-0007i8-OO
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:25:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613064224;
+ s=mimecast20190719; t=1613064350;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZO0EtVikD90Sui6IUPsiiNny6SOVbGeqe48a8De5hDE=;
- b=apwcgVNoZQY68ccXAA4REkH1V8Gupgc5EtncZlevZaCxMRPbWlM6uKn3+h8e8q3FBJ4+cZ
- Y1XIzjpVP3POSP7gTCBWUZvjX2TM9cRG2QUrGjKvmWBjsCn2xbFmhmyPVstrzwIRWffG6f
- ofjbqQv5fnhMghGdAZcrvZyWbLfjVaQ=
+ bh=g00gdEK3gEnDYV0qU70s8EKC5MNWJNRRdsKsPjIWvsM=;
+ b=EOAxhu2fMbA8ZnuC85M+s1BmyjvXBpzCrlSlG5/e8jjC2+I3GPizGyQgpJbyxafcK5RvNG
+ 9Ke5wEQA3+EpzTlxOz7JIbxpjxoxNM+JcCOc3beu7DVHXU5wzQc9rmWRwipQ59ZLReUH+b
+ 9RcKwZzUwkTEUM+7/dIdx80Wk34g/eA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-KQNfVA_2Mbic1mY8kFUArQ-1; Thu, 11 Feb 2021 12:23:42 -0500
-X-MC-Unique: KQNfVA_2Mbic1mY8kFUArQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-428-DjdItSDdP-KDyjKBJQnEgg-1; Thu, 11 Feb 2021 12:25:45 -0500
+X-MC-Unique: DjdItSDdP-KDyjKBJQnEgg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98B6B801978
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 17:23:41 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBB7419C81;
- Thu, 11 Feb 2021 17:23:39 +0000 (UTC)
-Date: Thu, 11 Feb 2021 18:23:37 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v4 20/21] i386: provide simple 'hv-default=on' option
-Message-ID: <20210211182337.209986c1@redhat.com>
-In-Reply-To: <20210210164033.607612-21-vkuznets@redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210164033.607612-21-vkuznets@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 144AC56AA6;
+ Thu, 11 Feb 2021 17:25:44 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-89.rdu2.redhat.com
+ [10.10.116.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D03B60622;
+ Thu, 11 Feb 2021 17:25:43 +0000 (UTC)
+Date: Thu, 11 Feb 2021 12:25:41 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: runaway avocado
+Message-ID: <20210211172541.GA2316309@localhost.localdomain>
+References: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
+ <CAFEAcA_S81bnYVcNENW9bFApAc-Ob1uKQncsGPmyFD034p2FOA@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CAFEAcA_S81bnYVcNENW9bFApAc-Ob1uKQncsGPmyFD034p2FOA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -79,166 +78,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Feb 2021 17:40:32 +0100
-Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+--OXfL5xGRrasGEqWY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-> requires listing all currently supported enlightenments ("hv-*" CPU
-> features) explicitly. We do have 'hv-passthrough' mode enabling
-> everything but it can't be used in production as it prevents migration.
-> 
-> Introduce a simple 'hv-default=on' CPU flag enabling all currently supported
-> Hyper-V enlightenments. Later, when new enlightenments get implemented,
-> compat_props mechanism will be used to disable them for legacy machine types,
-> this will keep 'hv-default=on' configurations migratable.
-> 
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> ---
->  docs/hyperv.txt   | 16 ++++++++++++---
->  target/i386/cpu.c | 52 +++++++++++++++++++++++++++++++++++++++++++++++
->  target/i386/cpu.h |  3 +++
->  3 files changed, 68 insertions(+), 3 deletions(-)
-> 
-> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> index 5df00da54fc4..a54c066cab09 100644
-> --- a/docs/hyperv.txt
-> +++ b/docs/hyperv.txt
-> @@ -17,10 +17,20 @@ compatible hypervisor and use Hyper-V specific features.
->  
->  2. Setup
->  =========
-> -No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
-> -QEMU, individual enlightenments can be enabled through CPU flags, e.g:
-> +All currently supported Hyper-V enlightenments can be enabled by specifying
-> +'hv-default=on' CPU flag:
->  
-> -  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
-> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default ...
-> +
-> +Alternatively, it is possible to do fine-grained enablement through CPU flags,
-> +e.g:
-> +
-> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-relaxed,hv-vpindex,hv-time ...
-> +
-> +It is also possible to disable individual enlightenments from the default list,
-> +this can be used for debugging purposes:
-> +
-> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default=on,hv-evmcs=off ...
->  
->  Sometimes there are dependencies between enlightenments, QEMU is supposed to
->  check that the supplied configuration is sane.
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index f8df2caed779..013aa60272d8 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4736,6 +4736,12 @@ static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
->  {
->      X86CPU *cpu = X86_CPU(obj);
->  
-> +    if (cpu->hyperv_default) {
-> +        error_setg(errp,
-> +                   "'hv-default' and 'hv-paththrough' are mutually exclusive");
-> +        return;
-> +    }
-> +
->      cpu->hyperv_passthrough = value;
->  
->      /* hv-passthrough overrides everything with what's supported by the host */
-> @@ -4748,6 +4754,33 @@ static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
->      return;
->  }
->  
-> +static bool x86_hv_default_get(Object *obj, Error **errp)
-> +{
-> +    X86CPU *cpu = X86_CPU(obj);
-> +
-> +    return cpu->hyperv_default;
-> +}
-> +
-> +static void x86_hv_default_set(Object *obj, bool value, Error **errp)
-> +{
-> +    X86CPU *cpu = X86_CPU(obj);
-> +
-> +    if (cpu->hyperv_passthrough) {
-> +        error_setg(errp,
-> +                   "'hv-default' and 'hv-paththrough' are mutually exclusive");
-this check will work only half way, i.e.: hv-paththrough=on,hv-default=on|off
-(where off value looks a bit wierd)
-but not other way around: hv-default=on,hv-paththrough=on
+On Fri, Feb 05, 2021 at 07:23:22PM +0000, Peter Maydell wrote:
+> On Mon, 26 Oct 2020 at 22:35, Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+> >
+> > So, I somehow ended up with this process still running on my
+> > local machine after a (probably failed) 'make check-acceptance':
+> >
+> > petmay01 13710 99.7  3.7 2313448 1235780 pts/16 Sl  16:10 378:00
+> > ./qemu-system-aarch64 -display none -vga none -chardev
+> > socket,id=3Dmon,path=3D/var/tmp/tmp5szft2yi/qemu-13290-monitor.sock -mo=
+n
+> > chardev=3Dmon,mode=3Dcontrol -machine virt -chardev
+> > socket,id=3Dconsole,path=3D/var/tmp/tmp5szft2yi/qemu-13290-console.sock=
+,server,nowait
+> > -serial chardev:console -icount
+> > shift=3D7,rr=3Drecord,rrfile=3D/var/tmp/avocado_iv8dehpo/avocado_job_w9=
+efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.te=
+st_aarch64_virt/replay.bin,rrsnapshot=3Dinit
+> > -net none -drive
+> > file=3D/var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptan=
+ce_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/disk.qco=
+w2,if=3Dnone
+> > -kernel /home/petmay01/avocado/data/cache/by_location/a00ac4ae676ef0322=
+126abd2f7d38f50cc9cbc95/vmlinuz
+> > -cpu cortex-a53
+> >
+> > and it was continuing to log to a deleted file
+> > /var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reve=
+rse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/replay.bin
+> >
+> > which was steadily eating my disk space and got up to nearly 100GB
+> > in used disk (invisible to du, of course, since it was an unlinked
+> > file) before I finally figured out what was going on and killed it
+> > about six hours later...
+>=20
+> Just got hit by this test framework bug again :-( Same thing,
+> runaway avacado record-and-replay test ate all my disk space.
+>=20
+> -- PMM
+>=20
 
-were you thinking about following error:
-  "hv-default can't be used after hv-paththrough were enabled"
+Hi Peter,
 
-or if it symmetric, then putting this check in realizefn() will do the job
-as both properties are processed by that time.
+I'm sorry this caused you trouble again.
 
-> +        return;
-> +    }
-> +
-> +    cpu->hyperv_default = value;
-> +
-> +    /* hv-default overrides everything with the default set */
-> +    if (value) {
-> +        cpu->hyperv_features = cpu->hyperv_default_features;
-> +        cpu->hyperv_features_on = 0;
-> +        cpu->hyperv_features_off = 0;
-> +    }
-> +}
-> +
->  /* Generic getter for "feature-words" and "filtered-features" properties */
->  static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
->                                        const char *name, void *opaque,
-> @@ -7152,6 +7185,21 @@ static void x86_cpu_initfn(Object *obj)
->      if (xcc->model) {
->          x86_cpu_load_model(cpu, xcc->model);
->      }
-> +
-> +    /* Hyper-V features enabled with 'hv-default=on' */
-> +    cpu->hyperv_default_features = BIT(HYPERV_FEAT_RELAXED) |
-> +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-> +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-> +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-> +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-> +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-> +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_IPI) |
-> +        BIT(HYPERV_FEAT_STIMER_DIRECT);
-> +
-> +    /* Enlightened VMCS is only available on Intel/VMX */
-> +    if (kvm_hv_evmcs_available()) {
-> +        cpu->hyperv_default_features |= BIT(HYPERV_FEAT_EVMCS);
-> +    }
->  }
->  
->  static int64_t x86_cpu_get_arch_id(CPUState *cs)
-> @@ -7486,6 +7534,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->                                     x86_hv_passthrough_get,
->                                     x86_hv_passthrough_set);
->  
-> +    object_class_property_add_bool(oc, "hv-default",
-> +                              x86_hv_default_get,
-> +                              x86_hv_default_set);
-> +
->      for (w = 0; w < FEATURE_WORDS; w++) {
->          int bitnr;
->          for (bitnr = 0; bitnr < 64; bitnr++) {
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index b4fbd46f0fc9..59350e70fb51 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1670,6 +1670,9 @@ struct X86CPU {
->      uint64_t hyperv_features_on;
->      uint64_t hyperv_features_off;
->      bool hyperv_passthrough;
-> +    /* 'hv-default' enablement */
-> +    uint64_t hyperv_default_features;
-> +    bool hyperv_default;
->      OnOffAuto hyperv_no_nonarch_cs;
->      uint32_t hyperv_vendor_id[3];
->      uint32_t hyperv_interface_id[4];
+IIUC, this specic issue was caused by a runaway QEMU.  Granted, it was
+started by an Avocado test.  I've opened a bug report to look into the
+possibilities to mitigate or prevent this from happening again:
+
+   https://bugs.launchpad.net/qemu/+bug/1915431
+
+The bug report contains a bit more context into why Avocado does not
+try to kill all processes started by a test by default.
+
+BTW, we've been working with Pavel on identifying issues with
+replay/reverse features that are causing test failures.  So far,
+I've seen a couple of issues that may be related to this runaway
+QEMU writing to to the replay.bin file.
+
+Regards,
+- Cleber.
+
+--OXfL5xGRrasGEqWY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAlaJIACgkQZX6NM6Xy
+CfP8UBAAt2yHzg+0URd9apbgAIZCA4Xx3fwIQ4sU6FYOffQiu9/o4gR5eghVlWmo
++ZGTlcnxRSyNv3zkjqH8oraljLqlAPr/1U36kLRpyRXdkHEMNsTr0iww36gbtzMX
+WX8OgTZ2D6MQsrqazxBQ8Az7rvogE2Ez/fT7Jf2+LK5BF3pgH9Zjgu6qVQjcB/A1
+nOV1XK8nCIsXbOKCO72XISkPpyPLbem/W5sxHbSMHRXRIBB8uhTx/zuxqE2JqRGC
+lE70COOqbPK+3uesEJ8ozowgS4IYT6wPwnUbWZk3ioiZfPDzFfGc0rCR/qvK4lTa
+VrTalEz95wL506vDORRBFKprZ2TPvCnTBP9fHRO/b8M1G5wEkc1DANWwAiL7B3BD
+U+Fe4ZKlwWGUsthMX1enTaswv4YtKD8De0TllB0s0V+7QgHCGV2sPB/4Geg69YeU
++o2L9S02J1TAL7Q75jT8p9tYDlDmslTHKZNNcDWlPdYxG4FtQWvU5QJ8pOhm9A/C
+p9cf4zmVBdKAPPWYhZkkfIRqO6xH+fLEuCuUgh8AuhuNfPAMKd7Xv4WmN6O5oPhl
+suZVFOFWIUypp/v+LLSl4VWbfGk0Ry/fQU8NmDk0XfCioy9CnbvY66LzunhkItT9
+n8Mhumgc/8cOsX+qmpPjjzd1D2y6n6UUoP4xvyHeMjrQwee8xws=
+=Sji9
+-----END PGP SIGNATURE-----
+
+--OXfL5xGRrasGEqWY--
 
 
