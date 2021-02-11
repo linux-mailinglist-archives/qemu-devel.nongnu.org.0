@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7C0319617
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 23:56:06 +0100 (CET)
-Received: from localhost ([::1]:38516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301C0319625
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 23:58:39 +0100 (CET)
+Received: from localhost ([::1]:46760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAKsX-0002mZ-PX
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 17:56:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41248)
+	id 1lAKv0-0006pM-A4
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 17:58:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lAKph-00014H-3p; Thu, 11 Feb 2021 17:53:09 -0500
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:37854)
+ id 1lAKph-00014q-Jw; Thu, 11 Feb 2021 17:53:09 -0500
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:34106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lAKpa-0002Uo-8r; Thu, 11 Feb 2021 17:53:08 -0500
-Received: by mail-qk1-x72f.google.com with SMTP id s77so7055986qke.4;
- Thu, 11 Feb 2021 14:53:01 -0800 (PST)
+ id 1lAKpc-0002Vk-Au; Thu, 11 Feb 2021 17:53:09 -0500
+Received: by mail-qt1-x82c.google.com with SMTP id c1so5482148qtc.1;
+ Thu, 11 Feb 2021 14:53:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5U9+y/dSkI4cN7W0ikuvTZLCpAHezOk1LxCyFVMnoqM=;
- b=e2RsSizrN0VC6NOo0NaAIAWSka4Qf98qa0Y/LGjbixhDYAnmD7uJcFQzZ1hZksL59l
- Du+VTd0ewRGxEq+4wxe7R/AakNCpzVJEZ2Oi1S7uo+Ta1WxRcod/QMrHNiaOTh3b0EwN
- aq/9pxxVwlO4k/Z/9m8PsS5JlHFn296bwLUsmuEYMkuGh7x7O6pCTQ4f0pxbs0lEo87M
- G3pkIrIPdniH0LYdBbUfWHEA2hk3SzNsk/7alPJ7lDtbkgOkP9yGHY00TvAeDX78TNxF
- XiP4vlRug21qUba+FYoMfyX6Mf7B/hc8J+0oZjmgSgMIkmmWx5kq3ztGu2MyDBtttQRx
- a43A==
+ bh=tCoYYHBKR+fFO7m++NZSpiMZ5sCIJgLWAYFJvHuEtbM=;
+ b=YKJGVbBQMaUqRL3DGBeYL2qMOGSm7rhba0KFKrmAIVtRmgZwSFzbtf9FWaYVzMrunU
+ 08Ibwb+IjM3zzc7+26wJ1cjM+WSwHYyMyXz1eR7qfNRUgHAnbKMw0Mz8kQTxOqycd7xF
+ rtb4EtD+X/9txKWX9AMMTb+2+S0yqqPxS3k50S3Y6aoMWypOO2wCq7nWeDIYBCMYHyoG
+ usgnnrHSzb/ytssZP2E+C9v/OqV5YpNB1vb9HdLT8E74TV3CVz28gn/9Kj8QQQ5P3RHk
+ EifpZs4v77Qca2dsYlsQ/DfB3VjYRXnQcT4ugJ9HaefZqkMVyFhRmS8E+JNQ+qtDw4mi
+ LQIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5U9+y/dSkI4cN7W0ikuvTZLCpAHezOk1LxCyFVMnoqM=;
- b=B0hrbR4ECakgIChvC/GkFSbAi/+3eR5j4jkb3TvGGXB4QBk5fWQTdNPu7qgXhPLmMa
- SRNOGP9au+GJkOIsIipEZQ+VBGUmFLsglr/QCDOmSc6fLFWespze1JE+eA08OcP1641W
- jSuGUXAeCPjBt7TpnZVaimbPOg7X/vN+i6jH9Mui0EQfMhjIZ5GVQNaxWlnR+l9jJzzJ
- wiEuUBZgINX+6290oE1vOK0zj2c4XGBoHlg4k3t4xtGuZDjjpZbey8ik2U1YWb8toYAY
- ekPTU/Tf95cOC4Q2IteYo82wL8JK5IHNX0R4vS0bGOUPDr2ubnAZ+tzd+ZR2EcyqPRDV
- Yvyw==
-X-Gm-Message-State: AOAM533Qp9XGEbkTlX4TaJpT+gFVvAcCqa9j9pDRNPuBACn4+mu2BzeJ
- mOFkZmhcNI9i4BxKFGorC0XuEimWnAuwow==
-X-Google-Smtp-Source: ABdhPJw0d+p8pQVAIbF+bnhXa7HnjLMS9uW0w1AxhgdkXbf2CmG1IFDht0S1jtU5qg7E1TTi2tQInA==
-X-Received: by 2002:ae9:dc87:: with SMTP id q129mr50162qkf.297.1613083980726; 
- Thu, 11 Feb 2021 14:53:00 -0800 (PST)
+ bh=tCoYYHBKR+fFO7m++NZSpiMZ5sCIJgLWAYFJvHuEtbM=;
+ b=M1DSWpWrgVVtXGFW7GHUWcDGZAYvyUlanHMn5Ayq2RWVn2aLOZMKh7fJzifE8qlYVS
+ rSiYXxkvdTj5iCcUo5xYDJcIjOVFv+NoWjBjxc3q3ytNLLQnwY/G6Y1PKo138T20qo9f
+ MjsYvD7o/+3TXkyxR0JZF3tXCVeBIpiI6v6+cf/grMbi+1J8aJjCoZbZOwhmFpoEV4f1
+ 0oC+c2SelKZ7gKkb+ehKylZzKhLAN2NsZk3/vb0wmvba8VDtzD/FVl08dAuKx0BShvBC
+ cs4b0AW5CcNUcqOD0btTksy+URXGkYIl/Ht6BGGqoHmQiOx3+114Uzn90m8xL0/AHiy9
+ SEJw==
+X-Gm-Message-State: AOAM5306XiIz6vTGd6Nm83rcGzchrXKUdmsUbTC5gMoCXlwi0+qUeKPp
+ fo/GoGiumFoq+ks0t0axolfixAYGT2k2iA==
+X-Google-Smtp-Source: ABdhPJwFSWef5fomf+AIjyA9WiiaeBV+PI75OKZFxe7l/qMrahkBtz5PBscUm3FeWwmoXRsY/7pBdQ==
+X-Received: by 2002:a05:622a:7:: with SMTP id x7mr9554700qtw.257.1613083982884; 
+ Thu, 11 Feb 2021 14:53:02 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:6e83:c920:e8d3:a2df:bf3])
- by smtp.gmail.com with ESMTPSA id x49sm4662227qth.95.2021.02.11.14.52.58
+ by smtp.gmail.com with ESMTPSA id x49sm4662227qth.95.2021.02.11.14.53.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 14:53:00 -0800 (PST)
+ Thu, 11 Feb 2021 14:53:02 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/7] spapr_drc.c: do not call spapr_drc_detach() in
- drc_isolate_logical()
-Date: Thu, 11 Feb 2021 19:52:40 -0300
-Message-Id: <20210211225246.17315-2-danielhb413@gmail.com>
+Subject: [PATCH v3 2/7] spapr_pci.c: simplify spapr_pci_unplug_request()
+ function handling
+Date: Thu, 11 Feb 2021 19:52:41 -0300
+Message-Id: <20210211225246.17315-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210211225246.17315-1-danielhb413@gmail.com>
 References: <20210211225246.17315-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,68 +87,88 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-drc_isolate_logical() is used to move the DRC from the "Configured" to the
-"Available" state, erroring out if the DRC is in the unexpected "Unisolate"
-state and doing nothing (with RTAS_OUT_SUCCESS) if the DRC is already in
-"Available" or in "Unusable" state.
+When hotunplugging a PCI function we'll branch out the logic in two cases,
+function zero and non-zero. If non-zero, we'll call spapr_drc_detach() and
+nothing else. If it's function zero, we'll loop it once between all the
+functions in the slot to call spapr_drc_detach() on them, and afterwards
+we'll do another backwards loop where we'll signal the event to the guest.
 
-When moving from "Configured" to "Available", the DRC is moved to the
-LOGICAL_AVAILABLE state, a drc->unplug_requested check is done and, if true,
-spapr_drc_detach() is called.
+We can simplify this logic. We can ignore all the DRC handling for non-zero
+functions, since we'll end up doing that regardless when unplugging function
+zero. And for function zero, everything can be done in a single loop, since
+tt doesn't matter if we end up marking the function DRCs as unplug pending in
+backwards order or not, as long as we call spapr_drc_detach() before issuing
+the hotunplug event to the guest.
 
-What spapr_drc_detach() does then is:
-
-- set drc->unplug_requested to true. In fact, this is the only place where
-unplug_request is set to true;
-- does nothing else if drc->state != drck->empty_state. If the DRC state
-is equal to drck->empty_state, spapr_drc_release() is called. For logical
-DRCs, drck->empty_state = LOGICAL_UNUSABLE.
-
-In short, calling spapr_drc_detach() in drc_isolate_logical() does nothing. It'll
-set unplug_request to true again ('again' since it was already true - otherwise the
-function wouldn't be called), and will return without calling spapr_drc_release()
-because the DRC is not in LOGICAL_UNUSABLE, since drc_isolate_logical() just
-moved it to LOGICAL_AVAILABLE. The only place where the logical DRC is released
-is when called from drc_set_unusable(), when it is moved to the "Unusable" state.
-As it should, according to PAPR.
-
-Even though calling spapr_drc_detach() in drc_isolate_logical() is benign, removing
-it will avoid further thought about the matter. So let's go ahead and do that.
-
-As a note, this logic was introduced in commit bbf5c878ab76. Since then, the DRC
-handling code was refactored and enhanced, and PAPR itself went through some
-changes in the DRC area as well. It is expected that some assumptions we had back
-then are now deprecated.
+This will also avoid a possible scenario where the user starts to hotunplug
+the slot, starting with a non-zero function, and then delays/forgets to
+hotunplug function zero afterwards. This would keep the function DRC marked
+as unplug requested indefinitely.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_drc.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ hw/ppc/spapr_pci.c | 44 ++++++++++++++++----------------------------
+ 1 file changed, 16 insertions(+), 28 deletions(-)
 
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 8571d5bafe..84bd3c881f 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -132,19 +132,6 @@ static uint32_t drc_isolate_logical(SpaprDrc *drc)
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index f1c7479816..1791d98a49 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1709,38 +1709,26 @@ static void spapr_pci_unplug_request(HotplugHandler *plug_handler,
+             return;
+         }
  
-     drc->state = SPAPR_DRC_STATE_LOGICAL_AVAILABLE;
+-        /* ensure any other present functions are pending unplug */
+-        if (PCI_FUNC(pdev->devfn) == 0) {
+-            for (i = 1; i < 8; i++) {
+-                func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
+-                func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
+-                state = func_drck->dr_entity_sense(func_drc);
+-                if (state == SPAPR_DR_ENTITY_SENSE_PRESENT
+-                    && !spapr_drc_unplug_requested(func_drc)) {
+-                    /*
+-                     * Attempting to remove function 0 of a multifunction
+-                     * device will will cascade into removing all child
+-                     * functions, even if their unplug weren't requested
+-                     * beforehand.
+-                     */
+-                    spapr_drc_detach(func_drc);
+-                }
+-            }
++        /*
++         * The hotunplug itself will occur when unplugging function 0,
++         * regardless of marking any other functions DRCs as pending
++         * unplug beforehand (since 02a1536eee33).
++         */
++        if (PCI_FUNC(pdev->devfn) != 0) {
++            return;
+         }
  
--    /* if we're awaiting release, but still in an unconfigured state,
--     * it's likely the guest is still in the process of configuring
--     * the device and is transitioning the devices to an ISOLATED
--     * state as a part of that process. so we only complete the
--     * removal when this transition happens for a device in a
--     * configured state, as suggested by the state diagram from PAPR+
--     * 2.7, 13.4
--     */
--    if (drc->unplug_requested) {
--        uint32_t drc_index = spapr_drc_index(drc);
--        trace_spapr_drc_set_isolation_state_finalizing(drc_index);
 -        spapr_drc_detach(drc);
--    }
-     return RTAS_OUT_SUCCESS;
- }
++        for (i = 7; i >= 0; i--) {
++            func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
++            func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
++            state = func_drck->dr_entity_sense(func_drc);
  
+-        /* if this isn't func 0, defer unplug event. otherwise signal removal
+-         * for all present functions
+-         */
+-        if (PCI_FUNC(pdev->devfn) == 0) {
+-            for (i = 7; i >= 0; i--) {
+-                func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
+-                func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
+-                state = func_drck->dr_entity_sense(func_drc);
+-                if (state == SPAPR_DR_ENTITY_SENSE_PRESENT) {
+-                    spapr_hotplug_req_remove_by_index(func_drc);
++            if (state == SPAPR_DR_ENTITY_SENSE_PRESENT) {
++                /* Mark the DRC as requested unplug if needed. */
++                if (!spapr_drc_unplug_requested(func_drc)) {
++                    spapr_drc_detach(func_drc);
+                 }
++                spapr_hotplug_req_remove_by_index(func_drc);
+             }
+         }
+     }
 -- 
 2.29.2
 
