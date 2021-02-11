@@ -2,59 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412E6319288
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 19:54:07 +0100 (CET)
-Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1263192B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:03:55 +0100 (CET)
+Received: from localhost ([::1]:53568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAH6M-00087y-9v
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 13:54:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45362)
+	id 1lAHFp-0006rm-Rw
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:03:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1lAH4y-0007bA-2m
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:52:40 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2114)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lAH3Q-0006st-PI
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:51:06 -0500
+Received: from mail-eopbgr760097.outbound.protection.outlook.com
+ ([40.107.76.97]:65153 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1lAH4u-0002Lr-67
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:52:39 -0500
-Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Dc5Dc0Hqqz67dq5;
- Fri, 12 Feb 2021 02:45:52 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 11 Feb 2021 19:52:31 +0100
-Received: from localhost (10.47.31.44) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2106.2; Thu, 11 Feb
- 2021 18:52:30 +0000
-Date: Thu, 11 Feb 2021 18:51:29 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ben Widawsky <ben@bwidawsk.net>, David Hildenbrand <david@redhat.com>
-Subject: Re: [RFC PATCH v3 00/31] CXL 2.0 Support
-Message-ID: <20210211185129.000055d3@Huawei.com>
-In-Reply-To: <20210203174216.ko2fqgsvsnp2hjxx@mail.bwidawsk.net>
-References: <20210202005948.241655-1-ben.widawsky@intel.com>
- <20210203174216.ko2fqgsvsnp2hjxx@mail.bwidawsk.net>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lAH3E-0001TD-BC
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:51:04 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZhDdvS2jLAkGrEdMChtnTbfCL6gxmawYQ5GRVtYveJz8y4EJ7vSQoMAZiosmqvkaCu2MMm/fhbd7zBDBnvxnoYzxNqr9w/3zPEJ9zI39RTx8KNKKv0kPRnxrWgGGlAklQnBLNIrr08XP2iaqfjKBGgpr48jz/wZJFNPGKRraNLNZil4sT3y7AzzsDHGV8Hhyz210JRjDudD2WKEWs/fWvlfyXpoSxZM+jknSBGKuRl/4N5YecHdhvCt0TXFvV70NuMu0OtaLJ6///WMLpdPAZ6EKtwTq7Vbe4HM9BiNP9uBAD+7mZ/DH3QHYIvSv5F7iHs0n8igJb3TQOeAmMxglkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A8d6fG60a3z6oOGj2SY7vGZRkIae4p7sx7NvXK1AvDg=;
+ b=V9ocJtNqXavHNUuA38eOth0LqMkxs/og+c35RH/5MmR7M6bM1YX+VXgRtDGC/PZh2DNh7B5g9PlyBHHHaR3PrwgYIJsxGH8DrF0wO2bdMVvk4cROmChRJ6s4NAwVhVHKN1NJx3FU7AWHgiT/26FJO98x6nhfAyqHEySboBIQj7CZev3hxBT65hiORJ4WHzGXiT3Ohs/gKNn7irMoP12Y4/tY4+qIQZCurh8lnxU/ijKH6Amxur8cANl6vII5iH+AoiIhLZbN6jJV29hdIelS6CiosxV+p/1QMoESbkX9Fz663Ppek9KkVjiycY37dYzqQ+DMAoR2gsHP/vxEs3hHaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A8d6fG60a3z6oOGj2SY7vGZRkIae4p7sx7NvXK1AvDg=;
+ b=rD+0i/WklwNigH7oTI8EXlAeGNjxJu4ZI0LgIW0HfEMA73IWPQ5bULv9oESxP4YlDFG3LxYbQcvBVadaAtHkrWX/GVI8ZOmQoTo9AbRzIC+FysSRrjU28abX5QhaPwSOkPuAL683TzFwmuBff8yeUiKJq8f8Llc94Ibmmg4AKWA=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SN6PR01MB3757.prod.exchangelabs.com (2603:10b6:805:1f::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3846.29; Thu, 11 Feb 2021 18:35:46 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::6caf:7c56:c4de:b5c5]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::6caf:7c56:c4de:b5c5%6]) with mapi id 15.20.3825.025; Thu, 11 Feb 2021
+ 18:35:46 +0000
+Date: Thu, 11 Feb 2021 13:35:21 -0500
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, cota@braap.org, richard.henderson@linaro.org
+Subject: Re: Detecting Faulting Instructions From Plugins
+Message-ID: <YCV46X4NPHmBF6JX@strawberry.localdomain>
+References: <YBTRSK4/F5KLH+FZ@strawberry.localdomain>
+ <YBxnlZFkp7YA9PXL@strawberry.localdomain>
+ <871rdupw3h.fsf@linaro.org>
+ <YB1VljlPQPRRZUvc@strawberry.localdomain>
+ <87v9b6o8bu.fsf@linaro.org>
+ <YB1nf/M613d0B+Pm@strawberry.localdomain>
+ <87k0resecj.fsf@linaro.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87k0resecj.fsf@linaro.org>
+X-Originating-IP: [68.73.113.219]
+X-ClientProxiedBy: MN2PR17CA0020.namprd17.prod.outlook.com
+ (2603:10b6:208:15e::33) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.31.44]
-X-ClientProxiedBy: lhreml709-chm.china.huawei.com (10.201.108.58) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from strawberry.localdomain (68.73.113.219) by
+ MN2PR17CA0020.namprd17.prod.outlook.com (2603:10b6:208:15e::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.26 via Frontend
+ Transport; Thu, 11 Feb 2021 18:35:45 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 42ea6423-e2c7-486e-cc25-08d8cebbd83f
+X-MS-TrafficTypeDiagnostic: SN6PR01MB3757:
+X-Microsoft-Antispam-PRVS: <SN6PR01MB37579FE683E8A00B836757A38A8C9@SN6PR01MB3757.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JCWgUcmeeSiNpIBMUDUbJ//CY9rrnmkU151ck90DVNLy4fIKQrQ5GGee5FW11avzDQThwyBA41QrHuMmrGURbEpn4PJNCyBztpRwMaAtzYjxckLOLwUBxK3vW0n4H8HlQF4vX+VlI6JWSFGDKUcoXp7kQ2lypS7Uf0Io7Tjt1xqmtLmWewHAhhnyXYPZImGpCc8vj6E150SdEnDR+L7caucGkK5B7P6DOafqIBA+mRbzXCrAT3Je6ir8AXbrZ7MggBwC/rCX03fDPuJLFtwh2jGmTsyE2hwByXtoGzJi3QCy7+OoRvyDfodHYnZ6qrIQoxArcMrOHKTv7zliowwjJKIVIVO9RzUZBTZq5BZIRC/KZAbeUzX2ICz2ASXIjajAam02O1Q9BG1DGMx6V6vmXV+GJflFxOoiDX7oQOfEzX4m2MuY9QEZz0sG5r09tuoVQAdWFsGlZC0x6+1Q5gFaFsanxMla04gnbpxccAOo0DhyX/WAyTLXiO37SMX4Anr9BAMLvp8VLVoVImYcO5X7gw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(346002)(366004)(376002)(39850400004)(136003)(9686003)(16526019)(186003)(5660300002)(6666004)(55016002)(8676002)(83380400001)(956004)(26005)(66574015)(8936002)(6506007)(2906002)(478600001)(316002)(52116002)(7696005)(86362001)(66556008)(66946007)(66476007)(4326008)(6916009);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?+mIaLf5gbYb0hZYunLeBSCb6++6KsmiAUwjBKFRY8znzKAiiDlrQ5/Oxfw?=
+ =?iso-8859-1?Q?EFOe0IZwgCAQ4InQanOTtc/E+QiZVL5wFlkfzRQka74uIPBpDYukEHt1W+?=
+ =?iso-8859-1?Q?gyCZTadGPEuzIyDMTGX3zPyhoAPZuxtCATXlfz2ksRXKjbpBH7fyHs9LDD?=
+ =?iso-8859-1?Q?KiBk12ehmjkPUKp1OCXB46DSJXZVePl3CafJK8oMFkZqb5veHMvW1bG+9f?=
+ =?iso-8859-1?Q?iQ6Vlbn7os4673lvou1YHDh+IrhnQJs+iuuodicnBR6xHuAy/I/iRlnZS+?=
+ =?iso-8859-1?Q?xgtZVBUr7WBH/mq3IxX1TpRb+0eNcvS+DRdfeD4Clb3nDG6k2hLHooi3JD?=
+ =?iso-8859-1?Q?NteGv7Ir7H2svcigeQ2eWL3pyYhDb7+sAwzgxcdZE9UWd7iTTJqRSDyPtY?=
+ =?iso-8859-1?Q?ST1n6Rx/dwXRNHX/o+vrLw9k/8jog4rNkzPNHHfQRwXzCLbmVJdyHEqu6m?=
+ =?iso-8859-1?Q?t2zYqPZeYaNSH0bJb1v7pb0Cq4FpV2ewtMZUAAnu6UG+lqLH+Bcm3nrHEL?=
+ =?iso-8859-1?Q?et1uOdNLJkjYm/XyaoEyY724+2KQZxzOGTt+iA/puDscwvfoY77Pj1sQZR?=
+ =?iso-8859-1?Q?3dMI5iI/gOt0PgKooNQT84XLKvI0XIeo4RyCjvLFRdGvWVvI+qzEAznQJ8?=
+ =?iso-8859-1?Q?UaR/LxE52PlJV7u9nGXXVsmwH5ZUR+BZa36QP7sApJp1NUW85/of8rq/eM?=
+ =?iso-8859-1?Q?Z7mVvuBeG2zZcbVLiTAyOtpJ3mo5b9WtYDBjpGd6th3ySyJJus8eotreYF?=
+ =?iso-8859-1?Q?tP0Ub4C3QjlpGTFsbLYcW0hCAreM4wodQPkD1vi3kcuRBcy8DBWP98ME8r?=
+ =?iso-8859-1?Q?IBcnOAldh7s0hAwp2GS/MfifjeH1RGkQASU3zJD9zs6dxkUMkk4gV+xehG?=
+ =?iso-8859-1?Q?wGuyt8Mj7TeG4sWoCG9ZrafMPBgHTFi/y9FzktKYcvgRHY7e+pkWCQmvTs?=
+ =?iso-8859-1?Q?91W7xL7oJg8O0GG9SClJjEZnrZJ+xAFWJklhMqFwxSQjlKRwuUXlftx8vM?=
+ =?iso-8859-1?Q?QfNnUiQDWRMYF4f1ILm3Q+1d5SmLLhCqHEVikM4F7JA/LWqtwE1+EJTbn+?=
+ =?iso-8859-1?Q?lO8QlwtYlT3Ug4kSkw1yB3vHjJU4P5fT5IchzbmXez/+jKq9rGI6TjUyo0?=
+ =?iso-8859-1?Q?SdMKcJh2ghU65syne7CfQtw86vBX0prQlaMzdIjvRw1Eks7wtcalchcZ/2?=
+ =?iso-8859-1?Q?x4+aV8dCjP3WpqEQNKFoSvIIVHfHhuc0mo7cod5fndcDIHO+qqP7G/7wOe?=
+ =?iso-8859-1?Q?piOm0rekVLo+tqvZ4XNv8hYD1gJCAGYH8bRctbOrkhDGK82lTn7Yi+89DP?=
+ =?iso-8859-1?Q?EFSGUPpDw0Ged8ArT+cfxqd1W2jKF3d+k5YW/FB164AxXlEyqvBHLAn7Tv?=
+ =?iso-8859-1?Q?qyNJS0z99G?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42ea6423-e2c7-486e-cc25-08d8cebbd83f
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2021 18:35:45.9238 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iZkMqa5KGJ+37BO/MrEJzz43XxJRQFLiApcpKW/eFCNL4SR+WjorwUvHDccUu5cdhhuA4rKB96BiiGJfuNcNJg5rCL4EcwewUjYYvFZ4oBc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB3757
+Received-SPF: pass client-ip=40.107.76.97;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM02-CY1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FORGED_SPF_HELO=1, KHOP_HELO_FCRDNS=0.399,
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,281 +142,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>, "John
- Groves \(jgroves\)" <jgroves@micron.com>, Chris Browy <cbrowy@avery-design.com>,
- qemu-devel@nongnu.org, linux-cxl@vger.kernel.org,
- Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Aaron Lindsay <aaron@os.amperecomputing.com>
+From:  Aaron Lindsay via <qemu-devel@nongnu.org>
 
-On Wed, 3 Feb 2021 09:42:16 -0800
-Ben Widawsky <ben@bwidawsk.net> wrote:
-
-> I've started a barebones project plan:
-> https://gitlab.com/bwidawsk/qemu/-/snippets/2070304
-
-Great.
-
+On Feb 11 17:27, Alex Bennée wrote:
+> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+> > On Feb 05 15:03, Alex Bennée wrote:
+> >> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+> >> > Assuming you're right that TCG is detecting "a io_readx/io_writex when
+> >> > ->can_do_io is not true", could we detect this case when it occurs and
+> >> > omit the instruction callbacks for the re-translation of the single
+> >> > instruction (allow the initial callback to stand instead of trying to
+> >> > turn back time, in a way, to prevent it)? Maybe there would have be some
+> >> > bookkeeping in the plugin infrastructure side rather than entirely
+> >> > omitting the callbacks when re-translating, in case that translation got
+> >> > re-used in a case which didn't hit the same behavior and shouldn't be
+> >> > skipped?
+> >> 
+> >> They are happening in two separate phases. The translation phase has no
+> >> idea what the runtime condition will be. Once we get to runtime it's too
+> >> late - and we trigger a new translation phase.
+> >
+> > I believe I understand why we can't catch the initial translation. To
+> > make sure I'm communicating well, my current understanding is that the
+> > timeline for this case goes something like:
+> >
+> > 1) translate large block of instructions, including ldr
+> > 2) attempt to execute ldr, calling instruction callback
+> > 3) notice that access is to IO, trigger re-translation of single
+> >    ldr instruction
+> > 4) execute block with single ldr instruction to completion, calling both
+> >    instruction and memory callbacks
+> >
+> > I was wondering if it would be possible to inform the re-translation in
+> > step 3 that it's for a re-translated IO access so that it could
+> > ultimately cause the second of the duplicate instruction callbacks to be
+> > omitted during execution in 4.
 > 
-> Jonathan, if you have a moment, perhaps you can send a MR summarizing CDAT/DOE
-> work from you and Chris?
-
-I need to catch up with what Chris has posted, but sure after that I'll add to your
-doc if Chris doesn't get there first.  My intent is to let Chris get on with the
-DOE QEMU support.  Plenty of other stuff to do as long as it covers what I need
-(if not I'll hack stuff on top :) Will catch up with reviewing that in the next
-few days.
-
-I'll also add some other comments on the plan when I get a chance.
-Will need to fake at least a partial switch sometime soon for example.
-
+> This is what I've done - re-executed blocks are compiled with CF_NOINSTR
+> which skips any instrumentation. If you could test the series I posted and
+> confirm the problem is solved that would be great:
 > 
-> If folks feel priorities are drastically off, we can discuss it in the snippet
-> comments.
-> 
-> As for wider acceptance, if I'm looking at this from the QEMU community
-> perspective, better test cases are really needed. If your fingers are itching
-> for some typing, might I suggest starting with that.
-> 
-> I've opted not to use issue tracker for this because I am hopeful this won't be
-> a long living gitlab project.
+>   Subject: [PATCH  v2 00/21] plugins/next pre-PR (hwprofile, regression fixes, icount count fix)
+>   Date: Wed, 10 Feb 2021 22:10:32 +0000
+>   Message-Id: <20210210221053.18050-1-alex.bennee@linaro.org>
 
-All sounds good.
+Yes, I absolutely will. I worked on getting some local changes rebased
+on top of these already this morning and am hoping to finish that up
+today and to be able to report back by tomorrow.
 
-I've not reviewed that much on the last few patches in here, at least partly
-because a bunch of them have todo comments so I'm assuming they are very much
-a work in progress.
+Thanks for the quick turnaround on a fix!
 
-One thing I will note is this has become large and complex enough that I'd be
-tempted to start separating the 'racey cutting edge' parts from bits that have
-been moderately stable for a while.  Hopefully some of that stable part can get
-wider review without the fun stuff and all the churn related to that.
-
-Jonathan
-
-
-
-> 
-> On 21-02-01 16:59:17, Ben Widawsky wrote:
-> > Major changes since v2 [1]:
-> >  * Removed all register endian/alignment/size checking. Using core functionality
-> >    instead. This untested on big endian hosts, but Should Work(tm).
-> >  * Fix component capability header generation (off by 1).
-> >  * Fixed HDM programming (multiple issues).
-> >  * Fixed timestamp command implementations.
-> >  * Added commands: GET_FIRMWARE_UPDATE_INFO, GET_PARTITION_INFO, GET_LSA, SET_LSA
-> > 
-> > Things have remained fairly stable since since v2. The biggest change here is
-> > definitely the HDM programming which has received limited (but not 0) testing in
-> > the Linux driver.
-> > 
-> > Jonathan Cameron has gotten this patch series working on ARM [2], and added some
-> > much sought after functionality [3].
-> > 
-> > ---
-> > 
-> > I've started #cxl on OFTC IRC for discussion. Please feel free to use that
-> > channel for questions or suggestions in addition to #qemu.
-> > 
-> > ---
-> > 
-> > Introduce emulation of Compute Express Link 2.0
-> > (https://www.computeexpresslink.org/). Specifically, add support for Type 3
-> > memory expanders with persistent memory.
-> > 
-> > The emulation has been critical to get the Linux enabling started [4], it would
-> > be an ideal place to land regression tests for different topology handling, and
-> > there may be applications for this emulation as a way for a guest to manipulate
-> > its address space relative to different performance memories.
-> > 
-> > Three of the five CXL component types are emulated with some level of
-> > functionality: host bridge, root port, and memory device. All components and
-> > devices implement basic MMIO. Devices/memory devices implement the mailbo
-> > interface. Basic ACPI support is also included. Upstream ports and downstream
-> > ports aren't implemented (the two components needed to make up a switch).
-> > 
-> > CXL 2.0 is built on top of PCIe (see spec for details). As a result, much of the
-> > implementation utilizes existing PCI paradigms. To implement the host bridge,
-> > I've chosen to use PXB (PCI Expander Bridge). It seemed to be the most natural
-> > fit even though it doesn't directly map to how hardware will work. For
-> > persistent capacity of the memory device, I utilized the memory subsystem
-> > (hw/mem).
-> > 
-> > We have 3 reasons why this work is valuable:
-> > 1. Linux driver feature development benefits from emulation both due to a lack
-> >    of initial hardware availability, but also, as is seen with NVDIMM/PMEM
-> >    emulation, there is value in being able to share topologies with
-> >    system-software developers even after hardware is available.
-> > 
-> > 2. The Linux kernel's unit test suite for NVDIMM/PMEM ended up injecting fake
-> >    resources via custom modules (nfit_test). In retrospect a QEMU emulation of
-> >    nfit_test capabilities would have made the test environment more portable,
-> >    and allowed for easier community contributions of example configurations.
-> > 
-> > 3. This is still being fleshed out, but in short it provides a standardized
-> >    mechanism for the guest to provide feedback to the host about size and
-> >    placement needs of the memory. After the host gives the guest a physical
-> >    window mapping to the CXL device, the emulated HDM decoders allow the guest a
-> >    way to tell the host how much it wants and where. There are likely simpler
-> >    ways to do this, but they'd require inventing a new interface and you'd need
-> >    to have diverging driver code in the guest programming of the HDM decoder vs.
-> >    the host. Since we've already done this work, why not use it?
-> > 
-> > There is quite a long list of work to do for full spec compliance, but I don't
-> > believe that any of it precludes merging. Off the top of my head:
-> > - Main host bridge support (WIP)
-> > - Interleaving
-> > - Better Tests
-> > - Hot plug support
-> > - Emulating volatile capacity
-> > - CDAT emulation [3]
-> > 
-> > The flow of the patches in general is to define all the data structures and
-> > registers associated with the various components in a top down manner. Host
-> > bridge, component, ports, devices. Then, the actual implementation is done in
-> > the same order.
-> > 
-> > The summary is:
-> > 1-5: Infrastructure for component and device emulation
-> > 6-9: Basic mailbox command implementations
-> > 10-19: Implement CXL host bridges as PXB devices
-> > 20: Implement a root port
-> > 21-22: Implement a memory device
-> > 23-26: ACPI bits
-> > 27-29: Add some more advanced mailbox command implementations
-> > 30: Start working on enabling the main host bridge
-> > 31: Basic test case
-> > 
-> > ---
-> > 
-> > [1]: https://lore.kernel.org/qemu-devel/20210105165323.783725-1-ben.widawsky@intel.com/
-> > [2]: https://lore.kernel.org/qemu-devel/20210201152655.31027-1-Jonathan.Cameron@huawei.com/
-> > [3]: https://lore.kernel.org/qemu-devel/20210201151629.29656-1-Jonathan.Cameron@huawei.com/
-> > [4]: https://lore.kernel.org/linux-cxl/20210130002438.1872527-1-ben.widawsky@intel.com/
-> > 
-> > ---
-> > 
-> > Ben Widawsky (31):
-> >   hw/pci/cxl: Add a CXL component type (interface)
-> >   hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
-> >   hw/cxl/device: Introduce a CXL device (8.2.8)
-> >   hw/cxl/device: Implement the CAP array (8.2.8.1-2)
-> >   hw/cxl/device: Implement basic mailbox (8.2.8.4)
-> >   hw/cxl/device: Add memory device utilities
-> >   hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
-> >   hw/cxl/device: Timestamp implementation (8.2.9.3)
-> >   hw/cxl/device: Add log commands (8.2.9.4) + CEL
-> >   hw/pxb: Use a type for realizing expanders
-> >   hw/pci/cxl: Create a CXL bus type
-> >   hw/pxb: Allow creation of a CXL PXB (host bridge)
-> >   qtest: allow DSDT acpi table changes
-> >   acpi/pci: Consolidate host bridge setup
-> >   tests/acpi: remove stale allowed tables
-> >   hw/pci: Plumb _UID through host bridges
-> >   hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
-> >   acpi/pxb/cxl: Reserve host bridge MMIO
-> >   hw/pxb/cxl: Add "windows" for host bridges
-> >   hw/cxl/rp: Add a root port
-> >   hw/cxl/device: Add a memory device (8.2.8.5)
-> >   hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
-> >   acpi/cxl: Add _OSC implementation (9.14.2)
-> >   tests/acpi: allow CEDT table addition
-> >   acpi/cxl: Create the CEDT (9.14.1)
-> >   tests/acpi: Add new CEDT files
-> >   hw/cxl/device: Add some trivial commands
-> >   hw/cxl/device: Plumb real LSA sizing
-> >   hw/cxl/device: Implement get/set LSA
-> >   qtest/cxl: Add very basic sanity tests
-> >   WIP: i386/cxl: Initialize a host bridge
-> > 
-> >  MAINTAINERS                         |   6 +
-> >  hw/Kconfig                          |   1 +
-> >  hw/acpi/Kconfig                     |   5 +
-> >  hw/acpi/cxl.c                       | 173 ++++++++++
-> >  hw/acpi/meson.build                 |   1 +
-> >  hw/arm/virt.c                       |   1 +
-> >  hw/core/machine.c                   |  26 ++
-> >  hw/core/numa.c                      |   3 +
-> >  hw/cxl/Kconfig                      |   3 +
-> >  hw/cxl/cxl-component-utils.c        | 208 ++++++++++++
-> >  hw/cxl/cxl-device-utils.c           | 264 +++++++++++++++
-> >  hw/cxl/cxl-mailbox-utils.c          | 498 ++++++++++++++++++++++++++++
-> >  hw/cxl/meson.build                  |   5 +
-> >  hw/i386/acpi-build.c                |  87 ++++-
-> >  hw/i386/microvm.c                   |   1 +
-> >  hw/i386/pc.c                        |   2 +
-> >  hw/mem/Kconfig                      |   5 +
-> >  hw/mem/cxl_type3.c                  | 405 ++++++++++++++++++++++
-> >  hw/mem/meson.build                  |   1 +
-> >  hw/meson.build                      |   1 +
-> >  hw/pci-bridge/Kconfig               |   5 +
-> >  hw/pci-bridge/cxl_root_port.c       | 231 +++++++++++++
-> >  hw/pci-bridge/meson.build           |   1 +
-> >  hw/pci-bridge/pci_expander_bridge.c | 209 +++++++++++-
-> >  hw/pci-bridge/pcie_root_port.c      |   6 +-
-> >  hw/pci/pci.c                        |  32 +-
-> >  hw/pci/pcie.c                       |  30 ++
-> >  hw/ppc/spapr.c                      |   2 +
-> >  include/hw/acpi/cxl.h               |  27 ++
-> >  include/hw/boards.h                 |   2 +
-> >  include/hw/cxl/cxl.h                |  29 ++
-> >  include/hw/cxl/cxl_component.h      | 187 +++++++++++
-> >  include/hw/cxl/cxl_device.h         | 255 ++++++++++++++
-> >  include/hw/cxl/cxl_pci.h            | 160 +++++++++
-> >  include/hw/pci/pci.h                |  15 +
-> >  include/hw/pci/pci_bridge.h         |  25 ++
-> >  include/hw/pci/pci_bus.h            |   8 +
-> >  include/hw/pci/pci_ids.h            |   1 +
-> >  monitor/hmp-cmds.c                  |  15 +
-> >  qapi/machine.json                   |   1 +
-> >  tests/data/acpi/pc/CEDT             | Bin 0 -> 36 bytes
-> >  tests/data/acpi/pc/DSDT             | Bin 5065 -> 5065 bytes
-> >  tests/data/acpi/pc/DSDT.acpihmat    | Bin 6390 -> 6390 bytes
-> >  tests/data/acpi/pc/DSDT.bridge      | Bin 6924 -> 6924 bytes
-> >  tests/data/acpi/pc/DSDT.cphp        | Bin 5529 -> 5529 bytes
-> >  tests/data/acpi/pc/DSDT.dimmpxm     | Bin 6719 -> 6719 bytes
-> >  tests/data/acpi/pc/DSDT.hpbridge    | Bin 5026 -> 5026 bytes
-> >  tests/data/acpi/pc/DSDT.hpbrroot    | Bin 3084 -> 3084 bytes
-> >  tests/data/acpi/pc/DSDT.ipmikcs     | Bin 5137 -> 5137 bytes
-> >  tests/data/acpi/pc/DSDT.memhp       | Bin 6424 -> 6424 bytes
-> >  tests/data/acpi/pc/DSDT.numamem     | Bin 5071 -> 5071 bytes
-> >  tests/data/acpi/pc/DSDT.roothp      | Bin 5261 -> 5261 bytes
-> >  tests/data/acpi/q35/CEDT            | Bin 0 -> 36 bytes
-> >  tests/data/acpi/q35/DSDT            | Bin 7801 -> 7801 bytes
-> >  tests/data/acpi/q35/DSDT.acpihmat   | Bin 9126 -> 9126 bytes
-> >  tests/data/acpi/q35/DSDT.bridge     | Bin 7819 -> 7819 bytes
-> >  tests/data/acpi/q35/DSDT.cphp       | Bin 8265 -> 8265 bytes
-> >  tests/data/acpi/q35/DSDT.dimmpxm    | Bin 9455 -> 9455 bytes
-> >  tests/data/acpi/q35/DSDT.ipmibt     | Bin 7876 -> 7876 bytes
-> >  tests/data/acpi/q35/DSDT.memhp      | Bin 9160 -> 9160 bytes
-> >  tests/data/acpi/q35/DSDT.mmio64     | Bin 8932 -> 8932 bytes
-> >  tests/data/acpi/q35/DSDT.numamem    | Bin 7807 -> 7807 bytes
-> >  tests/qtest/cxl-test.c              |  93 ++++++
-> >  tests/qtest/meson.build             |   4 +
-> >  64 files changed, 3004 insertions(+), 30 deletions(-)
-> >  create mode 100644 hw/acpi/cxl.c
-> >  create mode 100644 hw/cxl/Kconfig
-> >  create mode 100644 hw/cxl/cxl-component-utils.c
-> >  create mode 100644 hw/cxl/cxl-device-utils.c
-> >  create mode 100644 hw/cxl/cxl-mailbox-utils.c
-> >  create mode 100644 hw/cxl/meson.build
-> >  create mode 100644 hw/mem/cxl_type3.c
-> >  create mode 100644 hw/pci-bridge/cxl_root_port.c
-> >  create mode 100644 include/hw/acpi/cxl.h
-> >  create mode 100644 include/hw/cxl/cxl.h
-> >  create mode 100644 include/hw/cxl/cxl_component.h
-> >  create mode 100644 include/hw/cxl/cxl_device.h
-> >  create mode 100644 include/hw/cxl/cxl_pci.h
-> >  create mode 100644 tests/data/acpi/pc/CEDT
-> >  create mode 100644 tests/data/acpi/q35/CEDT
-> >  create mode 100644 tests/qtest/cxl-test.c
-> > 
-> > -- 
-> > 2.30.0
-> > 
-> >   
-
+-Aaron
 
