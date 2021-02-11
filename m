@@ -2,48 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16389319093
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:07:33 +0100 (CET)
-Received: from localhost ([::1]:40752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7940D3190C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:18:29 +0100 (CET)
+Received: from localhost ([::1]:58278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAFRD-00034w-GL
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:07:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
+	id 1lAFbo-0003UY-JL
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:18:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAFPE-0001DS-Vg; Thu, 11 Feb 2021 12:05:30 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:49524)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lAFTe-000788-8U
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:10:02 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAFPA-0007Qr-Ko; Thu, 11 Feb 2021 12:05:27 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 11BH4iWi004797
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 11 Feb 2021 12:04:48 -0500
-Date: Thu, 11 Feb 2021 12:04:44 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] hw/sd/sdhci: Do not modify BlockSizeRegister if
- transaction in progress
-Message-ID: <20210211170439.fex2yoc74yaa3rof@mozz.bu.edu>
-References: <20210208193450.2689517-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lAFTb-0000sQ-Go
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:10:01 -0500
+Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Dc2y43pbmz67lsC;
+ Fri, 12 Feb 2021 01:03:08 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 11 Feb 2021 18:09:47 +0100
+Received: from localhost (10.47.31.44) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2106.2; Thu, 11 Feb
+ 2021 17:09:46 +0000
+Date: Thu, 11 Feb 2021 17:08:45 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: [RFC PATCH v3 02/31] hw/cxl/component: Introduce CXL components
+ (8.1.x, 8.2.5)
+Message-ID: <20210211170845.0000451d@Huawei.com>
+In-Reply-To: <20210202005948.241655-3-ben.widawsky@intel.com>
+References: <20210202005948.241655-1-ben.widawsky@intel.com>
+ <20210202005948.241655-3-ben.widawsky@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210208193450.2689517-1-f4bug@amsat.org>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.47.31.44]
+X-ClientProxiedBy: lhreml709-chm.china.huawei.com (10.201.108.58) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,137 +68,302 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, Li Qiang <liq3ea@163.com>,
- qemu-devel@nongnu.org, Prasad J Pandit <ppandit@redhat.com>,
- Bandan Das <bsd@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: David
+ Hildenbrand <david@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ "John Groves \(jgroves\)" <jgroves@micron.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Da?= =?ISO-8859-1?Q?ud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210208 2034, Philippe Mathieu-Daudé wrote:
-> Per the "SD Host Controller Simplified Specification Version 2.00"
-> spec. 'Table 2-4 : Block Size Register':
-> 
->   Transfer Block Size [...] can be accessed only if no
->   transaction is executing (i.e., after a transaction has stopped).
->   Read operations during transfers may return an invalid value,
->   and write operations shall be ignored.
-> 
-> Transactions will update 'data_count', so do not modify 'blksize'
-> and 'blkcnt' when 'data_count' is used. This fixes:
-> 
-> $ cat << EOF | qemu-system-x86_64 -qtest stdio -monitor none \
->                -nographic -serial none -M pc-q35-5.0 \
->                -device sdhci-pci,sd-spec-version=3 \
->                -device sd-card,drive=mydrive \
->                -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive
->   outl 0xcf8 0x80001810
->   outl 0xcfc 0xe1068000
->   outl 0xcf8 0x80001814
->   outl 0xcf8 0x80001804
->   outw 0xcfc 0x7
->   outl 0xcf8 0x8000fa20
->   write 0xe106802c 0x1 0x0f
->   write 0xe1068004 0xc 0x2801d10101fffffbff28a384
->   write 0xe106800c 0x1f 0x9dacbbcad9e8f7061524334251606f7e8d9cabbac9d8e7f60514233241505f
->   write 0xe1068003 0x28 0x80d000251480d000252280d000253080d000253e80d000254c80d000255a80d000256880d0002576
->   write 0xe1068003 0x1 0xfe
->   EOF
->   =================================================================
->   ==2686219==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61500003bb00 at pc 0x55ab469f456c bp 0x7ffee71be330 sp 0x7ffee71bdae0
->   WRITE of size 4 at 0x61500003bb00 thread T0
->       #0 0x55ab469f456b in __asan_memcpy (qemu-system-i386+0x1cea56b)
->       #1 0x55ab483dc396 in stl_he_p include/qemu/bswap.h:353:5
->       #2 0x55ab483af5e4 in stn_he_p include/qemu/bswap.h:546:1
->       #3 0x55ab483aeb4b in flatview_read_continue softmmu/physmem.c:2839:13
->       #4 0x55ab483b0705 in flatview_read softmmu/physmem.c:2877:12
->       #5 0x55ab483b028e in address_space_read_full softmmu/physmem.c:2890:18
->       #6 0x55ab483b1294 in address_space_rw softmmu/physmem.c:2918:16
->       #7 0x55ab479374a2 in dma_memory_rw_relaxed include/sysemu/dma.h:88:12
->       #8 0x55ab47936f50 in dma_memory_rw include/sysemu/dma.h:127:12
->       #9 0x55ab4793665f in dma_memory_read include/sysemu/dma.h:145:12
->       #10 0x55ab4792f176 in sdhci_sdma_transfer_multi_blocks hw/sd/sdhci.c:639:13
->       #11 0x55ab4793dc9d in sdhci_write hw/sd/sdhci.c:1129:17
->       #12 0x55ab483f8db8 in memory_region_write_accessor softmmu/memory.c:491:5
->       #13 0x55ab483f868a in access_with_adjusted_size softmmu/memory.c:552:18
->       #14 0x55ab483f6da5 in memory_region_dispatch_write softmmu/memory.c:1501:16
->       #15 0x55ab483c3b11 in flatview_write_continue softmmu/physmem.c:2774:23
->       #16 0x55ab483b0eb6 in flatview_write softmmu/physmem.c:2814:14
->       #17 0x55ab483b0a3e in address_space_write softmmu/physmem.c:2906:18
->       #18 0x55ab48465c56 in qtest_process_command softmmu/qtest.c:654:9
-> 
->   0x61500003bb00 is located 0 bytes to the right of 512-byte region [0x61500003b900,0x61500003bb00)
->   allocated by thread T0 here:
->       #0 0x55ab469f58a7 in calloc (qemu-system-i386+0x1ceb8a7)
->       #1 0x7f21d678f9b0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x589b0)
->       #2 0x55ab479530ed in sdhci_pci_realize hw/sd/sdhci-pci.c:36:5
->       #3 0x55ab476f102a in pci_qdev_realize hw/pci/pci.c:2108:9
->       #4 0x55ab48baaad2 in device_set_realized hw/core/qdev.c:761:13
-> 
->   SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-system-i386+0x1cea56b) in __asan_memcpy
->   Shadow bytes around the buggy address:
->     0x0c2a7ffff710: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c2a7ffff720: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     0x0c2a7ffff730: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     0x0c2a7ffff740: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     0x0c2a7ffff750: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->   =>0x0c2a7ffff760:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->     0x0c2a7ffff770: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->     0x0c2a7ffff780: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->     0x0c2a7ffff790: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->     0x0c2a7ffff7a0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->     0x0c2a7ffff7b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->   Shadow byte legend (one shadow byte represents 8 application bytes):
->     Addressable:           00
->     Heap left redzone:       fa
->     Freed heap region:       fd
->   ==2686219==ABORTING
-> 
-> Fixes: CVE-2020-17380
-> Fixes: CVE-2020-25085
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Mon, 1 Feb 2021 16:59:19 -0800
+Ben Widawsky <ben.widawsky@intel.com> wrote:
 
-I applied this along with <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
-"hw/sd: sdhci: Do not transfer any data when command fails"
-
-I ran through the entire OSS-Fuzz corpus, and could not reproduce the
-crash.
-
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Thanks
+> A CXL 2.0 component is any entity in the CXL topology. All components
+> have a analogous function in PCIe. Except for the CXL host bridge, all
+> have a PCIe config space that is accessible via the common PCIe
+> mechanisms. CXL components are enumerated via DVSEC fields in the
+> extended PCIe header space. CXL components will minimally implement some
+> subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
+> 2.0 specification. Two headers and a utility library are introduced to
+> support the minimum functionality needed to enumerate components.
+>=20
+> The cxl_pci header manages bits associated with PCI, specifically the
+> DVSEC and related fields. The cxl_component.h variant has data
+> structures and APIs that are useful for drivers implementing any of the
+> CXL 2.0 components. The library takes care of making use of the DVSEC
+> bits and the CXL.[mem|cache] registers. Per spec, the registers are
+> little endian.
+>=20
+> None of the mechanisms required to enumerate a CXL capable hostbridge
+> are introduced at this point.
+>=20
+> Note that the CXL.mem and CXL.cache registers used are always 4B wide.
+> It's possible in the future that this constraint will not hold.
+>=20
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+A few additions to previous comments.
 
 > ---
-> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
-> Cc: Alexander Bulekov <alxndr@bu.edu>
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Prasad J Pandit <ppandit@redhat.com>
-> Cc: Bandan Das <bsd@redhat.com>
-> 
-> RFC because missing Reported-by tags, launchpad/bugzilla links and
-> qtest reproducer. Sending for review meanwhile.
-> ---
->  hw/sd/sdhci.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-> index 8ffa53999d8..7ac7d9af9e4 100644
-> --- a/hw/sd/sdhci.c
-> +++ b/hw/sd/sdhci.c
-> @@ -1133,6 +1133,12 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
->          }
->          break;
->      case SDHC_BLKSIZE:
-> +        if (s->data_count) {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "%s: Can not update blksize when"
-> +                          " transaction is executing\n", __func__);
-> +            break;
-> +        }
->          if (!TRANSFERRING_DATA(s->prnsts)) {
->              MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
->              MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
-> -- 
-> 2.26.2
-> 
+>  MAINTAINERS                    |   6 +
+>  hw/Kconfig                     |   1 +
+>  hw/cxl/Kconfig                 |   3 +
+>  hw/cxl/cxl-component-utils.c   | 208 +++++++++++++++++++++++++++++++++
+>  hw/cxl/meson.build             |   3 +
+>  hw/meson.build                 |   1 +
+>  include/hw/cxl/cxl.h           |  17 +++
+>  include/hw/cxl/cxl_component.h | 187 +++++++++++++++++++++++++++++
+>  include/hw/cxl/cxl_pci.h       | 138 ++++++++++++++++++++++
+>  9 files changed, 564 insertions(+)
+>  create mode 100644 hw/cxl/Kconfig
+>  create mode 100644 hw/cxl/cxl-component-utils.c
+>  create mode 100644 hw/cxl/meson.build
+>  create mode 100644 include/hw/cxl/cxl.h
+>  create mode 100644 include/hw/cxl/cxl_component.h
+>  create mode 100644 include/hw/cxl/cxl_pci.h
+>=20
+
+
+> diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+> new file mode 100644
+> index 0000000000..8d56ad5c7d
+> --- /dev/null
+> +++ b/hw/cxl/cxl-component-utils.c
+> @@ -0,0 +1,208 @@
+> +/*
+> + * CXL Utility library for components
+> + *
+> + * Copyright(C) 2020 Intel Corporation.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2. See =
+the
+> + * COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "hw/pci/pci.h"
+> +#include "hw/cxl/cxl.h"
+> +
+> +static uint64_t cxl_cache_mem_read_reg(void *opaque, hwaddr offset,
+> +                                       unsigned size)
+> +{
+> +    CXLComponentState *cxl_cstate =3D opaque;
+> +    ComponentRegisters *cregs =3D &cxl_cstate->crb;
+> +
+> +    assert(size =3D=3D 4);
+> +
+> +    if (cregs->special_ops && cregs->special_ops->read) {
+> +        return cregs->special_ops->read(cxl_cstate, offset, size);
+> +    } else {
+> +        return cregs->cache_mem_registers[offset / 4];
+> +    }
+> +}
+> +
+> +static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_=
+t value,
+> +                                    unsigned size)
+> +{
+> +    CXLComponentState *cxl_cstate =3D opaque;
+> +    ComponentRegisters *cregs =3D &cxl_cstate->crb;
+> +
+> +    assert(size =3D=3D 4);
+> +
+> +    if (cregs->special_ops && cregs->special_ops->write) {
+> +        cregs->special_ops->write(cxl_cstate, offset, value, size);
+> +    } else {
+> +        cregs->cache_mem_registers[offset / 4] =3D value;
+> +    }
+> +}
+> +
+> +/*
+> + * 8.2.3
+> + *   The access restrictions specified in Section 8.2.2 also apply to CX=
+L 2.0
+> + *   Component Registers.
+> + *
+> + * 8.2.2
+> + *   =E2=80=A2 A 32 bit register shall be accessed as a 4 Bytes quantity=
+. Partial
+> + *   reads are not permitted.
+> + *   =E2=80=A2 A 64 bit register shall be accessed as a 8 Bytes quantity=
+. Partial
+> + *   reads are not permitted.
+> + *
+> + * As of the spec defined today, only 4 byte registers exist.
+
+The exciting exception to this is the RAS header log which is
+defined as 512 bits.  Will seek clarification but I think the spec should
+probably say that is a set of 32 bit registers.
+
+A bunch of the other elements that we probably want to block in plausible
+values for also seem to use 64 bit registers.
+
+> + */
+> +static const MemoryRegionOps cache_mem_ops =3D {
+> +    .read =3D cxl_cache_mem_read_reg,
+> +    .write =3D cxl_cache_mem_write_reg,
+> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> +    .valid =3D {
+> +        .min_access_size =3D 4,
+> +        .max_access_size =3D 4,
+> +        .unaligned =3D false,
+> +    },
+> +    .impl =3D {
+> +        .min_access_size =3D 4,
+> +        .max_access_size =3D 4,
+> +    },
+> +};
+> +
+
+..
+> +
+> +void cxl_component_register_init_common(uint32_t *reg_state, enum reg_ty=
+pe type)
+> +{
+> +    int caps =3D 0;
+> +    switch (type) {
+> +    case CXL2_DOWNSTREAM_PORT:
+> +    case CXL2_DEVICE:
+> +        /* CAP, RAS, Link */
+> +        caps =3D 2;
+> +        break;
+> +    case CXL2_UPSTREAM_PORT:
+> +    case CXL2_TYPE3_DEVICE:
+> +    case CXL2_LOGICAL_DEVICE:
+> +        /* + HDM */
+> +        caps =3D 3;
+> +        break;
+> +    case CXL2_ROOT_PORT:
+> +        /* + Extended Security, + Snoop */
+> +        caps =3D 5;
+> +        break;
+> +    default:
+> +        abort();
+> +    }
+> +
+> +    memset(reg_state, 0, 0x1000);
+> +
+> +    /* CXL Capability Header Register */
+> +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ID, 1);
+> +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, VERSION, 1);
+> +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, CACHE_MEM_VERSION=
+, 1);
+> +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ARRAY_SIZE, caps);
+> +
+> +
+> +#define init_cap_reg(reg, id, version)                                  =
+      \
+> +    _Static_assert(CXL_##reg##_REGISTERS_OFFSET !=3D 0, "Invalid cap off=
+set\n");\
+> +    do {                                                                =
+      \
+> +        int which =3D R_CXL_##reg##_CAPABILITY_HEADER;                  =
+        \
+> +        reg_state[which] =3D FIELD_DP32(reg_state[which],               =
+        \
+> +                                      CXL_##reg##_CAPABILITY_HEADER, ID,=
+ id); \
+> +        reg_state[which] =3D                                            =
+        \
+> +            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER, =
+      \
+> +                       VERSION, version);                               =
+      \
+> +        reg_state[which] =3D                                            =
+        \
+> +            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER, =
+PTR,  \
+> +                       CXL_##reg##_REGISTERS_OFFSET);                   =
+      \
+> +    } while (0)
+
+Seems like this would be cleaner using ARRAY_FIELD_DP32 as you did for the =
+header.
+
+    #define init_cap_reg(reg, id, version)                                 =
+       \
+        _Static_assert(CXL_##reg##_REGISTERS_OFFSET !=3D 0, "Invalid cap of=
+fset\n");\
+        do {                                                               =
+     \
+            ARRAY_FIELD_DP32(reg_state, CXL_##reg##_CAPABILITY_HEADER, ID, =
+id); \
+            ARRAY_FIELD_DP32(reg_state, CXL_##reg##_CAPABILITY_HEADER,     =
+     \
+                             VERSION, version);                            =
+     \
+            ARRAY_FIELD_DP32(reg_state, CXL_##reg##_CAPABILITY_HEADER,     =
+     \
+                             PTR, CXL_##reg##_REGISTRS_OFFSET);            =
+     \
+	} while (0)
+I think gives the same result.
+
+> +
+> +    init_cap_reg(RAS, 2, 1);
+> +    ras_init_common(reg_state);
+> +
+> +    init_cap_reg(LINK, 4, 2);
+
+Feels like we'll want to block some values for the rest of these to at least
+ensure whatever is read isn't crazy.
+
+> +
+> +    if (caps < 3) {
+> +        return;
+> +    }
+> +
+> +    init_cap_reg(HDM, 5, 1);
+> +    hdm_init_common(reg_state);
+> +
+> +    if (caps < 5) {
+> +        return;
+> +    }
+> +
+> +    init_cap_reg(EXTSEC, 6, 1);
+> +    init_cap_reg(SNOOP, 8, 1);
+> +
+> +#undef init_cap_reg
+> +}
+> +
+> +/*
+> + * Helper to creates a DVSEC header for a CXL entity. The caller is resp=
+onsible
+> + * for tracking the valid offset.
+> + *
+> + * This function will build the DVSEC header on behalf of the caller and=
+ then
+> + * copy in the remaining data for the vendor specific bits.
+> + */
+> +void cxl_component_create_dvsec(CXLComponentState *cxl, uint16_t length,
+> +                                uint16_t type, uint8_t rev, uint8_t *bod=
+y)
+> +{
+> +    PCIDevice *pdev =3D cxl->pdev;
+> +    uint16_t offset =3D cxl->dvsec_offset;
+> +
+> +    assert(offset >=3D PCI_CFG_SPACE_SIZE &&
+> +           ((offset + length) < PCI_CFG_SPACE_EXP_SIZE));
+> +    assert((length & 0xf000) =3D=3D 0);
+> +    assert((rev & ~0xf) =3D=3D 0);
+> +
+> +    /* Create the DVSEC in the MCFG space */
+> +    pcie_add_capability(pdev, PCI_EXT_CAP_ID_DVSEC, 1, offset, length);
+> +    pci_set_long(pdev->config + offset + PCIE_DVSEC_HEADER1_OFFSET,
+> +                 (length << 20) | (rev << 16) | CXL_VENDOR_ID);
+> +    pci_set_word(pdev->config + offset + PCIE_DVSEC_ID_OFFSET, type);
+> +    memcpy(pdev->config + offset + sizeof(struct dvsec_header),
+> +           body + sizeof(struct dvsec_header),
+> +           length - sizeof(struct dvsec_header));
+> +
+> +    /* Update state for future DVSEC additions */
+> +    range_init_nofail(&cxl->dvsecs[type], cxl->dvsec_offset, length);
+> +    cxl->dvsec_offset +=3D length;
+> +}
+...
+
 
