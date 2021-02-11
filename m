@@ -2,87 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D8B3185B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 08:33:50 +0100 (CET)
-Received: from localhost ([::1]:51942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48C33185E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 08:56:09 +0100 (CET)
+Received: from localhost ([::1]:58330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA6U1-0001hV-I3
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 02:33:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
+	id 1lA6pc-0006kG-0j
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 02:56:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lA6OL-0000QM-JY; Thu, 11 Feb 2021 02:27:57 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:55521)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lA6nS-0006Fe-Bg
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 02:53:54 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59620
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lA6OK-0002Zy-3b; Thu, 11 Feb 2021 02:27:57 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 650445C00B4;
- Thu, 11 Feb 2021 02:27:54 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 11 Feb 2021 02:27:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=DWmIYRxw3NQe6V49JbVGYJuQkiW
- xMZoanjvIrIXbdkU=; b=VcW4N3JYpRLcpvo5u4jdDfzzdcq6NEM6bVHcS0JsUUD
- WpCb03N+udtA3UOdzyYrvxqXIQwBSB5A1gWS3GB5CUYSZDrb2UbGU7rljaipD9eF
- VkuyL++C+p0vk0LO+KoiZdugPe2jN19rmQCuSoR6U5eNyaqwCGsqsNd+zL4t/S7w
- 8o4Hm9k6RxdKy/LDGXhX2BhXrBS457KT/UO9UGiKKbOmYc7IrOklTMjvXHI358jJ
- P8b52NAm+a8JPevgtac88f0LvkKr3RcxTGWlWCOWNjGvSzNQJQOotX8rhU587HSt
- 0H3RDZLVP4snPqATgvXjv1Wjg/9XlYvQ3pnJsCajvIg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=DWmIYR
- xw3NQe6V49JbVGYJuQkiWxMZoanjvIrIXbdkU=; b=U0na/vPVdGnPfcT4rj56TH
- BFSI0RavQPb9lQykkAuquAsmRGqB4cr6Hackss7pavBcg3bpvH38KufPCesJHVDB
- nP9zS69WwjOzstDYcjduSl2t5rWobWxX0QGtdMMMVeJi7Rs3hjK7AwOBNeiES2e7
- Ju0+Ief5zxDEXwRFbBRcbB+FJTdDBYG7PGE+WMToCMA0xFJO/bsE67bLocLo5CIe
- AlA/OUxES2bJkKPrlnwly5ML6CrYNBdnXEaA/DwBSiXjdsVEfPnTMnqN/Wqro3dp
- TO50i3Q8n4HVi/fpHqVvqR7qLbTMJPeoW2ijAv9Ho9sAJjHgPoUoX/vhOxDG+EIA
- ==
-X-ME-Sender: <xms:edwkYOKDtu5xIAQiW-yq8YTMASnjunUd4f81Uziwz5JOSjo9uB3xBQ>
- <xme:edwkYGJPgXav-df7kVxsxOrftMNlFvzLOhThRUA0bG1PigaE1H9IkJKnIt-HKsX0N
- PuXsWLdsr4NYT4rIoo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheekgddutdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:edwkYOswGcRF0-2qFuD1WGlnp2QoyQ73TCHrzG-Kc9Do3XVLrHiI4A>
- <xmx:edwkYDZiNEhJFvk-KAerFvggJUeFYQG2QFzroWMsKWTdQjvQej-iGw>
- <xmx:edwkYFYZlmjQNSGYcVNqa7InIOi3HMCnWJchWTiBhfaasA_WOUfV2w>
- <xmx:etwkYIwdOqc8sn2rJ0ERzSKMCYWURMYZXmpf4cwrOXNYvmYqf2DTjw>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5DCB6108005B;
- Thu, 11 Feb 2021 02:27:52 -0500 (EST)
-Date: Thu, 11 Feb 2021 08:27:50 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH 2/2] hw/nvme: move device-scoped functions
-Message-ID: <YCTcdnp1zs5+fIAj@apples.localdomain>
-References: <20210209110826.585987-1-its@irrelevant.dk>
- <20210209110826.585987-3-its@irrelevant.dk>
- <20210211025500.GC24885@localhost.localdomain>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lA6nP-00055z-Us
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 02:53:54 -0500
+Received: from host109-153-84-1.range109-153.btcentralplus.com ([109.153.84.1]
+ helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lA6nb-0003rr-0x; Thu, 11 Feb 2021 07:54:07 +0000
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-11-mark.cave-ayland@ilande.co.uk>
+ <6e1d5061-422e-797e-f96f-d0e78890fde2@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <7315a388-e038-7a57-08a2-a2152fa7a6b2@ilande.co.uk>
+Date: Thu, 11 Feb 2021 07:53:37 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mdGRyVpU+5+EIJ/q"
-Content-Disposition: inline
-In-Reply-To: <20210211025500.GC24885@localhost.localdomain>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <6e1d5061-422e-797e-f96f-d0e78890fde2@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.153.84.1
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 10/42] esp: introduce esp_get_stc()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.211,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,46 +65,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/02/2021 22:33, Philippe Mathieu-Daudé wrote:
 
---mdGRyVpU+5+EIJ/q
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
+>> This simplifies reading the STC register value without having to manually shift
+>> each individual 8-bit value.
+> 
+> If possible repeat the subject so the sentence is easier to understand.
 
-On Feb 11 11:55, Minwoo Im wrote:
-> On 21-02-09 12:08:26, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > Move a bunch of functions that are internal to a device out of the
-> > shared header.
->=20
-> May I ask why?  I think some kind of these helpers can stick onto the
-> header.
+I've always read commit messages as summary followed detail, so I've tended to avoid 
+repetition if the context is obvious from the summary (a quick glance through my 
+inbox suggest that quite a few authors also do the same).
 
-I just thought they were cluttering up the header for no good reason
-when they dont really need to be exported to the individual devices.
-Especially since I consolidated the header files.
+Perhaps adding in the word "function" would help readability here, e.g. "This 
+function simplifies reading the STC register value..."?
 
---mdGRyVpU+5+EIJ/q
-Content-Type: application/pgp-signature; name="signature.asc"
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>   hw/scsi/esp.c | 15 ++++++++++++---
+>>   1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAk3HUACgkQTeGvMW1P
-DelHXQf/c9/AAVhqNvkWgq+WVuoX67MuKZAjnwm5hrMp0Yqrfmc9En1Afe2/a/r/
-pen38qm8HEmYiUXU/oO6xDAPPFQEHjwehvTWFGUHxfv4dy0SC45eaFMi1JPETxaj
-ynmyM35bnB0WFGZvqb0AVNgkyuU/cq29hY0S71YVehjv9DNpKjhOAnomw++mY1za
-CG59AcZKhXSs8i85MSjjoXk8l1g9InYjJUH/uOTWjbSbtZREMZlU0smXrv+eM3CZ
-TyMFWFVu3lNZnaxPqzwohzVgNp9Lo0H8DB0p2AZhnlnromqIfOrHr+nKHq70Nsza
-JHlJzmggOR4diNQrREfE7zCQX8noZQ==
-=i+9f
------END PGP SIGNATURE-----
+ATB,
 
---mdGRyVpU+5+EIJ/q--
+Mark.
 
