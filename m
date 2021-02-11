@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E9F318F83
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 17:09:27 +0100 (CET)
-Received: from localhost ([::1]:47342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B03318F97
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 17:12:14 +0100 (CET)
+Received: from localhost ([::1]:52382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAEX0-0007CZ-Hx
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 11:09:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56932)
+	id 1lAEZg-0001av-MD
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 11:12:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lAETG-0001jp-EQ
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 11:05:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36394)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lAET9-00062Z-OM
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 11:05:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613059523;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QtQe8CYWl4y3ayHAFoNYUIinQ99U+kO8ivMhuBry9bI=;
- b=V5tadlk6JOYUV+x6nlkzxxr7irxLgvibUB1hnAPrn6icfV//qIIlvdigVFESyeR0jvaj2h
- KZgUrZLgmQu+8ZLTdOVg3T8gNsjZ051DxRvfsSAY5oggboamHR1ay1LTCI6D8NlWvZ8KPO
- iTdeqltJPz8nt+y4s0hrC/hT83oFUJo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-lzyqN31FNDyzgeQ-16lROw-1; Thu, 11 Feb 2021 11:05:22 -0500
-X-MC-Unique: lzyqN31FNDyzgeQ-16lROw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE3FD1083E8F
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 16:05:20 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-229.rdu2.redhat.com [10.10.115.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 275DD3828;
- Thu, 11 Feb 2021 16:05:09 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 33863220BCF; Thu, 11 Feb 2021 11:05:08 -0500 (EST)
-Date: Thu, 11 Feb 2021 11:05:08 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 12/24] DAX: virtiofsd: Wire up passthrough_ll's
- lo_setupmapping
-Message-ID: <20210211160508.GA3259@redhat.com>
-References: <20210209190224.62827-1-dgilbert@redhat.com>
- <20210209190224.62827-13-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <rosbrookn@gmail.com>)
+ id 1lAETf-0002Z8-78
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 11:05:59 -0500
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:36177)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rosbrookn@gmail.com>)
+ id 1lAETc-0006L5-B3
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 11:05:57 -0500
+Received: by mail-lf1-x130.google.com with SMTP id f1so8838009lfu.3
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 08:05:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IjfuZ67VbjjWaTMEiyg9dFXZSVe5S8AOmUmwSF43FA4=;
+ b=E7maDihgV90h0zU6bhbT0I1sVeyHa24BV4GZlhCWkVDtbo/TSZJ9cCjeg00qsLuZcL
+ qb6Dayyy0QGhzQ7MAUUvjUzH/u/17btLKboUh3GDc5jHiBhMvQyzy/zanRuuKOEZs+tD
+ X7oBBnRq36U0H+fY04fVDLH1q6yFp4DLZnMHymDyB6GiDIToEh0uxP59g1puYob3soK8
+ MX3RH2z5pzH3ZAoWHkaKDw1goljKISbRftAYmcovurEN/7y2fv4nDpgZSNH/h0FW5y8K
+ /PYspuPnWvAIbFL15T0b0KrPB3ZRBEM/iNOhFevudP/2b9+ewGSLT48R0hDU1Y+TIfmY
+ DM4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IjfuZ67VbjjWaTMEiyg9dFXZSVe5S8AOmUmwSF43FA4=;
+ b=oM3gq2b3ueNPmKhPggwermMC0Lb/ELbrlu9v3AGt4Hbtgg9vs/tZXqK7afMD4gRX15
+ JGFWL7Q4oRHu/ot7GtV4yJAlpZwPLNZLW342IhOUaetmAC50ogjX+gx0QtZ26sz2Fo9/
+ AdImIcYV7BZEkk6/E56uZmsQ99RMXD/JabtjBlPP3ZFmsHWOPWw9ZJvFvL0ukbXtb03B
+ 62Q/iUVcyFwyyY83+UVLWGIUiTLfXjbLYaIOaiaIJFRemyVqDPoiWhkmlYV4ttxlq97D
+ 8gzCmI3Uez4IslKLw4eFKMjCktq3TKzqsdHkO1DcvaNz71gpS6WZvRJcq/fHTWG6jYem
+ nIWg==
+X-Gm-Message-State: AOAM532eCjJuntEO7u+RLtOSH0ZK88HlwjMEiWX6jlR5A2QuHLNcIX/x
+ lhvRQkIGR9TknmhqzRGsdtsfd6TUvIZZu0bsrB1950YYGIjiKg==
+X-Google-Smtp-Source: ABdhPJz8Wzh4dXcKuQ0x+2X3S3xf90OaWtumCAnb+51v9vN0kkZQJBo1mFyLPqfE6hgiCAXH4B3gA33wkVcU0m+p9m8=
+X-Received: by 2002:a05:6512:b15:: with SMTP id
+ w21mr4683863lfu.645.1613059552704; 
+ Thu, 11 Feb 2021 08:05:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210209190224.62827-13-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210201213021.500277-1-rosbrookn@ainfosec.com>
+In-Reply-To: <20210201213021.500277-1-rosbrookn@ainfosec.com>
+From: Nick Rosbrook <rosbrookn@gmail.com>
+Date: Thu, 11 Feb 2021 11:05:41 -0500
+Message-ID: <CAEBZRScKAU3PdbiZQvXou41J+5cFXcOj=KUB0dYnC2y1BCbH-w@mail.gmail.com>
+Subject: Re: [PATCH] usb-host: use correct altsetting in usb_host_ep_update
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=rosbrookn@gmail.com; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,99 +77,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, mst@redhat.com
+Cc: Nick Rosbrook <rosbrookn@ainfosec.com>, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 09, 2021 at 07:02:12PM +0000, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Wire up passthrough_ll's setupmapping to allocate, send to virtio
-> and then reply OK.
-> 
-> Guest might not pass file pointer. In that case using inode info, open
-> the file again, mmap() and close fd.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> With fix from:
-> Signed-off-by: Fotis Xenakis <foxen@windowslive.com>
+Hi,
+
+Just wanted to ping this. Patchwork link is here:
+https://patchwork.kernel.org/project/qemu-devel/patch/20210201213021.500277-1-rosbrookn@ainfosec.com/.
+
+Thanks,
+NR
+
+On Mon, Feb 1, 2021 at 4:30 PM Nick Rosbrook <rosbrookn@gmail.com> wrote:
+>
+> In order to keep track of the alternate setting that should be used for
+> a given interface, the USBDevice struct keeps an array of alternate
+> setting values, which is indexed by the interface number. In
+> usb_host_set_interface, when this array is updated, usb_host_ep_update
+> is called as a result. However, when usb_host_ep_update accesses the
+> active libusb_config_descriptor, it indexes udev->altsetting with the
+> loop variable, rather than the interface number.
+>
+> With the simple trace backend enable, this behavior can be seen:
+>
+>   [...]
+>
+>   usb_xhci_xfer_start 0.440 pid=1215 xfer=0x5596a4b85930 slotid=0x1 epid=0x1 streamid=0x0
+>   usb_packet_state_change 1.703 pid=1215 bus=0x1 port=b'1' ep=0x0 p=0x5596a4b85938 o=b'undef' n=b'setup'
+>   usb_host_req_control 2.269 pid=1215 bus=0x1 addr=0x5 p=0x5596a4b85938 req=0x10b value=0x1 index=0xd
+>   usb_host_set_interface 0.449 pid=1215 bus=0x1 addr=0x5 interface=0xd alt=0x1
+>   usb_host_parse_config 2542.648 pid=1215 bus=0x1 addr=0x5 value=0x2 active=0x1
+>   usb_host_parse_interface 1.804 pid=1215 bus=0x1 addr=0x5 num=0xc alt=0x0 active=0x1
+>   usb_host_parse_endpoint 2.012 pid=1215 bus=0x1 addr=0x5 ep=0x2 dir=b'in' type=b'int' active=0x1
+>   usb_host_parse_interface 1.598 pid=1215 bus=0x1 addr=0x5 num=0xd alt=0x0 active=0x1
+>   usb_host_req_emulated 3.593 pid=1215 bus=0x1 addr=0x5 p=0x5596a4b85938 status=0x0
+>   usb_packet_state_change 2.550 pid=1215 bus=0x1 port=b'1' ep=0x0 p=0x5596a4b85938 o=b'setup' n=b'complete'
+>   usb_xhci_xfer_success 4.298 pid=1215 xfer=0x5596a4b85930 bytes=0x0
+>
+>   [...]
+>
+> In particular, it is seen that although usb_host_set_interface sets the
+> alternate setting of interface 0xd to 0x1, usb_host_ep_update uses 0x0
+> as the alternate setting due to using the incorrect index to
+> udev->altsetting.
+>
+> Fix this problem by getting the interface number from the active
+> libusb_config_descriptor, and then using that as the index to
+> udev->altsetting.
+>
+> Signed-off-by: Nick Rosbrook <rosbrookn@ainfosec.com>
 > ---
->  tools/virtiofsd/fuse_lowlevel.c  | 13 ++++++--
->  tools/virtiofsd/passthrough_ll.c | 52 ++++++++++++++++++++++++++++++--
->  2 files changed, 61 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index 0d3768b7d0..f74583e095 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -1897,8 +1897,17 @@ static void do_setupmapping(fuse_req_t req, fuse_ino_t nodeid,
->      }
->  
->      if (req->se->op.setupmapping) {
-> -        req->se->op.setupmapping(req, nodeid, arg->foffset, arg->len,
-> -                                 arg->moffset, genflags, &fi);
+>  hw/usb/host-libusb.c | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+> index fcf48c0193..6ab75e2feb 100644
+> --- a/hw/usb/host-libusb.c
+> +++ b/hw/usb/host-libusb.c
+> @@ -810,7 +810,7 @@ static void usb_host_ep_update(USBHostDevice *s)
+>      struct libusb_ss_endpoint_companion_descriptor *endp_ss_comp;
+>  #endif
+>      uint8_t devep, type;
+> -    int pid, ep;
+> +    int pid, ep, alt;
+>      int rc, i, e;
+>
+>      usb_ep_reset(udev);
+> @@ -822,8 +822,20 @@ static void usb_host_ep_update(USBHostDevice *s)
+>                                  conf->bConfigurationValue, true);
+>
+>      for (i = 0; i < conf->bNumInterfaces; i++) {
+> -        assert(udev->altsetting[i] < conf->interface[i].num_altsetting);
+> -        intf = &conf->interface[i].altsetting[udev->altsetting[i]];
 > +        /*
-> +         * TODO: Add a flag to request which tells if arg->fh is
-> +         * valid or not.
+> +         * The udev->altsetting array indexes alternate settings
+> +         * by the interface number. Get the 0th alternate setting
+> +         * first so that we can grab the interface number, and
+> +         * then correct the alternate setting value if necessary.
 > +         */
-> +        if (fi.fh == (uint64_t)-1) {
-> +            req->se->op.setupmapping(req, nodeid, arg->foffset, arg->len,
-> +                                     arg->moffset, genflags, NULL);
-> +        } else {
-> +            req->se->op.setupmapping(req, nodeid, arg->foffset, arg->len,
-> +                                     arg->moffset, genflags, &fi);
-> +        }
->      } else {
->          fuse_reply_err(req, ENOSYS);
->      }
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 31c43d67a0..0493f00756 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -2967,8 +2967,56 @@ static void lo_setupmapping(fuse_req_t req, fuse_ino_t ino, uint64_t foffset,
->                              uint64_t len, uint64_t moffset, uint64_t flags,
->                              struct fuse_file_info *fi)
->  {
-> -    /* TODO */
-> -    fuse_reply_err(req, ENOSYS);
-> +    struct lo_data *lo = lo_data(req);
-> +    int ret = 0, fd;
-> +    VhostUserFSSlaveMsg msg = { 0 };
-> +    uint64_t vhu_flags;
-> +    char *buf;
-> +    bool writable = flags & O_RDWR;
+> +        intf = &conf->interface[i].altsetting[0];
+> +        alt = udev->altsetting[intf->bInterfaceNumber];
 > +
-> +    fuse_log(FUSE_LOG_DEBUG,
-> +             "lo_setupmapping(ino=%" PRIu64 ", fi=0x%p,"
-> +             " foffset=%" PRIu64 ", len=%" PRIu64 ", moffset=%" PRIu64
-> +             ", flags=%" PRIu64 ")\n",
-> +             ino, (void *)fi, foffset, len, moffset, flags);
-> +
-> +    vhu_flags = VHOST_USER_FS_FLAG_MAP_R;
-> +    if (writable) {
-> +        vhu_flags |= VHOST_USER_FS_FLAG_MAP_W;
-> +    }
-> +
-> +    msg.fd_offset[0] = foffset;
-> +    msg.len[0] = len;
-> +    msg.c_offset[0] = moffset;
-> +    msg.flags[0] = vhu_flags;
-> +
-> +    if (fi) {
-> +        fd = lo_fi_fd(req, fi);
-> +    } else {
-> +        ret = asprintf(&buf, "%i", lo_fd(req, ino));
-> +        if (ret == -1) {
-> +            return (void)fuse_reply_err(req, errno);
+> +        if (alt != 0) {
+> +            assert(alt < conf->interface[i].num_altsetting);
+> +            intf = &conf->interface[i].altsetting[alt];
 > +        }
 > +
-> +        fd = openat(lo->proc_self_fd, buf, flags);
-> +        free(buf);
-
-We can probably now use lo_inode_open() instead here now?
-
-Vivek
-
+>          trace_usb_host_parse_interface(s->bus_num, s->addr,
+>                                         intf->bInterfaceNumber,
+>                                         intf->bAlternateSetting, true);
+> --
+> 2.17.1
+>
 
