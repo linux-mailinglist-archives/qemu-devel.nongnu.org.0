@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00A131964C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 00:06:14 +0100 (CET)
-Received: from localhost ([::1]:58386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6212B31964D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 00:06:27 +0100 (CET)
+Received: from localhost ([::1]:59136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAL2L-0004J7-U3
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 18:06:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42440)
+	id 1lAL2Y-0004jP-DY
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 18:06:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lAKvj-0008K0-H6
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 17:59:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lAKvh-0005Fq-QD
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 17:59:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613084360;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9q1aTJNOIHu2S4p9ny/kRe1m3k1B38k39te9MPUMiJ4=;
- b=AjBon+xNCkOd8lUeFLs/9Bmd+lwBERq2PkfI64061qdCuqbeng88HUF5HQGgNXgjg+Kzya
- 2xu3aLDIpALv2YvjyJGwInN9RFKrBDqVitmpeBzc+IoY2tumPNB1DsRa1vtOR/cbu2PBk5
- bSUaRFfYgHAsl7TJbb95cATDvTfzCcY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-n7qGnd3tPUOCEBUjlxjPUA-1; Thu, 11 Feb 2021 17:59:19 -0500
-X-MC-Unique: n7qGnd3tPUOCEBUjlxjPUA-1
-Received: by mail-wm1-f70.google.com with SMTP id t128so2995783wmg.4
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 14:59:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lAL0h-0003iq-Ul
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 18:04:31 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lAL0g-0007UH-88
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 18:04:31 -0500
+Received: by mail-wr1-x436.google.com with SMTP id 7so5869833wrz.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 15:04:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BUpSQuQfzlclnk0XUEUTw/8J8R/p1lOZC5q1womgimk=;
+ b=FOzvXEe9FqG1ha2rrtIuH8vvLAEGnRCscTCFWJj4KD6u1Zh5jPCePiwLEwfzf0/VQt
+ 16u3UE2W7/SX2cUWEdodsUlFVnrReLRNX33ZUK7KCQeKu456dGKyT8ZC+T83B6mbJx/w
+ cPqyp/UDot3K30HpAg1pazvH+EeIaL7a5+vqfCeFwhSq9SrdVbzARRcFUtr4zRo1furH
+ 6AYqYQSPsUTjA0F/ryMGL5tyj+svBZFayNJ/ECIuK6hPp7Cvi/eW5nHZgxaHssph7h8+
+ hUbotHcLVjAE34fJxPT0d/hfqmWzpDYxGbOuMAtCEIZOg7gwibMvXCzka5XbSxAadrF3
+ 78pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9q1aTJNOIHu2S4p9ny/kRe1m3k1B38k39te9MPUMiJ4=;
- b=gKCH84NxDFIDtF79FfF5c2tFgomUZ+C9izJraCcZnmeje+f4x2WkWB+ew2CJJoEjfm
- +q5eWvsjYEfdHfGMd/0dtkX1JKRX/n1wGAk4CILfYcGW+m9ZQ2XDTCnfXx9f2Nmz76d+
- j2tALMECwZokDCIZiyw3Y7YmClPf57KQ0BEboRnqCjVE1z67iofbHMIRAjPf/nxuPnij
- pang9LsKvqB6TkgPYY8aIniUi3CkdfaZC18nm1C+E7oNj6+y+YBIn0HsbIq+Y7RuGmR4
- c6+sXhj3myq2kS8408j2U7lLm9bizAoIyMnmyfEN1roe/OtS5oCpIIF87HmVj21jXhG3
- 4www==
-X-Gm-Message-State: AOAM5336HIF5KgFFHIFQu9X83vgtT0oJqyT34ACvahn1XhfGXA8WxTS6
- 9PVZRonjMq4LvrMoc0HkGEJ/N6Qo06OXsScD4VuM2KGhtHBvSq6sPt5RP6hNGiS8XGBa93oF0ho
- JBb0X/QrlzMUAODY=
-X-Received: by 2002:adf:e585:: with SMTP id l5mr75078wrm.85.1613084358149;
- Thu, 11 Feb 2021 14:59:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwA9g3daY8pnX0MXkF/Qwxn9xEJfkrlObVsde/fAsiCnCL+gcAa/Sd2rOlt7Xtk3ljG+q7IsQ==
-X-Received: by 2002:adf:e585:: with SMTP id l5mr75057wrm.85.1613084357857;
- Thu, 11 Feb 2021 14:59:17 -0800 (PST)
+ bh=BUpSQuQfzlclnk0XUEUTw/8J8R/p1lOZC5q1womgimk=;
+ b=MCfaEgBH/kfLGPkp/dGzeTFdKuXFEUcVMZMZogvPYCbwSvrnJ1RIrIl5BHd60WYTCT
+ mWK2qJJy4+DWUFb+UO5505CaUOBsFIY2YNL0c9FQP/FBzPoLP9C+9mU+5ugfXBI9DZjS
+ p+AI5xsBu//EI/bZUKfN/9rwBe4zAxBQnraYMSW8whpX6zYgUbyrIaB9HZ979BfbSfbf
+ nUraRCBjhtXKlRyJPtYwVKYObPXUWstLhi1rpoSDnK+SUS7FhCsPEZHT/1w6ng6sIShf
+ sPZLKQXfNwU4KgTNdcP4v7h9yY6QC0ziw/8zUG3n75HAK9pGndpG0p7bdpbHrhxKMCRv
+ rM4w==
+X-Gm-Message-State: AOAM532e/DVTaLyqOUc5UZmfup2pJDRb2K33R4847X9d0MI6AR6DSmwv
+ HChXZb/ZZUA2Z/qKdPHCrEI=
+X-Google-Smtp-Source: ABdhPJzMGwIteEUOhJYa3hcqF8FgvTFSWSwY9F/ir+sazhvYVGl8sMdEDn+FsL6WHXn5AEWUXtpcsQ==
+X-Received: by 2002:adf:facb:: with SMTP id a11mr92418wrs.161.1613084652057;
+ Thu, 11 Feb 2021 15:04:12 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id y5sm11107782wmi.10.2021.02.11.14.59.16
+ by smtp.gmail.com with ESMTPSA id d9sm7248494wrq.74.2021.02.11.15.04.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 14:59:17 -0800 (PST)
-Subject: Re: [PATCH v2 3/4] utils: Deprecate hex-with-suffix sizes
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20210211204438.1184395-1-eblake@redhat.com>
- <20210211204438.1184395-4-eblake@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <323ae720-d07e-c3a4-0598-e893d5b6d51e@redhat.com>
-Date: Thu, 11 Feb 2021 23:59:16 +0100
+ Thu, 11 Feb 2021 15:04:11 -0800 (PST)
+Subject: Re: [RFC PATCH 03/10] target/hexagon: make helper functions non-static
+To: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org
+References: <20210211215051.2102435-1-ale.qemu@rev.ng>
+ <20210211215051.2102435-4-ale.qemu@rev.ng>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <60f20674-0b70-832e-8b03-56423a99fad2@amsat.org>
+Date: Fri, 12 Feb 2021 00:04:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210211204438.1184395-4-eblake@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210211215051.2102435-4-ale.qemu@rev.ng>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.119,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,32 +89,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berrange@redhat.com, qemu-block@nongnu.org,
- "reviewer:Incompatible changes" <libvir-list@redhat.com>, tao3.xu@intel.com,
- rjones@redhat.com, armbru@redhat.com
+Cc: babush@rev.ng, bcain@quicinc.com, tsimpson@quicinc.com, nizzo@rev.ng,
+ Alessandro Di Federico <ale@rev.ng>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/21 9:44 PM, Eric Blake wrote:
-> Supporting '0x20M' looks odd, particularly since we have a 'B' suffix
-> that is ambiguous for bytes, as well as a less-frequently-used 'E'
-> suffix for extremely large exibytes.  In practice, people using hex
-> inputs are specifying values in bytes (and would have written
-> 0x2000000, or possibly relied on default_suffix in the case of
-> qemu_strtosz_MiB), and the use of scaling suffixes makes the most
-> sense for inputs in decimal (where the user would write 32M).  But
-> rather than outright dropping support for hex-with-suffix, let's
-> follow our deprecation policy.  Sadly, since qemu_strtosz() does not
-> have an Err** parameter, and plumbing that in would be a much larger
-> task, we instead go with just directly emitting the deprecation
-> warning to stderr.
+On 2/11/21 10:50 PM, Alessandro Di Federico via wrote:
+> From: Paolo Montesel <babush@rev.ng>
 > 
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  docs/system/deprecated.rst |  8 ++++++++
->  util/cutils.c              | 10 +++++++++-
->  2 files changed, 17 insertions(+), 1 deletion(-)
+> Move certain helper functions required by code generated by the
+> idef-parser available outside genptr.c, moving them into macros.h.
+> 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+^ OK
+
+> This patch also introduces the gen_cancel and gen_fbrev helper which
+> will be used by idef-parser.
+
+No, it doesn't. Probably old comment?
+
+Removing it:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> 
+> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> ---
+>  target/hexagon/genptr.c | 13 ++++++++++---
+>  target/hexagon/genptr.h |  7 +++++++
+>  2 files changed, 17 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+> index 7481f4c1dd..97de669f38 100644
+> --- a/target/hexagon/genptr.c
+> +++ b/target/hexagon/genptr.c
+> @@ -26,8 +26,15 @@
+>  #include "translate.h"
+>  #include "macros.h"
+>  #include "gen_tcg.h"
+> +#include "genptr.h"
+>  
+> -static inline TCGv gen_read_preg(TCGv pred, uint8_t num)
+> +TCGv gen_read_reg(TCGv result, int num)
+> +{
+> +    tcg_gen_mov_tl(result, hex_gpr[num]);
+> +    return result;
+> +}
+> +
+> +TCGv gen_read_preg(TCGv pred, uint8_t num)
+>  {
+>      tcg_gen_mov_tl(pred, hex_pred[num]);
+>      return pred;
+> @@ -53,7 +60,7 @@ static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
+>      tcg_temp_free(slot_mask);
+>  }
+>  
+> -static inline void gen_log_reg_write(int rnum, TCGv val)
+> +void gen_log_reg_write(int rnum, TCGv val)
+>  {
+>      tcg_gen_mov_tl(hex_new_value[rnum], val);
+>  #if HEX_DEBUG
+> @@ -116,7 +123,7 @@ static void gen_log_reg_write_pair(int rnum, TCGv_i64 val)
+>  #endif
+>  }
+>  
+> -static inline void gen_log_pred_write(int pnum, TCGv val)
+> +void gen_log_pred_write(int pnum, TCGv val)
+>  {
+>      TCGv zero = tcg_const_tl(0);
+>      TCGv base_val = tcg_temp_new();
+> diff --git a/target/hexagon/genptr.h b/target/hexagon/genptr.h
+> index c158005d2a..0bfa99b463 100644
+> --- a/target/hexagon/genptr.h
+> +++ b/target/hexagon/genptr.h
+> @@ -19,7 +19,14 @@
+>  #define HEXAGON_GENPTR_H
+>  
+>  #include "insn.h"
+> +#include "tcg/tcg.h"
+> +#include "translate.h"
+>  
+>  extern const SemanticInsn opcode_genptr[];
+>  
+> +TCGv gen_read_reg(TCGv result, int num);
+> +TCGv gen_read_preg(TCGv pred, uint8_t num);
+> +void gen_log_reg_write(int rnum, TCGv val);
+> +void gen_log_pred_write(int pnum, TCGv val);
+> +
+>  #endif
+> 
 
 
