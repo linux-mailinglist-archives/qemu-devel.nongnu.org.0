@@ -2,52 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4579E31867B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 09:54:47 +0100 (CET)
-Received: from localhost ([::1]:48640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11254318697
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 10:00:21 +0100 (CET)
+Received: from localhost ([::1]:55784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA7kM-0000Yl-C7
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 03:54:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39644)
+	id 1lA7pk-0003zq-3d
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 04:00:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1lA7io-0007x1-Oh
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 03:53:11 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:59778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1lA7im-0005BP-KU
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 03:53:10 -0500
-Received: from sekoia-pc.home.lmichel.fr (sekoia-pc.home.lmichel.fr
- [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPS id DBFEDC602E6;
- Thu, 11 Feb 2021 09:53:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1613033580;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=j1jc8WXUtCC+FePrr9Mh/sN7KMNQghFePJ86bZrdFj8=;
- b=VKjh4VqDHOAO94epk8rDmycm4EtGLb74ELnYo/xct5PjXN1LFinOOA35FBfOp/W1UXzllb
- NhkS5zUviMl7j4vWNq0e+crrzSXaA6HkV8X33XYN24EHjGwn8iNjcLo0mgXXfNyOpKprbU
- H5jnPc1LgUc9cOd2petsY7nbpO1/Id0nXrNH7b99/SAkkVn7iYPq5kklWRLkLSaRLIBFZQ
- XKIymgzf8jt6JYAYibGhysmsRHkObB5a15OouFdir08koGRQ10cKh8lkum56OqIkrZTTGg
- GeEQMRAOmYH8M3agf+PxUTAsViM6XIAdyDSfZQnOSXZYBpEjuFFq9taSpPuV0A==
-From: Luc Michel <luc@lmichel.fr>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: add myself maintainer for the clock framework
-Date: Thu, 11 Feb 2021 09:53:18 +0100
-Message-Id: <20210211085318.2507-1-luc@lmichel.fr>
-X-Mailer: git-send-email 2.30.0
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lA7m0-0002IV-Uj
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 03:56:29 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:56628)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lA7lq-0006a3-JH
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 03:56:26 -0500
+Received: from [192.168.0.92] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id C21274076257;
+ Thu, 11 Feb 2021 08:56:12 +0000 (UTC)
+Subject: Re: [PATCH] virtio: disable ioeventfd for record/replay
+To: Cornelia Huck <cohuck@redhat.com>
+References: <161303249335.948571.16873882207700527766.stgit@pasha-ThinkPad-X280>
+ <20210211094406.664520e6.cohuck@redhat.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <ad446311-c5f9-9887-73d5-3c1f3707e5d1@ispras.ru>
+Date: Thu, 11 Feb 2021 11:56:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
+In-Reply-To: <20210211094406.664520e6.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.211,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,46 +55,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also add Damien as a reviewer.
+On 11.02.2021 11:44, Cornelia Huck wrote:
+> On Thu, 11 Feb 2021 11:34:53 +0300
+> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> wrote:
+> 
+>> virtio devices support separate iothreads waiting for
+>> events from file descriptors. These are asynchronous
+>> events that can't be recorded and replayed, therefore
+>> this patch disables ioeventfd for all devices when
+>> record or replay is enabled.
+>>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>> ---
+>>   hw/virtio/virtio-pci.c |    6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+>> index 094c36aa3e..76fbc111ea 100644
+>> --- a/hw/virtio/virtio-pci.c
+>> +++ b/hw/virtio/virtio-pci.c
+>> @@ -37,6 +37,7 @@
+>>   #include "qemu/range.h"
+>>   #include "hw/virtio/virtio-bus.h"
+>>   #include "qapi/visitor.h"
+>> +#include "sysemu/replay.h"
+>>   
+>>   #define VIRTIO_PCI_REGION_SIZE(dev)     VIRTIO_PCI_CONFIG_OFF(msix_present(dev))
+>>   
+>> @@ -1746,6 +1747,11 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+>>           proxy->flags &= ~VIRTIO_PCI_FLAG_USE_IOEVENTFD;
+>>       }
+>>   
+>> +    /* fd-based ioevents can't be synchronized in record/replay */
+>> +    if (replay_mode != REPLAY_MODE_NONE) {
+>> +        proxy->flags &= ~VIRTIO_PCI_FLAG_USE_IOEVENTFD;
+>> +    }
+>> +
+>>       /*
+>>        * virtio pci bar layout used by default.
+>>        * subclasses can re-arrange things if needed.
+>>
+>>
+> 
+> I think you would need to do the same for any device using ioeventfd,
+> no?
 
-Signed-off-by: Luc Michel <luc@lmichel.fr>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+That's right.
+It seems, that ioeventfd is used in virtio-ccw, virtio-mmio, and 
+virtio-pci. The second one is related to KVM only, right?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e6f1eca30f..67ad14ce14 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2850,10 +2850,21 @@ M: Bin Meng <bmeng.cn@gmail.com>
- S: Supported
- F: pc-bios/opensbi-*
- F: .gitlab-ci.d/opensbi.yml
- F: .gitlab-ci.d/opensbi/
- 
-+Clock framework
-+M: Luc Michel <luc@lmichel.fr>
-+R: Damien Hedde <damien.hedde@greensocs.com>
-+S: Maintained
-+F: include/hw/clock.h
-+F: include/hw/qdev-clock.h
-+F: hw/core/clock.c
-+F: hw/core/clock-vmstate.c
-+F: hw/core/qdev-clock.c
-+F: docs/devel/clocks.rst
-+
- Usermode Emulation
- ------------------
- Overall usermode emulation
- M: Riku Voipio <riku.voipio@iki.fi>
- S: Maintained
--- 
-2.30.0
+And the first one should be updated too for replay.
+
 
 
