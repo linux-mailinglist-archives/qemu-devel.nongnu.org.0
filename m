@@ -2,84 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21195318827
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:29:50 +0100 (CET)
-Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D88CA3187FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:24:00 +0100 (CET)
+Received: from localhost ([::1]:56142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA9EL-00026B-4k
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:29:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55814)
+	id 1lA98h-0002pa-VS
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:24:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lA8y9-0002gQ-1t
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:13:08 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lA8y7-0005wd-Nd
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:13:04 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id j11so4963923wmi.3
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 02:13:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ERdSWkNGYUXbEx/VMFSBUuPGrIYmYXedLOVQsbLuLc0=;
- b=MVpLpZuPQRSe2NJFbSR+hYMzFem95XpRAaV/Dr5SyjVvFIcUbg//MeagWqUiXwSoBI
- G2jX0NQam003eD8wxuTvP5UgRqPO51Sqi56Sx8NRcDBJmeW2cr8mFQQ/xPJFWVB98Zaq
- N46dcfumhvQkiT4o42KaTi9GKtWH+fgb7y525f8Z9NErWFvN3TBuoIAZ0KIRgB7gCVDM
- kaM5OqQr5A6gBi3vqFzjE6GMuEDrlsARBTzZkbZaDl2Nl0ByO0mDvxSQDKBh9kWGeEFp
- B/SK5BabPALP++N7GoK6Y7dDm2YcxEINAjea6OqZVxUKfKPfssV6IGn+qlkLfU250XNv
- iRqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ERdSWkNGYUXbEx/VMFSBUuPGrIYmYXedLOVQsbLuLc0=;
- b=qUCRph5kzoLFMTpVlJGOqbWoP1571j8cITYRLd90RUtUXY09jNrofuBt/zOHjuoFvs
- Y7dA68LFsmsjWLsbXloLq2J5PPltb1qFBQ0+Yo+V/3SVA0q7szTgaSDFU82/aX7e3cI0
- KLxfJBpnPm00satXShPfsxHh5wlSkD35ioT2bhgGtMuMNbL2jhFe8dx5jrNmX8uoMR5V
- ysKvRR6y2Q59YPvYt1SBzRNeDGOWFV+VoX73KtVqOHPZP/wN3WSEU6tUM1oYdGJJlIOr
- +eGSUpR49O80xOba5u6x9rWB6sG0xgQx6OlAmm0BcwIZeieJN/wul31t/4XRI5JBE0dW
- C4gg==
-X-Gm-Message-State: AOAM530AIoFjvh5gEgNSoZfrXqEBTV7kP+Sd2GMPXZ9mJwiog2wtESwi
- NaZSJ6FtDeJV8Qt7kBzJIVQ=
-X-Google-Smtp-Source: ABdhPJx7eQAhI3tUS/7ivhj1QMyyXJTswwzrn22/AsAWoq8O5XOr5bGfjbQXuT3IYKSbwMcrF53s6Q==
-X-Received: by 2002:a05:600c:1552:: with SMTP id
- f18mr4372476wmg.46.1613038382340; 
- Thu, 11 Feb 2021 02:13:02 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id j185sm9895548wma.1.2021.02.11.02.13.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 02:13:01 -0800 (PST)
-Subject: Re: [PATCH v2 13/21] target/sh4: Create
- superh_io_recompile_replay_branch
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210210221053.18050-1-alex.bennee@linaro.org>
- <20210210221053.18050-14-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7a77214e-9411-5988-f25c-e7ee59cfb7c0@amsat.org>
-Date: Thu, 11 Feb 2021 11:13:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1lA8xv-0002YK-R9; Thu, 11 Feb 2021 05:12:51 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:34820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1lA8xt-0005rG-Vz; Thu, 11 Feb 2021 05:12:51 -0500
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 93700C602E6;
+ Thu, 11 Feb 2021 11:12:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1613038367;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xe5wmBgKTmtpwbulWV9c/SAwyaoiBa5qYia89lLJcvU=;
+ b=iIEozE++y761MdveOM/vi9eUKhqGieTVlguQ1pHY/IabvaUvMHeBmi7Vupfcvcml+xsenP
+ BEM5A98GOCTUpyaAigVJ1bzu4/o6bE4Yq8OlUqkuocBJQUgZs7pkcmDLyg1/yPkCcEXp5W
+ nx+jZChSSxHNWYcfn/yFP4yo9ngWFGwxUHLb97b4erzdPAZyEnWg052mjLAE07Opo9rMO2
+ ui+N+DOQ6trCjwO5ySZjNga9djnL49KtcvQHYBnfeyEdouEJv+iN0Vh9RyO7cEj8488B4V
+ XGC4+fYprNE4E1nhi/kuug7cnahkGvFQbf5OI90vxy8Ya93g45CzKXl26nDi6Q==
+Date: Thu, 11 Feb 2021 11:13:18 +0100
+From: Luc Michel <luc@lmichel.fr>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 3/4] clock: Add clock_ns_to_ticks() function
+Message-ID: <20210211101318.bgy4l4hbfaru3f5v@sekoia-pc.home.lmichel.fr>
+References: <20210209132040.5091-1-peter.maydell@linaro.org>
+ <20210209132040.5091-4-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210210221053.18050-14-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.211,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210209132040.5091-4-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,27 +62,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- kuhn.chenqun@huawei.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Havard Skinnemoen <hskinnemoen@google.com>, qemu-devel@nongnu.org,
+ Tyrone Ting <kfting@nuvoton.com>, qemu-arm@nongnu.org,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/21 11:10 PM, Alex Bennée wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
+On 13:20 Tue 09 Feb     , Peter Maydell wrote:
+> Add a clock_ns_to_ticks() function which does the opposite of
+> clock_ticks_to_ns(): given a duration in nanoseconds, it returns the
+> number of clock ticks that would happen in that time.  This is useful
+> for devices that have a free running counter register whose value can
+> be calculated when it is read.
 > 
-> Move the code from accel/tcg/translate-all.c to target/sh4/cpu.c.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20210208233906.479571-5-richard.henderson@linaro.org>
-> Message-Id: <20210209182749.31323-5-alex.bennee@linaro.org>
-> ---
->  accel/tcg/translate-all.c | 12 ------------
->  target/sh4/cpu.c          | 18 ++++++++++++++++++
->  2 files changed, 18 insertions(+), 12 deletions(-)
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Luc Michel <luc@lmichel.fr>
+
+> ---
+> I have made the overflow behaviour here be "wrap", with justification
+> as per the comment; but I'm not 100% set on this.
+> ---
+>  docs/devel/clocks.rst | 12 ++++++++++++
+>  include/hw/clock.h    | 41 +++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 53 insertions(+)
+> 
+> diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
+> index f0391e76b4f..956bd147ea0 100644
+> --- a/docs/devel/clocks.rst
+> +++ b/docs/devel/clocks.rst
+> @@ -360,6 +360,18 @@ rather than simply passing it to a QEMUTimer function like
+>  ``timer_mod_ns()`` then you should be careful to avoid overflow
+>  in those calculations, of course.)
+>  
+> +Obtaining tick counts
+> +---------------------
+> +
+> +For calculations where you need to know the number of ticks in
+> +a given duration, use ``clock_ns_to_ticks()``. This function handles
+> +possible non-whole-number-of-nanoseconds periods and avoids
+> +potential rounding errors. It will return '0' if the clock is stopped
+> +(i.e. it has period zero). If the inputs imply a tick count that
+> +overflows a 64-bit value (a very long duration for a clock with a
+> +very short period) the output value is truncated, so effectively
+> +the 64-bit output wraps around.
+> +
+>  Changing a clock period
+>  -----------------------
+>  
+> diff --git a/include/hw/clock.h b/include/hw/clock.h
+> index d7a6673c29e..79c3b7ebe40 100644
+> --- a/include/hw/clock.h
+> +++ b/include/hw/clock.h
+> @@ -286,6 +286,47 @@ static inline uint64_t clock_ticks_to_ns(const Clock *clk, uint64_t ticks)
+>      return ns_low >> 32 | ns_high << 32;
+>  }
+>  
+> +/**
+> + * clock_ns_to_ticks:
+> + * @clk: the clock to query
+> + * @ns: duration in nanoseconds
+> + *
+> + * Returns the number of ticks this clock would make in the given
+> + * number of nanoseconds. Because a clock can have a period which
+> + * is not a whole number of nanoseconds, it is important to use this
+> + * function rather than attempting to obtain a "period in nanoseconds"
+> + * value and then dividing the duration by that value.
+> + *
+> + * If the clock is stopped (ie it has period zero), returns 0.
+> + *
+> + * For some inputs the result could overflow a 64-bit value (because
+> + * the clock's period is short and the duration is long). In these
+> + * cases we truncate the result to a 64-bit value. This is on the
+> + * assumption that generally the result is going to be used to report
+> + * a 32-bit or 64-bit guest register value, so wrapping either cannot
+> + * happen or is the desired behaviour.
+> + */
+> +static inline uint64_t clock_ns_to_ticks(const Clock *clk, uint64_t ns)
+> +{
+> +    /*
+> +     * ticks = duration_in_ns / period_in_ns
+> +     *       = ns / (period / 2^32)
+> +     *       = (ns * 2^32) / period
+> +     * The hi, lo inputs to divu128() are (ns << 32) as a 128 bit value.
+> +     */
+> +    uint64_t lo = ns << 32;
+> +    uint64_t hi = ns >> 32;
+> +    if (clk->period == 0) {
+> +        return 0;
+> +    }
+> +    /*
+> +     * Ignore divu128() return value as we've caught div-by-zero and don't
+> +     * need different behaviour for overflow.
+> +     */
+> +    divu128(&lo, &hi, clk->period);
+> +    return lo;
+> +}
+> +
+>  /**
+>   * clock_is_enabled:
+>   * @clk: a clock
+> -- 
+> 2.20.1
+> 
+
+-- 
 
