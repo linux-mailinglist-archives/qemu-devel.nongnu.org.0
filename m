@@ -2,48 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA257318CC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:57:48 +0100 (CET)
-Received: from localhost ([::1]:59830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2086A318C5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:49:21 +0100 (CET)
+Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lACTb-0003V8-MA
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:57:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
+	id 1lACLP-00079C-Vf
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:49:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1lABg1-0006Ws-Lr; Thu, 11 Feb 2021 08:06:35 -0500
-Received: from mail.csgraf.de ([85.25.223.15]:41118 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1lABfz-00038J-2g; Thu, 11 Feb 2021 08:06:33 -0500
-Received: from Alexanders-Mac-mini.local (unknown [188.138.100.120])
- by csgraf.de (Postfix) with UTF8SMTPSA id 6F4066080F87;
- Thu, 11 Feb 2021 14:06:27 +0100 (CET)
-Message-ID: <37018444-82a8-96c0-b5ce-da056646a1b8@csgraf.de>
-Date: Thu, 11 Feb 2021 14:06:23 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lABgw-0007Cy-7a; Thu, 11 Feb 2021 08:07:30 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:55113)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lABgt-0003VS-FP; Thu, 11 Feb 2021 08:07:29 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0DAEE5C00F8;
+ Thu, 11 Feb 2021 08:07:25 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 11 Feb 2021 08:07:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=yr39mdGQTNlqSYbBDGTDo+wgEC
+ tJHZp8I7IuZiqtFAI=; b=gbr55G+mMJI1YwAvQXqdd1JhzWQcGXjn1VRPAjQsJx
+ h2DOrqibpO/ikMBsnRPvDNtkjtKdTwCSi60dFhWnJEsrHkn26UgoOKvHI6rMYHuQ
+ DbRu6zf80CTGQwKtiu8XKeymy8LTrha0AdjFkTm7+D0WdWlxV0LNSm0TvVc+MoJ2
+ gi4r4ThFTcvhL4H+KfBVgm5dSd8IdamcZsRR1XsaMR73zqFtQVBl+SyBUodZ48fT
+ xZ2DN7l5ocOg6eNLAE+xCsoL9bCJm6lDwN9x+U3O1jSgxvScaeureCA9JRvFu3TU
+ fhTRYubnVjP6Vy+AjueW/qj2fLaOMtatM2/74ukwHhjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=yr39mdGQTNlqSYbBD
+ GTDo+wgECtJHZp8I7IuZiqtFAI=; b=N9HnWYtsPtyKCBt/6Et9gGrGGnAGgtCP2
+ xlMeZ70tUlKaK1/ttuXVmk5sPF/pU79fmdyLTQYjgDn6R5s5YJ4V6eyvyfNSxbp8
+ iHU1Xu50mSY27FulyGO2ISd6MUfsGXsj50hcNaWpKaJezzJtk5+ziYQgChkBE0af
+ wR7RIragaaeOQbUeNsjx1BoMPYcpja5HwzwMzdrPR+7iW2OnMWdwPakkUo8H79zF
+ to5SxV8+Xi1FILeDxVvHs+g9NYKrx//vlkCVFvL7maFcJPjchopjahluJWqCvboH
+ Cc5WkMUlUeqM0ONUkZ46JRCWYuEuiUP1qASv8rbe8dnYEzoA5Jrhw==
+X-ME-Sender: <xms:CywlYEHGO1vApevRfyPVQDBCUFIdkej5ZczNGLhaphjlSZ3CW4lmWw>
+ <xme:CywlYNXrc_boq_0kdeSJefoJcDP2_9nlsiWrW0NchVmAb-vQkVU5SfM8CdPRA7Xb0
+ b3TT1Mx6BD1dtaL8yI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheelgdegiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushculfgv
+ nhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnh
+ epfeevledvieekudeuffetgeegfeehvdffffejueeuleduhedvgeejveejhfdtteehnecu
+ kfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:CywlYOIf-SpnnuZ-m3lubxBJkcZCqojfd2n2CHsDbvpLy3MgA_KllQ>
+ <xmx:CywlYGEL88MhnFJZ1YoFpC6guyXdFrhoJWET8CErmn9l19cqAE_jMA>
+ <xmx:CywlYKXCZKLPILNPXdh7oNgBwRyTSrOFj3mh4xgYOFwaG_xvK3BBKA>
+ <xmx:DSwlYMduk6mguU2uMNtrHAxm_ucnAj2VyANJepC3P4a-PbSLp1Lfow>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B0E10108005F;
+ Thu, 11 Feb 2021 08:07:22 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/block/nvme: fix error handling in nvme_ns_realize
+Date: Thu, 11 Feb 2021 14:07:21 +0100
+Message-Id: <20210211130721.997302-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:86.0)
- Gecko/20100101 Thunderbird/86.0
-Subject: Re: [PATCH v6 07/11] hvf: Add Apple Silicon support
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210120224444.71840-1-agraf@csgraf.de>
- <20210120224444.71840-8-agraf@csgraf.de>
- <CAFEAcA_-4GYk_+jdczWE720-VH1CLcS+1jVB2LzG=bBBJc8w-g@mail.gmail.com>
- <298dcf49-1a99-9406-275f-b05c8befd13b@csgraf.de>
- <CAFEAcA_ze+J7geayqgaV274anQubqiv56qan7wo8EkxZ14Nydw@mail.gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <CAFEAcA_ze+J7geayqgaV274anQubqiv56qan7wo8EkxZ14Nydw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.119,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,97 +89,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Klaus Jensen <k.jensen@samsung.com>
 
-On 10.02.21 23:39, Peter Maydell wrote:
-> On Wed, 10 Feb 2021 at 22:21, Alexander Graf <agraf@csgraf.de> wrote:
->>
->> On 28.01.21 16:52, Peter Maydell wrote:
->>> On Wed, 20 Jan 2021 at 22:44, Alexander Graf <agraf@csgraf.de> wrote:
->>>> +            break;
->>>> +        case EC_AA64_SMC:
->>>> +            cpu_synchronize_state(cpu);
->>>> +            if (arm_is_psci_call(arm_cpu, EXCP_SMC)) {
->>>> +                arm_handle_psci_call(arm_cpu);
->>> Have you checked that all the PSCI code really can cope
->>> with being called from a non-TCG accelerator? (As an example
->>> the CPU_SUSPEND implementation calls the TCG wfi helper...)
->>
->> I have not explicitly tried it, but I don't see why the TCG
->> implementation of wfi should in principle break with hvf.
-> Because the TCG implementation of wfi is "set some state fields
-> and then longjump out to the TCG exec_cpu code-execution loop",
-> and hvf doesn't use that loop.
+nvme_ns_realize passes errp to nvme_register_namespaces, but then try to
+prepend errp with local_err.
 
+Just remove the local_err and use errp directly.
 
-I can confirm that it breaks, but are you really sure about the longjmp 
-not working?
+Fixes: 15d024d4aa9b ("hw/block/nvme: split setup and register for namespace")
+Cc: Minwoo Im <minwoo.im.dev@gmail.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme-ns.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-What would you prefer instead? Duplicate the PSCI implementation for HVF?
-
-
->
->>>> +            } else {
->>>> +                DPRINTF("unknown SMC! %016llx", env->xregs[0]);
->>>> +                env->xregs[0] = -1;
->>> This should inject an UNDEF exception into the guest. (Compare
->>> the pre_smc helper in target/arm/op_helper.c for TCG.)
->>
->> That would break Windows, which is one of the main use cases for hvf
->> support in QEMU.
-> Why is Windows making bogus SMC calls ?
-
-
-Let me have a quick at my crystal ball ... mmmmmmhhhh ... it's a bit 
-blurry unfortunately.
-
-I really don't think I'm the right person to answer that question :). 
-But the Windows loader does invoke weird SMC calls on boot:
-
-
-BdsDxe: starting Boot0002 "UEFI QEMU NVMe Ctrl 1234 1" from 
-PciRoot(0x0)/Pci(0x1,0x0)/NVMe(0x1,00-00-00-00-00-00-00-00)
-ConvertPages: failed to find range 102000 - 102FFF
-ConvertPages: range BCCE4000 - BCD05FFF covers multiple entries
-ConvertPages: range BCCE0000 - BCCEAFFF covers multiple entries
-hvf_unknown_smc unknown SMC! 00000000c3000001
-SetUefiImageMemoryAttributes - 0x00000000BF500000 - 0x0000000000040000 
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x00000000BC190000 - 0x0000000000040000 
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x00000000BC140000 - 0x0000000000040000 
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x00000000BF4C0000 - 0x0000000000030000 
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x00000000BC0F0000 - 0x0000000000040000 
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x00000000BBCB0000 - 0x0000000000040000 
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x00000000BBB00000 - 0x0000000000030000 
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x00000000BBAC0000 - 0x0000000000030000 
-(0x0000000000000008)
-hvf_unknown_smc unknown SMC! 0000000084000000
-hvf_unknown_smc unknown SMC! 000000008400000a
-hvf_unknown_smc unknown SMC! 000000008400000a
-hvf_unknown_smc unknown SMC! 000000008400000a
-hvf_unknown_smc unknown SMC! 000000008400000a
-hvf_unknown_smc unknown SMC! 000000008400000a
-hvf_unknown_smc unknown SMC! 000000008400000a
-hvf_unknown_smc unknown SMC! 000000008400000a
-hvf_unknown_smc unknown SMC! 000000008400000a
-hvf_unknown_smc unknown SMC! 000000008400000a
-hvf_unknown_smc unknown SMC! 000000008400000a
-
-
-Alex
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index dfed71a950fa..93ac6e107a09 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -358,17 +358,12 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+     NvmeNamespace *ns = NVME_NS(dev);
+     BusState *s = qdev_get_parent_bus(dev);
+     NvmeCtrl *n = NVME(s->parent);
+-    Error *local_err = NULL;
+ 
+-    if (nvme_ns_setup(ns, &local_err)) {
+-        error_propagate_prepend(errp, local_err,
+-                                "could not setup namespace: ");
++    if (nvme_ns_setup(ns, errp)) {
+         return;
+     }
+ 
+     if (nvme_register_namespace(n, ns, errp)) {
+-        error_propagate_prepend(errp, local_err,
+-                                "could not register namespace: ");
+         return;
+     }
+ 
+-- 
+2.30.0
 
 
