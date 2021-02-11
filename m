@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E8A31968B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 00:26:25 +0100 (CET)
-Received: from localhost ([::1]:47130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D063196A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 00:31:09 +0100 (CET)
+Received: from localhost ([::1]:54878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lALLs-0005vv-PN
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 18:26:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46734)
+	id 1lALQS-0000uP-0m
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 18:31:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lALIk-0004mV-Q2
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 18:23:10 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lALIj-0007Fi-DL
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 18:23:10 -0500
-Received: by mail-wr1-x436.google.com with SMTP id t15so3545393wrx.13
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 15:23:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ycTvT0zUexHJQeO4/x54cHMramQh33qzxI2wcBGsGXI=;
- b=T2me2Z7KG56YpusvDuztmqcTscFN4tcPK4MoieL2fQy345SDyamkIVCdiQEB1Uavoa
- 3P45StmtZMePYpDRaNw0DCYpgStyDk0QtdJOtcBSgd1Y1fOOGoX/RnCMJy4nv3FyAG+m
- 790zB33h/h+Dbg3FL60F5RIAXDow237AdlarLnOpSFV8X0+LAqxOUTF7ub1CNemIWG9C
- T9CQj3VCwNkkDlpsBliceOvXej+Byl/96J9gL6/GdRdSjrZilrtSfVpjGRIOl3H2yWHf
- MMfGmW5M86z2LqJCcZDvAn8Y11WdhkK3Qx2h6gyppQg+EGwidFOgG623OSqw43D3YOGB
- eU8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ycTvT0zUexHJQeO4/x54cHMramQh33qzxI2wcBGsGXI=;
- b=hv6Td5UKVouaz3skEi5yYaGip+oMJFgW+kGrYCJI9v1HX6nbPUHELpNtEywuuzLd9N
- J0iF4rBofPBk/iejUkz6rgE9aLayss4oE+9TKV996Y8f+ROskMZ62rF1a5Qp+YdHxV9a
- LeWkcLw9oHCkZcbTHSHYgBCIKtehkL9Mz6E2KVZEvg1g4iwjsp1o576XuJ4nm0XuFEHz
- MCYyxaeFDV1GzlHOjJh/hUs+0uJfmqlGKwyGYk0TJeer+4Xe3amaMo8W9NHDL8o98HJM
- /Vz15TAe+7rMzf01sVeBsp+y14oeKCvafl1mJnS/8gT4xFUKsCkE2jyGyOkAXeAB9TOe
- 1xuw==
-X-Gm-Message-State: AOAM532uLaQrc/FH7/5ezKY0WX+qpXhsDeEKcRgu3immjfVJrCmqrIdj
- xCMSYpZlmfBtVcr+5wcAuonJy/oUIhc=
-X-Google-Smtp-Source: ABdhPJwe1TKUL5hGyOL8l/q/ozQHsW2YzIn8GhJ0L0f1C9Z3tFE5qUxlOgDhkKS5JxH2K9uG2foU2Q==
-X-Received: by 2002:a5d:4386:: with SMTP id i6mr136196wrq.411.1613085787461;
- Thu, 11 Feb 2021 15:23:07 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id 2sm7788940wre.24.2021.02.11.15.23.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 15:23:07 -0800 (PST)
-Subject: Re: [RFC PATCH 03/10] target/hexagon: make helper functions non-static
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org
-References: <20210211215051.2102435-1-ale.qemu@rev.ng>
- <20210211215051.2102435-4-ale.qemu@rev.ng>
- <60f20674-0b70-832e-8b03-56423a99fad2@amsat.org>
-Message-ID: <0dbe3cb5-a56a-4501-30e3-5e334b549f1b@amsat.org>
-Date: Fri, 12 Feb 2021 00:23:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lALOB-0008Bn-Pl
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 18:28:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49174)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lALO8-0001Eg-RW
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 18:28:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613086123;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5+3f2r4m6R2iFNPDerEd3X+YbQZTmmkdTeoGxTVjodY=;
+ b=Pltx83y6K9wZivxmhpTD73gDcuAVHHaG7ApH9I2BPqAv8dV8Oy59ayGvPfkCyv090JUc9I
+ RT+yUBLCrQSkDX3RPUUJJ62ATVZZGK212g/Mi3FHbHPDKDLF7YgAggNfgRfWa3SbVcQqax
+ jyh+gFxivfWqgZwtA/1AOgJvPe3oqjE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-579-WiQlbmUkMdGcaPyxj3tcGw-1; Thu, 11 Feb 2021 18:28:41 -0500
+X-MC-Unique: WiQlbmUkMdGcaPyxj3tcGw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EBAB801FD8;
+ Thu, 11 Feb 2021 23:28:40 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-116-89.rdu2.redhat.com
+ [10.10.116.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6068762678;
+ Thu, 11 Feb 2021 23:28:36 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] Acceptance Tests: bump Avocado version requirement to 85.0
+Date: Thu, 11 Feb 2021 18:28:34 -0500
+Message-Id: <20210211232835.2608059-1-crosa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <60f20674-0b70-832e-8b03-56423a99fad2@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.119,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,38 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: babush@rev.ng, bcain@quicinc.com, tsimpson@quicinc.com, nizzo@rev.ng,
- Alessandro Di Federico <ale@rev.ng>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is being proposed as a separate single patch simply to show=0D
+that no known regressions have been introduced as far as the=0D
+acceptance tests/jobs are related.  CI job:=0D
+=0D
+   https://gitlab.com/cleber.gnu/qemu/-/pipelines/255122420=0D
+=0D
+This version (and 84.0) contain improvements that address specific=0D
+QEMU use cases, including:=0D
+=0D
+ * Being able to download and use Fedora 31 images and thus=0D
+   re-activate the "boot_linux.py" tests=0D
+=0D
+ * Being able to register local assets via "avocado assets register"=0D
+   and use them in tests=0D
+=0D
+Cleber Rosa (1):=0D
+  Acceptance Tests: bump Avocado version requirement to 85.0=0D
+=0D
+ tests/requirements.txt | 2 +-=0D
+ 1 file changed, 1 insertion(+), 1 deletion(-)=0D
+=0D
+--=20=0D
+2.25.4=0D
+=0D
 
-
-On 2/12/21 12:04 AM, Philippe Mathieu-Daudé wrote:
-> On 2/11/21 10:50 PM, Alessandro Di Federico via wrote:
->> From: Paolo Montesel <babush@rev.ng>
->>
->> Move certain helper functions required by code generated by the
->> idef-parser available outside genptr.c, moving them into macros.h.
->>
-> 
-> ^ OK
-> 
->> This patch also introduces the gen_cancel and gen_fbrev helper which
->> will be used by idef-parser.
-> 
-> No, it doesn't. Probably old comment?
-> 
-> Removing it:
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-
-Missing Paolo's s-o-b?
-
->>
->> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
->> ---
->>  target/hexagon/genptr.c | 13 ++++++++++---
->>  target/hexagon/genptr.h |  7 +++++++
->>  2 files changed, 17 insertions(+), 3 deletions(-)
 
