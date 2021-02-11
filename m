@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010C9318B8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:10:33 +0100 (CET)
-Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC99A318BEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:25:51 +0100 (CET)
+Received: from localhost ([::1]:51742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lABjs-0008WH-1f
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:10:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33344)
+	id 1lAByg-0004fR-P7
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:25:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABYw-00081x-Tr
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:14 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39917)
+ id 1lABYx-00082s-CT
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:15 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABYu-0008Ox-J7
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:14 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id u14so5649834wmq.4
+ id 1lABYv-0008Pj-GV
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:15 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id z6so4051024wrq.10
  for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=QlIazxiXuq6OlFVvjRA2pSJoSvTPBDYgrUB/CjxIRR8=;
- b=JWTp3FwS9Sx5Of8paQhTdjJiA7660XMjTKuy+nmhyTZSL7w5I1OoQxe15bETl6/Z55
- zHhCoaxxFaxJpUujdxVeDg07uwOoNNHJM3km6LSx14uB7A6/L4SD8r/W2L4aSUd4WUgW
- 9WUYhMp5BXRFB0XTxcMFKvG4tFt0RfJUobnmiN/IV8kunQW5JXiqyJafuaDGK4Gz2kAN
- gAZ5kzQmqEvl/MU/FTeQn6ksauiw4wW7iYAbOSs6koA4hF0/pN1BYjM5tbpIoAu++KEu
- hO9TuVXDajRJH2ZBNka29eX1covsAN4AOHT4mvnjFSIKNr21EFJXlh/iMgHVXuSA7u53
- Wa5A==
+ bh=Gp/a/dceSKg/i2f6bwOBGMj9RSJz04wOVY62te5/QwU=;
+ b=agxCnFfUTOyQgoupOI8jUDCq79cnLZ0KDLyJh8gUIM4ziYpx8kns9sIiwUY7JrV7js
+ U9dTY+3VYYZ1C5gB+bVZyuz4+Kh6zZObFennlyKoer2bf+xWVv8mMalA9kmyQVEOyRqw
+ T0sstBxL1IztRhHdAVI7omIi4T0RlJTCkOJv7ag1BniEydaCfPJ0YxDeXnrVLN1spGVG
+ PqAYvGBVBoS3Q1zZX3AVS5WVMZ+A3aLFyTC5G50ASkxt4wMJoj8hdFDc5WV21cSrltJv
+ PytEYkzy2iz9iGq3NHZrstbhqynZU/HpVhjO6XRd+4fTZAW1yGFta8PJweU58nu+qEzv
+ K6pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QlIazxiXuq6OlFVvjRA2pSJoSvTPBDYgrUB/CjxIRR8=;
- b=silNtgcuJpyE0IKudMN/bM7pjU4ZcmdahUsTb6X7dHKZZDCXSgMSZqLGFhXiMO3mh7
- LFzokoUyf2O5kFbNYB14L4aADOQvrivo0sUr6b5PleFJNr/686oTDmj6CqocqUAVynvh
- rEICuAuVqtIBW60OU8r5hSXljzdC1pN4ZcpxzlbrPYUJlnJB1HGSuUtfazH+vQFD37HD
- f8KiP0zAaJNbKzS9ujDth6mv+AOg1XaDHXDVNIIjQwpZloBQne5KjEpwHq1whhq+ko3b
- GqShfkkEfGYdp4qe9ysM6xMARP/ugMXyDlagoRqD+8B+BhjV+MTjoXlD7lp8oOPkVKBY
- 5xZg==
-X-Gm-Message-State: AOAM532k4MQjTpWoQRtp7erKoKaJKCn2dvl2kR0WAdhLlA07PUPldnfH
- oXGtFH3Zx3p8QEkKF9BPUFVELvwMe/y/IQ==
-X-Google-Smtp-Source: ABdhPJz8hVyfEBx+m7wsyVihk7tjCWIc74Gc1NIYlUM3qRSBtnMSjdj7nN7U9TpL3/97aar9F9OIzg==
-X-Received: by 2002:a05:600c:21d2:: with SMTP id
- x18mr5173243wmj.186.1613048351162; 
+ bh=Gp/a/dceSKg/i2f6bwOBGMj9RSJz04wOVY62te5/QwU=;
+ b=pqR/dTkoerAQwpcjM0DSaZuzUi3wtCXZuBBMyUdmyElCifLTSHfbBxu4EuvL0NNOty
+ wF4m09aYyK7GQtXLeN18VaNETm6+Jzucm3BIAWM/iCPYcndAbvNq1+U6HLU4hiXbSrwC
+ NrNKeO6ITVXrIb0ukaQ1dSp6+oOdh/Wr24KGtBtM+n2loQSaL+VcdZdZdCMAGYiTT9tC
+ XMz43o+dKvEX8eB7UOD+8DFpZZ6PnrPRuYoqhM/Hvjkd3XHj+3BKx2GsY+IYLYSwqVQH
+ HcwxTsqEI4kgekrKgexLNgUXpNR8K0avNmRq3O/0k5RhTx9Y2TLKSWgjD9YEOaCfHkL7
+ ph3Q==
+X-Gm-Message-State: AOAM532DJtanPPrpi8okRCgyILChmjm0OS4/RaSKxvYlDcFlzxSygoMb
+ DMkUp5JkpdRazIOOO9H7KJNGzMfJTF5bsg==
+X-Google-Smtp-Source: ABdhPJz6FKTUHocf2RvsHKNs7TyKRhe4GBxbWYBAq6F/nXOU5BavDzFqbFowF9we3vIuipsKTigMmA==
+X-Received: by 2002:a5d:408a:: with SMTP id o10mr669215wrp.427.1613048351985; 
  Thu, 11 Feb 2021 04:59:11 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.10
+ by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 04:59:10 -0800 (PST)
+ Thu, 11 Feb 2021 04:59:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/45] linux-user: Introduce PAGE_ANON
-Date: Thu, 11 Feb 2021 12:58:26 +0000
-Message-Id: <20210211125900.22777-12-peter.maydell@linaro.org>
+Subject: [PULL 12/45] exec: Use uintptr_t for guest_base
+Date: Thu, 11 Feb 2021 12:58:27 +0000
+Message-Id: <20210211125900.22777-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211125900.22777-1-peter.maydell@linaro.org>
 References: <20210211125900.22777-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,54 +88,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Record whether the backing page is anonymous, or if it has file
-backing.  This will allow us to get close to the Linux AArch64
-ABI for MTE, which allows tag memory only on ram-backed VMAs.
-
-The real ABI allows tag memory on files, when those files are
-on ram-backed filesystems, such as tmpfs.  We will not be able
-to implement that in QEMU linux-user.
-
-Thankfully, anonymous memory for malloc arenas is the primary
-consumer of this feature, so this restricted version should
-still be of use.
+This is more descriptive than 'unsigned long'.
+No functional change, since these match on all linux+bsd hosts.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210210000223.884088-3-richard.henderson@linaro.org
+Message-id: 20210210000223.884088-4-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/cpu-all.h | 2 ++
- linux-user/mmap.c      | 3 +++
- 2 files changed, 5 insertions(+)
+ include/exec/cpu-all.h | 2 +-
+ bsd-user/main.c        | 4 ++--
+ linux-user/elfload.c   | 4 ++--
+ linux-user/main.c      | 4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index af555f1798d..1f47e0fe44a 100644
+index 1f47e0fe44a..d6ad774c015 100644
 --- a/include/exec/cpu-all.h
 +++ b/include/exec/cpu-all.h
-@@ -275,6 +275,8 @@ extern intptr_t qemu_host_page_mask;
- #define PAGE_WRITE_INV 0x0020
- /* For use with page_set_flags: page is being replaced; target_data cleared. */
- #define PAGE_RESET     0x0040
-+/* For linux-user, indicates that the page is MAP_ANON. */
-+#define PAGE_ANON      0x0080
+@@ -158,7 +158,7 @@ static inline void tswap64s(uint64_t *s)
+ /* On some host systems the guest address space is reserved on the host.
+  * This allows the guest address space to be offset to a convenient location.
+  */
+-extern unsigned long guest_base;
++extern uintptr_t guest_base;
+ extern bool have_guest_base;
+ extern unsigned long reserved_va;
  
- #if defined(CONFIG_BSD) && defined(CONFIG_USER_ONLY)
- /* FIXME: Code that sets/uses this is broken and needs to go away.  */
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index c693505b601..7fb4c628e11 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -599,6 +599,9 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-         }
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 7cc08024e36..385d35886a0 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -42,7 +42,7 @@
+ 
+ int singlestep;
+ unsigned long mmap_min_addr;
+-unsigned long guest_base;
++uintptr_t guest_base;
+ bool have_guest_base;
+ unsigned long reserved_va;
+ 
+@@ -970,7 +970,7 @@ int main(int argc, char **argv)
+     g_free(target_environ);
+ 
+     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
+-        qemu_log("guest_base  0x%lx\n", guest_base);
++        qemu_log("guest_base  %p\n", (void *)guest_base);
+         log_page_dump("binary load");
+ 
+         qemu_log("start_brk   0x" TARGET_ABI_FMT_lx "\n", info->start_brk);
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index a64050713f2..29f07bb2346 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2135,9 +2135,9 @@ static void pgb_have_guest_base(const char *image_name, abi_ulong guest_loaddr,
+     void *addr, *test;
+ 
+     if (!QEMU_IS_ALIGNED(guest_base, align)) {
+-        fprintf(stderr, "Requested guest base 0x%lx does not satisfy "
++        fprintf(stderr, "Requested guest base %p does not satisfy "
+                 "host minimum alignment (0x%lx)\n",
+-                guest_base, align);
++                (void *)guest_base, align);
+         exit(EXIT_FAILURE);
      }
-  the_end1:
-+    if (flags & MAP_ANONYMOUS) {
-+        page_flags |= PAGE_ANON;
-+    }
-     page_flags |= PAGE_RESET;
-     page_set_flags(start, start + len, page_flags);
-  the_end:
+ 
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 2e3c1698787..81f48ff54ed 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -59,7 +59,7 @@ static const char *cpu_model;
+ static const char *cpu_type;
+ static const char *seed_optarg;
+ unsigned long mmap_min_addr;
+-unsigned long guest_base;
++uintptr_t guest_base;
+ bool have_guest_base;
+ 
+ /*
+@@ -824,7 +824,7 @@ int main(int argc, char **argv, char **envp)
+     g_free(target_environ);
+ 
+     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
+-        qemu_log("guest_base  0x%lx\n", guest_base);
++        qemu_log("guest_base  %p\n", (void *)guest_base);
+         log_page_dump("binary load");
+ 
+         qemu_log("start_brk   0x" TARGET_ABI_FMT_lx "\n", info->start_brk);
 -- 
 2.20.1
 
