@@ -2,81 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A68318EAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 16:32:45 +0100 (CET)
-Received: from localhost ([::1]:49872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5C3318EE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 16:40:52 +0100 (CET)
+Received: from localhost ([::1]:36022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lADxU-0002rf-9K
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 10:32:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47626)
+	id 1lAE5L-0000mC-07
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 10:40:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lADuN-0001Dg-1s; Thu, 11 Feb 2021 10:29:31 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:34714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lADuL-0006wg-AK; Thu, 11 Feb 2021 10:29:30 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id hs11so10707744ejc.1;
- Thu, 11 Feb 2021 07:29:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hujUONcUIFxGFuAuJBvjDy+PFPW6faw5i7Unzwp5ic0=;
- b=VAnT+QCw4oXQoPxLou44ZPBp7mf7Zk3MoY/nXNmitiA1UgfO/q8VgEqAOeY7/1BF9p
- tcRnPWbIQtBhGxuqgwnTeCFupaiOn0wYJW60ApcbGhmm0KLC1eVXO4SNFTYdPCmL2JEw
- nPlwCAXNsgNkZ0VR12R6ydgJhNkfuUfRDoGz785hCET9+BVDPoyrhT28fXqtGP1jMkgx
- Tsev/yU0HtEhLuBar8XBAQNviaOVC55RZLC/LnZsqe5z0/VoYt3RsrZQ8OvB+v1y/1aV
- Qwi5o1XJPCOysUyMjqUhPcWY8OirVK5bI/4SQKIU6BRX3GdMUE1p3Jc9yUNXnds821aY
- UnCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hujUONcUIFxGFuAuJBvjDy+PFPW6faw5i7Unzwp5ic0=;
- b=Bj9dBUQrCq2dydPu+O/36OnosswSsRyVzPKMkkt7xRBUaVhgZrZ4UQf2819Eefun6R
- h/IKlNYSmM7DMjan9PhHY6p9sW8c7R4U1pck2d/u0PyLJS0v097a40TkQYngNrvhAuBd
- +C6uI+83OPdKLuy5VjNspHh4bw523uVvLrwJCRCg0SiDV80TlLzfVS+Vjtg/QIxZIESW
- 6tdczqoa9m00aATIxH7clfIb9qyXkHUxNDcfS28FA3Sv/BUeyDj8lKhsFBl7N5YlnFT+
- pnV5QF6jKwUnGq4Pv61anoz9yOI7kGYQlB+jViJ133MgvuCzT4OAxWPE2r91c8zWeaSB
- nj0Q==
-X-Gm-Message-State: AOAM531edbQ2Z4respenBVvNG4RC3gWHKfyN+zfr2CpqIhigxKcWunM+
- RRzMjwgQ4MMCDGf/8F6M0S0=
-X-Google-Smtp-Source: ABdhPJwfbP9gB4Xmy5jb7qfZcPQmUU6Ge4jR9bkUCari/IzFlOvFtdbADhuLW+Ogs+U4F0jBJvl9kg==
-X-Received: by 2002:a17:906:2299:: with SMTP id
- p25mr9085400eja.279.1613057367170; 
- Thu, 11 Feb 2021 07:29:27 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id q20sm4684256ejs.17.2021.02.11.07.29.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 07:29:26 -0800 (PST)
-Subject: Re: [PATCH v2 1/4] clock: Add ClockEvent parameter to callbacks
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210209132040.5091-1-peter.maydell@linaro.org>
- <20210209132040.5091-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <46398c06-1545-77aa-85fa-66d9d373e277@amsat.org>
-Date: Thu, 11 Feb 2021 16:29:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lADxk-0004Qo-8P; Thu, 11 Feb 2021 10:33:00 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:43571)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lADxh-00004x-VN; Thu, 11 Feb 2021 10:33:00 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id C13365C00C4;
+ Thu, 11 Feb 2021 10:32:56 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 11 Feb 2021 10:32:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=f79YnSqfZe9aWk06rPQZT+nQW/j
+ 84jrMEnpJpAhzmqc=; b=btHbrzySPIjO+eJdVHn1GT+oMJunng9c3NvF/rfGzpp
+ jQkaVaFYmJQHldhQ1YTMSRplgPVtLB/RBko6qPx7XQEPu0qy1N/lxwqwkb0Gj6FM
+ pK3pteie2M04jA2TRInYbkVIfkSo+eSR18+t5yZDui4Vj9sAZ1HvTgYTsDR1EvN0
+ N7J+QLmihWgzL7ndmJxem87idLB1bKokpj2m1C8D45kZoN8EZzIgWvetvdGK/jHA
+ sDC+OJXddXLdm+Fz8mNPQRfooFtWXckqaTiCb5PmCyxIjfE+rAIIIlZtfNZrF9ni
+ 0x0FBNGqH5818aACsWpzBk1MKJNdgNXmWLsBrHfnweA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=f79YnS
+ qfZe9aWk06rPQZT+nQW/j84jrMEnpJpAhzmqc=; b=JcrRGz/gIg8R0xYIbamU3c
+ WMZU/I3htqt4lO/fkoTTZABynye0IL5Sr0gnPH7pw94uCkcBdIlgJwgULdUUXtkx
+ z5KJdcmijQY/oFo+Xo7OTGZFKgz9gqFjuNbmq/zXJZdpsHPTNGoDH6bQwPhubPfF
+ vg7NeaYTh9blpdqJoqp1r3L49paCh7x9/i4mqQmpWit2T9x4tZjLLP49Tp3nKx9B
+ nj8G5hXa72UBbDIrRDusfXpA3kaB9u/YWiwMrPsqFKd75QBnG1UuCZF3MXVvTDdg
+ CJbhmhkFHkMEbFaR+ytwXK+42w80x1BBL0nDNnhAhe52CLLbv2obmMW1/w8DJCtg
+ ==
+X-ME-Sender: <xms:J04lYDOVCE2c8Kh39Ei5MGYz8SeQ6_VkPg7p9exhX3nifrnNWWdJxw>
+ <xme:J04lYBRHST7jIYfAYFpVZNZs_nQtywRLg4kqwD6YeTmSSX0SOeXWYPYlmhHagAIAF
+ HjnJhqOuzk0_gb-AIE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheelgdejiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:J04lYGXltkfDUIbX4ODgLELbDywZR6AFjhdSWSa25d7wMYYLn7uu6g>
+ <xmx:J04lYOGz4x5rw6aq5Df-pet2XASCuD4z440Qnd0JKQffnQXlS94Ebw>
+ <xmx:J04lYBYA0PspTXXs0_aX8L6y6myJ0q0sWUqmviSz7gWO_gCwEbj3fg>
+ <xmx:KE4lYHpE_I6b_8tvpJs1zmX1_5YaF50JLdnmZWO9d0Al3P4qkbgzxg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3617A240057;
+ Thu, 11 Feb 2021 10:32:54 -0500 (EST)
+Date: Thu, 11 Feb 2021 16:32:52 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH] hw/block/nvme: drain namespaces on sq deletion
+Message-ID: <YCVOJBxHUP6ElkiS@apples.localdomain>
+References: <20210127131505.394550-1-its@irrelevant.dk>
+ <20210211024902.GA24885@localhost.localdomain>
+ <YCUd7IT28icjAV07@apples.localdomain>
+ <20210211134913.GJ24885@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210209132040.5091-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.119,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="10HC0ffmdCpretR4"
+Content-Disposition: inline
+In-Reply-To: <20210211134913.GJ24885@localhost.localdomain>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,100 +96,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tyrone Ting <kfting@nuvoton.com>, Luc Michel <luc@lmichel.fr>,
- Havard Skinnemoen <hskinnemoen@google.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
 
-On 2/9/21 2:20 PM, Peter Maydell wrote:
-> The Clock framework allows users to specify a callback which is
-> called after the clock's period has been updated.  Some users need to
-> also have a callback which is called before the clock period is
-> updated.
-> 
-> As the first step in adding support for notifying Clock users on
-> pre-update events, add an argument to the ClockCallback to specify
-> what event is being notified, and add an argument to the various
-> functions for registering a callback to specify which events are
-> of interest to that callback.
-> 
-> Note that the documentation update renders correct the previously
-> incorrect claim in 'Adding a new clock' that callbacks "will be
-> explained in a following section".
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> v1->v2: (suggested by Luc) instead of making callback functions check
-> whether 'event' is one they are interested in, specify mask of
-> interesting events at callback registration time.
-> ---
->  docs/devel/clocks.rst            | 52 +++++++++++++++++++++++++++-----
->  include/hw/clock.h               | 21 +++++++++++--
->  include/hw/qdev-clock.h          | 17 ++++++++---
->  hw/adc/npcm7xx_adc.c             |  2 +-
->  hw/arm/armsse.c                  |  9 +++---
->  hw/char/cadence_uart.c           |  4 +--
->  hw/char/ibex_uart.c              |  4 +--
->  hw/char/pl011.c                  |  5 +--
->  hw/core/clock.c                  | 20 +++++++++---
->  hw/core/qdev-clock.c             |  8 +++--
->  hw/mips/cps.c                    |  2 +-
->  hw/misc/bcm2835_cprman.c         | 23 ++++++++------
->  hw/misc/npcm7xx_clk.c            | 26 +++++++++++++---
->  hw/misc/npcm7xx_pwm.c            |  2 +-
->  hw/misc/zynq_slcr.c              |  5 +--
->  hw/timer/cmsdk-apb-dualtimer.c   |  5 +--
->  hw/timer/cmsdk-apb-timer.c       |  4 +--
->  hw/timer/npcm7xx_timer.c         |  2 +-
->  hw/watchdog/cmsdk-apb-watchdog.c |  5 +--
->  target/mips/cpu.c                |  2 +-
->  20 files changed, 160 insertions(+), 58 deletions(-)
+--10HC0ffmdCpretR4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> diff --git a/include/hw/clock.h b/include/hw/clock.h
-> index e5f45e2626d..5c73b4e7ae9 100644
-> --- a/include/hw/clock.h
-> +++ b/include/hw/clock.h
-> @@ -22,7 +22,17 @@
->  #define TYPE_CLOCK "clock"
->  OBJECT_DECLARE_SIMPLE_TYPE(Clock, CLOCK)
->  
-> -typedef void ClockCallback(void *opaque);
-> +/*
-> + * Argument to ClockCallback functions indicating why the callback
-> + * has been called. A mask of these values logically ORed together
-> + * is used to specify which events are interesting when the callback
-> + * is registered, so these values must all be different bit values.
-> + */
-> +typedef enum ClockEvent {
-> +    ClockUpdate = 1, /* Clock period has just updated */
+On Feb 11 22:49, Minwoo Im wrote:
+> On 21-02-11 13:07:08, Klaus Jensen wrote:
+> > On Feb 11 11:49, Minwoo Im wrote:
+> > > On 21-01-27 14:15:05, Klaus Jensen wrote:
+> > > > From: Klaus Jensen <k.jensen@samsung.com>
+> > > >=20
+> > > > For most commands, when issuing an AIO, the BlockAIOCB is stored in=
+ the
+> > > > NvmeRequest aiocb pointer when the AIO is issued. The purpose of st=
+oring
+> > > > this is to allow the AIO to be cancelled when deleting submission
+> > > > queues (it is currently not used for Abort).
+> > > >=20
+> > > > Since the addition of the Dataset Management command and Zoned
+> > > > Namespaces, NvmeRequests may involve more than one AIO and the AIOs=
+ are
+> > > > issued without saving a reference to the BlockAIOCB. This is a prob=
+lem
+> > > > since nvme_del_sq will attempt to cancel outstanding AIOs, potentia=
+lly
+> > > > with an invalid BlockAIOCB.
+> > > >=20
+> > > > Fix this by instead of explicitly cancelling the requests, just all=
+ow
+> > > > the AIOs to complete by draining the namespace blockdevs.
+> > > >=20
+> > > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > > > ---
+> > > >  hw/block/nvme.c | 18 +++++++++++++-----
+> > > >  1 file changed, 13 insertions(+), 5 deletions(-)
+> > > >=20
+> > > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > > > index 316858fd8adf..91f6fb6da1e2 100644
+> > > > --- a/hw/block/nvme.c
+> > > > +++ b/hw/block/nvme.c
+> > > > @@ -403,6 +403,7 @@ static void nvme_req_clear(NvmeRequest *req)
+> > > >  {
+> > > >      req->ns =3D NULL;
+> > > >      req->opaque =3D NULL;
+> > > > +    req->aiocb =3D NULL;
+> > > >      memset(&req->cqe, 0x0, sizeof(req->cqe));
+> > > >      req->status =3D NVME_SUCCESS;
+> > > >  }
+> > > > @@ -2396,6 +2397,7 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, Nvme=
+Request *req)
+> > > >      NvmeSQueue *sq;
+> > > >      NvmeCQueue *cq;
+> > > >      uint16_t qid =3D le16_to_cpu(c->qid);
+> > > > +    int i;
+> > > > =20
+> > > >      if (unlikely(!qid || nvme_check_sqid(n, qid))) {
+> > > >          trace_pci_nvme_err_invalid_del_sq(qid);
+> > > > @@ -2404,12 +2406,18 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, Nv=
+meRequest *req)
+> > > > =20
+> > > >      trace_pci_nvme_del_sq(qid);
+> > > > =20
+> > > > -    sq =3D n->sq[qid];
+> > > > -    while (!QTAILQ_EMPTY(&sq->out_req_list)) {
+> > > > -        r =3D QTAILQ_FIRST(&sq->out_req_list);
+> > > > -        assert(r->aiocb);
+> > > > -        blk_aio_cancel(r->aiocb);
+> > > > +    for (i =3D 1; i <=3D n->num_namespaces; i++) {
+> > > > +        NvmeNamespace *ns =3D nvme_ns(n, i);
+> > > > +        if (!ns) {
+> > > > +            continue;
+> > > > +        }
+> > > > +
+> > > > +        nvme_ns_drain(ns);
+> > >=20
+> > > If we just drain the entire namespaces here, commands which has nothi=
+ng
+> > > to do with the target sq to be deleted will be drained.  And this mig=
+ht
+> > > be a burden for a single SQ deletion.
+> > >=20
+> >=20
+> > That is true. But how often would you dynamically delete and create I/O
+> > submission queues in the fast path?
+>=20
+> Delete I/O queues are not that often in the working NVMe controller, but
+> it might be a good case for the exception test from the host side like:
+> I/O queue deletion during I/O workloads.  If delete I/O queues are
+> returning by aborting their own requests only and quickly respond to the
+> host, then I think it might be a good one to test with.  Handling
+> requests gracefully sometimes don't cause corner cases from the host
+> point-of-view.  But, QEMU is not only for the host testing, so I am not
+> sure that QEMU NVMe device should handle things gracefully or try to do
+> something exactly as the real hardware(but, we don't know all the
+> hardware behavior ;)).
+>=20
+> (But, Right. If I'm only talking about the kernel, then kernel does not
+> delete queues during the fast-path hot workloads.  But it's sometimes
+> great to test something on their own driver or application)
+>=20
+> > > By the way, agree with the multiple AIOs references problem for newly=
+ added
+> > > commands.  But, shouldn't we manage the inflight AIO request referenc=
+es for
+> > > the newlly added commands with some other way and kill them all
+> > > explicitly as it was?  Maybe some of list for AIOCBs?
+> >=20
+> > I was hesitant to add more stuff to NvmeRequest (like a QTAILQ to track
+> > this). Getting a steady-state with draining was an easy fix.
+>=20
+> Graceful handling is easy to go with.  I am not expert for the overall
+> purpose of the QEMU NVMe device model, but I'm curious that which one we
+> need to take first between `Easy to go vs. What device should do`.
+>=20
 
-Just wondering loudly (QEMU doesn't have enum naming conventions),
-maybe rename  ClockUpdate -> ClockUpdateEvent to clarify.
+Alright, point taken :)
 
-> +} ClockEvent;
-> +
-> +typedef void ClockCallback(void *opaque, ClockEvent event);
->  
->  /*
->   * clock store a value representing the clock's period in 2^-32ns unit.
-> @@ -50,6 +60,7 @@ typedef void ClockCallback(void *opaque);
->   * @canonical_path: clock path string cache (used for trace purpose)
->   * @callback: called when clock changes
->   * @callback_opaque: argument for @callback
-> + * @callback_events: mask of events when callback should be called
->   * @source: source (or parent in clock tree) of the clock
->   * @children: list of clocks connected to this one (it is their source)
->   * @sibling: structure used to form a clock list
-> @@ -67,6 +78,7 @@ struct Clock {
->      char *canonical_path;
->      ClockCallback *callback;
->      void *callback_opaque;
-> +    int callback_events;
+I'll post an RFC patch that tracks this properly instead of halfass'ing
+it.
 
-Isn't "unsigned" recommended for bit mask?
+--10HC0ffmdCpretR4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Otherwise (minor Hao Wu's NULL remark):
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAlTiIACgkQTeGvMW1P
+DemYQQf+O8D3/xKZNJoosZC2kI7LWNagXkEwX5i+rN/uUzqK90lJNk1a7JfypdvN
+P5Jo+ljp1iz5RyqyUi59oXlrXDBMo4cYhu5jAb3Ohtxh1Gs/mrQLh6RdTKuiuaqX
+cndNPUf/Plia1Yuhx6e+YC0IdTBGpOVpzZgLrRii41MzLAH0CgofXBtevxEWYbsX
+AHLXUaCBRo7gqoNnod1smUr9ERiUWUW3uSJimhD/uDiN3Nv+hR+t6gWkwFlV3aWq
+YFMjKycgA1ObC9VAdM9TJkqQXWH2u6MfeWOX9vb4BjWml6QWfOsrm8abnkIntTbT
+qTJHbaRCTIhreTXxcmsZIrJnnjQCPA==
+=SnMO
+-----END PGP SIGNATURE-----
+
+--10HC0ffmdCpretR4--
 
