@@ -2,134 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1263192B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:03:55 +0100 (CET)
-Received: from localhost ([::1]:53568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A22D3192DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:14:42 +0100 (CET)
+Received: from localhost ([::1]:42014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAHFp-0006rm-Rw
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:03:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45074)
+	id 1lAHQH-0006bT-FD
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:14:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1lAH3Q-0006st-PI
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:51:06 -0500
-Received: from mail-eopbgr760097.outbound.protection.outlook.com
- ([40.107.76.97]:65153 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1lAH3E-0001TD-BC
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:51:04 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZhDdvS2jLAkGrEdMChtnTbfCL6gxmawYQ5GRVtYveJz8y4EJ7vSQoMAZiosmqvkaCu2MMm/fhbd7zBDBnvxnoYzxNqr9w/3zPEJ9zI39RTx8KNKKv0kPRnxrWgGGlAklQnBLNIrr08XP2iaqfjKBGgpr48jz/wZJFNPGKRraNLNZil4sT3y7AzzsDHGV8Hhyz210JRjDudD2WKEWs/fWvlfyXpoSxZM+jknSBGKuRl/4N5YecHdhvCt0TXFvV70NuMu0OtaLJ6///WMLpdPAZ6EKtwTq7Vbe4HM9BiNP9uBAD+7mZ/DH3QHYIvSv5F7iHs0n8igJb3TQOeAmMxglkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A8d6fG60a3z6oOGj2SY7vGZRkIae4p7sx7NvXK1AvDg=;
- b=V9ocJtNqXavHNUuA38eOth0LqMkxs/og+c35RH/5MmR7M6bM1YX+VXgRtDGC/PZh2DNh7B5g9PlyBHHHaR3PrwgYIJsxGH8DrF0wO2bdMVvk4cROmChRJ6s4NAwVhVHKN1NJx3FU7AWHgiT/26FJO98x6nhfAyqHEySboBIQj7CZev3hxBT65hiORJ4WHzGXiT3Ohs/gKNn7irMoP12Y4/tY4+qIQZCurh8lnxU/ijKH6Amxur8cANl6vII5iH+AoiIhLZbN6jJV29hdIelS6CiosxV+p/1QMoESbkX9Fz663Ppek9KkVjiycY37dYzqQ+DMAoR2gsHP/vxEs3hHaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A8d6fG60a3z6oOGj2SY7vGZRkIae4p7sx7NvXK1AvDg=;
- b=rD+0i/WklwNigH7oTI8EXlAeGNjxJu4ZI0LgIW0HfEMA73IWPQ5bULv9oESxP4YlDFG3LxYbQcvBVadaAtHkrWX/GVI8ZOmQoTo9AbRzIC+FysSRrjU28abX5QhaPwSOkPuAL683TzFwmuBff8yeUiKJq8f8Llc94Ibmmg4AKWA=
-Authentication-Results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
- SN6PR01MB3757.prod.exchangelabs.com (2603:10b6:805:1f::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3846.29; Thu, 11 Feb 2021 18:35:46 +0000
-Received: from SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::6caf:7c56:c4de:b5c5]) by SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::6caf:7c56:c4de:b5c5%6]) with mapi id 15.20.3825.025; Thu, 11 Feb 2021
- 18:35:46 +0000
-Date: Thu, 11 Feb 2021 13:35:21 -0500
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, cota@braap.org, richard.henderson@linaro.org
-Subject: Re: Detecting Faulting Instructions From Plugins
-Message-ID: <YCV46X4NPHmBF6JX@strawberry.localdomain>
-References: <YBTRSK4/F5KLH+FZ@strawberry.localdomain>
- <YBxnlZFkp7YA9PXL@strawberry.localdomain>
- <871rdupw3h.fsf@linaro.org>
- <YB1VljlPQPRRZUvc@strawberry.localdomain>
- <87v9b6o8bu.fsf@linaro.org>
- <YB1nf/M613d0B+Pm@strawberry.localdomain>
- <87k0resecj.fsf@linaro.org>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87k0resecj.fsf@linaro.org>
-X-Originating-IP: [68.73.113.219]
-X-ClientProxiedBy: MN2PR17CA0020.namprd17.prod.outlook.com
- (2603:10b6:208:15e::33) To SN6PR01MB4304.prod.exchangelabs.com
- (2603:10b6:805:a6::23)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHBa-0003fu-UY
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:59:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43033)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lAHBW-0005KF-AD
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:59:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613069965;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2qW0z4oaCNKpuQXYhCc+Ukprnpks8/eWjQXb7wHSvpo=;
+ b=DIQsDDJRzlXgCBZLDo/zIRlg8VHOoJFpTCJ4XJh0Qd8XiagMvOFBKN7NAss+yRXi+i4GJZ
+ M6jnwkB4nvISnev0DZduIjZUdAAOaplj9+8aApeHNS4JgM+CQa7+i0/65Ru9mxNf7XZzeB
+ j2z929prWjZZ6rpqcpq8O4ja3Q5ZLTg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-IdZpedHdNbaI_nkF8nFlug-1; Thu, 11 Feb 2021 13:59:22 -0500
+X-MC-Unique: IdZpedHdNbaI_nkF8nFlug-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8D796EE27;
+ Thu, 11 Feb 2021 18:59:20 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 17EE877711;
+ Thu, 11 Feb 2021 18:58:57 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/24] python: create installable package
+Date: Thu, 11 Feb 2021 13:58:32 -0500
+Message-Id: <20210211185856.3975616-1-jsnow@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from strawberry.localdomain (68.73.113.219) by
- MN2PR17CA0020.namprd17.prod.outlook.com (2603:10b6:208:15e::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.26 via Frontend
- Transport; Thu, 11 Feb 2021 18:35:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 42ea6423-e2c7-486e-cc25-08d8cebbd83f
-X-MS-TrafficTypeDiagnostic: SN6PR01MB3757:
-X-Microsoft-Antispam-PRVS: <SN6PR01MB37579FE683E8A00B836757A38A8C9@SN6PR01MB3757.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JCWgUcmeeSiNpIBMUDUbJ//CY9rrnmkU151ck90DVNLy4fIKQrQ5GGee5FW11avzDQThwyBA41QrHuMmrGURbEpn4PJNCyBztpRwMaAtzYjxckLOLwUBxK3vW0n4H8HlQF4vX+VlI6JWSFGDKUcoXp7kQ2lypS7Uf0Io7Tjt1xqmtLmWewHAhhnyXYPZImGpCc8vj6E150SdEnDR+L7caucGkK5B7P6DOafqIBA+mRbzXCrAT3Je6ir8AXbrZ7MggBwC/rCX03fDPuJLFtwh2jGmTsyE2hwByXtoGzJi3QCy7+OoRvyDfodHYnZ6qrIQoxArcMrOHKTv7zliowwjJKIVIVO9RzUZBTZq5BZIRC/KZAbeUzX2ICz2ASXIjajAam02O1Q9BG1DGMx6V6vmXV+GJflFxOoiDX7oQOfEzX4m2MuY9QEZz0sG5r09tuoVQAdWFsGlZC0x6+1Q5gFaFsanxMla04gnbpxccAOo0DhyX/WAyTLXiO37SMX4Anr9BAMLvp8VLVoVImYcO5X7gw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(366004)(376002)(39850400004)(136003)(9686003)(16526019)(186003)(5660300002)(6666004)(55016002)(8676002)(83380400001)(956004)(26005)(66574015)(8936002)(6506007)(2906002)(478600001)(316002)(52116002)(7696005)(86362001)(66556008)(66946007)(66476007)(4326008)(6916009);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?+mIaLf5gbYb0hZYunLeBSCb6++6KsmiAUwjBKFRY8znzKAiiDlrQ5/Oxfw?=
- =?iso-8859-1?Q?EFOe0IZwgCAQ4InQanOTtc/E+QiZVL5wFlkfzRQka74uIPBpDYukEHt1W+?=
- =?iso-8859-1?Q?gyCZTadGPEuzIyDMTGX3zPyhoAPZuxtCATXlfz2ksRXKjbpBH7fyHs9LDD?=
- =?iso-8859-1?Q?KiBk12ehmjkPUKp1OCXB46DSJXZVePl3CafJK8oMFkZqb5veHMvW1bG+9f?=
- =?iso-8859-1?Q?iQ6Vlbn7os4673lvou1YHDh+IrhnQJs+iuuodicnBR6xHuAy/I/iRlnZS+?=
- =?iso-8859-1?Q?xgtZVBUr7WBH/mq3IxX1TpRb+0eNcvS+DRdfeD4Clb3nDG6k2hLHooi3JD?=
- =?iso-8859-1?Q?NteGv7Ir7H2svcigeQ2eWL3pyYhDb7+sAwzgxcdZE9UWd7iTTJqRSDyPtY?=
- =?iso-8859-1?Q?ST1n6Rx/dwXRNHX/o+vrLw9k/8jog4rNkzPNHHfQRwXzCLbmVJdyHEqu6m?=
- =?iso-8859-1?Q?t2zYqPZeYaNSH0bJb1v7pb0Cq4FpV2ewtMZUAAnu6UG+lqLH+Bcm3nrHEL?=
- =?iso-8859-1?Q?et1uOdNLJkjYm/XyaoEyY724+2KQZxzOGTt+iA/puDscwvfoY77Pj1sQZR?=
- =?iso-8859-1?Q?3dMI5iI/gOt0PgKooNQT84XLKvI0XIeo4RyCjvLFRdGvWVvI+qzEAznQJ8?=
- =?iso-8859-1?Q?UaR/LxE52PlJV7u9nGXXVsmwH5ZUR+BZa36QP7sApJp1NUW85/of8rq/eM?=
- =?iso-8859-1?Q?Z7mVvuBeG2zZcbVLiTAyOtpJ3mo5b9WtYDBjpGd6th3ySyJJus8eotreYF?=
- =?iso-8859-1?Q?tP0Ub4C3QjlpGTFsbLYcW0hCAreM4wodQPkD1vi3kcuRBcy8DBWP98ME8r?=
- =?iso-8859-1?Q?IBcnOAldh7s0hAwp2GS/MfifjeH1RGkQASU3zJD9zs6dxkUMkk4gV+xehG?=
- =?iso-8859-1?Q?wGuyt8Mj7TeG4sWoCG9ZrafMPBgHTFi/y9FzktKYcvgRHY7e+pkWCQmvTs?=
- =?iso-8859-1?Q?91W7xL7oJg8O0GG9SClJjEZnrZJ+xAFWJklhMqFwxSQjlKRwuUXlftx8vM?=
- =?iso-8859-1?Q?QfNnUiQDWRMYF4f1ILm3Q+1d5SmLLhCqHEVikM4F7JA/LWqtwE1+EJTbn+?=
- =?iso-8859-1?Q?lO8QlwtYlT3Ug4kSkw1yB3vHjJU4P5fT5IchzbmXez/+jKq9rGI6TjUyo0?=
- =?iso-8859-1?Q?SdMKcJh2ghU65syne7CfQtw86vBX0prQlaMzdIjvRw1Eks7wtcalchcZ/2?=
- =?iso-8859-1?Q?x4+aV8dCjP3WpqEQNKFoSvIIVHfHhuc0mo7cod5fndcDIHO+qqP7G/7wOe?=
- =?iso-8859-1?Q?piOm0rekVLo+tqvZ4XNv8hYD1gJCAGYH8bRctbOrkhDGK82lTn7Yi+89DP?=
- =?iso-8859-1?Q?EFSGUPpDw0Ged8ArT+cfxqd1W2jKF3d+k5YW/FB164AxXlEyqvBHLAn7Tv?=
- =?iso-8859-1?Q?qyNJS0z99G?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42ea6423-e2c7-486e-cc25-08d8cebbd83f
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2021 18:35:45.9238 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iZkMqa5KGJ+37BO/MrEJzz43XxJRQFLiApcpKW/eFCNL4SR+WjorwUvHDccUu5cdhhuA4rKB96BiiGJfuNcNJg5rCL4EcwewUjYYvFZ4oBc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB3757
-Received-SPF: pass client-ip=40.107.76.97;
- envelope-from=aaron@os.amperecomputing.com;
- helo=NAM02-CY1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FORGED_SPF_HELO=1, KHOP_HELO_FCRDNS=0.399,
- MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -142,58 +73,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Aaron Lindsay <aaron@os.amperecomputing.com>
-From:  Aaron Lindsay via <qemu-devel@nongnu.org>
 
-On Feb 11 17:27, Alex Bennée wrote:
-> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
-> > On Feb 05 15:03, Alex Bennée wrote:
-> >> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
-> >> > Assuming you're right that TCG is detecting "a io_readx/io_writex when
-> >> > ->can_do_io is not true", could we detect this case when it occurs and
-> >> > omit the instruction callbacks for the re-translation of the single
-> >> > instruction (allow the initial callback to stand instead of trying to
-> >> > turn back time, in a way, to prevent it)? Maybe there would have be some
-> >> > bookkeeping in the plugin infrastructure side rather than entirely
-> >> > omitting the callbacks when re-translating, in case that translation got
-> >> > re-used in a case which didn't hit the same behavior and shouldn't be
-> >> > skipped?
-> >> 
-> >> They are happening in two separate phases. The translation phase has no
-> >> idea what the runtime condition will be. Once we get to runtime it's too
-> >> late - and we trigger a new translation phase.
-> >
-> > I believe I understand why we can't catch the initial translation. To
-> > make sure I'm communicating well, my current understanding is that the
-> > timeline for this case goes something like:
-> >
-> > 1) translate large block of instructions, including ldr
-> > 2) attempt to execute ldr, calling instruction callback
-> > 3) notice that access is to IO, trigger re-translation of single
-> >    ldr instruction
-> > 4) execute block with single ldr instruction to completion, calling both
-> >    instruction and memory callbacks
-> >
-> > I was wondering if it would be possible to inform the re-translation in
-> > step 3 that it's for a re-translated IO access so that it could
-> > ultimately cause the second of the duplicate instruction callbacks to be
-> > omitted during execution in 4.
-> 
-> This is what I've done - re-executed blocks are compiled with CF_NOINSTR
-> which skips any instrumentation. If you could test the series I posted and
-> confirm the problem is solved that would be great:
-> 
->   Subject: [PATCH  v2 00/21] plugins/next pre-PR (hwprofile, regression fixes, icount count fix)
->   Date: Wed, 10 Feb 2021 22:10:32 +0000
->   Message-Id: <20210210221053.18050-1-alex.bennee@linaro.org>
+This series factors the python/qemu directory as an installable=0D
+package. It does not yet actually change the mechanics of how any other=0D
+python source in the tree actually consumes it (yet), beyond the import=0D
+path. (some import statements change in a few places.)=0D
+=0D
+git: https://gitlab.com/jsnow/qemu/-/commits/python-package-mk3=0D
+CI: https://gitlab.com/jsnow/qemu/-/pipelines/254940717=0D
+(New CI job: https://gitlab.com/jsnow/qemu/-/jobs/1024230604)=0D
+=0D
+The primary motivation of this series is primarily to formalize our=0D
+dependencies on mypy, flake8, isort, and pylint alongside versions that=0D
+are known to work. It does this using the setup.cfg and setup.py=0D
+files. It also adds explicitly pinned versions (using Pipfile.lock) of=0D
+these dependencies that should behave in a repeatable and known way for=0D
+developers and CI environments both. Lastly, it enables those CI checks=0D
+such that we can enforce Python coding quality checks via the CI tests.=0D
+=0D
+An auxiliary motivation is that this package is formatted in such a way=0D
+that it COULD be uploaded to https://pypi.org/project/qemu and installed=0D
+independently of qemu.git with `pip install qemu`, but that button=0D
+remains *unpushed* and this series *will not* cause any such=0D
+releases. We have time to debate finer points like API guarantees and=0D
+versioning even after this series is merged.=0D
+=0D
+Some other things this enables that might be of interest:=0D
+=0D
+With the python tooling as a proper package, you can install this=0D
+package in editable or production mode to a virtual environment, your=0D
+local user environment, or your system packages. The primary benefit of=0D
+this is to gain access to QMP tooling regardless of CWD, without needing=0D
+to battle sys.path (and confounding other python analysis tools).=0D
+=0D
+For example: when developing, you may go to qemu/python/ and run `make=0D
+venv` followed by `pipenv shell` to activate a virtual environment that=0D
+contains the qemu python packages. These packages will always reflect=0D
+the current version of the source files in the tree. When you are=0D
+finished, you can simply exit the shell (^d) to remove these packages=0D
+from your python environment.=0D
+=0D
+When not developing, you could install a version of this package to your=0D
+environment outright to gain access to the QMP and QEMUMachine classes=0D
+for lightweight scripting and testing by using pip: "pip install [--user] .=
+"=0D
+=0D
+TESTING THIS SERIES:=0D
+=0D
+First of all, nothing should change. Without any intervention,=0D
+everything should behave exactly as it was before. The only new=0D
+information here comes from how to interact with and run the linters=0D
+that will be enforcing code quality standards in this subdirectory.=0D
+=0D
+To test those, CD to qemu/python first, and then:=0D
+=0D
+1. Try "make venv && pipenv shell" to get a venv with the package=0D
+installed to it in editable mode. Ctrl+d exits this venv shell. While in=0D
+this shell, any python script that uses "from qemu.[qmp|machine] import=0D
+..." should work correctly regardless of where the script is, or what=0D
+your CWD is.=0D
+=0D
+You will need Python 3.6 installed on your system to do this step. For=0D
+Fedora: "dnf install python3.6" will do the trick.=0D
+=0D
+2. Try "make check" while still in the shell to run the Python linters=0D
+using the venv built in the previous step. This will pull some packages=0D
+from PyPI and run pytest, which will in turn execute mypy, flake8, isort=0D
+and pylint with the correct arguments.=0D
+=0D
+3. Having exited the shell from above, try "make venv-check". This will=0D
+create and update the venv if needed, then run 'make check' within the=0D
+context of that shell. It should pass as long as the above did.=0D
+=0D
+4. Still outside of the venv, you may try running "make check". This=0D
+will not install anything, but unless you have the right Python=0D
+dependencies installed, these tests may fail for you. You might try=0D
+using "pip install --user .[devel]" to install the development packages=0D
+needed to run the tests successfully to your local user's python=0D
+environment. Once done, you will probably want to "pip uninstall qemu"=0D
+to remove that package to avoid it interfering with other things.=0D
+=0D
+5. "make distclean" will delete the venv and any temporary files that=0D
+may have been created by packaging, installing, testing, etc.=0D
+=0D
+Changelog:=0D
+=0D
+- Moved qemu/machine/accel.py to qemu/utils/accel.py=0D
+- Integrated CI patches into this series=0D
+- Changed version of package to 0.6.0.0a1=0D
+- Misc different changes for import statements in e.g. iotests/VM tests=0D
+- Modified iotests invocation of mypy ever so slightly=0D
+=0D
+Reviewer notes:=0D
+=0D
+- The VERSION hack may be imperfect, but at 0.x and without uploading it=0D
+  to PyPI, we have *all* the time in the world to fine-tune it later.=0D
+- The CI integration may not be perfect, but it is better than *nothing*,=
+=0D
+  so I think it's worth doing even in an imperfect state.=0D
+=0D
+John Snow (24):=0D
+  python/console_socket: avoid one-letter variable=0D
+  iotests/297: add --namespace-packages to mypy arguments=0D
+  python: create qemu packages=0D
+  python: create utils sub-package=0D
+  python: add qemu package installer=0D
+  python: add VERSION file=0D
+  python: add directory structure README.rst files=0D
+  python: Add pipenv support=0D
+  python: add pylint import exceptions=0D
+  python: move pylintrc into setup.cfg=0D
+  python: add pylint to pipenv=0D
+  python: move flake8 config to setup.cfg=0D
+  python: Add flake8 to pipenv=0D
+  python: move mypy.ini into setup.cfg=0D
+  python: add mypy to pipenv=0D
+  python: move .isort.cfg into setup.cfg=0D
+  python/qemu: add isort to pipenv=0D
+  python/qemu: add qemu package itself to pipenv=0D
+  python: add devel package requirements to setuptools=0D
+  python: add pytest and tests=0D
+  python: add excluded dirs to flake8 config=0D
+  python: add Makefile for some common tasks=0D
+  python: add .gitignore=0D
+  gitlab: add python linters to CI=0D
+=0D
+ python/PACKAGE.rst                          |  32 +++=0D
+ python/README.rst                           |  41 +++=0D
+ python/qemu/README.rst                      |   8 +=0D
+ python/qemu/machine/README.rst              |   9 +=0D
+ python/qemu/qmp/README.rst                  |   9 +=0D
+ python/qemu/utils/README.rst                |   9 +=0D
+ .gitlab-ci.yml                              |  10 +=0D
+ python/.gitignore                           |   9 +=0D
+ python/Makefile                             |  35 +++=0D
+ python/Pipfile                              |  13 +=0D
+ python/Pipfile.lock                         | 285 ++++++++++++++++++++=0D
+ python/VERSION                              |   1 +=0D
+ python/mypy.ini                             |   4 -=0D
+ python/qemu/.flake8                         |   2 -=0D
+ python/qemu/.isort.cfg                      |   7 -=0D
+ python/qemu/__init__.py                     |  11 -=0D
+ python/qemu/machine/__init__.py             |  36 +++=0D
+ python/qemu/{ =3D> machine}/console_socket.py |  10 +-=0D
+ python/qemu/{ =3D> machine}/machine.py        |  16 +-=0D
+ python/qemu/{ =3D> machine}/qtest.py          |   3 +-=0D
+ python/qemu/pylintrc                        |  58 ----=0D
+ python/qemu/{qmp.py =3D> qmp/__init__.py}     |  12 +-=0D
+ python/qemu/utils/__init__.py               |  23 ++=0D
+ python/qemu/{ =3D> utils}/accel.py            |   0=0D
+ python/setup.cfg                            |  82 ++++++=0D
+ python/setup.py                             |  23 ++=0D
+ python/tests/test_lint.py                   |  28 ++=0D
+ tests/acceptance/boot_linux.py              |   3 +-=0D
+ tests/acceptance/virtio-gpu.py              |   2 +-=0D
+ tests/acceptance/virtiofs_submounts.py      |   2 +-=0D
+ tests/docker/dockerfiles/fedora.docker      |   2 +=0D
+ tests/qemu-iotests/297                      |   1 +=0D
+ tests/qemu-iotests/300                      |   4 +-=0D
+ tests/qemu-iotests/iotests.py               |   2 +-=0D
+ tests/vm/aarch64vm.py                       |   2 +-=0D
+ tests/vm/basevm.py                          |   2 +-=0D
+ 36 files changed, 693 insertions(+), 103 deletions(-)=0D
+ create mode 100644 python/PACKAGE.rst=0D
+ create mode 100644 python/README.rst=0D
+ create mode 100644 python/qemu/README.rst=0D
+ create mode 100644 python/qemu/machine/README.rst=0D
+ create mode 100644 python/qemu/qmp/README.rst=0D
+ create mode 100644 python/qemu/utils/README.rst=0D
+ create mode 100644 python/.gitignore=0D
+ create mode 100644 python/Makefile=0D
+ create mode 100644 python/Pipfile=0D
+ create mode 100644 python/Pipfile.lock=0D
+ create mode 100644 python/VERSION=0D
+ delete mode 100644 python/mypy.ini=0D
+ delete mode 100644 python/qemu/.flake8=0D
+ delete mode 100644 python/qemu/.isort.cfg=0D
+ delete mode 100644 python/qemu/__init__.py=0D
+ create mode 100644 python/qemu/machine/__init__.py=0D
+ rename python/qemu/{ =3D> machine}/console_socket.py (95%)=0D
+ rename python/qemu/{ =3D> machine}/machine.py (98%)=0D
+ rename python/qemu/{ =3D> machine}/qtest.py (98%)=0D
+ delete mode 100644 python/qemu/pylintrc=0D
+ rename python/qemu/{qmp.py =3D> qmp/__init__.py} (96%)=0D
+ create mode 100644 python/qemu/utils/__init__.py=0D
+ rename python/qemu/{ =3D> utils}/accel.py (100%)=0D
+ create mode 100644 python/setup.cfg=0D
+ create mode 100755 python/setup.py=0D
+ create mode 100644 python/tests/test_lint.py=0D
+=0D
+--=20=0D
+2.29.2=0D
+=0D
 
-Yes, I absolutely will. I worked on getting some local changes rebased
-on top of these already this morning and am hoping to finish that up
-today and to be able to report back by tomorrow.
-
-Thanks for the quick turnaround on a fix!
-
--Aaron
 
