@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C75D318BFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:29:14 +0100 (CET)
-Received: from localhost ([::1]:60420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D43AA318BEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:26:16 +0100 (CET)
+Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAC1x-0000mB-78
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:29:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33574)
+	id 1lABz5-0005Is-U7
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:26:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABZ8-0008IY-Kr
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:27 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37998)
+ id 1lABZE-0008Kn-IB
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:33 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABZ2-0008UM-Vr
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:26 -0500
-Received: by mail-wm1-x330.google.com with SMTP id y134so5659465wmd.3
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:20 -0800 (PST)
+ id 1lABZ8-00005D-AY
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:32 -0500
+Received: by mail-wr1-x433.google.com with SMTP id t15so1765647wrx.13
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bGQeqrPNRMWUIPWlWl33MFFZXZ8RP3UvtHo5HLflpTo=;
- b=TVjjXcpTnNbMRW+GMls76FKhJKuzpf8eNSarnkdUPqJzbAZiiWqUtmv5c3uTUV/rR3
- Q70ro6DlE+yAZ1dpvecPgON1jaACcsrXS03lWcLbc9ZLGNr+c3VikrCfMSKFOf0pU2qa
- d/X6cM//Umvcgbvj0rRi9K0TeesHL3lyRDBp/otgDzDQhknVfZ3nabyRK2pMYlHTdaxb
- i6px46Zo4ixK5utodl2i4FOe/JZXBMY0jwUvOQIo52mUChSzP9wTnsNujcabiGi01tGg
- /jdNa1yGC7BoxKBC0zYbbcLq8H99ME1WTwFryBejRsTPeGZwVXkH30JL6s5VFflhx26l
- 6IlA==
+ bh=NFcO/onIf9UrRkiC/VPWZV5WM29pVldbxiccR8vCivc=;
+ b=sAhnMKE0Z2LFELo3XDqTqXeln2XffRTwPqxd1fzescjHfL9WWZJ73DNqzjUx/NvE3V
+ kNTdSSgPQoOgOePIRhHJ5b/3fqdy50luRZw72+CQZgZbXEff14VzuIsx8fJvfrIskD7L
+ EQpLnTU5s0yTYj0xrwvUk2HWbZ42tvrPuqfJCQz8Hj8Rohrx9B2ad/kMh+r8ogSNw5k6
+ h0lmWNaUQsGvSo76gP+wLK79oKzm3lLgUqlad8mjp/qAzJi1Yq+YPekADPS0LmDILUL+
+ feffuD4CXDsBg3f2LErSXiM8hGMG1wpJcGuiAYfdrCp0YAeaW1KzCEpr3ZcYX3mXkk5J
+ so1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bGQeqrPNRMWUIPWlWl33MFFZXZ8RP3UvtHo5HLflpTo=;
- b=Ubj9jMLIPKcVUDl8TEobM/bBktvkXXYRhTWSWYQY/0ilUHKVNkjC+HcnNmmqqepudK
- iUHWva0WY0nWUOjM1sV0ucZ4z0+c64rAEXZUoeoBk5gFwvOc10CURJqZn/A7yr0sl8yC
- 3n+IW3/dRFc76tYXIEqX+RdzNJ7Jknv7pS95CooVsWDa6OzpUyatBwDbucIydEFLxpjc
- u2VK1eJbXIbHUFqnqEAdC5cAzfigZCHfmI8uIUnhAU3UBfDexsQ6s+AhH0yueGKf4TN5
- CT0WomRz5TYa+TpFazudm0mSUqsnNEHAFnfky26Pte8VNpBA3lGvxGHGT7bR3G3WcPUB
- ftDQ==
-X-Gm-Message-State: AOAM532egK39PIIbIuSi7POvcRi4RbmVVFb8DOSX3QzZOR4YaZPeNhUu
- cIgc+n0UJI21306pK7Anug+KF+3jPLEovQ==
-X-Google-Smtp-Source: ABdhPJwQ9Eu/IllLMwj8K/rZg8xT+igThJcRN86GybkoZI6IDyXp8l8ePG9YQ/5Ur8wA5JblpPvfYg==
-X-Received: by 2002:a1c:20c7:: with SMTP id g190mr4959640wmg.156.1613048359021; 
- Thu, 11 Feb 2021 04:59:19 -0800 (PST)
+ bh=NFcO/onIf9UrRkiC/VPWZV5WM29pVldbxiccR8vCivc=;
+ b=bskLlf+NCLlBhxEjHZPBO2d0jqV1lf+r9c/MqpomtjZWpOb3IefdSaBTKrG9byXDI7
+ noB2G0iEKBUzJs/1OI6RS6/IfmDCEqO1qfiOhgosKEIQOmRQUSk2PEa310q6kvk7+fl6
+ o+qF7hVI7lty4SKBy9+I5yMalSbRV2AHiHSF2gsN+r+J75WfbnLTiWmTMQ9oAE9zaI8y
+ Orvp0bCsawM9zssEkmJaQ+hIa9xHHUtYQo+EpTkBA+ghkxJdQ3hQkxiEBTsF856ulpbI
+ YXbfoAIw8QWXITh1sEQdu6mMUhv9kvxfL4Qtze+y444Qon5VZ6/11OhtIhPioXCNaw9U
+ Wh4A==
+X-Gm-Message-State: AOAM531K0CMqBgDAlk5SaIhGE4jqIPet6slmDgSxuxhjXnZVPVoPl635
+ i6dDihgIQbjrcQnGmW7wNUQ7z1xHtysspg==
+X-Google-Smtp-Source: ABdhPJwjkWtkVxshkFqKc/kWYtibKixnouQNH9jc1H6hQbim5/JlW2PYK+9BzncVczq6cFjIIvTkjQ==
+X-Received: by 2002:adf:ec82:: with SMTP id z2mr5633317wrn.16.1613048364673;
+ Thu, 11 Feb 2021 04:59:24 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.17
+ by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 04:59:18 -0800 (PST)
+ Thu, 11 Feb 2021 04:59:24 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/45] exec: Use cpu_untagged_addr in g2h;
- split out g2h_untagged
-Date: Thu, 11 Feb 2021 12:58:36 +0000
-Message-Id: <20210211125900.22777-22-peter.maydell@linaro.org>
+Subject: [PULL 29/45] linux-user/aarch64: Implement PR_TAGGED_ADDR_ENABLE
+Date: Thu, 11 Feb 2021 12:58:44 +0000
+Message-Id: <20210211125900.22777-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211125900.22777-1-peter.maydell@linaro.org>
 References: <20210211125900.22777-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,1009 +88,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Use g2h_untagged in contexts that have no cpu, e.g. the binary
-loaders that operate before the primary cpu is created.  As a
-colollary, target_mmap and friends must use untagged addresses,
-since they are used by the loaders.
-
-Use g2h_untagged on values returned from target_mmap, as the
-kernel never applies a tag itself.
-
-Use g2h_untagged on all pc values.  The only current user of
-tags, aarch64, removes tags from code addresses upon branch,
-so "pc" is always untagged.
-
-Use g2h with the cpu context on hand wherever possible.
-
-Use g2h_untagged in lock_user, which will be updated soon.
+This is the prctl bit that controls whether syscalls accept tagged
+addresses.  See Documentation/arm64/tagged-address-abi.rst in the
+linux kernel.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210210000223.884088-13-richard.henderson@linaro.org
+Message-id: 20210210000223.884088-21-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/cpu_ldst.h      | 12 +++++-
- include/exec/exec-all.h      |  2 +-
- linux-user/qemu.h            |  6 +--
- accel/tcg/translate-all.c    |  4 +-
- accel/tcg/user-exec.c        | 48 ++++++++++++------------
- linux-user/elfload.c         | 12 +++---
- linux-user/flatload.c        |  2 +-
- linux-user/hppa/cpu_loop.c   | 31 ++++++++--------
- linux-user/i386/cpu_loop.c   |  4 +-
- linux-user/mmap.c            | 45 +++++++++++-----------
- linux-user/ppc/signal.c      |  4 +-
- linux-user/syscall.c         | 72 +++++++++++++++++++-----------------
- target/arm/helper-a64.c      |  4 +-
- target/hppa/op_helper.c      |  2 +-
- target/i386/tcg/mem_helper.c |  2 +-
- target/s390x/mem_helper.c    |  4 +-
- 16 files changed, 135 insertions(+), 119 deletions(-)
+ linux-user/aarch64/target_syscall.h |  4 ++++
+ target/arm/cpu-param.h              |  3 +++
+ target/arm/cpu.h                    | 31 +++++++++++++++++++++++++++++
+ linux-user/syscall.c                | 24 ++++++++++++++++++++++
+ 4 files changed, 62 insertions(+)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index d9dc1de414a..c54069e3cd0 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -77,7 +77,15 @@ static inline abi_ptr cpu_untagged_addr(CPUState *cs, abi_ptr x)
- #endif
+diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
+index 3194e6b0093..820601dfcc8 100644
+--- a/linux-user/aarch64/target_syscall.h
++++ b/linux-user/aarch64/target_syscall.h
+@@ -30,4 +30,8 @@ struct target_pt_regs {
+ # define TARGET_PR_PAC_APDBKEY   (1 << 3)
+ # define TARGET_PR_PAC_APGAKEY   (1 << 4)
  
- /* All direct uses of g2h and h2g need to go away for usermode softmmu.  */
--#define g2h(x) ((void *)((uintptr_t)(abi_ptr)(x) + guest_base))
-+static inline void *g2h_untagged(abi_ptr x)
-+{
-+    return (void *)((uintptr_t)(x) + guest_base);
-+}
++#define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
++#define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
++# define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
 +
-+static inline void *g2h(CPUState *cs, abi_ptr x)
+ #endif /* AARCH64_TARGET_SYSCALL_H */
+diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+index 00e7d9e9377..7f38d33b8ea 100644
+--- a/target/arm/cpu-param.h
++++ b/target/arm/cpu-param.h
+@@ -20,6 +20,9 @@
+ 
+ #ifdef CONFIG_USER_ONLY
+ #define TARGET_PAGE_BITS 12
++# ifdef TARGET_AARCH64
++#  define TARGET_TAGGED_ADDRESSES
++# endif
+ #else
+ /*
+  * ARMv7 and later CPUs have 4K pages minimum, but ARMv5 and v6
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index f240275407b..72a0819eb8c 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -721,6 +721,11 @@ typedef struct CPUARMState {
+     const struct arm_boot_info *boot_info;
+     /* Store GICv3CPUState to access from this struct */
+     void *gicv3state;
++
++#ifdef TARGET_TAGGED_ADDRESSES
++    /* Linux syscall tagged address support */
++    bool tagged_addr_enable;
++#endif
+ } CPUARMState;
+ 
+ static inline void set_feature(CPUARMState *env, int feature)
+@@ -3604,6 +3609,32 @@ static inline MemTxAttrs *typecheck_memtxattrs(MemTxAttrs *x)
+  */
+ #define PAGE_BTI  PAGE_TARGET_1
+ 
++#ifdef TARGET_TAGGED_ADDRESSES
++/**
++ * cpu_untagged_addr:
++ * @cs: CPU context
++ * @x: tagged address
++ *
++ * Remove any address tag from @x.  This is explicitly related to the
++ * linux syscall TIF_TAGGED_ADDR setting, not TBI in general.
++ *
++ * There should be a better place to put this, but we need this in
++ * include/exec/cpu_ldst.h, and not some place linux-user specific.
++ */
++static inline target_ulong cpu_untagged_addr(CPUState *cs, target_ulong x)
 +{
-+    return g2h_untagged(cpu_untagged_addr(cs, x));
++    ARMCPU *cpu = ARM_CPU(cs);
++    if (cpu->env.tagged_addr_enable) {
++        /*
++         * TBI is enabled for userspace but not kernelspace addresses.
++         * Only clear the tag if bit 55 is clear.
++         */
++        x &= sextract64(x, 0, 56);
++    }
++    return x;
 +}
- 
- static inline bool guest_addr_valid(abi_ulong x)
- {
-@@ -448,7 +456,7 @@ static inline int cpu_ldsw_code(CPUArchState *env, abi_ptr addr)
- static inline void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
-                                       MMUAccessType access_type, int mmu_idx)
- {
--    return g2h(addr);
-+    return g2h(env_cpu(env), addr);
- }
- #else
- void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index f933c74c446..d30c7a84f6a 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -616,7 +616,7 @@ static inline tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env,
-                                                       void **hostp)
- {
-     if (hostp) {
--        *hostp = g2h(addr);
-+        *hostp = g2h_untagged(addr);
-     }
-     return addr;
- }
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 9251337daf2..9fbc5edc4bd 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -652,7 +652,7 @@ static inline void *lock_user(int type, abi_ulong guest_addr, long len, int copy
-         return addr;
-     }
- #else
--    return g2h(guest_addr);
-+    return g2h_untagged(guest_addr);
- #endif
- }
- 
-@@ -666,10 +666,10 @@ static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
- #ifdef DEBUG_REMAP
-     if (!host_ptr)
-         return;
--    if (host_ptr == g2h(guest_addr))
-+    if (host_ptr == g2h_untagged(guest_addr))
-         return;
-     if (len > 0)
--        memcpy(g2h(guest_addr), host_ptr, len);
-+        memcpy(g2h_untagged(guest_addr), host_ptr, len);
-     g_free(host_ptr);
- #endif
- }
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index bba9c8e0b3e..2c34adccce5 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1762,7 +1762,7 @@ static inline void tb_page_add(PageDesc *p, TranslationBlock *tb,
-             prot |= p2->flags;
-             p2->flags &= ~PAGE_WRITE;
-           }
--        mprotect(g2h(page_addr), qemu_host_page_size,
-+        mprotect(g2h_untagged(page_addr), qemu_host_page_size,
-                  (prot & PAGE_BITS) & ~PAGE_WRITE);
-         if (DEBUG_TB_INVALIDATE_GATE) {
-             printf("protecting code page: 0x" TB_PAGE_ADDR_FMT "\n", page_addr);
-@@ -2912,7 +2912,7 @@ int page_unprotect(target_ulong address, uintptr_t pc)
-                 }
- #endif
-             }
--            mprotect((void *)g2h(host_start), qemu_host_page_size,
-+            mprotect((void *)g2h_untagged(host_start), qemu_host_page_size,
-                      prot & PAGE_BITS);
-         }
-         mmap_unlock();
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 0b6f56ca407..fa1847b2a61 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -234,7 +234,7 @@ int probe_access_flags(CPUArchState *env, target_ulong addr,
-     int flags;
- 
-     flags = probe_access_internal(env, addr, 0, access_type, nonfault, ra);
--    *phost = flags ? NULL : g2h(addr);
-+    *phost = flags ? NULL : g2h(env_cpu(env), addr);
-     return flags;
- }
- 
-@@ -247,7 +247,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
-     flags = probe_access_internal(env, addr, size, access_type, false, ra);
-     g_assert(flags == 0);
- 
--    return size ? g2h(addr) : NULL;
-+    return size ? g2h(env_cpu(env), addr) : NULL;
- }
- 
- #if defined(__i386__)
-@@ -842,7 +842,7 @@ uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_UB, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldub_p(g2h(ptr));
-+    ret = ldub_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -853,7 +853,7 @@ int cpu_ldsb_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_SB, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldsb_p(g2h(ptr));
-+    ret = ldsb_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -864,7 +864,7 @@ uint32_t cpu_lduw_be_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_BEUW, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = lduw_be_p(g2h(ptr));
-+    ret = lduw_be_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -875,7 +875,7 @@ int cpu_ldsw_be_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_BESW, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldsw_be_p(g2h(ptr));
-+    ret = ldsw_be_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -886,7 +886,7 @@ uint32_t cpu_ldl_be_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_BEUL, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldl_be_p(g2h(ptr));
-+    ret = ldl_be_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -897,7 +897,7 @@ uint64_t cpu_ldq_be_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_BEQ, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldq_be_p(g2h(ptr));
-+    ret = ldq_be_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -908,7 +908,7 @@ uint32_t cpu_lduw_le_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_LEUW, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = lduw_le_p(g2h(ptr));
-+    ret = lduw_le_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -919,7 +919,7 @@ int cpu_ldsw_le_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_LESW, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldsw_le_p(g2h(ptr));
-+    ret = ldsw_le_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -930,7 +930,7 @@ uint32_t cpu_ldl_le_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_LEUL, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldl_le_p(g2h(ptr));
-+    ret = ldl_le_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -941,7 +941,7 @@ uint64_t cpu_ldq_le_data(CPUArchState *env, abi_ptr ptr)
-     uint16_t meminfo = trace_mem_get_info(MO_LEQ, MMU_USER_IDX, false);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = ldq_le_p(g2h(ptr));
-+    ret = ldq_le_p(g2h(env_cpu(env), ptr));
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-     return ret;
- }
-@@ -1051,7 +1051,7 @@ void cpu_stb_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
-     uint16_t meminfo = trace_mem_get_info(MO_UB, MMU_USER_IDX, true);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    stb_p(g2h(ptr), val);
-+    stb_p(g2h(env_cpu(env), ptr), val);
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
- }
- 
-@@ -1060,7 +1060,7 @@ void cpu_stw_be_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
-     uint16_t meminfo = trace_mem_get_info(MO_BEUW, MMU_USER_IDX, true);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    stw_be_p(g2h(ptr), val);
-+    stw_be_p(g2h(env_cpu(env), ptr), val);
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
- }
- 
-@@ -1069,7 +1069,7 @@ void cpu_stl_be_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
-     uint16_t meminfo = trace_mem_get_info(MO_BEUL, MMU_USER_IDX, true);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    stl_be_p(g2h(ptr), val);
-+    stl_be_p(g2h(env_cpu(env), ptr), val);
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
- }
- 
-@@ -1078,7 +1078,7 @@ void cpu_stq_be_data(CPUArchState *env, abi_ptr ptr, uint64_t val)
-     uint16_t meminfo = trace_mem_get_info(MO_BEQ, MMU_USER_IDX, true);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    stq_be_p(g2h(ptr), val);
-+    stq_be_p(g2h(env_cpu(env), ptr), val);
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
- }
- 
-@@ -1087,7 +1087,7 @@ void cpu_stw_le_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
-     uint16_t meminfo = trace_mem_get_info(MO_LEUW, MMU_USER_IDX, true);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    stw_le_p(g2h(ptr), val);
-+    stw_le_p(g2h(env_cpu(env), ptr), val);
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
- }
- 
-@@ -1096,7 +1096,7 @@ void cpu_stl_le_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
-     uint16_t meminfo = trace_mem_get_info(MO_LEUL, MMU_USER_IDX, true);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    stl_le_p(g2h(ptr), val);
-+    stl_le_p(g2h(env_cpu(env), ptr), val);
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
- }
- 
-@@ -1105,7 +1105,7 @@ void cpu_stq_le_data(CPUArchState *env, abi_ptr ptr, uint64_t val)
-     uint16_t meminfo = trace_mem_get_info(MO_LEQ, MMU_USER_IDX, true);
- 
-     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    stq_le_p(g2h(ptr), val);
-+    stq_le_p(g2h(env_cpu(env), ptr), val);
-     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
- }
- 
-@@ -1170,7 +1170,7 @@ uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr ptr)
-     uint32_t ret;
- 
-     set_helper_retaddr(1);
--    ret = ldub_p(g2h(ptr));
-+    ret = ldub_p(g2h_untagged(ptr));
-     clear_helper_retaddr();
-     return ret;
- }
-@@ -1180,7 +1180,7 @@ uint32_t cpu_lduw_code(CPUArchState *env, abi_ptr ptr)
-     uint32_t ret;
- 
-     set_helper_retaddr(1);
--    ret = lduw_p(g2h(ptr));
-+    ret = lduw_p(g2h_untagged(ptr));
-     clear_helper_retaddr();
-     return ret;
- }
-@@ -1190,7 +1190,7 @@ uint32_t cpu_ldl_code(CPUArchState *env, abi_ptr ptr)
-     uint32_t ret;
- 
-     set_helper_retaddr(1);
--    ret = ldl_p(g2h(ptr));
-+    ret = ldl_p(g2h_untagged(ptr));
-     clear_helper_retaddr();
-     return ret;
- }
-@@ -1200,7 +1200,7 @@ uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr ptr)
-     uint64_t ret;
- 
-     set_helper_retaddr(1);
--    ret = ldq_p(g2h(ptr));
-+    ret = ldq_p(g2h_untagged(ptr));
-     clear_helper_retaddr();
-     return ret;
- }
-@@ -1213,7 +1213,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
-     if (unlikely(addr & (size - 1))) {
-         cpu_loop_exit_atomic(env_cpu(env), retaddr);
-     }
--    void *ret = g2h(addr);
-+    void *ret = g2h(env_cpu(env), addr);
-     set_helper_retaddr(retaddr);
-     return ret;
- }
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 29f07bb2346..f542841ba24 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -389,7 +389,7 @@ enum {
- 
- static bool init_guest_commpage(void)
- {
--    void *want = g2h(ARM_COMMPAGE & -qemu_host_page_size);
-+    void *want = g2h_untagged(ARM_COMMPAGE & -qemu_host_page_size);
-     void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
-                       MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
- 
-@@ -402,7 +402,7 @@ static bool init_guest_commpage(void)
-     }
- 
-     /* Set kernel helper versions; rest of page is 0.  */
--    __put_user(5, (uint32_t *)g2h(0xffff0ffcu));
-+    __put_user(5, (uint32_t *)g2h_untagged(0xffff0ffcu));
- 
-     if (mprotect(addr, qemu_host_page_size, PROT_READ)) {
-         perror("Protecting guest commpage");
-@@ -1872,8 +1872,8 @@ static void zero_bss(abi_ulong elf_bss, abi_ulong last_bss, int prot)
-        here is still actually needed.  For now, continue with it,
-        but merge it with the "normal" mmap that would allocate the bss.  */
- 
--    host_start = (uintptr_t) g2h(elf_bss);
--    host_end = (uintptr_t) g2h(last_bss);
-+    host_start = (uintptr_t) g2h_untagged(elf_bss);
-+    host_end = (uintptr_t) g2h_untagged(last_bss);
-     host_map_start = REAL_HOST_PAGE_ALIGN(host_start);
- 
-     if (host_map_start < host_end) {
-@@ -2171,7 +2171,7 @@ static void pgb_have_guest_base(const char *image_name, abi_ulong guest_loaddr,
-     }
- 
-     /* Reserve the address space for the binary, or reserved_va. */
--    test = g2h(guest_loaddr);
-+    test = g2h_untagged(guest_loaddr);
-     addr = mmap(test, guest_hiaddr - guest_loaddr, PROT_NONE, flags, -1, 0);
-     if (test != addr) {
-         pgb_fail_in_use(image_name);
-@@ -2393,7 +2393,7 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
- 
-     /* Reserve the memory on the host. */
-     assert(guest_base != 0);
--    test = g2h(0);
-+    test = g2h_untagged(0);
-     addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
-     if (addr == MAP_FAILED || addr != test) {
-         error_report("Unable to reserve 0x%lx bytes of virtual address "
-diff --git a/linux-user/flatload.c b/linux-user/flatload.c
-index 14d2999d153..3e5594cf894 100644
---- a/linux-user/flatload.c
-+++ b/linux-user/flatload.c
-@@ -668,7 +668,7 @@ static int load_flat_file(struct linux_binprm * bprm,
-     }
- 
-     /* zero the BSS.  */
--    memset(g2h(datapos + data_len), 0, bss_len);
-+    memset(g2h_untagged(datapos + data_len), 0, bss_len);
- 
-     return 0;
- }
-diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-index d7e1ec77220..944511bbe43 100644
---- a/linux-user/hppa/cpu_loop.c
-+++ b/linux-user/hppa/cpu_loop.c
-@@ -23,6 +23,7 @@
- 
- static abi_ulong hppa_lws(CPUHPPAState *env)
- {
-+    CPUState *cs = env_cpu(env);
-     uint32_t which = env->gr[20];
-     abi_ulong addr = env->gr[26];
-     abi_ulong old = env->gr[25];
-@@ -39,7 +40,7 @@ static abi_ulong hppa_lws(CPUHPPAState *env)
-         }
-         old = tswap32(old);
-         new = tswap32(new);
--        ret = qatomic_cmpxchg((uint32_t *)g2h(addr), old, new);
-+        ret = qatomic_cmpxchg((uint32_t *)g2h(cs, addr), old, new);
-         ret = tswap32(ret);
-         break;
- 
-@@ -58,38 +59,38 @@ static abi_ulong hppa_lws(CPUHPPAState *env)
-            can be host-endian as well.  */
-         switch (size) {
-         case 0:
--            old = *(uint8_t *)g2h(old);
--            new = *(uint8_t *)g2h(new);
--            ret = qatomic_cmpxchg((uint8_t *)g2h(addr), old, new);
-+            old = *(uint8_t *)g2h(cs, old);
-+            new = *(uint8_t *)g2h(cs, new);
-+            ret = qatomic_cmpxchg((uint8_t *)g2h(cs, addr), old, new);
-             ret = ret != old;
-             break;
-         case 1:
--            old = *(uint16_t *)g2h(old);
--            new = *(uint16_t *)g2h(new);
--            ret = qatomic_cmpxchg((uint16_t *)g2h(addr), old, new);
-+            old = *(uint16_t *)g2h(cs, old);
-+            new = *(uint16_t *)g2h(cs, new);
-+            ret = qatomic_cmpxchg((uint16_t *)g2h(cs, addr), old, new);
-             ret = ret != old;
-             break;
-         case 2:
--            old = *(uint32_t *)g2h(old);
--            new = *(uint32_t *)g2h(new);
--            ret = qatomic_cmpxchg((uint32_t *)g2h(addr), old, new);
-+            old = *(uint32_t *)g2h(cs, old);
-+            new = *(uint32_t *)g2h(cs, new);
-+            ret = qatomic_cmpxchg((uint32_t *)g2h(cs, addr), old, new);
-             ret = ret != old;
-             break;
-         case 3:
-             {
-                 uint64_t o64, n64, r64;
--                o64 = *(uint64_t *)g2h(old);
--                n64 = *(uint64_t *)g2h(new);
-+                o64 = *(uint64_t *)g2h(cs, old);
-+                n64 = *(uint64_t *)g2h(cs, new);
- #ifdef CONFIG_ATOMIC64
--                r64 = qatomic_cmpxchg__nocheck((uint64_t *)g2h(addr),
-+                r64 = qatomic_cmpxchg__nocheck((uint64_t *)g2h(cs, addr),
-                                                o64, n64);
-                 ret = r64 != o64;
- #else
-                 start_exclusive();
--                r64 = *(uint64_t *)g2h(addr);
-+                r64 = *(uint64_t *)g2h(cs, addr);
-                 ret = 1;
-                 if (r64 == o64) {
--                    *(uint64_t *)g2h(addr) = n64;
-+                    *(uint64_t *)g2h(cs, addr) = n64;
-                     ret = 0;
-                 }
-                 end_exclusive();
-diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index 70cde417e60..19c8a18cd30 100644
---- a/linux-user/i386/cpu_loop.c
-+++ b/linux-user/i386/cpu_loop.c
-@@ -379,7 +379,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-     env->idt.base = target_mmap(0, sizeof(uint64_t) * (env->idt.limit + 1),
-                                 PROT_READ|PROT_WRITE,
-                                 MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
--    idt_table = g2h(env->idt.base);
-+    idt_table = g2h_untagged(env->idt.base);
-     set_idt(0, 0);
-     set_idt(1, 0);
-     set_idt(2, 0);
-@@ -409,7 +409,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-                                     PROT_READ|PROT_WRITE,
-                                     MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
-         env->gdt.limit = sizeof(uint64_t) * TARGET_GDT_ENTRIES - 1;
--        gdt_table = g2h(env->gdt.base);
-+        gdt_table = g2h_untagged(env->gdt.base);
- #ifdef TARGET_ABI32
-         write_dt(&gdt_table[__USER_CS >> 3], 0, 0xfffff,
-                  DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 7fb4c628e11..088c50592cf 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -141,7 +141,7 @@ int target_mprotect(abi_ulong start, abi_ulong len, int target_prot)
-             }
-             end = host_end;
-         }
--        ret = mprotect(g2h(host_start), qemu_host_page_size,
-+        ret = mprotect(g2h_untagged(host_start), qemu_host_page_size,
-                        prot1 & PAGE_BITS);
-         if (ret != 0) {
-             goto error;
-@@ -153,7 +153,7 @@ int target_mprotect(abi_ulong start, abi_ulong len, int target_prot)
-         for (addr = end; addr < host_end; addr += TARGET_PAGE_SIZE) {
-             prot1 |= page_get_flags(addr);
-         }
--        ret = mprotect(g2h(host_end - qemu_host_page_size),
-+        ret = mprotect(g2h_untagged(host_end - qemu_host_page_size),
-                        qemu_host_page_size, prot1 & PAGE_BITS);
-         if (ret != 0) {
-             goto error;
-@@ -163,7 +163,8 @@ int target_mprotect(abi_ulong start, abi_ulong len, int target_prot)
- 
-     /* handle the pages in the middle */
-     if (host_start < host_end) {
--        ret = mprotect(g2h(host_start), host_end - host_start, host_prot);
-+        ret = mprotect(g2h_untagged(host_start),
-+                       host_end - host_start, host_prot);
-         if (ret != 0) {
-             goto error;
-         }
-@@ -186,7 +187,7 @@ static int mmap_frag(abi_ulong real_start,
-     int prot1, prot_new;
- 
-     real_end = real_start + qemu_host_page_size;
--    host_start = g2h(real_start);
-+    host_start = g2h_untagged(real_start);
- 
-     /* get the protection of the target pages outside the mapping */
-     prot1 = 0;
-@@ -218,7 +219,7 @@ static int mmap_frag(abi_ulong real_start,
-             mprotect(host_start, qemu_host_page_size, prot1 | PROT_WRITE);
- 
-         /* read the corresponding file data */
--        if (pread(fd, g2h(start), end - start, offset) == -1)
-+        if (pread(fd, g2h_untagged(start), end - start, offset) == -1)
-             return -1;
- 
-         /* put final protection */
-@@ -229,7 +230,7 @@ static int mmap_frag(abi_ulong real_start,
-             mprotect(host_start, qemu_host_page_size, prot_new);
-         }
-         if (prot_new & PROT_WRITE) {
--            memset(g2h(start), 0, end - start);
-+            memset(g2h_untagged(start), 0, end - start);
-         }
-     }
-     return 0;
-@@ -338,7 +339,7 @@ abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size, abi_ulong align)
-          *  - mremap() with MREMAP_FIXED flag
-          *  - shmat() with SHM_REMAP flag
-          */
--        ptr = mmap(g2h(addr), size, PROT_NONE,
-+        ptr = mmap(g2h_untagged(addr), size, PROT_NONE,
-                    MAP_ANONYMOUS|MAP_PRIVATE|MAP_NORESERVE, -1, 0);
- 
-         /* ENOMEM, if host address space has no memory */
-@@ -497,7 +498,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-         /* Note: we prefer to control the mapping address. It is
-            especially important if qemu_host_page_size >
-            qemu_real_host_page_size */
--        p = mmap(g2h(start), host_len, host_prot,
-+        p = mmap(g2h_untagged(start), host_len, host_prot,
-                  flags | MAP_FIXED | MAP_ANONYMOUS, -1, 0);
-         if (p == MAP_FAILED) {
-             goto fail;
-@@ -505,10 +506,10 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-         /* update start so that it points to the file position at 'offset' */
-         host_start = (unsigned long)p;
-         if (!(flags & MAP_ANONYMOUS)) {
--            p = mmap(g2h(start), len, host_prot,
-+            p = mmap(g2h_untagged(start), len, host_prot,
-                      flags | MAP_FIXED, fd, host_offset);
-             if (p == MAP_FAILED) {
--                munmap(g2h(start), host_len);
-+                munmap(g2h_untagged(start), host_len);
-                 goto fail;
-             }
-             host_start += offset - host_offset;
-@@ -548,7 +549,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-                                   -1, 0);
-             if (retaddr == -1)
-                 goto fail;
--            if (pread(fd, g2h(start), len, offset) == -1)
-+            if (pread(fd, g2h_untagged(start), len, offset) == -1)
-                 goto fail;
-             if (!(host_prot & PROT_WRITE)) {
-                 ret = target_mprotect(start, len, target_prot);
-@@ -592,7 +593,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-                 offset1 = 0;
-             else
-                 offset1 = offset + real_start - start;
--            p = mmap(g2h(real_start), real_end - real_start,
-+            p = mmap(g2h_untagged(real_start), real_end - real_start,
-                      host_prot, flags, fd, offset1);
-             if (p == MAP_FAILED)
-                 goto fail;
-@@ -652,7 +653,7 @@ static void mmap_reserve(abi_ulong start, abi_ulong size)
-             real_end -= qemu_host_page_size;
-     }
-     if (real_start != real_end) {
--        mmap(g2h(real_start), real_end - real_start, PROT_NONE,
-+        mmap(g2h_untagged(real_start), real_end - real_start, PROT_NONE,
-                  MAP_FIXED | MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE,
-                  -1, 0);
-     }
-@@ -707,7 +708,7 @@ int target_munmap(abi_ulong start, abi_ulong len)
-         if (reserved_va) {
-             mmap_reserve(real_start, real_end - real_start);
-         } else {
--            ret = munmap(g2h(real_start), real_end - real_start);
-+            ret = munmap(g2h_untagged(real_start), real_end - real_start);
-         }
-     }
- 
-@@ -736,8 +737,8 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-     mmap_lock();
- 
-     if (flags & MREMAP_FIXED) {
--        host_addr = mremap(g2h(old_addr), old_size, new_size,
--                           flags, g2h(new_addr));
-+        host_addr = mremap(g2h_untagged(old_addr), old_size, new_size,
-+                           flags, g2h_untagged(new_addr));
- 
-         if (reserved_va && host_addr != MAP_FAILED) {
-             /* If new and old addresses overlap then the above mremap will
-@@ -753,8 +754,9 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-             errno = ENOMEM;
-             host_addr = MAP_FAILED;
-         } else {
--            host_addr = mremap(g2h(old_addr), old_size, new_size,
--                               flags | MREMAP_FIXED, g2h(mmap_start));
-+            host_addr = mremap(g2h_untagged(old_addr), old_size, new_size,
-+                               flags | MREMAP_FIXED,
-+                               g2h_untagged(mmap_start));
-             if (reserved_va) {
-                 mmap_reserve(old_addr, old_size);
-             }
-@@ -770,14 +772,15 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-             }
-         }
-         if (prot == 0) {
--            host_addr = mremap(g2h(old_addr), old_size, new_size, flags);
-+            host_addr = mremap(g2h_untagged(old_addr),
-+                               old_size, new_size, flags);
- 
-             if (host_addr != MAP_FAILED) {
-                 /* Check if address fits target address space */
-                 if (!guest_range_valid(h2g(host_addr), new_size)) {
-                     /* Revert mremap() changes */
--                    host_addr = mremap(g2h(old_addr), new_size, old_size,
--                                       flags);
-+                    host_addr = mremap(g2h_untagged(old_addr),
-+                                       new_size, old_size, flags);
-                     errno = ENOMEM;
-                     host_addr = MAP_FAILED;
-                 } else if (reserved_va && old_size > new_size) {
-diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
-index 20a02c197cb..b78613f7c86 100644
---- a/linux-user/ppc/signal.c
-+++ b/linux-user/ppc/signal.c
-@@ -365,7 +365,7 @@ static void restore_user_regs(CPUPPCState *env,
-         uint64_t v_addr;
-         /* 64-bit needs to recover the pointer to the vectors from the frame */
-         __get_user(v_addr, &frame->v_regs);
--        v_regs = g2h(v_addr);
-+        v_regs = g2h(env_cpu(env), v_addr);
- #else
-         v_regs = (ppc_avr_t *)frame->mc_vregs.altivec;
- #endif
-@@ -552,7 +552,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     if (get_ppc64_abi(image) < 2) {
-         /* ELFv1 PPC64 function pointers are pointers to OPD entries. */
-         struct target_func_ptr *handler =
--            (struct target_func_ptr *)g2h(ka->_sa_handler);
-+            (struct target_func_ptr *)g2h(env_cpu(env), ka->_sa_handler);
-         env->nip = tswapl(handler->entry);
-         env->gpr[2] = tswapl(handler->toc);
-     } else {
++#endif
++
+ /*
+  * Naming convention for isar_feature functions:
+  * Functions which test 32-bit ID registers should have _aa32_ in
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 6001022e968..748893904e3 100644
+index 24fc1daf023..ba4da7f8a67 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -907,7 +907,7 @@ abi_long do_brk(abi_ulong new_brk)
-         /* Heap contents are initialized to zero, as for anonymous
-          * mapped pages.  */
-         if (new_brk > target_brk) {
--            memset(g2h(target_brk), 0, new_brk - target_brk);
-+            memset(g2h_untagged(target_brk), 0, new_brk - target_brk);
-         }
- 	target_brk = new_brk;
-         DEBUGF_BRK(TARGET_ABI_FMT_lx " (new_brk <= brk_page)\n", target_brk);
-@@ -933,7 +933,7 @@ abi_long do_brk(abi_ulong new_brk)
-          * come from the remaining part of the previous page: it may
-          * contains garbage data due to a previous heap usage (grown
-          * then shrunken).  */
--        memset(g2h(target_brk), 0, brk_page - target_brk);
-+        memset(g2h_untagged(target_brk), 0, brk_page - target_brk);
- 
-         target_brk = new_brk;
-         brk_page = HOST_PAGE_ALIGN(target_brk);
-@@ -4611,7 +4611,7 @@ static inline abi_ulong do_shmat(CPUArchState *cpu_env,
-     mmap_lock();
- 
-     if (shmaddr)
--        host_raddr = shmat(shmid, (void *)g2h(shmaddr), shmflg);
-+        host_raddr = shmat(shmid, (void *)g2h_untagged(shmaddr), shmflg);
-     else {
-         abi_ulong mmap_start;
- 
-@@ -4622,7 +4622,8 @@ static inline abi_ulong do_shmat(CPUArchState *cpu_env,
-             errno = ENOMEM;
-             host_raddr = (void *)-1;
-         } else
--            host_raddr = shmat(shmid, g2h(mmap_start), shmflg | SHM_REMAP);
-+            host_raddr = shmat(shmid, g2h_untagged(mmap_start),
-+                               shmflg | SHM_REMAP);
-     }
- 
-     if (host_raddr == (void *)-1) {
-@@ -4663,7 +4664,7 @@ static inline abi_long do_shmdt(abi_ulong shmaddr)
-             break;
-         }
-     }
--    rv = get_errno(shmdt(g2h(shmaddr)));
-+    rv = get_errno(shmdt(g2h_untagged(shmaddr)));
- 
-     mmap_unlock();
- 
-@@ -6133,10 +6134,10 @@ static abi_long write_ldt(CPUX86State *env,
-                                     MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
-         if (env->ldt.base == -1)
-             return -TARGET_ENOMEM;
--        memset(g2h(env->ldt.base), 0,
-+        memset(g2h_untagged(env->ldt.base), 0,
-                TARGET_LDT_ENTRIES * TARGET_LDT_ENTRY_SIZE);
-         env->ldt.limit = 0xffff;
--        ldt_table = g2h(env->ldt.base);
-+        ldt_table = g2h_untagged(env->ldt.base);
-     }
- 
-     /* NOTE: same code as Linux kernel */
-@@ -6204,7 +6205,7 @@ static abi_long do_modify_ldt(CPUX86State *env, int func, abi_ulong ptr,
- #if defined(TARGET_ABI32)
- abi_long do_set_thread_area(CPUX86State *env, abi_ulong ptr)
- {
--    uint64_t *gdt_table = g2h(env->gdt.base);
-+    uint64_t *gdt_table = g2h_untagged(env->gdt.base);
-     struct target_modify_ldt_ldt_s ldt_info;
-     struct target_modify_ldt_ldt_s *target_ldt_info;
-     int seg_32bit, contents, read_exec_only, limit_in_pages;
-@@ -6290,7 +6291,7 @@ install:
- static abi_long do_get_thread_area(CPUX86State *env, abi_ulong ptr)
- {
-     struct target_modify_ldt_ldt_s *target_ldt_info;
--    uint64_t *gdt_table = g2h(env->gdt.base);
-+    uint64_t *gdt_table = g2h_untagged(env->gdt.base);
-     uint32_t base_addr, limit, flags;
-     int seg_32bit, contents, read_exec_only, limit_in_pages, idx;
-     int seg_not_present, useable, lm;
-@@ -7585,8 +7586,8 @@ static int do_safe_futex(int *uaddr, int op, int val,
-    tricky.  However they're probably useless because guest atomic
-    operations won't work either.  */
- #if defined(TARGET_NR_futex)
--static int do_futex(target_ulong uaddr, int op, int val, target_ulong timeout,
--                    target_ulong uaddr2, int val3)
-+static int do_futex(CPUState *cpu, target_ulong uaddr, int op, int val,
-+                    target_ulong timeout, target_ulong uaddr2, int val3)
- {
-     struct timespec ts, *pts;
-     int base_op;
-@@ -7607,11 +7608,14 @@ static int do_futex(target_ulong uaddr, int op, int val, target_ulong timeout,
-         } else {
-             pts = NULL;
-         }
--        return do_safe_futex(g2h(uaddr), op, tswap32(val), pts, NULL, val3);
-+        return do_safe_futex(g2h(cpu, uaddr),
-+                             op, tswap32(val), pts, NULL, val3);
-     case FUTEX_WAKE:
--        return do_safe_futex(g2h(uaddr), op, val, NULL, NULL, 0);
-+        return do_safe_futex(g2h(cpu, uaddr),
-+                             op, val, NULL, NULL, 0);
-     case FUTEX_FD:
--        return do_safe_futex(g2h(uaddr), op, val, NULL, NULL, 0);
-+        return do_safe_futex(g2h(cpu, uaddr),
-+                             op, val, NULL, NULL, 0);
-     case FUTEX_REQUEUE:
-     case FUTEX_CMP_REQUEUE:
-     case FUTEX_WAKE_OP:
-@@ -7621,10 +7625,9 @@ static int do_futex(target_ulong uaddr, int op, int val, target_ulong timeout,
-            to satisfy the compiler.  We do not need to tswap TIMEOUT
-            since it's not compared to guest memory.  */
-         pts = (struct timespec *)(uintptr_t) timeout;
--        return do_safe_futex(g2h(uaddr), op, val, pts, g2h(uaddr2),
-+        return do_safe_futex(g2h(cpu, uaddr), op, val, pts, g2h(cpu, uaddr2),
-                              (base_op == FUTEX_CMP_REQUEUE
--                                      ? tswap32(val3)
--                                      : val3));
-+                              ? tswap32(val3) : val3));
-     default:
-         return -TARGET_ENOSYS;
-     }
-@@ -7632,7 +7635,8 @@ static int do_futex(target_ulong uaddr, int op, int val, target_ulong timeout,
- #endif
- 
- #if defined(TARGET_NR_futex_time64)
--static int do_futex_time64(target_ulong uaddr, int op, int val, target_ulong timeout,
-+static int do_futex_time64(CPUState *cpu, target_ulong uaddr, int op,
-+                           int val, target_ulong timeout,
-                            target_ulong uaddr2, int val3)
- {
-     struct timespec ts, *pts;
-@@ -7656,11 +7660,12 @@ static int do_futex_time64(target_ulong uaddr, int op, int val, target_ulong tim
-         } else {
-             pts = NULL;
-         }
--        return do_safe_futex(g2h(uaddr), op, tswap32(val), pts, NULL, val3);
-+        return do_safe_futex(g2h(cpu, uaddr), op,
-+                             tswap32(val), pts, NULL, val3);
-     case FUTEX_WAKE:
--        return do_safe_futex(g2h(uaddr), op, val, NULL, NULL, 0);
-+        return do_safe_futex(g2h(cpu, uaddr), op, val, NULL, NULL, 0);
-     case FUTEX_FD:
--        return do_safe_futex(g2h(uaddr), op, val, NULL, NULL, 0);
-+        return do_safe_futex(g2h(cpu, uaddr), op, val, NULL, NULL, 0);
-     case FUTEX_REQUEUE:
-     case FUTEX_CMP_REQUEUE:
-     case FUTEX_WAKE_OP:
-@@ -7670,10 +7675,9 @@ static int do_futex_time64(target_ulong uaddr, int op, int val, target_ulong tim
-            to satisfy the compiler.  We do not need to tswap TIMEOUT
-            since it's not compared to guest memory.  */
-         pts = (struct timespec *)(uintptr_t) timeout;
--        return do_safe_futex(g2h(uaddr), op, val, pts, g2h(uaddr2),
-+        return do_safe_futex(g2h(cpu, uaddr), op, val, pts, g2h(cpu, uaddr2),
-                              (base_op == FUTEX_CMP_REQUEUE
--                                      ? tswap32(val3)
--                                      : val3));
-+                              ? tswap32(val3) : val3));
-     default:
-         return -TARGET_ENOSYS;
-     }
-@@ -7848,7 +7852,7 @@ static int open_self_maps(void *cpu_env, int fd)
-             const char *path;
- 
-             max = h2g_valid(max - 1) ?
--                max : (uintptr_t) g2h(GUEST_ADDR_MAX) + 1;
-+                max : (uintptr_t) g2h_untagged(GUEST_ADDR_MAX) + 1;
- 
-             if (page_check_range(h2g(min), max - min, flags) == -1) {
-                 continue;
-@@ -8265,8 +8269,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- 
-             if (ts->child_tidptr) {
-                 put_user_u32(0, ts->child_tidptr);
--                do_sys_futex(g2h(ts->child_tidptr), FUTEX_WAKE, INT_MAX,
--                          NULL, NULL, 0);
-+                do_sys_futex(g2h(cpu, ts->child_tidptr),
-+                             FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
+@@ -10981,6 +10981,30 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 }
              }
-             thread_cpu = NULL;
-             g_free(ts);
-@@ -8631,7 +8635,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             if (!arg5) {
-                 ret = mount(p, p2, p3, (unsigned long)arg4, NULL);
-             } else {
--                ret = mount(p, p2, p3, (unsigned long)arg4, g2h(arg5));
-+                ret = mount(p, p2, p3, (unsigned long)arg4, g2h(cpu, arg5));
-             }
-             ret = get_errno(ret);
- 
-@@ -9726,15 +9730,15 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         /* ??? msync/mlock/munlock are broken for softmmu.  */
- #ifdef TARGET_NR_msync
-     case TARGET_NR_msync:
--        return get_errno(msync(g2h(arg1), arg2, arg3));
-+        return get_errno(msync(g2h(cpu, arg1), arg2, arg3));
- #endif
- #ifdef TARGET_NR_mlock
-     case TARGET_NR_mlock:
--        return get_errno(mlock(g2h(arg1), arg2));
-+        return get_errno(mlock(g2h(cpu, arg1), arg2));
- #endif
- #ifdef TARGET_NR_munlock
-     case TARGET_NR_munlock:
--        return get_errno(munlock(g2h(arg1), arg2));
-+        return get_errno(munlock(g2h(cpu, arg1), arg2));
- #endif
- #ifdef TARGET_NR_mlockall
-     case TARGET_NR_mlockall:
-@@ -12225,7 +12229,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- 
- #if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
-     case TARGET_NR_set_tid_address:
--        return get_errno(set_tid_address((int *)g2h(arg1)));
-+        return get_errno(set_tid_address((int *)g2h(cpu, arg1)));
- #endif
- 
-     case TARGET_NR_tkill:
-@@ -12312,11 +12316,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #endif
- #ifdef TARGET_NR_futex
-     case TARGET_NR_futex:
--        return do_futex(arg1, arg2, arg3, arg4, arg5, arg6);
-+        return do_futex(cpu, arg1, arg2, arg3, arg4, arg5, arg6);
- #endif
- #ifdef TARGET_NR_futex_time64
-     case TARGET_NR_futex_time64:
--        return do_futex_time64(arg1, arg2, arg3, arg4, arg5, arg6);
-+        return do_futex_time64(cpu, arg1, arg2, arg3, arg4, arg5, arg6);
- #endif
- #if defined(TARGET_NR_inotify_init) && defined(__NR_inotify_init)
-     case TARGET_NR_inotify_init:
-diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
-index ae611d73c2c..7f56c78fa6c 100644
---- a/target/arm/helper-a64.c
-+++ b/target/arm/helper-a64.c
-@@ -542,7 +542,7 @@ uint64_t HELPER(paired_cmpxchg64_le)(CPUARMState *env, uint64_t addr,
- 
- #ifdef CONFIG_USER_ONLY
-     /* ??? Enforce alignment.  */
--    uint64_t *haddr = g2h(addr);
-+    uint64_t *haddr = g2h(env_cpu(env), addr);
- 
-     set_helper_retaddr(ra);
-     o0 = ldq_le_p(haddr + 0);
-@@ -612,7 +612,7 @@ uint64_t HELPER(paired_cmpxchg64_be)(CPUARMState *env, uint64_t addr,
- 
- #ifdef CONFIG_USER_ONLY
-     /* ??? Enforce alignment.  */
--    uint64_t *haddr = g2h(addr);
-+    uint64_t *haddr = g2h(env_cpu(env), addr);
- 
-     set_helper_retaddr(ra);
-     o1 = ldq_be_p(haddr + 0);
-diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
-index 7ae31e1a154..96d9391c399 100644
---- a/target/hppa/op_helper.c
-+++ b/target/hppa/op_helper.c
-@@ -63,7 +63,7 @@ static void atomic_store_3(CPUHPPAState *env, target_ulong addr, uint32_t val,
- #ifdef CONFIG_USER_ONLY
-     uint32_t old, new, cmp;
- 
--    uint32_t *haddr = g2h(addr - 1);
-+    uint32_t *haddr = g2h(env_cpu(env), addr - 1);
-     old = *haddr;
-     while (1) {
-         new = (old & ~mask) | (val & mask);
-diff --git a/target/i386/tcg/mem_helper.c b/target/i386/tcg/mem_helper.c
-index e5cd2de1bff..591f512bffe 100644
---- a/target/i386/tcg/mem_helper.c
-+++ b/target/i386/tcg/mem_helper.c
-@@ -66,7 +66,7 @@ void helper_cmpxchg8b(CPUX86State *env, target_ulong a0)
- 
- #ifdef CONFIG_USER_ONLY
-     {
--        uint64_t *haddr = g2h(a0);
-+        uint64_t *haddr = g2h(env_cpu(env), a0);
-         cmpv = cpu_to_le64(cmpv);
-         newv = cpu_to_le64(newv);
-         oldv = qatomic_cmpxchg__nocheck(haddr, cmpv, newv);
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 1901e9dfc7c..25cfede806a 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -1780,7 +1780,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_t r3, uint64_t a1,
- 
-             if (parallel) {
- #ifdef CONFIG_USER_ONLY
--                uint32_t *haddr = g2h(a1);
-+                uint32_t *haddr = g2h(env_cpu(env), a1);
-                 ov = qatomic_cmpxchg__nocheck(haddr, cv, nv);
- #else
-                 TCGMemOpIdx oi = make_memop_idx(MO_TEUL | MO_ALIGN, mem_idx);
-@@ -1804,7 +1804,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_t r3, uint64_t a1,
-             if (parallel) {
- #ifdef CONFIG_ATOMIC64
- # ifdef CONFIG_USER_ONLY
--                uint64_t *haddr = g2h(a1);
-+                uint64_t *haddr = g2h(env_cpu(env), a1);
-                 ov = qatomic_cmpxchg__nocheck(haddr, cv, nv);
- # else
-                 TCGMemOpIdx oi = make_memop_idx(MO_TEQ | MO_ALIGN, mem_idx);
+             return -TARGET_EINVAL;
++        case TARGET_PR_SET_TAGGED_ADDR_CTRL:
++            {
++                abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
++                CPUARMState *env = cpu_env;
++
++                if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
++                    return -TARGET_EINVAL;
++                }
++                env->tagged_addr_enable = arg2 & TARGET_PR_TAGGED_ADDR_ENABLE;
++                return 0;
++            }
++        case TARGET_PR_GET_TAGGED_ADDR_CTRL:
++            {
++                abi_long ret = 0;
++                CPUARMState *env = cpu_env;
++
++                if (arg2 || arg3 || arg4 || arg5) {
++                    return -TARGET_EINVAL;
++                }
++                if (env->tagged_addr_enable) {
++                    ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
++                }
++                return ret;
++            }
+ #endif /* AARCH64 */
+         case PR_GET_SECCOMP:
+         case PR_SET_SECCOMP:
 -- 
 2.20.1
 
