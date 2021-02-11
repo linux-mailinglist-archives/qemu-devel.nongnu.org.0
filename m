@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B9E3193FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:10:52 +0100 (CET)
-Received: from localhost ([::1]:35764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC1D3193C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:01:53 +0100 (CET)
+Received: from localhost ([::1]:48206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAIId-0000qt-Am
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:10:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51690)
+	id 1lAI9w-00009Z-St
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:01:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lAHXA-0006KR-Vq
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:21:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45383)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lAHX9-0004hs-5T
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:21:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613071306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iNVlzPIdldsfc4ntQqcTOg+kscp0sxuQYpZK5hICgig=;
- b=iU9vglFkWShNLszwH/+LmE0PJt5k1GuGTtXWDGl66cYvXjk0XYQVfLCVHd4REI5AHd2FcS
- n+IpJKkRGIRIn68W9tgdupthpzPuqUEsaonoikfwJkqu2JhJwYWZV2+FMHtSti5FOcDM6M
- IOy6zOvd7cuyT4TklFftkKcl/RCO5oY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-fHY28AvENV6Ed7xceD4TSg-1; Thu, 11 Feb 2021 14:21:44 -0500
-X-MC-Unique: fHY28AvENV6Ed7xceD4TSg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE80D10082F5;
- Thu, 11 Feb 2021 19:21:42 +0000 (UTC)
-Received: from [10.36.112.31] (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45FB06E505;
- Thu, 11 Feb 2021 19:21:35 +0000 (UTC)
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20210121152458.193248-1-andrey.gruzdev@virtuozzo.com>
- <a88cb0b2-86a1-04b4-3ed1-d032850040df@redhat.com>
- <5d01402e-273a-53cf-b78b-b4b7f50340bc@virtuozzo.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-Message-ID: <8efe21c6-475d-2538-01c1-659f9d44491e@redhat.com>
-Date: Thu, 11 Feb 2021 20:21:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAHvG-0006R1-ID
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:46:42 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:41798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAHvE-00089l-NT
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:46:42 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id f14so11860437ejc.8
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 11:46:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8eVQpXIkznPjoBZKUWSSkLXNDu8KVGQ2vE3NOPTNx/4=;
+ b=SOdDwjb/IfqHPs4ThOgKz3bbNSCc7CirOIXNQsmObC/AXFcRR9LraXClEONZkykmnJ
+ xWypz4dtIFngkzn+bxy/cNv10pvdJ7SD/VO/69MZbvq+x5H5A7zMB4r0IBlK2hSw0YeV
+ zMeRZCb3XQaIHJW2g+rPXi57uniiVTiKncEP73L7CCPNbTmzspeUJVB1hR5qvNReN2So
+ MhwcB67ztSC/kQQ445BtEt60kmCmzN+UxMquAxY8G43iw9wfjzZPz37noahSAwx75WMK
+ GpfOi7kkjQAKyytB5HLhsNoWVutxRPtUuuDP0Zva8uLmT+9BFNKxNviQ/0U0awKwhd9O
+ AHOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8eVQpXIkznPjoBZKUWSSkLXNDu8KVGQ2vE3NOPTNx/4=;
+ b=rbYHqUvjqklW1QQYFETcoNE2E1V5nHCgEh9stqST+AAUh2ACdPc5bXsgutFqKetVEf
+ Eso9rw6EA0DoqcuYH5t0ZgG3zFtR1d3TmiXwuOWE/zs5ZNKeE9+82QIoSIWoXs3ItoKK
+ H3JTZ1NowjxTqgUjdgJgfnooY0CHRZeYqpyxaImLRI4mqa3HUDS5umfrNoDYW2ibcGIr
+ okILzry+vMXo886YulSB2AUJ07m8+Z42AnLA7BSsBCvPCsdM+66U+cEAjiZD5rtUdbgf
+ epMMHEDAhWeucSkGrPmv7jnq3n7jOnzjYyK9DdNdH+a7P/t+p5DyeyhY6wbp2u1pOYiB
+ 5JSA==
+X-Gm-Message-State: AOAM532gQ165I5d59454ok4iqVly6B3ZmSjfVMLxxlHMGbKesNU/v54t
+ nnqKBu4ii8Ekjsi6SUUBj4IOL+nd8whkJy/sMYkaYTXuhe+ZHA==
+X-Google-Smtp-Source: ABdhPJynRL5aF+T2kI0Uo8FNPt6T+mo6H/+v3r8ymWkVVhaD0aPrnwe0srLMlxGVegDRI3CtQtAFtKHfqC+qRsqOcpY=
+X-Received: by 2002:a17:906:1d51:: with SMTP id
+ o17mr9998386ejh.85.1613072799415; 
+ Thu, 11 Feb 2021 11:46:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5d01402e-273a-53cf-b78b-b4b7f50340bc@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210210000223.884088-1-richard.henderson@linaro.org>
+ <CAFEAcA94uj2=mr4bq2Z_QpgqpLRqpHBxg8yX9m=E8P0mPWW23Q@mail.gmail.com>
+In-Reply-To: <CAFEAcA94uj2=mr4bq2Z_QpgqpLRqpHBxg8yX9m=E8P0mPWW23Q@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Feb 2021 19:46:28 +0000
+Message-ID: <CAFEAcA9W7LgRzCK6JSSAX7CfUDvnt=O2LEPEeL6bzmvwjTf87A@mail.gmail.com>
+Subject: Re: [PATCH v6 00/31] target-arm: Implement ARMv8.5-MemTag, user mode
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,119 +78,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.02.21 19:38, Andrey Gruzdev wrote:
-> On 09.02.2021 15:37, David Hildenbrand wrote:
->> On 21.01.21 16:24, andrey.gruzdev--- via wrote:
->>> This patch series is a kind of 'rethinking' of Denis Plotnikov's
->>> ideas he's
->>> implemented in his series '[PATCH v0 0/4] migration: add background
->>> snapshot'.
->>>
->>> Currently the only way to make (external) live VM snapshot is using
->>> existing
->>> dirty page logging migration mechanism. The main problem is that it
->>> tends to
->>> produce a lot of page duplicates while running VM goes on updating
->>> already
->>> saved pages. That leads to the fact that vmstate image size is
->>> commonly several
->>> times bigger then non-zero part of virtual machine's RSS. Time
->>> required to
->>> converge RAM migration and the size of snapshot image severely depend
->>> on the
->>> guest memory write rate, sometimes resulting in unacceptably long
->>> snapshot
->>> creation time and huge image size.
->>>
->>> This series propose a way to solve the aforementioned problems. This
->>> is done
->>> by using different RAM migration mechanism based on UFFD write
->>> protection
->>> management introduced in v5.7 kernel. The migration strategy is to
->>> 'freeze'
->>> guest RAM content using write-protection and iteratively release
->>> protection
->>> for memory ranges that have already been saved to the migration stream.
->>> At the same time we read in pending UFFD write fault events and save
->>> those
->>> pages out-of-order with higher priority.
->>>
->>
->> Hi,
->>
->> just stumbled over this, quick question:
->>
->> I recently played with UFFD_WP and notices that write protection is
->> only effective on pages/ranges that have already pages populated (IOW:
->> !pte_none() in the kernel).
->>
->> In case memory was never populated (or was discarded using e.g.,
->> madvice(DONTNEED)), write-protection will be skipped silently and you
->> won't get WP events for applicable pages.
->>
->> So if someone writes to a yet unpoupulated page ("zero"), you won't
->> get WP events.
->>
->> I can spot that you do a single uffd_change_protection() on the whole
->> RAMBlock.
->>
->> How are you handling that scenario, or why don't you have to handle
->> that scenario?
->>
-> Hi David,
-> 
-> I really wonder if such a problem exists.. If we are talking about a
-> write to an unpopulated page, we should get first page fault on
-> non-present page and populate it with protection bits from respective vma.
-> For UFFD_WP vma's  page will be populated non-writable. So we'll get
-> another page fault on present but read-only page and go to handle_userfault.
-> 
+On Thu, 11 Feb 2021 at 10:44, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Wed, 10 Feb 2021 at 00:02, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > Changes for v6:
+> >   * Drop the change to probe_access.  The cpu_untagged_addr function
+> >     isn't correct, since that's specifically for syscalls.  The uses
+> >     of probe_access in target/arm/ are already done with clean addresses.
+> >   * Move unlock_user comparison change from p19 to p18.
+> >
+> > The only unreviewed patch is 19.
 
-Hi,
+> Applied to target-arm.next, thanks.
 
-here is another fun issue.
-
-Assume you
-
-1. Have a populated page, with some valuable content
-2. WP protected the page
-3. madvise(DONTNEED) that page
-4. Write to the page
-
-On write access, you won't get a WP event!
-
-Instead, you will get a UFFD_EVENT_REMOVE during 3. But you cannot stop 
-that event (dont wake), so you cannot simply defer as you can do with WP 
-events.
+...dropped again, it breaks bsd-user:
 
 
-So if the guest inflates the balloon (including balloon page migration 
-in Linux) or free-page-reporting reports a free page while snapshotting 
-is active, you won't be able to save the old content before it is zapped 
-and your snapshot misses pages with actual content.
+NetBSD:
 
-Something similar would happen with virtio-mem when unplugging blocks, 
-however, it does not discard any pages while migration is active.
+In file included from ../src/bsd-user/strace.c:25:0:
+../src/bsd-user/qemu.h: In function 'lock_user':
+../src/bsd-user/qemu.h:365:16: warning: passing argument 1 of 'g2h'
+makes pointer from integer without a cast [-Wint-conversion]
+     return g2h(guest_addr);
+                ^~~~~~~~~~
+In file included from ../src/bsd-user/qemu.h:22:0,
+                 from ../src/bsd-user/strace.c:25:
+/home/qemu/qemu-test.aZ6xMm/src/include/exec/cpu_ldst.h:85:21: note:
+expected 'CPUState * {aka struct CPUState *}' but argument is of type
+'abi_ulong {aka unsigned int}'
+ static inline void *g2h(CPUState *cs, abi_ptr x)
+                     ^~~
+In file included from ../src/bsd-user/strace.c:25:0:
+../src/bsd-user/qemu.h:365:12: error: too few arguments to function 'g2h'
+     return g2h(guest_addr);
+            ^~~
+In file included from ../src/bsd-user/qemu.h:22:0,
+                 from ../src/bsd-user/strace.c:25:
+/home/qemu/qemu-test.aZ6xMm/src/include/exec/cpu_ldst.h:85:21: note:
+declared here
+ static inline void *g2h(CPUState *cs, abi_ptr x)
+                     ^~~
+In file included from ../src/bsd-user/strace.c:25:0:
+../src/bsd-user/qemu.h:367:1: warning: control reaches end of non-void
+function [-Wreturn-type]
+ }
+ ^
+
+FreeBSD:
+
+In file included from ../src/bsd-user/main.c:29:
+../src/bsd-user/qemu.h:365:26: error: too few arguments to function
+call, expected 2, have 1
+    return g2h(guest_addr);
+           ~~~           ^
+/usr/home/qemu/qemu-test.FJ7zNo/src/include/exec/cpu_ldst.h:85:1:
+note: 'g2h' declared here
+static inline void *g2h(CPUState *cs, abi_ptr x)
+^
+../src/bsd-user/main.c:1058:34: error: too few arguments to function
+call, expected 2, have 1
+    idt_table = g2h(env->idt.base);
+                ~~~              ^
+/usr/home/qemu/qemu-test.FJ7zNo/src/include/exec/cpu_ldst.h:85:1:
+note: 'g2h' declared here
+static inline void *g2h(CPUState *cs, abi_ptr x)
+^
+../src/bsd-user/main.c:1088:38: error: too few arguments to function
+call, expected 2, have 1
+        gdt_table = g2h(env->gdt.base);
+                    ~~~              ^
+/usr/home/qemu/qemu-test.FJ7zNo/src/include/exec/cpu_ldst.h:85:1:
+note: 'g2h' declared here
+static inline void *g2h(CPUState *cs, abi_ptr x)
+^
+
+And also
+
+../src/accel/tcg/translate-all.c:2812:41: warning: shift count >=
+width of type [-Wshift-count-overflow]
+        assert(start < ((target_ulong)1 << L1_MAP_ADDR_SPACE_BITS));
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/assert.h:56:21: note: expanded from macro 'assert'
+#define assert(e)       ((e) ? (void)0 : __assert(__func__, __FILE__, \
+                          ^
 
 
-Snapshotting seems to be incompatible with concurrent discards via 
-virtio-balloon. You might want to inhibit ballooning while snapshotting 
-is active in
+OpenBSD:
 
-hw/virtio/virtio-balloon.c:virtio_balloon_inhibited() just as we do for 
-postcopy.
+In file included from ../src/cpu.c:30:
+../src/bsd-user/qemu.h:365:26: error: too few arguments to function
+call, expected 2, have 1
+    return g2h(guest_addr);
+           ~~~           ^
+/home/qemu/qemu-test.UlUP2w/src/include/exec/cpu_ldst.h:85:1: note:
+'g2h' declared here
+static inline void *g2h(CPUState *cs, abi_ptr x)
+^
 
 
--- 
-Thanks,
-
-David / dhildenb
-
+thanks
+-- PMM
 
