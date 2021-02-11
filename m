@@ -2,59 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C23B31953E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 22:38:05 +0100 (CET)
-Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4D431956D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 22:53:25 +0100 (CET)
+Received: from localhost ([::1]:53722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAJf2-0001S0-FP
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 16:38:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53504)
+	id 1lAJts-0007Zl-Lv
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 16:53:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAJbG-0008Cr-W8
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 16:34:11 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:35085)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lAJrj-0006Fe-Po
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 16:51:11 -0500
+Received: from rev.ng ([5.9.113.41]:33635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAJbF-0001z1-9u
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 16:34:10 -0500
-Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MxVfj-1m7OUK1r4L-00xssl; Thu, 11 Feb 2021 22:33:45 +0100
-Subject: Re: [PATCH 2/4] linux-user/mips64: Support o32 ABI syscalls
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201119161710.1985083-1-f4bug@amsat.org>
- <20201119161710.1985083-3-f4bug@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <9d78be45-dbd9-af14-6d6e-4360d3d21c20@vivier.eu>
-Date: Thu, 11 Feb 2021 22:33:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lAJrf-0000yj-Nw
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 16:51:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date
+ :Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=1gDUJg+Bhsalfa4ooHXDR45BQn6PghN6iT2KBfxkKJg=; b=ooKcC53YfDa5wdoCuA7gLOsmx9
+ t+OdC2KyC3jSlB6SN8UhkJuac4CPc6haLZVhelX+P4qXLir/RkMVm8d4uqCVkyOJ+D4uZgJpKa1S8
+ zjh6YzIghrnbIqCMDMejm/EkDsZD57UjOvzbwioNZhFUKp1S8XDC/ohojSE5Vk+kM4MQ=;
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
+ Alessandro Di Federico <ale@rev.ng>
+Subject: [RFC PATCH 00/10] target/hexagon: introduce idef-parser
+Date: Thu, 11 Feb 2021 22:50:41 +0100
+Message-Id: <20210211215051.2102435-1-ale.qemu@rev.ng>
 MIME-Version: 1.0
-In-Reply-To: <20201119161710.1985083-3-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TNlgzMzbMTDodVi6rZJfamdD4b8XHz6IMz2BJL0CYW/hA8FdRbK
- RNVUvjW1k7PNGzRrtHry7xdCL0TPk/tP40eYirPrue3hu87dLPBToMD52tMMyCjYBU59eKa
- wmRvg1VIw4toy2NeSlYXF4gEb1rkaeiyMJMytvYKTPugnWv6SvoHVNUXTYjCgghmvzAE92p
- OidRe+4aalN4GvXI2ekHA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sjKFXaDUXco=:cbQYSUEbceM52d61SdYq9A
- ZKGYcVEsgookvP/LB1O99ZQQzV2XABkE1ljZhfLNdNeIrMp/2QeEGcnEgEm0xng71dEMJD1qM
- izKdM1euqX8Zo8aWfIxJgEXV4HpSkTkP4D/Vl5IO2JbZ+dvStRO6ehimaLaxtQ5+f2gJBbYfQ
- lRpZWz4YWCLQFFEMKRPYjyF3NFfYoNJY5uQB0DyllGWfXR1703gvhAN9iozOxqijIhB0mnX6h
- TwW08rFyiVtqworXK/4mcd+uMzRB+vgdKn8Qi7j5+IZkzscgeORbvhe4aqETDbejCwFQ8KJOB
- 530rbuqsc4y3KrWYPqcw4d0FlV6Svq44z1yJu3Q5TPX6N7luDqD9wLNJBQF8w652a0PWAueJg
- KoRp+XY0tpS85kgkAWCTBmJcO/novhjlRBtOJ+iJP+fZ/Anedj9XOvaCVTW6+dXvDwwnppUlp
- gTyyR2t/qA==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.119,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,37 +54,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Alessandro Di Federico <ale.qemu@rev.ng>
+From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-Le 19/11/2020 à 17:17, Philippe Mathieu-Daudé a écrit :
-> o32 ABI syscalls start at offset 4000.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  linux-user/mips64/syscall_nr.h | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/mips64/syscall_nr.h b/linux-user/mips64/syscall_nr.h
-> index 672f2fa51cb..6579421fa63 100644
-> --- a/linux-user/mips64/syscall_nr.h
-> +++ b/linux-user/mips64/syscall_nr.h
-> @@ -1,4 +1,7 @@
-> -#ifdef TARGET_ABI_MIPSN32
-> +#if defined(TARGET_ABI_MIPSO32)
-> +#define TARGET_SYSCALL_OFFSET 4000
-> +#include "syscall_o32_nr.h"
-> +#elif defined(TARGET_ABI_MIPSN32)
->  #define TARGET_SYSCALL_OFFSET 6000
->  #include "syscall_n32_nr.h"
->  #else
-> 
+From: Alessandro Di Federico <ale@rev.ng>
 
-Applied to my linux-user-for-6.0 branch.
+This patchset introduces the idef-parser for target/hexagon.
+It is based on "[PATCH v8 00/35] Hexagon patch series".
 
-Thanks,
-Laurent
+`idef-parser` is a build-time tool built using flex and bison. Its aim
+is to generate a large part of the tiny code generator frontend for
+Hexagon. The prototype of idef-parser has been presented at KVM Forum
+2019 ("QEMU-Hexagon: Automatic Translation of the ISA Manual Pseudcode
+to Tiny Code Instructions"):
+
+    https://www.youtube.com/watch?v=3EpnTYBOXCI
+
+`target/hexagon/idef-parser/README.rst` provides an overview of the
+parser and its inner working.
+
+Please consider this an RFC, this is our first large patchset. Feedback
+is more than welcome.
+
+A couple of notes:
+
+* `idef-parser` also supports certain things that are not used in the
+  most recently submitted version of the "Hexagon patch
+  series". However, they will be needed and stripping them out of the
+  parser is quite a bit of work.
+* checkpatch.pl complains on a single macro which has a trailing
+  semi-colon, which is required.
+
+Alessandro Di Federico (4):
+  target/hexagon: update MAINTAINERS for idef-parser
+  target/hexagon: import README for idef-parser
+  target/hexagon: prepare input for the idef-parser
+  target/hexagon: call idef-parser functions
+
+Niccolò Izzo (2):
+  target/hexagon: introduce new helper functions
+  target/hexagon: import additional tests
+
+Paolo Montesel (4):
+  target/hexagon: make helper functions non-static
+  target/hexagon: expose next PC in DisasContext
+  target/hexagon: import lexer for idef-parser
+  target/hexagon: import parser for idef-parser
+
+ MAINTAINERS                                 |    8 +
+ target/hexagon/README                       |    5 +
+ target/hexagon/gen_idef_parser_funcs.py     |  114 ++
+ target/hexagon/gen_tcg_funcs.py             |   28 +-
+ target/hexagon/genptr.c                     |  237 ++-
+ target/hexagon/genptr.h                     |   26 +
+ target/hexagon/hex_common.py                |   10 +
+ target/hexagon/idef-parser/README.rst       |  446 +++++
+ target/hexagon/idef-parser/idef-lexer.lex   |  648 +++++++
+ target/hexagon/idef-parser/idef-parser.h    |  245 +++
+ target/hexagon/idef-parser/idef-parser.y    | 1250 ++++++++++++
+ target/hexagon/idef-parser/macros.inc       |  166 ++
+ target/hexagon/idef-parser/parser-helpers.c | 1925 +++++++++++++++++++
+ target/hexagon/idef-parser/parser-helpers.h |  293 +++
+ target/hexagon/idef-parser/prepare          |   33 +
+ target/hexagon/meson.build                  |   65 +-
+ target/hexagon/translate.c                  |    4 +-
+ target/hexagon/translate.h                  |    1 +
+ tests/tcg/hexagon/Makefile.target           |   35 +-
+ tests/tcg/hexagon/crt.S                     |   28 +
+ tests/tcg/hexagon/first.S                   |   24 +-
+ tests/tcg/hexagon/test_abs.S                |   20 +
+ tests/tcg/hexagon/test_add.S                |   20 +
+ tests/tcg/hexagon/test_andp.S               |   23 +
+ tests/tcg/hexagon/test_bitcnt.S             |   42 +
+ tests/tcg/hexagon/test_bitsplit.S           |   25 +
+ tests/tcg/hexagon/test_call.S               |   63 +
+ tests/tcg/hexagon/test_clobber.S            |   35 +
+ tests/tcg/hexagon/test_cmp.S                |   34 +
+ tests/tcg/hexagon/test_cmpy.S               |   31 +
+ tests/tcg/hexagon/test_djump.S              |   24 +
+ tests/tcg/hexagon/test_dotnew.S             |   39 +
+ tests/tcg/hexagon/test_dstore.S             |   29 +
+ tests/tcg/hexagon/test_ext.S                |   18 +
+ tests/tcg/hexagon/test_fibonacci.S          |   33 +
+ tests/tcg/hexagon/test_hello.S              |   21 +
+ tests/tcg/hexagon/test_hl.S                 |   19 +
+ tests/tcg/hexagon/test_hwloops.S            |   25 +
+ tests/tcg/hexagon/test_jmp.S                |   25 +
+ tests/tcg/hexagon/test_lsr.S                |   39 +
+ tests/tcg/hexagon/test_mpyi.S               |   20 +
+ tests/tcg/hexagon/test_packet.S             |   26 +
+ tests/tcg/hexagon/test_reorder.S            |   31 +
+ tests/tcg/hexagon/test_round.S              |   31 +
+ tests/tcg/hexagon/test_vavgw.S              |   33 +
+ tests/tcg/hexagon/test_vcmpb.S              |   32 +
+ tests/tcg/hexagon/test_vcmpw.S              |   29 +
+ tests/tcg/hexagon/test_vcmpy.S              |   50 +
+ tests/tcg/hexagon/test_vlsrw.S              |   23 +
+ tests/tcg/hexagon/test_vmaxh.S              |   37 +
+ tests/tcg/hexagon/test_vminh.S              |   37 +
+ tests/tcg/hexagon/test_vpmpyh.S             |   30 +
+ tests/tcg/hexagon/test_vspliceb.S           |   33 +
+ 53 files changed, 6540 insertions(+), 28 deletions(-)
+ create mode 100644 target/hexagon/gen_idef_parser_funcs.py
+ create mode 100644 target/hexagon/idef-parser/README.rst
+ create mode 100644 target/hexagon/idef-parser/idef-lexer.lex
+ create mode 100644 target/hexagon/idef-parser/idef-parser.h
+ create mode 100644 target/hexagon/idef-parser/idef-parser.y
+ create mode 100644 target/hexagon/idef-parser/macros.inc
+ create mode 100644 target/hexagon/idef-parser/parser-helpers.c
+ create mode 100644 target/hexagon/idef-parser/parser-helpers.h
+ create mode 100755 target/hexagon/idef-parser/prepare
+ create mode 100644 tests/tcg/hexagon/crt.S
+ create mode 100644 tests/tcg/hexagon/test_abs.S
+ create mode 100644 tests/tcg/hexagon/test_add.S
+ create mode 100644 tests/tcg/hexagon/test_andp.S
+ create mode 100644 tests/tcg/hexagon/test_bitcnt.S
+ create mode 100644 tests/tcg/hexagon/test_bitsplit.S
+ create mode 100644 tests/tcg/hexagon/test_call.S
+ create mode 100644 tests/tcg/hexagon/test_clobber.S
+ create mode 100644 tests/tcg/hexagon/test_cmp.S
+ create mode 100644 tests/tcg/hexagon/test_cmpy.S
+ create mode 100644 tests/tcg/hexagon/test_djump.S
+ create mode 100644 tests/tcg/hexagon/test_dotnew.S
+ create mode 100644 tests/tcg/hexagon/test_dstore.S
+ create mode 100644 tests/tcg/hexagon/test_ext.S
+ create mode 100644 tests/tcg/hexagon/test_fibonacci.S
+ create mode 100644 tests/tcg/hexagon/test_hello.S
+ create mode 100644 tests/tcg/hexagon/test_hl.S
+ create mode 100644 tests/tcg/hexagon/test_hwloops.S
+ create mode 100644 tests/tcg/hexagon/test_jmp.S
+ create mode 100644 tests/tcg/hexagon/test_lsr.S
+ create mode 100644 tests/tcg/hexagon/test_mpyi.S
+ create mode 100644 tests/tcg/hexagon/test_packet.S
+ create mode 100644 tests/tcg/hexagon/test_reorder.S
+ create mode 100644 tests/tcg/hexagon/test_round.S
+ create mode 100644 tests/tcg/hexagon/test_vavgw.S
+ create mode 100644 tests/tcg/hexagon/test_vcmpb.S
+ create mode 100644 tests/tcg/hexagon/test_vcmpw.S
+ create mode 100644 tests/tcg/hexagon/test_vcmpy.S
+ create mode 100644 tests/tcg/hexagon/test_vlsrw.S
+ create mode 100644 tests/tcg/hexagon/test_vmaxh.S
+ create mode 100644 tests/tcg/hexagon/test_vminh.S
+ create mode 100644 tests/tcg/hexagon/test_vpmpyh.S
+ create mode 100644 tests/tcg/hexagon/test_vspliceb.S
+
+-- 
+2.30.0
 
 
