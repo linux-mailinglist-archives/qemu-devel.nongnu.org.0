@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3EAF318B18
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 13:48:53 +0100 (CET)
-Received: from localhost ([::1]:37968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9659318B08
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 13:45:31 +0100 (CET)
+Received: from localhost ([::1]:60268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lABOu-0006Ph-PA
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 07:48:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55994)
+	id 1lABLe-0003pN-TX
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 07:45:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lABBg-0003Wr-3N
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:35:16 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lABBe-0006qf-Ie
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:35:11 -0500
-Received: by mail-wm1-x330.google.com with SMTP id n10so3706218wmq.0
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:35:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eEkBUwSW8IrSA602NYTa31NYQltmUAywbOzfT8fIKVM=;
- b=BcJeLVh8+5fuVJ/s/i28/vjB7VE14Ec+8xSbifqBDE+IcZj58dffMtAnnFB3Xz+uLe
- UtKNZz2WtjdwY2F5ik4FC0coUpnqYofXmVMm2rGzpn2w+7GqaZkvJ/JJI0N7VO6DMGMB
- fxJPDZK1xUOBlEUs0gkdmuOdtbEefZjYpvoB38EFIjrGYfvRzChs4KvvqIAWrTmKUMSw
- 6jPPoJO0zXZY3eACfbJEn//lE484urXtVTTMrE+TdWQfeqwFp5MD5Vy7/hTxjck12EUu
- ueDYjPJ3K6nKfBuArxEvBvXVtFWC236Fo8g8nhCoxSqj7XgQcolPCg9AkJMqsx2/M/Ui
- uaQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eEkBUwSW8IrSA602NYTa31NYQltmUAywbOzfT8fIKVM=;
- b=DLOiHASTaBvL4rGwaynFAz5EG4dHbYmH4lm+s5wP5JjqrzwrSv9Nt9S7vakG2kmkPX
- AX8n07SLRJDl3KVKxwjuPWL8aRhwhjAoVVrk/Z1kF7DTWHyCCdCeXf9OBNmbNtx4wIM0
- fSQrK6cLSb2nfBFk6/IB4GorhLQL/P/7HvWhHg2cfcYDoZ8JkQ026jI6lTCWb+U4cjP1
- qQZo+XKbXAr6PKw2UTpBuSpjLngc3ntzRgk1lBaOY95EHlVhS5FPlwHpcyiDoxAk5Ujk
- ce/VXkKE9FogoIXQ/N5iTtQzOXzj0MofaMJWYjh3zX/ZI/Kc5+OsmaM5GKD5so0/MyHu
- cx5A==
-X-Gm-Message-State: AOAM530W+XykCukXOsdiC8vEHYfLEvo4IGglEME6ymmTnKCC2BA3N57w
- LUe4GPAwMcOyNdFhqUcO5hVRrg==
-X-Google-Smtp-Source: ABdhPJw9pmmf2igJyNH98qkTw7hJ33pAyqwCpx8Iymce3+WDek7uG6sf2NayJ50826bI3VEIux9TaA==
-X-Received: by 2002:a1c:720d:: with SMTP id n13mr4840305wmc.103.1613046908627; 
- Thu, 11 Feb 2021 04:35:08 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u14sm9194549wmq.45.2021.02.11.04.35.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 04:35:07 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7C4041FF7E;
- Thu, 11 Feb 2021 12:27:52 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 15/15] tests/tcg: fix silent skipping of softmmu gdb tests
-Date: Thu, 11 Feb 2021 12:27:50 +0000
-Message-Id: <20210211122750.22645-16-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210211122750.22645-1-alex.bennee@linaro.org>
-References: <20210211122750.22645-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lAB8Q-0000L3-Bh
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:31:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22971)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lAB8M-0005eK-AJ
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:31:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613046704;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6y17JquV5gV65TiDNPOs4Rlom+HtKWmzz2cLoFHJqGw=;
+ b=aDK9pIC0pxsTyFEXO+0d0HwcOvu9Jj1jb+ejZgmP2Nbtyu6pWS4h53gIUyFTRnDCaWcOn0
+ TbMCnt/AeH6B1DiGZFjm8d1F1X9e5Cp8YYwVdRYbqlq6VIKSf2sdT8xj+nmy19XeX3rx9r
+ MxOF28syY6iJOEbemURPYHeSU7Q1XQ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-XZlSAJS_PzijtSdIDqM5Eg-1; Thu, 11 Feb 2021 07:31:42 -0500
+X-MC-Unique: XZlSAJS_PzijtSdIDqM5Eg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 354208030C1
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 12:31:41 +0000 (UTC)
+Received: from localhost (ovpn-115-9.ams2.redhat.com [10.36.115.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7F1F5D74A;
+ Thu, 11 Feb 2021 12:31:30 +0000 (UTC)
+Date: Thu, 11 Feb 2021 12:31:29 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 09/24] DAX: virtiofsd Add cache accessor functions
+Message-ID: <20210211123129.GJ247031@stefanha-x1.localdomain>
+References: <20210209190224.62827-1-dgilbert@redhat.com>
+ <20210209190224.62827-10-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210209190224.62827-10-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KjX7LgAomYr70Ka9"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,34 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- aurelien@aurel32.net
+Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ vgoyal@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/multiarch/system/Makefile.softmmu-target | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+--KjX7LgAomYr70Ka9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/tcg/multiarch/system/Makefile.softmmu-target b/tests/tcg/multiarch/system/Makefile.softmmu-target
-index 4657f6e4cf..625ed792c6 100644
---- a/tests/tcg/multiarch/system/Makefile.softmmu-target
-+++ b/tests/tcg/multiarch/system/Makefile.softmmu-target
-@@ -27,5 +27,9 @@ run-gdbstub-memory: memory
- 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/memory.py, \
- 	"softmmu gdbstub support")
- 
--MULTIARCH_RUNS += run-gdbstub-memory
-+else
-+run-gdbstub-%:
-+	$(call skip-test, "gdbstub test $*", "need working gdb")
- endif
-+
-+MULTIARCH_RUNS += run-gdbstub-memory
--- 
-2.20.1
+On Tue, Feb 09, 2021 at 07:02:09PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> Add low level functions that the clients can use to map/unmap cache
+> areas.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  tools/virtiofsd/fuse_lowlevel.h | 21 +++++++++++++++++++++
+>  tools/virtiofsd/fuse_virtio.c   | 18 ++++++++++++++++++
+>  2 files changed, 39 insertions(+)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--KjX7LgAomYr70Ka9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAlI6EACgkQnKSrs4Gr
+c8gEEAf/QJ6MsNwhLl8/dAj+EPw94oqY2LEmYM1rfozOHGV9EP0Qr74J3FcFOO1+
+nubRH65g+mRTSJWBkaOyOsOjXJjoac2I9mPnopcu2R+VKgaPyWaCrlv2mgI8DWH5
+4meEcVYGxSqiplD3gUULSJmSy3bH+sTLh7OTP1VRfkV0eGEKLwi8Zrn/U/Y/Q4sL
+/FjiS6HRB3BXgCT3IW+Okvw2pYih2ieIkWlUyYwK9f9nRzFBU3EKRnRg2dMcP3Ja
+0NM+h9iERReUJoAHRH5ujurxfkjsy2z3udP/dHrU7MiIuoUn0vqaNQlUu6qqJ5v2
+9tATKto3vjRTBzBaWxXQpG2WZunTCA==
+=zyGP
+-----END PGP SIGNATURE-----
+
+--KjX7LgAomYr70Ka9--
 
 
