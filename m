@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43AA318BEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:26:16 +0100 (CET)
-Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD49318C00
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:29:19 +0100 (CET)
+Received: from localhost ([::1]:33084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lABz5-0005Is-U7
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:26:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33688)
+	id 1lAC22-00018p-I6
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:29:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABZE-0008Kn-IB
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:33 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46562)
+ id 1lABZH-0008Mu-Q0
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:35 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:32802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABZ8-00005D-AY
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:32 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t15so1765647wrx.13
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:25 -0800 (PST)
+ id 1lABZA-00005J-7c
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:35 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id 7so4127973wrz.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NFcO/onIf9UrRkiC/VPWZV5WM29pVldbxiccR8vCivc=;
- b=sAhnMKE0Z2LFELo3XDqTqXeln2XffRTwPqxd1fzescjHfL9WWZJ73DNqzjUx/NvE3V
- kNTdSSgPQoOgOePIRhHJ5b/3fqdy50luRZw72+CQZgZbXEff14VzuIsx8fJvfrIskD7L
- EQpLnTU5s0yTYj0xrwvUk2HWbZ42tvrPuqfJCQz8Hj8Rohrx9B2ad/kMh+r8ogSNw5k6
- h0lmWNaUQsGvSo76gP+wLK79oKzm3lLgUqlad8mjp/qAzJi1Yq+YPekADPS0LmDILUL+
- feffuD4CXDsBg3f2LErSXiM8hGMG1wpJcGuiAYfdrCp0YAeaW1KzCEpr3ZcYX3mXkk5J
- so1w==
+ bh=B7Md5FuB4zN4GGBUtZ2CBu4dxFI5W4WDEoeLJYQNPbI=;
+ b=Y8CxfNgJ54/1UTffvtn8YVEe/+Hdbo25zGnk6xr+mOgN5BOpftZCBNJRZPNiDAwe0W
+ bI9zw2ewcimgnuEluSpqvrzRGFk6IXJVlQ9iYSE2eQ947Gu6Wple7+2HacWdeW13tg0W
+ hYS52iEDCJTxU6qVVPrD8fAQGlGZa7XLKct0Q5LFoPo67lr86yi2+n0uKH0Hqh2ROoD4
+ imXQAMKgEpMr/7pOuOKuF9f+826ye+jcSBJCXmV9bRIZBRGk3Ed2VOLP0cqcwVQa7Vdw
+ brrNUe2L89ziZbW/cCXy0QQTQDBmvd4OryN8fXtUYuE2nYgRcnJIvGQq6QmNzn9XCU1S
+ LgzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NFcO/onIf9UrRkiC/VPWZV5WM29pVldbxiccR8vCivc=;
- b=bskLlf+NCLlBhxEjHZPBO2d0jqV1lf+r9c/MqpomtjZWpOb3IefdSaBTKrG9byXDI7
- noB2G0iEKBUzJs/1OI6RS6/IfmDCEqO1qfiOhgosKEIQOmRQUSk2PEa310q6kvk7+fl6
- o+qF7hVI7lty4SKBy9+I5yMalSbRV2AHiHSF2gsN+r+J75WfbnLTiWmTMQ9oAE9zaI8y
- Orvp0bCsawM9zssEkmJaQ+hIa9xHHUtYQo+EpTkBA+ghkxJdQ3hQkxiEBTsF856ulpbI
- YXbfoAIw8QWXITh1sEQdu6mMUhv9kvxfL4Qtze+y444Qon5VZ6/11OhtIhPioXCNaw9U
- Wh4A==
-X-Gm-Message-State: AOAM531K0CMqBgDAlk5SaIhGE4jqIPet6slmDgSxuxhjXnZVPVoPl635
- i6dDihgIQbjrcQnGmW7wNUQ7z1xHtysspg==
-X-Google-Smtp-Source: ABdhPJwjkWtkVxshkFqKc/kWYtibKixnouQNH9jc1H6hQbim5/JlW2PYK+9BzncVczq6cFjIIvTkjQ==
-X-Received: by 2002:adf:ec82:: with SMTP id z2mr5633317wrn.16.1613048364673;
- Thu, 11 Feb 2021 04:59:24 -0800 (PST)
+ bh=B7Md5FuB4zN4GGBUtZ2CBu4dxFI5W4WDEoeLJYQNPbI=;
+ b=JTm6bVMujAYC77BEf3Bj0sJSnesa6apzwh/ygzGfHPT0RSM1m9j0K1sn3kDafDIyud
+ dPwJ2VdoSW5p05mdz22KMASNc3/Pzo+hgZq9Sd4I3zV72IogbyBtM28K9bbPsaGXAyj3
+ K/cYue/PzreA0vMheF+0OGktfztJ207uV/gEXlj/OQ33RUIX9ny9IeUbXiz2+1fLiYRA
+ Cz+2X8l6kNoXkzTA678po+MMkNQgJkR6TP0CxWm+knSM0VdR5zjfyuiIaVdyg4wMIGw6
+ omxLsRzN3sqntlH5qjBZykI10WqRjBy8sSyAQawtmmK/3SNvm4OhGsjmAMVMzgFE6uP5
+ FD2A==
+X-Gm-Message-State: AOAM532wvCBSqaZKrsgBisLAqKs2umwM6wba/JAsqeNVzmEp95O5yhOv
+ v8lEuBUiHUdufsY1Q1Oi1wR2R2+R/Ld9Xg==
+X-Google-Smtp-Source: ABdhPJzlbQ+TJzrM/h8jI5VxFDs4fKClRqnH6TxLGXH2uTGD+TMcT1ajTyfvlL2xwV591DsEjQUGNQ==
+X-Received: by 2002:a05:6000:1201:: with SMTP id
+ e1mr5808352wrx.14.1613048365368; 
+ Thu, 11 Feb 2021 04:59:25 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 04:59:24 -0800 (PST)
+ Thu, 11 Feb 2021 04:59:25 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/45] linux-user/aarch64: Implement PR_TAGGED_ADDR_ENABLE
-Date: Thu, 11 Feb 2021 12:58:44 +0000
-Message-Id: <20210211125900.22777-30-peter.maydell@linaro.org>
+Subject: [PULL 30/45] target/arm: Improve gen_top_byte_ignore
+Date: Thu, 11 Feb 2021 12:58:45 +0000
+Message-Id: <20210211125900.22777-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211125900.22777-1-peter.maydell@linaro.org>
 References: <20210211125900.22777-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,132 +89,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is the prctl bit that controls whether syscalls accept tagged
-addresses.  See Documentation/arm64/tagged-address-abi.rst in the
-linux kernel.
+Use simple arithmetic instead of a conditional
+move when tbi0 != tbi1.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210210000223.884088-21-richard.henderson@linaro.org
+Message-id: 20210210000223.884088-22-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/aarch64/target_syscall.h |  4 ++++
- target/arm/cpu-param.h              |  3 +++
- target/arm/cpu.h                    | 31 +++++++++++++++++++++++++++++
- linux-user/syscall.c                | 24 ++++++++++++++++++++++
- 4 files changed, 62 insertions(+)
+ target/arm/translate-a64.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
-index 3194e6b0093..820601dfcc8 100644
---- a/linux-user/aarch64/target_syscall.h
-+++ b/linux-user/aarch64/target_syscall.h
-@@ -30,4 +30,8 @@ struct target_pt_regs {
- # define TARGET_PR_PAC_APDBKEY   (1 << 3)
- # define TARGET_PR_PAC_APGAKEY   (1 << 4)
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 1c4b8d02f3b..b23a8975d54 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -183,17 +183,20 @@ static void gen_top_byte_ignore(DisasContext *s, TCGv_i64 dst,
+         /* Sign-extend from bit 55.  */
+         tcg_gen_sextract_i64(dst, src, 0, 56);
  
-+#define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
-+#define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
-+# define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
-+
- #endif /* AARCH64_TARGET_SYSCALL_H */
-diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
-index 00e7d9e9377..7f38d33b8ea 100644
---- a/target/arm/cpu-param.h
-+++ b/target/arm/cpu-param.h
-@@ -20,6 +20,9 @@
- 
- #ifdef CONFIG_USER_ONLY
- #define TARGET_PAGE_BITS 12
-+# ifdef TARGET_AARCH64
-+#  define TARGET_TAGGED_ADDRESSES
-+# endif
- #else
- /*
-  * ARMv7 and later CPUs have 4K pages minimum, but ARMv5 and v6
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index f240275407b..72a0819eb8c 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -721,6 +721,11 @@ typedef struct CPUARMState {
-     const struct arm_boot_info *boot_info;
-     /* Store GICv3CPUState to access from this struct */
-     void *gicv3state;
-+
-+#ifdef TARGET_TAGGED_ADDRESSES
-+    /* Linux syscall tagged address support */
-+    bool tagged_addr_enable;
-+#endif
- } CPUARMState;
- 
- static inline void set_feature(CPUARMState *env, int feature)
-@@ -3604,6 +3609,32 @@ static inline MemTxAttrs *typecheck_memtxattrs(MemTxAttrs *x)
-  */
- #define PAGE_BTI  PAGE_TARGET_1
- 
-+#ifdef TARGET_TAGGED_ADDRESSES
-+/**
-+ * cpu_untagged_addr:
-+ * @cs: CPU context
-+ * @x: tagged address
-+ *
-+ * Remove any address tag from @x.  This is explicitly related to the
-+ * linux syscall TIF_TAGGED_ADDR setting, not TBI in general.
-+ *
-+ * There should be a better place to put this, but we need this in
-+ * include/exec/cpu_ldst.h, and not some place linux-user specific.
-+ */
-+static inline target_ulong cpu_untagged_addr(CPUState *cs, target_ulong x)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    if (cpu->env.tagged_addr_enable) {
-+        /*
-+         * TBI is enabled for userspace but not kernelspace addresses.
-+         * Only clear the tag if bit 55 is clear.
-+         */
-+        x &= sextract64(x, 0, 56);
-+    }
-+    return x;
-+}
-+#endif
-+
- /*
-  * Naming convention for isar_feature functions:
-  * Functions which test 32-bit ID registers should have _aa32_ in
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 24fc1daf023..ba4da7f8a67 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -10981,6 +10981,30 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                 }
-             }
-             return -TARGET_EINVAL;
-+        case TARGET_PR_SET_TAGGED_ADDR_CTRL:
-+            {
-+                abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
-+                CPUARMState *env = cpu_env;
-+
-+                if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
-+                    return -TARGET_EINVAL;
-+                }
-+                env->tagged_addr_enable = arg2 & TARGET_PR_TAGGED_ADDR_ENABLE;
-+                return 0;
-+            }
-+        case TARGET_PR_GET_TAGGED_ADDR_CTRL:
-+            {
-+                abi_long ret = 0;
-+                CPUARMState *env = cpu_env;
-+
-+                if (arg2 || arg3 || arg4 || arg5) {
-+                    return -TARGET_EINVAL;
-+                }
-+                if (env->tagged_addr_enable) {
-+                    ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
-+                }
-+                return ret;
-+            }
- #endif /* AARCH64 */
-         case PR_GET_SECCOMP:
-         case PR_SET_SECCOMP:
+-        if (tbi != 3) {
+-            TCGv_i64 tcg_zero = tcg_const_i64(0);
+-
+-            /*
+-             * The two TBI bits differ.
+-             * If tbi0, then !tbi1: only use the extension if positive.
+-             * if !tbi0, then tbi1: only use the extension if negative.
+-             */
+-            tcg_gen_movcond_i64(tbi == 1 ? TCG_COND_GE : TCG_COND_LT,
+-                                dst, dst, tcg_zero, dst, src);
+-            tcg_temp_free_i64(tcg_zero);
++        switch (tbi) {
++        case 1:
++            /* tbi0 but !tbi1: only use the extension if positive */
++            tcg_gen_and_i64(dst, dst, src);
++            break;
++        case 2:
++            /* !tbi0 but tbi1: only use the extension if negative */
++            tcg_gen_or_i64(dst, dst, src);
++            break;
++        case 3:
++            /* tbi0 and tbi1: always use the extension */
++            break;
++        default:
++            g_assert_not_reached();
+         }
+     }
+ }
 -- 
 2.20.1
 
