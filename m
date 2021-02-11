@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A189319297
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 19:55:55 +0100 (CET)
-Received: from localhost ([::1]:42750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFE8319298
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 19:59:02 +0100 (CET)
+Received: from localhost ([::1]:47316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAH86-0007x5-3O
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 13:55:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41930)
+	id 1lAHB7-0002cf-Fb
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 13:59:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lAGml-0005oN-SP; Thu, 11 Feb 2021 13:33:51 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:44395)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lAGmj-00038z-74; Thu, 11 Feb 2021 13:33:51 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 914D15C00EE;
- Thu, 11 Feb 2021 13:33:47 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 11 Feb 2021 13:33:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=DTy/n7PIZZkh70ufaK0q1BSWPjf
- rG2OhVT8TtXXOtuQ=; b=YW482SU9Gc1EgRQtYwGpOxLToMmFo/853jU5uyAFfHY
- 4YEDsBiYC4jyIoKwc/QoAL3PXiISNt3FFS3+B4ltMURAW3DQtBac29RVze61U4Kn
- QJeBclDVpZszGmjeh3q2VooaVnXwb7lpycEm5EdK8J0Ra45vWFXFJgUUeKnScRB4
- C61yNh2SIbT+vSt87Wxpe6Z2s/7l/YHpLIhfWkt2YV5UwjQe49npopoqwLp1s2BQ
- VJO4WUUDYLOIumJ7s9Dcyh1lhnvMhkYyh7fQ+mwW4KhVz++TwW9rgnic5Sxp/xKY
- gP817e2sFR9mnSCAv2wAXVYeZbqVqUpDDs4LBP+Hp5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=DTy/n7
- PIZZkh70ufaK0q1BSWPjfrG2OhVT8TtXXOtuQ=; b=jOJUI7DuJJIjB0wlXkUVk+
- J8W+nB6JsviU4s103mz9mkRbDUrtGq7ZQYbGxs00cuNV31ikvnUyFCZoBm0xsjne
- 1rrCOcxmJU9TWOGLec20/fta+kII83S9K/24OSJsk/sMWBs+31j5d/cKvIzsN1vK
- EPYpBuVmuwlR0DpAzfZffgxKbkHC4yZSuuwJubvTaSWJAuL5WDjeaT4BuZpc6UlO
- 60+oOwGMerwB57AhKG81ts3nk+ujdm5O2K8wjorRIQ4y3K2TwdXDY3Dg53Thti/j
- 0jmBFRssQWPhdzEMjct0cQ9/OO1aluw8NFdpXRXNH7IfaDL2NCi/+bKZbK0/ZeCw
- ==
-X-ME-Sender: <xms:iXglYDfWZdCHFmZ2EjgG13nFwLM7-itZ7yBYEOkM2Nt6sKZ2IOcvYA>
- <xme:iXglYJO7e64vswrxT8shsDiv5PIcB4iZyTjt8KbMtZ07Xod06zAda5Q610sKnI8_9
- Jsn3ySlALJoPa0jtwQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheelgdduuddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:iXglYMhHGdJj8m8eJUyYEcPZUXnyHThqq22rpcfIFXhdUz6jQgOThQ>
- <xmx:iXglYE-shAyRMB42vTVSm2JG-g0wI8G5kU3YZLvm9rnOAvFA5gWJmg>
- <xmx:iXglYPsbZB5_XJsoxMX7YSZNU4_NXVOCKgIPMrqVxdV1c0cvfHaG0A>
- <xmx:i3glYI9Q51U98wKNfJryunaHSctjMTc_n8aoHjPMZ9quJ7V1jGrxWw>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7E50F24005B;
- Thu, 11 Feb 2021 13:33:44 -0500 (EST)
-Date: Thu, 11 Feb 2021 19:33:42 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/block/nvme: add broadcast nsid support flush command
-Message-ID: <YCV4htJFi8OhyLrU@apples.localdomain>
-References: <20210125204231.254925-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAGzs-0004T8-JS
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:47:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAGzn-0008HC-MW
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 13:47:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613069235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q/8atqqvHQrXeV4/i4YkqGPZ5ubin9wKnpIarJO6u5A=;
+ b=b/QQbEZ2M4hmvUG/b25JHl8+a5fbt2hkKd+eJZCFDdyKp6ury8hMjWZe+OLEAXgi7Ijp1R
+ jHfUxjqP3UUeb4xplxln8bj2M7iRrvhaxsB1yX3fKRttBsqmakhOZhaidKFPU3up5NRenI
+ ue57Ayp4I//uCVyBn432dflWdk3xKGs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-vqd1ROmYOwiLz9wjGU_--w-1; Thu, 11 Feb 2021 13:47:13 -0500
+X-MC-Unique: vqd1ROmYOwiLz9wjGU_--w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF54B801988;
+ Thu, 11 Feb 2021 18:47:12 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-89.rdu2.redhat.com
+ [10.10.116.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23C5F60BF1;
+ Thu, 11 Feb 2021 18:47:12 +0000 (UTC)
+Date: Thu, 11 Feb 2021 13:47:10 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: runaway avocado
+Message-ID: <20210211184710.GA2323314@localhost.localdomain>
+References: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
+ <CAFEAcA_S81bnYVcNENW9bFApAc-Ob1uKQncsGPmyFD034p2FOA@mail.gmail.com>
+ <20210211172541.GA2316309@localhost.localdomain>
+ <CAFEAcA-3M_CaNEiZHohH-RdxYP1Cn=5s+UXYTYE1e7YhoN2+tg@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-3M_CaNEiZHohH-RdxYP1Cn=5s+UXYTYE1e7YhoN2+tg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xcVQZZGEcm5c0utR"
+ protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
 Content-Disposition: inline
-In-Reply-To: <20210125204231.254925-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,42 +80,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---xcVQZZGEcm5c0utR
-Content-Type: text/plain; charset=utf-8
+--C7zPtVaVf+AK4Oqc
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Jan 25 21:42, Klaus Jensen wrote:
-> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+On Thu, Feb 11, 2021 at 05:37:20PM +0000, Peter Maydell wrote:
+> On Thu, 11 Feb 2021 at 17:25, Cleber Rosa <crosa@redhat.com> wrote:
+> > IIUC, this specic issue was caused by a runaway QEMU.  Granted, it was
+> > started by an Avocado test.  I've opened a bug report to look into the
+> > possibilities to mitigate or prevent this from happening again:
 >=20
-> Add support for using the broadcast nsid to issue a flush on all
-> namespaces through a single command.
+> I wonder if we could have avocado run all our acceptance cases
+> under a 'ulimit -f' setting that restricts the amount of disk
+> space they can use? That would restrict the damage that could
+> be done by any runaways. A CPU usage limit might also be good.
+>=20
+> thanks
+> -- PMM
 >=20
 
-Applied to nvme-next.
+To me that sounds a lot like Linux cgroups.
 
---xcVQZZGEcm5c0utR
+I can see either someone setting up cgroups and having Avocado
+run in it (then all tests inherit from this common parent),
+or alternatively Avocado setting up cgroups for each of the
+tests.
+
+The former seems simpler and effective wrt preventing system
+resources.  I can see a use case for the later when tests actually
+want to verify a behavior when certain resources are constrained.
+
+We can have a script setting up a cgroup as part of a
+gitlab-ci.{yml,d} job for the jobs that will run on the non-shared
+GitLab runners (such as the s390 and aarch64 machines owned by the
+QEMU project).
+
+Does this sound like a solution?
+
+Thanks,
+- Cleber.
+
+--C7zPtVaVf+AK4Oqc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAleIQACgkQTeGvMW1P
-DekTHgf+KOBGQ0YZB8ftEOx+1/rqS2oeDNe2ha8g1qBLV/LLp3IxLBfrUCH944E5
-yqosyLGiF+2VrzSn5tOEO1zzffBDYVVTxF3l0Zm9gJpCPkUo2OzezRSZX7hjo0gm
-cpb1JU+Eu9uTs4V2tQf0d88LXXtcMzr3c38dlLkuv94aFMqlYNWumv+3WYjDasn8
-1EQzxhdlfx3iG+LzkaLQ/hJ6u7Z6EQnRSQ+AZPy4M83NhcHMnkxH5saOsJZ+KC6N
-9qRMYefDatLkCcM2LUHA9U9OHHNxDuvPUO7jZxKvOGUkNFjC2ZASy4WG9vBUezeM
-kWNfkxXH61N6UC2P5ISSM423LUFZuw==
-=p7gy
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAle6sACgkQZX6NM6Xy
+CfMQfBAAmhPJ1HrBQcpNdPIYlDxD5fIpcff9eMJhZaNy0Y7bPOblPRFXV4l8S0j5
+oTjARuaPoasaSMvK7OsyGNUywpemjpRYcCK0QCKgXvWydKNzPYDQRuafwoqbdAQC
+AmvBVo4+6irIrBcXEatG1fUu/utL/3+qSqg1Ke+tEVd0j+WtLUdSR8EsSrGMf9X1
+dRGdMdlvKseKPb2x+2C5jTOKkMITr70l1Usy88zjB9k14L+8et/c80VkOnar0Hy5
+1t7bqlnu1Bl6SniFN3TgPT9EUYbV1byEpsODmcUJuNJ9rp/yZ3wi/euGALPius91
+So84sSE4VghEC3Mj9ss55aoozM1EZPHRsb2su2i7KS0SgyhyLJLZ2yV3wmWcgoce
+59ZSLSLRwxkvHa/UdxIgteqHH6+mjCerkZWHzxDpyH9IncC7DKNWbxISN4fEjM4e
+Fjqn69hN7bz+9P7uTfXnWFubHGxb4fSlFWDz4vpRxS1G951X6rphhxvjTzTg+eDv
+U0n+ozNek76L5HtjsrgQx1Kpb7bHiavcRyDj8zBjSz8HIcnQkZSRaszFdnSnrpzD
+fVTC+9nWfq1fN9dDtiCqOvBixRo5Hh6ZlQzcUIRjTpO8F0/sNbHKJmoxwARzmZD6
+vUXKRdQf39n8D0h4CBciZvCN0LyiWDBq+Qys4VNoHvBDVk8lKHk=
+=8m9t
 -----END PGP SIGNATURE-----
 
---xcVQZZGEcm5c0utR--
+--C7zPtVaVf+AK4Oqc--
+
 
