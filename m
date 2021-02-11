@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B26031912F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:36:54 +0100 (CET)
-Received: from localhost ([::1]:40386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62956319137
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:39:15 +0100 (CET)
+Received: from localhost ([::1]:45788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAFtc-0004s9-Vg
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:36:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55376)
+	id 1lAFvu-00078B-2s
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:39:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lAFgB-00007p-Bq
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:22:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34300)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lAFgw-0000qk-PX
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:23:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lAFg6-0006WE-IH
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:22:59 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lAFgu-0006qr-SJ
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:23:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613064172;
+ s=mimecast20190719; t=1613064224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fn/jK3u3iNYinDSLvddg0iGOwNNI5hFvrYnbjj3est0=;
- b=YovJKVBSBWMuztlnfsU9rqsBNnYwxeR+CJ7Fa7HEUuGzhWtC2YSGISdI/GtWWRjPsuFr1N
- wv9m+4bGZdUJyEDy/zke97//fb/6Fc+Y2M4WJ9gB5ymcJO2iSD7RaPzMyU2DmJ/XIJ8lTq
- 2bBVTksSGNXVeqxbuebf+++44MQeE+o=
+ bh=ZO0EtVikD90Sui6IUPsiiNny6SOVbGeqe48a8De5hDE=;
+ b=apwcgVNoZQY68ccXAA4REkH1V8Gupgc5EtncZlevZaCxMRPbWlM6uKn3+h8e8q3FBJ4+cZ
+ Y1XIzjpVP3POSP7gTCBWUZvjX2TM9cRG2QUrGjKvmWBjsCn2xbFmhmyPVstrzwIRWffG6f
+ ofjbqQv5fnhMghGdAZcrvZyWbLfjVaQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-pYnT2M71NyWKeZE-9rcvCQ-1; Thu, 11 Feb 2021 12:22:50 -0500
-X-MC-Unique: pYnT2M71NyWKeZE-9rcvCQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-572-KQNfVA_2Mbic1mY8kFUArQ-1; Thu, 11 Feb 2021 12:23:42 -0500
+X-MC-Unique: KQNfVA_2Mbic1mY8kFUArQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75410107ACF6;
- Thu, 11 Feb 2021 17:22:49 +0000 (UTC)
-Received: from localhost (ovpn-114-199.ams2.redhat.com [10.36.114.199])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6FFF60C64;
- Thu, 11 Feb 2021 17:22:48 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 2/2] file-posix: Cache next hole
-Date: Thu, 11 Feb 2021 18:22:42 +0100
-Message-Id: <20210211172242.146671-3-mreitz@redhat.com>
-In-Reply-To: <20210211172242.146671-1-mreitz@redhat.com>
-References: <20210211172242.146671-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98B6B801978
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 17:23:41 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EBB7419C81;
+ Thu, 11 Feb 2021 17:23:39 +0000 (UTC)
+Date: Thu, 11 Feb 2021 18:23:37 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v4 20/21] i386: provide simple 'hv-default=on' option
+Message-ID: <20210211182337.209986c1@redhat.com>
+In-Reply-To: <20210210164033.607612-21-vkuznets@redhat.com>
+References: <20210210164033.607612-1-vkuznets@redhat.com>
+ <20210210164033.607612-21-vkuznets@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -63,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,211 +79,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have repeatedly received reports that SEEK_HOLE and SEEK_DATA are
-slow on certain filesystems and/or under certain circumstances.  That is
-why we generally try to avoid it (which is why bdrv_co_block_status()
-has the @want_zero parameter, and which is why qcow2 has a metadata
-preallocation detection, so we do not fall through to the protocol layer
-to discover which blocks are zero, unless that is really necessary
-(i.e., for metadata-preallocated images)).
+On Wed, 10 Feb 2021 17:40:32 +0100
+Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
 
-In addition to those measures, we can also try to speed up zero
-detection by letting file-posix cache some hole location information,
-namely where the next hole after the most recently queried offset is.
-This helps especially for images that are (nearly) fully allocated,
-which is coincidentally also the case where querying for zero
-information cannot gain us much.
+> Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
+> requires listing all currently supported enlightenments ("hv-*" CPU
+> features) explicitly. We do have 'hv-passthrough' mode enabling
+> everything but it can't be used in production as it prevents migration.
+> 
+> Introduce a simple 'hv-default=on' CPU flag enabling all currently supported
+> Hyper-V enlightenments. Later, when new enlightenments get implemented,
+> compat_props mechanism will be used to disable them for legacy machine types,
+> this will keep 'hv-default=on' configurations migratable.
+> 
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> ---
+>  docs/hyperv.txt   | 16 ++++++++++++---
+>  target/i386/cpu.c | 52 +++++++++++++++++++++++++++++++++++++++++++++++
+>  target/i386/cpu.h |  3 +++
+>  3 files changed, 68 insertions(+), 3 deletions(-)
+> 
+> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+> index 5df00da54fc4..a54c066cab09 100644
+> --- a/docs/hyperv.txt
+> +++ b/docs/hyperv.txt
+> @@ -17,10 +17,20 @@ compatible hypervisor and use Hyper-V specific features.
+>  
+>  2. Setup
+>  =========
+> -No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
+> -QEMU, individual enlightenments can be enabled through CPU flags, e.g:
+> +All currently supported Hyper-V enlightenments can be enabled by specifying
+> +'hv-default=on' CPU flag:
+>  
+> -  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
+> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default ...
+> +
+> +Alternatively, it is possible to do fine-grained enablement through CPU flags,
+> +e.g:
+> +
+> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-relaxed,hv-vpindex,hv-time ...
+> +
+> +It is also possible to disable individual enlightenments from the default list,
+> +this can be used for debugging purposes:
+> +
+> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default=on,hv-evmcs=off ...
+>  
+>  Sometimes there are dependencies between enlightenments, QEMU is supposed to
+>  check that the supplied configuration is sane.
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index f8df2caed779..013aa60272d8 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -4736,6 +4736,12 @@ static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
+>  {
+>      X86CPU *cpu = X86_CPU(obj);
+>  
+> +    if (cpu->hyperv_default) {
+> +        error_setg(errp,
+> +                   "'hv-default' and 'hv-paththrough' are mutually exclusive");
+> +        return;
+> +    }
+> +
+>      cpu->hyperv_passthrough = value;
+>  
+>      /* hv-passthrough overrides everything with what's supported by the host */
+> @@ -4748,6 +4754,33 @@ static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
+>      return;
+>  }
+>  
+> +static bool x86_hv_default_get(Object *obj, Error **errp)
+> +{
+> +    X86CPU *cpu = X86_CPU(obj);
+> +
+> +    return cpu->hyperv_default;
+> +}
+> +
+> +static void x86_hv_default_set(Object *obj, bool value, Error **errp)
+> +{
+> +    X86CPU *cpu = X86_CPU(obj);
+> +
+> +    if (cpu->hyperv_passthrough) {
+> +        error_setg(errp,
+> +                   "'hv-default' and 'hv-paththrough' are mutually exclusive");
+this check will work only half way, i.e.: hv-paththrough=on,hv-default=on|off
+(where off value looks a bit wierd)
+but not other way around: hv-default=on,hv-paththrough=on
 
-Note that this of course only works so long as we have no concurrent
-writers to the image, which is the case when the WRITE capability is not
-shared.
+were you thinking about following error:
+  "hv-default can't be used after hv-paththrough were enabled"
 
-Alternatively (or perhaps as an improvement in the future), we could let
-file-posix keep track of what it knows is zero and what it knows is
-non-zero with bitmaps, which would help images that actually have a
-significant number of holes (where this implementation here cannot do
-much).  But for such images, SEEK_HOLE/DATA are generally faster (they
-do not need to seek through the whole file), and the performance lost by
-querying the block status does not feel as bad because it is outweighed
-by the performance that can be saved by special-cases zeroed areas, so
-focussing on images that are (nearly) fully allocated is more important.
+or if it symmetric, then putting this check in realizefn() will do the job
+as both properties are processed by that time.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/file-posix.c | 81 +++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 80 insertions(+), 1 deletion(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 05079b40ca..2ca0a2e05b 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -172,6 +172,11 @@ typedef struct BDRVRawState {
-     } stats;
- 
-     PRManager *pr_mgr;
-+
-+    bool can_cache_next_zero_offset;
-+    bool next_zero_offset_valid;
-+    uint64_t next_zero_offset_from;
-+    uint64_t next_zero_offset;
- } BDRVRawState;
- 
- typedef struct BDRVRawReopenState {
-@@ -2049,7 +2054,25 @@ static int coroutine_fn raw_co_pwritev(BlockDriverState *bs, uint64_t offset,
-                                        uint64_t bytes, QEMUIOVector *qiov,
-                                        int flags)
- {
-+    BDRVRawState *s = bs->opaque;
-+
-     assert(flags == 0);
-+
-+    /*
-+     * If offset is just above s->next_zero_offset, the hole that was
-+     * reportedly there might be removed from the file (because only
-+     * whole filesystem clusters can be zeroed).  But that does not
-+     * matter, because block-status does not care about whether there
-+     * actually is a hole, but just about whether there are zeroes
-+     * there - and this write will not make those zeroes non-zero.
-+     */
-+    if (s->next_zero_offset_valid &&
-+        offset <= s->next_zero_offset &&
-+        offset + bytes > s->next_zero_offset)
-+    {
-+        s->next_zero_offset_valid = false;
-+    }
-+
-     return raw_co_prw(bs, offset, bytes, qiov, QEMU_AIO_WRITE);
- }
- 
-@@ -2183,6 +2206,10 @@ static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offset,
-     struct stat st;
-     int ret;
- 
-+    if (s->next_zero_offset_valid && offset < s->next_zero_offset) {
-+        s->next_zero_offset_valid = false;
-+    }
-+
-     if (fstat(s->fd, &st)) {
-         ret = -errno;
-         error_setg_errno(errp, -ret, "Failed to fstat() the file");
-@@ -2616,8 +2643,17 @@ static int coroutine_fn raw_co_delete_file(BlockDriverState *bs,
- static int find_allocation(BlockDriverState *bs, off_t start,
-                            off_t *data, off_t *hole)
- {
--#if defined SEEK_HOLE && defined SEEK_DATA
-     BDRVRawState *s = bs->opaque;
-+
-+    if (s->next_zero_offset_valid) {
-+        if (start >= s->next_zero_offset_from && start < s->next_zero_offset) {
-+            *data = start;
-+            *hole = s->next_zero_offset;
-+            return 0;
-+        }
-+    }
-+
-+#if defined SEEK_HOLE && defined SEEK_DATA
-     off_t offs;
- 
-     /*
-@@ -2716,6 +2752,7 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-                                             int64_t *map,
-                                             BlockDriverState **file)
- {
-+    BDRVRawState *s = bs->opaque;
-     off_t data = 0, hole = 0;
-     int ret;
- 
-@@ -2734,6 +2771,7 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-     }
- 
-     ret = find_allocation(bs, offset, &data, &hole);
-+    s->next_zero_offset_valid = false;
-     if (ret == -ENXIO) {
-         /* Trailing hole */
-         *pnum = bytes;
-@@ -2761,6 +2799,12 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-         }
- 
-         ret = BDRV_BLOCK_DATA;
-+
-+        if (s->can_cache_next_zero_offset) {
-+            s->next_zero_offset_valid = true;
-+            s->next_zero_offset_from = offset;
-+            s->next_zero_offset = hole;
-+        }
-     } else {
-         /* On a hole, compute bytes to the beginning of the next extent.  */
-         assert(hole == offset);
-@@ -2910,6 +2954,13 @@ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int bytes, bool blkdev)
-     RawPosixAIOData acb;
-     int ret;
- 
-+    if (s->next_zero_offset_valid &&
-+        offset <= s->next_zero_offset &&
-+        offset + bytes > s->next_zero_offset_from)
-+    {
-+        s->next_zero_offset_valid = false;
-+    }
-+
-     acb = (RawPosixAIOData) {
-         .bs             = bs,
-         .aio_fildes     = s->fd,
-@@ -2941,6 +2992,17 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int bytes,
-     RawPosixAIOData acb;
-     ThreadPoolFunc *handler;
- 
-+    if (s->next_zero_offset_valid &&
-+        offset < s->next_zero_offset &&
-+        offset + bytes > s->next_zero_offset_from)
-+    {
-+        if (offset > s->next_zero_offset_from) {
-+            s->next_zero_offset = offset;
-+        } else {
-+            s->next_zero_offset_valid = false;
-+        }
-+    }
-+
- #ifdef CONFIG_FALLOCATE
-     if (offset + bytes > bs->total_sectors * BDRV_SECTOR_SIZE) {
-         BdrvTrackedRequest *req;
-@@ -3155,6 +3217,15 @@ static void raw_set_perm(BlockDriverState *bs, uint64_t perm, uint64_t shared)
-     raw_handle_perm_lock(bs, RAW_PL_COMMIT, perm, shared, NULL);
-     s->perm = perm;
-     s->shared_perm = shared;
-+
-+    /*
-+     * We can only cache anything if there are no external writers on
-+     * the image.
-+     */
-+    s->can_cache_next_zero_offset = !(shared & BLK_PERM_WRITE);
-+    if (!s->can_cache_next_zero_offset) {
-+        s->next_zero_offset_valid = false;
-+    }
- }
- 
- static void raw_abort_perm_update(BlockDriverState *bs)
-@@ -3203,6 +3274,14 @@ static int coroutine_fn raw_co_copy_range_to(BlockDriverState *bs,
-         return -EIO;
-     }
- 
-+    /* Same as in raw_co_pwritev() */
-+    if (s->next_zero_offset_valid &&
-+        dst_offset <= s->next_zero_offset &&
-+        dst_offset + bytes > s->next_zero_offset_from)
-+    {
-+        s->next_zero_offset_valid = false;
-+    }
-+
-     acb = (RawPosixAIOData) {
-         .bs             = bs,
-         .aio_type       = QEMU_AIO_COPY_RANGE,
--- 
-2.29.2
+> +        return;
+> +    }
+> +
+> +    cpu->hyperv_default = value;
+> +
+> +    /* hv-default overrides everything with the default set */
+> +    if (value) {
+> +        cpu->hyperv_features = cpu->hyperv_default_features;
+> +        cpu->hyperv_features_on = 0;
+> +        cpu->hyperv_features_off = 0;
+> +    }
+> +}
+> +
+>  /* Generic getter for "feature-words" and "filtered-features" properties */
+>  static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
+>                                        const char *name, void *opaque,
+> @@ -7152,6 +7185,21 @@ static void x86_cpu_initfn(Object *obj)
+>      if (xcc->model) {
+>          x86_cpu_load_model(cpu, xcc->model);
+>      }
+> +
+> +    /* Hyper-V features enabled with 'hv-default=on' */
+> +    cpu->hyperv_default_features = BIT(HYPERV_FEAT_RELAXED) |
+> +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
+> +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
+> +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
+> +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
+> +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
+> +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_IPI) |
+> +        BIT(HYPERV_FEAT_STIMER_DIRECT);
+> +
+> +    /* Enlightened VMCS is only available on Intel/VMX */
+> +    if (kvm_hv_evmcs_available()) {
+> +        cpu->hyperv_default_features |= BIT(HYPERV_FEAT_EVMCS);
+> +    }
+>  }
+>  
+>  static int64_t x86_cpu_get_arch_id(CPUState *cs)
+> @@ -7486,6 +7534,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+>                                     x86_hv_passthrough_get,
+>                                     x86_hv_passthrough_set);
+>  
+> +    object_class_property_add_bool(oc, "hv-default",
+> +                              x86_hv_default_get,
+> +                              x86_hv_default_set);
+> +
+>      for (w = 0; w < FEATURE_WORDS; w++) {
+>          int bitnr;
+>          for (bitnr = 0; bitnr < 64; bitnr++) {
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index b4fbd46f0fc9..59350e70fb51 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1670,6 +1670,9 @@ struct X86CPU {
+>      uint64_t hyperv_features_on;
+>      uint64_t hyperv_features_off;
+>      bool hyperv_passthrough;
+> +    /* 'hv-default' enablement */
+> +    uint64_t hyperv_default_features;
+> +    bool hyperv_default;
+>      OnOffAuto hyperv_no_nonarch_cs;
+>      uint32_t hyperv_vendor_id[3];
+>      uint32_t hyperv_interface_id[4];
 
 
