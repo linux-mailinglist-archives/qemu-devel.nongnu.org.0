@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205953193FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:10:54 +0100 (CET)
-Received: from localhost ([::1]:36182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E88319412
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:14:50 +0100 (CET)
+Received: from localhost ([::1]:43302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAIIf-0001Ef-6K
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:10:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
+	id 1lAIMT-00052l-Td
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:14:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lAI4u-00069e-Ke
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:56:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60865)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lAI4s-0001Oo-EC
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:56:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613073397;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hygyt8AfFusAHCeezQiJOTWpBYqIRwBZeNZnc+acSiY=;
- b=gzcciKhdsJHG7OpJ8oNxy4VWLqu7/PFZD+wELa9zLFHb55iVWElLLZ/aMlSa9Xjej69l6O
- ONQyH6NA9YwGFiMQbv805ZHH280e3e/IVMIQiTlxPDvqutADRybbrYo7jEOD/QuCAEPBlx
- oZYb/m0TewA+JJySrZ93Pn4QUchygBY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-BypY9QgXOCS6Y56HRuFBCQ-1; Thu, 11 Feb 2021 14:56:35 -0500
-X-MC-Unique: BypY9QgXOCS6Y56HRuFBCQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B5EA1009615;
- Thu, 11 Feb 2021 19:56:34 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CBD75D9D2;
- Thu, 11 Feb 2021 19:56:28 +0000 (UTC)
-Subject: Re: [PATCH v2 21/21] tests/acceptance: add a new tests to detect
- counting errors
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210210221053.18050-1-alex.bennee@linaro.org>
- <20210210221053.18050-22-alex.bennee@linaro.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <02fdf0a8-b3d4-0b72-c188-b9350e5f7405@redhat.com>
-Date: Thu, 11 Feb 2021 16:56:25 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAI5w-0006rm-RM
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:57:45 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46256)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAI5p-0001UM-39
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:57:43 -0500
+Received: by mail-wr1-x435.google.com with SMTP id t15so3062985wrx.13
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 11:57:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BrBJ6BU7feqDwKigJr004AcoD0UbTDx/+y3ssbhDCFs=;
+ b=mStZfj4bPXq0JwWcwQ28FMsZX2zY20kqQ2MWo6qB0z8C3hrOjWJ2Q7fvLE/Qtq69Mu
+ Dzi08pVxFijPeQHryUGU5ai16PytPnwq6LJDyTSpoErfn1bHjbYpI2lhEQF1NS9o23++
+ GMNfJuBBqQi2NC2xB+IxJwdhG+jq/FsR8I6IXKXsDXEPAx1+c5x29LnV18a43q96GtQU
+ LQcMVoIGfXkg+vWf154LNS7GisgUfk0DcycPBNIf1AdarPibdii5yNDlSx94nFp5WxmQ
+ JUu0JH6wv6+ksYZ2+B1ExccDX7HfTn9FVyVtnljyesaKv8+ruLbEAjU/oDptKdxEDhAv
+ V2qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BrBJ6BU7feqDwKigJr004AcoD0UbTDx/+y3ssbhDCFs=;
+ b=cnrpZO8zN1IWNo+nD3Davy9D0c4eWxVaBx4TesqmjVMJejv4SYWF1sbEZR7ND7vFFn
+ cKDuKs3yjJ0nZwBQBni/17v6i6cmQ4zlp/LNFPMeL7SS3BSxPQtsQ8XERm/6tk7iL9/O
+ 6J4tVbbbLES3Fq70syU7z/xCMBu9ws3QbAG8P2xkYjAgHGlmOEB/TiX/79EAE1C+EuDY
+ GLzvDFRHYTviT9KT28RKwrDGU62Wg1XOF/DErc9pkQc9Vq+DzN3zrKxPj2k8AdlChOhr
+ 3ZcJSByEA+fASEAE6y+WEBdE28SEm1g08YhZOqcwYr6ZsbAA0FGjsTc81n4eg/In2z/h
+ 9GlA==
+X-Gm-Message-State: AOAM530kj7329BMrcEHBE9+XIx6I9ZohavA/L/KSHyoKMYgCJ4fiYslX
+ JImkWeERVUtdyLmMuBr2x7FTlQPwl0vhRQ==
+X-Google-Smtp-Source: ABdhPJxkFOlHAFXV6wMusOkHFGfBCNEZpWJheaRQKcGzRHQ6TUiCNKVJ++tFrAZdXxqH8jctN4lTSA==
+X-Received: by 2002:a5d:4206:: with SMTP id n6mr7193904wrq.213.1613073453158; 
+ Thu, 11 Feb 2021 11:57:33 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id 2sm7118459wre.24.2021.02.11.11.57.32
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Feb 2021 11:57:32 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/11] target-arm queue
+Date: Thu, 11 Feb 2021 19:57:31 +0000
+Message-Id: <20210211195731.6039-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210210221053.18050-22-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,119 +82,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org, Cleber Rosa <crosa@redhat.com>,
- kuhn.chenqun@huawei.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Massively slimmed down v2: MemTag broke bsd-user, and the npcm7xx
+ethernet device failed 'make check' on big-endian hosts.
 
-On 2/10/21 7:10 PM, Alex Bennée wrote:
-> The insn plugin has a simple heuristic to detect if an instruction is
-> detected running twice in a row. Check the plugin log after the run
-> and pass accordingly.
->
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20210209182749.31323-13-alex.bennee@linaro.org>
-> ---
->   tests/acceptance/tcg_plugins.py | 31 +++++++++++++++++++++++++++++++
->   1 file changed, 31 insertions(+)
+-- PMM
 
-Likewise,
+The following changes since commit 83339e21d05c824ebc9131d644f25c23d0e41ecf:
 
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-02-10 15:42:20 +0000)
 
->
-> diff --git a/tests/acceptance/tcg_plugins.py b/tests/acceptance/tcg_plugins.py
-> index b512979769..acab599505 100644
-> --- a/tests/acceptance/tcg_plugins.py
-> +++ b/tests/acceptance/tcg_plugins.py
-> @@ -101,3 +101,34 @@ class PluginKernelNormal(PluginKernelBase):
->               else:
->                   logger.debug("Failed to find instruction count")
->                   self.fail
-> +
-> +    def test_aarch64_virt_insn_icount(self):
-> +        """
-> +        :avocado: tags=accel:tcg
-> +        :avocado: tags=arch:aarch64
-> +        :avocado: tags=machine:virt
-> +        :avocado: tags=cpu:cortex-a57
-> +        """
-> +        kernel_path = self._grab_aarch64_kernel()
-> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> +                               'console=ttyAMA0')
-> +        console_pattern = 'Kernel panic - not syncing: VFS:'
-> +
-> +        plugin_log = tempfile.NamedTemporaryFile(mode="r+t", prefix="plugin",
-> +                                                 suffix=".log", delete=False)
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210211-1
 
-In case you find it useful to save the file in the Avocado's tests logs 
-directory for debugging, just use the `self.outputdir` property:
+for you to fetch changes up to d3c1183ffeb71ca3a783eae3d7e1c51e71e8a621:
 
-diff --git a/tests/acceptance/tcg_plugins.py 
-b/tests/acceptance/tcg_plugins.py
-index acab599505..da5c8ae267 100644
---- a/tests/acceptance/tcg_plugins.py
-+++ b/tests/acceptance/tcg_plugins.py
-@@ -13,6 +13,7 @@ import logging
-  import time
-diff --git a/tests/acceptance/tcg_plugins.py 
-b/tests/acceptance/tcg_plugins.py
-index acab599505..da5c8ae267 100644
---- a/tests/acceptance/tcg_plugins.py
-+++ b/tests/acceptance/tcg_plugins.py
-@@ -13,6 +13,7 @@ import logging
-  import time
-  import tempfile
-  import mmap
-+import os
-  import re
+  target/arm: Correctly initialize MDCR_EL2.HPMN (2021-02-11 19:48:09 +0000)
 
-  from boot_linux_console import LinuxKernelTest
-@@ -114,17 +115,16 @@ class PluginKernelNormal(PluginKernelBase):
-                                 'console=ttyAMA0')
-          console_pattern = 'Kernel panic - not syncing: VFS:'
+----------------------------------------------------------------
+target-arm queue:
+ * Correctly initialize MDCR_EL2.HPMN
+ * versal: Use nr_apu_cpus in favor of hard coding 2
+ * accel/tcg: Add URL of clang bug to comment about our workaround
+ * Add support for FEAT_DIT, Data Independent Timing
+ * Remove GPIO from unimplemented NPCM7XX
+ * Fix SCR RES1 handling
+ * Don't migrate CPUARMState.features
 
--        plugin_log = tempfile.NamedTemporaryFile(mode="r+t", 
-prefix="plugin",
--                                                 suffix=".log", 
-delete=False)
-+        plugin_log = os.path.join(self.outputdir, "plugin.log")
+----------------------------------------------------------------
+Aaron Lindsay (1):
+      target/arm: Don't migrate CPUARMState.features
 
-          self.run_vm(kernel_path, kernel_command_line,
--                    "tests/plugin/libinsn.so", plugin_log.name,
-+                    "tests/plugin/libinsn.so", plugin_log,
-                      console_pattern,
-                      args=('-cpu', 'cortex-a53', '-icount', 'shift=1'))
+Daniel Müller (1):
+      target/arm: Correctly initialize MDCR_EL2.HPMN
 
-          logger = logging.getLogger()
+Edgar E. Iglesias (1):
+      hw/arm: versal: Use nr_apu_cpus in favor of hard coding 2
 
--        with plugin_log as lf, \
-+        with open(plugin_log, 'rt') as lf, \
-               mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
-              m = re.search(br"detected repeat execution @ 
-(?P<addr>0x[0-9A-Fa-f]+)", s)
-              if m is not None and "addr" in m.groupdict():
----
+Hao Wu (1):
+      hw/arm: Remove GPIO from unimplemented NPCM7XX
 
-> +
-> +        self.run_vm(kernel_path, kernel_command_line,
-> +                    "tests/plugin/libinsn.so", plugin_log.name,
-> +                    console_pattern,
-> +                    args=('-cpu', 'cortex-a53', '-icount', 'shift=1'))
-> +
-> +        logger = logging.getLogger()
-> +
-> +        with plugin_log as lf, \
-> +             mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
-> +            m = re.search(br"detected repeat execution @ (?P<addr>0x[0-9A-Fa-f]+)", s)
-> +            if m is not None and "addr" in m.groupdict():
-> +                logger.debug("detected repeat instructions")
-> +                self.fail("detected repeated instructions")
-> +            else:
-> +                logger.debug("no repeats detected: %s", m)
+Mike Nawrocki (1):
+      target/arm: Fix SCR RES1 handling
 
+Peter Maydell (2):
+      arm: Update infocenter.arm.com URLs
+      accel/tcg: Add URL of clang bug to comment about our workaround
+
+Rebecca Cran (4):
+      target/arm: Add support for FEAT_DIT, Data Independent Timing
+      target/arm: Support AA32 DIT by moving PSTATE_SS from cpsr into env->pstate
+      target/arm: Set ID_AA64PFR0.DIT and ID_PFR0.DIT to 1 for "max" AA64 CPU
+      target/arm: Set ID_PFR0.DIT to 1 for "max" 32-bit CPU
+
+ include/hw/dma/pl080.h                 |  7 ++--
+ include/hw/misc/arm_integrator_debug.h |  2 +-
+ include/hw/ssi/pl022.h                 |  5 ++-
+ target/arm/cpu.h                       | 17 ++++++++
+ target/arm/internals.h                 |  6 +++
+ accel/tcg/cpu-exec.c                   | 25 +++++++++---
+ hw/arm/aspeed_ast2600.c                |  2 +-
+ hw/arm/musca.c                         |  4 +-
+ hw/arm/npcm7xx.c                       |  8 ----
+ hw/arm/xlnx-versal.c                   |  4 +-
+ hw/misc/arm_integrator_debug.c         |  2 +-
+ hw/timer/arm_timer.c                   |  7 ++--
+ target/arm/cpu.c                       |  4 ++
+ target/arm/cpu64.c                     |  5 +++
+ target/arm/helper-a64.c                | 27 +++++++++++--
+ target/arm/helper.c                    | 71 +++++++++++++++++++++++++++-------
+ target/arm/machine.c                   |  2 +-
+ target/arm/op_helper.c                 |  9 +----
+ target/arm/translate-a64.c             | 12 ++++++
+ 19 files changed, 164 insertions(+), 55 deletions(-)
 
