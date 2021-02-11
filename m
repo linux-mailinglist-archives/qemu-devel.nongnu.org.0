@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE713190C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:17:44 +0100 (CET)
-Received: from localhost ([::1]:56538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2965A3190E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:22:28 +0100 (CET)
+Received: from localhost ([::1]:36620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAFb5-0002lV-D9
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:17:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52962)
+	id 1lAFfe-0006H7-Vw
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:22:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lAFYk-0001Xm-FQ
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:15:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50815)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lAFcJ-0004QI-0S
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:19:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lAFYe-0003A8-0Q
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:15:17 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lAFcC-0004lM-Pm
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:18:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613063709;
+ s=mimecast20190719; t=1613063928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iGfFCJFAasdwSRJRpu+vJehKSgTZWkl6Ym/8QNP1aos=;
- b=IxTj3CzgGvr6tprUFzLgX5TX3NQhoDhQ22j8ZMMP9WVzrIjb7m3txwExi8P0EAtCmVn+6N
- gdoButwmnN6oqAhrz5homMx4I43StMic1GTfVwrn0BmrKISvJ2VAhxSL4JOFqWdZEdMAt1
- 6VdFc1L2CG72883HHoF/Jp7vDMhyZck=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-Tue69EerMTGGvvXLD6NPXA-1; Thu, 11 Feb 2021 12:15:06 -0500
-X-MC-Unique: Tue69EerMTGGvvXLD6NPXA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A2B8835E52
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 17:15:05 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B83C62678;
- Thu, 11 Feb 2021 17:15:00 +0000 (UTC)
-Date: Thu, 11 Feb 2021 18:14:59 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v4 17/21] i386: support 'hv-passthrough, hv-feature=off'
- on the command line
-Message-ID: <20210211181459.08f14c22@redhat.com>
-In-Reply-To: <20210210164033.607612-18-vkuznets@redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210164033.607612-18-vkuznets@redhat.com>
+ bh=O9xKUyAUH0d0Ei+caa8ta7J/YOQYi2c2xaq3RU442cU=;
+ b=USP9Pkg+8B39nyf+12dYOlAAG6a8/KcpK7lx6y9PtffX4u9cYEC06dW9gA453P3w1uoZbS
+ 9mdYP4lEiKsVZfjloCEo4BhgyK7Ppa+T1wRC/smr5zz/g+ss1n8qi+OVwYe0Na7CAAHHuT
+ v5eJZIsLJ6D0dTNYJezWl2GC3lURR2M=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-vj2nxfGiNF-_WcwqQhOYQA-1; Thu, 11 Feb 2021 12:18:47 -0500
+X-MC-Unique: vj2nxfGiNF-_WcwqQhOYQA-1
+Received: by mail-qt1-f199.google.com with SMTP id e3so2937619qtc.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 09:18:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=O9xKUyAUH0d0Ei+caa8ta7J/YOQYi2c2xaq3RU442cU=;
+ b=Q4YC2McgxV10mpJ7LUDVJXrg9AGy7yBo11JejWo/H0YIyBdfarNEfIYqZEL20EnRah
+ sh9hqYN5EZrDXcY4ZaqG0HZuy1eNkhmGwLzRiTJc5wkuTC/CkvhYhIbYKuK7wtmnNf+d
+ 8827R3Dw7q6HDgRE8bls0IdG0crJTvd+wNyDWc1ZXHBRkH+jWd4XDEq4qlKT6aS6H2sC
+ Was5lbCGq8a/ul/3rJ1Jh5p389AXozqo/JH3Hf5XAnMXd3BFoImez+Jsi2NlFpb+6kux
+ rqfeEO+Ni1pA4qCH5v1K+gFSjELyPjo6YvhqVnBjbS4ix4peFNwsN6As6j+hmJ4DEqBh
+ MR9A==
+X-Gm-Message-State: AOAM53263lw/M+f64beYWGAtq3KGDLCwQRDXGzvFuZNncZK/4S1gczkx
+ X62jUd6T1xiPIbScZRJPl6gwSXnhREhVbMBYQpOyL/UGjr/SuCcnrVDWNwrRsZ0Fqa6QWvm4vQh
+ rgqbxlw1urNtZqKE=
+X-Received: by 2002:a37:6116:: with SMTP id v22mr6999963qkb.38.1613063926641; 
+ Thu, 11 Feb 2021 09:18:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzmM51+6HhLYepjN513o66LM1cNZvo7fPJFHA5eYpEecbDhDuvZoSA4NS0keRZz26WcFn2hVw==
+X-Received: by 2002:a37:6116:: with SMTP id v22mr6999932qkb.38.1613063926356; 
+ Thu, 11 Feb 2021 09:18:46 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-20-174-93-89-182.dsl.bell.ca. [174.93.89.182])
+ by smtp.gmail.com with ESMTPSA id s14sm3882749qtq.97.2021.02.11.09.18.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Feb 2021 09:18:45 -0800 (PST)
+Date: Thu, 11 Feb 2021 12:18:44 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <20210211171844.GB157159@xz-x1>
+References: <20210121152458.193248-1-andrey.gruzdev@virtuozzo.com>
+ <a88cb0b2-86a1-04b4-3ed1-d032850040df@redhat.com>
+ <5d01402e-273a-53cf-b78b-b4b7f50340bc@virtuozzo.com>
+ <0e155a86-6cae-8ce4-676c-a06ee87b6f43@redhat.com>
+ <20210209200928.GB103365@xz-x1> <20210209203143.GC103365@xz-x1>
+ <fa670b07-58c3-f0cc-c358-82c4cbc4deac@virtuozzo.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <fa670b07-58c3-f0cc-c358-82c4cbc4deac@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -67,7 +86,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,100 +99,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Den Lunev <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Feb 2021 17:40:29 +0100
-Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-
-> Currently, we support 'hv-passthrough,hv-feature=on' enablement, this
-> is supposed to mean "hv-feature is mandatory, don't start without it". Add
-> support for 'hv-passthrough,hv-feature=off' meaning "enable everything
-> supported by the host except for hv-feature".
+On Thu, Feb 11, 2021 at 12:21:51PM +0300, Andrey Gruzdev wrote:
+> On 09.02.2021 23:31, Peter Xu wrote:
+> > On Tue, Feb 09, 2021 at 03:09:28PM -0500, Peter Xu wrote:
+> > > Hi, David, Andrey,
+> > > 
+> > > On Tue, Feb 09, 2021 at 08:06:58PM +0100, David Hildenbrand wrote:
+> > > > > > Hi,
+> > > > > > 
+> > > > > > just stumbled over this, quick question:
+> > > > > > 
+> > > > > > I recently played with UFFD_WP and notices that write protection is
+> > > > > > only effective on pages/ranges that have already pages populated (IOW:
+> > > > > > !pte_none() in the kernel).
+> > > > > > 
+> > > > > > In case memory was never populated (or was discarded using e.g.,
+> > > > > > madvice(DONTNEED)), write-protection will be skipped silently and you
+> > > > > > won't get WP events for applicable pages.
+> > > > > > 
+> > > > > > So if someone writes to a yet unpoupulated page ("zero"), you won't
+> > > > > > get WP events.
+> > > > > > 
+> > > > > > I can spot that you do a single uffd_change_protection() on the whole
+> > > > > > RAMBlock.
+> > > > > > 
+> > > > > > How are you handling that scenario, or why don't you have to handle
+> > > > > > that scenario?
+> > > Good catch..  Indeed I overlooked that as well when reviewing the code.
+> > > 
+> > > > > Hi David,
+> > > > > 
+> > > > > I really wonder if such a problem exists.. If we are talking about a
+> > > > I immediately ran into this issue with my simplest test cases. :)
+> > > > 
+> > > > > write to an unpopulated page, we should get first page fault on
+> > > > > non-present page and populate it with protection bits from respective vma.
+> > > > > For UFFD_WP vma's  page will be populated non-writable. So we'll get
+> > > > > another page fault on present but read-only page and go to handle_userfault.
+> > > The problem is even if the page is read-only, it does not yet have the uffd-wp
+> > > bit set, so it won't really trigger the handle_userfault() path.
+> > > 
+> > > > You might have to register also for MISSING faults and place zero pages.
+> > > So I think what's missing for live snapshot is indeed to register with both
+> > > missing & wp mode.
+> > > 
+> > > Then we'll receive two messages: For wp, we do like before.  For missing, we do
+> > > UFFDIO_ZEROCOPY and at the same time dump this page as a zero page.
+> > > 
+> > > I bet live snapshot didn't encounter this issue simply because normal live
+> > > snapshots would still work, especially when there's the guest OS. Say, the
+> > > worst case is we could have migrated some zero pages with some random data
+> > > filled in along with the snapshot, however all these pages were zero pages and
+> > > not used by the guest OS after all, then when we load a snapshot we won't
+> > > easily notice either..
+> > I'm thinking some way to verify this from live snapshot pov, and I've got an
+> > idea so I just share it out...  Maybe we need a guest application that does
+> > something like below:
+> > 
+> >    - mmap() a huge lot of memory
+> > 
+> >    - call mlockall(), so that pages will be provisioned in the guest but without
+> >      data written.  IIUC on the host these pages should be backed by missing
+> >      pages as long as guest app doesn't write.  Then...
+> > 
+> >    - the app starts to read input from user:
+> > 
+> >      - If user inputs "dirty" and enter: it'll start to dirty the whole range.
+> >        Write non-zero to the 1st byte of each page would suffice.
+> > 
+> >      - If user inputs "check" and enter: it'll read the whole memory chunk to
+> >        see whether all the pages are zero pages.  If it reads any non-zero page,
+> >        it should bail out and print error.
+> > 
+> > With the help of above program, we can do below to verify the live snapshot
+> > worked as expected on zero pages:
+> > 
+> >    - Guest: start above program, don't input yet (so waiting to read either
+> >      "dirty" or "check" command)
+> > 
+> >    - Host: start live snapshot
+> > 
+> >    - Guest: input "dirty" command, so start quickly dirtying the ram
+> > 
+> >    - Host: live snapshot completes
+> > 
+> > Then to verify the snapshot image, we do:
+> > 
+> >    - Host: load the snapshot we've got
+> > 
+> >    - Guest: (should still be in the state of waiting for cmd) this time we enter
+> >      "check"
+> > 
+> > Thanks,
+> > 
+> Hi David, Peter,
 > 
-> While on it, make 'hv-passthrough' parse semantics in-line with other
-> options in qemu: when specified, it overrides what was previously set with
-> what's supported by the host. This can later be modified with 'hv-feature=on'/
-> 'hv-feature=off'.
-> 
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> ---
->  target/i386/cpu.c     | 28 +++++++++++++++++++++++++++-
->  target/i386/kvm/kvm.c |  4 ++++
->  2 files changed, 31 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index e8a004c39d04..f8df2caed779 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4725,6 +4725,29 @@ static void x86_hv_stimer_direct_set(Object *obj, bool value, Error **errp)
->      x86_hv_feature_set(obj, value, HYPERV_FEAT_STIMER_DIRECT);
->  }
->  
-> +static bool x86_hv_passthrough_get(Object *obj, Error **errp)
-> +{
-> +    X86CPU *cpu = X86_CPU(obj);
-> +
-> +    return cpu->hyperv_passthrough;
-> +}
-> +
-> +static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
-> +{
-> +    X86CPU *cpu = X86_CPU(obj);
-> +
-> +    cpu->hyperv_passthrough = value;
-> +
-> +    /* hv-passthrough overrides everything with what's supported by the host */
-> +    if (value) {
-> +        cpu->hyperv_features = 0;
-> +        cpu->hyperv_features_on = 0;
-> +        cpu->hyperv_features_off = 0;
+> A little unexpected behavior, from my point of view, for UFFD write-protection.
+> So, that means that UFFD_WP protection/events works only for locked memory?
+> I'm now looking at kernel implementation, to understand..
 
-why do we have _on|_off fields?
+Not really; it definitely works for all memories that we've touched.  My
+previous exmaple wanted to let the guest app use a not-yet-allocated page.  I
+figured mlockall() might achieve that, hence I proposed such an example
+assuming that may verify the zero page issue on live snapshot.  So if my
+understanding is correct, if we run above scenario, current live snapshot might
+fail that app when we do the "check" command at last, by finding non-zero pages.
 
-> +    }
-> +
-> +    return;
-> +}
-> +
->  /* Generic getter for "feature-words" and "filtered-features" properties */
->  static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
->                                        const char *name, void *opaque,
-> @@ -7281,7 +7304,6 @@ static Property x86_cpu_properties[] = {
->                         HYPERV_SPINLOCK_NEVER_NOTIFY),
->      DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
->                              hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
-> -    DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
->  
->      DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
->      DEFINE_PROP_BOOL("enforce", X86CPU, enforce_cpuid, false),
-> @@ -7460,6 +7482,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->                                     x86_hv_stimer_direct_get,
->                                     x86_hv_stimer_direct_set);
->  
-> +    object_class_property_add_bool(oc, "hv-passthrough",
-> +                                   x86_hv_passthrough_get,
-> +                                   x86_hv_passthrough_set);
-> +
->      for (w = 0; w < FEATURE_WORDS; w++) {
->          int bitnr;
->          for (bitnr = 0; bitnr < 64; bitnr++) {
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index 30013f0d7cee..fca088d4d3b5 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -1153,6 +1153,10 @@ static int hv_cpuid_check_and_set(CPUState *cs, int feature, Error **errp)
->          return 0;
->      }
->  
-> +    if (cpu->hyperv_passthrough && (cpu->hyperv_features_off & BIT(feature))) {
-> +        return 0;
-> +    }
-> +
->      deps = kvm_hyperv_properties[feature].dependencies;
->      while (deps) {
->          dep_feat = ctz64(deps);
+Thanks,
+
+-- 
+Peter Xu
 
 
