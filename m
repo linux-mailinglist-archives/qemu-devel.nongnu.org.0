@@ -2,50 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F002319477
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:28:26 +0100 (CET)
-Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3B23194A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:42:25 +0100 (CET)
+Received: from localhost ([::1]:37284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAIZd-0008RM-Fq
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:28:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37592)
+	id 1lAInA-0002nA-Cm
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:42:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAITh-0003ci-Qc; Thu, 11 Feb 2021 15:22:17 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:55124)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAIZ3-0000XP-LF
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:27:53 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:45235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAITf-0004ae-Py; Thu, 11 Feb 2021 15:22:17 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 11BKKlmT031012
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 11 Feb 2021 15:20:51 -0500
-Date: Thu, 11 Feb 2021 15:20:47 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] hw/sd/sdhci: Do not modify BlockSizeRegister if
- transaction in progress
-Message-ID: <20210211202047.pmt7rgpvtwggho6x@mozz.bu.edu>
-References: <20210208193450.2689517-1-f4bug@amsat.org>
- <20210211170439.fex2yoc74yaa3rof@mozz.bu.edu>
- <7bb7f415-e6b6-a694-59a8-2d362c970205@amsat.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAIZ1-0005Ay-45
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 15:27:49 -0500
+Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MIxFi-1lUipW0mpm-00KRA9; Thu, 11 Feb 2021 21:27:44 +0100
+Subject: Re: [PATCH] docs/user: Remove outdated 'Quick Start' section
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <20201122000131.18487-1-peter.maydell@linaro.org>
+ <CAFEAcA8ZWZUwqstAcg3tw8fAr+SDVXr-puPby_VU9eh4zgBq2w@mail.gmail.com>
+ <CAFEAcA8TaDhkmm7uA_XCfs-LG2feRXP5uehH4JKFNSeqOcm4MQ@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <e6fe3ffc-3e11-df7e-0080-5ab52a94dc56@vivier.eu>
+Date: Thu, 11 Feb 2021 21:27:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8TaDhkmm7uA_XCfs-LG2feRXP5uehH4JKFNSeqOcm4MQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7bb7f415-e6b6-a694-59a8-2d362c970205@amsat.org>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Provags-ID: V03:K1:KS+aCkG4FGpyxqlGk0AjDh5uU5NCHjcxMbhaUmGmf9CrQDRPk1m
+ MjnOOLxg6nZxbn1fjvcSksMaZdqSNg8k/P7U9lFeXmmsp6CbFKuBXGdfdkjVXum2/+wijS7
+ RXgEhwrLRtBFZo7UoPvVPIKM5v3Bwo9fnZQkTHytCfQQXzNH3ISOVISf7JvsHh7C4jETjEa
+ ow4TnmYB+VwyZqXDp8xpA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:e0RiIzgUaOI=:Vov2+Z4iezSYm2pNta4ShW
+ Ism2to+/ocLjZC2D4zi3Bm4s0Fk3uATo4EnPkyHD7MUZros7GvtHyhhf+t39iYLLoA/T9VYY3
+ ScmWkY4Z0+WqwDh8BWTX5q42Ouxj1OgSjY/F165Bnlm1UDwRkK2Dx1EG2uITS6gaUDIoTMHcd
+ F259HbgIlxGetMb1NiNqWYDlTL08geG1aytauZ8d5NmKY+H5AW3Rmx5A3yK1OwlY5G/2kKGSa
+ sw8sddUJbXG5Jl95OH6LSnAAVYd1Tmi0ysbXDUBJrZfaO63LVEiiqIe7q++Ebam/PTCRd3KT9
+ wPd72o3Pxr1lpxcUQ8RRf4vMfgrS65cwLScG9NH+aSEHb9PDMjHHP5f9MqKjI6DPOdZP/+Kan
+ okD5H5WKiOUOsCUzZevsH4q63JJCR2nDlSogsfB4by5Phx5eWbEIgxIcPCGlbJgYcB9ugDsO4
+ LGp2FcomLA==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.119,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,176 +68,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, Li Qiang <liq3ea@163.com>,
- qemu-devel@nongnu.org, Prasad J Pandit <ppandit@redhat.com>,
- Bandan Das <bsd@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210211 2045, Philippe Mathieu-Daudé wrote:
-> Hi Alexander,
+Le 11/02/2021 à 18:02, Peter Maydell a écrit :
+> Laurent: Ping^2 ? Somebody on IRC just now was getting confused by this
+> ancient documentation and its references to nonexistent tarballs..
+
+Sorry, I didn't see your mail.
+
+I agree with the change.
+
+Acked-by: Laurent Vivier <lauren@vivier.eu>
+
+> -- PMM
 > 
-> On 2/11/21 6:04 PM, Alexander Bulekov wrote:
-> > On 210208 2034, Philippe Mathieu-Daudé wrote:
-> >> Per the "SD Host Controller Simplified Specification Version 2.00"
-> >> spec. 'Table 2-4 : Block Size Register':
-> >>
-> >>   Transfer Block Size [...] can be accessed only if no
-> >>   transaction is executing (i.e., after a transaction has stopped).
-> >>   Read operations during transfers may return an invalid value,
-> >>   and write operations shall be ignored.
-> >>
-> >> Transactions will update 'data_count', so do not modify 'blksize'
-> >> and 'blkcnt' when 'data_count' is used. This fixes:
-> >>
-> >> $ cat << EOF | qemu-system-x86_64 -qtest stdio -monitor none \
-> >>                -nographic -serial none -M pc-q35-5.0 \
-> >>                -device sdhci-pci,sd-spec-version=3 \
-> >>                -device sd-card,drive=mydrive \
-> >>                -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive
-> >>   outl 0xcf8 0x80001810
-> >>   outl 0xcfc 0xe1068000
-> >>   outl 0xcf8 0x80001814
-> >>   outl 0xcf8 0x80001804
-> >>   outw 0xcfc 0x7
-> >>   outl 0xcf8 0x8000fa20
-> >>   write 0xe106802c 0x1 0x0f
-> >>   write 0xe1068004 0xc 0x2801d10101fffffbff28a384
-> >>   write 0xe106800c 0x1f 0x9dacbbcad9e8f7061524334251606f7e8d9cabbac9d8e7f60514233241505f
-> >>   write 0xe1068003 0x28 0x80d000251480d000252280d000253080d000253e80d000254c80d000255a80d000256880d0002576
-> >>   write 0xe1068003 0x1 0xfe
-> >>   EOF
-> >>   =================================================================
-> >>   ==2686219==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61500003bb00 at pc 0x55ab469f456c bp 0x7ffee71be330 sp 0x7ffee71bdae0
-> >>   WRITE of size 4 at 0x61500003bb00 thread T0
-> >>       #0 0x55ab469f456b in __asan_memcpy (qemu-system-i386+0x1cea56b)
-> >>       #1 0x55ab483dc396 in stl_he_p include/qemu/bswap.h:353:5
-> >>       #2 0x55ab483af5e4 in stn_he_p include/qemu/bswap.h:546:1
-> >>       #3 0x55ab483aeb4b in flatview_read_continue softmmu/physmem.c:2839:13
-> >>       #4 0x55ab483b0705 in flatview_read softmmu/physmem.c:2877:12
-> >>       #5 0x55ab483b028e in address_space_read_full softmmu/physmem.c:2890:18
-> >>       #6 0x55ab483b1294 in address_space_rw softmmu/physmem.c:2918:16
-> >>       #7 0x55ab479374a2 in dma_memory_rw_relaxed include/sysemu/dma.h:88:12
-> >>       #8 0x55ab47936f50 in dma_memory_rw include/sysemu/dma.h:127:12
-> >>       #9 0x55ab4793665f in dma_memory_read include/sysemu/dma.h:145:12
-> >>       #10 0x55ab4792f176 in sdhci_sdma_transfer_multi_blocks hw/sd/sdhci.c:639:13
-> >>       #11 0x55ab4793dc9d in sdhci_write hw/sd/sdhci.c:1129:17
-> >>       #12 0x55ab483f8db8 in memory_region_write_accessor softmmu/memory.c:491:5
-> >>       #13 0x55ab483f868a in access_with_adjusted_size softmmu/memory.c:552:18
-> >>       #14 0x55ab483f6da5 in memory_region_dispatch_write softmmu/memory.c:1501:16
-> >>       #15 0x55ab483c3b11 in flatview_write_continue softmmu/physmem.c:2774:23
-> >>       #16 0x55ab483b0eb6 in flatview_write softmmu/physmem.c:2814:14
-> >>       #17 0x55ab483b0a3e in address_space_write softmmu/physmem.c:2906:18
-> >>       #18 0x55ab48465c56 in qtest_process_command softmmu/qtest.c:654:9
-> >>
-> >>   0x61500003bb00 is located 0 bytes to the right of 512-byte region [0x61500003b900,0x61500003bb00)
-> >>   allocated by thread T0 here:
-> >>       #0 0x55ab469f58a7 in calloc (qemu-system-i386+0x1ceb8a7)
-> >>       #1 0x7f21d678f9b0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x589b0)
-> >>       #2 0x55ab479530ed in sdhci_pci_realize hw/sd/sdhci-pci.c:36:5
-> >>       #3 0x55ab476f102a in pci_qdev_realize hw/pci/pci.c:2108:9
-> >>       #4 0x55ab48baaad2 in device_set_realized hw/core/qdev.c:761:13
-> >>
-> >>   SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-system-i386+0x1cea56b) in __asan_memcpy
-> >>   Shadow bytes around the buggy address:
-> >>     0x0c2a7ffff710: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-> >>     0x0c2a7ffff720: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>     0x0c2a7ffff730: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>     0x0c2a7ffff740: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>     0x0c2a7ffff750: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >>   =>0x0c2a7ffff760:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-> >>     0x0c2a7ffff770: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-> >>     0x0c2a7ffff780: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-> >>     0x0c2a7ffff790: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-> >>     0x0c2a7ffff7a0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-> >>     0x0c2a7ffff7b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-> >>   Shadow byte legend (one shadow byte represents 8 application bytes):
-> >>     Addressable:           00
-> >>     Heap left redzone:       fa
-> >>     Freed heap region:       fd
-> >>   ==2686219==ABORTING
-> >>
-> >> Fixes: CVE-2020-17380
-> >> Fixes: CVE-2020-25085
-> >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > 
-> > I applied this along with <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
-> > "hw/sd: sdhci: Do not transfer any data when command fails"
-> > 
-> > I ran through the entire OSS-Fuzz corpus, and could not reproduce the
-> > crash.
-> 
-> Thanks for your testing, it is helpful!
-> 
-> However I am a bit confused, because Bin's patch is supposed to
-> replace mine. Are you saying Bin's patch doesn't fix the problem?
+> On Tue, 19 Jan 2021 at 13:58, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> Ping? Laurent, what's your take on this docs patch?
+>>
+>> thanks
+>> -- PMM
+>>
+>> On Sun, 22 Nov 2020 at 00:01, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>>
+>>> The 'Quick Start' section of the userspace emulator documentation is
+>>> very old and outdated. In particular:
+>>>  - it suggests running x86-on-x86 emulation, which is the least
+>>>    interesting possible use case
+>>>  - it recommends that users download tarballs of guest binaries
+>>>    from the QEMU web page which we no longer provide there
+>>>
+>>> There's nothing salvageable here; delete it all.
+>>>
+>>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>>> ---
+>>> I'm open to suggestions that this is being too drastic;
+>>> the main aim here is to remove references to tar.gz files
+>>> that we haven't provided for years, as noted by
+>>>  https://bugs.launchpad.net/qemu/+bug/1884982
+>>> Ideally the whole of docs/user could use a lot of love...
+>>>
+>>>  docs/user/main.rst | 61 ----------------------------------------------
+>>>  1 file changed, 61 deletions(-)
+>>>
+>>> diff --git a/docs/user/main.rst b/docs/user/main.rst
+>>> index bd99b0fdbe9..49ccae3ecab 100644
+>>> --- a/docs/user/main.rst
+>>> +++ b/docs/user/main.rst
+>>> @@ -45,67 +45,6 @@ emulator.
+>>>  Linux User space emulator
+>>>  -------------------------
+>>>
+>>> -Quick Start
+>>> -~~~~~~~~~~~
+>>> -
+>>> -In order to launch a Linux process, QEMU needs the process executable
+>>> -itself and all the target (x86) dynamic libraries used by it.
+>>> -
+>>> --  On x86, you can just try to launch any process by using the native
+>>> -   libraries::
+>>> -
+>>> -      qemu-i386 -L / /bin/ls
+>>> -
+>>> -   ``-L /`` tells that the x86 dynamic linker must be searched with a
+>>> -   ``/`` prefix.
+>>> -
+>>> --  Since QEMU is also a linux process, you can launch QEMU with QEMU
+>>> -   (NOTE: you can only do that if you compiled QEMU from the sources)::
+>>> -
+>>> -      qemu-i386 -L / qemu-i386 -L / /bin/ls
+>>> -
+>>> --  On non x86 CPUs, you need first to download at least an x86 glibc
+>>> -   (``qemu-runtime-i386-XXX-.tar.gz`` on the QEMU web page). Ensure that
+>>> -   ``LD_LIBRARY_PATH`` is not set::
+>>> -
+>>> -      unset LD_LIBRARY_PATH
+>>> -
+>>> -   Then you can launch the precompiled ``ls`` x86 executable::
+>>> -
+>>> -      qemu-i386 tests/i386/ls
+>>> -
+>>> -   You can look at ``scripts/qemu-binfmt-conf.sh`` so that QEMU is
+>>> -   automatically launched by the Linux kernel when you try to launch x86
+>>> -   executables. It requires the ``binfmt_misc`` module in the Linux
+>>> -   kernel.
+>>> -
+>>> --  The x86 version of QEMU is also included. You can try weird things
+>>> -   such as::
+>>> -
+>>> -      qemu-i386 /usr/local/qemu-i386/bin/qemu-i386 \
+>>> -                /usr/local/qemu-i386/bin/ls-i386
+>>> -
+>>> -Wine launch
+>>> -~~~~~~~~~~~
+>>> -
+>>> --  Ensure that you have a working QEMU with the x86 glibc distribution
+>>> -   (see previous section). In order to verify it, you must be able to
+>>> -   do::
+>>> -
+>>> -      qemu-i386 /usr/local/qemu-i386/bin/ls-i386
+>>> -
+>>> --  Download the binary x86 Wine install (``qemu-XXX-i386-wine.tar.gz``
+>>> -   on the QEMU web page).
+>>> -
+>>> --  Configure Wine on your account. Look at the provided script
+>>> -   ``/usr/local/qemu-i386/bin/wine-conf.sh``. Your previous
+>>> -   ``${HOME}/.wine`` directory is saved to ``${HOME}/.wine.org``.
+>>> -
+>>> --  Then you can try the example ``putty.exe``::
+>>> -
+>>> -      qemu-i386 /usr/local/qemu-i386/wine/bin/wine \
+>>> -                /usr/local/qemu-i386/wine/c/Program\ Files/putty.exe
+>>> -
+>>>  Command line options
+>>>  ~~~~~~~~~~~~~~~~~~~~
+>>>
+>>> --
+>>> 2.20.1
 
-Ah I misunderstood.
-
-> 
-> Could you test this patch without Bin's one?
-> 
-
-Wow - Applying only this one, there is still a crash. Applying only
-Bin's, there is still a crash. Applying both - no crash ..
-Here's a reproducer for crashing with this patch applied. I'll post the
-other reproducer in the thread for Bin's patch.
-
--Alex
-
-cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
--m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
--drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
--device sd-card,drive=mydrive -qtest stdio
-outl 0xcf8 0x80001013
-outl 0xcfc 0x5a
-outl 0xcf8 0x80001001
-outl 0xcfc 0x06000000
-write 0x5a00002c 0x1 0x05
-write 0x5a00000f 0x1 0x37
-write 0x5a00000a 0x1 0x01
-write 0x5a00000f 0x1 0x29
-outl 0xcf8 0x80001012
-outb 0xcfc 0x1
-write 0x5a01000f 0x1 0x02
-write 0x5a01000f 0x1 0x03
-outl 0xcfc 0x5a55
-write 0x5a550005 0x1 0x02
-write 0x5a550028 0x1 0x10
-write 0x0 0x1 0x21
-write 0x6 0x1 0x55
-write 0x7 0x1 0x5a
-write 0x5a55000a 0x1 0x20
-write 0x5a55000c 0x1 0x11
-write 0x5a55000e 0x1 0x20
-write 0x5a55000f 0x1 0x06
-EOF
-
-
-==768748==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x615000031880 at pc 0x5651b619d4e8 bp 0x7ffff8e7acb0 sp 0x7ffff8e7aca8
-WRITE of size 1 at 0x615000031880 thread T0
-    #0 0x5651b619d4e7 in sdhci_write_dataport /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:560:39
-    #1 0x5651b619d4e7 in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1178:13
-    #2 0x5651b6d6a46c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
-    #3 0x5651b6d69f6b in access_with_adjusted_size /home/alxndr/Development/qemu/build/../softmmu/memory.c:552:18
-    #4 0x5651b6d69770 in memory_region_dispatch_write /home/alxndr/Development/qemu/build/../softmmu/memory.c
-    #5 0x5651b71385cb in flatview_write_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2776:23
-    #6 0x5651b712dd1b in flatview_write /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2816:14
-    #7 0x5651b712dd1b in address_space_write /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2908:18
-    #8 0x5651b618d042 in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
-    #9 0x5651b618d042 in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
-    #10 0x5651b618d042 in dma_memory_write /home/alxndr/Development/qemu/include/sysemu/dma.h:163:12
-    #11 0x5651b618d042 in sdhci_do_adma /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:783:21
-    #12 0x5651b6185251 in sdhci_data_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c
-    #13 0x5651b6199a31 in sdhci_send_command /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:374:9
-    #14 0x5651b6199a31 in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1174:9
-    #15 0x5651b6d6a46c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
-...
-
-
-> > 
-> > Tested-by: Alexander Bulekov <alxndr@bu.edu>
-> > Thanks
 
