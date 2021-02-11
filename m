@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6627319156
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:44:39 +0100 (CET)
-Received: from localhost ([::1]:59720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570EE319157
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 18:44:40 +0100 (CET)
+Received: from localhost ([::1]:59704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAG18-0004lB-LE
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:44:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58732)
+	id 1lAG19-0004ku-EX
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 12:44:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAFuM-0006pq-U0
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:37:39 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:37719)
+ id 1lAFxZ-0001aI-3a
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:40:57 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAFuJ-0004EB-Qm
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:37:38 -0500
-Received: by mail-pg1-x533.google.com with SMTP id z21so4397496pgj.4
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 09:37:35 -0800 (PST)
+ id 1lAFxW-0005hD-Uy
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 12:40:56 -0500
+Received: by mail-pl1-x634.google.com with SMTP id u11so3673476plg.13
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 09:40:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UNS0XkCChwAyOt6UnTZd4CJ2RGfAkFAjuEnpdQ+OmVE=;
- b=tdXCM47qLGCZkyZv2/6fBejov2ukzG1WeyTJ7sZ5MRI/lgSUNXxtOZ+ylfXp2eO9Ob
- d/pp58a17GImk8ssXU5HwsKE4OHaJB915HD1Dd0nLfprQ0itucHh0pKXWyBNE3YZVMhW
- EjKMqLkMKs96/SJ7R7yV57za/PDtpM6PvJObcHXjVB1rBbl9Po+e9OH2ziZrQGMfgx51
- 5bNLyI7FaAmJzcwJC31CvTjKmFJBxPrIje0McwQ/VgvX/oqvtxuDnA598puFNyVPJQvr
- 3kgeJ1P4zYcrZzhZA1wIwhT9Upk2NIubWN8ilE8jjA7UnCi1vrnmJfdJKf4sx5oS1yjC
- j1bQ==
+ :cc:content-transfer-encoding;
+ bh=QziDmZr8TTpasbvFZVUT/329P3XT1UCmwBzrVbDzVt8=;
+ b=CZZ0dXb/akrEVv2gQQECboWALMHG7RAyWsSQM3mxEpIvbiek4NeIVFxUsJbwfNUS1F
+ 5l2Hwc3f005aESd3X699lGHhAOb7vfkMWnvZw0TzSLlkXPN/mwcP06Ate3WnBqutLlGw
+ 1vn4omxqbInwoBzJgbYQLZzODZnev3BBGI9as4f0skV7jhURhiiS4e+3Hb90+uogCy9J
+ aDQ71xGirH1r0z2TRzWtPDbX7Me+ZLFWNdBoDZpNfRsHhZI1CEw5JOewM68MuwzUM1X8
+ zfhcbbe2jGOmNIGQnCbus3G1gzKLviS5KedNNawoXnCKJUGm0kMO1ZiwAC91PUKILivP
+ sGyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UNS0XkCChwAyOt6UnTZd4CJ2RGfAkFAjuEnpdQ+OmVE=;
- b=Eq6vi8nFCstC+6DIXZyvD/a0nDrWvZMRmEzzIYMM8L+nDFPKmm9fONLY0EUojT7wrO
- D5x4no2qV5q8LQv641DS0EdNG32C6rOknkLEdxylikcw/5M56qJUwpqAc93dk/TmbFLY
- 1Eu3NsqsFlnYKmmULZVOhAxBTjv6fkdqvNxXI1LbHRi8EFKIrzFEWLK6yaQzTsx86laO
- FLBo7Y2JVAI52qMZRnuGvV6XWP8KDMTIXycmyhocy5qvf0vFQkeYozZA/E/OzZrUA7B9
- mcrTmfK/SAD/qS4288dzt5iw/ASGibON4nGf21Hep3B7SBY9B6hU6Us1ZN97DUyE/wHg
- c/Nw==
-X-Gm-Message-State: AOAM532wKEq74pOHmqosqBn0aIOvd8pF1KK99QMPeLxKibwyGefgRQxl
- 4YvPeDw+d6ULTt6o3z6TYLZJUS6nnSg8O360di0i3Q==
-X-Google-Smtp-Source: ABdhPJxrJuUckCl6rS+OVDyBD2bIr+oTv2MlTH2k8abnOVqVMCrZwWwpblvgBoqrKN6NkW1cE4VV1vk6MTh0Ao6FAIk=
-X-Received: by 2002:a63:c4a:: with SMTP id 10mr9224648pgm.397.1613065053991;
- Thu, 11 Feb 2021 09:37:33 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QziDmZr8TTpasbvFZVUT/329P3XT1UCmwBzrVbDzVt8=;
+ b=qa7/aah6riy2SiKp8PMp/G0MrZZD1HQvG9ohKL+xuvk6gwIOjVLo6YAYV1p2d4LbYI
+ 7NRJODKeB0AYpivfZrqstctqjEMNQh/krbgddakmvViuz4zgNsaWH4NLIWgYvDFTRtKg
+ UBdmNH8Np3IzXPFDeED5pBOdx6nZ9Mi/GuDsiqK2G2i9KJRAhXtroJMWA46sQzLm+dM5
+ blJaNODcKRf7lfGPxtjljGH2osh85iOuaOzqgMTcq9MwHpTm3zodQCgdpj7jOL+2Wjzc
+ 2veNlSdLVrM8qPIe988XjDaZ8sCxHmklXjDVF0Frf/HqxpQquJWIxqzOfiK4O03xJy7w
+ hoMQ==
+X-Gm-Message-State: AOAM532GQCJXp93F9hT4zIGT3pjYwqXOmpuBog3chZ4koBwSMSQpRHg6
+ H0gFqP3/w81TfzKc3Yz9LnX8guiUyA9ybK7riEeRhQ==
+X-Google-Smtp-Source: ABdhPJwnwxrzPvItcE7Xa8pNbvWQIHYnBMQTywNiPe0cxc7ZYs5qbKGkU8WIgEdLbvZvJ4SMYkxbpVcNIY7Jt3hhMWg=
+X-Received: by 2002:a17:902:e989:b029:e2:8c9d:78ba with SMTP id
+ f9-20020a170902e989b02900e28c9d78bamr8505067plb.81.1613065253570; Thu, 11 Feb
+ 2021 09:40:53 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
- <CAFEAcA_S81bnYVcNENW9bFApAc-Ob1uKQncsGPmyFD034p2FOA@mail.gmail.com>
- <20210211172541.GA2316309@localhost.localdomain>
-In-Reply-To: <20210211172541.GA2316309@localhost.localdomain>
+References: <20210211171945.18313-1-alex.bennee@linaro.org>
+ <20210211171945.18313-2-alex.bennee@linaro.org>
+In-Reply-To: <20210211171945.18313-2-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Feb 2021 17:37:20 +0000
-Message-ID: <CAFEAcA-3M_CaNEiZHohH-RdxYP1Cn=5s+UXYTYE1e7YhoN2+tg@mail.gmail.com>
-Subject: Re: runaway avocado
-To: Cleber Rosa <crosa@redhat.com>
+Date: Thu, 11 Feb 2021 17:40:42 +0000
+Message-ID: <CAFEAcA82Fv34Ri=s97rx8hUPrqMeL4xOS325DbY1fhoWmiE+9A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] hw/board: promote fdt from ARM VirtMachineState to
+ MachineState
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x533.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,20 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: julien@xen.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Andre Przywara <andre.przywara@arm.com>,
+ Stefano Stabellini <stefano.stabellini@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Virt" <qemu-arm@nongnu.org>,
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ stefano.stabellini@xilinx.com,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Feb 2021 at 17:25, Cleber Rosa <crosa@redhat.com> wrote:
-> IIUC, this specic issue was caused by a runaway QEMU.  Granted, it was
-> started by an Avocado test.  I've opened a bug report to look into the
-> possibilities to mitigate or prevent this from happening again:
+On Thu, 11 Feb 2021 at 17:19, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> The use of FDT's is quite common across our various platforms. To
+> allow the generic loader to tweak it we need to make it available in
+> the generic state. This creates the field and migrates the initial
+> user to use the generic field. Other boards will be updated in later
+> patches.
 
-I wonder if we could have avocado run all our acceptance cases
-under a 'ulimit -f' setting that restricts the amount of disk
-space they can use? That would restrict the damage that could
-be done by any runaways. A CPU usage limit might also be good.
+This commit message says this is being done for the generic loader,
+but I deduce from the rest of the series that you aren't using
+the generic loader (cf discussion on a previous version of the series)...
 
 thanks
 -- PMM
