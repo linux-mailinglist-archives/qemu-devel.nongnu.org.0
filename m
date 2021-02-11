@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADBA3183EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 04:26:02 +0100 (CET)
-Received: from localhost ([::1]:50862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3B8318408
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 04:39:19 +0100 (CET)
+Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA2cD-0001eT-F6
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 22:26:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
+	id 1lA2p4-0004Ej-2m
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 22:39:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lA2aD-0000b1-Nx; Wed, 10 Feb 2021 22:23:57 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:33947)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lA2aC-0004pr-70; Wed, 10 Feb 2021 22:23:57 -0500
-Received: by mail-pl1-x632.google.com with SMTP id u15so2543708plf.1;
- Wed, 10 Feb 2021 19:23:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=knXuiJey+6l/92Y7K6EzVuc+mkI6La6zzEeKxwq+yFc=;
- b=JNB8DToLLLS+zdlJ5SgFFK4JGW/XngCnexU8D+/sVkN+qjXVsayjOufuaGcbt0Ef4z
- 9ICfnDUVI2ADCDc+4jI0qRHufHdiCVgYipkeHeQpnOAJOsv/PV0jhbugV5B3jK7FeEyz
- eFwE1o2oNoxT5dx3Bll4Ecc34xkPoOW74Yj/0DheOxfCFCkhmUNF6C5/itJS8kWt41D1
- 8mzY3oYSe08KBXircWZv9KgLy9iG745N7PBJq5Zoea0L/ztWJKTCQBXd1oVtAKZMxhKC
- jwGeT2Qbga1eIi/nw6B0PweJqYmY2CejAjBQzihn4ksxmMmRE8exl9rB48/fZKYf+i4C
- 1Eqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=knXuiJey+6l/92Y7K6EzVuc+mkI6La6zzEeKxwq+yFc=;
- b=IKuW4Dib+xje6GtkXSmhWLqb0WvLNvnkRO7Rp5/ORgwfJce1H/hFti3JYXC0150gU6
- shDSSE7kIeDAf8XXSHfWeaD18tpAxub2QDt1CJt3qF0u6uRvrNGku24qoi/wfb1axC4q
- UXp0qOT4jb5q7ZoC27TwExqf/PA8Q7WerXmCQ8P2Sq7mlgDRydepqY+klD1m9QgzfY6n
- QjUa47n3y4voVjWKoHqLND8A9lCmNjXVbow9X8lmQ7FHMeYjyixgfzLreedzjeSBjexv
- ApeSOl7Xumq8+YuNyeYxOl3xaEX9oa6dohL3gdhE3KmPVKBAd9n2IPKNi9ia1/xKXcN8
- 8a5A==
-X-Gm-Message-State: AOAM533rwo/PNPN1RuujPXLMwTU/H3UYJdfnAyT/egYmGld4FrkbvMYg
- okLSmP+I7e5KGH8ucmYn37U=
-X-Google-Smtp-Source: ABdhPJxYRKM2QH6xKUYpym9CiIsYxjFKF/7GmfvFH09AMnr8QLTTrpOopla4XuOSpQC0bFsSlsz2dA==
-X-Received: by 2002:a17:903:2306:b029:de:18e9:f439 with SMTP id
- d6-20020a1709032306b02900de18e9f439mr5929781plh.38.1613013834418; 
- Wed, 10 Feb 2021 19:23:54 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id g7sm3588327pgg.50.2021.02.10.19.23.53
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 10 Feb 2021 19:23:53 -0800 (PST)
-Date: Thu, 11 Feb 2021 12:23:51 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lA2nX-0003kL-Hn; Wed, 10 Feb 2021 22:37:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lA2nV-0001sV-SZ; Wed, 10 Feb 2021 22:37:43 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E002A64E46;
+ Thu, 11 Feb 2021 03:37:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613014658;
+ bh=j1xVbOaVVUJ8FolvkJN6iMvsp/PpVJkRBaaP6PlroLA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZTuRHPVbTpvjb0k525x4iFn2EvYBleKcBU1I7oAEjZhbJPbdcb1FlHPy2XGe+Bd8l
+ QnwXOXZvaZ95J12EkYSvrJPKc+QvtRFQTxMNGzZ1RR3Nz5+bmfqDzmsj/RPFNmNWyC
+ 1YQrsjLluWOmiSeb7D75WFfCFoLWlPJ5QwcF+qU3agBJbvpo4xzqlf9qpigK8jIWBc
+ XKURl3HE2vSDQjJyd2FcH1ax1+i9nkgpybMX+tGv1tVsTwCe1DPuZo4wRePKnpfYM4
+ EG+TOU57MZcA7+dxk5ya9JAqhBRI2zwq9fJG5n3MPsj7i2/y14viC7ryR2S5DA0g0Z
+ CXmaxqvv8zUWg==
+Date: Thu, 11 Feb 2021 12:37:32 +0900
+From: Keith Busch <kbusch@kernel.org>
 To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [RFC PATCH 3/3] hw/block/nvme: add nvme_inject_state HMP command
-Message-ID: <20210211032351.GD24885@localhost.localdomain>
-References: <20210210195252.19339-1-minwoo.im.dev@gmail.com>
- <20210210195252.19339-4-minwoo.im.dev@gmail.com>
- <YCRDLk8e1A4mxbYd@apples.localdomain>
+Subject: Re: [PATCH 2/2] hw/block/nvme: add write uncorrectable command
+Message-ID: <20210211033732.GE23363@redsun51.ssa.fujisawa.hgst.com>
+References: <20210210070646.730110-1-its@irrelevant.dk>
+ <20210210070646.730110-3-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YCRDLk8e1A4mxbYd@apples.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210210070646.730110-3-its@irrelevant.dk>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -76
+X-Spam_score: -7.7
+X-Spam_bar: -------
+X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,54 +63,29 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Keith Busch <kbusch@kernel.org>, Max Reitz <mreitz@redhat.com>
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-02-10 21:33:50, Klaus Jensen wrote:
-> On Feb 11 04:52, Minwoo Im wrote:
-> > nvme_inject_state command is to give a controller state to be.
-> > Human Monitor Interface(HMP) supports users to make controller to a
-> > specified state of:
-> > 
-> > 	normal:			Normal state (no injection)
-> > 	cmd-interrupted:	Commands will be interrupted internally
-> > 
-> > This patch is just a start to give dynamic command from the HMP to the
-> > QEMU NVMe device model.  If "cmd-interrupted" state is given, then the
-> > controller will return all the CQ entries with Command Interrupts status
-> > code.
-> > 
-> > Usage:
-> > 	-device nvme,id=nvme0,....
-> > 
-> > 	(qemu) nvme_inject_state nvme0 cmd-interrupted
-> > 
-> > 	<All the commands will be interrupted internally>
-> > 
-> > 	(qemu) nvme_inject_state nvme0 normal
-> > 
-> > This feature is required to test Linux kernel NVMe driver for the
-> > command retry feature.
-> > 
+On Wed, Feb 10, 2021 at 08:06:46AM +0100, Klaus Jensen wrote:
+> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 > 
-> This is super cool and commands like this feel much nicer than the
-> qom-set approach that the SMART critical warning feature took.
+> Add support for marking blocks invalid with the Write Uncorrectable
+> command. Block status is tracked in a (non-persistent) bitmap that is
+> checked on all reads and written to on all writes. This is potentially
+> expensive, so keep Write Uncorrectable disabled by default.
 
-This interface is super easy to inject some errors to the running
-device with a function call-back.
+I really think attempting to emulate all these things is putting a
+potentially unnecessary maintenance burden on this device.
 
-> But... looking at the existing commands I don't think we can "bloat" it
-> up with a device specific command like this, but I don't know the policy
-> around this.
+The DULBE implementation started off similiar, but I suggested it
+leverage support out of the backing file, and I feel it ended up better
+for it.
 
-Me neither, but I've seen the PCI AER error injection feature from
-the existing commands, so I suggested this command to control the
-NVMe device itself like error injection.
-
-> If an HMP command is out, then we should be able to make do with the
-> qom-set approach just fine though.
-
-Hope so.
+But unlike punching and checking for holes, there's no filesystem
+support for Write Uncorrectable in our qemu API, and that's probably
+because this is kind of a niche feature. Is there a use case with a
+real qemu guest wanting this?
 
