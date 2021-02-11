@@ -2,74 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181713183C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 03:56:32 +0100 (CET)
-Received: from localhost ([::1]:42784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9EB3183CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 04:01:50 +0100 (CET)
+Received: from localhost ([::1]:45372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA29f-0004Xi-65
-	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 21:56:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60906)
+	id 1lA2Em-0006CJ-QN
+	for lists+qemu-devel@lfdr.de; Wed, 10 Feb 2021 22:01:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lA28H-00041l-WA; Wed, 10 Feb 2021 21:55:06 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40152)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lA28G-0001ee-Fu; Wed, 10 Feb 2021 21:55:05 -0500
-Received: by mail-pl1-x633.google.com with SMTP id z7so2476029plk.7;
- Wed, 10 Feb 2021 18:55:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=BDq1DmFUfM/ll82MYVzwh72PrydALCEDMWdEQiTehbE=;
- b=hgfgvYqdxwqz1p5oGZYxkeIP17pQcd9fKKK2tZ2o0vKGtZrxOuA/nyi+F3FDUFUoQh
- XcRPa1DGmcBtnitU0i9SiPxS5vEpDshS7RODgiKz9rtBiaiQIyQi5aWPuR9vULNsJ+T/
- WhsHSHQDO4abfCvv4c1nenzS6Ov+HfZwG0A7cpo4MhsBCdQRW0VnT20eLK7FrQgIsKxE
- iywIsKUTJqhDL/EU92NEJ8m2uoDBgDLf+FgWO7iqeOZccNAdtkx9ZNxo2xaJ0NJVJ1Q2
- +SkG5qOLsVChTnEpDr62E+xsVQd2nkQs0rNk8rbpOWIkhjp8LOJ3kI6wj4AaaFnvRqts
- b1GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=BDq1DmFUfM/ll82MYVzwh72PrydALCEDMWdEQiTehbE=;
- b=BBUIwFeU6fAXbeiadaxFmUlttfzKqAHQG66gTq3qujkInKtn2wwvUqeDu8zoDrAriG
- yxVs+aZI7Q2vOK4J7ufGv9vSAdYq5QsI4xya9E9A5ZHArLXSBZUtKJac574dYgsOGmqZ
- MSs+MlZlEJxqR3jXK8qIc74ov2tsWYgUnXYHEJpZBuijWPvQhBzl7BqONzHFc2cd0GZA
- xP5LKIfsw1dejL7hq+3DxXMmjD/TQtErpJYFHt1RKiLUnLQ4TkfLHWJ7HRrk0MRVBigC
- wVwXau6mmOJyOjGOo+LHqK2Lqa6gefz8tYgFJxq5zz6IUTZhETK6JsVcmXjh6med8NfT
- Fa4A==
-X-Gm-Message-State: AOAM532WqVxzHGFbNDN528qUFLfLzwlLHy7PjG92n/DipvbOlUwxQbij
- Minh3aMtvb1lrwSeFs3cELA=
-X-Google-Smtp-Source: ABdhPJwx/UebLDIS/hUEqT6+BrRsWUGCXzYR6mHMmeYsGLObPUegerCjBr7Ki+QMusWyGeKUun2c2w==
-X-Received: by 2002:a17:902:e54e:b029:e1:2817:f900 with SMTP id
- n14-20020a170902e54eb02900e12817f900mr5903266plf.15.1613012102748; 
- Wed, 10 Feb 2021 18:55:02 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id 21sm3540190pfh.56.2021.02.10.18.55.01
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 10 Feb 2021 18:55:02 -0800 (PST)
-Date: Thu, 11 Feb 2021 11:55:00 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 2/2] hw/nvme: move device-scoped functions
-Message-ID: <20210211025500.GC24885@localhost.localdomain>
-References: <20210209110826.585987-1-its@irrelevant.dk>
- <20210209110826.585987-3-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lA2DP-0005ZC-75; Wed, 10 Feb 2021 22:00:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lA2DM-0003wT-2w; Wed, 10 Feb 2021 22:00:22 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 234C564E2E;
+ Thu, 11 Feb 2021 03:00:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613012417;
+ bh=Ek73MQJt0fnnijnG67iXAzHiO1PaCNsBUmSYG1U4zfY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=e7EwIqOp8ADvH+sUenUuT/t/pjXLgdA3pabILnbI9PXbauXhgufpQBCnSLkruHdjV
+ 84uiWC5OlFDo52FxQ5HX/+gRfX9dGW/dkw65Hzn4x7ABkSX8moU/wnL3QhcUfnlcdM
+ EhOBZP/MmOtL1Dal0I2WtPMRToytGNmJvFpmBQ+H7LAmosFYUrYq0FRhnWDbqEyjuP
+ M00qqbtdoerkQEsBLRhwi92Oru4jSgl2Uw+TLvl0Z0w9K2IMcjZoYHso744OOo6QSK
+ dYyITjo7STUeifCYtP2yq9woW+zXuvFj8NS2bjVbbN+iI68MMFNOegMVKMyHfnH38Y
+ wDOdUz+hfvLyg==
+Date: Thu, 11 Feb 2021 12:00:11 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [RFC PATCH 3/3] hw/block/nvme: add nvme_inject_state HMP command
+Message-ID: <20210211030011.GD23363@redsun51.ssa.fujisawa.hgst.com>
+References: <20210210195252.19339-1-minwoo.im.dev@gmail.com>
+ <20210210195252.19339-4-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210209110826.585987-3-its@irrelevant.dk>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210210195252.19339-4-minwoo.im.dev@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -76
+X-Spam_score: -7.7
+X-Spam_bar: -------
+X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,17 +63,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Klaus Jensen <its@irrelevant.dk>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-02-09 12:08:26, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On Thu, Feb 11, 2021 at 04:52:52AM +0900, Minwoo Im wrote:
+> nvme_inject_state command is to give a controller state to be.
+> Human Monitor Interface(HMP) supports users to make controller to a
+> specified state of:
 > 
-> Move a bunch of functions that are internal to a device out of the
-> shared header.
+> 	normal:			Normal state (no injection)
+> 	cmd-interrupted:	Commands will be interrupted internally
+> 
+> This patch is just a start to give dynamic command from the HMP to the
+> QEMU NVMe device model.  If "cmd-interrupted" state is given, then the
+> controller will return all the CQ entries with Command Interrupts status
+> code.
+> 
+> Usage:
+> 	-device nvme,id=nvme0,....
+> 
+> 	(qemu) nvme_inject_state nvme0 cmd-interrupted
+> 
+> 	<All the commands will be interrupted internally>
+> 
+> 	(qemu) nvme_inject_state nvme0 normal
+> 
+> This feature is required to test Linux kernel NVMe driver for the
+> command retry feature.
 
-May I ask why?  I think some kind of these helpers can stick onto the
-header.
+Once the user sets the injected state, all commands return that status
+until the user injects the normal state, so the CRD time is meaningless
+here. If we're really going this route, the state needs to return to
+normal on it's own.
+
+But I would prefer to see advanced retry tied to real errors that can be
+retried, like if we got an EBUSY or EAGAIN errno or something like that.
+
+The interface you found to implement this is very interesting though.
 
