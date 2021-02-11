@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138483188AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:53:29 +0100 (CET)
-Received: from localhost ([::1]:52084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D233188DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 12:00:40 +0100 (CET)
+Received: from localhost ([::1]:56496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA9bE-0001LX-5i
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:53:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35442)
+	id 1lA9iB-0004R0-Cq
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 06:00:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lA9ZL-0000ox-4u
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:51:31 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:45095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lA9ZJ-0004ww-Fv
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:51:30 -0500
-Received: by mail-ed1-x534.google.com with SMTP id t5so6419182eds.12
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 02:51:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ryBdOk4HIiILtvCpweZx/RHs/3qRlJuVkUJsP44Kgms=;
- b=Sv61wKurXxqcfC5peyJQJdZM2umyXQo505JFggSb4W91y/6DXS8wZWA3llOu1S2rZO
- +Ym3jev4D5Ri8MjtWx8PVHnxVajvyWROTbAfjfoEGLfY+7HKYw8FbVtqjaB+RQAJ7+DV
- wUk5XslQGwwaD9c30o/qtZLMxtAJ2gWGzy8D4q7SYEKnckmC6IzVL7dNOwD0QETIl78v
- tWmO2nhAlVd5v1QAbDhRm07WkYqpKArIFdxWY9MkHTBBzz7E+p09UP8KMMpeUt5gINOZ
- GHRCcMNvGPwHu5n011/8JIFglEM/oD3StFwSKJQi1nSrgt3sjLYfu0Z0dmXE5JuEuEfP
- pg2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ryBdOk4HIiILtvCpweZx/RHs/3qRlJuVkUJsP44Kgms=;
- b=iH6lGRSDvr5rEqAzqvK2NvG5pRBVNef8f61pXyBRPHflbwHK07G0xkT9BFliBdhJZU
- o+Wx9ta21B08aTnPAbjCsDEy50X+5zfFP7rilDEH6P0q7P33mwxIXas6Dgz4F1L2wuxa
- E53tDMQQ0gjBcowAnMp5nDAOstM2U1hyD7nJnA52SbdvO6G/t43JaCwpL80W1OHGwEko
- gQJyP41McGdHCwQF5rcUI2xx7GAAePKxWGChy5+EcMDBOcB7GhG9/Kluc+94kgG3ROtj
- 3efYIhi1g0L4fxreGScQhbGRt78I/9hD7af90kG54EqTUORkQmvgnONqty2wr/LXGvX7
- Jvww==
-X-Gm-Message-State: AOAM532tP5zKpdB8QR+BwxD351DLZf/myh2ViGn3VKV2ZhbtIPBNQ0eF
- OTstv4KQfBfSiUIotGCPyG8qEOwjHUa2A7qUST8SVg==
-X-Google-Smtp-Source: ABdhPJzgpbfPKmNxzGWiHAcxAxREkfJ2MceivDWr2VtyZwQSiI9ef3tWCY7ZFlS9MVCeL86t/Z8SZiyN7epa28YQwIg=
-X-Received: by 2002:a50:9e01:: with SMTP id z1mr7773434ede.44.1613040687478;
- Thu, 11 Feb 2021 02:51:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lA9cg-0002Px-VY; Thu, 11 Feb 2021 05:54:59 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:47141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lA9ce-0006Mq-Bq; Thu, 11 Feb 2021 05:54:58 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 06C155C0116;
+ Thu, 11 Feb 2021 05:54:55 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 11 Feb 2021 05:54:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=43eysmtlCd15QjsaRhNmak35DR
+ Kx5Oj319gjNHkMrJ0=; b=HQXejQM3mYamxn4rgBx8Xn0tZzUvjukoTYSbdh4Gb0
+ MW9HouinZIZL0D9mX/wel3jzdc8hIpBAvCxqcUFVOzCtRqYol35VL85ypqsWCf8W
+ p9FES7+nt6Nd6OdL1PiT4h1j6tcxIIJUpGALtMnPvci49Tm22cBDqkaU7odvlIDI
+ QAXYy6Z39kEU+wNLHFOjq2PVY2dAeX9pwlHIiCYR+5Q4CHLU5mBECC61z7IQ6RFn
+ 0yzvachyjUH/iRsn0mqOSHDRMNKWWcQQ/DV5xya0NEOuv2JwOFuULvztUATBaLux
+ 6hETc6h7bacwAqxlM1M2DxL/XTRixVXeVuCQliF8g9Pg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=43eysmtlCd15QjsaR
+ hNmak35DRKx5Oj319gjNHkMrJ0=; b=NBv9dVHcNtGSM7bkvQKndo3ONhY/Er6uq
+ tS7hEwrXjy+ko7UR8Ry9CFaM+agmzS/OmEcXmHLDW73EnJkwKP5PrfguBmKZs8gG
+ RCXixk1QgcYwfjPPvxEjsGaeWHArtCEL9oydA6fYVxingHB3+y996g6MpDbDC8BH
+ xDYNNEGY9//Jukp9Vt6LQcfB/iQq9PxP8Xkubbv86DCEcqDbM/bgxL1cDawleClE
+ 2VmGPDgdlFOCUMUOeqwUb/l4ICcj3IFrRA5lT/D1zIM0gZpssJ0+E1OJw/41UsJf
+ pwkQqwvt6Q9pTjLEhl9l86wlMg6hrOSn2g2WAEX5dDnT7cMAmUiSw==
+X-ME-Sender: <xms:_QwlYMNkINiX_ExRwZKbSQ0uzNcgJj4bNvIP4T-AwPuVQI9PcmEZ2w>
+ <xme:_QwlYC81DGb8B5p04jwTjGPY37Rt1B9QwRdvtm51mpKJCE9Gmozs4BmoISQsJxsYX
+ Gevhl-ElVc4iBAtuCE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheelgddukecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushculfgv
+ nhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnh
+ epfeevledvieekudeuffetgeegfeehvdffffejueeuleduhedvgeejveejhfdtteehnecu
+ kfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:_QwlYDQ3ryu0YfDcVbk6yR7GBZh_FvVlt7DHjfqnFQGgnVz1yFo6sw>
+ <xmx:_QwlYEulBkbYnK-cgqtY6XYccdGNurnZcHfBfHdDS65BIrLeN8l91A>
+ <xmx:_QwlYEeHvXAY8iItKEflje76-YgdfqVzPLMlYmvufXMBC16SbKfMKg>
+ <xmx:_wwlYMSAzJQGvIywcgTRc7VK7D-Yehr0pjGv8EmupbMxa2Ke5qRVPg>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id BA1641080067;
+ Thu, 11 Feb 2021 05:54:52 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/block/nvme: fix legacy namespace registration
+Date: Thu, 11 Feb 2021 11:54:51 +0100
+Message-Id: <20210211105451.937713-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-References: <CAFEAcA-DZJDe+DziaT9boPObnpnqyLj+-4-S+1ikFbqr_U-SDA@mail.gmail.com>
- <20210211101200.wyzaut76ik77dl2x@sirius.home.kraxel.org>
-In-Reply-To: <20210211101200.wyzaut76ik77dl2x@sirius.home.kraxel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Feb 2021 10:51:16 +0000
-Message-ID: <CAFEAcA-PSH5S_8G9wPVjeSy6w+s9-HCC1HA8cqgTPu+xuF7j_w@mail.gmail.com>
-Subject: Re: can surface_bits_per_pixel() for the console surface ever return
- anything other than 32 ?
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,38 +89,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Alexander Graf <agraf@csgraf.de>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Feb 2021 at 10:12, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > I notice that as well as handling surface_bits_per_pixel()
-> > possibly returning 8, 15, 16, 24, these devices also seem to
-> > check for the possibility it returns 0 (presumably meaning
-> > "no surface" or "no surface yet" ?).
->
-> Depends a bit on how the surface is created.
->
-> When using host memory as backing storage (typical workflow is
-> qemu_console_resize() + qemu_console_surface() calls) bits per pixel is
-> 32 no matter what (format is PIXMAN_x8r8g8b8 to be exact).  I think this
-> is true for most if not all arm display devices.
->
-> Depth 15+15+24 can happen when the display device uses
-> qemu_create_displaysurface_from().  That is typically the case when
-> using guest-accessible memory (vga vram for example) as backing storage
-> for the surface.  Which implies there is no need for the display device
-> to update the surface in the first place because the guest can render
-> directly to the surface then.
->
-> "no surface" can only happen when the display device explicitly calls
-> dpy_gfx_replace_surface(con, NULL).  virtio-gpu does that in case the
-> guest disables the output for example.
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Thanks. It sounds like for the displays I'm interested in
-I can just assume the surface is always 32 bits with no
-exceptions (and it's easy enough to grep for whether the
-device is making one of the function calls you list).
+Moving namespace registration to the nvme-ns realization function had
+the unintended side-effect of breaking legacy namespace registration.
+Fix this.
 
--- PMM
+Fixes: 15d024d4aa9b ("hw/block/nvme: split setup and register for namespace")
+Reported-by: Alexander Graf <agraf@csgraf.de>
+Cc: Minwoo Im <minwoo.im.dev@gmail.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 5ce21b7100b3..d36e14fe13e2 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -4507,6 +4507,12 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         if (nvme_ns_setup(ns, errp)) {
+             return;
+         }
++
++        if (nvme_register_namespace(n, ns, errp)) {
++            error_propagate_prepend(errp, local_err,
++                                    "could not register namespace: ");
++            return;
++        }
+     }
+ }
+ 
+-- 
+2.30.0
+
 
