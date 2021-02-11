@@ -2,48 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309DC318F10
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 16:47:51 +0100 (CET)
-Received: from localhost ([::1]:46976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3DF318F19
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 16:49:34 +0100 (CET)
+Received: from localhost ([::1]:52530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAEC5-0006IX-Uj
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 10:47:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51258)
+	id 1lAEDl-0000PY-TY
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 10:49:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAE81-0004QO-OW; Thu, 11 Feb 2021 10:43:37 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:47180)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lAE7y-0004iP-K9; Thu, 11 Feb 2021 10:43:36 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 11BFgS33026575
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 11 Feb 2021 10:42:31 -0500
-Date: Thu, 11 Feb 2021 10:42:28 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 0/2] block: Use 'read-zeroes=true' mode by default
- with 'null-co' driver
-Message-ID: <20210211154228.izwdqb33dxtnu65n@mozz.bu.edu>
-References: <20210211142656.3818078-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lAEBW-0006U9-C3
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 10:47:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lAEBT-0006U4-Ie
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 10:47:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613058430;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s3UgHYU0X9VArROfuASc3JkNJc1U70Q0IEhd8u/QPSI=;
+ b=YgNepYN1UjolW8GhqFZ1H6M//aqskiNsmsntdFiFRBp7kPybPUsX96vh6itBJvmyMe5WVc
+ NlfCSiVd5S8kgFwmVO4/G31D9CnIK5/8t2SYgo2+/mN5vmcBJ49vQlMvCh+b4WWM3ypGDz
+ yrAE/SGtVLfcIxp3IxIs+TpF2PYPJyo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-jXakkWgnPAijtjUIvlDOVw-1; Thu, 11 Feb 2021 10:47:06 -0500
+X-MC-Unique: jXakkWgnPAijtjUIvlDOVw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E1D89126F;
+ Thu, 11 Feb 2021 15:47:04 +0000 (UTC)
+Received: from redhat.com (ovpn-114-239.ams2.redhat.com [10.36.114.239])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A1A076E505;
+ Thu, 11 Feb 2021 15:46:50 +0000 (UTC)
+Date: Thu, 11 Feb 2021 15:46:47 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PULL v4 14/27] io: add qio_channel_readv_full_all_eof &
+ qio_channel_readv_full_all helpers
+Message-ID: <20210211154647.GK1302824@redhat.com>
+References: <20210210092628.193785-1-stefanha@redhat.com>
+ <20210210092628.193785-15-stefanha@redhat.com>
+ <7a12b897-3157-7a2b-115b-cb6b263b147d@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <7a12b897-3157-7a2b-115b-cb6b263b147d@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210211142656.3818078-1-philmd@redhat.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,120 +84,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ thuth@redhat.com, Jagannathan Raman <jag.raman@oracle.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, qemu-devel@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210211 1526, Philippe Mathieu-Daudé wrote:
-> The null-co driver doesn't zeroize buffer in its default config,
-> because it is designed for testing and tests want to run fast.
-> However this confuses security researchers (access to uninit
-> buffers).
+On Thu, Feb 11, 2021 at 04:34:40PM +0100, Max Reitz wrote:
+> On 10.02.21 10:26, Stefan Hajnoczi wrote:
+> > From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> > 
+> > Adds qio_channel_readv_full_all_eof() and qio_channel_readv_full_all()
+> > to read both data and FDs. Refactors existing code to use these helpers.
+> > 
+> > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> > Acked-by: Daniel P. Berrangé <berrange@redhat.com>
+> > Message-id: b059c4cc0fb741e794d644c144cc21372cad877d.1611938319.git.jag.raman@oracle.com
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >   include/io/channel.h |  53 +++++++++++++++++++++++
+> >   io/channel.c         | 101 ++++++++++++++++++++++++++++++++++---------
+> >   2 files changed, 134 insertions(+), 20 deletions(-)
 > 
+> [...]
+> 
+> > diff --git a/io/channel.c b/io/channel.c
+> > index 0d4b8b5160..4555021b62 100644
+> > --- a/io/channel.c
+> > +++ b/io/channel.c
+> 
+> [...]
+> 
+> > @@ -135,20 +193,23 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
+> >       return ret;
+> >   }
+> > -int qio_channel_readv_all(QIOChannel *ioc,
+> > -                          const struct iovec *iov,
+> > -                          size_t niov,
+> > -                          Error **errp)
+> > +int qio_channel_readv_full_all(QIOChannel *ioc,
+> > +                               const struct iovec *iov,
+> > +                               size_t niov,
+> > +                               int **fds, size_t *nfds,
+> > +                               Error **errp)
+> >   {
+> > -    int ret = qio_channel_readv_all_eof(ioc, iov, niov, errp);
+> > +    int ret = qio_channel_readv_full_all_eof(ioc, iov, niov, fds, nfds, errp);
+> >       if (ret == 0) {
+> > -        ret = -1;
+> > -        error_setg(errp,
+> > -                   "Unexpected end-of-file before all bytes were read");
+> > -    } else if (ret == 1) {
+> > -        ret = 0;
+> > +        error_prepend(errp,
+> > +                      "Unexpected end-of-file before all data were read.");
+> > +        return -1;
+> 
+> This change breaks iotest 083 (i.e., it segfaults), because
+> qio_channel_readv_full_all_eof() doesn’t set *errp when it returns 0, so
+> there is no error to prepend.
 
-Interesting.. Is there an example bug report, where it raised alarms
-because of an un-zeroed null-co:// buffer?
--Alex
+Opps, yes, this needs to be error_setg() not error_prepend()
 
-> A one-line patch supposed which became a painful one, because
-> there is so many different syntax to express the same usage:
-> 
->  opt = qdict_new();
->  qdict_put_str(opt, "read-zeroes", "off");
->  null_bs = bdrv_open("null-co://", NULL, opt, BDRV_O_RDWR | BDRV_O_PROTOCOL,
->                      &error_abort);
-> 
-> vm.qmp('blockdev-add', driver='null-co', read_zeroes=False, ...)
-> 
-> vm.add_drive_raw("id=drive0,driver=null-co,read-zeroes=off,if=none")
-> 
->     blk0 = { 'node-name': 'src',
->         'driver': 'null-co',
->         'read-zeroes': 'off' }
-> 
->     'file': {
->         'driver': 'null-co',
->         'read-zeroes': False,
->     }
-> 
->     "file": {
->         "driver": "null-co",
->         "read-zeroes": "off"
->     }
-> 
->     { "execute": "blockdev-add",
->       "arguments": {
->           "driver": "null-co",
->           "read-zeroes": false,
->           "node-name": "disk0"
->         }
->     }
-> 
-> opts = {'driver': 'null-co,read-zeroes=off', 'node-name': 'root', 'size': 1024}
-> 
-> qemu -drive driver=null-co,read-zeroes=off
-> 
-> qemu-io ... "json:{'driver': 'null-co', 'read-zeroes': false, 'size': 65536}"
-> 
-> qemu-img null-co://,read-zeroes=off
-> 
-> qemu-img ... -o data_file="json:{'driver':'null-co',,'read-zeroes':false,,'size':'4294967296'}"
-> 
-> There are probably more.
-> 
-> Anyhow, the iotests I am not sure and should be audited are 056, 155
-> (I don't understand the syntax) and 162.
-> 
-> Please review,
-> 
-> Phil.
-> 
-> Philippe Mathieu-Daud=C3=A9 (2):
->   block: Explicit null-co uses 'read-zeroes=3Dfalse'
->   block/null: Enable 'read-zeroes' mode by default
-> 
->  docs/devel/testing.rst                     | 14 +++++++-------
->  tests/qtest/fuzz/generic_fuzz_configs.h    | 11 ++++++-----
->  block/null.c                               |  2 +-
->  tests/test-bdrv-drain.c                    | 10 ++++++++--
->  tests/acceptance/virtio_check_params.py    |  2 +-
->  tests/perf/block/qcow2/convert-blockstatus |  6 +++---
->  tests/qemu-iotests/040                     |  2 +-
->  tests/qemu-iotests/041                     | 12 ++++++++----
->  tests/qemu-iotests/051                     |  2 +-
->  tests/qemu-iotests/051.out                 |  2 +-
->  tests/qemu-iotests/051.pc.out              |  4 ++--
->  tests/qemu-iotests/087                     |  6 ++++--
->  tests/qemu-iotests/118                     |  2 +-
->  tests/qemu-iotests/133                     |  2 +-
->  tests/qemu-iotests/153                     |  8 ++++----
->  tests/qemu-iotests/184                     |  2 ++
->  tests/qemu-iotests/184.out                 | 10 +++++-----
->  tests/qemu-iotests/218                     |  3 +++
->  tests/qemu-iotests/224                     |  3 ++-
->  tests/qemu-iotests/224.out                 |  8 ++++----
->  tests/qemu-iotests/225                     |  2 +-
->  tests/qemu-iotests/227                     |  4 ++--
->  tests/qemu-iotests/227.out                 |  4 ++--
->  tests/qemu-iotests/228                     |  2 +-
->  tests/qemu-iotests/235                     |  1 +
->  tests/qemu-iotests/245                     |  2 +-
->  tests/qemu-iotests/270                     |  2 +-
->  tests/qemu-iotests/283                     |  3 ++-
->  tests/qemu-iotests/283.out                 |  4 ++--
->  tests/qemu-iotests/299                     |  1 +
->  tests/qemu-iotests/299.out                 |  2 +-
->  tests/qemu-iotests/300                     |  4 ++--
->  32 files changed, 82 insertions(+), 60 deletions(-)
-> 
-> --=20
-> 2.26.2
-> 
-> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
