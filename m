@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DB03187D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:15:13 +0100 (CET)
-Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB973187EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:19:48 +0100 (CET)
+Received: from localhost ([::1]:45354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA90C-0003DQ-A0
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:15:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55592)
+	id 1lA94d-0006Zu-6S
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:19:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lA8xS-0001wC-D1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lA8xU-0001xJ-Ta
  for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:12:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57567)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lA8xM-0005dN-CR
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:12:22 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lA8xO-0005eD-Op
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:12:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613038333;
+ s=mimecast20190719; t=1613038337;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZyARgN7E2gMIP+HaC6c3drv1sInAL34AKCu1HUPM9SE=;
- b=bHpGj4JuMPkHe7W2FQ+yEQlIzQQKT1WrLeY7mTYVcXoApaCXKjpQHYeqTqYSK+qh2Jzo5x
- BGOJhwSRNxaMGx9h/FasZGCOgPHoNFD+8iHgFOcfA/MG0EZSmQOn/+qKVSoikNTh2+Ba1u
- 3uE7Kf6Li1vsg7NLuAJB+Op+E3jnDRY=
+ bh=K8z99wPdzH+CjZKBLLXKqTYVHDCqWpzcL6e8fjIyvCA=;
+ b=R5Yb3B6BllbLcBU3vLJdZdvC+bR86mwbaenM2rT1H+51fOQ8hWviIl2irWsmOZG94mvUV5
+ ZDbWLZJMOdEdNoZkUoOSFq6+drI+YnKXiCFYmWrMNsRuuaN/SS9zmCAlLVPt4Q3Wzv+SIw
+ Gn3L9L8pJ3XgvFVQcrDch3iQf4bqUNA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-l6OFyQVANLq5Toxpovk9_w-1; Thu, 11 Feb 2021 05:12:11 -0500
-X-MC-Unique: l6OFyQVANLq5Toxpovk9_w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-586-SOGqzLjaOXqANsAJe_DGnw-1; Thu, 11 Feb 2021 05:12:14 -0500
+X-MC-Unique: SOGqzLjaOXqANsAJe_DGnw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83E1DC7400;
- Thu, 11 Feb 2021 10:12:10 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-161.ams2.redhat.com
- [10.36.112.161])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AA547095D;
- Thu, 11 Feb 2021 10:12:10 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2921418000B7; Thu, 11 Feb 2021 11:12:00 +0100 (CET)
-Date: Thu, 11 Feb 2021 11:12:00 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: can surface_bits_per_pixel() for the console surface ever return
- anything other than 32 ?
-Message-ID: <20210211101200.wyzaut76ik77dl2x@sirius.home.kraxel.org>
-References: <CAFEAcA-DZJDe+DziaT9boPObnpnqyLj+-4-S+1ikFbqr_U-SDA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C60F107ACF9
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 10:12:14 +0000 (UTC)
+Received: from localhost (ovpn-115-9.ams2.redhat.com [10.36.115.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5466D1001E73;
+ Thu, 11 Feb 2021 10:12:04 +0000 (UTC)
+Date: Thu, 11 Feb 2021 10:12:03 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 03/24] DAX: libvhost-user: Allow popping a queue element
+ with bad pointers
+Message-ID: <20210211101203.GD247031@stefanha-x1.localdomain>
+References: <20210209190224.62827-1-dgilbert@redhat.com>
+ <20210209190224.62827-4-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-DZJDe+DziaT9boPObnpnqyLj+-4-S+1ikFbqr_U-SDA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210209190224.62827-4-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Qrgsu6vtpU/OV/zm"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -79,36 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ vgoyal@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+--Qrgsu6vtpU/OV/zm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I notice that as well as handling surface_bits_per_pixel()
-> possibly returning 8, 15, 16, 24, these devices also seem to
-> check for the possibility it returns 0 (presumably meaning
-> "no surface" or "no surface yet" ?).
+On Tue, Feb 09, 2021 at 07:02:03PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> Allow a daemon implemented with libvhost-user to accept an
+> element with pointers to memory that aren't in the mapping table.
+> The daemon might have some special way to deal with some special
+> cases of this.
+>=20
+> The default behaviour doesn't change.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  block/export/vhost-user-blk-server.c      |  2 +-
+>  contrib/vhost-user-blk/vhost-user-blk.c   |  3 +-
+>  contrib/vhost-user-gpu/vhost-user-gpu.c   |  5 ++-
+>  contrib/vhost-user-input/main.c           |  4 +-
+>  contrib/vhost-user-scsi/vhost-user-scsi.c |  2 +-
+>  subprojects/libvhost-user/libvhost-user.c | 51 ++++++++++++++++++-----
+>  subprojects/libvhost-user/libvhost-user.h |  8 +++-
+>  tests/vhost-user-bridge.c                 |  4 +-
+>  tools/virtiofsd/fuse_virtio.c             |  3 +-
+>  9 files changed, 60 insertions(+), 22 deletions(-)
 
-Depends a bit on how the surface is created.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-When using host memory as backing storage (typical workflow is
-qemu_console_resize() + qemu_console_surface() calls) bits per pixel is
-32 no matter what (format is PIXMAN_x8r8g8b8 to be exact).  I think this
-is true for most if not all arm display devices.
+--Qrgsu6vtpU/OV/zm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Depth 15+15+24 can happen when the display device uses
-qemu_create_displaysurface_from().  That is typically the case when
-using guest-accessible memory (vga vram for example) as backing storage
-for the surface.  Which implies there is no need for the display device
-to update the surface in the first place because the guest can render
-directly to the surface then.
+-----BEGIN PGP SIGNATURE-----
 
-"no surface" can only happen when the display device explicitly calls 
-dpy_gfx_replace_surface(con, NULL).  virtio-gpu does that in case the
-guest disables the output for example.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAlAvMACgkQnKSrs4Gr
+c8ilsQf8CSqsiNBkY6EsYDPIyLsiF1zWKe6HBkpeVe4EH6SLuof7IGHKbXhWAH2m
+Ro/wB4i2YLydIJAkNcibQb9MpC/N92trxjefaWiCIDZlv23xy74o10neWVuFz/cl
+02cHnaORj0I62338RCdeHoowNP47Wr1D1e2tOpcIRIdtFxglrqdxeGxUz4QHP4J5
+2zGYlhltqb/ABJ6dCIYDB9CliEL2j3Dkg7LvToW9Iu3yRa2PnTmmd1YpgN0XTeME
+uXuxQCt3GHQ9nfVae5lUFPnOy/3EmNED5j/zI4Xf9/GKWnNH7yT+mYQIuGeBgguO
+DQPz4KEZb9B+CqzgFVGBp6jfJRgXpQ==
+=5yjg
+-----END PGP SIGNATURE-----
 
-HTH,
-  Gerd
+--Qrgsu6vtpU/OV/zm--
 
 
