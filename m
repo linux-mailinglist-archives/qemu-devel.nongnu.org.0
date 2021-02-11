@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAC531935C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 20:49:29 +0100 (CET)
-Received: from localhost ([::1]:55416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBDE33193C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 21:00:47 +0100 (CET)
+Received: from localhost ([::1]:47106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAHxw-0007TV-Bl
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 14:49:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56972)
+	id 1lAI8s-0007tL-S7
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 15:00:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAHuK-0005Z2-Pt; Thu, 11 Feb 2021 14:45:46 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39239)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAHwb-0007gT-60
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:48:06 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:46810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAHuI-0007vH-7W; Thu, 11 Feb 2021 14:45:44 -0500
-Received: by mail-wm1-x335.google.com with SMTP id u14so6863534wmq.4;
- Thu, 11 Feb 2021 11:45:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SaS9W7gK+wrVWvMFUYZ7AT/ZwWe7w1FZShtq8iX3B1M=;
- b=bxic73vTT05rYz6fjxe8HaQNkkXZP2E/BMHvjNz9EkOQO1AYNmAXEwUiqQC/VTgcm4
- z28iCMPUfZD/rXZPwWtVe7WS+RCVHOEy4rqL7KuxdUwUFrVOJCzfX6sHqwH+CCA5GFHX
- gJiwmAZcdXsD1mfG8eaAXdjDYlVHl2QYwZ+rdhJnYYeKo34DYYKaqsg3KU+Yrs39NH2h
- ZCPJxYDp31FxZROYi225NyknO+JlFuJn1knAB2O7gLR575X/3sgsx7FwSFBuEO9Jtz++
- +z5I3DmJYJGnT4pgqoXEwdXMN0QrjlK3BTD64xaxKQRR6MKPXd23EhA+PIOidOrk+SY6
- qUuA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAHwY-0008Nh-9p
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 14:48:03 -0500
+Received: by mail-ej1-x634.google.com with SMTP id w2so11815739ejk.13
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 11:48:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=s0WU/TCDAbZKSlXlpwXy1hXFbTyH0JhBZdT9MZAzH+o=;
+ b=Q55mLf5yhoqvEwz4iZlHcc/ZJNJOODjApBjTnD9doUp9wph5DA2RPQZnjbmwSn8isD
+ CbGI/31RdhUp0oRAt4ubwA9hHBvccmau3l9F1jY+zUqeerJQrbKV4hXKnUHrkbB24aEF
+ sUgOFlclZg3nmf8uRuXJhQXTehB/Vt388D9v1hLRQgMvgKnf6JKisAo+nwiGzhn9DVJY
+ F1b4vEOqamqzjdLwJRopwbc1B123hPAFJM0eekfC9wNbh+Mwu1xB4rpVSrYuJX7glWTM
+ j/sfqb82XZfwSXRjnC7xL9u1sy2667MiV1JcppDjW0MJPJE5DHr2wLGVR7fQqRHjPWo+
+ fd1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SaS9W7gK+wrVWvMFUYZ7AT/ZwWe7w1FZShtq8iX3B1M=;
- b=SySRCPdoZn3C2xUv+4/jeGkMh9j0vCTp7SVmMJlDxTOPOKqU5DQkmDo3HBMrgKcxrA
- kLCaDdgvuleHekxU/iDV/SzdtvPlDcuO9tm4GlvWIMuv9xL3LbKCqSqE+GHvH9NNZpHc
- V9gVRqe0tSXY9VH3AunmrSTXpfSgJTMACbjmEVWK73Mp1WT3BuZE3+33/cWsyFK88urO
- +BAiQrIgsUQHrD4VPLmBq+4NOEw9GJ4MmZ4L4CtsnmC+vCU3+SngNNCDgkjQK6N/6LGv
- lfTRYTX8Of1YbCTbZK8W2xBKsBiY9TsWFO/wTyzTmFXxpFKM+jAYGGQEHl6/O8Ec5U6G
- hHOw==
-X-Gm-Message-State: AOAM531eAxZ9jweVEFVvZTtEg8+2oHNk62EES6Z7BiUI37+rBwVyGeE3
- 1nBRFsP0QsBcie+L9sMaekI=
-X-Google-Smtp-Source: ABdhPJzkhuqOGWqfL2ZKi+Gc0gL3Xgo70AuHx6TmG6SGI3fM7Qh/3lKKmXucEbBYZ8TpUuJ9Xmn35w==
-X-Received: by 2002:a05:600c:3551:: with SMTP id
- i17mr5565208wmq.92.1613072740448; 
- Thu, 11 Feb 2021 11:45:40 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id z1sm6324131wrp.62.2021.02.11.11.45.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 11:45:39 -0800 (PST)
-Subject: Re: [PATCH] hw/sd/sdhci: Do not modify BlockSizeRegister if
- transaction in progress
-To: Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bmeng.cn@gmail.com>
-References: <20210208193450.2689517-1-f4bug@amsat.org>
- <20210211170439.fex2yoc74yaa3rof@mozz.bu.edu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7bb7f415-e6b6-a694-59a8-2d362c970205@amsat.org>
-Date: Thu, 11 Feb 2021 20:45:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=s0WU/TCDAbZKSlXlpwXy1hXFbTyH0JhBZdT9MZAzH+o=;
+ b=jibPjbcMCQmxmaSSI649nPTAUCNR4/3dv27r44QqHNzxuPdM0i7PQQYehgmLBwGriC
+ DM+BHuRkQIgXQx7TmPZ8vvChNETb6K/d/tFMLmzQKFBX+8AVcfn7nuMMnl9nj88yp5mC
+ WbhT0cnwqKTkP9JYqzvKGPJcJmcaaBlDOYFnmozKwNcwU3AheHDOBFKBSrJ9VHJpM6sh
+ fhGZ+ftydZldDzK9aVNwRlyx4ofgZC9VSlgVQz5nnXbO41qQHUALLs7+AtVA6EPCY5ko
+ rmS33Z2rWqhWruPdsX6QL1J7JAfhA6Hlv0SdeMwScK15WYaHGt0wYVViSa6GwGuUENc7
+ eRZw==
+X-Gm-Message-State: AOAM532bOBmoxaBaPow99Y8J/H8zL1lqoYHK4zIXLDWyZDBUSP4NV7cC
+ W1tjcNHBm5mJJLZjSqyV0Fzp0a2v1L92HkV1xWyJ1A==
+X-Google-Smtp-Source: ABdhPJzBq6mGWY7EW9SLLTW8mliKeXRR4SNd6zz1197fnLKqoCfrT6eoiD3mmRQNazvoRZmMztOfsAfhlZmx1+GArXY=
+X-Received: by 2002:a17:906:2e4f:: with SMTP id
+ r15mr10038826eji.407.1613072880728; 
+ Thu, 11 Feb 2021 11:48:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210211170439.fex2yoc74yaa3rof@mozz.bu.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.119,
+References: <20210209015541.778833-1-dje@google.com>
+ <CAFEAcA-h_w9j3nEKo-1aBdM-XNFKx+-bn33=5vzWd5FJ6Ly+TA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-h_w9j3nEKo-1aBdM-XNFKx+-bn33=5vzWd5FJ6Ly+TA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 Feb 2021 19:47:49 +0000
+Message-ID: <CAFEAcA_FHPco660spQKKma4m8V1ZCky-hGBZvWOsWaJ4yvwOtA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Add npcm7xx emc model
+To: Doug Evans <dje@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,113 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, Li Qiang <liq3ea@163.com>,
- qemu-devel@nongnu.org, Prasad J Pandit <ppandit@redhat.com>,
- Bandan Das <bsd@redhat.com>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Hao Wu <wuhaotsh@google.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Avi Fishman <avi.fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alexander,
+On Thu, 11 Feb 2021 at 11:34, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Tue, 9 Feb 2021 at 01:55, Doug Evans <dje@google.com> wrote:
+> >
+> > This is a 10/100 ethernet device that has several features.
+> > Only the ones needed by the Linux driver have been implemented.
+> > See npcm7xx_emc.c for a list of unimplemented features.
+> >
+> > Doug Evans (3):
+> >   hw/net: Add npcm7xx emc model
+> >   hw/arm: Add npcm7xx emc model
+> >   tests/qtests: Add npcm7xx emc model test
+> >
+>
+>
+>
+> Applied to target-arm.next, thanks.
 
-On 2/11/21 6:04 PM, Alexander Bulekov wrote:
-> On 210208 2034, Philippe Mathieu-Daudé wrote:
->> Per the "SD Host Controller Simplified Specification Version 2.00"
->> spec. 'Table 2-4 : Block Size Register':
->>
->>   Transfer Block Size [...] can be accessed only if no
->>   transaction is executing (i.e., after a transaction has stopped).
->>   Read operations during transfers may return an invalid value,
->>   and write operations shall be ignored.
->>
->> Transactions will update 'data_count', so do not modify 'blksize'
->> and 'blkcnt' when 'data_count' is used. This fixes:
->>
->> $ cat << EOF | qemu-system-x86_64 -qtest stdio -monitor none \
->>                -nographic -serial none -M pc-q35-5.0 \
->>                -device sdhci-pci,sd-spec-version=3 \
->>                -device sd-card,drive=mydrive \
->>                -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive
->>   outl 0xcf8 0x80001810
->>   outl 0xcfc 0xe1068000
->>   outl 0xcf8 0x80001814
->>   outl 0xcf8 0x80001804
->>   outw 0xcfc 0x7
->>   outl 0xcf8 0x8000fa20
->>   write 0xe106802c 0x1 0x0f
->>   write 0xe1068004 0xc 0x2801d10101fffffbff28a384
->>   write 0xe106800c 0x1f 0x9dacbbcad9e8f7061524334251606f7e8d9cabbac9d8e7f60514233241505f
->>   write 0xe1068003 0x28 0x80d000251480d000252280d000253080d000253e80d000254c80d000255a80d000256880d0002576
->>   write 0xe1068003 0x1 0xfe
->>   EOF
->>   =================================================================
->>   ==2686219==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61500003bb00 at pc 0x55ab469f456c bp 0x7ffee71be330 sp 0x7ffee71bdae0
->>   WRITE of size 4 at 0x61500003bb00 thread T0
->>       #0 0x55ab469f456b in __asan_memcpy (qemu-system-i386+0x1cea56b)
->>       #1 0x55ab483dc396 in stl_he_p include/qemu/bswap.h:353:5
->>       #2 0x55ab483af5e4 in stn_he_p include/qemu/bswap.h:546:1
->>       #3 0x55ab483aeb4b in flatview_read_continue softmmu/physmem.c:2839:13
->>       #4 0x55ab483b0705 in flatview_read softmmu/physmem.c:2877:12
->>       #5 0x55ab483b028e in address_space_read_full softmmu/physmem.c:2890:18
->>       #6 0x55ab483b1294 in address_space_rw softmmu/physmem.c:2918:16
->>       #7 0x55ab479374a2 in dma_memory_rw_relaxed include/sysemu/dma.h:88:12
->>       #8 0x55ab47936f50 in dma_memory_rw include/sysemu/dma.h:127:12
->>       #9 0x55ab4793665f in dma_memory_read include/sysemu/dma.h:145:12
->>       #10 0x55ab4792f176 in sdhci_sdma_transfer_multi_blocks hw/sd/sdhci.c:639:13
->>       #11 0x55ab4793dc9d in sdhci_write hw/sd/sdhci.c:1129:17
->>       #12 0x55ab483f8db8 in memory_region_write_accessor softmmu/memory.c:491:5
->>       #13 0x55ab483f868a in access_with_adjusted_size softmmu/memory.c:552:18
->>       #14 0x55ab483f6da5 in memory_region_dispatch_write softmmu/memory.c:1501:16
->>       #15 0x55ab483c3b11 in flatview_write_continue softmmu/physmem.c:2774:23
->>       #16 0x55ab483b0eb6 in flatview_write softmmu/physmem.c:2814:14
->>       #17 0x55ab483b0a3e in address_space_write softmmu/physmem.c:2906:18
->>       #18 0x55ab48465c56 in qtest_process_command softmmu/qtest.c:654:9
->>
->>   0x61500003bb00 is located 0 bytes to the right of 512-byte region [0x61500003b900,0x61500003bb00)
->>   allocated by thread T0 here:
->>       #0 0x55ab469f58a7 in calloc (qemu-system-i386+0x1ceb8a7)
->>       #1 0x7f21d678f9b0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x589b0)
->>       #2 0x55ab479530ed in sdhci_pci_realize hw/sd/sdhci-pci.c:36:5
->>       #3 0x55ab476f102a in pci_qdev_realize hw/pci/pci.c:2108:9
->>       #4 0x55ab48baaad2 in device_set_realized hw/core/qdev.c:761:13
->>
->>   SUMMARY: AddressSanitizer: heap-buffer-overflow (qemu-system-i386+0x1cea56b) in __asan_memcpy
->>   Shadow bytes around the buggy address:
->>     0x0c2a7ffff710: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->>     0x0c2a7ffff720: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>     0x0c2a7ffff730: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>     0x0c2a7ffff740: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>     0x0c2a7ffff750: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>   =>0x0c2a7ffff760:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->>     0x0c2a7ffff770: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->>     0x0c2a7ffff780: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->>     0x0c2a7ffff790: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->>     0x0c2a7ffff7a0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
->>     0x0c2a7ffff7b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
->>   Shadow byte legend (one shadow byte represents 8 application bytes):
->>     Addressable:           00
->>     Heap left redzone:       fa
->>     Freed heap region:       fd
->>   ==2686219==ABORTING
->>
->> Fixes: CVE-2020-17380
->> Fixes: CVE-2020-25085
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> I applied this along with <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
-> "hw/sd: sdhci: Do not transfer any data when command fails"
-> 
-> I ran through the entire OSS-Fuzz corpus, and could not reproduce the
-> crash.
+Dropped again; the new tests fail on big-endian hosts (s390x, ppc64):
 
-Thanks for your testing, it is helpful!
+MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_IMG=./qemu-img
+G_TEST_DBUS_DAEMON=/home/ubuntu/qemu/tests/dbus-vmstate-daemon.sh
+QTEST_QEMU_BINARY=./qemu-system-arm tests/qtest/npcm7xx_emc-test --tap
+-k
+PASS 1 qtest-arm/npcm7xx_emc-test /arm/npcm7xx_emc/emc[0]/init
+**
+ERROR:../../tests/qtest/npcm7xx_emc-test.c:476:emc_send_verify1:
+assertion failed ((result_desc.status_and_length & expected_mask) ==
+expected_value): (0x00000000 == 0x00080000)
+ERROR qtest-arm/npcm7xx_emc-test - Bail out!
+ERROR:../../tests/qtest/npcm7xx_emc-test.c:476:emc_send_verify1:
+assertion failed ((result_desc.status_and_length & expected_mask) ==
+expected_value): (0x00000000 == 0x00080000)
 
-However I am a bit confused, because Bin's patch is supposed to
-replace mine. Are you saying Bin's patch doesn't fix the problem?
-
-Could you test this patch without Bin's one?
-
-> 
-> Tested-by: Alexander Bulekov <alxndr@bu.edu>
-> Thanks
+-- PMM
 
