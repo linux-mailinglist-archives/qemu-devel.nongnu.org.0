@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1A3318BEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:25:50 +0100 (CET)
-Received: from localhost ([::1]:51642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE94E318BFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 14:28:51 +0100 (CET)
+Received: from localhost ([::1]:59950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAByf-0004dD-Nb
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:25:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33404)
+	id 1lAC1a-0000Z0-OP
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 08:28:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABYz-000873-EC
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:17 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37276)
+ id 1lABZ0-00088H-8g
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:18 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lABYx-0008RQ-SW
+ id 1lABYy-0008Rb-IR
  for qemu-devel@nongnu.org; Thu, 11 Feb 2021 07:59:17 -0500
-Received: by mail-wm1-x331.google.com with SMTP id m1so5642960wml.2
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:15 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id 190so5475533wmz.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 04:59:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=k24l6V2v0PKg+s2YVxBs6b556yq59N9tvuPY0mxSPMk=;
- b=ylKsB2WKERWij7lfxJhhp9Gr1hQF8/30glw9WlHf9t0t1eLd7J61JUZJBIH60Ny696
- UlnVmOsfCYbOZFbEbCnyCk2HE+wqaWP0eJoGYlDg/VXdeh9w3IKfvu8OkzQry2R85EFk
- Gcxp3RKZkrb4GJXe3oGkrHF7cMlnPjndQb3VDKArw2f/96fbZ+u9b7apivKAhOieygqX
- oakRIFGCO6FTSFzuR5R4o8s4l+p3Rs9vSKAtfQk8VPvyujxOAzelNm1qZ1MBVvWPfZXv
- h5E5ztElCbhOtvuBZvvYdDWl1kufG4bBgBQu77/5dtWavN1afhsCA4j/QbAwqsqQ04d1
- hh9w==
+ bh=r4/XUYibNUpbYwhy/01KppmQNmZXhGw9VCHepnGtsvI=;
+ b=wsYhXN0ewg11CKys2fvCscPEwk7i4vvxRNe4k1Lv5yDyPgU+Dj9drN0/zE5d6lBfLK
+ EXxr+SGwIMKheWvQlpaLfeNdlY2FUZVE6Gn9RfDtyvOv3FlzU8idTiLpHJBoZMmgqLix
+ PKPtU0lgroOe+LGxfoA8F15/7tj20QNE8PMez99GupEKsfTjTOIm5j0uRqwRLhNSQP1X
+ eZygP5HQGL5biLDuMeRUZ/zhs+4sRaEhm2AFgrwEiwJrgdw5T3R+gjmRlQavRlsn35wZ
+ X5pDIdaGwwdW/9l8tmzw//L2cnrVDkBdejd1CBBU6s6aQjiKlyrekJ/Tzq9eEaTQxk+O
+ kWAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k24l6V2v0PKg+s2YVxBs6b556yq59N9tvuPY0mxSPMk=;
- b=hVEvU+n8KV84oc7h1gfqlCQH9ODt9r2C2nW3HsbIOtFYj0Qu/tvRI0f/x7S1pV76Sd
- 9d5Ljku4QGTWIS+2jS52rjyFt+o/1O3prTohwJ2HbE9M8onw7fOkJkk0KGnJTaawPdMb
- 4WD4sHVCF6s7qW7il6xNMY2btSVWEeowx8ppCd/Ch8cVtYA/hcWJvIGKepzCDjYCRlaX
- XxJcKWikYz2Q42oRRDnOkw/jxJ4L9oitgNCSzBvJNOMtBJPZ1m4lmKA536/RiL01Eonu
- JY1ap0WlXEdYY2yWA6nuyN1zKRMyTr8nAGNLTxbDM6sHXft+FxzhH10zA7XFo1Lxn9i/
- vsuA==
-X-Gm-Message-State: AOAM532npIvpyG5SmD2CNeUlDON1DkVoQ3y26lQUocjQD3NZnL8/BHjK
- Olg3Om1sZzbxyU4ED4qAFb73lf9nze0E5Q==
-X-Google-Smtp-Source: ABdhPJxMczFN1d8qrvR+zOSNFIiy1FyRmv3OtKiy5VVWd8HwE7xiexQ5pt/41+aqOOylBqIHiXhmPQ==
-X-Received: by 2002:a1c:7312:: with SMTP id d18mr5023438wmb.155.1613048354606; 
- Thu, 11 Feb 2021 04:59:14 -0800 (PST)
+ bh=r4/XUYibNUpbYwhy/01KppmQNmZXhGw9VCHepnGtsvI=;
+ b=VHCeCK6jSm7PVDfOD+1GIBC+uG9kvJFV13iPJau+wNsMvykZVrRluNjB/Pdc9LGOnv
+ jr+6HcK6zsTSw7+zvF7jPkySPeyKFSGy9GHUMTmIcvRFDZUIKHd0ZAMrmwA+lRMY+Nz4
+ HRKyK6R2NCkRPzgBx74bdVn/+0hUBolR+wKi+i4LEwdCiK/nij7if87m3zDDlVew7EY5
+ g1FYdTPw2JzQTt6SZJ+6vpazv73nJekHg7yQPIlaKzyy1UWT3hZynf93g5ORqiTBjDte
+ Uir0I2djybFjLyXbMz6+ATW8Uz6Vg8LbtSNXzA3q0bULaZ6gEaRosnp3pkebd8OicuR8
+ 9cYg==
+X-Gm-Message-State: AOAM5300u2gr85fMQqVjd+mesXp1fqOWZN9KZwRVKx5UQ034b3B66M/D
+ IhD9HGBedH+e4L0Tkm2lYydKeShqZ1rw9w==
+X-Google-Smtp-Source: ABdhPJxQAbtVtDFlaOrSZgcENcZnhqUQZ8I/PPCtqZO3tgLx91/61rqpxEIhwH3hRw43zjdUF1PpIg==
+X-Received: by 2002:a1c:5f82:: with SMTP id t124mr5141010wmb.55.1613048355270; 
+ Thu, 11 Feb 2021 04:59:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id g15sm4955716wrx.1.2021.02.11.04.59.14
  for <qemu-devel@nongnu.org>
@@ -54,16 +54,16 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Thu, 11 Feb 2021 04:59:14 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/45] linux-user: Tidy VERIFY_READ/VERIFY_WRITE
-Date: Thu, 11 Feb 2021 12:58:31 +0000
-Message-Id: <20210211125900.22777-17-peter.maydell@linaro.org>
+Subject: [PULL 17/45] bsd-user: Tidy VERIFY_READ/VERIFY_WRITE
+Date: Thu, 11 Feb 2021 12:58:32 +0000
+Message-Id: <20210211125900.22777-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210211125900.22777-1-peter.maydell@linaro.org>
 References: <20210211125900.22777-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,19 +92,20 @@ These constants are only ever used with access_ok, and friends.
 Rather than translating them to PAGE_* bits, let them equal
 the PAGE_* bits to begin.
 
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210210000223.884088-8-richard.henderson@linaro.org
+Message-id: 20210210000223.884088-9-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/qemu.h | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ bsd-user/qemu.h | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 441ba6a78bb..9251337daf2 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -488,8 +488,8 @@ extern unsigned long guest_stack_size;
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index f8bb1e5459d..4076adabd08 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -218,13 +218,12 @@ extern unsigned long x86_stack_size;
  
  /* user access */
  
@@ -113,19 +114,15 @@ index 441ba6a78bb..9251337daf2 100644
 +#define VERIFY_READ  PAGE_READ
 +#define VERIFY_WRITE (PAGE_READ | PAGE_WRITE)
  
- static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+-static inline int access_ok(int type, abi_ulong addr, abi_ulong size)
++static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
  {
-@@ -501,9 +501,7 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
-          !guest_addr_valid(addr + size - 1))) {
-         return false;
-     }
 -    return page_check_range((target_ulong)addr, size,
--                            (type == VERIFY_READ) ? PAGE_READ :
--                            (PAGE_READ | PAGE_WRITE)) == 0;
+-                            (type == VERIFY_READ) ? PAGE_READ : (PAGE_READ | PAGE_WRITE)) == 0;
 +    return page_check_range((target_ulong)addr, size, type) == 0;
  }
  
- /* NOTE __get_user and __put_user use host pointers and don't check access.
+ /* NOTE __get_user and __put_user use host pointers and don't check access. */
 -- 
 2.20.1
 
