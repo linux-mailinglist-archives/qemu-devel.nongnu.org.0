@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD2C3187FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:24:21 +0100 (CET)
-Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DB03187D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Feb 2021 11:15:13 +0100 (CET)
+Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lA992-0003Kl-Tn
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:24:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55230)
+	id 1lA90C-0003DQ-A0
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 05:15:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1lA8vp-0000G4-Bj; Thu, 11 Feb 2021 05:10:44 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:34712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1lA8vm-0004u0-QA; Thu, 11 Feb 2021 05:10:41 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id DA894C602E6;
- Thu, 11 Feb 2021 11:10:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1613038234;
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lA8xS-0001wC-D1
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:12:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57567)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lA8xM-0005dN-CR
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 05:12:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613038333;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XBdFX38jptpi0BIEJ1yRhy9PuJYL9HLek6XR7hMRUW4=;
- b=iJxuED8MJ4azTSXo2rSrMZWCFL+MHglfISNdL/yr5G7Y1XF+fyVvzuLcUSN65bn2Kfrpl8
- tKDK3wI5jy6baxdwHOLQ40CsryU+4PZlWIFrJjTSfZ725KPC/+XQGww/v6djZdmUg5DvJO
- HGnTJ+5tvS79bikjv37Rx88uk7bc/7tzxcZpF8eGK4hwTlVNHW0iEe9OvOebXRsa9KWf0D
- GiUHnSeuUfdg//lULoY2/D3uYq3mBnWsnQkGMne/jaG63eaW0aryTe7WGBLmNkyZYk9sdS
- aJS96mkoferP0/Jr7s1eE7rsYSwJzm5jJWLQHrD+fjv2jk7lvXnOTpYJ15zvBA==
-Date: Thu, 11 Feb 2021 11:11:06 +0100
-From: Luc Michel <luc@lmichel.fr>
+ bh=ZyARgN7E2gMIP+HaC6c3drv1sInAL34AKCu1HUPM9SE=;
+ b=bHpGj4JuMPkHe7W2FQ+yEQlIzQQKT1WrLeY7mTYVcXoApaCXKjpQHYeqTqYSK+qh2Jzo5x
+ BGOJhwSRNxaMGx9h/FasZGCOgPHoNFD+8iHgFOcfA/MG0EZSmQOn/+qKVSoikNTh2+Ba1u
+ 3uE7Kf6Li1vsg7NLuAJB+Op+E3jnDRY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-372-l6OFyQVANLq5Toxpovk9_w-1; Thu, 11 Feb 2021 05:12:11 -0500
+X-MC-Unique: l6OFyQVANLq5Toxpovk9_w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83E1DC7400;
+ Thu, 11 Feb 2021 10:12:10 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-161.ams2.redhat.com
+ [10.36.112.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AA547095D;
+ Thu, 11 Feb 2021 10:12:10 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2921418000B7; Thu, 11 Feb 2021 11:12:00 +0100 (CET)
+Date: Thu, 11 Feb 2021 11:12:00 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 2/4] clock: Add ClockPreUpdate callback event type
-Message-ID: <20210211101106.t7y67bw4ecz4uk6a@sekoia-pc.home.lmichel.fr>
-References: <20210209132040.5091-1-peter.maydell@linaro.org>
- <20210209132040.5091-3-peter.maydell@linaro.org>
+Subject: Re: can surface_bits_per_pixel() for the console surface ever return
+ anything other than 32 ?
+Message-ID: <20210211101200.wyzaut76ik77dl2x@sirius.home.kraxel.org>
+References: <CAFEAcA-DZJDe+DziaT9boPObnpnqyLj+-4-S+1ikFbqr_U-SDA@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-DZJDe+DziaT9boPObnpnqyLj+-4-S+1ikFbqr_U-SDA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210209132040.5091-3-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.568,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,76 +79,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Havard Skinnemoen <hskinnemoen@google.com>, qemu-devel@nongnu.org,
- Tyrone Ting <kfting@nuvoton.com>, qemu-arm@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13:20 Tue 09 Feb     , Peter Maydell wrote:
-> Add a new callback event type ClockPreUpdate, which is called on
-> period changes before the period is updated.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+  Hi,
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
+> I notice that as well as handling surface_bits_per_pixel()
+> possibly returning 8, 15, 16, 24, these devices also seem to
+> check for the possibility it returns 0 (presumably meaning
+> "no surface" or "no surface yet" ?).
 
-> ---
->  docs/devel/clocks.rst | 9 ++++++++-
->  include/hw/clock.h    | 1 +
->  hw/core/clock.c       | 3 +++
->  3 files changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-> index cd344e3fe5d..f0391e76b4f 100644
-> --- a/docs/devel/clocks.rst
-> +++ b/docs/devel/clocks.rst
-> @@ -181,7 +181,14 @@ events.
->  
->  The events currently supported are:
->  
-> - * ``ClockUpdate`` : called after the input clock's period has changed
-> + * ``ClockPreUpdate`` : called when the input clock's period is about to
-> +   update. This is useful if the device needs to do some action for
-> +   which it needs to know the old value of the clock period. During
-> +   this callback, Clock API functions like ``clock_get()`` or
-> +   ``clock_ticks_to_ns()`` will use the old period.
-> + * ``ClockUpdate`` : called after the input clock's period has changed.
-> +   During this callback, Clock API functions like ``clock_ticks_to_ns()``
-> +   will use the new period.
->  
->  Note that a clock only has one callback: it is not possible to register
->  different functions for different events. You must register a single
-> diff --git a/include/hw/clock.h b/include/hw/clock.h
-> index 5c73b4e7ae9..d7a6673c29e 100644
-> --- a/include/hw/clock.h
-> +++ b/include/hw/clock.h
-> @@ -30,6 +30,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(Clock, CLOCK)
->   */
->  typedef enum ClockEvent {
->      ClockUpdate = 1, /* Clock period has just updated */
-> +    ClockPreUpdate = 2, /* Clock period is about to update */
->  } ClockEvent;
->  
->  typedef void ClockCallback(void *opaque, ClockEvent event);
-> diff --git a/hw/core/clock.c b/hw/core/clock.c
-> index 71dc1f4de65..2c86091d8a3 100644
-> --- a/hw/core/clock.c
-> +++ b/hw/core/clock.c
-> @@ -80,6 +80,9 @@ static void clock_propagate_period(Clock *clk, bool call_callbacks)
->  
->      QLIST_FOREACH(child, &clk->children, sibling) {
->          if (child->period != clk->period) {
-> +            if (call_callbacks) {
-> +                clock_call_callback(child, ClockPreUpdate);
-> +            }
->              child->period = clk->period;
->              trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
->                                 CLOCK_PERIOD_TO_HZ(clk->period),
-> -- 
-> 2.20.1
-> 
+Depends a bit on how the surface is created.
 
--- 
+When using host memory as backing storage (typical workflow is
+qemu_console_resize() + qemu_console_surface() calls) bits per pixel is
+32 no matter what (format is PIXMAN_x8r8g8b8 to be exact).  I think this
+is true for most if not all arm display devices.
+
+Depth 15+15+24 can happen when the display device uses
+qemu_create_displaysurface_from().  That is typically the case when
+using guest-accessible memory (vga vram for example) as backing storage
+for the surface.  Which implies there is no need for the display device
+to update the surface in the first place because the guest can render
+directly to the surface then.
+
+"no surface" can only happen when the display device explicitly calls 
+dpy_gfx_replace_surface(con, NULL).  virtio-gpu does that in case the
+guest disables the output for example.
+
+HTH,
+  Gerd
+
 
