@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D67E319828
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 03:02:03 +0100 (CET)
-Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC19431985C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 03:32:35 +0100 (CET)
+Received: from localhost ([::1]:48754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lANmU-0007RH-Jg
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 21:02:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53722)
+	id 1lAOG2-0005wf-I0
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 21:32:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lALyr-00071L-GG
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:06:41 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:42539)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lALyo-00019F-Rn
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:06:40 -0500
-Received: by mail-pl1-x629.google.com with SMTP id s15so4215402plr.9
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 16:06:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=POk5/XTODc7hhSKGDbipV/Yf8MOsDh/5eNRyR2yC72o=;
- b=QgLFZwSufOnAmbvloWIDKGTrq0t6zQ5QGK/3HUFOzJEe5TRj2zJcdks2c7SKODLvy6
- FWrX6EJcguQjjHNK5QzYycy+1F3orF/6wIuWoz5M0tqTaVNj+F/gR8pCRDxvgTPSnPFB
- AHatV3nL6VGsyx7E5VewKNSjJA9fZQQVBr1RmM7WPaRMhlqLxfHPsyCQq89eK5yXHvd4
- H40QCxe69lLTz/3K0Cim5+eUXxtV7jS6zYoEYnn85xoBB/hljXDtTTVwbZVkv2++XRiS
- ajnMMGJ1ZAlDy7lb+5oa4+l2/AgBWWyz73zSJUFxtDctqEDBhp5F6WLwZOFEjHG+vZU0
- xSqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=POk5/XTODc7hhSKGDbipV/Yf8MOsDh/5eNRyR2yC72o=;
- b=HpEg5KsGX/GiPcSBlJRKFHXvSWXC9JUMpFedQvQZ5hId2Fw9vtCJXLhoRixeCc4RFb
- y+4k2+hgVJY9aK8OuBNJXdkujpKx7X7sx/a/r5gnAoUqYQHRhPaZ3np0K+VCilSVy6oS
- LqKRkN1Rd7YviyOW/VQyv7NM//NKDrljjLGQzeP2w91Jfn36NckCxz7tPyl9hu143C6v
- f/bstJ8WlhgB8Ab+qErgEX+VyjjhxWdhUiAddQwg9q2AOVT7BiqBXtmaVf+gdVXNsnQd
- mZYZw7uYKAlkCDNX7mBssVdNcO6xy5H1Qi329E9ySSuD9sYfsjFbWEFvpgmMac/uFRjf
- rVew==
-X-Gm-Message-State: AOAM533iK8zi6gOmVsSoOQEKcp7Hi8krF5ptAF+e1I63V77EO1NjDycW
- xwkw48zZIpJUdMrr+pJ0ZbA=
-X-Google-Smtp-Source: ABdhPJwCjoyJGHuk9xyOU26cqFe1alZIuStCWttUf2iZAEtvo3SNV31zdzRU8xACBxEugqn78U2zTQ==
-X-Received: by 2002:a17:902:694c:b029:e2:daa3:ca4a with SMTP id
- k12-20020a170902694cb02900e2daa3ca4amr351835plt.80.1613088397420; 
- Thu, 11 Feb 2021 16:06:37 -0800 (PST)
-Received: from localhost.localdomain ([210.227.19.68])
- by smtp.gmail.com with ESMTPSA id p9sm5926224pja.51.2021.02.11.16.06.35
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 11 Feb 2021 16:06:37 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH] ui/cocoa: Do not copy members of pixman image
-Date: Fri, 12 Feb 2021 09:06:29 +0900
-Message-Id: <20210212000629.28551-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAOEs-0005UW-So
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 21:31:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57976)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAOEp-00069F-Li
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 21:31:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613097077;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=V6HVLK1/QQoKCVxtm1N25Vm6d1gixKyVUa4r6lIjFq0=;
+ b=MWhqhcSnJsnAIqWmvwMeGUSzsfRYX0bnVsDTWvC3ogPh2Lh+WZuBff0+cAc7Hnu7nhpkFa
+ 6IcWFCwYdPrHQjHncpjqV0vFKch52el0SLSSdtKfvtNJszCSgnSZ4iuNjYmRtI3PYOFnDY
+ tcA9rByUqUgVN0oREnGwhijFypufm8I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-9ldXChzSODuNBb08XlyKGQ-1; Thu, 11 Feb 2021 21:31:12 -0500
+X-MC-Unique: 9ldXChzSODuNBb08XlyKGQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1216E192AB7A;
+ Fri, 12 Feb 2021 02:31:11 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-112-63.rdu2.redhat.com
+ [10.10.112.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DC126F7ED;
+ Fri, 12 Feb 2021 02:31:10 +0000 (UTC)
+Date: Thu, 11 Feb 2021 21:31:08 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: runaway avocado
+Message-ID: <YCXobMgS01x2ee14@localhost.localdomain>
+References: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
+ <CAFEAcA_S81bnYVcNENW9bFApAc-Ob1uKQncsGPmyFD034p2FOA@mail.gmail.com>
+ <20210211172541.GA2316309@localhost.localdomain>
+ <CAFEAcA-3M_CaNEiZHohH-RdxYP1Cn=5s+UXYTYE1e7YhoN2+tg@mail.gmail.com>
+ <20210211184710.GA2323314@localhost.localdomain>
+ <CAFEAcA8twaP2=MGZh1OOHO8EFAVmQYM26i+QN6y26kaVfTNnwQ@mail.gmail.com>
+ <22cc2681-b53c-b5b2-d8f0-8307bb514c21@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <22cc2681-b53c-b5b2-d8f0-8307bb514c21@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="L83zsyQU+fCulwGZ"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 11 Feb 2021 20:57:23 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,146 +83,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, kraxel@redhat.com,
- Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-devel@nongnu.org
+Cc: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Yonggang Luo <luoyonggang@gmail.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The old CocoaView had an idea of synchronizing the host window
-configuration and the guest screen configuration. Here, the guest screen
-actually means pixman image given ui/cocoa display implementation.
+--L83zsyQU+fCulwGZ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-However, [CocoaView -drawRect:] directly interacts with the pixman
-image buffer in reality. There is no such distinction of "host" and
-"guest." This change removes the "host" configuration and let drawRect
-consistently have the direct reference to pixman image. It allows to
-get rid of the error-prone "sync" and reduce code size a bit.
+On Fri, Feb 12, 2021 at 12:59:23AM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 2/11/21 8:21 PM, Peter Maydell wrote:
+> > On Thu, 11 Feb 2021 at 18:47, Cleber Rosa <crosa@redhat.com> wrote:
+> >> On Thu, Feb 11, 2021 at 05:37:20PM +0000, Peter Maydell wrote:
+> >>> I wonder if we could have avocado run all our acceptance cases
+> >>> under a 'ulimit -f' setting that restricts the amount of disk
+> >>> space they can use? That would restrict the damage that could
+> >>> be done by any runaways. A CPU usage limit might also be good.
+> >=20
+> >> To me that sounds a lot like Linux cgroups.
+> >=20
+> > ...except that ulimits are a well-established mechanism that
+> > is straightforward, works for any user and is cross-platform
+> > for most Unixes, whereas cgroups are complicated, Linux specific,
+> > and AIUI require root access to set them up and configure them.
+>=20
+> I agree with Peter, having being POSIX compliant is better than
+> restricting to (recent) Linux. But also note we have users interested
+> running tests for Windows builds. See the Cirrus-CI.
+>=20
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- ui/cocoa.m | 42 ++++++++++++++++++++----------------------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+Sure, I feel like cgroups is more comprehensive, but definitely have
+the drawbacks you both listed.
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 13fba8103e1..8eff3a99e93 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -70,8 +70,6 @@
- typedef struct {
-     int width;
-     int height;
--    int bitsPerComponent;
--    int bitsPerPixel;
- } QEMUScreen;
- 
- NSWindow *normalWindow, *about_window;
-@@ -284,7 +282,6 @@ @interface QemuCocoaView : NSView
-     QEMUScreen screen;
-     NSWindow *fullScreenWindow;
-     float cx,cy,cw,ch,cdx,cdy;
--    CGDataProviderRef dataProviderRef;
-     pixman_image_t *pixman_image;
-     BOOL modifiers_state[256];
-     BOOL isMouseGrabbed;
-@@ -331,8 +328,6 @@ - (id)initWithFrame:(NSRect)frameRect
-     self = [super initWithFrame:frameRect];
-     if (self) {
- 
--        screen.bitsPerComponent = 8;
--        screen.bitsPerPixel = 32;
-         screen.width = frameRect.size.width;
-         screen.height = frameRect.size.height;
- 
-@@ -344,8 +339,7 @@ - (void) dealloc
- {
-     COCOA_DEBUG("QemuCocoaView: dealloc\n");
- 
--    if (dataProviderRef) {
--        CGDataProviderRelease(dataProviderRef);
-+    if (pixman_image) {
-         pixman_image_unref(pixman_image);
-     }
- 
-@@ -424,18 +418,28 @@ - (void) drawRect:(NSRect) rect
-     CGContextSetShouldAntialias (viewContextRef, NO);
- 
-     // draw screen bitmap directly to Core Graphics context
--    if (!dataProviderRef) {
-+    if (!pixman_image) {
-         // Draw request before any guest device has set up a framebuffer:
-         // just draw an opaque black rectangle
-         CGContextSetRGBFillColor(viewContextRef, 0, 0, 0, 1.0);
-         CGContextFillRect(viewContextRef, NSRectToCGRect(rect));
-     } else {
-+        int w = pixman_image_get_width(pixman_image);
-+        int h = pixman_image_get_height(pixman_image);
-+        int bitsPerPixel = PIXMAN_FORMAT_BPP(pixman_image_get_format(pixman_image));
-+        int bitsPerComponent = DIV_ROUND_UP(bitsPerPixel, 8) * 2;
-+        CGDataProviderRef dataProviderRef = CGDataProviderCreateWithData(
-+            NULL,
-+            pixman_image_get_data(pixman_image),
-+            w * 4 * h,
-+            NULL
-+        );
-         CGImageRef imageRef = CGImageCreate(
--            screen.width, //width
--            screen.height, //height
--            screen.bitsPerComponent, //bitsPerComponent
--            screen.bitsPerPixel, //bitsPerPixel
--            (screen.width * (screen.bitsPerComponent/2)), //bytesPerRow
-+            w, //width
-+            h, //height
-+            bitsPerComponent, //bitsPerComponent
-+            bitsPerPixel, //bitsPerPixel
-+            (w * (bitsPerComponent/2)), //bytesPerRow
- #ifdef __LITTLE_ENDIAN__
-             CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB), //colorspace for OS X >= 10.4
-             kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipFirst,
-@@ -458,7 +462,7 @@ - (void) drawRect:(NSRect) rect
-         [self getRectsBeingDrawn:&rectList count:&rectCount];
-         for (i = 0; i < rectCount; i++) {
-             clipRect.origin.x = rectList[i].origin.x / cdx;
--            clipRect.origin.y = (float)screen.height - (rectList[i].origin.y + rectList[i].size.height) / cdy;
-+            clipRect.origin.y = (float)h - (rectList[i].origin.y + rectList[i].size.height) / cdy;
-             clipRect.size.width = rectList[i].size.width / cdx;
-             clipRect.size.height = rectList[i].size.height / cdy;
-             clipImageRef = CGImageCreateWithImageInRect(
-@@ -469,6 +473,7 @@ - (void) drawRect:(NSRect) rect
-             CGImageRelease (clipImageRef);
-         }
-         CGImageRelease (imageRef);
-+        CGDataProviderRelease(dataProviderRef);
-     }
- }
- 
-@@ -511,7 +516,6 @@ - (void) switchSurface:(pixman_image_t *)image
- 
-     int w = pixman_image_get_width(image);
-     int h = pixman_image_get_height(image);
--    pixman_format_code_t image_format = pixman_image_get_format(image);
-     /* cdx == 0 means this is our very first surface, in which case we need
-      * to recalculate the content dimensions even if it happens to be the size
-      * of the initial empty window.
-@@ -529,17 +533,11 @@ - (void) switchSurface:(pixman_image_t *)image
-     }
- 
-     // update screenBuffer
--    if (dataProviderRef) {
--        CGDataProviderRelease(dataProviderRef);
-+    if (pixman_image) {
-         pixman_image_unref(pixman_image);
-     }
- 
--    //sync host window color space with guests
--    screen.bitsPerPixel = PIXMAN_FORMAT_BPP(image_format);
--    screen.bitsPerComponent = DIV_ROUND_UP(screen.bitsPerPixel, 8) * 2;
--
-     pixman_image = image;
--    dataProviderRef = CGDataProviderCreateWithData(NULL, pixman_image_get_data(image), w * 4 * h, NULL);
- 
-     // update windows
-     if (isFullscreen) {
--- 
-2.24.3 (Apple Git-128)
+> >=20
+> >> We can have a script setting up a cgroup as part of a
+> >> gitlab-ci.{yml,d} job for the jobs that will run on the non-shared
+> >> GitLab runners (such as the s390 and aarch64 machines owned by the
+> >> QEMU project).
+> >>
+> >> Does this sound like a solution?
+> >=20
+> > We want a solution that works for anybody running
+> > "make check-acceptance" in any situation, not just for
+> > the CI runners.
+>=20
+> Indeed. Public CI time being limited, I expect users to run tests
+> elsewhere. We don't mind about data loss on CI runners.
+>
+
+That was kind of my point.  We want to use all the resources the
+GitLab CI shared runners give us, so extra limit enforcements make no
+sense to me.  Also, on my personal machines, I also prefer to have
+faster test turnarounds, so putting extra limits is not beneficial to
+me.  YMMV, so my opinion is that this should be an opt-in, *not*
+enabled by default.
+
+My initial take on this is that we can have a few pre-defined scripts
+that set those limits.  Users get to activate those profiles by
+name if say, a given environment variable is set.  Something like:
+
+  RESOURCE_LIMIT_PROFILE=3Dlow_cpu_4g_files
+  if [ -n $RESOURCE_LIMIT_PROFILE ]; then
+  ./scripts/limit-resources/$RESOUCE_LIMIT_PROFILE $*
+
+> FWIW similar complain last year:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg672277.html
+>
+
+The specific issue of Avocado's cache size should be addressed in this
+development cycle, and a solution available on 86.0.  It's being tracked
+here:
+
+  https://github.com/avocado-framework/avocado/issues/4311
+
+Now, in Peter's case, it was QEMU writing to a replay.bin file, and I
+don't see a practical way that Avocado could limit the overall disk
+space usage by whathever gets run on a test unless disk quotas are
+set.  Not sure if this belongs on a test framework though.
+
+Cheers,
+- Cleber.
+
+> Regards,
+>=20
+> Phil.
+>=20
+
+--L83zsyQU+fCulwGZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAl6GkACgkQZX6NM6Xy
+CfMq3g//TTY5rFTKGSJh7kBZYEozR7xxJav34sfOHtoAvwfyjHhRVm578/SLbb3v
+tw64GEy4/V4WlJJrYUaO+ctuNbUydOTym1bhaL5PK0UwTZcAJ9CjpmUU+Fp5X2WS
+M+H9Oo2h+V/1p9jl/fpQd5RKKqWfyA+Iz7Xo2jIdKDikruYO0l7QXZ7L82DV5+Y0
+WsK5SoEsprqMPrP5yltjTwD4XyKZd8KbyIhy4xIwDLE1PaUTsgKor4z6WQLTCOWx
+HejRhgjOCjdf8mgTpodZPb/CEWL6xZDd4GNSEWNHZzJBkRpPC9UmqA9W4glmxLgM
+NITzyJT8J81qA/32o8509Bjs2QCjLko7sDqm0mh3UZQVj5q3F78WkC/ZSd2eSOGH
+EHaSVHs3cxLp+L3Vu5QI3G64u7p66ZfLjQhGR8wXSehEwhwmjAd+r/GgLnXUB0LD
+xCCdoQI+HXRGLrYa4a8FuitMZvJLy0LQ+Ti5PlkZ+RRuzepeLUMUSESYGNMvc1ee
+JWg7I5gvaiPMfdV/wBwo2IgawsRdg6cddhiYmLV30FNAxQV15s1xgOEghoUQqLDQ
+BZ5VGSDul8RyI1vSq5ojRO6BUB68b/DY8byHgUAj/PHvGER1UQKQF7QuOuDWc5uM
+jPSFezhdRu5Z3Wp5oXKIKxKUnJavp6ebcuy8PEUgMIZ+D+oxJmQ=
+=tcAo
+-----END PGP SIGNATURE-----
+
+--L83zsyQU+fCulwGZ--
 
 
