@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF259319D31
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 12:19:31 +0100 (CET)
-Received: from localhost ([::1]:42764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAAB319D4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 12:23:02 +0100 (CET)
+Received: from localhost ([::1]:50740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAWTy-0002DI-P2
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 06:19:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46492)
+	id 1lAWXN-0005dI-PV
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 06:23:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lAWRr-0001GV-47
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 06:17:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48238)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lAWRn-00055k-QG
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 06:17:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613128634;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d9NVgV+ZqXaCgyhr7W3FDL8ImWErSR/UookJstLgkd4=;
- b=bRwbZtjvqhcn+QLH6xADlt3TK4qO+vIA6GBetZj1iCDWTncge/ODxbtD3PC06mOEl6RO7G
- i4GJpvD7jRN43XeXkmoedQ1PmfI5d3HfWj48EgcrCVR6ie95GNaK+ZlvWe7NQRQTN8Am7o
- xrAyXKKKK77AAwfLz1Ko70oTn1XO69o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107--cFRPyz_MbeywJMPTm4sfg-1; Fri, 12 Feb 2021 06:17:04 -0500
-X-MC-Unique: -cFRPyz_MbeywJMPTm4sfg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20C35EC1A5;
- Fri, 12 Feb 2021 11:17:03 +0000 (UTC)
-Received: from redhat.com (ovpn-115-57.ams2.redhat.com [10.36.115.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB61560CE6;
- Fri, 12 Feb 2021 11:17:01 +0000 (UTC)
-Date: Fri, 12 Feb 2021 11:16:58 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH] io: error_prepend() in qio_channel_readv_full_all()
- causes segfault
-Message-ID: <20210212111658.GF1340027@redhat.com>
-References: <cover.1613128220.git.jag.raman@oracle.com>
- <be476bcdb99e820fec0fa09fe8f04c9dd3e62473.1613128220.git.jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAWUV-0003zs-Ld
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 06:20:03 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:32850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAWUT-0006ET-LL
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 06:20:03 -0500
+Received: by mail-ej1-x636.google.com with SMTP id jt13so2277531ejb.0
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 03:20:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=Lve7dpICVmMuYk/dTxbhJ3NggBKtPwRUvp7xp/DvJMw=;
+ b=VRdz6LL4WoCEjSoLL0UMVKUhKqC0gP4U99SyO5JuUub0OPFrCyaM6HSHIep4tIbMfj
+ vb/Opa3l0L/vm29Kt003/q29miFU/YvN798x8CGUqFgq8keFaEMoe4jt+qRjDjPwM2Jj
+ YFtKGVpnYMFAsi+iDmxE5dl4G89WlAVLZ1GDGULVF5CEMdFQMplDc+cDqeGaeVEZxHzO
+ yTHPaQrvlcZs6QKitd1ADs9ViTgrza4oDStXR5cGU5Kv1tpJCxm96zGzBxbi9R0aoBNS
+ l3DSk6XOOk7YdHV8TO8qYvqfSGB4CsxbjRuLvSWGmllZTClmVi8qovBh05COxWr1hzAP
+ Sf+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=Lve7dpICVmMuYk/dTxbhJ3NggBKtPwRUvp7xp/DvJMw=;
+ b=ewfocI09UKzFJN3Ular1mMPCZd4nBNNzDALsPJ53rWJL47vh/ND/GQ+TbQXo5mSIrv
+ Xxz0F3BucDxQyJc9CkXJlAD2ejbubPLd8TFcbhtghd/wjRI6xRWep1aqWIqEpE5Ge4NA
+ vw/ilIXUxinmW59uH2jsaE32cy5HrRdfEWZUJ4MbPTSAoUsf9LWWysxt+QDfi/MyhnTU
+ SD4eswN8c60NzodM57sKOOzba9FUfjLGbPGjmIW4Wz2Ft15OVmru2Cg0ybSPzmV/bRWz
+ trNai2xvwbtbcGivuI/1EskikaI8Di6aRlDiwd7hVWzMetbjlHzo43BD+EWpRVmNC/Z6
+ tr/Q==
+X-Gm-Message-State: AOAM533X+Jv4qHG+NqHJk1apS+/fdyKjvuCCby2zxPD33n2AOysigJLy
+ gIbD/sQLnVo6rLb0+kuIKE2igtq2xkRiUCjwUvYF/71LuiEhwg==
+X-Google-Smtp-Source: ABdhPJyVFj5nzz0WQD3qqf5P2G+9eo2HQjc3U33UhU+sanV7NUwFup5t/a2qDQNGToSy6u/TiduqRBDoVF6BnvTh+hU=
+X-Received: by 2002:a17:906:184e:: with SMTP id
+ w14mr2573056eje.56.1613128799477; 
+ Fri, 12 Feb 2021 03:19:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <be476bcdb99e820fec0fa09fe8f04c9dd3e62473.1613128220.git.jag.raman@oracle.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210205170019.25319-1-peter.maydell@linaro.org>
+ <20210205170019.25319-21-peter.maydell@linaro.org>
+In-Reply-To: <20210205170019.25319-21-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 12 Feb 2021 11:19:48 +0000
+Message-ID: <CAFEAcA-zM5iQQwbKpAwRKuv5upDguxRthzmhJVzaJ7sn4jmp2Q@mail.gmail.com>
+Subject: Re: [PATCH 20/24] hw/arm/mps2-tz: Add new mps3-an524 board
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,47 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: elena.ufimtseva@oracle.com, stefanha@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 06:16:07AM -0500, Jagannathan Raman wrote:
-> Using error_prepend() in qio_channel_readv_full_all() causes a segfault
-> as errp is not set when ret is 0. This results in the failure of iotest
-> 83. Replacing with error_setg() fixes the problem.
-> 
-> Additionally, removes a full stop at the end of error message
-> 
-> Reported-by: Max Reitz <mreitz@redhat.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+On Fri, 5 Feb 2021 at 17:00, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Add support for the mps3-an524 board; this is an SSE-200 based FPGA
+> image, like the existing mps2-an521.  It has a usefully larger amount
+> of RAM, and a PL031 RTC, as well as some more minor differences.
+>
+> In real hardware this image runs on a newer generation of the FPGA
+> board, the MPS3 rather than the older MPS2.  Architecturally the two
+> boards are similar, so we implement the MPS3 boards in the mps2-tz.c
+> file as variations of the existing MPS2 boards.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  io/channel.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/io/channel.c b/io/channel.c
-> index 4555021..e8b019d 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-> @@ -202,8 +202,7 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
->      int ret = qio_channel_readv_full_all_eof(ioc, iov, niov, fds, nfds, errp);
->  
->      if (ret == 0) {
-> -        error_prepend(errp,
-> -                      "Unexpected end-of-file before all data were read.");
-> +        error_setg(errp, "Unexpected end-of-file before all data were read");
->          return -1;
->      }
->      if (ret == 1) {
+>  hw/arm/mps2-tz.c | 136 +++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 132 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+> index 17173057af2..aa57c4b2596 100644
+> --- a/hw/arm/mps2-tz.c
+> +++ b/hw/arm/mps2-tz.c
+> @@ -27,11 +27,13 @@
+>   * http://infocenter.arm.com/help/topic/com.arm.doc.dai0505b/index.html
+>   * Application Note AN521:
+>   * http://infocenter.arm.com/help/topic/com.arm.doc.dai0521c/index.html
+> + * Application Note AN524:
+> + * https://developer.arm.com/documentation/dai0524/latest/
+>   *
+>   * The AN505 defers to the Cortex-M33 processor ARMv8M IoT Kit FVP User Guide
+>   * (ARM ECM0601256) for the details of some of the device layout:
+>   *   http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ecm0601256/index.html
+> - * Similarly, the AN521 uses the SSE-200, and the SSE-200 TRM defines
+> + * Similarly, the AN521 and AN524 use the SSE-200, and the SSE-200 TRM defines
+>   * most of the device layout:
+>   *  http://infocenter.arm.com/help/topic/com.arm.doc.101104_0100_00_en/corelink_sse200_subsystem_for_embedded_technical_reference_manual_101104_0100_00_en.pdf
+>   *
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Just noticed that I forgot one place in this header comment that needs
+updating; this trivial fragment also should be squashed in:
+
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -16,6 +16,7 @@
+  * This source file covers the following FPGA images, for TrustZone cores:
+  *  "mps2-an505" -- Cortex-M33 as documented in ARM Application Note AN505
+  *  "mps2-an521" -- Dual Cortex-M33 as documented in Application Note AN521
++ *  "mps2-an524" -- Dual Cortex-M33 as documented in Application Note AN524
+  *
+  * Links to the TRM for the board itself and to the various Application
+  * Notes which document the FPGA images can be found here:
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
