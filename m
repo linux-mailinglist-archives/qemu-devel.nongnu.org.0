@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C25031A75A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:16:01 +0100 (CET)
-Received: from localhost ([::1]:47494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D21131A75E
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:16:45 +0100 (CET)
+Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAgjI-0002Mv-Bl
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:16:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52288)
+	id 1lAgk0-00037U-3q
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:16:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgen-0000Dh-Sy; Fri, 12 Feb 2021 17:11:22 -0500
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:45849)
+ id 1lAgfr-0000hR-3b; Fri, 12 Feb 2021 17:12:27 -0500
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:38887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgej-0001wY-Lx; Fri, 12 Feb 2021 17:11:21 -0500
-Received: by mail-il1-x12f.google.com with SMTP id w1so554592ilm.12;
- Fri, 12 Feb 2021 14:11:15 -0800 (PST)
+ id 1lAgfo-0002JE-Jf; Fri, 12 Feb 2021 17:12:26 -0500
+Received: by mail-io1-xd34.google.com with SMTP id f6so765084ioz.5;
+ Fri, 12 Feb 2021 14:12:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=plnOZBiWq6v6ObAMnijcQaUzJO+GXgJNWA7z10CoiVU=;
- b=FsbgBhmZ/iAQUTg1m3ehzi2S1BxT/OOncyi4tsUnbv7Td1ooqVHY6ebjRAGdg5NG1t
- dNzJyayqc7NQo9jnGJKZi7QMh2WAvsc75jnZxYMZj7H+xztI5wj5heNo04KNagrlhJGr
- veA2oWptv7ZGefUdNhNaqLcpS5s2H2JRXaawthSljnnJm1yJDrKXvh6mPw1iOW1KUCeW
- dHr/UFwrv/w7Odt/cBI8lyaWmrzvIIywHku7pD41Y5TdqItJduESpS66GOOvEFNx0j7v
- hDDCGxmw0aEUYx3Qyt0ZIAG601rLEydDZ3rNkf/KaMenfh9AZbLTJPD5ftI5x9mKnY9H
- dd1w==
+ :cc:content-transfer-encoding;
+ bh=h/tAucvov96ZKz4T8OzmzmYiOOFfNo8wXHKCEGZsL2k=;
+ b=hreWPpd5efrJdDp0HBfg8SCdwcD7S9pscqO9SczfWgSjIKlBrNAqXXP9K4MOAlo0gh
+ QN7rqnoY0U8I01obXIOH9F5DOukbVzxQ91lqjnoDcsxNE/OI0LqqLm4I0ZBP9cK/1QB8
+ bZj+aJX194a7Va5Bf2uu3AdPWT1+qO4dax5LLQdfMmQEnbkC8P+/vo+z2+f+IxP9DCK9
+ UhulPv4Uedads+RhOehEHkOFl0QudAEY/gTsRIy/t3sztU8/63sSOoWhwwphxP/QPePP
+ Jfh6kWrq/N4LyAo1qVYo9KoQgF7PsEst9iaQwnwNDCzV/XUCaHqNY0rLgdAhxyNeI+AK
+ VhVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=plnOZBiWq6v6ObAMnijcQaUzJO+GXgJNWA7z10CoiVU=;
- b=pQSN3hH3iQ0stIEC1y6JWkJ3ObZyWu4kyTv7UrxnKU+BsnggAp4DlAsPI+1fMm7QH/
- Zdgg5BbUwflgREaDMP/wgGBwY8OrdM9lMxujSqHFKT9xY091Ws+97ANocT1lf/J6qmf9
- infk4I21ezNDERo4INJLpqa0aVFFXqWm6etdg9PX+tBTWVnDBY0x0Li0XBepEAF7/uaL
- bcE5O6JNGEURJsBlrY6S8aKXpNY8RkWsRHmnCgTsgWSwKo51NWYe10/NOX48PdUI0mPK
- fpWLQvJLvhwgMnX3S7cdPdZu74Q/Xh085klk3iLYXyG0LW/WkDBb2rCJ2PTEe5REKHUA
- 6pjQ==
-X-Gm-Message-State: AOAM530jCd2IpiD9ZP9usadhc0Y59svSMS+UJlE6oy5jcnLSaUMZE/bp
- th1p+sH0v/xOZaVnNbal7QHRQGaSWvbFWO0431w=
-X-Google-Smtp-Source: ABdhPJyQ/SwxEBny0gEEtcJaITaq5MgFPfbcmHI5wUqjolOLlB+G3lx7SiLIXy3lA5KkPhM4Y4QX8UDT9XBSEj95MGY=
-X-Received: by 2002:a92:cda1:: with SMTP id g1mr4027131ild.267.1613167874337; 
- Fri, 12 Feb 2021 14:11:14 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=h/tAucvov96ZKz4T8OzmzmYiOOFfNo8wXHKCEGZsL2k=;
+ b=AmQSVISPoxIhHlSv1QQCekJ59H+L6e/rGCINOPfpQxLpp4tu61BQxxT6av02DOElfP
+ Vmgi2baRnlXovkJFkjToVOqi1B99SykIwidjhFlDkOOuvYtpYEiyTkjcVPaKNVeZOxdk
+ mGvd38++aCaF5z1xtpzD8Ijb7ux8XEM3RIEL4sicNW7wgfc0IgLCphe2Ai/Uir/m3XO3
+ Lk9nJNanPTGe/UX+WiIL2ODVJA/0TlEr9d80v0pV4BSb3TeCcfrR1Jt8k1NboBnav4z8
+ As+8OUqUKv4PAZe5drQFlR+Nk8JMvCoYsbUiUC1VqbRW7YKks0lBXP7lOFymhZeT/jcf
+ bfRA==
+X-Gm-Message-State: AOAM531bvBHeFOcFjaUkpAZlrNFd/hvJCe5a2z03Zgp8QSLYkNaWbEFw
+ mT03kGKGOAW2ZQB5kSjbNZaVeVs061o9CX4h9EY=
+X-Google-Smtp-Source: ABdhPJyIT3pl9D9ckE5QWMX0ktmLGvDc+oQNo7FK2WGXLpAQa4ZMeYQzhCtX3HlzZ/ACpxKeC4iRyZmIStERiKZh1iI=
+X-Received: by 2002:a02:634b:: with SMTP id j72mr4520743jac.106.1613167939841; 
+ Fri, 12 Feb 2021 14:12:19 -0800 (PST)
 MIME-Version: 1.0
 References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613031446-22154-11-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1613031446-22154-11-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613031446-22154-14-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1613031446-22154-14-git-send-email-sai.pavan.boddu@xilinx.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 12 Feb 2021 14:10:33 -0800
-Message-ID: <CAKmqyKOcADG6Dd=BQ3GwixNmEAKMUg7bR7Nhx4wc33iLrcZbvQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 10/15] sd: emmc: Update CID structure for eMMC
+Date: Fri, 12 Feb 2021 14:11:39 -0800
+Message-ID: <CAKmqyKMO8Reg4y5x0q8uUUK9iG_5=i9G46F6voQcMLVdWa5Jpg@mail.gmail.com>
+Subject: Re: [RFC PATCH 13/15] sd: emmc: Subtract bootarea size from blk
 To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -92,87 +94,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 12:30 AM Sai Pavan Boddu
+On Thu, Feb 11, 2021 at 12:25 AM Sai Pavan Boddu
 <sai.pavan.boddu@xilinx.com> wrote:
 >
-> CID structure is little different for eMMC, w.r.t to product name and
-> manufacturing date.
+> From: Joel Stanley <joel@jms.id.au>
 >
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> ---
->  hw/sd/sd.c | 52 +++++++++++++++++++++++++++++++++++-----------------
->  1 file changed, 35 insertions(+), 17 deletions(-)
+> The userdata size is derived from the file the user passes on the
+> command line, but we must take into account the boot areas.
 >
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 7aab647..45311fa 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -345,23 +345,41 @@ static void sd_set_scr(SDState *sd)
->
->  static void sd_set_cid(SDState *sd)
->  {
-> -    sd->cid[0] = MID;          /* Fake card manufacturer ID (MID) */
-> -    sd->cid[1] = OID[0];       /* OEM/Application ID (OID) */
-> -    sd->cid[2] = OID[1];
-> -    sd->cid[3] = PNM[0];       /* Fake product name (PNM) */
-> -    sd->cid[4] = PNM[1];
-> -    sd->cid[5] = PNM[2];
-> -    sd->cid[6] = PNM[3];
-> -    sd->cid[7] = PNM[4];
-> -    sd->cid[8] = PRV;          /* Fake product revision (PRV) */
-> -    sd->cid[9] = 0xde;         /* Fake serial number (PSN) */
-> -    sd->cid[10] = 0xad;
-> -    sd->cid[11] = 0xbe;
-> -    sd->cid[12] = 0xef;
-> -    sd->cid[13] = 0x00 |       /* Manufacture date (MDT) */
-> -        ((MDT_YR - 2000) / 10);
-> -    sd->cid[14] = ((MDT_YR % 10) << 4) | MDT_MON;
-> -    sd->cid[15] = (sd_crc7(sd->cid, 15) << 1) | 1;
-> +    if (sd->emmc) {
-> +        sd->cid[0] = MID;
-> +        sd->cid[1] = 0x1;       /* CBX */
-> +        sd->cid[2] = OID[0];    /* OEM/Application ID (OID) */
-> +        sd->cid[3] = PNM[0];    /* Fake product name (PNM) 48bit */
-> +        sd->cid[4] = PNM[1];
-> +        sd->cid[5] = PNM[2];
-> +        sd->cid[6] = PNM[3];
-> +        sd->cid[7] = PNM[4];
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Aren't the majority of these the same between the two cases? It's
-probably cleaner to split them out then.
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
-> +        sd->cid[8] = 0x0;
-> +        sd->cid[9] = PRV;        /* Fake product revision (PRV) */
-> +        sd->cid[10] = 0xde;      /* Fake serial number (PSN) */
-> +        sd->cid[11] = 0xad;
-> +        sd->cid[12] = 0xbe;
-> +        sd->cid[13] = 0xef;
-> +        sd->cid[14] = ((MDT_YR - 1997) % 0x10); /* MDT */
-> +    } else {
-> +        sd->cid[0] = MID;       /* Fake card manufacturer ID (MID) */
-> +        sd->cid[1] = OID[0];    /* OEM/Application ID (OID) */
-> +        sd->cid[2] = OID[1];
-> +        sd->cid[3] = PNM[0];    /* Fake product name (PNM) 40bit */
-> +        sd->cid[4] = PNM[1];
-> +        sd->cid[5] = PNM[2];
-> +        sd->cid[6] = PNM[3];
-> +        sd->cid[7] = PNM[4];
-> +        sd->cid[8] = PRV;       /* Fake product revision (PRV) */
-> +        sd->cid[9] = 0xde;      /* Fake serial number (PSN) */
-> +        sd->cid[10] = 0xad;
-> +        sd->cid[11] = 0xbe;
-> +        sd->cid[12] = 0xef;
-> +        sd->cid[13] = 0x00 |    /* Manufacture date (MDT) */
-> +            ((MDT_YR - 2000) / 10);
-> +        sd->cid[14] = ((MDT_YR % 10) << 4) | MDT_MON;
-> +   }
-> +   sd->cid[15] = (sd_crc7(sd->cid, 15) << 1) | 1;
->  }
+> ---
+>  hw/sd/sd.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
->  #define HWBLOCK_SHIFT  9                       /* 512 bytes */
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index 55c1104..a2f39c9 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -658,6 +658,11 @@ static void sd_reset(DeviceState *dev)
+>      }
+>      size =3D sect << 9;
+>
+> +    if (sd->emmc) {
+> +        unsigned int boot_capacity =3D sd->ext_csd[EXT_CSD_BOOT_MULT] <<=
+ 17;
+> +        size -=3D boot_capacity * 2;
+> +    }
+> +
+>      sect =3D sd_addr_to_wpnum(size) + 1;
+>
+>      sd->state =3D sd_idle_state;
 > --
 > 2.7.4
 >
