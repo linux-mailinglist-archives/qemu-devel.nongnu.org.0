@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5D9319BCA
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 10:26:02 +0100 (CET)
-Received: from localhost ([::1]:49844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98671319BDB
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 10:27:11 +0100 (CET)
+Received: from localhost ([::1]:52262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAUi8-0000zB-W6
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 04:26:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51994)
+	id 1lAUjG-00024p-Ns
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 04:27:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lAUfr-0008JR-UQ
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:23:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40011)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lAUhb-0001Ck-2y
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:25:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lAUfl-0005An-Ch
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:23:39 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lAUhU-0005tl-S4
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:25:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613121811;
+ s=mimecast20190719; t=1613121919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WKLnTXa8Cd4Et2PO0BZqRLAvmYDYLHllrmlPGuReWkA=;
- b=iBF2RMvQu6PPHoqxVdXKzUvN8A+L+YULAh3RGNPvFz9kqMJMljmxVuYenWe8DrhMFRtFjz
- +u9iLc419bcfNX2cexGGNQVyaMVnKoCL9WLvi6ZGML8i/TbtOtl7OBLiwdWi1E2xWtxwAb
- Gx5H7u8rWo7u//XA1HbWKxwWJ+U3xZs=
+ bh=G13VzGXrnKdWIPnPRY74DAhH7rgNtWPYpG7JwtSviIU=;
+ b=i3rUCGqC+zJb+LbJkZHEnO+q4TkC9rlMNUVWDDbYWHsuycyjRyY6QtOKWE5XANq5s4uw9x
+ 9wD0IDQ/WuDBheJT20xZddR6IP785w5+FY7W7vANeewzkzK1UrEg1Qap/8yY39fRHRrILp
+ 68ufxorNjbTegFgnuROlRucwi8/OKxE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-DDDoSp6mP6-fGC26gQi-5A-1; Fri, 12 Feb 2021 04:23:30 -0500
-X-MC-Unique: DDDoSp6mP6-fGC26gQi-5A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-524-RLjJCbRFO9esuqlzH9V_MQ-1; Fri, 12 Feb 2021 04:25:16 -0500
+X-MC-Unique: RLjJCbRFO9esuqlzH9V_MQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF333107ACE4;
- Fri, 12 Feb 2021 09:23:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F80DDF8A4;
+ Fri, 12 Feb 2021 09:25:15 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-114-227.ams2.redhat.com
  [10.36.114.227])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C89917D93C;
- Fri, 12 Feb 2021 09:23:27 +0000 (UTC)
-Subject: Re: [PATCH 1/2] block/mirror: Fix mirror_top's permissions
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0B281A879;
+ Fri, 12 Feb 2021 09:25:13 +0000 (UTC)
+Subject: Re: [PATCH 2/2] file-posix: Cache next hole
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
 References: <20210211172242.146671-1-mreitz@redhat.com>
- <20210211172242.146671-2-mreitz@redhat.com>
- <182ee6e2-865b-5d83-a7d9-c95e2a5f44df@virtuozzo.com>
+ <20210211172242.146671-3-mreitz@redhat.com>
+ <f86be907-ddc3-9629-1179-ccf585c013ae@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
-Message-ID: <10b1af76-a335-012a-1750-855b7a8e2992@redhat.com>
-Date: Fri, 12 Feb 2021 10:23:26 +0100
+Message-ID: <176f890a-5df5-2e68-c29c-b22d312bf977@redhat.com>
+Date: Fri, 12 Feb 2021 10:25:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <182ee6e2-865b-5d83-a7d9-c95e2a5f44df@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <f86be907-ddc3-9629-1179-ccf585c013ae@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,144 +83,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12.02.21 10:04, Vladimir Sementsov-Ogievskiy wrote:
-> 11.02.2021 20:22, Max Reitz wrote:
->> mirror_top currently shares all permissions, and takes only the WRITE
->> permission (if some parent has taken that permission, too).
+On 11.02.21 21:00, Eric Blake wrote:
+> On 2/11/21 11:22 AM, Max Reitz wrote:
+>> We have repeatedly received reports that SEEK_HOLE and SEEK_DATA are
+>> slow on certain filesystems and/or under certain circumstances.  That is
+>> why we generally try to avoid it (which is why bdrv_co_block_status()
+>> has the @want_zero parameter, and which is why qcow2 has a metadata
+>> preallocation detection, so we do not fall through to the protocol layer
+>> to discover which blocks are zero, unless that is really necessary
+>> (i.e., for metadata-preallocated images)).
 >>
->> That is wrong, though; mirror_top is a filter, so it should take
->> permissions like any other filter does.  For example, if the parent
->> needs CONSISTENT_READ, we need to take that, too, and if it cannot share
->> the WRITE permission, we cannot share it either.
+>> In addition to those measures, we can also try to speed up zero
+>> detection by letting file-posix cache some hole location information,
+>> namely where the next hole after the most recently queried offset is.
+>> This helps especially for images that are (nearly) fully allocated,
+>> which is coincidentally also the case where querying for zero
+>> information cannot gain us much.
 >>
->> The exception is when mirror_top is used for active commit, where we
->> cannot take CONSISTENT_READ (because it is deliberately unshared above
->> the base node) and where we must share WRITE (so that it is shared for
->> all images in the backing chain, so the mirror job can take it for the
->> target BB).
+>> Note that this of course only works so long as we have no concurrent
+>> writers to the image, which is the case when the WRITE capability is not
+>> shared.
+>>
+>> Alternatively (or perhaps as an improvement in the future), we could let
+>> file-posix keep track of what it knows is zero and what it knows is
+>> non-zero with bitmaps, which would help images that actually have a
+>> significant number of holes (where this implementation here cannot do
+>> much).  But for such images, SEEK_HOLE/DATA are generally faster (they
+>> do not need to seek through the whole file), and the performance lost by
+>> querying the block status does not feel as bad because it is outweighed
+>> by the performance that can be saved by special-cases zeroed areas, so
+>> focussing on images that are (nearly) fully allocated is more important.
+> 
+> focusing
+
+Wiktionary lists both as valid. *shrug*
+
 >>
 >> Signed-off-by: Max Reitz <mreitz@redhat.com>
 >> ---
->>   block/mirror.c | 32 +++++++++++++++++++++++++-------
->>   1 file changed, 25 insertions(+), 7 deletions(-)
->>
->> diff --git a/block/mirror.c b/block/mirror.c
->> index 8e1ad6eceb..1edfc3cc14 100644
->> --- a/block/mirror.c
->> +++ b/block/mirror.c
->> @@ -89,6 +89,7 @@ typedef struct MirrorBlockJob {
->>   typedef struct MirrorBDSOpaque {
->>       MirrorBlockJob *job;
->>       bool stop;
->> +    bool is_commit;
->>   } MirrorBDSOpaque;
->>   struct MirrorOp {
->> @@ -1513,13 +1514,27 @@ static void 
->> bdrv_mirror_top_child_perm(BlockDriverState *bs, BdrvChild *c,
->>           return;
->>       }
->> -    /* Must be able to forward guest writes to the real image */
->> -    *nperm = 0;
->> -    if (perm & BLK_PERM_WRITE) {
->> -        *nperm |= BLK_PERM_WRITE;
->> -    }
->> +    bdrv_default_perms(bs, c, role, reopen_queue,
->> +                       perm, shared, nperm, nshared);
->> -    *nshared = BLK_PERM_ALL;
->> +    if (s->is_commit) {
->> +        /*
->> +         * For commit jobs, we cannot take CONSISTENT_READ, because
->> +         * that permission is unshared for everything above the base
->> +         * node (except for filters on the base node).
->> +         * We also have to force-share the WRITE permission, or
->> +         * otherwise we would block ourselves at the base node (if
->> +         * writes are blocked for a node, they are also blocked for
->> +         * its backing file).
->> +         * (We could also share RESIZE, because it may be needed for
->> +         * the target if its size is less than the top node's; but
->> +         * bdrv_default_perms_for_cow() automatically shares RESIZE
->> +         * for backing nodes if WRITE is shared, so there is no need
->> +         * to do it here.)
->> +         */
->> +        *nperm &= ~BLK_PERM_CONSISTENT_READ;
-> 
-> this works only because we don't assert READ permission on generic read 
-> path in block/io.c, like we do for WRITE..
-> but this is better than pre-patch anyway..
-
-Yes, because you can read regardless of CONSISTENT_READ, the question is 
-just whether you’ll receive consistent data.  The caller needs to decide 
-whether that’s the case.
-
-Taking that permission kind of is deferring the question whether the 
-data will be consistent to the block layer.
-
-In case of commit, we unshare CONSISTENT_READ above the base, because 
-the data between base and top will not be consistent.  Starting from 
-top, we know it is, so we do not need to take the permission, because we 
-do not need that guarantee from the block layer; the commit job can give 
-that guarantee itself.
-
-(I suppose we could add some ALLOW_INCONSISTENT flag to read requests, 
-and the permission is checked when that flag is not present, but I don’t 
-think we really need to.)
-
-(Technically we have the problem that there could be something else 
-between top and base that unshares CONSISTENT_READ, and we’ll never 
-know, but addressing that would be complicated and it’s only a 
-hypothetical problem, AFAIA.)
-
-> How block-jobs and filters works - definitely goes beyond our 
-> permissions architecture..
-
-FWIW, AFAIR, the first job filter node was commit_top, whose purpose was 
-precisely to allow unsharing CONSISTENT_READ on the base and then 
-offering it again on the top.
-
->> +        *nshared |= BLK_PERM_WRITE;
->> +    }
->>   }
->>   /* Dummy node that provides consistent read to its users without 
->> requiring it
->> @@ -1583,6 +1598,8 @@ static BlockJob *mirror_start_job(
->>           return NULL;
->>       }
->> +    target_is_backing = bdrv_chain_contains(bs, target);
-> 
-> may be initialized together with definition..
-
-Could be, but would that be better? :)
-
->> +
->>       /* In the case of active commit, add dummy driver to provide 
->> consistent
->>        * reads on the top, while disabling it in the intermediate 
->> nodes, and make
->>        * the backing chain writable. */
->> @@ -1605,6 +1622,8 @@ static BlockJob *mirror_start_job(
->>       bs_opaque = g_new0(MirrorBDSOpaque, 1);
->>       mirror_top_bs->opaque = bs_opaque;
->> +    bs_opaque->is_commit = target_is_backing;
->> +
->>       /* bdrv_append takes ownership of the mirror_top_bs reference, 
->> need to keep
->>        * it alive until block_job_create() succeeds even if bs has no 
->> parent. */
->>       bdrv_ref(mirror_top_bs);
->> @@ -1646,7 +1665,6 @@ static BlockJob *mirror_start_job(
->>       target_perms = BLK_PERM_WRITE;
->>       target_shared_perms = BLK_PERM_WRITE_UNCHANGED;
->> -    target_is_backing = bdrv_chain_contains(bs, target);
->>       if (target_is_backing) {
->>           int64_t bs_size, target_size;
->>           bs_size = bdrv_getlength(bs);
+>>   block/file-posix.c | 81 +++++++++++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 80 insertions(+), 1 deletion(-)
 >>
 > 
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>   static int find_allocation(BlockDriverState *bs, off_t start,
+>>                              off_t *data, off_t *hole)
+>>   {
+>> -#if defined SEEK_HOLE && defined SEEK_DATA
+>>       BDRVRawState *s = bs->opaque;
+>> +
+>> +    if (s->next_zero_offset_valid) {
+>> +        if (start >= s->next_zero_offset_from && start < s->next_zero_offset) {
+>> +            *data = start;
+>> +            *hole = s->next_zero_offset;
+>> +            return 0;
+>> +        }
+>> +    }
+>> +
+>> +#if defined SEEK_HOLE && defined SEEK_DATA
+> 
+> Why move the #if? If SEEK_HOLE is not defined, s->next_zero_offset_valid
+> should never be set, because we'll treat the entire image as data.  But
+> at the same time, it doesn't hurt, so doesn't stop my review.
+
+I found it better to put it outside the SEEK_HOLE/DATA section, because 
+while it won’t work when neither are defined, the code is still valid.
+
+I don’t know. :)
+
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
 Thanks!
 
