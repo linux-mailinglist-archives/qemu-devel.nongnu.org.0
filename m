@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8BF9319898
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 04:08:01 +0100 (CET)
-Received: from localhost ([::1]:55140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182663198F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 04:53:34 +0100 (CET)
+Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAOoK-000402-7J
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 22:08:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54326)
+	id 1lAPWO-0003AS-KZ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 22:53:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lAOmu-0003W4-87
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 22:06:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59221)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lAOmr-00054m-TT
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 22:06:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613099188;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cv8OOUX/cHdl3SlyZ7qqT9a6mdVWa1hBF27lpPE4bwY=;
- b=CL9uZQFbjozpub52aXHsz8fvzZ2/woKrncTGeZ51ehJ+qHWHB9ntlW25+B0Mqy3k51Oh4Y
- SMQtmAHqm5EAut780z2rdcGxRUb7/ZEQ38RHWOTAqQkD1RnZeRLrCoxwSl7cHMGLN0CfzC
- oRwmpeTc4z6E26Ho4/SOcLPhzZQBkT8=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-LjgZWOglOBiVpvCJCjHw9Q-1; Thu, 11 Feb 2021 22:06:24 -0500
-X-MC-Unique: LjgZWOglOBiVpvCJCjHw9Q-1
-Received: by mail-qk1-f198.google.com with SMTP id f16so6282129qke.0
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 19:06:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lAPVT-0002jZ-Tz
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 22:52:35 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42953)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lAPVS-00034N-4r
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 22:52:35 -0500
+Received: by mail-ej1-x634.google.com with SMTP id z19so199137eju.9
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 19:52:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=8Y9SyGbxOS6T9J7plNE7EJveWKzsfWi2aZgZ7W4uuTs=;
+ b=rZfwwFHPJaVSeIZ7r2+x5Iwd6QLdBF7Z07cMgGsmn0xMdDskPnGgPhkxYo3X8EN/wN
+ B8fyecL9qR+TmizKnW4yIR2LU/wwRtaE0UZRdp3GzAwCnNJp3NXjMlYVbONtxYFsjH7b
+ VVHPVmfsr2bWlD+npbGBqFX+FYaOpVA/sLfd2CnkFZSEkZVoa7vM308J5LMVUN/zLr8a
+ AkIG3yS3K4rCYKo1l8iZdf/WD8J774u76JcJJQLw5vph5Po6d06Om8dcZzsMQLB9rSYk
+ Fn/nfr3YRZXY0Msg14XYGVR/3RT6uNBCkn/e1hsLzEi9/NAOHMrnOLrjU91Srqnfp5Zi
+ RP+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=cv8OOUX/cHdl3SlyZ7qqT9a6mdVWa1hBF27lpPE4bwY=;
- b=LfnRwqL2OvOjOaeRp5XrtPKkMHW7WRfNEsIm60D7SEWrVirUuGa165en2AIXkpBJYR
- Jc8Bk66XvAHIEqfrLDdwE3iTNdKTH326PL6YC156Krmo0wuF5vOCQJA1UerV6XHGVz4N
- wid2QNTE5yrALOOWV1YQLDzNTCpXoCF6qEAcmYKQSpWSoqeU4JLPsG9lBq5bZvs4J6to
- M0M5HLtsKvVLFv0O410E7O2b9BoTQzujaUmigaezqmdBKdFIxFSh3+sPMRTrIZKY6Hz0
- M13BwhJnA+NvsnSMDDEUew4RsScg06TM6w5dV3B34JgeK1xE28hoRho3893ULB4/3Lic
- K53w==
-X-Gm-Message-State: AOAM531HVc0sGegmwh6T9omoWhdQBe2tEg4MzDoQvZg4xhnEri7aBMX3
- Q/kPFfGmGuDwXSeiZpxWzrqn2th5Nq3dB509CVZc527YeFsOvuTcG8LJgGiid+ObJP6F+1BwX1O
- fRyjp8/b+ulqvuWw=
-X-Received: by 2002:ad4:448e:: with SMTP id m14mr760540qvt.35.1613099184090;
- Thu, 11 Feb 2021 19:06:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyh8irOL7MIqfIp/RoNRpMFOONkqDoYBVwLKjrYIccm5fC5aLXq74qltq9DjiIsKowouCa3YA==
-X-Received: by 2002:ad4:448e:: with SMTP id m14mr760525qvt.35.1613099183855;
- Thu, 11 Feb 2021 19:06:23 -0800 (PST)
-Received: from xz-x1
- (bras-vprn-toroon474qw-lp130-20-174-93-89-182.dsl.bell.ca. [174.93.89.182])
- by smtp.gmail.com with ESMTPSA id o17sm4980875qtl.47.2021.02.11.19.06.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Feb 2021 19:06:23 -0800 (PST)
-Date: Thu, 11 Feb 2021 22:06:21 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-Message-ID: <20210212030621.GF157159@xz-x1>
-References: <20210211210549.GE157159@xz-x1>
- <4E588B57-AAC8-40DD-9260-541836074DB3@redhat.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=8Y9SyGbxOS6T9J7plNE7EJveWKzsfWi2aZgZ7W4uuTs=;
+ b=m0JHZQwzh7WUfKvaZJ5qcUM7JRvMVBooirlx+5Lvs7jibANaW7KHlaQ8Eogo0aKHRn
+ 3OfCYcjTjdbDDgPZ6K2uns8og7Og3gYBhjXIyxglHpm9CgTAYvqvNl8rLIltzkfaaFWZ
+ 1iwe8OYeXlDgZXzYlon0QfxJddek0qwk4HdIsl8i/kBzMyejK5jQXRZ5HvNKmNr3ICs8
+ UEEuMzxVO0W11obJgLgvBZDZDdVXCfDIp4Q7P1bMy7cnd7GaqQ7lUN6tGm8ehPRHvL6l
+ tzOd27WLaT4e9VVvIr22hB0WhGcAGH5bQEMQjQJbZXuoeHY6a0WhhTfS5KFB7rJWDVwR
+ GU+Q==
+X-Gm-Message-State: AOAM532yr/Fq1TyY8J7egdMWjWTrnu/WpYii/05HmukpenWqmi308NyJ
+ sdRceneFyAjxn+2CQ2w1en5+nbV7oReyITRs7bK/DIrppu4k5g==
+X-Google-Smtp-Source: ABdhPJyQ1mTbwfOO81/XUDg2MCvFBlCtx8t/TCVuDD8+UP22XwSXy1uhIeWAmWBNsr1W6HlB3YrOJTFdK/dKGbmA9BE=
+X-Received: by 2002:a17:906:2bd7:: with SMTP id
+ n23mr1049108ejg.502.1613101951861; 
+ Thu, 11 Feb 2021 19:52:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4E588B57-AAC8-40DD-9260-541836074DB3@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: =?UTF-8?B?5bCP55Sw5Zac6Zm95b2m?= <akihiko.odaki@gmail.com>
+Date: Fri, 12 Feb 2021 12:52:21 +0900
+Message-ID: <CAMVc7JXQ_W+wDb9fUrGXmnO9Udaugbg=X-9PkpKNY13Xe7YxiQ@mail.gmail.com>
+Subject: Virgil 3D renderer on macOS
+To: qemu-devel@nongnu.org, virglrenderer-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,24 +77,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Alexander Duyck <alexander.duyck@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Den Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 10:09:58PM +0100, David Hildenbrand wrote:
-> The issue is when the discard happened before starting the snapshot. Write-protection won‘t work and the zeroed content won‘t be retained in the snapshot.
+Hi,
 
-I see what you mean now, and iiuc it will only be a problem if init_on_free=1.
-I think CONFIG_INIT_ON_FREE_DEFAULT_ON should be off for most distros, so the
-impact should be small, I think.  I thought about it, but indeed I didn't see a
-good way to fix this if without fixing the zero page copy for live snapshot.
+I would like to introduce my Virgil 3D renderer port to macOS.
 
--- 
-Peter Xu
+Some patches which are made in the process are useful even without
+Virgil 3D renderer, and already submitted to upstreams:
+- [PATCH] ui/cocoa: Support unique keys of JIS keyboards
+- [PATCH] ui/cocoa: Remove the uses of full screen APIs
+- [PATCH] ui/cocoa: Do not copy members of pixman image
+- [PATCH] ui/cocoa: Interpret left button down as is when command is presse=
+d
+- Support ANGLE on macOS by akihikodaki =C2=B7 Pull Request #239 =C2=B7 anh=
+olt/libepoxy
+  https://github.com/anholt/libepoxy/pull/239
 
+I will send other patches when I confirm they do not cause harm on
+Linux hosts, or changes they depend on get merged.
+
+The complete source code is available on GitHub:
+https://github.com/akihikodaki/libepoxy/tree/macos
+https://github.com/akihikodaki/qemu/tree/macos
+https://github.com/akihikodaki/virglrenderer/tree/macos
+
+The "cocoa" display of QEMU will provide OpenGL support to the guest
+on macOS hosts. "NSOpenGLContext" (which wraps "CGL") will be the
+backend for core profile. ANGLE (which also wraps CGL and provides
+compatibility improvements) will be the backend for ES profile. It is
+possible to build without ANGLE, but such a build will lose ES profile
+compatibility.
+
+Videos captured on M1 MacBook Air are available on YouTube:
+https://youtu.be/ezvQPREjN1s (The WebGL Aquarium on the host, for compariso=
+n)
+https://youtu.be/iOG9Dbn8VoE (QEMU with OpenGL Core)
+https://youtu.be/k0bVlVQU2JQ (QEMU with OpenGL ES)
+
+glmark2 gives 577 scores for gl=3Des and 151 scores for gl=3Doff. The FPS
+of the WebGL aquarium with identical configurations was consistent
+with the display on the host (60 FPS), 15 FPS with gl=3Des, 8 FPS with
+gl=3Doff.
+
+I have not ran a formal conformance tests, but gl=3Dcore (which uses
+NSOpenGLContext) had a few problems:
+- glmark2 fails with the following output:
+> vrend_compile_shader: context error reported 6 "glmark2" Illegal shader 0
+> shader failed to compile
+> ERROR: 0:2: '' :  extension 'GL_ARB_fragment_coord_conventions' is not su=
+pported
+
+- Mozilla Firefox opening "about:support" fails with the following
+output on the host (This one should be easy to fix but I rather not
+because I also have gl=3Des.):
+> No provider of glTexStorage2DMultisample found.  Requires one of:
+>     Desktop OpenGL 4.3
+>
+>     GL_ARB_texture_storage_multisample
+>     OpenGL ES 3.1
+
+In contrast, gl=3Des, backed with ANGLE, runs properly as far as I have see=
+n.
+
+My motivation is to make Linux desktop usable on M1. Patches to add
+Hypervisor framework support on Aarch64 are already submitted ("hvf:
+Implement Apple Silicon Support") and they are indeed useful for
+various workloads and I also used them to port Virgil, but I also
+needed graphics acceleration for my purpose. Another attempt to get
+Linux work on M1 is Asahi Linux, which aims to run Linux bare-metal.
+Of course, this needs porting graphic stacks to M1 and is likely to
+take time. I am satisfied with my port for the purpose although there
+may be rooms for performance or compatibility improvements.
+
+There is nothing preventing that if anyone would like to use Virgil on
+Intel Macs. Also, some patches may benefit other OpenGL ES
+configurations and displays.
+
+Thanks,
 
