@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7993331A61B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:37:15 +0100 (CET)
-Received: from localhost ([::1]:60658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B8D31A61C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:37:56 +0100 (CET)
+Received: from localhost ([::1]:34758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAfBi-0008A5-JY
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:37:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
+	id 1lAfCN-0000uX-GO
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:37:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAf9O-0007fD-4b
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:34:50 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33148)
+ id 1lAfAX-0008BG-2e
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:36:01 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAf9M-0003X4-KU
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:34:49 -0500
-Received: by mail-wr1-x436.google.com with SMTP id 7so808634wrz.0
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 12:34:48 -0800 (PST)
+ id 1lAfAV-000454-Lg
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:36:00 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id v14so741202wro.7
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 12:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wf9a+438uUKdV+C2ByY9TeaK3dLZXVjyxza/PPeCc/o=;
- b=aH20RORXjSghRpa4AQsqcfpfFS9szY8E0DfVnZ/hzEI0jUujydbhvnsvk2zz1kH8zK
- VcPX6uuGhy2ES+CSxCSn428n3ZwcSKjUJhnF0v4UnWPTdxv0Jwopsb95nRbo8RAIOaoP
- 5VAfBqH+/bdSSLTXdmnNBMfx3VOuB9Zdcff1iJbDdxQnY710q/Cb+IU/EhgomfTa1qNh
- lRQlCcRpjm8L10zT7vMTf0R7LTnDeXn7cUhnD/b8s16tzt/ziu2BqwljoushgS2XxYKh
- 1iswj1RXP5xDrg7V2PxK2pWvpN0zOPGSOK5kPnVDh/omwDNkTshob0g3OTWkTGydAxFp
- AKFQ==
+ bh=UfO1iaw8uKvW0to636FiKAeuT6HMlhTznYUx2yYrBxM=;
+ b=MWwj7AZ3IG1bkYPKv28I8q4ry+OZ1i9WwsC2QASQmdEaAkypJgzIR8BfY5TWAPos8C
+ OAzvSOIGF8HIJJMoIQ28sdH/JZS8c+7Q/RREkD3gTMHAqQID3TCKf4EVaQiqb0e/M/R4
+ 76667aJKmyoieoqiYJgh9h4Jf5HaXh1khqgNfIQeWSdmHG0OzJjMtlb3edPXP9je9ojp
+ Ehx4CUzCq9LCHOKB9CAZiQ26k6wNM2Ls70/+zinvPq2LH3FrA+k28nevnXOaT3lm0VmV
+ RR+xblz75mTgkEpOA+F8H4Agu3nPk8I7yClslXOq/Vc0kNuvJt5E22Ni4nwMgACFX2ky
+ Ehww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wf9a+438uUKdV+C2ByY9TeaK3dLZXVjyxza/PPeCc/o=;
- b=Jb0OynXaDO3fhWPxgcDqcjLTTmDYoqxq+fJP4V6LUhrAmbGZjPLHYpnqrz3B3M/0pG
- NtPWwp98iyTaj9buKXlFBaEY9K50rRMXFgSQ82sPKT12DKz09TlvF3qVP84r1Uj1Z8UB
- hxbplO6+ucHKyUJe7JyzXxBxVbZeDHShNd/RC5A+BlxxEl+o9L4/DfeAayqiFRsQAY+s
- LFEh9V9sD10vbQb2RXKbCmj5IpSrjE90qOyVDLdiEBxXNVWRVDzUXaH5PaHwAOaY+PWW
- K8UGeo5I4f7RbxBsEY0dzLsehY+EDT5iTsMPcuTE1xgFe26z+dntWEI8NEO3z2vvX/FE
- rWbQ==
-X-Gm-Message-State: AOAM533su42wuiCWnUFqrmWbKg0gM6UEnF9kv/DBoOsLzyMkg/47tAHo
- ifrY+NAcTyGIYtIXC1sWtyQ=
-X-Google-Smtp-Source: ABdhPJwNoskmapXAUI/OXxBh6rv7d/1n2c5o+z5Z9exH/Bz+jB8r0h92aflWX8NXcSkS+fABlrJD/A==
-X-Received: by 2002:a5d:6684:: with SMTP id l4mr5608017wru.111.1613162086930; 
- Fri, 12 Feb 2021 12:34:46 -0800 (PST)
+ bh=UfO1iaw8uKvW0to636FiKAeuT6HMlhTznYUx2yYrBxM=;
+ b=tKXrqIYKyw5TMtHuFCsieJBzZYD7eZvHp+2oa7T1il05xjp7juOSQdkcrS+dmyFZKy
+ xrfr+w4bYapyv+p+rUOSqeLzCnWLoTcq6mEDqaic95h3aVid3FT5x7Y+m4qSs0disrlk
+ F4P2TpIuVnaEz0XArGpKdUoHqo9A+TqSb7pgDZiP/skbTNI7xdErYRK0J74g8sTIJCar
+ TWLroihqpP1oo5s0+uL7InEejquAsuuTbqOMcARSz/yXAZrJHWxLVaeQ3P9FoAGl/IuA
+ epQxhAejv/xjYPDy0Ktl3EWEKWZvorSMTIbFEGmVW0KiQHYkG91BIxcabBkfjz6kaOsM
+ nr8Q==
+X-Gm-Message-State: AOAM530FvqE7gJX0kO1sIXSAEdIPi9plcNT3m39875VwXMOJEM2BYPo4
+ nyfyw+MJPBi5rrNVmBA6uF7nPbWaF7U=
+X-Google-Smtp-Source: ABdhPJzBbgFPqXYfltokRdKZsneD5EXuDJ/I3sUsvqoug5RsgzC9NNjlwkfJq7FWr5u9Lb74kYa79w==
+X-Received: by 2002:a5d:518a:: with SMTP id k10mr5535740wrv.214.1613162158130; 
+ Fri, 12 Feb 2021 12:35:58 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o13sm15304626wrs.45.2021.02.12.12.34.45
+ by smtp.gmail.com with ESMTPSA id z63sm16181494wme.8.2021.02.12.12.35.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Feb 2021 12:34:46 -0800 (PST)
-Subject: Re: [PATCH v7 18/31] linux-user: Fix types in uaccess.c
+ Fri, 12 Feb 2021 12:35:57 -0800 (PST)
+Subject: Re: [PATCH v7 17/31] linux-user: Move lock_user et al out of line
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210212184902.1251044-1-richard.henderson@linaro.org>
- <20210212184902.1251044-19-richard.henderson@linaro.org>
+ <20210212184902.1251044-18-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6fd7bf80-08dd-a446-6d41-d94a9bbd1b47@amsat.org>
-Date: Fri, 12 Feb 2021 21:34:45 +0100
+Message-ID: <2744adf4-48cb-bdcd-2a97-813ab4f789d1@amsat.org>
+Date: Fri, 12 Feb 2021 21:35:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210212184902.1251044-19-richard.henderson@linaro.org>
+In-Reply-To: <20210212184902.1251044-18-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -94,17 +94,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/12/21 7:48 PM, Richard Henderson wrote:
-> For copy_*_user, only 0 and -TARGET_EFAULT are returned; no need
-> to involve abi_long.  Use size_t for lengths.  Use bool for the
-> lock_user copy argument.  Use ssize_t for target_strlen, because
-> we can't overflow the host memory space.
+> These functions are not small, except for unlock_user
+> without debugging enabled.  Move them out of line, and
+> add missing braces on the way.
 > 
 > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/qemu.h    | 14 ++++++--------
->  linux-user/uaccess.c | 45 ++++++++++++++++++++++----------------------
->  2 files changed, 29 insertions(+), 30 deletions(-)
+>  linux-user/qemu.h    | 45 ++++++-------------------------------------
+>  linux-user/uaccess.c | 46 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 52 insertions(+), 39 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
