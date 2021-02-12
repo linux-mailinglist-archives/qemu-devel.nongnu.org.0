@@ -2,83 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C01E31A118
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 16:07:02 +0100 (CET)
-Received: from localhost ([::1]:60880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A56931A10E
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 16:04:42 +0100 (CET)
+Received: from localhost ([::1]:56136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAa29-0008CV-FJ
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 10:07:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41528)
+	id 1lAZzt-000680-5v
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 10:04:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAa17-0007S2-JP
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 10:05:57 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAa15-0004sQ-Mz
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 10:05:57 -0500
-Received: by mail-wm1-x331.google.com with SMTP id n10so1343358wmq.0
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 07:05:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=szATgumnk+A4AIyprCUztTZn3uA5PdEIigGHENDgVKQ=;
- b=AS5bjVZtMZsy9Uf8CcGj2TDEuTbzvjr185IYBRwh+XIyNR85zFtWsp40xGicQvQtst
- NYsXVplQzB9k1H4GlWqsXYZs56lfOBjvbP2BLf1YyggpDOVaW0JboxeAPiXFn61PGnAg
- 4vnLdVELdfXeQ4aNIgdQMUj6Nk78QKMjvoWXMj5fnE9attHiJmm+dkDTVMXnj3SR4SW1
- I9NwCZeJ1lTBfPfZDCm4LHs7UjjimQb/qoCaTF4W6nZhQ7RG6cj6i/l5tN9MYuLeX2A7
- XLskCCpXMIjioB/KopaK6P/yJGXSt+Vhd3jixvzDbLFApLtQssUzXv0AooylEsCJuxo5
- tp/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=szATgumnk+A4AIyprCUztTZn3uA5PdEIigGHENDgVKQ=;
- b=ZdfVMKR5ibHchOpRTueuR2xJ0xA0MqFPjku06ZYT5yggBfvx6L8kGg+VSXGb+DeDIe
- 4Fb1DFoMgl2U+ZT7PHqKKuuXLgh4ESmeoQTcaJpMwkxfZR/Eukt0TMNc77kFzC41fijH
- 5OYKSwKJQK5Cn9Iqh80inXRlxWCq03I3HoizZcLs64UHZt5krGyky2IbKm7rrvUNRADN
- ro6A+rTt8hdVL5i2X+gl/I3qGGYBnkaXPMH+BLZQlGJWJ5Qo928TwtWHpejXOAGubHun
- DBc96NxgCjrUrG9A39j8kAvBLvsYsRPIw+cH5vHleWyR6NVnH233Oyq3fpUYJnoaHpME
- yq4A==
-X-Gm-Message-State: AOAM530LyseFCMeYoG0Yqu5pq/v31OAJGuNQDSG/GAof7EYU7t5/Quf1
- H3+SKneAaLULeM62KLhkq6zgmw==
-X-Google-Smtp-Source: ABdhPJxRgl1t4KdPbpjuEq3gUqc+Jjc9iDMeO+hPoHPOHfXVJ7hgTRfVzWgRppM1gPcECUSWed4lyA==
-X-Received: by 2002:a05:600c:41d6:: with SMTP id
- t22mr3150492wmh.74.1613142353610; 
- Fri, 12 Feb 2021 07:05:53 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c22sm12411319wrb.91.2021.02.12.07.05.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 07:05:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 477011FF7E;
- Fri, 12 Feb 2021 15:05:51 +0000 (GMT)
-References: <20210210221053.18050-1-alex.bennee@linaro.org>
- <20210210221053.18050-21-alex.bennee@linaro.org>
- <YCXRpCiekU+TgoAX@strawberry.localdomain> <87a6s9v7ia.fsf@linaro.org>
- <YCaRMAPlhBLbDIDZ@strawberry.localdomain>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: [PATCH  v2 20/21] accel/tcg: allow plugin instrumentation to be
- disable via cflags
-Date: Fri, 12 Feb 2021 14:59:30 +0000
-In-reply-to: <YCaRMAPlhBLbDIDZ@strawberry.localdomain>
-Message-ID: <871rdlz5ps.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lAZz4-0005WN-Hd; Fri, 12 Feb 2021 10:03:50 -0500
+Received: from mail142-1.mail.alibaba.com ([198.11.142.1]:4328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lAZyy-0003r7-O6; Fri, 12 Feb 2021 10:03:50 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1312233|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0155557-0.00282403-0.98162;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.JYGqU3u_1613142191; 
+Received: from localhost.localdomain(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.JYGqU3u_1613142191)
+ by smtp.aliyun-inc.com(10.147.42.198);
+ Fri, 12 Feb 2021 23:03:11 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/38] target/riscv: support packed extension v0.9.2
+Date: Fri, 12 Feb 2021 23:02:18 +0800
+Message-Id: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=198.11.142.1; envelope-from=zhiwei_liu@c-sky.com;
+ helo=mail142-1.mail.alibaba.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_NONE=0.001,
+ T_SPF_HELO_TEMPERROR=0.01,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,73 +52,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- robhenry@microsoft.com, mahmoudabdalghany@outlook.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com
+Cc: richard.henderson@linaro.org, LIU Zhiwei <zhiwei_liu@c-sky.com>,
+ qemu-riscv@nongnu.org, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patchset implements the packed extension for RISC-V on QEMU.
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+This patchset have passed all my direct Linux user mode cases(RV64) and
+bare metal cases(RV32) on X86-64 Ubuntu host machine. I will later push
+these test cases to my repo(https://github.com/romanheros/qemu.git
+branch:packed-upstream-v1).
 
-> On Feb 12 11:22, Alex Benn=C3=A9e wrote:
->> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
->> > On Feb 10 22:10, Alex Benn=C3=A9e wrote:
->> >> When icount is enabled and we recompile an MMIO access we end up
->> >> double counting the instruction execution. To avoid this we introduce
->> >> the CF_NOINSTR cflag which disables instrumentation for the next TB.
->> >> As this is part of the hashed compile flags we will only execute the
->> >> generated TB while coming out of a cpu_io_recompile.
->> >
->> > Unfortunately this patch works a little too well!
->> >
->> > With this change, the memory access callbacks registered via
->> > `qemu_plugin_register_vcpu_mem_cb()` are never called for the
->> > re-translated instruction making the IO access, since we've disabled a=
-ll
->> > instrumentation.
->>=20
->> Hmm well we correctly don't instrument stores (as we have already
->> executed the plugin for them) - but of course the load instrumentation
->> is after the fact so we are now missing them.
->
-> I do not believe I am seeing memory callbacks for stores, either. Are
-> you saying I definitely should be?
->
-> My original observation was that the callbacks for store instructions to
-> IO followed the same pattern as loads:
->
-> 1) Initial instruction callback (presumably as part of larger block)
-> 2) Second instruction callback (presumably as part of single-instruction =
-block)
-> 3) Memory callback (presumably as part of single-instruction block)
->
-> After applying v2 of your patchset I now see only 1), even for stores.
+I have ported packed extension on RISU, but I didn't find a simulator or
+hardware to compare with. If anyone have one, please let me know.
 
-Right - but any pre-instruction instrumentation shouldn't be done in the
-(now badly names CF_NOINSTR) case. It's also confusing because we have
-pre and post helpers and inline callbacks are always pre (you can only
-count so don't see data).
+Features:
+  * support specification packed extension v0.9.2(https://github.com/riscv/riscv-p-spec/)
+  * support basic packed extension.
+  * support Zp64.
 
-Can you check the patch in my other email and see if that works better?
+LIU Zhiwei (38):
+  target/riscv: implementation-defined constant parameters
+  target/riscv: Hoist vector functions
+  target/riscv: Fixup saturate subtract function
+  target/riscv: 16-bit Addition & Subtraction Instructions
+  target/riscv: 8-bit Addition & Subtraction Instruction
+  target/riscv: SIMD 16-bit Shift Instructions
+  target/riscv: SIMD 8-bit Shift Instructions
+  target/riscv: SIMD 16-bit Compare Instructions
+  target/riscv: SIMD 8-bit Compare Instructions
+  target/riscv: SIMD 16-bit Multiply Instructions
+  target/riscv: SIMD 8-bit Multiply Instructions
+  target/riscv: SIMD 16-bit Miscellaneous Instructions
+  target/riscv: SIMD 8-bit Miscellaneous Instructions
+  target/riscv: 8-bit Unpacking Instructions
+  target/riscv: 16-bit Packing Instructions
+  target/riscv: Signed MSW 32x32 Multiply and Add Instructions
+  target/riscv: Signed MSW 32x16 Multiply and Add Instructions
+  target/riscv: Signed 16-bit Multiply 32-bit Add/Subtract Instructions
+  target/riscv: Signed 16-bit Multiply 64-bit Add/Subtract Instructions
+  target/riscv: Partial-SIMD Miscellaneous Instructions
+  target/riscv: 8-bit Multiply with 32-bit Add Instructions
+  target/riscv: 64-bit Add/Subtract Instructions
+  target/riscv: 32-bit Multiply 64-bit Add/Subtract Instructions
+  target/riscv: Signed 16-bit Multiply with 64-bit Add/Subtract
+    Instructions
+  target/riscv: Non-SIMD Q15 saturation ALU Instructions
+  target/riscv: Non-SIMD Q31 saturation ALU Instructions
+  target/riscv: 32-bit Computation Instructions
+  target/riscv: Non-SIMD Miscellaneous Instructions
+  target/riscv: RV64 Only SIMD 32-bit Add/Subtract Instructions
+  target/riscv: RV64 Only SIMD 32-bit Shift Instructions
+  target/riscv: RV64 Only SIMD 32-bit Miscellaneous Instructions
+  target/riscv: RV64 Only SIMD Q15 saturating Multiply Instructions
+  target/riscv: RV64 Only 32-bit Multiply Instructions
+  target/riscv: RV64 Only 32-bit Multiply & Add Instructions
+  target/riscv: RV64 Only 32-bit Parallel Multiply & Add Instructions
+  target/riscv: RV64 Only Non-SIMD 32-bit Shift Instructions
+  target/riscv: RV64 Only 32-bit Packing Instructions
+  target/riscv: configure and turn on packed extension from command line
 
->
->> > Is it possible to selectively disable only instruction callbacks using
->> > this mechanism, while still allowing others that would not yet have be=
-en
->> > called for the re-translated instruction?
->>=20
->> Hmmm let me see if I can finesse the CF_NOINSTR logic to allow
->> plugin_gen_insn_end() without the rest? It probably needs a better name
->> for the flag as well.=20
->
-> Funny, the first time reading through this patch I was unsure for a
-> second whether "CF_NOINSTR" stood for "NO INSTRuction callbacks" or "NO
-> INSTRumentation"!
->
-> -Aaron
+ target/riscv/cpu.c                      |   32 +
+ target/riscv/cpu.h                      |    6 +
+ target/riscv/helper.h                   |  332 ++
+ target/riscv/insn32-64.decode           |   93 +-
+ target/riscv/insn32.decode              |  285 ++
+ target/riscv/insn_trans/trans_rvp.c.inc | 1224 +++++++
+ target/riscv/internals.h                |   50 +
+ target/riscv/meson.build                |    1 +
+ target/riscv/packed_helper.c            | 3862 +++++++++++++++++++++++
+ target/riscv/translate.c                |    3 +
+ target/riscv/vector_helper.c            |   90 +-
+ 11 files changed, 5912 insertions(+), 66 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvp.c.inc
+ create mode 100644 target/riscv/packed_helper.c
 
+-- 
+2.17.1
 
---=20
-Alex Benn=C3=A9e
 
