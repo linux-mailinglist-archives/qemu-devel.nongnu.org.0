@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128EB31A50A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 20:09:43 +0100 (CET)
-Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B4D31A51A
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 20:13:36 +0100 (CET)
+Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAdp0-0001f3-4M
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 14:09:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39462)
+	id 1lAdsl-0005Ju-4C
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 14:13:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lAdVT-0001cy-QS
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:49:31 -0500
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:46442)
+ id 1lAdVX-0001my-O7
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:49:35 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:45489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lAdVM-0007oj-32
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:49:31 -0500
-Received: by mail-pg1-x534.google.com with SMTP id r38so217756pgk.13
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 10:49:22 -0800 (PST)
+ id 1lAdVM-0007os-W9
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:49:35 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id o21so220206pgn.12
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 10:49:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i+QGQk1wRzy6Ro0EOko1tw2TQzEaxVBUE4AsBVR40qs=;
- b=q4CGnCR3tv5qQPKJAqW48sPpe1a+xzzn0Hyf/wXvVF5Akh241yH8Gz3XKf31eFipJw
- 3CHiWXX54VT8s5z8FSRPObjOdLHfzQvCKbvHRLCrHpbHoBq44n0HnarCOzP2VGO3B3+v
- y2nVOnHcZEPse+UkXw0E/PdUadvSO7Prkb7Q6+P/yPLcz0mMMe5NNp6C8wvQybbUgaBW
- cJxIIYfpZFhX3/uwo4cEZ3BSz66Q0CnqcRRhxFjjdCw8zbxxK6k9HUHs1XHUklYMf1Jh
- cXcIkXyAsuxssWckmu3zqoeiAKoxlwm7M2A2YVvvCrSWoT4VRffkFMyEIrF50yYbD6H4
- 1MGQ==
+ bh=ACfOE8SVSBgg4JpZZoxjcwYfYXJzG1xX3fS2kxeRIKY=;
+ b=mqpzC3VXtPsyNvOu96d9QAxow7rc8cCVYVdFUm7f8PC5uK+feQM8oOMxIt+kCgQmpi
+ FqLVdNHGmsQAQM4cpndsvQTzyXL3+9dyXkNzysandX9P3TSmNuQMlpgTE5PZXIo1Wuuc
+ oydzT5r8Zh902SE4GFgK0ph42F/qP0xNVZOl5F5FQOVw+UDb3wKkqJWILy+WwsrEVBb+
+ bLzy1OinMLvpQaZHBvPufDYT5Kdpvu5z0Y0yFlEUZHVgxHDdko/v2EaqKVU7woLig8Pk
+ vQKi0VMaePrFMp9ZCMpg0Ct2dNsnEUCr4DF9q8TpVZA4osjAVjcLzI6XjzteUhbLi1OU
+ cWIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=i+QGQk1wRzy6Ro0EOko1tw2TQzEaxVBUE4AsBVR40qs=;
- b=O3GxnkyZ8frAyA9WL0g8TlAw+/i4eiXoBPkjgOCUGRZTty+Bq1morZFE8VK4Yb2k64
- f59h+QsPYAlnjrH5KiTXEQK/DiEg4MJAaAuDKCbS1hsGtCL02T4hg9g43tixxHNGibUE
- 2r+qpkrcNsoszEifEaYZZchPIf+zFPVvM9dGoOJfZdE3QZ2P60E1ciFTDyc6Lm4w9OpS
- AH83rV+5BE2Y8z9iL3fZmYVkhTJRfUM/rVoCEX3mTgoKR5YRgh3ScYOqZzUWgMcl1aKu
- HKapdMokJo4bv8Nk5LYLoqAMX56E93zOfi3/vABdesAarIUtmlLpVVEC2lbFlpHjA0C7
- d6BA==
-X-Gm-Message-State: AOAM5339Q3OM2WnmLxpDR1hBqeyRBc8l5U5w7BcYYxM9V+F4CLZl0RA4
- ztRwGgAlZbScUxS+Iby1SxZ0Bb1Q9o2K/w==
-X-Google-Smtp-Source: ABdhPJw+yAL9qioL1dYN51emDM3MNf6wPPBXmsCzb2sSybeBkol2sGh55EKFyoALlu41nLA33Vqdzg==
-X-Received: by 2002:a62:644f:0:b029:1d3:b559:fe7a with SMTP id
- y76-20020a62644f0000b02901d3b559fe7amr4058961pfb.21.1613155761781; 
- Fri, 12 Feb 2021 10:49:21 -0800 (PST)
+ bh=ACfOE8SVSBgg4JpZZoxjcwYfYXJzG1xX3fS2kxeRIKY=;
+ b=N4WCJFSgCg/+lvhw0hizyDrxMxPd3LKtLD+9JsIp9j2Z8omMeprZaNJ68V1PWhbvMy
+ EOxkv/Do9qz4hEzAnaLK84H83xntSBjF472900hXXnuowBHDZppwN0jWZoghlsCnQq8m
+ bSKpl3Tj6nUQvD2R3dJJHZ7VgoGo6UhTi8yRT6u2BzzAiP47iJfsS5w0qUkDkSMsliDo
+ V4q7sgPAQOpbjOnBewLuSWq+XW2P99FCe7URWJnkH4jFL2FAQ3Oy01wPZSMeP4qCkYRp
+ OO7PJTBsWrFVGlOWkDVkavncrcHk0KjlTvuI7EYIKqCWEQakFf/Zu3UUCU5uAwommMU8
+ +SSg==
+X-Gm-Message-State: AOAM530TW757Y/foecdf5O+2zt1EsRBrYso3sp0OEn57m2CF9GEDjn7A
+ GH3nns4Ul2zsL3oEuBUZ1Bv2OnSSoRw7Ng==
+X-Google-Smtp-Source: ABdhPJydE8ReR37DxxImAdYUNdQjeDi0KUR5MOfTJ6MYVFkKSBgtxTxDAMxGtKlzIMJeK6FjdT8h7Q==
+X-Received: by 2002:a62:8c85:0:b029:1bd:5441:6cb8 with SMTP id
+ m127-20020a628c850000b02901bd54416cb8mr4238386pfd.29.1613155762557; 
+ Fri, 12 Feb 2021 10:49:22 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id k5sm9427618pfi.31.2021.02.12.10.49.20
+ by smtp.gmail.com with ESMTPSA id k5sm9427618pfi.31.2021.02.12.10.49.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 10:49:21 -0800 (PST)
+ Fri, 12 Feb 2021 10:49:22 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 13/31] linux-user: Explicitly untag memory management
- syscalls
-Date: Fri, 12 Feb 2021 10:48:44 -0800
-Message-Id: <20210212184902.1251044-14-richard.henderson@linaro.org>
+Subject: [PATCH v7 14/31] linux-user: Use guest_range_valid in access_ok
+Date: Fri, 12 Feb 2021 10:48:45 -0800
+Message-Id: <20210212184902.1251044-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210212184902.1251044-1-richard.henderson@linaro.org>
 References: <20210212184902.1251044-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,78 +88,35 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We define target_mmap et al as untagged, so that they can be
-used from the binary loaders.  Explicitly call cpu_untagged_addr
-for munmap, mprotect, mremap syscall entry points.
-
-Add a few comments for the syscalls that are exempted by the
-kernel's tagged-address-abi.rst.
+We're currently open-coding the range check in access_ok;
+use guest_range_valid when size != 0.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ linux-user/qemu.h | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 748893904e..4451f8e4f0 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -889,6 +889,8 @@ abi_long do_brk(abi_ulong new_brk)
-     abi_long mapped_addr;
-     abi_ulong new_alloc_size;
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 9fbc5edc4b..ba122a7903 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -493,12 +493,9 @@ extern unsigned long guest_stack_size;
  
-+    /* brk pointers are always untagged */
-+
-     DEBUGF_BRK("do_brk(" TARGET_ABI_FMT_lx ") -> ", new_brk);
- 
-     if (!new_brk) {
-@@ -4588,6 +4590,8 @@ static inline abi_ulong do_shmat(CPUArchState *cpu_env,
-     int i,ret;
-     abi_ulong shmlba;
- 
-+    /* shmat pointers are always untagged */
-+
-     /* find out the length of the shared memory segment */
-     ret = get_errno(shmctl(shmid, IPC_STAT, &shm_info));
-     if (is_error(ret)) {
-@@ -4655,6 +4659,8 @@ static inline abi_long do_shmdt(abi_ulong shmaddr)
-     int i;
-     abi_long rv;
- 
-+    /* shmdt pointers are always untagged */
-+
-     mmap_lock();
- 
-     for (i = 0; i < N_SHM_REGIONS; ++i) {
-@@ -9691,6 +9697,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                                         v5, v6));
-         }
- #else
-+        /* mmap pointers are always untagged */
-         ret = get_errno(target_mmap(arg1, arg2, arg3,
-                                     target_to_host_bitmask(arg4, mmap_flags_tbl),
-                                     arg5,
-@@ -9709,8 +9716,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return get_errno(ret);
- #endif
-     case TARGET_NR_munmap:
-+        arg1 = cpu_untagged_addr(cpu, arg1);
-         return get_errno(target_munmap(arg1, arg2));
-     case TARGET_NR_mprotect:
-+        arg1 = cpu_untagged_addr(cpu, arg1);
-         {
-             TaskState *ts = cpu->opaque;
-             /* Special hack to detect libc making the stack executable.  */
-@@ -9725,6 +9734,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return get_errno(target_mprotect(arg1, arg2, arg3));
- #ifdef TARGET_NR_mremap
-     case TARGET_NR_mremap:
-+        arg1 = cpu_untagged_addr(cpu, arg1);
-+        /* mremap new_addr (arg5) is always untagged */
-         return get_errno(target_mremap(arg1, arg2, arg3, arg4, arg5));
- #endif
-         /* ??? msync/mlock/munlock are broken for softmmu.  */
+ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+ {
+-    if (!guest_addr_valid(addr)) {
+-        return false;
+-    }
+-    if (size != 0 &&
+-        (addr + size - 1 < addr ||
+-         !guest_addr_valid(addr + size - 1))) {
++    if (size == 0
++        ? !guest_addr_valid(addr)
++        : !guest_range_valid(addr, size)) {
+         return false;
+     }
+     return page_check_range((target_ulong)addr, size, type) == 0;
 -- 
 2.25.1
 
