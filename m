@@ -2,89 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A411631A193
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 16:24:09 +0100 (CET)
-Received: from localhost ([::1]:41840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E1631A1B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 16:34:19 +0100 (CET)
+Received: from localhost ([::1]:60622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAaIi-00084C-P0
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 10:24:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45540)
+	id 1lAaSY-0008Lb-3r
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 10:34:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lAaEJ-000414-02
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 10:19:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lAaED-0002QO-I5
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 10:19:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613143168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KIP46gIMuBW0wuTY/4uEWxlBBddeTfr37HNj5OKS6Tw=;
- b=I3eTIZ337NJRVnxFW3mx0bKfxHDYr00JMwhPmacpQ1Q31rg6yR1uwMiwKhZKMbc4oWhmt1
- zHPeH65r6T/XGlw1t7E13DcrfAbaO8/sreONDJ1p3gZ0d1Y27P6cYSTyHChEgzuTCE1ACN
- WU4wVJhnm6suCUMstypHYL33zr3XJwc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-GppVCbogMhaGMS04AyZrtw-1; Fri, 12 Feb 2021 10:19:26 -0500
-X-MC-Unique: GppVCbogMhaGMS04AyZrtw-1
-Received: by mail-ej1-f71.google.com with SMTP id w16so7215870ejk.7
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 07:19:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=KIP46gIMuBW0wuTY/4uEWxlBBddeTfr37HNj5OKS6Tw=;
- b=inzM0GmF0rZudnUIkaaA1KZj0NOMdD17URq+3hN9M+135gGEaLfkaf/VWz38qijlY8
- kyhPO+rAj/Gk1qx1mxIc00leP6ocasqlaW46Yn+8QopnHk57EBr+ccE2QoKu/Cj/+tqh
- 9gmGQO9bEGpQhMcv3zv/8A6Qpj63V+ehdxsrSnY9+QEZhpOXRV8WIhvViphf4JWAdf5F
- /PqHZMvDj6hy/rEWxbsjH4verjtWxBGrewcCJ1Pu3VQjy5nG3XKJgCNWpoErpKYKXeDr
- cx7O3ZfIMf7SDpaGBmlg99pllrPfQWq7CkWW5XHBNTFeLgxIfT1v50KZa/esI2DURBhe
- eQsg==
-X-Gm-Message-State: AOAM531UvVpsceyi9AwF1yzg9H5BG+p9Bsa+UROnYwq1XvMNxDlYcnnA
- nJIov/HOXkmDk8GHWHgeY51zelYXcVN/BPHyK0Pqln8qaLcKN17N/3aqVmd+ioKb9xINlpK4S1Q
- sGUz9eJk1D3UlxAM=
-X-Received: by 2002:a05:6402:2707:: with SMTP id
- y7mr3838039edd.5.1613143165502; 
- Fri, 12 Feb 2021 07:19:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwbmlo4021RDGdBcElSc19F2zB0wUh9gMd0n/rhchtFeiuXYhq6Gy8sBH7Wcc4f1Qw5JrE+DQ==
-X-Received: by 2002:a05:6402:2707:: with SMTP id
- y7mr3838020edd.5.1613143165295; 
- Fri, 12 Feb 2021 07:19:25 -0800 (PST)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id q20sm6466357ejs.17.2021.02.12.07.19.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 07:19:24 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v4 16/21] i386: track explicit 'hv-*' features
- enablement/disablement
-In-Reply-To: <20210212151259.3db7406f@redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210164033.607612-17-vkuznets@redhat.com>
- <20210211183555.2136b5c8@redhat.com> <87tuqhllmn.fsf@vitty.brq.redhat.com>
- <20210212151259.3db7406f@redhat.com>
-Date: Fri, 12 Feb 2021 16:19:24 +0100
-Message-ID: <87k0rdl3er.fsf@vitty.brq.redhat.com>
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lAaLc-0002xS-SJ; Fri, 12 Feb 2021 10:27:08 -0500
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:35047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lAaLU-0005k4-Of; Fri, 12 Feb 2021 10:27:08 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436293|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.00365088-7.57492e-05-0.996273;
+ FP=11549458540173723280|1|1|1|0|-1|-1|-1; HT=ay29a033018047202;
+ MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=6; RT=6; SR=0;
+ TI=SMTPD_---.JYGrFHl_1613142312; 
+Received: from localhost.localdomain(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.JYGrFHl_1613142312)
+ by smtp.aliyun-inc.com(10.147.42.22); Fri, 12 Feb 2021 23:05:12 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 01/38] target/riscv: implementation-defined constant parameters
+Date: Fri, 12 Feb 2021 23:02:19 +0800
+Message-Id: <20210212150256.885-2-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,83 +53,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, drjones@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: richard.henderson@linaro.org, LIU Zhiwei <zhiwei_liu@c-sky.com>,
+ qemu-riscv@nongnu.org, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Igor Mammedov <imammedo@redhat.com> writes:
+ext_p64 is whether to support Zp64 extension in RV32, default value is true.
+pext_ver is the packed specification version, default value is v0.9.2.
 
-> On Fri, 12 Feb 2021 09:45:52 +0100
-> Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
->
->> Igor Mammedov <imammedo@redhat.com> writes:
->> 
->> > On Wed, 10 Feb 2021 17:40:28 +0100
->> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
->> >  
->> >> Sometimes we'd like to know which features were explicitly enabled and which
->> >> were explicitly disabled on the command line. E.g. it seems logical to handle
->> >> 'hv_passthrough,hv_feature=off' as "enable everything supported by the host
->> >> except for hv_feature" but this doesn't seem to be possible with the current
->> >> 'hyperv_features' bit array. Introduce 'hv_features_on'/'hv_features_off'
->> >> add-ons and track explicit enablement/disablement there.
->> >> 
->> >> Note, it doesn't seem to be possible to fill 'hyperv_features' array during
->> >> CPU creation time when 'hv-passthrough' is specified and we're running on
->> >> an older kernel without KVM_CAP_SYS_HYPERV_CPUID support. To get the list
->> >> of the supported Hyper-V features we need to actually create KVM VCPU and
->> >> this happens much later.  
->> >
->> > seems to me that we are returning back to +-feat parsing, this time only for
->> > hyperv.
->> > I'm not sure I like it back, especially considering we are going to
->> > drop "-feat" priority for x86.
->> >
->> > now about impossible, see arm/kvm/virt, they create a 'sample' VCPU at KVM
->> > init time to probe for some CPU features in advance. You can use similar
->> > approach to prepare value for hyperv_features.
->> >  
->> 
->> KVM_CAP_SYS_HYPERV_CPUID is supported since 5.11 and eventually it'll
->> make it to all kernels we care about so I'd really like to avoid any
->> 'sample' CPUs for the time being. On/off parsing looks like a much
->> lesser evil.
-> When minimum supported by QEMU kernel version gets there, you can remove
-> scratch CPU in QEMU (if hyperv will remain its sole user).
->
-> writing your own property parser like in this series, is possible too
-> but it adds extra fields to track state and hard to follow logic.
-> On top it adds a lot of churn by switching hv_ features to dynamic
-> properties, which is not necessary if scratch CPU approach is used.
->
-> Please try reusing scratch CPU approach, see
->   kvm_arm_get_host_cpu_features()
-> for an example. You will very likely end up with simpler series,
-> compared to reinventing wheel.
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+---
+ target/riscv/cpu.c       | 29 +++++++++++++++++++++++++++++
+ target/riscv/cpu.h       |  6 ++++++
+ target/riscv/translate.c |  2 ++
+ 3 files changed, 37 insertions(+)
 
-Even if I do that (and I serioulsy doubt it's going to be easier than
-just adding two 'u64's, kvm_arm_get_host_cpu_features() alone is 200
-lines long) this is not going to give us what we need to distinguish
-between
-
-'hv-passthrough,hv-evmcs'
-
-and 
-
-'hv-passthrough'
-
-when 'hv-evmcs' *is* supported by the host. When guest CPU lacks VMX we
-don't want to enable it unless it was requested explicitly (former but
-not the later).
-
-Moreover, instead of just adding two 'u64's we're now doing an ioctl
-which can fail, be subject to limits,... Creating and destroying a CPU
-is also slow. Sorry, I hardly see how this is better, maybe just from
-'code purity' point of view.
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 16f1a34238..1b99f629ec 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -132,6 +132,11 @@ static void set_vext_version(CPURISCVState *env, int vext_ver)
+     env->vext_ver = vext_ver;
+ }
+ 
++static void set_pext_version(CPURISCVState *env, int pext_ver)
++{
++    env->pext_ver = pext_ver;
++}
++
+ static void set_feature(CPURISCVState *env, int feature)
+ {
+     env->features |= (1ULL << feature);
+@@ -380,6 +385,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+     int priv_version = PRIV_VERSION_1_11_0;
+     int vext_version = VEXT_VERSION_0_07_1;
++    int pext_version = PEXT_VERSION_0_09_2;
+     target_ulong target_misa = env->misa;
+     Error *local_err = NULL;
+ 
+@@ -404,6 +410,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+ 
+     set_priv_version(env, priv_version);
+     set_vext_version(env, vext_version);
++    set_pext_version(env, pext_version);
+ 
+     if (cpu->cfg.mmu) {
+         set_feature(env, RISCV_FEATURE_MMU);
+@@ -511,6 +518,28 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             }
+             set_vext_version(env, vext_version);
+         }
++        if (cpu->cfg.ext_p) {
++            target_misa |= RVP;
++            if (cpu->cfg.pext_spec) {
++                if (!g_strcmp0(cpu->cfg.pext_spec, "v0.9.2")) {
++                    pext_version = PEXT_VERSION_0_09_2;
++                } else {
++                    error_setg(errp,
++                               "Unsupported packed spec version '%s'",
++                               cpu->cfg.pext_spec);
++                    return;
++                }
++            } else {
++                qemu_log("packed verison is not specified, "
++                         "use the default value v0.9.2\n");
++            }
++            if (!cpu->cfg.ext_p64 && env->misa == RV64) {
++                error_setg(errp, "For RV64, the Zp64 instructions will be "
++                                 "included in the baseline P extension.");
++                return;
++            }
++            set_pext_version(env, pext_version);
++        }
+ 
+         set_misa(env, target_misa);
+     }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 02758ae0eb..f458722646 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -68,6 +68,7 @@
+ #define RVF RV('F')
+ #define RVD RV('D')
+ #define RVV RV('V')
++#define RVP RV('P')
+ #define RVC RV('C')
+ #define RVS RV('S')
+ #define RVU RV('U')
+@@ -87,6 +88,7 @@ enum {
+ #define PRIV_VERSION_1_11_0 0x00011100
+ 
+ #define VEXT_VERSION_0_07_1 0x00000701
++#define PEXT_VERSION_0_09_2 0x00000902
+ 
+ enum {
+     TRANSLATE_SUCCESS,
+@@ -134,6 +136,7 @@ struct CPURISCVState {
+ 
+     target_ulong priv_ver;
+     target_ulong vext_ver;
++    target_ulong pext_ver;
+     target_ulong misa;
+     target_ulong misa_mask;
+ 
+@@ -288,13 +291,16 @@ struct RISCVCPU {
+         bool ext_u;
+         bool ext_h;
+         bool ext_v;
++        bool ext_p;
+         bool ext_counters;
+         bool ext_ifencei;
+         bool ext_icsr;
++        bool ext_p64;
+ 
+         char *priv_spec;
+         char *user_spec;
+         char *vext_spec;
++        char *pext_spec;
+         uint16_t vlen;
+         uint16_t elen;
+         bool mmu;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 0f28b5f41e..eb810efec6 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -56,6 +56,7 @@ typedef struct DisasContext {
+        to reset this known value.  */
+     int frm;
+     bool ext_ifencei;
++    bool ext_p64;
+     bool hlsx;
+     /* vector extension */
+     bool vill;
+@@ -824,6 +825,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
+     ctx->mlen = 1 << (ctx->sew  + 3 - ctx->lmul);
+     ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
++    ctx->ext_p64 = cpu->cfg.ext_p64;
+     ctx->cs = cs;
+ }
+ 
 -- 
-Vitaly
+2.17.1
 
 
