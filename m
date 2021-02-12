@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EED731A748
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:05:49 +0100 (CET)
-Received: from localhost ([::1]:59758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E585931A752
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:07:53 +0100 (CET)
+Received: from localhost ([::1]:36616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAgZP-0003CM-Ab
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:05:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50090)
+	id 1lAgbQ-0005aB-M6
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:07:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAgUp-0001cp-Cu
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 17:01:03 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46657)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lAgZg-0004TL-6R; Fri, 12 Feb 2021 17:06:04 -0500
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:44182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAgUn-0006Ga-8I
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 17:01:03 -0500
-Received: by mail-wr1-x434.google.com with SMTP id t15so892249wrx.13
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 14:01:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=+UVjKz39BOObg3jPEaqGsMchgperkA9OXDxRXNbKUWE=;
- b=isF850+IbJ9CHtjX9KDzp/MaBCaAAzYpXq+gTq/AVg97n8mCNUL+DwBawBtJFBh2m/
- cKqloxdLtfciHeZ8kFY8JDP74NwB7hjCjIyE27X4r3KL9v2wwHQ46Jhi3mrg/qayYKEJ
- aSHP4UJbpqx5XqZ5Kogc26CjbSxMKka+e+zRzctpnNlHX7IbuzC2f6WeVUSXM0fVHdNV
- YAO7/oNe12r4MxtfqUyTnDv3QK/NCSCphUJq18SZJf+2BozJ4q5ZG0q74wSIxAOEELXR
- wsDti6C+W1fmKqLOQbMXQIOXRRhdQ4uAKeEJ1tw+AEUfVnsvNE4VSrWHFcvrbzpDr0wy
- pIbQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lAgZb-00084Y-Sr; Fri, 12 Feb 2021 17:06:03 -0500
+Received: by mail-il1-x12d.google.com with SMTP id y15so548423ilj.11;
+ Fri, 12 Feb 2021 14:05:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FngmoyvQJ2rNynjbh1OxbPLU6h1gs0EfFKu5i/ft/Gg=;
+ b=S4o0Omn2+AGjC7tCvFiXC4xGsyAQBRYRdpvsjbVyUd4Iq+ozdzJGHaUyP5mqSp9zgf
+ 7O2lD3jwGNRh5zs1KMG9tT+F/BncWNStuOIqtSd4NDrg02kA05FDNflkrwvfs8KJolOq
+ jEyhIbgWVo7Qjd+zaL/Ufmn4nnRtzGbjRtsIcnPKn+pERNFADUDbSpDVJKmjzcQPF7Oo
+ UTDDzQOlnGL2YsCTdQWsMNGuxYMYzHKw0IZ3QD88xQtV+98R1+N/apHvYvmSsJXHiUUb
+ +MfJZNnIQOkzHIiIou7tLN3L+NrPydDx/84DVCTTEnW2OqA/S/xfxhWqXZNy50Z7TGEg
+ g2UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=+UVjKz39BOObg3jPEaqGsMchgperkA9OXDxRXNbKUWE=;
- b=lUHERSnh+D+qXs/zxaYlGLgkgpDunzJxtYZ3elJaNFHtYnhIlKWF+qFs5bC0g4jnEW
- HtsUn6h+0b8LYdRtGW70o7uwa8zvK7ASffNsfGfWd/cGc8N3EOaSjxmzDF3xZOZULTn7
- o+mlxl/o+8d4xi9SvXr9jau1qIwkKw0BDf7dYax15hlLL7G3Q9KUYfZU2VYWc6/0ZeIx
- 8HCaKjtFQGcdXG1G7KtqUSi413tJpxkHjMlxbKPqbokqkZUxSf8oemBnF0RlnV6z8wZx
- hNqDKQZjdqJJSKF+3QZfB2moFkJxaUMNeJMmRFH7tCnei1/Zp5HQAeFXv58PjwIH1sBA
- zSYw==
-X-Gm-Message-State: AOAM533uTTcU1w7OUGu+xOvsbCsSnuHSnXoL4q5zqKUheL9QBfx5r5z9
- iUNy2DJ6znlpnJ9xoQiloe29WQ==
-X-Google-Smtp-Source: ABdhPJxVx+GCMHVFZVPJMLDXNA9VYlPEO+rB3isC3StPsYSzj3z5cVvmCQ3bCifI9rxXLaJ2hAN+WA==
-X-Received: by 2002:adf:d0c3:: with SMTP id z3mr4545076wrh.56.1613167259655;
- Fri, 12 Feb 2021 14:00:59 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j15sm13803776wrw.9.2021.02.12.14.00.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 14:00:58 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CAA1D1FF7E;
- Fri, 12 Feb 2021 22:00:57 +0000 (GMT)
-References: <20210212151649.252440-1-mreitz@redhat.com>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH] virtiofs_submounts.py test: Note on vmlinuz param
-Date: Fri, 12 Feb 2021 22:00:45 +0000
-In-reply-to: <20210212151649.252440-1-mreitz@redhat.com>
-Message-ID: <87pn15x7xi.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FngmoyvQJ2rNynjbh1OxbPLU6h1gs0EfFKu5i/ft/Gg=;
+ b=OsT/4Z2+pMtly0Z/WiU/h9OKtLWv8drRd7CC7jKFSJshRmF8bz8rmdcWmcYfbPr7nR
+ +lvvChWaNXLxIbeP0cOXjm1iaBLJWZDI2vlfb3jsK1t1WoYfAiICYIALatSf7RPfOpzO
+ LymOyoo1TIv0P/JogSGZFJxURM1JS8wJYy7UiyhGBQcD6PzHPiPpxeEqvjRa2dt2u8xP
+ GjiJnnhl+lIynm0XivvFj5Hoq8E7F7FbHbTwPKJASEfyobg4joOU0UEHQLKx/Sa/Brte
+ RowYZwIg7FNaTelpzSweG4+l8eHMD//GWYT6HhIgZim+5rEbwOQEC5y2ofs5w3HnRAc7
+ 6dLQ==
+X-Gm-Message-State: AOAM530aHbegs91WQjZ431glKX6b1l5NDTEwmVwHRgteXYnL3K4TxamK
+ QKjgaGfyOx328vetttsrGrG/eOnR9+4ZT4RK3YQ=
+X-Google-Smtp-Source: ABdhPJzwA0NcuUTorXfDXJwftQAcpQoUikt15zlHIMvPJsOtB6G9BzwjOPU7FiEEbM7b3w08r3ces3s76odsBD8SPeE=
+X-Received: by 2002:a05:6e02:20e5:: with SMTP id
+ q5mr3952258ilv.131.1613167557788; 
+ Fri, 12 Feb 2021 14:05:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20210122122958.12311-1-bmeng.cn@gmail.com>
+In-Reply-To: <20210122122958.12311-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 12 Feb 2021 14:05:17 -0800
+Message-ID: <CAKmqyKPV4GxSe-0SijrkRXLxnJ8Ev-9_u8ML3Bk4R2d+6n598A@mail.gmail.com>
+Subject: Re: [PATCH 0/4] hw/riscv: Clean-ups and map high mmio for PCIe of
+ 'virt' machine
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,72 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Max Reitz <mreitz@redhat.com> writes:
-
-> From the cancel message, it is not entirely clear why this parameter is
-> mandatory now, or that it will be optional in the future.  Add such a
-> more detailed explanation as a comment in the test source file.
+On Fri, Jan 22, 2021 at 4:32 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> This series does the following clean-ups:
+> - Drop 'struct MemmapEntry'
+> - virt: Drop the 'link_up' parameter of gpex_pcie_init()
+>
+> It also adds the following small enhancement to 'virt' machine:
+> - Limit RAM size in a 32-bit system
+> - Map high mmio for PCIe
+>
+>
+> Bin Meng (4):
+>   hw/riscv: Drop 'struct MemmapEntry'
+>   hw/riscv: virt: Drop the 'link_up' parameter of gpex_pcie_init()
+>   hw/riscv: virt: Limit RAM size in a 32-bit system
+>   hw/riscv: virt: Map high mmio for PCIe
 
 Thanks!
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Applied to riscv-to-apply.next
 
-> ---
-> I=E2=80=99ve uploaded a build of Linux 5.10 here:
->   https://xanclic.moe/linux-5.10
+Alistair
+
 >
-> But I=E2=80=99ve decided against mentioning it in this new comment or the=
- cancel
-> message, because, well, it=E2=80=99s my private server and I have limited
-> bandwidth.
-> ---
->  tests/acceptance/virtiofs_submounts.py | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  hw/riscv/microchip_pfsoc.c |  9 ++---
+>  hw/riscv/opentitan.c       |  9 ++---
+>  hw/riscv/sifive_e.c        |  9 ++---
+>  hw/riscv/sifive_u.c        | 11 +++---
+>  hw/riscv/spike.c           |  9 ++---
+>  hw/riscv/virt.c            | 72 ++++++++++++++++++++++++++++++--------
+>  6 files changed, 73 insertions(+), 46 deletions(-)
 >
-> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/vi=
-rtiofs_submounts.py
-> index 949ca87a83..9a69b6b17b 100644
-> --- a/tests/acceptance/virtiofs_submounts.py
-> +++ b/tests/acceptance/virtiofs_submounts.py
-> @@ -228,6 +228,18 @@ class VirtiofsSubmountsTest(BootLinux):
->      def setUp(self):
->          vmlinuz =3D self.params.get('vmlinuz')
->          if vmlinuz is None:
-> +            """
-> +            The Linux kernel supports FUSE auto-submounts only as of 5.1=
-0.
-> +            boot_linux.py currently provides Fedora 31, whose kernel is =
-too
-> +            old, so this test cannot pass with the on-image kernel (you =
-are
-> +            welcome to try, hence the option to force such a test with
-> +            -p vmlinuz=3D'').  Therefore, for now the user must provide a
-> +            sufficiently new custom kernel, or effectively explicitly
-> +            request failure with -p vmlinuz=3D''.
-> +            Once an image with a sufficiently new kernel is available
-> +            (probably Fedora 34), we can make -p vmlinuz=3D'' the defaul=
-t, so
-> +            that this parameter no longer needs to be specified.
-> +            """
->              self.cancel('vmlinuz parameter not set; you must point it to=
- a '
->                          'Linux kernel binary to test (to run this test w=
-ith ' \
->                          'the on-image kernel, set it to an empty string)=
-')
-
-
---=20
-Alex Benn=C3=A9e
+> --
+> 2.25.1
+>
+>
 
