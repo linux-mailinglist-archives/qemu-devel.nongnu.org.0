@@ -2,78 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4DC319BE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 10:31:52 +0100 (CET)
-Received: from localhost ([::1]:55172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A21319BFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 10:41:04 +0100 (CET)
+Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAUnn-0003TS-Sw
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 04:31:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53290)
+	id 1lAUwg-0000i8-Pd
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 04:41:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lAUlq-0002vG-0R
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:29:50 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39099)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lAUlo-0007nN-6n
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:29:49 -0500
-Received: by mail-wm1-x336.google.com with SMTP id u14so337935wmq.4
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 01:29:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dme-org.20150623.gappssmtp.com; s=20150623;
- h=to:cc:subject:in-reply-to:references:from:date:message-id
- :mime-version; bh=bH/UiGz0n9r8PxheOnVtGIxbVoV+xOs1HB5Wn6jPUFw=;
- b=XLoOPPHvxuLhzvbGlCQ2pG2ddl5GozX8c8gypeqgc0IWEYxXdHGZAWRCXDH/RKdO+P
- ziMgOhxgPuizshMzPZN8Vd2QAEHW0wWEpcYyGnS36Ft2lgkBEje+Wt5w0oTpij3OsWEV
- WBnrXIRKvKb/QNBPgkH7QInd5phSnVmDGVKQpNpmSZ9QfD9JX8WhY9FBKIFwtTzXbirW
- DTyDjOLeSXHBvuwrUfFdgw0x2v98ZSA10yOD6TXh/iSDU5V5dqYjvKWcsb5/8tVZe3No
- Q+rMPE5LNBOAhxXEuoVjRL9G0upleEeYLfhwntNB1Zpv9n3/nJMbyeJv7ac0lRKqleva
- mBXw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lAUuN-0008J7-Vi
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:38:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58114)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lAUuJ-0003Pi-Ff
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:38:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613122712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wOyjXEbMZ6K9evvdm2VSFTMSwfS2pt4EaT1U4Lwaa8c=;
+ b=UR6CD677yAjyser67/fqIlGmbRyk4+zNrn43FSLikW/MuCfa58ojq4QqhuRmc0LBZie0hd
+ xq0yozP2pchsAntozd4G2hmDL6G4tFpioUNKop8U0oWRZE8uAacbZHap8h9zlwp9xfnR9Y
+ MVrRDF0WY3fv4+9/jfxPDJodb/hHrfk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-Jg4Y7m0-M3Kd2V1zLmEfSg-1; Fri, 12 Feb 2021 04:38:28 -0500
+X-MC-Unique: Jg4Y7m0-M3Kd2V1zLmEfSg-1
+Received: by mail-wr1-f72.google.com with SMTP id w11so4623005wrp.6
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 01:38:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
- :message-id:mime-version;
- bh=bH/UiGz0n9r8PxheOnVtGIxbVoV+xOs1HB5Wn6jPUFw=;
- b=Ghkfp/7L9Tx3nLYsKGO0s3wnjiABEIQmRVR1oojc67tr6FESmu1x/BKVJm4Q0NNIH7
- Ft4ELy9jji9Gkcc2QeDP/etL1HqndVyM3LPuwljxmgLe4Z0p2ibV61aclxEo7cm2Jwxc
- ttO2O2SxUbWocRziSKqi2Ur3dsJH+U7buofERD6xjA5GLek+ldfPu7M8+a3F1goYurfl
- IBXM0ZCUUkaBnT/l4ajZC7XiJcP/j18cUAQ4jWXDOI9T7YexlUvUvacKlB3x3PsX7gwj
- f0bqX+z2YuZ72vuVP6cVXvcyTT+IOruWQEUfRA0MjxSGLCa0QFegPEczYhV/hfgfoR2k
- rOOw==
-X-Gm-Message-State: AOAM5338vrwvbdPzaAy+CUZjLtGqsi8jJnvsSmxiRw6i5G5ac5sDwAPJ
- br9ZWBNE1x4EL8RvBPcid03UyNuVwtEKuQ2P
-X-Google-Smtp-Source: ABdhPJyQ2LOR47op9Ah5ZhT+bzStU73ZKn8da93aQ+ixw2J65+fplLr+8Wn4m+OMbx/0v2twTCNFZA==
-X-Received: by 2002:a7b:c5d6:: with SMTP id n22mr1792611wmk.70.1613122186014; 
- Fri, 12 Feb 2021 01:29:46 -0800 (PST)
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
- [2001:8b0:bb71:7140:64::1])
- by smtp.gmail.com with ESMTPSA id m5sm11002287wmc.25.2021.02.12.01.29.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 01:29:45 -0800 (PST)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 4fe57fe2;
- Fri, 12 Feb 2021 09:29:44 +0000 (UTC)
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v4 17/21] i386: support 'hv-passthrough, hv-feature=off'
- on the command line
-In-Reply-To: <87r1llllg5.fsf@vitty.brq.redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210164033.607612-18-vkuznets@redhat.com>
- <20210211181459.08f14c22@redhat.com> <87r1llllg5.fsf@vitty.brq.redhat.com>
-X-HGTTG: zarquon
-From: David Edmondson <dme@dme.org>
-Date: Fri, 12 Feb 2021 09:29:44 +0000
-Message-ID: <cuneehliqgn.fsf@dme.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wOyjXEbMZ6K9evvdm2VSFTMSwfS2pt4EaT1U4Lwaa8c=;
+ b=KNnhu5/kaiLkQQD/mr5FAdbsN9bz+YMxULxqFUIoLrQ07D0+HErdAL5qwIimLcJOgy
+ vExl3zWfT1dcPg0vu2rDdNzxaAiakT/HZ+44mPb44EPFz4vbzyLRG/5KnKznv6NHFXum
+ hiK8acMGKHNi2+WGm+3TfH7QUdFG2b+gEw7ssklyBH2ueKwgBWHH6otmOTGBesV//h01
+ xUieKGkrjOF/2nA5kd0Au+5gUQXEvPh2bJ6Cf0wdle/f6l2TcyMWHjVwDgefQZxGxu8D
+ dOvXEbVfhhi6+aTH5mRPLGeI7e3nPKT21CZAv4yffsN/VMZa0CKagNDfO4i2WjgsslvI
+ IyVQ==
+X-Gm-Message-State: AOAM533tJXs+BN9YYU4WYhCeMMJZ7e8QlaQy+NZzGh2cCDVZHfiLOOCv
+ IIxaGTSzD8162xSoPwgnqgZ07bBL8DNpd8mwhM+Icd9kAHlk9C99u9ASNVsda1SP/9ak98bo1lf
+ pusPvrPeENHtaH+3rvYt2uV9VnCROixtY2M7GX3cIrLSDTRprxD8bFpUc91ogxlSG
+X-Received: by 2002:a5d:4e10:: with SMTP id p16mr2387879wrt.360.1613122707508; 
+ Fri, 12 Feb 2021 01:38:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwUccK8ybSZTDIQ1uS7a2dewGgGMG08G1JwYQisWCrqZgBiZ2qiXs5/PyQqeRuz4fqlaQ+J2A==
+X-Received: by 2002:a5d:4e10:: with SMTP id p16mr2387855wrt.360.1613122707299; 
+ Fri, 12 Feb 2021 01:38:27 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id q15sm9394032wrr.58.2021.02.12.01.38.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Feb 2021 01:38:26 -0800 (PST)
+Subject: Re: [PATCH] qom/object.c: Fix typo
+To: Doug Evans <dje@google.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <000000000000530c7105bb191b33@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <47ac533c-b04e-76e0-0d84-fdff05be71e7@redhat.com>
+Date: Fri, 12 Feb 2021 10:38:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: neutral client-ip=2a00:1450:4864:20::336;
- envelope-from=dme@dme.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <000000000000530c7105bb191b33@google.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,125 +97,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Friday, 2021-02-12 at 09:49:46 +01, Vitaly Kuznetsov wrote:
+Hi Doug,
 
-> Igor Mammedov <imammedo@redhat.com> writes:
->
->> On Wed, 10 Feb 2021 17:40:29 +0100
->> Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
->>
->>> Currently, we support 'hv-passthrough,hv-feature=on' enablement, this
->>> is supposed to mean "hv-feature is mandatory, don't start without it". Add
->>> support for 'hv-passthrough,hv-feature=off' meaning "enable everything
->>> supported by the host except for hv-feature".
->>> 
->>> While on it, make 'hv-passthrough' parse semantics in-line with other
->>> options in qemu: when specified, it overrides what was previously set with
->>> what's supported by the host. This can later be modified with 'hv-feature=on'/
->>> 'hv-feature=off'.
->>> 
->>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->>> ---
->>>  target/i386/cpu.c     | 28 +++++++++++++++++++++++++++-
->>>  target/i386/kvm/kvm.c |  4 ++++
->>>  2 files changed, 31 insertions(+), 1 deletion(-)
->>> 
->>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->>> index e8a004c39d04..f8df2caed779 100644
->>> --- a/target/i386/cpu.c
->>> +++ b/target/i386/cpu.c
->>> @@ -4725,6 +4725,29 @@ static void x86_hv_stimer_direct_set(Object *obj, bool value, Error **errp)
->>>      x86_hv_feature_set(obj, value, HYPERV_FEAT_STIMER_DIRECT);
->>>  }
->>>  
->>> +static bool x86_hv_passthrough_get(Object *obj, Error **errp)
->>> +{
->>> +    X86CPU *cpu = X86_CPU(obj);
->>> +
->>> +    return cpu->hyperv_passthrough;
->>> +}
->>> +
->>> +static void x86_hv_passthrough_set(Object *obj, bool value, Error **errp)
->>> +{
->>> +    X86CPU *cpu = X86_CPU(obj);
->>> +
->>> +    cpu->hyperv_passthrough = value;
->>> +
->>> +    /* hv-passthrough overrides everything with what's supported by the host */
->>> +    if (value) {
->>> +        cpu->hyperv_features = 0;
->>> +        cpu->hyperv_features_on = 0;
->>> +        cpu->hyperv_features_off = 0;
->>
->> why do we have _on|_off fields?
->>
->
-> You mean 'why do we have them at all' or 'why do we reset them here'?
-> For the former, we need to distinguish between
-> 'hv-passthroug,hv-feature=off' and just 'hv-passthrough';
-> 'hv-passthrough,hv-evmcs=on' and just 'hv-passthrough'. For the later,
-> I'd like to make the samentics you've asked for:
-> 'hv-feature,hv-passthrough' == 'hv-passthrough'
-> (though I still see it as a gotcha for an unprepared user)
+On 2/12/21 1:56 AM, Doug Evans via wrote:
+> A simple typo (noticed by inspection).
+> 
+> commit ccdffd2c10c5e4447d5e462a6ad2f351df502dee
+> Author: Doug Evans <dje@google.com>
+> Date:   Thu Feb 11 16:29:13 2021 -0800
+> 
+>     qom/object.c: Fix typo
+>     
+>     Signed-off-by: Doug Evans <dje@google.com>
 
-Either approach will confuse *someone*, I think.
+Your patch can be applied with git-am, but with author
+Doug Evans via <qemu-devel@nongnu.org> and contains an invalid
+commit reference.
 
-This way at least behaves better if someone/something is composing the
-feature strings via concatenation.
+Can you use git-format-patch which inserts a From: tag so your
+email is properly set and you don't have to worry with the issues
+with your email provider:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Use_git_format-patch
 
->>> +    }
->>> +
->>> +    return;
->>> +}
->>> +
->>>  /* Generic getter for "feature-words" and "filtered-features" properties */
->>>  static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
->>>                                        const char *name, void *opaque,
->>> @@ -7281,7 +7304,6 @@ static Property x86_cpu_properties[] = {
->>>                         HYPERV_SPINLOCK_NEVER_NOTIFY),
->>>      DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
->>>                              hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
->>> -    DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
->>>  
->>>      DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
->>>      DEFINE_PROP_BOOL("enforce", X86CPU, enforce_cpuid, false),
->>> @@ -7460,6 +7482,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->>>                                     x86_hv_stimer_direct_get,
->>>                                     x86_hv_stimer_direct_set);
->>>  
->>> +    object_class_property_add_bool(oc, "hv-passthrough",
->>> +                                   x86_hv_passthrough_get,
->>> +                                   x86_hv_passthrough_set);
->>> +
->>>      for (w = 0; w < FEATURE_WORDS; w++) {
->>>          int bitnr;
->>>          for (bitnr = 0; bitnr < 64; bitnr++) {
->>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->>> index 30013f0d7cee..fca088d4d3b5 100644
->>> --- a/target/i386/kvm/kvm.c
->>> +++ b/target/i386/kvm/kvm.c
->>> @@ -1153,6 +1153,10 @@ static int hv_cpuid_check_and_set(CPUState *cs, int feature, Error **errp)
->>>          return 0;
->>>      }
->>>  
->>> +    if (cpu->hyperv_passthrough && (cpu->hyperv_features_off & BIT(feature))) {
->>> +        return 0;
->>> +    }
->>> +
->>>      deps = kvm_hyperv_properties[feature].dependencies;
->>>      while (deps) {
->>>          dep_feat = ctz64(deps);
->>
->
-> -- 
-> Vitaly
+> diff --git a/qom/object.c b/qom/object.c
+> index 491823db4a..6a01d56546 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -695,7 +695,7 @@ static void object_finalize(void *data)
+>  
+>  /* Find the minimum alignment guaranteed by the system malloc. */
+>  #if __STDC_VERSION__ >= 201112L
+> -typddef max_align_t qemu_max_align_t;
+> +typedef max_align_t qemu_max_align_t;
+>  #else
+>  typedef union {
+>      long l;
+> 
 
-dme.
--- 
-J'aurais toujours faim de toi.
+For the typo:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 
