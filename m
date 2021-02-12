@@ -2,47 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03FB319F14
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 13:50:21 +0100 (CET)
-Received: from localhost ([::1]:49452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C9A319F4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 13:59:32 +0100 (CET)
+Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAXts-0007Ah-ON
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 07:50:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60188)
+	id 1lAY2l-00041A-FV
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 07:59:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgp-0001L9-54
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:51 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48782)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lAY1f-0003bX-14
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:58:23 -0500
+Resent-Date: Fri, 12 Feb 2021 07:58:23 -0500
+Resent-Message-Id: <E1lAY1f-0003bX-14@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgi-0006NS-W0
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:50 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C8863B029;
- Fri, 12 Feb 2021 12:36:29 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC v18 15/15] i386: split off softmmu part of cpu.c
-Date: Fri, 12 Feb 2021 13:36:22 +0100
-Message-Id: <20210212123622.15834-16-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lAY1Y-0006sn-Qs
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:58:22 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1613134679; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=l0LbQyfRss+zpSyLBIOsf2KGkrx6I/PNR65BJFA3oz4Ec/cllpgBQUL/cLqs4z4gW8CgVJF6P8Z9ARMaV3DiBZ+grAZCCNMd/yHSDobFPyLA3NbMR8wThRB+UFyjTD/2VuVEapLZKqovpR88fv2uNNxjuXAjGMnJcb5wN/su+oM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1613134679;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=YQ5YO3V8ANvK6ZRaH0Na8l/Us2tKgIY/rBVvKNEhVU4=; 
+ b=FhJop/Bkb2txqp83bNYtLB8/YSIBpDaQpaLr4qf+2cIycUCE9ch36RCH3/TKE4v+yAhmPb4f3Bcq7blkKhufxlz3aFEpwuoBxIXl4DteQT7q0IekI0nifvHDyHshsXH+4VB0JMc23puwayCAFC8U0GPYGnVfNvYCqcQT6QGuMAs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1613134676092919.8682755495729;
+ Fri, 12 Feb 2021 04:57:56 -0800 (PST)
 In-Reply-To: <20210212123622.15834-1-cfontana@suse.de>
-References: <20210212123622.15834-1-cfontana@suse.de>
+Subject: Re: [RFC v18 00/15] i386 cleanup PART 2
+Message-ID: <161313467398.15466.64687907260827@c667a6b167f6>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: cfontana@suse.de
+Date: Fri, 12 Feb 2021 04:57:56 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,949 +67,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
+ ehabkost@redhat.com, philmd@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, r.bolshakov@yadro.com, cfontana@suse.de,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- target/i386/cpu-internal.h |  70 +++++++
- target/i386/cpu-softmmu.c  | 352 ++++++++++++++++++++++++++++++++++
- target/i386/cpu.c          | 383 +------------------------------------
- target/i386/meson.build    |   1 +
- 4 files changed, 428 insertions(+), 378 deletions(-)
- create mode 100644 target/i386/cpu-internal.h
- create mode 100644 target/i386/cpu-softmmu.c
-
-diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
-new file mode 100644
-index 0000000000..9ecadf593b
---- /dev/null
-+++ b/target/i386/cpu-internal.h
-@@ -0,0 +1,70 @@
-+/*
-+ * i386 CPU internal definitions to be shared between general and softmmu
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef I386_CPU_INTERNAL_H
-+#define I386_CPU_INTERNAL_H
-+
-+typedef enum FeatureWordType {
-+   CPUID_FEATURE_WORD,
-+   MSR_FEATURE_WORD,
-+} FeatureWordType;
-+
-+typedef struct FeatureWordInfo {
-+    FeatureWordType type;
-+    /* feature flags names are taken from "Intel Processor Identification and
-+     * the CPUID Instruction" and AMD's "CPUID Specification".
-+     * In cases of disagreement between feature naming conventions,
-+     * aliases may be added.
-+     */
-+    const char *feat_names[64];
-+    union {
-+        /* If type==CPUID_FEATURE_WORD */
-+        struct {
-+            uint32_t eax;   /* Input EAX for CPUID */
-+            bool needs_ecx; /* CPUID instruction uses ECX as input */
-+            uint32_t ecx;   /* Input ECX value for CPUID */
-+            int reg;        /* output register (R_* constant) */
-+        } cpuid;
-+        /* If type==MSR_FEATURE_WORD */
-+        struct {
-+            uint32_t index;
-+        } msr;
-+    };
-+    uint64_t tcg_features; /* Feature flags supported by TCG */
-+    uint64_t unmigratable_flags; /* Feature flags known to be unmigratable */
-+    uint64_t migratable_flags; /* Feature flags known to be migratable */
-+    /* Features that shouldn't be auto-enabled by "-cpu host" */
-+    uint64_t no_autoenable_flags;
-+} FeatureWordInfo;
-+
-+extern FeatureWordInfo feature_word_info[];
-+
-+void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
-+
-+#ifndef CONFIG_USER_ONLY
-+GuestPanicInformation *x86_cpu_get_crash_info(CPUState *cs);
-+void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
-+                                const char *name, void *opaque, Error **errp);
-+
-+void x86_cpu_apic_create(X86CPU *cpu, Error **errp);
-+void x86_cpu_apic_realize(X86CPU *cpu, Error **errp);
-+void x86_cpu_machine_reset_cb(void *opaque);
-+#endif /* CONFIG_USER_ONLY */
-+
-+#endif /* CPU_INTERNAL_H */
-diff --git a/target/i386/cpu-softmmu.c b/target/i386/cpu-softmmu.c
-new file mode 100644
-index 0000000000..c824408e8e
---- /dev/null
-+++ b/target/i386/cpu-softmmu.c
-@@ -0,0 +1,352 @@
-+/*
-+ *  i386 CPUID helper functions
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "sysemu/xen.h"
-+#include "sysemu/whpx.h"
-+#include "kvm/kvm_i386.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-visit-run-state.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qom/qom-qobject.h"
-+#include "qapi/qapi-commands-machine-target.h"
-+#include "hw/qdev-properties.h"
-+
-+#include "exec/address-spaces.h"
-+#include "hw/i386/apic_internal.h"
-+
-+#include "cpu-internal.h"
-+
-+/* Return a QDict containing keys for all properties that can be included
-+ * in static expansion of CPU models. All properties set by x86_cpu_load_model()
-+ * must be included in the dictionary.
-+ */
-+static QDict *x86_cpu_static_props(void)
-+{
-+    FeatureWord w;
-+    int i;
-+    static const char *props[] = {
-+        "min-level",
-+        "min-xlevel",
-+        "family",
-+        "model",
-+        "stepping",
-+        "model-id",
-+        "vendor",
-+        "lmce",
-+        NULL,
-+    };
-+    static QDict *d;
-+
-+    if (d) {
-+        return d;
-+    }
-+
-+    d = qdict_new();
-+    for (i = 0; props[i]; i++) {
-+        qdict_put_null(d, props[i]);
-+    }
-+
-+    for (w = 0; w < FEATURE_WORDS; w++) {
-+        FeatureWordInfo *fi = &feature_word_info[w];
-+        int bit;
-+        for (bit = 0; bit < 64; bit++) {
-+            if (!fi->feat_names[bit]) {
-+                continue;
-+            }
-+            qdict_put_null(d, fi->feat_names[bit]);
-+        }
-+    }
-+
-+    return d;
-+}
-+
-+/* Add an entry to @props dict, with the value for property. */
-+static void x86_cpu_expand_prop(X86CPU *cpu, QDict *props, const char *prop)
-+{
-+    QObject *value = object_property_get_qobject(OBJECT(cpu), prop,
-+                                                 &error_abort);
-+
-+    qdict_put_obj(props, prop, value);
-+}
-+
-+/* Convert CPU model data from X86CPU object to a property dictionary
-+ * that can recreate exactly the same CPU model.
-+ */
-+static void x86_cpu_to_dict(X86CPU *cpu, QDict *props)
-+{
-+    QDict *sprops = x86_cpu_static_props();
-+    const QDictEntry *e;
-+
-+    for (e = qdict_first(sprops); e; e = qdict_next(sprops, e)) {
-+        const char *prop = qdict_entry_key(e);
-+        x86_cpu_expand_prop(cpu, props, prop);
-+    }
-+}
-+
-+/* Convert CPU model data from X86CPU object to a property dictionary
-+ * that can recreate exactly the same CPU model, including every
-+ * writeable QOM property.
-+ */
-+static void x86_cpu_to_dict_full(X86CPU *cpu, QDict *props)
-+{
-+    ObjectPropertyIterator iter;
-+    ObjectProperty *prop;
-+
-+    object_property_iter_init(&iter, OBJECT(cpu));
-+    while ((prop = object_property_iter_next(&iter))) {
-+        /* skip read-only or write-only properties */
-+        if (!prop->get || !prop->set) {
-+            continue;
-+        }
-+
-+        /* "hotplugged" is the only property that is configurable
-+         * on the command-line but will be set differently on CPUs
-+         * created using "-cpu ... -smp ..." and by CPUs created
-+         * on the fly by x86_cpu_from_model() for querying. Skip it.
-+         */
-+        if (!strcmp(prop->name, "hotplugged")) {
-+            continue;
-+        }
-+        x86_cpu_expand_prop(cpu, props, prop->name);
-+    }
-+}
-+
-+static void object_apply_props(Object *obj, QDict *props, Error **errp)
-+{
-+    const QDictEntry *prop;
-+
-+    for (prop = qdict_first(props); prop; prop = qdict_next(props, prop)) {
-+        if (!object_property_set_qobject(obj, qdict_entry_key(prop),
-+                                         qdict_entry_value(prop), errp)) {
-+            break;
-+        }
-+    }
-+}
-+
-+/* Create X86CPU object according to model+props specification */
-+static X86CPU *x86_cpu_from_model(const char *model, QDict *props, Error **errp)
-+{
-+    X86CPU *xc = NULL;
-+    X86CPUClass *xcc;
-+    Error *err = NULL;
-+
-+    xcc = X86_CPU_CLASS(cpu_class_by_name(TYPE_X86_CPU, model));
-+    if (xcc == NULL) {
-+        error_setg(&err, "CPU model '%s' not found", model);
-+        goto out;
-+    }
-+
-+    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
-+    if (props) {
-+        object_apply_props(OBJECT(xc), props, &err);
-+        if (err) {
-+            goto out;
-+        }
-+    }
-+
-+    x86_cpu_expand_features(xc, &err);
-+    if (err) {
-+        goto out;
-+    }
-+
-+out:
-+    if (err) {
-+        error_propagate(errp, err);
-+        object_unref(OBJECT(xc));
-+        xc = NULL;
-+    }
-+    return xc;
-+}
-+
-+CpuModelExpansionInfo *
-+qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-+                                                      CpuModelInfo *model,
-+                                                      Error **errp)
-+{
-+    X86CPU *xc = NULL;
-+    Error *err = NULL;
-+    CpuModelExpansionInfo *ret = g_new0(CpuModelExpansionInfo, 1);
-+    QDict *props = NULL;
-+    const char *base_name;
-+
-+    xc = x86_cpu_from_model(model->name,
-+                            model->has_props ?
-+                                qobject_to(QDict, model->props) :
-+                                NULL, &err);
-+    if (err) {
-+        goto out;
-+    }
-+
-+    props = qdict_new();
-+    ret->model = g_new0(CpuModelInfo, 1);
-+    ret->model->props = QOBJECT(props);
-+    ret->model->has_props = true;
-+
-+    switch (type) {
-+    case CPU_MODEL_EXPANSION_TYPE_STATIC:
-+        /* Static expansion will be based on "base" only */
-+        base_name = "base";
-+        x86_cpu_to_dict(xc, props);
-+    break;
-+    case CPU_MODEL_EXPANSION_TYPE_FULL:
-+        /* As we don't return every single property, full expansion needs
-+         * to keep the original model name+props, and add extra
-+         * properties on top of that.
-+         */
-+        base_name = model->name;
-+        x86_cpu_to_dict_full(xc, props);
-+    break;
-+    default:
-+        error_setg(&err, "Unsupported expansion type");
-+        goto out;
-+    }
-+
-+    x86_cpu_to_dict(xc, props);
-+
-+    ret->model->name = g_strdup(base_name);
-+
-+out:
-+    object_unref(OBJECT(xc));
-+    if (err) {
-+        error_propagate(errp, err);
-+        qapi_free_CpuModelExpansionInfo(ret);
-+        ret = NULL;
-+    }
-+    return ret;
-+}
-+
-+void cpu_clear_apic_feature(CPUX86State *env)
-+{
-+    env->features[FEAT_1_EDX] &= ~CPUID_APIC;
-+}
-+
-+bool cpu_is_bsp(X86CPU *cpu)
-+{
-+    return cpu_get_apic_base(cpu->apic_state) & MSR_IA32_APICBASE_BSP;
-+}
-+
-+/* TODO: remove me, when reset over QOM tree is implemented */
-+void x86_cpu_machine_reset_cb(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    cpu_reset(CPU(cpu));
-+}
-+
-+APICCommonClass *apic_get_class(void)
-+{
-+    const char *apic_type = "apic";
-+
-+    /* TODO: in-kernel irqchip for hvf */
-+    if (kvm_apic_in_kernel()) {
-+        apic_type = "kvm-apic";
-+    } else if (xen_enabled()) {
-+        apic_type = "xen-apic";
-+    } else if (whpx_apic_in_platform()) {
-+        apic_type = "whpx-apic";
-+    }
-+
-+    return APIC_COMMON_CLASS(object_class_by_name(apic_type));
-+}
-+
-+void x86_cpu_apic_create(X86CPU *cpu, Error **errp)
-+{
-+    APICCommonState *apic;
-+    ObjectClass *apic_class = OBJECT_CLASS(apic_get_class());
-+
-+    cpu->apic_state = DEVICE(object_new_with_class(apic_class));
-+
-+    object_property_add_child(OBJECT(cpu), "lapic",
-+                              OBJECT(cpu->apic_state));
-+    object_unref(OBJECT(cpu->apic_state));
-+
-+    qdev_prop_set_uint32(cpu->apic_state, "id", cpu->apic_id);
-+    /* TODO: convert to link<> */
-+    apic = APIC_COMMON(cpu->apic_state);
-+    apic->cpu = cpu;
-+    apic->apicbase = APIC_DEFAULT_ADDRESS | MSR_IA32_APICBASE_ENABLE;
-+}
-+
-+void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
-+{
-+    APICCommonState *apic;
-+    static bool apic_mmio_map_once;
-+
-+    if (cpu->apic_state == NULL) {
-+        return;
-+    }
-+    qdev_realize(DEVICE(cpu->apic_state), NULL, errp);
-+
-+    /* Map APIC MMIO area */
-+    apic = APIC_COMMON(cpu->apic_state);
-+    if (!apic_mmio_map_once) {
-+        memory_region_add_subregion_overlap(get_system_memory(),
-+                                            apic->apicbase &
-+                                            MSR_IA32_APICBASE_BASE,
-+                                            &apic->io_memory,
-+                                            0x1000);
-+        apic_mmio_map_once = true;
-+     }
-+}
-+
-+GuestPanicInformation *x86_cpu_get_crash_info(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+    GuestPanicInformation *panic_info = NULL;
-+
-+    if (env->features[FEAT_HYPERV_EDX] & HV_GUEST_CRASH_MSR_AVAILABLE) {
-+        panic_info = g_malloc0(sizeof(GuestPanicInformation));
-+
-+        panic_info->type = GUEST_PANIC_INFORMATION_TYPE_HYPER_V;
-+
-+        assert(HV_CRASH_PARAMS >= 5);
-+        panic_info->u.hyper_v.arg1 = env->msr_hv_crash_params[0];
-+        panic_info->u.hyper_v.arg2 = env->msr_hv_crash_params[1];
-+        panic_info->u.hyper_v.arg3 = env->msr_hv_crash_params[2];
-+        panic_info->u.hyper_v.arg4 = env->msr_hv_crash_params[3];
-+        panic_info->u.hyper_v.arg5 = env->msr_hv_crash_params[4];
-+    }
-+
-+    return panic_info;
-+}
-+void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
-+                                const char *name, void *opaque,
-+                                Error **errp)
-+{
-+    CPUState *cs = CPU(obj);
-+    GuestPanicInformation *panic_info;
-+
-+    if (!cs->crash_occurred) {
-+        error_setg(errp, "No crash occured");
-+        return;
-+    }
-+
-+    panic_info = x86_cpu_get_crash_info(cs);
-+    if (panic_info == NULL) {
-+        error_setg(errp, "No crash information");
-+        return;
-+    }
-+
-+    visit_type_GuestPanicInformation(v, "crash-information", &panic_info,
-+                                     errp);
-+    qapi_free_GuestPanicInformation(panic_info);
-+}
-+
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 8d2e1c3136..f9db351f1f 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -20,35 +20,26 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "qemu/cutils.h"
--#include "qemu/bitops.h"
- #include "qemu/qemu-print.h"
- #include "cpu.h"
- #include "tcg/helper-tcg.h"
--#include "exec/exec-all.h"
--#include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "sysemu/hvf.h"
--#include "sysemu/xen.h"
--#include "sysemu/whpx.h"
- #include "kvm/kvm_i386.h"
- #include "sev_i386.h"
--#include "qemu/module.h"
- #include "qapi/qapi-visit-machine.h"
--#include "qapi/qapi-visit-run-state.h"
--#include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
--#include "qom/qom-qobject.h"
- #include "qapi/qapi-commands-machine-target.h"
- #include "standard-headers/asm-x86/kvm_para.h"
- #include "hw/qdev-properties.h"
- #include "hw/i386/topology.h"
- #ifndef CONFIG_USER_ONLY
- #include "exec/address-spaces.h"
--#include "hw/i386/apic_internal.h"
- #include "hw/boards.h"
- #endif
- 
- #include "disas/capstone.h"
-+#include "cpu-internal.h"
- 
- /* Helpers for building CPUID[2] descriptors: */
- 
-@@ -663,40 +654,7 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           CPUID_XSAVE_XSAVEC, CPUID_XSAVE_XSAVES */
- #define TCG_14_0_ECX_FEATURES 0
- 
--typedef enum FeatureWordType {
--   CPUID_FEATURE_WORD,
--   MSR_FEATURE_WORD,
--} FeatureWordType;
--
--typedef struct FeatureWordInfo {
--    FeatureWordType type;
--    /* feature flags names are taken from "Intel Processor Identification and
--     * the CPUID Instruction" and AMD's "CPUID Specification".
--     * In cases of disagreement between feature naming conventions,
--     * aliases may be added.
--     */
--    const char *feat_names[64];
--    union {
--        /* If type==CPUID_FEATURE_WORD */
--        struct {
--            uint32_t eax;   /* Input EAX for CPUID */
--            bool needs_ecx; /* CPUID instruction uses ECX as input */
--            uint32_t ecx;   /* Input ECX value for CPUID */
--            int reg;        /* output register (R_* constant) */
--        } cpuid;
--        /* If type==MSR_FEATURE_WORD */
--        struct {
--            uint32_t index;
--        } msr;
--    };
--    uint64_t tcg_features; /* Feature flags supported by TCG */
--    uint64_t unmigratable_flags; /* Feature flags known to be unmigratable */
--    uint64_t migratable_flags; /* Feature flags known to be migratable */
--    /* Features that shouldn't be auto-enabled by "-cpu host" */
--    uint64_t no_autoenable_flags;
--} FeatureWordInfo;
--
--static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-+FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-     [FEAT_1_EDX] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
-@@ -4633,7 +4591,6 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
-     }
- }
- 
--static void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
- static void x86_cpu_filter_features(X86CPU *cpu, bool verbose);
- 
- /* Build a list with the name of all features on a feature word array */
-@@ -5003,207 +4960,6 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
-     memset(&env->user_features, 0, sizeof(env->user_features));
- }
- 
--#ifndef CONFIG_USER_ONLY
--/* Return a QDict containing keys for all properties that can be included
-- * in static expansion of CPU models. All properties set by x86_cpu_load_model()
-- * must be included in the dictionary.
-- */
--static QDict *x86_cpu_static_props(void)
--{
--    FeatureWord w;
--    int i;
--    static const char *props[] = {
--        "min-level",
--        "min-xlevel",
--        "family",
--        "model",
--        "stepping",
--        "model-id",
--        "vendor",
--        "lmce",
--        NULL,
--    };
--    static QDict *d;
--
--    if (d) {
--        return d;
--    }
--
--    d = qdict_new();
--    for (i = 0; props[i]; i++) {
--        qdict_put_null(d, props[i]);
--    }
--
--    for (w = 0; w < FEATURE_WORDS; w++) {
--        FeatureWordInfo *fi = &feature_word_info[w];
--        int bit;
--        for (bit = 0; bit < 64; bit++) {
--            if (!fi->feat_names[bit]) {
--                continue;
--            }
--            qdict_put_null(d, fi->feat_names[bit]);
--        }
--    }
--
--    return d;
--}
--
--/* Add an entry to @props dict, with the value for property. */
--static void x86_cpu_expand_prop(X86CPU *cpu, QDict *props, const char *prop)
--{
--    QObject *value = object_property_get_qobject(OBJECT(cpu), prop,
--                                                 &error_abort);
--
--    qdict_put_obj(props, prop, value);
--}
--
--/* Convert CPU model data from X86CPU object to a property dictionary
-- * that can recreate exactly the same CPU model.
-- */
--static void x86_cpu_to_dict(X86CPU *cpu, QDict *props)
--{
--    QDict *sprops = x86_cpu_static_props();
--    const QDictEntry *e;
--
--    for (e = qdict_first(sprops); e; e = qdict_next(sprops, e)) {
--        const char *prop = qdict_entry_key(e);
--        x86_cpu_expand_prop(cpu, props, prop);
--    }
--}
--
--/* Convert CPU model data from X86CPU object to a property dictionary
-- * that can recreate exactly the same CPU model, including every
-- * writeable QOM property.
-- */
--static void x86_cpu_to_dict_full(X86CPU *cpu, QDict *props)
--{
--    ObjectPropertyIterator iter;
--    ObjectProperty *prop;
--
--    object_property_iter_init(&iter, OBJECT(cpu));
--    while ((prop = object_property_iter_next(&iter))) {
--        /* skip read-only or write-only properties */
--        if (!prop->get || !prop->set) {
--            continue;
--        }
--
--        /* "hotplugged" is the only property that is configurable
--         * on the command-line but will be set differently on CPUs
--         * created using "-cpu ... -smp ..." and by CPUs created
--         * on the fly by x86_cpu_from_model() for querying. Skip it.
--         */
--        if (!strcmp(prop->name, "hotplugged")) {
--            continue;
--        }
--        x86_cpu_expand_prop(cpu, props, prop->name);
--    }
--}
--
--static void object_apply_props(Object *obj, QDict *props, Error **errp)
--{
--    const QDictEntry *prop;
--
--    for (prop = qdict_first(props); prop; prop = qdict_next(props, prop)) {
--        if (!object_property_set_qobject(obj, qdict_entry_key(prop),
--                                         qdict_entry_value(prop), errp)) {
--            break;
--        }
--    }
--}
--
--/* Create X86CPU object according to model+props specification */
--static X86CPU *x86_cpu_from_model(const char *model, QDict *props, Error **errp)
--{
--    X86CPU *xc = NULL;
--    X86CPUClass *xcc;
--    Error *err = NULL;
--
--    xcc = X86_CPU_CLASS(cpu_class_by_name(TYPE_X86_CPU, model));
--    if (xcc == NULL) {
--        error_setg(&err, "CPU model '%s' not found", model);
--        goto out;
--    }
--
--    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
--    if (props) {
--        object_apply_props(OBJECT(xc), props, &err);
--        if (err) {
--            goto out;
--        }
--    }
--
--    x86_cpu_expand_features(xc, &err);
--    if (err) {
--        goto out;
--    }
--
--out:
--    if (err) {
--        error_propagate(errp, err);
--        object_unref(OBJECT(xc));
--        xc = NULL;
--    }
--    return xc;
--}
--
--CpuModelExpansionInfo *
--qmp_query_cpu_model_expansion(CpuModelExpansionType type,
--                                                      CpuModelInfo *model,
--                                                      Error **errp)
--{
--    X86CPU *xc = NULL;
--    Error *err = NULL;
--    CpuModelExpansionInfo *ret = g_new0(CpuModelExpansionInfo, 1);
--    QDict *props = NULL;
--    const char *base_name;
--
--    xc = x86_cpu_from_model(model->name,
--                            model->has_props ?
--                                qobject_to(QDict, model->props) :
--                                NULL, &err);
--    if (err) {
--        goto out;
--    }
--
--    props = qdict_new();
--    ret->model = g_new0(CpuModelInfo, 1);
--    ret->model->props = QOBJECT(props);
--    ret->model->has_props = true;
--
--    switch (type) {
--    case CPU_MODEL_EXPANSION_TYPE_STATIC:
--        /* Static expansion will be based on "base" only */
--        base_name = "base";
--        x86_cpu_to_dict(xc, props);
--    break;
--    case CPU_MODEL_EXPANSION_TYPE_FULL:
--        /* As we don't return every single property, full expansion needs
--         * to keep the original model name+props, and add extra
--         * properties on top of that.
--         */
--        base_name = model->name;
--        x86_cpu_to_dict_full(xc, props);
--    break;
--    default:
--        error_setg(&err, "Unsupported expansion type");
--        goto out;
--    }
--
--    x86_cpu_to_dict(xc, props);
--
--    ret->model->name = g_strdup(base_name);
--
--out:
--    object_unref(OBJECT(xc));
--    if (err) {
--        error_propagate(errp, err);
--        qapi_free_CpuModelExpansionInfo(ret);
--        ret = NULL;
--    }
--    return ret;
--}
--#endif  /* !CONFIG_USER_ONLY */
--
- static gchar *x86_gdb_arch_name(CPUState *cs)
- {
- #ifdef TARGET_X86_64
-@@ -5278,15 +5034,6 @@ static void x86_register_cpudef_types(X86CPUDefinition *def)
- 
- }
- 
--#if !defined(CONFIG_USER_ONLY)
--
--void cpu_clear_apic_feature(CPUX86State *env)
--{
--    env->features[FEAT_1_EDX] &= ~CPUID_APIC;
--}
--
--#endif /* !CONFIG_USER_ONLY */
--
- void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                    uint32_t *eax, uint32_t *ebx,
-                    uint32_t *ecx, uint32_t *edx)
-@@ -5934,20 +5681,6 @@ static void x86_cpu_reset(DeviceState *dev)
- #endif
- }
- 
--#ifndef CONFIG_USER_ONLY
--bool cpu_is_bsp(X86CPU *cpu)
--{
--    return cpu_get_apic_base(cpu->apic_state) & MSR_IA32_APICBASE_BSP;
--}
--
--/* TODO: remove me, when reset over QOM tree is implemented */
--static void x86_cpu_machine_reset_cb(void *opaque)
--{
--    X86CPU *cpu = opaque;
--    cpu_reset(CPU(cpu));
--}
--#endif
--
- static void mce_init(X86CPU *cpu)
- {
-     CPUX86State *cenv = &cpu->env;
-@@ -5965,68 +5698,6 @@ static void mce_init(X86CPU *cpu)
-     }
- }
- 
--#ifndef CONFIG_USER_ONLY
--APICCommonClass *apic_get_class(void)
--{
--    const char *apic_type = "apic";
--
--    /* TODO: in-kernel irqchip for hvf */
--    if (kvm_apic_in_kernel()) {
--        apic_type = "kvm-apic";
--    } else if (xen_enabled()) {
--        apic_type = "xen-apic";
--    } else if (whpx_apic_in_platform()) {
--        apic_type = "whpx-apic";
--    }
--
--    return APIC_COMMON_CLASS(object_class_by_name(apic_type));
--}
--
--static void x86_cpu_apic_create(X86CPU *cpu, Error **errp)
--{
--    APICCommonState *apic;
--    ObjectClass *apic_class = OBJECT_CLASS(apic_get_class());
--
--    cpu->apic_state = DEVICE(object_new_with_class(apic_class));
--
--    object_property_add_child(OBJECT(cpu), "lapic",
--                              OBJECT(cpu->apic_state));
--    object_unref(OBJECT(cpu->apic_state));
--
--    qdev_prop_set_uint32(cpu->apic_state, "id", cpu->apic_id);
--    /* TODO: convert to link<> */
--    apic = APIC_COMMON(cpu->apic_state);
--    apic->cpu = cpu;
--    apic->apicbase = APIC_DEFAULT_ADDRESS | MSR_IA32_APICBASE_ENABLE;
--}
--
--static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
--{
--    APICCommonState *apic;
--    static bool apic_mmio_map_once;
--
--    if (cpu->apic_state == NULL) {
--        return;
--    }
--    qdev_realize(DEVICE(cpu->apic_state), NULL, errp);
--
--    /* Map APIC MMIO area */
--    apic = APIC_COMMON(cpu->apic_state);
--    if (!apic_mmio_map_once) {
--        memory_region_add_subregion_overlap(get_system_memory(),
--                                            apic->apicbase &
--                                            MSR_IA32_APICBASE_BASE,
--                                            &apic->io_memory,
--                                            0x1000);
--        apic_mmio_map_once = true;
--     }
--}
--#else
--static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
--{
--}
--#endif
--
- static void x86_cpu_adjust_level(X86CPU *cpu, uint32_t *min, uint32_t value)
- {
-     if (*min < value) {
-@@ -6130,7 +5801,7 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
- /* Expand CPU configuration data, based on configured features
-  * and host/accelerator capabilities when appropriate.
-  */
--static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-+void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
- {
-     CPUX86State *env = &cpu->env;
-     FeatureWord w;
-@@ -6502,10 +6173,12 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-             ht_warned = true;
-     }
- 
-+#ifndef CONFIG_USER_ONLY
-     x86_cpu_apic_realize(cpu, &local_err);
-     if (local_err != NULL) {
-         goto out;
-     }
-+#endif /* !CONFIG_USER_ONLY */
-     cpu_reset(cs);
- 
-     xcc->parent_realize(dev, &local_err);
-@@ -6629,52 +6302,6 @@ static void x86_cpu_register_feature_bit_props(X86CPUClass *xcc,
-     x86_cpu_register_bit_prop(xcc, name, w, bitnr);
- }
- 
--#if !defined(CONFIG_USER_ONLY)
--static GuestPanicInformation *x86_cpu_get_crash_info(CPUState *cs)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
--    GuestPanicInformation *panic_info = NULL;
--
--    if (env->features[FEAT_HYPERV_EDX] & HV_GUEST_CRASH_MSR_AVAILABLE) {
--        panic_info = g_malloc0(sizeof(GuestPanicInformation));
--
--        panic_info->type = GUEST_PANIC_INFORMATION_TYPE_HYPER_V;
--
--        assert(HV_CRASH_PARAMS >= 5);
--        panic_info->u.hyper_v.arg1 = env->msr_hv_crash_params[0];
--        panic_info->u.hyper_v.arg2 = env->msr_hv_crash_params[1];
--        panic_info->u.hyper_v.arg3 = env->msr_hv_crash_params[2];
--        panic_info->u.hyper_v.arg4 = env->msr_hv_crash_params[3];
--        panic_info->u.hyper_v.arg5 = env->msr_hv_crash_params[4];
--    }
--
--    return panic_info;
--}
--static void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
--                                       const char *name, void *opaque,
--                                       Error **errp)
--{
--    CPUState *cs = CPU(obj);
--    GuestPanicInformation *panic_info;
--
--    if (!cs->crash_occurred) {
--        error_setg(errp, "No crash occured");
--        return;
--    }
--
--    panic_info = x86_cpu_get_crash_info(cs);
--    if (panic_info == NULL) {
--        error_setg(errp, "No crash information");
--        return;
--    }
--
--    visit_type_GuestPanicInformation(v, "crash-information", &panic_info,
--                                     errp);
--    qapi_free_GuestPanicInformation(panic_info);
--}
--#endif /* !CONFIG_USER_ONLY */
--
- static void x86_cpu_initfn(Object *obj)
- {
-     X86CPU *cpu = X86_CPU(obj);
-diff --git a/target/i386/meson.build b/target/i386/meson.build
-index cac26a4581..c2c3cec884 100644
---- a/target/i386/meson.build
-+++ b/target/i386/meson.build
-@@ -18,6 +18,7 @@ i386_softmmu_ss.add(files(
-   'arch_memory_mapping.c',
-   'machine.c',
-   'monitor.c',
-+  'cpu-softmmu.c',
- ))
- i386_user_ss = ss.source_set()
- 
--- 
-2.26.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIxMjEyMzYyMi4xNTgz
+NC0xLWNmb250YW5hQHN1c2UuZGUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDIxMjEyMzYyMi4xNTgzNC0x
+LWNmb250YW5hQHN1c2UuZGUKU3ViamVjdDogW1JGQyB2MTggMDAvMTVdIGkzODYgY2xlYW51cCBQ
+QVJUIDIKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
+ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
+bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
+IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhj
+ZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIu
+Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAy
+MTAyMTEyMzI4MzUuMjYwODA1OS0xLWNyb3NhQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDIx
+MTIzMjgzNS4yNjA4MDU5LTEtY3Jvc2FAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBw
+YXRjaGV3LzIwMjEwMjEyMTIzNjIyLjE1ODM0LTEtY2ZvbnRhbmFAc3VzZS5kZSAtPiBwYXRjaGV3
+LzIwMjEwMjEyMTIzNjIyLjE1ODM0LTEtY2ZvbnRhbmFAc3VzZS5kZQpTd2l0Y2hlZCB0byBhIG5l
+dyBicmFuY2ggJ3Rlc3QnCmVkNDg4OTQgaTM4Njogc3BsaXQgb2ZmIHNvZnRtbXUgcGFydCBvZiBj
+cHUuYwpkZDJlMzA0IGkzODY6IHNwbGl0IHNlZ19oZWxwZXIgaW50byB1c2VyLW9ubHkgYW5kIHNv
+ZnRtbXUgcGFydHMKM2U2MjlkNyBpMzg2OiBzbGl0IHN2bV9oZWxwZXIgaW50byBzb2Z0bW11IGFu
+ZCBzdHViLW9ubHkgdXNlcgpjYjY2ZTZhIGkzODY6IHNlcGFyYXRlIGZwdV9oZWxwZXIgaW50byB1
+c2VyIGFuZCBzb2Z0bW11IHBhcnRzCjFmNjA5N2IgaTM4Njogc3BsaXQgbWlzYyBoZWxwZXIgaW50
+byB1c2VyIGFuZCBzb2Z0bW11IHBhcnRzCjUxMGNlNzYgaTM4Njogc3BsaXQgdGNnIGJ0cF9oZWxw
+ZXIgaW50byBzb2Z0bW11IGFuZCB1c2VyIHBhcnRzCmEzZTY3NjYgaTM4Njogc3BsaXQgdGNnIGV4
+Y3BfaGVscGVyIGludG8gc29mdG1tdSBhbmQgdXNlciBwYXJ0cwpkNDc0OGU5IGkzODY6IHNwbGl0
+IHNtbSBoZWxwZXIgKHNvZnRtbXUpCjkwNDhhNzcgaTM4Njogc3BsaXQgb2ZmIHNvZnRtbXUtb25s
+eSBmdW5jdGlvbmFsaXR5IGluIHRjZy1jcHUKNWViZWRiMiBtZXNvbjogYWRkIHRhcmdldF91c2Vy
+X2FyY2gKMzIxNzRhOSBhY2NlbC1jcHU6IG1ha2UgY3B1X3JlYWxpemVmbiByZXR1cm4gYSBib29s
+CjRkM2UzNDYgdGFyZ2V0L2kzODY6IGZpeCBob3N0X2NwdV9hZGp1c3RfcGh5c19iaXRzIGVycm9y
+IGhhbmRsaW5nCmQxNGNiM2MgYWNjZWw6IGludHJvZHVjZSBuZXcgYWNjZXNzb3IgZnVuY3Rpb25z
+CmYxMjFjOTggY3B1OiBjYWxsIEFjY2VsQ1BVQ2xhc3M6OmNwdV9yZWFsaXplZm4gaW4gY3B1X2V4
+ZWNfcmVhbGl6ZWZuCmM2M2QwZjcgaTM4Njogc3BsaXQgY3B1IGFjY2VsZXJhdG9ycyBmcm9tIGNw
+dS5jLCB1c2luZyBBY2NlbENQVUNsYXNzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzE1IENoZWNr
+aW5nIGNvbW1pdCBjNjNkMGY3NWRiMzIgKGkzODY6IHNwbGl0IGNwdSBhY2NlbGVyYXRvcnMgZnJv
+bSBjcHUuYywgdXNpbmcgQWNjZWxDUFVDbGFzcykKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJh
+Y3RlcnMKIzEzMzU6IEZJTEU6IHRhcmdldC9pMzg2L3RjZy90Y2ctY3B1LmM6MTI1OgorICAgIG1l
+bW9yeV9yZWdpb25fYWRkX3N1YnJlZ2lvbl9vdmVybGFwKGNwdS0+Y3B1X2FzX3Jvb3QsIDAsIGNw
+dS0+Y3B1X2FzX21lbSwgMCk7Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDEyNTYgbGlu
+ZXMgY2hlY2tlZAoKUGF0Y2ggMS8xNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
+ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
+dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzE1IENo
+ZWNraW5nIGNvbW1pdCBmMTIxYzk4ZDJhN2IgKGNwdTogY2FsbCBBY2NlbENQVUNsYXNzOjpjcHVf
+cmVhbGl6ZWZuIGluIGNwdV9leGVjX3JlYWxpemVmbikKMy8xNSBDaGVja2luZyBjb21taXQgZDE0
+Y2IzYzMxMzU1IChhY2NlbDogaW50cm9kdWNlIG5ldyBhY2Nlc3NvciBmdW5jdGlvbnMpCjQvMTUg
+Q2hlY2tpbmcgY29tbWl0IDRkM2UzNDYyYTMxMSAodGFyZ2V0L2kzODY6IGZpeCBob3N0X2NwdV9h
+ZGp1c3RfcGh5c19iaXRzIGVycm9yIGhhbmRsaW5nKQo1LzE1IENoZWNraW5nIGNvbW1pdCAzMjE3
+NGE5MzcxMzkgKGFjY2VsLWNwdTogbWFrZSBjcHVfcmVhbGl6ZWZuIHJldHVybiBhIGJvb2wpCjYv
+MTUgQ2hlY2tpbmcgY29tbWl0IDVlYmVkYjJhMmZlNyAobWVzb246IGFkZCB0YXJnZXRfdXNlcl9h
+cmNoKQo3LzE1IENoZWNraW5nIGNvbW1pdCA5MDQ4YTc3NWRiMGYgKGkzODY6IHNwbGl0IG9mZiBz
+b2Z0bW11LW9ubHkgZnVuY3Rpb25hbGl0eSBpbiB0Y2ctY3B1KQpXQVJOSU5HOiBhZGRlZCwgbW92
+ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMz
+MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
+cwojMTE1OiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvc29mdG1tdS90Y2ctY3B1LmM6NzI6CisgICAg
+bWVtb3J5X3JlZ2lvbl9hZGRfc3VicmVnaW9uX292ZXJsYXAoY3B1LT5jcHVfYXNfcm9vdCwgMCwg
+Y3B1LT5jcHVfYXNfbWVtLCAwKTsKCnRvdGFsOiAwIGVycm9ycywgMiB3YXJuaW5ncywgMjEyIGxp
+bmVzIGNoZWNrZWQKClBhdGNoIDcvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
+LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
+IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8xNSBD
+aGVja2luZyBjb21taXQgZDQ3NDhlOTdlZjNkIChpMzg2OiBzcGxpdCBzbW0gaGVscGVyIChzb2Z0
+bW11KSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
+VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTg6IAogdGFyZ2V0L2kzODYvdGNnL3sgPT4gc29mdG1t
+dX0vc21tX2hlbHBlci5jIHwgMTkgKystLS0tLS0tLS0tLS0tLS0tLQoKdG90YWw6IDAgZXJyb3Jz
+LCAxIHdhcm5pbmdzLCA3NyBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzE1IGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCjkvMTUgQ2hlY2tpbmcgY29tbWl0IGEzZTY3NjY1MjYzZSAoaTM4Njogc3Bs
+aXQgdGNnIGV4Y3BfaGVscGVyIGludG8gc29mdG1tdSBhbmQgdXNlciBwYXJ0cykKV0FSTklORzog
+YWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVw
+ZGF0aW5nPwojNTk4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IEJsb2NrIGNvbW1l
+bnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM3MzY6IEZJTEU6IHRhcmdl
+dC9pMzg2L3RjZy9zb2Z0bW11L2V4Y3BfaGVscGVyLmM6MTM0OgorICAgICAgICAgICAgLyogQml0
+cyAyMC0xMyBwcm92aWRlIGJpdHMgMzktMzIgb2YgdGhlIGFkZHJlc3MsIGJpdCAyMSBpcyByZXNl
+cnZlZC4KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBh
+cmF0ZSBsaW5lCiM4MTA6IEZJTEU6IHRhcmdldC9pMzg2L3RjZy9zb2Z0bW11L2V4Y3BfaGVscGVy
+LmM6MjA4OgorLyogcmV0dXJuIHZhbHVlOgoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
+cnMKIzkxMTogRklMRTogdGFyZ2V0L2kzODYvdGNnL3NvZnRtbXUvZXhjcF9oZWxwZXIuYzozMDk6
+CisgICAgICAgICAgICBwZHBlX2FkZHIgPSAoKHBtbDRlICYgUEdfQUREUkVTU19NQVNLKSArICgo
+KGFkZHIgPj4gMzApICYgMHgxZmYpIDw8IDMpKSAmCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTAwNTogRklMRTogdGFyZ2V0L2kz
+ODYvdGNnL3NvZnRtbXUvZXhjcF9oZWxwZXIuYzo0MDM6CisgICAgICAgICAgICAvKiBCaXRzIDIw
+LTEzIHByb3ZpZGUgYml0cyAzOS0zMiBvZiB0aGUgYWRkcmVzcywgYml0IDIxIGlzIHJlc2VydmVk
+LgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRl
+IGxpbmUKIzExMDA6IEZJTEU6IHRhcmdldC9pMzg2L3RjZy9zb2Z0bW11L2V4Y3BfaGVscGVyLmM6
+NDk4OgorICAgICAgICAvKiBvbmx5IHNldCB3cml0ZSBhY2Nlc3MgaWYgYWxyZWFkeSBkaXJ0eS4u
+LiBvdGhlcndpc2Ugd2FpdAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2Vx
+dWVudCBsaW5lcwojMTEwMTogRklMRTogdGFyZ2V0L2kzODYvdGNnL3NvZnRtbXUvZXhjcF9oZWxw
+ZXIuYzo0OTk6CisgICAgICAgIC8qIG9ubHkgc2V0IHdyaXRlIGFjY2VzcyBpZiBhbHJlYWR5IGRp
+cnR5Li4uIG90aGVyd2lzZSB3YWl0CisgICAgICAgICAgIGZvciBkaXJ0eSBhY2Nlc3MgKi8KCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGlu
+ZQojMTEwMTogRklMRTogdGFyZ2V0L2kzODYvdGNnL3NvZnRtbXUvZXhjcF9oZWxwZXIuYzo0OTk6
+CisgICAgICAgICAgIGZvciBkaXJ0eSBhY2Nlc3MgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRz
+IHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxMTE0OiBGSUxFOiB0YXJnZXQv
+aTM4Ni90Y2cvc29mdG1tdS9leGNwX2hlbHBlci5jOjUxMjoKKyAgICAvKiBFdmVuIGlmIDRNQiBw
+YWdlcywgd2UgbWFwIG9ubHkgb25lIDRLQiBwYWdlIGluIHRoZSBjYWNoZSB0bwoKV0FSTklORzog
+QmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMTExNTogRklMRTogdGFy
+Z2V0L2kzODYvdGNnL3NvZnRtbXUvZXhjcF9oZWxwZXIuYzo1MTM6CisgICAgLyogRXZlbiBpZiA0
+TUIgcGFnZXMsIHdlIG1hcCBvbmx5IG9uZSA0S0IgcGFnZSBpbiB0aGUgY2FjaGUgdG8KKyAgICAg
+ICBhdm9pZCBmaWxsaW5nIGl0IHRvbyBmYXN0ICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzExMTU6IEZJTEU6IHRhcmdldC9p
+Mzg2L3RjZy9zb2Z0bW11L2V4Y3BfaGVscGVyLmM6NTEzOgorICAgICAgIGF2b2lkIGZpbGxpbmcg
+aXQgdG9vIGZhc3QgKi8KCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFy
+bXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzExMjk6IEZJTEU6IHRhcmdldC9pMzg2L3RjZy9zb2Z0bW11
+L2V4Y3BfaGVscGVyLmM6NTI3OgorICAgIGlmIChpc191c2VyKQpbLi4uXQoKdG90YWw6IDEgZXJy
+b3JzLCAxMSB3YXJuaW5ncywgNjEyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDkvMTUgaGFzIHN0eWxl
+IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
+c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
+SCBpbiBNQUlOVEFJTkVSUy4KCjEwLzE1IENoZWNraW5nIGNvbW1pdCA1MTBjZTc2YmZmNmYgKGkz
+ODY6IHNwbGl0IHRjZyBidHBfaGVscGVyIGludG8gc29mdG1tdSBhbmQgdXNlciBwYXJ0cykKV0FS
+TklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBu
+ZWVkIHVwZGF0aW5nPwojMzU5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IEJsb2Nr
+IGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM0OTU6IEZJTEU6
+IHRhcmdldC9pMzg2L3RjZy9zb2Z0bW11L2JwdF9oZWxwZXIuYzoxMzI6CisgICAgLyogSWYgbm90
+aGluZyBpcyBjaGFuZ2luZyBleGNlcHQgdGhlIGdsb2JhbC9sb2NhbCBlbmFibGUgYml0cywKCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzQ5NjogRklM
+RTogdGFyZ2V0L2kzODYvdGNnL3NvZnRtbXUvYnB0X2hlbHBlci5jOjEzMzoKKyAgICAvKiBJZiBu
+b3RoaW5nIGlzIGNoYW5naW5nIGV4Y2VwdCB0aGUgZ2xvYmFsL2xvY2FsIGVuYWJsZSBiaXRzLAor
+ICAgICAgIHRoZW4gd2UgY2FuIG1ha2UgdGhlIGNoYW5nZSBtb3JlIGVmZmljaWVudC4gICovCgpX
+QVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxp
+bmUKIzQ5NjogRklMRTogdGFyZ2V0L2kzODYvdGNnL3NvZnRtbXUvYnB0X2hlbHBlci5jOjEzMzoK
+KyAgICAgICB0aGVuIHdlIGNhbiBtYWtlIHRoZSBjaGFuZ2UgbW9yZSBlZmZpY2llbnQuICAqLwoK
+V0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxp
+bmUKIzQ5ODogRklMRTogdGFyZ2V0L2kzODYvdGNnL3NvZnRtbXUvYnB0X2hlbHBlci5jOjEzNToK
+KyAgICAgICAgLyogRm9sZCB0aGUgZ2xvYmFsIGFuZCBsb2NhbCBlbmFibGUgYml0cyB0b2dldGhl
+ciBpbnRvIHRoZQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBs
+aW5lcwojNDk5OiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvc29mdG1tdS9icHRfaGVscGVyLmM6MTM2
+OgorICAgICAgICAvKiBGb2xkIHRoZSBnbG9iYWwgYW5kIGxvY2FsIGVuYWJsZSBiaXRzIHRvZ2V0
+aGVyIGludG8gdGhlCisgICAgICAgICAgIGdsb2JhbCBmaWVsZHMsIHRoZW4geG9yIHRvIHNob3cg
+d2hpY2ggcmVnaXN0ZXJzIGhhdmUKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWls
+aW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojNTAwOiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvc29m
+dG1tdS9icHRfaGVscGVyLmM6MTM3OgorICAgICAgICAgICBjaGFuZ2VkIGNvbGxlY3RpdmUgZW5h
+YmxlIHN0YXRlLiAgKi8KCnRvdGFsOiAwIGVycm9ycywgNyB3YXJuaW5ncywgNjE2IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDEwLzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjExLzE1IENoZWNr
+aW5nIGNvbW1pdCAxZjYwOTdiZjgxMzQgKGkzODY6IHNwbGl0IG1pc2MgaGVscGVyIGludG8gdXNl
+ciBhbmQgc29mdG1tdSBwYXJ0cykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmls
+ZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNTI2OiAKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKCkVSUk9SOiBzd2l0Y2ggYW5kIGNhc2Ugc2hvdWxkIGJlIGF0IHRoZSBzYW1lIGlu
+ZGVudAojODE5OiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvc29mdG1tdS9taXNjX2hlbHBlci5jOjI4
+OToKKyAgICBzd2l0Y2ggKCh1aW50MzJfdCllbnYtPnJlZ3NbUl9FQ1hdKSB7ClsuLi5dCisgICAg
+IGNhc2UgTVNSX0lBMzJfVUNPREVfUkVWOgoKdG90YWw6IDEgZXJyb3JzLCAxIHdhcm5pbmdzLCAx
+MDA5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDExLzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
+IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
+cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
+CgoxMi8xNSBDaGVja2luZyBjb21taXQgY2I2NmU2YWU3Yjk3IChpMzg2OiBzZXBhcmF0ZSBmcHVf
+aGVscGVyIGludG8gdXNlciBhbmQgc29mdG1tdSBwYXJ0cykKV0FSTklORzogYWRkZWQsIG1vdmVk
+IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTQy
+OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMjE5
+IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEyLzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
+dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
+dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjEz
+LzE1IENoZWNraW5nIGNvbW1pdCAzZTYyOWQ3Nzg1NWQgKGkzODY6IHNsaXQgc3ZtX2hlbHBlciBp
+bnRvIHNvZnRtbXUgYW5kIHN0dWItb25seSB1c2VyKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3Ig
+ZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxMjogCiB0
+YXJnZXQvaTM4Ni90Y2cveyA9PiBzb2Z0bW11fS9zdm1faGVscGVyLmMgfCA2MiArLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0KCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTY5IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDEzLzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE0LzE1IENoZWNr
+aW5nIGNvbW1pdCBkZDJlMzA0NzI0YWMgKGkzODY6IHNwbGl0IHNlZ19oZWxwZXIgaW50byB1c2Vy
+LW9ubHkgYW5kIHNvZnRtbXUgcGFydHMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
+IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzMyMDogCm5ldyBmaWxl
+IG1vZGUgMTAwNjQ0CgpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMKIzM0NzogRklM
+RTogdGFyZ2V0L2kzODYvdGNnL3NlZ19oZWxwZXIuaDoyMzoKKy8vI2RlZmluZSBERUJVR19QQ0FM
+TAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRl
+IGxpbmUKIzYyMDogRklMRTogdGFyZ2V0L2kzODYvdGNnL3VzZXIvc2VnX2hlbHBlci5jOjczOgor
+ICAgIC8qIFNpbmNlIHdlIGVtdWxhdGUgb25seSB1c2VyIHNwYWNlLCB3ZSBjYW5ub3QgZG8gbW9y
+ZSB0aGFuCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVz
+CiM2MjE6IEZJTEU6IHRhcmdldC9pMzg2L3RjZy91c2VyL3NlZ19oZWxwZXIuYzo3NDoKKyAgICAv
+KiBTaW5jZSB3ZSBlbXVsYXRlIG9ubHkgdXNlciBzcGFjZSwgd2UgY2Fubm90IGRvIG1vcmUgdGhh
+bgorICAgICAgIGV4aXRpbmcgdGhlIGVtdWxhdGlvbiB3aXRoIHRoZSBzdWl0YWJsZSBleGNlcHRp
+b24gYW5kIGVycm9yCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBv
+biBhIHNlcGFyYXRlIGxpbmUKIzYyMjogRklMRTogdGFyZ2V0L2kzODYvdGNnL3VzZXIvc2VnX2hl
+bHBlci5jOjc1OgorICAgICAgIGNvZGUuIFNvIHVwZGF0ZSBFSVAgZm9yIElOVCAweDgwIGFuZCBF
+WENQX1NZU0NBTEwuICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8q
+IG9uIGEgc2VwYXJhdGUgbGluZQojNjMzOiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvdXNlci9zZWdf
+aGVscGVyLmM6ODY6CisgICAgLyogaWYgdXNlciBtb2RlIG9ubHksIHdlIHNpbXVsYXRlIGEgZmFr
+ZSBleGNlcHRpb24KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQg
+bGluZXMKIzYzNDogRklMRTogdGFyZ2V0L2kzODYvdGNnL3VzZXIvc2VnX2hlbHBlci5jOjg3Ogor
+ICAgIC8qIGlmIHVzZXIgbW9kZSBvbmx5LCB3ZSBzaW11bGF0ZSBhIGZha2UgZXhjZXB0aW9uCisg
+ICAgICAgd2hpY2ggd2lsbCBiZSBoYW5kbGVkIG91dHNpZGUgdGhlIGNwdSBleGVjdXRpb24KCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGlu
+ZQojNjM1OiBGSUxFOiB0YXJnZXQvaTM4Ni90Y2cvdXNlci9zZWdfaGVscGVyLmM6ODg6CisgICAg
+ICAgbG9vcCAqLwoKdG90YWw6IDEgZXJyb3JzLCA3IHdhcm5pbmdzLCA1OTUgbGluZXMgY2hlY2tl
+ZAoKUGF0Y2ggMTQvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
+IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
+YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjE1LzE1IENoZWNraW5n
+IGNvbW1pdCBlZDQ4ODk0OTAxMzkgKGkzODY6IHNwbGl0IG9mZiBzb2Z0bW11IHBhcnQgb2YgY3B1
+LmMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
+SU5FUlMgbmVlZCB1cGRhdGluZz8KIzE3OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM1MTog
+RklMRTogdGFyZ2V0L2kzODYvY3B1LWludGVybmFsLmg6MzA6CisgICAgLyogZmVhdHVyZSBmbGFn
+cyBuYW1lcyBhcmUgdGFrZW4gZnJvbSAiSW50ZWwgUHJvY2Vzc29yIElkZW50aWZpY2F0aW9uIGFu
+ZAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRl
+IGxpbmUKIzEzNDogRklMRTogdGFyZ2V0L2kzODYvY3B1LXNvZnRtbXUuYzozNzoKKy8qIFJldHVy
+biBhIFFEaWN0IGNvbnRhaW5pbmcga2V5cyBmb3IgYWxsIHByb3BlcnRpZXMgdGhhdCBjYW4gYmUg
+aW5jbHVkZWQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBz
+ZXBhcmF0ZSBsaW5lCiMxODc6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS1zb2Z0bW11LmM6OTA6Cisv
+KiBDb252ZXJ0IENQVSBtb2RlbCBkYXRhIGZyb20gWDg2Q1BVIG9iamVjdCB0byBhIHByb3BlcnR5
+IGRpY3Rpb25hcnkKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24g
+YSBzZXBhcmF0ZSBsaW5lCiMyMDE6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS1zb2Z0bW11LmM6MTA0
+OgorLyogQ29udmVydCBDUFUgbW9kZWwgZGF0YSBmcm9tIFg4NkNQVSBvYmplY3QgdG8gYSBwcm9w
+ZXJ0eSBkaWN0aW9uYXJ5CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8q
+IG9uIGEgc2VwYXJhdGUgbGluZQojMjE3OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUtc29mdG1tdS5j
+OjEyMDoKKyAgICAgICAgLyogImhvdHBsdWdnZWQiIGlzIHRoZSBvbmx5IHByb3BlcnR5IHRoYXQg
+aXMgY29uZmlndXJhYmxlCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8q
+IG9uIGEgc2VwYXJhdGUgbGluZQojMzA3OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUtc29mdG1tdS5j
+OjIxMDoKKyAgICAgICAgLyogQXMgd2UgZG9uJ3QgcmV0dXJuIGV2ZXJ5IHNpbmdsZSBwcm9wZXJ0
+eSwgZnVsbCBleHBhbnNpb24gbmVlZHMKCnRvdGFsOiAwIGVycm9ycywgNyB3YXJuaW5ncywgODk1
+IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE1LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
+dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
+dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09
+PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
+ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMjEy
+MTIzNjIyLjE1ODM0LTEtY2ZvbnRhbmFAc3VzZS5kZS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9
+bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
+dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
+LWRldmVsQHJlZGhhdC5jb20=
 
