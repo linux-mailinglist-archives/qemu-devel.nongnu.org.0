@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEC531A605
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:27:18 +0100 (CET)
-Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0552431A606
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:27:39 +0100 (CET)
+Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAf25-0008LU-Cj
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:27:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
+	id 1lAf2Q-0000kE-34
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:27:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAery-0004Vu-IK
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47282)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAerr-0004RC-Gk
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAers-0003z0-MV
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:50 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAern-0003vS-Bq
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613161003;
+ s=mimecast20190719; t=1613160998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JQxWEcr0Iu+MW/pITfaGMDDXYVcjTULZrpdjdEWY4ic=;
- b=a8C/H4Dn7iyeMtlouMXBbZFTSzsHRXrw9n/u4XI+f/20AO+Wa4MBCaarM44RNLl81jMGtw
- COFabcKLWSwiG0gyvNQ1IbhZM0gZA0ZHoxWYJarkrmlcZNCk3SiGn4w90YAtmxk61dD0l9
- sNxEef+cMFA1EZp2fB3CxxRi3rYjrKA=
+ bh=+ZtCvMsXL8J4aFQyPFcujwHjVw+wp+H0ImnLK/amocU=;
+ b=PY/GvHQlkAK/5hjaOsM9+4BIaSOv48rUEQvm7W8LmBq/Tbe6rr34hrJQmG02aWyQ1qnteq
+ vAkNwjB33qG4PqC/hh+v8EdU7mySh/K+AjeiWlH/1VussFXZ+KOJP4E0uAlfyXn1s1EB2X
+ gB4YH+BrvS6pkEzaZ5rbG8RHWgi7ZzQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-XXpYODF8NKicluG442ePrw-1; Fri, 12 Feb 2021 15:16:35 -0500
-X-MC-Unique: XXpYODF8NKicluG442ePrw-1
+ us-mta-71-kilVflvxNMeWFGTwX0erxA-1; Fri, 12 Feb 2021 15:16:36 -0500
+X-MC-Unique: kilVflvxNMeWFGTwX0erxA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E56ED801962;
- Fri, 12 Feb 2021 20:16:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 446DB1934116;
+ Fri, 12 Feb 2021 20:16:35 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-150.phx2.redhat.com [10.3.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7985A6B8E5;
- Fri, 12 Feb 2021 20:16:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCCCC6B8E5;
+ Fri, 12 Feb 2021 20:16:34 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/14] iotests/264: add mirror-cancel test-case
-Date: Fri, 12 Feb 2021 14:16:17 -0600
-Message-Id: <20210212201619.1388255-13-eblake@redhat.com>
+Subject: [PULL 14/14] iotests/264: add backup-cancel test-case
+Date: Fri, 12 Feb 2021 14:16:19 -0600
+Message-Id: <20210212201619.1388255-15-eblake@redhat.com>
 In-Reply-To: <20210212201619.1388255-1-eblake@redhat.com>
 References: <20210212201619.1388255-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -89,91 +89,22 @@ Check that cancel doesn't wait for 10s of nbd reconnect timeout.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210205163720.887197-9-vsementsov@virtuozzo.com>
+Message-Id: <20210205163720.887197-11-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/264     | 38 ++++++++++++++++++++++++++++++--------
+ tests/qemu-iotests/264     | 21 ++++++++++++++-------
  tests/qemu-iotests/264.out |  4 ++--
- 2 files changed, 32 insertions(+), 10 deletions(-)
+ 2 files changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
-index 6feeaa405632..347e53add51b 100755
+index 347e53add51b..4f96825a22c2 100755
 --- a/tests/qemu-iotests/264
 +++ b/tests/qemu-iotests/264
-@@ -27,25 +27,26 @@ from iotests import qemu_img_create, file_path, qemu_nbd_popen
-
- disk_a, disk_b, nbd_sock = file_path('disk_a', 'disk_b', 'nbd-sock')
- nbd_uri = 'nbd+unix:///?socket=' + nbd_sock
--size = 5 * 1024 * 1024
- wait_limit = 3.0
- wait_step = 0.2
-
-
- class TestNbdReconnect(iotests.QMPTestCase):
--    def setUp(self):
--        qemu_img_create('-f', iotests.imgfmt, disk_a, str(size))
--        qemu_img_create('-f', iotests.imgfmt, disk_b, str(size))
-+    def init_vm(self, disk_size):
-+        qemu_img_create('-f', iotests.imgfmt, disk_a, str(disk_size))
-+        qemu_img_create('-f', iotests.imgfmt, disk_b, str(disk_size))
-         self.vm = iotests.VM().add_drive(disk_a)
-         self.vm.launch()
--        self.vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
-+        self.vm.hmp_qemu_io('drive0', 'write 0 {}'.format(disk_size))
-
-     def tearDown(self):
-         self.vm.shutdown()
-         os.remove(disk_a)
-         os.remove(disk_b)
-
--    def test(self):
-+    def start_job(self, job):
-+        """Stat job with nbd target and kill the server"""
-+        assert job in ('blockdev-backup', 'blockdev-mirror')
-         with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
-             result = self.vm.qmp('blockdev-add',
-                                  **{'node_name': 'backup0',
-@@ -55,7 +56,7 @@ class TestNbdReconnect(iotests.QMPTestCase):
-                                                         'path': nbd_sock},
-                                              'reconnect-delay': 10}})
-             self.assert_qmp(result, 'return', {})
--            result = self.vm.qmp('blockdev-backup', device='drive0',
-+            result = self.vm.qmp(job, device='drive0',
-                                  sync='full', target='backup0',
-                                  speed=(1 * 1024 * 1024))
-             self.assert_qmp(result, 'return', {})
-@@ -73,7 +74,8 @@ class TestNbdReconnect(iotests.QMPTestCase):
-
-         jobs = self.vm.qmp('query-block-jobs')['return']
-         # Check that job is still in progress
--        self.assertTrue(jobs and jobs[0]['offset'] < jobs[0]['len'])
-+        self.assertTrue(jobs)
-+        self.assertTrue(jobs[0]['offset'] < jobs[0]['len'])
-
-         result = self.vm.qmp('block-job-set-speed', device='drive0', speed=0)
-         self.assert_qmp(result, 'return', {})
-@@ -81,12 +83,32 @@ class TestNbdReconnect(iotests.QMPTestCase):
-         # Emulate server down time for 1 second
-         time.sleep(1)
-
-+    def test_backup(self):
-+        size = 5 * 1024 * 1024
-+        self.init_vm(size)
-+        self.start_job('blockdev-backup')
-+
-         with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
-             e = self.vm.event_wait('BLOCK_JOB_COMPLETED')
-             self.assertEqual(e['data']['offset'], size)
+@@ -94,20 +94,27 @@ class TestNbdReconnect(iotests.QMPTestCase):
              result = self.vm.qmp('blockdev-del', node_name='backup0')
              self.assert_qmp(result, 'return', {})
 
-+    def test_mirror_cancel(self):
-+        # Mirror speed limit doesn't work well enough, it seems that mirror
-+        # will run many parallel requests anyway. MAX_IN_FLIGHT is 16 and
-+        # MAX_IO_BYTES is 1M in mirror.c, so let's use 20M disk.
-+        self.init_vm(20 * 1024 * 1024)
-+        self.start_job('blockdev-mirror')
-+
++    def cancel_job(self):
 +        result = self.vm.qmp('block-job-cancel', device='drive0')
 +        self.assert_qmp(result, 'return', {})
 +
@@ -182,19 +113,38 @@ index 6feeaa405632..347e53add51b 100755
 +        delta_t = time.time() - start_t
 +        self.assertTrue(delta_t < 2.0)
 +
+     def test_mirror_cancel(self):
+         # Mirror speed limit doesn't work well enough, it seems that mirror
+         # will run many parallel requests anyway. MAX_IN_FLIGHT is 16 and
+         # MAX_IO_BYTES is 1M in mirror.c, so let's use 20M disk.
+         self.init_vm(20 * 1024 * 1024)
+         self.start_job('blockdev-mirror')
++        self.cancel_job()
+
+-        result = self.vm.qmp('block-job-cancel', device='drive0')
+-        self.assert_qmp(result, 'return', {})
+-
+-        start_t = time.time()
+-        self.vm.event_wait('BLOCK_JOB_CANCELLED')
+-        delta_t = time.time() - start_t
+-        self.assertTrue(delta_t < 2.0)
++    def test_backup_cancel(self):
++        self.init_vm(5 * 1024 * 1024)
++        self.start_job('blockdev-backup')
++        self.cancel_job()
+
 
  if __name__ == '__main__':
-     iotests.main(supported_fmts=['qcow2'])
 diff --git a/tests/qemu-iotests/264.out b/tests/qemu-iotests/264.out
-index ae1213e6f863..fbc63e62f885 100644
+index fbc63e62f885..8d7e99670093 100644
 --- a/tests/qemu-iotests/264.out
 +++ b/tests/qemu-iotests/264.out
 @@ -1,5 +1,5 @@
--.
-+..
+-..
++...
  ----------------------------------------------------------------------
--Ran 1 tests
-+Ran 2 tests
+-Ran 2 tests
++Ran 3 tests
 
  OK
 -- 
