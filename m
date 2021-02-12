@@ -2,81 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CDF31A67D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:06:20 +0100 (CET)
-Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D4531A6A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:18:11 +0100 (CET)
+Received: from localhost ([::1]:36852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAfdr-0006Pr-8W
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:06:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
+	id 1lAfpJ-0003md-H8
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:18:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lAfWX-000309-CU
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:58:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lAfWS-0005CT-6D
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:58:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613163518;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wNazl2RITVDHEyOqn/Gbrn9UP/hGoa7umokS0sRLxeI=;
- b=g9MITCfthZ8odpbdvbSRRLHn9ntUelVhlca1Q30H9dzBhWwAY+OiRGHkZhpdYcB+kLgz0s
- YsAzgPudN0ljL9IL7Kr2vsTnKLCASfOKO2BCe8qBGF0Cb96e9yGzWFFzIz3Fdav3bhUIt5
- yosmEfTm58g4UD8T1e4xV2Uad0RtbIU=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-Ggu8KmKuN3ay_twCu_pTcw-1; Fri, 12 Feb 2021 15:58:36 -0500
-X-MC-Unique: Ggu8KmKuN3ay_twCu_pTcw-1
-Received: by mail-ua1-f70.google.com with SMTP id d9so283608uaf.18
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 12:58:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wNazl2RITVDHEyOqn/Gbrn9UP/hGoa7umokS0sRLxeI=;
- b=B/YMLXD0Ul07a1c3NZWjEdDU0TCmT2e9mVLuH15neBgg/EgykjcEC7D211V3/AC8X4
- 3CwSKvFyYONgNbhEbZQZ03qRLsfwCBkAsHnquUfJa6eEI2bj24luQ54WL4OKXQddiQIC
- 4PPqMO79IUE2X/MhSk7+miZ5Xkr5o0fUwiVDGhvPCZ4t3SO0mfuTbdtJpq7IkE4edbtJ
- 63NreB2d9X8U7da3b9f+HEhuEtt+AQXzy3qktqDWOi6OqtaN+CIZ3vzQCzjrogwXIFwL
- HnNmkYxKS3PQ02ueQ/Sm1NnZnGqz5golce4veH8U6TDo0j+U2nTDHFHTIV38rtI3/wGc
- 4YFw==
-X-Gm-Message-State: AOAM530qUAHNSo7pGIZRwrjCh0KSbzB9fVq7eqXaXYhfmhhhHGLa5971
- CI/Hkp7r254jvNflFqb9TFXNQvFWFMOstGrvJR5yjbU5D5Zcoo8EUCiOFghuEh3g7p4NGIgBNIO
- k+7tTwWX3MOyKOM2l8DyRaVXwHGFMNP0=
-X-Received: by 2002:a1f:c108:: with SMTP id r8mr3368681vkf.11.1613163515672;
- Fri, 12 Feb 2021 12:58:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwhb+GJGRpVG5/uWTD7uVfxXL2rg0d2+5z0OP+0iPtdKKeUJ1cMMk9IwgW3Gkz6budmn7hyrqY2oQjT31ClLc4=
-X-Received: by 2002:a1f:c108:: with SMTP id r8mr3368674vkf.11.1613163515517;
- Fri, 12 Feb 2021 12:58:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmG-0001vU-0g
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:15:00 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:58557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmA-0003RB-Mr
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:14:59 -0500
+Received: from localhost.localdomain ([82.252.149.54]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MLA6k-1lReOX1BL8-00IAxa; Fri, 12 Feb 2021 22:14:51 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] M68k for 6.0 patches
+Date: Fri, 12 Feb 2021 22:14:41 +0100
+Message-Id: <20210212211448.413489-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210212151649.252440-1-mreitz@redhat.com>
-In-Reply-To: <20210212151649.252440-1-mreitz@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 12 Feb 2021 17:58:09 -0300
-Message-ID: <CAKJDGDb8=45GGhMyrwXQ8jK3XUAxmZ1r9FyE7iCpuEFVoCe+0A@mail.gmail.com>
-Subject: Re: [PATCH] virtiofs_submounts.py test: Note on vmlinuz param
-To: Max Reitz <mreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:ImLxNW6vnpJTAIUrK+Ya9VU5eqdN/SO072SB2LfYBKR1MQR2Kib
+ v9v3DRsH1yY1Gcv1LUH+FlGW4+JrDOtTHkwRDllcbneYbgUiCv9nPVEblzn0uNQPqouI2r4
+ zhgmkvFiS9JQ9kgvJhkqfK0ySL7L5gffKcP7JyANmWZzj78+LJKmzSfhXin9oRdhUJqHn+s
+ IMmV5A9cHYH3dyZHt1wSw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5ZiQHecRNpM=:xSKC8eUW7lmRefMyDjDpP3
+ syhRjKChiW+J82KRVU9oitX8CHzd6fYl0Ds9D8MkLwA8hxnLn33OvwfOwzm88CXfl9WQK0WFD
+ jzBOxd+OFyTUnZnWBvUIbHD3nAk22+0rNcs7Fra5xZ6kLNQ2eoULW0rhQSL0rzsQWcnZOJlTw
+ ZDfgJ2+wUZLMsHlBPziNn5xQovdWzqAIMpad28X44HVG90Zi9EsfVwsD2naK4DF5pOkMrJbjI
+ yY/RkX+ZHxUdIiSxUsdFFHVFbLUgc7ehaEaTV0rpmqOBny2r1a6bAiaTLVOPYbd+NKx02hN02
+ 3r+EdZhUXSKepK1AjYOt8o2PA/YeNGEI/oKy+l/YJQAoip9KuxSierfxLD63uVAXqNNwW0A/u
+ M+xSfUeMs65b5uzsshHs5btI7YSoiJzvZaY8GGZLpKYCZUhuYINpDrM7rGxqaVyrghyOIZcqF
+ pDjAA4vcMA==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,34 +61,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 12:20 PM Max Reitz <mreitz@redhat.com> wrote:
->
-> From the cancel message, it is not entirely clear why this parameter is
-> mandatory now, or that it will be optional in the future.  Add such a
-> more detailed explanation as a comment in the test source file.
->
-> Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
-> I=E2=80=99ve uploaded a build of Linux 5.10 here:
->   https://xanclic.moe/linux-5.10
->
-> But I=E2=80=99ve decided against mentioning it in this new comment or the=
- cancel
-> message, because, well, it=E2=80=99s my private server and I have limited
-> bandwidth.
-> ---
->  tests/acceptance/virtiofs_submounts.py | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-
+The following changes since commit 5b19cb63d9dfda41b412373b8c9fe14641bcab60=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210205' =
+in=3D=0D
+to staging (2021-02-05 22:59:12 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu-m68k.git tags/m68k-for-6.0-pull-request=0D
+=0D
+for you to fetch changes up to 382d71af7d61620ffb023962f83cc4786303c60d:=0D
+=0D
+  m68k: import bootinfo headers from linux (2021-02-11 21:56:42 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request m68k-20210212=0D
+=0D
+Move bootinfo headers to include/standard-headers/asm-m68k=0D
+Add M68K_FEATURE_MSP, M68K_FEATURE_MOVEC, M68K_FEATURE_M68010=0D
+Add 68060 CR BUSCR and PCR (unimplemented)=0D
+CPU types and features cleanup=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Laurent Vivier (1):=0D
+  m68k: import bootinfo headers from linux=0D
+=0D
+Lucien Murray-Pitts (6):=0D
+  m68k: improve cpu instantiation comments=0D
+  m68k: cascade m68k_features by m680xx_cpu_initfn() to improve=0D
+    readability=0D
+  m68k: improve comments on m68k_move_to/from helpers=0D
+  m68k: add missing BUSCR/PCR CR defines, and BUSCR/PCR/CAAR CR to=0D
+    m68k_move_to/from=0D
+  m68k: MOVEC insn. should generate exception if wrong CR is accessed=0D
+  m68k: add MSP detection support for stack pointer swap helpers=0D
+=0D
+ hw/m68k/bootinfo.h                            |  55 ----=0D
+ .../standard-headers/asm-m68k/bootinfo-mac.h  | 120 +++++++++=0D
+ include/standard-headers/asm-m68k/bootinfo.h  | 166 +++++++++++++=0D
+ target/m68k/cpu.h                             |  64 +++--=0D
+ hw/m68k/q800.c                                |  20 +-=0D
+ target/m68k/cpu.c                             | 116 ++++++---=0D
+ target/m68k/helper.c                          | 234 ++++++++++++++----=0D
+ target/m68k/translate.c                       |   2 +-=0D
+ MAINTAINERS                                   |   2 +=0D
+ 9 files changed, 604 insertions(+), 175 deletions(-)=0D
+ create mode 100644 include/standard-headers/asm-m68k/bootinfo-mac.h=0D
+ create mode 100644 include/standard-headers/asm-m68k/bootinfo.h=0D
+=0D
+--=3D20=0D
+2.29.2=0D
+=0D
 
