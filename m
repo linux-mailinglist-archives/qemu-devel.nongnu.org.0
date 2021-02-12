@@ -2,76 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AFD31A0F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 15:55:47 +0100 (CET)
-Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB67A31A110
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 16:06:15 +0100 (CET)
+Received: from localhost ([::1]:58742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAZrG-0003bA-Il
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 09:55:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
+	id 1lAa1O-0007J3-QK
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 10:06:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lAZpr-0002w8-7Y
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 09:54:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37561)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lAZpn-00081i-Sr
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 09:54:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613141654;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+dvoU5biODQ/dp78aEK+7VVWNzawU1rgKuSSv/sXvIE=;
- b=ZP/mhjJv+FvuOKe8XUomSh7iT3j6tMqYosqwyy0/b2hoW9o9svLgIDqlX3c3tTPlQgalYZ
- vzjIGTeOoY8Lkl0trPPR7RGxaoB8XwPrx5OkKPzbGFErHl2EtfTFgsS9tIlL0FGE+rEgkB
- lNy5WGMAJvA9iJn0y/ohvdIzezZo8YE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-6-7WH0VFOAaDxk8d448Yfg-1; Fri, 12 Feb 2021 09:54:12 -0500
-X-MC-Unique: 6-7WH0VFOAaDxk8d448Yfg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3C31107ACC7;
- Fri, 12 Feb 2021 14:54:10 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDCBC5D6AB;
- Fri, 12 Feb 2021 14:54:02 +0000 (UTC)
-Date: Fri, 12 Feb 2021 15:54:00 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Subject: Re: [PATCH v3 03/10] i386: add properoty, x-smm-compat-5, to keep
- compatibility of SMM
-Message-ID: <20210212155400.40cab452@redhat.com>
-In-Reply-To: <7b74891766ad1caccd83c28ecea0d5d4293b3860.1613025709.git.isaku.yamahata@intel.com>
-References: <cover.1613025709.git.isaku.yamahata@intel.com>
- <7b74891766ad1caccd83c28ecea0d5d4293b3860.1613025709.git.isaku.yamahata@intel.com>
+ (Exim 4.90_1) (envelope-from <prvs=670db70c9=fandree@amazon.com>)
+ id 1lAYPT-000657-NC
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:22:59 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:60039)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=670db70c9=fandree@amazon.com>)
+ id 1lAYPQ-0000lr-US
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:22:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1613136177; x=1644672177;
+ h=from:to:date:message-id:references:in-reply-to:
+ mime-version:subject;
+ bh=fAGpIZH8T71i7x9UDWnzecjA70Gv+z3S2b2CJCQbVzw=;
+ b=Q26jwjUD3q3slJ0FIf2W3KEj4ngPAglAUKBhxVdaSq/omyrD0n0UDIgV
+ mcGYNX8nePJDMmEFZqkDzSpHO3v7Q8iWHchTGTDcB4H/bkuHlkkqsKy0R
+ btk+IGRgUrK9p6d0Zrwy5dw7WtwZxOy7p7vZboFlCcseSHOpDydZYyFRo c=;
+X-IronPort-AV: E=Sophos;i="5.81,173,1610409600"; d="scan'208,217";a="82520388"
+Subject: Re: [Rust-VMM] Call for Google Summer of Code 2021 project ideas
+Thread-Topic: [Rust-VMM] Call for Google Summer of Code 2021 project ideas
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP;
+ 12 Feb 2021 13:22:47 +0000
+Received: from EX13D10EUB004.ant.amazon.com
+ (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+ by email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com (Postfix) with ESMTPS
+ id C48E528243A; Fri, 12 Feb 2021 13:22:44 +0000 (UTC)
+Received: from EX13D10EUB003.ant.amazon.com (10.43.166.160) by
+ EX13D10EUB004.ant.amazon.com (10.43.166.155) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 12 Feb 2021 13:22:44 +0000
+Received: from EX13D10EUB003.ant.amazon.com ([10.43.166.160]) by
+ EX13D10EUB003.ant.amazon.com ([10.43.166.160]) with mapi id 15.00.1497.010;
+ Fri, 12 Feb 2021 13:22:43 +0000
+From: "Florescu, Andreea" <fandree@amazon.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ kvm <kvm@vger.kernel.org>, "rust-vmm@lists.opendev.org"
+ <rust-vmm@lists.opendev.org>, =?iso-8859-1?Q?Alex_Benn=E9e?=
+ <alex.bennee@linaro.org>, Alexander Graf <agraf@csgraf.de>, Alberto Garcia
+ <berto@igalia.com>, David Hildenbrand <david@redhat.com>, Eduardo Habkost
+ <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>, John Snow
+ <jsnow@redhat.com>, Julia Suvorova <jusual@redhat.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, Kevin Wolf <kwolf@redhat.com>, Laurent Vivier
+ <lvivier@redhat.com>, =?iso-8859-1?Q?Marc-Andr=E9_Lureau?=
+ <marcandre.lureau@redhat.com>, Aleksandar Markovic
+ <Aleksandar.Markovic@rt-rk.com>, Sergio Lopez <slp@redhat.com>, "Stefano
+ Garzarella" <sgarzare@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Thread-Index: AQHXAJSYCx+aFksFvkyyTAg+au+UL6pUgQTo
+Date: Fri, 12 Feb 2021 13:22:43 +0000
+Message-ID: <1613136163375.99584@amazon.com>
+References: <CAJSP0QWWg__21otbMXAXWGD1FaHYLzZP7axZ47Unq6jtMvdfsA@mail.gmail.com>
+In-Reply-To: <CAJSP0QWWg__21otbMXAXWGD1FaHYLzZP7axZ47Unq6jtMvdfsA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.162.228]
+Content-Type: multipart/alternative;
+ boundary="_000_161313616337599584amazoncom_"
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+Precedence: Bulk
+Received-SPF: pass client-ip=72.21.198.25;
+ envelope-from=prvs=670db70c9=fandree@amazon.com; helo=smtp-fw-4101.amazon.com
+X-Spam_score_int: -151
+X-Spam_score: -15.2
+X-Spam_bar: ---------------
+X-Spam_report: (-15.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 12 Feb 2021 10:03:51 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,194 +96,464 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@gmail.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Feb 2021 22:46:39 -0800
-Isaku Yamahata <isaku.yamahata@intel.com> wrote:
+--_000_161313616337599584amazoncom_
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-> The following patch will introduce incompatible behavior of SMM.
-> Introduce a property to keep the old behavior for compatibility.
-> To enable smm compat, use "-machine x-smm-compat-5=on"
-
-just curious, why it has "-5" suffix
-also I'd drop x- prefix.
- 
-> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-> ---
->  hw/i386/pc_piix.c     | 10 ++++++----
->  hw/i386/pc_q35.c      |  1 +
->  hw/i386/x86.c         | 18 ++++++++++++++++++
->  include/hw/i386/x86.h |  2 ++
->  4 files changed, 27 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 6188c3e97e..87269e170e 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -441,6 +441,7 @@ DEFINE_I440FX_MACHINE(v6_0, "pc-i440fx-6.0", NULL,
->  static void pc_i440fx_5_2_machine_options(MachineClass *m)
->  {
->      pc_i440fx_6_0_machine_options(m);
-> +    m->default_machine_opts = "firmware=bios-256k.bin,x-smm-compat-5=on";
-
-did I point to a wrong example :/
-
-smm machinery is part of ich9/piix4 devices, so it would be simpler
-by adding 'smm-compat' property to them
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 970046f438..bcb0333ddf 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -36,7 +36,9 @@
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-pci.h"
- 
--GlobalProperty hw_compat_5_2[] = {};
-+GlobalProperty hw_compat_5_2[] = {
-
-it turns on compat mode on 5.2 and older machines types
-
-+    { "ICH9-LPC", "smm-compat", "on"},
-+};
- const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
- 
- GlobalProperty hw_compat_5_1[] = {
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index d3145bf014..13003b2ac2 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -774,6 +774,7 @@ static const VMStateDescription vmstate_ich9_lpc = {
- };
- 
- static Property ich9_lpc_properties[] = {
-
-default would be used on new and later machine types
-
-+    DEFINE_PROP_BOOL("smm-compat", ICH9LPCState, pm.smm_compat , false),
-     DEFINE_PROP_BOOL("noreboot", ICH9LPCState, pin_strap.spkr_hi, true),
-     DEFINE_PROP_BIT64("x-smi-broadcast", ICH9LPCState, smi_host_features,
-                       ICH9_LPC_SMI_F_BROADCAST_BIT, true),
-
-then do the same for piix4 pm device
+Hey Stefan,
 
 
->      m->alias = NULL;
->      m->is_default = false;
->      compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-> @@ -664,7 +665,8 @@ static void pc_i440fx_2_2_machine_options(MachineClass *m)
->  
->      pc_i440fx_2_3_machine_options(m);
->      m->hw_version = "2.2.0";
-> -    m->default_machine_opts = "firmware=bios-256k.bin,suppress-vmdesc=on";
-> +    m->default_machine_opts = "firmware=bios-256k.bin,suppress-vmdesc=on"
-> +        ",x-smm-compat-5=on";
->      compat_props_add(m->compat_props, hw_compat_2_2, hw_compat_2_2_len);
->      compat_props_add(m->compat_props, pc_compat_2_2, pc_compat_2_2_len);
->      pcmc->rsdp_in_ram = false;
-> @@ -727,7 +729,7 @@ static void pc_i440fx_1_7_machine_options(MachineClass *m)
->  
->      pc_i440fx_2_0_machine_options(m);
->      m->hw_version = "1.7.0";
-> -    m->default_machine_opts = NULL;
-> +    m->default_machine_opts = "x-smm-compat-5=on";
->      m->option_rom_has_mr = true;
->      compat_props_add(m->compat_props, pc_compat_1_7, pc_compat_1_7_len);
->      pcmc->smbios_defaults = false;
-> @@ -999,7 +1001,7 @@ static void xenfv_4_2_machine_options(MachineClass *m)
->      pc_i440fx_4_2_machine_options(m);
->      m->desc = "Xen Fully-virtualized PC";
->      m->max_cpus = HVM_MAX_VCPUS;
-> -    m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
-> +    m->default_machine_opts = "accel=xen,suppress-vmdesc=on,x-smm-compat-5=on";
->  }
->  
->  DEFINE_PC_MACHINE(xenfv_4_2, "xenfv-4.2", pc_xen_hvm_init,
-> @@ -1011,7 +1013,7 @@ static void xenfv_3_1_machine_options(MachineClass *m)
->      m->desc = "Xen Fully-virtualized PC";
->      m->alias = "xenfv";
->      m->max_cpus = HVM_MAX_VCPUS;
-> -    m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
-> +    m->default_machine_opts = "accel=xen,suppress-vmdesc=on,x-smm-compat-5=on";
->  }
->  
->  DEFINE_PC_MACHINE(xenfv, "xenfv-3.1", pc_xen_hvm_init,
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 0a212443aa..14974b7255 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -358,6 +358,7 @@ DEFINE_Q35_MACHINE(v6_0, "pc-q35-6.0", NULL,
->  static void pc_q35_5_2_machine_options(MachineClass *m)
->  {
->      pc_q35_6_0_machine_options(m);
-> +    m->default_machine_opts = "firmware=bios-256k.bin,x-smm-compat-5=on";
->      m->alias = NULL;
->      compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
->      compat_props_add(m->compat_props, pc_compat_5_2, pc_compat_5_2_len);
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 6329f90ef9..00eb2253d3 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -1174,6 +1174,18 @@ static void x86_machine_set_smm(Object *obj, Visitor *v, const char *name,
->      visit_type_OnOffAuto(v, name, &x86ms->smm, errp);
->  }
->  
-> +static bool x86_machine_get_smm_compat_5(Object *obj, Error **errp)
-> +{
-> +    X86MachineState *x86ms = X86_MACHINE(obj);
-> +    return  x86ms->smm_compat_5;
-> +}
-> +
-> +static void x86_machine_set_smm_compat_5(Object *obj, bool value, Error **errp)
-> +{
-> +    X86MachineState *x86ms = X86_MACHINE(obj);
-> +    x86ms->smm_compat_5 = value;
-> +}
-> +
->  bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms)
->  {
->      if (x86ms->acpi == ON_OFF_AUTO_OFF) {
-> @@ -1204,6 +1216,7 @@ static void x86_machine_initfn(Object *obj)
->      X86MachineState *x86ms = X86_MACHINE(obj);
->  
->      x86ms->smm = ON_OFF_AUTO_AUTO;
-> +    x86ms->smm_compat_5 = false;
->      x86ms->acpi = ON_OFF_AUTO_AUTO;
->      x86ms->smp_dies = 1;
->      x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
-> @@ -1228,6 +1241,11 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
->      object_class_property_set_description(oc, X86_MACHINE_SMM,
->          "Enable SMM");
->  
-> +    object_class_property_add_bool(oc, X86_MACHINE_SMM_COMPAT_5,
-> +        x86_machine_get_smm_compat_5, x86_machine_set_smm_compat_5);
-> +    object_class_property_set_description(oc, X86_MACHINE_SMM_COMPAT_5,
-> +        "Enable SMM compatible behavior");
-> +
->      object_class_property_add(oc, X86_MACHINE_ACPI, "OnOffAuto",
->          x86_machine_get_acpi, x86_machine_set_acpi,
->          NULL, NULL);
-> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-> index 56080bd1fb..3dbe19a335 100644
-> --- a/include/hw/i386/x86.h
-> +++ b/include/hw/i386/x86.h
-> @@ -65,6 +65,7 @@ struct X86MachineState {
->      unsigned smp_dies;
->  
->      OnOffAuto smm;
-> +    bool smm_compat_5;
->      OnOffAuto acpi;
->  
->      /*
-> @@ -75,6 +76,7 @@ struct X86MachineState {
->  };
->  
->  #define X86_MACHINE_SMM              "smm"
-> +#define X86_MACHINE_SMM_COMPAT_5     "x-smm-compat-5"
->  #define X86_MACHINE_ACPI             "acpi"
->  
->  #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+Thanks for taking care of organizing GSoC, and for allowing rust-vmm to als=
+o participate under the QEMU umbrella!
+
+I am a bit unsure of how can we propose projects related to rust-vmm.
+
+We did a bit of brainstorming in our team, and we came up with 3 project id=
+eas.
+
+I'll just paste them below, but please let me know if we were supposed to p=
+ropose them some other way.
+
+
+=3D=3D=3D Implement the Virtio Console device in Rust =3D=3D=3D
+
+'''Summary:''' Implement the basic emulation for the Virtio Console device =
+in Rust
+
+Implement the basic functionality (excluding the optional features:
+VIRTIO_CONSOLE_F_SIZE, VIRTIO_CONSOLE_F_MULTIPORT, or VIRTIO_CONSOLE_F_EMER=
+G_WRITE)
+of the Virtio Console Device, using the Virtio building blocks (queue imple=
+mentations,
+VirtioDevice traits) defined in rust-vmm/vm-virtio. The virtio console devi=
+ce uses
+one virtio queue for transmitting data, and one virtio queue for receiving =
+data.
+The implementation can be extended to also support a subset of the previous=
+ly
+mentioned optional features.
+
+'''Links:'''
+* About rust-vmm: https://github.com/rust-vmm/community
+* rust-vmm/vm-virtio: https://github.com/rust-vmm/vm-virtio
+* virtio-console spec: https://docs.oasis-open.org/virtio/virtio/v1.1/csprd=
+01/virtio-v1.1-csprd01.html#x1-2550003
+
+'''Details:'''
+* Skill level: intermediate
+* Language: Rust
+* Mentor: iul@amazon.com
+* Suggested by: fandree@amazon.com<mailto:fandree@amazon.com>
+
+
+=3D=3D=3D Mocking framework for Virtio Queues =3D=3D=3D
+
+'''Summary:''' Implement a mocking framework for virtio queues
+
+Paravirtualized devices (such as those defined by the Virtio standard) are =
+used
+to provide high performance device emulation. Virtio drivers from a guest VM
+communicate with the device model using an efficient mechanism based on que=
+ues
+stored in a shared memory area that operate based on a protocol and message=
+ format
+defined by the standard. Various implementations of devices and other
+virtualization building blocks require mocking the contents that a driver w=
+ould
+place into a Virtio queue for validation, testing, and evaluation purposes.
+
+This project aims to lay the foundations of a reusable framework for mockin=
+g the
+driver side of Virtio queue operation, that can be consumed by rust-vmm cra=
+tes and
+other projects. At the basic level, this means providing a flexible and eas=
+y to
+use interface for users to set up the underlying memory areas and populate =
+contents
+(as the driver would do) for the basic split queue format in a generic mann=
+er. This
+can further be extended for the packed format and with device-specific mock=
+ing
+capabilities.
+
+'''Links:'''
+* About rust-vmm: https://github.com/rust-vmm/community
+* Virtio queue spec: https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01=
+/virtio-v1.1-csprd01.html#x1-230005
+Issue in rust-vmm about reusing the mocking logic: rust-vmm/vm-virtio: http=
+s://github.com/rust-vmm/vm-virtio
+
+'''Details:'''
+* Skill level: intermediate
+* Language: Rust
+* Mentor: aagch@amazon.com
+* Suggested by: aagch@amazon.com
+
+
+=3D=3D=3D Local running rust-vmm-ci =3D=3D=3D
+
+'''Summary:''' Run the rust-vmm-ci locally
+
+The rust-vmm-ci provides automation for uniformely running the tests on
+all rust-vmm repositories. It is built on top of Buildkite, and only allows
+running the tests in the Buildkite context. To run the same tests as in the=
+ CI
+locally, users need to manually copy the Buildkite pipeline steps.
+
+The scope of this project is to make it possible for the same tests to easi=
+ly run
+locally. This project makes it easier to contribute to all rust-vmm reposit=
+ories.
+
+In order for that to be possible, the following steps are required:
+- the Buildlkite pipeline is autogenerated from code instead of being a sta=
+tic
+list of tests to run. This also allows us to uniformely use the same contai=
+ner
+version for running all the tests (instead of manually modifying each step =
+in
+the pipeline)
+- the code for autogenerating the Buildkite pipeline is reused for generati=
+ng
+a Python script which can be run locally
+
+
+'''Links:'''
+* rust-vmm-ci: https://github.com/rust-vmm/rust-vmm-ci
+* Buildkite pipeline that currently runs the tests: https://github.com/rust=
+-vmm/rust-vmm-ci/blob/master/.buildkite/pipeline.yml
+* About rust-vmm: https://github.com/rust-vmm/community
+* Buildkite documentation: https://buildkite.com/docs/tutorials/getting-sta=
+rted
+
+'''Details:'''
+* Skill level: intermediate
+* Language: Python
+* Mentor: fandree@amazon.com
+* Suggested by: fandree@amazon.com
+
+
+?Thanks again!
+
+Andreea
+
+________________________________
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Sent: Monday, January 11, 2021 1:47 PM
+To: qemu-devel; kvm; rust-vmm@lists.opendev.org; Alex Benn=E9e; Alexander G=
+raf; Alberto Garcia; David Hildenbrand; Eduardo Habkost; Igor Mammedov; Joh=
+n Snow; Julia Suvorova; Gerd Hoffmann; Kevin Wolf; Laurent Vivier; Marc-And=
+r=E9 Lureau; Aleksandar Markovic; Sergio Lopez; Stefano Garzarella; Paolo B=
+onzini; Philippe Mathieu-Daud=E9
+Subject: [EXTERNAL] [Rust-VMM] Call for Google Summer of Code 2021 project =
+ideas
+
+CAUTION: This email originated from outside of the organization. Do not cli=
+ck links or open attachments unless you can confirm the sender and know the=
+ content is safe.
+
+
+
+Dear QEMU, KVM, and rust-vmm community,
+QEMU will apply for Google Summer of Code
+(https://summerofcode.withgoogle.com/) again this year.  This internship
+program offers paid, 10-week, remote work internships for
+contributing to open source.  QEMU can act as an umbrella organization
+for KVM kernel and rust-vmm projects too.
+
+Please post project ideas on the QEMU wiki before February 14th:
+https://wiki.qemu.org/Google_Summer_of_Code_2021
+
+What's new this year:
+ * The number of internship hours has been halved to 175 hours over
+   10 weeks. Project ideas must be smaller to fit and students will have
+   more flexibility with their working hours.
+ * Eligibility has been expanded to include "licensed coding school or
+   similar type of program".
+
+Good project ideas are suitable for 175 hours (10 weeks half-day) work by a
+competent programmer who is not yet familiar with the codebase.  In
+addition, they are:
+ * Well-defined - the scope is clear
+ * Self-contained - there are few dependencies
+ * Uncontroversial - they are acceptable to the community
+ * Incremental - they produce deliverables along the way
+
+Feel free to post ideas even if you are unable to mentor the project.
+It doesn't hurt to share the idea!
+
+I will review project ideas and keep you up-to-date on QEMU's
+acceptance into GSoC.
+
+For more background on QEMU internships, check out this video:
+https://www.youtube.com/watch?v=3DxNVCX7YMUL8
+
+Stefan
+
+_______________________________________________
+Rust-vmm mailing list
+Rust-vmm@lists.opendev.org
+http://lists.opendev.org/cgi-bin/mailman/listinfo/rust-vmm
+
+
+
+Amazon Development Center (Romania) S.R.L. registered office: 27A Sf. Lazar=
+ Street, UBC5, floor 2, Iasi, Iasi County, 700045, Romania. Registered in R=
+omania. Registration number J22/2621/2005.
+
+--_000_161313616337599584amazoncom_
+Content-Type: text/html; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none"><!-- p { margin-top: 0px; m=
+argin-bottom: 0px; } .EmailQuote { margin-left: 1pt; padding-left: 4pt; bor=
+der-left: 2px solid rgb(128, 0, 0); }--></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:12pt;color:#000000;background-color:#F=
+FFFFF;font-family:Calibri,Arial,Helvetica,sans-serif;">
+<p>Hey Stefan,<br>
+</p>
+<p><br>
+</p>
+<p>Thanks for taking care of organizing GSoC, and for allowing rust-vmm to =
+also participate under the QEMU umbrella!<br>
+</p>
+<p>I am a bit unsure of how can we propose projects related to rust-vmm.</p>
+<p><span style=3D"font-size: 12pt;">We did a bit of brainstorming in our te=
+am, and we came up with 3 proj</span><span style=3D"font-size: 12pt;">ect i=
+deas.</span></p>
+<p><span style=3D"font-size: 12pt;"></span><span style=3D"font-size: 12pt;"=
+>I</span><span style=3D"font-size: 12pt;">'ll</span><span style=3D"font-siz=
+e: 12pt;"> just p</span><span style=3D"font-size: 12pt;">aste them below, b=
+ut please let me know if we were
+</span><span style=3D"font-size: 12pt;">supposed to propose them some other=
+ way.</span></p>
+<p><span style=3D"font-size: 12pt;"><br>
+</span></p>
+<p><span style=3D"font-size: 12pt;">=3D=3D=3D Implement the Virtio Console =
+device in Rust =3D=3D=3D<br>
+<br>
+'''Summary:''' Implement the basic emulation for the Virtio Console device =
+in Rust<br>
+<br>
+Implement the basic functionality (excluding the optional features:<br>
+VIRTIO_CONSOLE_F_SIZE, VIRTIO_CONSOLE_F_MULTIPORT, or VIRTIO_CONSOLE_F_EMER=
+G_WRITE)<br>
+of the Virtio Console Device, using the Virtio building blocks (queue imple=
+mentations,<br>
+VirtioDevice traits) defined in rust-vmm/vm-virtio. The virtio console devi=
+ce uses<br>
+one virtio queue for transmitting data, and one virtio queue for receiving =
+data.<br>
+The implementation can be extended to also support a subset of the previous=
+ly<br>
+mentioned optional features.<br>
+<br>
+'''Links:'''<br>
+* About rust-vmm: https://github.com/rust-vmm/community<br>
+* rust-vmm/vm-virtio: https://github.com/rust-vmm/vm-virtio<br>
+* virtio-console spec: https://docs.oasis-open.org/virtio/virtio/v1.1/csprd=
+01/virtio-v1.1-csprd01.html#x1-2550003<br>
+<br>
+'''Details:'''<br>
+* Skill level: intermediate<br>
+* Language: Rust<br>
+* Mentor: iul@amazon.com<br>
+* Suggested by: <a href=3D"mailto:fandree@amazon.com">fandree@amazon.com</a=
+><br>
+</span></p>
+<p><span style=3D"font-size: 12pt;"><br>
+</span></p>
+<p><span style=3D"font-size: 12pt;">=3D=3D=3D Mocking framework for Virtio =
+Queues =3D=3D=3D<br>
+<br>
+'''Summary:''' Implement a mocking framework for virtio queues<br>
+<br>
+Paravirtualized devices (such as those defined by the Virtio standard) are =
+used<br>
+to provide high performance device emulation. Virtio drivers from a guest V=
+M<br>
+communicate with the device model using an efficient mechanism based on que=
+ues<br>
+stored in a shared memory area that operate based on a protocol and message=
+ format<br>
+defined by the standard. Various implementations of devices and other<br>
+virtualization building blocks require mocking the contents that a driver w=
+ould<br>
+place into a Virtio queue for validation, testing, and evaluation purposes.=
+<br>
+<br>
+This project aims to lay the foundations of a reusable framework for mockin=
+g the<br>
+driver side of Virtio queue operation, that can be consumed by rust-vmm cra=
+tes and<br>
+other projects. At the basic level, this means providing a flexible and eas=
+y to<br>
+use interface for users to set up the underlying memory areas and populate =
+contents<br>
+(as the driver would do) for the basic split queue format in a generic mann=
+er. This<br>
+can further be extended for the packed format and with device-specific mock=
+ing<br>
+capabilities. <br>
+<br>
+'''Links:''' <br>
+* About rust-vmm: https://github.com/rust-vmm/community<br>
+* Virtio queue spec: https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01=
+/virtio-v1.1-csprd01.html#x1-230005<br>
+Issue in rust-vmm about reusing the mocking logic: rust-vmm/vm-virtio: http=
+s://github.com/rust-vmm/vm-virtio
+<br>
+<br>
+'''Details:'''<br>
+* Skill level: intermediate<br>
+* Language: Rust<br>
+* Mentor: aagch@amazon.com<br>
+* Suggested by: aagch@amazon.com</span></p>
+<p><span style=3D"font-size: 12pt;"><br>
+</span></p>
+<p><span style=3D"font-size: 12pt;">=3D=3D=3D Local running rust-vmm-ci =3D=
+=3D=3D<br>
+<br>
+'''Summary:''' Run the rust-vmm-ci locally<br>
+<br>
+The rust-vmm-ci provides automation for uniformely running the tests on<br>
+all rust-vmm repositories. It is built on top of Buildkite, and only allows=
+<br>
+running the tests in the Buildkite context. To run the same tests as in the=
+ CI<br>
+locally, users need to manually copy the Buildkite pipeline steps.<br>
+<br>
+The scope of this project is to make it possible for the same tests to easi=
+ly run<br>
+locally. This project makes it easier to contribute to all rust-vmm reposit=
+ories.<br>
+<br>
+In order for that to be possible, the following steps are required:<br>
+- the Buildlkite pipeline is autogenerated from code instead of being a sta=
+tic<br>
+list of tests to run. This also allows us to uniformely use the same contai=
+ner<br>
+version for running all the tests (instead of manually modifying each step =
+in<br>
+the pipeline)<br>
+- the code for autogenerating the Buildkite pipeline is reused for generati=
+ng<br>
+a Python script which can be run locally<br>
+<br>
+<br>
+'''Links:'''<br>
+* rust-vmm-ci: https://github.com/rust-vmm/rust-vmm-ci<br>
+* Buildkite pipeline that currently runs the tests: https://github.com/rust=
+-vmm/rust-vmm-ci/blob/master/.buildkite/pipeline.yml<br>
+* About rust-vmm: https://github.com/rust-vmm/community<br>
+* Buildkite documentation: https://buildkite.com/docs/tutorials/getting-sta=
+rted<br>
+<br>
+'''Details:'''<br>
+* Skill level: intermediate<br>
+* Language: Python<br>
+* Mentor: fandree@amazon.com<br>
+* Suggested by: fandree@amazon.com<br>
+</span></p>
+<p><span style=3D"font-size: 12pt;"><br>
+</span></p>
+<p><span style=3D"font-size: 12pt;"><br>
+&#8203;Thanks again!</span></p>
+<p><span style=3D"font-size: 12pt;">Andreea</span></p>
+<div style=3D"color: rgb(33, 33, 33);">
+<div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Stefan Hajnoczi &lt=
+;stefanha@gmail.com&gt;<br>
+<b>Sent:</b> Monday, January 11, 2021 1:47 PM<br>
+<b>To:</b> qemu-devel; kvm; rust-vmm@lists.opendev.org; Alex Benn=E9e; Alex=
+ander Graf; Alberto Garcia; David Hildenbrand; Eduardo Habkost; Igor Mammed=
+ov; John Snow; Julia Suvorova; Gerd Hoffmann; Kevin Wolf; Laurent Vivier; M=
+arc-Andr=E9 Lureau; Aleksandar Markovic;
+ Sergio Lopez; Stefano Garzarella; Paolo Bonzini; Philippe Mathieu-Daud=E9<=
+br>
+<b>Subject:</b> [EXTERNAL] [Rust-VMM] Call for Google Summer of Code 2021 p=
+roject ideas</font>
+<div>&nbsp;</div>
+</div>
+</div>
+<font size=3D"2"><span style=3D"font-size:10pt;">
+<div class=3D"PlainText">CAUTION: This email originated from outside of the=
+ organization. Do not click links or open attachments unless you can confir=
+m the sender and know the content is safe.<br>
+<br>
+<br>
+<br>
+Dear QEMU, KVM, and rust-vmm community,<br>
+QEMU will apply for Google Summer of Code<br>
+(<a href=3D"https://summerofcode.withgoogle.com/">https://summerofcode.with=
+google.com/</a>) again this year.&nbsp; This internship<br>
+program offers paid, 10-week, remote work internships for<br>
+contributing to open source.&nbsp; QEMU can act as an umbrella organization=
+<br>
+for KVM kernel and rust-vmm projects too.<br>
+<br>
+Please post project ideas on the QEMU wiki before February 14th:<br>
+<a href=3D"https://wiki.qemu.org/Google_Summer_of_Code_2021">https://wiki.q=
+emu.org/Google_Summer_of_Code_2021</a><br>
+<br>
+What's new this year:<br>
+&nbsp;* The number of internship hours has been halved to 175 hours over<br>
+&nbsp;&nbsp; 10 weeks. Project ideas must be smaller to fit and students wi=
+ll have<br>
+&nbsp;&nbsp; more flexibility with their working hours.<br>
+&nbsp;* Eligibility has been expanded to include &quot;licensed coding scho=
+ol or<br>
+&nbsp;&nbsp; similar type of program&quot;.<br>
+<br>
+Good project ideas are suitable for 175 hours (10 weeks half-day) work by a=
+<br>
+competent programmer who is not yet familiar with the codebase.&nbsp; In<br>
+addition, they are:<br>
+&nbsp;* Well-defined - the scope is clear<br>
+&nbsp;* Self-contained - there are few dependencies<br>
+&nbsp;* Uncontroversial - they are acceptable to the community<br>
+&nbsp;* Incremental - they produce deliverables along the way<br>
+<br>
+Feel free to post ideas even if you are unable to mentor the project.<br>
+It doesn't hurt to share the idea!<br>
+<br>
+I will review project ideas and keep you up-to-date on QEMU's<br>
+acceptance into GSoC.<br>
+<br>
+For more background on QEMU internships, check out this video:<br>
+<a href=3D"https://www.youtube.com/watch?v=3DxNVCX7YMUL8">https://www.youtu=
+be.com/watch?v=3DxNVCX7YMUL8</a><br>
+<br>
+Stefan<br>
+<br>
+_______________________________________________<br>
+Rust-vmm mailing list<br>
+Rust-vmm@lists.opendev.org<br>
+<a href=3D"http://lists.opendev.org/cgi-bin/mailman/listinfo/rust-vmm">http=
+://lists.opendev.org/cgi-bin/mailman/listinfo/rust-vmm</a><br>
+</div>
+</span></font></div>
+<p></p>
+
+<p><br>
+Amazon Development Center (Romania) S.R.L. registered office: 27A Sf. Lazar=
+ Street, UBC5, floor 2, Iasi, Iasi County, 700045, Romania. Registered in R=
+omania. Registration number J22/2621/2005.</p>
+</body>
+</html>
+
+--_000_161313616337599584amazoncom_--
 
 
