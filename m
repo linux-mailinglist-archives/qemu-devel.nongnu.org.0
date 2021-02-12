@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC19431985C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 03:32:35 +0100 (CET)
-Received: from localhost ([::1]:48754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EDF31985F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 03:54:24 +0100 (CET)
+Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAOG2-0005wf-I0
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 21:32:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49764)
+	id 1lAOb9-0001pr-BO
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 21:54:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAOEs-0005UW-So
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 21:31:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57976)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAOZO-00011R-Vi
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 21:52:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAOEp-00069F-Li
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 21:31:22 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAOZM-0007Pj-AA
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 21:52:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613097077;
+ s=mimecast20190719; t=1613098351;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=V6HVLK1/QQoKCVxtm1N25Vm6d1gixKyVUa4r6lIjFq0=;
- b=MWhqhcSnJsnAIqWmvwMeGUSzsfRYX0bnVsDTWvC3ogPh2Lh+WZuBff0+cAc7Hnu7nhpkFa
- 6IcWFCwYdPrHQjHncpjqV0vFKch52el0SLSSdtKfvtNJszCSgnSZ4iuNjYmRtI3PYOFnDY
- tcA9rByUqUgVN0oREnGwhijFypufm8I=
+ bh=Fch3KUwBR2kTU/yl0VEjAoWx2bf2C7yiJd5SLrSx6uY=;
+ b=iPU5jeJM2vJJbK2oG1imV5/e7gpl3rkYwG1/wc4mnd7OxxhZ/xPj0jIubnmzkwcU4MBl0a
+ x6eHksXKHE8m+pD7SPrbkwqxyrFe91lxw1HFkTg0ElsNE3i3Y2f+TW8AxYkAU5IvMOdhlZ
+ Qtp4Med3qSLAvSBwaFbAaFsP02EhQZ4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-9ldXChzSODuNBb08XlyKGQ-1; Thu, 11 Feb 2021 21:31:12 -0500
-X-MC-Unique: 9ldXChzSODuNBb08XlyKGQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-69-E2HN2n-_MqCFzhwtxR42Zw-1; Thu, 11 Feb 2021 21:52:27 -0500
+X-MC-Unique: E2HN2n-_MqCFzhwtxR42Zw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1216E192AB7A;
- Fri, 12 Feb 2021 02:31:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B84A801965;
+ Fri, 12 Feb 2021 02:52:26 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-112-63.rdu2.redhat.com
  [10.10.112.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DC126F7ED;
- Fri, 12 Feb 2021 02:31:10 +0000 (UTC)
-Date: Thu, 11 Feb 2021 21:31:08 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C988661F20;
+ Fri, 12 Feb 2021 02:52:21 +0000 (UTC)
+Date: Thu, 11 Feb 2021 21:52:19 -0500
 From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: runaway avocado
-Message-ID: <YCXobMgS01x2ee14@localhost.localdomain>
-References: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
- <CAFEAcA_S81bnYVcNENW9bFApAc-Ob1uKQncsGPmyFD034p2FOA@mail.gmail.com>
- <20210211172541.GA2316309@localhost.localdomain>
- <CAFEAcA-3M_CaNEiZHohH-RdxYP1Cn=5s+UXYTYE1e7YhoN2+tg@mail.gmail.com>
- <20210211184710.GA2323314@localhost.localdomain>
- <CAFEAcA8twaP2=MGZh1OOHO8EFAVmQYM26i+QN6y26kaVfTNnwQ@mail.gmail.com>
- <22cc2681-b53c-b5b2-d8f0-8307bb514c21@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 00/24] python: create installable package
+Message-ID: <YCXtY4ici/GJtZpN@localhost.localdomain>
+References: <20210211185856.3975616-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <22cc2681-b53c-b5b2-d8f0-8307bb514c21@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210211185856.3975616-1-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="L83zsyQU+fCulwGZ"
+ protocol="application/pgp-signature"; boundary="n65687p0whTrckeE"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -70,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,116 +77,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Yonggang Luo <luoyonggang@gmail.com>,
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
  Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---L83zsyQU+fCulwGZ
-Content-Type: text/plain; charset=iso-8859-1
+--n65687p0whTrckeE
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 12, 2021 at 12:59:23AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 2/11/21 8:21 PM, Peter Maydell wrote:
-> > On Thu, 11 Feb 2021 at 18:47, Cleber Rosa <crosa@redhat.com> wrote:
-> >> On Thu, Feb 11, 2021 at 05:37:20PM +0000, Peter Maydell wrote:
-> >>> I wonder if we could have avocado run all our acceptance cases
-> >>> under a 'ulimit -f' setting that restricts the amount of disk
-> >>> space they can use? That would restrict the damage that could
-> >>> be done by any runaways. A CPU usage limit might also be good.
-> >=20
-> >> To me that sounds a lot like Linux cgroups.
-> >=20
-> > ...except that ulimits are a well-established mechanism that
-> > is straightforward, works for any user and is cross-platform
-> > for most Unixes, whereas cgroups are complicated, Linux specific,
-> > and AIUI require root access to set them up and configure them.
+On Thu, Feb 11, 2021 at 01:58:32PM -0500, John Snow wrote:
+> This series factors the python/qemu directory as an installable
+> package. It does not yet actually change the mechanics of how any other
+> python source in the tree actually consumes it (yet), beyond the import
+> path. (some import statements change in a few places.)
 >=20
-> I agree with Peter, having being POSIX compliant is better than
-> restricting to (recent) Linux. But also note we have users interested
-> running tests for Windows builds. See the Cirrus-CI.
+> git: https://gitlab.com/jsnow/qemu/-/commits/python-package-mk3
+> CI: https://gitlab.com/jsnow/qemu/-/pipelines/254940717
+> (New CI job: https://gitlab.com/jsnow/qemu/-/jobs/1024230604)
 >=20
-
-Sure, I feel like cgroups is more comprehensive, but definitely have
-the drawbacks you both listed.
-
-> >=20
-> >> We can have a script setting up a cgroup as part of a
-> >> gitlab-ci.{yml,d} job for the jobs that will run on the non-shared
-> >> GitLab runners (such as the s390 and aarch64 machines owned by the
-> >> QEMU project).
-> >>
-> >> Does this sound like a solution?
-> >=20
-> > We want a solution that works for anybody running
-> > "make check-acceptance" in any situation, not just for
-> > the CI runners.
+> The primary motivation of this series is primarily to formalize our
+> dependencies on mypy, flake8, isort, and pylint alongside versions that
+> are known to work. It does this using the setup.cfg and setup.py
+> files. It also adds explicitly pinned versions (using Pipfile.lock) of
+> these dependencies that should behave in a repeatable and known way for
+> developers and CI environments both. Lastly, it enables those CI checks
+> such that we can enforce Python coding quality checks via the CI tests.
 >=20
-> Indeed. Public CI time being limited, I expect users to run tests
-> elsewhere. We don't mind about data loss on CI runners.
+> An auxiliary motivation is that this package is formatted in such a way
+> that it COULD be uploaded to https://pypi.org/project/qemu and installed
+> independently of qemu.git with `pip install qemu`, but that button
+> remains *unpushed* and this series *will not* cause any such
+> releases. We have time to debate finer points like API guarantees and
+> versioning even after this series is merged.
+>=20
+> Some other things this enables that might be of interest:
+>=20
+> With the python tooling as a proper package, you can install this
+> package in editable or production mode to a virtual environment, your
+> local user environment, or your system packages. The primary benefit of
+> this is to gain access to QMP tooling regardless of CWD, without needing
+> to battle sys.path (and confounding other python analysis tools).
+>=20
+> For example: when developing, you may go to qemu/python/ and run `make
+> venv` followed by `pipenv shell` to activate a virtual environment that
+> contains the qemu python packages. These packages will always reflect
+> the current version of the source files in the tree. When you are
+> finished, you can simply exit the shell (^d) to remove these packages
+> from your python environment.
+>=20
+> When not developing, you could install a version of this package to your
+> environment outright to gain access to the QMP and QEMUMachine classes
+> for lightweight scripting and testing by using pip: "pip install [--user]=
+ ."
+>=20
+> TESTING THIS SERIES:
+>=20
+> First of all, nothing should change. Without any intervention,
+> everything should behave exactly as it was before. The only new
+> information here comes from how to interact with and run the linters
+> that will be enforcing code quality standards in this subdirectory.
+>=20
+> To test those, CD to qemu/python first, and then:
+>=20
+> 1. Try "make venv && pipenv shell" to get a venv with the package
+> installed to it in editable mode. Ctrl+d exits this venv shell. While in
+> this shell, any python script that uses "from qemu.[qmp|machine] import
+> ..." should work correctly regardless of where the script is, or what
+> your CWD is.
 >
 
-That was kind of my point.  We want to use all the resources the
-GitLab CI shared runners give us, so extra limit enforcements make no
-sense to me.  Also, on my personal machines, I also prefer to have
-faster test turnarounds, so putting extra limits is not beneficial to
-me.  YMMV, so my opinion is that this should be an opt-in, *not*
-enabled by default.
+Ack here, works as expected.
 
-My initial take on this is that we can have a few pre-defined scripts
-that set those limits.  Users get to activate those profiles by
-name if say, a given environment variable is set.  Something like:
-
-  RESOURCE_LIMIT_PROFILE=3Dlow_cpu_4g_files
-  if [ -n $RESOURCE_LIMIT_PROFILE ]; then
-  ./scripts/limit-resources/$RESOUCE_LIMIT_PROFILE $*
-
-> FWIW similar complain last year:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg672277.html
+> You will need Python 3.6 installed on your system to do this step. For
+> Fedora: "dnf install python3.6" will do the trick.
 >
 
-The specific issue of Avocado's cache size should be addressed in this
-development cycle, and a solution available on 86.0.  It's being tracked
-here:
+You may have explained this before, so forgive me asking again.  Why
+is this dependent on a given Python version, and not a *minimum*
+Python version? Are the checkers themselves susceptible to different
+behavior depending on the Python version used?  If so, any hint on the
+strategy for developing with say, Python 3.8, and then having issues
+caught only on Python 3.6?
 
-  https://github.com/avocado-framework/avocado/issues/4311
+> 2. Try "make check" while still in the shell to run the Python linters
+> using the venv built in the previous step. This will pull some packages
+> from PyPI and run pytest, which will in turn execute mypy, flake8, isort
+> and pylint with the correct arguments.
+>
 
-Now, in Peter's case, it was QEMU writing to a replay.bin file, and I
-don't see a practical way that Avocado could limit the overall disk
-space usage by whathever gets run on a test unless disk quotas are
-set.  Not sure if this belongs on a test framework though.
+Works as expected.  I'll provide more feedback at the specific patches.
+
+> 3. Having exited the shell from above, try "make venv-check". This will
+> create and update the venv if needed, then run 'make check' within the
+> context of that shell. It should pass as long as the above did.
+>
+
+If this makes into a documentation (or on a v5), you may just want to
+tell users to run "deactivate" instead of exiting the shell completely.
+
+> 4. Still outside of the venv, you may try running "make check". This
+> will not install anything, but unless you have the right Python
+> dependencies installed, these tests may fail for you. You might try
+> using "pip install --user .[devel]" to install the development packages
+> needed to run the tests successfully to your local user's python
+> environment. Once done, you will probably want to "pip uninstall qemu"
+> to remove that package to avoid it interfering with other things.
+>
+
+This is good info for completeness, but I wonder if "make check"
+should exist at all.  If it's a requirement for "make check-venv", the
+question becomes if it should be advertised.  Hint: I don't think it
+should, it just adds some a bit of confusion IMO.
+
+> 5. "make distclean" will delete the venv and any temporary files that
+> may have been created by packaging, installing, testing, etc.
+>
+
+Works as expected.  Now, unto the individual patches.
 
 Cheers,
 - Cleber.
 
-> Regards,
->=20
-> Phil.
->=20
-
---L83zsyQU+fCulwGZ
+--n65687p0whTrckeE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAl6GkACgkQZX6NM6Xy
-CfMq3g//TTY5rFTKGSJh7kBZYEozR7xxJav34sfOHtoAvwfyjHhRVm578/SLbb3v
-tw64GEy4/V4WlJJrYUaO+ctuNbUydOTym1bhaL5PK0UwTZcAJ9CjpmUU+Fp5X2WS
-M+H9Oo2h+V/1p9jl/fpQd5RKKqWfyA+Iz7Xo2jIdKDikruYO0l7QXZ7L82DV5+Y0
-WsK5SoEsprqMPrP5yltjTwD4XyKZd8KbyIhy4xIwDLE1PaUTsgKor4z6WQLTCOWx
-HejRhgjOCjdf8mgTpodZPb/CEWL6xZDd4GNSEWNHZzJBkRpPC9UmqA9W4glmxLgM
-NITzyJT8J81qA/32o8509Bjs2QCjLko7sDqm0mh3UZQVj5q3F78WkC/ZSd2eSOGH
-EHaSVHs3cxLp+L3Vu5QI3G64u7p66ZfLjQhGR8wXSehEwhwmjAd+r/GgLnXUB0LD
-xCCdoQI+HXRGLrYa4a8FuitMZvJLy0LQ+Ti5PlkZ+RRuzepeLUMUSESYGNMvc1ee
-JWg7I5gvaiPMfdV/wBwo2IgawsRdg6cddhiYmLV30FNAxQV15s1xgOEghoUQqLDQ
-BZ5VGSDul8RyI1vSq5ojRO6BUB68b/DY8byHgUAj/PHvGER1UQKQF7QuOuDWc5uM
-jPSFezhdRu5Z3Wp5oXKIKxKUnJavp6ebcuy8PEUgMIZ+D+oxJmQ=
-=tcAo
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAl7WEACgkQZX6NM6Xy
+CfNxgA//W8HgzltsfzE88CJkRNsz4nfKwS7cSOOY+vf8br4WRI7i3SOBlH+GpJSP
+Z10TuGFWwantHjUpmJSS140lOPcFzdJF0yq+F5KaVrGYas1sqtwL8/Z7ZBlTmumo
+R03j61odHjDty74ys2DJ8QMkHNV9yi4bqwDTJEAONuAYfvcLEkZZLuW2qUNnDTIk
+pIg3YJ1SlJAc86KUtDUXZI35uu+pbbPtKoIll2S0iSuUpLR0U2cumpmNQm10GoVR
+X+RGINQxkQUqEU2A8x8leoBpb5B5KlqiFHcIA5Yrw+LQyK+lM4N/8kMRbWaOkriP
+DmRFTWT23Lw4yNBp5rGC9X51nyAzcSTXOnQo+ureatDvlVg0Fl2XtlNV3ZYFNG33
+Sar7WiqHzZWWmUM6wywaYzQLl0zIbfgYerhE9DVZ/FH2w43fU81tS42YN6bsOj9F
+SMZ9lqLwp70O5INCyXuJ91D5d6Wchf3jvmVBH6TXAs4gPaifo5xu2ZLvXyKmyAhb
+EM9O5jhsAID29jRQxZ1R7xpgzIKolChNk5XR8rtnu8rqmvkKk/Ykp6XsShD4vOEo
+gwgRYcjhVWwJX85il0/Y+Q0XJKxqUbIZ6Pj4dLPNM7LG5GDhqOzMMc5penVrzX/o
+KzOXWEok/AQ+huMrK5j4+Xy8bNFloHSNPV9UukkWke70Wa9DFv0=
+=Uvz+
 -----END PGP SIGNATURE-----
 
---L83zsyQU+fCulwGZ--
+--n65687p0whTrckeE--
 
 
