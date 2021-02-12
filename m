@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A90319744
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 01:02:22 +0100 (CET)
-Received: from localhost ([::1]:48888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0468C31974F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 01:14:22 +0100 (CET)
+Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lALuf-0005Ey-1W
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 19:02:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52414)
+	id 1lAM6G-00027S-Hz
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 19:14:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lALry-0004d3-2f
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 18:59:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56385)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAM3n-0001Uo-8T
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:11:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lALrv-0006M4-RI
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 18:59:33 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lAM3l-0003Y6-H8
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:11:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613087969;
+ s=mimecast20190719; t=1613088704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VYHesEVSWnpnVuWnw9Rxv/+IiMskU1AFlZOtcozrQOA=;
- b=PzaioRhv0IzvMPsoZg/4ISKIQbDsE4Sg/Bb4Vp7CO+vGriQipT0lzyLJHhbO0SBUUPk6es
- yGOvbiZbClpvpZ62z9Kmo3LDvi7XhN7NwqrGiv5wPEp5rPETZzOlYt5geZsb55HOWaem/V
- 9kc7fk0s4j/9fwv7ICYqveG//YcSpLw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-aeMrE0IWO0ilkckEi1nrzw-1; Thu, 11 Feb 2021 18:59:26 -0500
-X-MC-Unique: aeMrE0IWO0ilkckEi1nrzw-1
-Received: by mail-wm1-f72.google.com with SMTP id z67so4040788wme.3
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 15:59:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VYHesEVSWnpnVuWnw9Rxv/+IiMskU1AFlZOtcozrQOA=;
- b=W4qbJ+3+t5dCUqvU/fKcgBX5LkFBDoe2xoM0bsCz+ARBLrNmtkEbsOANYcrET2n+ae
- CHi4/32POrWTMpAqrljBZ61I5pO8U8LiYJRpRurgrl9ceB4zqkOas+Lxvgzo3CjYj/Q3
- FS7cpwr5l0Enf4dICF3/GKpXMOvkJQ4f9yKF9eiwypkEqpmUPwZLo9rjm2iYOQFdR6y2
- 6DxgQLuY4HmHAzs3NWKO10gtZnbAssVAfOyr7f/nQzVBOhCkKtjHvBnT3x+Ijbdu2sQU
- P/ZhrOItt39AlTwUCMgEEn0ibXagCXDcTdaIHbanetBcBpUJTac6FHmNO9PNS3RD6xzb
- 9s5A==
-X-Gm-Message-State: AOAM531+SAmj/H8tpmRoLcSKOU8rim/PofQH553ypS6hQF5LagrYkHI5
- 0xwtH9g6y2Mdp9Yq0LVvZllo4eDF2Foa12RFR3cAxho3QCHrVZYzm0lHPFf/5UEPdvIofaaJjok
- g0xmhImGQzA2HEuI=
-X-Received: by 2002:adf:ea87:: with SMTP id s7mr267679wrm.217.1613087965103;
- Thu, 11 Feb 2021 15:59:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy3zp+gpcm+mJR3nu7GMxiheKNfT1FTRiOu13eYHIsbdDIPQb40FKH0ZlL+e42DInSDYwCCmA==
-X-Received: by 2002:adf:ea87:: with SMTP id s7mr267663wrm.217.1613087964935;
- Thu, 11 Feb 2021 15:59:24 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id k11sm6958501wrv.51.2021.02.11.15.59.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Feb 2021 15:59:24 -0800 (PST)
-Subject: Re: runaway avocado
-To: Cleber Rosa <crosa@redhat.com>
-References: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
- <CAFEAcA_S81bnYVcNENW9bFApAc-Ob1uKQncsGPmyFD034p2FOA@mail.gmail.com>
- <20210211172541.GA2316309@localhost.localdomain>
- <CAFEAcA-3M_CaNEiZHohH-RdxYP1Cn=5s+UXYTYE1e7YhoN2+tg@mail.gmail.com>
- <20210211184710.GA2323314@localhost.localdomain>
- <CAFEAcA8twaP2=MGZh1OOHO8EFAVmQYM26i+QN6y26kaVfTNnwQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <22cc2681-b53c-b5b2-d8f0-8307bb514c21@redhat.com>
-Date: Fri, 12 Feb 2021 00:59:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=wbbVWf7nCUs7cOfVSH/AI4l58+3C6CAhX+j9VMirDFU=;
+ b=e7WJD8KvNXMXECPCZTlVn3FakVUMdoHZl5KuL5rHfQSenwN+pmBLa6mpXqmRryilel6x8p
+ smvcxoIsfjUOifHE5ENZAdlOvzOb0m+/7RpCtO7qJMP4uII7kWUD2+tMJDIU7ft4GvfCB8
+ 6IWrKDSmknCNbfvjPs4fgOlqYm9c/qU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-TAvbsacANAuRsIiUqf8vcA-1; Thu, 11 Feb 2021 19:11:40 -0500
+X-MC-Unique: TAvbsacANAuRsIiUqf8vcA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 815A38030B7;
+ Fri, 12 Feb 2021 00:11:39 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-2-18.rdu2.redhat.com [10.22.2.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 98D1018A50;
+ Fri, 12 Feb 2021 00:11:34 +0000 (UTC)
+Date: Thu, 11 Feb 2021 19:11:32 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 2/6] Python: expose QEMUMachine's temporary directory
+Message-ID: <YCXHtBH9a14uihn0@localhost.localdomain>
+References: <20210211220146.2525771-1-crosa@redhat.com>
+ <20210211220146.2525771-3-crosa@redhat.com>
+ <678e8133-afba-533d-9678-ff22604e499a@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8twaP2=MGZh1OOHO8EFAVmQYM26i+QN6y26kaVfTNnwQ@mail.gmail.com>
+In-Reply-To: <678e8133-afba-533d-9678-ff22604e499a@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IJb2pcnx2nr5pKla"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,52 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/21 8:21 PM, Peter Maydell wrote:
-> On Thu, 11 Feb 2021 at 18:47, Cleber Rosa <crosa@redhat.com> wrote:
->> On Thu, Feb 11, 2021 at 05:37:20PM +0000, Peter Maydell wrote:
->>> I wonder if we could have avocado run all our acceptance cases
->>> under a 'ulimit -f' setting that restricts the amount of disk
->>> space they can use? That would restrict the damage that could
->>> be done by any runaways. A CPU usage limit might also be good.
-> 
->> To me that sounds a lot like Linux cgroups.
-> 
-> ...except that ulimits are a well-established mechanism that
-> is straightforward, works for any user and is cross-platform
-> for most Unixes, whereas cgroups are complicated, Linux specific,
-> and AIUI require root access to set them up and configure them.
+--IJb2pcnx2nr5pKla
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I agree with Peter, having being POSIX compliant is better than
-restricting to (recent) Linux. But also note we have users interested
-running tests for Windows builds. See the Cirrus-CI.
+On Fri, Feb 12, 2021 at 12:35:26AM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 2/11/21 11:01 PM, Cleber Rosa wrote:
+> > Each instance of qemu.machine.QEMUMachine currently has a "test
+> > directory", which may not have any relation to a "test", and it's
+> > really a temporary directory.
+> >=20
+> > Users instantiating the QEMUMachine class will be able to set the
+> > location of the directory that will *contain* the QEMUMachine unique
+> > temporary directory, so that parameter name has been changed from
+> > test_dir to base_temp_dir.
+> >=20
+> > A property has been added to allow users to access it without using
+> > private attributes, and with that, the directory is created on first
+> > use of the property.
+> >=20
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >  python/qemu/machine.py         | 24 ++++++++++++++++--------
+> >  python/qemu/qtest.py           |  6 +++---
+> >  tests/acceptance/virtio-gpu.py |  2 +-
+> >  tests/qemu-iotests/iotests.py  |  2 +-
+> >  4 files changed, 21 insertions(+), 13 deletions(-)
+> >=20
+> > diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+> > index 6e44bda337..b379fcbe72 100644
+> > --- a/python/qemu/machine.py
+> > +++ b/python/qemu/machine.py
+> > @@ -84,7 +84,7 @@ class QEMUMachine:
+> >                   args: Sequence[str] =3D (),
+> >                   wrapper: Sequence[str] =3D (),
+> >                   name: Optional[str] =3D None,
+> > -                 test_dir: str =3D "/var/tmp",
+> > +                 base_temp_dir: str =3D "/var/tmp",
+>=20
+> Not this patch fault, but I see we use /var/tmp since commit
+> 66613974468 ("scripts: refactor the VM class in iotests for reuse").
+> Can we use an OS agnostic method to get temp storage directory instead?
+>=20
 
-> 
->> We can have a script setting up a cgroup as part of a
->> gitlab-ci.{yml,d} job for the jobs that will run on the non-shared
->> GitLab runners (such as the s390 and aarch64 machines owned by the
->> QEMU project).
->>
->> Does this sound like a solution?
-> 
-> We want a solution that works for anybody running
-> "make check-acceptance" in any situation, not just for
-> the CI runners.
+Sounds like a reasonable thing to do.  I do remember a few issues with
+Python's tempfile.gettempdir() returning '/tmp' on most Linux/Unix,
+dur to the fact that '/tmp' is a tmpfs filesystem on most modern Linux
+systems.
 
-Indeed. Public CI time being limited, I expect users to run tests
-elsewhere. We don't mind about data loss on CI runners.
+Anyway, I agree that hardcoding '/var/tmp' needs to be reconsidered.
 
-FWIW similar complain last year:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg672277.html
+Cheers,
+- Cleber.
 
-Regards,
+--IJb2pcnx2nr5pKla
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Phil.
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAlx7AACgkQZX6NM6Xy
+CfOOSRAAsx/YSWbFYvYLth3/LQY2lu/HBHeSq8KeBjQDFYFYCf4QdwvVpEiaLofi
+fjnlrmX+vBUrRtnnYbJdJNfGltGBth3ST9V2/+o7joKi7HTB6fAqGo/nGPgDwLK/
+B4frSJnN18RMVFnIJOQw5fpxs2qXxh5uFE8KEJlelm11cLo2XrCKAgadE1huvIUW
+rFtS6xPTWCZoXeVWsU2PT5wX4ocafbF9lx4b0TDOC64vTZ3uRpBa4ViwwUe/mhLa
+uplApQ3PPp1iUsn94FolAXoHoT4+yQ0cKl6VsWUIsY6Ru6TFZSxRR6OtE7wLQx5m
+zF3nEU00xOpx/cAP020N8ZM4LDUeV9Ko7+88nc3uywpyXgSAswKXcmAPiQIz4xkR
+HR0MdWvIpSFSnxxu/jdRI1osxhrs/4q3KosNIzH0N5QKCaJiMyH6cAf79GF+NBhw
+/mOh1GVN1ALLWxWE0P3Y/AbQ84X8BD/TYaSucTWZqTuqM7JYAda8HHM0f8zPBavn
+oIYDyliwZu53MicEqaB1tmBWx2tat4m4ZcH4SrjBxI/N8+tF6pQr7YOuA/aF+nm9
+O7jwZfXx47qo5gmrmRLCmuP1lEZoNZT2MfIZXXGsnSArxLS29dMUn1DhGF2P0iB9
+PzvHVyLJ3ZwuG/b75jcfcN9O0iZB166Zir3z8Gc58CwMnHH0ZGM=
+=O1rd
+-----END PGP SIGNATURE-----
+
+--IJb2pcnx2nr5pKla--
 
 
