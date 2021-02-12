@@ -2,44 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7504E31A294
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 17:25:21 +0100 (CET)
-Received: from localhost ([::1]:60754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB1931A252
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 17:06:18 +0100 (CET)
+Received: from localhost ([::1]:41656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAbFw-0000g6-Io
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 11:25:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60452)
+	id 1lAaxW-00057m-29
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 11:06:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lAbC6-0005L8-PB; Fri, 12 Feb 2021 11:21:22 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:53242)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lAbC1-0002ZN-TY; Fri, 12 Feb 2021 11:21:21 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.3137434|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_alarm|0.00702208-0.00150536-0.991473; FP=0|0|0|0|0|-1|-1|-1;
- HT=ay29a033018047198; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=6; RT=6; SR=0;
- TI=SMTPD_---.JYHzJZW_1613146869; 
-Received: from localhost.localdomain(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.JYHzJZW_1613146869)
- by smtp.aliyun-inc.com(10.147.40.44); Sat, 13 Feb 2021 00:21:09 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 38/38] target/riscv: configure and turn on packed extension
- from command line
-Date: Fri, 12 Feb 2021 23:02:56 +0800
-Message-Id: <20210212150256.885-39-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210212150256.885-1-zhiwei_liu@c-sky.com>
-References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lAatd-0002Dh-0q
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 11:02:17 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lAatb-0004at-7X
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 11:02:16 -0500
+Received: by mail-wm1-x330.google.com with SMTP id u14so20687wmq.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 08:02:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zkq717vAr7ylAEHluJAINrgiDXiJ6KWU9qS5hNhVd+s=;
+ b=jsnJ/mIp3Zhakh9/ZzV1ckVks9pAp7Dg8xAkzSsudQgcBhjdYOjuSm02qwqnC/jHL7
+ UAmDPfOYON8My8dpws9WcY34YMexo4x0RUYtNp7r6a0n8sk8Fb6pOgPTs2r5zftW5m1s
+ acmtwtmi3HEwNp+BL9ZM/Vb+WCF4VryC8vW5uD0AT3+EXfCI/6ANSXtCCxU9iPy7+Hw8
+ zTRMan17Z5v5nb51FAzpE/yU7QxgGsECe57aMHb1OXYvA7e5NCPXrpeCdd+mZr2/Phhl
+ NSg2Dsr6lCdHDxAkb7PkgQMdQlpcGfelfdAJ/aBB/+4yFjgM6SLwudtkieq7OrjEBxK1
+ n/dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=zkq717vAr7ylAEHluJAINrgiDXiJ6KWU9qS5hNhVd+s=;
+ b=sznxYPjUmCL9k2zwpKaqtTp1vr06Qxuq/mUwtjYe51xl3KDwYysu3jl12tDdGBuWVN
+ Xl1kxW0qvcSdSwSOtTptvNDOD/CtzL1U4HWyP5NblYaP1beU08NmkyWdo2oDMKw1F6R3
+ 3zIKEiigqazTSl0f/uqvjkAbNBWkgnABcv4bSp4LLN76zd8XqtMA+jU0zXWXinG/ypbT
+ Un+Jay5B7RNQtGYUTudLbOn6iAcuEFQFWgzKSg8jtIcIp4hXEsMu78yPNhkAnpRkgAdE
+ UJyE2hxk1gy21hXk6JNn9rcf9Fxppic5u8sv17wZ2l7o99HjaIb/oYcAHNU+0up+u0ol
+ eVTA==
+X-Gm-Message-State: AOAM531Ix679+A52csWJcvRLNn8lZ3L/OGlyXNvMNgkzPBQMh04xLeeg
+ 8I5R3Podtqc5do0Z0Jj1PYonyg==
+X-Google-Smtp-Source: ABdhPJyIIKsW9BDYiGuYOeHfhSA8WvejfbthrEWMQHk5mmyfmwL1I8b/CuwRBhL3/U9mkBQZjXXv4A==
+X-Received: by 2002:a05:600c:6c5:: with SMTP id
+ b5mr3334166wmn.137.1613145732849; 
+ Fri, 12 Feb 2021 08:02:12 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w4sm14177962wmc.13.2021.02.12.08.02.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Feb 2021 08:02:11 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1C04E1FF7E;
+ Fri, 12 Feb 2021 16:02:11 +0000 (GMT)
+References: <20210210221053.18050-1-alex.bennee@linaro.org>
+ <20210210221053.18050-21-alex.bennee@linaro.org>
+ <YCXRpCiekU+TgoAX@strawberry.localdomain> <877dndz6p7.fsf@linaro.org>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: Re: [PATCH  v2 20/21] accel/tcg: allow plugin instrumentation to be
+ disable via cflags
+Date: Fri, 12 Feb 2021 16:00:37 +0000
+In-reply-to: <877dndz6p7.fsf@linaro.org>
+Message-ID: <87y2ftxojg.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,47 +90,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, LIU Zhiwei <zhiwei_liu@c-sky.com>,
- qemu-riscv@nongnu.org, palmer@dabbelt.com, alistair23@gmail.com
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Packed extension is default off. The only way to use packed extension is
-1. use cpu rv32 or rv64
-2. turn on it by command line
-   "-cpu rv64,x-p=true,Zp64=true,pext_spec=v0.9.2".
 
-Zp64 is whether to support Zp64 extension, default value is true.
-pext_ver is the packed specification version, default value is v0.9.2.
-These properties can be specified with other values.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/cpu.c | 3 +++
- 1 file changed, 3 insertions(+)
+> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+>
+>> On Feb 10 22:10, Alex Benn=C3=A9e wrote:
+>>> When icount is enabled and we recompile an MMIO access we end up
+>>> double counting the instruction execution. To avoid this we introduce
+>>> the CF_NOINSTR cflag which disables instrumentation for the next TB.
+>>> As this is part of the hashed compile flags we will only execute the
+>>> generated TB while coming out of a cpu_io_recompile.
+>>
+>> Unfortunately this patch works a little too well!
+>>
+>> With this change, the memory access callbacks registered via
+>> `qemu_plugin_register_vcpu_mem_cb()` are never called for the
+>> re-translated instruction making the IO access, since we've disabled all
+>> instrumentation.
+>>
+>> Is it possible to selectively disable only instruction callbacks using
+>> this mechanism, while still allowing others that would not yet have been
+>> called for the re-translated instruction?
+>
+> Can you try the following fugly patch on top of this series:
+>
+<snip>
+> @@ -120,8 +128,13 @@ void qemu_plugin_register_vcpu_mem_cb(struct qemu_pl=
+ugin_insn *insn,
+>                                        enum qemu_plugin_mem_rw rw,
+>                                        void *udata)
+>  {
+> -    plugin_register_vcpu_mem_cb(&insn->cbs[PLUGIN_CB_MEM][PLUGIN_CB_REGU=
+LAR],
+> -                                cb, flags, rw, udata);
+> +    if (insn->store_only && (rw & QEMU_PLUGIN_MEM_W)) {
+> +        plugin_register_vcpu_mem_cb(&insn->cbs[PLUGIN_CB_MEM][PLUGIN_CB_=
+REGULAR],
+> +                                    cb, flags, QEMU_PLUGIN_MEM_W, udata);
+> +    } else {
+> +        plugin_register_vcpu_mem_cb(&insn->cbs[PLUGIN_CB_MEM][PLUGIN_CB_=
+REGULAR],
+> +                                    cb, flags, rw, udata);
+> +    }
+>  }
+<snip>
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1b99f629ec..a94cef1cd1 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -573,13 +573,16 @@ static Property riscv_cpu_properties[] = {
-     /* This is experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-+    DEFINE_PROP_BOOL("x-p", RISCVCPU, cfg.ext_p, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-+    DEFINE_PROP_STRING("pext_spec", RISCVCPU, cfg.pext_spec),
-     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-+    DEFINE_PROP_BOOL("Zp64", RISCVCPU, cfg.ext_p64, true),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
--- 
-2.17.1
+Actually I'm wondering if I've got my sense the wrong way around. Should
+it be loads only:
 
+  void qemu_plugin_register_vcpu_mem_cb(struct qemu_plugin_insn *insn,
+                                        qemu_plugin_vcpu_mem_cb_t cb,
+                                        enum qemu_plugin_cb_flags flags,
+                                        enum qemu_plugin_mem_rw rw,
+                                        void *udata)
+  {
+      if (insn->store_only && (rw & QEMU_PLUGIN_MEM_R)) {
+          plugin_register_vcpu_mem_cb(&insn->cbs[PLUGIN_CB_MEM][PLUGIN_CB_R=
+EGULAR],
+                                      cb, flags, QEMU_PLUGIN_MEM_R, udata);
+      } else {
+          plugin_register_vcpu_mem_cb(&insn->cbs[PLUGIN_CB_MEM][PLUGIN_CB_R=
+EGULAR],
+                                      cb, flags, rw, udata);
+      }
+  }
+
+
+obviously I'd have to rename the variables :-/
+
+--=20
+Alex Benn=C3=A9e
 
