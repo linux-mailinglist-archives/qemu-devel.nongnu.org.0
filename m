@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D876931A834
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 00:15:06 +0100 (CET)
-Received: from localhost ([::1]:33692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E0431A845
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 00:24:28 +0100 (CET)
+Received: from localhost ([::1]:41670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAheT-0001hn-DP
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 18:15:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35208)
+	id 1lAhnX-0005mv-8g
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 18:24:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAhdN-00012X-BY
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 18:13:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45946)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAhkw-0003uC-0L
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 18:21:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAhdH-0002N3-Cr
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 18:13:57 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAhks-0005m8-PZ
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 18:21:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613171628;
+ s=mimecast20190719; t=1613172101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u5VluzrXdvX8x7x6QlYHtRLXnx6hvxw0XZYPAazSTpE=;
- b=c2jYj/jFaIsEshxuPWYQUcPoHN+irlVMSdjifDJ0IwSqMB5mYQ8jAvGw+eTQnIXwpNsSNc
- yqcq/ZPVU+8CsqYRstNw/6JjBA7Y8lfq+8Xlo80nfXFx3LaL4TYpUfYAm6zIK+i9GVdkOc
- EjYJwjHmXvm/PzsHxrZwieYWm0ibrUg=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YVdJaCevWr1PzeOS9Apeds+B6VHPOotSsZWrP2ZqIfQ=;
+ b=LDKpOnyG++mrnMJ3WzqubIgsm5pgI16YKWz0V6Dya/6xwzctXurZ48XR7dDDwrmssO7FRc
+ cy2vbdlcukKvbf9qWExmt7dBbRVPtoO1yluWZTAcHu7gWEfg27w3A3GHRXKX/65MHhEEp4
+ JooUJ6kgZu5JBQ6louYlCiMwAkU1N0k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-5Mw2wsMMNQCqnxNk_Uc1xg-1; Fri, 12 Feb 2021 18:13:44 -0500
-X-MC-Unique: 5Mw2wsMMNQCqnxNk_Uc1xg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-339-Kiq-AD_YPRW_si335oEzXQ-1; Fri, 12 Feb 2021 18:21:38 -0500
+X-MC-Unique: Kiq-AD_YPRW_si335oEzXQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC6CB801965;
- Fri, 12 Feb 2021 23:13:42 +0000 (UTC)
-Received: from [10.3.114.150] (ovpn-114-150.phx2.redhat.com [10.3.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C01A6E51F;
- Fri, 12 Feb 2021 23:13:38 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210202124956.63146-1-vsementsov@virtuozzo.com>
- <20210202124956.63146-4-vsementsov@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23B2F1E563
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 23:21:37 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-114-150.phx2.redhat.com [10.3.114.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4FC617B37
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 23:21:36 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH v7 03/14] block: check return value of bdrv_open_child and
- drop error propagation
-Message-ID: <e076e88b-b5b0-258f-7300-2e4f6db985c6@redhat.com>
-Date: Fri, 12 Feb 2021 17:13:37 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] bitmaps patches through 2021-02-12
+Date: Fri, 12 Feb 2021 17:21:29 -0600
+Message-Id: <20210212232134.1462756-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210202124956.63146-4-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,89 +73,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berto@igalia.com, pavel.dovgaluk@ispras.ru,
- qemu-devel@nongnu.org, armbru@redhat.com, Greg Kurz <groug@kaod.org>,
- stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com,
- ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/2/21 6:49 AM, Vladimir Sementsov-Ogievskiy wrote:
-> This patch is generated by cocci script:
-> 
-> @@
-> symbol bdrv_open_child, errp, local_err;
-> expression file;
-> @@
-> 
->   file = bdrv_open_child(...,
-> -                        &local_err
-> +                        errp
->                         );
-> - if (local_err)
-> + if (!file)
->   {
->       ...
-> -     error_propagate(errp, local_err);
->       ...
->   }
-> 
-> with command
-> 
-> spatch --sp-file x.cocci --macro-file scripts/cocci-macro-file.h \
-> --in-place --no-show-diff --max-width 80 --use-gitgrep block
+The following changes since commit eac92d316351b855ba79eb374dd21cc367f1f9c1:
 
-With this patch applied, 'check unit-test' fails with:
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210211-1' into staging (2021-02-11 19:57:50 +0000)
 
-Running test test-replication
-Unexpected error in bdrv_open_driver() at ../block.c:1481:
-Could not open '/tmp/p_local_disk.z1Ugyc': Invalid argument
-ERROR test-replication - missing test plan
+are available in the Git repository at:
 
-Directly reverting it has ripple effect on later patches in the series.
+  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2021-02-12
 
-Running test-replication under gdb gives this backtrace:
+for you to fetch changes up to 934aee14d36e67468260635af61c387227cdaf78:
 
-Thread 1 "test-replicatio" received signal SIGABRT, Aborted.
-0x00007ffff6f6f9d5 in raise () from /lib64/libc.so.6
-(gdb) bt
-#0  0x00007ffff6f6f9d5 in raise () from /lib64/libc.so.6
-#1  0x00007ffff6f588a4 in abort () from /lib64/libc.so.6
-#2  0x00005555556ad820 in error_handle_fatal (
-    errp=0x555555790568 <error_abort>, err=0x555555859010)
-    at ../util/error.c:40
-#3  0x00005555556ae3cf in error_propagate (
-    dst_errp=0x555555790568 <error_abort>, local_err=0x555555859010)
-    at ../util/error.c:286
-#4  0x000055555558cc9e in bdrv_img_create (
-    filename=0x555555822500 "/tmp/p_local_disk.DVFoWt",
-    fmt=0x5555556e809a "qcow2", base_filename=0x0, base_fmt=0x0,
-options=0x0,
-    img_size=67108864, flags=2, quiet=true, errp=0x555555790568
-<error_abort>)
-    at ../block.c:6312
+  block: use return status of bdrv_append() (2021-02-12 15:39:44 -0600)
 
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> Reviewed-by: Alberto Garcia <berto@igalia.com>
-> ---
->  block/blkdebug.c     |  6 ++----
->  block/blklogwrites.c | 10 ++++------
->  block/blkreplay.c    |  6 ++----
->  block/blkverify.c    | 11 ++++-------
->  block/qcow2.c        |  5 ++---
->  block/quorum.c       |  6 ++----
->  6 files changed, 16 insertions(+), 28 deletions(-)
+----------------------------------------------------------------
+bitmaps patches for 2021-02-12
 
-And this diffstat doesn't immediately tell me what ended up violating
-the assumptions of error_abort.  As such, at this point I'm temporarily
-dropping the remainder of the series from my bitmaps queue, and only
-including patches 1 and 2 in my next pull request.  Looking forward to v8.
+- add 'transform' member to manipulate bitmaps across migration
+- work towards better error handling during bdrv_open
+
+----------------------------------------------------------------
+Peter Krempa (3):
+      migration: dirty-bitmap: Use struct for alias map inner members
+      migration: dirty-bitmap: Allow control of bitmap persistence
+      qemu-iotests: 300: Add test case for modifying persistence of bitmap
+
+Vladimir Sementsov-Ogievskiy (2):
+      block: return status from bdrv_append and friends
+      block: use return status of bdrv_append()
+
+ qapi/migration.json            | 19 ++++++++-
+ include/block/block.h          | 12 +++---
+ block.c                        | 64 +++++++++++++++++------------
+ block/backup-top.c             | 23 +++++------
+ block/commit.c                 |  6 +--
+ block/mirror.c                 |  6 +--
+ blockdev.c                     |  6 +--
+ migration/block-dirty-bitmap.c | 62 +++++++++++++++++++++-------
+ tests/test-bdrv-graph-mod.c    |  6 +--
+ tests/qemu-iotests/300         | 93 ++++++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/300.out     |  4 +-
+ 11 files changed, 226 insertions(+), 75 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.30.1
 
 
