@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7A631A4E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 20:03:19 +0100 (CET)
-Received: from localhost ([::1]:39602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C201131A4FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 20:07:47 +0100 (CET)
+Received: from localhost ([::1]:48076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAdio-00047V-BY
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 14:03:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39206)
+	id 1lAdn8-00082J-Hn
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 14:07:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lAdV6-0001Rh-9f
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:49:08 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:37148)
+ id 1lAdVK-0001Xg-6z
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:49:23 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:37156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lAdV3-0007eZ-Ls
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:49:07 -0500
-Received: by mail-pg1-x529.google.com with SMTP id z21so252770pgj.4
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 10:49:05 -0800 (PST)
+ id 1lAdVB-0007lD-4A
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:49:21 -0500
+Received: by mail-pg1-x531.google.com with SMTP id z21so252980pgj.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 10:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kUnbSPv20rAmUBo87jZNnYS5273cnOGBXrn2xIvI+Yw=;
- b=H/sWCzzleN/+bsCQfy8g1bwcPoYUv6/4VUm4H3flvSlB2xP6C7jEpkS52gAiZ1jHTD
- GpMCw3cJ4KmpBUHNKG4CqzLI742ubpsx9jhw87V54vQ8iciqxC2dzmBVmVPn4+sgTOtA
- 4GKUXXuhl6FTvQV9USbYOib9CDBD6jwPzfggM1w8HNPfUbrYeamgBnFr414O+9vG/mcE
- cgUAMTikuf6DNg5ca96aRtl7gbw/BeY03bW/G4qsrD7JCEadKCQufgvaaRTTYbvnZcDR
- vLxAWqtHWtblcCERBZsAwHONa9N/rEyE989EIrDnEFvWVR4k5w9XXwA/MimmJOdmQIzH
- J7IQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xhhF4cnD2bQGGauP5wAsskp8GPwXgWKUSZeMzfZve48=;
+ b=hbZByw+aEjdrjdkAzS+n/JlDa+c+d4dS9jRIAsfwE3oCrPTgdvisCppYx4AwgPa18Z
+ CQ/E+uJk1IHVKFbvYUfF6/c+0v+YobHg3k574aYDuSAeU+OLKW2WVW99B4wi+bc2KwPc
+ 3Na6QhqjFF0HHCHqp6RHW9Xx+civcfIEM3LF8J5hw3e71WWXxvKqzybNkMvrnx4DYq21
+ rw2pvAzTN5zk/sRFpGx5WKY5qUtfcuslSHWpalOay+yNRRJ2zqumOEZRM+A5wn2PXiyS
+ gEUgxBhTPaPdbdWo4tkvDwGEPZZyM32Zbycm2ivYiGj3E5l56iICCFRoi6t6k94hMiI7
+ XlVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kUnbSPv20rAmUBo87jZNnYS5273cnOGBXrn2xIvI+Yw=;
- b=mzHbMA6sqM4yRaZzYwHP/TrMtqJV4HHRIc6Z9ZNt/nmUXqavi61ky0JreKb8BltKXe
- tDkftW9zOQ5WLwSWn4SG52DeiDmo8JWWvLP0Yg6WRDpIe+UAXXxGrJdRgHpHvSgFpYAE
- CsMmBJiadCGl3OVwWptsJoLUuTpQNn6UEHfACIMe3ba+k9tIYoWQ16XrIDa3qkPol7m7
- Bd57E+/nSN02ZnoijDnxhYvOGhzHx/GsGgIkHDRhgymnKU9SCvtuhPxcEs8EBkOJ4gXW
- FmFQEnK+evGSsSroDBoewXkN1Bgz6ej7T9GYoPtSp+4OSjuvqGJb8+wxY3a/XdKPpeFW
- Wu+w==
-X-Gm-Message-State: AOAM53138B+8sqP0R37WJ9tcvpeXRcZs7ml9IUfQDUS1UcJYC+yIZT2n
- w4T8MKsZcSDe97uMPtAcqxeWrlesIDjMNQ==
-X-Google-Smtp-Source: ABdhPJzgtQ9nLBkY90b3Jvuh5nxEZO3SOmz5UCphuLUWJZwUCtNTp6aLDvVpodA43vP4XjaoIC3cEA==
-X-Received: by 2002:aa7:9ec5:0:b029:1e7:a1c:8f8a with SMTP id
- r5-20020aa79ec50000b02901e70a1c8f8amr4347973pfq.41.1613155744242; 
- Fri, 12 Feb 2021 10:49:04 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xhhF4cnD2bQGGauP5wAsskp8GPwXgWKUSZeMzfZve48=;
+ b=QrwC1enYVm+1zTSMXyYAA/vLuv3C7gN0Hj2GH7uLJRTTce47mpP81dCMcMw2qnRjdR
+ OkLLXiSMbdwEmQcOY6/WiZjxpnYB3mMolpLzS5XIaiAFggQa08uCMvqpOWG347AVfYRX
+ yubK9yOZM+DIxrBTQ5vBxzalT2aqGb83YTpInVlH99pC1fGaWa/JuFx/ou6JPjnU5PfL
+ cYPrup8wsgPq4NqWChMldPZBHgP4OEMpPxpyEokLifJoniPvxBv1StDIHa2PlFzdVtpr
+ C86X+yw6BZlCu+15pCmaqIvryepTaz84h0f6S4GdMZj7br/3z1BUfkv3Fc+4xUNY7QcN
+ 3ioA==
+X-Gm-Message-State: AOAM530p4RsgprgJ76+EYbQ7N9/W53k/TeohYlbhEKM947bN5Wo4j+7Y
+ sM0SC96Jm3+dkEpNvP7N3CLe+DeFJ/vvLw==
+X-Google-Smtp-Source: ABdhPJzdnhkiYn0X/yMMLPlMgYX+XTr/fEj+si784IXvCPUr4PegICFIo3vBTuQGy9CI5lADwOXurw==
+X-Received: by 2002:a63:515:: with SMTP id 21mr4426539pgf.231.1613155751270;
+ Fri, 12 Feb 2021 10:49:11 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id k5sm9427618pfi.31.2021.02.12.10.49.03
+ by smtp.gmail.com with ESMTPSA id k5sm9427618pfi.31.2021.02.12.10.49.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 10:49:03 -0800 (PST)
+ Fri, 12 Feb 2021 10:49:10 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 00/31] target-arm: Implement ARMv8.5-MemTag, user mode
-Date: Fri, 12 Feb 2021 10:48:31 -0800
-Message-Id: <20210212184902.1251044-1-richard.henderson@linaro.org>
+Subject: [PATCH v7 05/31] exec: Improve types for guest_addr_valid
+Date: Fri, 12 Feb 2021 10:48:36 -0800
+Message-Id: <20210212184902.1251044-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210212184902.1251044-1-richard.henderson@linaro.org>
+References: <20210212184902.1251044-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,98 +87,29 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v7:
-  * Fix bsd-user vs g2h_untagged.
+Return bool not int; pass abi_ulong not 'unsigned long'.
+All callers use abi_ulong already, so the change in type
+has no effect.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/exec/cpu_ldst.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-r~
-
-
-Richard Henderson (31):
-  tcg: Introduce target-specific page data for user-only
-  linux-user: Introduce PAGE_ANON
-  exec: Use uintptr_t for guest_base
-  exec: Use uintptr_t in cpu_ldst.h
-  exec: Improve types for guest_addr_valid
-  linux-user: Check for overflow in access_ok
-  linux-user: Tidy VERIFY_READ/VERIFY_WRITE
-  bsd-user: Tidy VERIFY_READ/VERIFY_WRITE
-  linux-user: Do not use guest_addr_valid for h2g_valid
-  linux-user: Fix guest_addr_valid vs reserved_va
-  exec: Introduce cpu_untagged_addr
-  exec: Use cpu_untagged_addr in g2h; split out g2h_untagged
-  linux-user: Explicitly untag memory management syscalls
-  linux-user: Use guest_range_valid in access_ok
-  exec: Rename guest_{addr,range}_valid to *_untagged
-  linux-user: Use cpu_untagged_addr in access_ok; split out *_untagged
-  linux-user: Move lock_user et al out of line
-  linux-user: Fix types in uaccess.c
-  linux-user: Handle tags in lock_user/unlock_user
-  linux-user/aarch64: Implement PR_TAGGED_ADDR_ENABLE
-  target/arm: Improve gen_top_byte_ignore
-  target/arm: Use the proper TBI settings for linux-user
-  linux-user/aarch64: Implement PR_MTE_TCF and PR_MTE_TAG
-  linux-user/aarch64: Implement PROT_MTE
-  target/arm: Split out syndrome.h from internals.h
-  linux-user/aarch64: Pass syndrome to EXC_*_ABORT
-  linux-user/aarch64: Signal SEGV_MTESERR for sync tag check fault
-  linux-user/aarch64: Signal SEGV_MTEAERR for async tag check error
-  target/arm: Add allocation tag storage for user mode
-  target/arm: Enable MTE for user-only
-  tests/tcg/aarch64: Add mte smoke tests
-
- bsd-user/qemu.h                     |  17 +-
- include/exec/cpu-all.h              |  47 ++++-
- include/exec/cpu_ldst.h             |  39 ++--
- include/exec/exec-all.h             |   2 +-
- linux-user/aarch64/target_signal.h  |   3 +
- linux-user/aarch64/target_syscall.h |  13 ++
- linux-user/qemu.h                   |  76 +++-----
- linux-user/syscall_defs.h           |   1 +
- target/arm/cpu-param.h              |   3 +
- target/arm/cpu.h                    |  32 ++++
- target/arm/internals.h              | 249 +------------------------
- target/arm/syndrome.h               | 273 ++++++++++++++++++++++++++++
- tests/tcg/aarch64/mte.h             |  60 ++++++
- accel/tcg/translate-all.c           |  32 +++-
- accel/tcg/user-exec.c               |  51 +++---
- bsd-user/elfload.c                  |   2 +-
- bsd-user/main.c                     |   8 +-
- bsd-user/mmap.c                     |  23 +--
- linux-user/aarch64/cpu_loop.c       |  38 +++-
- linux-user/elfload.c                |  18 +-
- linux-user/flatload.c               |   2 +-
- linux-user/hppa/cpu_loop.c          |  39 ++--
- linux-user/i386/cpu_loop.c          |   6 +-
- linux-user/i386/signal.c            |   5 +-
- linux-user/main.c                   |   4 +-
- linux-user/mmap.c                   |  86 +++++----
- linux-user/ppc/signal.c             |   4 +-
- linux-user/syscall.c                | 165 +++++++++++++----
- linux-user/uaccess.c                |  82 +++++++--
- target/arm/cpu.c                    |  25 ++-
- target/arm/helper-a64.c             |   4 +-
- target/arm/mte_helper.c             |  39 +++-
- target/arm/tlb_helper.c             |  15 +-
- target/arm/translate-a64.c          |  25 +--
- target/hppa/op_helper.c             |   2 +-
- target/i386/tcg/mem_helper.c        |   2 +-
- target/s390x/mem_helper.c           |   4 +-
- tests/tcg/aarch64/mte-1.c           |  28 +++
- tests/tcg/aarch64/mte-2.c           |  45 +++++
- tests/tcg/aarch64/mte-3.c           |  51 ++++++
- tests/tcg/aarch64/mte-4.c           |  45 +++++
- tests/tcg/aarch64/pauth-2.c         |   1 -
- tests/tcg/aarch64/Makefile.target   |   6 +
- tests/tcg/configure.sh              |   4 +
- 44 files changed, 1141 insertions(+), 535 deletions(-)
- create mode 100644 target/arm/syndrome.h
- create mode 100644 tests/tcg/aarch64/mte.h
- create mode 100644 tests/tcg/aarch64/mte-1.c
- create mode 100644 tests/tcg/aarch64/mte-2.c
- create mode 100644 tests/tcg/aarch64/mte-3.c
- create mode 100644 tests/tcg/aarch64/mte-4.c
-
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index 3f9063aade..5e8878ee9b 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -79,7 +79,7 @@ typedef uint64_t abi_ptr;
+ #endif
+ #define h2g_valid(x) guest_addr_valid((uintptr_t)(x) - guest_base)
+ 
+-static inline int guest_range_valid(unsigned long start, unsigned long len)
++static inline bool guest_range_valid(abi_ulong start, abi_ulong len)
+ {
+     return len - 1 <= GUEST_ADDR_MAX && start <= GUEST_ADDR_MAX - len + 1;
+ }
 -- 
 2.25.1
 
