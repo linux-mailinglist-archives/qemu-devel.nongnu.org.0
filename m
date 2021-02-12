@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C5FB31A6A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:18:17 +0100 (CET)
-Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8317331A6C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:21:59 +0100 (CET)
+Received: from localhost ([::1]:47796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAfpQ-0003r6-J9
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:18:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41464)
+	id 1lAft0-0008Q4-KD
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:21:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmH-0001xa-Nk
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmH-0001wn-7T
  for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:15:01 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:47509)
+Received: from mout.kundenserver.de ([212.227.126.135]:54905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmE-0003SY-FT
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:15:01 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmE-0003Sb-BG
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:15:00 -0500
 Received: from localhost.localdomain ([82.252.149.54]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N5VPe-1lyU7S3Ude-016v42; Fri, 12 Feb 2021 22:14:53 +0100
+ id 1Mnac9-1la4JE1L9h-00jdyb; Fri, 12 Feb 2021 22:14:53 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/7] m68k: improve cpu instantiation comments
-Date: Fri, 12 Feb 2021 22:14:42 +0100
-Message-Id: <20210212211448.413489-2-laurent@vivier.eu>
+Subject: [PULL 2/7] m68k: cascade m68k_features by m680xx_cpu_initfn() to
+ improve readability
+Date: Fri, 12 Feb 2021 22:14:43 +0100
+Message-Id: <20210212211448.413489-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210212211448.413489-1-laurent@vivier.eu>
 References: <20210212211448.413489-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:USKoJlXf1ASHqdpKIvsaYZrVRjF08Xy+IjR/IrpPFOl5TTlwXb7
- SxT0t3/s2xrpC70026x+w46IHK/LQD4G+9ou7plMdtDEOyQYy4HRhX0H+VN2uKMCK6EZMkN
- hVY8tCdliXI8FDtPN6w0NibFsA+UVVQlHlZ2vMEVW4B2Jd4lGE9JzQM3k2q+YbbpPpyUg1b
- ii3QOBqAOPJvtxjaqh4TQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2zRf2Pfnxp0=:fWILALIYtJ8ClMiXSNC2ka
- 6ZjFM/hVOII59e5S1mXx+MniD+gpYwLVuGgyOYdbI3pzEy07tVkvTTAFAM3jFxJzMLkVV1YJP
- MhhjA9/4gJU1R6Mx7YHwRWTY0Qqzp3d9OVerftTlSANj10JrBvAI60UNOTH1NchivQ68Stsqs
- TFfNvFFLT3158vhSpCy5j0Qzr2nA6SrvpUWDl2px2Scv8QpZHOMrhCe7RfcS43TmgUNUFVgGT
- KWsNnHjKk82Z3a2FgJWlxqGsaRzBFWsdcMaqdhIM4v2enH0EbZfpEgjS4FutEtxGjO0SPsZ/d
- 5HuIlTN8yBllg5qnlNJ8iR2vy0EdCA+Rz4TrsgEBs9mEdlHtZ3Ivm63VoJgT/ROWw9vdnVDcE
- WJNwT6cT3qEYNwNXK1eTrPzLXIZHK2RylfZzjcUQ2eD75XP25Fk7tVDqTuBJp
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:pcg8Awb7X+Y33OMKVI87hrrTmgjHz14Dd/aht4PJ+khHp8HGr5K
+ 44ZCqlFTW9QZLmLrKIPJwXBxnKtrC3B+hQxBFlXDdbFEIP0l0uHdYQEpyCDzrPK+JvNy+PU
+ WTKGXELkOlQvcwaILWLi9GWvB1S+xF9xilTjH9Pis1mK0nTuZMNw79hhicdwKdHqnLW/B+I
+ WuosVRw/HnwTZRFREwVXQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tP1Ft6yrwxU=:EZrRvjxnWBHlC+4RqF9OiV
+ 5uNfLM3X7hIJ75bX0thIddNJmCsq8+wI1MOmUHSzG5Duqxohq6nPgjWhz3nOGGjRv19y+2Gr8
+ AYer0sA1W4lHFKbGp9472ouKg/6kTUb99DZz5fQtHpRtGZzgKePb9i4UKaYMi9tAaimhlQJqG
+ P/Xwa9xL7XSGPsKaA0Mx4kjxtXaRhmkkFcbQxf4wbJY8f/1+9UDhZzrGEfqrUTyP5lhNjL2EK
+ 61q8U2aZtfmyD3fTnRCYluCPg9GtsNBC1+xbLd2jZQiBCpWxfsIYOwAPN6OMpLWdHn0Cblbus
+ NOsp6kODuXSm3c/nz+TmzkGYEaUOHfIYE1Q2WaM1fPTg/urOMyRgGcvHAh4EcSa5awItIk7IC
+ QC8Spd1DETaTIUCroPjK3Q2EF0HvMcCWMRF5VELhA1Ny0PkfOGDapQXa/Czq3r8sptZJeZbqt
+ PDixobUmrw==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,175 +70,170 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 
-Improvement in comments for the instantiation functions.
-This is to highlight what each cpu class, in the 68000 series, contains
-in terms of instructions/features.
+The m680XX_cpu_initfn functions have been rearranged to cascade starting from
+the base 68000, so that the 68010 then inherits from this, and so on until the
+68060.
+
+This makes it simpler to track features since in most cases the m68k were
+product enhancements on each other, with only a few instructions being retired.
+
+Because each cpu class inherits the previous CPU class, then for example
+the 68020 also has the feature 68010, and 68000 and so on upto the 68060.
+
+- Added 68010 cpu class, and moved correct features into 68000/68010.
+- Added m68k_unset_feature to allow removing a feature in the inheritence
 
 Signed-off-by: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <2dfe32672ee6ddce4b54c6bcfce579d35abeaf51.1612137712.git.balaton@eik.bme.hu>
+Message-Id: <c652fe7537f8b4fe87a13ecbbc0ea751fb71532f.1612137712.git.balaton@eik.bme.hu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/cpu.h | 49 ++++++++++++++++++++++++++++-------------------
- target/m68k/cpu.c | 44 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 73 insertions(+), 20 deletions(-)
+ target/m68k/cpu.h |  1 +
+ target/m68k/cpu.c | 72 +++++++++++++++++++++++++----------------------
+ 2 files changed, 39 insertions(+), 34 deletions(-)
 
 diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index de5b9875fea3..1d59cbb3f4ab 100644
+index 1d59cbb3f4ab..2b1cdf241bab 100644
 --- a/target/m68k/cpu.h
 +++ b/target/m68k/cpu.h
-@@ -450,39 +450,48 @@ void m68k_switch_sp(CPUM68KState *env);
- void do_m68k_semihosting(CPUM68KState *env, int nr);
- 
- /*
-+ * The 68000 family is defined in six main CPU classes, the 680[012346]0.
-+ * Generally each successive CPU adds enhanced data/stack/instructions.
-+ * However, some features are only common to one, or a few classes.
-+ * The features covers those subsets of instructons.
-+ *
-+ * CPU32/32+ are basically 680010 compatible with some 68020 class instructons,
-+ * and some additional CPU32 instructions. Mostly Supervisor state differences.
-+ *
-+ * The ColdFire core ISA is a RISC-style reduction of the 68000 series cpu.
-  * There are 4 ColdFire core ISA revisions: A, A+, B and C.
-  * Each feature covers the subset of instructions common to the
-  * ISA revisions mentioned.
-  */
+@@ -466,6 +466,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr);
  
  enum m68k_features {
--    M68K_FEATURE_M68000,
-+    M68K_FEATURE_M68000,   /* Base m68k instruction set */
+     M68K_FEATURE_M68000,   /* Base m68k instruction set */
++    M68K_FEATURE_M68010,
      M68K_FEATURE_M68020,
      M68K_FEATURE_M68030,
      M68K_FEATURE_M68040,
-     M68K_FEATURE_M68060,
--    M68K_FEATURE_CF_ISA_A,
--    M68K_FEATURE_CF_ISA_B, /* (ISA B or C).  */
--    M68K_FEATURE_CF_ISA_APLUSC, /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C).  */
--    M68K_FEATURE_BRAL, /* Long unconditional branch.  (ISA A+ or B).  */
-+    M68K_FEATURE_CF_ISA_A, /* Base Coldfire set Rev A. */
-+    M68K_FEATURE_CF_ISA_B, /* (ISA B or C). */
-+    M68K_FEATURE_CF_ISA_APLUSC, /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C). */
-+    M68K_FEATURE_BRAL, /* BRA with Long branch. (680[2346]0, ISA A+ or B). */
-     M68K_FEATURE_CF_FPU,
-     M68K_FEATURE_CF_MAC,
-     M68K_FEATURE_CF_EMAC,
--    M68K_FEATURE_CF_EMAC_B, /* Revision B EMAC (dual accumulate).  */
--    M68K_FEATURE_USP, /* User Stack Pointer.  (ISA A+, B or C).  */
--    M68K_FEATURE_EXT_FULL, /* 68020+ full extension word.  */
--    M68K_FEATURE_WORD_INDEX, /* word sized address index registers.  */
--    M68K_FEATURE_SCALED_INDEX, /* scaled address index registers.  */
--    M68K_FEATURE_LONG_MULDIV, /* 32 bit multiply/divide. */
--    M68K_FEATURE_QUAD_MULDIV, /* 64 bit multiply/divide. */
--    M68K_FEATURE_BCCL, /* Long conditional branches.  */
--    M68K_FEATURE_BITFIELD, /* Bit field insns.  */
--    M68K_FEATURE_FPU,
--    M68K_FEATURE_CAS,
--    M68K_FEATURE_BKPT,
--    M68K_FEATURE_RTD,
--    M68K_FEATURE_CHK2,
--    M68K_FEATURE_MOVEP,
-+    M68K_FEATURE_CF_EMAC_B,   /* Revision B EMAC (dual accumulate). */
-+    M68K_FEATURE_USP, /* User Stack Pointer. (680[012346]0, ISA A+, B or C).*/
-+    M68K_FEATURE_EXT_FULL,    /* 68020+ full extension word. */
-+    M68K_FEATURE_WORD_INDEX,  /* word sized address index registers. */
-+    M68K_FEATURE_SCALED_INDEX, /* scaled address index registers. */
-+    M68K_FEATURE_LONG_MULDIV, /* 32 bit mul/div. (680[2346]0, and CPU32) */
-+    M68K_FEATURE_QUAD_MULDIV, /* 64 bit mul/div. (680[2346]0, and CPU32) */
-+    M68K_FEATURE_BCCL,  /* Bcc with Long branches. (680[2346]0, and CPU32) */
-+    M68K_FEATURE_BITFIELD, /* BFxxx Bit field insns. (680[2346]0) */
-+    M68K_FEATURE_FPU,   /* fpu insn. (680[46]0) */
-+    M68K_FEATURE_CAS,   /* CAS/CAS2[WL] insns. (680[2346]0) */
-+    M68K_FEATURE_BKPT,  /* BKPT insn. (680[12346]0, and CPU32) */
-+    M68K_FEATURE_RTD,   /* RTD insn. (680[12346]0, and CPU32) */
-+    M68K_FEATURE_CHK2,  /* CHK2 insn. (680[2346]0, and CPU32) */
-+    M68K_FEATURE_MOVEP, /* MOVEP insn. (680[01234]0, and CPU32) */
- };
- 
- static inline int m68k_feature(CPUM68KState *env, int feature)
 diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index c6fde8132b2f..5c72f2469471 100644
+index 5c72f2469471..d0f8bd44339c 100644
 --- a/target/m68k/cpu.c
 +++ b/target/m68k/cpu.c
-@@ -103,6 +103,7 @@ static void m5206_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_CF_ISA_A);
+@@ -41,6 +41,11 @@ static void m68k_set_feature(CPUM68KState *env, int feature)
+     env->features |= (1u << feature);
  }
  
-+/* Base feature set, including isns. for m68k family */
- static void m68000_cpu_initfn(Object *obj)
++static void m68k_unset_feature(CPUM68KState *env, int feature)
++{
++    env->features &= (-1u - (1u << feature));
++}
++
+ static void m68k_cpu_reset(DeviceState *dev)
  {
-     M68kCPU *cpu = M68K_CPU(obj);
-@@ -135,6 +136,13 @@ static void m680x0_cpu_common(CPUM68KState *env)
+     CPUState *s = CPU(dev);
+@@ -115,25 +120,18 @@ static void m68000_cpu_initfn(Object *obj)
      m68k_set_feature(env, M68K_FEATURE_MOVEP);
  }
  
+-/* common features for 68020, 68030 and 68040 */
+-static void m680x0_cpu_common(CPUM68KState *env)
 +/*
-+ * Adds BFCHG, BFCLR, BFEXTS, BFEXTU, BFFFO, BFINS, BFSET, BFTST, CAS, CAS2,
-+ *      CHK2, CMP2, DIVSL, DIVUL, EXTB, PACK, TRAPcc, UNPK.
-+ *
-+ * 68020/30 only:
-+ *      CALLM, cpBcc, cpDBcc, cpGEN, cpRESTORE, cpSAVE, cpScc, cpTRAPcc
++ * Adds BKPT, MOVE-from-SR *now priv instr, and MOVEC, MOVES, RTD
 + */
- static void m68020_cpu_initfn(Object *obj)
++static void m68010_cpu_initfn(Object *obj)
  {
-     M68kCPU *cpu = M68K_CPU(obj);
-@@ -144,6 +152,14 @@ static void m68020_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_M68020);
+-    m68k_set_feature(env, M68K_FEATURE_M68000);
+-    m68k_set_feature(env, M68K_FEATURE_USP);
+-    m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
+-    m68k_set_feature(env, M68K_FEATURE_QUAD_MULDIV);
+-    m68k_set_feature(env, M68K_FEATURE_BRAL);
+-    m68k_set_feature(env, M68K_FEATURE_BCCL);
+-    m68k_set_feature(env, M68K_FEATURE_BITFIELD);
+-    m68k_set_feature(env, M68K_FEATURE_EXT_FULL);
+-    m68k_set_feature(env, M68K_FEATURE_SCALED_INDEX);
+-    m68k_set_feature(env, M68K_FEATURE_LONG_MULDIV);
+-    m68k_set_feature(env, M68K_FEATURE_FPU);
+-    m68k_set_feature(env, M68K_FEATURE_CAS);
+-    m68k_set_feature(env, M68K_FEATURE_BKPT);
++    M68kCPU *cpu = M68K_CPU(obj);
++    CPUM68KState *env = &cpu->env;
++
++    m68000_cpu_initfn(obj);
++    m68k_set_feature(env, M68K_FEATURE_M68010);
+     m68k_set_feature(env, M68K_FEATURE_RTD);
+-    m68k_set_feature(env, M68K_FEATURE_CHK2);
+-    m68k_set_feature(env, M68K_FEATURE_MOVEP);
++    m68k_set_feature(env, M68K_FEATURE_BKPT);
  }
  
-+/*
-+ * Adds: PFLUSH (*5)
-+ * 68030 Only: PFLUSHA (*5), PLOAD (*5), PMOVE
-+ * 68030/40 Only: PTEST
-+ *
-+ * NOTES:
-+ *  5. Not valid on MC68EC030
-+ */
- static void m68030_cpu_initfn(Object *obj)
- {
+ /*
+@@ -148,8 +146,19 @@ static void m68020_cpu_initfn(Object *obj)
      M68kCPU *cpu = M68K_CPU(obj);
-@@ -153,6 +169,23 @@ static void m68030_cpu_initfn(Object *obj)
+     CPUM68KState *env = &cpu->env;
+ 
+-    m680x0_cpu_common(env);
++    m68010_cpu_initfn(obj);
++    m68k_unset_feature(env, M68K_FEATURE_M68010);
+     m68k_set_feature(env, M68K_FEATURE_M68020);
++    m68k_set_feature(env, M68K_FEATURE_QUAD_MULDIV);
++    m68k_set_feature(env, M68K_FEATURE_BRAL);
++    m68k_set_feature(env, M68K_FEATURE_BCCL);
++    m68k_set_feature(env, M68K_FEATURE_BITFIELD);
++    m68k_set_feature(env, M68K_FEATURE_EXT_FULL);
++    m68k_set_feature(env, M68K_FEATURE_SCALED_INDEX);
++    m68k_set_feature(env, M68K_FEATURE_LONG_MULDIV);
++    m68k_set_feature(env, M68K_FEATURE_FPU);
++    m68k_set_feature(env, M68K_FEATURE_CAS);
++    m68k_set_feature(env, M68K_FEATURE_CHK2);
+ }
+ 
+ /*
+@@ -165,7 +174,8 @@ static void m68030_cpu_initfn(Object *obj)
+     M68kCPU *cpu = M68K_CPU(obj);
+     CPUM68KState *env = &cpu->env;
+ 
+-    m680x0_cpu_common(env);
++    m68020_cpu_initfn(obj);
++    m68k_unset_feature(env, M68K_FEATURE_M68020);
      m68k_set_feature(env, M68K_FEATURE_M68030);
  }
  
-+/*
-+ * Adds: CINV, CPUSH
-+ * Adds all with Note *2: FABS, FSABS, FDABS, FADD, FSADD, FDADD, FBcc, FCMP,
-+ *                        FDBcc, FDIV, FSDIV, FDDIV, FMOVE, FSMOVE, FDMOVE,
-+ *                        FMOVEM, FMUL, FSMUL, FDMUL, FNEG, FSNEG, FDNEG, FNOP,
-+ *                        FRESTORE, FSAVE, FScc, FSQRT, FSSQRT, FDSQRT, FSUB,
-+ *                        FSSUB, FDSUB, FTRAPcc, FTST
-+ *
-+ * Adds with Notes *2, and *3: FACOS, FASIN, FATAN, FATANH, FCOS, FCOSH, FETOX,
-+ *                             FETOXM, FGETEXP, FGETMAN, FINT, FINTRZ, FLOG10,
-+ *                             FLOG2, FLOGN, FLOGNP1, FMOD, FMOVECR, FREM,
-+ *                             FSCALE, FSGLDIV, FSGLMUL, FSIN, FSINCOS, FSINH,
-+ *                             FTAN, FTANH, FTENTOX, FTWOTOX
-+ * NOTES:
-+ * 2. Not applicable to the MC68EC040, MC68LC040, MC68EC060, and MC68LC060.
-+ * 3. These are software-supported instructions on the MC68040 and MC68060.
-+ */
- static void m68040_cpu_initfn(Object *obj)
- {
+@@ -191,7 +201,8 @@ static void m68040_cpu_initfn(Object *obj)
      M68kCPU *cpu = M68K_CPU(obj);
-@@ -162,6 +195,17 @@ static void m68040_cpu_initfn(Object *obj)
+     CPUM68KState *env = &cpu->env;
+ 
+-    m680x0_cpu_common(env);
++    m68030_cpu_initfn(obj);
++    m68k_unset_feature(env, M68K_FEATURE_M68030);
      m68k_set_feature(env, M68K_FEATURE_M68040);
  }
  
-+/*
-+ * Adds: PLPA
-+ * Adds all with Note *2: CAS, CAS2, MULS, MULU, CHK2, CMP2, DIVS, DIVU
-+ * All Fxxxx instructions are as per m68040 with exception to; FMOVEM NOTE3
-+ *
-+ * Does NOT implement MOVEP
-+ *
-+ * NOTES:
-+ * 2. Not applicable to the MC68EC040, MC68LC040, MC68EC060, and MC68LC060.
-+ * 3. These are software-supported instructions on the MC68040 and MC68060.
-+ */
- static void m68060_cpu_initfn(Object *obj)
- {
+@@ -211,21 +222,13 @@ static void m68060_cpu_initfn(Object *obj)
      M68kCPU *cpu = M68K_CPU(obj);
+     CPUM68KState *env = &cpu->env;
+ 
+-    m68k_set_feature(env, M68K_FEATURE_M68000);
+-    m68k_set_feature(env, M68K_FEATURE_USP);
+-    m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
+-    m68k_set_feature(env, M68K_FEATURE_BRAL);
+-    m68k_set_feature(env, M68K_FEATURE_BCCL);
+-    m68k_set_feature(env, M68K_FEATURE_BITFIELD);
+-    m68k_set_feature(env, M68K_FEATURE_EXT_FULL);
+-    m68k_set_feature(env, M68K_FEATURE_SCALED_INDEX);
+-    m68k_set_feature(env, M68K_FEATURE_LONG_MULDIV);
+-    m68k_set_feature(env, M68K_FEATURE_FPU);
+-    m68k_set_feature(env, M68K_FEATURE_CAS);
+-    m68k_set_feature(env, M68K_FEATURE_BKPT);
+-    m68k_set_feature(env, M68K_FEATURE_RTD);
+-    m68k_set_feature(env, M68K_FEATURE_CHK2);
++    m68040_cpu_initfn(obj);
++    m68k_unset_feature(env, M68K_FEATURE_M68040);
+     m68k_set_feature(env, M68K_FEATURE_M68060);
++    m68k_unset_feature(env, M68K_FEATURE_MOVEP);
++
++    /* Implemented as a software feature */
++    m68k_unset_feature(env, M68K_FEATURE_QUAD_MULDIV);
+ }
+ 
+ static void m5208_cpu_initfn(Object *obj)
+@@ -577,6 +580,7 @@ static const TypeInfo m68k_cpus_type_infos[] = {
+         .class_init = m68k_cpu_class_init,
+     },
+     DEFINE_M68K_CPU_TYPE_M68K(m68000),
++    DEFINE_M68K_CPU_TYPE_M68K(m68010),
+     DEFINE_M68K_CPU_TYPE_M68K(m68020),
+     DEFINE_M68K_CPU_TYPE_M68K(m68030),
+     DEFINE_M68K_CPU_TYPE_M68K(m68040),
 -- 
 2.29.2
 
