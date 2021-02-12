@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA9331A027
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 14:57:46 +0100 (CET)
-Received: from localhost ([::1]:59044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5C331A028
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 14:58:20 +0100 (CET)
+Received: from localhost ([::1]:33176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAYx7-00081s-Dt
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 08:57:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50906)
+	id 1lAYxf-0000dh-6H
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 08:58:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1lAYsm-0004MZ-70
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:53:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29662)
+ id 1lAYsy-0004gm-CY
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:53:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1lAYsk-0006bQ-LG
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:53:15 -0500
+ id 1lAYsw-0006h3-4X
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:53:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613137994;
+ s=mimecast20190719; t=1613138004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jcMTMUXlB9fn6rvY/i3Nx6DEu5q7slM2IdVjMLgYj3w=;
- b=ED6xAk+Xb102QuQysB4oQRPltcu30NIM5dfI4mu/74hVRtqP5Z6ospc/cE4TaXV1nYno1C
- 91E+6WJW9SPWsMEZxcsK1yPbKMxXkOkyCnyeyxCQMrAqy5MaWLwQVySLxTieQSFRr7YUJK
- e6wZAEJldY97C+ZYnMeyG//wYxOHFaw=
+ bh=ZyKUyofWE67481aBG/vXPtlg6uti0I7CC265LmJLkCk=;
+ b=Gs/FVHAzffco3mCOxcjrNO/8zKAioF3UEjeYholfk9Ji6T7mxXKe6nPEil1894HE1PlePa
+ VOXKjsmSFII/ugUthMmggwHDyWaGO4Sk+EsBM8x2s5R0mnR4aC08dPXNR6ayXHB6sPMcpo
+ bdNL1mllygN1cLvJ/MuId2Ja82DFDa0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-K4ULx2gqNNuBK9acnabdGA-1; Fri, 12 Feb 2021 08:53:12 -0500
-X-MC-Unique: K4ULx2gqNNuBK9acnabdGA-1
+ us-mta-200-ZQ5KVyguNpKvtg8PFlQDxQ-1; Fri, 12 Feb 2021 08:53:21 -0500
+X-MC-Unique: ZQ5KVyguNpKvtg8PFlQDxQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9A5A1936B68;
- Fri, 12 Feb 2021 13:53:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9269107ACC7;
+ Fri, 12 Feb 2021 13:53:19 +0000 (UTC)
 Received: from thinkpad.redhat.com (ovpn-112-23.ams2.redhat.com [10.36.112.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09FA72C154;
- Fri, 12 Feb 2021 13:53:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B8062C154;
+ Fri, 12 Feb 2021 13:53:10 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/4] pci: cleanup failover sanity check
-Date: Fri, 12 Feb 2021 14:52:47 +0100
-Message-Id: <20210212135250.2738750-2-lvivier@redhat.com>
+Subject: [PATCH v3 2/4] virtio-net: add missing object_unref()
+Date: Fri, 12 Feb 2021 14:52:48 +0100
+Message-Id: <20210212135250.2738750-3-lvivier@redhat.com>
 In-Reply-To: <20210212135250.2738750-1-lvivier@redhat.com>
 References: <20210212135250.2738750-1-lvivier@redhat.com>
 MIME-Version: 1.0
@@ -57,15 +57,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,38 +85,43 @@ Cc: alex.williamson@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit a1190ab628 has added a "allow_unplug_during_migration = true" at
-the end of the main "if" block, so it is not needed to set it anymore
-in the previous checking.
+failover_add_primary() calls qdev_device_add() and doesn't unref
+the device. Because of that, when the device is unplugged a reference
+is remaining and prevents the cleanup of the object.
 
-Remove it, to have only sub-ifs that check for needed conditions and exit
-if one fails.
+This prevents to be able to plugin back the failover primary device,
+with errors like:
 
-Fixes: 4f5b6a05a4e7 ("pci: add option for net failover")
-Fixes: a1190ab628c0 ("migration: allow unplug during migration for failover devices")
-Cc: jfreimann@redhat.com
+  (qemu) device_add vfio-pci,host=0000:41:00.0,id=hostdev0,bus=root.3,failover_pair_id=net0
+  (qemu) device_del hostdev0
+
+We can check with "info qtree" and "info pci" that the device has been removed, and then:
+
+  (qemu) device_add vfio-pci,host=0000:41:00.0,id=hostdev1,bus=root.3,failover_pair_id=net0
+  Error: vfio 0000:41:00.0: device is already attached
+  (qemu) device_add vfio-pci,host=0000:41:00.0,id=hostdev0,bus=root.3,failover_pair_id=net0
+  qemu-kvm: Duplicate ID 'hostdev0' for device
+
+Fixes: 21e8709b29cd ("failover: Remove primary_dev member")
+Cc: quintela@redhat.com
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- hw/pci/pci.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/net/virtio-net.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 512e9042ffae..ecb7aa31fabd 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2120,10 +2120,8 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-             pci_qdev_unrealize(DEVICE(pci_dev));
-             return;
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 5150f295e8c5..1c5af08dc556 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -862,6 +862,8 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
+         dev = qdev_device_add(opts, &err);
+         if (err) {
+             qemu_opts_del(opts);
++        } else {
++            object_unref(OBJECT(dev));
          }
--        if (!(pci_dev->cap_present & QEMU_PCI_CAP_MULTIFUNCTION)
--            && (PCI_FUNC(pci_dev->devfn) == 0)) {
--            qdev->allow_unplug_during_migration = true;
--        } else {
-+        if ((pci_dev->cap_present & QEMU_PCI_CAP_MULTIFUNCTION)
-+            || (PCI_FUNC(pci_dev->devfn) != 0)) {
-             error_setg(errp, "failover: primary device must be in its own "
-                               "PCI slot");
-             pci_qdev_unrealize(DEVICE(pci_dev));
+     } else {
+         error_setg(errp, "Primary device not found");
 -- 
 2.29.2
 
