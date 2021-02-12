@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532F931A362
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 18:16:53 +0100 (CET)
-Received: from localhost ([::1]:58914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC1431A39F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 18:29:59 +0100 (CET)
+Received: from localhost ([::1]:48346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAc3o-0004gd-71
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 12:16:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43204)
+	id 1lAcGU-0004Rm-Dk
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 12:29:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAc1l-00047B-BV
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:14:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAc1i-0000Eg-BK
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:14:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613150080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4DygX3bYQyrvD4K/hl8swfqSQ1BSHTGX+eC+SuxHk/o=;
- b=FMcp7je0ZzO5TyZXZj7NixWvaPOfWppAd9h2ELQJr+MqwKyoNu+o6IqVon5J6TAXLYFVgb
- i6XfPY5O680Vj5awpSM4UIkmOl2AK5+r3B/0u1gtnz7Ka+qdR9Dwey06+mPOH9i+v6BCqT
- zELW5EMWLzZFfBURMEOItZN8ojSZp9s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-bguF6g5APgiYRKPK_z3n7g-1; Fri, 12 Feb 2021 12:14:37 -0500
-X-MC-Unique: bguF6g5APgiYRKPK_z3n7g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF978874982;
- Fri, 12 Feb 2021 17:14:35 +0000 (UTC)
-Received: from [10.3.114.150] (ovpn-114-150.phx2.redhat.com [10.3.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B60F10023AD;
- Fri, 12 Feb 2021 17:14:25 +0000 (UTC)
-Subject: Re: [PATCH v2 02/10] block/nbd: implement .bdrv_cancel_in_flight
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210205163720.887197-1-vsementsov@virtuozzo.com>
- <20210205163720.887197-3-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <57fd166e-d17f-e2f8-bbb5-b86e467af40f@redhat.com>
-Date: Fri, 12 Feb 2021 11:14:24 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lAcCR-0001oF-6s
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:25:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lAcCH-0003HE-OP
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:25:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lAcCF-0000mR-Sq
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 17:25:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D4C2F2E8072
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 17:25:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210205163720.887197-3-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 12 Feb 2021 17:16:44 -0000
+From: Alexander Bulekov <1915539@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <161315020574.21876.12537756905714073964.malonedeb@wampee.canonical.com>
+Subject: [Bug 1915539] [NEW] Null-ptr dereference on AHCICmdHdr in
+ ahci_pio_transfer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
+X-Launchpad-Hash: 60a20997e4934884f301c13281d0ba82967c1d30
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,49 +70,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
+Reply-To: Bug 1915539 <1915539@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/21 10:37 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Just stop waiting for connection in existing requests.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->  block/nbd.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/block/nbd.c b/block/nbd.c
-> index b3cbbeb4b0..c26dc5a54f 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -2458,6 +2458,18 @@ static const char *const nbd_strong_runtime_opts[] = {
->      NULL
->  };
->  
-> +static void nbd_cancel_in_flight(BlockDriverState *bs)
-> +{
-> +    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+Public bug reported:
 
-This cast is not necessary in C, but it doesn't hurt.
+=3D=3D Reproducer =3D=3D
 
-> +
-> +    reconnect_delay_timer_del(s);
-> +
-> +    if (s->state == NBD_CLIENT_CONNECTING_WAIT) {
-> +        s->state = NBD_CLIENT_CONNECTING_NOWAIT;
-> +        qemu_co_queue_restart_all(&s->free_sema);
-> +    }
-> +}
-> +
+cat << EOF | ./qemu-system-i386 -display none \
+-m 512M -machine q35 -nodefaults \
+-drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
+-device ide-hd,drive=3Ddisk0 -machine accel=3Dqtest -qtest stdio
+outl 0xcf8 0x8000fa24
+outl 0xcfc 0xe0000000
+outl 0xcf8 0x8000fa04
+outw 0xcfc 0x06
+write 0x10a 0x1 0x02
+write 0xe0000398 0x1 0x01
+write 0x20000 0x1 0x27
+write 0x20001 0x1 0x80
+write 0x20002 0x1 0x20
+write 0x20005 0x1 0x02
+write 0xe00003b8 0x2 0x0101
+write 0xe0000004 0x1 0x01
+write 0x2bb 0x1 0x00
+write 0x2bf 0x1 0x00
+write 0x2cf 0x1 0x00
+write 0x2db 0x1 0x00
+write 0x2df 0x1 0x00
+write 0x2ed 0x1 0x00
+write 0x2ef 0x1 0x00
+write 0x2fb 0x1 0x00
+write 0x2ff 0x1 0x00
+write 0x31f 0x1 0x00
+write 0x32b 0x1 0x00
+write 0x32f 0x1 0x00
+write 0x337 0x1 0x00
+write 0x33f 0x1 0x00
+write 0x347 0x1 0x00
+write 0x357 0x1 0x00
+write 0x35f 0x1 0x00
+write 0x36b 0x1 0x00
+write 0x36f 0x1 0x00
+write 0x377 0x1 0x00
+write 0x37f 0x1 0x00
+write 0x397 0x1 0x00
+write 0x39f 0x1 0x00
+write 0x3ab 0x1 0x00
+write 0x3af 0x1 0x00
+write 0x3b7 0x1 0x00
+write 0x3bf 0x1 0x00
+write 0x3c7 0x1 0x00
+write 0x3d7 0x1 0x00
+write 0x3df 0x1 0x00
+write 0x3eb 0x1 0x00
+write 0x3ef 0x1 0x00
+write 0x3f7 0x1 0x00
+write 0x3ff 0x1 0x00
+write 0xe0000394 0x1 0x00
+write 0xe0000398 0x1 0x01
+EOF
 
-R-b still stands
+=3D=3D Stack Trace =3D=3D
+../hw/ide/ahci.c:1349:46: runtime error: member access within null pointer =
+of
+type 'AHCICmdHdr' (aka 'struct AHCICmdHdr') SUMMARY:
+UndefinedBehaviorSanitizer: undefined-behavior ../hw/ide/ahci.c:1349:46 in
+../hw/ide/ahci.c:1349:46: runtime error: load of null pointer of type
+'uint16_t' (aka 'unsigned short')
+SUMMARY: UndefinedBehaviorSanitizer:
+undefined-behavior ../hw/ide/ahci.c:1349:46 in AddressSanitizer:DEADLYSIGNAL
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=3D=3D238806=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x000000=
+000000 (pc
+0x555787d414c9 bp 0x7fffe1bb41a0 sp 0x7fffe1bb3fe0 T0)
+=3D=3D238806=3D=3DThe signal is caused by a READ memory access.
+=3D=3D238806=3D=3DHint: address points to the zero page.
+#0 0x555787d414c9 in ahci_pio_transfer build/../hw/ide/ahci.c:1349:46
+#1 0x5557886089d6 in ide_transfer_start_norecurse build/../hw/ide/core.c:55=
+3:5
+#2 0x555788638945 in ide_transfer_start build/../hw/ide/core.c:560:9
+#3 0x555788638945 in ide_sector_read_cb build/../hw/ide/core.c:761:5
+#4 0x55578860c989 in ide_buffered_readv_cb build/../hw/ide/core.c:656:9
+#5 0x5557898999d6 in blk_aio_complete build/../block/block-backend.c:1412:9
+#6 0x555789db8d26 in aio_bh_poll build/../util/async.c:164:13
+#7 0x555789d80704 in aio_dispatch build/../util/aio-posix.c:381:5
+#8 0x555789dbd94c in aio_ctx_dispatch build/../util/async.c:306:5
+#9 0x7f6dcedcfbaa in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/lib=
+glib-2.0.so.0+0x51baa)
+#10 0x555789dc3763 in glib_pollfds_poll build/../util/main-loop.c:232:9
+#11 0x555789dc3763 in os_host_main_loop_wait build/../util/main-loop.c:255:5
+#12 0x555789dc3763 in main_loop_wait build/../util/main-loop.c:531:11
+#13 0x555789206a49 in qemu_main_loop build/../softmmu/runstate.c:722:9
+#14 0x555787d052ed in main build/../softmmu/main.c:50:5
+#15 0x7f6dcd84ecc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+#16 0x555787c5b619 in _start (system-i386+0x2a13619)
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV build/../hw/ide/ahci.c:1349:46 in ahci_pio_=
+transfer
+=3D=3D238806=3D=3DABORTING
 
+OSS-Fuzz link: https://bugs.chromium.org/p/oss-
+fuzz/issues/detail?id=3D30861
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: fuzzer
+
+** Tags added: fuzzer
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915539
+
+Title:
+  Null-ptr dereference on AHCICmdHdr in ahci_pio_transfer
+
+Status in QEMU:
+  New
+
+Bug description:
+  =3D=3D Reproducer =3D=3D
+
+  cat << EOF | ./qemu-system-i386 -display none \
+  -m 512M -machine q35 -nodefaults \
+  -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
+  -device ide-hd,drive=3Ddisk0 -machine accel=3Dqtest -qtest stdio
+  outl 0xcf8 0x8000fa24
+  outl 0xcfc 0xe0000000
+  outl 0xcf8 0x8000fa04
+  outw 0xcfc 0x06
+  write 0x10a 0x1 0x02
+  write 0xe0000398 0x1 0x01
+  write 0x20000 0x1 0x27
+  write 0x20001 0x1 0x80
+  write 0x20002 0x1 0x20
+  write 0x20005 0x1 0x02
+  write 0xe00003b8 0x2 0x0101
+  write 0xe0000004 0x1 0x01
+  write 0x2bb 0x1 0x00
+  write 0x2bf 0x1 0x00
+  write 0x2cf 0x1 0x00
+  write 0x2db 0x1 0x00
+  write 0x2df 0x1 0x00
+  write 0x2ed 0x1 0x00
+  write 0x2ef 0x1 0x00
+  write 0x2fb 0x1 0x00
+  write 0x2ff 0x1 0x00
+  write 0x31f 0x1 0x00
+  write 0x32b 0x1 0x00
+  write 0x32f 0x1 0x00
+  write 0x337 0x1 0x00
+  write 0x33f 0x1 0x00
+  write 0x347 0x1 0x00
+  write 0x357 0x1 0x00
+  write 0x35f 0x1 0x00
+  write 0x36b 0x1 0x00
+  write 0x36f 0x1 0x00
+  write 0x377 0x1 0x00
+  write 0x37f 0x1 0x00
+  write 0x397 0x1 0x00
+  write 0x39f 0x1 0x00
+  write 0x3ab 0x1 0x00
+  write 0x3af 0x1 0x00
+  write 0x3b7 0x1 0x00
+  write 0x3bf 0x1 0x00
+  write 0x3c7 0x1 0x00
+  write 0x3d7 0x1 0x00
+  write 0x3df 0x1 0x00
+  write 0x3eb 0x1 0x00
+  write 0x3ef 0x1 0x00
+  write 0x3f7 0x1 0x00
+  write 0x3ff 0x1 0x00
+  write 0xe0000394 0x1 0x00
+  write 0xe0000398 0x1 0x01
+  EOF
+
+  =3D=3D Stack Trace =3D=3D
+  ../hw/ide/ahci.c:1349:46: runtime error: member access within null pointe=
+r of
+  type 'AHCICmdHdr' (aka 'struct AHCICmdHdr') SUMMARY:
+  UndefinedBehaviorSanitizer: undefined-behavior ../hw/ide/ahci.c:1349:46 in
+  ../hw/ide/ahci.c:1349:46: runtime error: load of null pointer of type
+  'uint16_t' (aka 'unsigned short')
+  SUMMARY: UndefinedBehaviorSanitizer:
+  undefined-behavior ../hw/ide/ahci.c:1349:46 in AddressSanitizer:DEADLYSIG=
+NAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D238806=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000000 (pc
+  0x555787d414c9 bp 0x7fffe1bb41a0 sp 0x7fffe1bb3fe0 T0)
+  =3D=3D238806=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D238806=3D=3DHint: address points to the zero page.
+  #0 0x555787d414c9 in ahci_pio_transfer build/../hw/ide/ahci.c:1349:46
+  #1 0x5557886089d6 in ide_transfer_start_norecurse build/../hw/ide/core.c:=
+553:5
+  #2 0x555788638945 in ide_transfer_start build/../hw/ide/core.c:560:9
+  #3 0x555788638945 in ide_sector_read_cb build/../hw/ide/core.c:761:5
+  #4 0x55578860c989 in ide_buffered_readv_cb build/../hw/ide/core.c:656:9
+  #5 0x5557898999d6 in blk_aio_complete build/../block/block-backend.c:1412=
+:9
+  #6 0x555789db8d26 in aio_bh_poll build/../util/async.c:164:13
+  #7 0x555789d80704 in aio_dispatch build/../util/aio-posix.c:381:5
+  #8 0x555789dbd94c in aio_ctx_dispatch build/../util/async.c:306:5
+  #9 0x7f6dcedcfbaa in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/l=
+ibglib-2.0.so.0+0x51baa)
+  #10 0x555789dc3763 in glib_pollfds_poll build/../util/main-loop.c:232:9
+  #11 0x555789dc3763 in os_host_main_loop_wait build/../util/main-loop.c:25=
+5:5
+  #12 0x555789dc3763 in main_loop_wait build/../util/main-loop.c:531:11
+  #13 0x555789206a49 in qemu_main_loop build/../softmmu/runstate.c:722:9
+  #14 0x555787d052ed in main build/../softmmu/main.c:50:5
+  #15 0x7f6dcd84ecc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+  #16 0x555787c5b619 in _start (system-i386+0x2a13619)
+
+  AddressSanitizer can not provide additional info.
+  SUMMARY: AddressSanitizer: SEGV build/../hw/ide/ahci.c:1349:46 in ahci_pi=
+o_transfer
+  =3D=3D238806=3D=3DABORTING
+
+  OSS-Fuzz link: https://bugs.chromium.org/p/oss-
+  fuzz/issues/detail?id=3D30861
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915539/+subscriptions
 
