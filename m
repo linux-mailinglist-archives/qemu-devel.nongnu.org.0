@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80FC2319C0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 10:47:15 +0100 (CET)
-Received: from localhost ([::1]:43150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63DD319C59
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 11:10:02 +0100 (CET)
+Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAV2g-0003Il-Cp
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 04:47:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56972)
+	id 1lAVOi-0004xu-EO
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 05:10:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAV0W-0002ij-4I
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:45:00 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41737)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAVMq-0004PW-Jm
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 05:08:04 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:38000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAV0U-00066U-GE
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 04:44:59 -0500
-Received: by mail-wr1-x435.google.com with SMTP id n6so7124814wrv.8
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 01:44:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Md2FHNpDbalvGhjyLp3TW09GlrTsXNzCtTlATTqIILU=;
- b=RoVHPWlNkEC9S8eKZ2JBl2ElVJta1ylABx9XGP88M8TjMCZCZK8vSEYyVmmQ7Pyasu
- X7GL6vBrS0Q0qk/OEHiShzf/x8fj76viTRCdWc5hDfdyWwUq9m2QlhV7swKDbKWIhVyW
- qvo4auqym2oGoDJopXlinFyXadLBRt4+oWNZtZa04icKhCTmGg1kyziNvcabXOo8Kvfe
- zg9DEvMCCjf51fm4v6k1IMmXdTKE1SLkg1OiXhH7xhKnA6MgdgLVFR71M3PxXhVERhm5
- I7txWqAlbJPO3VJDk5QhctYrPGnywBlyDA12hKp1SPIsPAHoxjtCZRYqeygSWYncbuYU
- oC8Q==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAVMo-0007jA-8b
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 05:08:04 -0500
+Received: by mail-ed1-x531.google.com with SMTP id s11so10068743edd.5
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 02:08:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=ClciA5Gl7cdrE25nurIGhgoXS+1tdwzvu29aPHnwBGk=;
+ b=A8p5fgOujO0iWL/XGirJYfLLBucqY/lKmIdjSlF1Y+LRIZkd1YlaVTnxq/PmWxoCXd
+ MnPkcIfjXIWGmYV8zOCIoE8HbGUdPm4TmTcttns+7ID1eMrXBL/7wvzxrSENV1S7TIZu
+ hJX/kdDckfWKI4NrdvKfqggOONzNI3zhs7L5WNnVkBBXu4wbkqx7Nts+j/cmL42xVnXV
+ FkYOe/LBqpD4AoScT3UKKdn9/uXPnkTWp2KDc93EpjT6imlMtMYS2oZd851TamMx6wX4
+ g3Ua7dNYxQ/TtTUwRzU2XkMRCAsSdOworZnWESd3COaJHOqyJKsxNrpjpib9NZa8UP+X
+ Ifzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Md2FHNpDbalvGhjyLp3TW09GlrTsXNzCtTlATTqIILU=;
- b=nhrz1Y1Udg6gBC4Xt53Fs1l7it8wqsuAnMQbV/S3V/rKm0NKPNZuU3rCQNJKdnQuOC
- E4GHHhv+o+wp1bSHY7/ITyok6g6QpbZvUNn6fKaG65NX81kM8I4cBXa/272zU7XJp4Z3
- 3P/aH9Hns6fZvs910cB9MbHZVkWDIUxQDdmEyTolFYzD9FEbauQgIRFqs7TkAxCPvPKH
- N8TnflXuxmWsyWFpp8e8cRKjxWqCIHD1sccqzd/DtdyLlx6t6CM8JEk6tOa+2nI7B/vp
- dUNWXkLqLExF990WIELWPCEffkf2Q7J9brKmPqa7pq0BgZszESakzToKOTaRMno05pwa
- 4CgQ==
-X-Gm-Message-State: AOAM531O0dWhTy/NFtKsDEiCxvU2eOSkvMxohBGNlflvlXaNfougIiSU
- 0FS1RouO02ET6TeO9oZGPutItcNDjKM=
-X-Google-Smtp-Source: ABdhPJw6j/O5VRK+Utxn/P400G3nzQkAK0nUCU/IgIoCDzkwtafnq13ieIHsVyC8za17R1daCC0Img==
-X-Received: by 2002:a5d:4dd0:: with SMTP id f16mr2444346wru.304.1613123096695; 
- Fri, 12 Feb 2021 01:44:56 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id 36sm10430335wrj.97.2021.02.12.01.44.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Feb 2021 01:44:56 -0800 (PST)
-Subject: Re: RFC Qemu mipssim patches
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Reinoud Zandijk <reinoud@NetBSD.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-References: <20210211153746.GA25676@dropje.13thmonkey.org>
- <acf26892-c47c-7059-f3d1-8ef5bdcdcb8b@amsat.org>
-Message-ID: <2951213f-7610-857d-c20c-12bc26877490@amsat.org>
-Date: Fri, 12 Feb 2021 10:44:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=ClciA5Gl7cdrE25nurIGhgoXS+1tdwzvu29aPHnwBGk=;
+ b=cK2aZas7VOqDdCEzA/rUUT4Ckn4fFfQ3cEKCc7XYJrINkKtejBkzYze2Kzwcm8/ApD
+ 5fW/oxbDc8BJRUJGvHn1uuJveP4L8HK0qfiSkuTxUEbnVH1xxn6zQWhVwuy6LjnWtexe
+ 5+eirnEerozVxX8wgCxD25v/9THgVPEy0Htvn3mu5fTmoewOu+6Wy6NE5QQq31d7TSoL
+ NBHd6uXka0QH6OI1R2J1kpohIpPp2op2BUtXnfmn5XbRa9ZTGEh57tL8AtUZbZCVY25q
+ OEy8X4IlHXhZ7gNQaKsAEx6BI+p5BnX1KKNbVF68V+OL7vT+RJ+yDD4In9jyIWETTn1H
+ MKfA==
+X-Gm-Message-State: AOAM533rAnks8Nrtcmwho5E7KI9ewO3ekzRIyYjLbxMA1mma2Jzunj23
+ 3GGWsAIKb5WXgRU0p4UFNfPMaOVSzFiDXxOrLj9n4EHInpU=
+X-Google-Smtp-Source: ABdhPJyhbHlTsLDcaGYSK60SOtuBE+PWaSIZYPRCrB+r+XGDt3UATxBMLMJ877OCmg2KtmE0Amft1yUqlHjF2002rL8=
+X-Received: by 2002:a05:6402:3514:: with SMTP id
+ b20mr2488679edd.100.1613124480097; 
+ Fri, 12 Feb 2021 02:08:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <acf26892-c47c-7059-f3d1-8ef5bdcdcb8b@amsat.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.119,
+References: <20210211195731.6039-1-peter.maydell@linaro.org>
+In-Reply-To: <20210211195731.6039-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 12 Feb 2021 10:07:49 +0000
+Message-ID: <CAFEAcA_KzL4xKHw2AGad3qV-BWux9nhWb8L31qzYVd-Ftaso6w@mail.gmail.com>
+Subject: Re: [PULL v2 00/11] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,46 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/12/21 1:13 AM, Philippe Mathieu-Daudé wrote:
-> Hi Reinoud,
-> 
-> On 2/11/21 4:37 PM, Reinoud Zandijk wrote:
->> Hi,
->>
->> i'd like to get the following simple patches to the MIPS/mipssim target adding
->> virtio-mmio devices to it.
+On Thu, 11 Feb 2021 at 19:57, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Massively slimmed down v2: MemTag broke bsd-user, and the npcm7xx
+> ethernet device failed 'make check' on big-endian hosts.
+>
+> -- PMM
+>
+> The following changes since commit 83339e21d05c824ebc9131d644f25c23d0e41ecf:
+>
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-02-10 15:42:20 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210211-1
+>
+> for you to fetch changes up to d3c1183ffeb71ca3a783eae3d7e1c51e71e8a621:
+>
+>   target/arm: Correctly initialize MDCR_EL2.HPMN (2021-02-11 19:48:09 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * Correctly initialize MDCR_EL2.HPMN
+>  * versal: Use nr_apu_cpus in favor of hard coding 2
+>  * accel/tcg: Add URL of clang bug to comment about our workaround
+>  * Add support for FEAT_DIT, Data Independent Timing
+>  * Remove GPIO from unimplemented NPCM7XX
+>  * Fix SCR RES1 handling
+>  * Don't migrate CPUARMState.features
 
-Please submit your patches as a series so we can review them on
-the list:
-https://wiki.qemu.org/Contribute/SubmitAPatch#Use_git_format-patch
 
-BTW you are ORing the IRQ pointer, so you are likely loosing
-interrupts...
+Applied, thanks.
 
-In case you want to keep using the MIPSsim, see this example
-commit on how to use an OR gate:
-https://gitlab.com/qemu-project/qemu/-/commit/a879306ca14
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
->> This makes the target a lot more usefull as microvm
->> for kernel developement. It currently lives in our qemu extensions patches and
->> we have a working kernel that supports all virtio devices for it.
->>
->> Thoughts?
-> 
-> Why not start a cleanly specified machine, as Laurent is doing on m68k?
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg768802.html
-> 
-> This one doesn't even have an interrupt controller.
-> 
-> Cc'ing Aleksandar who maintains this machine.
-> 
-> Regards,
-> 
-> Phil.
-> 
+-- PMM
 
