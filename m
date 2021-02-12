@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CAD31A03E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 15:03:35 +0100 (CET)
-Received: from localhost ([::1]:47090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA53A31A036
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 15:01:53 +0100 (CET)
+Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAZ2k-0006dK-Sv
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 09:03:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51040)
+	id 1lAZ16-0004u6-G3
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 09:01:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1lAYt2-0004ip-5d
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:53:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21064)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1lAYvI-0007Lm-Ta
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:55:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1lAYsz-0006j2-QK
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:53:31 -0500
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1lAYvG-0007ah-Dx
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:55:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613138009;
+ s=mimecast20190719; t=1613138149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BZxSqmlJG2Scv7NK7OxzylGd6LnBR15diGzo7UDhz9s=;
- b=TzaJ/KHO1tLALLcsWXe6WnsXm5kWj2qE0+kNlgEkL9Nyt6Mk0yhzXdSMhovn6+vPmsySzo
- KA6qJXUxv+oycPbV3NN3msbl9bIa+6J5WtnnhDzZfNqoQ1LHl3hA6/mx98UiFZ69q6wQcD
- 35uA6H74m0Iir+pD5tfjFWxp8RNfpgw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-hyE8OQNBPPCM30GoXhM9cQ-1; Fri, 12 Feb 2021 08:53:27 -0500
-X-MC-Unique: hyE8OQNBPPCM30GoXhM9cQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5B55801962;
- Fri, 12 Feb 2021 13:53:25 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-112-23.ams2.redhat.com [10.36.112.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B94F2C154;
- Fri, 12 Feb 2021 13:53:19 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/4] failover: really display a warning when the primary
- device is not found
-Date: Fri, 12 Feb 2021 14:52:49 +0100
-Message-Id: <20210212135250.2738750-4-lvivier@redhat.com>
-In-Reply-To: <20210212135250.2738750-1-lvivier@redhat.com>
-References: <20210212135250.2738750-1-lvivier@redhat.com>
+ bh=lDtney6krny5k7qISEyYYaDsOIeiY7rMhO750PKB2bY=;
+ b=YACerQekXO7kbz4gJNqpnECewU+bys1j91GWVkGn5aLTS4UAqqv60YVWF5Sa6m1ycv+93N
+ vs7fa6Fuoauh45o1ilqf3JRbf+t3CFt0YuyaGlwf4RDqRmtrB0WOjj+By4UWWEY+xzR6F6
+ gg+50UYovcjtBR8ubftyHZu/ivKFabA=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-4Dxe0W4KMCWAPy_Ph5tNWg-1; Fri, 12 Feb 2021 08:55:47 -0500
+X-MC-Unique: 4Dxe0W4KMCWAPy_Ph5tNWg-1
+Received: by mail-ej1-f70.google.com with SMTP id yd11so6848885ejb.9
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 05:55:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lDtney6krny5k7qISEyYYaDsOIeiY7rMhO750PKB2bY=;
+ b=nNeUpM9+WkO6LMd8h3BaIdDZ9kWGWYU6/2+4/fy6uaWYvWrp4ElBfQqRWTSpv27GRd
+ Fd6o+rJF1Mc3yxgheXxZnj3xY+hEfBLRfxtCCQgXHfrgIN2xGDHthMamY8IRDgBg0iDw
+ +hTlr33n5+yblb2limcOgxwY9orhiQmjoTWMJIaIwGOzG69hAmLZpYqO93uWqqYCFDgB
+ KMXy76fJKBBu7UGslVI/SamrPpHx2Tp6eb7B7AUJRVdv+GKjaJwipJL7/hyvKEBTzLWK
+ hiVVCdIPGZS1YiBnUvbMK2XZObb07xUIfWGCXdQGRCHSlowRSFrUdf5Png4cRpIlWKz1
+ EBSA==
+X-Gm-Message-State: AOAM531vCf8qLaMsiMWc1WBIFO7JnM3poX/Q0ckJk5d5rmBOi1IEz6Tq
+ HmefYcQCbgyuydcgw7qB03DlbN56f5zE+eq4JkejEI4bmivAuWSQWDsRGNoNXjmq4xZBEI/pgx9
+ Byg1Wgq9+Gy5wlPIIbr0l4m3k1CZM/ts=
+X-Received: by 2002:a17:906:b082:: with SMTP id
+ x2mr3051877ejy.100.1613138146787; 
+ Fri, 12 Feb 2021 05:55:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzgXrCN95g+7tOuNF82uvutMEG7P8UKaERDEvpdtpqEbLQ6zUu44bSGhzUwvrLVa2E0Y+4wIFKaFk6NVY+1XDc=
+X-Received: by 2002:a17:906:b082:: with SMTP id
+ x2mr3051857ejy.100.1613138146626; 
+ Fri, 12 Feb 2021 05:55:46 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKPLD68GXeMyU_LTVYjv8YUXex4wvyAnHkOgu=PK48pP7w@mail.gmail.com>
+ <CAA8xKjWojtJgOM-M6NYvWH5cPhEhxSdcWQ55Nz-24MstOr=xYQ@mail.gmail.com>
+ <75b11565-98fd-b242-2b32-0c04e5cce181@amsat.org>
+In-Reply-To: <75b11565-98fd-b242-2b32-0c04e5cce181@amsat.org>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Fri, 12 Feb 2021 14:55:35 +0100
+Message-ID: <CAA8xKjX3D2tu+6EPq5ASKd+iFkBkqTCsV0zgWP=K8Bh=nSr7LA@mail.gmail.com>
+Subject: Re: [PATCH] hw/sd: sdhci: Do not transfer any data when command fails
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mcascell@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -79,70 +94,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.williamson@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>, quintela@redhat.com,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- zhengxiang9@huawei.com, jfreimann@redhat.com
+Cc: Qemu-block <qemu-block@nongnu.org>, qemu-stable@nongnu.org,
+ Li Qiang <liq3ea@163.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Prasad J Pandit <ppandit@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In failover_add_primary(), we search the id of the failover device by
-scanning the list of the devices in the opts list to find a device with
-a failover_pair_id equals to the id of the virtio-net device.
+On Thu, Feb 11, 2021 at 8:48 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 2/11/21 9:52 AM, Mauro Matteo Cascella wrote:
+> > Hello,
+> >
+> > On Wed, Feb 10, 2021 at 11:27 PM Alistair Francis <alistair23@gmail.com=
+> wrote:
+> >>
+> >> On Tue, Feb 9, 2021 at 2:55 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>>
+> >>> At the end of sdhci_send_command(), it starts a data transfer if
+> >>> the command register indicates a data is associated. However the
+> >>> data transfer should only be initiated when the command execution
+> >>> has succeeded.
+> >>
+> >> Isn't this already fixed?
+>
+> The previous patch was enough to catch the previous reproducer,
+> but something changed elsewhere making the same reproducer crash
+> QEMU again...
+>
+> > It turned out the bug was still reproducible on master. I'm actually
+> > thinking of assigning a new CVE for this, to make it possible for
+> > distros to apply this fix.
+>
+> It sounds fair. Do you have an ETA for the new CVE?
 
-If the failover_pair_id is not found, QEMU ignores the primary
-device silently (which also means it will not be hidden and
-it will be enabled directly at boot).
+This is now CVE-2021-3409.
 
-After that, we search the id in the opts list to do a qdev_device_add()
-with it. The device will be always found as otherwise we had exited
-before, and thus the warning is never displayed.
+RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1928146
 
-Fix that by moving the error report to the first exit condition.
-Also add a g_assert() to be sure the compiler will not complain
-about a possibly NULL pointer.
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- hw/net/virtio-net.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 1c5af08dc556..439f823b190c 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -855,21 +855,19 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
- 
-     id = failover_find_primary_device_id(n);
-     if (!id) {
-+        error_setg(errp, "Primary device not found");
-+        error_append_hint(errp, "Virtio-net failover will not work. Make "
-+                          "sure primary device has parameter"
-+                          " failover_pair_id=%s\n", n->netclient_name);
-         return;
-     }
-     opts = qemu_opts_find(qemu_find_opts("device"), id);
--    if (opts) {
--        dev = qdev_device_add(opts, &err);
--        if (err) {
--            qemu_opts_del(opts);
--        } else {
--            object_unref(OBJECT(dev));
--        }
-+    g_assert(opts); /* cannot be NULL because id was found using opts list */
-+    dev = qdev_device_add(opts, &err);
-+    if (err) {
-+        qemu_opts_del(opts);
-     } else {
--        error_setg(errp, "Primary device not found");
--        error_append_hint(errp, "Virtio-net failover will not work. Make "
--                          "sure primary device has parameter"
--                          " failover_pair_id=<virtio-net-id>\n");
-+        object_unref(OBJECT(dev));
-     }
-     error_propagate(errp, err);
- }
--- 
-2.29.2
+--
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
 
 
