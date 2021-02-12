@@ -2,59 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6983D319786
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 01:37:02 +0100 (CET)
-Received: from localhost ([::1]:42396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C5D3197A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 01:56:15 +0100 (CET)
+Received: from localhost ([::1]:45124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAMSD-0001lS-GX
-	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 19:37:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58470)
+	id 1lAMko-00068h-DQ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 19:56:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAMR3-0001L1-DH
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:35:49 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:48505)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lAMj8-0005gR-NE
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:54:30 -0500
+Received: from mail-dm6nam10on2102.outbound.protection.outlook.com
+ ([40.107.93.102]:47840 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAMR1-0005vE-Hq
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:35:49 -0500
-Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N3bfB-1lsSk90GyR-010fJz; Fri, 12 Feb 2021 01:35:42 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210211132959.574168-1-thuth@redhat.com>
- <2baf117e-2af0-5bb7-944c-219bcb9282ba@vivier.eu>
-Subject: Re: [PATCH] linux-user/syscall: Silence warning from the undefined
- behavior sanitizer
-Message-ID: <5ac6434b-b7af-cf3f-777d-6a2e993c0815@vivier.eu>
-Date: Fri, 12 Feb 2021 01:35:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <2baf117e-2af0-5bb7-944c-219bcb9282ba@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lAMj6-0005gM-Nq
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:54:30 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aCBMAKyGouKs5Q7sLVqRE+MVIOWAwYE8jX+Bck+OJQQSnMTKfMoHrWhZ35ii5Ha+VNOnzOGj7JIzOj/C10MITQdf7SHtOs1jV1Ck8tfS9pywsCsTd1aoALOWCRCayhbPn3yrwnerWK5/aBVdOCERJT3anfRrnTlyGagNhqfN0AU1OivADa2xKmieFI8IntsN2q+6aD9RNBfONpPeF3SwBcOteuyrHXGGDnCLaaWRRIdfyJl3kjg9bUhKBr2/gStc6dELIihJDB9WMr5SH/f8IOsLkvLZBWNG1sK2ZRXn0uloPzJtAjRNLacHZR1chWbLJpJeEKIXCO+BuNdTl0v6Og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4yH8XfKCSiZB3CAhqkxP/5rJQ1uKjCMJPwOu0sPjv6o=;
+ b=X14V9DrFJ06b67GI72BP1xyQSlCwh9fWTxgkkjx8q2MMXq5h1th53RycWSaPEOBaE7PhfPankIDVpwYkzuW6ZfA4rNvF4P4M1dMgPt0ByoqwrAj7+2mTNuqKYnDCPRZ54Xdqm5fSFmo4bhHbJMjne5x+OFsksdwxH7wqJg120UlJiDLAdRyPHCiXCTiEn+XW7X7fKI0SK754lJuzpjcff90mFgeyq4bpyD1MzkPdbaglFGrISe4RGUHr+VLLUDqwCtahdSzTKsCBHd4yOEi/opefcNiUNMtkzcQ9dKbw79GmCV8RzXk22m3RK9JGRJ0TNoE2psqnXSUgLXxhi7C7TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4yH8XfKCSiZB3CAhqkxP/5rJQ1uKjCMJPwOu0sPjv6o=;
+ b=Yg9fBewNFwhBs2ULMCM65X4z/X3j4vYAMDFXE26N7wFvccqjpHecLwRSGjmi/Kd2MPbPNOx7el35adQfXxukevgukd5eKYtSailSo7lddQWF6ql/hYEBD9TzCmhPA2FIhGyCjfM3PnZ1r1ydB6UTRmI9T9onTySi3r7KpBIebRw=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SN2PR01MB2064.prod.exchangelabs.com (2603:10b6:804:9::10) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3846.25; Fri, 12 Feb 2021 00:54:24 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::6caf:7c56:c4de:b5c5]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::6caf:7c56:c4de:b5c5%6]) with mapi id 15.20.3825.025; Fri, 12 Feb 2021
+ 00:54:24 +0000
+Date: Thu, 11 Feb 2021 19:53:56 -0500
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, cota@braap.org, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH  v2 20/21] accel/tcg: allow plugin instrumentation to be
+ disable via cflags
+Message-ID: <YCXRpCiekU+TgoAX@strawberry.localdomain>
+References: <20210210221053.18050-1-alex.bennee@linaro.org>
+ <20210210221053.18050-21-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QB58dfaF/W+RZCv4uZ3d8BUsxRGcZBcLsckY9GBxA38vfO52Z0i
- mcc2hgl3pjVPPJtBP8JJ2dB8Sh2STW+TVarQjVnWX+kOIpk2gv+T9P8bd9GRM1hIw/Sf1xX
- zV3V9MS3EW4YWoiaygY9D+SV708eSFdOzo2ytlw8CyGq7Tot7Z4yOYj8e6pnkovHvKkKAn0
- p04G1C4f5kc4TaKZq9+uQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/KtcfXYuX4I=:d1h1z/YuXSnkCQT1h3381n
- 1C0nBDf+zlTtwoVSduAwcouY8tVI5fgHutFkLdZXiZkC4PE+ptGhywc6l4phLfKN+Y6L7vJqA
- /afP5ch9hxQpi8WCOz7C9db8Xad869Kvso5IVzzpc6l8DTOVTdF8ftTf/3vrDMuD4qyOhepNf
- EYfAMiEfWdYFvHmXWDzz+ee/jFXMo/gHvJjUKivaWH4itLAvh2Wqesv5dx2VhmzqHPX6cjljr
- Pe1UJ0oNxtJUYcOPcDrxgraiWlvbbXXxdyzVTv+1HAscC70e8BlwsOSvCkACbxN0Y4tBxg9nB
- w4pAPdO+Pjwk30t4eBGoYqxKcxjQo19OBHjOUZQu7E6sf8zs7Aw+LSU6ISphCgmZwbT1Ze+MJ
- 7+gcQvqG7jh/IZkKKgGQNJ8nIa0stnxFNG60WsbSz9ZHZ2Ng79pEOBRTi7Gzt7e3PHKwonRoo
- AWvcaNTbBA==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.119,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210210221053.18050-21-alex.bennee@linaro.org>
+X-Originating-IP: [68.73.113.219]
+X-ClientProxiedBy: BLAPR03CA0146.namprd03.prod.outlook.com
+ (2603:10b6:208:32e::31) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from strawberry.localdomain (68.73.113.219) by
+ BLAPR03CA0146.namprd03.prod.outlook.com (2603:10b6:208:32e::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27 via Frontend
+ Transport; Fri, 12 Feb 2021 00:54:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4e34d510-aa44-4106-b869-08d8cef0bd6b
+X-MS-TrafficTypeDiagnostic: SN2PR01MB2064:
+X-Microsoft-Antispam-PRVS: <SN2PR01MB2064252C31EB8630AD74C9B68A8B9@SN2PR01MB2064.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8zh+F4klxFCGj+CXBOm4r7oPx3bGv+UBomPw1sEE8ACGiPFDiGh7OLwHx3P/F9DkFNwR8NGXxw/S0HFPu37sOSD9dqTZdZbUm7iZU8KmioD60W4nh5I6xIf4untHt5Rojm7aww4eAU10oHYZsGGILdbwT0MuYTsHZRXX93JtNokCzqNry9iuJrldvB2Dt/OOvGmJlhqfsQqOsUTpxPAJzb4ZMwwFfdZkQ+gwaK4SZdfctjC0ovc/OrhTl4AFNehbOS7gmF7GZ0vZOYw3xKztCHMyEUEj4FILqSAF5EG8V7OpKCbE0ad7rsL5ajkU6LPK2MIwmcyNkboY4v1azf4nIqgndyOSw7xl7t+VIfYUSd7Zbr5qOCxx8s8wlrz1cWyJSjZ/xxqN8NjYUonFgoyvlw82scoz8odopxHj7/xpB9IouaZ4yn5jevHaLvji8jccxYpt7gf8mEA/ksnX4aY9yWt2vrK/nOWkkyyRYAdGQC6xG66aiHKOFHlbSx1eRDyvAii9k2pCwr1+wMOXimTDwVYYwZW3ZR8hpprjzt9zBt/h4JmIvMQqhYpxeHOoaAmsPqQ27Z3P1l3g6lBEhHUjpJFn6MXH53vK6ITXf+ZlKP8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(346002)(396003)(366004)(39850400004)(54906003)(4326008)(34580700001)(52116002)(7696005)(478600001)(316002)(8676002)(66574015)(66476007)(9686003)(5660300002)(6916009)(8936002)(26005)(86362001)(66946007)(186003)(16526019)(83380400001)(66556008)(6506007)(6666004)(956004)(2906002)(55016002)(67856001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?/5MVlBcbXa6lDriRjq3EGSTWdPYKKgxoUZIBsMiG67EAYBSRyERwO2c2CP?=
+ =?iso-8859-1?Q?kwBZgzzqE7utcik76yXSiCdh5aAj3+fwTHF0dFLf4KwaMSQQJ80+VddTzE?=
+ =?iso-8859-1?Q?Zj5zb3VfuaYcQsaelQ+T6HufU/QDN9YCv+A6jqFYzLVjFB1ZiiF/OJ/Z2H?=
+ =?iso-8859-1?Q?5Ev1uvCGpzZELWAA+Vv0laxUIw3trgUWwsSzEWrenUHoiBTIAoMU4TcWAb?=
+ =?iso-8859-1?Q?dEFP9ClstNCZiMGbmZVig/OvWxH5u2mhSPc8BdmW8Uxl7VAtgU4zfr35RU?=
+ =?iso-8859-1?Q?KOACOZzrKXZXX8g+BcBkoYOwaCu2n4x3YiWbR8aIEayZCj5OdvE0qbBhzF?=
+ =?iso-8859-1?Q?O7fSd8iS/1A8AGN7dXo/8J0ofM1/HTg5rQBmOxCGmaxijaikhJu3Kex45O?=
+ =?iso-8859-1?Q?RtiKklA/3jykuCy5hfhFdeKa/Ml2axWllVDmCflChY910WS3NZtJlfLf9/?=
+ =?iso-8859-1?Q?99XDwVzgGZ14IKhlAuQBTl6W2hxahLDIobKBi1tX5L0Ku/REeV6OBhXkhR?=
+ =?iso-8859-1?Q?kBlboIkjFKmzQ1K5uJC/rS+hCYMaXEzno4ayiCmEXv9ljAew+rgnLnw0KW?=
+ =?iso-8859-1?Q?4sHK4dV3pcqoSARQtZ+gIFh+iUZ00O8Z14LgbDejpmA/ZXd2AzTxtGTGmB?=
+ =?iso-8859-1?Q?3y+HGIPS/2PKbSlK9yITDe4v6EI5uk56TJUAkeM52a7z/CLawO8X5R1CG3?=
+ =?iso-8859-1?Q?3UAAf091pkoiQuQK1SaSE0GENX89SQ6YZZHI8EwDJtXXv8VyW06hKq331X?=
+ =?iso-8859-1?Q?4Zroqr6vrZn+wuhXCGu6EbHJKrgRr6XOiZCqvnMTcv2BBEqphEvNBunNuR?=
+ =?iso-8859-1?Q?8kglats+u6YUs+bUwiSboHT5I16eoG9PhsxMpU3sgAUEObYcVu1PGqMdkJ?=
+ =?iso-8859-1?Q?l/gYJy+waxHY7C0o/Riq1pITt6TCgZynbZ4GgNdUZc4VnBI13UQo2MQ2hJ?=
+ =?iso-8859-1?Q?ug+D22roNN+XN460HpaTWIOhnhncQMg37XpGInaXXooQFpF2xfgsrgKU4z?=
+ =?iso-8859-1?Q?+qLYOQCkD8ZvlRnDux0/DBQUR5ZifnZpkVzFm2ZOXIBcSAsfl0qgQnED4G?=
+ =?iso-8859-1?Q?qdIOmXMeDfZz2M/PfFWLeWjikYF6phzUnSOUh/0kzlxQHh8Xfo1o5BSbV9?=
+ =?iso-8859-1?Q?BuoQkfLENmTYVY/P8x2O0HX261mnr5ekpoxdbfwI2/bezWq1q3/EGhy56R?=
+ =?iso-8859-1?Q?5xVB+ufMwoRxpEHxKLplmzrujNTxaoS8gW9z7roUnlLwCzSMkWU+J56Gr3?=
+ =?iso-8859-1?Q?r7Av8fVwIgqEHU1Hr74Qr+f6Qv3gmn1sYxeNZN8LsPKixihhSale4RI3X8?=
+ =?iso-8859-1?Q?0v7yPLCk2W+JK3R0I3OdxPrufoc3vsET21PpLRvVe+xxX5C9YA+1NFQJoc?=
+ =?iso-8859-1?Q?s9SbozFxcd?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e34d510-aa44-4106-b869-08d8cef0bd6b
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2021 00:54:24.0700 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EQoorrDHpZDZXUWWSjThjs8ZBYzenUgdo63oM5O0Td7D49BenxGjsaeIJsY7PwuHgB28ZYfA7G+RhZR67seRGoVxF3ihWom6Q6HCE7olps8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR01MB2064
+Received-SPF: pass client-ip=40.107.93.102;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,94 +143,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Aaron Lindsay <aaron@os.amperecomputing.com>
+From:  Aaron Lindsay via <qemu-devel@nongnu.org>
 
-Le 11/02/2021 à 22:28, Laurent Vivier a écrit :
-> Le 11/02/2021 à 14:29, Thomas Huth a écrit :
->> When compiling QEMU with -fsanitize=undefined, there is a warning when
->> running "make check-tcg":
->>
->>   TEST    linux-test on m68k
->> ../linux-user/syscall.c:10499:34: runtime error: member access within
->>  misaligned address 0x00008006df3c for type 'struct linux_dirent64',
->>  which requires 8 byte alignment
->> 0x00008006df3c: note: pointer points here
->>   00 00 00 00 68 03 28 00  00 00 00 00 5b 96 3e e4  61 4b 05 26 18 00 04 2e  00 00 00 00 da 3f 18 00
->>               ^
->>
->> It's likely not an issue in reality, since I assume that on hosts where
->> the alignment really matters (like sparc64), the Linux kernel likely
->> adds the right padding. Anyway, let's use the stw_p() / stq_p() accessor
->> helpers here to silence the warning and thus to allow to compile the code
->> with -fsanitize=undefined, too.
+On Feb 10 22:10, Alex Benn�e wrote:
+> When icount is enabled and we recompile an MMIO access we end up
+> double counting the instruction execution. To avoid this we introduce
+> the CF_NOINSTR cflag which disables instrumentation for the next TB.
+> As this is part of the hashed compile flags we will only execute the
+> generated TB while coming out of a cpu_io_recompile.
 
-Wait... if the alignment differs between m68k and the host, I guess the size of the structure differs?
+Unfortunately this patch works a little too well!
 
-In this case we cannot use the guest memory to call the host syscall, we must allocate a host
-structure and copy the values into the guest structure.
+With this change, the memory access callbacks registered via
+`qemu_plugin_register_vcpu_mem_cb()` are never called for the
+re-translated instruction making the IO access, since we've disabled all
+instrumentation.
 
-Thanks,
-Laurent
+Is it possible to selectively disable only instruction callbacks using
+this mechanism, while still allowing others that would not yet have been
+called for the re-translated instruction?
 
+-Aaron
 
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  linux-user/syscall.c | 16 +++++++++-------
->>  1 file changed, 9 insertions(+), 7 deletions(-)
->>
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index 34760779c8..50de535ade 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -10491,20 +10491,22 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->>                  return -TARGET_EFAULT;
->>              ret = get_errno(sys_getdents64(arg1, dirp, count));
->>              if (!is_error(ret)) {
->> -                struct linux_dirent64 *de;
->> +                char *de;
->>                  int len = ret;
->>                  int reclen;
->> -                de = dirp;
->> +                de = (char *)dirp;
->> +                #define de64(x) offsetof(struct linux_dirent64, x)
+> While we are at it delete the old TODO. We might as well keep the
+> translation handy as it's likely you will repeatedly hit it on each
+> MMIO access.
 > 
-> Do we really need the cast to the "(char *)"?
+> Reported-by: Aaron Lindsay <aaron@os.amperecomputing.com>
+> Signed-off-by: Alex Benn�e <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20210209182749.31323-12-alex.bennee@linaro.org>
 > 
-> can't we use "&de->XXX" with the accessors?
-> We don't access the memory, only read the address, the compiler should be happy.
+> ---
+> v2
+>   - squashed CH_HASHMASK to ~CF_INVALID
+> ---
+>  include/exec/exec-all.h   |  6 +++---
+>  accel/tcg/translate-all.c | 17 ++++++++---------
+>  accel/tcg/translator.c    |  2 +-
+>  3 files changed, 12 insertions(+), 13 deletions(-)
 > 
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index e08179de34..299282cc59 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -454,14 +454,14 @@ struct TranslationBlock {
+>      uint32_t cflags;    /* compile flags */
+>  #define CF_COUNT_MASK  0x00007fff
+>  #define CF_LAST_IO     0x00008000 /* Last insn may be an IO access.  */
+> +#define CF_NOINSTR     0x00010000 /* Disable instrumentation of TB */
+>  #define CF_USE_ICOUNT  0x00020000
+>  #define CF_INVALID     0x00040000 /* TB is stale. Set with @jmp_lock held */
+>  #define CF_PARALLEL    0x00080000 /* Generate code for a parallel context */
+>  #define CF_CLUSTER_MASK 0xff000000 /* Top 8 bits are cluster ID */
+>  #define CF_CLUSTER_SHIFT 24
+> -/* cflags' mask for hashing/comparison */
+> -#define CF_HASH_MASK   \
+> -    (CF_COUNT_MASK | CF_LAST_IO | CF_USE_ICOUNT | CF_PARALLEL | CF_CLUSTER_MASK)
+> +/* cflags' mask for hashing/comparison, basically ignore CF_INVALID */
+> +#define CF_HASH_MASK   (~CF_INVALID)
+>  
+>      /* Per-vCPU dynamic tracing state used to generate this TB */
+>      uint32_t trace_vcpu_dstate;
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index 0666f9ef14..32a3d8fe24 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -2399,7 +2399,8 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
+>  }
+>  
+>  #ifndef CONFIG_USER_ONLY
+> -/* in deterministic execution mode, instructions doing device I/Os
+> +/*
+> + * In deterministic execution mode, instructions doing device I/Os
+>   * must be at the end of the TB.
+>   *
+>   * Called by softmmu_template.h, with iothread mutex not held.
+> @@ -2430,19 +2431,17 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+>          n = 2;
+>      }
+>  
+> -    /* Generate a new TB executing the I/O insn.  */
+> -    cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
+> +    /*
+> +     * Exit the loop and potentially generate a new TB executing the
+> +     * just the I/O insns. We also disable instrumentation so we don't
+> +     * double count the instruction.
+> +     */
+> +    cpu->cflags_next_tb = curr_cflags() | CF_NOINSTR | CF_LAST_IO | n;
+>  
+>      qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
+>                             "cpu_io_recompile: rewound execution of TB to "
+>                             TARGET_FMT_lx "\n", tb->pc);
+>  
+> -    /* TODO: If env->pc != tb->pc (i.e. the faulting instruction was not
+> -     * the first in the TB) then we end up generating a whole new TB and
+> -     *  repeating the fault, which is horribly inefficient.
+> -     *  Better would be to execute just this insn uncached, or generate a
+> -     *  second new TB.
+> -     */
+>      cpu_loop_exit_noexc(cpu);
+>  }
+>  
+> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+> index a49a794065..14d1ea795d 100644
+> --- a/accel/tcg/translator.c
+> +++ b/accel/tcg/translator.c
+> @@ -58,7 +58,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+>      ops->tb_start(db, cpu);
+>      tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
+>  
+> -    plugin_enabled = plugin_gen_tb_start(cpu, tb);
+> +    plugin_enabled = !(tb_cflags(db->tb) & CF_NOINSTR) && plugin_gen_tb_start(cpu, tb);
+>  
+>      while (true) {
+>          db->num_insns++;
+> -- 
+> 2.20.1
 > 
->>                  while (len > 0) {
->> -                    reclen = de->d_reclen;
->> +                    reclen = lduw_he_p(de + de64(d_reclen));
-> 
-> to avoid human error, it would be better to let the compiler take the good accessor:
-> 
->  ldn_he_p(&de->d_reclen, sizeof(de->d_reclen))
-> 
->>                      if (reclen > len)
->>                          break;
->> -                    de->d_reclen = tswap16(reclen);
->> -                    tswap64s((uint64_t *)&de->d_ino);
->> -                    tswap64s((uint64_t *)&de->d_off);
->> -                    de = (struct linux_dirent64 *)((char *)de + reclen);
->> +                    stw_p(de + de64(d_reclen), reclen);
->> +                    stq_p(de + de64(d_ino), ldq_he_p(de + de64(d_ino)));
->> +                    stq_p(de + de64(d_off), ldq_he_p(de + de64(d_off)));
-> 
-> and stwn_he_p() here too.
-> 
->> +                    de += reclen;
->>                      len -= reclen;
->>                  }
->> +                #undef de64
->>              }
->>              unlock_user(dirp, arg2, ret);
->>          }
->>
-> 
-> Thank you Thomas for your help.
-> 
-> Laurent
-> 
-
 
