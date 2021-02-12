@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BF0319F70
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 14:06:43 +0100 (CET)
-Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896F7319F72
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 14:09:58 +0100 (CET)
+Received: from localhost ([::1]:45194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAY9h-0007Wu-Oc
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 08:06:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
+	id 1lAYCr-00019B-LF
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 08:09:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lAY7D-0006g5-3S
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:04:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44259)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAYBT-0000R7-VU
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:08:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lAY79-0001Dc-13
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:04:06 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAYBR-0003AG-8h
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:08:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613135042;
+ s=mimecast20190719; t=1613135308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FZv6ZEyvMiKz2OMJryZtqqGrVRB8h9d6nvSHg0INd9I=;
- b=cpV0nol4ejXghGnXb659n4gBh5we6E2dXPIk6wD1Hm2EUgAjmbwA82QnOwwLm3pEvFo9Hu
- vdkKsQwpUp4s6aAQqBemymO0kiU0qtOoL2NAJ9lOgKnFaFKBEfFUwhD65lntIrSW1MnjQ/
- RP86/sD5qGHS++0ekf8VlnZDTgQZr1A=
+ bh=uYF/0dpOCgKf8ywcMG7MrKAfQdJG/hH89Ej1XxHwL+A=;
+ b=YARBOd8J/J1Ck41QWRVjwBW2OQMgN8JpBdILHHOzQYTDdFx9DLLPFbGMDM0K0edWAf+awF
+ B3GiiYWnvhROpUDZAPAJSiIN42Py35x19E18jwXcUdpFY+DdnE+h7t6CkV2UZLPNYJ1QmI
+ mpnce9rEYAfI/QZuLuoUI9kbiySpmfI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-6eH8qrp7Oy-cpvntbPP7xA-1; Fri, 12 Feb 2021 08:04:00 -0500
-X-MC-Unique: 6eH8qrp7Oy-cpvntbPP7xA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-499-eMQnmXDgOGGu5P0eawu6Eg-1; Fri, 12 Feb 2021 08:08:25 -0500
+X-MC-Unique: eMQnmXDgOGGu5P0eawu6Eg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A65CFC73A1;
- Fri, 12 Feb 2021 13:03:58 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-163.ams2.redhat.com [10.36.112.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 798CA1A262;
- Fri, 12 Feb 2021 13:03:56 +0000 (UTC)
-Date: Fri, 12 Feb 2021 14:03:54 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH] blockjob: Fix crash with IOthread when block commit
- after snapshot
-Message-ID: <20210212130354.GH6221@merkur.fritz.box>
-References: <20210203024059.52683-1-08005325@163.com>
- <4a1d2a61-0c6c-7d44-092b-26a05798e54a@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C04FD195D561;
+ Fri, 12 Feb 2021 13:08:23 +0000 (UTC)
+Received: from [10.3.114.150] (ovpn-114-150.phx2.redhat.com [10.3.114.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DE1A60657;
+ Fri, 12 Feb 2021 13:08:23 +0000 (UTC)
+Subject: Re: [PATCH] io: error_prepend() in qio_channel_readv_full_all()
+ causes segfault
+To: Jag Raman <jag.raman@oracle.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <cover.1613128220.git.jag.raman@oracle.com>
+ <be476bcdb99e820fec0fa09fe8f04c9dd3e62473.1613128220.git.jag.raman@oracle.com>
+ <20210212111658.GF1340027@redhat.com>
+ <0418D7C5-AF8F-446A-910D-3196124300AE@oracle.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <47fdd0f2-1de3-18f7-70fe-0f6882873baf@redhat.com>
+Date: Fri, 12 Feb 2021 07:08:21 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <4a1d2a61-0c6c-7d44-092b-26a05798e54a@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <0418D7C5-AF8F-446A-910D-3196124300AE@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,129 +86,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Michael Qiu <qiudayu@huayun.com>,
- qemu-devel@nongnu.org, quweijie@huayun.com, liangpeng10@huawei.com,
- mreitz@redhat.com, jsnow@redhat.com, 08005325@163.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "stefanha@gmail.com" <stefanha@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 03.02.2021 um 08:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> subject should start with [PATCH v5]
+On 2/12/21 5:41 AM, Jag Raman wrote:
 > 
-> 03.02.2021 05:40, 08005325@163.com wrote:
-> > From: Michael Qiu <qiudayu@huayun.com>
-> > 
-> > v5: reformat the commit log with backtrace of main thread
-> >      Add a boolean variable to make main thread could re-acquire
-> >      aio_context on success path.
-> > 
-> > v4: rebase to latest code
-> > 
-> > v3: reformat the commit log, remove duplicate content
 > 
-> patch history shouldn't go into commit message. So you should place it
-> under '---' [*], after calling git format-patch
+>> On Feb 12, 2021, at 6:16 AM, Daniel P. Berrangé <berrange@redhat.com> wrote:
+>>
+>> On Fri, Feb 12, 2021 at 06:16:07AM -0500, Jagannathan Raman wrote:
+>>> Using error_prepend() in qio_channel_readv_full_all() causes a segfault
+>>> as errp is not set when ret is 0. This results in the failure of iotest
+>>> 83. Replacing with error_setg() fixes the problem.
+>>>
+>>> Additionally, removes a full stop at the end of error message
+>>>
+>>> Reported-by: Max Reitz <mreitz@redhat.com>
+>>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+>>> ---
+>>> io/channel.c | 3 +--
+>>> 1 file changed, 1 insertion(+), 2 deletions(-)
+
+>>
+>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > 
-> > 
-> > Currently, if guest has workloads, IO thread will acquire aio_context
-> > lock before do io_submit, it leads to segmentfault when do block commit
-> > after snapshot. Just like below:
-> > 
-> > Program received signal SIGSEGV, Segmentation fault.
-> > 
-> > [Switching to Thread 0x7f7c7d91f700 (LWP 99907)]
-> > 0x00005576d0f65aab in bdrv_mirror_top_pwritev at ../block/mirror.c:1437
-> > 1437    ../block/mirror.c: No such file or directory.
-> > (gdb) p s->job
-> > $17 = (MirrorBlockJob *) 0x0
-> > (gdb) p s->stop
-> > $18 = false
-> > 
-> > Call trace of IO thread:
-> > 0  0x00005576d0f65aab in bdrv_mirror_top_pwritev at ../block/mirror.c:1437
-> > 1  0x00005576d0f7f3ab in bdrv_driver_pwritev at ../block/io.c:1174
-> > 2  0x00005576d0f8139d in bdrv_aligned_pwritev at ../block/io.c:1988
-> > 3  0x00005576d0f81b65 in bdrv_co_pwritev_part at ../block/io.c:2156
-> > 4  0x00005576d0f8e6b7 in blk_do_pwritev_part at ../block/block-backend.c:1260
-> > 5  0x00005576d0f8e84d in blk_aio_write_entry at ../block/block-backend.c:1476
-> > ...
-> > 
-> > Switch to qemu main thread:
-> > 0  0x00007f903be704ed in __lll_lock_wait at
-> > /lib/../lib64/libpthread.so.0
-> > 1  0x00007f903be6bde6 in _L_lock_941 at /lib/../lib64/libpthread.so.0
-> > 2  0x00007f903be6bcdf in pthread_mutex_lock at
-> > /lib/../lib64/libpthread.so.0
-> > 3  0x0000564b21456889 in qemu_mutex_lock_impl at
-> > ../util/qemu-thread-posix.c:79
-> > 4  0x0000564b213af8a5 in block_job_add_bdrv at ../blockjob.c:224
-> > 5  0x0000564b213b00ad in block_job_create at ../blockjob.c:440
-> > 6  0x0000564b21357c0a in mirror_start_job at ../block/mirror.c:1622
-> > 7  0x0000564b2135a9af in commit_active_start at ../block/mirror.c:1867
-> > 8  0x0000564b2133d132 in qmp_block_commit at ../blockdev.c:2768
-> > 9  0x0000564b2141fef3 in qmp_marshal_block_commit at
-> > qapi/qapi-commands-block-core.c:346
-> > 10 0x0000564b214503c9 in do_qmp_dispatch_bh at
-> > ../qapi/qmp-dispatch.c:110
-> > 11 0x0000564b21451996 in aio_bh_poll at ../util/async.c:164
-> > 12 0x0000564b2146018e in aio_dispatch at ../util/aio-posix.c:381
-> > 13 0x0000564b2145187e in aio_ctx_dispatch at ../util/async.c:306
-> > 14 0x00007f9040239049 in g_main_context_dispatch at
-> > /lib/../lib64/libglib-2.0.so.0
-> > 15 0x0000564b21447368 in main_loop_wait at ../util/main-loop.c:232
-> > 16 0x0000564b21447368 in main_loop_wait at ../util/main-loop.c:255
-> > 17 0x0000564b21447368 in main_loop_wait at ../util/main-loop.c:531
-> > 18 0x0000564b212304e1 in qemu_main_loop at ../softmmu/runstate.c:721
-> > 19 0x0000564b20f7975e in main at ../softmmu/main.c:50
-> > 
-> > In IO thread when do bdrv_mirror_top_pwritev, the job is NULL, and stop field
-> > is false, this means the MirrorBDSOpaque "s" object has not been initialized
-> > yet, and this object is initialized by block_job_create(), but the initialize
-> > process is stuck in acquiring the lock.
-> > 
-> > In this situation, IO thread come to bdrv_mirror_top_pwritev(),which means that
-> > mirror-top node is already inserted into block graph, but its bs->opaque->job
-> > is not initialized.
-> > 
-> > The root cause is that qemu main thread do release/acquire when hold the lock,
-> > at the same time, IO thread get the lock after release stage, and the crash
-> > occured.
-> > 
-> > Actually, in this situation, job->job.aio_context will not equal to
-> > qemu_get_aio_context(), and will be the same as bs->aio_context,
-> > thus, no need to release the lock, becasue bdrv_root_attach_child()
-> > will not change the context.
-> > 
-> > This patch fix this issue.
-> > 
-> > Fixes: 132ada80 "block: Adjust AioContexts when attaching nodes"
-> > 
-> > Signed-off-by: Michael Qiu <qiudayu@huayun.com>
+> Thank you for reviewing, Daniel! I recall that you warned about
+> error_prepend() during the review, somehow slipped through.
 > 
-> I feel like there may be more problems (like the fact that drained
-> section should be expanded, and that expanding doesn't help as Michael
-> said), but I think that temporary releasing locks is unsafe thing, and
-> if we can avoid it for some cases it's good, especially if it fixes
-> some bug:
+> Hi Peter,
+> 
+>     Could we send a PULL request for this patch?
 
-Yeah, I don't like this patch much because it doesn't really fix the
-bug, but it just restricts it to fewer cases. Whenever we add a node to
-the job that is in a different AioContext than the job itself, we can
-still run into similar problems.
+I'm bundling up a pull request for my NBD tree, and will include this one.
 
-Maybe we should actually make this an error case so that we never
-release the lock.
-
-In practice, I think all block jobs call block_job_create() with their
-filter node, so the job will always be in the same AioContext and at
-least things relating to new requests should never run into this case.
-
-I also don't understand why draining doesn't work. This sounds a bit
-concerning and probably deserved some more investigation.
-
-Anyway, if all that remains is theoretical cases, I guess applying this
-band-aid fix is better than not doing anything, so I'll apply it.
-
-Kevin
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
