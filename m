@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B5131A3B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 18:37:55 +0100 (CET)
-Received: from localhost ([::1]:59828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA3A31A3BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 18:37:59 +0100 (CET)
+Received: from localhost ([::1]:60380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAcOA-0001Da-Ju
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 12:37:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48208)
+	id 1lAcOE-0001Rj-HV
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 12:37:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1lAcL3-0007Uf-J3
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:34:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33792)
+ id 1lAcL4-0007WI-2o
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:34:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1lAcKy-0005lI-GM
+ id 1lAcL2-0005mf-Eb
  for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:34:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613151275;
+ s=mimecast20190719; t=1613151279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yPBtbkYzBVGUiNvomTzlUjJ6P/WKBXin0NxArowiHXY=;
- b=Vi0DBoW8atCoothSGm0RTb6ZxcCi/lfej8w4utjwEhrun8GyBmz0s/wq8cQjFoc8hiVToZ
- FH0cwTR5LKTtAjLCISCXgksLl3lLkqS3RAmWllMfyMkidji/eyVwm9EHLqPAt0Ihh0Uh6b
- c9sR/zUc2o2yjfAmw/lGC/VvqcEYt5c=
+ bh=PJhYx9mR3cgdynjG+SxzoRa+zGx4gUR64+nUb3i0FPU=;
+ b=PIzHnCx4lB64BW8lT818DQ8x1A0HJNMO4XSNRzRPBPSOABaxn+NSIEPR0kaJ+GSQSR5vn4
+ 4ow1iEuKHbr9fi+lXRC+9fxwTtmEZkoXxx/zFTPrJ6OhKrSbdrM8lS/PA8ltFWa1WpGNFf
+ 3E6VXh2KnC4DHDywE0HAC32I7uTSpVY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-W6-JZt4GP_qiYS9WLQVCnQ-1; Fri, 12 Feb 2021 12:34:33 -0500
-X-MC-Unique: W6-JZt4GP_qiYS9WLQVCnQ-1
+ us-mta-589-b6bT18tvOPaNSLGMrETOCg-1; Fri, 12 Feb 2021 12:34:36 -0500
+X-MC-Unique: b6bT18tvOPaNSLGMrETOCg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3461DC282;
- Fri, 12 Feb 2021 17:34:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0789E1936B60;
+ Fri, 12 Feb 2021 17:34:34 +0000 (UTC)
 Received: from speedmetal.lan (unknown [10.40.208.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E960D5C23D;
- Fri, 12 Feb 2021 17:34:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D4555C3E0;
+ Fri, 12 Feb 2021 17:34:32 +0000 (UTC)
 From: Peter Krempa <pkrempa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/3] migration: dirty-bitmap: Allow control of bitmap
- persistence
-Date: Fri, 12 Feb 2021 18:34:24 +0100
-Message-Id: <b20afb675917b86f6359ac3591166ac6d4233573.1613150869.git.pkrempa@redhat.com>
+Subject: [PATCH v3 3/3] qemu-iotests: 300: Add test case for modifying
+ persistence of bitmap
+Date: Fri, 12 Feb 2021 18:34:25 +0100
+Message-Id: <d9c8e9827e9b6001b2dd1b92e64aab858e6d2a86.1613150869.git.pkrempa@redhat.com>
 In-Reply-To: <cover.1613150869.git.pkrempa@redhat.com>
 References: <cover.1613150869.git.pkrempa@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pkrempa@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,159 +84,134 @@ Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bitmap's source persistence is transported over the migration stream and
-the destination mirrors it. In some cases the destination might want to
-persist bitmaps which are not persistent on the source (e.g. the result
-of merge of bitmaps from a number of layers on the source when migrating
-into a squashed image) but currently it would need to create another set
-of persistent bitmaps and merge them.
+Verify that the modification of the bitmap persistence over migration
+which is controlled via BitmapMigrationBitmapAliasTransform works
+properly.
 
-This patch adds a 'transform' property to the alias map which allows to
-override the persistence of migrated bitmaps both on the source and
-destination sides.
+Based on TestCrossAliasMigration
 
 Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 ---
- migration/block-dirty-bitmap.c | 30 +++++++++++++++++++++++++++---
- qapi/migration.json            | 19 ++++++++++++++++++-
- 2 files changed, 45 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/300     | 91 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/300.out |  4 +-
+ 2 files changed, 93 insertions(+), 2 deletions(-)
 
-v3:
- - adapted to full passtrhough of BitmapMigrationBitmapAlias into the
-   map hash table (Vladimir)
- - schema and commit message language fixes (Eric)
+v3: new in series
 
-v2:
- - grammar fixes (Eric)
- - added 'transform' object to group other possible transformations (Vladimir)
- - transformation can also be used on source (Vladimir)
- - put bmap_inner directly into DBMLoadState for deduplication  (Vladimir)
+diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
+index 43264d883d..9d4ec6a381 100755
+--- a/tests/qemu-iotests/300
++++ b/tests/qemu-iotests/300
+@@ -600,6 +600,97 @@ class TestCrossAliasMigration(TestDirtyBitmapMigration):
+         self.verify_dest_has_all_bitmaps()
+         self.verify_dest_error(None)
 
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 0244f9bb1d..80781de5d8 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -150,6 +150,7 @@ typedef struct DBMLoadState {
-     BdrvDirtyBitmap *bitmap;
-
-     bool before_vm_start_handled; /* set in dirty_bitmap_mig_before_vm_start */
-+    BitmapMigrationBitmapAlias *bmap_inner;
-
-     /*
-      * cancelled
-@@ -528,6 +529,7 @@ static int add_bitmaps_to_list(DBMSaveState *s, BlockDriverState *bs,
-     }
-
-     FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
-+        BitmapMigrationBitmapAliasTransform *bitmap_transform = NULL;
-         bitmap_name = bdrv_dirty_bitmap_name(bitmap);
-         if (!bitmap_name) {
-             continue;
-@@ -548,6 +550,9 @@ static int add_bitmaps_to_list(DBMSaveState *s, BlockDriverState *bs,
-             }
-
-             bitmap_alias = bmap_inner->alias;
-+            if (bmap_inner->has_transform) {
-+                bitmap_transform = bmap_inner->transform;
-+            }
-         } else {
-             if (strlen(bitmap_name) > UINT8_MAX) {
-                 error_report("Cannot migrate bitmap '%s' on node '%s': "
-@@ -573,8 +578,15 @@ static int add_bitmaps_to_list(DBMSaveState *s, BlockDriverState *bs,
-         if (bdrv_dirty_bitmap_enabled(bitmap)) {
-             dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_ENABLED;
-         }
--        if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
--            dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
-+        if (bitmap_transform &&
-+            bitmap_transform->has_persistent) {
-+            if (bitmap_transform->persistent) {
-+                dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
-+            }
-+        } else {
-+            if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
-+                dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
-+            }
-         }
-
-         QSIMPLEQ_INSERT_TAIL(&s->dbms_list, dbms, entry);
-@@ -782,6 +794,7 @@ static int dirty_bitmap_load_start(QEMUFile *f, DBMLoadState *s)
-     uint32_t granularity = qemu_get_be32(f);
-     uint8_t flags = qemu_get_byte(f);
-     LoadBitmapState *b;
-+    bool persistent;
-
-     if (s->cancelled) {
-         return 0;
-@@ -806,7 +819,16 @@ static int dirty_bitmap_load_start(QEMUFile *f, DBMLoadState *s)
-         return -EINVAL;
-     }
-
--    if (flags & DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT) {
-+    if (s->bmap_inner &&
-+        s->bmap_inner->has_transform &&
-+        s->bmap_inner->transform &&
-+        s->bmap_inner->transform->has_persistent) {
-+        persistent = s->bmap_inner->transform->persistent;
-+    } else {
-+        persistent = flags & DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
-+    }
++class TestAliasTransformMigration(TestDirtyBitmapMigration):
++    """
++    Tests the 'transform' option which modifies bitmap persistence on migration.
++    """
 +
-+    if (persistent) {
-         bdrv_dirty_bitmap_set_persistence(s->bitmap, true);
-     }
-
-@@ -1090,6 +1112,8 @@ static int dirty_bitmap_load_header(QEMUFile *f, DBMLoadState *s,
-             } else {
-                 bitmap_name = bmap_inner->name;
-             }
++    src_node_name = 'node-a'
++    dst_node_name = 'node-b'
++    src_bmap_name = 'bmap-a'
++    dst_bmap_name = 'bmap-b'
 +
-+            s->bmap_inner = bmap_inner;
-         }
-
-         if (!s->cancelled) {
-diff --git a/qapi/migration.json b/qapi/migration.json
-index ce14d78071..8a85a6d041 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -536,6 +536,19 @@
-   'data': [ 'none', 'zlib',
-             { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
-
-+##
-+# @BitmapMigrationBitmapAliasTransform:
-+#
-+# @persistent: If present, the bitmap will be made persistent
-+#              or transient depending on this parameter.
-+#
-+# Since: 6.0
-+##
-+{ 'struct': 'BitmapMigrationBitmapAliasTransform',
-+  'data': {
-+      '*persistent': 'bool'
-+  } }
++    def setUp(self) -> None:
++        TestDirtyBitmapMigration.setUp(self)
 +
- ##
- # @BitmapMigrationBitmapAlias:
- #
-@@ -544,12 +557,16 @@
- # @alias: An alias name for migration (for example the bitmap name on
- #         the opposite site).
- #
-+# @transform: Allows to modify properties of the migrated bitmap.
-+#             (since 6.0)
-+#
- # Since: 5.2
- ##
- { 'struct': 'BitmapMigrationBitmapAlias',
-   'data': {
-       'name': 'str',
--      'alias': 'str'
-+      'alias': 'str',
-+      '*transform': 'BitmapMigrationBitmapAliasTransform'
-   } }
++        # Now create another block device and let both have two bitmaps each
++        result = self.vm_a.qmp('blockdev-add',
++                               node_name='node-b', driver='null-co')
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm_b.qmp('blockdev-add',
++                               node_name='node-a', driver='null-co')
++        self.assert_qmp(result, 'return', {})
++
++        bmaps_to_add = (('node-a', 'bmap-b'),
++                        ('node-b', 'bmap-a'),
++                        ('node-b', 'bmap-b'))
++
++        for (node, bmap) in bmaps_to_add:
++            result = self.vm_a.qmp('block-dirty-bitmap-add',
++                                   node=node, name=bmap)
++            self.assert_qmp(result, 'return', {})
++
++    @staticmethod
++    def transform_mapping() -> BlockBitmapMapping:
++        return [
++            {
++                'node-name': 'node-a',
++                'alias': 'node-a',
++                'bitmaps': [
++                    {
++                        'name': 'bmap-a',
++                        'alias': 'bmap-a',
++                        'transform':
++                            {
++                                'persistent': True
++                            }
++                    },
++                    {
++                        'name': 'bmap-b',
++                        'alias': 'bmap-b'
++                    }
++                ]
++            },
++            {
++                'node-name': 'node-b',
++                'alias': 'node-b',
++                'bitmaps': [
++                    {
++                        'name': 'bmap-a',
++                        'alias': 'bmap-a'
++                    },
++                    {
++                        'name': 'bmap-b',
++                        'alias': 'bmap-b'
++                    }
++                ]
++            }
++        ]
++
++    def verify_dest_bitmap_state(self) -> None:
++        bitmaps = self.vm_b.query_bitmaps()
++
++        for node in bitmaps:
++            bitmaps[node] = sorted(((bmap['name'], bmap['persistent']) for bmap in bitmaps[node]))
++
++        self.assertEqual(bitmaps,
++                         {'node-a': [('bmap-a', True), ('bmap-b', False)],
++                          'node-b': [('bmap-a', False), ('bmap-b', False)]})
++
++    def test_transform_on_src(self) -> None:
++        self.set_mapping(self.vm_a, self.transform_mapping())
++
++        self.migrate()
++        self.verify_dest_bitmap_state()
++        self.verify_dest_error(None)
++
++    def test_transform_on_dst(self) -> None:
++        self.set_mapping(self.vm_b, self.transform_mapping())
++
++        self.migrate()
++        self.verify_dest_bitmap_state()
++        self.verify_dest_error(None)
 
- ##
+ if __name__ == '__main__':
+     iotests.main(supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/300.out b/tests/qemu-iotests/300.out
+index cafb8161f7..12e9ab7d57 100644
+--- a/tests/qemu-iotests/300.out
++++ b/tests/qemu-iotests/300.out
+@@ -1,5 +1,5 @@
+-.....................................
++.......................................
+ ----------------------------------------------------------------------
+-Ran 37 tests
++Ran 39 tests
+
+ OK
 -- 
 2.29.2
 
