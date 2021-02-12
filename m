@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980C131A709
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:44:20 +0100 (CET)
-Received: from localhost ([::1]:39922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A751531A70F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:47:14 +0100 (CET)
+Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAgEd-0002G2-MV
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:44:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45940)
+	id 1lAgHR-0004Gx-LG
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:47:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgAU-0008FR-N0
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:40:06 -0500
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:42287)
+ id 1lAgFb-0003Nq-CJ; Fri, 12 Feb 2021 16:45:20 -0500
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:32800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgAS-0005x0-T3
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:40:02 -0500
-Received: by mail-il1-x136.google.com with SMTP id z18so503573ile.9
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 13:40:00 -0800 (PST)
+ id 1lAgFY-0008GE-RI; Fri, 12 Feb 2021 16:45:19 -0500
+Received: by mail-il1-x12f.google.com with SMTP id e1so568658ilu.0;
+ Fri, 12 Feb 2021 13:45:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Jp4CCHwWK240T1rzKA41Yn74M6YlFRWIOSQ6mAraccc=;
- b=RWzc+u5PJMONDFlBzkgnv9gzrcnhqfOiQi8SEexMjFuNfqDtxyTl7d3D+DU4N5rn8X
- dNqYO/cLgfTHOw/rxa920ZsS57PySmZH4/DD6nNdeEbBna1uKhu0c3bnCIFWHTKD1uSC
- 7ys4Z250E3DdBz6ssIM8sihIfzgsE2CE4OGpXryRjoUSfBGSfIeJA8vBBlkukgO5I75v
- omdwytRj4y+Q7H2d6R5QrTLUMape5tPICR0gUqesni70IiM9wZeXQfvntglMCHhoFalm
- 8VgR6hoHEJo/bk9ElYvXHl6Yua1fEKH3GnGN+UyZClvVWF+lIysi23UeOOVH3KKIVz9J
- j9nQ==
+ bh=Yjg/IodtYRvJV+eHVoYGt1XRxn6yaloB9lzV7zttepU=;
+ b=T6jNF2/VrJpti2KfplDaABfliLER6qGFGMk5fGVhX5dKMH3uV+5QkNb0O1mp8p9bWI
+ aFs2NnLoMrIATZNjiZjPZSDXmVb341vGJL5YlRHgCfZxXMOD5eC47z2/J4jcC7Zed3lo
+ Pv5ARwLZ6D1FP6stSQ9CJbweC/M2iErLkWw5gHcLjgNSF48nOvionNnAoczhoaxtSVx/
+ z7PhmLCvoW1Ooj/0XhHq/hKtnTeoiyVFiGM1BQyuEkX9YytCM/d8TyRK1ax1vovvN/k7
+ TZWlay1itf92fKyIIzeDIKEPxVIY2oHP8ywgEvua2xM340rmfHqYsL/2dGOgrceedH/g
+ abnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Jp4CCHwWK240T1rzKA41Yn74M6YlFRWIOSQ6mAraccc=;
- b=o9ZhwJU7Xn4Hd0jCOGc++DJa0qVjgxkbykD/B75ksX1abCqFAw85D+FxMAxkT/cHQt
- 3sE7YuQ7rQiiibfzFDUHOC29gbLcpJtOiF8nEb7QWzf8vFCnARaOS1K0qJquSn1eWCkx
- qzZozVsWAzR3ETil3WOZT17kd4eEAAoMNny5OTMDM5Xw1LfgLHrKgqTEdnEOp9I7xG4N
- lsd7uY0xONGWSv0CYnGFRvsnlhFsdS6w0g1afzYDGFueibhID15xUokqdkZw+0XoS9TW
- VVoWX+wCPfviEOMmODAh6xDrLStaQzd5XXv+mBIOph0Du7LPd4MWRMoNOgEjTifBw5Ux
- Atig==
-X-Gm-Message-State: AOAM531bZshGWH4KyHqw9ZaGNnuU39NjoQB+X6G+0beMcdg6KLMd6War
- Tbm8AHeXvUrkOoL4snbSDcc1UxEAfF6HTUvCBlRx5VDDzDI=
-X-Google-Smtp-Source: ABdhPJzSYfVvPhaNdhr6PllD44RL2BM6sEzXFDBlNJvKz9+9scpPbwgU89qj2yJK8Dpm+bOe9xIKp2iFVZnlOlkRWBk=
-X-Received: by 2002:a92:d445:: with SMTP id r5mr3870130ilm.227.1613165999438; 
- Fri, 12 Feb 2021 13:39:59 -0800 (PST)
+ bh=Yjg/IodtYRvJV+eHVoYGt1XRxn6yaloB9lzV7zttepU=;
+ b=UmvmoCySxCBMj+JfpmCLb6MX0YvdRMqfZp9hITrtn6iGCH95Kflls19pxIJZlkKjzP
+ 5z1UCVKQ/IyaUFoyfCU8w/hIHFBetynn+UvDYXgjQcqHSyRuWkUG3ignw/DvNBvtPjwq
+ LsZ8w7WIlwi1bx9omV/J+xZOw0QatJ0LG+74KNjgguHF9Y+dgJwB7Dia0n5gAKUeFMWa
+ /EXS+ONvAqvA8ZWUDLVSfWv+Fa/QycQ7bTroeKQ4O8smHUnY+QXW9W9xjgAVJtyy01NV
+ DyLqbLW5l7YBcgXz5Es2/vFIPn2HBLpabLBSolQxpEv6xrzeb0Cl2/lZFJVtmbMm3G2/
+ mJRw==
+X-Gm-Message-State: AOAM532yZoGnGDulK1HHUCrJdXn/aJBYoqU1qfpfJMQPT75sqM27hGmz
+ EWOwPwO/wZHnksZ67xFRZ3fxpnMR6eH19kT81Zo=
+X-Google-Smtp-Source: ABdhPJwHFigVZHoUngpHAYag/+E2iIJizSFXa+PUVsTouiOPThuqbs+FnM9jdajyjOczHjJbG9sUFgBpvZzyZq2H/2g=
+X-Received: by 2002:a92:cda1:: with SMTP id g1mr3951771ild.267.1613166313307; 
+ Fri, 12 Feb 2021 13:45:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20210211171945.18313-1-alex.bennee@linaro.org>
- <20210211171945.18313-7-alex.bennee@linaro.org>
-In-Reply-To: <20210211171945.18313-7-alex.bennee@linaro.org>
+References: <1fb2d56aa23a81f4473e638abe9e2d78c09a3d5b.1611080607.git.alistair.francis@wdc.com>
+ <24791910.1r3eYUQgxm@farino> <2013655.G923GbCHz0@farino>
+In-Reply-To: <2013655.G923GbCHz0@farino>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 12 Feb 2021 13:39:18 -0800
-Message-ID: <CAKmqyKM6JPDfk555+Dswn4V-hd-qqDPr+V-a31QeVJg=148iWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] docs: add some documentation for the guest-loader
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Fri, 12 Feb 2021 13:44:32 -0800
+Message-ID: <CAKmqyKMkmUHKZ7GyTuTqu6ZQ_u9rZbQANPQy9U907voBDJo=4A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] linux-user/signal: Decode waitid si_code
+To: =?UTF-8?B?QW5kcmVhcyBLLiBIw7x0dGVs?= <dilfridge@gentoo.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x136.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -80,122 +78,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, andre.przywara@arm.com, stefano.stabellini@linaro.org,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- stefano.stabellini@xilinx.com, stratos-dev@op-lists.linaro.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 9:20 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+On Thu, Jan 21, 2021 at 7:15 AM Andreas K. H=C3=BCttel <dilfridge@gentoo.or=
+g> wrote:
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Message-Id: <20201105175153.30489-7-alex.bennee@linaro.org>
+> Am Mittwoch, 20. Januar 2021, 22:12:30 EET schrieb Andreas K. H=C3=BCttel=
+:
+> > > This patch just passes the waitid status directly back to the guest.
+> >
+> > This works at least as well as the previous versions, so ++ from me.
+> >
+> > Will do more testing over the next days to see if it maybe also improve=
+s the
+> > additional oddities I observed.
+> >
+>
+> So the patch is good since it clearly resolves the linked bug.
+>
+> However, something else is still broken (maybe related; unchanged compare=
+d to
+> the previous patch version). I keep seeing hanging "qemu-riscv32 /bin/bas=
+h
+> ..." processes using 100% cpu. If I attach strace (on the host arch x86-6=
+4) to
+> qemu, I see an infinite loop:
+>
+> waitid(P_ALL, -1, {}, WNOHANG|WEXITED, NULL) =3D 0
+> rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) =3D 0
+> waitid(P_ALL, -1, {}, WNOHANG|WEXITED, NULL) =3D 0
+> rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+> rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) =3D 0
+> ...
+>
+> Unfortunately I do not have a simple reproducer. This is somewhere in the
+> middle of our build system...
+>
+> Otherwise, I can re-build glibc, gcc, binutils, make  in the qemu chroot
+> without obvious problems, with one striking strange detail - "make" refus=
+es to
+> run more than one concurrent process (even with MAKEOPTS=3D"-j9"). Someth=
+ing is
+> off there.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Ping!
+
+Even though it seems like there are still issues with RV32, this is a
+step in the right direction.
 
 Alistair
 
 >
-> ---
-> v2
->   - add docs and MAINTAINERS
-> ---
->  docs/system/guest-loader.rst | 54 ++++++++++++++++++++++++++++++++++++
->  docs/system/index.rst        |  1 +
->  MAINTAINERS                  |  1 +
->  3 files changed, 56 insertions(+)
->  create mode 100644 docs/system/guest-loader.rst
->
-> diff --git a/docs/system/guest-loader.rst b/docs/system/guest-loader.rst
-> new file mode 100644
-> index 0000000000..37d03cbd89
-> --- /dev/null
-> +++ b/docs/system/guest-loader.rst
-> @@ -0,0 +1,54 @@
-> +..
-> +   Copyright (c) 2020, Linaro
-> +
-> +Guest Loader
-> +------------
-> +
-> +The guest loader is similar to the `generic-loader` although it is
-> +aimed at a particular use case of loading hypervisor guests. This is
-> +useful for debugging hypervisors without having to jump through the
-> +hoops of firmware and boot-loaders.
-> +
-> +The guest loader does two things:
-> +
-> +  - load blobs (kernels and initial ram disks) into memory
-> +  - sets platform FDT data so hypervisors can find and boot them
-> +
-> +This is what is typically done by a boot-loader like grub using it's
-> +multi-boot capability. A typical example would look like:
-> +
-> +.. parsed-literal::
-> +
-> +  |qemu_system| -kernel ~/xen.git/xen/xen \
-> +    -append "dom0_mem=3D1G,max:1G loglvl=3Dall guest_loglvl=3Dall" \
-> +    -device guest-loader,addr=3D0x42000000,kernel=3DImage,bootargs=3D"ro=
-ot=3D/dev/sda2 ro console=3Dhvc0 earlyprintk=3Dxen" \
-> +    -device guest-loader,addr=3D0x47000000,initrd=3Drootfs.cpio
-> +
-> +In the above example the Xen hypervisor is loaded by the -kernel
-> +parameter and passed it's boot arguments via -append. The Dom0 guest
-> +is loaded into the areas of memory. Each blob will get
-> +`/chosen/module@<addr>` entry in the FDT to indicate it's location and
-> +size. Additional information can be passed with by using additional
-> +arguments.
-> +
-> +Currently the only supported machines which use FDT data to boot are
-> +the ARM and RiscV `virt` machines.
-> +
-> +Arguments
-> +^^^^^^^^^
-> +
-> +The full syntax of the guest-loader is::
-> +
-> +  -device guest-loader,addr=3D<addr>[,kernel=3D<file>,[bootargs=3D<args>=
-]][,initrd=3D<file>]
-> +
-> +``addr=3D<addr>``
-> +  This is mandatory and indicates the start address of the blob.
-> +
-> +``kernel|initrd=3D<file>``
-> +  Indicates the filename of the kernel or initrd blob. Both blobs will
-> +  have the "multiboot,module" compatibility string as well as
-> +  "multiboot,kernel" or "multiboot,ramdisk" as appropriate.
-> +
-> +``bootargs=3D<args>``
-> +  This is an optional field for kernel blobs which will pass command
-> +  like via the `/chosen/module@<addr>/bootargs` node.
-> diff --git a/docs/system/index.rst b/docs/system/index.rst
-> index cee1c83540..6ad9c93806 100644
-> --- a/docs/system/index.rst
-> +++ b/docs/system/index.rst
-> @@ -26,6 +26,7 @@ Contents:
->     ivshmem
->     linuxboot
->     generic-loader
-> +   guest-loader
->     vnc-security
->     tls
->     gdb
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 774b3ca7a5..853f174fcf 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1997,6 +1997,7 @@ Guest Loader
->  M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->  S: Maintained
->  F: hw/core/guest-loader.c
-> +F: docs/system/guest-loader.rst
->
->  Intel Hexadecimal Object File Loader
->  M: Su Hang <suhang16@mails.ucas.ac.cn>
 > --
-> 2.20.1
->
->
+> Andreas K. H=C3=BCttel
+> dilfridge@gentoo.org
+> Gentoo Linux developer
+> (council, qa, toolchain, base-system, perl, libreoffice)
 
