@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F3831A35B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 18:12:48 +0100 (CET)
-Received: from localhost ([::1]:56754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532F931A362
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 18:16:53 +0100 (CET)
+Received: from localhost ([::1]:58914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAbzr-0002MF-LP
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 12:12:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42802)
+	id 1lAc3o-0004gd-71
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 12:16:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAbyx-00018B-Eh
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:11:51 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39736)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAbyv-0007xH-32
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:11:51 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id v1so4487wrd.6
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 09:11:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=5EEpL3LuF8nEL24QWPq5zw1x4JdAd89uache76FZUSA=;
- b=EWsXEZ37gGlwobetfreTLO8saX4TNP8XmbnvczbCzBQyEnGWF6wtgCtF/Bac7MIjK1
- VrZF1GI52J2StQBX2cv8+jx69xHaA6f/MoBMrIPI9HDNVNoqidvo6GLFltCP3lWd8+Xm
- WPPhsA5fIOFV4+7FjkoOsZ3KwbNy/tt2dSXyZCQ/yaERpJ3UWVzhkdVeIo+5lztBIKIZ
- 72Kv/E6NxRD9RERJ6u65EEXkPMOJmMhKjp7X4E5o5cbsCBq3om1u3KeH4Q5h/LcunPzV
- tNfSrgsZpVFBzKQsblnDBPdpg07sVnGStgGmloCPW8lnvcym3oAUmJIkuRQk5K3LyKHM
- YK/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=5EEpL3LuF8nEL24QWPq5zw1x4JdAd89uache76FZUSA=;
- b=WxIORtaavoezmYSLeCCAtoQk/4iqMNUb9Hf1ugJF2HqsOZFbNaUg8p0/ElMDk7JAgw
- uYZafHGLOIdeErb3E8seqri4QgN/yTSDZU2OLjrAXyll3lqpJdxW/C2fFOS7z2n275gu
- nG3PL4c5hqzDGpE6zKWhdP3TfTOMC9sXVDXUU+NloaJH4AYPNToeHPXfQjHTmFLvaYQr
- GTR+S3I7LY2ZhqKVUKbHHuM2rMNAsQjJob02Lc740EXz8WdyIhAVSsovkvleUxRQlUw8
- Gc7WoIry1iHmDsWjiX3IuNfvWUV55z02EDY/a+CSl8XiIIyL/e7XyDzE/srX/HLHI00i
- 9toA==
-X-Gm-Message-State: AOAM533kwz/XkVkReLwH6oStNXw2WHqgwdUl2EkjbXIksFyRka36svg5
- 4Fd/byXuzXxTG8qJ6vlOXh5HWQ==
-X-Google-Smtp-Source: ABdhPJx3IoVJyontiUM/q6MjOxIeYEMKZLxVLCWDPHNCQzy+3oipJDktBPKlndytOn3+jTp+zPDXMA==
-X-Received: by 2002:a5d:4cd0:: with SMTP id c16mr4669437wrt.84.1613149907120; 
- Fri, 12 Feb 2021 09:11:47 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t9sm6870649wrw.76.2021.02.12.09.11.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 09:11:45 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1992F1FF7E;
- Fri, 12 Feb 2021 17:11:45 +0000 (GMT)
-References: <20210210221053.18050-1-alex.bennee@linaro.org>
- <20210210221053.18050-17-alex.bennee@linaro.org>
- <ef56fb67-4424-335f-45d2-a96dcefb1b2f@amsat.org>
- <3b444f83-55cd-493a-d841-4bca87bac3e0@linaro.org>
- <b80367a8-9596-8e83-d013-8f4eea66e9a4@amsat.org>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 16/21] accel/tcg: actually cache our partial icount TB
-Date: Fri, 12 Feb 2021 17:06:24 +0000
-In-reply-to: <b80367a8-9596-8e83-d013-8f4eea66e9a4@amsat.org>
-Message-ID: <87v9axxlbi.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAc1l-00047B-BV
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:14:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAc1i-0000Eg-BK
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 12:14:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613150080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4DygX3bYQyrvD4K/hl8swfqSQ1BSHTGX+eC+SuxHk/o=;
+ b=FMcp7je0ZzO5TyZXZj7NixWvaPOfWppAd9h2ELQJr+MqwKyoNu+o6IqVon5J6TAXLYFVgb
+ i6XfPY5O680Vj5awpSM4UIkmOl2AK5+r3B/0u1gtnz7Ka+qdR9Dwey06+mPOH9i+v6BCqT
+ zELW5EMWLzZFfBURMEOItZN8ojSZp9s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-54-bguF6g5APgiYRKPK_z3n7g-1; Fri, 12 Feb 2021 12:14:37 -0500
+X-MC-Unique: bguF6g5APgiYRKPK_z3n7g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF978874982;
+ Fri, 12 Feb 2021 17:14:35 +0000 (UTC)
+Received: from [10.3.114.150] (ovpn-114-150.phx2.redhat.com [10.3.114.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B60F10023AD;
+ Fri, 12 Feb 2021 17:14:25 +0000 (UTC)
+Subject: Re: [PATCH v2 02/10] block/nbd: implement .bdrv_cancel_in_flight
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210205163720.887197-1-vsementsov@virtuozzo.com>
+ <20210205163720.887197-3-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <57fd166e-d17f-e2f8-bbb5-b86e467af40f@redhat.com>
+Date: Fri, 12 Feb 2021 11:14:24 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210205163720.887197-3-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,35 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/5/21 10:37 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Just stop waiting for connection in existing requests.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/nbd.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index b3cbbeb4b0..c26dc5a54f 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -2458,6 +2458,18 @@ static const char *const nbd_strong_runtime_opts[] = {
+>      NULL
+>  };
+>  
+> +static void nbd_cancel_in_flight(BlockDriverState *bs)
+> +{
+> +    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+This cast is not necessary in C, but it doesn't hurt.
 
-> On 2/11/21 7:48 PM, Richard Henderson wrote:
->> On 2/11/21 2:21 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> -    insns_left =3D MIN(0xffff, cpu->icount_budget);
->>>> +    insns_left =3D MIN(CF_COUNT_MASK, cpu->icount_budget);
->>>
->>> Can you describe this change a bit please?
->>=20
->> Replacing a magic number with its proper symbol.
->
-> I am confuse because I see:
->
-> #define CF_COUNT_MASK  0x00007fff
+> +
+> +    reconnect_delay_timer_del(s);
+> +
+> +    if (s->state == NBD_CLIENT_CONNECTING_WAIT) {
+> +        s->state = NBD_CLIENT_CONNECTING_NOWAIT;
+> +        qemu_co_queue_restart_all(&s->free_sema);
+> +    }
+> +}
+> +
 
-This is the largest partial count you can store in the CF flags (0x8000
-is used for LAST_IO). The decrement field can handle the full u16
-although in practice I would never expect a final block to be more than
-a few instructions. We could probably shorten the mask without any
-deleterious effect if we needed to scrape together any more CFLAGS.
+R-b still stands
 
---=20
-Alex Benn=C3=A9e
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
