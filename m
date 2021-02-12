@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63DD319C59
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 11:10:02 +0100 (CET)
-Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76AC1319CA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 11:28:18 +0100 (CET)
+Received: from localhost ([::1]:43914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAVOi-0004xu-EO
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 05:10:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33780)
+	id 1lAVgO-0002Nq-Vw
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 05:28:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAVMq-0004PW-Jm
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 05:08:04 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:38000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAVMo-0007jA-8b
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 05:08:04 -0500
-Received: by mail-ed1-x531.google.com with SMTP id s11so10068743edd.5
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 02:08:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=ClciA5Gl7cdrE25nurIGhgoXS+1tdwzvu29aPHnwBGk=;
- b=A8p5fgOujO0iWL/XGirJYfLLBucqY/lKmIdjSlF1Y+LRIZkd1YlaVTnxq/PmWxoCXd
- MnPkcIfjXIWGmYV8zOCIoE8HbGUdPm4TmTcttns+7ID1eMrXBL/7wvzxrSENV1S7TIZu
- hJX/kdDckfWKI4NrdvKfqggOONzNI3zhs7L5WNnVkBBXu4wbkqx7Nts+j/cmL42xVnXV
- FkYOe/LBqpD4AoScT3UKKdn9/uXPnkTWp2KDc93EpjT6imlMtMYS2oZd851TamMx6wX4
- g3Ua7dNYxQ/TtTUwRzU2XkMRCAsSdOworZnWESd3COaJHOqyJKsxNrpjpib9NZa8UP+X
- Ifzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=ClciA5Gl7cdrE25nurIGhgoXS+1tdwzvu29aPHnwBGk=;
- b=cK2aZas7VOqDdCEzA/rUUT4Ckn4fFfQ3cEKCc7XYJrINkKtejBkzYze2Kzwcm8/ApD
- 5fW/oxbDc8BJRUJGvHn1uuJveP4L8HK0qfiSkuTxUEbnVH1xxn6zQWhVwuy6LjnWtexe
- 5+eirnEerozVxX8wgCxD25v/9THgVPEy0Htvn3mu5fTmoewOu+6Wy6NE5QQq31d7TSoL
- NBHd6uXka0QH6OI1R2J1kpohIpPp2op2BUtXnfmn5XbRa9ZTGEh57tL8AtUZbZCVY25q
- OEy8X4IlHXhZ7gNQaKsAEx6BI+p5BnX1KKNbVF68V+OL7vT+RJ+yDD4In9jyIWETTn1H
- MKfA==
-X-Gm-Message-State: AOAM533rAnks8Nrtcmwho5E7KI9ewO3ekzRIyYjLbxMA1mma2Jzunj23
- 3GGWsAIKb5WXgRU0p4UFNfPMaOVSzFiDXxOrLj9n4EHInpU=
-X-Google-Smtp-Source: ABdhPJyhbHlTsLDcaGYSK60SOtuBE+PWaSIZYPRCrB+r+XGDt3UATxBMLMJ877OCmg2KtmE0Amft1yUqlHjF2002rL8=
-X-Received: by 2002:a05:6402:3514:: with SMTP id
- b20mr2488679edd.100.1613124480097; 
- Fri, 12 Feb 2021 02:08:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lAVe5-0001i2-Tt
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 05:25:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35206)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lAVdy-00076O-Sm
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 05:25:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613125544;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fcoZs2Xv0av5kCNSTIdGhfOpcow2q3A0ahlu2fgrWkc=;
+ b=K2QQ/OUuqLlh0n5cQgm86ID++L6caaWuReW6Y9DXOMjEy8xWM4Hvhptif/DhczSxgBD1IL
+ i4GiNkns/vnflctW8B2KjTeEvWU7mvq055bIR6QkXjpbYlXj3AjFX0C+ZYvziJpG1jTtbE
+ 12XXgl8lpfJwHW4iABCPnQbmDF7l5/Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-IGLpG6txMZufMJEO4EVK9w-1; Fri, 12 Feb 2021 05:25:42 -0500
+X-MC-Unique: IGLpG6txMZufMJEO4EVK9w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51AB2107B47C;
+ Fri, 12 Feb 2021 10:25:41 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-112-163.ams2.redhat.com [10.36.112.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44F725C290;
+ Fri, 12 Feb 2021 10:25:40 +0000 (UTC)
+Date: Fri, 12 Feb 2021 11:25:38 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 2/2] file-posix: Cache next hole
+Message-ID: <20210212102538.GD6221@merkur.fritz.box>
+References: <20210211172242.146671-1-mreitz@redhat.com>
+ <20210211172242.146671-3-mreitz@redhat.com>
+ <feb0d8a5-28b9-852a-186b-618e82dd309a@virtuozzo.com>
+ <d6bfb96e-e841-95fd-e9be-70b89b950b12@redhat.com>
 MIME-Version: 1.0
-References: <20210211195731.6039-1-peter.maydell@linaro.org>
-In-Reply-To: <20210211195731.6039-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Feb 2021 10:07:49 +0000
-Message-ID: <CAFEAcA_KzL4xKHw2AGad3qV-BWux9nhWb8L31qzYVd-Ftaso6w@mail.gmail.com>
-Subject: Re: [PULL v2 00/11] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d6bfb96e-e841-95fd-e9be-70b89b950b12@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,43 +80,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Feb 2021 at 19:57, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Massively slimmed down v2: MemTag broke bsd-user, and the npcm7xx
-> ethernet device failed 'make check' on big-endian hosts.
->
-> -- PMM
->
-> The following changes since commit 83339e21d05c824ebc9131d644f25c23d0e41ecf:
->
->   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-02-10 15:42:20 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210211-1
->
-> for you to fetch changes up to d3c1183ffeb71ca3a783eae3d7e1c51e71e8a621:
->
->   target/arm: Correctly initialize MDCR_EL2.HPMN (2021-02-11 19:48:09 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Correctly initialize MDCR_EL2.HPMN
->  * versal: Use nr_apu_cpus in favor of hard coding 2
->  * accel/tcg: Add URL of clang bug to comment about our workaround
->  * Add support for FEAT_DIT, Data Independent Timing
->  * Remove GPIO from unimplemented NPCM7XX
->  * Fix SCR RES1 handling
->  * Don't migrate CPUARMState.features
+Am 12.02.2021 um 10:14 hat Max Reitz geschrieben:
+> On 11.02.21 21:38, Vladimir Sementsov-Ogievskiy wrote:
+> > 11.02.2021 20:22, Max Reitz wrote:
+> > > We have repeatedly received reports that SEEK_HOLE and SEEK_DATA are
+> > > slow on certain filesystems and/or under certain circumstances.  That is
+> > > why we generally try to avoid it (which is why bdrv_co_block_status()
+> > > has the @want_zero parameter, and which is why qcow2 has a metadata
+> > > preallocation detection, so we do not fall through to the protocol layer
+> > > to discover which blocks are zero, unless that is really necessary
+> > > (i.e., for metadata-preallocated images)).
+> > > 
+> > > In addition to those measures, we can also try to speed up zero
+> > > detection by letting file-posix cache some hole location information,
+> > > namely where the next hole after the most recently queried offset is.
+> > > This helps especially for images that are (nearly) fully allocated,
+> > > which is coincidentally also the case where querying for zero
+> > > information cannot gain us much.
+> > > 
+> > > Note that this of course only works so long as we have no concurrent
+> > > writers to the image, which is the case when the WRITE capability is not
+> > > shared.
+> > > 
+> > > Alternatively (or perhaps as an improvement in the future), we could let
+> > > file-posix keep track of what it knows is zero and what it knows is
+> > > non-zero with bitmaps, which would help images that actually have a
+> > > significant number of holes (where this implementation here cannot do
+> > > much).  But for such images, SEEK_HOLE/DATA are generally faster (they
+> > > do not need to seek through the whole file), and the performance lost by
+> > > querying the block status does not feel as bad because it is outweighed
+> > > by the performance that can be saved by special-cases zeroed areas, so
+> > > focussing on images that are (nearly) fully allocated is more important.
+> > > 
+> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
+> > 
+> > I'll look at it tomorrow... Just wanted to note that something similar
+> > was proposed by Kevin some time ago:
+> > 
+> > <20190124141731.21509-1-kwolf@redhat.com>
+> > https://lists.gnu.org/archive/html/qemu-devel/2019-01/msg06271.html
+> 
+> Interesting.  The reasoning that it doesn’t matter whether anyone
+> writes to the assumed-data regions makes sense.
+> 
+> I can’t see a real reason why it was kind of forgotten, apparently...
 
+After qcow2 stopped recursively querying the file-posix layer, the
+relevant case under discussion was fixed anyway, so it didn't have the
+highest priority any more...
 
-Applied, thanks.
+I think the open question (and possibly work) in the old thread was
+whether this should be moved out of file-posix into the generic block
+layer.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+With your patch, I guess the other open question is whether we want to
+try and cache holes anyway. I assume that in the common case, you may
+have many consecutive data extents, but probably rarely many holes (I
+guess you can have more than one if some areas are unallocated and
+others are allocated, but unwritten?) Then it's probably not worth
+caching holes.
 
--- PMM
+Kevin
+
 
