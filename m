@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C9F31A6EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:32:28 +0100 (CET)
-Received: from localhost ([::1]:54218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8507931A6F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:37:33 +0100 (CET)
+Received: from localhost ([::1]:58890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAg38-0003rx-LP
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:32:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44300)
+	id 1lAg84-0006XZ-5U
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:37:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAg1B-0003H7-FT; Fri, 12 Feb 2021 16:30:25 -0500
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:42974)
+ id 1lAg60-0005va-IO; Fri, 12 Feb 2021 16:35:27 -0500
+Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:40208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAg16-0001xA-5s; Fri, 12 Feb 2021 16:30:23 -0500
-Received: by mail-io1-xd34.google.com with SMTP id u20so635597iot.9;
- Fri, 12 Feb 2021 13:30:18 -0800 (PST)
+ id 1lAg5u-00043q-Mk; Fri, 12 Feb 2021 16:35:24 -0500
+Received: by mail-il1-x12b.google.com with SMTP id e7so510179ile.7;
+ Fri, 12 Feb 2021 13:35:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SjoM0YfzxFr+TKdRX7Tg7swtwgby5GMV4p6Vk5/CYeY=;
- b=R9aQb6cK+9UgSn3NPebJ33ya89DVeYckGiYlEcKftWASxrJ/IOkFE67q0pBQc7jjJx
- aQOqFtt9yFiVbUsd2wpo20D+VnCqqqSwqFjXugP+Z0HilFj4F9Kww5hDiK7X/dVFAT7W
- 5Y8PgjNMUtdI7v5r+/bRHd1YNFmFgI4JtCDPBTjp5szbvJK3TnLlbkmMDoLbhPYwZ1+q
- KcMeLC54uNas5T3xD8hS6gMra3nCKJUFAupvBd8eFaTM2zFQnWdg3uBoVWkYBRd8MGiQ
- kA4wjBLY4HUlqGhWhievjQtcwNf2FILA92pgdbWQBL1L/sr7NWKBcO+i2It8+om7QUkC
- Ykpg==
+ :cc; bh=OXTkF8AuHLlIcGIgjz1lGhBGF2z21hAgGEilNB7USdY=;
+ b=CH7ISPrfA0SAVwucQS4dIGDyzTIO9WE+RTjf285+5oxgx0W5TI8N+g1un0dcn5bdhf
+ QYNoCUnGFGhvZqVEzTSSbXHtTWOUh/ZepmAPu5crdJVPpz9TmUm9eFleG4wL6LiyWsnP
+ hjsIoUev+qhp3Ni0CKMYxGlskndkpnbz2HULYKaguv9aUWDnMfbLh/01XkteSPoHRFNq
+ 6Mes94eMKGxFvYRQA2ZZw/NPEwkVFU8whkwXY02NNDtwFp+zAZU8/Pz6EYK1bJwwJfFG
+ aEeaoKt/O3ro7ATSNXWoXLfh29+oW24h8OWbmSSucfQMdmoCMYQ36Jyi13ZpnWuiCHfX
+ MzzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SjoM0YfzxFr+TKdRX7Tg7swtwgby5GMV4p6Vk5/CYeY=;
- b=StbGTmGXdw1jJfFgU9uqKlxJYmfvl2AJurcvQbPBYmbw2z+cjiw/Xygwsq9ALcvXf9
- L0Yfha0uMJUJm5+RjZA8qL7OBKRZgqm8HkUj+zBP+PyfmgOT3h+4sMHRLj+iyflrWdRR
- 6QgSVOSe+zTLgvAkl/tK4N4PSFpB8iIm/mqAF6U25yh25YvWz6Xz1wIlNWukGY1hmdSE
- j/oYXrhfrhKnurKB3Q/Dqp6ucefm0g/t65n/mF7Si+10qWpBaoj2yNKfy5bjBPZEYuw2
- xKeG/n6EjDnyZF6sBt5IENjypxoXm3EQ47wE630JkqJt3USh41QFH2M29qA94UXu7s29
- YnMQ==
-X-Gm-Message-State: AOAM533DJPKcdyuN5C83/NLJOK7JW8XSdGb3jXvRUhJ4ob6mwdC0dnpL
- XhlPtPCyv+Z9qPKumF8iD1X8lPuS2jFe4l4PI1k=
-X-Google-Smtp-Source: ABdhPJyOk7vxHQN1QaKMJLcfTx2GYTvuB9/knLcZUghz3iD+MG5OBI8pivLX28iYs9Uv/jQnxkUMVH6ilxC27WG9pQU=
-X-Received: by 2002:a05:6638:6b2:: with SMTP id
- d18mr4407346jad.26.1613165417322; 
- Fri, 12 Feb 2021 13:30:17 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=OXTkF8AuHLlIcGIgjz1lGhBGF2z21hAgGEilNB7USdY=;
+ b=Cemx+OWKtZ2SE4aUps281lnpvFlRFPtRL+xpuG+lc/eu/ecEG9ep9t/XHffNdYJwea
+ flxXY6twxbyrdBbmGyJR6ibrqQxgYjZ0BMfOB2jYSUsuGdSFL1ifYluhxUcgC5hRPGuJ
+ Hy6A8OEXd/XbgfesYl218SasZePsBuFi9JrQszjYAxNgtxdP2gSTqq8II1XrfxoQri0a
+ +tKPQFf6AXaCUsx++tLOiTqHT3QJp+SfFJx/PM067lQBKlOApZX/nX385+TJGwGgyqJM
+ 78SbxWLNqWjrqj78D6mLX+1R9I1W6Id8IODebH818Jl8bI/SfnD9G6E+r5clyvIUZbCu
+ H2+w==
+X-Gm-Message-State: AOAM530iBawU/mvcIFYi2L23iGKUgdMXFLA31augM+1U4rArbMMXAKvh
+ glCCutvmbwqCSIkc8X0gkOVYFIC9TlvrfCRR4G4=
+X-Google-Smtp-Source: ABdhPJxPcVAlCc2AiH4MZMYvoh2k4yEf72LIpXaMPFsKwEHUVnQo/KYxabt8P8+nh9LRK/DOwP+NDvUjLcdELuwXKz4=
+X-Received: by 2002:a05:6e02:218f:: with SMTP id
+ j15mr3908449ila.40.1613165717196; 
+ Fri, 12 Feb 2021 13:35:17 -0800 (PST)
 MIME-Version: 1.0
 References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613031446-22154-2-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1613031446-22154-2-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613031446-22154-4-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1613031446-22154-4-git-send-email-sai.pavan.boddu@xilinx.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 12 Feb 2021 13:29:36 -0800
-Message-ID: <CAKmqyKPsrH6RdeMtYVr42pnEGbr4p2zHqzhjju3fN=NAHEAiug@mail.gmail.com>
-Subject: Re: [RFC PATCH 01/15] block: add eMMC block device type
+Date: Fri, 12 Feb 2021 13:34:36 -0800
+Message-ID: <CAKmqyKNeyKr_Y8PLt1s_n1DCht=1ZBmwnX7j+mViBXUyOiNeaw@mail.gmail.com>
+Subject: Re: [RFC PATCH 03/15] sd: emmc: Dont not update CARD_CAPACITY for
+ eMMC cards
 To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -95,53 +94,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 12:15 AM Sai Pavan Boddu
+On Thu, Feb 11, 2021 at 12:22 AM Sai Pavan Boddu
 <sai.pavan.boddu@xilinx.com> wrote:
 >
-> From: Vincent Palatin <vpalatin@chromium.org>
+> OCR.CARD_CAPACITY field is only valid for sd cards, So skip it for eMMC.
 >
-> Add new block device type.
->
-> Signed-off-by: Vincent Palatin <vpalatin@chromium.org>
-> [SPB: Rebased over 5.1 version]
 > Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  blockdev.c                | 1 +
->  include/sysemu/blockdev.h | 1 +
->  2 files changed, 2 insertions(+)
+>  hw/sd/sd.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/blockdev.c b/blockdev.c
-> index b250b9b..593ce44 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -83,6 +83,7 @@ static const char *const if_name[IF_COUNT] =3D {
->      [IF_SD] =3D "sd",
->      [IF_VIRTIO] =3D "virtio",
->      [IF_XEN] =3D "xen",
-> +    [IF_EMMC] =3D "emmc",
->  };
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index a75fa1c..57fff89 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -308,7 +308,8 @@ static void sd_ocr_powerup(void *opaque)
+>      /* card power-up OK */
+>      sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_POWER_UP, 1);
 >
->  static int if_max_devs[IF_COUNT] =3D {
-> diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-> index 3b5fcda..eefae9f 100644
-> --- a/include/sysemu/blockdev.h
-> +++ b/include/sysemu/blockdev.h
-> @@ -24,6 +24,7 @@ typedef enum {
->       */
->      IF_NONE =3D 0,
->      IF_IDE, IF_SCSI, IF_FLOPPY, IF_PFLASH, IF_MTD, IF_SD, IF_VIRTIO, IF_=
-XEN,
-> +    IF_EMMC,
->      IF_COUNT
->  } BlockInterfaceType;
->
+> -    if (sd->size > SDSC_MAX_CAPACITY) {
+> +    /* eMMC supports only Byte mode */
+> +    if (!sd->emmc && sd->size > SDSC_MAX_CAPACITY) {
+>          sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_CAPACITY, 1);
+>      }
+>  }
 > --
 > 2.7.4
 >
