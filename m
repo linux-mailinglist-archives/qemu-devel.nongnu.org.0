@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DCB31A6C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:23:33 +0100 (CET)
-Received: from localhost ([::1]:50324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6E631A6B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:21:11 +0100 (CET)
+Received: from localhost ([::1]:44878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAfuW-0001BF-4k
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:23:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41476)
+	id 1lAfsE-00078F-9V
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:21:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmJ-00020n-3J
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmJ-00021S-FC
  for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:15:03 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:34767)
+Received: from mout.kundenserver.de ([212.227.126.187]:59123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmE-0003Sf-Ad
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:15:02 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAfmF-0003T0-SQ
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:15:03 -0500
 Received: from localhost.localdomain ([82.252.149.54]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N2m7Q-1ltW2E3JRk-0135ZY; Fri, 12 Feb 2021 22:14:55 +0100
+ id 1MirfI-1ln2rr1cCS-00eusS; Fri, 12 Feb 2021 22:14:55 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] m68k: MOVEC insn. should generate exception if wrong CR is
- accessed
-Date: Fri, 12 Feb 2021 22:14:46 +0100
-Message-Id: <20210212211448.413489-6-laurent@vivier.eu>
+Subject: [PULL 6/7] m68k: add MSP detection support for stack pointer swap
+ helpers
+Date: Fri, 12 Feb 2021 22:14:47 +0100
+Message-Id: <20210212211448.413489-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210212211448.413489-1-laurent@vivier.eu>
 References: <20210212211448.413489-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZKgHUd1/05UCojWuqupnIqAQnknAji7uZzT+LS34LpufDi2563i
- wdHj7MPiGzHFG/LelrPiNO9hTCBZJU5x4EqmEnFC60uW5uBJlBrg/iaAkgW9aWJWMSIFCxq
- i6Nw9n9EozykoujRaBEUMJLvoZSKBmxtgtHD0N02tob1RgBXHQtysb+PhOMU68W2/Jl6YAC
- 6UFCTWj37lT/lZnFJ2opw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sHMdwdfE4fU=:+tkotKDKXltFtLRXkum+ZV
- 0SCtj81wsRktogj76cX+rxR2mwRZSvKnMOIg+dEsfJnHHNZ+EZ2C0m8cy+K9jeuh+E2RqFF2X
- 5h9owTbGYQx4/wAYmyz99QFYJlqnLywqmLYret90H0y1ruTq5IxfYJO6HM3sPK8UqNHAwZMx3
- nyPi3UlolTttuCGgOza6BhGaFQrsu3ZWFuc9hVocEi1NnSNXHn+Sc2XHI73lZc6ltM+e9i3f1
- rPq5gg4745v7on3hAG3cITYxdtyGTZqiBq1hR2hMsnP2qMpCUzym/Dx9Y6lypjTNf0XqloD1Z
- DqZrNYzbbOkRsJeKh4bnFtE/WwLygVQbm4jxOuI0eEWf6c5CzF4cBX4DVD/iWw6o7SYZAaluf
- wsJZ0Zg1bFgcU9qJYzEOqIerORzt7/afrcLc2dKijetlZQXnfZ/kPsfpxDrF01aK0MrJTfdTF
- SgMhGdI6sQ==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ikPHirOPuCaaPY2JYhjO7iNTArPheFvomotWGTu7EQQw4XKU1N8
+ TbxMjyhS3Uu/6S3jALGB3sqKj+4aojxXlCyT+lzFCmlGFjEUEk7yutD9C6oZz+8zDYmFLjR
+ olqGFhgva1uOdUHqYHGa9jNNcYxk4me7yw6Qx5JTHvFItImt+ZELamCEqWWH0pXVs32ueWQ
+ 8y/wBFwKsPGu13uFix1Lg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hJQNBmbJjxk=:moIXFUqObaktXUQOJHYYrO
+ G/REz0ON1V9ZLWH1NZmY5Ow1Atr/iOyPgzK2ljbJIbOeJfJtbP/Tnn4Z4htY0dTTGfzBAgsv0
+ aPCXfsikadUc6lq9GnRDwpce+gq5WrHGHN6MmaBipYUNMqCK75hFpdl3NFFD+vFvRI8U5dkEl
+ PMyJn3r+qDU9x8YspuUXhX0Qx7rP5aMnmc4w2ZxcB8CD34uDIIHNhz9hrx0RCX57AKbB7+Hfl
+ Rz+Rj/qia867TRIjX1eTBaQEeXm9ftv6HDKZcnuFR1OqJvLr1rV33ghxQdv78OaGLWy4FxSnb
+ ezSKC4PCmauP/LFFEaSws9qlaHgQNMiMyWNQhaqgv16ZTncty0VqbYtoAqXh2fPYcJXT5eY6F
+ 11r/M2g+xanTvlo8bG2TusRIIo7c/Iv7TKh965+S2PSaIodHv9/ZlpFjrsgxYmGl1pV7+R4LH
+ Q75T+SbY1A==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,325 +70,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 
-Add CPU class detection for each CR type in the m68k_move_to/from helpers,
-so that it throws and exception if an unsupported register is requested
-for that CPU class.
+On m68k there are two varities of stack pointers: USP with SSP or ISP/MSP.
 
-Reclassified MOVEC insn. as only supported from 68010.
+Only the 68020/30/40 support the MSP register the stack swap helpers don't
+support this feature.
+
+This patch adds this support, as well as comments to CPUM68KState to
+make it clear how stacks are handled
 
 Signed-off-by: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <fc0d0187478716f05d990949347071969b743151.1612137712.git.balaton@eik.bme.hu>
+Message-Id: <c61ad2d8b39f3b03b431819b6bf602a1c332b921.1612137712.git.balaton@eik.bme.hu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/cpu.h       |   1 +
- target/m68k/cpu.c       |   1 +
- target/m68k/helper.c    | 188 ++++++++++++++++++++++++++++++----------
- target/m68k/translate.c |   2 +-
- 4 files changed, 146 insertions(+), 46 deletions(-)
+ target/m68k/cpu.h    | 9 ++++++++-
+ target/m68k/cpu.c    | 1 +
+ target/m68k/helper.c | 3 ++-
+ 3 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index ae34c9461503..5d2cb012e510 100644
+index 5d2cb012e510..7c3feeaf8a64 100644
 --- a/target/m68k/cpu.h
 +++ b/target/m68k/cpu.h
-@@ -497,6 +497,7 @@ enum m68k_features {
-     M68K_FEATURE_RTD,   /* RTD insn. (680[12346]0, and CPU32) */
-     M68K_FEATURE_CHK2,  /* CHK2 insn. (680[2346]0, and CPU32) */
-     M68K_FEATURE_MOVEP, /* MOVEP insn. (680[01234]0, and CPU32) */
-+    M68K_FEATURE_MOVEC, /* MOVEC insn. (from 68010) */
- };
+@@ -85,7 +85,13 @@ typedef struct CPUM68KState {
+     uint32_t pc;
+     uint32_t sr;
  
- static inline int m68k_feature(CPUM68KState *env, int feature)
+-    /* SSP and USP.  The current_sp is stored in aregs[7], the other here.  */
++    /*
++     * The 68020/30/40 support two supervisor stacks, ISP and MSP.
++     * The 68000/10, Coldfire, and CPU32 only have USP/SSP.
++     *
++     * The current_sp is stored in aregs[7], the other here.
++     * The USP, SSP, and if used the additional ISP for 68020/30/40.
++     */
+     int current_sp;
+     uint32_t sp[3];
+ 
+@@ -484,6 +490,7 @@ enum m68k_features {
+     M68K_FEATURE_CF_EMAC,
+     M68K_FEATURE_CF_EMAC_B,   /* Revision B EMAC (dual accumulate). */
+     M68K_FEATURE_USP, /* User Stack Pointer. (680[012346]0, ISA A+, B or C).*/
++    M68K_FEATURE_MSP, /* Master Stack Pointer. (680[234]0) */
+     M68K_FEATURE_EXT_FULL,    /* 68020+ full extension word. */
+     M68K_FEATURE_WORD_INDEX,  /* word sized address index registers. */
+     M68K_FEATURE_SCALED_INDEX, /* scaled address index registers. */
 diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index d0f8bd44339c..ff3c4c1c9802 100644
+index ff3c4c1c9802..37d2ed9dc79c 100644
 --- a/target/m68k/cpu.c
 +++ b/target/m68k/cpu.c
-@@ -132,6 +132,7 @@ static void m68010_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_M68010);
-     m68k_set_feature(env, M68K_FEATURE_RTD);
-     m68k_set_feature(env, M68K_FEATURE_BKPT);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEC);
+@@ -160,6 +160,7 @@ static void m68020_cpu_initfn(Object *obj)
+     m68k_set_feature(env, M68K_FEATURE_FPU);
+     m68k_set_feature(env, M68K_FEATURE_CAS);
+     m68k_set_feature(env, M68K_FEATURE_CHK2);
++    m68k_set_feature(env, M68K_FEATURE_MSP);
  }
  
  /*
 diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-index 69acdc3b353c..1efd6e4f6555 100644
+index 1efd6e4f6555..4185ca94cefe 100644
 --- a/target/m68k/helper.c
 +++ b/target/m68k/helper.c
-@@ -184,6 +184,14 @@ void HELPER(cf_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
-     }
- }
- 
-+static void raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    cs->exception_index = tt;
-+    cpu_loop_exit_restore(cs, raddr);
-+}
-+
- void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
- {
-     switch (reg) {
-@@ -209,61 +217,104 @@ void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
-             env->cacr = val & 0x80008000;
-         } else if (m68k_feature(env, M68K_FEATURE_M68060)) {
-             env->cacr = val & 0xf8e0e000;
-+        } else {
-+            break;
-         }
-         m68k_switch_sp(env);
-         return;
-     /* MC680[46]0 */
-     case M68K_CR_TC:
--        env->mmu.tcr = val;
--        return;
-+        if (m68k_feature(env, M68K_FEATURE_M68040)
-+         || m68k_feature(env, M68K_FEATURE_M68060)) {
-+            env->mmu.tcr = val;
-+            return;
-+        }
-+        break;
-     /* MC68040 */
-     case M68K_CR_MMUSR:
--        env->mmu.mmusr = val;
--        return;
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            env->mmu.mmusr = val;
-+            return;
-+        }
-+        break;
-     /* MC680[46]0 */
-     case M68K_CR_SRP:
--        env->mmu.srp = val;
--        return;
--    case M68K_CR_URP:
--        env->mmu.urp = val;
--        return;
-+        if (m68k_feature(env, M68K_FEATURE_M68040)
-+         || m68k_feature(env, M68K_FEATURE_M68060)) {
-+            env->mmu.srp = val;
-+            return;
-+        }
-+        break;
-     /* MC680[46]0 */
-+    case M68K_CR_URP:
-+        if (m68k_feature(env, M68K_FEATURE_M68040)
-+         || m68k_feature(env, M68K_FEATURE_M68060)) {
-+            env->mmu.urp = val;
-+            return;
-+        }
-+        break;
-+    /* MC680[12346]0 */
-     case M68K_CR_USP:
-         env->sp[M68K_USP] = val;
-         return;
-     /* MC680[234]0 */
-     case M68K_CR_MSP:
--        env->sp[M68K_SSP] = val;
--        return;
-+        if (m68k_feature(env, M68K_FEATURE_M68020)
-+         || m68k_feature(env, M68K_FEATURE_M68030)
-+         || m68k_feature(env, M68K_FEATURE_M68040)) {
-+            env->sp[M68K_SSP] = val;
-+            return;
-+        }
-+        break;
-     /* MC680[234]0 */
-     case M68K_CR_ISP:
--        env->sp[M68K_ISP] = val;
--        return;
-+        if (m68k_feature(env, M68K_FEATURE_M68020)
-+         || m68k_feature(env, M68K_FEATURE_M68030)
-+         || m68k_feature(env, M68K_FEATURE_M68040)) {
-+            env->sp[M68K_ISP] = val;
-+            return;
-+        }
-+        break;
-     /* MC68040/MC68LC040 */
--    case M68K_CR_ITT0:
--        env->mmu.ttr[M68K_ITTR0] = val;
--        return;
-+    case M68K_CR_ITT0: /* MC68EC040 only: M68K_CR_IACR0 */
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            env->mmu.ttr[M68K_ITTR0] = val;
-+            return;
-+        }
-+        break;
-     /* MC68040/MC68LC040 */
--    case M68K_CR_ITT1:
--         env->mmu.ttr[M68K_ITTR1] = val;
--        return;
-+    case M68K_CR_ITT1: /* MC68EC040 only: M68K_CR_IACR1 */
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            env->mmu.ttr[M68K_ITTR1] = val;
-+            return;
-+        }
-+        break;
-     /* MC68040/MC68LC040 */
--    case M68K_CR_DTT0:
--        env->mmu.ttr[M68K_DTTR0] = val;
--        return;
-+    case M68K_CR_DTT0: /* MC68EC040 only: M68K_CR_DACR0 */
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            env->mmu.ttr[M68K_DTTR0] = val;
-+            return;
-+        }
-+        break;
-     /* MC68040/MC68LC040 */
--    case M68K_CR_DTT1:
--        env->mmu.ttr[M68K_DTTR1] = val;
--        return;
-+    case M68K_CR_DTT1: /* MC68EC040 only: M68K_CR_DACR1 */
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            env->mmu.ttr[M68K_DTTR1] = val;
-+            return;
-+        }
-+        break;
-     /* Unimplemented Registers */
-     case M68K_CR_CAAR:
-     case M68K_CR_PCR:
-     case M68K_CR_BUSCR:
--        break;
-+        cpu_abort(env_cpu(env),
-+                  "Unimplemented control register write 0x%x = 0x%x\n",
-+                  reg, val);
-     }
--    cpu_abort(env_cpu(env),
--              "Unimplemented control register write 0x%x = 0x%x\n",
--              reg, val);
-+
-+    /* Invalid control registers will generate an exception. */
-+    raise_exception_ra(env, EXCP_ILLEGAL, 0);
-+    return;
- }
- 
- uint32_t HELPER(m68k_movec_from)(CPUM68KState *env, uint32_t reg)
-@@ -280,48 +331,95 @@ uint32_t HELPER(m68k_movec_from)(CPUM68KState *env, uint32_t reg)
-         return env->vbr;
-     /* MC680[2346]0 */
-     case M68K_CR_CACR:
--        return env->cacr;
-+        if (m68k_feature(env, M68K_FEATURE_M68020)
-+         || m68k_feature(env, M68K_FEATURE_M68030)
-+         || m68k_feature(env, M68K_FEATURE_M68040)
-+         || m68k_feature(env, M68K_FEATURE_M68060)) {
-+            return env->cacr;
-+        }
-+        break;
-     /* MC680[46]0 */
-     case M68K_CR_TC:
--        return env->mmu.tcr;
-+        if (m68k_feature(env, M68K_FEATURE_M68040)
-+         || m68k_feature(env, M68K_FEATURE_M68060)) {
-+            return env->mmu.tcr;
-+        }
-+        break;
-     /* MC68040 */
-     case M68K_CR_MMUSR:
--        return env->mmu.mmusr;
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            return env->mmu.mmusr;
-+        }
-+        break;
-     /* MC680[46]0 */
-     case M68K_CR_SRP:
--        return env->mmu.srp;
-+        if (m68k_feature(env, M68K_FEATURE_M68040)
-+         || m68k_feature(env, M68K_FEATURE_M68060)) {
-+            return env->mmu.srp;
-+        }
-+        break;
-+    /* MC68040/MC68LC040 */
-+    case M68K_CR_URP:
-+        if (m68k_feature(env, M68K_FEATURE_M68040)
-+         || m68k_feature(env, M68K_FEATURE_M68060)) {
-+            return env->mmu.urp;
-+        }
-+        break;
-     /* MC680[46]0 */
-     case M68K_CR_USP:
-         return env->sp[M68K_USP];
-     /* MC680[234]0 */
-     case M68K_CR_MSP:
--        return env->sp[M68K_SSP];
-+        if (m68k_feature(env, M68K_FEATURE_M68020)
-+         || m68k_feature(env, M68K_FEATURE_M68030)
-+         || m68k_feature(env, M68K_FEATURE_M68040)) {
-+            return env->sp[M68K_SSP];
-+        }
-+        break;
-     /* MC680[234]0 */
-     case M68K_CR_ISP:
--        return env->sp[M68K_ISP];
--    /* MC68040/MC68LC040 */
--    case M68K_CR_URP:
--        return env->mmu.urp;
-+        if (m68k_feature(env, M68K_FEATURE_M68020)
-+         || m68k_feature(env, M68K_FEATURE_M68030)
-+         || m68k_feature(env, M68K_FEATURE_M68040)) {
-+            return env->sp[M68K_ISP];
-+        }
-+        break;
-     /* MC68040/MC68LC040 */
-     case M68K_CR_ITT0: /* MC68EC040 only: M68K_CR_IACR0 */
--        return env->mmu.ttr[M68K_ITTR0];
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            return env->mmu.ttr[M68K_ITTR0];
-+        }
-+        break;
-     /* MC68040/MC68LC040 */
-     case M68K_CR_ITT1: /* MC68EC040 only: M68K_CR_IACR1 */
--        return env->mmu.ttr[M68K_ITTR1];
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            return env->mmu.ttr[M68K_ITTR1];
-+        }
-+        break;
-     /* MC68040/MC68LC040 */
-     case M68K_CR_DTT0: /* MC68EC040 only: M68K_CR_DACR0 */
--        return env->mmu.ttr[M68K_DTTR0];
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            return env->mmu.ttr[M68K_DTTR0];
-+        }
-+        break;
-     /* MC68040/MC68LC040 */
-     case M68K_CR_DTT1: /* MC68EC040 only: M68K_CR_DACR1 */
--        return env->mmu.ttr[M68K_DTTR1];
-+        if (m68k_feature(env, M68K_FEATURE_M68040)) {
-+            return env->mmu.ttr[M68K_DTTR1];
-+        }
-+        break;
-     /* Unimplemented Registers */
-     case M68K_CR_CAAR:
-     case M68K_CR_PCR:
-     case M68K_CR_BUSCR:
--        break;
-+        cpu_abort(env_cpu(env), "Unimplemented control register read 0x%x\n",
-+                  reg);
-     }
--    cpu_abort(env_cpu(env), "Unimplemented control register read 0x%x\n",
--              reg);
-+
-+    /* Invalid control registers will generate an exception. */
-+    raise_exception_ra(env, EXCP_ILLEGAL, 0);
-+
-+    return 0;
- }
- 
- void HELPER(set_macsr)(CPUM68KState *env, uint32_t val)
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 133a4049191e..ac936ebe8f14 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -6010,7 +6010,7 @@ void register_m68k_insns (CPUM68KState *env)
-     BASE(stop,      4e72, ffff);
-     BASE(rte,       4e73, ffff);
-     INSN(cf_movec,  4e7b, ffff, CF_ISA_A);
--    INSN(m68k_movec, 4e7a, fffe, M68000);
-+    INSN(m68k_movec, 4e7a, fffe, MOVEC);
- #endif
-     BASE(nop,       4e71, ffff);
-     INSN(rtd,       4e74, ffff, RTD);
+@@ -463,7 +463,8 @@ void m68k_switch_sp(CPUM68KState *env)
+     env->sp[env->current_sp] = env->aregs[7];
+     if (m68k_feature(env, M68K_FEATURE_M68000)) {
+         if (env->sr & SR_S) {
+-            if (env->sr & SR_M) {
++            /* SR:Master-Mode bit unimplemented then ISP is not available */
++            if (!m68k_feature(env, M68K_FEATURE_MSP) || env->sr & SR_M) {
+                 new_sp = M68K_SSP;
+             } else {
+                 new_sp = M68K_ISP;
 -- 
 2.29.2
 
