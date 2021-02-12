@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D06319824
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EAE8319823
 	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 02:59:30 +0100 (CET)
-Received: from localhost ([::1]:36198 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:36086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lANk1-0004qx-DR
+	id 1lANk1-0004nw-15
 	for lists+qemu-devel@lfdr.de; Thu, 11 Feb 2021 20:59:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53416)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lALwu-0006gS-1Q
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:04:40 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:43448)
+ id 1lALzP-0007DF-8r
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:07:15 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lALws-0000BS-CR
- for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:04:39 -0500
-Received: by mail-pf1-x432.google.com with SMTP id c11so4736486pfp.10
- for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 16:04:37 -0800 (PST)
+ id 1lALzN-0001Pj-GM
+ for qemu-devel@nongnu.org; Thu, 11 Feb 2021 19:07:15 -0500
+Received: by mail-pf1-x444.google.com with SMTP id c11so4740014pfp.10
+ for <qemu-devel@nongnu.org>; Thu, 11 Feb 2021 16:07:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=SQSolHD56CysPPaB1EfYj1eQNgKh4RvsTWDzwhN95Iw=;
- b=BHslBMWizsM5QKupNcBPoa88OsamHesFByD8JaQ4NjtwuPLpDd5kck5vWJK6CcXx5J
- Q/D++QUap4TAv/A+gWteOULnK3DWNNoPVhXV75+SYLc6VPfRagGr7xaR0hnVN6sOpgWg
- CbFhi7OkOhX3GPv1F7DOsWNq6az4g/s8zkE81c/QcYc2heJF2YiSXKiz1YZXiYmAI+j6
- 5FsCdxrpLRbCVjXJGKasw2UNYJ6SDGYzyQeTk/lB89bYQmYnY9rT5CmesRexeNtXAT52
- eIgjl4y5F83Pbu9Iyokp/+z62lP3e93WcZT7REbF37B+kqIu+pAQuit/jOZOSt4uNMNV
- kUHw==
+ bh=wAw0VpBMjicwts9quVRR0rA3VpeL00JH/8iEg6mw/iM=;
+ b=GcKGEts4H4ZZCciUrj438T8CX5GW0SN0zQf6hAzdo0q0S27yXfkMdLACyiXK1zErZR
+ qhuBn9f7jI34zb4tT2nG409F37CJHdz+cr/c+Azu43nGC+XCqwpaItk/7BqtWZwRu3bS
+ vFA4ghSQgmKU5OAvNoutl9cEYdw6q1/9/2d2rIl6yyLDax7SGmSRRZL5364iRaKCviq3
+ +HlcTtU46AKsWNxbAhBSyYVuAPVYyDtsPQRBSEh2Jk5fWEEm+EsKo5tkufdq8IzTOI3s
+ ihfYmU3lm16raq4VdsHqNmPGVw5ns/UEIhKggN83GwGeVrvpgNv3PX7QQZOedLUj0Hf+
+ oEFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=SQSolHD56CysPPaB1EfYj1eQNgKh4RvsTWDzwhN95Iw=;
- b=e/r1OMW1pXYdE7hL/VM3JtqJUeXN8rGWQ3VpHYo+P51YpGUDTD6dlzjdejpOoF+T/3
- h6Mh2l84PLVNWJZ88wfeXrHKVzP5WQ2yeW6SC94aGWTG5d1jMnGAyoc2u2KrNN7M0yJo
- CP4tMQsRjwIeKJYJyFtwS1Q8toEfumyqSYrz3fgB2VxJ3K3zbk7hqbSx2Pbd6c6A9dxo
- lvvfOUOZm4raye7T4bZxbEgYXKg7K78q8i4q2lIJ9u4vwi4fdusCL8bVd2JksnubEdxr
- Iv+5OLcYAH0+74vpwFuaL1ZnumrN5HajEwuSLjGD8ockPEKxsPraVjV2XbvC1t0SfU/v
- Q54A==
-X-Gm-Message-State: AOAM5323tD3/kEZ9YzJ8YDfj+0FBfOn1WZd66pvmYZ9hGNGPTJ8I5IaV
- MjWo6hFCasuhDbDubP/tnJw=
-X-Google-Smtp-Source: ABdhPJyBCax8DeWNnZWvlAPuC9VydwWI2K/y1fJ/5P5N6lSP5c1A+7fKgmdZj+2APwDmzpAjjNBAaQ==
-X-Received: by 2002:a63:d751:: with SMTP id w17mr612122pgi.182.1613088276296; 
- Thu, 11 Feb 2021 16:04:36 -0800 (PST)
+ bh=wAw0VpBMjicwts9quVRR0rA3VpeL00JH/8iEg6mw/iM=;
+ b=pl22OjvtINripdRY7Oq3d7m1jN4ICr41faWEDpxKk78VJGW2w7nrXjbdf0Om7Axrl2
+ TtKg9wpXLKaIN0DrrntZcC6EefNuOIbDMvuXe7tqfHnFYal2lOGTk7nXqMVXWJmJfys0
+ gB9O9c47IYUWdQRkO0TquERqsk4wyRUrT4+zm+xjhwpTeNqb2HgteMuV4QkiEj9xu3dA
+ Dz18MnFPJc+7wGFj6qYo1U2W9E0+JybBhBanfG0HJDzR4KDPalUZyhFFhR/FfhmyL3NR
+ jWL5+vUyoHlkhMN1h9z6YhVK+O3WF4F7mtiyC9yWlKI2UVVILKXMlHfsh4DvFGIxrYx2
+ Q3Pg==
+X-Gm-Message-State: AOAM533BDHA0UH2uJMRdLW5TkStp3gKaXTyX08Bfmy1N6QdOj53NwUkZ
+ hHGnONljcRTi9kmoCoG85Fw=
+X-Google-Smtp-Source: ABdhPJwR7ru3kCNTHXh45w12K77hznNy4xRumthx5n2Qr/XdYO1akLge7VdYa9PYa/V5bG3UgXBu+w==
+X-Received: by 2002:a62:6006:0:b029:1dd:3af9:965f with SMTP id
+ u6-20020a6260060000b02901dd3af9965fmr452685pfb.30.1613088432312; 
+ Thu, 11 Feb 2021 16:07:12 -0800 (PST)
 Received: from localhost.localdomain ([210.227.19.68])
- by smtp.gmail.com with ESMTPSA id y14sm6527550pjg.52.2021.02.11.16.04.34
+ by smtp.gmail.com with ESMTPSA id j17sm6690914pfh.183.2021.02.11.16.07.10
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 11 Feb 2021 16:04:35 -0800 (PST)
+ Thu, 11 Feb 2021 16:07:12 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH] ui/cocoa: Support unique keys of JIS keyboards
-Date: Fri, 12 Feb 2021 09:04:04 +0900
-Message-Id: <20210212000404.28413-1-akihiko.odaki@gmail.com>
+Subject: [PATCH] ui/cocoa: Interpret left button down as is when command is
+ pressed
+Date: Fri, 12 Feb 2021 09:07:06 +0900
+Message-Id: <20210212000706.28616-1-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x444.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,29 +88,56 @@ Cc: peter.maydell@linaro.org, kraxel@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Old Macs were not equipped with mice with an ability to perform
+"right clicks" and ui/cocoa interpreted left button down with
+left command key pressed as right button down as a workaround.
+
+The workaround has an obvious downside: you cannot tell the guest
+that the left button is down while the left command key is
+pressed.
+
+Today, Macs has trackpads, Apple Mice, or Magic Mice. They are
+capable to emulate right clicks with gestures, which also allows
+to perform right clicks on "BootCamp" OSes like Windows.
+
+By removing the workaround, we overcome its downside, and provide
+a behavior consistent with BootCamp.
+
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- ui/cocoa.m | 7 +++++++
- 1 file changed, 7 insertions(+)
+ ui/cocoa.m | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 13fba8103e1..78fcfeaf04b 100644
+index 13fba8103e1..7ca590ff36f 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -240,6 +240,13 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
-     [kVK_F14] = Q_KEY_CODE_SCROLL_LOCK,
-     [kVK_F15] = Q_KEY_CODE_PAUSE,
- 
-+    // JIS keyboards only
-+    [kVK_JIS_Yen] = Q_KEY_CODE_YEN,
-+    [kVK_JIS_Underscore] = Q_KEY_CODE_RO,
-+    [kVK_JIS_KeypadComma] = Q_KEY_CODE_KP_COMMA,
-+    [kVK_JIS_Eisu] = Q_KEY_CODE_MUHENKAN,
-+    [kVK_JIS_Kana] = Q_KEY_CODE_HENKAN,
-+
-     /*
-      * The eject and volume keys can't be used here because they are handled at
-      * a lower level than what an Application can see.
+@@ -830,11 +830,7 @@ - (bool) handleEventLocked:(NSEvent *)event
+             mouse_event = true;
+             break;
+         case NSEventTypeLeftMouseDown:
+-            if ([event modifierFlags] & NSEventModifierFlagCommand) {
+-                buttons |= MOUSE_EVENT_RBUTTON;
+-            } else {
+-                buttons |= MOUSE_EVENT_LBUTTON;
+-            }
++            buttons |= MOUSE_EVENT_LBUTTON;
+             mouse_event = true;
+             break;
+         case NSEventTypeRightMouseDown:
+@@ -846,11 +842,7 @@ - (bool) handleEventLocked:(NSEvent *)event
+             mouse_event = true;
+             break;
+         case NSEventTypeLeftMouseDragged:
+-            if ([event modifierFlags] & NSEventModifierFlagCommand) {
+-                buttons |= MOUSE_EVENT_RBUTTON;
+-            } else {
+-                buttons |= MOUSE_EVENT_LBUTTON;
+-            }
++            buttons |= MOUSE_EVENT_LBUTTON;
+             mouse_event = true;
+             break;
+         case NSEventTypeRightMouseDragged:
 -- 
 2.24.3 (Apple Git-128)
 
