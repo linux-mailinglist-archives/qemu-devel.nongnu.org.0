@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA603319F24
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 13:53:17 +0100 (CET)
-Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03FB319F14
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 13:50:21 +0100 (CET)
+Received: from localhost ([::1]:49452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAXwi-0001U3-Tg
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 07:53:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60186)
+	id 1lAXts-0007Ah-ON
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 07:50:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgo-0001Ia-6o
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:50 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48778)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgp-0001L9-54
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:51 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgi-0006NK-TD
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:49 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgi-0006NS-W0
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:50 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6A373B908;
+ by mx2.suse.de (Postfix) with ESMTP id C8863B029;
  Fri, 12 Feb 2021 12:36:29 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -28,10 +28,9 @@ To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC v18 14/15] i386: split seg_helper into user-only and softmmu
- parts
-Date: Fri, 12 Feb 2021 13:36:21 +0100
-Message-Id: <20210212123622.15834-15-cfontana@suse.de>
+Subject: [RFC v18 15/15] i386: split off softmmu part of cpu.c
+Date: Fri, 12 Feb 2021 13:36:22 +0100
+Message-Id: <20210212123622.15834-16-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210212123622.15834-1-cfontana@suse.de>
 References: <20210212123622.15834-1-cfontana@suse.de>
@@ -65,42 +64,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- target/i386/tcg/helper-tcg.h         |   5 +
- target/i386/tcg/seg_helper.h         |  66 ++++++++
- target/i386/tcg/seg_helper.c         | 233 +--------------------------
- target/i386/tcg/softmmu/seg_helper.c | 125 ++++++++++++++
- target/i386/tcg/user/seg_helper.c    | 109 +++++++++++++
- target/i386/tcg/softmmu/meson.build  |   1 +
- target/i386/tcg/user/meson.build     |   1 +
- 7 files changed, 311 insertions(+), 229 deletions(-)
- create mode 100644 target/i386/tcg/seg_helper.h
- create mode 100644 target/i386/tcg/softmmu/seg_helper.c
- create mode 100644 target/i386/tcg/user/seg_helper.c
+ target/i386/cpu-internal.h |  70 +++++++
+ target/i386/cpu-softmmu.c  | 352 ++++++++++++++++++++++++++++++++++
+ target/i386/cpu.c          | 383 +------------------------------------
+ target/i386/meson.build    |   1 +
+ 4 files changed, 428 insertions(+), 378 deletions(-)
+ create mode 100644 target/i386/cpu-internal.h
+ create mode 100644 target/i386/cpu-softmmu.c
 
-diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
-index b420b3356d..30eacdbbc9 100644
---- a/target/i386/tcg/helper-tcg.h
-+++ b/target/i386/tcg/helper-tcg.h
-@@ -88,6 +88,11 @@ void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1);
- 
- /* seg_helper.c */
- void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw);
-+void do_interrupt_all(X86CPU *cpu, int intno, int is_int,
-+                      int error_code, target_ulong next_eip, int is_hw);
-+void handle_even_inj(CPUX86State *env, int intno, int is_int,
-+                     int error_code, int is_hw, int rm);
-+int exception_has_error_code(int intno);
- 
- /* smm_helper.c */
- void do_smm_enter(X86CPU *cpu);
-diff --git a/target/i386/tcg/seg_helper.h b/target/i386/tcg/seg_helper.h
+diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
 new file mode 100644
-index 0000000000..ebf1035277
+index 0000000000..9ecadf593b
 --- /dev/null
-+++ b/target/i386/tcg/seg_helper.h
-@@ -0,0 +1,66 @@
++++ b/target/i386/cpu-internal.h
+@@ -0,0 +1,70 @@
 +/*
-+ *  x86 segmentation related helpers macros
++ * i386 CPU internal definitions to be shared between general and softmmu
 + *
 + *  Copyright (c) 2003 Fabrice Bellard
 + *
@@ -118,603 +97,907 @@ index 0000000000..ebf1035277
 + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef SEG_HELPER_H
-+#define SEG_HELPER_H
++#ifndef I386_CPU_INTERNAL_H
++#define I386_CPU_INTERNAL_H
 +
-+//#define DEBUG_PCALL
++typedef enum FeatureWordType {
++   CPUID_FEATURE_WORD,
++   MSR_FEATURE_WORD,
++} FeatureWordType;
 +
-+#ifdef DEBUG_PCALL
-+# define LOG_PCALL(...) qemu_log_mask(CPU_LOG_PCALL, ## __VA_ARGS__)
-+# define LOG_PCALL_STATE(cpu)                                  \
-+    log_cpu_state_mask(CPU_LOG_PCALL, (cpu), CPU_DUMP_CCOP)
-+#else
-+# define LOG_PCALL(...) do { } while (0)
-+# define LOG_PCALL_STATE(cpu) do { } while (0)
-+#endif
++typedef struct FeatureWordInfo {
++    FeatureWordType type;
++    /* feature flags names are taken from "Intel Processor Identification and
++     * the CPUID Instruction" and AMD's "CPUID Specification".
++     * In cases of disagreement between feature naming conventions,
++     * aliases may be added.
++     */
++    const char *feat_names[64];
++    union {
++        /* If type==CPUID_FEATURE_WORD */
++        struct {
++            uint32_t eax;   /* Input EAX for CPUID */
++            bool needs_ecx; /* CPUID instruction uses ECX as input */
++            uint32_t ecx;   /* Input ECX value for CPUID */
++            int reg;        /* output register (R_* constant) */
++        } cpuid;
++        /* If type==MSR_FEATURE_WORD */
++        struct {
++            uint32_t index;
++        } msr;
++    };
++    uint64_t tcg_features; /* Feature flags supported by TCG */
++    uint64_t unmigratable_flags; /* Feature flags known to be unmigratable */
++    uint64_t migratable_flags; /* Feature flags known to be migratable */
++    /* Features that shouldn't be auto-enabled by "-cpu host" */
++    uint64_t no_autoenable_flags;
++} FeatureWordInfo;
 +
++extern FeatureWordInfo feature_word_info[];
++
++void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
++
++#ifndef CONFIG_USER_ONLY
++GuestPanicInformation *x86_cpu_get_crash_info(CPUState *cs);
++void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
++                                const char *name, void *opaque, Error **errp);
++
++void x86_cpu_apic_create(X86CPU *cpu, Error **errp);
++void x86_cpu_apic_realize(X86CPU *cpu, Error **errp);
++void x86_cpu_machine_reset_cb(void *opaque);
++#endif /* CONFIG_USER_ONLY */
++
++#endif /* CPU_INTERNAL_H */
+diff --git a/target/i386/cpu-softmmu.c b/target/i386/cpu-softmmu.c
+new file mode 100644
+index 0000000000..c824408e8e
+--- /dev/null
++++ b/target/i386/cpu-softmmu.c
+@@ -0,0 +1,352 @@
 +/*
-+ * TODO: Convert callers to compute cpu_mmu_index_kernel once
-+ * and use *_mmuidx_ra directly.
++ *  i386 CPUID helper functions
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
-+#define cpu_ldub_kernel_ra(e, p, r) \
-+    cpu_ldub_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
-+#define cpu_lduw_kernel_ra(e, p, r) \
-+    cpu_lduw_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
-+#define cpu_ldl_kernel_ra(e, p, r) \
-+    cpu_ldl_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
-+#define cpu_ldq_kernel_ra(e, p, r) \
-+    cpu_ldq_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
 +
-+#define cpu_stb_kernel_ra(e, p, v, r) \
-+    cpu_stb_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
-+#define cpu_stw_kernel_ra(e, p, v, r) \
-+    cpu_stw_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
-+#define cpu_stl_kernel_ra(e, p, v, r) \
-+    cpu_stl_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
-+#define cpu_stq_kernel_ra(e, p, v, r) \
-+    cpu_stq_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "sysemu/xen.h"
++#include "sysemu/whpx.h"
++#include "kvm/kvm_i386.h"
++#include "qapi/error.h"
++#include "qapi/qapi-visit-run-state.h"
++#include "qapi/qmp/qdict.h"
++#include "qom/qom-qobject.h"
++#include "qapi/qapi-commands-machine-target.h"
++#include "hw/qdev-properties.h"
 +
-+#define cpu_ldub_kernel(e, p)    cpu_ldub_kernel_ra(e, p, 0)
-+#define cpu_lduw_kernel(e, p)    cpu_lduw_kernel_ra(e, p, 0)
-+#define cpu_ldl_kernel(e, p)     cpu_ldl_kernel_ra(e, p, 0)
-+#define cpu_ldq_kernel(e, p)     cpu_ldq_kernel_ra(e, p, 0)
++#include "exec/address-spaces.h"
++#include "hw/i386/apic_internal.h"
 +
-+#define cpu_stb_kernel(e, p, v)  cpu_stb_kernel_ra(e, p, v, 0)
-+#define cpu_stw_kernel(e, p, v)  cpu_stw_kernel_ra(e, p, v, 0)
-+#define cpu_stl_kernel(e, p, v)  cpu_stl_kernel_ra(e, p, v, 0)
-+#define cpu_stq_kernel(e, p, v)  cpu_stq_kernel_ra(e, p, v, 0)
++#include "cpu-internal.h"
 +
-+#endif /* SEG_HELPER_H */
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index f0cb1bffe7..eb89383f4e 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -26,49 +26,7 @@
- #include "exec/cpu_ldst.h"
- #include "exec/log.h"
- #include "helper-tcg.h"
--
--//#define DEBUG_PCALL
--
--#ifdef DEBUG_PCALL
--# define LOG_PCALL(...) qemu_log_mask(CPU_LOG_PCALL, ## __VA_ARGS__)
--# define LOG_PCALL_STATE(cpu)                                  \
--    log_cpu_state_mask(CPU_LOG_PCALL, (cpu), CPU_DUMP_CCOP)
--#else
--# define LOG_PCALL(...) do { } while (0)
--# define LOG_PCALL_STATE(cpu) do { } while (0)
--#endif
--
--/*
-- * TODO: Convert callers to compute cpu_mmu_index_kernel once
-- * and use *_mmuidx_ra directly.
-- */
--#define cpu_ldub_kernel_ra(e, p, r) \
--    cpu_ldub_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
--#define cpu_lduw_kernel_ra(e, p, r) \
--    cpu_lduw_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
--#define cpu_ldl_kernel_ra(e, p, r) \
--    cpu_ldl_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
--#define cpu_ldq_kernel_ra(e, p, r) \
--    cpu_ldq_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
--
--#define cpu_stb_kernel_ra(e, p, v, r) \
--    cpu_stb_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
--#define cpu_stw_kernel_ra(e, p, v, r) \
--    cpu_stw_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
--#define cpu_stl_kernel_ra(e, p, v, r) \
--    cpu_stl_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
--#define cpu_stq_kernel_ra(e, p, v, r) \
--    cpu_stq_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
--
--#define cpu_ldub_kernel(e, p)    cpu_ldub_kernel_ra(e, p, 0)
--#define cpu_lduw_kernel(e, p)    cpu_lduw_kernel_ra(e, p, 0)
--#define cpu_ldl_kernel(e, p)     cpu_ldl_kernel_ra(e, p, 0)
--#define cpu_ldq_kernel(e, p)     cpu_ldq_kernel_ra(e, p, 0)
--
--#define cpu_stb_kernel(e, p, v)  cpu_stb_kernel_ra(e, p, v, 0)
--#define cpu_stw_kernel(e, p, v)  cpu_stw_kernel_ra(e, p, v, 0)
--#define cpu_stl_kernel(e, p, v)  cpu_stl_kernel_ra(e, p, v, 0)
--#define cpu_stq_kernel(e, p, v)  cpu_stq_kernel_ra(e, p, v, 0)
-+#include "seg_helper.h"
++/* Return a QDict containing keys for all properties that can be included
++ * in static expansion of CPU models. All properties set by x86_cpu_load_model()
++ * must be included in the dictionary.
++ */
++static QDict *x86_cpu_static_props(void)
++{
++    FeatureWord w;
++    int i;
++    static const char *props[] = {
++        "min-level",
++        "min-xlevel",
++        "family",
++        "model",
++        "stepping",
++        "model-id",
++        "vendor",
++        "lmce",
++        NULL,
++    };
++    static QDict *d;
++
++    if (d) {
++        return d;
++    }
++
++    d = qdict_new();
++    for (i = 0; props[i]; i++) {
++        qdict_put_null(d, props[i]);
++    }
++
++    for (w = 0; w < FEATURE_WORDS; w++) {
++        FeatureWordInfo *fi = &feature_word_info[w];
++        int bit;
++        for (bit = 0; bit < 64; bit++) {
++            if (!fi->feat_names[bit]) {
++                continue;
++            }
++            qdict_put_null(d, fi->feat_names[bit]);
++        }
++    }
++
++    return d;
++}
++
++/* Add an entry to @props dict, with the value for property. */
++static void x86_cpu_expand_prop(X86CPU *cpu, QDict *props, const char *prop)
++{
++    QObject *value = object_property_get_qobject(OBJECT(cpu), prop,
++                                                 &error_abort);
++
++    qdict_put_obj(props, prop, value);
++}
++
++/* Convert CPU model data from X86CPU object to a property dictionary
++ * that can recreate exactly the same CPU model.
++ */
++static void x86_cpu_to_dict(X86CPU *cpu, QDict *props)
++{
++    QDict *sprops = x86_cpu_static_props();
++    const QDictEntry *e;
++
++    for (e = qdict_first(sprops); e; e = qdict_next(sprops, e)) {
++        const char *prop = qdict_entry_key(e);
++        x86_cpu_expand_prop(cpu, props, prop);
++    }
++}
++
++/* Convert CPU model data from X86CPU object to a property dictionary
++ * that can recreate exactly the same CPU model, including every
++ * writeable QOM property.
++ */
++static void x86_cpu_to_dict_full(X86CPU *cpu, QDict *props)
++{
++    ObjectPropertyIterator iter;
++    ObjectProperty *prop;
++
++    object_property_iter_init(&iter, OBJECT(cpu));
++    while ((prop = object_property_iter_next(&iter))) {
++        /* skip read-only or write-only properties */
++        if (!prop->get || !prop->set) {
++            continue;
++        }
++
++        /* "hotplugged" is the only property that is configurable
++         * on the command-line but will be set differently on CPUs
++         * created using "-cpu ... -smp ..." and by CPUs created
++         * on the fly by x86_cpu_from_model() for querying. Skip it.
++         */
++        if (!strcmp(prop->name, "hotplugged")) {
++            continue;
++        }
++        x86_cpu_expand_prop(cpu, props, prop->name);
++    }
++}
++
++static void object_apply_props(Object *obj, QDict *props, Error **errp)
++{
++    const QDictEntry *prop;
++
++    for (prop = qdict_first(props); prop; prop = qdict_next(props, prop)) {
++        if (!object_property_set_qobject(obj, qdict_entry_key(prop),
++                                         qdict_entry_value(prop), errp)) {
++            break;
++        }
++    }
++}
++
++/* Create X86CPU object according to model+props specification */
++static X86CPU *x86_cpu_from_model(const char *model, QDict *props, Error **errp)
++{
++    X86CPU *xc = NULL;
++    X86CPUClass *xcc;
++    Error *err = NULL;
++
++    xcc = X86_CPU_CLASS(cpu_class_by_name(TYPE_X86_CPU, model));
++    if (xcc == NULL) {
++        error_setg(&err, "CPU model '%s' not found", model);
++        goto out;
++    }
++
++    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
++    if (props) {
++        object_apply_props(OBJECT(xc), props, &err);
++        if (err) {
++            goto out;
++        }
++    }
++
++    x86_cpu_expand_features(xc, &err);
++    if (err) {
++        goto out;
++    }
++
++out:
++    if (err) {
++        error_propagate(errp, err);
++        object_unref(OBJECT(xc));
++        xc = NULL;
++    }
++    return xc;
++}
++
++CpuModelExpansionInfo *
++qmp_query_cpu_model_expansion(CpuModelExpansionType type,
++                                                      CpuModelInfo *model,
++                                                      Error **errp)
++{
++    X86CPU *xc = NULL;
++    Error *err = NULL;
++    CpuModelExpansionInfo *ret = g_new0(CpuModelExpansionInfo, 1);
++    QDict *props = NULL;
++    const char *base_name;
++
++    xc = x86_cpu_from_model(model->name,
++                            model->has_props ?
++                                qobject_to(QDict, model->props) :
++                                NULL, &err);
++    if (err) {
++        goto out;
++    }
++
++    props = qdict_new();
++    ret->model = g_new0(CpuModelInfo, 1);
++    ret->model->props = QOBJECT(props);
++    ret->model->has_props = true;
++
++    switch (type) {
++    case CPU_MODEL_EXPANSION_TYPE_STATIC:
++        /* Static expansion will be based on "base" only */
++        base_name = "base";
++        x86_cpu_to_dict(xc, props);
++    break;
++    case CPU_MODEL_EXPANSION_TYPE_FULL:
++        /* As we don't return every single property, full expansion needs
++         * to keep the original model name+props, and add extra
++         * properties on top of that.
++         */
++        base_name = model->name;
++        x86_cpu_to_dict_full(xc, props);
++    break;
++    default:
++        error_setg(&err, "Unsupported expansion type");
++        goto out;
++    }
++
++    x86_cpu_to_dict(xc, props);
++
++    ret->model->name = g_strdup(base_name);
++
++out:
++    object_unref(OBJECT(xc));
++    if (err) {
++        error_propagate(errp, err);
++        qapi_free_CpuModelExpansionInfo(ret);
++        ret = NULL;
++    }
++    return ret;
++}
++
++void cpu_clear_apic_feature(CPUX86State *env)
++{
++    env->features[FEAT_1_EDX] &= ~CPUID_APIC;
++}
++
++bool cpu_is_bsp(X86CPU *cpu)
++{
++    return cpu_get_apic_base(cpu->apic_state) & MSR_IA32_APICBASE_BSP;
++}
++
++/* TODO: remove me, when reset over QOM tree is implemented */
++void x86_cpu_machine_reset_cb(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    cpu_reset(CPU(cpu));
++}
++
++APICCommonClass *apic_get_class(void)
++{
++    const char *apic_type = "apic";
++
++    /* TODO: in-kernel irqchip for hvf */
++    if (kvm_apic_in_kernel()) {
++        apic_type = "kvm-apic";
++    } else if (xen_enabled()) {
++        apic_type = "xen-apic";
++    } else if (whpx_apic_in_platform()) {
++        apic_type = "whpx-apic";
++    }
++
++    return APIC_COMMON_CLASS(object_class_by_name(apic_type));
++}
++
++void x86_cpu_apic_create(X86CPU *cpu, Error **errp)
++{
++    APICCommonState *apic;
++    ObjectClass *apic_class = OBJECT_CLASS(apic_get_class());
++
++    cpu->apic_state = DEVICE(object_new_with_class(apic_class));
++
++    object_property_add_child(OBJECT(cpu), "lapic",
++                              OBJECT(cpu->apic_state));
++    object_unref(OBJECT(cpu->apic_state));
++
++    qdev_prop_set_uint32(cpu->apic_state, "id", cpu->apic_id);
++    /* TODO: convert to link<> */
++    apic = APIC_COMMON(cpu->apic_state);
++    apic->cpu = cpu;
++    apic->apicbase = APIC_DEFAULT_ADDRESS | MSR_IA32_APICBASE_ENABLE;
++}
++
++void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
++{
++    APICCommonState *apic;
++    static bool apic_mmio_map_once;
++
++    if (cpu->apic_state == NULL) {
++        return;
++    }
++    qdev_realize(DEVICE(cpu->apic_state), NULL, errp);
++
++    /* Map APIC MMIO area */
++    apic = APIC_COMMON(cpu->apic_state);
++    if (!apic_mmio_map_once) {
++        memory_region_add_subregion_overlap(get_system_memory(),
++                                            apic->apicbase &
++                                            MSR_IA32_APICBASE_BASE,
++                                            &apic->io_memory,
++                                            0x1000);
++        apic_mmio_map_once = true;
++     }
++}
++
++GuestPanicInformation *x86_cpu_get_crash_info(CPUState *cs)
++{
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
++    GuestPanicInformation *panic_info = NULL;
++
++    if (env->features[FEAT_HYPERV_EDX] & HV_GUEST_CRASH_MSR_AVAILABLE) {
++        panic_info = g_malloc0(sizeof(GuestPanicInformation));
++
++        panic_info->type = GUEST_PANIC_INFORMATION_TYPE_HYPER_V;
++
++        assert(HV_CRASH_PARAMS >= 5);
++        panic_info->u.hyper_v.arg1 = env->msr_hv_crash_params[0];
++        panic_info->u.hyper_v.arg2 = env->msr_hv_crash_params[1];
++        panic_info->u.hyper_v.arg3 = env->msr_hv_crash_params[2];
++        panic_info->u.hyper_v.arg4 = env->msr_hv_crash_params[3];
++        panic_info->u.hyper_v.arg5 = env->msr_hv_crash_params[4];
++    }
++
++    return panic_info;
++}
++void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
++                                const char *name, void *opaque,
++                                Error **errp)
++{
++    CPUState *cs = CPU(obj);
++    GuestPanicInformation *panic_info;
++
++    if (!cs->crash_occurred) {
++        error_setg(errp, "No crash occured");
++        return;
++    }
++
++    panic_info = x86_cpu_get_crash_info(cs);
++    if (panic_info == NULL) {
++        error_setg(errp, "No crash information");
++        return;
++    }
++
++    visit_type_GuestPanicInformation(v, "crash-information", &panic_info,
++                                     errp);
++    qapi_free_GuestPanicInformation(panic_info);
++}
++
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 8d2e1c3136..f9db351f1f 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -20,35 +20,26 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qemu/cutils.h"
+-#include "qemu/bitops.h"
+ #include "qemu/qemu-print.h"
+ #include "cpu.h"
+ #include "tcg/helper-tcg.h"
+-#include "exec/exec-all.h"
+-#include "sysemu/kvm.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/hvf.h"
+-#include "sysemu/xen.h"
+-#include "sysemu/whpx.h"
+ #include "kvm/kvm_i386.h"
+ #include "sev_i386.h"
+-#include "qemu/module.h"
+ #include "qapi/qapi-visit-machine.h"
+-#include "qapi/qapi-visit-run-state.h"
+-#include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
+-#include "qom/qom-qobject.h"
+ #include "qapi/qapi-commands-machine-target.h"
+ #include "standard-headers/asm-x86/kvm_para.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/i386/topology.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "exec/address-spaces.h"
+-#include "hw/i386/apic_internal.h"
+ #include "hw/boards.h"
+ #endif
  
- /* return non zero if error */
- static inline int load_segment_ra(CPUX86State *env, uint32_t *e1_ptr,
-@@ -531,7 +489,7 @@ static inline unsigned int get_sp_mask(unsigned int e2)
+ #include "disas/capstone.h"
++#include "cpu-internal.h"
+ 
+ /* Helpers for building CPUID[2] descriptors: */
+ 
+@@ -663,40 +654,7 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+           CPUID_XSAVE_XSAVEC, CPUID_XSAVE_XSAVES */
+ #define TCG_14_0_ECX_FEATURES 0
+ 
+-typedef enum FeatureWordType {
+-   CPUID_FEATURE_WORD,
+-   MSR_FEATURE_WORD,
+-} FeatureWordType;
+-
+-typedef struct FeatureWordInfo {
+-    FeatureWordType type;
+-    /* feature flags names are taken from "Intel Processor Identification and
+-     * the CPUID Instruction" and AMD's "CPUID Specification".
+-     * In cases of disagreement between feature naming conventions,
+-     * aliases may be added.
+-     */
+-    const char *feat_names[64];
+-    union {
+-        /* If type==CPUID_FEATURE_WORD */
+-        struct {
+-            uint32_t eax;   /* Input EAX for CPUID */
+-            bool needs_ecx; /* CPUID instruction uses ECX as input */
+-            uint32_t ecx;   /* Input ECX value for CPUID */
+-            int reg;        /* output register (R_* constant) */
+-        } cpuid;
+-        /* If type==MSR_FEATURE_WORD */
+-        struct {
+-            uint32_t index;
+-        } msr;
+-    };
+-    uint64_t tcg_features; /* Feature flags supported by TCG */
+-    uint64_t unmigratable_flags; /* Feature flags known to be unmigratable */
+-    uint64_t migratable_flags; /* Feature flags known to be migratable */
+-    /* Features that shouldn't be auto-enabled by "-cpu host" */
+-    uint64_t no_autoenable_flags;
+-} FeatureWordInfo;
+-
+-static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
++FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+     [FEAT_1_EDX] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+@@ -4633,7 +4591,6 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
      }
  }
  
--static int exception_has_error_code(int intno)
-+int exception_has_error_code(int intno)
- {
-     switch (intno) {
-     case 8:
-@@ -976,72 +934,6 @@ static void do_interrupt64(CPUX86State *env, int intno, int is_int,
- }
- #endif
+-static void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
+ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose);
  
--#ifdef TARGET_X86_64
--#if defined(CONFIG_USER_ONLY)
--void helper_syscall(CPUX86State *env, int next_eip_addend)
--{
--    CPUState *cs = env_cpu(env);
--
--    cs->exception_index = EXCP_SYSCALL;
--    env->exception_is_int = 0;
--    env->exception_next_eip = env->eip + next_eip_addend;
--    cpu_loop_exit(cs);
--}
--#else
--void helper_syscall(CPUX86State *env, int next_eip_addend)
--{
--    int selector;
--
--    if (!(env->efer & MSR_EFER_SCE)) {
--        raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
--    }
--    selector = (env->star >> 32) & 0xffff;
--    if (env->hflags & HF_LMA_MASK) {
--        int code64;
--
--        env->regs[R_ECX] = env->eip + next_eip_addend;
--        env->regs[11] = cpu_compute_eflags(env) & ~RF_MASK;
--
--        code64 = env->hflags & HF_CS64_MASK;
--
--        env->eflags &= ~(env->fmask | RF_MASK);
--        cpu_load_eflags(env, env->eflags, 0);
--        cpu_x86_load_seg_cache(env, R_CS, selector & 0xfffc,
--                           0, 0xffffffff,
--                               DESC_G_MASK | DESC_P_MASK |
--                               DESC_S_MASK |
--                               DESC_CS_MASK | DESC_R_MASK | DESC_A_MASK |
--                               DESC_L_MASK);
--        cpu_x86_load_seg_cache(env, R_SS, (selector + 8) & 0xfffc,
--                               0, 0xffffffff,
--                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
--                               DESC_S_MASK |
--                               DESC_W_MASK | DESC_A_MASK);
--        if (code64) {
--            env->eip = env->lstar;
--        } else {
--            env->eip = env->cstar;
--        }
--    } else {
--        env->regs[R_ECX] = (uint32_t)(env->eip + next_eip_addend);
--
--        env->eflags &= ~(IF_MASK | RF_MASK | VM_MASK);
--        cpu_x86_load_seg_cache(env, R_CS, selector & 0xfffc,
--                           0, 0xffffffff,
--                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
--                               DESC_S_MASK |
--                               DESC_CS_MASK | DESC_R_MASK | DESC_A_MASK);
--        cpu_x86_load_seg_cache(env, R_SS, (selector + 8) & 0xfffc,
--                               0, 0xffffffff,
--                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
--                               DESC_S_MASK |
--                               DESC_W_MASK | DESC_A_MASK);
--        env->eip = (uint32_t)env->star;
--    }
--}
--#endif
--#endif
--
- #ifdef TARGET_X86_64
- void helper_sysret(CPUX86State *env, int dflag)
- {
-@@ -1136,84 +1028,13 @@ static void do_interrupt_real(CPUX86State *env, int intno, int is_int,
-     env->eflags &= ~(IF_MASK | TF_MASK | AC_MASK | RF_MASK);
+ /* Build a list with the name of all features on a feature word array */
+@@ -5003,207 +4960,6 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
+     memset(&env->user_features, 0, sizeof(env->user_features));
  }
  
--#if defined(CONFIG_USER_ONLY)
--/* fake user mode interrupt. is_int is TRUE if coming from the int
-- * instruction. next_eip is the env->eip value AFTER the interrupt
-- * instruction. It is only relevant if is_int is TRUE or if intno
-- * is EXCP_SYSCALL.
+-#ifndef CONFIG_USER_ONLY
+-/* Return a QDict containing keys for all properties that can be included
+- * in static expansion of CPU models. All properties set by x86_cpu_load_model()
+- * must be included in the dictionary.
 - */
--static void do_interrupt_user(CPUX86State *env, int intno, int is_int,
--                              int error_code, target_ulong next_eip)
+-static QDict *x86_cpu_static_props(void)
 -{
--    if (is_int) {
--        SegmentCache *dt;
--        target_ulong ptr;
--        int dpl, cpl, shift;
--        uint32_t e2;
+-    FeatureWord w;
+-    int i;
+-    static const char *props[] = {
+-        "min-level",
+-        "min-xlevel",
+-        "family",
+-        "model",
+-        "stepping",
+-        "model-id",
+-        "vendor",
+-        "lmce",
+-        NULL,
+-    };
+-    static QDict *d;
 -
--        dt = &env->idt;
--        if (env->hflags & HF_LMA_MASK) {
--            shift = 4;
--        } else {
--            shift = 3;
--        }
--        ptr = dt->base + (intno << shift);
--        e2 = cpu_ldl_kernel(env, ptr + 4);
+-    if (d) {
+-        return d;
+-    }
 -
--        dpl = (e2 >> DESC_DPL_SHIFT) & 3;
--        cpl = env->hflags & HF_CPL_MASK;
--        /* check privilege if software int */
--        if (dpl < cpl) {
--            raise_exception_err(env, EXCP0D_GPF, (intno << shift) + 2);
+-    d = qdict_new();
+-    for (i = 0; props[i]; i++) {
+-        qdict_put_null(d, props[i]);
+-    }
+-
+-    for (w = 0; w < FEATURE_WORDS; w++) {
+-        FeatureWordInfo *fi = &feature_word_info[w];
+-        int bit;
+-        for (bit = 0; bit < 64; bit++) {
+-            if (!fi->feat_names[bit]) {
+-                continue;
+-            }
+-            qdict_put_null(d, fi->feat_names[bit]);
 -        }
 -    }
 -
--    /* Since we emulate only user space, we cannot do more than
--       exiting the emulation with the suitable exception and error
--       code. So update EIP for INT 0x80 and EXCP_SYSCALL. */
--    if (is_int || intno == EXCP_SYSCALL) {
--        env->eip = next_eip;
+-    return d;
+-}
+-
+-/* Add an entry to @props dict, with the value for property. */
+-static void x86_cpu_expand_prop(X86CPU *cpu, QDict *props, const char *prop)
+-{
+-    QObject *value = object_property_get_qobject(OBJECT(cpu), prop,
+-                                                 &error_abort);
+-
+-    qdict_put_obj(props, prop, value);
+-}
+-
+-/* Convert CPU model data from X86CPU object to a property dictionary
+- * that can recreate exactly the same CPU model.
+- */
+-static void x86_cpu_to_dict(X86CPU *cpu, QDict *props)
+-{
+-    QDict *sprops = x86_cpu_static_props();
+-    const QDictEntry *e;
+-
+-    for (e = qdict_first(sprops); e; e = qdict_next(sprops, e)) {
+-        const char *prop = qdict_entry_key(e);
+-        x86_cpu_expand_prop(cpu, props, prop);
 -    }
 -}
 -
--#else
--
--static void handle_even_inj(CPUX86State *env, int intno, int is_int,
--                            int error_code, int is_hw, int rm)
+-/* Convert CPU model data from X86CPU object to a property dictionary
+- * that can recreate exactly the same CPU model, including every
+- * writeable QOM property.
+- */
+-static void x86_cpu_to_dict_full(X86CPU *cpu, QDict *props)
 -{
--    CPUState *cs = env_cpu(env);
--    uint32_t event_inj = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
--                                                          control.event_inj));
+-    ObjectPropertyIterator iter;
+-    ObjectProperty *prop;
 -
--    if (!(event_inj & SVM_EVTINJ_VALID)) {
--        int type;
+-    object_property_iter_init(&iter, OBJECT(cpu));
+-    while ((prop = object_property_iter_next(&iter))) {
+-        /* skip read-only or write-only properties */
+-        if (!prop->get || !prop->set) {
+-            continue;
+-        }
 -
--        if (is_int) {
--            type = SVM_EVTINJ_TYPE_SOFT;
--        } else {
--            type = SVM_EVTINJ_TYPE_EXEPT;
+-        /* "hotplugged" is the only property that is configurable
+-         * on the command-line but will be set differently on CPUs
+-         * created using "-cpu ... -smp ..." and by CPUs created
+-         * on the fly by x86_cpu_from_model() for querying. Skip it.
+-         */
+-        if (!strcmp(prop->name, "hotplugged")) {
+-            continue;
 -        }
--        event_inj = intno | type | SVM_EVTINJ_VALID;
--        if (!rm && exception_has_error_code(intno)) {
--            event_inj |= SVM_EVTINJ_VALID_ERR;
--            x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
--                                             control.event_inj_err),
--                     error_code);
--        }
--        x86_stl_phys(cs,
--                 env->vm_vmcb + offsetof(struct vmcb, control.event_inj),
--                 event_inj);
+-        x86_cpu_expand_prop(cpu, props, prop->name);
 -    }
+-}
+-
+-static void object_apply_props(Object *obj, QDict *props, Error **errp)
+-{
+-    const QDictEntry *prop;
+-
+-    for (prop = qdict_first(props); prop; prop = qdict_next(props, prop)) {
+-        if (!object_property_set_qobject(obj, qdict_entry_key(prop),
+-                                         qdict_entry_value(prop), errp)) {
+-            break;
+-        }
+-    }
+-}
+-
+-/* Create X86CPU object according to model+props specification */
+-static X86CPU *x86_cpu_from_model(const char *model, QDict *props, Error **errp)
+-{
+-    X86CPU *xc = NULL;
+-    X86CPUClass *xcc;
+-    Error *err = NULL;
+-
+-    xcc = X86_CPU_CLASS(cpu_class_by_name(TYPE_X86_CPU, model));
+-    if (xcc == NULL) {
+-        error_setg(&err, "CPU model '%s' not found", model);
+-        goto out;
+-    }
+-
+-    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
+-    if (props) {
+-        object_apply_props(OBJECT(xc), props, &err);
+-        if (err) {
+-            goto out;
+-        }
+-    }
+-
+-    x86_cpu_expand_features(xc, &err);
+-    if (err) {
+-        goto out;
+-    }
+-
+-out:
+-    if (err) {
+-        error_propagate(errp, err);
+-        object_unref(OBJECT(xc));
+-        xc = NULL;
+-    }
+-    return xc;
+-}
+-
+-CpuModelExpansionInfo *
+-qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+-                                                      CpuModelInfo *model,
+-                                                      Error **errp)
+-{
+-    X86CPU *xc = NULL;
+-    Error *err = NULL;
+-    CpuModelExpansionInfo *ret = g_new0(CpuModelExpansionInfo, 1);
+-    QDict *props = NULL;
+-    const char *base_name;
+-
+-    xc = x86_cpu_from_model(model->name,
+-                            model->has_props ?
+-                                qobject_to(QDict, model->props) :
+-                                NULL, &err);
+-    if (err) {
+-        goto out;
+-    }
+-
+-    props = qdict_new();
+-    ret->model = g_new0(CpuModelInfo, 1);
+-    ret->model->props = QOBJECT(props);
+-    ret->model->has_props = true;
+-
+-    switch (type) {
+-    case CPU_MODEL_EXPANSION_TYPE_STATIC:
+-        /* Static expansion will be based on "base" only */
+-        base_name = "base";
+-        x86_cpu_to_dict(xc, props);
+-    break;
+-    case CPU_MODEL_EXPANSION_TYPE_FULL:
+-        /* As we don't return every single property, full expansion needs
+-         * to keep the original model name+props, and add extra
+-         * properties on top of that.
+-         */
+-        base_name = model->name;
+-        x86_cpu_to_dict_full(xc, props);
+-    break;
+-    default:
+-        error_setg(&err, "Unsupported expansion type");
+-        goto out;
+-    }
+-
+-    x86_cpu_to_dict(xc, props);
+-
+-    ret->model->name = g_strdup(base_name);
+-
+-out:
+-    object_unref(OBJECT(xc));
+-    if (err) {
+-        error_propagate(errp, err);
+-        qapi_free_CpuModelExpansionInfo(ret);
+-        ret = NULL;
+-    }
+-    return ret;
+-}
+-#endif  /* !CONFIG_USER_ONLY */
+-
+ static gchar *x86_gdb_arch_name(CPUState *cs)
+ {
+ #ifdef TARGET_X86_64
+@@ -5278,15 +5034,6 @@ static void x86_register_cpudef_types(X86CPUDefinition *def)
+ 
+ }
+ 
+-#if !defined(CONFIG_USER_ONLY)
+-
+-void cpu_clear_apic_feature(CPUX86State *env)
+-{
+-    env->features[FEAT_1_EDX] &= ~CPUID_APIC;
+-}
+-
+-#endif /* !CONFIG_USER_ONLY */
+-
+ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                    uint32_t *eax, uint32_t *ebx,
+                    uint32_t *ecx, uint32_t *edx)
+@@ -5934,20 +5681,6 @@ static void x86_cpu_reset(DeviceState *dev)
+ #endif
+ }
+ 
+-#ifndef CONFIG_USER_ONLY
+-bool cpu_is_bsp(X86CPU *cpu)
+-{
+-    return cpu_get_apic_base(cpu->apic_state) & MSR_IA32_APICBASE_BSP;
+-}
+-
+-/* TODO: remove me, when reset over QOM tree is implemented */
+-static void x86_cpu_machine_reset_cb(void *opaque)
+-{
+-    X86CPU *cpu = opaque;
+-    cpu_reset(CPU(cpu));
 -}
 -#endif
 -
- /*
-  * Begin execution of an interruption. is_int is TRUE if coming from
-  * the int instruction. next_eip is the env->eip value AFTER the interrupt
-  * instruction. It is only relevant if is_int is TRUE.
+ static void mce_init(X86CPU *cpu)
+ {
+     CPUX86State *cenv = &cpu->env;
+@@ -5965,68 +5698,6 @@ static void mce_init(X86CPU *cpu)
+     }
+ }
+ 
+-#ifndef CONFIG_USER_ONLY
+-APICCommonClass *apic_get_class(void)
+-{
+-    const char *apic_type = "apic";
+-
+-    /* TODO: in-kernel irqchip for hvf */
+-    if (kvm_apic_in_kernel()) {
+-        apic_type = "kvm-apic";
+-    } else if (xen_enabled()) {
+-        apic_type = "xen-apic";
+-    } else if (whpx_apic_in_platform()) {
+-        apic_type = "whpx-apic";
+-    }
+-
+-    return APIC_COMMON_CLASS(object_class_by_name(apic_type));
+-}
+-
+-static void x86_cpu_apic_create(X86CPU *cpu, Error **errp)
+-{
+-    APICCommonState *apic;
+-    ObjectClass *apic_class = OBJECT_CLASS(apic_get_class());
+-
+-    cpu->apic_state = DEVICE(object_new_with_class(apic_class));
+-
+-    object_property_add_child(OBJECT(cpu), "lapic",
+-                              OBJECT(cpu->apic_state));
+-    object_unref(OBJECT(cpu->apic_state));
+-
+-    qdev_prop_set_uint32(cpu->apic_state, "id", cpu->apic_id);
+-    /* TODO: convert to link<> */
+-    apic = APIC_COMMON(cpu->apic_state);
+-    apic->cpu = cpu;
+-    apic->apicbase = APIC_DEFAULT_ADDRESS | MSR_IA32_APICBASE_ENABLE;
+-}
+-
+-static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
+-{
+-    APICCommonState *apic;
+-    static bool apic_mmio_map_once;
+-
+-    if (cpu->apic_state == NULL) {
+-        return;
+-    }
+-    qdev_realize(DEVICE(cpu->apic_state), NULL, errp);
+-
+-    /* Map APIC MMIO area */
+-    apic = APIC_COMMON(cpu->apic_state);
+-    if (!apic_mmio_map_once) {
+-        memory_region_add_subregion_overlap(get_system_memory(),
+-                                            apic->apicbase &
+-                                            MSR_IA32_APICBASE_BASE,
+-                                            &apic->io_memory,
+-                                            0x1000);
+-        apic_mmio_map_once = true;
+-     }
+-}
+-#else
+-static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
+-{
+-}
+-#endif
+-
+ static void x86_cpu_adjust_level(X86CPU *cpu, uint32_t *min, uint32_t value)
+ {
+     if (*min < value) {
+@@ -6130,7 +5801,7 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+ /* Expand CPU configuration data, based on configured features
+  * and host/accelerator capabilities when appropriate.
   */
--static void do_interrupt_all(X86CPU *cpu, int intno, int is_int,
--                             int error_code, target_ulong next_eip, int is_hw)
-+void do_interrupt_all(X86CPU *cpu, int intno, int is_int,
-+                      int error_code, target_ulong next_eip, int is_hw)
+-static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
++void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
  {
      CPUX86State *env = &cpu->env;
+     FeatureWord w;
+@@ -6502,10 +6173,12 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+             ht_warned = true;
+     }
  
-@@ -1289,36 +1110,6 @@ static void do_interrupt_all(X86CPU *cpu, int intno, int is_int,
- #endif
++#ifndef CONFIG_USER_ONLY
+     x86_cpu_apic_realize(cpu, &local_err);
+     if (local_err != NULL) {
+         goto out;
+     }
++#endif /* !CONFIG_USER_ONLY */
+     cpu_reset(cs);
+ 
+     xcc->parent_realize(dev, &local_err);
+@@ -6629,52 +6302,6 @@ static void x86_cpu_register_feature_bit_props(X86CPUClass *xcc,
+     x86_cpu_register_bit_prop(xcc, name, w, bitnr);
  }
  
--void x86_cpu_do_interrupt(CPUState *cs)
+-#if !defined(CONFIG_USER_ONLY)
+-static GuestPanicInformation *x86_cpu_get_crash_info(CPUState *cs)
 -{
 -    X86CPU *cpu = X86_CPU(cs);
 -    CPUX86State *env = &cpu->env;
+-    GuestPanicInformation *panic_info = NULL;
 -
--#if defined(CONFIG_USER_ONLY)
--    /* if user mode only, we simulate a fake exception
--       which will be handled outside the cpu execution
--       loop */
--    do_interrupt_user(env, cs->exception_index,
--                      env->exception_is_int,
--                      env->error_code,
--                      env->exception_next_eip);
--    /* successfully delivered */
--    env->old_exception = -1;
--#else
--    if (cs->exception_index >= EXCP_VMEXIT) {
--        assert(env->old_exception == -1);
--        do_vmexit(env, cs->exception_index - EXCP_VMEXIT, env->error_code);
--    } else {
--        do_interrupt_all(cpu, cs->exception_index,
--                         env->exception_is_int,
--                         env->error_code,
--                         env->exception_next_eip, 0);
--        /* successfully delivered */
--        env->old_exception = -1;
+-    if (env->features[FEAT_HYPERV_EDX] & HV_GUEST_CRASH_MSR_AVAILABLE) {
+-        panic_info = g_malloc0(sizeof(GuestPanicInformation));
+-
+-        panic_info->type = GUEST_PANIC_INFORMATION_TYPE_HYPER_V;
+-
+-        assert(HV_CRASH_PARAMS >= 5);
+-        panic_info->u.hyper_v.arg1 = env->msr_hv_crash_params[0];
+-        panic_info->u.hyper_v.arg2 = env->msr_hv_crash_params[1];
+-        panic_info->u.hyper_v.arg3 = env->msr_hv_crash_params[2];
+-        panic_info->u.hyper_v.arg4 = env->msr_hv_crash_params[3];
+-        panic_info->u.hyper_v.arg5 = env->msr_hv_crash_params[4];
 -    }
--#endif
--}
 -
- void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw)
- {
-     do_interrupt_all(env_archcpu(env), intno, 0, 0, 0, is_hw);
-@@ -2624,22 +2415,6 @@ void helper_verw(CPUX86State *env, target_ulong selector1)
-     CC_SRC = eflags | CC_Z;
- }
- 
--#if defined(CONFIG_USER_ONLY)
--void cpu_x86_load_seg(CPUX86State *env, X86Seg seg_reg, int selector)
+-    return panic_info;
+-}
+-static void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
+-                                       const char *name, void *opaque,
+-                                       Error **errp)
 -{
--    if (!(env->cr[0] & CR0_PE_MASK) || (env->eflags & VM_MASK)) {
--        int dpl = (env->eflags & VM_MASK) ? 3 : 0;
--        selector &= 0xffff;
--        cpu_x86_load_seg_cache(env, seg_reg, selector,
--                               (selector << 4), 0xffff,
--                               DESC_P_MASK | DESC_S_MASK | DESC_W_MASK |
--                               DESC_A_MASK | (dpl << DESC_DPL_SHIFT));
--    } else {
--        helper_load_seg(env, seg_reg, selector);
--    }
--}
--#endif
+-    CPUState *cs = CPU(obj);
+-    GuestPanicInformation *panic_info;
 -
- /* check if Port I/O is allowed in TSS */
- static inline void check_io(CPUX86State *env, int addr, int size,
-                             uintptr_t retaddr)
-diff --git a/target/i386/tcg/softmmu/seg_helper.c b/target/i386/tcg/softmmu/seg_helper.c
-new file mode 100644
-index 0000000000..84dafc4544
---- /dev/null
-+++ b/target/i386/tcg/softmmu/seg_helper.c
-@@ -0,0 +1,125 @@
-+/*
-+ *  x86 segmentation related helpers: (softmmu-only code)
-+ *  TSS, interrupts, system calls, jumps and call/task gates, descriptors
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
-+#include "exec/cpu_ldst.h"
-+#include "tcg/helper-tcg.h"
-+
-+#ifdef TARGET_X86_64
-+void helper_syscall(CPUX86State *env, int next_eip_addend)
-+{
-+    int selector;
-+
-+    if (!(env->efer & MSR_EFER_SCE)) {
-+        raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
-+    }
-+    selector = (env->star >> 32) & 0xffff;
-+    if (env->hflags & HF_LMA_MASK) {
-+        int code64;
-+
-+        env->regs[R_ECX] = env->eip + next_eip_addend;
-+        env->regs[11] = cpu_compute_eflags(env) & ~RF_MASK;
-+
-+        code64 = env->hflags & HF_CS64_MASK;
-+
-+        env->eflags &= ~(env->fmask | RF_MASK);
-+        cpu_load_eflags(env, env->eflags, 0);
-+        cpu_x86_load_seg_cache(env, R_CS, selector & 0xfffc,
-+                           0, 0xffffffff,
-+                               DESC_G_MASK | DESC_P_MASK |
-+                               DESC_S_MASK |
-+                               DESC_CS_MASK | DESC_R_MASK | DESC_A_MASK |
-+                               DESC_L_MASK);
-+        cpu_x86_load_seg_cache(env, R_SS, (selector + 8) & 0xfffc,
-+                               0, 0xffffffff,
-+                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
-+                               DESC_S_MASK |
-+                               DESC_W_MASK | DESC_A_MASK);
-+        if (code64) {
-+            env->eip = env->lstar;
-+        } else {
-+            env->eip = env->cstar;
-+        }
-+    } else {
-+        env->regs[R_ECX] = (uint32_t)(env->eip + next_eip_addend);
-+
-+        env->eflags &= ~(IF_MASK | RF_MASK | VM_MASK);
-+        cpu_x86_load_seg_cache(env, R_CS, selector & 0xfffc,
-+                           0, 0xffffffff,
-+                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
-+                               DESC_S_MASK |
-+                               DESC_CS_MASK | DESC_R_MASK | DESC_A_MASK);
-+        cpu_x86_load_seg_cache(env, R_SS, (selector + 8) & 0xfffc,
-+                               0, 0xffffffff,
-+                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
-+                               DESC_S_MASK |
-+                               DESC_W_MASK | DESC_A_MASK);
-+        env->eip = (uint32_t)env->star;
-+    }
-+}
-+#endif /* TARGET_X86_64 */
-+
-+void handle_even_inj(CPUX86State *env, int intno, int is_int,
-+                     int error_code, int is_hw, int rm)
-+{
-+    CPUState *cs = env_cpu(env);
-+    uint32_t event_inj = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
-+                                                          control.event_inj));
-+
-+    if (!(event_inj & SVM_EVTINJ_VALID)) {
-+        int type;
-+
-+        if (is_int) {
-+            type = SVM_EVTINJ_TYPE_SOFT;
-+        } else {
-+            type = SVM_EVTINJ_TYPE_EXEPT;
-+        }
-+        event_inj = intno | type | SVM_EVTINJ_VALID;
-+        if (!rm && exception_has_error_code(intno)) {
-+            event_inj |= SVM_EVTINJ_VALID_ERR;
-+            x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
-+                                             control.event_inj_err),
-+                     error_code);
-+        }
-+        x86_stl_phys(cs,
-+                 env->vm_vmcb + offsetof(struct vmcb, control.event_inj),
-+                 event_inj);
-+    }
-+}
-+
-+void x86_cpu_do_interrupt(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    if (cs->exception_index >= EXCP_VMEXIT) {
-+        assert(env->old_exception == -1);
-+        do_vmexit(env, cs->exception_index - EXCP_VMEXIT, env->error_code);
-+    } else {
-+        do_interrupt_all(cpu, cs->exception_index,
-+                         env->exception_is_int,
-+                         env->error_code,
-+                         env->exception_next_eip, 0);
-+        /* successfully delivered */
-+        env->old_exception = -1;
-+    }
-+}
-diff --git a/target/i386/tcg/user/seg_helper.c b/target/i386/tcg/user/seg_helper.c
-new file mode 100644
-index 0000000000..67481b0aa8
---- /dev/null
-+++ b/target/i386/tcg/user/seg_helper.c
-@@ -0,0 +1,109 @@
-+/*
-+ *  x86 segmentation related helpers (user-mode code):
-+ *  TSS, interrupts, system calls, jumps and call/task gates, descriptors
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
-+#include "exec/exec-all.h"
-+#include "exec/cpu_ldst.h"
-+#include "tcg/helper-tcg.h"
-+#include "tcg/seg_helper.h"
-+
-+#ifdef TARGET_X86_64
-+void helper_syscall(CPUX86State *env, int next_eip_addend)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    cs->exception_index = EXCP_SYSCALL;
-+    env->exception_is_int = 0;
-+    env->exception_next_eip = env->eip + next_eip_addend;
-+    cpu_loop_exit(cs);
-+}
-+#endif /* TARGET_X86_64 */
-+
-+/*
-+ * fake user mode interrupt. is_int is TRUE if coming from the int
-+ * instruction. next_eip is the env->eip value AFTER the interrupt
-+ * instruction. It is only relevant if is_int is TRUE or if intno
-+ * is EXCP_SYSCALL.
-+ */
-+static void do_interrupt_user(CPUX86State *env, int intno, int is_int,
-+                              int error_code, target_ulong next_eip)
-+{
-+    if (is_int) {
-+        SegmentCache *dt;
-+        target_ulong ptr;
-+        int dpl, cpl, shift;
-+        uint32_t e2;
-+
-+        dt = &env->idt;
-+        if (env->hflags & HF_LMA_MASK) {
-+            shift = 4;
-+        } else {
-+            shift = 3;
-+        }
-+        ptr = dt->base + (intno << shift);
-+        e2 = cpu_ldl_kernel(env, ptr + 4);
-+
-+        dpl = (e2 >> DESC_DPL_SHIFT) & 3;
-+        cpl = env->hflags & HF_CPL_MASK;
-+        /* check privilege if software int */
-+        if (dpl < cpl) {
-+            raise_exception_err(env, EXCP0D_GPF, (intno << shift) + 2);
-+        }
-+    }
-+
-+    /* Since we emulate only user space, we cannot do more than
-+       exiting the emulation with the suitable exception and error
-+       code. So update EIP for INT 0x80 and EXCP_SYSCALL. */
-+    if (is_int || intno == EXCP_SYSCALL) {
-+        env->eip = next_eip;
-+    }
-+}
-+
-+void x86_cpu_do_interrupt(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    /* if user mode only, we simulate a fake exception
-+       which will be handled outside the cpu execution
-+       loop */
-+    do_interrupt_user(env, cs->exception_index,
-+                      env->exception_is_int,
-+                      env->error_code,
-+                      env->exception_next_eip);
-+    /* successfully delivered */
-+    env->old_exception = -1;
-+}
-+
-+void cpu_x86_load_seg(CPUX86State *env, X86Seg seg_reg, int selector)
-+{
-+    if (!(env->cr[0] & CR0_PE_MASK) || (env->eflags & VM_MASK)) {
-+        int dpl = (env->eflags & VM_MASK) ? 3 : 0;
-+        selector &= 0xffff;
-+        cpu_x86_load_seg_cache(env, seg_reg, selector,
-+                               (selector << 4), 0xffff,
-+                               DESC_P_MASK | DESC_S_MASK | DESC_W_MASK |
-+                               DESC_A_MASK | (dpl << DESC_DPL_SHIFT));
-+    } else {
-+        helper_load_seg(env, seg_reg, selector);
-+    }
-+}
-diff --git a/target/i386/tcg/softmmu/meson.build b/target/i386/tcg/softmmu/meson.build
-index 126528d0c9..2e444e766a 100644
---- a/target/i386/tcg/softmmu/meson.build
-+++ b/target/i386/tcg/softmmu/meson.build
-@@ -6,4 +6,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
-   'misc_helper.c',
-   'fpu_helper.c',
-   'svm_helper.c',
-+  'seg_helper.c',
+-    if (!cs->crash_occurred) {
+-        error_setg(errp, "No crash occured");
+-        return;
+-    }
+-
+-    panic_info = x86_cpu_get_crash_info(cs);
+-    if (panic_info == NULL) {
+-        error_setg(errp, "No crash information");
+-        return;
+-    }
+-
+-    visit_type_GuestPanicInformation(v, "crash-information", &panic_info,
+-                                     errp);
+-    qapi_free_GuestPanicInformation(panic_info);
+-}
+-#endif /* !CONFIG_USER_ONLY */
+-
+ static void x86_cpu_initfn(Object *obj)
+ {
+     X86CPU *cpu = X86_CPU(obj);
+diff --git a/target/i386/meson.build b/target/i386/meson.build
+index cac26a4581..c2c3cec884 100644
+--- a/target/i386/meson.build
++++ b/target/i386/meson.build
+@@ -18,6 +18,7 @@ i386_softmmu_ss.add(files(
+   'arch_memory_mapping.c',
+   'machine.c',
+   'monitor.c',
++  'cpu-softmmu.c',
  ))
-diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
-index c540ca2174..1f2801c45b 100644
---- a/target/i386/tcg/user/meson.build
-+++ b/target/i386/tcg/user/meson.build
-@@ -3,4 +3,5 @@ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
-   'misc_helper.c',
-   'fpu_helper.c',
-   'svm_stubs.c',
-+  'seg_helper.c',
- ))
+ i386_user_ss = ss.source_set()
+ 
 -- 
 2.26.2
 
