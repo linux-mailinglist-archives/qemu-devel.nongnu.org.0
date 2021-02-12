@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A508131A00D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 14:47:39 +0100 (CET)
-Received: from localhost ([::1]:42822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC84031A017
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 14:54:23 +0100 (CET)
+Received: from localhost ([::1]:50536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAYnK-0008Q0-9K
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 08:47:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47768)
+	id 1lAYtq-0004Ia-Rv
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 08:54:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAYlH-0007Yw-BT
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:45:31 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:42876)
+ id 1lAYrY-0002lQ-5V
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:52:01 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:43195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAYlA-0002jX-CR
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:45:31 -0500
-Received: by mail-ej1-x631.google.com with SMTP id z19so2466506eju.9
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 05:45:23 -0800 (PST)
+ id 1lAYrW-0005wN-2F
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:51:59 -0500
+Received: by mail-ed1-x535.google.com with SMTP id v7so10884119eds.10
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 05:51:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=9cKkSa7m+8IPtWG/STQauGhQz7dudn/gIsTyWpHKE+Y=;
- b=rI1g7imPM0ocCtlsaZ6g71qJaRsvvZmqXxbC7K5zRLgY6du5Ktsr3mxCEXq0sLeA2Y
- 8IaeFb87rs1wa5lF7Fi/wAmZ3o4lUvE0kqxEK/omHetuCXEbPkgDi+A5ic0P5bmBYO29
- 5f1YvsH3xFc2+gqDNhB9D5mlkLH2zo72KNC/bjTpfWsOM/FB4G8Dgd4/rm8BnMte/xVx
- 1vZLWJiYEO3kxVOYfX33Z6ZhcLYBWCb7GQ4OXTw0Fl4eeAHVLUqpRaB+Rgj8KgLCdvZN
- HvA96h6ZXKS5M2Ez+k4jM1Zsvs6TJpV1LMoT8mXQVrjPK11XNMHJHezKDucx7JCP1OBm
- B2CQ==
+ bh=WqCiZKf/bOd743/BAXPwMMt1kMi3GtNVDcGv11sQawY=;
+ b=n8J29OrXolZflrfy2iZUoY3YoeJrFi6k0d34vfGicQN2P42oefyNhoNO+6szMJODEX
+ m9zZTzHrjBrUpnJfSfKPjmGG/vWtEXiXN76G3c1Tu4GkktQQuYGUMyMg81/kDC+qQEPo
+ Ma+NuXiCK8VKYuailRdx1T5dDP8WVUMQf9RWUMsajgq5d9jIJgVPbcAVVo8toqS1pfQU
+ cNMWOgb7g7KRg+rzRi10kFIzdgTDb12Mdduh4tO1BRdYtZWtS5tOFevdUxvW+6bDRb62
+ bMDNi2B720OUeRxG+NYxeMT3ve5WswdC52oGWiRkbidzn92aT+On5frHdxdTuzDiQ6YU
+ GzaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to;
- bh=9cKkSa7m+8IPtWG/STQauGhQz7dudn/gIsTyWpHKE+Y=;
- b=dwNhYgeYQpVXjrg+xbRBfSXDI2SF99vocpaw9AD3JYbq7FPbqUijfh1PTlCJ/gKBEQ
- lBuR7L4zPOerQr9adTI4y/KOZBamGAhZMUVucUW+Y9vux7TSvKwdsuVIBzHp+0eRmcbj
- EIDGB4jNQ/AWZYeZhPE2OoTVYWBqN+RX67gQqaR/NVJG7INk1rYraisAL0w8ilYWm7Nu
- 11xYuDHHZZdg/CjCRa0Crs/rBNdOXSuxzr9ZZv+rSDyFuDpKcMeMEjZCkIVUYGLrPP8G
- FUGB5H6+/syM4uo6YwNcIE2fOGp012dqJrcATX1QyMwU/qYoW82R2vQpLRt2FKsOz0Kj
- WljA==
-X-Gm-Message-State: AOAM530gBjX9E4ELg2Rl0yGSs9t3y7H3xOMROZgkeqVLfKsb/QvfD3nA
- XwCs5u8GF6PD5sMlWoCVsUukn1pOCfbEcpDKYEW2Uw==
-X-Google-Smtp-Source: ABdhPJzUgKVwHB7XLB3t5iTlXOlQQ2/7tr0Inv8nCRVbkHMqMKIOwo5R+05PDxM/+8jnGKiBvQwxakiouiuhSVVSypk=
-X-Received: by 2002:a17:907:98c3:: with SMTP id
- kd3mr3152486ejc.482.1613137522538; 
- Fri, 12 Feb 2021 05:45:22 -0800 (PST)
+ bh=WqCiZKf/bOd743/BAXPwMMt1kMi3GtNVDcGv11sQawY=;
+ b=StT1sRbaiMNU+Twk/fckwzasZ+Tmn3XeTtUj3i+d8igE+ywSRKyesv6I8xHRDtypJe
+ lZ+tlQ6KcgmMneTgK2o80lqFxCekCHUKxlBIQqEntiAVjbfZ9LJW2B9F48CRMjT/QTso
+ H0av/qk0FH9hYD9O420TCh2FrMsxY7T9YornGPVVqn1OUf9VyPh2yYbZvlZy/HIxv57Q
+ ng4PXZjFA22RyKuHPkmxx1rY5Bd+Nr84XpU70q5x91LEaUDwq7zDIs1OIFyuncRkWDIA
+ 73b6WnR53yPzChs+qsJt4gfIEh6MK7t9IDwhnsIUds4wR5ZJJTSy2ZWvq+9rMJgYszVZ
+ qbPA==
+X-Gm-Message-State: AOAM530X3QsU+4eunClEZ/PpGXFQuJtwtT6w6/4iNsi6ApZuFqE2Q4Bl
+ ywJLxaYEjk5EAKoXRXxorlPmTCMuU2FKf4MlfMrl+A==
+X-Google-Smtp-Source: ABdhPJyEfVWBdfEjs+V9VSEM9zGc/Tnxw8wEyBK0rZDp8TGdCMnKStsgj6B9Gkz7KlRusKm/t0lwgAiNkdXbfrVArcE=
+X-Received: by 2002:a05:6402:3494:: with SMTP id
+ v20mr3589598edc.146.1613137915610; 
+ Fri, 12 Feb 2021 05:51:55 -0800 (PST)
 MIME-Version: 1.0
 References: <20210205170019.25319-1-peter.maydell@linaro.org>
- <20210205170019.25319-7-peter.maydell@linaro.org>
-In-Reply-To: <20210205170019.25319-7-peter.maydell@linaro.org>
+ <20210205170019.25319-8-peter.maydell@linaro.org>
+In-Reply-To: <20210205170019.25319-8-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 Feb 2021 13:45:11 +0000
-Message-ID: <CAFEAcA-YqMQATkQXFZHQNy0-JeO2cFvmuHdnhF1+TWAHgf+tcQ@mail.gmail.com>
-Subject: Re: [PATCH 06/24] hw/misc/mps2-fpgaio: Support SWITCH register
+Date: Fri, 12 Feb 2021 13:51:44 +0000
+Message-ID: <CAFEAcA-pDBHjZqswjEo4S9sLOao3vnOM05HdjRhJOGY4Q-GkiQ@mail.gmail.com>
+Subject: Re: [PATCH 07/24] hw/arm/mps2-tz: Make FPGAIO switch and LED config
+ per-board
 To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,55 +84,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 5 Feb 2021 at 17:00, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> MPS3 boards have an extra SWITCH register in the FPGAIO block which
-> reports the value of some switches.  Implement this, governed by a
-> property the board code can use to specify whether whether it exists.
+> Set the FPGAIO num-leds and have-switches properties explicitly
+> per-board, rather than relying on the defaults.  The AN505 and AN521
+> both have the same settings as the default values, but the AN524 will
+> be different.
 >
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  include/hw/misc/mps2-fpgaio.h |  1 +
->  hw/misc/mps2-fpgaio.c         | 10 ++++++++++
->  2 files changed, 11 insertions(+)
 
-I changed my mind about the property/struct field name here, I think
-"has" is what we tend to use rather than "have". Trivial change
-to squash into this patch:
+Followon from the update to the previous patch, trivial rename
+to squash in:
 
-diff --git a/include/hw/misc/mps2-fpgaio.h b/include/hw/misc/mps2-fpgaio.h
-index 83c6e18a4ee..0d3c8eef56c 100644
---- a/include/hw/misc/mps2-fpgaio.h
-+++ b/include/hw/misc/mps2-fpgaio.h
-@@ -38,7 +38,7 @@ struct MPS2FPGAIO {
-     MemoryRegion iomem;
-     LEDState *led[MPS2FPGAIO_MAX_LEDS];
-     uint32_t num_leds;
--    bool have_switches;
-+    bool has_switches;
-
-     uint32_t led0;
-     uint32_t prescale;
-diff --git a/hw/misc/mps2-fpgaio.c b/hw/misc/mps2-fpgaio.c
-index b54657a4f07..acbd0be9f4b 100644
---- a/hw/misc/mps2-fpgaio.c
-+++ b/hw/misc/mps2-fpgaio.c
-@@ -158,7 +158,7 @@ static uint64_t mps2_fpgaio_read(void *opaque,
-hwaddr offset, unsigned size)
-         r = s->pscntr;
-         break;
-     case A_SWITCH:
--        if (!s->have_switches) {
-+        if (!s->has_switches) {
-             goto bad_offset;
-         }
-         /* User-togglable board switches. We don't model that, so report 0. */
-@@ -327,7 +327,7 @@ static Property mps2_fpgaio_properties[] = {
-     DEFINE_PROP_UINT32("prescale-clk", MPS2FPGAIO, prescale_clk, 20000000),
-     /* Number of LEDs controlled by LED0 register */
-     DEFINE_PROP_UINT32("num-leds", MPS2FPGAIO, num_leds, 2),
--    DEFINE_PROP_BOOL("have-switches", MPS2FPGAIO, have_switches, false),
-+    DEFINE_PROP_BOOL("has-switches", MPS2FPGAIO, has_switches, false),
-     DEFINE_PROP_END_OF_LIST(),
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 94618ae54d2..6e345cf1f09 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -80,7 +80,7 @@ struct MPS2TZMachineClass {
+     uint32_t len_oscclk;
+     const uint32_t *oscclk;
+     uint32_t fpgaio_num_leds; /* Number of LEDs in FPGAIO LED0 register */
+-    bool fpgaio_switches; /* Does FPGAIO have SWITCH register? */
++    bool fpgaio_has_switches; /* Does FPGAIO have SWITCH register? */
+     const char *armsse_type;
  };
+
+@@ -247,7 +247,7 @@ static MemoryRegion
+*make_fpgaio(MPS2TZMachineState *mms, void *opaque,
+
+     object_initialize_child(OBJECT(mms), "fpgaio", fpgaio, TYPE_MPS2_FPGAIO);
+     qdev_prop_set_uint32(DEVICE(fpgaio), "num-leds", mmc->fpgaio_num_leds);
+-    qdev_prop_set_bit(DEVICE(fpgaio), "have-switches", mmc->fpgaio_switches);
++    qdev_prop_set_bit(DEVICE(fpgaio), "has-switches",
+mmc->fpgaio_has_switches);
+     sysbus_realize(SYS_BUS_DEVICE(fpgaio), &error_fatal);
+     return sysbus_mmio_get_region(SYS_BUS_DEVICE(fpgaio), 0);
+ }
+@@ -693,7 +693,7 @@ static void mps2tz_an505_class_init(ObjectClass
+*oc, void *data)
+     mmc->oscclk = an505_oscclk;
+     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+     mmc->fpgaio_num_leds = 2;
+-    mmc->fpgaio_switches = false;
++    mmc->fpgaio_has_switches = false;
+     mmc->armsse_type = TYPE_IOTKIT;
+ }
+
+@@ -713,7 +713,7 @@ static void mps2tz_an521_class_init(ObjectClass
+*oc, void *data)
+     mmc->oscclk = an505_oscclk; /* AN521 is the same as AN505 here */
+     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+     mmc->fpgaio_num_leds = 2;
+-    mmc->fpgaio_switches = false;
++    mmc->fpgaio_has_switches = false;
+     mmc->armsse_type = TYPE_SSE200;
+ }
 
 thanks
 -- PMM
