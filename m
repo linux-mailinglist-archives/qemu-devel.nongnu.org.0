@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D8231A5F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:22:45 +0100 (CET)
-Received: from localhost ([::1]:55878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AFE31A5EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:19:02 +0100 (CET)
+Received: from localhost ([::1]:45106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAexg-00026Y-Lu
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:22:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
+	id 1lAeu5-0005ye-B1
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:19:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAerl-0004DC-Cw
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52977)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAerd-00046X-LQ
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAerf-0003rt-89
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:37 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAerb-0003pw-RK
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613160990;
+ s=mimecast20190719; t=1613160986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2UN94T3S3QmzRiMgznbAJcrL/lGhxZBwq5MzXmZqKs8=;
- b=Y5witKgDeRsM0TQykI8N2nPJpbNYuTv1vzylNykF3cHho8UdAUTdaLWfBVQcerzKIbmzKO
- 2rUXv7ZrnFLgM8zwVWy65wNruLn/UDoqrnTRoMqrGHDQlf4coaYBkAKd0IdaGoCDdbbmLz
- Csdj1TtBwGwGpEA+KCKUj7cjNk6FUzU=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kSLklQL8x+Q9SXf0U3zJXRaUrG/FZM/PT3K4dcKAfYg=;
+ b=DIzBwbw3eQfl0y17cohRAR9f4+il/Nb3Kc0EaMMgFYjmGXAIpP/1VlHW44+6R5VDwhAvrv
+ cD4l3XCCcmRuYJtLThgk5adLJgjlKEGP6zUaQ4ulOdl7fCtLTP5pzPSGFTddegZ4DAdVV4
+ 5xw6CyAydMwc3gyjT2PWyhn+Csuoveg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-WLosAFLtMx-LAgvG05uNxA-1; Fri, 12 Feb 2021 15:16:22 -0500
-X-MC-Unique: WLosAFLtMx-LAgvG05uNxA-1
+ us-mta-386-WW5pnnTWOjuva08xRSYAWA-1; Fri, 12 Feb 2021 15:16:23 -0500
+X-MC-Unique: WW5pnnTWOjuva08xRSYAWA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEACC835E23
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 20:16:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C39AC801982;
+ Fri, 12 Feb 2021 20:16:22 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-150.phx2.redhat.com [10.3.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD8FD614EB
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 20:16:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 37435614EB;
+ Fri, 12 Feb 2021 20:16:22 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/14] NBD patches through 2021-02-12
-Date: Fri, 12 Feb 2021 14:16:05 -0600
-Message-Id: <20210212201619.1388255-1-eblake@redhat.com>
+Subject: [PULL 01/14] qemu-nbd: Use SOMAXCONN for socket listen() backlog
+Date: Fri, 12 Feb 2021 14:16:06 -0600
+Message-Id: <20210212201619.1388255-2-eblake@redhat.com>
+In-Reply-To: <20210212201619.1388255-1-eblake@redhat.com>
+References: <20210212201619.1388255-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -73,70 +76,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ qemu-stable@nongnu.org, "Richard W . M . Jones" <rjones@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit eac92d316351b855ba79eb374dd21cc367f1f9c1:
+Our default of a backlog of 1 connection is rather puny; it gets in
+the way when we are explicitly allowing multiple clients (such as
+qemu-nbd -e N [--shared], or nbd-server-start with its default
+"max-connections":0 for unlimited), but is even a problem when we
+stick to qemu-nbd's default of only 1 active client but use -t
+[--persistent] where a second client can start using the server once
+the first finishes.  While the effects are less noticeable on TCP
+sockets (since the client can poll() to learn when the server is ready
+again), it is definitely observable on Unix sockets, where on Linux, a
+client will fail with EAGAIN and no recourse but to sleep an arbitrary
+amount of time before retrying if the server backlog is already full.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210211-1' into staging (2021-02-11 19:57:50 +0000)
+Since QMP nbd-server-start is always persistent, it now always
+requests a backlog of SOMAXCONN; meanwhile, qemu-nbd will request
+SOMAXCONN if persistent, otherwise its backlog should be based on the
+expected number of clients.
 
-are available in the Git repository at:
+See https://bugzilla.redhat.com/1925045 for a demonstration of where
+our low backlog prevents libnbd from connecting as many parallel
+clients as it wants.
 
-  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-02-12
+Reported-by: Richard W.M. Jones <rjones@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+CC: qemu-stable@nongnu.org
+Message-Id: <20210209152759.209074-2-eblake@redhat.com>
+Tested-by: Richard W.M. Jones <rjones@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ blockdev-nbd.c |  7 ++++++-
+ qemu-nbd.c     | 10 +++++++++-
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
-for you to fetch changes up to 594427fc56758cb944a85914eefe722cc2c667b8:
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index d8443d235b73..b264620b98d8 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -134,7 +134,12 @@ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
+     qio_net_listener_set_name(nbd_server->listener,
+                               "nbd-listener");
 
-  iotests/264: add backup-cancel test-case (2021-02-12 12:19:46 -0600)
+-    if (qio_net_listener_open_sync(nbd_server->listener, addr, 1, errp) < 0) {
++    /*
++     * Because this server is persistent, a backlog of SOMAXCONN is
++     * better than trying to size it to max_connections.
++     */
++    if (qio_net_listener_open_sync(nbd_server->listener, addr, SOMAXCONN,
++                                   errp) < 0) {
+         goto error;
+     }
 
-----------------------------------------------------------------
-nbd patches for 2021-02-12
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index 608c63e82a25..1a340ea4858d 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -964,8 +964,16 @@ int main(int argc, char **argv)
 
-- let qemu-nbd handle larger backlog of connecting clients
-- fix a few NBD-related iotest failures
-- add block cancellation hook for faster response to NBD failures
-
-----------------------------------------------------------------
-Eric Blake (2):
-      qemu-nbd: Use SOMAXCONN for socket listen() backlog
-      qemu-nbd: Permit --shared=0 for unlimited clients
-
-Jagannathan Raman (1):
-      io: error_prepend() in qio_channel_readv_full_all() causes segfault
-
-Max Reitz (1):
-      iotests/210: Fix reference output
-
-Vladimir Sementsov-Ogievskiy (10):
-      block: add new BlockDriver handler: bdrv_cancel_in_flight
-      block/nbd: implement .bdrv_cancel_in_flight
-      block/raw-format: implement .bdrv_cancel_in_flight handler
-      job: add .cancel handler for the driver
-      block/mirror: implement .cancel job handler
-      iotests/264: move to python unittest
-      iotests.py: qemu_nbd_popen: remove pid file after use
-      iotests/264: add mirror-cancel test-case
-      block/backup: implement .cancel job handler
-      iotests/264: add backup-cancel test-case
-
- docs/tools/qemu-nbd.rst       |   4 +-
- include/block/block.h         |   3 +
- include/block/block_int.h     |   9 +++
- include/qemu/job.h            |   5 ++
- block/io.c                    |  11 ++++
- block/backup.c                |  10 +++
- block/mirror.c                |   9 +++
- block/nbd.c                   |  15 +++++
- block/raw-format.c            |   6 ++
- blockdev-nbd.c                |   7 ++-
- io/channel.c                  |   3 +-
- job.c                         |   3 +
- qemu-nbd.c                    |  14 ++++-
- tests/qemu-iotests/210.out    |   2 +-
- tests/qemu-iotests/264        | 140 +++++++++++++++++++++++++++---------------
- tests/qemu-iotests/264.out    |  20 ++----
- tests/qemu-iotests/iotests.py |   6 +-
- 17 files changed, 193 insertions(+), 74 deletions(-)
-
+     server = qio_net_listener_new();
+     if (socket_activation == 0) {
++        int backlog;
++
++        if (persistent) {
++            backlog = SOMAXCONN;
++        } else {
++            backlog = MIN(shared, SOMAXCONN);
++        }
+         saddr = nbd_build_socket_address(sockpath, bindto, port);
+-        if (qio_net_listener_open_sync(server, saddr, 1, &local_err) < 0) {
++        if (qio_net_listener_open_sync(server, saddr, backlog,
++                                       &local_err) < 0) {
+             object_unref(OBJECT(server));
+             error_report_err(local_err);
+             exit(EXIT_FAILURE);
 -- 
 2.30.1
 
