@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB0731A5F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:22:07 +0100 (CET)
-Received: from localhost ([::1]:53958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C42C31A5FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:24:48 +0100 (CET)
+Received: from localhost ([::1]:34172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAex4-0001Ds-JU
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:22:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
+	id 1lAezf-0004uw-3f
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:24:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAerk-0004A0-2u
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAerk-0004BN-KX
  for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38536)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAere-0003rh-A5
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:35 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAerd-0003r8-CF
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613160989;
+ s=mimecast20190719; t=1613160988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w7KSEOkdVjlNJs/Mr1z2NbCT8l71Fw7ARyPGR8CPT9Y=;
- b=P1iSvTWHqRL6ghhBQbBUhGh4GU4hz7FsgMGE1M2OH6KCOyLow2lz4gK4GFze/rrvxhCDD9
- 7uU7rzHxz0rCtYDRYmTpPy3NPCs3zi2U7wM9YMmHPtmjo1+qG31rSDInqVv2x7EmKtmvsA
- mWtgcEWBEEKX9wx4zD7TCAikq2TkhVc=
+ bh=h+cJgGGFf8il1Kc+826gN14F0x58VbcTfDVuVp9d1jc=;
+ b=GARNxPGxAaNFZjk/AuENlzGWGTSNcbQDi4MgMGH7YPaXtin4uIZA9MRqkZnacEbsqIUcbQ
+ +4f6I+08yXOJqirZ1hT+icMb95umzw7g5ur50gf21/nmwNVd+sgF8JNyUfcTdpvYO/AYAe
+ jqziKtU4Ki4NLEOUa+MoBjU/TwsmcG0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-gjcaCjeEPUmNeq-w5kql3w-1; Fri, 12 Feb 2021 15:16:27 -0500
-X-MC-Unique: gjcaCjeEPUmNeq-w5kql3w-1
+ us-mta-188-pIsrYeh2Nb2AHL_2p7ey2A-1; Fri, 12 Feb 2021 15:16:26 -0500
+X-MC-Unique: pIsrYeh2Nb2AHL_2p7ey2A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B4F9107ACE3;
- Fri, 12 Feb 2021 20:16:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2462D1934100;
+ Fri, 12 Feb 2021 20:16:24 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-150.phx2.redhat.com [10.3.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1C756E51F;
- Fri, 12 Feb 2021 20:16:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77BBE614EB;
+ Fri, 12 Feb 2021 20:16:23 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/14] qemu-nbd: Permit --shared=0 for unlimited clients
-Date: Fri, 12 Feb 2021 14:16:07 -0600
-Message-Id: <20210212201619.1388255-3-eblake@redhat.com>
+Subject: [PULL 03/14] iotests/210: Fix reference output
+Date: Fri, 12 Feb 2021 14:16:08 -0600
+Message-Id: <20210212201619.1388255-4-eblake@redhat.com>
 In-Reply-To: <20210212201619.1388255-1-eblake@redhat.com>
 References: <20210212201619.1388255-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,68 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This gives us better feature parity with QMP nbd-server-start, where
-max-connections defaults to 0 for unlimited.
+From: Max Reitz <mreitz@redhat.com>
 
+Commit 69b55e03f has changed an error message, adjust the reference
+output to account for it.
+
+Fixes: 69b55e03f7e65a36eb954d0b7d4698b258df2708
+       ("block: refactor bdrv_check_request: add errp")
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20210209181923.497688-1-mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210209152759.209074-3-eblake@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/tools/qemu-nbd.rst | 4 ++--
- qemu-nbd.c              | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/210.out | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
-index fe41336dc550..ee862fa0bc02 100644
---- a/docs/tools/qemu-nbd.rst
-+++ b/docs/tools/qemu-nbd.rst
-@@ -136,8 +136,8 @@ driver options if ``--image-opts`` is specified.
- .. option:: -e, --shared=NUM
+diff --git a/tests/qemu-iotests/210.out b/tests/qemu-iotests/210.out
+index dc1a3c9786ee..2e9fc596ebdf 100644
+--- a/tests/qemu-iotests/210.out
++++ b/tests/qemu-iotests/210.out
+@@ -182,7 +182,7 @@ Job failed: The requested file size is too large
+ === Resize image with invalid sizes ===
 
-   Allow up to *NUM* clients to share the device (default
--  ``1``). Safe for readers, but for now, consistency is not
--  guaranteed between multiple writers.
-+  ``1``), 0 for unlimited. Safe for readers, but for now,
-+  consistency is not guaranteed between multiple writers.
-
- .. option:: -t, --persistent
-
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 1a340ea4858d..b1b9430a8f54 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -328,7 +328,7 @@ static void *nbd_client_thread(void *arg)
-
- static int nbd_can_accept(void)
- {
--    return state == RUNNING && nb_fds < shared;
-+    return state == RUNNING && (shared == 0 || nb_fds < shared);
- }
-
- static void nbd_update_server_watch(void);
-@@ -707,7 +707,7 @@ int main(int argc, char **argv)
-             break;
-         case 'e':
-             if (qemu_strtoi(optarg, NULL, 0, &shared) < 0 ||
--                shared < 1) {
-+                shared < 0) {
-                 error_report("Invalid shared device number '%s'", optarg);
-                 exit(EXIT_FAILURE);
-             }
-@@ -966,7 +966,7 @@ int main(int argc, char **argv)
-     if (socket_activation == 0) {
-         int backlog;
-
--        if (persistent) {
-+        if (persistent || shared == 0) {
-             backlog = SOMAXCONN;
-         } else {
-             backlog = MIN(shared, SOMAXCONN);
+ {"execute": "block_resize", "arguments": {"node-name": "node1", "size": 9223372036854775296}}
+-{"error": {"class": "GenericError", "desc": "Required too big image size, it must be not greater than 9223372035781033984"}}
++{"error": {"class": "GenericError", "desc": "offset(9223372036854775296) exceeds maximum(9223372035781033984)"}}
+ {"execute": "block_resize", "arguments": {"node-name": "node1", "size": 9223372036854775808}}
+ {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'size', expected: integer"}}
+ {"execute": "block_resize", "arguments": {"node-name": "node1", "size": 18446744073709551104}}
 -- 
 2.30.1
 
