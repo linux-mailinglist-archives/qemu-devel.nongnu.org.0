@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA53A31A036
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 15:01:53 +0100 (CET)
-Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451D331A03C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 15:03:28 +0100 (CET)
+Received: from localhost ([::1]:46436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAZ16-0004u6-G3
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 09:01:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51530)
+	id 1lAZ2d-0006KK-Ck
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 09:03:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1lAYvI-0007Lm-Ta
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:55:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20733)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lAYzJ-0004WC-B8
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 09:00:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1lAYvG-0007ah-Dx
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 08:55:52 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lAYzG-0000nH-79
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 09:00:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613138149;
+ s=mimecast20190719; t=1613138397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lDtney6krny5k7qISEyYYaDsOIeiY7rMhO750PKB2bY=;
- b=YACerQekXO7kbz4gJNqpnECewU+bys1j91GWVkGn5aLTS4UAqqv60YVWF5Sa6m1ycv+93N
- vs7fa6Fuoauh45o1ilqf3JRbf+t3CFt0YuyaGlwf4RDqRmtrB0WOjj+By4UWWEY+xzR6F6
- gg+50UYovcjtBR8ubftyHZu/ivKFabA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-4Dxe0W4KMCWAPy_Ph5tNWg-1; Fri, 12 Feb 2021 08:55:47 -0500
-X-MC-Unique: 4Dxe0W4KMCWAPy_Ph5tNWg-1
-Received: by mail-ej1-f70.google.com with SMTP id yd11so6848885ejb.9
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 05:55:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lDtney6krny5k7qISEyYYaDsOIeiY7rMhO750PKB2bY=;
- b=nNeUpM9+WkO6LMd8h3BaIdDZ9kWGWYU6/2+4/fy6uaWYvWrp4ElBfQqRWTSpv27GRd
- Fd6o+rJF1Mc3yxgheXxZnj3xY+hEfBLRfxtCCQgXHfrgIN2xGDHthMamY8IRDgBg0iDw
- +hTlr33n5+yblb2limcOgxwY9orhiQmjoTWMJIaIwGOzG69hAmLZpYqO93uWqqYCFDgB
- KMXy76fJKBBu7UGslVI/SamrPpHx2Tp6eb7B7AUJRVdv+GKjaJwipJL7/hyvKEBTzLWK
- hiVVCdIPGZS1YiBnUvbMK2XZObb07xUIfWGCXdQGRCHSlowRSFrUdf5Png4cRpIlWKz1
- EBSA==
-X-Gm-Message-State: AOAM531vCf8qLaMsiMWc1WBIFO7JnM3poX/Q0ckJk5d5rmBOi1IEz6Tq
- HmefYcQCbgyuydcgw7qB03DlbN56f5zE+eq4JkejEI4bmivAuWSQWDsRGNoNXjmq4xZBEI/pgx9
- Byg1Wgq9+Gy5wlPIIbr0l4m3k1CZM/ts=
-X-Received: by 2002:a17:906:b082:: with SMTP id
- x2mr3051877ejy.100.1613138146787; 
- Fri, 12 Feb 2021 05:55:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzgXrCN95g+7tOuNF82uvutMEG7P8UKaERDEvpdtpqEbLQ6zUu44bSGhzUwvrLVa2E0Y+4wIFKaFk6NVY+1XDc=
-X-Received: by 2002:a17:906:b082:: with SMTP id
- x2mr3051857ejy.100.1613138146626; 
- Fri, 12 Feb 2021 05:55:46 -0800 (PST)
+ bh=Dk+Q1FRnuNkwlVUFO6S7mKxuaH6pIDe+Ln38PcRaTzs=;
+ b=Dt+RFG40wJZpUQnWE+H1jOH6z3Lr1IlkpBMiU9f1P95VM+uxr2RP+WI12jO/9QXXkuPfLm
+ AOAnsVIGrs2vfpmNkQvupQ/U3OA+efO1INb+SSvqsTPyD7fOqiBoX4yMEMJlH8Oukxtin+
+ BN0CA0EnGBR0gWY26RWLeBWUp6DsDF4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-oALcWVeZOa-umdTG6W1lpQ-1; Fri, 12 Feb 2021 08:59:55 -0500
+X-MC-Unique: oALcWVeZOa-umdTG6W1lpQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A38B318957E4;
+ Fri, 12 Feb 2021 13:59:54 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-27.ams2.redhat.com [10.36.112.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B553760C17;
+ Fri, 12 Feb 2021 13:59:49 +0000 (UTC)
+Subject: Re: [PATCH] tests/qtest/boot-sector: Check that the guest did not
+ panic
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>
+References: <20210212113141.854871-1-thuth@redhat.com>
+ <32e75366-22fb-823e-2778-ad8fec102060@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <a733ffb4-7c2b-e284-2eef-51aa9161318e@redhat.com>
+Date: Fri, 12 Feb 2021 14:59:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKPLD68GXeMyU_LTVYjv8YUXex4wvyAnHkOgu=PK48pP7w@mail.gmail.com>
- <CAA8xKjWojtJgOM-M6NYvWH5cPhEhxSdcWQ55Nz-24MstOr=xYQ@mail.gmail.com>
- <75b11565-98fd-b242-2b32-0c04e5cce181@amsat.org>
-In-Reply-To: <75b11565-98fd-b242-2b32-0c04e5cce181@amsat.org>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Fri, 12 Feb 2021 14:55:35 +0100
-Message-ID: <CAA8xKjX3D2tu+6EPq5ASKd+iFkBkqTCsV0zgWP=K8Bh=nSr7LA@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd: sdhci: Do not transfer any data when command fails
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+In-Reply-To: <32e75366-22fb-823e-2778-ad8fec102060@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mcascell@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,52 +84,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu-block <qemu-block@nongnu.org>, qemu-stable@nongnu.org,
- Li Qiang <liq3ea@163.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Prasad J Pandit <ppandit@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Michael Tsirkin <mst@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 8:48 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 2/11/21 9:52 AM, Mauro Matteo Cascella wrote:
-> > Hello,
-> >
-> > On Wed, Feb 10, 2021 at 11:27 PM Alistair Francis <alistair23@gmail.com=
-> wrote:
-> >>
-> >> On Tue, Feb 9, 2021 at 2:55 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>>
-> >>> At the end of sdhci_send_command(), it starts a data transfer if
-> >>> the command register indicates a data is associated. However the
-> >>> data transfer should only be initiated when the command execution
-> >>> has succeeded.
-> >>
-> >> Isn't this already fixed?
->
-> The previous patch was enough to catch the previous reproducer,
-> but something changed elsewhere making the same reproducer crash
-> QEMU again...
->
-> > It turned out the bug was still reproducible on master. I'm actually
-> > thinking of assigning a new CVE for this, to make it possible for
-> > distros to apply this fix.
->
-> It sounds fair. Do you have an ETA for the new CVE?
+On 12/02/2021 14.18, Philippe Mathieu-Daudé wrote:
+> On 2/12/21 12:31 PM, Thomas Huth wrote:
+>> The s390-ccw bios code panics if it can not boot successfully. In
+>> this case, it does not make sense that we wait the full 600 seconds
+>> for the boot sector test to finish and can signal the failure
+>> immediately, thus let's check the status of the guest with the
+>> "query-status" QMP command here, too.
+>>
+>> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   tests/qtest/boot-sector.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/tests/qtest/boot-sector.c b/tests/qtest/boot-sector.c
+>> index 24df5c4734..ea8f264661 100644
+>> --- a/tests/qtest/boot-sector.c
+>> +++ b/tests/qtest/boot-sector.c
+>> @@ -138,6 +138,7 @@ void boot_sector_test(QTestState *qts)
+>>       uint8_t signature_low;
+>>       uint8_t signature_high;
+>>       uint16_t signature;
+>> +    QDict *qrsp, *qret;
+>>       int i;
+>>   
+>>       /* Wait at most 600 seconds (test is slow with TCI and --enable-debug) */
+>> @@ -155,6 +156,14 @@ void boot_sector_test(QTestState *qts)
+>>           if (signature == SIGNATURE) {
+>>               break;
+>>           }
+>> +
+>> +        /* check that guest is still in "running" state and did not panic */
+>> +        qrsp = qtest_qmp(qts, "{ 'execute': 'query-status' }");
+>> +        qret = qdict_get_qdict(qrsp, "return");
+>> +        g_assert_nonnull(qret);
+>> +        g_assert_cmpstr(qdict_get_try_str(qret, "status"), ==, "running");
+> 
+> Interesting idea. Does it make sense to have a similar (optional?) check
+> done in QEMUMachine? This could benefit integration tests, quicker exit
+> on failure.
 
-This is now CVE-2021-3409.
+Well, it only makes sense in cases where the guest is causing a panic event. 
+That's what the s390 ccw bios is doing, but other firmwares do *not* panic 
+in case they cannot boot the guest.
 
-RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1928146
+It might be also useful for the acceptance tests if they can trigger a panic 
+event, but I think we already check for the "Kernel panic" in the console 
+output in most cases, so I guess that's enough already?
 
-
-
---
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+  Thomas
 
 
