@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F0231A443
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 19:10:39 +0100 (CET)
-Received: from localhost ([::1]:52072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDFE31A43C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 19:08:49 +0100 (CET)
+Received: from localhost ([::1]:47872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lActq-0006ff-P9
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 13:10:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57492)
+	id 1lAcs4-0004re-Nz
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 13:08:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAcqK-0003Y5-Sj
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:07:00 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40698)
+ id 1lAcqL-0003ZA-7W
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:07:01 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lAcqH-0006ni-Os
+ id 1lAcqI-0006nu-I2
  for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:07:00 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id v14so224447wro.7
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 10:06:57 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id l12so271293wry.2
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 10:06:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ikL0BOFjcRJUl+w266ibAhY1EnjWvpV7FXKe5w+lSUg=;
- b=oBNibsm9M/oxwWBTDmxCo7SnTZ3yUf9vrBCkbe3Rzyh2iv4vd8nVLYom/MaOjIHXZl
- 0cshjcvMytKdUPgpz7CZFhQ8V+XRkIxJx+uMMxLPtCwocCcMzxFowo/7QIDneaqI4NBJ
- ZyAocy3tgcn6OGlZknnFh/dl4pL6XWclHOB3xLQGfZQ3mtcdTsmOlzXuzPzLNOxk5kkD
- ffVhIdUXyvZ/OeBQ+cN/mLTRLaeuLy2RL0l/X/FkE8SaXz7kV+Dst76230ZtDS0Je5F4
- /h1fgJu7IQAQ5F3bu9IrkayRs2pM7ggvVTYUXAVmknvKOfmXdloJ1q0Rk4We/OHR3wh3
- QGqA==
+ bh=A2l9dgSgtUlgDBBjn+Oogyt/oRX3z8AEyaWXXJBCSvg=;
+ b=sCS93HUErnihU8YG/K5LbHZcC+ELByaLXCvynayIuOxKmYc3z6Z1SSzJco+MWUZ7jG
+ QppTLNjFzD2oWDSZmuvTovvpJEIGF6L4qhrV3djte/X9Gwbis6WC7zNBhyqpph9eYmKD
+ bkhGQApVWU6WpplPvPbZZ5naVJcdLUABmWw0AnWVUd/YdpXZbEdzVIMajzFidNDN/nB+
+ vEc8mvgSxuXZxI4289u5MgpwMcrEY/FaQHU4CkYL8VV1HWzlYUtmJFuN2Ev167aWSvDV
+ 879DGZ4yz1SgYb9R3XoL/cmG/O4COjQJ/94OeHEv0YInko0Zq7HZ5QZdYW9jXx285vos
+ 74pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ikL0BOFjcRJUl+w266ibAhY1EnjWvpV7FXKe5w+lSUg=;
- b=mysO1b9c8l3qWg54qmjonWtbWmbElNyMxUYiGPfyjfiEtOsUMsW0MDAHzTbPT2snXo
- YCORzTRvMSRei6epvU0FHGjObJ+V/x5ZysFd8c3uemUMRBg+E2Y34o5Yrw9k3DP15NFv
- bzE6wAPczXZQ+GUM6E0vzcm5w3CIaP5O/PiKaZEHnIrIvilcjuzag0RBXG5btAbZNf1d
- E5jBrHG4ZbbqBvRSSvc5Grbhzxb/2Xlo0VI2EPQ8iYhpIPTcEOiP9jsV2u9BbH5CM3yP
- iAD3YBWH3AdP0HydSsv++amBXWzyX5Fonu7bty62AjK2/haqYJyZV+KhPD/aciA81IrU
- DPDg==
-X-Gm-Message-State: AOAM530p8N/mQz6MQEohlI9yppPdSBlVEGIJ+8V6WKj8UALeCM5Zft5c
- DHJWKo2MJ8AahGOUpwewTOTRYeJDSQ4Rjw==
-X-Google-Smtp-Source: ABdhPJwoyPlAnWV8kbRiG0mcgyDob4qRHgj5X8syWmFMksV5a4mi27u5G/WC+N5jFsgJZABUtOBaWA==
-X-Received: by 2002:adf:92a6:: with SMTP id 35mr4833416wrn.193.1613153216283; 
- Fri, 12 Feb 2021 10:06:56 -0800 (PST)
+ bh=A2l9dgSgtUlgDBBjn+Oogyt/oRX3z8AEyaWXXJBCSvg=;
+ b=gBW5mHMF0XynURkKpV0kXD4sdd2yPsLg5X2AZzcISV7YaecxHqKh8Ax5SddgMzaRk/
+ YvFPWyxdM00NWk9aUhos29aUizYPib+Ln3LA/exep87Acs5cTWJ5QpeSNqM3yv6OO+jx
+ +3lfMTjcg3pjlDhlr0+KZ2oTJNZgg4yGcOyy4dEBiOHeRDbLaBcHZbvb34BFzLeGSAwc
+ eq+ttXjGfLiIXBw/i+M8yagbAiUepe80z+O2LKe2vqX3a46u414sqq/5I0z0jyLGwfTE
+ 0lJbZFh2Xy6qKyLQfYKSiP+GfwiTkYShEHYij4+EQnEwBOX5gcRlYVlGdrbJUmvSc7xI
+ DRaQ==
+X-Gm-Message-State: AOAM5311AotTLrt1xhXhv7ZhtGkHnGnnDXZGNjd4rLEBQ/PYBKyZuRDS
+ BYX47Y3+wYyH7egzd1VjFSNFj+EYqUyQyw==
+X-Google-Smtp-Source: ABdhPJyiKEmDPJItLUSTXMVnpoJtWxR+pIEt5j44E5H/UHRLDFZt+5CVwL226f9BNr38vkRFVMza7g==
+X-Received: by 2002:a5d:684b:: with SMTP id o11mr4893769wrw.52.1613153217261; 
+ Fri, 12 Feb 2021 10:06:57 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f6sm14022372wmq.33.2021.02.12.10.06.55
+ by smtp.gmail.com with ESMTPSA id f6sm14022372wmq.33.2021.02.12.10.06.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 10:06:55 -0800 (PST)
+ Fri, 12 Feb 2021 10:06:56 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] hw/display/sm501: Remove dead code for non-32-bit RGB
- surfaces
-Date: Fri, 12 Feb 2021 18:06:51 +0000
-Message-Id: <20210212180653.27588-2-peter.maydell@linaro.org>
+Subject: [PATCH 2/3] hw/display/sm501: Expand out macros in template header
+Date: Fri, 12 Feb 2021 18:06:52 +0000
+Message-Id: <20210212180653.27588-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210212180653.27588-1-peter.maydell@linaro.org>
 References: <20210212180653.27588-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,153 +87,136 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For a long time now the UI layer has guaranteed that the console
-surface is always 32 bits per pixel RGB. Remove the legacy dead
-code from the sm501 display device which was handling the
-possibility that the console surface was some other format.
+Now that we only include sm501_template.h for the DEPTH==32 case, we
+can expand out the uses of the BPP, PIXEL_TYPE and PIXEL_NAME macros
+in that header.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/sm501.c | 91 +++-------------------------------------------
- 1 file changed, 6 insertions(+), 85 deletions(-)
+ hw/display/sm501_template.h | 60 +++++++++++--------------------------
+ 1 file changed, 17 insertions(+), 43 deletions(-)
 
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 8966b69bc73..aba447c18b3 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1558,89 +1558,9 @@ typedef void draw_hwc_line_func(uint8_t *d, const uint8_t *s,
-                                 int width, const uint8_t *palette,
-                                 int c_x, int c_y);
+diff --git a/hw/display/sm501_template.h b/hw/display/sm501_template.h
+index a60abad019c..28537a05d95 100644
+--- a/hw/display/sm501_template.h
++++ b/hw/display/sm501_template.h
+@@ -22,28 +22,8 @@
+  * THE SOFTWARE.
+  */
  
--#define DEPTH 8
--#include "sm501_template.h"
+-#if DEPTH == 8
+-#define BPP 1
+-#define PIXEL_TYPE uint8_t
+-#elif DEPTH == 15 || DEPTH == 16
+-#define BPP 2
+-#define PIXEL_TYPE uint16_t
+-#elif DEPTH == 32
+-#define BPP 4
+-#define PIXEL_TYPE uint32_t
+-#else
+-#error unsupport depth
+-#endif
 -
--#define DEPTH 15
--#include "sm501_template.h"
+-#ifdef BGR_FORMAT
+-#define PIXEL_NAME glue(DEPTH, bgr)
+-#else
+-#define PIXEL_NAME DEPTH
+-#endif /* BGR_FORMAT */
 -
--#define BGR_FORMAT
--#define DEPTH 15
--#include "sm501_template.h"
 -
--#define DEPTH 16
--#include "sm501_template.h"
--
--#define BGR_FORMAT
--#define DEPTH 16
--#include "sm501_template.h"
--
- #define DEPTH 32
- #include "sm501_template.h"
- 
--#define BGR_FORMAT
--#define DEPTH 32
--#include "sm501_template.h"
--
--static draw_line_func *draw_line8_funcs[] = {
--    draw_line8_8,
--    draw_line8_15,
--    draw_line8_16,
--    draw_line8_32,
--    draw_line8_32bgr,
--    draw_line8_15bgr,
--    draw_line8_16bgr,
--};
--
--static draw_line_func *draw_line16_funcs[] = {
--    draw_line16_8,
--    draw_line16_15,
--    draw_line16_16,
--    draw_line16_32,
--    draw_line16_32bgr,
--    draw_line16_15bgr,
--    draw_line16_16bgr,
--};
--
--static draw_line_func *draw_line32_funcs[] = {
--    draw_line32_8,
--    draw_line32_15,
--    draw_line32_16,
--    draw_line32_32,
--    draw_line32_32bgr,
--    draw_line32_15bgr,
--    draw_line32_16bgr,
--};
--
--static draw_hwc_line_func *draw_hwc_line_funcs[] = {
--    draw_hwc_line_8,
--    draw_hwc_line_15,
--    draw_hwc_line_16,
--    draw_hwc_line_32,
--    draw_hwc_line_32bgr,
--    draw_hwc_line_15bgr,
--    draw_hwc_line_16bgr,
--};
--
--static inline int get_depth_index(DisplaySurface *surface)
--{
--    switch (surface_bits_per_pixel(surface)) {
--    default:
--    case 8:
--        return 0;
--    case 15:
--        return 1;
--    case 16:
--        return 2;
--    case 32:
--        if (is_surface_bgr(surface)) {
--            return 4;
--        } else {
--            return 3;
--        }
--    }
--}
--
- static void sm501_update_display(void *opaque)
+-static void glue(draw_line8_, PIXEL_NAME)(
+-                 uint8_t *d, const uint8_t *s, int width, const uint32_t *pal)
++static void draw_line8_32(uint8_t *d, const uint8_t *s, int width,
++                          const uint32_t *pal)
  {
-     SM501State *s = (SM501State *)opaque;
-@@ -1652,7 +1572,6 @@ static void sm501_update_display(void *opaque)
-     int height = get_height(s, crt);
-     int src_bpp = get_bpp(s, crt);
-     int dst_bpp = surface_bytes_per_pixel(surface);
--    int dst_depth_index = get_depth_index(surface);
-     draw_line_func *draw_line = NULL;
-     draw_hwc_line_func *draw_hwc_line = NULL;
-     int full_update = 0;
-@@ -1662,6 +1581,8 @@ static void sm501_update_display(void *opaque)
-     uint8_t hwc_palette[3 * 3];
-     uint8_t *hwc_src = NULL;
+     uint8_t v, r, g, b;
+     do {
+@@ -51,14 +31,14 @@ static void glue(draw_line8_, PIXEL_NAME)(
+         r = (pal[v] >> 16) & 0xff;
+         g = (pal[v] >>  8) & 0xff;
+         b = (pal[v] >>  0) & 0xff;
+-        *(PIXEL_TYPE *)d = glue(rgb_to_pixel, PIXEL_NAME)(r, g, b);
++        *(uint32_t *)d = rgb_to_pixel32(r, g, b);
+         s++;
+-        d += BPP;
++        d += 4;
+     } while (--width != 0);
+ }
  
-+    assert(dst_bpp == 4); /* Output is always 32-bit RGB */
-+
-     if (!((crt ? s->dc_crt_control : s->dc_panel_control)
-           & SM501_DC_CRT_CONTROL_ENABLE)) {
-         return;
-@@ -1674,13 +1595,13 @@ static void sm501_update_display(void *opaque)
-     /* choose draw_line function */
-     switch (src_bpp) {
-     case 1:
--        draw_line = draw_line8_funcs[dst_depth_index];
-+        draw_line = draw_line8_32;
-         break;
-     case 2:
--        draw_line = draw_line16_funcs[dst_depth_index];
-+        draw_line = draw_line16_32;
-         break;
-     case 4:
--        draw_line = draw_line32_funcs[dst_depth_index];
-+        draw_line = draw_line32_32;
-         break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "sm501: update display"
-@@ -1691,7 +1612,7 @@ static void sm501_update_display(void *opaque)
-     /* set up to draw hardware cursor */
-     if (is_hwc_enabled(s, crt)) {
-         /* choose cursor draw line function */
--        draw_hwc_line = draw_hwc_line_funcs[dst_depth_index];
-+        draw_hwc_line = draw_hwc_line_32;
-         hwc_src = get_hwc_address(s, crt);
-         c_x = get_hwc_x(s, crt);
-         c_y = get_hwc_y(s, crt);
+-static void glue(draw_line16_, PIXEL_NAME)(
+-                 uint8_t *d, const uint8_t *s, int width, const uint32_t *pal)
++static void draw_line16_32(uint8_t *d, const uint8_t *s, int width,
++                           const uint32_t *pal)
+ {
+     uint16_t rgb565;
+     uint8_t r, g, b;
+@@ -68,14 +48,14 @@ static void glue(draw_line16_, PIXEL_NAME)(
+         r = (rgb565 >> 8) & 0xf8;
+         g = (rgb565 >> 3) & 0xfc;
+         b = (rgb565 << 3) & 0xf8;
+-        *(PIXEL_TYPE *)d = glue(rgb_to_pixel, PIXEL_NAME)(r, g, b);
++        *(uint32_t *)d = rgb_to_pixel32(r, g, b);
+         s += 2;
+-        d += BPP;
++        d += 4;
+     } while (--width != 0);
+ }
+ 
+-static void glue(draw_line32_, PIXEL_NAME)(
+-                 uint8_t *d, const uint8_t *s, int width, const uint32_t *pal)
++static void draw_line32_32(uint8_t *d, const uint8_t *s, int width,
++                           const uint32_t *pal)
+ {
+     uint8_t r, g, b;
+ 
+@@ -83,17 +63,17 @@ static void glue(draw_line32_, PIXEL_NAME)(
+         r = s[2];
+         g = s[1];
+         b = s[0];
+-        *(PIXEL_TYPE *)d = glue(rgb_to_pixel, PIXEL_NAME)(r, g, b);
++        *(uint32_t *)d = rgb_to_pixel32(r, g, b);
+         s += 4;
+-        d += BPP;
++        d += 4;
+     } while (--width != 0);
+ }
+ 
+ /**
+  * Draw hardware cursor image on the given line.
+  */
+-static void glue(draw_hwc_line_, PIXEL_NAME)(uint8_t *d, const uint8_t *s,
+-                 int width, const uint8_t *palette, int c_x, int c_y)
++static void draw_hwc_line_32(uint8_t *d, const uint8_t *s, int width,
++                             const uint8_t *palette, int c_x, int c_y)
+ {
+     int i;
+     uint8_t r, g, b, v, bitset = 0;
+@@ -101,7 +81,7 @@ static void glue(draw_hwc_line_, PIXEL_NAME)(uint8_t *d, const uint8_t *s,
+     /* get cursor position */
+     assert(0 <= c_y && c_y < SM501_HWC_HEIGHT);
+     s += SM501_HWC_WIDTH * c_y / 4;  /* 4 pixels per byte */
+-    d += c_x * BPP;
++    d += c_x * 4;
+ 
+     for (i = 0; i < SM501_HWC_WIDTH && c_x + i < width; i++) {
+         /* get pixel value */
+@@ -118,14 +98,8 @@ static void glue(draw_hwc_line_, PIXEL_NAME)(uint8_t *d, const uint8_t *s,
+             r = palette[v * 3 + 0];
+             g = palette[v * 3 + 1];
+             b = palette[v * 3 + 2];
+-            *(PIXEL_TYPE *)d = glue(rgb_to_pixel, PIXEL_NAME)(r, g, b);
++            *(uint32_t *)d = rgb_to_pixel32(r, g, b);
+         }
+-        d += BPP;
++        d += 4;
+     }
+ }
+-
+-#undef DEPTH
+-#undef BPP
+-#undef PIXEL_TYPE
+-#undef PIXEL_NAME
+-#undef BGR_FORMAT
 -- 
 2.20.1
 
