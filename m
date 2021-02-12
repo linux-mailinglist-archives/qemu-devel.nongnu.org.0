@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7447E31A59A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 20:44:44 +0100 (CET)
-Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A566131A59F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 20:49:37 +0100 (CET)
+Received: from localhost ([::1]:47348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAeMt-0006Su-Fj
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 14:44:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50300)
+	id 1lAeRc-0000yN-DU
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 14:49:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lAeIU-0004XX-If
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 14:40:10 -0500
-Resent-Date: Fri, 12 Feb 2021 14:40:10 -0500
-Resent-Message-Id: <E1lAeIU-0004XX-If@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lAeIR-0004dR-0C
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 14:40:10 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613158799; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lnyslHOivtkkd4fj8iiZ4q44owzOOgpwBc2Ncp0v46oY3hgEgAXP7GjtE5pw9UuVNXTeVCHBXUlsi5C8eM8IoLO7TakE9Yb8x0mF+8hEDiPkYIkQsc6Z0376kgsLNbcg6tmkouzssK7KMpTrwHJJ+D1Umsl4AY3eDpp/e+d9b3M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1613158799;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=1xtVWJiVHaGwPwp8AznRiyBx3d2eHcOH8Rks/Yc/65g=; 
- b=nHkH2atv6+NIo3gtC3B5dvV6PwIh7cSw/kuqW0sjVR6nMq03pvf5fuLk+peAaJj8EAzVBkzG1mV7gBcW3Uh1Rsk0YVdOjiOImqbw3Ypy95NidCphy4VeYvPsi494S1Usm8zQN85CderUVH4VuqqClUJrSLs9XSwTwVY2BWMzWdE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1613158795864254.06356427686399;
- Fri, 12 Feb 2021 11:39:55 -0800 (PST)
-In-Reply-To: <20210212184902.1251044-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v7 00/31] target-arm: Implement ARMv8.5-MemTag, user mode
-Message-ID: <161315879481.22250.5813153238376665603@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAeMo-00076j-RJ
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 14:44:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45038)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAeMm-0006Ax-Nx
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 14:44:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613159075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RQfcDJJCNsLHUbWKDd2jINmjvknOg/j8CsgUY9osG6Y=;
+ b=Q71KvEZVvD5PegEcIa5jApNexafiT0E59A+0KW6qr2DUjhi4YAEw1ngz2pQODG2oHQR6Ck
+ Rh9olqyF6LqyAeXN752+yRjfvHBt+iaq2McYpdAs+Ic1xYhKSiR4NWLXA8IDJHLDmUcry1
+ wJIbvccaMXuT8WwL8WhDZKVtjok/Zlg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-qIBUekLzPCW6Y_uIZkfzWg-1; Fri, 12 Feb 2021 14:44:28 -0500
+X-MC-Unique: qIBUekLzPCW6Y_uIZkfzWg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B27D3107ACF2;
+ Fri, 12 Feb 2021 19:44:25 +0000 (UTC)
+Received: from [10.3.114.150] (ovpn-114-150.phx2.redhat.com [10.3.114.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14E3F60BE5;
+ Fri, 12 Feb 2021 19:44:20 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
+References: <20210202124956.63146-1-vsementsov@virtuozzo.com>
+ <20210202124956.63146-9-vsementsov@virtuozzo.com>
+ <w51lfc2bv08.fsf@maestria.local.igalia.com>
+ <f5c4c064-166f-a2bd-8d86-1c25a3c26646@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH v7 08/14] block/qcow2: qcow2_get_specific_info(): drop
+ error propagation
+Message-ID: <c30fc7f1-bc0d-3080-1980-b3e9eebeb16f@redhat.com>
+Date: Fri, 12 Feb 2021 13:44:19 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Fri, 12 Feb 2021 11:39:55 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <f5c4c064-166f-a2bd-8d86-1c25a3c26646@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,162 +86,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, stefanha@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, pavel.dovgaluk@ispras.ru, pbonzini@redhat.com,
+ mreitz@redhat.com, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIxMjE4NDkwMi4xMjUx
-MDQ0LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMjEy
-MTg0OTAyLjEyNTEwNDQtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtQ
-QVRDSCB2NyAwMC8zMV0gdGFyZ2V0LWFybTogSW1wbGVtZW50IEFSTXY4LjUtTWVtVGFnLCB1c2Vy
-IG1vZGUKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
-ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
-bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
-IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhj
-ZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIu
-Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAy
-MTAyMDUxNzAwMTkuMjUzMTktMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8y
-MDIxMDIwNTE3MDAxOS4yNTMxOS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZwogLSBbdGFnIHVw
-ZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMjA5MTkzMDE4LjMxMzM5LTEtbWFyay5jYXZlLWF5bGFu
-ZEBpbGFuZGUuY28udWsgLT4gcGF0Y2hldy8yMDIxMDIwOTE5MzAxOC4zMTMzOS0xLW1hcmsuY2F2
-ZS1heWxhbmRAaWxhbmRlLmNvLnVrCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAy
-MTIxODQ5MDIuMTI1MTA0NC0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hl
-dy8yMDIxMDIxMjE4NDkwMi4xMjUxMDQ0LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwog
-LSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3L2NvdmVyLjE2MTMxNTA4NjkuZ2l0LnBrcmVtcGFA
-cmVkaGF0LmNvbSAtPiBwYXRjaGV3L2NvdmVyLjE2MTMxNTA4NjkuZ2l0LnBrcmVtcGFAcmVkaGF0
-LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjRjZmVlZGUgdGVzdHMvdGNnL2Fh
-cmNoNjQ6IEFkZCBtdGUgc21va2UgdGVzdHMKMDkwM2Q1OSB0YXJnZXQvYXJtOiBFbmFibGUgTVRF
-IGZvciB1c2VyLW9ubHkKOWRmM2QyOCB0YXJnZXQvYXJtOiBBZGQgYWxsb2NhdGlvbiB0YWcgc3Rv
-cmFnZSBmb3IgdXNlciBtb2RlCjNkMDlmNmMgbGludXgtdXNlci9hYXJjaDY0OiBTaWduYWwgU0VH
-Vl9NVEVBRVJSIGZvciBhc3luYyB0YWcgY2hlY2sgZXJyb3IKODc5ZGExMiBsaW51eC11c2VyL2Fh
-cmNoNjQ6IFNpZ25hbCBTRUdWX01URVNFUlIgZm9yIHN5bmMgdGFnIGNoZWNrIGZhdWx0CjJkZDU3
-MzggbGludXgtdXNlci9hYXJjaDY0OiBQYXNzIHN5bmRyb21lIHRvIEVYQ18qX0FCT1JUCmI0MDQ5
-MGUgdGFyZ2V0L2FybTogU3BsaXQgb3V0IHN5bmRyb21lLmggZnJvbSBpbnRlcm5hbHMuaAo2M2Fh
-ZWNhIGxpbnV4LXVzZXIvYWFyY2g2NDogSW1wbGVtZW50IFBST1RfTVRFCjkwMGIwODYgbGludXgt
-dXNlci9hYXJjaDY0OiBJbXBsZW1lbnQgUFJfTVRFX1RDRiBhbmQgUFJfTVRFX1RBRwpjYjc4YzNj
-IHRhcmdldC9hcm06IFVzZSB0aGUgcHJvcGVyIFRCSSBzZXR0aW5ncyBmb3IgbGludXgtdXNlcgo3
-OGE5ZGVjIHRhcmdldC9hcm06IEltcHJvdmUgZ2VuX3RvcF9ieXRlX2lnbm9yZQo0YTYzNTYxIGxp
-bnV4LXVzZXIvYWFyY2g2NDogSW1wbGVtZW50IFBSX1RBR0dFRF9BRERSX0VOQUJMRQpjNjYwMTJi
-IGxpbnV4LXVzZXI6IEhhbmRsZSB0YWdzIGluIGxvY2tfdXNlci91bmxvY2tfdXNlcgo1ODA1MDZm
-IGxpbnV4LXVzZXI6IEZpeCB0eXBlcyBpbiB1YWNjZXNzLmMKMjE5NWYwMyBsaW51eC11c2VyOiBN
-b3ZlIGxvY2tfdXNlciBldCBhbCBvdXQgb2YgbGluZQo4Mzk3ZjdjIGxpbnV4LXVzZXI6IFVzZSBj
-cHVfdW50YWdnZWRfYWRkciBpbiBhY2Nlc3Nfb2s7IHNwbGl0IG91dCAqX3VudGFnZ2VkCjMwZDBh
-NDUgZXhlYzogUmVuYW1lIGd1ZXN0X3thZGRyLHJhbmdlfV92YWxpZCB0byAqX3VudGFnZ2VkCmEw
-NWUzMTEgbGludXgtdXNlcjogVXNlIGd1ZXN0X3JhbmdlX3ZhbGlkIGluIGFjY2Vzc19vawpiZGIz
-OGM4IGxpbnV4LXVzZXI6IEV4cGxpY2l0bHkgdW50YWcgbWVtb3J5IG1hbmFnZW1lbnQgc3lzY2Fs
-bHMKNDJkYjA5YyBleGVjOiBVc2UgY3B1X3VudGFnZ2VkX2FkZHIgaW4gZzJoOyBzcGxpdCBvdXQg
-ZzJoX3VudGFnZ2VkCjBiZDA4YjYgZXhlYzogSW50cm9kdWNlIGNwdV91bnRhZ2dlZF9hZGRyCjA4
-MDA0MjYgbGludXgtdXNlcjogRml4IGd1ZXN0X2FkZHJfdmFsaWQgdnMgcmVzZXJ2ZWRfdmEKMWZh
-NGZmYyBsaW51eC11c2VyOiBEbyBub3QgdXNlIGd1ZXN0X2FkZHJfdmFsaWQgZm9yIGgyZ192YWxp
-ZAplYjEzNGM0IGJzZC11c2VyOiBUaWR5IFZFUklGWV9SRUFEL1ZFUklGWV9XUklURQpkNTg5NzNi
-IGxpbnV4LXVzZXI6IFRpZHkgVkVSSUZZX1JFQUQvVkVSSUZZX1dSSVRFCjBiMzlhN2UgbGludXgt
-dXNlcjogQ2hlY2sgZm9yIG92ZXJmbG93IGluIGFjY2Vzc19vawoxYThmZmI1IGV4ZWM6IEltcHJv
-dmUgdHlwZXMgZm9yIGd1ZXN0X2FkZHJfdmFsaWQKNGUwOTEyNSBleGVjOiBVc2UgdWludHB0cl90
-IGluIGNwdV9sZHN0LmgKOGZmOTVhMSBleGVjOiBVc2UgdWludHB0cl90IGZvciBndWVzdF9iYXNl
-CjYxZDgxNmEgbGludXgtdXNlcjogSW50cm9kdWNlIFBBR0VfQU5PTgplNGFhYWNhIHRjZzogSW50
-cm9kdWNlIHRhcmdldC1zcGVjaWZpYyBwYWdlIGRhdGEgZm9yIHVzZXItb25seQoKPT09IE9VVFBV
-VCBCRUdJTiA9PT0KMS8zMSBDaGVja2luZyBjb21taXQgZTRhYWFjYTllOTE5ICh0Y2c6IEludHJv
-ZHVjZSB0YXJnZXQtc3BlY2lmaWMgcGFnZSBkYXRhIGZvciB1c2VyLW9ubHkpCjIvMzEgQ2hlY2tp
-bmcgY29tbWl0IDYxZDgxNmE1ZWNlZCAobGludXgtdXNlcjogSW50cm9kdWNlIFBBR0VfQU5PTikK
-My8zMSBDaGVja2luZyBjb21taXQgOGZmOTVhMWU5NzE0IChleGVjOiBVc2UgdWludHB0cl90IGZv
-ciBndWVzdF9iYXNlKQo0LzMxIENoZWNraW5nIGNvbW1pdCA0ZTA5MTI1NTBlMmMgKGV4ZWM6IFVz
-ZSB1aW50cHRyX3QgaW4gY3B1X2xkc3QuaCkKNS8zMSBDaGVja2luZyBjb21taXQgMWE4ZmZiNWZl
-Yjc5IChleGVjOiBJbXByb3ZlIHR5cGVzIGZvciBndWVzdF9hZGRyX3ZhbGlkKQo2LzMxIENoZWNr
-aW5nIGNvbW1pdCAwYjM5YTdlY2VjNjUgKGxpbnV4LXVzZXI6IENoZWNrIGZvciBvdmVyZmxvdyBp
-biBhY2Nlc3Nfb2spCjcvMzEgQ2hlY2tpbmcgY29tbWl0IGQ1ODk3M2IzOWQ0MiAobGludXgtdXNl
-cjogVGlkeSBWRVJJRllfUkVBRC9WRVJJRllfV1JJVEUpCjgvMzEgQ2hlY2tpbmcgY29tbWl0IGVi
-MTM0YzQ1MGQyNSAoYnNkLXVzZXI6IFRpZHkgVkVSSUZZX1JFQUQvVkVSSUZZX1dSSVRFKQo5LzMx
-IENoZWNraW5nIGNvbW1pdCAxZmE0ZmZjZTIyZjYgKGxpbnV4LXVzZXI6IERvIG5vdCB1c2UgZ3Vl
-c3RfYWRkcl92YWxpZCBmb3IgaDJnX3ZhbGlkKQoxMC8zMSBDaGVja2luZyBjb21taXQgMDgwMDQy
-NjQ1NWMxIChsaW51eC11c2VyOiBGaXggZ3Vlc3RfYWRkcl92YWxpZCB2cyByZXNlcnZlZF92YSkK
-MTEvMzEgQ2hlY2tpbmcgY29tbWl0IDBiZDA4YjZiY2U4MiAoZXhlYzogSW50cm9kdWNlIGNwdV91
-bnRhZ2dlZF9hZGRyKQoxMi8zMSBDaGVja2luZyBjb21taXQgNDJkYjA5YzE2YmRkIChleGVjOiBV
-c2UgY3B1X3VudGFnZ2VkX2FkZHIgaW4gZzJoOyBzcGxpdCBvdXQgZzJoX3VudGFnZ2VkKQpFUlJP
-UjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50
-CiM0NDY6IEZJTEU6IGJzZC11c2VyL3FlbXUuaDozNzk6CisgICAgaWYgKGhvc3RfcHRyID09IGcy
-aF91bnRhZ2dlZChndWVzdF9hZGRyKSkKWy4uLl0KCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vz
-c2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzcwMzogRklMRTogbGludXgtdXNl
-ci9tbWFwLmM6MjIyOgorICAgICAgICBpZiAocHJlYWQoZmQsIGcyaF91bnRhZ2dlZChzdGFydCks
-IGVuZCAtIHN0YXJ0LCBvZmZzZXQpID09IC0xKQpbLi4uXQoKRVJST1I6IGJyYWNlcyB7fSBhcmUg
-bmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojODY1OiBGSUxFOiBsaW51
-eC11c2VyL3FlbXUuaDo2Njk6CisgICAgaWYgKGhvc3RfcHRyID09IGcyaF91bnRhZ2dlZChndWVz
-dF9hZGRyKSkKWy4uLl0KCnRvdGFsOiAzIGVycm9ycywgMCB3YXJuaW5ncywgOTQ2IGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDEyLzMxIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxMy8zMSBDaGVj
-a2luZyBjb21taXQgYmRiMzhjOGJiZDFkIChsaW51eC11c2VyOiBFeHBsaWNpdGx5IHVudGFnIG1l
-bW9yeSBtYW5hZ2VtZW50IHN5c2NhbGxzKQoxNC8zMSBDaGVja2luZyBjb21taXQgYTA1ZTMxMWI0
-YTg1IChsaW51eC11c2VyOiBVc2UgZ3Vlc3RfcmFuZ2VfdmFsaWQgaW4gYWNjZXNzX29rKQoxNS8z
-MSBDaGVja2luZyBjb21taXQgMzBkMGE0NTBhOWZiIChleGVjOiBSZW5hbWUgZ3Vlc3Rfe2FkZHIs
-cmFuZ2V9X3ZhbGlkIHRvICpfdW50YWdnZWQpCjE2LzMxIENoZWNraW5nIGNvbW1pdCA4Mzk3Zjdj
-ZGQ2NGUgKGxpbnV4LXVzZXI6IFVzZSBjcHVfdW50YWdnZWRfYWRkciBpbiBhY2Nlc3Nfb2s7IHNw
-bGl0IG91dCAqX3VudGFnZ2VkKQpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFs
-bCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMzMjogRklMRTogbGludXgtdXNlci9lbGZsb2FkLmM6
-MzUwMzoKKyAgICBpZiAoIWFjY2Vzc19va191bnRhZ2dlZChWRVJJRllfUkVBRCwgdm1hLT52bWFf
-c3RhcnQsIFRBUkdFVF9QQUdFX1NJWkUpKQpbLi4uXQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5p
-bmdzLCAxMDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTYvMzEgaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KCjE3LzMxIENoZWNraW5nIGNvbW1pdCAyMTk1ZjAzOTc1OTcgKGxpbnV4LXVzZXI6IE1v
-dmUgbG9ja191c2VyIGV0IGFsIG91dCBvZiBsaW5lKQpFUlJPUjogZXh0ZXJucyBzaG91bGQgYmUg
-YXZvaWRlZCBpbiAuYyBmaWxlcwojMTE3OiBGSUxFOiBsaW51eC11c2VyL3VhY2Nlc3MuYzoyOToK
-K3ZvaWQgdW5sb2NrX3VzZXIodm9pZCAqaG9zdF9wdHIsIGFiaV91bG9uZyBndWVzdF9hZGRyLCBs
-b25nIGxlbik7Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDExNSBsaW5lcyBjaGVja2Vk
-CgpQYXRjaCAxNy8zMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTgvMzEgQ2hlY2tpbmcg
-Y29tbWl0IDU4MDUwNmZjMGY2NCAobGludXgtdXNlcjogRml4IHR5cGVzIGluIHVhY2Nlc3MuYykK
-RVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzg4OiBGSUxFOiBs
-aW51eC11c2VyL3VhY2Nlc3MuYzoyOToKK3ZvaWQgdW5sb2NrX3VzZXIodm9pZCAqaG9zdF9wdHIs
-IGFiaV91bG9uZyBndWVzdF9hZGRyLCBzaXplX3QgbGVuKTsKCnRvdGFsOiAxIGVycm9ycywgMCB3
-YXJuaW5ncywgMTUwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE4LzMxIGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCgoxOS8zMSBDaGVja2luZyBjb21taXQgYzY2MDEyYmU1NGE0IChsaW51eC11c2Vy
-OiBIYW5kbGUgdGFncyBpbiBsb2NrX3VzZXIvdW5sb2NrX3VzZXIpCjIwLzMxIENoZWNraW5nIGNv
-bW1pdCA0YTYzNTYxNmUyNjUgKGxpbnV4LXVzZXIvYWFyY2g2NDogSW1wbGVtZW50IFBSX1RBR0dF
-RF9BRERSX0VOQUJMRSkKMjEvMzEgQ2hlY2tpbmcgY29tbWl0IDc4YTlkZWMxNTQ0ZCAodGFyZ2V0
-L2FybTogSW1wcm92ZSBnZW5fdG9wX2J5dGVfaWdub3JlKQoyMi8zMSBDaGVja2luZyBjb21taXQg
-Y2I3OGMzYzI3ZTMwICh0YXJnZXQvYXJtOiBVc2UgdGhlIHByb3BlciBUQkkgc2V0dGluZ3MgZm9y
-IGxpbnV4LXVzZXIpCjIzLzMxIENoZWNraW5nIGNvbW1pdCA5MDBiMDg2NzFmZDQgKGxpbnV4LXVz
-ZXIvYWFyY2g2NDogSW1wbGVtZW50IFBSX01URV9UQ0YgYW5kIFBSX01URV9UQUcpCjI0LzMxIENo
-ZWNraW5nIGNvbW1pdCA2M2FhZWNhYmQ5ZjggKGxpbnV4LXVzZXIvYWFyY2g2NDogSW1wbGVtZW50
-IFBST1RfTVRFKQoyNS8zMSBDaGVja2luZyBjb21taXQgYjQwNDkwZTg0ZWRhICh0YXJnZXQvYXJt
-OiBTcGxpdCBvdXQgc3luZHJvbWUuaCBmcm9tIGludGVybmFscy5oKQpXQVJOSU5HOiBhZGRlZCwg
-bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
-CiMyODI6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdz
-LCA1MzAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjUvMzEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KMjYvMzEgQ2hlY2tpbmcgY29tbWl0IDJkZDU3Mzg2MWZkMiAobGludXgtdXNlci9hYXJjaDY0
-OiBQYXNzIHN5bmRyb21lIHRvIEVYQ18qX0FCT1JUKQoyNy8zMSBDaGVja2luZyBjb21taXQgODc5
-ZGExMjA4M2I3IChsaW51eC11c2VyL2FhcmNoNjQ6IFNpZ25hbCBTRUdWX01URVNFUlIgZm9yIHN5
-bmMgdGFnIGNoZWNrIGZhdWx0KQoyOC8zMSBDaGVja2luZyBjb21taXQgM2QwOWY2YzkwZTkxIChs
-aW51eC11c2VyL2FhcmNoNjQ6IFNpZ25hbCBTRUdWX01URUFFUlIgZm9yIGFzeW5jIHRhZyBjaGVj
-ayBlcnJvcikKMjkvMzEgQ2hlY2tpbmcgY29tbWl0IDlkZjNkMjg4NDU2OSAodGFyZ2V0L2FybTog
-QWRkIGFsbG9jYXRpb24gdGFnIHN0b3JhZ2UgZm9yIHVzZXIgbW9kZSkKMzAvMzEgQ2hlY2tpbmcg
-Y29tbWl0IDA5MDNkNTk0NWU0ZSAodGFyZ2V0L2FybTogRW5hYmxlIE1URSBmb3IgdXNlci1vbmx5
-KQozMS8zMSBDaGVja2luZyBjb21taXQgNGNmZWVkZWUxNmQ0ICh0ZXN0cy90Y2cvYWFyY2g2NDog
-QWRkIG10ZSBzbW9rZSB0ZXN0cykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmls
-ZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmlsZSBtb2Rl
-IDEwMDY0NAoKRVJST1I6IHRyYWlsaW5nIHN0YXRlbWVudHMgc2hvdWxkIGJlIG9uIG5leHQgbGlu
-ZQojMTc3OiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9tdGUtMy5jOjUwOgorICAgIHdoaWxlICgx
-KTsKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBz
-dGF0ZW1lbnQKIzE3NzogRklMRTogdGVzdHMvdGNnL2FhcmNoNjQvbXRlLTMuYzo1MDoKKyAgICB3
-aGlsZSAoMSk7ClsuLi5dCgpFUlJPUjogdXNlIHFlbXVfcmVhbF9ob3N0X3BhZ2Vfc2l6ZSBpbnN0
-ZWFkIG9mIGdldHBhZ2VzaXplKCkKIzIxNTogRklMRTogdGVzdHMvdGNnL2FhcmNoNjQvbXRlLTQu
-YzozMToKKyAgICBzaXplX3Qgc2l6ZSA9IGdldHBhZ2VzaXplKCkgKiA0OwoKdG90YWw6IDMgZXJy
-b3JzLCAxIHdhcm5pbmdzLCAyNTEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMzEvMzEgaGFzIHN0eWxl
-IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
-c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
-SCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRl
-ZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
-aGV3Lm9yZy9sb2dzLzIwMjEwMjEyMTg0OTAyLjEyNTEwNDQtMS1yaWNoYXJkLmhlbmRlcnNvbkBs
-aW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
-ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
-bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 2/5/21 5:52 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 05.02.2021 14:43, Alberto Garcia wrote:
+>> On Tue 02 Feb 2021 01:49:50 PM CET, Vladimir Sementsov-Ogievskiy wrote:
+>>> -Qcow2BitmapInfoList *qcow2_get_bitmap_info_list(BlockDriverState *bs,
+>>> -                                                Error **errp)
+>>> +bool qcow2_get_bitmap_info_list(BlockDriverState *bs,
+>>> +                                Qcow2BitmapInfoList **info_list,
+>>> Error **errp)
+>>>   {
+>>>       BDRVQcow2State *s = bs->opaque;
+>>>       Qcow2BitmapList *bm_list;
+>>>       Qcow2Bitmap *bm;
+>>> -    Qcow2BitmapInfoList *list = NULL;
+>>> -    Qcow2BitmapInfoList **tail = &list;
+>>>         if (s->nb_bitmaps == 0) {
+>>> -        return NULL;
+>>> +        *info_list = NULL;
+>>> +        return true;
+>>>       }
+>>>         bm_list = bitmap_list_load(bs, s->bitmap_directory_offset,
+>>>                                  s->bitmap_directory_size, errp);
+>>> -    if (bm_list == NULL) {
+>>> -        return NULL;
+>>> +    if (!bm_list) {
+>>> +        return false;
+>>>       }
+>>>   +    *info_list = NULL;
+>>> +
+>>>       QSIMPLEQ_FOREACH(bm, bm_list, entry) {
+>>>           Qcow2BitmapInfo *info = g_new0(Qcow2BitmapInfo, 1);
+>>>           info->granularity = 1U << bm->granularity_bits;
+>>>           info->name = g_strdup(bm->name);
+>>>           info->flags = get_bitmap_info_flags(bm->flags &
+>>> ~BME_RESERVED_FLAGS);
+>>> -        QAPI_LIST_APPEND(tail, info);
+>>> +        QAPI_LIST_APPEND(info_list, info);
+>>>       }
+>>>         bitmap_list_free(bm_list);
+>>>   -    return list;
+>>> +    return true;
+>>>   }
+>>
+>> Maybe I'm reading this wrong but...
+>>
+>> In the original code you had the head and tail of the list ('list' and
+>> 'tail') then you would append items to the tail and finally return the
+>> head.
+>>
+>> However the new code only uses and updates 'info_list' and it does not
+>> keep the head anywhere, so what the caller gets is a pointer to the
+>> tail.
+>>
+> 
+> No. *info_list is modified only on the first loop iteration. And than
+> info_list is switched to &(*(info_list))->next, so on second iteration
+> we will modify @next field of first element, not original *info_list.
+
+Elsewhere when making these types of conversions, Markus suggested that
+I keep a separate tail variable, initialized by the parameter info_list,
+to make it more apparent.  As in squashing the patch below:
+
+With that, it looks this series is reviewed, so I'm planning on taking
+it through my dirty-bitmaps tree (perhaps I'm stretching the fact that
+patch 10/14 is definitely dirty-bitmaps into taking the whole series,
+but I doubt I'll hear any complaints from other block maintainers)
+
+
+diff --git i/block/qcow2-bitmap.c w/block/qcow2-bitmap.c
+index e50da1ee7da3..f417f9ccb195 100644
+--- i/block/qcow2-bitmap.c
++++ w/block/qcow2-bitmap.c
+@@ -1103,6 +1103,7 @@ bool qcow2_get_bitmap_info_list(BlockDriverState *bs,
+     BDRVQcow2State *s = bs->opaque;
+     Qcow2BitmapList *bm_list;
+     Qcow2Bitmap *bm;
++    Qcow2BitmapInfoList **tail;
+
+     if (s->nb_bitmaps == 0) {
+         *info_list = NULL;
+@@ -1116,13 +1117,14 @@ bool qcow2_get_bitmap_info_list(BlockDriverState
+*bs,
+     }
+
+     *info_list = NULL;
++    tail = info_list;
+
+     QSIMPLEQ_FOREACH(bm, bm_list, entry) {
+         Qcow2BitmapInfo *info = g_new0(Qcow2BitmapInfo, 1);
+         info->granularity = 1U << bm->granularity_bits;
+         info->name = g_strdup(bm->name);
+         info->flags = get_bitmap_info_flags(bm->flags &
+~BME_RESERVED_FLAGS);
+-        QAPI_LIST_APPEND(info_list, info);
++        QAPI_LIST_APPEND(tail, info);
+     }
+
+     bitmap_list_free(bm_list);
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
