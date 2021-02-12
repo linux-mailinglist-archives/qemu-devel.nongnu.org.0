@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0284E319F23
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 13:51:41 +0100 (CET)
-Received: from localhost ([::1]:52528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A280D319E93
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 13:39:47 +0100 (CET)
+Received: from localhost ([::1]:51428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAXvA-0008R0-2W
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 07:51:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60098)
+	id 1lAXje-00032M-Lp
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 07:39:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgg-0001FH-5d
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:43 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48608)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgX-0001Ai-LC
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:34 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgU-0006Kf-Nd
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:41 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lAXgU-0006Kg-QA
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 07:36:33 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 50A3DB913;
+ by mx2.suse.de (Postfix) with ESMTP id 525E6B914;
  Fri, 12 Feb 2021 12:36:27 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -28,14 +28,13 @@ To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC v18 05/15] accel-cpu: make cpu_realizefn return a bool
-Date: Fri, 12 Feb 2021 13:36:12 +0100
-Message-Id: <20210212123622.15834-6-cfontana@suse.de>
+Subject: [RFC v18 06/15] meson: add target_user_arch
+Date: Fri, 12 Feb 2021 13:36:13 +0100
+Message-Id: <20210212123622.15834-7-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210212123622.15834-1-cfontana@suse.de>
 References: <20210212123622.15834-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -44,7 +43,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,186 +62,296 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-overall, all devices' realize functions take an Error **errp, but return void.
+the lack of target_user_arch makes it hard to fully leverage the
+build system in order to separate user code from softmmu code.
 
-hw/core/qdev.c code, which realizes devices, therefore does:
-
-local_err = NULL;
-dc->realize(dev, &local_err);
-if (local_err != NULL) {
-    goto fail;
-}
-
-However, we can improve at least accel_cpu to return a meaningful bool value.
+Provide it, so that we can avoid the proliferation of #ifdef
+in target code.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/accel-cpu.h | 2 +-
- include/qemu/accel.h        | 2 +-
- target/i386/host-cpu.h      | 2 +-
- accel/accel-common.c        | 6 +++---
- cpu.c                       | 5 +++--
- target/i386/host-cpu.c      | 5 +++--
- target/i386/kvm/kvm-cpu.c   | 4 ++--
- target/i386/tcg/tcg-cpu.c   | 6 ++++--
- 8 files changed, 18 insertions(+), 14 deletions(-)
+ meson.build                   | 5 +++++
+ target/alpha/meson.build      | 3 +++
+ target/arm/meson.build        | 2 ++
+ target/cris/meson.build       | 3 +++
+ target/hppa/meson.build       | 3 +++
+ target/i386/meson.build       | 2 ++
+ target/m68k/meson.build       | 3 +++
+ target/microblaze/meson.build | 3 +++
+ target/mips/meson.build       | 3 +++
+ target/nios2/meson.build      | 3 +++
+ target/openrisc/meson.build   | 3 +++
+ target/ppc/meson.build        | 3 +++
+ target/riscv/meson.build      | 3 +++
+ target/s390x/meson.build      | 3 +++
+ target/sh4/meson.build        | 3 +++
+ target/sparc/meson.build      | 3 +++
+ target/tilegx/meson.build     | 3 +++
+ target/tricore/meson.build    | 3 +++
+ target/xtensa/meson.build     | 3 +++
+ 19 files changed, 57 insertions(+)
 
-diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
-index 24a6697412..5dbfd79955 100644
---- a/include/hw/core/accel-cpu.h
-+++ b/include/hw/core/accel-cpu.h
-@@ -32,7 +32,7 @@ typedef struct AccelCPUClass {
+diff --git a/meson.build b/meson.build
+index a923f249d8..1a355b8c1e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1734,6 +1734,7 @@ modules = {}
+ hw_arch = {}
+ target_arch = {}
+ target_softmmu_arch = {}
++target_user_arch = {}
  
-     void (*cpu_class_init)(CPUClass *cc);
-     void (*cpu_instance_init)(CPUState *cpu);
--    void (*cpu_realizefn)(CPUState *cpu, Error **errp);
-+    bool (*cpu_realizefn)(CPUState *cpu, Error **errp);
- } AccelCPUClass;
+ ###############
+ # Trace files #
+@@ -2131,6 +2132,10 @@ foreach target : target_dirs
+     abi = config_target['TARGET_ABI_DIR']
+     target_type='user'
+     qemu_target_name = 'qemu-' + target_name
++    t = target_user_arch[arch].apply(config_target, strict: false)
++    arch_srcs += t.sources()
++    arch_deps += t.dependencies()
++
+     if 'CONFIG_LINUX_USER' in config_target
+       base_dir = 'linux-user'
+       target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
+diff --git a/target/alpha/meson.build b/target/alpha/meson.build
+index 1aec55abb4..1b0555d3ee 100644
+--- a/target/alpha/meson.build
++++ b/target/alpha/meson.build
+@@ -14,5 +14,8 @@ alpha_ss.add(files(
+ alpha_softmmu_ss = ss.source_set()
+ alpha_softmmu_ss.add(files('machine.c'))
  
- #endif /* ACCEL_CPU_H */
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index da0c8ab523..4f4c283f6f 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -89,6 +89,6 @@ void accel_cpu_instance_init(CPUState *cpu);
-  * @cpu: The CPU that needs to call accel-specific cpu realization.
-  * @errp: currently unused.
-  */
--void accel_cpu_realizefn(CPUState *cpu, Error **errp);
-+bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
++alpha_user_ss = ss.source_set()
++
+ target_arch += {'alpha': alpha_ss}
+ target_softmmu_arch += {'alpha': alpha_softmmu_ss}
++target_user_arch += {'alpha': alpha_user_ss}
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 15b936c101..a96af5ee1b 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -53,6 +53,8 @@ arm_softmmu_ss.add(files(
+   'monitor.c',
+   'psci.c',
+ ))
++arm_user_ss = ss.source_set()
  
- #endif /* QEMU_ACCEL_H */
-diff --git a/target/i386/host-cpu.h b/target/i386/host-cpu.h
-index b47bc0943f..6a9bc918ba 100644
---- a/target/i386/host-cpu.h
-+++ b/target/i386/host-cpu.h
-@@ -12,7 +12,7 @@
+ target_arch += {'arm': arm_ss}
+ target_softmmu_arch += {'arm': arm_softmmu_ss}
++target_user_arch += {'arm': arm_user_ss}
+diff --git a/target/cris/meson.build b/target/cris/meson.build
+index 67c3793c85..7fd81e0348 100644
+--- a/target/cris/meson.build
++++ b/target/cris/meson.build
+@@ -10,5 +10,8 @@ cris_ss.add(files(
+ cris_softmmu_ss = ss.source_set()
+ cris_softmmu_ss.add(files('mmu.c', 'machine.c'))
  
- void host_cpu_instance_init(X86CPU *cpu);
- void host_cpu_max_instance_init(X86CPU *cpu);
--void host_cpu_realizefn(CPUState *cs, Error **errp);
-+bool host_cpu_realizefn(CPUState *cs, Error **errp);
++cris_user_ss = ss.source_set()
++
+ target_arch += {'cris': cris_ss}
+ target_softmmu_arch += {'cris': cris_softmmu_ss}
++target_user_arch += {'cris': cris_user_ss}
+diff --git a/target/hppa/meson.build b/target/hppa/meson.build
+index 8a7ff82efc..85ad314671 100644
+--- a/target/hppa/meson.build
++++ b/target/hppa/meson.build
+@@ -15,5 +15,8 @@ hppa_ss.add(files(
+ hppa_softmmu_ss = ss.source_set()
+ hppa_softmmu_ss.add(files('machine.c'))
  
- void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping);
++hppa_user_ss = ss.source_set()
++
+ target_arch += {'hppa': hppa_ss}
+ target_softmmu_arch += {'hppa': hppa_softmmu_ss}
++target_user_arch += {'hppa': hppa_user_ss}
+diff --git a/target/i386/meson.build b/target/i386/meson.build
+index fd24479590..cac26a4581 100644
+--- a/target/i386/meson.build
++++ b/target/i386/meson.build
+@@ -19,6 +19,7 @@ i386_softmmu_ss.add(files(
+   'machine.c',
+   'monitor.c',
+ ))
++i386_user_ss = ss.source_set()
  
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 0f6fb4fb66..d77c09d7b5 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -98,14 +98,14 @@ void accel_cpu_instance_init(CPUState *cpu)
-     }
- }
+ subdir('kvm')
+ subdir('hax')
+@@ -28,3 +29,4 @@ subdir('tcg')
  
--void accel_cpu_realizefn(CPUState *cpu, Error **errp)
-+bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
+ target_arch += {'i386': i386_ss}
+ target_softmmu_arch += {'i386': i386_softmmu_ss}
++target_user_arch += {'i386': i386_user_ss}
+diff --git a/target/m68k/meson.build b/target/m68k/meson.build
+index 05cd9fbd1e..b507682684 100644
+--- a/target/m68k/meson.build
++++ b/target/m68k/meson.build
+@@ -13,5 +13,8 @@ m68k_ss.add(files(
+ m68k_softmmu_ss = ss.source_set()
+ m68k_softmmu_ss.add(files('monitor.c'))
  
-     if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
--        /* NB: errp parameter is unused currently */
--        cc->accel_cpu->cpu_realizefn(cpu, errp);
-+        return cc->accel_cpu->cpu_realizefn(cpu, errp);
-     }
-+    return true;
- }
++m68k_user_ss = ss.source_set()
++
+ target_arch += {'m68k': m68k_ss}
+ target_softmmu_arch += {'m68k': m68k_softmmu_ss}
++target_user_arch += {'m68k': m68k_user_ss}
+diff --git a/target/microblaze/meson.build b/target/microblaze/meson.build
+index 05ee0ec163..52d8fcb0a3 100644
+--- a/target/microblaze/meson.build
++++ b/target/microblaze/meson.build
+@@ -16,5 +16,8 @@ microblaze_softmmu_ss.add(files(
+   'machine.c',
+ ))
  
- static const TypeInfo accel_cpu_type = {
-diff --git a/cpu.c b/cpu.c
-index 25e6fbfa2c..34a0484bf4 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -130,8 +130,9 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     CPUClass *cc = CPU_GET_CLASS(cpu);
++microblaze_user_ss = ss.source_set()
++
+ target_arch += {'microblaze': microblaze_ss}
+ target_softmmu_arch += {'microblaze': microblaze_softmmu_ss}
++target_user_arch += {'microblaze': microblaze_user_ss}
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index 9741545440..30843c1521 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -36,5 +36,8 @@ mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'cp0_helper.c',
+ ))
  
-     cpu_list_add(cpu);
--    accel_cpu_realizefn(cpu, errp);
--
-+    if (!accel_cpu_realizefn(cpu, errp)) {
-+        return;
-+    }
- #ifdef CONFIG_TCG
-     /* NB: errp parameter is unused currently */
-     if (tcg_enabled()) {
-diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
-index d07d41c34c..4ea9e354ea 100644
---- a/target/i386/host-cpu.c
-+++ b/target/i386/host-cpu.c
-@@ -80,7 +80,7 @@ static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu)
-     return phys_bits;
- }
++mips_user_ss = ss.source_set()
++
+ target_arch += {'mips': mips_ss}
+ target_softmmu_arch += {'mips': mips_softmmu_ss}
++target_user_arch += {'mips': mips_user_ss}
+diff --git a/target/nios2/meson.build b/target/nios2/meson.build
+index e643917db1..00367056fa 100644
+--- a/target/nios2/meson.build
++++ b/target/nios2/meson.build
+@@ -11,5 +11,8 @@ nios2_ss.add(files(
+ nios2_softmmu_ss = ss.source_set()
+ nios2_softmmu_ss.add(files('monitor.c'))
  
--void host_cpu_realizefn(CPUState *cs, Error **errp)
-+bool host_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -97,10 +97,11 @@ void host_cpu_realizefn(CPUState *cs, Error **errp)
-             error_setg(errp, "phys-bits should be between 32 and %u "
-                        " (but is %u)",
-                        TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
--            return;
-+            return false;
-         }
-         cpu->phys_bits = phys_bits;
-     }
-+    return true;
- }
++nios2_user_ss = ss.source_set()
++
+ target_arch += {'nios2': nios2_ss}
+ target_softmmu_arch += {'nios2': nios2_softmmu_ss}
++target_user_arch += {'nios2': nios2_user_ss}
+diff --git a/target/openrisc/meson.build b/target/openrisc/meson.build
+index 9774a58306..794a9e8161 100644
+--- a/target/openrisc/meson.build
++++ b/target/openrisc/meson.build
+@@ -19,5 +19,8 @@ openrisc_ss.add(files(
+ openrisc_softmmu_ss = ss.source_set()
+ openrisc_softmmu_ss.add(files('machine.c'))
  
- #define CPUID_MODEL_ID_SZ 48
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index c23bbe6c50..c660ad4293 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -18,7 +18,7 @@
- #include "kvm_i386.h"
- #include "hw/core/accel-cpu.h"
++openrisc_user_ss = ss.source_set()
++
+ target_arch += {'openrisc': openrisc_ss}
+ target_softmmu_arch += {'openrisc': openrisc_softmmu_ss}
++target_user_arch += {'openrisc': openrisc_user_ss}
+diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+index bbfef90e08..cdd69bf989 100644
+--- a/target/ppc/meson.build
++++ b/target/ppc/meson.build
+@@ -33,5 +33,8 @@ ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
+   'mmu-radix64.c',
+ ))
  
--static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool kvm_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -41,7 +41,7 @@ static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
-                                                    MSR_IA32_UCODE_REV);
-         }
-     }
--    host_cpu_realizefn(cs, errp);
-+    return host_cpu_realizefn(cs, errp);
- }
++ppc_user_ss = ss.source_set()
++
+ target_arch += {'ppc': ppc_ss}
+ target_softmmu_arch += {'ppc': ppc_softmmu_ss}
++target_user_arch += {'ppc': ppc_user_ss}
+diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+index 14a5c62dac..a55851336b 100644
+--- a/target/riscv/meson.build
++++ b/target/riscv/meson.build
+@@ -31,5 +31,8 @@ riscv_softmmu_ss.add(files(
+   'machine.c'
+ ))
  
- /*
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 1d3d6d1c6a..23e1f5f0c3 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -96,7 +96,7 @@ static void x86_cpu_machine_done(Notifier *n, void *unused)
-     }
- }
++riscv_user_ss = ss.source_set()
++
+ target_arch += {'riscv': riscv_ss}
+ target_softmmu_arch += {'riscv': riscv_softmmu_ss}
++target_user_arch += {'riscv': riscv_user_ss}
+diff --git a/target/s390x/meson.build b/target/s390x/meson.build
+index c42eadb7d2..1219f64112 100644
+--- a/target/s390x/meson.build
++++ b/target/s390x/meson.build
+@@ -58,5 +58,8 @@ if host_machine.cpu_family() == 's390x' and cc.has_link_argument('-Wl,--s390-pgs
+                        if_true: declare_dependency(link_args: ['-Wl,--s390-pgste']))
+ endif
  
--static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
++s390x_user_ss = ss.source_set()
++
+ target_arch += {'s390x': s390x_ss}
+ target_softmmu_arch += {'s390x': s390x_softmmu_ss}
++target_user_arch += {'s390x': s390x_user_ss}
+diff --git a/target/sh4/meson.build b/target/sh4/meson.build
+index 56a57576da..5a05729bc1 100644
+--- a/target/sh4/meson.build
++++ b/target/sh4/meson.build
+@@ -10,5 +10,8 @@ sh4_ss.add(files(
+ sh4_softmmu_ss = ss.source_set()
+ sh4_softmmu_ss.add(files('monitor.c'))
  
-@@ -132,12 +132,14 @@ static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-     /* ... SMRAM with higher priority, linked from /machine/smram.  */
-     cpu->machine_done.notify = x86_cpu_machine_done;
-     qemu_add_machine_init_done_notifier(&cpu->machine_done);
-+    return true;
- }
++sh4_user_ss = ss.source_set()
++
+ target_arch += {'sh4': sh4_ss}
+ target_softmmu_arch += {'sh4': sh4_softmmu_ss}
++target_user_arch += {'sh4': sh4_user_ss}
+diff --git a/target/sparc/meson.build b/target/sparc/meson.build
+index a3638b9503..cc77a77064 100644
+--- a/target/sparc/meson.build
++++ b/target/sparc/meson.build
+@@ -19,5 +19,8 @@ sparc_softmmu_ss.add(files(
+   'monitor.c',
+ ))
  
- #else /* CONFIG_USER_ONLY */
++sparc_user_ss = ss.source_set()
++
+ target_arch += {'sparc': sparc_ss}
+ target_softmmu_arch += {'sparc': sparc_softmmu_ss}
++target_user_arch += {'sparc': sparc_user_ss}
+diff --git a/target/tilegx/meson.build b/target/tilegx/meson.build
+index 678590439c..23dab8b9a1 100644
+--- a/target/tilegx/meson.build
++++ b/target/tilegx/meson.build
+@@ -9,5 +9,8 @@ tilegx_ss.add(zlib)
  
--static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
- {
-+    return true;
- }
+ tilegx_softmmu_ss = ss.source_set()
  
- #endif /* !CONFIG_USER_ONLY */
++tilegx_user_ss = ss.source_set()
++
+ target_arch += {'tilegx': tilegx_ss}
+ target_softmmu_arch += {'tilegx': tilegx_softmmu_ss}
++target_user_arch += {'tilegx': tilegx_user_ss}
+diff --git a/target/tricore/meson.build b/target/tricore/meson.build
+index 0ccc829517..7086ae1a22 100644
+--- a/target/tricore/meson.build
++++ b/target/tricore/meson.build
+@@ -11,5 +11,8 @@ tricore_ss.add(zlib)
+ 
+ tricore_softmmu_ss = ss.source_set()
+ 
++tricore_user_ss = ss.source_set()
++
+ target_arch += {'tricore': tricore_ss}
+ target_softmmu_arch += {'tricore': tricore_softmmu_ss}
++target_user_arch += {'tricore': tricore_user_ss}
+diff --git a/target/xtensa/meson.build b/target/xtensa/meson.build
+index dd750a977e..949b2c8334 100644
+--- a/target/xtensa/meson.build
++++ b/target/xtensa/meson.build
+@@ -28,5 +28,8 @@ xtensa_softmmu_ss.add(files(
+   'xtensa-semi.c',
+ ))
+ 
++xtensa_user_ss = ss.source_set()
++
+ target_arch += {'xtensa': xtensa_ss}
+ target_softmmu_arch += {'xtensa': xtensa_softmmu_ss}
++target_user_arch += {'xtensa': xtensa_user_ss}
 -- 
 2.26.2
 
