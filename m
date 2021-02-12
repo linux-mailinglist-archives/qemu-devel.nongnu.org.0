@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E89C31A755
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:10:53 +0100 (CET)
-Received: from localhost ([::1]:40546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E878431A759
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:14:45 +0100 (CET)
+Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAgeK-0007I6-Gp
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:10:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51562)
+	id 1lAgi3-0001Lq-He
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:14:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgbg-0006FZ-Dy; Fri, 12 Feb 2021 17:08:08 -0500
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:42216)
+ id 1lAgce-00070F-D0; Fri, 12 Feb 2021 17:09:08 -0500
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:46138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgbe-0000YB-UE; Fri, 12 Feb 2021 17:08:08 -0500
-Received: by mail-io1-xd31.google.com with SMTP id u20so727206iot.9;
- Fri, 12 Feb 2021 14:08:06 -0800 (PST)
+ id 1lAgcc-0000xL-LD; Fri, 12 Feb 2021 17:09:08 -0500
+Received: by mail-io1-xd2b.google.com with SMTP id u8so702219ior.13;
+ Fri, 12 Feb 2021 14:09:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=D7H6kVeasYN/wd1RTE+1vNUc42p999mTFROM/g9IYzw=;
- b=P1fUnmRupiyVIPj5PF8RHVLrVYvkAYofTVZikuyVHYZ7MVfvR4upnOiGGb8sS4pA6c
- FyT5ahBMCrHjbTrRgGCBg2U7zUkjWJpTIHNexFNifsIghdj2CJ3Y9bNqr2sMJoufmvxy
- NtnICSw6Xlgup4otkXnqAxAlzrCx0Pt9bIQomEBNlvhhkKyJ9OXzGxz/Rs1SP3lGa/n7
- cw75bThic4WHun2DAvq16tMeBPQZIYXNKrKBiJvYmdl8kXES3cZoqH492SvabWXvBTE8
- 26NSc7gPy5kLN/laLaTbUH3x+fdk/c8naBPianRECYA7xPfwNCKroi2t2zSI+9FrbtLH
- hT2Q==
+ :cc; bh=BVyBH/CwJNMTMooaiCv6r+r9iTHgOAa/UjqD1FaGRU8=;
+ b=BY6UksFJjo1sWqxF5jxiY1YKsFTop+6cSJQ3APKq0XMOYAsO43Oy95Z/y5+DAkMXqd
+ FUDDh7iPhhUwt8s7Smv6/LkYpmd43FNqIGvt146UeLYJjpch075+p689KS3COGVhG4Re
+ uSeOSEiz4HFNQDsBFrK8/XTg4a/AExndy2NzdxPcfyYMr/lP4dLX722EqNOqRd0gqF3v
+ CmaWK/NE9za4HAjap0g5dewdqoNeV8O2UEy721Of0sjze0U+6NiJD0/n1BubjNkes/+j
+ NHPjGBTAqtx1bIe7m8D9q0nUvTIqyR6hMFQlL7klgkje2efW63Xe5Vf4X8R48njFgcNO
+ Szxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=D7H6kVeasYN/wd1RTE+1vNUc42p999mTFROM/g9IYzw=;
- b=tzjc21Zbk84JeOvY78l4OidheywCqSOWEzItRjPPrsdNvnPGu0MQBQ4L2q9uUH8nIE
- qz5Brrqh5du/TeoftekObv3/RFc0Q7c289zoyOv9WE7DSX79qBo0MqdNadOhTgEYPwVD
- nml09NRv3whmmEsEOnDWwgG/Bx0VjL2pgMUAoQZyYKN4kzbmhuU9wvO6iaICmRvKXnwR
- 0Ekmrj22SxVamGH7rUWjRQFlvCkvP9vizfgFR+2PzoZDdNqh6i+3ecWRUX06DoG16zla
- V19Q4IFO2+nDFATwmLRM0CGjVVoqeyEc4rkmKBguE+vqdN/whRFwaqFdSb/Il4Dp58e/
- ZWZA==
-X-Gm-Message-State: AOAM532+jnLQw3DPkAnFeCkAcV8B9URjordUManjI77Z1z6ZnupPIe6Z
- zAFyi/ykaY3hZ54ZkcEASSWVzEenKmXsmNXnuHs=
-X-Google-Smtp-Source: ABdhPJwUQYnV82RoMsW+LCn5WjjniSjAk+BeMXnMMJPW/RSpryBHi39hnF0bs+/fwXFf1xsbdvFK/jqSiVk8h2tnhX0=
-X-Received: by 2002:a6b:7d42:: with SMTP id d2mr3822488ioq.176.1613167685374; 
- Fri, 12 Feb 2021 14:08:05 -0800 (PST)
+ bh=BVyBH/CwJNMTMooaiCv6r+r9iTHgOAa/UjqD1FaGRU8=;
+ b=A6giY9O3TetJNsY5ItQm14YOTUFYd9n8bYhqx++MJjVwMdZ4dnkVnBE15ZGAkRwEX0
+ YdLyeN+U243GmC/3L0dw1ESX0hiz3fs7BkhceSb9C1HHRhn+ncsQaFSGlKlIl89AfHbu
+ DlSdFj12qF5FwlW/jdbSxt5UbZ5lFmtjHj1dOXTKKJhkjNbCH3O6y5WKpuYmJIuY9Hmp
+ sT3BVShS+cJJ6sYsnBH3gZ6PhLQVHxdIlYJkwNhR1bjhNbdbP8fzGG+9BqqOZj7WEYfD
+ oBuUgRWptIq7WTzmWmzaS+7bb70ulvIkwWcQCip9TZzyl7ySVX6Z1fFpONK0CmQnOi/R
+ Xd5A==
+X-Gm-Message-State: AOAM533nGZElwshZlFRCMsxN81c2AWTBbcyRKGDgs60HNamr4udiTQIJ
+ 4zNaYLGPZLZT2YcnNOPCCc0nuhiRWI8x5Jc58ho=
+X-Google-Smtp-Source: ABdhPJywYidSR7O/9a2ogQBlj4em3rIJK6WOdKX9+z8+rmNh/84kWBtRmnWCWA0Gyt4Zi67LVHuYqmL0PqxcWndXK4Q=
+X-Received: by 2002:a5d:854b:: with SMTP id b11mr3700676ios.105.1613167745358; 
+ Fri, 12 Feb 2021 14:09:05 -0800 (PST)
 MIME-Version: 1.0
 References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613031446-22154-6-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1613031446-22154-6-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613031446-22154-10-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1613031446-22154-10-git-send-email-sai.pavan.boddu@xilinx.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 12 Feb 2021 14:07:24 -0800
-Message-ID: <CAKmqyKN_RE4BNUgCzdq_T7vniFBL92RM80bPuGrD1kdbVsk0LQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 05/15] sd: emmc: support idle state in CMD2
+Date: Fri, 12 Feb 2021 14:08:24 -0800
+Message-ID: <CAKmqyKOZ3VS1n6xCvRzu6_VZb3g2sZS4VbZ6M0aopsXX00mG9Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 09/15] sd: emmc: Add support for emmc erase
 To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -92,39 +92,45 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 12:18 AM Sai Pavan Boddu
+On Thu, Feb 11, 2021 at 12:19 AM Sai Pavan Boddu
 <sai.pavan.boddu@xilinx.com> wrote:
 >
-> eMMC is expected to be in idle-state post CMD1. Ready state is an
-> intermediate stage which we don't come across in Device identification
-> mode.
+> Add CMD35 and CMD36 which sets the erase start and end.
 >
 > Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> ---
+>  hw/sd/sd.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index 236f2b8..7aab647 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -1544,6 +1544,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>
+>      /* Erase commands (Class 5) */
+>      case 32:   /* CMD32:  ERASE_WR_BLK_START */
+> +    case 35:
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Can you comment the CMD here?
+
+>          switch (sd->state) {
+>          case sd_transfer_state:
+>              sd->erase_start = req.arg;
+> @@ -1555,6 +1556,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>          break;
+>
+>      case 33:   /* CMD33:  ERASE_WR_BLK_END */
+> +    case 36:
+
+and here?
 
 Alistair
 
-> ---
->  hw/sd/sd.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index e3738b2..69289e0 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -1051,6 +1051,10 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          if (sd->spi)
->              goto bad_cmd;
 >          switch (sd->state) {
-> +        case sd_idle_state:
-> +            if (!sd->emmc) {
-> +                break;
-> +            }
->          case sd_ready_state:
->              sd->state = sd_identification_state;
->              return sd_r2_i;
+>          case sd_transfer_state:
+>              sd->erase_end = req.arg;
 > --
 > 2.7.4
 >
