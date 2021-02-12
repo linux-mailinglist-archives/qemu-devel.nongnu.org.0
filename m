@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E878431A759
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:14:45 +0100 (CET)
-Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C25031A75A
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:16:01 +0100 (CET)
+Received: from localhost ([::1]:47494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAgi3-0001Lq-He
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:14:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51782)
+	id 1lAgjI-0002Mv-Bl
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:16:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgce-00070F-D0; Fri, 12 Feb 2021 17:09:08 -0500
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:46138)
+ id 1lAgen-0000Dh-Sy; Fri, 12 Feb 2021 17:11:22 -0500
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:45849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgcc-0000xL-LD; Fri, 12 Feb 2021 17:09:08 -0500
-Received: by mail-io1-xd2b.google.com with SMTP id u8so702219ior.13;
- Fri, 12 Feb 2021 14:09:05 -0800 (PST)
+ id 1lAgej-0001wY-Lx; Fri, 12 Feb 2021 17:11:21 -0500
+Received: by mail-il1-x12f.google.com with SMTP id w1so554592ilm.12;
+ Fri, 12 Feb 2021 14:11:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BVyBH/CwJNMTMooaiCv6r+r9iTHgOAa/UjqD1FaGRU8=;
- b=BY6UksFJjo1sWqxF5jxiY1YKsFTop+6cSJQ3APKq0XMOYAsO43Oy95Z/y5+DAkMXqd
- FUDDh7iPhhUwt8s7Smv6/LkYpmd43FNqIGvt146UeLYJjpch075+p689KS3COGVhG4Re
- uSeOSEiz4HFNQDsBFrK8/XTg4a/AExndy2NzdxPcfyYMr/lP4dLX722EqNOqRd0gqF3v
- CmaWK/NE9za4HAjap0g5dewdqoNeV8O2UEy721Of0sjze0U+6NiJD0/n1BubjNkes/+j
- NHPjGBTAqtx1bIe7m8D9q0nUvTIqyR6hMFQlL7klgkje2efW63Xe5Vf4X8R48njFgcNO
- Szxg==
+ :cc; bh=plnOZBiWq6v6ObAMnijcQaUzJO+GXgJNWA7z10CoiVU=;
+ b=FsbgBhmZ/iAQUTg1m3ehzi2S1BxT/OOncyi4tsUnbv7Td1ooqVHY6ebjRAGdg5NG1t
+ dNzJyayqc7NQo9jnGJKZi7QMh2WAvsc75jnZxYMZj7H+xztI5wj5heNo04KNagrlhJGr
+ veA2oWptv7ZGefUdNhNaqLcpS5s2H2JRXaawthSljnnJm1yJDrKXvh6mPw1iOW1KUCeW
+ dHr/UFwrv/w7Odt/cBI8lyaWmrzvIIywHku7pD41Y5TdqItJduESpS66GOOvEFNx0j7v
+ hDDCGxmw0aEUYx3Qyt0ZIAG601rLEydDZ3rNkf/KaMenfh9AZbLTJPD5ftI5x9mKnY9H
+ dd1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BVyBH/CwJNMTMooaiCv6r+r9iTHgOAa/UjqD1FaGRU8=;
- b=A6giY9O3TetJNsY5ItQm14YOTUFYd9n8bYhqx++MJjVwMdZ4dnkVnBE15ZGAkRwEX0
- YdLyeN+U243GmC/3L0dw1ESX0hiz3fs7BkhceSb9C1HHRhn+ncsQaFSGlKlIl89AfHbu
- DlSdFj12qF5FwlW/jdbSxt5UbZ5lFmtjHj1dOXTKKJhkjNbCH3O6y5WKpuYmJIuY9Hmp
- sT3BVShS+cJJ6sYsnBH3gZ6PhLQVHxdIlYJkwNhR1bjhNbdbP8fzGG+9BqqOZj7WEYfD
- oBuUgRWptIq7WTzmWmzaS+7bb70ulvIkwWcQCip9TZzyl7ySVX6Z1fFpONK0CmQnOi/R
- Xd5A==
-X-Gm-Message-State: AOAM533nGZElwshZlFRCMsxN81c2AWTBbcyRKGDgs60HNamr4udiTQIJ
- 4zNaYLGPZLZT2YcnNOPCCc0nuhiRWI8x5Jc58ho=
-X-Google-Smtp-Source: ABdhPJywYidSR7O/9a2ogQBlj4em3rIJK6WOdKX9+z8+rmNh/84kWBtRmnWCWA0Gyt4Zi67LVHuYqmL0PqxcWndXK4Q=
-X-Received: by 2002:a5d:854b:: with SMTP id b11mr3700676ios.105.1613167745358; 
- Fri, 12 Feb 2021 14:09:05 -0800 (PST)
+ bh=plnOZBiWq6v6ObAMnijcQaUzJO+GXgJNWA7z10CoiVU=;
+ b=pQSN3hH3iQ0stIEC1y6JWkJ3ObZyWu4kyTv7UrxnKU+BsnggAp4DlAsPI+1fMm7QH/
+ Zdgg5BbUwflgREaDMP/wgGBwY8OrdM9lMxujSqHFKT9xY091Ws+97ANocT1lf/J6qmf9
+ infk4I21ezNDERo4INJLpqa0aVFFXqWm6etdg9PX+tBTWVnDBY0x0Li0XBepEAF7/uaL
+ bcE5O6JNGEURJsBlrY6S8aKXpNY8RkWsRHmnCgTsgWSwKo51NWYe10/NOX48PdUI0mPK
+ fpWLQvJLvhwgMnX3S7cdPdZu74Q/Xh085klk3iLYXyG0LW/WkDBb2rCJ2PTEe5REKHUA
+ 6pjQ==
+X-Gm-Message-State: AOAM530jCd2IpiD9ZP9usadhc0Y59svSMS+UJlE6oy5jcnLSaUMZE/bp
+ th1p+sH0v/xOZaVnNbal7QHRQGaSWvbFWO0431w=
+X-Google-Smtp-Source: ABdhPJyQ/SwxEBny0gEEtcJaITaq5MgFPfbcmHI5wUqjolOLlB+G3lx7SiLIXy3lA5KkPhM4Y4QX8UDT9XBSEj95MGY=
+X-Received: by 2002:a92:cda1:: with SMTP id g1mr4027131ild.267.1613167874337; 
+ Fri, 12 Feb 2021 14:11:14 -0800 (PST)
 MIME-Version: 1.0
 References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613031446-22154-10-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1613031446-22154-10-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613031446-22154-11-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1613031446-22154-11-git-send-email-sai.pavan.boddu@xilinx.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 12 Feb 2021 14:08:24 -0800
-Message-ID: <CAKmqyKOZ3VS1n6xCvRzu6_VZb3g2sZS4VbZ6M0aopsXX00mG9Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 09/15] sd: emmc: Add support for emmc erase
+Date: Fri, 12 Feb 2021 14:10:33 -0800
+Message-ID: <CAKmqyKOcADG6Dd=BQ3GwixNmEAKMUg7bR7Nhx4wc33iLrcZbvQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 10/15] sd: emmc: Update CID structure for eMMC
 To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -92,45 +92,87 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 12:19 AM Sai Pavan Boddu
+On Thu, Feb 11, 2021 at 12:30 AM Sai Pavan Boddu
 <sai.pavan.boddu@xilinx.com> wrote:
 >
-> Add CMD35 and CMD36 which sets the erase start and end.
+> CID structure is little different for eMMC, w.r.t to product name and
+> manufacturing date.
 >
 > Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 > ---
->  hw/sd/sd.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  hw/sd/sd.c | 52 +++++++++++++++++++++++++++++++++++-----------------
+>  1 file changed, 35 insertions(+), 17 deletions(-)
 >
 > diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 236f2b8..7aab647 100644
+> index 7aab647..45311fa 100644
 > --- a/hw/sd/sd.c
 > +++ b/hw/sd/sd.c
-> @@ -1544,6 +1544,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+> @@ -345,23 +345,41 @@ static void sd_set_scr(SDState *sd)
 >
->      /* Erase commands (Class 5) */
->      case 32:   /* CMD32:  ERASE_WR_BLK_START */
-> +    case 35:
+>  static void sd_set_cid(SDState *sd)
+>  {
+> -    sd->cid[0] = MID;          /* Fake card manufacturer ID (MID) */
+> -    sd->cid[1] = OID[0];       /* OEM/Application ID (OID) */
+> -    sd->cid[2] = OID[1];
+> -    sd->cid[3] = PNM[0];       /* Fake product name (PNM) */
+> -    sd->cid[4] = PNM[1];
+> -    sd->cid[5] = PNM[2];
+> -    sd->cid[6] = PNM[3];
+> -    sd->cid[7] = PNM[4];
+> -    sd->cid[8] = PRV;          /* Fake product revision (PRV) */
+> -    sd->cid[9] = 0xde;         /* Fake serial number (PSN) */
+> -    sd->cid[10] = 0xad;
+> -    sd->cid[11] = 0xbe;
+> -    sd->cid[12] = 0xef;
+> -    sd->cid[13] = 0x00 |       /* Manufacture date (MDT) */
+> -        ((MDT_YR - 2000) / 10);
+> -    sd->cid[14] = ((MDT_YR % 10) << 4) | MDT_MON;
+> -    sd->cid[15] = (sd_crc7(sd->cid, 15) << 1) | 1;
+> +    if (sd->emmc) {
+> +        sd->cid[0] = MID;
+> +        sd->cid[1] = 0x1;       /* CBX */
+> +        sd->cid[2] = OID[0];    /* OEM/Application ID (OID) */
+> +        sd->cid[3] = PNM[0];    /* Fake product name (PNM) 48bit */
+> +        sd->cid[4] = PNM[1];
+> +        sd->cid[5] = PNM[2];
+> +        sd->cid[6] = PNM[3];
+> +        sd->cid[7] = PNM[4];
 
-Can you comment the CMD here?
-
->          switch (sd->state) {
->          case sd_transfer_state:
->              sd->erase_start = req.arg;
-> @@ -1555,6 +1556,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          break;
->
->      case 33:   /* CMD33:  ERASE_WR_BLK_END */
-> +    case 36:
-
-and here?
+Aren't the majority of these the same between the two cases? It's
+probably cleaner to split them out then.
 
 Alistair
 
->          switch (sd->state) {
->          case sd_transfer_state:
->              sd->erase_end = req.arg;
+> +        sd->cid[8] = 0x0;
+> +        sd->cid[9] = PRV;        /* Fake product revision (PRV) */
+> +        sd->cid[10] = 0xde;      /* Fake serial number (PSN) */
+> +        sd->cid[11] = 0xad;
+> +        sd->cid[12] = 0xbe;
+> +        sd->cid[13] = 0xef;
+> +        sd->cid[14] = ((MDT_YR - 1997) % 0x10); /* MDT */
+> +    } else {
+> +        sd->cid[0] = MID;       /* Fake card manufacturer ID (MID) */
+> +        sd->cid[1] = OID[0];    /* OEM/Application ID (OID) */
+> +        sd->cid[2] = OID[1];
+> +        sd->cid[3] = PNM[0];    /* Fake product name (PNM) 40bit */
+> +        sd->cid[4] = PNM[1];
+> +        sd->cid[5] = PNM[2];
+> +        sd->cid[6] = PNM[3];
+> +        sd->cid[7] = PNM[4];
+> +        sd->cid[8] = PRV;       /* Fake product revision (PRV) */
+> +        sd->cid[9] = 0xde;      /* Fake serial number (PSN) */
+> +        sd->cid[10] = 0xad;
+> +        sd->cid[11] = 0xbe;
+> +        sd->cid[12] = 0xef;
+> +        sd->cid[13] = 0x00 |    /* Manufacture date (MDT) */
+> +            ((MDT_YR - 2000) / 10);
+> +        sd->cid[14] = ((MDT_YR % 10) << 4) | MDT_MON;
+> +   }
+> +   sd->cid[15] = (sd_crc7(sd->cid, 15) << 1) | 1;
+>  }
+>
+>  #define HWBLOCK_SHIFT  9                       /* 512 bytes */
 > --
 > 2.7.4
 >
