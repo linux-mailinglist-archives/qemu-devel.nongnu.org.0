@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3A031A432
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 19:06:20 +0100 (CET)
-Received: from localhost ([::1]:43018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B342231A436
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 19:08:46 +0100 (CET)
+Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAcpf-0002c8-8y
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 13:06:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56590)
+	id 1lAcs1-0004oa-Mr
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 13:08:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lAcnB-0001TV-HX
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:03:45 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:52100)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAcqJ-0003Vw-Li
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:06:59 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lAcn7-0005oW-PM
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:03:45 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id fa16so78312pjb.1
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 10:03:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lAcqH-0006nN-8K
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 13:06:59 -0500
+Received: by mail-wr1-x432.google.com with SMTP id v1so234480wrd.6
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 10:06:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ClksEy2NdhComARvpvLs+gMW47tI2snYx/I6xaMsFuU=;
- b=DBaDb4CJZJwQMUXKBw48Nv6ttm7tPIzErFYfrZAIGvvjUDrGBj2llzyH8Flu+MF8sM
- MLQ7LzRdBAOBE94x2V/koK7QqDqzxZQtU+oPauwEm2ONThDuzm6m1e7NPOaDdgoxkyHK
- rDXh4qCOUYv4Wt4AcgxZHRSj1BySvTXHiQFR13GZ5VllfIfzNx3iON4DKxpfdz6JC1wG
- 8MCFpngWISoS3f806+WykdXMQ9hDqEKS7yqnK0fAuQXeas7A9sjDNlYI++ijYxVe7MgI
- Tnkuc/DYRw/V8c1q8f8LaYGGQitoFSOMUF9ND0hIWlRo5YoblJLAAuj9LONWP7kO3zgU
- oHSQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9fcYfzpIgVf92S+Beu9YKetXhQPAxpUaNOhSTe1S430=;
+ b=hRvafwyjZo+haE2PCIWx/dlEUxQXY+ZLGk3MujWq+gQpRhnwy5EOJHNcyQgfqpj703
+ LU7Aowe06zevao4JLBRJd7LjuU6ucOL4cSHuzhUB7TbOfnYyEZJT1kWWEVnkmQGkHjOS
+ DQ/XgHPqp4YQntJ0Wvi6C5kBSA1Qnx54U7huflD8SYyzeAhCnv9nGYMSHpeA/WPZn/1O
+ hcL5etwtaUnCfHz1/Dq1sBlForuJs/EoCXVvOGYmjWjvoHzRIYvRqDcqXHC3P7m1Sa+c
+ AGycCj3zQc1nammfF4SKt6ygOhZyyxWRrW74WoM27wG9wnqxD1mv+e/FUPjWGUCEZC97
+ DgRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ClksEy2NdhComARvpvLs+gMW47tI2snYx/I6xaMsFuU=;
- b=OlwndCNhr3DUgjzOIt3BKTKY0WDV4fW4OZ0JDQQciZhM5DY0I5toko8LpJ2E3o8coO
- sJ5ca8rauh+3XIL7yEzeVD17Hp6YoxsfpIoAVFbgxC/ZHm/JFLQR26Yq4FZwsTciQCHG
- tLOop4swRIrl2ciVlcGtAb8ueDeqlg8GrQ+T9DrAOiASB5xmGYJQ9NUyqQNw2AYoV0kP
- N04B94B4EP8VCni2VVTBnIlrjlRCnE4oLbVLv4F5eolN77QIOK2jbX8k6NMHLdeWxEWK
- JzUIqMuFW360GSZyIIdD46/3zlKO0OXiwqV+HkcrsbX68yoeKnkbGA5eulTDxgnQV33Q
- Jd1w==
-X-Gm-Message-State: AOAM5313dacWRzZoPiGAkd+forgIJ1DFgX5JLUwVrDtBUuB5Eob8Pz1V
- tGgt+5lNkyCkBTTXeK6dApqa8g==
-X-Google-Smtp-Source: ABdhPJz0BR/c9ndQKAKbjXVGw71I1Rjl1LJS1kkIRblNWMdGeI9ym9+mvI7NIFYImT4K8riD7L1Icw==
-X-Received: by 2002:a17:90a:e7cd:: with SMTP id
- kb13mr3759819pjb.10.1613153020239; 
- Fri, 12 Feb 2021 10:03:40 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- o14sm10887367pgr.44.2021.02.12.10.03.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Feb 2021 10:03:39 -0800 (PST)
-Subject: Re: [PATCH 04/38] target/riscv: 16-bit Addition & Subtraction
- Instructions
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
-References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
- <20210212150256.885-5-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d9715335-51a3-eb08-c04f-7a7ce6858ac7@linaro.org>
-Date: Fri, 12 Feb 2021 10:03:37 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=9fcYfzpIgVf92S+Beu9YKetXhQPAxpUaNOhSTe1S430=;
+ b=hFKXTAOT42eDev5RUJT9MIHscKuqzZyA0H57HduQLEvQomm4CUJLoYGAmKphdivUpP
+ a9l1b30vBgls8tUHdNzuS/nO5bwQyrhCUpLXhDpgsqKPudiISOP4Zex4LIhuZTk691aC
+ Yyan5EGMvpmg3z1V28wSWlZA9yvEcyvmhvVDvf/NiNZqMvYfqCApH5FYRSWIjMZ56iwU
+ bx7cpXH60QSsxZW1IlOtl6oWY2wwvsQ4Zs1iin82Ov9GlYb4SL0JEjzbIIrHU7xLMx0k
+ i1g77zk8YkTG+IDpyQttzN2M/rzzQN294Y8e3pm7HPn6T4XW9IVsMLsRdLQtPgzAQF/G
+ L8eQ==
+X-Gm-Message-State: AOAM533+pz+eRpUYKqKZCc3J1xe6tFeBrO6yFAlPL/eHhe4iJXRvVtom
+ 1clNT/S8JpDaqS3eKEYANzZ6477OrfiAYA==
+X-Google-Smtp-Source: ABdhPJyYGguVa2ABWkRO3StQoUk+a1tJtJAaruiH0x5zT69xzmYwdC0MpMTd55U4w4RkEYhqg2IPjg==
+X-Received: by 2002:a5d:554a:: with SMTP id g10mr4746020wrw.383.1613153215392; 
+ Fri, 12 Feb 2021 10:06:55 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id f6sm14022372wmq.33.2021.02.12.10.06.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Feb 2021 10:06:55 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] hw/display/sm501: Tidy up template header
+Date: Fri, 12 Feb 2021 18:06:50 +0000
+Message-Id: <20210212180653.27588-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210212150256.885-5-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.119,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,24 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, qemu-riscv@nongnu.org, palmer@dabbelt.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/12/21 7:02 AM, LIU Zhiwei wrote:
-> +    if (a->rd && a->rs1 && a->rs2) {
-> +#ifdef TARGET_RISCV64
-> +        f64(vece, offsetof(CPURISCVState, gpr[a->rd]),
-> +            offsetof(CPURISCVState, gpr[a->rs1]),
-> +            offsetof(CPURISCVState, gpr[a->rs2]),
-> +            8, 8);
-> +#else
+For a long time now the UI layer has guaranteed that the console
+surface is always 32 bits per pixel RGB, but some older display device
+models still have the code to handle other formats. This patchset
+cleans up that dead code for the sm501 device, which allows us
+to remove the multiply-included sm501_template.h header entirely.
 
-This is not legal tcg.
+There have been a few attempts at doing this cleanup on this
+device in the past by various people; rather than trying to
+resurrect those old patchsets and get them to apply to the current
+code in master, I just started from scratch.
 
-You cannot reference as memory anything which has an associated tcg_global_mem.
- Which is true for all of the gprs -- see riscv_translate_init.
+Tested with AROS ISO image on sam460ex.
 
+thanks
+-- PMM
 
-r~
+Peter Maydell (3):
+  hw/display/sm501: Remove dead code for non-32-bit RGB surfaces
+  hw/display/sm501: Expand out macros in template header
+  hw/display/sm501: Inline template header into C file
+
+ hw/display/sm501_template.h | 131 ----------------------------
+ hw/display/sm501.c          | 166 ++++++++++++++++++------------------
+ 2 files changed, 83 insertions(+), 214 deletions(-)
+ delete mode 100644 hw/display/sm501_template.h
+
+-- 
+2.20.1
+
 
