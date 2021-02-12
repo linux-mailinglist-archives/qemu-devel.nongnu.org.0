@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53B931A65C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:00:01 +0100 (CET)
-Received: from localhost ([::1]:48362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CDF31A67D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:06:20 +0100 (CET)
+Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAfXk-0003SQ-FC
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:00:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38162)
+	id 1lAfdr-0006Pr-8W
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:06:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1lAfWL-0002wO-Vq
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:58:34 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:45837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1lAfWJ-000591-K6
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:58:33 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id b8so457579plh.12
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 12:58:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=mJGmJYChT1I/vyF+j2nNVdwrKx/bwKsKTOoOA8XqCAo=;
- b=rAHS9bLIPOsoUXrZWpIGDH4U+aVscf+4RaHNQKGydv+eX5bFOhdCRiv6cF49plb+gH
- /3YGlpmc5Phnc2808FRmn6wCKgNQWGEUqStprG6OCTTGniCoyw5/daFDgkWaLMIH/w5Z
- O0C9nkmXGxftVzGSV/YBn0bWu1ossYJhNrZ9Ueyom//EXn20usEmRr8LPL5QUtV5NRtS
- qc0uqlm05NhE1gnwraXj0vxStWqPGQWhcCkBZXYXjw6NYm7Rr15d0XGcB3MGwfc8u9wo
- Rb4OgN8kENv7GnP4eo/ucTI+xW+8IcgjNWSA4fX9D/316tfJYxkUNSZbcyzwmaHaZAVg
- X8YA==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lAfWX-000309-CU
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:58:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lAfWS-0005CT-6D
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:58:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613163518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wNazl2RITVDHEyOqn/Gbrn9UP/hGoa7umokS0sRLxeI=;
+ b=g9MITCfthZ8odpbdvbSRRLHn9ntUelVhlca1Q30H9dzBhWwAY+OiRGHkZhpdYcB+kLgz0s
+ YsAzgPudN0ljL9IL7Kr2vsTnKLCASfOKO2BCe8qBGF0Cb96e9yGzWFFzIz3Fdav3bhUIt5
+ yosmEfTm58g4UD8T1e4xV2Uad0RtbIU=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-Ggu8KmKuN3ay_twCu_pTcw-1; Fri, 12 Feb 2021 15:58:36 -0500
+X-MC-Unique: Ggu8KmKuN3ay_twCu_pTcw-1
+Received: by mail-ua1-f70.google.com with SMTP id d9so283608uaf.18
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 12:58:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=mJGmJYChT1I/vyF+j2nNVdwrKx/bwKsKTOoOA8XqCAo=;
- b=sGv/pNzMKiY/RmEC4FJpZ2J00CS8pl8UglSSyvd5R9ukCNLP2dq2QamAJUfLmXMfAv
- sMOUYWdtuuz0+LQr8Xr6HPaFtKkNl1Jfp0/kANTxMfrJAGxVWnr6S/Zx0o/FZlMM/Jqq
- NPcUX55br+07JIQiRGNf8kiO6xvIO1Yc6+t0QrLss/lJ2xJ3VZgsaUKfH6y6MC2068YI
- 1V7gpeZfZ6Ac7xAuY07yxZdPPVyGoFGMpGDmxSmyFv5HTe5iNuGRmDJy+lu5eiRkBOgH
- KXKByRMLPy5hs7nhkjUDPhQs8bbBlLA9ceSi1Vy22UnRWjovAvItMbIWF1vIbmjaKBsM
- 4Mkw==
-X-Gm-Message-State: AOAM533fURwoCw6XWP4dEV4lgf1zXmfNJSRRNAx5OuC8prZYpm0iOb3R
- ue1c35nzZA1j58frtrpNk7UkANtlUzk=
-X-Google-Smtp-Source: ABdhPJycEl7DCzQwXjHNd03gS3mm74NWoiqWd6JCERSvVjNwW87WPcHa6ZDtzZ/PPpSZ5GGfHT5HSQ==
-X-Received: by 2002:a05:6a00:23c5:b029:1e6:2f2e:a438 with SMTP id
- g5-20020a056a0023c5b02901e62f2ea438mr4580877pfc.75.1613163126873; 
- Fri, 12 Feb 2021 12:52:06 -0800 (PST)
-Received: from localhost ([2601:647:4600:11e1:d2fd:ba5d:619c:c25d])
- by smtp.gmail.com with ESMTPSA id q139sm9789662pfc.2.2021.02.12.12.52.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Feb 2021 12:52:06 -0800 (PST)
-Date: Fri, 12 Feb 2021 12:51:57 -0800
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v3 07/10] hw/i386: declare ACPI mother board resource for
- MMCONFIG region
-Message-ID: <20210212205157.GA7151@private.email.ne.jp>
-References: <cover.1613025709.git.isaku.yamahata@intel.com>
- <ea43ecd8e920088a783f81a7b2aeee8715657dc6.1613025709.git.isaku.yamahata@intel.com>
- <20210212164038.207e0f54@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wNazl2RITVDHEyOqn/Gbrn9UP/hGoa7umokS0sRLxeI=;
+ b=B/YMLXD0Ul07a1c3NZWjEdDU0TCmT2e9mVLuH15neBgg/EgykjcEC7D211V3/AC8X4
+ 3CwSKvFyYONgNbhEbZQZ03qRLsfwCBkAsHnquUfJa6eEI2bj24luQ54WL4OKXQddiQIC
+ 4PPqMO79IUE2X/MhSk7+miZ5Xkr5o0fUwiVDGhvPCZ4t3SO0mfuTbdtJpq7IkE4edbtJ
+ 63NreB2d9X8U7da3b9f+HEhuEtt+AQXzy3qktqDWOi6OqtaN+CIZ3vzQCzjrogwXIFwL
+ HnNmkYxKS3PQ02ueQ/Sm1NnZnGqz5golce4veH8U6TDo0j+U2nTDHFHTIV38rtI3/wGc
+ 4YFw==
+X-Gm-Message-State: AOAM530qUAHNSo7pGIZRwrjCh0KSbzB9fVq7eqXaXYhfmhhhHGLa5971
+ CI/Hkp7r254jvNflFqb9TFXNQvFWFMOstGrvJR5yjbU5D5Zcoo8EUCiOFghuEh3g7p4NGIgBNIO
+ k+7tTwWX3MOyKOM2l8DyRaVXwHGFMNP0=
+X-Received: by 2002:a1f:c108:: with SMTP id r8mr3368681vkf.11.1613163515672;
+ Fri, 12 Feb 2021 12:58:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwhb+GJGRpVG5/uWTD7uVfxXL2rg0d2+5z0OP+0iPtdKKeUJ1cMMk9IwgW3Gkz6budmn7hyrqY2oQjT31ClLc4=
+X-Received: by 2002:a1f:c108:: with SMTP id r8mr3368674vkf.11.1613163515517;
+ Fri, 12 Feb 2021 12:58:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210212164038.207e0f54@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210212151649.252440-1-mreitz@redhat.com>
+In-Reply-To: <20210212151649.252440-1-mreitz@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 12 Feb 2021 17:58:09 -0300
+Message-ID: <CAKJDGDb8=45GGhMyrwXQ8jK3XUAxmZ1r9FyE7iCpuEFVoCe+0A@mail.gmail.com>
+Subject: Re: [PATCH] virtiofs_submounts.py test: Note on vmlinuz param
+To: Max Reitz <mreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,221 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>, qemu-devel@nongnu.org,
- isaku.yamahata@gmail.com, mst@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 04:40:38PM +0100,
-Igor Mammedov <imammedo@redhat.com> wrote:
+On Fri, Feb 12, 2021 at 12:20 PM Max Reitz <mreitz@redhat.com> wrote:
+>
+> From the cancel message, it is not entirely clear why this parameter is
+> mandatory now, or that it will be optional in the future.  Add such a
+> more detailed explanation as a comment in the test source file.
+>
+> Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+> I=E2=80=99ve uploaded a build of Linux 5.10 here:
+>   https://xanclic.moe/linux-5.10
+>
+> But I=E2=80=99ve decided against mentioning it in this new comment or the=
+ cancel
+> message, because, well, it=E2=80=99s my private server and I have limited
+> bandwidth.
+> ---
+>  tests/acceptance/virtiofs_submounts.py | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 
-> On Wed, 10 Feb 2021 22:46:43 -0800
-> Isaku Yamahata <isaku.yamahata@intel.com> wrote:
-> 
-> > Declare PNP0C01 device to reserve MMCONFIG region to conform to the
-> > spec better and play nice with guest BIOSes/OSes.
-> > 
-> > According to PCI Firmware Specification[0], MMCONFIG region must be
-> > reserved by declaring a motherboard resource. It's optional to reserve
-> > the region in memory map by Int 15 E820h or EFIGetMemoryMap.
-> > Guest Linux checks if the MMCFG region is reserved by bios memory map
-> > or ACPI resource. If it's not reserved, Linux falls back to legacy PCI
-> > configuration access.
-> > 
-> > TDVF [1] [2] doesn't reserve MMCONFIG the region in memory map.
-> > On the other hand OVMF reserves it in memory map without declaring a
-> > motherboard resource. With memory map reservation, linux guest uses
-> > MMCONFIG region. However it doesn't comply to PCI Firmware
-> > specification.
-> > 
-> > [0] PCI Firmware specification Revision 3.2
-> >   4.1.2 MCFG Table Description table 4-2 NOTE 2
-> >   If the operating system does not natively comprehend reserving the
-> >   MMCFG region, The MMCFG region must e reserved by firmware. ...
-> >   For most systems, the mortheroard resource would appear at the root
-> >   of the ACPI namespace (under \_SB)...
-> >   The resource can optionally be returned in Int15 E820h or
-> >   EFIGetMemoryMap as reserved memory but must always be reported
-> >   through ACPI as a motherboard resource
-> > 
-> > [1] TDX: Intel Trust Domain Extension
-> >     https://software.intel.com/content/www/us/en/develop/articles/intel-trust-domain-extensions.html
-> > [2] TDX Virtual Firmware
-> >     https://github.com/tianocore/edk2-staging/tree/TDVF
-> > 
-> > The change to DSDT is as follows.
-> > @@ -68,32 +68,51 @@
-> > 
-> >                      If ((CDW3 != Local0))
-> >                      {
-> >                          CDW1 |= 0x10
-> >                      }
-> > 
-> >                      CDW3 = Local0
-> >                  }
-> >                  Else
-> >                  {
-> >                      CDW1 |= 0x04
-> >                  }
-> > 
-> >                  Return (Arg3)
-> >              }
-> >          }
-> > +
-> > +        Device (DRAC)
-> > +        {
-> > +            Name (_HID, "PNP0C01" /* System Board */)  // _HID: Hardware ID
-> > +            Name (RBUF, ResourceTemplate ()
-> > +            {
-> > +                QWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
-> > +                    0x0000000000000000, // Granularity
-> > +                    0x00000000B0000000, // Range Minimum
-> > +                    0x00000000BFFFFFFF, // Range Maximum
-> > +                    0x0000000000000000, // Translation Offset
-> > +                    0x0000000010000000, // Length
-> > +                    ,, , AddressRangeMemory, TypeStatic)
-> > +            })
-> > +            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
-> > +            {
-> > +                Return (RBUF) /* \_SB_.DRAC.RBUF */
-> > +            }
-> > +        }
-> >      }
-> > 
-> >      Scope (_SB)
-> >      {
-> >          Device (HPET)
-> >          {
-> >              Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
-> >              Name (_UID, Zero)  // _UID: Unique ID
-> >              OperationRegion (HPTM, SystemMemory, 0xFED00000, 0x0400)
-> >              Field (HPTM, DWordAcc, Lock, Preserve)
-> >              {
-> >                  VEND,   32,
-> >                  PRD,    32
-> >              }
-> > 
-> >              Method (_STA, 0, NotSerialized)  // _STA: Status
-> > 
-> > Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-> > ---
-> >  hw/i386/acpi-build.c | 46 +++++++++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 45 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 00cc119362..e369908b1a 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -1072,6 +1072,46 @@ static void build_q35_pci0_int(Aml *table)
-> >      aml_append(table, sb_scope);
-> >  }
-> >  
-> > +static Aml *build_q35_dram_controller(void)
-> > +{
-> > +    AcpiMcfgInfo mcfg;
-> build_dsdt() already calls acpi_get_mcfg(),
-> I suggest to cache it there and pass to build_q35_dram_controller
-> as an argument.
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-Sure.
-
-
-> > +    Aml *dev;
-> > +    Aml *rbuf;
-> > +    Aml *resource_template;
-> > +    Aml *rbuf_name;
-> > +    Aml *crs;
-> > +
-> > +    if (!acpi_get_mcfg(&mcfg)) {
-> > +        return NULL;
-> > +    }
-> > +
-> > +    /* DRAM controller */
-> > +    dev = aml_device("DRAC");
-> > +    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0C01")));
-> > +
-> > +    resource_template = aml_resource_template();
-> > +    aml_append(resource_template,
-> > +               aml_qword_memory(AML_POS_DECODE,
-> > +                                AML_MIN_FIXED,
-> > +                                AML_MAX_FIXED,
-> > +                                AML_NON_CACHEABLE,
-> > +                                AML_READ_WRITE,
-> > +                                0x0000000000000000,
-> > +                                mcfg.base,
-> > +                                mcfg.base + mcfg.size - 1,
-> s/mcfg.base + mcfg.size - 1/mcfg.base/
-
-AddressMaximum needs to be the highest address of the region.
-Not base address. By disassemble/assembl it, iasl complains as follows.
-Also there are similar examples in acpi-build.c.
-
-  iasl drm-1.dsl
-
-  Intel ACPI Component Architecture
-  ASL+ Optimizing Compiler/Disassembler version 20190509
-  Copyright (c) 2000 - 2019 Intel Corporation
-
-  drm-1.dsl     23:                     0x10000000, // Length = 256M
-  Error    6049 -                               ^ Length is larger than Min/Max window
-
-  ASL Input:     drm-1.dsl -    1000 bytes      6 keywords     37 source lines
-
-  Compilation failed. 1 Errors, 0 Warnings, 0 Remarks
-  No AML files were generated due to compiler error(s)
-
-
-> > +                                0x0000000000000000,
-> > +                                mcfg.size));
-> > +    rbuf = aml_name_decl("RBUF", resource_template);
-> > +    aml_append(dev, rbuf);
-> > +
-> > +    crs = aml_method("_CRS", 0, AML_SERIALIZED);
-> > +    rbuf_name = aml_name("RBUF");
-> > +    aml_append(crs, aml_return(rbuf_name));
-> > +    aml_append(dev, crs);
-> > +
-> > +    return dev;
-> > +}
-> > +
-> >  static void build_q35_isa_bridge(Aml *table)
-> >  {
-> >      Aml *dev;
-> > @@ -1212,7 +1252,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >             Range *pci_hole, Range *pci_hole64, MachineState *machine)
-> >  {
-> >      CrsRangeEntry *entry;
-> > -    Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
-> > +    Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs, *drac;
-> maybe limit drac to
->   if (misc->is_piix4) { 
->   ... } else {
->      Aml *drac
-> scope
-
-ok.
-
-
-> >      CrsRangeSet crs_range_set;
-> >      PCMachineState *pcms = PC_MACHINE(machine);
-> >      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(machine);
-> > @@ -1256,6 +1296,10 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >          aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-> >          aml_append(dev, build_q35_osc_method());
-> >          aml_append(sb_scope, dev);
-> > +        drac = build_q35_dram_controller();
-> > +        if (drac) {
-> > +            aml_append(sb_scope, drac);
-> > +        }
-> mmcfg isn't optional for q35, is it?
-> I'd simplify to:
->     aml_append(sb_scope, build_q35_dram_controller(mmcfg_info));
-> or put all of it under condition if it's optional
->    if(foo) aml_append(sb_scope, build_q35_dram_controller(mmcfg_info))
-
-It's optional. If MCFG isn't setup after reset, PCIE_BASE_ADDR_UNMAPPED
-is returned.
-
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
 
