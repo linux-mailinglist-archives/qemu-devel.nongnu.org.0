@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D21131A75E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:16:45 +0100 (CET)
-Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9BB31A769
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 23:19:27 +0100 (CET)
+Received: from localhost ([::1]:53408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAgk0-00037U-3q
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:16:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52578)
+	id 1lAgmc-00077w-Ie
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 17:19:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgfr-0000hR-3b; Fri, 12 Feb 2021 17:12:27 -0500
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:38887)
+ id 1lAggG-0001TA-Cc; Fri, 12 Feb 2021 17:12:52 -0500
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:37785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAgfo-0002JE-Jf; Fri, 12 Feb 2021 17:12:26 -0500
-Received: by mail-io1-xd34.google.com with SMTP id f6so765084ioz.5;
- Fri, 12 Feb 2021 14:12:20 -0800 (PST)
+ id 1lAggA-0002U5-U5; Fri, 12 Feb 2021 17:12:52 -0500
+Received: by mail-il1-x12c.google.com with SMTP id d20so604075ilo.4;
+ Fri, 12 Feb 2021 14:12:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=h/tAucvov96ZKz4T8OzmzmYiOOFfNo8wXHKCEGZsL2k=;
- b=hreWPpd5efrJdDp0HBfg8SCdwcD7S9pscqO9SczfWgSjIKlBrNAqXXP9K4MOAlo0gh
- QN7rqnoY0U8I01obXIOH9F5DOukbVzxQ91lqjnoDcsxNE/OI0LqqLm4I0ZBP9cK/1QB8
- bZj+aJX194a7Va5Bf2uu3AdPWT1+qO4dax5LLQdfMmQEnbkC8P+/vo+z2+f+IxP9DCK9
- UhulPv4Uedads+RhOehEHkOFl0QudAEY/gTsRIy/t3sztU8/63sSOoWhwwphxP/QPePP
- Jfh6kWrq/N4LyAo1qVYo9KoQgF7PsEst9iaQwnwNDCzV/XUCaHqNY0rLgdAhxyNeI+AK
- VhVg==
+ :cc; bh=OYq2dKIIGHJHBfONeQl5GutEL21gDVd0aTuVC4UnrbE=;
+ b=aCgXo3PoiaV3mJKwOlcB4AbF36HzpDyVQ4a+vkwzw4Nm6SU2GbfcBeUvQdCviyNR+a
+ 1S9GerutOZsR9bpFaOMETN8O+Qt5Nyep3TdNZppNyRZJJGnifyTxbqE/4fs4RybAOPpY
+ KYIXjdOtnxuZLQjqC44tpBvk7UETEqyHVBcEzT/IDv7NJUn2DdUG8N1WjK8of2EglQWx
+ IXClSF/X+6Z3arlb09Ca6v4kQzyqjrcLS5GKUdEMmMPfqGUITareV4V6t39ulCBbR9Va
+ ZAfg8drHosuool/dF6N3SLYPcnNctlQwMbMDBb7QssCD2KpwXMKSEKqY3IqLBgvaESCD
+ 7jgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=h/tAucvov96ZKz4T8OzmzmYiOOFfNo8wXHKCEGZsL2k=;
- b=AmQSVISPoxIhHlSv1QQCekJ59H+L6e/rGCINOPfpQxLpp4tu61BQxxT6av02DOElfP
- Vmgi2baRnlXovkJFkjToVOqi1B99SykIwidjhFlDkOOuvYtpYEiyTkjcVPaKNVeZOxdk
- mGvd38++aCaF5z1xtpzD8Ijb7ux8XEM3RIEL4sicNW7wgfc0IgLCphe2Ai/Uir/m3XO3
- Lk9nJNanPTGe/UX+WiIL2ODVJA/0TlEr9d80v0pV4BSb3TeCcfrR1Jt8k1NboBnav4z8
- As+8OUqUKv4PAZe5drQFlR+Nk8JMvCoYsbUiUC1VqbRW7YKks0lBXP7lOFymhZeT/jcf
- bfRA==
-X-Gm-Message-State: AOAM531bvBHeFOcFjaUkpAZlrNFd/hvJCe5a2z03Zgp8QSLYkNaWbEFw
- mT03kGKGOAW2ZQB5kSjbNZaVeVs061o9CX4h9EY=
-X-Google-Smtp-Source: ABdhPJyIT3pl9D9ckE5QWMX0ktmLGvDc+oQNo7FK2WGXLpAQa4ZMeYQzhCtX3HlzZ/ACpxKeC4iRyZmIStERiKZh1iI=
-X-Received: by 2002:a02:634b:: with SMTP id j72mr4520743jac.106.1613167939841; 
- Fri, 12 Feb 2021 14:12:19 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=OYq2dKIIGHJHBfONeQl5GutEL21gDVd0aTuVC4UnrbE=;
+ b=rYHRG8LlRVJEmVKaBBsm7QF45y25u49zlxS5gwynU7U9q0g86rKpu4q1Jr8FjQEYYN
+ H5JuoRPIkm+Zf3804JDk0w4W3U3KXqZ0u+KX/knZVbNmzj+lXFS2kuB/nr/bPdDE/rM5
+ 9cy4FD1FPzHEUhKyLsI9+NOVEXUYSzyOY39upKUfTyKFTPT80+mwyJh/jvJRkySyXqoJ
+ TiYP0fFm2fzC/yPS5sCf194Lm/k8tvNNsOS0TJLaFX5Sao+v/XGvcyTVxKy7p9czCadM
+ UZ/lJMvQsmBCxHnwo1Eu4u0HoX85sL639gO1qr3ATt5faxQk17z9WDI9ZstCYk6416ab
+ tqIg==
+X-Gm-Message-State: AOAM531GsJgWp5lWPtMjnNWBCPdWXF6yu1ReW564BeIL9p42nCF06tWS
+ J+WnFtpu82470bT0SE9kNXuFMivIzEIqDRrQZiA=
+X-Google-Smtp-Source: ABdhPJzaLvfpcDuMZWuLHz2oFau1jlds9+Spr6sLqDpUYzKZJiNJHBJUQweU8L7mrKLZtHiOESkp1h044p1hxZfdbwg=
+X-Received: by 2002:a05:6e02:218f:: with SMTP id
+ j15mr4013252ila.40.1613167965692; 
+ Fri, 12 Feb 2021 14:12:45 -0800 (PST)
 MIME-Version: 1.0
 References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613031446-22154-14-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1613031446-22154-14-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613031446-22154-15-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1613031446-22154-15-git-send-email-sai.pavan.boddu@xilinx.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 12 Feb 2021 14:11:39 -0800
-Message-ID: <CAKmqyKMO8Reg4y5x0q8uUUK9iG_5=i9G46F6voQcMLVdWa5Jpg@mail.gmail.com>
-Subject: Re: [RFC PATCH 13/15] sd: emmc: Subtract bootarea size from blk
+Date: Fri, 12 Feb 2021 14:12:05 -0800
+Message-ID: <CAKmqyKMOc5tzO+wEJvmjNXz92oOHVPk00OCM7FHCvEBaAf7rpQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 14/15] sd: sdhci: Support eMMC devices
 To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,42 +93,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 12:25 AM Sai Pavan Boddu
+On Thu, Feb 11, 2021 at 12:34 AM Sai Pavan Boddu
 <sai.pavan.boddu@xilinx.com> wrote:
 >
-> From: Joel Stanley <joel@jms.id.au>
+> Embedded device slots should be allowed as support of eMMC is available.
 >
-> The userdata size is derived from the file the user passes on the
-> command line, but we must take into account the boot areas.
->
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/sd/sd.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  hw/sd/sdhci.c | 4 ----
+>  1 file changed, 4 deletions(-)
 >
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 55c1104..a2f39c9 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -658,6 +658,11 @@ static void sd_reset(DeviceState *dev)
->      }
->      size =3D sect << 9;
+> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+> index 8ffa539..771212a 100644
+> --- a/hw/sd/sdhci.c
+> +++ b/hw/sd/sdhci.c
+> @@ -99,10 +99,6 @@ static void sdhci_check_capareg(SDHCIState *s, Error **errp)
+>          msk = FIELD_DP64(msk, SDHC_CAPAB, ASYNC_INT, 0);
 >
-> +    if (sd->emmc) {
-> +        unsigned int boot_capacity =3D sd->ext_csd[EXT_CSD_BOOT_MULT] <<=
- 17;
-> +        size -=3D boot_capacity * 2;
-> +    }
-> +
->      sect =3D sd_addr_to_wpnum(size) + 1;
+>          val = FIELD_EX64(s->capareg, SDHC_CAPAB, SLOT_TYPE);
+> -        if (val) {
+> -            error_setg(errp, "slot-type not supported");
+> -            return;
+> -        }
+>          trace_sdhci_capareg("slot type", val);
+>          msk = FIELD_DP64(msk, SDHC_CAPAB, SLOT_TYPE, 0);
 >
->      sd->state =3D sd_idle_state;
 > --
 > 2.7.4
 >
