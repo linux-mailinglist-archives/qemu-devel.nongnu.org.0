@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0552431A606
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:27:39 +0100 (CET)
-Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F2B31A60B
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 21:29:39 +0100 (CET)
+Received: from localhost ([::1]:48810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAf2Q-0000kE-34
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:27:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58270)
+	id 1lAf4M-0002ua-2m
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 15:29:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAerr-0004RC-Gk
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40615)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lAevB-0000bj-SY
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:20:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lAern-0003vS-Bq
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:16:43 -0500
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lAevA-0005O5-6t
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 15:20:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613160998;
+ s=mimecast20190719; t=1613161207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ZtCvMsXL8J4aFQyPFcujwHjVw+wp+H0ImnLK/amocU=;
- b=PY/GvHQlkAK/5hjaOsM9+4BIaSOv48rUEQvm7W8LmBq/Tbe6rr34hrJQmG02aWyQ1qnteq
- vAkNwjB33qG4PqC/hh+v8EdU7mySh/K+AjeiWlH/1VussFXZ+KOJP4E0uAlfyXn1s1EB2X
- gB4YH+BrvS6pkEzaZ5rbG8RHWgi7ZzQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-kilVflvxNMeWFGTwX0erxA-1; Fri, 12 Feb 2021 15:16:36 -0500
-X-MC-Unique: kilVflvxNMeWFGTwX0erxA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 446DB1934116;
- Fri, 12 Feb 2021 20:16:35 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-114-150.phx2.redhat.com [10.3.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCCCC6B8E5;
- Fri, 12 Feb 2021 20:16:34 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 14/14] iotests/264: add backup-cancel test-case
-Date: Fri, 12 Feb 2021 14:16:19 -0600
-Message-Id: <20210212201619.1388255-15-eblake@redhat.com>
-In-Reply-To: <20210212201619.1388255-1-eblake@redhat.com>
-References: <20210212201619.1388255-1-eblake@redhat.com>
+ bh=gt59kqaEZ7xfhGCp5840Gc6/5TeZEEpPdfjQNFQnsNQ=;
+ b=FcsMSIyXNeaLdwUOLHr7RrI9lZPous5eHyd39gM6X2tEOEfNCalbGIwKqErRBjDptbAEoR
+ uAFEqPlYTzvBki/YxAzkzLdF3ugMcgCuNUHb6Hk4UimTbbnptZ+dgXdPAGVRr/pY/s56J3
+ rBKuOPtvSLCwyc3LsSGf+dJQeRsbQMY=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-54-ysL3x6riM6qXzBPqlVlCzw-1; Fri, 12 Feb 2021 15:20:04 -0500
+X-MC-Unique: ysL3x6riM6qXzBPqlVlCzw-1
+Received: by mail-ua1-f71.google.com with SMTP id s21so227583uap.11
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 12:20:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gt59kqaEZ7xfhGCp5840Gc6/5TeZEEpPdfjQNFQnsNQ=;
+ b=M5H4SegK97LcWNHG0luMSMkdq6Q+OKQCwWxN+thRZDnPfGE++iezv+O6sXgd5nGuQt
+ DwTedSV62R6sprIM9fya7w7I7Ibh0/ycvKbwcvf2gZqGaO3BnmidXdIvFycpmGL11UEY
+ VA5bd18xmt4+PRDN9E2SWPmOUGFIbFwUu8yAlsFFuqu0NMJisJG5GKcoIj0xeOkJ+3Mg
+ 1qR1OVp9u+mNIipgjGDibj7yVtgDhYSioHCkoFaHUgSm8PGEkDud/jRAy2nTRLHqIoCb
+ 2K0mLeKyiyBfMTMB4NNdfhR7tdVtzdaLfd9fYSHpkVigrwI9CM0DbY4l9p8YXaOtTpG6
+ xPZg==
+X-Gm-Message-State: AOAM531lJluMWTGUf+y4Lxvu6nEOK/owWTJL+EjQRWWBMSMmNyv0v5lX
+ FSicF1GmJ4nHCi322oWRNv2vNuXaUQsR8k48HRLOU+5iv+ZlDk3DHSvbLSYl8qk2A9Acl16Jaz6
+ JjXuX6LzLsUpTM1qFMRZucNYKjJVNwcE=
+X-Received: by 2002:ab0:23c3:: with SMTP id c3mr3380784uan.133.1613161204179; 
+ Fri, 12 Feb 2021 12:20:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzsb6Vr2cOVMsy790PmI9VuJMMbjUofvMTQWwHwTOv1FdXfdrZreFtlEFG5ZCNF1eQo4F5XaHB7ThXG4rpl+0Q=
+X-Received: by 2002:ab0:23c3:: with SMTP id c3mr3380763uan.133.1613161204004; 
+ Fri, 12 Feb 2021 12:20:04 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20210211220055.19047-1-nieklinnenbank@gmail.com>
+ <20210211220055.19047-2-nieklinnenbank@gmail.com>
+In-Reply-To: <20210211220055.19047-2-nieklinnenbank@gmail.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 12 Feb 2021 17:19:38 -0300
+Message-ID: <CAKJDGDZViLxw4DvKSca5V=fWcMuu+HVXpMxNWqWg9sgbCg_yZA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] tests/acceptance: replace unstable apt.armbian.com
+ URLs for orangepi-pc, cubieboard
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,78 +89,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ b.galvani@gmail.com, qemu-arm@nongnu.org,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
+ Cleber Rosa Junior <crosa@redhat.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Thu, Feb 11, 2021 at 7:09 PM Niek Linnenbank
+<nieklinnenbank@gmail.com> wrote:
+>
+> Currently the automated acceptance tests for the Orange Pi PC and cubieboard
+> machines are disabled by default. The tests for both machines require artifacts
+> that are stored on the apt.armbian.com domain. Unfortunately, some of these artifacts
+> have been removed from apt.armbian.com and it is uncertain whether more will be removed.
+>
+> This commit moves the artifacts previously stored on apt.armbian.com to a different
+> domain that is maintainted by me and retrieves them using the path: '/pub/qemu/<machine>/<artifact>'.
+>
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> ---
+>  tests/acceptance/boot_linux_console.py | 46 +++++++++-----------------
+>  tests/acceptance/replay_kernel.py      |  6 ++--
+>  2 files changed, 18 insertions(+), 34 deletions(-)
 
-Check that cancel doesn't wait for 10s of nbd reconnect timeout.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210205163720.887197-11-vsementsov@virtuozzo.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- tests/qemu-iotests/264     | 21 ++++++++++++++-------
- tests/qemu-iotests/264.out |  4 ++--
- 2 files changed, 16 insertions(+), 9 deletions(-)
-
-diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
-index 347e53add51b..4f96825a22c2 100755
---- a/tests/qemu-iotests/264
-+++ b/tests/qemu-iotests/264
-@@ -94,20 +94,27 @@ class TestNbdReconnect(iotests.QMPTestCase):
-             result = self.vm.qmp('blockdev-del', node_name='backup0')
-             self.assert_qmp(result, 'return', {})
-
-+    def cancel_job(self):
-+        result = self.vm.qmp('block-job-cancel', device='drive0')
-+        self.assert_qmp(result, 'return', {})
-+
-+        start_t = time.time()
-+        self.vm.event_wait('BLOCK_JOB_CANCELLED')
-+        delta_t = time.time() - start_t
-+        self.assertTrue(delta_t < 2.0)
-+
-     def test_mirror_cancel(self):
-         # Mirror speed limit doesn't work well enough, it seems that mirror
-         # will run many parallel requests anyway. MAX_IN_FLIGHT is 16 and
-         # MAX_IO_BYTES is 1M in mirror.c, so let's use 20M disk.
-         self.init_vm(20 * 1024 * 1024)
-         self.start_job('blockdev-mirror')
-+        self.cancel_job()
-
--        result = self.vm.qmp('block-job-cancel', device='drive0')
--        self.assert_qmp(result, 'return', {})
--
--        start_t = time.time()
--        self.vm.event_wait('BLOCK_JOB_CANCELLED')
--        delta_t = time.time() - start_t
--        self.assertTrue(delta_t < 2.0)
-+    def test_backup_cancel(self):
-+        self.init_vm(5 * 1024 * 1024)
-+        self.start_job('blockdev-backup')
-+        self.cancel_job()
-
-
- if __name__ == '__main__':
-diff --git a/tests/qemu-iotests/264.out b/tests/qemu-iotests/264.out
-index fbc63e62f885..8d7e99670093 100644
---- a/tests/qemu-iotests/264.out
-+++ b/tests/qemu-iotests/264.out
-@@ -1,5 +1,5 @@
--..
-+...
- ----------------------------------------------------------------------
--Ran 2 tests
-+Ran 3 tests
-
- OK
--- 
-2.30.1
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
