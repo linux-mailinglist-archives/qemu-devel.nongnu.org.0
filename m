@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D7031A6FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:39:48 +0100 (CET)
-Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9A831A701
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Feb 2021 22:41:09 +0100 (CET)
+Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAgAF-0007a6-TM
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:39:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45586)
+	id 1lAgBY-00007d-Qo
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 16:41:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAg8b-000741-GH; Fri, 12 Feb 2021 16:38:05 -0500
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:46956)
+ id 1lAg9c-0007eW-Jx
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:39:08 -0500
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:42008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lAg8W-000579-Tq; Fri, 12 Feb 2021 16:38:05 -0500
-Received: by mail-io1-xd31.google.com with SMTP id u8so626316ior.13;
- Fri, 12 Feb 2021 13:38:00 -0800 (PST)
+ id 1lAg9a-0005ZH-0Y
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 16:39:08 -0500
+Received: by mail-io1-xd2d.google.com with SMTP id u20so657206iot.9
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 13:39:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MOmoE7zi427RHBKICipuZu1VZf9BQN87g76ZH5EYk1M=;
- b=KDYWXARY1/rhyZeS91ait1+Ad9N8WviyhOBBhu4asPjkr2x9grssyhlnMLXGlrXPsZ
- Zrjj8fCXuf/aCFahPcv18A+v+zv+lfvf42hdtQhf9U936DXKsfV465JG/Fj2nMogh2PA
- zO/MYXUTELOhpVXDMA+4wchdirDcQAQVIFJS48rDRBJ9Zx8mxdusariEv9NKsOvZPuQS
- N30WnbUzSUBMJcUgc+iQ3jyLYk/r2xULCWTeaFYUm3UIWtXEFUmiIPrYTGcbXBLM9PWn
- QLX26TV7/v0FzpkfCu5v9nphTu+Hun3kH/6XglwWSLax02LGuhJegbpfbWeagP3Y1fgO
- M3VA==
+ :cc:content-transfer-encoding;
+ bh=zz+K8ViQbR5P7cwxMLQZ2JvbtEjOgwVqQlaY++GZmjs=;
+ b=okcpfQZNHJk1Be7bxSr6RwmHYT2YpvVGqIbIFZN47YBLqAtGs4OUCgdNm5ZgUlAYD/
+ Xfg0U9Dz3g6E9jldOIEfMrcPXNunefE72Et8343hW3LE8QThVXKmSpEvMYN7vwZm/t11
+ I3G31nJvr6yTumHqu2/ZFMxuG8fL0SKE9qfb4J/zsKD2UpjO5Mwlo3l6lKNGYEEf9DkX
+ NLdhR8eMHOJAgN/w5PtiC0B7JUBuYQPug0n4h3Ro79Nd6ujgPi6rGp6VkpnAH7lX98TB
+ DUPvdnD0gd2azLgJK/NwjDEmzN6lW8E6B2tT2xowUMRsIw5JQ62gSsd09ESfRRjveW2o
+ UfVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MOmoE7zi427RHBKICipuZu1VZf9BQN87g76ZH5EYk1M=;
- b=awLMkkRajq4MQ74eicMDryh80+gALCsikkKHkAMj9XSglTOwspIraG69RUXXP6A811
- Wf9/ep+Vh78ybdIRZWVGDuN1LFvr5R99zpO+jP4t/K39rhsjs3CKh0MaN3IVW5wgBOMg
- LXwcs8Q8gM0eUGVFZMbCUDF+eYnvdibN9UeRnrEVP9nKsrz+wYTRSekBrDeZtvH8Myxy
- nUU5fCryWVj3iHyBaPFntPXXCTKQ+7Ufps2txgCdr7hK9fT6YlEM5zcv43YOL3ldWQFU
- A23ZPr+tM3HnL8o1cobMb1CrI3DnhwyjVJzpwEavjr2KawoAVTbM+aillpl+ZCtZZ9r6
- mExQ==
-X-Gm-Message-State: AOAM531CMwPphoKvGbYoAKvxZ7H2b8HP+y5IX8kiY0276SiUcZiVBfZ8
- oH5QG15UMv6UdQAoSuiQFvbzXNBllgj0braCNrU=
-X-Google-Smtp-Source: ABdhPJwvR1ZGgWEwMLSKB2WNYz7hMp0mg7iE7vIhc3iZyRrP0YB6HZtQyMtdiaum8+KRWqJY7nZJCPYFNxo9QxJvN/M=
-X-Received: by 2002:a6b:d207:: with SMTP id q7mr3742756iob.42.1613165879336;
- Fri, 12 Feb 2021 13:37:59 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zz+K8ViQbR5P7cwxMLQZ2JvbtEjOgwVqQlaY++GZmjs=;
+ b=Z6N+uxuYEVAvGdCsIgmOg4iBI2wOOXnf8z1PV0yiJV+TI1AcMrt7Wj6JAdn0p/7hDo
+ A92Cwr9VajIwE0mk1ZTQ1rphv+mhOtWaJOt5L13N96zJSTN0ooyQzFt7D6fUmDCcwpxA
+ Yo0GV66K3SGDnWgAgX995v+iHe6vWQ3sGq2BXUK1b4TN1sCGYmspMSqaklr0aOqyXirt
+ D4x0W5KhZY9FutU24jsA6F2aaAdvccdgjJRb9rXaVmTEcRLPdIZ678aHuRZYyF+bPmyW
+ /bYQYQTte3OBuCDnE9ypN4/1AE84OOHVohGHCCBOB2wk8JfeYH9UBZhEzw7vyLxOimQO
+ gTCw==
+X-Gm-Message-State: AOAM530mXrLD3FhDAYj2fO1SM8oYM7Wq+E0NLiS1JCLfEwDfJNGdjt2m
+ JVWvSIzx3rJ+SEWQjztQmaZOOuQ/Es42RVYn1GyPj+pAqes=
+X-Google-Smtp-Source: ABdhPJzIPFQ4dxwLawQzAV54jJd8sPnN9VkMaBieOJymlzBGoY/jAcE1kFV1Jl1mpR+5pYPl3zFEZYfopONhXgLuKsA=
+X-Received: by 2002:a6b:7d42:: with SMTP id d2mr3739673ioq.176.1613165944675; 
+ Fri, 12 Feb 2021 13:39:04 -0800 (PST)
 MIME-Version: 1.0
-References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613031446-22154-16-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1613031446-22154-16-git-send-email-sai.pavan.boddu@xilinx.com>
+References: <20210211171945.18313-1-alex.bennee@linaro.org>
+ <20210211171945.18313-6-alex.bennee@linaro.org>
+In-Reply-To: <20210211171945.18313-6-alex.bennee@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 12 Feb 2021 13:37:18 -0800
-Message-ID: <CAKmqyKMx7aLD9zz5TvHfvL2bfrfe3Emo44p4s+SZeKndrAE8qA@mail.gmail.com>
-Subject: Re: [RFC PATCH 15/15] arm: xlnx-versal: Add emmc to versal
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Date: Fri, 12 Feb 2021 13:38:24 -0800
+Message-ID: <CAKmqyKNQHhwZfTvqEU8EzQQs2tXN5gbrWC6ooc6ERpYjS1gNhw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] docs: move generic-loader documentation into the
+ main manual
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -76,132 +81,334 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Vincent Palatin <vpalatin@chromium.org>,
- "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
- Qemu-block <qemu-block@nongnu.org>,
+Cc: Alistair Francis <alistair@alistair23.me>, julien@xen.org,
+ andre.przywara@arm.com, stefano.stabellini@linaro.org,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Sai Pavan Boddu <saipava@xilinx.com>, Luc Michel <luc.michel@greensocs.com>,
- Alistair Francis <alistair.francis@wdc.com>, Joel Stanley <joel@jms.id.au>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+ "open list:X86" <xen-devel@lists.xenproject.org>,
+ stefano.stabellini@xilinx.com, stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 12:36 AM Sai Pavan Boddu
-<sai.pavan.boddu@xilinx.com> wrote:
+On Thu, Feb 11, 2021 at 9:21 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
-> Configuring SDHCI-0 to act as eMMC controller.
+> We might as well surface this useful information in the manual so
+> users can find it easily. It is a fairly simple conversion to rst with
+> the only textual fixes being QemuOps to QemuOpts.
 >
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-Id: <20201105175153.30489-6-alex.bennee@linaro.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
+>
 > ---
->  hw/arm/xlnx-versal-virt.c | 16 +++++++++++-----
->  hw/arm/xlnx-versal.c      | 14 ++++++++++++--
->  2 files changed, 23 insertions(+), 7 deletions(-)
+> v2
+>   - fix whitespace
+>   - update MAINTAINERS
+> ---
+>  docs/generic-loader.txt        |  92 --------------------------
+>  docs/system/generic-loader.rst | 117 +++++++++++++++++++++++++++++++++
+>  docs/system/index.rst          |   1 +
+>  MAINTAINERS                    |   2 +-
+>  4 files changed, 119 insertions(+), 93 deletions(-)
+>  delete mode 100644 docs/generic-loader.txt
+>  create mode 100644 docs/system/generic-loader.rst
 >
-> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-> index 8482cd6..18489e4 100644
-> --- a/hw/arm/xlnx-versal-virt.c
-> +++ b/hw/arm/xlnx-versal-virt.c
-> @@ -333,6 +333,13 @@ static void fdt_add_sd_nodes(VersalVirt *s)
->          qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
->                                       2, addr, 2, MM_PMC_SD0_SIZE);
->          qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
-> +        /*
-> +         * eMMC specific properties
-> +         */
-> +        if (i == 0) {
-> +            qemu_fdt_setprop(s->fdt, name, "non-removable", NULL, 0);
-> +            qemu_fdt_setprop_sized_cells(s->fdt, name, "bus-width", 1, 8);
-> +        }
->          g_free(name);
->      }
->  }
-> @@ -512,7 +519,7 @@ static void create_virtio_regions(VersalVirt *s)
->      }
->  }
->
-> -static void sd_plugin_card(SDHCIState *sd, DriveInfo *di)
-> +static void sd_plugin_card(SDHCIState *sd, DriveInfo *di, bool emmc)
->  {
->      BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
->      DeviceState *card;
-> @@ -520,6 +527,7 @@ static void sd_plugin_card(SDHCIState *sd, DriveInfo *di)
->      card = qdev_new(TYPE_SD_CARD);
->      object_property_add_child(OBJECT(sd), "card[*]", OBJECT(card));
->      qdev_prop_set_drive_err(card, "drive", blk, &error_fatal);
-> +    object_property_set_bool(OBJECT(card), "emmc", emmc, &error_fatal);
->      qdev_realize_and_unref(card, qdev_get_child_bus(DEVICE(sd), "sd-bus"),
->                             &error_fatal);
->  }
-> @@ -528,7 +536,6 @@ static void versal_virt_init(MachineState *machine)
->  {
->      VersalVirt *s = XLNX_VERSAL_VIRT_MACHINE(machine);
->      int psci_conduit = QEMU_PSCI_CONDUIT_DISABLED;
-> -    int i;
->
->      /*
->       * If the user provides an Operating System to be loaded, we expect them
-> @@ -581,10 +588,9 @@ static void versal_virt_init(MachineState *machine)
->      memory_region_add_subregion_overlap(get_system_memory(),
->                                          0, &s->soc.fpd.apu.mr, 0);
->
-> +    sd_plugin_card(&s->soc.pmc.iou.sd[0], drive_get_next(IF_EMMC), true);
->      /* Plugin SD cards.  */
-> -    for (i = 0; i < ARRAY_SIZE(s->soc.pmc.iou.sd); i++) {
-> -        sd_plugin_card(&s->soc.pmc.iou.sd[i], drive_get_next(IF_SD));
-> -    }
-> +    sd_plugin_card(&s->soc.pmc.iou.sd[1], drive_get_next(IF_SD), false);
->
->      s->binfo.ram_size = machine->ram_size;
->      s->binfo.loader_start = 0x0;
-> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-> index b077716..3498dd9 100644
-> --- a/hw/arm/xlnx-versal.c
-> +++ b/hw/arm/xlnx-versal.c
-> @@ -230,9 +230,14 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
->  }
->
->  #define SDHCI_CAPABILITIES  0x280737ec6481 /* Same as on ZynqMP.  */
-> +#define SDHCI0_CAPS ((SDHCI_CAPABILITIES & ~(3 << 30)) | \
-> +                     (1 << 30))
-> +#define SDHCI1_CAPS SDHCI_CAPABILITIES
+> diff --git a/docs/generic-loader.txt b/docs/generic-loader.txt
+> deleted file mode 100644
+> index a9603a2af7..0000000000
+> --- a/docs/generic-loader.txt
+> +++ /dev/null
+> @@ -1,92 +0,0 @@
+> -Copyright (c) 2016 Xilinx Inc.
+> -
+> -This work is licensed under the terms of the GNU GPL, version 2 or later=
+.  See
+> -the COPYING file in the top-level directory.
+> -
+> -
+> -The 'loader' device allows the user to load multiple images or values in=
+to
+> -QEMU at startup.
+> -
+> -Loading Data into Memory Values
+> --------------------------------
+> -The loader device allows memory values to be set from the command line. =
+This
+> -can be done by following the syntax below:
+> -
+> -     -device loader,addr=3D<addr>,data=3D<data>,data-len=3D<data-len>
+> -                   [,data-be=3D<data-be>][,cpu-num=3D<cpu-num>]
+> -
+> -    <addr>      - The address to store the data in.
+> -    <data>      - The value to be written to the address. The maximum si=
+ze of
+> -                  the data is 8 bytes.
+> -    <data-len>  - The length of the data in bytes. This argument must be
+> -                  included if the data argument is.
+> -    <data-be>   - Set to true if the data to be stored on the guest shou=
+ld be
+> -                  written as big endian data. The default is to write li=
+ttle
+> -                  endian data.
+> -    <cpu-num>   - The number of the CPU's address space where the data s=
+hould
+> -                  be loaded. If not specified the address space of the f=
+irst
+> -                  CPU is used.
+> -
+> -All values are parsed using the standard QemuOps parsing. This allows th=
+e user
+> -to specify any values in any format supported. By default the values
+> -will be parsed as decimal. To use hex values the user should prefix the =
+number
+> -with a '0x'.
+> -
+> -An example of loading value 0x8000000e to address 0xfd1a0104 is:
+> -    -device loader,addr=3D0xfd1a0104,data=3D0x8000000e,data-len=3D4
+> -
+> -Setting a CPU's Program Counter
+> --------------------------------
+> -The loader device allows the CPU's PC to be set from the command line. T=
+his
+> -can be done by following the syntax below:
+> -
+> -     -device loader,addr=3D<addr>,cpu-num=3D<cpu-num>
+> -
+> -    <addr>      - The value to use as the CPU's PC.
+> -    <cpu-num>   - The number of the CPU whose PC should be set to the
+> -                  specified value.
+> -
+> -All values are parsed using the standard QemuOps parsing. This allows th=
+e user
+> -to specify any values in any format supported. By default the values
+> -will be parsed as decimal. To use hex values the user should prefix the =
+number
+> -with a '0x'.
+> -
+> -An example of setting CPU 0's PC to 0x8000 is:
+> -    -device loader,addr=3D0x8000,cpu-num=3D0
+> -
+> -Loading Files
+> --------------
+> -The loader device also allows files to be loaded into memory. It can loa=
+d ELF,
+> -U-Boot, and Intel HEX executable formats as well as raw images.  The syn=
+tax is
+> -shown below:
+> -
+> -    -device loader,file=3D<file>[,addr=3D<addr>][,cpu-num=3D<cpu-num>][,=
+force-raw=3D<raw>]
+> -
+> -    <file>      - A file to be loaded into memory
+> -    <addr>      - The memory address where the file should be loaded. Th=
+is is
+> -                  required for raw images and ignored for non-raw files.
+> -    <cpu-num>   - This specifies the CPU that should be used. This is an
+> -                  optional argument and will cause the CPU's PC to be se=
+t to
+> -                  the memory address where the raw file is loaded or the=
+ entry
+> -                  point specified in the executable format header. This =
+option
+> -                  should only be used for the boot image.
+> -                  This will also cause the image to be written to the sp=
+ecified
+> -                  CPU's address space. If not specified, the default is =
+CPU 0.
+> -    <force-raw> - Setting force-raw=3Don forces the file to be treated a=
+s a raw
+> -                  image.  This can be used to load supported executable =
+formats
+> -                  as if they were raw.
+> -
+> -All values are parsed using the standard QemuOps parsing. This allows th=
+e user
+> -to specify any values in any format supported. By default the values
+> -will be parsed as decimal. To use hex values the user should prefix the =
+number
+> -with a '0x'.
+> -
+> -An example of loading an ELF file which CPU0 will boot is shown below:
+> -    -device loader,file=3D./images/boot.elf,cpu-num=3D0
+> -
+> -Restrictions and ToDos
+> -----------------------
+> - - At the moment it is just assumed that if you specify a cpu-num then y=
+ou
+> -   want to set the PC as well. This might not always be the case. In fut=
+ure
+> -   the internal state 'set_pc' (which exists in the generic loader now) =
+should
+> -   be exposed to the user so that they can choose if the PC is set or no=
+t.
+> diff --git a/docs/system/generic-loader.rst b/docs/system/generic-loader.=
+rst
+> new file mode 100644
+> index 0000000000..6bf8a4eb48
+> --- /dev/null
+> +++ b/docs/system/generic-loader.rst
+> @@ -0,0 +1,117 @@
+> +..
+> +   Copyright (c) 2016, Xilinx Inc.
 > +
->  static void versal_create_sds(Versal *s, qemu_irq *pic)
->  {
->      int i;
-> +    uint64_t caps[] = {SDHCI0_CAPS, SDHCI1_CAPS};
+> +This work is licensed under the terms of the GNU GPL, version 2 or later=
+.  See
+> +the COPYING file in the top-level directory.
+> +
+> +Generic Loader
+> +--------------
+> +
+> +The 'loader' device allows the user to load multiple images or values in=
+to
+> +QEMU at startup.
+> +
+> +Loading Data into Memory Values
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +The loader device allows memory values to be set from the command line. =
+This
+> +can be done by following the syntax below::
+> +
+> +   -device loader,addr=3D<addr>,data=3D<data>,data-len=3D<data-len> \
+> +                   [,data-be=3D<data-be>][,cpu-num=3D<cpu-num>]
+> +
+> +``<addr>``
+> +  The address to store the data in.
+> +
+> +``<data>``
+> +  The value to be written to the address. The maximum size of the data
+> +  is 8 bytes.
+> +
+> +``<data-len>``
+> +  The length of the data in bytes. This argument must be included if
+> +  the data argument is.
+> +
+> +``<data-be>``
+> +  Set to true if the data to be stored on the guest should be written
+> +  as big endian data. The default is to write little endian data.
+> +
+> +``<cpu-num>``
+> +  The number of the CPU's address space where the data should be
+> +  loaded. If not specified the address space of the first CPU is used.
+> +
+> +All values are parsed using the standard QemuOps parsing. This allows th=
+e user
+> +to specify any values in any format supported. By default the values
+> +will be parsed as decimal. To use hex values the user should prefix the =
+number
+> +with a '0x'.
+> +
+> +An example of loading value 0x8000000e to address 0xfd1a0104 is::
+> +
+> +    -device loader,addr=3D0xfd1a0104,data=3D0x8000000e,data-len=3D4
+> +
+> +Setting a CPU's Program Counter
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +The loader device allows the CPU's PC to be set from the command line. T=
+his
+> +can be done by following the syntax below::
+> +
+> +     -device loader,addr=3D<addr>,cpu-num=3D<cpu-num>
+> +
+> +``<addr>``
+> +  The value to use as the CPU's PC.
+> +
+> +``<cpu-num>``
+> +  The number of the CPU whose PC should be set to the specified value.
+> +
+> +All values are parsed using the standard QemuOpts parsing. This allows t=
+he user
+> +to specify any values in any format supported. By default the values
+> +will be parsed as decimal. To use hex values the user should prefix the =
+number
+> +with a '0x'.
+> +
+> +An example of setting CPU 0's PC to 0x8000 is::
+> +
+> +    -device loader,addr=3D0x8000,cpu-num=3D0
+> +
+> +Loading Files
+> +^^^^^^^^^^^^^
+> +
+> +The loader device also allows files to be loaded into memory. It can loa=
+d ELF,
+> +U-Boot, and Intel HEX executable formats as well as raw images.  The syn=
+tax is
+> +shown below:
+> +
+> +    -device loader,file=3D<file>[,addr=3D<addr>][,cpu-num=3D<cpu-num>][,=
+force-raw=3D<raw>]
+> +
+> +``<file>``
+> +  A file to be loaded into memory
+> +
+> +``<addr>``
+> +  The memory address where the file should be loaded. This is required
+> +  for raw images and ignored for non-raw files.
+> +
+> +``<cpu-num>``
+> +  This specifies the CPU that should be used. This is an
+> +  optional argument and will cause the CPU's PC to be set to the
+> +  memory address where the raw file is loaded or the entry point
+> +  specified in the executable format header. This option should only
+> +  be used for the boot image. This will also cause the image to be
+> +  written to the specified CPU's address space. If not specified, the
+> +  default is CPU 0. <force-raw> - Setting force-raw=3Don forces the file
+> +  to be treated as a raw image. This can be used to load supported
+> +  executable formats as if they were raw.
+> +
+> +All values are parsed using the standard QemuOpts parsing. This allows t=
+he user
+> +to specify any values in any format supported. By default the values
+> +will be parsed as decimal. To use hex values the user should prefix the =
+number
+> +with a '0x'.
+> +
+> +An example of loading an ELF file which CPU0 will boot is shown below::
+> +
+> +    -device loader,file=3D./images/boot.elf,cpu-num=3D0
+> +
+> +Restrictions and ToDos
+> +^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +At the moment it is just assumed that if you specify a cpu-num then
+> +you want to set the PC as well. This might not always be the case. In
+> +future the internal state 'set_pc' (which exists in the generic loader
+> +now) should be exposed to the user so that they can choose if the PC
+> +is set or not.
+> +
+> +
+> diff --git a/docs/system/index.rst b/docs/system/index.rst
+> index 625b494372..cee1c83540 100644
+> --- a/docs/system/index.rst
+> +++ b/docs/system/index.rst
+> @@ -25,6 +25,7 @@ Contents:
+>     usb
+>     ivshmem
+>     linuxboot
+> +   generic-loader
+>     vnc-security
+>     tls
+>     gdb
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ab6877dae6..774b3ca7a5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1991,7 +1991,7 @@ M: Alistair Francis <alistair@alistair23.me>
+>  S: Maintained
+>  F: hw/core/generic-loader.c
+>  F: include/hw/core/generic-loader.h
+> -F: docs/generic-loader.txt
+> +F: docs/system/generic-loader.rst
 >
->      for (i = 0; i < ARRAY_SIZE(s->pmc.iou.sd); i++) {
->          DeviceState *dev;
-> @@ -244,9 +249,14 @@ static void versal_create_sds(Versal *s, qemu_irq *pic)
->
->          object_property_set_uint(OBJECT(dev), "sd-spec-version", 3,
->                                   &error_fatal);
-> -        object_property_set_uint(OBJECT(dev), "capareg", SDHCI_CAPABILITIES,
-> +        object_property_set_uint(OBJECT(dev), "capareg", caps[i],
->                                   &error_fatal);
-> -        object_property_set_uint(OBJECT(dev), "uhs", UHS_I, &error_fatal);
-> +        /*
-> +         * UHS is not applicable for eMMC
-> +         */
-> +        if (i == 1) {
-> +            object_property_set_uint(OBJECT(dev), "uhs", UHS_I, &error_fatal);
-> +        }
->          sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
->
->          mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
+>  Guest Loader
+>  M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > --
-> 2.7.4
+> 2.20.1
 >
 >
 
