@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0483531AE66
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 00:01:39 +0100 (CET)
-Received: from localhost ([::1]:60610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D280D31AE67
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 00:09:22 +0100 (CET)
+Received: from localhost ([::1]:37038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lB3v0-0003Lp-2x
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 18:01:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59524)
+	id 1lB42T-0005tL-Jg
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 18:09:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lB3ss-0002Lf-UK; Sat, 13 Feb 2021 17:59:26 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:37409)
+ id 1lB41W-0005Kg-3l; Sat, 13 Feb 2021 18:08:22 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:50117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lB3sr-000062-8f; Sat, 13 Feb 2021 17:59:26 -0500
+ id 1lB41U-00013R-Fy; Sat, 13 Feb 2021 18:08:21 -0500
 Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N30VJ-1lsKa20DBF-013N3r; Sat, 13 Feb 2021 23:59:19 +0100
-Subject: Re: [PATCH] linux-user: Add support for pivot_root syscall
-To: David Leonard <David.Leonard@digi.com>, qemu-trivial@nongnu.org,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <alpine.DEB.2.22.394.2010121712560.2113823@davidl>
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M58vU-1lCATu0Jym-0017x9; Sun, 14 Feb 2021 00:08:02 +0100
+Subject: Re: [PATCH v2 02/12] virtio-pmem: put it into the 'storage' category
+To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20201130083630.2520597-1-ganqixin@huawei.com>
+ <20201130083630.2520597-3-ganqixin@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <1ff5917b-1a93-9115-2ed8-c333a35f2e44@vivier.eu>
-Date: Sat, 13 Feb 2021 23:59:18 +0100
+Message-ID: <d1d1abc9-0caf-66f8-4f28-aeed0d3a237c@vivier.eu>
+Date: Sun, 14 Feb 2021 00:08:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.22.394.2010121712560.2113823@davidl>
+In-Reply-To: <20201130083630.2520597-3-ganqixin@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pVY0C0zkN4JLyo71bo6CkQZIZ0nxStkzZTpS4APEmKNxmnbD23Y
- t5A6s7+fUYDjHILxTt2i2iKGP6PpX7LJpFNSQHI3h65U3fa01J3ftYUR0qJ9vDm6Nob8UyD
- aWU7zM/RzWkPJPYrPwWDe4TIGtOpWUt5+HMa77vtDRWuRj/tQ42aZ9nDPgjmqaU8/n8FaaI
- YaiGw3eFCeH+IRe6RKcYA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h/tROLFvYGM=:4tbvr9kv/4bInD6M8bF8gr
- IppQhZ4bakLNPmK4Sp1/Pj7PVkDn49MoxcxYGOQYsTZQa2k3R+DjuISuODqvUbVXjnUcjrd+j
- jV1S30rrmeDP3mDNOp01h9WF3WtgKLSzCrbKiV8kb+HyvCNpQHw+1Mw5ONCX1tP7rCpBxxBHr
- /0H7VxmJxcrpNeVlhjcRdrn2sEBZfX5x8N3SYOwTHiUIF/7DU17AQX7TiYy8JJaLp5B3ssXMi
- 5RWASiS6N6gFZjCHmPn1mW+YtcpFJU7aUe+vPuSWFP6BEXYPdcmbJhQliLBTSsAijGNeZhmVy
- 7AboMVodkZ+U5jicdXvgPWwj3t0LFYskM/XjMcwEerox9D95rzaiSwNCjr0KYVMJMQzZE/Euh
- PF2vLkTfyvRMhjEFd63ueyZPYeuUVgBad8JVtfqh7CpmpvVdS61y8zExqhmXa4FNZJ6JtHg5z
- 1efm2WsmHw==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:RAe+me9XYH9zWOzS5NneW31FnIz15lC7L3y6LfbUwx+ML8pYXhe
+ 6dpYYM+X3BgDw9jIAviIKbKtWXxfOmB5lUw86lulhrTPTqnuaKyCHp2DvqasG1E+8JQJWgu
+ ym4xk51N0Izl0kkPocrkMhqjd0ZLtbqzTGDGYeTlzZbjbXY+RZkW5Q0Ah7eBM4jspo6LV8d
+ Pgsa3tvZr8cbE1ycW970Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CKY3E2IyiDc=:sROvehIDBqCnIKgimuuHm9
+ Q+Lu7rcLWHkZfvR5uF5tDf9kfjJscL4jZmdZqvpjD2SwHpfzI7CsBF8ditlcLO5tuNlWMwnr5
+ Wd2euSVQakWb2pT7uv9cztINdIG2m5It37nPZ2qhNm4g8q/3P+Cd5ALhE8LCIDlihbbgreujr
+ zdoBOj5CDz+uLgQnjWjqpE5K1d8NvybgfiD3Nc+JUpdVX/TIu3cxYa4/TnY8Sm15rmj1LXlsK
+ 8PSMKFV9/xLZJB2oWEB0LzSe1AvrrvOWXPoW2mqk2dAeGormi/VKPpRPV5rjTmSfjIfyKZfm9
+ ndiTPXnBDc+EunGS2H87jSAbAKLkebV22kN5c2SxOQaQHG86iV1Lm8ZlX6uLmJEbZBgCdtDAj
+ AP3tANc1TA7+1XJTtkmANJPf0C0IkeLkvOlR1L62a0EjZHgd3GMs6l//8WQ/oPfJqrl9CZmoI
+ Td1eqNKBkA==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,61 +67,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>, kuhn.chenqun@huawei.com,
+ thuth@redhat.com, zhang.zhanghailiang@huawei.com,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 12/10/2020 à 09:14, David Leonard a écrit :
+Le 30/11/2020 à 09:36, Gan Qixin a écrit :
+> The category of the virtio-pmem device is not set, put it into the 'storage'
+> category.
 > 
-> Tested on Ubuntu 20.04 x86_64 against arm-linux-gnueabi toolchain.
-> 
-> Signed-off-by: David Leonard <David.Leonard@digi.com>
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
 > ---
->  linux-user/syscall.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  hw/virtio/virtio-pmem.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 897d20c076..8143c8c280 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -345,6 +345,10 @@ _syscall5(int, kcmp, pid_t, pid1, pid_t, pid2, int, type,
->            unsigned long, idx1, unsigned long, idx2)
->  #endif
+> diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+> index ddb0125901..98b3139cd0 100644
+> --- a/hw/virtio/virtio-pmem.c
+> +++ b/hw/virtio/virtio-pmem.c
+> @@ -175,6 +175,7 @@ static void virtio_pmem_class_init(ObjectClass *klass, void *data)
+>  
+>      vpc->fill_device_info = virtio_pmem_fill_device_info;
+>      vpc->get_memory_region = virtio_pmem_get_memory_region;
+> +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>  }
+>  
+>  static TypeInfo virtio_pmem_info = {
 > 
-> +#if defined(TARGET_NR_pivot_root) && defined(__NR_pivot_root)
-> +_syscall2(int, pivot_root, const char *, new_root, const char *, put_old)
-> +#endif
-> +
->  /*
->   * It is assumed that struct statx is architecture independent.
->   */
-> @@ -8834,6 +8838,22 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->          ret = get_errno(umount2(p, arg2));
->          unlock_user(p, arg1, 0);
->          return ret;
-> +#endif
-> +#if defined(TARGET_NR_pivot_root) && defined(__NR_pivot_root)
-> +    case TARGET_NR_pivot_root:
-> +        {
-> +            void *p2;
-> +            p  = lock_user_string(arg1);
-> +            p2 = lock_user_string(arg2);
-> +            if (!p || !p2) {
-> +                ret = -TARGET_EFAULT;
-> +            } else {
-> +                ret = get_errno(pivot_root(p, p2));
-> +            }
-> +            unlock_user(p2, arg2, 0);
-> +            unlock_user(p, arg1, 0);
-> +        }
-> +        return ret;
->  #endif
->      case TARGET_NR_ioctl:
->          return do_ioctl(arg1, arg2, arg3);
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
-Please, re-send you patch to qemu-devel@nongnu.org
+Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
