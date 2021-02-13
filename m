@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D3A31AC04
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 15:04:23 +0100 (CET)
-Received: from localhost ([::1]:54986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0928E31AC31
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 15:19:30 +0100 (CET)
+Received: from localhost ([::1]:52050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAvX2-0007Tx-Fl
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 09:04:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56986)
+	id 1lAvlg-0002IT-7F
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 09:19:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1lAvR8-0006mT-CT
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:58:14 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:60170)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1lAvR5-0003NW-V6
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:58:14 -0500
-Received: from [192.168.61.100] (lfbn-lyo-1-447-149.w2-7.abo.wanadoo.fr
- [2.7.4.149])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 7F0C021C38;
- Sat, 13 Feb 2021 13:58:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1613224688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rBzPTEYIzmZzoX4eyhJFnk9o+Xk9sQ34ub6022gt9MA=;
- b=5awS7xyMUXSc5bwZN2VZ6M7DvMOxc3XfBrkfEA9Uo3HjgWtGR9od/iLhfC4HAu7voLBo1N
- 4bVrY9+qnriG5vGjXLnhAP76DQxv04u+IBut6fYe6jWJ2x2hdOjSbGxdL9VGWGmAneRbVU
- xwQdb0fuxoLlG4ZAM5y4eErs12pzpeY=
-Subject: Re: About creating machines on the command line
-To: Alexander Graf <graf@amazon.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, qemu-devel@nongnu.org,
- Nikos Dragazis <ndragazis@arrikto.com>,
- Maxime Coquelin <maxime.coquelin@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Andra-Irina Paraschiv <andraprs@amazon.com>,
- "John G. Johnson" <john.g.johnson@oracle.com>,
- Jan Kiszka <jan.kiszka@siemens.com>
-References: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
- <93e41283-ec7c-4c2b-dcfd-9e0e7a2e435c@amsat.org>
- <497eb0f5-a308-7a10-37ef-5fcc3ec21b8a@amazon.com>
- <01ebe874-badf-0454-388c-00d49b2b3763@greensocs.com>
- <25208118-d432-c86f-1711-12e8491dd817@amazon.com>
-From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <80cd81c4-ff7e-23ff-608a-ec85f5982577@greensocs.com>
-Date: Sat, 13 Feb 2021 14:58:39 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lAvk3-0001GZ-IT
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 09:17:47 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34521)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lAvk2-0003Vk-8x
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 09:17:47 -0500
+Received: by mail-wm1-x329.google.com with SMTP id o10so2106122wmc.1
+ for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 06:17:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QeiM1vdWhg3Ntfz7L7oafR2BGbqd3hXlzbrSyTAqu70=;
+ b=XePNL6wrq6VJpwyT7x23B7G3vZ39LgnCwqo6bj2ccQXN9wbOXDCHnYyEzQ013qdxrZ
+ oFr7UMnQ/h/YGeBpFnAGL0xxrcMNOSIE2RClDPq+Gm+uvCOTHQ9cq/wk0r8yeVdGFov8
+ bilq85mNgOoLMp+usLi2K6Iv0isBXd6TPDu1u4MEsKOXyd5yAo+Z8+H5PuXKoTACXjM1
+ Rrv1aKs5UlHQWYLcs5m9d52AVmXF7ERvps+vG7k2bP4eBDsrxRv4Gha97DyWn0XDvEqz
+ DS4FYvIDp0hH7nEi8i8xVFehOkbtBfZxoOxGK8uAwHNbb9ABxjgYTHVmR73hbBROZ5ie
+ aptg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QeiM1vdWhg3Ntfz7L7oafR2BGbqd3hXlzbrSyTAqu70=;
+ b=Eafofk9tSPnCDGrTg8sxnTrcoQSAxxbDzBxTf9xI9dI0CUQkNlfoaVHjlZPcys/yee
+ hMtzMD6AMayLx9BTy+xapHfxljtmCtb2iJdo8JDGG1ILnfaNryagOSWttoyvfFWdFTHD
+ SIt7NHn2vqZwdaL0ArOM+ILxnG3jbyJ3TRbXNV7hUlNoAohYZTQqvsOqe9D4Fc8ayIVX
+ TEOMPrQMJkga36v55+u4sCcSfeiu0G75X+/BKAR4YZypzD6vJMy8hSasyD6NXDrhBe1q
+ qR8huGS6ZYPFRV9uZ1DAQcU4slwX3SwDDQQSCj48qvmul9qk1DODiTBQVufSU7JCzmr2
+ VyPw==
+X-Gm-Message-State: AOAM530Z0dRZ1knBVw3p/523SMDXYQUVFi5BLpb3NBZMgYiv9NqhnTn1
+ fYOEP42+Y7uuK1SGRXHK4/E=
+X-Google-Smtp-Source: ABdhPJyFkfgC7b5fWRjTq/bxcOlHnsVy2GJ+rxqt6hy3LXk8729DLq69ZJui4nyvhZzVRxCVJZ1bRA==
+X-Received: by 2002:a05:600c:35c7:: with SMTP id
+ r7mr2772490wmq.37.1613225864128; 
+ Sat, 13 Feb 2021 06:17:44 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id t15sm17359660wmi.48.2021.02.13.06.17.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 13 Feb 2021 06:17:43 -0800 (PST)
+Subject: Re: [PATCH v3 23/23] tests/acceptance: add a memory callback check
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210213130325.14781-1-alex.bennee@linaro.org>
+ <20210213130325.14781-24-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d14118cf-e7e2-43f9-aeb9-9d2b7da09685@amsat.org>
+Date: Sat, 13 Feb 2021 15:17:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <25208118-d432-c86f-1711-12e8491dd817@amazon.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210213130325.14781-24-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,105 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- berrange@redhat.com, sam.grove@sifive.com,
- Mark Burton <mark.burton@greensocs.com>, richard.fuhler@sifive.com,
- armbru@redhat.com, edgar.iglesias@gmail.com
+Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/21 1:13 PM, Alexander Graf wrote:
+On 2/13/21 2:03 PM, Alex Bennée wrote:
+> This test makes sure that the inline and callback based memory checks
+> count the same number of accesses.
 > 
-> 
-> On 05.02.21 11:43, Luc Michel wrote:
->>
->> On 2/3/21 6:09 PM, Alexander Graf wrote:
->>>
->>>
->>> On 03.02.21 17:55, Philippe Mathieu-Daudé wrote:
->>>>
->>>> On 1/11/21 3:50 PM, Luc Michel wrote:
->>>>> Hi,
->>>>>
->>>>> We would like to work on improving QEMU to be able to create custom
->>>>> machines from the command line. The goal here is to get feedback from
->>>>> the community and shape the future developments.
->>>>
->>>> Cc'ing John who is working on command line, and some developers from
->>>> the "inter-VM device emulation interface" call.
->>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg723252.html
->>>>
->>>>>
->>>>> The use case mainly comes from people working with tools to customize
->>>>> their designs, such as SiFive Core Designer
->>>>> (https://scs.sifive.com/core-designer). This kind of tools may allow
->>>>> creation or customization of a whole SoC, from the number of cores, to
->>>>> the memory and IRQ mapping of peripherals etc.
->>>>>
->>>>> The ultimate goal would be to be able to create any kind of machine on
->>>>> the command line. However we are aware that this is a substantial 
->>>>> amount
->>>>> of changes in QEMU.
->>>
->>> Is the command line really the right abstraction level here? Wouldn't it
->>> make more sense to have a QOM / <scripting language> bridge that allows
->>> you to create and connect QOM objects using for example Python?
->> Yes, after some discussions with the community, we are now working on
->> improving QMP to achieve this. We first started with the idea of the
->> command line because it seems to be the place where we had "almost"
->> everything we needed already. In either cases we are planning to use a
->> front-end script to go from e.g. a DTB to whatever QEMU interface we
->> will end up using.
->>
->>>
->>> You could then have machine descriptions in a script, which could be
->>> generated by the SoC customization tools.
->> Yes, most likely a DTB in our case.
-> 
-> So, something like this?
-> 
->      https://github.com/Xilinx/qemu/blob/master/hw/arm/arm_generic_fdt.c
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  tests/acceptance/tcg_plugins.py | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
 
-Yes, but we specifically want to avoid embedding the part that will 
-parse and translate the DTB into QEMU.
-
-> 
-> I'm not sure how DTB would translate 1:1 into qom properties for a reeal 
-> generic mechanism? And how easy it would be to extract target device 
-> specifics, such as interrupt descriptors or PCI ranges properties.
-I think there is no such 1:1 mapping. That's why we believe the tool(s) 
-that parses the DTB and translate it into QMP commands must stay out of 
-QEMU.
-
-> 
-> If you want to make this fully generic, try to ensure that you can model 
-> weird beasts such as the q35 machine model.
-> 
-> Either way, the idea has come up multiple times before. I don't know of 
-> anyone who successfully managed to push it upstream yet, but I 
-> definitely hope we will be at a point where you can describe machine 
-> models in something different than C.
-We'll try an go step by step, to not raise all the issues at the same 
-time hopefully.
-
-Thanks
-
--- 
-Luc
-
-> 
-> 
-> Alex
-> 
-> 
-> 
-> Amazon Development Center Germany GmbH
-> Krausenstr. 38
-> 10117 Berlin
-> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-> Sitz: Berlin
-> Ust-ID: DE 289 237 879
-> 
-> 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
