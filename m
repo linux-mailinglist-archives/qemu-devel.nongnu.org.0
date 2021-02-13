@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13AF31ADBA
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 20:18:23 +0100 (CET)
-Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DFE31ADC1
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 20:24:27 +0100 (CET)
+Received: from localhost ([::1]:40370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lB0Qw-0006jx-Sv
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 14:18:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52796)
+	id 1lB0Wo-0008Dx-9e
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 14:24:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lB0PZ-0006JS-Nj
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 14:16:57 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:47669)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lB0VD-0007fw-Ia; Sat, 13 Feb 2021 14:22:47 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:36631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lB0PX-0003P7-D5
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 14:16:57 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lB0VB-0003au-Mc; Sat, 13 Feb 2021 14:22:47 -0500
 Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
  (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MRmo8-1lICV344AE-00TGSO; Sat, 13 Feb 2021 20:16:48 +0100
-Subject: Re: [PATCH] linux-user: fix O_NONBLOCK in signalfd4() and eventfd2()
- syscalls
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <20210210061214.GA221322@ls3530.fritz.box>
+ 1MJEEf-1lRJ062D0d-00Kh1Y; Sat, 13 Feb 2021 20:22:41 +0100
+Subject: Re: [PATCH 1/1] linux-user/syscall: Fix do_ioctl_ifconf() for 64 bit
+ targets.
+To: Stefan <stefan-guix@vodafonemail.de>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <60AA0765-53DD-43D1-A3D2-75F1778526F6@vodafonemail.de>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <fb16d5fb-6e86-2723-7899-15df7a4dd659@vivier.eu>
-Date: Sat, 13 Feb 2021 20:16:46 +0100
+Message-ID: <49958794-c093-820b-1ecc-13248727e9e0@vivier.eu>
+Date: Sat, 13 Feb 2021 20:22:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210210061214.GA221322@ls3530.fritz.box>
+In-Reply-To: <60AA0765-53DD-43D1-A3D2-75F1778526F6@vodafonemail.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6qTm+sK+Bf+vaMg3ZJbbCYTaN6ZMLxpY0MtIh8k6Xjoo5LZhPGW
- DTmicAg/NVWxkS3+p0WjxvTUIeAA8QMSBxuByZDMwiK2xMC7AZuag1wuBv0w8HDyhX85O7O
- AlX3rYo7mNeleAbdV//CTbgsu7iX/wH8ZNgzAb/vwAqO6akqf5wLbPlHyrJ7RVZP5URAfMB
- 4iFQQWIZ11+HLuySbZS3w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nQKSOHLh62w=:hpMuGKWOxCqOIgR6rbEHdm
- 4igw8Eicr25LttZwEeK6EMU9e7HYD/HsebVSKvg/y5XiP0R/jD7kd+tug2ZWlCQ55ztoVa+6O
- l60cKCDQdInjnttfvwqgUXYTWxaFscFy9kjyRnFzDlIi9Byttwkc2TZ4A5wdkjDAev3uzg8E0
- 27SJl0MObgMClSeiv72a5wUyJO8VZYaZ89a0OzZTj7JDl03PXDrTFDccaQXwmLYpGGUL4c3Ms
- w4amQsz4QQu3CFelF5L5Z0ZZbRel4nv/cfhFpTIk1Q8pKD+xRsnvzjUEOjeCrD91KZo72aVxQ
- MVkRUNHdFUclQcU1lAuh4iPhCXESSexLwDLsJjSp65c4+E8z/FqdfME94jX7AIM38F6O/fcjK
- exf2c+EVqM17pGVwRA1R+YY+vQuXMVrPhx48LG6jpRW7gMkhG/VcZ6BF5A2TKmY3XBwcS42Qd
- ndyaCz0Fqg==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:cd3kVb/xqaXOD8RNEmhwqlV8Knrf21ApIZ94AKNSP7T1BWw+69V
+ m0Hs5I9iVxoKTcx4u4mwxvMNuxEMwdrnBGzvDtzlWtmJH8wWlwRy28Dp0wpVUXPw/bz4W8w
+ CCgvumKYFySjHpmwQL8E2CIdnf/I1KG7k9A/7nv57NHIbR7eUGQuRD59VfO8bxOPwwq3Kbr
+ i0CuPBkZUJ03wSLlMdxsA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Xf3TCoUcKAM=:2zYfOALIqreHNX+Rg3Apm8
+ twXlWu0U+hZsKPH4v8pBlyihBQ8/bC0RT3Y2AStyW1yW3pQCXoeagD+Rg8PSQfg2JNxfUsKm3
+ LbaSRGS3pk769Oa0CBQePTPnkCBVr2f5nWrSXZWrRdLOBgohvZ3Zs2HyEPOVbDT9pORgzYZ6b
+ z3BaIVdGPuSUCIA48CGa7IO7KzF5S2E9G8c49i2WvX1mStMTuU1YMgf1bEUcTEHqOZo2eIGmz
+ KZBW3J4GOthCHYKpLntwOQDUUNur6Vl1T4M+e1f/RFjWMpQnccX6Xp+SUkChMqlPBFTTvDqOn
+ mNIjQMxHASrWdU4AmIILXAUK7jFAhOKpf4I8US6rxWMHsPYpjXOjf73pOn+X0x3rxlceZOHq0
+ AGNhxyVHve6iT8KGS90bZMkSWJVet/KW5/HWHYGkR+u06SELFeLasf6TQ/C32
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,82 +66,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John David Anglin <dave.anglin@bell.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/02/2021 à 07:12, Helge Deller a écrit :
-> On the hppa target userspace binaries may call signalfd4() and
-> eventfd2() with an old TARGET_O_NONBLOCK value of 000200004 instead of
-> 000200000 for the "mask" syscall parameter, in which case the current
-> emulation doesn't handle the translation to the native O_NONBLOCK value
-> correctly.
+Le 09/01/2021 à 19:59, Stefan a écrit :
+> The sizeof(struct ifreq) is 40 for 64 bit and 32 for 32 bit architectures.
+> This structure contains a union of other structures, of which struct ifmap
+> is the biggest for 64 bit architectures. Calling ioclt(…, SIOCGIFCONF, …)
+> fills a struct sockaddr of that union, and do_ioctl_ifconf() only considered
+> that struct sockaddr for the size of the union, which has the same size as
+> struct ifmap on 32 bit architectures. So do_ioctl_ifconf() assumed a wrong
+> size of 32 for struct ifreq instead of the correct size of 40 on 64 bit
+> architectures.
 > 
-> The 0x04 bit is not masked out before the new O_NONBLOCK bit is set and
-> as such when calling the native syscall errors out with EINVAL.
+> The fix makes do_ioctl_ifconf() handle struct ifmap as the biggest part of
+> the union, treating struct ifreq with the correct size.
 > 
-> Fix this by introducing TARGET_O_NONBLOCK_MASK which is used to mask off
-> all possible bits. This define defaults to TARGET_O_NONBLOCK when not
-> defined otherwise, so for all other targets the implementation will
-> behave as before.
-> 
-> This patch needs to be applied on top of my previous two patches.
-> 
-> Bug was found and patch was verified by using qemu-hppa as debian buildd
-> server on x86_64.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> 
+> Signed-off-by: Stefan <stefan-guix@vodafonemail.de>
 > ---
+>   linux-user/syscall.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/hppa/target_fcntl.h b/linux-user/hppa/target_fcntl.h
-> index 08e3a4fcb0..4eb0ec98e2 100644
-> --- a/linux-user/hppa/target_fcntl.h
-> +++ b/linux-user/hppa/target_fcntl.h
-> @@ -9,6 +9,7 @@
->  #define HPPA_TARGET_FCNTL_H
-> 
->  #define TARGET_O_NONBLOCK    000200000
-> +#define TARGET_O_NONBLOCK_MASK 000200004 /* includes old HP-UX NDELAY flag */
->  #define TARGET_O_APPEND      000000010
->  #define TARGET_O_CREAT       000000400 /* not fcntl */
->  #define TARGET_O_EXCL        000002000 /* not fcntl */
 > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 27adee908e..3031aa342f 100644
+> index d182890ff0..15a6abadc1 100644
 > --- a/linux-user/syscall.c
 > +++ b/linux-user/syscall.c
-> @@ -273,6 +273,11 @@ static type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5,	\
->  #define TARGET_NR__llseek TARGET_NR_llseek
->  #endif
-> 
-> +/* some platforms need to mask more bits than just TARGET_O_NONBLOCK */
-> +#ifndef TARGET_O_NONBLOCK_MASK
-> +#define TARGET_O_NONBLOCK_MASK TARGET_O_NONBLOCK
-> +#endif
-> +
->  #define __NR_sys_gettid __NR_gettid
->  _syscall0(int, sys_gettid)
-> 
-> @@ -7719,7 +7724,7 @@ static abi_long do_signalfd4(int fd, abi_long mask, int flags)
->      sigset_t host_mask;
->      abi_long ret;
-> 
-> -    if (flags & ~(TARGET_O_NONBLOCK | TARGET_O_CLOEXEC)) {
-> +    if (flags & ~(TARGET_O_NONBLOCK_MASK | TARGET_O_CLOEXEC)) {
->          return -TARGET_EINVAL;
->      }
->      if (!lock_user_struct(VERIFY_READ, target_mask, mask, 1)) {
-> @@ -12508,7 +12513,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->  #if defined(TARGET_NR_eventfd2)
->      case TARGET_NR_eventfd2:
->      {
-> -        int host_flags = arg2 & (~(TARGET_O_NONBLOCK | TARGET_O_CLOEXEC));
-> +        int host_flags = arg2 & (~(TARGET_O_NONBLOCK_MASK | TARGET_O_CLOEXEC));
->          if (arg2 & TARGET_O_NONBLOCK) {
->              host_flags |= O_NONBLOCK;
->          }
+> @@ -4902,6 +4902,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
+>       struct ifconf *host_ifconf;
+>       uint32_t outbufsz;
+>       const argtype ifreq_arg_type[] = { MK_STRUCT(STRUCT_sockaddr_ifreq) };
+> +    const argtype ifreq_max_type[] = { MK_STRUCT(STRUCT_ifmap_ifreq) };
+>       int target_ifreq_size;
+>       int nb_ifreq;
+>       int free_buf = 0;
+> @@ -4925,7 +4926,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
+>   
+>       host_ifconf = (struct ifconf *)(unsigned long)buf_temp;
+>       target_ifc_buf = (abi_long)(unsigned long)host_ifconf->ifc_buf;
+> -    target_ifreq_size = thunk_type_size(ifreq_arg_type, 0);
+> +    target_ifreq_size = thunk_type_size(ifreq_max_type, 0);
+>   
+>       if (target_ifc_buf != 0) {
+>           target_ifc_len = host_ifconf->ifc_len;
 > 
 
 Applied to my linux-user-for-6.0 branch.
