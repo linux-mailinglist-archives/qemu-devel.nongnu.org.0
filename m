@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5664F31ABC9
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:31:53 +0100 (CET)
-Received: from localhost ([::1]:50304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C52B31ABD3
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:34:02 +0100 (CET)
+Received: from localhost ([::1]:54934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAv1c-0000cf-DK
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:31:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47122)
+	id 1lAv3i-0002gg-0H
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:34:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAuaX-00021t-E6
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:53 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42396)
+ id 1lAuaY-00023s-7s
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:54 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAuaT-00068G-Hs
+ id 1lAuaT-00068Q-HL
  for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:53 -0500
-Received: by mail-wr1-x436.google.com with SMTP id r21so2879366wrr.9
- for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:03:43 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id v1so2902940wrd.6
+ for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TUNqIuxg5KHDCmh7qvfawJHyEX7Y5EGGxOu/SGD9Qrk=;
- b=ViSA5VIissqSmLM7cM8j+W1h7L2VicTiuoicTvfekORamq/PtQVPKVgIUQ2UyA4cHE
- Q2u7fcMNDghPFznY3OozO3A9HD0LLatEYOcoriP5L29gUvUkrp8RmeaVxf7Q8BajclSo
- /OGuMBv+WkdaH5wOP9fx5WVTzzN113HtCw9yNvoxQUjouqeazghLcTjQHEpoH7senfHN
- nzmDjGimXYtzNHKUDLrTYKGIxRtOA2x1JsCVXR33e2kO/5BcIxukXEsGUGtjRSOf4oJN
- fFg/GBB0Mcv1lsQP5VwnQF9efRkK9+Fakz7Y5sHwgsYqBZLJqwNF6tYNBN7YVzXT0U87
- x8nw==
+ bh=XBtLxa+6cxAHsw5aMhaqebCDJwdNEPp+4JCQfAf+5VA=;
+ b=Q1wlK/K0yI47CjkCI5FCBLsfRwKJrqIigWzPFsanZOOwVvwLvwQGT0PXkKUTak0DVe
+ fXjj4uRVWk/8KpkpO5lbI39XhNGLm0+0AobdL/yDdc+uBIyoFaM/ynupH0xMJE7gx9je
+ f6FGYNNe7fkifPqrqJ829YzgVsv8G9a64FwDoNGr4AE1uUnqCoOpaPtdVSy7beKTFMk0
+ i9p0Ysr4V4K7yNluWYk0Eq3WhfUd7fTp7krs4e2trVcztDq74/j8xMjIGEO9TLaoQai6
+ pv+j06mSTqEqi/jmP73fgCDgXs2rWF8FiDs9v437/utlW+89wUarH1HT9yS5eM6tYUfw
+ 6Q/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TUNqIuxg5KHDCmh7qvfawJHyEX7Y5EGGxOu/SGD9Qrk=;
- b=tpCbh6zQLViGxzCAbc93W9wIjRKYPsgKSptAdH2qPyEsJOut4wj7BZAU1iI2sF/lVT
- TgxNG5HVHTigbHYW18EjyjS7LJCXpEZy4MG0V7NsRDIKItJSVtVZEAQfxG9LVc+GSmY0
- Ko1yd+/CazFhle8dQ90obCc8HYTFkyIakaC7J4f4pCjdcOJcD9v+6RtJyq212upxOg5v
- YQE/QKV+5hA9BYqo92c4l4IE98AhD7JCYMlY/HkVAt2g5kkr4fEf40/UUAcezP4Y0yqf
- hMgaLXIICcJ4a3u+7ofrHBOxO6XdbNh9s72urmCbSz5sIwh4irSuxLyZKPaB2xY5JZbO
- b0YA==
-X-Gm-Message-State: AOAM533Dn5038TwyfQPCIExWcgt0Wpe4p5KcsIVulfik4JwbyxHV7Vlp
- u2QcU7z0MWa6IJpXQuHL1ZByP/of9La6eFkl
-X-Google-Smtp-Source: ABdhPJx/hT1TLGw+85pfUNwglAOgkrPzchqIOi2IjndQXqvDm+uBFRhP1DhHZvFGS4eb66/wtl7KZQ==
-X-Received: by 2002:adf:bc45:: with SMTP id a5mr8839973wrh.290.1613221422757; 
- Sat, 13 Feb 2021 05:03:42 -0800 (PST)
+ bh=XBtLxa+6cxAHsw5aMhaqebCDJwdNEPp+4JCQfAf+5VA=;
+ b=ipdsPzgSsZj0X2/JSZ6957wPNhrQI1YsisTW9eiw0TM7nVga0cuTnGsFGFhe3WteEn
+ Hh5dgWESjgPBDHSfP09jDYmpp55WdzsmMbjWIJEcZtg2T7FllLpEnn/2NLz2Z89jBLRS
+ 3N1n+YQ+WCRFh026kpDsHQo8F1WWbeg3eBgrMkw3mdJTYjo50ZPAJd6djS3M5Bw2gMpc
+ HT+Pr+s1e/a6hiy0i93JpHYGLWNHGi0/W0mSHMYmWdFZvMvnuZnXBz2ZlZ87v2sXo0V5
+ RgUql93nRONVRpyE9qrJl+eWeioZQnMVYAfnVQ3YyoH0iLxvOW7c7904+DJePFjw5X6E
+ Rkbg==
+X-Gm-Message-State: AOAM533Tj7Ss/Zmu3qqoRHJhbDgTLnog6MKuNQ8aXWvne04kXxXNSG9o
+ DCxBp2QNKcPV5xjWvk09dL7iww==
+X-Google-Smtp-Source: ABdhPJx/qQ5uuDh/LfnXW9bKTHqfd8QlKsoxsTc43pAtPlx3aRJXNCyTGKl/1cGZOqKgx7pihsHLMA==
+X-Received: by 2002:a5d:628c:: with SMTP id k12mr8694247wru.316.1613221425456; 
+ Sat, 13 Feb 2021 05:03:45 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s10sm15247599wrm.5.2021.02.13.05.03.33
+ by smtp.gmail.com with ESMTPSA id g1sm14620323wrq.30.2021.02.13.05.03.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Feb 2021 05:03:38 -0800 (PST)
+ Sat, 13 Feb 2021 05:03:40 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D83BF1FF9D;
- Sat, 13 Feb 2021 13:03:26 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 52B3A1FFA9;
+ Sat, 13 Feb 2021 13:03:27 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/23] tests/plugin: expand insn test to detect duplicate
- instructions
-Date: Sat, 13 Feb 2021 13:03:16 +0000
-Message-Id: <20210213130325.14781-15-alex.bennee@linaro.org>
+Subject: [PATCH  v3 19/23] accel/tcg: remove CF_NOCACHE and special cases
+Date: Sat, 13 Feb 2021 13:03:21 +0000
+Message-Id: <20210213130325.14781-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210213130325.14781-1-alex.bennee@linaro.org>
 References: <20210213130325.14781-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,125 +86,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
+Cc: Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
  mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
  Paolo Bonzini <pbonzini@redhat.com>, kuhn.chenqun@huawei.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A duplicate insn is one that is appears to be executed twice in a row.
-This is currently possible due to -icount and cpu_io_recompile()
-causing a re-translation of a block. On it's own this won't trigger
-any tests though.
-
-The heuristics that the plugin use can't deal with the x86 rep
-instruction which (validly) will look like executing the same
-instruction several times. To avoid problems later we tweak the rules
-for x86 to run the "inline" version of the plugin. This also has the
-advantage of increasing coverage of the plugin code (see bugfix in
-previous commit).
+Now we no longer generate CF_NOCACHE blocks we can remove a bunch of
+the special case handling for them. While we are at it we can remove
+the unused tb->orig_tb field and save a few bytes on the TB structure.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210209182749.31323-6-alex.bennee@linaro.org>
-Message-Id: <20210210221053.18050-15-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210209182749.31323-11-alex.bennee@linaro.org>
+Message-Id: <20210210221053.18050-20-alex.bennee@linaro.org>
 ---
- tests/plugin/insn.c                      | 12 +++++++++++-
- tests/tcg/i386/Makefile.softmmu-target   | 10 ++++++++++
- tests/tcg/i386/Makefile.target           |  7 +++++++
- tests/tcg/x86_64/Makefile.softmmu-target | 10 ++++++++++
- 4 files changed, 38 insertions(+), 1 deletion(-)
+ include/exec/exec-all.h   |  3 ---
+ accel/tcg/translate-all.c | 51 ++++++++++++---------------------------
+ 2 files changed, 15 insertions(+), 39 deletions(-)
 
-diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
-index a9a6e41237..c253980ec8 100644
---- a/tests/plugin/insn.c
-+++ b/tests/plugin/insn.c
-@@ -21,6 +21,14 @@ static bool do_inline;
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index f933c74c44..e08179de34 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -454,7 +454,6 @@ struct TranslationBlock {
+     uint32_t cflags;    /* compile flags */
+ #define CF_COUNT_MASK  0x00007fff
+ #define CF_LAST_IO     0x00008000 /* Last insn may be an IO access.  */
+-#define CF_NOCACHE     0x00010000 /* To be freed after execution */
+ #define CF_USE_ICOUNT  0x00020000
+ #define CF_INVALID     0x00040000 /* TB is stale. Set with @jmp_lock held */
+ #define CF_PARALLEL    0x00080000 /* Generate code for a parallel context */
+@@ -469,8 +468,6 @@ struct TranslationBlock {
  
- static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
- {
-+    static uint64_t last_pc;
-+    uint64_t this_pc = GPOINTER_TO_UINT(udata);
-+    if (this_pc == last_pc) {
-+        g_autofree gchar *out = g_strdup_printf("detected repeat execution @ 0x%"
-+                                                PRIx64 "\n", this_pc);
-+        qemu_plugin_outs(out);
-+    }
-+    last_pc = this_pc;
-     insn_count++;
- }
+     struct tb_tc tc;
  
-@@ -36,8 +44,10 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-             qemu_plugin_register_vcpu_insn_exec_inline(
-                 insn, QEMU_PLUGIN_INLINE_ADD_U64, &insn_count, 1);
-         } else {
-+            uint64_t vaddr = qemu_plugin_insn_vaddr(insn);
-             qemu_plugin_register_vcpu_insn_exec_cb(
--                insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS, NULL);
-+                insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS,
-+                GUINT_TO_POINTER(vaddr));
+-    /* original tb when cflags has CF_NOCACHE */
+-    struct TranslationBlock *orig_tb;
+     /* first and second physical page containing code. The lower bit
+        of the pointer tells the index in page_next[].
+        The list is protected by the TB's page('s) lock(s) */
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 7e62d8ad97..0666f9ef14 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -409,12 +409,6 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
+         TranslationBlock *tb = tcg_tb_lookup(host_pc);
+         if (tb) {
+             cpu_restore_state_from_tb(cpu, tb, host_pc, will_exit);
+-            if (tb_cflags(tb) & CF_NOCACHE) {
+-                /* one-shot translation, invalidate it immediately */
+-                tb_phys_invalidate(tb, -1);
+-                tcg_tb_remove(tb);
+-                tb_destroy(tb);
+-            }
+             return true;
          }
      }
- }
-diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
-index 5266f2335a..fa9b1b9f90 100644
---- a/tests/tcg/i386/Makefile.softmmu-target
-+++ b/tests/tcg/i386/Makefile.softmmu-target
-@@ -33,5 +33,15 @@ EXTRA_RUNS+=$(MULTIARCH_RUNS)
+@@ -1633,8 +1627,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+     phys_pc = tb->page_addr[0] + (tb->pc & ~TARGET_PAGE_MASK);
+     h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb_cflags(tb) & CF_HASH_MASK,
+                      tb->trace_vcpu_dstate);
+-    if (!(tb->cflags & CF_NOCACHE) &&
+-        !qht_remove(&tb_ctx.htable, tb, h)) {
++    if (!qht_remove(&tb_ctx.htable, tb, h)) {
+         return;
+     }
  
- memory: CFLAGS+=-DCHECK_UNALIGNED=1
+@@ -1795,6 +1788,8 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+ {
+     PageDesc *p;
+     PageDesc *p2 = NULL;
++    void *existing_tb = NULL;
++    uint32_t h;
  
-+# non-inline runs will trigger the duplicate instruction heuristics in libinsn.so
-+run-plugin-%-with-libinsn.so:
-+	$(call run-test, $@, \
-+	  $(QEMU) -monitor none -display none \
-+		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
-+                  -plugin ../../plugin/libinsn.so$(COMMA)arg=inline \
-+	    	  -d plugin -D $*-with-libinsn.so.pout \
-+	   	  $(QEMU_OPTS) $*, \
-+		  "$* on $(TARGET_NAME)")
-+
- # Running
- QEMU_OPTS+=-device isa-debugcon,chardev=output -device isa-debug-exit,iobase=0xf4,iosize=0x4 -kernel
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index ad187cb2c9..c4a6f91966 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -48,6 +48,13 @@ else
- SKIP_I386_TESTS+=test-i386-fprem
- endif
+     assert_memory_lock();
  
-+# non-inline runs will trigger the duplicate instruction heuristics in libinsn.so
-+run-plugin-%-with-libinsn.so:
-+	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
-+	       -plugin ../../plugin/libinsn.so$(COMMA)arg=inline \
-+	       -d plugin -D $*-with-libinsn.so.pout $*, \
-+		"$* (inline) on $(TARGET_NAME)")
-+
- # Update TESTS
- I386_TESTS:=$(filter-out $(SKIP_I386_TESTS), $(ALL_X86_TESTS))
- TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
-diff --git a/tests/tcg/x86_64/Makefile.softmmu-target b/tests/tcg/x86_64/Makefile.softmmu-target
-index 1bd763f2e6..9896319f0e 100644
---- a/tests/tcg/x86_64/Makefile.softmmu-target
-+++ b/tests/tcg/x86_64/Makefile.softmmu-target
-@@ -33,5 +33,15 @@ EXTRA_RUNS+=$(MULTIARCH_RUNS)
+@@ -1814,25 +1809,20 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+         tb->page_addr[1] = -1;
+     }
  
- memory: CFLAGS+=-DCHECK_UNALIGNED=1
+-    if (!(tb->cflags & CF_NOCACHE)) {
+-        void *existing_tb = NULL;
+-        uint32_t h;
+-
+-        /* add in the hash table */
+-        h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb->cflags & CF_HASH_MASK,
+-                         tb->trace_vcpu_dstate);
+-        qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
++    /* add in the hash table */
++    h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb->cflags & CF_HASH_MASK,
++                     tb->trace_vcpu_dstate);
++    qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
  
-+# non-inline runs will trigger the duplicate instruction heuristics in libinsn.so
-+run-plugin-%-with-libinsn.so:
-+	$(call run-test, $@, \
-+	  $(QEMU) -monitor none -display none \
-+		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
-+                  -plugin ../../plugin/libinsn.so$(COMMA)arg=inline \
-+	    	  -d plugin -D $*-with-libinsn.so.pout \
-+	   	  $(QEMU_OPTS) $*, \
-+		  "$* on $(TARGET_NAME)")
-+
- # Running
- QEMU_OPTS+=-device isa-debugcon,chardev=output -device isa-debug-exit,iobase=0xf4,iosize=0x4 -kernel
+-        /* remove TB from the page(s) if we couldn't insert it */
+-        if (unlikely(existing_tb)) {
+-            tb_page_remove(p, tb);
+-            invalidate_page_bitmap(p);
+-            if (p2) {
+-                tb_page_remove(p2, tb);
+-                invalidate_page_bitmap(p2);
+-            }
+-            tb = existing_tb;
++    /* remove TB from the page(s) if we couldn't insert it */
++    if (unlikely(existing_tb)) {
++        tb_page_remove(p, tb);
++        invalidate_page_bitmap(p);
++        if (p2) {
++            tb_page_remove(p2, tb);
++            invalidate_page_bitmap(p2);
+         }
++        tb = existing_tb;
+     }
+ 
+     if (p2 && p2 != p) {
+@@ -1905,7 +1895,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     tb->cs_base = cs_base;
+     tb->flags = flags;
+     tb->cflags = cflags;
+-    tb->orig_tb = NULL;
+     tb->trace_vcpu_dstate = *cpu->trace_dstate;
+     tcg_ctx->tb_cflags = cflags;
+  tb_overflow:
+@@ -2444,16 +2433,6 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+     /* Generate a new TB executing the I/O insn.  */
+     cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
+ 
+-    if (tb_cflags(tb) & CF_NOCACHE) {
+-        if (tb->orig_tb) {
+-            /* Invalidate original TB if this TB was generated in
+-             * cpu_exec_nocache() */
+-            tb_phys_invalidate(tb->orig_tb, -1);
+-        }
+-        tcg_tb_remove(tb);
+-        tb_destroy(tb);
+-    }
+-
+     qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
+                            "cpu_io_recompile: rewound execution of TB to "
+                            TARGET_FMT_lx "\n", tb->pc);
 -- 
 2.20.1
 
