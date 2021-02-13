@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FF131AAE3
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 11:32:58 +0100 (CET)
-Received: from localhost ([::1]:36272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2293531AB02
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 12:28:21 +0100 (CET)
+Received: from localhost ([::1]:48588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAsET-0002QB-JO
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 05:32:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48594)
+	id 1lAt63-0005AU-Nh
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 06:28:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lAsC7-0001Sm-Em
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 05:30:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43079)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lAsC3-0004e1-94
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 05:30:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613212223;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KvR8sFRoyn7ryOpdJZhiZdWkfpflMOvlygTA4kORERM=;
- b=B31qNnF0wgwUURPX1Xz6mLVIcnfjtG0Ii8rgJLwowlCbP133odULhzxm6VhiNzQ2N9FOrz
- +x/UXY1BXPWayRKu79+w++oXDTDU77KbI5faEUiqDGf4DWhWphg0vGdV+6E8qPoJObqOnE
- GQ9+6vCuezlKrZF99gIuVEalpPUH6cs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-vSz8qkZ3MLaja3nQVX8BYA-1; Sat, 13 Feb 2021 05:30:19 -0500
-X-MC-Unique: vSz8qkZ3MLaja3nQVX8BYA-1
-Received: by mail-wr1-f69.google.com with SMTP id w16so3186033wrl.15
- for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 02:30:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kdsanskar07@gmail.com>)
+ id 1lAt52-0004gA-H3
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 06:27:16 -0500
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:40887)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kdsanskar07@gmail.com>)
+ id 1lAt51-0006EG-7W
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 06:27:16 -0500
+Received: by mail-io1-xd31.google.com with SMTP id z21so1921820iob.7
+ for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 03:27:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=Xw9qozeZYlzuGBM/LLd21l8y4Is/KFRv7QdKSGw2VfY=;
+ b=LJ0VtfZgg1etsyt/GDumR1SQLOXbUJBgba+nbiTrD26Of3i76HQTNHZ3vlYk73GM6f
+ CSOfSN4S+7Fd2/xvKqnvrWZS6IWjF0aCWIHFupcN2jclW6K8WXphdaaTFaf/tq8Nep2u
+ 8N1jeMNp8RSOtUTy91M34MtUKds81onI+GvUQKo9j+qZcS2kuvnJBOKAhWEGDuTg7SGq
+ arjy4OfGjOuMhcfsTyn7QTSlOL2b0yYWUhPoVxVcz056rgRCQEukWZKEdp8cSjYzeMyB
+ eB+daTJ+HHbQqICXm2PShyDaib1l1dWu6FOw9WZqYAaZNMZ83919ybOnflqrm5KnZjRP
+ LpJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=FgsvD3M9UtE8C7WacHVzbQ7wE5X4uSz+BVrpXNwOjm4=;
- b=hJhrbU+jDL6MTfIuPnhLFE97BLolTHSCFzQnhD8dtvZqoJVaBYb+NuYMYIeEMIbobZ
- ixOVQhHFAHpZ93UmhL+OwEm4jfFU/i4UbrAnsSpll/hUsV8q4gontOnuZggurmYYEzzT
- /5zK0AN5sGSVmvSGKuJidXzfawBqn7IQWcXoqrsm0UldKnIPR9p7hyJl3Kl8umyAZyy0
- QCBILvgPaNW2MsPEsmSvjPTVCBN0XZNBiB2HZU1B4nXL/ZYKLx0IcJKm8gktMxlqSeHz
- wD1dBK4Y9B2XrOu6amBUdXRKB/rYLpktuDTGJ++54VhI/YHps0Hfluexzp9SpHE+mOO2
- HVYg==
-X-Gm-Message-State: AOAM530/psnJyc26seQnKms470V2OAg1CkD9bs7wbkPy+YdJXIIptDxr
- clBklIeKpgx/HJdToX4++yPra59v9BXDCACjs30mLai7YxGfqKtEnMADKA5K/YzTUiO1Biw+fVx
- c/LVDJHCO4yd8+VA=
-X-Received: by 2002:a5d:610a:: with SMTP id v10mr2243515wrt.334.1613212218810; 
- Sat, 13 Feb 2021 02:30:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy+CQCE3m4hk42lpHR05KqWuSCKI1MY8LU+bLWKL6fv6qnY/4rq6ld58odSmziR8zOkcl3g6g==
-X-Received: by 2002:a5d:610a:: with SMTP id v10mr2243490wrt.334.1613212218639; 
- Sat, 13 Feb 2021 02:30:18 -0800 (PST)
-Received: from [192.168.3.108] (p5b0c6bba.dip0.t-ipconnect.de. [91.12.107.186])
- by smtp.gmail.com with ESMTPSA id h9sm14782787wrc.94.2021.02.13.02.30.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Feb 2021 02:30:18 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-Date: Sat, 13 Feb 2021 11:30:13 +0100
-Message-Id: <2F054442-2D28-43E2-95F7-570B0F748F06@redhat.com>
-References: <add5eef8-ff5b-5708-5383-f76262738e94@virtuozzo.com>
-In-Reply-To: <add5eef8-ff5b-5708-5383-f76262738e94@virtuozzo.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-X-Mailer: iPhone Mail (18D52)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.569,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=Xw9qozeZYlzuGBM/LLd21l8y4Is/KFRv7QdKSGw2VfY=;
+ b=K82wfdVNJe5FTW5ohgfflYs3h9M4CtS1tQAMxgb5985hACWbwcw9uh+K3URfqcQ0tw
+ osmXq1LwlbOzKgmHFQnGdfHxCLaUiAWjXc9c18vBL9IZM/dv6u2Z09pQqnpDJ41cJdDS
+ +b8hCrVRAPPyHEURqB3u2wh1z6RxYuYW3/h1I4HgXv9DdIr3T36GOmeQnacsDrC4NSIZ
+ KdoILvobZXacAFOBN52FDMqnYIcqvUgpI8WVabn3II8OBe5boIsm7JvrMsYfRA6VlZmy
+ fHnpcXAtuZyNZM6HfgJrWQviNynAf59IcbwqSBJIhb2Guk96pTwUZU9JpUFlWAey7e9q
+ Ankg==
+X-Gm-Message-State: AOAM530Cqk2OHMEU6T8AlhOMA0f5PQrR1ga46XE3T0AAzcujNI7dTuBR
+ mUzhsgyB5b5YVrklz5xYySPObcKH2p9j/1JzPvU=
+X-Google-Smtp-Source: ABdhPJziTNVaQb9GKCkwwEMfQFyrcf9nhhoEQLjo/BmmBy078AOIQxgcdL+2G0YOYnaPGaGpJP3TN+C9bgttMYEJG6s=
+X-Received: by 2002:a02:62c6:: with SMTP id d189mr6667872jac.144.1613215633793; 
+ Sat, 13 Feb 2021 03:27:13 -0800 (PST)
+MIME-Version: 1.0
+From: Sanskar Khandelwal <kdsanskar07@gmail.com>
+Date: Sat, 13 Feb 2021 16:57:02 +0530
+Message-ID: <CACAZ_0-0Ei17mzWhQJmjiqmcGY7s7uNvX=VYh1zezoyYTreHHQ@mail.gmail.com>
+Subject: hifive-unleashed board
+To: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, 
+ richard.henderson@linaro.org
+Content-Type: multipart/alternative; boundary="000000000000cc68c805bb3608a0"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=kdsanskar07@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,70 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Alexander Duyck <alexander.duyck@gmail.com>, Den Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000cc68c805bb3608a0
+Content-Type: text/plain; charset="UTF-8"
 
-> Am 13.02.2021 um 10:34 schrieb Andrey Gruzdev <andrey.gruzdev@virtuozzo.c=
-om>:
->=20
-> =EF=BB=BF
->> On 12.02.2021 19:11, Peter Xu wrote:
->>>> On Fri, Feb 12, 2021 at 09:52:52AM +0100, David Hildenbrand wrote:
->>>>> On 12.02.21 04:06, Peter Xu wrote:
->>>>>> On Thu, Feb 11, 2021 at 10:09:58PM +0100, David Hildenbrand wrote:
->>>>>> The issue is when the discard happened before starting the snapshot.=
- Write-protection won=E2=80=98t work and the zeroed content won=E2=80=98t b=
-e retained in the snapshot.
->>>>> I see what you mean now, and iiuc it will only be a problem if init_o=
-n_free=3D1.
->>>>> I think CONFIG_INIT_ON_FREE_DEFAULT_ON should be off for most distros=
-, so the
->>>> Yes, some distros seem to enable init_on_alloc instead. Looking at the
->>>> introducing commit 6471384af2a6 ("mm: security: introduce init_on_allo=
-c=3D1
->>>> and init_on_free=3D1 boot options") there are security use cases and i=
-t might
->>>> become important with memory tagging.
->>>>=20
->>>> Note that in Linux, there was also the option to poison pages with 0,
->>>> removed via f289041ed4cf ("mm, page_poison: remove
->>>> CONFIG_PAGE_POISONING_ZERO"), available in some kernels that supported=
- free
->>>> page reporting.
->>>>=20
->>>> It got removed and use cases got told to use init_on_free.
->> I think we talk about init_on_free()/init_on_alloc() on guest side, righ=
-t?
->> Still can't get how it relates to host's unpopulated pages..
->> =20
->> Try to look from hardware side. Untouched SDRAM in hardware is required =
-to contain zeroes somehow? No.
->> These 'trash' pages in migration stream are like never written physical =
-memory pages, they are really
->> not needed in snapshot but they don't do any harm as well as there's no =
-harm in that never-written physical
->> page is full of garbage.
->>=20
->> Do these 'trash' pages in snapshot contain sensitive information not all=
-owed to be accessed by the same VM?
->> I think no. Or we need a good example how it can be potentially exploite=
-d.
-I tried to explain how your implementation breaks *the guest inside the sna=
-pshot* (I have no idea why you talk about sensitive information). If you ru=
-n the snapshot, the guest will run into trouble, because the snapshot conta=
-ins different data than the guest expects:
+Hii there,
 
-1. with discards before snapshotting started and free page reporting is run=
-ning
-2. with discards after snapshotting started
+I want to know, what are the devices(e.g., networking, UART, flash, etc?)
+qemu support for the platform sifive risc-v hifive unleashed board .Also if
+you can share any document related to this will be a big help.
 
-Maybe Peter can enlighten you, or the links I shared.
+Actually I am new to embedded systems and this is for my project where I
+have to add support for a few of these devices in the bsp.
 
+Thanks in advance
+--sanskar
+
+--000000000000cc68c805bb3608a0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hii there,<div><br></div><div>I want to know, what are the=
+ devices(e.g., networking, UART, flash, etc?) qemu support for the platform=
+ sifive risc-v hifive unleashed board .Also if you can share any document r=
+elated to this will be a big help.</div><div><br></div><div>Actually=C2=A0I=
+ am new to embedded systems and this is for my project=C2=A0where=C2=A0I ha=
+ve to=C2=A0add support for a few of these devices in the bsp.</div><div><br=
+></div><div>Thanks in advance=C2=A0</div><font color=3D"#888888"><div>--san=
+skar</div></font></div>
+
+--000000000000cc68c805bb3608a0--
 
