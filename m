@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55B431ABE5
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:37:14 +0100 (CET)
-Received: from localhost ([::1]:32880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F117B31ABCD
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:32:33 +0100 (CET)
+Received: from localhost ([::1]:51782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAv6n-0005RY-3Y
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:37:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47170)
+	id 1lAv2H-0001MT-27
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:32:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAuaZ-00027z-N5
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:55 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42393)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lAukf-00024C-57
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:14:21 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAuaU-00068h-7k
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:55 -0500
-Received: by mail-wr1-x432.google.com with SMTP id r21so2879579wrr.9
- for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:03:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QEn7ZTjEXlpnK6Z5LFmEhB86Z0e6vdn3sbf2j1XVMa4=;
- b=rkgVNFU2eZwxQNd9FzsJwxRyRqWiSvaPT6aWBtJkJHl9FMrqu+SD9rWywcNSYwjnD1
- 54KtjbjVhBnT1rf7vCZ6a9e+nz2AjRWh5FvpbY9bFJ9y4JCnjjCD7g1Kwhe7b8jge1Mk
- iu/Gjxivaww6bL4aOQD7Z7+vBeCCk362MsQqADpgKpnUvCztqMwk3CXkTiUHrRQ0mJV4
- cei1iwJfu8BWGvnaffE854H6AUz+5ax/o+NQr1S/KztfdsNZCM+CDilBWRKdbqVJ+CeG
- b3F22MPMmTQHD4rPdzuffjP76wXqXZWi17Gl1UVVf6jY81V2/SmoRebSOMh3GYj+HMr8
- A8ew==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lAukc-0001cB-TS
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:14:20 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id b3so2938616wrj.5
+ for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:14:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CPsDav6E8XHsrKagKg9vwrJ26wgur9LIk7vYzrhgnKk=;
+ b=jDcLK4v+4VIKZqHyvX63o16hmIpgVfF5jpRAm1figxx6MciucHmLYMD+eDjQ+ZynVe
+ 7y8FmKgQqQxdNivrOytu4f3LFzhQsMRDw9bcd8G0iWjx2ibXVFYXbwdOlaTQy+ZOkHLR
+ 7QvK7ktPdCqHGrXpVmdqbqsHwExg7wnrAreqaiOO9QuhXDwywE9jfvINDd5w44O8DSaY
+ toTytGN9dk25ih5Wx3QdNUcsRPkrYUS6UOPWBmRMHUgktsQ7DgjFridRqyNWLEtWlBl5
+ 4kcTpCkpgObKXVVT92sIRdvSVjv8a7OWKj40Bi6y+Ckr0TSl6ZzNSob4GGtGaIFjjirh
+ WrGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QEn7ZTjEXlpnK6Z5LFmEhB86Z0e6vdn3sbf2j1XVMa4=;
- b=IxyBO0+vJfT27K6nP6dTHsGibLjs847FDzuXD9zBFUmwNyGkkIB9qB9n1XGJYHGqIi
- pZqqF0ZhpTPaM2hfZ0uk6n9LxqsbtubvMgCVkbLCqOR+91Ish5Mkze7vHPqs1bB0eCNM
- UIuklcsDQQ6d8EAt0Tot8ivUieJHiHgzqAP4dwYwtYYsz0kTE4nvywhsAs6o/OVSoqSn
- 31wSyf2f+bXP44zUGZpE43JAu4tORDvx/Tucv6trSQtzOA9nqVCjAeSiaLk5MUK6fAe7
- kZIO95dJUCDJCs06Hlc6SGiyV0Fcpu7br6vAqn4C5UiLci70wwFlg+ONinHRlr4aQkWn
- GFLg==
-X-Gm-Message-State: AOAM5318nvjGbm2bf9bqdbmoeMSUSaP9bZcESn2UL4FBQtWGFQJwRLKu
- O7HD5+J8AfYkrejUjAVQZ9DZUg==
-X-Google-Smtp-Source: ABdhPJxsDwGxLd106h5KwQvI89lExi87bMUYIg4VOJpRVLqkxWHmRBeaScj0YWE0rnMopD7axYOzhw==
-X-Received: by 2002:adf:8545:: with SMTP id 63mr6554632wrh.128.1613221429016; 
- Sat, 13 Feb 2021 05:03:49 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y2sm16641178wmg.13.2021.02.13.05.03.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Feb 2021 05:03:41 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9E71A1FFAC;
- Sat, 13 Feb 2021 13:03:27 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 22/23] tests/plugin: allow memory plugin to do both inline
- and callbacks
-Date: Sat, 13 Feb 2021 13:03:24 +0000
-Message-Id: <20210213130325.14781-23-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210213130325.14781-1-alex.bennee@linaro.org>
-References: <20210213130325.14781-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CPsDav6E8XHsrKagKg9vwrJ26wgur9LIk7vYzrhgnKk=;
+ b=WWg589IW4oOp6VLytrO8Eqv0xuoFSGTAagD144yVif1Wlkosm7vxgtbl/R1P2l3h4b
+ fuSwb7pgCtA1GVsJ5fPUvHieVpCtCTTpWpnu9BVA3WFqOk1mcJLtyTLx3b5aub3cSHNu
+ 0kMoC04J1S8fPrlDKOd/zvqaJDDDtKEPAXs5NQc8l9d2p6wA3Ltrl4Hz00MKTClfXqmn
+ xo9BiHhZzeUWV7VfMmby3UsWiOuoqMiENQ/iJOqJKi/0XCX1hhQgKquOtX4CMGqm5F+b
+ S7zSmLcfDX+Uwg4YrUJWd/PnGirxov9zaF3oq9diGoFy6Rd4ygmCrbiT00V0dM9Adofh
+ yWOA==
+X-Gm-Message-State: AOAM5300vPfQ7HD7sHyhbWtrvjxAPwLcDBA9asP0o6AA17cmtpKWw/22
+ IdH59LxUTA9DRh5XFl8EUhTwl8cL8Pk=
+X-Google-Smtp-Source: ABdhPJyp9rVxPuGoQKxgzirBq5S/0WJC0RcBA6O5sEvSTpM6nz+FmdLVnk1jxRSZ+d/Pzn7s2XV37A==
+X-Received: by 2002:adf:efc9:: with SMTP id i9mr8537928wrp.177.1613222057203; 
+ Sat, 13 Feb 2021 05:14:17 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id d20sm15377090wrc.12.2021.02.13.05.14.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 13 Feb 2021 05:14:16 -0800 (PST)
+Subject: Re: Qemu mipssim patches, mips malta and virtio bugs
+To: Reinoud Zandijk <reinoud@NetBSD.org>
+References: <20210211153746.GA25676@dropje.13thmonkey.org>
+ <acf26892-c47c-7059-f3d1-8ef5bdcdcb8b@amsat.org>
+ <2951213f-7610-857d-c20c-12bc26877490@amsat.org>
+ <YCekTE6Aik0OoLLg@diablo.13thmonkey.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b86fcf3d-8be4-0d6e-e85b-7b4137fc7238@amsat.org>
+Date: Sat, 13 Feb 2021 14:14:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <YCekTE6Aik0OoLLg@diablo.13thmonkey.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,91 +91,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is going to be useful for acceptance tests that check both types
-are being called the same number of times, especially when icount is
-enabled.
+On 2/13/21 11:05 AM, Reinoud Zandijk wrote:
+> On Fri, Feb 12, 2021 at 10:44:55AM +0100, Philippe Mathieu-DaudÈ wrote:
+>>>> i'd like to get the following simple patches to the MIPS/mipssim target adding
+>>>> virtio-mmio devices to it.
+>>
+>> Please submit your patches as a series so we can review them on
+>> the list:
+>> https://wiki.qemu.org/Contribute/SubmitAPatch#Use_git_format-patch
+> 
+> Oh thanks, i didn't know that; i've created a new patch with the OR gate you
+> suggested. We deliberated about the change here and we'll at least keep it
+> here locally for testing and profiling code until a real `virt' platform is
+> developed for MIPS. Until then it would IMHO be a good expansion to mipssim.
+> I'll try to get a proper patch posted on the list :)
 
-Signed-off-by: Alex Benn√©e <alex.bennee@linaro.org>
----
- tests/plugin/mem.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+What I forgot to mention is that QEMU aims to keep models the closer
+to the hardware, so modifying MIPSsim to some Frankenstein is unlikely
+to be accepted.
 
-diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
-index 4725bd851d..afd1d27e5c 100644
---- a/tests/plugin/mem.c
-+++ b/tests/plugin/mem.c
-@@ -16,9 +16,10 @@
- 
- QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
- 
--static uint64_t mem_count;
-+static uint64_t inline_mem_count;
-+static uint64_t cb_mem_count;
- static uint64_t io_count;
--static bool do_inline;
-+static bool do_inline, do_callback;
- static bool do_haddr;
- static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
- 
-@@ -26,7 +27,12 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
- {
-     g_autoptr(GString) out = g_string_new("");
- 
--    g_string_printf(out, "mem accesses: %" PRIu64 "\n", mem_count);
-+    if (do_inline) {
-+        g_string_printf(out, "inline mem accesses: %" PRIu64 "\n", inline_mem_count);
-+    }
-+    if (do_callback) {
-+        g_string_append_printf(out, "callback mem accesses: %" PRIu64 "\n", cb_mem_count);
-+    }
-     if (do_haddr) {
-         g_string_append_printf(out, "io accesses: %" PRIu64 "\n", io_count);
-     }
-@@ -42,10 +48,10 @@ static void vcpu_mem(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
-         if (qemu_plugin_hwaddr_is_io(hwaddr)) {
-             io_count++;
-         } else {
--            mem_count++;
-+            cb_mem_count++;
-         }
-     } else {
--        mem_count++;
-+        cb_mem_count++;
-     }
- }
- 
-@@ -60,8 +66,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-         if (do_inline) {
-             qemu_plugin_register_vcpu_mem_inline(insn, rw,
-                                                  QEMU_PLUGIN_INLINE_ADD_U64,
--                                                 &mem_count, 1);
--        } else {
-+                                                 &inline_mem_count, 1);
-+        }
-+        if (do_callback) {
-             qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
-                                              QEMU_PLUGIN_CB_NO_REGS,
-                                              rw, NULL);
-@@ -90,6 +97,12 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-         }
-         if (!strcmp(argv[0], "inline")) {
-             do_inline = true;
-+            do_callback = false;
-+        } else if (!strcmp(argv[0], "both")) {
-+            do_inline = true;
-+            do_callback = true;
-+        } else {
-+            do_callback = true;
-         }
-     }
- 
--- 
-2.20.1
+The patch could be useful (we can adapt it to an eventual 'virt'
+machine later).
 
+> As for the Malta target, its missing its BIOS and thus its PCI bus is not
+> initialised correctly for NetBSD to run on when its passed with -kernel. Linux
+> seems to bodge around this somewhere but if no BIOS is found it would be
+> better if it was initialised as the BIOS would leave it before handing over to
+> the kernel.
+
+Agreed. The current "pseudo bootloader" was developed with Linux guest
+in mind. For anything else you need a real BIOS ROM, but even there I'm
+not sure it works well, because the GT64120 north bridge is reset in a
+particular state suitable for Linux.
+
+> There are also a few Qemu virtio-pci and virtio-mmio bugs we encountered on
+> Aarch64 and Sparc64, how can I best file those? Or should I try to contact ppl
+> directly?
+
+For now the bug tracking system is on Launchpad:
+https://bugs.launchpad.net/qemu/+filebug
+
+You can contact the maintainers directly, but if the bug is complex and
+will take time to fix, it is better to track it with a LP ticket IMO.
+
+Regards,
+
+Phil.
 
