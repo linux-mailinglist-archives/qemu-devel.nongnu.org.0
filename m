@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F3431AD14
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 17:24:47 +0100 (CET)
-Received: from localhost ([::1]:55028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FB431AD1A
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 17:27:05 +0100 (CET)
+Received: from localhost ([::1]:59434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAxiv-00067y-0m
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 11:24:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54654)
+	id 1lAxlA-00082z-NN
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 11:27:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAxhY-0005du-Gn
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 11:23:20 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:38401)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAxje-000757-Gu
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 11:25:30 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:46283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAxhW-0003yy-5c
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 11:23:20 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lAxjb-0004Vp-1Z
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 11:25:30 -0500
 Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M2fQ9-1lBE983Se7-0049DW; Sat, 13 Feb 2021 17:23:05 +0100
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MlfCm-1ladpi3tWU-00ijgs; Sat, 13 Feb 2021 17:25:21 +0100
 Subject: Re: [PATCH v2] linux-user: fix O_NONBLOCK usage for hppa target
 To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -27,8 +27,8 @@ To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 References: <20210201220551.GA8015@ls3530.fritz.box>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <67de0810-fa99-c07a-4b42-95bb15edd5df@vivier.eu>
-Date: Sat, 13 Feb 2021 17:23:03 +0100
+Message-ID: <f6c72e80-a800-1ab3-544b-337537e9cfe5@vivier.eu>
+Date: Sat, 13 Feb 2021 17:25:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
@@ -36,17 +36,17 @@ In-Reply-To: <20210201220551.GA8015@ls3530.fritz.box>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:/Nj50iWWCbdtipEecflpBorKRDQrWaamp6PlCtO7trvE3sabpLz
- Xp6DEalQ+/SjSydDG99oJo2mNsPStPq3DqPFmQYiXvHE2yclPpvn/p+Tl1c9DnnX28yK7uZ
- R9jPzqEnVAAG+7QrKzLFNoaNo7L6x+ORLqzeFZEx8Ue5afXj6UClSdAX0d2scd8W/DM8jvS
- Ohc1JMJ6i4nlBMIYknlfg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0ElcWW8Ah6c=:yvuVUSlIFRRNpukFQ4CmRV
- ZBB7q1X+b10ZqMUYTB8/F79ajC6zyi0rpr9oS1sVoPGTX1EeOXJgWhyadPKyIfBYsKQ7B8OpN
- akaI5K6VwEltELxc5C69ShOmlxZz+ZZX7h4P4r5/OJHbd04kZC63iWJRa9PoQ/aCSVAELA8hq
- h3mA99/7n2boe0r8L1NnKKdfSzScqPgtPNXbaEOfee2tnLm9gDu8X01xVavaihnpcD/3Ds6xf
- nDRSPbkHBeduh7YiBXkQrFOOsD15t0X2tbUBAEbh7hOCPLnI91JVNxp+/oGYRBkg0HIJyEIZp
- +bmtzl08opWvH/xl2Jw2yojCu+sRajyxl9hp+OQTI0UoNPf5EkEz6bstNLEctNMJSDss8JhDk
- uZGYPPMLMgfH/t8F1XxO+2RtrHBGrl29KLeJSfBdQcHR+AxeDL0UsCotEK+tL
+X-Provags-ID: V03:K1:FKjcam0KzftnBUk8hmZOtzEIZgZIcppdV2z24hv7vmh3RcX0chc
+ 9Jklg35vzgi/nGk922dOYBX/DP3uk8op2GK8pbvQ86aXPT9Q8QU+SqLvaN1eadrsvLYiiGO
+ lly8sVwkL9UhG//mV66gYJh94l6uAyR27gJZmvPLAw1qZWHkofmDEF45XMaYd5YIeGGL6N5
+ Op6m2Qpuabx1xGziLWytg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mxsM9s/2YZk=:rKu4JBls+Ay1ElQzjMKz4e
+ Buga+Vv5Kr+XJbUiW1tgVBo6yKF9Z23L9WmNw7kJU8PX89sH+8Tl3ByrKPasBEtMqI9Js19hB
+ XXnY0HHhmJs1NGhKAZ6vOaVLkwGyKRMqXA1kA/JFS5NTcp6gDCRYn+o3VJN7mrXoho9AoivAP
+ Yblzy088mhv4cZN2SJSJkGB65BSYSgK4ltSKvGEbhgSKWxefJPUxXU0Zzmz3EeNZ2NY4Unbhz
+ ywx27oxB8R8d4ztTwg5PUZ8kMgFrSet/1haGc4+UfAa8pTouY6Xmli4JxNLLpTV0Z6IyZuZVe
+ Ex2TKfengfb0OTUR1VXwqtzRcSKsttBfLlEh7ATyH8POt9paWYgy01TX/Z3XsDshbXtAcbzG7
+ 6XVDhvSmAboksYoydVzTdrAqcEQOzMSB8DHgY0dHbiTumRfQv5i77fCxoRJ2i
 Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -102,5 +102,8 @@ Le 01/02/2021 à 23:05, Helge Deller a écrit :
 >  #define TARGET_O_EXCL        000002000 /* not fcntl */
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user-for-6.0 branch.
+
+Thanks,
+Laurent
 
