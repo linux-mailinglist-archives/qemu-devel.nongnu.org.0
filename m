@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8B031AB72
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:00:03 +0100 (CET)
-Received: from localhost ([::1]:47504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD9B31AB81
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:07:18 +0100 (CET)
+Received: from localhost ([::1]:54432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAuWn-0000DW-Ue
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:00:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45316)
+	id 1lAudo-0003Rg-Lt
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:07:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1lAuSs-0007Pw-Dz; Sat, 13 Feb 2021 07:55:58 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:57392)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1lAuSn-0002Rq-6X; Sat, 13 Feb 2021 07:55:57 -0500
-Received: from [192.168.61.100] (lfbn-lyo-1-447-149.w2-7.abo.wanadoo.fr
- [2.7.4.149])
- by beetle.greensocs.com (Postfix) with ESMTPSA id D160B21C38;
- Sat, 13 Feb 2021 12:55:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1613220946;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ylTxLI1h+dR3h6XKYjekdYYkLgVP0c77o7yDspD0RCE=;
- b=GlUOggfJXZx4DZs6lfe5IPP85iEMISWjGscsMEEGuKYhi2vx5/wUDScSv3Y7mGtdx/Wwt/
- ToTdDQ6AeJsw+iDaLyG9lexPyJjUYEJv/bV7g+GsVG4Bz1qPjsHBvU4fD57KYfPSfGTVOA
- bEzez0Amm/VWettzSZCErsctu+ZAPqc=
-Subject: Re: [RFC PATCH 11/15] sd: emmc: Add Extended CSD register definitions
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Vincent Palatin <vpalatin@chromium.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613031446-22154-12-git-send-email-sai.pavan.boddu@xilinx.com>
-From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <916b1684-bed1-9eda-6362-9844910703a8@greensocs.com>
-Date: Sat, 13 Feb 2021 13:56:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lAuaD-0001qn-FC
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:33 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40751)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lAua9-00062S-Pn
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:33 -0500
+Received: by mail-wr1-x436.google.com with SMTP id v14so2893259wro.7
+ for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:03:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CRPphQ6p0B+2XWtuyWHAq2JPLRtfBb80YVX9UktTdYQ=;
+ b=x138FYed5cIwTxyCyvAJUKwltsyovKHTdEyPCTPYYTpN8KZd2gKdBIunDfzvU8HhOQ
+ ZR/QvRq9sh/IBa7Ny1QnbVZGbO4l7T2z/gJXFeOwCbwMnCX0iJz10gNLwLELiRI6ZT+U
+ FTtk85rb5MF49fkOaFJOvw0+nF0xcqxw7k3MH5IbyJZ9zNht63URW38vVsi/9HJPiZYe
+ GPQ14y/RnbBP6mon2y7Z8izrKZunMgCynLPLPQC+J82Zxpt2EjjMfIB3wwF3x6+Cg4uc
+ 6MaGBnix7kq7vobvfeZPO0QBMMRNBW788nVS5pqS9NU9zLmir5nBOogwj1SDiOTwVRh8
+ elLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CRPphQ6p0B+2XWtuyWHAq2JPLRtfBb80YVX9UktTdYQ=;
+ b=Yja6ucaQC7anoMElUqHPkmV5G8MVDrTqZceTHehTT2rNKsU/mI3W1MGnuSKARStZcq
+ 5ZzcD0Z/yDqyPhpYyP1S/xTxWRibQ0DqyHBVKnCDN735wJ7+B+RiQeIZ1o59r70NeCE4
+ pzt0p6MG+BUKePnw3BOJVJxa2I5Gr0xhV29+T3qRsLt4jKrxkkXKFWxEjpQoTPwkCBX8
+ vLxohcPLqDmhdPpIooJU0HH9V6gaZ63TQC6ogYW9KaV/TUak8iXJZbas3sISUzU5jg4q
+ z9uj2w0wmcilgQlqwVk0jJzziqvaRdr0xRBcMdX32k+TTuZ4VXhZq60dgymRpX+r58Ow
+ 7nNA==
+X-Gm-Message-State: AOAM532iTYmfZhuFrBwwrfOwOrvVH85PYiddkaYFjXg3BSHSlDxEI1t7
+ lErHcmGGRwK0mRpACX40XYyWbQ==
+X-Google-Smtp-Source: ABdhPJyZhw8IFwvgmVtA+Rg45wWHmKbh1w2nOZgd0p88QXsf5tFTFqAke7WlhH0CpVPwav6PMP9iDg==
+X-Received: by 2002:a05:6000:143:: with SMTP id
+ r3mr8750267wrx.357.1613221407811; 
+ Sat, 13 Feb 2021 05:03:27 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u4sm14435932wrr.37.2021.02.13.05.03.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 13 Feb 2021 05:03:26 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7D1401FF7E;
+ Sat, 13 Feb 2021 13:03:25 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v3 00/23] plugins/next pre-PR (hwprofile, regression fixes,
+ icount count fix)
+Date: Sat, 13 Feb 2021 13:03:02 +0000
+Message-Id: <20210213130325.14781-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1613031446-22154-12-git-send-email-sai.pavan.boddu@xilinx.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,220 +86,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: saipava@xilinx.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/21 9:17 AM, Sai Pavan Boddu wrote:
-> From: Cédric Le Goater <clg@kaod.org>
-> 
-> Add user friendly macros for EXT_CSD register. >
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> [spb: Rebased over versal emmc series,
->        updated commit message]
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-
 Hi,
 
-If Cédric agrees, maybe you can squash this commit into patch 2, and add 
-the missing register definitions?
+Hopefully the final round for the current plugins queue. I've added a
+slightly more finessed version of the io_recompile handling for
+plugins which is now call CF_MEMI_ONLY - which allows memory
+instrumentation but nothing else. I've added an additional acceptance
+test to ensure inline/cb based counting stays aligned. Along with the
+usual tweaks and cleanups from review which are documented bellow the
+--- of the commit messages.
 
-Also, can you set diff.orderFile = script/git.orderfile in your git 
-config for your QEMU repo? It makes the review process a bit easier.
+The following remain un-reviewed:
 
-Thanks!
+ - tests/acceptance: add a memory callback check
+ - tests/plugin: allow memory plugin to do both inline and callbacks
+ - accel/tcg: cache single instruction TB on pending replay exception
+ - tests/plugin: expand insn test to detect duplicate instructions
+
+Alex Bennée (14):
+  hw/virtio/pci: include vdev name in registered PCI sections
+  plugins: add API to return a name for a IO device
+  plugins: new hwprofile plugin
+  accel/tcg/plugin-gen: fix the call signature for inline callbacks
+  tests/plugin: expand insn test to detect duplicate instructions
+  tests/acceptance: add a new set of tests to exercise plugins
+  accel/tcg: actually cache our partial icount TB
+  accel/tcg: cache single instruction TB on pending replay exception
+  accel/tcg: re-factor non-RAM execution code
+  accel/tcg: remove CF_NOCACHE and special cases
+  accel/tcg: allow plugin instrumentation to be disable via cflags
+  tests/acceptance: add a new tests to detect counting errors
+  tests/plugin: allow memory plugin to do both inline and callbacks
+  tests/acceptance: add a memory callback check
+
+Richard Henderson (4):
+  exec: Move TranslationBlock typedef to qemu/typedefs.h
+  accel/tcg: Create io_recompile_replay_branch hook
+  target/mips: Create mips_io_recompile_replay_branch
+  target/sh4: Create superh_io_recompile_replay_branch
+
+zhouyang (5):
+  contrib: Don't use '#' flag of printf format
+  contrib: Fix some code style problems, ERROR: "foo * bar" should be
+    "foo *bar"
+  contrib: Add spaces around operator
+  contrib: space required after that ','
+  contrib: Open brace '{' following struct go on the same line
+
+ docs/devel/tcg-plugins.rst               |  34 +++
+ include/exec/exec-all.h                  |   9 +-
+ include/exec/plugin-gen.h                |   4 +-
+ include/exec/tb-context.h                |   1 -
+ include/hw/core/cpu.h                    |   4 +-
+ include/hw/core/tcg-cpu-ops.h            |  13 +-
+ include/qemu/plugin.h                    |   4 +
+ include/qemu/qemu-plugin.h               |   6 +
+ include/qemu/typedefs.h                  |   1 +
+ target/arm/internals.h                   |   3 +-
+ accel/tcg/cpu-exec.c                     |  61 +----
+ accel/tcg/plugin-gen.c                   |  35 +--
+ accel/tcg/translate-all.c                | 130 ++++------
+ accel/tcg/translator.c                   |   5 +-
+ contrib/ivshmem-server/main.c            |   2 +-
+ contrib/plugins/hotblocks.c              |   2 +-
+ contrib/plugins/hotpages.c               |   2 +-
+ contrib/plugins/howvec.c                 |  19 +-
+ contrib/plugins/hwprofile.c              | 305 +++++++++++++++++++++++
+ contrib/plugins/lockstep.c               |   6 +-
+ hw/virtio/virtio-pci.c                   |  22 +-
+ plugins/api.c                            |  56 ++++-
+ target/cris/translate.c                  |   2 +-
+ target/lm32/translate.c                  |   2 +-
+ target/mips/cpu.c                        |  18 ++
+ target/moxie/translate.c                 |   2 +-
+ target/sh4/cpu.c                         |  18 ++
+ target/unicore32/translate.c             |   2 +-
+ tests/plugin/insn.c                      |  12 +-
+ tests/plugin/mem.c                       |  27 +-
+ MAINTAINERS                              |   1 +
+ contrib/plugins/Makefile                 |   1 +
+ tests/acceptance/tcg_plugins.py          | 148 +++++++++++
+ tests/tcg/i386/Makefile.softmmu-target   |  10 +
+ tests/tcg/i386/Makefile.target           |   7 +
+ tests/tcg/x86_64/Makefile.softmmu-target |  10 +
+ 36 files changed, 769 insertions(+), 215 deletions(-)
+ create mode 100644 contrib/plugins/hwprofile.c
+ create mode 100644 tests/acceptance/tcg_plugins.py
 
 -- 
-Luc
+2.20.1
 
-> ---
->   hw/sd/sd.c             | 54 +++++++++++++++-------------
->   hw/sd/sdmmc-internal.h | 97 ++++++++++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 126 insertions(+), 25 deletions(-)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 45311fa..54fba7b 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -398,41 +398,45 @@ static void mmc_set_ext_csd(SDState *sd, uint64_t size)
->       uint32_t sectcount = size >> HWBLOCK_SHIFT;
->   
->       memset(sd->ext_csd, 0, 512);
-> -    sd->ext_csd[504] = 0x1; /* supported command sets */
-> -    sd->ext_csd[503] = 0x1; /* HPI features  */
-> -    sd->ext_csd[502] = 0x1; /* Background operations support */
-> +    sd->ext_csd[EXT_CSD_S_CMD_SET] = 0x1; /* supported command sets */
-> +    sd->ext_csd[EXT_CSD_HPI_FEATURES] = 0x3; /* HPI features  */
-> +    sd->ext_csd[EXT_CSD_BKOPS_SUPPORT] = 0x1; /* Background operations
-> +                                                 support */
->       sd->ext_csd[241] = 0xA; /* 1st initialization time after partitioning */
-> -    sd->ext_csd[232] = 0x1; /* Trim multiplier */
-> -    sd->ext_csd[231] = 0x15; /* Secure feature support */
-> -    sd->ext_csd[230] = 0x96; /* Secure erase support */
-> -    sd->ext_csd[229] = 0x96; /* Secure TRIM multiplier */
-> -    sd->ext_csd[228] = 0x7; /* Boot information */
-> -    sd->ext_csd[226] = 0x8; /* Boot partition size */
-> -    sd->ext_csd[225] = 0x6; /* Access size */
-> -    sd->ext_csd[224] = 0x4; /* HC Erase unit size */
-> -    sd->ext_csd[223] = 0x1; /* HC erase timeout */
-> -    sd->ext_csd[222] = 0x1; /* Reliable write sector count */
-> -    sd->ext_csd[221] = 0x4; /* HC write protect group size */
-> -    sd->ext_csd[220] = 0x8; /* Sleep current VCC  */
-> -    sd->ext_csd[219] = 0x7; /* Sleep current VCCQ */
-> -    sd->ext_csd[217] = 0x11; /* Sleep/Awake timeout */
-> +    sd->ext_csd[EXT_CSD_TRIM_MULT] = 0x1; /* Trim multiplier */
-> +    sd->ext_csd[EXT_CSD_SEC_FEATURE_SUPPORT] = 0x15; /* Secure feature
-> +                                                        support */
-> +    sd->ext_csd[EXT_CSD_SEC_ERASE_MULT] = 0x96; /* Secure erase support */
-> +    sd->ext_csd[EXT_CSD_SEC_TRIM_MULT] = 0x96; /* Secure TRIM multiplier */
-> +    sd->ext_csd[EXT_CSD_BOOT_INFO] = 0x7; /* Boot information */
-> +    sd->ext_csd[EXT_CSD_BOOT_MULT] = 0x8; /* Boot partition size. 128KB unit */
-> +    sd->ext_csd[EXT_CSD_ACC_SIZE] = 0x6; /* Access size */
-> +    sd->ext_csd[EXT_CSD_HC_ERASE_GRP_SIZE] = 0x4; /* HC Erase unit size */
-> +    sd->ext_csd[EXT_CSD_ERASE_TIMEOUT_MULT] = 0x1; /* HC erase timeout */
-> +    sd->ext_csd[EXT_CSD_REL_WR_SEC_C] = 0x1; /* Reliable write sector count */
-> +    sd->ext_csd[EXT_CSD_HC_WP_GRP_SIZE] = 0x4; /* HC write protect group size */
-> +    sd->ext_csd[EXT_CSD_S_C_VCC] = 0x8; /* Sleep current VCC  */
-> +    sd->ext_csd[EXT_CSD_S_C_VCCQ] = 0x7; /* Sleep current VCCQ */
-> +    sd->ext_csd[EXT_CSD_S_A_TIMEOUT] = 0x11; /* Sleep/Awake timeout */
->       sd->ext_csd[215] = (sectcount >> 24) & 0xff; /* Sector count */
->       sd->ext_csd[214] = (sectcount >> 16) & 0xff; /* ... */
->       sd->ext_csd[213] = (sectcount >> 8) & 0xff;  /* ... */
-> -    sd->ext_csd[212] = (sectcount & 0xff);       /* ... */
-> +    sd->ext_csd[EXT_CSD_SEC_CNT] = (sectcount & 0xff);       /* ... */
->       sd->ext_csd[210] = 0xa; /* Min write perf for 8bit@52Mhz */
->       sd->ext_csd[209] = 0xa; /* Min read perf for 8bit@52Mhz  */
->       sd->ext_csd[208] = 0xa; /* Min write perf for 4bit@52Mhz */
->       sd->ext_csd[207] = 0xa; /* Min read perf for 4bit@52Mhz */
->       sd->ext_csd[206] = 0xa; /* Min write perf for 4bit@26Mhz */
->       sd->ext_csd[205] = 0xa; /* Min read perf for 4bit@26Mhz */
-> -    sd->ext_csd[199] = 0x1; /* Partition switching timing */
-> -    sd->ext_csd[198] = 0x1; /* Out-of-interrupt busy timing */
-> -    sd->ext_csd[196] = 0xFF; /* Card type */
-> -    sd->ext_csd[194] = 0x2; /* CSD Structure version */
-> -    sd->ext_csd[192] = 0x5; /* Extended CSD revision */
-> -    sd->ext_csd[168] = 0x1; /* RPMB size */
-> -    sd->ext_csd[160] = 0x3; /* Partinioning support */
-> +    sd->ext_csd[EXT_CSD_PART_SWITCH_TIME] = 0x1; /* Partition switching
-> +                                                    timing */
-> +    sd->ext_csd[EXT_CSD_OUT_OF_INTERRUPT_TIME] = 0x1; /* Out-of-interrupt busy
-> +                                                         timing */
-> +    sd->ext_csd[EXT_CSD_CARD_TYPE] = 0xFF; /* Card type */
-> +    sd->ext_csd[EXT_CSD_STRUCTURE] = 0x2; /* CSD Structure version */
-> +    sd->ext_csd[EXT_CSD_REV] = 0x5; /* Extended CSD revision */
-> +    sd->ext_csd[EXT_CSD_RPMB_MULT] = 0x1; /* RPMB size */
-> +    sd->ext_csd[EXT_CSD_PARTITION_SUPPORT] = 0x3; /* Partinioning support */
-
-typo: Partitioning
-
->       sd->ext_csd[159] = 0x00; /* Max enhanced area size */
->       sd->ext_csd[158] = 0x00; /* ... */
->       sd->ext_csd[157] = 0xEC; /* ... */
-> diff --git a/hw/sd/sdmmc-internal.h b/hw/sd/sdmmc-internal.h
-> index d8bf17d..7ab7b4d 100644
-> --- a/hw/sd/sdmmc-internal.h
-> +++ b/hw/sd/sdmmc-internal.h
-> @@ -37,4 +37,101 @@ const char *sd_cmd_name(uint8_t cmd);
->    */
->   const char *sd_acmd_name(uint8_t cmd);
->   
-> +/*
-> + * EXT_CSD fields
-> + */
-> +
-> +#define EXT_CSD_CMDQ_MODE_EN    15  /* R/W */
-> +#define EXT_CSD_FLUSH_CACHE   32      /* W */
-> +#define EXT_CSD_CACHE_CTRL    33      /* R/W */
-> +#define EXT_CSD_POWER_OFF_NOTIFICATION  34  /* R/W */
-> +#define EXT_CSD_PACKED_FAILURE_INDEX  35  /* RO */
-> +#define EXT_CSD_PACKED_CMD_STATUS 36  /* RO */
-> +#define EXT_CSD_EXP_EVENTS_STATUS 54  /* RO, 2 bytes */
-> +#define EXT_CSD_EXP_EVENTS_CTRL   56  /* R/W, 2 bytes */
-> +#define EXT_CSD_DATA_SECTOR_SIZE  61  /* R */
-> +#define EXT_CSD_GP_SIZE_MULT    143 /* R/W */
-> +#define EXT_CSD_PARTITION_SETTING_COMPLETED 155 /* R/W */
-> +#define EXT_CSD_PARTITION_ATTRIBUTE 156 /* R/W */
-> +#define EXT_CSD_PARTITION_SUPPORT 160 /* RO */
-> +#define EXT_CSD_HPI_MGMT    161 /* R/W */
-> +#define EXT_CSD_RST_N_FUNCTION    162 /* R/W */
-> +#define EXT_CSD_BKOPS_EN    163 /* R/W */
-> +#define EXT_CSD_BKOPS_START   164 /* W */
-> +#define EXT_CSD_SANITIZE_START    165     /* W */
-> +#define EXT_CSD_WR_REL_PARAM    166 /* RO */
-> +#define EXT_CSD_RPMB_MULT   168 /* RO */
-> +#define EXT_CSD_FW_CONFIG   169 /* R/W */
-> +#define EXT_CSD_BOOT_WP     173 /* R/W */
-> +#define EXT_CSD_ERASE_GROUP_DEF   175 /* R/W */
-> +#define EXT_CSD_PART_CONFIG   179 /* R/W */
-> +#define EXT_CSD_ERASED_MEM_CONT   181 /* RO */
-> +#define EXT_CSD_BUS_WIDTH   183 /* R/W */
-> +#define EXT_CSD_STROBE_SUPPORT    184 /* RO */
-> +#define EXT_CSD_HS_TIMING   185 /* R/W */
-> +#define EXT_CSD_POWER_CLASS   187 /* R/W */
-> +#define EXT_CSD_REV     192 /* RO */
-> +#define EXT_CSD_STRUCTURE   194 /* RO */
-> +#define EXT_CSD_CARD_TYPE   196 /* RO */
-> +#define EXT_CSD_DRIVER_STRENGTH   197 /* RO */
-> +#define EXT_CSD_OUT_OF_INTERRUPT_TIME 198 /* RO */
-> +#define EXT_CSD_PART_SWITCH_TIME        199     /* RO */
-> +#define EXT_CSD_PWR_CL_52_195   200 /* RO */
-> +#define EXT_CSD_PWR_CL_26_195   201 /* RO */
-> +#define EXT_CSD_PWR_CL_52_360   202 /* RO */
-> +#define EXT_CSD_PWR_CL_26_360   203 /* RO */
-> +#define EXT_CSD_SEC_CNT     212 /* RO, 4 bytes */
-> +#define EXT_CSD_S_A_TIMEOUT   217 /* RO */
-> +#define EXT_CSD_S_C_VCCQ          219     /* RO */
-> +#define EXT_CSD_S_C_VCC                 220     /* RO */
-> +#define EXT_CSD_REL_WR_SEC_C    222 /* RO */
-> +#define EXT_CSD_HC_WP_GRP_SIZE    221 /* RO */
-> +#define EXT_CSD_ERASE_TIMEOUT_MULT  223 /* RO */
-> +#define EXT_CSD_HC_ERASE_GRP_SIZE 224 /* RO */
-> +#define EXT_CSD_ACC_SIZE    225 /* RO */
-> +#define EXT_CSD_BOOT_MULT   226 /* RO */
-> +#define EXT_CSD_BOOT_INFO   228 /* RO */
-> +#define EXT_CSD_SEC_TRIM_MULT   229 /* RO */
-> +#define EXT_CSD_SEC_ERASE_MULT    230 /* RO */
-> +#define EXT_CSD_SEC_FEATURE_SUPPORT 231 /* RO */
-> +#define EXT_CSD_TRIM_MULT   232 /* RO */
-> +#define EXT_CSD_PWR_CL_200_195    236 /* RO */
-> +#define EXT_CSD_PWR_CL_200_360    237 /* RO */
-> +#define EXT_CSD_PWR_CL_DDR_52_195 238 /* RO */
-> +#define EXT_CSD_PWR_CL_DDR_52_360 239 /* RO */
-> +#define EXT_CSD_BKOPS_STATUS    246 /* RO */
-> +#define EXT_CSD_POWER_OFF_LONG_TIME 247 /* RO */
-> +#define EXT_CSD_GENERIC_CMD6_TIME 248 /* RO */
-> +#define EXT_CSD_CACHE_SIZE    249 /* RO, 4 bytes */
-> +#define EXT_CSD_PWR_CL_DDR_200_360  253 /* RO */
-> +#define EXT_CSD_FIRMWARE_VERSION  254 /* RO, 8 bytes */
-> +#define EXT_CSD_PRE_EOL_INFO    267 /* RO */
-> +#define EXT_CSD_DEVICE_LIFE_TIME_EST_TYP_A  268 /* RO */
-> +#define EXT_CSD_DEVICE_LIFE_TIME_EST_TYP_B  269 /* RO */
-> +#define EXT_CSD_CMDQ_DEPTH    307 /* RO */
-> +#define EXT_CSD_CMDQ_SUPPORT    308 /* RO */
-> +#define EXT_CSD_SUPPORTED_MODE    493 /* RO */
-> +#define EXT_CSD_TAG_UNIT_SIZE   498 /* RO */
-> +#define EXT_CSD_DATA_TAG_SUPPORT  499 /* RO */
-> +#define EXT_CSD_MAX_PACKED_WRITES 500 /* RO */
-> +#define EXT_CSD_MAX_PACKED_READS  501 /* RO */
-> +#define EXT_CSD_BKOPS_SUPPORT   502 /* RO */
-> +#define EXT_CSD_HPI_FEATURES    503 /* RO */
-> +#define EXT_CSD_S_CMD_SET   504 /* RO */
-> +
-> +/*
-> + * EXT_CSD field definitions
-> + */
-> +
-> +#define EXT_CSD_WR_REL_PARAM_EN   (1 << 2)
-> +#define EXT_CSD_WR_REL_PARAM_EN_RPMB_REL_WR (1 << 4)
-> +
-> +#define EXT_CSD_PART_CONFIG_ACC_MASK  (0x7)
-> +#define EXT_CSD_PART_CONFIG_ACC_DEFAULT (0x0)
-> +#define EXT_CSD_PART_CONFIG_ACC_BOOT0 (0x1)
-> +
-> +#define EXT_CSD_PART_CONFIG_EN_MASK (0x7 << 3)
-> +#define EXT_CSD_PART_CONFIG_EN_BOOT0  (0x1 << 3)
-> +#define EXT_CSD_PART_CONFIG_EN_USER (0x7 << 3)
-> +
->   #endif
-> 
 
