@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5A531A8C2
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 01:26:20 +0100 (CET)
-Received: from localhost ([::1]:48092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3949131A8C8
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 01:29:02 +0100 (CET)
+Received: from localhost ([::1]:53120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAilO-00009T-Vq
-	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 19:26:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47712)
+	id 1lAio1-0002Oa-8i
+	for lists+qemu-devel@lfdr.de; Fri, 12 Feb 2021 19:29:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAik0-0008Ad-TA
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 19:24:52 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34864)
+ (Exim 4.90_1) (envelope-from
+ <3dhwnYAMKClMy4z19916z.x97Bz7F-yzGz689818F.9C1@flex--dje.bounces.google.com>)
+ id 1lAikq-0000GM-Lz
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 19:25:44 -0500
+Received: from mail-ua1-x94a.google.com ([2607:f8b0:4864:20::94a]:48610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAijz-0007W6-FE
- for qemu-devel@nongnu.org; Fri, 12 Feb 2021 19:24:52 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id l12so1421001wry.2
- for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 16:24:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ikYmm3lm9yqaCT3KwXFQe7jNRYZH27jj33DLTBTpqNA=;
- b=LMlH+ec8OZHSab0OUSrdzrew8bJsyrxv6yrArUPd82tsbJBr9RCzAzAo2qLed2ADyU
- iyhPWflk5yfULYUIMYNiEgLHC1Dq3EaFwMCDi/w/6Ml3FV/QtGDF7qx3nP8xh5ILoeVB
- 36mwSKhaI+3s7RYDaJIW4S/0OBDL8oEFYF1CO8ljeVj7nRTtMqW38wABVtob0Lrn7l4b
- rMBiEgmlXi8XE1DtUkzvSIeB3+CZcUoDD5xV7Xs0YwXR/YEUHLlcwrbeX7wIr+2moryV
- 5QLFUtkVm9pVr97pz3TmXvyFxQDDQnkbEy7QKmjvMY/HZN/EW+tiqRqFviYmgs3oOp8y
- pXIg==
+ (Exim 4.90_1) (envelope-from
+ <3dhwnYAMKClMy4z19916z.x97Bz7F-yzGz689818F.9C1@flex--dje.bounces.google.com>)
+ id 1lAikb-0007pK-4e
+ for qemu-devel@nongnu.org; Fri, 12 Feb 2021 19:25:44 -0500
+Received: by mail-ua1-x94a.google.com with SMTP id x14so414979uac.15
+ for <qemu-devel@nongnu.org>; Fri, 12 Feb 2021 16:25:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=VBsGwUpGyUsrBAIRgfriyqklE61q7c+OkwCbO/KoJbQ=;
+ b=PZIMdCYygaciXsnS7YyAJ58MO/BIJGFmXKzuJHkKoqnpym/Cxkib+afoBjyKaHJ+2F
+ nxk84w5tuaKSnHYy2wqbzwzgij8/xxiHS0OQtXfMe93UnDotyu71PdSozAI5SN/Pm7h6
+ HtmK4oC0UdJgd8xkqxGEWySOPBpr1U9exMn9Ewv9l1d5UGtmrc2x+6Up0rjEK8gxLQuc
+ IBtl8UX+W7Y2kngj9NIwhZi9UEAkyqSAWhoTIoCnB+o0AUYLe44lgf/vhil7oeb0/01j
+ DMfqwgzHrPHTx/K1jPLFGTtqoGVtffRm9JKhgyn7f9SjNwjWUBnP5bFQOOlIJpfJD6tH
+ H39A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ikYmm3lm9yqaCT3KwXFQe7jNRYZH27jj33DLTBTpqNA=;
- b=kZc1vf8b0tEGewV55TmXWd4DlGLrzMSN4ar36FyBWYlQECo1wxcagn7b0O9758QTd/
- 35D9whoII00CQXSBdUGTC+G6MGXW4zEXlO1nMNg2QIKa1FCT+tEtNjwbyxPT+5dDUfHP
- 5F4G858Szx3H2R0K8zz78ssR8j6/HyH/l1Ibh8ICDMVvN2C6SHC6cg+u7bXs2RPyfmUH
- yBWk+4OwAlKwSfbgFzeDVs/XBM8EU1U7hssnxIUT9G4fKzC0GWJeNpiid3hmcYk1f/So
- hfYB1nwGBcxqW6r3uSjz7ZyWpar/ZKqgQzmjBGiQ8GDm8QcXggT3Grvdc+s0FH9CetgK
- TgAg==
-X-Gm-Message-State: AOAM531WRVNvudy6qjYr0XDesWzU2fcAk+viUwqGctSjwD23tJQULw3Q
- 6VWAF0lZ31WTVxVRVjonktw=
-X-Google-Smtp-Source: ABdhPJxQE5IW+vkQMdURH9RTlW0vcX6V4zndRu8ZXTTPItyhURkfvN4/tMCmvIajGM86B/vhvmL66w==
-X-Received: by 2002:a05:6000:186f:: with SMTP id
- d15mr6200705wri.237.1613175889782; 
- Fri, 12 Feb 2021 16:24:49 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id f8sm12343472wrp.65.2021.02.12.16.24.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Feb 2021 16:24:49 -0800 (PST)
-Subject: Re: [PATCH] target/mips/translate: Simplify PCPYH using deposit_i64()
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=VBsGwUpGyUsrBAIRgfriyqklE61q7c+OkwCbO/KoJbQ=;
+ b=tDyCCYIQOn6ng6pZE8hQQnw+MSHDYYra+WM6QcIb6npj5n0n42bnKJFWVO7ygXBLlo
+ qHBCcweE3PJL0y1BXytEK/eXWYAymHXiwKrv9wF7nX87JGdNHzgpOnam+unJtBVLaR3c
+ +5ZEf7XKFuXzy0Kzweeb9Q1/yacJWIdUxc2Pp1J+hgXFHq6zc4G1PoutDxrUha44FIhd
+ 2tlzWQuQKkRJEgXlZIBTAg84FpQOZ+l+VeSsEneobARdhhtVa/F9ZXEPgGyOmIiHdSCo
+ /VphimRdDfycwz0HiyTbU9x3xOBwqihyuOn4/pFloRbISvgSnmdob+D5zspcH7FmaxeC
+ cC/Q==
+X-Gm-Message-State: AOAM531BBHL7P51l3Q7xjIC+tvb52rg3Ocaj6OjsRulZijv0JqRyPoLA
+ LY5VFBeElMEJsaWfUY0MVYitcns6qzXc6PAAF68r2sVKE8uICa0fi1Cr+BpU5mSBDngk46JxJTa
+ NjW0ZK8JqPmcGK/2il7nGdB7kbLN1DbYzx4bSfMMn2R5TNa5l+93U
+X-Google-Smtp-Source: ABdhPJxMAPgdrVVY8ps9zaV3KC3ThLwLXkzQWQ1uER33RXnEja3s7qu2uizHZCcMqxROTRvJSg7Sqeo=
+X-Received: from ruffy.mtv.corp.google.com
+ ([2620:0:1000:1412:3518:3ae4:e236:7aa4])
+ (user=dje job=sendgmr) by 2002:a67:8d01:: with SMTP id
+ p1mr3831485vsd.1.1613175926037; 
+ Fri, 12 Feb 2021 16:25:26 -0800 (PST)
+Date: Fri, 12 Feb 2021 16:25:17 -0800
+Message-Id: <20210213002520.1374134-1-dje@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
+Subject: [PATCH v4 0/3] Add npcm7xx emc model
 To: qemu-devel@nongnu.org
-References: <20210213001901.75562-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <06698edb-1734-3732-07d0-1ae4b180f9af@amsat.org>
-Date: Sat, 13 Feb 2021 01:24:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <20210213001901.75562-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.119,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Cc: Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Hao Wu <wuhaotsh@google.com>, Avi Fishman <avi.fishman@nuvoton.com>, 
+ Doug Evans <dje@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::94a;
+ envelope-from=3dhwnYAMKClMy4z19916z.x97Bz7F-yzGz689818F.9C1@flex--dje.bounces.google.com;
+ helo=mail-ua1-x94a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,65 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Fredrik Noring <noring@nocrew.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Doug Evans <dje@google.com>
+From:  Doug Evans via <qemu-devel@nongnu.org>
 
-On 2/13/21 1:19 AM, Philippe Mathieu-Daudé wrote:
-> Simplify the PCPYH (Parallel Copy Halfword) instruction by using
-> multiple calls to deposit_i64() which can be optimized by some
-> TCG backends.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/mips/translate.c | 36 ++++++------------------------------
->  1 file changed, 6 insertions(+), 30 deletions(-)
-> 
-> diff --git a/target/mips/translate.c b/target/mips/translate.c
-> index a5cf1742a8b..5b31aa44f30 100644
-> --- a/target/mips/translate.c
-> +++ b/target/mips/translate.c
-> @@ -24786,36 +24786,12 @@ static void gen_mmi_pcpyh(DisasContext *ctx)
->          tcg_gen_movi_i64(cpu_gpr[rd], 0);
->          tcg_gen_movi_i64(cpu_mmr[rd], 0);
->      } else {
-> -        TCGv_i64 t0 = tcg_temp_new();
-> -        TCGv_i64 t1 = tcg_temp_new();
-> -        uint64_t mask = (1ULL << 16) - 1;
-> -
-> -        tcg_gen_andi_i64(t0, cpu_gpr[rt], mask);
-> -        tcg_gen_movi_i64(t1, 0);
-> -        tcg_gen_or_i64(t1, t0, t1);
-> -        tcg_gen_shli_i64(t0, t0, 16);
-> -        tcg_gen_or_i64(t1, t0, t1);
-> -        tcg_gen_shli_i64(t0, t0, 16);
-> -        tcg_gen_or_i64(t1, t0, t1);
-> -        tcg_gen_shli_i64(t0, t0, 16);
-> -        tcg_gen_or_i64(t1, t0, t1);
-> -
-> -        tcg_gen_mov_i64(cpu_gpr[rd], t1);
-> -
-> -        tcg_gen_andi_i64(t0, cpu_mmr[rt], mask);
-> -        tcg_gen_movi_i64(t1, 0);
-> -        tcg_gen_or_i64(t1, t0, t1);
-> -        tcg_gen_shli_i64(t0, t0, 16);
-> -        tcg_gen_or_i64(t1, t0, t1);
-> -        tcg_gen_shli_i64(t0, t0, 16);
-> -        tcg_gen_or_i64(t1, t0, t1);
-> -        tcg_gen_shli_i64(t0, t0, 16);
-> -        tcg_gen_or_i64(t1, t0, t1);
-> -
-> -        tcg_gen_mov_i64(cpu_mmr[rd], t1);
-> -
-> -        tcg_temp_free(t0);
-> -        tcg_temp_free(t1);
-> +        for (int i = 0; i < 4; i++) {
-> +            tcg_gen_deposit_i64(cpu_gpr[rd],
-> +                                cpu_gpr[rd], cpu_gpr[rd], 8 * i, 8);
-> +            tcg_gen_deposit_i64(cpu_mmr[rd],
-> +                                cpu_mmr[rd], cpu_mmr[rd], 8 * i, 8);
+This is a 10/100 ethernet device that has several features.
+Only the ones needed by the Linux driver have been implemented.
+See npcm7xx_emc.c for a list of unimplemented features.
 
-Oops sorry disregard this patch, wrong opcode.
+Doug Evans (3):
+  hw/net: Add npcm7xx emc model
+  hw/arm: Add npcm7xx emc model
+  tests/qtests: Add npcm7xx emc model test
+
+ docs/system/arm/nuvoton.rst    |   3 +-
+ hw/arm/npcm7xx.c               |  50 +-
+ hw/net/meson.build             |   1 +
+ hw/net/npcm7xx_emc.c           | 857 ++++++++++++++++++++++++++++++++
+ hw/net/trace-events            |  17 +
+ include/hw/arm/npcm7xx.h       |   2 +
+ include/hw/net/npcm7xx_emc.h   | 286 +++++++++++
+ tests/qtest/meson.build        |   1 +
+ tests/qtest/npcm7xx_emc-test.c | 862 +++++++++++++++++++++++++++++++++
+ 9 files changed, 2076 insertions(+), 3 deletions(-)
+ create mode 100644 hw/net/npcm7xx_emc.c
+ create mode 100644 include/hw/net/npcm7xx_emc.h
+ create mode 100644 tests/qtest/npcm7xx_emc-test.c
+
+-- 
+2.30.0.478.g8a0d178c01-goog
+
+Differences from v3:
+
+1/3 hw/net: Add npcm7xx emc model
+- no change
+
+2/3 hw/arm: Add npcm7xx emc model
+- no change
+
+3/3 tests/qtests: Add npcm7xx emc model test
+- handle big endian hosts, tested on sparc64
+
+Differences from v2:
+
+1/3 hw/net: Add npcm7xx emc model
+- move call to qemu_set_irq
+- remove use of C99 mixed decls/statements
+- add use of g_autofree
+
+2/3 hw/arm: Add npcm7xx emc model
+- none, patch ok as is
+
+3/3 tests/qtests: Add npcm7xx emc model test
+- remove use of C99 mixed decls/statements
 
