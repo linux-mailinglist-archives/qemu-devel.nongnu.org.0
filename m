@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F117B31ABCD
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:32:33 +0100 (CET)
-Received: from localhost ([::1]:51782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 485B331ABE9
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:38:25 +0100 (CET)
+Received: from localhost ([::1]:59506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAv2H-0001MT-27
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:32:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48690)
+	id 1lAv7w-0004ko-6W
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:38:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAukf-00024C-57
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:14:21 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38449)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lAukc-0001cB-TS
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:14:20 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id b3so2938616wrj.5
- for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:14:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CPsDav6E8XHsrKagKg9vwrJ26wgur9LIk7vYzrhgnKk=;
- b=jDcLK4v+4VIKZqHyvX63o16hmIpgVfF5jpRAm1figxx6MciucHmLYMD+eDjQ+ZynVe
- 7y8FmKgQqQxdNivrOytu4f3LFzhQsMRDw9bcd8G0iWjx2ibXVFYXbwdOlaTQy+ZOkHLR
- 7QvK7ktPdCqHGrXpVmdqbqsHwExg7wnrAreqaiOO9QuhXDwywE9jfvINDd5w44O8DSaY
- toTytGN9dk25ih5Wx3QdNUcsRPkrYUS6UOPWBmRMHUgktsQ7DgjFridRqyNWLEtWlBl5
- 4kcTpCkpgObKXVVT92sIRdvSVjv8a7OWKj40Bi6y+Ckr0TSl6ZzNSob4GGtGaIFjjirh
- WrGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CPsDav6E8XHsrKagKg9vwrJ26wgur9LIk7vYzrhgnKk=;
- b=WWg589IW4oOp6VLytrO8Eqv0xuoFSGTAagD144yVif1Wlkosm7vxgtbl/R1P2l3h4b
- fuSwb7pgCtA1GVsJ5fPUvHieVpCtCTTpWpnu9BVA3WFqOk1mcJLtyTLx3b5aub3cSHNu
- 0kMoC04J1S8fPrlDKOd/zvqaJDDDtKEPAXs5NQc8l9d2p6wA3Ltrl4Hz00MKTClfXqmn
- xo9BiHhZzeUWV7VfMmby3UsWiOuoqMiENQ/iJOqJKi/0XCX1hhQgKquOtX4CMGqm5F+b
- S7zSmLcfDX+Uwg4YrUJWd/PnGirxov9zaF3oq9diGoFy6Rd4ygmCrbiT00V0dM9Adofh
- yWOA==
-X-Gm-Message-State: AOAM5300vPfQ7HD7sHyhbWtrvjxAPwLcDBA9asP0o6AA17cmtpKWw/22
- IdH59LxUTA9DRh5XFl8EUhTwl8cL8Pk=
-X-Google-Smtp-Source: ABdhPJyp9rVxPuGoQKxgzirBq5S/0WJC0RcBA6O5sEvSTpM6nz+FmdLVnk1jxRSZ+d/Pzn7s2XV37A==
-X-Received: by 2002:adf:efc9:: with SMTP id i9mr8537928wrp.177.1613222057203; 
- Sat, 13 Feb 2021 05:14:17 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id d20sm15377090wrc.12.2021.02.13.05.14.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 Feb 2021 05:14:16 -0800 (PST)
-Subject: Re: Qemu mipssim patches, mips malta and virtio bugs
-To: Reinoud Zandijk <reinoud@NetBSD.org>
-References: <20210211153746.GA25676@dropje.13thmonkey.org>
- <acf26892-c47c-7059-f3d1-8ef5bdcdcb8b@amsat.org>
- <2951213f-7610-857d-c20c-12bc26877490@amsat.org>
- <YCekTE6Aik0OoLLg@diablo.13thmonkey.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b86fcf3d-8be4-0d6e-e85b-7b4137fc7238@amsat.org>
-Date: Sat, 13 Feb 2021 14:14:15 +0100
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1lAuoN-0004PJ-8O; Sat, 13 Feb 2021 08:18:14 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:58454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1lAuoF-00037E-6c; Sat, 13 Feb 2021 08:18:07 -0500
+Received: from [192.168.61.100] (lfbn-lyo-1-447-149.w2-7.abo.wanadoo.fr
+ [2.7.4.149])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id AE1DB21C38;
+ Sat, 13 Feb 2021 13:17:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1613222279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qmkfW1bx8FRyG6cWSzw3vW8gCUcfecrTPfhbMug3tPY=;
+ b=gQzIST5w6S0bZvCjrpHjqKidOqEzjZsFGkcEJfLwtjeBQqwP2M4jyj4kSls5y6TOgFQiwB
+ y3QNp5bFVJwfBUqzioHJ5qi4KE4L/1E+0YdVvqJ7dUqpG9b/H1Sy3Gl7trLQxrzp0DKJhh
+ zoosk8aCnoWSU+FQ8OGXXWiiytmOTxU=
+Subject: Re: [RFC PATCH 02/15] sd: add eMMC support
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eric Blake <eblake@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Vincent Palatin <vpalatin@chromium.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613031446-22154-3-git-send-email-sai.pavan.boddu@xilinx.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <128563ea-4e33-e5d0-f381-1b41d695588d@greensocs.com>
+Date: Sat, 13 Feb 2021 14:18:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <YCekTE6Aik0OoLLg@diablo.13thmonkey.org>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <1613031446-22154-3-git-send-email-sai.pavan.boddu@xilinx.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,56 +77,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+Cc: saipava@xilinx.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/13/21 11:05 AM, Reinoud Zandijk wrote:
-> On Fri, Feb 12, 2021 at 10:44:55AM +0100, Philippe Mathieu-Daudé wrote:
->>>> i'd like to get the following simple patches to the MIPS/mipssim target adding
->>>> virtio-mmio devices to it.
->>
->> Please submit your patches as a series so we can review them on
->> the list:
->> https://wiki.qemu.org/Contribute/SubmitAPatch#Use_git_format-patch
+On 2/11/21 9:17 AM, Sai Pavan Boddu wrote:
+> From: Vincent Palatin <vpalatin@chromium.org>
 > 
-> Oh thanks, i didn't know that; i've created a new patch with the OR gate you
-> suggested. We deliberated about the change here and we'll at least keep it
-> here locally for testing and profiling code until a real `virt' platform is
-> developed for MIPS. Until then it would IMHO be a good expansion to mipssim.
-> I'll try to get a proper patch posted on the list :)
+> The parameters mimick a real 4GB eMMC, but it can be set to various
+> sizes.
+> 
+> Signed-off-by: Vincent Palatin <vpalatin@chromium.org>
+> [SPB: Rebased the patch over qemu 5.1,
+>        Mark eMMC to support all timing modes]
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: CÃ©dric Le Goater <clg@kaod.org>
 
-What I forgot to mention is that QEMU aims to keep models the closer
-to the hardware, so modifying MIPSsim to some Frankenstein is unlikely
-to be accepted.
+I find this commit hard to review in its current state. Maybe by 
+splitting it into smaller commits with a small description in the commit 
+message would make things easier. Eg. one patch to set the ext_csd 
+fields, one for the csd, and one per command you modify.
 
-The patch could be useful (we can adapt it to an eventual 'virt'
-machine later).
+I also noted one small thing bellow.
 
-> As for the Malta target, its missing its BIOS and thus its PCI bus is not
-> initialised correctly for NetBSD to run on when its passed with -kernel. Linux
-> seems to bodge around this somewhere but if no BIOS is found it would be
-> better if it was initialised as the BIOS would leave it before handing over to
-> the kernel.
+> ---
+>   hw/sd/sd.c             | 143 +++++++++++++++++++++++++++++++++++++++++--------
+>   hw/sd/sdmmc-internal.c |   2 +-
+>   2 files changed, 122 insertions(+), 23 deletions(-)
+> 
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index 8517dbc..a75fa1c 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
 
-Agreed. The current "pseudo bootloader" was developed with Linux guest
-in mind. For anything else you need a real BIOS ROM, but even there I'm
-not sure it works well, because the GT64120 north bridge is reset in a
-particular state suitable for Linux.
+[snip]
 
-> There are also a few Qemu virtio-pci and virtio-mmio bugs we encountered on
-> Aarch64 and Sparc64, how can I best file those? Or should I try to contact ppl
-> directly?
+> @@ -371,6 +374,51 @@ static const uint8_t sd_csd_rw_mask[16] = {
+>       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfc, 0xfe,
+>   };
+>   
+> +static void mmc_set_ext_csd(SDState *sd, uint64_t size)
+> +{
+> +    uint32_t sectcount = size >> HWBLOCK_SHIFT;
+> +
+> +    memset(sd->ext_csd, 0, 512);
+memset(sd->ext_csd, 0, sizeof(sd->ext_csd));
 
-For now the bug tracking system is on Launchpad:
-https://bugs.launchpad.net/qemu/+filebug
+-- 
+Luc
 
-You can contact the maintainers directly, but if the bug is complex and
-will take time to fix, it is better to track it with a LP ticket IMO.
-
-Regards,
-
-Phil.
+> +    sd->ext_csd[504] = 0x1; /* supported command sets */
+> +    sd->ext_csd[503] = 0x1; /* HPI features  */
+> +    sd->ext_csd[502] = 0x1; /* Background operations support */
+> +    sd->ext_csd[241] = 0xA; /* 1st initialization time after partitioning */
+> +    sd->ext_csd[232] = 0x1; /* Trim multiplier */
+> +    sd->ext_csd[231] = 0x15; /* Secure feature support */
+> +    sd->ext_csd[230] = 0x96; /* Secure erase support */
+> +    sd->ext_csd[229] = 0x96; /* Secure TRIM multiplier */
+> +    sd->ext_csd[228] = 0x7; /* Boot information */
+> +    sd->ext_csd[226] = 0x8; /* Boot partition size */
+> +    sd->ext_csd[225] = 0x6; /* Access size */
+> +    sd->ext_csd[224] = 0x4; /* HC Erase unit size */
+> +    sd->ext_csd[223] = 0x1; /* HC erase timeout */
+> +    sd->ext_csd[222] = 0x1; /* Reliable write sector count */
+> +    sd->ext_csd[221] = 0x4; /* HC write protect group size */
+> +    sd->ext_csd[220] = 0x8; /* Sleep current VCC  */
+> +    sd->ext_csd[219] = 0x7; /* Sleep current VCCQ */
+> +    sd->ext_csd[217] = 0x11; /* Sleep/Awake timeout */
+> +    sd->ext_csd[215] = (sectcount >> 24) & 0xff; /* Sector count */
+> +    sd->ext_csd[214] = (sectcount >> 16) & 0xff; /* ... */
+> +    sd->ext_csd[213] = (sectcount >> 8) & 0xff;  /* ... */
+> +    sd->ext_csd[212] = (sectcount & 0xff);       /* ... */
+> +    sd->ext_csd[210] = 0xa; /* Min write perf for 8bit@52Mhz */
+> +    sd->ext_csd[209] = 0xa; /* Min read perf for 8bit@52Mhz  */
+> +    sd->ext_csd[208] = 0xa; /* Min write perf for 4bit@52Mhz */
+> +    sd->ext_csd[207] = 0xa; /* Min read perf for 4bit@52Mhz */
+> +    sd->ext_csd[206] = 0xa; /* Min write perf for 4bit@26Mhz */
+> +    sd->ext_csd[205] = 0xa; /* Min read perf for 4bit@26Mhz */
+> +    sd->ext_csd[199] = 0x1; /* Partition switching timing */
+> +    sd->ext_csd[198] = 0x1; /* Out-of-interrupt busy timing */
+> +    sd->ext_csd[196] = 0xFF; /* Card type */
+> +    sd->ext_csd[194] = 0x2; /* CSD Structure version */
+> +    sd->ext_csd[192] = 0x5; /* Extended CSD revision */
+> +    sd->ext_csd[168] = 0x1; /* RPMB size */
+> +    sd->ext_csd[160] = 0x3; /* Partinioning support */
+> +    sd->ext_csd[159] = 0x00; /* Max enhanced area size */
+> +    sd->ext_csd[158] = 0x00; /* ... */
+> +    sd->ext_csd[157] = 0xEC; /* ... */
+> +}
+> +
+>   static void sd_set_csd(SDState *sd, uint64_t size)
+>   {
+>       int hwblock_shift = HWBLOCK_SHIFT;
+> @@ -384,7 +432,34 @@ static void sd_set_csd(SDState *sd, uint64_t size)
+>       }
+>       csize = (size >> (CMULT_SHIFT + hwblock_shift)) - 1;
+>   
+> -    if (size <= SDSC_MAX_CAPACITY) { /* Standard Capacity SD */
+> +    if (sd->emmc) { /* eMMC */
+> +        sd->csd[0] = 0xd0;
+> +        sd->csd[1] = 0x0f;
+> +        sd->csd[2] = 0x00;
+> +        sd->csd[3] = 0x32;
+> +        sd->csd[4] = 0x0f;
+> +        if (size <= 0x80000000ULL) {
+> +            /* use 1k blocks */
+> +            uint32_t csize1k = (size >> (CMULT_SHIFT + 10)) - 1;
+> +            sd->csd[5] = 0x5a;
+> +            sd->csd[6] = 0x80 | ((csize1k >> 10) & 0xf);
+> +            sd->csd[7] = (csize1k >> 2) & 0xff;
+> +        } else { /* >= 2GB : size stored in ext CSD, block addressing */
+> +            sd->csd[5] = 0x59;
+> +            sd->csd[6] = 0x8f;
+> +            sd->csd[7] = 0xff;
+> +            sd->ocr |= 1 << 30;
+> +        }
+> +        sd->csd[8] = 0xff;
+> +        sd->csd[9] = 0xff;
+> +        sd->csd[10] = 0xf7;
+> +        sd->csd[11] = 0xfe;
+> +        sd->csd[12] = 0x49;
+> +        sd->csd[13] = 0x10;
+> +        sd->csd[14] = 0x00;
+> +        sd->csd[15] = (sd_crc7(sd->csd, 15) << 1) | 1;
+> +        mmc_set_ext_csd(sd, size);
+> +    } else if (size <= SDSC_MAX_CAPACITY) { /* Standard Capacity SD */
+>           sd->csd[0] = 0x00;	/* CSD structure */
+>           sd->csd[1] = 0x26;	/* Data read access-time-1 */
+>           sd->csd[2] = 0x00;	/* Data read access-time-2 */
+> @@ -431,9 +506,13 @@ static void sd_set_csd(SDState *sd, uint64_t size)
+>       sd->csd[15] = (sd_crc7(sd->csd, 15) << 1) | 1;
+>   }
+>   
+> -static void sd_set_rca(SDState *sd)
+> +static void sd_set_rca(SDState *sd, uint16_t value)
+>   {
+> -    sd->rca += 0x4567;
+> +    if (sd->emmc) {
+> +        sd->rca = value;
+> +    } else {
+> +        sd->rca += 0x4567;
+> +    }
+>   }
+>   
+>   FIELD(CSR, AKE_SEQ_ERROR,               3,  1)
+> @@ -979,8 +1058,8 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>           case sd_identification_state:
+>           case sd_standby_state:
+>               sd->state = sd_standby_state;
+> -            sd_set_rca(sd);
+> -            return sd_r6;
+> +            sd_set_rca(sd, req.arg >> 16);
+> +            return sd->emmc ? sd_r1 : sd_r6;
+>   
+>           default:
+>               break;
+> @@ -1054,24 +1133,37 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+>           }
+>           break;
+>   
+> -    case 8:	/* CMD8:   SEND_IF_COND */
+> -        if (sd->spec_version < SD_PHY_SPECv2_00_VERS) {
+> -            break;
+> -        }
+> -        if (sd->state != sd_idle_state) {
+> -            break;
+> -        }
+> -        sd->vhs = 0;
+> -
+> -        /* No response if not exactly one VHS bit is set.  */
+> -        if (!(req.arg >> 8) || (req.arg >> (ctz32(req.arg & ~0xff) + 1))) {
+> -            return sd->spi ? sd_r7 : sd_r0;
+> -        }
+> +    case 8:    /* CMD8:   SEND_IF_COND / SEND_EXT_CSD */
+> +        if (sd->emmc) {
+> +            switch (sd->state) {
+> +            case sd_transfer_state:
+> +                /* MMC : Sends the EXT_CSD register as a Block of data */
+> +                sd->state = sd_sendingdata_state;
+> +                memcpy(sd->data, sd->ext_csd, 512);
+> +                sd->data_start = addr;
+> +                sd->data_offset = 0;
+> +                return sd_r1;
+> +            default:
+> +                break;
+> +            }
+> +        } else {
+> +            if (sd->spec_version < SD_PHY_SPECv2_00_VERS) {
+> +                break;
+> +            }
+> +            if (sd->state != sd_idle_state) {
+> +                break;
+> +            }
+> +            sd->vhs = 0;
+>   
+> -        /* Accept.  */
+> -        sd->vhs = req.arg;
+> -        return sd_r7;
+> +            /* No response if not exactly one VHS bit is set.  */
+> +            if (!(req.arg >> 8) || (req.arg >> (ctz32(req.arg & ~0xff) + 1))) {
+> +                return sd->spi ? sd_r7 : sd_r0;
+> +            }
+>   
+> +            /* Accept.  */
+> +            sd->vhs = req.arg;
+> +            return sd_r7;
+> +        }
+>       case 9:	/* CMD9:   SEND_CSD */
+>           switch (sd->state) {
+>           case sd_standby_state:
+> @@ -1993,7 +2085,13 @@ uint8_t sd_read_byte(SDState *sd)
+>           if (sd->data_offset >= 64)
+>               sd->state = sd_transfer_state;
+>           break;
+> +    case 8:     /* CMD8: SEND_EXT_CSD on MMC */
+> +        ret = sd->data[sd->data_offset++];
+>   
+> +        if (sd->data_offset >= 512) {
+> +            sd->state = sd_transfer_state;
+> +        }
+> +        break;
+>       case 9:	/* CMD9:   SEND_CSD */
+>       case 10:	/* CMD10:  SEND_CID */
+>           ret = sd->data[sd->data_offset ++];
+> @@ -2176,6 +2274,7 @@ static Property sd_properties[] = {
+>        * board to ensure that ssi transfers only occur when the chip select
+>        * is asserted.  */
+>       DEFINE_PROP_BOOL("spi", SDState, spi, false),
+> +    DEFINE_PROP_BOOL("emmc", SDState, emmc, false),
+>       DEFINE_PROP_END_OF_LIST()
+>   };
+>   
+> diff --git a/hw/sd/sdmmc-internal.c b/hw/sd/sdmmc-internal.c
+> index 2053def..8648a78 100644
+> --- a/hw/sd/sdmmc-internal.c
+> +++ b/hw/sd/sdmmc-internal.c
+> @@ -14,7 +14,7 @@
+>   const char *sd_cmd_name(uint8_t cmd)
+>   {
+>       static const char *cmd_abbrev[SDMMC_CMD_MAX] = {
+> -         [0]    = "GO_IDLE_STATE",
+> +         [0]    = "GO_IDLE_STATE",           [1]    = "SEND_OP_CMD",
+>            [2]    = "ALL_SEND_CID",            [3]    = "SEND_RELATIVE_ADDR",
+>            [4]    = "SET_DSR",                 [5]    = "IO_SEND_OP_COND",
+>            [6]    = "SWITCH_FUNC",             [7]    = "SELECT/DESELECT_CARD",
+> 
 
