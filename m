@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82DD31AE84
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 00:34:30 +0100 (CET)
-Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69A731AE89
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 00:47:03 +0100 (CET)
+Received: from localhost ([::1]:44640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lB4Qn-00031Z-LM
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 18:34:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35836)
+	id 1lB4cw-00066J-Gr
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 18:47:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lB4Pg-0002Rx-3q; Sat, 13 Feb 2021 18:33:20 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:53097)
+ id 1lB4bH-0005Pn-Df; Sat, 13 Feb 2021 18:45:21 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:43813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lB4Pd-0003XC-Uh; Sat, 13 Feb 2021 18:33:19 -0500
+ id 1lB4bC-0004cj-7N; Sat, 13 Feb 2021 18:45:19 -0500
 Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MZTyo-1lPq7w0Xf4-00WTwl; Sun, 14 Feb 2021 00:33:06 +0100
-Subject: Re: [PATCH] target/avr/cpu: Use device_class_set_parent_realize()
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MW9zm-1lMY1I2LDG-00XayV; Sun, 14 Feb 2021 00:45:06 +0100
+Subject: Re: [PATCH-for-5.2?] MAINTAINERS: Fix default-configs/ entries
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20210201080348.438095-1-f4bug@amsat.org>
+References: <20201117114656.1222555-1-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <fcdf4265-0c39-6d19-1ebf-3515d073f39a@vivier.eu>
-Date: Sun, 14 Feb 2021 00:33:05 +0100
+Message-ID: <ac55cbf3-946d-9e51-7d33-b60a4119898d@vivier.eu>
+Date: Sun, 14 Feb 2021 00:45:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210201080348.438095-1-f4bug@amsat.org>
+In-Reply-To: <20201117114656.1222555-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OPWls6lARMR0RDv03b/E5MF4L7ZQw+9yAAYNzcYqfnw8Wg9sdQW
- Jpv3kYcZk+XyjDansT4ji6/VgkLTk1Yw4ZGdGmM/MCausbKcsDFEpEjAEEn+mwmn/F0a0eo
- cJdQvDP0a/zWJjeeWkLaHv0JwYIVcUpmziJ3JWzUl4aNnoE8e0cSuWTjGbVwUAqDGJIBIYu
- D1WZeaRQwPQbKP0setajA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WguI94uBaA4=:KBOMvi5t12kIYoOJjbQwH6
- lLuNY09cQzNsK7/58ibZKG7a022zdH29IDkMoKqrBgz56/9me2YWIYG6KdNExL+Q6Iu0AlnNA
- YhkaRbyhmLTKSZQZBvpTWYCJk4vzMRm0D4PYxmu5+VhH3F3c1vCx6rE+sOmAW0OUG8QRSYiFX
- FnqIelqCYpv1uzPBt4A+EPcZtrCXFQq68SE6nwouHFxdioG18lhS5UEy9+HWKCytST1URtORa
- 2vFBiFDroQLbAaIkc+uSxarCkbBF4yEB9+kraRkUo7zHVIlhXg+hX129w0pPZZ384J8img/nM
- zXEeJuKQJd2gs8g2RiSmYHsbAkPT+kUNxdNZfcHEUEnQbZE0tqaCeYcgDiETO3yA160J9pIkb
- ikSVfZ+LKxBXoebmH2ZGBfHgZM0uNvJaSomxj2OqknIJKHZTBtob5rKjgN+A3XCQ4LTGz4veM
- nGmqT4/yEQ==
+X-Provags-ID: V03:K1:QvZJ5p5dhtGeIM98qo0sdm5u3GDbdr8Mdxowp923+zbewz0CyVT
+ CqzY5Pi3//o79nzfohq0mBtdfm5Ce8b4n2AR89mGtqEt0ODKCBzP2YT/beuJLAbB/ogtn1b
+ 4L7ulo9W/3B0I98sRfkRZb+fXpGjAAY11vAmnOSZyq1gyINagxTVdlV6c9WGbrL+aQW9WMr
+ XKoHuPQnFqbRqwLLwLsEA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8xCiZBDzSt8=:K5GnqweXS5kcGij4J55xk1
+ otaYAq8hSSuqi9javirc1r6DNUHQTnzh1srjhlOIdSDTXFjR69SYW19q9OntiUXCtCZDshY7S
+ d0uG32YkoIqrfd9yG/iZvV1JsKDMZFi9SeYH0cdvxeOh6cjr/FiJHrINyt09hVMVEWilSSsvL
+ puxb3vl4mDO+AcXvvIXD6hTxkRqrTbwmkUupRuVnIANgCZxqJpfU5Nr126qcyue0iQn7MOBTI
+ XbgvgM24VmjKb1FSmRALuIUJ1tG3RP8HXLaqOLpu1GGZVETyrWLiv5hYyQP9HzJbq6VAu+1ve
+ u2NOm/jcP0oiHOR297SBLJiqj69MFSQhYauUDPTZOLYy1FBK5lCdgj2IuA1hB9hXCxKKlCwjx
+ U4E8cdWlz+rNa81ggaZbfq633eH+8f2QYaqX8onwkzxgq++TGt9OZEpijLx6I4OAGFMzrgwU4
+ tFvlRJlkTujN+q+6u3k5kuwhFlrQpz2ZrWAizrC5RR0HNirj9pAF
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -66,41 +66,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Michael Rolnik <mrolnik@gmail.com>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 01/02/2021 à 09:03, Philippe Mathieu-Daudé a écrit :
-> Change generated automatically using the Coccinelle
-> patch included in commit bf853881690 ("qdev: use
-> device_class_set_parent_realize/unrealize/reset()")
+Le 17/11/2020 à 12:46, Philippe Mathieu-Daudé a écrit :
+> Update the F: line after the Meson refactor.
 > 
+> Fixes: 1bb4cb1c338..73362fc0b0c ("default-configs: ...")
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/avr/cpu.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  MAINTAINERS | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 > 
-> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-> index 6f3d5a9e4a7..e60036e41ef 100644
-> --- a/target/avr/cpu.c
-> +++ b/target/avr/cpu.c
-> @@ -190,9 +190,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
->      CPUClass *cc = CPU_CLASS(oc);
->      AVRCPUClass *mcc = AVR_CPU_CLASS(oc);
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2e018a0c1da..6378b5ae416 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -87,7 +87,7 @@ S390 general architecture support
+>  M: Cornelia Huck <cohuck@redhat.com>
+>  M: Thomas Huth <thuth@redhat.com>
+>  S: Supported
+> -F: default-configs/s390x-softmmu.mak
+> +F: default-configs/*/s390x-softmmu.mak
+>  F: gdb-xml/s390*.xml
+>  F: hw/char/sclp*.[hc]
+>  F: hw/char/terminal3270.c
+> @@ -226,7 +226,7 @@ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+>  S: Odd Fixes
+>  F: target/mips/
+> -F: default-configs/*mips*
+> +F: default-configs/*/*mips*
+>  F: disas/mips.c
+>  F: docs/system/cpu-models-mips.rst.inc
+>  F: hw/intc/mips_gic.c
+> @@ -250,7 +250,7 @@ S: Maintained
+>  F: target/moxie/
+>  F: disas/moxie.c
+>  F: hw/moxie/
+> -F: default-configs/moxie-softmmu.mak
+> +F: default-configs/*/moxie-softmmu.mak
 >  
-> -    mcc->parent_realize = dc->realize;
-> -    dc->realize = avr_cpu_realizefn;
-> -
-> +    device_class_set_parent_realize(dc, avr_cpu_realizefn, &mcc->parent_realize);
->      device_class_set_parent_reset(dc, avr_cpu_reset, &mcc->parent_reset);
+>  NiosII TCG CPUs
+>  M: Chris Wulff <crwulff@gmail.com>
+> @@ -260,7 +260,7 @@ F: target/nios2/
+>  F: hw/nios2/
+>  F: hw/intc/nios2_iic.c
+>  F: disas/nios2.c
+> -F: default-configs/nios2-softmmu.mak
+> +F: default-configs/*/nios2-softmmu.mak
 >  
->      cc->class_by_name = avr_cpu_class_by_name;
+>  OpenRISC TCG CPUs
+>  M: Stafford Horne <shorne@gmail.com>
+> @@ -353,7 +353,7 @@ F: hw/xtensa/
+>  F: tests/tcg/xtensa/
+>  F: disas/xtensa.c
+>  F: include/hw/xtensa/xtensa-isa.h
+> -F: default-configs/xtensa*.mak
+> +F: default-configs/*/xtensa*.mak
+>  
+>  TriCore TCG CPUs
+>  M: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> @@ -1018,7 +1018,7 @@ AVR MCUs
+>  M: Michael Rolnik <mrolnik@gmail.com>
+>  R: Sarah Harris <S.E.Harris@kent.ac.uk>
+>  S: Maintained
+> -F: default-configs/avr-softmmu.mak
+> +F: default-configs/*/avr-softmmu.mak
+>  F: hw/avr/
+>  F: include/hw/char/avr_usart.h
+>  F: hw/char/avr_usart.c
+> @@ -1047,7 +1047,7 @@ HP B160L
+>  M: Richard Henderson <richard.henderson@linaro.org>
+>  R: Helge Deller <deller@gmx.de>
+>  S: Odd Fixes
+> -F: default-configs/hppa-softmmu.mak
+> +F: default-configs/*/hppa-softmmu.mak
+>  F: hw/hppa/
+>  F: pc-bios/hppa-firmware.img
+>  
+> @@ -1420,7 +1420,7 @@ F: hw/s390x/
+>  F: include/hw/s390x/
+>  F: hw/watchdog/wdt_diag288.c
+>  F: include/hw/watchdog/wdt_diag288.h
+> -F: default-configs/s390x-softmmu.mak
+> +F: default-configs/*/s390x-softmmu.mak
+>  T: git https://github.com/cohuck/qemu.git s390-next
+>  T: git https://github.com/borntraeger/qemu.git s390-next
+>  L: qemu-s390x@nongnu.org
+> @@ -2792,13 +2792,13 @@ F: accel/tcg/user-exec*.c
+>  BSD user
+>  S: Orphan
+>  F: bsd-user/
+> -F: default-configs/*-bsd-user.mak
+> +F: default-configs/targets/*-bsd-user.mak
+>  
+>  Linux user
+>  M: Laurent Vivier <laurent@vivier.eu>
+>  S: Maintained
+>  F: linux-user/
+> -F: default-configs/*-linux-user.mak
+> +F: default-configs/targets/*linux-user.mak
+>  F: scripts/qemu-binfmt-conf.sh
+>  F: scripts/update-syscalltbl.sh
+>  F: scripts/update-mips-syscall-args.sh
 > 
-
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
