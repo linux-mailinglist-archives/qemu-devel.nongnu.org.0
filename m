@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C446231ABB4
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:26:52 +0100 (CET)
-Received: from localhost ([::1]:35278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5826E31AB94
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:17:07 +0100 (CET)
+Received: from localhost ([::1]:43550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAuwl-0002qb-Rs
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:26:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48408)
+	id 1lAunK-0002WD-DS
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:17:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAuiX-0000Nh-W7
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:12:12 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:34879)
+ id 1lAuaX-00021Y-9i
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:53 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAuiT-0000pM-Sq
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:12:08 -0500
-Received: by mail-wm1-x335.google.com with SMTP id n10so2560126wmq.0
- for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:12:05 -0800 (PST)
+ id 1lAuaT-00068K-HW
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:53 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id j11so2124024wmi.3
+ for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:03:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OTSWxsxkLRzd22MvB0YMX4VEjXQCySfV2gGQNLvJ8Uw=;
- b=unCpHCWs6Fu5hJLI/wqKTB6jQ5Yjxv0CzBXKReK67zlDigZyga2tIQ6ZGCtfz8XL4D
- 5dweZsLxr3uw+u455oKGcdx4+xbMXctcUtuSKl0dOTGWhR1oxPCB6YXSOsuOMg+akavu
- x8Ck/Z/pqkAJTx3qLUO/ZQaOVglFiZ7zs18XcunoVIUt4ovG8M4V7CoaqAxQ8OxnEgXD
- zlboDg9mr5e6vXDEm4820eIKUFlJwcxSs66H6X9ezp1WXO2EPhyQqCUHpf71LtFIwlKu
- rLcpFEFOOuNG9GGtyVOybgAM0siwcAEUvJb5P0mqNoGzvahHlBN8kIOm/hbvGpIlOpfB
- juuQ==
+ bh=JoWQMOuWzGJ9C8YfVjNEnIHvIhyf/DhQli8PgjLqUuo=;
+ b=bQYdBhhDlU0+J+7Q+qfbdn1KmB0pAhriiMrZv2v7M7olX5sbo6x8bOAjAgOFm0W5wd
+ 96EZM9Itutasovwjf3ycGGoATN0GqDkJKz2GG/okRLpidjntEaN141nRDizEI6R1SWre
+ VtWn92bhzzssiYGqZ5nrAwMt1hWKobk817Ti0gaDBFsVblzwAFFhHPBHDtigrS63AyLm
+ fMRiV0gqeashOn97MStxOniL2QcfKE9o31ceTr2PF6PL7oEe6B/b75I/90s6x9kszvLR
+ X1u5t9BPfNjWSvf7qNvMs4+uugJ2wNN7rGW2XamVel4wuw3XtzJ8K5AxzoU3Go3VRzt0
+ BTLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OTSWxsxkLRzd22MvB0YMX4VEjXQCySfV2gGQNLvJ8Uw=;
- b=Gy0K2LUiS5Umw1hMKJfjZDZpJiJhedz+OO7FPyrI8yAqaAiEDgnDQTv3tzd2DQmuhk
- iTn4EZ6Tv7On+FXjzyhdA0Rt8JidAT6OcovPkjX4bMkOLb6P5S3hiMPCJvgvYOS7RgKz
- EBcWRuUOVmiVJmeOhmZuQ/P1PcWbOKklY1OievTieU3/dWcSeE6Pw34GM8vkk4tadg1w
- uFZn7GF114WYYTySW6/alMpjfUNhp4cn2iPn37iFk11tjOyzL/szbrARDAMyNgnZQQZR
- 5Y80YWORguvf+C2kPz4so9Z6Iwp0DFdFQzaSassr4ySQKQtmYPhNIeCRuBVu0ghzL1rb
- XrrQ==
-X-Gm-Message-State: AOAM530gS5hywGF9y4U33DiXP1GeTDvaLEf/3oNrZS0pu8H8PfoF1jmH
- IEHSDYR951h+Vu5fgmqGtZxeAg==
-X-Google-Smtp-Source: ABdhPJwm1r4Sa+pCJ3IuAUS7sR0v381rAyysJ+Caz9B9IZf0g3Qwmar5QBFjxTuY2sONN30axdubXQ==
-X-Received: by 2002:a7b:c442:: with SMTP id l2mr6634274wmi.69.1613221924313;
- Sat, 13 Feb 2021 05:12:04 -0800 (PST)
+ bh=JoWQMOuWzGJ9C8YfVjNEnIHvIhyf/DhQli8PgjLqUuo=;
+ b=TYYJI/XDq3Ac+SkKPOzufkcfhnOH+XFJv/MkaQv0svCq5+WStC1K1LjV0SVseoX8Vv
+ gYrK0du4e8TZv7ofAwKmeg0P904tXpxD5zwhbeGt0ocaGeyeDUo5bwi6iLqjibRtN0Z0
+ +t61UjgmkAe64ZV7okYQ0rNFjR+5GNoIGbBY1EhmI72ogaCXAHAjx9F3KiyjDT+zI0BD
+ N95kfhcQv/pUNfw6cXMrhU0cpD4Ce6AqQdyBdF3IfZgbuFQKkzlZpsXp+mzbxC53+nSD
+ 3fYUk3bpdCpvJf/Q78xXcFUzmiu7NcA19m41zA2RQ5V4x+36/VaaehUyj6m2L9ZTR4qM
+ q4pg==
+X-Gm-Message-State: AOAM530EHzqWpIZj3I7mh1ymaF45H36jMZmntFYjRkoLYC7Ko4YZ+n2Z
+ p9Ell2fhErDjVfMxNE+lOoirDg==
+X-Google-Smtp-Source: ABdhPJxgL8u6MfIACK2/a9Vz9vB7mWFulAGUkNUOJ7/+kHFmEXjP9EsCW3NBUVLC+CfDZXoK+9ckcw==
+X-Received: by 2002:a1c:8152:: with SMTP id c79mr6664015wmd.121.1613221423487; 
+ Sat, 13 Feb 2021 05:03:43 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j7sm17629163wrp.72.2021.02.13.05.12.03
+ by smtp.gmail.com with ESMTPSA id e16sm18361362wrt.36.2021.02.13.05.03.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Feb 2021 05:12:03 -0800 (PST)
+ Sat, 13 Feb 2021 05:03:40 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 253491FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id 3AA991FFA6;
  Sat, 13 Feb 2021 13:03:27 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/23] accel/tcg: cache single instruction TB on pending
- replay exception
-Date: Sat, 13 Feb 2021 13:03:19 +0000
-Message-Id: <20210213130325.14781-18-alex.bennee@linaro.org>
+Subject: [PATCH  v3 18/23] accel/tcg: re-factor non-RAM execution code
+Date: Sat, 13 Feb 2021 13:03:20 +0000
+Message-Id: <20210213130325.14781-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210213130325.14781-1-alex.bennee@linaro.org>
 References: <20210213130325.14781-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,93 +93,80 @@ Cc: Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Again there is no reason to jump through the nocache hoops to execute
-a single instruction block. We do have to add an additional wrinkle to
-the cpu_handle_interrupt case to ensure we let through a TB where we
-have specifically disabled icount for the block.
-
-As the last user of cpu_exec_nocache we can now remove the function.
-Further clean-up will follow in subsequent patches.
+There is no real need to use CF_NOCACHE here. As long as the TB isn't
+linked to other TBs or included in the QHT or jump cache then it will
+only get executed once.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210209182749.31323-9-alex.bennee@linaro.org>
-Message-Id: <20210210221053.18050-18-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210209182749.31323-10-alex.bennee@linaro.org>
+Message-Id: <20210210221053.18050-19-alex.bennee@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 44 ++++----------------------------------------
- 1 file changed, 4 insertions(+), 40 deletions(-)
+ accel/tcg/translate-all.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index d24c1bdb74..16e4fe3ccd 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -224,40 +224,6 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
-     return last_tb;
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index b8ad95aa1b..7e62d8ad97 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1778,7 +1778,8 @@ static inline void tb_page_add(PageDesc *p, TranslationBlock *tb,
+ #endif
  }
  
--#ifndef CONFIG_USER_ONLY
--/* Execute the code without caching the generated code. An interpreter
--   could be used if available. */
--static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
--                             TranslationBlock *orig_tb, bool ignore_icount)
--{
--    TranslationBlock *tb;
--    uint32_t cflags = curr_cflags() | CF_NOCACHE;
--    int tb_exit;
--
--    if (ignore_icount) {
--        cflags &= ~CF_USE_ICOUNT;
+-/* add a new TB and link it to the physical page tables. phys_page2 is
++/*
++ * Add a new TB and link it to the physical page tables. phys_page2 is
+  * (-1) to indicate that only one page contains the TB.
+  *
+  * Called with mmap_lock held for user-mode emulation.
+@@ -1797,17 +1798,6 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+ 
+     assert_memory_lock();
+ 
+-    if (phys_pc == -1) {
+-        /*
+-         * If the TB is not associated with a physical RAM page then
+-         * it must be a temporary one-insn TB, and we have nothing to do
+-         * except fill in the page_addr[] fields.
+-         */
+-        assert(tb->cflags & CF_NOCACHE);
+-        tb->page_addr[0] = tb->page_addr[1] = -1;
+-        return tb;
 -    }
 -
--    /* Should never happen.
--       We only end up here when an existing TB is too long.  */
--    cflags |= MIN(max_cycles, CF_COUNT_MASK);
--
--    mmap_lock();
--    tb = tb_gen_code(cpu, orig_tb->pc, orig_tb->cs_base,
--                     orig_tb->flags, cflags);
--    tb->orig_tb = orig_tb;
--    mmap_unlock();
--
--    /* execute the generated code */
--    trace_exec_tb_nocache(tb, tb->pc);
--    cpu_tb_exec(cpu, tb, &tb_exit);
--
--    mmap_lock();
--    tb_phys_invalidate(tb, -1);
--    mmap_unlock();
--    tcg_tb_remove(tb);
--}
--#endif
+     /*
+      * Add the TB to the page list, acquiring first the pages's locks.
+      * We keep the locks held until after inserting the TB in the hash table,
+@@ -1880,9 +1870,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     phys_pc = get_page_addr_code(env, pc);
  
- static void cpu_exec_enter(CPUState *cpu)
- {
-@@ -524,15 +490,12 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
- #ifndef CONFIG_USER_ONLY
-         if (replay_has_exception()
-             && cpu_neg(cpu)->icount_decr.u16.low + cpu->icount_extra == 0) {
--            /* try to cause an exception pending in the log */
--            cpu_exec_nocache(cpu, 1, tb_find(cpu, NULL, 0, curr_cflags()), true);
-+            /* Execute just one insn to trigger exception pending in the log */
-+            cpu->cflags_next_tb = (curr_cflags() & ~CF_USE_ICOUNT) | 1;
-         }
- #endif
--        if (cpu->exception_index < 0) {
--            return false;
--        }
-+        return false;
+     if (phys_pc == -1) {
+-        /* Generate a temporary TB with 1 insn in it */
+-        cflags &= ~CF_COUNT_MASK;
+-        cflags |= CF_NOCACHE | 1;
++        /* Generate a one-shot TB with 1 insn in it */
++        cflags = (cflags & ~CF_COUNT_MASK) | 1;
      }
--
-     if (cpu->exception_index >= EXCP_INTERRUPT) {
-         /* exit request from the cpu execution loop */
-         *ret = cpu->exception_index;
-@@ -688,6 +651,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-     /* Finally, check if we need to exit to the main loop.  */
-     if (unlikely(qatomic_read(&cpu->exit_request))
-         || (icount_enabled()
-+            && (cpu->cflags_next_tb == -1 || cpu->cflags_next_tb & CF_USE_ICOUNT)
-             && cpu_neg(cpu)->icount_decr.u16.low + cpu->icount_extra == 0)) {
-         qatomic_set(&cpu->exit_request, 0);
-         if (cpu->exception_index == -1) {
+ 
+     cflags &= ~CF_CLUSTER_MASK;
+@@ -2096,6 +2085,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+         tb_reset_jump(tb, 1);
+     }
+ 
++    /*
++     * If the TB is not associated with a physical RAM page then
++     * it must be a temporary one-insn TB, and we have nothing to do
++     * except fill in the page_addr[] fields. Return early before
++     * attempting to link to other TBs or add to the lookup table.
++     */
++    if (phys_pc == -1) {
++        tb->page_addr[0] = tb->page_addr[1] = -1;
++        return tb;
++    }
++
+     /* check next page if needed */
+     virt_page2 = (pc + tb->size - 1) & TARGET_PAGE_MASK;
+     phys_page2 = -1;
 -- 
 2.20.1
 
