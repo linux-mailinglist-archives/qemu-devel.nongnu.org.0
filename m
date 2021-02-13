@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4267231AB93
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:17:04 +0100 (CET)
-Received: from localhost ([::1]:43264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCFA31AB82
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 14:07:20 +0100 (CET)
+Received: from localhost ([::1]:54670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lAunH-0002PW-1I
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:17:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46894)
+	id 1lAudr-0003XS-AP
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 08:07:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAuaE-0001r9-OI
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:34 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38744)
+ id 1lAuaF-0001rN-2W
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:35 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lAuaA-00062y-0l
+ id 1lAuaC-00064C-Ni
  for qemu-devel@nongnu.org; Sat, 13 Feb 2021 08:03:34 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id x4so2509423wmi.3
- for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:03:29 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id n8so2876809wrm.10
+ for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 05:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DU60UtHiIsjfUIwkyHpIido7OwIHpSVRKX7ieAqgajQ=;
- b=MgOJtzKDmVz6xS5isOy6KwByaFIJwb5kHvX0B6llHy6epg2jDvXFi5+5rzIQdKYuL0
- FJkDeyd8ivExHX3j7h3vh5c4fwXcqCUazDHLXn+5qsyo510Y1OTUFfGY9d6/8oindUwA
- GMpzgXvaJSVbxeORHjUfjTBMcyMLIamAewSOd6rdOwyBnulDmcVoGe9ka8QYqmQCWPfe
- mxYXhh843xDM6VPDAyz486SSRkR0IbuEJS14T1vmNavUQkB7aaxBJSgLdH8uMXDolMyt
- /agY153eOnEsdjeRUkJ8ddKZmaDEGjtbRcKvLkJf85tLOBiEgPvXHiYv35QVbCKX4GLx
- 2yxA==
+ bh=D9GjaRYRh/YctOEjNH1zdasOw6u7VIS70fz+z7l7R+I=;
+ b=z63vKDBJFohY3velX9y9Mi+PUem9jwVK0UrIknYZn9tintFLVfGmU1ikPM7+Oc2sUv
+ iCrs9zbOqBmPhm3tn4y7DA/VWV90ryK4f6b7xE8/owIf9u1Somx1Hd9aaX8F+gFT7HVh
+ SwiPWy5jbsOYuKXP+383SnfJyiXS64dUu4YiQKamq3/1G4HcbSEOrjJllTtjsizfbi/+
+ bGgz0MvFis2SLfraaO4DaMnJ7L3AlwVSb9/5plyJfEU5HYudl/FeXELma0pjxa3nEd6b
+ D1/huJ1PYw8NVf4zeM7XFJzYO5Y12gAtcmNy5pPga4m40q5p7uWATWh/gUa7z8rfy3VB
+ sF/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DU60UtHiIsjfUIwkyHpIido7OwIHpSVRKX7ieAqgajQ=;
- b=Q1rx895UcJdF0miTcM9/3XWAJHkquQEIHllQLM9XZDjMlHlrJpMUt/Zkx/THoVgYjW
- C+Jk8c9H7jRRlG8ybnRG6KasJ/lZidUTWOnp/uecna/T9sifcEgjRyxcXta21w/uxSuH
- PF8g4SuVLAkkSfhSYBskwHJgnDo0MNtVS3oPSCEmdOXs+NMcBn4CglhcO5H8zXFlAdle
- bkyjIq58g6r6kGOS2aAgYqav0Er25ozTmKf/rTMQRTabwOGVpzFlTy+8MiJNNx0rUIbO
- hTY9z64TuVcs9bdOhoFar7LwD4Aono8tcVyTAF7pH+ob7/yvn/ao5ruXNFb7tOWye+Yl
- TpaQ==
-X-Gm-Message-State: AOAM531rDA9XjKMfjSYoMviMML/APvJDatC6HJKi0mRveosLKoss5MjV
- K5Pqg9KBWeoYPIr55zDWxr+yWA==
-X-Google-Smtp-Source: ABdhPJzdXbDDzehzLaB81Q1ya+kki5fEw7N5pqWLG4m3M6CgTKpVFi9KUAml2koUdtgg/XY+eUy/JQ==
-X-Received: by 2002:a7b:cc98:: with SMTP id p24mr6705220wma.113.1613221408531; 
- Sat, 13 Feb 2021 05:03:28 -0800 (PST)
+ bh=D9GjaRYRh/YctOEjNH1zdasOw6u7VIS70fz+z7l7R+I=;
+ b=OAT2kLUV28xlMrea2zjunDHt1M9soeUt9EUJwQQDs+eqgI9rwtJljjK0RZYTKYIJw7
+ 4hbG3kK6sqJ0CW1tAVfFMVcNH+bgApePQUo13gBRl7MvnXu5F1d+Vy2FIJtVNdsMuMvL
+ Lto2htynTzwVR2cyVyPUsLOIqcsgJs0xDnXrDx2J4h+ictaGTWqPxlhpyKILwyGKWVBI
+ 4i57RNfKPpTQlAwWVeqGlKPh/RvOY8KVtY+nX0yMGXo1xjguIgLCqcG9a2nwyovwt4pn
+ j6p1frHM/k5aJ+hIg+isq1vZ7Vkrf4WWNhim1YmT5Smn2/Pn4Cz0Z51fV6keFvErqOLE
+ nIig==
+X-Gm-Message-State: AOAM530pnRYdL0fIrSGuzfy+q0nn/WTHYd/F7W+rLe7GtbhmNSQrRzZf
+ eIMTpOJAbBXdQMWvncFp7c7V3A==
+X-Google-Smtp-Source: ABdhPJyyrYUNWe5nYx97V6am9eSrHIzyVcVrQ2FstdVvfnny5LvIZYjjVwFyppxPYMwmmXtEwDwfyQ==
+X-Received: by 2002:adf:efc9:: with SMTP id i9mr8496880wrp.177.1613221411375; 
+ Sat, 13 Feb 2021 05:03:31 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u137sm2050480wmu.20.2021.02.13.05.03.26
+ by smtp.gmail.com with ESMTPSA id f17sm14750125wrx.57.2021.02.13.05.03.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 13 Feb 2021 05:03:26 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ACF231FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id C70C41FF8F;
  Sat, 13 Feb 2021 13:03:25 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 02/23] plugins: add API to return a name for a IO device
-Date: Sat, 13 Feb 2021 13:03:04 +0000
-Message-Id: <20210213130325.14781-3-alex.bennee@linaro.org>
+Subject: [PATCH  v3 03/23] plugins: new hwprofile plugin
+Date: Sat, 13 Feb 2021 13:03:05 +0000
+Message-Id: <20210213130325.14781-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210213130325.14781-1-alex.bennee@linaro.org>
 References: <20210213130325.14781-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,74 +86,429 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, robhenry@microsoft.com,
+Cc: Robert Foley <robert.foley@linaro.org>, robhenry@microsoft.com,
  mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- kuhn.chenqun@huawei.com, Clement Deschamps <clement.deschamps@greensocs.com>,
+ kuhn.chenqun@huawei.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This may well end up being anonymous but it should always be unique.
+This is a plugin intended to help with profiling access to various
+bits of system hardware. It only really makes sense for system
+emulation.
+
+It takes advantage of the recently exposed helper API that allows us
+to see the device name (memory region name) associated with a device.
+
+You can specify arg=read or arg=write to limit the tracking to just
+reads or writes (by default it does both).
+
+The pattern option:
+
+  -plugin ./tests/plugin/libhwprofile.so,arg=pattern
+
+will allow you to see the access pattern to devices, eg:
+
+  gic_cpu @ 0xffffffc010040000
+    off:00000000, 8, 1, 8, 1
+    off:00000000, 4, 1, 4, 1
+    off:00000000, 2, 1, 2, 1
+    off:00000000, 1, 1, 1, 1
+
+The source option:
+
+  -plugin ./tests/plugin/libhwprofile.so,arg=source
+
+will track the virtual source address of the instruction making the
+access:
+
+  pl011 @ 0xffffffc010031000
+    pc:ffffffc0104c785c, 1, 4, 0, 0
+    pc:ffffffc0104c7898, 1, 4, 0, 0
+    pc:ffffffc010512bcc, 2, 1867, 0, 0
+
+You cannot mix source and pattern.
+
+Finally the match option allow you to limit the tracking to just the
+devices you care about.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Clement Deschamps <clement.deschamps@greensocs.com>
-Reviewed-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200713200415.26214-11-alex.bennee@linaro.org>
-Message-Id: <20210210221053.18050-3-alex.bennee@linaro.org>
+Tested-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Robert Foley <robert.foley@linaro.org>
+Message-Id: <20200713200415.26214-12-alex.bennee@linaro.org>
+Message-Id: <20210210221053.18050-4-alex.bennee@linaro.org>
 ---
- include/qemu/qemu-plugin.h |  6 ++++++
- plugins/api.c              | 20 ++++++++++++++++++++
- 2 files changed, 26 insertions(+)
+ docs/devel/tcg-plugins.rst  |  34 ++++
+ contrib/plugins/hwprofile.c | 305 ++++++++++++++++++++++++++++++++++++
+ contrib/plugins/Makefile    |   1 +
+ 3 files changed, 340 insertions(+)
+ create mode 100644 contrib/plugins/hwprofile.c
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 5775e82c4e..c66507fe8f 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -330,6 +330,12 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
- bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr);
- uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr);
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 0568dfa6a4..39ce86ed96 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -280,3 +280,37 @@ which will eventually report::
+     previously @ 0x000000ffd08098/5 (809900593 insns)
+     previously @ 0x000000ffd080c0/1 (809900588 insns)
  
-+/*
-+ * Returns a string representing the device. The string is valid for
-+ * the lifetime of the plugin.
-+ */
-+const char *qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwaddr *h);
++- contrib/plugins/hwprofile
 +
- typedef void
- (*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
-                              qemu_plugin_meminfo_t info, uint64_t vaddr,
-diff --git a/plugins/api.c b/plugins/api.c
-index bbdc5a4eb4..5dc8e6f934 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -303,6 +303,26 @@ uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr
-     return 0;
- }
- 
-+const char *qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwaddr *h)
++The hwprofile tool can only be used with system emulation and allows
++the user to see what hardware is accessed how often. It has a number of options:
++
++ * arg=read or arg=write
++
++ By default the plugin tracks both reads and writes. You can use one
++ of these options to limit the tracking to just one class of accesses.
++
++ * arg=source
++
++ Will include a detailed break down of what the guest PC that made the
++ access was. Not compatible with arg=pattern. Example output::
++
++   cirrus-low-memory @ 0xfffffd00000a0000
++    pc:fffffc0000005cdc, 1, 256
++    pc:fffffc0000005ce8, 1, 256
++    pc:fffffc0000005cec, 1, 256
++
++ * arg=pattern
++
++ Instead break down the accesses based on the offset into the HW
++ region. This can be useful for seeing the most used registers of a
++ device. Example output::
++
++    pci0-conf @ 0xfffffd01fe000000
++      off:00000004, 1, 1
++      off:00000010, 1, 3
++      off:00000014, 1, 3
++      off:00000018, 1, 2
++      off:0000001c, 1, 2
++      off:00000020, 1, 2
++      ...
+diff --git a/contrib/plugins/hwprofile.c b/contrib/plugins/hwprofile.c
+new file mode 100644
+index 0000000000..6dac1d5f85
+--- /dev/null
++++ b/contrib/plugins/hwprofile.c
+@@ -0,0 +1,305 @@
++/*
++ * Copyright (C) 2020, Alex Bennée <alex.bennee@linaro.org>
++ *
++ * HW Profile - breakdown access patterns for IO to devices
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <inttypes.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++#include <glib.h>
++
++#include <qemu-plugin.h>
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
++#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
++
++typedef struct {
++    uint64_t cpu_read;
++    uint64_t cpu_write;
++    uint64_t reads;
++    uint64_t writes;
++} IOCounts;
++
++typedef struct {
++    uint64_t off_or_pc;
++    IOCounts counts;
++} IOLocationCounts;
++
++typedef struct {
++    const char *name;
++    uint64_t   base;
++    IOCounts   totals;
++    GHashTable *detail;
++} DeviceCounts;
++
++static GMutex lock;
++static GHashTable *devices;
++
++/* track the access pattern to a piece of HW */
++static bool pattern;
++/* track the source address of access to HW */
++static bool source;
++/* track only matched regions of HW */
++static bool check_match;
++static gchar **matches;
++
++static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
++
++static inline bool track_reads(void)
 +{
-+#ifdef CONFIG_SOFTMMU
-+    if (h && h->is_io) {
-+        MemoryRegionSection *mrs = h->v.io.section;
-+        if (!mrs->mr->name) {
-+            unsigned long maddr = 0xffffffff & (uintptr_t) mrs->mr;
-+            g_autofree char *temp = g_strdup_printf("anon%08lx", maddr);
-+            return g_intern_string(temp);
-+        } else {
-+            return g_intern_string(mrs->mr->name);
-+        }
-+    } else {
-+        return g_intern_static_string("RAM");
-+    }
-+#else
-+    return g_intern_static_string("Invalid");
-+#endif
++    return rw == QEMU_PLUGIN_MEM_RW || rw == QEMU_PLUGIN_MEM_R;
 +}
 +
- /*
-  * Queries to the number and potential maximum number of vCPUs there
-  * will be. This helps the plugin dimension per-vcpu arrays.
++static inline bool track_writes(void)
++{
++    return rw == QEMU_PLUGIN_MEM_RW || rw == QEMU_PLUGIN_MEM_W;
++}
++
++static void plugin_init(void)
++{
++    devices = g_hash_table_new(NULL, NULL);
++}
++
++static gint sort_cmp(gconstpointer a, gconstpointer b)
++{
++    DeviceCounts *ea = (DeviceCounts *) a;
++    DeviceCounts *eb = (DeviceCounts *) b;
++    return ea->totals.reads + ea->totals.writes >
++           eb->totals.reads + eb->totals.writes ? -1 : 1;
++}
++
++static gint sort_loc(gconstpointer a, gconstpointer b)
++{
++    IOLocationCounts *ea = (IOLocationCounts *) a;
++    IOLocationCounts *eb = (IOLocationCounts *) b;
++    return ea->off_or_pc > eb->off_or_pc;
++}
++
++static void fmt_iocount_record(GString *s, IOCounts *rec)
++{
++    if (track_reads()) {
++        g_string_append_printf(s, ", %"PRIx64", %"PRId64,
++                               rec->cpu_read, rec->reads);
++    }
++    if (track_writes()) {
++        g_string_append_printf(s, ", %"PRIx64", %"PRId64,
++                               rec->cpu_write, rec->writes);
++    }
++}
++
++static void fmt_dev_record(GString *s, DeviceCounts *rec)
++{
++    g_string_append_printf(s, "%s, 0x%"PRIx64,
++                           rec->name, rec->base);
++    fmt_iocount_record(s, &rec->totals);
++    g_string_append_c(s, '\n');
++}
++
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    g_autoptr(GString) report = g_string_new("");
++    GList *counts;
++
++    if (!(pattern || source)) {
++        g_string_printf(report, "Device, Address");
++        if (track_reads()) {
++            g_string_append_printf(report, ", RCPUs, Reads");
++        }
++        if (track_writes()) {
++            g_string_append_printf(report, ",  WCPUs, Writes");
++        }
++        g_string_append_c(report, '\n');
++    }
++
++    counts = g_hash_table_get_values(devices);
++    if (counts && g_list_next(counts)) {
++        GList *it;
++
++        it = g_list_sort(counts, sort_cmp);
++
++        while (it) {
++            DeviceCounts *rec = (DeviceCounts *) it->data;
++            if (rec->detail) {
++                GList *accesses = g_hash_table_get_values(rec->detail);
++                GList *io_it = g_list_sort(accesses, sort_loc);
++                const char *prefix = pattern ? "off" : "pc";
++                g_string_append_printf(report, "%s @ 0x%"PRIx64"\n",
++                                       rec->name, rec->base);
++                while (io_it) {
++                    IOLocationCounts *loc = (IOLocationCounts *) io_it->data;
++                    g_string_append_printf(report, "  %s:%08"PRIx64,
++                                           prefix, loc->off_or_pc);
++                    fmt_iocount_record(report, &loc->counts);
++                    g_string_append_c(report, '\n');
++                    io_it = io_it->next;
++                }
++            } else {
++                fmt_dev_record(report, rec);
++            }
++            it = it->next;
++        };
++        g_list_free(it);
++    }
++
++    qemu_plugin_outs(report->str);
++}
++
++static DeviceCounts *new_count(const char *name, uint64_t base)
++{
++    DeviceCounts *count = g_new0(DeviceCounts, 1);
++    count->name = name;
++    count->base = base;
++    if (pattern || source) {
++        count->detail = g_hash_table_new(NULL, NULL);
++    }
++    g_hash_table_insert(devices, (gpointer) name, count);
++    return count;
++}
++
++static IOLocationCounts *new_location(GHashTable *table, uint64_t off_or_pc)
++{
++    IOLocationCounts *loc = g_new0(IOLocationCounts, 1);
++    loc->off_or_pc = off_or_pc;
++    g_hash_table_insert(table, (gpointer) off_or_pc, loc);
++    return loc;
++}
++
++static void hwprofile_match_hit(DeviceCounts *rec, uint64_t off)
++{
++    g_autoptr(GString) report = g_string_new("hwprofile: match @ offset");
++    g_string_append_printf(report, "%"PRIx64", previous hits\n", off);
++    fmt_dev_record(report, rec);
++    qemu_plugin_outs(report->str);
++}
++
++static void inc_count(IOCounts *count, bool is_write, unsigned int cpu_index)
++{
++    if (is_write) {
++        count->writes++;
++        count->cpu_write |= (1 << cpu_index);
++    } else {
++        count->reads++;
++        count->cpu_read |= (1 << cpu_index);
++    }
++}
++
++static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
++                       uint64_t vaddr, void *udata)
++{
++    struct qemu_plugin_hwaddr *hwaddr = qemu_plugin_get_hwaddr(meminfo, vaddr);
++
++    if (!hwaddr || !qemu_plugin_hwaddr_is_io(hwaddr)) {
++        return;
++    } else {
++        const char *name = qemu_plugin_hwaddr_device_name(hwaddr);
++        uint64_t off = qemu_plugin_hwaddr_device_offset(hwaddr);
++        bool is_write = qemu_plugin_mem_is_store(meminfo);
++        DeviceCounts *counts;
++
++        g_mutex_lock(&lock);
++        counts = (DeviceCounts *) g_hash_table_lookup(devices, name);
++
++        if (!counts) {
++            uint64_t base = vaddr - off;
++            counts = new_count(name, base);
++        }
++
++        if (check_match) {
++            if (g_strv_contains((const char * const *)matches, counts->name)) {
++                hwprofile_match_hit(counts, off);
++                inc_count(&counts->totals, is_write, cpu_index);
++            }
++        } else {
++            inc_count(&counts->totals, is_write, cpu_index);
++        }
++
++        /* either track offsets or source of access */
++        if (source) {
++            off = (uint64_t) udata;
++        }
++
++        if (pattern || source) {
++            IOLocationCounts *io_count = g_hash_table_lookup(counts->detail,
++                                                             (gpointer) off);
++            if (!io_count) {
++                io_count = new_location(counts->detail, off);
++            }
++            inc_count(&io_count->counts, is_write, cpu_index);
++        }
++
++        g_mutex_unlock(&lock);
++    }
++}
++
++static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
++{
++    size_t n = qemu_plugin_tb_n_insns(tb);
++    size_t i;
++
++    for (i = 0; i < n; i++) {
++        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
++        gpointer udata = (gpointer) (source ? qemu_plugin_insn_vaddr(insn) : 0);
++        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_haddr,
++                                         QEMU_PLUGIN_CB_NO_REGS,
++                                         rw, udata);
++    }
++}
++
++QEMU_PLUGIN_EXPORT
++int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
++                        int argc, char **argv)
++{
++    int i;
++
++    for (i = 0; i < argc; i++) {
++        char *opt = argv[i];
++        if (g_strcmp0(opt, "read") == 0) {
++            rw = QEMU_PLUGIN_MEM_R;
++        } else if (g_strcmp0(opt, "write") == 0) {
++            rw = QEMU_PLUGIN_MEM_W;
++        } else if (g_strcmp0(opt, "pattern") == 0) {
++            pattern = true;
++        } else if (g_strcmp0(opt, "source") == 0) {
++            source = true;
++        } else if (g_str_has_prefix(opt, "match")) {
++            gchar **parts = g_strsplit(opt, "=", 2);
++            check_match = true;
++            matches = g_strsplit(parts[1], ",", -1);
++            g_strfreev(parts);
++        } else {
++            fprintf(stderr, "option parsing failed: %s\n", opt);
++            return -1;
++        }
++    }
++
++    if (source && pattern) {
++        fprintf(stderr, "can only currently track either source or pattern.\n");
++        return -1;
++    }
++
++    if (!info->system_emulation) {
++        fprintf(stderr, "hwprofile: plugin only useful for system emulation\n");
++        return -1;
++    }
++
++    /* Just warn about overflow */
++    if (info->system.smp_vcpus > 64 ||
++        info->system.max_vcpus > 64) {
++        fprintf(stderr, "hwprofile: can only track up to 64 CPUs\n");
++    }
++
++    plugin_init();
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++    return 0;
++}
+diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+index 7801b08b0d..b9d7935e5e 100644
+--- a/contrib/plugins/Makefile
++++ b/contrib/plugins/Makefile
+@@ -17,6 +17,7 @@ NAMES += hotblocks
+ NAMES += hotpages
+ NAMES += howvec
+ NAMES += lockstep
++NAMES += hwprofile
+ 
+ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+ 
 -- 
 2.20.1
 
