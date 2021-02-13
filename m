@@ -2,117 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE17831AA59
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 08:27:43 +0100 (CET)
-Received: from localhost ([::1]:41102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83F831AAAA
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 10:50:55 +0100 (CET)
+Received: from localhost ([::1]:47820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lApLC-0007gu-Ag
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 02:27:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53708)
+	id 1lArZl-0001UI-Af
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 04:50:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1lApIr-00071m-W0; Sat, 13 Feb 2021 02:25:19 -0500
-Received: from mail-mw2nam08on2087.outbound.protection.outlook.com
- ([40.107.101.87]:14880 helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lArYF-0000vw-AW
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 04:49:19 -0500
+Received: from mail-eopbgr60137.outbound.protection.outlook.com
+ ([40.107.6.137]:18216 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1lApIn-0007LB-V4; Sat, 13 Feb 2021 02:25:17 -0500
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1lArYC-0003T6-AO
+ for qemu-devel@nongnu.org; Sat, 13 Feb 2021 04:49:18 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A16ojFiRHWC/2WbGXu5GLwqNJa47n0JhEu77faXn0cQKl5Nd/zsUYLWuxuTV9TayyzwWo1isKhDe2cuJ0z4qu7EdJcExEggEJUMwr+L44fN1NsO/MSWSA04U7xwddu3k5qchoJAzqcKicsiV79K/5bhNbbaxrmAV/1H1zmWBtnGLOi9L/sCodJNb1zLhnTVyGdQNA3hFyCJQpcf6mbaN2zluDJnUva7wrll+2QiUtnTnJSYr6xw0cXToZs6j8T8ouVV+82GpQllss7JCPLQ0poc7Uz9S1v9AJChufDrKCIR6q9LG4LkqSleOVOPgOowWlyrLH6X4dx47PVmHeoueFQ==
+ b=JEWQgnFhIgpd247e7LEYUEsbJdUBn/wBAHIHpyokRKXpef+R4sjC4Gn8m1YwhwQCPohLdnVH/fXQcLGw96MGon4Jiiv95GmOGRrimRvzb5BEeHHQ6lo0b8FL17GCvNDteciPfILIOq6h1LhWvt2kiy7FqvrnTzMMQZ5ch5TOuysDmccKvy4Sr4DdZ4Ottu7X8XfzWKfw49SZqXG4zu9CsU1rNuynumsPwbraovrp+Amw1qp9I6RqOeCdk36SP3nXThd7dIspYe6mYC+rHQD5Rd3aB1fzOjFush+yDF338R3AzqyDGas+kDDpDho5tvUT4bJqwzvOUad0eheQEosSJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13U3SYwWJLruyWpHvHeuHqV5XRdnqcDkOdxBsgq3jdU=;
- b=EowTK/bRTrfuY4nJWY75pBdpK4/TAATlDWq6lvNGSSuSyCn0K208Ay6V/QuaYOlZpmjmprTvRq3FPRVZ/ClgfRcQZXz1v9gKX6h300JQnHfg4wlU0z5I1uhYr0HX/3Ho0rclWArvPr8KPDx14NUX45JcOYWnJe/T6IhwtfS9s+nAfYf6Ax40J3ZNPgKcoAfWspfdUKil2QOxcDs97NoSjl8jnEA9afHdjnuGhKKek5ZfRd1WIggjLYUqwGJMB58d4CXcpw95zqNlMG+n89x5zQuMfJ5Im+CAmy6R1mgI9M26G3++onDOTRgvDBiM1T01HcIj+9fziqau/4N94d04+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ bh=fkLXamy5rttHRgbPS1lnoePC9zTz0TzgGO4CuMH56Qg=;
+ b=DLw1qZo9X3d/rHkrgd0krtWgBLKYhHyBagpiH5Yv2B5J79uYj4YPVzqy+/6/z/qIwJNdDeJS4X5WGOCPb7ojtkLEVENRzIodNrpczY2n9M73/Lqmjkx10L05p3VPNTtS0VHwTm9bPi5D7vfnQce+T81pyCP0LSZyTBHZEH3SN/nFhS7uIpH/DWqx668PjOhSEK6MkPanZVyJ6KwmwVjNnMFPuvoyXDO4626I/xyuKEQdk53C1KcAc7ghY2kiEg/Noj+iVsxF5kRDWnCRc9OYJFzY4+soTg3Jd9v5C3IHBrMgybU+uvm4eRQGxlfh9j3eXQffpi24HcD/g8YPhCKUZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13U3SYwWJLruyWpHvHeuHqV5XRdnqcDkOdxBsgq3jdU=;
- b=VJ85gi3sThTHyt7XACRlPG6UC+dHky7nENzOyh98PrlqAEx3MEbCg0FnFKcLVmn8AfvRGZ3P419lCu0I1Xb1NDlk65k+hh0LrNLeUqfIV6nVolXaWSVkbPMsNk6pxt0otNtE7hHgLzfIiQidOwEuftHWHDMV+9JxVCloibB/X6w=
-Received: from DM5PR10CA0014.namprd10.prod.outlook.com (2603:10b6:4:2::24) by
- DM6PR02MB6219.namprd02.prod.outlook.com (2603:10b6:5:1fe::19) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3846.27; Sat, 13 Feb 2021 07:25:09 +0000
-Received: from CY1NAM02FT056.eop-nam02.prod.protection.outlook.com
- (2603:10b6:4:2:cafe::8) by DM5PR10CA0014.outlook.office365.com
- (2603:10b6:4:2::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25 via Frontend
- Transport; Sat, 13 Feb 2021 07:25:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT056.mail.protection.outlook.com (10.152.74.160) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3846.25 via Frontend Transport; Sat, 13 Feb 2021 07:25:09 +0000
-Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Fri, 12 Feb 2021 23:25:08 -0800
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Fri, 12 Feb 2021 23:25:08 -0800
-Received: from [10.71.117.207] (port=50286 helo=localhost)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <edgar@xilinx.com>)
- id 1lApIi-0006bB-1N; Fri, 12 Feb 2021 23:25:08 -0800
-Date: Sat, 13 Feb 2021 08:25:13 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: Re: [RFC PATCH 15/15] arm: xlnx-versal: Add emmc to versal
-Message-ID: <20210213072513.GB8256@toto>
-References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613031446-22154-16-git-send-email-sai.pavan.boddu@xilinx.com>
- <CAKmqyKMx7aLD9zz5TvHfvL2bfrfe3Emo44p4s+SZeKndrAE8qA@mail.gmail.com>
+ bh=fkLXamy5rttHRgbPS1lnoePC9zTz0TzgGO4CuMH56Qg=;
+ b=FBfR/c/sU+n8o9JQUlJ2nxvVsvBVVXn88KL3CXL8Hojxo2qI+0uw61UabmMmAbxnIbE/7LyEZYOY65lYwupvMpq4MqFjckxL8/ioOw+nqeWDR6uUknsft8RFzUnp2K2Cv6EX/kwTONiyGA6F6eYeFUVotieyiUVY7HIqdENF+o8=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
+ by AM8PR08MB6403.eurprd08.prod.outlook.com (2603:10a6:20b:355::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Sat, 13 Feb
+ 2021 09:34:09 +0000
+Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::7440:fead:287e:949b]) by AM0PR08MB3364.eurprd08.prod.outlook.com
+ ([fe80::7440:fead:287e:949b%6]) with mapi id 15.20.3846.029; Sat, 13 Feb 2021
+ 09:34:09 +0000
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+To: Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Den Lunev <den@openvz.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Alexander Duyck <alexander.duyck@gmail.com>
+References: <20210211210549.GE157159@xz-x1>
+ <4E588B57-AAC8-40DD-9260-541836074DB3@redhat.com>
+ <20210212030621.GF157159@xz-x1>
+ <79c3ebb9-82ba-4714-0cf1-9f2e08eff660@redhat.com>
+ <20210212161125.GH157159@xz-x1>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <add5eef8-ff5b-5708-5383-f76262738e94@virtuozzo.com>
+Date: Sat, 13 Feb 2021 12:34:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20210212161125.GH157159@xz-x1>
+Content-Type: multipart/alternative;
+ boundary="------------0C3AEA454C79B6EFC15AF8A2"
+Content-Language: en-US
+X-Originating-IP: [109.252.109.82]
+X-ClientProxiedBy: AM4PR0101CA0048.eurprd01.prod.exchangelabs.com
+ (2603:10a6:200:41::16) To AM0PR08MB3364.eurprd08.prod.outlook.com
+ (2603:10a6:208:e4::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAKmqyKMx7aLD9zz5TvHfvL2bfrfe3Emo44p4s+SZeKndrAE8qA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.3] (109.252.109.82) by
+ AM4PR0101CA0048.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25 via Frontend
+ Transport; Sat, 13 Feb 2021 09:34:08 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dddc0b4a-323a-436f-3198-08d8cff07e87
-X-MS-TrafficTypeDiagnostic: DM6PR02MB6219:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB6219C21AB314145DB9E50B6DC28A9@DM6PR02MB6219.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:514;
+X-MS-Office365-Filtering-Correlation-Id: a2b870a1-7d72-4e77-ac6e-08d8d00283c2
+X-MS-TrafficTypeDiagnostic: AM8PR08MB6403:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM8PR08MB640334AA21AAFAC73AFC67629F8A9@AM8PR08MB6403.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qn2++ZxuvOFpVvJTEUHyiOTDGGhKrnvSzINRLgohLzhyXyOem/UgRDyYqMVTjYJqMwIhX2tTLhXMzZjj0tMx5qeW0FdYuFuUDxRc1oj/J29BLgHSxFVVCjCxUHlzK9IWMm5exUgIfOCT89tjcQ4QiucRe7ntur5q3bLEDHKCB75OmtdmfoBnwo5mm2BFOQKPZJ9Og4efR2HEvnDt5jTrXcMTsyg+rsCYdHffCfhGdUiPZXnmlLvk6iSBoj220dTZswuqxLsedaHNFjRqOaMlcyWtvQKcnwWRnL/KcOmA0q4wB1eRxLl2EcVrs2b6+5ycVtr5eYr5uMlczo7XLcPU/nrbmafKAXpa5M11j1UESOugRK8zHiFL1e5lpZ4izZzN6KwBX1SU25O0YuB7tCiih5k+7Ilb6gmZUnK8r9uaOWKL2P8N7Hfo4sp1h4xjPC1oAt1Pe3kuguKbPRGhT7adaJc8SGjVHzekrKVhVhkHDWm7TMkKEgnk1YdkV0QDPpBFjynLAmrO67Lh/UOCNyzKoUrFLg5tR5fE+ijQcc4Tcl9RmWzXcYl/nf9DeQo/+/wvrT0QucaC38Ymy23p5+yAL6lISdCAuSIYyIBjqkqZZ2sCW5mmbTfQO/g4lRjLU3dYK+tavroHB5NLoHKoK4n+JuU7uc4jUyaZFZuKPyDAOCg=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(7916004)(4636009)(396003)(39860400002)(346002)(136003)(376002)(36840700001)(46966006)(186003)(336012)(9786002)(6666004)(36906005)(8676002)(7416002)(53546011)(26005)(47076005)(1076003)(356005)(6916009)(54906003)(82740400003)(33716001)(478600001)(7636003)(316002)(8936002)(70586007)(9686003)(4326008)(426003)(82310400003)(5660300002)(33656002)(36860700001)(70206006)(83380400001)(2906002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2021 07:25:09.4176 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dddc0b4a-323a-436f-3198-08d8cff07e87
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT056.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6219
-Received-SPF: pass client-ip=40.107.101.87; envelope-from=edgar@xilinx.com;
- helo=NAM04-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Microsoft-Antispam-Message-Info: xUwJtzmR8A4Ch4o2mSo7IM5FMQW8LNKhWm3q7Jbxh7Ll4aDAa+PensocsUXx1dT7vKPnik9X3+z4GSb90oWBX6CO4MSQ215vE7tpPYjN+ZMirwYw56RWDyKjSefbuBdbs9Z/zwffhc7BPc5+6Q6zJUdepQRVPBezONw9R9HfDW6EbqUgH23ZXytMFA5aNWtVuiz1TdjJMkBPHqcLeoM66tmTiwki0ZAKF6VyPeWztSihUeXctNVHga3pYS87xAGMFCFW0PHCoSV84+xuzy9m7Eby1zWwK6L3XHgsGdFwOt3+Kd06et66r2kfl3YZDYClkxNRB7vnKEaE9b6fYhq90/NVb6PcXzE8koLr2I0mZ+tUlScRivijIMCAJQ50h+hh4HEvnCqUplWMv4AwaJSflsVEXofz3LUzaOIAlb2w3HfcY0FPrU6cPjtA+IalXbjzw2As6IAld77RTV207PRw7KimmBAmG6iYDG+NAZitGmSQN/XXsWaK07QFAgV99SyPfYIGnF+zvfLAY0JZfsIn5I+tkhgsGYRa9nZhpnI3NSlhAWDKoFdUaSTnG2LYrzccKjHb78XCCAZEtSfT/NtVVA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39830400003)(396003)(366004)(376002)(346002)(136003)(53546011)(2906002)(8676002)(8936002)(31686004)(26005)(5660300002)(2616005)(956004)(6486002)(186003)(36756003)(31696002)(16526019)(86362001)(52116002)(44832011)(33964004)(4326008)(478600001)(316002)(83380400001)(16576012)(66946007)(66556008)(110136005)(66476007)(54906003)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bXlqYmtDYW9TVmZXTlJ2QkxhSUs0bytjVHZTU3VYakJwaXlhakErYTI0cjFL?=
+ =?utf-8?B?eXBYb01oQVd1YkRCWmR6T3hzM2RscHlwRURSVlFnelRvTWl1enFmQzJQd0J2?=
+ =?utf-8?B?WVZMcFUvSmQxVFh2dDdveFR1ZW5ZMjQyaExzNU5KYjlDTnUwOG1qaGRNK0Ji?=
+ =?utf-8?B?bVoyL2dmeUlFWVFzZ0M4T0lwUFM2UGRpcUN0UjhGMWhHRmtFT2NYR3Z0Q0dW?=
+ =?utf-8?B?b2NNajlhVXp1VTZVRU5jaHUyTURncGN5WWJCdStscXdHOU1pQnBiMk9ublNP?=
+ =?utf-8?B?RFZnTUlMTGUyTHZoaXN5Z2dlbWJWeDBYbmJNRUg5S01sL0Nma0kzelBQRm16?=
+ =?utf-8?B?emdUWnFGUWtvT0UrZ3NHcnM5cEcraTRSVVFIRmRmNUxFQ3V6UVdkd0J6RjBy?=
+ =?utf-8?B?cnVZaktvL1FEVWFMaHhPN3RNWDNtclh6VmVSRDVremFUaEZpaDF2YnhHSWtG?=
+ =?utf-8?B?SjI2THBHK2w1azVrMVhkRUVhT1N6aDM0VkVkY1U1RFVzS25kTkVhdUFGUlJ1?=
+ =?utf-8?B?OUxqSm5PZTFIYTVPTUYvMDc1NDVMdGN1ZHpjSDY3c3NqRkRsOUdXejFtekNr?=
+ =?utf-8?B?QTFiVExCZERxQXhjQzRvVHhoWGh2cWFhS3dOcFlGUldLaWtMbnZ0ZmZFYnJv?=
+ =?utf-8?B?UE00Rno2a09lYTlEcUhKZ1dDVEh2cmYyZDVkN1FEVXZESWcwSkgwUk0vYUE2?=
+ =?utf-8?B?WllKYk1SWmZHZUxHZjdFbFEyTDdobkxycC9VWmVyTjJYelJzcSsxd29rYlo0?=
+ =?utf-8?B?M2Q3ZEVBNjhlMTZuSk9zUlNnT09lVnI0UEVudU8zZWFseEpqQkFhd2tXSXdR?=
+ =?utf-8?B?bFVTL3BDQmNTZXdVdjVpcUR3V3BMdjA4aEk5c2RIMGFqbE9waytvRVVMbXls?=
+ =?utf-8?B?d2JxQndheDhVV0Vrb0hFSVV2RlJJenovemJLT0QxbXRoTVNaamJva1FBRGJS?=
+ =?utf-8?B?bmJWSmp0WEw1UUlmdHVYZGJIZVk0SUs3dlZkZXZoVEtYdVhaSU1pNFVEL25u?=
+ =?utf-8?B?ekZocFRQTEJpelMyU0Z5bk43eHF5eXIycHhNUHFzUC90ZE9IYzJsOHk5NUk4?=
+ =?utf-8?B?WnFjNlpqemVDclIrbFlYTW90aTU5Q1dZeURPUC9mdUtRN1lYeEUraFFDNjl4?=
+ =?utf-8?B?Ynh2WkpOVUdqc2M5eUlaZG5iOSt4UloxZVlYNkdHZnNFK3ZjR2ZIUFBWanZM?=
+ =?utf-8?B?d3htbTVZL2xZZ0FUT3JMV2FiT1VSNHNqdlhvR1J0ZitkYzFRRzE0dm85eXdL?=
+ =?utf-8?B?dVNQaGljaE10bm43REJ4VG4yRkIxc25YcURhVWtTd3FyYkRwRHdzajVrcnB0?=
+ =?utf-8?B?RUpyOWFuM3RSemdGWnd6MVNuakE0M1ZZMVRQRTAyN25KQUlaU2NjZndWOGV0?=
+ =?utf-8?B?amFmVWRKYzNScTYrTHFGbzFGdmkwRlZ5SkpsWmZFbXo2OXpTc0lwYWNmRXFy?=
+ =?utf-8?B?a0pXa045VVdHcXpXbis0YllaQmRBSXRBY1dnZWlWWEdqUWtiODhDbHBhaWpX?=
+ =?utf-8?B?QXdtNjg1U1BXVHV6RnI2K1g5MjlLWGNZVDZyRkNLT3VNVlJaeU8zRGk4U1U5?=
+ =?utf-8?B?S3BOZ3BRa20yaXJ0b3pmekhmLzVyVURwYjRRWFA0cTBlZ3NXdmxJYnFEdG9L?=
+ =?utf-8?B?cTFlU3p4Yi9RZWcvNUM3c3VkbkNCSmpTM0EyblFRL3pZYmNHL1BRQ2JiVUda?=
+ =?utf-8?B?KzFxTURzdEFGYXBScEI1dFRiRXdlbkxpT0FmTGYzYUVJM3VnL3krSmQ4WWxk?=
+ =?utf-8?Q?r5iAIhZimnWRXLWr3KLDelyKllkl6Aj+iUOI03g?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2b870a1-7d72-4e77-ac6e-08d8d00283c2
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2021 09:34:09.3599 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1GEdEfuZfkGRNmeGBtCTXM3YyhbvWtUTnvOXcI+Ln3JqxT4UHG3j10DIpU/p17iFL5NClRuXkPgwJWEPMNZ6LzA2uY3EJiMALCjtriPKXVU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6403
+Received-SPF: pass client-ip=40.107.6.137;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.119, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,150 +154,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter
- Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Vincent Palatin <vpalatin@chromium.org>, Luc Michel <luc.michel@greensocs.com>,
- Qemu-block <qemu-block@nongnu.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Sai Pavan Boddu <saipava@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>, Joel Stanley <joel@jms.id.au>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 01:37:18PM -0800, Alistair Francis wrote:
-> On Thu, Feb 11, 2021 at 12:36 AM Sai Pavan Boddu
-> <sai.pavan.boddu@xilinx.com> wrote:
-> >
-> > Configuring SDHCI-0 to act as eMMC controller.
-> >
-> > Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> 
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> 
-> Alistair
+--------------0C3AEA454C79B6EFC15AF8A2
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 12.02.2021 19:11, Peter Xu wrote:
+> On Fri, Feb 12, 2021 at 09:52:52AM +0100, David Hildenbrand wrote:
+>> On 12.02.21 04:06, Peter Xu wrote:
+>>> On Thu, Feb 11, 2021 at 10:09:58PM +0100, David Hildenbrand wrote:
+>>>> The issue is when the discard happened before starting the snapshot. Write-protection won‘t work and the zeroed content won‘t be retained in the snapshot.
+>>> I see what you mean now, and iiuc it will only be a problem if init_on_free=1.
+>>> I think CONFIG_INIT_ON_FREE_DEFAULT_ON should be off for most distros, so the
+>> Yes, some distros seem to enable init_on_alloc instead. Looking at the
+>> introducing commit 6471384af2a6 ("mm: security: introduce init_on_alloc=1
+>> and init_on_free=1 boot options") there are security use cases and it might
+>> become important with memory tagging.
+>>
+>> Note that in Linux, there was also the option to poison pages with 0,
+>> removed via f289041ed4cf ("mm, page_poison: remove
+>> CONFIG_PAGE_POISONING_ZERO"), available in some kernels that supported free
+>> page reporting.
+>>
+>> It got removed and use cases got told to use init_on_free.
+
+I think we talk about init_on_free()/init_on_alloc() on guest side, right?
+Still can't get how it relates to host's unpopulated pages..
+  
+Try to look from hardware side. Untouched SDRAM in hardware is required to contain zeroes somehow? No.
+These 'trash' pages in migration stream are like never written physical memory pages, they are really
+not needed in snapshot but they don't do any harm as well as there's no harm in that never-written physical
+page is full of garbage.
+
+Do these 'trash' pages in snapshot contain sensitive information not allowed to be accessed by the same VM?
+I think no. Or we need a good example how it can be potentially exploited.
+
+The only issue that I see is madvise(MADV_DONTNEED) for RAM blocks during snapshotting. And free page reporting
+or memory balloon is secondary - the point is that UFFD_WP snapshot is incompatible with madvise(MADV_DONTNEED) on
+hypervisor side. No matter which guest functionality can induce it.
+
+>>> impact should be small, I think.  I thought about it, but indeed I didn't see a
+>>> good way to fix this if without fixing the zero page copy for live snapshot.
+>> We should really document this (unexpected) behavior of snapshotting.
+>> Otherwise, the next feature comes around that relies on pages that were
+>> discarded to remain zeroed (I even have one in mind ;) ) and forgets to
+>> disable snapshots.
+> Agreed.  I'll see whether Andrey would have any idea to workaround this, or
+> further comment.  Or I can draft a patch to document this next week (or unless
+> Andrey would beat me to it :).
+>
+Really better to document this specific behaviour but also clarify that the saved state remains
+consistent and secure, off course if you agree with my arguments.
+
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
 
+--------------0C3AEA454C79B6EFC15AF8A2
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Hi Sai,
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 12.02.2021 19:11, Peter Xu wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20210212161125.GH157159@xz-x1">
+      <pre class="moz-quote-pre" wrap="">On Fri, Feb 12, 2021 at 09:52:52AM +0100, David Hildenbrand wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">On 12.02.21 04:06, Peter Xu wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">On Thu, Feb 11, 2021 at 10:09:58PM +0100, David Hildenbrand wrote:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">The issue is when the discard happened before starting the snapshot. Write-protection won‘t work and the zeroed content won‘t be retained in the snapshot.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">
+I see what you mean now, and iiuc it will only be a problem if init_on_free=1.
+I think CONFIG_INIT_ON_FREE_DEFAULT_ON should be off for most distros, so the
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Yes, some distros seem to enable init_on_alloc instead. Looking at the
+introducing commit 6471384af2a6 (&quot;mm: security: introduce init_on_alloc=1
+and init_on_free=1 boot options&quot;) there are security use cases and it might
+become important with memory tagging.
 
-It would be great, if EMMC somehow could be made optional.
-In any case, I think this is OK!
+Note that in Linux, there was also the option to poison pages with 0,
+removed via f289041ed4cf (&quot;mm, page_poison: remove
+CONFIG_PAGE_POISONING_ZERO&quot;), available in some kernels that supported free
+page reporting.
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+It got removed and use cases got told to use init_on_free.
+</pre>
+      </blockquote>
+    </blockquote>
+    <pre>I think we talk about init_on_free()/init_on_alloc() on guest side, right?
+Still can't get how it relates to host's unpopulated pages..
+ 
+Try to look from hardware side. Untouched SDRAM in hardware is required to contain zeroes somehow? No.
+These 'trash' pages in migration stream are like never written physical memory pages, they are really
+not needed in snapshot but they don't do any harm as well as there's no harm in that never-written physical
+page is full of garbage.
 
-Could you please also add an example command-line in docs/system/arm/xlnx-versal-virt.rst?
+Do these 'trash' pages in snapshot contain sensitive information not allowed to be accessed by the same VM?
+I think no. Or we need a good example how it can be potentially exploited.
 
-Thanks,
-Edgar
+The only issue that I see is madvise(<span style="color: rgb(80, 32, 0);">MADV_DONTNEED</span>) for RAM blocks during snapshotting. And free page reporting
+or memory balloon is secondary - the point is that UFFD_WP snapshot is incompatible with madvise(<span style="color: rgb(80, 32, 0);">MADV_DONTNEED</span>) on
+hypervisor side. No matter which guest functionality can induce it.
+</pre>
+    <blockquote type="cite" cite="mid:20210212161125.GH157159@xz-x1">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">impact should be small, I think.  I thought about it, but indeed I didn't see a
+good way to fix this if without fixing the zero page copy for live snapshot.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+We should really document this (unexpected) behavior of snapshotting.
+Otherwise, the next feature comes around that relies on pages that were
+discarded to remain zeroed (I even have one in mind ;) ) and forgets to
+disable snapshots.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Agreed.  I'll see whether Andrey would have any idea to workaround this, or
+further comment.  Or I can draft a patch to document this next week (or unless
+Andrey would beat me to it :).
 
+</pre>
+    </blockquote>
+    <pre>Really better to document this specific behaviour but also clarify that the saved state remains
+consistent and secure, off course if you agree with my arguments.
 
+</pre>
+    <pre class="moz-signature" cols="72">-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                virtuzzo.com</pre>
+  </body>
+</html>
 
-> 
-> > ---
-> >  hw/arm/xlnx-versal-virt.c | 16 +++++++++++-----
-> >  hw/arm/xlnx-versal.c      | 14 ++++++++++++--
-> >  2 files changed, 23 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-> > index 8482cd6..18489e4 100644
-> > --- a/hw/arm/xlnx-versal-virt.c
-> > +++ b/hw/arm/xlnx-versal-virt.c
-> > @@ -333,6 +333,13 @@ static void fdt_add_sd_nodes(VersalVirt *s)
-> >          qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-> >                                       2, addr, 2, MM_PMC_SD0_SIZE);
-> >          qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
-> > +        /*
-> > +         * eMMC specific properties
-> > +         */
-> > +        if (i == 0) {
-> > +            qemu_fdt_setprop(s->fdt, name, "non-removable", NULL, 0);
-> > +            qemu_fdt_setprop_sized_cells(s->fdt, name, "bus-width", 1, 8);
-> > +        }
-> >          g_free(name);
-> >      }
-> >  }
-> > @@ -512,7 +519,7 @@ static void create_virtio_regions(VersalVirt *s)
-> >      }
-> >  }
-> >
-> > -static void sd_plugin_card(SDHCIState *sd, DriveInfo *di)
-> > +static void sd_plugin_card(SDHCIState *sd, DriveInfo *di, bool emmc)
-> >  {
-> >      BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
-> >      DeviceState *card;
-> > @@ -520,6 +527,7 @@ static void sd_plugin_card(SDHCIState *sd, DriveInfo *di)
-> >      card = qdev_new(TYPE_SD_CARD);
-> >      object_property_add_child(OBJECT(sd), "card[*]", OBJECT(card));
-> >      qdev_prop_set_drive_err(card, "drive", blk, &error_fatal);
-> > +    object_property_set_bool(OBJECT(card), "emmc", emmc, &error_fatal);
-> >      qdev_realize_and_unref(card, qdev_get_child_bus(DEVICE(sd), "sd-bus"),
-> >                             &error_fatal);
-> >  }
-> > @@ -528,7 +536,6 @@ static void versal_virt_init(MachineState *machine)
-> >  {
-> >      VersalVirt *s = XLNX_VERSAL_VIRT_MACHINE(machine);
-> >      int psci_conduit = QEMU_PSCI_CONDUIT_DISABLED;
-> > -    int i;
-> >
-> >      /*
-> >       * If the user provides an Operating System to be loaded, we expect them
-> > @@ -581,10 +588,9 @@ static void versal_virt_init(MachineState *machine)
-> >      memory_region_add_subregion_overlap(get_system_memory(),
-> >                                          0, &s->soc.fpd.apu.mr, 0);
-> >
-> > +    sd_plugin_card(&s->soc.pmc.iou.sd[0], drive_get_next(IF_EMMC), true);
-> >      /* Plugin SD cards.  */
-> > -    for (i = 0; i < ARRAY_SIZE(s->soc.pmc.iou.sd); i++) {
-> > -        sd_plugin_card(&s->soc.pmc.iou.sd[i], drive_get_next(IF_SD));
-> > -    }
-> > +    sd_plugin_card(&s->soc.pmc.iou.sd[1], drive_get_next(IF_SD), false);
-> >
-> >      s->binfo.ram_size = machine->ram_size;
-> >      s->binfo.loader_start = 0x0;
-> > diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-> > index b077716..3498dd9 100644
-> > --- a/hw/arm/xlnx-versal.c
-> > +++ b/hw/arm/xlnx-versal.c
-> > @@ -230,9 +230,14 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
-> >  }
-> >
-> >  #define SDHCI_CAPABILITIES  0x280737ec6481 /* Same as on ZynqMP.  */
-> > +#define SDHCI0_CAPS ((SDHCI_CAPABILITIES & ~(3 << 30)) | \
-> > +                     (1 << 30))
-> > +#define SDHCI1_CAPS SDHCI_CAPABILITIES
-> > +
-> >  static void versal_create_sds(Versal *s, qemu_irq *pic)
-> >  {
-> >      int i;
-> > +    uint64_t caps[] = {SDHCI0_CAPS, SDHCI1_CAPS};
-> >
-> >      for (i = 0; i < ARRAY_SIZE(s->pmc.iou.sd); i++) {
-> >          DeviceState *dev;
-> > @@ -244,9 +249,14 @@ static void versal_create_sds(Versal *s, qemu_irq *pic)
-> >
-> >          object_property_set_uint(OBJECT(dev), "sd-spec-version", 3,
-> >                                   &error_fatal);
-> > -        object_property_set_uint(OBJECT(dev), "capareg", SDHCI_CAPABILITIES,
-> > +        object_property_set_uint(OBJECT(dev), "capareg", caps[i],
-> >                                   &error_fatal);
-> > -        object_property_set_uint(OBJECT(dev), "uhs", UHS_I, &error_fatal);
-> > +        /*
-> > +         * UHS is not applicable for eMMC
-> > +         */
-> > +        if (i == 1) {
-> > +            object_property_set_uint(OBJECT(dev), "uhs", UHS_I, &error_fatal);
-> > +        }
-> >          sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
-> >
-> >          mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-> > --
-> > 2.7.4
-> >
-> >
+--------------0C3AEA454C79B6EFC15AF8A2--
 
