@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1595331AE27
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 22:39:10 +0100 (CET)
-Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D797A31AE2B
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Feb 2021 22:47:01 +0100 (CET)
+Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lB2d8-0006Ju-Sa
-	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 16:39:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49976)
+	id 1lB2km-0002Cx-Ci
+	for lists+qemu-devel@lfdr.de; Sat, 13 Feb 2021 16:47:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lB2cD-0005lq-Sm; Sat, 13 Feb 2021 16:38:09 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:60789)
+ id 1lB2if-00018I-O2; Sat, 13 Feb 2021 16:44:49 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:56775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lB2cC-0000yx-4I; Sat, 13 Feb 2021 16:38:09 -0500
+ id 1lB2id-0001e5-U3; Sat, 13 Feb 2021 16:44:49 -0500
 Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MnJdC-1lchqc22Zo-00jIAr; Sat, 13 Feb 2021 22:37:50 +0100
-Subject: Re: [PATCH] linux-user/elfload: munmap proper address in
- pgd_find_hole_fallback
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M4sD3-1lCyWP4Ab9-001wOb; Sat, 13 Feb 2021 22:44:31 +0100
+Subject: Re: [PATCH] linux-user/elfload: do not assume MAP_FIXED_NOREPLACE
+ kernel support
 To: Vincent Fazio <vfazio@xes-inc.com>, qemu-devel@nongnu.org
-References: <20210131061849.12615-1-vfazio@xes-inc.com>
+References: <20210131061930.14554-1-vfazio@xes-inc.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <baa1fb36-5c57-cf18-0446-f9851ebd1aed@vivier.eu>
-Date: Sat, 13 Feb 2021 22:37:49 +0100
+Message-ID: <beab2848-565f-3791-d09b-ba626c4a0e95@vivier.eu>
+Date: Sat, 13 Feb 2021 22:44:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210131061849.12615-1-vfazio@xes-inc.com>
+In-Reply-To: <20210131061930.14554-1-vfazio@xes-inc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:PLZYq3jfAbdB15+w4o+JMdBhhMbqSyHQAdPhRdireryeesEUF7D
- rKRuvwnlNBKXp//DkaQPgEBJxyLypbsLwNq6Du5eedhj4GmYGkaul3g+QKypiCwqzTh1QOH
- ALbbaZ1pUyYVKtyzIIPUKM2Zj9mQIHOMSMsG30+F3AbSls+J/U26bDWSRJo+XKANVozwbuP
- b3j/gU3S9K1BnGkMW1ekA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BJCS+lPiEWA=:sli0ci3ItkdXOzetVg8zgF
- QlrckuBaY1cc6m/dQaOq2CUjWGrefQZRFXI5s/Ab1GTTB6mxUsrcbKwpbe5PmD2S9w1k0wk/e
- L2nu1N2LJ6zeb+oCNvRhhKAKrwIraptINeOIlcV14UC5f5YFJY4WpgJQLMFNACJEyjVBVr8fQ
- b2LHF7bFrmVDxvvv1HWJCgZV7BjLM+6bZa6wZbmbyMPksOTLbghqgFXB5mLQwYv4M7diELjk3
- DoqFC14cJIGC6nfrNOw0Jbxbbb3E/7b4OfctSAPWwyFiT+pihylBNfA6TNB71OciUZCpQsZN5
- JsjkvXEtRWOcFzAeydK0JnlyZK7XiM0q03+AatQ+joQRJUvdJZMlK0EvYJJe+Jxo/2IOEkeGA
- eSjWZsF30M4AatqcEX6nSGI9PnZkhVwchpSrCFnTlDgXyWnjULRo2fWWSHnv1IDT9/rd6M050
- PKlV2dypNw==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:fmW0Y//RKb4WX4K/Tf1qbhlT8mHvR6aR1y2uo4XM6zVnBvI/3oO
+ 6HEWA8Xt9SF8Jq8LsJLfpupGpApISKvbqPz8Kg7MLBWnT4osUBPIo97jk6oE65H/PyPYqTK
+ TEj+dwNprjx7MylTuRyq/spu/uWIipAbjiVIpZJYtENlNKDPeKhtYXuAtmReAmqCYB18BQP
+ 8PT+4SYi3MaixNg1GZlVw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fiEnNE75Kvg=:wKHwDM2JTvPKmM3DCXbNEg
+ oryrcrTUzyD5JuQvcQbWhMka1WrW3q+Q3vdIiNK/NA/I4B/6u8Sh41XEa4ZSONOAaLFyqQcVd
+ qIyhg1L3HoZh1tCTjO2GFKRsxC//np4kKij51Lcg9QkvGLCEdJ+eTF4ygQz+jz6ILzCdL/98q
+ 7R5yyiK9VI1Wt0PvlUQNezHFKRROmepObR8R5YNnh8Fgol3beHiI/N8CoaRpekxMSI2VmqjtE
+ 44/ytULOUhMh/IiORNc9mkzy3UsOcPoWmB9mvxDKl7higvNxxIsKuNr9hoDAjg35XHoiGIlRf
+ 0dUCN8RjpdUdjHXPtxlIF0NEB2DGvlnsGrokLKhbGs15afTrA8940TfBcmHVqfpxH/6FtlGg2
+ djf45pz+40SLDhokitueQQz8dVT5z8ZkOpX5iLNYv+9mtB7sa+6y4qRXUQb2glX5exDq1BFCg
+ KhZ/1VxgWA==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,49 +72,44 @@ Cc: qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 31/01/2021 à 07:18, Vincent Fazio a écrit :
+Le 31/01/2021 à 07:19, Vincent Fazio a écrit :
 > From: Vincent Fazio <vfazio@gmail.com>
-
-Please, use the same email address to send your patch.
-
 > 
-> Previously, if the build host's libc did not define MAP_FIXED_NOREPLACE
-> or if the running kernel didn't support that flag, it was possible for
-> pgd_find_hole_fallback to munmap an incorrect address which could lead to
-> SIGSEGV if the range happened to overlap with the mapped address of the
-> QEMU binary.
+> Previously, pgd_find_hole_fallback assumed that if the build host's libc
+> had MAP_FIXED_NOREPLACE defined that the address returned by mmap would
+> match the requested address. This is not a safe assumption for Linux
+> kernels prior to 4.17
 > 
->   mmap(0x1000, 22261224, PROT_NONE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_NORESERVE, -1, 0) = 0x7f889d331000
->   munmap(0x1000, 22261224)                = 0
->   --- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x84b817} ---
->   ++ killed by SIGSEGV +++
-> 
-> Now, always munmap the address returned by mmap.
+> Now, we always compare mmap's resultant address with the requested
+> address and no longer short-circuit based on MAP_FIXED_NOREPLACE.
 > 
 > Fixes: 2667e069e7b5 ("linux-user: don't use MAP_FIXED in pgd_find_hole_fallback")
 > Signed-off-by: Vincent Fazio <vfazio@gmail.com>
 > ---
->  linux-user/elfload.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  linux-user/elfload.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
 > diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index a64050713f..5f5f23d2e5 100644
+> index 5f5f23d2e5..8d425f9ed0 100644
 > --- a/linux-user/elfload.c
 > +++ b/linux-user/elfload.c
-> @@ -2216,7 +2216,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk,
->              void * mmap_start = mmap((void *) align_start, guest_size,
+> @@ -2217,8 +2217,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk,
 >                                       PROT_NONE, flags, -1, 0);
 >              if (mmap_start != MAP_FAILED) {
-> -                munmap((void *) align_start, guest_size);
-> +                munmap(mmap_start, guest_size);
->                  if (MAP_FIXED_NOREPLACE != 0 ||
->                      mmap_start == (void *) align_start) {
+>                  munmap(mmap_start, guest_size);
+> -                if (MAP_FIXED_NOREPLACE != 0 ||
+> -                    mmap_start == (void *) align_start) {
+> +                if (mmap_start == (void *) align_start) {
 >                      return (uintptr_t) mmap_start + offset;
+>                  }
+>              }
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 CC: Alex
+
+Why did you put this checking in first place?
 
 Thanks,
 Laurent
