@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC33831B253
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 20:47:24 +0100 (CET)
-Received: from localhost ([::1]:51202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B81F31B25E
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 21:14:21 +0100 (CET)
+Received: from localhost ([::1]:42686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBNMZ-0001hJ-F8
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 14:47:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56452)
+	id 1lBNmd-000370-MS
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 15:14:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBNKn-0000iC-Sj; Sun, 14 Feb 2021 14:45:33 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35675)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBNli-0002gs-2W
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 15:13:22 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:40533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBNKm-0005X1-0C; Sun, 14 Feb 2021 14:45:33 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id n10so6040477wmq.0;
- Sun, 14 Feb 2021 11:45:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jJRdV1ZLz9Wc3UruihO3ipliHXOgtCfriX4mx0iNut0=;
- b=M4dkOy/Vk2vtelSOG7LuO7nQ1Uuk09qnnbcPbyJcmDF7UZO/xZvknn/b+g2VZwE8et
- LksrBUjNFXdpHK1BTKd7IGLXRC2wt4JmqZfYwhjHrbiZzwQsqBhaUKr0Dv3PUHr0TibH
- es6hSOb1kF1CmF5PXmCypFrx18vaNoiB13hIXMMbV0W4rcL68k7cPK8rpd1JzLFraDPY
- A28+X31olZ/yRtDxaGjxcLdqdk1gBEhBoHfUdhHyml8z+9zar5IEJnS4Qju/Y3zpyvWz
- BJECL7hUIG0TtPupgzJf5As8P4DG0AvtfSa+rbrRF6dC1ciknGiF3akQFzPBBy5M3hcH
- Hkuw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBNlg-0004gl-9F
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 15:13:21 -0500
+Received: by mail-pl1-x632.google.com with SMTP id z7so2566606plk.7
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 12:13:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=U/e5bxaIyRPDsKQFtAXbCjCjtRM9Ht8q4mMv4t35Nb8=;
+ b=jYlxUDexbtVJHaOChY04IQiwkHNYKK23NBMusFq+wS1Q+QFpU9Z1I0LTrC901VMfBF
+ aw7IYaQChYSedQ8gJG+5kOvVFBKj/SWCbxE1DbC8bYfcSmukY50/zkWvWfSMcF46rFSi
+ YT3X+GXieS+Z4FROpcWeNrry60E+h9QKKRUJgbBXsPuuD3FlDrVJznW44ZKYNI7kOa22
+ b+nLDuVyDHx9YJyj/56jgATlQgwH6hqWBJepUpA4bEg25Q5LAMQoefF/x1tBpY0MtABM
+ B73gnURmHEzBGec3rnS+ADOLIX0RDE5xoNezZ0f0nD6V/KOHH+Gjs4h4YM+nlUvZSVZK
+ 0W3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=jJRdV1ZLz9Wc3UruihO3ipliHXOgtCfriX4mx0iNut0=;
- b=gMKmWlB9fFVMpNdkvg6OF2sLl4k59lBzGtGyX6ntFtocG2pcYLYW8PkmF8ts/V+x9q
- snaDN3LCvXJ/gb8w2G9lGgBjMrwP0rR52p7a8QofmBz7sbgW3C15iR+2tJ9d+40h2fH/
- 56w91NsuonDtZ9Fcv0BkD5dL/h7iGCnRaCCcd+e00+izx8hqAqvPrJMkTB1/m937dULn
- HlKrR4GuAVEYKSrGcF0TeqLa5kNJUBYC/W6vZYEBlLdb8FFvsSWee21VjnuplHc7HsQE
- CJgtTY+VnGXSPIpprGvNILgnUgW5K+oKDGZRC0Q08ubKj1WV4lew4NnJ/YogYJEhc14c
- vJ9g==
-X-Gm-Message-State: AOAM532u3Cn1R6sYfSOWNolE3CI7IZKhQaEzvhO8/mF/LFSws3i1rZbf
- 3/dMHk+qS8xrAvP7wN1s5tknDfxajQQ=
-X-Google-Smtp-Source: ABdhPJzPLoP4DSgZdLqamRgO6TVOkbb7yXLDtdc5GHxaytfL8vpOUqJY6zLuKBG2inoGbmduzPbcXw==
-X-Received: by 2002:a05:600c:1552:: with SMTP id
- f18mr11411321wmg.149.1613331927791; 
- Sun, 14 Feb 2021 11:45:27 -0800 (PST)
-Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a17sm25907907wrx.63.2021.02.14.11.45.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 11:45:27 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] tests/acceptance: Add bFLT loader linux-user test
-Date: Sun, 14 Feb 2021 20:45:24 +0100
-Message-Id: <20210214194524.768660-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=U/e5bxaIyRPDsKQFtAXbCjCjtRM9Ht8q4mMv4t35Nb8=;
+ b=kcTmgrNt7RoAJRgbioB8zSfxppiEPgJaiU4cza6kPvMKWPI03Wwo0NWyjnnWZA0XIj
+ EK2wh5q9uz/yKQKdXQmOTjVppJC8uNNZ1UoCfUyLAtQY6msKjmErQzdN/JUVzGTkV21d
+ eL67zmpu2PLE7+5rsokOuqmsimNjqIK6A6mEEGe+Szh093syOL59v7hJ09lYnOK41ZFY
+ 6saoPxmvynbiSCS5BCNWi3YAGSYp3VkObKAMv+R/B6GFfLv20hYOuE5UsSO7MCwaRvpC
+ a7Ta2AMHy4P0e8rTzs1toew/S1kUMBf5p80eXJIFLqOotemR3tXe/bRuguSwut2a+2cQ
+ dAXQ==
+X-Gm-Message-State: AOAM531FpGB6/DT15+BCiGHpoOJC0pDz+gkMd5Eil2/nxG/NxSkNR9ah
+ DT968T4ixGQG1wljODKLZpaA2A==
+X-Google-Smtp-Source: ABdhPJzgRn4vbYCqF5TFY9iu5zJZqJ66kKa2MuUnnrNYYocJWQ8uk5vK4WIvNlVkS/p3STwIFrjWFg==
+X-Received: by 2002:a17:90a:c84:: with SMTP id
+ v4mr12983114pja.228.1613333598811; 
+ Sun, 14 Feb 2021 12:13:18 -0800 (PST)
+Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
+ by smtp.gmail.com with ESMTPSA id
+ g7sm15785335pgg.50.2021.02.14.12.13.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 14 Feb 2021 12:13:18 -0800 (PST)
+Subject: Re: [PATCH v8 15/35] Hexagon (target/hexagon/arch.[ch]) utility
+ functions
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-16-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3c036fc7-444f-6ea3-7b1c-2a42837fb5ac@linaro.org>
+Date: Sun, 14 Feb 2021 12:13:16 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+In-Reply-To: <1612763186-18161-16-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,92 +90,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Willian Rampazzo <willianr@redhat.com>,
- qemu-arm@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: ale@rev.ng, alex.bennee@linaro.org, philmd@redhat.com, laurent@vivier.eu,
+ bcain@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a very quick test that runs a busybox binary in bFLT format:
+On 2/7/21 9:46 PM, Taylor Simpson wrote:
+> +uint32_t carry_from_add64(uint64_t a, uint64_t b, uint32_t c)
+> +{
+> +    uint64_t tmpa, tmpb, tmpc;
+> +    tmpa = fGETUWORD(0, a);
+> +    tmpb = fGETUWORD(0, b);
+> +    tmpc = tmpa + tmpb + c;
+> +    tmpa = fGETUWORD(1, a);
+> +    tmpb = fGETUWORD(1, b);
+> +    tmpc = tmpa + tmpb + fGETUWORD(1, tmpc);
+> +    tmpc = fGETUWORD(1, tmpc);
+> +    return tmpc;
+> +}
 
-  $ avocado --show=app run -t linux_user tests/acceptance/load_bflt.py
-  JOB ID     : db94d5960ce564c50904d666a7e259148c27e88f
-  JOB LOG    : ~/avocado/job-results/job-2019-06-25T10.52-db94d59/job.log
-   (1/1) tests/acceptance/load_bflt.py:LoadBFLT.test_stm32: PASS (0.15 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 0.54 s
+I presume this is intended to compute carry-out from 64-bit addition with carry-in?
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Based-on: <20210214175912.732946-1-f4bug@amsat.org>
-  tests/acceptance: Extract QemuBaseTest from Test
-  tests/acceptance: Make pick_default_qemu_bin() more generic
-  tests/acceptance: Introduce QemuUserTest base class
----
- tests/acceptance/load_bflt.py | 51 +++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
- create mode 100644 tests/acceptance/load_bflt.py
+    uint64_t r = a + b;
+    return c ? r <= a : r < a;
 
-diff --git a/tests/acceptance/load_bflt.py b/tests/acceptance/load_bflt.py
-new file mode 100644
-index 00000000000..4b7796d0775
---- /dev/null
-+++ b/tests/acceptance/load_bflt.py
-@@ -0,0 +1,51 @@
-+# Test the bFLT format
-+#
-+# Copyright (C) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import os
-+import bz2
-+import subprocess
-+
-+from avocado_qemu import QemuUserTest
-+
-+
-+class LoadBFLT(QemuUserTest):
-+
-+    def extract_cpio(self, cpio_path):
-+        """
-+        Extracts a cpio archive into the test workdir
-+
-+        :param cpio_path: path to the cpio archive
-+        """
-+        cwd = os.getcwd()
-+        os.chdir(self.workdir)
-+        with bz2.open(cpio_path, 'rb') as archive_cpio:
-+            subprocess.run(['cpio', '-i'], input=archive_cpio.read(),
-+                           stderr=subprocess.DEVNULL)
-+        os.chdir(cwd)
-+
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    def test_stm32(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=linux_user
-+        :avocado: tags=quick
-+        """
-+        # See https://elinux.org/STM32#User_Space
-+        rootfs_url = ('https://elinux.org/images/5/51/'
-+                      'Stm32_mini_rootfs.cpio.bz2')
-+        rootfs_hash = '9f065e6ba40cce7411ba757f924f30fcc57951e6'
-+        rootfs_path_bz2 = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
-+        busybox_path = self.workdir + "/bin/busybox"
-+
-+        self.extract_cpio(rootfs_path_bz2)
-+
-+        res = self.run(busybox_path)
-+        ver = 'BusyBox v1.24.0.git (2015-02-03 22:17:13 CET) multi-call binary.'
-+        self.assertIn(ver, res.stdout_text)
-+
-+        res = self.run(busybox_path, ['uname', '-a'])
-+        unm = 'armv7l GNU/Linux'
-+        self.assertIn(unm, res.stdout_text)
--- 
-2.26.2
+> +static const int softfloat_roundingmodes[] = {
 
+FloatRoundMode
+
+> +static float32 float32_mul_pow2(float32 a, uint32_t p, float_status *fp_status)
+> +{
+> +    float32 b = make_float32((SF_BIAS + p) << SF_MANTBITS);
+> +    return float32_mul(a, b, fp_status);
+> +}
+
+This is float32_scalbn.
+
+
+r~
 
