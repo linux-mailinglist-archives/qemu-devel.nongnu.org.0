@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE74B31B208
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:37:33 +0100 (CET)
-Received: from localhost ([::1]:39452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1C931B20D
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:41:51 +0100 (CET)
+Received: from localhost ([::1]:45692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBMGz-0004To-1O
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:37:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34388)
+	id 1lBML8-000796-6e
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:41:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLid-0000pZ-6c
+ id 1lBLid-0000pY-68
  for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:03 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37199)
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLiZ-0004ez-Tl
+ id 1lBLib-0004fF-LT
  for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:02 -0500
-Received: by mail-wm1-x335.google.com with SMTP id m1so5842222wml.2
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:01:56 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id u14so6132318wri.3
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:02:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0AWEhq001McQAH/89WIBVS1NfSah7AxRRJlHmFbgoT8=;
- b=PRa62vJbssrp3t/XYnAjmm+m9WM+b/JWW5S5ciaRMs4Vw5VI4I/eM/eHRBLXpOR4fa
- bVsmEbN8SxMqnKv2zLAPYqYffDhD14zaoYCbCaxtVsGHuneSsTYgDMuFzlu6dCfred42
- /SCIFc+MCXgH50tbQ3cXlCaunVjeuVYj4l2eGpGzKVDjDwlVQzbh/VosfYDrpAs17mgz
- BD2uY0UlpeOOB04EKC3Ev5pGNizPv0W+YOP8Kk/jAvrJAf/g6eUa5HOrEJ3kToYEKDjw
- AAA5D/F+Y36Y/X4+XDfv6UqNbpSwQPLM8wvPrvIHiitkyigqi1BXNfuImJnIGDFq8Rvh
- dZDw==
+ bh=mkWyAtTNih1SiLyNenBvY33a3fDFwrFdz2sJ8roLmlQ=;
+ b=ld/Qv1fTQ8DagOv3MRhc+TdISAknasL8/TDDYKNbawhinUXIFhsz9/DBOiNxTVKBl3
+ tsES6NQaEH/zl3vmsOTh5wNNt2QoQuTJPGSGBiQFDuViNLBos238L0uddl9iYbPmXczX
+ MgbHOEGh+HYRC6ejS/mhHW6/+tNu/1I+3GhOzdm9eizvRvGTjAfv+S66Wgln0RD4CJ0C
+ l0I4wDkp1GMap8A8OBUgErqC+vFGE2znxlKfgO1XvqrLFCzBOTtv/d5WUwb1KYyxL+Bg
+ tk/CKs1b7v6S5B92YhyT8dh3kTyx00O2Uz13dHzh/eOmgaUNk86VhYJ9CEf8zmX/wRcw
+ Xd9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0AWEhq001McQAH/89WIBVS1NfSah7AxRRJlHmFbgoT8=;
- b=r5BdNx6acUNC+5dc63tmP1UzilByHGpW4s5Me6dFoYkuHqViJGAIBah3THy86sovyf
- utQGY7rv1cK1ISDI3JuwDVFJSeHcW/TzTZOgkI2DDt+0qQpq6vRGZaV+3FE+Ht5lnoAl
- 8OOo7TRFQR3iZD+DsilDmfqwlJs6GVUiUo0Xfmeb3lJKjfbNFyT30ntxoJUQa8x7oqmM
- KXlqHlQJq6GQNGtyuf7gLe6Q8wM94o4hqFyuzV1+U3zzaxxzIva09J6g1RQie4Fx9x/4
- YxNzmUJCXEFFmK5MwCGE35O/QuKpm4PViUjvBdC6oLp3Amcqqoj8D/PB3lHPbJa//R3c
- rgGg==
-X-Gm-Message-State: AOAM5324FqQtYwy++YXs/jkTaB0o9Qgku8jnb2EvZPaUYbJGTROE/5dX
- OEx0quHEhrB19LeyU4e8XJrrbr9YGCg=
-X-Google-Smtp-Source: ABdhPJxW1jlZvwa9CaxhVXwWI/9uEiydyU2itHORIgIsLFlWGYPim7sMBRr84NJPF32hf0Y81lrtPw==
-X-Received: by 2002:a05:600c:4fcb:: with SMTP id
- o11mr10893805wmq.88.1613325715239; 
- Sun, 14 Feb 2021 10:01:55 -0800 (PST)
+ bh=mkWyAtTNih1SiLyNenBvY33a3fDFwrFdz2sJ8roLmlQ=;
+ b=JcT0RY3al1x4pJU5NtkknF1l+p36s4z0l0y6MbRq+/eNcKtNRTwXl5yQrBsRce0PsY
+ d4Lk6J68oPnnIeVbxlrl3m18Okd8pg5DhhFAd/YH9pH1OEK23DcH8Pe9mPEmYkjMxam9
+ DkzhOiTeQBH15Zjq0kAA9asDlNpQcaGSiLfR/LuHZtyu6KKQBvroggDPoyRMN2ip0YkD
+ +SCSNUXFl3NVDKaYJgrhN4AQBKXCMqkDIMPVTmcViHd3KSDgtKnjcROyJtPNmCtSPS06
+ zCwWJPzciYQN5Wf+/hWTxa37kK/rZ8HJ+nwtTZrJM++iCV5iQm1Y19/pJRpvOHuF7vtg
+ tkNA==
+X-Gm-Message-State: AOAM532f1yzS5cQBxfa6BEFLcHBbwbNEKjH6ww315P/WKeavbVRth17e
+ QZX6STYNSuwjudLyp5fK0lJX+VYTqL0=
+X-Google-Smtp-Source: ABdhPJyvfLPXKLBWmqD8mDDh/vxhoPLrVDdV1KxWa0ZGoCVR7YHQxortDd9p9RWEiRZ9+wBd9LfBhQ==
+X-Received: by 2002:adf:f206:: with SMTP id p6mr13576873wro.337.1613325720028; 
+ Sun, 14 Feb 2021 10:02:00 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id w3sm9097130wrr.62.2021.02.14.10.01.53
+ by smtp.gmail.com with ESMTPSA id l2sm21551953wmf.15.2021.02.14.10.01.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:01:54 -0800 (PST)
+ Sun, 14 Feb 2021 10:01:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 32/42] docker: Add gentoo-mipsr5900el-cross image
-Date: Sun, 14 Feb 2021 18:59:02 +0100
-Message-Id: <20210214175912.732946-33-f4bug@amsat.org>
+Subject: [RFC PATCH 33/42] gitlab-ci: Pass optional EXTRA_FILES when building
+ docker images
+Date: Sun, 14 Feb 2021 18:59:03 +0100
+Message-Id: <20210214175912.732946-34-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,8 +86,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Fredrik Noring <noring@nocrew.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Fredrik Noring <noring@nocrew.org>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
@@ -98,90 +97,26 @@ Cc: Fam Zheng <fam@euphon.net>, Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a Docker image providing cross toolchain for the MIPS R5900 CPU
-(used on the Sony PS2).
+Pass EXTRA_FILES to tests/docker/docker.py to use its --extra-files
+command line option.
 
-This image is based on Gentoo and the toolchain is built using crossdev.
-
-Recipe from:
-  https://lists.gnu.org/archive/html/qemu-devel/2018-09/msg03944.html
-
-Suggested-by: Fredrik Noring <noring@nocrew.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/docker/Makefile.include                 |  3 ++
- .../gentoo-mipsr5900el-cross.docker           | 35 +++++++++++++++++++
- .../crossdev.conf                             |  5 +++
- 3 files changed, 43 insertions(+)
- create mode 100644 tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker
- create mode 100644 tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
+ .gitlab-ci.d/containers.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 93b29ad823e..3d6306c7728 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -146,6 +146,9 @@ docker-image-debian-riscv64-cross: docker-image-debian10
- docker-image-debian-s390x-cross: docker-image-debian10
- docker-image-debian-sh4-cross: docker-image-debian10
- docker-image-debian-sparc64-cross: docker-image-debian10
-+docker-image-gentoo-mipsr5900el-cross: EXTRA_FILES:=$(addprefix \
-+			$(SRC_PATH)/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/,\
-+				crossdev.conf)
- 
- docker-image-travis: NOUSER=1
- 
-diff --git a/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker
-new file mode 100644
-index 00000000000..88ada20623d
---- /dev/null
-+++ b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker
-@@ -0,0 +1,35 @@
-+#
-+# Docker mipsel (r5900) cross-compiler target
-+#
-+# Using multi-stage builds, this image requires docker-17.05.0 or later.
-+# (See: https://github.com/gentoo/gentoo-docker-images)
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+# name the portage image
-+FROM gentoo/portage:20201121 as portage
-+
-+# image is based on stage3-amd64
-+FROM gentoo/stage3:latest
-+
-+# copy the entire portage volume in
-+COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
-+
-+MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
-+
-+# set CROSSDEV_OVERLAY to /usr/local/portage-crossdev
-+RUN mkdir -p /usr/local/portage-crossdev/{profiles,metadata} && \
-+    echo 'crossdev' > /usr/local/portage-crossdev/profiles/repo_name && \
-+    echo 'masters = gentoo' > /usr/local/portage-crossdev/metadata/layout.conf && \
-+    chown -R portage:portage /usr/local/portage-crossdev && \
-+    mkdir -p /etc/portage/repos.conf
-+ADD crossdev.conf /etc/portage/repos.conf/crossdev.conf
-+
-+RUN emerge -qv \
-+        dev-vcs/git ">=dev-libs/glib-2.0" \
-+        sys-devel/crossdev \
-+        sys-libs/zlib dev-lang/python
-+
-+RUN crossdev -s4 -t mipsr5900el-unknown-linux-gnu
-+
-+ENV QEMU_CONFIGURE_OPTS --cross-prefix=mipsr5900el-unknown-linux-gnu-
-diff --git a/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
-new file mode 100644
-index 00000000000..b8fa368c1c3
---- /dev/null
-+++ b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
-@@ -0,0 +1,5 @@
-+[crossdev]
-+location = /usr/local/portage-crossdev
-+priority = 10
-+masters = gentoo
-+auto-sync = no
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 90fac85ce46..587bd4ba2e3 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -16,6 +16,7 @@
+     - ./tests/docker/docker.py --engine docker build
+           -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
+           -r $CI_REGISTRY_IMAGE
++          $(test -n "$EXTRA_FILES" && echo "--extra-files $EXTRA_FILES")
+     - docker tag "qemu/$NAME" "$TAG"
+     - docker push "$TAG"
+   after_script:
 -- 
 2.26.2
 
