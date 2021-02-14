@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B158731B21D
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:52:25 +0100 (CET)
-Received: from localhost ([::1]:46508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD0431B221
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:56:05 +0100 (CET)
+Received: from localhost ([::1]:56426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBMVK-0002xK-Vg
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:52:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40778)
+	id 1lBMYu-0007D1-6j
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:56:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBMBP-0000Wh-1c
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:31:52 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:39630)
+ id 1lBMFr-0004bu-Eu
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:36:23 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:56218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBMBM-0001XV-Kg
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:31:46 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id d2so2559992pjs.4
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:31:44 -0800 (PST)
+ id 1lBMFo-0002Yc-AQ
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:36:22 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id cv23so2425394pjb.5
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:36:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ktI0PrMmidXz3cuW853JbsG+r8TT8TaZNA7jH+GU86k=;
- b=B5Uh8DS8d5qlYal7VpnIiQkuokaZNAJhvoORXtp2nI9QnSjIEe44anirZ4IlUxzpb+
- a4THBZduT0UW/en2FRPWdnc69dVAKJIgIloPmQSNcEZXlCBNMUKmeixhhiri6C9OTIAn
- 1TW/2y4siQ2d/VMiPxhHBtUBOUfRTmyHDY7IViN1Sep0HhafpNz3MkjXj/nxtrkqAZFP
- PeQ8+v8CivRdaQPaRR3AiTlpoqWGIk7RupbTMrz7+vOdVndmJvgDjZaIl2DlxhZjncuy
- S1Vf5O79I5cShfvXP/MuyTOyRZJCgJFe+h60osWiJSK+ObxkmnN1AhyDrbnL760OIGjv
- Gi3A==
+ bh=zv5CLpEFCuhEuE62rMSTi48K+zNvlW8XCdDT7wpnbwQ=;
+ b=EGPKxPoUm8FCxHhcY9Jv/0L/2x7bQYii2Kz/ZZJOe/pWCcod6bmWwuD6tWlxF6YZvf
+ H/m+3g5zqzFwVxEyZimlH2fjfl3G1wxRoKq3ncSudwhUJVo4536VrL+vFHOcUi/FfKno
+ twBe+/LOvU/2SZ42NZJ1psLPwDTTamT5Wj3dbIgBzmym8IxNnYzbuMmAgfQ3nqWlEQEk
+ 44QHEU2Y7C06wpQ3qSVD6mqU/6gyXbqWRkRC3OKh1ZaPH4Mj8Rh7/LHSIrIdUVxWpR2t
+ iyVHur0QomBnfyxy9ueFpXKKr/Akc6ZTmV0LJ7mY8yS1HfubclTTgZhEUKy14GvDUiFC
+ Eahw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ktI0PrMmidXz3cuW853JbsG+r8TT8TaZNA7jH+GU86k=;
- b=Xstlo6przJQpzhbrEfysF9kG7GUniUAaaURudtT3wIhDE7aNqdHGq0oQRsAzAu1Z/t
- fyaLrzKmMbnvQUSV5pM61ltRhbMmhsW8THwWnQLlrs5+vb3yILjDt5mUB/nR9ZV0MFvy
- sC03WeSPvvG3RRyaVS1T35P12WPz8fahuctFmz/0TtUC+ldH5K7dwTdRJS0oiLZ45HH6
- TNPb0M47tGQAtpKN3gf4qojfv29lpQgTj+SzqNtUtKGu7OnIuP2lO9IPyimYtFVg940K
- 41IHBP8KwH8cEUPgAOtBdk6N61wsK/DgPzeeBnU+ugYiX7EYLqrGRtx50pNLcQfNQ5CY
- WpxA==
-X-Gm-Message-State: AOAM530eETWL+mewmtjyezxXsmfyMf2gnBY0c3oRR4JxXLmlsSJ8A4qr
- MbJfkl1nKTRyE5mYkYrIazw+VQ==
-X-Google-Smtp-Source: ABdhPJxCz45autl19jPGzfFbM+r4mNBZB66jv52Jw2/XnTuE3MSLPjhVBraGq6VGdfM5oBL5HjLdmA==
-X-Received: by 2002:a17:90b:1bd2:: with SMTP id
- oa18mr12079327pjb.80.1613327503117; 
- Sun, 14 Feb 2021 10:31:43 -0800 (PST)
+ bh=zv5CLpEFCuhEuE62rMSTi48K+zNvlW8XCdDT7wpnbwQ=;
+ b=Yq8dLv8kOB7j/b71a91xfrvWldgWtEveLXF+b0vLLkh4A94j9C7Bi3gdUPe9zpNL9y
+ qNQeyl3Qzoa/LYvIJJ5zXFRqjcbSwu+uG/KcgEqMssRi04WJn6GXQz4z2vUcckZLImOZ
+ 08yyZ0JATnXdunVgYAl1lTDPUA5hMdQhkR99gl0eh5GFJwCnE2uSjueuFpEvKShD1xGU
+ I5mg29uY2t3ZaGuG/w2moVr34v8/bpYS5uotE2aMnoCX0debdzAKnzhT+41FjpX4ojpN
+ i6q9pEfp9ZAjQQZxTGaqumRnTr8LPSROOCneNgsAZJR5CFuoP+DKsr1VhvDmesiTS/to
+ hMBg==
+X-Gm-Message-State: AOAM5301e6kwHG06G0xubfDkDZZyoWYK13xsJp1hEs2RRvPZAqoICFqf
+ 6UsYVO0eS5/TMm49kqdrh4+HXw==
+X-Google-Smtp-Source: ABdhPJwcCOZTA1j8ASxZZ9bZD6n2ofmUk5Vi2F8NK6t6piFdH5M5zP4o3ooYoEdlSMbrW35ZK3/CoQ==
+X-Received: by 2002:a17:902:f545:b029:e1:1466:f42b with SMTP id
+ h5-20020a170902f545b02900e11466f42bmr11937856plf.45.1613327778393; 
+ Sun, 14 Feb 2021 10:36:18 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- z11sm15020390pjn.5.2021.02.14.10.31.42
+ 30sm16097140pgl.77.2021.02.14.10.36.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 10:31:42 -0800 (PST)
-Subject: Re: [PATCH v8 13/35] Hexagon (target/hexagon) instruction/packet
- decode
+ Sun, 14 Feb 2021 10:36:17 -0800 (PST)
+Subject: Re: [PATCH v8 14/35] Hexagon (target/hexagon) instruction printing
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <1612763186-18161-14-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-15-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <93f02942-fd1b-ddb2-0060-48b6dfdf687b@linaro.org>
-Date: Sun, 14 Feb 2021 10:31:40 -0800
+Message-ID: <5089aeee-dd3b-eeaf-732a-89dfc44ccbb9@linaro.org>
+Date: Sun, 14 Feb 2021 10:36:16 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1612763186-18161-14-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1612763186-18161-15-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,51 +95,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/7/21 9:46 PM, Taylor Simpson wrote:
-> +#define DECODE_MAPPED_REG(REGNO, NAME) \
-> +    insn->regno[REGNO] = DECODE_REGISTER_##NAME[insn->regno[REGNO]];
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/hexagon/printinsn.h |  27 +++++++++
+>  target/hexagon/printinsn.c | 146 +++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 173 insertions(+)
+>  create mode 100644 target/hexagon/printinsn.h
+>  create mode 100644 target/hexagon/printinsn.c
 
-The macro argument is not a regno, but an operand number.
-
-> +static inline int decode_opcode_can_jump(int opcode)
-> +{
-> +    if ((GET_ATTRIB(opcode, A_JUMP)) ||
-> +        (GET_ATTRIB(opcode, A_CALL)) ||
-> +        (opcode == J2_trap0) ||
-> +        (opcode == J2_pause)) {
-> +        /* Exception to A_JUMP attribute */
-> +        if (opcode == J4_hintjumpr) {
-> +            return 0;
-> +        }
-> +        return 1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static inline int decode_opcode_ends_loop(int opcode)
-> +{
-> +    return GET_ATTRIB(opcode, A_HWLOOP0_END) ||
-> +           GET_ATTRIB(opcode, A_HWLOOP1_END);
-> +}
-
-You can drop the inline markers.
-You should use bool for booleans.
-
-> +/*
-> + * Shuffle for execution
-> + * Move stores to end (in same order as encoding)
-> + * Move compares to beginning (for use by .new insns)
-> + */
-> +static void decode_shuffle_for_execution(Packet *packet)
-> +{
-> +    int changed = 0;
-> +    int i;
-> +    int flag;    /* flag means we've seen a non-memory instruction */
-
-Both changed and flag should be bool.  Please have another look through and use
-bool as reasonable.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
