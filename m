@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA3331B213
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:45:33 +0100 (CET)
-Received: from localhost ([::1]:54364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9222C31B205
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:36:00 +0100 (CET)
+Received: from localhost ([::1]:34974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBMOh-0002ay-NO
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:45:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34434)
+	id 1lBMFT-0002Th-Hj
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:35:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLih-0000rs-QY
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:12 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33165)
+ id 1lBLip-0000zY-RU
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:15 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLig-0004ff-FS
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:07 -0500
-Received: by mail-wr1-x436.google.com with SMTP id 7so6167303wrz.0
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:02:06 -0800 (PST)
+ id 1lBLin-0004g3-0d
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:15 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id n4so3122340wrx.1
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:02:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Twme+gWXDR778jC4YebnrwyqPShuK2VSIsTo2Civx54=;
- b=VwmE/3r1M2iBkyrkmvuLhDibJN6OXHSVINP8i7r9044dgZHmXhQNj3f9wfPe+AWs7d
- RXoD2pRw5RTUn+INffLlrk42WGf3wcd/A+knkNVHsP4Kj6pLojzJ6o5ZLl6NRqoDMqHD
- rU74d/aUemUOUhXzQwtVf3xvD9SENZcOO/2h12CRYPdHq+rOc2aqkoRP+N1fh2aqEBd4
- ECmeT4aKXXGZlFVwwb79pncqrDgdNEIE3whWyRT2XMV2IfYSRdXjXegQLdhiFqNEOfBD
- z+yk4a1qkIfJn/9DOIPEagXqc7/0J5Lr8t7/4AAijcW4h1atsb7Bdiu6MyUZk8Ldd2fH
- 7zxw==
+ bh=UDYGyb10B7bTg3SKlpM1Yb6/DaGZTJ05b5VgebX2EjE=;
+ b=sySQiFU9wJDs3qW27aidVdde/yZIOxFLR0vgsC6CfafJpn3FYjMYSg+Fi/7HgjSuqw
+ Tw1uIxUJ+s47saCTwZpi4NgASB1kvO0d5OU7njoMz/s+f2a20MVJ28smOyGoGZQDn5N4
+ Lg1jsB9hbd3i2i0Ec+FoLoAbEGjn7b8BDnSD7T9m3/HoRyW8Hy7tpXVYPjjqzXWXchEr
+ k0NJ3nkYOwsgGqUYMsxxoQL1MCfqY2CnrknoMGeIa82TwMx41u9NJlNBVbxe3W+4REqE
+ r0FFr61kIRjMkDvEH2aeGldbyX9yv+oqsjuUisKAqgW2L0JB18oOqEkZxx+3OJLZhk59
+ dLBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Twme+gWXDR778jC4YebnrwyqPShuK2VSIsTo2Civx54=;
- b=Di21yqM9UiXZknLIbUdHVWhW3/QEqKS2hd+u4q1vzIb8au7FJ4yGuBJr2Ckm/x3Pmf
- i4pnyAeWTeuWjnmbT4jah9nAtUQGWvsBy6weCa7Z7quSLxDJZRWXdNhzFFAPaLB7sADp
- DVWZZpyrNUhRT/1lKi1ZNzEZkAYstFE8ynSJ1XB21kLZcx5rtTsDva98IfkpIWIPNrIv
- YX1Xwlbrr6U0uuPvIU82IDKmBAwGMxf+ZGCgwgxNPuyH915J53TYCMNgembI57QYsOt7
- ObsrL+qirUePd3Y8eXblBQJmScePYm4HCgYcdcACA+ztxVkF0tDNI643EU322Iac4Ue2
- TuIA==
-X-Gm-Message-State: AOAM532EQFQRpmrAVJne7+u8LQnNURw6UlNWIvFOFndkGzYzvwwNGPEt
- xWW8MJJ19cpQHuBG8rvwoy1/knFzQ/E=
-X-Google-Smtp-Source: ABdhPJwrap/KMyoG7tgmtAtQVe2cC4NvXaIEDYyGbRp7pLiEY7sC5J9RuoVnCD3Tvstr9jpudWx9Gg==
-X-Received: by 2002:adf:e98d:: with SMTP id h13mr15198324wrm.246.1613325725056; 
- Sun, 14 Feb 2021 10:02:05 -0800 (PST)
+ bh=UDYGyb10B7bTg3SKlpM1Yb6/DaGZTJ05b5VgebX2EjE=;
+ b=AdEGBogj2wG4gzjaASNWls1W1/VjHz/qsY+Ec3JknohypJpmGZwbbHk47mQMHCt1Yn
+ xcNvjf75Sv51kp8+qqF2GygVk0wBqdlCQx2B6/O6TIHE4pw6U0JR+bAEHInpJDzR+REV
+ dGYYDUnGImvPLuD1bCw7z6cuB5qzOQkAb2HakjOBtEBhzwP1i9LCNz65u6M0lXRw7XvI
+ iLK/rIJ6E5WBPlsjDdQClBz5YhJpRYeGW5MnXxZy62QD6eF6+B+R3IRAyNYJZMKKcLwZ
+ Io/hgIP+AXXhRYeCVAzvMYQ/9KuhkT4D6SalXEvxINtc2utPrTe9jBl4m+6/6EUc3O6t
+ Plvw==
+X-Gm-Message-State: AOAM5334c8WWHC81+tW9jeKP9imlbv++m/tgjyHHfgEU9q/XKNHR/KLG
+ x3PDdDv3fnZQDuOx6FPKf23LfmOeZwU=
+X-Google-Smtp-Source: ABdhPJwLnSi+M/p2dMnLjHgfbd8pf6kJDrmKWtotRdHD/DVKrb4Y9zq/3qFrNfedXPrNVnFFwPOdMQ==
+X-Received: by 2002:adf:82b3:: with SMTP id 48mr14549616wrc.22.1613325730024; 
+ Sun, 14 Feb 2021 10:02:10 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id r124sm22218427wmr.16.2021.02.14.10.02.03
+ by smtp.gmail.com with ESMTPSA id s14sm1972355wmj.23.2021.02.14.10.02.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:02:04 -0800 (PST)
+ Sun, 14 Feb 2021 10:02:09 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 34/42] gitlab-ci: Build MIPS R5900 cross-toolchain (Gentoo
- based)
-Date: Sun, 14 Feb 2021 18:59:04 +0100
-Message-Id: <20210214175912.732946-35-f4bug@amsat.org>
+Subject: [RFC PATCH 35/42] tests/tcg: Add MIPS R5900 to arches filter
+Date: Sun, 14 Feb 2021 18:59:05 +0100
+Message-Id: <20210214175912.732946-36-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,31 +96,44 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a job to build the Gentoo based MIPS R5900 cross-toolchain image.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/containers.yml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/tcg/configure.sh | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 587bd4ba2e3..f441e608446 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -152,6 +152,13 @@ mipsel-debian-cross-container:
-   variables:
-     NAME: debian-mipsel-cross
- 
-+mipsr5900el-gentoo-cross-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: gentoo-mipsr5900el-cross
-+    EXTRA_FILES: tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
-+  timeout: 1h 30m
-+
- powerpc-debian-cross-container:
-   <<: *container_job_definition
-   stage: containers-layer2
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index e1b70e25f23..64796ee11fc 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -57,6 +57,8 @@ fi
+ : $(cross_cc_mips64="mips64-linux-gnuabi64-gcc")
+ : $(cross_cc_mipsel="mipsel-linux-gnu-gcc")
+ : $(cross_cc_mips="mips-linux-gnu-gcc")
++: $(cross_cc_r5900o32el="mipsr5900el-unknown-linux-gnu-gcc")
++: ${cross_cc_cflags_r5900o32el="-mabi=32 -march=r5900"}
+ : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
+ : ${cross_cc_cflags_ppc="-m32"}
+ : ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
+@@ -79,7 +81,7 @@ for target in $target_list; do
+     aarch64|aarch64_be)
+       arches="aarch64 arm"
+       ;;
+-    mips*)
++    mips*|r5900o32el*)
+       arches=mips
+       ;;
+     ppc*)
+@@ -150,6 +152,10 @@ for target in $target_list; do
+       container_image=debian-mips-cross
+       container_cross_cc=mips-linux-gnu-gcc
+       ;;
++    r5900o32el-*)
++      container_image=gentoo-mipsr5900el-cross
++      container_cross_cc=mipsr5900el-unknown-linux-gnu-gcc
++      ;;
+     ppc-*|ppc64abi32-*)
+       container_image=debian-powerpc-cross
+       container_cross_cc=powerpc-linux-gnu-gcc
 -- 
 2.26.2
 
